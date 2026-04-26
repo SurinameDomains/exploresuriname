@@ -7,20 +7,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    :root {
-      --forest:   #1B4332;
-      --forest2:  #2D6A4F;
-      --leaf:     #52B788;
-      --mint:     #D8F3DC;
-      --coral:    #E76F51;
-      --sand:     #FEFAE0;
-    }
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#D8F3DC; --coral:#E76F51; }
     body   { font-family: 'Inter', system-ui, sans-serif; }
     .serif { font-family: 'Playfair Display', Georgia, serif; }
-    .hero-bg { background-size: cover; background-position: center; }
-    @media (min-width: 768px) { .hero-bg { background-attachment: fixed; } }
+    .hero-bg { background-size:cover; background-position:center; }
+    @media (min-width:768px) { .hero-bg { background-attachment:fixed; } }
     .card-hover { transition: transform .2s, box-shadow .2s; }
-    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.12); }
+    .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
+    a { text-decoration: none; }
   </style>
   <title>Explore Suriname &mdash; Discover South America&apos;s Best-Kept Secret</title>
   <meta name="description" content="Your guide to Suriname — pristine rainforests, vibrant culture, incredible wildlife. Discover nature, activities, restaurants and hotels.">
@@ -30,69 +24,54 @@
 </head>
 <body class="bg-white overflow-x-hidden">
 
-
-<nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300" style="background:rgba(255,255,255,0.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.07)">
+<nav class="fixed top-0 w-full z-50" style="background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.06)">
   <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between">
-    <a href="index.html" class="flex items-baseline gap-0.5 no-underline">
+    <a href="index.html" class="flex items-baseline">
       <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
     </a>
-    <div class="hidden md:flex items-center gap-7">
-      <a href="index.html#nature" class="text-gray-700 hover:text-green-700 transition text-sm">Nature</a>
-<a href="index.html#activities" class="text-gray-700 hover:text-green-700 transition text-sm">Activities</a>
-<a href="index.html#dining" class="text-gray-700 hover:text-green-700 transition text-sm">Eat & Drink</a>
-<a href="index.html#hotels" class="text-gray-700 hover:text-green-700 transition text-sm">Stay</a>
-<a href="news.html" class="text-gray-700 hover:text-green-700 transition text-sm">News</a>
-
-    </div>
-    <a href="news.html" class="hidden md:inline-flex items-center gap-1 text-white text-sm font-medium px-4 py-2 rounded-full transition hover:opacity-90" style="background:var(--forest)">
-      &#128240; Latest News
-    </a>
-    <!-- Mobile menu button -->
-    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
+    <div class="hidden md:flex items-center gap-7"><a href="index.html#nature" class="text-gray-700 hover:text-green-800 transition text-sm" >Nature</a>
+<a href="index.html#activities" class="text-gray-700 hover:text-green-800 transition text-sm" >Activities</a>
+<a href="index.html#dining" class="text-gray-700 hover:text-green-800 transition text-sm" >Eat & Drink</a>
+<a href="index.html#hotels" class="text-gray-700 hover:text-green-800 transition text-sm" >Stay</a>
+<a href="news.html" class="text-gray-700 hover:text-green-800 transition text-sm" >News</a>
+</div>
+    <a href="news.html" class="hidden md:inline-flex items-center gap-1 text-white text-sm font-medium px-4 py-2 rounded-full hover:opacity-90 transition" style="background:var(--forest)">&#128240; Latest News</a>
+    <button onclick="document.getElementById('mm').classList.toggle('hidden')" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
       <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
   </div>
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white px-5 py-4 flex flex-col gap-3 text-sm">
-    <a href="index.html#nature" class="text-gray-700 hover:text-green-700 transition text-sm">Nature</a>
-<a href="index.html#activities" class="text-gray-700 hover:text-green-700 transition text-sm">Activities</a>
-<a href="index.html#dining" class="text-gray-700 hover:text-green-700 transition text-sm">Eat & Drink</a>
-<a href="index.html#hotels" class="text-gray-700 hover:text-green-700 transition text-sm">Stay</a>
-<a href="news.html" class="text-gray-700 hover:text-green-700 transition text-sm">News</a>
-
-  </div>
+  <div id="mm" class="hidden md:hidden border-t bg-white px-5 py-4 flex flex-col gap-3 text-sm"><a href="index.html#nature" class="text-gray-700 hover:text-green-800 transition text-sm" >Nature</a>
+<a href="index.html#activities" class="text-gray-700 hover:text-green-800 transition text-sm" >Activities</a>
+<a href="index.html#dining" class="text-gray-700 hover:text-green-800 transition text-sm" >Eat & Drink</a>
+<a href="index.html#hotels" class="text-gray-700 hover:text-green-800 transition text-sm" >Stay</a>
+<a href="news.html" class="text-gray-700 hover:text-green-800 transition text-sm" >News</a>
+</div>
 </nav>
 
-<!-- ═══ HERO ═══════════════════════════════════════════════════════════════ -->
+<!-- HERO -->
 <section class="relative min-h-screen flex items-center justify-center hero-bg"
   style="background-image:url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920&q=80')">
-  <div class="absolute inset-0" style="background:linear-gradient(to bottom, rgba(0,0,0,.15) 0%, rgba(0,0,0,.55) 60%, rgba(0,0,0,.82) 100%)"></div>
+  <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.82) 100%)"></div>
   <div class="relative z-10 text-center text-white px-5 max-w-4xl mx-auto" style="padding-top:5rem">
     <p class="text-xs font-semibold tracking-widest uppercase mb-6" style="color:var(--coral)">South America&apos;s Hidden Gem</p>
     <h1 class="serif font-black leading-tight mb-6" style="font-size:clamp(2.5rem,8vw,5.5rem)">
       The Amazon&apos;s<br>Best-Kept Secret
     </h1>
     <p class="text-xl font-light leading-relaxed mb-10 max-w-2xl mx-auto text-white/90">
-      94% pristine rainforest. Unmatched biodiversity. Two UNESCO World Heritage Sites.<br class="hidden sm:block"> Welcome to Suriname.
+      94% pristine rainforest. Unmatched biodiversity. Two UNESCO World Heritage Sites. Welcome to Suriname.
     </p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="#nature" class="px-8 py-4 rounded-full font-semibold text-lg text-white transition hover:opacity-90 shadow-lg" style="background:var(--forest)">
-        Start Exploring &#8595;
-      </a>
-      <a href="news.html" class="px-8 py-4 rounded-full font-semibold text-lg text-white border-2 transition hover:bg-white/10" style="border-color:rgba(255,255,255,.6)">
-        Latest News
-      </a>
+      <a href="#nature" class="px-8 py-4 rounded-full font-semibold text-lg text-white hover:opacity-90 transition shadow-lg" style="background:var(--forest)">Start Exploring &#8595;</a>
+      <a href="news.html" class="px-8 py-4 rounded-full font-semibold text-lg text-white border-2 hover:bg-white/10 transition" style="border-color:rgba(255,255,255,.6)">Latest News</a>
     </div>
   </div>
   <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50 text-xs">
     <span>Scroll to explore</span>
-    <svg class="w-4 h-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-    </svg>
+    <svg class="w-4 h-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
   </div>
 </section>
 
-<!-- ═══ QUICK FACTS BAR ═══════════════════════════════════════════════════ -->
+<!-- FACTS BAR -->
 <section style="background:var(--forest)" class="text-white py-7">
   <div class="max-w-5xl mx-auto px-5 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
     <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Climate</p><p class="font-semibold">&#127774; Tropical, ~28°C</p></div>
@@ -102,19 +81,17 @@
   </div>
 </section>
 
-<!-- ═══ NATURE ════════════════════════════════════════════════════════════ -->
+<!-- NATURE -->
 <section id="nature" class="py-24 bg-gray-50">
   <div class="max-w-6xl mx-auto px-5">
     <div class="text-center mb-16">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Pristine Wilderness</p>
       <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Nature Like Nowhere Else</h2>
-      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">
-        Suriname protects more of its original forest than any other country on earth. Here, wilderness still reigns.
-      </p>
+      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Suriname protects more of its original forest than any other country on earth. Here, wilderness still reigns.</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       
-<div class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+<a href="https://whc.unesco.org/en/list/1017/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
   <div class="relative h-56 overflow-hidden">
     <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80" alt="Central Suriname Nature Reserve" loading="lazy"
          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -127,11 +104,15 @@
     </div>
   </div>
   <div class="p-5 flex flex-col gap-3 flex-1">
-    <p class="text-gray-600 text-sm leading-relaxed flex-1">One of the world&#x27;s largest intact tropical rainforests — 1.6 million pristine hectares where time stands still. Home to jaguars, tapirs, giant river otters and thousands of plant species found nowhere else.</p>
-    <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">UNESCO</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Rainforest</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Wildlife</span></div>
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">One of the world&#x27;s largest intact tropical rainforests — 1.6 million pristine hectares where jaguars, tapirs and giant river otters roam free. A global treasure.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">UNESCO</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Rainforest</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Wildlife</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
   </div>
-</div>
-<div class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+</a>
+
+<a href="https://www.stinasu.sr/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
   <div class="relative h-56 overflow-hidden">
     <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&q=80" alt="Brownsberg Nature Park" loading="lazy"
          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -144,28 +125,36 @@
     </div>
   </div>
   <div class="p-5 flex flex-col gap-3 flex-1">
-    <p class="text-gray-600 text-sm leading-relaxed flex-1">Perched 500m above the Brokopondo Reservoir, Brownsberg rewards visitors with panoramic jungle views, cascading waterfalls and abundant wildlife just 2 hours from Paramaribo.</p>
-    <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Hiking</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Waterfall</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Views</span></div>
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">Perched 500m above the Brokopondo Reservoir, Brownsberg rewards visitors with jaw-dropping panoramic views, swimming waterfalls and abundant wildlife just 2 hours from Paramaribo.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Hiking</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Waterfall</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Views</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
   </div>
-</div>
-<div class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+</a>
+
+<a href="https://www.stinasu.sr/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
   <div class="relative h-56 overflow-hidden">
     <img src="https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=800&q=80" alt="Galibi Nature Reserve" loading="lazy"
          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
          onerror="this.parentElement.style.background='#2D6A4F'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
-    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">Turtle Nesting</span>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">Turtle Nesting Site</span>
     <div class="absolute bottom-4 left-4 right-4">
       <h3 class="serif text-white font-bold text-lg leading-tight">Galibi Nature Reserve</h3>
       <p class="text-white/75 text-xs mt-1">&#10024; Nesting season: February – July</p>
     </div>
   </div>
   <div class="p-5 flex flex-col gap-3 flex-1">
-    <p class="text-gray-600 text-sm leading-relaxed flex-1">On Suriname&#x27;s Atlantic coast, giant leatherback sea turtles — the world&#x27;s largest reptile — haul ashore to nest on these remote beaches in one of nature&#x27;s most extraordinary spectacles.</p>
-    <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Sea Turtles</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Coastal</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Wildlife</span></div>
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">On Suriname&#x27;s Atlantic coast, giant leatherback sea turtles — the world&#x27;s largest reptile — haul ashore to nest in one of nature&#x27;s most breathtaking spectacles.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Sea Turtles</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Coastal</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Wildlife</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
   </div>
-</div>
-<div class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+</a>
+
+<a href="https://www.stinasu.sr/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
   <div class="relative h-56 overflow-hidden">
     <img src="https://images.unsplash.com/photo-1444464666168-49d633b86797?w=800&q=80" alt="Peperpot Nature Park" loading="lazy"
          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -178,11 +167,15 @@
     </div>
   </div>
   <div class="p-5 flex flex-col gap-3 flex-1">
-    <p class="text-gray-600 text-sm leading-relaxed flex-1">A former plantation turned bird sanctuary minutes from the capital. Over 200 bird species have been recorded here — the perfect introduction to Suriname&#x27;s extraordinary avian diversity.</p>
-    <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Birding</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Easy Access</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Peaceful</span></div>
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">A former plantation turned bird sanctuary just minutes from the capital. Over 200 bird species recorded — the perfect introduction to Suriname&#x27;s extraordinary avian diversity.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Birding</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Easy Access</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Peaceful</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
   </div>
-</div>
-<div class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+</a>
+
+<a href="https://www.stinasu.sr/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
   <div class="relative h-56 overflow-hidden">
     <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80" alt="Voltzberg &amp; Raleighvallen" loading="lazy"
          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -195,11 +188,15 @@
     </div>
   </div>
   <div class="p-5 flex flex-col gap-3 flex-1">
-    <p class="text-gray-600 text-sm leading-relaxed flex-1">An iconic granite inselberg rising majestically above the endless jungle canopy. The Voltzberg demands a multi-day expedition, rewarding only the most adventurous with its summit views.</p>
-    <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Expedition</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Climbing</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Remote</span></div>
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">An iconic granite dome rising above the endless jungle canopy. Accessible only by multi-day expedition — the ultimate reward for the most adventurous travellers.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Expedition</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Climbing</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Remote</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
   </div>
-</div>
-<div class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+</a>
+
+<a href="https://whc.unesco.org/en/list/940/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
   <div class="relative h-56 overflow-hidden">
     <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800&q=80" alt="Paramaribo Historic Inner City" loading="lazy"
          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -212,199 +209,287 @@
     </div>
   </div>
   <div class="p-5 flex flex-col gap-3 flex-1">
-    <p class="text-gray-600 text-sm leading-relaxed flex-1">The only wooden colonial city in the Americas. Paramaribo&#x27;s 18th-century Dutch colonial architecture — remarkably well-preserved — sits alongside Hindu temples, mosques and synagogues in harmony.</p>
-    <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">UNESCO</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">History</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Culture</span></div>
-  </div>
-</div>
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">The only wooden colonial city in the Americas. Dutch colonial architecture, Hindu temples, mosques and synagogues coexist in remarkable harmony along the Suriname River.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">UNESCO</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">History</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Culture</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
     </div>
+  </div>
+</a>
+    </div>
+    <div class="text-center mt-10"><a href="nature.html" class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" style="border-color:var(--forest2);color:var(--forest2)">View all 15 nature spots &rarr;</a></div>
   </div>
 </section>
 
-<!-- ═══ ACTIVITIES ════════════════════════════════════════════════════════ -->
+<!-- ACTIVITIES -->
 <section id="activities" class="py-24" style="background:var(--forest)">
   <div class="max-w-6xl mx-auto px-5">
     <div class="text-center mb-16">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--leaf)">Adventures Await</p>
       <h2 class="serif text-4xl sm:text-5xl font-bold text-white mb-4">Things to Do</h2>
-      <p class="text-white/60 text-lg max-w-2xl mx-auto leading-relaxed">
-        From deep jungle expeditions to cultural immersion — Suriname offers experiences you can&apos;t find anywhere else on earth.
-      </p>
+      <p class="text-white/60 text-lg max-w-2xl mx-auto leading-relaxed">From deep jungle expeditions to cultural immersion — experiences you can&apos;t find anywhere else on earth.</p>
     </div>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
       
-<div class="flex flex-col items-center text-center p-6 rounded-2xl transition cursor-default" style="background:rgba(255,255,255,0.08)" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+<a href="https://www.mets-suriname.com/" target="_blank" rel="noopener noreferrer"
+   class="flex flex-col items-center text-center p-6 rounded-2xl transition"
+   style="background:rgba(255,255,255,0.08)"
+   onmouseover="this.style.background='rgba(255,255,255,0.18)'"
+   onmouseout="this.style.background='rgba(255,255,255,0.08)'">
   <span class="text-4xl mb-3">🌿</span>
   <h4 class="serif text-white font-bold text-base mb-2">Jungle Trekking</h4>
-  <p class="text-white/65 text-sm leading-relaxed">Multi-day guided expeditions through primary rainforest with expert local guides.</p>
-</div>
-<div class="flex flex-col items-center text-center p-6 rounded-2xl transition cursor-default" style="background:rgba(255,255,255,0.08)" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+  <p class="text-white/65 text-sm leading-relaxed">Multi-day guided expeditions through primary rainforest with expert Amerindian guides.</p>
+</a>
+
+<a href="https://www.google.com/search?q=river+canoe+tour+suriname" target="_blank" rel="noopener noreferrer"
+   class="flex flex-col items-center text-center p-6 rounded-2xl transition"
+   style="background:rgba(255,255,255,0.08)"
+   onmouseover="this.style.background='rgba(255,255,255,0.18)'"
+   onmouseout="this.style.background='rgba(255,255,255,0.08)'">
   <span class="text-4xl mb-3">🛶</span>
   <h4 class="serif text-white font-bold text-base mb-2">River Canoe Tours</h4>
-  <p class="text-white/65 text-sm leading-relaxed">Glide through the Amazon basin on traditional dugout canoes past river dolphins.</p>
-</div>
-<div class="flex flex-col items-center text-center p-6 rounded-2xl transition cursor-default" style="background:rgba(255,255,255,0.08)" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+  <p class="text-white/65 text-sm leading-relaxed">Glide through the Amazon basin on traditional dugout canoes, spotting caimans and river dolphins.</p>
+</a>
+
+<a href="https://surinamebirdclub.org/" target="_blank" rel="noopener noreferrer"
+   class="flex flex-col items-center text-center p-6 rounded-2xl transition"
+   style="background:rgba(255,255,255,0.08)"
+   onmouseover="this.style.background='rgba(255,255,255,0.18)'"
+   onmouseout="this.style.background='rgba(255,255,255,0.08)'">
   <span class="text-4xl mb-3">🦜</span>
   <h4 class="serif text-white font-bold text-base mb-2">Bird Watching</h4>
-  <p class="text-white/65 text-sm leading-relaxed">Spot scarlet macaws, harpy eagles and 700+ species in their natural habitat.</p>
-</div>
-<div class="flex flex-col items-center text-center p-6 rounded-2xl transition cursor-default" style="background:rgba(255,255,255,0.08)" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+  <p class="text-white/65 text-sm leading-relaxed">Suriname is a birder&#x27;s paradise — spot 700+ species including scarlet macaws and harpy eagles.</p>
+</a>
+
+<a href="https://www.mets-suriname.com/" target="_blank" rel="noopener noreferrer"
+   class="flex flex-col items-center text-center p-6 rounded-2xl transition"
+   style="background:rgba(255,255,255,0.08)"
+   onmouseover="this.style.background='rgba(255,255,255,0.18)'"
+   onmouseout="this.style.background='rgba(255,255,255,0.08)'">
   <span class="text-4xl mb-3">🏘️</span>
-  <h4 class="serif text-white font-bold text-base mb-2">Village Tours</h4>
-  <p class="text-white/65 text-sm leading-relaxed">Visit Indigenous and Maroon communities preserving centuries-old traditions.</p>
-</div>
-<div class="flex flex-col items-center text-center p-6 rounded-2xl transition cursor-default" style="background:rgba(255,255,255,0.08)" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+  <h4 class="serif text-white font-bold text-base mb-2">Indigenous Village Tours</h4>
+  <p class="text-white/65 text-sm leading-relaxed">Visit Trio and Wayana indigenous communities in the deep interior, preserving ancient traditions.</p>
+</a>
+
+<a href="https://www.google.com/search?q=maroon+village+tour+suriname" target="_blank" rel="noopener noreferrer"
+   class="flex flex-col items-center text-center p-6 rounded-2xl transition"
+   style="background:rgba(255,255,255,0.08)"
+   onmouseover="this.style.background='rgba(255,255,255,0.18)'"
+   onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+  <span class="text-4xl mb-3">🥁</span>
+  <h4 class="serif text-white font-bold text-base mb-2">Maroon Village Tours</h4>
+  <p class="text-white/65 text-sm leading-relaxed">Experience the living culture of the Saramacca and Matawai Maroon peoples — music, craft and history.</p>
+</a>
+
+<a href="https://whc.unesco.org/en/list/940/" target="_blank" rel="noopener noreferrer"
+   class="flex flex-col items-center text-center p-6 rounded-2xl transition"
+   style="background:rgba(255,255,255,0.08)"
+   onmouseover="this.style.background='rgba(255,255,255,0.18)'"
+   onmouseout="this.style.background='rgba(255,255,255,0.08)'">
   <span class="text-4xl mb-3">🏙️</span>
   <h4 class="serif text-white font-bold text-base mb-2">Paramaribo City Walk</h4>
-  <p class="text-white/65 text-sm leading-relaxed">Explore the UNESCO historic inner city — the only wooden colonial city in the Americas.</p>
-</div>
-<div class="flex flex-col items-center text-center p-6 rounded-2xl transition cursor-default" style="background:rgba(255,255,255,0.08)" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+  <p class="text-white/65 text-sm leading-relaxed">Explore the UNESCO-listed historic inner city on foot — the only wooden colonial city in the Americas.</p>
+</a>
+
+<a href="https://www.google.com/search?q=colakreek+brownsberg+swimming+suriname" target="_blank" rel="noopener noreferrer"
+   class="flex flex-col items-center text-center p-6 rounded-2xl transition"
+   style="background:rgba(255,255,255,0.08)"
+   onmouseover="this.style.background='rgba(255,255,255,0.18)'"
+   onmouseout="this.style.background='rgba(255,255,255,0.08)'">
   <span class="text-4xl mb-3">🏊</span>
-  <h4 class="serif text-white font-bold text-base mb-2">Natural Swimming Holes</h4>
-  <p class="text-white/65 text-sm leading-relaxed">Take a dip in crystal-clear jungle rivers and natural rock pools.</p>
-</div>
-<div class="flex flex-col items-center text-center p-6 rounded-2xl transition cursor-default" style="background:rgba(255,255,255,0.08)" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
-  <span class="text-4xl mb-3">🎨</span>
-  <h4 class="serif text-white font-bold text-base mb-2">Maroon Art &amp; Craft</h4>
-  <p class="text-white/65 text-sm leading-relaxed">Discover world-renowned woodcarving and textile artistry of the Maroon people.</p>
-</div>
-<div class="flex flex-col items-center text-center p-6 rounded-2xl transition cursor-default" style="background:rgba(255,255,255,0.08)" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+  <h4 class="serif text-white font-bold text-base mb-2">Natural Swimming</h4>
+  <p class="text-white/65 text-sm leading-relaxed">Take a dip in crystal-clear jungle rivers and natural rock pools at Colakreek and Brownsberg.</p>
+</a>
+
+<a href="https://www.stinasu.sr/" target="_blank" rel="noopener noreferrer"
+   class="flex flex-col items-center text-center p-6 rounded-2xl transition"
+   style="background:rgba(255,255,255,0.08)"
+   onmouseover="this.style.background='rgba(255,255,255,0.18)'"
+   onmouseout="this.style.background='rgba(255,255,255,0.08)'">
   <span class="text-4xl mb-3">🐢</span>
   <h4 class="serif text-white font-bold text-base mb-2">Turtle Watching</h4>
-  <p class="text-white/65 text-sm leading-relaxed">Witness giant leatherback sea turtles nesting on Suriname&#x27;s Atlantic coast.</p>
-</div>
+  <p class="text-white/65 text-sm leading-relaxed">Witness giant leatherback sea turtles nesting on Suriname&#x27;s Atlantic coast at Galibi or Wia Wia.</p>
+</a>
+    </div>
+    <div class="text-center mt-10">
+      <a href="activities.html" class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 border-white/40 text-white hover:bg-white/10 transition">View all 16 activities &rarr;</a>
     </div>
   </div>
 </section>
 
-<!-- ═══ RESTAURANTS ═══════════════════════════════════════════════════════ -->
+<!-- RESTAURANTS -->
 <section id="dining" class="py-24 bg-white">
   <div class="max-w-6xl mx-auto px-5">
     <div class="text-center mb-16">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Eat &amp; Drink</p>
       <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Where to Eat</h2>
-      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">
-        Suriname&apos;s cuisine is as diverse as its people — a unique blend of Creole, Hindustani, Javanese, Chinese and Maroon flavors all on one plate.
-      </p>
+      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Suriname&apos;s cuisine is as diverse as its people — Creole, Hindustani, Javanese, Chinese and Maroon flavors all on one plate.</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
       
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
+<a href="https://www.google.com/search?q=de+gadri+restaurant+paramaribo" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
   <div class="flex items-start justify-between gap-2">
-    <h4 class="font-bold text-gray-900 text-base leading-tight">De Gadri</h4>
-    <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:var(--mint);color:var(--forest)">Surinamese</span>
+    <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">De Gadri</h4>
+    <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:var(--mint);color:var(--forest2)">Surinamese</span>
   </div>
-  <p class="text-gray-500 text-sm leading-relaxed flex-1">Traditional Surinamese cuisine in a charming colonial garden setting.</p>
-  <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
-</div>
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
+  <p class="text-gray-500 text-sm leading-relaxed flex-1">Traditional Surinamese home cooking in a charming colonial garden setting. Famous for pom, roti and moksi alesi.</p>
+  <div class="flex items-center justify-between mt-1">
+    <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
+    <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
+  </div>
+</a>
+
+<a href="https://www.google.com/search?q=spice+quest+restaurant+paramaribo" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
   <div class="flex items-start justify-between gap-2">
-    <h4 class="font-bold text-gray-900 text-base leading-tight">Restaurant Spice Quest</h4>
-    <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:var(--mint);color:var(--forest)">Indian-Surinamese</span>
+    <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Restaurant Spice Quest</h4>
+    <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:var(--mint);color:var(--forest2)">Indian-Surinamese</span>
   </div>
-  <p class="text-gray-500 text-sm leading-relaxed flex-1">A rich fusion of Hindustani spice with modern, elegant presentation.</p>
-  <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
-</div>
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
+  <p class="text-gray-500 text-sm leading-relaxed flex-1">A rich fusion of Hindustani spice with modern, elegant presentation. Outstanding curries and tandoor dishes.</p>
+  <div class="flex items-center justify-between mt-1">
+    <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
+    <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
+  </div>
+</a>
+
+<a href="https://www.google.com/search?q=zus+zo+cafe+paramaribo" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
   <div class="flex items-start justify-between gap-2">
-    <h4 class="font-bold text-gray-900 text-base leading-tight">Zus &amp; Zo</h4>
-    <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:var(--mint);color:var(--forest)">Café &amp; Bakery</span>
+    <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Zus &amp; Zo</h4>
+    <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:var(--mint);color:var(--forest2)">Café &amp; Bakery</span>
   </div>
-  <p class="text-gray-500 text-sm leading-relaxed flex-1">Beloved café with fresh pastries, open sandwiches and local coffee.</p>
-  <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
-</div>
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
+  <p class="text-gray-500 text-sm leading-relaxed flex-1">Beloved neighbourhood café with fresh pastries, open sandwiches and excellent locally-sourced coffee. Always busy.</p>
+  <div class="flex items-center justify-between mt-1">
+    <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
+    <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
+  </div>
+</a>
+
+<a href="https://www.google.com/search?q=warung+mini+paramaribo" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
   <div class="flex items-start justify-between gap-2">
-    <h4 class="font-bold text-gray-900 text-base leading-tight">Warung Mini</h4>
-    <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:var(--mint);color:var(--forest)">Javanese</span>
+    <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Warung Mini</h4>
+    <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:var(--mint);color:var(--forest2)">Javanese</span>
   </div>
-  <p class="text-gray-500 text-sm leading-relaxed flex-1">Authentic Javanese-Surinamese dishes in a relaxed warung atmosphere.</p>
-  <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
-</div>
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
+  <p class="text-gray-500 text-sm leading-relaxed flex-1">Authentic Javanese-Surinamese dishes in a relaxed warung atmosphere. Try the bami, nasi and soto.</p>
+  <div class="flex items-center justify-between mt-1">
+    <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
+    <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
+  </div>
+</a>
+
+<a href="https://www.google.com/search?q=bistro+de+paris+paramaribo" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
   <div class="flex items-start justify-between gap-2">
-    <h4 class="font-bold text-gray-900 text-base leading-tight">Bistro de Paris</h4>
-    <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:var(--mint);color:var(--forest)">French-Creole</span>
+    <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Bistro de Paris</h4>
+    <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:var(--mint);color:var(--forest2)">French-Creole</span>
   </div>
-  <p class="text-gray-500 text-sm leading-relaxed flex-1">French-influenced creole cuisine on the historic Paramaribo waterfront.</p>
-  <p class="text-gray-400 text-xs">&#128205; Waterfront, Suriname</p>
-</div>
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
+  <p class="text-gray-500 text-sm leading-relaxed flex-1">French-influenced creole cuisine with a stunning view over the historic Paramaribo waterfront.</p>
+  <div class="flex items-center justify-between mt-1">
+    <p class="text-gray-400 text-xs">&#128205; Waterfront, Suriname</p>
+    <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
+  </div>
+</a>
+
+<a href="https://www.google.com/search?q=la+gondola+restaurant+paramaribo" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
   <div class="flex items-start justify-between gap-2">
-    <h4 class="font-bold text-gray-900 text-base leading-tight">La Gondola</h4>
-    <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:var(--mint);color:var(--forest)">Italian</span>
+    <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">La Gondola</h4>
+    <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:var(--mint);color:var(--forest2)">Italian</span>
   </div>
-  <p class="text-gray-500 text-sm leading-relaxed flex-1">Wood-fired pizzas and homemade pasta with a tropical twist.</p>
-  <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
-</div>
+  <p class="text-gray-500 text-sm leading-relaxed flex-1">Wood-fired pizzas and homemade pasta — the best Italian food in Suriname, with an excellent wine list.</p>
+  <div class="flex items-center justify-between mt-1">
+    <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
+    <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
+  </div>
+</a>
     </div>
+    <div class="text-center mt-10"><a href="restaurants.html" class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" style="border-color:var(--forest2);color:var(--forest2)">View all 20 restaurants &rarr;</a></div>
   </div>
 </section>
 
-<!-- ═══ HOTELS ════════════════════════════════════════════════════════════ -->
+<!-- HOTELS -->
 <section id="hotels" class="py-24" style="background:var(--mint)">
   <div class="max-w-6xl mx-auto px-5">
     <div class="text-center mb-16">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Where to Stay</p>
       <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Hotels &amp; Lodges</h2>
-      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">
-        From 5-star riverside hotels in Paramaribo to remote jungle lodges only reachable by canoe &mdash; every traveller finds their place in Suriname.
-      </p>
+      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">From 5-star riverside hotels in Paramaribo to remote jungle lodges only reachable by canoe — every traveller finds their place.</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
       
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
+<a href="https://www.google.com/search?q=Hotel%20De%20Vesting%20suriname" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
   <div class="flex items-start justify-between gap-2">
-    <h4 class="font-bold text-gray-900 text-base leading-tight">Hotel De Vesting</h4>
+    <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Hotel De Vesting</h4>
     <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:#fff3e8;color:#c05621">Hotel</span>
   </div>
-  <p class="text-gray-500 text-sm leading-relaxed flex-1">Comfortable accommodation in Suriname.</p>
-  <p class="text-gray-400 text-xs">&#128205; Nieuw Nickerie, Suriname</p>
-</div>
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
+  <p class="text-gray-500 text-sm leading-relaxed flex-1"></p>
+  <div class="flex items-center justify-between mt-1">
+    <p class="text-gray-400 text-xs">&#128205; Nieuw Nickerie, Suriname</p>
+    <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
+  </div>
+</a>
+
+<a href="https://www.google.com/search?q=plantage%20frederiksdorp%20suriname" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
   <div class="flex items-start justify-between gap-2">
-    <h4 class="font-bold text-gray-900 text-base leading-tight">plantage frederiksdorp</h4>
+    <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">plantage frederiksdorp</h4>
     <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:#fff3e8;color:#c05621">Hotel</span>
   </div>
-  <p class="text-gray-500 text-sm leading-relaxed flex-1">Comfortable accommodation in Suriname.</p>
-  <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
-</div>
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
+  <p class="text-gray-500 text-sm leading-relaxed flex-1"></p>
+  <div class="flex items-center justify-between mt-1">
+    <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
+    <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
+  </div>
+</a>
+
+<a href="http://www.zeelandiasuites.com/" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
   <div class="flex items-start justify-between gap-2">
-    <h4 class="font-bold text-gray-900 text-base leading-tight">Zeelandia Suites</h4>
+    <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Zeelandia Suites</h4>
     <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:#fff3e8;color:#c05621">Hotel</span>
   </div>
-  <p class="text-gray-500 text-sm leading-relaxed flex-1">Comfortable accommodation in Suriname.</p>
-  <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
-</div>
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
+  <p class="text-gray-500 text-sm leading-relaxed flex-1"></p>
+  <div class="flex items-center justify-between mt-1">
+    <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
+    <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
+  </div>
+</a>
+
+<a href="https://www.google.com/search?q=Concord%202000%20suriname" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
   <div class="flex items-start justify-between gap-2">
-    <h4 class="font-bold text-gray-900 text-base leading-tight">Concord 2000</h4>
+    <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Concord 2000</h4>
     <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:#fff3e8;color:#c05621">Hotel</span>
   </div>
-  <p class="text-gray-500 text-sm leading-relaxed flex-1">Comfortable accommodation in Suriname.</p>
-  <p class="text-gray-400 text-xs">&#128205; Nieuw Nickerie, Suriname</p>
-</div>
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
+  <p class="text-gray-500 text-sm leading-relaxed flex-1"></p>
+  <div class="flex items-center justify-between mt-1">
+    <p class="text-gray-400 text-xs">&#128205; Nieuw Nickerie, Suriname</p>
+    <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
+  </div>
+</a>
+
+<a href="https://www.google.com/search?q=River%20Breeze%20suriname" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
   <div class="flex items-start justify-between gap-2">
-    <h4 class="font-bold text-gray-900 text-base leading-tight">River Breeze</h4>
+    <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">River Breeze</h4>
     <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:#fff3e8;color:#c05621">Hotel</span>
   </div>
-  <p class="text-gray-500 text-sm leading-relaxed flex-1">Comfortable accommodation in Suriname.</p>
-  <p class="text-gray-400 text-xs">&#128205; Nieuw Nickerie, Suriname</p>
-</div>
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
+  <p class="text-gray-500 text-sm leading-relaxed flex-1"></p>
+  <div class="flex items-center justify-between mt-1">
+    <p class="text-gray-400 text-xs">&#128205; Nieuw Nickerie, Suriname</p>
+    <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
+  </div>
+</a>
+
+<a href="http://www.babunhol.com/" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
   <div class="flex items-start justify-between gap-2">
-    <h4 class="font-bold text-gray-900 text-base leading-tight">Babunhol River Resort</h4>
+    <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Babunhol River Resort</h4>
     <span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:#fff3e8;color:#c05621">Guest House</span>
   </div>
-  <p class="text-gray-500 text-sm leading-relaxed flex-1">Comfortable accommodation in Suriname.</p>
-  <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
-</div>
+  <p class="text-gray-500 text-sm leading-relaxed flex-1"></p>
+  <div class="flex items-center justify-between mt-1">
+    <p class="text-gray-400 text-xs">&#128205; Paramaribo, Suriname</p>
+    <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
+  </div>
+</a>
     </div>
+    <div class="text-center mt-10"><a href="hotels.html" class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" style="border-color:var(--forest2);color:var(--forest2)">View all 20 hotels &amp; lodges &rarr;</a></div>
   </div>
 </section>
 
-<!-- ═══ NEWS PREVIEW ══════════════════════════════════════════════════════ -->
+<!-- NEWS PREVIEW -->
 <section class="py-24 bg-white">
   <div class="max-w-6xl mx-auto px-5">
     <div class="flex items-end justify-between mb-10 flex-wrap gap-4">
@@ -412,42 +497,41 @@
         <p class="text-xs font-semibold tracking-widest uppercase mb-2" style="color:var(--forest2)">Stay Informed</p>
         <h2 class="serif text-4xl font-bold text-gray-900">Latest from Suriname</h2>
       </div>
-      <a href="news.html" class="hidden sm:inline-flex items-center gap-1 px-6 py-3 rounded-full text-white text-sm font-semibold transition hover:opacity-90" style="background:var(--forest)">
-        All News &rarr;
-      </a>
+      <a href="news.html" class="hidden sm:inline-flex px-6 py-3 rounded-full text-white text-sm font-semibold hover:opacity-90 transition" style="background:var(--forest)">All News &rarr;</a>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-      <a href="https://dwtonline.com/uniek/" target="_blank" rel="noopener noreferrer" class="group flex flex-col bg-white rounded-2xl overflow-hidden card-hover border border-gray-100"><div class="p-5 flex flex-col gap-2 flex-1"><div class="flex items-center gap-2 flex-wrap"><span class="text-white text-xs font-medium px-2 py-0.5 rounded-full" style="background:#2D6A4F">De Ware Tijd</span><span class="text-gray-400 text-xs">56m ago</span></div><h3 class="text-base font-bold text-gray-900 group-hover:text-green-800 leading-snug">Uniek</h3><p class="text-gray-500 text-xs leading-relaxed flex-1">MONSIEUR JEANETTE / Christio Wijnhard Na de marketingflater van het Mennonieten-promotiebedrijf had ik verwacht dat het weer even rustig zou zijn. Eventjes geen gekke dingen. Wenste ik. Wat kan hoo…</p></div></a>
+      <a href="https://www.waterkant.net/suriname/2026/04/26/wang-over-dna-salaris-ik-ga-wel-voor-stemmen-als-het-teruggedraaid-moet-worden/#utm_source=rss&utm_medium=rss&utm_campaign=wang-over-dna-salaris-ik-ga-wel-voor-stemmen-als-het-teruggedraaid-moet-worden" target="_blank" rel="noopener noreferrer" class="group flex flex-col bg-white rounded-2xl overflow-hidden card-hover border border-gray-100"><div class="p-5 flex flex-col gap-2 flex-1"><div class="flex items-center gap-2 flex-wrap"><span class="text-white text-xs font-medium px-2 py-0.5 rounded-full" style="background:#1a56db">Waterkant</span><span class="text-gray-400 text-xs">6m ago</span></div><h3 class="text-base font-bold text-gray-900 group-hover:text-green-800 leading-snug">Wang over DNA-salaris: “Ik ga wel voor stemmen als het teruggedraaid moet worden”</h3><p class="text-gray-500 text-xs leading-relaxed flex-1">Waterkant  
+ Terwijl aan de ene kant NDP-parlementariër Ebu Jones vindt dat zijn salaris van 130.000 SRD terecht is vanwege de kwaliteit aan werk dat hij maandelijks levert, stelt VHP-parlementarië…</p></div></a>
+<a href="https://dwtonline.com/uniek/" target="_blank" rel="noopener noreferrer" class="group flex flex-col bg-white rounded-2xl overflow-hidden card-hover border border-gray-100"><div class="p-5 flex flex-col gap-2 flex-1"><div class="flex items-center gap-2 flex-wrap"><span class="text-white text-xs font-medium px-2 py-0.5 rounded-full" style="background:#2D6A4F">De Ware Tijd</span><span class="text-gray-400 text-xs">1h ago</span></div><h3 class="text-sm font-semibold text-gray-900 group-hover:text-green-800 leading-snug">Uniek</h3><p class="text-gray-500 text-xs leading-relaxed flex-1">MONSIEUR JEANETTE / Christio Wijnhard Na de marketingflater van het Mennonieten-promotiebedrijf had ik verwacht dat het weer even rustig zou zijn. Eventjes geen gekke dingen. Wenste ik. Wat kan hoo…</p></div></a>
 <a href="https://www.waterkant.net/suriname/2026/04/26/stoerdoenerij-met-bron-banti-gaat-mis-auto-vliegt-in-shop-van-pompstation/#utm_source=rss&utm_medium=rss&utm_campaign=stoerdoenerij-met-bron-banti-gaat-mis-auto-vliegt-in-shop-van-pompstation" target="_blank" rel="noopener noreferrer" class="group flex flex-col bg-white rounded-2xl overflow-hidden card-hover border border-gray-100"><div class="p-5 flex flex-col gap-2 flex-1"><div class="flex items-center gap-2 flex-wrap"><span class="text-white text-xs font-medium px-2 py-0.5 rounded-full" style="background:#1a56db">Waterkant</span><span class="text-gray-400 text-xs">2h ago</span></div><h3 class="text-sm font-semibold text-gray-900 group-hover:text-green-800 leading-snug">Auto vliegt in shop van pompstation</h3><p class="text-gray-500 text-xs leading-relaxed flex-1">Waterkant  
  Een auto is vanmorgen gevlogen in de shop van pompstation SOL aan de Tourtonnelaan in Suriname. De bestuurder verloor door nog onbekende reden de controle over het stuur en belandde me…</p></div></a>
-<a href="https://dwtonline.com/tor%d0%b5n-johan-adolf-pengel-internationale-luchthaven-weer-bemand/" target="_blank" rel="noopener noreferrer" class="group flex flex-col bg-white rounded-2xl overflow-hidden card-hover border border-gray-100"><div class="p-5 flex flex-col gap-2 flex-1"><div class="flex items-center gap-2 flex-wrap"><span class="text-white text-xs font-medium px-2 py-0.5 rounded-full" style="background:#2D6A4F">De Ware Tijd</span><span class="text-gray-400 text-xs">2h ago</span></div><h3 class="text-sm font-semibold text-gray-900 group-hover:text-green-800 leading-snug">Torеn Johan Adolf Pengel Internationale Luchthaven weer bemand</h3><p class="text-gray-500 text-xs leading-relaxed flex-1">PARAMARIBO — Na ingrijpen van president Jennifer Simons is de luchtverkeerstoren op de Johan Adolf Pengel Internationale Luchthaven wederom volledig bemand, waardoor de inkomende en uitgaande vluch…</p></div></a>
     </div>
     <div class="text-center mt-8 sm:hidden">
-      <a href="news.html" class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-white text-sm font-semibold" style="background:var(--forest)">All Suriname News &rarr;</a>
+      <a href="news.html" class="inline-flex px-6 py-3 rounded-full text-white text-sm font-semibold" style="background:var(--forest)">All Suriname News &rarr;</a>
     </div>
   </div>
 </section>
 
 
-<footer style="background:var(--forest)" class="text-white py-16 mt-0">
+<footer style="background:var(--forest)" class="text-white py-16">
   <div class="max-w-6xl mx-auto px-5">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-10">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
       <div>
         <p class="serif text-2xl font-bold mb-3">Explore<span style="color:var(--coral)">Suriname</span></p>
         <p class="text-white/60 text-sm leading-relaxed">Your guide to South America's most beautiful secret. Updated daily with fresh news, local insights and travel inspiration.</p>
       </div>
       <div>
-        <p class="text-white/50 text-xs uppercase tracking-widest font-semibold mb-4">Explore</p>
+        <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Explore</p>
         <ul class="space-y-2 text-sm text-white/70">
-          <li><a href="index.html#nature"      class="hover:text-white transition">Nature &amp; Parks</a></li>
-          <li><a href="index.html#activities"  class="hover:text-white transition">Activities</a></li>
-          <li><a href="index.html#dining"      class="hover:text-white transition">Eat &amp; Drink</a></li>
-          <li><a href="index.html#hotels"      class="hover:text-white transition">Hotels &amp; Lodges</a></li>
-          <li><a href="news.html"              class="hover:text-white transition">Suriname News</a></li>
+          <li><a href="nature.html"      class="hover:text-white transition">Nature &amp; Parks</a></li>
+          <li><a href="activities.html"  class="hover:text-white transition">Activities</a></li>
+          <li><a href="restaurants.html" class="hover:text-white transition">Eat &amp; Drink</a></li>
+          <li><a href="hotels.html"      class="hover:text-white transition">Hotels &amp; Lodges</a></li>
+          <li><a href="news.html"        class="hover:text-white transition">Suriname News</a></li>
         </ul>
       </div>
       <div>
-        <p class="text-white/50 text-xs uppercase tracking-widest font-semibold mb-4">Travel Info</p>
+        <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Travel Info</p>
         <ul class="space-y-2 text-sm text-white/70">
           <li>&#127988; Capital: Paramaribo</li>
           <li>&#128172; Dutch, Sranan Tongo + 9 more</li>
@@ -456,12 +540,18 @@
           <li>&#127942; 2 UNESCO World Heritage Sites</li>
         </ul>
       </div>
+      <div>
+        <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Contact</p>
+        <ul class="space-y-2 text-sm text-white/70">
+          <li><a href="mailto:surinamedomains@gmail.com" class="hover:text-white transition">&#9993; surinamedomains@gmail.com</a></li>
+          <li class="text-white/40 text-xs mt-3">For partnerships, listings<br>or general enquiries.</li>
+        </ul>
+      </div>
     </div>
     <div class="border-t border-white/10 pt-8 text-center text-white/40 text-xs">
       &copy; 2026 ExploreSuriname.com &mdash; Auto-updated daily &middot; Content from public sources
     </div>
   </div>
 </footer>
-
 </body>
 </html>

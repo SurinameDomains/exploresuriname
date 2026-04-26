@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#D8F3DC; --coral:#E76F51; }
+    body   { font-family: 'Inter', system-ui, sans-serif; }
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    .hero-bg { background-size:cover; background-position:center; }
+    @media (min-width:768px) { .hero-bg { background-attachment:fixed; } }
+    .card-hover { transition: transform .2s, box-shadow .2s; }
+    .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
+    a { text-decoration: none; }
+  </style>
+  <title>Nature & Parks &mdash; ExploreSuriname.com</title>
+  <meta name="description" content="Discover all of Suriname&#x27;s nature reserves, national parks and natural wonders.">
+  <link rel="canonical" href="https://exploresuriname.com/nature.html">
+</head>
+<body class="bg-gray-50">
+
+<nav class="fixed top-0 w-full z-50" style="background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.06)">
+  <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between">
+    <a href="index.html" class="flex items-baseline">
+      <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
+    </a>
+    <div class="hidden md:flex items-center gap-7"><a href="index.html#nature" class="text-gray-700 hover:text-green-800 transition text-sm" >Nature</a>
+<a href="index.html#activities" class="text-gray-700 hover:text-green-800 transition text-sm" >Activities</a>
+<a href="index.html#dining" class="text-gray-700 hover:text-green-800 transition text-sm" >Eat & Drink</a>
+<a href="index.html#hotels" class="text-gray-700 hover:text-green-800 transition text-sm" >Stay</a>
+<a href="news.html" class="text-gray-700 hover:text-green-800 transition text-sm" >News</a>
+</div>
+    <a href="news.html" class="hidden md:inline-flex items-center gap-1 text-white text-sm font-medium px-4 py-2 rounded-full hover:opacity-90 transition" style="background:var(--forest)">&#128240; Latest News</a>
+    <button onclick="document.getElementById('mm').classList.toggle('hidden')" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+  <div id="mm" class="hidden md:hidden border-t bg-white px-5 py-4 flex flex-col gap-3 text-sm"><a href="index.html#nature" class="text-gray-700 hover:text-green-800 transition text-sm" >Nature</a>
+<a href="index.html#activities" class="text-gray-700 hover:text-green-800 transition text-sm" >Activities</a>
+<a href="index.html#dining" class="text-gray-700 hover:text-green-800 transition text-sm" >Eat & Drink</a>
+<a href="index.html#hotels" class="text-gray-700 hover:text-green-800 transition text-sm" >Stay</a>
+<a href="news.html" class="text-gray-700 hover:text-green-800 transition text-sm" >News</a>
+</div>
+</nav>
+<div class="pt-16"></div>
+<div class="text-white py-16 text-center" style="background:var(--forest)">
+  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Nature & Parks</h1>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">15 destinations across Suriname's pristine wilderness</p>
+</div>
+<main class="max-w-6xl mx-auto px-5 py-12 pb-24">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    
+<a href="https://whc.unesco.org/en/list/1017/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+  <div class="relative h-56 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80" alt="Central Suriname Nature Reserve" loading="lazy"
+         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+         onerror="this.parentElement.style.background='#2D6A4F'">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">UNESCO World Heritage</span>
+    <div class="absolute bottom-4 left-4 right-4">
+      <h3 class="serif text-white font-bold text-lg leading-tight">Central Suriname Nature Reserve</h3>
+      <p class="text-white/75 text-xs mt-1">&#10024; Larger than some entire countries</p>
+    </div>
+  </div>
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">One of the world&#x27;s largest intact tropical rainforests — 1.6 million pristine hectares where jaguars, tapirs and giant river otters roam free. A global treasure.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">UNESCO</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Rainforest</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Wildlife</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
+  </div>
+</a>
+
+<a href="https://www.stinasu.sr/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+  <div class="relative h-56 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&q=80" alt="Brownsberg Nature Park" loading="lazy"
+         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+         onerror="this.parentElement.style.background='#2D6A4F'">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">Best Day Trip</span>
+    <div class="absolute bottom-4 left-4 right-4">
+      <h3 class="serif text-white font-bold text-lg leading-tight">Brownsberg Nature Park</h3>
+      <p class="text-white/75 text-xs mt-1">&#10024; Howler monkeys, toucans &amp; jaguars</p>
+    </div>
+  </div>
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">Perched 500m above the Brokopondo Reservoir, Brownsberg rewards visitors with jaw-dropping panoramic views, swimming waterfalls and abundant wildlife just 2 hours from Paramaribo.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Hiking</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Waterfall</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Views</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
+  </div>
+</a>
+
+<a href="https://www.stinasu.sr/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+  <div class="relative h-56 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=800&q=80" alt="Galibi Nature Reserve" loading="lazy"
+         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+         onerror="this.parentElement.style.background='#2D6A4F'">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">Turtle Nesting Site</span>
+    <div class="absolute bottom-4 left-4 right-4">
+      <h3 class="serif text-white font-bold text-lg leading-tight">Galibi Nature Reserve</h3>
+      <p class="text-white/75 text-xs mt-1">&#10024; Nesting season: February – July</p>
+    </div>
+  </div>
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">On Suriname&#x27;s Atlantic coast, giant leatherback sea turtles — the world&#x27;s largest reptile — haul ashore to nest in one of nature&#x27;s most breathtaking spectacles.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Sea Turtles</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Coastal</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Wildlife</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
+  </div>
+</a>
+
+<a href="https://www.stinasu.sr/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+  <div class="relative h-56 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1444464666168-49d633b86797?w=800&q=80" alt="Peperpot Nature Park" loading="lazy"
+         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+         onerror="this.parentElement.style.background='#2D6A4F'">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">Bird Watcher&#x27;s Paradise</span>
+    <div class="absolute bottom-4 left-4 right-4">
+      <h3 class="serif text-white font-bold text-lg leading-tight">Peperpot Nature Park</h3>
+      <p class="text-white/75 text-xs mt-1">&#10024; 700+ bird species in Suriname</p>
+    </div>
+  </div>
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">A former plantation turned bird sanctuary just minutes from the capital. Over 200 bird species recorded — the perfect introduction to Suriname&#x27;s extraordinary avian diversity.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Birding</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Easy Access</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Peaceful</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
+  </div>
+</a>
+
+<a href="https://www.stinasu.sr/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+  <div class="relative h-56 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80" alt="Voltzberg &amp; Raleighvallen" loading="lazy"
+         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+         onerror="this.parentElement.style.background='#2D6A4F'">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">Remote Expedition</span>
+    <div class="absolute bottom-4 left-4 right-4">
+      <h3 class="serif text-white font-bold text-lg leading-tight">Voltzberg &amp; Raleighvallen</h3>
+      <p class="text-white/75 text-xs mt-1">&#10024; Multi-day jungle trek required</p>
+    </div>
+  </div>
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">An iconic granite dome rising above the endless jungle canopy. Accessible only by multi-day expedition — the ultimate reward for the most adventurous travellers.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Expedition</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Climbing</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Remote</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
+  </div>
+</a>
+
+<a href="https://whc.unesco.org/en/list/940/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+  <div class="relative h-56 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800&q=80" alt="Paramaribo Historic Inner City" loading="lazy"
+         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+         onerror="this.parentElement.style.background='#2D6A4F'">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">UNESCO World Heritage</span>
+    <div class="absolute bottom-4 left-4 right-4">
+      <h3 class="serif text-white font-bold text-lg leading-tight">Paramaribo Historic Inner City</h3>
+      <p class="text-white/75 text-xs mt-1">&#10024; 2 UNESCO sites in one country</p>
+    </div>
+  </div>
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">The only wooden colonial city in the Americas. Dutch colonial architecture, Hindu temples, mosques and synagogues coexist in remarkable harmony along the Suriname River.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">UNESCO</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">History</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Culture</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
+  </div>
+</a>
+
+<a href="https://www.stinasu.sr/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+  <div class="relative h-56 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80" alt="Bigi Pan Nature Reserve" loading="lazy"
+         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+         onerror="this.parentElement.style.background='#2D6A4F'">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">Flamingo Haven</span>
+    <div class="absolute bottom-4 left-4 right-4">
+      <h3 class="serif text-white font-bold text-lg leading-tight">Bigi Pan Nature Reserve</h3>
+      <p class="text-white/75 text-xs mt-1">&#10024; Thousands of flamingos year-round</p>
+    </div>
+  </div>
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">One of the largest mangrove areas in the Caribbean region, home to spectacular flocks of flamingos and an extraordinary diversity of coastal birdlife. Remote and pristine.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Flamingos</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Mangroves</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Coastal Birds</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
+  </div>
+</a>
+
+<a href="https://www.stinasu.sr/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+  <div class="relative h-56 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" alt="Wia Wia Nature Reserve" loading="lazy"
+         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+         onerror="this.parentElement.style.background='#2D6A4F'">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">Coastal Wilderness</span>
+    <div class="absolute bottom-4 left-4 right-4">
+      <h3 class="serif text-white font-bold text-lg leading-tight">Wia Wia Nature Reserve</h3>
+      <p class="text-white/75 text-xs mt-1">&#10024; Leatherback &amp; green turtles nest here</p>
+    </div>
+  </div>
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">A protected stretch of Atlantic coastline where endangered sea turtles have nested for centuries. Remote, rarely visited and utterly wild — one of Suriname&#x27;s most precious places.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Sea Turtles</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Coastal</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Remote</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
+  </div>
+</a>
+
+<a href="https://www.google.com/search?q=commewijne+river+tour+suriname" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+  <div class="relative h-56 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1536329583941-14287ec6fc4e?w=800&q=80" alt="Commewijne River" loading="lazy"
+         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+         onerror="this.parentElement.style.background='#2D6A4F'">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">River Dolphins &amp; Plantations</span>
+    <div class="absolute bottom-4 left-4 right-4">
+      <h3 class="serif text-white font-bold text-lg leading-tight">Commewijne River</h3>
+      <p class="text-white/75 text-xs mt-1">&#10024; River dolphins seen year-round</p>
+    </div>
+  </div>
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">A scenic river just across from Paramaribo, famous for river dolphin sightings, historic plantation ruins and the imposing star-shaped Fort Nieuw Amsterdam.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Dolphins</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">History</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Easy Access</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
+  </div>
+</a>
+
+<a href="https://www.google.com/search?q=upper+suriname+river+tour" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+  <div class="relative h-56 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=800&q=80" alt="Upper Suriname River" loading="lazy"
+         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+         onerror="this.parentElement.style.background='#2D6A4F'">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">Maroon Heritage</span>
+    <div class="absolute bottom-4 left-4 right-4">
+      <h3 class="serif text-white font-bold text-lg leading-tight">Upper Suriname River</h3>
+      <p class="text-white/75 text-xs mt-1">&#10024; Ancient Afro-Surinamese cultures</p>
+    </div>
+  </div>
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">Journey upriver through dense jungle to Maroon villages of the Saramacca and Matawai peoples. Stay in traditional lodges and experience a living ancient culture.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Maroon Culture</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">River</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Multi-day</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
+  </div>
+</a>
+
+<a href="https://www.google.com/search?q=tafelberg+suriname+expedition" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+  <div class="relative h-56 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80" alt="Tafelberg" loading="lazy"
+         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+         onerror="this.parentElement.style.background='#2D6A4F'">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">Remote Tepui</span>
+    <div class="absolute bottom-4 left-4 right-4">
+      <h3 class="serif text-white font-bold text-lg leading-tight">Tafelberg</h3>
+      <p class="text-white/75 text-xs mt-1">&#10024; Endemic species above the clouds</p>
+    </div>
+  </div>
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">A flat-topped mountain rising dramatically from the rainforest. Only reachable by expedition, Tafelberg harbours unique plant species found nowhere else on earth.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Tepui</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Expedition</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Unique Flora</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
+  </div>
+</a>
+
+<a href="https://www.google.com/search?q=fort+nieuw+amsterdam+suriname" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+  <div class="relative h-56 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1555993539-1732b0258235?w=800&q=80" alt="Fort Nieuw Amsterdam" loading="lazy"
+         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+         onerror="this.parentElement.style.background='#2D6A4F'">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">Colonial History</span>
+    <div class="absolute bottom-4 left-4 right-4">
+      <h3 class="serif text-white font-bold text-lg leading-tight">Fort Nieuw Amsterdam</h3>
+      <p class="text-white/75 text-xs mt-1">&#10024; 18th-century Dutch fortification</p>
+    </div>
+  </div>
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">An 18th-century star-shaped fort at the confluence of the Suriname and Commewijne rivers. Now an open-air museum telling the story of Suriname&#x27;s colonial past.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">History</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Museum</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Easy Access</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
+  </div>
+</a>
+
+<a href="https://www.google.com/search?q=sipaliwini+savanna+suriname" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+  <div class="relative h-56 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80" alt="Sipaliwini Savanna" loading="lazy"
+         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+         onerror="this.parentElement.style.background='#2D6A4F'">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">Far South Wilderness</span>
+    <div class="absolute bottom-4 left-4 right-4">
+      <h3 class="serif text-white font-bold text-lg leading-tight">Sipaliwini Savanna</h3>
+      <p class="text-white/75 text-xs mt-1">&#10024; Accessible only by small aircraft</p>
+    </div>
+  </div>
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">An isolated savanna near the Brazilian border — one of Suriname&#x27;s most remote places. Home to giant anteaters, pumas and pristine black-water rivers.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Remote</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Savanna</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Wildlife</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
+  </div>
+</a>
+
+<a href="https://www.mets-suriname.com/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+  <div class="relative h-56 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&q=80" alt="Palumeu – Trio Village" loading="lazy"
+         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+         onerror="this.parentElement.style.background='#2D6A4F'">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">Indigenous Culture</span>
+    <div class="absolute bottom-4 left-4 right-4">
+      <h3 class="serif text-white font-bold text-lg leading-tight">Palumeu – Trio Village</h3>
+      <p class="text-white/75 text-xs mt-1">&#10024; Accessible by charter flight only</p>
+    </div>
+  </div>
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">Deep in the southern jungle, the Trio indigenous village of Palumeu offers a rare window into a way of life unchanged for generations. Reachable only by charter flight.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Indigenous</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Remote</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Cultural</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
+  </div>
+</a>
+
+<a href="https://www.google.com/search?q=colakreek+suriname" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+  <div class="relative h-56 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1504700610630-ac6aba3536d3?w=800&q=80" alt="Colakreek" loading="lazy"
+         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+         onerror="this.parentElement.style.background='#2D6A4F'">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+    <span class="absolute top-4 left-4 text-white text-xs font-semibold px-3 py-1 rounded-full" style="background:var(--coral)">Local Favourite</span>
+    <div class="absolute bottom-4 left-4 right-4">
+      <h3 class="serif text-white font-bold text-lg leading-tight">Colakreek</h3>
+      <p class="text-white/75 text-xs mt-1">&#10024; 30 min from Paramaribo city centre</p>
+    </div>
+  </div>
+  <div class="p-5 flex flex-col gap-3 flex-1">
+    <p class="text-gray-600 text-sm leading-relaxed flex-1">A beautiful freshwater creek just outside Paramaribo, perfect for swimming and picnicking surrounded by jungle. The go-to half-day escape for Surinamese families.</p>
+    <div class="flex flex-wrap gap-1 items-center justify-between">
+      <div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Swimming</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Easy Access</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Local Favourite</span></div>
+      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+    </div>
+  </div>
+</a>
+  </div>
+</main>
+
+<footer style="background:var(--forest)" class="text-white py-16">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+      <div>
+        <p class="serif text-2xl font-bold mb-3">Explore<span style="color:var(--coral)">Suriname</span></p>
+        <p class="text-white/60 text-sm leading-relaxed">Your guide to South America's most beautiful secret. Updated daily with fresh news, local insights and travel inspiration.</p>
+      </div>
+      <div>
+        <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Explore</p>
+        <ul class="space-y-2 text-sm text-white/70">
+          <li><a href="nature.html"      class="hover:text-white transition">Nature &amp; Parks</a></li>
+          <li><a href="activities.html"  class="hover:text-white transition">Activities</a></li>
+          <li><a href="restaurants.html" class="hover:text-white transition">Eat &amp; Drink</a></li>
+          <li><a href="hotels.html"      class="hover:text-white transition">Hotels &amp; Lodges</a></li>
+          <li><a href="news.html"        class="hover:text-white transition">Suriname News</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Travel Info</p>
+        <ul class="space-y-2 text-sm text-white/70">
+          <li>&#127988; Capital: Paramaribo</li>
+          <li>&#128172; Dutch, Sranan Tongo + 9 more</li>
+          <li>&#128176; Surinamese Dollar (SRD)</li>
+          <li>&#127774; Tropical, ~28°C year-round</li>
+          <li>&#127942; 2 UNESCO World Heritage Sites</li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Contact</p>
+        <ul class="space-y-2 text-sm text-white/70">
+          <li><a href="mailto:surinamedomains@gmail.com" class="hover:text-white transition">&#9993; surinamedomains@gmail.com</a></li>
+          <li class="text-white/40 text-xs mt-3">For partnerships, listings<br>or general enquiries.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/10 pt-8 text-center text-white/40 text-xs">
+      &copy; 2026 ExploreSuriname.com &mdash; Auto-updated daily &middot; Content from public sources
+    </div>
+  </div>
+</footer>
+</body>
+</html>
