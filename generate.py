@@ -170,51 +170,296 @@ ACTIVITIES = [
      "image": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&q=80"},
 ]
 
-RESTAURANTS = [
-    {"name": "De Gadri",               "cuisine": "Surinamese",            "area": "Paramaribo", "desc": "Traditional Surinamese home cooking in a charming colonial garden setting. Famous for pom, roti and moksi alesi.",               "url": "https://www.google.com/search?q=de+gadri+restaurant+paramaribo"},
-    {"name": "Restaurant Spice Quest", "cuisine": "Indian-Surinamese",     "area": "Paramaribo", "desc": "A rich fusion of Hindustani spice with modern, elegant presentation. Outstanding curries and tandoor dishes.",                "url": "https://www.google.com/search?q=spice+quest+restaurant+paramaribo"},
-    {"name": "Zus & Zo",               "cuisine": "Cafe & Bakery",         "area": "Paramaribo", "desc": "Beloved neighbourhood cafe with fresh pastries, open sandwiches and excellent locally-sourced coffee. Always busy.",          "url": "https://www.google.com/search?q=zus+zo+cafe+paramaribo"},
-    {"name": "Warung Mini",            "cuisine": "Javanese",              "area": "Paramaribo", "desc": "Authentic Javanese-Surinamese dishes in a relaxed warung atmosphere. Try the bami, nasi and soto.",                         "url": "https://www.google.com/search?q=warung+mini+paramaribo"},
-    {"name": "Bistro de Paris",        "cuisine": "French-Creole",         "area": "Waterfront", "desc": "French-influenced creole cuisine with a stunning view over the historic Paramaribo waterfront.",                             "url": "https://www.google.com/search?q=bistro+de+paris+paramaribo"},
-    {"name": "La Gondola",             "cuisine": "Italian",               "area": "Paramaribo", "desc": "Wood-fired pizzas and homemade pasta — the best Italian food in Suriname, with an excellent wine list.",               "url": "https://www.google.com/search?q=la+gondola+restaurant+paramaribo"},
-    {"name": "Restaurant Humphrey's", "cuisine": "International",         "area": "Paramaribo", "desc": "Popular international restaurant with a diverse menu catering to all tastes. Lively atmosphere and reliable quality.",       "url": "https://www.google.com/search?q=humphreys+restaurant+paramaribo"},
-    {"name": "Grand Cafe 1900",        "cuisine": "Cafe & Bar",            "area": "Paramaribo", "desc": "Historic cafe in a beautifully preserved colonial building. The social heart of old Paramaribo since the early 1900s.",     "url": "https://www.google.com/search?q=grand+cafe+1900+paramaribo"},
-    {"name": "Sarinah Restaurant",     "cuisine": "Indonesian",            "area": "Paramaribo", "desc": "Authentic Indonesian rijsttafel served in a warm family setting — a Paramaribo institution beloved by locals.",         "url": "https://www.google.com/search?q=sarinah+restaurant+paramaribo+suriname"},
-    {"name": "ToHo Restaurant",        "cuisine": "Chinese-Surinamese",    "area": "Paramaribo", "desc": "A Paramaribo classic serving Chinese-Surinamese fusion. Generous portions and great value. Cash only.",                    "url": "https://www.google.com/search?q=toho+restaurant+paramaribo"},
-    {"name": "Tori Oso",               "cuisine": "Creole",                "area": "Paramaribo", "desc": "Traditional Creole home cooking at its finest — pom, heri heri and black-eyed pea soup that taste like grandmother made it.", "url": "https://www.google.com/search?q=tori+oso+restaurant+paramaribo"},
-    {"name": "Jade Garden",            "cuisine": "Chinese",               "area": "Paramaribo", "desc": "Authentic dim sum and Cantonese specialties in a spacious, family-friendly setting popular for Sunday lunches.",            "url": "https://www.google.com/search?q=jade+garden+paramaribo+suriname"},
-    {"name": "Roti Shop Heera",        "cuisine": "Hindustani",            "area": "Paramaribo", "desc": "The best roti in Paramaribo — locals have been queuing for the flaky flatbread and rich curries for decades.",        "url": "https://www.google.com/search?q=roti+heera+paramaribo"},
-    {"name": "River Club",             "cuisine": "International & Grill", "area": "Waterfront", "desc": "Riverside dining and a vibrant bar with great views over the Suriname River. Perfect for sunset drinks.",                  "url": "https://www.google.com/search?q=river+club+paramaribo+suriname"},
-    {"name": "Restaurant Palmtuin",    "cuisine": "Surinamese",            "area": "Paramaribo", "desc": "Open-air dining surrounded by palm trees — local Surinamese favourites in a relaxed tropical garden setting.",        "url": "https://www.google.com/search?q=palmtuin+restaurant+paramaribo"},
-    {"name": "Soupie's Kitchen",      "cuisine": "BBQ & Soul Food",       "area": "Paramaribo", "desc": "Suriname's best BBQ and soul food, loved by locals for weekend family gatherings. Arrive early — it sells out.",     "url": "https://www.google.com/search?q=soupies+kitchen+paramaribo"},
-    {"name": "Evergreen Health Bar",   "cuisine": "Healthy & Vegan",       "area": "Paramaribo", "desc": "Fresh juices, acai bowls and plant-based Surinamese-inspired dishes for health-conscious visitors.",                      "url": "https://www.google.com/search?q=evergreen+health+bar+paramaribo"},
-    {"name": "Torarica Restaurant",    "cuisine": "Fine Dining",           "area": "Waterfront", "desc": "Elegant fine dining at Suriname's premier hotel, with panoramic river views and an extensive international wine list.",   "url": "https://www.torarica.com/"},
-    {"name": "The Food Truck Park",    "cuisine": "Street Food",           "area": "Paramaribo", "desc": "Rotating food trucks serving Surinamese street food — pom, bami, bara and roti. Great for a casual, cheap meal.",   "url": "https://www.google.com/search?q=food+truck+park+paramaribo+suriname"},
-    {"name": "Cafe de Java",           "cuisine": "Javanese Fusion",       "area": "Paramaribo", "desc": "Modern cafe celebrating Suriname's Javanese heritage with a contemporary twist. Great breakfast and brunch spot.",        "url": "https://www.google.com/search?q=cafe+java+paramaribo+suriname"},
-]
+# -- Business listings (hardcoded from exploresuriname_listings.json) ---------
 
-HOTELS = [
-    {"name": "Torarica Hotel & Casino",              "category": "5-Star Luxury",    "area": "Paramaribo",           "desc": "Suriname's iconic riverside luxury hotel: stunning pool, casino, spa, multiple restaurants. The best address in the country.",                             "url": "https://www.torarica.com/"},
-    {"name": "Courtyard by Marriott Paramaribo",     "category": "Business Hotel",   "area": "Paramaribo",           "desc": "Modern international hotel with excellent amenities and conference facilities, perfectly placed in the heart of the capital.",                             "url": "https://www.marriott.com/en-us/hotels/pbmcy-courtyard-paramaribo/overview/"},
-    {"name": "Eco Resort Inn",                       "category": "Eco Lodge",        "area": "Paramaribo",           "desc": "Sustainable resort surrounded by lush tropical gardens, bungalows, a beautiful pool and one of Paramaribo's best restaurants.",                         "url": "https://www.ecoresortinn.com/"},
-    {"name": "Bergendal Eco & Cultural River Resort","category": "Eco Resort",       "area": "Suriname River",       "desc": "Stunning eco-resort with tree-house cabins, zip-lines, jungle trails and cultural programs on the Suriname River.",                                      "url": "https://www.bergendal.com/"},
-    {"name": "Awarradam Jungle Lodge",               "category": "Jungle Lodge",     "area": "Deep Interior",        "desc": "Remote luxury lodge deep in the Surinamese jungle, accessible by small plane and canoe. An utterly unforgettable wilderness experience.",                "url": "https://www.google.com/search?q=awarradam+jungle+lodge+suriname"},
-    {"name": "Danpaati River Lodge",                 "category": "River Lodge",      "area": "Upper Suriname River", "desc": "Traditional Maroon-style lodge on the wild Gran Rio river — canoe trips, village visits and jungle treks included.",                             "url": "https://www.google.com/search?q=danpaati+river+lodge+suriname"},
-    {"name": "Kabalebo Nature Resort",               "category": "Remote Lodge",     "area": "Western Interior",     "desc": "Ultra-remote fishing and nature lodge in Suriname's seldom-visited west. Exceptional fishing, wildlife and birding. Charter flight only.",            "url": "https://www.google.com/search?q=kabalebo+nature+resort+suriname"},
-    {"name": "Hotel Laminaire",                      "category": "Boutique Hotel",   "area": "Paramaribo",           "desc": "Intimate boutique hotel in a beautifully restored 19th-century colonial mansion in the historic heart of Paramaribo.",                                  "url": "https://www.google.com/search?q=hotel+laminaire+paramaribo"},
-    {"name": "Palmentuinguesthouse",                 "category": "Guesthouse",       "area": "Paramaribo",           "desc": "Charming guesthouse with lush tropical gardens, warmly recommended by travellers for its hospitality and central location.",                              "url": "https://www.google.com/search?q=palmentuin+guesthouse+paramaribo"},
-    {"name": "Hotel Golfzicht",                      "category": "Mid-Range",        "area": "Paramaribo",           "desc": "Well-located hotel with a pool overlooking the city's golf course — good value and comfortable for business or leisure stays.",                  "url": "https://www.google.com/search?q=hotel+golfzicht+paramaribo"},
-    {"name": "Ambassador Hotel",                     "category": "Classic Hotel",    "area": "Paramaribo",           "desc": "A Paramaribo classic with comfortable rooms, a restaurant and conference facilities. Reliable and well-established.",                                    "url": "https://www.google.com/search?q=ambassador+hotel+paramaribo+suriname"},
-    {"name": "Brownsberg Cabins (STINASU)",          "category": "Park Cabins",      "area": "Brownsberg",           "desc": "Stay inside Brownsberg Nature Park in forest cabins. Wake to howler monkeys and birdsong — the real thing.",                                      "url": "https://en.wikipedia.org/wiki/Brownsberg_Nature_Park"},
-    {"name": "Foengoe Island Lodge",                 "category": "Island Lodge",     "area": "Suriname River",       "desc": "A small island lodge in the Suriname River, reached by boat — perfect for birdwatching, relaxation and escaping the city.",                     "url": "https://www.google.com/search?q=foengoe+island+lodge+suriname"},
-    {"name": "Jungle Top Resort",                    "category": "Nature Resort",    "area": "Interior",             "desc": "Eco-resort at the edge of the rainforest with comfortable bungalows, a pool and guided jungle activities.",                                              "url": "https://www.google.com/search?q=jungle+top+resort+suriname"},
-    {"name": "Colakreek Resort",                     "category": "Nature Resort",    "area": "Near Paramaribo",      "desc": "Bungalows and camping beside the famous Colakreek freshwater swimming area, just 30 minutes from the capital.",                                          "url": "https://www.google.com/search?q=colakreek+resort+suriname"},
-    {"name": "Hotel Home",                           "category": "Budget Hotel",     "area": "Paramaribo",           "desc": "Central, clean and well-priced accommodation popular with budget travellers and backpackers. Friendly staff and great location.",                          "url": "https://www.google.com/search?q=hotel+home+paramaribo+suriname"},
-    {"name": "Stones Boutique Hotel",                "category": "Boutique",         "area": "Paramaribo",           "desc": "Stylish boutique hotel with individually designed rooms and a beautiful rooftop terrace with city views.",                                                "url": "https://www.google.com/search?q=stones+boutique+hotel+paramaribo"},
-    {"name": "Fort Nieuw Amsterdam Hotel",           "category": "Heritage Stay",    "area": "Commewijne",           "desc": "Historic hotel adjacent to Fort Nieuw Amsterdam, offering a unique heritage stay across the river from Paramaribo.",                                      "url": "https://www.google.com/search?q=fort+nieuw+amsterdam+hotel+suriname"},
-    {"name": "Zus & Zo Guesthouse",                 "category": "Guesthouse",       "area": "Paramaribo",           "desc": "Relaxed guesthouse connected to the popular cafe of the same name. Homely rooms and excellent breakfasts included.",                                      "url": "https://www.google.com/search?q=zus+zo+guesthouse+paramaribo"},
-    {"name": "Palumeu Jungle Lodge",                 "category": "Indigenous Lodge", "area": "Deep South",           "desc": "Lodge near the Trio indigenous village of Palumeu, deep in the southern jungle. Accessible by charter flight only.",                                    "url": "https://www.mets-suriname.com/"},
-]
+_BIZ = {
+    '9173': {"name": 'Tulip Supermarkt', "location": 'Paramaribo', "address": 'Tourtonnelaan 133-135, Paramaribo, Suriname', "phone": '+597 521060', "website": 'www.amazoneretail.com'},
+    'a-la-john': {"name": 'A La John', "location": 'Paramaribo', "address": 'verlengde gemenelands weg 192, Paramaribo, Suriname', "phone": '+597 715-1821', "website": ''},
+    'ac-bar-restaurant': {"name": 'AC bar & restaurant', "location": 'Paramaribo', "address": 'Anamoestraat #53', "phone": '+597 459-394', "website": ''},
+    'afobaka-resort': {"name": 'Afobaka Resort', "location": 'Brokopondo', "address": 'Afobaka Resort, Brokopondo, Suriname', "phone": '868-5636', "website": ''},
+    'akira-overwater-resort': {"name": 'Akira Overwater Resort', "location": 'Nickerie', "address": 'Wagenwegstraat 24, Paramaribo, Suriname', "phone": '410-700', "website": 'www.akiraoverwaterresort.com/'},
+    'baka-foto-restaurant': {"name": 'Baka Foto Restaurant', "location": 'Paramaribo', "address": 'Abraham Crijnssenweg No 1, Paramaribo, Suriname', "phone": '471-819', "website": 'baka-foto.business.site/'},
+    'bar-zuid': {"name": 'Bar Zuid', "location": 'Paramaribo', "address": 'Van sommolsdijckstraat 17, Paramaribo, Suriname', "phone": '+597 422-928', "website": ''},
+    'bed-bath-more-bbm': {"name": 'Bed Bath & More (BB&M)', "location": 'Paramaribo', "address": 'Hermitage Mall, Paramaribo, Suriname', "phone": '+597 820-7225', "website": 'bbm.sr'},
+    'bitdynamics': {"name": 'Bit Dynamics N.V.', "location": 'Paramaribo', "address": 'Heliconstraat #34', "phone": '+597 890-9030', "website": 'bitdynamics.sr'},
+    'bloom-wellness-cafe': {"name": 'Bloom Wellness Café', "location": 'Paramaribo', "address": 'Verlengde Gemenelandsweg 163, Paramaribo, Suriname', "phone": '826-5050', "website": ''},
+    'bori-tori': {"name": 'Bori Tori', "location": 'Paramaribo', "address": 'Zonnebloemstraat 44, Paramaribo, Suriname', "phone": '+597 439-173', "website": ''},
+    'bronbella-villa-residence': {"name": 'Bronbella Villa Residence', "location": 'Paramaribo', "address": 'Menckenbergstraat 45, Paramaribo, Suriname', "phone": '+31 (0) 637501731', "website": 'bronbellavillaresidence.com'},
+    'carpe-diem-massagepraktijk': {"name": 'Carpe Diem Massagepraktijk', "location": 'Paramaribo', "address": 'Khadiweg 132', "phone": '+597 895-5187', "website": ''},
+    'chi-min': {"name": 'Chi Min', "location": 'Paramaribo', "address": 'Cornelis Jongbawstraat 83, Paramaribo, Suriname', "phone": '+597 412-155', "website": 'www.chimin-restaurant.com'},
+    'cola-kreek-recreatiepark': {"name": 'Cola Kreek Recreatiepark', "location": 'Para', "address": 'Colakreek, Zanderij', "phone": '472-621', "website": 'mets.sr/nl/tour/colakreek-recreation-park/'},
+    'courtyard-by-marriott': {"name": 'Courtyard by Marriott', "location": 'Paramaribo', "address": 'Anton Dragtenweg 50-54, Paramaribo, Suriname', "phone": '456-000', "website": 'www.marriott.com/en-us/hotels/pbmcy-courtyard-paramaribo/overview/'},
+    'de-spot': {"name": 'De Spot', "location": 'Paramaribo', "address": 'Slangenhoutstraat 77, Paramaribo, Suriname', "phone": '+597 850-7376', "website": ''},
+    'de-verdieping': {"name": 'De Verdieping', "location": 'Paramaribo', "address": 'Kleine Waterstraat 1', "phone": '+597 840-8613', "website": ''},
+    'delete-beauty-lounge': {"name": 'Delete Beauty Lounge', "location": 'Paramaribo', "address": 'Frederikastraat 48A, Paramaribo, Suriname', "phone": '874-6610', "website": 'www.fresha.com/a/delete-paramaribo-afobakalaan-xfdcx98c/booking'},
+    'divergent-body-jewelry': {"name": 'Divergent Body Jewelry', "location": 'Paramaribo', "address": 'Parijsstraat 10', "phone": '+597 895-6839', "website": ''},
+    'dj-liquor-store': {"name": 'DJ Liquor Store', "location": 'Paramaribo', "address": 'Prins Hendrikstraat 44', "phone": '+597 472-226', "website": ''},
+    'dli-travel-consultancy': {"name": 'D-Li Travel & Consultancy', "location": 'Paramaribo', "address": 'Bonistraat 117, Paramaribo', "phone": '+597 850-8710', "website": ''},
+    'eaglemedia': {"name": 'EagleMedia', "location": 'Wanica', "address": 'Lashkarweg 85', "phone": '+597 886-4108', "website": ''},
+    'ec-operations': {"name": 'EC Operations', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '+597 899-0105', "website": 'ecoperations.godaddysites.com/'},
+    'eco-resort-miano': {"name": 'Eco-Resort Miano', "location": 'Para', "address": 'Louis Stugerweg 134', "phone": '+597 875-0593', "website": ''},
+    'eco-torarica': {"name": 'Eco Torarica', "location": 'Paramaribo', "address": 'Cornelis Jongbawstraat 16, Paramaribo, Suriname', "phone": '425-522', "website": 'ecotorarica.com/en'},
+    'ekay-media': {"name": 'Ekay Media', "location": 'Wanica', "address": 'Soedhoestraat', "phone": '+597 855-9589', "website": ''},
+    'el-patron-latin-grill': {"name": 'El Patron Latin Grill', "location": 'Paramaribo', "address": 'Flustraat 25A', "phone": '495-151', "website": ''},
+    'elines-pizza': {"name": "Eline's Pizza", "location": 'Paramaribo', "address": 'Birambiestraat 40', "phone": '+597 892-9595', "website": ''},
+    'fatum': {"name": 'FATUM Schadeverzekering N.V.', "location": 'Paramaribo', "address": 'Noorderkerkstraat 5-7', "phone": '471-541', "website": ''},
+    'fly-allways': {"name": 'Fly AllWays', "location": 'Paramaribo', "address": 'Hoek Coesewijnestraat / Parastraat, Paramaribo, Suriname', "phone": '455645', "website": ''},
+    'ford-zeelandia': {"name": 'Fort Zeelandia', "location": 'Paramaribo', "address": 'Abraham Crijnssenweg 1, Paramaribo, Suriname', "phone": '+597 425-871', "website": 'www.surinaamsmuseum.net/'},
+    'from-me-to-me': {"name": 'From Me, To Me', "location": 'Paramaribo', "address": 'Toscastraat #3', "phone": '+597 869-5727', "website": ''},
+    'galaxy': {"name": 'Galaxy', "location": 'Paramaribo', "address": 'Lala Rookhweg Hermitage Mall, Paramaribo', "phone": '+597 473-580', "website": ''},
+    'garden-of-eden': {"name": 'Garden of Eden', "location": 'Paramaribo', "address": 'Virolastraat 61, Paramaribo, Suriname', "phone": '+597 499-448', "website": 'www.gardenofeden.sr'},
+    'goe-thai-noodle-bar': {"name": 'GoE Thai Noodle Bar', "location": 'Paramaribo', "address": 'Virolastraat 61, Paramaribo, Suriname', "phone": '714-1214', "website": 'www.goe.sr'},
+    'h-garden': {"name": 'H Garden', "location": 'Wanica', "address": 'Leiding 9 #135', "phone": '+597 857-0880', "website": ''},
+    'hairstudio-32': {"name": 'Hairstudio 32', "location": 'Paramaribo', "address": 'Bluewingstraat 13', "phone": '+597 880-8794', "website": ''},
+    'handmade-by-farrell-nv': {"name": 'Handmade by Farrell N.V.', "location": 'Wanica', "address": 'Ds. Martin Luther Kingweg #532', "phone": '+597 840-8840', "website": ''},
+    'hard-rock-cafe-suriname': {"name": 'Hard Rock Cafe Suriname', "location": 'Paramaribo', "address": 'International Mall of Suriname, Paramaribo, Suriname', "phone": '+597 811-0035', "website": ''},
+    'hermitage-mall': {"name": 'Hermitage Mall', "location": 'Paramaribo', "address": 'Lala Rookhweg, Paramaribo, Suriname', "phone": '463-295', "website": 'hermitage-mall.com'},
+    'het-koto-museum': {"name": 'Het Koto Museum', "location": 'Paramaribo', "address": 'Prinsessestraat 43, Paramaribo, Suriname', "phone": '+597 894-5261', "website": ''},
+    'holland-lodge': {"name": 'Holland Lodge', "location": 'Paramaribo', "address": 'Mahonylaan 25, Paramaribo, Suriname', "phone": '+597 520-663', "website": 'hollandlodgeparamaribo.com/'},
+    'honeycare': {"name": 'Honeycare', "location": 'Paramaribo', "address": 'Verlengde Gemenelandsweg 119, Paramaribo, Suriname', "phone": '+597 893-9391', "website": ''},
+    'hotel-palacio': {"name": 'Hotel Palacio', "location": 'Paramaribo', "address": 'Heerenstraat 9, Paramaribo, Suriname', "phone": '+597 420-064', "website": 'www.hotelpalacio.net/'},
+    'hotel-peperpot': {"name": 'Hotel Peperpot', "location": 'Commewijne', "address": 'Plantage Peperpot 1, Nieuw-Meerzorg, Commewijne, Suriname', "phone": '+31 202-152-003', "website": 'www.hotelpeperpot.nl/'},
+    'houttuyn-wellness-river-resort': {"name": 'Houttuyn Wellness River Resort', "location": 'Paramaribo', "address": 'Zijstraat Watermuntweg, Paramaribo, Suriname', "phone": '825-2888', "website": 'www.houttuyn.com/'},
+    'huub-explorer-tours': {"name": 'Huub Explorer Tours', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '+597 826-4189', "website": ''},
+    'ias-wooden-and-construction-nv': {"name": 'IAS Wooden and Construction N.V.', "location": 'Wanica', "address": 'Houttuin, Wanica', "phone": '+597 890-3179', "website": ''},
+    'ineffable': {"name": 'INEFFABLE', "location": 'Paramaribo', "address": 'Kleine Waterstraat 1', "phone": '+597 762-4251', "website": ''},
+    'inksane-tattoos': {"name": 'Inksane Tattoos', "location": 'Paramaribo', "address": 'Sohawanweg 30, Nieuw Charlesburg', "phone": '+597 891-3614', "website": ''},
+    'international-mall-of-suriname': {"name": 'International Mall of Suriname', "location": 'Paramaribo', "address": 'Ringweg-Zuid 245, Paramaribo, Suriname', "phone": '+597 445-555', "website": ''},
+    'jacana-amazon-wellness-resort': {"name": 'Jacana Amazon Wellness Resort', "location": 'Paramaribo', "address": 'Commewijnestraat 35, Zorg en Hoop, Suriname', "phone": '531-000', "website": 'jacanaresort.com/'},
+    'joden-savanne': {"name": 'Joden Savanne', "location": 'Para', "address": 'Joden Savanne, Para, Suriname', "phone": '+597 479-272', "website": 'www.jodensavanne.org/'},
+    'joey-ds': {"name": "Joey D's", "location": 'Paramaribo', "address": 'Claudiastraat 13, Paramaribo, Suriname', "phone": '+597 878-4878', "website": ''},
+    'julias-food': {"name": "Julia's Food", "location": 'Paramaribo', "address": 'verl gemenelandsweg 125', "phone": '847-0189', "website": ''},
+    'kasan-snacks': {"name": 'Kasan Snacks', "location": 'Wanica', "address": 'Schotelweg 95', "phone": '+597 857-0950', "website": ''},
+    'kirpalani': {"name": 'Kirpalani', "location": 'Paramaribo', "address": 'Maagden-, Dominee- en J.A.Pengelstraat, Paramaribo, Suriname', "phone": '+597 471-400', "website": 'www.kirpalani.com/en/'},
+    'klm-royal-dutch-airlines': {"name": 'KLM Royal Dutch Airlines', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '+31 20 474 7746', "website": 'www.klm.com/'},
+    'knini-paati': {"name": 'Knini Paati', "location": 'Sipaliwini', "address": 'Boven Suriname', "phone": '+597 885-9355', "website": 'www.knini-paati.com/'},
+    'kodouffi-tapawatra-resort': {"name": 'Kodouffi Tapawatra Resort', "location": 'Sipaliwini', "address": 'Djoemoe, Sipaliwini, Suriname', "phone": '+597 862-7899', "website": 'tapawatra.nl/'},
+    'las-tias': {"name": 'Las Tias', "location": 'Paramaribo', "address": 'Johannesmungrastraat 75, Paramaribo, Suriname', "phone": '434-162', "website": ''},
+    'lashlift-suriname': {"name": 'Lashlift Suriname', "location": 'Paramaribo', "address": 'Trefbalstraat', "phone": '+597 859-0353', "website": ''},
+    'lilis': {"name": "Lili's", "location": 'Paramaribo', "address": 'Kuldipsinghstraat 21', "phone": '875-7991', "website": 'shoplilis.com'},
+    'lioness-beauty-effects': {"name": 'Lioness Beauty Effects', "location": 'Paramaribo', "address": 'Ramlakhanstraat 58', "phone": '864-9076', "website": 'www.fresha.com/nl/a/lioness-beauty-effects-studio-more-paramaribo-zodiacstraat-b4a26fug/booking'},
+    'mickis-palace-noord': {"name": "Micki's Palace Noord", "location": 'Paramaribo', "address": 'Hecubastraat 57', "phone": '+597 892-7537', "website": ''},
+    'mickis-palace-zuid': {"name": "Micki's Palace Zuid", "location": 'Paramaribo', "address": 'Bindastraat 69, Paramaribo, Suriname', "phone": '+597 857-8181', "website": ''},
+    'mingle-paramaribo': {"name": 'Mingle Paramaribo', "location": 'Paramaribo', "address": 'Ringweg-Zuid 245, Paramaribo, Suriname', "phone": '+597 858-9988', "website": 'www.mingleparamaribo.com/'},
+    'mokisa-busidataa-osu-nv': {"name": 'Mokisa Busidataa Osu N.V.', "location": 'Paramaribo', "address": 'Dr. Sophie Redmondstraat 231', "phone": '+597 491-900', "website": ''},
+    'moments-restaurant': {"name": "Moment's Restaurant", "location": 'Paramaribo', "address": 'Bombaystraat 21a', "phone": '492-917', "website": ''},
+    'museum-bakkie': {"name": 'Museum Bakkie', "location": 'Commewijne', "address": 'Plantage Bakkie #6, Reijnsdorp, Suriname', "phone": '+597 865-4130', "website": 'museumbakkie.com/'},
+    'nv-threefold-quality-system-support': {"name": 'N.V. Threefold Quality System Support', "location": 'Paramaribo', "address": 'Taspalmstraat 14', "phone": '+597 539-660', "website": ''},
+    'nv-zing-manufacturing': {"name": 'N.V. ZING Manufacturing', "location": 'Paramaribo', "address": 'Aquariusstraat 96-98', "phone": '+597 864-9098', "website": ''},
+    'oxygen-resort': {"name": 'Oxygen Resort', "location": 'Paramaribo', "address": 'Bombaystraat 21, Paramaribo, Suriname', "phone": '+597 441-819', "website": 'oxygen-resort.com/'},
+    'pane-e-vino': {"name": 'Pane E Vino', "location": 'Paramaribo', "address": 'Van Sommelsdijckstraat 19, Paramaribo, Suriname', "phone": '+597 520-423', "website": ''},
+    'pannekoek-en-poffertjes-cafe': {"name": 'Pannekoek en Poffertjes Cafe', "location": 'Paramaribo', "address": 'Van Sommelsdijckstraat 11, Paramaribo, Suriname', "phone": '+597 422-914', "website": ''},
+    'papillon-crafts': {"name": 'Papillon Crafts', "location": 'Paramaribo', "address": 'Sangrafoestraat 6', "phone": '+597 885-1848', "website": ''},
+    'passion-food-and-wines': {"name": 'Passion Food and Wines', "location": 'Paramaribo', "address": 'Kolonistenweg 39, Paramaribo, Suriname', "phone": '840-8613', "website": 'passiefoodandwines.com/passie-food/'},
+    'peperpot-nature-park': {"name": 'Peperpot Nature Park', "location": 'Commewijne', "address": 'Hadji Iding Soemitaweg 32, Nieuw Meerzorg, Commewijne, Suriname', "phone": '+597 354-547', "website": 'peperpotnaturepark.com/'},
+    'pinkmoon-suriname': {"name": 'Pinkmoon Suriname', "location": 'Paramaribo', "address": 'Johannes Mungrastraat', "phone": '891-3465', "website": ''},
+    'plantage-frederiksdorp': {"name": 'Plantage Frederiksdorp', "location": 'Commewijne', "address": 'Frederiksdorp 1, Margrita, Suriname', "phone": '820-0359', "website": ''},
+    'readytex-souvenirs-and-crafts': {"name": 'Readytex Souvenirs and Crafts', "location": 'Paramaribo', "address": 'Maagdenstraat 44, Paramaribo, Suriname', "phone": '893-3060', "website": 'www.readytexcrafts.com/'},
+    'recreatie-oord-carolina-kreek': {"name": 'Recreatie Oord Carolina Kreek', "location": 'Para', "address": 'Sabakoe, Suriname', "phone": '853-2977', "website": ''},
+    'rich-skin': {"name": 'Rich Skin', "location": 'Paramaribo', "address": 'Jainarain Sohansinghlaan 43', "phone": '+597 722-1170', "website": ''},
+    'rock-fitness-paramaribo': {"name": 'Rock Fitness Paramaribo', "location": 'Paramaribo', "address": 'Ringwegnoord 36, Paramaribo', "phone": '+597 828-0080', "website": ''},
+    'rogom-farm-nv': {"name": 'Rogom Farm N.V.', "location": 'Wanica', "address": 'Ds. Martin Luther Kingweg #532', "phone": '+597 888-0105', "website": ''},
+    'royal-brasil-hotel': {"name": 'Royal Brasil Hotel', "location": 'Paramaribo', "address": 'William Kemble straat #7, Paramaribo', "phone": '+597 855-5585', "website": 'royalbrasilhotel.com'},
+    'royal-breeze-hotel-paramaribo': {"name": 'Royal Breeze Hotel Paramaribo', "location": 'Paramaribo', "address": 'Waterkant 78, Paramaribo, Suriname', "phone": '421-640', "website": ''},
+    'royal-rose-yoni-spa': {"name": 'Royal Rose Yoni Spa', "location": 'Paramaribo', "address": 'Blaw Kepankistraat 22, Paramaribo', "phone": '871-1564', "website": 'www.fresha.com/a/royal-rose-yoni-spa-paramaribo-blaw-kepankistraat-22-t8sftqpc'},
+    'royal-spa': {"name": 'Royal Spa', "location": 'Paramaribo', "address": 'Toevluchtweg 49, Paramaribo, Suriname', "phone": '+597 892-9621', "website": ''},
+    'royal-torarica': {"name": 'Royal Torarica', "location": 'Paramaribo', "address": 'Kleine Waterstraat 10, Paramaribo, Suriname', "phone": '+597 473-500', "website": 'royaltorarica.com/en'},
+    'royal-wellness-lounge': {"name": 'Royal Wellness Lounge', "location": 'Paramaribo', "address": 'Commissaris Weythingweg 565A, Paramaribo, Suriname', "phone": '754-7357', "website": ''},
+    'seen-stories': {"name": 'Seen Stories', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '+597 821-5175', "website": 'www.seen-stories.com/'},
+    'shlx-collection': {"name": 'SHLX Collection', "location": 'Paramaribo', "address": 'Verlengde Gemenlandsweg 164, Paramaribo, Suriname', "phone": '870-2464', "website": 'www.shlx.shop/'},
+    'sleeqe': {"name": 'Sleeqe', "location": 'Wanica', "address": 'Kwattaweg 670A', "phone": '+597 869-7141', "website": ''},
+    'smoothieskin': {"name": 'SmoothieSkin', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '875-2677', "website": ''},
+    'souposo': {"name": 'Souposo', "location": 'Paramaribo', "address": 'Costerstraat 20a, Paramaribo, Suriname', "phone": '+597 420-351', "website": ''},
+    'stichting-shiatsu-massage': {"name": 'Stichting Shiatsu Massage', "location": 'Paramaribo', "address": 'Dr. Sophie Redmondstraat 167', "phone": '+597 871-9661', "website": ''},
+    'stukaderen-in-nederland': {"name": 'Stukaderen in Nederland', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": 'stukaderenin.nl'},
+    'suraniyat': {"name": 'Suraniyat', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '+597 817-3928', "website": 'www.suraniyat.com'},
+    'surimami-store': {"name": 'Surimami Store', "location": 'Paramaribo', "address": 'Kleine Waterstraat 1', "phone": '+31 647-750-700', "website": ''},
+    'surinam-airways': {"name": 'Surinam Airways', "location": 'Paramaribo', "address": 'Mr. Jagernath Lachmonstraat, Paramaribo, Suriname', "phone": '+597 465-700', "website": 'www.flyslm.com/'},
+    'sushi-ya': {"name": 'Sushi-Ya', "location": 'Paramaribo', "address": 'Van Sommelsdijckstraat 21, Paramaribo, Suriname', "phone": '+597 475-450', "website": ''},
+    'switi-momenti-candles-crafts': {"name": 'Switi Momenti Candles & Crafts', "location": 'Paramaribo', "address": 'Grote Combeweg / Van Roseveltkade', "phone": '877-3401', "website": ''},
+    'talking-prints-concept-store': {"name": 'Talking Prints Concept Store', "location": 'Paramaribo', "address": 'Kleine Waterstraat 1', "phone": '840-8966', "website": 'talkingprints.org'},
+    'taman-indah-resort': {"name": 'Taman Indah Resort', "location": 'Commewijne', "address": 'Djojosoepartoweg 140, Tamanredjo', "phone": '+597 356-685', "website": ''},
+    'the-beauty-bar': {"name": 'The Beauty Bar', "location": 'Paramaribo', "address": 'Tourtonnelaan 181, Paramaribo, Suriname', "phone": '+597 854-9280', "website": 'beautybar.sr/'},
+    'the-coffee-box': {"name": 'The Coffee Box', "location": 'Paramaribo', "address": 'Wilhelminastraat 66-68', "phone": '498-949', "website": ''},
+    'the-freelance-scout': {"name": 'The Freelance Scout', "location": 'Paramaribo', "address": 'Ormosiastraat 2A', "phone": '+597 824-2012', "website": ''},
+    'the-golden-truly-hotel': {"name": 'The Golden Truly Hotel', "location": 'Paramaribo', "address": 'Jozef Israelstraat, Paramaribo, Suriname', "phone": '+597 454-249', "website": ''},
+    'the-house-of-beauty': {"name": 'The House of Beauty', "location": 'Paramaribo', "address": 'Kashmirstraat 164', "phone": '+597 843-3213', "website": ''},
+    'the-old-attic': {"name": 'The Old Attic', "location": 'Paramaribo', "address": 'Paterweidmann straat 25', "phone": '846-8841', "website": ''},
+    'the-uma-store': {"name": 'The Uma Store', "location": 'Paramaribo', "address": 'Kleine Waterstraat 1, Paramaribo, Suriname', "phone": '+597 861-0540', "website": ''},
+    'the-waxing-booth': {"name": 'The Waxing Booth and More by SG', "location": 'Wanica', "address": 'Ramanandproject 2#1, Garnizoenspad', "phone": '+597 815-9594', "website": ''},
+    'the-wonderlab-su': {"name": 'The WonderLab Su', "location": 'Paramaribo', "address": 'Louis Goveastraat', "phone": '+597 854-5169', "website": ''},
+    'thermen-hermitage-turkish-bath-beautycenter': {"name": 'Thermen Hermitage Turkish Bath & Beautycenter', "location": 'Paramaribo', "address": 'Previenlaan 78, Uitvlugt, Paramaribo, Suriname', "phone": '439-800', "website": ''},
+    'timeless-barber-and-nail-shop': {"name": 'Timeless Barber and Nail Shop', "location": 'Paramaribo', "address": 'Jan Besar Sarno Rebostraat #10, Paramaribo, Suriname', "phone": '710-5162', "website": 'timelessbarbershop.sr'},
+    'tiny-house-tropical-appartment': {"name": 'Tiny House Tropical Appartment', "location": 'Wanica', "address": 'Grijskwarts straat 10, Domburg', "phone": '+597 769-9407', "website": ''},
+    'tio-boto-eco-resort': {"name": 'Tio Boto Eco Resort', "location": 'Paramaribo', "address": 'Parrijsstraat 10', "phone": '+597 875-8790', "website": ''},
+    'torarica-resort': {"name": 'Torarica Resort', "location": 'Paramaribo', "address": 'Mr. L.J. Rietbergplein 1, Paramaribo, Suriname', "phone": '471-500', "website": 'toraricaresort.com/en'},
+    'unlimited-suriname-tours': {"name": 'Unlimited Suriname Tours', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '+597 879-5436', "website": 'www.unlimitedsuriname.com'},
+    'unlocked-candles': {"name": 'Unlocked Candles', "location": 'Paramaribo', "address": 'Hk. Hendrik & Orlandostraat #2', "phone": '+597 873-2131', "website": ''},
+    'villa-famiri': {"name": 'Villa Famiri', "location": 'Paramaribo', "address": 'Dr. Axwijkstraat 76, Paramaribo', "phone": '450-230', "website": 'www.villafamiri.com/'},
+    'waterland-suites': {"name": 'Waterland Suites', "location": 'Paramaribo', "address": 'Waterlandstraat 17, Paramaribo, Suriname', "phone": '+597 530-151', "website": ''},
+    'wayfinders-exclusive-n-v': {"name": 'Wayfinders Exclusive N.V.', "location": 'Paramaribo', "address": 'Calcutta straat 82', "phone": '+597 766-4837', "website": ''},
+    'woodwonders-suriname': {"name": 'Woodwonders Suriname', "location": 'Commewijne', "address": 'Weg Naar Peperpot 26', "phone": '+597 866-7104', "website": ''},
+    'yoga-peetha-happiness-centre': {"name": 'Yoga Peetha Happiness Centre', "location": 'Paramaribo', "address": 'Picassostraat 113', "phone": '+597 855-9779', "website": ''},
+    'zeelandia-suites': {"name": 'Zeelandia Suites', "location": 'Paramaribo', "address": 'Kleine Waterstraat 1', "phone": '+597 840-8613', "website": ''},
+    'zeepfabriek-joab': {"name": 'Zeepfabriek JOAB', "location": 'Paramaribo', "address": 'Van Roosevelt kade Prasara 1', "phone": '+597 879-7165', "website": ''},
+    'zeg-ijsje': {"name": 'Zeg Ijsje', "location": 'Paramaribo', "address": 'Marygoldstraat', "phone": '+597 867-0993', "website": ''},
+    'zus-zo-cafe': {"name": 'Zus & Zo Cafe', "location": 'Paramaribo', "address": 'Grote Combeweg 13a, Paramaribo, Suriname', "phone": '+597 520-904', "website": 'www.zusenzosuriname.com/'},
+}
+
+def _biz_url(b):
+    import re as _re
+    w = b.get('website', '')
+    if w and _re.match(r'^(https?://|www\.)[^\s@+]{4,}\.[a-z]{2,}', w, _re.I):
+        return ('https://' + w) if not w.startswith('http') else w
+    return f"https://www.google.com/search?q={urllib.parse.quote(b['name'] + ' Suriname')}"
+
+_IMGS = {
+    "villa-famiri":             "https://www.villafamiri.com/wp-content/uploads/2023/04/FF6E67AF-3FEA-4518-A212-432AC27DB0C3_1_201_a-1-605x465.jpeg",
+    "hotel-peperpot":           "https://hotelpeperpot.nl/wp-content/uploads/2024/02/66e837d5-13a7-4712-8766-fc69fcc52b4c-scaled.jpg",
+    "bronbella-villa-residence":"https://bronbellavillaresidence.com/wp-content/uploads/2024/08/Bronbella_website-7-1024x683.jpg",
+    "ford-zeelandia":           "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Fort_Zeelandia.jpg/1280px-Fort_Zeelandia.jpg",
+    "joden-savanne":            "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Jodensavanne.jpg/1280px-Jodensavanne.jpg",
+    "museum-bakkie":            "https://museumbakkie.com/wp-content/uploads/2022/02/museum-bakkie-sluis.jpg",
+    "cola-kreek-recreatiepark": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Suriname_Colakreek.jpg/1280px-Suriname_Colakreek.jpg",
+    "akira-overwater-resort":   "https://upload.wikimedia.org/wikipedia/commons/2/22/Bigi_Pan_Nature_Reserve_%282720197032%29.jpg",
+    "unlimited-suriname-tours": "https://unlimitedsuriname.com/wp-content/uploads/2025/04/knini-jungle-tours-suriname.png",
+    "knini-paati":              "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Suriname_River.jpg/1280px-Suriname_River.jpg",
+    "hermitage-mall":           "https://hermitage-mall.com/wp-content/uploads/2018/03/HermitageMall-building.jpg",
+    "lilis":                    "https://cdn.shopify.com/s/files/1/0526/9137/0149/files/Bridal_2a85f0ad-2db8-4a8a-ac54-3e090625d4de.jpg",
+    "timeless-barber-and-nail-shop": "https://timelessbarbershop.sr/wp-content/uploads/2025/02/IMG_1731-768x1024.jpg",
+    "bitdynamics":              "https://bitdynamics.sr/wp-content/uploads/2024/07/parbobier.webp",
+    "seen-stories":             "https://static1.squarespace.com/static/67d096a1ab6b7b756d0e779b/t/67d0da6e5c71e80ba34e661e/1741740674025/image.png",
+    "surinam-airways":          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PZ-TCN_B737_Surinam_50Years_4x6_6299_%2814223454809%29.jpg/1280px-PZ-TCN_B737_Surinam_50Years_4x6_6299_%2814223454809%29.jpg",
+}
+
+_F = {
+    "hotel_lux":   "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80",
+    "hotel_eco":   "https://images.unsplash.com/photo-1596178065887-1198b6148b2b?w=800&q=80",
+    "hotel_bou":   "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80",
+    "hotel_gen":   "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80",
+    "restaurant":  "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80",
+    "cafe":        "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
+    "bar":         "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+    "pizza":       "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80",
+    "sushi":       "https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=800&q=80",
+    "food":        "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
+    "jungle":      "https://images.unsplash.com/photo-1564038406-d99ca4d96b8a?w=800&q=80",
+    "river":       "https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80",
+    "nature_park": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&q=80",
+    "museum":      "https://images.unsplash.com/photo-1575223970966-76ae61ee7838?w=800&q=80",
+    "historical":  "https://images.unsplash.com/photo-1554232456-8727aae0cfa4?w=800&q=80",
+    "mall":        "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&q=80",
+    "boutique":    "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80",
+    "jewelry":     "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80",
+    "candles":     "https://images.unsplash.com/photo-1603905462088-6a8dd77cddc5?w=800&q=80",
+    "crafts":      "https://images.unsplash.com/photo-1561136594-7f68413baa99?w=800&q=80",
+    "liquor":      "https://images.unsplash.com/photo-1586899028174-e7098604235b?w=800&q=80",
+    "supermarket": "https://images.unsplash.com/photo-1534723452862-4c874986ebad?w=800&q=80",
+    "skincare":    "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=800&q=80",
+    "spa":         "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80",
+    "hair":        "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80",
+    "barber":      "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80",
+    "fitness":     "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80",
+    "tattoo":      "https://images.unsplash.com/photo-1607346705504-2558edcbb9d9?w=800&q=80",
+    "yoga":        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80",
+    "beauty":      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80",
+    "airline":     "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80",
+    "tech":        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80",
+    "media":       "https://images.unsplash.com/photo-1526961718745-8b79e5dc7e14?w=800&q=80",
+    "travel":      "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80",
+    "finance":     "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80",
+    "massage":     "https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=800&q=80",
+    "wellness":    "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80",
+    "services":    "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
+    "construction":"https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80",
+}
+
+_SLUG_IMG = {
+    "torarica-resort": _F["hotel_lux"], "royal-torarica": _F["hotel_lux"],
+    "eco-torarica": _F["hotel_eco"], "courtyard-by-marriott": _F["hotel_lux"],
+    "jacana-amazon-wellness-resort": _F["hotel_eco"], "houttuyn-wellness-river-resort": _F["hotel_eco"],
+    "oxygen-resort": _F["hotel_eco"], "holland-lodge": _F["hotel_bou"],
+    "hotel-palacio": _F["hotel_bou"], "eco-resort-miano": _F["hotel_eco"],
+    "royal-brasil-hotel": _F["hotel_bou"], "royal-breeze-hotel-paramaribo": _F["hotel_bou"],
+    "taman-indah-resort": _F["hotel_eco"], "the-golden-truly-hotel": _F["hotel_gen"],
+    "tiny-house-tropical-appartment": _F["hotel_bou"], "waterland-suites": _F["hotel_bou"],
+    "zeelandia-suites": _F["hotel_bou"],
+    "a-la-john": _F["restaurant"], "ac-bar-restaurant": _F["bar"],
+    "baka-foto-restaurant": _F["restaurant"], "bar-zuid": _F["bar"],
+    "bori-tori": _F["food"], "chi-min": _F["restaurant"],
+    "de-spot": _F["restaurant"], "de-verdieping": _F["bar"],
+    "el-patron-latin-grill": _F["restaurant"], "elines-pizza": _F["pizza"],
+    "garden-of-eden": _F["restaurant"], "goe-thai-noodle-bar": _F["restaurant"],
+    "hard-rock-cafe-suriname": _F["bar"], "joey-ds": _F["food"],
+    "julias-food": _F["food"], "kasan-snacks": _F["food"],
+    "las-tias": _F["restaurant"], "mickis-palace-noord": _F["restaurant"],
+    "mickis-palace-zuid": _F["restaurant"], "mingle-paramaribo": _F["bar"],
+    "moments-restaurant": _F["restaurant"], "pane-e-vino": _F["restaurant"],
+    "pannekoek-en-poffertjes-cafe": _F["cafe"], "passion-food-and-wines": _F["restaurant"],
+    "rogom-farm-nv": _F["food"], "souposo": _F["food"],
+    "sushi-ya": _F["sushi"], "the-coffee-box": _F["cafe"],
+    "zeg-ijsje": _F["cafe"], "zus-zo-cafe": _F["cafe"],
+    "afobaka-resort": _F["river"], "huub-explorer-tours": _F["jungle"],
+    "kodouffi-tapawatra-resort": _F["hotel_eco"], "recreatie-oord-carolina-kreek": _F["river"],
+    "tio-boto-eco-resort": _F["hotel_eco"], "wayfinders-exclusive-n-v": _F["jungle"],
+    "het-koto-museum": _F["museum"], "peperpot-nature-park": _F["nature_park"],
+    "plantage-frederiksdorp": _F["historical"],
+    "9173": _F["supermarket"], "bed-bath-more-bbm": _F["boutique"],
+    "divergent-body-jewelry": _F["jewelry"], "dj-liquor-store": _F["liquor"],
+    "from-me-to-me": _F["boutique"], "galaxy": _F["boutique"],
+    "h-garden": _F["boutique"], "honeycare": _F["skincare"],
+    "international-mall-of-suriname": _F["mall"], "kirpalani": _F["mall"],
+    "nv-zing-manufacturing": _F["crafts"], "papillon-crafts": _F["crafts"],
+    "readytex-souvenirs-and-crafts": _F["crafts"], "shlx-collection": _F["boutique"],
+    "sleeqe": _F["boutique"], "smoothieskin": _F["skincare"],
+    "suraniyat": _F["crafts"], "switi-momenti-candles-crafts": _F["candles"],
+    "talking-prints-concept-store": _F["crafts"], "the-old-attic": _F["boutique"],
+    "the-uma-store": _F["boutique"], "unlocked-candles": _F["candles"],
+    "woodwonders-suriname": _F["crafts"], "zeepfabriek-joab": _F["skincare"],
+    "bloom-wellness-cafe": _F["wellness"], "carpe-diem-massagepraktijk": _F["massage"],
+    "delete-beauty-lounge": _F["beauty"], "dli-travel-consultancy": _F["travel"],
+    "eaglemedia": _F["media"], "ec-operations": _F["services"],
+    "ekay-media": _F["media"], "fatum": _F["finance"],
+    "fly-allways": _F["airline"], "hairstudio-32": _F["hair"],
+    "handmade-by-farrell-nv": _F["beauty"], "ias-wooden-and-construction-nv": _F["construction"],
+    "ineffable": _F["services"], "inksane-tattoos": _F["tattoo"],
+    "klm-royal-dutch-airlines": _F["airline"], "lashlift-suriname": _F["beauty"],
+    "lioness-beauty-effects": _F["beauty"], "mokisa-busidataa-osu-nv": _F["wellness"],
+    "nv-threefold-quality-system-support": _F["services"], "pinkmoon-suriname": _F["beauty"],
+    "rich-skin": _F["skincare"], "rock-fitness-paramaribo": _F["fitness"],
+    "royal-rose-yoni-spa": _F["spa"], "royal-spa": _F["spa"],
+    "royal-wellness-lounge": _F["wellness"], "stichting-shiatsu-massage": _F["massage"],
+    "stukaderen-in-nederland": _F["construction"], "surimami-store": _F["boutique"],
+    "the-beauty-bar": _F["beauty"], "the-freelance-scout": _F["services"],
+    "the-house-of-beauty": _F["beauty"], "the-waxing-booth": _F["beauty"],
+    "the-wonderlab-su": _F["wellness"], "thermen-hermitage-turkish-bath-beautycenter": _F["spa"],
+    "yoga-peetha-happiness-centre": _F["yoga"],
+}
+
+def _biz_img(slug):
+    return _IMGS.get(slug) or _SLUG_IMG.get(slug) or _F["services"]
+
+def _make_biz(slug):
+    b = _BIZ.get(slug)
+    if not b: return None
+    return {"name": b["name"], "area": b.get("location", "Suriname"),
+            "address": b.get("address", ""), "phone": b.get("phone", ""),
+            "url": _biz_url(b), "image": _biz_img(slug)}
+
+RESTAURANTS = [b for slug in ["a-la-john","ac-bar-restaurant","baka-foto-restaurant","bar-zuid","bori-tori","chi-min","de-spot","de-verdieping","el-patron-latin-grill","elines-pizza","garden-of-eden","goe-thai-noodle-bar","hard-rock-cafe-suriname","joey-ds","julias-food","kasan-snacks","las-tias","mickis-palace-noord","mickis-palace-zuid","mingle-paramaribo","moments-restaurant","pane-e-vino","pannekoek-en-poffertjes-cafe","passion-food-and-wines","rogom-farm-nv","souposo","sushi-ya","the-coffee-box","zeg-ijsje","zus-zo-cafe"] for b in [_make_biz(slug)] if b]
+
+HOTELS = [b for slug in ["bronbella-villa-residence","courtyard-by-marriott","eco-resort-miano","eco-torarica","holland-lodge","hotel-palacio","hotel-peperpot","houttuyn-wellness-river-resort","jacana-amazon-wellness-resort","oxygen-resort","royal-brasil-hotel","royal-breeze-hotel-paramaribo","royal-torarica","taman-indah-resort","the-golden-truly-hotel","tiny-house-tropical-appartment","torarica-resort","villa-famiri","waterland-suites","zeelandia-suites"] for b in [_make_biz(slug)] if b]
+
+SIGHTSEEING = [b for slug in ["ford-zeelandia","het-koto-museum","peperpot-nature-park","joden-savanne","plantage-frederiksdorp","museum-bakkie","cola-kreek-recreatiepark"] for b in [_make_biz(slug)] if b]
+
+ADVENTURES_BIZ = [b for slug in ["afobaka-resort","akira-overwater-resort","huub-explorer-tours","knini-paati","kodouffi-tapawatra-resort","recreatie-oord-carolina-kreek","tio-boto-eco-resort","unlimited-suriname-tours","wayfinders-exclusive-n-v"] for b in [_make_biz(slug)] if b]
+
+SHOPPING = [b for slug in ["9173","bed-bath-more-bbm","divergent-body-jewelry","dj-liquor-store","from-me-to-me","galaxy","h-garden","hermitage-mall","honeycare","international-mall-of-suriname","kirpalani","lilis","nv-zing-manufacturing","papillon-crafts","readytex-souvenirs-and-crafts","shlx-collection","sleeqe","smoothieskin","suraniyat","switi-momenti-candles-crafts","talking-prints-concept-store","the-old-attic","the-uma-store","unlocked-candles","woodwonders-suriname","zeepfabriek-joab"] for b in [_make_biz(slug)] if b]
+
+SERVICES = [b for slug in ["bitdynamics","bloom-wellness-cafe","carpe-diem-massagepraktijk","delete-beauty-lounge","dli-travel-consultancy","eaglemedia","ec-operations","ekay-media","fatum","fly-allways","hairstudio-32","handmade-by-farrell-nv","ias-wooden-and-construction-nv","ineffable","inksane-tattoos","klm-royal-dutch-airlines","lashlift-suriname","lioness-beauty-effects","mokisa-busidataa-osu-nv","nv-threefold-quality-system-support","pinkmoon-suriname","rich-skin","rock-fitness-paramaribo","royal-rose-yoni-spa","royal-spa","royal-wellness-lounge","seen-stories","stichting-shiatsu-massage","stukaderen-in-nederland","surimami-store","surinam-airways","the-beauty-bar","the-freelance-scout","the-house-of-beauty","the-waxing-booth","the-wonderlab-su","thermen-hermitage-turkish-bath-beautycenter","timeless-barber-and-nail-shop","yoga-peetha-happiness-centre"] for b in [_make_biz(slug)] if b]
+
+# (legacy stubs removed — RESTAURANTS / HOTELS now come from JSON above)
+# Old stub lists removed — all listings now sourced from JSON above
 
 CME_FALLBACK = [
     {"currency": "USD", "name": "US Dollar",       "buy": "37.50", "sell": "37.65", "flag": "🇺🇸"},
@@ -429,6 +674,8 @@ def nav_html(active="home"):
         ("index.html#activities", "Activities"),
         ("index.html#dining",     "Eat & Drink"),
         ("index.html#hotels",     "Stay"),
+        ("shopping.html",         "Shopping"),
+        ("services.html",         "Services"),
         ("currency.html",         "Currency"),
         ("news.html",             "News"),
     ]
@@ -468,6 +715,8 @@ def footer_html():
           <li><a href="activities.html"  class="hover:text-white transition">Activities</a></li>
           <li><a href="restaurants.html" class="hover:text-white transition">Eat &amp; Drink</a></li>
           <li><a href="hotels.html"      class="hover:text-white transition">Hotels &amp; Lodges</a></li>
+          <li><a href="shopping.html"    class="hover:text-white transition">Shopping</a></li>
+          <li><a href="services.html"    class="hover:text-white transition">Services</a></li>
           <li><a href="currency.html"    class="hover:text-white transition">Currency Rates</a></li>
           <li><a href="news.html"        class="hover:text-white transition">Suriname News</a></li>
         </ul>
@@ -580,24 +829,34 @@ def activity_card_icon(act):
 def poi_card(item, badge_key="cuisine"):
     url   = item.get("url", "#")
     badge = item.get(badge_key) or item.get("cuisine") or item.get("category", "")
-    desc  = item.get("desc") or item.get("description") or ""
     area  = item.get("area", "Suriname")
+    img   = item.get("image", "")
+    phone = item.get("phone", "")
     bg, fg = ("var(--mint)", "var(--forest2)") if badge_key == "cuisine" else ("#fff3e8", "#c05621")
     badge_html = f'<span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:{bg};color:{fg}">{html_lib.escape(badge)}</span>' if badge else ""
+    img_html = (f'<div class="w-full h-44 overflow-hidden rounded-t-2xl -mx-0 -mt-0">'
+                f'<img src="{img}" alt="{html_lib.escape(item["name"])}" loading="lazy" '
+                f'class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" '
+                f'onerror="this.parentElement.style.background=\'#2D6A4F\';this.style.display=\'none\'">'
+                f'</div>') if img else ""
+    phone_html = f'<span class="text-gray-400 text-xs">&#128222; {html_lib.escape(phone)}</span>' if phone else ""
     return f"""
-<a href="{url}" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 card-hover flex flex-col gap-2">
-  <div class="flex items-start justify-between gap-2">
-    <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">{html_lib.escape(item['name'])}</h4>
-    {badge_html}
-  </div>
-  <p class="text-gray-500 text-sm leading-relaxed flex-1">{html_lib.escape(desc)}</p>
-  <div class="flex items-center justify-between mt-1">
-    <p class="text-gray-400 text-xs">&#128205; {html_lib.escape(area)}, Suriname</p>
-    <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
+<a href="{url}" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+  {img_html}
+  <div class="p-4 flex flex-col gap-2 flex-1">
+    <div class="flex items-start justify-between gap-2">
+      <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">{html_lib.escape(item['name'])}</h4>
+      {badge_html}
+    </div>
+    <div class="flex items-center justify-between mt-auto pt-2">
+      <p class="text-gray-400 text-xs">&#128205; {html_lib.escape(area)}</p>
+      {phone_html}
+      <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
+    </div>
   </div>
 </a>"""
 
-def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file=""):
+def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html=""):
     return f"""{PAGE_HEAD}
   <title>{title} &mdash; ExploreSuriname.com</title>
   <meta name="description" content="{html_lib.escape(meta_desc)}">
@@ -615,6 +874,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     {cards_html}
   </div>
+  {extra_html}
 </main>
 {footer_html()}
 </body>
@@ -650,7 +910,7 @@ def build_index(restaurants, hotels, news_preview):
   </div>
   <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50 text-xs">
     <span>Scroll to explore</span>
-    <svg class="w-4 h-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
   </div>
 </section>
 <section style="background:var(--forest)" class="text-white py-7">
@@ -728,15 +988,35 @@ def build_index(restaurants, hotels, news_preview):
 
 def build_nature_page():
     cards = "\n".join(nature_card(s) for s in NATURE_SPOTS)
+    sight_cards = "\n".join(poi_card(b) for b in SIGHTSEEING)
+    extra = f"""
+<div class="mt-16">
+  <div class="text-center mb-10">
+    <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Must-See</p>
+    <h2 class="serif text-3xl font-bold text-gray-900 mb-2">Sightseeing &amp; Attractions</h2>
+    <p class="text-gray-500 text-base max-w-xl mx-auto">Historic forts, museums and natural landmarks you can visit in and around Paramaribo.</p>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{sight_cards}</div>
+</div>""" if SIGHTSEEING else ""
     return listing_page("Nature & Parks", f"{len(NATURE_SPOTS)} destinations across Suriname's pristine wilderness",
         "Discover all of Suriname's nature reserves, national parks and natural wonders.",
-        NATURE_SPOTS, cards, page_file="nature.html")
+        NATURE_SPOTS, cards, page_file="nature.html", extra_html=extra)
 
 def build_activities_page():
     cards = "\n".join(activity_card_rich(a) for a in ACTIVITIES)
+    adv_cards = "\n".join(poi_card(b) for b in ADVENTURES_BIZ)
+    extra = f"""
+<div class="mt-16">
+  <div class="text-center mb-10">
+    <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Book Your Adventure</p>
+    <h2 class="serif text-3xl font-bold text-gray-900 mb-2">Tour Operators &amp; Resorts</h2>
+    <p class="text-gray-500 text-base max-w-xl mx-auto">Eco-lodges, jungle camps and tour companies to make your Suriname adventure happen.</p>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{adv_cards}</div>
+</div>""" if ADVENTURES_BIZ else ""
     return listing_page("Activities", f"{len(ACTIVITIES)} things to do in Suriname",
         "Find the best activities and adventures in Suriname.",
-        ACTIVITIES, cards, bg_color="var(--forest2)", page_file="activities.html")
+        ACTIVITIES, cards, bg_color="var(--forest2)", page_file="activities.html", extra_html=extra)
 
 def build_restaurants_page(restaurants):
     cards = "\n".join(poi_card(r, "cuisine") for r in restaurants)
@@ -749,6 +1029,18 @@ def build_hotels_page(hotels):
     return listing_page("Hotels & Lodges", f"{len(hotels)} places to stay in Suriname",
         "Find the best hotels, eco-lodges and jungle retreats across Suriname.",
         hotels, cards, bg_color="#c05621", page_file="hotels.html")
+
+def build_shopping_page():
+    cards = "\n".join(poi_card(b) for b in SHOPPING)
+    return listing_page("Shopping", f"{len(SHOPPING)} shops, malls & boutiques in Suriname",
+        "Find the best malls, boutiques, craft stores and souvenirs in Suriname.",
+        SHOPPING, cards, bg_color="#7c3aed", page_file="shopping.html")
+
+def build_services_page():
+    cards = "\n".join(poi_card(b) for b in SERVICES)
+    return listing_page("Services", f"{len(SERVICES)} service providers in Suriname",
+        "Beauty salons, wellness centres, travel agencies, airlines and professional services in Suriname.",
+        SERVICES, cards, bg_color="#0369a1", page_file="services.html")
 
 def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated):
     import json as _json
@@ -833,7 +1125,7 @@ doConvert();"""
     <p class="text-amber-900 text-sm leading-relaxed">
       <strong class="text-amber-800">&#128161; What&apos;s the difference?</strong>
       <strong>CBVS</strong> is the Central Bank of Suriname&apos;s official reference rate used for banking.
-      <strong>CME</strong> (Cambio Money Exchange) shows cash rates at local exchange offices — what you actually get when exchanging banknotes.
+      <strong>CME</strong> (Cambio Money Exchange) shows cash rates at local exchange offices &mdash; what you actually get when exchanging banknotes.
       &ldquo;We Buy&rdquo; is what they pay when you sell foreign currency; &ldquo;We Sell&rdquo; is what you pay to buy foreign currency.
     </p>
   </div>
@@ -1000,6 +1292,8 @@ out center 20;"""
         "activities.html":  build_activities_page(),
         "restaurants.html": build_restaurants_page(restaurants),
         "hotels.html":      build_hotels_page(hotels),
+        "shopping.html":    build_shopping_page(),
+        "services.html":    build_services_page(),
         "currency.html":    build_currency_page(cme_rates, cme_live, cme_updated,
                                                 cbvs_rates, cbvs_live, cbvs_updated),
         "news.html":        build_news(articles),
@@ -1009,4 +1303,4 @@ out center 20;"""
             f.write(content)
         print(f"      {filename} — done")
 
-    print("\n  All done! 7 pages generated.")
+    print("\n  All done! 9 pages generated.")
