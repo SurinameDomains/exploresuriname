@@ -1,0 +1,36 @@
+name: Update News
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # Every day at 06:00 UTC (02:00 Suriname time)
+  workflow_dispatch:        # Also allow manual trigger from GitHub UI
+
+permissions:
+  contents: write           # Needed to commit index.html back to the repo
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install feedparser
+
+      - name: Generate site
+        run: python generate.py
+
+      - name: Commit and push updated index.html
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --staged --quiet || git commit -m "Auto-update $(date -u '+%Y-%m-%d %H:%M') UTC"
+          git push
