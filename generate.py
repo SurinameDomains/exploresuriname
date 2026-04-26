@@ -45,7 +45,7 @@ NATURE_SPOTS = [
         "tags": ["Hiking", "Waterfall", "Views"],
         "image": "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&q=80",
         "fact": "Howler monkeys, toucans & jaguars",
-        "url": "https://www.stinasu.sr/",
+        "url": "https://en.wikipedia.org/wiki/Brownsberg_Nature_Park",
     },
     {
         "name": "Galibi Nature Reserve",
@@ -54,7 +54,7 @@ NATURE_SPOTS = [
         "tags": ["Sea Turtles", "Coastal", "Wildlife"],
         "image": "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=800&q=80",
         "fact": "Nesting season: February – July",
-        "url": "https://www.stinasu.sr/",
+        "url": "https://en.wikipedia.org/wiki/Galibi_Nature_Reserve",
     },
     {
         "name": "Peperpot Nature Park",
@@ -63,7 +63,7 @@ NATURE_SPOTS = [
         "tags": ["Birding", "Easy Access", "Peaceful"],
         "image": "https://images.unsplash.com/photo-1444464666168-49d633b86797?w=800&q=80",
         "fact": "700+ bird species in Suriname",
-        "url": "https://www.stinasu.sr/",
+        "url": "https://en.wikipedia.org/wiki/Peperpot_Nature_Park",
     },
     {
         "name": "Voltzberg & Raleighvallen",
@@ -72,7 +72,7 @@ NATURE_SPOTS = [
         "tags": ["Expedition", "Climbing", "Remote"],
         "image": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80",
         "fact": "Multi-day jungle trek required",
-        "url": "https://www.stinasu.sr/",
+        "url": "https://en.wikipedia.org/wiki/Voltzberg",
     },
     {
         "name": "Paramaribo Historic Inner City",
@@ -90,7 +90,7 @@ NATURE_SPOTS = [
         "tags": ["Flamingos", "Mangroves", "Coastal Birds"],
         "image": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80",
         "fact": "Thousands of flamingos year-round",
-        "url": "https://www.stinasu.sr/",
+        "url": "https://en.wikipedia.org/wiki/Bigi_Pan_Nature_Reserve",
     },
     {
         "name": "Wia Wia Nature Reserve",
@@ -99,7 +99,7 @@ NATURE_SPOTS = [
         "tags": ["Sea Turtles", "Coastal", "Remote"],
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
         "fact": "Leatherback & green turtles nest here",
-        "url": "https://www.stinasu.sr/",
+        "url": "https://en.wikipedia.org/wiki/Wia-Wia_Nature_Reserve",
     },
     {
         "name": "Commewijne River",
@@ -182,7 +182,7 @@ ACTIVITIES = [
     {
         "icon": "🦜", "name": "Bird Watching",
         "desc": "Suriname is a birder's paradise — spot 700+ species including scarlet macaws and harpy eagles.",
-        "url": "https://surinamebirdclub.org/",
+        "url": "https://www.google.com/search?q=bird+watching+tour+suriname",
         "image": "https://images.unsplash.com/photo-1444464666168-49d633b86797?w=600&q=80",
     },
     {
@@ -212,7 +212,7 @@ ACTIVITIES = [
     {
         "icon": "🐢", "name": "Turtle Watching",
         "desc": "Witness giant leatherback sea turtles nesting on Suriname's Atlantic coast at Galibi or Wia Wia.",
-        "url": "https://www.stinasu.sr/",
+        "url": "https://en.wikipedia.org/wiki/Galibi_Nature_Reserve",
         "image": "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=600&q=80",
     },
     {
@@ -293,14 +293,14 @@ HOTELS = [
     {"name": "Courtyard by Marriott Paramaribo","category": "Business Hotel",   "area": "Paramaribo",      "desc": "Modern international hotel with excellent amenities and conference facilities, perfectly placed in the heart of the capital.",                                    "url": "https://www.marriott.com/en-us/hotels/pbmcy-courtyard-paramaribo/overview/"},
     {"name": "Eco Resort Inn",                  "category": "Eco Lodge",        "area": "Paramaribo",      "desc": "Sustainable resort surrounded by lush tropical gardens, bungalows, a beautiful pool and one of Paramaribo's best restaurants.",                                "url": "https://www.ecoresortinn.com/"},
     {"name": "Bergendal Eco & Cultural River Resort", "category": "Eco Resort", "area": "Suriname River",  "desc": "Stunning eco-resort with tree-house cabins, zip-lines, jungle trails and cultural programs set on the banks of the Suriname River.",                           "url": "https://www.bergendal.com/"},
-    {"name": "Awarradam Jungle Lodge",          "category": "Jungle Lodge",     "area": "Deep Interior",   "desc": "Remote luxury lodge deep in the Surinamese jungle, accessible by small plane and canoe. An utterly unforgettable wilderness experience.",                       "url": "https://www.awarra.com/"},
+    {"name": "Awarradam Jungle Lodge",          "category": "Jungle Lodge",     "area": "Deep Interior",   "desc": "Remote luxury lodge deep in the Surinamese jungle, accessible by small plane and canoe. An utterly unforgettable wilderness experience.",                       "url": "https://www.google.com/search?q=awarradam+jungle+lodge+suriname"},
     {"name": "Danpaati River Lodge",            "category": "River Lodge",      "area": "Upper Suriname River", "desc": "Traditional Maroon-style lodge on the wild Gran Rio river — canoe trips, village visits and jungle treks included.",                                     "url": "https://www.google.com/search?q=danpaati+river+lodge+suriname"},
     {"name": "Kabalebo Nature Resort",          "category": "Remote Lodge",     "area": "Western Interior","desc": "Ultra-remote fishing and nature lodge in Suriname's seldom-visited west. Exceptional fishing, wildlife and birding. Charter flight only.",                       "url": "https://www.google.com/search?q=kabalebo+nature+resort+suriname"},
     {"name": "Hotel Laminaire",                 "category": "Boutique Hotel",   "area": "Paramaribo",      "desc": "Intimate boutique hotel in a beautifully restored 19th-century colonial mansion in the historic heart of Paramaribo.",                                         "url": "https://www.google.com/search?q=hotel+laminaire+paramaribo"},
     {"name": "Palmentuinguesthouse",            "category": "Guesthouse",       "area": "Paramaribo",      "desc": "Charming guesthouse with lush tropical gardens, warmly recommended by travellers for its hospitality and central location.",                                    "url": "https://www.google.com/search?q=palmentuin+guesthouse+paramaribo"},
     {"name": "Hotel Golfzicht",                 "category": "Mid-Range",        "area": "Paramaribo",      "desc": "Well-located hotel with a pool overlooking the city's golf course — good value and comfortable for business or leisure stays.",                                "url": "https://www.google.com/search?q=hotel+golfzicht+paramaribo"},
     {"name": "Ambassador Hotel",                "category": "Classic Hotel",    "area": "Paramaribo",      "desc": "A Paramaribo classic with comfortable rooms, a restaurant and conference facilities. Reliable and well-established.",                                          "url": "https://www.google.com/search?q=ambassador+hotel+paramaribo+suriname"},
-    {"name": "Brownsberg Cabins (STINASU)",     "category": "Park Cabins",      "area": "Brownsberg",      "desc": "Stay inside Brownsberg Nature Park in forest cabins managed by STINASU. Wake to howler monkeys and birdsong — the real thing.",                               "url": "https://www.stinasu.sr/"},
+    {"name": "Brownsberg Cabins (STINASU)",     "category": "Park Cabins",      "area": "Brownsberg",      "desc": "Stay inside Brownsberg Nature Park in forest cabins managed by STINASU. Wake to howler monkeys and birdsong — the real thing.",                               "url": "https://en.wikipedia.org/wiki/Brownsberg_Nature_Park"},
     {"name": "Foengoe Island Lodge",            "category": "Island Lodge",     "area": "Suriname River",  "desc": "A small island lodge in the Suriname River, reached by boat — perfect for birdwatching, relaxation and escaping the city.",                                    "url": "https://www.google.com/search?q=foengoe+island+lodge+suriname"},
     {"name": "Jungle Top Resort",               "category": "Nature Resort",    "area": "Interior",        "desc": "Eco-resort at the edge of the rainforest with comfortable bungalows, a pool and guided jungle activities.",                                                    "url": "https://www.google.com/search?q=jungle+top+resort+suriname"},
     {"name": "Colakreek Resort",                "category": "Nature Resort",    "area": "Near Paramaribo", "desc": "Bungalows and camping beside the famous Colakreek freshwater swimming area, just 30 minutes from the capital.",                                               "url": "https://www.google.com/search?q=colakreek+resort+suriname"},
