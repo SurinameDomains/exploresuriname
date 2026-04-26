@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#D8F3DC; --coral:#E76F51; }
+    body   { font-family: 'Inter', system-ui, sans-serif; }
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    .hero-bg { background-size:cover; background-position:center; }
+    @media (min-width:768px) { .hero-bg { background-attachment:fixed; } }
+    .card-hover { transition: transform .2s, box-shadow .2s; }
+    .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
+    a { text-decoration: none; }
+  </style>
+  <title>Currency Exchange Rates &mdash; ExploreSuriname.com</title>
+  <meta name="description" content="Surinamese Dollar (SRD) exchange rates from CME and CBVS with live currency converter.">
+  <link rel="canonical" href="https://exploresuriname.com/currency.html">
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+
+<nav class="fixed top-0 w-full z-50" style="background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.06)">
+  <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between">
+    <a href="index.html" class="flex items-baseline">
+      <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
+    </a>
+    <div class="hidden md:flex items-center gap-7"><a href="index.html#nature" class="text-gray-700 hover:text-green-800 transition text-sm" >Nature</a>
+<a href="index.html#activities" class="text-gray-700 hover:text-green-800 transition text-sm" >Activities</a>
+<a href="index.html#dining" class="text-gray-700 hover:text-green-800 transition text-sm" >Eat & Drink</a>
+<a href="index.html#hotels" class="text-gray-700 hover:text-green-800 transition text-sm" >Stay</a>
+<a href="currency.html" class="font-semibold text-sm" style="color:var(--forest)">Currency</a>
+<a href="news.html" class="text-gray-700 hover:text-green-800 transition text-sm" >News</a>
+</div>
+    <a href="news.html" class="hidden md:inline-flex items-center gap-1 text-white text-sm font-medium px-4 py-2 rounded-full hover:opacity-90 transition" style="background:var(--forest)">&#128240; Latest News</a>
+    <button onclick="document.getElementById('mm').classList.toggle('hidden')" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+  <div id="mm" class="hidden md:hidden border-t bg-white px-5 py-4 flex flex-col gap-3 text-sm"><a href="index.html#nature" class="text-gray-700 hover:text-green-800 transition text-sm" >Nature</a>
+<a href="index.html#activities" class="text-gray-700 hover:text-green-800 transition text-sm" >Activities</a>
+<a href="index.html#dining" class="text-gray-700 hover:text-green-800 transition text-sm" >Eat & Drink</a>
+<a href="index.html#hotels" class="text-gray-700 hover:text-green-800 transition text-sm" >Stay</a>
+<a href="currency.html" class="font-semibold text-sm" style="color:var(--forest)">Currency</a>
+<a href="news.html" class="text-gray-700 hover:text-green-800 transition text-sm" >News</a>
+</div>
+</nav>
+<div class="pt-16"></div>
+<div class="text-white py-16 text-center" style="background:var(--forest)">
+  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Currency Exchange</h1>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Surinamese Dollar (SRD) rates &mdash; updated daily</p>
+  <p class="text-white/35 text-xs mt-3">&#128336; Page built: 26 Apr 2026, 21:55 UTC</p>
+</div>
+<main class="max-w-5xl mx-auto px-5 py-10 pb-24">
+  <div class="rounded-2xl border border-amber-200 p-6 mb-8" style="background:#fffbeb">
+    <p class="text-amber-900 text-sm leading-relaxed">
+      <strong class="text-amber-800">&#128161; What&apos;s the difference?</strong>
+      <strong>CBVS</strong> is the Central Bank of Suriname&apos;s official reference rate used for banking.
+      <strong>CME</strong> (Cambio Money Exchange) shows cash rates at local exchange offices — what you actually get when exchanging banknotes.
+      &ldquo;We Buy&rdquo; is what they pay when you sell foreign currency; &ldquo;We Sell&rdquo; is what you pay to buy foreign currency.
+    </p>
+  </div>
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-10">
+    <h2 class="serif text-2xl font-bold text-gray-900 mb-1">Currency Converter</h2>
+    <p class="text-gray-400 text-sm mb-7">Using CME cash rates &mdash; typical exchange-office rates</p>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+      <div>
+        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Amount</label>
+        <input id="cv-amt" type="number" value="100" min="0" step="any"
+               class="w-full border border-gray-200 rounded-xl px-4 py-3 text-xl font-mono font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-200"
+               oninput="doConvert()">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">From</label>
+        <select id="cv-from" onchange="doConvert()"
+                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-200 bg-white">
+          <option value="USD" selected>🇺🇸 USD – US Dollar</option>
+<option value="EUR">🇪🇺 EUR – Euro</option>
+<option value="GBP">🇬🇧 GBP – British Pound</option>
+<option value="TTD">🇹🇹 TTD – T&amp;T Dollar</option>
+<option value="GYD">🇬🇾 GYD – Guyana Dollar</option>
+<option value="BRL">🇧🇷 BRL – Brazilian Real</option>
+<option value="BBD">🇧🇧 BBD – Barbados Dollar</option>
+<option value="SRD">🇸🇷 SRD – Surinamese Dollar</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">To</label>
+        <select id="cv-to" onchange="doConvert()"
+                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-200 bg-white">
+          <option value="SRD" selected>🇸🇷 SRD – Surinamese Dollar</option>
+<option value="USD">🇺🇸 USD – US Dollar</option>
+<option value="EUR">🇪🇺 EUR – Euro</option>
+<option value="GBP">🇬🇧 GBP – British Pound</option>
+<option value="TTD">🇹🇹 TTD – T&amp;T Dollar</option>
+<option value="GYD">🇬🇾 GYD – Guyana Dollar</option>
+<option value="BRL">🇧🇷 BRL – Brazilian Real</option>
+<option value="BBD">🇧🇧 BBD – Barbados Dollar</option>
+
+        </select>
+      </div>
+    </div>
+    <div class="mt-6 p-5 rounded-xl text-center" style="background:var(--mint)">
+      <p id="cv-result" class="text-3xl font-bold text-gray-900 font-mono">&#8212;</p>
+      <p id="cv-note"   class="text-xs mt-1" style="color:var(--forest2)">Enter an amount above</p>
+    </div>
+    <p class="text-gray-400 text-xs text-center mt-3">Rates are indicative only &mdash; confirm with your exchange office before transacting</p>
+  </div>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="px-6 py-5 border-b border-gray-100">
+        <div class="flex items-start justify-between gap-2">
+          <div>
+            <p class="font-bold text-gray-900 text-base">CBVS Official Rates <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">&#9675; Estimated</span></p>
+            <p class="text-gray-400 text-xs mt-0.5">Central Bank of Suriname &mdash; reference rate</p>
+          </div>
+          <a href="https://www.cbvs.sr" target="_blank" rel="noopener noreferrer"
+             class="text-xs font-semibold shrink-0 hover:underline" style="color:var(--forest2)">cbvs.sr &#8599;</a>
+        </div>
+        <p class="text-gray-400 text-xs mt-2">&#128336; Estimated rates (live fetch unavailable)</p>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="bg-gray-50 text-left">
+            <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Code</th>
+            <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Currency</th>
+            <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Buy SRD</th>
+            <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Sell SRD</th>
+          </tr></thead>
+          <tbody><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">🇺🇸 USD</td><td class="py-3 px-4 text-gray-500 text-sm">US Dollar</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">36.90</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">37.50</td></tr><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">🇪🇺 EUR</td><td class="py-3 px-4 text-gray-500 text-sm">Euro</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">40.30</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">43.80</td></tr><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">🇬🇧 GBP</td><td class="py-3 px-4 text-gray-500 text-sm">British Pound</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">46.40</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">49.30</td></tr><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">🇹🇹 TTD</td><td class="py-3 px-4 text-gray-500 text-sm">T&amp;T Dollar</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">5.40</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">5.90</td></tr><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">🇬🇾 GYD</td><td class="py-3 px-4 text-gray-500 text-sm">Guyana Dollar</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">0.172</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">0.190</td></tr><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">🇧🇷 BRL</td><td class="py-3 px-4 text-gray-500 text-sm">Brazilian Real</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">6.30</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">7.00</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="px-6 py-5 border-b border-gray-100">
+        <div class="flex items-start justify-between gap-2">
+          <div>
+            <p class="font-bold text-gray-900 text-base">CME Cash Rates <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">&#9675; Estimated</span></p>
+            <p class="text-gray-400 text-xs mt-0.5">Cambio Money Exchange &mdash; local market rate</p>
+          </div>
+          <a href="https://www.cme.sr" target="_blank" rel="noopener noreferrer"
+             class="text-xs font-semibold shrink-0 hover:underline" style="color:var(--forest2)">cme.sr &#8599;</a>
+        </div>
+        <p class="text-gray-400 text-xs mt-2">&#128336; Estimated rates (parsing failed)</p>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="bg-gray-50 text-left">
+            <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Code</th>
+            <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Currency</th>
+            <th class="py-3 px-4 text-xs font-semibold uppercase tracking-wide text-right" style="color:var(--forest2)">We Buy</th>
+            <th class="py-3 px-4 text-xs font-semibold uppercase tracking-wide text-right" style="color:var(--coral)">We Sell</th>
+          </tr></thead>
+          <tbody><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">🇺🇸 USD</td><td class="py-3 px-4 text-gray-500 text-sm">US Dollar</td><td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--forest2)">37.50</td><td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--coral)">37.65</td></tr><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">🇪🇺 EUR</td><td class="py-3 px-4 text-gray-500 text-sm">Euro</td><td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--forest2)">43.00</td><td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--coral)">44.00</td></tr><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">🇬🇧 GBP</td><td class="py-3 px-4 text-gray-500 text-sm">British Pound</td><td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--forest2)">47.50</td><td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--coral)">49.00</td></tr><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">🇹🇹 TTD</td><td class="py-3 px-4 text-gray-500 text-sm">T&amp;T Dollar</td><td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--forest2)">5.50</td><td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--coral)">5.75</td></tr><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">🇬🇾 GYD</td><td class="py-3 px-4 text-gray-500 text-sm">Guyana Dollar</td><td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--forest2)">0.175</td><td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--coral)">0.185</td></tr><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">🇧🇷 BRL</td><td class="py-3 px-4 text-gray-500 text-sm">Brazilian Real</td><td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--forest2)">6.50</td><td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--coral)">6.80</td></tr><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">🇧🇧 BBD</td><td class="py-3 px-4 text-gray-500 text-sm">Barbados Dollar</td><td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--forest2)">18.50</td><td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--coral)">19.00</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <p class="text-center text-gray-400 text-xs mt-8 max-w-2xl mx-auto leading-relaxed px-4">
+    Rates are for informational purposes only. Always confirm the current rate before transacting. Page auto-updates daily.
+  </p>
+</main>
+<script>const BUY  = {"USD": 37.5, "EUR": 43.0, "GBP": 47.5, "TTD": 5.5, "GYD": 0.175, "BRL": 6.5, "BBD": 18.5};
+const SELL = {"USD": 37.65, "EUR": 44.0, "GBP": 49.0, "TTD": 5.75, "GYD": 0.185, "BRL": 6.8, "BBD": 19.0};
+function toSRD(a,c){return BUY[c]!=null?a*BUY[c]:null;}
+function fromSRD(a,c){return SELL[c]!=null?a/SELL[c]:null;}
+function doConvert(){
+  var amt=parseFloat(document.getElementById('cv-amt').value);
+  var from=document.getElementById('cv-from').value;
+  var to=document.getElementById('cv-to').value;
+  var rEl=document.getElementById('cv-result');
+  var nEl=document.getElementById('cv-note');
+  if(isNaN(amt)||amt<0){rEl.textContent='—';nEl.textContent='Enter a valid amount';return;}
+  var result,note;
+  if(from===to){result=amt;note='Same currency';}
+  else if(from==='SRD'){result=fromSRD(amt,to);note=SELL[to]?'CME: 1 '+to+' costs '+SELL[to]+' SRD':'Rate unavailable';}
+  else if(to==='SRD'){result=toSRD(amt,from);note=BUY[from]?'CME: 1 '+from+' = '+BUY[from]+' SRD':'Rate unavailable';}
+  else{var srd=toSRD(amt,from);result=srd!=null?fromSRD(srd,to):null;var cross=(BUY[from]&&SELL[to])?(BUY[from]/SELL[to]).toFixed(4):'?';note='Via SRD: 1 '+from+' ≈ '+cross+' '+to;}
+  if(result==null){rEl.textContent='N/A';nEl.textContent='Rate not available';}
+  else{rEl.textContent=result.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+' '+to;nEl.textContent=note;}
+}
+doConvert();</script>
+
+<footer style="background:var(--forest)" class="text-white py-16">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+      <div>
+        <p class="serif text-2xl font-bold mb-3">Explore<span style="color:var(--coral)">Suriname</span></p>
+        <p class="text-white/60 text-sm leading-relaxed">Your guide to South America's most beautiful secret. Updated daily with fresh news, local insights and travel inspiration.</p>
+      </div>
+      <div>
+        <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Explore</p>
+        <ul class="space-y-2 text-sm text-white/70">
+          <li><a href="nature.html"      class="hover:text-white transition">Nature &amp; Parks</a></li>
+          <li><a href="activities.html"  class="hover:text-white transition">Activities</a></li>
+          <li><a href="restaurants.html" class="hover:text-white transition">Eat &amp; Drink</a></li>
+          <li><a href="hotels.html"      class="hover:text-white transition">Hotels &amp; Lodges</a></li>
+          <li><a href="currency.html"    class="hover:text-white transition">Currency Rates</a></li>
+          <li><a href="news.html"        class="hover:text-white transition">Suriname News</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Travel Info</p>
+        <ul class="space-y-2 text-sm text-white/70">
+          <li>&#127988; Capital: Paramaribo</li>
+          <li>&#128172; Dutch, Sranan Tongo + 9 more</li>
+          <li>&#128176; Surinamese Dollar (SRD)</li>
+          <li>&#127774; Tropical, ~28&#176;C year-round</li>
+          <li>&#127942; 2 UNESCO World Heritage Sites</li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Contact</p>
+        <ul class="space-y-2 text-sm text-white/70">
+          <li><a href="mailto:surinamedomains@gmail.com" class="hover:text-white transition">&#9993; surinamedomains@gmail.com</a></li>
+          <li class="text-white/40 text-xs mt-3">For partnerships, listings<br>or general enquiries.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/10 pt-8 text-center text-white/40 text-xs">
+      &copy; 2026 ExploreSuriname.com &mdash; Auto-updated daily &middot; Content from public sources
+    </div>
+  </div>
+</footer>
+</body>
+</html>
