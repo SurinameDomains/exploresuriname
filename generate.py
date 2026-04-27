@@ -10,11 +10,12 @@ import feedparser
 import html as html_lib
 import re, os, json
 import urllib.request, urllib.parse
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 SITE_URL       = "https://exploresuriname.com"
 CONTACT_EMAIL  = "surinamedomains@gmail.com"
-YEAR           = datetime.now().year
+SR_TZ          = timezone(timedelta(hours=-3))   # Suriname time (UTC-3, no DST)
+YEAR           = datetime.now(SR_TZ).year
 MAX_PER_FEED   = 10
 
 FEEDS = [
@@ -514,22 +515,25 @@ SERVICES = [b for slug in ["bitdynamics","bloom-wellness-cafe","carpe-diem-massa
 # Old stub lists removed — all listings now sourced from JSON above
 
 CME_FALLBACK = [
-    {"currency": "USD", "name": "US Dollar",       "buy": "37.50", "sell": "37.65", "flag": "🇺🇸"},
-    {"currency": "EUR", "name": "Euro",             "buy": "43.00", "sell": "44.00", "flag": "🇪🇺"},
-    {"currency": "GBP", "name": "British Pound",   "buy": "47.50", "sell": "49.00", "flag": "🇬🇧"},
-    {"currency": "TTD", "name": "T&T Dollar",       "buy": "5.50",  "sell": "5.75",  "flag": "🇹🇹"},
-    {"currency": "GYD", "name": "Guyana Dollar",   "buy": "0.175", "sell": "0.185", "flag": "🇬🇾"},
-    {"currency": "BRL", "name": "Brazilian Real",  "buy": "6.50",  "sell": "6.80",  "flag": "🇧🇷"},
-    {"currency": "BBD", "name": "Barbados Dollar", "buy": "18.50", "sell": "19.00", "flag": "🇧🇧"},
+    # CME.sr only publishes SRD, USD, and EUR — no other currencies
+    {"currency": "USD", "name": "US Dollar", "buy": "37.50", "sell": "37.65", "flag": "🇺🇸"},
+    {"currency": "EUR", "name": "Euro",      "buy": "43.00", "sell": "44.00", "flag": "🇪🇺"},
 ]
 
 CBVS_FALLBACK = [
-    {"currency": "USD", "name": "US Dollar",       "buy": "36.90", "sell": "37.50", "flag": "🇺🇸"},
-    {"currency": "EUR", "name": "Euro",             "buy": "40.30", "sell": "43.80", "flag": "🇪🇺"},
-    {"currency": "GBP", "name": "British Pound",   "buy": "46.40", "sell": "49.30", "flag": "🇬🇧"},
-    {"currency": "TTD", "name": "T&T Dollar",       "buy": "5.40",  "sell": "5.90",  "flag": "🇹🇹"},
-    {"currency": "GYD", "name": "Guyana Dollar",   "buy": "0.172", "sell": "0.190", "flag": "🇬🇾"},
-    {"currency": "BRL", "name": "Brazilian Real",  "buy": "6.30",  "sell": "7.00",  "flag": "🇧🇷"},
+    # Giraal (transfer) rates from CBVS weighted-average table.
+    # Updated from cbvs.sr front page (24 Apr 2026, 15:00 SR time).
+    {"currency": "USD", "name": "US Dollar",           "buy": "37.365", "sell": "37.679", "flag": "🇺🇸"},
+    {"currency": "EUR", "name": "Euro",                "buy": "43.345", "sell": "44.151", "flag": "🇪🇺"},
+    {"currency": "GBP", "name": "British Pound",       "buy": "50.415", "sell": "51.403", "flag": "🇬🇧"},
+    {"currency": "XCG", "name": "Curaçao Guilder",     "buy": "20.530", "sell": "20.933", "flag": "🇨🇼"},
+    {"currency": "AWG", "name": "Aruban Florin",       "buy": "20.758", "sell": "21.165", "flag": "🇦🇼"},
+    {"currency": "BRL", "name": "Brazilian Real",      "buy": "7.472",  "sell": "7.619",  "flag": "🇧🇷"},
+    {"currency": "TTD", "name": "T&T Dollar",          "buy": "5.496",  "sell": "5.603",  "flag": "🇹🇹"},
+    {"currency": "BBD", "name": "Barbados Dollar",     "buy": "18.419", "sell": "18.780", "flag": "🇧🇧"},
+    {"currency": "XCD", "name": "E. Caribbean Dollar", "buy": "13.839", "sell": "14.110", "flag": "🏝️"},
+    {"currency": "GYD", "name": "Guyana Dollar",       "buy": "0.17755","sell": "0.18103","flag": "🇬🇾"},  # CBVS quotes per 100 GYD; stored per unit
+    {"currency": "CNY", "name": "Chinese Yuan",        "buy": "5.466",  "sell": "5.573",  "flag": "🇨🇳"},
 ]
 
 # -- Helpers ------------------------------------------------------------------
@@ -627,7 +631,9 @@ def fetch_articles():
     return articles
 
 def fetch_cme_rates():
-    updated = datetime.now(timezone.utc).strftime("%d %b %Y %H:%M UTC")
+    # CME.sr only publishes USD and EUR (vs SRD); do not invent other currencies.
+    CME_KNOWN = {"USD", "EUR"}
+    updated = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
     try:
         req = urllib.request.Request(
             "https://www.cme.sr/",
@@ -652,13 +658,13 @@ def fetch_cme_rates():
             cm = re.search(r'\b([A-Z]{3})\b', blk)
             if not cm: continue
             code = cm.group(1)
-            if code in SKIP: continue
+            if code in SKIP or code not in CME_KNOWN: continue
             nums = [n for n in re.findall(r'\b(\d{1,3}\.\d{2,4})\b', blk) if 0.01 < float(n) < 1000]
             if len(nums) >= 2:
                 fb = fb_map.get(code, {})
                 rates.append({"currency": code, "name": fb.get("name", code),
                                "buy": nums[0], "sell": nums[1], "flag": fb.get("flag", "\U0001f4b1")})
-        if len(rates) >= 2:
+        if len(rates) >= 1:
             print(f"  CME: {len(rates)} rates live")
             return rates, True, updated
         return CME_FALLBACK, False, "Estimated rates (parsing failed)"
@@ -668,7 +674,9 @@ def fetch_cme_rates():
 
 def fetch_cbvs_rates():
     fb_map = {r["currency"]: r for r in CBVS_FALLBACK}
-    SKIP = {"THE", "FOR", "AND", "SRD", "VAR", "CSS", "DIV", "IMG", "NAV"}
+    SKIP = {"THE", "FOR", "AND", "SRD", "VAR", "CSS", "DIV", "IMG", "NAV", "GEM", "PER"}
+    # CBVS publishes Gewogen Gemiddelde Wisselkoersen at 10:00, 12:30, 15:00 SR time.
+    # The site uses Dutch decimal notation: 37,365 means 37.365 (comma = decimal point).
     for url in ["https://www.cbvs.sr/wisselkoersen", "https://www.cbvs.sr/", "https://cbvs.sr/wisselkoersen"]:
         try:
             req = urllib.request.Request(url, headers={
@@ -679,20 +687,34 @@ def fetch_cbvs_rates():
             with urllib.request.urlopen(req, timeout=20) as r:
                 raw = r.read().decode("utf-8", errors="replace")
             rates = []
+            seen = set()
             for row in re.findall(r'<tr[^>]*>(.*?)</tr>', raw, re.DOTALL | re.IGNORECASE):
                 text = html_lib.unescape(re.sub(r'<[^>]+>', ' ', row)).strip()
-                cm = re.search(r'\b([A-Z]{3})\b', text)
+                # Detect GYD PER 100 before extracting currency code
+                is_per_100 = bool(re.search(r'GYD\s*PER\s*100', text, re.IGNORECASE))
+                # Normalise Dutch decimal notation: 37,365 → 37.365
+                # Only replace commas that look like decimal separators (digit,3digits pattern)
+                text_norm = re.sub(r'(\d),(\d{3})\b', r'\1.\2', text)
+                cm = re.search(r'\b([A-Z]{3})\b', text_norm)
                 if not cm: continue
                 code = cm.group(1)
-                if code in SKIP: continue
-                nums = [n for n in re.findall(r'\b(\d{1,3}\.\d{2,4})\b', text) if 0.01 < float(n) < 1000]
+                if code in SKIP or code in seen: continue
+                nums = [n for n in re.findall(r'\b(\d{1,3}\.\d{2,4})\b', text_norm) if 0.01 < float(n) < 10000]
                 if len(nums) >= 2:
+                    buy_val, sell_val = nums[0], nums[1]
+                    if is_per_100:
+                        # CBVS quotes GYD per 100 units; convert to per-unit rate
+                        buy_val  = f"{float(buy_val)  / 100:.5f}"
+                        sell_val = f"{float(sell_val) / 100:.5f}"
+                        code = "GYD"
                     fb = fb_map.get(code, {})
                     rates.append({"currency": code, "name": fb.get("name", code),
-                                   "buy": nums[0], "sell": nums[1], "flag": fb.get("flag", "\U0001f4b1")})
+                                   "buy": buy_val, "sell": sell_val, "flag": fb.get("flag", "\U0001f4b1")})
+                    seen.add(code)
             if len(rates) >= 2:
                 print(f"  CBVS: {len(rates)} rates live from {url}")
-                return rates, True, "CBVS: " + datetime.now(timezone.utc).strftime("%d %b %Y")
+                ts = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
+                return rates, True, f"CBVS: {ts}"
         except Exception as e:
             print(f"  CBVS {url}: {e}")
     print("  CBVS: all URLs failed, using fallback")
@@ -1094,7 +1116,7 @@ def build_services_page():
 
 def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated):
     import json as _json
-    updated_now = datetime.now(timezone.utc).strftime("%d %b %Y, %H:%M UTC")
+    updated_now = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
     buy_json  = _json.dumps({r["currency"]: float(r["buy"])  for r in cme_rates})
     sell_json = _json.dumps({r["currency"]: float(r["sell"]) for r in cme_rates})
 
@@ -1167,7 +1189,7 @@ doConvert();"""
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Currency Exchange</h1>
-  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Surinamese Dollar (SRD) rates &mdash; updated daily</p>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Surinamese Dollar (SRD) rates &mdash; updated 3&times; daily on business days</p>
   <p class="text-white/35 text-xs mt-3">&#128336; Page built: {updated_now}</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
@@ -1270,7 +1292,7 @@ doConvert();"""
 </html>"""
 
 def build_news(articles):
-    updated   = datetime.now(timezone.utc).strftime("%d %b %Y, %H:%M UTC")
+    updated   = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
     total     = len(articles)
     feat_html = "\n".join(news_card_html(a, large=True) for a in articles[:3])
     rest_html = "\n".join(news_card_html(a) for a in articles[3:30])
