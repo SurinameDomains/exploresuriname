@@ -29,7 +29,7 @@ NATURE_SPOTS = [
     {"name": "Central Suriname Nature Reserve", "badge": "UNESCO World Heritage",
      "desc": "One of the world's largest intact tropical rainforests — 1.6 million pristine hectares where jaguars, tapirs and giant river otters roam free. A global treasure.",
      "tags": ["UNESCO", "Rainforest", "Wildlife"],
-     "image": "",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Surinamese_jungle.jpg/1280px-Surinamese_jungle.jpg",
      "fact": "Larger than some entire countries", "url": "https://whc.unesco.org/en/list/1017/"},
     {"name": "Brownsberg Nature Park", "badge": "Best Day Trip",
      "desc": "Perched 500m above the Brokopondo Reservoir, Brownsberg rewards visitors with jaw-dropping views, swimming waterfalls and abundant wildlife just 2 hours from Paramaribo.",
@@ -107,15 +107,15 @@ ACTIVITIES = [
     {"icon": "🌿", "name": "Jungle Trekking",
      "desc": "Multi-day guided expeditions through primary rainforest with expert Amerindian guides.",
      "url": "https://www.mets-suriname.com/",
-     "image": "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=600&q=80"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Leo_val_brownsberg.JPG/1280px-Leo_val_brownsberg.JPG"},
     {"icon": "🛶", "name": "River Canoe Tours",
      "desc": "Glide through the Amazon basin on traditional dugout canoes, spotting caimans and river dolphins.",
      "url": "https://www.google.com/search?q=river+canoe+tour+suriname",
-     "image": "https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=600&q=80"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Atjoni_%2833496718666%29.jpg/1280px-Atjoni_%2833496718666%29.jpg"},
     {"icon": "🦜", "name": "Bird Watching",
      "desc": "Suriname is a birder's paradise — spot 700+ species including scarlet macaws and harpy eagles.",
      "url": "https://www.google.com/search?q=bird+watching+tour+suriname",
-     "image": "https://images.unsplash.com/photo-1444464666168-49d633b86797?w=600&q=80"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Ara_ararauna_Luc_Viatour.jpg/1280px-Ara_ararauna_Luc_Viatour.jpg"},
     {"icon": "🏘️", "name": "Indigenous Village Tours",
      "desc": "Visit Trio and Wayana indigenous communities in the deep interior, preserving ancient traditions.",
      "url": "https://www.mets-suriname.com/",
@@ -123,27 +123,27 @@ ACTIVITIES = [
     {"icon": "🥁", "name": "Maroon Village Tours",
      "desc": "Experience the living culture of the Saramacca and Matawai Maroon peoples — music, craft and history.",
      "url": "https://www.google.com/search?q=maroon+village+tour+suriname",
-     "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"},
+     "image": "https://images.unsplash.com/photo-1504704911898-68304a7d2807?w=600&q=80"},
     {"icon": "🏙️", "name": "Paramaribo City Walk",
      "desc": "Explore the UNESCO-listed historic inner city on foot — the only wooden colonial city in the Americas.",
      "url": "https://whc.unesco.org/en/list/940/",
-     "image": "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png"},
     {"icon": "🏊️", "name": "Natural Swimming",
      "desc": "Take a dip in crystal-clear jungle rivers and natural rock pools at Colakreek and Brownsberg.",
      "url": "https://www.google.com/search?q=colakreek+brownsberg+swimming+suriname",
-     "image": "https://images.unsplash.com/photo-1504700610630-ac6aba3536d3?w=600&q=80"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Suriname_Colakreek.jpg/1280px-Suriname_Colakreek.jpg"},
     {"icon": "🐢", "name": "Turtle Watching",
      "desc": "Witness giant leatherback sea turtles nesting on Suriname's Atlantic coast at Galibi or Wia Wia.",
      "url": "https://en.wikipedia.org/wiki/Galibi_Nature_Reserve",
-     "image": "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=600&q=80"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/9/95/Dermochelys_coriacea_%282719177753%29.jpg"},
     {"icon": "🐬", "name": "River Dolphin Watching",
      "desc": "Spot the rare freshwater boto dolphins on a boat tour along the scenic Commewijne River.",
      "url": "https://www.google.com/search?q=dolphin+watching+commewijne+river+suriname",
-     "image": "https://images.unsplash.com/photo-1568430462989-44163eb1752f?w=600&q=80"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Sotalia_fluviatilis_boto_cinza.jpg/1280px-Sotalia_fluviatilis_boto_cinza.jpg"},
     {"icon": "🎨", "name": "Maroon Art & Craft",
      "desc": "Watch master craftsmen carve intricate Maroon woodwork and weave traditional textile art.",
      "url": "https://www.google.com/search?q=maroon+art+craft+workshop+suriname",
-     "image": "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&q=80"},
+     "image": "https://images.unsplash.com/photo-1515186813671-4b46ca4a1cff?w=600&q=80"},
     {"icon": "🎣", "name": "Sport Fishing",
      "desc": "Fish for piranha, arapaima and peacock bass in jungle rivers and reservoirs.",
      "url": "https://www.google.com/search?q=sport+fishing+suriname",
@@ -151,7 +151,7 @@ ACTIVITIES = [
     {"icon": "🏛️", "name": "Colonial Plantation Tours",
      "desc": "Cycle or boat through the Commewijne River district, visiting historic coffee and cacao plantations.",
      "url": "https://www.google.com/search?q=plantation+tour+commewijne+suriname",
-     "image": "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=600&q=80"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Br%C3%BCckeStolkertsijver.jpeg/1280px-Br%C3%BCckeStolkertsijver.jpeg"},
     {"icon": "🍽️", "name": "Surinamese Cooking Class",
      "desc": "Learn to cook traditional Creole, Hindustani and Javanese dishes with a local Paramaribo family.",
      "url": "https://www.google.com/search?q=cooking+class+suriname+paramaribo",
@@ -163,11 +163,11 @@ ACTIVITIES = [
     {"icon": "🌊", "name": "Kayaking & Paddling",
      "desc": "Paddle through mangroves, jungle rivers and lake areas on guided or self-guided kayak tours.",
      "url": "https://www.google.com/search?q=kayaking+suriname",
-     "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80"},
+     "image": "https://images.unsplash.com/photo-1502933691298-84fc14542831?w=600&q=80"},
     {"icon": "🌌", "name": "Jungle Stargazing",
      "desc": "Zero light pollution deep in the interior delivers some of the world's most incredible night skies.",
      "url": "https://www.google.com/search?q=jungle+camp+overnight+suriname",
-     "image": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&q=80"},
+     "image": "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=600&q=80"},
 ]
 
 # -- Business listings (hardcoded from exploresuriname_listings.json) ---------
@@ -329,6 +329,31 @@ _IMGS = {
     "lilis":                    "https://cdn.shopify.com/s/files/1/0526/9137/0149/files/Bridal_2a85f0ad-2db8-4a8a-ac54-3e090625d4de.jpg",
     "timeless-barber-and-nail-shop": "https://timelessbarbershop.sr/wp-content/uploads/2025/02/IMG_1731-768x1024.jpg",
     "unlimited-suriname-tours": "https://unlimitedsuriname.com/wp-content/uploads/2025/04/knini-jungle-tours-suriname.png",
+    # Restaurants — homepage featured (Unsplash)
+    "a-la-john":                "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+    "ac-bar-restaurant":        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+    "baka-foto-restaurant":     "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80",
+    "bar-zuid":                 "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&q=80",
+    "bori-tori":                "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80",
+    "chi-min":                  "https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=600&q=80",
+    "de-spot":                  "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=80",
+    "goe-thai-noodle-bar":      "https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600&q=80",
+    "hard-rock-cafe-suriname":  "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=600&q=80",
+    "mingle-paramaribo":        "https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=600&q=80",
+    "pane-e-vino":              "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80",
+    "sushi-ya":                 "https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=600&q=80",
+    "zus-zo-cafe":              "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80",
+    # Hotels — homepage featured (Unsplash)
+    "courtyard-by-marriott":    "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80",
+    "eco-resort-miano":         "https://images.unsplash.com/photo-1596178065887-1198b6148b2b?w=600&q=80",
+    "eco-torarica":             "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80",
+    "holland-lodge":            "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&q=80",
+    "hotel-palacio":            "https://images.unsplash.com/photo-1551882547-ff40c63fe2fa?w=600&q=80",
+    "houttuyn-wellness-river-resort": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&q=80",
+    "jacana-amazon-wellness-resort":  "https://images.unsplash.com/photo-1596178065887-1198b6148b2b?w=600&q=80",
+    "royal-torarica":           "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&q=80",
+    "torarica-resort":          "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80",
+    "oxygen-resort":            "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=600&q=80",
 }
 
 _F = {
@@ -735,10 +760,10 @@ def nature_card(spot):
 def activity_card_rich(act):
     url = act.get("url", "#")
     img = act.get("image", "")
-    img_html = f'<img src="{img}" alt="{html_lib.escape(act["name"])}" loading="lazy" class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display=\'none\'">' if img else ""
+    img_html = f'<img src="{img}" alt="{html_lib.escape(act["name"])}" loading="lazy" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display=\'none\'">' if img else ""
     return f"""
 <a href="{url}" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
-  <div class="relative h-40 overflow-hidden bg-green-900">
+  <div class="relative h-56 overflow-hidden bg-green-900">
     {img_html}
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">{act['icon']}</span>
@@ -771,7 +796,7 @@ def poi_card(item, badge_key="cuisine"):
     phone = item.get("phone", "")
     bg, fg = ("var(--mint)", "var(--forest2)") if badge_key == "cuisine" else ("#fff3e8", "#c05621")
     badge_html = f'<span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:{bg};color:{fg}">{html_lib.escape(badge)}</span>' if badge else ""
-    img_html = (f'<div class="w-full h-44 overflow-hidden rounded-t-2xl -mx-0 -mt-0">'
+    img_html = (f'<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0">'
                 f'<img src="{img}" alt="{html_lib.escape(item["name"])}" loading="lazy" '
                 f'class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" '
                 f'onerror="this.parentElement.style.background=\'#2D6A4F\';this.style.display=\'none\'">'
@@ -821,9 +846,9 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
 
 def build_index(restaurants, hotels, news_preview):
     nature_cards   = "\n".join(nature_card(s)          for s in NATURE_SPOTS[:6])
-    activity_cards = "\n".join(activity_card_icon(a)   for a in ACTIVITIES[:8])
-    rest_cards     = "\n".join(poi_card(r, "cuisine")  for r in restaurants[:6])
-    hotel_cards    = "\n".join(poi_card(h, "category") for h in hotels[:6])
+    activity_cards = "\n".join(activity_card_rich(a)   for a in ACTIVITIES[:6])
+    rest_cards     = "\n".join(poi_card(r, "cuisine")  for r in RESTAURANTS[:6])
+    hotel_cards    = "\n".join(poi_card(h, "category") for h in HOTELS[:6])
     news_cards     = "\n".join(news_card_html(a, large=(i==0)) for i,a in enumerate(news_preview))
     more_btn = lambda href, label: f'<a href="{href}" class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" style="border-color:var(--forest2);color:var(--forest2)">{label} &rarr;</a>'
     return f"""{PAGE_HEAD}
@@ -847,7 +872,7 @@ def build_index(restaurants, hotels, news_preview):
   </div>
   <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50 text-xs">
     <span>Scroll to explore</span>
-="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+    <svg class="w-4 h-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
   </div>
 </section>
 <section style="background:var(--forest)" class="text-white py-7">
@@ -869,17 +894,15 @@ def build_index(restaurants, hotels, news_preview):
     <div class="text-center mt-10">{more_btn("nature.html", f"View all {len(NATURE_SPOTS)} nature spots")}</div>
   </div>
 </section>
-<section id="activities" class="py-24" style="background:var(--forest)">
+<section id="activities" class="py-24 bg-white">
   <div class="max-w-6xl mx-auto px-5">
     <div class="text-center mb-16">
-      <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--leaf)">Adventures Await</p>
-      <h2 class="serif text-4xl sm:text-5xl font-bold text-white mb-4">Things to Do</h2>
-      <p class="text-white/60 text-lg max-w-2xl mx-auto leading-relaxed">From deep jungle expeditions to cultural immersion.</p>
+      <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Adventures Await</p>
+      <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Things to Do</h2>
+      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">From deep jungle expeditions to cultural immersion.</p>
     </div>
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">{activity_cards}</div>
-    <div class="text-center mt-10">
-      <a href="activities.html" class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 border-white/40 text-white hover:bg-white/10 transition">View all {len(ACTIVITIES)} activities &rarr;</a>
-    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{activity_cards}</div>
+    <div class="text-center mt-10">{more_btn("activities.html", f"View all {len(ACTIVITIES)} activities")}</div>
   </div>
 </section>
 <section id="dining" class="py-24 bg-white">
@@ -1179,7 +1202,7 @@ def build_news(articles):
   <h2 class="text-xs font-bold uppercase tracking-widest mb-5" style="color:var(--forest2)">&#128293; Top Stories</h2>
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">{feat_html}</div>
   {ad_slot("Mid-Page Ad — Replace with Google AdSense code")}
-  <h2 class="text-xs font-bold uppercase tracking-widest mb-5 mt-6 text-gray-500">&#128240; All Stories</h2>
+  <h2 class="text-xs font-bold uppercase tracking-widest mb-5 mt-6 text-gray-500">ll Stories</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{rest_html}</div>
 </main>
 {footer_html()}
@@ -1216,11 +1239,11 @@ out center 20;"""
 
     print("\n[4/6] Fetching CME exchange rates...")
     cme_rates, cme_live, cme_updated = fetch_cme_rates()
-    print(f"      {'Live' if cme_live else 'Fallback'}: {len(cme_rates)} currencies")
+    print(f"      {{'Live' if cme_live else 'Fallback'}}: {len(cme_rates)} currencies")
 
     print("\n[5/6] Fetching CBVS exchange rates...")
     cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
-    print(f"      {'Live' if cbvs_live else 'Fallback'}: {len(cbvs_rates)} currencies")
+    print(f"      {{'Live' if cbvs_live else 'Fallback'}}: {len(cbvs_rates)} currencies")
 
     print("\n[6/6] Generating all pages...")
     pages = {
@@ -1238,6 +1261,6 @@ out center 20;"""
     for filename, content in pages.items():
         with open(filename, "w", encoding="utf-8") as f:
             f.write(content)
-        print(f"      {filename} — done")
+        print(f"      {filename} \u2014 done")
 
     print("\n  All done! 9 pages generated.")
