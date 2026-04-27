@@ -953,10 +953,21 @@ def poi_card(item, badge_key="cuisine"):
 </a>"""
 
 def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html=""):
+    page_url = f"{SITE_URL}/{page_file}"
     return f"""{PAGE_HEAD}
-  <title>{title} &mdash; ExploreSuriname.com</title>
+  <title>{title} | ExploreSuriname.com</title>
   <meta name="description" content="{html_lib.escape(meta_desc)}">
-  <link rel="canonical" href="{SITE_URL}/{page_file}">
+  <link rel="canonical" href="{page_url}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{page_url}">
+  <meta property="og:title" content="{title} | ExploreSuriname.com">
+  <meta property="og:description" content="{html_lib.escape(meta_desc)}">
+  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{title} | ExploreSuriname.com">
+  <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
+  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
 </head>
 <body class="bg-gray-50">
 {nav_html()}
@@ -986,9 +997,37 @@ def build_index(restaurants, hotels, news_preview):
     news_cards     = "\n".join(news_card_html(a, large=(i==0)) for i,a in enumerate(news_preview))
     more_btn = lambda href, label: f'<a href="{href}" class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" style="border-color:var(--forest2);color:var(--forest2)">{label} &rarr;</a>'
     return f"""{PAGE_HEAD}
-  <title>Explore Suriname &mdash; Discover South America&apos;s Best-Kept Secret</title>
-  <meta name="description" content="Your guide to Suriname — pristine rainforests, vibrant culture, incredible wildlife.">
+  <title>Explore Suriname | South America's Hidden Gem</title>
+  <meta name="description" content="Plan your Suriname trip: rainforest lodges, Paramaribo restaurants, local tours, shopping and live SRD exchange rates. Your complete guide to South America's most unspoiled destination.">
   <link rel="canonical" href="{SITE_URL}/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/">
+  <meta property="og:title" content="Explore Suriname | South America's Hidden Gem">
+  <meta property="og:description" content="Rainforest lodges, Paramaribo restaurants, local tours, shopping and live SRD exchange rates. Your complete guide to Suriname.">
+  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Explore Suriname | South America's Hidden Gem">
+  <meta name="twitter:description" content="Rainforest lodges, Paramaribo restaurants, local tours, shopping and live SRD exchange rates. Your complete guide to Suriname.">
+  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Explore Suriname",
+    "url": "{SITE_URL}/",
+    "description": "Your complete travel and lifestyle guide to Suriname — hotels, restaurants, nature, activities and live SRD exchange rates.",
+    "inLanguage": "en",
+    "potentialAction": {{
+      "@type": "SearchAction",
+      "target": {{
+        "@type": "EntryPoint",
+        "urlTemplate": "{SITE_URL}/restaurants.html"
+      }},
+      "query-input": "required name=search_term_string"
+    }}
+  }}
+  </script>
 </head>
 <body class="bg-white overflow-x-hidden">
 {nav_html("home")}
@@ -1093,7 +1132,7 @@ def build_nature_page():
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{sight_cards}</div>
 </div>""" if SIGHTSEEING else ""
     return listing_page("Nature & Parks", f"{len(NATURE_SPOTS)} destinations across Suriname's pristine wilderness",
-        "Discover all of Suriname's nature reserves, national parks and natural wonders.",
+        f"Explore {len(NATURE_SPOTS)} nature reserves, national parks and rainforest destinations in Suriname. From Central Suriname Nature Reserve to Brownsberg — plan your eco-adventure.",
         NATURE_SPOTS, cards, page_file="nature.html", extra_html=extra)
 
 def build_activities_page():
@@ -1109,31 +1148,31 @@ def build_activities_page():
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{adv_cards}</div>
 </div>""" if ADVENTURES_BIZ else ""
     return listing_page("Activities", f"{len(ACTIVITIES)} things to do in Suriname",
-        "Find the best activities and adventures in Suriname.",
+        f"Discover {len(ACTIVITIES)} things to do in Suriname — jungle tours, river trips, birdwatching, kayaking and more. Find tours, eco-lodges and adventure operators in Paramaribo.",
         ACTIVITIES, cards, bg_color="var(--forest2)", page_file="activities.html", extra_html=extra)
 
 def build_restaurants_page(restaurants):
     cards = "\n".join(poi_card(r, "cuisine") for r in restaurants)
     return listing_page("Restaurants & Dining", f"{len(restaurants)} restaurants across Suriname",
-        "Find the best restaurants, cafes and dining experiences in Paramaribo and beyond.",
+        f"Browse {len(restaurants)} restaurants, cafes and bars in Paramaribo, Suriname. Indonesian, Creole, Chinese, Indian and international cuisine — find where to eat tonight.",
         restaurants, cards, bg_color="#7c3aed", page_file="restaurants.html")
 
 def build_hotels_page(hotels):
     cards = "\n".join(poi_card(h, "category") for h in hotels)
     return listing_page("Hotels & Lodges", f"{len(hotels)} places to stay in Suriname",
-        "Find the best hotels, eco-lodges and jungle retreats across Suriname.",
+        f"Browse {len(hotels)} hotels, eco-lodges and jungle retreats in Suriname. From Paramaribo city hotels to remote river resorts — find your perfect stay.",
         hotels, cards, bg_color="#c05621", page_file="hotels.html")
 
 def build_shopping_page():
     cards = "\n".join(poi_card(b) for b in SHOPPING)
     return listing_page("Shopping", f"{len(SHOPPING)} shops, malls & boutiques in Suriname",
-        "Find the best malls, boutiques, craft stores and souvenirs in Suriname.",
+        f"Discover {len(SHOPPING)} shops in Suriname — malls, local boutiques, craft stores and souvenir shops in Paramaribo. Find gifts, fashion, electronics and more.",
         SHOPPING, cards, bg_color="#7c3aed", page_file="shopping.html")
 
 def build_services_page():
     cards = "\n".join(poi_card(b) for b in SERVICES)
     return listing_page("Services", f"{len(SERVICES)} service providers in Suriname",
-        "Beauty salons, wellness centres, travel agencies, airlines and professional services in Suriname.",
+        f"Find {len(SERVICES)} service providers in Suriname — beauty salons, wellness centres, travel agencies, airlines, insurance and professional services in Paramaribo.",
         SERVICES, cards, bg_color="#0369a1", page_file="services.html")
 
 def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated):
@@ -1201,9 +1240,19 @@ function doConvert(){{
 doConvert();"""
 
     return f"""{PAGE_HEAD}
-  <title>Currency Exchange Rates &mdash; ExploreSuriname.com</title>
-  <meta name="description" content="Surinamese Dollar (SRD) exchange rates from CME and CBVS with live currency converter.">
+  <title>SRD Exchange Rates | Explore Suriname</title>
+  <meta name="description" content="Live Surinamese Dollar (SRD) exchange rates updated 3x daily — USD, EUR, GBP and more from CBVS and CME. Includes a free currency converter.">
   <link rel="canonical" href="{SITE_URL}/currency.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/currency.html">
+  <meta property="og:title" content="SRD Exchange Rates | Explore Suriname">
+  <meta property="og:description" content="Live Surinamese Dollar (SRD) exchange rates updated 3x daily — USD, EUR, GBP and more from CBVS and CME.">
+  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SRD Exchange Rates | Explore Suriname">
+  <meta name="twitter:description" content="Live Surinamese Dollar (SRD) exchange rates updated 3x daily — USD, EUR, GBP and more from CBVS and CME.">
+  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("currency")}
@@ -1319,9 +1368,19 @@ def build_news(articles):
     feat_html = "\n".join(news_card_html(a, large=True) for a in articles[:3])
     rest_html = "\n".join(news_card_html(a) for a in articles[3:30])
     return f"""{PAGE_HEAD}
-  <title>Suriname News &mdash; ExploreSuriname.com</title>
-  <meta name="description" content="Daily Suriname news from De Ware Tijd, Starnieuws, Waterkant and more.">
+  <title>Suriname News | Explore Suriname</title>
+  <meta name="description" content="Latest Suriname news updated daily — De Ware Tijd, Starnieuws, Waterkant and more. Business, politics, culture and travel from Paramaribo.">
   <link rel="canonical" href="{SITE_URL}/news.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/news.html">
+  <meta property="og:title" content="Suriname News | Explore Suriname">
+  <meta property="og:description" content="Latest Suriname news updated daily — De Ware Tijd, Starnieuws, Waterkant and more.">
+  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Suriname News | Explore Suriname">
+  <meta name="twitter:description" content="Latest Suriname news updated daily — De Ware Tijd, Starnieuws, Waterkant and more.">
+  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("news")}
@@ -1392,9 +1451,9 @@ out center 20;"""
                                                 cbvs_rates, cbvs_live, cbvs_updated),
         "news.html":        build_news(articles),
     }
-    for filename, content in pages.items():
-        with open(filename, "w", encoding="utf-8") as f:
-            f.write(content)
-        print(f"      {filename} \u2014 done")
+    for fname, html in pages.items():
+        with open(fname, "w", encoding="utf-8") as f:
+            f.write(html)
+        print(f"      wrote {fname}")
 
-    print("\n  All done! 9 pages generated.")
+    print("\n\u2713 Done.")
