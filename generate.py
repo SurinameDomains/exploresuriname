@@ -631,53 +631,62 @@ def fetch_articles():
     return articles
 
 def fetch_cme_rates():
-    # CME.sr only publishes USD and EUR (vs SRD); do not invent other currencies.
-    CME_KNOWN = {"USD", "EUR"}
-    updated = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
+    """
+    CME.sr rates via their internal JSON API.
+    The homepage renders rates via JS (all values are 0.00 in static HTML),
+    so HTML scraping never works. The JS calls POST /Home/GetTodaysExchangeRates/
+    which returns a JSON list with cash buy/sell for USD and EUR only.
+    BusinessDate param is hardcoded in their JS and ignored server-side.
+    """
     try:
         req = urllib.request.Request(
-            "https://www.cme.sr/",
+            "https://www.cme.sr/Home/GetTodaysExchangeRates/?BusinessDate=2016-07-25",
+            data=b"",
             headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                "Accept-Language": "en-US,en;q=0.9",
-            }
+                "User-Agent":   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept":       "application/json, text/javascript, */*; q=0.01",
+                "Referer":      "https://www.cme.sr/",
+                "X-Requested-With": "XMLHttpRequest",
+            },
+            method="POST"
         )
         with urllib.request.urlopen(req, timeout=20) as r:
-            raw = r.read().decode("utf-8", errors="replace")
-        if "cashRate" not in raw and "cash_items_container" not in raw:
-            print("  CME: no rate data in response")
-            return CME_FALLBACK, False, "Estimated rates (live fetch unavailable)"
-        ts_m = re.search(r'[Ll]ast updated[^<]{0,10}([\d]+-\w+-[\d]+[^<]{0,30})', raw)
-        if ts_m: updated = "CME: " + ts_m.group(1).strip()
-        rates = []
-        fb_map = {r["currency"]: r for r in CME_FALLBACK}
-        SKIP = {"THE", "FOR", "AND", "SRD", "CSS", "DIV", "IMG", "VAR", "NAV", "URL"}
-        for blk in re.split(r'class=["\']+cashRate["\']+', raw)[1:]:
-            blk = blk[:2000]
-            cm = re.search(r'\b([A-Z]{3})\b', blk)
-            if not cm: continue
-            code = cm.group(1)
-            if code in SKIP or code not in CME_KNOWN: continue
-            nums = [n for n in re.findall(r'\b(\d{1,3}\.\d{2,4})\b', blk) if 0.01 < float(n) < 1000]
-            if len(nums) >= 2:
-                fb = fb_map.get(code, {})
-                rates.append({"currency": code, "name": fb.get("name", code),
-                               "buy": nums[0], "sell": nums[1], "flag": fb.get("flag", "\U0001f4b1")})
-        if len(rates) >= 1:
-            print(f"  CME: {len(rates)} rates live")
-            return rates, True, updated
-        return CME_FALLBACK, False, "Estimated rates (parsing failed)"
+            payload = json.loads(r.read().decode("utf-8"))
+
+        if not payload or not isinstance(payload, list):
+            raise ValueError(f"Unexpected response: {str(payload)[:200]}")
+        v = payload[0]
+
+        rates = [
+            {"currency": "USD", "name": "US Dollar", "flag": "🇺🇸",
+             "buy":  f"{float(v['BuyUsdExchangeRate']):.2f}",
+             "sell": f"{float(v['SaleUsdExchangeRate']):.2f}"},
+            {"currency": "EUR", "name": "Euro",      "flag": "🇪🇺",
+             "buy":  f"{float(v['BuyEuroExchangeRate']):.2f}",
+             "sell": f"{float(v['SaleEuroExchangeRate']):.2f}"},
+        ]
+        ts = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
+        print(f"  CME: rates live via API ({ts})")
+        return rates, True, f"CME: {ts}"
+
     except Exception as e:
-        print(f"  CME fetch error: {e}")
-        return CME_FALLBACK, False, "Estimated rates (network error)"
+        print(f"  CME API error: {e}")
+        return CME_FALLBACK, False, "Estimated rates (API unavailable)"
 
 def fetch_cbvs_rates():
+    """
+    Scrape the Gewogen Gemiddelde Wisselkoersen from cbvs.sr.
+    The page contains multiple tables; we target only <table class="exchange-table">
+    which holds the correct market rates. A plain unstyled <table> higher on the page
+    contains fixed intervention/ceiling rates (~14 SRD/USD) — we must skip that.
+    CBVS uses Dutch decimal notation: 37,365 = 37.365.
+    GYD is quoted per 100 units; we divide by 100 to store per-unit.
+    """
     fb_map = {r["currency"]: r for r in CBVS_FALLBACK}
     SKIP = {"THE", "FOR", "AND", "SRD", "VAR", "CSS", "DIV", "IMG", "NAV", "GEM", "PER"}
-    # CBVS publishes Gewogen Gemiddelde Wisselkoersen at 10:00, 12:30, 15:00 SR time.
-    # The site uses Dutch decimal notation: 37,365 means 37.365 (comma = decimal point).
-    for url in ["https://www.cbvs.sr/wisselkoersen", "https://www.cbvs.sr/", "https://cbvs.sr/wisselkoersen"]:
+
+    for url in ["https://www.cbvs.sr/", "https://www.cbvs.sr/statistieken/financiele-markten-statistieken/dagelijkse-publicaties"]:
         try:
             req = urllib.request.Request(url, headers={
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -686,24 +695,35 @@ def fetch_cbvs_rates():
             })
             with urllib.request.urlopen(req, timeout=20) as r:
                 raw = r.read().decode("utf-8", errors="replace")
+
+            # Extract only the Gewogen Gemiddelde exchange-table block — skip all other tables
+            tbl_m = re.search(r'<table[^>]+class="exchange-table"[^>]*>(.*?)</table>', raw, re.DOTALL | re.IGNORECASE)
+            if not tbl_m:
+                print(f"  CBVS {url}: exchange-table not found in page")
+                continue
+            tbl_html = tbl_m.group(1)
+
+            # Pull the CBVS publication timestamp from the header (e.g. "24 april - 15:00u")
+            ts_m = re.search(r'(\d{1,2}\s+\w+\s*-\s*\d{1,2}:\d{2}u)', tbl_html)
+            cbvs_ts = ts_m.group(1).strip() if ts_m else datetime.now(SR_TZ).strftime("%d %b %Y")
+
             rates = []
-            seen = set()
-            for row in re.findall(r'<tr[^>]*>(.*?)</tr>', raw, re.DOTALL | re.IGNORECASE):
+            seen  = set()
+            for row in re.findall(r'<tr[^>]*>(.*?)</tr>', tbl_html, re.DOTALL | re.IGNORECASE):
                 text = html_lib.unescape(re.sub(r'<[^>]+>', ' ', row)).strip()
-                # Detect GYD PER 100 before extracting currency code
                 is_per_100 = bool(re.search(r'GYD\s*PER\s*100', text, re.IGNORECASE))
-                # Normalise Dutch decimal notation: 37,365 → 37.365
-                # Only replace commas that look like decimal separators (digit,3digits pattern)
+                # Dutch decimal: 37,365 → 37.365  (3 decimal digits after comma)
                 text_norm = re.sub(r'(\d),(\d{3})\b', r'\1.\2', text)
                 cm = re.search(r'\b([A-Z]{3})\b', text_norm)
-                if not cm: continue
+                if not cm:
+                    continue
                 code = cm.group(1)
-                if code in SKIP or code in seen: continue
+                if code in SKIP or code in seen:
+                    continue
                 nums = [n for n in re.findall(r'\b(\d{1,3}\.\d{2,4})\b', text_norm) if 0.01 < float(n) < 10000]
                 if len(nums) >= 2:
-                    buy_val, sell_val = nums[0], nums[1]
+                    buy_val, sell_val = nums[0], nums[1]  # Giraal Aankoop / Giraal Verkoop
                     if is_per_100:
-                        # CBVS quotes GYD per 100 units; convert to per-unit rate
                         buy_val  = f"{float(buy_val)  / 100:.5f}"
                         sell_val = f"{float(sell_val) / 100:.5f}"
                         code = "GYD"
@@ -711,12 +731,14 @@ def fetch_cbvs_rates():
                     rates.append({"currency": code, "name": fb.get("name", code),
                                    "buy": buy_val, "sell": sell_val, "flag": fb.get("flag", "\U0001f4b1")})
                     seen.add(code)
+
             if len(rates) >= 2:
-                print(f"  CBVS: {len(rates)} rates live from {url}")
-                ts = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
-                return rates, True, f"CBVS: {ts}"
+                print(f"  CBVS: {len(rates)} rates live from {url} ({cbvs_ts})")
+                return rates, True, f"CBVS: {cbvs_ts}"
+
         except Exception as e:
             print(f"  CBVS {url}: {e}")
+
     print("  CBVS: all URLs failed, using fallback")
     return CBVS_FALLBACK, False, "Estimated rates (live fetch unavailable)"
 
