@@ -2,13 +2,10 @@ name: Update Site
 
 on:
   schedule:
-    # Suriname is UTC-3, no DST. CBVS publishes rates at 10:00, 12:30, 15:00 SR.
-    # Run ~15 min after each publication on weekdays (Mon-Fri).
-    - cron: '15 13 * * 1-5'   # after 10:00 SR (13:00 UTC + 15 min)
-    - cron: '45 15 * * 1-5'   # after 12:30 SR (15:30 UTC + 15 min)
-    - cron: '15 18 * * 1-5'   # after 15:00 SR (18:00 UTC + 15 min)
-    # Weekend: one daily refresh for news and general content
-    - cron: '0 14 * * 0,6'    # 11:00 SR on Saturday and Sunday
+    # Every 30 minutes, 06:00–23:00 SR (09:00–02:00 UTC next day)
+    # Keeps news fresh all day and catches CBVS rate posts whenever they land
+    - cron: '0,30 9-23 * * *'   # 06:00–20:30 SR
+    - cron: '0,30 0-2  * * *'   # 21:00–23:30 SR (next UTC day)
   workflow_dispatch:
 
 permissions:
