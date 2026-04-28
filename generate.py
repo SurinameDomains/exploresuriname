@@ -495,9 +495,13 @@ def _biz_img(slug):
 def _make_biz(slug):
     b = _BIZ.get(slug)
     if not b: return None
-    return {"name": b["name"], "area": b.get("location", "Suriname"),
+    return {"slug": slug, "name": b["name"], "area": b.get("location", "Suriname"),
             "address": b.get("address", ""), "phone": b.get("phone", ""),
-            "url": _biz_url(b), "image": _biz_img(slug)}
+            "email": b.get("email", ""), "category": b.get("category", ""),
+            "description": b.get("description", ""),
+            "url": f"listing/{slug}/",          # internal detail page
+            "external_url": _biz_url(b),        # business website / Google fallback
+            "image": _biz_img(slug)}
 
 RESTAURANTS = [b for slug in ["a-la-john","ac-bar-restaurant","baka-foto-restaurant","bar-zuid","bori-tori","chi-min","de-spot","de-verdieping","el-patron-latin-grill","elines-pizza","garden-of-eden","goe-thai-noodle-bar","hard-rock-cafe-suriname","joey-ds","julias-food","kasan-snacks","las-tias","mickis-palace-noord","mickis-palace-zuid","mingle-paramaribo","moments-restaurant","pane-e-vino","pannekoek-en-poffertjes-cafe","passion-food-and-wines","rogom-farm-nv","souposo","sushi-ya","the-coffee-box","zeg-ijsje","zus-zo-cafe"] for b in [_make_biz(slug)] if b]
 
@@ -764,16 +768,16 @@ PAGE_HEAD = """\
     a { text-decoration: none; }
   </style>"""
 
-def nav_html(active="home"):
+def nav_html(active="home", prefix=""):
     links = [
-        ("index.html#nature",     "Nature"),
-        ("index.html#activities", "Activities"),
-        ("index.html#dining",     "Eat & Drink"),
-        ("index.html#hotels",     "Stay"),
-        ("shopping.html",         "Shopping"),
-        ("services.html",         "Services"),
-        ("currency.html",         "Currency"),
-        ("news.html",             "News"),
+        (f"{prefix}index.html#nature",     "Nature"),
+        (f"{prefix}index.html#activities", "Activities"),
+        (f"{prefix}index.html#dining",     "Eat & Drink"),
+        (f"{prefix}index.html#hotels",     "Stay"),
+        (f"{prefix}shopping.html",         "Shopping"),
+        (f"{prefix}services.html",         "Services"),
+        (f"{prefix}currency.html",         "Currency"),
+        (f"{prefix}news.html",             "News"),
     ]
     lhtml = ""
     for href, label in links:
@@ -783,11 +787,11 @@ def nav_html(active="home"):
     return f"""
 <nav class="fixed top-0 w-full z-50" style="background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.06)">
   <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between">
-    <a href="index.html" class="flex items-baseline">
+    <a href="{prefix}index.html" class="flex items-baseline">
       <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
     </a>
     <div class="hidden md:flex items-center gap-7">{lhtml}</div>
-    <a href="news.html" class="hidden md:inline-flex items-center gap-1 text-white text-sm font-medium px-4 py-2 rounded-full hover:opacity-90 transition" style="background:var(--forest)">&#128240; Latest News</a>
+    <a href="{prefix}news.html" class="hidden md:inline-flex items-center gap-1 text-white text-sm font-medium px-4 py-2 rounded-full hover:opacity-90 transition" style="background:var(--forest)">&#128240; Latest News</a>
     <button onclick="document.getElementById('mm').classList.toggle('hidden')" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
       <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
@@ -795,7 +799,7 @@ def nav_html(active="home"):
   <div id="mm" class="hidden md:hidden border-t bg-white px-5 py-4 flex flex-col gap-3 text-sm">{lhtml}</div>
 </nav>"""
 
-def footer_html():
+def footer_html(prefix=""):
     return f"""
 <footer style="background:var(--forest)" class="text-white py-16">
   <div class="max-w-6xl mx-auto px-5">
@@ -807,14 +811,14 @@ def footer_html():
       <div>
         <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Explore</p>
         <ul class="space-y-2 text-sm text-white/70">
-          <li><a href="nature.html"      class="hover:text-white transition">Nature &amp; Parks</a></li>
-          <li><a href="activities.html"  class="hover:text-white transition">Activities</a></li>
-          <li><a href="restaurants.html" class="hover:text-white transition">Eat &amp; Drink</a></li>
-          <li><a href="hotels.html"      class="hover:text-white transition">Hotels &amp; Lodges</a></li>
-          <li><a href="shopping.html"    class="hover:text-white transition">Shopping</a></li>
-          <li><a href="services.html"    class="hover:text-white transition">Services</a></li>
-          <li><a href="currency.html"    class="hover:text-white transition">Currency Rates</a></li>
-          <li><a href="news.html"        class="hover:text-white transition">Suriname News</a></li>
+          <li><a href="{prefix}nature.html"      class="hover:text-white transition">Nature &amp; Parks</a></li>
+          <li><a href="{prefix}activities.html"  class="hover:text-white transition">Activities</a></li>
+          <li><a href="{prefix}restaurants.html" class="hover:text-white transition">Eat &amp; Drink</a></li>
+          <li><a href="{prefix}hotels.html"      class="hover:text-white transition">Hotels &amp; Lodges</a></li>
+          <li><a href="{prefix}shopping.html"    class="hover:text-white transition">Shopping</a></li>
+          <li><a href="{prefix}services.html"    class="hover:text-white transition">Services</a></li>
+          <li><a href="{prefix}currency.html"    class="hover:text-white transition">Currency Rates</a></li>
+          <li><a href="{prefix}news.html"        class="hover:text-white transition">Suriname News</a></li>
         </ul>
       </div>
       <div>
@@ -951,7 +955,7 @@ def poi_card(item, badge_key="cuisine"):
                 f'</div>') if img else ""
     phone_html = f'<span class="text-gray-400 text-xs">&#128222; {html_lib.escape(phone)}</span>' if phone else ""
     return f"""
-<a href="{url}" target="_blank" rel="noopener noreferrer" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="{url}" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   {img_html}
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1416,45 +1420,181 @@ def build_news(articles):
 </body>
 </html>"""
 
+
+# -- Listing detail pages -----------------------------------------------------
+
+_CAT_MAP = [
+    (["food","restaurant","dining","bar","cafe","coffee","snack","grill","pizza",
+      "sushi","noodle","pannekoek","ijsje"],
+     "restaurants.html", "Restaurants &amp; Dining"),
+    (["hotel","lodge","resort","accommodation","villa","suite","apartment",
+      "tiny house","waterland"],
+     "hotels.html", "Hotels &amp; Lodges"),
+    (["shopping","souvenir","retail","store","mall","boutique","craft","candle",
+      "jewelry","jewellery","print","skin","beauty","hair","wax","nail","tattoo",
+      "barber","spa","wellness","massage","yoga","fitness"],
+     "shopping.html", "Shopping"),
+    (["tour","adventure","nature","park","travel","airline","airways","klm","fly"],
+     "activities.html", "Activities"),
+]
+
+def _cat_back(category):
+    cat = category.lower()
+    for keywords, page, label in _CAT_MAP:
+        if any(k in cat for k in keywords):
+            return page, label
+    return "services.html", "Services"
+
+
+def build_listing_page(slug, b):
+    raw_name = b.get("name", slug)
+    desc     = b.get("description", "")
+    address  = b.get("address", "")
+    phone    = b.get("phone", "")
+    email    = b.get("email", "")
+    category = b.get("category", "")
+    location = b.get("location", "Paramaribo")
+    img      = _IMGS.get(slug, "")
+    ext_url  = _biz_url(b)
+
+    name_e   = html_lib.escape(raw_name)
+    desc_e   = html_lib.escape(desc[:160]) if desc else html_lib.escape(raw_name + " — listed on ExploreSuriname.com")
+    back_file, back_label = _cat_back(category)
+
+    page_url   = SITE_URL + "/listing/" + slug + "/"
+    maps_q     = urllib.parse.quote(raw_name + ", " + (address or location + ", Suriname"))
+    maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
+    maps_link  = "https://www.google.com/maps/search/?api=1&query=" + maps_q
+    og_img     = img if img else SITE_URL + "/og-image.jpg"
+
+    hero_style = ("background:url(" + html_lib.escape(img) + ") center/cover no-repeat"
+                  if img else "background:var(--forest)")
+    overlay    = ('<div class="absolute inset-0" style="background:linear-gradient('
+                  'to top,rgba(0,0,0,.75) 0%,rgba(0,0,0,.3) 60%,transparent 100%)"></div>'
+                  if img else "")
+
+    def row(icon, content):
+        return (
+            '<div class="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0">'
+            '<span class="text-xl shrink-0 mt-0.5">' + icon + '</span>'
+            '<span class="text-gray-700 text-sm leading-relaxed">' + content + '</span>'
+            '</div>'
+        )
+
+    rows = ""
+    if address:
+        rows += row("📍", html_lib.escape(address))
+    if phone:
+        rows += row("📞", '<a href="tel:' + html_lib.escape(phone) + '" class="hover:underline" '
+                    'style="color:var(--forest2)">' + html_lib.escape(phone) + '</a>')
+    if email:
+        rows += row("✉️", '<a href="mailto:' + html_lib.escape(email) + '" class="hover:underline" '
+                    'style="color:var(--forest2)">' + html_lib.escape(email) + '</a>')
+    if category:
+        rows += row("🏷️", html_lib.escape(category))
+
+    website_btn = ""
+    if ext_url and "google.com/search" not in ext_url:
+        website_btn = (
+            '<a href="' + html_lib.escape(ext_url) + '" target="_blank" rel="noopener" '
+            'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
+            'text-sm font-semibold text-white hover:opacity-90 transition mb-3" '
+            'style="background:var(--forest)">🌐 Visit Website</a>'
+        )
+
+    directions_btn = (
+        '<a href="' + html_lib.escape(maps_link) + '" target="_blank" rel="noopener" '
+        'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
+        'text-sm font-semibold border-2 hover:bg-gray-50 transition" '
+        'style="border-color:var(--forest2);color:var(--forest2)">🗺️ Get Directions</a>'
+    )
+
+    desc_block = ('<p class="text-gray-700 leading-relaxed text-base mb-8">'
+                  + html_lib.escape(desc) + '</p>') if desc else ""
+
+    head = (
+        PAGE_HEAD +
+        "\n  <title>" + name_e + " | ExploreSuriname.com</title>"
+        "\n  <meta name=\"description\" content=\"" + desc_e + "\">"
+        "\n  <link rel=\"canonical\" href=\"" + page_url + "\">"
+        "\n  <meta property=\"og:type\" content=\"business.business\">"
+        "\n  <meta property=\"og:site_name\" content=\"Explore Suriname\">"
+        "\n  <meta property=\"og:url\" content=\"" + page_url + "\">"
+        "\n  <meta property=\"og:title\" content=\"" + name_e + " | ExploreSuriname.com\">"
+        "\n  <meta property=\"og:description\" content=\"" + desc_e + "\">"
+        "\n  <meta property=\"og:image\" content=\"" + og_img + "\">"
+        "\n  <meta name=\"twitter:card\" content=\"summary_large_image\">"
+        "\n  <meta name=\"twitter:title\" content=\"" + name_e + " | ExploreSuriname.com\">"
+        "\n  <meta name=\"twitter:image\" content=\"" + og_img + "\">"
+        "\n</head>"
+    )
+
+    hero = (
+        '\n<body class="bg-gray-50 overflow-x-hidden">\n' +
+        nav_html(prefix="../../") +
+        '\n<div class="relative w-full pt-16" style="min-height:320px">'
+        '\n  <div class="absolute inset-0" style="' + hero_style + '"></div>'
+        '\n  ' + overlay +
+        '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"'
+        '\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">'
+        '\n    <a href="../../' + back_file + '"'
+        '\n       class="inline-flex items-center gap-1 text-white/70 text-sm hover:text-white mb-5 transition w-fit">'
+        '\n      &#8592; ' + back_label +
+        '\n    </a>'
+        '\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"'
+        '\n          style="background:var(--coral);color:#fff">' + html_lib.escape(category) + '</span>'
+        '\n    <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">' + name_e + '</h1>'
+        '\n    <p class="text-white/70 text-sm">&#128205; ' + html_lib.escape(location) + ', Suriname</p>'
+        '\n  </div>'
+        '\n</div>'
+    )
+
+    main = (
+        '\n<main class="max-w-5xl mx-auto px-5 py-12 pb-24">'
+        '\n  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">'
+
+        '\n    <div class="lg:col-span-2">'
+        '\n      ' + desc_block +
+        '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>'
+        '\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">'
+        '\n        <iframe src="' + maps_embed + '" width="100%" height="100%"'
+        '\n          style="border:0" allowfullscreen="" loading="lazy"'
+        '\n          referrerpolicy="no-referrer-when-downgrade"></iframe>'
+        '\n      </div>'
+        '\n      <p class="text-gray-400 text-xs text-center mb-8">'
+        '\n        Map data &copy; Google &mdash; click the map to see hours, reviews &amp; street view.'
+        '\n      </p>'
+        '\n    </div>'
+
+        '\n    <div class="lg:col-span-1">'
+        '\n      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">'
+        '\n        <h2 class="text-base font-bold text-gray-900 mb-4">Contact &amp; Info</h2>'
+        '\n        ' + rows +
+        '\n        <div class="mt-6">'
+        '\n          ' + website_btn +
+        '\n          ' + directions_btn +
+        '\n        </div>'
+        '\n      </div>'
+        '\n    </div>'
+
+        '\n  </div>'
+        '\n</main>'
+    )
+
+    return head + hero + main + "\n" + footer_html(prefix="../../") + "\n</body>\n</html>"
+
+
 # -- Main ---------------------------------------------------------------------
 
 if __name__ == "__main__":
-    print("=" * 55)
-    print("  ExploreSuriname.com — Site Generator")
-    print("=" * 55)
+    print("ExploreSuriname generator starting...")
 
-    print("\n[1/6] Fetching news articles...")
-    articles = fetch_articles()
-    print(f"      {len(articles)} articles total")
-
-    print("\n[2/6] Fetching restaurants (Overpass API)...")
-    REST_Q = """[out:json][timeout:20];
-area["name"="Paramaribo"]["admin_level"="8"]->.a;
-(node["amenity"="restaurant"](area.a); way["amenity"="restaurant"](area.a););
-out center 20;"""
-    restaurants = merge_with_fallbacks(fetch_overpass(REST_Q, 20), RESTAURANTS)
-    print(f"      {len(restaurants)} restaurants")
-
-    print("\n[3/6] Fetching hotels (Overpass API)...")
-    HOTEL_Q = """[out:json][timeout:20];
-area["name"="Suriname"]["admin_level"="2"]->.a;
-(node["tourism"~"hotel|guest_house|hostel|motel"](area.a);
- way["tourism"~"hotel|guest_house|hostel|motel"](area.a););
-out center 20;"""
-    hotels = merge_with_fallbacks(fetch_overpass(HOTEL_Q, 20), HOTELS)
-    print(f"      {len(hotels)} hotels")
-
-    print("\n[4/6] Fetching CME exchange rates...")
-    cme_rates, cme_live, cme_updated = fetch_cme_rates()
-    print(f"      {{'Live' if cme_live else 'Fallback'}}: {len(cme_rates)} currencies")
-
-    print("\n[5/6] Fetching CBVS exchange rates...")
+    articles                            = fetch_articles()
+    cme_rates, cme_live, cme_updated    = fetch_cme_rates()
     cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
-    print(f"      {{'Live' if cbvs_live else 'Fallback'}}: {len(cbvs_rates)} currencies")
 
-    print("\n[6/6] Generating all pages...")
     pages = {
-        "index.html":       build_index(restaurants, hotels, articles[:3]),
+        "index.html":       build_index(RESTAURANTS, HOTELS, articles[:6]),
         "nature.html":      build_nature_page(),
         "activities.html":  build_activities_page(),
         "restaurants.html": build_restaurants_page(RESTAURANTS),
@@ -1468,6 +1608,15 @@ out center 20;"""
     for fname, html in pages.items():
         with open(fname, "w", encoding="utf-8") as f:
             f.write(html)
-        print(f"      wrote {fname}")
+        print(f"  OK  {fname}")
 
-    print("\n\u2713 Done.")
+    os.makedirs("listing", exist_ok=True)
+    count = 0
+    for slug, biz in _BIZ.items():
+        d = f"listing/{slug}"
+        os.makedirs(d, exist_ok=True)
+        with open(f"{d}/index.html", "w", encoding="utf-8") as f:
+            f.write(build_listing_page(slug, biz))
+        count += 1
+    print(f"  OK  {count} listing pages -> listing/*/index.html")
+    print("Done.")
