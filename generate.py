@@ -19,11 +19,9 @@ YEAR           = datetime.now(SR_TZ).year
 MAX_PER_FEED   = 10
 
 FEEDS = [
-    {"name": "De Ware Tijd",  "url": "https://www.dwtonline.com/feed/",  "color": "#2D6A4F"},
-    {"name": "Starnieuws",    "url": "https://www.starnieuws.com/feed/", "color": "#B40A2D"},
-    {"name": "Waterkant",     "url": "https://www.waterkant.net/feed/",  "color": "#1a56db"},
-    {"name": "SurinameTimes", "url": "https://surinametimes.net/feed/",  "color": "#7e3af2"},
-    {"name": "ABC Suriname",  "url": "https://www.abcsur.com/feed/",     "color": "#e3a008"},
+    {"name": "De Ware Tijd", "url": "https://www.dwtonline.com/feed/",              "color": "#2D6A4F"},
+    {"name": "Starnieuws",   "url": "https://www.starnieuws.com/rss/starnieuws.rss","color": "#B40A2D"},
+    {"name": "Waterkant",    "url": "https://www.waterkant.net/feed/",               "color": "#1a56db"},
 ]
 
 NATURE_SPOTS = [
@@ -1406,14 +1404,14 @@ def build_news(articles):
 <div class="text-white text-center py-16" style="background:var(--forest)">
   <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--leaf)">Auto-updated daily</p>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname News</h1>
-  <p class="text-white/55 text-sm">&#128336; {updated} &middot; {total} stories from {len(FEEDS)} sources</p>
+  <p class="text-white/55 text-sm">{updated} &middot; {total} stories from {len(FEEDS)} sources</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-20">
   {ad_slot("Top Banner Ad — Replace with Google AdSense code")}
-  <h2 class="text-xs font-bold uppercase tracking-widest mb-5" style="color:var(--forest2)">&#128293; Top Stories</h2>
+  <h2 class="text-xs font-bold uppercase tracking-widest mb-5" style="color:var(--forest2)">Top Stories</h2>
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">{feat_html}</div>
   {ad_slot("Mid-Page Ad — Replace with Google AdSense code")}
-  <h2 class="text-xs font-bold uppercase tracking-widest mb-5 mt-6 text-gray-500">ll Stories</h2>
+  <h2 class="text-xs font-bold uppercase tracking-widest mb-5 mt-6 text-gray-500">All Stories</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{rest_html}</div>
 </main>
 {footer_html()}
