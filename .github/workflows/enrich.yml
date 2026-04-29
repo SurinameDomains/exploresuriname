@@ -1,0 +1,37 @@
+name: Enrich Listings (OSM)
+
+on:
+  schedule:
+    # Every Sunday at 03:00 UTC (midnight SR time) — weekly refresh
+    - cron: '0 3 * * 0'
+  workflow_dispatch:   # allow manual trigger from GitHub Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install feedparser
+
+      - name: Run OSM enrichment
+        run: python enrich_from_osm.py
+
+      - name: Commit enrichment cache
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add listing_enrichments.json
+          git diff --staged --quiet || git commit -m "chore: refresh OSM listing enrichments [$(date '+%Y-%m-%d')]"
+          git push
