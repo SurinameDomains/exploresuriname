@@ -886,9 +886,9 @@ def nature_card(spot):
         f'<span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">{t}</span>'
         for t in spot["tags"]
     )
-    url = spot.get("url", "#")
+    internal_url = f"listing/{_nature_slug(spot['name'])}/"    
     return f"""
-<a href="{url}" target="_blank" rel="noopener noreferrer" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+<a href="{internal_url}" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
   <div class="relative h-56 overflow-hidden">
     <img src="{spot['image']}" alt="{html_lib.escape(spot['name'])}" loading="lazy"
          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -1444,6 +1444,11 @@ def _act_slug(name):
     return "activity-" + re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')
 
 
+def _nature_slug(name):
+    """Convert a nature spot name to a URL-safe slug, prefixed with 'nature-'."""
+    return "nature-" + re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')
+
+
 def _cat_back(category):
     cat = category.lower()
     for keywords, page, label in _CAT_MAP:
@@ -1598,13 +1603,13 @@ def build_activity_listing_page(act, slug):
     ext_url = act.get("url", "")
     icon    = act.get("icon", "\U0001f33f")
 
-    name_e   = html_lib.escape(name)
-    desc_e   = html_lib.escape(desc[:160]) if desc else html_lib.escape(name + " — ExploreSuriname.com")
-    page_url = SITE_URL + "/listing/" + slug + "/"
-    maps_q   = urllib.parse.quote(name + ", Suriname")
+    name_e     = html_lib.escape(name)
+    desc_e     = html_lib.escape(desc[:160]) if desc else html_lib.escape(name + " — ExploreSuriname.com")
+    page_url   = SITE_URL + "/listing/" + slug + "/"
+    maps_q     = urllib.parse.quote(name + ", Suriname")
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
     maps_link  = "https://www.google.com/maps/search/?api=1&query=" + maps_q
-    og_img   = img if img else SITE_URL + "/og-image.jpg"
+    og_img     = img if img else SITE_URL + "/og-image.jpg"
 
     hero_style = ("background:url(" + html_lib.escape(img) + ") center/cover no-repeat"
                   if img else "background:var(--forest)")
@@ -1671,7 +1676,6 @@ def build_activity_listing_page(act, slug):
     main = (
         '\n<main class="max-w-5xl mx-auto px-5 py-12 pb-24">'
         '\n  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">'
-
         '\n    <div class="lg:col-span-2">'
         '\n      ' + desc_block +
         '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>'
@@ -1684,7 +1688,6 @@ def build_activity_listing_page(act, slug):
         '\n        Map data &copy; Google &mdash; click the map to see locations, reviews &amp; directions.'
         '\n      </p>'
         '\n    </div>'
-
         '\n    <div class="lg:col-span-1">'
         '\n      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">'
         '\n        <h2 class="text-base font-bold text-gray-900 mb-4">Plan Your Trip</h2>'
@@ -1694,7 +1697,134 @@ def build_activity_listing_page(act, slug):
         '\n        </div>'
         '\n      </div>'
         '\n    </div>'
+        '\n  </div>'
+        '\n</main>'
+    )
 
+    return head + hero + main + "\n" + footer_html(prefix="../../") + "\n</body>\n</html>"
+
+
+def build_nature_listing_page(spot, slug):
+    """Generate an individual detail page for a NATURE_SPOTS entry."""
+    name    = spot.get("name", slug)
+    desc    = spot.get("desc", "")
+    img     = spot.get("image", "")
+    ext_url = spot.get("url", "")
+    badge   = spot.get("badge", "Nature")
+    fact    = spot.get("fact", "")
+    tags    = spot.get("tags", [])
+
+    name_e     = html_lib.escape(name)
+    desc_e     = html_lib.escape(desc[:160]) if desc else html_lib.escape(name + " — ExploreSuriname.com")
+    page_url   = SITE_URL + "/listing/" + slug + "/"
+    maps_q     = urllib.parse.quote(name + ", Suriname")
+    maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
+    maps_link  = "https://www.google.com/maps/search/?api=1&query=" + maps_q
+    og_img     = img if img else SITE_URL + "/og-image.jpg"
+
+    hero_style = ("background:url(" + html_lib.escape(img) + ") center/cover no-repeat"
+                  if img else "background:var(--forest)")
+    overlay    = ('<div class="absolute inset-0" style="background:linear-gradient('
+                  'to top,rgba(0,0,0,.75) 0%,rgba(0,0,0,.3) 60%,transparent 100%)"></div>'
+                  if img else "")
+
+    tags_html = "".join(
+        '<span class="inline-block text-xs px-3 py-1 rounded-full font-medium mr-1 mb-1"'
+        ' style="background:var(--mint);color:var(--forest)">' + html_lib.escape(t) + '</span>'
+        for t in tags
+    )
+
+    fact_block = (
+        '<div class="flex items-start gap-3 p-4 rounded-xl mb-6" style="background:var(--mint)">'
+        '<span class="text-2xl shrink-0">✨</span>'
+        '<p class="text-sm font-medium" style="color:var(--forest)">' + html_lib.escape(fact) + '</p>'
+        '</div>'
+    ) if fact else ""
+
+    website_btn = ""
+    if ext_url:
+        website_btn = (
+            '<a href="' + html_lib.escape(ext_url) + '" target="_blank" rel="noopener" '
+            'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
+            'text-sm font-semibold text-white hover:opacity-90 transition mb-3" '
+            'style="background:var(--forest)">\U0001f310 Learn More</a>'
+        )
+
+    directions_btn = (
+        '<a href="' + html_lib.escape(maps_link) + '" target="_blank" rel="noopener" '
+        'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
+        'text-sm font-semibold border-2 hover:bg-gray-50 transition" '
+        'style="border-color:var(--forest2);color:var(--forest2)">\U0001f5fa️ Get Directions</a>'
+    )
+
+    desc_block = ('<p class="text-gray-700 leading-relaxed text-base mb-8">'
+                  + html_lib.escape(desc) + '</p>') if desc else ""
+
+    tags_section = ('<div class="flex flex-wrap gap-1 mb-8">' + tags_html + '</div>') if tags_html else ""
+
+    head = (
+        PAGE_HEAD +
+        "\n  <title>" + name_e + " | ExploreSuriname.com</title>"
+        "\n  <meta name=\"description\" content=\"" + desc_e + "\">"
+        "\n  <link rel=\"canonical\" href=\"" + page_url + "\">"
+        "\n  <meta property=\"og:type\" content=\"website\">"
+        "\n  <meta property=\"og:site_name\" content=\"Explore Suriname\">"
+        "\n  <meta property=\"og:url\" content=\"" + page_url + "\">"
+        "\n  <meta property=\"og:title\" content=\"" + name_e + " | ExploreSuriname.com\">"
+        "\n  <meta property=\"og:description\" content=\"" + desc_e + "\">"
+        "\n  <meta property=\"og:image\" content=\"" + og_img + "\">"
+        "\n  <meta name=\"twitter:card\" content=\"summary_large_image\">"
+        "\n  <meta name=\"twitter:title\" content=\"" + name_e + " | ExploreSuriname.com\">"
+        "\n  <meta name=\"twitter:image\" content=\"" + og_img + "\">"
+        "\n</head>"
+    )
+
+    hero = (
+        '\n<body class="bg-gray-50 overflow-x-hidden">\n' +
+        nav_html(prefix="../../") +
+        '\n<div class="relative w-full pt-16" style="min-height:320px">'
+        '\n  <div class="absolute inset-0" style="' + hero_style + '"></div>'
+        '\n  ' + overlay +
+        '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"'
+        '\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">'
+        '\n    <a href="../../nature.html"'
+        '\n       class="inline-flex items-center gap-1 text-white/70 text-sm hover:text-white mb-5 transition w-fit">'
+        '\n      &#8592; Nature &amp; Parks'
+        '\n    </a>'
+        '\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"'
+        '\n          style="background:var(--coral);color:#fff">' + html_lib.escape(badge) + '</span>'
+        '\n    <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">' + name_e + '</h1>'
+        '\n    <p class="text-white/70 text-sm">&#127757; Suriname</p>'
+        '\n  </div>'
+        '\n</div>'
+    )
+
+    main = (
+        '\n<main class="max-w-5xl mx-auto px-5 py-12 pb-24">'
+        '\n  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">'
+        '\n    <div class="lg:col-span-2">'
+        '\n      ' + desc_block +
+        '\n      ' + fact_block +
+        '\n      ' + tags_section +
+        '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>'
+        '\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">'
+        '\n        <iframe src="' + maps_embed + '" width="100%" height="100%"'
+        '\n          style="border:0" allowfullscreen="" loading="lazy"'
+        '\n          referrerpolicy="no-referrer-when-downgrade"></iframe>'
+        '\n      </div>'
+        '\n      <p class="text-gray-400 text-xs text-center mb-8">'
+        '\n        Map data &copy; Google &mdash; click the map to see locations, reviews &amp; directions.'
+        '\n      </p>'
+        '\n    </div>'
+        '\n    <div class="lg:col-span-1">'
+        '\n      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">'
+        '\n        <h2 class="text-base font-bold text-gray-900 mb-4">Plan Your Visit</h2>'
+        '\n        <div class="mt-2">'
+        '\n          ' + website_btn +
+        '\n          ' + directions_btn +
+        '\n        </div>'
+        '\n      </div>'
+        '\n    </div>'
         '\n  </div>'
         '\n</main>'
     )
@@ -1745,5 +1875,12 @@ if __name__ == "__main__":
         os.makedirs(d, exist_ok=True)
         with open(f"{d}/index.html", "w", encoding="utf-8") as f:
             f.write(build_activity_listing_page(act, act_slug))
+        count += 1
+    for spot in NATURE_SPOTS:
+        nat_slug = _nature_slug(spot["name"])
+        d = f"listing/{nat_slug}"
+        os.makedirs(d, exist_ok=True)
+        with open(f"{d}/index.html", "w", encoding="utf-8") as f:
+            f.write(build_nature_listing_page(spot, nat_slug))
         count += 1
     print(f"  OK  {count} listing pages")
