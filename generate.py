@@ -302,6 +302,8 @@ _BIZ = {
     'zeepfabriek-joab': {"name": 'Zeepfabriek JOAB', "location": 'Paramaribo', "address": 'Van Roosevelt kade Prasara 1', "phone": '+597 879-7165', "website": ''},
     'zeg-ijsje': {"name": 'Zeg Ijsje', "location": 'Paramaribo', "address": 'Marygoldstraat', "phone": '+597 867-0993', "website": ''},
     'zus-zo-cafe': {"name": 'Zus & Zo Cafe', "location": 'Paramaribo', "address": 'Grote Combeweg 13a, Paramaribo, Suriname', "phone": '+597 520-904', "website": 'www.zusenzosuriname.com/'},
+    'de-gadri': {"name": 'De Gadri', "location": 'Paramaribo', "address": 'Zeelandiaweg 1, Paramaribo, Suriname', "phone": '+597 420-688', "website": ''},
+    'big-tex': {"name": 'Big Tex', "location": 'Paramaribo', "address": 'Anamoestraat 81, Paramaribo, Suriname', "phone": '+597 815-7161', "website": ''},
 }
 
 def _biz_url(b):
@@ -501,7 +503,7 @@ def _make_biz(slug):
             "external_url": _biz_url(b),        # business website / Google fallback
             "image": _biz_img(slug)}
 
-RESTAURANTS = [b for slug in ["a-la-john","ac-bar-restaurant","baka-foto-restaurant","bar-zuid","bori-tori","chi-min","de-spot","de-verdieping","el-patron-latin-grill","elines-pizza","garden-of-eden","goe-thai-noodle-bar","hard-rock-cafe-suriname","joey-ds","julias-food","kasan-snacks","las-tias","mickis-palace-noord","mickis-palace-zuid","mingle-paramaribo","moments-restaurant","pane-e-vino","pannekoek-en-poffertjes-cafe","passion-food-and-wines","rogom-farm-nv","souposo","sushi-ya","the-coffee-box","zeg-ijsje","zus-zo-cafe"] for b in [_make_biz(slug)] if b]
+RESTAURANTS = [b for slug in ["a-la-john","ac-bar-restaurant","baka-foto-restaurant","bar-zuid","big-tex","bori-tori","chi-min","de-gadri","de-spot","de-verdieping","el-patron-latin-grill","elines-pizza","garden-of-eden","goe-thai-noodle-bar","hard-rock-cafe-suriname","joey-ds","julias-food","kasan-snacks","las-tias","mickis-palace-noord","mickis-palace-zuid","mingle-paramaribo","moments-restaurant","pane-e-vino","pannekoek-en-poffertjes-cafe","passion-food-and-wines","rogom-farm-nv","souposo","sushi-ya","the-coffee-box","zeg-ijsje","zus-zo-cafe"] for b in [_make_biz(slug)] if b]
 
 HOTELS = [b for slug in ["bronbella-villa-residence","courtyard-by-marriott","eco-resort-miano","eco-torarica","holland-lodge","hotel-palacio","hotel-peperpot","houttuyn-wellness-river-resort","jacana-amazon-wellness-resort","oxygen-resort","royal-brasil-hotel","royal-breeze-hotel-paramaribo","royal-torarica","taman-indah-resort","the-golden-truly-hotel","tiny-house-tropical-appartment","torarica-resort","villa-famiri","waterland-suites","zeelandia-suites"] for b in [_make_biz(slug)] if b]
 
