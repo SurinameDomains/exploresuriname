@@ -1,0 +1,722 @@
+[
+  {
+    "slug": "9173",
+    "found": true,
+    "osm_name": "Ark"
+  },
+  {
+    "slug": "a-la-john",
+    "found": true,
+    "osm_name": "A La John",
+    "opening_hours": "24/7",
+    "phone": "+5978845884",
+    "address": "Johannes S. Mungrastraat, Paramaribo"
+  },
+  {
+    "slug": "ac-bar-restaurant",
+    "found": true,
+    "osm_name": "AC Bar & Restaurant",
+    "phone": "+597 459394",
+    "address": "53, Verlengde Anamoestraat, Paramaribo"
+  },
+  {
+    "slug": "afobaka-resort",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "akira-overwater-resort",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "baka-foto-restaurant",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "bar-zuid",
+    "found": true,
+    "osm_name": "Bar Zuid"
+  },
+  {
+    "slug": "bed-bath-more-bbm",
+    "found": true,
+    "osm_name": "Bed Bath & More"
+  },
+  {
+    "slug": "bitdynamics",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "bloom-wellness-cafe",
+    "found": true,
+    "osm_name": "CAF"
+  },
+  {
+    "slug": "bori-tori",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "bronbella-villa-residence",
+    "found": true,
+    "osm_name": "Bella",
+    "address": "161, Tourtonnelaan, Paramaribo"
+  },
+  {
+    "slug": "carpe-diem-massagepraktijk",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "chi-min",
+    "found": true,
+    "osm_name": "Chi Min Restaurant",
+    "address": "83, Cornelis Jongbawstraat, Paramaribo",
+    "cuisine": "Chinese"
+  },
+  {
+    "slug": "cola-kreek-recreatiepark",
+    "found": true,
+    "osm_name": "Ark"
+  },
+  {
+    "slug": "courtyard-by-marriott",
+    "found": true,
+    "osm_name": "Courtyard by Marriott",
+    "phone": "+597 456000",
+    "website": "https://www.marriott.com/pbmcy",
+    "address": "Anton Dragtenweg, Paramaribo"
+  },
+  {
+    "slug": "de-spot",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "de-verdieping",
+    "found": true,
+    "osm_name": "De Verdieping Restaurant",
+    "opening_hours": "Mo-Sa 08:00-22:00",
+    "phone": "+5978408613",
+    "website": "https://www.facebook.com/deverdiepingsr/",
+    "address": "1, Kleine Waterstraat, Paramaribo"
+  },
+  {
+    "slug": "delete-beauty-lounge",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "divergent-body-jewelry",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "dj-liquor-store",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "dli-travel-consultancy",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "eaglemedia",
+    "found": true,
+    "osm_name": "Eagle"
+  },
+  {
+    "slug": "ec-operations",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "eco-resort-miano",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "eco-torarica",
+    "found": true,
+    "osm_name": "Torarica"
+  },
+  {
+    "slug": "ekay-media",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "el-patron-latin-grill",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "elines-pizza",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "fatum",
+    "found": true,
+    "osm_name": "Fatum",
+    "address": "Noorderkerkstraat"
+  },
+  {
+    "slug": "fly-allways",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ford-zeelandia",
+    "found": true,
+    "osm_name": "Fort Zeelandia",
+    "opening_hours": "Mo-Sa 08:00-14:00",
+    "address": "Zeelandiaweg, Paramaribo"
+  },
+  {
+    "slug": "from-me-to-me",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "galaxy",
+    "found": true,
+    "osm_name": "Galaxy",
+    "address": "Unit 211-212, Hermitage Mall, Paramaribo"
+  },
+  {
+    "slug": "garden-of-eden",
+    "found": true,
+    "osm_name": "Garden of Eden",
+    "opening_hours": "Mo-Sa 11:00-14:00, 18:00-23:00",
+    "phone": "+597499448",
+    "address": "61, Virolastraat, Paramaribo",
+    "cuisine": "Thai"
+  },
+  {
+    "slug": "goe-thai-noodle-bar",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "h-garden",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "hairstudio-32",
+    "found": true,
+    "osm_name": "DIO",
+    "address": "Unit 16, Hermitage Mall, Paramaribo"
+  },
+  {
+    "slug": "handmade-by-farrell-nv",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "hard-rock-cafe-suriname",
+    "found": true,
+    "osm_name": "CAF"
+  },
+  {
+    "slug": "hermitage-mall",
+    "found": true,
+    "osm_name": "Hermitage Mall",
+    "address": "73, Lalla Rookhweg, Paramaribo"
+  },
+  {
+    "slug": "het-koto-museum",
+    "found": true,
+    "osm_name": "Koto Museum",
+    "opening_hours": "Mo-Fr 10:00-17:00",
+    "phone": "+597480365",
+    "website": "https://www.hetkotomuseum.org/",
+    "address": "43, Prinsessestraat, Paramaribo"
+  },
+  {
+    "slug": "holland-lodge",
+    "found": true,
+    "osm_name": "Holland Lodge",
+    "phone": "+597520663",
+    "website": "https://www.hollandlodgeparamaribo.com/",
+    "address": "25, Mahonylaan"
+  },
+  {
+    "slug": "honeycare",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "hotel-palacio",
+    "found": true,
+    "osm_name": "Hotel Palacio",
+    "phone": "+597 420064",
+    "website": "https://www.hotelpalacio.net/",
+    "address": "9, Heerenstraat, Paramaribo"
+  },
+  {
+    "slug": "hotel-peperpot",
+    "found": true,
+    "osm_name": "Boutique Hotel Peperpot",
+    "address": "1, Plantage Peperpot, Meerzorg"
+  },
+  {
+    "slug": "houttuyn-wellness-river-resort",
+    "found": true,
+    "osm_name": "Houttuyn Wellness River Resort",
+    "phone": "08252888",
+    "website": "https://www.houttuyn.com/"
+  },
+  {
+    "slug": "huub-explorer-tours",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ias-wooden-and-construction-nv",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "inksane-tattoos",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "international-mall-of-suriname",
+    "found": true,
+    "osm_name": "International Mall of Suriname",
+    "website": "https://ims.sr/",
+    "address": "245, Ringweg Zuid, Paramaribo"
+  },
+  {
+    "slug": "jacana-amazon-wellness-resort",
+    "found": true,
+    "osm_name": "Jacana Amazon Wellness Resort",
+    "address": "Commewijnestraat, Paramaribo"
+  },
+  {
+    "slug": "joden-savanne",
+    "found": true,
+    "osm_name": "Joden savanne"
+  },
+  {
+    "slug": "joey-ds",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "julias-food",
+    "found": true,
+    "osm_name": "Julia"
+  },
+  {
+    "slug": "kasan-snacks",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "kirpalani",
+    "found": true,
+    "osm_name": "Kirpalani"
+  },
+  {
+    "slug": "klm-royal-dutch-airlines",
+    "found": true,
+    "osm_name": "KLM"
+  },
+  {
+    "slug": "knini-paati",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "kodouffi-tapawatra-resort",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "las-tias",
+    "found": true,
+    "osm_name": "Las Tias",
+    "address": "Johannes Mungrastraat, Paramaribo",
+    "cuisine": "Mexican"
+  },
+  {
+    "slug": "lashlift-suriname",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "lilis",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "lioness-beauty-effects",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "mickis-palace-noord",
+    "found": true,
+    "osm_name": "ACE",
+    "address": "23, Kasabaholoweg, Paramaribo"
+  },
+  {
+    "slug": "mickis-palace-zuid",
+    "found": true,
+    "osm_name": "ACE",
+    "address": "23, Kasabaholoweg, Paramaribo"
+  },
+  {
+    "slug": "mingle-paramaribo",
+    "found": true,
+    "osm_name": "Paramaribo",
+    "address": "Dr. Sophie Redmondstraat"
+  },
+  {
+    "slug": "mokisa-busidataa-osu-nv",
+    "found": true,
+    "osm_name": "DA",
+    "address": "93, Sewbarath Misserstraat, Paramaribo"
+  },
+  {
+    "slug": "moments-restaurant",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "museum-bakkie",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "nv-threefold-quality-system-support",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "nv-zing-manufacturing",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "oxygen-resort",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "pane-e-vino",
+    "found": true,
+    "osm_name": "PAN",
+    "address": "46, Djamoestraat"
+  },
+  {
+    "slug": "pannekoek-en-poffertjes-cafe",
+    "found": true,
+    "osm_name": "PAN",
+    "address": "46, Djamoestraat"
+  },
+  {
+    "slug": "papillon-crafts",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "passion-food-and-wines",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "peperpot-nature-park",
+    "found": true,
+    "osm_name": "Ark"
+  },
+  {
+    "slug": "pinkmoon-suriname",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "plantage-frederiksdorp",
+    "found": true,
+    "osm_name": "plantage frederiksdorp"
+  },
+  {
+    "slug": "readytex-souvenirs-and-crafts",
+    "found": true,
+    "osm_name": "Readytex"
+  },
+  {
+    "slug": "recreatie-oord-carolina-kreek",
+    "found": true,
+    "osm_name": "kreek"
+  },
+  {
+    "slug": "rich-skin",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "rock-fitness-paramaribo",
+    "found": true,
+    "osm_name": "Paramaribo",
+    "address": "Dr. Sophie Redmondstraat"
+  },
+  {
+    "slug": "rogom-farm-nv",
+    "found": true,
+    "osm_name": "OG"
+  },
+  {
+    "slug": "royal-brasil-hotel",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "royal-breeze-hotel-paramaribo",
+    "found": true,
+    "osm_name": "Paramaribo",
+    "address": "Dr. Sophie Redmondstraat"
+  },
+  {
+    "slug": "royal-rose-yoni-spa",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "royal-spa",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "royal-torarica",
+    "found": true,
+    "osm_name": "Royal Torarica"
+  },
+  {
+    "slug": "royal-wellness-lounge",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "seen-stories",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "shlx-collection",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "sleeqe",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "smoothieskin",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "souposo",
+    "found": true,
+    "osm_name": "Souposo",
+    "address": "20a, Costerstraat, Paramaribo"
+  },
+  {
+    "slug": "stichting-shiatsu-massage",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "stukaderen-in-nederland",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "suraniyat",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "surimami-store",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "surinam-airways",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "sushi-ya",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "switi-momenti-candles-crafts",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "talking-prints-concept-store",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "taman-indah-resort",
+    "found": true,
+    "osm_name": "DA",
+    "address": "93, Sewbarath Misserstraat, Paramaribo"
+  },
+  {
+    "slug": "the-beauty-bar",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "the-coffee-box",
+    "found": true,
+    "osm_name": "The Coffee Box",
+    "address": "Lalla Rookhweg, Paramaribo"
+  },
+  {
+    "slug": "the-freelance-scout",
+    "found": true,
+    "osm_name": "Elan",
+    "address": "Unit 46-48, Hermitage Mall, Paramaribo"
+  },
+  {
+    "slug": "the-golden-truly-hotel",
+    "found": true,
+    "osm_name": "The Golden Truly"
+  },
+  {
+    "slug": "the-house-of-beauty",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "the-old-attic",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "the-uma-store",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "the-waxing-booth",
+    "found": true,
+    "osm_name": "AX",
+    "address": "98, Hermitage Mall, Paramaribo"
+  },
+  {
+    "slug": "the-wonderlab-su",
+    "found": true,
+    "osm_name": "Wonder"
+  },
+  {
+    "slug": "thermen-hermitage-turkish-bath-beautycenter",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "timeless-barber-and-nail-shop",
+    "found": true,
+    "osm_name": "Barber"
+  },
+  {
+    "slug": "tiny-house-tropical-appartment",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "tio-boto-eco-resort",
+    "found": true,
+    "osm_name": "Tio Boto"
+  },
+  {
+    "slug": "torarica-resort",
+    "found": true,
+    "osm_name": "Torarica"
+  },
+  {
+    "slug": "unlimited-suriname-tours",
+    "found": true,
+    "osm_name": "iMiT",
+    "address": "Zinniastraat, Paramaribo"
+  },
+  {
+    "slug": "unlocked-candles",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "villa-famiri",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "waterland-suites",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "wayfinders-exclusive-n-v",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "woodwonders-suriname",
+    "found": true,
+    "osm_name": "Wonder"
+  },
+  {
+    "slug": "yoga-peetha-happiness-centre",
+    "found": true,
+    "osm_name": "OG"
+  },
+  {
+    "slug": "zeelandia-suites",
+    "found": true,
+    "osm_name": "Zeelandia Suites",
+    "website": "http://www.zeelandiasuites.com/"
+  },
+  {
+    "slug": "zeepfabriek-joab",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "zeg-ijsje",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "zus-zo-cafe",
+    "found": true,
+    "osm_name": "CAF"
+  },
+  {
+    "slug": "de-gadri",
+    "found": true,
+    "osm_name": "De Gadri",
+    "phone": "420688",
+    "address": "1, zeelandiaweg"
+  },
+  {
+    "slug": "big-tex",
+    "found": false,
+    "osm_name": ""
+  }
+]
