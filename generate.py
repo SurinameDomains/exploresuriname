@@ -10,6 +10,7 @@ Run daily via GitHub Actions.
 import feedparser
 import html as html_lib
 import re, os, json
+from pathlib import Path
 import urllib.request, urllib.parse
 from datetime import datetime, timezone, timedelta
 
@@ -18,6 +19,19 @@ CONTACT_EMAIL  = "surinamedomains@gmail.com"
 SR_TZ          = timezone(timedelta(hours=-3))   # Suriname time (UTC-3, no DST)
 YEAR           = datetime.now(SR_TZ).year
 MAX_PER_FEED   = 10
+
+# Load OSM enrichment cache (produced by enrich_from_osm.py, committed weekly)
+# Keys: slug → {opening_hours, phone, address, cuisine, price_range, ...}
+_ENRICHMENTS: dict = {}
+_enrich_path = Path(__file__).parent / "listing_enrichments.json"
+if _enrich_path.exists():
+    try:
+        for _e in json.loads(_enrich_path.read_text(encoding="utf-8")):
+            if _e.get("found"):
+                _ENRICHMENTS[_e["slug"]] = _e
+        print(f"  Loaded {len(_ENRICHMENTS)} OSM enrichments from listing_enrichments.json")
+    except Exception as _err:
+        print(f"  Warning: could not load listing_enrichments.json — {_err}")
 
 FEEDS = [
     {"name": "De Ware Tijd", "url": "https://www.dwtonline.com/feed/",              "color": "#2D6A4F"},
@@ -1507,6 +1521,14 @@ def build_listing_page(slug, b):
     img      = _IMGS.get(slug, "")
     ext_url  = _biz_url(b)
 
+    # Merge OSM enrichment — fill gaps only (don't overwrite existing curated data)
+    _osm = _ENRICHMENTS.get(slug, {})
+    if not phone    and _osm.get("phone"):    phone   = _osm["phone"]
+    if not address  and _osm.get("address"):  address = _osm["address"]
+    if not ext_url  and _osm.get("website"):  ext_url = _osm["website"]
+    osm_hours  = _osm.get("opening_hours", "")   # e.g. "Mo-Fr 09:00-17:00; Sa 10:00-14:00"
+    osm_price  = _osm.get("price_range", "")
+
     name_e   = html_lib.escape(raw_name)
     if desc:
         desc_e = html_lib.escape(desc[:155]) + ("…" if len(desc) > 155 else "")
@@ -1547,6 +1569,12 @@ def build_listing_page(slug, b):
                     'style="color:var(--forest2)">' + html_lib.escape(email) + '</a>')
     if category:
         rows += row("🏷️", html_lib.escape(category))
+    if osm_hours:
+        # Format OSM hours for display: "Mo-Fr 09:00-17:00; Sa 10:00-14:00" → two lines
+        hours_display = html_lib.escape(osm_hours).replace("; ", "<br>")
+        rows += row("🕐", hours_display)
+    if osm_price:
+        rows += row("💰", html_lib.escape(osm_price))
 
     website_btn = ""
     if ext_url and "google.com/search" not in ext_url:
@@ -1560,8 +1588,20 @@ def build_listing_page(slug, b):
     directions_btn = (
         '<a href="' + html_lib.escape(maps_link) + '" target="_blank" rel="noopener" '
         'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
-        'text-sm font-semibold border-2 hover:bg-gray-50 transition" '
+        'text-sm font-semibold border-2 hover:bg-gray-50 transition mb-3" '
         'style="border-color:var(--forest2);color:var(--forest2)">🗺️ Get Directions</a>'
+    )
+
+    # Google review deep-link: opens the Google Maps listing for this business
+    # Users who click and find the right listing can leave a review — those reviews
+    # accumulate as organic aggregateRating stars that Google shows in search results.
+    review_maps_q   = urllib.parse.quote(raw_name + " " + (address or location) + " Suriname")
+    review_link     = "https://www.google.com/maps/search/" + review_maps_q
+    google_review_btn = (
+        '<a href="' + review_link + '" target="_blank" rel="noopener" '
+        'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
+        'text-sm font-semibold border-2 hover:bg-gray-50 transition" '
+        'style="border-color:#fbbc04;color:#b06000">&#11088; Rate on Google</a>'
     )
 
     desc_block = ('<p class="text-gray-700 leading-relaxed text-base mb-8">'
@@ -1578,6 +1618,12 @@ def build_listing_page(slug, b):
     if email:     ld_obj["email"] = email
     if og_img != SITE_URL + "/og-image.jpg": ld_obj["image"] = og_img
     if ext_url and "google.com/search" not in ext_url: ld_obj["sameAs"] = ext_url
+    # OSM enrichment → structured data Google can parse for rich results
+    if osm_hours:
+        # schema.org openingHours accepts OSM-style strings directly
+        ld_obj["openingHours"] = [s.strip() for s in osm_hours.split(";") if s.strip()]
+    if osm_price:
+        ld_obj["priceRange"] = osm_price
 
     breadcrumb_obj = {
         "@context": "https://schema.org",
@@ -1656,6 +1702,7 @@ def build_listing_page(slug, b):
         '\n        <div class="mt-6">'
         '\n          ' + website_btn +
         '\n          ' + directions_btn +
+        '\n          ' + google_review_btn +
         '\n        </div>'
         '\n      </div>'
         '\n    </div>'
@@ -2049,6 +2096,70 @@ if __name__ == "__main__":
         "currency.html":    build_currency_page(cme_rates, cme_live, cme_updated,
                                                 cbvs_rates, cbvs_live, cbvs_updated),
         "news.html":        build_news(articles),
+    }
+    for fname, html in pages.items():
+        with open(fname, "w", encoding="utf-8") as f:
+            f.write(html)
+        print(f"  OK  {fname}")
+
+    os.makedirs("listing", exist_ok=True)
+    count = 0
+    for slug in _BIZ:
+        b = _make_biz(slug)
+        if not b:
+            continue
+        d = f"listing/{slug}"
+        os.makedirs(d, exist_ok=True)
+        with open(f"{d}/index.html", "w", encoding="utf-8") as f:
+            f.write(build_listing_page(slug, b))
+        count += 1
+    for act in ACTIVITIES:
+        act_slug = _act_slug(act["name"])
+        d = f"listing/{act_slug}"
+        os.makedirs(d, exist_ok=True)
+        with open(f"{d}/index.html", "w", encoding="utf-8") as f:
+            f.write(build_activity_listing_page(act, act_slug))
+        count += 1
+    for spot in NATURE_SPOTS:
+        nat_slug = _nature_slug(spot["name"])
+        d = f"listing/{nat_slug}"
+        os.makedirs(d, exist_ok=True)
+        with open(f"{d}/index.html", "w", encoding="utf-8") as f:
+            f.write(build_nature_listing_page(spot, nat_slug))
+        count += 1
+    print(f"  OK  {count} listing pages")
+
+    # Collect all slugs for sitemap
+    valid_biz_slugs = [slug for slug in _BIZ if _make_biz(slug)]
+    act_slugs_all   = [_act_slug(a["name"]) for a in ACTIVITIES]
+    nat_slugs_all   = [_nature_slug(s["name"]) for s in NATURE_SPOTS]
+
+    with open("sitemap.xml", "w", encoding="utf-8") as f:
+        f.write(build_sitemap(valid_biz_slugs, act_slugs_all, nat_slugs_all))
+    print(f"  OK  sitemap.xml ({len(valid_biz_slugs) + len(act_slugs_all) + len(nat_slugs_all) + 9} URLs)")
+
+    with open("robots.txt", "w", encoding="utf-8") as f:
+        f.write(build_robots())
+    print("  OK  robots.txt")
+d, exist_ok=True)
+        with open(f"{d}/index.html", "w", encoding="utf-8") as f:
+            f.write(build_nature_listing_page(spot, nat_slug))
+        count += 1
+    print(f"  OK  {count} listing pages")
+
+    # Collect all slugs for sitemap
+    valid_biz_slugs = [slug for slug in _BIZ if _make_biz(slug)]
+    act_slugs_all   = [_act_slug(a["name"]) for a in ACTIVITIES]
+    nat_slugs_all   = [_nature_slug(s["name"]) for s in NATURE_SPOTS]
+
+    with open("sitemap.xml", "w", encoding="utf-8") as f:
+        f.write(build_sitemap(valid_biz_slugs, act_slugs_all, nat_slugs_all))
+    print(f"  OK  sitemap.xml ({len(valid_biz_slugs) + len(act_slugs_all) + len(nat_slugs_all) + 9} URLs)")
+
+    with open("robots.txt", "w", encoding="utf-8") as f:
+        f.write(build_robots())
+    print("  OK  robots.txt")
+icles),
     }
     for fname, html in pages.items():
         with open(fname, "w", encoding="utf-8") as f:
