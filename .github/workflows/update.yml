@@ -38,6 +38,6 @@ jobs:
           # preventing GitHub from pausing the scheduled workflow due to inactivity.
           echo "$(TZ='America/Paramaribo' date '+%Y-%m-%d %H:%M') SR" > .last_run
           git add index.html news.html nature.html activities.html restaurants.html hotels.html shopping.html services.html currency.html
-          git add listing/ .last_run
+          git add listing/ .last_run sitemap.xml robots.txt
           git diff --staged --quiet || git commit -m "Auto-update $(TZ='America/Paramaribo' date '+%Y-%m-%d %H:%M') SR"
           git push
