@@ -2,7 +2,8 @@
 """
 ExploreSuriname.com - Full Tourism & News Site Generator
 Generates: index.html, nature.html, activities.html,
-           restaurants.html, hotels.html, currency.html, news.html
+           restaurants.html, hotels.html, currency.html, news.html,
+           sitemap.xml, robots.txt
 Run daily via GitHub Actions.
 """
 
@@ -1469,7 +1470,12 @@ def build_listing_page(slug, b):
     ext_url  = _biz_url(b)
 
     name_e   = html_lib.escape(raw_name)
-    desc_e   = html_lib.escape(desc[:160]) if desc else html_lib.escape(raw_name + " — listed on ExploreSuriname.com")
+    if desc:
+        desc_e = html_lib.escape(desc[:155]) + ("…" if len(desc) > 155 else "")
+    else:
+        loc_part = address or location or "Suriname"
+        cat_part = (" · " + category) if category else ""
+        desc_e = html_lib.escape(f"{raw_name} — {loc_part}{cat_part}. Find contact details, directions and more on ExploreSuriname.com.")[:160]
     back_file, back_label = _cat_back(category)
 
     page_url   = SITE_URL + "/listing/" + slug + "/"
@@ -1523,6 +1529,27 @@ def build_listing_page(slug, b):
     desc_block = ('<p class="text-gray-700 leading-relaxed text-base mb-8">'
                   + html_lib.escape(desc) + '</p>') if desc else ""
 
+    # JSON-LD LocalBusiness schema
+    ld_type = "LocalBusiness"
+    cat_low = category.lower()
+    if any(k in cat_low for k in ["restaurant","cafe","bar","food","dining","grill","pizza","noodle","sushi"]):
+        ld_type = "FoodEstablishment"
+    elif any(k in cat_low for k in ["hotel","resort","lodge","villa","suite","apartment","hostel"]):
+        ld_type = "LodgingBusiness"
+    elif any(k in cat_low for k in ["shop","store","mall","boutique","market","retail","jewelry","candles"]):
+        ld_type = "Store"
+
+    ld_obj = {"@context": "https://schema.org", "@type": ld_type, "name": raw_name, "url": page_url}
+    if desc:      ld_obj["description"] = desc[:300]
+    if address:   ld_obj["address"] = {"@type": "PostalAddress", "streetAddress": address, "addressCountry": "SR"}
+    if phone:     ld_obj["telephone"] = phone
+    if email:     ld_obj["email"] = email
+    if og_img != SITE_URL + "/og-image.jpg": ld_obj["image"] = og_img
+    if ext_url and "google.com/search" not in ext_url: ld_obj["sameAs"] = ext_url
+
+    import json as _json
+    ld_script = "\n  <script type=\"application/ld+json\">\n  " + _json.dumps(ld_obj, ensure_ascii=False) + "\n  </script>"
+
     head = (
         PAGE_HEAD +
         "\n  <title>" + name_e + " | ExploreSuriname.com</title>"
@@ -1537,6 +1564,7 @@ def build_listing_page(slug, b):
         "\n  <meta name=\"twitter:card\" content=\"summary_large_image\">"
         "\n  <meta name=\"twitter:title\" content=\"" + name_e + " | ExploreSuriname.com\">"
         "\n  <meta name=\"twitter:image\" content=\"" + og_img + "\">"
+        + ld_script +
         "\n</head>"
     )
 
@@ -1832,6 +1860,80 @@ def build_nature_listing_page(spot, slug):
     return head + hero + main + "\n" + footer_html(prefix="../../") + "\n</body>\n</html>"
 
 
+# -- Sitemap & robots ---------------------------------------------------------
+
+def build_sitemap(biz_slugs, act_slugs, nat_slugs):
+    """Generate sitemap.xml covering all pages and listing URLs."""
+    today = datetime.now(SR_TZ).strftime("%Y-%m-%d")
+
+    static_pages = [
+        ("",               "1.0",  "daily"),
+        ("restaurants.html","0.9", "weekly"),
+        ("hotels.html",    "0.9",  "weekly"),
+        ("activities.html","0.9",  "weekly"),
+        ("nature.html",    "0.9",  "weekly"),
+        ("shopping.html",  "0.8",  "weekly"),
+        ("services.html",  "0.8",  "weekly"),
+        ("currency.html",  "0.9",  "daily"),
+        ("news.html",      "0.7",  "daily"),
+    ]
+
+    urls = []
+    for path_seg, priority, freq in static_pages:
+        loc = SITE_URL + "/" + path_seg
+        urls.append(
+            f"  <url>\n"
+            f"    <loc>{loc}</loc>\n"
+            f"    <lastmod>{today}</lastmod>\n"
+            f"    <changefreq>{freq}</changefreq>\n"
+            f"    <priority>{priority}</priority>\n"
+            f"  </url>"
+        )
+
+    for slug in biz_slugs:
+        urls.append(
+            f"  <url>\n"
+            f"    <loc>{SITE_URL}/listing/{slug}/</loc>\n"
+            f"    <lastmod>{today}</lastmod>\n"
+            f"    <changefreq>monthly</changefreq>\n"
+            f"    <priority>0.7</priority>\n"
+            f"  </url>"
+        )
+    for slug in act_slugs:
+        urls.append(
+            f"  <url>\n"
+            f"    <loc>{SITE_URL}/listing/{slug}/</loc>\n"
+            f"    <lastmod>{today}</lastmod>\n"
+            f"    <changefreq>monthly</changefreq>\n"
+            f"    <priority>0.6</priority>\n"
+            f"  </url>"
+        )
+    for slug in nat_slugs:
+        urls.append(
+            f"  <url>\n"
+            f"    <loc>{SITE_URL}/listing/{slug}/</loc>\n"
+            f"    <lastmod>{today}</lastmod>\n"
+            f"    <changefreq>monthly</changefreq>\n"
+            f"    <priority>0.6</priority>\n"
+            f"  </url>"
+        )
+
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(urls)
+        + "\n</urlset>\n"
+    )
+
+
+def build_robots():
+    return (
+        "User-agent: *\n"
+        "Allow: /\n"
+        f"Sitemap: {SITE_URL}/sitemap.xml\n"
+    )
+
+
 # -- Main ---------------------------------------------------------------------
 
 if __name__ == "__main__":
@@ -1884,3 +1986,16 @@ if __name__ == "__main__":
             f.write(build_nature_listing_page(spot, nat_slug))
         count += 1
     print(f"  OK  {count} listing pages")
+
+    # Collect all slugs for sitemap
+    valid_biz_slugs = [slug for slug in _BIZ if _make_biz(slug)]
+    act_slugs_all   = [_act_slug(a["name"]) for a in ACTIVITIES]
+    nat_slugs_all   = [_nature_slug(s["name"]) for s in NATURE_SPOTS]
+
+    with open("sitemap.xml", "w", encoding="utf-8") as f:
+        f.write(build_sitemap(valid_biz_slugs, act_slugs_all, nat_slugs_all))
+    print(f"  OK  sitemap.xml ({len(valid_biz_slugs) + len(act_slugs_all) + len(nat_slugs_all) + 9} URLs)")
+
+    with open("robots.txt", "w", encoding="utf-8") as f:
+        f.write(build_robots())
+    print("  OK  robots.txt")
