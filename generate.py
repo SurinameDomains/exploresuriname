@@ -63,7 +63,7 @@ NATURE_SPOTS = [
     {"name": "Wia Wia Nature Reserve", "badge": "Coastal Wilderness",
      "desc": "A protected stretch of Atlantic coastline where endangered sea turtles have nested for centuries. Remote, rarely visited and utterly wild.",
      "tags": ["Sea Turtles", "Coastal", "Remote"],
-     "image": "",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/9/95/Dermochelys_coriacea_%282719177753%29.jpg",
      "fact": "Leatherback & green turtles nest here", "url": "https://en.wikipedia.org/wiki/Wia-Wia_Nature_Reserve"},
     {"name": "Commewijne River", "badge": "River Dolphins & Plantations",
      "desc": "A scenic river just across from Paramaribo, famous for river dolphin sightings, historic plantation ruins and Fort Nieuw Amsterdam.",
@@ -88,12 +88,12 @@ NATURE_SPOTS = [
     {"name": "Sipaliwini Savanna", "badge": "Far South Wilderness",
      "desc": "An isolated savanna near the Brazilian border. Home to giant anteaters, pumas and pristine black-water rivers.",
      "tags": ["Remote", "Savanna", "Wildlife"],
-     "image": "",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Along_the_river_%2817979749230%29.jpg",
      "fact": "Accessible only by small aircraft", "url": "https://www.discoversurinametours.com/english/Tours/expedities/sipaliwini.html"},
     {"name": "Palumeu – Trio Village", "badge": "Indigenous Culture",
      "desc": "Deep in the southern jungle, the Trio indigenous village of Palumeu offers a rare window into a way of life unchanged for generations.",
      "tags": ["Indigenous", "Remote", "Cultural"],
-     "image": "",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/6/61/Primary_school_Paloemeu_Suriname_%2817981257229%29.jpg",
      "fact": "Accessible by charter flight only", "url": "https://www.mets-suriname.com/"},
     {"name": "Colakreek", "badge": "Local Favourite",
      "desc": "A beautiful freshwater creek just outside Paramaribo, perfect for swimming and picnicking surrounded by jungle.",
@@ -118,11 +118,11 @@ ACTIVITIES = [
     {"icon": "🏘️", "name": "Indigenous Village Tours",
      "desc": "Visit Trio and Wayana indigenous communities in the deep interior, preserving ancient traditions.",
      "url": "https://www.mets-suriname.com/",
-     "image": "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&q=80"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Wayana%2C_muziek_en_dans%2C_1.PNG"},
     {"icon": "🥁", "name": "Maroon Village Tours",
      "desc": "Experience the living culture of the Saramacca and Matawai Maroon peoples — music, craft and history.",
      "url": "https://allsurinametours.com/en/visit-to-maroon-village-santigron/",
-     "image": "https://images.unsplash.com/photo-1504704911898-68304a7d2807?w=600&q=80"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Santigron_pleng%2C_African_Culture_in_Suriname.jpg"},
     {"icon": "🏙️", "name": "Paramaribo City Walk",
      "desc": "Explore the UNESCO-listed historic inner city on foot — the only wooden colonial city in the Americas.",
      "url": "https://whc.unesco.org/en/list/940/",
@@ -142,7 +142,7 @@ ACTIVITIES = [
     {"icon": "🎨", "name": "Maroon Art & Craft",
      "desc": "Watch master craftsmen carve intricate Maroon woodwork and weave traditional textile art.",
      "url": "https://www.knini-paati.com/en/excursions-suriname/",
-     "image": "https://images.unsplash.com/photo-1515186813671-4b46ca4a1cff?w=600&q=80"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Wayana%2C_Culturele_voorwerpen.png"},
     {"icon": "🎣", "name": "Sport Fishing",
      "desc": "Fish for piranha, arapaima and peacock bass in jungle rivers and reservoirs.",
      "url": "https://www.orangesuriname.com/en/boat-trips-fishing-tours/",
@@ -1612,11 +1612,13 @@ if __name__ == "__main__":
 
     os.makedirs("listing", exist_ok=True)
     count = 0
-    for slug, biz in _BIZ.items():
+    for slug in _BIZ:
+        b = _make_biz(slug)
+        if not b:
+            continue
         d = f"listing/{slug}"
         os.makedirs(d, exist_ok=True)
         with open(f"{d}/index.html", "w", encoding="utf-8") as f:
-            f.write(build_listing_page(slug, biz))
+            f.write(build_listing_page(slug, b))
         count += 1
-    print(f"  OK  {count} listing pages -> listing/*/index.html")
-    print("Done.")
+    print(f"  OK  {count} listing pages")
