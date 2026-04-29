@@ -988,6 +988,14 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   <meta name="twitter:title" content="{title} | ExploreSuriname.com">
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"ItemList","name":"{title}","url":"{page_url}","numberOfItems":{len(items)},"itemListElement":[{",".join(
+    '{{"@type":"ListItem","position":' + str(i+1) + ',"name":' + __import__("json").dumps(it.get("name","")) + ',"url":"' + SITE_URL + "/" + it.get("url","") + '"}}' for i,it in enumerate(items[:20])
+  )}]}}
+  </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"{title}","item":"{page_url}"}}]}}
+  </script>
 </head>
 <body class="bg-gray-50">
 {nav_html()}
@@ -1030,6 +1038,17 @@ def build_index(restaurants, hotels, news_preview):
   <meta name="twitter:title" content="Explore Suriname | South America's Hidden Gem">
   <meta name="twitter:description" content="Rainforest lodges, Paramaribo restaurants, local tours, shopping and live SRD exchange rates. Your complete guide to Suriname.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Explore Suriname",
+    "url": "{SITE_URL}/",
+    "logo": "{SITE_URL}/og-image.jpg",
+    "description": "Your complete travel and lifestyle guide to Suriname — hotels, restaurants, nature, activities and live SRD exchange rates.",
+    "sameAs": []
+  }}
+  </script>
   <script type="application/ld+json">
   {{
     "@context": "https://schema.org",
@@ -1458,6 +1477,25 @@ def _cat_back(category):
     return "services.html", "Services"
 
 
+
+# Slug → (schema_type, back_page, back_label) for JSON-LD & breadcrumbs
+def _slug_schema_info(slug):
+    """Return (ld_type, category_page, category_label) for a business slug."""
+    rest_slugs = {b["slug"] for b in RESTAURANTS}
+    hotel_slugs = {b["slug"] for b in HOTELS}
+    shop_slugs  = {b["slug"] for b in SHOPPING}
+    sight_slugs = {b["slug"] for b in SIGHTSEEING}
+    adv_slugs   = {b["slug"] for b in ADVENTURES_BIZ}
+    if slug in rest_slugs:
+        return "FoodEstablishment", "restaurants.html", "Restaurants"
+    if slug in hotel_slugs:
+        return "LodgingBusiness", "hotels.html", "Hotels"
+    if slug in shop_slugs:
+        return "Store", "shopping.html", "Shopping"
+    if slug in sight_slugs or slug in adv_slugs:
+        return "TouristAttraction", "activities.html", "Activities"
+    return "LocalBusiness", "index.html", "Home"
+
 def build_listing_page(slug, b):
     raw_name = b.get("name", slug)
     desc     = b.get("description", "")
@@ -1529,15 +1567,9 @@ def build_listing_page(slug, b):
     desc_block = ('<p class="text-gray-700 leading-relaxed text-base mb-8">'
                   + html_lib.escape(desc) + '</p>') if desc else ""
 
-    # JSON-LD LocalBusiness schema
-    ld_type = "LocalBusiness"
-    cat_low = category.lower()
-    if any(k in cat_low for k in ["restaurant","cafe","bar","food","dining","grill","pizza","noodle","sushi"]):
-        ld_type = "FoodEstablishment"
-    elif any(k in cat_low for k in ["hotel","resort","lodge","villa","suite","apartment","hostel"]):
-        ld_type = "LodgingBusiness"
-    elif any(k in cat_low for k in ["shop","store","mall","boutique","market","retail","jewelry","candles"]):
-        ld_type = "Store"
+    # JSON-LD LocalBusiness/subtype schema
+    import json as _json
+    ld_type, cat_page, cat_label = _slug_schema_info(slug)
 
     ld_obj = {"@context": "https://schema.org", "@type": ld_type, "name": raw_name, "url": page_url}
     if desc:      ld_obj["description"] = desc[:300]
@@ -1547,8 +1579,20 @@ def build_listing_page(slug, b):
     if og_img != SITE_URL + "/og-image.jpg": ld_obj["image"] = og_img
     if ext_url and "google.com/search" not in ext_url: ld_obj["sameAs"] = ext_url
 
-    import json as _json
-    ld_script = "\n  <script type=\"application/ld+json\">\n  " + _json.dumps(ld_obj, ensure_ascii=False) + "\n  </script>"
+    breadcrumb_obj = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home",        "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": cat_label,     "item": SITE_URL + "/" + cat_page},
+            {"@type": "ListItem", "position": 3, "name": raw_name,      "item": page_url},
+        ]
+    }
+
+    ld_script = (
+        "\n  <script type=\"application/ld+json\">\n  " + _json.dumps(ld_obj, ensure_ascii=False) + "\n  </script>"
+        + "\n  <script type=\"application/ld+json\">\n  " + _json.dumps(breadcrumb_obj, ensure_ascii=False) + "\n  </script>"
+    )
 
     head = (
         PAGE_HEAD +
@@ -1664,6 +1708,30 @@ def build_activity_listing_page(act, slug):
     desc_block = ('<p class="text-gray-700 leading-relaxed text-base mb-8">'
                   + html_lib.escape(desc) + '</p>') if desc else ""
 
+    import json as _json
+    act_ld = {
+        "@context": "https://schema.org", "@type": "TouristAttraction",
+        "name": name, "url": page_url,
+        "description": desc[:300] if desc else name + " — activity in Suriname.",
+        "touristType": "Adventure travellers",
+        "geo": {"@type": "GeoCoordinates", "addressCountry": "SR"},
+    }
+    if og_img != SITE_URL + "/og-image.jpg": act_ld["image"] = og_img
+    if ext_url: act_ld["sameAs"] = ext_url
+
+    act_breadcrumb = {
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home",       "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Activities", "item": SITE_URL + "/activities.html"},
+            {"@type": "ListItem", "position": 3, "name": name,         "item": page_url},
+        ]
+    }
+    act_ld_scripts = (
+        "\n  <script type=\"application/ld+json\">\n  " + _json.dumps(act_ld, ensure_ascii=False) + "\n  </script>"
+        + "\n  <script type=\"application/ld+json\">\n  " + _json.dumps(act_breadcrumb, ensure_ascii=False) + "\n  </script>"
+    )
+
     head = (
         PAGE_HEAD +
         "\n  <title>" + name_e + " in Suriname | ExploreSuriname.com</title>"
@@ -1678,6 +1746,7 @@ def build_activity_listing_page(act, slug):
         "\n  <meta name=\"twitter:card\" content=\"summary_large_image\">"
         "\n  <meta name=\"twitter:title\" content=\"" + name_e + " | ExploreSuriname.com\">"
         "\n  <meta name=\"twitter:image\" content=\"" + og_img + "\">"
+        + act_ld_scripts +
         "\n</head>"
     )
 
@@ -1790,6 +1859,31 @@ def build_nature_listing_page(spot, slug):
 
     tags_section = ('<div class="flex flex-wrap gap-1 mb-8">' + tags_html + '</div>') if tags_html else ""
 
+    import json as _json
+    nat_ld = {
+        "@context": "https://schema.org", "@type": "TouristAttraction",
+        "name": name, "url": page_url,
+        "description": desc[:300] if desc else name + " — nature attraction in Suriname.",
+        "geo": {"@type": "GeoCoordinates", "addressCountry": "SR"},
+    }
+    if tags:  nat_ld["keywords"] = ", ".join(tags)
+    if fact:  nat_ld["additionalProperty"] = {"@type": "PropertyValue", "name": "Fact", "value": fact}
+    if og_img != SITE_URL + "/og-image.jpg": nat_ld["image"] = og_img
+    if ext_url: nat_ld["sameAs"] = ext_url
+
+    nat_breadcrumb = {
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home",          "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Nature & Parks","item": SITE_URL + "/nature.html"},
+            {"@type": "ListItem", "position": 3, "name": name,            "item": page_url},
+        ]
+    }
+    nat_ld_scripts = (
+        "\n  <script type=\"application/ld+json\">\n  " + _json.dumps(nat_ld, ensure_ascii=False) + "\n  </script>"
+        + "\n  <script type=\"application/ld+json\">\n  " + _json.dumps(nat_breadcrumb, ensure_ascii=False) + "\n  </script>"
+    )
+
     head = (
         PAGE_HEAD +
         "\n  <title>" + name_e + " | ExploreSuriname.com</title>"
@@ -1804,6 +1898,7 @@ def build_nature_listing_page(spot, slug):
         "\n  <meta name=\"twitter:card\" content=\"summary_large_image\">"
         "\n  <meta name=\"twitter:title\" content=\"" + name_e + " | ExploreSuriname.com\">"
         "\n  <meta name=\"twitter:image\" content=\"" + og_img + "\">"
+        + nat_ld_scripts +
         "\n</head>"
     )
 
