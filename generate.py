@@ -2140,19 +2140,3 @@ if __name__ == "__main__":
     with open("robots.txt", "w", encoding="utf-8") as f:
         f.write(build_robots())
     print("  OK  robots.txt")
-"utf-8") as f:
-            f.write(build_nature_listing_page(spot, nat_slug))
-        count += 1
-    print(f"  OK  {count} listing pages")
-
-    valid_biz_slugs = [slug for slug in _BIZ if _make_biz(slug)]
-    act_slugs_all   = [_act_slug(a["name"]) for a in ACTIVITIES]
-    nat_slugs_all   = [_nature_slug(s["name"]) for s in NATURE_SPOTS]
-
-    with open("sitemap.xml", "w", encoding="utf-8") as f:
-        f.write(build_sitemap(valid_biz_slugs, act_slugs_all, nat_slugs_all))
-    print(f"  OK  sitemap.xml ({len(valid_biz_slugs) + len(act_slugs_all) + len(nat_slugs_all) + 9} URLs)")
-
-    with open("robots.txt", "w", encoding="utf-8") as f:
-        f.write(build_robots())
-    print("  OK  robots.txt")
