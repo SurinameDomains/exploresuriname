@@ -74,6 +74,8 @@
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">15 destinations across Suriname's pristine wilderness</p>
 </div>
 <main class="max-w-6xl mx-auto px-5 py-12 pb-24">
+  
+  <div id="result-count" class="text-sm text-gray-400 mb-4 font-medium">15 results</div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     
 <a href="listing/nature-central-suriname-nature-reserve/" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
@@ -398,8 +400,46 @@
     <h2 class="serif text-3xl font-bold text-gray-900 mb-2">Sightseeing &amp; Attractions</h2>
     <p class="text-gray-500 text-base max-w-xl mx-auto">Historic forts, museums and natural landmarks you can visit in and around Paramaribo.</p>
   </div>
+  
+<div class="sticky top-16 z-40 py-3 mb-8" style="background:rgba(249,250,251,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06)">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide" style="scrollbar-width:none">
+      <button onclick="filterSub(this,'all')" class="filter-chip chip-active">🗺️ All <span class="chip-count">14</span></button><button onclick="filterSub(this,'museums-heritage')" class="filter-chip">🏛️ Museums & Heritage <span class="chip-count">8</span></button><button onclick="filterSub(this,'nature-parks')" class="filter-chip">🌿 Nature & Parks <span class="chip-count">1</span></button><button onclick="filterSub(this,'entertainment')" class="filter-chip">🎭 Entertainment <span class="chip-count">4</span></button>
+    </div>
+  </div>
+</div>
+<style>
+.filter-chip {
+  display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:999px;
+  border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
+  color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+}
+.filter-chip:hover { border-color:var(--forest);color:var(--forest); }
+.filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+.chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
+.filter-chip.chip-active .chip-count { opacity:.8; }
+.listing-card { transition:opacity .2s, transform .2s; }
+.listing-card.hidden { display:none; }
+</style>
+<script>
+function filterSub(btn, key) {
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('chip-active'));
+  btn.classList.add('chip-active');
+  document.querySelectorAll('.listing-card').forEach(card => {
+    if (key === 'all' || card.dataset.sub === key) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+  // Update grid count label
+  const visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
+  const lbl = document.getElementById('result-count');
+  if (lbl) lbl.textContent = visible + ' results';
+}
+</script>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-<a href="listing/ford-zeelandia/" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/ford-zeelandia/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Fort_Zeelandia.jpg/1280px-Fort_Zeelandia.jpg" alt="Fort Zeelandia" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -414,7 +454,7 @@
   </div>
 </a>
 
-<a href="listing/het-koto-museum/" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/het-koto-museum/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Koto_Museum%2C_5.jpg/1280px-Koto_Museum%2C_5.jpg" alt="Het Koto Museum" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -429,7 +469,7 @@
   </div>
 </a>
 
-<a href="listing/peperpot-nature-park/" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/peperpot-nature-park/" data-sub="nature-parks" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="https://images.squarespace-cdn.com/content/v1/5d52bcc2f6730e0001fe9d75/1649371470790-ED2SMLZ2QP4VLM1WUFJ3/Peperpot+Drone8.jpg" alt="Peperpot Nature Park" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -444,7 +484,7 @@
   </div>
 </a>
 
-<a href="listing/joden-savanne/" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/joden-savanne/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Jodensavanne.jpg/1280px-Jodensavanne.jpg" alt="Joden Savanne" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -459,7 +499,7 @@
   </div>
 </a>
 
-<a href="listing/plantage-frederiksdorp/" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/plantage-frederiksdorp/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Br%C3%BCckeStolkertsijver.jpeg/1280px-Br%C3%BCckeStolkertsijver.jpeg" alt="Plantage Frederiksdorp" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -474,7 +514,7 @@
   </div>
 </a>
 
-<a href="listing/museum-bakkie/" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/museum-bakkie/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="https://museumbakkie.com/wp-content/uploads/2022/02/museum-bakkie-sluis.jpg" alt="Museum Bakkie" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -489,7 +529,7 @@
   </div>
 </a>
 
-<a href="listing/cola-kreek-recreatiepark/" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/cola-kreek-recreatiepark/" data-sub="other" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Suriname_Colakreek.jpg/1280px-Suriname_Colakreek.jpg" alt="Cola Kreek Recreatiepark" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -504,7 +544,7 @@
   </div>
 </a>
 
-<a href="listing/conservatorium-suriname/" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/conservatorium-suriname/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -519,7 +559,7 @@
   </div>
 </a>
 
-<a href="listing/golf-club-paramaribo/" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/golf-club-paramaribo/" data-sub="entertainment" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -534,7 +574,7 @@
   </div>
 </a>
 
-<a href="listing/paramaribo-zoo/" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/paramaribo-zoo/" data-sub="entertainment" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -549,7 +589,7 @@
   </div>
 </a>
 
-<a href="listing/readytex-art-gallery/" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/readytex-art-gallery/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -564,7 +604,7 @@
   </div>
 </a>
 
-<a href="listing/stichting-surinaams-museum/" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/stichting-surinaams-museum/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -579,7 +619,7 @@
   </div>
 </a>
 
-<a href="listing/tbl-cinemas/" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/tbl-cinemas/" data-sub="entertainment" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -594,7 +634,7 @@
   </div>
 </a>
 
-<a href="listing/theater-thalia/" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/theater-thalia/" data-sub="entertainment" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
