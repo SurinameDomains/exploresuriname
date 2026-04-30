@@ -160,6 +160,59 @@ document.addEventListener('keydown', e => {
 </div>
 <main class="max-w-6xl mx-auto px-5 py-12 pb-24">
   
+<div class="sticky top-16 z-40 py-3 mb-8" style="background:rgba(249,250,251,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06)">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="relative flex items-center gap-1">
+      <button id="chipbar-adventure-prev" onclick="chipScroll('chipbar-adventure',-1)" class="chip-arrow" aria-label="scroll left">&#8249;</button>
+      <div id="chipbar-adventure" class="flex gap-2 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth">
+        <button onclick="filterSub(this,'all')" class="filter-chip chip-active">All <span class="chip-count">26</span></button><button onclick="filterSub(this,'tours-expeditions')" class="filter-chip">Tours & Expeditions <span class="chip-count">17</span></button><button onclick="filterSub(this,'nature-parks')" class="filter-chip">Nature & Parks <span class="chip-count">1</span></button><button onclick="filterSub(this,'entertainment')" class="filter-chip">Entertainment <span class="chip-count">2</span></button>
+      </div>
+      <button id="chipbar-adventure-next" onclick="chipScroll('chipbar-adventure',1)" class="chip-arrow" aria-label="scroll right">&#8250;</button>
+    </div>
+  </div>
+</div>
+<style>
+.filter-chip {
+  display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:999px;
+  border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
+  color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+}
+.filter-chip:hover { border-color:var(--forest);color:var(--forest); }
+.filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+.chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
+.filter-chip.chip-active .chip-count { opacity:.8; }
+.chip-arrow {
+  flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #e5e7eb;
+  background:#fff;font-size:1.1rem;line-height:1;cursor:pointer;display:flex;
+  align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
+}
+.chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
+.listing-card { transition:opacity .2s, transform .2s; }
+.listing-card.hidden { display:none; }
+</style>
+<script>
+function chipScroll(id, dir) {
+  var el = document.getElementById(id);
+  if (el) el.scrollBy({left: dir * 200, behavior: 'smooth'});
+}
+</script>
+<script>
+function filterSub(btn, key) {
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('chip-active'));
+  btn.classList.add('chip-active');
+  document.querySelectorAll('.listing-card').forEach(card => {
+    if (key === 'all' || card.dataset.sub === key) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+  // Update grid count label
+  const visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
+  const lbl = document.getElementById('result-count');
+  if (lbl) lbl.textContent = visible + ' results';
+}
+</script>
   <div id="result-count" class="text-sm text-gray-400 mb-4 font-medium">16 results</div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     
@@ -378,60 +431,6 @@ document.addEventListener('keydown', e => {
     <h2 class="serif text-3xl font-bold text-gray-900 mb-2">Tour Operators &amp; Resorts</h2>
     <p class="text-gray-500 text-base max-w-xl mx-auto">Eco-lodges, jungle camps and tour companies to make your Suriname adventure happen.</p>
   </div>
-  
-<div class="sticky top-16 z-40 py-3 mb-8" style="background:rgba(249,250,251,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06)">
-  <div class="max-w-6xl mx-auto px-5">
-    <div class="relative flex items-center gap-1">
-      <button id="chipbar-adventure-prev" onclick="chipScroll('chipbar-adventure',-1)" class="chip-arrow" aria-label="scroll left">&#8249;</button>
-      <div id="chipbar-adventure" class="flex gap-2 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth">
-        <button onclick="filterSub(this,'all')" class="filter-chip chip-active">All <span class="chip-count">26</span></button><button onclick="filterSub(this,'tours-expeditions')" class="filter-chip">Tours & Expeditions <span class="chip-count">17</span></button><button onclick="filterSub(this,'nature-parks')" class="filter-chip">Nature & Parks <span class="chip-count">1</span></button><button onclick="filterSub(this,'entertainment')" class="filter-chip">Entertainment <span class="chip-count">2</span></button>
-      </div>
-      <button id="chipbar-adventure-next" onclick="chipScroll('chipbar-adventure',1)" class="chip-arrow" aria-label="scroll right">&#8250;</button>
-    </div>
-  </div>
-</div>
-<style>
-.filter-chip {
-  display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:999px;
-  border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
-  color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
-}
-.filter-chip:hover { border-color:var(--forest);color:var(--forest); }
-.filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
-.chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
-.filter-chip.chip-active .chip-count { opacity:.8; }
-.chip-arrow {
-  flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #e5e7eb;
-  background:#fff;font-size:1.1rem;line-height:1;cursor:pointer;display:flex;
-  align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
-}
-.chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
-.listing-card { transition:opacity .2s, transform .2s; }
-.listing-card.hidden { display:none; }
-</style>
-<script>
-function chipScroll(id, dir) {
-  var el = document.getElementById(id);
-  if (el) el.scrollBy({left: dir * 200, behavior: 'smooth'});
-}
-</script>
-<script>
-function filterSub(btn, key) {
-  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('chip-active'));
-  btn.classList.add('chip-active');
-  document.querySelectorAll('.listing-card').forEach(card => {
-    if (key === 'all' || card.dataset.sub === key) {
-      card.classList.remove('hidden');
-    } else {
-      card.classList.add('hidden');
-    }
-  });
-  // Update grid count label
-  const visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
-  const lbl = document.getElementById('result-count');
-  if (lbl) lbl.textContent = visible + ' results';
-}
-</script>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 <a href="listing/afobaka-resort/" data-sub="eco-lodges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Brokopondo_Meer_Viewpiont_%284%29.jpg/1280px-Brokopondo_Meer_Viewpiont_%284%29.jpg" alt="Afobaka Resort" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
