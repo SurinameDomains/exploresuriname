@@ -2429,7 +2429,7 @@ def nature_card(spot):
     )
     internal_url = f"listing/{_nature_slug(spot['name'])}/"    
     return f"""
-<a href="{internal_url}" class="group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
+<a href="{internal_url}" data-sub="{spot.get('subcat','nature-parks')}" class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
   <div class="relative h-56 overflow-hidden">
     <img src="{spot['image']}" alt="{html_lib.escape(spot['name'])}" loading="lazy"
          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -2456,7 +2456,7 @@ def activity_card_rich(act):
     img = act.get("image", "")
     img_html = f'<img src="{img}" alt="{html_lib.escape(act["name"])}" loading="lazy" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display=\'none\'">' if img else ""
     return f"""
-<a href="{internal_url}" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
+<a href="{internal_url}" data-sub="{act.get('subcat','tours-expeditions')}" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
     {img_html}
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
@@ -2787,38 +2787,28 @@ def build_index(restaurants, hotels, news_preview):
 </html>"""
 
 def build_nature_page():
-    cards = "\n".join(nature_card(s) for s in NATURE_SPOTS)
-    sight_cards = "\n".join(poi_card(b) for b in SIGHTSEEING)
-    filter_bar_s = _filter_bar_html(SIGHTSEEING, "sightseeing")
-    extra = f"""
-<div class="mt-16">
-  <div class="text-center mb-10">
-    <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Must-See</p>
-    <h2 class="serif text-3xl font-bold text-gray-900 mb-2">Sightseeing &amp; Attractions</h2>
-    <p class="text-gray-500 text-base max-w-xl mx-auto">Historic forts, museums and natural landmarks you can visit in and around Paramaribo.</p>
-  </div>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{sight_cards}</div>
-</div>""" if SIGHTSEEING else ""
-    return listing_page("Nature & Parks", f"{len(NATURE_SPOTS)} destinations across Suriname's pristine wilderness",
-        f"Explore {len(NATURE_SPOTS)} nature reserves, national parks and rainforest destinations in Suriname. From Central Suriname Nature Reserve to Brownsberg — plan your eco-adventure.",
-        NATURE_SPOTS, cards, page_file="nature.html", extra_html=extra, filter_bar=filter_bar_s)
+    nature_cards = "\n".join(nature_card(s) for s in NATURE_SPOTS)
+    sight_cards  = "\n".join(poi_card(b) for b in SIGHTSEEING)
+    all_cards    = nature_cards + "\n" + sight_cards
+    # build filter bar from combined list (nature spots default to "nature-parks" subcat)
+    combined_items = [{"subcat": s.get("subcat", "nature-parks")} for s in NATURE_SPOTS] + list(SIGHTSEEING)
+    filter_bar_s = _filter_bar_html(combined_items, "sightseeing")
+    total = len(NATURE_SPOTS) + len(SIGHTSEEING)
+    return listing_page("Nature & Parks", f"{total} destinations across Suriname's pristine wilderness",
+        f"Explore {total} nature reserves, national parks and rainforest destinations in Suriname. From Central Suriname Nature Reserve to Brownsberg — plan your eco-adventure.",
+        NATURE_SPOTS, all_cards, page_file="nature.html", extra_html="", filter_bar=filter_bar_s)
 
 def build_activities_page():
-    cards = "\n".join(activity_card_rich(a) for a in ACTIVITIES)
-    filter_bar_a = _filter_bar_html(ADVENTURES_BIZ, "adventure")
+    act_cards = "\n".join(activity_card_rich(a) for a in ACTIVITIES)
     adv_cards = "\n".join(poi_card(b) for b in ADVENTURES_BIZ)
-    extra = f"""
-<div class="mt-16">
-  <div class="text-center mb-10">
-    <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Book Your Adventure</p>
-    <h2 class="serif text-3xl font-bold text-gray-900 mb-2">Tour Operators &amp; Resorts</h2>
-    <p class="text-gray-500 text-base max-w-xl mx-auto">Eco-lodges, jungle camps and tour companies to make your Suriname adventure happen.</p>
-  </div>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{adv_cards}</div>
-</div>""" if ADVENTURES_BIZ else ""
-    return listing_page("Activities", f"{len(ACTIVITIES)} things to do in Suriname",
-        f"Discover {len(ACTIVITIES)} things to do in Suriname — jungle tours, river trips, birdwatching, kayaking and more. Find tours, eco-lodges and adventure operators in Paramaribo.",
-        ACTIVITIES, cards, bg_color="var(--forest2)", page_file="activities.html", extra_html=extra, filter_bar=filter_bar_a)
+    all_cards = act_cards + "\n" + adv_cards
+    # build filter bar from combined list (generic activities default to "tours-expeditions" subcat)
+    combined_items = [{"subcat": a.get("subcat", "tours-expeditions")} for a in ACTIVITIES] + list(ADVENTURES_BIZ)
+    filter_bar_a = _filter_bar_html(combined_items, "adventure")
+    total = len(ACTIVITIES) + len(ADVENTURES_BIZ)
+    return listing_page("Activities", f"{total} things to do in Suriname",
+        f"Discover {total} things to do in Suriname — jungle tours, river trips, birdwatching, kayaking and more. Find tours, eco-lodges and adventure operators in Paramaribo.",
+        ACTIVITIES, all_cards, bg_color="var(--forest2)", page_file="activities.html", extra_html="", filter_bar=filter_bar_a)
 
 def build_restaurants_page(restaurants):
     cards = "\n".join(poi_card(r, "cuisine") for r in restaurants)
