@@ -718,5 +718,3132 @@
     "slug": "big-tex",
     "found": false,
     "osm_name": ""
+  },
+  {
+    "slug": "101-real-estate",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "4r-gym",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "aaras-cafe",
+    "found": true,
+    "osm_name": "CAF"
+  },
+  {
+    "slug": "abrix-cleaning-services",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "access-suriname-travel",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ace-restaurant-lounge",
+    "found": true,
+    "osm_name": "ACE",
+    "address": "23, Kasabaholoweg, Paramaribo"
+  },
+  {
+    "slug": "alegria",
+    "found": true,
+    "osm_name": "Alegria",
+    "opening_hours": "Mo-Sa 09:00-22:00; Su 15:00-22:00",
+    "address": "49, Keizerstraat, Paramaribo"
+  },
+  {
+    "slug": "alis-drugstore",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "alliance-francaise",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "amada-shopping",
+    "found": true,
+    "osm_name": "Amada Shopping",
+    "address": "77, Tourtonnelaan, Paramaribo"
+  },
+  {
+    "slug": "anaula-nature-resort",
+    "found": true,
+    "osm_name": "Anaula Nature Resort"
+  },
+  {
+    "slug": "anton-de-kom-universiteit-van-suriname",
+    "found": true,
+    "osm_name": "Anton"
+  },
+  {
+    "slug": "apotheek-joemmanbaks",
+    "found": true,
+    "osm_name": "Apotheek Joemmanbaks",
+    "address": "111, Leysweg, Paramaribo"
+  },
+  {
+    "slug": "apotheek-karis",
+    "found": true,
+    "osm_name": "Apotheek Karis",
+    "address": "Indira Gandhiweg, De Nieuwe Grond"
+  },
+  {
+    "slug": "apotheek-mac-donald-north",
+    "found": true,
+    "osm_name": "Apotheek"
+  },
+  {
+    "slug": "apotheek-mac-donald-south",
+    "found": true,
+    "osm_name": "Apotheek"
+  },
+  {
+    "slug": "apotheek-rafeka",
+    "found": true,
+    "osm_name": "Apotheek"
+  },
+  {
+    "slug": "apotheek-sibilo",
+    "found": true,
+    "osm_name": "Apotheek Sibilo"
+  },
+  {
+    "slug": "apotheek-soma",
+    "found": true,
+    "osm_name": "Apotheek"
+  },
+  {
+    "slug": "apotheek-soma-ringweg",
+    "found": true,
+    "osm_name": "Apotheek"
+  },
+  {
+    "slug": "arthur-alex-hoogendoorn-atheneum",
+    "found": true,
+    "osm_name": "OG"
+  },
+  {
+    "slug": "ashley-furniture-homestore",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "assuria-hermitage-high-rise",
+    "found": true,
+    "osm_name": "Assuria",
+    "address": "35, Jozef Israëlsstraat, Paramaribo"
+  },
+  {
+    "slug": "assuria-insurance-walk-in-city",
+    "found": true,
+    "osm_name": "Assuria",
+    "address": "35, Jozef Israëlsstraat, Paramaribo"
+  },
+  {
+    "slug": "assuria-insurance-walk-in-commewijne",
+    "found": true,
+    "osm_name": "Assuria",
+    "address": "35, Jozef Israëlsstraat, Paramaribo"
+  },
+  {
+    "slug": "assuria-insurance-walk-in-lelydorp",
+    "found": true,
+    "osm_name": "Assuria",
+    "address": "35, Jozef Israëlsstraat, Paramaribo"
+  },
+  {
+    "slug": "assuria-insurance-walk-in-nickerie",
+    "found": true,
+    "osm_name": "Assuria",
+    "address": "35, Jozef Israëlsstraat, Paramaribo"
+  },
+  {
+    "slug": "assuria-insurance-walk-in-noord",
+    "found": true,
+    "osm_name": "Assuria",
+    "address": "35, Jozef Israëlsstraat, Paramaribo"
+  },
+  {
+    "slug": "atlantis-hotel-casino",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "augis-travel",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "auto-style-franchepanestraat",
+    "found": true,
+    "osm_name": "PAN",
+    "address": "46, Djamoestraat"
+  },
+  {
+    "slug": "auto-style-johannes-mungrastraat",
+    "found": true,
+    "osm_name": "Auto Style",
+    "address": "54, Tweede Rijweg, Paramaribo"
+  },
+  {
+    "slug": "auto-style-kwatta",
+    "found": true,
+    "osm_name": "Kwatta"
+  },
+  {
+    "slug": "auto-style-tweede-rijweg",
+    "found": true,
+    "osm_name": "Auto Style",
+    "address": "54, Tweede Rijweg, Paramaribo"
+  },
+  {
+    "slug": "auto-style-verlengde-gemenelandsweg",
+    "found": true,
+    "osm_name": "Elan",
+    "address": "Unit 46-48, Hermitage Mall, Paramaribo"
+  },
+  {
+    "slug": "ayo-river-lounge",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ayur-mi-beauty-wellness",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "balance-studio",
+    "found": true,
+    "osm_name": "DIO",
+    "address": "Unit 16, Hermitage Mall, Paramaribo"
+  },
+  {
+    "slug": "balletschool-marlene",
+    "found": true,
+    "osm_name": "School"
+  },
+  {
+    "slug": "bar-qle",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "bella-italia",
+    "found": true,
+    "osm_name": "Bella",
+    "address": "161, Tourtonnelaan, Paramaribo"
+  },
+  {
+    "slug": "best-mart",
+    "found": true,
+    "osm_name": "Best Mart",
+    "opening_hours": "Mo-Sa 08:00-21:00; Su 09:00-14:00",
+    "phone": "+597 550878",
+    "website": "http://www.bestmart.sr/",
+    "address": "36, Jozef Israëlsstraat, Paramaribo"
+  },
+  {
+    "slug": "beyrouth-bazaar",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "bingo-pizza-coppename",
+    "found": true,
+    "osm_name": "Bingo Pizza",
+    "phone": "+597 439-333",
+    "website": "https://www.bingopizza.sr/",
+    "address": "296, Kwattaweg, Paramaribo"
+  },
+  {
+    "slug": "bingo-pizza-kwatta",
+    "found": true,
+    "osm_name": "Kwatta"
+  },
+  {
+    "slug": "bistro-brwni",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "bistro-don-julio",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "bistro-lequatorze",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "blissful-massage-aromatherapy",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "blossom-beauty-bar",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "blue-grand-cafe",
+    "found": true,
+    "osm_name": "CAF"
+  },
+  {
+    "slug": "bmw-suriname",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "body-enhancement-gym",
+    "found": true,
+    "osm_name": "NHA",
+    "address": "Kwattaweg"
+  },
+  {
+    "slug": "boekhandel-vaco",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "boss-burgers",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "brahma-centrum",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "brahma-noord",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "brahma-zuid",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "bright-cleaning",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "brilleman",
+    "found": true,
+    "osm_name": "Brilleman"
+  },
+  {
+    "slug": "brotherhood-security",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "brow-bliss-lounge",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "building-depot",
+    "found": true,
+    "osm_name": "Building Depot",
+    "address": "243, Ringweg Zuid, Paramaribo"
+  },
+  {
+    "slug": "burger-king-centrum",
+    "found": true,
+    "osm_name": "Burger King",
+    "opening_hours": "Mo-Th 10:00-24:00, Fr,Sa 10:00-00:30, Su 11:00-24:00",
+    "cuisine": "Burger"
+  },
+  {
+    "slug": "burger-king-latour",
+    "found": true,
+    "osm_name": "Burger King",
+    "opening_hours": "Mo-Th 10:00-24:00, Fr,Sa 10:00-00:30, Su 11:00-24:00",
+    "cuisine": "Burger"
+  },
+  {
+    "slug": "buro-workspaces",
+    "found": true,
+    "osm_name": "ACE",
+    "address": "23, Kasabaholoweg, Paramaribo"
+  },
+  {
+    "slug": "byd-suriname",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "camex-suriname",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "car-rental-city",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "carline-kwatta",
+    "found": true,
+    "osm_name": "Kwatta"
+  },
+  {
+    "slug": "carline-waaldijkstraat",
+    "found": true,
+    "osm_name": "Carline",
+    "address": "Dr. Sophie Redmondstraat, Paramaribo"
+  },
+  {
+    "slug": "carvision-paramaribo",
+    "found": true,
+    "osm_name": "Paramaribo",
+    "address": "Dr. Sophie Redmondstraat"
+  },
+  {
+    "slug": "chees-jewelry-watches",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "chique-eyewear-fashion",
+    "found": true,
+    "osm_name": "Chique",
+    "address": "2, Anamoestraat, Paramaribo"
+  },
+  {
+    "slug": "chm-centrum",
+    "found": true,
+    "osm_name": "CHM"
+  },
+  {
+    "slug": "chm-commewijne",
+    "found": true,
+    "osm_name": "CHM"
+  },
+  {
+    "slug": "chm-kernkampweg",
+    "found": true,
+    "osm_name": "CHM"
+  },
+  {
+    "slug": "chm-nickerie",
+    "found": true,
+    "osm_name": "CHM"
+  },
+  {
+    "slug": "chm-wanica",
+    "found": true,
+    "osm_name": "CHM"
+  },
+  {
+    "slug": "chm-wilhelminastraat",
+    "found": true,
+    "osm_name": "CHM"
+  },
+  {
+    "slug": "chm-wilhelminastraat-2",
+    "found": true,
+    "osm_name": "CHM"
+  },
+  {
+    "slug": "chois-supermarkt",
+    "found": true,
+    "osm_name": "Ark"
+  },
+  {
+    "slug": "chois-supermarkt-lelydorp",
+    "found": true,
+    "osm_name": "Ark"
+  },
+  {
+    "slug": "chois-supermarkt-north",
+    "found": true,
+    "osm_name": "Ark"
+  },
+  {
+    "slug": "chuck-e-cheese",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "cinnagirl",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ciranos",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "clarissa-vaseur-writing-wellness-services-claw",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "clean-it",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "clevia-park",
+    "found": true,
+    "osm_name": "Clevia Park",
+    "opening_hours": "Su 08:00-14:00",
+    "website": "https://www.instagram.com/cleviaparksuriname",
+    "address": "Kasoedjieweg"
+  },
+  {
+    "slug": "club-oase",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "coffee-mama",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "combe-bazaar",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "combe-markt",
+    "found": true,
+    "osm_name": "Ark"
+  },
+  {
+    "slug": "computer-hardware-services",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "computronics-north",
+    "found": true,
+    "osm_name": "Computronics",
+    "address": "4-6, Kernkampweg, Paramaribo"
+  },
+  {
+    "slug": "computronics-south",
+    "found": true,
+    "osm_name": "Computronics",
+    "address": "4-6, Kernkampweg, Paramaribo"
+  },
+  {
+    "slug": "conservatorium-suriname",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "cookie-closet",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "courtyard-marriott",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "cpr-pilates-curves",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "creative-q",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "crocs-ims",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "cupcake-fantasy",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "curl-babes",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "cute-as-a-button",
+    "found": true,
+    "osm_name": "Cute as a Button",
+    "address": "110, Jacques Gompertsstraat, Paramaribo"
+  },
+  {
+    "slug": "cy-coffee",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "cynsational-glam",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "d-mighty-view-lounge",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "da-drogisterij-coppename",
+    "found": true,
+    "osm_name": "OG"
+  },
+  {
+    "slug": "da-drogisterij-hermitage",
+    "found": true,
+    "osm_name": "OG"
+  },
+  {
+    "slug": "da-drogisterij-ims-mall",
+    "found": true,
+    "osm_name": "OG"
+  },
+  {
+    "slug": "da-drogisterij-lelydorp",
+    "found": true,
+    "osm_name": "Lelydorp",
+    "address": "van drimmelen weg"
+  },
+  {
+    "slug": "da-drogisterij-wilhelmina",
+    "found": true,
+    "osm_name": "OG"
+  },
+  {
+    "slug": "da-select-en-service-apotheek",
+    "found": true,
+    "osm_name": "Apotheek"
+  },
+  {
+    "slug": "danpaati-river-lodge",
+    "found": true,
+    "osm_name": "Danpaati River Lodge"
+  },
+  {
+    "slug": "dansclub-danzson",
+    "found": true,
+    "osm_name": "DA",
+    "address": "93, Sewbarath Misserstraat, Paramaribo"
+  },
+  {
+    "slug": "dcars-rental",
+    "found": true,
+    "osm_name": "Cars"
+  },
+  {
+    "slug": "de-cederboom-school",
+    "found": true,
+    "osm_name": "School"
+  },
+  {
+    "slug": "de-keurslager-interfarm",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "de-nederlandse-basisschool-het-kleurenorkest",
+    "found": true,
+    "osm_name": "School"
+  },
+  {
+    "slug": "de-spetter",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "de-surinaamsche-bank-hermitage-mall",
+    "found": true,
+    "osm_name": "DSB"
+  },
+  {
+    "slug": "de-surinaamsche-bank-hoofdkantoor",
+    "found": true,
+    "osm_name": "DSB"
+  },
+  {
+    "slug": "de-surinaamsche-bank-lelydorp",
+    "found": true,
+    "osm_name": "DSB"
+  },
+  {
+    "slug": "de-surinaamsche-bank-ma-retraite",
+    "found": true,
+    "osm_name": "DSB"
+  },
+  {
+    "slug": "de-surinaamsche-bank-ma-retraite-2",
+    "found": true,
+    "osm_name": "DSB"
+  },
+  {
+    "slug": "de-surinaamsche-bank-nickerie",
+    "found": true,
+    "osm_name": "DSB"
+  },
+  {
+    "slug": "de-surinaamsche-bank-nickerie-2",
+    "found": true,
+    "osm_name": "DSB"
+  },
+  {
+    "slug": "de-surinaamsche-bank-nieuwe-haven",
+    "found": true,
+    "osm_name": "DSB"
+  },
+  {
+    "slug": "de-vrije-school",
+    "found": true,
+    "osm_name": "De Vrije school"
+  },
+  {
+    "slug": "deto-handelmaatschappij",
+    "found": true,
+    "osm_name": "DETO",
+    "website": "https://www.deto.sr/",
+    "address": "Kernkampweg, Paramaribo"
+  },
+  {
+    "slug": "dhl-express-service-point",
+    "found": true,
+    "osm_name": "DHL",
+    "opening_hours": "Mo-Fr 08:30-16:00; PH off"
+  },
+  {
+    "slug": "dierenarts-resopawiro",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "dierenartspraktijk-l-m-bansse-issa",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "dierenpoli-lobo",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "digicel-albina",
+    "found": true,
+    "osm_name": "Albina"
+  },
+  {
+    "slug": "digicel-business-center",
+    "found": true,
+    "osm_name": "Digicel"
+  },
+  {
+    "slug": "digicel-extacy",
+    "found": true,
+    "osm_name": "Digicel"
+  },
+  {
+    "slug": "digicel-hermitage",
+    "found": true,
+    "osm_name": "Digicel"
+  },
+  {
+    "slug": "digicel-latour",
+    "found": true,
+    "osm_name": "Digicel"
+  },
+  {
+    "slug": "digicel-lelydorp",
+    "found": true,
+    "osm_name": "Digicel"
+  },
+  {
+    "slug": "digicel-nickerie",
+    "found": true,
+    "osm_name": "Digicel"
+  },
+  {
+    "slug": "digicel-wilhelminastraat",
+    "found": true,
+    "osm_name": "Digicel"
+  },
+  {
+    "slug": "digital-world-hermitage-mall",
+    "found": true,
+    "osm_name": "Digital World",
+    "address": "Unit 27, Ma Retraite Mall, Paramaribo"
+  },
+  {
+    "slug": "digital-world-ims",
+    "found": true,
+    "osm_name": "Digital World",
+    "address": "Unit 27, Ma Retraite Mall, Paramaribo"
+  },
+  {
+    "slug": "digital-world-maretraite-mall",
+    "found": true,
+    "osm_name": "Digital World",
+    "address": "Unit 27, Ma Retraite Mall, Paramaribo"
+  },
+  {
+    "slug": "digital-world-maretraite-mall-2",
+    "found": true,
+    "osm_name": "Digital World",
+    "address": "Unit 27, Ma Retraite Mall, Paramaribo"
+  },
+  {
+    "slug": "djinipi-copy-center",
+    "found": true,
+    "osm_name": "Djinipi Copy Center",
+    "opening_hours": "24/7",
+    "phone": "597 421190",
+    "address": "180, Henck Arronstraat, Paramaribo"
+  },
+  {
+    "slug": "djo-cleaning-service",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "dlish",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "dojo-couture-centrum",
+    "found": true,
+    "osm_name": "Dojo Couture",
+    "opening_hours": "Mo-Sa 09:00-17:30",
+    "phone": "+597 475087",
+    "address": "21, Domineestraat, Paramaribo"
+  },
+  {
+    "slug": "dojo-couture-hermitage-mall",
+    "found": true,
+    "osm_name": "Hermitage Mall",
+    "address": "73, Lalla Rookhweg, Paramaribo"
+  },
+  {
+    "slug": "dojo-couture-ims",
+    "found": true,
+    "osm_name": "Dojo Couture",
+    "opening_hours": "Mo-Sa 09:00-17:30",
+    "phone": "+597 475087",
+    "address": "21, Domineestraat, Paramaribo"
+  },
+  {
+    "slug": "dolce-bella-cafe",
+    "found": true,
+    "osm_name": "CAF"
+  },
+  {
+    "slug": "dor-property-management-services-n-v",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "dream-clean-suriname",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "dresscode",
+    "found": true,
+    "osm_name": "Dresscode",
+    "opening_hours": "Mo-Fr 08:00-17:00; Sa 12:00-14:00",
+    "phone": "+597 475733",
+    "address": "Domineestraat, Paramaribo"
+  },
+  {
+    "slug": "eethuis-liv",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "energiebedrijven-suriname-ebs",
+    "found": true,
+    "osm_name": "ebs",
+    "address": "57, Saramaccastraat"
+  },
+  {
+    "slug": "etembe-rainforest-restaurant",
+    "found": true,
+    "osm_name": "Etembe Rainforest Restaurant",
+    "opening_hours": "Mo-Sa 10:00-23:00",
+    "phone": "+597-8820611",
+    "website": "https://etembe.webs.com/",
+    "address": "5, Waterkant, Paramaribo",
+    "cuisine": "Regional · Coffee_Shop · Sandwich · Ice_Cream · Seafood"
+  },
+  {
+    "slug": "eterno",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ettores-pizza-kitchen",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "eucon",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "everything-sr",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "faraya-medical-center",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "farma-vida",
+    "found": true,
+    "osm_name": "DA",
+    "address": "93, Sewbarath Misserstraat, Paramaribo"
+  },
+  {
+    "slug": "fatum-schadeverzekering-commewijne",
+    "found": true,
+    "osm_name": "Fatum",
+    "address": "Noorderkerkstraat"
+  },
+  {
+    "slug": "fatum-schadeverzekering-hoofdkantoor",
+    "found": true,
+    "osm_name": "Fatum",
+    "address": "Noorderkerkstraat"
+  },
+  {
+    "slug": "fatum-schadeverzekering-kwatta",
+    "found": true,
+    "osm_name": "Kwatta"
+  },
+  {
+    "slug": "fatum-schadeverzekering-nickerie",
+    "found": true,
+    "osm_name": "Fatum",
+    "address": "Noorderkerkstraat"
+  },
+  {
+    "slug": "fhr-lim-a-po-institute-for-higher-education",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "finabank-centrum",
+    "found": true,
+    "osm_name": "FinaBank",
+    "address": "Dr. Sophie Redmondstraat, Paramaribo"
+  },
+  {
+    "slug": "finabank-nickerie",
+    "found": true,
+    "osm_name": "FinaBank",
+    "address": "Dr. Sophie Redmondstraat, Paramaribo"
+  },
+  {
+    "slug": "finabank-noord",
+    "found": true,
+    "osm_name": "FinaBank",
+    "address": "Dr. Sophie Redmondstraat, Paramaribo"
+  },
+  {
+    "slug": "finabank-wanica",
+    "found": true,
+    "osm_name": "FinaBank",
+    "address": "Dr. Sophie Redmondstraat, Paramaribo"
+  },
+  {
+    "slug": "finabank-zuid",
+    "found": true,
+    "osm_name": "FinaBank",
+    "address": "Dr. Sophie Redmondstraat, Paramaribo"
+  },
+  {
+    "slug": "first-aid-plus",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "fish-finder-fishing-and-outdoors",
+    "found": true,
+    "osm_name": "Fish Finder",
+    "address": "79-81, A.L. Waaldijkstraat, Paramaribo"
+  },
+  {
+    "slug": "fit-factory",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "flavor-restaurant",
+    "found": true,
+    "osm_name": "Flavor Restaurant",
+    "address": "30, Hendrikstraat, Paramaribo"
+  },
+  {
+    "slug": "flex-luxuries",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "flex-phones",
+    "found": true,
+    "osm_name": "Flex Phones",
+    "address": "Johannes S. Mungrastraat, Paramaribo"
+  },
+  {
+    "slug": "fluxo-pilates",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "folo-nature-tours",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "footcandy-hermitage-mall",
+    "found": true,
+    "osm_name": "Hermitage Mall",
+    "address": "73, Lalla Rookhweg, Paramaribo"
+  },
+  {
+    "slug": "free-city-walk-paramaribo",
+    "found": true,
+    "osm_name": "Paramaribo",
+    "address": "Dr. Sophie Redmondstraat"
+  },
+  {
+    "slug": "free-flow",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "from-kay-with-love",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "frygri",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "furniture-city-kwatta",
+    "found": true,
+    "osm_name": "Kwatta"
+  },
+  {
+    "slug": "furniture-city-north",
+    "found": true,
+    "osm_name": "Furniture City",
+    "address": "308, Kwattaweg, Paramaribo"
+  },
+  {
+    "slug": "gaby-april-beauty-clinic",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "galaxyliving",
+    "found": true,
+    "osm_name": "Galaxy",
+    "address": "Unit 211-212, Hermitage Mall, Paramaribo"
+  },
+  {
+    "slug": "gao-ming-trading-north",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "gao-ming-trading-south",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "garage-d-a-ashruf",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "georgies-bar-chill",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "glam-curves",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "glambox",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "goldenwings",
+    "found": true,
+    "osm_name": "Wings"
+  },
+  {
+    "slug": "golderom-healthy-organic-store",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "golf-club-paramaribo",
+    "found": true,
+    "osm_name": "Paramaribo",
+    "address": "Dr. Sophie Redmondstraat"
+  },
+  {
+    "slug": "gossip-nails-xx",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "great-wall-motor-suriname",
+    "found": true,
+    "osm_name": "Moto",
+    "address": "Zwartenhovenbrugstraat"
+  },
+  {
+    "slug": "greenheart-boutique-hotel",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "grounded-botanical-studio",
+    "found": true,
+    "osm_name": "DIO",
+    "address": "Unit 16, Hermitage Mall, Paramaribo"
+  },
+  {
+    "slug": "guesthouse-albergoalberga",
+    "found": true,
+    "osm_name": "Guesthouse Albergo Alberga",
+    "website": "https://www.guesthousealbergoalberga.com/"
+  },
+  {
+    "slug": "guesthouse-albina",
+    "found": true,
+    "osm_name": "Albina"
+  },
+  {
+    "slug": "h-t",
+    "found": true,
+    "osm_name": "Carwash The Happy",
+    "address": "Ringweg Zuid, Paramaribo"
+  },
+  {
+    "slug": "habco-delight",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "habco-delight-north",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "hakrinbank",
+    "found": true,
+    "osm_name": "Hakrinbank",
+    "phone": "+597 231176",
+    "address": "49, G.G. Maynardstraat, Nieuw Nickerie"
+  },
+  {
+    "slug": "hakrinbank-flora",
+    "found": true,
+    "osm_name": "Hakrinbank Flora"
+  },
+  {
+    "slug": "hakrinbank-latour",
+    "found": true,
+    "osm_name": "Hakrinbank",
+    "phone": "+597 231176",
+    "address": "49, G.G. Maynardstraat, Nieuw Nickerie"
+  },
+  {
+    "slug": "hakrinbank-nickerie",
+    "found": true,
+    "osm_name": "Hakrinbank",
+    "phone": "+597 231176",
+    "address": "49, G.G. Maynardstraat, Nieuw Nickerie"
+  },
+  {
+    "slug": "hakrinbank-nieuwe-haven",
+    "found": true,
+    "osm_name": "Hakrinbank",
+    "phone": "+597 231176",
+    "address": "49, G.G. Maynardstraat, Nieuw Nickerie"
+  },
+  {
+    "slug": "hakrinbank-tamanredjo",
+    "found": true,
+    "osm_name": "Hakrinbank",
+    "phone": "+597 231176",
+    "address": "49, G.G. Maynardstraat, Nieuw Nickerie"
+  },
+  {
+    "slug": "hakrinbank-tourtonne",
+    "found": true,
+    "osm_name": "Hakrinbank",
+    "phone": "+597 231176",
+    "address": "49, G.G. Maynardstraat, Nieuw Nickerie"
+  },
+  {
+    "slug": "han-palace",
+    "found": true,
+    "osm_name": "ACE",
+    "address": "23, Kasabaholoweg, Paramaribo"
+  },
+  {
+    "slug": "happy-flower-services",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "harry-tjin",
+    "found": true,
+    "osm_name": "Harry Tjin",
+    "address": "Kwattaweg"
+  },
+  {
+    "slug": "hertz-suriname-car-rental",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "hes-ds",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "hes-ds-2",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "hes-ds-3",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "holiday-home-decor",
+    "found": true,
+    "osm_name": "DA",
+    "address": "93, Sewbarath Misserstraat, Paramaribo"
+  },
+  {
+    "slug": "hollandia-bakkerij-north",
+    "found": true,
+    "osm_name": "Hollandia"
+  },
+  {
+    "slug": "hollandia-bakkerij-south",
+    "found": true,
+    "osm_name": "Hollandia"
+  },
+  {
+    "slug": "holy-moly",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "honeycare-north",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "honeycare-south",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "hotel-north-resort",
+    "found": true,
+    "osm_name": "North Resort",
+    "address": "145, Jacques Gompertsstraat, Paramaribo"
+  },
+  {
+    "slug": "house-of-pureness",
+    "found": true,
+    "osm_name": "House of Pureness",
+    "address": "65, Veldhuizenlaan, Paramaribo"
+  },
+  {
+    "slug": "hsds-lifestyle-noord",
+    "found": true,
+    "osm_name": "HSDS"
+  },
+  {
+    "slug": "hsds-lifestyle-wanica",
+    "found": true,
+    "osm_name": "HSDS"
+  },
+  {
+    "slug": "iamchede",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "infinity-holding",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "instyle-optics",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "international-academy-of-suriname",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "intervast",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "invictus-brazilian-jiu-jitsu",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "itrendzz",
+    "found": true,
+    "osm_name": "Itrendzz",
+    "opening_hours": "Mo-Sa 09:00-20:00",
+    "phone": "+597499020",
+    "address": "107-109, Franchepanestraat"
+  },
+  {
+    "slug": "jack-tours-travel-service",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "jadore-cafe-grill",
+    "found": true,
+    "osm_name": "CAF"
+  },
+  {
+    "slug": "jage-caffe",
+    "found": true,
+    "osm_name": "CAF"
+  },
+  {
+    "slug": "jage-caffe-2",
+    "found": true,
+    "osm_name": "CAF"
+  },
+  {
+    "slug": "jamilas-dry-cleaning-north",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "jamilas-dry-cleaning-south",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "janelles-shoes-and-bags",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "jenny-tours",
+    "found": true,
+    "osm_name": "Jenny Tours Suriname",
+    "opening_hours": "Mo-Fr 09:00-05:00",
+    "phone": "+5978858495",
+    "website": "https://www.suriname-tour.com/",
+    "address": "5c, Waterkant"
+  },
+  {
+    "slug": "jjs-place-zuid",
+    "found": true,
+    "osm_name": "ACE",
+    "address": "23, Kasabaholoweg, Paramaribo"
+  },
+  {
+    "slug": "joosje-roti-shop",
+    "found": true,
+    "osm_name": "Joosje Roti Shop",
+    "opening_hours": "Mo-Sa 08:00-22:00",
+    "address": "Zwarte Hogebrugstraat"
+  },
+  {
+    "slug": "just-curlss",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "kabalebo-nature-resort",
+    "found": true,
+    "osm_name": "Kabalebo"
+  },
+  {
+    "slug": "kaizen",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "kaki-supermarkt",
+    "found": true,
+    "osm_name": "Kaki Supermarkt",
+    "address": "153, Tourtonnelaan, Paramaribo"
+  },
+  {
+    "slug": "karans-indian-food",
+    "found": true,
+    "osm_name": "Karan",
+    "address": "Kwattaweg"
+  },
+  {
+    "slug": "kasimex-indira-ghandiweg",
+    "found": true,
+    "osm_name": "Andi",
+    "address": "Jacques Gompertsstraat, Paramaribo"
+  },
+  {
+    "slug": "kasimex-makro",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "keller-williams-suriname",
+    "found": true,
+    "osm_name": "William"
+  },
+  {
+    "slug": "kempes-co",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ket-mien",
+    "found": true,
+    "osm_name": "Ket Mien & Co"
+  },
+  {
+    "slug": "kfc-ims",
+    "found": true,
+    "osm_name": "KFC",
+    "opening_hours": "Su-Th 10:00-04:00; Fr-Sa 10:00-05:30",
+    "phone": "+597 424343",
+    "address": "62, Wilhelminastraat, Paramaribo",
+    "cuisine": "Chicken"
+  },
+  {
+    "slug": "kfc-kwatta",
+    "found": true,
+    "osm_name": "KFC",
+    "opening_hours": "Su-Th 10:00-04:00; Fr-Sa 10:00-05:30",
+    "phone": "+597 424343",
+    "address": "62, Wilhelminastraat, Paramaribo",
+    "cuisine": "Chicken"
+  },
+  {
+    "slug": "kfc-lallarookh",
+    "found": true,
+    "osm_name": "KFC",
+    "opening_hours": "Su-Th 10:00-04:00; Fr-Sa 10:00-05:30",
+    "phone": "+597 424343",
+    "address": "62, Wilhelminastraat, Paramaribo",
+    "cuisine": "Chicken"
+  },
+  {
+    "slug": "kfc-latour",
+    "found": true,
+    "osm_name": "KFC",
+    "opening_hours": "Su-Th 10:00-04:00; Fr-Sa 10:00-05:30",
+    "phone": "+597 424343",
+    "address": "62, Wilhelminastraat, Paramaribo",
+    "cuisine": "Chicken"
+  },
+  {
+    "slug": "kfc-lelydorp",
+    "found": true,
+    "osm_name": "KFC",
+    "opening_hours": "Su-Th 10:00-04:00; Fr-Sa 10:00-05:30",
+    "phone": "+597 424343",
+    "address": "62, Wilhelminastraat, Paramaribo",
+    "cuisine": "Chicken"
+  },
+  {
+    "slug": "kfc-waterkant",
+    "found": true,
+    "osm_name": "KFC",
+    "opening_hours": "Su-Th 10:00-04:00; Fr-Sa 10:00-05:30",
+    "phone": "+597 424343",
+    "address": "62, Wilhelminastraat, Paramaribo",
+    "cuisine": "Chicken"
+  },
+  {
+    "slug": "kfc-wilhelminastraat",
+    "found": true,
+    "osm_name": "KFC",
+    "opening_hours": "Su-Th 10:00-04:00; Fr-Sa 10:00-05:30",
+    "phone": "+597 424343",
+    "address": "62, Wilhelminastraat, Paramaribo",
+    "cuisine": "Chicken"
+  },
+  {
+    "slug": "kimboto",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "kirpalani-domineestraat",
+    "found": true,
+    "osm_name": "Kirpalani"
+  },
+  {
+    "slug": "kirpalani-maagdenstraat",
+    "found": true,
+    "osm_name": "Kirpalani"
+  },
+  {
+    "slug": "kirpalani-super-store",
+    "found": true,
+    "osm_name": "Kirpalani"
+  },
+  {
+    "slug": "kong-nam-snack",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "krioro",
+    "found": true,
+    "osm_name": "Krioro"
+  },
+  {
+    "slug": "krioro-north",
+    "found": true,
+    "osm_name": "Krioro"
+  },
+  {
+    "slug": "kushiyaki-the-next-episode",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "kwan-tai-restaurant",
+    "found": true,
+    "osm_name": "Kwan Tai",
+    "address": "428, Kwattaweg, Paramaribo",
+    "cuisine": "Thai"
+  },
+  {
+    "slug": "kwan-tai-restaurant-2",
+    "found": true,
+    "osm_name": "Kwan Tai",
+    "address": "428, Kwattaweg, Paramaribo",
+    "cuisine": "Thai"
+  },
+  {
+    "slug": "kyu-pho-grill",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ladybug-nursery-and-garden-center",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "lamour-restaurant",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "le-den",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "lees-korean-grill",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "leiding-1-restaurant",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "lins-super-market",
+    "found": true,
+    "osm_name": "Lin's Super Market",
+    "address": "153, Verlengde Gemeenelandsweg, Paramaribo"
+  },
+  {
+    "slug": "lobby",
+    "found": true,
+    "osm_name": "@lobby",
+    "address": "94, Tweede Rijweg, Paramaribo"
+  },
+  {
+    "slug": "lucky-store",
+    "found": true,
+    "osm_name": "Lucky Store",
+    "opening_hours": "Mo-Sa 08:00-20:00; Su 12:00-20:00"
+  },
+  {
+    "slug": "lucky-twins-restaurant",
+    "found": true,
+    "osm_name": "Lucky Twins Restaurant",
+    "address": "Verlengde Gemenelandsweg, Paramaribo"
+  },
+  {
+    "slug": "luxe-escape-lotus-spa-wellness-beautysalon",
+    "found": true,
+    "osm_name": "Salon"
+  },
+  {
+    "slug": "maharaja-palace",
+    "found": true,
+    "osm_name": "Maharaja Palace",
+    "address": "34, Johannes S. Mungrastraat, Paramaribo",
+    "cuisine": "Indian"
+  },
+  {
+    "slug": "mandy-butka",
+    "found": true,
+    "osm_name": "But"
+  },
+  {
+    "slug": "marchand-notariaat",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "marina-resort-waterland",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "matcha-loft",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "max-n-co",
+    "found": true,
+    "osm_name": "AX",
+    "address": "98, Hermitage Mall, Paramaribo"
+  },
+  {
+    "slug": "maze",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "mcdonalds-centrum",
+    "found": true,
+    "osm_name": "McDonald's",
+    "address": "Unit 10, Hermitage Mall, Paramaribo",
+    "cuisine": "Burger"
+  },
+  {
+    "slug": "mcdonalds-hermitage-mall",
+    "found": true,
+    "osm_name": "McDonald's",
+    "address": "Unit 10, Hermitage Mall, Paramaribo",
+    "cuisine": "Burger"
+  },
+  {
+    "slug": "messias-tours",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "mezze-suriname",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "mighty-racks",
+    "found": true,
+    "osm_name": "Mighty Racks Ribs"
+  },
+  {
+    "slug": "mimi-market",
+    "found": true,
+    "osm_name": "Mimi Market",
+    "address": "63, Verlengde Anamoestraat, Paramaribo"
+  },
+  {
+    "slug": "mingle-sushi",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "mini-nail-shop",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "miniso-gompertstraat",
+    "found": true,
+    "osm_name": "Miniso",
+    "opening_hours": "Mo-Sa 09:00-20:00; Sa 09:00-21:00 Su 15:00-21:00",
+    "address": "88, Jacques Gompertsstraat, Paramaribo"
+  },
+  {
+    "slug": "miniso-hermitage-mall",
+    "found": true,
+    "osm_name": "Hermitage Mall",
+    "address": "73, Lalla Rookhweg, Paramaribo"
+  },
+  {
+    "slug": "mirage-casino",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "miss-doll-fit",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "mn-international-centrum",
+    "found": true,
+    "osm_name": "MN International",
+    "address": "186, Henck Arronstraat, Paramaribo"
+  },
+  {
+    "slug": "mn-international-kwatta",
+    "found": true,
+    "osm_name": "Kwatta"
+  },
+  {
+    "slug": "moka-coffeebar",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "mokisa-wellness",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "mon-plaisir-nursery",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "mondowa-tours",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "morevans-outlet",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "multi-travel",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "muntjes-take-out-juniors-place",
+    "found": true,
+    "osm_name": "ACE",
+    "address": "23, Kasabaholoweg, Paramaribo"
+  },
+  {
+    "slug": "murphys-irish-pub",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "naskip",
+    "found": true,
+    "osm_name": "Naskip",
+    "address": "46b, Henck Arronstraat, Paramaribo"
+  },
+  {
+    "slug": "naskip-2",
+    "found": true,
+    "osm_name": "Naskip",
+    "address": "46b, Henck Arronstraat, Paramaribo"
+  },
+  {
+    "slug": "naskip-3",
+    "found": true,
+    "osm_name": "Naskip",
+    "address": "46b, Henck Arronstraat, Paramaribo"
+  },
+  {
+    "slug": "naskip-4",
+    "found": true,
+    "osm_name": "Naskip",
+    "address": "46b, Henck Arronstraat, Paramaribo"
+  },
+  {
+    "slug": "naskip-5",
+    "found": true,
+    "osm_name": "Naskip",
+    "address": "46b, Henck Arronstraat, Paramaribo"
+  },
+  {
+    "slug": "nassy-brouwer-college",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "nassy-brouwer-school",
+    "found": true,
+    "osm_name": "School"
+  },
+  {
+    "slug": "new-choice-lalla-rookhweg",
+    "found": true,
+    "osm_name": "Choice"
+  },
+  {
+    "slug": "new-choice-nickerie",
+    "found": true,
+    "osm_name": "Choice"
+  },
+  {
+    "slug": "new-choice-ringweg",
+    "found": true,
+    "osm_name": "Choice"
+  },
+  {
+    "slug": "new-suriname-dream-cafe",
+    "found": true,
+    "osm_name": "CAF"
+  },
+  {
+    "slug": "no-span-eco-tours",
+    "found": true,
+    "osm_name": "PAN",
+    "address": "46, Djamoestraat"
+  },
+  {
+    "slug": "norrii-zushii",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "north-fitness-gym",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "notariaat-mannes",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "notariaat-van-dijk",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "nr-1-spot",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "numa-cafe",
+    "found": true,
+    "osm_name": "CAF"
+  },
+  {
+    "slug": "oasis-restaurant",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ochama-amazing",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ochama-hermitage-mall",
+    "found": true,
+    "osm_name": "Hermitage Mall",
+    "address": "73, Lalla Rookhweg, Paramaribo"
+  },
+  {
+    "slug": "office-world-hermitage-mall",
+    "found": true,
+    "osm_name": "Office World",
+    "address": "Unit 213-214, Hermitage Mall, Paramaribo"
+  },
+  {
+    "slug": "office-world-lelydorp",
+    "found": true,
+    "osm_name": "Lelydorp",
+    "address": "van drimmelen weg"
+  },
+  {
+    "slug": "ogi-teppanyaki-sushi-bar",
+    "found": true,
+    "osm_name": "PAN",
+    "address": "46, Djamoestraat"
+  },
+  {
+    "slug": "okido-tours-travel",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "okopipi-tropical-grill",
+    "found": true,
+    "osm_name": "Okopipi Tropical Grill",
+    "opening_hours": "Tu-Su 18:00-11:30",
+    "phone": "+5978883344",
+    "website": "https://www.facebook.com/dailyfoodsuriname/",
+    "address": "5, Kleine Waterstraat, Paramaribo",
+    "cuisine": "Grill"
+  },
+  {
+    "slug": "olive-multi-cuisine-restaurant",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ondernemershuis",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "one-stop-apotheek-drugstore",
+    "found": true,
+    "osm_name": "Top",
+    "address": "Dr. Sophie Redmondstraat"
+  },
+  {
+    "slug": "optiek-all-vision",
+    "found": true,
+    "osm_name": "ALL vision",
+    "opening_hours": "Mo-Fr 08:00-18:00; Sa 08:00-14:00",
+    "address": "Rooslaan"
+  },
+  {
+    "slug": "optiek-all-vision-albina",
+    "found": true,
+    "osm_name": "Albina"
+  },
+  {
+    "slug": "optiek-all-vision-lelydorp",
+    "found": true,
+    "osm_name": "Lelydorp",
+    "address": "van drimmelen weg"
+  },
+  {
+    "slug": "optiek-all-vision-nickerie",
+    "found": true,
+    "osm_name": "ALL vision",
+    "opening_hours": "Mo-Fr 08:00-18:00; Sa 08:00-14:00",
+    "address": "Rooslaan"
+  },
+  {
+    "slug": "optiek-marisa",
+    "found": true,
+    "osm_name": "Optiek Marisa",
+    "address": "2, Verlengde Mahonylaan, Paramaribo"
+  },
+  {
+    "slug": "optiek-ninon",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "optiek-ninon-hermitage-mall",
+    "found": true,
+    "osm_name": "Hermitage Mall",
+    "address": "73, Lalla Rookhweg, Paramaribo"
+  },
+  {
+    "slug": "optiek-ninon-ims",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "optiek-ninon-lelydorp",
+    "found": true,
+    "osm_name": "Lelydorp",
+    "address": "van drimmelen weg"
+  },
+  {
+    "slug": "optiek-ninon-meerzorg",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "optiek-ninon-nickerie",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "orchid",
+    "found": true,
+    "osm_name": "Orchid Market",
+    "opening_hours": "Su 09:00-13:00",
+    "address": "Letitia Vriesdelaan, Paramaribo"
+  },
+  {
+    "slug": "organic-skincare",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "outdoor-living",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "overbridge-river-resort",
+    "found": true,
+    "osm_name": "Overbridge"
+  },
+  {
+    "slug": "overdoughsed-suriname",
+    "found": true,
+    "osm_name": "Overdoughsed",
+    "opening_hours": "Mo-Sa 10:00-16:00",
+    "phone": "+597 8701792",
+    "website": "https://overdoughsed.take.app",
+    "address": "40, Atlasstraat, Paramaribo"
+  },
+  {
+    "slug": "padel-x-suriname",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "padre-nostro-italian-restaurant",
+    "found": true,
+    "osm_name": "Padre Nostro",
+    "address": "Koninginnestraat",
+    "cuisine": "Italian · Ice_Cream"
+  },
+  {
+    "slug": "pandie",
+    "found": true,
+    "osm_name": "Pandie",
+    "opening_hours": "Tu-Fr 09:00-17:00; Sa 09:00-16:00",
+    "website": "https://www.ilovepandie.com",
+    "address": "40, Atlasstraat, Paramaribo"
+  },
+  {
+    "slug": "paramaribo-princess-casino",
+    "found": true,
+    "osm_name": "Paramaribo",
+    "address": "Dr. Sophie Redmondstraat"
+  },
+  {
+    "slug": "paramaribo-zoo",
+    "found": true,
+    "osm_name": "Paramaribo Zoo"
+  },
+  {
+    "slug": "percy-massage-therapy",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "petisco-restaurant",
+    "found": true,
+    "osm_name": "Petisco",
+    "address": "Anamoestraat, Paramaribo"
+  },
+  {
+    "slug": "petit-bouchon",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "pineapple-tours",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "pitbull-fitness",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "pizza-hut-leysweg",
+    "found": true,
+    "osm_name": "Pizza Hut",
+    "phone": "424444",
+    "address": "Wilhelminastraat",
+    "cuisine": "Pizza"
+  },
+  {
+    "slug": "pizza-hut-south",
+    "found": true,
+    "osm_name": "Pizza Hut",
+    "phone": "424444",
+    "address": "Wilhelminastraat",
+    "cuisine": "Pizza"
+  },
+  {
+    "slug": "pizza-hut-wilhelminastraat",
+    "found": true,
+    "osm_name": "Pizza Hut",
+    "phone": "424444",
+    "address": "Wilhelminastraat",
+    "cuisine": "Pizza"
+  },
+  {
+    "slug": "pizza-mafia",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "popeyes-centrum",
+    "found": true,
+    "osm_name": "Popeyes",
+    "address": "Lalla Rookhweg, Paramaribo",
+    "cuisine": "Chicken"
+  },
+  {
+    "slug": "popeyes-lelydorp",
+    "found": true,
+    "osm_name": "Popeyes",
+    "address": "Lalla Rookhweg, Paramaribo",
+    "cuisine": "Chicken"
+  },
+  {
+    "slug": "popeyes-tbl",
+    "found": true,
+    "osm_name": "Popeyes",
+    "address": "Lalla Rookhweg, Paramaribo",
+    "cuisine": "Chicken"
+  },
+  {
+    "slug": "popeyes-wilhelminastraat",
+    "found": true,
+    "osm_name": "Popeyes",
+    "address": "Lalla Rookhweg, Paramaribo",
+    "cuisine": "Chicken"
+  },
+  {
+    "slug": "professional-private-security",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "protrade-international",
+    "found": true,
+    "osm_name": "Protrade",
+    "address": "6, Kwattaweg, Paramaribo"
+  },
+  {
+    "slug": "qsi-international-school-of-suriname",
+    "found": true,
+    "osm_name": "School"
+  },
+  {
+    "slug": "r-k-bisdom-paramaribo",
+    "found": true,
+    "osm_name": "Paramaribo",
+    "address": "Dr. Sophie Redmondstraat"
+  },
+  {
+    "slug": "radisson-hotel",
+    "found": true,
+    "osm_name": "Paramaribo",
+    "address": "Dr. Sophie Redmondstraat"
+  },
+  {
+    "slug": "raja-ji",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ramada-paramaribo-princess",
+    "found": true,
+    "osm_name": "Paramaribo",
+    "address": "Dr. Sophie Redmondstraat"
+  },
+  {
+    "slug": "randoe-meubelen",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "re-max-suriname",
+    "found": true,
+    "osm_name": "AX",
+    "address": "98, Hermitage Mall, Paramaribo"
+  },
+  {
+    "slug": "readytex-art-gallery",
+    "found": true,
+    "osm_name": "Readytex art gallery"
+  },
+  {
+    "slug": "real-one-fitness-gym",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "red-century-party-shop-commewijne",
+    "found": true,
+    "osm_name": "Red Century",
+    "address": "361, Kwattaweg, Paramaribo"
+  },
+  {
+    "slug": "red-century-party-shop-kwatta",
+    "found": true,
+    "osm_name": "Kwatta"
+  },
+  {
+    "slug": "red-century-party-shop-lelydorp",
+    "found": true,
+    "osm_name": "Lelydorp",
+    "address": "van drimmelen weg"
+  },
+  {
+    "slug": "red-century-party-shop-north",
+    "found": true,
+    "osm_name": "Red Century",
+    "address": "361, Kwattaweg, Paramaribo"
+  },
+  {
+    "slug": "red-century-party-shop-zorg-en-hoop",
+    "found": true,
+    "osm_name": "Red Century",
+    "address": "361, Kwattaweg, Paramaribo"
+  },
+  {
+    "slug": "remy-vastgoed",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "republic-bank-head-office",
+    "found": true,
+    "osm_name": "Republic Bank",
+    "opening_hours": "Mo-Fr 08:00-14:00 open \"bank\" || 24/7 open \"atm\""
+  },
+  {
+    "slug": "republic-bank-jozef-israelstraat",
+    "found": true,
+    "osm_name": "Republic Bank",
+    "opening_hours": "Mo-Fr 08:00-14:00 open \"bank\" || 24/7 open \"atm\""
+  },
+  {
+    "slug": "republic-bank-kernkampweg",
+    "found": true,
+    "osm_name": "Republic Bank",
+    "opening_hours": "Mo-Fr 08:00-14:00 open \"bank\" || 24/7 open \"atm\""
+  },
+  {
+    "slug": "republic-bank-nickerie",
+    "found": true,
+    "osm_name": "Republic Bank",
+    "opening_hours": "Mo-Fr 08:00-14:00 open \"bank\" || 24/7 open \"atm\""
+  },
+  {
+    "slug": "republic-bank-vant-hogerhuysstraat",
+    "found": true,
+    "osm_name": "Republic Bank",
+    "opening_hours": "Mo-Fr 08:00-14:00 open \"bank\" || 24/7 open \"atm\""
+  },
+  {
+    "slug": "republic-bank-zorg-en-hoop",
+    "found": true,
+    "osm_name": "Republic Bank",
+    "opening_hours": "Mo-Fr 08:00-14:00 open \"bank\" || 24/7 open \"atm\""
+  },
+  {
+    "slug": "residence-inn-nickerie",
+    "found": true,
+    "osm_name": "Residence Inn",
+    "address": "7, Anton Dragtenweg, Paramaribo"
+  },
+  {
+    "slug": "residence-inn-paramaribo",
+    "found": true,
+    "osm_name": "Paramaribo",
+    "address": "Dr. Sophie Redmondstraat"
+  },
+  {
+    "slug": "resourceful-real-estate-construction",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "restaurant-lhermitage",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "restaurant-sarinah",
+    "found": true,
+    "osm_name": "Sarinah",
+    "address": "187, Verlengde Gemeenelandsweg, Paramaribo"
+  },
+  {
+    "slug": "restoran-bibit",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ricos-a-gladiator-foodtruck",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "rif-cleaning-service",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ring-ring-imports",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ritas-roti-shop",
+    "found": true,
+    "osm_name": "Roti shop",
+    "address": "Julianastraat, Paramaribo",
+    "cuisine": "Regional"
+  },
+  {
+    "slug": "rolines-de-waag",
+    "found": true,
+    "osm_name": "De Waag",
+    "phone": "(+597) 474514",
+    "cuisine": "Italian"
+  },
+  {
+    "slug": "roopram-roti-shop",
+    "found": true,
+    "osm_name": "Roopram",
+    "opening_hours": "Mo-Su 08:00-23:00",
+    "phone": "410338",
+    "address": "23, Zwartenhovenbrugstraat"
+  },
+  {
+    "slug": "ross-rental-cars",
+    "found": true,
+    "osm_name": "Cars"
+  },
+  {
+    "slug": "rossignol-2go-kwattaweg",
+    "found": true,
+    "osm_name": "Rossignol",
+    "address": "1, Basitostraat, Paramaribo"
+  },
+  {
+    "slug": "rossignol-2go-thurkowstraat",
+    "found": true,
+    "osm_name": "Rossignol",
+    "address": "1, Basitostraat, Paramaribo"
+  },
+  {
+    "slug": "rossignol-coppename",
+    "found": true,
+    "osm_name": "Rossignol",
+    "address": "1, Basitostraat, Paramaribo"
+  },
+  {
+    "slug": "rossignol-geyersvlijt",
+    "found": true,
+    "osm_name": "Rossignol",
+    "address": "1, Basitostraat, Paramaribo"
+  },
+  {
+    "slug": "rossignol-linda",
+    "found": true,
+    "osm_name": "Rossignol",
+    "address": "1, Basitostraat, Paramaribo"
+  },
+  {
+    "slug": "rossignol-waaldijkstraat",
+    "found": true,
+    "osm_name": "Rossignol",
+    "address": "1, Basitostraat, Paramaribo"
+  },
+  {
+    "slug": "royal-tours-suriname-guyana",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "safety-first-quality-always",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "sakura",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "samba-cafe",
+    "found": true,
+    "osm_name": "Samba Cafe",
+    "opening_hours": "Mo-Sa 08:00-16:00",
+    "phone": "+597 878 1113",
+    "address": "49, Anamoestraat, Paramaribo"
+  },
+  {
+    "slug": "sanousch-books",
+    "found": true,
+    "osm_name": "Sanousch Books",
+    "address": "67, Mahonylaan"
+  },
+  {
+    "slug": "saras-brunch-cafe",
+    "found": true,
+    "osm_name": "CAF"
+  },
+  {
+    "slug": "sash-fashion-hermitage-mall",
+    "found": true,
+    "osm_name": "Sash",
+    "address": "Hermitage Mall, Paramaribo"
+  },
+  {
+    "slug": "satyam-holidays",
+    "found": true,
+    "osm_name": "DA",
+    "address": "93, Sewbarath Misserstraat, Paramaribo"
+  },
+  {
+    "slug": "savage-den",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "savannah-casino-hotel",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "scene-beauty-salon",
+    "found": true,
+    "osm_name": "Salon"
+  },
+  {
+    "slug": "secas",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "sendang-redjo",
+    "found": true,
+    "osm_name": "DA",
+    "address": "93, Sewbarath Misserstraat, Paramaribo"
+  },
+  {
+    "slug": "shimmery-beauty-lounge",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "shoebizz-ims",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "sizzler-midnight-grill",
+    "found": true,
+    "osm_name": "Midnight",
+    "address": "78, Zwartenhovenbrugstraat, Paramaribo"
+  },
+  {
+    "slug": "sizzlers-signature",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "slagerij-abbas",
+    "found": true,
+    "osm_name": "Slagerij Abbas",
+    "address": "27, Goudenregenstraat, Paramaribo"
+  },
+  {
+    "slug": "slagerij-asruf",
+    "found": true,
+    "osm_name": "Slagerij"
+  },
+  {
+    "slug": "slagerij-stolk",
+    "found": true,
+    "osm_name": "Slagerij Stolk",
+    "address": "38, Anamoestraat, Paramaribo"
+  },
+  {
+    "slug": "sleepstore-suriname",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "smart-connexxionz",
+    "found": true,
+    "osm_name": "Smart ConneXxionZ",
+    "opening_hours": "Mo-Fr 08:00-20:00; Sa 08:30-15:00",
+    "phone": "492918"
+  },
+  {
+    "slug": "soengngie-mega-store",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "soengngie-oriental-market",
+    "found": true,
+    "osm_name": "Ark"
+  },
+  {
+    "slug": "south-america-hot-pot",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "southern-commercial-bank",
+    "found": true,
+    "osm_name": "Southern Commercial Bank",
+    "address": "33, Tourtonnelaan, Paramaribo"
+  },
+  {
+    "slug": "spice-quest",
+    "found": true,
+    "osm_name": "Spice Quest",
+    "address": "107, Dr. J.F. Nassylaan, Paramaribo",
+    "cuisine": "Japanese"
+  },
+  {
+    "slug": "squeaky-clean",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "squeezy-hot-pot-restaurant",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "sranan-fowru",
+    "found": true,
+    "osm_name": "Sranan Fowru"
+  },
+  {
+    "slug": "sranan-fowru-boni",
+    "found": true,
+    "osm_name": "Sranan Fowru"
+  },
+  {
+    "slug": "sranan-fowru-combe",
+    "found": true,
+    "osm_name": "Sranan Fowru"
+  },
+  {
+    "slug": "sranan-fowru-flu",
+    "found": true,
+    "osm_name": "Sranan Fowru"
+  },
+  {
+    "slug": "sranan-fowru-leiding",
+    "found": true,
+    "osm_name": "Sranan Fowru"
+  },
+  {
+    "slug": "sranan-fowru-lelydorp",
+    "found": true,
+    "osm_name": "Sranan Fowru"
+  },
+  {
+    "slug": "sranan-fowru-meursweg",
+    "found": true,
+    "osm_name": "Sranan Fowru"
+  },
+  {
+    "slug": "sranan-fowru-tabiki-fowru",
+    "found": true,
+    "osm_name": "Sranan Fowru"
+  },
+  {
+    "slug": "sranan-fowru-tourtonne",
+    "found": true,
+    "osm_name": "Sranan Fowru"
+  },
+  {
+    "slug": "sranan-fowru-zinnia",
+    "found": true,
+    "osm_name": "Sranan Fowru"
+  },
+  {
+    "slug": "steps-domineestraat",
+    "found": true,
+    "osm_name": "Steps"
+  },
+  {
+    "slug": "steps-hermitage-mall",
+    "found": true,
+    "osm_name": "Steps"
+  },
+  {
+    "slug": "steps-noord",
+    "found": true,
+    "osm_name": "Steps"
+  },
+  {
+    "slug": "steps-wanica",
+    "found": true,
+    "osm_name": "Steps"
+  },
+  {
+    "slug": "sthephany-skincare",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "stichting-surinaams-museum",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "store4u",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "subway",
+    "found": true,
+    "osm_name": "Subway",
+    "address": "Jozef Israëlsstraat, Paramaribo",
+    "cuisine": "Sandwich"
+  },
+  {
+    "slug": "subway-2",
+    "found": true,
+    "osm_name": "Subway",
+    "address": "Jozef Israëlsstraat, Paramaribo",
+    "cuisine": "Sandwich"
+  },
+  {
+    "slug": "subway-3",
+    "found": true,
+    "osm_name": "Subway",
+    "address": "Jozef Israëlsstraat, Paramaribo",
+    "cuisine": "Sandwich"
+  },
+  {
+    "slug": "sugar",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "sun-ice",
+    "found": true,
+    "osm_name": "Sun Ice",
+    "address": "Johan Adolf Pengelstraat, Paramaribo"
+  },
+  {
+    "slug": "supply-solutions-limited-suriname",
+    "found": true,
+    "osm_name": "Sol"
+  },
+  {
+    "slug": "suran-adventures-tours-travel",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "surgoed-makelaardij",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "surinaamsche-waterleiding-maatschappij",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "suriname-princess-casino",
+    "found": true,
+    "osm_name": "Prince",
+    "address": "246, Tourtonnelaan, Paramaribo"
+  },
+  {
+    "slug": "sweet-tooth-pastries",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "sweetheart-hermitage-mall",
+    "found": true,
+    "osm_name": "Hermitage Mall",
+    "address": "73, Lalla Rookhweg, Paramaribo"
+  },
+  {
+    "slug": "sweetheart-ims",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "sweetie-coffee",
+    "found": true,
+    "osm_name": "Sweetie Coffee",
+    "address": "6, Portugalstraat",
+    "cuisine": "Coffee_Shop"
+  },
+  {
+    "slug": "talula",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "tapauku-terras",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "tastelicious",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "tasty-fresh-food-coffee-bar",
+    "found": true,
+    "osm_name": "Tasty",
+    "address": "Lalla Rookhweg",
+    "cuisine": "Coffee_Shop · Tea · Pancake · Cake"
+  },
+  {
+    "slug": "tbl-cinemas",
+    "found": true,
+    "osm_name": "TBL Cinema"
+  },
+  {
+    "slug": "teasee",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "telesur-centrum",
+    "found": true,
+    "osm_name": "Telesur",
+    "address": "3, Oostkanaalstraat, Nieuw Nickerie"
+  },
+  {
+    "slug": "telesur-latour",
+    "found": true,
+    "osm_name": "Telesur",
+    "address": "3, Oostkanaalstraat, Nieuw Nickerie"
+  },
+  {
+    "slug": "telesur-lelydorp",
+    "found": true,
+    "osm_name": "Telesur",
+    "address": "3, Oostkanaalstraat, Nieuw Nickerie"
+  },
+  {
+    "slug": "telesur-nickerie",
+    "found": true,
+    "osm_name": "Telesur",
+    "address": "3, Oostkanaalstraat, Nieuw Nickerie"
+  },
+  {
+    "slug": "telesur-noord",
+    "found": true,
+    "osm_name": "Telesur",
+    "address": "3, Oostkanaalstraat, Nieuw Nickerie"
+  },
+  {
+    "slug": "telesur-zonnebloemstraat",
+    "found": true,
+    "osm_name": "Telesur Zonnebloemstraat",
+    "opening_hours": "Mo-Fr 07:00-22:00; Sa 08:00-22:00",
+    "address": "Zonnebloemstraat, Paramaribo"
+  },
+  {
+    "slug": "the-aerial-yoga-studio",
+    "found": true,
+    "osm_name": "DIO",
+    "address": "Unit 16, Hermitage Mall, Paramaribo"
+  },
+  {
+    "slug": "the-bakery-house",
+    "found": true,
+    "osm_name": "Bakery",
+    "address": "Kwattaweg"
+  },
+  {
+    "slug": "the-basement-barbershop",
+    "found": true,
+    "osm_name": "Barber"
+  },
+  {
+    "slug": "the-beauty-bar-north",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "the-beauty-bar-south",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "the-coffee-box-north",
+    "found": true,
+    "osm_name": "The Coffee Box",
+    "address": "Lalla Rookhweg, Paramaribo"
+  },
+  {
+    "slug": "the-coffee-hobbyist",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "the-girl-house",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "the-laundry-spot",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "the-maillard-cafe",
+    "found": true,
+    "osm_name": "CAF"
+  },
+  {
+    "slug": "the-nail-house",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "the-old-garage",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "the-perfume-spot",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "the-rose-manor",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "the-solution-property-management",
+    "found": true,
+    "osm_name": "Sol"
+  },
+  {
+    "slug": "the-sweetest-thing",
+    "found": true,
+    "osm_name": "The Sweetest Thing",
+    "opening_hours": "Tu-Fr 10:00-18:00; Sa-Su 10:00-16:00",
+    "address": "Verlengde Hoogestraat"
+  },
+  {
+    "slug": "the-warehouse-shop",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "theater-thalia",
+    "found": true,
+    "osm_name": "Thalia"
+  },
+  {
+    "slug": "three-little-beans",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "tianyou-aquafun",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "tipsy-bar-lounge",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "tirzahs-patisserie",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "tomahawk-outdoor-adventures",
+    "found": true,
+    "osm_name": "Tomahawk",
+    "address": "71, Wagenwegstraat, Paramaribo"
+  },
+  {
+    "slug": "tomahawk-outdoor-adventures-hermitage-mall",
+    "found": true,
+    "osm_name": "Tomahawk",
+    "address": "71, Wagenwegstraat, Paramaribo"
+  },
+  {
+    "slug": "tomahawk-outdoor-adventures-ims",
+    "found": true,
+    "osm_name": "Tomahawk",
+    "address": "71, Wagenwegstraat, Paramaribo"
+  },
+  {
+    "slug": "tomahawk-outdoor-adventures-lelydorp",
+    "found": true,
+    "osm_name": "Tomahawk",
+    "address": "71, Wagenwegstraat, Paramaribo"
+  },
+  {
+    "slug": "topslager-stolk",
+    "found": true,
+    "osm_name": "Top",
+    "address": "Dr. Sophie Redmondstraat"
+  },
+  {
+    "slug": "topsport",
+    "found": true,
+    "osm_name": "Top",
+    "address": "Dr. Sophie Redmondstraat"
+  },
+  {
+    "slug": "tori-oso",
+    "found": true,
+    "osm_name": "Tori Oso",
+    "opening_hours": "Tu-Su 17:00-04:00",
+    "address": "57, Fredrik Derbystraat"
+  },
+  {
+    "slug": "touch-of-heaven-wellness",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "tout-tout-petit",
+    "found": true,
+    "osm_name": "Tout Tout Petit",
+    "address": "52, Costerstraat, Paramaribo"
+  },
+  {
+    "slug": "toys-n-more",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "tranquil-at-mamba-republiek",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "tranquil-massage",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "tropicana-hotel-casino-suriname",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "tsw-group",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "tucan-resort-and-spa",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "tulip-supermarket",
+    "found": true,
+    "osm_name": "Ark"
+  },
+  {
+    "slug": "twins-pizza-burgers",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "typing-nomad-nv",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "u-s-bakery",
+    "found": true,
+    "osm_name": "Bakery",
+    "address": "Kwattaweg"
+  },
+  {
+    "slug": "uitkijk-riverlounge-cafe",
+    "found": true,
+    "osm_name": "CAF"
+  },
+  {
+    "slug": "vcm-slagerij-centrum",
+    "found": true,
+    "osm_name": "VCM",
+    "address": "134, Verlengde Gemeenelandsweg, Paramaribo"
+  },
+  {
+    "slug": "vcm-slagerij-johannes-mungrastraat",
+    "found": true,
+    "osm_name": "VCM",
+    "address": "134, Verlengde Gemeenelandsweg, Paramaribo"
+  },
+  {
+    "slug": "vcm-slagerij-verl-gemenelandsweg",
+    "found": true,
+    "osm_name": "VCM",
+    "address": "134, Verlengde Gemeenelandsweg, Paramaribo"
+  },
+  {
+    "slug": "vifa-trading",
+    "found": true,
+    "osm_name": "ViFa Trading N.V.",
+    "address": "136, Franchepanestraat, Paramaribo"
+  },
+  {
+    "slug": "villa-zapakara",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "villas-paramaribo",
+    "found": true,
+    "osm_name": "Paramaribo",
+    "address": "Dr. Sophie Redmondstraat"
+  },
+  {
+    "slug": "vincent-supermarket",
+    "found": true,
+    "osm_name": "Ark"
+  },
+  {
+    "slug": "viva-mexico",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "waldos-worldwide-travel-service",
+    "found": true,
+    "osm_name": "Aldo",
+    "address": "Hermitage Mall, Paramaribo"
+  },
+  {
+    "slug": "warung-resa-centrum",
+    "found": true,
+    "osm_name": "Warung Resa",
+    "opening_hours": "Fr 18:00-23:00; Sa 11:00-23:00; Su 11:00-20:00",
+    "phone": "+597339217",
+    "address": "178, Commissaris Weythingweg, Wanica",
+    "cuisine": "Indonesian"
+  },
+  {
+    "slug": "warung-soepy-ann",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "welink-real-estate",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "wing-hung-cake-shop",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "wollys",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "wollys-2",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "wollys-3",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "wow-plus",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "x-avenue",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "ying-hao-beautyshop",
+    "found": true,
+    "osm_name": "Ying Hao BeautyShop",
+    "address": "15, Kernkampweg, Paramaribo"
+  },
+  {
+    "slug": "yogh-hospitality",
+    "found": true,
+    "osm_name": "OG"
+  },
+  {
+    "slug": "yokohama-trading",
+    "found": true,
+    "osm_name": "Yokohama Trading",
+    "address": "Cornelis Jongbawstraat, Paramaribo"
+  },
+  {
+    "slug": "young-engineers",
+    "found": false,
+    "osm_name": ""
+  },
+  {
+    "slug": "zenobia-bottling-company",
+    "found": true,
+    "osm_name": "PAN",
+    "address": "46, Djamoestraat"
   }
 ]
