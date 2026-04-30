@@ -43,10 +43,10 @@
     <a href="index.html" class="flex items-baseline">
       <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
     </a>
-    <div class="hidden md:flex items-center gap-7"><a href="index.html#nature" class="text-gray-700 hover:text-green-800 transition text-sm" >Nature</a>
-<a href="index.html#activities" class="text-gray-700 hover:text-green-800 transition text-sm" >Activities</a>
-<a href="index.html#dining" class="text-gray-700 hover:text-green-800 transition text-sm" >Eat & Drink</a>
-<a href="index.html#hotels" class="text-gray-700 hover:text-green-800 transition text-sm" >Stay</a>
+    <div class="hidden md:flex items-center gap-7"><a href="nature.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Nature</a>
+<a href="activities.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Activities</a>
+<a href="restaurants.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Eat & Drink</a>
+<a href="hotels.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Stay</a>
 <a href="shopping.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Shopping</a>
 <a href="services.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Services</a>
 <a href="currency.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Currency</a>
@@ -57,10 +57,10 @@
       <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
   </div>
-  <div id="mm" class="hidden md:hidden border-t bg-white px-5 py-4 flex flex-col gap-3 text-sm"><a href="index.html#nature" class="text-gray-700 hover:text-green-800 transition text-sm" >Nature</a>
-<a href="index.html#activities" class="text-gray-700 hover:text-green-800 transition text-sm" >Activities</a>
-<a href="index.html#dining" class="text-gray-700 hover:text-green-800 transition text-sm" >Eat & Drink</a>
-<a href="index.html#hotels" class="text-gray-700 hover:text-green-800 transition text-sm" >Stay</a>
+  <div id="mm" class="hidden md:hidden border-t bg-white px-5 py-4 flex flex-col gap-3 text-sm"><a href="nature.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Nature</a>
+<a href="activities.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Activities</a>
+<a href="restaurants.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Eat & Drink</a>
+<a href="hotels.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Stay</a>
 <a href="shopping.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Shopping</a>
 <a href="services.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Services</a>
 <a href="currency.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Currency</a>
@@ -77,8 +77,12 @@
   
 <div class="sticky top-16 z-40 py-3 mb-8" style="background:rgba(249,250,251,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06)">
   <div class="max-w-6xl mx-auto px-5">
-    <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide" style="scrollbar-width:none">
-      <button onclick="filterSub(this,'all')" class="filter-chip chip-active">⚡ All <span class="chip-count">358</span></button><button onclick="filterSub(this,'beauty-wellness')" class="filter-chip">💄 Beauty & Wellness <span class="chip-count">37</span></button><button onclick="filterSub(this,'fitness-wellness')" class="filter-chip">💪 Fitness <span class="chip-count">19</span></button><button onclick="filterSub(this,'health-pharmacy')" class="filter-chip">💊 Health & Pharmacy <span class="chip-count">17</span></button><button onclick="filterSub(this,'banking')" class="filter-chip">🏦 Banking <span class="chip-count">24</span></button><button onclick="filterSub(this,'insurance')" class="filter-chip">🛡️ Insurance <span class="chip-count">5</span></button><button onclick="filterSub(this,'telecom-utilities')" class="filter-chip">📡 Telecom & Utilities <span class="chip-count">15</span></button><button onclick="filterSub(this,'travel-transport')" class="filter-chip">✈️ Travel & Transport <span class="chip-count">8</span></button><button onclick="filterSub(this,'real-estate')" class="filter-chip">🏠 Real Estate <span class="chip-count">10</span></button><button onclick="filterSub(this,'education')" class="filter-chip">🎓 Education <span class="chip-count">13</span></button><button onclick="filterSub(this,'tech-media')" class="filter-chip">💻 Tech & Media <span class="chip-count">9</span></button><button onclick="filterSub(this,'cleaning-maintenance')" class="filter-chip">🧹 Cleaning <span class="chip-count">10</span></button><button onclick="filterSub(this,'automotive')" class="filter-chip">🚗 Automotive <span class="chip-count">8</span></button><button onclick="filterSub(this,'legal-professional')" class="filter-chip">⚖️ Legal & Professional <span class="chip-count">3</span></button><button onclick="filterSub(this,'other')" class="filter-chip">🔧 Other Services <span class="chip-count">83</span></button>
+    <div class="relative flex items-center gap-1">
+      <button id="chipbar-service-prev" onclick="chipScroll('chipbar-service',-1)" class="chip-arrow" aria-label="scroll left">&#8249;</button>
+      <div id="chipbar-service" class="flex gap-2 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth">
+        <button onclick="filterSub(this,'all')" class="filter-chip chip-active">All <span class="chip-count">358</span></button><button onclick="filterSub(this,'beauty-wellness')" class="filter-chip">Beauty & Wellness <span class="chip-count">37</span></button><button onclick="filterSub(this,'fitness-wellness')" class="filter-chip">Fitness <span class="chip-count">19</span></button><button onclick="filterSub(this,'health-pharmacy')" class="filter-chip">Health & Pharmacy <span class="chip-count">17</span></button><button onclick="filterSub(this,'banking')" class="filter-chip">Banking <span class="chip-count">24</span></button><button onclick="filterSub(this,'insurance')" class="filter-chip">Insurance <span class="chip-count">5</span></button><button onclick="filterSub(this,'telecom-utilities')" class="filter-chip">Telecom & Utilities <span class="chip-count">15</span></button><button onclick="filterSub(this,'travel-transport')" class="filter-chip">Travel & Transport <span class="chip-count">8</span></button><button onclick="filterSub(this,'real-estate')" class="filter-chip">Real Estate <span class="chip-count">10</span></button><button onclick="filterSub(this,'education')" class="filter-chip">Education <span class="chip-count">13</span></button><button onclick="filterSub(this,'tech-media')" class="filter-chip">Tech & Media <span class="chip-count">9</span></button><button onclick="filterSub(this,'cleaning-maintenance')" class="filter-chip">Cleaning <span class="chip-count">10</span></button><button onclick="filterSub(this,'automotive')" class="filter-chip">Automotive <span class="chip-count">8</span></button><button onclick="filterSub(this,'legal-professional')" class="filter-chip">Legal & Professional <span class="chip-count">3</span></button><button onclick="filterSub(this,'other')" class="filter-chip">Other Services <span class="chip-count">83</span></button>
+      </div>
+      <button id="chipbar-service-next" onclick="chipScroll('chipbar-service',1)" class="chip-arrow" aria-label="scroll right">&#8250;</button>
     </div>
   </div>
 </div>
@@ -92,9 +96,21 @@
 .filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
 .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
 .filter-chip.chip-active .chip-count { opacity:.8; }
+.chip-arrow {
+  flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #e5e7eb;
+  background:#fff;font-size:1.1rem;line-height:1;cursor:pointer;display:flex;
+  align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
+}
+.chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
 .listing-card { transition:opacity .2s, transform .2s; }
 .listing-card.hidden { display:none; }
 </style>
+<script>
+function chipScroll(id, dir) {
+  var el = document.getElementById(id);
+  if (el) el.scrollBy({left: dir * 200, behavior: 'smooth'});
+}
+</script>
 <script>
 function filterSub(btn, key) {
   document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('chip-active'));
