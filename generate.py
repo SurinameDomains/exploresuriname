@@ -1631,6 +1631,226 @@ _F = {
 def _biz_img(slug):
     return _IMGS.get(slug, "")
 
+# ── Subcategory assignment ────────────────────────────────────────────────────
+def _subcat(slug, main_cat=""):
+    s = slug.lower()
+    # Eat & Drink
+    if any(x in s for x in ['kfc','burger-king','mcdonalds','popeyes','pizza-hut','subway',
+            'sranan-fowru','naskip','habco','boss-burgers','twins-pizza','wollys',
+            'ricos','cinnagirl','goldenwings','dlish','lucky-twins','murphys',
+            'frygri','kriegslist','chuck-e','monster']):
+        return 'fast-food'
+    if any(x in s for x in ['coffee','cafe','moka','matcha','teasee','maillard',
+            'three-little-beans','coffee-hobbyist','cy-coffee','coffee-mama',
+            'numa-cafe','sweetie-coffee','tasty-fresh','aaras','cy-coffee',
+            'jage-caffe','dolce','blue-grand','new-suriname-dream','samba']):
+        return 'cafes-coffee'
+    if any(x in s for x in ['bar-qle','tipsy','georgies','uitkijk','d-mighty',
+            'riverloun','murphys','de-spot','de-verdieping','lobby','alegria',
+            'salon','bar-zu','lounge','mr-bar','bar-nord']):
+        return 'bars-lounges'
+    if any(x in s for x in ['sushi','korean','japanese','teppanyaki','kwan-tai',
+            'kong-nam','kyu-pho','norrii','ogi-','mingle-sushi','south-america-hot',
+            'squeezy-hot','lees-korean','chi-min','han-palace','sakura',
+            'ket-mien','kushiyaki','olive']):
+        return 'asian-fusion'
+    if any(x in s for x in ['roti','warung','baka-foto','joosje','ritas','sendang',
+            'roopram','oasis','eethuis','kasan','la-s','restoran-bibit',
+            'tori-oso','okopipi','petisco','leiding-1','rolines','de-waag',
+            'restaurant-sarinah','sranan']):
+        return 'local-caribbean'
+    if any(x in s for x in ['bakery','patisserie','tirzahs','overdough','wing-hung',
+            'u-s-bakery','bakery-house','the-sweetest','sweet-tooth','cookie-closet',
+            'cup-cake','cupcake','croissant','zeg-ijsje','pannekoek',
+            'tirzah','tout-tout','the-girl-house']):
+        return 'bakeries-sweets'
+    if any(x in s for x in ['pizza','pasta','italian','padre','bella-italia','ettores',
+            'pane-e-vino','pizza-mafia','bingo-pizza','sizzler']):
+        return 'pizza-italian'
+    # Hotels
+    if any(x in s for x in ['eco','nature-resort','river-lodge','jungle','kabalebo',
+            'danpaati','anaula','knini','kimboto','tioboto','tapawatra',
+            'afobaka','akira','overbridge','kodouffi']):
+        return 'eco-lodges'
+    if any(x in s for x in ['casino','tropicana','atlantis','savannah-casino',
+            'paramaribo-princess','mirage','suriname-princess']):
+        return 'casino-hotels'
+    if any(x in s for x in ['guesthouse','villa-','villas-','appartment','apartment',
+            'tiny-house','waterland','bronbella','residence-inn','zeelandia-suite',
+            'royal-breeze','yogh']):
+        return 'guesthouses'
+    # Activities
+    if any(x in s for x in ['tour','tours','travel-service','folo','mondowa','pineapple',
+            'tomahawk','no-span','jack-tour','jenny-tour','messias','royal-tours',
+            'suran','okido','wayfinder','huub','unlimited-suriname','free-city-walk',
+            'access-suriname','satyam','multi-travel','augis','waldos','jack-tours']):
+        return 'tours-expeditions'
+    if any(x in s for x in ['museum','heritage','historic','fort-zeeland','joden',
+            'plantage','koto-museum','stichting-surinaams','readytex-art',
+            'conservatorium','alliance-francaise','museum-bakkie','ford-zeeland']):
+        return 'museums-heritage'
+    if any(x in s for x in ['zoo','cinema','theater','thalia','tbl-cinema','tianyou',
+            'golf-club','clevia','oase','padel','dansclub','balance-studio',
+            'paramaribo-zoo','invictus','fish-finder','outdoor-living']):
+        return 'entertainment'
+    if any(x in s for x in ['peperpot','brownsberg','nature-park','colakreek',
+            'carolina-kreek','recreatie-oord','afobaka','bigi-pan','galibi']):
+        return 'nature-parks'
+    # Shopping
+    if any(x in s for x in ['supermarkt','supermarket','chois','kaki','lins-super',
+            'vincent-super','tulip-super','mimi-market','gao-ming','best-mart',
+            'vincent-supermarket','lins-super-market']):
+        return 'supermarkets'
+    if any(x in s for x in ['mall','combe-markt','combe-bazaar','beyrouth-bazaar',
+            'soengngie-mega','hermitage-mall','ims-mall','amada-shopping',
+            'boekhandel','sanousch']):
+        return 'malls-markets'
+    if any(x in s for x in ['fashion','shoe','footcandy','shoebizz','dresscode',
+            'dojo-couture','sash-fashion','steps-','morevans','janelles',
+            'crocs-','chm-','miniso','ochama','itrendzz','flex-luxuries',
+            'everything-sr','x-avenue','store4u','lucky-store']):
+        return 'fashion-clothing'
+    if any(x in s for x in ['digital-world','computronics','flex-phones','computer-hardware',
+            'ring-ring','vifa-trading','yokohama-trading']):
+        return 'electronics'
+    if any(x in s for x in ['furniture','ashley-furniture','randoe-meubelen',
+            'building-depot','sleepstore','holiday-home','randoe','outdoor-living',
+            'galaxyliving']):
+        return 'home-furniture'
+    if any(x in s for x in ['optiek','instyle-optic','chees-jewelry','chique-eyewear']):
+        return 'optical-jewelry'
+    if any(x in s for x in ['slagerij','topslager','vcm-slager','keurslager',
+            'hollandia-bakkerij','da-drogist','alis-drugstore','rossignol',
+            'office-world']):
+        return 'food-specialty'
+    # Services subcategories
+    if any(x in s for x in ['bank','hakrinbank','republic-bank','finabank',
+            'surinaamsche-bank','scombank','southern-commercial']):
+        return 'banking'
+    if any(x in s for x in ['assuria','fatum-schade','insurance','verzekering']):
+        return 'insurance'
+    if any(x in s for x in ['apotheek','drugstore','pharmacie','farma','medical',
+            'dierenarts','dierenpoli','faraya','first-aid','health','clinic',
+            'da-select','one-stop-apotheek','alis-drugstore']):
+        return 'health-pharmacy'
+    if any(x in s for x in ['telesur','digicel','telecom','smart-connexxionz',
+            'digital-world','energiebedrijven','ebs','swm','ebs-','zenobia']):
+        return 'telecom-utilities'
+    if any(x in s for x in ['school','universiteit','university','college','atheneum',
+            'lyceum','academy','institute','conservatorium','fhr-lim','ias-wooden',
+            'nassy-brouwer','de-vrije-school','arthur-alex','qsi-international',
+            'lim-a-po','international-academy','young-engineers','balletschool']):
+        return 'education'
+    if any(x in s for x in ['gym','fitness','yoga','pilates','sport','wellness',
+            '4r-gym','north-fitness','pitbull-fitness','rock-fitness','fit-factory',
+            'real-one-fitness','body-enhancement','cpr-pilates','topsport',
+            'the-aerial','invictus','kaizen','fluxo','glam-curves','miss-doll-fit']):
+        return 'fitness-wellness'
+    if any(x in s for x in ['beauty','salon','hair','nail','barber','wax','lash','brow',
+            'spa','massage','tattoo','piercing','skincare','rich-skin','the-beauty-bar',
+            'bloom-wellness','carpe-diem','stichting-shiatsu','royal-spa','royal-rose',
+            'delete-beauty','hairstudio','lashlift','lioness','timeless-barber',
+            'thermen','inksane','gaby-april','scene-beauty','touch-of-heaven',
+            'percy-massage','tranquil','luxe-escape','shimmery','blissful',
+            'brow-bliss','sthephany','house-of-pureness','curl-babes','just-curlss',
+            'organic-skincare','ying-hao','cynsational','iamchede','glambox',
+            'gossip-nails','glam-curves','ayur-mi','mokisa-wellness','mini-nail',
+            'the-nail-house','the-basement-barber','hsds-lifestyle','clarissa-vaseur',
+            'pinkmoon','smoothieskin','honeycare']):
+        return 'beauty-wellness'
+    if any(x in s for x in ['real-estate','vastgoed','makelaardij','property','remy',
+            'welink','101-real-estate','keller-williams','re-max','surgoed',
+            'dor-property','resourceful','intervast']):
+        return 'real-estate'
+    if any(x in s for x in ['cleaning','laundry','bright-cleaning','abrix-cleaning',
+            'rif-cleaning','djo-cleaning','jamilas-dry','the-laundry','squeaky',
+            'dream-clean','clean-it']):
+        return 'cleaning-maintenance'
+    if any(x in s for x in ['security','brotherhood-security','professional-private',
+            'safety-first']):
+        return 'security'
+    if any(x in s for x in ['travel','airline','car-rental','hertz','dcars','ross-rental',
+            'fly-allways','surinam-airways','klm','digicel','augis','multi-travel',
+            'waldos','jack-tours','jenny-tour','access-suriname','satyam',
+            'okido-tours','royal-tours','dli-travel']):
+        return 'travel-transport'
+    if any(x in s for x in ['media','tech','digital','eaglemedia','ekay-media','bitdynamics',
+            'seen-stories','computer','typing-nomad','djinipi','creativing',
+            'eucon','tsw','printing','creative-q']):
+        return 'tech-media'
+    if any(x in s for x in ['notariaat','notary','law','legal','marchand','mannes',
+            'van-dijk','accountant']):
+        return 'legal-professional'
+    if any(x in s for x in ['car','auto','bmw','byd','great-wall','garage','carvision',
+            'hertz','dcars','ross-rental','car-rental']):
+        return 'automotive'
+    return 'other'
+
+# Subcategory display config: cat → [ (key, label, emoji) ]
+SUBCATS = {
+    "restaurant": [
+        ("all",           "All",              "🍽️"),
+        ("fast-food",     "Fast Food",         "🍔"),
+        ("cafes-coffee",  "Cafés & Coffee",    "☕"),
+        ("bars-lounges",  "Bars & Lounges",    "🍹"),
+        ("asian-fusion",  "Asian & Fusion",    "🥢"),
+        ("local-caribbean","Local & Caribbean","🌿"),
+        ("pizza-italian", "Pizza & Italian",   "🍕"),
+        ("bakeries-sweets","Bakeries & Sweets","🍰"),
+        ("restaurants",   "Restaurants",       "🍴"),
+    ],
+    "hotel": [
+        ("all",          "All",               "🏨"),
+        ("city-hotels",  "City Hotels",       "🏙️"),
+        ("resorts",      "Resorts",            "🏊"),
+        ("casino-hotels","Casino Hotels",     "🎰"),
+        ("eco-lodges",   "Eco & River Lodges","🌿"),
+        ("guesthouses",  "Guesthouses & Villas","🏡"),
+    ],
+    "adventure": [
+        ("all",             "All",             "🌍"),
+        ("tours-expeditions","Tours & Expeditions","🧭"),
+        ("nature-parks",    "Nature & Parks",  "🦜"),
+        ("museums-heritage","Museums & Heritage","🏛️"),
+        ("entertainment",   "Entertainment",   "🎭"),
+    ],
+    "sightseeing": [
+        ("all",             "All",             "🗺️"),
+        ("museums-heritage","Museums & Heritage","🏛️"),
+        ("nature-parks",    "Nature & Parks",  "🌿"),
+        ("entertainment",   "Entertainment",   "🎭"),
+        ("tours-expeditions","Tours",          "🧭"),
+    ],
+    "shopping": [
+        ("all",           "All",              "🛍️"),
+        ("malls-markets", "Malls & Markets",  "🏬"),
+        ("supermarkets",  "Supermarkets",     "🛒"),
+        ("fashion-clothing","Fashion & Shoes","👗"),
+        ("electronics",   "Electronics",      "📱"),
+        ("home-furniture","Home & Furniture", "🛋️"),
+        ("food-specialty","Food & Specialty", "🥩"),
+        ("optical-jewelry","Optical & Jewelry","👓"),
+    ],
+    "service": [
+        ("all",               "All",              "⚡"),
+        ("beauty-wellness",   "Beauty & Wellness","💄"),
+        ("fitness-wellness",  "Fitness",          "💪"),
+        ("health-pharmacy",   "Health & Pharmacy","💊"),
+        ("banking",           "Banking",          "🏦"),
+        ("insurance",         "Insurance",        "🛡️"),
+        ("telecom-utilities", "Telecom & Utilities","📡"),
+        ("travel-transport",  "Travel & Transport","✈️"),
+        ("real-estate",       "Real Estate",      "🏠"),
+        ("education",         "Education",        "🎓"),
+        ("tech-media",        "Tech & Media",     "💻"),
+        ("cleaning-maintenance","Cleaning",       "🧹"),
+        ("automotive",        "Automotive",       "🚗"),
+        ("legal-professional","Legal & Professional","⚖️"),
+        ("other",             "Other Services",   "🔧"),
+    ],
+}
+
+
 def _make_biz(slug):
     b = _BIZ.get(slug)
     if not b: return None
@@ -1640,7 +1860,8 @@ def _make_biz(slug):
             "description": b.get("description", ""),
             "url": f"listing/{slug}/",          # internal detail page
             "external_url": _biz_url(b),        # business website / Google fallback
-            "image": _biz_img(slug)}
+            "image": _biz_img(slug),
+            "subcat": _subcat(slug)}
 
 RESTAURANTS = [b for slug in ["a-la-john","ac-bar-restaurant","baka-foto-restaurant","bar-zuid","big-tex","bori-tori","chi-min","de-gadri","de-spot","de-verdieping","el-patron-latin-grill","elines-pizza","garden-of-eden","goe-thai-noodle-bar","hard-rock-cafe-suriname","joey-ds","julias-food","kasan-snacks","las-tias","mickis-palace-noord","mickis-palace-zuid","mingle-paramaribo","moments-restaurant","pane-e-vino","pannekoek-en-poffertjes-cafe","passion-food-and-wines","rogom-farm-nv","souposo","sushi-ya","the-coffee-box","zeg-ijsje","zus-zo-cafe","aaras-cafe","ace-restaurant-lounge","ayo-river-lounge","bar-qle","bingo-pizza-coppename","bingo-pizza-kwatta","bistro-brwni","bistro-don-julio","bistro-lequatorze","blossom-beauty-bar","blue-grand-cafe","brow-bliss-lounge","burger-king-centrum","burger-king-latour","coffee-mama","cy-coffee","d-mighty-view-lounge","dolce-bella-cafe","etembe-rainforest-restaurant","ettores-pizza-kitchen","flavor-restaurant","georgies-bar-chill","habco-delight","habco-delight-north","jadore-cafe-grill","joosje-roti-shop","kfc-ims","kfc-kwatta","kfc-lallarookh","kfc-latour","kfc-lelydorp","kfc-waterkant","kfc-wilhelminastraat","kong-nam-snack","kwan-tai-restaurant","kwan-tai-restaurant-2","kyu-pho-grill","lamour-restaurant","lees-korean-grill","leiding-1-restaurant","lucky-twins-restaurant","mcdonalds-centrum","mcdonalds-hermitage-mall","mingle-sushi","moka-coffeebar","naskip","naskip-2","naskip-3","naskip-4","naskip-5","new-suriname-dream-cafe","numa-cafe","oasis-restaurant","ogi-teppanyaki-sushi-bar","okopipi-tropical-grill","olive-multi-cuisine-restaurant","padre-nostro-italian-restaurant","petisco-restaurant","pizza-hut-leysweg","pizza-hut-south","pizza-hut-wilhelminastraat","pizza-mafia","popeyes-centrum","popeyes-lelydorp","popeyes-tbl","popeyes-wilhelminastraat","restaurant-lhermitage","restaurant-sarinah","ritas-roti-shop","roopram-roti-shop","samba-cafe","saras-brunch-cafe","shimmery-beauty-lounge","sizzler-midnight-grill","squeezy-hot-pot-restaurant","sranan-fowru","sranan-fowru-boni","sranan-fowru-combe","sranan-fowru-flu","sranan-fowru-leiding","sranan-fowru-lelydorp","sranan-fowru-meursweg","sranan-fowru-tabiki-fowru","sranan-fowru-tourtonne","sranan-fowru-zinnia","subway","subway-2","subway-3","sweetie-coffee","tasty-fresh-food-coffee-bar","the-bakery-house","the-beauty-bar-north","the-beauty-bar-south","the-coffee-box-north","the-coffee-hobbyist","the-maillard-cafe","tipsy-bar-lounge","tirzahs-patisserie","twins-pizza-burgers","u-s-bakery","uitkijk-riverlounge-cafe"] for b in [_make_biz(slug)] if b]
 
@@ -2095,7 +2316,7 @@ def poi_card(item, badge_key="cuisine"):
                 f'</div>') if img else ""
     phone_html = f'<span class="text-gray-400 text-xs">&#128222; {html_lib.escape(phone)}</span>' if phone else ""
     return f"""
-<a href="{url}" class="group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="{url}" data-sub="{item.get('subcat','other')}" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   {img_html}
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2110,7 +2331,67 @@ def poi_card(item, badge_key="cuisine"):
   </div>
 </a>"""
 
-def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html=""):
+
+def _filter_bar_html(items, cat_key):
+    """Sticky filter chip bar with live count badges and JS filtering."""
+    from collections import Counter
+    sub_counts = Counter(b.get("subcat","other") for b in items)
+    chips_cfg  = SUBCATS.get(cat_key, [("all","All","🔍")])
+
+    chips = []
+    for key, label, emoji in chips_cfg:
+        if key == "all":
+            count = len(items)
+        else:
+            count = sub_counts.get(key, 0)
+        if count == 0 and key != "all":
+            continue
+        active = ' chip-active' if key == "all" else ''
+        chips.append(
+            f'''<button onclick="filterSub(this,\'{key}\')" class="filter-chip{active}">'''
+            f'''{emoji} {label} <span class="chip-count">{count}</span></button>'''
+        )
+
+    return f"""
+<div class="sticky top-16 z-40 py-3 mb-8" style="background:rgba(249,250,251,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06)">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide" style="scrollbar-width:none">
+      {"".join(chips)}
+    </div>
+  </div>
+</div>
+<style>
+.filter-chip {{
+  display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:999px;
+  border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
+  color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+}}
+.filter-chip:hover {{ border-color:var(--forest);color:var(--forest); }}
+.filter-chip.chip-active {{ background:var(--forest);border-color:var(--forest);color:#fff; }}
+.chip-count {{ opacity:.65;font-weight:500;font-size:.75rem; }}
+.filter-chip.chip-active .chip-count {{ opacity:.8; }}
+.listing-card {{ transition:opacity .2s, transform .2s; }}
+.listing-card.hidden {{ display:none; }}
+</style>
+<script>
+function filterSub(btn, key) {{
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('chip-active'));
+  btn.classList.add('chip-active');
+  document.querySelectorAll('.listing-card').forEach(card => {{
+    if (key === 'all' || card.dataset.sub === key) {{
+      card.classList.remove('hidden');
+    }} else {{
+      card.classList.add('hidden');
+    }}
+  }});
+  // Update grid count label
+  const visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
+  const lbl = document.getElementById('result-count');
+  if (lbl) lbl.textContent = visible + ' results';
+}}
+</script>"""
+
+def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar=""):
     page_url = f"{SITE_URL}/{page_file}"
     return f"""{PAGE_HEAD}
   <title>{title} | ExploreSuriname.com</title>
@@ -2144,6 +2425,8 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">{subtitle}</p>
 </div>
 <main class="max-w-6xl mx-auto px-5 py-12 pb-24">
+  {filter_bar}
+  <div id="result-count" class="text-sm text-gray-400 mb-4 font-medium">{len(items)} results</div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     {cards_html}
   </div>
@@ -2299,6 +2582,7 @@ def build_index(restaurants, hotels, news_preview):
 def build_nature_page():
     cards = "\n".join(nature_card(s) for s in NATURE_SPOTS)
     sight_cards = "\n".join(poi_card(b) for b in SIGHTSEEING)
+    filter_bar_s = _filter_bar_html(SIGHTSEEING, "sightseeing")
     extra = f"""
 <div class="mt-16">
   <div class="text-center mb-10">
@@ -2306,6 +2590,7 @@ def build_nature_page():
     <h2 class="serif text-3xl font-bold text-gray-900 mb-2">Sightseeing &amp; Attractions</h2>
     <p class="text-gray-500 text-base max-w-xl mx-auto">Historic forts, museums and natural landmarks you can visit in and around Paramaribo.</p>
   </div>
+  {filter_bar_s}
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{sight_cards}</div>
 </div>""" if SIGHTSEEING else ""
     return listing_page("Nature & Parks", f"{len(NATURE_SPOTS)} destinations across Suriname's pristine wilderness",
@@ -2314,6 +2599,8 @@ def build_nature_page():
 
 def build_activities_page():
     cards = "\n".join(activity_card_rich(a) for a in ACTIVITIES)
+    adv_items = [{"subcat": _subcat(b["slug"] if hasattr(b,"__getitem__") else "", "adventure")} | b for b in ADVENTURES_BIZ]
+    filter_bar_a = _filter_bar_html(ADVENTURES_BIZ, "adventure")
     adv_cards = "\n".join(poi_card(b) for b in ADVENTURES_BIZ)
     extra = f"""
 <div class="mt-16">
@@ -2322,6 +2609,7 @@ def build_activities_page():
     <h2 class="serif text-3xl font-bold text-gray-900 mb-2">Tour Operators &amp; Resorts</h2>
     <p class="text-gray-500 text-base max-w-xl mx-auto">Eco-lodges, jungle camps and tour companies to make your Suriname adventure happen.</p>
   </div>
+  {filter_bar_a}
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{adv_cards}</div>
 </div>""" if ADVENTURES_BIZ else ""
     return listing_page("Activities", f"{len(ACTIVITIES)} things to do in Suriname",
@@ -2330,27 +2618,31 @@ def build_activities_page():
 
 def build_restaurants_page(restaurants):
     cards = "\n".join(poi_card(r, "cuisine") for r in restaurants)
-    return listing_page("Restaurants & Dining", f"{len(restaurants)} restaurants across Suriname",
-        f"Browse {len(restaurants)} restaurants, cafes and bars in Paramaribo, Suriname. Indonesian, Creole, Chinese, Indian and international cuisine — find where to eat tonight.",
-        restaurants, cards, bg_color="#7c3aed", page_file="restaurants.html")
+    fb    = _filter_bar_html(restaurants, "restaurant")
+    return listing_page("Eat & Drink", f"{len(restaurants)} places to eat & drink in Suriname",
+        f"Browse {len(restaurants)} restaurants, cafes, bars and fast food in Suriname. Find local Surinamese food, Asian cuisine, coffee shops and more.",
+        restaurants, cards, bg_color="#7c3aed", page_file="restaurants.html", filter_bar=fb)
 
 def build_hotels_page(hotels):
     cards = "\n".join(poi_card(h, "category") for h in hotels)
+    fb    = _filter_bar_html(hotels, "hotel")
     return listing_page("Hotels & Lodges", f"{len(hotels)} places to stay in Suriname",
         f"Browse {len(hotels)} hotels, eco-lodges and jungle retreats in Suriname. From Paramaribo city hotels to remote river resorts — find your perfect stay.",
-        hotels, cards, bg_color="#c05621", page_file="hotels.html")
+        hotels, cards, bg_color="#c05621", page_file="hotels.html", filter_bar=fb)
 
 def build_shopping_page():
     cards = "\n".join(poi_card(b) for b in SHOPPING)
-    return listing_page("Shopping", f"{len(SHOPPING)} shops, malls & boutiques in Suriname",
-        f"Discover {len(SHOPPING)} shops in Suriname — malls, local boutiques, craft stores and souvenir shops in Paramaribo. Find gifts, fashion, electronics and more.",
-        SHOPPING, cards, bg_color="#7c3aed", page_file="shopping.html")
+    fb    = _filter_bar_html(SHOPPING, "shopping")
+    return listing_page("Shopping", f"{len(SHOPPING)} shops & stores in Suriname",
+        f"Discover {len(SHOPPING)} shops in Suriname — supermarkets, malls, fashion, electronics, furniture, butchers and specialty stores in Paramaribo.",
+        SHOPPING, cards, bg_color="#7c3aed", page_file="shopping.html", filter_bar=fb)
 
 def build_services_page():
     cards = "\n".join(poi_card(b) for b in SERVICES)
+    fb    = _filter_bar_html(SERVICES, "service")
     return listing_page("Services", f"{len(SERVICES)} service providers in Suriname",
-        f"Find {len(SERVICES)} service providers in Suriname — beauty salons, wellness centres, travel agencies, airlines, insurance and professional services in Paramaribo.",
-        SERVICES, cards, bg_color="#0369a1", page_file="services.html")
+        f"Find {len(SERVICES)} service providers in Suriname — banks, beauty, health, fitness, education, telecom, real estate and more.",
+        SERVICES, cards, bg_color="#0369a1", page_file="services.html", filter_bar=fb)
 
 def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated):
     import json as _json
