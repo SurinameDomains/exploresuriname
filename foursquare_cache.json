@@ -1,0 +1,6672 @@
+{
+  "9173": {
+    "matched": true,
+    "score": 0.839,
+    "fsq_id": "514b32b4e4b0d7d598ee06c6",
+    "name": "Lins Supermarkt",
+    "address": "Amazonestraat",
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "a-la-john": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "646917b6c853667b5fd45f85",
+    "name": "A La John",
+    "address": "Johannes S.Mungrastraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "ac-bar-restaurant": {
+    "matched": true,
+    "score": 0.762,
+    "fsq_id": "52db2510498e10107cb76d0a",
+    "name": "Rambutan Bar Restaurant",
+    "address": "Kolonistenweg 39",
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "afobaka-resort": {
+    "matched": true,
+    "score": 0.593,
+    "fsq_id": "4d74a1bb9d2fa143cd1cf4d6",
+    "name": "Oxygen Resort",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": "http://oxygen-resort.com"
+  },
+  "akira-overwater-resort": {
+    "matched": true,
+    "score": 0.52,
+    "fsq_id": "55c1301d498e1935fe421dd5",
+    "name": "Jacana Amazon Welness Resort",
+    "address": "Commewijnestraat 35, Zorg en Hoop, Distrikt Paramaribo",
+    "city": "Zorg en Hoop",
+    "country": "SR",
+    "phone": "531-000",
+    "website": "https://jacanaresort.com"
+  },
+  "baka-foto-restaurant": {
+    "matched": true,
+    "score": 0.638,
+    "fsq_id": "5191666d498e273e453e4a05",
+    "name": "Jawa Indonesisch Restaurant",
+    "address": "Kasabaholoweg 7, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "492-691",
+    "website": "http://restaurantjawa.blogspot.com"
+  },
+  "bar-zuid": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "5205b261498e0fee3bf9bac0",
+    "name": "bar Zuid",
+    "address": "van Sommelsdijckstraat",
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "bed-bath-more-bbm": {
+    "matched": false,
+    "score": 0.327,
+    "fsq_id": "54444022498e9fef3cd5267f",
+    "name": "Pannekoek & Poffertjes Cafe",
+    "address": "Sommelsdijkstraat #11, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "422-914",
+    "website": null
+  },
+  "bitdynamics": {
+    "matched": true,
+    "score": 0.538,
+    "fsq_id": "50f7d339e4b04db63e505b3e",
+    "name": "SEMC N.V.",
+    "address": "Kernkampweg 36, Distrikt Paramaribo",
+    "city": null,
+    "country": "SR",
+    "phone": "433-377",
+    "website": "http://semc.sr"
+  },
+  "bloom-wellness-cafe": {
+    "matched": false,
+    "score": 0.304,
+    "fsq_id": "54444022498e9fef3cd5267f",
+    "name": "Pannekoek & Poffertjes Cafe",
+    "address": "Sommelsdijkstraat #11, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "422-914",
+    "website": null
+  },
+  "bori-tori": {
+    "matched": true,
+    "score": 0.588,
+    "fsq_id": "4e6fd5311f6e4bc055c56046",
+    "name": "Tori Oso",
+    "address": "Fred Derbystraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "bronbella-villa-residence": {
+    "matched": true,
+    "score": 0.809,
+    "fsq_id": "61cf8119beb663009a58a56d",
+    "name": "Bronbella Villa Resort",
+    "address": "Paramaribo, Distrikt Wanica",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "carpe-diem-massagepraktijk": {
+    "matched": true,
+    "score": 0.638,
+    "fsq_id": "5e6f88f74c1ba40007233599",
+    "name": "Carpe Diem Restaurant",
+    "address": "Commewijnestraat 35, Zorg en Hoop, Distrikt Paramaribo",
+    "city": "Zorg en Hoop",
+    "country": "SR",
+    "phone": "531-000",
+    "website": "https://jacanaresort.com/carpe-diem-restaurant/"
+  },
+  "chi-min": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4d129e3040e65481a46c911a",
+    "name": "Chi Min",
+    "address": "Cornelis Jongbawstraat 83, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "412-155",
+    "website": null
+  },
+  "cola-kreek-recreatiepark": {
+    "matched": true,
+    "score": 0.979,
+    "fsq_id": "5166d0e9f136801b10605054",
+    "name": "Colakreek Recreatiepark",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "680-8188",
+    "website": "http://www.surinamevacations.com/en/products-and-services/colakreek-recreation-park"
+  },
+  "courtyard-by-marriott": {
+    "matched": true,
+    "score": 0.681,
+    "fsq_id": "4bded347fe0e62b575fa0506",
+    "name": "Courtyard Hotel Paramaribo",
+    "address": "Anton Dragtenweg 50-54, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "456-000",
+    "website": "https://www.marriott.com/hotels/travel/pbmcy-courtyard-paramaribo"
+  },
+  "de-spot": {
+    "matched": false,
+    "score": 0.471,
+    "fsq_id": "4ef5520449010be35f3b5f1a",
+    "name": "Asia de Su",
+    "address": "Sommelsdijkstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "722-9900",
+    "website": "http://asiadesu.com"
+  },
+  "de-verdieping": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "52ff89dd498e36c75b7a32c1",
+    "name": "De verdieping",
+    "address": null,
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "delete-beauty-lounge": {
+    "matched": true,
+    "score": 0.6,
+    "fsq_id": "4ef237df775bf265c3b8e2a8",
+    "name": "Beauty Salon Gaitrie",
+    "address": "Kwatta",
+    "city": "Kwatta",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "divergent-body-jewelry": {
+    "matched": false,
+    "score": 0.474,
+    "fsq_id": "53ffb119498e7459481dbaa6",
+    "name": "Healthy Body Gym",
+    "address": null,
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "dj-liquor-store": {
+    "matched": true,
+    "score": 0.529,
+    "fsq_id": "5ce71dd38a6f17002c0bc9bc",
+    "name": "Ugly Duckling Store",
+    "address": "Kwattaweg, Distrikt Paramaribo",
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "dli-travel-consultancy": {
+    "matched": true,
+    "score": 0.776,
+    "fsq_id": "5c4b5e4e4f0e58002cb17342",
+    "name": "Vem’s Travel Consultancy",
+    "address": "Mr. J. Lachmonstraat 40, Distrikt Paramaribo",
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "eaglemedia": {
+    "matched": false,
+    "score": 0.462,
+    "fsq_id": "51a62d79498ef148e2c51f38",
+    "name": "Bloom Media N.V.",
+    "address": "Herman Snostraat 18, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "434-706",
+    "website": null
+  },
+  "ec-operations": {
+    "matched": false,
+    "score": 0.444,
+    "fsq_id": "4b8d388ff964a52030ee32e3",
+    "name": "Torarica Eco Resort Inn",
+    "address": "Cornelis Jongbawstraat 16, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "eco-resort-miano": {
+    "matched": true,
+    "score": 0.615,
+    "fsq_id": "4b8d388ff964a52030ee32e3",
+    "name": "Torarica Eco Resort Inn",
+    "address": "Cornelis Jongbawstraat 16, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "eco-torarica": {
+    "matched": false,
+    "score": 0.488,
+    "fsq_id": "4ce98f69e888f04df6b0486b",
+    "name": "Royal Torarica Hotel & Casino",
+    "address": "Kleine Waterstraat 10, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "473-500",
+    "website": "http://www.royaltorarica.com/"
+  },
+  "ekay-media": {
+    "matched": false,
+    "score": 0.462,
+    "fsq_id": "51a62d79498ef148e2c51f38",
+    "name": "Bloom Media N.V.",
+    "address": "Herman Snostraat 18, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "434-706",
+    "website": null
+  },
+  "el-patron-latin-grill": {
+    "matched": false,
+    "score": 0.4,
+    "fsq_id": "5378db6f498e7aa4ee3dc155",
+    "name": "Tropa De Elite Paintball",
+    "address": null,
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "fatum": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "50d237e87ab42dc5b1a1c3a1",
+    "name": "FATUM Schadeverzekering N.V.",
+    "address": "Noorderkerkstraat 5 – 7, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "471-541",
+    "website": null
+  },
+  "fly-allways": {
+    "matched": true,
+    "score": 0.741,
+    "fsq_id": "665766b991e55e6e0c0a12b8",
+    "name": "Fly Always Cargo",
+    "address": "Doekhieweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "ford-zeelandia": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4cd5930f122ba1430f152da1",
+    "name": "Fort Zeelandia",
+    "address": "Kleine Waterstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "from-me-to-me": {
+    "matched": false,
+    "score": 0.32,
+    "fsq_id": "4e1e765eae60cd553de82c50",
+    "name": "Club touche",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "galaxy": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "52275d5c11d2870b80c208ec",
+    "name": "Galaxy",
+    "address": null,
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "garden-of-eden": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "4f8894d3e4b057e27fb830e7",
+    "name": "The Garden",
+    "address": "Kleine Waterstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "474-979",
+    "website": "http://eventsinsuriname.com"
+  },
+  "goe-thai-noodle-bar": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "61c4a8d817b11551f1c6c9c1",
+    "name": "GoE Thai Noodle Bar",
+    "address": "Virolastraat 61, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": "https://www.goe.sr"
+  },
+  "h-garden": {
+    "matched": true,
+    "score": 0.889,
+    "fsq_id": "4f8894d3e4b057e27fb830e7",
+    "name": "The Garden",
+    "address": "Kleine Waterstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "474-979",
+    "website": "http://eventsinsuriname.com"
+  },
+  "hairstudio-32": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4fbff416e4b06229f8d8c428",
+    "name": "Hairstudio 32",
+    "address": "Kotomisilaan 3, Lelydorp, Wania",
+    "city": "Lelydorp",
+    "country": "SR",
+    "phone": "880-8794",
+    "website": null
+  },
+  "handmade-by-farrell-nv": {
+    "matched": false,
+    "score": 0.364,
+    "fsq_id": "50f7d339e4b04db63e505b3e",
+    "name": "SEMC N.V.",
+    "address": "Kernkampweg 36, Distrikt Paramaribo",
+    "city": null,
+    "country": "SR",
+    "phone": "433-377",
+    "website": "http://semc.sr"
+  },
+  "hard-rock-cafe-suriname": {
+    "matched": true,
+    "score": 0.852,
+    "fsq_id": "658fc792a63a6d2562bdb35c",
+    "name": "Hard Rock Cafe Suriname Airport",
+    "address": "Luchthavenlaan 1, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": "https://www.hardrockcafe.com/location/suriname-airport"
+  },
+  "hermitage-mall": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4d7ba6c06152b60c477c8226",
+    "name": "Hermitage Mall",
+    "address": "Lala Rookhweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": "http://hermitage-mall.com"
+  },
+  "het-koto-museum": {
+    "matched": true,
+    "score": 0.846,
+    "fsq_id": "51cb4adc498eb327d6326e0b",
+    "name": "Koto Museum",
+    "address": "Pandit Paltan Tewarieweg #56, Livorno, Distrikt Paramaribo",
+    "city": "Livorno",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "holland-lodge": {
+    "matched": true,
+    "score": 0.812,
+    "fsq_id": "56b604a5498e095e6c11672b",
+    "name": "Holland Lodge Hotel",
+    "address": null,
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "honeycare": {
+    "matched": false
+  },
+  "hotel-palacio": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "50b2ff9be4b0965060cc2814",
+    "name": "Hotel Palacio",
+    "address": "Heerenstraat 9, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "878-4775",
+    "website": "http://www.hotelpalacio.net"
+  },
+  "hotel-peperpot": {
+    "matched": false,
+    "score": 0.45,
+    "fsq_id": "4bded347fe0e62b575fa0506",
+    "name": "Courtyard Hotel Paramaribo",
+    "address": "Anton Dragtenweg 50-54, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "456-000",
+    "website": "https://www.marriott.com/hotels/travel/pbmcy-courtyard-paramaribo"
+  },
+  "houttuyn-wellness-river-resort": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "58d12f16126ae87e526909e6",
+    "name": "Houttuyn Wellness River Resort",
+    "address": null,
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": "http://houttuyn.com"
+  },
+  "huub-explorer-tours": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "502e79cbe4b0fdd33941b26f",
+    "name": "Tourist Tours",
+    "address": "Kleinewaterstraat 4, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "885-8495",
+    "website": null
+  },
+  "ias-wooden-and-construction-nv": {
+    "matched": false,
+    "score": 0.39,
+    "fsq_id": "50f7d339e4b04db63e505b3e",
+    "name": "SEMC N.V.",
+    "address": "Kernkampweg 36, Distrikt Paramaribo",
+    "city": null,
+    "country": "SR",
+    "phone": "433-377",
+    "website": "http://semc.sr"
+  },
+  "inksane-tattoos": {
+    "matched": true,
+    "score": 0.645,
+    "fsq_id": "5707b502498e119ec08fe895",
+    "name": "Red Iron Tattoos",
+    "address": "Aquamarijnstraat 9, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "899-9678",
+    "website": null
+  },
+  "international-mall-of-suriname": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "64502e5c70cf2203d7a26b67",
+    "name": "International Mall Of Suriname",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "jacana-amazon-wellness-resort": {
+    "matched": true,
+    "score": 0.982,
+    "fsq_id": "55c1301d498e1935fe421dd5",
+    "name": "Jacana Amazon Welness Resort",
+    "address": "Commewijnestraat 35, Zorg en Hoop, Distrikt Paramaribo",
+    "city": "Zorg en Hoop",
+    "country": "SR",
+    "phone": "531-000",
+    "website": "https://jacanaresort.com"
+  },
+  "joden-savanne": {
+    "matched": true,
+    "score": 0.96,
+    "fsq_id": "5014a21ce4b080ff6b8a0d99",
+    "name": "Jodensavanne",
+    "address": "Distrikt Para",
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "kasan-snacks": {
+    "matched": true,
+    "score": 0.727,
+    "fsq_id": "50993fdbe4b06ad72883b480",
+    "name": "JST Snacks",
+    "address": "Ringweg",
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "kirpalani": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "503b7d9ce4b0bbba98a10e1c",
+    "name": "kirpalani",
+    "address": "Johan Adolf Pengelstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": "http://www.kirpalani.com"
+  },
+  "klm-royal-dutch-airlines": {
+    "matched": false,
+    "score": 0.491,
+    "fsq_id": "4ce98f69e888f04df6b0486b",
+    "name": "Royal Torarica Hotel & Casino",
+    "address": "Kleine Waterstraat 10, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "473-500",
+    "website": "http://www.royaltorarica.com/"
+  },
+  "knini-paati": {
+    "matched": false
+  },
+  "kodouffi-tapawatra-resort": {
+    "matched": false,
+    "score": 0.421,
+    "fsq_id": "4d74a1bb9d2fa143cd1cf4d6",
+    "name": "Oxygen Resort",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": "http://oxygen-resort.com"
+  },
+  "las-tias": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "5983bc26f5e9d7084919c31d",
+    "name": "Las Tias",
+    "address": "Distrikt Paramaribo",
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "lashlift-suriname": {
+    "matched": true,
+    "score": 0.545,
+    "fsq_id": "4f2fe360e4b05991518b0057",
+    "name": "Centrale Markt van Suriname",
+    "address": null,
+    "city": null,
+    "country": "SR",
+    "phone": "",
+    "website": null
+  },
+  "lioness-beauty-effects": {
+    "matched": false,
+    "score": 0.474,
+    "fsq_id": "5777c45d498eb9d1fec6ac71",
+    "name": "Addictive Beauty",
+    "address": "Keizerstraat 185, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "mingle-paramaribo": {
+    "matched": true,
+    "score": 0.778,
+    "fsq_id": "516c2518e4b0b595c57dd005",
+    "name": "Synagoge Paramaribo",
+    "address": null,
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "mokisa-busidataa-osu-nv": {
+    "matched": false,
+    "score": 0.353,
+    "fsq_id": "50f7d339e4b04db63e505b3e",
+    "name": "SEMC N.V.",
+    "address": "Kernkampweg 36, Distrikt Paramaribo",
+    "city": null,
+    "country": "SR",
+    "phone": "433-377",
+    "website": "http://semc.sr"
+  },
+  "museum-bakkie": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "51cb4adc498eb327d6326e0b",
+    "name": "Koto Museum",
+    "address": "Pandit Paltan Tewarieweg #56, Livorno, Distrikt Paramaribo",
+    "city": "Livorno",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "nv-threefold-quality-system-support": {
+    "matched": false,
+    "score": 0.23,
+    "fsq_id": "5509bfad498ed000afd7eff0",
+    "name": "Landbouwbank N.V. Kwatta",
+    "address": "Kwattaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "nv-zing-manufacturing": {
+    "matched": false,
+    "score": 0.298,
+    "fsq_id": "5509bfad498ed000afd7eff0",
+    "name": "Landbouwbank N.V. Kwatta",
+    "address": "Kwattaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "oxygen-resort": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4d74a1bb9d2fa143cd1cf4d6",
+    "name": "Oxygen Resort",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": "http://oxygen-resort.com"
+  },
+  "pane-e-vino": {
+    "matched": false,
+    "score": 0.457,
+    "fsq_id": "5192a8c6498e65e4902e7df5",
+    "name": "Noordwijkweg en Omgeving",
+    "address": null,
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "pannekoek-en-poffertjes-cafe": {
+    "matched": true,
+    "score": 0.945,
+    "fsq_id": "54444022498e9fef3cd5267f",
+    "name": "Pannekoek & Poffertjes Cafe",
+    "address": "Sommelsdijkstraat #11, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "422-914",
+    "website": null
+  },
+  "papillon-crafts": {
+    "matched": false
+  },
+  "passion-food-and-wines": {
+    "matched": true,
+    "score": 0.829,
+    "fsq_id": "5e6418cd84328a0008b07f04",
+    "name": "Passie Food & Wines",
+    "address": "Paramaribo, Distrito de Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "peperpot-nature-park": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "56239f33498e9e31750d302d",
+    "name": "Peperpot Nature Park",
+    "address": null,
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "pinkmoon-suriname": {
+    "matched": true,
+    "score": 0.545,
+    "fsq_id": "4f2fe360e4b05991518b0057",
+    "name": "Centrale Markt van Suriname",
+    "address": null,
+    "city": null,
+    "country": "SR",
+    "phone": "",
+    "website": null
+  },
+  "plantage-frederiksdorp": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4e9b0262f5b9d59004c3587a",
+    "name": "Plantage Frederiksdorp",
+    "address": "Distrikt Commewijne",
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "readytex-souvenirs-and-crafts": {
+    "matched": false,
+    "score": 0.346,
+    "fsq_id": "50f2d222e4b0a4702a34dcae",
+    "name": "Torarica Hotel & Casino",
+    "address": "Mr. L.J. Rietbergplein 1, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "471-500",
+    "website": "http://torarica.com"
+  },
+  "recreatie-oord-carolina-kreek": {
+    "matched": true,
+    "score": 0.52,
+    "fsq_id": "533821ea498e2dd52176cce7",
+    "name": "Recreatiezaal Powakka",
+    "address": null,
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "rich-skin": {
+    "matched": true,
+    "score": 0.556,
+    "fsq_id": "50ae7b72e4b04c937a772c9d",
+    "name": "Richelieu",
+    "address": null,
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "rock-fitness-paramaribo": {
+    "matched": true,
+    "score": 0.612,
+    "fsq_id": "4bded347fe0e62b575fa0506",
+    "name": "Courtyard Hotel Paramaribo",
+    "address": "Anton Dragtenweg 50-54, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "456-000",
+    "website": "https://www.marriott.com/hotels/travel/pbmcy-courtyard-paramaribo"
+  },
+  "rogom-farm-nv": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "50f7d339e4b04db63e505b3e",
+    "name": "SEMC N.V.",
+    "address": "Kernkampweg 36, Distrikt Paramaribo",
+    "city": null,
+    "country": "SR",
+    "phone": "433-377",
+    "website": "http://semc.sr"
+  },
+  "royal-brasil-hotel": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "66eb2418719cd630af3fe724",
+    "name": "Royal Brasil Hotel",
+    "address": "William Kemblestraat #7 (Anamoestraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "855-5585",
+    "website": "http://royalbrasilhotel.com"
+  },
+  "royal-breeze-hotel-paramaribo": {
+    "matched": true,
+    "score": 0.586,
+    "fsq_id": "4ce98f69e888f04df6b0486b",
+    "name": "Royal Torarica Hotel & Casino",
+    "address": "Kleine Waterstraat 10, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "473-500",
+    "website": "http://www.royaltorarica.com/"
+  },
+  "royal-rose-yoni-spa": {
+    "matched": false,
+    "score": 0.424,
+    "fsq_id": "4f2ffaa8e4b0c1a81b5e31b2",
+    "name": "RBC Royal Bank",
+    "address": null,
+    "city": null,
+    "country": "SR",
+    "phone": "",
+    "website": null
+  },
+  "royal-spa": {
+    "matched": true,
+    "score": 0.609,
+    "fsq_id": "4f2ffaa8e4b0c1a81b5e31b2",
+    "name": "RBC Royal Bank",
+    "address": null,
+    "city": null,
+    "country": "SR",
+    "phone": "",
+    "website": null
+  },
+  "royal-torarica": {
+    "matched": true,
+    "score": 0.848,
+    "fsq_id": "5dac7b9f982ddd00087aeca5",
+    "name": "Royal Torarica Pool",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "royal-wellness-lounge": {
+    "matched": true,
+    "score": 0.514,
+    "fsq_id": "4db127f75da32cf2df563f35",
+    "name": "Havanna Lounge",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "seen-stories": {
+    "matched": false
+  },
+  "shlx-collection": {
+    "matched": true,
+    "score": 0.583,
+    "fsq_id": "67a35e29484d2720833741c9",
+    "name": "Shlx Cafe",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "sleeqe": {
+    "matched": false
+  },
+  "smoothieskin": {
+    "matched": true,
+    "score": 0.615,
+    "fsq_id": "59db90466f706a5fd0478528",
+    "name": "Power Smoothie",
+    "address": "Distrikt Paramaribo",
+    "city": null,
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "souposo": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "516f247d498ee19e1478a37b",
+    "name": "Souposo",
+    "address": "Costerstraat 20, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "420-351",
+    "website": null
+  },
+  "stichting-shiatsu-massage": {
+    "matched": false,
+    "score": 0.448,
+    "fsq_id": "51adc4d3498e99f8629f3cc7",
+    "name": "Stichting Bedrijfsgezondheidszorg",
+    "address": "Dr. S. Redmondstraat 250-A, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "441-012",
+    "website": null
+  },
+  "stukaderen-in-nederland": {
+    "matched": false,
+    "score": 0.49,
+    "fsq_id": "4baa39fbf964a52056553ae3",
+    "name": "Sarinah Indisch Restaurant",
+    "address": "Verlengde Gemenelandsweg 187, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "suraniyat": {
+    "matched": false
+  },
+  "surimami-store": {
+    "matched": true,
+    "score": 0.833,
+    "fsq_id": "4f105bd0e4b03856ef237ac5",
+    "name": "Suri store",
+    "address": "JozefIsraelstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "",
+    "website": null
+  },
+  "surinam-airways": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4db961060f2c8db892a7fc4b",
+    "name": "Surinam Airways",
+    "address": "Mr. Jagernath Lachmonstraat 136, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "sushi-ya": {
+    "matched": true,
+    "score": 0.889,
+    "fsq_id": "4ff7901be4b0d27dd7cf1661",
+    "name": "Sushi - Ya",
+    "address": "Henck Arronstraat 63, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "475-450",
+    "website": null
+  },
+  "switi-momenti-candles-crafts": {
+    "matched": false,
+    "score": 0.377,
+    "fsq_id": "50f2d222e4b0a4702a34dcae",
+    "name": "Torarica Hotel & Casino",
+    "address": "Mr. L.J. Rietbergplein 1, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "471-500",
+    "website": "http://torarica.com"
+  },
+  "talking-prints-concept-store": {
+    "matched": true,
+    "score": 0.591,
+    "fsq_id": "4d7543d5ed838cfabd3c1a6b",
+    "name": "Hosting Concepts",
+    "address": "Peterstraat (Armandstraat), Para Maribo, Para Maribo",
+    "city": "Para Maribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "taman-indah-resort": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "644e9aa31d2b707d3b222f62",
+    "name": "Taman Indah Resort",
+    "address": "Tamanredjo, Distrikt Commewijne",
+    "city": "Tamanredjo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "the-beauty-bar": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "4f8894d3e4b057e27fb830e7",
+    "name": "The Garden",
+    "address": "Kleine Waterstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": "474-979",
+    "website": "http://eventsinsuriname.com"
+  },
+  "the-coffee-box": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "5b2922ad0663320028971818",
+    "name": "the coffee box",
+    "address": "Lalla Rookhweg 22, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "country": "SR",
+    "phone": null,
+    "website": null
+  },
+  "the-freelance-scout": {
+    "matched": false,
+    "score": 0.483,
+    "fsq_id": "4f8894d3e4b057e27fb830e7",
+    "name": "The Garden",
+    "address": "Kleine Waterstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "474-979",
+    "website": "http://eventsinsuriname.com"
+  },
+  "the-golden-truly-hotel": {
+    "matched": true,
+    "score": 0.83,
+    "fsq_id": "503595c5e4b090fadfd450aa",
+    "name": "The Golden Truly Hotel & Casino",
+    "address": "Jozef Israelstraat #43, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "454-249",
+    "website": null
+  },
+  "the-house-of-beauty": {
+    "matched": false,
+    "score": 0.457,
+    "fsq_id": "4efb26f9f9ab2e668543b069",
+    "name": "South para house",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "the-old-attic": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "52d7d3c411d23674f7e1c1ad",
+    "name": "The Locksmith Kwattaweg",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "the-uma-store": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "658f4060f4dbba4fe9e4f729",
+    "name": "The Uma Store",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "the-waxing-booth": {
+    "matched": false,
+    "score": 0.293,
+    "fsq_id": "4f8894d3e4b057e27fb830e7",
+    "name": "The Garden",
+    "address": "Kleine Waterstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "474-979",
+    "website": "http://eventsinsuriname.com"
+  },
+  "the-wonderlab-su": {
+    "matched": false,
+    "score": 0.462,
+    "fsq_id": "4ef5520449010be35f3b5f1a",
+    "name": "Asia de Su",
+    "address": "Sommelsdijkstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "722-9900",
+    "website": "http://asiadesu.com"
+  },
+  "thermen-hermitage-turkish-bath-beautycenter": {
+    "matched": false,
+    "score": 0.373,
+    "fsq_id": "4d7ba6c06152b60c477c8226",
+    "name": "Hermitage Mall",
+    "address": "Lala Rookhweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://hermitage-mall.com"
+  },
+  "timeless-barber-and-nail-shop": {
+    "matched": false,
+    "score": 0.4,
+    "fsq_id": "5202393d498e371d151f2c51",
+    "name": "Black Tribal Tat'Shop",
+    "address": "Boulanger Street 64, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "897-8736",
+    "website": null
+  },
+  "tiny-house-tropical-appartment": {
+    "matched": false,
+    "score": 0.32,
+    "fsq_id": "4df569c9aeb7170aa2f7c1ce",
+    "name": "AJ's Indo Food House",
+    "address": "Josephine S. Greenstraat (Blauwgrond), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "tio-boto-eco-resort": {
+    "matched": true,
+    "score": 0.619,
+    "fsq_id": "4b8d388ff964a52030ee32e3",
+    "name": "Torarica Eco Resort Inn",
+    "address": "Cornelis Jongbawstraat 16, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "torarica-resort": {
+    "matched": true,
+    "score": 0.632,
+    "fsq_id": "50f2d222e4b0a4702a34dcae",
+    "name": "Torarica Hotel & Casino",
+    "address": "Mr. L.J. Rietbergplein 1, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "471-500",
+    "website": "http://torarica.com"
+  },
+  "unlimited-suriname-tours": {
+    "matched": true,
+    "score": 0.51,
+    "fsq_id": "4f2fe360e4b05991518b0057",
+    "name": "Centrale Markt van Suriname",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "unlocked-candles": {
+    "matched": false
+  },
+  "villa-famiri": {
+    "matched": true,
+    "score": 0.64,
+    "fsq_id": "4e6b8646d22d0e4cf6839f09",
+    "name": "Villa Fryslan",
+    "address": "Nieuwe Charlesburgweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "waterland-suites": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "5d1c4ff925359200230eb296",
+    "name": "Waterland Suites",
+    "address": "Waterlandstraat 17, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "530-151",
+    "website": null
+  },
+  "wayfinders-exclusive-n-v": {
+    "matched": false,
+    "score": 0.444,
+    "fsq_id": "503f8d17e4b0831ca7ae19a7",
+    "name": "Nettech N.V",
+    "address": "Kwattaweg 296",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "woodwonders-suriname": {
+    "matched": true,
+    "score": 0.511,
+    "fsq_id": "4f2fe360e4b05991518b0057",
+    "name": "Centrale Markt van Suriname",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "yoga-peetha-happiness-centre": {
+    "matched": false,
+    "score": 0.439,
+    "fsq_id": "5a43dcc90a08ab1e8a9c0645",
+    "name": "Vision Centre",
+    "address": "Prinsenstraat 70, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "zeelandia-suites": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "54a7bb53498e3474591cd955",
+    "name": "Zeelandia Suites",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "zeepfabriek-joab": {
+    "matched": false
+  },
+  "zeg-ijsje": {
+    "matched": false
+  },
+  "zus-zo-cafe": {
+    "matched": true,
+    "score": 0.762,
+    "fsq_id": "4bc8f187937ca5935fd6a492",
+    "name": "Zus & Zo",
+    "address": "Grote Combeweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "de-gadri": {
+    "matched": true,
+    "score": 0.667,
+    "fsq_id": "4cd59657fb595481c12cdf50",
+    "name": "Eetcafe de Gadri",
+    "address": "1 Zeelandiaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "big-tex": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "67641e5842b6623c60c4f21b",
+    "name": "Ready Tex",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "101-real-estate": {
+    "matched": false
+  },
+  "4r-gym": {
+    "matched": false,
+    "score": 0.125,
+    "fsq_id": "4baa39fbf964a52056553ae3",
+    "name": "Sarinah Indisch Restaurant",
+    "address": "Verlengde Gemenelandsweg 187, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "aaras-cafe": {
+    "matched": false,
+    "score": 0.432,
+    "fsq_id": "54444022498e9fef3cd5267f",
+    "name": "Pannekoek & Poffertjes Cafe",
+    "address": "Sommelsdijkstraat #11, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "422-914",
+    "website": null
+  },
+  "abrix-cleaning-services": {
+    "matched": true,
+    "score": 0.522,
+    "fsq_id": "4ed879c80e61d46ad5a9b878",
+    "name": "Chotkan service station",
+    "address": "Kasabaholoweg",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "access-suriname-travel": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "52e24f5e498e5c7c50074614",
+    "name": "Access Suriname Travel",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "ace-restaurant-lounge": {
+    "matched": true,
+    "score": 0.571,
+    "fsq_id": "4db127f75da32cf2df563f35",
+    "name": "Havanna Lounge",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "alegria": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4cbb9118dd41a35d9401efa0",
+    "name": "Alegria",
+    "address": "Keizerstraat (Malebatrumstraat)",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "alis-drugstore": {
+    "matched": true,
+    "score": 0.966,
+    "fsq_id": "52ea5196498e207fc28ee10a",
+    "name": "Ali's Drugstore",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "alliance-francaise": {
+    "matched": true,
+    "score": 0.615,
+    "fsq_id": "52ab0697498e61b55c835ede",
+    "name": "Alliance",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "amada-shopping": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "52c447bc11d2092a101fbac3",
+    "name": "Amada shopping",
+    "address": "Tourtonnelaan",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "anaula-nature-resort": {
+    "matched": true,
+    "score": 0.542,
+    "fsq_id": "55c1301d498e1935fe421dd5",
+    "name": "Jacana Amazon Welness Resort",
+    "address": "Commewijnestraat 35, Zorg en Hoop, Distrikt Paramaribo",
+    "city": "Zorg en Hoop",
+    "phone": "531-000",
+    "website": "https://jacanaresort.com"
+  },
+  "anton-de-kom-universiteit-van-suriname": {
+    "matched": true,
+    "score": 0.882,
+    "fsq_id": "4e9c126d4690c21335afac57",
+    "name": "Adek Universiteit van Suriname",
+    "address": "Leysweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "apotheek-joemmanbaks": {
+    "matched": true,
+    "score": 0.65,
+    "fsq_id": "50aa1cd2e4b02dc98e2d15fa",
+    "name": "Apotheek Jong A Liem",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "apotheek-karis": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "539f6ac9498e2eba584da86f",
+    "name": "Apotheek Karis",
+    "address": "Indira Gandhiweg",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "apotheek-mac-donald-north": {
+    "matched": true,
+    "score": 0.578,
+    "fsq_id": "50aa1cd2e4b02dc98e2d15fa",
+    "name": "Apotheek Jong A Liem",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "apotheek-mac-donald-south": {
+    "matched": true,
+    "score": 0.514,
+    "fsq_id": "4cbb8cf19552b60ce1c2e08b",
+    "name": "McDonald's",
+    "address": "Keizerstraat 62 (Spanhoek), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "421-511",
+    "website": "http://mcdonalds.sr"
+  },
+  "apotheek-rafeka": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "503400cfe4b05ce703460f6d",
+    "name": "Apotheek Rafeka",
+    "address": "Hermitage Mall, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "apotheek-sibilo": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "50d1f335e4b06b9f17d1e987",
+    "name": "Apotheek Sibilo",
+    "address": "Koningstraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "apotheek-soma": {
+    "matched": true,
+    "score": 0.815,
+    "fsq_id": "5032a928e4b0f0a8236a84b2",
+    "name": "Apotheek Ausan",
+    "address": "Kwattaweg (Flustraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "442-535",
+    "website": null
+  },
+  "apotheek-soma-ringweg": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "55f31865498e4f5a57ce14c4",
+    "name": "Apotheek Soma Ringweg",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "arthur-alex-hoogendoorn-atheneum": {
+    "matched": false,
+    "score": 0.431,
+    "fsq_id": "514c8456e4b0852c3965adca",
+    "name": "Notariaat Alexander",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "ashley-furniture-homestore": {
+    "matched": false,
+    "score": 0.489,
+    "fsq_id": "5ce71dd38a6f17002c0bc9bc",
+    "name": "Ugly Duckling Store",
+    "address": "Kwattaweg, Distrikt Paramaribo",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "assuria-hermitage-high-rise": {
+    "matched": false,
+    "score": 0.49,
+    "fsq_id": "50cf15f7e4b00d24b267ea92",
+    "name": "RBC ATM Hermitage Mall",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "assuria-insurance-walk-in-city": {
+    "matched": false,
+    "score": 0.348,
+    "fsq_id": "4baa39fbf964a52056553ae3",
+    "name": "Sarinah Indisch Restaurant",
+    "address": "Verlengde Gemenelandsweg 187, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "assuria-insurance-walk-in-commewijne": {
+    "matched": false,
+    "score": 0.269,
+    "fsq_id": "4baa39fbf964a52056553ae3",
+    "name": "Sarinah Indisch Restaurant",
+    "address": "Verlengde Gemenelandsweg 187, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "assuria-insurance-walk-in-lelydorp": {
+    "matched": true,
+    "score": 0.578,
+    "fsq_id": "4ef2546d46901f707f7d911b",
+    "name": "Golden Wings Lelydorp",
+    "address": "Lelydorp, Distrikt Wanica",
+    "city": "Lelydorp",
+    "phone": null,
+    "website": null
+  },
+  "assuria-insurance-walk-in-nickerie": {
+    "matched": false,
+    "score": 0.28,
+    "fsq_id": "4baa39fbf964a52056553ae3",
+    "name": "Sarinah Indisch Restaurant",
+    "address": "Verlengde Gemenelandsweg 187, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "assuria-insurance-walk-in-noord": {
+    "matched": true,
+    "score": 0.769,
+    "fsq_id": "52efe2aa498e284dfb10aae0",
+    "name": "Assuria Insurance Walk In Noord",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "atlantis-hotel-casino": {
+    "matched": true,
+    "score": 0.727,
+    "fsq_id": "51a965ce498e8f4da4d7985c",
+    "name": "Savannah Hotel & Casino",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "augis-travel": {
+    "matched": true,
+    "score": 0.727,
+    "fsq_id": "51b39012498e4e961d17e973",
+    "name": "Ara Travel",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "auto-style-franchepanestraat": {
+    "matched": false,
+    "score": 0.333,
+    "fsq_id": "56dad33fcd10e273fbaf893b",
+    "name": "Automax Kwatta",
+    "address": "Kwattaweg 265",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "auto-style-johannes-mungrastraat": {
+    "matched": true,
+    "score": 0.806,
+    "fsq_id": "66e87b28ae3cf74fb1ebcfba",
+    "name": "Rock Oil Johannes Mungrastraat",
+    "address": "Johannes Mungrastraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "auto-style-kwatta": {
+    "matched": true,
+    "score": 0.541,
+    "fsq_id": "512a3ecfe4b0173cfb6c90e4",
+    "name": "Suda rotishop Kwatta",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "auto-style-tweede-rijweg": {
+    "matched": true,
+    "score": 0.667,
+    "fsq_id": "4eb9573929c212fb6e0a58e6",
+    "name": "Tweederijweg",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "auto-style-verlengde-gemenelandsweg": {
+    "matched": true,
+    "score": 0.814,
+    "fsq_id": "50b4977ce4b01c792057ea0b",
+    "name": "Verlengde Gemenelandsweg",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "ayo-river-lounge": {
+    "matched": true,
+    "score": 0.615,
+    "fsq_id": "4e3f248b8877b00cfc5e790d",
+    "name": "River Club",
+    "address": "Antondragtenweg (Leonsberg), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "ayur-mi-beauty-wellness": {
+    "matched": false,
+    "score": 0.278,
+    "fsq_id": "4eb71ee2f790d87d03749b52",
+    "name": "Mirage Casino",
+    "address": "Paramaribo, Para Maribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "balance-studio": {
+    "matched": true,
+    "score": 0.609,
+    "fsq_id": "54065386498ee6cd305e0e2d",
+    "name": "VS Studio",
+    "address": "Cocobiacoweg",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "balletschool-marlene": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4f527522e4b0c416046ac08d",
+    "name": "Balletschool Marlene",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "bar-qle": {
+    "matched": true,
+    "score": 0.533,
+    "fsq_id": "5205b261498e0fee3bf9bac0",
+    "name": "bar Zuid",
+    "address": "van Sommelsdijckstraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "bella-italia": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "66478c4ba21da01093c9fb01",
+    "name": "Bella Italia",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "best-mart": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4edf9651d3e36374e238f602",
+    "name": "Best Mart",
+    "address": "Jozef Israelstraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "beyrouth-bazaar": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4ed683eccc219d30cb6bb2ca",
+    "name": "Beyrouth Bazaar",
+    "address": "Zwartenhovenbrug Straat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "bingo-pizza-coppename": {
+    "matched": false,
+    "score": 0.4,
+    "fsq_id": "4c194aad838020a14b80e561",
+    "name": "Pizza Hut",
+    "address": "Wilhelminastraat 60, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "bingo-pizza-kwatta": {
+    "matched": true,
+    "score": 0.526,
+    "fsq_id": "512a3ecfe4b0173cfb6c90e4",
+    "name": "Suda rotishop Kwatta",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "bistro-brwni": {
+    "matched": false,
+    "score": 0.3,
+    "fsq_id": "5053b171e4b04ed4f02d3275",
+    "name": "Flavors Steak & Grill Bistro",
+    "address": "Anton Dragtenweg 52-54, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "bistro-don-julio": {
+    "matched": true,
+    "score": 0.72,
+    "fsq_id": "51d8c2a7498e2bbcee61f78c",
+    "name": "Don Julio",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "bistro-lequatorze": {
+    "matched": false,
+    "score": 0.267,
+    "fsq_id": "5053b171e4b04ed4f02d3275",
+    "name": "Flavors Steak & Grill Bistro",
+    "address": "Anton Dragtenweg 52-54, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "blissful-massage-aromatherapy": {
+    "matched": true,
+    "score": 0.64,
+    "fsq_id": "630fcace58fa8770d4b62840",
+    "name": "Percy Massage Therapy",
+    "address": "Mozartstraat 84 (Verdistraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "blossom-beauty-bar": {
+    "matched": false,
+    "score": 0.417,
+    "fsq_id": "55293b12498eaf253959be93",
+    "name": "Ro Bar",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "blue-grand-cafe": {
+    "matched": false,
+    "score": 0.343,
+    "fsq_id": "4bf3f4693f86c9b644a7b21c",
+    "name": "Sidewalk Cafe 't Vat",
+    "address": "Kleine Waterstraat 1, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "bmw-suriname": {
+    "matched": true,
+    "score": 0.8,
+    "fsq_id": "52095a5511d211ff0773c02d",
+    "name": "Imit Suriname",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "body-enhancement-gym": {
+    "matched": false,
+    "score": 0.385,
+    "fsq_id": "514cbccbe4b0eaba3a8ed2bd",
+    "name": "Mk Gym",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "boekhandel-vaco": {
+    "matched": false,
+    "score": 0.421,
+    "fsq_id": "63bd700919aaed7ec728c7bb",
+    "name": "Vaco",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "boss-burgers": {
+    "matched": true,
+    "score": 0.957,
+    "fsq_id": "5d338bd9f2215400086a6aa8",
+    "name": "Boss Burger",
+    "address": "Jozef Israëlstraat, Distrikt Paramaribo",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "brahma-centrum": {
+    "matched": false,
+    "score": 0.444,
+    "fsq_id": "4f0a0cc3e4b09a8a40a2f881",
+    "name": "Tuin centrum 2e Rijweg",
+    "address": "Tweede Rijweg, Paramaribo, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "brahma-noord": {
+    "matched": true,
+    "score": 0.667,
+    "fsq_id": "51acdade498e042d27a32936",
+    "name": "Subway Noord",
+    "address": "Jozef Israelstraat (Jacques D. Gompertstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "brahma-zuid": {
+    "matched": true,
+    "score": 0.737,
+    "fsq_id": "5205b261498e0fee3bf9bac0",
+    "name": "bar Zuid",
+    "address": "van Sommelsdijckstraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "bright-cleaning": {
+    "matched": true,
+    "score": 0.667,
+    "fsq_id": "4fa40638e4b0bbcd48db7d8a",
+    "name": "Bright-way Trading",
+    "address": "Franchepanestraat (Ronaldlaan)",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "brilleman": {
+    "matched": false
+  },
+  "brotherhood-security": {
+    "matched": true,
+    "score": 0.619,
+    "fsq_id": "4eb684da77c89727377e6299",
+    "name": "Guicherit Dog Security",
+    "address": "Livorno 4e Dwarsweg 59, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "brow-bliss-lounge": {
+    "matched": true,
+    "score": 0.8,
+    "fsq_id": "53801bb0498ebb8d53195ad6",
+    "name": "Bliss. Lounge",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "building-depot": {
+    "matched": true,
+    "score": 0.757,
+    "fsq_id": "563d11e1cd10f1fc33d411fd",
+    "name": "Building Depot Suriname",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "burger-king-centrum": {
+    "matched": true,
+    "score": 0.733,
+    "fsq_id": "4d965ef1454edcb370ccbe6a",
+    "name": "Burger King",
+    "address": "Wagenwegstraat 3-7 (kerkplein), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "470-062",
+    "website": null
+  },
+  "burger-king-latour": {
+    "matched": true,
+    "score": 0.759,
+    "fsq_id": "4d965ef1454edcb370ccbe6a",
+    "name": "Burger King",
+    "address": "Wagenwegstraat 3-7 (kerkplein), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "470-062",
+    "website": null
+  },
+  "buro-workspaces": {
+    "matched": false,
+    "score": 0.2,
+    "fsq_id": "56b08feb498eb22478746cc5",
+    "name": "Medisch Opvoedkundig Buro",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "byd-suriname": {
+    "matched": true,
+    "score": 0.786,
+    "fsq_id": "4efdfaf061af974bcc39cc2a",
+    "name": "Dagblad Suriname",
+    "address": "Zwartenhovenbrugstraat (Paramaribo)",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "camex-suriname": {
+    "matched": true,
+    "score": 0.741,
+    "fsq_id": "52095a5511d211ff0773c02d",
+    "name": "Imit Suriname",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "car-rental-city": {
+    "matched": true,
+    "score": 0.667,
+    "fsq_id": "6667996eec95060364cdc54c",
+    "name": "ross car rental",
+    "address": "Kwattaweg (Laam Van Louisehof), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "carline-kwatta": {
+    "matched": true,
+    "score": 0.667,
+    "fsq_id": "515386a4e4b0284e376248d5",
+    "name": "KFC Kwatta",
+    "address": "Kwattaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "carline-waaldijkstraat": {
+    "matched": false,
+    "score": 0.483,
+    "fsq_id": "53245996498e54640e24fdab",
+    "name": "Carline",
+    "address": "Waaldijkstraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "carvision-paramaribo": {
+    "matched": true,
+    "score": 0.652,
+    "fsq_id": "4bded347fe0e62b575fa0506",
+    "name": "Courtyard Hotel Paramaribo",
+    "address": "Anton Dragtenweg 50-54, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "456-000",
+    "website": "https://www.marriott.com/hotels/travel/pbmcy-courtyard-paramaribo"
+  },
+  "chees-jewelry-watches": {
+    "matched": true,
+    "score": 0.595,
+    "fsq_id": "50f1747ee4b0f39bc8bf34e2",
+    "name": "Princess Jewelry",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "chique-eyewear-fashion": {
+    "matched": true,
+    "score": 0.556,
+    "fsq_id": "50930fe7e4b0f7ee4a10696f",
+    "name": "Emilly Fashion",
+    "address": "Hendrikstraat 31-33, Distrikt Paramaribo",
+    "city": null,
+    "phone": "492-488",
+    "website": null
+  },
+  "chm-centrum": {
+    "matched": true,
+    "score": 0.727,
+    "fsq_id": "4fa9b639e4b07393d4a872c0",
+    "name": "SPA Centrum",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "chm-commewijne": {
+    "matched": true,
+    "score": 0.833,
+    "fsq_id": "50841cbfe4b0d2d664a74627",
+    "name": "Commewijne",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "chm-kernkampweg": {
+    "matched": true,
+    "score": 0.846,
+    "fsq_id": "50af949ee4b00a661c28ce37",
+    "name": "Kernkampweg",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "chm-nickerie": {
+    "matched": true,
+    "score": 0.571,
+    "fsq_id": "4e9dec0f7ee5829532da32f7",
+    "name": "Resiidence Inn Nickerie",
+    "address": "Westkanaalstraat, Nieuw Nickerie, Distrikt Nickerie",
+    "city": "Nieuw Nickerie",
+    "phone": null,
+    "website": null
+  },
+  "chm-wanica": {
+    "matched": true,
+    "score": 0.571,
+    "fsq_id": "4dbd3df2fa8cee727361cab5",
+    "name": "Wanica Kerk",
+    "address": "Wanicastraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "chm-wilhelminastraat": {
+    "matched": true,
+    "score": 0.889,
+    "fsq_id": "50b67ecee4b011aa27d272a2",
+    "name": "Wilhelminastraat",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "chm-wilhelminastraat-2": {
+    "matched": true,
+    "score": 0.842,
+    "fsq_id": "50b67ecee4b011aa27d272a2",
+    "name": "Wilhelminastraat",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "chois-supermarkt": {
+    "matched": true,
+    "score": 0.97,
+    "fsq_id": "4cb3a4605430b713a3683916",
+    "name": "Choi's Supermarkt",
+    "address": "Tweekinderen weg (Matzeligerstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "chois-supermarkt-lelydorp": {
+    "matched": true,
+    "score": 0.762,
+    "fsq_id": "4cb3a4605430b713a3683916",
+    "name": "Choi's Supermarkt",
+    "address": "Tweekinderen weg (Matzeligerstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "chois-supermarkt-north": {
+    "matched": true,
+    "score": 0.821,
+    "fsq_id": "4cb3a4605430b713a3683916",
+    "name": "Choi's Supermarkt",
+    "address": "Tweekinderen weg (Matzeligerstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "chuck-e-cheese": {
+    "matched": true,
+    "score": 0.966,
+    "fsq_id": "64cd46aa4042841788d300a3",
+    "name": "Chuck E. Cheese",
+    "address": "Ringweg Zuid, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "cinnagirl": {
+    "matched": false
+  },
+  "ciranos": {
+    "matched": false,
+    "score": 0.4,
+    "fsq_id": "5c1984f356c89f002c5556a6",
+    "name": "Cirano’s Restaurant & Terras",
+    "address": "Commissaris Robles Weg, Distrikt Paramaribo",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "clarissa-vaseur-writing-wellness-services-claw": {
+    "matched": false,
+    "score": 0.389,
+    "fsq_id": "4f7d7584e4b083691ead1f64",
+    "name": "HI-JET Helicopter Services",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "clean-it": {
+    "matched": false,
+    "score": 0.364,
+    "fsq_id": "53ea41cd498e76cdafe1d61c",
+    "name": "OnePageWebs.IT",
+    "address": "Albergastraat 46, unit 5 (Borretstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "863-9239",
+    "website": null
+  },
+  "clevia-park": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "6435bed5022acb7602082531",
+    "name": "Clevia Park",
+    "address": "Distrikt Paramaribo",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "club-oase": {
+    "matched": true,
+    "score": 0.706,
+    "fsq_id": "4eb5bd9dd3e3644ca65df826",
+    "name": "Club Joy",
+    "address": "Kwattaweg 328, Paramaribo, Kwatta",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "coffee-mama": {
+    "matched": true,
+    "score": 0.6,
+    "fsq_id": "57351176498e902956520c21",
+    "name": "CY Coffee",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "combe-bazaar": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4e4ac2e0d164a7c8b6aa89fa",
+    "name": "Combe bazaar",
+    "address": "Wilhelminastraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "combe-markt": {
+    "matched": true,
+    "score": 0.909,
+    "fsq_id": "4f60beafe4b07ca95a72fb0d",
+    "name": "Combé Markt",
+    "address": null,
+    "city": null,
+    "phone": "424-803",
+    "website": null
+  },
+  "computer-hardware-services": {
+    "matched": true,
+    "score": 0.577,
+    "fsq_id": "4f7d7584e4b083691ead1f64",
+    "name": "HI-JET Helicopter Services",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "computronics-north": {
+    "matched": true,
+    "score": 0.8,
+    "fsq_id": "509bb629e4b0f48ef39f3c77",
+    "name": "Computronics",
+    "address": null,
+    "city": null,
+    "phone": "441-374",
+    "website": null
+  },
+  "computronics-south": {
+    "matched": true,
+    "score": 0.828,
+    "fsq_id": "509bb629e4b0f48ef39f3c77",
+    "name": "Computronics",
+    "address": null,
+    "city": null,
+    "phone": "441-374",
+    "website": null
+  },
+  "conservatorium-suriname": {
+    "matched": true,
+    "score": 0.6,
+    "fsq_id": "4f2fe360e4b05991518b0057",
+    "name": "Centrale Markt van Suriname",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "cookie-closet": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "67c0846b1bdf82296017a371",
+    "name": "Cookie Closet",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "courtyard-marriott": {
+    "matched": true,
+    "score": 0.682,
+    "fsq_id": "4bded347fe0e62b575fa0506",
+    "name": "Courtyard Hotel Paramaribo",
+    "address": "Anton Dragtenweg 50-54, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "456-000",
+    "website": "https://www.marriott.com/hotels/travel/pbmcy-courtyard-paramaribo"
+  },
+  "cpr-pilates-curves": {
+    "matched": false
+  },
+  "creative-q": {
+    "matched": true,
+    "score": 0.75,
+    "fsq_id": "5053050ee4b02204c1b0babc",
+    "name": "Creative Photo",
+    "address": "Johannes Mungrastraat (Marthastraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "crocs-ims": {
+    "matched": true,
+    "score": 0.714,
+    "fsq_id": "64b32efb8cde793c554b6f01",
+    "name": "Crocs",
+    "address": "Ringweg Zuid, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "cupcake-fantasy": {
+    "matched": true,
+    "score": 0.732,
+    "fsq_id": "51658a53e4b0e7dfc42b753b",
+    "name": "Create! By Cupcake Fantasy",
+    "address": "Hoek Johannes Mungra- En Lindastraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "491-268",
+    "website": null
+  },
+  "curl-babes": {
+    "matched": false
+  },
+  "cute-as-a-button": {
+    "matched": false,
+    "score": 0.4,
+    "fsq_id": "51b0ca20498e3268c985b185",
+    "name": "D E A T H",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "cy-coffee": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "57351176498e902956520c21",
+    "name": "CY Coffee",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "cynsational-glam": {
+    "matched": false,
+    "score": 0.432,
+    "fsq_id": "641841d19445a55c07eee9be",
+    "name": "Seliba River Glamping",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "d-mighty-view-lounge": {
+    "matched": true,
+    "score": 0.529,
+    "fsq_id": "4db127f75da32cf2df563f35",
+    "name": "Havanna Lounge",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "da-drogisterij-coppename": {
+    "matched": false,
+    "score": 0.25,
+    "fsq_id": "654b9d18ccde31470f585d7f",
+    "name": "Dare 2B Dazzling",
+    "address": "marthastraat 33, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "da-drogisterij-hermitage": {
+    "matched": true,
+    "score": 0.745,
+    "fsq_id": "63bc4f188a9eeb32fe5cd380",
+    "name": "Da Drogisterij & Parfumerie",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "da-drogisterij-ims-mall": {
+    "matched": false,
+    "score": 0.444,
+    "fsq_id": "50cf15f7e4b00d24b267ea92",
+    "name": "RBC ATM Hermitage Mall",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "da-drogisterij-lelydorp": {
+    "matched": true,
+    "score": 0.591,
+    "fsq_id": "4ef2546d46901f707f7d911b",
+    "name": "Golden Wings Lelydorp",
+    "address": "Lelydorp, Distrikt Wanica",
+    "city": "Lelydorp",
+    "phone": null,
+    "website": null
+  },
+  "da-drogisterij-wilhelmina": {
+    "matched": false,
+    "score": 0.341,
+    "fsq_id": "654b9d18ccde31470f585d7f",
+    "name": "Dare 2B Dazzling",
+    "address": "marthastraat 33, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "da-select-en-service-apotheek": {
+    "matched": false,
+    "score": 0.444,
+    "fsq_id": "5c85809a51950e00396d4c4d",
+    "name": "Kyoto Car Service & Parts",
+    "address": "Toevluchtweg 49, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "danpaati-river-lodge": {
+    "matched": false,
+    "score": 0.483,
+    "fsq_id": "516bf18ee4b0d63a24a6efd9",
+    "name": "Riverside",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "dansclub-danzson": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "530290a3498e5971b523c501",
+    "name": "dansclub danzson",
+    "address": "Rierstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "dcars-rental": {
+    "matched": true,
+    "score": 0.741,
+    "fsq_id": "6667996eec95060364cdc54c",
+    "name": "ross car rental",
+    "address": "Kwattaweg (Laam Van Louisehof), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "de-cederboom-school": {
+    "matched": false,
+    "score": 0.286,
+    "fsq_id": "4cd59657fb595481c12cdf50",
+    "name": "Eetcafe de Gadri",
+    "address": "1 Zeelandiaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "de-keurslager-interfarm": {
+    "matched": false,
+    "score": 0.29,
+    "fsq_id": "542e9e15498ecb8ef933ba26",
+    "name": "Universitatea Stat de ,,Alecu Russo\" din Bălţi",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "de-nederlandse-basisschool-het-kleurenorkest": {
+    "matched": false,
+    "score": 0.2,
+    "fsq_id": "4cd59657fb595481c12cdf50",
+    "name": "Eetcafe de Gadri",
+    "address": "1 Zeelandiaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "de-spetter": {
+    "matched": false,
+    "score": 0.4,
+    "fsq_id": "4ef5520449010be35f3b5f1a",
+    "name": "Asia de Su",
+    "address": "Sommelsdijkstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "722-9900",
+    "website": "http://asiadesu.com"
+  },
+  "de-surinaamsche-bank-hermitage-mall": {
+    "matched": true,
+    "score": 0.875,
+    "fsq_id": "4d7ba6c06152b60c477c8226",
+    "name": "Hermitage Mall",
+    "address": "Lala Rookhweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://hermitage-mall.com"
+  },
+  "de-surinaamsche-bank-hoofdkantoor": {
+    "matched": true,
+    "score": 0.865,
+    "fsq_id": "51d6ca08498e8c3b4d99bfb7",
+    "name": "Dsb Bank Hoofdkantoor",
+    "address": "Henck Arronstraart, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://www.dsbbank.sr"
+  },
+  "de-surinaamsche-bank-lelydorp": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "5093d72be4b02e0045fa9301",
+    "name": "DSB Lelydorp",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "de-surinaamsche-bank-ma-retraite": {
+    "matched": true,
+    "score": 0.966,
+    "fsq_id": "4f4a2499e4b011fb7739d2f4",
+    "name": "Dsb Maretraite",
+    "address": "Corona/Pluto/Poseidon, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "451-345",
+    "website": null
+  },
+  "de-surinaamsche-bank-ma-retraite-2": {
+    "matched": false,
+    "score": 0.438,
+    "fsq_id": "4f9d919de4b008dde29a8d5b",
+    "name": "G-sale Market",
+    "address": "Johannes Mungrastraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "de-surinaamsche-bank-nickerie": {
+    "matched": true,
+    "score": 0.6,
+    "fsq_id": "533d4c74498e26739e2785ff",
+    "name": "DSB Bank",
+    "address": "Kwattaweg (Washingtonstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "de-surinaamsche-bank-nickerie-2": {
+    "matched": false,
+    "score": 0.316,
+    "fsq_id": "4f0a0cc3e4b09a8a40a2f881",
+    "name": "Tuin centrum 2e Rijweg",
+    "address": "Tweede Rijweg, Paramaribo, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "de-surinaamsche-bank-nieuwe-haven": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "5cb0b59ba4b51b002c7780d6",
+    "name": "DSB NIEUWE HAVEN",
+    "address": "W.Campagnestraat (Van Hoogerhuysstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "de-vrije-school": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "5a93dd416e465042dc195a6c",
+    "name": "De vrije school",
+    "address": "Dr. Sophie Redmondstraat, Distrikt Paramaribo",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "deto-handelmaatschappij": {
+    "matched": true,
+    "score": 0.885,
+    "fsq_id": "5103f442e4b05cc1bda0f601",
+    "name": "Deto Handelsmaatschappij N.V.",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "dhl-express-service-point": {
+    "matched": true,
+    "score": 0.52,
+    "fsq_id": "5c85809a51950e00396d4c4d",
+    "name": "Kyoto Car Service & Parts",
+    "address": "Toevluchtweg 49, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "dierenarts-resopawiro": {
+    "matched": true,
+    "score": 0.577,
+    "fsq_id": "5a12d42b12c8f05c2f66cfc3",
+    "name": "Dierenarts praktijk Bansse-Issa",
+    "address": "Uranusstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "dierenartspraktijk-l-m-bansse-issa": {
+    "matched": true,
+    "score": 0.892,
+    "fsq_id": "5a12d42b12c8f05c2f66cfc3",
+    "name": "Dierenarts praktijk Bansse-Issa",
+    "address": "Uranusstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "dierenpoli-lobo": {
+    "matched": true,
+    "score": 0.839,
+    "fsq_id": "560c4e1a498e0b8e1a874756",
+    "name": "Dierenpoli Noord",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "digicel-albina": {
+    "matched": true,
+    "score": 0.667,
+    "fsq_id": "4cb31ac91463a143f0f7b1a9",
+    "name": "Digicel",
+    "address": "Lalarookhweg 95, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "digicel-business-center": {
+    "matched": true,
+    "score": 0.739,
+    "fsq_id": "546e4398498e41e1f25fd7ee",
+    "name": "Dynamax Business Center",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "digicel-extacy": {
+    "matched": true,
+    "score": 0.667,
+    "fsq_id": "4cb31ac91463a143f0f7b1a9",
+    "name": "Digicel",
+    "address": "Lalarookhweg 95, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "digicel-hermitage": {
+    "matched": true,
+    "score": 0.872,
+    "fsq_id": "52cd7446498e097aa520d2a7",
+    "name": "Digicel Hermitage Mall",
+    "address": "Lallarookh weg",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "digicel-latour": {
+    "matched": true,
+    "score": 0.667,
+    "fsq_id": "4cb31ac91463a143f0f7b1a9",
+    "name": "Digicel",
+    "address": "Lalarookhweg 95, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "digicel-lelydorp": {
+    "matched": true,
+    "score": 0.649,
+    "fsq_id": "4ef2546d46901f707f7d911b",
+    "name": "Golden Wings Lelydorp",
+    "address": "Lelydorp, Distrikt Wanica",
+    "city": "Lelydorp",
+    "phone": null,
+    "website": null
+  },
+  "digicel-nickerie": {
+    "matched": true,
+    "score": 0.632,
+    "fsq_id": "52cd7446498e097aa520d2a7",
+    "name": "Digicel Hermitage Mall",
+    "address": "Lallarookh weg",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "digicel-wilhelminastraat": {
+    "matched": true,
+    "score": 0.609,
+    "fsq_id": "52cd7446498e097aa520d2a7",
+    "name": "Digicel Hermitage Mall",
+    "address": "Lallarookh weg",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "digital-world-hermitage-mall": {
+    "matched": true,
+    "score": 0.982,
+    "fsq_id": "5060e4bfe4b039dfd7ac32ec",
+    "name": "Digital World, Hermitage Mall",
+    "address": "Hermitage mall., Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://digitalworld.sr"
+  },
+  "digital-world-ims": {
+    "matched": true,
+    "score": 0.538,
+    "fsq_id": "4ee24e2c6da1a1efee65c264",
+    "name": "Pet World",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "digital-world-maretraite-mall": {
+    "matched": true,
+    "score": 0.78,
+    "fsq_id": "5060e4bfe4b039dfd7ac32ec",
+    "name": "Digital World, Hermitage Mall",
+    "address": "Hermitage mall., Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://digitalworld.sr"
+  },
+  "digital-world-maretraite-mall-2": {
+    "matched": true,
+    "score": 0.73,
+    "fsq_id": "5060e4bfe4b039dfd7ac32ec",
+    "name": "Digital World, Hermitage Mall",
+    "address": "Hermitage mall., Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://digitalworld.sr"
+  },
+  "djinipi-copy-center": {
+    "matched": true,
+    "score": 0.722,
+    "fsq_id": "6883b4436c4d91326d799c80",
+    "name": "Quick Copy Center",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://gmail.com"
+  },
+  "djo-cleaning-service": {
+    "matched": true,
+    "score": 0.533,
+    "fsq_id": "5c85809a51950e00396d4c4d",
+    "name": "Kyoto Car Service & Parts",
+    "address": "Toevluchtweg 49, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "dlish": {
+    "matched": true,
+    "score": 0.909,
+    "fsq_id": "55deed59498e76a68355f57d",
+    "name": "D'lish",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "dojo-couture-centrum": {
+    "matched": true,
+    "score": 0.538,
+    "fsq_id": "4f398595e4b0e313d5b95766",
+    "name": "Cultureel Centrum Suriname (CCS)",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "dojo-couture-hermitage-mall": {
+    "matched": true,
+    "score": 0.807,
+    "fsq_id": "52c82481498e1d9e5fa1b60c",
+    "name": "Dojo couture | Maretraite Mall",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "dojo-couture-ims": {
+    "matched": true,
+    "score": 0.562,
+    "fsq_id": "66dcf2cc1ba05f5f1d90fb03",
+    "name": "Futsal Court IMS",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "dolce-bella-cafe": {
+    "matched": false,
+    "score": 0.419,
+    "fsq_id": "54444022498e9fef3cd5267f",
+    "name": "Pannekoek & Poffertjes Cafe",
+    "address": "Sommelsdijkstraat #11, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "422-914",
+    "website": null
+  },
+  "dor-property-management-services-n-v": {
+    "matched": false,
+    "score": 0.298,
+    "fsq_id": "503f8d17e4b0831ca7ae19a7",
+    "name": "Nettech N.V",
+    "address": "Kwattaweg 296",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "dream-clean-suriname": {
+    "matched": true,
+    "score": 0.638,
+    "fsq_id": "4f2fe360e4b05991518b0057",
+    "name": "Centrale Markt van Suriname",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "dresscode": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "50c21246e4b08e7068abb6cf",
+    "name": "Dresscode",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "eethuis-liv": {
+    "matched": true,
+    "score": 0.64,
+    "fsq_id": "4bf177a6333ed13a5edb97d4",
+    "name": "Eethuis Tresno",
+    "address": "Sophie Redmond straat (Van idsingastraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "energiebedrijven-suriname-ebs": {
+    "matched": true,
+    "score": 0.877,
+    "fsq_id": "515c6a31e4b05fe5286c6452",
+    "name": "Nv Energiebedrijven Suriname",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "etembe-rainforest-restaurant": {
+    "matched": true,
+    "score": 0.982,
+    "fsq_id": "5c91975b149946003377daab",
+    "name": "E'tembe Rainforest Restaurant",
+    "address": "Waterkant 5 - SMS Pier, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "eterno": {
+    "matched": false
+  },
+  "ettores-pizza-kitchen": {
+    "matched": true,
+    "score": 0.609,
+    "fsq_id": "4ec6ef0361af9e142f1883dc",
+    "name": "Popeyes Louisiana Kitchen",
+    "address": "Domineestraat, Paramaribo, Centrum",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "eucon": {
+    "matched": false
+  },
+  "everything-sr": {
+    "matched": false,
+    "score": 0.308,
+    "fsq_id": "56ed095d498eb8c8af8c15e8",
+    "name": "Bar Restaurant Sranankukru",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "faraya-medical-center": {
+    "matched": true,
+    "score": 0.762,
+    "fsq_id": "509154f2e4b006ec4081b38b",
+    "name": "Joshua Medical Center",
+    "address": "Van Roosmalenstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "farma-vida": {
+    "matched": false
+  },
+  "fatum-schadeverzekering-commewijne": {
+    "matched": true,
+    "score": 0.769,
+    "fsq_id": "50841cbfe4b0d2d664a74627",
+    "name": "Commewijne",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "fatum-schadeverzekering-hoofdkantoor": {
+    "matched": true,
+    "score": 0.769,
+    "fsq_id": "5005585ce4b067e568f98ae4",
+    "name": "Finabank Hoofdkantoor",
+    "address": "Dr. Sophie Redmondstraat 59 – 61 (Dr. Sophie Redmondstraat 59 – 61), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "472-266",
+    "website": "https://www.finabanknv.com"
+  },
+  "fatum-schadeverzekering-kwatta": {
+    "matched": true,
+    "score": 0.727,
+    "fsq_id": "515386a4e4b0284e376248d5",
+    "name": "KFC Kwatta",
+    "address": "Kwattaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "fatum-schadeverzekering-nickerie": {
+    "matched": true,
+    "score": 0.524,
+    "fsq_id": "50d237e87ab42dc5b1a1c3a1",
+    "name": "FATUM Schadeverzekering N.V.",
+    "address": "Noorderkerkstraat 5 – 7, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "471-541",
+    "website": null
+  },
+  "fhr-lim-a-po-institute-for-higher-education": {
+    "matched": false,
+    "score": 0.286,
+    "fsq_id": "54444022498e9fef3cd5267f",
+    "name": "Pannekoek & Poffertjes Cafe",
+    "address": "Sommelsdijkstraat #11, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "422-914",
+    "website": null
+  },
+  "finabank-centrum": {
+    "matched": true,
+    "score": 0.526,
+    "fsq_id": "4f0a0cc3e4b09a8a40a2f881",
+    "name": "Tuin centrum 2e Rijweg",
+    "address": "Tweede Rijweg, Paramaribo, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "finabank-nickerie": {
+    "matched": true,
+    "score": 0.759,
+    "fsq_id": "55e1e296498e672d02e69983",
+    "name": "Finabank IBC",
+    "address": "Mr. Jaggernath Lachmonstraat 49 (Coppenamastraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "430-300",
+    "website": "https://www.finabanknv.com"
+  },
+  "finabank-noord": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "65cce658548f6772a8e6af79",
+    "name": "Finabank Noord",
+    "address": "Hk Jozef Israelstraat/Kristalstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "finabank-wanica": {
+    "matched": true,
+    "score": 0.815,
+    "fsq_id": "55e1e296498e672d02e69983",
+    "name": "Finabank IBC",
+    "address": "Mr. Jaggernath Lachmonstraat 49 (Coppenamastraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "430-300",
+    "website": "https://www.finabanknv.com"
+  },
+  "finabank-zuid": {
+    "matched": true,
+    "score": 0.8,
+    "fsq_id": "55e1e296498e672d02e69983",
+    "name": "Finabank IBC",
+    "address": "Mr. Jaggernath Lachmonstraat 49 (Coppenamastraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "430-300",
+    "website": "https://www.finabanknv.com"
+  },
+  "first-aid-plus": {
+    "matched": true,
+    "score": 0.538,
+    "fsq_id": "56d57350498e91638fd2d978",
+    "name": "Cars Plus NV",
+    "address": "Dr. Sophie Redmondstraat 226 (Rode Kruislaan), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "471-121",
+    "website": null
+  },
+  "fish-finder-fishing-and-outdoors": {
+    "matched": false,
+    "score": 0.281,
+    "fsq_id": "54444022498e9fef3cd5267f",
+    "name": "Pannekoek & Poffertjes Cafe",
+    "address": "Sommelsdijkstraat #11, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "422-914",
+    "website": null
+  },
+  "fit-factory": {
+    "matched": true,
+    "score": 0.759,
+    "fsq_id": "5314d313498eb42ef63f3652",
+    "name": "Fitness Factory Su",
+    "address": "Cocobiacoweg # 29",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "flavor-restaurant": {
+    "matched": true,
+    "score": 0.605,
+    "fsq_id": "4baa39fbf964a52056553ae3",
+    "name": "Sarinah Indisch Restaurant",
+    "address": "Verlengde Gemenelandsweg 187, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "flex-luxuries": {
+    "matched": true,
+    "score": 0.545,
+    "fsq_id": "52e3b5eb498efa10e37b6ef7",
+    "name": "Flex Mall",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "flex-phones": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "52e3b5eb498efa10e37b6ef7",
+    "name": "Flex Mall",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "fluxo-pilates": {
+    "matched": false
+  },
+  "folo-nature-tours": {
+    "matched": true,
+    "score": 0.6,
+    "fsq_id": "502e79cbe4b0fdd33941b26f",
+    "name": "Tourist Tours",
+    "address": "Kleinewaterstraat 4, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "885-8495",
+    "website": null
+  },
+  "footcandy-hermitage-mall": {
+    "matched": true,
+    "score": 0.756,
+    "fsq_id": "50d79693e4b0f0312063c171",
+    "name": "Galaxy Hermitage Mall",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "free-city-walk-paramaribo": {
+    "matched": true,
+    "score": 0.627,
+    "fsq_id": "4bded347fe0e62b575fa0506",
+    "name": "Courtyard Hotel Paramaribo",
+    "address": "Anton Dragtenweg 50-54, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "456-000",
+    "website": "https://www.marriott.com/hotels/travel/pbmcy-courtyard-paramaribo"
+  },
+  "free-flow": {
+    "matched": true,
+    "score": 0.533,
+    "fsq_id": "67653a1d06b24c2071e8be47",
+    "name": "“Tante Trees” Flowers",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "from-kay-with-love": {
+    "matched": false,
+    "score": 0.485,
+    "fsq_id": "5339c451498e01a891ca9d25",
+    "name": "Hands with care",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "frygri": {
+    "matched": false
+  },
+  "furniture-city-kwatta": {
+    "matched": true,
+    "score": 0.581,
+    "fsq_id": "515386a4e4b0284e376248d5",
+    "name": "KFC Kwatta",
+    "address": "Kwattaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "furniture-city-north": {
+    "matched": true,
+    "score": 0.824,
+    "fsq_id": "50d8c707e4b0ca30496faa7e",
+    "name": "Furniture City",
+    "address": "Tourtonnelaan",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "gaby-april-beauty-clinic": {
+    "matched": false,
+    "score": 0.455,
+    "fsq_id": "4ef237df775bf265c3b8e2a8",
+    "name": "Beauty Salon Gaitrie",
+    "address": "Kwatta",
+    "city": "Kwatta",
+    "phone": null,
+    "website": null
+  },
+  "galaxyliving": {
+    "matched": false
+  },
+  "gao-ming-trading-north": {
+    "matched": true,
+    "score": 0.842,
+    "fsq_id": "5536ce92498ea3ffb2a49ef6",
+    "name": "Gao Ming Trading",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "gao-ming-trading-south": {
+    "matched": true,
+    "score": 0.842,
+    "fsq_id": "5536ce92498ea3ffb2a49ef6",
+    "name": "Gao Ming Trading",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "garage-d-a-ashruf": {
+    "matched": true,
+    "score": 0.914,
+    "fsq_id": "539b2911498e4bc685635160",
+    "name": "Garage D.A. Ashruf",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "georgies-bar-chill": {
+    "matched": false,
+    "score": 0.432,
+    "fsq_id": "61c4a8d817b11551f1c6c9c1",
+    "name": "GoE Thai Noodle Bar",
+    "address": "Virolastraat 61, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "https://www.goe.sr"
+  },
+  "glam-curves": {
+    "matched": false,
+    "score": 0.421,
+    "fsq_id": "4e4c7fffa809b3dab3ac2696",
+    "name": "Glamazon",
+    "address": "Mahonylaan 90a, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "glambox": {
+    "matched": false
+  },
+  "goldenwings": {
+    "matched": true,
+    "score": 0.957,
+    "fsq_id": "4feb971fe4b0548b02f1eade",
+    "name": "Golden Wings",
+    "address": "Kwattaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "437-016",
+    "website": null
+  },
+  "golderom-healthy-organic-store": {
+    "matched": false,
+    "score": 0.449,
+    "fsq_id": "5ce71dd38a6f17002c0bc9bc",
+    "name": "Ugly Duckling Store",
+    "address": "Kwattaweg, Distrikt Paramaribo",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "golf-club-paramaribo": {
+    "matched": true,
+    "score": 0.588,
+    "fsq_id": "4f994556e4b0fc88e792c74e",
+    "name": "Paramaribo Zoo",
+    "address": "Spathodealaan Road (Kanangalaanstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "gossip-nails-xx": {
+    "matched": false,
+    "score": 0.421,
+    "fsq_id": "56f56ea9498e03967d8a377d",
+    "name": "Queen Vans Hair & Nails",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "great-wall-motor-suriname": {
+    "matched": true,
+    "score": 0.577,
+    "fsq_id": "4f2fe360e4b05991518b0057",
+    "name": "Centrale Markt van Suriname",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "greenheart-boutique-hotel": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "658b439f9ffb403d4699817f",
+    "name": "Greenheart Boutique Hotel",
+    "address": "Costerstraat 68, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://greenheartboutiquehotel.com"
+  },
+  "grounded-botanical-studio": {
+    "matched": false,
+    "score": 0.488,
+    "fsq_id": "4e628ee0922e6a5aaa945ff4",
+    "name": "bodyNsoul Studio",
+    "address": "Armandstraat 5, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "433-810",
+    "website": null
+  },
+  "guesthouse-albergoalberga": {
+    "matched": true,
+    "score": 0.714,
+    "fsq_id": "5c7b375492e7a9002cc3c868",
+    "name": "Guesthouse Lelie",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "guesthouse-albina": {
+    "matched": true,
+    "score": 0.848,
+    "fsq_id": "4f9b4921e4b01764652a9e25",
+    "name": "Guesthouse Fanna",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "h-t": {
+    "matched": false,
+    "score": 0.174,
+    "fsq_id": "4bf3f4693f86c9b644a7b21c",
+    "name": "Sidewalk Cafe 't Vat",
+    "address": "Kleine Waterstraat 1, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "habco-delight": {
+    "matched": true,
+    "score": 0.72,
+    "fsq_id": "64275e1cc7efc74b1c268525",
+    "name": "Waka Delight",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "habco-delight-north": {
+    "matched": true,
+    "score": 0.591,
+    "fsq_id": "557c1d9e498ec783b4125d8d",
+    "name": "Habco Fisheries & Delight",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "hakrinbank": {
+    "matched": true,
+    "score": 0.868,
+    "fsq_id": "511e29bce4b0896c01fa4e8c",
+    "name": "Hakrinbank N.V. (hoofdkantoor)",
+    "address": "Dr. Sophie Redmondstraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "hakrinbank-flora": {
+    "matched": true,
+    "score": 0.848,
+    "fsq_id": "4fc12d12e4b0c1dd09c9e6d1",
+    "name": "Hakrinbank Latour",
+    "address": "Latourweg",
+    "city": null,
+    "phone": "481-802",
+    "website": null
+  },
+  "hakrinbank-latour": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4fc12d12e4b0c1dd09c9e6d1",
+    "name": "Hakrinbank Latour",
+    "address": "Latourweg",
+    "city": null,
+    "phone": "481-802",
+    "website": null
+  },
+  "hakrinbank-nickerie": {
+    "matched": true,
+    "score": 0.706,
+    "fsq_id": "50534a9be4b0cbb619acbc9e",
+    "name": "Hakrinbank N.V.",
+    "address": "Jagernath Lachmanstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "hakrinbank-nieuwe-haven": {
+    "matched": true,
+    "score": 0.868,
+    "fsq_id": "5072e637e4b00d7437564f81",
+    "name": "Hakrinbank N.V. (Nieuwe Haven)",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": "http://hakrinbank.com"
+  },
+  "hakrinbank-tamanredjo": {
+    "matched": true,
+    "score": 0.875,
+    "fsq_id": "519df2cb498e59f82690367f",
+    "name": "Hakrinbank N.V., Tamanredjo",
+    "address": "Oost West verbinding, Tamanredjo, Distrikt Commewijne",
+    "city": "Tamanredjo",
+    "phone": null,
+    "website": null
+  },
+  "hakrinbank-tourtonne": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "52c57741498ef5f474781859",
+    "name": "Hakrinbank Tourtonne",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "han-palace": {
+    "matched": true,
+    "score": 0.72,
+    "fsq_id": "63bc2fd1c453ed326c1d1027",
+    "name": "Maharaja Palace",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "happy-flower-services": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "4ed879c80e61d46ad5a9b878",
+    "name": "Chotkan service station",
+    "address": "Kasabaholoweg",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "harry-tjin": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "63fa37cf9bb1e117af655a4e",
+    "name": "Harry Tjin",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "hertz-suriname-car-rental": {
+    "matched": true,
+    "score": 0.65,
+    "fsq_id": "6667996eec95060364cdc54c",
+    "name": "ross car rental",
+    "address": "Kwattaweg (Laam Van Louisehof), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "hes-ds": {
+    "matched": true,
+    "score": 0.769,
+    "fsq_id": "4e71292022710386edf1894d",
+    "name": "Hes-d's",
+    "address": "Latourweg (Mathoera Doebestraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "hes-ds-2": {
+    "matched": true,
+    "score": 0.667,
+    "fsq_id": "4e71292022710386edf1894d",
+    "name": "Hes-d's",
+    "address": "Latourweg (Mathoera Doebestraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "hes-ds-3": {
+    "matched": true,
+    "score": 0.667,
+    "fsq_id": "4e71292022710386edf1894d",
+    "name": "Hes-d's",
+    "address": "Latourweg (Mathoera Doebestraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "holiday-home-decor": {
+    "matched": true,
+    "score": 0.552,
+    "fsq_id": "4eb015e15c5c796442b14151",
+    "name": "Doebe Decor",
+    "address": "Kwattaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "hollandia-bakkerij-north": {
+    "matched": true,
+    "score": 0.857,
+    "fsq_id": "4cbf855a19ceb1f751fa23cd",
+    "name": "Hollandia Bakkerij",
+    "address": "Wilhelminastraat 1 (Jamaludinstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "hollandia-bakkerij-south": {
+    "matched": true,
+    "score": 0.878,
+    "fsq_id": "4cbf855a19ceb1f751fa23cd",
+    "name": "Hollandia Bakkerij",
+    "address": "Wilhelminastraat 1 (Jamaludinstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "holy-moly": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "68ade5e246aa217a16707149",
+    "name": "Holy Moly",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "honeycare-north": {
+    "matched": true,
+    "score": 0.615,
+    "fsq_id": "53f10f25498ebbbeb88961de",
+    "name": "Chois North",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "honeycare-south": {
+    "matched": false,
+    "score": 0.486,
+    "fsq_id": "4fae636fe4b0ba6ff3f4fb70",
+    "name": "Hilly's Autorama South",
+    "address": "Mr. J. Lachmonstraat 126, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "493-480",
+    "website": null
+  },
+  "hotel-north-resort": {
+    "matched": false,
+    "score": 0.478,
+    "fsq_id": "55c1301d498e1935fe421dd5",
+    "name": "Jacana Amazon Welness Resort",
+    "address": "Commewijnestraat 35, Zorg en Hoop, Distrikt Paramaribo",
+    "city": "Zorg en Hoop",
+    "phone": "531-000",
+    "website": "https://jacanaresort.com"
+  },
+  "house-of-pureness": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "572bd7e0498e7abe9ed08374",
+    "name": "House Of Pureness",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "hsds-lifestyle-noord": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "51acdade498e042d27a32936",
+    "name": "Subway Noord",
+    "address": "Jozef Israelstraat (Jacques D. Gompertstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "hsds-lifestyle-wanica": {
+    "matched": false,
+    "score": 0.4,
+    "fsq_id": "4f145171e4b09e81db8c8979",
+    "name": "HSDS Gemenelandsweg",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "iamchede": {
+    "matched": false
+  },
+  "infinity-holding": {
+    "matched": true,
+    "score": 0.611,
+    "fsq_id": "4ed62e5bd3e36f47ea8ddb8a",
+    "name": "Infinity Lelydorp NV",
+    "address": "Indira Gandhiweg 845, Wanica",
+    "city": "Wanica",
+    "phone": "366-179",
+    "website": null
+  },
+  "instyle-optics": {
+    "matched": true,
+    "score": 0.649,
+    "fsq_id": "52e29ff2498e16d21fac45aa",
+    "name": "In Style @ Optiek Ninon",
+    "address": "Wilhelminastraat 91, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "551-144",
+    "website": null
+  },
+  "international-academy-of-suriname": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "568cee07498edab9f7573423",
+    "name": "International Academy of Suriname",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "intervast": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "565c89d3498ecb54a841c93e",
+    "name": "intervast",
+    "address": "Djanarainsohansinglaan",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "invictus-brazilian-jiu-jitsu": {
+    "matched": false,
+    "score": 0.489,
+    "fsq_id": "51e69ead498edaa342362108",
+    "name": "Brazilian Embassy",
+    "address": "2 Maratakastraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "itrendzz": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "5089a365e4b06f6d17d7de17",
+    "name": "Itrendzz",
+    "address": "Franchepanestraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "jack-tours-travel-service": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "51aa04fb498edfe7d70c377d",
+    "name": "Jack tours & travel service",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "jadore-cafe-grill": {
+    "matched": false,
+    "score": 0.378,
+    "fsq_id": "4bf3f4693f86c9b644a7b21c",
+    "name": "Sidewalk Cafe 't Vat",
+    "address": "Kleine Waterstraat 1, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "jage-caffe": {
+    "matched": true,
+    "score": 0.833,
+    "fsq_id": "66f07c24c337465a7d42f4f0",
+    "name": "Jage 2.0 Caffe",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "jage-caffe-2": {
+    "matched": false,
+    "score": 0.222,
+    "fsq_id": "518fcce2498eb76a76ce9f45",
+    "name": "25 Canadastraat",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "jamilas-dry-cleaning-north": {
+    "matched": true,
+    "score": 0.851,
+    "fsq_id": "52b46530498e5513d09e0212",
+    "name": "Jamila's Dry Cleaning",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "jamilas-dry-cleaning-south": {
+    "matched": true,
+    "score": 0.851,
+    "fsq_id": "52b46530498e5513d09e0212",
+    "name": "Jamila's Dry Cleaning",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "janelles-shoes-and-bags": {
+    "matched": false,
+    "score": 0.364,
+    "fsq_id": "50f2d222e4b0a4702a34dcae",
+    "name": "Torarica Hotel & Casino",
+    "address": "Mr. L.J. Rietbergplein 1, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "471-500",
+    "website": "http://torarica.com"
+  },
+  "jenny-tours": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "502e79cbe4b0fdd33941b26f",
+    "name": "Tourist Tours",
+    "address": "Kleinewaterstraat 4, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "885-8495",
+    "website": null
+  },
+  "jjs-place-zuid": {
+    "matched": true,
+    "score": 0.545,
+    "fsq_id": "5205b261498e0fee3bf9bac0",
+    "name": "bar Zuid",
+    "address": "van Sommelsdijckstraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "joosje-roti-shop": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "50be5b35e4b0134f4a012ebd",
+    "name": "Joosje Roti Shop",
+    "address": "Johannes mungrastraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "just-curlss": {
+    "matched": false,
+    "score": 0.293,
+    "fsq_id": "4e0c71321838fa426ac7eb55",
+    "name": "Ministry of Justice and Police",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "kabalebo-nature-resort": {
+    "matched": true,
+    "score": 0.514,
+    "fsq_id": "4d74a1bb9d2fa143cd1cf4d6",
+    "name": "Oxygen Resort",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://oxygen-resort.com"
+  },
+  "kaizen": {
+    "matched": false
+  },
+  "kaki-supermarkt": {
+    "matched": true,
+    "score": 0.8,
+    "fsq_id": "514b32b4e4b0d7d598ee06c6",
+    "name": "Lins Supermarkt",
+    "address": "Amazonestraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "karans-indian-food": {
+    "matched": true,
+    "score": 0.973,
+    "fsq_id": "64bc593422bd6f4d0fd63cbf",
+    "name": "Karan’s Indian Food",
+    "address": "39, Anton Dragtenweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "kasimex-indira-ghandiweg": {
+    "matched": true,
+    "score": 0.653,
+    "fsq_id": "52f8dc6c498e1beba2079c26",
+    "name": "Indira Ghandiweg bar Eric",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "kasimex-makro": {
+    "matched": true,
+    "score": 0.621,
+    "fsq_id": "508f0848e4b0d49481798ac5",
+    "name": "Kasimex/ RBC ATM",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "keller-williams-suriname": {
+    "matched": true,
+    "score": 0.588,
+    "fsq_id": "4f2fe360e4b05991518b0057",
+    "name": "Centrale Markt van Suriname",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "kempes-co": {
+    "matched": false,
+    "score": 0.316,
+    "fsq_id": "57351176498e902956520c21",
+    "name": "CY Coffee",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "ket-mien": {
+    "matched": true,
+    "score": 0.762,
+    "fsq_id": "4f6dde36e4b0e42842ac4304",
+    "name": "Ket Mien & Co",
+    "address": "Domineestraat (Spanhoek), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "kfc-ims": {
+    "matched": true,
+    "score": 0.6,
+    "fsq_id": "4da9461643a1128196d94bdf",
+    "name": "KFC",
+    "address": "Wilhelminastraat 60, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "kfc-kwatta": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "515386a4e4b0284e376248d5",
+    "name": "KFC Kwatta",
+    "address": "Kwattaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "kfc-lallarookh": {
+    "matched": true,
+    "score": 0.667,
+    "fsq_id": "502d4ae1e4b003c0eb982e29",
+    "name": "Lalla Rookh Mall",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "kfc-latour": {
+    "matched": true,
+    "score": 0.6,
+    "fsq_id": "515386a4e4b0284e376248d5",
+    "name": "KFC Kwatta",
+    "address": "Kwattaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "kfc-lelydorp": {
+    "matched": true,
+    "score": 0.545,
+    "fsq_id": "4ef2546d46901f707f7d911b",
+    "name": "Golden Wings Lelydorp",
+    "address": "Lelydorp, Distrikt Wanica",
+    "city": "Lelydorp",
+    "phone": null,
+    "website": null
+  },
+  "kfc-waterkant": {
+    "matched": true,
+    "score": 0.818,
+    "fsq_id": "4db36d4343a1369cb5a400a1",
+    "name": "Waterkant",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "kfc-wilhelminastraat": {
+    "matched": true,
+    "score": 0.889,
+    "fsq_id": "50b67ecee4b011aa27d272a2",
+    "name": "Wilhelminastraat",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "kimboto": {
+    "matched": false,
+    "score": 0.438,
+    "fsq_id": "56b604a5498e095e6c11672b",
+    "name": "Holland Lodge Hotel",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "kirpalani-domineestraat": {
+    "matched": true,
+    "score": 0.681,
+    "fsq_id": "66fc43c0f51b0c396864f16b",
+    "name": "Money Line Domineestraat",
+    "address": "Domineestraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "kirpalani-maagdenstraat": {
+    "matched": true,
+    "score": 0.722,
+    "fsq_id": "50abdc13e4b07e4e6fa42fb9",
+    "name": "Maagdenstraat",
+    "address": "Maagdenstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "kirpalani-super-store": {
+    "matched": true,
+    "score": 0.6,
+    "fsq_id": "503b7d9ce4b0bbba98a10e1c",
+    "name": "kirpalani",
+    "address": "Johan Adolf Pengelstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://www.kirpalani.com"
+  },
+  "kong-nam-snack": {
+    "matched": true,
+    "score": 0.606,
+    "fsq_id": "4fc15a36e4b0730dec2b5b97",
+    "name": "Kong Fa Supermarket",
+    "address": "Franchepannestraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "krioro": {
+    "matched": true,
+    "score": 0.545,
+    "fsq_id": "4ed9522a61af8a14b5029059",
+    "name": "Sjo krioro kukru",
+    "address": "Langa grasistraat 55 flora",
+    "city": null,
+    "phone": "532-387",
+    "website": null
+  },
+  "krioro-north": {
+    "matched": true,
+    "score": 0.833,
+    "fsq_id": "560bd894498e5415453a973f",
+    "name": "Krioro Noord",
+    "address": "Kristalstraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "kushiyaki-the-next-episode": {
+    "matched": false,
+    "score": 0.341,
+    "fsq_id": "56e6f9ce498ea3be4b66e596",
+    "name": "The White House",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "kwan-tai-restaurant": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "517dcf74e4b08490e32108c2",
+    "name": "Kwan Tai Restaurant",
+    "address": "Kwattaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "kwan-tai-restaurant-2": {
+    "matched": true,
+    "score": 0.95,
+    "fsq_id": "517dcf74e4b08490e32108c2",
+    "name": "Kwan Tai Restaurant",
+    "address": "Kwattaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "kyu-pho-grill": {
+    "matched": false,
+    "score": 0.375,
+    "fsq_id": "4ea947b3a17cae106bcf4c0a",
+    "name": "Helio Phoeli Studio",
+    "address": "Kwattaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "ladybug-nursery-and-garden-center": {
+    "matched": false,
+    "score": 0.44,
+    "fsq_id": "5341edf2498e0ec09f3b6edd",
+    "name": "Bamboo Green Garden",
+    "address": "Verlengde Gemenelandsweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "lamour-restaurant": {
+    "matched": true,
+    "score": 0.605,
+    "fsq_id": "4baa39fbf964a52056553ae3",
+    "name": "Sarinah Indisch Restaurant",
+    "address": "Verlengde Gemenelandsweg 187, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "le-den": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "4ec48884775b7dea875e1a82",
+    "name": "Lekker",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "lees-korean-grill": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "4ed1718c0aafd1869035dcf0",
+    "name": "The Noisy Grill",
+    "address": "Benjaminstraat, Zorg & Hoop, Distrikt Paramaribo",
+    "city": "Zorg & Hoop",
+    "phone": null,
+    "website": null
+  },
+  "leiding-1-restaurant": {
+    "matched": true,
+    "score": 0.609,
+    "fsq_id": "4baa39fbf964a52056553ae3",
+    "name": "Sarinah Indisch Restaurant",
+    "address": "Verlengde Gemenelandsweg 187, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "lins-super-market": {
+    "matched": true,
+    "score": 0.6,
+    "fsq_id": "4e8b5f2c61afcc24d9b18322",
+    "name": "Ling's",
+    "address": "Lalla Rookhweg 42, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "lobby": {
+    "matched": true,
+    "score": 0.588,
+    "fsq_id": "4eda775e2c5b50ab9eaa927c",
+    "name": "Techno Lobby",
+    "address": "Franchepanestraat 92 B",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "lucky-store": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4ed68493b634747d776e98bc",
+    "name": "Lucky Store",
+    "address": "Jodenbree Straat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://luckystore.com"
+  },
+  "lucky-twins-restaurant": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "50ae55a5e4b05083be935f67",
+    "name": "Lucky Twins Restaurant",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "luxe-escape-lotus-spa-wellness-beautysalon": {
+    "matched": false,
+    "score": 0.355,
+    "fsq_id": "4ef237df775bf265c3b8e2a8",
+    "name": "Beauty Salon Gaitrie",
+    "address": "Kwatta",
+    "city": "Kwatta",
+    "phone": null,
+    "website": null
+  },
+  "maharaja-palace": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "63bc2fd1c453ed326c1d1027",
+    "name": "Maharaja Palace",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "mandy-butka": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "66c2ce161009056b5f4a8cda",
+    "name": "Mandy Butka",
+    "address": "A.L Rijgerweg #1 (Soekaredjoweg), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "760-6193",
+    "website": null
+  },
+  "marchand-notariaat": {
+    "matched": false,
+    "score": 0.486,
+    "fsq_id": "674dd7454479290c93bef3a5",
+    "name": "Notariaat Ferdinand",
+    "address": "Hofstraat 17, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "marina-resort-waterland": {
+    "matched": true,
+    "score": 0.565,
+    "fsq_id": "4b8d388ff964a52030ee32e3",
+    "name": "Torarica Eco Resort Inn",
+    "address": "Cornelis Jongbawstraat 16, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "matcha-loft": {
+    "matched": false
+  },
+  "max-n-co": {
+    "matched": true,
+    "score": 0.824,
+    "fsq_id": "50a6b7d8e4b044220fca725b",
+    "name": "Max & Co",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "maze": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "673a09e13a17895af300abf7",
+    "name": "Maze",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "mcdonalds-centrum": {
+    "matched": true,
+    "score": 0.842,
+    "fsq_id": "4c2a1e229fb5d13a942b9c57",
+    "name": "McDonald's",
+    "address": "Lala Rookhweg 77, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "mcdonalds-hermitage-mall": {
+    "matched": true,
+    "score": 0.842,
+    "fsq_id": "4c2a1e229fb5d13a942b9c57",
+    "name": "McDonald's",
+    "address": "Lala Rookhweg 77, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "messias-tours": {
+    "matched": true,
+    "score": 0.538,
+    "fsq_id": "502e79cbe4b0fdd33941b26f",
+    "name": "Tourist Tours",
+    "address": "Kleinewaterstraat 4, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "885-8495",
+    "website": null
+  },
+  "mezze-suriname": {
+    "matched": true,
+    "score": 0.733,
+    "fsq_id": "50f5db7a19a9e56d4bee4d53",
+    "name": "Webhelp Suriname",
+    "address": "Zonnebloemstraat 50, Paramaribo, South America",
+    "city": "Paramaribo",
+    "phone": "420-902",
+    "website": "http://www.snt.nl"
+  },
+  "mighty-racks": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "5838b63b94c6904b8047d4f4",
+    "name": "Mighty Racks",
+    "address": "Van Sommelsdijckstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "mimi-market": {
+    "matched": true,
+    "score": 0.818,
+    "fsq_id": "63f20eadbda38b62d447a049",
+    "name": "Kiwi Market",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "mingle-sushi": {
+    "matched": false,
+    "score": 0.455,
+    "fsq_id": "4ff7901be4b0d27dd7cf1661",
+    "name": "Sushi - Ya",
+    "address": "Henck Arronstraat 63, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "475-450",
+    "website": null
+  },
+  "mini-nail-shop": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "64b2d009ecf9a408637e751c",
+    "name": "Easy Fine Bicycle Shop",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "miniso-gompertstraat": {
+    "matched": true,
+    "score": 0.769,
+    "fsq_id": "4fa2c423e4b04c703166c289",
+    "name": "Steps Gompertstraat",
+    "address": "Gompert Straat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "miniso-hermitage-mall": {
+    "matched": true,
+    "score": 0.8,
+    "fsq_id": "4d7ba6c06152b60c477c8226",
+    "name": "Hermitage Mall",
+    "address": "Lala Rookhweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://hermitage-mall.com"
+  },
+  "mirage-casino": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4eb71ee2f790d87d03749b52",
+    "name": "Mirage Casino",
+    "address": "Paramaribo, Para Maribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "miss-doll-fit": {
+    "matched": true,
+    "score": 0.522,
+    "fsq_id": "4fd5df27e4b06383cd466af9",
+    "name": "Multi- Fit",
+    "address": "Dr. J.F. Nassylaan (Frederik Derby St), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "mn-international-centrum": {
+    "matched": true,
+    "score": 0.766,
+    "fsq_id": "4fd25f50e4b00095ea0263c0",
+    "name": "MN International Wanica",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "mn-international-kwatta": {
+    "matched": true,
+    "score": 0.87,
+    "fsq_id": "4fd25f50e4b00095ea0263c0",
+    "name": "MN International Wanica",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "moka-coffeebar": {
+    "matched": true,
+    "score": 0.966,
+    "fsq_id": "68a3798a5c970c3a5e83c0b6",
+    "name": "Moka Coffee Bar",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "mokisa-wellness": {
+    "matched": false,
+    "score": 0.444,
+    "fsq_id": "58d12f16126ae87e526909e6",
+    "name": "Houttuyn Wellness River Resort",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": "http://houttuyn.com"
+  },
+  "mon-plaisir-nursery": {
+    "matched": true,
+    "score": 0.884,
+    "fsq_id": "55d5e884498ea0961cd7d281",
+    "name": "Mon Plaisir Nursery N.V.",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "mondowa-tours": {
+    "matched": true,
+    "score": 0.538,
+    "fsq_id": "502e79cbe4b0fdd33941b26f",
+    "name": "Tourist Tours",
+    "address": "Kleinewaterstraat 4, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "885-8495",
+    "website": null
+  },
+  "morevans-outlet": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "64497a6749d7e32cd5becb48",
+    "name": "Morevans Outlet",
+    "address": "Houttuin, Distrikt Wanica",
+    "city": "Houttuin",
+    "phone": null,
+    "website": null
+  },
+  "multi-travel": {
+    "matched": true,
+    "score": 0.727,
+    "fsq_id": "52f62dc5498e3e71dfcb68bb",
+    "name": "CitiTravel",
+    "address": "Dr. H.D. Benjaminstraat 79, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "494-136",
+    "website": null
+  },
+  "muntjes-take-out-juniors-place": {
+    "matched": false,
+    "score": 0.465,
+    "fsq_id": "676538aac521155acf61f163",
+    "name": "Muntje’s Food",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "murphys-irish-pub": {
+    "matched": true,
+    "score": 0.971,
+    "fsq_id": "65fe4923e6635c0b8f90fd76",
+    "name": "Murphy’s Irish Pub",
+    "address": "Ringweg Zuid, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "naskip": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4f9df03fe4b0e5be40ddaa69",
+    "name": "naskip",
+    "address": "Kwattaweg, Paramribo",
+    "city": "Paramribo",
+    "phone": null,
+    "website": null
+  },
+  "naskip-2": {
+    "matched": true,
+    "score": 0.75,
+    "fsq_id": "4f99fab2e4b0ea69dfb1f6c5",
+    "name": "Naskip",
+    "address": "Gemenelandsweg",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "naskip-3": {
+    "matched": true,
+    "score": 0.75,
+    "fsq_id": "4f99fab2e4b0ea69dfb1f6c5",
+    "name": "Naskip",
+    "address": "Gemenelandsweg",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "naskip-4": {
+    "matched": true,
+    "score": 0.75,
+    "fsq_id": "4f99fab2e4b0ea69dfb1f6c5",
+    "name": "Naskip",
+    "address": "Gemenelandsweg",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "naskip-5": {
+    "matched": true,
+    "score": 0.75,
+    "fsq_id": "4f99fab2e4b0ea69dfb1f6c5",
+    "name": "Naskip",
+    "address": "Gemenelandsweg",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "nassy-brouwer-college": {
+    "matched": true,
+    "score": 0.533,
+    "fsq_id": "4f4d0691e4b0accb04058fa0",
+    "name": "Surinaamse Brouwerij NV.",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "nassy-brouwer-school": {
+    "matched": true,
+    "score": 0.629,
+    "fsq_id": "50812cf9e4b059457a303a74",
+    "name": "Kangeroe School",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "new-choice-lalla-rookhweg": {
+    "matched": true,
+    "score": 0.537,
+    "fsq_id": "502d4ae1e4b003c0eb982e29",
+    "name": "Lalla Rookh Mall",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "new-choice-nickerie": {
+    "matched": true,
+    "score": 0.69,
+    "fsq_id": "6874fc60c638055780ca9ce0",
+    "name": "New Choice",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "new-choice-ringweg": {
+    "matched": true,
+    "score": 0.564,
+    "fsq_id": "55f31865498e4f5a57ce14c4",
+    "name": "Apotheek Soma Ringweg",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "new-suriname-dream-cafe": {
+    "matched": true,
+    "score": 0.857,
+    "fsq_id": "57c9ea66cd106aac95f9dda0",
+    "name": "Suriname Dream Café",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "no-span-eco-tours": {
+    "matched": false,
+    "score": 0.4,
+    "fsq_id": "4b8d388ff964a52030ee32e3",
+    "name": "Torarica Eco Resort Inn",
+    "address": "Cornelis Jongbawstraat 16, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "norrii-zushii": {
+    "matched": false
+  },
+  "north-fitness-gym": {
+    "matched": true,
+    "score": 0.514,
+    "fsq_id": "5314d313498eb42ef63f3652",
+    "name": "Fitness Factory Su",
+    "address": "Cocobiacoweg # 29",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "notariaat-mannes": {
+    "matched": true,
+    "score": 0.743,
+    "fsq_id": "514c8456e4b0852c3965adca",
+    "name": "Notariaat Alexander",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "notariaat-van-dijk": {
+    "matched": true,
+    "score": 0.571,
+    "fsq_id": "5314e1e0e4b0e72a36d8723c",
+    "name": "Van Dijk I",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "nr-1-spot": {
+    "matched": false,
+    "score": 0.364,
+    "fsq_id": "5093a11fe4b0c953ecacdc88",
+    "name": "OS1 Flustraat",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "numa-cafe": {
+    "matched": false,
+    "score": 0.414,
+    "fsq_id": "4bf3f4693f86c9b644a7b21c",
+    "name": "Sidewalk Cafe 't Vat",
+    "address": "Kleine Waterstraat 1, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "oasis-restaurant": {
+    "matched": true,
+    "score": 0.698,
+    "fsq_id": "5191666d498e273e453e4a05",
+    "name": "Jawa Indonesisch Restaurant",
+    "address": "Kasabaholoweg 7, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "492-691",
+    "website": "http://restaurantjawa.blogspot.com"
+  },
+  "ochama-amazing": {
+    "matched": false
+  },
+  "ochama-hermitage-mall": {
+    "matched": true,
+    "score": 0.81,
+    "fsq_id": "50d79693e4b0f0312063c171",
+    "name": "Galaxy Hermitage Mall",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "office-world-hermitage-mall": {
+    "matched": true,
+    "score": 0.982,
+    "fsq_id": "506a1e67e4b0c2e9f6f8a1fe",
+    "name": "Office World, Hermitage Mall",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "office-world-lelydorp": {
+    "matched": true,
+    "score": 0.619,
+    "fsq_id": "4ef2546d46901f707f7d911b",
+    "name": "Golden Wings Lelydorp",
+    "address": "Lelydorp, Distrikt Wanica",
+    "city": "Lelydorp",
+    "phone": null,
+    "website": null
+  },
+  "ogi-teppanyaki-sushi-bar": {
+    "matched": true,
+    "score": 0.774,
+    "fsq_id": "52c5fe3c498eaa30cb3805ad",
+    "name": "OGI Restaurant, Teppanyaki & Sushi bar",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "okido-tours-travel": {
+    "matched": false,
+    "score": 0.357,
+    "fsq_id": "4bc8f187937ca5935fd6a492",
+    "name": "Zus & Zo",
+    "address": "Grote Combeweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "okopipi-tropical-grill": {
+    "matched": false,
+    "score": 0.432,
+    "fsq_id": "4ed1718c0aafd1869035dcf0",
+    "name": "The Noisy Grill",
+    "address": "Benjaminstraat, Zorg & Hoop, Distrikt Paramaribo",
+    "city": "Zorg & Hoop",
+    "phone": null,
+    "website": null
+  },
+  "olive-multi-cuisine-restaurant": {
+    "matched": true,
+    "score": 0.571,
+    "fsq_id": "4baa39fbf964a52056553ae3",
+    "name": "Sarinah Indisch Restaurant",
+    "address": "Verlengde Gemenelandsweg 187, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "ondernemershuis": {
+    "matched": true,
+    "score": 0.732,
+    "fsq_id": "5a9d7f3dbfc6d04517aa7bac",
+    "name": "Ondernemershuis Paramaribo",
+    "address": "Roseveltkade 38, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "one-stop-apotheek-drugstore": {
+    "matched": true,
+    "score": 0.537,
+    "fsq_id": "5032a928e4b0f0a8236a84b2",
+    "name": "Apotheek Ausan",
+    "address": "Kwattaweg (Flustraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "442-535",
+    "website": null
+  },
+  "optiek-all-vision": {
+    "matched": true,
+    "score": 0.69,
+    "fsq_id": "532b49dd498e7bb17e4d1d6e",
+    "name": "Optiek ninon",
+    "address": "Hermitage Mall",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "optiek-all-vision-albina": {
+    "matched": true,
+    "score": 0.76,
+    "fsq_id": "4f26ef31e4b0d10db2ef11c9",
+    "name": "Optiek All Vision Lelydorp",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "optiek-all-vision-lelydorp": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4f26ef31e4b0d10db2ef11c9",
+    "name": "Optiek All Vision Lelydorp",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "optiek-all-vision-nickerie": {
+    "matched": true,
+    "score": 0.769,
+    "fsq_id": "4f26ef31e4b0d10db2ef11c9",
+    "name": "Optiek All Vision Lelydorp",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "optiek-marisa": {
+    "matched": true,
+    "score": 0.64,
+    "fsq_id": "532b49dd498e7bb17e4d1d6e",
+    "name": "Optiek ninon",
+    "address": "Hermitage Mall",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "optiek-ninon": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "532b49dd498e7bb17e4d1d6e",
+    "name": "Optiek ninon",
+    "address": "Hermitage Mall",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "optiek-ninon-hermitage-mall": {
+    "matched": true,
+    "score": 0.683,
+    "fsq_id": "4d7ba6c06152b60c477c8226",
+    "name": "Hermitage Mall",
+    "address": "Lala Rookhweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://hermitage-mall.com"
+  },
+  "optiek-ninon-ims": {
+    "matched": true,
+    "score": 0.857,
+    "fsq_id": "532b49dd498e7bb17e4d1d6e",
+    "name": "Optiek ninon",
+    "address": "Hermitage Mall",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "optiek-ninon-lelydorp": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "54ae874e498e554ac3f96e08",
+    "name": "Optiek Ninon Lelydorp",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "optiek-ninon-meerzorg": {
+    "matched": true,
+    "score": 0.762,
+    "fsq_id": "54ae874e498e554ac3f96e08",
+    "name": "Optiek Ninon Lelydorp",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "optiek-ninon-nickerie": {
+    "matched": true,
+    "score": 0.727,
+    "fsq_id": "532b49dd498e7bb17e4d1d6e",
+    "name": "Optiek ninon",
+    "address": "Hermitage Mall",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "orchid": {
+    "matched": true,
+    "score": 0.6,
+    "fsq_id": "51c0a9f1498ea799ad9a29c3",
+    "name": "Orchideestraat",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "organic-skincare": {
+    "matched": false
+  },
+  "outdoor-living": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "51d43599498e8230edeeea60",
+    "name": "Outdoor living",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "overbridge-river-resort": {
+    "matched": true,
+    "score": 0.836,
+    "fsq_id": "522e127d11d25f697f920c41",
+    "name": "Overbridge  River Resort Kantoor",
+    "address": null,
+    "city": null,
+    "phone": "422-565",
+    "website": null
+  },
+  "overdoughsed-suriname": {
+    "matched": false,
+    "score": 0.453,
+    "fsq_id": "4f398595e4b0e313d5b95766",
+    "name": "Cultureel Centrum Suriname (CCS)",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "padel-x-suriname": {
+    "matched": true,
+    "score": 0.71,
+    "fsq_id": "56cc9551498e080239642c8c",
+    "name": "Fablab Suriname",
+    "address": "Professor W. J. Kernkampweg 37, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "padre-nostro-italian-restaurant": {
+    "matched": true,
+    "score": 0.613,
+    "fsq_id": "52ae47b2498e3203ce05f620",
+    "name": "X-AVENUE SUR & GRILL RESTAURANT",
+    "address": "ringweg zuid #57",
+    "city": null,
+    "phone": "545-042",
+    "website": null
+  },
+  "pandie": {
+    "matched": false
+  },
+  "paramaribo-princess-casino": {
+    "matched": true,
+    "score": 0.731,
+    "fsq_id": "536a6dec498e132a9c8c0408",
+    "name": "Ramada Paramaribo Princess",
+    "address": "Kleine Waterstraat 19",
+    "city": null,
+    "phone": null,
+    "website": "http://wyndhamhotels.com"
+  },
+  "paramaribo-zoo": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4f994556e4b0fc88e792c74e",
+    "name": "Paramaribo Zoo",
+    "address": "Spathodealaan Road (Kanangalaanstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "percy-massage-therapy": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "630fcace58fa8770d4b62840",
+    "name": "Percy Massage Therapy",
+    "address": "Mozartstraat 84 (Verdistraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "petisco-restaurant": {
+    "matched": true,
+    "score": 0.8,
+    "fsq_id": "4fd9ce34e4b02519010892e1",
+    "name": "Petisco Restaurant & Bakery",
+    "address": "Anamoestraat (Mozart St), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "450-423",
+    "website": "http://www.petsico.sr"
+  },
+  "petit-bouchon": {
+    "matched": true,
+    "score": 0.552,
+    "fsq_id": "50632a39e4b01e27b1a3868e",
+    "name": "Petit Restaurant",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "pineapple-tours": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "502e79cbe4b0fdd33941b26f",
+    "name": "Tourist Tours",
+    "address": "Kleinewaterstraat 4, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "885-8495",
+    "website": null
+  },
+  "pitbull-fitness": {
+    "matched": true,
+    "score": 0.538,
+    "fsq_id": "52c74516498ef24dc3903fa8",
+    "name": "Fitness Gym",
+    "address": "Flamingostraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "pizza-hut-leysweg": {
+    "matched": true,
+    "score": 0.692,
+    "fsq_id": "4c194aad838020a14b80e561",
+    "name": "Pizza Hut",
+    "address": "Wilhelminastraat 60, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "pizza-hut-south": {
+    "matched": true,
+    "score": 0.75,
+    "fsq_id": "4c194aad838020a14b80e561",
+    "name": "Pizza Hut",
+    "address": "Wilhelminastraat 60, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "pizza-hut-wilhelminastraat": {
+    "matched": true,
+    "score": 0.514,
+    "fsq_id": "4c194aad838020a14b80e561",
+    "name": "Pizza Hut",
+    "address": "Wilhelminastraat 60, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "pizza-mafia": {
+    "matched": true,
+    "score": 0.6,
+    "fsq_id": "4c194aad838020a14b80e561",
+    "name": "Pizza Hut",
+    "address": "Wilhelminastraat 60, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "popeyes-centrum": {
+    "matched": true,
+    "score": 0.55,
+    "fsq_id": "4ec6ef0361af9e142f1883dc",
+    "name": "Popeyes Louisiana Kitchen",
+    "address": "Domineestraat, Paramaribo, Centrum",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "popeyes-lelydorp": {
+    "matched": true,
+    "score": 0.649,
+    "fsq_id": "4ef2546d46901f707f7d911b",
+    "name": "Golden Wings Lelydorp",
+    "address": "Lelydorp, Distrikt Wanica",
+    "city": "Lelydorp",
+    "phone": null,
+    "website": null
+  },
+  "popeyes-tbl": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "5614607a498e8173032823dd",
+    "name": "Popeyes Louisiana Kitchen",
+    "address": "Lalla Rookhweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "popeyes-wilhelminastraat": {
+    "matched": false,
+    "score": 0.49,
+    "fsq_id": "4ec6ef0361af9e142f1883dc",
+    "name": "Popeyes Louisiana Kitchen",
+    "address": "Domineestraat, Paramaribo, Centrum",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "professional-private-security": {
+    "matched": true,
+    "score": 0.586,
+    "fsq_id": "56f16fcb498eef48b65acbe5",
+    "name": "Princes Amalia private school",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "protrade-international": {
+    "matched": true,
+    "score": 0.773,
+    "fsq_id": "672630163c27ce36643715c5",
+    "name": "Simextra International",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "qsi-international-school-of-suriname": {
+    "matched": true,
+    "score": 0.818,
+    "fsq_id": "64502e5c70cf2203d7a26b67",
+    "name": "International Mall Of Suriname",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "r-k-bisdom-paramaribo": {
+    "matched": true,
+    "score": 0.976,
+    "fsq_id": "56a11d81498e48eadcb89ed1",
+    "name": "RK BISDOM PARAMARIBO",
+    "address": "Gravenstraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "radisson-hotel": {
+    "matched": true,
+    "score": 0.778,
+    "fsq_id": "4b6fe298f964a520f1fe2ce3",
+    "name": "Krasnapolsky Hotel Paramaribo",
+    "address": "Dominee 39, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "raja-ji": {
+    "matched": false,
+    "score": 0.308,
+    "fsq_id": "56f5bf8dcd106d639ec48177",
+    "name": "Qiang Ji Restaurant",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "ramada-paramaribo-princess": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "536a6dec498e132a9c8c0408",
+    "name": "Ramada Paramaribo Princess",
+    "address": "Kleine Waterstraat 19",
+    "city": null,
+    "phone": null,
+    "website": "http://wyndhamhotels.com"
+  },
+  "randoe-meubelen": {
+    "matched": false
+  },
+  "re-max-suriname": {
+    "matched": true,
+    "score": 0.933,
+    "fsq_id": "54fd8f43498e227b8d1fc700",
+    "name": "Re/max Suriname",
+    "address": "Swalmbergstreet (Nassylaan), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "475-577",
+    "website": null
+  },
+  "readytex-art-gallery": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4f366e9be4b099ca93432a1e",
+    "name": "Readytex Art Gallery",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "real-one-fitness-gym": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "53ffb119498e7459481dbaa6",
+    "name": "Healthy Body Gym",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "red-century-party-shop-commewijne": {
+    "matched": false,
+    "score": 0.377,
+    "fsq_id": "4c1ff7c78b3aa593994e9e5f",
+    "name": "Tulip (Unbeatable Shopping Pleasure)",
+    "address": "Tourtonnelaan 131, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "red-century-party-shop-kwatta": {
+    "matched": true,
+    "score": 0.531,
+    "fsq_id": "512a3ecfe4b0173cfb6c90e4",
+    "name": "Suda rotishop Kwatta",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "red-century-party-shop-lelydorp": {
+    "matched": true,
+    "score": 0.538,
+    "fsq_id": "4ef2546d46901f707f7d911b",
+    "name": "Golden Wings Lelydorp",
+    "address": "Lelydorp, Distrikt Wanica",
+    "city": "Lelydorp",
+    "phone": null,
+    "website": null
+  },
+  "red-century-party-shop-north": {
+    "matched": false,
+    "score": 0.375,
+    "fsq_id": "4c1ff7c78b3aa593994e9e5f",
+    "name": "Tulip (Unbeatable Shopping Pleasure)",
+    "address": "Tourtonnelaan 131, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "red-century-party-shop-zorg-en-hoop": {
+    "matched": false,
+    "score": 0.351,
+    "fsq_id": "4d0f63d5b765224b9269e432",
+    "name": "Paramaribo Zorg en Hoop Airport (ORG) (Vliegveld Zorg en Hoop)",
+    "address": "Doekhieweg Oost, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "remy-vastgoed": {
+    "matched": false,
+    "score": 0.255,
+    "fsq_id": "4e9503f0b803b9521a71e1cd",
+    "name": "Grote Hal Expo Remy Jungerman & Kurt Nahar",
+    "address": "Grote Combeweg 40, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "republic-bank-head-office": {
+    "matched": false,
+    "score": 0.41,
+    "fsq_id": "4f2ffaa8e4b0c1a81b5e31b2",
+    "name": "RBC Royal Bank",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "republic-bank-jozef-israelstraat": {
+    "matched": false,
+    "score": 0.405,
+    "fsq_id": "512745f5e4b07724f829c602",
+    "name": "Republic of Suriname | Republiek Suriname (Suriname)",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "republic-bank-kernkampweg": {
+    "matched": true,
+    "score": 0.784,
+    "fsq_id": "5208f32911d272bd65203682",
+    "name": "RBC Royal Bank Kernkampweg",
+    "address": "Kernkampweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "republic-bank-nickerie": {
+    "matched": false,
+    "score": 0.452,
+    "fsq_id": "4ee76349775ba356e07f5592",
+    "name": "RBTT Bank",
+    "address": "Kernkampweg",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "republic-bank-vant-hogerhuysstraat": {
+    "matched": true,
+    "score": 0.8,
+    "fsq_id": "5755b7f9498e9fd59d5b6227",
+    "name": "Republic Bank Ltd",
+    "address": "Heeren Straat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "republic-bank-zorg-en-hoop": {
+    "matched": false,
+    "score": 0.4,
+    "fsq_id": "4f2ffaa8e4b0c1a81b5e31b2",
+    "name": "RBC Royal Bank",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "residence-inn-nickerie": {
+    "matched": true,
+    "score": 0.978,
+    "fsq_id": "4e9dec0f7ee5829532da32f7",
+    "name": "Resiidence Inn Nickerie",
+    "address": "Westkanaalstraat, Nieuw Nickerie, Distrikt Nickerie",
+    "city": "Nieuw Nickerie",
+    "phone": null,
+    "website": null
+  },
+  "residence-inn-paramaribo": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4ddfa11818388714bb6c3f89",
+    "name": "Residence Inn Paramaribo",
+    "address": "Anton Drachtenweg 7, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "421-414",
+    "website": "http://www.resinn.com"
+  },
+  "resourceful-real-estate-construction": {
+    "matched": false
+  },
+  "restaurant-lhermitage": {
+    "matched": true,
+    "score": 0.977,
+    "fsq_id": "5f2f34e8f802d201a59ea59c",
+    "name": "Restaurant L’Hermitage",
+    "address": "Henkielaan 85 (Estreliastraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "899-9313",
+    "website": "https://www.hermitage.sr"
+  },
+  "restaurant-sarinah": {
+    "matched": false,
+    "score": 0.455,
+    "fsq_id": "4baa39fbf964a52056553ae3",
+    "name": "Sarinah Indisch Restaurant",
+    "address": "Verlengde Gemenelandsweg 187, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "restoran-bibit": {
+    "matched": true,
+    "score": 0.867,
+    "fsq_id": "645407f96fac1560b4d95944",
+    "name": "Restaurant Bibit",
+    "address": "Johannes S. Mungrastraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "ricos-a-gladiator-foodtruck": {
+    "matched": false,
+    "score": 0.305,
+    "fsq_id": "536b6b86498ee2572cb4e305",
+    "name": "Visan Autokeuringsstation (STKM)",
+    "address": "Kasabaholoweg, Uitvlucht, Distrikt Paramaribo",
+    "city": "Uitvlucht",
+    "phone": null,
+    "website": null
+  },
+  "rif-cleaning-service": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "66bb9b1bc5b3a04b001cfe54",
+    "name": "Ray's Banden Service And Carwash",
+    "address": "tweederijweg 123, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "858-0825",
+    "website": null
+  },
+  "ring-ring-imports": {
+    "matched": true,
+    "score": 0.606,
+    "fsq_id": "507ecfaee4b0643e8c3fe1da",
+    "name": "Grey mic imports",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "ritas-roti-shop": {
+    "matched": true,
+    "score": 0.968,
+    "fsq_id": "516ec033e4b0232f1999ff6a",
+    "name": "Rita's Roti Shop",
+    "address": "Mahonylaan 24, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "420-625",
+    "website": null
+  },
+  "rolines-de-waag": {
+    "matched": false,
+    "score": 0.4,
+    "fsq_id": "4ef5520449010be35f3b5f1a",
+    "name": "Asia de Su",
+    "address": "Sommelsdijkstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "722-9900",
+    "website": "http://asiadesu.com"
+  },
+  "roopram-roti-shop": {
+    "matched": true,
+    "score": 0.828,
+    "fsq_id": "4e40322f483b04e17ab9258f",
+    "name": "Roopram Roti",
+    "address": "Zwartenhovenbrugstraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "ross-rental-cars": {
+    "matched": true,
+    "score": 0.71,
+    "fsq_id": "6667996eec95060364cdc54c",
+    "name": "ross car rental",
+    "address": "Kwattaweg (Laam Van Louisehof), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "rossignol-2go-kwattaweg": {
+    "matched": true,
+    "score": 0.609,
+    "fsq_id": "4efdfa01f9abd5b38ebe69f8",
+    "name": "Rossignol Groentenmarkt",
+    "address": "Kristalstraat (Jozef Israelstraat)",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "rossignol-2go-thurkowstraat": {
+    "matched": true,
+    "score": 0.64,
+    "fsq_id": "4efdfa01f9abd5b38ebe69f8",
+    "name": "Rossignol Groentenmarkt",
+    "address": "Kristalstraat (Jozef Israelstraat)",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "rossignol-coppename": {
+    "matched": true,
+    "score": 0.667,
+    "fsq_id": "4efdfa01f9abd5b38ebe69f8",
+    "name": "Rossignol Groentenmarkt",
+    "address": "Kristalstraat (Jozef Israelstraat)",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "rossignol-geyersvlijt": {
+    "matched": true,
+    "score": 0.688,
+    "fsq_id": "51a63849498e3321bfb94731",
+    "name": "Geyersvlijt",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "rossignol-linda": {
+    "matched": true,
+    "score": 0.75,
+    "fsq_id": "56c8fd96cd106132b61938d9",
+    "name": "Rossignol Delight",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "rossignol-waaldijkstraat": {
+    "matched": true,
+    "score": 0.553,
+    "fsq_id": "4efdfa01f9abd5b38ebe69f8",
+    "name": "Rossignol Groentenmarkt",
+    "address": "Kristalstraat (Jozef Israelstraat)",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "royal-tours-suriname-guyana": {
+    "matched": true,
+    "score": 0.519,
+    "fsq_id": "4f2fe360e4b05991518b0057",
+    "name": "Centrale Markt van Suriname",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "safety-first-quality-always": {
+    "matched": false,
+    "score": 0.465,
+    "fsq_id": "665766b991e55e6e0c0a12b8",
+    "name": "Fly Always Cargo",
+    "address": "Doekhieweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "sakura": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "648f84f99c337c344ea6a42d",
+    "name": "Sakura",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "samba-cafe": {
+    "matched": false,
+    "score": 0.467,
+    "fsq_id": "4bf3f4693f86c9b644a7b21c",
+    "name": "Sidewalk Cafe 't Vat",
+    "address": "Kleine Waterstraat 1, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "sanousch-books": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4cbaf3d743ec6dcb3398a731",
+    "name": "Sanousch Books",
+    "address": "Mahonylaan 67",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "saras-brunch-cafe": {
+    "matched": false,
+    "score": 0.378,
+    "fsq_id": "4bf3f4693f86c9b644a7b21c",
+    "name": "Sidewalk Cafe 't Vat",
+    "address": "Kleine Waterstraat 1, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "sash-fashion-hermitage-mall": {
+    "matched": true,
+    "score": 0.683,
+    "fsq_id": "4d7ba6c06152b60c477c8226",
+    "name": "Hermitage Mall",
+    "address": "Lala Rookhweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://hermitage-mall.com"
+  },
+  "satyam-holidays": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "59245ecb2aff3136ee10712e",
+    "name": "Satyam holidays",
+    "address": "Distrito de Paramaribo",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "savage-den": {
+    "matched": false,
+    "score": 0.353,
+    "fsq_id": "51f576e2498ebb38307593b3",
+    "name": "Dentist",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "savannah-casino-hotel": {
+    "matched": true,
+    "score": 0.727,
+    "fsq_id": "56e53b22498e6c252b034e9a",
+    "name": "Atlantis casino & hotel",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "scene-beauty-salon": {
+    "matched": true,
+    "score": 0.632,
+    "fsq_id": "4ef237df775bf265c3b8e2a8",
+    "name": "Beauty Salon Gaitrie",
+    "address": "Kwatta",
+    "city": "Kwatta",
+    "phone": null,
+    "website": null
+  },
+  "secas": {
+    "matched": false
+  },
+  "sendang-redjo": {
+    "matched": false
+  },
+  "shimmery-beauty-lounge": {
+    "matched": true,
+    "score": 0.571,
+    "fsq_id": "4ef237df775bf265c3b8e2a8",
+    "name": "Beauty Salon Gaitrie",
+    "address": "Kwatta",
+    "city": "Kwatta",
+    "phone": null,
+    "website": null
+  },
+  "shoebizz-ims": {
+    "matched": true,
+    "score": 0.8,
+    "fsq_id": "5016d413e4b07ac9f2f612c6",
+    "name": "Shoebizz",
+    "address": "Hermitage Mall",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "sizzler-midnight-grill": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "5d2d2c803fffb40025781098",
+    "name": "Sizzler Midnight Grill",
+    "address": "Distrikt Paramaribo",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "sizzlers-signature": {
+    "matched": false,
+    "score": 0.474,
+    "fsq_id": "67524d647c0bc963489098d2",
+    "name": "Signature by Sizzler",
+    "address": "Johannes S. Mungrastraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "slagerij-abbas": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "51bf5031498e9a4f4fd2f610",
+    "name": "Slagerij Abbas",
+    "address": "Zonnebloemstraat (Goudenregenstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "432-233",
+    "website": null
+  },
+  "slagerij-asruf": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "645f99d4fc8a6022494b86a0",
+    "name": "Slagerij Asruf",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "slagerij-stolk": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "5b62fcc1e96d0c002c609435",
+    "name": "Slagerij STOLK",
+    "address": "Anamoestraat, Distrikt Paramaribo",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "sleepstore-suriname": {
+    "matched": true,
+    "score": 0.549,
+    "fsq_id": "4f398595e4b0e313d5b95766",
+    "name": "Cultureel Centrum Suriname (CCS)",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "smart-connexxionz": {
+    "matched": true,
+    "score": 0.938,
+    "fsq_id": "60f95eeade2fdf1c6256f82a",
+    "name": "Smart Conexxion",
+    "address": "Distrikt Paramaribo",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "soengngie-mega-store": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "5210e91d498e63017a7dbed9",
+    "name": "Soeng Ngie Sunday Chinese Market",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "soengngie-oriental-market": {
+    "matched": true,
+    "score": 0.943,
+    "fsq_id": "4f37d8b5e4b01139d628d9ca",
+    "name": "Soeng Ngie's Oriental market",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "south-america-hot-pot": {
+    "matched": true,
+    "score": 0.952,
+    "fsq_id": "5c561262b37e2b002ca588c9",
+    "name": "South American Hotpot",
+    "address": "Gompertstraat, Distrikt Paramaribo",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "southern-commercial-bank": {
+    "matched": true,
+    "score": 0.906,
+    "fsq_id": "549f4831498e683bd47767f6",
+    "name": "southern commercial bank",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "spice-quest": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4c253bc5c11dc9b62ee02624",
+    "name": "Spice Quest",
+    "address": "Dr. J. F. Nassylaan, 107, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "squeaky-clean": {
+    "matched": false,
+    "score": 0.471,
+    "fsq_id": "52b46530498e5513d09e0212",
+    "name": "Jamila's Dry Cleaning",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "squeezy-hot-pot-restaurant": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "5209576611d289861d1a46cc",
+    "name": "Squeezy Hot Pot Restaurant",
+    "address": "Plutostraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "sranan-fowru": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "5a229f8a1c0b34450eecf13f",
+    "name": "Sranan fowru",
+    "address": "Gijsbertusstraat, Distrikt Paramaribo",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "sranan-fowru-boni": {
+    "matched": true,
+    "score": 0.828,
+    "fsq_id": "5a229f8a1c0b34450eecf13f",
+    "name": "Sranan fowru",
+    "address": "Gijsbertusstraat, Distrikt Paramaribo",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "sranan-fowru-combe": {
+    "matched": true,
+    "score": 0.743,
+    "fsq_id": "51170eb7e4b0e74f56c453d1",
+    "name": "SRANAN FOWRU N.V.",
+    "address": "Sranan Fowroeweg No 41 (De Craneweg), Lelydorp, Distrikt Wanica",
+    "city": "Lelydorp",
+    "phone": "367-788",
+    "website": null
+  },
+  "sranan-fowru-flu": {
+    "matched": true,
+    "score": 0.857,
+    "fsq_id": "5a229f8a1c0b34450eecf13f",
+    "name": "Sranan fowru",
+    "address": "Gijsbertusstraat, Distrikt Paramaribo",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "sranan-fowru-leiding": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "51a09f68498eab4b3a56efd8",
+    "name": "Sranan Fowru Leiding",
+    "address": "Commissarisweg 200",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "sranan-fowru-lelydorp": {
+    "matched": true,
+    "score": 0.78,
+    "fsq_id": "51a09f68498eab4b3a56efd8",
+    "name": "Sranan Fowru Leiding",
+    "address": "Commissarisweg 200",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "sranan-fowru-meursweg": {
+    "matched": true,
+    "score": 0.732,
+    "fsq_id": "51a09f68498eab4b3a56efd8",
+    "name": "Sranan Fowru Leiding",
+    "address": "Commissarisweg 200",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "sranan-fowru-tabiki-fowru": {
+    "matched": false,
+    "score": 0.474,
+    "fsq_id": "50a529b4e4b0f94ae6ce4e33",
+    "name": "Sranan alesie",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "sranan-fowru-tourtonne": {
+    "matched": false,
+    "score": 0.457,
+    "fsq_id": "50a529b4e4b0f94ae6ce4e33",
+    "name": "Sranan alesie",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "sranan-fowru-zinnia": {
+    "matched": true,
+    "score": 0.778,
+    "fsq_id": "51170eb7e4b0e74f56c453d1",
+    "name": "SRANAN FOWRU N.V.",
+    "address": "Sranan Fowroeweg No 41 (De Craneweg), Lelydorp, Distrikt Wanica",
+    "city": "Lelydorp",
+    "phone": "367-788",
+    "website": null
+  },
+  "steps-domineestraat": {
+    "matched": true,
+    "score": 0.974,
+    "fsq_id": "4f105870e4b0aabf168591c8",
+    "name": "Steps Dominee Straat",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "",
+    "website": null
+  },
+  "steps-hermitage-mall": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "52b43d55498ecc2e657e32e3",
+    "name": "Steps Hermitage Mall",
+    "address": "Hermitage Mall",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "steps-noord": {
+    "matched": true,
+    "score": 0.609,
+    "fsq_id": "51acdade498e042d27a32936",
+    "name": "Subway Noord",
+    "address": "Jozef Israelstraat (Jacques D. Gompertstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "steps-wanica": {
+    "matched": true,
+    "score": 0.522,
+    "fsq_id": "4dbd3df2fa8cee727361cab5",
+    "name": "Wanica Kerk",
+    "address": "Wanicastraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "sthephany-skincare": {
+    "matched": false
+  },
+  "stichting-surinaams-museum": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "52b5a03e498e8799f7cd13dc",
+    "name": "Stichting Jeugd Tandverzorging",
+    "address": "Prof. W. Kernkampweg 3, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "440-381",
+    "website": null
+  },
+  "store4u": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "644bc7798e5bd2381d62f6e4",
+    "name": "Store4U",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "subway": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4f5163abe4b0776d6380dc28",
+    "name": "Subway",
+    "address": "Lalla Rookweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "810-1414",
+    "website": null
+  },
+  "subway-2": {
+    "matched": true,
+    "score": 0.75,
+    "fsq_id": "4f5163abe4b0776d6380dc28",
+    "name": "Subway",
+    "address": "Lalla Rookweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "810-1414",
+    "website": null
+  },
+  "subway-3": {
+    "matched": true,
+    "score": 0.75,
+    "fsq_id": "4f5163abe4b0776d6380dc28",
+    "name": "Subway",
+    "address": "Lalla Rookweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "810-1414",
+    "website": null
+  },
+  "sugar": {
+    "matched": false
+  },
+  "sun-ice": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "501fa8f7e4b0abe610c7a180",
+    "name": "Sun Ice",
+    "address": "Wanicastraat/weidestraat",
+    "city": null,
+    "phone": "412-187",
+    "website": null
+  },
+  "supply-solutions-limited-suriname": {
+    "matched": false,
+    "score": 0.433,
+    "fsq_id": "4f2fe360e4b05991518b0057",
+    "name": "Centrale Markt van Suriname",
+    "address": null,
+    "city": null,
+    "phone": "",
+    "website": null
+  },
+  "suran-adventures-tours-travel": {
+    "matched": false,
+    "score": 0.348,
+    "fsq_id": "4dbc374b1e72b351caac7e40",
+    "name": "Rens & Omgeving",
+    "address": "Florinestraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "surgoed-makelaardij": {
+    "matched": true,
+    "score": 0.538,
+    "fsq_id": "61c4c0ba643b1d1999035ff9",
+    "name": "SurGoed",
+    "address": "Keizer St 112, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "surinaamsche-waterleiding-maatschappij": {
+    "matched": true,
+    "score": 0.758,
+    "fsq_id": "5666b13b498ee50776d0cc0b",
+    "name": "surinaamse olie maatschappij",
+    "address": "Winston Churchillweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "suriname-princess-casino": {
+    "matched": false,
+    "score": 0.447,
+    "fsq_id": "512745f5e4b07724f829c602",
+    "name": "Republic of Suriname | Republiek Suriname (Suriname)",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "sweet-tooth-pastries": {
+    "matched": false,
+    "score": 0.474,
+    "fsq_id": "5a2817f89fca5665c9e97e6d",
+    "name": "The Sweetest thing",
+    "address": "J.A. Pengelstraat 112 (Verlengde Hoogestraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "883-4483",
+    "website": null
+  },
+  "sweetheart-hermitage-mall": {
+    "matched": true,
+    "score": 0.766,
+    "fsq_id": "51f2b2b1498eb40d455118a0",
+    "name": "Shana (Hermitage Mall)",
+    "address": "Lallarookhweg",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "sweetheart-ims": {
+    "matched": true,
+    "score": 0.88,
+    "fsq_id": "50cb8398e4b05e3eeed62fe3",
+    "name": "Sweethearts",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "sweetie-coffee": {
+    "matched": true,
+    "score": 0.609,
+    "fsq_id": "57351176498e902956520c21",
+    "name": "CY Coffee",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "talula": {
+    "matched": false
+  },
+  "tapauku-terras": {
+    "matched": true,
+    "score": 0.69,
+    "fsq_id": "5365188a498ea7722aef4fbd",
+    "name": "Spanhoek terras",
+    "address": "Keizerstraat (Domineestraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "tastelicious": {
+    "matched": false
+  },
+  "tasty-fresh-food-coffee-bar": {
+    "matched": false,
+    "score": 0.468,
+    "fsq_id": "4ec6797ee5fa232a73ea9c11",
+    "name": "Rituals Coffee House",
+    "address": "Domineestraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "475-050",
+    "website": "http://www.kersten.sr/nl/rituals-coffee-house/"
+  },
+  "tbl-cinemas": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4e2d915e14955dbf7aefcb38",
+    "name": "TBL Cinemas",
+    "address": "Lala Rookhweg 79, Para Maribo, Para Maribo",
+    "city": "Para Maribo",
+    "phone": "463-737",
+    "website": "http://www.tblcinemas.com"
+  },
+  "teasee": {
+    "matched": false
+  },
+  "telesur-centrum": {
+    "matched": true,
+    "score": 0.938,
+    "fsq_id": "4c34961f213c2d7fceae385d",
+    "name": "Telesur Centrum I",
+    "address": "Heiligenweg 1, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://www.telesur.sr"
+  },
+  "telesur-latour": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "524f2f2f498ed95bd602bfac",
+    "name": "Telesur Latour",
+    "address": "Latourweg",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "telesur-lelydorp": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4f68fc23e4b06b7f6ddfa3b8",
+    "name": "Telesur Lelydorp",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "telesur-nickerie": {
+    "matched": true,
+    "score": 0.55,
+    "fsq_id": "50736440e4b05243a9a92830",
+    "name": "Telesur Zonnebloemstraat",
+    "address": "Zonnebloemstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "telesur-noord": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4f106ce8e4b0b827c62d5d0d",
+    "name": "Telesur noord",
+    "address": "Kristalstraat (Jozefisraelstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "",
+    "website": null
+  },
+  "telesur-zonnebloemstraat": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "50736440e4b05243a9a92830",
+    "name": "Telesur Zonnebloemstraat",
+    "address": "Zonnebloemstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "the-aerial-yoga-studio": {
+    "matched": true,
+    "score": 0.585,
+    "fsq_id": "4ea947b3a17cae106bcf4c0a",
+    "name": "Helio Phoeli Studio",
+    "address": "Kwattaweg, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "the-bakery-house": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "4ec6797ee5fa232a73ea9c11",
+    "name": "Rituals Coffee House",
+    "address": "Domineestraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "475-050",
+    "website": "http://www.kersten.sr/nl/rituals-coffee-house/"
+  },
+  "the-basement-barbershop": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "51d654de498ec834ffdecc03",
+    "name": "The Basement Barbershop",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "the-beauty-bar-north": {
+    "matched": false,
+    "score": 0.467,
+    "fsq_id": "4f8894d3e4b057e27fb830e7",
+    "name": "The Garden",
+    "address": "Kleine Waterstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "474-979",
+    "website": "http://eventsinsuriname.com"
+  },
+  "the-beauty-bar-south": {
+    "matched": false,
+    "score": 0.4,
+    "fsq_id": "4f8894d3e4b057e27fb830e7",
+    "name": "The Garden",
+    "address": "Kleine Waterstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "474-979",
+    "website": "http://eventsinsuriname.com"
+  },
+  "the-coffee-box-north": {
+    "matched": true,
+    "score": 0.824,
+    "fsq_id": "5b2922ad0663320028971818",
+    "name": "the coffee box",
+    "address": "Lalla Rookhweg 22, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "the-coffee-hobbyist": {
+    "matched": true,
+    "score": 0.615,
+    "fsq_id": "4ec6797ee5fa232a73ea9c11",
+    "name": "Rituals Coffee House",
+    "address": "Domineestraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "475-050",
+    "website": "http://www.kersten.sr/nl/rituals-coffee-house/"
+  },
+  "the-girl-house": {
+    "matched": true,
+    "score": 0.759,
+    "fsq_id": "56e6f9ce498ea3be4b66e596",
+    "name": "The White House",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "the-laundry-spot": {
+    "matched": false,
+    "score": 0.462,
+    "fsq_id": "4f8894d3e4b057e27fb830e7",
+    "name": "The Garden",
+    "address": "Kleine Waterstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "474-979",
+    "website": "http://eventsinsuriname.com"
+  },
+  "the-maillard-cafe": {
+    "matched": false,
+    "score": 0.432,
+    "fsq_id": "4bf3f4693f86c9b644a7b21c",
+    "name": "Sidewalk Cafe 't Vat",
+    "address": "Kleine Waterstraat 1, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "the-nail-house": {
+    "matched": true,
+    "score": 0.828,
+    "fsq_id": "5ca13d2b79f6c7002c7eaba4",
+    "name": "the nail lounge",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "the-old-garage": {
+    "matched": true,
+    "score": 0.667,
+    "fsq_id": "4f8894d3e4b057e27fb830e7",
+    "name": "The Garden",
+    "address": "Kleine Waterstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "474-979",
+    "website": "http://eventsinsuriname.com"
+  },
+  "the-perfume-spot": {
+    "matched": false,
+    "score": 0.452,
+    "fsq_id": "56e6f9ce498ea3be4b66e596",
+    "name": "The White House",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "the-rose-manor": {
+    "matched": true,
+    "score": 0.583,
+    "fsq_id": "4f8894d3e4b057e27fb830e7",
+    "name": "The Garden",
+    "address": "Kleine Waterstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "474-979",
+    "website": "http://eventsinsuriname.com"
+  },
+  "the-solution-property-management": {
+    "matched": false,
+    "score": 0.333,
+    "fsq_id": "4f8894d3e4b057e27fb830e7",
+    "name": "The Garden",
+    "address": "Kleine Waterstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "474-979",
+    "website": "http://eventsinsuriname.com"
+  },
+  "the-sweetest-thing": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "5a2817f89fca5665c9e97e6d",
+    "name": "The Sweetest thing",
+    "address": "J.A. Pengelstraat 112 (Verlengde Hoogestraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "883-4483",
+    "website": null
+  },
+  "the-warehouse-shop": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "4f8894d3e4b057e27fb830e7",
+    "name": "The Garden",
+    "address": "Kleine Waterstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "474-979",
+    "website": "http://eventsinsuriname.com"
+  },
+  "theater-thalia": {
+    "matched": true,
+    "score": 0.643,
+    "fsq_id": "4fbd9889e4b0571877b9086f",
+    "name": "Theater Unique",
+    "address": "Fred Derbystraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "three-little-beans": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "66f84e4d442549496dbc4ea7",
+    "name": "Three Little Beans",
+    "address": "Wilhelminastraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "tianyou-aquafun": {
+    "matched": false
+  },
+  "tipsy-bar-lounge": {
+    "matched": true,
+    "score": 0.533,
+    "fsq_id": "4db127f75da32cf2df563f35",
+    "name": "Havanna Lounge",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "tirzahs-patisserie": {
+    "matched": false
+  },
+  "tomahawk-outdoor-adventures": {
+    "matched": false,
+    "score": 0.488,
+    "fsq_id": "51d43599498e8230edeeea60",
+    "name": "Outdoor living",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "tomahawk-outdoor-adventures-hermitage-mall": {
+    "matched": false,
+    "score": 0.475,
+    "fsq_id": "50cf15f7e4b00d24b267ea92",
+    "name": "RBC ATM Hermitage Mall",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "tomahawk-outdoor-adventures-ims": {
+    "matched": false,
+    "score": 0.444,
+    "fsq_id": "507ddd93e4b0537449af0602",
+    "name": "Tomahawk Hermitage Mall",
+    "address": "Hermitage Mall, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "tomahawk-outdoor-adventures-lelydorp": {
+    "matched": false,
+    "score": 0.491,
+    "fsq_id": "4ef2546d46901f707f7d911b",
+    "name": "Golden Wings Lelydorp",
+    "address": "Lelydorp, Distrikt Wanica",
+    "city": "Lelydorp",
+    "phone": null,
+    "website": null
+  },
+  "topslager-stolk": {
+    "matched": true,
+    "score": 0.5,
+    "fsq_id": "5314e1e0e4b0e72a36d871e3",
+    "name": "Stolk",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "topsport": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "5088023fe4b06cc8e896f45e",
+    "name": "Topsport",
+    "address": "Zwartenhovenburgstraat",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "tori-oso": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4e6fd5311f6e4bc055c56046",
+    "name": "Tori Oso",
+    "address": "Fred Derbystraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "touch-of-heaven-wellness": {
+    "matched": true,
+    "score": 0.537,
+    "fsq_id": "572bd7e0498e7abe9ed08374",
+    "name": "House Of Pureness",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "tout-tout-petit": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "62176fd44905e4740a90dda8",
+    "name": "Tout Tout Petit",
+    "address": "52 Costerstraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "toys-n-more": {
+    "matched": false,
+    "score": 0.343,
+    "fsq_id": "5192a8c6498e65e4902e7df5",
+    "name": "Noordwijkweg en Omgeving",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "tranquil-at-mamba-republiek": {
+    "matched": false,
+    "score": 0.354,
+    "fsq_id": "512745f5e4b07724f829c602",
+    "name": "Republic of Suriname | Republiek Suriname (Suriname)",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "tranquil-massage": {
+    "matched": false,
+    "score": 0.486,
+    "fsq_id": "630fcace58fa8770d4b62840",
+    "name": "Percy Massage Therapy",
+    "address": "Mozartstraat 84 (Verdistraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "tropicana-hotel-casino-suriname": {
+    "matched": true,
+    "score": 0.842,
+    "fsq_id": "4f0e3424e4b0e45bde7b7dc6",
+    "name": "Tropicana Casino",
+    "address": "Saramaccastraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": "http://eventsinsuriname.com"
+  },
+  "tsw-group": {
+    "matched": true,
+    "score": 0.636,
+    "fsq_id": "5aaa6bc628374e69c6b186d0",
+    "name": "Baitali Group",
+    "address": "Duisburglaan",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "tucan-resort-and-spa": {
+    "matched": true,
+    "score": 0.558,
+    "fsq_id": "4b8d388ff964a52030ee32e3",
+    "name": "Torarica Eco Resort Inn",
+    "address": "Cornelis Jongbawstraat 16, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "tulip-supermarket": {
+    "matched": true,
+    "score": 0.875,
+    "fsq_id": "505f9a60e4b05548bdb452f1",
+    "name": "Top Supermarket",
+    "address": "Verl. Gemenelandsweg 141a, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "twins-pizza-burgers": {
+    "matched": true,
+    "score": 0.95,
+    "fsq_id": "57368633498eae435c39e47b",
+    "name": "Twins Pizza & Burgers",
+    "address": "Wilhelminastraat 79 (Rainville), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "452-222",
+    "website": null
+  },
+  "typing-nomad-nv": {
+    "matched": false,
+    "score": 0.462,
+    "fsq_id": "50f7d339e4b04db63e505b3e",
+    "name": "SEMC N.V.",
+    "address": "Kernkampweg 36, Distrikt Paramaribo",
+    "city": null,
+    "phone": "433-377",
+    "website": "http://semc.sr"
+  },
+  "u-s-bakery": {
+    "matched": false,
+    "score": 0.486,
+    "fsq_id": "4fd9ce34e4b02519010892e1",
+    "name": "Petisco Restaurant & Bakery",
+    "address": "Anamoestraat (Mozart St), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "450-423",
+    "website": "http://www.petsico.sr"
+  },
+  "uitkijk-riverlounge-cafe": {
+    "matched": false,
+    "score": 0.431,
+    "fsq_id": "54444022498e9fef3cd5267f",
+    "name": "Pannekoek & Poffertjes Cafe",
+    "address": "Sommelsdijkstraat #11, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": "422-914",
+    "website": null
+  },
+  "vcm-slagerij-centrum": {
+    "matched": false,
+    "score": 0.478,
+    "fsq_id": "509bb8bf498e3460e174bfa3",
+    "name": "Slagerij Stolk - Topslager",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "vcm-slagerij-johannes-mungrastraat": {
+    "matched": true,
+    "score": 0.781,
+    "fsq_id": "66e87b28ae3cf74fb1ebcfba",
+    "name": "Rock Oil Johannes Mungrastraat",
+    "address": "Johannes Mungrastraat, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "vcm-slagerij-verl-gemenelandsweg": {
+    "matched": true,
+    "score": 0.787,
+    "fsq_id": "50b4977ce4b01c792057ea0b",
+    "name": "Verlengde Gemenelandsweg",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "vifa-trading": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4fa4057fe4b08e1f87c53211",
+    "name": "Vifa Trading",
+    "address": "Agilalaan (Franchepanestraat)",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "villa-zapakara": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "52ff5af611d2a5ec55cc0eff",
+    "name": "villa zapakara",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "villas-paramaribo": {
+    "matched": true,
+    "score": 0.645,
+    "fsq_id": "4f994556e4b0fc88e792c74e",
+    "name": "Paramaribo Zoo",
+    "address": "Spathodealaan Road (Kanangalaanstraat), Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "vincent-supermarket": {
+    "matched": true,
+    "score": 0.757,
+    "fsq_id": "53baedd8498e559dcfa3a25b",
+    "name": "Unique Supermarket",
+    "address": "Gemenelandsweg 161, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "viva-mexico": {
+    "matched": false
+  },
+  "waldos-worldwide-travel-service": {
+    "matched": false,
+    "score": 0.439,
+    "fsq_id": "51b39012498e4e961d17e973",
+    "name": "Ara Travel",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "warung-resa-centrum": {
+    "matched": true,
+    "score": 0.514,
+    "fsq_id": "5318623b11d2e09af075b77c",
+    "name": "Warung \"De Roep\"",
+    "address": "Toevluchtweg #51",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "warung-soepy-ann": {
+    "matched": true,
+    "score": 0.733,
+    "fsq_id": "4f7e2e84e4b02164d8f1fc02",
+    "name": "Warung Le-Anne",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "welink-real-estate": {
+    "matched": false
+  },
+  "wing-hung-cake-shop": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "4f69adf4e4b0674565023cd2",
+    "name": "Wing Hung Cake Shop",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "wollys": {
+    "matched": true,
+    "score": 0.923,
+    "fsq_id": "4ea2d4679adff63439d12ab3",
+    "name": "Wolly's",
+    "address": null,
+    "city": null,
+    "phone": "401-214",
+    "website": "http://www.wollys.com"
+  },
+  "wollys-2": {
+    "matched": true,
+    "score": 0.8,
+    "fsq_id": "4ea2d4679adff63439d12ab3",
+    "name": "Wolly's",
+    "address": null,
+    "city": null,
+    "phone": "401-214",
+    "website": "http://www.wollys.com"
+  },
+  "wollys-3": {
+    "matched": true,
+    "score": 0.8,
+    "fsq_id": "4ea2d4679adff63439d12ab3",
+    "name": "Wolly's",
+    "address": null,
+    "city": null,
+    "phone": "401-214",
+    "website": "http://www.wollys.com"
+  },
+  "wow-plus": {
+    "matched": true,
+    "score": 0.545,
+    "fsq_id": "63befc3580ab084876fe85f5",
+    "name": "Wow Superstore",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "x-avenue": {
+    "matched": true,
+    "score": 0.933,
+    "fsq_id": "52af21e6498e61952e59b5a8",
+    "name": "xavenue",
+    "address": "Ringweg-zuid 57, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "ying-hao-beautyshop": {
+    "matched": false,
+    "score": 0.39,
+    "fsq_id": "4fa6aa0be4b01208fb94cc4c",
+    "name": "Xin Hao Clothing Store",
+    "address": "Coesewijne Straat (Suriname Straat)",
+    "city": null,
+    "phone": null,
+    "website": null
+  },
+  "yogh-hospitality": {
+    "matched": true,
+    "score": 0.692,
+    "fsq_id": "676f05d545d72b3769dc260c",
+    "name": "Yogh Hotel",
+    "address": "Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "yokohama-trading": {
+    "matched": true,
+    "score": 1.0,
+    "fsq_id": "543914ee498e0a33938140a0",
+    "name": "Yokohama Trading",
+    "address": "Saramaccastraat 13, Paramaribo, Distrikt Paramaribo",
+    "city": "Paramaribo",
+    "phone": null,
+    "website": null
+  },
+  "young-engineers": {
+    "matched": false
+  },
+  "zenobia-bottling-company": {
+    "matched": true,
+    "score": 0.727,
+    "fsq_id": "51825563498e2fac7ef3257b",
+    "name": "Fernandes Bottling Company N.V.",
+    "address": null,
+    "city": null,
+    "phone": null,
+    "website": "http://fernandesbottling.com"
+  }
+}
