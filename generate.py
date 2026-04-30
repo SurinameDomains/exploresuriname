@@ -3560,7 +3560,11 @@ if __name__ == "__main__":
     print(f"  OK  {count} listing pages")
 
     with open("sitemap.xml", "w", encoding="utf-8") as f:
-        f.write(build_sitemap())
+        f.write(build_sitemap(
+            biz_slugs=list(_BIZ.keys()),
+            act_slugs=[_act_slug(a["name"]) for a in ACTIVITIES],
+            nat_slugs=[_nature_slug(s["name"]) for s in NATURE_SPOTS],
+        ))
     print("  OK  sitemap.xml")
 
     with open("robots.txt", "w", encoding="utf-8") as f:
