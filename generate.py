@@ -1899,6 +1899,7 @@ SUBCATS = {
     "adventure": [
         ("all",             "All",             "🌍"),
         ("tours-expeditions","Tours & Expeditions","🧭"),
+        ("eco-lodges",      "Eco & River Lodges","🌿"),
         ("nature-parks",    "Nature & Parks",  "🦜"),
         ("museums-heritage","Museums & Heritage","🏛️"),
         ("entertainment",   "Entertainment",   "🎭"),
@@ -1909,6 +1910,7 @@ SUBCATS = {
         ("nature-parks",    "Nature & Parks",  "🌿"),
         ("entertainment",   "Entertainment",   "🎭"),
         ("tours-expeditions","Tours",          "🧭"),
+        ("other",           "Other",           "🔧"),
     ],
     "shopping": [
         ("all",           "All",              "🛍️"),
@@ -3861,6 +3863,7 @@ if __name__ == "__main__":
             f.write(html)
         print(f"  OK  {fname}")
 
+
     os.makedirs("listing", exist_ok=True)
     count = 0
 
@@ -3868,38 +3871,33 @@ if __name__ == "__main__":
         b = _make_biz(slug)
         if not b:
             continue
-        d = f"listing/{slug}"
-        os.makedirs(d, exist_ok=True)
-        with open(f"{d}/index.html", "w", encoding="utf-8") as f:
-            f.write(build_listing_page(slug, b))
+        html = build_listing_page(slug, b)
+        out_dir = Path("listing") / slug
+        out_dir.mkdir(parents=True, exist_ok=True)
+        (out_dir / "index.html").write_text(html, encoding="utf-8")
         count += 1
 
-    for act in ACTIVITIES:
-        act_slug = _act_slug(act["name"])
-        d = f"listing/{act_slug}"
-        os.makedirs(d, exist_ok=True)
-        with open(f"{d}/index.html", "w", encoding="utf-8") as f:
-            f.write(build_activity_listing_page(act, act_slug))
-        count += 1
-
+    # Nature spots — separate builder
+    nat_slugs = []
     for spot in NATURE_SPOTS:
-        nat_slug = _nature_slug(spot["name"])
-        d = f"listing/{nat_slug}"
-        os.makedirs(d, exist_ok=True)
-        with open(f"{d}/index.html", "w", encoding="utf-8") as f:
-            f.write(build_nature_listing_page(spot, nat_slug))
+        slug = _nature_slug(spot["name"])
+        nat_slugs.append(slug)
+        html = build_nature_listing_page(spot, slug)
+        out_dir = Path("listing") / slug
+        out_dir.mkdir(parents=True, exist_ok=True)
+        (out_dir / "index.html").write_text(html, encoding="utf-8")
         count += 1
 
     print(f"  OK  {count} listing pages")
 
-    valid_biz_slugs = [slug for slug in _BIZ if _make_biz(slug)]
-    act_slugs_all   = [_act_slug(a["name"]) for a in ACTIVITIES]
-    nat_slugs_all   = [_nature_slug(s["name"]) for s in NATURE_SPOTS]
+    act_slugs = [b["slug"] for b in ADVENTURES_BIZ + SIGHTSEEING]
 
     with open("sitemap.xml", "w", encoding="utf-8") as f:
-        f.write(build_sitemap(valid_biz_slugs, act_slugs_all, nat_slugs_all))
-    print(f"  OK  sitemap.xml ({len(valid_biz_slugs) + len(act_slugs_all) + len(nat_slugs_all) + 9} URLs)")
+        f.write(build_sitemap(list(_BIZ.keys()), act_slugs, nat_slugs))
+    print("  OK  sitemap.xml")
 
     with open("robots.txt", "w", encoding="utf-8") as f:
         f.write(build_robots())
     print("  OK  robots.txt")
+
+    print(f"\nDone — {count} listing pages + {len(pages)} section pages.")
