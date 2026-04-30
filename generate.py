@@ -340,16 +340,16 @@ _IMGS = {
     "oxygen-resort":                  "https://oxygen-resort.com/wp-content/uploads/2022/07/slide-1.jpg",
     "royal-brasil-hotel":             "https://royalbrasilhotel.com/wp-content/uploads/2022/07/building-side-1.jpg",
     # Hotels: Unsplash fallbacks for those without accessible official photos
-    "courtyard-by-marriott":          "",
-    "eco-resort-miano":               "",
-    "holland-lodge":                  "",
+    "courtyard-by-marriott":          "https://cache.marriott.com/content/dam/marriott-renditions/PBMCY/pbmcy-pool-0043-hor-wide.jpg",
+    "eco-resort-miano":               "https://mianoecoresort.wordpress.com/wp-content/uploads/2025/09/05bab-1755531893645.jpg",
+    "holland-lodge":                  "https://www.hollandlodge.nl/wp-content/uploads/2020/07/Holland-1.jpg",
     "hotel-palacio":                  "https://irp.cdn-website.com/b0c3c22b/dms3rep/multi/Palacio-exterior-street.jpg",
     "torarica-resort":                "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/The_Torarica_-_Paramaribo%2C_Suriname.jpg/1280px-The_Torarica_-_Paramaribo%2C_Suriname.jpg",
     "royal-breeze-hotel-paramaribo":  "",
     "taman-indah-resort":             "",
     "tiny-house-tropical-appartment": "",
-    "waterland-suites":               "",
-    "zeelandia-suites":               "",
+    "waterland-suites":               "https://waterlandsuites.com/wp-content/uploads/2021/08/20210729_171148-1.jpg",
+    "zeelandia-suites":               "https://www.zeelandiasuites.sr/wp-content/uploads/2018/07/balcony-view.png",
     "the-golden-truly-hotel":         "",
     # ── Restaurants: official website photos ─────────────────────────────────
     "zus-zo-cafe":                    "https://www.zusenzosuriname.com/wp-content/uploads/2025/12/IMG_0310-scaled.jpeg",
@@ -361,11 +361,11 @@ _IMGS = {
     "bar-zuid":                       "",
     "bori-tori":                      "",
     "chi-min":                        "",
-    "de-spot":                        "",
+    "de-spot":                        "https://de-spot.com/media/frontpage/frontpage.jpg",
     "de-verdieping":                  "",
-    "el-patron-latin-grill":          "",
+    "el-patron-latin-grill":          "https://elpatronlatingrill.com/wp-content/uploads/2024/09/EPLG-1-scaled.jpg",
     "elines-pizza":                   "",
-    "hard-rock-cafe-suriname":        "",
+    "hard-rock-cafe-suriname":        "https://ims.sr/wp-content/uploads/2023/07/food-hard-rock.jpg",
     "joey-ds":                        "",
     "kasan-snacks":                   "",
     "las-tias":                       "",
@@ -394,14 +394,14 @@ _IMGS = {
     "unlimited-suriname-tours":       "https://unlimitedsuriname.com/wp-content/uploads/2025/04/d3621001-7e23-426f-9ff7-d5256c918cfd.jpg",
     "afobaka-resort":                 "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Brokopondo_Meer_Viewpiont_%284%29.jpg/1280px-Brokopondo_Meer_Viewpiont_%284%29.jpg",
     "akira-overwater-resort":         "https://www.akiraoverwaterresort.com/wp-content/uploads/2019/01/drone-foto-Akira-resort.jpg",
-    "tio-boto-eco-resort":            "",
+    "tio-boto-eco-resort":            "https://www.tioboto.com/wp-content/uploads/2019/02/TBE25-1840x1200.jpg",
     # ── Shopping: official photos ─────────────────────────────────────────────
     "hermitage-mall":                 "https://hermitage-mall.com/wp-content/uploads/2018/03/HermitageMall-building.jpg",
     "lilis":                          "https://cdn.shopify.com/s/files/1/0526/9137/0149/files/Bridal_2a85f0ad-2db8-4a8a-ac54-3e090625d4de.jpg",
     "suraniyat":                      "https://images.squarespace-cdn.com/content/v1/65207f08df58fe10d1fab14f/20be6ae2-e0a4-4f62-a609-dcb80ea7e0ef/IMG_0922.jpg",
     "readytex-souvenirs-and-crafts":  "https://www.readytexcrafts.com/wp-content/uploads/2021/03/sigaar.jpg",
     "kirpalani":                      "https://www.kirpalani.com/media/wysiwyg/2026/Subcatmaart2026/Electonica.webp",
-    "international-mall-of-suriname": "",
+    "international-mall-of-suriname": "https://ims.sr/wp-content/uploads/2025/08/IMG_7285.jpg",
     "papillon-crafts":                "",
     "woodwonders-suriname":           "",
     "switi-momenti-candles-crafts":   "",
@@ -444,7 +444,7 @@ _IMGS = {
     "bloom-wellness-cafe":            "",
     "dli-travel-consultancy":         "",
     "fatum":                          "",
-    "rich-skin":                      "",
+    "rich-skin":                      "https://richskinsu.com/wp-content/uploads/2025/03/Asset-2_5.png",
     "pinkmoon-suriname":              "",
     "the-house-of-beauty":            "",
     "the-waxing-booth":               "",
@@ -459,7 +459,7 @@ _IMGS = {
     "huub-explorer-tours":            "",
     "wayfinders-exclusive-n-v":       "",
     "recreatie-oord-carolina-kreek":  "",
-    "knini-paati":                    "",
+    "knini-paati":                    "https://www.knini-paati.com/wp-content/uploads/eco-vakantie-suriname.jpg",
 }
 
 _F = {
@@ -2125,6 +2125,22 @@ if __name__ == "__main__":
         d = f"listing/{nat_slug}"
         os.makedirs(d, exist_ok=True)
         with open(f"{d}/index.html", "w", encoding="utf-8") as f:
+            f.write(build_nature_listing_page(spot, nat_slug))
+        count += 1
+    print(f"  OK  {count} listing pages")
+
+    valid_biz_slugs = [slug for slug in _BIZ if _make_biz(slug)]
+    act_slugs_all   = [_act_slug(a["name"]) for a in ACTIVITIES]
+    nat_slugs_all   = [_nature_slug(s["name"]) for s in NATURE_SPOTS]
+
+    with open("sitemap.xml", "w", encoding="utf-8") as f:
+        f.write(build_sitemap(valid_biz_slugs, act_slugs_all, nat_slugs_all))
+    print(f"  OK  sitemap.xml ({len(valid_biz_slugs) + len(act_slugs_all) + len(nat_slugs_all) + 9} URLs)")
+
+    with open("robots.txt", "w", encoding="utf-8") as f:
+        f.write(build_robots())
+    print("  OK  robots.txt")
+"utf-8") as f:
             f.write(build_nature_listing_page(spot, nat_slug))
         count += 1
     print(f"  OK  {count} listing pages")
