@@ -2715,6 +2715,14 @@ def build_index(restaurants, hotels, news_preview):
       "@type": "Place",
       "name": "Suriname",
       "sameAs": "https://en.wikipedia.org/wiki/Suriname"
+    }},
+    "potentialAction": {{
+      "@type": "SearchAction",
+      "target": {{
+        "@type": "EntryPoint",
+        "urlTemplate": "{SITE_URL}/?s={{search_term_string}}"
+      }},
+      "query-input": "required name=search_term_string"
     }}
   }}
   </script>
