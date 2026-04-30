@@ -1495,19 +1495,22 @@ def _cat_back(category):
 # Slug → (schema_type, back_page, back_label) for JSON-LD & breadcrumbs
 def _slug_schema_info(slug):
     """Return (ld_type, category_page, category_label) for a business slug."""
-    rest_slugs = {b["slug"] for b in RESTAURANTS}
+    rest_slugs  = {b["slug"] for b in RESTAURANTS}
     hotel_slugs = {b["slug"] for b in HOTELS}
     shop_slugs  = {b["slug"] for b in SHOPPING}
     sight_slugs = {b["slug"] for b in SIGHTSEEING}
     adv_slugs   = {b["slug"] for b in ADVENTURES_BIZ}
+    svc_slugs   = {b["slug"] for b in SERVICES}
     if slug in rest_slugs:
-        return "FoodEstablishment", "restaurants.html", "Restaurants"
+        return "FoodEstablishment",  "restaurants.html", "Eat &amp; Drink"
     if slug in hotel_slugs:
-        return "LodgingBusiness", "hotels.html", "Hotels"
+        return "LodgingBusiness",    "hotels.html",      "Hotels &amp; Lodges"
     if slug in shop_slugs:
-        return "Store", "shopping.html", "Shopping"
+        return "Store",              "shopping.html",    "Shopping"
     if slug in sight_slugs or slug in adv_slugs:
-        return "TouristAttraction", "activities.html", "Activities"
+        return "TouristAttraction",  "activities.html",  "Adventures &amp; Sightseeing"
+    if slug in svc_slugs:
+        return "LocalBusiness",      "services.html",    "Services"
     return "LocalBusiness", "index.html", "Home"
 
 def build_listing_page(slug, b):
@@ -1536,7 +1539,8 @@ def build_listing_page(slug, b):
         loc_part = address or location or "Suriname"
         cat_part = (" · " + category) if category else ""
         desc_e = html_lib.escape(f"{raw_name} — {loc_part}{cat_part}. Find contact details, directions and more on ExploreSuriname.com.")[:160]
-    back_file, back_label = _cat_back(category)
+    # Use slug-based lookup (reliable) instead of category-text matching (error-prone)
+    _ld_type_tmp, back_file, back_label = _slug_schema_info(slug)
 
     page_url   = SITE_URL + "/listing/" + slug + "/"
     maps_q     = urllib.parse.quote(raw_name + ", " + (address or location + ", Suriname"))
@@ -1576,7 +1580,6 @@ def build_listing_page(slug, b):
     if osm_price:
         rows += row("💰", html_lib.escape(osm_price))
 
-    website_btn = ""
     if ext_url and "google.com/search" not in ext_url:
         website_btn = (
             '<a href="' + html_lib.escape(ext_url) + '" target="_blank" rel="noopener" '
@@ -1584,24 +1587,20 @@ def build_listing_page(slug, b):
             'text-sm font-semibold text-white hover:opacity-90 transition mb-3" '
             'style="background:var(--forest)">🌐 Visit Website</a>'
         )
+    else:
+        # No website — link to the Google Maps listing as a useful fallback
+        website_btn = (
+            '<a href="' + html_lib.escape(maps_link) + '" target="_blank" rel="noopener" '
+            'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
+            'text-sm font-semibold text-white hover:opacity-90 transition mb-3" '
+            'style="background:var(--forest)">📍 View on Google Maps</a>'
+        )
 
     directions_btn = (
         '<a href="' + html_lib.escape(maps_link) + '" target="_blank" rel="noopener" '
         'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
         'text-sm font-semibold border-2 hover:bg-gray-50 transition mb-3" '
         'style="border-color:var(--forest2);color:var(--forest2)">🗺️ Get Directions</a>'
-    )
-
-    # Google review deep-link: opens the Google Maps listing for this business
-    # Users who click and find the right listing can leave a review — those reviews
-    # accumulate as organic aggregateRating stars that Google shows in search results.
-    review_maps_q   = urllib.parse.quote(raw_name + " " + (address or location) + " Suriname")
-    review_link     = "https://www.google.com/maps/search/" + review_maps_q
-    google_review_btn = (
-        '<a href="' + review_link + '" target="_blank" rel="noopener" '
-        'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
-        'text-sm font-semibold border-2 hover:bg-gray-50 transition" '
-        'style="border-color:#fbbc04;color:#b06000">&#11088; Rate on Google</a>'
     )
 
     desc_block = ('<p class="text-gray-700 leading-relaxed text-base mb-8">'
@@ -1702,7 +1701,6 @@ def build_listing_page(slug, b):
         '\n        <div class="mt-6">'
         '\n          ' + website_btn +
         '\n          ' + directions_btn +
-        '\n          ' + google_review_btn +
         '\n        </div>'
         '\n      </div>'
         '\n    </div>'
