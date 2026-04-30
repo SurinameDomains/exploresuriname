@@ -45,6 +45,18 @@ if _fsq_path.exists():
     except Exception as _err:
         print(f"  Warning: could not load foursquare_cache.json — {_err}")
 
+# Load rich descriptions from exploresuriname_listings.json (keyed by slug)
+_JSON_DESCS: dict = {}
+_jd_path = Path(__file__).parent / "exploresuriname_listings.json"
+if _jd_path.exists():
+    try:
+        for _e in json.loads(_jd_path.read_text(encoding="utf-8")):
+            if _e.get("slug") and _e.get("description", "").strip():
+                _JSON_DESCS[_e["slug"]] = _e["description"].strip()
+        print(f"  Loaded {len(_JSON_DESCS)} rich descriptions from exploresuriname_listings.json")
+    except Exception as _err:
+        print(f"  Warning: could not load listing descriptions — {_err}")
+
 FEEDS = [
     {"name": "De Ware Tijd", "url": "https://www.dwtonline.com/feed/",              "color": "#2D6A4F"},
     {"name": "Starnieuws",   "url": "https://www.starnieuws.com/rss/starnieuws.rss","color": "#B40A2D"},
@@ -2650,10 +2662,21 @@ def build_index(restaurants, hotels, news_preview):
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Explore Suriname",
+    "alternateName": "ExploreSuriname.com",
     "url": "{SITE_URL}/",
-    "logo": "{SITE_URL}/og-image.jpg",
+    "logo": {{
+      "@type": "ImageObject",
+      "url": "{SITE_URL}/og-image.jpg",
+      "width": 1200,
+      "height": 630
+    }},
     "description": "Your complete travel and lifestyle guide to Suriname — hotels, restaurants, nature, activities and live SRD exchange rates.",
-    "sameAs": []
+    "areaServed": {{
+      "@type": "Country",
+      "name": "Suriname",
+      "sameAs": "https://en.wikipedia.org/wiki/Suriname"
+    }},
+    "knowsAbout": ["Suriname", "Paramaribo", "Travel", "Restaurants", "Hotels", "Tourism"]
   }}
   </script>
   <script type="application/ld+json">
@@ -2661,16 +2684,14 @@ def build_index(restaurants, hotels, news_preview):
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Explore Suriname",
+    "alternateName": "ExploreSuriname.com",
     "url": "{SITE_URL}/",
     "description": "Your complete travel and lifestyle guide to Suriname — hotels, restaurants, nature, activities and live SRD exchange rates.",
     "inLanguage": "en",
-    "potentialAction": {{
-      "@type": "SearchAction",
-      "target": {{
-        "@type": "EntryPoint",
-        "urlTemplate": "{SITE_URL}/restaurants.html"
-      }},
-      "query-input": "required name=search_term_string"
+    "about": {{
+      "@type": "Place",
+      "name": "Suriname",
+      "sameAs": "https://en.wikipedia.org/wiki/Suriname"
     }}
   }}
   </script>
@@ -3115,6 +3136,50 @@ def _slug_schema_info(slug):
         return "LocalBusiness",      "services.html",    "Services"
     return "LocalBusiness", "index.html", "Home"
 
+
+# Subcategory → (refined schema.org @type, servesCuisine or None)
+# More specific types unlock Google rich result eligibility
+_SUBCAT_SCHEMA = {
+    "fast-food":            ("FastFoodRestaurant",        "Fast Food"),
+    "cafes-coffee":         ("CafeOrCoffeeShop",          None),
+    "bars-lounges":         ("BarOrPub",                  None),
+    "asian-fusion":         ("Restaurant",                "Asian, International"),
+    "local-caribbean":      ("Restaurant",                "Surinamese, Caribbean"),
+    "bakeries-sweets":      ("Bakery",                    None),
+    "pizza-italian":        ("Restaurant",                "Italian, Pizza"),
+    "eco-lodges":           ("LodgingBusiness",           None),
+    "casino-hotels":        ("Hotel",                     None),
+    "guesthouses":          ("BedAndBreakfast",           None),
+    "tours-expeditions":    ("TravelAgency",              None),
+    "museums-heritage":     ("Museum",                    None),
+    "entertainment":        ("EntertainmentBusiness",     None),
+    "nature-parks":         ("Park",                      None),
+    "supermarkets":         ("GroceryStore",              None),
+    "malls-markets":        ("ShoppingCenter",            None),
+    "fashion-clothing":     ("ClothingStore",             None),
+    "electronics":          ("ElectronicsStore",          None),
+    "home-furniture":       ("FurnitureStore",            None),
+    "optical-jewelry":      ("JewelryStore",              None),
+    "food-specialty":       ("Store",                     None),
+    "banking":              ("BankOrCreditUnion",         None),
+    "insurance":            ("InsuranceAgency",           None),
+    "health-pharmacy":      ("Pharmacy",                  None),
+    "telecom-utilities":    ("LocalBusiness",             None),
+    "education":            ("EducationalOrganization",   None),
+    "fitness-wellness":     ("SportsActivityLocation",    None),
+    "beauty-wellness":      ("BeautySalon",               None),
+    "real-estate":          ("RealEstateAgent",           None),
+    "cleaning-maintenance": ("LocalBusiness",             None),
+    "security":             ("LocalBusiness",             None),
+    "travel-transport":     ("TravelAgency",              None),
+    "tech-media":           ("LocalBusiness",             None),
+    "legal-professional":   ("LegalService",              None),
+    "automotive":           ("AutoRepair",                None),
+    "events-party":         ("EventVenue",                None),
+    "nursery-garden":       ("Store",                     None),
+    "other":                ("LocalBusiness",             None),
+}
+
 def build_listing_page(slug, b):
     raw_name = b.get("name", slug)
     desc     = b.get("description", "")
@@ -3135,12 +3200,63 @@ def build_listing_page(slug, b):
     osm_price  = _osm.get("price_range", "")
 
     name_e   = html_lib.escape(raw_name)
+    # Pull rich description from JSON cache if not stored in _BIZ
+    if not desc:
+        desc = _JSON_DESCS.get(slug, "")
     if desc:
         desc_e = html_lib.escape(desc[:155]) + ("…" if len(desc) > 155 else "")
     else:
-        loc_part = address or location or "Suriname"
-        cat_part = (" · " + category) if category else ""
-        desc_e = html_lib.escape(f"{raw_name} — {loc_part}{cat_part}. Find contact details, directions and more on ExploreSuriname.com.")[:160]
+        loc_part = location or "Paramaribo"
+        sub = _subcat(slug)
+        _SUBCAT_LABELS = {
+            # Eat & Drink
+            "fast-food":           "fast food restaurant",
+            "cafes-coffee":        "café & coffee shop",
+            "bars-lounges":        "bar & lounge",
+            "asian-fusion":        "Asian restaurant",
+            "local-caribbean":     "local Surinamese restaurant",
+            "bakeries-sweets":     "bakery & pastry shop",
+            "pizza-italian":       "pizza & Italian restaurant",
+            # Hotels
+            "eco-lodges":          "eco lodge & nature resort",
+            "casino-hotels":       "casino hotel",
+            "guesthouses":         "guesthouse & villa",
+            # Activities
+            "tours-expeditions":   "tour & expedition operator",
+            "museums-heritage":    "museum & heritage site",
+            "entertainment":       "entertainment venue",
+            "nature-parks":        "nature park & wildlife reserve",
+            # Shopping
+            "supermarkets":        "supermarket",
+            "malls-markets":       "shopping mall & market",
+            "fashion-clothing":    "fashion & clothing store",
+            "electronics":         "electronics & tech store",
+            "home-furniture":      "home & furniture store",
+            "optical-jewelry":     "optician & jewellery",
+            "food-specialty":      "specialty food & pharmacy",
+            # Services — must match _subcat() return values exactly
+            "banking":             "bank & financial services",
+            "insurance":           "insurance company",
+            "fitness-wellness":    "fitness & wellness center",
+            "beauty-wellness":     "beauty salon & wellness",
+            "health-pharmacy":     "pharmacy & health services",
+            "telecom-utilities":   "telecom & utility provider",
+            "real-estate":         "real estate agency",
+            "education":           "school & educational institution",
+            "travel-transport":    "travel & transport services",
+            "tech-media":          "tech & media company",
+            "cleaning-maintenance":"cleaning & maintenance services",
+            "automotive":          "automotive & car services",
+            "legal-professional":  "legal & professional services",
+            "events-party":        "events & party services",
+            "nursery-garden":      "nursery & garden center",
+            "security":            "security services",
+        }
+        biz_type = _SUBCAT_LABELS.get(sub, "business")
+        desc_e = html_lib.escape(
+            f"{raw_name} — {biz_type} in {loc_part}, Suriname. "
+            f"View location, contact info & more on ExploreSuriname.com."
+        )[:160]
     # Use slug-based lookup (reliable) instead of category-text matching (error-prone)
     _ld_type_tmp, back_file, back_label = _slug_schema_info(slug)
 
@@ -3212,9 +3328,33 @@ def build_listing_page(slug, b):
     import json as _json
     ld_type, cat_page, cat_label = _slug_schema_info(slug)
 
+    # Refine @type and cuisine using subcategory — unlocks more Google rich result types
+    _sub = _subcat(slug)
+    _sub_schema = _SUBCAT_SCHEMA.get(_sub)
+    if _sub_schema:
+        ld_type, _cuisine = _sub_schema
+    else:
+        _cuisine = None
+
+    # Build PostalAddress — include addressLocality so Google can surface the business location
+    _loc = location or "Paramaribo"
+    if address:
+        _postal = {
+            "@type": "PostalAddress",
+            "streetAddress": address,
+            "addressLocality": _loc,
+            "addressCountry": "SR",
+        }
+    else:
+        _postal = {
+            "@type": "PostalAddress",
+            "addressLocality": _loc,
+            "addressCountry": "SR",
+        }
+
     ld_obj = {"@context": "https://schema.org", "@type": ld_type, "name": raw_name, "url": page_url}
     if desc:      ld_obj["description"] = desc[:300]
-    if address:   ld_obj["address"] = {"@type": "PostalAddress", "streetAddress": address, "addressCountry": "SR"}
+    ld_obj["address"] = _postal
     if phone:     ld_obj["telephone"] = phone
     if email:     ld_obj["email"] = email
     if og_img != SITE_URL + "/og-image.jpg": ld_obj["image"] = og_img
@@ -3225,14 +3365,19 @@ def build_listing_page(slug, b):
         ld_obj["openingHours"] = [s.strip() for s in osm_hours.split(";") if s.strip()]
     if osm_price:
         ld_obj["priceRange"] = osm_price
+    if _cuisine:
+        ld_obj["servesCuisine"] = _cuisine
+    ld_obj["currenciesAccepted"] = "SRD"
 
+    # JSON-LD names must be plain text — unescape HTML entities from category labels
+    _cat_label_plain = cat_label.replace("&amp;", "&").replace("&#39;", "'").replace("&quot;", '"')
     breadcrumb_obj = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home",        "item": SITE_URL + "/"},
-            {"@type": "ListItem", "position": 2, "name": cat_label,     "item": SITE_URL + "/" + cat_page},
-            {"@type": "ListItem", "position": 3, "name": raw_name,      "item": page_url},
+            {"@type": "ListItem", "position": 1, "name": "Home",             "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": _cat_label_plain,   "item": SITE_URL + "/" + cat_page},
+            {"@type": "ListItem", "position": 3, "name": raw_name,           "item": page_url},
         ]
     }
 
@@ -3639,6 +3784,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
             f"    <priority>0.7</priority>\n"
             f"  </url>"
         )
+
     for slug in act_slugs:
         urls.append(
             f"  <url>\n"
@@ -3648,6 +3794,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
             f"    <priority>0.6</priority>\n"
             f"  </url>"
         )
+
     for slug in nat_slugs:
         urls.append(
             f"  <url>\n"
@@ -3667,24 +3814,19 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
 
 
 def build_robots():
-    return (
-        "User-agent: *\n"
-        "Allow: /\n"
-        f"Sitemap: {SITE_URL}/sitemap.xml\n"
-    )
+    """Return robots.txt content."""
+    return f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n"
 
-
-# -- Main ---------------------------------------------------------------------
 
 if __name__ == "__main__":
     print("ExploreSuriname generator starting...")
 
-    articles                            = fetch_articles()
+    articles = fetch_articles()
     cme_rates, cme_live, cme_updated    = fetch_cme_rates()
     cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
 
     pages = {
-        "index.html":       build_index(RESTAURANTS, HOTELS, articles[:6]),
+        "index.html":       build_index(RESTAURANTS, HOTELS, articles),
         "nature.html":      build_nature_page(),
         "activities.html":  build_activities_page(),
         "restaurants.html": build_restaurants_page(RESTAURANTS),
@@ -3695,6 +3837,7 @@ if __name__ == "__main__":
                                                 cbvs_rates, cbvs_live, cbvs_updated),
         "news.html":        build_news(articles),
     }
+
     for fname, html in pages.items():
         with open(fname, "w", encoding="utf-8") as f:
             f.write(html)
@@ -3702,6 +3845,7 @@ if __name__ == "__main__":
 
     os.makedirs("listing", exist_ok=True)
     count = 0
+
     for slug in _BIZ:
         b = _make_biz(slug)
         if not b:
@@ -3711,6 +3855,7 @@ if __name__ == "__main__":
         with open(f"{d}/index.html", "w", encoding="utf-8") as f:
             f.write(build_listing_page(slug, b))
         count += 1
+
     for act in ACTIVITIES:
         act_slug = _act_slug(act["name"])
         d = f"listing/{act_slug}"
@@ -3718,6 +3863,7 @@ if __name__ == "__main__":
         with open(f"{d}/index.html", "w", encoding="utf-8") as f:
             f.write(build_activity_listing_page(act, act_slug))
         count += 1
+
     for spot in NATURE_SPOTS:
         nat_slug = _nature_slug(spot["name"])
         d = f"listing/{nat_slug}"
@@ -3725,6 +3871,7 @@ if __name__ == "__main__":
         with open(f"{d}/index.html", "w", encoding="utf-8") as f:
             f.write(build_nature_listing_page(spot, nat_slug))
         count += 1
+
     print(f"  OK  {count} listing pages")
 
     valid_biz_slugs = [slug for slug in _BIZ if _make_biz(slug)]
