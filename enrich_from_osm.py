@@ -148,9 +148,11 @@ if __name__ == "__main__":
             fields = [k for k in ("opening_hours", "phone", "address", "cuisine") if k in enrichment]
             print(f"  ✓  {name:<45} ({', '.join(fields) if fields else 'name only'})")
 
+    # Save as slug-keyed dict (consistent with other caches; generate.py reads this format)
+    cache_dict = {e["slug"]: e for e in results if e.get("found")}
     cache_path = Path(__file__).parent / CACHE_FILE
     with open(cache_path, "w", encoding="utf-8") as f:
-        json.dump(results, f, indent=2, ensure_ascii=False)
+        json.dump(cache_dict, f, indent=2, ensure_ascii=False)
 
     print(f"\nDone: {found_count}/{len(results)} listings matched.")
     print(f"Saved to {CACHE_FILE}")

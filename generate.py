@@ -20,15 +20,20 @@ SR_TZ          = timezone(timedelta(hours=-3))   # Suriname time (UTC-3, no DST)
 YEAR           = datetime.now(SR_TZ).year
 MAX_PER_FEED   = 10
 
-# Load OSM enrichment cache (produced by enrich_from_osm.py, committed weekly)
+# Load OSM enrichment cache (produced by enrich_from_osm.py, committed periodically)
 # Keys: slug → {opening_hours, phone, address, cuisine, price_range, ...}
+# Format: slug-keyed dict (new) OR legacy list-of-dicts (old) — both handled below
 _ENRICHMENTS: dict = {}
 _enrich_path = Path(__file__).parent / "listing_enrichments.json"
 if _enrich_path.exists():
     try:
-        for _e in json.loads(_enrich_path.read_text(encoding="utf-8")):
-            if _e.get("found"):
-                _ENRICHMENTS[_e["slug"]] = _e
+        _raw = json.loads(_enrich_path.read_text(encoding="utf-8"))
+        if isinstance(_raw, dict):
+            _ENRICHMENTS = _raw                          # new slug-keyed format
+        else:
+            for _e in _raw:                              # legacy list format
+                if _e.get("found"):
+                    _ENRICHMENTS[_e["slug"]] = _e
         print(f"  Loaded {len(_ENRICHMENTS)} OSM enrichments from listing_enrichments.json")
     except Exception as _err:
         print(f"  Warning: could not load listing_enrichments.json — {_err}")
@@ -44,6 +49,20 @@ if _fsq_path.exists():
         print(f"  Loaded {len(_FSQ)} Foursquare matches from foursquare_cache.json")
     except Exception as _err:
         print(f"  Warning: could not load foursquare_cache.json — {_err}")
+
+# Load Foursquare details cache (produced by scripts/fetch_foursquare_details.py, committed manually)
+# Keys: slug → {hours_display, photo_url, phone, website}
+# Priority in generate.py: Google Places (future) > OSM > Foursquare
+_FSQ_DETAILS: dict = {}
+_fsq_det_path = Path(__file__).parent / "foursquare_details_cache.json"
+if _fsq_det_path.exists():
+    try:
+        _FSQ_DETAILS = json.loads(_fsq_det_path.read_text(encoding="utf-8"))
+        _det_hours = sum(1 for v in _FSQ_DETAILS.values() if v.get("hours_display"))
+        _det_photo = sum(1 for v in _FSQ_DETAILS.values() if v.get("photo_url"))
+        print(f"  Loaded {len(_FSQ_DETAILS)} FSQ details ({_det_hours} hours, {_det_photo} photos)")
+    except Exception as _err:
+        print(f"  Warning: could not load foursquare_details_cache.json — {_err}")
 
 # Load rich descriptions from exploresuriname_listings.json (keyed by slug)
 _JSON_DESCS: dict = {}
@@ -1928,6 +1947,8 @@ def _make_biz(slug):
     if not b: return None
     # Foursquare cache fills gaps: phone / address / website / coordinates
     fsq = _FSQ.get(slug, {})
+    _fdet = _FSQ_DETAILS.get(slug, {})
+    # Priority for contact fields: curated _BIZ > OSM (applied later in build_listing_page) > Foursquare
     return {"slug": slug, "name": b["name"], "area": b.get("location", "Suriname"),
             "address":  b.get("address") or fsq.get("address") or "",
             "phone":    b.get("phone")   or fsq.get("phone")   or "",
@@ -1937,7 +1958,7 @@ def _make_biz(slug):
             "description": b.get("description", ""),
             "url": f"listing/{slug}/",          # internal detail page
             "external_url": _biz_url(b),        # business website / Google fallback
-            "image": _biz_img(slug),
+            "image": _biz_img(slug) or _fdet.get("photo_url", ""),   # FSQ photo fallback for thumbnails
             "subcat": _subcat(slug)}
 
 RESTAURANTS = [b for slug in ["a-la-john","ac-bar-restaurant","baka-foto-restaurant","bar-zuid","big-tex","bori-tori","chi-min","de-gadri","de-spot","de-verdieping","el-patron-latin-grill","elines-pizza","garden-of-eden","goe-thai-noodle-bar","hard-rock-cafe-suriname","joey-ds","julias-food","kasan-snacks","las-tias","mickis-palace-noord","mickis-palace-zuid","mingle-paramaribo","moments-restaurant","pane-e-vino","pannekoek-en-poffertjes-cafe","passion-food-and-wines","rogom-farm-nv","souposo","sushi-ya","the-coffee-box","zeg-ijsje","zus-zo-cafe","aaras-cafe","ace-restaurant-lounge","ayo-river-lounge","bar-qle","bingo-pizza-coppename","bingo-pizza-kwatta","bistro-brwni","bistro-don-julio","bistro-lequatorze","blossom-beauty-bar","blue-grand-cafe","brow-bliss-lounge","burger-king-centrum","burger-king-latour","coffee-mama","cy-coffee","d-mighty-view-lounge","dolce-bella-cafe","etembe-rainforest-restaurant","ettores-pizza-kitchen","flavor-restaurant","georgies-bar-chill","habco-delight","habco-delight-north","jadore-cafe-grill","joosje-roti-shop","kfc-ims","kfc-kwatta","kfc-lallarookh","kfc-latour","kfc-lelydorp","kfc-waterkant","kfc-wilhelminastraat","kong-nam-snack","kwan-tai-restaurant","kwan-tai-restaurant-2","kyu-pho-grill","lamour-restaurant","lees-korean-grill","leiding-1-restaurant","lucky-twins-restaurant","mcdonalds-centrum","mcdonalds-hermitage-mall","mingle-sushi","moka-coffeebar","naskip","naskip-2","naskip-3","naskip-4","naskip-5","new-suriname-dream-cafe","numa-cafe","oasis-restaurant","ogi-teppanyaki-sushi-bar","okopipi-tropical-grill","olive-multi-cuisine-restaurant","padre-nostro-italian-restaurant","petisco-restaurant","pizza-hut-leysweg","pizza-hut-south","pizza-hut-wilhelminastraat","pizza-mafia","popeyes-centrum","popeyes-lelydorp","popeyes-tbl","popeyes-wilhelminastraat","restaurant-lhermitage","restaurant-sarinah","ritas-roti-shop","roopram-roti-shop","samba-cafe","saras-brunch-cafe","shimmery-beauty-lounge","sizzler-midnight-grill","squeezy-hot-pot-restaurant","sranan-fowru","sranan-fowru-boni","sranan-fowru-combe","sranan-fowru-flu","sranan-fowru-leiding","sranan-fowru-lelydorp","sranan-fowru-meursweg","sranan-fowru-tabiki-fowru","sranan-fowru-tourtonne","sranan-fowru-zinnia","subway","subway-2","subway-3","sweetie-coffee","tasty-fresh-food-coffee-bar","the-bakery-house","the-beauty-bar-north","the-beauty-bar-south","the-coffee-box-north","the-coffee-hobbyist","the-maillard-cafe","tipsy-bar-lounge","tirzahs-patisserie","twins-pizza-burgers","u-s-bakery","uitkijk-riverlounge-cafe"] for b in [_make_biz(slug)] if b]
@@ -3178,13 +3199,23 @@ def build_listing_page(slug, b):
     img      = _IMGS.get(slug, "")
     ext_url  = _biz_url(b)
 
-    # Merge OSM enrichment — fill gaps only (don't overwrite existing curated data)
-    _osm = _ENRICHMENTS.get(slug, {})
-    if not phone    and _osm.get("phone"):    phone   = _osm["phone"]
-    if not address  and _osm.get("address"):  address = _osm["address"]
-    if not ext_url  and _osm.get("website"):  ext_url = _osm["website"]
-    osm_hours  = _osm.get("opening_hours", "")   # e.g. "Mo-Fr 09:00-17:00; Sa 10:00-14:00"
-    osm_price  = _osm.get("price_range", "")
+    # Merge enrichment data — priority: Google Places (future slot) > OSM > Foursquare
+    _osm  = _ENRICHMENTS.get(slug, {})
+    _fdet = _FSQ_DETAILS.get(slug, {})
+    # Phone / address / website: OSM fills gaps first, then Foursquare
+    if not phone   and _osm.get("phone"):   phone   = _osm["phone"]
+    if not phone   and _fdet.get("phone"):  phone   = _fdet["phone"]
+    if not address and _osm.get("address"): address = _osm["address"]
+    if not ext_url and _osm.get("website"): ext_url = _osm["website"]
+    if not ext_url and _fdet.get("website") and "google.com" not in _fdet.get("website", ""):
+        ext_url = _fdet["website"]
+    # Hours: OSM > Foursquare (both use human-readable strings)
+    hours     = _osm.get("opening_hours") or _fdet.get("hours_display") or ""
+    osm_price = _osm.get("price_range", "")
+    # Photo: FSQ fills missing thumbnails (already in img via _make_biz, but img is re-fetched
+    # from _IMGS here for the detail page hero — apply the same fallback)
+    if not img and _fdet.get("photo_url"):
+        img = _fdet["photo_url"]
 
     name_e   = html_lib.escape(raw_name)
     # Pull rich description from JSON cache if not stored in _BIZ
@@ -3278,9 +3309,9 @@ def build_listing_page(slug, b):
                     'style="color:var(--forest2)">' + html_lib.escape(email) + '</a>')
     if category:
         rows += row("🏷️", html_lib.escape(category))
-    if osm_hours:
-        # Format OSM hours for display: "Mo-Fr 09:00-17:00; Sa 10:00-14:00" → two lines
-        hours_display = html_lib.escape(osm_hours).replace("; ", "<br>")
+    if hours:
+        # Format hours for display: "Mo-Fr 09:00-17:00; Sa 10:00-14:00" → lines
+        hours_display = html_lib.escape(hours).replace("; ", "<br>")
         rows += row("🕐", hours_display)
     if osm_price:
         rows += row("💰", html_lib.escape(osm_price))
@@ -3347,9 +3378,9 @@ def build_listing_page(slug, b):
     if og_img != SITE_URL + "/og-image.jpg": ld_obj["image"] = og_img
     if ext_url and "google.com/search" not in ext_url: ld_obj["sameAs"] = ext_url
     # OSM enrichment → structured data Google can parse for rich results
-    if osm_hours:
+    if hours:
         # schema.org openingHours accepts OSM-style strings directly
-        ld_obj["openingHours"] = [s.strip() for s in osm_hours.split(";") if s.strip()]
+        ld_obj["openingHours"] = [s.strip() for s in hours.split(";") if s.strip()]
     if osm_price:
         ld_obj["priceRange"] = osm_price
     if _cuisine:
