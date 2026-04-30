@@ -26,17 +26,14 @@ jobs:
       - name: Refresh basic Foursquare search cache (name/address/phone/website)
         env:
           FSQ_KEY: ${{ secrets.FSQ_KEY }}
-        working-directory: website
         run: python scripts/fetch_foursquare.py
 
       - name: Refresh Foursquare details cache (hours + photos)
         env:
           FSQ_KEY: ${{ secrets.FSQ_KEY }}
-        working-directory: website
         run: python scripts/fetch_foursquare_details.py
 
       - name: Commit updated caches
-        working-directory: website
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
