@@ -2,9 +2,9 @@ name: Refresh Foursquare Cache
 
 on:
   schedule:
-    # First day of every month at 02:00 UTC (23:00 SR previous day)
+    # First day of every month at 02:00 UTC — runs after monthly credits reset
     - cron: '0 2 1 * *'
-  workflow_dispatch:   # allow manual trigger from Actions tab
+  workflow_dispatch:   # allow manual trigger from Actions tab any time
 
 permissions:
   contents: write
@@ -12,6 +12,7 @@ permissions:
 jobs:
   refresh-cache:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
@@ -22,15 +23,23 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Run Foursquare fetch
+      - name: Refresh basic Foursquare search cache (name/address/phone/website)
         env:
           FSQ_KEY: ${{ secrets.FSQ_KEY }}
+        working-directory: website
         run: python scripts/fetch_foursquare.py
 
-      - name: Commit updated cache
+      - name: Refresh Foursquare details cache (hours + photos)
+        env:
+          FSQ_KEY: ${{ secrets.FSQ_KEY }}
+        working-directory: website
+        run: python scripts/fetch_foursquare_details.py
+
+      - name: Commit updated caches
+        working-directory: website
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add foursquare_cache.json
-          git diff --staged --quiet || git commit -m "Refresh Foursquare cache $(date '+%Y-%m-%d')"
+          git add foursquare_cache.json foursquare_details_cache.json
+          git diff --staged --quiet || git commit -m "chore: refresh Foursquare caches [$(date '+%Y-%m-%d')]"
           git push
