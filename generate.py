@@ -2147,14 +2147,14 @@ PAGE_HEAD = """\
 
 def nav_html(active="home", prefix=""):
     links = [
-        (f"{prefix}index.html#nature",     "Nature"),
-        (f"{prefix}index.html#activities", "Activities"),
-        (f"{prefix}index.html#dining",     "Eat & Drink"),
-        (f"{prefix}index.html#hotels",     "Stay"),
-        (f"{prefix}shopping.html",         "Shopping"),
-        (f"{prefix}services.html",         "Services"),
-        (f"{prefix}currency.html",         "Currency"),
-        (f"{prefix}news.html",             "News"),
+        (f"{prefix}nature.html",       "Nature"),
+        (f"{prefix}activities.html",   "Activities"),
+        (f"{prefix}restaurants.html",  "Eat & Drink"),
+        (f"{prefix}hotels.html",       "Stay"),
+        (f"{prefix}shopping.html",     "Shopping"),
+        (f"{prefix}services.html",     "Services"),
+        (f"{prefix}currency.html",     "Currency"),
+        (f"{prefix}news.html",         "News"),
     ]
     lhtml = ""
     for href, label in links:
@@ -2366,14 +2366,19 @@ def _filter_bar_html(items, cat_key):
         active = ' chip-active' if key == "all" else ''
         chips.append(
             f'''<button onclick="filterSub(this,\'{key}\')" class="filter-chip{active}">'''
-            f'''{emoji} {label} <span class="chip-count">{count}</span></button>'''
+            f'''{label} <span class="chip-count">{count}</span></button>'''
         )
 
+    bar_id = f"chipbar-{cat_key}"
     return f"""
 <div class="sticky top-16 z-40 py-3 mb-8" style="background:rgba(249,250,251,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06)">
   <div class="max-w-6xl mx-auto px-5">
-    <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide" style="scrollbar-width:none">
-      {"".join(chips)}
+    <div class="relative flex items-center gap-1">
+      <button id="{bar_id}-prev" onclick="chipScroll('{bar_id}',-1)" class="chip-arrow" aria-label="scroll left">&#8249;</button>
+      <div id="{bar_id}" class="flex gap-2 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth">
+        {"".join(chips)}
+      </div>
+      <button id="{bar_id}-next" onclick="chipScroll('{bar_id}',1)" class="chip-arrow" aria-label="scroll right">&#8250;</button>
     </div>
   </div>
 </div>
@@ -2387,9 +2392,21 @@ def _filter_bar_html(items, cat_key):
 .filter-chip.chip-active {{ background:var(--forest);border-color:var(--forest);color:#fff; }}
 .chip-count {{ opacity:.65;font-weight:500;font-size:.75rem; }}
 .filter-chip.chip-active .chip-count {{ opacity:.8; }}
+.chip-arrow {{
+  flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #e5e7eb;
+  background:#fff;font-size:1.1rem;line-height:1;cursor:pointer;display:flex;
+  align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
+}}
+.chip-arrow:hover {{ border-color:var(--forest);color:var(--forest); }}
 .listing-card {{ transition:opacity .2s, transform .2s; }}
 .listing-card.hidden {{ display:none; }}
 </style>
+<script>
+function chipScroll(id, dir) {{
+  var el = document.getElementById(id);
+  if (el) el.scrollBy({{left: dir * 200, behavior: 'smooth'}});
+}}
+</script>
 <script>
 function filterSub(btn, key) {{
   document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('chip-active'));
