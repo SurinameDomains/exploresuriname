@@ -1892,8 +1892,25 @@ SHOPPING = [b for slug in ["9173","bed-bath-more-bbm","divergent-body-jewelry","
 
 SERVICES = [b for slug in ["bitdynamics","bloom-wellness-cafe","carpe-diem-massagepraktijk","delete-beauty-lounge","dli-travel-consultancy","eaglemedia","ec-operations","ekay-media","fatum","fly-allways","hairstudio-32","handmade-by-farrell-nv","ias-wooden-and-construction-nv","inksane-tattoos","klm-royal-dutch-airlines","lashlift-suriname","lioness-beauty-effects","mokisa-busidataa-osu-nv","nv-threefold-quality-system-support","pinkmoon-suriname","rich-skin","rock-fitness-paramaribo","royal-rose-yoni-spa","royal-spa","royal-wellness-lounge","seen-stories","stichting-shiatsu-massage","stukaderen-in-nederland","surimami-store","surinam-airways","the-beauty-bar","the-freelance-scout","the-house-of-beauty","the-waxing-booth","the-wonderlab-su","thermen-hermitage-turkish-bath-beautycenter","timeless-barber-and-nail-shop","yoga-peetha-happiness-centre","101-real-estate","4r-gym","abrix-cleaning-services","access-suriname-travel","alegria","alis-drugstore","alliance-francaise","anton-de-kom-universiteit-van-suriname","apotheek-joemmanbaks","apotheek-karis","apotheek-mac-donald-north","apotheek-mac-donald-south","apotheek-rafeka","apotheek-sibilo","apotheek-soma","apotheek-soma-ringweg","arthur-alex-hoogendoorn-atheneum","assuria-hermitage-high-rise","assuria-insurance-walk-in-city","assuria-insurance-walk-in-commewijne","assuria-insurance-walk-in-lelydorp","assuria-insurance-walk-in-nickerie","assuria-insurance-walk-in-noord","augis-travel","ayur-mi-beauty-wellness","balance-studio","balletschool-marlene","bella-italia","best-mart","blissful-massage-aromatherapy","bmw-suriname","body-enhancement-gym","boss-burgers","brahma-centrum","brahma-noord","brahma-zuid","bright-cleaning","brilleman","brotherhood-security","buro-workspaces","byd-suriname","camex-suriname","car-rental-city","carline-kwatta","carline-waaldijkstraat","carvision-paramaribo","chique-eyewear-fashion","chuck-e-cheese","cinnagirl","ciranos","clarissa-vaseur-writing-wellness-services-claw","clean-it","club-oase","cookie-closet","courtyard-marriott","cpr-pilates-curves","creative-q","cupcake-fantasy","curl-babes","cute-as-a-button","cynsational-glam","da-select-en-service-apotheek","dansclub-danzson","dcars-rental","de-cederboom-school","de-nederlandse-basisschool-het-kleurenorkest","de-spetter","de-surinaamsche-bank-hermitage-mall","de-surinaamsche-bank-hoofdkantoor","de-surinaamsche-bank-lelydorp","de-surinaamsche-bank-ma-retraite","de-surinaamsche-bank-ma-retraite-2","de-surinaamsche-bank-nickerie","de-surinaamsche-bank-nickerie-2","de-surinaamsche-bank-nieuwe-haven","de-vrije-school","dhl-express-service-point","dierenarts-resopawiro","dierenartspraktijk-l-m-bansse-issa","dierenpoli-lobo","digicel-albina","digicel-business-center","digicel-extacy","digicel-hermitage","digicel-latour","digicel-lelydorp","digicel-nickerie","digicel-wilhelminastraat","djinipi-copy-center","djo-cleaning-service","dlish","dojo-couture-centrum","dojo-couture-ims","dor-property-management-services-n-v","dream-clean-suriname","dresscode","eethuis-liv","energiebedrijven-suriname-ebs","eterno","eucon","everything-sr","faraya-medical-center","farma-vida","fatum-schadeverzekering-commewijne","fatum-schadeverzekering-hoofdkantoor","fatum-schadeverzekering-kwatta","fatum-schadeverzekering-nickerie","fhr-lim-a-po-institute-for-higher-education","finabank-centrum","finabank-nickerie","finabank-noord","finabank-wanica","finabank-zuid","first-aid-plus","fish-finder-fishing-and-outdoors","fit-factory","flex-luxuries","fluxo-pilates","free-flow","from-kay-with-love","frygri","gaby-april-beauty-clinic","galaxyliving","garage-d-a-ashruf","glam-curves","glambox","goldenwings","gossip-nails-xx","great-wall-motor-suriname","grounded-botanical-studio","h-t","hakrinbank","hakrinbank-flora","hakrinbank-latour","hakrinbank-nickerie","hakrinbank-nieuwe-haven","hakrinbank-tamanredjo","hakrinbank-tourtonne","han-palace","happy-flower-services","harry-tjin","hertz-suriname-car-rental","hes-ds","hes-ds-2","hes-ds-3","holiday-home-decor","holy-moly","honeycare-north","honeycare-south","house-of-pureness","hsds-lifestyle-noord","hsds-lifestyle-wanica","iamchede","infinity-holding","instyle-optics","international-academy-of-suriname","intervast","invictus-brazilian-jiu-jitsu","itrendzz","jage-caffe","jage-caffe-2","jamilas-dry-cleaning-north","jamilas-dry-cleaning-south","janelles-shoes-and-bags","jjs-place-zuid","just-curlss","kaizen","karans-indian-food","kasimex-indira-ghandiweg","kasimex-makro","keller-williams-suriname","kempes-co","ket-mien","krioro","krioro-north","kushiyaki-the-next-episode","ladybug-nursery-and-garden-center","le-den","lobby","luxe-escape-lotus-spa-wellness-beautysalon","maharaja-palace","mandy-butka","marchand-notariaat","matcha-loft","max-n-co","maze","mezze-suriname","mighty-racks","mini-nail-shop","mirage-casino","miss-doll-fit","mn-international-centrum","mn-international-kwatta","mokisa-wellness","mon-plaisir-nursery","morevans-outlet","multi-travel","muntjes-take-out-juniors-place","murphys-irish-pub","nassy-brouwer-college","nassy-brouwer-school","new-choice-lalla-rookhweg","new-choice-nickerie","new-choice-ringweg","norrii-zushii","north-fitness-gym","notariaat-mannes","notariaat-van-dijk","nr-1-spot","ondernemershuis","one-stop-apotheek-drugstore","orchid","organic-skincare","overdoughsed-suriname","padel-x-suriname","pandie","paramaribo-princess-casino","percy-massage-therapy","petit-bouchon","pitbull-fitness","professional-private-security","protrade-international","qsi-international-school-of-suriname","r-k-bisdom-paramaribo","raja-ji","re-max-suriname","real-one-fitness-gym","red-century-party-shop-commewijne","red-century-party-shop-kwatta","red-century-party-shop-lelydorp","red-century-party-shop-north","red-century-party-shop-zorg-en-hoop","remy-vastgoed","republic-bank-head-office","republic-bank-jozef-israelstraat","republic-bank-kernkampweg","republic-bank-nickerie","republic-bank-vant-hogerhuysstraat","republic-bank-zorg-en-hoop","resourceful-real-estate-construction","restoran-bibit","ricos-a-gladiator-foodtruck","rif-cleaning-service","rolines-de-waag","ross-rental-cars","safety-first-quality-always","sakura","satyam-holidays","savage-den","scene-beauty-salon","secas","sendang-redjo","shoebizz-ims","sizzlers-signature","sleepstore-suriname","smart-connexxionz","south-america-hot-pot","southern-commercial-bank","spice-quest","squeaky-clean","steps-domineestraat","steps-noord","steps-wanica","sthephany-skincare","store4u","sugar","sun-ice","supply-solutions-limited-suriname","surgoed-makelaardij","surinaamsche-waterleiding-maatschappij","suriname-princess-casino","sweet-tooth-pastries","sweetheart-ims","talula","tapauku-terras","tastelicious","teasee","telesur-centrum","telesur-latour","telesur-lelydorp","telesur-nickerie","telesur-noord","telesur-zonnebloemstraat","the-aerial-yoga-studio","the-basement-barbershop","the-girl-house","the-laundry-spot","the-nail-house","the-old-garage","the-perfume-spot","the-rose-manor","the-solution-property-management","the-sweetest-thing","the-warehouse-shop","three-little-beans","tianyou-aquafun","topsport","tori-oso","touch-of-heaven-wellness","tout-tout-petit","toys-n-more","tranquil-at-mamba-republiek","tranquil-massage","tsw-group","typing-nomad-nv","viva-mexico","waldos-worldwide-travel-service","warung-resa-centrum","warung-soepy-ann","welink-real-estate","wing-hung-cake-shop","wollys","wollys-2","wollys-3","wow-plus","x-avenue","ying-hao-beautyshop","yogh-hospitality","young-engineers","zenobia-bottling-company"] for b in [_make_biz(slug)] if b]
 
-# (legacy stubs removed — RESTAURANTS / HOTELS now come from JSON above)
-# Old stub lists removed — all listings now sourced from JSON above
+# Sort every category list alphabetically by display name
+_alpha = lambda lst: sorted(lst, key=lambda b: b["name"].lower())
+RESTAURANTS   = _alpha(RESTAURANTS)
+HOTELS        = _alpha(HOTELS)
+SIGHTSEEING   = _alpha(SIGHTSEEING)
+ADVENTURES_BIZ= _alpha(ADVENTURES_BIZ)
+SHOPPING      = _alpha(SHOPPING)
+SERVICES      = _alpha(SERVICES)
+
+# ── Global search index (embedded in every page for client-side search) ──────
+import json as _json
+_SEARCH_INDEX = _json.dumps([
+    *[{"n": b["name"], "u": b["url"], "c": "Eat & Drink",  "a": b.get("area","")} for b in RESTAURANTS],
+    *[{"n": b["name"], "u": b["url"], "c": "Stay",         "a": b.get("area","")} for b in HOTELS],
+    *[{"n": b["name"], "u": b["url"], "c": "Nature",       "a": b.get("area","")} for b in SIGHTSEEING],
+    *[{"n": b["name"], "u": b["url"], "c": "Activities",   "a": b.get("area","")} for b in ADVENTURES_BIZ],
+    *[{"n": b["name"], "u": b["url"], "c": "Shopping",     "a": b.get("area","")} for b in SHOPPING],
+    *[{"n": b["name"], "u": b["url"], "c": "Services",     "a": b.get("area","")} for b in SERVICES],
+], ensure_ascii=False, separators=(',', ':'))
 
 CME_FALLBACK = [
     # CME.sr only publishes SRD, USD, and EUR — no other currencies
@@ -2161,6 +2178,8 @@ def nav_html(active="home", prefix=""):
         cls = "font-semibold" if label.lower() == active else "text-gray-700 hover:text-green-800 transition"
         color = 'style="color:var(--forest)"' if label.lower() == active else ""
         lhtml += f'<a href="{href}" class="{cls} text-sm" {color}>{label}</a>\n'
+    cat_colors = {"Eat & Drink":"#7c3aed","Stay":"#c05621","Nature":"var(--forest)",
+                   "Activities":"var(--forest2)","Shopping":"#0369a1","Services":"#0369a1","Sightseeing":"var(--forest)"}
     return f"""
 <nav class="fixed top-0 w-full z-50" style="background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.06)">
   <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between">
@@ -2168,13 +2187,99 @@ def nav_html(active="home", prefix=""):
       <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
     </a>
     <div class="hidden md:flex items-center gap-7">{lhtml}</div>
-    <a href="{prefix}news.html" class="hidden md:inline-flex items-center gap-1 text-white text-sm font-medium px-4 py-2 rounded-full hover:opacity-90 transition" style="background:var(--forest)">&#128240; Latest News</a>
+    <div class="flex items-center gap-2">
+      <button onclick="openSearch()" title="Search listings (press /)" class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50" style="min-width:120px">
+        <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
+        <span class="hidden sm:inline">Search…</span>
+        <span class="ml-auto hidden sm:inline text-xs bg-gray-200 text-gray-500 rounded px-1.5 py-0.5 font-mono">/</span>
+      </button>
+      <a href="{prefix}news.html" class="hidden md:inline-flex items-center gap-1 text-white text-sm font-medium px-4 py-2 rounded-full hover:opacity-90 transition" style="background:var(--forest)">&#128240; News</a>
+    </div>
     <button onclick="document.getElementById('mm').classList.toggle('hidden')" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
       <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
   </div>
   <div id="mm" class="hidden md:hidden border-t bg-white px-5 py-4 flex flex-col gap-3 text-sm">{lhtml}</div>
-</nav>"""
+</nav>
+
+<!-- ── Global Search Modal ───────────────────────────────────────────── -->
+<div id="search-modal" onclick="if(event.target===this)closeSearch()"
+  style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);padding:80px 16px 16px">
+  <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 25px 60px rgba(0,0,0,.25);overflow:hidden">
+    <div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #f0f0f0">
+      <svg style="width:18px;height:18px;color:#9ca3af;flex-shrink:0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
+      <input id="search-input" type="text" placeholder="Search all listings…"
+        oninput="runSearch(this.value)" onkeydown="searchKey(event)"
+        style="flex:1;border:none;outline:none;font-size:1rem;color:#111;background:transparent"
+        autocomplete="off" spellcheck="false">
+      <button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">&#x2715;</button>
+    </div>
+    <div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
+      <p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search {len(_SEARCH_INDEX.split('"n"')) - 1} listings…</p>
+    </div>
+  </div>
+</div>
+<style>
+#search-results a {{
+  display:flex;align-items:center;gap:10px;padding:10px 18px;text-decoration:none;color:#111;transition:background .1s;
+}}
+#search-results a:hover, #search-results a.sr-active {{ background:#f5f5f5; }}
+.sr-badge {{
+  font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;flex-shrink:0;
+}}
+.sr-name {{ font-size:.9rem;font-weight:600;flex:1;min-width:0; }}
+.sr-area {{ font-size:.78rem;color:#9ca3af;white-space:nowrap; }}
+mark {{ background:#fef08a;border-radius:2px;padding:0 1px; }}
+</style>
+<script>
+const _SI = {_SEARCH_INDEX};
+const _CAT_C = {_json.dumps(cat_colors)};
+let _sel = -1;
+function openSearch() {{
+  document.getElementById('search-modal').style.display = 'block';
+  setTimeout(() => document.getElementById('search-input').focus(), 50);
+}}
+function closeSearch() {{
+  document.getElementById('search-modal').style.display = 'none';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search {len(_SEARCH_INDEX.split('"n"')) - 1} listings…</p>';
+  _sel = -1;
+}}
+function runSearch(q) {{
+  const box = document.getElementById('search-results');
+  q = q.trim();
+  if (!q) {{ closeSearch(); openSearch(); return; }}
+  const ql = q.toLowerCase();
+  const hits = _SI.filter(x => x.n.toLowerCase().includes(ql)).slice(0, 10);
+  if (!hits.length) {{ box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">No results for "' + q + '"</p>'; return; }}
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  box.innerHTML = hits.map((h, i) => {{
+    const hi = h.n.replace(new RegExp('(' + q.replace(/[.*+?^${{}}()|[\]\\\\]/g,'\\\\$&') + ')', 'gi'), '<mark>$1</mark>');
+    const col = _CAT_C[h.c] || '#6b7280';
+    return '<a href="' + depth + h.u + '" class="' + (i===0?'sr-active':'') + '">'
+      + '<span class="sr-badge" style="background:' + col + '">' + h.c + '</span>'
+      + '<span class="sr-name">' + hi + '</span>'
+      + (h.a ? '<span class="sr-area">' + h.a + '</span>' : '')
+      + '</a>';
+  }}).join('');
+  _sel = 0;
+}}
+function searchKey(e) {{
+  const items = document.querySelectorAll('#search-results a');
+  if (e.key === 'Escape') {{ closeSearch(); return; }}
+  if (e.key === 'ArrowDown') {{ e.preventDefault(); _sel = Math.min(_sel+1, items.length-1); }}
+  else if (e.key === 'ArrowUp') {{ e.preventDefault(); _sel = Math.max(_sel-1, 0); }}
+  else if (e.key === 'Enter') {{ if(items[_sel]) window.location = items[_sel].href; return; }}
+  else return;
+  items.forEach((el,i) => el.classList.toggle('sr-active', i===_sel));
+  if(items[_sel]) items[_sel].scrollIntoView({{block:'nearest'}});
+}}
+document.addEventListener('keydown', e => {{
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {{
+    e.preventDefault(); openSearch();
+  }}
+}});
+</script>"""
 
 def footer_html(prefix=""):
     return f"""
@@ -3450,8 +3555,6 @@ def build_nature_listing_page(spot, slug):
     return head + hero + main + "\n" + footer_html(prefix="../../") + "\n</body>\n</html>"
 
 
-# -- Sitemap & robots ---------------------------------------------------------
-
 def build_sitemap(biz_slugs, act_slugs, nat_slugs):
     """Generate sitemap.xml covering all pages and listing URLs."""
     today = datetime.now(SR_TZ).strftime("%Y-%m-%d")
@@ -3511,8 +3614,8 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
     return (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        + "\n".join(urls)
-        + "\n</urlset>\n"
+        + "\n".join(urls) +
+        "\n</urlset>\n"
     )
 
 
@@ -3574,18 +3677,17 @@ if __name__ == "__main__":
         os.makedirs(d, exist_ok=True)
         with open(f"{d}/index.html", "w", encoding="utf-8") as f:
             f.write(build_nature_listing_page(spot, nat_slug))
+        count += 1
     print(f"  OK  {count} listing pages")
 
+    valid_biz_slugs = [slug for slug in _BIZ if _make_biz(slug)]
+    act_slugs_all   = [_act_slug(a["name"]) for a in ACTIVITIES]
+    nat_slugs_all   = [_nature_slug(s["name"]) for s in NATURE_SPOTS]
+
     with open("sitemap.xml", "w", encoding="utf-8") as f:
-        f.write(build_sitemap(
-            biz_slugs=list(_BIZ.keys()),
-            act_slugs=[_act_slug(a["name"]) for a in ACTIVITIES],
-            nat_slugs=[_nature_slug(s["name"]) for s in NATURE_SPOTS],
-        ))
-    print("  OK  sitemap.xml")
+        f.write(build_sitemap(valid_biz_slugs, act_slugs_all, nat_slugs_all))
+    print(f"  OK  sitemap.xml ({len(valid_biz_slugs) + len(act_slugs_all) + len(nat_slugs_all) + 9} URLs)")
 
     with open("robots.txt", "w", encoding="utf-8") as f:
         f.write(build_robots())
     print("  OK  robots.txt")
-
-    print(f"\n✅  Done — {count} listing pages + main pages written.")
