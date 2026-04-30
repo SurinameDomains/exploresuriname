@@ -2797,16 +2797,14 @@ def build_nature_page():
     <h2 class="serif text-3xl font-bold text-gray-900 mb-2">Sightseeing &amp; Attractions</h2>
     <p class="text-gray-500 text-base max-w-xl mx-auto">Historic forts, museums and natural landmarks you can visit in and around Paramaribo.</p>
   </div>
-  {filter_bar_s}
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{sight_cards}</div>
 </div>""" if SIGHTSEEING else ""
     return listing_page("Nature & Parks", f"{len(NATURE_SPOTS)} destinations across Suriname's pristine wilderness",
         f"Explore {len(NATURE_SPOTS)} nature reserves, national parks and rainforest destinations in Suriname. From Central Suriname Nature Reserve to Brownsberg — plan your eco-adventure.",
-        NATURE_SPOTS, cards, page_file="nature.html", extra_html=extra)
+        NATURE_SPOTS, cards, page_file="nature.html", extra_html=extra, filter_bar=filter_bar_s)
 
 def build_activities_page():
     cards = "\n".join(activity_card_rich(a) for a in ACTIVITIES)
-    adv_items = [{"subcat": _subcat(b["slug"] if hasattr(b,"__getitem__") else "", "adventure")} | b for b in ADVENTURES_BIZ]
     filter_bar_a = _filter_bar_html(ADVENTURES_BIZ, "adventure")
     adv_cards = "\n".join(poi_card(b) for b in ADVENTURES_BIZ)
     extra = f"""
@@ -2816,12 +2814,11 @@ def build_activities_page():
     <h2 class="serif text-3xl font-bold text-gray-900 mb-2">Tour Operators &amp; Resorts</h2>
     <p class="text-gray-500 text-base max-w-xl mx-auto">Eco-lodges, jungle camps and tour companies to make your Suriname adventure happen.</p>
   </div>
-  {filter_bar_a}
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{adv_cards}</div>
 </div>""" if ADVENTURES_BIZ else ""
     return listing_page("Activities", f"{len(ACTIVITIES)} things to do in Suriname",
         f"Discover {len(ACTIVITIES)} things to do in Suriname — jungle tours, river trips, birdwatching, kayaking and more. Find tours, eco-lodges and adventure operators in Paramaribo.",
-        ACTIVITIES, cards, bg_color="var(--forest2)", page_file="activities.html", extra_html=extra)
+        ACTIVITIES, cards, bg_color="var(--forest2)", page_file="activities.html", extra_html=extra, filter_bar=filter_bar_a)
 
 def build_restaurants_page(restaurants):
     cards = "\n".join(poi_card(r, "cuisine") for r in restaurants)
