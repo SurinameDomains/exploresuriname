@@ -33,6 +33,18 @@ if _enrich_path.exists():
     except Exception as _err:
         print(f"  Warning: could not load listing_enrichments.json — {_err}")
 
+# Load Foursquare enrichment cache (produced by scripts/fetch_foursquare.py, committed manually)
+# Keys: slug → {name, address, phone, website, lat, lng, score, matched, ...}
+_FSQ: dict = {}
+_fsq_path = Path(__file__).parent / "foursquare_cache.json"
+if _fsq_path.exists():
+    try:
+        _fsq_raw = json.loads(_fsq_path.read_text(encoding="utf-8"))
+        _FSQ = {k: v for k, v in _fsq_raw.items() if v.get("matched")}
+        print(f"  Loaded {len(_FSQ)} Foursquare matches from foursquare_cache.json")
+    except Exception as _err:
+        print(f"  Warning: could not load foursquare_cache.json — {_err}")
+
 FEEDS = [
     {"name": "De Ware Tijd", "url": "https://www.dwtonline.com/feed/",              "color": "#2D6A4F"},
     {"name": "Starnieuws",   "url": "https://www.starnieuws.com/rss/starnieuws.rss","color": "#B40A2D"},
@@ -1854,9 +1866,14 @@ SUBCATS = {
 def _make_biz(slug):
     b = _BIZ.get(slug)
     if not b: return None
+    # Foursquare cache fills gaps: phone / address / website / coordinates
+    fsq = _FSQ.get(slug, {})
     return {"slug": slug, "name": b["name"], "area": b.get("location", "Suriname"),
-            "address": b.get("address", ""), "phone": b.get("phone", ""),
-            "email": b.get("email", ""), "category": b.get("category", ""),
+            "address":  b.get("address") or fsq.get("address") or "",
+            "phone":    b.get("phone")   or fsq.get("phone")   or "",
+            "email":    b.get("email", ""),
+            "website":  b.get("website") or fsq.get("website") or "",
+            "category": b.get("category", ""),
             "description": b.get("description", ""),
             "url": f"listing/{slug}/",          # internal detail page
             "external_url": _biz_url(b),        # business website / Google fallback
@@ -3540,17 +3557,14 @@ if __name__ == "__main__":
         os.makedirs(d, exist_ok=True)
         with open(f"{d}/index.html", "w", encoding="utf-8") as f:
             f.write(build_nature_listing_page(spot, nat_slug))
-        count += 1
     print(f"  OK  {count} listing pages")
 
-    valid_biz_slugs = [slug for slug in _BIZ if _make_biz(slug)]
-    act_slugs_all   = [_act_slug(a["name"]) for a in ACTIVITIES]
-    nat_slugs_all   = [_nature_slug(s["name"]) for s in NATURE_SPOTS]
-
     with open("sitemap.xml", "w", encoding="utf-8") as f:
-        f.write(build_sitemap(valid_biz_slugs, act_slugs_all, nat_slugs_all))
-    print(f"  OK  sitemap.xml ({len(valid_biz_slugs) + len(act_slugs_all) + len(nat_slugs_all) + 9} URLs)")
+        f.write(build_sitemap())
+    print("  OK  sitemap.xml")
 
     with open("robots.txt", "w", encoding="utf-8") as f:
         f.write(build_robots())
     print("  OK  robots.txt")
+
+    print(f"\n✅  Done — {count} listing pages + main pages written.")
