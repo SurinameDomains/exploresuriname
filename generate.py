@@ -2231,6 +2231,8 @@ PAGE_HEAD = """\
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -2689,9 +2691,9 @@ def build_index(restaurants, hotels, news_preview):
     "url": "{SITE_URL}/",
     "logo": {{
       "@type": "ImageObject",
-      "url": "{SITE_URL}/og-image.jpg",
-      "width": 1200,
-      "height": 630
+      "url": "{SITE_URL}/favicon.svg",
+      "width": 64,
+      "height": 64
     }},
     "description": "Your complete travel and lifestyle guide to Suriname — hotels, restaurants, nature, activities and live SRD exchange rates.",
     "areaServed": {{
