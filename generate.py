@@ -2227,6 +2227,7 @@ PAGE_HEAD = """\
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="content-language" content="en">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2610,8 +2611,9 @@ function filterSub(btn, key) {{
 }}
 </script>"""
 
-def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar=""):
+def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None):
     page_url = f"{SITE_URL}/{page_file}"
+    _og_img = og_image or f"{SITE_URL}/og-image.jpg"
     return f"""{PAGE_HEAD}
   <title>{title} | ExploreSuriname.com</title>
   <meta name="description" content="{html_lib.escape(meta_desc)}">
@@ -2621,11 +2623,11 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   <meta property="og:url" content="{page_url}">
   <meta property="og:title" content="{title} | ExploreSuriname.com">
   <meta property="og:description" content="{html_lib.escape(meta_desc)}">
-  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta property="og:image" content="{{_og_img}}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{title} | ExploreSuriname.com">
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
-  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="twitter:image" content="{{_og_img}}">
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"ItemList","name":"{title}","url":"{page_url}","numberOfItems":{len(items)},"itemListElement":[{",".join(
     '{"@type":"ListItem","position":' + str(i+1) + ',"name":' + __import__("json").dumps(it.get("name","")) + ',"url":"' + SITE_URL + "/" + it.get("url","") + '"}' for i,it in enumerate(items[:20])
@@ -2668,6 +2670,7 @@ def build_index(restaurants, hotels, news_preview):
   <title>Explore Suriname | South America's Hidden Gem</title>
   <meta name="description" content="Plan your Suriname trip: rainforest lodges, Paramaribo restaurants, local tours, shopping and live SRD exchange rates. Your complete guide to South America's most unspoiled destination.">
   <link rel="canonical" href="{SITE_URL}/">
+  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920&q=80">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/">
@@ -2825,7 +2828,7 @@ def build_nature_page():
     total = len(NATURE_SPOTS) + len(SIGHTSEEING)
     return listing_page("Nature & Parks", f"{total} destinations across Suriname's pristine wilderness",
         f"Explore {total} nature reserves, national parks and rainforest destinations in Suriname. From Central Suriname Nature Reserve to Brownsberg — plan your eco-adventure.",
-        NATURE_SPOTS, all_cards, page_file="nature.html", extra_html="", filter_bar=filter_bar_s)
+        NATURE_SPOTS, all_cards, page_file="nature.html", extra_html="", filter_bar=filter_bar_s, og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Leo_val_brownsberg.JPG/1280px-Leo_val_brownsberg.JPG")
 
 def build_activities_page():
     # Merge ACTIVITIES and ADVENTURES_BIZ sorted alphabetically by name
@@ -2843,35 +2846,35 @@ def build_activities_page():
     total = len(ACTIVITIES) + len(ADVENTURES_BIZ)
     return listing_page("Activities", f"{total} things to do in Suriname",
         f"Discover {total} things to do in Suriname — jungle tours, river trips, birdwatching, kayaking and more. Find tours, eco-lodges and adventure operators in Paramaribo.",
-        ACTIVITIES, all_cards, bg_color="var(--forest2)", page_file="activities.html", extra_html="", filter_bar=filter_bar_a)
+        ACTIVITIES, all_cards, bg_color="var(--forest2)", page_file="activities.html", extra_html="", filter_bar=filter_bar_a, og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Atjoni_%2833496718666%29.jpg/1280px-Atjoni_%2833496718666%29.jpg")
 
 def build_restaurants_page(restaurants):
     cards = "\n".join(poi_card(r, "cuisine") for r in restaurants)
     fb    = _filter_bar_html(restaurants, "restaurant")
     return listing_page("Eat & Drink", f"{len(restaurants)} places to eat & drink in Suriname",
         f"Browse {len(restaurants)} restaurants, cafes, bars and fast food in Suriname. Find local Surinamese food, Asian cuisine, coffee shops and more.",
-        restaurants, cards, bg_color="#7c3aed", page_file="restaurants.html", filter_bar=fb)
+        restaurants, cards, bg_color="#7c3aed", page_file="restaurants.html", filter_bar=fb, og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/2016_0624_Tjauw_min_moksie_meti_speciaal.jpg/1280px-2016_0624_Tjauw_min_moksie_meti_speciaal.jpg")
 
 def build_hotels_page(hotels):
     cards = "\n".join(poi_card(h, "category") for h in hotels)
     fb    = _filter_bar_html(hotels, "hotel")
     return listing_page("Hotels & Lodges", f"{len(hotels)} places to stay in Suriname",
         f"Browse {len(hotels)} hotels, eco-lodges and jungle retreats in Suriname. From Paramaribo city hotels to remote river resorts — find your perfect stay.",
-        hotels, cards, bg_color="#c05621", page_file="hotels.html", filter_bar=fb)
+        hotels, cards, bg_color="#c05621", page_file="hotels.html", filter_bar=fb, og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Bigi_Pan_Nature_Reserve_%282719369111%29.jpg/1280px-Bigi_Pan_Nature_Reserve_%282719369111%29.jpg")
 
 def build_shopping_page():
     cards = "\n".join(poi_card(b) for b in SHOPPING)
     fb    = _filter_bar_html(SHOPPING, "shopping")
     return listing_page("Shopping", f"{len(SHOPPING)} shops & stores in Suriname",
         f"Discover {len(SHOPPING)} shops in Suriname — supermarkets, malls, fashion, electronics, furniture, butchers and specialty stores in Paramaribo.",
-        SHOPPING, cards, bg_color="#7c3aed", page_file="shopping.html", filter_bar=fb)
+        SHOPPING, cards, bg_color="#7c3aed", page_file="shopping.html", filter_bar=fb, og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png")
 
 def build_services_page():
     cards = "\n".join(poi_card(b) for b in SERVICES)
     fb    = _filter_bar_html(SERVICES, "service")
     return listing_page("Services", f"{len(SERVICES)} service providers in Suriname",
         f"Find {len(SERVICES)} service providers in Suriname — banks, beauty, health, fitness, education, telecom, real estate and more.",
-        SERVICES, cards, bg_color="#0369a1", page_file="services.html", filter_bar=fb)
+        SERVICES, cards, bg_color="#0369a1", page_file="services.html", filter_bar=fb, og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png")
 
 def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated):
     import json as _json
