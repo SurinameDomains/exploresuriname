@@ -25,7 +25,7 @@ jobs:
           node-version: '20'
 
       - name: Build Tailwind CSS
-        run: npx --yes tailwindcss -i input.css -o tailwind.css --minify
+        run: npx tailwindcss@3 -i input.css -o tailwind.css --minify
 
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
