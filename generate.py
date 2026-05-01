@@ -2369,7 +2369,7 @@ def footer_html(prefix=""):
     <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
       <div>
         <p class="serif text-2xl font-bold mb-3">Explore<span style="color:var(--coral)">Suriname</span></p>
-        <p class="text-white/60 text-sm leading-relaxed">Your guide to South America's most beautiful secret. Updated daily with fresh news, local insights and travel inspiration.</p>
+        <p class="text-white/60 text-sm leading-relaxed">Your guide to Suriname — restaurants, hotels, nature, activities and local news.</p>
       </div>
       <div>
         <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Explore</p>
@@ -2387,11 +2387,11 @@ def footer_html(prefix=""):
       <div>
         <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Travel Info</p>
         <ul class="space-y-2 text-sm text-white/70">
-          <li>&#127988; Capital: Paramaribo</li>
-          <li>&#128172; Dutch, Sranan Tongo + 9 more</li>
-          <li>&#128176; Surinamese Dollar (SRD)</li>
-          <li>&#127774; Tropical, ~28&#176;C year-round</li>
-          <li>&#127942; 2 UNESCO World Heritage Sites</li>
+          <li>Capital: Paramaribo</li>
+          <li>Languages: Dutch, Sranan Tongo + 9 more</li>
+          <li>Currency: Surinamese Dollar (SRD)</li>
+          <li>Climate: Tropical, ~28&#176;C year-round</li>
+          <li>2 UNESCO World Heritage Sites</li>
         </ul>
       </div>
       <div>
@@ -2417,7 +2417,7 @@ def footer_html(prefix=""):
           Instagram
         </a>
       </div>
-      <p class="text-white/40 text-xs">&copy; {YEAR} ExploreSuriname.com &mdash; Auto-updated daily &middot; Content from public sources</p>
+      <p class="text-white/40 text-xs">&copy; {YEAR} ExploreSuriname.com</p>
     </div>
   </div>
 </footer>"""
@@ -2440,9 +2440,8 @@ def news_card_html(a, large=False):
             f'</div></a>')
 
 def ad_slot(label):
-    return (f'<div class="flex items-center justify-center bg-gray-50 border border-dashed '
-            f'border-gray-300 rounded-xl text-gray-400 text-sm py-6 my-6">'
-            f'&#128226; {html_lib.escape(label)}</div>')
+    # Placeholder for ad unit — no visible text shown to users or crawlers
+    return '<div class="my-6" aria-hidden="true"></div>'
 
 def nature_card(spot):
     tags_html = "".join(
@@ -2749,10 +2748,10 @@ def build_index(restaurants, hotels, news_preview):
 </section>
 <section style="background:var(--forest)" class="text-white py-7">
   <div class="max-w-5xl mx-auto px-5 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-    <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Climate</p><p class="font-semibold">&#127774; Tropical, ~28&#176;C</p></div>
-    <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Forest Cover</p><p class="font-semibold">&#127807; 94% Rainforest</p></div>
-    <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">UNESCO Sites</p><p class="font-semibold">&#127942; 2 World Heritage</p></div>
-    <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Bird Species</p><p class="font-semibold">&#128038; 700+ Species</p></div>
+    <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Climate</p><p class="font-semibold">Tropical, ~28&#176;C</p></div>
+    <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Forest Cover</p><p class="font-semibold">94% Rainforest</p></div>
+    <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">UNESCO Sites</p><p class="font-semibold">2 World Heritage Sites</p></div>
+    <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Bird Species</p><p class="font-semibold">700+ Species</p></div>
   </div>
 </section>
 <section id="nature" class="py-24 bg-gray-50">
@@ -3070,25 +3069,25 @@ def build_news(articles):
     rest_html = "\n".join(news_card_html(a) for a in articles[3:30])
     return f"""{PAGE_HEAD}
   <title>Suriname News | Explore Suriname</title>
-  <meta name="description" content="Latest Suriname news updated daily — De Ware Tijd, Starnieuws, Waterkant and more. Business, politics, culture and travel from Paramaribo.">
+  <meta name="description" content="Suriname news from De Ware Tijd, Starnieuws, Waterkant and more. Business, politics, culture and travel from Paramaribo.">
   <link rel="canonical" href="{SITE_URL}/news.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/news.html">
   <meta property="og:title" content="Suriname News | Explore Suriname">
-  <meta property="og:description" content="Latest Suriname news updated daily — De Ware Tijd, Starnieuws, Waterkant and more.">
+  <meta property="og:description" content="Suriname news from De Ware Tijd, Starnieuws, Waterkant and more.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Suriname News | Explore Suriname">
-  <meta name="twitter:description" content="Latest Suriname news updated daily — De Ware Tijd, Starnieuws, Waterkant and more.">
+  <meta name="twitter:description" content="Suriname news from De Ware Tijd, Starnieuws, Waterkant and more.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("news")}
 <div class="pt-16"></div>
 <div class="text-white text-center py-16" style="background:var(--forest)">
-  <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--leaf)">Auto-updated daily</p>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname News</h1>
+  <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--leaf)">Suriname News</p>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Latest from Suriname</h1>
   <p class="text-white/55 text-sm">{updated} &middot; {total} stories from {len(FEEDS)} sources</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-20">
