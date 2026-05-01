@@ -25,9 +25,7 @@ jobs:
           node-version: '20'
 
       - name: Build Tailwind CSS
-        run: |
-          cd website
-          npx --yes tailwindcss -i input.css -o tailwind.css --minify
+        run: npx --yes tailwindcss -i input.css -o tailwind.css --minify
 
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
@@ -38,7 +36,7 @@ jobs:
         run: pip install feedparser
 
       - name: Generate all pages
-        run: python website/generate.py
+        run: python generate.py
 
       - name: Commit and push
         run: |
