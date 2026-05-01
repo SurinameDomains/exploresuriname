@@ -204,7 +204,7 @@ ACTIVITIES = [
     {"icon": "🎣", "name": "Sport Fishing",
      "desc": "Fish for piranha, arapaima and peacock bass in jungle rivers and reservoirs.",
      "url": "https://www.orangesuriname.com/en/boat-trips-fishing-tours/",
-     "image": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&q=80"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Arapaima_gigas.jpg/1280px-Arapaima_gigas.jpg"},
     {"icon": "🏛️", "name": "Colonial Plantation Tours",
      "desc": "Cycle or boat through the Commewijne River district, visiting historic coffee and cacao plantations.",
      "url": "https://www.trips-suriname.com/tours/commewijne-plantation-tour/",
@@ -212,19 +212,19 @@ ACTIVITIES = [
     {"icon": "🍽️", "name": "Surinamese Cooking Class",
      "desc": "Learn to cook traditional Creole, Hindustani and Javanese dishes with a local Paramaribo family.",
      "url": "https://www.orangesuriname.com/en/tours/surinamese-cooking-workshop/",
-     "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/2016_0624_Tjauw_min_moksie_meti_speciaal.jpg/1280px-2016_0624_Tjauw_min_moksie_meti_speciaal.jpg"},
     {"icon": "🚵🏻", "name": "ATV & 4x4 Interior Tours",
      "desc": "Explore jungle trails, gold mining areas and remote villages by ATV or 4x4.",
      "url": "https://bluebirdtourstravel.com/en/products/atv-kabelbaan-avontuur",
-     "image": "https://images.unsplash.com/photo-1533130061792-64b345e4a833?w=600&q=80"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Leo_val_brownsberg.JPG/1280px-Leo_val_brownsberg.JPG"},
     {"icon": "🌊", "name": "Kayaking & Paddling",
      "desc": "Paddle through mangroves, jungle rivers and lake areas on guided or self-guided kayak tours.",
      "url": "https://www.surinamekayakadventures.com/?lang=en",
-     "image": "https://images.unsplash.com/photo-1502933691298-84fc14542831?w=600&q=80"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Canoe_%28korjaal%29_on_Fungu_Island_jungle_%282719255807%29.jpg/1280px-Canoe_%28korjaal%29_on_Fungu_Island_jungle_%282719255807%29.jpg"},
     {"icon": "🌌", "name": "Jungle Stargazing",
      "desc": "Zero light pollution deep in the interior delivers some of the world's most incredible night skies.",
      "url": "https://unlocknature.tours/tours/multiple-day/",
-     "image": "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=600&q=80"},
+     "image": ""},
 ]
 
 # -- Business listings (hardcoded from exploresuriname_listings.json) ---------
@@ -2760,7 +2760,7 @@ def build_index(restaurants, hotels, news_preview):
       <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Suriname protects more of its original forest than any other country on earth.</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{nature_cards}</div>
-    <div class="text-center mt-10">{more_btn("nature.html", f"View all {len(NATURE_SPOTS)} nature spots")}</div>
+    <div class="text-center mt-10">{more_btn("nature.html", f"View all {len(NATURE_SPOTS) + len(SIGHTSEEING)} nature spots")}</div>
   </div>
 </section>
 <section id="activities" class="py-24 bg-white">
@@ -2771,7 +2771,7 @@ def build_index(restaurants, hotels, news_preview):
       <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">From deep jungle expeditions to cultural immersion.</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{activity_cards}</div>
-    <div class="text-center mt-10">{more_btn("activities.html", f"View all {len(ACTIVITIES)} activities")}</div>
+    <div class="text-center mt-10">{more_btn("activities.html", f"View all {len(ACTIVITIES) + len(ADVENTURES_BIZ)} activities")}</div>
   </div>
 </section>
 <section id="dining" class="py-24 bg-white">
@@ -2828,10 +2828,16 @@ def build_nature_page():
         NATURE_SPOTS, all_cards, page_file="nature.html", extra_html="", filter_bar=filter_bar_s)
 
 def build_activities_page():
-    act_cards = "\n".join(activity_card_rich(a) for a in ACTIVITIES)
-    adv_cards = "\n".join(poi_card(b) for b in ADVENTURES_BIZ)
-    all_cards = act_cards + "\n" + adv_cards
-    # build filter bar from combined list (generic activities default to "tours-expeditions" subcat)
+    # Merge ACTIVITIES and ADVENTURES_BIZ sorted alphabetically by name
+    tagged = (
+        [(a["name"].lower(), "activity", a) for a in ACTIVITIES] +
+        [(b["name"].lower(), "biz",      b) for b in ADVENTURES_BIZ]
+    )
+    tagged.sort(key=lambda x: x[0])
+    all_cards = "\n".join(
+        activity_card_rich(item) if kind == "activity" else poi_card(item)
+        for _, kind, item in tagged
+    )
     combined_items = [{"subcat": a.get("subcat", "tours-expeditions")} for a in ACTIVITIES] + list(ADVENTURES_BIZ)
     filter_bar_a = _filter_bar_html(combined_items, "adventure")
     total = len(ACTIVITIES) + len(ADVENTURES_BIZ)
