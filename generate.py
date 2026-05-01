@@ -682,11 +682,11 @@ _BIZ = {
     'multi-travel': {"name": 'Multi Travel', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
     'muntjes-take-out-juniors-place': {"name": 'Muntjes Take Out Juniors Place', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
     'murphys-irish-pub': {"name": 'Murphys Irish Pub', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
-    'naskip': {"name": 'Naskip', "location": 'Paramaribo', "address": 'Paramaribo', "phone": '', "website": ''},
-    'naskip-2': {"name": 'Naskip (2)', "location": 'Paramaribo', "address": 'Paramaribo', "phone": '', "website": ''},
-    'naskip-3': {"name": 'Naskip (3)', "location": 'Paramaribo', "address": 'Paramaribo', "phone": '', "website": ''},
-    'naskip-4': {"name": 'Naskip (4)', "location": 'Paramaribo', "address": 'Paramaribo', "phone": '', "website": ''},
-    'naskip-5': {"name": 'Naskip (5)', "location": 'Paramaribo', "address": 'Paramaribo', "phone": '', "website": ''},
+    'naskip': {"name": 'Naskip Henck Arronstraat', "location": 'Paramaribo', "address": 'Henck Arronstraat 46b, Paramaribo', "phone": '+597 475-419', "website": 'naskip.com'},
+    'naskip-2': {"name": 'Naskip Latourweg', "location": 'Paramaribo', "address": 'Latourweg 10, Paramaribo', "phone": '+597 481-555', "website": 'naskip.com'},
+    'naskip-3': {"name": 'Naskip Gemenelandsweg', "location": 'Paramaribo', "address": 'Verlengde Gemenelandsweg, Paramaribo', "phone": '', "website": 'naskip.com'},
+    'naskip-4': {"name": 'Naskip Kwatta', "location": 'Paramaribo', "address": 'Hoek Kwattaweg & Van Idsingastraat, Paramaribo', "phone": '', "website": 'naskip.com'},
+    'naskip-5': {"name": 'Naskip Indira Ghandiweg', "location": 'Paramaribo', "address": 'Hoek Indira Ghandiweg & Schotelweg, Paramaribo', "phone": '', "website": 'naskip.com'},
     'nassy-brouwer-college': {"name": 'Nassy Brouwer College', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
     'nassy-brouwer-school': {"name": 'Nassy Brouwer School', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
     'new-choice-lalla-rookhweg': {"name": 'New Choice Lalla Rookhweg', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
@@ -1128,8 +1128,8 @@ _IMGS = {
     "brotherhood-security": "",
     "brow-bliss-lounge": "",
     "building-depot": "",
-    "burger-king-centrum": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Somain_-_Burger_King_%2801%29.JPG/1280px-Somain_-_Burger_King_%2801%29.JPG",
-    "burger-king-latour": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Somain_-_Burger_King_%2801%29.JPG/1280px-Somain_-_Burger_King_%2801%29.JPG",
+    "burger-king-centrum": "https://upload.wikimedia.org/wikipedia/commons/7/76/Burger_king_Suriname_voorin.jpg",
+    "burger-king-latour":  "https://upload.wikimedia.org/wikipedia/commons/7/76/Burger_king_Suriname_voorin.jpg",
     "buro-workspaces": "",
     "byd-suriname": "",
     "camex-suriname": "",
@@ -1328,13 +1328,13 @@ _IMGS = {
     "keller-williams-suriname": "",
     "kempes-co": "",
     "ket-mien": "",
-    "kfc-ims": "https://upload.wikimedia.org/wikipedia/commons/5/56/KFC_SM_Sucat_exterior.jpg",
-    "kfc-kwatta": "https://upload.wikimedia.org/wikipedia/commons/5/56/KFC_SM_Sucat_exterior.jpg",
-    "kfc-lallarookh": "https://upload.wikimedia.org/wikipedia/commons/5/56/KFC_SM_Sucat_exterior.jpg",
-    "kfc-latour": "https://upload.wikimedia.org/wikipedia/commons/5/56/KFC_SM_Sucat_exterior.jpg",
-    "kfc-lelydorp": "https://upload.wikimedia.org/wikipedia/commons/5/56/KFC_SM_Sucat_exterior.jpg",
-    "kfc-waterkant": "https://upload.wikimedia.org/wikipedia/commons/5/56/KFC_SM_Sucat_exterior.jpg",
-    "kfc-wilhelminastraat": "https://upload.wikimedia.org/wikipedia/commons/5/56/KFC_SM_Sucat_exterior.jpg",
+    "kfc-ims":             "https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png",
+    "kfc-kwatta":          "https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png",
+    "kfc-lallarookh":      "https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png",
+    "kfc-latour":          "https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png",
+    "kfc-lelydorp":        "https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png",
+    "kfc-waterkant":       "https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png",
+    "kfc-wilhelminastraat":"https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png",
     "kimboto": "",
     "kirpalani-domineestraat": "https://www.kirpalani.com/media/bluebird/widget/widget/image/h/i/highlights.webp",
     "kirpalani-maagdenstraat": "https://www.kirpalani.com/media/bluebird/widget/widget/image/h/i/highlights.webp",
@@ -1385,11 +1385,11 @@ _IMGS = {
     "multi-travel": "",
     "muntjes-take-out-juniors-place": "",
     "murphys-irish-pub": "https://ims.sr/wp-content/uploads/2023/07/murphys.png",
-    "naskip": "https://naskip.nl/storage/websites/6/61733-naskip-amsterdam_large.jpeg",
-    "naskip-2": "https://naskip.nl/storage/websites/6/61733-naskip-amsterdam_large.jpeg",
-    "naskip-3": "https://naskip.nl/storage/websites/6/61733-naskip-amsterdam_large.jpeg",
-    "naskip-4": "https://naskip.nl/storage/websites/6/61733-naskip-amsterdam_large.jpeg",
-    "naskip-5": "https://naskip.nl/storage/websites/6/61733-naskip-amsterdam_large.jpeg",
+    "naskip":   "https://upload.wikimedia.org/wikipedia/commons/2/25/Suriname_-_Paramaribo_-_Henck_Arronstraat_46_20221004_Naskip.jpg",
+    "naskip-2": "https://upload.wikimedia.org/wikipedia/commons/2/25/Suriname_-_Paramaribo_-_Henck_Arronstraat_46_20221004_Naskip.jpg",
+    "naskip-3": "https://upload.wikimedia.org/wikipedia/commons/2/25/Suriname_-_Paramaribo_-_Henck_Arronstraat_46_20221004_Naskip.jpg",
+    "naskip-4": "https://upload.wikimedia.org/wikipedia/commons/2/25/Suriname_-_Paramaribo_-_Henck_Arronstraat_46_20221004_Naskip.jpg",
+    "naskip-5": "https://upload.wikimedia.org/wikipedia/commons/2/25/Suriname_-_Paramaribo_-_Henck_Arronstraat_46_20221004_Naskip.jpg",
     "nassy-brouwer-college": "",
     "nassy-brouwer-school": "",
     "new-choice-lalla-rookhweg": "",
@@ -1440,14 +1440,14 @@ _IMGS = {
     "petit-bouchon": "",
     "pineapple-tours": "",
     "pitbull-fitness": "",
-    "pizza-hut-leysweg": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Pizza_Hut_%281%29.jpg/1280px-Pizza_Hut_%281%29.jpg",
-    "pizza-hut-south": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Pizza_Hut_%281%29.jpg/1280px-Pizza_Hut_%281%29.jpg",
-    "pizza-hut-wilhelminastraat": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Pizza_Hut_%281%29.jpg/1280px-Pizza_Hut_%281%29.jpg",
+    "pizza-hut-leysweg":          "https://www.pizzahut.sr/wp-content/uploads/2024/05/show_01.png",
+    "pizza-hut-south":            "https://www.pizzahut.sr/wp-content/uploads/2024/05/show_01.png",
+    "pizza-hut-wilhelminastraat": "https://www.pizzahut.sr/wp-content/uploads/2024/05/show_01.png",
     "pizza-mafia": "",
-    "popeyes-centrum": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Popeyes_Louisiana_Kitchen_%2851195358373%29.jpg/1280px-Popeyes_Louisiana_Kitchen_%2851195358373%29.jpg",
-    "popeyes-lelydorp": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Popeyes_Louisiana_Kitchen_%2851195358373%29.jpg/1280px-Popeyes_Louisiana_Kitchen_%2851195358373%29.jpg",
-    "popeyes-tbl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Popeyes_Louisiana_Kitchen_%2851195358373%29.jpg/1280px-Popeyes_Louisiana_Kitchen_%2851195358373%29.jpg",
-    "popeyes-wilhelminastraat": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Popeyes_Louisiana_Kitchen_%2851195358373%29.jpg/1280px-Popeyes_Louisiana_Kitchen_%2851195358373%29.jpg",
+    "popeyes-centrum":        "https://www.surinamyp.com/img/sr/e/1683207102-18-popeyes.jpg",
+    "popeyes-lelydorp":       "https://www.surinamyp.com/img/sr/e/1683207102-18-popeyes.jpg",
+    "popeyes-tbl":            "https://www.surinamyp.com/img/sr/e/1683207102-18-popeyes.jpg",
+    "popeyes-wilhelminastraat":"https://www.surinamyp.com/img/sr/e/1683207102-18-popeyes.jpg",
     "professional-private-security": "",
     "protrade-international": "",
     "qsi-international-school-of-suriname": "",
@@ -1869,6 +1869,17 @@ def _subcat(slug, main_cat=""):
         return 'optical-jewelry'
     if 'wonderlab' in s:
         return 'education'
+    # ── Restaurant catch-ups (slugs not matched above) ─────────────────────
+    if any(x in s for x in ['goe-thai','etembe']):
+        return 'asian-fusion'
+    if any(x in s for x in ['ac-bar','mingle-paramaribo','passion-food','bistro-brwni',
+            'bistro-don-julio','bistro-lequatorze','lamour']):
+        return 'bars-lounges'
+    if any(x in s for x in ['a-la-john','big-tex','bori-tori','de-gadri','el-patron',
+            'garden-of-eden','joey-ds','julias-food','las-tias','mickis-palace',
+            'moments-restaurant','rogom-farm','souposo','flavor-restaurant',
+            'restaurant-lhermitage']):
+        return 'local-caribbean'
     return 'other'
 
 # Subcategory display config: cat → [ (key, label, emoji) ]
@@ -3908,10 +3919,8 @@ if __name__ == "__main__":
 
     with open("sitemap.xml", "w", encoding="utf-8") as f:
         f.write(build_sitemap(list(_BIZ.keys()), act_slugs, nat_slugs))
-    print("  OK  sitemap.xml")
 
     with open("robots.txt", "w", encoding="utf-8") as f:
         f.write(build_robots())
-    print("  OK  robots.txt")
 
-    print
+    print("Done.")
