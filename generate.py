@@ -2471,12 +2471,13 @@ def fetch_aviationstack_flights():
 
     arrivals, departures = [], []
     base = "http://api.aviationstack.com/v1/flights"
+    today_sr = datetime.now(SR_TZ).strftime("%Y-%m-%d")
     for direction, param, store in [
         ("arrival",   "arr_iata=PBM", arrivals),
         ("departure", "dep_iata=PBM", departures),
     ]:
         try:
-            url = f"{base}?access_key={key}&{param}&limit=15"
+            url = f"{base}?access_key={key}&{param}&flight_date={today_sr}&limit=15"
             req = urllib.request.Request(url, headers={"User-Agent": "ExploreSuriname/1.0"})
             with urllib.request.urlopen(req, timeout=20) as _r:
                 rows = json.loads(_r.read().decode("utf-8")).get("data", [])
@@ -4459,7 +4460,7 @@ def build_flights_page(arrivals, departures, updated):
     <p class="text-blue-900 text-sm leading-relaxed">
       <strong class="text-blue-800">&#9992;&#65039; About this data:</strong>
       Flight data is sourced from <a href="https://aviationstack.com" target="_blank" rel="noopener" class="underline">AviationStack</a>.
-      Times shown in Suriname time (SR, UTC&minus;3). Scheduled flights for today; data refreshes every 18 hours.
+      Times shown in Suriname time (SR, UTC&minus;3). Scheduled flights for today; data refreshes every 15 hours.
       For real-time tracking, visit <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener" class="underline">Flightradar24</a>.
     </p>
   </div>
