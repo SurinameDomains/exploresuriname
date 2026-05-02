@@ -49,6 +49,18 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://exploresuriname.com/flights.html</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/conditions.html</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://exploresuriname.com/news.html</loc>
     <lastmod>2026-05-01</lastmod>
     <changefreq>daily</changefreq>
@@ -4548,4 +4560,5 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+
 </urlset>
