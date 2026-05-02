@@ -1,11 +1,6 @@
 name: Update Site
 
 on:
-  schedule:
-    # Every 30 minutes, 06:00–23:00 SR (09:00–02:00 UTC next day)
-    # Keeps news fresh all day and catches CBVS rate posts whenever they land
-    - cron: '0,30 9-23 * * *'   # 06:00–20:30 SR
-    - cron: '0,30 0-2  * * *'   # 21:00–23:30 SR (next UTC day)
   workflow_dispatch:
 
 permissions:
