@@ -33,7 +33,7 @@ jobs:
       - name: Generate all pages
         env:
           WORLDTIDES_KEY:    ${{ secrets.WORLDTIDES_KEY }}
-          AVIATIONSTACK_KEY: ${{ secrets.AVIATIONSTACK_KEY }}
+          AERODATABOX_KEY:   ${{ secrets.AERODATABOX_KEY }}
         run: python generate.py
 
       - name: Cache external images
