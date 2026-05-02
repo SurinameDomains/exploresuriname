@@ -2514,10 +2514,14 @@ def nav_html(active="home", prefix=""):
         (f"{prefix}news.html",         "News"),
     ]
     lhtml = ""
+    mhtml = ""
     for href, label in links:
         cls = "font-semibold" if label.lower() == active else "text-gray-700 hover:text-green-800 transition"
         color = 'style="color:var(--forest)"' if label.lower() == active else ""
         lhtml += f'<a href="{href}" class="{cls} text-sm" {color}>{label}</a>\n'
+        mcls = "font-semibold border-l-2 pl-3" if label.lower() == active else "text-gray-700 border-l-2 border-transparent pl-3"
+        mcolor = 'style="color:var(--forest);border-color:var(--forest)"' if label.lower() == active else ""
+        mhtml += f'<a href="{href}" class="{mcls} block py-3 text-sm" {mcolor}>{label}</a>\n'
     cat_colors = {"Eat & Drink":"#7c3aed","Stay":"#c05621","Nature":"var(--forest)",
                    "Activities":"var(--forest2)","Shopping":"#0369a1","Services":"#0369a1","Sightseeing":"var(--forest)"}
     return f"""
@@ -2528,7 +2532,7 @@ def nav_html(active="home", prefix=""):
     </a>
     <div class="hidden md:flex items-center gap-5">{lhtml}</div>
     <div class="flex items-center gap-2">
-      <button onclick="openSearch()" title="Search listings (press /)" class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50" style="min-width:120px">
+      <button onclick="openSearch()" title="Search listings (press /)" class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50 sm:min-w-[120px]">
         <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
         <span class="hidden sm:inline">Search…</span>
         <span class="ml-auto hidden sm:inline text-xs bg-gray-200 text-gray-500 rounded px-1.5 py-0.5 font-mono">/</span>
@@ -2538,7 +2542,7 @@ def nav_html(active="home", prefix=""):
       <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
   </div>
-  <div id="mm" class="hidden md:hidden border-t bg-white px-5 py-4 flex flex-col gap-3 text-sm">{lhtml}</div>
+  <div id="mm" class="hidden md:hidden border-t bg-white px-5 py-2 flex flex-col">{mhtml}</div>
 </nav>
 
 <!-- ── Global Search Modal ───────────────────────────────────────────── -->
@@ -2829,9 +2833,10 @@ def _filter_bar_html(items, cat_key):
 </div>
 <style>
 .filter-chip {{
-  display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:999px;
+  display:inline-flex;align-items:center;gap:5px;padding:10px 16px;border-radius:999px;
   border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
   color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+  touch-action:manipulation;
 }}
 .filter-chip:hover {{ border-color:var(--forest);color:var(--forest); }}
 .filter-chip.chip-active {{ background:var(--forest);border-color:var(--forest);color:#fff; }}
@@ -3014,9 +3019,9 @@ def build_index(restaurants, hotels, news_preview):
     <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Bird Species</p><p class="font-semibold">700+ Species</p></div>
   </div>
 </section>
-<section id="nature" class="py-24 bg-gray-50">
+<section id="nature" class="py-12 md:py-24 bg-gray-50">
   <div class="max-w-6xl mx-auto px-5">
-    <div class="text-center mb-16">
+    <div class="text-center mb-10 md:mb-16">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Pristine Wilderness</p>
       <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Nature Like Nowhere Else</h2>
       <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Suriname protects more of its original forest than any other country on earth.</p>
@@ -3025,9 +3030,9 @@ def build_index(restaurants, hotels, news_preview):
     <div class="text-center mt-10">{more_btn("nature.html", f"View all {len(NATURE_SPOTS) + len(SIGHTSEEING)} nature spots")}</div>
   </div>
 </section>
-<section id="activities" class="py-24 bg-white">
+<section id="activities" class="py-12 md:py-24 bg-white">
   <div class="max-w-6xl mx-auto px-5">
-    <div class="text-center mb-16">
+    <div class="text-center mb-10 md:mb-16">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Adventures Await</p>
       <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Things to Do</h2>
       <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">From deep jungle expeditions to cultural immersion.</p>
@@ -3036,9 +3041,9 @@ def build_index(restaurants, hotels, news_preview):
     <div class="text-center mt-10">{more_btn("activities.html", f"View all {len(ACTIVITIES) + len(ADVENTURES_BIZ)} activities")}</div>
   </div>
 </section>
-<section id="dining" class="py-24 bg-white">
+<section id="dining" class="py-12 md:py-24 bg-white">
   <div class="max-w-6xl mx-auto px-5">
-    <div class="text-center mb-16">
+    <div class="text-center mb-10 md:mb-16">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Eat &amp; Drink</p>
       <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Where to Eat</h2>
       <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Suriname&apos;s cuisine is as diverse as its people — Creole, Hindustani, Javanese, Chinese and Maroon flavors.</p>
@@ -3047,9 +3052,9 @@ def build_index(restaurants, hotels, news_preview):
     <div class="text-center mt-10">{more_btn("restaurants.html", f"View all {len(RESTAURANTS)} restaurants")}</div>
   </div>
 </section>
-<section id="hotels" class="py-24" style="background:var(--mint)">
+<section id="hotels" class="py-12 md:py-24" style="background:var(--mint)">
   <div class="max-w-6xl mx-auto px-5">
-    <div class="text-center mb-16">
+    <div class="text-center mb-10 md:mb-16">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Where to Stay</p>
       <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Hotels &amp; Lodges</h2>
       <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">From 5-star riverside hotels to remote jungle lodges only reachable by canoe.</p>
@@ -3058,7 +3063,7 @@ def build_index(restaurants, hotels, news_preview):
     <div class="text-center mt-10">{more_btn("hotels.html", f"View all {len(HOTELS)} hotels &amp; lodges")}</div>
   </div>
 </section>
-<section class="py-24 bg-white">
+<section class="py-12 md:py-24 bg-white">
   <div class="max-w-6xl mx-auto px-5">
     <div class="flex items-end justify-between mb-10 flex-wrap gap-4">
       <div>

@@ -39,7 +39,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).parent
 IMAGES_DIR = SCRIPT_DIR / "images"
 CACHE_FILE = SCRIPT_DIR / "image_cache.json"
-HTML_GLOB  = list(SCRIPT_DIR.glob("*.html"))
+HTML_GLOB  = list(SCRIPT_DIR.rglob("*.html"))
 
 IMG_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg"}
 
@@ -93,7 +93,10 @@ def _save_cache(cache):
 
 
 def _extract_img_srcs(html):
+    # src="..." attributes
     raw = re.findall(r"""src=['"]([^'"]+)['"]""", html)
+    # CSS background-image: url('...') or url("...") or url(...)
+    raw += re.findall(r"""url\(['"]?([^'"\)]+)['"]?\)""", html)
     return [u for u in raw if _is_image_url(u)]
 
 
@@ -104,10 +107,19 @@ def _rewrite_html(html_contents, cache, dry_run):
         new_content = content
         for url, local_path in cache.items():
             if url in new_content:
+                # Rewrite src= attributes
                 new_content = new_content.replace(
                     'src="%s"' % url, 'src="%s"' % local_path
                 ).replace(
                     "src='%s'" % url, "src='%s'" % local_path
+                )
+                # Rewrite CSS url() values (all three quote styles)
+                new_content = new_content.replace(
+                    "url('%s')" % url, "url('%s')" % local_path
+                ).replace(
+                    'url("%s")' % url, 'url("%s")' % local_path
+                ).replace(
+                    "url(%s)" % url, "url(%s)" % local_path
                 )
         if new_content != content:
             rewrites += 1
