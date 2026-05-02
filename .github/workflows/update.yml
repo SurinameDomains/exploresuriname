@@ -36,6 +36,9 @@ jobs:
         run: pip install feedparser
 
       - name: Generate all pages
+        env:
+          WORLDTIDES_KEY:    ${{ secrets.WORLDTIDES_KEY }}
+          AVIATIONSTACK_KEY: ${{ secrets.AVIATIONSTACK_KEY }}
         run: python generate.py
 
       - name: Cache external images
@@ -51,6 +54,6 @@ jobs:
           git add index.html news.html nature.html activities.html restaurants.html hotels.html shopping.html services.html currency.html conditions.html flights.html
           git add listing/ .last_run sitemap.xml robots.txt tailwind.css
           git add images/ image_cache.json || true
-          git add tides_cache.json || true
+          git add tides_cache.json flights_cache.json || true
           git diff --staged --quiet || git commit -m "Auto-update $(TZ='America/Paramaribo' date '+%Y-%m-%d %H:%M') SR"
           git push
