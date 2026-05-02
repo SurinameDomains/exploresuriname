@@ -2451,14 +2451,13 @@ def fetch_aviationstack_flights():
             other_iata = arr.get("iata", "")
             other_name = arr.get("airport", other_iata)
             raw_time   = dep.get("actual") or dep.get("estimated") or dep.get("scheduled") or ""
-        # Convert UTC ISO to SR time (UTC-3)
+        # AviationStack returns times in local airport time (America/Paramaribo)
+        # but labels them +00:00 — treat as SR time directly, no conversion needed.
         time_sr = ""
         if raw_time:
             try:
-                from datetime import timezone as _tz, timedelta as _td
                 dt = datetime.fromisoformat(raw_time.replace("Z", "+00:00"))
-                dt_sr = dt.astimezone(SR_TZ)
-                time_sr = dt_sr.strftime("%d %b %H:%M")
+                time_sr = dt.strftime("%d %b %H:%M")
             except Exception:
                 time_sr = raw_time[:16]
         return {
