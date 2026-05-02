@@ -2412,56 +2412,93 @@ def _decode_flight(row, direction):
     }
 
 
-def fetch_opensky_flights():
+_FLIGHTS_CACHE_FILE = "flights_cache.json"
+
+def fetch_aviationstack_flights():
     """
-    Fetch recent arrivals and departures at SMJP (Johan Adolf Pengel, PBM)
-    from OpenSky Network.  Free account required (opensky-network.org).
-    Set OPENSKY_USER and OPENSKY_PASS as GitHub Actions secrets.
+    Fetch arrivals and departures at PBM from AviationStack (free tier).
+    Caches for 18 h to stay within 100 requests/month free limit.
+    Set AVIATIONSTACK_KEY as a GitHub Actions secret.
     Returns (arrivals, departures, updated_str).
     """
-    import os as _os, base64 as _b64
-    user = _os.environ.get("OPENSKY_USER", "").strip()
-    pw   = _os.environ.get("OPENSKY_PASS", "").strip()
-    if not user or not pw:
-        print("  OpenSky: OPENSKY_USER / OPENSKY_PASS not set — skipping flights")
+    import os as _os
+    key = _os.environ.get("AVIATIONSTACK_KEY", "").strip()
+    if not key:
+        print("  AviationStack: no AVIATIONSTACK_KEY set — skipping flights")
         return [], [], datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
 
-    creds = _b64.b64encode(f"{user}:{pw}".encode()).decode()
+    now_ts = datetime.now(timezone.utc).timestamp()
 
-    now_ts = int(datetime.now(timezone.utc).timestamp())
-    begin  = now_ts - 48 * 3600   # past 48 h
-    end    = now_ts
-    results = {}
+    # 18-hour cache — keeps usage ~80 API calls/month (well under 100 free)
+    try:
+        with open(_FLIGHTS_CACHE_FILE) as _f:
+            cache = json.load(_f)
+        if now_ts - cache.get("fetched", 0) < 64800:   # 18 h
+            print("  AviationStack: using cached flights")
+            return cache["arrivals"], cache["departures"], cache["updated"]
+    except Exception:
+        pass
 
-    for direction in ("arrival", "departure"):
+    def _parse_flight(f, direction):
+        dep  = f.get("departure", {})
+        arr  = f.get("arrival",   {})
+        iata = f.get("flight",    {}).get("iata", "").strip()
+        if direction == "arrival":
+            other_iata = dep.get("iata", "")
+            other_name = dep.get("airport", other_iata)
+            raw_time   = arr.get("actual") or arr.get("estimated") or arr.get("scheduled") or ""
+        else:
+            other_iata = arr.get("iata", "")
+            other_name = arr.get("airport", other_iata)
+            raw_time   = dep.get("actual") or dep.get("estimated") or dep.get("scheduled") or ""
+        # Convert UTC ISO to SR time (UTC-3)
+        time_sr = ""
+        if raw_time:
+            try:
+                from datetime import timezone as _tz, timedelta as _td
+                dt = datetime.fromisoformat(raw_time.replace("Z", "+00:00"))
+                dt_sr = dt.astimezone(SR_TZ)
+                time_sr = dt_sr.strftime("%d %b %H:%M")
+            except Exception:
+                time_sr = raw_time[:16]
+        return {
+            "flight":  iata or "—",
+            "airline": f.get("airline", {}).get("name", "Unknown"),
+            "airport": other_name or other_iata or "Unknown",
+            "iata":    other_iata,
+            "time":    time_sr,
+            "status":  f.get("flight_status", ""),
+        }
+
+    arrivals, departures = [], []
+    base = "http://api.aviationstack.com/v1/flights"
+    for direction, param, store in [
+        ("arrival",   "arr_iata=PBM", arrivals),
+        ("departure", "dep_iata=PBM", departures),
+    ]:
         try:
-            url = (
-                f"https://opensky-network.org/api/flights/{direction}"
-                f"?airport={_OPENSKY_ICAO}&begin={begin}&end={end}"
-            )
-            req = urllib.request.Request(url, headers={
-                "User-Agent":    "ExploreSuriname/1.0",
-                "Authorization": f"Basic {creds}",
-            })
+            url = f"{base}?access_key={key}&{param}&limit=15"
+            req = urllib.request.Request(url, headers={"User-Agent": "ExploreSuriname/1.0"})
             with urllib.request.urlopen(req, timeout=20) as _r:
-                rows = json.loads(_r.read().decode("utf-8")) or []
-
-            flights = [_decode_flight(row, direction) for row in rows]
-            flights.sort(key=lambda x: x["ts"], reverse=True)
-
-            seen, clean = set(), []
-            for f in flights:
-                if f["flight"] not in seen and f["icao"] not in ("SMJP", "", "???"):
-                    seen.add(f["flight"])
-                    clean.append(f)
-            results[direction] = clean[:15]
-            print(f"  OpenSky {direction}s: {len(clean)} flights")
+                rows = json.loads(_r.read().decode("utf-8")).get("data", [])
+            seen = set()
+            for row in rows:
+                parsed = _parse_flight(row, direction)
+                if parsed["flight"] not in seen and parsed["iata"] not in ("PBM", "", "—"):
+                    seen.add(parsed["flight"])
+                    store.append(parsed)
+            print(f"  AviationStack {direction}s: {len(store)} flights")
         except Exception as e:
-            print(f"  OpenSky {direction} error: {e}")
-            results[direction] = []
+            print(f"  AviationStack {direction} error: {e}")
 
     updated = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
-    return results.get("arrival", []), results.get("departure", []), updated
+    try:
+        with open(_FLIGHTS_CACHE_FILE, "w") as _f:
+            json.dump({"fetched": now_ts, "arrivals": arrivals,
+                       "departures": departures, "updated": updated}, _f)
+    except Exception:
+        pass
+    return arrivals, departures, updated
 
 
 def nav_html(active="home", prefix=""):
@@ -4462,7 +4499,7 @@ def build_flights_page(arrivals, departures, updated):
   </div>
 
   <p class="text-center text-gray-400 text-xs mt-4 max-w-2xl mx-auto leading-relaxed px-4">
-    Data from <a href="https://opensky-network.org" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">OpenSky Network</a> under CC BY 4.0.
+    Data from <a href="https://aviationstack.com" target="_blank" rel="noopener" style="color:var(--forest2)">AviationStack</a>. Not for operational use.
     Data may be 30&ndash;90 min delayed. Not suitable for operational flight planning.
   </p>
 
@@ -4481,7 +4518,7 @@ if __name__ == "__main__":
     cme_rates,  cme_live,  cme_updated  = fetch_cme_rates()
     cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
     tides_extremes, tides_live, tides_updated = fetch_worldtides()
-    arrivals, departures, flights_updated     = fetch_opensky_flights()
+    arrivals, departures, flights_updated     = fetch_aviationstack_flights()
 
     pages = {
         "index.html":       build_index(RESTAURANTS, HOTELS, articles),
