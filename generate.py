@@ -2417,7 +2417,7 @@ _FLIGHTS_CACHE_FILE = "flights_cache.json"
 def fetch_aviationstack_flights():
     """
     Fetch arrivals and departures at PBM from AviationStack (free tier).
-    Caches for 18 h to stay within 100 requests/month free limit.
+    Caches for 15 h to stay within 100 requests/month free limit.
     Set AVIATIONSTACK_KEY as a GitHub Actions secret.
     Returns (arrivals, departures, updated_str).
     """
@@ -2429,11 +2429,11 @@ def fetch_aviationstack_flights():
 
     now_ts = datetime.now(timezone.utc).timestamp()
 
-    # 18-hour cache — keeps usage ~80 API calls/month (well under 100 free)
+    # 15-hour cache — keeps usage ~96 API calls/month (just under 100 free)
     try:
         with open(_FLIGHTS_CACHE_FILE) as _f:
             cache = json.load(_f)
-        if now_ts - cache.get("fetched", 0) < 64800:   # 18 h
+        if now_ts - cache.get("fetched", 0) < 54000:   # 15 h
             print("  AviationStack: using cached flights")
             return cache["arrivals"], cache["departures"], cache["updated"]
     except Exception:
