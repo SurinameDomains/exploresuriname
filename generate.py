@@ -2255,6 +2255,205 @@ PAGE_HEAD = """\
     a { text-decoration: none; }
   </style>"""
 
+# ── WorldTides: tide data for Paramaribo ────────────────────────────────────
+_TIDES_CACHE_FILE = "tides_cache.json"
+_TIDES_LAT        = 5.852
+_TIDES_LON        = -55.203
+
+def fetch_worldtides():
+    """
+    Fetch tide extremes for Paramaribo from WorldTides API v3.
+    Caches results to tides_cache.json for 24 h to stay within the free
+    100-requests/month limit.  Requires WORLDTIDES_KEY env var.
+    Returns (extremes_list, is_live, updated_str).
+    """
+    import os as _os
+    key = _os.environ.get("WORLDTIDES_KEY", "").strip()
+    if not key:
+        print("  WorldTides: no WORLDTIDES_KEY set — skipping tides")
+        return [], False, "No API key configured"
+
+    # Check 24-h cache first
+    now_ts = datetime.now(timezone.utc).timestamp()
+    try:
+        with open(_TIDES_CACHE_FILE) as _f:
+            cache = json.load(_f)
+        if now_ts - cache.get("fetched", 0) < 86400:
+            print(f"  WorldTides: using cached data ({_TIDES_CACHE_FILE})")
+            return cache["extremes"], True, cache["updated"]
+    except Exception:
+        pass
+
+    try:
+        url = (
+            f"https://www.worldtides.info/api/v3?extremes"
+            f"&lat={_TIDES_LAT}&lon={_TIDES_LON}&days=3&key={key}"
+        )
+        with urllib.request.urlopen(url, timeout=20) as _r:
+            data = json.loads(_r.read().decode("utf-8"))
+
+        if data.get("status", 0) != 200:
+            raise ValueError(f"WorldTides error: {data}")
+
+        extremes = data.get("Extremes", [])
+        ts_str   = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
+
+        cache = {"fetched": now_ts, "extremes": extremes, "updated": ts_str}
+        with open(_TIDES_CACHE_FILE, "w") as _f:
+            json.dump(cache, _f)
+        print(f"  WorldTides: fetched {len(extremes)} extremes")
+        return extremes, True, ts_str
+
+    except Exception as e:
+        print(f"  WorldTides error: {e}")
+        try:
+            with open(_TIDES_CACHE_FILE) as _f:
+                cache = json.load(_f)
+            return cache["extremes"], False, cache["updated"] + " (cached)"
+        except Exception:
+            return [], False, "Data unavailable"
+
+
+# ── OpenSky: arrivals and departures at Johan Adolf Pengel (SMJP / PBM) ─────
+_OPENSKY_ICAO = "SMJP"
+
+_AIRLINE_ICAO = {
+    "KLM": "KLM Royal Dutch Airlines",
+    "SLM": "Surinam Airways",
+    "TUI": "TUI fly",
+    "TBB": "TUI fly Netherlands",
+    "HV":  "Transavia",
+    "TOF": "Transavia",
+    "CMP": "Copa Airlines",
+    "BEL": "Brussels Airlines",
+    "IBE": "Iberia",
+    "DLH": "Lufthansa",
+    "AFR": "Air France",
+    "DAL": "Delta Air Lines",
+    "AAL": "American Airlines",
+    "UAL": "United Airlines",
+    "GLO": "Gol Transportes",
+    "TAM": "LATAM Airlines",
+    "LA":  "LATAM Airlines",
+    "AZU": "Azul Brazilian Airlines",
+    "BWA": "Caribbean Airlines",
+    "CAW": "Caribbean Airlines",
+    "BW":  "Caribbean Airlines",
+    "LIA": "LIAT",
+    "SVD": "St. Vincent Grenadines Air",
+}
+
+_AIRPORT_NAMES = {
+    "EHAM": "Amsterdam (AMS)",
+    "EHRD": "Rotterdam (RTM)",
+    "TNCC": "Curaçao (CUR)",
+    "TNCM": "St. Maarten (SXM)",
+    "TNCA": "Aruba (AUA)",
+    "MPTO": "Panama City (PTY)",
+    "SBGL": "Rio de Janeiro (GIG)",
+    "SBGR": "São Paulo (GRU)",
+    "SBEG": "Manaus (MAO)",
+    "SBMQ": "Macapá (MCP)",
+    "SBBV": "Boa Vista (BVB)",
+    "MDSD": "Santo Domingo (SDQ)",
+    "TGPY": "Grenada (GND)",
+    "TBPB": "Barbados (BGI)",
+    "TTPP": "Port of Spain (POS)",
+    "MKJP": "Kingston (KIN)",
+    "SYEL": "Kaieteur (KAI)",
+    "SYGT": "Georgetown (GEO)",
+    "SYGO": "Georgetown (OGL)",
+    "SMZO": "Paramaribo / Zorg en Hoop (ORJ)",
+    "SMJP": "Paramaribo (PBM)",
+    "LEMD": "Madrid (MAD)",
+    "LFPG": "Paris CDG (CDG)",
+    "EGLL": "London (LHR)",
+    "EDDF": "Frankfurt (FRA)",
+    "LIRF": "Rome (FCO)",
+    "LEBL": "Barcelona (BCN)",
+    "FNLU": "Luanda (LAD)",
+    "HAAB": "Addis Ababa (ADD)",
+}
+
+
+def _decode_flight(row, direction):
+    """Parse an OpenSky flights API row into a display dict."""
+    import re as _re
+    callsign = (row.get("callsign") or "").strip()
+    m = _re.match(r'^([A-Z]{2,3})(\d+)$', callsign)
+    if m:
+        prefix, number = m.group(1), m.group(2)
+    else:
+        prefix = callsign[:3].upper() if callsign else "???"
+        number = callsign[3:] if len(callsign) > 3 else ""
+
+    airline   = _AIRLINE_ICAO.get(prefix, prefix)
+    flight_no = f"{prefix}{number}" if number else callsign or "???"
+
+    if direction == "arrival":
+        ap_icao = row.get("estDepartureAirport") or "???"
+        ts      = row.get("lastSeen") or row.get("firstSeen") or 0
+    else:
+        ap_icao = row.get("estArrivalAirport") or "???"
+        ts      = row.get("firstSeen") or row.get("lastSeen") or 0
+
+    ap_name = _AIRPORT_NAMES.get(ap_icao, ap_icao)
+
+    time_str = (datetime.fromtimestamp(ts, tz=SR_TZ).strftime("%d %b %H:%M SR")
+                if ts else "—")
+
+    return {
+        "flight":  flight_no,
+        "airline": airline,
+        "airport": ap_name,
+        "icao":    ap_icao,
+        "time":    time_str,
+        "ts":      ts,
+    }
+
+
+def fetch_opensky_flights():
+    """
+    Fetch recent arrivals and departures at SMJP (Johan Adolf Pengel, PBM)
+    from OpenSky Network.  Completely free, no API key required.
+    Returns (arrivals, departures, updated_str).
+    """
+    now_ts = int(datetime.now(timezone.utc).timestamp())
+    begin  = now_ts - 48 * 3600   # past 48 h for a good sample
+    end    = now_ts
+    results = {}
+
+    for direction in ("arrival", "departure"):
+        try:
+            url = (
+                f"https://opensky-network.org/api/flights/{direction}"
+                f"?airport={_OPENSKY_ICAO}&begin={begin}&end={end}"
+            )
+            req = urllib.request.Request(
+                url, headers={"User-Agent": "ExploreSuriname/1.0"})
+            with urllib.request.urlopen(req, timeout=20) as _r:
+                rows = json.loads(_r.read().decode("utf-8")) or []
+
+            flights = [_decode_flight(row, direction) for row in rows]
+            # Most recent first for arrivals; most recent first for departures too
+            flights.sort(key=lambda x: x["ts"], reverse=True)
+
+            # Deduplicate and filter out SMJP↔SMJP
+            seen, clean = set(), []
+            for f in flights:
+                if f["flight"] not in seen and f["icao"] not in ("SMJP", "", "???"):
+                    seen.add(f["flight"])
+                    clean.append(f)
+            results[direction] = clean[:15]
+            print(f"  OpenSky {direction}s: {len(clean)} flights")
+        except Exception as e:
+            print(f"  OpenSky {direction} error: {e}")
+            results[direction] = []
+
+    updated = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
+    return results.get("arrival", []), results.get("departure", []), updated
+
+
 def nav_html(active="home", prefix=""):
     links = [
         (f"{prefix}nature.html",       "Nature"),
@@ -2264,6 +2463,8 @@ def nav_html(active="home", prefix=""):
         (f"{prefix}shopping.html",     "Shopping"),
         (f"{prefix}services.html",     "Services"),
         (f"{prefix}currency.html",     "Currency"),
+        (f"{prefix}flights.html",      "Flights"),
+        (f"{prefix}conditions.html",   "Forecast"),
         (f"{prefix}news.html",         "News"),
     ]
     lhtml = ""
@@ -2279,7 +2480,7 @@ def nav_html(active="home", prefix=""):
     <a href="{prefix}index.html" class="flex items-baseline">
       <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
     </a>
-    <div class="hidden md:flex items-center gap-7">{lhtml}</div>
+    <div class="hidden md:flex items-center gap-5">{lhtml}</div>
     <div class="flex items-center gap-2">
       <button onclick="openSearch()" title="Search listings (press /)" class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50" style="min-width:120px">
         <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
@@ -2392,6 +2593,8 @@ def footer_html(prefix=""):
           <li><a href="{prefix}shopping.html"    class="hover:text-white transition">Shopping</a></li>
           <li><a href="{prefix}services.html"    class="hover:text-white transition">Services</a></li>
           <li><a href="{prefix}currency.html"    class="hover:text-white transition">Currency Rates</a></li>
+          <li><a href="{prefix}flights.html"     class="hover:text-white transition">Flights (PBM)</a></li>
+          <li><a href="{prefix}conditions.html"  class="hover:text-white transition">Weather &amp; Tides</a></li>
           <li><a href="{prefix}news.html"        class="hover:text-white transition">Suriname News</a></li>
         </ul>
       </div>
@@ -2892,6 +3095,9 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
     buy_json  = _json.dumps({r["currency"]: float(r["buy"])  for r in cme_rates})
     sell_json = _json.dumps({r["currency"]: float(r["sell"]) for r in cme_rates})
 
+    # USD→SRD rate baked in for gold price SRD equivalent
+    usd_buy_srd = next((float(r["buy"]) for r in cme_rates if r["currency"] == "USD"), 37.5)
+
     def badge(is_live):
         if is_live:
             return '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Live</span>'
@@ -3067,8 +3273,67 @@ doConvert();"""
   <p class="text-center text-gray-400 text-xs mt-8 max-w-2xl mx-auto leading-relaxed px-4">
     Rates are for informational purposes only. Always confirm the current rate before transacting. Page auto-updates daily.
   </p>
+
+  <!-- Gold price ─────────────────────────────────────────────────────────── -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mt-8">
+    <div class="flex items-start justify-between mb-5">
+      <div>
+        <h2 class="serif text-2xl font-bold text-gray-900">&#129351; Gold Price</h2>
+        <p class="text-gray-400 text-sm mt-1">XAU — spot price, live from markets &mdash; via <a href="https://gold-api.com" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">gold-api.com</a></p>
+      </div>
+      <span id="gold-badge" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0">Loading…</span>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="rounded-xl p-4" style="background:var(--mint)">
+        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">USD / troy oz</p>
+        <p id="gold-usd" class="text-2xl font-bold font-mono text-gray-900">—</p>
+      </div>
+      <div class="rounded-xl p-4 bg-gray-50">
+        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">SRD / troy oz</p>
+        <p id="gold-srd" class="text-2xl font-bold font-mono text-gray-900">—</p>
+      </div>
+      <div class="rounded-xl p-4 bg-gray-50">
+        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">USD / gram</p>
+        <p id="gold-usdg" class="text-xl font-bold font-mono text-gray-900">—</p>
+      </div>
+      <div class="rounded-xl p-4 bg-gray-50">
+        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">24h Change</p>
+        <p id="gold-chg" class="text-xl font-bold font-mono text-gray-500">—</p>
+      </div>
+    </div>
+    <p class="text-gray-400 text-xs mt-4">Suriname is one of the world&apos;s leading gold producers per capita. SRD equivalent uses today&apos;s CME USD buy rate ({usd_buy_srd:.2f}). Price refreshes on each page load.</p>
+  </div>
+
 </main>
-<script>{js}</script>
+<script>{js}
+/* ── Gold price (gold-api.com, free, no key) ── */
+(function(){{
+  var USD_SRD = {usd_buy_srd};
+  fetch('https://api.gold-api.com/price/XAU')
+    .then(function(r){{return r.json();}})
+    .then(function(d){{
+      var price = d.price;
+      var prev  = d.prev_close_price || price;
+      var chg   = price - prev;
+      var chgPct = prev ? (chg / prev * 100) : 0;
+      document.getElementById('gold-usd').textContent  = '$' + price.toLocaleString('en-US',{{minimumFractionDigits:2,maximumFractionDigits:2}});
+      document.getElementById('gold-srd').textContent  = (price * USD_SRD).toLocaleString('en-US',{{minimumFractionDigits:0,maximumFractionDigits:0}}) + ' SRD';
+      document.getElementById('gold-usdg').textContent = '$' + (price / 31.1035).toLocaleString('en-US',{{minimumFractionDigits:2,maximumFractionDigits:2}});
+      var chgEl = document.getElementById('gold-chg');
+      var sign  = chg >= 0 ? '+' : '';
+      chgEl.textContent = sign + chg.toLocaleString('en-US',{{minimumFractionDigits:2,maximumFractionDigits:2}}) + ' (' + sign + chgPct.toFixed(2) + '%)';
+      chgEl.style.color = chg >= 0 ? 'var(--forest2)' : 'var(--coral)';
+      var badge = document.getElementById('gold-badge');
+      badge.textContent = '● Live';
+      badge.className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0';
+    }})
+    .catch(function(){{
+      var badge = document.getElementById('gold-badge');
+      badge.textContent = 'Unavailable';
+      badge.className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-500 shrink-0';
+    }});
+}})();
+</script>
 {footer_html()}
 </body>
 </html>"""
@@ -3656,156 +3921,147 @@ def build_nature_listing_page(spot, slug):
     maps_link  = "https://www.google.com/maps/search/?api=1&query=" + maps_q
     og_img     = img if img else SITE_URL + "/og-image.jpg"
 
+
     hero_style = ("background:url(" + html_lib.escape(img) + ") center/cover no-repeat"
                   if img else "background:var(--forest)")
     overlay    = ('<div class="absolute inset-0" style="background:linear-gradient('
                   'to top,rgba(0,0,0,.75) 0%,rgba(0,0,0,.3) 60%,transparent 100%)"></div>'
                   if img else "")
 
-    tags_html = "".join(
+    tags_html  = "".join(
         '<span class="inline-block text-xs px-3 py-1 rounded-full font-medium mr-1 mb-1"'
         ' style="background:var(--mint);color:var(--forest)">' + html_lib.escape(t) + '</span>'
         for t in tags
     )
-
     fact_block = (
-        '<div class="flex items-start gap-3 p-4 rounded-xl mb-6" style="background:var(--mint)">'
-        '<span class="text-2xl shrink-0">✨</span>'
-        '<p class="text-sm font-medium" style="color:var(--forest)">' + html_lib.escape(fact) + '</p>'
-        '</div>'
+        '<div class="flex items-start gap-3 p-4 rounded-xl mb-6"'
+        ' style="background:var(--mint)"><span class="text-2xl shrink-0">✨</span>'
+        '<p class="text-sm font-medium" style="color:var(--forest)">'
+        + html_lib.escape(fact) + '</p></div>'
     ) if fact else ""
 
-    website_btn = ""
-    if ext_url:
-        website_btn = (
-            '<a href="' + html_lib.escape(ext_url) + '" target="_blank" rel="noopener" '
-            'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
-            'text-sm font-semibold text-white hover:opacity-90 transition mb-3" '
-            'style="background:var(--forest)">\U0001f310 Learn More</a>'
-        )
+    website_btn = (
+        '<a href="' + html_lib.escape(ext_url) + '"'
+        ' target="_blank" rel="noopener"'
+        ' class="flex items-center justify-center gap-2 w-full py-3 rounded-xl'
+        ' text-sm font-semibold text-white hover:opacity-90 transition mb-3"'
+        ' style="background:var(--forest)">\U0001f310 Learn More</a>'
+    ) if ext_url else ""
 
     directions_btn = (
-        '<a href="' + html_lib.escape(maps_link) + '" target="_blank" rel="noopener" '
-        'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
-        'text-sm font-semibold border-2 hover:bg-gray-50 transition" '
-        'style="border-color:var(--forest2);color:var(--forest2)">\U0001f5fa️ Get Directions</a>'
+        '<a href="' + maps_link + '"'
+        ' target="_blank" rel="noopener"'
+        ' class="flex items-center justify-center gap-2 w-full py-3 rounded-xl'
+        ' text-sm font-semibold border-2 hover:bg-gray-50 transition"'
+        ' style="border-color:var(--forest2);color:var(--forest2)">\U0001f5fa️ Get Directions</a>'
     )
 
-    desc_block = ('<p class="text-gray-700 leading-relaxed text-base mb-8">'
-                  + html_lib.escape(desc) + '</p>') if desc else ""
-
+    desc_block   = ('<p class="text-gray-700 leading-relaxed text-base mb-8">'
+                    + html_lib.escape(desc) + '</p>') if desc else ""
     tags_section = ('<div class="flex flex-wrap gap-1 mb-8">' + tags_html + '</div>') if tags_html else ""
 
     import json as _json
     nat_ld = {
-        "@context": "https://schema.org", "@type": "TouristAttraction",
-        "name": name, "url": page_url,
-        "description": desc[:300] if desc else name + " — nature attraction in Suriname.",
-        "geo": {"@type": "GeoCoordinates", "addressCountry": "SR"},
+        "@context":    "https://schema.org",
+        "@type":       "TouristAttraction",
+        "name":        name,
+        "url":         page_url,
+        "description": desc if desc else name + " — nature attraction in Suriname.",
+        "geo":         {"@type": "GeoCoordinates", "addressCountry": "SR"},
     }
-    if tags:  nat_ld["keywords"] = ", ".join(tags)
-    if fact:  nat_ld["additionalProperty"] = {"@type": "PropertyValue", "name": "Fact", "value": fact}
-    if og_img != SITE_URL + "/og-image.jpg": nat_ld["image"] = og_img
-    if ext_url: nat_ld["sameAs"] = ext_url
+    if tags:
+        nat_ld["keywords"] = ", ".join(tags)
+    if fact:
+        nat_ld["additionalProperty"] = {"@type": "PropertyValue", "name": "Fact", "value": fact}
+    if og_img != SITE_URL + "/og-image.jpg":
+        nat_ld["image"] = og_img
+    if ext_url:
+        nat_ld["sameAs"] = ext_url
 
     nat_breadcrumb = {
-        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "@context": "https://schema.org",
+        "@type":    "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home",          "item": SITE_URL + "/"},
-            {"@type": "ListItem", "position": 2, "name": "Nature & Parks","item": SITE_URL + "/nature.html"},
-            {"@type": "ListItem", "position": 3, "name": name,            "item": page_url},
+            {"@type": "ListItem", "position": 1, "name": "Home",           "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Nature & Parks", "item": SITE_URL + "/nature.html"},
+            {"@type": "ListItem", "position": 3, "name": name,             "item": page_url},
         ]
     }
+
     nat_ld_scripts = (
-        "\n  <script type=\"application/ld+json\">\n  " + _json.dumps(nat_ld, ensure_ascii=False) + "\n  </script>"
-        + "\n  <script type=\"application/ld+json\">\n  " + _json.dumps(nat_breadcrumb, ensure_ascii=False) + "\n  </script>"
+        '\n  <script type="application/ld+json">\n  '
+        + _json.dumps(nat_ld, ensure_ascii=False)
+        + '\n  </script>'
+        + '\n  <script type="application/ld+json">\n  '
+        + _json.dumps(nat_breadcrumb, ensure_ascii=False)
+        + '\n  </script>'
     )
 
     head = (
-        PAGE_HEAD +
-        "\n  <title>" + name_e + " | ExploreSuriname.com</title>"
-        "\n  <meta name=\"description\" content=\"" + desc_e + "\">"
-        "\n  <link rel=\"canonical\" href=\"" + page_url + "\">"
-        "\n  <meta property=\"og:type\" content=\"website\">"
-        "\n  <meta property=\"og:site_name\" content=\"Explore Suriname\">"
-        "\n  <meta property=\"og:url\" content=\"" + page_url + "\">"
-        "\n  <meta property=\"og:title\" content=\"" + name_e + " | ExploreSuriname.com\">"
-        "\n  <meta property=\"og:description\" content=\"" + desc_e + "\">"
-        "\n  <meta property=\"og:image\" content=\"" + og_img + "\">"
-        "\n  <meta name=\"twitter:card\" content=\"summary_large_image\">"
-        "\n  <meta name=\"twitter:title\" content=\"" + name_e + " | ExploreSuriname.com\">"
-        "\n  <meta name=\"twitter:image\" content=\"" + og_img + "\">"
-        + nat_ld_scripts +
-        "\n</head>"
+        PAGE_HEAD
+        + '\n  <title>' + name_e + ' | ExploreSuriname.com</title>\n  <meta name="description" content="'
+        + desc_e
+        + '">\n  <link rel="canonical" href="' + page_url
+        + '">\n  <meta property="og:type" content="website">\n  <meta property="og:site_name" content="Explore Suriname">\n  <meta property="og:url" content="'
+        + page_url
+        + '">\n  <meta property="og:title" content="' + name_e
+        + ' | ExploreSuriname.com">\n  <meta property="og:description" content="'
+        + desc_e
+        + '">\n  <meta property="og:image" content="' + og_img
+        + '">\n  <meta name="twitter:card" content="summary_large_image">\n  <meta name="twitter:title" content="'
+        + name_e + ' | ExploreSuriname.com">\n  <meta name="twitter:image" content="'
+        + og_img + '">'
+        + nat_ld_scripts
+        + '\n</head>'
     )
 
     hero = (
-        '\n<body class="bg-gray-50 overflow-x-hidden">\n' +
-        nav_html(prefix="../../") +
-        '\n<div class="relative w-full pt-16" style="min-height:320px">'
-        '\n  <div class="absolute inset-0" style="' + hero_style + '"></div>'
-        '\n  ' + overlay +
-        '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"'
-        '\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">'
-        '\n    <a href="../../nature.html"'
-        '\n       class="inline-flex items-center gap-1 text-white/70 text-sm hover:text-white mb-5 transition w-fit">'
-        '\n      &#8592; Nature &amp; Parks'
-        '\n    </a>'
-        '\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"'
-        '\n          style="background:var(--coral);color:#fff">' + html_lib.escape(badge) + '</span>'
-        '\n    <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">' + name_e + '</h1>'
-        '\n    <p class="text-white/70 text-sm">&#127757; Suriname</p>'
-        '\n  </div>'
-        '\n</div>'
+        '\n<body class="bg-gray-50 overflow-x-hidden">\n'
+        + nav_html(prefix="../../")
+        + '\n<div class="relative w-full pt-16" style="min-height:320px">\n  <div class="absolute inset-0" style="'
+        + hero_style + '"></div>\n  '
+        + overlay
+        + '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">\n    <a href="../../nature.html"\n       class="inline-flex items-center gap-1 text-white/70 text-sm hover:text-white mb-5 transition w-fit">\n      &#8592; Nature &amp; Parks\n    </a>\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"\n          style="background:var(--coral);color:#fff">'
+        + html_lib.escape(badge)
+        + '</span>\n    <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">'
+        + name_e
+        + '</h1>\n    <p class="text-white/70 text-sm">&#127757; Suriname</p>\n  </div>\n</div>'
     )
 
     main = (
-        '\n<main class="max-w-5xl mx-auto px-5 py-12 pb-24">'
-        '\n  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">'
-        '\n    <div class="lg:col-span-2">'
-        '\n      ' + desc_block +
-        '\n      ' + fact_block +
-        '\n      ' + tags_section +
-        '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>'
-        '\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">'
-        '\n        <iframe src="' + maps_embed + '" width="100%" height="100%"'
-        '\n          style="border:0" allowfullscreen="" loading="lazy"'
-        '\n          referrerpolicy="no-referrer-when-downgrade"></iframe>'
-        '\n      </div>'
-        '\n      <p class="text-gray-400 text-xs text-center mb-8">'
-        '\n        Map data &copy; Google &mdash; click the map to see locations, reviews &amp; directions.'
-        '\n      </p>'
-        '\n    </div>'
-        '\n    <div class="lg:col-span-1">'
-        '\n      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">'
-        '\n        <h2 class="text-base font-bold text-gray-900 mb-4">Plan Your Visit</h2>'
-        '\n        <div class="mt-2">'
-        '\n          ' + website_btn +
-        '\n          ' + directions_btn +
-        '\n        </div>'
-        '\n      </div>'
-        '\n    </div>'
-        '\n  </div>'
-        '\n</main>'
+        '\n<main class="max-w-5xl mx-auto px-5 py-12 pb-24">\n  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">\n    <div class="lg:col-span-2">\n      '
+        + desc_block
+        + '\n      ' + fact_block
+        + '\n      ' + tags_section
+        + '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">\n        <iframe src="'
+        + maps_embed
+        + '" width="100%" height="100%"\n          style="border:0" allowfullscreen="" loading="lazy"\n          referrerpolicy="no-referrer-when-downgrade"></iframe>\n      </div>\n      <p class="text-gray-400 text-xs text-center mb-8">\n        Map data &copy; Google &mdash; click the map to see locations, reviews &amp; directions.\n      </p>\n    </div>\n    <div class="lg:col-span-1">\n      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">\n        <h2 class="text-base font-bold text-gray-900 mb-4">Plan Your Visit</h2>\n        <div class="mt-2">\n          '
+        + website_btn
+        + '\n          ' + directions_btn
+        + '\n        </div>\n      </div>\n    </div>\n  </div>\n</main>'
     )
 
     return head + hero + main + "\n" + footer_html(prefix="../../") + "\n</body>\n</html>"
 
+
+# ── Sitemap ──────────────────────────────────────────────────────────────────
 
 def build_sitemap(biz_slugs, act_slugs, nat_slugs):
     """Generate sitemap.xml covering all pages and listing URLs."""
     today = datetime.now(SR_TZ).strftime("%Y-%m-%d")
 
     static_pages = [
-        ("",               "1.0",  "daily"),
+        ("",                "1.0", "daily"),
         ("restaurants.html","0.9", "weekly"),
-        ("hotels.html",    "0.9",  "weekly"),
-        ("activities.html","0.9",  "weekly"),
-        ("nature.html",    "0.9",  "weekly"),
-        ("shopping.html",  "0.8",  "weekly"),
-        ("services.html",  "0.8",  "weekly"),
-        ("currency.html",  "0.9",  "daily"),
-        ("news.html",      "0.7",  "daily"),
+        ("hotels.html",     "0.9", "weekly"),
+        ("activities.html", "0.9", "weekly"),
+        ("nature.html",     "0.9", "weekly"),
+        ("shopping.html",   "0.8", "weekly"),
+        ("services.html",   "0.8", "weekly"),
+        ("currency.html",   "0.9", "daily"),
+        ("flights.html",    "0.8", "daily"),
+        ("conditions.html", "0.8", "daily"),
+        ("news.html",       "0.7", "daily"),
     ]
 
     urls = []
@@ -3821,41 +4077,31 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         )
 
     for slug in biz_slugs:
+        loc = SITE_URL + "/listing/" + slug + "/"
         urls.append(
             f"  <url>\n"
-            f"    <loc>{SITE_URL}/listing/{slug}/</loc>\n"
+            f"    <loc>{loc}</loc>\n"
             f"    <lastmod>{today}</lastmod>\n"
             f"    <changefreq>monthly</changefreq>\n"
             f"    <priority>0.7</priority>\n"
             f"  </url>"
         )
 
-    for slug in act_slugs:
+    for slug in act_slugs + nat_slugs:
+        loc = SITE_URL + "/listing/" + slug + "/"
         urls.append(
             f"  <url>\n"
-            f"    <loc>{SITE_URL}/listing/{slug}/</loc>\n"
+            f"    <loc>{loc}</loc>\n"
             f"    <lastmod>{today}</lastmod>\n"
             f"    <changefreq>monthly</changefreq>\n"
             f"    <priority>0.6</priority>\n"
             f"  </url>"
         )
 
-    for slug in nat_slugs:
-        urls.append(
-            f"  <url>\n"
-            f"    <loc>{SITE_URL}/listing/{slug}/</loc>\n"
-            f"    <lastmod>{today}</lastmod>\n"
-            f"    <changefreq>monthly</changefreq>\n"
-            f"    <priority>0.6</priority>\n"
-            f"  </url>"
-        )
-
-    return (
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        + "\n".join(urls) +
-        "\n</urlset>\n"
-    )
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+            + "\n".join(urls)
+            + "\n\n</urlset>\n")
 
 
 def build_robots():
@@ -3863,12 +4109,369 @@ def build_robots():
     return f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n"
 
 
+# ── Conditions page (weather + tides + sunrise/sunset) ──────────────────────
+
+def build_conditions_page(tides_extremes, tides_live, tides_updated):
+    updated_now = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
+
+    if tides_extremes:
+        from collections import defaultdict
+        by_day = defaultdict(list)
+        for ex in tides_extremes:
+            dt  = datetime.fromtimestamp(ex["dt"], tz=SR_TZ)
+            day = dt.strftime("%A, %d %b")
+            by_day[day].append({
+                "type":   ex["type"],
+                "time":   dt.strftime("%H:%M SR"),
+                "height": f"{ex['height']:.2f} m",
+                "icon":   "\U0001f53c" if ex["type"] == "High" else "\U0001f53d",
+            })
+
+        tide_rows = ""
+        for day, events in list(by_day.items())[:3]:
+            for ev in events:
+                tide_rows += (
+                    '<tr class="border-b border-gray-100">'
+                    f'<td class="py-3 px-4 text-gray-500 text-sm">{day}</td>'
+                    f'<td class="py-3 px-4 font-semibold">{ev["icon"]} {ev["type"]} Tide</td>'
+                    f'<td class="py-3 px-4 font-mono font-bold">{ev["time"]}</td>'
+                    f'<td class="py-3 px-4 text-right font-mono text-gray-700">{ev["height"]}</td>'
+                    '</tr>'
+                )
+
+        tide_badge = ('<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Live</span>'
+                      if tides_live else
+                      '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">&#9675; Cached</span>')
+
+        tides_html = f"""
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+  <div class="px-6 py-5 border-b border-gray-100">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="font-bold text-gray-900 text-base">&#127754; Tides &mdash; Paramaribo {tide_badge}</p>
+        <p class="text-gray-400 text-xs mt-0.5">Suriname River mouth &mdash; predictions from WorldTides</p>
+      </div>
+    </div>
+    <p class="text-gray-400 text-xs mt-2">&#128336; {html_lib.escape(tides_updated)}</p>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead><tr class="bg-gray-50 text-left">
+        <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Date</th>
+        <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Tide</th>
+        <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Time (SR)</th>
+        <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Height</th>
+      </tr></thead>
+      <tbody>{tide_rows}</tbody>
+    </table>
+  </div>
+</div>"""
+    else:
+        tides_html = """
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
+  <p class="text-5xl mb-4">&#127754;</p>
+  <h3 class="font-bold text-gray-900 mb-2">Tide Predictions</h3>
+  <p class="text-gray-500 text-sm max-w-md mx-auto">Tide data requires a <a href="https://www.worldtides.info" target="_blank" class="underline" style="color:var(--forest2)">WorldTides API key</a>. Set the <code class="bg-gray-100 px-1 rounded">WORLDTIDES_KEY</code> GitHub Actions secret to enable tidal forecasts for fishermen and sailors.</p>
+</div>"""
+
+    return f"""{PAGE_HEAD}
+  <title>Weather &amp; Forecast | Explore Suriname</title>
+  <meta name="description" content="Live weather, tides and sunrise/sunset for Suriname. Essential for fishermen, sailors and outdoor enthusiasts in Paramaribo.">
+  <link rel="canonical" href="{SITE_URL}/conditions.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/conditions.html">
+  <meta property="og:title" content="Weather &amp; Forecast | Explore Suriname">
+  <meta property="og:description" content="Live weather, tides and sunrise/sunset for Suriname.">
+  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Weather &amp; Forecast | Explore Suriname">
+  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+{nav_html("forecast")}
+<div class="pt-16"></div>
+<div class="text-white py-16 text-center" style="background:var(--forest)">
+  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Today in Suriname</h1>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Live weather, sunrise &amp; sunset, and tidal forecasts for Paramaribo</p>
+  <p class="text-white/35 text-xs mt-3">&#128336; Page built: {updated_now}</p>
+</div>
+<main class="max-w-5xl mx-auto px-5 py-10 pb-24">
+
+  <!-- Weather -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
+    <div class="flex items-start justify-between mb-6">
+      <div>
+        <h2 class="serif text-2xl font-bold text-gray-900">&#127777;&#65039; Weather &mdash; Paramaribo</h2>
+        <p class="text-gray-400 text-sm mt-1">Live via <a href="https://open-meteo.com" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">Open-Meteo</a> &mdash; free, no API key required</p>
+      </div>
+      <span id="wx-badge" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0 ml-4">Loading&hellip;</span>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+      <div class="rounded-xl p-4" style="background:var(--mint)">
+        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Temperature</p>
+        <p id="wx-temp" class="text-3xl font-bold font-mono text-gray-900">&mdash;</p>
+        <p id="wx-feels" class="text-xs text-gray-400 mt-1">Feels like &mdash;</p>
+      </div>
+      <div class="rounded-xl p-4 bg-gray-50">
+        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Condition</p>
+        <p id="wx-icon" class="text-3xl mb-1">&#127780;</p>
+        <p id="wx-desc" class="text-xs text-gray-600 font-medium">&mdash;</p>
+      </div>
+      <div class="rounded-xl p-4 bg-gray-50">
+        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Humidity</p>
+        <p id="wx-hum" class="text-3xl font-bold font-mono text-gray-900">&mdash;</p>
+        <p class="text-xs text-gray-400 mt-1">Relative humidity</p>
+      </div>
+      <div class="rounded-xl p-4 bg-gray-50">
+        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Wind</p>
+        <p id="wx-wind" class="text-3xl font-bold font-mono text-gray-900">&mdash;</p>
+        <p id="wx-wdir" class="text-xs text-gray-400 mt-1">&mdash;</p>
+      </div>
+    </div>
+    <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-4">7-Day Forecast</h3>
+    <div id="wx-forecast" class="grid grid-cols-7 gap-2"></div>
+    <p class="text-gray-400 text-xs text-center mt-4">Data from Open-Meteo &mdash; free, open-source weather API. Refreshes on every page load.</p>
+  </div>
+
+  <!-- Sunrise & Sunset -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
+    <h2 class="serif text-2xl font-bold text-gray-900 mb-6">&#9728;&#65039; Sunrise &amp; Sunset</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="rounded-xl p-5 text-center" style="background:#fff8e1">
+        <p class="text-4xl mb-2">&#127749;</p>
+        <p class="text-xs font-semibold text-amber-700 uppercase tracking-wide mb-1">Sunrise</p>
+        <p id="ss-rise" class="text-2xl font-bold font-mono text-gray-900">&mdash;</p>
+        <p class="text-xs text-gray-400 mt-1">Suriname time</p>
+      </div>
+      <div class="rounded-xl p-5 text-center" style="background:var(--mint)">
+        <p class="text-4xl mb-2">&#9203;</p>
+        <p class="text-xs font-semibold uppercase tracking-wide mb-1" style="color:var(--forest2)">Day Length</p>
+        <p id="ss-len" class="text-2xl font-bold font-mono text-gray-900">&mdash;</p>
+        <p class="text-xs text-gray-400 mt-1">Hours of daylight</p>
+      </div>
+      <div class="rounded-xl p-5 text-center" style="background:#e8f4fd">
+        <p class="text-4xl mb-2">&#127751;</p>
+        <p class="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-1">Sunset</p>
+        <p id="ss-set" class="text-2xl font-bold font-mono text-gray-900">&mdash;</p>
+        <p class="text-xs text-gray-400 mt-1">Suriname time</p>
+      </div>
+    </div>
+    <p class="text-gray-400 text-xs text-center mt-4">Data from <a href="https://sunrise-sunset.org" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">sunrise-sunset.org</a> &mdash; Paramaribo (5.85&deg;N, 55.20&deg;W)</p>
+  </div>
+
+  <!-- Fishermen's Corner: Tides -->
+  <div class="mb-6">
+    <div class="flex items-center gap-3 mb-4">
+      <h2 class="serif text-2xl font-bold text-gray-900">&#9973;&#65039; Fishermen&apos;s Corner</h2>
+      <span class="text-xs font-semibold px-2 py-0.5 rounded-full text-white" style="background:var(--forest2)">For mariners &amp; fishers</span>
+    </div>
+    {tides_html}
+    <p class="text-gray-400 text-xs mt-3">Tide heights are relative to lowest astronomical tide (LAT). Suriname&apos;s coastal tidal range is approximately 2&ndash;3 m. Always verify with local authorities before heading out.</p>
+  </div>
+
+</main>
+
+<script>
+var WMO = {{
+  0:['&#9728;&#65039;','Clear sky'], 1:['&#127780;','Mainly clear'], 2:['&#9925;','Partly cloudy'],
+  3:['&#9729;','Overcast'], 45:['&#127787;','Fog'], 48:['&#127787;','Freezing fog'],
+  51:['&#127782;','Light drizzle'], 53:['&#127782;','Drizzle'], 55:['&#127783;','Heavy drizzle'],
+  61:['&#127783;','Light rain'], 63:['&#127783;','Rain'], 65:['&#127783;','Heavy rain'],
+  80:['&#127782;','Showers'], 81:['&#127783;','Heavy showers'], 82:['&#9928;','Violent showers'],
+  95:['&#9928;','Thunderstorm'], 96:['&#9928;','Storm + hail'], 99:['&#9928;','Heavy storm']
+}};
+var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+(function(){{
+  var url = 'https://api.open-meteo.com/v1/forecast?latitude=5.852&longitude=-55.203'
+    + '&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m'
+    + '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max'
+    + '&wind_speed_unit=kmh&timezone=America%2FParamaribo&forecast_days=7';
+  fetch(url).then(function(r){{return r.json();}}).then(function(d){{
+    var c = d.current;
+    var wmo = WMO[c.weather_code] || ['&#127777;','Unknown'];
+    document.getElementById('wx-temp').textContent  = Math.round(c.temperature_2m) + '°C';
+    document.getElementById('wx-feels').textContent = 'Feels like ' + Math.round(c.apparent_temperature) + '°C';
+    document.getElementById('wx-icon').innerHTML    = wmo[0];
+    document.getElementById('wx-desc').textContent  = wmo[1];
+    document.getElementById('wx-hum').textContent   = c.relative_humidity_2m + '%';
+    document.getElementById('wx-wind').textContent  = Math.round(c.wind_speed_10m) + ' km/h';
+    var dirs = ['N','NE','E','SE','S','SW','W','NW'];
+    var deg  = c.wind_direction_10m;
+    document.getElementById('wx-wdir').textContent  = dirs[Math.round(deg/45)%8] + ' · ' + Math.round(deg) + '°';
+    var badge = document.getElementById('wx-badge');
+    badge.innerHTML = '&#9679; Live';
+    badge.className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0 ml-4';
+    var fc = d.daily, fbox = document.getElementById('wx-forecast');
+    fbox.innerHTML = '';
+    for(var i=0;i<7;i++){{
+      var dt = new Date(fc.time[i]);
+      var dn = i===0?'Today':DAYS[dt.getDay()];
+      var w  = WMO[fc.weather_code[i]]||['&#127777;',''];
+      var rn = fc.precipitation_probability_max[i]||0;
+      fbox.innerHTML += '<div class="flex flex-col items-center text-center rounded-xl p-2" style="background:#f8fafc">'
+        + '<p class="text-xs font-semibold text-gray-500">'+dn+'</p>'
+        + '<p class="text-2xl my-1">'+w[0]+'</p>'
+        + '<p class="text-xs font-bold text-gray-900">'+Math.round(fc.temperature_2m_max[i])+'°</p>'
+        + '<p class="text-xs text-gray-400">'+Math.round(fc.temperature_2m_min[i])+'°</p>'
+        + (rn>20?'<p class="text-xs text-blue-500 mt-0.5">&#128167;'+rn+'%</p>':'')
+        + '</div>';
+    }}
+  }}).catch(function(){{
+    document.getElementById('wx-badge').textContent = 'Unavailable';
+    document.getElementById('wx-badge').className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-500 shrink-0 ml-4';
+  }});
+}})();
+
+(function(){{
+  fetch('https://api.sunrise-sunset.org/json?lat=5.852&lng=-55.203&formatted=0')
+    .then(function(r){{return r.json();}})
+    .then(function(d){{
+      var res = d.results;
+      function toSR(iso){{
+        var dt = new Date(iso);
+        var sr = new Date(dt.getTime() - 3*3600000);
+        return ('0'+sr.getUTCHours()).slice(-2)+':'+('0'+sr.getUTCMinutes()).slice(-2);
+      }}
+      document.getElementById('ss-rise').textContent = toSR(res.sunrise);
+      document.getElementById('ss-set').textContent  = toSR(res.sunset);
+      var s = res.day_length;
+      document.getElementById('ss-len').textContent  = Math.floor(s/3600)+'h '+Math.floor((s%3600)/60)+'m';
+    }})
+    .catch(function(){{
+      ['ss-rise','ss-set','ss-len'].forEach(function(id){{document.getElementById(id).textContent='Unavailable';}});
+    }});
+}})();
+</script>
+{footer_html()}
+</body>
+</html>"""
+
+
+# ── Flights page (OpenSky — arrivals/departures at PBM) ─────────────────────
+
+def build_flights_page(arrivals, departures, updated):
+    updated_now = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
+
+    def flight_rows(flights, direction):
+        if not flights:
+            col = "From" if direction == "arrival" else "To"
+            return (f'<tr><td colspan="4" class="py-8 text-center text-gray-400 text-sm">'
+                    f'No recent {direction}s found in OpenSky data</td></tr>')
+        rows = ""
+        for f in flights:
+            rows += (
+                '<tr class="border-b border-gray-100 hover:bg-gray-50">'
+                f'<td class="py-3 px-4 font-mono font-bold text-gray-900 whitespace-nowrap">{html_lib.escape(f["flight"])}</td>'
+                f'<td class="py-3 px-4 text-gray-700 text-sm">{html_lib.escape(f["airline"])}</td>'
+                f'<td class="py-3 px-4 text-gray-600 text-sm">{html_lib.escape(f["airport"])}</td>'
+                f'<td class="py-3 px-4 text-right font-mono text-gray-700 text-sm whitespace-nowrap">{html_lib.escape(f["time"])}</td>'
+                '</tr>'
+            )
+        return rows
+
+    arr_rows = flight_rows(arrivals,  "arrival")
+    dep_rows = flight_rows(departures, "departure")
+
+    def count_badge(n):
+        return (f'<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full '
+                f'bg-green-100 text-green-800">{n} flights</span>') if n else ""
+
+    return f"""{PAGE_HEAD}
+  <title>Flights &mdash; Paramaribo (PBM) | Explore Suriname</title>
+  <meta name="description" content="Recent arrivals and departures at Johan Adolf Pengel International Airport (PBM), Paramaribo, Suriname. Updated every 30 minutes.">
+  <link rel="canonical" href="{SITE_URL}/flights.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/flights.html">
+  <meta property="og:title" content="Flights &mdash; Paramaribo Airport | Explore Suriname">
+  <meta property="og:description" content="Recent arrivals and departures at Johan Adolf Pengel International Airport (PBM).">
+  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Flights &mdash; Paramaribo Airport | Explore Suriname">
+  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+{nav_html("flights")}
+<div class="pt-16"></div>
+<div class="text-white py-16 text-center" style="background:var(--forest)">
+  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">&#9992;&#65039; Flights</h1>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Johan Adolf Pengel International Airport &mdash; Paramaribo (PBM / SMJP)</p>
+  <p class="text-white/35 text-xs mt-3">&#128336; Updated: {html_lib.escape(updated)}</p>
+</div>
+<main class="max-w-5xl mx-auto px-5 py-10 pb-24">
+
+  <div class="rounded-2xl border border-blue-100 p-5 mb-8" style="background:#eff6ff">
+    <p class="text-blue-900 text-sm leading-relaxed">
+      <strong class="text-blue-800">&#9992;&#65039; About this data:</strong>
+      Flight data is sourced from <a href="https://opensky-network.org" target="_blank" rel="noopener" class="underline">OpenSky Network</a>, a community-driven open aviation database (CC BY 4.0).
+      Times are actual transponder signals converted to Suriname time (SR, UTC&minus;3). Data covers the last 48 hours and refreshes every 30 minutes with the site rebuild.
+      For real-time tracking, visit <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener" class="underline">Flightradar24</a>.
+    </p>
+  </div>
+
+  <!-- Arrivals -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <p class="font-bold text-gray-900 text-base">&#9650; Arrivals &mdash; Paramaribo (PBM) {count_badge(len(arrivals))}</p>
+      <p class="text-gray-400 text-xs mt-0.5">Flights that landed at Johan Adolf Pengel in the past 48 hours</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="bg-gray-50 text-left">
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Flight</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Airline</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">From</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Time (SR)</th>
+        </tr></thead>
+        <tbody>{arr_rows}</tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Departures -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <p class="font-bold text-gray-900 text-base">&#9660; Departures &mdash; Paramaribo (PBM) {count_badge(len(departures))}</p>
+      <p class="text-gray-400 text-xs mt-0.5">Flights that departed Johan Adolf Pengel in the past 48 hours</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="bg-gray-50 text-left">
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Flight</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Airline</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">To</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Time (SR)</th>
+        </tr></thead>
+        <tbody>{dep_rows}</tbody>
+      </table>
+    </div>
+  </div>
+
+  <p class="text-center text-gray-400 text-xs mt-4 max-w-2xl mx-auto leading-relaxed px-4">
+    Data from <a href="https://opensky-network.org" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">OpenSky Network</a> under CC BY 4.0.
+    Data may be 30&ndash;90 min delayed. Not suitable for operational flight planning.
+  </p>
+
+</main>
+{footer_html()}
+</body>
+</html>"""
+
+
+# ── Main entry point ─────────────────────────────────────────────────────────
+
 if __name__ == "__main__":
     print("ExploreSuriname generator starting...")
 
     articles = fetch_articles()
-    cme_rates, cme_live, cme_updated    = fetch_cme_rates()
+    cme_rates,  cme_live,  cme_updated  = fetch_cme_rates()
     cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
+    tides_extremes, tides_live, tides_updated = fetch_worldtides()
+    arrivals, departures, flights_updated     = fetch_opensky_flights()
 
     pages = {
         "index.html":       build_index(RESTAURANTS, HOTELS, articles),
@@ -3880,6 +4483,8 @@ if __name__ == "__main__":
         "services.html":    build_services_page(),
         "currency.html":    build_currency_page(cme_rates, cme_live, cme_updated,
                                                 cbvs_rates, cbvs_live, cbvs_updated),
+        "conditions.html":  build_conditions_page(tides_extremes, tides_live, tides_updated),
+        "flights.html":     build_flights_page(arrivals, departures, flights_updated),
         "news.html":        build_news(articles),
     }
 
@@ -3888,7 +4493,6 @@ if __name__ == "__main__":
             f.write(html)
         print(f"  OK  {fname}")
 
-
     os.makedirs("listing", exist_ok=True)
     count = 0
 
@@ -3896,18 +4500,17 @@ if __name__ == "__main__":
         b = _make_biz(slug)
         if not b:
             continue
-        html = build_listing_page(slug, b)
+        html    = build_listing_page(slug, b)
         out_dir = Path("listing") / slug
         out_dir.mkdir(parents=True, exist_ok=True)
         (out_dir / "index.html").write_text(html, encoding="utf-8")
         count += 1
 
-    # Nature spots — separate builder
     nat_slugs = []
     for spot in NATURE_SPOTS:
-        slug = _nature_slug(spot["name"])
+        slug    = _nature_slug(spot["name"])
         nat_slugs.append(slug)
-        html = build_nature_listing_page(spot, slug)
+        html    = build_nature_listing_page(spot, slug)
         out_dir = Path("listing") / slug
         out_dir.mkdir(parents=True, exist_ok=True)
         (out_dir / "index.html").write_text(html, encoding="utf-8")
