@@ -2414,82 +2414,119 @@ def _decode_flight(row, direction):
 
 _FLIGHTS_CACHE_FILE = "flights_cache.json"
 
-def fetch_aviationstack_flights():
+def fetch_aerodatabox_flights():
     """
-    Fetch arrivals and departures at PBM from AviationStack (free tier).
-    Caches for 15 h to stay within 100 requests/month free limit.
-    Set AVIATIONSTACK_KEY as a GitHub Actions secret.
+    Fetch today's arrivals and departures at PBM (SMJP) from AeroDataBox via RapidAPI.
+    Two API calls per fetch (max 12 h window each): 00:00-12:00 and 12:00-23:59 SR time.
+    Caches for 6 h → ~8 API units/day → ~240/month, well within 600 free limit.
+    Set AERODATABOX_KEY as a GitHub Actions secret (RapidAPI key).
     Returns (arrivals, departures, updated_str).
     """
     import os as _os
-    key = _os.environ.get("AVIATIONSTACK_KEY", "").strip()
+    key = _os.environ.get("AERODATABOX_KEY", "").strip()
     if not key:
-        print("  AviationStack: no AVIATIONSTACK_KEY set — skipping flights")
+        print("  AeroDataBox: no AERODATABOX_KEY set — skipping flights")
         return [], [], datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
 
     now_ts = datetime.now(timezone.utc).timestamp()
 
-    # 15-hour cache — keeps usage ~96 API calls/month (just under 100 free)
+    # 12-hour cache
     try:
         with open(_FLIGHTS_CACHE_FILE) as _f:
             cache = json.load(_f)
-        if now_ts - cache.get("fetched", 0) < 54000:   # 15 h
-            print("  AviationStack: using cached flights")
+        if now_ts - cache.get("fetched", 0) < 21600:   # 6 h
+            print("  AeroDataBox: using cached flights")
             return cache["arrivals"], cache["departures"], cache["updated"]
     except Exception:
         pass
 
-    def _parse_flight(f, direction):
-        dep  = f.get("departure", {})
-        arr  = f.get("arrival",   {})
-        iata = f.get("flight",    {}).get("iata", "").strip()
+    _headers = {
+        "x-rapidapi-key":  key,
+        "x-rapidapi-host": "aerodatabox.p.rapidapi.com",
+        "User-Agent": "Mozilla/5.0 (compatible; ExploreSurinameBot/1.0)",
+        "Accept": "application/json",
+    }
+
+    def _parse(f, direction):
+        """Convert one AeroDataBox flight record to display dict."""
+        dep = f.get("departure", {})
+        arr = f.get("arrival",   {})
         if direction == "arrival":
-            other_iata = dep.get("iata", "")
-            other_name = dep.get("airport", other_iata)
-            raw_time   = arr.get("actual") or arr.get("estimated") or arr.get("scheduled") or ""
+            ap_info  = dep.get("airport", {})
+            raw_time = arr.get("scheduledTime", {}).get("local", "")
         else:
-            other_iata = arr.get("iata", "")
-            other_name = arr.get("airport", other_iata)
-            raw_time   = dep.get("actual") or dep.get("estimated") or dep.get("scheduled") or ""
-        # AviationStack returns times in local airport time (America/Paramaribo)
-        # but labels them +00:00 — treat as SR time directly, no conversion needed.
+            ap_info  = arr.get("airport", {})
+            raw_time = dep.get("scheduledTime", {}).get("local", "")
+
+        ap_name = ap_info.get("name") or ap_info.get("iata") or ap_info.get("icao") or "Unknown"
+        ap_iata = ap_info.get("iata", "")
+
         time_sr = ""
         if raw_time:
             try:
-                dt = datetime.fromisoformat(raw_time.replace("Z", "+00:00"))
-                time_sr = dt.strftime("%d %b %H:%M")
+                # local format: "2026-05-02 05:00-03:00"
+                dt = datetime.fromisoformat(raw_time.replace(" ", "T"))
+                dt_sr = dt.astimezone(SR_TZ)
+                time_sr = dt_sr.strftime("%d %b %H:%M")
             except Exception:
                 time_sr = raw_time[:16]
+
         return {
-            "flight":  iata or "—",
+            "flight":  f.get("number", "—"),
             "airline": f.get("airline", {}).get("name", "Unknown"),
-            "airport": other_name or other_iata or "Unknown",
-            "iata":    other_iata,
+            "airport": ap_name,
+            "iata":    ap_iata,
             "time":    time_sr,
-            "status":  f.get("flight_status", ""),
+            "status":  f.get("status", ""),
         }
 
-    arrivals, departures = [], []
-    base = "http://api.aviationstack.com/v1/flights"
     today_sr = datetime.now(SR_TZ).strftime("%Y-%m-%d")
-    for direction, param, store in [
-        ("arrival",   "arr_iata=PBM", arrivals),
-        ("departure", "dep_iata=PBM", departures),
-    ]:
+    windows  = [
+        (f"{today_sr}T00:00", f"{today_sr}T12:00"),
+        (f"{today_sr}T12:00", f"{today_sr}T23:59"),
+    ]
+
+    arrivals, departures = [], []
+    seen_arr, seen_dep   = set(), set()
+
+    import time as _time
+    for i, (from_dt, to_dt) in enumerate(windows):
+        if i > 0:
+            _time.sleep(2)   # avoid per-second rate limit
+        url = (
+            f"https://aerodatabox.p.rapidapi.com/flights/airports/icao/SMJP"
+            f"/{from_dt}/{to_dt}"
+            f"?withLeg=true&direction=Both&withCancelled=true"
+            f"&withCodeshared=true&withCargo=false&withPrivate=false"
+        )
         try:
-            url = f"{base}?access_key={key}&{param}&flight_date={today_sr}&limit=15"
-            req = urllib.request.Request(url, headers={"User-Agent": "ExploreSuriname/1.0"})
+            req = urllib.request.Request(url, headers=_headers)
             with urllib.request.urlopen(req, timeout=20) as _r:
-                rows = json.loads(_r.read().decode("utf-8")).get("data", [])
-            seen = set()
-            for row in rows:
-                parsed = _parse_flight(row, direction)
-                if parsed["flight"] not in seen and parsed["iata"] not in ("PBM", "", "—"):
-                    seen.add(parsed["flight"])
-                    store.append(parsed)
-            print(f"  AviationStack {direction}s: {len(store)} flights")
+                data = json.loads(_r.read().decode("utf-8"))
+
+            for f in data.get("arrivals", []):
+                parsed = _parse(f, "arrival")
+                if parsed["flight"] not in seen_arr:
+                    seen_arr.add(parsed["flight"])
+                    arrivals.append(parsed)
+
+            for f in data.get("departures", []):
+                parsed = _parse(f, "departure")
+                if parsed["flight"] not in seen_dep:
+                    seen_dep.add(parsed["flight"])
+                    departures.append(parsed)
+
+            print(f"  AeroDataBox window {i+1}: "
+                  f"{len(data.get('arrivals',[]))} arr, "
+                  f"{len(data.get('departures',[]))} dep")
         except Exception as e:
-            print(f"  AviationStack {direction} error: {e}")
+            print(f"  AeroDataBox window {i+1} error: {e}")
+
+    # Sort by time
+    arrivals.sort(key=lambda x: x["time"])
+    departures.sort(key=lambda x: x["time"])
+
+    print(f"  AeroDataBox total: {len(arrivals)} arrivals, {len(departures)} departures")
 
     updated = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
     try:
@@ -4284,7 +4321,7 @@ def build_conditions_page(tides_extremes, tides_live, tides_updated):
     </div>
     <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-4">7-Day Forecast</h3>
     <div id="wx-forecast" class="grid grid-cols-7 gap-2"></div>
-    <p class="text-gray-400 text-xs text-center mt-4">Data from Open-Meteo &mdash; free, open-source weather API. Refreshes on every page load.</p>
+    <p class="text-gray-400 text-xs text-center mt-4">Data from <a href="https://open-meteo.com" target="_blank" rel="noopener" style="color:var(--forest2)">Open-Meteo</a>. Refreshes on every page load.</p>
   </div>
 
   <!-- Sunrise & Sunset -->
@@ -4433,7 +4470,7 @@ def build_flights_page(arrivals, departures, updated):
 
     return f"""{PAGE_HEAD}
   <title>Flights &mdash; Paramaribo (PBM) | Explore Suriname</title>
-  <meta name="description" content="Recent arrivals and departures at Johan Adolf Pengel International Airport (PBM), Paramaribo, Suriname. Updated every 30 minutes.">
+  <meta name="description" content="Today&rsquo;s arrivals and departures at Johan Adolf Pengel International Airport (PBM), Paramaribo, Suriname. Refreshes every 6 hours.">
   <link rel="canonical" href="{SITE_URL}/flights.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
@@ -4459,8 +4496,8 @@ def build_flights_page(arrivals, departures, updated):
   <div class="rounded-2xl border border-blue-100 p-5 mb-8" style="background:#eff6ff">
     <p class="text-blue-900 text-sm leading-relaxed">
       <strong class="text-blue-800">&#9992;&#65039; About this data:</strong>
-      Flight data is sourced from <a href="https://aviationstack.com" target="_blank" rel="noopener" class="underline">AviationStack</a>.
-      Times shown in Suriname time (SR, UTC&minus;3). Scheduled flights for today; data refreshes every 15 hours.
+      Flight data is sourced from <a href="https://aerodatabox.com" target="_blank" rel="noopener" class="underline">AeroDataBox</a>.
+      Times shown in Suriname time (SR, UTC&minus;3). Today&rsquo;s scheduled flights; refreshes every 6 hours.
       For real-time tracking, visit <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener" class="underline">Flightradar24</a>.
     </p>
   </div>
@@ -4504,8 +4541,8 @@ def build_flights_page(arrivals, departures, updated):
   </div>
 
   <p class="text-center text-gray-400 text-xs mt-4 max-w-2xl mx-auto leading-relaxed px-4">
-    Data from <a href="https://aviationstack.com" target="_blank" rel="noopener" style="color:var(--forest2)">AviationStack</a>. Not for operational use.
-    Data may be 30&ndash;90 min delayed. Not suitable for operational flight planning.
+    Data from <a href="https://aerodatabox.com" target="_blank" rel="noopener" style="color:var(--forest2)">AeroDataBox</a>. Not for operational use.
+    Scheduled times only. Not suitable for operational flight planning.
   </p>
 
 </main>
@@ -4523,7 +4560,7 @@ if __name__ == "__main__":
     cme_rates,  cme_live,  cme_updated  = fetch_cme_rates()
     cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
     tides_extremes, tides_live, tides_updated = fetch_worldtides()
-    arrivals, departures, flights_updated     = fetch_aviationstack_flights()
+    arrivals, departures, flights_updated     = fetch_aerodatabox_flights()
 
     pages = {
         "index.html":       build_index(RESTAURANTS, HOTELS, articles),
