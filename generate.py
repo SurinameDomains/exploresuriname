@@ -2295,7 +2295,7 @@ def fetch_worldtides():
         if data.get("status", 0) != 200:
             raise ValueError(f"WorldTides error: {data}")
 
-        extremes = data.get("Extremes", [])
+        extremes = data.get("extremes", data.get("Extremes", []))
         ts_str   = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
 
         cache = {"fetched": now_ts, "extremes": extremes, "updated": ts_str}
@@ -2415,11 +2415,21 @@ def _decode_flight(row, direction):
 def fetch_opensky_flights():
     """
     Fetch recent arrivals and departures at SMJP (Johan Adolf Pengel, PBM)
-    from OpenSky Network.  Completely free, no API key required.
+    from OpenSky Network.  Free account required (opensky-network.org).
+    Set OPENSKY_USER and OPENSKY_PASS as GitHub Actions secrets.
     Returns (arrivals, departures, updated_str).
     """
+    import os as _os, base64 as _b64
+    user = _os.environ.get("OPENSKY_USER", "").strip()
+    pw   = _os.environ.get("OPENSKY_PASS", "").strip()
+    if not user or not pw:
+        print("  OpenSky: OPENSKY_USER / OPENSKY_PASS not set — skipping flights")
+        return [], [], datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
+
+    creds = _b64.b64encode(f"{user}:{pw}".encode()).decode()
+
     now_ts = int(datetime.now(timezone.utc).timestamp())
-    begin  = now_ts - 48 * 3600   # past 48 h for a good sample
+    begin  = now_ts - 48 * 3600   # past 48 h
     end    = now_ts
     results = {}
 
@@ -2429,16 +2439,16 @@ def fetch_opensky_flights():
                 f"https://opensky-network.org/api/flights/{direction}"
                 f"?airport={_OPENSKY_ICAO}&begin={begin}&end={end}"
             )
-            req = urllib.request.Request(
-                url, headers={"User-Agent": "ExploreSuriname/1.0"})
+            req = urllib.request.Request(url, headers={
+                "User-Agent":    "ExploreSuriname/1.0",
+                "Authorization": f"Basic {creds}",
+            })
             with urllib.request.urlopen(req, timeout=20) as _r:
                 rows = json.loads(_r.read().decode("utf-8")) or []
 
             flights = [_decode_flight(row, direction) for row in rows]
-            # Most recent first for arrivals; most recent first for departures too
             flights.sort(key=lambda x: x["ts"], reverse=True)
 
-            # Deduplicate and filter out SMJP↔SMJP
             seen, clean = set(), []
             for f in flights:
                 if f["flight"] not in seen and f["icao"] not in ("SMJP", "", "???"):
