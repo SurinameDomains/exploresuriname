@@ -4251,7 +4251,7 @@ def build_conditions_page(tides_extremes, tides_live, tides_updated):
     <div class="flex items-start justify-between mb-6">
       <div>
         <h2 class="serif text-2xl font-bold text-gray-900">&#127777;&#65039; Weather &mdash; Paramaribo</h2>
-        <p class="text-gray-400 text-sm mt-1">Live via <a href="https://open-meteo.com" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">Open-Meteo</a> &mdash; free, no API key required</p>
+        <p class="text-gray-400 text-sm mt-1">Live via <a href="https://open-meteo.com" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">Open-Meteo</a></p>
       </div>
       <span id="wx-badge" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0 ml-4">Loading&hellip;</span>
     </div>
@@ -4406,7 +4406,7 @@ def build_flights_page(arrivals, departures, updated):
         if not flights:
             col = "From" if direction == "arrival" else "To"
             return (f'<tr><td colspan="4" class="py-8 text-center text-gray-400 text-sm">'
-                    f'No recent {direction}s found in OpenSky data</td></tr>')
+                    f'No scheduled {direction}s found for today</td></tr>')
         rows = ""
         for f in flights:
             rows += (
@@ -4454,8 +4454,8 @@ def build_flights_page(arrivals, departures, updated):
   <div class="rounded-2xl border border-blue-100 p-5 mb-8" style="background:#eff6ff">
     <p class="text-blue-900 text-sm leading-relaxed">
       <strong class="text-blue-800">&#9992;&#65039; About this data:</strong>
-      Flight data is sourced from <a href="https://opensky-network.org" target="_blank" rel="noopener" class="underline">OpenSky Network</a>, a community-driven open aviation database (CC BY 4.0).
-      Times are actual transponder signals converted to Suriname time (SR, UTC&minus;3). Data covers the last 48 hours and refreshes every 30 minutes with the site rebuild.
+      Flight data is sourced from <a href="https://aviationstack.com" target="_blank" rel="noopener" class="underline">AviationStack</a>.
+      Times shown in Suriname time (SR, UTC&minus;3). Scheduled flights for today; data refreshes every 18 hours.
       For real-time tracking, visit <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener" class="underline">Flightradar24</a>.
     </p>
   </div>
@@ -4464,7 +4464,7 @@ def build_flights_page(arrivals, departures, updated):
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
     <div class="px-6 py-5 border-b border-gray-100">
       <p class="font-bold text-gray-900 text-base">&#9650; Arrivals &mdash; Paramaribo (PBM) {count_badge(len(arrivals))}</p>
-      <p class="text-gray-400 text-xs mt-0.5">Flights that landed at Johan Adolf Pengel in the past 48 hours</p>
+      <p class="text-gray-400 text-xs mt-0.5">Scheduled arrivals at Johan Adolf Pengel today</p>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full text-sm">
@@ -4483,7 +4483,7 @@ def build_flights_page(arrivals, departures, updated):
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
     <div class="px-6 py-5 border-b border-gray-100">
       <p class="font-bold text-gray-900 text-base">&#9660; Departures &mdash; Paramaribo (PBM) {count_badge(len(departures))}</p>
-      <p class="text-gray-400 text-xs mt-0.5">Flights that departed Johan Adolf Pengel in the past 48 hours</p>
+      <p class="text-gray-400 text-xs mt-0.5">Scheduled departures from Johan Adolf Pengel today</p>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full text-sm">
