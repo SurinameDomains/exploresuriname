@@ -2430,11 +2430,12 @@ def fetch_aerodatabox_flights():
 
     now_ts = datetime.now(timezone.utc).timestamp()
 
-    # 12-hour cache
+    # 6-hour cache — only use if it actually contains data
     try:
         with open(_FLIGHTS_CACHE_FILE) as _f:
             cache = json.load(_f)
-        if now_ts - cache.get("fetched", 0) < 21600:   # 6 h
+        has_data = cache.get("arrivals") or cache.get("departures")
+        if has_data and now_ts - cache.get("fetched", 0) < 21600:   # 6 h
             print("  AeroDataBox: using cached flights")
             return cache["arrivals"], cache["departures"], cache["updated"]
     except Exception:
