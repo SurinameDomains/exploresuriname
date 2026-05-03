@@ -1250,6 +1250,11 @@
     "osm_name": "Andi",
     "address": "Jacques Gompertsstraat, Paramaribo"
   },
+  "kasco-customs-solutions": {
+    "slug": "kasco-customs-solutions",
+    "found": true,
+    "osm_name": "Sol"
+  },
   "keller-williams-suriname": {
     "slug": "keller-williams-suriname",
     "found": true,
@@ -2080,9 +2085,7 @@
   "subway-3": {
     "slug": "subway-3",
     "found": true,
-    "osm_name": "Subway",
-    "address": "Jozef Israëlsstraat, Paramaribo",
-    "cuisine": "Sandwich"
+    "osm_name": "Kwatta"
   },
   "sun-ice": {
     "slug": "sun-ice",
