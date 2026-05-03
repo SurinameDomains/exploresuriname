@@ -1906,7 +1906,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://upload.wikimedia.org/wikipedia/commons/7/76/Burger_king_Suriname_voorin.jpg"
   },
   {
     "slug": "burger-king-latour",
@@ -1918,7 +1918,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://upload.wikimedia.org/wikipedia/commons/7/76/Burger_king_Suriname_voorin.jpg"
   },
   {
     "slug": "coffee-mama",
@@ -2074,7 +2074,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png"
   },
   {
     "slug": "kfc-kwatta",
@@ -2086,7 +2086,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png"
   },
   {
     "slug": "kfc-lallarookh",
@@ -2098,7 +2098,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png"
   },
   {
     "slug": "kfc-latour",
@@ -2110,7 +2110,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png"
   },
   {
     "slug": "kfc-lelydorp",
@@ -2122,7 +2122,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png"
   },
   {
     "slug": "kfc-waterkant",
@@ -2134,7 +2134,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png"
   },
   {
     "slug": "kfc-wilhelminastraat",
@@ -2146,7 +2146,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png"
   },
   {
     "slug": "kong-nam-snack",
@@ -2294,63 +2294,63 @@
   },
   {
     "slug": "naskip",
-    "name": "Naskip",
-    "description": "Naskip is a beloved Surinamese snack bar institution, known for traditional local fast food including bara, fari and saoto soup. A cultural staple in Paramaribo with multiple locations.",
+    "name": "Naskip Henck Arronstraat",
+    "description": "Naskip Henck Arronstraat is the flagship location of Suriname's most beloved snack bar chain, serving traditional bara, fari and saoto soup since 1962. Located on Paramaribo's busy Henck Arronstraat.",
     "category": "",
     "location": "Paramaribo",
-    "address": "",
-    "phone": "",
-    "website": "",
+    "address": "Henck Arronstraat 46b, Paramaribo",
+    "phone": "+597 475-419",
+    "website": "naskip.com",
     "email": "",
-    "main_image": ""
+    "main_image": "https://upload.wikimedia.org/wikipedia/commons/2/25/Suriname_-_Paramaribo_-_Henck_Arronstraat_46_20221004_Naskip.jpg"
   },
   {
     "slug": "naskip-2",
-    "name": "Naskip 2",
-    "description": "Naskip (2nd location) brings the same popular Surinamese snack bar menu to another Paramaribo neighbourhood, serving classic bara, fari and saoto.",
+    "name": "Naskip Latourweg",
+    "description": "Naskip Latourweg is a branch of Suriname's iconic snack bar chain, serving classic bara, fari and saoto soup in the Latour neighbourhood of Paramaribo.",
     "category": "",
     "location": "Paramaribo",
-    "address": "",
-    "phone": "",
-    "website": "",
+    "address": "Latourweg 10, Paramaribo",
+    "phone": "+597 481-555",
+    "website": "naskip.com",
     "email": "",
-    "main_image": ""
+    "main_image": "https://upload.wikimedia.org/wikipedia/commons/2/25/Suriname_-_Paramaribo_-_Henck_Arronstraat_46_20221004_Naskip.jpg"
   },
   {
     "slug": "naskip-3",
-    "name": "Naskip 3",
-    "description": "Naskip (3rd location) serves the iconic Surinamese street-food menu at another convenient Paramaribo spot.",
+    "name": "Naskip Gemenelandsweg",
+    "description": "Naskip Gemenelandsweg brings Suriname's favourite traditional snack bar to the Gemenelandsweg corridor, serving the signature bara, fari and saoto that Naskip is famous for.",
     "category": "",
     "location": "Paramaribo",
-    "address": "",
+    "address": "Verlengde Gemenelandsweg, Paramaribo",
     "phone": "",
-    "website": "",
+    "website": "naskip.com",
     "email": "",
-    "main_image": ""
+    "main_image": "https://upload.wikimedia.org/wikipedia/commons/2/25/Suriname_-_Paramaribo_-_Henck_Arronstraat_46_20221004_Naskip.jpg"
   },
   {
     "slug": "naskip-4",
-    "name": "Naskip 4",
-    "description": "Naskip (4th location) continues the popular local tradition of fast, affordable Surinamese snacks including bara and saoto.",
+    "name": "Naskip Kwatta",
+    "description": "Naskip Kwatta serves the beloved Surinamese snack bar menu at the corner of Kwattaweg and Van Idsingastraat — a convenient stop in the western Paramaribo area.",
     "category": "",
     "location": "Paramaribo",
-    "address": "",
+    "address": "Hoek Kwattaweg & Van Idsingastraat, Paramaribo",
     "phone": "",
-    "website": "",
+    "website": "naskip.com",
     "email": "",
-    "main_image": ""
+    "main_image": "https://upload.wikimedia.org/wikipedia/commons/2/25/Suriname_-_Paramaribo_-_Henck_Arronstraat_46_20221004_Naskip.jpg"
   },
   {
     "slug": "naskip-5",
-    "name": "Naskip 5",
-    "description": "Naskip (5th location) is another branch of the beloved Surinamese fast-food chain serving traditional flavours across Paramaribo.",
+    "name": "Naskip Indira Ghandiweg",
+    "description": "Naskip Indira Ghandiweg is one of the chain's newer locations, offering the same classic Surinamese snack bar experience — bara, fari and saoto — in a convenient southern Paramaribo location.",
     "category": "",
     "location": "Paramaribo",
-    "address": "",
+    "address": "Hoek Indira Ghandiweg & Schotelweg, Paramaribo",
     "phone": "",
-    "website": "",
+    "website": "naskip.com",
     "email": "",
-    "main_image": ""
+    "main_image": "https://upload.wikimedia.org/wikipedia/commons/2/25/Suriname_-_Paramaribo_-_Henck_Arronstraat_46_20221004_Naskip.jpg"
   },
   {
     "slug": "new-suriname-dream-cafe",
@@ -2458,7 +2458,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://www.pizzahut.sr/wp-content/uploads/2024/05/show_01.png"
   },
   {
     "slug": "pizza-hut-south",
@@ -2470,7 +2470,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://www.pizzahut.sr/wp-content/uploads/2024/05/show_01.png"
   },
   {
     "slug": "pizza-hut-wilhelminastraat",
@@ -2482,7 +2482,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://www.pizzahut.sr/wp-content/uploads/2024/05/show_01.png"
   },
   {
     "slug": "pizza-mafia",
@@ -2506,7 +2506,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://www.surinamyp.com/img/sr/e/1683207102-18-popeyes.jpg"
   },
   {
     "slug": "popeyes-lelydorp",
@@ -2518,7 +2518,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://www.surinamyp.com/img/sr/e/1683207102-18-popeyes.jpg"
   },
   {
     "slug": "popeyes-tbl",
@@ -2530,7 +2530,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://www.surinamyp.com/img/sr/e/1683207102-18-popeyes.jpg"
   },
   {
     "slug": "popeyes-wilhelminastraat",
@@ -2542,7 +2542,7 @@
     "phone": "",
     "website": "",
     "email": "",
-    "main_image": ""
+    "main_image": "https://www.surinamyp.com/img/sr/e/1683207102-18-popeyes.jpg"
   },
   {
     "slug": "restaurant-lhermitage",
@@ -2774,8 +2774,8 @@
   },
   {
     "slug": "subway-2",
-    "name": "Subway 2",
-    "description": "Subway (2nd location) brings the build-your-own sandwich experience to another part of Paramaribo, offering freshly made subs, salads and wraps.",
+    "name": "Subway (Jozef Israëlsstraat)",
+    "description": "Subway on Jozef Israëlsstraat is one of Paramaribo's convenient sub sandwich locations, offering freshly made-to-order subs, wraps and salads with a full range of toppings.",
     "category": "",
     "location": "Paramaribo",
     "address": "",
@@ -2786,8 +2786,8 @@
   },
   {
     "slug": "subway-3",
-    "name": "Subway 3",
-    "description": "Subway (3rd location) in Paramaribo provides another convenient spot for the popular fresh-sandwich chain.",
+    "name": "Subway (Kwattaweg)",
+    "description": "Subway on Kwattaweg brings the build-your-own sandwich experience to the Kwatta area of Paramaribo, serving freshly made subs, salads and wraps.",
     "category": "",
     "location": "Paramaribo",
     "address": "",
@@ -7767,7 +7767,7 @@
   {
     "slug": "pandie",
     "name": "Pandie",
-    "description": "Pandie is a bakery and snack shop in Suriname offering fresh-baked bread, pastries and traditional Surinamese snacks. A cherished local bakery known for everyday baked goods.",
+    "description": "Pandie is a children's toy and educational play store in Paramaribo. With the tagline 'Samen spelen, leren & groeien,' the shop specialises in toys, games and learning materials for kids of all ages.",
     "category": "",
     "location": "Paramaribo",
     "address": "",
@@ -8456,6 +8456,42 @@
     "location": "Paramaribo",
     "address": "",
     "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
+  },
+  {
+    "slug": "boekhandel-kasco",
+    "name": "Boekhandel KASCO",
+    "description": "Boekhandel KASCO is a well-established bookshop on Heerenstraat in central Paramaribo, stocking a wide range of books, school supplies and stationery. The store also offers printing and copying services.",
+    "category": "shopping",
+    "location": "Paramaribo",
+    "address": "Heerenstraat 25, Paramaribo",
+    "phone": "+597 476-127",
+    "website": "kasco.online",
+    "email": "",
+    "main_image": ""
+  },
+  {
+    "slug": "kasco-customs-solutions",
+    "name": "KASCO Custom Solutions",
+    "description": "KASCO Custom Solutions is a Surinamese customs clearance and freight-forwarding company, specialising in import and export procedures. Their team assists businesses and individuals with inklaring and documentation.",
+    "category": "services",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "kascocustomssolutions.com",
+    "email": "",
+    "main_image": ""
+  },
+  {
+    "slug": "4x4-rental",
+    "name": "4x4 Rental",
+    "description": "4x4 Rental in Zorg en Hoop offers construction tools and equipment for hire, including vibration plates, breakers, leaf blowers, drills and stone cutters. Open Monday to Saturday for contractors and DIY projects.",
+    "category": "services",
+    "location": "Paramaribo",
+    "address": "Albergastraat 38, Zorg en Hoop, Paramaribo",
+    "phone": "+597 851-5376",
     "website": "",
     "email": "",
     "main_image": ""
