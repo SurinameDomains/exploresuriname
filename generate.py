@@ -2700,7 +2700,9 @@ def footer_html(prefix=""):
       <div>
         <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Contact</p>
         <ul class="space-y-2 text-sm text-white/70">
-          <li><a href="mailto:{CONTACT_EMAIL}" class="hover:text-white transition">&#9993; {CONTACT_EMAIL}</a></li>
+          <li><a href="{prefix}contact.html" class="hover:text-white transition">Contact Us</a></li>
+          <li><a href="{prefix}about.html" class="hover:text-white transition">About This Site</a></li>
+          <li><a href="mailto:{CONTACT_EMAIL}" class="hover:text-white/70 transition text-white/50 text-xs">{CONTACT_EMAIL}</a></li>
           <li class="text-white/40 text-xs mt-3">For partnerships, listings<br>or general enquiries.</li>
         </ul>
       </div>
@@ -2720,7 +2722,7 @@ def footer_html(prefix=""):
           Instagram
         </a>
       </div>
-      <p class="text-white/40 text-xs">&copy; {YEAR} ExploreSuriname.com</p>
+      <p class="text-white/40 text-xs">&copy; {YEAR} ExploreSuriname.com &nbsp;&middot;&nbsp; <a href="{prefix}privacy.html" class="hover:text-white/70 transition">Privacy Policy</a></p>
     </div>
   </div>
 </footer>"""
@@ -4136,6 +4138,314 @@ def build_nature_listing_page(spot, slug):
 
 # ── Sitemap ──────────────────────────────────────────────────────────────────
 
+
+def build_about_page():
+    """Static About page — establishes site identity for Google AdSense review."""
+    return f"""{PAGE_HEAD}
+  <title>About | Explore Suriname</title>
+  <meta name="description" content="Explore Suriname is an independent travel and lifestyle guide to Suriname — covering restaurants, hotels, nature, activities, currency rates and local news.">
+  <link rel="canonical" href="{SITE_URL}/about.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/about.html">
+  <meta property="og:title" content="About | Explore Suriname">
+  <meta property="og:description" content="Explore Suriname is an independent travel and lifestyle guide to Suriname.">
+  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"AboutPage","name":"About Explore Suriname","url":"{SITE_URL}/about.html","description":"Explore Suriname is an independent travel and lifestyle guide to Suriname.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  </script>
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+{nav_html("about")}
+<div class="pt-16"></div>
+<div class="text-white py-16 text-center" style="background:var(--forest)">
+  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">About Explore Suriname</h1>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">South America&rsquo;s best-kept secret, uncovered</p>
+</div>
+<main class="max-w-3xl mx-auto px-5 py-12 pb-24">
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
+    <h2 class="serif text-2xl font-bold text-gray-900 mb-4">What is Explore Suriname?</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Explore Suriname is an independent online guide to everything Suriname has to offer — restaurants,
+      hotels and guesthouses, nature reserves, activities, shopping, local services, live currency rates,
+      flight schedules, weather forecasts and daily news.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Suriname is one of the most biodiverse and culturally rich countries in South America, yet it remains
+      largely undiscovered by international travellers. Our goal is to change that by providing accurate,
+      up-to-date information for visitors and locals alike.
+    </p>
+    <p class="text-gray-700 leading-relaxed">
+      The directory currently covers more than 700 businesses and attractions across Paramaribo and beyond,
+      and is updated continuously. If you have a listing to add or a correction to suggest, please
+      <a href="contact.html" style="color:var(--forest2)">get in touch</a>.
+    </p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
+    <h2 class="serif text-2xl font-bold text-gray-900 mb-4">What we cover</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-700">
+      <div class="flex items-start gap-3">
+        <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span><strong>Restaurants &amp; Bars</strong> &mdash; Surinamese, Indonesian, Chinese, Indian, and international cuisine across Paramaribo</span>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span><strong>Hotels &amp; Lodges</strong> &mdash; from city hotels to rainforest eco-lodges and overwater bungalows</span>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span><strong>Nature &amp; Activities</strong> &mdash; jungle treks, river tours, wildlife reserves and UNESCO sites</span>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span><strong>Shopping &amp; Services</strong> &mdash; local retailers, markets and professional services in Paramaribo</span>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span><strong>Live Currency Rates</strong> &mdash; SRD exchange rates updated three times daily from CBVS and CME</span>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span><strong>Flights, Weather &amp; News</strong> &mdash; real-time data to help you plan your stay in Suriname</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="serif text-2xl font-bold text-gray-900 mb-4">Contact</h2>
+    <p class="text-gray-700 leading-relaxed">
+      For listing requests, corrections, partnerships or general questions, reach out via our
+      <a href="contact.html" class="font-semibold" style="color:var(--forest2)">contact page</a>
+      or email us directly at
+      <a href="mailto:{CONTACT_EMAIL}" style="color:var(--forest2)">{CONTACT_EMAIL}</a>.
+    </p>
+  </div>
+
+</main>
+{footer_html()}
+</body>
+</html>"""
+
+
+def build_contact_page():
+    """Contact page — shows a mailto button instead of a bare email address."""
+    return f"""{PAGE_HEAD}
+  <title>Contact | Explore Suriname</title>
+  <meta name="description" content="Contact Explore Suriname for listing requests, business partnerships, corrections or general enquiries about Suriname travel.">
+  <link rel="canonical" href="{SITE_URL}/contact.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/contact.html">
+  <meta property="og:title" content="Contact | Explore Suriname">
+  <meta property="og:description" content="Get in touch with Explore Suriname for listing requests, corrections or partnerships.">
+  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"ContactPage","name":"Contact Explore Suriname","url":"{SITE_URL}/contact.html","description":"Contact Explore Suriname for listing requests, corrections or partnerships.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  </script>
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+{nav_html("contact")}
+<div class="pt-16"></div>
+<div class="text-white py-16 text-center" style="background:var(--forest)">
+  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Contact Us</h1>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">We&rsquo;d love to hear from you</p>
+</div>
+<main class="max-w-2xl mx-auto px-5 py-12 pb-24">
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-2">Get in touch</h2>
+    <p class="text-gray-600 text-sm leading-relaxed mb-6">
+      Use the button below to send us an email. We respond to all enquiries within a few business days.
+    </p>
+    <a href="mailto:{CONTACT_EMAIL}?subject=Enquiry%20via%20ExploreSuriname.com"
+       class="inline-flex items-center gap-3 px-6 py-3 rounded-xl text-white font-semibold text-sm transition hover:opacity-90"
+       style="background:var(--forest)">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+      </svg>
+      Send us an email
+    </a>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-4">What we can help with</h2>
+    <ul class="space-y-3 text-sm text-gray-700">
+      <li class="flex items-start gap-3">
+        <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span><strong>Listing requests</strong> &mdash; add a new business, hotel, restaurant or attraction to the directory</span>
+      </li>
+      <li class="flex items-start gap-3">
+        <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span><strong>Corrections</strong> &mdash; update an address, phone number, opening hours or description</span>
+      </li>
+      <li class="flex items-start gap-3">
+        <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span><strong>Partnerships</strong> &mdash; advertising, sponsored listings or content collaborations</span>
+      </li>
+      <li class="flex items-start gap-3">
+        <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span><strong>General questions</strong> &mdash; anything about Suriname travel, the site or our data</span>
+      </li>
+    </ul>
+  </div>
+
+</main>
+{footer_html()}
+</body>
+</html>"""
+
+
+def build_privacy_page():
+    """Privacy Policy page — required for Google AdSense compliance.
+    Discloses cookie use, third-party advertising, and how to opt out."""
+    policy_date = "1 May 2025"
+    return f"""{PAGE_HEAD}
+  <title>Privacy Policy | Explore Suriname</title>
+  <meta name="description" content="Privacy Policy for ExploreSuriname.com. Learn how we use cookies, what data we collect, and how Google advertising works on this site.">
+  <link rel="canonical" href="{SITE_URL}/privacy.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/privacy.html">
+  <meta property="og:title" content="Privacy Policy | Explore Suriname">
+  <meta property="og:description" content="How ExploreSuriname.com uses cookies and handles your data.">
+  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="robots" content="noindex, follow">
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+{nav_html("privacy")}
+<div class="pt-16"></div>
+<div class="text-white py-12 text-center" style="background:var(--forest)">
+  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <h1 class="serif text-3xl sm:text-4xl font-bold mb-2">Privacy Policy</h1>
+  <p class="text-white/60 text-sm">Last updated: {policy_date}</p>
+</div>
+<main class="max-w-3xl mx-auto px-5 py-12 pb-24 space-y-6">
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">1. Who we are</h2>
+    <p class="text-gray-700 text-sm leading-relaxed">
+      This Privacy Policy applies to <strong>ExploreSuriname.com</strong> (&ldquo;the Site&rdquo;), an
+      independent travel and lifestyle guide to Suriname. For questions about this policy, contact us at
+      <a href="mailto:{CONTACT_EMAIL}" style="color:var(--forest2)">{CONTACT_EMAIL}</a>.
+    </p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">2. Information we collect</h2>
+    <p class="text-gray-700 text-sm leading-relaxed mb-3">
+      We do not require registration and do not collect your name, email address or any personally
+      identifiable information unless you contact us directly. When you visit the Site, standard web
+      server logs may record your IP address, browser type, referring page, and pages visited. This
+      information is used only for site administration and is never sold or shared with third parties
+      except as described below.
+    </p>
+    <p class="text-gray-700 text-sm leading-relaxed">
+      If you send us an email, we retain your message and email address only to respond to your
+      enquiry and for no other purpose.
+    </p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">3. Cookies</h2>
+    <p class="text-gray-700 text-sm leading-relaxed mb-4">
+      Cookies are small text files stored on your device by your browser. We use cookies for the
+      following purposes:
+    </p>
+    <div class="space-y-4 text-sm text-gray-700">
+      <div>
+        <p class="font-semibold text-gray-900 mb-1">Functional cookies</p>
+        <p class="leading-relaxed">Used to remember your preferences (such as filter or sort selections) during your visit. These cookies are session-based and expire when you close your browser.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-gray-900 mb-1">Analytics cookies</p>
+        <p class="leading-relaxed">We may use analytics tools to understand how visitors use the Site in aggregate. No individual user profiles are built.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-gray-900 mb-1">Advertising cookies (Google AdSense)</p>
+        <p class="leading-relaxed">
+          This Site uses <strong>Google AdSense</strong>, a third-party advertising service provided by Google LLC.
+          Google AdSense places cookies on your device to serve personalised advertisements based on your browsing
+          history across websites. Google&rsquo;s advertising cookies include the <strong>DoubleClick cookie</strong>
+          and similar technologies that allow Google and its partners to serve ads based on your interests.
+        </p>
+        <p class="leading-relaxed mt-2">
+          You may opt out of personalised advertising by visiting
+          <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener" style="color:var(--forest2)">Google Ads Settings</a>
+          or <a href="https://www.aboutads.info" target="_blank" rel="noopener" style="color:var(--forest2)">www.aboutads.info</a>.
+          You can also opt out of Google Analytics by installing the
+          <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener" style="color:var(--forest2)">Google Analytics opt-out browser add-on</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">4. Third-party advertising</h2>
+    <p class="text-gray-700 text-sm leading-relaxed mb-3">
+      We use <strong>Google AdSense</strong> to display advertisements on this Site. Google AdSense is
+      operated by Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA.
+    </p>
+    <p class="text-gray-700 text-sm leading-relaxed mb-3">
+      Third-party vendors, including Google, use cookies to serve ads based on a user&rsquo;s prior
+      visits to this website or other websites. Google&rsquo;s use of advertising cookies enables
+      it and its partners to serve ads based on your visit to this Site and/or other sites on the internet.
+    </p>
+    <p class="text-gray-700 text-sm leading-relaxed">
+      We have no access to or control over the cookies used by Google or other third-party advertisers.
+      For more information on how Google uses data when you visit sites that use Google services,
+      see <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener" style="color:var(--forest2)">Google&rsquo;s privacy policy</a>.
+    </p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">5. External links</h2>
+    <p class="text-gray-700 text-sm leading-relaxed">
+      The Site contains links to external websites and sources (news outlets, business websites, map
+      services, etc.). We are not responsible for the privacy practices or content of those sites.
+      We encourage you to read the privacy policies of any external sites you visit.
+    </p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">6. Data retention &amp; security</h2>
+    <p class="text-gray-700 text-sm leading-relaxed">
+      We retain email correspondence for as long as necessary to resolve your enquiry. Server log
+      files are retained for a maximum of 90 days. We take reasonable steps to protect information
+      but cannot guarantee the security of data transmitted over the internet.
+    </p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">7. Your rights</h2>
+    <p class="text-gray-700 text-sm leading-relaxed mb-3">
+      You may request access to, correction of, or deletion of any personal data we hold about you
+      by contacting us at <a href="mailto:{CONTACT_EMAIL}" style="color:var(--forest2)">{CONTACT_EMAIL}</a>.
+    </p>
+    <p class="text-gray-700 text-sm leading-relaxed">
+      To manage or disable cookies, adjust your browser settings. Note that disabling cookies may
+      affect the functionality of this Site and other websites.
+    </p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">8. Changes to this policy</h2>
+    <p class="text-gray-700 text-sm leading-relaxed">
+      We may update this Privacy Policy from time to time. Changes will be posted on this page
+      with an updated &ldquo;Last updated&rdquo; date. Continued use of the Site after any changes
+      constitutes acceptance of the updated policy.
+    </p>
+  </div>
+
+</main>
+{footer_html()}
+</body>
+</html>"""
+
+
 def build_sitemap(biz_slugs, act_slugs, nat_slugs):
     """Generate sitemap.xml covering all pages and listing URLs."""
     today = datetime.now(SR_TZ).strftime("%Y-%m-%d")
@@ -4152,6 +4462,9 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("flights.html",    "0.8", "daily"),
         ("conditions.html", "0.8", "daily"),
         ("news.html",       "0.7", "daily"),
+        ("about.html",      "0.5", "yearly"),
+        ("contact.html",    "0.5", "yearly"),
+        ("privacy.html",    "0.3", "yearly"),
     ]
 
     urls = []
@@ -4266,17 +4579,20 @@ def build_conditions_page(tides_extremes, tides_live, tides_updated):
 
     return f"""{PAGE_HEAD}
   <title>Weather &amp; Forecast | Explore Suriname</title>
-  <meta name="description" content="Live weather, tides and sunrise/sunset for Suriname. Essential for fishermen, sailors and outdoor enthusiasts in Paramaribo.">
+  <meta name="description" content="Paramaribo 7-day weather forecast, tidal predictions, and daily sunrise and sunset times for Suriname. Updated automatically every day.">
   <link rel="canonical" href="{SITE_URL}/conditions.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/conditions.html">
   <meta property="og:title" content="Weather &amp; Forecast | Explore Suriname">
-  <meta property="og:description" content="Live weather, tides and sunrise/sunset for Suriname.">
+  <meta property="og:description" content="7-day weather, tidal predictions and sunrise/sunset times for Paramaribo, Suriname. Updated daily.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Weather &amp; Forecast | Explore Suriname">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Weather & Forecast | Explore Suriname","url":"{SITE_URL}/conditions.html","description":"Paramaribo 7-day weather forecast, tidal predictions, and daily sunrise and sunset times for Suriname.","about":{{"@type":"Place","name":"Paramaribo","addressCountry":"SR","sameAs":"https://en.wikipedia.org/wiki/Paramaribo"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("forecast")}
@@ -4482,13 +4798,16 @@ def build_flights_page(arrivals, departures, updated):
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Flights &mdash; Paramaribo Airport | Explore Suriname">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Flights \u2013 Paramaribo Airport | Explore Suriname","url":"{SITE_URL}/flights.html","description":"Today's arrivals and departures at Johan Adolf Pengel International Airport (PBM), Paramaribo, Suriname.","about":{{"@type":"Airport","name":"Johan Adolf Pengel International Airport","iataCode":"PBM","icaoCode":"SMJP","address":{{"@type":"PostalAddress","addressCountry":"SR","addressLocality":"Paramaribo"}}}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("flights")}
 <div class="pt-16"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">&#9992;&#65039; Flights</h1>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Flights &mdash; Paramaribo Airport</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Johan Adolf Pengel International Airport &mdash; Paramaribo (PBM / SMJP)</p>
   <p class="text-white/35 text-xs mt-3">&#128336; Updated: {html_lib.escape(updated)}</p>
 </div>
@@ -4496,7 +4815,7 @@ def build_flights_page(arrivals, departures, updated):
 
   <div class="rounded-2xl border border-blue-100 p-5 mb-8" style="background:#eff6ff">
     <p class="text-blue-900 text-sm leading-relaxed">
-      <strong class="text-blue-800">&#9992;&#65039; About this data:</strong>
+      <strong class="text-blue-800">About this data:</strong>
       Flight data is sourced from <a href="https://aerodatabox.com" target="_blank" rel="noopener" class="underline">AeroDataBox</a>.
       Times shown in Suriname time (SR, UTC&minus;3). Today&rsquo;s scheduled flights; refreshes every 6 hours.
       For real-time tracking, visit <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener" class="underline">Flightradar24</a>.
@@ -4576,6 +4895,9 @@ if __name__ == "__main__":
         "conditions.html":  build_conditions_page(tides_extremes, tides_live, tides_updated),
         "flights.html":     build_flights_page(arrivals, departures, flights_updated),
         "news.html":        build_news(articles),
+        "about.html":       build_about_page(),
+        "contact.html":     build_contact_page(),
+        "privacy.html":     build_privacy_page(),
     }
 
     for fname, html in pages.items():
