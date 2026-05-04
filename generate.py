@@ -2401,7 +2401,7 @@ _AIRPORT_NAMES = {
     "SYEL": "Kaieteur (KAI)",
     "SYGT": "Georgetown (GEO)",
     "SYGO": "Georgetown (OGL)",
-    "SMZO": "Paramaribo / Zorg en Hoop (ORJ)",
+    "SMZO": "Paramaribo / Zorg en Hoop (ORG)",
     "SMJP": "Paramaribo (PBM)",
     "LEMD": "Madrid (MAD)",
     "LFPG": "Paris CDG (CDG)",
@@ -2460,10 +2460,10 @@ def _decode_flight(row, direction):
 _AIRPORTS_FLIGHT = [
     {"icao": "SMJP", "iata": "PBM", "label": "Johan Adolf Pengel (PBM)",
      "short": "PBM",  "cache": "flights_cache.json",      "cache_h": 6},
-    {"icao": "SMZO", "iata": "ORJ", "label": "Zorg en Hoop (ORJ)",
-     "short": "ORJ",  "cache": "flights_cache_smzo.json",  "cache_h": 12},
-    {"icao": "SMEG", "iata": "",    "label": "Gummels Airstrip",
-     "short": "Gummels", "cache": "flights_cache_smeg.json",  "cache_h": 12},
+    {"icao": "SMZO", "iata": "ORG", "label": "Zorg en Hoop (ORG)",
+     "short": "ORG",  "cache": "flights_cache_smzo.json",  "cache_h": 12},
+    {"icao": "SMEG", "iata": "EAX", "label": "Eduard Alexander Gummels (EAX)",
+     "short": "EAX",   "cache": "flights_cache_smeg.json",  "cache_h": 12},
 ]
 
 def _adb_parse_flight(f, direction):
