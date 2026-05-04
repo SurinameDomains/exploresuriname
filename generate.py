@@ -5172,3 +5172,71 @@ def build_map_page(gmaps_key=""):
     return ""
 
 
+
+if __name__ == "__main__":
+    print("ExploreSuriname generator starting...")
+
+    articles = fetch_articles()
+    cme_rates,  cme_live,  cme_updated  = fetch_cme_rates()
+    cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
+    tides_data    = fetch_worldtides()
+    flights_data  = fetch_aerodatabox_flights()
+
+    pages = {
+        "index.html":       build_index(RESTAURANTS, HOTELS, articles),
+        "nature.html":      build_nature_page(),
+        "activities.html":  build_activities_page(),
+        "restaurants.html": build_restaurants_page(RESTAURANTS),
+        "hotels.html":      build_hotels_page(HOTELS),
+        "shopping.html":    build_shopping_page(),
+        "services.html":    build_services_page(),
+        "currency.html":    build_currency_page(cme_rates, cme_live, cme_updated,
+                                                cbvs_rates, cbvs_live, cbvs_updated),
+        "conditions.html":  build_conditions_page(tides_data),
+        "flights.html":     build_flights_page(flights_data),
+        "news.html":        build_news(articles),
+        "about.html":       build_about_page(),
+        "contact.html":     build_contact_page(),
+        "privacy.html":     build_privacy_page(),
+    }
+
+    for fname, html in pages.items():
+        with open(fname, "w", encoding="utf-8") as f:
+            f.write(html)
+        print(f"  OK  {fname}")
+
+    import os as _os
+    _os.makedirs("listing", exist_ok=True)
+    count = 0
+
+    for slug in _BIZ:
+        b = _make_biz(slug)
+        if not b:
+            continue
+        html    = build_listing_page(slug, b)
+        out_dir = Path("listing") / slug
+        out_dir.mkdir(parents=True, exist_ok=True)
+        (out_dir / "index.html").write_text(html, encoding="utf-8")
+        count += 1
+
+    nat_slugs = []
+    for spot in NATURE_SPOTS:
+        slug    = _nature_slug(spot["name"])
+        nat_slugs.append(slug)
+        html    = build_nature_listing_page(spot, slug)
+        out_dir = Path("listing") / slug
+        out_dir.mkdir(parents=True, exist_ok=True)
+        (out_dir / "index.html").write_text(html, encoding="utf-8")
+        count += 1
+
+    print(f"  OK  {count} listing pages")
+
+    act_slugs = [b["slug"] for b in ADVENTURES_BIZ + SIGHTSEEING]
+
+    with open("sitemap.xml", "w", encoding="utf-8") as f:
+        f.write(build_sitemap(list(_BIZ.keys()), act_slugs, nat_slugs))
+
+    with open("robots.txt", "w", encoding="utf-8") as f:
+        f.write(build_robots())
+
+    print("Done.")
