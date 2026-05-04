@@ -19,20 +19,20 @@
     .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
     a { text-decoration: none; }
   </style>
-  <title>Flights &mdash; Paramaribo (PBM) | Explore Suriname</title>
-  <meta name="description" content="Today&rsquo;s arrivals and departures at Johan Adolf Pengel International Airport (PBM), Paramaribo, Suriname. Refreshes every 6 hours.">
+  <title>Flights &mdash; Suriname Airports | Explore Suriname</title>
+  <meta name="description" content="Today's arrivals and departures at Suriname airports: Johan Adolf Pengel (PBM), Zorg en Hoop (ORJ) and Gummels Airstrip. Refreshes automatically.">
   <link rel="canonical" href="https://exploresuriname.com/flights.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="https://exploresuriname.com/flights.html">
-  <meta property="og:title" content="Flights &mdash; Paramaribo Airport | Explore Suriname">
-  <meta property="og:description" content="Recent arrivals and departures at Johan Adolf Pengel International Airport (PBM).">
+  <meta property="og:title" content="Flights &mdash; Suriname Airports | Explore Suriname">
+  <meta property="og:description" content="Today's scheduled arrivals and departures at Suriname's airports.">
   <meta property="og:image" content="https://exploresuriname.com/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Flights &mdash; Paramaribo Airport | Explore Suriname">
+  <meta name="twitter:title" content="Flights &mdash; Suriname Airports | Explore Suriname">
   <meta name="twitter:image" content="https://exploresuriname.com/og-image.jpg">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebPage","name":"Flights – Paramaribo Airport | Explore Suriname","url":"https://exploresuriname.com/flights.html","description":"Today's arrivals and departures at Johan Adolf Pengel International Airport (PBM), Paramaribo, Suriname.","about":{"@type":"Airport","name":"Johan Adolf Pengel International Airport","iataCode":"PBM","icaoCode":"SMJP","address":{"@type":"PostalAddress","addressCountry":"SR","addressLocality":"Paramaribo"}},"isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/"}}
+  {"@context":"https://schema.org","@type":"WebPage","name":"Flights - Suriname Airports | Explore Suriname","url":"https://exploresuriname.com/flights.html","description":"Today's arrivals and departures at Suriname airports including Johan Adolf Pengel (PBM), Zorg en Hoop (ORJ) and Gummels Airstrip.","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/"}}
   </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -51,6 +51,7 @@
 <a href="currency.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Currency</a>
 <a href="flights.html" class="font-semibold text-sm" style="color:var(--forest)">Flights</a>
 <a href="conditions.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Forecast</a>
+<a href="map.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Map</a>
 <a href="news.html" class="text-gray-700 hover:text-green-800 transition text-sm" >News</a>
 </div>
     <div class="flex items-center gap-2">
@@ -73,6 +74,7 @@
 <a href="currency.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Currency</a>
 <a href="flights.html" class="font-semibold border-l-2 pl-3 block py-3 text-sm" style="color:var(--forest);border-color:var(--forest)">Flights</a>
 <a href="conditions.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Forecast</a>
+<a href="map.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Map</a>
 <a href="news.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >News</a>
 </div>
 </nav>
@@ -158,26 +160,34 @@ document.addEventListener('keydown', e => {
 <div class="pt-16"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Flights &mdash; Paramaribo Airport</h1>
-  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Johan Adolf Pengel International Airport &mdash; Paramaribo (PBM / SMJP)</p>
-  <p class="text-white/35 text-xs mt-3">&#128336; Updated: 03 May 2026 17:30 SR</p>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Flights</h1>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Today's scheduled flights &mdash; PBM &bull; Zorg en Hoop &bull; Gummels</p>
+  <p class="text-white/35 text-xs mt-3">&#128336; Page built: 03 May 2026, 21:30 SR</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
-
-  <div class="rounded-2xl border border-blue-100 p-5 mb-8" style="background:#eff6ff">
+  <div class="rounded-2xl border border-blue-100 p-5 mb-6" style="background:#eff6ff">
     <p class="text-blue-900 text-sm leading-relaxed">
       <strong class="text-blue-800">About this data:</strong>
-      Flight data is sourced from <a href="https://aerodatabox.com" target="_blank" rel="noopener" class="underline">AeroDataBox</a>.
-      Times shown in Suriname time (SR, UTC&minus;3). Today&rsquo;s scheduled flights; refreshes every 6 hours.
-      For real-time tracking, visit <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener" class="underline">Flightradar24</a>.
+      Flight data from <a href="https://aerodatabox.com" target="_blank" rel="noopener" class="underline">AeroDataBox</a>.
+      Times in Suriname time (SR, UTC&minus;3). PBM refreshes every 6h; domestic airports every 12h.
+      For real-time tracking visit <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener" class="underline">Flightradar24</a>.
     </p>
   </div>
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+    <div class="flex overflow-x-auto border-b border-gray-100" style="scrollbar-width:none">
+      <button onclick="showAirport('SMJP')" id="tab-SMJP" class="airport-tab px-4 py-3 text-sm border-b-2 font-bold text-gray-900 whitespace-nowrap transition" style="border-color:var(--forest)">Johan Adolf Pengel (PBM)</button>
+<button onclick="showAirport('SMZO')" id="tab-SMZO" class="airport-tab px-4 py-3 text-sm text-gray-500 hover:text-gray-700 whitespace-nowrap transition" >Zorg en Hoop (ORJ)</button>
+<button onclick="showAirport('SMEG')" id="tab-SMEG" class="airport-tab px-4 py-3 text-sm text-gray-500 hover:text-gray-700 whitespace-nowrap transition" >Gummels Airstrip</button>
 
-  <!-- Arrivals -->
+    </div>
+  </div>
+  
+<div id="panel-SMJP" class="airport-panel">
+  <p class="text-gray-400 text-xs mb-4">&#128336; Updated: 03 May 2026 17:30 SR &bull; Refreshes every 6h</p>
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
     <div class="px-6 py-5 border-b border-gray-100">
-      <p class="font-bold text-gray-900 text-base">&#9650; Arrivals &mdash; Paramaribo (PBM) <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">5 flights</span></p>
-      <p class="text-gray-400 text-xs mt-0.5">Scheduled arrivals at Johan Adolf Pengel today</p>
+      <p class="font-bold text-gray-900 text-base">&#9650; Arrivals &mdash; Johan Adolf Pengel (PBM) <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">5 flights</span></p>
+      <p class="text-gray-400 text-xs mt-0.5">Scheduled arrivals today</p>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full text-sm">
@@ -191,12 +201,10 @@ document.addEventListener('keydown', e => {
       </table>
     </div>
   </div>
-
-  <!-- Departures -->
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
     <div class="px-6 py-5 border-b border-gray-100">
-      <p class="font-bold text-gray-900 text-base">&#9660; Departures &mdash; Paramaribo (PBM) <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">4 flights</span></p>
-      <p class="text-gray-400 text-xs mt-0.5">Scheduled departures from Johan Adolf Pengel today</p>
+      <p class="font-bold text-gray-900 text-base">&#9660; Departures &mdash; Johan Adolf Pengel (PBM) <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">4 flights</span></p>
+      <p class="text-gray-400 text-xs mt-0.5">Scheduled departures today</p>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full text-sm">
@@ -210,13 +218,104 @@ document.addEventListener('keydown', e => {
       </table>
     </div>
   </div>
-
+</div>
+<div id="panel-SMZO" class="airport-panel hidden">
+  <p class="text-gray-400 text-xs mb-4">&#128336; Updated: 03 May 2026 21:30 SR &bull; Refreshes every 12h</p>
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <p class="font-bold text-gray-900 text-base">&#9650; Arrivals &mdash; Zorg en Hoop (ORJ) </p>
+      <p class="text-gray-400 text-xs mt-0.5">Scheduled arrivals today</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="bg-gray-50 text-left">
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Flight</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Airline</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">From</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Time (SR)</th>
+        </tr></thead>
+        <tbody><tr><td colspan="4" class="py-8 text-center text-gray-400 text-sm">No scheduled arrivals found for today. This airport may have limited or no commercial service.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <p class="font-bold text-gray-900 text-base">&#9660; Departures &mdash; Zorg en Hoop (ORJ) </p>
+      <p class="text-gray-400 text-xs mt-0.5">Scheduled departures today</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="bg-gray-50 text-left">
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Flight</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Airline</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">To</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Time (SR)</th>
+        </tr></thead>
+        <tbody><tr><td colspan="4" class="py-8 text-center text-gray-400 text-sm">No scheduled departures found for today. This airport may have limited or no commercial service.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div id="panel-SMEG" class="airport-panel hidden">
+  <p class="text-gray-400 text-xs mb-4">&#128336; Updated: 03 May 2026 21:30 SR &bull; Refreshes every 12h</p>
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <p class="font-bold text-gray-900 text-base">&#9650; Arrivals &mdash; Gummels Airstrip </p>
+      <p class="text-gray-400 text-xs mt-0.5">Scheduled arrivals today</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="bg-gray-50 text-left">
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Flight</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Airline</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">From</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Time (SR)</th>
+        </tr></thead>
+        <tbody><tr><td colspan="4" class="py-8 text-center text-gray-400 text-sm">No scheduled arrivals found for today. This airport may have limited or no commercial service.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <p class="font-bold text-gray-900 text-base">&#9660; Departures &mdash; Gummels Airstrip </p>
+      <p class="text-gray-400 text-xs mt-0.5">Scheduled departures today</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="bg-gray-50 text-left">
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Flight</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Airline</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">To</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Time (SR)</th>
+        </tr></thead>
+        <tbody><tr><td colspan="4" class="py-8 text-center text-gray-400 text-sm">No scheduled departures found for today. This airport may have limited or no commercial service.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
   <p class="text-center text-gray-400 text-xs mt-4 max-w-2xl mx-auto leading-relaxed px-4">
     Data from <a href="https://aerodatabox.com" target="_blank" rel="noopener" style="color:var(--forest2)">AeroDataBox</a>. Not for operational use.
-    Scheduled times only. Not suitable for operational flight planning.
+    Scheduled times only. Zorg en Hoop and Gummels serve domestic &amp; charter routes.
   </p>
-
 </main>
+<script>
+function showAirport(icao) {
+  document.querySelectorAll('.airport-panel').forEach(p => p.classList.add('hidden'));
+  document.querySelectorAll('.airport-tab').forEach(t => {
+    t.classList.remove('border-b-2','font-bold','text-gray-900');
+    t.classList.add('text-gray-500');
+    t.removeAttribute('style');
+  });
+  var panel = document.getElementById('panel-' + icao);
+  var tab   = document.getElementById('tab-'   + icao);
+  if (panel) panel.classList.remove('hidden');
+  if (tab) {
+    tab.classList.add('border-b-2','font-bold','text-gray-900');
+    tab.classList.remove('text-gray-500');
+    tab.style.borderColor = 'var(--forest)';
+  }
+}
+</script>
 
 <footer style="background:var(--forest)" class="text-white py-16">
   <div class="max-w-6xl mx-auto px-5">
@@ -235,8 +334,9 @@ document.addEventListener('keydown', e => {
           <li><a href="shopping.html"    class="hover:text-white transition">Shopping</a></li>
           <li><a href="services.html"    class="hover:text-white transition">Services</a></li>
           <li><a href="currency.html"    class="hover:text-white transition">Currency Rates</a></li>
-          <li><a href="flights.html"     class="hover:text-white transition">Flights (PBM)</a></li>
+          <li><a href="flights.html"     class="hover:text-white transition">Flights</a></li>
           <li><a href="conditions.html"  class="hover:text-white transition">Weather &amp; Tides</a></li>
+          <li><a href="map.html"         class="hover:text-white transition">Listings Map</a></li>
           <li><a href="news.html"        class="hover:text-white transition">Suriname News</a></li>
         </ul>
       </div>

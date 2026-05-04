@@ -55,6 +55,7 @@
 <a href="currency.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Currency</a>
 <a href="flights.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Flights</a>
 <a href="conditions.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Forecast</a>
+<a href="map.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Map</a>
 <a href="news.html" class="text-gray-700 hover:text-green-800 transition text-sm" >News</a>
 </div>
     <div class="flex items-center gap-2">
@@ -77,6 +78,7 @@
 <a href="currency.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Currency</a>
 <a href="flights.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Flights</a>
 <a href="conditions.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Forecast</a>
+<a href="map.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Map</a>
 <a href="news.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >News</a>
 </div>
 </nav>
@@ -167,14 +169,20 @@ document.addEventListener('keydown', e => {
 </div>
 <main class="max-w-6xl mx-auto px-5 py-12 pb-24">
   
-<div class="sticky top-16 z-40 py-3 mb-8" style="background:rgba(249,250,251,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06)">
+<div class="sticky top-16 z-40 pb-2 mb-6" style="background:rgba(249,250,251,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06)">
   <div class="max-w-6xl mx-auto px-5">
-    <div class="relative flex items-center gap-1">
+    <!-- Subcat chips -->
+    <div class="relative flex items-center gap-1 pt-3">
       <button id="chipbar-restaurant-prev" onclick="chipScroll('chipbar-restaurant',-1)" class="chip-arrow" aria-label="scroll left">&#8249;</button>
       <div id="chipbar-restaurant" class="flex gap-2 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth">
         <button onclick="filterSub(this,'all')" class="filter-chip chip-active">All <span class="chip-count">134</span></button><button onclick="filterSub(this,'fast-food')" class="filter-chip">Fast Food <span class="chip-count">40</span></button><button onclick="filterSub(this,'cafes-coffee')" class="filter-chip">Cafés & Coffee <span class="chip-count">21</span></button><button onclick="filterSub(this,'bars-lounges')" class="filter-chip">Bars & Lounges <span class="chip-count">18</span></button><button onclick="filterSub(this,'asian-fusion')" class="filter-chip">Asian & Fusion <span class="chip-count">13</span></button><button onclick="filterSub(this,'local-caribbean')" class="filter-chip">Local & Caribbean <span class="chip-count">26</span></button><button onclick="filterSub(this,'pizza-italian')" class="filter-chip">Pizza & Italian <span class="chip-count">8</span></button><button onclick="filterSub(this,'bakeries-sweets')" class="filter-chip">Bakeries & Sweets <span class="chip-count">5</span></button>
       </div>
       <button id="chipbar-restaurant-next" onclick="chipScroll('chipbar-restaurant',1)" class="chip-arrow" aria-label="scroll right">&#8250;</button>
+    </div>
+    <!-- District chips -->
+    <div class="flex gap-1.5 overflow-x-auto pt-2 pb-1" style="scrollbar-width:none">
+      <span class="text-xs font-semibold text-gray-400 self-center shrink-0 mr-1">&#128205; District:</span>
+      <button onclick="filterDistrict(this,'all')" class="dist-chip dist-chip-active">All districts <span class="chip-count">134</span></button><button onclick="filterDistrict(this,'Paramaribo')" class="dist-chip">Paramaribo <span class="chip-count">134</span></button>
     </div>
   </div>
 </div>
@@ -187,8 +195,15 @@ document.addEventListener('keydown', e => {
 }
 .filter-chip:hover { border-color:var(--forest);color:var(--forest); }
 .filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+.dist-chip {
+  display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;
+  border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;
+  color:#6b7280;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+}
+.dist-chip:hover { border-color:var(--forest2);color:var(--forest2); }
+.dist-chip.dist-chip-active { background:var(--forest2);border-color:var(--forest2);color:#fff; }
 .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
-.filter-chip.chip-active .chip-count { opacity:.8; }
+.filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count { opacity:.8; }
 .chip-arrow {
   flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #e5e7eb;
   background:#fff;font-size:1.1rem;line-height:1;cursor:pointer;display:flex;
@@ -199,32 +214,43 @@ document.addEventListener('keydown', e => {
 .listing-card.hidden { display:none; }
 </style>
 <script>
+var _activeSub  = 'all';
+var _activeDist = 'all';
+
+function _applyFilters() {
+  document.querySelectorAll('.listing-card').forEach(function(card) {
+    var subOk  = _activeSub  === 'all' || card.dataset.sub      === _activeSub;
+    var distOk = _activeDist === 'all' || card.dataset.district === _activeDist;
+    card.classList.toggle('hidden', !(subOk && distOk));
+  });
+  var visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
+  var lbl = document.getElementById('result-count');
+  if (lbl) lbl.textContent = visible + ' results';
+}
+
 function chipScroll(id, dir) {
   var el = document.getElementById(id);
   if (el) el.scrollBy({left: dir * 200, behavior: 'smooth'});
 }
-</script>
-<script>
+
 function filterSub(btn, key) {
-  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('chip-active'));
+  _activeSub = key;
+  document.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
   btn.classList.add('chip-active');
-  document.querySelectorAll('.listing-card').forEach(card => {
-    if (key === 'all' || card.dataset.sub === key) {
-      card.classList.remove('hidden');
-    } else {
-      card.classList.add('hidden');
-    }
-  });
-  // Update grid count label
-  const visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
-  const lbl = document.getElementById('result-count');
-  if (lbl) lbl.textContent = visible + ' results';
+  _applyFilters();
+}
+
+function filterDistrict(btn, dist) {
+  _activeDist = dist;
+  document.querySelectorAll('.dist-chip').forEach(function(b) { b.classList.remove('dist-chip-active'); });
+  btn.classList.add('dist-chip-active');
+  _applyFilters();
 }
 </script>
   <div id="result-count" class="text-sm text-gray-400 mb-4 font-medium">134 results</div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     
-<a href="listing/a-la-john/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/a-la-john/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -239,7 +265,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/aaras-cafe/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/aaras-cafe/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -254,7 +280,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/ac-bar-restaurant/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/ac-bar-restaurant/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -269,7 +295,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/ace-restaurant-lounge/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/ace-restaurant-lounge/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -284,7 +310,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/ayo-river-lounge/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/ayo-river-lounge/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -299,7 +325,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/baka-foto-restaurant/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/baka-foto-restaurant/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -314,7 +340,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/bar-qle/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/bar-qle/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -329,7 +355,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/bar-zuid/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/bar-zuid/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -344,7 +370,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/big-tex/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/big-tex/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -359,7 +385,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/bingo-pizza-coppename/" data-sub="pizza-italian" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/bingo-pizza-coppename/" data-sub="pizza-italian" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/871f1fbdff762a3d57389ba77a37860a.jpg" alt="Bingo Pizza Coppename" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -374,7 +400,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/bingo-pizza-kwatta/" data-sub="pizza-italian" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/bingo-pizza-kwatta/" data-sub="pizza-italian" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/871f1fbdff762a3d57389ba77a37860a.jpg" alt="Bingo Pizza Kwatta" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -389,7 +415,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/bistro-brwni/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/bistro-brwni/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -404,7 +430,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/bistro-don-julio/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/bistro-don-julio/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -419,7 +445,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/bistro-lequatorze/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/bistro-lequatorze/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -434,7 +460,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/blossom-beauty-bar/" data-sub="beauty-wellness" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/blossom-beauty-bar/" data-sub="beauty-wellness" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -449,7 +475,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/blue-grand-cafe/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/blue-grand-cafe/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -464,7 +490,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/bori-tori/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/bori-tori/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -479,7 +505,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/brow-bliss-lounge/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/brow-bliss-lounge/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -494,7 +520,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/burger-king-centrum/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/burger-king-centrum/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/6676548a781e7ddd09c0cfd5366e3f53.jpg" alt="Burger King Centrum" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -509,7 +535,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/burger-king-latour/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/burger-king-latour/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/6676548a781e7ddd09c0cfd5366e3f53.jpg" alt="Burger King Latour" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -524,7 +550,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/chi-min/" data-sub="asian-fusion" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/chi-min/" data-sub="asian-fusion" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -539,7 +565,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/coffee-mama/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/coffee-mama/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -554,7 +580,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/cy-coffee/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/cy-coffee/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -569,7 +595,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/d-mighty-view-lounge/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/d-mighty-view-lounge/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -584,7 +610,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/de-gadri/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/de-gadri/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -599,7 +625,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/de-spot/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/de-spot/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/9fce7ade576a6bf8959d60d4f3d9847a.jpg" alt="De Spot" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -614,7 +640,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/de-verdieping/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/de-verdieping/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -629,7 +655,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/dolce-bella-cafe/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/dolce-bella-cafe/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -644,7 +670,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/el-patron-latin-grill/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/el-patron-latin-grill/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/aa41fb6804c1dfc30faa1660be3301d4.jpg" alt="El Patron Latin Grill" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -659,7 +685,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/elines-pizza/" data-sub="pizza-italian" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/elines-pizza/" data-sub="pizza-italian" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -674,7 +700,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/etembe-rainforest-restaurant/" data-sub="asian-fusion" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/etembe-rainforest-restaurant/" data-sub="asian-fusion" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -689,7 +715,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/ettores-pizza-kitchen/" data-sub="pizza-italian" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/ettores-pizza-kitchen/" data-sub="pizza-italian" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -704,7 +730,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/flavor-restaurant/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/flavor-restaurant/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -719,7 +745,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/garden-of-eden/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/garden-of-eden/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -734,7 +760,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/georgies-bar-chill/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/georgies-bar-chill/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -749,7 +775,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/goe-thai-noodle-bar/" data-sub="asian-fusion" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/goe-thai-noodle-bar/" data-sub="asian-fusion" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/4d694a3184c33b7e22a303b366e0b792.png" alt="GoE Thai Noodle Bar" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -764,7 +790,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/habco-delight/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/habco-delight/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -779,7 +805,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/habco-delight-north/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/habco-delight-north/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -794,7 +820,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/hard-rock-cafe-suriname/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/hard-rock-cafe-suriname/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/85e15234e12f4132630cfb1ebed4f65d.jpg" alt="Hard Rock Cafe Suriname" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -809,7 +835,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/holy-moly/" data-sub="bakeries-sweets" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/holy-moly/" data-sub="bakeries-sweets" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -824,7 +850,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/jadore-cafe-grill/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/jadore-cafe-grill/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -839,7 +865,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/joey-ds/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/joey-ds/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -854,7 +880,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/joosje-roti-shop/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/joosje-roti-shop/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -869,7 +895,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/julias-food/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/julias-food/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -884,7 +910,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/kasan-snacks/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/kasan-snacks/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -899,7 +925,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/kfc-ims/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/kfc-ims/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/d26ed21867a1ef5c665b35f2c8366b42.png" alt="KFC IMS" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -914,7 +940,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/kfc-kwatta/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/kfc-kwatta/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/d26ed21867a1ef5c665b35f2c8366b42.png" alt="KFC Kwatta" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -929,7 +955,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/kfc-lallarookh/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/kfc-lallarookh/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/d26ed21867a1ef5c665b35f2c8366b42.png" alt="KFC Lallarookh" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -944,7 +970,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/kfc-latour/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/kfc-latour/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/d26ed21867a1ef5c665b35f2c8366b42.png" alt="KFC Latour" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -959,7 +985,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/kfc-lelydorp/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/kfc-lelydorp/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/d26ed21867a1ef5c665b35f2c8366b42.png" alt="KFC Lelydorp" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -974,7 +1000,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/kfc-waterkant/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/kfc-waterkant/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/d26ed21867a1ef5c665b35f2c8366b42.png" alt="KFC Waterkant" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -989,7 +1015,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/kfc-wilhelminastraat/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/kfc-wilhelminastraat/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/d26ed21867a1ef5c665b35f2c8366b42.png" alt="KFC Wilhelminastraat" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1004,7 +1030,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/kong-nam-snack/" data-sub="asian-fusion" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/kong-nam-snack/" data-sub="asian-fusion" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1019,7 +1045,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/kwan-tai-restaurant/" data-sub="asian-fusion" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/kwan-tai-restaurant/" data-sub="asian-fusion" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1034,7 +1060,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/kwan-tai-restaurant-2/" data-sub="asian-fusion" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/kwan-tai-restaurant-2/" data-sub="asian-fusion" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1049,7 +1075,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/kyu-pho-grill/" data-sub="asian-fusion" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/kyu-pho-grill/" data-sub="asian-fusion" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1064,7 +1090,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/lamour-restaurant/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/lamour-restaurant/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1079,7 +1105,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/las-tias/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/las-tias/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1094,7 +1120,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/lees-korean-grill/" data-sub="asian-fusion" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/lees-korean-grill/" data-sub="asian-fusion" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1109,7 +1135,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/leiding-1-restaurant/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/leiding-1-restaurant/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1124,7 +1150,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/lucky-twins-restaurant/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/lucky-twins-restaurant/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1139,7 +1165,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/mcdonalds-centrum/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/mcdonalds-centrum/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/b022ac1bf1e4653e19e416e518b02eec.jpg" alt="McDonald&#x27;s Centrum" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1154,7 +1180,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/mcdonalds-hermitage-mall/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/mcdonalds-hermitage-mall/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/b022ac1bf1e4653e19e416e518b02eec.jpg" alt="McDonald&#x27;s Hermitage Mall" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1169,7 +1195,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/mickis-palace-noord/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/mickis-palace-noord/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1184,7 +1210,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/mickis-palace-zuid/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/mickis-palace-zuid/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1199,7 +1225,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/mingle-paramaribo/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/mingle-paramaribo/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/8694ed1de661b97fcb800b2d8dcec452.png" alt="Mingle Paramaribo" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1214,7 +1240,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/mingle-sushi/" data-sub="asian-fusion" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/mingle-sushi/" data-sub="asian-fusion" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/62a326bf76cf39be28c01cadafcd0460.png" alt="Mingle Sushi" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1229,7 +1255,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/moka-coffeebar/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/moka-coffeebar/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1244,7 +1270,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/moments-restaurant/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/moments-restaurant/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1259,7 +1285,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/naskip-3/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/naskip-3/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/dce376bb7d19da5b48373c2848e6049a.jpg" alt="Naskip Gemenelandsweg" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1274,7 +1300,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/naskip/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/naskip/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/dce376bb7d19da5b48373c2848e6049a.jpg" alt="Naskip Henck Arronstraat" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1289,7 +1315,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/naskip-5/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/naskip-5/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/dce376bb7d19da5b48373c2848e6049a.jpg" alt="Naskip Indira Ghandiweg" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1304,7 +1330,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/naskip-4/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/naskip-4/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/dce376bb7d19da5b48373c2848e6049a.jpg" alt="Naskip Kwatta" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1319,7 +1345,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/naskip-2/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/naskip-2/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/dce376bb7d19da5b48373c2848e6049a.jpg" alt="Naskip Latourweg" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1334,7 +1360,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/new-suriname-dream-cafe/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/new-suriname-dream-cafe/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1349,7 +1375,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/numa-cafe/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/numa-cafe/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1364,7 +1390,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/oasis-restaurant/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/oasis-restaurant/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1379,7 +1405,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/ogi-teppanyaki-sushi-bar/" data-sub="asian-fusion" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/ogi-teppanyaki-sushi-bar/" data-sub="asian-fusion" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1394,7 +1420,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/okopipi-tropical-grill/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/okopipi-tropical-grill/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1409,7 +1435,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/olive-multi-cuisine-restaurant/" data-sub="asian-fusion" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/olive-multi-cuisine-restaurant/" data-sub="asian-fusion" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1424,7 +1450,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/padre-nostro-italian-restaurant/" data-sub="pizza-italian" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/padre-nostro-italian-restaurant/" data-sub="pizza-italian" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1439,7 +1465,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/pane-e-vino/" data-sub="pizza-italian" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/pane-e-vino/" data-sub="pizza-italian" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1454,7 +1480,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/pannekoek-en-poffertjes-cafe/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/pannekoek-en-poffertjes-cafe/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1469,7 +1495,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/passion-food-and-wines/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/passion-food-and-wines/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/5e90c717879f13264f45270e9601efa7.jpg" alt="Passion Food and Wines" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1484,7 +1510,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/petisco-restaurant/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/petisco-restaurant/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1499,7 +1525,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/pizza-hut-leysweg/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/pizza-hut-leysweg/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/a858875d6f3f42d29acab5d8147a02a1.png" alt="Pizza Hut Leysweg" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1514,7 +1540,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/pizza-hut-south/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/pizza-hut-south/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/a858875d6f3f42d29acab5d8147a02a1.png" alt="Pizza Hut South" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1529,7 +1555,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/pizza-hut-wilhelminastraat/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/pizza-hut-wilhelminastraat/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/a858875d6f3f42d29acab5d8147a02a1.png" alt="Pizza Hut Wilhelminastraat" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1544,7 +1570,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/pizza-mafia/" data-sub="pizza-italian" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/pizza-mafia/" data-sub="pizza-italian" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1559,7 +1585,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/popeyes-centrum/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/popeyes-centrum/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/bed9b9fb3bafed8cbfda5c76484834cb.jpg" alt="Popeyes Centrum" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1574,7 +1600,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/popeyes-lelydorp/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/popeyes-lelydorp/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/bed9b9fb3bafed8cbfda5c76484834cb.jpg" alt="Popeyes Lelydorp" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1589,7 +1615,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/popeyes-tbl/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/popeyes-tbl/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/bed9b9fb3bafed8cbfda5c76484834cb.jpg" alt="Popeyes TBL" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1604,7 +1630,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/popeyes-wilhelminastraat/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/popeyes-wilhelminastraat/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/bed9b9fb3bafed8cbfda5c76484834cb.jpg" alt="Popeyes Wilhelminastraat" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1619,7 +1645,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/restaurant-lhermitage/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/restaurant-lhermitage/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1634,7 +1660,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/restaurant-sarinah/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/restaurant-sarinah/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1649,7 +1675,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/ritas-roti-shop/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/ritas-roti-shop/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1664,7 +1690,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/rogom-farm-nv/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/rogom-farm-nv/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1679,7 +1705,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/roopram-roti-shop/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/roopram-roti-shop/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1694,7 +1720,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/samba-cafe/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/samba-cafe/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1709,7 +1735,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/saras-brunch-cafe/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/saras-brunch-cafe/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1724,7 +1750,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/shimmery-beauty-lounge/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/shimmery-beauty-lounge/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1739,7 +1765,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/sizzler-midnight-grill/" data-sub="pizza-italian" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/sizzler-midnight-grill/" data-sub="pizza-italian" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1754,7 +1780,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/souposo/" data-sub="local-caribbean" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/souposo/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1769,7 +1795,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/squeezy-hot-pot-restaurant/" data-sub="asian-fusion" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/squeezy-hot-pot-restaurant/" data-sub="asian-fusion" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1784,7 +1810,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/sranan-fowru/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/sranan-fowru/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/c46a95429bce8ee260287f3c2acb5939.webp" alt="Sranan Fowru" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1799,7 +1825,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/sranan-fowru-boni/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/sranan-fowru-boni/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/c46a95429bce8ee260287f3c2acb5939.webp" alt="Sranan Fowru Boni" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1814,7 +1840,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/sranan-fowru-combe/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/sranan-fowru-combe/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/c46a95429bce8ee260287f3c2acb5939.webp" alt="Sranan Fowru Combe" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1829,7 +1855,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/sranan-fowru-flu/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/sranan-fowru-flu/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/c46a95429bce8ee260287f3c2acb5939.webp" alt="Sranan Fowru Flu" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1844,7 +1870,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/sranan-fowru-leiding/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/sranan-fowru-leiding/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/c46a95429bce8ee260287f3c2acb5939.webp" alt="Sranan Fowru Leiding" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1859,7 +1885,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/sranan-fowru-lelydorp/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/sranan-fowru-lelydorp/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/c46a95429bce8ee260287f3c2acb5939.webp" alt="Sranan Fowru Lelydorp" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1874,7 +1900,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/sranan-fowru-meursweg/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/sranan-fowru-meursweg/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/c46a95429bce8ee260287f3c2acb5939.webp" alt="Sranan Fowru Meursweg" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1889,7 +1915,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/sranan-fowru-tabiki-fowru/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/sranan-fowru-tabiki-fowru/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/c46a95429bce8ee260287f3c2acb5939.webp" alt="Sranan Fowru Tabiki Fowru" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1904,7 +1930,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/sranan-fowru-tourtonne/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/sranan-fowru-tourtonne/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/c46a95429bce8ee260287f3c2acb5939.webp" alt="Sranan Fowru Tourtonne" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1919,7 +1945,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/sranan-fowru-zinnia/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/sranan-fowru-zinnia/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/c46a95429bce8ee260287f3c2acb5939.webp" alt="Sranan Fowru Zinnia" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1934,7 +1960,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/subway-2/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/subway-2/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/31104a30e0b92830b9b34bd9669db606.jpg" alt="Subway (Jozef Israëlsstraat)" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1949,7 +1975,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/subway-3/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/subway-3/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/31104a30e0b92830b9b34bd9669db606.jpg" alt="Subway (Kwattaweg)" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1964,7 +1990,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/subway/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/subway/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/31104a30e0b92830b9b34bd9669db606.jpg" alt="Subway (Lalla Rookhweg)" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1979,7 +2005,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/sushi-ya/" data-sub="asian-fusion" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/sushi-ya/" data-sub="asian-fusion" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -1994,7 +2020,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/sweetie-coffee/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/sweetie-coffee/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2009,7 +2035,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/tasty-fresh-food-coffee-bar/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/tasty-fresh-food-coffee-bar/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2024,7 +2050,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/the-bakery-house/" data-sub="bakeries-sweets" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/the-bakery-house/" data-sub="bakeries-sweets" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2039,7 +2065,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/the-beauty-bar-north/" data-sub="beauty-wellness" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/the-beauty-bar-north/" data-sub="beauty-wellness" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2054,7 +2080,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/the-beauty-bar-south/" data-sub="beauty-wellness" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/the-beauty-bar-south/" data-sub="beauty-wellness" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2069,7 +2095,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/the-coffee-box/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/the-coffee-box/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2084,7 +2110,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/the-coffee-box-north/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/the-coffee-box-north/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2099,7 +2125,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/the-coffee-hobbyist/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/the-coffee-hobbyist/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2114,7 +2140,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/the-maillard-cafe/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/the-maillard-cafe/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2129,7 +2155,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/tipsy-bar-lounge/" data-sub="bars-lounges" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/tipsy-bar-lounge/" data-sub="bars-lounges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2144,7 +2170,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/tirzahs-patisserie/" data-sub="bakeries-sweets" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/tirzahs-patisserie/" data-sub="bakeries-sweets" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2159,7 +2185,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/twins-pizza-burgers/" data-sub="fast-food" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/twins-pizza-burgers/" data-sub="fast-food" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2174,7 +2200,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/u-s-bakery/" data-sub="bakeries-sweets" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/u-s-bakery/" data-sub="bakeries-sweets" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2189,7 +2215,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/uitkijk-riverlounge-cafe/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/uitkijk-riverlounge-cafe/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2204,7 +2230,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/zeg-ijsje/" data-sub="bakeries-sweets" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/zeg-ijsje/" data-sub="bakeries-sweets" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2219,7 +2245,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/zus-zo-cafe/" data-sub="cafes-coffee" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/zus-zo-cafe/" data-sub="cafes-coffee" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/8797b68dc7eb3268625e3d20eef835bc.jpeg" alt="Zus &amp; Zo Cafe" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2254,8 +2280,9 @@ function filterSub(btn, key) {
           <li><a href="shopping.html"    class="hover:text-white transition">Shopping</a></li>
           <li><a href="services.html"    class="hover:text-white transition">Services</a></li>
           <li><a href="currency.html"    class="hover:text-white transition">Currency Rates</a></li>
-          <li><a href="flights.html"     class="hover:text-white transition">Flights (PBM)</a></li>
+          <li><a href="flights.html"     class="hover:text-white transition">Flights</a></li>
           <li><a href="conditions.html"  class="hover:text-white transition">Weather &amp; Tides</a></li>
+          <li><a href="map.html"         class="hover:text-white transition">Listings Map</a></li>
           <li><a href="news.html"        class="hover:text-white transition">Suriname News</a></li>
         </ul>
       </div>

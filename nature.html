@@ -55,6 +55,7 @@
 <a href="currency.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Currency</a>
 <a href="flights.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Flights</a>
 <a href="conditions.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Forecast</a>
+<a href="map.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Map</a>
 <a href="news.html" class="text-gray-700 hover:text-green-800 transition text-sm" >News</a>
 </div>
     <div class="flex items-center gap-2">
@@ -77,6 +78,7 @@
 <a href="currency.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Currency</a>
 <a href="flights.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Flights</a>
 <a href="conditions.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Forecast</a>
+<a href="map.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Map</a>
 <a href="news.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >News</a>
 </div>
 </nav>
@@ -167,14 +169,20 @@ document.addEventListener('keydown', e => {
 </div>
 <main class="max-w-6xl mx-auto px-5 py-12 pb-24">
   
-<div class="sticky top-16 z-40 py-3 mb-8" style="background:rgba(249,250,251,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06)">
+<div class="sticky top-16 z-40 pb-2 mb-6" style="background:rgba(249,250,251,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06)">
   <div class="max-w-6xl mx-auto px-5">
-    <div class="relative flex items-center gap-1">
+    <!-- Subcat chips -->
+    <div class="relative flex items-center gap-1 pt-3">
       <button id="chipbar-sightseeing-prev" onclick="chipScroll('chipbar-sightseeing',-1)" class="chip-arrow" aria-label="scroll left">&#8249;</button>
       <div id="chipbar-sightseeing" class="flex gap-2 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth">
         <button onclick="filterSub(this,'all')" class="filter-chip chip-active">All <span class="chip-count">29</span></button><button onclick="filterSub(this,'museums-heritage')" class="filter-chip">Museums & Heritage <span class="chip-count">8</span></button><button onclick="filterSub(this,'nature-parks')" class="filter-chip">Nature & Parks <span class="chip-count">16</span></button><button onclick="filterSub(this,'entertainment')" class="filter-chip">Entertainment <span class="chip-count">4</span></button><button onclick="filterSub(this,'other')" class="filter-chip">Other <span class="chip-count">1</span></button>
       </div>
       <button id="chipbar-sightseeing-next" onclick="chipScroll('chipbar-sightseeing',1)" class="chip-arrow" aria-label="scroll right">&#8250;</button>
+    </div>
+    <!-- District chips -->
+    <div class="flex gap-1.5 overflow-x-auto pt-2 pb-1" style="scrollbar-width:none">
+      <span class="text-xs font-semibold text-gray-400 self-center shrink-0 mr-1">&#128205; District:</span>
+      <button onclick="filterDistrict(this,'all')" class="dist-chip dist-chip-active">All districts <span class="chip-count">29</span></button><button onclick="filterDistrict(this,'Paramaribo')" class="dist-chip">Paramaribo <span class="chip-count">29</span></button>
     </div>
   </div>
 </div>
@@ -187,8 +195,15 @@ document.addEventListener('keydown', e => {
 }
 .filter-chip:hover { border-color:var(--forest);color:var(--forest); }
 .filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+.dist-chip {
+  display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;
+  border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;
+  color:#6b7280;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+}
+.dist-chip:hover { border-color:var(--forest2);color:var(--forest2); }
+.dist-chip.dist-chip-active { background:var(--forest2);border-color:var(--forest2);color:#fff; }
 .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
-.filter-chip.chip-active .chip-count { opacity:.8; }
+.filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count { opacity:.8; }
 .chip-arrow {
   flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #e5e7eb;
   background:#fff;font-size:1.1rem;line-height:1;cursor:pointer;display:flex;
@@ -199,26 +214,37 @@ document.addEventListener('keydown', e => {
 .listing-card.hidden { display:none; }
 </style>
 <script>
+var _activeSub  = 'all';
+var _activeDist = 'all';
+
+function _applyFilters() {
+  document.querySelectorAll('.listing-card').forEach(function(card) {
+    var subOk  = _activeSub  === 'all' || card.dataset.sub      === _activeSub;
+    var distOk = _activeDist === 'all' || card.dataset.district === _activeDist;
+    card.classList.toggle('hidden', !(subOk && distOk));
+  });
+  var visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
+  var lbl = document.getElementById('result-count');
+  if (lbl) lbl.textContent = visible + ' results';
+}
+
 function chipScroll(id, dir) {
   var el = document.getElementById(id);
   if (el) el.scrollBy({left: dir * 200, behavior: 'smooth'});
 }
-</script>
-<script>
+
 function filterSub(btn, key) {
-  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('chip-active'));
+  _activeSub = key;
+  document.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
   btn.classList.add('chip-active');
-  document.querySelectorAll('.listing-card').forEach(card => {
-    if (key === 'all' || card.dataset.sub === key) {
-      card.classList.remove('hidden');
-    } else {
-      card.classList.add('hidden');
-    }
-  });
-  // Update grid count label
-  const visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
-  const lbl = document.getElementById('result-count');
-  if (lbl) lbl.textContent = visible + ' results';
+  _applyFilters();
+}
+
+function filterDistrict(btn, dist) {
+  _activeDist = dist;
+  document.querySelectorAll('.dist-chip').forEach(function(b) { b.classList.remove('dist-chip-active'); });
+  btn.classList.add('dist-chip-active');
+  _applyFilters();
 }
 </script>
   <div id="result-count" class="text-sm text-gray-400 mb-4 font-medium">15 results</div>
@@ -524,7 +550,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/cola-kreek-recreatiepark/" data-sub="other" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/cola-kreek-recreatiepark/" data-sub="other" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/753690f5e1d4c63e15a7ebdff0b5b69b.jpg" alt="Cola Kreek Recreatiepark" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -539,7 +565,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/conservatorium-suriname/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/conservatorium-suriname/" data-sub="museums-heritage" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -554,7 +580,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/ford-zeelandia/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/ford-zeelandia/" data-sub="museums-heritage" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/5dd63a457e914609d53d5de5e729143b.jpg" alt="Fort Zeelandia" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -569,7 +595,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/golf-club-paramaribo/" data-sub="entertainment" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/golf-club-paramaribo/" data-sub="entertainment" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -584,7 +610,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/het-koto-museum/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/het-koto-museum/" data-sub="museums-heritage" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/eaeae3a95ce7e062136ca4ec6b427fa5.jpg" alt="Het Koto Museum" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -599,7 +625,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/joden-savanne/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/joden-savanne/" data-sub="museums-heritage" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/f5242c4dcb68c6ec348c618da87711db.jpg" alt="Joden Savanne" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -614,7 +640,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/museum-bakkie/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/museum-bakkie/" data-sub="museums-heritage" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/22677dd3782ef148ddb6b50f76577359.jpg" alt="Museum Bakkie" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -629,7 +655,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/paramaribo-zoo/" data-sub="entertainment" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/paramaribo-zoo/" data-sub="entertainment" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/2c70d4cdfbba0d93e5c443b225c05cc6.jpg" alt="Paramaribo Zoo" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -644,7 +670,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/peperpot-nature-park/" data-sub="nature-parks" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/peperpot-nature-park/" data-sub="nature-parks" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/7dd9affea5a6a4d8a85cf5f1413f0f7f.jpg" alt="Peperpot Nature Park" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -659,7 +685,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/plantage-frederiksdorp/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/plantage-frederiksdorp/" data-sub="museums-heritage" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/97fcf36bdc7575d6df090e5ac34b621d.jpeg" alt="Plantage Frederiksdorp" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -674,7 +700,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/readytex-art-gallery/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/readytex-art-gallery/" data-sub="museums-heritage" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/7b86c8e066c871f4eb672b791a8fb720.jpg" alt="Readytex Art Gallery" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -689,7 +715,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/stichting-surinaams-museum/" data-sub="museums-heritage" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/stichting-surinaams-museum/" data-sub="museums-heritage" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/48667dc93b6631a8581f1b2e535fa657.png" alt="Stichting Surinaams Museum" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -704,7 +730,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/tbl-cinemas/" data-sub="entertainment" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/tbl-cinemas/" data-sub="entertainment" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="images/ca152e0d3e8d10da2f42b21d8d204b9f.jpg" alt="TBL Cinemas" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -719,7 +745,7 @@ function filterSub(btn, key) {
   </div>
 </a>
 
-<a href="listing/theater-thalia/" data-sub="entertainment" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="listing/theater-thalia/" data-sub="entertainment" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -754,8 +780,9 @@ function filterSub(btn, key) {
           <li><a href="shopping.html"    class="hover:text-white transition">Shopping</a></li>
           <li><a href="services.html"    class="hover:text-white transition">Services</a></li>
           <li><a href="currency.html"    class="hover:text-white transition">Currency Rates</a></li>
-          <li><a href="flights.html"     class="hover:text-white transition">Flights (PBM)</a></li>
+          <li><a href="flights.html"     class="hover:text-white transition">Flights</a></li>
           <li><a href="conditions.html"  class="hover:text-white transition">Weather &amp; Tides</a></li>
+          <li><a href="map.html"         class="hover:text-white transition">Listings Map</a></li>
           <li><a href="news.html"        class="hover:text-white transition">Suriname News</a></li>
         </ul>
       </div>

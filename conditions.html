@@ -20,19 +20,19 @@
     a { text-decoration: none; }
   </style>
   <title>Weather &amp; Forecast | Explore Suriname</title>
-  <meta name="description" content="Paramaribo 7-day weather forecast, tidal predictions, and daily sunrise and sunset times for Suriname. Updated automatically every day.">
+  <meta name="description" content="Suriname 7-day weather forecast by district, tidal predictions for 5 rivers, and daily sunrise/sunset times. Updated automatically.">
   <link rel="canonical" href="https://exploresuriname.com/conditions.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="https://exploresuriname.com/conditions.html">
   <meta property="og:title" content="Weather &amp; Forecast | Explore Suriname">
-  <meta property="og:description" content="7-day weather, tidal predictions and sunrise/sunset times for Paramaribo, Suriname. Updated daily.">
+  <meta property="og:description" content="7-day weather by district, tidal predictions and sunrise/sunset times for Suriname. Updated daily.">
   <meta property="og:image" content="https://exploresuriname.com/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Weather &amp; Forecast | Explore Suriname">
   <meta name="twitter:image" content="https://exploresuriname.com/og-image.jpg">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebPage","name":"Weather & Forecast | Explore Suriname","url":"https://exploresuriname.com/conditions.html","description":"Paramaribo 7-day weather forecast, tidal predictions, and daily sunrise and sunset times for Suriname.","about":{"@type":"Place","name":"Paramaribo","addressCountry":"SR","sameAs":"https://en.wikipedia.org/wiki/Paramaribo"},"isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/"}}
+  {"@context":"https://schema.org","@type":"WebPage","name":"Weather & Forecast | Explore Suriname","url":"https://exploresuriname.com/conditions.html","description":"Suriname 7-day weather forecast by district, tidal predictions and sunrise/sunset times.","about":{"@type":"Place","name":"Suriname","addressCountry":"SR"},"isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/"}}
   </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -51,6 +51,7 @@
 <a href="currency.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Currency</a>
 <a href="flights.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Flights</a>
 <a href="conditions.html" class="font-semibold text-sm" style="color:var(--forest)">Forecast</a>
+<a href="map.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Map</a>
 <a href="news.html" class="text-gray-700 hover:text-green-800 transition text-sm" >News</a>
 </div>
     <div class="flex items-center gap-2">
@@ -73,6 +74,7 @@
 <a href="currency.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Currency</a>
 <a href="flights.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Flights</a>
 <a href="conditions.html" class="font-semibold border-l-2 pl-3 block py-3 text-sm" style="color:var(--forest);border-color:var(--forest)">Forecast</a>
+<a href="map.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Map</a>
 <a href="news.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >News</a>
 </div>
 </nav>
@@ -158,20 +160,25 @@ document.addEventListener('keydown', e => {
 <div class="pt-16"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Today in Suriname</h1>
-  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Live weather, sunrise &amp; sunset, and tidal forecasts for Paramaribo</p>
-  <p class="text-white/35 text-xs mt-3">&#128336; Page built: 03 May 2026, 21:15 SR</p>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Weather &amp; Conditions</h1>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Live weather by district &bull; tidal forecasts for 5 rivers &bull; sunrise &amp; sunset</p>
+  <p class="text-white/35 text-xs mt-3">&#128336; Page built: 03 May 2026, 21:30 SR</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
 
-  <!-- Weather -->
+  <!-- Weather — district selector -->
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
-    <div class="flex items-start justify-between mb-6">
+    <div class="flex items-start justify-between mb-4">
       <div>
-        <h2 class="serif text-2xl font-bold text-gray-900">&#127777;&#65039; Weather &mdash; Paramaribo</h2>
+        <h2 class="serif text-2xl font-bold text-gray-900">&#127777;&#65039; Weather</h2>
         <p class="text-gray-400 text-sm mt-1">Live via <a href="https://open-meteo.com" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">Open-Meteo</a></p>
       </div>
       <span id="wx-badge" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0 ml-4">Loading&hellip;</span>
+    </div>
+    <!-- District selector -->
+    <div class="flex gap-2 flex-wrap mb-6">
+      <p class="text-xs font-semibold text-gray-500 self-center mr-1">District:</p>
+      <div id="wx-district-tabs" class="flex gap-1 flex-wrap"></div>
     </div>
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
       <div class="rounded-xl p-4" style="background:var(--mint)">
@@ -226,36 +233,107 @@ document.addEventListener('keydown', e => {
     <p class="text-gray-400 text-xs text-center mt-4">Data from <a href="https://sunrise-sunset.org" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">sunrise-sunset.org</a> &mdash; Paramaribo (5.85&deg;N, 55.20&deg;W)</p>
   </div>
 
-  <!-- Fishermen's Corner: Tides -->
+  <!-- Fishermen's Corner: Tides by river -->
   <div class="mb-6">
     <div class="flex items-center gap-3 mb-4">
       <h2 class="serif text-2xl font-bold text-gray-900">&#9973;&#65039; Fishermen&apos;s Corner</h2>
       <span class="text-xs font-semibold px-2 py-0.5 rounded-full text-white" style="background:var(--forest2)">For mariners &amp; fishers</span>
     </div>
     
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-  <div class="px-6 py-5 border-b border-gray-100">
-    <div class="flex items-center justify-between">
-      <div>
-        <p class="font-bold text-gray-900 text-base">&#127754; Tides &mdash; Paramaribo <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Live</span></p>
-        <p class="text-gray-400 text-xs mt-0.5">Suriname River mouth &mdash; predictions from WorldTides</p>
-      </div>
-    </div>
-    <p class="text-gray-400 text-xs mt-2">&#128336; 02 May 2026 23:15 SR</p>
-  </div>
-  <div class="overflow-x-auto">
-    <table class="w-full text-sm">
-      <thead><tr class="bg-gray-50 text-left">
-        <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Date</th>
-        <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Tide</th>
-        <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Time (SR)</th>
-        <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Height</th>
-      </tr></thead>
-      <tbody><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Saturday, 02 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">18:22 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.95 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Sunday, 03 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">01:04 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-0.88 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Sunday, 03 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">06:27 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">1.17 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Sunday, 03 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">13:32 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-1.13 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Sunday, 03 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">18:56 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.88 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">01:36 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-0.81 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">06:59 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">1.10 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">14:06 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-1.06 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">19:30 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.78 m</td></tr></tbody>
-    </table>
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-4">
+  <div class="flex overflow-x-auto border-b border-gray-100" style="scrollbar-width:none">
+    <button onclick="showTide('suriname')" id="ttab-suriname" class="tide-tab border-b-2 font-bold text-gray-900 px-4 py-3 text-sm whitespace-nowrap transition" style="border-color:var(--forest2)">Suriname River</button>
+<button onclick="showTide('commewijne')" id="ttab-commewijne" class="tide-tab text-gray-500 hover:text-gray-700 px-4 py-3 text-sm whitespace-nowrap transition" >Commewijne River</button>
+<button onclick="showTide('saramacca')" id="ttab-saramacca" class="tide-tab text-gray-500 hover:text-gray-700 px-4 py-3 text-sm whitespace-nowrap transition" >Saramacca River</button>
+<button onclick="showTide('nickerie')" id="ttab-nickerie" class="tide-tab text-gray-500 hover:text-gray-700 px-4 py-3 text-sm whitespace-nowrap transition" >Nickerie River</button>
+<button onclick="showTide('marowijne')" id="ttab-marowijne" class="tide-tab text-gray-500 hover:text-gray-700 px-4 py-3 text-sm whitespace-nowrap transition" >Marowijne River</button>
+
   </div>
 </div>
-    <p class="text-gray-400 text-xs mt-3">Tide heights are relative to lowest astronomical tide (LAT). Suriname&apos;s coastal tidal range is approximately 2&ndash;3 m. Always verify with local authorities before heading out.</p>
+
+<div id="tpanel-suriname" class="tide-panel">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <p class="font-bold text-gray-900 text-base">&#127754; Suriname River &mdash; Paramaribo <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Live</span></p>
+      <p class="text-gray-400 text-xs mt-1">&#128336; 02 May 2026 23:15 SR &bull; Refreshes every 24h</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="bg-gray-50 text-left">
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Date</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Tide</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Time (SR)</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Height</th>
+        </tr></thead>
+        <tbody><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Saturday, 02 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">18:22 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.95 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Sunday, 03 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">01:04 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-0.88 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Sunday, 03 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">06:27 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">1.17 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Sunday, 03 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">13:32 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-1.13 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Sunday, 03 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">18:56 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.88 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">01:36 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-0.81 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">06:59 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">1.10 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">14:06 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-1.06 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">19:30 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.78 m</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div id="tpanel-commewijne" class="tide-panel hidden">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <p class="font-bold text-gray-900 text-base">&#127754; Commewijne River &mdash; Commewijne <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Live</span></p>
+      <p class="text-gray-400 text-xs mt-1">&#128336; 03 May 2026 21:29 SR &bull; Refreshes every 72h</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="bg-gray-50 text-left">
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Date</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Tide</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Time (SR)</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Height</th>
+        </tr></thead>
+        <tbody><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Sunday, 03 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">18:41 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.88 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">01:02 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-0.85 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">06:41 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">1.11 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">13:32 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-1.13 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">19:18 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.78 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Tuesday, 05 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">01:36 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-0.75 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Tuesday, 05 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">07:15 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">1.01 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Tuesday, 05 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">14:09 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-1.03 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Tuesday, 05 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">19:58 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.67 m</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div id="tpanel-saramacca" class="tide-panel hidden">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
+    <p class="text-4xl mb-3">&#127754;</p>
+    <p class="text-gray-500 text-sm">No tide data available for Saramacca River.</p>
+  </div>
+</div>
+<div id="tpanel-nickerie" class="tide-panel hidden">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <p class="font-bold text-gray-900 text-base">&#127754; Nickerie River &mdash; Nickerie <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Live</span></p>
+      <p class="text-gray-400 text-xs mt-1">&#128336; 03 May 2026 21:30 SR &bull; Refreshes every 72h</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="bg-gray-50 text-left">
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Date</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Tide</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Time (SR)</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Height</th>
+        </tr></thead>
+        <tbody><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Sunday, 03 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">18:35 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">1.01 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">00:51 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-0.88 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">06:36 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">1.23 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">13:22 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-1.19 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">19:10 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.91 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Tuesday, 05 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">01:23 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-0.78 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Tuesday, 05 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">07:09 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">1.12 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Tuesday, 05 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">13:58 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-1.09 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Tuesday, 05 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">19:47 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.78 m</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div id="tpanel-marowijne" class="tide-panel hidden">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <p class="font-bold text-gray-900 text-base">&#127754; Marowijne River &mdash; Marowijne <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Live</span></p>
+      <p class="text-gray-400 text-xs mt-1">&#128336; 03 May 2026 21:30 SR &bull; Refreshes every 72h</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="bg-gray-50 text-left">
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Date</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Tide</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Time (SR)</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Height</th>
+        </tr></thead>
+        <tbody><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Sunday, 03 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">17:57 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.75 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">00:09 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-0.83 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">05:48 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.94 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">12:36 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-1.13 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Monday, 04 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">18:26 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.64 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Tuesday, 05 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">00:40 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-0.75 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Tuesday, 05 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">06:16 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.86 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Tuesday, 05 May</td><td class="py-3 px-4 font-semibold">🔽 Low Tide</td><td class="py-3 px-4 font-mono font-bold">13:11 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">-1.03 m</td></tr><tr class="border-b border-gray-100"><td class="py-3 px-4 text-gray-500 text-sm">Tuesday, 05 May</td><td class="py-3 px-4 font-semibold">🔼 High Tide</td><td class="py-3 px-4 font-mono font-bold">18:59 SR</td><td class="py-3 px-4 text-right font-mono text-gray-700">0.54 m</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+    <p class="text-gray-400 text-xs mt-3">Tide heights are relative to lowest astronomical tide (LAT). Always verify with local authorities before heading out.</p>
   </div>
 
 </main>
@@ -270,9 +348,44 @@ var WMO = {
   95:['&#9928;','Thunderstorm'], 96:['&#9928;','Storm + hail'], 99:['&#9928;','Heavy storm']
 };
 var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+var WX_DISTRICTS = [{"label": "Paramaribo", "lat": 5.852, "lon": -55.203}, {"label": "Wanica", "lat": 5.73, "lon": -55.25}, {"label": "Nickerie", "lat": 5.94, "lon": -56.978}, {"label": "Commewijne", "lat": 5.893, "lon": -55.087}, {"label": "Marowijne", "lat": 5.491, "lon": -54.057}, {"label": "Brokopondo", "lat": 4.762, "lon": -55.027}, {"label": "Para", "lat": 5.49, "lon": -55.226}, {"label": "Saramacca", "lat": 5.793, "lon": -55.467}];
+var _curDistrict = 0;
 
+// Build district tab buttons
 (function(){
-  var url = 'https://api.open-meteo.com/v1/forecast?latitude=5.852&longitude=-55.203'
+  var container = document.getElementById('wx-district-tabs');
+  WX_DISTRICTS.forEach(function(d, i) {
+    var btn = document.createElement('button');
+    btn.textContent = d.label;
+    btn.dataset.idx = i;
+    btn.className = 'wx-dtab text-xs font-semibold px-3 py-1.5 rounded-full border transition';
+    if (i === 0) {
+      btn.style.background = 'var(--forest)';
+      btn.style.borderColor = 'var(--forest)';
+      btn.style.color = '#fff';
+    } else {
+      btn.style.borderColor = '#e5e7eb';
+      btn.style.color = '#374151';
+      btn.style.background = '#fff';
+    }
+    btn.onclick = function() {
+      _curDistrict = i;
+      document.querySelectorAll('.wx-dtab').forEach(function(b) {
+        b.style.background = '#fff'; b.style.borderColor = '#e5e7eb'; b.style.color = '#374151';
+      });
+      btn.style.background = 'var(--forest)';
+      btn.style.borderColor = 'var(--forest)';
+      btn.style.color = '#fff';
+      loadWeather(d.lat, d.lon);
+    };
+    container.appendChild(btn);
+  });
+})();
+
+function loadWeather(lat, lon) {
+  document.getElementById('wx-badge').innerHTML = 'Loading&hellip;';
+  document.getElementById('wx-badge').className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0 ml-4';
+  var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon
     + '&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m'
     + '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max'
     + '&wind_speed_unit=kmh&timezone=America%2FParamaribo&forecast_days=7';
@@ -310,7 +423,10 @@ var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
     document.getElementById('wx-badge').textContent = 'Unavailable';
     document.getElementById('wx-badge').className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-500 shrink-0 ml-4';
   });
-})();
+}
+
+// Load Paramaribo weather on page load
+loadWeather(WX_DISTRICTS[0].lat, WX_DISTRICTS[0].lon);
 
 (function(){
   fetch('https://api.sunrise-sunset.org/json?lat=5.852&lng=-55.203&formatted=0')
@@ -331,6 +447,24 @@ var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
       ['ss-rise','ss-set','ss-len'].forEach(function(id){document.getElementById(id).textContent='Unavailable';});
     });
 })();
+
+// Tide tab switching
+function showTide(id) {
+  document.querySelectorAll('.tide-panel').forEach(function(p){p.classList.add('hidden');});
+  document.querySelectorAll('.tide-tab').forEach(function(t){
+    t.classList.remove('border-b-2','font-bold','text-gray-900');
+    t.classList.add('text-gray-500');
+    t.removeAttribute('style');
+  });
+  var panel = document.getElementById('tpanel-' + id);
+  var tab   = document.getElementById('ttab-'   + id);
+  if (panel) panel.classList.remove('hidden');
+  if (tab) {
+    tab.classList.add('border-b-2','font-bold','text-gray-900');
+    tab.classList.remove('text-gray-500');
+    tab.style.borderColor = 'var(--forest2)';
+  }
+}
 </script>
 
 <footer style="background:var(--forest)" class="text-white py-16">
@@ -350,8 +484,9 @@ var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
           <li><a href="shopping.html"    class="hover:text-white transition">Shopping</a></li>
           <li><a href="services.html"    class="hover:text-white transition">Services</a></li>
           <li><a href="currency.html"    class="hover:text-white transition">Currency Rates</a></li>
-          <li><a href="flights.html"     class="hover:text-white transition">Flights (PBM)</a></li>
+          <li><a href="flights.html"     class="hover:text-white transition">Flights</a></li>
           <li><a href="conditions.html"  class="hover:text-white transition">Weather &amp; Tides</a></li>
+          <li><a href="map.html"         class="hover:text-white transition">Listings Map</a></li>
           <li><a href="news.html"        class="hover:text-white transition">Suriname News</a></li>
         </ul>
       </div>
