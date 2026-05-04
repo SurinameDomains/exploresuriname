@@ -1,0 +1,55 @@
+name: Update Site
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build Tailwind CSS
+        run: npx tailwindcss@3 -i input.css -o tailwind.css --minify
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install feedparser
+
+      - name: Generate all pages
+        env:
+          WORLDTIDES_KEY:    ${{ secrets.WORLDTIDES_KEY }}
+          AERODATABOX_KEY:   ${{ secrets.AERODATABOX_KEY }}
+        run: python generate.py
+
+      - name: Cache external images
+        run: python cache_images.py
+
+      - name: Commit and push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Always write a heartbeat so every run produces a commit,
+          # preventing GitHub from pausing the scheduled workflow due to inactivity.
+          echo "$(TZ='America/Paramaribo' date '+%Y-%m-%d %H:%M') SR" > .last_run
+          git add index.html news.html nature.html activities.html restaurants.html hotels.html shopping.html services.html currency.html conditions.html flights.html about.html contact.html privacy.html
+          git add listing/ .last_run sitemap.xml robots.txt tailwind.css
+          git add images/ image_cache.json || true
+          git add tides_cache.json tides_cache_*.json || true
+          git add flights_cache.json flights_cache_smzo.json flights_cache_smeg.json || true
+          git diff --staged --quiet || git commit -m "Auto-update $(TZ='America/Paramaribo' date '+%Y-%m-%d %H:%M') SR"
+          git push
