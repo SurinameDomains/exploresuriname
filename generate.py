@@ -2262,30 +2262,41 @@ PAGE_HEAD = """\
   </style>"""
 
 # ── WorldTides: tide data for Paramaribo ────────────────────────────────────
-_TIDES_CACHE_FILE = "tides_cache.json"
-_TIDES_LAT        = 5.852
-_TIDES_LON        = -55.203
+# ── WorldTides: district river tide locations ─────────────────────────────────
+# API budget (100 free requests/month):
+#   Suriname River  24h cache → 30/month
+#   4 other rivers  72h cache → 10/month each = 40/month
+#   Total: 70/month  ✓ within 100 free limit
 
-def fetch_worldtides():
-    """
-    Fetch tide extremes for Paramaribo from WorldTides API v3.
-    Caches results to tides_cache.json for 24 h to stay within the free
-    100-requests/month limit.  Requires WORLDTIDES_KEY env var.
-    Returns (extremes_list, is_live, updated_str).
-    """
-    import os as _os
-    key = _os.environ.get("WORLDTIDES_KEY", "").strip()
-    if not key:
-        print("  WorldTides: no WORLDTIDES_KEY set — skipping tides")
-        return [], False, "No API key configured"
+TIDES_LOCATIONS = [
+    {"id": "suriname",   "label": "Suriname River",   "district": "Paramaribo",
+     "lat": 5.852, "lon": -55.203, "cache": "tides_cache.json",             "cache_h": 24},
+    {"id": "commewijne", "label": "Commewijne River", "district": "Commewijne",
+     "lat": 5.893, "lon": -55.087, "cache": "tides_cache_commewijne.json",  "cache_h": 72},
+    {"id": "saramacca",  "label": "Saramacca River",  "district": "Saramacca",
+     "lat": 5.782, "lon": -55.980, "cache": "tides_cache_saramacca.json",   "cache_h": 72},
+    {"id": "nickerie",   "label": "Nickerie River",   "district": "Nickerie",
+     "lat": 5.944, "lon": -57.003, "cache": "tides_cache_nickerie.json",    "cache_h": 72},
+    {"id": "marowijne",  "label": "Marowijne River",  "district": "Marowijne",
+     "lat": 5.502, "lon": -54.056, "cache": "tides_cache_marowijne.json",   "cache_h": 72},
+]
 
-    # Check 24-h cache first
+
+def _fetch_tides_for_location(loc, key):
+    """
+    Fetch 3-day tide extremes for a single TIDES_LOCATIONS entry.
+    Returns (extremes, is_live, updated_str).
+    """
+    import time as _time
     now_ts = datetime.now(timezone.utc).timestamp()
+    cache_file = loc["cache"]
+    cache_secs = loc["cache_h"] * 3600
+
     try:
-        with open(_TIDES_CACHE_FILE) as _f:
+        with open(cache_file) as _f:
             cache = json.load(_f)
-        if now_ts - cache.get("fetched", 0) < 86400:
-            print(f"  WorldTides: using cached data ({_TIDES_CACHE_FILE})")
+        if now_ts - cache.get("fetched", 0) < cache_secs:
+            print(f"  WorldTides [{loc['id']}]: using cached data")
             return cache["extremes"], True, cache["updated"]
     except Exception:
         pass
@@ -2293,31 +2304,54 @@ def fetch_worldtides():
     try:
         url = (
             f"https://www.worldtides.info/api/v3?extremes"
-            f"&lat={_TIDES_LAT}&lon={_TIDES_LON}&days=3&key={key}"
+            f"&lat={loc['lat']}&lon={loc['lon']}&days=3&key={key}"
         )
         with urllib.request.urlopen(url, timeout=20) as _r:
             data = json.loads(_r.read().decode("utf-8"))
 
         if data.get("status", 0) != 200:
-            raise ValueError(f"WorldTides error: {data}")
+            raise ValueError(f"WorldTides [{loc['id']}] error: {data}")
 
         extremes = data.get("extremes", data.get("Extremes", []))
         ts_str   = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
 
-        cache = {"fetched": now_ts, "extremes": extremes, "updated": ts_str}
-        with open(_TIDES_CACHE_FILE, "w") as _f:
-            json.dump(cache, _f)
-        print(f"  WorldTides: fetched {len(extremes)} extremes")
+        cache_obj = {"fetched": now_ts, "extremes": extremes, "updated": ts_str}
+        with open(cache_file, "w") as _f:
+            json.dump(cache_obj, _f)
+        print(f"  WorldTides [{loc['id']}]: fetched {len(extremes)} extremes")
         return extremes, True, ts_str
 
     except Exception as e:
-        print(f"  WorldTides error: {e}")
+        print(f"  WorldTides [{loc['id']}] error: {e}")
         try:
-            with open(_TIDES_CACHE_FILE) as _f:
+            with open(cache_file) as _f:
                 cache = json.load(_f)
             return cache["extremes"], False, cache["updated"] + " (cached)"
         except Exception:
             return [], False, "Data unavailable"
+
+
+def fetch_worldtides():
+    """
+    Fetch tide extremes for all district river locations.
+    Returns a dict keyed by location id: {id: (extremes, is_live, updated_str)}.
+    Paramaribo (main) result also returned separately for backward compat.
+    """
+    import os as _os
+    import time as _time
+    key = _os.environ.get("WORLDTIDES_KEY", "").strip()
+    if not key:
+        print("  WorldTides: no WORLDTIDES_KEY set — skipping tides")
+        fallback = "No API key configured"
+        results = {loc["id"]: ([], False, fallback) for loc in TIDES_LOCATIONS}
+        return results
+
+    results = {}
+    for i, loc in enumerate(TIDES_LOCATIONS):
+        if i > 0:
+            _time.sleep(2)   # avoid rate limit between requests
+        results[loc["id"]] = _fetch_tides_for_location(loc, key)
+    return results
 
 
 # ── OpenSky: arrivals and departures at Johan Adolf Pengel (SMJP / PBM) ─────
@@ -2418,31 +2452,70 @@ def _decode_flight(row, direction):
     }
 
 
-_FLIGHTS_CACHE_FILE = "flights_cache.json"
+# ── AeroDataBox flight fetching ───────────────────────────────────────────────
+# API budget (600 free calls/month via RapidAPI):
+#   SMJP  6 h cache → 2 calls/fetch × 4 fetches/day × 30 = 240/month
+#   SMZO 12 h cache → 2 calls/fetch × 2 fetches/day × 30 = 120/month
+#   SMGM 12 h cache → 2 calls/fetch × 2 fetches/day × 30 = 120/month
+#   Total: 480/month  ✓ comfortably within 600 free limit
 
-def fetch_aerodatabox_flights():
+_AIRPORTS_FLIGHT = [
+    {"icao": "SMJP", "iata": "PBM", "label": "Johan Adolf Pengel (PBM)",
+     "short": "PBM",  "cache": "flights_cache.json",      "cache_h": 6},
+    {"icao": "SMZO", "iata": "ORJ", "label": "Zorg en Hoop (ORJ)",
+     "short": "ORJ",  "cache": "flights_cache_smzo.json",  "cache_h": 12},
+    {"icao": "SMEG", "iata": "",    "label": "Gummels Airstrip",
+     "short": "Gummels", "cache": "flights_cache_smeg.json",  "cache_h": 12},
+]
+
+def _adb_parse_flight(f, direction):
+    """Convert one AeroDataBox flight record to a display dict."""
+    dep = f.get("departure", {})
+    arr = f.get("arrival",   {})
+    if direction == "arrival":
+        ap_info  = dep.get("airport", {})
+        raw_time = arr.get("scheduledTime", {}).get("local", "")
+    else:
+        ap_info  = arr.get("airport", {})
+        raw_time = dep.get("scheduledTime", {}).get("local", "")
+
+    ap_name = ap_info.get("name") or ap_info.get("iata") or ap_info.get("icao") or "Unknown"
+    ap_iata = ap_info.get("iata", "")
+
+    time_sr = ""
+    if raw_time:
+        try:
+            dt = datetime.fromisoformat(raw_time.replace(" ", "T"))
+            time_sr = dt.astimezone(SR_TZ).strftime("%d %b %H:%M")
+        except Exception:
+            time_sr = raw_time[:16]
+
+    return {
+        "flight":  f.get("number", "—"),
+        "airline": f.get("airline", {}).get("name", "Unknown"),
+        "airport": ap_name,
+        "iata":    ap_iata,
+        "time":    time_sr,
+        "status":  f.get("status", ""),
+    }
+
+
+def _fetch_flights_for_airport(icao, cache_file, cache_hours, key):
     """
-    Fetch today's arrivals and departures at PBM (SMJP) from AeroDataBox via RapidAPI.
-    Two API calls per fetch (max 12 h window each): 00:00-12:00 and 12:00-23:59 SR time.
-    Caches for 6 h → ~8 API units/day → ~240/month, well within 600 free limit.
-    Set AERODATABOX_KEY as a GitHub Actions secret (RapidAPI key).
+    Fetch today's arrivals & departures for *icao* from AeroDataBox.
     Returns (arrivals, departures, updated_str).
+    Uses a per-airport cache file with the given TTL (hours).
     """
-    import os as _os
-    key = _os.environ.get("AERODATABOX_KEY", "").strip()
-    if not key:
-        print("  AeroDataBox: no AERODATABOX_KEY set — skipping flights")
-        return [], [], datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
-
+    import time as _time
     now_ts = datetime.now(timezone.utc).timestamp()
 
-    # 6-hour cache — only use if it actually contains data
+    # Check cache first
     try:
-        with open(_FLIGHTS_CACHE_FILE) as _f:
+        with open(cache_file) as _f:
             cache = json.load(_f)
         has_data = cache.get("arrivals") or cache.get("departures")
-        if has_data and now_ts - cache.get("fetched", 0) < 21600:   # 6 h
-            print("  AeroDataBox: using cached flights")
+        if has_data and now_ts - cache.get("fetched", 0) < cache_hours * 3600:
+            print(f"  AeroDataBox [{icao}]: using cached data")
             return cache["arrivals"], cache["departures"], cache["updated"]
     except Exception:
         pass
@@ -2454,39 +2527,6 @@ def fetch_aerodatabox_flights():
         "Accept": "application/json",
     }
 
-    def _parse(f, direction):
-        """Convert one AeroDataBox flight record to display dict."""
-        dep = f.get("departure", {})
-        arr = f.get("arrival",   {})
-        if direction == "arrival":
-            ap_info  = dep.get("airport", {})
-            raw_time = arr.get("scheduledTime", {}).get("local", "")
-        else:
-            ap_info  = arr.get("airport", {})
-            raw_time = dep.get("scheduledTime", {}).get("local", "")
-
-        ap_name = ap_info.get("name") or ap_info.get("iata") or ap_info.get("icao") or "Unknown"
-        ap_iata = ap_info.get("iata", "")
-
-        time_sr = ""
-        if raw_time:
-            try:
-                # local format: "2026-05-02 05:00-03:00"
-                dt = datetime.fromisoformat(raw_time.replace(" ", "T"))
-                dt_sr = dt.astimezone(SR_TZ)
-                time_sr = dt_sr.strftime("%d %b %H:%M")
-            except Exception:
-                time_sr = raw_time[:16]
-
-        return {
-            "flight":  f.get("number", "—"),
-            "airline": f.get("airline", {}).get("name", "Unknown"),
-            "airport": ap_name,
-            "iata":    ap_iata,
-            "time":    time_sr,
-            "status":  f.get("status", ""),
-        }
-
     today_sr = datetime.now(SR_TZ).strftime("%Y-%m-%d")
     windows  = [
         (f"{today_sr}T00:00", f"{today_sr}T12:00"),
@@ -2496,12 +2536,11 @@ def fetch_aerodatabox_flights():
     arrivals, departures = [], []
     seen_arr, seen_dep   = set(), set()
 
-    import time as _time
     for i, (from_dt, to_dt) in enumerate(windows):
         if i > 0:
-            _time.sleep(2)   # avoid per-second rate limit
+            _time.sleep(2)
         url = (
-            f"https://aerodatabox.p.rapidapi.com/flights/airports/icao/SMJP"
+            f"https://aerodatabox.p.rapidapi.com/flights/airports/icao/{icao}"
             f"/{from_dt}/{to_dt}"
             f"?withLeg=true&direction=Both&withCancelled=true"
             f"&withCodeshared=true&withCargo=false&withPrivate=false"
@@ -2512,37 +2551,58 @@ def fetch_aerodatabox_flights():
                 data = json.loads(_r.read().decode("utf-8"))
 
             for f in data.get("arrivals", []):
-                parsed = _parse(f, "arrival")
+                parsed = _adb_parse_flight(f, "arrival")
                 if parsed["flight"] not in seen_arr:
                     seen_arr.add(parsed["flight"])
                     arrivals.append(parsed)
 
             for f in data.get("departures", []):
-                parsed = _parse(f, "departure")
+                parsed = _adb_parse_flight(f, "departure")
                 if parsed["flight"] not in seen_dep:
                     seen_dep.add(parsed["flight"])
                     departures.append(parsed)
 
-            print(f"  AeroDataBox window {i+1}: "
+            print(f"  AeroDataBox [{icao}] window {i+1}: "
                   f"{len(data.get('arrivals',[]))} arr, "
                   f"{len(data.get('departures',[]))} dep")
         except Exception as e:
-            print(f"  AeroDataBox window {i+1} error: {e}")
+            print(f"  AeroDataBox [{icao}] window {i+1} error: {e}")
 
-    # Sort by time
     arrivals.sort(key=lambda x: x["time"])
     departures.sort(key=lambda x: x["time"])
-
-    print(f"  AeroDataBox total: {len(arrivals)} arrivals, {len(departures)} departures")
+    print(f"  AeroDataBox [{icao}] total: {len(arrivals)} arr, {len(departures)} dep")
 
     updated = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
     try:
-        with open(_FLIGHTS_CACHE_FILE, "w") as _f:
+        with open(cache_file, "w") as _f:
             json.dump({"fetched": now_ts, "arrivals": arrivals,
                        "departures": departures, "updated": updated}, _f)
     except Exception:
         pass
     return arrivals, departures, updated
+
+
+def fetch_aerodatabox_flights():
+    """
+    Fetch flights for all tracked airports (SMJP, SMZO, SMGM).
+    Returns a dict keyed by ICAO: {icao: (arrivals, departures, updated)}.
+    """
+    import os as _os
+    import time as _time
+    key = _os.environ.get("AERODATABOX_KEY", "").strip()
+    if not key:
+        print("  AeroDataBox: no AERODATABOX_KEY set — skipping flights")
+        fallback = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
+        return {ap["icao"]: ([], [], fallback) for ap in _AIRPORTS_FLIGHT}
+
+    results = {}
+    for i, ap in enumerate(_AIRPORTS_FLIGHT):
+        if i > 0:
+            _time.sleep(3)   # brief pause between airports
+        results[ap["icao"]] = _fetch_flights_for_airport(
+            ap["icao"], ap["cache"], ap["cache_h"], key
+        )
+    return results
 
 
 def nav_html(active="home", prefix=""):
@@ -2556,6 +2616,7 @@ def nav_html(active="home", prefix=""):
         (f"{prefix}currency.html",     "Currency"),
         (f"{prefix}flights.html",      "Flights"),
         (f"{prefix}conditions.html",   "Forecast"),
+        (f"{prefix}map.html",          "Map"),
         (f"{prefix}news.html",         "News"),
     ]
     lhtml = ""
@@ -2688,8 +2749,9 @@ def footer_html(prefix=""):
           <li><a href="{prefix}shopping.html"    class="hover:text-white transition">Shopping</a></li>
           <li><a href="{prefix}services.html"    class="hover:text-white transition">Services</a></li>
           <li><a href="{prefix}currency.html"    class="hover:text-white transition">Currency Rates</a></li>
-          <li><a href="{prefix}flights.html"     class="hover:text-white transition">Flights (PBM)</a></li>
+          <li><a href="{prefix}flights.html"     class="hover:text-white transition">Flights</a></li>
           <li><a href="{prefix}conditions.html"  class="hover:text-white transition">Weather &amp; Tides</a></li>
+          <li><a href="{prefix}map.html"         class="hover:text-white transition">Listings Map</a></li>
           <li><a href="{prefix}news.html"        class="hover:text-white transition">Suriname News</a></li>
         </ul>
       </div>
@@ -2827,8 +2889,9 @@ def poi_card(item, badge_key="cuisine"):
                 f'onerror="this.parentElement.style.background=\'#2D6A4F\';this.style.display=\'none\'">'
                 f'</div>') if img else ""
     phone_html = f'<span class="text-gray-400 text-xs">&#128222; {html_lib.escape(phone)}</span>' if phone else ""
+    district   = item.get("location", "Paramaribo")
     return f"""
-<a href="{url}" data-sub="{item.get('subcat','other')}" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="{url}" data-sub="{item.get('subcat','other')}" data-district="{html_lib.escape(district)}" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   {img_html}
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
@@ -2845,9 +2908,11 @@ def poi_card(item, badge_key="cuisine"):
 
 
 def _filter_bar_html(items, cat_key):
-    """Sticky filter chip bar with live count badges and JS filtering."""
+    """Sticky filter chip bar with subcat + district filtering."""
     from collections import Counter
-    sub_counts = Counter(b.get("subcat","other") for b in items)
+    sub_counts  = Counter(b.get("subcat","other")     for b in items)
+    dist_counts = Counter(b.get("location","Paramaribo") for b in items)
+
     chips_cfg  = SUBCATS.get(cat_key, [("all","All","🔍")])
 
     chips = []
@@ -2864,16 +2929,41 @@ def _filter_bar_html(items, cat_key):
             f'''{label} <span class="chip-count">{count}</span></button>'''
         )
 
+    # District chips — only show districts that have at least one item
+    _DIST_ORDER = ["Paramaribo","Wanica","Commewijne","Para","Nickerie",
+                   "Marowijne","Brokopondo","Saramacca","Coronie","Sipaliwini"]
+    dist_chips = [f'<button onclick="filterDistrict(this,\'all\')" class="dist-chip dist-chip-active">All districts <span class="chip-count">{len(items)}</span></button>']
+    for d in _DIST_ORDER:
+        cnt = dist_counts.get(d, 0)
+        if cnt > 0:
+            dist_chips.append(
+                f'<button onclick="filterDistrict(this,\'{d}\')" class="dist-chip">'
+                f'{d} <span class="chip-count">{cnt}</span></button>'
+            )
+    # Any districts not in order list
+    for d, cnt in sorted(dist_counts.items()):
+        if d not in _DIST_ORDER and cnt > 0:
+            dist_chips.append(
+                f'<button onclick="filterDistrict(this,\'{d}\')" class="dist-chip">'
+                f'{d} <span class="chip-count">{cnt}</span></button>'
+            )
+
     bar_id = f"chipbar-{cat_key}"
     return f"""
-<div class="sticky top-16 z-40 py-3 mb-8" style="background:rgba(249,250,251,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06)">
+<div class="sticky top-16 z-40 pb-2 mb-6" style="background:rgba(249,250,251,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06)">
   <div class="max-w-6xl mx-auto px-5">
-    <div class="relative flex items-center gap-1">
+    <!-- Subcat chips -->
+    <div class="relative flex items-center gap-1 pt-3">
       <button id="{bar_id}-prev" onclick="chipScroll('{bar_id}',-1)" class="chip-arrow" aria-label="scroll left">&#8249;</button>
       <div id="{bar_id}" class="flex gap-2 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth">
         {"".join(chips)}
       </div>
       <button id="{bar_id}-next" onclick="chipScroll('{bar_id}',1)" class="chip-arrow" aria-label="scroll right">&#8250;</button>
+    </div>
+    <!-- District chips -->
+    <div class="flex gap-1.5 overflow-x-auto pt-2 pb-1" style="scrollbar-width:none">
+      <span class="text-xs font-semibold text-gray-400 self-center shrink-0 mr-1">&#128205; District:</span>
+      {"".join(dist_chips)}
     </div>
   </div>
 </div>
@@ -2886,8 +2976,15 @@ def _filter_bar_html(items, cat_key):
 }}
 .filter-chip:hover {{ border-color:var(--forest);color:var(--forest); }}
 .filter-chip.chip-active {{ background:var(--forest);border-color:var(--forest);color:#fff; }}
+.dist-chip {{
+  display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;
+  border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;
+  color:#6b7280;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+}}
+.dist-chip:hover {{ border-color:var(--forest2);color:var(--forest2); }}
+.dist-chip.dist-chip-active {{ background:var(--forest2);border-color:var(--forest2);color:#fff; }}
 .chip-count {{ opacity:.65;font-weight:500;font-size:.75rem; }}
-.filter-chip.chip-active .chip-count {{ opacity:.8; }}
+.filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count {{ opacity:.8; }}
 .chip-arrow {{
   flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #e5e7eb;
   background:#fff;font-size:1.1rem;line-height:1;cursor:pointer;display:flex;
@@ -2898,26 +2995,37 @@ def _filter_bar_html(items, cat_key):
 .listing-card.hidden {{ display:none; }}
 </style>
 <script>
+var _activeSub  = 'all';
+var _activeDist = 'all';
+
+function _applyFilters() {{
+  document.querySelectorAll('.listing-card').forEach(function(card) {{
+    var subOk  = _activeSub  === 'all' || card.dataset.sub      === _activeSub;
+    var distOk = _activeDist === 'all' || card.dataset.district === _activeDist;
+    card.classList.toggle('hidden', !(subOk && distOk));
+  }});
+  var visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
+  var lbl = document.getElementById('result-count');
+  if (lbl) lbl.textContent = visible + ' results';
+}}
+
 function chipScroll(id, dir) {{
   var el = document.getElementById(id);
   if (el) el.scrollBy({{left: dir * 200, behavior: 'smooth'}});
 }}
-</script>
-<script>
+
 function filterSub(btn, key) {{
-  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('chip-active'));
+  _activeSub = key;
+  document.querySelectorAll('.filter-chip').forEach(function(b) {{ b.classList.remove('chip-active'); }});
   btn.classList.add('chip-active');
-  document.querySelectorAll('.listing-card').forEach(card => {{
-    if (key === 'all' || card.dataset.sub === key) {{
-      card.classList.remove('hidden');
-    }} else {{
-      card.classList.add('hidden');
-    }}
-  }});
-  // Update grid count label
-  const visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
-  const lbl = document.getElementById('result-count');
-  if (lbl) lbl.textContent = visible + ' results';
+  _applyFilters();
+}}
+
+function filterDistrict(btn, dist) {{
+  _activeDist = dist;
+  document.querySelectorAll('.dist-chip').forEach(function(b) {{ b.classList.remove('dist-chip-active'); }});
+  btn.classList.add('dist-chip-active');
+  _applyFilters();
 }}
 </script>"""
 
@@ -4466,6 +4574,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("currency.html",   "0.9", "daily"),
         ("flights.html",    "0.8", "daily"),
         ("conditions.html", "0.8", "daily"),
+        ("map.html",        "0.7", "weekly"),
         ("news.html",       "0.7", "daily"),
         ("about.html",      "0.5", "yearly"),
         ("contact.html",    "0.5", "yearly"),
@@ -4519,13 +4628,26 @@ def build_robots():
 
 # ── Conditions page (weather + tides + sunrise/sunset) ──────────────────────
 
-def build_conditions_page(tides_extremes, tides_live, tides_updated):
+def build_conditions_page(tides_data):
+    """
+    tides_data: dict keyed by TIDES_LOCATIONS id → (extremes, is_live, updated_str)
+    """
     updated_now = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
 
-    if tides_extremes:
+    def _tide_panel(loc, extremes, is_live, updated):
+        """Build HTML for one tide location panel."""
+        if not extremes:
+            return f"""
+<div id="tpanel-{loc['id']}" class="tide-panel hidden">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
+    <p class="text-4xl mb-3">&#127754;</p>
+    <p class="text-gray-500 text-sm">No tide data available for {html_lib.escape(loc['label'])}.</p>
+  </div>
+</div>"""
+
         from collections import defaultdict
         by_day = defaultdict(list)
-        for ex in tides_extremes:
+        for ex in extremes:
             dt  = datetime.fromtimestamp(ex["dt"], tz=SR_TZ)
             day = dt.strftime("%A, %d %b")
             by_day[day].append({
@@ -4535,10 +4657,10 @@ def build_conditions_page(tides_extremes, tides_live, tides_updated):
                 "icon":   "\U0001f53c" if ex["type"] == "High" else "\U0001f53d",
             })
 
-        tide_rows = ""
+        rows = ""
         for day, events in list(by_day.items())[:3]:
             for ev in events:
-                tide_rows += (
+                rows += (
                     '<tr class="border-b border-gray-100">'
                     f'<td class="py-3 px-4 text-gray-500 text-sm">{day}</td>'
                     f'<td class="py-3 px-4 font-semibold">{ev["icon"]} {ev["type"]} Tide</td>'
@@ -4547,56 +4669,99 @@ def build_conditions_page(tides_extremes, tides_live, tides_updated):
                     '</tr>'
                 )
 
-        tide_badge = ('<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Live</span>'
-                      if tides_live else
-                      '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">&#9675; Cached</span>')
+        badge = ('<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Live</span>'
+                 if is_live else
+                 '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">&#9675; Cached</span>')
+        cache_note = f"Refreshes every {loc['cache_h']}h"
 
-        tides_html = f"""
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-  <div class="px-6 py-5 border-b border-gray-100">
-    <div class="flex items-center justify-between">
-      <div>
-        <p class="font-bold text-gray-900 text-base">&#127754; Tides &mdash; Paramaribo {tide_badge}</p>
-        <p class="text-gray-400 text-xs mt-0.5">Suriname River mouth &mdash; predictions from WorldTides</p>
-      </div>
+        return f"""
+<div id="tpanel-{loc['id']}" class="tide-panel hidden">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <p class="font-bold text-gray-900 text-base">&#127754; {html_lib.escape(loc['label'])} &mdash; {html_lib.escape(loc['district'])} {badge}</p>
+      <p class="text-gray-400 text-xs mt-1">&#128336; {html_lib.escape(updated)} &bull; {cache_note}</p>
     </div>
-    <p class="text-gray-400 text-xs mt-2">&#128336; {html_lib.escape(tides_updated)}</p>
-  </div>
-  <div class="overflow-x-auto">
-    <table class="w-full text-sm">
-      <thead><tr class="bg-gray-50 text-left">
-        <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Date</th>
-        <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Tide</th>
-        <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Time (SR)</th>
-        <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Height</th>
-      </tr></thead>
-      <tbody>{tide_rows}</tbody>
-    </table>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="bg-gray-50 text-left">
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Date</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Tide</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Time (SR)</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Height</th>
+        </tr></thead>
+        <tbody>{rows}</tbody>
+      </table>
+    </div>
   </div>
 </div>"""
-    else:
-        tides_html = """
+
+    # Build tide panels + tab buttons
+    tide_tabs_html   = ""
+    tide_panels_html = ""
+    has_any_tides    = False
+
+    for idx, loc in enumerate(TIDES_LOCATIONS):
+        extremes, is_live, updated = tides_data.get(loc["id"], ([], False, "No data"))
+        if extremes:
+            has_any_tides = True
+        active_cls   = "tide-tab border-b-2 font-bold text-gray-900 px-4 py-3 text-sm whitespace-nowrap" if idx == 0 else "tide-tab text-gray-500 hover:text-gray-700 px-4 py-3 text-sm whitespace-nowrap"
+        active_style = 'style="border-color:var(--forest2)"' if idx == 0 else ""
+        tide_tabs_html += (
+            f'<button onclick="showTide(\'{loc["id"]}\')" id="ttab-{loc["id"]}" '
+            f'class="{active_cls} transition" {active_style}>'
+            f'{html_lib.escape(loc["label"])}</button>\n'
+        )
+        panel = _tide_panel(loc, extremes, is_live, updated)
+        # First panel not hidden
+        if idx == 0:
+            panel = panel.replace(' class="tide-panel hidden"', ' class="tide-panel"')
+        tide_panels_html += panel
+
+    if not has_any_tides:
+        tides_section = """
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
   <p class="text-5xl mb-4">&#127754;</p>
   <h3 class="font-bold text-gray-900 mb-2">Tide Predictions</h3>
-  <p class="text-gray-500 text-sm max-w-md mx-auto">Tide data requires a <a href="https://www.worldtides.info" target="_blank" class="underline" style="color:var(--forest2)">WorldTides API key</a>. Set the <code class="bg-gray-100 px-1 rounded">WORLDTIDES_KEY</code> GitHub Actions secret to enable tidal forecasts for fishermen and sailors.</p>
+  <p class="text-gray-500 text-sm max-w-md mx-auto">Set the <code class="bg-gray-100 px-1 rounded">WORLDTIDES_KEY</code> GitHub Actions secret to enable tidal forecasts.</p>
 </div>"""
+    else:
+        tides_section = f"""
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-4">
+  <div class="flex overflow-x-auto border-b border-gray-100" style="scrollbar-width:none">
+    {tide_tabs_html}
+  </div>
+</div>
+{tide_panels_html}"""
+
+    # District weather coords for JS (open-meteo, free/unlimited)
+    wx_districts = [
+        {"label": "Paramaribo",  "lat": 5.852,  "lon": -55.203},
+        {"label": "Wanica",      "lat": 5.730,  "lon": -55.250},
+        {"label": "Nickerie",    "lat": 5.940,  "lon": -56.978},
+        {"label": "Commewijne",  "lat": 5.893,  "lon": -55.087},
+        {"label": "Marowijne",   "lat": 5.491,  "lon": -54.057},
+        {"label": "Brokopondo",  "lat": 4.762,  "lon": -55.027},
+        {"label": "Para",        "lat": 5.490,  "lon": -55.226},
+        {"label": "Saramacca",   "lat": 5.793,  "lon": -55.467},
+    ]
+    import json as _json
+    wx_districts_js = _json.dumps(wx_districts)
 
     return f"""{PAGE_HEAD}
   <title>Weather &amp; Forecast | Explore Suriname</title>
-  <meta name="description" content="Paramaribo 7-day weather forecast, tidal predictions, and daily sunrise and sunset times for Suriname. Updated automatically every day.">
+  <meta name="description" content="Suriname 7-day weather forecast by district, tidal predictions for 5 rivers, and daily sunrise/sunset times. Updated automatically.">
   <link rel="canonical" href="{SITE_URL}/conditions.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/conditions.html">
   <meta property="og:title" content="Weather &amp; Forecast | Explore Suriname">
-  <meta property="og:description" content="7-day weather, tidal predictions and sunrise/sunset times for Paramaribo, Suriname. Updated daily.">
+  <meta property="og:description" content="7-day weather by district, tidal predictions and sunrise/sunset times for Suriname. Updated daily.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Weather &amp; Forecast | Explore Suriname">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Weather & Forecast | Explore Suriname","url":"{SITE_URL}/conditions.html","description":"Paramaribo 7-day weather forecast, tidal predictions, and daily sunrise and sunset times for Suriname.","about":{{"@type":"Place","name":"Paramaribo","addressCountry":"SR","sameAs":"https://en.wikipedia.org/wiki/Paramaribo"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Weather & Forecast | Explore Suriname","url":"{SITE_URL}/conditions.html","description":"Suriname 7-day weather forecast by district, tidal predictions and sunrise/sunset times.","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -4604,20 +4769,25 @@ def build_conditions_page(tides_extremes, tides_live, tides_updated):
 <div class="pt-16"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Today in Suriname</h1>
-  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Live weather, sunrise &amp; sunset, and tidal forecasts for Paramaribo</p>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Weather &amp; Conditions</h1>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Live weather by district &bull; tidal forecasts for 5 rivers &bull; sunrise &amp; sunset</p>
   <p class="text-white/35 text-xs mt-3">&#128336; Page built: {updated_now}</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
 
-  <!-- Weather -->
+  <!-- Weather — district selector -->
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
-    <div class="flex items-start justify-between mb-6">
+    <div class="flex items-start justify-between mb-4">
       <div>
-        <h2 class="serif text-2xl font-bold text-gray-900">&#127777;&#65039; Weather &mdash; Paramaribo</h2>
+        <h2 class="serif text-2xl font-bold text-gray-900">&#127777;&#65039; Weather</h2>
         <p class="text-gray-400 text-sm mt-1">Live via <a href="https://open-meteo.com" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">Open-Meteo</a></p>
       </div>
       <span id="wx-badge" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0 ml-4">Loading&hellip;</span>
+    </div>
+    <!-- District selector -->
+    <div class="flex gap-2 flex-wrap mb-6">
+      <p class="text-xs font-semibold text-gray-500 self-center mr-1">District:</p>
+      <div id="wx-district-tabs" class="flex gap-1 flex-wrap"></div>
     </div>
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
       <div class="rounded-xl p-4" style="background:var(--mint)">
@@ -4672,14 +4842,14 @@ def build_conditions_page(tides_extremes, tides_live, tides_updated):
     <p class="text-gray-400 text-xs text-center mt-4">Data from <a href="https://sunrise-sunset.org" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">sunrise-sunset.org</a> &mdash; Paramaribo (5.85&deg;N, 55.20&deg;W)</p>
   </div>
 
-  <!-- Fishermen's Corner: Tides -->
+  <!-- Fishermen's Corner: Tides by river -->
   <div class="mb-6">
     <div class="flex items-center gap-3 mb-4">
       <h2 class="serif text-2xl font-bold text-gray-900">&#9973;&#65039; Fishermen&apos;s Corner</h2>
       <span class="text-xs font-semibold px-2 py-0.5 rounded-full text-white" style="background:var(--forest2)">For mariners &amp; fishers</span>
     </div>
-    {tides_html}
-    <p class="text-gray-400 text-xs mt-3">Tide heights are relative to lowest astronomical tide (LAT). Suriname&apos;s coastal tidal range is approximately 2&ndash;3 m. Always verify with local authorities before heading out.</p>
+    {tides_section}
+    <p class="text-gray-400 text-xs mt-3">Tide heights are relative to lowest astronomical tide (LAT). Always verify with local authorities before heading out.</p>
   </div>
 
 </main>
@@ -4694,9 +4864,44 @@ var WMO = {{
   95:['&#9928;','Thunderstorm'], 96:['&#9928;','Storm + hail'], 99:['&#9928;','Heavy storm']
 }};
 var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+var WX_DISTRICTS = {wx_districts_js};
+var _curDistrict = 0;
 
+// Build district tab buttons
 (function(){{
-  var url = 'https://api.open-meteo.com/v1/forecast?latitude=5.852&longitude=-55.203'
+  var container = document.getElementById('wx-district-tabs');
+  WX_DISTRICTS.forEach(function(d, i) {{
+    var btn = document.createElement('button');
+    btn.textContent = d.label;
+    btn.dataset.idx = i;
+    btn.className = 'wx-dtab text-xs font-semibold px-3 py-1.5 rounded-full border transition';
+    if (i === 0) {{
+      btn.style.background = 'var(--forest)';
+      btn.style.borderColor = 'var(--forest)';
+      btn.style.color = '#fff';
+    }} else {{
+      btn.style.borderColor = '#e5e7eb';
+      btn.style.color = '#374151';
+      btn.style.background = '#fff';
+    }}
+    btn.onclick = function() {{
+      _curDistrict = i;
+      document.querySelectorAll('.wx-dtab').forEach(function(b) {{
+        b.style.background = '#fff'; b.style.borderColor = '#e5e7eb'; b.style.color = '#374151';
+      }});
+      btn.style.background = 'var(--forest)';
+      btn.style.borderColor = 'var(--forest)';
+      btn.style.color = '#fff';
+      loadWeather(d.lat, d.lon);
+    }};
+    container.appendChild(btn);
+  }});
+}})();
+
+function loadWeather(lat, lon) {{
+  document.getElementById('wx-badge').innerHTML = 'Loading&hellip;';
+  document.getElementById('wx-badge').className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0 ml-4';
+  var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon
     + '&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m'
     + '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max'
     + '&wind_speed_unit=kmh&timezone=America%2FParamaribo&forecast_days=7';
@@ -4734,7 +4939,10 @@ var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
     document.getElementById('wx-badge').textContent = 'Unavailable';
     document.getElementById('wx-badge').className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-500 shrink-0 ml-4';
   }});
-}})();
+}}
+
+// Load Paramaribo weather on page load
+loadWeather(WX_DISTRICTS[0].lat, WX_DISTRICTS[0].lon);
 
 (function(){{
   fetch('https://api.sunrise-sunset.org/json?lat=5.852&lng=-55.203&formatted=0')
@@ -4755,6 +4963,24 @@ var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
       ['ss-rise','ss-set','ss-len'].forEach(function(id){{document.getElementById(id).textContent='Unavailable';}});
     }});
 }})();
+
+// Tide tab switching
+function showTide(id) {{
+  document.querySelectorAll('.tide-panel').forEach(function(p){{p.classList.add('hidden');}});
+  document.querySelectorAll('.tide-tab').forEach(function(t){{
+    t.classList.remove('border-b-2','font-bold','text-gray-900');
+    t.classList.add('text-gray-500');
+    t.removeAttribute('style');
+  }});
+  var panel = document.getElementById('tpanel-' + id);
+  var tab   = document.getElementById('ttab-'   + id);
+  if (panel) panel.classList.remove('hidden');
+  if (tab) {{
+    tab.classList.add('border-b-2','font-bold','text-gray-900');
+    tab.classList.remove('text-gray-500');
+    tab.style.borderColor = 'var(--forest2)';
+  }}
+}}
 </script>
 {footer_html()}
 </body>
@@ -4763,75 +4989,61 @@ var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
 # ── Flights page (OpenSky — arrivals/departures at PBM) ─────────────────────
 
-def build_flights_page(arrivals, departures, updated):
+
+# ── Flights page — multi-airport with tabs ───────────────────────────────────
+
+def build_flights_page(flights_data):
+    """
+    flights_data: dict returned by fetch_aerodatabox_flights()
+      { icao: (arrivals, departures, updated_str), ... }
+    """
     updated_now = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
 
     def flight_rows(flights, direction):
         if not flights:
-            col = "From" if direction == "arrival" else "To"
             return (f'<tr><td colspan="4" class="py-8 text-center text-gray-400 text-sm">'
-                    f'No scheduled {direction}s found for today</td></tr>')
+                    f'No scheduled {direction}s found for today. '
+                    f'This airport may have limited or no commercial service.</td></tr>')
         rows = ""
-        for f in flights:
+        for fl in flights:
             rows += (
                 '<tr class="border-b border-gray-100 hover:bg-gray-50">'
-                f'<td class="py-3 px-4 font-mono font-bold text-gray-900 whitespace-nowrap">{html_lib.escape(f["flight"])}</td>'
-                f'<td class="py-3 px-4 text-gray-700 text-sm">{html_lib.escape(f["airline"])}</td>'
-                f'<td class="py-3 px-4 text-gray-600 text-sm">{html_lib.escape(f["airport"])}</td>'
-                f'<td class="py-3 px-4 text-right font-mono text-gray-700 text-sm whitespace-nowrap">{html_lib.escape(f["time"])}</td>'
+                f'<td class="py-3 px-4 font-mono font-bold text-gray-900 whitespace-nowrap">{html_lib.escape(fl["flight"])}</td>'
+                f'<td class="py-3 px-4 text-gray-700 text-sm">{html_lib.escape(fl["airline"])}</td>'
+                f'<td class="py-3 px-4 text-gray-600 text-sm">{html_lib.escape(fl["airport"])}</td>'
+                f'<td class="py-3 px-4 text-right font-mono text-gray-700 text-sm whitespace-nowrap">{html_lib.escape(fl["time"])}</td>'
                 '</tr>'
             )
         return rows
-
-    arr_rows = flight_rows(arrivals,  "arrival")
-    dep_rows = flight_rows(departures, "departure")
 
     def count_badge(n):
         return (f'<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full '
                 f'bg-green-100 text-green-800">{n} flights</span>') if n else ""
 
-    return f"""{PAGE_HEAD}
-  <title>Flights &mdash; Paramaribo (PBM) | Explore Suriname</title>
-  <meta name="description" content="Today&rsquo;s arrivals and departures at Johan Adolf Pengel International Airport (PBM), Paramaribo, Suriname. Refreshes every 6 hours.">
-  <link rel="canonical" href="{SITE_URL}/flights.html">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Explore Suriname">
-  <meta property="og:url" content="{SITE_URL}/flights.html">
-  <meta property="og:title" content="Flights &mdash; Paramaribo Airport | Explore Suriname">
-  <meta property="og:description" content="Recent arrivals and departures at Johan Adolf Pengel International Airport (PBM).">
-  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Flights &mdash; Paramaribo Airport | Explore Suriname">
-  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
-  <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Flights \u2013 Paramaribo Airport | Explore Suriname","url":"{SITE_URL}/flights.html","description":"Today's arrivals and departures at Johan Adolf Pengel International Airport (PBM), Paramaribo, Suriname.","about":{{"@type":"Airport","name":"Johan Adolf Pengel International Airport","iataCode":"PBM","icaoCode":"SMJP","address":{{"@type":"PostalAddress","addressCountry":"SR","addressLocality":"Paramaribo"}}}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
-  </script>
-</head>
-<body class="bg-gray-50 overflow-x-hidden">
-{nav_html("flights")}
-<div class="pt-16"></div>
-<div class="text-white py-16 text-center" style="background:var(--forest)">
-  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Flights &mdash; Paramaribo Airport</h1>
-  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Johan Adolf Pengel International Airport &mdash; Paramaribo (PBM / SMJP)</p>
-  <p class="text-white/35 text-xs mt-3">&#128336; Updated: {html_lib.escape(updated)}</p>
-</div>
-<main class="max-w-5xl mx-auto px-5 py-10 pb-24">
-
-  <div class="rounded-2xl border border-blue-100 p-5 mb-8" style="background:#eff6ff">
-    <p class="text-blue-900 text-sm leading-relaxed">
-      <strong class="text-blue-800">About this data:</strong>
-      Flight data is sourced from <a href="https://aerodatabox.com" target="_blank" rel="noopener" class="underline">AeroDataBox</a>.
-      Times shown in Suriname time (SR, UTC&minus;3). Today&rsquo;s scheduled flights; refreshes every 6 hours.
-      For real-time tracking, visit <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener" class="underline">Flightradar24</a>.
-    </p>
-  </div>
-
-  <!-- Arrivals -->
+    # Build per-airport panel HTML
+    panels_html = ""
+    tab_buttons_html = ""
+    for idx, ap in enumerate(_AIRPORTS_FLIGHT):
+        icao = ap["icao"]
+        arrivals, departures, updated = flights_data.get(icao, ([], [], updated_now))
+        arr_rows = flight_rows(arrivals,  "arrival")
+        dep_rows = flight_rows(departures, "departure")
+        active_tab   = "border-b-2 font-bold text-gray-900" if idx == 0 else "text-gray-500 hover:text-gray-700"
+        active_style = 'style="border-color:var(--forest)"' if idx == 0 else ""
+        panel_hidden = "" if idx == 0 else " hidden"
+        cache_note   = f"Refreshes every {ap['cache_h']}h"
+        tab_buttons_html += (
+            f'<button onclick="showAirport(\'{icao}\')" id="tab-{icao}" '
+            f'class="airport-tab px-4 py-3 text-sm {active_tab} whitespace-nowrap transition" '
+            f'{active_style}>{ap["label"]}</button>\n'
+        )
+        panels_html += f"""
+<div id="panel-{icao}" class="airport-panel{panel_hidden}">
+  <p class="text-gray-400 text-xs mb-4">&#128336; Updated: {html_lib.escape(updated)} &bull; {cache_note}</p>
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
     <div class="px-6 py-5 border-b border-gray-100">
-      <p class="font-bold text-gray-900 text-base">&#9650; Arrivals &mdash; Paramaribo (PBM) {count_badge(len(arrivals))}</p>
-      <p class="text-gray-400 text-xs mt-0.5">Scheduled arrivals at Johan Adolf Pengel today</p>
+      <p class="font-bold text-gray-900 text-base">&#9650; Arrivals &mdash; {html_lib.escape(ap["label"])} {count_badge(len(arrivals))}</p>
+      <p class="text-gray-400 text-xs mt-0.5">Scheduled arrivals today</p>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full text-sm">
@@ -4845,12 +5057,10 @@ def build_flights_page(arrivals, departures, updated):
       </table>
     </div>
   </div>
-
-  <!-- Departures -->
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
     <div class="px-6 py-5 border-b border-gray-100">
-      <p class="font-bold text-gray-900 text-base">&#9660; Departures &mdash; Paramaribo (PBM) {count_badge(len(departures))}</p>
-      <p class="text-gray-400 text-xs mt-0.5">Scheduled departures from Johan Adolf Pengel today</p>
+      <p class="font-bold text-gray-900 text-base">&#9660; Departures &mdash; {html_lib.escape(ap["label"])} {count_badge(len(departures))}</p>
+      <p class="text-gray-400 text-xs mt-0.5">Scheduled departures today</p>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full text-sm">
@@ -4864,16 +5074,447 @@ def build_flights_page(arrivals, departures, updated):
       </table>
     </div>
   </div>
+</div>"""
 
+    return f"""{PAGE_HEAD}
+  <title>Flights &mdash; Suriname Airports | Explore Suriname</title>
+  <meta name="description" content="Today's arrivals and departures at Suriname airports: Johan Adolf Pengel (PBM), Zorg en Hoop (ORJ) and Gummels Airstrip. Refreshes automatically.">
+  <link rel="canonical" href="{SITE_URL}/flights.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/flights.html">
+  <meta property="og:title" content="Flights &mdash; Suriname Airports | Explore Suriname">
+  <meta property="og:description" content="Today's scheduled arrivals and departures at Suriname's airports.">
+  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Flights &mdash; Suriname Airports | Explore Suriname">
+  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Flights - Suriname Airports | Explore Suriname","url":"{SITE_URL}/flights.html","description":"Today's arrivals and departures at Suriname airports including Johan Adolf Pengel (PBM), Zorg en Hoop (ORJ) and Gummels Airstrip.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  </script>
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+{nav_html("flights")}
+<div class="pt-16"></div>
+<div class="text-white py-16 text-center" style="background:var(--forest)">
+  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Flights</h1>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Today's scheduled flights &mdash; PBM &bull; Zorg en Hoop &bull; Gummels</p>
+  <p class="text-white/35 text-xs mt-3">&#128336; Page built: {updated_now}</p>
+</div>
+<main class="max-w-5xl mx-auto px-5 py-10 pb-24">
+  <div class="rounded-2xl border border-blue-100 p-5 mb-6" style="background:#eff6ff">
+    <p class="text-blue-900 text-sm leading-relaxed">
+      <strong class="text-blue-800">About this data:</strong>
+      Flight data from <a href="https://aerodatabox.com" target="_blank" rel="noopener" class="underline">AeroDataBox</a>.
+      Times in Suriname time (SR, UTC&minus;3). PBM refreshes every 6h; domestic airports every 12h.
+      For real-time tracking visit <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener" class="underline">Flightradar24</a>.
+    </p>
+  </div>
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+    <div class="flex overflow-x-auto border-b border-gray-100" style="scrollbar-width:none">
+      {tab_buttons_html}
+    </div>
+  </div>
+  {panels_html}
   <p class="text-center text-gray-400 text-xs mt-4 max-w-2xl mx-auto leading-relaxed px-4">
     Data from <a href="https://aerodatabox.com" target="_blank" rel="noopener" style="color:var(--forest2)">AeroDataBox</a>. Not for operational use.
-    Scheduled times only. Not suitable for operational flight planning.
+    Scheduled times only. Zorg en Hoop and Gummels serve domestic &amp; charter routes.
   </p>
-
 </main>
+<script>
+function showAirport(icao) {{
+  document.querySelectorAll('.airport-panel').forEach(p => p.classList.add('hidden'));
+  document.querySelectorAll('.airport-tab').forEach(t => {{
+    t.classList.remove('border-b-2','font-bold','text-gray-900');
+    t.classList.add('text-gray-500');
+    t.removeAttribute('style');
+  }});
+  var panel = document.getElementById('panel-' + icao);
+  var tab   = document.getElementById('tab-'   + icao);
+  if (panel) panel.classList.remove('hidden');
+  if (tab) {{
+    tab.classList.add('border-b-2','font-bold','text-gray-900');
+    tab.classList.remove('text-gray-500');
+    tab.style.borderColor = 'var(--forest)';
+  }}
+}}
+</script>
 {footer_html()}
 </body>
 </html>"""
+
+
+# ── Interactive map page (Google Maps JS API) ────────────────────────────────
+
+# District centroid coordinates (lat, lng)
+_DISTRICT_COORDS = {
+    "Paramaribo":  (5.852, -55.203),
+    "Wanica":      (5.751, -55.255),
+    "Commewijne":  (5.730, -54.997),
+    "Para":        (5.530, -55.182),
+    "Nickerie":    (5.940, -56.978),
+    "Marowijne":   (5.490, -54.060),
+    "Brokopondo":  (4.762, -55.023),
+    "Saramacca":   (5.750, -55.670),
+    "Coronie":     (5.820, -56.330),
+    "Sipaliwini":  (3.916, -56.196),
+}
+
+_CAT_COLORS = {
+    "restaurant": "#7c3aed",
+    "hotel":      "#c05621",
+    "shopping":   "#0369a1",
+    "service":    "#374151",
+    "activity":   "#166534",
+    "nature":     "#15803d",
+    "other":      "#6b7280",
+}
+
+
+def build_map_page(gmaps_key=""):
+    """
+    Big interactive map of all listings.
+    Uses Google Maps JavaScript API when gmaps_key is provided.
+    Falls back to Leaflet + OpenStreetMap if no key.
+    Coordinates: district centroids + deterministic jitter (no geocoding API needed).
+    """
+    import json as _json, random as _rnd
+
+    # Collect all mappable items
+    def _items_from(collection, cat, badge_field=None):
+        out = []
+        for b in collection:
+            loc = b.get("location") or "Paramaribo"
+            badge = b.get(badge_field or "subcat") or b.get("category") or ""
+            out.append({
+                "name":  b.get("name", ""),
+                "url":   b.get("url", "#"),
+                "loc":   loc,
+                "cat":   cat,
+                "badge": badge,
+                "addr":  b.get("address", ""),
+            })
+        return out
+
+    all_items = (
+        _items_from(RESTAURANTS,    "restaurant", "cuisine") +
+        _items_from(HOTELS,         "hotel",      "category") +
+        _items_from(SHOPPING,       "shopping") +
+        _items_from(SERVICES,       "service") +
+        _items_from(ADVENTURES_BIZ, "activity")
+    )
+    for s in NATURE_SPOTS:
+        all_items.append({
+            "name":  s.get("name", ""),
+            "url":   f"listing/{_nature_slug(s['name'])}/",
+            "loc":   "Sipaliwini",
+            "cat":   "nature",
+            "badge": s.get("badge") or "",
+            "addr":  "Suriname",
+        })
+
+    # Deterministic jitter so map is stable across builds
+    _rnd.seed(42)
+    markers = []
+    for item in all_items:
+        base_lat, base_lng = _DISTRICT_COORDS.get(item["loc"], _DISTRICT_COORDS["Paramaribo"])
+        jlat = base_lat + _rnd.uniform(-0.018, 0.018)
+        jlng = base_lng + _rnd.uniform(-0.018, 0.018)
+        markers.append({
+            "lat":   round(jlat, 5),
+            "lng":   round(jlng, 5),
+            "name":  item["name"],
+            "url":   item["url"],
+            "cat":   item["cat"],
+            "badge": item["badge"],
+            "dist":  item["loc"],
+            "addr":  item["addr"],
+        })
+
+    markers_js     = _json.dumps(markers)
+    cat_colors_js  = _json.dumps(_CAT_COLORS)
+    district_coords_js = _json.dumps({k: list(v) for k, v in _DISTRICT_COORDS.items()})
+    total          = len(markers)
+    updated_now    = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
+
+    # ── Map implementation ──────────────────────────────────────────────────
+    if gmaps_key:
+        # Google Maps JavaScript API
+        map_head = f"""  <script>
+    // Will be loaded async by the Google Maps loader below
+  </script>"""
+
+        map_body = f"""
+<div id="map" style="position:fixed;top:4rem;left:0;right:0;bottom:0;z-index:0"></div>
+
+<!-- Filter bar floats above the map -->
+<div style="position:fixed;top:4rem;left:0;right:0;z-index:10;pointer-events:none">
+  <div style="pointer-events:auto;background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.08);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <span style="font-size:.72rem;font-weight:700;color:#6b7280;flex-shrink:0">Filter:</span>
+    <button class="cat-btn active" data-cat="all"        onclick="filterCat('all',this)">&#128205; All <span id="cnt-all" class="cnt">{total}</span></button>
+    <button class="cat-btn" data-cat="restaurant"        onclick="filterCat('restaurant',this)"><span class="dot" style="background:#7c3aed"></span>Eat &amp; Drink</button>
+    <button class="cat-btn" data-cat="hotel"             onclick="filterCat('hotel',this)"><span class="dot" style="background:#c05621"></span>Stay</button>
+    <button class="cat-btn" data-cat="shopping"          onclick="filterCat('shopping',this)"><span class="dot" style="background:#0369a1"></span>Shopping</button>
+    <button class="cat-btn" data-cat="service"           onclick="filterCat('service',this)"><span class="dot" style="background:#374151"></span>Services</button>
+    <button class="cat-btn" data-cat="activity"          onclick="filterCat('activity',this)"><span class="dot" style="background:#166534"></span>Activities</button>
+    <button class="cat-btn" data-cat="nature"            onclick="filterCat('nature',this)"><span class="dot" style="background:#15803d"></span>Nature</button>
+    <span style="margin-left:auto;display:flex;align-items:center;gap:6px;flex-shrink:0">
+      <span style="font-size:.72rem;color:#9ca3af"><span id="visible-count">{total}</span> shown</span>
+      <select id="dist-filter" onchange="filterDistrict(this.value)" style="font-size:.72rem;border:1.5px solid #e5e7eb;border-radius:8px;padding:4px 8px;background:#fff;color:#374151;cursor:pointer">
+        <option value="all">All districts</option>
+        <option>Paramaribo</option><option>Wanica</option><option>Commewijne</option>
+        <option>Para</option><option>Nickerie</option><option>Marowijne</option>
+        <option>Brokopondo</option><option>Saramacca</option><option>Coronie</option>
+        <option>Sipaliwini</option>
+      </select>
+    </span>
+  </div>
+</div>
+
+<script>
+var MARKERS  = {markers_js};
+var COLORS   = {cat_colors_js};
+var DIST_COORDS = {district_coords_js};
+var _currentCat  = 'all';
+var _currentDist = 'all';
+var _gmMarkers   = [];
+var _map, _infoWindow;
+
+function initMap() {{
+  _map = new google.maps.Map(document.getElementById('map'), {{
+    center: {{ lat: 4.9, lng: -56.0 }},
+    zoom: 7,
+    mapTypeControl: false,
+    streetViewControl: false,
+    fullscreenControl: true,
+    styles: [
+      {{featureType:"poi",elementType:"labels",stylers:[{{visibility:"off"}}]}},
+      {{featureType:"transit",elementType:"labels",stylers:[{{visibility:"off"}}]}}
+    ]
+  }});
+  _infoWindow = new google.maps.InfoWindow();
+  renderMarkers();
+}}
+
+function _svgIcon(color) {{
+  var enc = encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 36" width="24" height="36">'
+    + '<path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 24 12 24s12-15 12-24C24 5.4 18.6 0 12 0z" fill="' + color + '" stroke="#fff" stroke-width="1.5"/>'
+    + '<circle cx="12" cy="12" r="5" fill="#fff" opacity=".85"/>'
+    + '</svg>'
+  );
+  return {{ url: 'data:image/svg+xml,' + enc, scaledSize: new google.maps.Size(24, 36), anchor: new google.maps.Point(12, 36) }};
+}}
+
+function renderMarkers() {{
+  _gmMarkers.forEach(function(m) {{ m.setMap(null); }});
+  _gmMarkers = [];
+  var count = 0;
+  MARKERS.forEach(function(d) {{
+    if (_currentCat !== 'all' && d.cat !== _currentCat) return;
+    if (_currentDist !== 'all' && d.dist !== _currentDist) return;
+    var color  = COLORS[d.cat] || '#6b7280';
+    var marker = new google.maps.Marker({{
+      position: {{ lat: d.lat, lng: d.lng }},
+      map: _map,
+      title: d.name,
+      icon: _svgIcon(color),
+      optimized: true
+    }});
+    marker.addListener('click', function() {{
+      var badge  = d.badge ? '<span style="color:' + color + ';font-size:.72rem">' + d.badge + '</span><br>' : '';
+      var addr   = d.addr  ? '<span style="color:#6b7280;font-size:.7rem">&#128205; ' + d.addr + '</span><br>' : '<span style="color:#6b7280;font-size:.7rem">&#128205; ' + d.dist + '</span><br>';
+      _infoWindow.setContent(
+        '<div style="font-family:Inter,sans-serif;padding:4px 2px;min-width:180px;max-width:240px">'
+        + '<strong style="font-size:.85rem;display:block;margin-bottom:3px">' + d.name + '</strong>'
+        + badge + addr
+        + '<a href="' + d.url + '" style="font-size:.78rem;font-weight:700;color:#2D6A4F;text-decoration:none">View listing &rarr;</a>'
+        + '</div>'
+      );
+      _infoWindow.open(_map, marker);
+    }});
+    _gmMarkers.push(marker);
+    count++;
+  }});
+  document.getElementById('visible-count').textContent = count;
+}}
+
+function filterCat(cat, btn) {{
+  _currentCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(function(b) {{ b.classList.remove('active'); }});
+  btn.classList.add('active');
+  if (_infoWindow) _infoWindow.close();
+  renderMarkers();
+}}
+
+function filterDistrict(dist) {{
+  _currentDist = dist;
+  if (_infoWindow) _infoWindow.close();
+  if (dist !== 'all' && DIST_COORDS[dist]) {{
+    _map.panTo({{ lat: DIST_COORDS[dist][0], lng: DIST_COORDS[dist][1] }});
+    _map.setZoom(11);
+  }} else {{
+    _map.setCenter({{ lat: 4.9, lng: -56.0 }});
+    _map.setZoom(7);
+  }}
+  renderMarkers();
+}}
+</script>
+<!-- Lazy-load overlay: only loads Google Maps when user clicks -->
+<div id="map-overlay" style="position:fixed;top:4rem;left:0;right:0;bottom:0;z-index:5;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(4px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="32" cy="28" r="18" fill="#2D6A4F" opacity=".15"/>
+    <path d="M32 10C22.06 10 14 18.06 14 28c0 14.25 18 34 18 34s18-19.75 18-34C50 18.06 41.94 10 32 10z" fill="#2D6A4F" stroke="#fff" stroke-width="2"/>
+    <circle cx="32" cy="28" r="7" fill="#fff" opacity=".9"/>
+  </svg>
+  <div style="text-align:center">
+    <p style="font-family:Inter,sans-serif;font-size:1rem;font-weight:700;color:#1f2937;margin:0 0 4px">Interactive Listings Map</p>
+    <p style="font-family:Inter,sans-serif;font-size:.8rem;color:#6b7280;margin:0">{total} places across Suriname</p>
+  </div>
+  <button onclick="loadGoogleMap()" style="font-family:Inter,sans-serif;font-size:.85rem;font-weight:700;
+    padding:12px 28px;border-radius:999px;border:none;background:#2D6A4F;color:#fff;cursor:pointer;
+    box-shadow:0 4px 14px rgba(45,106,79,.35);transition:opacity .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+    &#128506;&nbsp; Load Map
+  </button>
+  <p style="font-family:Inter,sans-serif;font-size:.7rem;color:#9ca3af;margin:0">Powered by Google Maps</p>
+</div>
+
+<script>
+function loadGoogleMap() {{
+  document.getElementById('map-overlay').style.display = 'none';
+  var s = document.createElement('script');
+  s.src = 'https://maps.googleapis.com/maps/api/js?key={gmaps_key}&callback=initMap&loading=async';
+  s.async = true; s.defer = true;
+  document.head.appendChild(s);
+}}
+</script>"""
+
+    else:
+        # Leaflet + OpenStreetMap fallback (no API key needed)
+        map_head = """  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>"""
+
+        map_body = f"""
+<div id="map" style="position:fixed;top:4rem;left:0;right:0;bottom:0;z-index:0"></div>
+
+<div style="position:fixed;top:4rem;left:0;right:0;z-index:10;pointer-events:none">
+  <div style="pointer-events:auto;background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.08);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <span style="font-size:.72rem;font-weight:700;color:#6b7280;flex-shrink:0">Filter:</span>
+    <button class="cat-btn active" data-cat="all"        onclick="filterCat('all',this)">&#128205; All <span id="cnt-all" class="cnt">{total}</span></button>
+    <button class="cat-btn" data-cat="restaurant"        onclick="filterCat('restaurant',this)"><span class="dot" style="background:#7c3aed"></span>Eat &amp; Drink</button>
+    <button class="cat-btn" data-cat="hotel"             onclick="filterCat('hotel',this)"><span class="dot" style="background:#c05621"></span>Stay</button>
+    <button class="cat-btn" data-cat="shopping"          onclick="filterCat('shopping',this)"><span class="dot" style="background:#0369a1"></span>Shopping</button>
+    <button class="cat-btn" data-cat="service"           onclick="filterCat('service',this)"><span class="dot" style="background:#374151"></span>Services</button>
+    <button class="cat-btn" data-cat="activity"          onclick="filterCat('activity',this)"><span class="dot" style="background:#166634"></span>Activities</button>
+    <button class="cat-btn" data-cat="nature"            onclick="filterCat('nature',this)"><span class="dot" style="background:#15803d"></span>Nature</button>
+    <span style="margin-left:auto;display:flex;align-items:center;gap:6px;flex-shrink:0">
+      <span style="font-size:.72rem;color:#9ca3af"><span id="visible-count">{total}</span> shown</span>
+      <select id="dist-filter" onchange="filterDistrict(this.value)" style="font-size:.72rem;border:1.5px solid #e5e7eb;border-radius:8px;padding:4px 8px;background:#fff;color:#374151;cursor:pointer">
+        <option value="all">All districts</option>
+        <option>Paramaribo</option><option>Wanica</option><option>Commewijne</option>
+        <option>Para</option><option>Nickerie</option><option>Marowijne</option>
+        <option>Brokopondo</option><option>Saramacca</option><option>Coronie</option>
+        <option>Sipaliwini</option>
+      </select>
+    </span>
+  </div>
+  <div style="pointer-events:auto;background:#fffbeb;border-bottom:1px solid #fde68a;padding:5px 16px;font-size:.72rem;color:#92400e">
+    &#128161; Add <code style="background:#fef3c7;padding:1px 4px;border-radius:3px">GOOGLE_MAPS_KEY</code> as a GitHub Actions secret to upgrade to Google Maps.
+  </div>
+</div>
+
+<script>
+var MARKERS     = {markers_js};
+var COLORS      = {cat_colors_js};
+var DIST_COORDS = {district_coords_js};
+var _currentCat  = 'all';
+var _currentDist = 'all';
+var _leafletMarkers = [];
+
+var map = L.map('map', {{ center: [4.9, -56.0], zoom: 7, zoomControl: true }});
+L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png', {{
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  maxZoom: 19
+}}).addTo(map);
+
+function _icon(color) {{
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 36" width="24" height="36">'
+    + '<path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 24 12 24s12-15 12-24C24 5.4 18.6 0 12 0z" fill="' + color + '" stroke="#fff" stroke-width="1.5"/>'
+    + '<circle cx="12" cy="12" r="5" fill="#fff" opacity=".85"/></svg>';
+  return L.divIcon({{ html: svg, className: '', iconSize: [24,36], iconAnchor: [12,36], popupAnchor: [0,-36] }});
+}}
+
+function renderMarkers() {{
+  _leafletMarkers.forEach(function(m) {{ m.remove(); }});
+  _leafletMarkers = [];
+  var count = 0;
+  MARKERS.forEach(function(d) {{
+    if (_currentCat !== 'all' && d.cat !== _currentCat) return;
+    if (_currentDist !== 'all' && d.dist !== _currentDist) return;
+    var color  = COLORS[d.cat] || '#6b7280';
+    var badge  = d.badge ? '<span style="font-size:.7rem;color:' + color + '">' + d.badge + '</span><br>' : '';
+    var addr   = d.addr  ? '<span style="font-size:.7rem;color:#6b7280">&#128205; ' + d.addr + '</span><br>' : '<span style="font-size:.7rem;color:#6b7280">&#128205; ' + d.dist + '</span><br>';
+    var popup  = '<div style="font-family:inherit;min-width:170px">'
+      + '<strong style="font-size:.85rem">' + d.name + '</strong><br>' + badge + addr
+      + '<a href="' + d.url + '" style="font-size:.78rem;font-weight:700;color:#2D6A4F">View listing &rarr;</a></div>';
+    _leafletMarkers.push(L.marker([d.lat, d.lng], {{icon: _icon(color)}}).addTo(map).bindPopup(popup));
+    count++;
+  }});
+  document.getElementById('visible-count').textContent = count;
+}}
+
+function filterCat(cat, btn) {{
+  _currentCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(function(b) {{ b.classList.remove('active'); }});
+  btn.classList.add('active');
+  renderMarkers();
+}}
+
+function filterDistrict(dist) {{
+  _currentDist = dist;
+  if (dist !== 'all' && DIST_COORDS[dist]) {{
+    map.flyTo(DIST_COORDS[dist], 11, {{duration: 1}});
+  }} else {{
+    map.flyTo([4.9, -56.0], 7, {{duration: 1}});
+  }}
+  renderMarkers();
+}}
+
+renderMarkers();
+</script>"""
+
+    return f"""{PAGE_HEAD}
+  <title>Listings Map | Explore Suriname</title>
+  <meta name="description" content="Interactive map of {total} restaurants, hotels, shops, services and nature spots across all districts of Suriname.">
+  <link rel="canonical" href="{SITE_URL}/map.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/map.html">
+  <meta property="og:title" content="Listings Map | Explore Suriname">
+  <meta property="og:description" content="Interactive map of restaurants, hotels, shops and attractions across all districts of Suriname.">
+  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Listings Map | Explore Suriname">
+  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+  {map_head}
+  <style>
+    html, body {{ height:100%; overflow:hidden; }}
+    .cat-btn {{ display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s; }}
+    .cat-btn:hover {{ border-color:var(--forest);color:var(--forest); }}
+    .cat-btn.active {{ background:var(--forest);border-color:var(--forest);color:#fff; }}
+    .dot {{ display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0; }}
+    .cnt {{ opacity:.65;font-weight:500; }}
+  </style>
+</head>
+<body class="overflow-hidden" style="padding-top:0">
+{nav_html("map")}
+{map_body}
+</body>
+</html>"""
+
 
 
 # ── Main entry point ─────────────────────────────────────────────────────────
@@ -4884,8 +5525,10 @@ if __name__ == "__main__":
     articles = fetch_articles()
     cme_rates,  cme_live,  cme_updated  = fetch_cme_rates()
     cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
-    tides_extremes, tides_live, tides_updated = fetch_worldtides()
-    arrivals, departures, flights_updated     = fetch_aerodatabox_flights()
+    import os as _os
+    GOOGLE_MAPS_KEY = _os.environ.get('GOOGLE_MAPS_KEY', '').strip()
+    tides_data    = fetch_worldtides()
+    flights_data  = fetch_aerodatabox_flights()
 
     pages = {
         "index.html":       build_index(RESTAURANTS, HOTELS, articles),
@@ -4897,8 +5540,9 @@ if __name__ == "__main__":
         "services.html":    build_services_page(),
         "currency.html":    build_currency_page(cme_rates, cme_live, cme_updated,
                                                 cbvs_rates, cbvs_live, cbvs_updated),
-        "conditions.html":  build_conditions_page(tides_extremes, tides_live, tides_updated),
-        "flights.html":     build_flights_page(arrivals, departures, flights_updated),
+        "conditions.html":  build_conditions_page(tides_data),
+        "flights.html":     build_flights_page(flights_data),
+        "map.html":         build_map_page(GOOGLE_MAPS_KEY),
         "news.html":        build_news(articles),
         "about.html":       build_about_page(),
         "contact.html":     build_contact_page(),
