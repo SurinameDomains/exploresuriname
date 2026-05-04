@@ -52,6 +52,6 @@ jobs:
           git add listing/ .last_run sitemap.xml robots.txt tailwind.css
           git add images/ image_cache.json || true
           git add tides_cache.json tides_cache_*.json || true
-          git add flights_cache.json flights_cache_smzo.json flights_cache_smeg.json || true
+          git add flights_cache.json flights_cache_smeg.json || true
           git diff --staged --quiet || git commit -m "Auto-update $(TZ='America/Paramaribo' date '+%Y-%m-%d %H:%M') SR"
           git push
