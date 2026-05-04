@@ -2507,12 +2507,12 @@ def _fetch_flights_for_airport(icao, cache_file, cache_hours, key):
     import time as _time
     now_ts = datetime.now(timezone.utc).timestamp()
 
-    # Check cache first
+    # Check cache first — use timestamp only, not presence of data
+    # (airports with 0 flights still cache correctly)
     try:
         with open(cache_file) as _f:
             cache = json.load(_f)
-        has_data = cache.get("arrivals") or cache.get("departures")
-        if has_data and now_ts - cache.get("fetched", 0) < cache_hours * 3600:
+        if now_ts - cache.get("fetched", 0) < cache_hours * 3600:
             print(f"  AeroDataBox [{icao}]: using cached data")
             return cache["arrivals"], cache["departures"], cache["updated"]
     except Exception:
