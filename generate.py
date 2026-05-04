@@ -2273,8 +2273,6 @@ TIDES_LOCATIONS = [
      "lat": 5.852, "lon": -55.203, "cache": "tides_cache.json",             "cache_h": 24},
     {"id": "commewijne", "label": "Commewijne River", "district": "Commewijne",
      "lat": 5.893, "lon": -55.087, "cache": "tides_cache_commewijne.json",  "cache_h": 72},
-    {"id": "saramacca",  "label": "Saramacca River",  "district": "Saramacca",
-     "lat": 5.782, "lon": -55.980, "cache": "tides_cache_saramacca.json",   "cache_h": 72},
     {"id": "nickerie",   "label": "Nickerie River",   "district": "Nickerie",
      "lat": 5.944, "lon": -57.003, "cache": "tides_cache_nickerie.json",    "cache_h": 72},
     {"id": "marowijne",  "label": "Marowijne River",  "district": "Marowijne",
@@ -2889,7 +2887,7 @@ def poi_card(item, badge_key="cuisine"):
                 f'onerror="this.parentElement.style.background=\'#2D6A4F\';this.style.display=\'none\'">'
                 f'</div>') if img else ""
     phone_html = f'<span class="text-gray-400 text-xs">&#128222; {html_lib.escape(phone)}</span>' if phone else ""
-    district   = item.get("location", "Paramaribo")
+    district   = item.get("area", item.get("location", "Paramaribo"))
     return f"""
 <a href="{url}" data-sub="{item.get('subcat','other')}" data-district="{html_lib.escape(district)}" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   {img_html}
@@ -2911,7 +2909,7 @@ def _filter_bar_html(items, cat_key):
     """Sticky filter chip bar with subcat + district filtering."""
     from collections import Counter
     sub_counts  = Counter(b.get("subcat","other")     for b in items)
-    dist_counts = Counter(b.get("location","Paramaribo") for b in items)
+    dist_counts = Counter(b.get("area", b.get("location","Paramaribo")) for b in items)
 
     chips_cfg  = SUBCATS.get(cat_key, [("all","All","🔍")])
 
@@ -3692,7 +3690,7 @@ def build_listing_page(slug, b):
     phone    = b.get("phone", "")
     email    = b.get("email", "")
     category = b.get("category", "")
-    location = b.get("location", "Paramaribo")
+    location = b.get("area", b.get("location", "Paramaribo"))
     img      = _IMGS.get(slug, "")
     ext_url  = _biz_url(b)
 
@@ -5185,7 +5183,7 @@ def build_map_page(gmaps_key=""):
     def _items_from(collection, cat, badge_field=None):
         out = []
         for b in collection:
-            loc = b.get("location") or "Paramaribo"
+            loc = b.get("area") or b.get("location") or "Paramaribo"
             badge = b.get(badge_field or "subcat") or b.get("category") or ""
             out.append({
                 "name":  b.get("name", ""),
@@ -5361,36 +5359,7 @@ function filterDistrict(dist) {{
   renderMarkers();
 }}
 </script>
-<!-- Lazy-load overlay: only loads Google Maps when user clicks -->
-<div id="map-overlay" style="position:fixed;top:4rem;left:0;right:0;bottom:0;z-index:5;
-  background:rgba(255,255,255,.92);backdrop-filter:blur(4px);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
-  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="32" cy="28" r="18" fill="#2D6A4F" opacity=".15"/>
-    <path d="M32 10C22.06 10 14 18.06 14 28c0 14.25 18 34 18 34s18-19.75 18-34C50 18.06 41.94 10 32 10z" fill="#2D6A4F" stroke="#fff" stroke-width="2"/>
-    <circle cx="32" cy="28" r="7" fill="#fff" opacity=".9"/>
-  </svg>
-  <div style="text-align:center">
-    <p style="font-family:Inter,sans-serif;font-size:1rem;font-weight:700;color:#1f2937;margin:0 0 4px">Interactive Listings Map</p>
-    <p style="font-family:Inter,sans-serif;font-size:.8rem;color:#6b7280;margin:0">{total} places across Suriname</p>
-  </div>
-  <button onclick="loadGoogleMap()" style="font-family:Inter,sans-serif;font-size:.85rem;font-weight:700;
-    padding:12px 28px;border-radius:999px;border:none;background:#2D6A4F;color:#fff;cursor:pointer;
-    box-shadow:0 4px 14px rgba(45,106,79,.35);transition:opacity .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
-    &#128506;&nbsp; Load Map
-  </button>
-  <p style="font-family:Inter,sans-serif;font-size:.7rem;color:#9ca3af;margin:0">Powered by Google Maps</p>
-</div>
-
-<script>
-function loadGoogleMap() {{
-  document.getElementById('map-overlay').style.display = 'none';
-  var s = document.createElement('script');
-  s.src = 'https://maps.googleapis.com/maps/api/js?key={gmaps_key}&callback=initMap&loading=async';
-  s.async = true; s.defer = true;
-  document.head.appendChild(s);
-}}
-</script>"""
+<script src="https://maps.googleapis.com/maps/api/js?key={gmaps_key}&callback=initMap&loading=async" async defer></script>"""
 
     else:
         # Leaflet + OpenStreetMap fallback (no API key needed)
