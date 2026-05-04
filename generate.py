@@ -2401,7 +2401,6 @@ _AIRPORT_NAMES = {
     "SYEL": "Kaieteur (KAI)",
     "SYGT": "Georgetown (GEO)",
     "SYGO": "Georgetown (OGL)",
-    "SMZO": "Paramaribo / Zorg en Hoop (ORG)",
     "SMJP": "Paramaribo (PBM)",
     "LEMD": "Madrid (MAD)",
     "LFPG": "Paris CDG (CDG)",
@@ -2453,157 +2452,156 @@ def _decode_flight(row, direction):
 # ── AeroDataBox flight fetching ───────────────────────────────────────────────
 # API budget (600 free calls/month via RapidAPI):
 #   SMJP  6 h cache → 2 calls/fetch × 4 fetches/day × 30 = 240/month
-#   SMZO 12 h cache → 2 calls/fetch × 2 fetches/day × 30 = 120/month
 #   SMGM 12 h cache → 2 calls/fetch × 2 fetches/day × 30 = 120/month
 #   Total: 480/month  ✓ comfortably within 600 free limit
 
 _AIRPORTS_FLIGHT = [
     {"icao": "SMJP", "iata": "PBM", "label": "Johan Adolf Pengel (PBM)",
      "short": "PBM",  "cache": "flights_cache.json",      "cache_h": 6},
-    {"icao": "SMZO", "iata": "ORG", "label": "Zorg en Hoop (ORG)",
-     "short": "ORG",  "cache": "flights_cache_smzo.json",  "cache_h": 12},
     {"icao": "SMEG", "iata": "EAX", "label": "Eduard Alexander Gummels (EAX)",
      "short": "EAX",   "cache": "flights_cache_smeg.json",  "cache_h": 12},
 ]
 
-def _adb_parse_flight(f, direction):
-    """Convert one AeroDataBox flight record to a display dict."""
-    dep = f.get("departure", {})
-    arr = f.get("arrival",   {})
-    if direction == "arrival":
-        ap_info  = dep.get("airport", {})
-        raw_time = arr.get("scheduledTime", {}).get("local", "")
-    else:
-        ap_info  = arr.get("airport", {})
-        raw_time = dep.get("scheduledTime", {}).get("local", "")
+def _fr24_parse_flight(entry, direction):
+    """Parse one FR24 schedule entry into a display dict."""
+    fl = entry.get("flight", entry)
 
-    ap_name = ap_info.get("name") or ap_info.get("iata") or ap_info.get("icao") or "Unknown"
-    ap_iata = ap_info.get("iata", "")
+    flight_no = (fl.get("identification") or {}).get("number", {}).get("default") or "—"
+    airline   = ((fl.get("airline") or {}).get("name") or "Unknown")
+
+    ap_key  = "origin" if direction == "arrival" else "destination"
+    ap      = ((fl.get("airport") or {}).get(ap_key) or {})
+    ap_name = ap.get("name") or ((ap.get("code") or {}).get("iata")) or "Unknown"
+    ap_iata = (ap.get("code") or {}).get("iata", "")
+
+    # Prefer real > estimated > scheduled time
+    times    = (fl.get("time") or {})
+    time_key = "arrival" if direction == "arrival" else "departure"
+    ts = (times.get("real")      or {}).get(time_key) \
+      or (times.get("estimated") or {}).get(time_key) \
+      or (times.get("scheduled") or {}).get(time_key)
 
     time_sr = ""
-    if raw_time:
+    if ts:
         try:
-            dt = datetime.fromisoformat(raw_time.replace(" ", "T"))
-            time_sr = dt.astimezone(SR_TZ).strftime("%d %b %H:%M")
+            from datetime import datetime as _dt
+            time_sr = _dt.fromtimestamp(ts, tz=SR_TZ).strftime("%d %b %H:%M")
         except Exception:
-            time_sr = raw_time[:16]
+            pass
+
+    status = (fl.get("status") or {}).get("text", "")
 
     return {
-        "flight":  f.get("number", "—"),
-        "airline": f.get("airline", {}).get("name", "Unknown"),
+        "flight":  flight_no,
+        "airline": airline,
         "airport": ap_name,
         "iata":    ap_iata,
         "time":    time_sr,
-        "status":  f.get("status", ""),
+        "status":  status,
     }
 
 
-def _fetch_flights_for_airport(icao, cache_file, cache_hours, key):
+def _fetch_flights_fr24(icao, cache_file, cache_hours):
     """
-    Fetch today's arrivals & departures for *icao* from AeroDataBox.
-    Returns (arrivals, departures, updated_str).
-    Uses a per-airport cache file with the given TTL (hours).
+    Fetch today's arrivals & departures for *icao* from FlightRadar24.
+    No API key required. Same cache interface as before.
     """
     import time as _time
     now_ts = datetime.now(timezone.utc).timestamp()
 
-    # Check cache: full TTL if API was successfully reached (even 0 flights),
-    # 1h retry window if cache is empty without confirmed API success (error run).
+    # Cache: full TTL if API was reached (even 0 flights), 1h retry on error
     try:
         with open(cache_file) as _f:
             cache = json.load(_f)
-        age = now_ts - cache.get("fetched", 0)
+        age      = now_ts - cache.get("fetched", 0)
         has_data = bool(cache.get("arrivals") or cache.get("departures"))
         api_ok   = cache.get("api_success", False)
         ttl      = cache_hours * 3600 if (has_data or api_ok) else 3600
         if age < ttl:
-            print(f"  AeroDataBox [{icao}]: using cached data")
+            print(f"  FR24 [{icao}]: using cached data")
             return cache["arrivals"], cache["departures"], cache["updated"]
     except Exception:
         pass
 
     _headers = {
-        "x-rapidapi-key":  key,
-        "x-rapidapi-host": "aerodatabox.p.rapidapi.com",
-        "User-Agent": "Mozilla/5.0 (compatible; ExploreSurinameBot/1.0)",
-        "Accept": "application/json",
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/124.0.0.0 Safari/537.36"
+        ),
+        "Accept":          "application/json, text/javascript, */*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Referer":         "https://www.flightradar24.com/",
     }
 
-    today_sr = datetime.now(SR_TZ).strftime("%Y-%m-%d")
-    windows  = [
-        (f"{today_sr}T00:00", f"{today_sr}T12:00"),
-        (f"{today_sr}T12:00", f"{today_sr}T23:59"),
-    ]
+    url = (
+        f"https://api.flightradar24.com/common/v1/airport.json"
+        f"?code={icao}&plugin[]=schedule&limit=100&page=1"
+    )
 
     arrivals, departures = [], []
-    seen_arr, seen_dep   = set(), set()
+    api_success = False
 
-    for i, (from_dt, to_dt) in enumerate(windows):
-        if i > 0:
-            _time.sleep(2)
-        url = (
-            f"https://aerodatabox.p.rapidapi.com/flights/airports/icao/{icao}"
-            f"/{from_dt}/{to_dt}"
-            f"?withLeg=true&direction=Both&withCancelled=true"
-            f"&withCodeshared=true&withCargo=false&withPrivate=false"
+    try:
+        req = urllib.request.Request(url, headers=_headers)
+        with urllib.request.urlopen(req, timeout=20) as _r:
+            data = json.loads(_r.read().decode("utf-8"))
+
+        sched = (
+            data.get("result", {})
+                .get("response", {})
+                .get("airport", {})
+                .get("pluginData", {})
+                .get("schedule", {})
         )
-        try:
-            req = urllib.request.Request(url, headers=_headers)
-            with urllib.request.urlopen(req, timeout=20) as _r:
-                data = json.loads(_r.read().decode("utf-8"))
 
-            for f in data.get("arrivals", []):
-                parsed = _adb_parse_flight(f, "arrival")
-                if parsed["flight"] not in seen_arr:
-                    seen_arr.add(parsed["flight"])
-                    arrivals.append(parsed)
+        for entry in sched.get("arrivals", {}).get("data", []):
+            parsed = _fr24_parse_flight(entry, "arrival")
+            if parsed["time"]:
+                arrivals.append(parsed)
 
-            for f in data.get("departures", []):
-                parsed = _adb_parse_flight(f, "departure")
-                if parsed["flight"] not in seen_dep:
-                    seen_dep.add(parsed["flight"])
-                    departures.append(parsed)
+        for entry in sched.get("departures", {}).get("data", []):
+            parsed = _fr24_parse_flight(entry, "departure")
+            if parsed["time"]:
+                departures.append(parsed)
 
-            print(f"  AeroDataBox [{icao}] window {i+1}: "
-                  f"{len(data.get('arrivals',[]))} arr, "
-                  f"{len(data.get('departures',[]))} dep")
-        except Exception as e:
-            print(f"  AeroDataBox [{icao}] window {i+1} error: {e}")
+        arrivals.sort(key=lambda x: x["time"])
+        departures.sort(key=lambda x: x["time"])
+        api_success = True
+        print(f"  FR24 [{icao}]: {len(arrivals)} arr, {len(departures)} dep")
 
-    arrivals.sort(key=lambda x: x["time"])
-    departures.sort(key=lambda x: x["time"])
-    print(f"  AeroDataBox [{icao}] total: {len(arrivals)} arr, {len(departures)} dep")
+    except Exception as e:
+        print(f"  FR24 [{icao}] error: {e}")
 
     updated = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
     try:
         with open(cache_file, "w") as _f:
-            json.dump({"fetched": now_ts, "arrivals": arrivals,
-                       "departures": departures, "updated": updated,
-                       "api_success": True}, _f)
+            json.dump({
+                "fetched":     now_ts,
+                "arrivals":    arrivals,
+                "departures":  departures,
+                "updated":     updated,
+                "api_success": api_success,
+            }, _f)
     except Exception:
         pass
+
     return arrivals, departures, updated
 
 
 def fetch_aerodatabox_flights():
     """
-    Fetch flights for all tracked airports (SMJP, SMZO, SMGM).
-    Returns a dict keyed by ICAO: {icao: (arrivals, departures, updated)}.
+    Fetch flights for all tracked airports via FlightRadar24.
+    Returns dict keyed by ICAO: {icao: (arrivals, departures, updated)}.
+    No API key required — replaces AeroDataBox.
     """
-    import os as _os
     import time as _time
-    key = _os.environ.get("AERODATABOX_KEY", "").strip()
-    if not key:
-        print("  AeroDataBox: no AERODATABOX_KEY set — skipping flights")
-        fallback = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
-        return {ap["icao"]: ([], [], fallback) for ap in _AIRPORTS_FLIGHT}
-
     results = {}
     for i, ap in enumerate(_AIRPORTS_FLIGHT):
         if i > 0:
-            _time.sleep(3)   # brief pause between airports
-        results[ap["icao"]] = _fetch_flights_for_airport(
-            ap["icao"], ap["cache"], ap["cache_h"], key
+            _time.sleep(2)
+        results[ap["icao"]] = _fetch_flights_fr24(
+            ap["icao"], ap["cache"], ap["cache_h"]
         )
     return results
 
@@ -4994,7 +4992,7 @@ function showTide(id) {{
 
 def build_flights_page(flights_data):
     """
-    flights_data: dict returned by fetch_aerodatabox_flights()
+    flights_data: dict returned by fetch_aerodatabox_flights() — now via FR24
       { icao: (arrivals, departures, updated_str), ... }
     """
     updated_now = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
@@ -5078,7 +5076,7 @@ def build_flights_page(flights_data):
 
     return f"""{PAGE_HEAD}
   <title>Flights &mdash; Suriname Airports | Explore Suriname</title>
-  <meta name="description" content="Today's arrivals and departures at Suriname airports: Johan Adolf Pengel (PBM), Zorg en Hoop (ORJ) and Gummels Airstrip. Refreshes automatically.">
+  <meta name="description" content="Today's arrivals and departures at Suriname airports: Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX). Refreshes automatically.">
   <link rel="canonical" href="{SITE_URL}/flights.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
@@ -5090,7 +5088,7 @@ def build_flights_page(flights_data):
   <meta name="twitter:title" content="Flights &mdash; Suriname Airports | Explore Suriname">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Flights - Suriname Airports | Explore Suriname","url":"{SITE_URL}/flights.html","description":"Today's arrivals and departures at Suriname airports including Johan Adolf Pengel (PBM), Zorg en Hoop (ORJ) and Gummels Airstrip.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Flights - Suriname Airports | Explore Suriname","url":"{SITE_URL}/flights.html","description":"Today's arrivals and departures at Suriname airports including Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX).","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -5099,14 +5097,14 @@ def build_flights_page(flights_data):
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Flights</h1>
-  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Today's scheduled flights &mdash; PBM &bull; Zorg en Hoop &bull; Gummels</p>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Today's scheduled flights &mdash; PBM &bull; Eduard Alexander Gummels</p>
   <p class="text-white/35 text-xs mt-3">&#128336; Page built: {updated_now}</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
   <div class="rounded-2xl border border-blue-100 p-5 mb-6" style="background:#eff6ff">
     <p class="text-blue-900 text-sm leading-relaxed">
       <strong class="text-blue-800">About this data:</strong>
-      Flight data from <a href="https://aerodatabox.com" target="_blank" rel="noopener" class="underline">AeroDataBox</a>.
+      Flight data from <a href="https://www.flightradar24.com" target="_blank" rel="noopener" class="underline">FlightRadar24</a>.
       Times in Suriname time (SR, UTC&minus;3). PBM refreshes every 6h; domestic airports every 12h.
       For real-time tracking visit <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener" class="underline">Flightradar24</a>.
     </p>
@@ -5118,8 +5116,8 @@ def build_flights_page(flights_data):
   </div>
   {panels_html}
   <p class="text-center text-gray-400 text-xs mt-4 max-w-2xl mx-auto leading-relaxed px-4">
-    Data from <a href="https://aerodatabox.com" target="_blank" rel="noopener" style="color:var(--forest2)">AeroDataBox</a>. Not for operational use.
-    Scheduled times only. Zorg en Hoop and Gummels serve domestic &amp; charter routes.
+    Data from <a href="https://www.flightradar24.com" target="_blank" rel="noopener" style="color:var(--forest2)">FlightRadar24</a>. Not for operational use.
+    Scheduled times only. Eduard Alexander Gummels serves domestic &amp; charter routes.
   </p>
 </main>
 <script>
