@@ -34,6 +34,7 @@ jobs:
         env:
           WORLDTIDES_KEY:    ${{ secrets.WORLDTIDES_KEY }}
           AERODATABOX_KEY:   ${{ secrets.AERODATABOX_KEY }}
+          GOOGLE_MAPS_KEY:   ${{ secrets.GOOGLE_MAPS_KEY }}
         run: python generate.py
 
       - name: Cache external images
@@ -46,9 +47,4 @@ jobs:
           # Always write a heartbeat so every run produces a commit,
           # preventing GitHub from pausing the scheduled workflow due to inactivity.
           echo "$(TZ='America/Paramaribo' date '+%Y-%m-%d %H:%M') SR" > .last_run
-          git add index.html news.html nature.html activities.html restaurants.html hotels.html shopping.html services.html currency.html conditions.html flights.html about.html contact.html privacy.html
-          git add listing/ .last_run sitemap.xml robots.txt tailwind.css
-          git add images/ image_cache.json || true
-          git add tides_cache.json flights_cache.json || true
-          git diff --staged --quiet || git commit -m "Auto-update $(TZ='America/Paramaribo' date '+%Y-%m-%d %H:%M') SR"
-          git push
+          git add index.html news.html nature.html activities.html restaurants.html hotels.html shopping.html services.html currency.html conditions.html flights.html map.html about.html contact.ht
