@@ -2802,6 +2802,7 @@ def news_card_html(a, large=False):
     badge = f'<span class="text-white text-xs font-medium px-2 py-0.5 rounded-full" style="background:{a["color"]}">{html_lib.escape(a["source"])}</span>'
     tc = "text-base font-bold" if large else "text-sm font-semibold"
     return (f'<a href="{a["link"]}" target="_blank" rel="noopener noreferrer" '
+            f'data-source="{html_lib.escape(a["source"])}" '
             f'class="group flex flex-col bg-white rounded-2xl overflow-hidden card-hover border border-gray-100">'
             f'{img}'
             f'<div class="p-5 flex flex-col gap-2 flex-1">'
@@ -3308,6 +3309,7 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
         return '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">&#9675; Estimated</span>'
 
     cbvs_rows = ""
+    cbvs_cards = ""
     for r in cbvs_rates:
         cbvs_rows += (
             '<tr class="border-b border-gray-100 hover:bg-gray-50">'
@@ -3317,8 +3319,21 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
             f'<td class="py-3 px-4 text-right font-mono font-bold text-gray-800">{r["sell"]}</td>'
             '</tr>'
         )
+        cbvs_cards += (
+            '<div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 px-4">'
+            '<div>'
+            f'<p class="font-semibold text-gray-900 text-sm">{r["flag"]} {r["currency"]}</p>'
+            f'<p class="text-gray-500 text-xs mt-0.5">{html_lib.escape(r["name"])}</p>'
+            '</div>'
+            '<div class="text-right">'
+            f'<p class="font-mono font-bold text-gray-800 text-sm">{r["buy"]} <span class="text-gray-300">/</span> {r["sell"]}</p>'
+            '<p class="text-gray-400 text-xs mt-0.5">buy / sell</p>'
+            '</div>'
+            '</div>'
+        )
 
     cme_rows = ""
+    cme_cards = ""
     for r in cme_rates:
         cme_rows += (
             '<tr class="border-b border-gray-100 hover:bg-gray-50">'
@@ -3327,6 +3342,20 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
             f'<td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--forest2)">{r["buy"]}</td>'
             f'<td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--coral)">{r["sell"]}</td>'
             '</tr>'
+        )
+        cme_cards += (
+            '<div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 px-4">'
+            '<div>'
+            f'<p class="font-semibold text-gray-900 text-sm">{r["flag"]} {r["currency"]}</p>'
+            f'<p class="text-gray-500 text-xs mt-0.5">{html_lib.escape(r["name"])}</p>'
+            '</div>'
+            '<div class="text-right">'
+            f'<p class="font-mono font-bold text-sm"><span style="color:var(--forest2)">{r["buy"]}</span>'
+            f'<span class="text-gray-300 mx-1">/</span>'
+            f'<span style="color:var(--coral)">{r["sell"]}</span></p>'
+            '<p class="text-gray-400 text-xs mt-0.5">buy / sell</p>'
+            '</div>'
+            '</div>'
         )
 
     from_opts = ""
@@ -3361,17 +3390,17 @@ function doConvert(){{
 doConvert();"""
 
     return f"""{PAGE_HEAD}
-  <title>SRD Exchange Rates | Explore Suriname</title>
+  <title>SRD to USD Today &mdash; Surinamese Dollar Exchange Rates | Explore Suriname</title>
   <meta name="description" content="Live Surinamese Dollar (SRD) exchange rates — CBVS official rates updated 3× daily on business days, CME cash rates updated continuously. Free currency converter.">
   <link rel="canonical" href="{SITE_URL}/currency.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/currency.html">
-  <meta property="og:title" content="SRD Exchange Rates | Explore Suriname">
+  <meta property="og:title" content="SRD to USD Today &mdash; Surinamese Dollar Exchange Rates | Explore Suriname">
   <meta property="og:description" content="Live Surinamese Dollar (SRD) exchange rates — CBVS official rates updated 3× daily, CME cash rates updated continuously.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="SRD Exchange Rates | Explore Suriname">
+  <meta name="twitter:title" content="SRD to USD Today &mdash; Surinamese Dollar Exchange Rates | Explore Suriname">
   <meta name="twitter:description" content="Live Surinamese Dollar (SRD) exchange rates — CBVS official rates updated 3× daily, CME cash rates updated continuously.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
 </head>
@@ -3437,7 +3466,7 @@ doConvert();"""
         </div>
         <p class="text-gray-400 text-xs mt-2">&#128336; {html_lib.escape(cbvs_updated)}</p>
       </div>
-      <div class="overflow-x-auto">
+      <div class="hidden sm:block overflow-x-auto">
         <table class="w-full text-sm">
           <thead><tr class="bg-gray-50 text-left">
             <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Code</th>
@@ -3448,6 +3477,7 @@ doConvert();"""
           <tbody>{cbvs_rows}</tbody>
         </table>
       </div>
+      <div class="sm:hidden py-1">{cbvs_cards}</div>
     </div>
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
       <div class="px-6 py-5 border-b border-gray-100">
@@ -3461,7 +3491,7 @@ doConvert();"""
         </div>
         <p class="text-gray-400 text-xs mt-2">&#128336; {html_lib.escape(cme_updated)}</p>
       </div>
-      <div class="overflow-x-auto">
+      <div class="hidden sm:block overflow-x-auto">
         <table class="w-full text-sm">
           <thead><tr class="bg-gray-50 text-left">
             <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Code</th>
@@ -3472,6 +3502,7 @@ doConvert();"""
           <tbody>{cme_rows}</tbody>
         </table>
       </div>
+      <div class="sm:hidden py-1">{cme_cards}</div>
     </div>
   </div>
   <p class="text-center text-gray-400 text-xs mt-8 max-w-2xl mx-auto leading-relaxed px-4">
@@ -3545,21 +3576,31 @@ doConvert();"""
 def build_news(articles):
     updated   = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
     total     = len(articles)
-    feat_html = "\n".join(news_card_html(a, large=True) for a in articles[:3])
-    rest_html = "\n".join(news_card_html(a) for a in articles[3:30])
+    all_html  = "\n".join(news_card_html(a) for a in articles[:30])
+    filter_tabs_html = '<button onclick="filterNews(\'all\')" id="nfilt-all" class="news-filt-btn text-xs font-semibold px-3 py-1.5 rounded-full border transition" style="background:var(--forest);border-color:var(--forest);color:#fff">All</button>\n'
+    for _feed in FEEDS:
+        _fname     = _feed["name"]
+        _fname_esc = html_lib.escape(_fname)
+        _fid       = html_lib.escape(_fname.replace(" ", "_"))
+        filter_tabs_html += (
+            f'<button onclick="filterNews(\'{_fname_esc}\')" id="nfilt-{_fid}" '
+            f'class="news-filt-btn text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
+            f'style="border-color:#e5e7eb;color:#374151;background:#fff">'
+            f'{_fname_esc}</button>\n'
+        )
     return f"""{PAGE_HEAD}
-  <title>Suriname News | Explore Suriname</title>
-  <meta name="description" content="Suriname news from De Ware Tijd, Starnieuws, Waterkant and more. Business, politics, culture and travel from Paramaribo.">
+  <title>Suriname News Today &mdash; De Ware Tijd, Starnieuws &amp; Waterkant | Explore Suriname</title>
+  <meta name="description" content="Suriname news from De Ware Tijd, Starnieuws and Waterkant — three national sources in one place. Business, politics, culture and society from Paramaribo. Published in Dutch.">
   <link rel="canonical" href="{SITE_URL}/news.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/news.html">
-  <meta property="og:title" content="Suriname News | Explore Suriname">
-  <meta property="og:description" content="Suriname news from De Ware Tijd, Starnieuws, Waterkant and more.">
+  <meta property="og:title" content="Suriname News Today &mdash; De Ware Tijd, Starnieuws &amp; Waterkant | Explore Suriname">
+  <meta property="og:description" content="Suriname news from De Ware Tijd, Starnieuws and Waterkant in one place. Updated continuously.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Suriname News | Explore Suriname">
-  <meta name="twitter:description" content="Suriname news from De Ware Tijd, Starnieuws, Waterkant and more.">
+  <meta name="twitter:title" content="Suriname News Today &mdash; De Ware Tijd, Starnieuws &amp; Waterkant | Explore Suriname">
+  <meta name="twitter:description" content="Suriname news from De Ware Tijd, Starnieuws and Waterkant. Updated continuously.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -3572,12 +3613,39 @@ def build_news(articles):
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-20">
   {ad_slot("Top Banner Ad — Replace with Google AdSense code")}
-  <h2 class="text-xs font-bold uppercase tracking-widest mb-5" style="color:var(--forest2)">Top Stories</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">{feat_html}</div>
-  {ad_slot("Mid-Page Ad — Replace with Google AdSense code")}
-  <h2 class="text-xs font-bold uppercase tracking-widest mb-5 mt-6 text-gray-500">All Stories</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{rest_html}</div>
+  <div class="rounded-2xl border border-amber-100 px-5 py-3 mb-6" style="background:#fffbeb">
+    <p class="text-amber-800 text-sm leading-relaxed">
+      <strong>Note:</strong> Articles are published in Dutch, the national language of Suriname. Readers outside Suriname may wish to use browser translation.
+    </p>
+  </div>
+  <div class="flex gap-2 flex-wrap mb-6">
+    {filter_tabs_html}
+  </div>
+  <div id="news-feed" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{all_html}</div>
 </main>
+<script>
+function filterNews(source) {{
+  document.querySelectorAll('.news-filt-btn').forEach(function(b) {{
+    b.style.background = '#fff';
+    b.style.borderColor = '#e5e7eb';
+    b.style.color = '#374151';
+  }});
+  var activeId = source === 'all' ? 'nfilt-all' : 'nfilt-' + source.replace(/ /g,'_');
+  var activeBtn = document.getElementById(activeId);
+  if (activeBtn) {{
+    activeBtn.style.background = 'var(--forest)';
+    activeBtn.style.borderColor = 'var(--forest)';
+    activeBtn.style.color = '#fff';
+  }}
+  document.querySelectorAll('#news-feed > a').forEach(function(card) {{
+    if (source === 'all' || card.dataset.source === source) {{
+      card.style.display = '';
+    }} else {{
+      card.style.display = 'none';
+    }}
+  }});
+}}
+</script>
 {footer_html()}
 </body>
 </html>"""
@@ -4656,6 +4724,7 @@ def build_conditions_page(tides_data):
             })
 
         rows = ""
+        tide_cards = ""
         for day, events in list(by_day.items())[:3]:
             for ev in events:
                 rows += (
@@ -4665,6 +4734,18 @@ def build_conditions_page(tides_data):
                     f'<td class="py-3 px-4 font-mono font-bold">{ev["time"]}</td>'
                     f'<td class="py-3 px-4 text-right font-mono text-gray-700">{ev["height"]}</td>'
                     '</tr>'
+                )
+                tide_cards += (
+                    '<div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 px-4">'
+                    '<div>'
+                    f'<p class="font-semibold text-gray-900 text-sm">{ev["icon"]} {ev["type"]} Tide</p>'
+                    f'<p class="text-gray-500 text-xs mt-0.5">{day}</p>'
+                    '</div>'
+                    '<div class="text-right">'
+                    f'<p class="font-mono font-bold text-gray-900 text-sm">{ev["time"]}</p>'
+                    f'<p class="font-mono text-gray-500 text-xs mt-0.5">{ev["height"]}</p>'
+                    '</div>'
+                    '</div>'
                 )
 
         badge = ('<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Live</span>'
@@ -4677,9 +4758,9 @@ def build_conditions_page(tides_data):
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
     <div class="px-6 py-5 border-b border-gray-100">
       <p class="font-bold text-gray-900 text-base">&#127754; {html_lib.escape(loc['label'])} &mdash; {html_lib.escape(loc['district'])} {badge}</p>
-      <p class="text-gray-400 text-xs mt-1">&#128336; {html_lib.escape(updated)} &bull; {cache_note}</p>
+      <p class="text-gray-400 text-xs mt-1">&#128336; Updated: {html_lib.escape(updated)} &bull; {cache_note}</p>
     </div>
-    <div class="overflow-x-auto">
+    <div class="hidden sm:block overflow-x-auto">
       <table class="w-full text-sm">
         <thead><tr class="bg-gray-50 text-left">
           <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Date</th>
@@ -4690,6 +4771,7 @@ def build_conditions_page(tides_data):
         <tbody>{rows}</tbody>
       </table>
     </div>
+    <div class="sm:hidden py-1">{tide_cards}</div>
   </div>
 </div>"""
 
@@ -4746,20 +4828,20 @@ def build_conditions_page(tides_data):
     wx_districts_js = _json.dumps(wx_districts)
 
     return f"""{PAGE_HEAD}
-  <title>Weather &amp; Forecast | Explore Suriname</title>
-  <meta name="description" content="Suriname 7-day weather forecast by district, tidal predictions for 5 rivers, and daily sunrise/sunset times. Updated automatically.">
+  <title>Suriname Weather Today &mdash; Paramaribo Forecast &amp; River Tides | Explore Suriname</title>
+  <meta name="description" content="Tidal predictions for the Suriname, Commewijne, Nickerie and Marowijne rivers, plus 7-day weather forecasts by district and sunrise/sunset times. Updated continuously.">
   <link rel="canonical" href="{SITE_URL}/conditions.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/conditions.html">
-  <meta property="og:title" content="Weather &amp; Forecast | Explore Suriname">
-  <meta property="og:description" content="7-day weather by district, tidal predictions and sunrise/sunset times for Suriname. Updated daily.">
+  <meta property="og:title" content="Suriname Weather Today &mdash; Paramaribo Forecast &amp; River Tides | Explore Suriname">
+  <meta property="og:description" content="Tidal predictions for Suriname's rivers, 7-day district forecasts and sunrise/sunset times. Updated continuously.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Weather &amp; Forecast | Explore Suriname">
+  <meta name="twitter:title" content="Suriname Weather Today &mdash; Paramaribo Forecast &amp; River Tides | Explore Suriname">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Weather & Forecast | Explore Suriname","url":"{SITE_URL}/conditions.html","description":"Suriname 7-day weather forecast by district, tidal predictions and sunrise/sunset times.","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Weather Today — Paramaribo Forecast & River Tides | Explore Suriname","url":"{SITE_URL}/conditions.html","description":"Tidal predictions for the Suriname, Commewijne, Nickerie and Marowijne rivers, plus 7-day weather forecasts by district. Updated continuously.","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -4810,7 +4892,9 @@ def build_conditions_page(tides_data):
       </div>
     </div>
     <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-4">7-Day Forecast</h3>
-    <div id="wx-forecast" class="grid grid-cols-7 gap-2"></div>
+    <div class="overflow-x-auto -mx-2 px-2 pb-1" style="scrollbar-width:none">
+      <div id="wx-forecast" class="flex gap-2 sm:grid sm:grid-cols-7"></div>
+    </div>
     <p class="text-gray-400 text-xs text-center mt-4">Data from <a href="https://open-meteo.com" target="_blank" rel="noopener" style="color:var(--forest2)">Open-Meteo</a>. Refreshes on every page load.</p>
   </div>
 
@@ -4925,7 +5009,7 @@ function loadWeather(lat, lon) {{
       var dn = i===0?'Today':DAYS[dt.getDay()];
       var w  = WMO[fc.weather_code[i]]||['&#127777;',''];
       var rn = fc.precipitation_probability_max[i]||0;
-      fbox.innerHTML += '<div class="flex flex-col items-center text-center rounded-xl p-2" style="background:#f8fafc">'
+      fbox.innerHTML += '<div class="flex flex-col items-center text-center rounded-xl p-2 shrink-0 min-w-[68px] sm:min-w-0" style="background:#f8fafc">'
         + '<p class="text-xs font-semibold text-gray-500">'+dn+'</p>'
         + '<p class="text-2xl my-1">'+w[0]+'</p>'
         + '<p class="text-xs font-bold text-gray-900">'+Math.round(fc.temperature_2m_max[i])+'°</p>'
@@ -5014,6 +5098,26 @@ def build_flights_page(flights_data):
             )
         return rows
 
+    def flight_cards(flights, direction):
+        if not flights:
+            return (f'<div class="py-6 text-center text-gray-400 text-sm px-4">'
+                    f'No scheduled {direction}s found for today.</div>')
+        cards = ""
+        for fl in flights:
+            cards += (
+                '<div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 px-4">'
+                '<div class="flex-1 min-w-0 pr-3">'
+                f'<div class="flex items-center gap-2">'
+                f'<span class="font-mono font-bold text-gray-900 text-sm">{html_lib.escape(fl["flight"])}</span>'
+                f'<span class="text-gray-500 text-xs truncate">{html_lib.escape(fl["airline"])}</span>'
+                f'</div>'
+                f'<p class="text-gray-500 text-xs mt-0.5 truncate">{html_lib.escape(fl["airport"])}</p>'
+                '</div>'
+                f'<span class="font-mono text-gray-800 text-sm font-semibold shrink-0">{html_lib.escape(fl["time"])}</span>'
+                '</div>'
+            )
+        return cards
+
     def count_badge(n):
         return (f'<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full '
                 f'bg-green-100 text-green-800">{n} flights</span>') if n else ""
@@ -5024,8 +5128,10 @@ def build_flights_page(flights_data):
     for idx, ap in enumerate(_AIRPORTS_FLIGHT):
         icao = ap["icao"]
         arrivals, departures, updated = flights_data.get(icao, ([], [], updated_now))
-        arr_rows = flight_rows(arrivals,  "arrival")
-        dep_rows = flight_rows(departures, "departure")
+        arr_rows  = flight_rows(arrivals,   "arrival")
+        dep_rows  = flight_rows(departures, "departure")
+        arr_cards = flight_cards(arrivals,   "arrival")
+        dep_cards = flight_cards(departures, "departure")
         active_tab   = "border-b-2 font-bold text-gray-900" if idx == 0 else "text-gray-500 hover:text-gray-700"
         active_style = 'style="border-color:var(--forest)"' if idx == 0 else ""
         panel_hidden = "" if idx == 0 else " hidden"
@@ -5043,7 +5149,7 @@ def build_flights_page(flights_data):
       <p class="font-bold text-gray-900 text-base">&#9650; Arrivals &mdash; {html_lib.escape(ap["label"])} {count_badge(len(arrivals))}</p>
       <p class="text-gray-400 text-xs mt-0.5">Scheduled arrivals today</p>
     </div>
-    <div class="overflow-x-auto">
+    <div class="hidden sm:block overflow-x-auto">
       <table class="w-full text-sm">
         <thead><tr class="bg-gray-50 text-left">
           <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Flight</th>
@@ -5054,13 +5160,14 @@ def build_flights_page(flights_data):
         <tbody>{arr_rows}</tbody>
       </table>
     </div>
+    <div class="sm:hidden py-1">{arr_cards}</div>
   </div>
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
     <div class="px-6 py-5 border-b border-gray-100">
       <p class="font-bold text-gray-900 text-base">&#9660; Departures &mdash; {html_lib.escape(ap["label"])} {count_badge(len(departures))}</p>
       <p class="text-gray-400 text-xs mt-0.5">Scheduled departures today</p>
     </div>
-    <div class="overflow-x-auto">
+    <div class="hidden sm:block overflow-x-auto">
       <table class="w-full text-sm">
         <thead><tr class="bg-gray-50 text-left">
           <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Flight</th>
@@ -5071,24 +5178,25 @@ def build_flights_page(flights_data):
         <tbody>{dep_rows}</tbody>
       </table>
     </div>
+    <div class="sm:hidden py-1">{dep_cards}</div>
   </div>
 </div>"""
 
     return f"""{PAGE_HEAD}
-  <title>Flights &mdash; Suriname Airports | Explore Suriname</title>
-  <meta name="description" content="Today's arrivals and departures at Suriname airports: Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX). Refreshes automatically.">
+  <title>Suriname Flights Today &mdash; PBM Arrivals &amp; Departures | Explore Suriname</title>
+  <meta name="description" content="Live arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX). KLM, Copa Airlines, Caribbean Airlines and Surinam Airways schedules updated today.">
   <link rel="canonical" href="{SITE_URL}/flights.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/flights.html">
-  <meta property="og:title" content="Flights &mdash; Suriname Airports | Explore Suriname">
-  <meta property="og:description" content="Today's scheduled arrivals and departures at Suriname's airports.">
+  <meta property="og:title" content="Suriname Flights Today &mdash; PBM Arrivals &amp; Departures | Explore Suriname">
+  <meta property="og:description" content="Live arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX). KLM, Copa Airlines, Caribbean Airlines and Surinam Airways.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Flights &mdash; Suriname Airports | Explore Suriname">
+  <meta name="twitter:title" content="Suriname Flights Today &mdash; PBM Arrivals &amp; Departures | Explore Suriname">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Flights - Suriname Airports | Explore Suriname","url":"{SITE_URL}/flights.html","description":"Today's arrivals and departures at Suriname airports including Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX).","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Flights Today — PBM Arrivals & Departures | Explore Suriname","url":"{SITE_URL}/flights.html","description":"Today's arrivals and departures at Suriname airports including Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX).","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -5096,18 +5204,35 @@ def build_flights_page(flights_data):
 <div class="pt-16"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Flights</h1>
-  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Today's scheduled flights &mdash; PBM &bull; Eduard Alexander Gummels</p>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Flights Today</h1>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Arrivals &amp; departures &mdash; Johan Adolf Pengel (PBM) &bull; Eduard Alexander Gummels (EAX)</p>
   <p class="text-white/35 text-xs mt-3">&#128336; Page built: {updated_now}</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
   <div class="rounded-2xl border border-blue-100 p-5 mb-6" style="background:#eff6ff">
-    <p class="text-blue-900 text-sm leading-relaxed">
-      <strong class="text-blue-800">About this data:</strong>
-      Flight data from <a href="https://www.flightradar24.com" target="_blank" rel="noopener" class="underline">FlightRadar24</a>.
-      Times in Suriname time (SR, UTC&minus;3). PBM refreshes every 6h; domestic airports every 12h.
-      For real-time tracking visit <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener" class="underline">Flightradar24</a>.
-    </p>
+    <div class="flex flex-wrap items-start gap-4">
+      <p class="text-blue-900 text-sm leading-relaxed flex-1">
+        <strong class="text-blue-800">About this data:</strong>
+        Flight data from <a href="https://www.flightradar24.com" target="_blank" rel="noopener" class="underline">FlightRadar24</a>.
+        Times in Suriname time (SR, UTC&minus;3). PBM refreshes every 6h; domestic airports every 12h.
+        For real-time tracking visit <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener" class="underline">Flightradar24</a>.
+      </p>
+      <a href="https://icf.sr/" target="_blank" rel="noopener"
+         class="shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white transition hover:opacity-90"
+         style="background:var(--forest)">
+        Customs Declaration &rarr;
+      </a>
+    </div>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+      <p class="font-bold text-gray-900 text-sm mb-1">Johan Adolf Pengel &mdash; PBM</p>
+      <p class="text-gray-500 text-sm leading-relaxed">Suriname&rsquo;s international airport, 45&nbsp;km south of Paramaribo. Served by KLM (Amsterdam), Copa Airlines (Panama City), Caribbean Airlines (Trinidad) and Surinam Airways.</p>
+    </div>
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+      <p class="font-bold text-gray-900 text-sm mb-1">Eduard Alexander Gummels &mdash; EAX</p>
+      <p class="text-gray-500 text-sm leading-relaxed">Paramaribo&rsquo;s city airport, handling domestic flights and charter routes to Nickerie, Moengo and interior airstrips.</p>
+    </div>
   </div>
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
     <div class="flex overflow-x-auto border-b border-gray-100" style="scrollbar-width:none">
