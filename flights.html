@@ -160,34 +160,9 @@ document.addEventListener('keydown', e => {
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Flights Today</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Arrivals &amp; departures &mdash; Johan Adolf Pengel (PBM) &bull; Eduard Alexander Gummels (EAX)</p>
-  <p class="text-white/35 text-xs mt-3">&#128336; Page built: 05 May 2026, 14:01 SR</p>
+  <p class="text-white/35 text-xs mt-3">&#128336; Page built: 05 May 2026, 14:04 SR</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
-  <div class="rounded-2xl border border-blue-100 p-5 mb-6" style="background:#eff6ff">
-    <div class="flex flex-wrap items-start gap-4">
-      <p class="text-blue-900 text-sm leading-relaxed flex-1">
-        <strong class="text-blue-800">About this data:</strong>
-        Flight data from <a href="https://www.flightradar24.com" target="_blank" rel="noopener" class="underline">FlightRadar24</a>.
-        Times in Suriname time (SR, UTC&minus;3). PBM refreshes every 6h; domestic airports every 12h.
-        For real-time tracking visit <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener" class="underline">Flightradar24</a>.
-      </p>
-      <a href="https://icf.sr/" target="_blank" rel="noopener"
-         class="shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white transition hover:opacity-90"
-         style="background:var(--forest)">
-        Customs Declaration &rarr;
-      </a>
-    </div>
-  </div>
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-      <p class="font-bold text-gray-900 text-sm mb-1">Johan Adolf Pengel &mdash; PBM</p>
-      <p class="text-gray-500 text-sm leading-relaxed">Suriname&rsquo;s international airport, 45&nbsp;km south of Paramaribo. Served by KLM (Amsterdam), Copa Airlines (Panama City), Caribbean Airlines (Trinidad) and Surinam Airways.</p>
-    </div>
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-      <p class="font-bold text-gray-900 text-sm mb-1">Eduard Alexander Gummels &mdash; EAX</p>
-      <p class="text-gray-500 text-sm leading-relaxed">Paramaribo&rsquo;s city airport, handling domestic flights and charter routes to Nickerie, Moengo and interior airstrips.</p>
-    </div>
-  </div>
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
     <div class="flex overflow-x-auto border-b border-gray-100" style="scrollbar-width:none">
       <button onclick="showAirport('SMJP')" id="tab-SMJP" class="airport-tab px-4 py-3 text-sm border-b-2 font-bold text-gray-900 whitespace-nowrap transition" style="border-color:var(--forest)">Johan Adolf Pengel (PBM)</button>
@@ -274,10 +249,40 @@ document.addEventListener('keydown', e => {
     <div class="sm:hidden py-1"><div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 px-4"><div class="flex-1 min-w-0 pr-3"><div class="flex items-center gap-2"><span class="font-mono font-bold text-gray-900 text-sm">W12494</span><span class="text-gray-500 text-xs truncate">Unknown</span></div><p class="text-gray-500 text-xs mt-0.5 truncate">Georgetown Eugene F. Correira International Airport</p></div><span class="font-mono text-gray-800 text-sm font-semibold shrink-0">05 May 19:00</span></div><div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 px-4"><div class="flex-1 min-w-0 pr-3"><div class="flex items-center gap-2"><span class="font-mono font-bold text-gray-900 text-sm">GUM41</span><span class="text-gray-500 text-xs truncate">Gum Air</span></div><p class="text-gray-500 text-xs mt-0.5 truncate">Georgetown Eugene F. Correira International Airport</p></div><span class="font-mono text-gray-800 text-sm font-semibold shrink-0">06 May 07:30</span></div><div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 px-4"><div class="flex-1 min-w-0 pr-3"><div class="flex items-center gap-2"><span class="font-mono font-bold text-gray-900 text-sm">W12491</span><span class="text-gray-500 text-xs truncate">Unknown</span></div><p class="text-gray-500 text-xs mt-0.5 truncate">Georgetown Eugene F. Correira International Airport</p></div><span class="font-mono text-gray-800 text-sm font-semibold shrink-0">06 May 07:30</span></div><div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 px-4"><div class="flex-1 min-w-0 pr-3"><div class="flex items-center gap-2"><span class="font-mono font-bold text-gray-900 text-sm">W12494</span><span class="text-gray-500 text-xs truncate">Unknown</span></div><p class="text-gray-500 text-xs mt-0.5 truncate">Georgetown Eugene F. Correira International Airport</p></div><span class="font-mono text-gray-800 text-sm font-semibold shrink-0">06 May 19:00</span></div></div>
   </div>
 </div>
-  <p class="text-center text-gray-400 text-xs mt-4 max-w-2xl mx-auto leading-relaxed px-4">
-    Data from <a href="https://www.flightradar24.com" target="_blank" rel="noopener" style="color:var(--forest2)">FlightRadar24</a>. Not for operational use.
-    Scheduled times only. Eduard Alexander Gummels serves domestic &amp; charter routes.
-  </p>
+  <!-- Flight Resources -->
+  <div class="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="px-5 py-4 border-b border-gray-100">
+      <p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Flight Resources</p>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+        <div>
+          <p class="font-bold text-gray-900 text-sm mb-1">Johan Adolf Pengel &mdash; PBM</p>
+          <p class="text-gray-500 text-sm leading-relaxed">International airport, 45&nbsp;km south of Paramaribo. Served by KLM (Amsterdam), Copa Airlines (Panama City), Caribbean Airlines (Trinidad) and Surinam Airways.</p>
+        </div>
+        <div>
+          <p class="font-bold text-gray-900 text-sm mb-1">Eduard Alexander Gummels &mdash; EAX</p>
+          <p class="text-gray-500 text-sm leading-relaxed">City airport handling domestic flights and charter routes to Nickerie, Moengo and interior airstrips.</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <a href="https://icf.sr/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white transition hover:opacity-90"
+           style="background:var(--forest)">
+          Customs Declaration Form &rarr;
+        </a>
+        <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 text-gray-700 bg-white transition hover:bg-gray-50">
+          Real-time Tracking &rarr;
+        </a>
+      </div>
+      <div class="mt-5 rounded-xl border border-gray-100 p-4 bg-gray-50">
+        <p class="text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">About the Customs Declaration Form</p>
+        <p class="text-sm text-gray-600 leading-relaxed">All passengers arriving in or departing from Suriname are required to complete an immigration and customs declaration. The form collects personal details, travel information, and goods you are carrying. It is submitted digitally via <a href="https://icf.sr/" target="_blank" rel="noopener" class="underline hover:text-gray-900" style="color:var(--forest2)">icf.sr</a> and can be filled in before you board. Keep your confirmation ready for inspection at the airport.</p>
+      </div>
+      <p class="text-gray-400 text-xs mt-4 leading-relaxed">Data from FlightRadar24. Scheduled times only &mdash; not for operational use. PBM updates every 6h; EAX every 12h.</p>
+    </div>
+  </div>
 </main>
 <script>
 function showAirport(icao) {
