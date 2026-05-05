@@ -965,10 +965,11 @@ _IMGS = {
     # Restaurants: Unsplash fallbacks
     "a-la-john": "",
     "ac-bar-restaurant": "",
-    "baka-foto-restaurant": "",
+    "baka-foto-restaurant":           "https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-6/436380865_787902180069560_2524711200102279060_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=1d70fc&_nc_ohc=Gq1209EugAoQ7kNvwEF-9J3&_nc_oc=Adrr4oKwUpary7BrnRuzeag7b8Z2_wjOBLBbJ8rKH26uPrxxshM6KdsnjxpKnwtGVg0&_nc_zt=23&_nc_ht=scontent.forg3-1.fna&oh=00_Af7T9Z2hs69dfdrV3tBKzI3eKSEAnDWQhvbE9mjC48-URQ&oe=6A000744",
     "bar-zuid": "",
     "bori-tori": "",
     "chi-min": "",
+    "de-gadri":                       "https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-6/470236490_1195064508940545_8131744747661864228_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=1d70fc&_nc_ohc=-UrgKL6Fb4QQ7kNvwHZhlnM&_nc_oc=Adrtt4sJjuimb7413iaGcimGwxR1TJeD1EsNgnvY-fUnJw0WLjB13vLI3l3cPh5Ms8A&_nc_zt=23&_nc_ht=scontent.forg3-1.fna&oh=00_Af58EvIhEMMlqHax4MNxbdovHG4JcEuYU3LJuPvR1ViCDg&oe=6A000ABE",
     "de-spot":                        "https://de-spot.com/media/frontpage/frontpage.jpg",
     "de-verdieping": "",
     "el-patron-latin-grill":          "https://elpatronlatingrill.com/wp-content/uploads/2024/09/EPLG-1-scaled.jpg",
@@ -1008,8 +1009,8 @@ _IMGS = {
     "lilis":                          "https://cdn.shopify.com/s/files/1/0526/9137/0149/files/Bridal_2a85f0ad-2db8-4a8a-ac54-3e090625d4de.jpg",
     "suraniyat":                      "https://images.squarespace-cdn.com/content/v1/65207f08df58fe10d1fab14f/20be6ae2-e0a4-4f62-a609-dcb80ea7e0ef/IMG_0922.jpg",
     "readytex-souvenirs-and-crafts":  "https://www.readytexcrafts.com/wp-content/uploads/2021/03/sigaar.jpg",
-    "kirpalani":                      "https://www.kirpalani.com/media/wysiwyg/2026/Subcatmaart2026/Electonica.webp",
-    "international-mall-of-suriname": "https://ims.sr/wp-content/uploads/2025/08/IMG_7285.jpg",
+    "kirpalani":                      "https://www.surinamyp.com/img/sr/e/1683222276-81-kirpalani-s-nv-warenhuis.jpg",
+    "international-mall-of-suriname": "https://ims.sr/wp-content/uploads/2024/01/IMS-Right-scaled.jpg",
     "papillon-crafts": "",
     "woodwonders-suriname": "",
     "switi-momenti-candles-crafts": "https://ims.sr/wp-content/uploads/2025/04/switi-momenti-1024x634.jpg",
@@ -3097,7 +3098,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
 
 _FEATURED_HOTELS      = ["royal-torarica","courtyard-by-marriott","eco-torarica","torarica-resort","hotel-peperpot","radisson-hotel"]
 _FEATURED_RESTAURANTS = ["de-gadri","baka-foto-restaurant","goe-thai-noodle-bar","passion-food-and-wines","el-patron-latin-grill","zus-zo-cafe"]
-_FEATURED_SHOPPING    = ["international-mall-of-suriname","hermitage-mall","readytex-souvenirs-and-crafts","kirpalani","woodwonders-suriname","papillon-crafts"]
+_FEATURED_SHOPPING    = ["international-mall-of-suriname","hermitage-mall","readytex-souvenirs-and-crafts","kirpalani","galaxy","digital-world-maretraite-mall"]
 
 def _pick_featured(lst, slugs):
     """Return items from lst ordered by the given slug list, skipping missing slugs."""
@@ -3179,8 +3180,7 @@ def build_index(restaurants, hotels):
   style="background-image:url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920&q=80')">
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.82) 100%)"></div>
   <div class="relative z-10 text-center text-white px-5 max-w-4xl mx-auto" style="padding-top:5rem">
-    <p class="text-xs font-semibold tracking-widest uppercase mb-4" style="color:var(--coral)">South America&apos;s Hidden Gem</p>
-    <h2 class="text-base sm:text-lg font-medium mb-5 tracking-wide" style="color:rgba(255,255,255,.72)">Visit Suriname &mdash; your tourism guide to the Amazon&apos;s best-kept secret</h2>
+    <p class="text-xs font-semibold tracking-widest uppercase mb-6" style="color:var(--coral)">South America&apos;s Hidden Gem</p>
     <h1 class="serif font-black leading-tight mb-6" style="font-size:clamp(2.5rem,8vw,5.5rem)">The Amazon&apos;s<br>Best-Kept Secret</h1>
     <p class="text-xl font-light leading-relaxed mb-10 max-w-2xl mx-auto text-white/90">94% pristine rainforest. Unmatched biodiversity. Two UNESCO World Heritage Sites. Welcome to Suriname.</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
