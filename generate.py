@@ -2268,6 +2268,7 @@ PAGE_HEAD = """\
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/tailwind.css">
   <style>
@@ -2813,11 +2814,13 @@ def footer_html(prefix=""):
   </div>
 </footer>"""
 
-def news_card_html(a, large=False):
+def news_card_html(a, large=False, eager=False):
     img = ""
     if a["image"]:
         h = "h-52" if large else "h-36"
-        img = f'<img src="{a["image"]}" alt="" loading="lazy" class="w-full {h} object-cover" onerror="this.style.display=\'none\'">'
+        _loading = 'eager" fetchpriority="high' if eager else "lazy"
+        _h_px = "208" if large else "144"
+        img = f'<img src="{a["image"]}" alt="" loading="{_loading}" width="400" height="{_h_px}" class="w-full {h} object-cover" onerror="this.style.display=\'none\'">'
     badge = f'<span class="text-white text-xs font-medium px-2 py-0.5 rounded-full" style="background:{a["color"]}">{html_lib.escape(a["source"])}</span>'
     tc = "text-base font-bold" if large else "text-sm font-semibold"
     return (f'<a href="{a["link"]}" target="_blank" rel="noopener noreferrer" '
@@ -2835,16 +2838,18 @@ def ad_slot(label):
     # Placeholder for ad unit — no visible text shown to users or crawlers
     return '<div class="my-6" aria-hidden="true"></div>'
 
-def nature_card(spot):
+def nature_card(spot, eager=False):
     tags_html = "".join(
         f'<span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">{t}</span>'
         for t in spot["tags"]
     )
-    internal_url = f"listing/{_nature_slug(spot['name'])}/"    
+    internal_url = f"listing/{_nature_slug(spot['name'])}/"
+    _loading = 'eager" fetchpriority="high' if eager else "lazy"
     return f"""
 <a href="{internal_url}" data-sub="{spot.get('subcat','nature-parks')}" class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
   <div class="relative h-56 overflow-hidden">
-    <img src="{spot['image']}" alt="{html_lib.escape(spot['name'])}" loading="lazy"
+    <img src="{spot['image']}" alt="{html_lib.escape(spot['name'])}" loading="{_loading}"
+         width="400" height="224"
          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
          onerror="this.parentElement.style.background='#2D6A4F'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
@@ -2862,11 +2867,12 @@ def nature_card(spot):
   </div>
 </a>"""
 
-def activity_card_rich(act):
+def activity_card_rich(act, eager=False):
     slug = _act_slug(act["name"])
     internal_url = f"listing/{slug}/"
     img = act.get("image", "")
-    img_html = f'<img src="{img}" alt="{html_lib.escape(act["name"])}" loading="lazy" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display=\'none\'">' if img else ""
+    _loading = 'eager" fetchpriority="high' if eager else "lazy"
+    img_html = f'<img src="{img}" alt="{html_lib.escape(act["name"])}" loading="{_loading}" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display=\'none\'">' if img else ""
     return f"""
 <a href="{internal_url}" data-sub="{act.get('subcat','tours-expeditions')}" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
@@ -2894,7 +2900,7 @@ def activity_card_icon(act):
   <p class="text-white/65 text-sm leading-relaxed">{html_lib.escape(act['desc'])}</p>
 </a>"""
 
-def poi_card(item, badge_key="cuisine"):
+def poi_card(item, badge_key="cuisine", eager=False):
     url   = item.get("url", "#")
     badge = item.get(badge_key) or item.get("cuisine") or item.get("category", "")
     area  = item.get("area", "Suriname")
@@ -2902,8 +2908,10 @@ def poi_card(item, badge_key="cuisine"):
     phone = item.get("phone", "")
     bg, fg = ("var(--mint)", "var(--forest2)") if badge_key == "cuisine" else ("#fff3e8", "#c05621")
     badge_html = f'<span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:{bg};color:{fg}">{html_lib.escape(badge)}</span>' if badge else ""
+    _loading = 'eager" fetchpriority="high' if eager else "lazy"
     img_html = (f'<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0">'
-                f'<img src="{img}" alt="{html_lib.escape(item["name"])}" loading="lazy" '
+                f'<img src="{img}" alt="{html_lib.escape(item["name"])}" loading="{_loading}" '
+                f'width="400" height="224" '
                 f'class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" '
                 f'onerror="this.parentElement.style.background=\'#2D6A4F\';this.style.display=\'none\'">'
                 f'</div>') if img else ""
@@ -3048,9 +3056,10 @@ function filterDistrict(btn, dist) {{
 }}
 </script>"""
 
-def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None):
+def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None):
     page_url = f"{SITE_URL}/{page_file}"
     _og_img = og_image or f"{SITE_URL}/og-image.jpg"
+    _lcp_preload = f'  <link rel="preload" as="image" href="{lcp_image}" fetchpriority="high">\n' if lcp_image else ""
     return f"""{PAGE_HEAD}
   <title>{title} | ExploreSuriname.com</title>
   <meta name="description" content="{html_lib.escape(meta_desc)}">
@@ -3073,7 +3082,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"{title}","item":"{page_url}"}}]}}
   </script>
-</head>
+{_lcp_preload}</head>
 <body class="bg-gray-50">
 {nav_html()}
 <div class="pt-16"></div>
@@ -3106,11 +3115,11 @@ def _pick_featured(lst, slugs):
     return [lut[s] for s in slugs if s in lut]
 
 def build_index(restaurants, hotels):
-    nature_cards   = "\n".join(nature_card(s)          for s in NATURE_SPOTS[:6])
-    activity_cards = "\n".join(activity_card_rich(a)   for a in ACTIVITIES[:6])
-    rest_cards     = "\n".join(poi_card(r, "cuisine")  for r in _pick_featured(RESTAURANTS, _FEATURED_RESTAURANTS))
-    hotel_cards    = "\n".join(poi_card(h, "category") for h in _pick_featured(HOTELS,      _FEATURED_HOTELS))
-    shop_cards     = "\n".join(poi_card(s)             for s in _pick_featured(SHOPPING,    _FEATURED_SHOPPING))
+    nature_cards   = "\n".join(nature_card(s, eager=(i==0))         for i,s in enumerate(NATURE_SPOTS[:6]))
+    activity_cards = "\n".join(activity_card_rich(a, eager=(i==0)) for i,a in enumerate(ACTIVITIES[:6]))
+    rest_cards     = "\n".join(poi_card(r, "cuisine",  eager=(i==0)) for i,r in enumerate(_pick_featured(RESTAURANTS, _FEATURED_RESTAURANTS)))
+    hotel_cards    = "\n".join(poi_card(h, "category", eager=(i==0)) for i,h in enumerate(_pick_featured(HOTELS,      _FEATURED_HOTELS)))
+    shop_cards     = "\n".join(poi_card(s, eager=(i==0))             for i,s in enumerate(_pick_featured(SHOPPING,    _FEATURED_SHOPPING)))
     more_btn = lambda href, label: f'<a href="{href}" class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" style="border-color:var(--forest2);color:var(--forest2)">{label} &rarr;</a>'
     return f"""{PAGE_HEAD}
   <title>Explore Suriname | South America's Hidden Gem</title>
@@ -3313,7 +3322,7 @@ def build_index(restaurants, hotels):
 </html>"""
 
 def build_nature_page():
-    nature_cards = "\n".join(nature_card(s) for s in NATURE_SPOTS)
+    nature_cards = "\n".join(nature_card(s, eager=(i==0)) for i,s in enumerate(NATURE_SPOTS))
     sight_cards  = "\n".join(poi_card(b) for b in SIGHTSEEING)
     all_cards    = nature_cards + "\n" + sight_cards
     # build filter bar from combined list (nature spots default to "nature-parks" subcat)
@@ -3322,7 +3331,9 @@ def build_nature_page():
     total = len(NATURE_SPOTS) + len(SIGHTSEEING)
     return listing_page("Nature & Parks", f"{total} destinations across Suriname's pristine wilderness",
         f"Explore {total} nature reserves, national parks and rainforest destinations in Suriname. From Central Suriname Nature Reserve to Brownsberg — plan your eco-adventure.",
-        NATURE_SPOTS, all_cards, page_file="nature.html", extra_html="", filter_bar=filter_bar_s, og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Leo_val_brownsberg.JPG/1280px-Leo_val_brownsberg.JPG")
+        NATURE_SPOTS, all_cards, page_file="nature.html", extra_html="", filter_bar=filter_bar_s,
+        og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Leo_val_brownsberg.JPG/1280px-Leo_val_brownsberg.JPG",
+        lcp_image=NATURE_SPOTS[0]["image"] if NATURE_SPOTS else None)
 
 def build_activities_page():
     # Merge ACTIVITIES and ADVENTURES_BIZ sorted alphabetically by name
@@ -3332,43 +3343,58 @@ def build_activities_page():
     )
     tagged.sort(key=lambda x: x[0])
     all_cards = "\n".join(
-        activity_card_rich(item) if kind == "activity" else poi_card(item)
-        for _, kind, item in tagged
+        (activity_card_rich(item, eager=(i==0)) if kind == "activity" else poi_card(item, eager=(i==0)))
+        for i, (_, kind, item) in enumerate(tagged)
     )
+    _first_img = next((item.get("image","") for _,_,item in tagged if item.get("image")), None)
     combined_items = [{"subcat": a.get("subcat", "tours-expeditions")} for a in ACTIVITIES] + list(ADVENTURES_BIZ)
     filter_bar_a = _filter_bar_html(combined_items, "adventure")
     total = len(ACTIVITIES) + len(ADVENTURES_BIZ)
     return listing_page("Activities", f"{total} things to do in Suriname",
         f"Discover {total} things to do in Suriname — jungle tours, river trips, birdwatching, kayaking and more. Find tours, eco-lodges and adventure operators in Paramaribo.",
-        ACTIVITIES, all_cards, bg_color="var(--forest2)", page_file="activities.html", extra_html="", filter_bar=filter_bar_a, og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Atjoni_%2833496718666%29.jpg/1280px-Atjoni_%2833496718666%29.jpg")
+        ACTIVITIES, all_cards, bg_color="var(--forest2)", page_file="activities.html", extra_html="", filter_bar=filter_bar_a,
+        og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Atjoni_%2833496718666%29.jpg/1280px-Atjoni_%2833496718666%29.jpg",
+        lcp_image=_first_img)
 
 def build_restaurants_page(restaurants):
-    cards = "\n".join(poi_card(r, "cuisine") for r in restaurants)
+    cards = "\n".join(poi_card(r, "cuisine", eager=(i==0)) for i,r in enumerate(restaurants))
     fb    = _filter_bar_html(restaurants, "restaurant")
+    _lcp  = restaurants[0].get("image") if restaurants else None
     return listing_page("Eat & Drink", f"{len(restaurants)} places to eat & drink in Suriname",
         f"Browse {len(restaurants)} restaurants, cafes, bars and fast food in Suriname. Find local Surinamese food, Asian cuisine, coffee shops and more.",
-        restaurants, cards, bg_color="#7c3aed", page_file="restaurants.html", filter_bar=fb, og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/2016_0624_Tjauw_min_moksie_meti_speciaal.jpg/1280px-2016_0624_Tjauw_min_moksie_meti_speciaal.jpg")
+        restaurants, cards, bg_color="#7c3aed", page_file="restaurants.html", filter_bar=fb,
+        og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/2016_0624_Tjauw_min_moksie_meti_speciaal.jpg/1280px-2016_0624_Tjauw_min_moksie_meti_speciaal.jpg",
+        lcp_image=_lcp)
 
 def build_hotels_page(hotels):
-    cards = "\n".join(poi_card(h, "category") for h in hotels)
+    cards = "\n".join(poi_card(h, "category", eager=(i==0)) for i,h in enumerate(hotels))
     fb    = _filter_bar_html(hotels, "hotel")
+    _lcp  = hotels[0].get("image") if hotels else None
     return listing_page("Hotels & Lodges", f"{len(hotels)} places to stay in Suriname",
         f"Browse {len(hotels)} hotels, eco-lodges and jungle retreats in Suriname. From Paramaribo city hotels to remote river resorts — find your perfect stay.",
-        hotels, cards, bg_color="#c05621", page_file="hotels.html", filter_bar=fb, og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Bigi_Pan_Nature_Reserve_%282719369111%29.jpg/1280px-Bigi_Pan_Nature_Reserve_%282719369111%29.jpg")
+        hotels, cards, bg_color="#c05621", page_file="hotels.html", filter_bar=fb,
+        og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Bigi_Pan_Nature_Reserve_%282719369111%29.jpg/1280px-Bigi_Pan_Nature_Reserve_%282719369111%29.jpg",
+        lcp_image=_lcp)
 
 def build_shopping_page():
-    cards = "\n".join(poi_card(b) for b in SHOPPING)
+    cards = "\n".join(poi_card(b, eager=(i==0)) for i,b in enumerate(SHOPPING))
     fb    = _filter_bar_html(SHOPPING, "shopping")
+    _lcp  = SHOPPING[0].get("image") if SHOPPING else None
     return listing_page("Shopping", f"{len(SHOPPING)} shops & stores in Suriname",
         f"Discover {len(SHOPPING)} shops in Suriname — supermarkets, malls, fashion, electronics, furniture, butchers and specialty stores in Paramaribo.",
-        SHOPPING, cards, bg_color="#7c3aed", page_file="shopping.html", filter_bar=fb, og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png")
+        SHOPPING, cards, bg_color="#7c3aed", page_file="shopping.html", filter_bar=fb,
+        og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
+        lcp_image=_lcp)
 
 def build_services_page():
-    cards = "\n".join(poi_card(b) for b in SERVICES)
+    cards = "\n".join(poi_card(b, eager=(i==0)) for i,b in enumerate(SERVICES))
     fb    = _filter_bar_html(SERVICES, "service")
+    _lcp  = SERVICES[0].get("image") if SERVICES else None
     return listing_page("Services", f"{len(SERVICES)} service providers in Suriname",
         f"Find {len(SERVICES)} service providers in Suriname — banks, beauty, health, fitness, education, telecom, real estate and more.",
-        SERVICES, cards, bg_color="#0369a1", page_file="services.html", filter_bar=fb, og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png")
+        SERVICES, cards, bg_color="#0369a1", page_file="services.html", filter_bar=fb,
+        og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
+        lcp_image=_lcp)
 
 def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated):
     import json as _json
