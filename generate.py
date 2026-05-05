@@ -406,8 +406,8 @@ _BIZ = {
     'bella-italia': {"name": 'Bella Italia', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
     'best-mart': {"name": 'Best Mart', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
     'beyrouth-bazaar': {"name": 'Beyrouth Bazaar', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
-    'bingo-pizza-coppename': {"name": 'Bingo Pizza Coppename', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
-    'bingo-pizza-kwatta': {"name": 'Bingo Pizza Kwatta', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
+    'bingo-pizza-coppename': {"name": 'Bingo Pizza Coppename', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": 'https://www.bingopizza.sr/'},
+    'bingo-pizza-kwatta': {"name": 'Bingo Pizza Kwatta', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": 'https://www.bingopizza.sr/'},
     'bistro-brwni': {"name": 'Bistro Brwni', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
     'bistro-don-julio': {"name": 'Bistro Don Julio', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
     'bistro-lequatorze': {"name": 'Bistro Lequatorze', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
@@ -685,11 +685,11 @@ _BIZ = {
     'multi-travel': {"name": 'Multi Travel', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
     'muntjes-take-out-juniors-place': {"name": 'Muntjes Take Out Juniors Place', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
     'murphys-irish-pub': {"name": 'Murphys Irish Pub', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
-    'naskip': {"name": 'Naskip Henck Arronstraat', "location": 'Paramaribo', "address": 'Henck Arronstraat 46b, Paramaribo', "phone": '+597 475-419', "website": 'naskip.com'},
-    'naskip-2': {"name": 'Naskip Latourweg', "location": 'Paramaribo', "address": 'Latourweg 10, Paramaribo', "phone": '+597 481-555', "website": 'naskip.com'},
-    'naskip-3': {"name": 'Naskip Gemenelandsweg', "location": 'Paramaribo', "address": 'Verlengde Gemenelandsweg, Paramaribo', "phone": '', "website": 'naskip.com'},
-    'naskip-4': {"name": 'Naskip Kwatta', "location": 'Paramaribo', "address": 'Hoek Kwattaweg & Van Idsingastraat, Paramaribo', "phone": '', "website": 'naskip.com'},
-    'naskip-5': {"name": 'Naskip Indira Ghandiweg', "location": 'Paramaribo', "address": 'Hoek Indira Ghandiweg & Schotelweg, Paramaribo', "phone": '', "website": 'naskip.com'},
+    'naskip': {"name": 'Naskip Henck Arronstraat', "location": 'Paramaribo', "address": 'Henck Arronstraat 46b, Paramaribo', "phone": '+597 475-419', "website": 'https://www.naskip.com/'},
+    'naskip-2': {"name": 'Naskip Latourweg', "location": 'Paramaribo', "address": 'Latourweg 10, Paramaribo', "phone": '+597 481-555', "website": 'https://www.naskip.com/'},
+    'naskip-3': {"name": 'Naskip Gemenelandsweg', "location": 'Paramaribo', "address": 'Verlengde Gemenelandsweg, Paramaribo', "phone": '', "website": 'https://www.naskip.com/'},
+    'naskip-4': {"name": 'Naskip Kwatta', "location": 'Paramaribo', "address": 'Hoek Kwattaweg & Van Idsingastraat, Paramaribo', "phone": '', "website": 'https://www.naskip.com/'},
+    'naskip-5': {"name": 'Naskip Indira Ghandiweg', "location": 'Paramaribo', "address": 'Hoek Indira Ghandiweg & Schotelweg, Paramaribo', "phone": '', "website": 'https://www.naskip.com/'},
     'nassy-brouwer-college': {"name": 'Nassy Brouwer College', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
     'nassy-brouwer-school': {"name": 'Nassy Brouwer School', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
     'new-choice-lalla-rookhweg': {"name": 'New Choice Lalla Rookhweg', "location": 'Paramaribo', "address": 'Paramaribo, Suriname', "phone": '', "website": ''},
@@ -1112,8 +1112,8 @@ _IMGS = {
     "bella-italia": "",
     "best-mart": "",
     "beyrouth-bazaar": "",
-    "bingo-pizza-coppename": "https://www.bingopizza.sr/wp-content/uploads/2024/04/Americana-2022_06_18-19_57_12-UTC-600x600.jpg",
-    "bingo-pizza-kwatta": "https://www.bingopizza.sr/wp-content/uploads/2024/04/Americana-2022_06_18-19_57_12-UTC-600x600.jpg",
+    "bingo-pizza-coppename": "https://www.bingopizza.sr/wp-content/uploads/2024/04/LogoTransparent.png",
+    "bingo-pizza-kwatta": "https://www.bingopizza.sr/wp-content/uploads/2024/04/LogoTransparent.png",
     "bistro-brwni": "",
     "bistro-don-julio": "",
     "bistro-lequatorze": "",
@@ -1133,8 +1133,8 @@ _IMGS = {
     "brotherhood-security": "",
     "brow-bliss-lounge": "",
     "building-depot": "",
-    "burger-king-centrum": "https://upload.wikimedia.org/wikipedia/commons/7/76/Burger_king_Suriname_voorin.jpg",
-    "burger-king-latour":  "https://upload.wikimedia.org/wikipedia/commons/7/76/Burger_king_Suriname_voorin.jpg",
+    "burger-king-centrum": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzbCjvHfbGdFlhB6LJQjbLq-GipEldY9BP1w&s",
+    "burger-king-latour":  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzbCjvHfbGdFlhB6LJQjbLq-GipEldY9BP1w&s",
     "buro-workspaces": "",
     "byd-suriname": "",
     "camex-suriname": "",
@@ -1391,11 +1391,11 @@ _IMGS = {
     "multi-travel": "",
     "muntjes-take-out-juniors-place": "",
     "murphys-irish-pub": "https://ims.sr/wp-content/uploads/2023/07/murphys.png",
-    "naskip":   "https://upload.wikimedia.org/wikipedia/commons/2/25/Suriname_-_Paramaribo_-_Henck_Arronstraat_46_20221004_Naskip.jpg",
-    "naskip-2": "https://upload.wikimedia.org/wikipedia/commons/2/25/Suriname_-_Paramaribo_-_Henck_Arronstraat_46_20221004_Naskip.jpg",
-    "naskip-3": "https://upload.wikimedia.org/wikipedia/commons/2/25/Suriname_-_Paramaribo_-_Henck_Arronstraat_46_20221004_Naskip.jpg",
-    "naskip-4": "https://upload.wikimedia.org/wikipedia/commons/2/25/Suriname_-_Paramaribo_-_Henck_Arronstraat_46_20221004_Naskip.jpg",
-    "naskip-5": "https://upload.wikimedia.org/wikipedia/commons/2/25/Suriname_-_Paramaribo_-_Henck_Arronstraat_46_20221004_Naskip.jpg",
+    "naskip":   "https://www.naskip.com/wp-content/uploads/2025/02/logo.jpg",
+    "naskip-2": "https://www.naskip.com/wp-content/uploads/2025/02/logo.jpg",
+    "naskip-3": "https://www.naskip.com/wp-content/uploads/2025/02/logo.jpg",
+    "naskip-4": "https://www.naskip.com/wp-content/uploads/2025/02/logo.jpg",
+    "naskip-5": "https://www.naskip.com/wp-content/uploads/2025/02/logo.jpg",
     "nassy-brouwer-college": "",
     "nassy-brouwer-school": "",
     "new-choice-lalla-rookhweg": "",
@@ -2047,7 +2047,7 @@ def get_image(entry):
             if enc.get("type", "").startswith("image"):
                 return enc.get("url", "")
     raw = getattr(entry, "summary", "") or ""
-    m = re.search(r'<img[^>]+src=["\'](^["\']+)["\']>', raw)
+    m = re.search(r'<img[^>]+src=["\']([^"\']+)["\']>', raw)
     if m: return m.group(1)
     return ""
 
@@ -3506,7 +3506,7 @@ doConvert();"""
     </div>
   </div>
   <p class="text-center text-gray-400 text-xs mt-8 max-w-2xl mx-auto leading-relaxed px-4">
-    Rates are for informational purposes only. Always confirm the current rate before transacting. Page auto-updates daily.
+    Rates are for informational purposes only. Always confirm the current rate before transacting. Page updates daily.
   </p>
 
   <!-- Gold price ─────────────────────────────────────────────────────────── -->
@@ -3518,7 +3518,7 @@ doConvert();"""
       </div>
       <span id="gold-badge" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0">Loading…</span>
     </div>
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <div class="rounded-xl p-4" style="background:var(--mint)">
         <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">USD / troy oz</p>
         <p id="gold-usd" class="text-2xl font-bold font-mono text-gray-900">—</p>
@@ -3531,12 +3531,8 @@ doConvert();"""
         <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">USD / gram</p>
         <p id="gold-usdg" class="text-xl font-bold font-mono text-gray-900">—</p>
       </div>
-      <div class="rounded-xl p-4 bg-gray-50">
-        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">24h Change</p>
-        <p id="gold-chg" class="text-xl font-bold font-mono text-gray-500">—</p>
-      </div>
     </div>
-    <p class="text-gray-400 text-xs mt-4">Suriname is one of the world&apos;s leading gold producers per capita. SRD equivalent uses today&apos;s CME USD buy rate ({usd_buy_srd:.2f}). Price refreshes on each page load.</p>
+    <p class="text-gray-400 text-xs mt-4">Suriname is one of the world&apos;s leading gold producers per capita. SRD equivalent uses today&apos;s CME USD buy rate ({usd_buy_srd:.2f}). Price updates on each page load.</p>
   </div>
 
 </main>
@@ -3548,16 +3544,9 @@ doConvert();"""
     .then(function(r){{return r.json();}})
     .then(function(d){{
       var price = d.price;
-      var prev  = d.prev_close_price || price;
-      var chg   = price - prev;
-      var chgPct = prev ? (chg / prev * 100) : 0;
       document.getElementById('gold-usd').textContent  = '$' + price.toLocaleString('en-US',{{minimumFractionDigits:2,maximumFractionDigits:2}});
       document.getElementById('gold-srd').textContent  = (price * USD_SRD).toLocaleString('en-US',{{minimumFractionDigits:0,maximumFractionDigits:0}}) + ' SRD';
       document.getElementById('gold-usdg').textContent = '$' + (price / 31.1035).toLocaleString('en-US',{{minimumFractionDigits:2,maximumFractionDigits:2}});
-      var chgEl = document.getElementById('gold-chg');
-      var sign  = chg >= 0 ? '+' : '';
-      chgEl.textContent = sign + chg.toLocaleString('en-US',{{minimumFractionDigits:2,maximumFractionDigits:2}}) + ' (' + sign + chgPct.toFixed(2) + '%)';
-      chgEl.style.color = chg >= 0 ? 'var(--forest2)' : 'var(--coral)';
       var badge = document.getElementById('gold-badge');
       badge.textContent = '● Live';
       badge.className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0';
@@ -4895,7 +4884,6 @@ def build_conditions_page(tides_data):
     <div class="overflow-x-auto -mx-2 px-2 pb-1" style="scrollbar-width:none">
       <div id="wx-forecast" class="flex gap-2 sm:grid sm:grid-cols-7"></div>
     </div>
-    <p class="text-gray-400 text-xs text-center mt-4">Data from <a href="https://open-meteo.com" target="_blank" rel="noopener" style="color:var(--forest2)">Open-Meteo</a>. Refreshes on every page load.</p>
   </div>
 
   <!-- Sunrise & Sunset -->
@@ -4921,7 +4909,7 @@ def build_conditions_page(tides_data):
         <p class="text-xs text-gray-400 mt-1">Suriname time</p>
       </div>
     </div>
-    <p class="text-gray-400 text-xs text-center mt-4">Data from <a href="https://sunrise-sunset.org" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">sunrise-sunset.org</a> &mdash; Paramaribo (5.85&deg;N, 55.20&deg;W)</p>
+    <p class="text-gray-400 text-xs text-center mt-4">Data from <a href="https://sunrise-sunset.org" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">sunrise-sunset.org</a>. Updates with selected district.</p>
   </div>
 
   <!-- Fishermen's Corner: Tides by river -->
@@ -4975,6 +4963,7 @@ var _curDistrict = 0;
       btn.style.borderColor = 'var(--forest)';
       btn.style.color = '#fff';
       loadWeather(d.lat, d.lon);
+      loadSunrise(d.lat, d.lon);
     }};
     container.appendChild(btn);
   }});
@@ -5026,8 +5015,8 @@ function loadWeather(lat, lon) {{
 // Load Paramaribo weather on page load
 loadWeather(WX_DISTRICTS[0].lat, WX_DISTRICTS[0].lon);
 
-(function(){{
-  fetch('https://api.sunrise-sunset.org/json?lat=5.852&lng=-55.203&formatted=0')
+function loadSunrise(lat, lon) {{
+  fetch('https://api.sunrise-sunset.org/json?lat=' + lat + '&lng=' + lon + '&formatted=0')
     .then(function(r){{return r.json();}})
     .then(function(d){{
       var res = d.results;
@@ -5044,7 +5033,8 @@ loadWeather(WX_DISTRICTS[0].lat, WX_DISTRICTS[0].lon);
     .catch(function(){{
       ['ss-rise','ss-set','ss-len'].forEach(function(id){{document.getElementById(id).textContent='Unavailable';}});
     }});
-}})();
+}}
+loadSunrise(WX_DISTRICTS[0].lat, WX_DISTRICTS[0].lon);
 
 // Tide tab switching
 function showTide(id) {{
@@ -5209,41 +5199,46 @@ def build_flights_page(flights_data):
   <p class="text-white/35 text-xs mt-3">&#128336; Page built: {updated_now}</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
-  <div class="rounded-2xl border border-blue-100 p-5 mb-6" style="background:#eff6ff">
-    <div class="flex flex-wrap items-start gap-4">
-      <p class="text-blue-900 text-sm leading-relaxed flex-1">
-        <strong class="text-blue-800">About this data:</strong>
-        Flight data from <a href="https://www.flightradar24.com" target="_blank" rel="noopener" class="underline">FlightRadar24</a>.
-        Times in Suriname time (SR, UTC&minus;3). PBM refreshes every 6h; domestic airports every 12h.
-        For real-time tracking visit <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener" class="underline">Flightradar24</a>.
-      </p>
-      <a href="https://icf.sr/" target="_blank" rel="noopener"
-         class="shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white transition hover:opacity-90"
-         style="background:var(--forest)">
-        Customs Declaration &rarr;
-      </a>
-    </div>
-  </div>
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-      <p class="font-bold text-gray-900 text-sm mb-1">Johan Adolf Pengel &mdash; PBM</p>
-      <p class="text-gray-500 text-sm leading-relaxed">Suriname&rsquo;s international airport, 45&nbsp;km south of Paramaribo. Served by KLM (Amsterdam), Copa Airlines (Panama City), Caribbean Airlines (Trinidad) and Surinam Airways.</p>
-    </div>
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-      <p class="font-bold text-gray-900 text-sm mb-1">Eduard Alexander Gummels &mdash; EAX</p>
-      <p class="text-gray-500 text-sm leading-relaxed">Paramaribo&rsquo;s city airport, handling domestic flights and charter routes to Nickerie, Moengo and interior airstrips.</p>
-    </div>
-  </div>
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
     <div class="flex overflow-x-auto border-b border-gray-100" style="scrollbar-width:none">
       {tab_buttons_html}
     </div>
   </div>
   {panels_html}
-  <p class="text-center text-gray-400 text-xs mt-4 max-w-2xl mx-auto leading-relaxed px-4">
-    Data from <a href="https://www.flightradar24.com" target="_blank" rel="noopener" style="color:var(--forest2)">FlightRadar24</a>. Not for operational use.
-    Scheduled times only. Eduard Alexander Gummels serves domestic &amp; charter routes.
-  </p>
+  <!-- Flight Resources -->
+  <div class="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="px-5 py-4 border-b border-gray-100">
+      <p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Flight Resources</p>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+        <div>
+          <p class="font-bold text-gray-900 text-sm mb-1">Johan Adolf Pengel &mdash; PBM</p>
+          <p class="text-gray-500 text-sm leading-relaxed">International airport, 45&nbsp;km south of Paramaribo. Served by KLM (Amsterdam), Copa Airlines (Panama City), Caribbean Airlines (Trinidad) and Surinam Airways.</p>
+        </div>
+        <div>
+          <p class="font-bold text-gray-900 text-sm mb-1">Eduard Alexander Gummels &mdash; EAX</p>
+          <p class="text-gray-500 text-sm leading-relaxed">City airport handling domestic flights and charter routes to Nickerie, Moengo and interior airstrips.</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <a href="https://icf.sr/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white transition hover:opacity-90"
+           style="background:var(--forest)">
+          Customs Declaration Form &rarr;
+        </a>
+        <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 text-gray-700 bg-white transition hover:bg-gray-50">
+          Real-time Tracking &rarr;
+        </a>
+      </div>
+      <div class="mt-5 rounded-xl border border-gray-100 p-4 bg-gray-50">
+        <p class="text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">About the Customs Declaration Form</p>
+        <p class="text-sm text-gray-600 leading-relaxed">All passengers arriving in or departing from Suriname are required to complete an immigration and customs declaration. The form collects personal details, travel information, and goods you are carrying. It is submitted digitally via <a href="https://icf.sr/" target="_blank" rel="noopener" class="underline hover:text-gray-900" style="color:var(--forest2)">icf.sr</a> and can be filled in before you board. Keep your confirmation ready for inspection at the airport.</p>
+      </div>
+      <p class="text-gray-400 text-xs mt-4 leading-relaxed">Data from FlightRadar24. Scheduled times only &mdash; not for operational use. PBM updates every 6h; EAX every 12h.</p>
+    </div>
+  </div>
 </main>
 <script>
 function showAirport(icao) {{
