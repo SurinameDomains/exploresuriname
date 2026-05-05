@@ -2100,6 +2100,22 @@ def merge_with_fallbacks(live, fallbacks, target=20):
             live.append(fb)
     return live
 
+_OBIT_KEYWORDS = {
+    "rouwberichten", "rouwadvertentie", "rouwkaart", "rouwbericht",
+    "overlijden", "in memoriam", "obituar",
+}
+
+def _is_obituary(entry, title_lower):
+    """Return True if the entry is an obituary / death notice."""
+    if any(kw in title_lower for kw in _OBIT_KEYWORDS):
+        return True
+    # Check feedparser category tags (term field)
+    for tag in getattr(entry, "tags", []):
+        term = getattr(tag, "term", "").lower()
+        if any(kw in term for kw in _OBIT_KEYWORDS):
+            return True
+    return False
+
 def fetch_articles():
     articles = []
     for src in FEEDS:
@@ -2108,6 +2124,9 @@ def fetch_articles():
             count = 0
             for entry in feed.entries[:MAX_PER_FEED]:
                 title   = strip_tags(getattr(entry, "title", "")).strip()
+                # Skip obituaries/death notices (De Ware Tijd posts many)
+                if _is_obituary(entry, title.lower()):
+                    continue
                 link    = getattr(entry, "link", "#")
                 summary = strip_tags(getattr(entry, "summary", ""))
                 if len(summary) > 200: summary = summary[:197] + "..."
@@ -2769,7 +2788,6 @@ def footer_html(prefix=""):
         <ul class="space-y-2 text-sm text-white/70">
           <li><a href="{prefix}contact.html" class="hover:text-white transition">Contact Us</a></li>
           <li><a href="{prefix}about.html" class="hover:text-white transition">About This Site</a></li>
-          <li><a href="mailto:{CONTACT_EMAIL}" class="hover:text-white/70 transition text-white/50 text-xs">{CONTACT_EMAIL}</a></li>
           <li class="text-white/40 text-xs mt-3">For partnerships, listings<br>or general enquiries.</li>
         </ul>
       </div>
@@ -3077,12 +3095,21 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
 
 # -- Page builders ------------------------------------------------------------
 
-def build_index(restaurants, hotels, news_preview):
+_FEATURED_HOTELS      = ["royal-torarica","courtyard-by-marriott","eco-torarica","torarica-resort","hotel-peperpot","radisson-hotel"]
+_FEATURED_RESTAURANTS = ["de-gadri","baka-foto-restaurant","goe-thai-noodle-bar","passion-food-and-wines","el-patron-latin-grill","zus-zo-cafe"]
+_FEATURED_SHOPPING    = ["international-mall-of-suriname","hermitage-mall","readytex-souvenirs-and-crafts","kirpalani","woodwonders-suriname","papillon-crafts"]
+
+def _pick_featured(lst, slugs):
+    """Return items from lst ordered by the given slug list, skipping missing slugs."""
+    lut = {b["slug"]: b for b in lst}
+    return [lut[s] for s in slugs if s in lut]
+
+def build_index(restaurants, hotels):
     nature_cards   = "\n".join(nature_card(s)          for s in NATURE_SPOTS[:6])
     activity_cards = "\n".join(activity_card_rich(a)   for a in ACTIVITIES[:6])
-    rest_cards     = "\n".join(poi_card(r, "cuisine")  for r in RESTAURANTS[:6])
-    hotel_cards    = "\n".join(poi_card(h, "category") for h in HOTELS[:6])
-    news_cards     = "\n".join(news_card_html(a, large=(i==0)) for i,a in enumerate(news_preview))
+    rest_cards     = "\n".join(poi_card(r, "cuisine")  for r in _pick_featured(RESTAURANTS, _FEATURED_RESTAURANTS))
+    hotel_cards    = "\n".join(poi_card(h, "category") for h in _pick_featured(HOTELS,      _FEATURED_HOTELS))
+    shop_cards     = "\n".join(poi_card(s)             for s in _pick_featured(SHOPPING,    _FEATURED_SHOPPING))
     more_btn = lambda href, label: f'<a href="{href}" class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" style="border-color:var(--forest2);color:var(--forest2)">{label} &rarr;</a>'
     return f"""{PAGE_HEAD}
   <title>Explore Suriname | South America's Hidden Gem</title>
@@ -3152,12 +3179,13 @@ def build_index(restaurants, hotels, news_preview):
   style="background-image:url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920&q=80')">
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.82) 100%)"></div>
   <div class="relative z-10 text-center text-white px-5 max-w-4xl mx-auto" style="padding-top:5rem">
-    <p class="text-xs font-semibold tracking-widest uppercase mb-6" style="color:var(--coral)">South America&apos;s Hidden Gem</p>
+    <p class="text-xs font-semibold tracking-widest uppercase mb-4" style="color:var(--coral)">South America&apos;s Hidden Gem</p>
+    <h2 class="text-base sm:text-lg font-medium mb-5 tracking-wide" style="color:rgba(255,255,255,.72)">Visit Suriname &mdash; your tourism guide to the Amazon&apos;s best-kept secret</h2>
     <h1 class="serif font-black leading-tight mb-6" style="font-size:clamp(2.5rem,8vw,5.5rem)">The Amazon&apos;s<br>Best-Kept Secret</h1>
     <p class="text-xl font-light leading-relaxed mb-10 max-w-2xl mx-auto text-white/90">94% pristine rainforest. Unmatched biodiversity. Two UNESCO World Heritage Sites. Welcome to Suriname.</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <a href="#nature" class="px-8 py-4 rounded-full font-semibold text-lg text-white hover:opacity-90 transition shadow-lg" style="background:var(--forest)">Start Exploring &#8595;</a>
-      <a href="news.html" class="px-8 py-4 rounded-full font-semibold text-lg text-white border-2 hover:bg-white/10 transition" style="border-color:rgba(255,255,255,.6)">Latest News</a>
+      <a href="#travel-tools" class="px-8 py-4 rounded-full font-semibold text-lg text-white border-2 hover:bg-white/10 transition" style="border-color:rgba(255,255,255,.6)">Travel Tools &rarr;</a>
     </div>
   </div>
   <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50 text-xs">
@@ -3171,6 +3199,11 @@ def build_index(restaurants, hotels, news_preview):
     <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Forest Cover</p><p class="font-semibold">94% Rainforest</p></div>
     <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">UNESCO Sites</p><p class="font-semibold">2 World Heritage Sites</p></div>
     <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Bird Species</p><p class="font-semibold">700+ Species</p></div>
+  </div>
+</section>
+<section class="py-10 bg-white border-b border-gray-100">
+  <div class="max-w-2xl mx-auto px-5 text-center">
+    <p class="text-gray-500 text-base leading-relaxed">This isn&apos;t just a directory &mdash; it&apos;s a living record of the people and places moving Suriname forward. We find the details so you can find the experience.</p>
   </div>
 </section>
 <section id="nature" class="py-12 md:py-24 bg-gray-50">
@@ -3217,18 +3250,61 @@ def build_index(restaurants, hotels, news_preview):
     <div class="text-center mt-10">{more_btn("hotels.html", f"View all {len(HOTELS)} hotels &amp; lodges")}</div>
   </div>
 </section>
-<section class="py-12 md:py-24 bg-white">
+<section id="shopping" class="py-12 md:py-24 bg-white">
   <div class="max-w-6xl mx-auto px-5">
-    <div class="flex items-end justify-between mb-10 flex-wrap gap-4">
-      <div>
-        <p class="text-xs font-semibold tracking-widest uppercase mb-2" style="color:var(--forest2)">Stay Informed</p>
-        <h2 class="serif text-4xl font-bold text-gray-900">Latest from Suriname</h2>
-      </div>
-      <a href="news.html" class="hidden sm:inline-flex px-6 py-3 rounded-full text-white text-sm font-semibold hover:opacity-90 transition" style="background:var(--forest)">All News &rarr;</a>
+    <div class="text-center mb-10 md:mb-16">
+      <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Retail &amp; Souvenirs</p>
+      <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Shopping</h2>
+      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Malls, craft markets and local boutiques &mdash; from handmade souvenirs to everyday essentials.</p>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">{news_cards}</div>
-    <div class="text-center mt-8 sm:hidden">
-      <a href="news.html" class="inline-flex px-6 py-3 rounded-full text-white text-sm font-semibold" style="background:var(--forest)">All Suriname News &rarr;</a>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{shop_cards}</div>
+    <div class="text-center mt-10">{more_btn("shopping.html", f"View all {len(SHOPPING)} shops")}</div>
+  </div>
+</section>
+<section id="travel-tools" class="py-12 md:py-20 bg-gray-50">
+  <div class="max-w-5xl mx-auto px-5">
+    <div class="text-center mb-10">
+      <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Plan Your Visit</p>
+      <h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 mb-3">Travel Tools</h2>
+      <p class="text-gray-500 text-base max-w-xl mx-auto">Everything useful before and during your trip.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      <a href="currency.html" class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition">
+        <div class="flex items-start justify-between">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--mint)">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--forest2)"><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 2 0 1 0 0 6 3.5 2 0 1 0 0-6"/><path d="M12 7v2M12 15v2"/></svg>
+          </div>
+          <svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-900 mb-1">Currency Rates</p>
+          <p class="text-gray-500 text-sm leading-relaxed">Live SRD exchange rates &mdash; USD, EUR and more, updated daily.</p>
+        </div>
+      </a>
+      <a href="flights.html" class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition">
+        <div class="flex items-start justify-between">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--mint)">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--forest2)"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>
+          </div>
+          <svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-900 mb-1">Getting Here</p>
+          <p class="text-gray-500 text-sm leading-relaxed">Airlines, routes and arrival info for Johan Adolf Pengel International Airport.</p>
+        </div>
+      </a>
+      <a href="news.html" class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition">
+        <div class="flex items-start justify-between">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--mint)">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--forest2)"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
+          </div>
+          <svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-900 mb-1">Suriname Headlines</p>
+          <p class="text-gray-500 text-sm leading-relaxed">What&apos;s happening in Suriname &mdash; national news from three local sources.</p>
+        </div>
+      </a>
     </div>
   </div>
 </section>
@@ -5217,7 +5293,6 @@ def build_flights_page(flights_data):
           <p class="text-gray-500 text-sm leading-relaxed">International airport, 45&nbsp;km south of Paramaribo. Served by KLM (Amsterdam), Copa Airlines (Panama City), Caribbean Airlines (Trinidad) and Surinam Airways.</p>
         </div>
         <div>
-          <p class="font-bold text-gray-900 text-sm mb-1">Eduard Alexander Gummels &mdash; EAX</p>
           <p class="text-gray-500 text-sm leading-relaxed">City airport handling domestic flights and charter routes to Nickerie, Moengo and interior airstrips.</p>
         </div>
       </div>
@@ -5306,7 +5381,7 @@ if __name__ == "__main__":
     flights_data  = fetch_aerodatabox_flights()
 
     pages = {
-        "index.html":       build_index(RESTAURANTS, HOTELS, articles),
+        "index.html":       build_index(RESTAURANTS, HOTELS),
         "nature.html":      build_nature_page(),
         "activities.html":  build_activities_page(),
         "restaurants.html": build_restaurants_page(RESTAURANTS),
