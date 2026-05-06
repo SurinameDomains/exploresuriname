@@ -2713,10 +2713,10 @@ def nav_html(active="home", prefix=""):
     def _desktop_dd(dd_id, label, items_html, group_keys):
         dot = ' <span class="inline-block w-1.5 h-1.5 rounded-full mb-0.5" style="background:var(--forest)"></span>' if _group_active(group_keys) else ''
         return (
-            f'<div class="relative" id="{dd_id}">'
+            f'<div class="relative" id="{dd_id}" onmouseenter="openDd(\'{dd_id}\')" onmouseleave="closeDd(\'{dd_id}\')">'
             f'<button onclick="toggleDd(\'{dd_id}\')" {_top_btn_style(group_keys)}>'
             f'{label}{dot}{_chevron}</button>'
-            f'<div id="{dd_id}-menu" class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50">'
+            f'<div id="{dd_id}-menu" class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50">'
             f'{items_html}'
             f'</div></div>'
         )
@@ -2734,7 +2734,7 @@ def nav_html(active="home", prefix=""):
     )
     # Essentials
     ess_items = (
-        f'<a href="{prefix}currency.html"    {_link_cls("currency")}   >Currency (SRD Rates)</a>'
+        f'<a href="{prefix}currency.html"    {_link_cls("currency")}   >Market Rates</a>'
         f'<a href="{prefix}flights.html"     {_link_cls("flights")}    >Flights</a>'
         f'<a href="{prefix}conditions.html"  {_link_cls("forecast")}   >Weather &amp; Tides</a>'
     )
@@ -2777,7 +2777,7 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}hotels.html",      "Where to Stay", "hotels")
     )
     mob_ess_items = (
-        _mob_link(f"{prefix}currency.html",   "Currency (SRD Rates)", "currency") +
+        _mob_link(f"{prefix}currency.html",   "Market Rates", "currency") +
         _mob_link(f"{prefix}flights.html",    "Flights",              "flights")  +
         _mob_link(f"{prefix}conditions.html", "Weather & Tides",      "forecast")
     )
@@ -2829,6 +2829,26 @@ def nav_html(active="home", prefix=""):
 <script>
 /* ── Dropdown (desktop) ─────────────────────────────────────────────────── */
 var _openDd = null;
+var _ddTimer = null;
+function openDd(id) {{
+  if (_ddTimer) {{ clearTimeout(_ddTimer); _ddTimer = null; }}
+  if (_openDd && _openDd !== id) closeDd(_openDd);
+  var menu = document.getElementById(id + '-menu');
+  var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+  if (menu) menu.classList.remove('hidden');
+  if (chev) chev.style.transform = 'rotate(180deg)';
+  _openDd = id;
+}}
+function closeDd(id) {{
+  _ddTimer = setTimeout(function() {{
+    var menu = document.getElementById(id + '-menu');
+    var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+    if (menu) menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    if (_openDd === id) _openDd = null;
+    _ddTimer = null;
+  }}, 80);
+}}
 function toggleDd(id) {{
   var menu = document.getElementById(id + '-menu');
   var btn  = document.getElementById(id);
@@ -2962,21 +2982,25 @@ def footer_html(prefix=""):
     <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
       <div>
         <p class="serif text-2xl font-bold mb-3">Explore<span style="color:var(--coral)">Suriname</span></p>
-        <p class="text-white/60 text-sm leading-relaxed">Your guide to Suriname — restaurants, hotels, nature, activities and local news.</p>
+        <p class="text-white/60 text-sm leading-relaxed">Your guide to Suriname — places to eat, stay, explore, shop and stay informed with local and Oil &amp; Gas news.</p>
       </div>
       <div>
         <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Explore</p>
         <ul class="space-y-2 text-sm text-white/70">
+          <li class="text-white/35 text-xs uppercase tracking-wide pt-1">Things to Do</li>
           <li><a href="{prefix}nature.html"      class="hover:text-white transition">Nature &amp; Parks</a></li>
           <li><a href="{prefix}activities.html"  class="hover:text-white transition">Activities</a></li>
-          <li><a href="{prefix}restaurants.html" class="hover:text-white transition">Eat &amp; Drink</a></li>
-          <li><a href="{prefix}hotels.html"      class="hover:text-white transition">Hotels &amp; Lodges</a></li>
           <li><a href="{prefix}shopping.html"    class="hover:text-white transition">Shopping</a></li>
-          <li><a href="{prefix}services.html"    class="hover:text-white transition">Services</a></li>
-          <li><a href="{prefix}currency.html"    class="hover:text-white transition">Currency Rates</a></li>
+          <li class="text-white/35 text-xs uppercase tracking-wide pt-2">Eat &amp; Stay</li>
+          <li><a href="{prefix}restaurants.html" class="hover:text-white transition">Where to Eat</a></li>
+          <li><a href="{prefix}hotels.html"      class="hover:text-white transition">Where to Stay</a></li>
+          <li class="text-white/35 text-xs uppercase tracking-wide pt-2">Essentials</li>
+          <li><a href="{prefix}currency.html"    class="hover:text-white transition">Market Rates</a></li>
           <li><a href="{prefix}flights.html"     class="hover:text-white transition">Flights</a></li>
           <li><a href="{prefix}conditions.html"  class="hover:text-white transition">Weather &amp; Tides</a></li>
-          <li><a href="{prefix}news.html"        class="hover:text-white transition">Suriname News</a></li>
+          <li class="text-white/35 text-xs uppercase tracking-wide pt-2">Other</li>
+          <li><a href="{prefix}services.html"    class="hover:text-white transition">Local Services</a></li>
+          <li><a href="{prefix}news.html"        class="hover:text-white transition">News</a></li>
         </ul>
       </div>
       <div>
@@ -3238,6 +3262,37 @@ function _applyFilters() {{
   var visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
   var lbl = document.getElementById('result-count');
   if (lbl) lbl.textContent = visible + ' results';
+
+  /* ── Update district chip counts dynamically ── */
+  var distCounts = {{}};
+  var totalVisible = 0;
+  document.querySelectorAll('.listing-card').forEach(function(card) {{
+    var subOk = _activeSub === 'all' || card.dataset.sub === _activeSub;
+    if (!subOk) return;
+    var d = card.dataset.district || 'Paramaribo';
+    distCounts[d] = (distCounts[d] || 0) + 1;
+    totalVisible++;
+  }});
+  document.querySelectorAll('.dist-chip').forEach(function(btn) {{
+    var dist = btn.getAttribute('onclick').match(/'([^']+)'\s*\)/);
+    if (!dist) return;
+    dist = dist[1];
+    var countEl = btn.querySelector('.chip-count');
+    if (dist === 'all') {{
+      if (countEl) countEl.textContent = totalVisible;
+    }} else {{
+      var c = distCounts[dist] || 0;
+      if (countEl) countEl.textContent = c;
+      btn.style.display = c > 0 ? '' : 'none';
+      /* if active district now has 0 results, reset to all */
+      if (c === 0 && _activeDist === dist) {{
+        _activeDist = 'all';
+        document.querySelectorAll('.dist-chip').forEach(function(b) {{ b.classList.remove('dist-chip-active'); }});
+        var allBtn = document.querySelector('.dist-chip[onclick*="'all'"]');
+        if (allBtn) allBtn.classList.add('dist-chip-active');
+      }}
+    }}
+  }});
 }}
 
 function chipScroll(id, dir) {{
@@ -3480,9 +3535,9 @@ def build_index(restaurants, hotels):
     <div class="text-center mb-10">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Plan Your Visit</p>
       <h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 mb-3">Travel Tools</h2>
-      <p class="text-gray-500 text-base max-w-xl mx-auto">Exchange rates, flight schedules, weather and local news.</p>
+      <p class="text-gray-500 text-base max-w-xl mx-auto">Exchange rates, flights, weather, tides and Suriname news in one place.</p>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
       <a href="currency.html" class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition">
         <div class="flex items-start justify-between">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--mint)">
@@ -3491,8 +3546,8 @@ def build_index(restaurants, hotels):
           <svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
         </div>
         <div>
-          <p class="font-semibold text-gray-900 mb-1">Currency Rates</p>
-          <p class="text-gray-500 text-sm leading-relaxed">Live SRD exchange rates &mdash; USD, EUR and more, updated daily.</p>
+          <p class="font-semibold text-gray-900 mb-1">Market Rates</p>
+          <p class="text-gray-500 text-sm leading-relaxed">SRD exchange rates from CME and CBVS, plus live gold spot price in USD and SRD.</p>
         </div>
       </a>
       <a href="flights.html" class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition">
@@ -3503,8 +3558,20 @@ def build_index(restaurants, hotels):
           <svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
         </div>
         <div>
-          <p class="font-semibold text-gray-900 mb-1">Getting Here</p>
-          <p class="text-gray-500 text-sm leading-relaxed">Airlines, routes and arrival info for Johan Adolf Pengel International Airport.</p>
+          <p class="font-semibold text-gray-900 mb-1">Flights</p>
+          <p class="text-gray-500 text-sm leading-relaxed">Arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX).</p>
+        </div>
+      </a>
+      <a href="conditions.html" class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition">
+        <div class="flex items-start justify-between">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--mint)">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--forest2)"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/><circle cx="12" cy="12" r="4"/></svg>
+          </div>
+          <svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-900 mb-1">Weather &amp; Tides</p>
+          <p class="text-gray-500 text-sm leading-relaxed">7-day district forecasts, river tidal predictions and daily sunrise &amp; sunset times.</p>
         </div>
       </a>
       <a href="news.html" class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition">
@@ -3515,8 +3582,8 @@ def build_index(restaurants, hotels):
           <svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
         </div>
         <div>
-          <p class="font-semibold text-gray-900 mb-1">Suriname Headlines</p>
-          <p class="text-gray-500 text-sm leading-relaxed">What&apos;s happening in Suriname &mdash; national news from three local sources.</p>
+          <p class="font-semibold text-gray-900 mb-1">Suriname News</p>
+          <p class="text-gray-500 text-sm leading-relaxed">Local news in Dutch plus Oil &amp; Gas updates covering Staatsolie, Block 58 and Suriname&apos;s offshore sector.</p>
         </div>
       </a>
     </div>
@@ -3716,8 +3783,8 @@ doConvert();"""
 <div class="pt-16"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Currency Exchange</h1>
-  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Surinamese Dollar (SRD) rates &mdash; CBVS updated 3&times; daily &bull; CME updated continuously</p>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Market Rates</h1>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">SRD exchange rates &mdash; CBVS 3&times; daily &bull; CME continuous &bull; live gold spot price</p>
   <p class="text-white/35 text-xs mt-3">&#128336; Page built: {updated_now}</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
@@ -4786,7 +4853,7 @@ def build_about_page():
       </div>
       <div class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
-        <span><strong>Live Currency Rates</strong> &mdash; SRD exchange rates updated three times daily from CBVS and CME</span>
+        <span><strong>Market Rates</strong> &mdash; SRD exchange rates updated three times daily from CBVS and CME</span>
       </div>
       <div class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
@@ -5250,8 +5317,8 @@ def build_conditions_page(tides_data):
 <div class="pt-16"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Weather &amp; Conditions</h1>
-  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Live weather by district &bull; tidal forecasts for 5 rivers &bull; sunrise &amp; sunset</p>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Weather &amp; Tides</h1>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Live weather by district &bull; tidal forecasts for 4 rivers &bull; sunrise &amp; sunset</p>
   <p class="text-white/35 text-xs mt-3">&#128336; Page built: {updated_now}</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
