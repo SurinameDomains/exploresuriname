@@ -2684,7 +2684,7 @@ def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
     _TODO  = {"nature", "activities", "shopping"}
     _EAT   = {"restaurants", "hotels"}
-    _ESS   = {"currency", "flights", "forecast"}
+    _ESS   = {"currency", "flights", "forecast", "visitor"}
 
     def _is_active(key):
         return active == key
@@ -2737,6 +2737,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}currency.html"    {_link_cls("currency")}   >Market Rates</a>'
         f'<a href="{prefix}flights.html"     {_link_cls("flights")}    >Flights</a>'
         f'<a href="{prefix}conditions.html"  {_link_cls("forecast")}   >Weather &amp; Tides</a>'
+        f'<a href="{prefix}visitor-guide.html" {_link_cls("visitor")}  >Visitor Guide</a>'
     )
 
     desktop_nav = (
@@ -2779,7 +2780,8 @@ def nav_html(active="home", prefix=""):
     mob_ess_items = (
         _mob_link(f"{prefix}currency.html",   "Market Rates", "currency") +
         _mob_link(f"{prefix}flights.html",    "Flights",              "flights")  +
-        _mob_link(f"{prefix}conditions.html", "Weather & Tides",      "forecast")
+        _mob_link(f"{prefix}conditions.html", "Weather & Tides",      "forecast") +
+        _mob_link(f"{prefix}visitor-guide.html", "Visitor Guide",     "visitor")
     )
 
     _svc_col  = 'style="color:var(--forest)"' if _is_active("services") else ""
@@ -2998,6 +3000,7 @@ def footer_html(prefix=""):
           <li><a href="{prefix}currency.html"    class="hover:text-white transition">Market Rates</a></li>
           <li><a href="{prefix}flights.html"     class="hover:text-white transition">Flights</a></li>
           <li><a href="{prefix}conditions.html"  class="hover:text-white transition">Weather &amp; Tides</a></li>
+          <li><a href="{prefix}visitor-guide.html" class="hover:text-white transition">Visitor Guide</a></li>
           <li class="text-white/35 text-xs uppercase tracking-wide pt-2">Other</li>
           <li><a href="{prefix}services.html"    class="hover:text-white transition">Local Services</a></li>
           <li><a href="{prefix}news.html"        class="hover:text-white transition">News</a></li>
@@ -3531,13 +3534,13 @@ def build_index(restaurants, hotels):
   </div>
 </section>
 <section id="travel-tools" class="py-12 md:py-20 bg-gray-50">
-  <div class="max-w-5xl mx-auto px-5">
+  <div class="max-w-6xl mx-auto px-5">
     <div class="text-center mb-10">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Plan Your Visit</p>
       <h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 mb-3">Travel Tools</h2>
       <p class="text-gray-500 text-base max-w-xl mx-auto">Exchange rates, flights, weather, tides and Suriname news in one place.</p>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
       <a href="currency.html" class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition">
         <div class="flex items-start justify-between">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--mint)">
@@ -3584,6 +3587,18 @@ def build_index(restaurants, hotels):
         <div>
           <p class="font-semibold text-gray-900 mb-1">Suriname News</p>
           <p class="text-gray-500 text-sm leading-relaxed">Local news in Dutch plus Oil &amp; Gas updates covering Staatsolie, Block 58 and Suriname&apos;s offshore sector.</p>
+        </div>
+      </a>
+      <a href="visitor-guide.html" class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition">
+        <div class="flex items-start justify-between">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--mint)">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--forest2)"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
+          </div>
+          <svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-900 mb-1">Visitor Guide</p>
+          <p class="text-gray-500 text-sm leading-relaxed">Visas, customs, SIM cards, ATMs, taxi apps and mobile payments for first-time visitors.</p>
         </div>
       </a>
     </div>
@@ -4787,6 +4802,281 @@ def build_nature_listing_page(spot, slug):
 # ── Sitemap ──────────────────────────────────────────────────────────────────
 
 
+def build_visitor_guide_page():
+    """Suriname Visitor Guide — static page covering visas, customs, SIM cards, money, transport and apps."""
+    return f"""{PAGE_HEAD}
+  <title>Suriname Visitor Guide &mdash; Visas, SIMs, Money &amp; Getting Around | Explore Suriname</title>
+  <meta name="description" content="Everything a first-time visitor needs for Suriname: e-visa portal, customs declaration, SIM cards from Telesur and Digicel, best ATMs, taxi apps, food delivery and mobile payments.">
+  <link rel="canonical" href="{SITE_URL}/visitor-guide.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/visitor-guide.html">
+  <meta property="og:title" content="Suriname Visitor Guide | Explore Suriname">
+  <meta property="og:description" content="Visas, customs, SIM cards, ATMs, taxi apps and food delivery — the practical stuff, in one place.">
+  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Suriname Visitor Guide | Explore Suriname">
+  <meta name="twitter:description" content="Visas, customs, SIM cards, ATMs, taxi apps and food delivery — the practical stuff, in one place.">
+  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Visitor Guide","url":"{SITE_URL}/visitor-guide.html","description":"Practical guide for first-time visitors to Suriname: visa and entry requirements, customs declaration, SIM cards, ATMs, tipping, taxi apps, food delivery and mobile payments.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  </script>
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+{nav_html("visitor")}
+<div class="pt-16"></div>
+<div class="text-white py-14 text-center" style="background:var(--forest)">
+  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Visitor Guide</h1>
+  <p class="text-white/65 text-lg max-w-xl mx-auto px-5">Visas, customs, SIM cards, money and getting around&nbsp;&mdash; the practical stuff, in one place.</p>
+</div>
+
+<main class="max-w-3xl mx-auto px-5 py-12 pb-24">
+
+  <!-- VISA & ENTRY -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 sm:p-8 mb-6">
+    <div class="flex items-start gap-4">
+      <span class="text-3xl shrink-0 mt-0.5" aria-hidden="true">&#9992;&#65039;</span>
+      <div class="w-full min-w-0">
+        <h2 class="serif text-2xl font-bold text-gray-900 mb-1">Arrival &amp; Visa</h2>
+        <p class="text-gray-400 text-sm mb-5">Before you board</p>
+        <p class="text-gray-700 leading-relaxed mb-4">
+          Most nationalities need either a tourist visa or a tourist fee payment arranged before
+          arriving. Depending on your passport, this goes through your nearest Surinamese embassy or
+          the VFS Global portal. Check which applies to you &mdash; the process is straightforward
+          but has to be done in advance.
+        </p>
+        <a href="https://www.vfsglobal.com" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition mb-6 hover:opacity-90"
+           style="background:var(--forest2)">
+          VFS Global &mdash; Suriname Visa Portal &#8599;
+        </a>
+        <div class="rounded-xl p-4 border-l-4" style="background:#fff8f0;border-color:var(--coral)">
+          <p class="text-sm font-semibold text-gray-800 mb-1">Yellow Fever Certificate</p>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            If you're travelling from a country on the WHO yellow fever risk list &mdash; most of
+            sub-Saharan Africa and parts of South America &mdash; you need a valid vaccination
+            certificate to enter Suriname. It's checked at the border. Get vaccinated at least
+            10 days before departure; there's no workaround if you show up without it.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMS -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 sm:p-8 mb-6">
+    <div class="flex items-start gap-4">
+      <span class="text-3xl shrink-0 mt-0.5" aria-hidden="true">&#128196;</span>
+      <div class="w-full min-w-0">
+        <h2 class="serif text-2xl font-bold text-gray-900 mb-1">Customs Declaration</h2>
+        <p class="text-gray-400 text-sm mb-5">At the border</p>
+        <p class="text-gray-700 leading-relaxed mb-4">
+          Everyone entering Suriname fills out a customs and immigration declaration form from the ICF
+          (Immigratie- en Cultuurfonds). It covers what you're bringing in &mdash; cash over
+          US&nbsp;$10,000 must be declared. The form is distributed on the plane or available at the
+          airport; you can also access it directly through the ICF portal before you travel.
+        </p>
+        <a href="https://www.icf.sr" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition hover:opacity-90"
+           style="background:var(--forest2)">
+          ICF Suriname &mdash; Declaration Form &#8599;
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARITIME ENTRY -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 sm:p-8 mb-6">
+    <div class="flex items-start gap-4">
+      <span class="text-3xl shrink-0 mt-0.5" aria-hidden="true">&#9875;&#65039;</span>
+      <div class="w-full min-w-0">
+        <h2 class="serif text-2xl font-bold text-gray-900 mb-1">Arriving by Boat or Yacht</h2>
+        <p class="text-gray-400 text-sm mb-5">Maritime entry</p>
+        <p class="text-gray-700 leading-relaxed mb-4">
+          If you're sailing in, the Maritime Authority of Suriname (MAS) requires a
+          <em>Notice of Arrival</em> to be filed before entering Surinamese territorial waters.
+          This applies to private yachts, charter boats and any non-commercial vessel. File
+          through the MAS portal and keep a copy of the confirmation on board for inspection.
+        </p>
+        <a href="https://www.mas.sr" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition hover:opacity-90"
+           style="background:var(--forest2)">
+          MAS &mdash; Maritime Authority Suriname &#8599;
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIM + MONEY -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
+      <span class="text-3xl block mb-3" aria-hidden="true">&#128246;</span>
+      <h2 class="serif text-xl font-bold text-gray-900 mb-1">Getting a SIM Card</h2>
+      <p class="text-gray-400 text-sm mb-4">Connectivity</p>
+      <p class="text-gray-700 text-sm leading-relaxed mb-5">
+        Two carriers: <strong>Telesur</strong> and <strong>Digicel</strong>. Both have counters
+        in the arrivals hall at Johan Adolf Pengel airport. Bring your passport &mdash; registration
+        is mandatory. Coverage across Paramaribo and the coast is solid on either network; the
+        interior is a different story.
+      </p>
+      <div class="flex flex-col gap-2">
+        <a href="https://www.telesur.sr" target="_blank" rel="noopener"
+           class="flex items-center justify-between px-4 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-800 hover:border-gray-400 transition">
+          Telesur <span style="color:var(--forest2)">&#8599;</span>
+        </a>
+        <a href="https://www.digicelsuriname.com" target="_blank" rel="noopener"
+           class="flex items-center justify-between px-4 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-800 hover:border-gray-400 transition">
+          Digicel Suriname <span style="color:var(--forest2)">&#8599;</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
+      <span class="text-3xl block mb-3" aria-hidden="true">&#128181;</span>
+      <h2 class="serif text-xl font-bold text-gray-900 mb-1">Cash &amp; ATMs</h2>
+      <p class="text-gray-400 text-sm mb-4">Money</p>
+      <p class="text-gray-700 text-sm leading-relaxed mb-4">
+        The currency is the <strong>Surinamese Dollar (SRD)</strong>. ATMs at
+        <strong>DSB Bank</strong> and <strong>Republic Bank</strong> are the most reliable for
+        international Visa and Mastercard &mdash; fewer declines and reasonable rates.
+        Card acceptance is growing but cash is still expected at most places outside the
+        city centre.
+      </p>
+      <div class="rounded-xl p-4 text-sm" style="background:var(--mint)">
+        <span class="font-semibold" style="color:var(--forest)">Tipping &mdash;</span>
+        <span class="text-gray-700"> 10% is the standard at restaurants. Some add a service charge automatically; check your bill before you tip on top of it.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRANSPORT -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 sm:p-8 mb-6">
+    <div class="flex items-start gap-4">
+      <span class="text-3xl shrink-0 mt-0.5" aria-hidden="true">&#128663;</span>
+      <div class="w-full min-w-0">
+        <h2 class="serif text-2xl font-bold text-gray-900 mb-1">Getting Around</h2>
+        <p class="text-gray-400 text-sm mb-5">Taxis &amp; transport</p>
+        <p class="text-gray-700 leading-relaxed mb-4">
+          Johan Adolf Pengel airport is about 45&nbsp;km south of Paramaribo &mdash; allow
+          45&ndash;60 minutes depending on traffic. Taxis don't use meters, so agree the price
+          before you get in. From the airport into the city centre, most drivers quote around
+          SRD&nbsp;200&ndash;300. Suriname drives on the <strong>left</strong>.
+        </p>
+        <p class="text-gray-700 leading-relaxed mb-6">
+          For getting around Paramaribo, the main ride app is <strong>1690 Tourtonne</strong>. Prices are shown upfront and you skip the negotiation. Worth downloading before you land.
+        </p>
+        <div>
+          <div class="rounded-xl p-4 border border-gray-200">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <p class="font-bold text-gray-900 text-sm">1690 Tourtonne</p>
+            </div>
+            <p class="text-gray-500 text-xs mb-3">Taxi app &mdash; Paramaribo</p>
+            <div class="flex gap-2 flex-wrap">
+              <a href="https://play.google.com/store/search?q=tourtonne&c=apps" target="_blank" rel="noopener"
+                 class="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-700 hover:border-gray-400 transition font-medium">Play Store &#8599;</a>
+              <a href="https://apps.apple.com/search?term=tourtonne" target="_blank" rel="noopener"
+                 class="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-700 hover:border-gray-400 transition font-medium">App Store &#8599;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOD DELIVERY + UNI5PAY -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
+      <span class="text-3xl block mb-3" aria-hidden="true">&#128675;</span>
+      <h2 class="serif text-xl font-bold text-gray-900 mb-1">Food Delivery</h2>
+      <p class="text-gray-400 text-sm mb-4">Ride Eats</p>
+      <p class="text-gray-700 text-sm leading-relaxed mb-5">
+        <strong>Ride Eats</strong> is the main delivery app in Paramaribo. The restaurant
+        selection covers local Surinamese, Chinese, Indian, and fast food. Coverage is good across
+        the city &mdash; worth having on your phone from day one.
+      </p>
+      <div class="flex flex-col gap-2">
+        <a href="https://play.google.com/store/apps/details?id=com.resvevo.rideeats" target="_blank" rel="noopener"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-800 hover:border-gray-400 transition">
+          <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.18 23.76a2 2 0 0 0 2.08-.15l12.9-7.45-3.32-3.32-11.66 10.92zM.36 1.38A2 2 0 0 0 0 2.5v19a2 2 0 0 0 .36 1.12L.48 23.7l10.66-10.66v-.25L.48 2.13l-.12 1.25zM20.52 10.38l-3.56-2.05-3.73 3.73 3.73 3.73 3.59-2.07a2.03 2.03 0 0 0 0-3.34zM3.18.24L14.84 7.7l-3.32 3.32L.48.38 3.18.24z"/></svg>
+          Google Play &#8599;
+        </a>
+        <a href="https://apps.apple.com/sr/app/ride-eats/id1530050503" target="_blank" rel="noopener"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-800 hover:border-gray-400 transition">
+          <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          App Store &#8599;
+        </a>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
+      <span class="text-3xl block mb-3" aria-hidden="true">&#128241;</span>
+      <h2 class="serif text-xl font-bold text-gray-900 mb-1">Mobile Payments</h2>
+      <p class="text-gray-400 text-sm mb-4">Uni5Pay wallet</p>
+      <p class="text-gray-700 text-sm leading-relaxed mb-5">
+        <strong>Uni5Pay</strong> is Suriname's mobile wallet, accepted at a growing range of
+        shops, restaurants and vendors across Paramaribo. If you're staying more than a few
+        days, it's worth setting up &mdash; registration is straightforward and you can top
+        up directly in the app.
+      </p>
+      <div class="flex flex-col gap-2">
+        <a href="https://play.google.com/store/apps/details?id=com.unionpay.scomapp" target="_blank" rel="noopener"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-800 hover:border-gray-400 transition">
+          <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.18 23.76a2 2 0 0 0 2.08-.15l12.9-7.45-3.32-3.32-11.66 10.92zM.36 1.38A2 2 0 0 0 0 2.5v19a2 2 0 0 0 .36 1.12L.48 23.7l10.66-10.66v-.25L.48 2.13l-.12 1.25zM20.52 10.38l-3.56-2.05-3.73 3.73 3.73 3.73 3.59-2.07a2.03 2.03 0 0 0 0-3.34zM3.18.24L14.84 7.7l-3.32 3.32L.48.38 3.18.24z"/></svg>
+          Google Play &#8599;
+        </a>
+        <a href="https://apps.apple.com/de/app/uni5pay/id1464144473" target="_blank" rel="noopener"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-800 hover:border-gray-400 transition">
+          <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          App Store &#8599;
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- GOOD TO KNOW -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 sm:p-8 mb-6">
+    <h2 class="serif text-2xl font-bold text-gray-900 mb-6">Good to Know</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div class="flex items-start gap-3">
+        <span class="text-2xl shrink-0 mt-0.5" aria-hidden="true">&#128483;&#65039;</span>
+        <div>
+          <p class="font-semibold text-gray-900 text-sm mb-1">Language</p>
+          <p class="text-gray-600 text-sm leading-relaxed">Dutch is the official language. Sranan Tongo is the everyday street tongue. English is widely understood in hotels, restaurants and tourist spots across Paramaribo &mdash; you won't struggle.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="text-2xl shrink-0 mt-0.5" aria-hidden="true">&#128268;</span>
+        <div>
+          <p class="font-semibold text-gray-900 text-sm mb-1">Power &amp; Plugs</p>
+          <p class="text-gray-600 text-sm leading-relaxed">127V / 60Hz, Type A sockets (US-style flat-pin). Some hotels also provide 220V outlets. A universal adapter covers you for anything.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="text-2xl shrink-0 mt-0.5" aria-hidden="true">&#128167;</span>
+        <div>
+          <p class="font-semibold text-gray-900 text-sm mb-1">Drinking Water</p>
+          <p class="text-gray-600 text-sm leading-relaxed">Stick to bottled water. Tap water quality varies across the country and most locals do the same &mdash; not worth the risk when bottles are cheap and everywhere.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="text-2xl shrink-0 mt-0.5" aria-hidden="true">&#128680;</span>
+        <div>
+          <p class="font-semibold text-gray-900 text-sm mb-1">Emergency Numbers</p>
+          <p class="text-gray-600 text-sm leading-relaxed">Police: <strong class="text-gray-800">115</strong>&ensp;|&ensp;Ambulance: <strong class="text-gray-800">113</strong>&ensp;|&ensp;Fire: <strong class="text-gray-800">110</strong>. Save these before you need them.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+{footer_html()}
+</body>
+</html>"""
+
+
 def build_about_page():
     """Static About page — establishes site identity for Google AdSense review."""
     return f"""{PAGE_HEAD}
@@ -5109,6 +5399,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("currency.html",   "0.9", "daily"),
         ("flights.html",    "0.8", "daily"),
         ("conditions.html", "0.8", "daily"),
+        ("visitor-guide.html","0.8", "monthly"),
         ("news.html",       "0.7", "daily"),
         ("about.html",      "0.5", "yearly"),
         ("contact.html",    "0.5", "yearly"),
@@ -5801,6 +6092,7 @@ if __name__ == "__main__":
         "about.html":       build_about_page(),
         "contact.html":     build_contact_page(),
         "privacy.html":     build_privacy_page(),
+        "visitor-guide.html": build_visitor_guide_page(),
     }
 
     for fname, html in pages.items():
