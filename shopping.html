@@ -309,7 +309,7 @@ function _applyFilters() {
       if (c === 0 && _activeDist === dist) {
         _activeDist = 'all';
         document.querySelectorAll('.dist-chip').forEach(function(b) { b.classList.remove('dist-chip-active'); });
-        var allBtn = document.querySelector('.dist-chip[onclick*="'all'"]');
+        var allBtn = document.querySelector('.dist-chip');
         if (allBtn) allBtn.classList.add('dist-chip-active');
       }
     }
