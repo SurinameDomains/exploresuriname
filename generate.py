@@ -82,6 +82,16 @@ FEEDS = [
     {"name": "Waterkant",    "url": "https://www.waterkant.net/feed/",               "color": "#1a56db"},
 ]
 
+# Oil & gas feeds — broad feeds are filtered to Suriname-relevant articles only
+OIL_FEEDS = [
+    {"name": "OilNow",          "url": "https://oilnow.gy/feed/",                                                                                                                                                                                                                                                                                                                                                                                  "color": "#92400e", "filter": False},
+    {"name": "Offshore Energy",  "url": "https://www.offshore-energy.biz/feed/",                                                                                                                                                                                                                                                                                                                                                                     "color": "#1e40af", "filter": True},
+    {"name": "Rigzone",          "url": "https://www.rigzone.com/news/rss/rigzone_news.aspx",                                                                                                                                                                                                                                                                                                                                                         "color": "#374151", "filter": True},
+    {"name": "Google News",      "url": "https://news.google.com/rss/search?q=Staatsolie+OR+%22Block+58%22+OR+%22Block+52%22+OR+%22GranMorgu%22+OR+%22Sapakara%22+OR+%22Krabdagu%22+OR+%22TotalEnergies+Suriname%22+OR+%22APA+Suriname%22+OR+%22PETRONAS+Suriname%22+OR+%22offshore+Suriname%22+OR+%22Suriname+oil%22+OR+%22Suriname+gas%22+OR+%22Suriname+energy%22&hl=en&gl=US&ceid=US:en", "color": "#be185d", "filter": False},
+]
+
+_OIL_KEYWORDS = {"suriname", "staatsolie", "block 58", "block 52", "granmorgu", "sapakara", "krabdagu"}
+
 NATURE_SPOTS = [
     {"name": "Central Suriname Nature Reserve", "badge": "UNESCO World Heritage",
      "desc": "One of the world's largest intact tropical rainforests — 1.6 million hectares of intact rainforest where jaguars, tapirs and giant river otters roam free.",
@@ -2144,6 +2154,47 @@ def fetch_articles():
     articles.sort(key=lambda a: a["date"], reverse=True)
     return articles
 
+def fetch_oil_articles():
+    """Fetch Oil & Gas articles relevant to Suriname.
+    Broad feeds (filter=True) are restricted to articles mentioning Suriname keywords.
+    """
+    _UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    articles = []
+    for src_feed in OIL_FEEDS:
+        try:
+            feed  = feedparser.parse(src_feed["url"], agent=_UA)
+            if getattr(feed, "status", 200) in (403, 401):
+                print(f"  SKIP {src_feed['name']} (oil): HTTP {feed.status} — feed blocks server requests")
+                continue
+            count = 0
+            for entry in feed.entries[:30]:
+                title   = strip_tags(getattr(entry, "title", "")).strip()
+                summary = strip_tags(getattr(entry, "summary", ""))
+                # Filter broad feeds to Suriname-relevant articles only
+                if src_feed.get("filter"):
+                    combined = (title + " " + summary).lower()
+                    if not any(kw in combined for kw in _OIL_KEYWORDS):
+                        continue
+                if len(summary) > 200: summary = summary[:197] + "..."
+                link = getattr(entry, "link", "#")
+                pub  = parse_date(entry)
+                articles.append({
+                    "title":   title,
+                    "link":    link,
+                    "summary": summary,
+                    "image":   get_image(entry),
+                    "date":    pub,
+                    "ago":     time_ago(pub),
+                    "source":  src_feed["name"],
+                    "color":   src_feed["color"],
+                })
+                count += 1
+            print(f"  OK  {src_feed['name']} (oil): {count}")
+        except Exception as e:
+            print(f"  ERR {src_feed['name']} (oil): {e}")
+    articles.sort(key=lambda a: a["date"], reverse=True)
+    return articles
+
 def fetch_cme_rates():
     """
     CME.sr rates via their internal JSON API.
@@ -2630,50 +2681,201 @@ def fetch_aerodatabox_flights():
 
 
 def nav_html(active="home", prefix=""):
-    links = [
-        (f"{prefix}nature.html",       "Nature"),
-        (f"{prefix}activities.html",   "Activities"),
-        (f"{prefix}restaurants.html",  "Eat & Drink"),
-        (f"{prefix}hotels.html",       "Stay"),
-        (f"{prefix}shopping.html",     "Shopping"),
-        (f"{prefix}services.html",     "Services"),
-        (f"{prefix}currency.html",     "Currency"),
-        (f"{prefix}flights.html",      "Flights"),
-        (f"{prefix}conditions.html",   "Forecast"),
-        (f"{prefix}news.html",         "News"),
-    ]
-    lhtml = ""
-    mhtml = ""
-    for href, label in links:
-        cls = "font-semibold" if label.lower() == active else "text-gray-700 hover:text-green-800 transition"
-        color = 'style="color:var(--forest)"' if label.lower() == active else ""
-        lhtml += f'<a href="{href}" class="{cls} text-sm" {color}>{label}</a>\n'
-        mcls = "font-semibold border-l-2 pl-3" if label.lower() == active else "text-gray-700 border-l-2 border-transparent pl-3"
-        mcolor = 'style="color:var(--forest);border-color:var(--forest)"' if label.lower() == active else ""
-        mhtml += f'<a href="{href}" class="{mcls} block py-3 text-sm" {mcolor}>{label}</a>\n'
+    # ── Group / active-state helpers ────────────────────────────────────────
+    _TODO  = {"nature", "activities", "shopping"}
+    _EAT   = {"restaurants", "hotels"}
+    _ESS   = {"currency", "flights", "forecast"}
+
+    def _is_active(key):
+        return active == key
+
+    def _group_active(keys):
+        return active in keys
+
+    def _link_cls(key):
+        if _is_active(key):
+            return 'class="block px-4 py-2.5 text-sm font-semibold rounded-lg" style="color:var(--forest);background:var(--mint)"'
+        return 'class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition"'
+
+    def _top_btn_style(group_keys):
+        if _group_active(group_keys):
+            return 'class="dd-trigger flex items-center gap-1 text-sm font-semibold transition py-1" style="color:var(--forest)"'
+        return 'class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1"'
+
+    def _top_single_style(key):
+        if _is_active(key):
+            return 'class="text-sm font-semibold py-1" style="color:var(--forest)"'
+        return 'class="text-sm text-gray-700 hover:text-green-800 transition py-1"'
+
+    _chevron = '<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>'
+
+    # ── Desktop dropdowns ───────────────────────────────────────────────────
+    def _desktop_dd(dd_id, label, items_html, group_keys):
+        dot = ' <span class="inline-block w-1.5 h-1.5 rounded-full mb-0.5" style="background:var(--forest)"></span>' if _group_active(group_keys) else ''
+        return (
+            f'<div class="relative" id="{dd_id}">'
+            f'<button onclick="toggleDd(\'{dd_id}\')" {_top_btn_style(group_keys)}>'
+            f'{label}{dot}{_chevron}</button>'
+            f'<div id="{dd_id}-menu" class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50">'
+            f'{items_html}'
+            f'</div></div>'
+        )
+
+    # Things to Do
+    todo_items = (
+        f'<a href="{prefix}nature.html"      {_link_cls("nature")}     >Nature</a>'
+        f'<a href="{prefix}activities.html"  {_link_cls("activities")} >Activities</a>'
+        f'<a href="{prefix}shopping.html"    {_link_cls("shopping")}   >Shopping</a>'
+    )
+    # Eat & Stay
+    eat_items = (
+        f'<a href="{prefix}restaurants.html" {_link_cls("restaurants")}>Where to Eat</a>'
+        f'<a href="{prefix}hotels.html"      {_link_cls("hotels")}     >Where to Stay</a>'
+    )
+    # Essentials
+    ess_items = (
+        f'<a href="{prefix}currency.html"    {_link_cls("currency")}   >Currency (SRD Rates)</a>'
+        f'<a href="{prefix}flights.html"     {_link_cls("flights")}    >Flights</a>'
+        f'<a href="{prefix}conditions.html"  {_link_cls("forecast")}   >Weather &amp; Tides</a>'
+    )
+
+    desktop_nav = (
+        _desktop_dd("dd-todo", "Things to Do",   todo_items, _TODO) +
+        _desktop_dd("dd-eat",  "Eat &amp; Stay", eat_items,  _EAT)  +
+        f'<a href="{prefix}services.html" {_top_single_style("services")}>Local Services</a>' +
+        _desktop_dd("dd-ess",  "Essentials",     ess_items,  _ESS)  +
+        f'<a href="{prefix}news.html" {_top_single_style("news")}>News</a>'
+    )
+
+    # ── Mobile accordion ────────────────────────────────────────────────────
+    def _mob_link(href, label, key):
+        if _is_active(key):
+            return f'<a href="{href}" class="flex items-center gap-2 py-2.5 px-3 text-sm font-semibold rounded-lg" style="color:var(--forest);background:var(--mint)">{label}</a>'
+        return f'<a href="{href}" class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg">{label}</a>'
+
+    def _mob_group(mg_id, label, items_html, group_keys):
+        open_cls  = "" if _group_active(group_keys) else " hidden"
+        hdr_style = 'style="color:var(--forest)"' if _group_active(group_keys) else ""
+        return (
+            f'<div class="mob-group">'
+            f'<button onclick="toggleMobGroup(\'{mg_id}\')" '
+            f'class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" {hdr_style}>'
+            f'<span>{label}</span>'
+            f'<svg class="mob-chevron w-4 h-4 transition-transform duration-200{" rotate-180" if _group_active(group_keys) else ""}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>'
+            f'</button>'
+            f'<div id="{mg_id}" class="mob-group-body pl-2 pb-1{open_cls}">{items_html}</div>'
+            f'</div>'
+        )
+
+    mob_todo_items = (
+        _mob_link(f"{prefix}nature.html",      "Nature",       "nature")     +
+        _mob_link(f"{prefix}activities.html",  "Activities",   "activities") +
+        _mob_link(f"{prefix}shopping.html",    "Shopping",     "shopping")
+    )
+    mob_eat_items = (
+        _mob_link(f"{prefix}restaurants.html", "Where to Eat",  "restaurants") +
+        _mob_link(f"{prefix}hotels.html",      "Where to Stay", "hotels")
+    )
+    mob_ess_items = (
+        _mob_link(f"{prefix}currency.html",   "Currency (SRD Rates)", "currency") +
+        _mob_link(f"{prefix}flights.html",    "Flights",              "flights")  +
+        _mob_link(f"{prefix}conditions.html", "Weather & Tides",      "forecast")
+    )
+
+    _svc_col  = 'style="color:var(--forest)"' if _is_active("services") else ""
+    _news_col = 'style="color:var(--forest)"' if _is_active("news")     else ""
+    _svc_link  = f'<a href="{prefix}services.html" class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" {_svc_col}>Local Services</a>'
+    _news_link = f'<a href="{prefix}news.html" class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" {_news_col}>News</a>'
+
+    # Used by the search modal JS
     cat_colors = {"Eat & Drink":"#7c3aed","Stay":"#c05621","Nature":"var(--forest)",
-                   "Activities":"var(--forest2)","Shopping":"#0369a1","Services":"#0369a1","Sightseeing":"var(--forest)"}
+                  "Activities":"var(--forest2)","Shopping":"#0369a1","Services":"#0369a1","Sightseeing":"var(--forest)"}
+
+    mobile_menu = (
+        _mob_group("mg-todo", "Things to Do",   mob_todo_items, _TODO) +
+        _mob_group("mg-eat",  "Eat & Stay",     mob_eat_items,  _EAT)  +
+        _svc_link +
+        _mob_group("mg-ess",  "Essentials",     mob_ess_items,  _ESS)  +
+        _news_link
+    )
+
     return f"""
+<style>
+.dd-menu {{ transform-origin: top center; }}
+.dd-menu.open {{ display:block!important; animation: ddFadeIn .15s ease; }}
+@keyframes ddFadeIn {{ from{{opacity:0;transform:translateY(-6px)}} to{{opacity:1;transform:translateY(0)}} }}
+</style>
 <nav class="fixed top-0 w-full z-50" style="background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.06)">
-  <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between">
-    <a href="{prefix}index.html" class="flex items-baseline">
+  <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+    <a href="{prefix}index.html" class="flex items-baseline flex-shrink-0">
       <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
     </a>
-    <div class="hidden md:flex items-center gap-5">{lhtml}</div>
-    <div class="flex items-center gap-2">
+    <div class="hidden md:flex items-center gap-6">{desktop_nav}</div>
+    <div class="flex items-center gap-2 flex-shrink-0">
       <button onclick="openSearch()" title="Search listings (press /)" class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50 sm:min-w-[120px]">
         <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
         <span class="hidden sm:inline">Search…</span>
         <span class="ml-auto hidden sm:inline text-xs bg-gray-200 text-gray-500 rounded px-1.5 py-0.5 font-mono">/</span>
       </button>
+      <button id="hamburger" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition" aria-label="Menu">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
     </div>
-    <button onclick="document.getElementById('mm').classList.toggle('hidden')" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
-      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-    </button>
   </div>
-  <div id="mm" class="hidden md:hidden border-t bg-white px-5 py-2 flex flex-col">{mhtml}</div>
+  <div id="mm" class="hidden md:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto">
+    {mobile_menu}
+  </div>
 </nav>
-
+<script>
+/* ── Dropdown (desktop) ─────────────────────────────────────────────────── */
+var _openDd = null;
+function toggleDd(id) {{
+  var menu = document.getElementById(id + '-menu');
+  var btn  = document.getElementById(id);
+  var chev = btn ? btn.querySelector('.dd-chevron') : null;
+  if (_openDd && _openDd !== id) {{
+    var prev = document.getElementById(_openDd + '-menu');
+    var prevBtn = document.getElementById(_openDd);
+    if (prev)    prev.classList.add('hidden');
+    if (prevBtn) {{ var c = prevBtn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }}
+    _openDd = null;
+  }}
+  if (!menu) return;
+  var isOpen = !menu.classList.contains('hidden');
+  if (isOpen) {{
+    menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    _openDd = null;
+  }} else {{
+    menu.classList.remove('hidden');
+    if (chev) chev.style.transform = 'rotate(180deg)';
+    _openDd = id;
+  }}
+}}
+document.addEventListener('click', function(e) {{
+  if (_openDd && !document.getElementById(_openDd).contains(e.target)) {{
+    var menu = document.getElementById(_openDd + '-menu');
+    var btn  = document.getElementById(_openDd);
+    if (menu) menu.classList.add('hidden');
+    if (btn)  {{ var c = btn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }}
+    _openDd = null;
+  }}
+}});
+/* ── Mobile accordion ───────────────────────────────────────────────────── */
+function toggleMobileMenu() {{
+  var mm = document.getElementById('mm');
+  mm.classList.toggle('hidden');
+}}
+function toggleMobGroup(id) {{
+  var body = document.getElementById(id);
+  var btn  = body ? body.previousElementSibling : null;
+  var chev = btn  ? btn.querySelector('.mob-chevron') : null;
+  if (!body) return;
+  var isOpen = !body.classList.contains('hidden');
+  body.classList.toggle('hidden', isOpen);
+  if (chev) chev.style.transform = isOpen ? '' : 'rotate(180deg)';
+}}
+</script>
 <!-- ── Global Search Modal ───────────────────────────────────────────── -->
 <div id="search-modal" onclick="if(event.target===this)closeSearch()"
   style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);padding:80px 16px 16px">
@@ -3059,6 +3261,7 @@ function filterDistrict(btn, dist) {{
 </script>"""
 
 def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None):
+    _page_active = page_file.replace(".html", "") if page_file else "home"
     page_url = f"{SITE_URL}/{page_file}"
     _og_img = og_image or f"{SITE_URL}/og-image.jpg"
     _lcp_preload = f'  <link rel="preload" as="image" href="{lcp_image}" fetchpriority="high">\n' if lcp_image else ""
@@ -3086,7 +3289,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   </script>
 {_lcp_preload}</head>
 <body class="bg-gray-50">
-{nav_html()}
+{nav_html(_page_active)}
 <div class="pt-16"></div>
 <div class="text-white py-16 text-center" style="background:{bg_color}">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
@@ -3666,78 +3869,183 @@ doConvert();"""
 </body>
 </html>"""
 
-def build_news(articles):
+def build_news(articles, oil_articles):
     updated   = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
-    total     = len(articles)
-    all_html  = "\n".join(news_card_html(a) for a in articles[:30])
-    filter_tabs_html = '<button onclick="filterNews(\'all\')" id="nfilt-all" class="news-filt-btn text-xs font-semibold px-3 py-1.5 rounded-full border transition" style="background:var(--forest);border-color:var(--forest);color:#fff">All</button>\n'
+
+    # ── Local news section ──────────────────────────────────────────────────
+    local_cards_html = "\n".join(news_card_html(a, eager=(idx==0)) for idx, a in enumerate(articles[:30]))
+    local_filter_html = (
+        '<button onclick="filterSection(\'local\',\'all\')" id="lf-all" '
+        'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
+        'style="background:var(--forest);border-color:var(--forest);color:#fff">All</button>\n'
+    )
     for _feed in FEEDS:
-        _fname     = _feed["name"]
-        _fname_esc = html_lib.escape(_fname)
-        _fid       = html_lib.escape(_fname.replace(" ", "_"))
-        filter_tabs_html += (
-            f'<button onclick="filterNews(\'{_fname_esc}\')" id="nfilt-{_fid}" '
-            f'class="news-filt-btn text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
+        _fn  = _feed["name"]
+        _fid = _fn.replace(" ", "_")
+        local_filter_html += (
+            f'<button onclick="filterSection(\'local\',\'{html_lib.escape(_fn)}\')" id="lf-{_fid}" '
+            f'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
             f'style="border-color:#e5e7eb;color:#374151;background:#fff">'
-            f'{_fname_esc}</button>\n'
+            f'{html_lib.escape(_fn)}</button>\n'
         )
+
+    # ── Oil & Gas section ───────────────────────────────────────────────────
+    oil_cards_html = "\n".join(news_card_html(a, eager=False) for a in oil_articles[:30]) if oil_articles else (
+        '<div class="col-span-full text-center py-16 text-gray-400">'
+        '<p class="text-4xl mb-3">⛽</p>'
+        '<p class="text-sm">No Oil &amp; Gas articles available right now. Check back soon.</p>'
+        '</div>'
+    )
+    oil_filter_html = (
+        '<button onclick="filterSection(\'oil\',\'all\')" id="of-all" '
+        'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
+        'style="background:#92400e;border-color:#92400e;color:#fff">All</button>\n'
+    )
+    for _feed in OIL_FEEDS:
+        _fn  = _feed["name"]
+        _fid = _fn.replace(" ", "_")
+        oil_filter_html += (
+            f'<button onclick="filterSection(\'oil\',\'{html_lib.escape(_fn)}\')" id="of-{_fid}" '
+            f'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
+            f'style="border-color:#e5e7eb;color:#374151;background:#fff">'
+            f'{html_lib.escape(_fn)}</button>\n'
+        )
+
+    local_count = len(articles)
+    oil_count   = len(oil_articles)
+
     return f"""{PAGE_HEAD}
-  <title>Suriname News Today &mdash; De Ware Tijd, Starnieuws &amp; Waterkant | Explore Suriname</title>
-  <meta name="description" content="Suriname news from De Ware Tijd, Starnieuws and Waterkant — three national sources in one place. Business, politics, culture and society from Paramaribo. Published in Dutch.">
+  <title>Suriname News &mdash; Local &amp; Oil and Gas | Explore Suriname</title>
+  <meta name="description" content="Suriname local news and oil &amp; gas updates in one place — De Ware Tijd, Starnieuws, Waterkant, Staatsolie, Block 58 and more.">
   <link rel="canonical" href="{SITE_URL}/news.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/news.html">
-  <meta property="og:title" content="Suriname News Today &mdash; De Ware Tijd, Starnieuws &amp; Waterkant | Explore Suriname">
-  <meta property="og:description" content="Suriname news from De Ware Tijd, Starnieuws and Waterkant in one place. Updated continuously.">
+  <meta property="og:title" content="Suriname News &mdash; Local &amp; Oil and Gas | Explore Suriname">
+  <meta property="og:description" content="Suriname local news and oil &amp; gas updates from De Ware Tijd, Starnieuws, Waterkant, OilNow and more.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Suriname News Today &mdash; De Ware Tijd, Starnieuws &amp; Waterkant | Explore Suriname">
-  <meta name="twitter:description" content="Suriname news from De Ware Tijd, Starnieuws and Waterkant. Updated continuously.">
+  <meta name="twitter:title" content="Suriname News &mdash; Local &amp; Oil and Gas | Explore Suriname">
+  <meta name="twitter:description" content="Suriname local news and oil &amp; gas updates in one place.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("news")}
 <div class="pt-16"></div>
-<div class="text-white text-center py-16" style="background:var(--forest)">
+
+<!-- ── Hero ─────────────────────────────────────────────────────────────── -->
+<div class="text-white text-center py-14" style="background:var(--forest)">
   <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--leaf)">Suriname News</p>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Latest from Suriname</h1>
-  <p class="text-white/55 text-sm">{updated} &middot; {total} stories from {len(FEEDS)} sources</p>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Stay Informed</h1>
+  <p class="text-white/55 text-sm">{updated}</p>
 </div>
-<main class="max-w-5xl mx-auto px-5 py-10 pb-20">
+
+<!-- ── Tab switcher ──────────────────────────────────────────────────────── -->
+<div class="sticky top-16 z-40 bg-white border-b border-gray-100 shadow-sm">
+  <div class="max-w-5xl mx-auto px-5">
+    <div class="flex gap-1 py-2" role="tablist">
+      <button id="tab-local" role="tab" aria-selected="true" aria-controls="section-local"
+        onclick="switchTab('local')"
+        class="tab-btn flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
+        style="background:var(--forest);color:#fff">
+        <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 12h6m-6-4h2"/></svg>
+        <span>Local News</span>
+        <span class="hidden sm:inline text-xs font-normal opacity-70">({local_count} stories)</span>
+      </button>
+      <button id="tab-oil" role="tab" aria-selected="false" aria-controls="section-oil"
+        onclick="switchTab('oil')"
+        class="tab-btn flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
+        style="background:#f3f4f6;color:#374151">
+        <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        <span>Oil &amp; Gas</span>
+        <span class="hidden sm:inline text-xs font-normal opacity-70">({oil_count} stories)</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<main class="max-w-5xl mx-auto px-5 py-8 pb-20">
   {ad_slot("Top Banner Ad — Replace with Google AdSense code")}
-  <div class="rounded-2xl border border-amber-100 px-5 py-3 mb-6" style="background:#fffbeb">
-    <p class="text-amber-800 text-sm leading-relaxed">
-      <strong>Note:</strong> Articles are published in Dutch, the national language of Suriname. Readers outside Suriname may wish to use browser translation.
-    </p>
+
+  <!-- ── Local News ─────────────────────────────────────────────────────── -->
+  <div id="section-local" role="tabpanel" aria-labelledby="tab-local">
+    <div class="rounded-2xl border border-amber-100 px-5 py-3 mb-5" style="background:#fffbeb">
+      <p class="text-amber-800 text-sm leading-relaxed">
+        <strong>Note:</strong> Articles are published in Dutch, the national language of Suriname. Readers outside Suriname may wish to use browser translation.
+      </p>
+    </div>
+    <div class="flex gap-2 flex-wrap mb-6" id="local-filters">
+      {local_filter_html}
+    </div>
+    <div id="local-feed" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{local_cards_html}</div>
   </div>
-  <div class="flex gap-2 flex-wrap mb-6">
-    {filter_tabs_html}
+
+  <!-- ── Oil & Gas ──────────────────────────────────────────────────────── -->
+  <div id="section-oil" role="tabpanel" aria-labelledby="tab-oil" style="display:none">
+    <div class="rounded-2xl border border-blue-100 px-5 py-3 mb-5" style="background:#eff6ff">
+      <p class="text-blue-800 text-sm leading-relaxed">
+        <strong>Suriname Oil &amp; Gas:</strong> Covering Staatsolie, Block 58 (TotalEnergies), Block 52 (APA / PETRONAS), GranMorgu, Sapakara and Krabdagu developments.
+      </p>
+    </div>
+    <div class="flex gap-2 flex-wrap mb-6" id="oil-filters">
+      {oil_filter_html}
+    </div>
+    <div id="oil-feed" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{oil_cards_html}</div>
   </div>
-  <div id="news-feed" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{all_html}</div>
 </main>
+
 <script>
-function filterNews(source) {{
-  document.querySelectorAll('.news-filt-btn').forEach(function(b) {{
-    b.style.background = '#fff';
-    b.style.borderColor = '#e5e7eb';
-    b.style.color = '#374151';
+/* ── Tab switching ──────────────────────────────────────────────────────── */
+function switchTab(tab) {{
+  var isLocal = tab === 'local';
+  var tLocal  = document.getElementById('tab-local');
+  var tOil    = document.getElementById('tab-oil');
+  var sLocal  = document.getElementById('section-local');
+  var sOil    = document.getElementById('section-oil');
+
+  tLocal.style.background = isLocal ? 'var(--forest)' : '#f3f4f6';
+  tLocal.style.color      = isLocal ? '#fff' : '#374151';
+  tOil.style.background   = isLocal ? '#f3f4f6' : '#92400e';
+  tOil.style.color        = isLocal ? '#374151' : '#fff';
+  tLocal.setAttribute('aria-selected', isLocal ? 'true' : 'false');
+  tOil.setAttribute('aria-selected',   isLocal ? 'false' : 'true');
+
+  sLocal.style.display = isLocal ? '' : 'none';
+  sOil.style.display   = isLocal ? 'none' : '';
+}}
+
+/* ── Source filter ──────────────────────────────────────────────────────── */
+function filterSection(section, source) {{
+  var feedId    = section === 'local' ? 'local-feed' : 'oil-feed';
+  var filterId  = section === 'local' ? 'local-filters' : 'oil-filters';
+  var activeColor = section === 'local' ? 'var(--forest)' : '#92400e';
+  var allBtnId  = section === 'local' ? 'lf-all' : 'of-all';
+
+  document.querySelectorAll('#' + filterId + ' .sec-filt').forEach(function(b) {{
+    b.style.background   = '#fff';
+    b.style.borderColor  = '#e5e7eb';
+    b.style.color        = '#374151';
   }});
-  var activeId = source === 'all' ? 'nfilt-all' : 'nfilt-' + source.replace(/ /g,'_');
+
+  var activeId  = source === 'all'
+    ? (section === 'local' ? 'lf-all' : 'of-all')
+    : (section === 'local' ? 'lf-' : 'of-') + source.replace(/ /g, '_');
   var activeBtn = document.getElementById(activeId);
   if (activeBtn) {{
-    activeBtn.style.background = 'var(--forest)';
-    activeBtn.style.borderColor = 'var(--forest)';
-    activeBtn.style.color = '#fff';
+    activeBtn.style.background  = activeColor;
+    activeBtn.style.borderColor = activeColor;
+    activeBtn.style.color       = '#fff';
   }}
-  document.querySelectorAll('#news-feed > a').forEach(function(card) {{
-    if (source === 'all' || card.dataset.source === source) {{
-      card.style.display = '';
-    }} else {{
-      card.style.display = 'none';
-    }}
+
+  document.querySelectorAll('#' + feedId + ' > a').forEach(function(card) {{
+    card.style.display = (source === 'all' || card.dataset.source === source) ? '' : 'none';
   }});
 }}
+
+/* ── Hash routing (optional deep-link) ─────────────────────────────────── */
+(function() {{
+  if (window.location.hash === '#oil') switchTab('oil');
+}})();
 </script>
 {footer_html()}
 </body>
@@ -5403,7 +5711,8 @@ def build_map_page(gmaps_key=""):
 if __name__ == "__main__":
     print("ExploreSuriname generator starting...")
 
-    articles = fetch_articles()
+    articles     = fetch_articles()
+    oil_articles = fetch_oil_articles()
     cme_rates,  cme_live,  cme_updated  = fetch_cme_rates()
     cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
     tides_data    = fetch_worldtides()
@@ -5421,7 +5730,7 @@ if __name__ == "__main__":
                                                 cbvs_rates, cbvs_live, cbvs_updated),
         "conditions.html":  build_conditions_page(tides_data),
         "flights.html":     build_flights_page(flights_data),
-        "news.html":        build_news(articles),
+        "news.html":        build_news(articles, oil_articles),
         "about.html":       build_about_page(),
         "contact.html":     build_contact_page(),
         "privacy.html":     build_privacy_page(),
