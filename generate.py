@@ -84,7 +84,7 @@ FEEDS = [
 
 NATURE_SPOTS = [
     {"name": "Central Suriname Nature Reserve", "badge": "UNESCO World Heritage",
-     "desc": "One of the world's largest intact tropical rainforests — 1.6 million pristine hectares where jaguars, tapirs and giant river otters roam free. A global treasure.",
+     "desc": "One of the world's largest intact tropical rainforests — 1.6 million hectares of intact rainforest where jaguars, tapirs and giant river otters roam free.",
      "tags": ["UNESCO", "Rainforest", "Wildlife"],
      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Amazon_jungle_from_above.jpg/1280px-Amazon_jungle_from_above.jpg",
      "fact": "Larger than some entire countries", "url": "https://whc.unesco.org/en/list/1017/"},
@@ -3214,14 +3214,14 @@ def build_index(restaurants, hotels):
 </section>
 <section class="py-10 bg-white border-b border-gray-100">
   <div class="max-w-2xl mx-auto px-5 text-center">
-    <p class="text-gray-500 text-base leading-relaxed">This isn&apos;t just a directory &mdash; it&apos;s a living record of the people and places moving Suriname forward. We find the details so you can find the experience.</p>
+    <p class="text-gray-500 text-base leading-relaxed">This isn&apos;t just a directory. It&apos;s a living record of the people and places moving Suriname forward. We find the details so you can find the experience.</p>
   </div>
 </section>
 <section id="nature" class="py-12 md:py-24 bg-gray-50">
   <div class="max-w-6xl mx-auto px-5">
     <div class="text-center mb-10 md:mb-16">
-      <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Pristine Wilderness</p>
-      <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Nature Like Nowhere Else</h2>
+      <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Natural Wonders</p>
+      <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Suriname&apos;s Wild Side</h2>
       <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Suriname protects more of its original forest than any other country on earth.</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{nature_cards}</div>
@@ -3231,9 +3231,9 @@ def build_index(restaurants, hotels):
 <section id="activities" class="py-12 md:py-24 bg-white">
   <div class="max-w-6xl mx-auto px-5">
     <div class="text-center mb-10 md:mb-16">
-      <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Adventures Await</p>
+      <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Out &amp; About</p>
       <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Things to Do</h2>
-      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">From deep jungle expeditions to cultural immersion.</p>
+      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Jungle treks, river tours, city walks, turtle watching and more.</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{activity_cards}</div>
     <div class="text-center mt-10">{more_btn("activities.html", f"View all {len(ACTIVITIES) + len(ADVENTURES_BIZ)} activities")}</div>
@@ -3277,7 +3277,7 @@ def build_index(restaurants, hotels):
     <div class="text-center mb-10">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Plan Your Visit</p>
       <h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 mb-3">Travel Tools</h2>
-      <p class="text-gray-500 text-base max-w-xl mx-auto">Everything useful before and during your trip.</p>
+      <p class="text-gray-500 text-base max-w-xl mx-auto">Exchange rates, flight schedules, weather and local news.</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
       <a href="currency.html" class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition">
@@ -5321,23 +5321,24 @@ def build_flights_page(flights_data):
           <p class="text-gray-500 text-sm leading-relaxed">International airport, 45&nbsp;km south of Paramaribo. Served by KLM (Amsterdam), Copa Airlines (Panama City), Caribbean Airlines (Trinidad) and Surinam Airways.</p>
         </div>
         <div>
+          <p class="font-bold text-gray-900 text-sm mb-1">Eduard Alexander Gummels &mdash; EAX</p>
           <p class="text-gray-500 text-sm leading-relaxed">City airport handling domestic flights and charter routes to Nickerie, Moengo and interior airstrips.</p>
         </div>
       </div>
-      <div class="flex flex-wrap items-center gap-3">
+      <div class="mb-5 rounded-xl border border-gray-100 p-4 bg-gray-50">
+        <p class="text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">Customs Declaration Form</p>
+        <p class="text-sm text-gray-600 leading-relaxed mb-3">All passengers arriving in or departing from Suriname must complete an immigration and customs declaration. Fill it in digitally at <a href="https://icf.sr/" target="_blank" rel="noopener" class="underline hover:text-gray-900" style="color:var(--forest2)">icf.sr</a> before you board and keep the confirmation ready for inspection at the airport.</p>
         <a href="https://icf.sr/" target="_blank" rel="noopener"
            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white transition hover:opacity-90"
            style="background:var(--forest)">
-          Customs Declaration Form &rarr;
-        </a>
-        <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 text-gray-700 bg-white transition hover:bg-gray-50">
-          Real-time Tracking &rarr;
+          Open Declaration Form &rarr;
         </a>
       </div>
-      <div class="mt-5 rounded-xl border border-gray-100 p-4 bg-gray-50">
-        <p class="text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">About the Customs Declaration Form</p>
-        <p class="text-sm text-gray-600 leading-relaxed">All passengers arriving in or departing from Suriname are required to complete an immigration and customs declaration. The form collects personal details, travel information, and goods you are carrying. It is submitted digitally via <a href="https://icf.sr/" target="_blank" rel="noopener" class="underline hover:text-gray-900" style="color:var(--forest2)">icf.sr</a> and can be filled in before you board. Keep your confirmation ready for inspection at the airport.</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <a href="https://www.flightradar24.com/5.85,-55.20/10" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 text-gray-700 bg-white transition hover:bg-gray-50">
+          Real-time Flight Tracking &rarr;
+        </a>
       </div>
       <p class="text-gray-400 text-xs mt-4 leading-relaxed">Data from FlightRadar24. Scheduled times only &mdash; not for operational use. PBM updates every 6h; EAX every 12h.</p>
     </div>
