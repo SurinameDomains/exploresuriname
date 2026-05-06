@@ -40,46 +40,82 @@
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 
+<style>
+.dd-menu { transform-origin: top center; }
+.dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
+@keyframes ddFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+</style>
 <nav class="fixed top-0 w-full z-50" style="background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.06)">
-  <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between">
-    <a href="index.html" class="flex items-baseline">
+  <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+    <a href="index.html" class="flex items-baseline flex-shrink-0">
       <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
     </a>
-    <div class="hidden md:flex items-center gap-5"><a href="nature.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Nature</a>
-<a href="activities.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Activities</a>
-<a href="restaurants.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Eat & Drink</a>
-<a href="hotels.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Stay</a>
-<a href="shopping.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Shopping</a>
-<a href="services.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Services</a>
-<a href="currency.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Currency</a>
-<a href="flights.html" class="font-semibold text-sm" style="color:var(--forest)">Flights</a>
-<a href="conditions.html" class="text-gray-700 hover:text-green-800 transition text-sm" >Forecast</a>
-<a href="news.html" class="text-gray-700 hover:text-green-800 transition text-sm" >News</a>
-</div>
-    <div class="flex items-center gap-2">
+    <div class="hidden md:flex items-center gap-6"><div class="relative" id="dd-todo"><button onclick="toggleDd('dd-todo')" class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1">Things to Do<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="dd-todo-menu" class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50"><a href="nature.html"      class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition"     >Nature</a><a href="activities.html"  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" >Activities</a><a href="shopping.html"    class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition"   >Shopping</a></div></div><div class="relative" id="dd-eat"><button onclick="toggleDd('dd-eat')" class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1">Eat &amp; Stay<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="dd-eat-menu" class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50"><a href="restaurants.html" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition">Where to Eat</a><a href="hotels.html"      class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition"     >Where to Stay</a></div></div><a href="services.html" class="text-sm text-gray-700 hover:text-green-800 transition py-1">Local Services</a><div class="relative" id="dd-ess"><button onclick="toggleDd('dd-ess')" class="dd-trigger flex items-center gap-1 text-sm font-semibold transition py-1" style="color:var(--forest)">Essentials <span class="inline-block w-1.5 h-1.5 rounded-full mb-0.5" style="background:var(--forest)"></span><svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="dd-ess-menu" class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50"><a href="currency.html"    class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition"   >Currency (SRD Rates)</a><a href="flights.html"     class="block px-4 py-2.5 text-sm font-semibold rounded-lg" style="color:var(--forest);background:var(--mint)"    >Flights</a><a href="conditions.html"  class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition"   >Weather &amp; Tides</a></div></div><a href="news.html" class="text-sm text-gray-700 hover:text-green-800 transition py-1">News</a></div>
+    <div class="flex items-center gap-2 flex-shrink-0">
       <button onclick="openSearch()" title="Search listings (press /)" class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50 sm:min-w-[120px]">
         <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
         <span class="hidden sm:inline">Search…</span>
         <span class="ml-auto hidden sm:inline text-xs bg-gray-200 text-gray-500 rounded px-1.5 py-0.5 font-mono">/</span>
       </button>
+      <button id="hamburger" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition" aria-label="Menu">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
     </div>
-    <button onclick="document.getElementById('mm').classList.toggle('hidden')" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
-      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-    </button>
   </div>
-  <div id="mm" class="hidden md:hidden border-t bg-white px-5 py-2 flex flex-col"><a href="nature.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Nature</a>
-<a href="activities.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Activities</a>
-<a href="restaurants.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Eat & Drink</a>
-<a href="hotels.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Stay</a>
-<a href="shopping.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Shopping</a>
-<a href="services.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Services</a>
-<a href="currency.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Currency</a>
-<a href="flights.html" class="font-semibold border-l-2 pl-3 block py-3 text-sm" style="color:var(--forest);border-color:var(--forest)">Flights</a>
-<a href="conditions.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >Forecast</a>
-<a href="news.html" class="text-gray-700 border-l-2 border-transparent pl-3 block py-3 text-sm" >News</a>
-</div>
+  <div id="mm" class="hidden md:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto">
+    <div class="mob-group"><button onclick="toggleMobGroup('mg-todo')" class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" ><span>Things to Do</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="mg-todo" class="mob-group-body pl-2 pb-1 hidden"><a href="nature.html" class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg">Nature</a><a href="activities.html" class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg">Activities</a><a href="shopping.html" class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg">Shopping</a></div></div><div class="mob-group"><button onclick="toggleMobGroup('mg-eat')" class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" ><span>Eat & Stay</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="mg-eat" class="mob-group-body pl-2 pb-1 hidden"><a href="restaurants.html" class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg">Where to Eat</a><a href="hotels.html" class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg">Where to Stay</a></div></div><a href="services.html" class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" >Local Services</a><div class="mob-group"><button onclick="toggleMobGroup('mg-ess')" class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" style="color:var(--forest)"><span>Essentials</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="mg-ess" class="mob-group-body pl-2 pb-1"><a href="currency.html" class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg">Currency (SRD Rates)</a><a href="flights.html" class="flex items-center gap-2 py-2.5 px-3 text-sm font-semibold rounded-lg" style="color:var(--forest);background:var(--mint)">Flights</a><a href="conditions.html" class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg">Weather & Tides</a></div></div><a href="news.html" class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" >News</a>
+  </div>
 </nav>
-
+<script>
+/* ── Dropdown (desktop) ─────────────────────────────────────────────────── */
+var _openDd = null;
+function toggleDd(id) {
+  var menu = document.getElementById(id + '-menu');
+  var btn  = document.getElementById(id);
+  var chev = btn ? btn.querySelector('.dd-chevron') : null;
+  if (_openDd && _openDd !== id) {
+    var prev = document.getElementById(_openDd + '-menu');
+    var prevBtn = document.getElementById(_openDd);
+    if (prev)    prev.classList.add('hidden');
+    if (prevBtn) { var c = prevBtn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+  if (!menu) return;
+  var isOpen = !menu.classList.contains('hidden');
+  if (isOpen) {
+    menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    _openDd = null;
+  } else {
+    menu.classList.remove('hidden');
+    if (chev) chev.style.transform = 'rotate(180deg)';
+    _openDd = id;
+  }
+}
+document.addEventListener('click', function(e) {
+  if (_openDd && !document.getElementById(_openDd).contains(e.target)) {
+    var menu = document.getElementById(_openDd + '-menu');
+    var btn  = document.getElementById(_openDd);
+    if (menu) menu.classList.add('hidden');
+    if (btn)  { var c = btn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+});
+/* ── Mobile accordion ───────────────────────────────────────────────────── */
+function toggleMobileMenu() {
+  var mm = document.getElementById('mm');
+  mm.classList.toggle('hidden');
+}
+function toggleMobGroup(id) {
+  var body = document.getElementById(id);
+  var btn  = body ? body.previousElementSibling : null;
+  var chev = btn  ? btn.querySelector('.mob-chevron') : null;
+  if (!body) return;
+  var isOpen = !body.classList.contains('hidden');
+  body.classList.toggle('hidden', isOpen);
+  if (chev) chev.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+</script>
 <!-- ── Global Search Modal ───────────────────────────────────────────── -->
 <div id="search-modal" onclick="if(event.target===this)closeSearch()"
   style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);padding:80px 16px 16px">
@@ -163,7 +199,7 @@ document.addEventListener('keydown', e => {
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Flights Today</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Arrivals &amp; departures &mdash; Johan Adolf Pengel (PBM) &bull; Eduard Alexander Gummels (EAX)</p>
-  <p class="text-white/35 text-xs mt-3">&#128336; Page built: 06 May 2026, 00:15 SR</p>
+  <p class="text-white/35 text-xs mt-3">&#128336; Page built: 06 May 2026, 00:24 SR</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
