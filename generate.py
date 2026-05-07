@@ -2346,7 +2346,15 @@ PAGE_HEAD = """\
     .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
     a { text-decoration: none; }
   </style>
-  <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>"""
+  <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-6LTYHZYNSF');
+  </script>"""
 
 # ── WorldTides: tide data for Paramaribo ────────────────────────────────────
 # ── WorldTides: district river tide locations ─────────────────────────────────
