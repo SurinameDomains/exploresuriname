@@ -5,14 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="content-language" content="en">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <meta name="twitter:site" content="@exploringsuriname">
+  <meta property="og:locale" content="en_US">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap"></noscript>
   <link rel="stylesheet" href="/tailwind.css">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#1B4332">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ExploreSR">
   <style>
     :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#D8F3DC; --coral:#E76F51; }
     body   { font-family: 'Inter', system-ui, sans-serif; }
@@ -23,6 +30,7 @@
     .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
     a { text-decoration: none; }
   </style>
+  <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
   <title>Suriname Visitor Guide | Explore Suriname</title>
   <meta name="description" content="Everything a first-time visitor needs for Suriname: e-visa portal, customs declaration, SIM cards from Telesur and Digicel, best ATMs, taxi apps, food delivery and mobile payments.">
   <link rel="canonical" href="https://exploresuriname.com/visitor-guide.html">
@@ -38,6 +46,9 @@
   <meta name="twitter:image" content="https://exploresuriname.com/og-image.jpg">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebPage","name":"Suriname Visitor Guide","url":"https://exploresuriname.com/visitor-guide.html","description":"Practical guide for first-time visitors to Suriname: visa and entry requirements, customs declaration, SIM cards, ATMs, tipping, taxi apps, food delivery and mobile payments.","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do I need a visa to visit Suriname?","acceptedAnswer":{"@type":"Answer","text":"Most nationalities need a tourist visa or tourist card for Suriname, arranged through the VFS Global portal before departure. Some nationalities may be exempt — check the official Suriname immigration requirements for your passport."}},{"@type":"Question","name":"What currency is used in Suriname?","acceptedAnswer":{"@type":"Answer","text":"The Surinamese Dollar (SRD) is the official currency. USD and EUR are accepted at some hotels and shops, but SRD is needed for most local transactions. ATMs dispensing SRD are widely available in Paramaribo."}},{"@type":"Question","name":"Which SIM card should I buy in Suriname?","acceptedAnswer":{"@type":"Answer","text":"Telesur and Digicel are the two main mobile operators. Telesur has broader 4G coverage across the country. Both sell prepaid SIM cards at the airport and shops in Paramaribo."}},{"@type":"Question","name":"What taxi apps work in Suriname?","acceptedAnswer":{"@type":"Answer","text":"Suriname has local ride-hailing apps. Kura and TaxiSR are the most widely used in Paramaribo. Traditional metered taxis are also available."}},{"@type":"Question","name":"What is the best way to get money in Suriname?","acceptedAnswer":{"@type":"Answer","text":"ATMs are the most convenient way to get SRD. Hakrinbank and DSB Bank ATMs are reliable and widely available in Paramaribo. Inform your bank before travelling to avoid card blocks."}}]}
   </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">

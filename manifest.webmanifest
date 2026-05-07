@@ -1,0 +1,91 @@
+{
+  "name": "Explore Suriname",
+  "short_name": "ExploreSR",
+  "description": "Travel & lifestyle guide to Suriname — hotels, restaurants, nature and live SRD rates.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1B4332",
+  "lang": "en",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": [
+    "travel",
+    "lifestyle",
+    "food"
+  ],
+  "screenshots": [
+    {
+      "src": "/og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Explore Suriname home page"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Restaurants",
+      "url": "/restaurants.html",
+      "description": "Paramaribo restaurants & dining",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "any"
+        }
+      ]
+    },
+    {
+      "name": "Exchange Rates",
+      "url": "/currency.html",
+      "description": "Live SRD exchange rates",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "any"
+        }
+      ]
+    },
+    {
+      "name": "Nature & Parks",
+      "url": "/nature.html",
+      "description": "Suriname nature spots",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "any"
+        }
+      ]
+    },
+    {
+      "name": "Flights",
+      "url": "/flights.html",
+      "description": "PBM arrivals & departures",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "any"
+        }
+      ]
+    }
+  ]
+}
