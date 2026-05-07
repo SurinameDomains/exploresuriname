@@ -2321,14 +2321,21 @@ PAGE_HEAD = """\
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="content-language" content="en">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <meta name="twitter:site" content="@exploringsuriname">
+  <meta property="og:locale" content="en_US">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap"></noscript>
   <link rel="stylesheet" href="/tailwind.css">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#1B4332">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ExploreSR">
   <style>
     :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#D8F3DC; --coral:#E76F51; }
     body   { font-family: 'Inter', system-ui, sans-serif; }
@@ -2338,7 +2345,8 @@ PAGE_HEAD = """\
     .card-hover { transition: transform .2s, box-shadow .2s; }
     .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
     a { text-decoration: none; }
-  </style>"""
+  </style>
+  <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>"""
 
 # ── WorldTides: tide data for Paramaribo ────────────────────────────────────
 # ── WorldTides: district river tide locations ─────────────────────────────────
@@ -4847,6 +4855,9 @@ def build_visitor_guide_page():
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Visitor Guide","url":"{SITE_URL}/visitor-guide.html","description":"Practical guide for first-time visitors to Suriname: visa and entry requirements, customs declaration, SIM cards, ATMs, tipping, taxi apps, food delivery and mobile payments.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{"@type":"Question","name":"Do I need a visa to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Most nationalities need a tourist visa or tourist card for Suriname, arranged through the VFS Global portal before departure. Some nationalities may be exempt — check the official Suriname immigration requirements for your passport."}}}},{{"@type":"Question","name":"What currency is used in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The Surinamese Dollar (SRD) is the official currency. USD and EUR are accepted at some hotels and shops, but SRD is needed for most local transactions. ATMs dispensing SRD are widely available in Paramaribo."}}}},{{"@type":"Question","name":"Which SIM card should I buy in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Telesur and Digicel are the two main mobile operators. Telesur has broader 4G coverage across the country. Both sell prepaid SIM cards at the airport and shops in Paramaribo."}}}},{{"@type":"Question","name":"What taxi apps work in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname has local ride-hailing apps. Kura and TaxiSR are the most widely used in Paramaribo. Traditional metered taxis are also available."}}}},{{"@type":"Question","name":"What is the best way to get money in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"ATMs are the most convenient way to get SRD. Hakrinbank and DSB Bank ATMs are reliable and widely available in Paramaribo. Inform your bank before travelling to avoid card blocks."}}}}]}}
+  </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("visitor")}
@@ -5487,6 +5498,169 @@ def build_robots():
     """Return robots.txt content."""
     return f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n"
 
+
+def build_manifest():
+    """Return manifest.webmanifest content for PWA."""
+    import json as _j
+    manifest = {
+        "name": "Explore Suriname",
+        "short_name": "ExploreSR",
+        "description": "Travel & lifestyle guide to Suriname — hotels, restaurants, nature and live SRD rates.",
+        "start_url": "/",
+        "display": "standalone",
+        "background_color": "#ffffff",
+        "theme_color": "#1B4332",
+        "lang": "en",
+        "scope": "/",
+        "icons": [
+            {"src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+            {"src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"},
+            {"src": "/favicon.svg",        "sizes": "any",     "type": "image/svg+xml", "purpose": "any"},
+        ],
+        "categories": ["travel", "lifestyle", "food"],
+        "screenshots": [
+            {"src": "/og-image.jpg", "sizes": "1200x630", "type": "image/jpeg", "form_factor": "wide", "label": "Explore Suriname home page"}
+        ],
+        "shortcuts": [
+            {"name": "Restaurants",   "url": "/restaurants.html", "description": "Paramaribo restaurants & dining", "icons": [{"src": "/favicon.svg", "sizes": "any"}]},
+            {"name": "Exchange Rates","url": "/currency.html",     "description": "Live SRD exchange rates",         "icons": [{"src": "/favicon.svg", "sizes": "any"}]},
+            {"name": "Nature & Parks","url": "/nature.html",       "description": "Suriname nature spots",           "icons": [{"src": "/favicon.svg", "sizes": "any"}]},
+            {"name": "Flights",       "url": "/flights.html",      "description": "PBM arrivals & departures",       "icons": [{"src": "/favicon.svg", "sizes": "any"}]},
+        ],
+    }
+    return _j.dumps(manifest, indent=2, ensure_ascii=False)
+
+
+def build_sw():
+    """Return sw.js service worker content."""
+    return r"""// ExploreSuriname Service Worker
+const CACHE = 'exploresr-v1';
+const PRECACHE = ['/', '/tailwind.css', '/favicon.svg', '/offline.html'];
+const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html']);
+
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE)));
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', e => {
+  e.waitUntil(
+    caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k))))
+  );
+  self.clients.claim();
+});
+
+self.addEventListener('fetch', e => {
+  if (e.request.method !== 'GET') return;
+  const u = new URL(e.request.url);
+  const sameOrigin = u.origin === location.origin;
+  const isFont = u.hostname === 'fonts.googleapis.com' || u.hostname === 'fonts.gstatic.com';
+  if (!sameOrigin && !isFont) return;
+
+  // Network-first for live-data pages (currency, flights, tides, news)
+  if (sameOrigin && LIVE_PAGES.has(u.pathname)) {
+    e.respondWith(
+      fetch(e.request)
+        .then(r => { caches.open(CACHE).then(c => c.put(e.request, r.clone())); return r; })
+        .catch(() => caches.match(e.request).then(r => r || caches.match('/offline.html')))
+    );
+    return;
+  }
+
+  // Cache-first for static assets (CSS, JS, images, fonts, icons)
+  if (u.pathname.match(/\.(css|js|svg|webp|png|jpg|ico|woff2?)$/) || isFont) {
+    e.respondWith(
+      caches.match(e.request).then(cached => {
+        const network = fetch(e.request).then(r => {
+          caches.open(CACHE).then(c => c.put(e.request, r.clone()));
+          return r;
+        });
+        return cached || network;
+      })
+    );
+    return;
+  }
+
+  // Stale-while-revalidate for HTML pages
+  e.respondWith(
+    caches.match(e.request).then(cached => {
+      const network = fetch(e.request)
+        .then(r => { caches.open(CACHE).then(c => c.put(e.request, r.clone())); return r; })
+        .catch(() => cached || caches.match('/offline.html'));
+      return cached || network;
+    })
+  );
+});
+"""
+
+
+def build_offline():
+    """Return a simple offline fallback page."""
+    return f"""{PAGE_HEAD}
+  <title>You're Offline | Explore Suriname</title>
+  <meta name="description" content="You appear to be offline. Please check your connection and try again.">
+  <meta property="og:title" content="Offline | Explore Suriname">
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+{nav_html()}
+<div class="pt-16"></div>
+<div class="text-white py-20 text-center" style="background:var(--forest)">
+  <p class="text-6xl mb-4">🌿</p>
+  <h1 class="serif text-4xl font-bold mb-3">You're offline</h1>
+  <p class="text-white/70 text-lg max-w-sm mx-auto px-5">Check your connection and try again — or explore pages you've already visited.</p>
+  <button onclick="location.reload()"
+    class="mt-8 inline-block px-8 py-3 rounded-full font-semibold text-white border-2 border-white/50 hover:bg-white/10 transition">
+    Try again
+  </button>
+</div>
+{footer_html()}
+</body></html>"""
+
+
+def _generate_pwa_icons():
+    """Generate 192×192 and 512×512 PNG icons using Pillow."""
+    import os as _os
+    try:
+        from PIL import Image, ImageDraw
+    except ImportError:
+        print("  SKIP  icons — Pillow not available")
+        return
+
+    _os.makedirs("icons", exist_ok=True)
+
+    def _make_icon(size):
+        img  = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(img)
+        r    = size // 8
+        # Dark green rounded background
+        draw.rounded_rectangle([0, 0, size - 1, size - 1], radius=r, fill=(27, 67, 50))
+        # Draw "E" from rectangles (no font needed)
+        m   = size // 6        # margin from edge
+        bw  = size // 8        # vertical stem width
+        bh  = max(size // 14, 4)  # horizontal bar height
+        gap = (size - 2 * m - 3 * bh) // 2  # space between bars
+        coral = (231, 111, 81)
+        # Vertical stem (left side)
+        draw.rectangle([m, m, m + bw, size - m], fill=coral)
+        # Top horizontal bar
+        draw.rectangle([m, m, size - m, m + bh], fill=coral)
+        # Middle bar (slightly shorter)
+        mid_y = m + bh + gap
+        draw.rectangle([m, mid_y, size - m - size // 10, mid_y + bh], fill=coral)
+        # Bottom bar
+        bot_y = size - m - bh
+        draw.rectangle([m, bot_y, size - m, size - m], fill=coral)
+        # "SR" label strip at bottom (mint-coloured rectangle)
+        strip_h = max(size // 16, 4)
+        mint = (216, 243, 220)
+        strip_y = size - m - strip_h - 2
+        draw.rectangle([m + bw + 4, strip_y, size - m, strip_y + strip_h], fill=mint)
+        return img
+
+    for sz in (192, 512):
+        path = f"icons/icon-{sz}.png"
+        _make_icon(sz).save(path, "PNG")
+        print(f"  OK  {path}")
 
 # ── Conditions page (weather + tides + sunrise/sunset) ──────────────────────
 
@@ -6161,5 +6335,17 @@ if __name__ == "__main__":
 
     with open("robots.txt", "w", encoding="utf-8") as f:
         f.write(build_robots())
+
+    # PWA files
+    with open("manifest.webmanifest", "w", encoding="utf-8") as f:
+        f.write(build_manifest())
+    print("  OK  manifest.webmanifest")
+    with open("sw.js", "w", encoding="utf-8") as f:
+        f.write(build_sw())
+    print("  OK  sw.js")
+    with open("offline.html", "w", encoding="utf-8") as f:
+        f.write(build_offline())
+    print("  OK  offline.html")
+    _generate_pwa_icons()
 
     print("Done.")
