@@ -3831,6 +3831,14 @@ doConvert();"""
   <meta name="twitter:title" content="SRD to USD Today &mdash; Surinamese Dollar Exchange Rates | Explore Suriname">
   <meta name="twitter:description" content="Live Surinamese Dollar (SRD) exchange rates — CBVS official rates updated 3× daily, CME cash rates updated continuously.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {{"@type":"Question","name":"What currency is used in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The official currency of Suriname is the Surinamese Dollar (SRD). Most everyday transactions — markets, local restaurants, minibuses — require SRD. Some hotels and larger shops also accept USD or EUR, but you will receive change in SRD."}}}},
+    {{"@type":"Question","name":"Can I use US dollars or euros in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"USD and EUR are accepted at hotels, some restaurants, and larger shops in Paramaribo. However, for local markets, street food, and public transport you will need Surinamese Dollars (SRD). It is advisable to exchange money upon arrival."}}}},
+    {{"@type":"Question","name":"Where can I exchange money in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Money can be exchanged at licensed cambios (exchange offices) throughout Paramaribo, at major banks such as Hakrinbank and DSB Bank, and at the Johan Adolf Pengel International Airport. Cambios typically offer competitive rates. ATMs dispensing SRD are widely available in Paramaribo."}}}},
+    {{"@type":"Question","name":"What is the official SRD exchange rate?","acceptedAnswer":{{"@type":"Answer","text":"The official exchange rate is set by the Central Bank of Suriname (CBVS) and published on business days. Cash market rates (CME) may differ slightly. Check the live rates on this page for the most current CBVS and cash market exchange rates."}}}}
+  ]}}
+  </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("currency")}
@@ -5833,6 +5841,14 @@ def build_conditions_page(tides_data):
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Weather Today — Paramaribo Forecast & River Tides | Explore Suriname","url":"{SITE_URL}/conditions.html","description":"Tidal predictions for the Suriname, Commewijne, Nickerie and Marowijne rivers, plus 7-day weather forecasts by district. Updated continuously.","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {{"@type":"Question","name":"What is the best time to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname has two dry seasons: the short dry season from February to April, and the long dry season from August to November. These are generally the best periods to visit, with less rainfall and easier travel conditions in the interior. August to October is considered the peak season for nature and rainforest tours."}}}},
+    {{"@type":"Question","name":"Does Suriname have a rainy season?","acceptedAnswer":{{"@type":"Answer","text":"Yes, Suriname has two rainy seasons: the long rainy season from mid-April to mid-August, and the short rainy season from mid-November to mid-February. During these periods rainfall is frequent, though it typically comes in short, intense showers rather than all-day rain."}}}},
+    {{"@type":"Question","name":"How hot is it in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname has a tropical climate with temperatures ranging from 26°C to 32°C (79°F to 90°F) year-round. Humidity is high throughout the year. Paramaribo on the coast is slightly cooler than the interior rainforest."}}}},
+    {{"@type":"Question","name":"What is the weather like in Paramaribo?","acceptedAnswer":{{"@type":"Answer","text":"Paramaribo has a tropical climate with hot, humid conditions year-round. Average temperatures stay between 26°C and 31°C. The city receives rainfall across all months, with heavier periods during the two rainy seasons. Sea breezes from the Atlantic can provide some relief in coastal areas."}}}}
+  ]}}
+  </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("forecast")}
@@ -6188,6 +6204,14 @@ def build_flights_page(flights_data):
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Flights Today — PBM Arrivals & Departures | Explore Suriname","url":"{SITE_URL}/flights.html","description":"Today's arrivals and departures at Suriname airports including Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX).","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {{"@type":"Question","name":"Which airlines fly to Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Airlines serving Suriname include KLM (Amsterdam), Copa Airlines (Panama City), Caribbean Airlines (Trinidad), and Surinam Airways on regional routes. KLM operates direct flights from Amsterdam to Johan Adolf Pengel International Airport (PBM), making it the primary route for European travelers."}}}},
+    {{"@type":"Question","name":"What is the main airport in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Johan Adolf Pengel International Airport (IATA: PBM), also known as Zanderij Airport, is Suriname\'s main international airport. It is located approximately 45 km south of Paramaribo. Eduard Alexander Gummels Airport (EAX) in Paramaribo handles some domestic and regional flights."}}}},
+    {{"@type":"Question","name":"How long is a flight from Amsterdam to Suriname?","acceptedAnswer":{{"@type":"Answer","text":"A direct flight from Amsterdam Schiphol (AMS) to Johan Adolf Pengel International Airport (PBM) takes approximately 9 to 10 hours. KLM operates this route several times per week."}}}},
+    {{"@type":"Question","name":"Do I need a visa to fly to Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Most nationalities require a tourist visa or tourist card to enter Suriname. These are arranged through the VFS Global portal before departure. Some Caribbean and South American nationalities may be exempt. Always check the latest Suriname immigration requirements for your passport before booking flights."}}}}
+  ]}}
   </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
