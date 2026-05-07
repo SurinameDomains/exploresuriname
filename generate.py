@@ -3482,12 +3482,12 @@ def build_index(restaurants, hotels):
 <section class="relative min-h-screen flex items-center justify-center hero-bg"
   style="background-image:url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1200&q=75&fm=webp&fit=crop')">
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.82) 100%)"></div>
-  <div class="relative z-10 text-center text-white px-5 max-w-4xl mx-auto" style="padding-top:5rem">
+  <div class="relative z-10 text-center text-white px-5 max-w-4xl mx-auto" style="padding-top:5rem;padding-bottom:6rem">
     <p class="text-xs font-semibold tracking-widest uppercase mb-6" style="color:var(--coral)">South America&apos;s Hidden Gem</p>
     <h1 class="serif font-black leading-tight mb-6" style="font-size:clamp(2.5rem,8vw,5.5rem)">The Amazon&#8217;s<br>Best-Kept Secret</h1>
     <p class="text-xl font-light leading-relaxed mb-10 max-w-2xl mx-auto text-white/90">94% pristine rainforest. Unmatched biodiversity. Two UNESCO World Heritage Sites. Welcome to Suriname.</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="#nature" class="px-8 py-4 rounded-full font-semibold text-lg text-white hover:opacity-90 transition shadow-lg" style="background:var(--forest)">Start Exploring &#8595;</a>
+      <a href="#nature" class="px-8 py-4 rounded-full font-semibold text-lg text-white hover:opacity-90 transition shadow-lg" style="background:var(--forest)">Start Exploring</a>
       <a href="#travel-tools" class="px-8 py-4 rounded-full font-semibold text-lg text-white border-2 hover:bg-white/10 transition" style="border-color:rgba(255,255,255,.6)">Travel Tools</a>
     </div>
   </div>
