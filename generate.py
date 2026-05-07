@@ -975,11 +975,11 @@ _IMGS = {
     # Restaurants: Unsplash fallbacks
     "a-la-john": "",
     "ac-bar-restaurant": "",
-    "baka-foto-restaurant":           "images/bakafoto.webp",
+    "baka-foto-restaurant":           "https://exploresuriname.com/images/bakafoto.webp",
     "bar-zuid": "",
     "bori-tori": "",
     "chi-min": "",
-    "de-gadri":                       "images/gadri.webp",
+    "de-gadri":                       "https://exploresuriname.com/images/gadri.webp",
     "de-spot":                        "https://de-spot.com/media/frontpage/frontpage.jpg",
     "de-verdieping": "",
     "el-patron-latin-grill":          "https://elpatronlatingrill.com/wp-content/uploads/2024/09/EPLG-1-scaled.jpg",
@@ -1987,7 +1987,7 @@ def _make_biz(slug):
             "image": _biz_img(slug) or _fdet.get("photo_url", ""),   # FSQ photo fallback for thumbnails
             "subcat": _subcat(slug)}
 
-RESTAURANTS = [b for slug in ["a-la-john","ac-bar-restaurant","baka-foto-restaurant","bar-zuid","big-tex","bori-tori","chi-min","de-gadri","de-spot","de-verdieping","el-patron-latin-grill","elines-pizza","garden-of-eden","goe-thai-noodle-bar","hard-rock-cafe-suriname","holy-moly","joey-ds","julias-food","kasan-snacks","las-tias","mickis-palace-noord","mickis-palace-zuid","mingle-paramaribo","moments-restaurant","pane-e-vino","pannekoek-en-poffertjes-cafe","passion-food-and-wines","rogom-farm-nv","souposo","sushi-ya","the-coffee-box","zeg-ijsje","zus-zo-cafe","aaras-cafe","ace-restaurant-lounge","ayo-river-lounge","bar-qle","bingo-pizza-coppename","bingo-pizza-kwatta","bistro-brwni","bistro-don-julio","bistro-lequatorze","blossom-beauty-bar","blue-grand-cafe","brow-bliss-lounge","burger-king-centrum","burger-king-latour","coffee-mama","cy-coffee","d-mighty-view-lounge","dolce-bella-cafe","etembe-rainforest-restaurant","ettores-pizza-kitchen","flavor-restaurant","georgies-bar-chill","habco-delight","habco-delight-north","jadore-cafe-grill","joosje-roti-shop","kfc-ims","kfc-kwatta","kfc-lallarookh","kfc-latour","kfc-lelydorp","kfc-waterkant","kfc-wilhelminastraat","kong-nam-snack","kwan-tai-restaurant","kwan-tai-restaurant-2","kyu-pho-grill","lamour-restaurant","lees-korean-grill","leiding-1-restaurant","lucky-twins-restaurant","mcdonalds-centrum","mcdonalds-hermitage-mall","mingle-sushi","moka-coffeebar","naskip","naskip-2","naskip-3","naskip-4","naskip-5","new-suriname-dream-cafe","numa-cafe","oasis-restaurant","ogi-teppanyaki-sushi-bar","okopipi-tropical-grill","olive-multi-cuisine-restaurant","padre-nostro-italian-restaurant","petisco-restaurant","pizza-hut-leysweg","pizza-hut-south","pizza-hut-wilhelminastraat","pizza-mafia","popeyes-centrum","popeyes-lelydorp","popeyes-tbl","popeyes-wilhelminastraat","restaurant-lhermitage","restaurant-sarinah","ritas-roti-shop","roopram-roti-shop","samba-cafe","saras-brunch-cafe","shimmery-beauty-lounge","sizzler-midnight-grill","squeezy-hot-pot-restaurant","sranan-fowru","sranan-fowru-boni","sranan-fowru-combe","sranan-fowru-flu","sranan-fowru-leiding","sranan-fowru-lelydorp","sranan-fowru-meursweg","sranan-fowru-tabiki-fowru","sranan-fowru-tourtonne","sranan-fowru-zinnia","subway","subway-2","subway-3","sweetie-coffee","tasty-fresh-food-coffee-bar","the-bakery-house","the-beauty-bar-north","the-beauty-bar-south","the-coffee-box-north","the-coffee-hobbyist","the-maillard-cafe","tipsy-bar-lounge","tirzahs-patisserie","twins-pizza-burgers","u-s-bakery","uitkijk-riverlounge-cafe"] for b in [_make_biz(slug)] if b]
+RESTAURANTS = [b for slug in ["a-la-john","ac-bar-restaurant","baka-foto-restaurant","bar-zuid","big-tex","bori-tori","chi-min","de-gadri","de-spot","de-verdieping","el-patron-latin-grill","elines-pizza","garden-of-eden","goe-thai-noodle-bar","hard-rock-cafe-suriname","holy-moly","joey-ds","julias-food","kasan-snacks","las-tias","mickis-palace-noord","mickis-palace-zuid","mingle-paramaribo","moments-restaurant","pane-e-vino","pannekoek-en-poffertjes-cafe","passion-food-and-wines","rogom-farm-nv","souposo","sushi-ya","the-coffee-box","zeg-ijsje","zus-zo-cafe","aaras-cafe","ace-restaurant-lounge","ayo-river-lounge","bar-qle","bingo-pizza-coppename","bingo-pizza-kwatta","bistro-brwni","bistro-don-julio","bistro-lequatorze","blue-grand-cafe","burger-king-centrum","burger-king-latour","coffee-mama","cy-coffee","d-mighty-view-lounge","dolce-bella-cafe","etembe-rainforest-restaurant","ettores-pizza-kitchen","flavor-restaurant","georgies-bar-chill","habco-delight","habco-delight-north","jadore-cafe-grill","joosje-roti-shop","kfc-ims","kfc-kwatta","kfc-lallarookh","kfc-latour","kfc-lelydorp","kfc-waterkant","kfc-wilhelminastraat","kong-nam-snack","kwan-tai-restaurant","kwan-tai-restaurant-2","kyu-pho-grill","lamour-restaurant","lees-korean-grill","leiding-1-restaurant","lucky-twins-restaurant","mcdonalds-centrum","mcdonalds-hermitage-mall","mingle-sushi","moka-coffeebar","naskip","naskip-2","naskip-3","naskip-4","naskip-5","new-suriname-dream-cafe","numa-cafe","oasis-restaurant","ogi-teppanyaki-sushi-bar","okopipi-tropical-grill","olive-multi-cuisine-restaurant","padre-nostro-italian-restaurant","petisco-restaurant","pizza-hut-leysweg","pizza-hut-south","pizza-hut-wilhelminastraat","pizza-mafia","popeyes-centrum","popeyes-lelydorp","popeyes-tbl","popeyes-wilhelminastraat","restaurant-lhermitage","restaurant-sarinah","ritas-roti-shop","roopram-roti-shop","samba-cafe","saras-brunch-cafe","sizzler-midnight-grill","squeezy-hot-pot-restaurant","sranan-fowru","sranan-fowru-boni","sranan-fowru-combe","sranan-fowru-flu","sranan-fowru-leiding","sranan-fowru-lelydorp","sranan-fowru-meursweg","sranan-fowru-tabiki-fowru","sranan-fowru-tourtonne","sranan-fowru-zinnia","subway","subway-2","subway-3","sweetie-coffee","tasty-fresh-food-coffee-bar","the-bakery-house","the-coffee-box-north","the-coffee-hobbyist","the-maillard-cafe","tipsy-bar-lounge","tirzahs-patisserie","twins-pizza-burgers","u-s-bakery","uitkijk-riverlounge-cafe"] for b in [_make_biz(slug)] if b]
 
 HOTELS = [b for slug in ["bronbella-villa-residence","courtyard-by-marriott","eco-resort-miano","eco-torarica","holland-lodge","hotel-palacio","hotel-peperpot","houttuyn-wellness-river-resort","jacana-amazon-wellness-resort","oxygen-resort","royal-brasil-hotel","royal-breeze-hotel-paramaribo","royal-torarica","taman-indah-resort","the-golden-truly-hotel","tiny-house-tropical-appartment","torarica-resort","villa-famiri","waterland-suites","zeelandia-suites","anaula-nature-resort","atlantis-hotel-casino","danpaati-river-lodge","greenheart-boutique-hotel","guesthouse-albergoalberga","guesthouse-albina","hotel-north-resort","kabalebo-nature-resort","kimboto","marina-resort-waterland","overbridge-river-resort","radisson-hotel","ramada-paramaribo-princess","residence-inn-nickerie","residence-inn-paramaribo","savannah-casino-hotel","tropicana-hotel-casino-suriname","tucan-resort-and-spa","villa-zapakara","villas-paramaribo"] for b in [_make_biz(slug)] if b]
 
@@ -1997,7 +1997,7 @@ ADVENTURES_BIZ = [b for slug in ["afobaka-resort","akira-overwater-resort","huub
 
 SHOPPING = [b for slug in ["9173","bed-bath-more-bbm","divergent-body-jewelry","dj-liquor-store","from-me-to-me","galaxy","h-garden","hermitage-mall","honeycare","international-mall-of-suriname","kirpalani","lilis","nv-zing-manufacturing","papillon-crafts","readytex-souvenirs-and-crafts","shlx-collection","sleeqe","smoothieskin","suraniyat","switi-momenti-candles-crafts","talking-prints-concept-store","the-old-attic","the-uma-store","unlocked-candles","woodwonders-suriname","zeepfabriek-joab","amada-shopping","ashley-furniture-homestore","auto-style-franchepanestraat","auto-style-johannes-mungrastraat","auto-style-kwatta","auto-style-tweede-rijweg","auto-style-verlengde-gemenelandsweg","beyrouth-bazaar","boekhandel-vaco","boekhandel-kasco","building-depot","chees-jewelry-watches","chm-centrum","chm-commewijne","chm-kernkampweg","chm-nickerie","chm-wanica","chm-wilhelminastraat","chm-wilhelminastraat-2","chois-supermarkt","chois-supermarkt-lelydorp","chois-supermarkt-north","combe-bazaar","combe-markt","computer-hardware-services","computronics-north","computronics-south","crocs-ims","da-drogisterij-coppename","da-drogisterij-hermitage","da-drogisterij-ims-mall","da-drogisterij-lelydorp","da-drogisterij-wilhelmina","de-keurslager-interfarm","deto-handelmaatschappij","digital-world-hermitage-mall","digital-world-ims","digital-world-maretraite-mall","digital-world-maretraite-mall-2","dojo-couture-hermitage-mall","flex-phones","footcandy-hermitage-mall","furniture-city-kwatta","furniture-city-north","gao-ming-trading-north","gao-ming-trading-south","golderom-healthy-organic-store","hollandia-bakkerij-north","hollandia-bakkerij-south","kaki-supermarkt","kirpalani-domineestraat","kirpalani-maagdenstraat","kirpalani-super-store","lins-super-market","lucky-store","mimi-market","miniso-gompertstraat","miniso-hermitage-mall","ochama-amazing","ochama-hermitage-mall","office-world-hermitage-mall","office-world-lelydorp","optiek-all-vision","optiek-all-vision-albina","optiek-all-vision-lelydorp","optiek-all-vision-nickerie","optiek-marisa","optiek-ninon","optiek-ninon-hermitage-mall","optiek-ninon-ims","optiek-ninon-lelydorp","optiek-ninon-meerzorg","optiek-ninon-nickerie","randoe-meubelen","ring-ring-imports","rossignol-2go-kwattaweg","rossignol-2go-thurkowstraat","rossignol-coppename","rossignol-geyersvlijt","rossignol-linda","rossignol-waaldijkstraat","sanousch-books","sash-fashion-hermitage-mall","slagerij-abbas","slagerij-asruf","slagerij-stolk","soengngie-mega-store","soengngie-oriental-market","steps-hermitage-mall","sweetheart-hermitage-mall","topslager-stolk","tulip-supermarket","vcm-slagerij-centrum","vcm-slagerij-johannes-mungrastraat","vcm-slagerij-verl-gemenelandsweg","vifa-trading","vincent-supermarket","yokohama-trading"] for b in [_make_biz(slug)] if b]
 
-SERVICES = [b for slug in ["bitdynamics","bloom-wellness-cafe","carpe-diem-massagepraktijk","delete-beauty-lounge","dli-travel-consultancy","eaglemedia","ec-operations","ekay-media","fatum","fly-allways","hairstudio-32","handmade-by-farrell-nv","ias-wooden-and-construction-nv","inksane-tattoos","klm-royal-dutch-airlines","lashlift-suriname","lioness-beauty-effects","mokisa-busidataa-osu-nv","nv-threefold-quality-system-support","pinkmoon-suriname","rich-skin","rock-fitness-paramaribo","royal-rose-yoni-spa","royal-spa","royal-wellness-lounge","seen-stories","stichting-shiatsu-massage","stukaderen-in-nederland","surimami-store","surinam-airways","the-beauty-bar","the-freelance-scout","the-house-of-beauty","the-waxing-booth","the-wonderlab-su","thermen-hermitage-turkish-bath-beautycenter","timeless-barber-and-nail-shop","yoga-peetha-happiness-centre","101-real-estate","4r-gym","4x4-rental","abrix-cleaning-services","access-suriname-travel","alegria","alis-drugstore","alliance-francaise","anton-de-kom-universiteit-van-suriname","apotheek-joemmanbaks","apotheek-karis","apotheek-mac-donald-north","apotheek-mac-donald-south","apotheek-rafeka","apotheek-sibilo","apotheek-soma","apotheek-soma-ringweg","arthur-alex-hoogendoorn-atheneum","assuria-hermitage-high-rise","assuria-insurance-walk-in-city","assuria-insurance-walk-in-commewijne","assuria-insurance-walk-in-lelydorp","assuria-insurance-walk-in-nickerie","assuria-insurance-walk-in-noord","augis-travel","ayur-mi-beauty-wellness","balance-studio","balletschool-marlene","bella-italia","best-mart","blissful-massage-aromatherapy","bmw-suriname","body-enhancement-gym","boss-burgers","brahma-centrum","brahma-noord","brahma-zuid","bright-cleaning","brilleman","brotherhood-security","buro-workspaces","byd-suriname","camex-suriname","car-rental-city","carline-kwatta","carline-waaldijkstraat","carvision-paramaribo","chique-eyewear-fashion","chuck-e-cheese","cinnagirl","ciranos","clarissa-vaseur-writing-wellness-services-claw","clean-it","club-oase","cookie-closet","cpr-pilates-curves","creative-q","cupcake-fantasy","curl-babes","cute-as-a-button","cynsational-glam","da-select-en-service-apotheek","dansclub-danzson","dcars-rental","de-cederboom-school","de-nederlandse-basisschool-het-kleurenorkest","de-spetter","de-surinaamsche-bank-hermitage-mall","de-surinaamsche-bank-hoofdkantoor","de-surinaamsche-bank-lelydorp","de-surinaamsche-bank-ma-retraite","de-surinaamsche-bank-ma-retraite-2","de-surinaamsche-bank-nickerie","de-surinaamsche-bank-nickerie-2","de-surinaamsche-bank-nieuwe-haven","de-vrije-school","dhl-express-service-point","dierenarts-resopawiro","dierenartspraktijk-l-m-bansse-issa","dierenpoli-lobo","digicel-albina","digicel-business-center","digicel-extacy","digicel-hermitage","digicel-latour","digicel-lelydorp","digicel-nickerie","digicel-wilhelminastraat","djinipi-copy-center","djo-cleaning-service","dlish","dojo-couture-centrum","dojo-couture-ims","dor-property-management-services-n-v","dream-clean-suriname","dresscode","eethuis-liv","energiebedrijven-suriname-ebs","eterno","eucon","everything-sr","faraya-medical-center","farma-vida","fatum-schadeverzekering-commewijne","fatum-schadeverzekering-hoofdkantoor","fatum-schadeverzekering-kwatta","fatum-schadeverzekering-nickerie","fhr-lim-a-po-institute-for-higher-education","finabank-centrum","finabank-nickerie","finabank-noord","finabank-wanica","finabank-zuid","first-aid-plus","fish-finder-fishing-and-outdoors","fit-factory","flex-luxuries","fluxo-pilates","free-flow","from-kay-with-love","frygri","gaby-april-beauty-clinic","galaxyliving","garage-d-a-ashruf","glam-curves","glambox","goldenwings","gossip-nails-xx","great-wall-motor-suriname","grounded-botanical-studio","h-t","hakrinbank","hakrinbank-flora","hakrinbank-latour","hakrinbank-nickerie","hakrinbank-nieuwe-haven","hakrinbank-tamanredjo","hakrinbank-tourtonne","han-palace","happy-flower-services","harry-tjin","hertz-suriname-car-rental","hes-ds","hes-ds-2","hes-ds-3","holiday-home-decor","honeycare-north","honeycare-south","house-of-pureness","hsds-lifestyle-noord","hsds-lifestyle-wanica","iamchede","infinity-holding","instyle-optics","international-academy-of-suriname","intervast","invictus-brazilian-jiu-jitsu","itrendzz","jage-caffe","jage-caffe-2","jamilas-dry-cleaning-north","jamilas-dry-cleaning-south","janelles-shoes-and-bags","jjs-place-zuid","just-curlss","kaizen","karans-indian-food","kasimex-indira-ghandiweg","kasimex-makro","kasco-customs-solutions","keller-williams-suriname","kempes-co","ket-mien","krioro","krioro-north","kushiyaki-the-next-episode","ladybug-nursery-and-garden-center","le-den","lobby","luxe-escape-lotus-spa-wellness-beautysalon","maharaja-palace","mandy-butka","marchand-notariaat","matcha-loft","max-n-co","maze","mezze-suriname","mighty-racks","mini-nail-shop","mirage-casino","miss-doll-fit","mn-international-centrum","mn-international-kwatta","mokisa-wellness","mon-plaisir-nursery","morevans-outlet","multi-travel","muntjes-take-out-juniors-place","murphys-irish-pub","nassy-brouwer-college","nassy-brouwer-school","new-choice-lalla-rookhweg","new-choice-nickerie","new-choice-ringweg","norrii-zushii","north-fitness-gym","notariaat-mannes","notariaat-van-dijk","nr-1-spot","ondernemershuis","one-stop-apotheek-drugstore","orchid","organic-skincare","overdoughsed-suriname","padel-x-suriname","pandie","paramaribo-princess-casino","percy-massage-therapy","petit-bouchon","pitbull-fitness","professional-private-security","protrade-international","qsi-international-school-of-suriname","raja-ji","re-max-suriname","real-one-fitness-gym","red-century-party-shop-commewijne","red-century-party-shop-kwatta","red-century-party-shop-lelydorp","red-century-party-shop-north","red-century-party-shop-zorg-en-hoop","remy-vastgoed","republic-bank-head-office","republic-bank-jozef-israelstraat","republic-bank-kernkampweg","republic-bank-nickerie","republic-bank-vant-hogerhuysstraat","republic-bank-zorg-en-hoop","resourceful-real-estate-construction","restoran-bibit","ricos-a-gladiator-foodtruck","rif-cleaning-service","rolines-de-waag","ross-rental-cars","safety-first-quality-always","sakura","satyam-holidays","savage-den","scene-beauty-salon","secas","sendang-redjo","shoebizz-ims","sizzlers-signature","sleepstore-suriname","smart-connexxionz","south-america-hot-pot","southern-commercial-bank","spice-quest","squeaky-clean","steps-domineestraat","steps-noord","steps-wanica","sthephany-skincare","store4u","sugar","sun-ice","supply-solutions-limited-suriname","surgoed-makelaardij","surinaamsche-waterleiding-maatschappij","suriname-princess-casino","sweet-tooth-pastries","sweetheart-ims","talula","tapauku-terras","tastelicious","teasee","telesur-centrum","telesur-latour","telesur-lelydorp","telesur-nickerie","telesur-noord","telesur-zonnebloemstraat","the-aerial-yoga-studio","the-basement-barbershop","the-girl-house","the-laundry-spot","the-nail-house","the-old-garage","the-perfume-spot","the-rose-manor","the-solution-property-management","the-sweetest-thing","the-warehouse-shop","three-little-beans","tianyou-aquafun","topsport","tori-oso","touch-of-heaven-wellness","tout-tout-petit","toys-n-more","tranquil-at-mamba-republiek","tranquil-massage","tsw-group","typing-nomad-nv","viva-mexico","waldos-worldwide-travel-service","warung-resa-centrum","warung-soepy-ann","welink-real-estate","wing-hung-cake-shop","wollys","wollys-2","wollys-3","wow-plus","x-avenue","ying-hao-beautyshop","yogh-hospitality","young-engineers","zenobia-bottling-company"] for b in [_make_biz(slug)] if b]
+SERVICES = [b for slug in ["blossom-beauty-bar","brow-bliss-lounge","shimmery-beauty-lounge","the-beauty-bar-north","the-beauty-bar-south","bitdynamics","bloom-wellness-cafe","carpe-diem-massagepraktijk","delete-beauty-lounge","dli-travel-consultancy","eaglemedia","ec-operations","ekay-media","fatum","fly-allways","hairstudio-32","handmade-by-farrell-nv","ias-wooden-and-construction-nv","inksane-tattoos","klm-royal-dutch-airlines","lashlift-suriname","lioness-beauty-effects","mokisa-busidataa-osu-nv","nv-threefold-quality-system-support","pinkmoon-suriname","rich-skin","rock-fitness-paramaribo","royal-rose-yoni-spa","royal-spa","royal-wellness-lounge","seen-stories","stichting-shiatsu-massage","stukaderen-in-nederland","surimami-store","surinam-airways","the-beauty-bar","the-freelance-scout","the-house-of-beauty","the-waxing-booth","the-wonderlab-su","thermen-hermitage-turkish-bath-beautycenter","timeless-barber-and-nail-shop","yoga-peetha-happiness-centre","101-real-estate","4r-gym","4x4-rental","abrix-cleaning-services","access-suriname-travel","alegria","alis-drugstore","alliance-francaise","anton-de-kom-universiteit-van-suriname","apotheek-joemmanbaks","apotheek-karis","apotheek-mac-donald-north","apotheek-mac-donald-south","apotheek-rafeka","apotheek-sibilo","apotheek-soma","apotheek-soma-ringweg","arthur-alex-hoogendoorn-atheneum","assuria-hermitage-high-rise","assuria-insurance-walk-in-city","assuria-insurance-walk-in-commewijne","assuria-insurance-walk-in-lelydorp","assuria-insurance-walk-in-nickerie","assuria-insurance-walk-in-noord","augis-travel","ayur-mi-beauty-wellness","balance-studio","balletschool-marlene","bella-italia","best-mart","blissful-massage-aromatherapy","bmw-suriname","body-enhancement-gym","boss-burgers","brahma-centrum","brahma-noord","brahma-zuid","bright-cleaning","brilleman","brotherhood-security","buro-workspaces","byd-suriname","camex-suriname","car-rental-city","carline-kwatta","carline-waaldijkstraat","carvision-paramaribo","chique-eyewear-fashion","chuck-e-cheese","cinnagirl","ciranos","clarissa-vaseur-writing-wellness-services-claw","clean-it","club-oase","cookie-closet","cpr-pilates-curves","creative-q","cupcake-fantasy","curl-babes","cute-as-a-button","cynsational-glam","da-select-en-service-apotheek","dansclub-danzson","dcars-rental","de-cederboom-school","de-nederlandse-basisschool-het-kleurenorkest","de-spetter","de-surinaamsche-bank-hermitage-mall","de-surinaamsche-bank-hoofdkantoor","de-surinaamsche-bank-lelydorp","de-surinaamsche-bank-ma-retraite","de-surinaamsche-bank-ma-retraite-2","de-surinaamsche-bank-nickerie","de-surinaamsche-bank-nickerie-2","de-surinaamsche-bank-nieuwe-haven","de-vrije-school","dhl-express-service-point","dierenarts-resopawiro","dierenartspraktijk-l-m-bansse-issa","dierenpoli-lobo","digicel-albina","digicel-business-center","digicel-extacy","digicel-hermitage","digicel-latour","digicel-lelydorp","digicel-nickerie","digicel-wilhelminastraat","djinipi-copy-center","djo-cleaning-service","dlish","dojo-couture-centrum","dojo-couture-ims","dor-property-management-services-n-v","dream-clean-suriname","dresscode","eethuis-liv","energiebedrijven-suriname-ebs","eterno","eucon","everything-sr","faraya-medical-center","farma-vida","fatum-schadeverzekering-commewijne","fatum-schadeverzekering-hoofdkantoor","fatum-schadeverzekering-kwatta","fatum-schadeverzekering-nickerie","fhr-lim-a-po-institute-for-higher-education","finabank-centrum","finabank-nickerie","finabank-noord","finabank-wanica","finabank-zuid","first-aid-plus","fish-finder-fishing-and-outdoors","fit-factory","flex-luxuries","fluxo-pilates","free-flow","from-kay-with-love","frygri","gaby-april-beauty-clinic","galaxyliving","garage-d-a-ashruf","glam-curves","glambox","goldenwings","gossip-nails-xx","great-wall-motor-suriname","grounded-botanical-studio","h-t","hakrinbank","hakrinbank-flora","hakrinbank-latour","hakrinbank-nickerie","hakrinbank-nieuwe-haven","hakrinbank-tamanredjo","hakrinbank-tourtonne","han-palace","happy-flower-services","harry-tjin","hertz-suriname-car-rental","hes-ds","hes-ds-2","hes-ds-3","holiday-home-decor","honeycare-north","honeycare-south","house-of-pureness","hsds-lifestyle-noord","hsds-lifestyle-wanica","iamchede","infinity-holding","instyle-optics","international-academy-of-suriname","intervast","invictus-brazilian-jiu-jitsu","itrendzz","jage-caffe","jage-caffe-2","jamilas-dry-cleaning-north","jamilas-dry-cleaning-south","janelles-shoes-and-bags","jjs-place-zuid","just-curlss","kaizen","karans-indian-food","kasimex-indira-ghandiweg","kasimex-makro","kasco-customs-solutions","keller-williams-suriname","kempes-co","ket-mien","krioro","krioro-north","kushiyaki-the-next-episode","ladybug-nursery-and-garden-center","le-den","lobby","luxe-escape-lotus-spa-wellness-beautysalon","maharaja-palace","mandy-butka","marchand-notariaat","matcha-loft","max-n-co","maze","mezze-suriname","mighty-racks","mini-nail-shop","mirage-casino","miss-doll-fit","mn-international-centrum","mn-international-kwatta","mokisa-wellness","mon-plaisir-nursery","morevans-outlet","multi-travel","muntjes-take-out-juniors-place","murphys-irish-pub","nassy-brouwer-college","nassy-brouwer-school","new-choice-lalla-rookhweg","new-choice-nickerie","new-choice-ringweg","norrii-zushii","north-fitness-gym","notariaat-mannes","notariaat-van-dijk","nr-1-spot","ondernemershuis","one-stop-apotheek-drugstore","orchid","organic-skincare","overdoughsed-suriname","padel-x-suriname","pandie","paramaribo-princess-casino","percy-massage-therapy","petit-bouchon","pitbull-fitness","professional-private-security","protrade-international","qsi-international-school-of-suriname","raja-ji","re-max-suriname","real-one-fitness-gym","red-century-party-shop-commewijne","red-century-party-shop-kwatta","red-century-party-shop-lelydorp","red-century-party-shop-north","red-century-party-shop-zorg-en-hoop","remy-vastgoed","republic-bank-head-office","republic-bank-jozef-israelstraat","republic-bank-kernkampweg","republic-bank-nickerie","republic-bank-vant-hogerhuysstraat","republic-bank-zorg-en-hoop","resourceful-real-estate-construction","restoran-bibit","ricos-a-gladiator-foodtruck","rif-cleaning-service","rolines-de-waag","ross-rental-cars","safety-first-quality-always","sakura","satyam-holidays","savage-den","scene-beauty-salon","secas","sendang-redjo","shoebizz-ims","sizzlers-signature","sleepstore-suriname","smart-connexxionz","south-america-hot-pot","southern-commercial-bank","spice-quest","squeaky-clean","steps-domineestraat","steps-noord","steps-wanica","sthephany-skincare","store4u","sugar","sun-ice","supply-solutions-limited-suriname","surgoed-makelaardij","surinaamsche-waterleiding-maatschappij","suriname-princess-casino","sweet-tooth-pastries","sweetheart-ims","talula","tapauku-terras","tastelicious","teasee","telesur-centrum","telesur-latour","telesur-lelydorp","telesur-nickerie","telesur-noord","telesur-zonnebloemstraat","the-aerial-yoga-studio","the-basement-barbershop","the-girl-house","the-laundry-spot","the-nail-house","the-old-garage","the-perfume-spot","the-rose-manor","the-solution-property-management","the-sweetest-thing","the-warehouse-shop","three-little-beans","tianyou-aquafun","topsport","tori-oso","touch-of-heaven-wellness","tout-tout-petit","toys-n-more","tranquil-at-mamba-republiek","tranquil-massage","tsw-group","typing-nomad-nv","viva-mexico","waldos-worldwide-travel-service","warung-resa-centrum","warung-soepy-ann","welink-real-estate","wing-hung-cake-shop","wollys","wollys-2","wollys-3","wow-plus","x-avenue","ying-hao-beautyshop","yogh-hospitality","young-engineers","zenobia-bottling-company"] for b in [_make_biz(slug)] if b]
 
 # Sort every category list alphabetically by display name
 _alpha = lambda lst: sorted(lst, key=lambda b: b["name"].lower())
@@ -2008,7 +2008,7 @@ ADVENTURES_BIZ= _alpha(ADVENTURES_BIZ)
 SHOPPING      = _alpha(SHOPPING)
 SERVICES      = _alpha(SERVICES)
 
-# ── Global search index (embedded in every page for client-side search) ──────
+# ── Global search index — written to search-index.json, loaded lazily ────────
 import json as _json
 _SEARCH_INDEX = _json.dumps([
     *[{"n": b["name"], "u": b["url"], "c": "Eat & Drink",  "a": b.get("area","")} for b in RESTAURANTS],
@@ -2018,6 +2018,10 @@ _SEARCH_INDEX = _json.dumps([
     *[{"n": b["name"], "u": b["url"], "c": "Shopping",     "a": b.get("area","")} for b in SHOPPING],
     *[{"n": b["name"], "u": b["url"], "c": "Services",     "a": b.get("area","")} for b in SERVICES],
 ], ensure_ascii=False, separators=(',', ':'))
+
+# Write the search index to a standalone cacheable file
+with open("search-index.json", "w", encoding="utf-8") as _si_f:
+    _si_f.write(_SEARCH_INDEX)
 
 CME_FALLBACK = [
     # CME.sr only publishes SRD, USD, and EUR — no other currencies
@@ -2318,6 +2322,7 @@ PAGE_HEAD = """\
   <meta http-equiv="content-language" content="en">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/favicon.svg">
+  <meta name="twitter:site" content="@exploringsuriname">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"
@@ -2928,23 +2933,41 @@ function toggleMobGroup(id) {{
 mark {{ background:#fef08a;border-radius:2px;padding:0 1px; }}
 </style>
 <script>
-const _SI = {_SEARCH_INDEX};
 const _CAT_C = {_json.dumps(cat_colors)};
+let _SI = null;
+let _SI_loading = false;
 let _sel = -1;
+
+function _loadSI(cb) {{
+  if (_SI) {{ cb(); return; }}
+  if (_SI_loading) {{ setTimeout(() => _loadSI(cb), 50); return; }}
+  _SI_loading = true;
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  fetch(depth + 'search-index.json')
+    .then(r => r.json())
+    .then(data => {{ _SI = data; cb(); }})
+    .catch(() => {{ _SI = []; cb(); }});
+}}
 function openSearch() {{
   document.getElementById('search-modal').style.display = 'block';
   setTimeout(() => document.getElementById('search-input').focus(), 50);
+  _loadSI(() => {{}});
 }}
 function closeSearch() {{
   document.getElementById('search-modal').style.display = 'none';
   document.getElementById('search-input').value = '';
-  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search {len(_SEARCH_INDEX.split('"n"')) - 1} listings…</p>';
+  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search listings…</p>';
   _sel = -1;
 }}
 function runSearch(q) {{
   const box = document.getElementById('search-results');
   q = q.trim();
   if (!q) {{ closeSearch(); openSearch(); return; }}
+  if (!_SI) {{
+    _loadSI(() => runSearch(q));
+    box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Loading…</p>';
+    return;
+  }}
   const ql = q.toLowerCase();
   const hits = _SI.filter(x => x.n.toLowerCase().includes(ql)).slice(0, 10);
   if (!hits.length) {{ box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">No results for "' + q + '"</p>'; return; }}
@@ -3153,7 +3176,7 @@ def poi_card(item, badge_key="cuisine", eager=False):
   {img_html}
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div class="flex items-start justify-between gap-2">
-      <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">{html_lib.escape(item['name'])}</h4>
+      <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">{html_lib.escape(item['name'])}</h3>
       {badge_html}
     </div>
     <div class="flex items-center justify-between mt-auto pt-2">
@@ -3388,7 +3411,7 @@ def build_index(restaurants, hotels):
   <title>Explore Suriname | South America's Hidden Gem</title>
   <meta name="description" content="Plan your Suriname trip: rainforest lodges, Paramaribo restaurants, local tours, shopping and live SRD exchange rates. Your complete guide to South America's most unspoiled destination.">
   <link rel="canonical" href="{SITE_URL}/">
-  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920&q=80">
+  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1448375240586-882707db888b?w=1200&q=75&fm=webp&fit=crop">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/">
@@ -3408,9 +3431,9 @@ def build_index(restaurants, hotels):
     "url": "{SITE_URL}/",
     "logo": {{
       "@type": "ImageObject",
-      "url": "{SITE_URL}/favicon.svg",
-      "width": 64,
-      "height": 64
+      "url": "{SITE_URL}/og-image.jpg",
+      "width": 1200,
+      "height": 630
     }},
     "description": "Your complete travel and lifestyle guide to Suriname — hotels, restaurants, nature, activities and live SRD exchange rates.",
     "areaServed": {{
@@ -3449,11 +3472,11 @@ def build_index(restaurants, hotels):
 <body class="bg-white overflow-x-hidden">
 {nav_html("home")}
 <section class="relative min-h-screen flex items-center justify-center hero-bg"
-  style="background-image:url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920&q=80')">
+  style="background-image:url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1200&q=75&fm=webp&fit=crop')">
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.82) 100%)"></div>
   <div class="relative z-10 text-center text-white px-5 max-w-4xl mx-auto" style="padding-top:5rem">
     <p class="text-xs font-semibold tracking-widest uppercase mb-6" style="color:var(--coral)">South America&apos;s Hidden Gem</p>
-    <h1 class="serif font-black leading-tight mb-6" style="font-size:clamp(2.5rem,8vw,5.5rem)">The Amazon&apos;s<br>Best-Kept Secret</h1>
+    <h1 class="serif font-black leading-tight mb-6" style="font-size:clamp(2.5rem,8vw,5.5rem)">The Amazon&#8217;s<br>Best-Kept Secret</h1>
     <p class="text-xl font-light leading-relaxed mb-10 max-w-2xl mx-auto text-white/90">94% pristine rainforest. Unmatched biodiversity. Two UNESCO World Heritage Sites. Welcome to Suriname.</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <a href="#nature" class="px-8 py-4 rounded-full font-semibold text-lg text-white hover:opacity-90 transition shadow-lg" style="background:var(--forest)">Start Exploring &#8595;</a>
@@ -4329,7 +4352,7 @@ def build_listing_page(slug, b):
     maps_q     = urllib.parse.quote(raw_name + ", " + (address or location + ", Suriname"))
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
     maps_link  = "https://www.google.com/maps/search/?api=1&query=" + maps_q
-    og_img     = img if img else SITE_URL + "/og-image.jpg"
+    og_img     = (SITE_URL + "/" + img) if img and not img.startswith("http") else (img or SITE_URL + "/og-image.jpg")
 
     hero_style = ("background:url(" + html_lib.escape(img) + ") center/cover no-repeat"
                   if img else "background:var(--forest)")
@@ -4456,7 +4479,7 @@ def build_listing_page(slug, b):
         "\n  <title>" + name_e + " | ExploreSuriname.com</title>"
         "\n  <meta name=\"description\" content=\"" + desc_e + "\">"
         "\n  <link rel=\"canonical\" href=\"" + page_url + "\">"
-        "\n  <meta property=\"og:type\" content=\"business.business\">"
+        "\n  <meta property=\"og:type\" content=\"website\">"
         "\n  <meta property=\"og:site_name\" content=\"Explore Suriname\">"
         "\n  <meta property=\"og:url\" content=\"" + page_url + "\">"
         "\n  <meta property=\"og:title\" content=\"" + name_e + " | ExploreSuriname.com\">"
@@ -4464,6 +4487,7 @@ def build_listing_page(slug, b):
         "\n  <meta property=\"og:image\" content=\"" + og_img + "\">"
         "\n  <meta name=\"twitter:card\" content=\"summary_large_image\">"
         "\n  <meta name=\"twitter:title\" content=\"" + name_e + " | ExploreSuriname.com\">"
+        "\n  <meta name=\"twitter:description\" content=\"" + desc_e + "\">"
         "\n  <meta name=\"twitter:image\" content=\"" + og_img + "\">"
         + ld_script +
         "\n</head>"
@@ -4538,7 +4562,7 @@ def build_activity_listing_page(act, slug):
     maps_q     = urllib.parse.quote(name + ", Suriname")
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
     maps_link  = "https://www.google.com/maps/search/?api=1&query=" + maps_q
-    og_img     = img if img else SITE_URL + "/og-image.jpg"
+    og_img     = (SITE_URL + "/" + img) if img and not img.startswith("http") else (img or SITE_URL + "/og-image.jpg")
 
     hero_style = ("background:url(" + html_lib.escape(img) + ") center/cover no-repeat"
                   if img else "background:var(--forest)")
@@ -4602,6 +4626,7 @@ def build_activity_listing_page(act, slug):
         "\n  <meta property=\"og:image\" content=\"" + og_img + "\">"
         "\n  <meta name=\"twitter:card\" content=\"summary_large_image\">"
         "\n  <meta name=\"twitter:title\" content=\"" + name_e + " | ExploreSuriname.com\">"
+        "\n  <meta name=\"twitter:description\" content=\"" + desc_e + "\">"
         "\n  <meta name=\"twitter:image\" content=\"" + og_img + "\">"
         + act_ld_scripts +
         "\n</head>"
@@ -4674,7 +4699,7 @@ def build_nature_listing_page(spot, slug):
     maps_q     = urllib.parse.quote(name + ", Suriname")
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
     maps_link  = "https://www.google.com/maps/search/?api=1&query=" + maps_q
-    og_img     = img if img else SITE_URL + "/og-image.jpg"
+    og_img     = (SITE_URL + "/" + img) if img and not img.startswith("http") else (img or SITE_URL + "/og-image.jpg")
 
 
     hero_style = ("background:url(" + html_lib.escape(img) + ") center/cover no-repeat"
@@ -4764,7 +4789,8 @@ def build_nature_listing_page(spot, slug):
         + desc_e
         + '">\n  <meta property="og:image" content="' + og_img
         + '">\n  <meta name="twitter:card" content="summary_large_image">\n  <meta name="twitter:title" content="'
-        + name_e + ' | ExploreSuriname.com">\n  <meta name="twitter:image" content="'
+        + name_e + ' | ExploreSuriname.com">\n  <meta name="twitter:description" content="'
+        + desc_e + '">\n  <meta name="twitter:image" content="'
         + og_img + '">'
         + nat_ld_scripts
         + '\n</head>'
@@ -5364,6 +5390,37 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
     """Generate sitemap.xml covering all pages and listing URLs."""
     today = datetime.now(SR_TZ).strftime("%Y-%m-%d")
 
+    # ── Per-listing lastmod tracking (hash-based) ────────────────────────────
+    # Persist a slug→date map so lastmod only advances when content changes.
+    import hashlib as _hl
+    _lastmod_path = Path("listing_lastmod_cache.json")
+    try:
+        _lastmod_cache = json.loads(_lastmod_path.read_text(encoding="utf-8")) if _lastmod_path.exists() else {}
+    except Exception:
+        _lastmod_cache = {}
+
+    def _listing_lastmod(slug):
+        """Return lastmod date for a listing — only updates when HTML changes."""
+        html_path = Path("listing") / slug / "index.html"
+        if not html_path.exists():
+            return today
+        try:
+            h = _hl.md5(html_path.read_bytes()).hexdigest()
+        except Exception:
+            return today
+        if _lastmod_cache.get(slug, {}).get("hash") == h:
+            return _lastmod_cache[slug]["date"]
+        _lastmod_cache[slug] = {"hash": h, "date": today}
+        return today
+
+    def _flush_lastmod():
+        try:
+            _lastmod_path.write_text(
+                json.dumps(_lastmod_cache, ensure_ascii=False, indent=2), encoding="utf-8"
+            )
+        except Exception:
+            pass
+
     static_pages = [
         ("",                "1.0", "daily"),
         ("restaurants.html","0.9", "weekly"),
@@ -5394,12 +5451,15 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
             f"  </url>"
         )
 
+    _act_nat_set = set(act_slugs) | set(nat_slugs)
     for slug in biz_slugs:
+        if slug in _act_nat_set:
+            continue  # already included in act/nat loop below — prevents duplicates
         loc = SITE_URL + "/listing/" + slug + "/"
         urls.append(
             f"  <url>\n"
             f"    <loc>{loc}</loc>\n"
-            f"    <lastmod>{today}</lastmod>\n"
+            f"    <lastmod>{_listing_lastmod(slug)}</lastmod>\n"
             f"    <changefreq>monthly</changefreq>\n"
             f"    <priority>0.7</priority>\n"
             f"  </url>"
@@ -5410,12 +5470,13 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         urls.append(
             f"  <url>\n"
             f"    <loc>{loc}</loc>\n"
-            f"    <lastmod>{today}</lastmod>\n"
+            f"    <lastmod>{_listing_lastmod(slug)}</lastmod>\n"
             f"    <changefreq>monthly</changefreq>\n"
             f"    <priority>0.6</priority>\n"
             f"  </url>"
         )
 
+    _flush_lastmod()
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
             + "\n".join(urls)
