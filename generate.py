@@ -990,7 +990,7 @@ _IMGS = {
     'auto-style-tweede-rijweg': 'https://autostylenv.com/wp-content/uploads/2023/03/services_center_image_autostylenv.png',
     'auto-style-verlengde-gemenelandsweg': 'https://autostylenv.com/wp-content/uploads/2023/03/services_center_image_autostylenv.png',
     'ayo-river-lounge': 'https://21271a4b52.clvaw-cdnwnd.com/ac36ef76463495ef5fb3166ec1e36f1f/200000014-e8a82e8a86/700/arl_MG_4835.jpeg?ph=21271a4b52',
-    'baka-foto-restaurant': 'images/bakafoto.jpg',
+    'baka-foto-restaurant': 'https://exploresuriname.com/images/bakafoto.webp',
     'bed-bath-more-bbm': 'https://ims.sr/wp-content/uploads/2024/01/BBM-LOGO-2-1024x724.png',
     'best-mart': 'https://socialsuriname.com/wp-content/uploads/2024/06/Best-Mart-v1.webp',
     'beyrouth-bazaar': 'https://media.evendo.com/locations-resized/ShoppingImages/1920x466/6bb1563b-3e2a-4ab4-9b80-21058899d91a',
@@ -1042,7 +1042,7 @@ _IMGS = {
     'da-drogisterij-wilhelmina': 'https://ims.sr/wp-content/uploads/2024/01/DA_logo.png',
     'danpaati-river-lodge': 'https://www.orangesuriname.com/wp-content/uploads/2023/12/Danpaati-orange-suriname-lodge-view-1.png',
     'dcars-rental': 'https://www.dcarsrental.com/app/web/upload/medium/dcars-straat-in-paramaribo-2966-1775905846.png',
-    'de-gadri': 'images/gadri.jpg',
+    'de-gadri': 'https://exploresuriname.com/images/gadri.webp',
     'de-keurslager-interfarm': 'https://www.interfarmnv.com/img2/interfarm_logo.png',
     'de-spot': 'https://de-spot.com/media/frontpage/frontpage.jpg',
     'de-surinaamsche-bank-hermitage-mall': 'https://www.dsb.sr/assets/og-dsb.png',
@@ -1388,6 +1388,7 @@ _IMGS = {
     'zeelandia-suites': 'https://www.zeelandiasuites.sr/wp-content/uploads/2018/07/balcony-view.png',
     'zus-zo-cafe': 'https://www.zusenzosuriname.com/wp-content/uploads/2025/12/IMG_0310-scaled.jpeg',
 }
+
 
 
 _F = {
