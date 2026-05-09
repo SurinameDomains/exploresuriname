@@ -1443,20 +1443,13 @@ PAGE_HEAD = """\
     body   { font-family: 'Inter', system-ui, sans-serif; }
     .serif { font-family: 'Playfair Display', Georgia, serif; }
     .hero-bg { background-size:cover; background-position:center; }
-    @media (min-width:768px) { .hero-bg { background-attachment:fixed; } }
     .card-hover { transition: transform .2s, box-shadow .2s; }
     .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
     a { text-decoration: none; }
   </style>
   <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-6LTYHZYNSF');
-  </script>"""
+  <script>window.addEventListener("load",function(){var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-6LTYHZYNSF");});</script>"""
 
 # ── WorldTides: tide data for Paramaribo ────────────────────────────────────
 # ── WorldTides: district river tide locations ─────────────────────────────────
@@ -2529,7 +2522,7 @@ def build_index(restaurants, hotels):
   <title>Explore Suriname | South America's Hidden Gem</title>
   <meta name="description" content="Plan your Suriname trip: rainforest lodges, Paramaribo restaurants, local tours, shopping and live SRD exchange rates. Your complete guide to South America's most unspoiled destination.">
   <link rel="canonical" href="{SITE_URL}/">
-  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1448375240586-882707db888b?w=1200&q=75&fm=webp&fit=crop">
+  <link rel="preload" as="image" href="/images/hero-home.webp" fetchpriority="high">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/">
@@ -2590,7 +2583,7 @@ def build_index(restaurants, hotels):
 <body class="bg-white overflow-x-hidden">
 {nav_html("home")}
 <section class="relative min-h-screen flex items-center justify-center hero-bg"
-  style="background-image:url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1200&q=75&fm=webp&fit=crop')">
+  style="background-image:url('/images/hero-home.webp')">
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.82) 100%)"></div>
   <div class="relative z-10 text-center text-white px-5 max-w-4xl mx-auto" style="padding-top:5rem;padding-bottom:6rem">
     <p class="text-xs font-semibold tracking-widest uppercase mb-6" style="color:var(--coral)">South America&apos;s Hidden Gem</p>
