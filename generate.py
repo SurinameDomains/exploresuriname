@@ -684,6 +684,11 @@ _IMGS = {
     'yokohama-trading': 'https://socialsuriname.com/wp-content/uploads/2024/06/Yokohama-Trading-NV-v1.webp',
     'zeelandia-suites': 'https://www.zeelandiasuites.sr/wp-content/uploads/2018/07/balcony-view.png',
     'zus-zo-cafe': 'https://www.zusenzosuriname.com/wp-content/uploads/2025/12/IMG_0310-scaled.jpeg',
+    # Manually added
+    'gateway-fire-nv':      'https://gatewayfirenv.com/wp-content/uploads/2025/06/a5-removebg-preview.png',
+    'triple-security-unit': 'https://exploresuriname.com/images/triplesecurityunit.webp',
+    'hurricane-steel':        'https://www.hurricanesteel.com/wp-content/uploads/2021/06/thumb-02.jpg',
+    'hurricane-steel-ringweg':'https://www.hurricanesteel.com/wp-content/uploads/2021/06/thumb-02.jpg',
 }
 
 
@@ -995,6 +1000,13 @@ def _subcat(slug, main_cat=""):
         return 'nature-parks'
     if '9173' in s:
         return 'supermarkets'
+    # Manually added slugs
+    if 'gateway-fire' in s:
+        return 'security'
+    if 'dans-dip' in s:
+        return 'automotive'
+    if 'hurricane-steel' in s:
+        return 'home-furniture'
     return 'other'
 
 # Subcategory display config: cat → [ (key, label, emoji) ]
