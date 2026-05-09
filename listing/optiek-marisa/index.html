@@ -25,20 +25,13 @@
     body   { font-family: 'Inter', system-ui, sans-serif; }
     .serif { font-family: 'Playfair Display', Georgia, serif; }
     .hero-bg { background-size:cover; background-position:center; }
-    @media (min-width:768px) { .hero-bg { background-attachment:fixed; } }
     .card-hover { transition: transform .2s, box-shadow .2s; }
     .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
     a { text-decoration: none; }
   </style>
   <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-6LTYHZYNSF');
-  </script>
+  <script>window.addEventListener("load",function(){var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-6LTYHZYNSF");});</script>
   <title>Optiek Marisa | ExploreSuriname.com</title>
   <meta name="description" content="Optiek Marisa is an optical shop and eyewear boutique in Paramaribo offering eye care, prescription glasses, contact lenses and fashionable frames.">
   <link rel="canonical" href="https://exploresuriname.com/listing/optiek-marisa/">
