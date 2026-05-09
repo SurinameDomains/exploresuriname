@@ -8501,8 +8501,68 @@
     "location": "Paramaribo",
     "address": "Albergastraat 38, Zorg en Hoop, Paramaribo",
     "phone": "+597 851-5376",
-    "website": "",
+    "website": "https://www.facebook.com/4x4rental.sr/",
     "email": "",
     "main_image": ""
+  },
+  {
+    "slug": "gateway-fire-nv",
+    "name": "Gateway Fire N.V.",
+    "description": "Gateway Fire N.V. provides professional fire protection systems and services across Suriname and the Caribbean. Systems are built to international standards including NFPA, UL, and IBC — covering fire detection, suppression, and safety installations for commercial and industrial clients.",
+    "category": "services",
+    "location": "Paramaribo",
+    "address": "",
+    "phone": "+597 7420351",
+    "website": "https://gatewayfirenv.com",
+    "email": "",
+    "main_image": ""
+  },
+  {
+    "slug": "hurricane-steel",
+    "name": "Hurricane Steel",
+    "description": "Hurricane Steel manufactures and supplies modern building materials including galvanized steel framing profiles, rolling doors and shutters, aluminum shutters, roofing and wall cladding, drywall, and panels. Operating since 1998, with two locations in Paramaribo.",
+    "category": "Shopping And Souvenirs",
+    "location": "Paramaribo",
+    "address": "Verlengde Gemenelandsweg 157, Paramaribo",
+    "phone": "+597 431380",
+    "website": "https://www.hurricanesteel.com",
+    "email": "info@hurricanesteel.com",
+    "main_image": "https://www.hurricanesteel.com/wp-content/uploads/2021/06/thumb-02.jpg"
+  },
+  {
+    "slug": "triple-security-unit",
+    "name": "Triple Security Unit",
+    "description": "Triple Security Unit offers professional, reliable, and affordable security services in Suriname.",
+    "category": "services",
+    "location": "Paramaribo",
+    "address": "",
+    "phone": "",
+    "website": "https://www.facebook.com/3plesecure/",
+    "email": "",
+    "main_image": "https://exploresuriname.com/images/triplesecurityunit.webp"
+  },
+  {
+    "slug": "dans-dip-and-detail",
+    "name": "Dan's Dip & Detail",
+    "description": "Dan's Dip & Detail specialises in hydrographics, professional interior and exterior car detailing, paint protection film (PPF), vinyl wraps, and ceramic coatings in Paramaribo.",
+    "category": "services",
+    "location": "Paramaribo",
+    "address": "",
+    "phone": "",
+    "website": "https://www.facebook.com/people/Dans-Dip-Detail/100063699425094/",
+    "email": "",
+    "main_image": ""
+  },
+  {
+    "slug": "hurricane-steel-ringweg",
+    "name": "Hurricane Steel (Ringweg Zuid)",
+    "description": "Hurricane Steel manufactures and supplies modern building materials including galvanized steel framing profiles, rolling doors and shutters, aluminum shutters, roofing and wall cladding, drywall, and panels. Operating since 1998.",
+    "category": "Shopping And Souvenirs",
+    "location": "Paramaribo",
+    "address": "Ringweg Zuid 95, Paramaribo",
+    "phone": "+597 7115533",
+    "website": "https://www.hurricanesteel.com",
+    "email": "info@hurricanesteel.com",
+    "main_image": "https://www.hurricanesteel.com/wp-content/uploads/2021/06/thumb-02.jpg"
   }
 ]

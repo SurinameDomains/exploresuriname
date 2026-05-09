@@ -2985,7 +2985,7 @@ doConvert();"""
     <p class="text-gray-400 text-xs text-center mt-3">Rates are indicative only &mdash; confirm with your exchange office before transacting</p>
   </div>
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden order-2 lg:order-1">
       <div class="px-6 py-5 border-b border-gray-100">
         <div class="flex items-start justify-between gap-2">
           <div>
@@ -3010,7 +3010,7 @@ doConvert();"""
       </div>
       <div class="sm:hidden py-1">{cbvs_cards}</div>
     </div>
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden order-1 lg:order-2">
       <div class="px-6 py-5 border-b border-gray-100">
         <div class="flex items-start justify-between gap-2">
           <div>
