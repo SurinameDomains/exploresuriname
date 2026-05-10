@@ -3318,7 +3318,7 @@ def build_news(articles, oil_articles, finance_articles):
   <div id="section-finance" role="tabpanel" aria-labelledby="tab-finance" style="display:none">
     <div class="rounded-2xl border px-5 py-3 mb-5" style="background:#f0fdfa;border-color:#99f6e4">
       <p class="text-sm leading-relaxed" style="color:#134e4a">
-        <strong>Suriname Finance &amp; Economy:</strong> Investment, banking, IMF programmes, fiscal policy, GDP and economic developments — English-language coverage.
+        <strong>Suriname Finance &amp; Economy:</strong> Investment, banking, IMF programmes, fiscal policy, GDP and economic developments.
       </p>
     </div>
     <div class="flex gap-2 flex-wrap mb-6" id="finance-filters">
