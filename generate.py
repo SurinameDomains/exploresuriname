@@ -5079,7 +5079,7 @@ def build_conditions_page(tides_data):
   </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
-{{nav_html("forecast")}}
+{nav_html("forecast")}
 <div class="pt-16"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
@@ -5446,7 +5446,7 @@ def build_flights_page(flights_data):
   </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
-{{nav_html("flights")}}
+{nav_html("flights")}
 <div class="pt-16"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
