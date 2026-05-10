@@ -86,15 +86,32 @@ FEEDS = [
     {"name": "Waterkant",    "url": "https://www.waterkant.net/feed/",               "color": "#1a56db"},
 ]
 
-# Oil & gas feeds — broad feeds are filtered to Suriname-relevant articles only
+# Oil & gas feeds — broad feeds (filter=True) are restricted to Suriname-relevant articles
+# OilNow blocks direct RSS (403); routed via Google News proxy instead.
+# Offshore Energy: use the Suriname tag feed (already filtered, no kw check needed).
 OIL_FEEDS = [
-    {"name": "OilNow",          "url": "https://oilnow.gy/feed/",                                                                                                                                                                                                                                                                                                                                                                                  "color": "#92400e", "filter": False},
-    {"name": "Offshore Energy",  "url": "https://www.offshore-energy.biz/feed/",                                                                                                                                                                                                                                                                                                                                                                     "color": "#1e40af", "filter": True},
-    {"name": "Rigzone",          "url": "https://www.rigzone.com/news/rss/rigzone_news.aspx",                                                                                                                                                                                                                                                                                                                                                         "color": "#374151", "filter": True},
-    {"name": "Google News",      "url": "https://news.google.com/rss/search?q=Staatsolie+OR+%22Block+58%22+OR+%22Block+52%22+OR+%22GranMorgu%22+OR+%22Sapakara%22+OR+%22Krabdagu%22+OR+%22TotalEnergies+Suriname%22+OR+%22APA+Suriname%22+OR+%22PETRONAS+Suriname%22+OR+%22offshore+Suriname%22+OR+%22Suriname+oil%22+OR+%22Suriname+gas%22+OR+%22Suriname+energy%22&hl=en&gl=US&ceid=US:en", "color": "#be185d", "filter": False},
+    {"name": "OilNow",         "url": "https://news.google.com/rss/search?q=site:oilnow.gy+Suriname&hl=en&gl=US&ceid=US:en",                                                                                                       "color": "#92400e", "filter": False},
+    {"name": "Offshore Energy", "url": "https://www.offshore-energy.biz/tag/suriname/feed/",                                                                                                                                         "color": "#1e40af", "filter": False},
+    {"name": "Rigzone",        "url": "https://www.rigzone.com/news/rss/rigzone_news.aspx",                                                                                                                                          "color": "#374151", "filter": True},
+    {"name": "Google News",    "url": "https://news.google.com/rss/search?q=Staatsolie+OR+%22Block+58%22+OR+%22Block+52%22+OR+%22GranMorgu%22+OR+%22Sapakara%22+OR+%22Krabdagu%22+OR+%22TotalEnergies+Suriname%22+OR+%22APA+Suriname%22+OR+%22PETRONAS+Suriname%22+OR+%22offshore+Suriname%22+OR+%22Suriname+oil%22+OR+%22Suriname+gas%22+OR+%22Suriname+energy%22&hl=en&gl=US&ceid=US:en", "color": "#be185d", "filter": False},
 ]
 
-_OIL_KEYWORDS = {"suriname", "staatsolie", "block 58", "block 52", "granmorgu", "sapakara", "krabdagu"}
+_OIL_KEYWORDS = {
+    "suriname", "staatsolie", "block 58", "block 52", "granmorgu", "sapakara", "krabdagu",
+    "totalenergies suriname", "apa suriname", "apache suriname", "petronas suriname",
+    "offshore suriname", "suriname oil", "suriname gas", "suriname energy",
+}
+
+# Finance feeds — Suriname economy, banking, investment, IMF/debt coverage
+# Three targeted Google News queries; fetch_finance_articles() deduplicates across them.
+FINANCE_FEEDS = [
+    # Broad economy & investment coverage — APA, TotalEnergies economics, trade, SRD
+    {"name": "Economy & Investment",      "url": "https://news.google.com/rss/search?q=%22Suriname%22+%28economy+OR+investment+OR+finance+OR+%22economic+growth%22+OR+%22trade%22+OR+%22SRD%22%29&hl=en&gl=US&ceid=US:en",                                                                                                                                                                               "color": "#0f766e"},
+    # IMF programmes, sovereign debt, fiscal policy — tighter query to avoid diplomatic noise
+    {"name": "IMF & Macro",              "url": "https://news.google.com/rss/search?q=%22Suriname%22+%28%22IMF%22+OR+%22debt+restructuring%22+OR+%22fiscal+deficit%22+OR+%22World+Bank%22+OR+%22IDB+Invest%22+OR+%22sovereign+debt%22+OR+%22Surinamese+dollar%22%29&hl=en&gl=US&ceid=US:en",                                                                                                             "color": "#7c3aed"},
+    # Banking & financial sector — full institution names to avoid DSB golf-tournament noise
+    {"name": "Banking & Financial Sector", "url": "https://news.google.com/rss/search?q=%22Suriname%22+%28%22Centrale+Bank%22+OR+%22De+Surinaamsche+Bank%22+OR+%22Hakrinbank%22+OR+%22Finabank%22+OR+%22Republic+Bank+Suriname%22+OR+%22SRD%22+OR+%22Surinamese+dollar%22+OR+%22exchange+rate+Suriname%22+OR+%22financial+sector+Suriname%22+OR+%22credit+rating+Suriname%22%29&hl=en&gl=US&ceid=US:en", "color": "#b45309"},
+]
 
 NATURE_SPOTS = [
     {"name": "Central Suriname Nature Reserve", "badge": "UNESCO World Heritage",
@@ -1313,6 +1330,43 @@ def fetch_oil_articles():
     articles.sort(key=lambda a: a["date"], reverse=True)
     return articles
 
+def fetch_finance_articles():
+    """Fetch Suriname finance & economy articles from Google News RSS feeds."""
+    _UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    articles = []
+    seen = set()
+    for src_feed in FINANCE_FEEDS:
+        try:
+            feed  = feedparser.parse(src_feed["url"], agent=_UA)
+            count = 0
+            for entry in feed.entries[:20]:
+                title   = strip_tags(getattr(entry, "title", "")).strip()
+                summary = strip_tags(getattr(entry, "summary", ""))
+                link    = getattr(entry, "link", "#")
+                # deduplicate by normalised title
+                key = title.lower()[:60]
+                if key in seen:
+                    continue
+                seen.add(key)
+                if len(summary) > 200: summary = summary[:197] + "..."
+                pub = parse_date(entry)
+                articles.append({
+                    "title":   title,
+                    "link":    link,
+                    "summary": summary,
+                    "image":   get_image(entry),
+                    "date":    pub,
+                    "ago":     time_ago(pub),
+                    "source":  src_feed["name"],
+                    "color":   src_feed["color"],
+                })
+                count += 1
+            print(f"  OK  {src_feed['name']} (finance): {count}")
+        except Exception as e:
+            print(f"  ERR {src_feed['name']} (finance): {e}")
+    articles.sort(key=lambda a: a["date"], reverse=True)
+    return articles
+
 def fetch_cme_rates():
     """
     CME.sr rates via their internal JSON API.
@@ -2130,7 +2184,7 @@ def footer_html(prefix=""):
     <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
       <div>
         <p class="serif text-2xl font-bold mb-3">Explore<span style="color:var(--coral)">Suriname</span></p>
-        <p class="text-white/60 text-sm leading-relaxed">Your guide to Suriname — places to eat, stay, explore, shop and stay informed with local and Oil &amp; Gas news.</p>
+        <p class="text-white/60 text-sm leading-relaxed">Your guide to Suriname — places to eat, stay, explore, shop and stay informed with local, Oil &amp; Gas and Finance news.</p>
       </div>
       <div>
         <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Explore</p>
@@ -2732,7 +2786,7 @@ def build_index(restaurants, hotels):
         </div>
         <div>
           <p class="font-semibold text-gray-900 mb-1">Suriname News</p>
-          <p class="text-gray-500 text-sm leading-relaxed">Local news in Dutch plus Oil &amp; Gas updates covering Staatsolie, Block 58 and Suriname&apos;s offshore sector.</p>
+          <p class="text-gray-500 text-sm leading-relaxed">Local news in Dutch, Oil &amp; Gas updates (Staatsolie, Block 58, offshore) and English-language Finance &amp; Economy coverage.</p>
         </div>
       </a>
       <a href="visitor-guide.html" class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition">
@@ -3105,7 +3159,7 @@ doConvert();"""
 </body>
 </html>"""
 
-def build_news(articles, oil_articles):
+def build_news(articles, oil_articles, finance_articles):
     updated   = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
 
     # ── Local news section ──────────────────────────────────────────────────
@@ -3147,18 +3201,41 @@ def build_news(articles, oil_articles):
             f'{html_lib.escape(_fn)}</button>\n'
         )
 
-    local_count = len(articles)
-    oil_count   = len(oil_articles)
+    local_count   = len(articles)
+    oil_count     = len(oil_articles)
+
+    # ── Finance section ────────────────────────────────────────────────────
+    finance_cards_html = "\n".join(news_card_html(a, eager=False) for a in finance_articles[:30]) if finance_articles else (
+        '<div class="col-span-full text-center py-16 text-gray-400">'
+        '<p class="text-4xl mb-3">&#x1F4CA;</p>'
+        '<p class="text-sm">No finance articles available right now. Check back soon.</p>'
+        '</div>'
+    )
+    finance_filter_html = (
+        '<button onclick="filterSection(\'finance\',\'all\')" id="ff-all" '
+        'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
+        'style="background:#0f766e;border-color:#0f766e;color:#fff">All</button>\n'
+    )
+    for _feed in FINANCE_FEEDS:
+        _fn  = _feed["name"]
+        _fid = _fn.replace(" ", "_")
+        finance_filter_html += (
+            f'<button onclick="filterSection(\'finance\',\'{html_lib.escape(_fn)}\')" id="ff-{_fid}" '
+            f'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
+            f'style="border-color:#e5e7eb;color:#374151;background:#fff">'
+            f'{html_lib.escape(_fn)}</button>\n'
+        )
+    finance_count = len(finance_articles)
 
     return f"""{PAGE_HEAD}
-  <title>Suriname News &mdash; Local &amp; Oil and Gas | Explore Suriname</title>
-  <meta name="description" content="Suriname local news and oil &amp; gas updates in one place — De Ware Tijd, Starnieuws, Waterkant, Staatsolie, Block 58 and more.">
+  <title>Suriname News &mdash; Local, Oil &amp; Gas and Finance | Explore Suriname</title>
+  <meta name="description" content="Suriname local news, oil &amp; gas updates and finance in one place — De Ware Tijd, Starnieuws, Waterkant, Staatsolie, Block 58, IMF and more.">
   <link rel="canonical" href="{SITE_URL}/news.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/news.html">
-  <meta property="og:title" content="Suriname News &mdash; Local &amp; Oil and Gas | Explore Suriname">
-  <meta property="og:description" content="Suriname local news and oil &amp; gas updates from De Ware Tijd, Starnieuws, Waterkant, OilNow and more.">
+  <meta property="og:title" content="Suriname News &mdash; Local, Oil &amp; Gas and Finance | Explore Suriname">
+  <meta property="og:description" content="Suriname local news, oil &amp; gas and finance updates from De Ware Tijd, Starnieuws, Waterkant, OilNow, IMF and more.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Suriname News &mdash; Local &amp; Oil and Gas | Explore Suriname">
@@ -3196,6 +3273,14 @@ def build_news(articles, oil_articles):
         <span>Oil &amp; Gas</span>
         <span class="hidden sm:inline text-xs font-normal opacity-70">({oil_count} stories)</span>
       </button>
+      <button id="tab-finance" role="tab" aria-selected="false" aria-controls="section-finance"
+        onclick="switchTab('finance')"
+        class="tab-btn flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
+        style="background:#f3f4f6;color:#374151">
+        <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <span>Finance</span>
+        <span class="hidden sm:inline text-xs font-normal opacity-70">({finance_count} stories)</span>
+      </button>
     </div>
   </div>
 </div>
@@ -3228,34 +3313,47 @@ def build_news(articles, oil_articles):
     </div>
     <div id="oil-feed" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{oil_cards_html}</div>
   </div>
+
+  <!-- ── Finance ────────────────────────────────────────────────────────── -->
+  <div id="section-finance" role="tabpanel" aria-labelledby="tab-finance" style="display:none">
+    <div class="rounded-2xl border px-5 py-3 mb-5" style="background:#f0fdfa;border-color:#99f6e4">
+      <p class="text-sm leading-relaxed" style="color:#134e4a">
+        <strong>Suriname Finance &amp; Economy:</strong> Investment, banking, IMF programmes, fiscal policy, GDP and economic developments — English-language coverage.
+      </p>
+    </div>
+    <div class="flex gap-2 flex-wrap mb-6" id="finance-filters">
+      {finance_filter_html}
+    </div>
+    <div id="finance-feed" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{finance_cards_html}</div>
+  </div>
 </main>
 
 <script>
 /* ── Tab switching ──────────────────────────────────────────────────────── */
 function switchTab(tab) {{
-  var isLocal = tab === 'local';
-  var tLocal  = document.getElementById('tab-local');
-  var tOil    = document.getElementById('tab-oil');
-  var sLocal  = document.getElementById('section-local');
-  var sOil    = document.getElementById('section-oil');
-
-  tLocal.style.background = isLocal ? 'var(--forest)' : '#f3f4f6';
-  tLocal.style.color      = isLocal ? '#fff' : '#374151';
-  tOil.style.background   = isLocal ? '#f3f4f6' : '#92400e';
-  tOil.style.color        = isLocal ? '#374151' : '#fff';
-  tLocal.setAttribute('aria-selected', isLocal ? 'true' : 'false');
-  tOil.setAttribute('aria-selected',   isLocal ? 'false' : 'true');
-
-  sLocal.style.display = isLocal ? '' : 'none';
-  sOil.style.display   = isLocal ? 'none' : '';
+  var tabs     = ['local','oil','finance'];
+  var colors   = {{'local':'var(--forest)','oil':'#92400e','finance':'#0f766e'}};
+  tabs.forEach(function(t) {{
+    var btn = document.getElementById('tab-' + t);
+    var sec = document.getElementById('section-' + t);
+    var active = (t === tab);
+    btn.style.background = active ? colors[t] : '#f3f4f6';
+    btn.style.color      = active ? '#fff' : '#374151';
+    btn.setAttribute('aria-selected', active ? 'true' : 'false');
+    sec.style.display    = active ? '' : 'none';
+  }});
 }}
 
 /* ── Source filter ──────────────────────────────────────────────────────── */
 function filterSection(section, source) {{
-  var feedId    = section === 'local' ? 'local-feed' : 'oil-feed';
-  var filterId  = section === 'local' ? 'local-filters' : 'oil-filters';
-  var activeColor = section === 'local' ? 'var(--forest)' : '#92400e';
-  var allBtnId  = section === 'local' ? 'lf-all' : 'of-all';
+  var feedMap   = {{'local':'local-feed','oil':'oil-feed','finance':'finance-feed'}};
+  var filterMap = {{'local':'local-filters','oil':'oil-filters','finance':'finance-filters'}};
+  var colorMap  = {{'local':'var(--forest)','oil':'#92400e','finance':'#0f766e'}};
+  var prefMap   = {{'local':'lf-','oil':'of-','finance':'ff-'}};
+  var feedId    = feedMap[section]   || 'local-feed';
+  var filterId  = filterMap[section] || 'local-filters';
+  var activeColor = colorMap[section] || 'var(--forest)';
+  var allBtnId  = prefMap[section] + 'all';
 
   document.querySelectorAll('#' + filterId + ' .sec-filt').forEach(function(b) {{
     b.style.background   = '#fff';
@@ -3264,8 +3362,8 @@ function filterSection(section, source) {{
   }});
 
   var activeId  = source === 'all'
-    ? (section === 'local' ? 'lf-all' : 'of-all')
-    : (section === 'local' ? 'lf-' : 'of-') + source.replace(/ /g, '_');
+    ? allBtnId
+    : prefMap[section] + source.replace(/ /g, '_');
   var activeBtn = document.getElementById(activeId);
   if (activeBtn) {{
     activeBtn.style.background  = activeColor;
@@ -3280,7 +3378,9 @@ function filterSection(section, source) {{
 
 /* ── Hash routing (optional deep-link) ─────────────────────────────────── */
 (function() {{
-  if (window.location.hash === '#oil') switchTab('oil');
+  var h = window.location.hash;
+  if (h === '#oil') switchTab('oil');
+  else if (h === '#finance') switchTab('finance');
 }})();
 </script>
 {footer_html()}
@@ -5423,7 +5523,8 @@ if __name__ == "__main__":
     print("ExploreSuriname generator starting...")
 
     articles     = fetch_articles()
-    oil_articles = fetch_oil_articles()
+    oil_articles     = fetch_oil_articles()
+    finance_articles = fetch_finance_articles()
     cme_rates,  cme_live,  cme_updated  = fetch_cme_rates()
     cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
     tides_data    = fetch_worldtides()
@@ -5441,7 +5542,7 @@ if __name__ == "__main__":
                                                 cbvs_rates, cbvs_live, cbvs_updated),
         "conditions.html":  build_conditions_page(tides_data),
         "flights.html":     build_flights_page(flights_data),
-        "news.html":        build_news(articles, oil_articles),
+        "news.html":        build_news(articles, oil_articles, finance_articles),
         "about.html":       build_about_page(),
         "contact.html":     build_contact_page(),
         "privacy.html":     build_privacy_page(),
