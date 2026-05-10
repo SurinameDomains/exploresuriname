@@ -2979,19 +2979,25 @@ function doConvert(){{
 doConvert();"""
 
     return f"""{PAGE_HEAD}
-  <title>SRD to USD Today &mdash; Surinamese Dollar Exchange Rates | Explore Suriname</title>
+  <title>SRD to USD Today | Surinamese Dollar Exchange Rates | Explore Suriname</title>
   <meta name="description" content="Live Surinamese Dollar (SRD) exchange rates — CBVS official rates updated 3× daily on business days, CME cash rates updated continuously. Free currency converter.">
   <link rel="canonical" href="{SITE_URL}/currency.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/currency.html">
-  <meta property="og:title" content="SRD to USD Today &mdash; Surinamese Dollar Exchange Rates | Explore Suriname">
+  <meta property="og:title" content="SRD to USD Today | Surinamese Dollar Exchange Rates | Explore Suriname">
   <meta property="og:description" content="Live Surinamese Dollar (SRD) exchange rates — CBVS official rates updated 3× daily, CME cash rates updated continuously.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="SRD to USD Today &mdash; Surinamese Dollar Exchange Rates | Explore Suriname">
+  <meta name="twitter:title" content="SRD to USD Today | Surinamese Dollar Exchange Rates | Explore Suriname">
   <meta name="twitter:description" content="Live Surinamese Dollar (SRD) exchange rates — CBVS official rates updated 3× daily, CME cash rates updated continuously.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"WebPage","name":"SRD to USD Today | Surinamese Dollar Exchange Rates","url":"{SITE_URL}/currency.html","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"SRD Exchange Rates","item":"{SITE_URL}/currency.html"}}]}}
+  </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
     {{"@type":"Question","name":"What currency is used in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The official currency of Suriname is the Surinamese Dollar (SRD). Most everyday transactions — markets, local restaurants, minibuses — require SRD. Some hotels and larger shops also accept USD or EUR, but you will receive change in SRD."}}}},
@@ -3228,19 +3234,25 @@ def build_news(articles, oil_articles, finance_articles):
     finance_count = len(finance_articles)
 
     return f"""{PAGE_HEAD}
-  <title>Suriname News &mdash; Local, Oil &amp; Gas and Finance | Explore Suriname</title>
+  <title>Suriname News | Local, Oil &amp; Gas and Finance | Explore Suriname</title>
   <meta name="description" content="Suriname local news, oil &amp; gas updates and finance in one place — De Ware Tijd, Starnieuws, Waterkant, Staatsolie, Block 58, IMF and more.">
   <link rel="canonical" href="{SITE_URL}/news.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/news.html">
-  <meta property="og:title" content="Suriname News &mdash; Local, Oil &amp; Gas and Finance | Explore Suriname">
+  <meta property="og:title" content="Suriname News | Local, Oil &amp; Gas and Finance | Explore Suriname">
   <meta property="og:description" content="Suriname local news, oil &amp; gas and finance updates from De Ware Tijd, Starnieuws, Waterkant, OilNow, IMF and more.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Suriname News &mdash; Local &amp; Oil and Gas | Explore Suriname">
-  <meta name="twitter:description" content="Suriname local news and oil &amp; gas updates in one place.">
+  <meta name="twitter:title" content="Suriname News | Local, Oil &amp; Gas and Finance | Explore Suriname">
+  <meta name="twitter:description" content="Suriname local news, oil &amp; gas and finance updates in one place.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"CollectionPage","name":"Suriname News | Local, Oil & Gas and Finance","url":"{SITE_URL}/news.html","description":"Suriname local news, oil & gas and finance updates from De Ware Tijd, Starnieuws, Waterkant, OilNow, IMF and more.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}},"dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}"}}
+  </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"News","item":"{SITE_URL}/news.html"}}]}}
+  </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("news")}
@@ -4328,6 +4340,9 @@ def build_about_page():
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"AboutPage","name":"About Explore Suriname","url":"{SITE_URL}/about.html","description":"Explore Suriname is an independent travel and lifestyle guide to Suriname.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"About","item":"{SITE_URL}/about.html"}}]}}
+  </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("about")}
@@ -4418,6 +4433,9 @@ def build_contact_page():
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"ContactPage","name":"Contact Explore Suriname","url":"{SITE_URL}/contact.html","description":"Contact Explore Suriname for listing requests, corrections or partnerships.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Contact","item":"{SITE_URL}/contact.html"}}]}}
   </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -5033,20 +5051,20 @@ def build_conditions_page(tides_data):
     wx_districts_js = _json.dumps(wx_districts)
 
     return f"""{PAGE_HEAD}
-  <title>Suriname Weather Today &mdash; Paramaribo Forecast &amp; River Tides | Explore Suriname</title>
+  <title>Suriname Weather Today | Paramaribo Forecast &amp; River Tides | Explore Suriname</title>
   <meta name="description" content="Tidal predictions for the Suriname, Commewijne, Nickerie and Marowijne rivers, plus 7-day weather forecasts by district and sunrise/sunset times. Updated continuously.">
   <link rel="canonical" href="{SITE_URL}/conditions.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/conditions.html">
-  <meta property="og:title" content="Suriname Weather Today &mdash; Paramaribo Forecast &amp; River Tides | Explore Suriname">
+  <meta property="og:title" content="Suriname Weather Today | Paramaribo Forecast &amp; River Tides | Explore Suriname">
   <meta property="og:description" content="Tidal predictions for Suriname's rivers, 7-day district forecasts and sunrise/sunset times. Updated continuously.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Suriname Weather Today &mdash; Paramaribo Forecast &amp; River Tides | Explore Suriname">
+  <meta name="twitter:title" content="Suriname Weather Today | Paramaribo Forecast &amp; River Tides | Explore Suriname">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Weather Today — Paramaribo Forecast & River Tides | Explore Suriname","url":"{SITE_URL}/conditions.html","description":"Tidal predictions for the Suriname, Commewijne, Nickerie and Marowijne rivers, plus 7-day weather forecasts by district. Updated continuously.","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Weather Today | Paramaribo Forecast & River Tides","url":"{SITE_URL}/conditions.html","description":"Tidal predictions for the Suriname, Commewijne, Nickerie and Marowijne rivers, plus 7-day weather forecasts by district. Updated continuously.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
@@ -5056,9 +5074,12 @@ def build_conditions_page(tides_data):
     {{"@type":"Question","name":"What is the weather like in Paramaribo?","acceptedAnswer":{{"@type":"Answer","text":"Paramaribo has a tropical climate with hot, humid conditions year-round. Average temperatures stay between 26°C and 31°C. The city receives rainfall across all months, with heavier periods during the two rainy seasons. Sea breezes from the Atlantic can provide some relief in coastal areas."}}}}
   ]}}
   </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Weather & Tides","item":"{SITE_URL}/conditions.html"}}]}}
+  </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
-{nav_html("forecast")}
+{{nav_html("forecast")}}
 <div class="pt-16"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
@@ -5397,20 +5418,20 @@ def build_flights_page(flights_data):
 </div>"""
 
     return f"""{PAGE_HEAD}
-  <title>Suriname Flights Today &mdash; PBM Arrivals &amp; Departures | Explore Suriname</title>
+  <title>Suriname Flights Today | PBM Arrivals &amp; Departures | Explore Suriname</title>
   <meta name="description" content="Live arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX). KLM, Copa Airlines, Caribbean Airlines and Surinam Airways schedules updated today.">
   <link rel="canonical" href="{SITE_URL}/flights.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/flights.html">
-  <meta property="og:title" content="Suriname Flights Today &mdash; PBM Arrivals &amp; Departures | Explore Suriname">
+  <meta property="og:title" content="Suriname Flights Today | PBM Arrivals &amp; Departures | Explore Suriname">
   <meta property="og:description" content="Live arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX). KLM, Copa Airlines, Caribbean Airlines and Surinam Airways.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Suriname Flights Today &mdash; PBM Arrivals &amp; Departures | Explore Suriname">
+  <meta name="twitter:title" content="Suriname Flights Today | PBM Arrivals &amp; Departures | Explore Suriname">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Flights Today — PBM Arrivals & Departures | Explore Suriname","url":"{SITE_URL}/flights.html","description":"Today's arrivals and departures at Suriname airports including Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX).","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Flights Today | PBM Arrivals & Departures","url":"{SITE_URL}/flights.html","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}},"description":"Today's arrivals and departures at Suriname airports including Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX).","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
@@ -5420,9 +5441,12 @@ def build_flights_page(flights_data):
     {{"@type":"Question","name":"Do I need a visa to fly to Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Most nationalities require a tourist visa or tourist card to enter Suriname. These are arranged through the VFS Global portal before departure. Some Caribbean and South American nationalities may be exempt. Always check the latest Suriname immigration requirements for your passport before booking flights."}}}}
   ]}}
   </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Flights","item":"{SITE_URL}/flights.html"}}]}}
+  </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
-{nav_html("flights")}
+{{nav_html("flights")}}
 <div class="pt-16"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
