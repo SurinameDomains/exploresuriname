@@ -687,8 +687,8 @@ _IMGS = {
     # Manually added
     'gateway-fire-nv':      'https://gatewayfirenv.com/wp-content/uploads/2025/06/a5-removebg-preview.png',
     'triple-security-unit': 'https://exploresuriname.com/images/triplesecurityunit.webp',
-    'hurricane-steel':        'https://www.hurricanesteel.com/wp-content/uploads/2021/06/thumb-02.jpg',
-    'hurricane-steel-ringweg':'https://www.hurricanesteel.com/wp-content/uploads/2021/06/thumb-02.jpg',
+    'hurricane-steel':        'https://exploresuriname.com/images/Hurricanesteel.webp',
+    'hurricane-steel-ringweg':'https://exploresuriname.com/images/Hurricanesteel.webp',
 }
 
 
