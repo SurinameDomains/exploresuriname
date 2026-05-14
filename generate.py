@@ -5566,7 +5566,7 @@ def build_roads_page():
   </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden" style="display:flex;flex-direction:column;min-height:100vh">
-{{nav_html("roads")}}
+{nav_html("roads")}
 <div class="pt-16"></div>
 <div class="text-white py-10 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
@@ -5587,7 +5587,7 @@ def build_roads_page():
   </div>
 </main>
 
-{{footer_html()}}
+{footer_html()}
 </body>
 </html>"""
 
