@@ -15,7 +15,7 @@ import urllib.request, urllib.parse
 from datetime import datetime, timezone, timedelta
 
 SITE_URL       = "https://exploresuriname.com"
-CONTACT_EMAIL  = "surinamedomains@gmail.com"
+CONTACT_EMAIL  = "contact@exploresuriname.com"
 SR_TZ          = timezone(timedelta(hours=-3))   # Suriname time (UTC-3, no DST)
 YEAR           = datetime.now(SR_TZ).year
 MAX_PER_FEED   = 10
@@ -5543,10 +5543,10 @@ _CAT_COLORS = {
 
 
 def build_roads_page():
-    """On the Road — embedded Waze Live Map + road info panels for Suriname."""
+    """On the Road: embedded Waze Live Map + road info panels for Suriname."""
     return f"""{PAGE_HEAD}
   <title>On the Road | Explore Suriname</title>
-  <meta name="description" content="Live traffic and road conditions in Suriname. Emergency numbers, road rules, rainy season advisory and what to do after an accident — all in one place.">
+  <meta name="description" content="Live traffic and road conditions in Suriname. Emergency numbers, road rules, rainy season advisory and what to do after an accident.">
   <link rel="canonical" href="{SITE_URL}/on-the-road.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
@@ -5564,6 +5564,18 @@ def build_roads_page():
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"On the Road","item":"{SITE_URL}/on-the-road.html"}}]}}
   </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {{"@type":"Question","name":"What side of the road do you drive on in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"In Suriname, traffic drives on the left side of the road."}}}},
+    {{"@type":"Question","name":"What are the speed limits in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Speed limits in Suriname are 40 km/h in urban areas, 80 km/h on rural roads and 100 km/h on motorways."}}}},
+    {{"@type":"Question","name":"What is the blood alcohol limit for drivers in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The legal blood alcohol limit for drivers in Suriname is 0.05%."}}}},
+    {{"@type":"Question","name":"Do I need an International Driving Permit to drive in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Yes. Foreign visitors need an International Driving Permit (IDP) alongside their valid national licence. If you arrive without one, you can apply for a local driving permit at the Bureau Nieuwe Haven in Paramaribo."}}}},
+    {{"@type":"Question","name":"What are the emergency numbers in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"In Suriname, call 115 for the police, 113 for the ambulance and 110 for the fire department."}}}},
+    {{"@type":"Question","name":"What should I do after a car accident in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Stay at the scene and call 115 if anyone is injured. Fill in the SURVAM Aanrijdingsformulier (collision form) together with the other driver. Photograph the damage and the other driver's driving licence and insurance certificate, then notify your insurer as soon as possible."}}}},
+    {{"@type":"Question","name":"When must I call the police after an accident in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Call the police on 115 if someone is seriously injured, a serious traffic violation was involved such as running a red light or driving under the influence, the other driver disputes the facts, the other driver left the scene without providing their details, or the damage is due to theft or vandalism."}}}},
+    {{"@type":"Question","name":"What can I report on Waze in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Waze lets drivers report accidents, police checks, road closures, hazards and traffic jams in real time. Every report improves the live map for other drivers in Suriname."}}}}
+  ]}}
+  </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("roads")}
@@ -5579,7 +5591,7 @@ def build_roads_page():
 <div style="height:calc(100vh - 220px);min-height:560px;max-height:900px">
   <iframe
     src="https://embed.waze.com/iframe?zoom=13&lat=5.8520&lon=-55.2038&ct=livemap&pin=0"
-    title="Waze Live Map — Suriname road conditions"
+    title="Waze Live Map, Suriname road conditions"
     width="100%"
     height="100%"
     style="border:0;display:block;width:100%;height:100%"
@@ -5603,16 +5615,16 @@ def build_roads_page():
     // Short rainy: Dec(11), Jan(0)
     // Long rainy:  Apr(3)–Aug(7), peak May–Jun
     if(m === 11 || m === 0){{
-      title.textContent = 'Short Rainy Season — December to January';
+      title.textContent = 'Short Rainy Season: December to January';
       body.textContent  = 'Expect daily showers and reduced visibility. Allow extra travel time and watch for standing water on low-lying roads.';
       banner.classList.remove('hidden');
     }} else if(m >= 3 && m <= 7){{
       var peak = (m === 4 || m === 5) ? ' May and June are the wettest months.' : '';
-      title.textContent = 'Long Rainy Season — April to August';
+      title.textContent = 'Long Rainy Season: April to August';
       body.textContent  = 'Heavy and prolonged rainfall is common during this period.' + peak + ' Expect reduced visibility, slippery roads and possible delays.';
       banner.classList.remove('hidden');
     }}
-    // Dry seasons: Feb–Mar(1–2) and Aug–Nov(8–10) — no banner shown
+    // Dry seasons: Feb-Mar(1-2) and Aug-Nov(8-10) - no banner shown
   }})();
   </script>
 
@@ -5622,8 +5634,8 @@ def build_roads_page():
     <h2 class="serif text-xl font-bold text-gray-900 mb-3">Report on Waze</h2>
     <p class="text-gray-700 text-sm leading-relaxed mb-5">
       The Waze map is powered by drivers reporting what they see. Accidents, police checks, road
-      closures, hazards and traffic jams — every report improves the map for everyone in Suriname.
-      Open Waze, tap the report button and pick what you are seeing.
+      closures, hazards and traffic jams. Every report improves the map for everyone in Suriname.
+      Open Waze, tap the report button and pick what you see.
     </p>
     <div class="flex flex-wrap gap-3 mb-5">
       <span class="px-3 py-1.5 rounded-full text-xs font-semibold text-white" style="background:var(--coral)">Accident</span>
@@ -5658,7 +5670,7 @@ def build_roads_page():
         <span class="text-white/75 text-sm font-semibold">Fire Department</span>
       </a>
     </div>
-    <p class="text-gray-400 text-xs mt-4">Tap a number to call. Source: Korps Politie Suriname — politie.sr</p>
+
   </div>
 
   <!-- ROAD RULES + FOREIGN LICENCE side by side -->
@@ -5722,7 +5734,7 @@ def build_roads_page():
       </div>
       <div class="rounded-xl p-4" style="background:var(--mint)">
         <p class="text-xs font-bold uppercase tracking-wide mb-2" style="color:var(--forest)">2. Check for injuries</p>
-        <p class="text-sm text-gray-700 leading-relaxed">If anyone is injured, call <strong>113</strong> (ambulance) immediately.</p>
+        <p class="text-sm text-gray-700 leading-relaxed">If anyone is injured, call <strong>115</strong> (police) immediately. They will dispatch an ambulance when needed.</p>
       </div>
       <div class="rounded-xl p-4" style="background:var(--mint)">
         <p class="text-xs font-bold uppercase tracking-wide mb-2" style="color:var(--forest)">3. Complete the collision form</p>
@@ -5738,10 +5750,10 @@ def build_roads_page():
       </div>
     </div>
     <div class="rounded-xl p-5 border-l-4" style="background:#fff8f0;border-color:var(--coral)">
-      <p class="text-sm font-semibold text-gray-800 mb-2">When you must call the police — 115</p>
+      <p class="text-sm font-semibold text-gray-800 mb-2">When to call the police (115)</p>
       <ul class="text-sm text-gray-700 space-y-1">
         <li>Someone is seriously injured</li>
-        <li>A serious traffic violation was involved — running a red light, driving under the influence</li>
+        <li>A serious traffic violation was involved: running a red light, driving under the influence</li>
         <li>The other driver disputes the facts or the situation escalates</li>
         <li>The other driver left the scene without leaving their details (hit and run)</li>
         <li>The damage is due to theft, break-in or vandalism</li>
