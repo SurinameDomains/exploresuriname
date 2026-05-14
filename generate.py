@@ -2181,32 +2181,33 @@ document.addEventListener('keydown', e => {{
 
 def footer_html(prefix=""):
     return f"""
-<footer style="background:var(--forest)" class="text-white py-16">
+<footer style="background:var(--forest)" class="text-white py-10">
   <div class="max-w-6xl mx-auto px-5">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
-      <div>
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-6">
+      <div class="col-span-2 md:col-span-1">
         <p class="serif text-2xl font-bold mb-3">Explore<span style="color:var(--coral)">Suriname</span></p>
         <p class="text-white/60 text-sm leading-relaxed">Your guide to Suriname — places to eat, stay, explore, shop and stay informed with local, Oil &amp; Gas and Finance news.</p>
       </div>
       <div>
         <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Explore</p>
         <ul class="space-y-2 text-sm text-white/70">
-          <li class="text-white/35 text-xs uppercase tracking-wide pt-1">Things to Do</li>
           <li><a href="{prefix}nature.html"      class="hover:text-white transition">Nature &amp; Parks</a></li>
           <li><a href="{prefix}activities.html"  class="hover:text-white transition">Activities</a></li>
           <li><a href="{prefix}shopping.html"    class="hover:text-white transition">Shopping</a></li>
-          <li class="text-white/35 text-xs uppercase tracking-wide pt-2">Eat &amp; Stay</li>
           <li><a href="{prefix}restaurants.html" class="hover:text-white transition">Where to Eat</a></li>
           <li><a href="{prefix}hotels.html"      class="hover:text-white transition">Where to Stay</a></li>
-          <li class="text-white/35 text-xs uppercase tracking-wide pt-2">Essentials</li>
-          <li><a href="{prefix}currency.html"    class="hover:text-white transition">Market Rates</a></li>
-          <li><a href="{prefix}flights.html"     class="hover:text-white transition">Flights</a></li>
-          <li><a href="{prefix}conditions.html"  class="hover:text-white transition">Weather &amp; Tides</a></li>
-          <li><a href="{prefix}visitor-guide.html" class="hover:text-white transition">Visitor Guide</a></li>
-          <li><a href="{prefix}on-the-road.html"    class="hover:text-white transition">On the Road</a></li>
-          <li class="text-white/35 text-xs uppercase tracking-wide pt-2">Other</li>
           <li><a href="{prefix}services.html"    class="hover:text-white transition">Local Services</a></li>
-          <li><a href="{prefix}news.html"        class="hover:text-white transition">News</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Essentials</p>
+        <ul class="space-y-2 text-sm text-white/70">
+          <li><a href="{prefix}currency.html"      class="hover:text-white transition">Market Rates</a></li>
+          <li><a href="{prefix}flights.html"       class="hover:text-white transition">Flights</a></li>
+          <li><a href="{prefix}conditions.html"    class="hover:text-white transition">Weather &amp; Tides</a></li>
+          <li><a href="{prefix}visitor-guide.html" class="hover:text-white transition">Visitor Guide</a></li>
+          <li><a href="{prefix}on-the-road.html"   class="hover:text-white transition">On the Road</a></li>
+          <li><a href="{prefix}news.html"          class="hover:text-white transition">News</a></li>
         </ul>
       </div>
       <div>
@@ -2741,9 +2742,9 @@ def build_index(restaurants, hotels):
     <div class="text-center mb-10">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Plan Your Visit</p>
       <h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 mb-3">Travel Tools</h2>
-      <p class="text-gray-500 text-base max-w-xl mx-auto">Exchange rates, flights, weather, tides and Suriname news in one place.</p>
+      <p class="text-gray-500 text-base max-w-xl mx-auto">Exchange rates, flights, weather, road conditions, tides and Suriname news in one place.</p>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
       <a href="currency.html" class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition">
         <div class="flex items-start justify-between">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--mint)">
@@ -2802,6 +2803,18 @@ def build_index(restaurants, hotels):
         <div>
           <p class="font-semibold text-gray-900 mb-1">Visitor Guide</p>
           <p class="text-gray-500 text-sm leading-relaxed">Visas, customs, SIM cards, ATMs, taxi apps and mobile payments for first-time visitors.</p>
+        </div>
+      </a>
+      <a href="on-the-road.html" class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition">
+        <div class="flex items-start justify-between">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--mint)">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--forest2)"><path d="M3 17l2-8h14l2 8"/><path d="M3 17h18"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/><path d="M10 9v4M14 9v4"/></svg>
+          </div>
+          <svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-900 mb-1">On the Road</p>
+          <p class="text-gray-500 text-sm leading-relaxed">Live traffic via Waze, road rules, rainy season advisories, emergency numbers and what to do after an accident.</p>
         </div>
       </a>
     </div>
