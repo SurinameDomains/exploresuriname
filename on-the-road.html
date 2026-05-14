@@ -33,26 +33,26 @@
   <!-- Google tag (gtag.js) -->
   <script>window.addEventListener("load",function(){var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-6LTYHZYNSF");});</script>
   <title>On the Road | Explore Suriname</title>
-  <meta name="description" content="Live traffic and road conditions in Suriname. Waze drivers report accidents, closures, police checks and hazards in real time.">
+  <meta name="description" content="Live traffic and road conditions in Suriname. Emergency numbers, road rules, rainy season advisory and what to do after an accident — all in one place.">
   <link rel="canonical" href="https://exploresuriname.com/on-the-road.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="https://exploresuriname.com/on-the-road.html">
   <meta property="og:title" content="On the Road | Explore Suriname">
-  <meta property="og:description" content="Live traffic and road conditions in Suriname. Waze drivers report accidents, closures, police checks and hazards in real time.">
+  <meta property="og:description" content="Live traffic and road conditions in Suriname. Emergency numbers, road rules, rainy season advisory and what to do after an accident.">
   <meta property="og:image" content="https://exploresuriname.com/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="On the Road | Explore Suriname">
-  <meta name="twitter:description" content="Live traffic and road conditions in Suriname. Waze drivers report accidents, closures, police checks and hazards in real time.">
+  <meta name="twitter:description" content="Live traffic and road conditions in Suriname. Emergency numbers, road rules, rainy season advisory and what to do after an accident.">
   <meta name="twitter:image" content="https://exploresuriname.com/og-image.jpg">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebPage","name":"On the Road","url":"https://exploresuriname.com/on-the-road.html","description":"Live traffic and road conditions in Suriname. Waze drivers report accidents, closures, police checks and hazards in real time.","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/"}}
+  {"@context":"https://schema.org","@type":"WebPage","name":"On the Road","url":"https://exploresuriname.com/on-the-road.html","description":"Live traffic and road conditions in Suriname. Emergency numbers, road rules, rainy season advisory and what to do after an accident.","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/"}}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://exploresuriname.com/"},{"@type":"ListItem","position":2,"name":"On the Road","item":"https://exploresuriname.com/on-the-road.html"}]}
   </script>
 </head>
-<body class="bg-gray-50 overflow-x-hidden" style="display:flex;flex-direction:column;min-height:100vh">
+<body class="bg-gray-50 overflow-x-hidden">
 
 <style>
 .dd-menu { transform-origin: top center; }
@@ -247,23 +247,187 @@ document.addEventListener('keydown', e => {
 });
 </script>
 <div class="pt-16"></div>
+
 <div class="text-white py-10 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">On the Road</h1>
   <p class="text-white/65 text-lg max-w-xl mx-auto px-5">Waze drivers across Suriname report accidents, closures and hazards as they happen. Check before you go.</p>
 </div>
 
-<main style="flex:1">
-  <div style="height:calc(100vh - 220px);min-height:560px;max-height:900px">
-    <iframe
-      src="https://embed.waze.com/iframe?zoom=13&lat=5.8520&lon=-55.2038&ct=livemap&pin=0"
-      title="Waze Live Map — Suriname road conditions"
-      width="100%"
-      height="100%"
-      style="border:0;display:block;width:100%;height:100%"
-      allowfullscreen
-    ></iframe>
+<!-- MAP -->
+<div style="height:calc(100vh - 220px);min-height:560px;max-height:900px">
+  <iframe
+    src="https://embed.waze.com/iframe?zoom=13&lat=5.8520&lon=-55.2038&ct=livemap&pin=0"
+    title="Waze Live Map — Suriname road conditions"
+    width="100%"
+    height="100%"
+    style="border:0;display:block;width:100%;height:100%"
+    allowfullscreen
+  ></iframe>
+</div>
+
+<main class="max-w-5xl mx-auto px-5 py-12 pb-24">
+
+  <!-- RAINY SEASON ADVISORY (JS-driven) -->
+  <div id="season-banner" class="hidden rounded-2xl p-5 mb-8 border-l-4" style="background:#fff8f0;border-color:var(--coral)">
+    <p class="text-sm font-semibold text-gray-800 mb-1" id="season-title"></p>
+    <p class="text-sm text-gray-600 leading-relaxed" id="season-body"></p>
   </div>
+  <script>
+  (function(){
+    var m = new Date().getMonth(); // 0=Jan
+    var banner = document.getElementById('season-banner');
+    var title  = document.getElementById('season-title');
+    var body   = document.getElementById('season-body');
+    // Short rainy: Dec(11), Jan(0)
+    // Long rainy:  Apr(3)–Aug(7), peak May–Jun
+    if(m === 11 || m === 0){
+      title.textContent = 'Short Rainy Season — December to January';
+      body.textContent  = 'Expect daily showers and reduced visibility. Allow extra travel time and watch for standing water on low-lying roads.';
+      banner.classList.remove('hidden');
+    } else if(m >= 3 && m <= 7){
+      var peak = (m === 4 || m === 5) ? ' May and June are the wettest months.' : '';
+      title.textContent = 'Long Rainy Season — April to August';
+      body.textContent  = 'Heavy and prolonged rainfall is common during this period.' + peak + ' Expect reduced visibility, slippery roads and possible delays.';
+      banner.classList.remove('hidden');
+    }
+    // Dry seasons: Feb–Mar(1–2) and Aug–Nov(8–10) — no banner shown
+  })();
+  </script>
+
+  <!-- REPORT ON WAZE -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6">
+    <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Community Traffic</p>
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">Report on Waze</h2>
+    <p class="text-gray-700 text-sm leading-relaxed mb-5">
+      The Waze map is powered by drivers reporting what they see. Accidents, police checks, road
+      closures, hazards and traffic jams — every report improves the map for everyone in Suriname.
+      Open Waze, tap the report button and pick what you are seeing.
+    </p>
+    <div class="flex flex-wrap gap-3 mb-5">
+      <span class="px-3 py-1.5 rounded-full text-xs font-semibold text-white" style="background:var(--coral)">Accident</span>
+      <span class="px-3 py-1.5 rounded-full text-xs font-semibold text-white" style="background:var(--forest2)">Road Closed</span>
+      <span class="px-3 py-1.5 rounded-full text-xs font-semibold text-white" style="background:var(--forest2)">Hazard</span>
+      <span class="px-3 py-1.5 rounded-full text-xs font-semibold text-white" style="background:var(--forest2)">Police</span>
+      <span class="px-3 py-1.5 rounded-full text-xs font-semibold text-white" style="background:var(--forest2)">Traffic Jam</span>
+    </div>
+    <a href="https://waze.com/ul?ll=5.8520,-55.2038&zoom=13"
+       target="_blank" rel="noopener"
+       class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition"
+       style="background:#05c8f7;color:#1a1a1a">
+      Open Waze &amp; Report &#8599;
+    </a>
+  </div>
+
+  <!-- EMERGENCY NUMBERS -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6">
+    <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Emergency</p>
+    <h2 class="serif text-xl font-bold text-gray-900 mb-4">Emergency Numbers</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <a href="tel:115" class="flex flex-col items-center justify-center rounded-xl p-5 text-center hover:opacity-90 transition" style="background:var(--forest)">
+        <span class="text-3xl font-bold text-white mb-1">115</span>
+        <span class="text-white/75 text-sm font-semibold">Police</span>
+      </a>
+      <a href="tel:113" class="flex flex-col items-center justify-center rounded-xl p-5 text-center hover:opacity-90 transition" style="background:var(--coral)">
+        <span class="text-3xl font-bold text-white mb-1">113</span>
+        <span class="text-white/75 text-sm font-semibold">Ambulance</span>
+      </a>
+      <a href="tel:110" class="flex flex-col items-center justify-center rounded-xl p-5 text-center hover:opacity-90 transition" style="background:#b45309">
+        <span class="text-3xl font-bold text-white mb-1">110</span>
+        <span class="text-white/75 text-sm font-semibold">Fire Department</span>
+      </a>
+    </div>
+    <p class="text-gray-400 text-xs mt-4">Tap a number to call. Source: Korps Politie Suriname — politie.sr</p>
+  </div>
+
+  <!-- ROAD RULES + FOREIGN LICENCE side by side -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
+      <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Know Before You Drive</p>
+      <h2 class="serif text-xl font-bold text-gray-900 mb-4">Road Rules</h2>
+      <table class="w-full text-sm">
+        <tbody class="divide-y divide-gray-100">
+          <tr><td class="py-2.5 text-gray-500 pr-4 w-1/2">Traffic side</td><td class="py-2.5 font-semibold text-gray-800">Left-hand traffic</td></tr>
+          <tr><td class="py-2.5 text-gray-500 pr-4">Urban speed limit</td><td class="py-2.5 font-semibold text-gray-800">40 km/h</td></tr>
+          <tr><td class="py-2.5 text-gray-500 pr-4">Rural roads</td><td class="py-2.5 font-semibold text-gray-800">80 km/h</td></tr>
+          <tr><td class="py-2.5 text-gray-500 pr-4">Motorways</td><td class="py-2.5 font-semibold text-gray-800">100 km/h</td></tr>
+          <tr><td class="py-2.5 text-gray-500 pr-4">Blood alcohol limit</td><td class="py-2.5 font-semibold text-gray-800">0.05%</td></tr>
+          <tr><td class="py-2.5 text-gray-500 pr-4">Seatbelts</td><td class="py-2.5 font-semibold text-gray-800">Mandatory</td></tr>
+          <tr><td class="py-2.5 text-gray-500 pr-4">Child seats</td><td class="py-2.5 font-semibold text-gray-800">Required by law</td></tr>
+          <tr><td class="py-2.5 text-gray-500 pr-4">Mobile phone use</td><td class="py-2.5 font-semibold text-gray-800">Hands-free only</td></tr>
+          <tr><td class="py-2.5 text-gray-500 pr-4">Motorcycle helmets</td><td class="py-2.5 font-semibold text-gray-800">Mandatory</td></tr>
+          <tr><td class="py-2.5 text-gray-500 pr-4">Minimum driving age</td><td class="py-2.5 font-semibold text-gray-800">18 years</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
+      <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Visitors</p>
+      <h2 class="serif text-xl font-bold text-gray-900 mb-4">Foreign Driving Licence</h2>
+      <p class="text-gray-700 text-sm leading-relaxed mb-4">
+        To drive in Suriname on a foreign licence, you need an
+        <strong>International Driving Permit (IDP)</strong> alongside your valid national licence.
+        Get the IDP from your home country's motoring association before you travel.
+      </p>
+      <p class="text-gray-700 text-sm leading-relaxed mb-4">
+        If you arrive without one, you can apply for a local driving permit at the
+        <strong>Bureau Nieuwe Haven</strong> in Paramaribo using your foreign licence.
+        Permits are issued for up to one year and can be renewed.
+      </p>
+      <div class="rounded-xl p-4 border-l-4" style="background:#f0fdf4;border-color:var(--forest2)">
+        <p class="text-sm text-gray-700 leading-relaxed">
+          Car rental companies require drivers to be <strong>at least 21 years old</strong>
+          and to have held their licence for at least one year.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- AFTER AN ACCIDENT -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6">
+    <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">If It Happens</p>
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">After an Accident</h2>
+    <p class="text-gray-600 text-sm leading-relaxed mb-5">
+      In Suriname, the standard procedure after a collision is to complete the
+      <strong>SURVAM Aanrijdingsformulier</strong> (collision form) together with the other driver
+      at the scene. Keep a copy in your vehicle. Your insurer needs it to process a claim.
+    </p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+      <div class="rounded-xl p-4" style="background:var(--mint)">
+        <p class="text-xs font-bold uppercase tracking-wide mb-2" style="color:var(--forest)">1. Stay at the scene</p>
+        <p class="text-sm text-gray-700 leading-relaxed">Do not leave. Move the vehicle to the roadside only if it is safe and the vehicle can be driven.</p>
+      </div>
+      <div class="rounded-xl p-4" style="background:var(--mint)">
+        <p class="text-xs font-bold uppercase tracking-wide mb-2" style="color:var(--forest)">2. Check for injuries</p>
+        <p class="text-sm text-gray-700 leading-relaxed">If anyone is injured, call <strong>113</strong> (ambulance) immediately.</p>
+      </div>
+      <div class="rounded-xl p-4" style="background:var(--mint)">
+        <p class="text-xs font-bold uppercase tracking-wide mb-2" style="color:var(--forest)">3. Complete the collision form</p>
+        <p class="text-sm text-gray-700 leading-relaxed">Fill in the SURVAM Aanrijdingsformulier together with the other driver. Note the cause, sketch the road position, record the damage, and both parties sign both sides.</p>
+      </div>
+      <div class="rounded-xl p-4" style="background:var(--mint)">
+        <p class="text-xs font-bold uppercase tracking-wide mb-2" style="color:var(--forest)">4. Document everything</p>
+        <p class="text-sm text-gray-700 leading-relaxed">Photograph the damage, the road situation, and the other driver's <strong>driving licence and insurance certificate</strong>. Get witness names and phone numbers.</p>
+      </div>
+      <div class="rounded-xl p-4" style="background:var(--mint)">
+        <p class="text-xs font-bold uppercase tracking-wide mb-2" style="color:var(--forest)">5. Report to your insurer</p>
+        <p class="text-sm text-gray-700 leading-relaxed">Notify your insurance company as soon as possible with the completed form and your photos.</p>
+      </div>
+    </div>
+    <div class="rounded-xl p-5 border-l-4" style="background:#fff8f0;border-color:var(--coral)">
+      <p class="text-sm font-semibold text-gray-800 mb-2">When you must call the police — 115</p>
+      <ul class="text-sm text-gray-700 space-y-1">
+        <li>Someone is seriously injured</li>
+        <li>A serious traffic violation was involved — running a red light, driving under the influence</li>
+        <li>The other driver disputes the facts or the situation escalates</li>
+        <li>The other driver left the scene without leaving their details (hit and run)</li>
+        <li>The damage is due to theft, break-in or vandalism</li>
+      </ul>
+    </div>
+  </div>
+
 </main>
 
 
