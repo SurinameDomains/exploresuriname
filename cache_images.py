@@ -233,8 +233,9 @@ def _download(url, dest):
 
     if needs_convert:
         ok = _convert_to_webp(raw_dest, dest)
-        raw_dest.unlink(missing_ok=True)
-        if not ok:
+        if ok:
+            raw_dest.unlink(missing_ok=True)
+        else:
             raw_dest.rename(dest.with_suffix(src_ext))
             return False
     return True
