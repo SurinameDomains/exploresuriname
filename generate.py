@@ -1866,7 +1866,7 @@ def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
     _TODO  = {"nature", "activities", "shopping"}
     _EAT   = {"restaurants", "hotels"}
-    _ESS   = {"currency", "flights", "forecast", "visitor"}
+    _ESS   = {"currency", "flights", "forecast", "visitor", "roads"}
 
     def _is_active(key):
         return active == key
@@ -1920,6 +1920,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}flights.html"     {_link_cls("flights")}    >Flights</a>'
         f'<a href="{prefix}conditions.html"  {_link_cls("forecast")}   >Weather &amp; Tides</a>'
         f'<a href="{prefix}visitor-guide.html" {_link_cls("visitor")}  >Visitor Guide</a>'
+        f'<a href="{prefix}on-the-road.html" {_link_cls("roads")}      >On the Road</a>'
     )
 
     desktop_nav = (
@@ -1963,7 +1964,8 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}currency.html",   "Market Rates", "currency") +
         _mob_link(f"{prefix}flights.html",    "Flights",              "flights")  +
         _mob_link(f"{prefix}conditions.html", "Weather & Tides",      "forecast") +
-        _mob_link(f"{prefix}visitor-guide.html", "Visitor Guide",     "visitor")
+        _mob_link(f"{prefix}visitor-guide.html", "Visitor Guide",     "visitor") +
+        _mob_link(f"{prefix}on-the-road.html", "On the Road",         "roads")
     )
 
     _svc_col  = 'style="color:var(--forest)"' if _is_active("services") else ""
@@ -2201,6 +2203,7 @@ def footer_html(prefix=""):
           <li><a href="{prefix}flights.html"     class="hover:text-white transition">Flights</a></li>
           <li><a href="{prefix}conditions.html"  class="hover:text-white transition">Weather &amp; Tides</a></li>
           <li><a href="{prefix}visitor-guide.html" class="hover:text-white transition">Visitor Guide</a></li>
+          <li><a href="{prefix}on-the-road.html"    class="hover:text-white transition">On the Road</a></li>
           <li class="text-white/35 text-xs uppercase tracking-wide pt-2">Other</li>
           <li><a href="{prefix}services.html"    class="hover:text-white transition">Local Services</a></li>
           <li><a href="{prefix}news.html"        class="hover:text-white transition">News</a></li>
@@ -4685,6 +4688,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("flights.html",    "0.8", "daily"),
         ("conditions.html", "0.8", "daily"),
         ("visitor-guide.html","0.8", "monthly"),
+        ("on-the-road.html", "0.7", "monthly"),
         ("news.html",       "0.7", "daily"),
         ("about.html",      "0.5", "yearly"),
         ("contact.html",    "0.5", "yearly"),
@@ -5537,6 +5541,56 @@ _CAT_COLORS = {
 }
 
 
+
+def build_roads_page():
+    """On the Road — embedded Waze Live Map for Suriname road conditions."""
+    return f"""{PAGE_HEAD}
+  <title>On the Road | Explore Suriname</title>
+  <meta name="description" content="Live traffic and road conditions in Suriname. Waze drivers report accidents, closures, police checks and hazards in real time.">
+  <link rel="canonical" href="{SITE_URL}/on-the-road.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/on-the-road.html">
+  <meta property="og:title" content="On the Road | Explore Suriname">
+  <meta property="og:description" content="Live traffic and road conditions in Suriname. Waze drivers report accidents, closures, police checks and hazards in real time.">
+  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="On the Road | Explore Suriname">
+  <meta name="twitter:description" content="Live traffic and road conditions in Suriname. Waze drivers report accidents, closures, police checks and hazards in real time.">
+  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"WebPage","name":"On the Road","url":"{SITE_URL}/on-the-road.html","description":"Live traffic and road conditions in Suriname. Waze drivers report accidents, closures, police checks and hazards in real time.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"On the Road","item":"{SITE_URL}/on-the-road.html"}}]}}
+  </script>
+</head>
+<body class="bg-gray-50 overflow-x-hidden" style="display:flex;flex-direction:column;min-height:100vh">
+{{nav_html("roads")}}
+<div class="pt-16"></div>
+<div class="text-white py-10 text-center" style="background:var(--forest)">
+  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">On the Road</h1>
+  <p class="text-white/65 text-lg max-w-xl mx-auto px-5">Waze drivers across Suriname report accidents, closures and hazards as they happen. Check before you go.</p>
+</div>
+
+<main style="flex:1">
+  <div style="height:calc(100vh - 220px);min-height:560px;max-height:900px">
+    <iframe
+      src="https://embed.waze.com/iframe?zoom=13&lat=5.8520&lon=-55.2038&ct=livemap&pin=0"
+      title="Waze Live Map — Suriname road conditions"
+      width="100%"
+      height="100%"
+      style="border:0;display:block;width:100%;height:100%"
+      allowfullscreen
+    ></iframe>
+  </div>
+</main>
+
+{{footer_html()}}
+</body>
+</html>"""
+
 def build_map_page(gmaps_key=""):
     """Removed — map page disabled."""
     return ""
@@ -5571,6 +5625,7 @@ if __name__ == "__main__":
         "contact.html":     build_contact_page(),
         "privacy.html":     build_privacy_page(),
         "visitor-guide.html": build_visitor_guide_page(),
+        "on-the-road.html":   build_roads_page(),
     }
 
     for fname, html in pages.items():
