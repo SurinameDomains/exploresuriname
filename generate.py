@@ -1488,6 +1488,7 @@ PAGE_HEAD = """\
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="content-language" content="en">
+  <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <meta name="twitter:site" content="@exploringsuriname">
@@ -4793,7 +4794,7 @@ def build_sw():
     """Return sw.js service worker content."""
     return r"""// ExploreSuriname Service Worker
 const CACHE = 'exploresr-v1';
-const PRECACHE = ['/', '/tailwind.css', '/favicon.svg', '/offline.html'];
+const PRECACHE = ['/', '/tailwind.css', '/favicon.ico', '/favicon.svg', '/offline.html'];
 const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html']);
 
 self.addEventListener('install', e => {
