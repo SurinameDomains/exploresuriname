@@ -4793,7 +4793,7 @@ def build_manifest():
 def build_sw():
     """Return sw.js service worker content."""
     return r"""// ExploreSuriname Service Worker
-const CACHE = 'exploresr-v1';
+const CACHE = 'exploresr-v2';
 const PRECACHE = ['/', '/tailwind.css', '/favicon.ico', '/favicon.svg', '/offline.html'];
 const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html']);
 
