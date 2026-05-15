@@ -4878,9 +4878,14 @@ def build_offline():
 
 def _generate_pwa_icons():
     """Generate 192×192 and 512×512 PNG icons via Wand (ImageMagick SVG renderer).
-    Falls back to a Pillow super-sampled version if Wand is unavailable."""
+    Falls back to a Pillow super-sampled version if Wand is unavailable.
+    Skips regeneration if icons already exist (preserves manually committed icons)."""
     import os as _os
     _os.makedirs("icons", exist_ok=True)
+
+    if _os.path.exists("icons/icon-192.png") and _os.path.exists("icons/icon-512.png"):
+        print("  SKIP  icons — using committed versions")
+        return
 
     _ICON_SVG = b"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <rect width="512" height="512" rx="96" ry="96" fill="#1B4332"/>
