@@ -259,12 +259,12 @@ document.addEventListener('keydown', e => {
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Weather &amp; Tides</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Live weather by district &bull; tidal forecasts for 4 rivers &bull; sunrise &amp; sunset</p>
-  <p class="text-white/35 text-xs mt-3">&#128336; Page built: 17 May 2026, 01:00 SR</p>
+  <p class="text-white/35 text-xs mt-3">&#128336; Page built: 17 May 2026, 01:09 SR</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
 
   <!-- Weather — district selector -->
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mb-6">
     <div class="flex items-start justify-between mb-4">
       <div>
         <h2 class="serif text-2xl font-bold text-gray-900">&#127777;&#65039; Weather</h2>
@@ -273,12 +273,13 @@ document.addEventListener('keydown', e => {
       <span id="wx-badge" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0 ml-4">Loading&hellip;</span>
     </div>
     <!-- District selector -->
-    <div class="flex gap-2 flex-wrap mb-6">
+    <div class="flex gap-2 flex-wrap mb-5">
       <p class="text-xs font-semibold text-gray-500 self-center mr-1">District:</p>
       <div id="wx-district-tabs" class="flex gap-1 flex-wrap"></div>
     </div>
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-      <div class="rounded-xl p-4" style="background:var(--mint)">
+    <!-- Current conditions: 5 tiles -->
+    <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-5">
+      <div class="col-span-2 sm:col-span-1 rounded-xl p-4" style="background:var(--mint)">
         <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Temperature</p>
         <p id="wx-temp" class="text-3xl font-bold font-mono text-gray-900">&mdash;</p>
         <p id="wx-feels" class="text-xs text-gray-400 mt-1">Feels like &mdash;</p>
@@ -291,17 +292,50 @@ document.addEventListener('keydown', e => {
       <div class="rounded-xl p-4 bg-gray-50">
         <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Humidity</p>
         <p id="wx-hum" class="text-3xl font-bold font-mono text-gray-900">&mdash;</p>
-        <p class="text-xs text-gray-400 mt-1">Relative humidity</p>
+        <p class="text-xs text-gray-400 mt-1">Relative</p>
       </div>
       <div class="rounded-xl p-4 bg-gray-50">
         <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Wind</p>
         <p id="wx-wind" class="text-3xl font-bold font-mono text-gray-900">&mdash;</p>
         <p id="wx-wdir" class="text-xs text-gray-400 mt-1">&mdash;</p>
       </div>
+      <div class="rounded-xl p-4 bg-gray-50">
+        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">UV Index</p>
+        <p id="wx-uv" class="text-3xl font-bold font-mono text-gray-900">&mdash;</p>
+        <p id="wx-uv-label" class="text-xs mt-1 font-semibold">&mdash;</p>
+      </div>
     </div>
-    <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-4">7-Day Forecast</h3>
-    <div class="overflow-x-auto -mx-2 px-2 pb-1" style="scrollbar-width:none">
-      <div id="wx-forecast" class="flex gap-2 sm:grid sm:grid-cols-7"></div>
+    <!-- Rain next 2 hours (minutely_15) -->
+    <div class="rounded-xl p-4 mb-5" style="background:#eff6ff">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide">&#127783; Rain next 2 hours</p>
+        <p id="wx-rain-summary" class="text-xs font-semibold text-blue-600">&mdash;</p>
+      </div>
+      <div class="flex items-end gap-px h-10" id="wx-rain-bars"></div>
+      <div class="flex gap-px mt-1.5" id="wx-rain-times"></div>
+    </div>
+    <!-- 24-hour strip -->
+    <div class="mb-5">
+      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3">Next 24 hours</h3>
+      <div class="overflow-x-auto -mx-2 px-2 pb-1" style="scrollbar-width:none">
+        <div id="wx-hourly" class="flex gap-1.5"></div>
+      </div>
+    </div>
+    <!-- 7-day forecast (clickable) -->
+    <div>
+      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3">7-day &mdash; <span class="normal-case font-normal text-gray-400">tap a day for detail</span></h3>
+      <div class="overflow-x-auto -mx-2 px-2 pb-1" style="scrollbar-width:none">
+        <div id="wx-forecast" class="flex gap-2 sm:grid sm:grid-cols-7"></div>
+      </div>
+      <div id="wx-day-detail" class="hidden mt-3 rounded-xl overflow-hidden" style="border:1px solid #bfdbfe">
+        <div class="px-4 py-2.5 flex items-center justify-between" style="background:#eff6ff">
+          <p id="wx-day-detail-title" class="text-xs font-semibold text-gray-700 uppercase tracking-wide">&mdash;</p>
+          <button onclick="document.getElementById('wx-day-detail').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 text-xl leading-none font-light">&times;</button>
+        </div>
+        <div class="overflow-x-auto px-3 py-3 bg-white" style="scrollbar-width:none">
+          <div id="wx-day-detail-hours" class="flex gap-1.5"></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -443,10 +477,20 @@ var WMO = {
   95:['&#9928;','Thunderstorm'], 96:['&#9928;','Storm + hail'], 99:['&#9928;','Heavy storm']
 };
 var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 var WX_DISTRICTS = [{"label": "Paramaribo", "lat": 5.852, "lon": -55.203}, {"label": "Wanica", "lat": 5.73, "lon": -55.25}, {"label": "Nickerie", "lat": 5.94, "lon": -56.978}, {"label": "Commewijne", "lat": 5.893, "lon": -55.087}, {"label": "Marowijne", "lat": 5.491, "lon": -54.057}, {"label": "Brokopondo", "lat": 4.762, "lon": -55.027}, {"label": "Para", "lat": 5.49, "lon": -55.226}, {"label": "Saramacca", "lat": 5.793, "lon": -55.467}];
 var _curDistrict = 0;
+var _wxHourly = null;
 
-// Build district tab buttons
+function uvLabel(v) {
+  if (v <= 2) return ['Low','#16a34a'];
+  if (v <= 5) return ['Moderate','#ca8a04'];
+  if (v <= 7) return ['High','#ea580c'];
+  if (v <= 10) return ['Very High','#dc2626'];
+  return ['Extreme','#7c3aed'];
+}
+
+// Build district tabs
 (function(){
   var container = document.getElementById('wx-district-tabs');
   WX_DISTRICTS.forEach(function(d, i) {
@@ -455,22 +499,17 @@ var _curDistrict = 0;
     btn.dataset.idx = i;
     btn.className = 'wx-dtab text-xs font-semibold px-3 py-1.5 rounded-full border transition';
     if (i === 0) {
-      btn.style.background = 'var(--forest)';
-      btn.style.borderColor = 'var(--forest)';
-      btn.style.color = '#fff';
+      btn.style.background = 'var(--forest)'; btn.style.borderColor = 'var(--forest)'; btn.style.color = '#fff';
     } else {
-      btn.style.borderColor = '#e5e7eb';
-      btn.style.color = '#374151';
-      btn.style.background = '#fff';
+      btn.style.borderColor = '#e5e7eb'; btn.style.color = '#374151'; btn.style.background = '#fff';
     }
     btn.onclick = function() {
       _curDistrict = i;
       document.querySelectorAll('.wx-dtab').forEach(function(b) {
         b.style.background = '#fff'; b.style.borderColor = '#e5e7eb'; b.style.color = '#374151';
       });
-      btn.style.background = 'var(--forest)';
-      btn.style.borderColor = 'var(--forest)';
-      btn.style.color = '#fff';
+      btn.style.background = 'var(--forest)'; btn.style.borderColor = 'var(--forest)'; btn.style.color = '#fff';
+      document.getElementById('wx-day-detail').classList.add('hidden');
       loadWeather(d.lat, d.lon);
       loadSunrise(d.lat, d.lon);
     };
@@ -482,10 +521,14 @@ function loadWeather(lat, lon) {
   document.getElementById('wx-badge').innerHTML = 'Loading&hellip;';
   document.getElementById('wx-badge').className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0 ml-4';
   var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon
-    + '&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m'
+    + '&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,uv_index'
+    + '&minutely_15=precipitation,weather_code'
+    + '&hourly=temperature_2m,weather_code,precipitation_probability,precipitation,wind_speed_10m'
     + '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max'
     + '&wind_speed_unit=kmh&timezone=America%2FParamaribo&forecast_days=7';
   fetch(url).then(function(r){return r.json();}).then(function(d){
+
+    // --- Current conditions ---
     var c = d.current;
     var wmo = WMO[c.weather_code] || ['&#127777;','Unknown'];
     document.getElementById('wx-temp').textContent  = Math.round(c.temperature_2m) + '°C';
@@ -497,31 +540,152 @@ function loadWeather(lat, lon) {
     var dirs = ['N','NE','E','SE','S','SW','W','NW'];
     var deg  = c.wind_direction_10m;
     document.getElementById('wx-wdir').textContent  = dirs[Math.round(deg/45)%8] + ' · ' + Math.round(deg) + '°';
+    var uvVal  = Math.round(c.uv_index || 0);
+    var uvInfo = uvLabel(uvVal);
+    document.getElementById('wx-uv').textContent       = uvVal;
+    document.getElementById('wx-uv').style.color       = uvInfo[1];
+    document.getElementById('wx-uv-label').textContent = uvInfo[0];
+    document.getElementById('wx-uv-label').style.color = uvInfo[1];
     var badge = document.getElementById('wx-badge');
     badge.innerHTML = '&#9679; Live';
     badge.className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0 ml-4';
+
+    // --- Rain next 2 hours (minutely_15) ---
+    var m15 = d.minutely_15;
+    if (m15 && m15.time && m15.precipitation) {
+      var now = new Date();
+      var bars = document.getElementById('wx-rain-bars');
+      var timesEl = document.getElementById('wx-rain-times');
+      bars.innerHTML = ''; timesEl.innerHTML = '';
+      var startIdx = 0;
+      for (var k = 0; k < m15.time.length; k++) {
+        if (new Date(m15.time[k]) >= now) { startIdx = k; break; }
+      }
+      var slots = Math.min(8, m15.time.length - startIdx);
+      var maxP = 0;
+      for (var k = startIdx; k < startIdx + slots; k++) { maxP = Math.max(maxP, m15.precipitation[k] || 0); }
+      var anyRain = false, firstRainTime = null;
+      for (var k = startIdx; k < startIdx + slots; k++) {
+        var p  = m15.precipitation[k] || 0;
+        var t  = new Date(m15.time[k]);
+        var hh = ('0'+t.getHours()).slice(-2);
+        var mm = ('0'+t.getMinutes()).slice(-2);
+        var h  = maxP > 0 ? Math.max(4, Math.round((p / maxP) * 38)) : 4;
+        var col = p < 0.05 ? '#bfdbfe' : p < 0.3 ? '#60a5fa' : p < 1.5 ? '#2563eb' : '#1e3a8a';
+        bars.innerHTML += '<div style="flex:1;height:' + h + 'px;background:' + col + ';border-radius:3px 3px 0 0;min-width:0" title="' + p.toFixed(1) + 'mm"></div>';
+        var showLabel = (k === startIdx || (k - startIdx) % 2 === 0);
+        timesEl.innerHTML += '<div style="flex:1;text-align:center;font-size:9px;color:#9ca3af;min-width:0">' + (showLabel ? hh+':'+mm : '') + '</div>';
+        if (p >= 0.05 && !anyRain) { anyRain = true; firstRainTime = hh + ':' + mm; }
+      }
+      var sumEl = document.getElementById('wx-rain-summary');
+      if (!anyRain) {
+        sumEl.textContent = 'Dry for now ✔'; sumEl.style.color = '#16a34a';
+      } else {
+        var t0 = new Date(m15.time[startIdx]);
+        var isNow = (new Date(m15.time[startIdx]).getTime() === new Date(m15.time[startIdx]).getTime()) && p >= 0.05;
+        var firstSlotRaining = (m15.precipitation[startIdx] || 0) >= 0.05;
+        sumEl.textContent = firstSlotRaining ? 'Raining now' : ('Rain ~' + firstRainTime);
+        sumEl.style.color = '#2563eb';
+      }
+    }
+
+    // --- 24-hour strip ---
+    var hr = d.hourly;
+    _wxHourly = hr;
+    if (hr && hr.time) {
+      var nowMs = Date.now();
+      var strip = document.getElementById('wx-hourly');
+      strip.innerHTML = '';
+      var count = 0;
+      for (var i = 0; i < hr.time.length && count < 24; i++) {
+        var t = new Date(hr.time[i]);
+        if (t.getTime() < nowMs - 1800000) continue;
+        var w  = WMO[hr.weather_code[i]] || ['&#127777;',''];
+        var rp = hr.precipitation_probability[i] || 0;
+        var isNow = count === 0;
+        var bg = isNow ? 'var(--forest)' : '#f8fafc';
+        var tc = isNow ? '#fff' : '#111827';
+        var sc = isNow ? 'rgba(255,255,255,0.65)' : '#9ca3af';
+        var rc = isNow ? '#93c5fd' : '#3b82f6';
+        var hh = ('0'+t.getHours()).slice(-2) + ':00';
+        strip.innerHTML += '<div class="flex flex-col items-center text-center rounded-xl p-2 shrink-0" style="background:' + bg + ';min-width:54px">'
+          + '<p style="font-size:10px;font-weight:600;color:' + sc + '">' + (isNow ? 'Now' : hh) + '</p>'
+          + '<p style="font-size:20px;margin:3px 0">' + w[0] + '</p>'
+          + '<p style="font-size:11px;font-weight:700;color:' + tc + '">' + Math.round(hr.temperature_2m[i]) + '°</p>'
+          + (rp > 15 ? '<p style="font-size:9px;color:' + rc + ';margin-top:2px">&#128167;' + rp + '%</p>' : '<p style="font-size:9px;margin-top:2px;color:transparent">.</p>')
+          + '</div>';
+        count++;
+      }
+    }
+
+    // --- 7-day forecast ---
     var fc = d.daily, fbox = document.getElementById('wx-forecast');
     fbox.innerHTML = '';
-    for(var i=0;i<7;i++){
-      var dt = new Date(fc.time[i]);
-      var dn = i===0?'Today':DAYS[dt.getDay()];
-      var w  = WMO[fc.weather_code[i]]||['&#127777;',''];
-      var rn = fc.precipitation_probability_max[i]||0;
-      fbox.innerHTML += '<div class="flex flex-col items-center text-center rounded-xl p-2 shrink-0 min-w-[68px] sm:min-w-0" style="background:#f8fafc">'
-        + '<p class="text-xs font-semibold text-gray-500">'+dn+'</p>'
-        + '<p class="text-2xl my-1">'+w[0]+'</p>'
-        + '<p class="text-xs font-bold text-gray-900">'+Math.round(fc.temperature_2m_max[i])+'°</p>'
-        + '<p class="text-xs text-gray-400">'+Math.round(fc.temperature_2m_min[i])+'°</p>'
-        + (rn>20?'<p class="text-xs text-blue-500 mt-0.5">&#128167;'+rn+'%</p>':'')
-        + '</div>';
+    for (var i = 0; i < 7; i++) {
+      var dt = new Date(fc.time[i] + 'T12:00:00');
+      var dn = i === 0 ? 'Today' : DAYS[dt.getDay()];
+      var w  = WMO[fc.weather_code[i]] || ['&#127777;',''];
+      var rn = fc.precipitation_probability_max[i] || 0;
+      var card = document.createElement('div');
+      card.className = 'wx-day-card flex flex-col items-center text-center rounded-xl p-2 shrink-0 cursor-pointer transition-all';
+      card.style.cssText = 'background:#f8fafc;min-width:68px;border:2px solid transparent';
+      card.dataset.dayIdx = i;
+      card.innerHTML = '<p style="font-size:10px;font-weight:600;color:#6b7280">' + dn + '</p>'
+        + '<p style="font-size:22px;margin:4px 0">' + w[0] + '</p>'
+        + '<p style="font-size:12px;font-weight:700;color:#111827">' + Math.round(fc.temperature_2m_max[i]) + '°</p>'
+        + '<p style="font-size:10px;color:#9ca3af">' + Math.round(fc.temperature_2m_min[i]) + '°</p>'
+        + (rn > 15 ? '<p style="font-size:9px;color:#3b82f6;margin-top:2px">&#128167;' + rn + '%</p>' : '<p style="font-size:9px;margin-top:2px;color:transparent">.</p>');
+      card.onclick = (function(idx, el) {
+        return function() {
+          document.querySelectorAll('.wx-day-card').forEach(function(c) {
+            c.style.background = '#f8fafc'; c.style.borderColor = 'transparent';
+          });
+          el.style.background = '#eff6ff'; el.style.borderColor = '#3b82f6';
+          showDayDetail(idx);
+        };
+      })(i, card);
+      fbox.appendChild(card);
     }
-  }).catch(function(){
+
+  }).catch(function() {
     document.getElementById('wx-badge').textContent = 'Unavailable';
     document.getElementById('wx-badge').className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-500 shrink-0 ml-4';
   });
 }
 
-// Load Paramaribo weather on page load
+function showDayDetail(dayIdx) {
+  var detail  = document.getElementById('wx-day-detail');
+  var title   = document.getElementById('wx-day-detail-title');
+  var hourBox = document.getElementById('wx-day-detail-hours');
+  if (!_wxHourly) { detail.classList.add('hidden'); return; }
+  var hr = _wxHourly;
+  var dayDate = new Date(hr.time[dayIdx * 24] + (hr.time[dayIdx * 24].length === 16 ? ':00' : ''));
+  title.textContent = (dayIdx === 0 ? 'Today' : DAYS[new Date(hr.time[dayIdx*24]).getDay()]) + ', ' + new Date(hr.time[dayIdx*24]).getDate() + ' ' + MONTHS[new Date(hr.time[dayIdx*24]).getMonth()];
+  hourBox.innerHTML = '';
+  var startH = dayIdx * 24;
+  for (var i = startH; i < startH + 24 && i < hr.time.length; i++) {
+    var t  = new Date(hr.time[i]);
+    var w  = WMO[hr.weather_code[i]] || ['&#127777;',''];
+    var rp = hr.precipitation_probability[i] || 0;
+    var p  = hr.precipitation[i] || 0;
+    var hh = ('0'+t.getHours()).slice(-2) + ':00';
+    var rainBit = p >= 0.1
+      ? '<p style="font-size:9px;color:#2563eb;margin-top:2px;font-weight:600">' + p.toFixed(1) + 'mm</p>'
+      : rp > 20
+        ? '<p style="font-size:9px;color:#60a5fa;margin-top:2px">&#128167;' + rp + '%</p>'
+        : '<p style="font-size:9px;margin-top:2px;color:transparent">.</p>';
+    hourBox.innerHTML += '<div class="flex flex-col items-center text-center rounded-xl p-2 shrink-0" style="background:#f8fafc;border:1px solid #e5e7eb;min-width:54px">'
+      + '<p style="font-size:10px;font-weight:600;color:#6b7280">' + hh + '</p>'
+      + '<p style="font-size:20px;margin:3px 0">' + w[0] + '</p>'
+      + '<p style="font-size:11px;font-weight:700;color:#111827">' + Math.round(hr.temperature_2m[i]) + '°</p>'
+      + rainBit
+      + '</div>';
+  }
+  detail.classList.remove('hidden');
+  setTimeout(function() { detail.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 50);
+}
+
+// Initial load — Paramaribo
 loadWeather(WX_DISTRICTS[0].lat, WX_DISTRICTS[0].lon);
 
 function loadSunrise(lat, lon) {
