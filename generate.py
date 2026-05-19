@@ -2359,9 +2359,8 @@ def poi_card(item, badge_key="cuisine", eager=False):
 <a href="{url}" data-sub="{item.get('subcat','other')}" data-district="{html_lib.escape(district)}" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   {img_html}
   <div class="p-4 flex flex-col gap-2 flex-1">
-    <div class="flex items-start justify-between gap-2">
+    <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">{html_lib.escape(item['name'])}</h3>
-      {badge_html}
     </div>
     <div class="flex items-center justify-between mt-auto pt-2">
       <p class="text-gray-400 text-xs">&#128205; {html_lib.escape(area)}</p>
@@ -3537,6 +3536,8 @@ def _related_listings_html(current_slug, sub, prefix="../../"):
         bname = b.get("name", s)
         bloc  = b.get("area", b.get("location", "Paramaribo"))
         bimg  = _IMGS.get(s, "")
+        if bimg and not bimg.startswith("http"):
+            bimg = SITE_URL + "/" + bimg
         burl  = prefix + "listing/" + s + "/"
         thumb = (
             f'<div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100">'
