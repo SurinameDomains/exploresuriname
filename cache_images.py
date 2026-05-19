@@ -428,10 +428,3 @@ def main(dry_run=False):
 if __name__ == "__main__":
     dry_run = "--dry-run" in sys.argv
     main(dry_run=dry_run)
-%d URLs cached, %d new images downloaded." % (
-        total_cached, len(all_urls), newly_downloaded))
-
-
-if __name__ == "__main__":
-    dry_run = "--dry-run" in sys.argv
-    main(dry_run=dry_run)
