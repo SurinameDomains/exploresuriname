@@ -3536,13 +3536,12 @@ def _related_listings_html(current_slug, sub, prefix="../../"):
         bname = b.get("name", s)
         bloc  = b.get("area", b.get("location", "Paramaribo"))
         bimg  = _IMGS.get(s, "")
-        if bimg and not bimg.startswith("http"):
-            bimg = SITE_URL + "/" + bimg
         burl  = prefix + "listing/" + s + "/"
         thumb = (
             f'<div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100">'
             f'<img src="{bimg}" alt="{bname}" loading="lazy" '
-            f'class="w-full h-full object-cover">'
+            f'class="w-full h-full object-cover" '
+            f'onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'">'
             f'</div>'
         ) if bimg else (
             f'<div class="w-full h-32 rounded-xl mb-3 flex items-center justify-center bg-gray-100">'
