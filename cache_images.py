@@ -157,17 +157,20 @@ def _rewrite_html(html_contents, cache, dry_run):
         new_content = content
         for url, local_path in cache.items():
             if url in new_content:
+                # Always use an absolute path so it resolves correctly from
+                # any subdirectory depth (e.g. /listing/slug/index.html).
+                abs_path = "/" + local_path.lstrip("/")
                 new_content = new_content.replace(
-                    'src="%s"' % url, 'src="%s"' % local_path
+                    'src="%s"' % url, 'src="%s"' % abs_path
                 ).replace(
-                    "src='%s'" % url, "src='%s'" % local_path
+                    "src='%s'" % url, "src='%s'" % abs_path
                 )
                 new_content = new_content.replace(
-                    "url('%s')" % url, "url('%s')" % local_path
+                    "url('%s')" % url, "url('%s')" % abs_path
                 ).replace(
-                    'url("%s")' % url, 'url("%s")' % local_path
+                    'url("%s")' % url, 'url("%s")' % abs_path
                 ).replace(
-                    "url(%s)" % url, "url(%s)" % local_path
+                    "url(%s)" % url, "url(%s)" % abs_path
                 )
         if new_content != content:
             rewrites += 1
@@ -419,6 +422,13 @@ def main(dry_run=False):
 
     total_cached = len([u for u in all_urls if u in cache])
     print("\nDone. %d/%d URLs cached, %d new images downloaded." % (
+        total_cached, len(all_urls), newly_downloaded))
+
+
+if __name__ == "__main__":
+    dry_run = "--dry-run" in sys.argv
+    main(dry_run=dry_run)
+%d URLs cached, %d new images downloaded." % (
         total_cached, len(all_urls), newly_downloaded))
 
 
