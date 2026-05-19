@@ -3521,33 +3521,43 @@ _SUBCAT_SCHEMA = {
 }
 
 def _related_listings_html(current_slug, sub, prefix="../../"):
-    """Return a HTML strip of up to 4 related listings in the same subcategory."""
+    """Return an HTML strip of up to 4 related listings using the same
+    pre-built category lists (and image paths) that poi_card uses."""
+    import html as _hl
+
+    # Source from the same lists poi_card uses — images already resolved by _make_biz
+    # Reference globals at call-time so the lists are fully built
+    _src = (
+        list(globals().get("RESTAURANTS", []))
+        + list(globals().get("HOTELS", []))
+        + list(globals().get("SHOPPING", []))
+        + list(globals().get("SERVICES", []))
+        + list(globals().get("SIGHTSEEING", []))
+        + list(globals().get("ADVENTURES_BIZ", []))
+    )
+
     candidates = [
-        (s, b) for s, b in _BIZ.items()
-        if s != current_slug and _subcat(s) == sub
+        item for item in _src
+        if item.get("slug") != current_slug and item.get("subcat") == sub and item.get("image")
     ]
-    # Stable order: alphabetical by name so it's deterministic across builds
-    candidates.sort(key=lambda x: x[1].get("name", "").lower())
+    candidates.sort(key=lambda x: x.get("name", "").lower())
     picks = candidates[:4]
     if not picks:
         return ""
+
     cards_html = ""
-    for s, b in picks:
-        bname = b.get("name", s)
-        bloc  = b.get("area", b.get("location", "Paramaribo"))
-        bimg  = _IMGS.get(s, "")
-        burl  = prefix + "listing/" + s + "/"
+    for item in picks:
+        bname = item.get("name", "")
+        bloc  = item.get("area", "Paramaribo")
+        bimg  = item.get("image", "")
+        burl  = prefix + item.get("url", "listing/" + item.get("slug","") + "/")
         thumb = (
             f'<div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100">'
-            f'<img src="{bimg}" alt="{bname}" loading="lazy" '
+            f'<img src="{bimg}" alt="{_hl.escape(bname)}" loading="lazy" '
             f'class="w-full h-full object-cover" '
             f'onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'">'
             f'</div>'
-        ) if bimg else (
-            f'<div class="w-full h-32 rounded-xl mb-3 flex items-center justify-center bg-gray-100">'
-            f'<span class="text-3xl">📍</span></div>'
         )
-        import html as _hl
         cards_html += (
             f'<a href="{burl}" class="block bg-white rounded-2xl border border-gray-100 '
             f'hover:border-gray-300 hover:shadow-sm transition p-4">'
@@ -3556,6 +3566,7 @@ def _related_listings_html(current_slug, sub, prefix="../../"):
             f'<p class="text-xs text-gray-400">{_hl.escape(bloc)}</p>'
             f'</a>'
         )
+
     return (
         '\n<section class="max-w-5xl mx-auto px-5 pb-16">'
         '\n  <h2 class="text-lg font-bold text-gray-900 mb-5">More like this</h2>'
