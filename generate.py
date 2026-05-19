@@ -3554,8 +3554,7 @@ def _related_listings_html(current_slug, sub, prefix="../../"):
         thumb = (
             f'<div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100">'
             f'<img src="{bimg}" alt="{_hl.escape(bname)}" loading="lazy" '
-            f'class="w-full h-full object-cover" '
-            f'onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'">'
+            f'class="w-full h-full object-cover">'
             f'</div>'
         )
         cards_html += (
