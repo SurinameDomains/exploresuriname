@@ -979,10 +979,12 @@ def _subcat(slug, main_cat=""):
             'scene-beauty','delete-beauty','royal-wellness','luxe-escape']):
         return 'beauty-wellness'
     # ── Hotels: standard/boutique catch-all ────────────────────────────────
-    if any(x in s for x in ['courtyard','radisson','royal-torarica','royal-brasil',
-            'torarica-resort','hotel-palacio','holland-lodge','hotel-north',
+    if any(x in s for x in ['royal-torarica','royal-brasil','courtyard','radisson',
+            'torarica-resort','holland-lodge','hotel-north',
             'the-golden-truly','oxygen-resort','taman-indah','greenheart-boutique',
             'tucan-resort']):
+        return 'city-hotels'
+    if any(x in s for x in ['hotel-palacio']):
         return 'guesthouses'
     if any(x in s for x in ['hotel-peperpot','houttuyn','jacana-amazon']):
         return 'eco-lodges'
@@ -2523,23 +2525,24 @@ function filterDistrict(btn, dist) {{
 }}
 </script>"""
 
-def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None):
+def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None, seo_title=None):
     _page_active = page_file.replace(".html", "") if page_file else "home"
     page_url = f"{SITE_URL}/{page_file}"
     _og_img = og_image or f"{SITE_URL}/og-image.jpg"
+    _seo_title = seo_title or title
     _lcp_preload = f'  <link rel="preload" as="image" href="{lcp_image}" fetchpriority="high">\n' if lcp_image else ""
     return f"""{PAGE_HEAD}
-  <title>{title} | ExploreSuriname.com</title>
+  <title>{_seo_title} | ExploreSuriname.com</title>
   <meta name="description" content="{html_lib.escape(meta_desc)}">
   <link rel="canonical" href="{page_url}">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{page_url}">
-  <meta property="og:title" content="{title} | ExploreSuriname.com">
+  <meta property="og:title" content="{_seo_title} | ExploreSuriname.com">
   <meta property="og:description" content="{html_lib.escape(meta_desc)}">
   <meta property="og:image" content="{{_og_img}}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{title} | ExploreSuriname.com">
+  <meta name="twitter:title" content="{_seo_title} | ExploreSuriname.com">
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{{_og_img}}">
   <script type="application/ld+json">
@@ -2837,7 +2840,7 @@ def build_nature_page():
         f"Explore {total} nature reserves, national parks and rainforest destinations in Suriname. From Central Suriname Nature Reserve to Brownsberg — plan your eco-adventure.",
         NATURE_SPOTS, all_cards, page_file="nature.html", extra_html="", filter_bar=filter_bar_s,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Leo_val_brownsberg.JPG/1280px-Leo_val_brownsberg.JPG",
-        lcp_image=NATURE_SPOTS[0]["image"] if NATURE_SPOTS else None)
+        lcp_image=NATURE_SPOTS[0]["image"] if NATURE_SPOTS else None, seo_title="Nature Parks & Wildlife Reserves in Suriname")
 
 def build_activities_page():
     # Merge ACTIVITIES and ADVENTURES_BIZ sorted alphabetically by name
@@ -2858,7 +2861,7 @@ def build_activities_page():
         f"Discover {total} things to do in Suriname — jungle tours, river trips, birdwatching, kayaking and more. Find tours, eco-lodges and adventure operators in Paramaribo.",
         ACTIVITIES, all_cards, bg_color="var(--forest2)", page_file="activities.html", extra_html="", filter_bar=filter_bar_a,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Atjoni_%2833496718666%29.jpg/1280px-Atjoni_%2833496718666%29.jpg",
-        lcp_image=_first_img)
+        lcp_image=_first_img, seo_title="Things to Do in Suriname: Tours, Treks and Activities")
 
 def build_restaurants_page(restaurants):
     cards = "\n".join(poi_card(r, "cuisine", eager=(i==0)) for i,r in enumerate(restaurants))
@@ -2868,7 +2871,7 @@ def build_restaurants_page(restaurants):
         f"Browse {len(restaurants)} restaurants, cafes, bars and fast food in Suriname. Find local Surinamese food, Asian cuisine, coffee shops and more.",
         restaurants, cards, bg_color="#7c3aed", page_file="restaurants.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/2016_0624_Tjauw_min_moksie_meti_speciaal.jpg/1280px-2016_0624_Tjauw_min_moksie_meti_speciaal.jpg",
-        lcp_image=_lcp)
+        lcp_image=_lcp, seo_title="Restaurants in Paramaribo, Suriname")
 
 def build_hotels_page(hotels):
     cards = "\n".join(poi_card(h, "category", eager=(i==0)) for i,h in enumerate(hotels))
@@ -2878,7 +2881,7 @@ def build_hotels_page(hotels):
         f"Browse {len(hotels)} hotels, eco-lodges and jungle retreats in Suriname. From Paramaribo city hotels to remote river resorts — find your perfect stay.",
         hotels, cards, bg_color="#c05621", page_file="hotels.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Bigi_Pan_Nature_Reserve_%282719369111%29.jpg/1280px-Bigi_Pan_Nature_Reserve_%282719369111%29.jpg",
-        lcp_image=_lcp)
+        lcp_image=_lcp, seo_title="Hotels in Suriname: Paramaribo City and Jungle Lodges")
 
 def build_shopping_page():
     cards = "\n".join(poi_card(b, eager=(i==0)) for i,b in enumerate(SHOPPING))
@@ -2888,7 +2891,7 @@ def build_shopping_page():
         f"Discover {len(SHOPPING)} shops in Suriname — supermarkets, malls, fashion, electronics, furniture, butchers and specialty stores in Paramaribo.",
         SHOPPING, cards, bg_color="#7c3aed", page_file="shopping.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
-        lcp_image=_lcp)
+        lcp_image=_lcp, seo_title="Shopping in Paramaribo, Suriname")
 
 def build_services_page():
     cards = "\n".join(poi_card(b, eager=(i==0)) for i,b in enumerate(SERVICES))
@@ -2898,7 +2901,7 @@ def build_services_page():
         f"Find {len(SERVICES)} service providers in Suriname — banks, beauty, health, fitness, education, telecom, real estate and more.",
         SERVICES, cards, bg_color="#0369a1", page_file="services.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
-        lcp_image=_lcp)
+        lcp_image=_lcp, seo_title="Local Services in Paramaribo, Suriname")
 
 def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated):
     import json as _json
@@ -3518,6 +3521,51 @@ _SUBCAT_SCHEMA = {
     "other":                ("LocalBusiness",             None),
 }
 
+def _related_listings_html(current_slug, sub, prefix="../../"):
+    """Return a HTML strip of up to 4 related listings in the same subcategory."""
+    candidates = [
+        (s, b) for s, b in _BIZ.items()
+        if s != current_slug and _subcat(s) == sub
+    ]
+    # Stable order: alphabetical by name so it's deterministic across builds
+    candidates.sort(key=lambda x: x[1].get("name", "").lower())
+    picks = candidates[:4]
+    if not picks:
+        return ""
+    cards_html = ""
+    for s, b in picks:
+        bname = b.get("name", s)
+        bloc  = b.get("area", b.get("location", "Paramaribo"))
+        bimg  = _IMGS.get(s, "")
+        burl  = prefix + "listing/" + s + "/"
+        thumb = (
+            f'<div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100">'
+            f'<img src="{bimg}" alt="{bname}" loading="lazy" '
+            f'class="w-full h-full object-cover">'
+            f'</div>'
+        ) if bimg else (
+            f'<div class="w-full h-32 rounded-xl mb-3 flex items-center justify-center bg-gray-100">'
+            f'<span class="text-3xl">📍</span></div>'
+        )
+        import html as _hl
+        cards_html += (
+            f'<a href="{burl}" class="block bg-white rounded-2xl border border-gray-100 '
+            f'hover:border-gray-300 hover:shadow-sm transition p-4">'
+            + thumb +
+            f'<h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">{_hl.escape(bname)}</h3>'
+            f'<p class="text-xs text-gray-400">{_hl.escape(bloc)}</p>'
+            f'</a>'
+        )
+    return (
+        '\n<section class="max-w-5xl mx-auto px-5 pb-16">'
+        '\n  <h2 class="text-lg font-bold text-gray-900 mb-5">More like this</h2>'
+        '\n  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">'
+        + cards_html +
+        '\n  </div>'
+        '\n</section>'
+    )
+
+
 def build_listing_page(slug, b):
     raw_name = b.get("name", slug)
     desc     = b.get("description", "")
@@ -3734,19 +3782,48 @@ def build_listing_page(slug, b):
         + "\n  <script type=\"application/ld+json\">\n  " + _json.dumps(breadcrumb_obj, ensure_ascii=False) + "\n  </script>"
     )
 
+    # SEO-optimised <title>: "Name — Type in Location, Suriname | ExploreSuriname"
+    _SEO_TYPE_LABEL = {
+        "fast-food": "Fast Food Restaurant", "cafes-coffee": "Café",
+        "bars-lounges": "Bar & Lounge", "asian-fusion": "Asian Restaurant",
+        "local-caribbean": "Surinamese Restaurant", "bakeries-sweets": "Bakery",
+        "pizza-italian": "Italian Restaurant", "eco-lodges": "Eco Lodge",
+        "casino-hotels": "Casino Hotel", "guesthouses": "Guesthouse",
+        "city-hotels": "Hotel", "tours-expeditions": "Tour Operator",
+        "museums-heritage": "Museum", "entertainment": "Entertainment Venue",
+        "nature-parks": "Nature Park", "supermarkets": "Supermarket",
+        "malls-markets": "Shopping Mall", "fashion-clothing": "Fashion Store",
+        "electronics": "Electronics Store", "home-furniture": "Furniture Store",
+        "optical-jewelry": "Jewellery & Optician", "food-specialty": "Specialty Store",
+        "banking": "Bank", "insurance": "Insurance", "fitness-wellness": "Gym & Wellness",
+        "beauty-wellness": "Beauty Salon", "health-pharmacy": "Pharmacy",
+        "telecom-utilities": "Telecom Provider", "real-estate": "Real Estate",
+        "education": "School", "travel-transport": "Travel Agency",
+        "tech-media": "Tech & Media", "cleaning-maintenance": "Cleaning Services",
+        "automotive": "Auto Services", "legal-professional": "Professional Services",
+        "events-party": "Events & Party", "nursery-garden": "Garden Centre",
+        "security": "Security Services",
+    }
+    _seo_biz_type = _SEO_TYPE_LABEL.get(_sub, "")
+    if _seo_biz_type:
+        _seo_loc = (_loc + ", Suriname") if _loc.lower() not in ("suriname", "") else "Suriname"
+        seo_page_title = name_e + html_lib.escape(", " + _seo_biz_type + " in " + _seo_loc)
+    else:
+        seo_page_title = name_e
+
     head = (
         PAGE_HEAD +
-        "\n  <title>" + name_e + " | ExploreSuriname.com</title>"
+        "\n  <title>" + seo_page_title + " | ExploreSuriname</title>"
         "\n  <meta name=\"description\" content=\"" + desc_e + "\">"
         "\n  <link rel=\"canonical\" href=\"" + page_url + "\">"
         "\n  <meta property=\"og:type\" content=\"website\">"
         "\n  <meta property=\"og:site_name\" content=\"Explore Suriname\">"
         "\n  <meta property=\"og:url\" content=\"" + page_url + "\">"
-        "\n  <meta property=\"og:title\" content=\"" + name_e + " | ExploreSuriname.com\">"
+        "\n  <meta property=\"og:title\" content=\"" + seo_page_title + " | ExploreSuriname\">"
         "\n  <meta property=\"og:description\" content=\"" + desc_e + "\">"
         "\n  <meta property=\"og:image\" content=\"" + og_img + "\">"
         "\n  <meta name=\"twitter:card\" content=\"summary_large_image\">"
-        "\n  <meta name=\"twitter:title\" content=\"" + name_e + " | ExploreSuriname.com\">"
+        "\n  <meta name=\"twitter:title\" content=\"" + seo_page_title + " | ExploreSuriname\">"
         "\n  <meta name=\"twitter:description\" content=\"" + desc_e + "\">"
         "\n  <meta name=\"twitter:image\" content=\"" + og_img + "\">"
         + ld_script +
@@ -3805,7 +3882,8 @@ def build_listing_page(slug, b):
         '\n</main>'
     )
 
-    return head + hero + main + "\n" + footer_html(prefix="../../") + "\n</body>\n</html>"
+    related_html = _related_listings_html(slug, _sub, prefix="../../")
+    return head + hero + main + related_html + "\n" + footer_html(prefix="../../") + "\n</body>\n</html>"
 
 
 def build_activity_listing_page(act, slug):
@@ -4039,17 +4117,16 @@ def build_nature_listing_page(spot, slug):
 
     head = (
         PAGE_HEAD
-        + '\n  <title>' + name_e + ' | ExploreSuriname.com</title>\n  <meta name="description" content="'
+        + '\n  <title>' + name_e + ', Nature Park in Suriname | ExploreSuriname</title>\n  <meta name="description" content="'
         + desc_e
         + '">\n  <link rel="canonical" href="' + page_url
         + '">\n  <meta property="og:type" content="website">\n  <meta property="og:site_name" content="Explore Suriname">\n  <meta property="og:url" content="'
         + page_url
-        + '">\n  <meta property="og:title" content="' + name_e
-        + ' | ExploreSuriname.com">\n  <meta property="og:description" content="'
+        + '">\n  <meta property="og:title" content="' + name_e + ' â Nature Park in Suriname | ExploreSuriname">\n  <meta property="og:description" content="'
         + desc_e
         + '">\n  <meta property="og:image" content="' + og_img
         + '">\n  <meta name="twitter:card" content="summary_large_image">\n  <meta name="twitter:title" content="'
-        + name_e + ' | ExploreSuriname.com">\n  <meta name="twitter:description" content="'
+        + name_e + ' â Nature Park in Suriname | ExploreSuriname">\n  <meta name="twitter:description" content="'
         + desc_e + '">\n  <meta name="twitter:image" content="'
         + og_img + '">'
         + nat_ld_scripts
