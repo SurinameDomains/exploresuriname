@@ -3203,10 +3203,10 @@ doConvert();"""
         <h2 class="serif text-2xl font-bold text-gray-900">&#128739; Brent Crude Oil</h2>
         <p class="text-gray-400 text-sm mt-1">Brent Crude &mdash; updated hourly</p>
       </div>
-      {{oil_badge_html}}
+      {oil_badge_html}
     </div>
-    {{brent_grid_html}}
-    <p class="text-gray-400 text-xs mt-4">Brent Crude is the global benchmark used for most international oil contracts. Suriname&#8217;s offshore production (Block 58) is priced against this index. SRD equivalent uses today&#8217;s CME USD buy rate ({{usd_buy_srd:.2f}}). Fetched fresh on each site rebuild.</p>
+    {brent_grid_html}
+    <p class="text-gray-400 text-xs mt-4">Brent Crude is the global benchmark used for most international oil contracts. Suriname&#8217;s offshore production (Block 58) is priced against this index. SRD equivalent uses today&#8217;s CME USD buy rate ({usd_buy_srd:.2f}). Fetched fresh on each site rebuild.</p>
   </div>
 
 
