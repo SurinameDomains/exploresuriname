@@ -3662,7 +3662,29 @@ def build_listing_page(slug, b):
     # Description already in b via _make_biz; _JSON_DESCS as belt-and-braces fallback
     if not desc:
         desc = _JSON_DESCS.get(slug, "")
-    if desc:
+    # Build meta description: prefer structured data (address/hours/phone) over raw marketing copy.
+    # Searchers looking up a specific business want to know WHERE it is and WHETHER it's open —
+    # not a marketing blurb. Structured snippets also improve CTR from GSC position 8-12.
+    _struct_parts = []
+    if address:
+        # Skip generic city-only addresses (e.g. "Paramaribo, Suriname") — not useful in a snippet
+        _addr_clean = address.strip().lower().rstrip(", suriname").rstrip(",").strip()
+        _loc_clean  = (location or "paramaribo").strip().lower()
+        if _addr_clean and _addr_clean != _loc_clean:
+            _struct_parts.append(address)
+    if hours:
+        _h = (hours.replace("Mo","Mon").replace("Tu","Tue").replace("We","Wed")
+                   .replace("Th","Thu").replace("Fr","Fri").replace("Sa","Sat")
+                   .replace("Su","Sun").replace(";", " ·"))
+        _struct_parts.append(_h[:65])
+    if phone:
+        _struct_parts.append(phone)
+    if _struct_parts:
+        _loc_for_desc = location or "Paramaribo"
+        desc_e = html_lib.escape(
+            f"{raw_name} in {_loc_for_desc}, Suriname — " + " · ".join(_struct_parts)
+        )[:160]
+    elif desc:
         desc_e = html_lib.escape(desc[:155]) + ("…" if len(desc) > 155 else "")
     else:
         loc_part = location or "Paramaribo"
@@ -3872,7 +3894,8 @@ def build_listing_page(slug, b):
         _seo_loc = (_loc + ", Suriname") if _loc.lower() not in ("suriname", "") else "Suriname"
         seo_page_title = name_e + html_lib.escape(", " + _seo_biz_type + " in " + _seo_loc)
     else:
-        seo_page_title = name_e
+        _seo_loc = (_loc + ", Suriname") if _loc.lower() not in ("suriname", "") else "Suriname"
+        seo_page_title = name_e + html_lib.escape(" in " + _seo_loc)
 
     head = (
         PAGE_HEAD +
@@ -5866,17 +5889,17 @@ _CAT_COLORS = {
 def build_roads_page():
     """On the Road: embedded Waze Live Map + road info panels for Suriname."""
     return f"""{PAGE_HEAD}
-  <title>On the Road | Explore Suriname</title>
+  <title>Suriname Traffic &amp; Road Conditions | Live Map &amp; Road Guide | Explore Suriname</title>
   <meta name="description" content="Live traffic and road conditions in Suriname. Emergency numbers, road rules, rainy season advisory and what to do after an accident.">
   <link rel="canonical" href="{SITE_URL}/on-the-road.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/on-the-road.html">
-  <meta property="og:title" content="On the Road | Explore Suriname">
+  <meta property="og:title" content="Suriname Traffic &amp; Road Conditions | Live Map &amp; Road Guide | Explore Suriname">
   <meta property="og:description" content="Live traffic and road conditions in Suriname. Emergency numbers, road rules, rainy season advisory and what to do after an accident.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="On the Road | Explore Suriname">
+  <meta name="twitter:title" content="Suriname Traffic &amp; Road Conditions | Live Map &amp; Road Guide | Explore Suriname">
   <meta name="twitter:description" content="Live traffic and road conditions in Suriname. Emergency numbers, road rules, rainy season advisory and what to do after an accident.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
