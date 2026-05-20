@@ -1413,6 +1413,27 @@ def fetch_cme_rates():
         print(f"  CME API error: {e}")
         return CME_FALLBACK, False, "Estimated rates (API unavailable)"
 
+
+def fetch_brent_price():
+    """
+    Brent Crude front-month futures (BZ=F) via Yahoo Finance chart API.
+    Server-side fetch — no CORS issues. Returns (price_usd, updated_str).
+    """
+    try:
+        req = urllib.request.Request(
+            "https://query1.finance.yahoo.com/v8/finance/chart/BZ%3DF",
+            headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"}
+        )
+        with urllib.request.urlopen(req, timeout=10) as r:
+            d = json.loads(r.read().decode("utf-8"))
+        price = d["chart"]["result"][0]["meta"]["regularMarketPrice"]
+        ts = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
+        print(f"  Brent Crude: ${price:.2f}/bbl ({ts})")
+        return round(price, 2), ts
+    except Exception as e:
+        print(f"  Brent fetch error: {e}")
+        return None, None
+
 def fetch_cbvs_rates():
     """
     Scrape the Gewogen Gemiddelde Wisselkoersen from cbvs.sr.
@@ -2902,7 +2923,7 @@ def build_services_page():
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
         lcp_image=_lcp, seo_title="Local Services in Paramaribo, Suriname")
 
-def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated):
+def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated, brent_price=None, brent_updated=None):
     import json as _json
     updated_now = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
     buy_json  = _json.dumps({r["currency"]: float(r["buy"])  for r in cme_rates})
@@ -2910,6 +2931,25 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
 
     # USD→SRD rate baked in for gold price SRD equivalent
     usd_buy_srd = next((float(r["buy"]) for r in cme_rates if r["currency"] == "USD"), 37.5)
+
+    # Brent crude baked values
+    if brent_price is not None:
+        brent_usd_str = f"${brent_price:,.2f}"
+        brent_srd_str = f"{brent_price * usd_buy_srd:,.0f} SRD"
+        brent_grid_html = f'''<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="rounded-xl p-4" style="background:var(--mint)">
+        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">USD / barrel</p>
+        <p class="text-2xl font-bold font-mono text-gray-900">{brent_usd_str}</p>
+      </div>
+      <div class="rounded-xl p-4 bg-gray-50">
+        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">SRD / barrel</p>
+        <p class="text-2xl font-bold font-mono text-gray-900">{brent_srd_str}</p>
+      </div>
+    </div>'''
+        oil_badge_html = f'<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">&#9679; {brent_updated}</span>'
+    else:
+        brent_grid_html = '<p class="text-gray-400 text-sm">Price unavailable &mdash; will update on next rebuild.</p>'
+        oil_badge_html = '<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0">Unavailable</span>'
 
     def badge(is_live):
         if is_live:
@@ -3156,6 +3196,19 @@ doConvert();"""
     </div>
     <p class="text-gray-400 text-xs mt-4">Suriname is one of the world&apos;s leading gold producers per capita. SRD equivalent uses today&apos;s CME USD buy rate ({usd_buy_srd:.2f}). Price updates on each page load.</p>
   </div>
+  <!-- Oil price ──────────────────────────────────────────────────────────── -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mt-6">
+    <div class="flex items-start justify-between mb-5">
+      <div>
+        <h2 class="serif text-2xl font-bold text-gray-900">&#128739; Brent Crude Oil</h2>
+        <p class="text-gray-400 text-sm mt-1">Brent Crude &mdash; updated hourly</p>
+      </div>
+      {{oil_badge_html}}
+    </div>
+    {{brent_grid_html}}
+    <p class="text-gray-400 text-xs mt-4">Brent Crude is the global benchmark used for most international oil contracts. Suriname&#8217;s offshore production (Block 58) is priced against this index. SRD equivalent uses today&#8217;s CME USD buy rate ({{usd_buy_srd:.2f}}). Fetched fresh on each site rebuild.</p>
+  </div>
+
 
 </main>
 <script>{js}
@@ -3179,6 +3232,8 @@ doConvert();"""
       badge.className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-500 shrink-0';
     }});
 }})();
+
+
 </script>
 {footer_html()}
 </body>
@@ -6052,6 +6107,7 @@ if __name__ == "__main__":
     finance_articles = fetch_finance_articles()
     cme_rates,  cme_live,  cme_updated  = fetch_cme_rates()
     cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
+    brent_price, brent_updated          = fetch_brent_price()
     tides_data    = fetch_worldtides()
     flights_data  = fetch_aerodatabox_flights()
 
@@ -6064,7 +6120,8 @@ if __name__ == "__main__":
         "shopping.html":    build_shopping_page(),
         "services.html":    build_services_page(),
         "currency.html":    build_currency_page(cme_rates, cme_live, cme_updated,
-                                                cbvs_rates, cbvs_live, cbvs_updated),
+                                                cbvs_rates, cbvs_live, cbvs_updated,
+                                                brent_price, brent_updated),
         "conditions.html":  build_conditions_page(tides_data),
         "flights.html":     build_flights_page(flights_data),
         "news.html":        build_news(articles, oil_articles, finance_articles),
