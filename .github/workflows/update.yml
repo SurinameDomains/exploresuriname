@@ -50,5 +50,9 @@ jobs:
           git add tides_cache.json tides_cache_*.json || true
           git add flights_cache.json flights_cache_smeg.json || true
           git add manifest.webmanifest sw.js offline.html icons/ || true
+          git add 34e092d0-1f92-4a82-9ecf-b442b53d80a0.txt || true
           git diff --staged --quiet || git commit -m "Auto-update $(TZ='America/Paramaribo' date '+%Y-%m-%d %H:%M') SR"
           git push
+
+      - name: Ping IndexNow (Bing/Yandex)
+        run: python indexnow_ping.py
