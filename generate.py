@@ -3073,7 +3073,6 @@ doConvert();"""
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Market Rates</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">SRD exchange rates &mdash; CBVS 3&times; daily &bull; CME continuous &bull; live gold spot price</p>
-  <p class="text-white/35 text-xs mt-3">&#128336; Page built: {updated_now}</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
   <div class="rounded-2xl border border-amber-200 p-6 mb-8" style="background:#fffbeb">
@@ -3200,7 +3199,7 @@ doConvert();"""
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mt-6">
     <div class="flex items-start justify-between mb-5">
       <div>
-        <h2 class="serif text-2xl font-bold text-gray-900">&#128739; Brent Crude Oil</h2>
+        <h2 class="serif text-2xl font-bold text-gray-900">&#128739;&#xFE0E; Brent Crude Oil</h2>
         <p class="text-gray-400 text-sm mt-1">Brent Crude &mdash; updated hourly</p>
       </div>
       {oil_badge_html}
@@ -3336,7 +3335,6 @@ def build_news(articles, oil_articles, finance_articles):
 <div class="text-white text-center py-14" style="background:var(--forest)">
   <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--leaf)">Suriname News</p>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Stay Informed</h1>
-  <p class="text-white/55 text-sm">{updated}</p>
 </div>
 
 <!-- ── Tab switcher ──────────────────────────────────────────────────────── -->
@@ -5250,7 +5248,6 @@ def build_conditions_page(tides_data):
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Weather &amp; Tides</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Live weather by district &bull; tidal forecasts for 4 rivers &bull; sunrise &amp; sunset</p>
-  <p class="text-white/35 text-xs mt-3">&#128336; Page built: {updated_now}</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
 
@@ -5781,7 +5778,6 @@ def build_flights_page(flights_data):
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Flights Today</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Arrivals &amp; departures &mdash; Johan Adolf Pengel (PBM) &bull; Eduard Alexander Gummels (EAX)</p>
-  <p class="text-white/35 text-xs mt-3">&#128336; Page built: {updated_now}</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
