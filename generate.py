@@ -3108,30 +3108,36 @@ doConvert();"""
 
     return f"""{PAGE_HEAD}
   <title>SRD to USD Today | Surinamese Dollar Exchange Rates | Explore Suriname</title>
-  <meta name="description" content="Live Surinamese Dollar (SRD) exchange rates — CBVS official rates updated 3× daily on business days, CME cash rates updated continuously. Free currency converter.">
+  <meta name="description" content="Live Surinamese Dollar (SRD) exchange rates. CBVS official rates updated 3× daily, CME cash rates updated continuously. Free currency converter.">
   <link rel="canonical" href="{SITE_URL}/currency.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/currency.html">
   <meta property="og:title" content="SRD to USD Today | Surinamese Dollar Exchange Rates | Explore Suriname">
-  <meta property="og:description" content="Live Surinamese Dollar (SRD) exchange rates — CBVS official rates updated 3× daily, CME cash rates updated continuously.">
+  <meta property="og:description" content="Live Surinamese Dollar (SRD) exchange rates. CBVS official rates updated 3× daily, CME cash rates updated continuously.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="SRD to USD Today | Surinamese Dollar Exchange Rates | Explore Suriname">
-  <meta name="twitter:description" content="Live Surinamese Dollar (SRD) exchange rates — CBVS official rates updated 3× daily, CME cash rates updated continuously.">
+  <meta name="twitter:description" content="Live Surinamese Dollar (SRD) exchange rates. CBVS official rates updated 3× daily, CME cash rates updated continuously.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"SRD to USD Today | Surinamese Dollar Exchange Rates","url":"{SITE_URL}/currency.html","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"SRD to USD Today | Surinamese Dollar Exchange Rates","url":"{SITE_URL}/currency.html","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"SRD Exchange Rates","item":"{SITE_URL}/currency.html"}}]}}
   </script>
   <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"Dataset","name":"Surinamese Dollar (SRD) Exchange Rates","description":"Live SRD exchange rates from CBVS (Central Bank of Suriname) and CME (Central Money Exchange), updated multiple times daily on business days.","url":"{SITE_URL}/currency.html","creator":{{"@type":"Organization","name":"Explore Suriname","url":"{SITE_URL}"}},"spatialCoverage":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"variableMeasured":[{{"@type":"PropertyValue","name":"SRD/USD exchange rate"}},{{"@type":"PropertyValue","name":"SRD/EUR exchange rate"}},{{"@type":"PropertyValue","name":"SRD/GBP exchange rate"}},{{"@type":"PropertyValue","name":"SRD/BRL exchange rate"}}],"isAccessibleForFree":true,"dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}"}}
+  </script>
+  <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-    {{"@type":"Question","name":"What currency is used in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The official currency of Suriname is the Surinamese Dollar (SRD). Most everyday transactions — markets, local restaurants, minibuses — require SRD. Some hotels and larger shops also accept USD or EUR, but you will receive change in SRD."}}}},
+    {{"@type":"Question","name":"What currency is used in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The official currency of Suriname is the Surinamese Dollar (SRD). Most everyday transactions, including markets, local restaurants and minibuses, require SRD. Some hotels and larger shops also accept USD or EUR, but you will receive change in SRD."}}}},
     {{"@type":"Question","name":"Can I use US dollars or euros in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"USD and EUR are accepted at hotels, some restaurants, and larger shops in Paramaribo. However, for local markets, street food, and public transport you will need Surinamese Dollars (SRD). It is advisable to exchange money upon arrival."}}}},
     {{"@type":"Question","name":"Where can I exchange money in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Money can be exchanged at licensed cambios (exchange offices) throughout Paramaribo, at major banks such as Hakrinbank and DSB Bank, and at the Johan Adolf Pengel International Airport. Cambios typically offer competitive rates. ATMs dispensing SRD are widely available in Paramaribo."}}}},
-    {{"@type":"Question","name":"What is the official SRD exchange rate?","acceptedAnswer":{{"@type":"Answer","text":"The official exchange rate is set by the Central Bank of Suriname (CBVS) and published on business days. Cash market rates (CME) may differ slightly. Check the live rates on this page for the most current CBVS and cash market exchange rates."}}}}
+    {{"@type":"Question","name":"What is the official SRD exchange rate?","acceptedAnswer":{{"@type":"Answer","text":"The official exchange rate is set by the Central Bank of Suriname (CBVS) and published on business days. Cash market rates (CME) may differ slightly. Check the live rates on this page for the most current CBVS and cash market exchange rates."}}}},
+    {{"@type":"Question","name":"Can I pay by credit or debit card in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Credit and debit cards are accepted at larger hotels, supermarkets and some restaurants in Paramaribo. Visa and Mastercard are the most widely accepted. For markets, street food, minibuses and smaller shops you will need cash in SRD. It is advisable to carry local cash at all times."}}}},
+    {{"@type":"Question","name":"What is the SRD to EUR exchange rate today?","acceptedAnswer":{{"@type":"Answer","text":"The current SRD to EUR exchange rate is shown in real time on this page using CBVS official rates and CME cash market rates. The CBVS rate is the central bank reference; the CME rate reflects what you will receive at cash exchange offices in Paramaribo."}}}},
+    {{"@type":"Question","name":"Is tipping customary in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Tipping is not mandatory in Suriname but is appreciated for good service. A tip of 5 to 10 percent is common at restaurants that do not include a service charge. Taxi drivers do not typically expect a tip, but rounding up the fare is a common courtesy."}}}}
   ]}}
   </script>
 </head>
@@ -3140,7 +3146,7 @@ doConvert();"""
 <div class="pt-16"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Market Rates</h1>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">SRD Exchange Rates</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">SRD exchange rates &mdash; CBVS 3&times; daily &bull; CME continuous &bull; live gold spot price</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
@@ -4323,24 +4329,27 @@ def build_nature_listing_page(spot, slug):
 def build_visitor_guide_page():
     """Suriname Visitor Guide — static page covering visas, customs, SIM cards, money, transport and apps."""
     return f"""{PAGE_HEAD}
-  <title>Suriname Visitor Guide | Explore Suriname</title>
-  <meta name="description" content="Everything a first-time visitor needs for Suriname: e-visa portal, customs declaration, SIM cards from Telesur and Digicel, best ATMs, taxi apps, food delivery and mobile payments.">
+  <title>Suriname Travel Guide | Visa, SIM Cards &amp; Money | Explore Suriname</title>
+  <meta name="description" content="Everything a first-time visitor needs for Suriname: visa requirements, customs, SIM cards, ATMs, taxi apps, food delivery and mobile payments.">
   <link rel="canonical" href="{SITE_URL}/visitor-guide.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/visitor-guide.html">
-  <meta property="og:title" content="Suriname Visitor Guide | Explore Suriname">
-  <meta property="og:description" content="Visas, customs, SIM cards, ATMs, taxi apps and food delivery. The practical stuff, in one place.">
+  <meta property="og:title" content="Suriname Travel Guide | Visa, SIM Cards &amp; Money | Explore Suriname">
+  <meta property="og:description" content="Visa requirements, customs, SIM cards, best ATMs, taxi apps and tips for getting around Suriname. The practical stuff, in one place.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Suriname Visitor Guide | Explore Suriname">
-  <meta name="twitter:description" content="Visas, customs, SIM cards, ATMs, taxi apps and food delivery. The practical stuff, in one place.">
+  <meta name="twitter:title" content="Suriname Travel Guide | Visa, SIM Cards &amp; Money | Explore Suriname">
+  <meta name="twitter:description" content="Visa requirements, customs, SIM cards, best ATMs, taxi apps and tips for getting around Suriname.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Visitor Guide","url":"{SITE_URL}/visitor-guide.html","description":"Practical guide for first-time visitors to Suriname: visa and entry requirements, customs declaration, SIM cards, ATMs, tipping, taxi apps, food delivery and mobile payments.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Travel Guide | Visa, SIM Cards, ATMs & Getting Around","url":"{SITE_URL}/visitor-guide.html","description":"Practical guide for first-time visitors to Suriname: visa and entry requirements, customs declaration, SIM cards, ATMs, tipping, taxi apps, food delivery and mobile payments.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{"@type":"Question","name":"Do I need a visa to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Most nationalities need a tourist visa or tourist card for Suriname, arranged through the VFS Global portal before departure. Some nationalities may be exempt — check the official Suriname immigration requirements for your passport."}}}},{{"@type":"Question","name":"What currency is used in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The Surinamese Dollar (SRD) is the official currency. USD and EUR are accepted at some hotels and shops, but SRD is needed for most local transactions. ATMs dispensing SRD are widely available in Paramaribo."}}}},{{"@type":"Question","name":"Which SIM card should I buy in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Telesur and Digicel are the two main mobile operators. Telesur has broader 4G coverage across the country. Both sell prepaid SIM cards at the airport and shops in Paramaribo."}}}},{{"@type":"Question","name":"What taxi apps work in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname has local ride-hailing apps. Kura and TaxiSR are the most widely used in Paramaribo. Traditional metered taxis are also available."}}}},{{"@type":"Question","name":"What is the best way to get money in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"ATMs are the most convenient way to get SRD. Hakrinbank and DSB Bank ATMs are reliable and widely available in Paramaribo. Inform your bank before travelling to avoid card blocks."}}}}]}}
+  {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{"@type":"Question","name":"Do I need a visa to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Most nationalities need a tourist visa or tourist card for Suriname, arranged through the VFS Global portal before departure. Some nationalities may be exempt. Check the official Suriname immigration requirements for your passport."}}}},{{"@type":"Question","name":"What currency is used in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The Surinamese Dollar (SRD) is the official currency. USD and EUR are accepted at some hotels and shops, but SRD is needed for most local transactions. ATMs dispensing SRD are widely available in Paramaribo."}}}},{{"@type":"Question","name":"Which SIM card should I buy in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Telesur and Digicel are the two main mobile operators. Telesur has broader 4G coverage across the country. Both sell prepaid SIM cards at the airport and shops in Paramaribo."}}}},{{"@type":"Question","name":"What taxi apps work in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname has local ride-hailing apps. Kura and TaxiSR are the most widely used in Paramaribo. Traditional metered taxis are also available."}}}},{{"@type":"Question","name":"What is the best way to get money in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"ATMs are the most convenient way to get SRD. Hakrinbank and DSB Bank ATMs are reliable and widely available in Paramaribo. Inform your bank before travelling to avoid card blocks."}}}},{{"@type":"Question","name":"Do I need vaccinations to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"A yellow fever vaccination certificate is required if you are arriving from a yellow fever risk country. Hepatitis A and B, typhoid and routine vaccines are generally recommended. Malaria prophylaxis is advised if you plan to travel into the interior rainforest. Consult a travel health clinic well before departure."}}}},{{"@type":"Question","name":"Is Suriname safe for tourists?","acceptedAnswer":{{"@type":"Answer","text":"Paramaribo is generally safe for tourists who take standard precautions. Petty theft can occur in busy areas. Avoid displaying valuables in public, use registered taxis or ride-hailing apps, and stay aware of your surroundings at night. The interior rainforest is best explored with a licensed guide."}}}},{{"@type":"Question","name":"What is the tipping culture in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Tipping is not mandatory but is welcomed for good service. At restaurants a tip of 5 to 10 percent is appropriate if no service charge is included. Taxi drivers do not generally expect a tip, though rounding up the fare is a common courtesy. Tour guides often appreciate a gratuity at the end of a tour."}}}}]}}
+  </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Suriname Travel Guide","item":"{SITE_URL}/visitor-guide.html"}}]}}
   </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -4348,7 +4357,7 @@ def build_visitor_guide_page():
 <div class="pt-16"></div>
 <div class="text-white py-14 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Visitor Guide</h1>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Travel Guide</h1>
   <p class="text-white/65 text-lg max-w-xl mx-auto px-5">Visas, customs, SIM cards, money and getting around. The practical stuff, in one place.</p>
 </div>
 
@@ -5306,27 +5315,31 @@ def build_conditions_page(tides_data):
     wx_districts_js = _json.dumps(wx_districts)
 
     return f"""{PAGE_HEAD}
-  <title>Suriname Weather Today | Paramaribo Forecast &amp; River Tides | Explore Suriname</title>
-  <meta name="description" content="Tidal predictions for the Suriname, Commewijne, Nickerie and Marowijne rivers, plus 7-day weather forecasts by district and sunrise/sunset times. Updated continuously.">
+  <title>Suriname Weather &amp; River Tides | Live Forecast | Explore Suriname</title>
+  <meta name="description" content="Tidal predictions for Suriname's rivers, 7-day weather forecasts by district, sunrise/sunset times and UV index. Updated continuously.">
   <link rel="canonical" href="{SITE_URL}/conditions.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/conditions.html">
-  <meta property="og:title" content="Suriname Weather Today | Paramaribo Forecast &amp; River Tides | Explore Suriname">
+  <meta property="og:title" content="Suriname Weather &amp; River Tides | Live Forecast | Explore Suriname">
   <meta property="og:description" content="Tidal predictions for Suriname's rivers, 7-day district forecasts and sunrise/sunset times. Updated continuously.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Suriname Weather Today | Paramaribo Forecast &amp; River Tides | Explore Suriname">
+  <meta name="twitter:title" content="Suriname Weather &amp; River Tides | Live Forecast | Explore Suriname">
+  <meta name="twitter:description" content="Tidal predictions for Suriname's rivers, 7-day district forecasts and sunrise/sunset times. Updated continuously.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Weather Today | Paramaribo Forecast & River Tides","url":"{SITE_URL}/conditions.html","description":"Tidal predictions for the Suriname, Commewijne, Nickerie and Marowijne rivers, plus 7-day weather forecasts by district. Updated continuously.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Weather & River Tides | Live Forecast","url":"{SITE_URL}/conditions.html","description":"Tidal predictions for the Suriname, Commewijne, Nickerie and Marowijne rivers, plus 7-day weather forecasts by district. Updated continuously.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
     {{"@type":"Question","name":"What is the best time to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname has two dry seasons: the short dry season from February to April, and the long dry season from August to November. These are generally the best periods to visit, with less rainfall and easier travel conditions in the interior. August to October is considered the peak season for nature and rainforest tours."}}}},
     {{"@type":"Question","name":"Does Suriname have a rainy season?","acceptedAnswer":{{"@type":"Answer","text":"Yes, Suriname has two rainy seasons: the long rainy season from mid-April to mid-August, and the short rainy season from mid-November to mid-February. During these periods rainfall is frequent, though it typically comes in short, intense showers rather than all-day rain."}}}},
     {{"@type":"Question","name":"How hot is it in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname has a tropical climate with temperatures ranging from 26°C to 32°C (79°F to 90°F) year-round. Humidity is high throughout the year. Paramaribo on the coast is slightly cooler than the interior rainforest."}}}},
-    {{"@type":"Question","name":"What is the weather like in Paramaribo?","acceptedAnswer":{{"@type":"Answer","text":"Paramaribo has a tropical climate with hot, humid conditions year-round. Average temperatures stay between 26°C and 31°C. The city receives rainfall across all months, with heavier periods during the two rainy seasons. Sea breezes from the Atlantic can provide some relief in coastal areas."}}}}
+    {{"@type":"Question","name":"What is the weather like in Paramaribo?","acceptedAnswer":{{"@type":"Answer","text":"Paramaribo has a tropical climate with hot, humid conditions year-round. Average temperatures stay between 26°C and 31°C. The city receives rainfall across all months, with heavier periods during the two rainy seasons. Sea breezes from the Atlantic can provide some relief in coastal areas."}}}},
+    {{"@type":"Question","name":"How high is the UV index in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname sits near the equator and UV levels are consistently very high, often reaching UV index 11 or above during midday. Sun protection is strongly recommended year-round. Wear high-SPF sunscreen, a hat and protective clothing, especially during outdoor activities between 10:00 and 16:00."}}}},
+    {{"@type":"Question","name":"What are the tides like in Suriname's rivers?","acceptedAnswer":{{"@type":"Answer","text":"The Suriname, Commewijne, Nickerie and Marowijne rivers all experience semi-diurnal tides (two high tides and two low tides per day) driven by Atlantic tidal patterns. Tidal range varies by location and season. The tide forecasts on this page are updated daily for all four rivers."}}}},
+    {{"@type":"Question","name":"Does Suriname get hurricanes?","acceptedAnswer":{{"@type":"Answer","text":"Suriname lies south of the main Atlantic hurricane belt and is rarely affected by direct hurricane strikes. Tropical disturbances can occasionally bring heavy rainfall, but major hurricane impacts are uncommon. Suriname does experience frequent short but intense rain showers, particularly during the two rainy seasons."}}}}
   ]}}
   </script>
   <script type="application/ld+json">
@@ -5338,7 +5351,7 @@ def build_conditions_page(tides_data):
 <div class="pt-16"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Weather &amp; Tides</h1>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Weather &amp; River Tides</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Live weather by district &bull; tidal forecasts for 4 rivers &bull; sunrise &amp; sunset</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
@@ -5837,7 +5850,7 @@ def build_flights_page(flights_data):
 
     return f"""{PAGE_HEAD}
   <title>Suriname Flights Today | PBM Arrivals &amp; Departures | Explore Suriname</title>
-  <meta name="description" content="Live arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX). KLM, Copa Airlines, Caribbean Airlines and Surinam Airways schedules updated today.">
+  <meta name="description" content="Live arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX). KLM, Copa Airlines, Caribbean Airlines and Surinam Airways.">
   <link rel="canonical" href="{SITE_URL}/flights.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
@@ -5847,20 +5860,30 @@ def build_flights_page(flights_data):
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Suriname Flights Today | PBM Arrivals &amp; Departures | Explore Suriname">
+  <meta name="twitter:description" content="Live arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX). KLM, Copa Airlines, Caribbean Airlines and Surinam Airways.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Flights Today | PBM Arrivals & Departures","url":"{SITE_URL}/flights.html","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}},"description":"Today's arrivals and departures at Suriname airports including Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX)."}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Flights Today | PBM Arrivals & Departures","url":"{SITE_URL}/flights.html","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}},"description":"Today's arrivals and departures at Suriname airports including Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX)."}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
     {{"@type":"Question","name":"Which airlines fly to Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Airlines serving Suriname include KLM (Amsterdam), Copa Airlines (Panama City), Caribbean Airlines (Trinidad), and Surinam Airways on regional routes. KLM operates direct flights from Amsterdam to Johan Adolf Pengel International Airport (PBM), making it the primary route for European travelers."}}}},
     {{"@type":"Question","name":"What is the main airport in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Johan Adolf Pengel International Airport (IATA: PBM), also known as Zanderij Airport, is Suriname\'s main international airport. It is located approximately 45 km south of Paramaribo. Eduard Alexander Gummels Airport (EAX) in Paramaribo handles some domestic and regional flights."}}}},
     {{"@type":"Question","name":"How long is a flight from Amsterdam to Suriname?","acceptedAnswer":{{"@type":"Answer","text":"A direct flight from Amsterdam Schiphol (AMS) to Johan Adolf Pengel International Airport (PBM) takes approximately 9 to 10 hours. KLM operates this route several times per week."}}}},
-    {{"@type":"Question","name":"Do I need a visa to fly to Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Most nationalities require a tourist visa or tourist card to enter Suriname. These are arranged through the VFS Global portal before departure. Some Caribbean and South American nationalities may be exempt. Always check the latest Suriname immigration requirements for your passport before booking flights."}}}}
+    {{"@type":"Question","name":"Do I need a visa to fly to Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Most nationalities require a tourist visa or tourist card to enter Suriname. These are arranged through the VFS Global portal before departure. Some Caribbean and South American nationalities may be exempt. Always check the latest Suriname immigration requirements for your passport before booking flights."}}}},
+    {{"@type":"Question","name":"How far is Johan Adolf Pengel Airport from Paramaribo?","acceptedAnswer":{{"@type":"Answer","text":"Johan Adolf Pengel International Airport (PBM) is located approximately 45 km south of Paramaribo city centre. The drive typically takes 40 to 60 minutes depending on traffic conditions."}}}},
+    {{"@type":"Question","name":"How do I get from Suriname airport to Paramaribo?","acceptedAnswer":{{"@type":"Answer","text":"The most common options are licensed airport taxis with a fixed fare agreed before boarding, or private transfer services booked in advance. Ride-hailing apps do not currently operate at Johan Adolf Pengel Airport. The journey to central Paramaribo takes approximately 45 to 60 minutes."}}}},
+    {{"@type":"Question","name":"Does KLM fly direct to Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Yes. KLM operates direct flights between Amsterdam Schiphol (AMS) and Johan Adolf Pengel International Airport (PBM) several times per week. The flight takes approximately 9 to 10 hours. KLM is the primary airline connecting Europe to Suriname."}}}}
   ]}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Flights","item":"{SITE_URL}/flights.html"}}]}}
+  </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"Airport","name":"Johan Adolf Pengel International Airport","iataCode":"PBM","icaoCode":"SMJP","address":{{"@type":"PostalAddress","addressCountry":"SR","addressRegion":"Wanica","addressLocality":"Zanderij"}},"geo":{{"@type":"GeoCoordinates","latitude":5.4528,"longitude":-55.1878}},"url":"https://www.japi-airport.com"}}
+  </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"Airport","name":"Eduard Alexander Gummels Airport","iataCode":"ORG","icaoCode":"SMCO","address":{{"@type":"PostalAddress","addressCountry":"SR","addressLocality":"Paramaribo"}},"geo":{{"@type":"GeoCoordinates","latitude":5.8108,"longitude":-55.1908}}}}
   </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -5958,21 +5981,21 @@ _CAT_COLORS = {
 def build_roads_page():
     """On the Road: embedded Waze Live Map + road info panels for Suriname."""
     return f"""{PAGE_HEAD}
-  <title>Suriname Traffic &amp; Road Conditions | Live Map &amp; Road Guide | Explore Suriname</title>
-  <meta name="description" content="Live traffic and road conditions in Suriname. Emergency numbers, road rules, rainy season advisory and what to do after an accident.">
+  <title>Suriname Traffic &amp; Road Guide | Live Waze Map | Explore Suriname</title>
+  <meta name="description" content="Live Suriname traffic and road conditions. Speed limits, emergency numbers, driving rules, rainy season road advisory and what to do after an accident.">
   <link rel="canonical" href="{SITE_URL}/on-the-road.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/on-the-road.html">
-  <meta property="og:title" content="Suriname Traffic &amp; Road Conditions | Live Map &amp; Road Guide | Explore Suriname">
-  <meta property="og:description" content="Live traffic and road conditions in Suriname. Emergency numbers, road rules, rainy season advisory and what to do after an accident.">
+  <meta property="og:title" content="Suriname Traffic &amp; Road Guide | Live Waze Map | Explore Suriname">
+  <meta property="og:description" content="Live Suriname traffic and road conditions. Speed limits, emergency numbers, driving rules, rainy season advisory and a live Waze map.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Suriname Traffic &amp; Road Conditions | Live Map &amp; Road Guide | Explore Suriname">
-  <meta name="twitter:description" content="Live traffic and road conditions in Suriname. Emergency numbers, road rules, rainy season advisory and what to do after an accident.">
+  <meta name="twitter:title" content="Suriname Traffic &amp; Road Guide | Live Waze Map | Explore Suriname">
+  <meta name="twitter:description" content="Live Suriname traffic and road conditions. Speed limits, emergency numbers, driving rules, rainy season advisory and a live Waze map.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"On the Road","url":"{SITE_URL}/on-the-road.html","description":"Live traffic and road conditions in Suriname. Emergency numbers, road rules, rainy season advisory and what to do after an accident.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Traffic & Road Guide | Live Waze Map","url":"{SITE_URL}/on-the-road.html","description":"Live traffic and road conditions in Suriname. Emergency numbers, road rules, speed limits, rainy season advisory and what to do after an accident.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"On the Road","item":"{SITE_URL}/on-the-road.html"}}]}}
@@ -5986,7 +6009,9 @@ def build_roads_page():
     {{"@type":"Question","name":"What are the emergency numbers in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"In Suriname, call 115 for the police, 113 for the ambulance and 110 for the fire department."}}}},
     {{"@type":"Question","name":"What should I do after a car accident in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Stay at the scene and call 115 if anyone is injured. Fill in the SURVAM Aanrijdingsformulier (collision form) together with the other driver. Photograph the damage and the other driver's driving licence and insurance certificate, then notify your insurer as soon as possible."}}}},
     {{"@type":"Question","name":"When must I call the police after an accident in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Call the police on 115 if someone is seriously injured, a serious traffic violation was involved such as running a red light or driving under the influence, the other driver disputes the facts, the other driver left the scene without providing their details, or the damage is due to theft or vandalism."}}}},
-    {{"@type":"Question","name":"What can I report on Waze in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Waze lets drivers report accidents, police checks, road closures, hazards and traffic jams in real time. Every report improves the live map for other drivers in Suriname."}}}}
+    {{"@type":"Question","name":"What can I report on Waze in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Waze lets drivers report accidents, police checks, road closures, hazards and traffic jams in real time. Every report improves the live map for other drivers in Suriname."}}}},
+    {{"@type":"Question","name":"Are there toll roads in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname does not have a toll road system. Roads are generally free to use. Some ferry crossings, such as across the Suriname River between Paramaribo and the Commewijne district, charge a small fee."}}}},
+    {{"@type":"Question","name":"What should I know about driving to Suriname's interior?","acceptedAnswer":{{"@type":"Answer","text":"The road from Paramaribo to the interior transitions from paved highway to unpaved dirt tracks. A high-clearance vehicle or 4WD is strongly recommended beyond Atjoni. Road conditions deteriorate significantly during the rainy season. Inform someone of your route and estimated return time before venturing into the interior, and carry sufficient fuel, water and emergency supplies."}}}}
   ]}}
   </script>
 </head>
@@ -5996,7 +6021,7 @@ def build_roads_page():
 
 <div class="text-white py-10 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">On the Road</h1>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Road Conditions</h1>
   <p class="text-white/65 text-lg max-w-xl mx-auto px-5">Waze drivers across Suriname report accidents, closures and hazards as they happen. Check before you go.</p>
 </div>
 
