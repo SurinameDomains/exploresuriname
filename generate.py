@@ -115,7 +115,7 @@ FINANCE_FEEDS = [
 
 NATURE_SPOTS = [
     {"name": "Central Suriname Nature Reserve", "badge": "UNESCO World Heritage",
-     "desc": "One of the world's largest intact tropical rainforests — 1.6 million hectares of intact rainforest where jaguars, tapirs and giant river otters roam free.",
+     "desc": "One of the world's largest intact tropical rainforests. Over 1.6 million hectares of pristine rainforest where jaguars, tapirs and giant river otters roam free.",
      "tags": ["UNESCO", "Rainforest", "Wildlife"],
      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Amazon_jungle_from_above.jpg/1280px-Amazon_jungle_from_above.jpg",
      "fact": "Larger than some entire countries", "url": "https://whc.unesco.org/en/list/1017/"},
@@ -135,7 +135,7 @@ NATURE_SPOTS = [
      "image": "https://upload.wikimedia.org/wikipedia/commons/0/03/Peperpot_%2814159966508%29.jpg",
      "fact": "700+ bird species in Suriname", "url": "https://en.wikipedia.org/wiki/Peperpot_Nature_Park"},
     {"name": "Voltzberg & Raleighvallen", "badge": "Remote Expedition",
-     "desc": "An iconic granite dome rising above the endless jungle canopy. Accessible only by multi-day expedition — the ultimate reward for the most adventurous travellers.",
+     "desc": "An iconic granite dome rising above the endless jungle canopy. Accessible only by multi-day expedition. The ultimate reward for the most adventurous travellers.",
      "tags": ["Expedition", "Climbing", "Remote"],
      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Voltzberg_Mountain_top.jpg/1280px-Voltzberg_Mountain_top.jpg",
      "fact": "Multi-day jungle trek required", "url": "https://en.wikipedia.org/wiki/Voltzberg"},
@@ -201,7 +201,7 @@ ACTIVITIES = [
      "url": "https://allsurinametours.com/en/reservoir-canoe-tour/",
      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Atjoni_%2833496718666%29.jpg/1280px-Atjoni_%2833496718666%29.jpg"},
     {"icon": "🦜", "name": "Bird Watching",
-     "desc": "Suriname is a birder's paradise — spot 700+ species including scarlet macaws and harpy eagles.",
+     "desc": "Suriname is a birder's paradise. Spot 700+ species including scarlet macaws and harpy eagles.",
      "url": "https://surinameholidays.nl/en/birdwatching/",
      "image": "images/Birding-in-Suriname.webp"},
     {"icon": "🏘️", "name": "Indigenous Village Tours",
@@ -209,11 +209,11 @@ ACTIVITIES = [
      "url": "https://www.mets-suriname.com/",
      "image": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Wayana%2C_muziek_en_dans%2C_1.PNG"},
     {"icon": "🥁", "name": "Maroon Village Tours",
-     "desc": "Experience the living culture of the Saramacca and Matawai Maroon peoples — music, craft and history.",
+     "desc": "Experience the living culture of the Saramacca and Matawai Maroon peoples: music, craft and history.",
      "url": "https://allsurinametours.com/en/visit-to-maroon-village-santigron/",
      "image": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Santigron_pleng%2C_African_Culture_in_Suriname.jpg"},
     {"icon": "🏙️", "name": "Paramaribo City Walk",
-     "desc": "Explore the UNESCO-listed historic inner city on foot — the only wooden colonial city in the Americas.",
+     "desc": "Explore the UNESCO-listed historic inner city on foot. The only wooden colonial city in the Americas.",
      "url": "https://whc.unesco.org/en/list/940/",
      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png"},
     {"icon": "🏊️", "name": "Natural Swimming",
@@ -2279,7 +2279,7 @@ def footer_html(prefix=""):
     <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-6">
       <div class="col-span-2 md:col-span-1">
         <p class="serif text-2xl font-bold mb-3">Explore<span style="color:var(--coral)">Suriname</span></p>
-        <p class="text-white/60 text-sm leading-relaxed">Your guide to Suriname — places to eat, stay, explore, shop and stay informed with local, Oil &amp; Gas and Finance news.</p>
+        <p class="text-white/60 text-sm leading-relaxed">Your guide to Suriname: places to eat, stay, explore, shop and stay informed with local, Oil &amp; Gas and Finance news.</p>
       </div>
       <div>
         <p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Explore</p>
@@ -2642,6 +2642,9 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"{title}","item":"{page_url}"}}]}}
   </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"WebPage","name":"{_seo_title} | ExploreSuriname.com","url":"{page_url}","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  </script>
 {_lcp_preload}</head>
 <body class="bg-gray-50">
 {nav_html(_page_active)}
@@ -2683,7 +2686,7 @@ def build_index(restaurants, hotels):
     more_btn = lambda href, label: f'<a href="{href}" class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" style="border-color:var(--forest2);color:var(--forest2)">{label} &rarr;</a>'
     return f"""{PAGE_HEAD}
   <title>Explore Suriname | South America's Hidden Gem</title>
-  <meta name="description" content="Plan your Suriname trip: rainforest lodges, Paramaribo restaurants, local tours, shopping and live SRD exchange rates. Your complete guide to South America's most unspoiled destination.">
+  <meta name="description" content="Plan your Suriname trip: rainforest lodges, Paramaribo restaurants, local tours, shopping and live SRD exchange rates. Guide to South America's hidden gem.">
   <link rel="canonical" href="{SITE_URL}/">
   <link rel="preload" as="image" href="/images/hero-home.webp" fetchpriority="high">
   <meta property="og:type" content="website">
@@ -2709,7 +2712,7 @@ def build_index(restaurants, hotels):
       "width": 1200,
       "height": 630
     }},
-    "description": "Your complete travel and lifestyle guide to Suriname — hotels, restaurants, nature, activities and live SRD exchange rates.",
+    "description": "Your complete travel and lifestyle guide to Suriname: hotels, restaurants, nature, activities and live SRD exchange rates.",
     "areaServed": {{
       "@type": "Country",
       "name": "Suriname",
@@ -2725,7 +2728,7 @@ def build_index(restaurants, hotels):
     "name": "Explore Suriname",
     "alternateName": "ExploreSuriname.com",
     "url": "{SITE_URL}/",
-    "description": "Your complete travel and lifestyle guide to Suriname — hotels, restaurants, nature, activities and live SRD exchange rates.",
+    "description": "Your complete travel and lifestyle guide to Suriname: hotels, restaurants, nature, activities and live SRD exchange rates.",
     "inLanguage": "en",
     "about": {{
       "@type": "Place",
@@ -2741,6 +2744,9 @@ def build_index(restaurants, hotels):
       "query-input": "required name=search_term_string"
     }}
   }}
+  </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Explore Suriname | South America's Hidden Gem","url":"{SITE_URL}/","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
 </head>
 <body class="bg-white overflow-x-hidden">
@@ -2926,7 +2932,7 @@ def build_nature_page():
     filter_bar_s = _filter_bar_html(combined_items, "sightseeing")
     total = len(NATURE_SPOTS) + len(SIGHTSEEING)
     return listing_page("Nature & Parks", f"{total} destinations across Suriname's pristine wilderness",
-        f"Explore {total} nature reserves, national parks and rainforest destinations in Suriname. From Central Suriname Nature Reserve to Brownsberg — plan your eco-adventure.",
+        f"Explore {total} nature reserves, national parks and rainforest destinations in Suriname. From Central Suriname Reserve to Brownsberg. Plan your eco-adventure.",
         NATURE_SPOTS, all_cards, page_file="nature.html", extra_html="", filter_bar=filter_bar_s,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Leo_val_brownsberg.JPG/1280px-Leo_val_brownsberg.JPG",
         lcp_image=NATURE_SPOTS[0]["image"] if NATURE_SPOTS else None, seo_title="Nature Parks & Wildlife Reserves in Suriname")
@@ -2947,10 +2953,10 @@ def build_activities_page():
     filter_bar_a = _filter_bar_html(combined_items, "adventure")
     total = len(ACTIVITIES) + len(ADVENTURES_BIZ)
     return listing_page("Activities", f"{total} things to do in Suriname",
-        f"Discover {total} things to do in Suriname — jungle tours, river trips, birdwatching, kayaking and more. Find tours, eco-lodges and adventure operators in Paramaribo.",
+        f"Discover {total} things to do in Suriname: jungle tours, river trips, birdwatching, kayaking and more. Find tours and adventure operators in Paramaribo.",
         ACTIVITIES, all_cards, bg_color="var(--forest2)", page_file="activities.html", extra_html="", filter_bar=filter_bar_a,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Atjoni_%2833496718666%29.jpg/1280px-Atjoni_%2833496718666%29.jpg",
-        lcp_image=_first_img, seo_title="Things to Do in Suriname: Tours, Treks and Activities")
+        lcp_image=_first_img, seo_title="Things to Do in Suriname: Tours and Treks")
 
 def build_restaurants_page(restaurants):
     cards = "\n".join(poi_card(r, "cuisine", eager=(i==0)) for i,r in enumerate(restaurants))
@@ -2967,17 +2973,17 @@ def build_hotels_page(hotels):
     fb    = _filter_bar_html(hotels, "hotel")
     _lcp  = hotels[0].get("image") if hotels else None
     return listing_page("Hotels & Lodges", f"{len(hotels)} places to stay in Suriname",
-        f"Browse {len(hotels)} hotels, eco-lodges and jungle retreats in Suriname. From Paramaribo city hotels to remote river resorts — find your perfect stay.",
+        f"Browse {len(hotels)} hotels, eco-lodges and jungle retreats in Suriname. From Paramaribo city hotels to remote river resorts. Find your perfect stay.",
         hotels, cards, bg_color="#c05621", page_file="hotels.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Bigi_Pan_Nature_Reserve_%282719369111%29.jpg/1280px-Bigi_Pan_Nature_Reserve_%282719369111%29.jpg",
-        lcp_image=_lcp, seo_title="Hotels in Suriname: Paramaribo City and Jungle Lodges")
+        lcp_image=_lcp, seo_title="Hotels in Suriname: City and Jungle Lodges")
 
 def build_shopping_page():
     cards = "\n".join(poi_card(b, eager=(i==0)) for i,b in enumerate(SHOPPING))
     fb    = _filter_bar_html(SHOPPING, "shopping")
     _lcp  = SHOPPING[0].get("image") if SHOPPING else None
     return listing_page("Shopping", f"{len(SHOPPING)} shops & stores in Suriname",
-        f"Discover {len(SHOPPING)} shops in Suriname — supermarkets, malls, fashion, electronics, furniture, butchers and specialty stores in Paramaribo.",
+        f"Discover {len(SHOPPING)} shops in Suriname: supermarkets, malls, fashion, electronics, furniture, butchers and specialty stores in Paramaribo.",
         SHOPPING, cards, bg_color="#7c3aed", page_file="shopping.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
         lcp_image=_lcp, seo_title="Shopping in Paramaribo, Suriname")
@@ -2987,7 +2993,7 @@ def build_services_page():
     fb    = _filter_bar_html(SERVICES, "service")
     _lcp  = SERVICES[0].get("image") if SERVICES else None
     return listing_page("Services", f"{len(SERVICES)} service providers in Suriname",
-        f"Find {len(SERVICES)} service providers in Suriname — banks, beauty, health, fitness, education, telecom, real estate and more.",
+        f"Find {len(SERVICES)} service providers in Suriname: banks, beauty, health, fitness, education, telecom, real estate and more.",
         SERVICES, cards, bg_color="#0369a1", page_file="services.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
         lcp_image=_lcp, seo_title="Local Services in Paramaribo, Suriname")
@@ -3383,7 +3389,7 @@ def build_news(articles, oil_articles, finance_articles):
 
     return f"""{PAGE_HEAD}
   <title>Suriname News | Local, Oil &amp; Gas and Finance | Explore Suriname</title>
-  <meta name="description" content="Suriname local news, oil &amp; gas updates and finance in one place — De Ware Tijd, Starnieuws, Waterkant, Staatsolie, Block 58, IMF and more.">
+  <meta name="description" content="Suriname local news, oil &amp; gas updates and finance in one place: De Ware Tijd, Starnieuws, Waterkant, Staatsolie, Block 58, IMF and more.">
   <link rel="canonical" href="{SITE_URL}/news.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
@@ -3757,7 +3763,7 @@ def build_listing_page(slug, b):
     if _struct_parts:
         _loc_for_desc = location or "Paramaribo"
         desc_e = html_lib.escape(
-            f"{raw_name} in {_loc_for_desc}, Suriname — " + " · ".join(_struct_parts)
+            f"{raw_name} in {_loc_for_desc}, Suriname. " + " · ".join(_struct_parts)
         )[:160]
     elif desc:
         desc_e = html_lib.escape(desc[:155]) + ("…" if len(desc) > 155 else "")
@@ -4056,7 +4062,7 @@ def build_activity_listing_page(act, slug):
     icon    = act.get("icon", "\U0001f33f")
 
     name_e     = html_lib.escape(name)
-    desc_e     = html_lib.escape(desc[:160]) if desc else html_lib.escape(name + " — ExploreSuriname.com")
+    desc_e     = html_lib.escape(desc[:160]) if desc else html_lib.escape(name + " on ExploreSuriname.com")
     page_url   = SITE_URL + "/listing/" + slug + "/"
     maps_q     = urllib.parse.quote(name + ", Suriname")
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
@@ -4092,7 +4098,7 @@ def build_activity_listing_page(act, slug):
     act_ld = {
         "@context": "https://schema.org", "@type": "TouristAttraction",
         "name": name, "url": page_url,
-        "description": desc[:300] if desc else name + " — activity in Suriname.",
+        "description": desc[:300] if desc else name + ". Activity in Suriname.",
         "touristType": "Adventure travellers",
         "geo": {"@type": "GeoCoordinates", "addressCountry": "SR"},
     }
@@ -4193,7 +4199,7 @@ def build_nature_listing_page(spot, slug):
     tags    = spot.get("tags", [])
 
     name_e     = html_lib.escape(name)
-    desc_e     = html_lib.escape(desc[:160]) if desc else html_lib.escape(name + " — ExploreSuriname.com")
+    desc_e     = html_lib.escape(desc[:160]) if desc else html_lib.escape(name + " on ExploreSuriname.com")
     page_url   = SITE_URL + "/listing/" + slug + "/"
     maps_q     = urllib.parse.quote(name + ", Suriname")
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
@@ -4245,7 +4251,7 @@ def build_nature_listing_page(spot, slug):
         "@type":       "TouristAttraction",
         "name":        name,
         "url":         page_url,
-        "description": desc if desc else name + " — nature attraction in Suriname.",
+        "description": desc if desc else name + ". Nature attraction in Suriname.",
         "geo":         {"@type": "GeoCoordinates", "addressCountry": "SR"},
     }
     if tags:
@@ -4587,7 +4593,7 @@ def build_about_page():
     """Static About page — establishes site identity for Google AdSense review."""
     return f"""{PAGE_HEAD}
   <title>About | Explore Suriname</title>
-  <meta name="description" content="Explore Suriname is an independent travel and lifestyle guide to Suriname — covering restaurants, hotels, nature, activities, currency rates and local news.">
+  <meta name="description" content="Explore Suriname is an independent travel and lifestyle guide to Suriname, covering restaurants, hotels, nature, activities, currency rates and local news.">
   <link rel="canonical" href="{SITE_URL}/about.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
@@ -4595,6 +4601,11 @@ def build_about_page():
   <meta property="og:title" content="About | Explore Suriname">
   <meta property="og:description" content="Explore Suriname is an independent travel and lifestyle guide to Suriname.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@exploringsuriname">
+  <meta name="twitter:title" content="About | Explore Suriname">
+  <meta name="twitter:description" content="Explore Suriname is an independent travel and lifestyle guide to Suriname, covering restaurants, hotels, nature, activities, currency rates and local news.">
+  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"AboutPage","name":"About Explore Suriname","url":"{SITE_URL}/about.html","description":"Explore Suriname is an independent travel and lifestyle guide to Suriname.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
@@ -4689,6 +4700,11 @@ def build_contact_page():
   <meta property="og:title" content="Contact | Explore Suriname">
   <meta property="og:description" content="Get in touch with Explore Suriname for listing requests, corrections or partnerships.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@exploringsuriname">
+  <meta name="twitter:title" content="Contact | Explore Suriname">
+  <meta name="twitter:description" content="Get in touch with Explore Suriname for listing requests, corrections or partnerships.">
+  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"ContactPage","name":"Contact Explore Suriname","url":"{SITE_URL}/contact.html","description":"Contact Explore Suriname for listing requests, corrections or partnerships.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
@@ -5005,7 +5021,7 @@ def build_manifest():
     manifest = {
         "name": "Explore Suriname",
         "short_name": "ExploreSR",
-        "description": "Travel & lifestyle guide to Suriname — hotels, restaurants, nature and live SRD rates.",
+        "description": "Travel & lifestyle guide to Suriname: hotels, restaurants, nature and live SRD rates.",
         "start_url": "/",
         "display": "standalone",
         "background_color": "#ffffff",
