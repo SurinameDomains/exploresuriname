@@ -1,0 +1,43 @@
+name: Update Outage Data
+
+on:
+  schedule:
+    # Every 4 hours — Suriname UTC-3
+    - cron: "0 */4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python deps
+        run: pip install beautifulsoup4 playwright --break-system-packages
+
+      - name: Install Playwright browser
+        run: playwright install chromium --with-deps
+
+      - name: Scrape SWM water outages
+        run: python scripts/scrape_swm.py
+
+      - name: Scrape EBS power outages
+        run: python scripts/scrape_ebs.py
+        continue-on-error: true
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/swm_outages.json data/ebs_outages.json
+          # Remove debug HTML files if any (not for committing)
+          git checkout -- data/_ebs_debug_*.html 2>/dev/null || true
+          git diff --staged --quiet && echo "No changes." || \
+            git commit -m "data: update outages [skip ci]" && git push
