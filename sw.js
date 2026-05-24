@@ -1,7 +1,7 @@
 // ExploreSuriname Service Worker
 const CACHE = 'exploresr-v2';
 const PRECACHE = ['/', '/tailwind.css', '/favicon.ico', '/favicon.svg', '/offline.html'];
-const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html']);
+const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html', '/today.html']);
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE)));
@@ -23,6 +23,11 @@ self.addEventListener('fetch', e => {
   if (!sameOrigin && !isFont) return;
 
   // Network-first for live-data pages (currency, flights, tides, news)
+  if (sameOrigin && u.pathname.startsWith('/data/')) {
+    // network-first for live data JSON
+    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+    return;
+  }
   if (sameOrigin && LIVE_PAGES.has(u.pathname)) {
     e.respondWith(
       fetch(e.request)
