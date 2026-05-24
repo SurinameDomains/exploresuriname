@@ -1,7 +1,7 @@
 // ExploreSuriname Service Worker
 const CACHE = 'exploresr-v2';
 const PRECACHE = ['/', '/tailwind.css', '/favicon.ico', '/favicon.svg', '/offline.html'];
-const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html', '/today.html']);
+const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html', '/daily-notices.html']);
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE)));
