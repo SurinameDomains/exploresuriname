@@ -4687,19 +4687,21 @@ fetch('/data/ebs_outages.json')
     var html = '<div class="mb-3">' + pill('planned') + '</div>';
 
     outages.forEach(function(o) {{
-      // title is e.g. "GEPLAND ONDERHOUD DINSDAG 26 MEI 2026"
-      // Convert to title-case and strip the "GEPLAND ONDERHOUD" prefix
-      var label = (o.title || o.date || '').replace(/GEPLAND ONDERHOUD\s*/i, '').trim();
-      if (!label) label = o.date || '';
-      // Capitalize first letter of each word
-      label = label.replace(/\w/g, function(c){{return c.toUpperCase();}});
-      var link = o.links && o.links[0] ? o.links[0] : '';
+      // Build header line: "[District] — [Date]" or just "[Date]"
+      var header = o.district ? escHtml(o.district) + ' — ' + escHtml(o.date) : escHtml(o.date);
+      // Time window
+      var timeStr = o.time ? escHtml(o.time) : '';
+      // Streets — title-case the ALL-CAPS string, flag as truncated if ends abruptly
+      var areaRaw = o.area || '';
+      var area = areaRaw.replace(/(\w)(\w*)/g, function(_, a, b){{ return a + b.toLowerCase(); }});
+      var truncated = areaRaw.length > 0 && !areaRaw.match(/[.!?]$/);
+      var link = o.link || 'https://nvebs.com/elektriciteit/stroom-onderbrekingen';
+
       html += '<div class="outage-row">'
-            + '<div class="outage-area">Planned maintenance</div>'
-            + '<div class="outage-desc">' + escHtml(label) + '</div>'
-            + (link
-                ? '<div class="outage-date"><a href="' + escHtml(link) + '" target="_blank" rel="noopener" class="src-link">Details on nvebs.com</a></div>'
-                : '<div class="outage-date">See <a href="https://nvebs.com/elektriciteit/stroom-onderbrekingen" target="_blank" rel="noopener" class="src-link">nvebs.com</a> for details</div>')
+            + '<div class="outage-area">' + header + '</div>'
+            + (timeStr ? '<div class="outage-desc" style="color:#374151">' + timeStr + '</div>' : '')
+            + (area    ? '<div class="outage-desc">' + area + (truncated ? '…' : '') + '</div>' : '')
+            + '<div class="outage-date"><a href="' + escHtml(link) + '" target="_blank" rel="noopener" class="src-link">Full details on nvebs.com</a></div>'
             + '</div>';
     }});
 
