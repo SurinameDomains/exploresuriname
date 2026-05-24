@@ -2021,6 +2021,7 @@ def nav_html(active="home", prefix=""):
         _desktop_dd("dd-eat",  "Eat &amp; Stay", eat_items,  _EAT)  +
         f'<a href="{prefix}services.html" {_top_single_style("services")}>Local Services</a>' +
         _desktop_dd("dd-ess",  "Essentials",     ess_items,  _ESS)  +
+        f'<a href="{prefix}today.html" {_top_single_style("today")}>Today</a>' +
         f'<a href="{prefix}news.html" {_top_single_style("news")}>News</a>'
     )
 
@@ -2061,10 +2062,12 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}on-the-road.html", "On the Road",         "roads")
     )
 
-    _svc_col  = 'style="color:var(--forest)"' if _is_active("services") else ""
-    _news_col = 'style="color:var(--forest)"' if _is_active("news")     else ""
-    _svc_link  = f'<a href="{prefix}services.html" class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" {_svc_col}>Local Services</a>'
-    _news_link = f'<a href="{prefix}news.html" class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" {_news_col}>News</a>'
+    _svc_col   = 'style="color:var(--forest)"' if _is_active("services") else ""
+    _news_col  = 'style="color:var(--forest)"' if _is_active("news")     else ""
+    _today_col = 'style="color:var(--forest)"' if _is_active("today")    else ""
+    _svc_link   = f'<a href="{prefix}services.html" class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" {_svc_col}>Local Services</a>'
+    _today_link = f'<a href="{prefix}today.html" class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" {_today_col}>Today &#128197;</a>'
+    _news_link  = f'<a href="{prefix}news.html" class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" {_news_col}>News</a>'
 
     # Used by the search modal JS
     cat_colors = {"Eat & Drink":"#7c3aed","Stay":"#c05621","Nature":"var(--forest)",
@@ -2075,6 +2078,7 @@ def nav_html(active="home", prefix=""):
         _mob_group("mg-eat",  "Eat & Stay",     mob_eat_items,  _EAT)  +
         _svc_link +
         _mob_group("mg-ess",  "Essentials",     mob_ess_items,  _ESS)  +
+        _today_link +
         _news_link
     )
 
@@ -4332,6 +4336,383 @@ def build_nature_listing_page(spot, slug):
 # ── Sitemap ──────────────────────────────────────────────────────────────────
 
 
+
+def build_today_page():
+    """Suriname Today — daily essentials: wachtdienst, SWM, EBS, public holidays."""
+    today_str = datetime.now(SR_TZ).strftime("%A, %d %B %Y")
+    return f"""{PAGE_HEAD}
+  <title>Suriname Today &#8212; Daily Essentials | Explore Suriname</title>
+  <meta name="description" content="Your daily Suriname essentials: on-call pharmacies, power and water outages, public holidays and school breaks. Updated automatically.">
+  <link rel="canonical" href="{SITE_URL}/today.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/today.html">
+  <meta property="og:title" content="Suriname Today &#8212; Daily Essentials | Explore Suriname">
+  <meta property="og:description" content="On-call pharmacies, power and water outages, public holidays. Auto-updated daily.">
+  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Suriname Today &#8212; Daily Essentials | Explore Suriname">
+  <meta name="twitter:description" content="On-call pharmacies, power and water outages, public holidays. Auto-updated daily.">
+  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Today — Daily Essentials","url":"{SITE_URL}/today.html","description":"Daily Suriname essentials: on-call pharmacies, power and water outage notices, public holidays and school breaks.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  </script>
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Suriname Today","item":"{SITE_URL}/today.html"}}]}}
+  </script>
+  <style>
+    .widget-card {{ background:#fff; border-radius:1.25rem; border:1px solid #f0f0f0; box-shadow:0 1px 8px rgba(0,0,0,.05); overflow:hidden; }}
+    .widget-head {{ display:flex; align-items:center; justify-content:space-between; padding:1rem 1.5rem; border-bottom:1px solid #f3f4f6; }}
+    .widget-icon {{ font-size:1.6rem; margin-right:.75rem; }}
+    .widget-title {{ font-weight:700; color:#111; font-size:.95rem; }}
+    .widget-sub   {{ font-size:.72rem; color:#9ca3af; margin-top:.1rem; }}
+    .widget-body  {{ padding:1.25rem 1.5rem; }}
+    .upd-badge {{ font-size:.65rem; color:#9ca3af; white-space:nowrap; }}
+    .status-pill {{ display:inline-flex; align-items:center; gap:.35rem; font-size:.7rem; font-weight:700; padding:.25rem .65rem; border-radius:99px; text-transform:uppercase; letter-spacing:.05em; }}
+    .pill-green  {{ background:#dcfce7; color:#166534; }}
+    .pill-red    {{ background:#fee2e2; color:#991b1b; }}
+    .pill-yellow {{ background:#fef9c3; color:#854d0e; }}
+    .pill-blue   {{ background:#dbeafe; color:#1e40af; }}
+    .outage-row {{ border-bottom:1px solid #f3f4f6; padding:.75rem 0; }}
+    .outage-row:last-child {{ border:none; padding-bottom:0; }}
+    .outage-area {{ font-weight:600; font-size:.82rem; color:#111; }}
+    .outage-desc {{ font-size:.78rem; color:#6b7280; margin-top:.2rem; line-height:1.4; }}
+    .outage-date {{ font-size:.72rem; color:#9ca3af; margin-top:.25rem; }}
+    .pharmacy-row {{ border-bottom:1px solid #f3f4f6; padding:.85rem 0; }}
+    .pharmacy-row:last-child {{ border:none; padding-bottom:0; }}
+    .pharmacy-name {{ font-weight:700; font-size:.85rem; color:#111; }}
+    .pharmacy-addr {{ font-size:.78rem; color:#6b7280; margin-top:.15rem; }}
+    .pharmacy-phone {{ display:inline-flex; align-items:center; gap:.3rem; margin-top:.35rem; font-size:.78rem; color:var(--forest2); font-weight:600; text-decoration:none; }}
+    .holiday-row {{ display:flex; align-items:center; justify-content:space-between; padding:.6rem 0; border-bottom:1px solid #f3f4f6; }}
+    .holiday-row:last-child {{ border:none; padding-bottom:0; }}
+    .holiday-name {{ font-size:.82rem; color:#111; font-weight:500; }}
+    .holiday-date {{ font-size:.78rem; color:#6b7280; text-align:right; }}
+    .countdown-box {{ background:var(--mint); border-radius:.85rem; padding:.9rem 1rem; margin-bottom:1rem; display:flex; align-items:center; justify-content:space-between; }}
+    .countdown-label {{ font-size:.75rem; color:var(--forest); font-weight:600; }}
+    .countdown-days {{ font-size:1.6rem; font-weight:800; color:var(--forest); }}
+    .skeleton {{ background: linear-gradient(90deg,#f3f4f6 25%,#e9eaec 50%,#f3f4f6 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:.5rem; height:1rem; margin-bottom:.5rem; }}
+    @keyframes shimmer {{ 0%{{background-position:200% 0}} 100%{{background-position:-200% 0}} }}
+    .src-link {{ font-size:.72rem; color:#9ca3af; text-decoration:underline; }}
+    .src-link:hover {{ color:#6b7280; }}
+    .error-note {{ font-size:.8rem; color:#6b7280; text-align:center; padding:1.5rem 0; }}
+  </style>
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+{nav_html("today")}
+<div class="pt-16"></div>
+
+<!-- Hero -->
+<div class="py-10 text-center text-white" style="background:var(--forest)">
+  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Suriname Today</h1>
+  <p class="text-white/65 text-base">{today_str}</p>
+</div>
+
+<main class="max-w-4xl mx-auto px-4 py-10 pb-24">
+
+  <!-- intro note -->
+  <p class="text-center text-gray-400 text-xs mb-8">Data is pulled automatically from official sources and refreshed throughout the day.</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+    <!-- ── WACHTAPOTHEEK ─────────────────────────────────────────────── -->
+    <div class="widget-card">
+      <div class="widget-head">
+        <div class="flex items-center">
+          <span class="widget-icon">&#128138;</span>
+          <div>
+            <div class="widget-title">Wachtapotheek</div>
+            <div class="widget-sub">On-call pharmacy (weekend &amp; holidays)</div>
+          </div>
+        </div>
+        <span id="wacht-upd" class="upd-badge"></span>
+      </div>
+      <div id="wacht-body" class="widget-body">
+        <div class="skeleton" style="width:60%"></div>
+        <div class="skeleton" style="width:80%"></div>
+        <div class="skeleton" style="width:50%"></div>
+      </div>
+    </div>
+
+    <!-- ── SWM WATER ─────────────────────────────────────────────────── -->
+    <div class="widget-card">
+      <div class="widget-head">
+        <div class="flex items-center">
+          <span class="widget-icon">&#128167;</span>
+          <div>
+            <div class="widget-title">SWM Water</div>
+            <div class="widget-sub">Outages &amp; planned maintenance</div>
+          </div>
+        </div>
+        <span id="swm-upd" class="upd-badge"></span>
+      </div>
+      <div id="swm-body" class="widget-body">
+        <div class="skeleton" style="width:70%"></div>
+        <div class="skeleton" style="width:55%"></div>
+        <div class="skeleton" style="width:65%"></div>
+      </div>
+    </div>
+
+    <!-- ── EBS POWER ─────────────────────────────────────────────────── -->
+    <div class="widget-card">
+      <div class="widget-head">
+        <div class="flex items-center">
+          <span class="widget-icon">&#9889;</span>
+          <div>
+            <div class="widget-title">EBS Stroom</div>
+            <div class="widget-sub">Power outages &amp; planned interruptions</div>
+          </div>
+        </div>
+        <span id="ebs-upd" class="upd-badge"></span>
+      </div>
+      <div id="ebs-body" class="widget-body">
+        <div class="skeleton" style="width:60%"></div>
+        <div class="skeleton" style="width:75%"></div>
+        <div class="skeleton" style="width:50%"></div>
+      </div>
+    </div>
+
+    <!-- ── HOLIDAYS ──────────────────────────────────────────────────── -->
+    <div class="widget-card">
+      <div class="widget-head">
+        <div class="flex items-center">
+          <span class="widget-icon">&#128197;</span>
+          <div>
+            <div class="widget-title">Public Holidays</div>
+            <div class="widget-sub">Suriname 2026 calendar</div>
+          </div>
+        </div>
+      </div>
+      <div id="hol-body" class="widget-body">
+        <div class="skeleton" style="width:55%"></div>
+        <div class="skeleton" style="width:80%"></div>
+        <div class="skeleton" style="width:65%"></div>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- source attribution -->
+  <p class="text-center text-gray-300 text-xs mt-10">
+    Sources: <a href="http://www.rgd.sr/nl/zorg-aanbod/wachtdienst" target="_blank" rel="noopener" class="src-link">RGD Suriname</a> &bull;
+    <a href="https://swm.sr/storing-onderhoud/" target="_blank" rel="noopener" class="src-link">SWM</a> &bull;
+    <a href="https://nvebs.com/elektriciteit/stroom-onderbrekingen" target="_blank" rel="noopener" class="src-link">EBS</a>
+  </p>
+
+</main>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3887503553930215" crossorigin="anonymous"></script>
+
+{footer_html()}
+
+<script>
+/* ── helpers ─────────────────────────────────────────────────────────────── */
+function relTime(iso) {{
+  if (!iso) return '';
+  var d = new Date(iso), now = Date.now(), diff = Math.round((now - d) / 60000);
+  if (diff < 2)  return 'just now';
+  if (diff < 60) return diff + 'm ago';
+  var h = Math.round(diff / 60);
+  if (h < 24)   return h + 'h ago';
+  return Math.round(h / 24) + 'd ago';
+}}
+
+function pill(type) {{
+  if (type === 'clear')   return '<span class="status-pill pill-green">&#9679; No outages</span>';
+  if (type === 'active')  return '<span class="status-pill pill-red">&#9679; Active outage</span>';
+  if (type === 'planned') return '<span class="status-pill pill-yellow">&#9675; Planned</span>';
+  if (type === 'info')    return '<span class="status-pill pill-blue">&#9432; Info</span>';
+  return '';
+}}
+
+function escHtml(s) {{
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}}
+
+/* ── wachtapotheek ───────────────────────────────────────────────────────── */
+fetch('/data/wachtdienst.json')
+  .then(r => r.ok ? r.json() : Promise.reject(r.status))
+  .then(d => {{
+    var upd = document.getElementById('wacht-upd');
+    if (upd && d.last_updated) upd.textContent = relTime(d.last_updated);
+    var body = document.getElementById('wacht-body');
+    if (!body) return;
+
+    // check if data exists
+    var pharmas = d.pharmacies || [];
+    if (pharmas.length === 0) {{
+      body.innerHTML = '<p class="error-note">No wachtapotheek schedule found.<br>' +
+        '<a href="http://www.rgd.sr/nl/zorg-aanbod/wachtdienst" target="_blank" rel="noopener" class="src-link">Check rgd.sr directly</a> or call <strong>147</strong>.</p>';
+      return;
+    }}
+
+    var html = '';
+    // date range header
+    if (d.date_range) {{
+      html += '<p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">' + escHtml(d.date_range) + '</p>';
+    }}
+
+    pharmas.forEach(function(p) {{
+      html += '<div class="pharmacy-row">'
+            + '<div class="pharmacy-name">' + escHtml(p.name) + '</div>'
+            + '<div class="pharmacy-addr">&#128205; ' + escHtml(p.address) + '</div>'
+            + (p.phone ? '<a href="tel:' + escHtml(p.phone) + '" class="pharmacy-phone">&#128222; ' + escHtml(p.phone) + '</a>' : '')
+            + '</div>';
+    }});
+
+    if (d.hours) {{
+      html += '<p class="text-xs text-gray-400 mt-3">&#128337; ' + escHtml(d.hours) + '</p>';
+    }}
+    html += '<p class="text-xs text-gray-300 mt-3">Doctors on call: call <strong style="color:var(--forest)">147</strong></p>';
+    body.innerHTML = html;
+  }})
+  .catch(function() {{
+    var body = document.getElementById('wacht-body');
+    if (body) body.innerHTML = '<p class="error-note">Data temporarily unavailable.<br>' +
+      '<a href="http://www.rgd.sr/nl/zorg-aanbod/wachtdienst" target="_blank" rel="noopener" class="src-link">Check rgd.sr directly</a> or call <strong>147</strong>.</p>';
+  }});
+
+/* ── SWM water outages ───────────────────────────────────────────────────── */
+fetch('/data/swm_outages.json')
+  .then(r => r.ok ? r.json() : Promise.reject(r.status))
+  .then(d => {{
+    var upd = document.getElementById('swm-upd');
+    if (upd && d.last_updated) upd.textContent = relTime(d.last_updated);
+    var body = document.getElementById('swm-body');
+    if (!body) return;
+
+    var active  = d.active  || [];
+    var planned = d.planned || [];
+
+    if (active.length === 0 && planned.length === 0) {{
+      body.innerHTML = '<div style="text-align:center;padding:1rem 0">' + pill('clear') + '<p class="text-xs text-gray-400 mt-2">No outages or maintenance reported.</p></div>';
+      return;
+    }}
+
+    var html = '';
+    if (active.length > 0) {{
+      html += '<div class="mb-3">' + pill('active') + '</div>';
+      active.forEach(function(o) {{
+        html += '<div class="outage-row">'
+              + '<div class="outage-area">' + escHtml(o.area) + '</div>'
+              + '<div class="outage-desc">' + escHtml(o.description) + '</div>'
+              + '<div class="outage-date">&#128197; ' + escHtml(o.date) + '</div>'
+              + '</div>';
+      }});
+    }}
+    if (planned.length > 0) {{
+      html += '<div class="' + (active.length ? 'mt-4 ' : '') + 'mb-3">' + pill('planned') + '</div>';
+      planned.forEach(function(o) {{
+        html += '<div class="outage-row">'
+              + '<div class="outage-area">' + escHtml(o.area) + '</div>'
+              + '<div class="outage-desc">' + escHtml(o.description) + '</div>'
+              + '<div class="outage-date">&#128197; ' + escHtml(o.start || o.date) + (o.end && o.end !== o.start ? ' &rarr; ' + escHtml(o.end) : '') + '</div>'
+              + '</div>';
+      }});
+    }}
+    body.innerHTML = html;
+  }})
+  .catch(function() {{
+    var body = document.getElementById('swm-body');
+    if (body) body.innerHTML = '<p class="error-note">Data temporarily unavailable.<br>' +
+      '<a href="https://swm.sr/storing-onderhoud/" target="_blank" rel="noopener" class="src-link">Check swm.sr directly</a></p>';
+  }});
+
+/* ── EBS power outages ───────────────────────────────────────────────────── */
+fetch('/data/ebs_outages.json')
+  .then(r => r.ok ? r.json() : Promise.reject(r.status))
+  .then(d => {{
+    var upd = document.getElementById('ebs-upd');
+    if (upd && d.last_updated) upd.textContent = relTime(d.last_updated);
+    var body = document.getElementById('ebs-body');
+    if (!body) return;
+
+    var outages = d.outages || [];
+    if (outages.length === 0) {{
+      body.innerHTML = '<div style="text-align:center;padding:1rem 0">' + pill('clear') + '<p class="text-xs text-gray-400 mt-2">No outages reported.</p></div>';
+      return;
+    }}
+
+    var html = '';
+    var hasActive  = outages.some(function(o){{return o.type==='active';}});
+    var hasPlanned = outages.some(function(o){{return o.type==='planned';}});
+    if (hasActive)  html += '<div class="mb-3">' + pill('active')  + '</div>';
+    if (hasPlanned && !hasActive) html += '<div class="mb-3">' + pill('planned') + '</div>';
+
+    outages.forEach(function(o) {{
+      html += '<div class="outage-row">'
+            + '<div class="outage-area">' + escHtml(o.area) + '</div>'
+            + (o.description ? '<div class="outage-desc">' + escHtml(o.description) + '</div>' : '')
+            + '<div class="outage-date">&#128197; ' + escHtml(o.date) + '</div>'
+            + '</div>';
+    }});
+    body.innerHTML = html;
+  }})
+  .catch(function() {{
+    var body = document.getElementById('ebs-body');
+    if (body) body.innerHTML = '<p class="error-note">Data temporarily unavailable.<br>' +
+      '<a href="https://nvebs.com/elektriciteit/stroom-onderbrekingen" target="_blank" rel="noopener" class="src-link">Check nvebs.com directly</a></p>';
+  }});
+
+/* ── holidays ────────────────────────────────────────────────────────────── */
+fetch('/data/holidays.json')
+  .then(r => r.ok ? r.json() : Promise.reject(r.status))
+  .then(d => {{
+    var body = document.getElementById('hol-body');
+    if (!body) return;
+    var now = new Date(); now.setHours(0,0,0,0);
+    var upcoming = (d.public || []).filter(function(h) {{
+      return new Date(h.date) >= now;
+    }}).slice(0, 6);
+
+    if (upcoming.length === 0) {{
+      body.innerHTML = '<p class="error-note">No upcoming holidays found.</p>';
+      return;
+    }}
+
+    // countdown to next
+    var next = upcoming[0];
+    var nextDate = new Date(next.date);
+    var days = Math.round((nextDate - now) / 86400000);
+    var html = '<div class="countdown-box">'
+      + '<div><div class="countdown-label">Next holiday</div><div style="font-size:.82rem;color:var(--forest2);font-weight:600;margin-top:.1rem">' + escHtml(next.name_en) + '</div></div>'
+      + '<div style="text-align:right"><div class="countdown-days">' + days + '</div><div class="countdown-label">days</div></div>'
+      + '</div>';
+
+    upcoming.forEach(function(h) {{
+      var dt = new Date(h.date);
+      var label = dt.toLocaleDateString('en-SR', {{month:'short', day:'numeric'}});
+      html += '<div class="holiday-row">'
+            + '<span class="holiday-name">' + escHtml(h.name_en) + '</span>'
+            + '<span class="holiday-date">' + label + '</span>'
+            + '</div>';
+    }});
+
+    // school breaks
+    var breaks = (d.school_breaks || []).filter(function(b) {{
+      return new Date(b.end) >= now;
+    }}).slice(0, 3);
+    if (breaks.length > 0) {{
+      html += '<p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-4 mb-2">School Breaks</p>';
+      breaks.forEach(function(b) {{
+        var s = new Date(b.start).toLocaleDateString('en-SR', {{month:'short',day:'numeric'}});
+        var e = new Date(b.end).toLocaleDateString('en-SR',   {{month:'short',day:'numeric'}});
+        html += '<div class="holiday-row"><span class="holiday-name">' + escHtml(b.name) + '</span>'
+              + '<span class="holiday-date">' + s + ' &ndash; ' + e + '</span></div>';
+      }});
+    }}
+    body.innerHTML = html;
+  }})
+  .catch(function() {{
+    var body = document.getElementById('hol-body');
+    if (body) body.innerHTML = '<p class="error-note">Holiday data unavailable.</p>';
+  }});
+</script>
+</body>
+</html>"""
+
+
 def build_visitor_guide_page():
     """Suriname Visitor Guide — static page covering visas, customs, SIM cards, money, transport and apps."""
     return f"""{PAGE_HEAD}
@@ -4960,6 +5341,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("conditions.html", "0.8", "daily"),
         ("visitor-guide.html","0.8", "monthly"),
         ("on-the-road.html", "0.7", "monthly"),
+        ("today.html",      "0.9", "daily"),
         ("news.html",       "0.7", "daily"),
         ("about.html",      "0.5", "yearly"),
         ("contact.html",    "0.5", "yearly"),
@@ -5052,7 +5434,7 @@ def build_sw():
     return r"""// ExploreSuriname Service Worker
 const CACHE = 'exploresr-v2';
 const PRECACHE = ['/', '/tailwind.css', '/favicon.ico', '/favicon.svg', '/offline.html'];
-const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html']);
+const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html', '/today.html']);
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE)));
@@ -5074,6 +5456,11 @@ self.addEventListener('fetch', e => {
   if (!sameOrigin && !isFont) return;
 
   // Network-first for live-data pages (currency, flights, tides, news)
+  if (sameOrigin && u.pathname.startsWith('/data/')) {
+    // network-first for live data JSON
+    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+    return;
+  }
   if (sameOrigin && LIVE_PAGES.has(u.pathname)) {
     e.respondWith(
       fetch(e.request)
@@ -6257,6 +6644,7 @@ if __name__ == "__main__":
         "about.html":       build_about_page(),
         "contact.html":     build_contact_page(),
         "privacy.html":     build_privacy_page(),
+        "today.html":         build_today_page(),
         "visitor-guide.html": build_visitor_guide_page(),
         "on-the-road.html":   build_roads_page(),
     }
