@@ -1959,7 +1959,8 @@ def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
     _TODO  = {"nature", "activities", "shopping"}
     _EAT   = {"restaurants", "hotels"}
-    _ESS   = {"currency", "flights", "forecast", "visitor", "roads"}
+    _ESS   = {"currency", "flights", "forecast", "daily-notices"}
+    _PLAN  = {"visitor", "roads"}
 
     def _is_active(key):
         return active == key
@@ -2007,21 +2008,25 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}restaurants.html" {_link_cls("restaurants")}>Where to Eat</a>'
         f'<a href="{prefix}hotels.html"      {_link_cls("hotels")}     >Where to Stay</a>'
     )
-    # Essentials
+    # Essentials (live data)
     ess_items = (
-        f'<a href="{prefix}currency.html"    {_link_cls("currency")}   >Market Rates</a>'
-        f'<a href="{prefix}flights.html"     {_link_cls("flights")}    >Flights</a>'
-        f'<a href="{prefix}conditions.html"  {_link_cls("forecast")}   >Weather &amp; Tides</a>'
-        f'<a href="{prefix}visitor-guide.html" {_link_cls("visitor")}  >Visitor Guide</a>'
-        f'<a href="{prefix}on-the-road.html" {_link_cls("roads")}      >On the Road</a>'
+        f'<a href="{prefix}currency.html"       {_link_cls("currency")}       >Market Rates</a>'
+        f'<a href="{prefix}flights.html"        {_link_cls("flights")}        >Flights</a>'
+        f'<a href="{prefix}conditions.html"     {_link_cls("forecast")}       >Weather &amp; Tides</a>'
+        f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")}  >Daily Notices</a>'
+    )
+    # Plan Your Visit
+    plan_items = (
+        f'<a href="{prefix}visitor-guide.html"  {_link_cls("visitor")}  >Visitor Guide</a>'
+        f'<a href="{prefix}on-the-road.html"    {_link_cls("roads")}    >On the Road</a>'
     )
 
     desktop_nav = (
-        _desktop_dd("dd-todo", "Things to Do",   todo_items, _TODO) +
-        _desktop_dd("dd-eat",  "Eat &amp; Stay", eat_items,  _EAT)  +
+        _desktop_dd("dd-todo", "Things to Do",   todo_items,  _TODO) +
+        _desktop_dd("dd-eat",  "Eat &amp; Stay", eat_items,   _EAT)  +
         f'<a href="{prefix}services.html" {_top_single_style("services")}>Local Services</a>' +
-        _desktop_dd("dd-ess",  "Essentials",     ess_items,  _ESS)  +
-        f'<a href="{prefix}today.html" {_top_single_style("today")}>Today</a>' +
+        _desktop_dd("dd-ess",  "Essentials",     ess_items,   _ESS)  +
+        _desktop_dd("dd-plan", "Plan Your Visit", plan_items, _PLAN) +
         f'<a href="{prefix}news.html" {_top_single_style("news")}>News</a>'
     )
 
@@ -2055,30 +2060,31 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}hotels.html",      "Where to Stay", "hotels")
     )
     mob_ess_items = (
-        _mob_link(f"{prefix}currency.html",   "Market Rates", "currency") +
-        _mob_link(f"{prefix}flights.html",    "Flights",              "flights")  +
-        _mob_link(f"{prefix}conditions.html", "Weather & Tides",      "forecast") +
-        _mob_link(f"{prefix}visitor-guide.html", "Visitor Guide",     "visitor") +
-        _mob_link(f"{prefix}on-the-road.html", "On the Road",         "roads")
+        _mob_link(f"{prefix}currency.html",      "Market Rates",  "currency") +
+        _mob_link(f"{prefix}flights.html",       "Flights",       "flights")  +
+        _mob_link(f"{prefix}conditions.html",    "Weather & Tides", "forecast") +
+        _mob_link(f"{prefix}daily-notices.html", "Daily Notices", "daily-notices")
+    )
+    mob_plan_items = (
+        _mob_link(f"{prefix}visitor-guide.html", "Visitor Guide", "visitor") +
+        _mob_link(f"{prefix}on-the-road.html",   "On the Road",   "roads")
     )
 
-    _svc_col   = 'style="color:var(--forest)"' if _is_active("services") else ""
-    _news_col  = 'style="color:var(--forest)"' if _is_active("news")     else ""
-    _today_col = 'style="color:var(--forest)"' if _is_active("today")    else ""
-    _svc_link   = f'<a href="{prefix}services.html" class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" {_svc_col}>Local Services</a>'
-    _today_link = f'<a href="{prefix}today.html" class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" {_today_col}>Today</a>'
-    _news_link  = f'<a href="{prefix}news.html" class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" {_news_col}>News</a>'
+    _svc_col  = 'style="color:var(--forest)"' if _is_active("services") else ""
+    _news_col = 'style="color:var(--forest)"' if _is_active("news")     else ""
+    _svc_link  = f'<a href="{prefix}services.html" class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" {_svc_col}>Local Services</a>'
+    _news_link = f'<a href="{prefix}news.html" class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" {_news_col}>News</a>'
 
     # Used by the search modal JS
     cat_colors = {"Eat & Drink":"#7c3aed","Stay":"#c05621","Nature":"var(--forest)",
                   "Activities":"var(--forest2)","Shopping":"#0369a1","Services":"#0369a1","Sightseeing":"var(--forest)"}
 
     mobile_menu = (
-        _mob_group("mg-todo", "Things to Do",   mob_todo_items, _TODO) +
-        _mob_group("mg-eat",  "Eat & Stay",     mob_eat_items,  _EAT)  +
+        _mob_group("mg-todo", "Things to Do",    mob_todo_items,  _TODO) +
+        _mob_group("mg-eat",  "Eat & Stay",      mob_eat_items,   _EAT)  +
         _svc_link +
-        _mob_group("mg-ess",  "Essentials",     mob_ess_items,  _ESS)  +
-        _today_link +
+        _mob_group("mg-ess",  "Essentials",      mob_ess_items,   _ESS)  +
+        _mob_group("mg-plan", "Plan Your Visit", mob_plan_items,  _PLAN) +
         _news_link
     )
 
@@ -2301,8 +2307,9 @@ def footer_html(prefix=""):
         <ul class="space-y-2 text-sm text-white/70">
           <li><a href="{prefix}currency.html"      class="hover:text-white transition">Market Rates</a></li>
           <li><a href="{prefix}flights.html"       class="hover:text-white transition">Flights</a></li>
-          <li><a href="{prefix}conditions.html"    class="hover:text-white transition">Weather &amp; Tides</a></li>
-          <li><a href="{prefix}visitor-guide.html" class="hover:text-white transition">Visitor Guide</a></li>
+          <li><a href="{prefix}conditions.html"       class="hover:text-white transition">Weather &amp; Tides</a></li>
+          <li><a href="{prefix}daily-notices.html"    class="hover:text-white transition">Daily Notices</a></li>
+          <li><a href="{prefix}visitor-guide.html"    class="hover:text-white transition">Visitor Guide</a></li>
           <li><a href="{prefix}on-the-road.html"   class="hover:text-white transition">On the Road</a></li>
           <li><a href="{prefix}news.html"          class="hover:text-white transition">News</a></li>
         </ul>
@@ -4341,24 +4348,24 @@ def build_today_page():
     """Suriname Today — daily essentials: wachtdienst, SWM, EBS, public holidays."""
     today_str = datetime.now(SR_TZ).strftime("%A, %d %B %Y")
     return f"""{PAGE_HEAD}
-  <title>Suriname Today &#8212; Daily Essentials | Explore Suriname</title>
-  <meta name="description" content="Your daily Suriname essentials: on-call pharmacies, power and water outages, public holidays and school breaks. Updated automatically.">
-  <link rel="canonical" href="{SITE_URL}/today.html">
+  <title>Daily Notices &#8212; Suriname | Explore Suriname</title>
+  <meta name="description" content="Daily Notices for Suriname: on-call pharmacies, EBS power outages, SWM water outages, and public holidays. Auto-updated daily.">
+  <link rel="canonical" href="{SITE_URL}/daily-notices.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
-  <meta property="og:url" content="{SITE_URL}/today.html">
-  <meta property="og:title" content="Suriname Today &#8212; Daily Essentials | Explore Suriname">
-  <meta property="og:description" content="On-call pharmacies, power and water outages, public holidays. Auto-updated daily.">
+  <meta property="og:url" content="{SITE_URL}/daily-notices.html">
+  <meta property="og:title" content="Daily Notices &#8212; Suriname | Explore Suriname">
+  <meta property="og:description" content="On-call pharmacies, EBS power outages, SWM water outages, public holidays. Auto-updated daily.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Suriname Today &#8212; Daily Essentials | Explore Suriname">
-  <meta name="twitter:description" content="On-call pharmacies, power and water outages, public holidays. Auto-updated daily.">
+  <meta name="twitter:title" content="Daily Notices &#8212; Suriname | Explore Suriname">
+  <meta name="twitter:description" content="On-call pharmacies, EBS power outages, SWM water outages, public holidays. Auto-updated daily.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Today — Daily Essentials","url":"{SITE_URL}/today.html","description":"Daily Suriname essentials: on-call pharmacies, power and water outage notices, public holidays and school breaks.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Daily Notices — Suriname","url":"{SITE_URL}/daily-notices.html","description":"Daily Suriname essentials: on-call pharmacies, power and water outage notices, public holidays and school breaks.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Suriname Today","item":"{SITE_URL}/today.html"}}]}}
+  {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Daily Notices","item":"{SITE_URL}/daily-notices.html"}}]}}
   </script>
   <style>
     .widget-card {{ background:#fff; border-radius:1.25rem; border:1px solid #f0f0f0; box-shadow:0 1px 8px rgba(0,0,0,.05); overflow:hidden; }}
@@ -4398,13 +4405,13 @@ def build_today_page():
   </style>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
-{nav_html("today")}
+{nav_html("daily-notices")}
 <div class="pt-16"></div>
 
 <!-- Hero -->
 <div class="py-10 text-center text-white" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Suriname Today</h1>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Daily Notices</h1>
   <p class="text-white/65 text-base">{today_str}</p>
 </div>
 
@@ -5400,7 +5407,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("conditions.html", "0.8", "daily"),
         ("visitor-guide.html","0.8", "monthly"),
         ("on-the-road.html", "0.7", "monthly"),
-        ("today.html",      "0.9", "daily"),
+        ("daily-notices.html", "0.9", "daily"),
         ("news.html",       "0.7", "daily"),
         ("about.html",      "0.5", "yearly"),
         ("contact.html",    "0.5", "yearly"),
@@ -5493,7 +5500,7 @@ def build_sw():
     return r"""// ExploreSuriname Service Worker
 const CACHE = 'exploresr-v2';
 const PRECACHE = ['/', '/tailwind.css', '/favicon.ico', '/favicon.svg', '/offline.html'];
-const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html', '/today.html']);
+const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html', '/daily-notices.html']);
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE)));
@@ -6703,7 +6710,8 @@ if __name__ == "__main__":
         "about.html":       build_about_page(),
         "contact.html":     build_contact_page(),
         "privacy.html":     build_privacy_page(),
-        "today.html":         build_today_page(),
+        "today.html":          '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0;url=/daily-notices.html"><link rel="canonical" href="https://exploresuriname.com/daily-notices.html"><title>Redirecting to Daily Notices…</title></head><body><p>This page has moved. <a href="/daily-notices.html">Click here</a>.</p></body></html>',
+        "daily-notices.html": build_today_page(),
         "visitor-guide.html": build_visitor_guide_page(),
         "on-the-road.html":   build_roads_page(),
     }
