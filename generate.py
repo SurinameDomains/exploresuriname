@@ -2066,7 +2066,7 @@ def nav_html(active="home", prefix=""):
     _news_col  = 'style="color:var(--forest)"' if _is_active("news")     else ""
     _today_col = 'style="color:var(--forest)"' if _is_active("today")    else ""
     _svc_link   = f'<a href="{prefix}services.html" class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" {_svc_col}>Local Services</a>'
-    _today_link = f'<a href="{prefix}today.html" class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" {_today_col}>Today &#128197;</a>'
+    _today_link = f'<a href="{prefix}today.html" class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" {_today_col}>Today</a>'
     _news_link  = f'<a href="{prefix}news.html" class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" {_news_col}>News</a>'
 
     # Used by the search modal JS
@@ -2447,7 +2447,7 @@ def poi_card(item, badge_key="cuisine", eager=False):
                 f'class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" '
                 f'onerror="this.parentElement.style.background=\'#2D6A4F\';this.style.display=\'none\'">'
                 f'</div>') if img else ""
-    phone_html = f'<span class="text-gray-400 text-xs">&#128222; {html_lib.escape(phone)}</span>' if phone else ""
+    phone_html = f'<span class="text-gray-400 text-xs">Tel: {html_lib.escape(phone)}</span>' if phone else ""
     district   = item.get("area", item.get("location", "Paramaribo"))
     return f"""
 <a href="{url}" data-sub="{item.get('subcat','other')}" data-district="{html_lib.escape(district)}" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
@@ -2457,7 +2457,7 @@ def poi_card(item, badge_key="cuisine", eager=False):
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">{html_lib.escape(item['name'])}</h3>
     </div>
     <div class="flex items-center justify-between mt-auto pt-2">
-      <p class="text-gray-400 text-xs">&#128205; {html_lib.escape(area)}</p>
+      <p class="text-gray-400 text-xs">{html_lib.escape(area)}</p>
       {phone_html}
       <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
     </div>
@@ -2520,7 +2520,7 @@ def _filter_bar_html(items, cat_key):
     </div>
     <!-- District chips -->
     <div class="flex gap-1.5 overflow-x-auto pt-2 pb-1" style="scrollbar-width:none">
-      <span class="text-xs font-semibold text-gray-400 self-center shrink-0 mr-1">&#128205; District:</span>
+      <span class="text-xs font-semibold text-gray-400 self-center shrink-0 mr-1">District:</span>
       {"".join(dist_chips)}
     </div>
   </div>
@@ -4016,7 +4016,7 @@ def build_listing_page(slug, b):
         '\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"'
         '\n          style="background:var(--coral);color:#fff">' + html_lib.escape(category) + '</span>'
         '\n    <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">' + name_e + '</h1>'
-        '\n    <p class="text-white/70 text-sm">&#128205; ' + html_lib.escape(location) + ', Suriname</p>'
+        '\n    <p class="text-white/70 text-sm">' + html_lib.escape(location) + ', Suriname</p>'
         '\n  </div>'
         '\n</div>'
     )
@@ -4415,13 +4415,12 @@ def build_today_page():
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-    <!-- ── WACHTDIENST ───────────────────────────────────────────────── -->
+    <!-- ── ON-CALL SERVICE ──────────────────────────────────────────────── -->
     <div class="widget-card">
       <div class="widget-head">
         <div class="flex items-center">
-          <span class="widget-icon">&#128138;</span>
           <div>
-            <div class="widget-title">Wachtdienst</div>
+            <div class="widget-title">On-Call Service</div>
             <div class="widget-sub">Doctors &amp; pharmacies on call</div>
           </div>
         </div>
@@ -4439,33 +4438,13 @@ def build_today_page():
       </div>
     </div>
 
-    <!-- ── SWM WATER ─────────────────────────────────────────────────── -->
-    <div class="widget-card">
-      <div class="widget-head">
-        <div class="flex items-center">
-          <span class="widget-icon">&#128167;</span>
-          <div>
-            <div class="widget-title">SWM Water</div>
-            <div class="widget-sub">Outages &amp; planned maintenance</div>
-          </div>
-        </div>
-        <span id="swm-upd" class="upd-badge"></span>
-      </div>
-      <div id="swm-body" class="widget-body">
-        <div class="skeleton" style="width:70%"></div>
-        <div class="skeleton" style="width:55%"></div>
-        <div class="skeleton" style="width:65%"></div>
-      </div>
-    </div>
-
     <!-- ── EBS POWER ─────────────────────────────────────────────────── -->
     <div class="widget-card">
       <div class="widget-head">
         <div class="flex items-center">
-          <span class="widget-icon">&#9889;</span>
           <div>
-            <div class="widget-title">EBS Stroom</div>
-            <div class="widget-sub">Power outages &amp; planned interruptions</div>
+            <div class="widget-title">EBS Power Outages</div>
+            <div class="widget-sub">Planned interruptions</div>
           </div>
         </div>
         <span id="ebs-upd" class="upd-badge"></span>
@@ -4477,11 +4456,28 @@ def build_today_page():
       </div>
     </div>
 
+    <!-- ── SWM WATER ─────────────────────────────────────────────────── -->
+    <div class="widget-card">
+      <div class="widget-head">
+        <div class="flex items-center">
+          <div>
+            <div class="widget-title">SWM Water Outages</div>
+            <div class="widget-sub">Active outages &amp; planned maintenance</div>
+          </div>
+        </div>
+        <span id="swm-upd" class="upd-badge"></span>
+      </div>
+      <div id="swm-body" class="widget-body">
+        <div class="skeleton" style="width:70%"></div>
+        <div class="skeleton" style="width:55%"></div>
+        <div class="skeleton" style="width:65%"></div>
+      </div>
+    </div>
+
     <!-- ── HOLIDAYS ──────────────────────────────────────────────────── -->
     <div class="widget-card">
       <div class="widget-head">
         <div class="flex items-center">
-          <span class="widget-icon">&#128197;</span>
           <div>
             <div class="widget-title">Public Holidays</div>
             <div class="widget-sub">Suriname 2026 calendar</div>
@@ -4562,34 +4558,34 @@ function wachtFilter() {{
 
   // Doctors section
   if (docs.length > 0) {{
-    html += '<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1 mb-1">&#127973; Doctors on call</p>';
+    html += '<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1 mb-1">Doctors on call</p>';
     docs.forEach(function(dr) {{
       html += '<div class="pharmacy-row">'
             + '<div class="pharmacy-name">' + escHtml(dr.name)
             + (dr.clinic ? ' <span style="font-weight:400;color:#6b7280">— ' + escHtml(dr.clinic) + '</span>' : '')
             + '</div>';
-      if (dr.address) html += '<div class="pharmacy-addr">&#128205; ' + escHtml(dr.address) + '</div>';
-      if (dr.phone)   html += '<a href="tel:' + escHtml(dr.phone) + '" class="pharmacy-phone">&#128222; ' + escHtml(dr.phone) + '</a>';
-      if (dr.note)    html += '<div style="font-size:.7rem;color:#9ca3af;margin-top:.15rem">&#8505; ' + escHtml(dr.note) + '</div>';
+      if (dr.address) html += '<div class="pharmacy-addr">' + escHtml(dr.address) + '</div>';
+      if (dr.phone)   html += '<a href="tel:' + escHtml(dr.phone) + '" class="pharmacy-phone">Tel: ' + escHtml(dr.phone) + '</a>';
+      if (dr.note)    html += '<div style="font-size:.7rem;color:#9ca3af;margin-top:.15rem">' + escHtml(dr.note) + '</div>';
       html += '</div>';
     }});
     if (d.doctor_hours) {{
-      html += '<p class="text-xs text-gray-400 mt-2">&#128337; ' + escHtml(d.doctor_hours) + '</p>';
+      html += '<p class="text-xs text-gray-400 mt-2">' + escHtml(d.doctor_hours) + '</p>';
     }}
   }}
 
   // Pharmacies section
   if (pharmas.length > 0) {{
-    html += '<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-3 mb-1">&#128138; Pharmacies on call</p>';
+    html += '<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-3 mb-1">Pharmacies on call</p>';
     pharmas.forEach(function(p) {{
       html += '<div class="pharmacy-row">'
             + '<div class="pharmacy-name">' + escHtml(p.name) + '</div>'
-            + '<div class="pharmacy-addr">&#128205; ' + escHtml(p.address) + '</div>'
-            + (p.phone ? '<a href="tel:' + escHtml(p.phone) + '" class="pharmacy-phone">&#128222; ' + escHtml(p.phone) + '</a>' : '')
+            + '<div class="pharmacy-addr">' + escHtml(p.address) + '</div>'
+            + (p.phone ? '<a href="tel:' + escHtml(p.phone) + '" class="pharmacy-phone">Tel: ' + escHtml(p.phone) + '</a>' : '')
             + '</div>';
     }});
     if (d.pharmacy_hours) {{
-      html += '<p class="text-xs text-gray-400 mt-2">&#128337; ' + escHtml(d.pharmacy_hours) + '</p>';
+      html += '<p class="text-xs text-gray-400 mt-2">' + escHtml(d.pharmacy_hours) + '</p>';
     }}
   }}
 
@@ -4651,7 +4647,7 @@ fetch('/data/swm_outages.json')
         html += '<div class="outage-row">'
               + '<div class="outage-area">' + escHtml(o.area) + '</div>'
               + '<div class="outage-desc">' + escHtml(o.description) + '</div>'
-              + '<div class="outage-date">&#128197; ' + escHtml(o.date) + '</div>'
+              + '<div class="outage-date">' + escHtml(o.date) + '</div>'
               + '</div>';
       }});
     }}
@@ -4661,7 +4657,7 @@ fetch('/data/swm_outages.json')
         html += '<div class="outage-row">'
               + '<div class="outage-area">' + escHtml(o.area) + '</div>'
               + '<div class="outage-desc">' + escHtml(o.description) + '</div>'
-              + '<div class="outage-date">&#128197; ' + escHtml(o.start || o.date) + (o.end && o.end !== o.start ? ' &rarr; ' + escHtml(o.end) : '') + '</div>'
+              + '<div class="outage-date">' + escHtml(o.start || o.date) + (o.end && o.end !== o.start ? ' &rarr; ' + escHtml(o.end) : '') + '</div>'
               + '</div>';
       }});
     }}
@@ -4684,23 +4680,30 @@ fetch('/data/ebs_outages.json')
 
     var outages = d.outages || [];
     if (outages.length === 0) {{
-      body.innerHTML = '<div style="text-align:center;padding:1rem 0">' + pill('clear') + '<p class="text-xs text-gray-400 mt-2">No outages reported.</p></div>';
+      body.innerHTML = '<div style="text-align:center;padding:1rem 0">' + pill('clear') + '<p class="text-xs text-gray-400 mt-2">No planned outages.</p></div>';
       return;
     }}
 
-    var html = '';
-    var hasActive  = outages.some(function(o){{return o.type==='active';}});
-    var hasPlanned = outages.some(function(o){{return o.type==='planned';}});
-    if (hasActive)  html += '<div class="mb-3">' + pill('active')  + '</div>';
-    if (hasPlanned && !hasActive) html += '<div class="mb-3">' + pill('planned') + '</div>';
+    var html = '<div class="mb-3">' + pill('planned') + '</div>';
 
     outages.forEach(function(o) {{
+      // title is e.g. "GEPLAND ONDERHOUD DINSDAG 26 MEI 2026"
+      // Convert to title-case and strip the "GEPLAND ONDERHOUD" prefix
+      var label = (o.title || o.date || '').replace(/GEPLAND ONDERHOUD\s*/i, '').trim();
+      if (!label) label = o.date || '';
+      // Capitalize first letter of each word
+      label = label.replace(/\w/g, function(c){{return c.toUpperCase();}});
+      var link = o.links && o.links[0] ? o.links[0] : '';
       html += '<div class="outage-row">'
-            + '<div class="outage-area">' + escHtml(o.area) + '</div>'
-            + (o.description ? '<div class="outage-desc">' + escHtml(o.description) + '</div>' : '')
-            + '<div class="outage-date">&#128197; ' + escHtml(o.date) + '</div>'
+            + '<div class="outage-area">Planned maintenance</div>'
+            + '<div class="outage-desc">' + escHtml(label) + '</div>'
+            + (link
+                ? '<div class="outage-date"><a href="' + escHtml(link) + '" target="_blank" rel="noopener" class="src-link">Details on nvebs.com</a></div>'
+                : '<div class="outage-date">See <a href="https://nvebs.com/elektriciteit/stroom-onderbrekingen" target="_blank" rel="noopener" class="src-link">nvebs.com</a> for details</div>')
             + '</div>';
     }});
+
+    html += '<p class="text-xs text-gray-300 mt-3">Source: <a href="https://nvebs.com/elektriciteit/stroom-onderbrekingen" target="_blank" rel="noopener" class="src-link">nvebs.com</a></p>';
     body.innerHTML = html;
   }})
   .catch(function() {{
