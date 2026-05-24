@@ -5,22 +5,35 @@
       "date": "26 Mei 2026",
       "date_iso": "2026-05-26",
       "type": "planned",
-      "links": [
-        "https://nvebs.com/nieuws/1500/gepland-onderhoud-dinsdag-26-mei-2026",
-        "https://nvebs.com/nieuws/1499/gepland-onderhoud-dinsdag-26-mei-2026"
-      ]
+      "link": "https://nvebs.com/nieuws/1500/gepland-onderhoud-dinsdag-26-mei-2026",
+      "meta_description": "Gepland onderhoud: Wanica dinsdag 26 mei 2026 tussen 09:00-14:00 GEDEELTE WELGEDACHT A WEG TUSSEN KRONENBURGWEG EN INDIRA GANDHIWEG EN ALLE",
+      "district": "Wanica",
+      "time": "09:00 – 14:00",
+      "area": "GEDEELTE WELGEDACHT A WEG TUSSEN KRONENBURGWEG EN INDIRA GANDHIWEG EN ALLE"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DINSDAG 26 MEI 2026",
+      "date": "26 Mei 2026",
+      "date_iso": "2026-05-26",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1499/gepland-onderhoud-dinsdag-26-mei-2026",
+      "meta_description": "Gepland onderhoud: Paramaribo dinsdag 26 mei 2026 tussen 09:00-11:00 GEDEELTE BAKKIEWEG TUSSEN AGENORIAWEG EN HABIBWEG EN ALLE ZIJWEGEN DIE VOORKOMEN",
+      "district": "Paramaribo",
+      "time": "09:00 – 11:00",
+      "area": "GEDEELTE BAKKIEWEG TUSSEN AGENORIAWEG EN HABIBWEG EN ALLE ZIJWEGEN DIE VOORKOMEN"
     },
     {
       "title": "GEPLAND ONDERHOUD MAANDAG 25 MEI 2026",
       "date": "25 Mei 2026",
       "date_iso": "2026-05-25",
       "type": "planned",
-      "links": [
-        "https://nvebs.com/nieuws/1498/gepland-onderhoud-maandag-25-mei-2026"
-      ]
+      "link": "https://nvebs.com/nieuws/1498/gepland-onderhoud-maandag-25-mei-2026",
+      "meta_description": "Gepland onderhoud: Paramaribo  maandag 25 mei 2026 tussen 08:30-14:30 GEDEELTE RINGWEG ZUID TUSSEN NIEUWE CHARLESBURGWEG EN LEO HEINEMANNSTRAAT, G",
+      "district": "Paramaribo",
+      "time": "08:30 – 14:30",
+      "area": "GEDEELTE RINGWEG ZUID TUSSEN NIEUWE CHARLESBURGWEG EN LEO HEINEMANNSTRAAT, G"
     }
   ],
-  "last_updated": "2026-05-24T16:25:51.692517+00:00",
-  "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
-  "note": "Planned outage notices from EBS (Energie Bedrijven Suriname)."
+  "last_updated": "2026-05-24T16:38:13.516948+00:00",
+  "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
