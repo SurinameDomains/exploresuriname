@@ -1,0 +1,59 @@
+{
+  "date_range": "zaterdag 23 mei tot maandag 25 mei 2026",
+  "pharmacies": [
+    {
+      "name": "Apotheek Latour",
+      "address": "Awaristraat no. 01",
+      "phone": "481479"
+    },
+    {
+      "name": "Apotheek Meerzorg",
+      "address": "Weg naar Peperpot br. 01",
+      "phone": "354098"
+    }
+  ],
+  "doctors": [
+    {
+      "name": "Drs. Badal Giriradj; Gezondheidscentrum limesgracht (Alleen zaterdag & zondag ochtend)"
+    },
+    {
+      "name": "Drs. Jagnarain Arti; Polikliniek Flora"
+    },
+    {
+      "name": "Drs. Overeem Raief; Polikliniek Santodorp"
+    },
+    {
+      "name": "Drs. Basulto Marrero Anisbel; Polikliniek Domburg"
+    },
+    {
+      "name": "Drs. Mahabier Madhuri; Polikliniek Nieuwe Grond"
+    },
+    {
+      "name": "Drs. Jhanjan Cyril; Polkliniek Bernharddorp"
+    },
+    {
+      "name": "Drs. Carrion Castellanos Rigoberto; Gezondheidscentrum Meerzorg"
+    },
+    {
+      "name": "Drs. Brewster Frankel; Medisch Centrum Coronie (Alleen zondag)"
+    },
+    {
+      "name": "Drs. Balgobin Anil; Polikliniek Margrethenburg"
+    },
+    {
+      "name": "Drs. Oduardo Perez Alex; Polikliniek Groot-Henar"
+    },
+    {
+      "name": "Drs. Kromopawiro Rinat; Polikliniek Wageningen"
+    },
+    {
+      "name": "Drs. Valdes Betancourt Susana; Gezondheidscentrum Wonoredjo"
+    },
+    {
+      "name": "Drs. Macnack Vincent; Gezondheidscentrum Albina"
+    }
+  ],
+  "hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00u.",
+  "last_updated": "2026-05-24T03:58:55.222954+00:00",
+  "source": "http://www.rgd.sr/nl/zorg-aanbod/wachtdienst"
+}

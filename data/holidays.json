@@ -1,0 +1,25 @@
+{
+  "year": 2026,
+  "note": "Public holidays for Suriname 2026. Variable holidays (Holi, Eid, Easter) are approximate based on lunar/astronomical calendars. School breaks are approximate — verify with MINOV.",
+  "public": [
+    {"date": "2026-01-01", "name_nl": "Nieuwjaarsdag",          "name_en": "New Year's Day",         "type": "fixed"},
+    {"date": "2026-03-02", "name_nl": "Holi Phagwa",            "name_en": "Holi Phagwa",            "type": "variable", "note": "Hindu festival, lunar calendar"},
+    {"date": "2026-03-20", "name_nl": "Eid-ul-Fitr",            "name_en": "Eid-ul-Fitr",            "type": "variable", "note": "Islamic calendar, approximate"},
+    {"date": "2026-04-03", "name_nl": "Goede Vrijdag",          "name_en": "Good Friday",            "type": "variable"},
+    {"date": "2026-04-06", "name_nl": "Tweede Paasdag",         "name_en": "Easter Monday",          "type": "variable"},
+    {"date": "2026-05-01", "name_nl": "Dag van de Arbeid",      "name_en": "Labour Day",             "type": "fixed"},
+    {"date": "2026-05-14", "name_nl": "Vesak/Boeddha Dag",      "name_en": "Vesak / Buddha Day",    "type": "variable", "note": "Approximate"},
+    {"date": "2026-05-25", "name_nl": "Dag der Bevrijding",     "name_en": "Liberation Day",         "type": "variable", "note": "Ascension (also observed in Suriname)"},
+    {"date": "2026-07-01", "name_nl": "Keti Koti",              "name_en": "Keti Koti (Emancipation)","type": "fixed"},
+    {"date": "2026-08-09", "name_nl": "Dag der Inheemsen",      "name_en": "Day of Indigenous Peoples","type": "fixed"},
+    {"date": "2026-10-10", "name_nl": "Dag der Marrons",        "name_en": "Day of the Maroons",     "type": "fixed"},
+    {"date": "2026-11-25", "name_nl": "Onafhankelijkheidsdag",  "name_en": "Independence Day",       "type": "fixed"},
+    {"date": "2026-12-25", "name_nl": "Eerste Kerstdag",        "name_en": "Christmas Day",          "type": "fixed"},
+    {"date": "2026-12-26", "name_nl": "Tweede Kerstdag",        "name_en": "Boxing Day",             "type": "fixed"}
+  ],
+  "school_breaks": [
+    {"name": "Mid-year break",    "start": "2026-07-06", "end": "2026-08-28"},
+    {"name": "October break",     "start": "2026-10-19", "end": "2026-10-23"},
+    {"name": "Christmas break",   "start": "2026-12-21", "end": "2027-01-04"}
+  ]
+}
