@@ -4415,17 +4415,22 @@ def build_today_page():
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-    <!-- ── WACHTAPOTHEEK ─────────────────────────────────────────────── -->
+    <!-- ── WACHTDIENST ───────────────────────────────────────────────── -->
     <div class="widget-card">
       <div class="widget-head">
         <div class="flex items-center">
           <span class="widget-icon">&#128138;</span>
           <div>
-            <div class="widget-title">Wachtapotheek</div>
-            <div class="widget-sub">On-call pharmacy (weekend &amp; holidays)</div>
+            <div class="widget-title">Wachtdienst</div>
+            <div class="widget-sub">Doctors &amp; pharmacies on call</div>
           </div>
         </div>
         <span id="wacht-upd" class="upd-badge"></span>
+      </div>
+      <div style="padding:.5rem 1rem 0">
+        <select id="wacht-district" onchange="wachtFilter()" style="font-size:.75rem;padding:.25rem .5rem;border-radius:.375rem;border:1px solid #e5e7eb;background:#f9fafb;color:#374151;width:100%;max-width:220px">
+          <option value="all">All districts</option>
+        </select>
       </div>
       <div id="wacht-body" class="widget-body">
         <div class="skeleton" style="width:60%"></div>
@@ -4530,29 +4535,52 @@ function escHtml(s) {{
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }}
 
-/* ── wachtapotheek ───────────────────────────────────────────────────────── */
-fetch('/data/wachtdienst.json')
-  .then(r => r.ok ? r.json() : Promise.reject(r.status))
-  .then(d => {{
-    var upd = document.getElementById('wacht-upd');
-    if (upd && d.last_updated) upd.textContent = relTime(d.last_updated);
-    var body = document.getElementById('wacht-body');
-    if (!body) return;
+/* ── wachtdienst ─────────────────────────────────────────────────────────── */
+var _wachtData = null;
+function wachtFilter() {{
+  if (!_wachtData) return;
+  var d = _wachtData;
+  var sel = document.getElementById('wacht-district');
+  var district = sel ? sel.value : 'all';
+  var body = document.getElementById('wacht-body');
+  if (!body) return;
 
-    // check if data exists
-    var pharmas = d.pharmacies || [];
-    if (pharmas.length === 0) {{
-      body.innerHTML = '<p class="error-note">No wachtapotheek schedule found.<br>' +
-        '<a href="http://www.rgd.sr/nl/zorg-aanbod/wachtdienst" target="_blank" rel="noopener" class="src-link">Check rgd.sr directly</a> or call <strong>147</strong>.</p>';
-      return;
+  var docs = (d.doctors || []).filter(function(dr) {{
+    return district === 'all' || (dr.district || '').toLowerCase() === district.toLowerCase();
+  }});
+  var pharmas = d.pharmacies || [];
+
+  if (docs.length === 0 && pharmas.length === 0) {{
+    body.innerHTML = '<p class="error-note">No schedule found for this district.</p>';
+    return;
+  }}
+
+  var html = '';
+  if (d.date_range) {{
+    html += '<p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">' + escHtml(d.date_range) + '</p>';
+  }}
+
+  // Doctors section
+  if (docs.length > 0) {{
+    html += '<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1 mb-1">&#127973; Doctors on call</p>';
+    docs.forEach(function(dr) {{
+      html += '<div class="pharmacy-row">'
+            + '<div class="pharmacy-name">' + escHtml(dr.name)
+            + (dr.clinic ? ' <span style="font-weight:400;color:#6b7280">— ' + escHtml(dr.clinic) + '</span>' : '')
+            + '</div>';
+      if (dr.address) html += '<div class="pharmacy-addr">&#128205; ' + escHtml(dr.address) + '</div>';
+      if (dr.phone)   html += '<a href="tel:' + escHtml(dr.phone) + '" class="pharmacy-phone">&#128222; ' + escHtml(dr.phone) + '</a>';
+      if (dr.note)    html += '<div style="font-size:.7rem;color:#9ca3af;margin-top:.15rem">&#8505; ' + escHtml(dr.note) + '</div>';
+      html += '</div>';
+    }});
+    if (d.doctor_hours) {{
+      html += '<p class="text-xs text-gray-400 mt-2">&#128337; ' + escHtml(d.doctor_hours) + '</p>';
     }}
+  }}
 
-    var html = '';
-    // date range header
-    if (d.date_range) {{
-      html += '<p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">' + escHtml(d.date_range) + '</p>';
-    }}
-
+  // Pharmacies section
+  if (pharmas.length > 0) {{
+    html += '<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-3 mb-1">&#128138; Pharmacies on call</p>';
     pharmas.forEach(function(p) {{
       html += '<div class="pharmacy-row">'
             + '<div class="pharmacy-name">' + escHtml(p.name) + '</div>'
@@ -4560,12 +4588,38 @@ fetch('/data/wachtdienst.json')
             + (p.phone ? '<a href="tel:' + escHtml(p.phone) + '" class="pharmacy-phone">&#128222; ' + escHtml(p.phone) + '</a>' : '')
             + '</div>';
     }});
-
-    if (d.hours) {{
-      html += '<p class="text-xs text-gray-400 mt-3">&#128337; ' + escHtml(d.hours) + '</p>';
+    if (d.pharmacy_hours) {{
+      html += '<p class="text-xs text-gray-400 mt-2">&#128337; ' + escHtml(d.pharmacy_hours) + '</p>';
     }}
-    html += '<p class="text-xs text-gray-300 mt-3">Doctors on call: call <strong style="color:var(--forest)">147</strong></p>';
-    body.innerHTML = html;
+  }}
+
+  html += '<p class="text-xs text-gray-300 mt-2">Source: <a href="http://www.rgd.sr/nl/zorg-aanbod/wachtdienst" target="_blank" rel="noopener" class="src-link">rgd.sr</a> &bull; Emergency: <strong style="color:var(--forest)">147</strong></p>';
+  body.innerHTML = html;
+}}
+
+fetch('/data/wachtdienst.json')
+  .then(r => r.ok ? r.json() : Promise.reject(r.status))
+  .then(d => {{
+    _wachtData = d;
+    var upd = document.getElementById('wacht-upd');
+    if (upd && d.last_updated) upd.textContent = relTime(d.last_updated);
+
+    // Populate district selector
+    var sel = document.getElementById('wacht-district');
+    if (sel && d.doctors) {{
+      var districts = [];
+      d.doctors.forEach(function(dr) {{
+        if (dr.district && districts.indexOf(dr.district) < 0) districts.push(dr.district);
+      }});
+      districts.forEach(function(dist) {{
+        var opt = document.createElement('option');
+        opt.value = dist;
+        opt.textContent = dist;
+        sel.appendChild(opt);
+      }});
+    }}
+
+    wachtFilter();
   }})
   .catch(function() {{
     var body = document.getElementById('wacht-body');
@@ -4663,7 +4717,7 @@ fetch('/data/holidays.json')
     if (!body) return;
     var now = new Date(); now.setHours(0,0,0,0);
     var upcoming = (d.public || []).filter(function(h) {{
-      return new Date(h.date) >= now;
+      return new Date(h.date + 'T00:00:00') >= now;
     }}).slice(0, 6);
 
     if (upcoming.length === 0) {{
@@ -4673,7 +4727,7 @@ fetch('/data/holidays.json')
 
     // countdown to next
     var next = upcoming[0];
-    var nextDate = new Date(next.date);
+    var nextDate = new Date(next.date + 'T00:00:00');
     var days = Math.round((nextDate - now) / 86400000);
     var html = '<div class="countdown-box">'
       + '<div><div class="countdown-label">Next holiday</div><div style="font-size:.82rem;color:var(--forest2);font-weight:600;margin-top:.1rem">' + escHtml(next.name_en) + '</div></div>'
@@ -4681,7 +4735,7 @@ fetch('/data/holidays.json')
       + '</div>';
 
     upcoming.forEach(function(h) {{
-      var dt = new Date(h.date);
+      var dt = new Date(h.date + 'T00:00:00');
       var label = dt.toLocaleDateString('en-SR', {{month:'short', day:'numeric'}});
       html += '<div class="holiday-row">'
             + '<span class="holiday-name">' + escHtml(h.name_en) + '</span>'
@@ -4691,13 +4745,13 @@ fetch('/data/holidays.json')
 
     // school breaks
     var breaks = (d.school_breaks || []).filter(function(b) {{
-      return new Date(b.end) >= now;
+      return new Date(b.end + 'T00:00:00') >= now;
     }}).slice(0, 3);
     if (breaks.length > 0) {{
       html += '<p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-4 mb-2">School Breaks</p>';
       breaks.forEach(function(b) {{
-        var s = new Date(b.start).toLocaleDateString('en-SR', {{month:'short',day:'numeric'}});
-        var e = new Date(b.end).toLocaleDateString('en-SR',   {{month:'short',day:'numeric'}});
+        var s = new Date(b.start + 'T00:00:00').toLocaleDateString('en-SR', {{month:'short',day:'numeric'}});
+        var e = new Date(b.end + 'T00:00:00').toLocaleDateString('en-SR',   {{month:'short',day:'numeric'}});
         html += '<div class="holiday-row"><span class="holiday-name">' + escHtml(b.name) + '</span>'
               + '<span class="holiday-date">' + s + ' &ndash; ' + e + '</span></div>';
       }});
