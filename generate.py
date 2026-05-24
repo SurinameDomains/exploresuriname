@@ -2015,9 +2015,9 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}conditions.html"     {_link_cls("forecast")}       >Weather &amp; Tides</a>'
         f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")}  >Daily Notices</a>'
     )
-    # Plan Your Visit
+    # Visitor Guide
     plan_items = (
-        f'<a href="{prefix}visitor-guide.html"  {_link_cls("visitor")}  >Visitor Guide</a>'
+        f'<a href="{prefix}visitor-guide.html"  {_link_cls("visitor")}  >The Basics</a>'
         f'<a href="{prefix}on-the-road.html"    {_link_cls("roads")}    >On the Road</a>'
     )
 
@@ -2025,8 +2025,8 @@ def nav_html(active="home", prefix=""):
         _desktop_dd("dd-todo", "Things to Do",   todo_items,  _TODO) +
         _desktop_dd("dd-eat",  "Eat &amp; Stay", eat_items,   _EAT)  +
         f'<a href="{prefix}services.html" {_top_single_style("services")}>Local Services</a>' +
-        _desktop_dd("dd-ess",  "Essentials",     ess_items,   _ESS)  +
-        _desktop_dd("dd-plan", "Plan Your Visit", plan_items, _PLAN) +
+        _desktop_dd("dd-plan", "Visitor Guide",  plan_items, _PLAN) +
+        _desktop_dd("dd-ess",  "Essentials",     ess_items,  _ESS)  +
         f'<a href="{prefix}news.html" {_top_single_style("news")}>News</a>'
     )
 
@@ -2066,7 +2066,7 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}daily-notices.html", "Daily Notices", "daily-notices")
     )
     mob_plan_items = (
-        _mob_link(f"{prefix}visitor-guide.html", "Visitor Guide", "visitor") +
+        _mob_link(f"{prefix}visitor-guide.html", "The Basics",    "visitor") +
         _mob_link(f"{prefix}on-the-road.html",   "On the Road",   "roads")
     )
 
@@ -2083,8 +2083,8 @@ def nav_html(active="home", prefix=""):
         _mob_group("mg-todo", "Things to Do",    mob_todo_items,  _TODO) +
         _mob_group("mg-eat",  "Eat & Stay",      mob_eat_items,   _EAT)  +
         _svc_link +
+        _mob_group("mg-plan", "Visitor Guide",   mob_plan_items,  _PLAN) +
         _mob_group("mg-ess",  "Essentials",      mob_ess_items,   _ESS)  +
-        _mob_group("mg-plan", "Plan Your Visit", mob_plan_items,  _PLAN) +
         _news_link
     )
 
@@ -2309,7 +2309,7 @@ def footer_html(prefix=""):
           <li><a href="{prefix}flights.html"       class="hover:text-white transition">Flights</a></li>
           <li><a href="{prefix}conditions.html"       class="hover:text-white transition">Weather &amp; Tides</a></li>
           <li><a href="{prefix}daily-notices.html"    class="hover:text-white transition">Daily Notices</a></li>
-          <li><a href="{prefix}visitor-guide.html"    class="hover:text-white transition">Visitor Guide</a></li>
+          <li><a href="{prefix}visitor-guide.html"    class="hover:text-white transition">The Basics</a></li>
           <li><a href="{prefix}on-the-road.html"   class="hover:text-white transition">On the Road</a></li>
           <li><a href="{prefix}news.html"          class="hover:text-white transition">News</a></li>
         </ul>
@@ -2911,7 +2911,7 @@ def build_index(restaurants, hotels):
           <svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
         </div>
         <div>
-          <p class="font-semibold text-gray-900 mb-1">Visitor Guide</p>
+          <p class="font-semibold text-gray-900 mb-1">The Basics</p>
           <p class="text-gray-500 text-sm leading-relaxed">Visas, customs, SIM cards, ATMs, taxi apps and mobile payments for first-time visitors.</p>
         </div>
       </a>
@@ -4782,27 +4782,27 @@ fetch('/data/holidays.json')
 def build_visitor_guide_page():
     """Suriname Visitor Guide — static page covering visas, customs, SIM cards, money, transport and apps."""
     return f"""{PAGE_HEAD}
-  <title>Suriname Travel Guide | Visa, SIM Cards &amp; Money | Explore Suriname</title>
+  <title>The Basics &#8212; Suriname Travel Tips | Explore Suriname</title>
   <meta name="description" content="Everything a first-time visitor needs for Suriname: visa requirements, customs, SIM cards, ATMs, taxi apps, food delivery and mobile payments.">
   <link rel="canonical" href="{SITE_URL}/visitor-guide.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/visitor-guide.html">
-  <meta property="og:title" content="Suriname Travel Guide | Visa, SIM Cards &amp; Money | Explore Suriname">
+  <meta property="og:title" content="The Basics &#8212; Suriname Travel Tips | Explore Suriname">
   <meta property="og:description" content="Visa requirements, customs, SIM cards, best ATMs, taxi apps and tips for getting around Suriname. The practical stuff, in one place.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Suriname Travel Guide | Visa, SIM Cards &amp; Money | Explore Suriname">
+  <meta name="twitter:title" content="The Basics &#8212; Suriname Travel Tips | Explore Suriname">
   <meta name="twitter:description" content="Visa requirements, customs, SIM cards, best ATMs, taxi apps and tips for getting around Suriname.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Travel Guide | Visa, SIM Cards, ATMs & Getting Around","url":"{SITE_URL}/visitor-guide.html","description":"Practical guide for first-time visitors to Suriname: visa and entry requirements, customs declaration, SIM cards, ATMs, tipping, taxi apps, food delivery and mobile payments.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"The Basics — Suriname Travel Tips","url":"{SITE_URL}/visitor-guide.html","description":"Practical guide for first-time visitors to Suriname: visa and entry requirements, customs declaration, SIM cards, ATMs, tipping, taxi apps, food delivery and mobile payments.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{"@type":"Question","name":"Do I need a visa to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Most nationalities need a tourist visa or tourist card for Suriname, arranged through the VFS Global portal before departure. Some nationalities may be exempt. Check the official Suriname immigration requirements for your passport."}}}},{{"@type":"Question","name":"What currency is used in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The Surinamese Dollar (SRD) is the official currency. USD and EUR are accepted at some hotels and shops, but SRD is needed for most local transactions. ATMs dispensing SRD are widely available in Paramaribo."}}}},{{"@type":"Question","name":"Which SIM card should I buy in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Telesur and Digicel are the two main mobile operators. Telesur has broader 4G coverage across the country. Both sell prepaid SIM cards at the airport and shops in Paramaribo."}}}},{{"@type":"Question","name":"What taxi apps work in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname has local ride-hailing apps. Kura and TaxiSR are the most widely used in Paramaribo. Traditional metered taxis are also available."}}}},{{"@type":"Question","name":"What is the best way to get money in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"ATMs are the most convenient way to get SRD. Hakrinbank and DSB Bank ATMs are reliable and widely available in Paramaribo. Inform your bank before travelling to avoid card blocks."}}}},{{"@type":"Question","name":"Do I need vaccinations to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"A yellow fever vaccination certificate is required if you are arriving from a yellow fever risk country. Hepatitis A and B, typhoid and routine vaccines are generally recommended. Malaria prophylaxis is advised if you plan to travel into the interior rainforest. Consult a travel health clinic well before departure."}}}},{{"@type":"Question","name":"Is Suriname safe for tourists?","acceptedAnswer":{{"@type":"Answer","text":"Paramaribo is generally safe for tourists who take standard precautions. Petty theft can occur in busy areas. Avoid displaying valuables in public, use registered taxis or ride-hailing apps, and stay aware of your surroundings at night. The interior rainforest is best explored with a licensed guide."}}}},{{"@type":"Question","name":"What is the tipping culture in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Tipping is not mandatory but is welcomed for good service. At restaurants a tip of 5 to 10 percent is appropriate if no service charge is included. Taxi drivers do not generally expect a tip, though rounding up the fare is a common courtesy. Tour guides often appreciate a gratuity at the end of a tour."}}}}]}}
   </script>
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Suriname Travel Guide","item":"{SITE_URL}/visitor-guide.html"}}]}}
+  {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"The Basics","item":"{SITE_URL}/visitor-guide.html"}}]}}
   </script>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -4810,7 +4810,7 @@ def build_visitor_guide_page():
 <div class="pt-16"></div>
 <div class="text-white py-14 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Travel Guide</h1>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">The Basics</h1>
   <p class="text-white/65 text-lg max-w-xl mx-auto px-5">Visas, customs, SIM cards, money and getting around. The practical stuff, in one place.</p>
 </div>
 
