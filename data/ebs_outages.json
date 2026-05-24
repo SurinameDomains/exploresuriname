@@ -1,5 +1,26 @@
 {
-  "outages": [],
-  "last_updated": "2026-05-24T15:28:42.174511+00:00",
-  "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD DINSDAG 26 MEI 2026",
+      "date": "26 Mei 2026",
+      "date_iso": "2026-05-26",
+      "type": "planned",
+      "links": [
+        "https://nvebs.com/nieuws/1500/gepland-onderhoud-dinsdag-26-mei-2026",
+        "https://nvebs.com/nieuws/1499/gepland-onderhoud-dinsdag-26-mei-2026"
+      ]
+    },
+    {
+      "title": "GEPLAND ONDERHOUD MAANDAG 25 MEI 2026",
+      "date": "25 Mei 2026",
+      "date_iso": "2026-05-25",
+      "type": "planned",
+      "links": [
+        "https://nvebs.com/nieuws/1498/gepland-onderhoud-maandag-25-mei-2026"
+      ]
+    }
+  ],
+  "last_updated": "2026-05-24T15:55:46.130226+00:00",
+  "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
+  "note": "Planned outage notices from EBS (Energie Bedrijven Suriname)."
 }

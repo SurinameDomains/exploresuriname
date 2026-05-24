@@ -1,5 +1,55 @@
 {
   "date_range": "zaterdag 23 mei tot maandag 25 mei 2026",
+  "doctors": [
+    {
+      "name": "Drs. Badal Giriradj",
+      "clinic": "Gezondheidscentrum limesgracht",
+      "district": "Paramaribo",
+      "address": "Limesgracht no. 78",
+      "phone": "420506",
+      "note": "Alleen zaterdag & zondag ochtend"
+    },
+    {
+      "name": "Drs. Jagnarain Arti",
+      "clinic": "Polikliniek Flora",
+      "district": "Paramaribo",
+      "address": "Floralaan no. 23-25",
+      "phone": "464904",
+      "note": ""
+    },
+    {
+      "name": "Drs. Overeem Raief",
+      "clinic": "Polikliniek Santodorp",
+      "district": "Wanica",
+      "address": "Hk. Corresburg Nieuw-Weergevondenweg",
+      "phone": "487067",
+      "note": ""
+    },
+    {
+      "name": "Drs. Basulto Marrero Anisbel",
+      "clinic": "Polikliniek Domburg",
+      "district": "Wanica",
+      "address": "Herbertstraat perceel no. 15",
+      "phone": "340044",
+      "note": ""
+    },
+    {
+      "name": "Drs. Mahabier Madhuri",
+      "clinic": "Polikliniek Nieuwe Grond",
+      "district": "Wanica",
+      "address": "Indira Gandhiweg no. 12",
+      "phone": "585838",
+      "note": ""
+    },
+    {
+      "name": "Drs. Jhanjan Cyril",
+      "clinic": "Polkliniek Bernharddorp",
+      "district": "Para",
+      "address": "Indira Gandhiweg no. 894",
+      "phone": "352590",
+      "note": ""
+    }
+  ],
   "pharmacies": [
     {
       "name": "Apotheek Latour",
@@ -12,48 +62,8 @@
       "phone": "354098"
     }
   ],
-  "doctors": [
-    {
-      "name": "Drs. Badal Giriradj; Gezondheidscentrum limesgracht (Alleen zaterdag & zondag ochtend)"
-    },
-    {
-      "name": "Drs. Jagnarain Arti; Polikliniek Flora"
-    },
-    {
-      "name": "Drs. Overeem Raief; Polikliniek Santodorp"
-    },
-    {
-      "name": "Drs. Basulto Marrero Anisbel; Polikliniek Domburg"
-    },
-    {
-      "name": "Drs. Mahabier Madhuri; Polikliniek Nieuwe Grond"
-    },
-    {
-      "name": "Drs. Jhanjan Cyril; Polkliniek Bernharddorp"
-    },
-    {
-      "name": "Drs. Carrion Castellanos Rigoberto; Gezondheidscentrum Meerzorg"
-    },
-    {
-      "name": "Drs. Brewster Frankel; Medisch Centrum Coronie (Alleen zondag)"
-    },
-    {
-      "name": "Drs. Balgobin Anil; Polikliniek Margrethenburg"
-    },
-    {
-      "name": "Drs. Oduardo Perez Alex; Polikliniek Groot-Henar"
-    },
-    {
-      "name": "Drs. Kromopawiro Rinat; Polikliniek Wageningen"
-    },
-    {
-      "name": "Drs. Valdes Betancourt Susana; Gezondheidscentrum Wonoredjo"
-    },
-    {
-      "name": "Drs. Macnack Vincent; Gezondheidscentrum Albina"
-    }
-  ],
-  "hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00u.",
-  "last_updated": "2026-05-24T15:29:15.252254+00:00",
+  "doctor_hours": "Spreekuren: zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
+  "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00u.",
+  "last_updated": "2026-05-24T15:55:47.282535+00:00",
   "source": "http://www.rgd.sr/nl/zorg-aanbod/wachtdienst"
 }
