@@ -4449,7 +4449,7 @@ def build_today_page():
         <div class="flex items-center">
           <div>
             <div class="widget-title">EBS Power Outages</div>
-            <div class="widget-sub">Planned interruptions</div>
+            <div class="widget-sub">Planned &amp; active interruptions</div>
           </div>
         </div>
         <span id="ebs-upd" class="upd-badge"></span>
@@ -4702,26 +4702,56 @@ fetch('/data/ebs_outages.json')
       return;
     }}
 
-    var html = '<div class="mb-3">' + pill('planned') + '</div>';
+    // Suriname is UTC-3; determine current local time for active detection
+    var nowSR = new Date(Date.now() - 3 * 60 * 60 * 1000);
+    var todayISO = nowSR.toISOString().slice(0, 10);
+    var nowMins = nowSR.getUTCHours() * 60 + nowSR.getUTCMinutes();
 
-    outages.forEach(function(o) {{
-      // Build header line: "[District] — [Date]" or just "[Date]"
-      var header = o.district ? escHtml(o.district) + ' — ' + escHtml(o.date) : escHtml(o.date);
-      // Time window
-      var timeStr = o.time ? escHtml(o.time) : '';
-      // Streets — title-case the ALL-CAPS string, flag as truncated if ends abruptly
-      var areaRaw = o.area || '';
-      var area = areaRaw.replace(/(\w)(\w*)/g, function(_, a, b){{ return a + b.toLowerCase(); }});
-      var truncated = areaRaw.length > 0 && !areaRaw.match(/[.!?]$/);
-      var link = o.link || 'https://nvebs.com/elektriciteit/stroom-onderbrekingen';
+    function parseHHMM(s) {{
+      var m = s && s.match(/(\d{{1,2}}):(\d{{2}})/);
+      return m ? parseInt(m[1], 10) * 60 + parseInt(m[2], 10) : null;
+    }}
+    function isActiveNow(o) {{
+      if (o.date_iso !== todayISO) return false;
+      if (!o.time) return true;
+      var parts = o.time.split(/[–\-]/);
+      var start = parseHHMM(parts[0]);
+      var end   = parseHHMM(parts[1]);
+      if (start === null) return false;
+      return nowMins >= start && (end === null || nowMins <= end);
+    }}
 
-      html += '<div class="outage-row">'
-            + '<div class="outage-area">' + header + '</div>'
-            + (timeStr ? '<div class="outage-desc" style="color:#374151">' + timeStr + '</div>' : '')
-            + (area    ? '<div class="outage-desc">' + area + (truncated ? '…' : '') + '</div>' : '')
-            + '<div class="outage-date"><a href="' + escHtml(link) + '" target="_blank" rel="noopener" class="src-link">Full details on nvebs.com</a></div>'
-            + '</div>';
-    }});
+    var activeOut  = outages.filter(function(o) {{ return isActiveNow(o); }});
+    var plannedOut = outages.filter(function(o) {{ return !isActiveNow(o); }});
+
+    function renderRows(list) {{
+      var h = '';
+      list.forEach(function(o) {{
+        var header = o.district ? escHtml(o.district) + ' — ' + escHtml(o.date) : escHtml(o.date);
+        var timeStr = o.time ? escHtml(o.time) : '';
+        var areaRaw = o.area || '';
+        var area = areaRaw.replace(/(\w)(\w*)/g, function(_, a, b){{ return a + b.toLowerCase(); }});
+        var truncated = areaRaw.length > 0 && !areaRaw.match(/[.!?]$/);
+        var link = o.link || 'https://nvebs.com/elektriciteit/stroom-onderbrekingen';
+        h += '<div class="outage-row">'
+           + '<div class="outage-area">' + header + '</div>'
+           + (timeStr ? '<div class="outage-desc" style="color:#374151">' + timeStr + '</div>' : '')
+           + (area    ? '<div class="outage-desc">' + area + (truncated ? '…' : '') + '</div>' : '')
+           + '<div class="outage-date"><a href="' + escHtml(link) + '" target="_blank" rel="noopener" class="src-link">Full details on nvebs.com</a></div>'
+           + '</div>';
+      }});
+      return h;
+    }}
+
+    var html = '';
+    if (activeOut.length > 0) {{
+      html += '<div class="mb-3">' + pill('active') + '</div>';
+      html += renderRows(activeOut);
+    }}
+    if (plannedOut.length > 0) {{
+      html += '<div class="' + (activeOut.length ? 'mt-4 ' : '') + 'mb-3">' + pill('planned') + '</div>';
+      html += renderRows(plannedOut);
+    }}
 
     html += '<p class="text-xs text-gray-300 mt-3">Source: <a href="https://nvebs.com/elektriciteit/stroom-onderbrekingen" target="_blank" rel="noopener" class="src-link">nvebs.com</a></p>';
     body.innerHTML = html;
