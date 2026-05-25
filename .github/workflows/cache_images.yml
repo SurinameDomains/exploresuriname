@@ -1,4 +1,8 @@
-name: Update Site
+name: Cache External Images
+
+# Run this manually after adding new listings that have external image URLs.
+# It does a full site rebuild so cache_images.py can find and rewrite all
+# new image references, then commits the downloaded images and updated HTML.
 
 on:
   workflow_dispatch:
@@ -11,7 +15,7 @@ permissions:
   contents: write
 
 jobs:
-  build-and-deploy:
+  cache-images:
     runs-on: ubuntu-latest
 
     steps:
@@ -40,6 +44,9 @@ jobs:
           AERODATABOX_KEY:   ${{ secrets.AERODATABOX_KEY }}
         run: python generate.py
 
+      - name: Cache external images
+        run: python cache_images.py
+
       - name: Commit and push
         run: |
           git config user.name  "github-actions[bot]"
@@ -53,7 +60,7 @@ jobs:
           git add flights_cache.json flights_cache_smeg.json || true
           git add manifest.webmanifest sw.js offline.html icons/ || true
           git add 34e092d0-1f92-4a82-9ecf-b442b53d80a0.txt || true
-          git diff --staged --quiet || git commit -m "Auto-update $(TZ='America/Paramaribo' date '+%Y-%m-%d %H:%M') SR"
+          git diff --staged --quiet || git commit -m "chore: cache new listing images [$(TZ='America/Paramaribo' date '+%Y-%m-%d %H:%M') SR]"
           git pull --rebase origin main
           git push
 
