@@ -143,7 +143,7 @@ NATURE_SPOTS = [
      "desc": "The only wooden colonial city in the Americas. Dutch colonial architecture, Hindu temples, mosques and synagogues coexist in remarkable harmony along the Suriname River.",
      "tags": ["UNESCO", "History", "Culture"],
      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
-     "fact": "2 UNESCO sites in one country", "url": "https://whc.unesco.org/en/list/940/"},
+     "fact": "3 UNESCO sites in one country", "url": "https://whc.unesco.org/en/list/940/"},
     {"name": "Bigi Pan Nature Reserve", "badge": "Flamingo Haven",
      "desc": "One of the largest mangrove areas in the Caribbean region, home to spectacular flamingo flocks and extraordinary coastal birdlife.",
      "tags": ["Flamingos", "Mangroves", "Coastal Birds"],
@@ -2321,7 +2321,7 @@ def footer_html(prefix=""):
           <li>Languages: Dutch, Sranan Tongo + 9 more</li>
           <li>Currency: Surinamese Dollar (SRD)</li>
           <li>Climate: Tropical, ~28&#176;C year-round</li>
-          <li>2 UNESCO World Heritage Sites</li>
+          <li>3 UNESCO World Heritage Sites</li>
         </ul>
       </div>
       <div>
@@ -2768,7 +2768,7 @@ def build_index(restaurants, hotels):
   <div class="relative z-10 text-center text-white px-5 max-w-4xl mx-auto" style="padding-top:5rem;padding-bottom:6rem">
     <p class="text-xs font-semibold tracking-widest uppercase mb-6" style="color:var(--coral)">South America&apos;s Hidden Gem</p>
     <h1 class="serif font-black leading-tight mb-6" style="font-size:clamp(2.5rem,8vw,5.5rem)">The Amazon&#8217;s<br>Best-Kept Secret</h1>
-    <p class="text-xl font-light leading-relaxed mb-10 max-w-2xl mx-auto text-white/90">94% pristine rainforest. Unmatched biodiversity. Two UNESCO World Heritage Sites. Welcome to Suriname.</p>
+    <p class="text-xl font-light leading-relaxed mb-10 max-w-2xl mx-auto text-white/90">94% pristine rainforest. Unmatched biodiversity. Three UNESCO World Heritage Sites. Welcome to Suriname.</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <a href="#nature" class="px-8 py-4 rounded-full font-semibold text-lg text-white hover:opacity-90 transition shadow-lg" style="background:var(--forest)">Start Exploring</a>
       <a href="#travel-tools" class="px-8 py-4 rounded-full font-semibold text-lg text-white border-2 hover:bg-white/10 transition" style="border-color:rgba(255,255,255,.6)">Travel Tools</a>
@@ -2783,7 +2783,7 @@ def build_index(restaurants, hotels):
   <div class="max-w-5xl mx-auto px-5 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
     <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Climate</p><p class="font-semibold">Tropical, ~28&#176;C</p></div>
     <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Forest Cover</p><p class="font-semibold">94% Rainforest</p></div>
-    <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">UNESCO Sites</p><p class="font-semibold">2 World Heritage Sites</p></div>
+    <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">UNESCO Sites</p><p class="font-semibold">3 World Heritage Sites</p></div>
     <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Bird Species</p><p class="font-semibold">700+ Species</p></div>
   </div>
 </section>
@@ -4348,17 +4348,17 @@ def build_today_page():
     """Suriname Today — daily essentials: wachtdienst, SWM, EBS, public holidays."""
     today_str = datetime.now(SR_TZ).strftime("%A, %d %B %Y")
     return f"""{PAGE_HEAD}
-  <title>Daily Notices &#8212; Suriname | Explore Suriname</title>
+  <title>Daily Notices | Suriname | Explore Suriname</title>
   <meta name="description" content="Daily Notices for Suriname: on-call pharmacies, EBS power outages, SWM water outages, and public holidays. Auto-updated daily.">
   <link rel="canonical" href="{SITE_URL}/daily-notices.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/daily-notices.html">
-  <meta property="og:title" content="Daily Notices &#8212; Suriname | Explore Suriname">
+  <meta property="og:title" content="Daily Notices | Suriname | Explore Suriname">
   <meta property="og:description" content="On-call pharmacies, EBS power outages, SWM water outages, public holidays. Auto-updated daily.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Daily Notices &#8212; Suriname | Explore Suriname">
+  <meta name="twitter:title" content="Daily Notices | Suriname | Explore Suriname">
   <meta name="twitter:description" content="On-call pharmacies, EBS power outages, SWM water outages, public holidays. Auto-updated daily.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
@@ -4418,8 +4418,6 @@ def build_today_page():
 <main class="max-w-4xl mx-auto px-4 py-10 pb-24">
 
   <!-- intro note -->
-  <p class="text-center text-gray-400 text-xs mb-8">Data is pulled automatically from official sources and refreshed throughout the day.</p>
-
   <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
     <!-- ── ON-CALL SERVICE ──────────────────────────────────────────────── -->
@@ -4583,7 +4581,9 @@ function wachtFilter() {{
 
   // Pharmacies section
   if (pharmas.length > 0) {{
-    html += '<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-3 mb-1">Pharmacies on call</p>';
+    html += '<div style="margin:.75rem -.25rem .5rem;padding:.45rem .75rem;background:var(--mint);border-radius:.5rem">'
+          + '<p class="text-xs font-semibold uppercase tracking-wide" style="color:var(--forest)">&#128138; Pharmacies on call</p>'
+          + '</div>';
     pharmas.forEach(function(p) {{
       html += '<div class="pharmacy-row">'
             + '<div class="pharmacy-name">' + escHtml(p.name) + '</div>'
@@ -4782,17 +4782,17 @@ fetch('/data/holidays.json')
 def build_visitor_guide_page():
     """Suriname Visitor Guide — static page covering visas, customs, SIM cards, money, transport and apps."""
     return f"""{PAGE_HEAD}
-  <title>The Basics &#8212; Suriname Travel Tips | Explore Suriname</title>
+  <title>The Basics | Suriname Travel Tips | Explore Suriname</title>
   <meta name="description" content="Everything a first-time visitor needs for Suriname: visa requirements, customs, SIM cards, ATMs, taxi apps, food delivery and mobile payments.">
   <link rel="canonical" href="{SITE_URL}/visitor-guide.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/visitor-guide.html">
-  <meta property="og:title" content="The Basics &#8212; Suriname Travel Tips | Explore Suriname">
+  <meta property="og:title" content="The Basics | Suriname Travel Tips | Explore Suriname">
   <meta property="og:description" content="Visa requirements, customs, SIM cards, best ATMs, taxi apps and tips for getting around Suriname. The practical stuff, in one place.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="The Basics &#8212; Suriname Travel Tips | Explore Suriname">
+  <meta name="twitter:title" content="The Basics | Suriname Travel Tips | Explore Suriname">
   <meta name="twitter:description" content="Visa requirements, customs, SIM cards, best ATMs, taxi apps and tips for getting around Suriname.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
