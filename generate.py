@@ -3034,7 +3034,7 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
     </div>'''
         oil_badge_html = f'<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">&#9679; {brent_updated}</span>'
     else:
-        brent_grid_html = '<p class="text-gray-400 text-sm">Price unavailable &mdash; will update on next rebuild.</p>'
+        brent_grid_html = '<p class="text-gray-400 text-sm">Price unavailable. Will update on next rebuild.</p>'
         oil_badge_html = '<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0">Unavailable</span>'
 
     def badge(is_live):
@@ -3164,20 +3164,20 @@ doConvert();"""
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">SRD Exchange Rates</h1>
-  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">SRD exchange rates &mdash; CBVS 3&times; daily &bull; CME continuous &bull; live gold spot price</p>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">CBVS 3&times; daily (business days) &bull; CME continuous &bull; live gold &amp; Brent oil</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
   <div class="rounded-2xl border border-amber-200 p-6 mb-8" style="background:#fffbeb">
     <p class="text-amber-900 text-sm leading-relaxed">
       <strong class="text-amber-800">&#128161; What&apos;s the difference?</strong>
       <strong>CBVS</strong> is the Central Bank of Suriname&apos;s official reference rate used for banking.
-      <strong>CME</strong> (Central Money Exchange) shows cash rates at local exchange offices &mdash; what you actually get when exchanging banknotes.
+      <strong>CME</strong> (Central Money Exchange) shows cash rates at local exchange offices: what you actually get when exchanging banknotes.
       &ldquo;We Buy&rdquo; is what they pay when you sell foreign currency; &ldquo;We Sell&rdquo; is what you pay to buy foreign currency.
     </p>
   </div>
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-10">
     <h2 class="serif text-2xl font-bold text-gray-900 mb-1">Currency Converter</h2>
-    <p class="text-gray-400 text-sm mb-7">Using CME cash rates &mdash; typical exchange-office rates</p>
+    <p class="text-gray-400 text-sm mb-7">Using CME cash rates (typical exchange-office rates)</p>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
       <div>
         <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Amount</label>
@@ -3204,7 +3204,7 @@ doConvert();"""
       <p id="cv-result" class="text-3xl font-bold text-gray-900 font-mono">&#8212;</p>
       <p id="cv-note"   class="text-xs mt-1" style="color:var(--forest2)">Enter an amount above</p>
     </div>
-    <p class="text-gray-400 text-xs text-center mt-3">Rates are indicative only &mdash; confirm with your exchange office before transacting</p>
+    <p class="text-gray-400 text-xs text-center mt-3">Rates are indicative only. Confirm with your exchange office before transacting.</p>
   </div>
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden order-2 lg:order-1">
@@ -3237,7 +3237,7 @@ doConvert();"""
         <div class="flex items-start justify-between gap-2">
           <div>
             <p class="font-bold text-gray-900 text-base">CME Cash Rates {badge(cme_live)}</p>
-            <p class="text-gray-400 text-xs mt-0.5">Central Money Exchange &mdash; local market rate</p>
+            <p class="text-gray-400 text-xs mt-0.5">Central Money Exchange (local market rate)</p>
           </div>
           <a href="https://www.cme.sr" target="_blank" rel="noopener noreferrer"
              class="text-xs font-semibold shrink-0 hover:underline" style="color:var(--forest2)">cme.sr &#8599;</a>
@@ -3267,7 +3267,7 @@ doConvert();"""
     <div class="flex items-start justify-between mb-5">
       <div>
         <h2 class="serif text-2xl font-bold text-gray-900">&#129351; Gold Price</h2>
-        <p class="text-gray-400 text-sm mt-1">XAU — spot price, live from markets &mdash; via <a href="https://gold-api.com" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">gold-api.com</a></p>
+        <p class="text-gray-400 text-sm mt-1">XAU spot price, live from markets via <a href="https://gold-api.com" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">gold-api.com</a></p>
       </div>
       <span id="gold-badge" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0">Loading…</span>
     </div>
@@ -3292,7 +3292,7 @@ doConvert();"""
     <div class="flex items-start justify-between mb-5">
       <div>
         <h2 class="serif text-2xl font-bold text-gray-900">&#128739;&#xFE0E; Brent Crude Oil</h2>
-        <p class="text-gray-400 text-sm mt-1">Brent Crude &mdash; updated hourly</p>
+        <p class="text-gray-400 text-sm mt-1">Brent Crude, updated hourly</p>
       </div>
       {oil_badge_html}
     </div>
@@ -5121,7 +5121,7 @@ def build_about_page():
       </div>
       <div class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
-        <span><strong>Market Rates</strong> &mdash; SRD exchange rates updated three times daily from CBVS and CME</span>
+        <span><strong>Market Rates</strong>: SRD exchange rates updated three times daily (business days) from CBVS and CME</span>
       </div>
       <div class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
