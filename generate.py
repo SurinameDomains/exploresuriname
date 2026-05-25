@@ -4537,6 +4537,15 @@ function escHtml(s) {{
 }}
 
 /* ── wachtdienst ─────────────────────────────────────────────────────────── */
+function nlToEn(s) {{
+  if (!s) return s;
+  var days   = {{maandag:'Monday',dinsdag:'Tuesday',woensdag:'Wednesday',donderdag:'Thursday',vrijdag:'Friday',zaterdag:'Saturday',zondag:'Sunday'}};
+  var months = {{januari:'January',februari:'February',maart:'March',april:'April',mei:'May',juni:'June',juli:'July',augustus:'August',september:'September',oktober:'October',november:'November',december:'December'}};
+  return s.replace(/\b(maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag)\b/gi, function(m) {{ return days[m.toLowerCase()] || m; }})
+          .replace(/\b(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)\b/gi, function(m) {{ return months[m.toLowerCase()] || m; }})
+          .replace(/\btot\b/g, 'to');
+}}
+
 var _wachtData = null;
 function wachtFilter() {{
   if (!_wachtData) return;
@@ -4558,12 +4567,14 @@ function wachtFilter() {{
 
   var html = '';
   if (d.date_range) {{
-    html += '<p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">' + escHtml(d.date_range) + '</p>';
+    html += '<p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">' + escHtml(nlToEn(d.date_range)) + '</p>';
   }}
 
   // Doctors section
   if (docs.length > 0) {{
-    html += '<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1 mb-1">Doctors on call</p>';
+    html += '<div style="margin:.75rem -.25rem .5rem;padding:.45rem .75rem;background:var(--mint);border-radius:.5rem">'
+          + '<p class="text-xs font-semibold uppercase tracking-wide" style="color:var(--forest)">Doctors on call</p>'
+          + '</div>';
     docs.forEach(function(dr) {{
       html += '<div class="pharmacy-row">'
             + '<div class="pharmacy-name">' + escHtml(dr.name)
@@ -4582,7 +4593,7 @@ function wachtFilter() {{
   // Pharmacies section
   if (pharmas.length > 0) {{
     html += '<div style="margin:.75rem -.25rem .5rem;padding:.45rem .75rem;background:var(--mint);border-radius:.5rem">'
-          + '<p class="text-xs font-semibold uppercase tracking-wide" style="color:var(--forest)">&#128138; Pharmacies on call</p>'
+          + '<p class="text-xs font-semibold uppercase tracking-wide" style="color:var(--forest)">Pharmacies on call</p>'
           + '</div>';
     pharmas.forEach(function(p) {{
       html += '<div class="pharmacy-row">'
