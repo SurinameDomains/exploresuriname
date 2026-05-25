@@ -33,17 +33,17 @@
   <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
   <!-- Google tag (gtag.js) -->
   <script>window.addEventListener("load",function(){var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-6LTYHZYNSF");});</script>
-  <title>Daily Notices &#8212; Suriname | Explore Suriname</title>
+  <title>Daily Notices | Suriname | Explore Suriname</title>
   <meta name="description" content="Daily Notices for Suriname: on-call pharmacies, EBS power outages, SWM water outages, and public holidays. Auto-updated daily.">
   <link rel="canonical" href="https://exploresuriname.com/daily-notices.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="https://exploresuriname.com/daily-notices.html">
-  <meta property="og:title" content="Daily Notices &#8212; Suriname | Explore Suriname">
+  <meta property="og:title" content="Daily Notices | Suriname | Explore Suriname">
   <meta property="og:description" content="On-call pharmacies, EBS power outages, SWM water outages, public holidays. Auto-updated daily.">
   <meta property="og:image" content="https://exploresuriname.com/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Daily Notices &#8212; Suriname | Explore Suriname">
+  <meta name="twitter:title" content="Daily Notices | Suriname | Explore Suriname">
   <meta name="twitter:description" content="On-call pharmacies, EBS power outages, SWM water outages, public holidays. Auto-updated daily.">
   <meta name="twitter:image" content="https://exploresuriname.com/og-image.jpg">
   <script type="application/ld+json">
@@ -295,8 +295,6 @@ document.addEventListener('keydown', e => {
 <main class="max-w-4xl mx-auto px-4 py-10 pb-24">
 
   <!-- intro note -->
-  <p class="text-center text-gray-400 text-xs mb-8">Data is pulled automatically from official sources and refreshed throughout the day.</p>
-
   <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
     <!-- ── ON-CALL SERVICE ──────────────────────────────────────────────── -->
@@ -427,7 +425,7 @@ document.addEventListener('keydown', e => {
           <li>Languages: Dutch, Sranan Tongo + 9 more</li>
           <li>Currency: Surinamese Dollar (SRD)</li>
           <li>Climate: Tropical, ~28&#176;C year-round</li>
-          <li>2 UNESCO World Heritage Sites</li>
+          <li>3 UNESCO World Heritage Sites</li>
         </ul>
       </div>
       <div>
@@ -528,7 +526,9 @@ function wachtFilter() {
 
   // Pharmacies section
   if (pharmas.length > 0) {
-    html += '<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-3 mb-1">Pharmacies on call</p>';
+    html += '<div style="margin:.75rem -.25rem .5rem;padding:.45rem .75rem;background:var(--mint);border-radius:.5rem">'
+          + '<p class="text-xs font-semibold uppercase tracking-wide" style="color:var(--forest)">&#128138; Pharmacies on call</p>'
+          + '</div>';
     pharmas.forEach(function(p) {
       html += '<div class="pharmacy-row">'
             + '<div class="pharmacy-name">' + escHtml(p.name) + '</div>'
