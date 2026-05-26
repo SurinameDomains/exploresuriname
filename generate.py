@@ -2819,7 +2819,7 @@ def build_index(restaurants, hotels):
     <div class="text-center mb-10 md:mb-16">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Eat &amp; Drink</p>
       <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Where to Eat</h2>
-      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Suriname&apos;s cuisine is as diverse as its people — Creole, Hindustani, Javanese, Chinese and Maroon flavors.</p>
+      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Suriname&apos;s cuisine is as diverse as its people: Creole, Hindustani, Javanese, Chinese and Maroon flavors.</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{rest_cards}</div>
     <div class="text-center mt-10">{more_btn("restaurants.html", f"View all {len(RESTAURANTS)} restaurants")}</div>
@@ -3827,7 +3827,7 @@ def build_listing_page(slug, b):
         }
         biz_type = _SUBCAT_LABELS.get(sub, "business")
         desc_e = html_lib.escape(
-            f"{raw_name} — {biz_type} in {loc_part}, Suriname. "
+            f"{raw_name}, {biz_type} in {loc_part}, Suriname. "
             f"View location, contact info & more on ExploreSuriname.com."
         )[:160]
     # Use slug-based lookup (reliable) instead of category-text matching (error-prone)
@@ -4300,11 +4300,11 @@ def build_nature_listing_page(spot, slug):
         + '">\n  <link rel="canonical" href="' + page_url
         + '">\n  <meta property="og:type" content="website">\n  <meta property="og:site_name" content="Explore Suriname">\n  <meta property="og:url" content="'
         + page_url
-        + '">\n  <meta property="og:title" content="' + name_e + ' â Nature Park in Suriname | ExploreSuriname">\n  <meta property="og:description" content="'
+        + '">\n  <meta property="og:title" content="' + name_e + ', Nature Park in Suriname | ExploreSuriname">\n  <meta property="og:description" content="'
         + desc_e
         + '">\n  <meta property="og:image" content="' + og_img
         + '">\n  <meta name="twitter:card" content="summary_large_image">\n  <meta name="twitter:title" content="'
-        + name_e + ' â Nature Park in Suriname | ExploreSuriname">\n  <meta name="twitter:description" content="'
+        + name_e + ', Nature Park in Suriname | ExploreSuriname">\n  <meta name="twitter:description" content="'
         + desc_e + '">\n  <meta name="twitter:image" content="'
         + og_img + '">'
         + nat_ld_scripts
@@ -4362,7 +4362,7 @@ def build_today_page():
   <meta name="twitter:description" content="On-call pharmacies, EBS power outages, SWM water outages, public holidays. Auto-updated daily.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Daily Notices — Suriname","url":"{SITE_URL}/daily-notices.html","description":"Daily Suriname essentials: on-call pharmacies, power and water outage notices, public holidays and school breaks.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Daily Notices, Suriname","url":"{SITE_URL}/daily-notices.html","description":"Daily Suriname essentials: on-call pharmacies, power and water outage notices, public holidays and school breaks.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Daily Notices","item":"{SITE_URL}/daily-notices.html"}}]}}
@@ -4578,7 +4578,7 @@ function wachtFilter() {{
     docs.forEach(function(dr) {{
       html += '<div class="pharmacy-row">'
             + '<div class="pharmacy-name">' + escHtml(dr.name)
-            + (dr.clinic ? ' <span style="font-weight:400;color:#6b7280">— ' + escHtml(dr.clinic) + '</span>' : '')
+            + (dr.clinic ? ' <span style="font-weight:400;color:#6b7280">' + escHtml(dr.clinic) + '</span>' : '')
             + '</div>';
       if (dr.address) html += '<div class="pharmacy-addr">' + escHtml(dr.address) + '</div>';
       if (dr.phone)   html += '<a href="tel:' + escHtml(dr.phone) + '" class="pharmacy-phone">Tel: ' + escHtml(dr.phone) + '</a>';
@@ -4727,7 +4727,7 @@ fetch('/data/ebs_outages.json')
     function renderRows(list) {{
       var h = '';
       list.forEach(function(o) {{
-        var header = o.district ? escHtml(o.district) + ' — ' + escHtml(o.date) : escHtml(o.date);
+        var header = o.district ? escHtml(o.district) + ': ' + escHtml(o.date) : escHtml(o.date);
         var timeStr = o.time ? escHtml(o.time) : '';
         var areaRaw = o.area || '';
         var area = areaRaw.replace(/(\w)(\w*)/g, function(_, a, b){{ return a + b.toLowerCase(); }});
@@ -4837,7 +4837,7 @@ def build_visitor_guide_page():
   <meta name="twitter:description" content="Visa requirements, customs, SIM cards, best ATMs, taxi apps and tips for getting around Suriname.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"The Basics — Suriname Travel Tips","url":"{SITE_URL}/visitor-guide.html","description":"Practical guide for first-time visitors to Suriname: visa and entry requirements, customs declaration, SIM cards, ATMs, tipping, taxi apps, food delivery and mobile payments.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"The Basics: Suriname Travel Tips","url":"{SITE_URL}/visitor-guide.html","description":"Practical guide for first-time visitors to Suriname: visa and entry requirements, customs declaration, SIM cards, ATMs, tipping, taxi apps, food delivery and mobile payments.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{"@type":"Question","name":"Do I need a visa to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Most nationalities need a tourist visa or tourist card for Suriname, arranged through the VFS Global portal before departure. Some nationalities may be exempt. Check the official Suriname immigration requirements for your passport."}}}},{{"@type":"Question","name":"What currency is used in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The Surinamese Dollar (SRD) is the official currency. USD and EUR are accepted at some hotels and shops, but SRD is needed for most local transactions. ATMs dispensing SRD are widely available in Paramaribo."}}}},{{"@type":"Question","name":"Which SIM card should I buy in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Telesur and Digicel are the two main mobile operators. Telesur has broader 4G coverage across the country. Both sell prepaid SIM cards at the airport and shops in Paramaribo."}}}},{{"@type":"Question","name":"What taxi apps work in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname has local ride-hailing apps. Kura and TaxiSR are the most widely used in Paramaribo. Traditional metered taxis are also available."}}}},{{"@type":"Question","name":"What is the best way to get money in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"ATMs are the most convenient way to get SRD. Hakrinbank and DSB Bank ATMs are reliable and widely available in Paramaribo. Inform your bank before travelling to avoid card blocks."}}}},{{"@type":"Question","name":"Do I need vaccinations to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"A yellow fever vaccination certificate is required if you are arriving from a yellow fever risk country. Hepatitis A and B, typhoid and routine vaccines are generally recommended. Malaria prophylaxis is advised if you plan to travel into the interior rainforest. Consult a travel health clinic well before departure."}}}},{{"@type":"Question","name":"Is Suriname safe for tourists?","acceptedAnswer":{{"@type":"Answer","text":"Paramaribo is generally safe for tourists who take standard precautions. Petty theft can occur in busy areas. Avoid displaying valuables in public, use registered taxis or ride-hailing apps, and stay aware of your surroundings at night. The interior rainforest is best explored with a licensed guide."}}}},{{"@type":"Question","name":"What is the tipping culture in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Tipping is not mandatory but is welcomed for good service. At restaurants a tip of 5 to 10 percent is appropriate if no service charge is included. Taxi drivers do not generally expect a tip, though rounding up the fare is a common courtesy. Tour guides often appreciate a gratuity at the end of a tour."}}}}]}}
@@ -5114,7 +5114,7 @@ def build_about_page():
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
     <h2 class="serif text-2xl font-bold text-gray-900 mb-4">What is Explore Suriname?</h2>
     <p class="text-gray-700 leading-relaxed mb-4">
-      Explore Suriname is an independent online guide to everything Suriname has to offer — restaurants,
+      Explore Suriname is an independent online guide to everything Suriname has to offer: restaurants,
       hotels and guesthouses, nature reserves, activities, shopping, local services, live currency rates,
       flight schedules, weather forecasts and daily news.
     </p>
@@ -5617,7 +5617,7 @@ def build_offline():
 <div class="text-white py-20 text-center" style="background:var(--forest)">
   <p class="text-6xl mb-4">🌿</p>
   <h1 class="serif text-4xl font-bold mb-3">You're offline</h1>
-  <p class="text-white/70 text-lg max-w-sm mx-auto px-5">Check your connection and try again — or explore pages you've already visited.</p>
+  <p class="text-white/70 text-lg max-w-sm mx-auto px-5">Check your connection and try again. Or explore pages you've already visited.</p>
   <button onclick="location.reload()"
     class="mt-8 inline-block px-8 py-3 rounded-full font-semibold text-white border-2 border-white/50 hover:bg-white/10 transition">
     Try again
@@ -5866,7 +5866,7 @@ def build_conditions_page(tides_data):
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
 
-  <!-- Weather — district selector -->
+  <!-- Weather: district selector -->
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mb-6">
     <div class="flex items-start justify-between mb-4">
       <div>
@@ -6198,7 +6198,7 @@ function showDayDetail(dayIdx) {{
   setTimeout(function() {{ detail.scrollIntoView({{behavior:'smooth',block:'nearest'}}); }}, 50);
 }}
 
-// Initial load — Paramaribo
+// Initial load: Paramaribo
 loadWeather(WX_DISTRICTS[0].lat, WX_DISTRICTS[0].lon);
 
 function loadSunrise(lat, lon) {{
