@@ -1,6 +1,17 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 28 MEI 2026",
+      "date": "28 Mei 2026",
+      "date_iso": "2026-05-28",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1501/gepland-onderhoud-donderdag-28-mei-2026",
+      "meta_description": "Gepland onderhoud: Commewijne/ Marowijne vrijdag 29 mei 2026 tussen 09:00-14:00 GEDEELTE OOST – WEST VERBINDING TUSSEN ORLEANE KREEK EN PERICA,",
+      "district": "Commewijne/ Marowijne",
+      "time": "09:00 – 14:00",
+      "area": "GEDEELTE OOST – WEST VERBINDING TUSSEN ORLEANE KREEK EN PERICA"
+    },
+    {
       "title": "GEPLAND ONDERHOUD DINSDAG 26 MEI 2026",
       "date": "26 Mei 2026",
       "date_iso": "2026-05-26",
@@ -23,6 +34,6 @@
       "area": "GEDEELTE BAKKIEWEG TUSSEN AGENORIAWEG EN HABIBWEG EN ALLE ZIJWEGEN DIE VOORKOMEN"
     }
   ],
-  "last_updated": "2026-05-26T07:00:48.005685+00:00",
+  "last_updated": "2026-05-26T19:00:50.307964+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
