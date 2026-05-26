@@ -2625,7 +2625,7 @@ function filterDistrict(btn, dist) {{
 }}
 </script>"""
 
-def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None, seo_title=None):
+def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None, seo_title=None, intro_text=""):
     _page_active = page_file.replace(".html", "") if page_file else "home"
     page_url = f"{SITE_URL}/{page_file}"
     _og_img = og_image or f"{SITE_URL}/og-image.jpg"
@@ -2666,6 +2666,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">{subtitle}</p>
 </div>
 <main class="max-w-6xl mx-auto px-5 py-12 pb-24">
+  {('<div class="max-w-3xl mb-8 text-gray-600 leading-relaxed">' + intro_text + '</div>') if intro_text else ""}
   {filter_bar}
   <div id="result-count" class="text-sm text-gray-400 mb-4 font-medium">{len(items)} results</div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -2766,8 +2767,8 @@ def build_index(restaurants, hotels):
   style="background-image:url('/images/hero-home.webp')">
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.82) 100%)"></div>
   <div class="relative z-10 text-center text-white px-5 max-w-4xl mx-auto" style="padding-top:5rem;padding-bottom:6rem">
-    <p class="text-xs font-semibold tracking-widest uppercase mb-6" style="color:var(--coral)">South America&apos;s Hidden Gem</p>
-    <h1 class="serif font-black leading-tight mb-6" style="font-size:clamp(2.5rem,8vw,5.5rem)">The Amazon&#8217;s<br>Best-Kept Secret</h1>
+    <p class="text-xs font-semibold tracking-widest uppercase mb-6" style="color:var(--coral)">The Amazon&#8217;s Best-Kept Secret</p>
+    <h1 class="serif font-black leading-tight mb-6" style="font-size:clamp(2.5rem,8vw,5.5rem)">Explore Suriname</h1>
     <p class="text-xl font-light leading-relaxed mb-10 max-w-2xl mx-auto text-white/90">94% pristine rainforest. Unmatched biodiversity. Three UNESCO World Heritage Sites. Welcome to Suriname.</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <a href="#nature" class="px-8 py-4 rounded-full font-semibold text-lg text-white hover:opacity-90 transition shadow-lg" style="background:var(--forest)">Start Exploring</a>
@@ -2946,7 +2947,8 @@ def build_nature_page():
         f"Explore {total} nature reserves, national parks and rainforest destinations in Suriname. From Central Suriname Reserve to Brownsberg. Plan your eco-adventure.",
         NATURE_SPOTS, all_cards, page_file="nature.html", extra_html="", filter_bar=filter_bar_s,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Leo_val_brownsberg.JPG/1280px-Leo_val_brownsberg.JPG",
-        lcp_image=NATURE_SPOTS[0]["image"] if NATURE_SPOTS else None, seo_title="Nature Parks & Wildlife Reserves in Suriname")
+        lcp_image=NATURE_SPOTS[0]["image"] if NATURE_SPOTS else None, seo_title="Nature Parks & Wildlife Reserves in Suriname",
+        intro_text=f"Suriname protects over 94% of its land as pristine rainforest — the highest percentage of any country on Earth. Explore {total} nature parks, wildlife reserves and UNESCO World Heritage Sites. From the vast Central Suriname Nature Reserve to Brownsberg, Galibi and Bigi Pan, this is South America&#8217;s last great wilderness.")
 
 def build_activities_page():
     # Merge ACTIVITIES and ADVENTURES_BIZ sorted alphabetically by name
@@ -2967,7 +2969,8 @@ def build_activities_page():
         f"Discover {total} things to do in Suriname: jungle tours, river trips, birdwatching, kayaking and more. Find tours and adventure operators in Paramaribo.",
         ACTIVITIES, all_cards, bg_color="var(--forest2)", page_file="activities.html", extra_html="", filter_bar=filter_bar_a,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Atjoni_%2833496718666%29.jpg/1280px-Atjoni_%2833496718666%29.jpg",
-        lcp_image=_first_img, seo_title="Things to Do in Suriname: Tours and Treks")
+        lcp_image=_first_img, seo_title="Things to Do in Suriname: Tours and Treks",
+        intro_text=f"Looking for things to do in Suriname? Browse {total} activities, tours and adventure experiences. Canoe through the jungle interior, watch leatherback turtles at Galibi, take a guided rainforest trek or explore Maroon villages by boat. From half-day trips out of Paramaribo to multi-day expeditions, find and book with local operators here.")
 
 def build_restaurants_page(restaurants):
     cards = "\n".join(poi_card(r, "cuisine", eager=(i==0)) for i,r in enumerate(restaurants))
@@ -2977,7 +2980,8 @@ def build_restaurants_page(restaurants):
         f"Browse {len(restaurants)} restaurants, cafes, bars and fast food in Suriname. Find local Surinamese food, Asian cuisine, coffee shops and more.",
         restaurants, cards, bg_color="#7c3aed", page_file="restaurants.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/2016_0624_Tjauw_min_moksie_meti_speciaal.jpg/1280px-2016_0624_Tjauw_min_moksie_meti_speciaal.jpg",
-        lcp_image=_lcp, seo_title="Restaurants in Paramaribo, Suriname")
+        lcp_image=_lcp, seo_title="Restaurants in Paramaribo, Suriname",
+        intro_text=f"Discover {len(restaurants)} restaurants, caf\u00e9s, bars and fast food spots across Suriname. From traditional Surinamese cuisine and Dutch-Indonesian rijsttafel to Asian fusion, pizza, and international chains, Paramaribo&#8217;s food scene reflects the country&#8217;s rich multicultural heritage. Use the filters to find your perfect dining experience.")
 
 def build_hotels_page(hotels):
     cards = "\n".join(poi_card(h, "category", eager=(i==0)) for i,h in enumerate(hotels))
@@ -2987,7 +2991,8 @@ def build_hotels_page(hotels):
         f"Browse {len(hotels)} hotels, eco-lodges and jungle retreats in Suriname. From Paramaribo city hotels to remote river resorts. Find your perfect stay.",
         hotels, cards, bg_color="#c05621", page_file="hotels.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Bigi_Pan_Nature_Reserve_%282719369111%29.jpg/1280px-Bigi_Pan_Nature_Reserve_%282719369111%29.jpg",
-        lcp_image=_lcp, seo_title="Hotels in Suriname: City and Jungle Lodges")
+        lcp_image=_lcp, seo_title="Hotels in Suriname: City and Jungle Lodges",
+        intro_text=f"Find the right place to stay from {len(hotels)} hotels, lodges and jungle retreats across Suriname. Paramaribo offers modern city hotels and casino resorts, while the interior has eco-lodges and remote river camps along the Suriname River. Whether you&#8217;re in town for business or heading deep into the rainforest, this is your full accommodation guide.")
 
 def build_shopping_page():
     cards = "\n".join(poi_card(b, eager=(i==0)) for i,b in enumerate(SHOPPING))
@@ -2997,7 +3002,8 @@ def build_shopping_page():
         f"Discover {len(SHOPPING)} shops in Suriname: supermarkets, malls, fashion, electronics, furniture, butchers and specialty stores in Paramaribo.",
         SHOPPING, cards, bg_color="#7c3aed", page_file="shopping.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
-        lcp_image=_lcp, seo_title="Shopping in Paramaribo, Suriname")
+        lcp_image=_lcp, seo_title="Shopping in Paramaribo, Suriname",
+        intro_text=f"Shop across {len(SHOPPING)} stores in Suriname — from supermarkets, malls and fashion boutiques to electronics, furniture and specialty food stores. Hermitage Mall and International Mall of Suriname are Paramaribo&#8217;s main retail hubs, with a wide range of local and international brands. Use the filters to browse by category or district.")
 
 def build_services_page():
     cards = "\n".join(poi_card(b, eager=(i==0)) for i,b in enumerate(SERVICES))
@@ -3007,7 +3013,8 @@ def build_services_page():
         f"Find {len(SERVICES)} service providers in Suriname: banks, beauty, health, fitness, education, telecom, real estate and more.",
         SERVICES, cards, bg_color="#0369a1", page_file="services.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
-        lcp_image=_lcp, seo_title="Local Services in Paramaribo, Suriname")
+        lcp_image=_lcp, seo_title="Local Services in Paramaribo, Suriname",
+        intro_text=f"Find {len(SERVICES)} service providers across Suriname: banks, insurance, beauty salons, gyms, pharmacies, schools, real estate agencies, travel agents and more. Whether you need a haircut, a mortgage, a gym membership or a doctor in Paramaribo, this directory covers the essential services that keep the city running.")
 
 def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated, brent_price=None, brent_updated=None):
     import json as _json
@@ -3699,7 +3706,7 @@ def _related_listings_html(current_slug, sub, prefix="../../"):
         thumb = (
             f'<div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100">'
             f'<img src="{bimg}" alt="{_hl.escape(bname)}" loading="lazy" '
-            f'class="w-full h-full object-cover">'
+            f'width="400" height="128" class="w-full h-full object-cover">'
             f'</div>'
         )
         cards_html += (
@@ -3982,11 +3989,13 @@ def build_listing_page(slug, b):
         "security": "Security Services",
     }
     _seo_biz_type = _SEO_TYPE_LABEL.get(_sub, "")
-    if _seo_biz_type:
-        _seo_loc = (_loc + ", Suriname") if _loc.lower() not in ("suriname", "") else "Suriname"
+    # Title: no ', Suriname' suffix — ExploreSuriname implies country.
+    # Include type label only when the full title still fits within 60 chars.
+    _seo_loc = _loc if _loc.lower() not in ("suriname", "") else "Paramaribo"
+    _candidate_with_type = (raw_name + ", " + _seo_biz_type + " in " + _seo_loc + " | ExploreSuriname") if _seo_biz_type else ""
+    if _seo_biz_type and len(_candidate_with_type) <= 60:
         seo_page_title = name_e + html_lib.escape(", " + _seo_biz_type + " in " + _seo_loc)
     else:
-        _seo_loc = (_loc + ", Suriname") if _loc.lower() not in ("suriname", "") else "Suriname"
         seo_page_title = name_e + html_lib.escape(" in " + _seo_loc)
 
     head = (
@@ -6787,6 +6796,24 @@ if __name__ == "__main__":
         count += 1
 
     print(f"  OK  {count} listing pages")
+
+    # ── Purge stale listing directories ─────────────────────────────────────
+    # Any listing/ subdir not written in this build is stale and should go.
+    _built_slugs = set(_BIZ.keys()) | set(nat_slugs)
+    _listing_root = Path("listing")
+    _purged = 0
+    if _listing_root.exists():
+        for _d in list(_listing_root.iterdir()):
+            if _d.is_dir() and _d.name not in _built_slugs:
+                import shutil as _shutil
+                try:
+                    _shutil.rmtree(_d)
+                    _purged += 1
+                    print(f"  RM  stale listing: {_d.name}")
+                except Exception as _e:
+                    print(f"  !! could not remove {_d.name}: {_e}")
+    if _purged:
+        print(f"  OK  purged {_purged} stale listing dirs")
 
     act_slugs = [b["slug"] for b in ADVENTURES_BIZ + SIGHTSEEING]
 
