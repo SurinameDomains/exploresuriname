@@ -47,7 +47,7 @@
   <meta name="twitter:description" content="On-call pharmacies, EBS power outages, SWM water outages, public holidays. Auto-updated daily.">
   <meta name="twitter:image" content="https://exploresuriname.com/og-image.jpg">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebPage","name":"Daily Notices — Suriname","url":"https://exploresuriname.com/daily-notices.html","description":"Daily Suriname essentials: on-call pharmacies, power and water outage notices, public holidays and school breaks.","dateModified":"2026-05-25","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/"}}
+  {"@context":"https://schema.org","@type":"WebPage","name":"Daily Notices, Suriname","url":"https://exploresuriname.com/daily-notices.html","description":"Daily Suriname essentials: on-call pharmacies, power and water outage notices, public holidays and school breaks.","dateModified":"2026-05-25","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/"}}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://exploresuriname.com/"},{"@type":"ListItem","position":2,"name":"Daily Notices","item":"https://exploresuriname.com/daily-notices.html"}]}
@@ -523,7 +523,7 @@ function wachtFilter() {
     docs.forEach(function(dr) {
       html += '<div class="pharmacy-row">'
             + '<div class="pharmacy-name">' + escHtml(dr.name)
-            + (dr.clinic ? ' <span style="font-weight:400;color:#6b7280">— ' + escHtml(dr.clinic) + '</span>' : '')
+            + (dr.clinic ? ' <span style="font-weight:400;color:#6b7280">' + escHtml(dr.clinic) + '</span>' : '')
             + '</div>';
       if (dr.address) html += '<div class="pharmacy-addr">' + escHtml(dr.address) + '</div>';
       if (dr.phone)   html += '<a href="tel:' + escHtml(dr.phone) + '" class="pharmacy-phone">Tel: ' + escHtml(dr.phone) + '</a>';
@@ -672,7 +672,7 @@ fetch('/data/ebs_outages.json')
     function renderRows(list) {
       var h = '';
       list.forEach(function(o) {
-        var header = o.district ? escHtml(o.district) + ' — ' + escHtml(o.date) : escHtml(o.date);
+        var header = o.district ? escHtml(o.district) + ': ' + escHtml(o.date) : escHtml(o.date);
         var timeStr = o.time ? escHtml(o.time) : '';
         var areaRaw = o.area || '';
         var area = areaRaw.replace(/(\w)(\w*)/g, function(_, a, b){ return a + b.toLowerCase(); });

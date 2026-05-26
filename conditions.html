@@ -266,7 +266,7 @@ document.addEventListener('keydown', e => {
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
 
-  <!-- Weather — district selector -->
+  <!-- Weather: district selector -->
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mb-6">
     <div class="flex items-start justify-between mb-4">
       <div>
@@ -688,7 +688,7 @@ function showDayDetail(dayIdx) {
   setTimeout(function() { detail.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 50);
 }
 
-// Initial load — Paramaribo
+// Initial load: Paramaribo
 loadWeather(WX_DISTRICTS[0].lat, WX_DISTRICTS[0].lon);
 
 function loadSunrise(lat, lon) {
