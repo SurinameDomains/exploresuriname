@@ -29,7 +29,13 @@ ENDPOINTS = [
 def fetch_all_suriname_pois() -> list[dict]:
     """
     Single batch query: fetch every named amenity/shop/tourism/office node & way
-    in Suriname in one request. Returns list of tag dicts.
+    in Suriname in one request.
+
+    Uses `out body center;` so each element includes lat/lon:
+      - nodes: top-level `lat`, `lon`
+      - ways:  `center.lat`, `center.lon`
+
+    Returns list of element dicts: [{"tags": {...}, "lat": float|None, "lon": float|None}, ...]
     """
     query = f"""
 [out:json][timeout:120];
@@ -43,7 +49,7 @@ def fetch_all_suriname_pois() -> list[dict]:
   way["name"]["shop"]({SR_BBOX});
   way["name"]["tourism"]({SR_BBOX});
 );
-out tags;
+out body center;
 """
     data = urllib.parse.urlencode({"data": query}).encode()
 
@@ -58,7 +64,20 @@ out tags;
                 result = json.loads(r.read().decode())
             elements = result.get("elements", [])
             print(f"  Got {len(elements)} OSM elements from {endpoint}")
-            return [el.get("tags", {}) for el in elements if el.get("tags")]
+
+            parsed = []
+            for el in elements:
+                tags = el.get("tags", {})
+                if not tags:
+                    continue
+                # lat/lon: nodes have top-level coords; ways have center block
+                lat = el.get("lat") or (el.get("center") or {}).get("lat")
+                lon = el.get("lon") or (el.get("center") or {}).get("lon")
+                parsed.append({"tags": tags, "lat": lat, "lon": lon})
+
+            geo_count = sum(1 for e in parsed if e["lat"])
+            print(f"  {geo_count}/{len(parsed)} elements have coordinates")
+            return parsed
         except Exception as e:
             print(f"  Failed ({e}), trying next endpoint...")
             time.sleep(3)
@@ -67,25 +86,33 @@ out tags;
     return []
 
 
-def best_match(name: str, all_tags: list[dict]) -> dict:
-    """Find the best-matching OSM entry for a given business name."""
+def best_match(name: str, elements: list[dict]) -> dict:
+    """
+    Find the best-matching OSM element for a given business name.
+    Returns an element dict {"tags": {...}, "lat": ..., "lon": ...} or {}.
+    """
     name_lower = name.lower().strip()
 
     # 1. Exact match
-    for tags in all_tags:
-        if tags.get("name", "").lower().strip() == name_lower:
-            return tags
+    for el in elements:
+        if el["tags"].get("name", "").lower().strip() == name_lower:
+            return el
 
     # 2. OSM name contains our name (e.g. "Hard Rock Cafe Suriname" ↔ "Hard Rock Cafe")
-    for tags in all_tags:
-        osm = tags.get("name", "").lower()
+    for el in elements:
+        osm = el["tags"].get("name", "").lower()
         if name_lower in osm or osm in name_lower:
-            return tags
+            return el
 
     return {}
 
 
-def extract_enrichment(slug: str, tags: dict) -> dict:
+def extract_enrichment(slug: str, element: dict) -> dict:
+    """
+    Build enrichment dict from a matched OSM element.
+    element = {"tags": {...}, "lat": float|None, "lon": float|None}
+    """
+    tags   = element.get("tags", {})
     result = {"slug": slug, "found": bool(tags), "osm_name": tags.get("name", "")}
 
     oh = tags.get("opening_hours", "").strip()
@@ -97,6 +124,10 @@ def extract_enrichment(slug: str, tags: dict) -> dict:
     ).strip()
     if phone:
         result["phone"] = phone
+
+    email = (tags.get("email") or tags.get("contact:email") or "").strip()
+    if email:
+        result["email"] = email
 
     website = (tags.get("website") or tags.get("contact:website") or "").strip()
     if website:
@@ -114,6 +145,24 @@ def extract_enrichment(slug: str, tags: dict) -> dict:
     if stars:
         result["price_range"] = stars
 
+    # Boolean amenity tags — store as "yes"/"no"/value for display and schema
+    for tag_key, result_key in [
+        ("delivery",        "delivery"),
+        ("takeaway",        "takeaway"),
+        ("outdoor_seating", "outdoor_seating"),
+        ("wheelchair",      "wheelchair"),
+    ]:
+        val = tags.get(tag_key, "").strip()
+        if val:
+            result[result_key] = val
+
+    # Coordinates — stored as floats; generate.py injects into schema geo block
+    lat = element.get("lat")
+    lon = element.get("lon")
+    if lat is not None and lon is not None:
+        result["lat"] = float(lat)
+        result["lon"] = float(lon)
+
     return result
 
 
@@ -126,9 +175,9 @@ if __name__ == "__main__":
     print(f"ExploreSuriname OSM enrichment — {len(slugs)} listings\n")
 
     # Step 1: one batch request for all of Suriname
-    all_tags = fetch_all_suriname_pois()
+    elements = fetch_all_suriname_pois()
 
-    if not all_tags:
+    if not elements:
         print("No OSM data retrieved — keeping existing cache unchanged.")
         sys.exit(0)
 
@@ -137,15 +186,15 @@ if __name__ == "__main__":
     found_count = 0
 
     for slug in slugs:
-        biz  = gen._make_biz(slug)
-        name = biz["name"]
-        tags = best_match(name, all_tags)
-        enrichment = extract_enrichment(slug, tags)
+        biz     = gen._make_biz(slug)
+        name    = biz["name"]
+        element = best_match(name, elements)
+        enrichment = extract_enrichment(slug, element)
         results.append(enrichment)
 
         if enrichment["found"]:
             found_count += 1
-            fields = [k for k in ("opening_hours", "phone", "address", "cuisine") if k in enrichment]
+            fields = [k for k in ("opening_hours", "phone", "address", "cuisine", "lat") if k in enrichment]
             print(f"  ✓  {name:<45} ({', '.join(fields) if fields else 'name only'})")
 
     # Save as slug-keyed dict (consistent with other caches; generate.py reads this format)

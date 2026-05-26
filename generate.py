@@ -3739,21 +3739,21 @@ def build_listing_page(slug, b):
     img      = _IMGS.get(slug, "")
     ext_url  = _biz_url(b)
 
-    # Merge enrichment data — priority: Google Places (future slot) > OSM > Foursquare
+    # Merge enrichment data — OSM is primary source; FSQ retained only for photo_url
     _osm  = _ENRICHMENTS.get(slug, {})
     _fdet = _FSQ_DETAILS.get(slug, {})
-    # Phone / address / website: OSM fills gaps first, then Foursquare
+    # OSM fills all contact/operational gaps
     if not phone   and _osm.get("phone"):   phone   = _osm["phone"]
-    if not phone   and _fdet.get("phone"):  phone   = _fdet["phone"]
+    if not email   and _osm.get("email"):   email   = _osm["email"]
     if not address and _osm.get("address"): address = _osm["address"]
     if not ext_url and _osm.get("website"): ext_url = _osm["website"]
-    if not ext_url and _fdet.get("website") and "google.com" not in _fdet.get("website", ""):
-        ext_url = _fdet["website"]
-    # Hours: OSM > Foursquare (both use human-readable strings)
-    hours     = _osm.get("opening_hours") or _fdet.get("hours_display") or ""
+    # Hours: OSM only (OSM strings are well-structured; FSQ phased out)
+    hours     = _osm.get("opening_hours") or ""
     osm_price = _osm.get("price_range", "")
-    # Photo: FSQ fills missing thumbnails (already in img via _make_biz, but img is re-fetched
-    # from _IMGS here for the detail page hero — apply the same fallback)
+    # Coordinates from OSM
+    _lat = _osm.get("lat")
+    _lon = _osm.get("lon")
+    # Photo: FSQ photo_url is the one remaining value FSQ provides
     if not img and _fdet.get("photo_url"):
         img = _fdet["photo_url"]
 
@@ -3947,6 +3947,10 @@ def build_listing_page(slug, b):
         ld_obj["priceRange"] = osm_price
     if _cuisine:
         ld_obj["servesCuisine"] = _cuisine
+    elif _osm.get("cuisine"):
+        ld_obj["servesCuisine"] = _osm.get("cuisine")
+    if _lat and _lon:
+        ld_obj["geo"] = {"@type": "GeoCoordinates", "latitude": _lat, "longitude": _lon}
     ld_obj["currenciesAccepted"] = "SRD"
 
     # JSON-LD names must be plain text — unescape HTML entities from category labels
