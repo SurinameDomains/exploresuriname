@@ -1,5 +1,5 @@
 {
-  "date_range": "zaterdag 23 mei tot maandag 25 mei 2026",
+  "date_range": "woensdag 27 mei 2026 (Ied-Ul-Adha)",
   "doctors": [
     {
       "name": "Drs. Badal Giriradj",
@@ -7,34 +7,34 @@
       "district": "Paramaribo",
       "address": "Limesgracht no. 78",
       "phone": "420506",
-      "note": "Alleen zaterdag & zondag ochtend"
+      "note": ""
     },
     {
-      "name": "Drs. Jagnarain Arti",
-      "clinic": "Polikliniek Flora",
+      "name": "Drs. Bikhari Jaleycha",
+      "clinic": "Polikliniek Welgelegen",
       "district": "Paramaribo",
-      "address": "Floralaan no. 23-25",
-      "phone": "464904",
+      "address": "Patatastraat no. 17",
+      "phone": "436975",
       "note": ""
     },
     {
-      "name": "Drs. Overeem Raief",
-      "clinic": "Polikliniek Santodorp",
+      "name": "Drs. Basropansingh Bharat",
+      "clinic": "Gezondheidscentrum Koewarasan",
       "district": "Wanica",
-      "address": "Hk. Corresburg Nieuw-Weergevondenweg",
-      "phone": "487067",
+      "address": "Bomapolder serie 2 no. 02",
+      "phone": "350018",
       "note": ""
     },
     {
-      "name": "Drs. Basulto Marrero Anisbel",
-      "clinic": "Polikliniek Domburg",
+      "name": "Drs. Ghoerai Zarish",
+      "clinic": "Polikliniek Houttuin",
       "district": "Wanica",
-      "address": "Herbertstraat perceel no. 15",
-      "phone": "340044",
+      "address": "Mirahoedoelaan no. 02",
+      "phone": "372090",
       "note": ""
     },
     {
-      "name": "Drs. Mahabier Madhuri",
+      "name": "Drs. Ramautar Prakash",
       "clinic": "Polikliniek Nieuwe Grond",
       "district": "Wanica",
       "address": "Indira Gandhiweg no. 12",
@@ -42,11 +42,11 @@
       "note": ""
     },
     {
-      "name": "Drs. Jhanjan Cyril",
-      "clinic": "Polkliniek Bernharddorp",
+      "name": "Drs. Soemai Suraj",
+      "clinic": "Gezondheidscentrum Onverwacht",
       "district": "Para",
-      "address": "Indira Gandhiweg no. 894",
-      "phone": "352590",
+      "address": "Akrumstraat no. 09",
+      "phone": "352097",
       "note": ""
     }
   ],
@@ -62,8 +62,8 @@
       "phone": "354098"
     }
   ],
-  "doctor_hours": "Spreekuren: zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
+  "doctor_hours": "Spreekuren: woensdag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
   "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00u.",
-  "last_updated": "2026-05-26T10:00:19.808625+00:00",
+  "last_updated": "2026-05-27T10:00:25.222720+00:00",
   "source": "http://www.rgd.sr/nl/zorg-aanbod/wachtdienst"
 }
