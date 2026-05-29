@@ -1,5 +1,17 @@
 {
-  "outages": [],
-  "last_updated": "2026-05-29T11:35:09.261342+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD MAANDAG 1 JUNI 2026",
+      "date": "1 Juni 2026",
+      "date_iso": "2026-06-01",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1502/gepland-onderhoud-maandag-1-juni-2026",
+      "meta_description": "Gepland onderhoud: Wanica maandag 1 juni 2026 tussen 08:00-14:00 GEDEELTE JAVAWEG TUSSEN MADURASTRAAT EN REEBERG ZUIDWEG, GEDEELTE REEBERG ZUIDWEG TUSSEN",
+      "district": "Wanica",
+      "time": "08:00 – 14:00",
+      "area": "GEDEELTE JAVAWEG TUSSEN MADURASTRAAT EN REEBERG ZUIDWEG, GEDEELTE REEBERG ZUIDWEG TUSSEN"
+    }
+  ],
+  "last_updated": "2026-05-29T15:54:57.291647+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
