@@ -1,6 +1,17 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD DINSDAG 2 JUNI 2026",
+      "date": "2 Juni 2026",
+      "date_iso": "2026-06-02",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1503/gepland-onderhoud-dinsdag-2-juni-2026",
+      "meta_description": "Gepland onderhoud: Commewijne-Marowijne dinsdag 2 juni 2026 tussen 09:00-14:00 GEDEELTE OOST – WEST VERBINDING TUSSEN ORLEANE KREEK EN PERICA, WEG",
+      "district": "Commewijne-Marowijne",
+      "time": "09:00 – 14:00",
+      "area": "GEDEELTE OOST – WEST VERBINDING TUSSEN ORLEANE KREEK EN PERICA, WEG"
+    },
+    {
       "title": "GEPLAND ONDERHOUD MAANDAG 1 JUNI 2026",
       "date": "1 Juni 2026",
       "date_iso": "2026-06-01",
@@ -12,6 +23,6 @@
       "area": "GEDEELTE JAVAWEG TUSSEN MADURASTRAAT EN REEBERG ZUIDWEG, GEDEELTE REEBERG ZUIDWEG TUSSEN"
     }
   ],
-  "last_updated": "2026-05-30T11:07:39.731531+00:00",
+  "last_updated": "2026-05-30T13:52:23.639738+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
