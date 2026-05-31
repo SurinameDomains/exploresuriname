@@ -327,7 +327,7 @@
   "plantage-frederiksdorp": {
     "slug": "plantage-frederiksdorp",
     "found": true,
-    "osm_name": "plantage frederiksdorp",
+    "osm_name": "Plantage Frederiksdorp",
     "lat": 5.888392,
     "lon": -55.0326071
   },
@@ -3078,6 +3078,27 @@
     "cuisine": "Indonesian",
     "lat": 5.8105564,
     "lon": -55.2407781
+  },
+  "wollys": {
+    "slug": "wollys",
+    "found": true,
+    "osm_name": "Wolly's",
+    "lat": 5.8147466,
+    "lon": -55.1825261
+  },
+  "wollys-2": {
+    "slug": "wollys-2",
+    "found": true,
+    "osm_name": "Wolly's",
+    "lat": 5.8147466,
+    "lon": -55.1825261
+  },
+  "wollys-3": {
+    "slug": "wollys-3",
+    "found": true,
+    "osm_name": "Wolly's",
+    "lat": 5.8147466,
+    "lon": -55.1825261
   },
   "yogh-hospitality": {
     "slug": "yogh-hospitality",
