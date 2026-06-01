@@ -2473,7 +2473,7 @@ def news_card_html(a, large=False, eager=False):
         h = "h-52" if large else "h-36"
         _loading = 'eager" fetchpriority="high' if eager else "lazy"
         _h_px = "208" if large else "144"
-        img = f'<img src="{a["image"]}" alt="" loading="{_loading}" width="400" height="{_h_px}" class="w-full {h} object-cover" onerror="this.style.display=\'none\'">'
+        img = f'<img src="{a["image"]}" alt="{html_lib.escape(a["title"])}" loading="{_loading}" width="400" height="{_h_px}" class="w-full {h} object-cover" onerror="this.style.display=\'none\'">'
     badge = f'<span class="text-white text-xs font-medium px-2 py-0.5 rounded-full" style="background:{a["color"]}">{html_lib.escape(a["source"])}</span>'
     tc = "text-base font-bold" if large else "text-sm font-semibold"
     return (f'<a href="{a["link"]}" target="_blank" rel="noopener noreferrer" '
@@ -2811,7 +2811,7 @@ def build_index(restaurants, hotels):
     shop_cards     = "\n".join(poi_card(s, eager=(i==0))             for i,s in enumerate(_pick_featured(SHOPPING,    _FEATURED_SHOPPING)))
     more_btn = lambda href, label: f'<a href="{href}" class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" style="border-color:var(--forest2);color:var(--forest2)">{label} &rarr;</a>'
     return f"""{PAGE_HEAD}
-  <title>Explore Suriname | South America's Hidden Gem</title>
+  <title>Suriname Travel Guide | Restaurants, Hotels, Nature &amp; Tours</title>
   <meta name="description" content="Plan your Suriname trip: rainforest lodges, Paramaribo restaurants, local tours, shopping and live SRD exchange rates. Guide to South America's hidden gem.">
   <link rel="canonical" href="{SITE_URL}/">
   <link rel="preload" as="image" href="/images/hero-home.webp" fetchpriority="high">
@@ -2844,7 +2844,12 @@ def build_index(restaurants, hotels):
       "name": "Suriname",
       "sameAs": "https://en.wikipedia.org/wiki/Suriname"
     }},
-    "knowsAbout": ["Suriname", "Paramaribo", "Travel", "Restaurants", "Hotels", "Tourism"]
+    "knowsAbout": ["Suriname", "Paramaribo", "Travel", "Restaurants", "Hotels", "Tourism"],
+    "sameAs": [
+      "https://www.facebook.com/exploringsuriname/",
+      "https://www.instagram.com/exploringsuriname/",
+      "https://twitter.com/exploringsuriname"
+    ]
   }}
   </script>
   <script type="application/ld+json">
@@ -3892,13 +3897,19 @@ def build_listing_page(slug, b):
         _struct_parts.append(_h[:65])
     if phone:
         _struct_parts.append(phone)
-    if _struct_parts:
+    if desc:
+        # Lead with the listing's unique description (better for discovery queries and
+        # avoids 700+ near-identical "{name} in Paramaribo" snippets); append one
+        # structured fact (address/hours) only when there is room.
+        _d = " ".join(desc.split())
+        _tail = _struct_parts[0] if _struct_parts else ""
+        _raw = (_d.rstrip(".") + ". " + _tail) if (_tail and len(_d) < 120) else _d
+        desc_e = html_lib.escape(_raw[:158].rstrip(" ·,.-"))
+    elif _struct_parts:
         _loc_for_desc = location or "Paramaribo"
         desc_e = html_lib.escape(
             f"{raw_name} in {_loc_for_desc}, Suriname. " + " · ".join(_struct_parts)
         )[:160]
-    elif desc:
-        desc_e = html_lib.escape(desc[:155]) + ("…" if len(desc) > 155 else "")
     else:
         loc_part = location or "Paramaribo"
         sub = _subcat(slug)
