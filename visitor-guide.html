@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="content-language" content="en">
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
@@ -29,6 +28,46 @@
     .card-hover { transition: transform .2s, box-shadow .2s; }
     .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
     a { text-decoration: none; }
+    .vh { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+    /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
+    .dd-menu { transform-origin: top center; }
+    .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
+    @keyframes ddFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    #search-results a {
+      display:flex;align-items:center;gap:10px;padding:10px 18px;text-decoration:none;color:#111;transition:background .1s;
+    }
+    #search-results a:hover, #search-results a.sr-active { background:#f5f5f5; }
+    .sr-badge {
+      font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;flex-shrink:0;
+    }
+    .sr-name { font-size:.9rem;font-weight:600;flex:1;min-width:0; }
+    .sr-area { font-size:.78rem;color:#9ca3af;white-space:nowrap; }
+    mark { background:#fef08a;border-radius:2px;padding:0 1px; }
+    .filter-chip {
+      display:inline-flex;align-items:center;gap:5px;padding:10px 16px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
+      color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+      touch-action:manipulation;
+    }
+    .filter-chip:hover { border-color:var(--forest);color:var(--forest); }
+    .filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+    .dist-chip {
+      display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;
+      color:#6b7280;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+    }
+    .dist-chip:hover { border-color:var(--forest2);color:var(--forest2); }
+    .dist-chip.dist-chip-active { background:var(--forest2);border-color:var(--forest2);color:#fff; }
+    .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
+    .filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count { opacity:.8; }
+    .chip-arrow {
+      flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #e5e7eb;
+      background:#fff;font-size:1.1rem;line-height:1;cursor:pointer;display:flex;
+      align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
+    }
+    .chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
+    .listing-card { transition:opacity .2s, transform .2s; }
+    .listing-card.hidden { display:none; }
   </style>
   <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
   <!-- Google tag (gtag.js) -->
@@ -58,11 +97,6 @@
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 
-<style>
-.dd-menu { transform-origin: top center; }
-.dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
-@keyframes ddFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
-</style>
 <nav class="fixed top-0 w-full z-50" style="background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.06)">
   <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
     <a href="index.html" class="flex items-baseline flex-shrink-0">
@@ -171,18 +205,6 @@ function toggleMobGroup(id) {
     </div>
   </div>
 </div>
-<style>
-#search-results a {
-  display:flex;align-items:center;gap:10px;padding:10px 18px;text-decoration:none;color:#111;transition:background .1s;
-}
-#search-results a:hover, #search-results a.sr-active { background:#f5f5f5; }
-.sr-badge {
-  font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;flex-shrink:0;
-}
-.sr-name { font-size:.9rem;font-weight:600;flex:1;min-width:0; }
-.sr-area { font-size:.78rem;color:#9ca3af;white-space:nowrap; }
-mark { background:#fef08a;border-radius:2px;padding:0 1px; }
-</style>
 <script>
 const _CAT_C = {"Eat & Drink": "#7c3aed", "Stay": "#c05621", "Nature": "var(--forest)", "Activities": "var(--forest2)", "Shopping": "#0369a1", "Services": "#0369a1", "Sightseeing": "var(--forest)"};
 let _SI = null;
