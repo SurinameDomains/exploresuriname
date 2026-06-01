@@ -128,7 +128,7 @@ NATURE_SPOTS = [
      "desc": "On Suriname's Atlantic coast, giant leatherback sea turtles haul ashore to nest in one of nature's most breathtaking spectacles.",
      "tags": ["Sea Turtles", "Coastal", "Wildlife"],
      "image": "https://upload.wikimedia.org/wikipedia/commons/9/95/Dermochelys_coriacea_%282719177753%29.jpg",
-     "fact": "Nesting season: February – July", "url": "https://en.wikipedia.org/wiki/Galibi_Nature_Reserve"},
+     "fact": "Nesting season: February to July", "url": "https://en.wikipedia.org/wiki/Galibi_Nature_Reserve"},
     {"name": "Peperpot Nature Park", "badge": "Bird Watcher's Paradise",
      "desc": "A former plantation turned bird sanctuary just minutes from the capital. Over 200 bird species recorded.",
      "tags": ["Birding", "Easy Access", "Peaceful"],
@@ -2739,12 +2739,13 @@ function filterDistrict(btn, dist) {{
 }}
 </script>"""
 
-def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None, seo_title=None, intro_text=""):
+def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None, seo_title=None, intro_text="", faq=None):
     _page_active = page_file.replace(".html", "") if page_file else "home"
     page_url = f"{SITE_URL}/{page_file}"
     _og_img = og_image or f"{SITE_URL}/og-image.jpg"
     _seo_title = seo_title or title
     _lcp_preload = f'  <link rel="preload" as="image" href="{lcp_image}" fetchpriority="high">\n' if lcp_image else ""
+    _faq_head, _faq_body = _render_faq(faq)
     return f"""{PAGE_HEAD}
   <title>{_seo_title} | ExploreSuriname.com</title>
   <meta name="description" content="{html_lib.escape(meta_desc)}">
@@ -2769,7 +2770,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"WebPage","name":"{_seo_title} | ExploreSuriname.com","url":"{page_url}","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
-  </script>
+  </script>{_faq_head}
 {_lcp_preload}</head>
 <body class="bg-gray-50">
 {nav_html(_page_active)}
@@ -2787,6 +2788,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
     {cards_html}
   </div>
   {extra_html}
+  {_faq_body}
 </main>
 {footer_html()}
 </body>
@@ -2802,6 +2804,86 @@ def _pick_featured(lst, slugs):
     """Return items from lst ordered by the given slug list, skipping missing slugs."""
     lut = {b["slug"]: b for b in lst}
     return [lut[s] for s in slugs if s in lut]
+
+
+# -- Category-page FAQs (visible Q&A + matching FAQPage structured data) -------
+_FAQ_RESTAURANTS = [
+    ("What food is Suriname known for?", "Surinamese cooking blends Creole, Hindustani, Javanese, Chinese and Maroon influences. Common dishes include roti with chicken or duck, nasi and bami, pom, and moksi alesi. Javanese warungs and roti shops are found all over Paramaribo."),
+    ("Do restaurants in Paramaribo accept cards?", "Larger restaurants and hotels usually take debit and credit cards, but many warungs and smaller eateries are cash only. Carry some SRD for street food and markets."),
+    ("What is a warung?", "A warung is a small, often family run Javanese eatery. They serve affordable plates of saoto soup, bami, nasi and grilled meats. Some of the best food in Suriname comes from warungs rather than formal restaurants."),
+    ("Are there vegetarian options in Suriname?", "Yes. Hindustani and Javanese cooking offer plenty of vegetable, lentil and tofu dishes. Roti can be ordered with potato and long bean, and Chinese restaurants have vegetable options."),
+    ("When do restaurants in Paramaribo open?", "Lunch is usually served from around noon, and many warungs sell out by mid afternoon. Dinner places fill up in the evening, and some close on Sundays or Mondays, so it helps to call ahead."),
+]
+_FAQ_HOTELS = [
+    ("What is the best area to stay in Paramaribo?", "The city centre near the Waterkant and the historic inner city keeps you within walking distance of restaurants, banks and sights. Most larger hotels sit along the Suriname River in this area."),
+    ("How do jungle lodges in the interior work?", "Interior lodges are reached by a mix of road and dugout canoe, or by a small plane. Most are sold as packages that include transport, meals and guided activities, since you cannot easily reach them on your own."),
+    ("Do I need to book hotels in advance?", "City hotels can often be booked close to your dates, except around holidays and major events. Interior lodges and popular eco-resorts should be booked early, because rooms are limited and transport runs on fixed days."),
+    ("Do Suriname hotels accept foreign cards and currency?", "City hotels generally accept major credit cards and often quote rates in euros or US dollars. Smaller guesthouses and interior camps may prefer cash, so confirm before you arrive."),
+    ("What is the difference between a city hotel and an eco-lodge here?", "City hotels offer air conditioning, pools and business facilities in Paramaribo. Eco-lodges focus on nature with simpler rooms, shared meals and activities like jungle walks and river trips, and power or wifi can be limited."),
+]
+_FAQ_ACTIVITIES = [
+    ("What are the top things to do in Suriname?", "Popular options include a jungle or river trip into the interior, birdwatching, visiting Maroon and Indigenous villages, watching leatherback turtles nest at Galibi, and a walking tour of the historic inner city of Paramaribo."),
+    ("When can you see sea turtles in Suriname?", "Leatherback and green turtles nest on the beaches at Galibi roughly from February to August, with the main season around March to July. Tours run by boat from Albina."),
+    ("Do I need a guide to visit the interior?", "For most interior trips, yes. Travel into the rainforest is arranged through tour operators who handle permits, transport, guides and accommodation. Independent travel into the deep interior is difficult and not advised."),
+    ("How many days do you need to see Suriname?", "A week lets you combine Paramaribo with one interior trip, such as a few days at a jungle lodge or a visit to Galibi. Ten days or more allows a longer expedition or a trip to the Brownsberg and Brokopondo area."),
+    ("Is Suriname good for birdwatching?", "Very. The country has more than 700 recorded bird species. Peperpot Nature Park near Paramaribo is an easy place to start, and the interior reserves are home to macaws, toucans and the cock of the rock."),
+]
+_FAQ_NATURE = [
+    ("How much of Suriname is rainforest?", "More than 90 percent of Suriname is still covered by tropical rainforest, among the highest share of any country. Much of it is protected, including the Central Suriname Nature Reserve, a UNESCO World Heritage Site."),
+    ("What is the best nature park to visit near Paramaribo?", "Brownsberg Nature Park is the easiest to reach, about two to three hours from the city, with rainforest trails, waterfalls and views over the Brokopondo reservoir. Peperpot is even closer and good for birds."),
+    ("Can you visit the Central Suriname Nature Reserve?", "Yes, with planning. Access is usually by small plane to the Raleighvallen airstrip, followed by guided walks that include the climb up the Voltzberg granite dome. Trips are arranged through tour operators."),
+    ("What wildlife can you see in Suriname?", "The forests are home to jaguars, tapirs, giant river otters, monkeys, caimans and hundreds of bird species. Large mammals are never guaranteed, but rivers and reserves give good chances of monkeys, birds and caimans."),
+    ("When is the best time to visit Suriname for nature?", "The drier periods, roughly February to April and August to November, make trails and river travel easier. The forest is warm and humid year round, so pack light clothing, rain protection and insect repellent."),
+]
+_FAQ_SHOPPING = [
+    ("Where are the main shopping malls in Paramaribo?", "The largest are Hermitage Mall and the International Mall of Suriname, both with fashion, electronics, food and services. Kirpalani and Maretraite Mall are also popular."),
+    ("What souvenirs are worth buying in Suriname?", "Look for Maroon woodcarving, handwoven textiles, local hot pepper sauce, Surinamese rum and coffee, and crafts from shops like Readytex. Markets are good for spices and small gifts."),
+    ("What are shop opening hours in Suriname?", "Many shops open from around 8 or 9 in the morning until the late afternoon on weekdays, with shorter hours on Saturday. Some close on Sundays, though malls and supermarkets often stay open."),
+    ("Where can I buy fresh produce and local food?", "The Central Market in Paramaribo sells fruit, vegetables, fish and spices. Supermarkets across the city stock both local and imported goods."),
+    ("Can I pay by card when shopping?", "Malls, supermarkets and larger stores usually accept debit and credit cards. Markets, street stalls and smaller shops are mostly cash, so keep some SRD on hand."),
+]
+_FAQ_SERVICES = [
+    ("Where can I exchange money in Suriname?", "Banks and licensed exchange offices, known as cambios, change US dollars and euros into Surinamese dollars in Paramaribo. Rates vary, so it is worth comparing, and it is best to avoid changing money on the street."),
+    ("Which banks operate in Suriname?", "The main commercial banks include De Surinaamsche Bank, Hakrinbank, Republic Bank and Finabank. They have branches and ATMs across Paramaribo and the larger towns."),
+    ("How do I get a local SIM card?", "Telesur and Digicel are the two main operators. Prepaid SIM cards are sold at the airport and at shops around the city, and Telesur has the widest coverage outside Paramaribo."),
+    ("Are pharmacies easy to find in Paramaribo?", "Yes. Pharmacies are common across the city, and a rota of on call pharmacies covers nights and weekends. Bring enough of any prescription medicine you depend on."),
+    ("Can foreigners use local services like rentals and insurance?", "Many agencies handle rentals, real estate and insurance for both locals and visitors. For a longer stay it helps to have a local address and to check which documents each provider needs."),
+]
+
+def _render_faq(faq):
+    # Return (head_schema, body_html) from a list of (question, answer) tuples.
+    # The visible Q&A and the FAQPage JSON-LD are built from the same data so they match.
+    if not faq:
+        return "", ""
+    import json as _json
+    schema = _json.dumps({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
+            for q, a in faq
+        ],
+    }, ensure_ascii=False)
+    head = '\n  <script type="application/ld+json">\n  ' + schema + '\n  </script>'
+    rows = ""
+    for q, a in faq:
+        rows += (
+            '<details class="group bg-white rounded-2xl border border-gray-100 shadow-sm px-5 py-4">'
+            '<summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-semibold text-gray-900">'
+            '<span>' + html_lib.escape(q) + '</span>'
+            '<span class="shrink-0 text-gray-400 transition-transform group-open:rotate-180">&#9662;</span>'
+            '</summary>'
+            '<p class="text-gray-600 text-sm leading-relaxed mt-3">' + html_lib.escape(a) + '</p>'
+            '</details>'
+        )
+    body = (
+        '<section class="max-w-3xl mx-auto mt-16" aria-labelledby="faq-heading">'
+        '<h2 id="faq-heading" class="serif text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Common questions</h2>'
+        '<div class="space-y-3">' + rows + '</div>'
+        '</section>'
+    )
+    return head, body
+
 
 def build_index(restaurants, hotels):
     nature_cards   = "\n".join(nature_card(s, eager=(i==0))         for i,s in enumerate(NATURE_SPOTS[:6]))
@@ -3067,7 +3149,7 @@ def build_nature_page():
         NATURE_SPOTS, all_cards, page_file="nature.html", extra_html="", filter_bar=filter_bar_s,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Leo_val_brownsberg.JPG/1280px-Leo_val_brownsberg.JPG",
         lcp_image=NATURE_SPOTS[0]["image"] if NATURE_SPOTS else None, seo_title="Nature Parks & Wildlife Reserves in Suriname",
-        intro_text=f"Suriname protects over 94% of its land as pristine rainforest — the highest percentage of any country on Earth. Explore {total} nature parks, wildlife reserves and UNESCO World Heritage Sites. From the vast Central Suriname Nature Reserve to Brownsberg, Galibi and Bigi Pan, this is South America&#8217;s last great wilderness.")
+        intro_text=f"Suriname protects over 94% of its land as pristine rainforest, the highest percentage of any country on Earth. Explore {total} nature parks, wildlife reserves and UNESCO World Heritage Sites. From the vast Central Suriname Nature Reserve to Brownsberg, Galibi and Bigi Pan, this is South America&#8217;s last great wilderness.", faq=_FAQ_NATURE)
 
 def build_activities_page():
     # Merge ACTIVITIES and ADVENTURES_BIZ sorted alphabetically by name
@@ -3089,7 +3171,7 @@ def build_activities_page():
         ACTIVITIES, all_cards, bg_color="var(--forest2)", page_file="activities.html", extra_html="", filter_bar=filter_bar_a,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Atjoni_%2833496718666%29.jpg/1280px-Atjoni_%2833496718666%29.jpg",
         lcp_image=_first_img, seo_title="Things to Do in Suriname: Tours and Treks",
-        intro_text=f"Looking for things to do in Suriname? Browse {total} activities, tours and adventure experiences. Canoe through the jungle interior, watch leatherback turtles at Galibi, take a guided rainforest trek or explore Maroon villages by boat. From half-day trips out of Paramaribo to multi-day expeditions, find and book with local operators here.")
+        intro_text=f"Looking for things to do in Suriname? Browse {total} activities, tours and adventure experiences. Canoe through the jungle interior, watch leatherback turtles at Galibi, take a guided rainforest trek or explore Maroon villages by boat. From half-day trips out of Paramaribo to multi-day expeditions, find and book with local operators here.", faq=_FAQ_ACTIVITIES)
 
 def build_restaurants_page(restaurants):
     cards = "\n".join(poi_card(r, "cuisine", eager=(i==0)) for i,r in enumerate(restaurants))
@@ -3100,7 +3182,7 @@ def build_restaurants_page(restaurants):
         restaurants, cards, bg_color="#7c3aed", page_file="restaurants.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/2016_0624_Tjauw_min_moksie_meti_speciaal.jpg/1280px-2016_0624_Tjauw_min_moksie_meti_speciaal.jpg",
         lcp_image=_lcp, seo_title="Restaurants in Paramaribo, Suriname",
-        intro_text=f"Discover {len(restaurants)} restaurants, caf\u00e9s, bars and fast food spots across Suriname. From traditional Surinamese cuisine and Dutch-Indonesian rijsttafel to Asian fusion, pizza, and international chains, Paramaribo&#8217;s food scene reflects the country&#8217;s rich multicultural heritage. Use the filters to find your perfect dining experience.")
+        intro_text=f"Discover {len(restaurants)} restaurants, caf\u00e9s, bars and fast food spots across Suriname. From traditional Surinamese cuisine and Dutch-Indonesian rijsttafel to Asian fusion, pizza, and international chains, Paramaribo&#8217;s food scene reflects the country&#8217;s rich multicultural heritage. Use the filters to find your perfect dining experience.", faq=_FAQ_RESTAURANTS)
 
 def build_hotels_page(hotels):
     cards = "\n".join(poi_card(h, "category", eager=(i==0)) for i,h in enumerate(hotels))
@@ -3111,7 +3193,7 @@ def build_hotels_page(hotels):
         hotels, cards, bg_color="#c05621", page_file="hotels.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Bigi_Pan_Nature_Reserve_%282719369111%29.jpg/1280px-Bigi_Pan_Nature_Reserve_%282719369111%29.jpg",
         lcp_image=_lcp, seo_title="Hotels in Suriname: City and Jungle Lodges",
-        intro_text=f"Find the right place to stay from {len(hotels)} hotels, lodges and jungle retreats across Suriname. Paramaribo offers modern city hotels and casino resorts, while the interior has eco-lodges and remote river camps along the Suriname River. Whether you&#8217;re in town for business or heading deep into the rainforest, this is your full accommodation guide.")
+        intro_text=f"Find the right place to stay from {len(hotels)} hotels, lodges and jungle retreats across Suriname. Paramaribo offers modern city hotels and casino resorts, while the interior has eco-lodges and remote river camps along the Suriname River. Whether you&#8217;re in town for business or heading deep into the rainforest, this is your full accommodation guide.", faq=_FAQ_HOTELS)
 
 def build_shopping_page():
     cards = "\n".join(poi_card(b, eager=(i==0)) for i,b in enumerate(SHOPPING))
@@ -3122,7 +3204,7 @@ def build_shopping_page():
         SHOPPING, cards, bg_color="#7c3aed", page_file="shopping.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
         lcp_image=_lcp, seo_title="Shopping in Paramaribo, Suriname",
-        intro_text=f"Shop across {len(SHOPPING)} stores in Suriname — from supermarkets, malls and fashion boutiques to electronics, furniture and specialty food stores. Hermitage Mall and International Mall of Suriname are Paramaribo&#8217;s main retail hubs, with a wide range of local and international brands. Use the filters to browse by category or district.")
+        intro_text=f"Shop across {len(SHOPPING)} stores in Suriname, from supermarkets, malls and fashion boutiques to electronics, furniture and specialty food stores. Hermitage Mall and International Mall of Suriname are Paramaribo&#8217;s main retail hubs, with a wide range of local and international brands. Use the filters to browse by category or district.", faq=_FAQ_SHOPPING)
 
 def build_services_page():
     cards = "\n".join(poi_card(b, eager=(i==0)) for i,b in enumerate(SERVICES))
@@ -3133,7 +3215,7 @@ def build_services_page():
         SERVICES, cards, bg_color="#0369a1", page_file="services.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
         lcp_image=_lcp, seo_title="Local Services in Paramaribo, Suriname",
-        intro_text=f"Find {len(SERVICES)} service providers across Suriname: banks, insurance, beauty salons, gyms, pharmacies, schools, real estate agencies, travel agents and more. Whether you need a haircut, a mortgage, a gym membership or a doctor in Paramaribo, this directory covers the essential services that keep the city running.")
+        intro_text=f"Find {len(SERVICES)} service providers across Suriname: banks, insurance, beauty salons, gyms, pharmacies, schools, real estate agencies, travel agents and more. Whether you need a haircut, a mortgage, a gym membership or a doctor in Paramaribo, this directory covers the essential services that keep the city running.", faq=_FAQ_SERVICES)
 
 def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated, brent_price=None, brent_updated=None):
     import json as _json
@@ -5573,6 +5655,33 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         except Exception:
             pass
 
+    import re as _re
+    _VOLATILE_PATTS = [
+        _re.compile(r'"dateModified":"\d{4}-\d{2}-\d{2}"'),
+        _re.compile(r'\d{1,2}\s+[A-Za-z]{3,9}\s+\d{4}(?:,?\s*\d{1,2}:\d{2})?\s*SR'),
+        _re.compile(r'(?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day,\s+\d{1,2}\s+[A-Za-z]+\s+\d{4}'),
+    ]
+    def _static_lastmod(seg):
+        # Lastmod for a static/category page. Hash the page with volatile date tokens
+        # stripped, so evergreen pages stop claiming they changed today on every build.
+        # Only the sitemap date is affected here; the generated page output is untouched.
+        fname = seg if seg else "index.html"
+        _p = Path(fname)
+        if not _p.exists():
+            return today
+        try:
+            norm = _p.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            return today
+        for _patt in _VOLATILE_PATTS:
+            norm = _patt.sub("", norm)
+        _h = _hl.md5(norm.encode("utf-8")).hexdigest()
+        _key = "static:" + fname
+        if _lastmod_cache.get(_key, {}).get("hash") == _h:
+            return _lastmod_cache[_key]["date"]
+        _lastmod_cache[_key] = {"hash": _h, "date": today}
+        return today
+
     static_pages = [
         ("",                "1.0", "daily"),
         ("restaurants.html","0.9", "weekly"),
@@ -5599,7 +5708,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         urls.append(
             f"  <url>\n"
             f"    <loc>{loc}</loc>\n"
-            f"    <lastmod>{today}</lastmod>\n"
+            f"    <lastmod>{_static_lastmod(path_seg)}</lastmod>\n"
             f"    <changefreq>{freq}</changefreq>\n"
             f"    <priority>{priority}</priority>\n"
             f"  </url>"
