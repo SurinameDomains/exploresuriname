@@ -2796,8 +2796,8 @@
     "date": "2026-05-25"
   },
   "nature-galibi-nature-reserve": {
-    "hash": "4903ccf70ace80135804faa83aa88e6b",
-    "date": "2026-05-25"
+    "hash": "5e946e6d0c22f68cfa5fb43ae1a148af",
+    "date": "2026-06-01"
   },
   "nature-peperpot-nature-park": {
     "hash": "109d113ae813ae7e7780e27258069efd",
@@ -2926,5 +2926,73 @@
   "hurricane-steel-ringweg": {
     "hash": "e121256c22cc86a3502e676e278d54c6",
     "date": "2026-05-31"
+  },
+  "static:index.html": {
+    "hash": "5e7e38a5f0232eb330a6fbde74e163df",
+    "date": "2026-06-01"
+  },
+  "static:restaurants.html": {
+    "hash": "e5b992580104b6b9cf92dee0b7e37780",
+    "date": "2026-06-01"
+  },
+  "static:hotels.html": {
+    "hash": "44a76ca3f7aa81ee1a1582c5a5c50a99",
+    "date": "2026-06-01"
+  },
+  "static:activities.html": {
+    "hash": "97e4052f1172bb6aaae39e620a5923a3",
+    "date": "2026-06-01"
+  },
+  "static:nature.html": {
+    "hash": "9e8ea3359a336923216f73330f31f1e9",
+    "date": "2026-06-01"
+  },
+  "static:shopping.html": {
+    "hash": "5f6d0f797cc96e13581ccb07968195cc",
+    "date": "2026-06-01"
+  },
+  "static:services.html": {
+    "hash": "b6e624c0a88d6ce560d66d5607142e06",
+    "date": "2026-06-01"
+  },
+  "static:currency.html": {
+    "hash": "af7c5d5db3ea1c1b953cdbbd54e179e4",
+    "date": "2026-06-01"
+  },
+  "static:flights.html": {
+    "hash": "f172f8f5afcaf1dedafe456686e85ddd",
+    "date": "2026-06-01"
+  },
+  "static:conditions.html": {
+    "hash": "2cb90b54ddd4a02b129d3aed6464301a",
+    "date": "2026-06-01"
+  },
+  "static:visitor-guide.html": {
+    "hash": "11021f8631c3ccefe39e781bb01319bc",
+    "date": "2026-06-01"
+  },
+  "static:on-the-road.html": {
+    "hash": "2a2bdd71dd366c7e43e4f0410c841622",
+    "date": "2026-06-01"
+  },
+  "static:daily-notices.html": {
+    "hash": "2186d034d65e5d60b6ad7fc194c255b8",
+    "date": "2026-06-01"
+  },
+  "static:news.html": {
+    "hash": "24773ccaebe72b155c4a53264676d7a2",
+    "date": "2026-06-01"
+  },
+  "static:about.html": {
+    "hash": "c896d6b80523eb3ca90c07efe43ef6e2",
+    "date": "2026-06-01"
+  },
+  "static:contact.html": {
+    "hash": "a29441ca010c27858bf2849b8daba2ab",
+    "date": "2026-06-01"
+  },
+  "static:privacy.html": {
+    "hash": "c0a9dcf5ecbc0d36828ee032f32213f4",
+    "date": "2026-06-01"
   }
 }
