@@ -1,55 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD VRIJDAG 5 JUNI 2026",
-      "date": "5 Juni 2026",
-      "date_iso": "2026-06-05",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1507/gepland-onderhoud-vrijdag-5-juni-2026",
-      "meta_description": "GEPLAND ONDERHOUD:PARBO  VRIJDAG 5 JUNI 2026 TUSSEN 9:00 EN 14:00 UURSIDOESTRAAT, RABIENDER MAIKOEWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DEZE",
-      "district": "PARBO"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD DONDERDAG 4 JUNI 2026",
-      "date": "4 Juni 2026",
-      "date_iso": "2026-06-04",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1506/gepland-onderhoud-donderdag-4-juni-2026",
-      "meta_description": "GEPLAND ONDERHOUD: WANICA DONDERDAG 4 JUNI 2026 TUSSEN 9:00 EN 14:00 UURGEDEELTE MALANGWEG TUSSEN VREDENBURG SERIE B EN CELEBESWEG EN",
-      "district": "WANICA"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD WOENSDAG 3 JUNI 2026",
-      "date": "3 Juni 2026",
-      "date_iso": "2026-06-03",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1505/gepland-onderhoud-woensdag-3-juni-2026",
-      "meta_description": "GEPLAND ONDERHOUD:PARBO WOENSDAG 3 JUNI 2026 TUSSEN 9:00 EN 15:00 UURGEDEELTE BONISTRAAT TUSSEN WONGSOREDJOSTRAAT EN ANTON DRAGTENWEG, GEDEELTE KAIKOESISTRA",
-      "district": "PARBO"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD DINSDAG 2 JUNI 2026",
-      "date": "2 Juni 2026",
-      "date_iso": "2026-06-02",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1503/gepland-onderhoud-dinsdag-2-juni-2026",
-      "meta_description": "Gepland onderhoud: Commewijne-Marowijne dinsdag 2 juni 2026 tussen 09:00-14:00 GEDEELTE OOST – WEST VERBINDING TUSSEN ORLEANE KREEK EN PERICA, WEG",
-      "district": "Commewijne-Marowijne",
-      "time": "09:00 – 14:00",
-      "area": "GEDEELTE OOST – WEST VERBINDING TUSSEN ORLEANE KREEK EN PERICA, WEG"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD MAANDAG 1 JUNI 2026",
-      "date": "1 Juni 2026",
-      "date_iso": "2026-06-01",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1502/gepland-onderhoud-maandag-1-juni-2026",
-      "meta_description": "Gepland onderhoud: Wanica maandag 1 juni 2026 tussen 08:00-14:00 GEDEELTE JAVAWEG TUSSEN MADURASTRAAT EN REEBERG ZUIDWEG, GEDEELTE REEBERG ZUIDWEG TUSSEN",
-      "district": "Wanica",
-      "time": "08:00 – 14:00",
-      "area": "GEDEELTE JAVAWEG TUSSEN MADURASTRAAT EN REEBERG ZUIDWEG, GEDEELTE REEBERG ZUIDWEG TUSSEN"
-    }
-  ],
-  "last_updated": "2026-06-01T23:07:36.370297+00:00",
+  "outages": [],
+  "last_updated": "2026-06-02T03:07:38.340046+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
