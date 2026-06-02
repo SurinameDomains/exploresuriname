@@ -2774,11 +2774,11 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   <meta property="og:url" content="{page_url}">
   <meta property="og:title" content="{_seo_title} | ExploreSuriname.com">
   <meta property="og:description" content="{html_lib.escape(meta_desc)}">
-  <meta property="og:image" content="{{_og_img}}">
+  <meta property="og:image" content="{_og_img}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{_seo_title} | ExploreSuriname.com">
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
-  <meta name="twitter:image" content="{{_og_img}}">
+  <meta name="twitter:image" content="{_og_img}">
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"ItemList","name":"{title}","url":"{page_url}","numberOfItems":{len(items)},"itemListElement":[{",".join(
     '{"@type":"ListItem","position":' + str(i+1) + ',"name":' + __import__("json").dumps(it.get("name","")) + ',"url":"' + SITE_URL + "/" + it.get("url","") + '"}' for i,it in enumerate(items[:20])
