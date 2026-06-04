@@ -66,7 +66,7 @@
       align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
     }
     .chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
-    .listing-card { transition:opacity .2s, transform .2s; }
+    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
     .listing-card.hidden { display:none; }
   </style>
   <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
@@ -274,10 +274,13 @@ document.addEventListener('keydown', e => {
   
   <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"
        style="min-height:320px;padding-top:5rem;padding-bottom:3rem">
-    <a href="../../activities.html"
-       class="inline-flex items-center gap-1 text-white/70 text-sm hover:text-white mb-5 transition w-fit">
-      &#8592; Activities
-    </a>
+    <nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-1 text-white/70 text-sm mb-5">
+      <a href="../../index.html" class="hover:text-white transition">Home</a>
+      <span class="text-white/40">&#8250;</span>
+      <a href="../../activities.html" class="hover:text-white transition">Activities</a>
+      <span class="text-white/40">&#8250;</span>
+      <span class="text-white font-medium" aria-current="page">Jungle Stargazing</span>
+    </nav>
     <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"
           style="background:var(--coral);color:#fff">🌌 Activity</span>
     <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">Jungle Stargazing</h1>

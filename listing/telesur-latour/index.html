@@ -66,7 +66,7 @@
       align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
     }
     .chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
-    .listing-card { transition:opacity .2s, transform .2s; }
+    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
     .listing-card.hidden { display:none; }
   </style>
   <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
@@ -274,10 +274,13 @@ document.addEventListener('keydown', e => {
   <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(0,0,0,.75) 0%,rgba(0,0,0,.3) 60%,transparent 100%)"></div>
   <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"
        style="min-height:320px;padding-top:5rem;padding-bottom:3rem">
-    <a href="../../services.html"
-       class="inline-flex items-center gap-1 text-white/70 text-sm hover:text-white mb-5 transition w-fit">
-      &#8592; Services
-    </a>
+    <nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-1 text-white/70 text-sm mb-5">
+      <a href="../../index.html" class="hover:text-white transition">Home</a>
+      <span class="text-white/40">&#8250;</span>
+      <a href="../../services.html" class="hover:text-white transition">Services</a>
+      <span class="text-white/40">&#8250;</span>
+      <span class="text-white font-medium" aria-current="page">Telesur Latour</span>
+    </nav>
     <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"
           style="background:var(--coral);color:#fff"></span>
     <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">Telesur Latour</h1>
@@ -312,7 +315,7 @@ document.addEventListener('keydown', e => {
 </main>
 <section class="max-w-5xl mx-auto px-5 pb-16">
   <h2 class="text-lg font-bold text-gray-900 mb-5">More like this</h2>
-  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4"><a href="../../listing/digicel-albina/" class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img src="/images/f8c5a559f03ba24be4d8fa83dd22944e.svg" alt="Digicel Albina" loading="lazy" width="400" height="128" class="w-full h-full object-cover"></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Digicel Albina</h3><p class="text-xs text-gray-400">Marowijne</p></a><a href="../../listing/digicel-business-center/" class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img src="/images/f8c5a559f03ba24be4d8fa83dd22944e.svg" alt="Digicel Business Center" loading="lazy" width="400" height="128" class="w-full h-full object-cover"></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Digicel Business Center</h3><p class="text-xs text-gray-400">Paramaribo</p></a><a href="../../listing/digicel-extacy/" class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img src="/images/f8c5a559f03ba24be4d8fa83dd22944e.svg" alt="Digicel Extacy" loading="lazy" width="400" height="128" class="w-full h-full object-cover"></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Digicel Extacy</h3><p class="text-xs text-gray-400">Paramaribo</p></a><a href="../../listing/digicel-hermitage/" class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img src="/images/f8c5a559f03ba24be4d8fa83dd22944e.svg" alt="Digicel Hermitage" loading="lazy" width="400" height="128" class="w-full h-full object-cover"></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Digicel Hermitage</h3><p class="text-xs text-gray-400">Paramaribo</p></a>
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4"><a href="../../listing/digicel-albina/" class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img src="/images/f8c5a559f03ba24be4d8fa83dd22944e.svg" alt="Digicel Albina, Marowijne" loading="lazy" width="400" height="128" class="w-full h-full object-cover"></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Digicel Albina</h3><p class="text-xs text-gray-400">Marowijne</p></a><a href="../../listing/digicel-business-center/" class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img src="/images/f8c5a559f03ba24be4d8fa83dd22944e.svg" alt="Digicel Business Center, Paramaribo" loading="lazy" width="400" height="128" class="w-full h-full object-cover"></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Digicel Business Center</h3><p class="text-xs text-gray-400">Paramaribo</p></a><a href="../../listing/digicel-extacy/" class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img src="/images/f8c5a559f03ba24be4d8fa83dd22944e.svg" alt="Digicel Extacy, Paramaribo" loading="lazy" width="400" height="128" class="w-full h-full object-cover"></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Digicel Extacy</h3><p class="text-xs text-gray-400">Paramaribo</p></a><a href="../../listing/digicel-hermitage/" class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img src="/images/f8c5a559f03ba24be4d8fa83dd22944e.svg" alt="Digicel Hermitage, Paramaribo" loading="lazy" width="400" height="128" class="w-full h-full object-cover"></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Digicel Hermitage</h3><p class="text-xs text-gray-400">Paramaribo</p></a>
   </div>
 </section>
 

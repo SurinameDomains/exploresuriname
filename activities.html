@@ -66,7 +66,7 @@
       align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
     }
     .chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
-    .listing-card { transition:opacity .2s, transform .2s; }
+    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
     .listing-card.hidden { display:none; }
   </style>
   <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
@@ -371,7 +371,7 @@ function filterDistrict(btn, dist) {
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     
 <a href="listing/afobaka-resort/" data-sub="eco-lodges" data-district="Brokopondo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/ca42b1842bee14eb01e4bb7dee62b292.webp" alt="Afobaka Resort" loading="eager" fetchpriority="high" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/ca42b1842bee14eb01e4bb7dee62b292.webp" alt="Afobaka Resort, Accommodations in Brokopondo" loading="eager" fetchpriority="high" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Afobaka Resort</h3>
@@ -385,7 +385,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/akira-overwater-resort/" data-sub="eco-lodges" data-district="Nickerie" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/7c939ca772fe312d139fde4ba900edec.webp" alt="Akira Overwater Resort" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/7c939ca772fe312d139fde4ba900edec.webp" alt="Akira Overwater Resort, Accommodations in Nickerie" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Akira Overwater Resort</h3>
@@ -400,7 +400,7 @@ function filterDistrict(btn, dist) {
 
 <a href="listing/activity-atv-4x4-interior-tours/" data-sub="tours-expeditions" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
-    <img src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" alt="ATV &amp; 4x4 Interior Tours" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+    <img src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" alt="ATV &amp; 4x4 Interior Tours in Suriname" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">🚵🏻</span>
   </div>
@@ -413,7 +413,7 @@ function filterDistrict(btn, dist) {
 
 <a href="listing/activity-bird-watching/" data-sub="tours-expeditions" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
-    <img src="images/Birding-in-Suriname.webp" alt="Bird Watching" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+    <img src="images/Birding-in-Suriname.webp" alt="Bird Watching in Suriname" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">🦜</span>
   </div>
@@ -425,7 +425,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/clevia-park/" data-sub="entertainment" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/2ac2b8e505f0f31589e516ac17285ae5.webp" alt="Clevia Park" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/2ac2b8e505f0f31589e516ac17285ae5.webp" alt="Clevia Park in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Clevia Park</h3>
@@ -440,7 +440,7 @@ function filterDistrict(btn, dist) {
 
 <a href="listing/activity-colonial-plantation-tours/" data-sub="tours-expeditions" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
-    <img src="/images/97fcf36bdc7575d6df090e5ac34b621d.webp" alt="Colonial Plantation Tours" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+    <img src="/images/97fcf36bdc7575d6df090e5ac34b621d.webp" alt="Colonial Plantation Tours in Suriname" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">🏛️</span>
   </div>
@@ -452,7 +452,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/folo-nature-tours/" data-sub="tours-expeditions" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/95a7414b45fa9ffd922dfceaa79d87ec.webp" alt="Folo Nature Tours" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/95a7414b45fa9ffd922dfceaa79d87ec.webp" alt="Folo Nature Tours in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Folo Nature Tours</h3>
@@ -466,7 +466,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/free-city-walk-paramaribo/" data-sub="tours-expeditions" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/1a6aec34a606a31dcba1d070cb23b7b7.webp" alt="Free City Walk Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/1a6aec34a606a31dcba1d070cb23b7b7.webp" alt="Free City Walk Paramaribo in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Free City Walk Paramaribo</h3>
@@ -480,7 +480,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/huub-explorer-tours/" data-sub="tours-expeditions" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/caa6b456056c0deea91d17193df20da5.webp" alt="Huub Explorer Tours" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/caa6b456056c0deea91d17193df20da5.webp" alt="Huub Explorer Tours, Adventures in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Huub Explorer Tours</h3>
@@ -495,7 +495,7 @@ function filterDistrict(btn, dist) {
 
 <a href="listing/activity-indigenous-village-tours/" data-sub="tours-expeditions" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
-    <img src="/images/600929c23128b12e2c1d04bdb4f6bd0a.webp" alt="Indigenous Village Tours" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+    <img src="/images/600929c23128b12e2c1d04bdb4f6bd0a.webp" alt="Indigenous Village Tours in Suriname" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">🏘️</span>
   </div>
@@ -507,7 +507,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/jack-tours-travel-service/" data-sub="tours-expeditions" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/cf46bb83cbfffd26b0f1bb1a79e62c36.webp" alt="Jack Tours &amp; Travel Service" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/cf46bb83cbfffd26b0f1bb1a79e62c36.webp" alt="Jack Tours &amp; Travel Service in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Jack Tours &amp; Travel Service</h3>
@@ -521,7 +521,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/jenny-tours/" data-sub="tours-expeditions" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/de3f3f7a598d59b4315eff0ab3eb498c.webp" alt="Jenny Tours" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/de3f3f7a598d59b4315eff0ab3eb498c.webp" alt="Jenny Tours in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Jenny Tours</h3>
@@ -549,7 +549,7 @@ function filterDistrict(btn, dist) {
 
 <a href="listing/activity-jungle-trekking/" data-sub="tours-expeditions" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
-    <img src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" alt="Jungle Trekking" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+    <img src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" alt="Jungle Trekking in Suriname" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">🌿</span>
   </div>
@@ -562,7 +562,7 @@ function filterDistrict(btn, dist) {
 
 <a href="listing/activity-kayaking-paddling/" data-sub="tours-expeditions" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
-    <img src="/images/84fe4f9831e42ee235617c70798969c4.webp" alt="Kayaking &amp; Paddling" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+    <img src="/images/84fe4f9831e42ee235617c70798969c4.webp" alt="Kayaking &amp; Paddling in Suriname" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">🌊</span>
   </div>
@@ -574,7 +574,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/knini-paati/" data-sub="eco-lodges" data-district="Sipaliwini" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/e5bc2d77c05b6ecab0ac76a7a3db1c7e.webp" alt="Knini Paati" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/e5bc2d77c05b6ecab0ac76a7a3db1c7e.webp" alt="Knini Paati, Accommodations in Sipaliwini" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Knini Paati</h3>
@@ -588,7 +588,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/kodouffi-tapawatra-resort/" data-sub="eco-lodges" data-district="Sipaliwini" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/315266ed486cbd378ad0e279bd329943.webp" alt="Kodouffi Tapawatra Resort" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/315266ed486cbd378ad0e279bd329943.webp" alt="Kodouffi Tapawatra Resort, Accommodations in Sipaliwini" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Kodouffi Tapawatra Resort</h3>
@@ -603,7 +603,7 @@ function filterDistrict(btn, dist) {
 
 <a href="listing/activity-maroon-art-craft/" data-sub="tours-expeditions" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
-    <img src="/images/ce1112ce098966d27fb379a624e44274.webp" alt="Maroon Art &amp; Craft" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+    <img src="/images/ce1112ce098966d27fb379a624e44274.webp" alt="Maroon Art &amp; Craft in Suriname" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">🎨</span>
   </div>
@@ -616,7 +616,7 @@ function filterDistrict(btn, dist) {
 
 <a href="listing/activity-maroon-village-tours/" data-sub="tours-expeditions" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
-    <img src="/images/96c2837c82999c3a834bbdfa12a54710.webp" alt="Maroon Village Tours" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+    <img src="/images/96c2837c82999c3a834bbdfa12a54710.webp" alt="Maroon Village Tours in Suriname" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">🥁</span>
   </div>
@@ -628,7 +628,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/messias-tours/" data-sub="tours-expeditions" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/3d850e229672706c3c84514f3ee28830.webp" alt="Messias Tours" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/3d850e229672706c3c84514f3ee28830.webp" alt="Messias Tours in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Messias Tours</h3>
@@ -642,7 +642,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/mondowa-tours/" data-sub="tours-expeditions" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/6345b80b3d685d755587a7c177c85415.webp" alt="Mondowa Tours" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/6345b80b3d685d755587a7c177c85415.webp" alt="Mondowa Tours in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Mondowa Tours</h3>
@@ -657,7 +657,7 @@ function filterDistrict(btn, dist) {
 
 <a href="listing/activity-natural-swimming/" data-sub="tours-expeditions" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
-    <img src="/images/753690f5e1d4c63e15a7ebdff0b5b69b.webp" alt="Natural Swimming" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+    <img src="/images/753690f5e1d4c63e15a7ebdff0b5b69b.webp" alt="Natural Swimming in Suriname" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">🏊️</span>
   </div>
@@ -683,7 +683,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/okido-tours-travel/" data-sub="tours-expeditions" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/f09f9fc5cabda3e75c7c4efc4fdbd717.webp" alt="Okido Tours &amp; Travel" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/f09f9fc5cabda3e75c7c4efc4fdbd717.webp" alt="Okido Tours &amp; Travel in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Okido Tours &amp; Travel</h3>
@@ -697,7 +697,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/outdoor-living/" data-sub="entertainment" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/1351a753194e8dc18c980697b97bcce2.webp" alt="Outdoor Living" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/1351a753194e8dc18c980697b97bcce2.webp" alt="Outdoor Living in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Outdoor Living</h3>
@@ -712,7 +712,7 @@ function filterDistrict(btn, dist) {
 
 <a href="listing/activity-paramaribo-city-walk/" data-sub="tours-expeditions" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
-    <img src="/images/d8aefae797694205fb64bfc9bf678e4d.webp" alt="Paramaribo City Walk" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+    <img src="/images/d8aefae797694205fb64bfc9bf678e4d.webp" alt="Paramaribo City Walk in Suriname" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">🏙️</span>
   </div>
@@ -724,7 +724,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/pineapple-tours/" data-sub="tours-expeditions" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/a02bc8b8c1dee686801eb8b2062d53e8.webp" alt="Pineapple Tours" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/a02bc8b8c1dee686801eb8b2062d53e8.webp" alt="Pineapple Tours in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Pineapple Tours</h3>
@@ -738,7 +738,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/recreatie-oord-carolina-kreek/" data-sub="nature-parks" data-district="Para" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/ba09a405a8d378f61a0f1f8d88d53fd5.webp" alt="Recreatie Oord Carolina Kreek" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/ba09a405a8d378f61a0f1f8d88d53fd5.webp" alt="Recreatie Oord Carolina Kreek, Adventures in Para" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Recreatie Oord Carolina Kreek</h3>
@@ -753,7 +753,7 @@ function filterDistrict(btn, dist) {
 
 <a href="listing/activity-river-canoe-tours/" data-sub="tours-expeditions" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
-    <img src="/images/09be00574894146899f6a9df02847fc0.webp" alt="River Canoe Tours" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+    <img src="/images/09be00574894146899f6a9df02847fc0.webp" alt="River Canoe Tours in Suriname" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">🛶</span>
   </div>
@@ -766,7 +766,7 @@ function filterDistrict(btn, dist) {
 
 <a href="listing/activity-river-dolphin-watching/" data-sub="tours-expeditions" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Sotalia_fluviatilis_boto_cinza.jpg/1280px-Sotalia_fluviatilis_boto_cinza.jpg" alt="River Dolphin Watching" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Sotalia_fluviatilis_boto_cinza.jpg/1280px-Sotalia_fluviatilis_boto_cinza.jpg" alt="River Dolphin Watching in Suriname" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">🐬</span>
   </div>
@@ -778,7 +778,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/royal-tours-suriname-guyana/" data-sub="tours-expeditions" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/3722b8c4c2332d9b371632ddc349c814.webp" alt="Royal Tours Suriname Guyana" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/3722b8c4c2332d9b371632ddc349c814.webp" alt="Royal Tours Suriname Guyana in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Royal Tours Suriname Guyana</h3>
@@ -792,7 +792,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/sendang-redjo/" data-sub="local-caribbean" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/f3bc20217250f6afbd021d9729cb7ad2.webp" alt="Sendang Redjo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/f3bc20217250f6afbd021d9729cb7ad2.webp" alt="Sendang Redjo in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Sendang Redjo</h3>
@@ -807,7 +807,7 @@ function filterDistrict(btn, dist) {
 
 <a href="listing/activity-sport-fishing/" data-sub="tours-expeditions" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
-    <img src="/images/5bceaeb0abb7e7a2ed5c7270f6420a0d.webp" alt="Sport Fishing" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+    <img src="/images/5bceaeb0abb7e7a2ed5c7270f6420a0d.webp" alt="Sport Fishing in Suriname" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">🎣</span>
   </div>
@@ -819,7 +819,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/suran-adventures-tours-travel/" data-sub="tours-expeditions" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/3fa54f6483087f636af40e56c75f56fc.webp" alt="Suran Adventures Tours &amp; Travel" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/3fa54f6483087f636af40e56c75f56fc.webp" alt="Suran Adventures Tours &amp; Travel in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Suran Adventures Tours &amp; Travel</h3>
@@ -834,7 +834,7 @@ function filterDistrict(btn, dist) {
 
 <a href="listing/activity-surinamese-cooking-class/" data-sub="tours-expeditions" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
-    <img src="/images/35bcb075947351879e4f91b05c4e9014.webp" alt="Surinamese Cooking Class" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+    <img src="/images/35bcb075947351879e4f91b05c4e9014.webp" alt="Surinamese Cooking Class in Suriname" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">🍽️</span>
   </div>
@@ -846,7 +846,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/tio-boto-eco-resort/" data-sub="eco-lodges" data-district="Sipaliwini" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/8af62e22915bf8acea87f6859d5801d0.webp" alt="Tio Boto Eco Resort" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/8af62e22915bf8acea87f6859d5801d0.webp" alt="Tio Boto Eco Resort, Adventures in Sipaliwini" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Tio Boto Eco Resort</h3>
@@ -861,7 +861,7 @@ function filterDistrict(btn, dist) {
 
 <a href="listing/activity-turtle-watching/" data-sub="tours-expeditions" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
-    <img src="/images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp" alt="Turtle Watching" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+    <img src="/images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp" alt="Turtle Watching in Suriname" loading="lazy" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
     <span class="absolute top-4 left-4 text-2xl">🐢</span>
   </div>
@@ -873,7 +873,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/unlimited-suriname-tours/" data-sub="tours-expeditions" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/8d069d1ea08fc540d47b7d4158f4e58b.webp" alt="Unlimited Suriname Tours" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/8d069d1ea08fc540d47b7d4158f4e58b.webp" alt="Unlimited Suriname Tours, Adventures in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Unlimited Suriname Tours</h3>

@@ -66,7 +66,7 @@
       align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
     }
     .chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
-    .listing-card { transition:opacity .2s, transform .2s; }
+    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
     .listing-card.hidden { display:none; }
   </style>
   <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
@@ -371,7 +371,7 @@ function filterDistrict(btn, dist) {
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     
 <a href="listing/anaula-nature-resort/" data-sub="eco-lodges" data-district="Sipaliwini" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/8b288627df64785af0e590f4617a0c3f.webp" alt="Anaula Nature Resort" loading="eager" fetchpriority="high" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/8b288627df64785af0e590f4617a0c3f.webp" alt="Anaula Nature Resort in Sipaliwini" loading="eager" fetchpriority="high" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Anaula Nature Resort</h3>
@@ -385,7 +385,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/atlantis-hotel-casino/" data-sub="casino-hotels" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/28d72f01709b41ff47c3088caf706bf1.webp" alt="Atlantis Hotel Casino" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/28d72f01709b41ff47c3088caf706bf1.webp" alt="Atlantis Hotel Casino in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Atlantis Hotel Casino</h3>
@@ -399,7 +399,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/bronbella-villa-residence/" data-sub="guesthouses" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/813cd9898eeef45b3279e978f14dc2b0.webp" alt="Bronbella Villa Residence" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/813cd9898eeef45b3279e978f14dc2b0.webp" alt="Bronbella Villa Residence, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Bronbella Villa Residence</h3>
@@ -413,7 +413,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/courtyard-by-marriott/" data-sub="city-hotels" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/4dbb88b526794f2394659f96f323209e.webp" alt="Courtyard by Marriott" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/4dbb88b526794f2394659f96f323209e.webp" alt="Courtyard by Marriott, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Courtyard by Marriott</h3>
@@ -427,7 +427,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/danpaati-river-lodge/" data-sub="eco-lodges" data-district="Sipaliwini" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/1fb3d31877cdfd3b224c2f1ed1a02732.webp" alt="Danpaati River Lodge" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/1fb3d31877cdfd3b224c2f1ed1a02732.webp" alt="Danpaati River Lodge in Sipaliwini" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Danpaati River Lodge</h3>
@@ -441,7 +441,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/eco-torarica/" data-sub="eco-lodges" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/fd15a338dc5a1c6dbf69986aa24a1cd5.webp" alt="Eco Torarica" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/fd15a338dc5a1c6dbf69986aa24a1cd5.webp" alt="Eco Torarica, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Eco Torarica</h3>
@@ -455,7 +455,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/eco-resort-miano/" data-sub="eco-lodges" data-district="Para" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/d2fef266b68a0975cee75f25a7759bea.webp" alt="Eco-Resort Miano" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/d2fef266b68a0975cee75f25a7759bea.webp" alt="Eco-Resort Miano, Accommodations in Para" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Eco-Resort Miano</h3>
@@ -469,7 +469,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/greenheart-boutique-hotel/" data-sub="city-hotels" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/45fe27c09f485d47dc7e7df89aa1353e.webp" alt="Greenheart Boutique Hotel" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/45fe27c09f485d47dc7e7df89aa1353e.webp" alt="Greenheart Boutique Hotel in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Greenheart Boutique Hotel</h3>
@@ -483,7 +483,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/guesthouse-albergoalberga/" data-sub="guesthouses" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/195e52ceefa3deb2d3b447724839d27f.webp" alt="Guesthouse Albergo Alberga" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/195e52ceefa3deb2d3b447724839d27f.webp" alt="Guesthouse Albergo Alberga in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Guesthouse Albergo Alberga</h3>
@@ -497,7 +497,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/guesthouse-albina/" data-sub="guesthouses" data-district="Marowijne" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/b3a10ab931b369cb274e03896d13f16d.webp" alt="Guesthouse Albina" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/b3a10ab931b369cb274e03896d13f16d.webp" alt="Guesthouse Albina in Marowijne" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Guesthouse Albina</h3>
@@ -511,7 +511,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/holland-lodge/" data-sub="city-hotels" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/e8453e080049f589b426dfbf66cd2843.webp" alt="Holland Lodge" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/e8453e080049f589b426dfbf66cd2843.webp" alt="Holland Lodge, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Holland Lodge</h3>
@@ -525,7 +525,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/hotel-north-resort/" data-sub="city-hotels" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/c301e10fee519eca9abc07664b822140.webp" alt="Hotel North Resort" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/c301e10fee519eca9abc07664b822140.webp" alt="Hotel North Resort in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Hotel North Resort</h3>
@@ -539,7 +539,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/hotel-palacio/" data-sub="guesthouses" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/f5b109cef663d94999a0dd22f67134d7.webp" alt="Hotel Palacio" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/f5b109cef663d94999a0dd22f67134d7.webp" alt="Hotel Palacio, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Hotel Palacio</h3>
@@ -553,7 +553,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/hotel-peperpot/" data-sub="nature-parks" data-district="Commewijne" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/3b59af42734727bbf1b65ac72eb6d55d.webp" alt="Hotel Peperpot" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/3b59af42734727bbf1b65ac72eb6d55d.webp" alt="Hotel Peperpot, Accommodations in Commewijne" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Hotel Peperpot</h3>
@@ -567,7 +567,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/houttuyn-wellness-river-resort/" data-sub="fitness-wellness" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/a22425cfbd26dabaa05d5bedeabf7732.webp" alt="Houttuyn Wellness River Resort" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/a22425cfbd26dabaa05d5bedeabf7732.webp" alt="Houttuyn Wellness River Resort, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Houttuyn Wellness River Resort</h3>
@@ -581,7 +581,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/jacana-amazon-wellness-resort/" data-sub="fitness-wellness" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/626226628b2765619cbb0ce9f6d0a1c6.webp" alt="Jacana Amazon Wellness Resort" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/626226628b2765619cbb0ce9f6d0a1c6.webp" alt="Jacana Amazon Wellness Resort, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Jacana Amazon Wellness Resort</h3>
@@ -595,7 +595,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/kabalebo-nature-resort/" data-sub="eco-lodges" data-district="Sipaliwini" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/0a18ff391fd0af4ca34c84713066b186.webp" alt="Kabalebo Nature Resort" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/0a18ff391fd0af4ca34c84713066b186.webp" alt="Kabalebo Nature Resort in Sipaliwini" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Kabalebo Nature Resort</h3>
@@ -609,7 +609,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/kimboto/" data-sub="eco-lodges" data-district="Sipaliwini" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="https://i0.wp.com/sairahtujeehut.com/wp-content/uploads/2022/02/kimboto-cover-website.png?fit=1200%2C676&ssl=1" alt="Kimboto Lodge" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="https://i0.wp.com/sairahtujeehut.com/wp-content/uploads/2022/02/kimboto-cover-website.png?fit=1200%2C676&ssl=1" alt="Kimboto Lodge in Sipaliwini" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Kimboto Lodge</h3>
@@ -623,7 +623,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/marina-resort-waterland/" data-sub="guesthouses" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/cfd823a106909594cf96e0f588cd9638.webp" alt="Marina Resort Waterland" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/cfd823a106909594cf96e0f588cd9638.webp" alt="Marina Resort Waterland in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Marina Resort Waterland</h3>
@@ -637,7 +637,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/overbridge-river-resort/" data-sub="eco-lodges" data-district="Para" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/7b84a9ad7e7b490f3803f74c401c149a.webp" alt="Overbridge River Resort" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/7b84a9ad7e7b490f3803f74c401c149a.webp" alt="Overbridge River Resort in Para" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Overbridge River Resort</h3>
@@ -651,7 +651,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/oxygen-resort/" data-sub="city-hotels" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/857c1243a16d4e5cdb31109b7f91804e.webp" alt="Oxygen Resort" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/857c1243a16d4e5cdb31109b7f91804e.webp" alt="Oxygen Resort, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Oxygen Resort</h3>
@@ -665,7 +665,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/radisson-hotel/" data-sub="city-hotels" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7.webp" alt="Radisson Hotel Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7.webp" alt="Radisson Hotel Paramaribo in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Radisson Hotel Paramaribo</h3>
@@ -679,7 +679,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/ramada-paramaribo-princess/" data-sub="casino-hotels" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/63e0eeb7a9980acc0a7f00cdd4d69796.webp" alt="Ramada Paramaribo Princess" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/63e0eeb7a9980acc0a7f00cdd4d69796.webp" alt="Ramada Paramaribo Princess in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Ramada Paramaribo Princess</h3>
@@ -693,7 +693,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/residence-inn-nickerie/" data-sub="guesthouses" data-district="Nickerie" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/dcb3b342ef8be87da103833275e3f0ad.webp" alt="Residence Inn Nickerie" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/dcb3b342ef8be87da103833275e3f0ad.webp" alt="Residence Inn Nickerie in Nickerie" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Residence Inn Nickerie</h3>
@@ -707,7 +707,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/residence-inn-paramaribo/" data-sub="guesthouses" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/dcb3b342ef8be87da103833275e3f0ad.webp" alt="Residence Inn Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/dcb3b342ef8be87da103833275e3f0ad.webp" alt="Residence Inn Paramaribo in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Residence Inn Paramaribo</h3>
@@ -721,7 +721,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/royal-brasil-hotel/" data-sub="city-hotels" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/3a8c7a0006b54c0797dbdf4f9189fe00.webp" alt="Royal Brasil Hotel" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/3a8c7a0006b54c0797dbdf4f9189fe00.webp" alt="Royal Brasil Hotel, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Royal Brasil Hotel</h3>
@@ -735,7 +735,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/royal-breeze-hotel-paramaribo/" data-sub="guesthouses" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/f09d5577a459334245aad54944e4eb8b.webp" alt="Royal Breeze Hotel Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/f09d5577a459334245aad54944e4eb8b.webp" alt="Royal Breeze Hotel Paramaribo, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Royal Breeze Hotel Paramaribo</h3>
@@ -749,7 +749,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/royal-torarica/" data-sub="city-hotels" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/8620d384f93b82969bf15c5b3cbd3af1.webp" alt="Royal Torarica" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/8620d384f93b82969bf15c5b3cbd3af1.webp" alt="Royal Torarica, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Royal Torarica</h3>
@@ -763,7 +763,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/savannah-casino-hotel/" data-sub="casino-hotels" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/ee9346e2cb9d5f46ebbf92e18959ac66.webp" alt="Savannah Casino Hotel" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/ee9346e2cb9d5f46ebbf92e18959ac66.webp" alt="Savannah Casino Hotel in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Savannah Casino Hotel</h3>
@@ -777,7 +777,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/taman-indah-resort/" data-sub="city-hotels" data-district="Commewijne" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/481142f7bf9e4e168cf5ca2c93f99c84.webp" alt="Taman Indah Resort" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/481142f7bf9e4e168cf5ca2c93f99c84.webp" alt="Taman Indah Resort, Accommodations in Commewijne" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Taman Indah Resort</h3>
@@ -791,7 +791,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/the-golden-truly-hotel/" data-sub="city-hotels" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/a2274436f25643033261b3ab2f7a49b5.webp" alt="The Golden Truly Hotel" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/a2274436f25643033261b3ab2f7a49b5.webp" alt="The Golden Truly Hotel, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">The Golden Truly Hotel</h3>
@@ -819,7 +819,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/torarica-resort/" data-sub="city-hotels" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/f1025ab87358145331e18ffca5705cea.webp" alt="Torarica Resort" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/f1025ab87358145331e18ffca5705cea.webp" alt="Torarica Resort, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Torarica Resort</h3>
@@ -833,7 +833,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/tropicana-hotel-casino-suriname/" data-sub="casino-hotels" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/50b2cabfd05e7d0fc9c8bfc4d261b88f.webp" alt="Tropicana Hotel Casino" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/50b2cabfd05e7d0fc9c8bfc4d261b88f.webp" alt="Tropicana Hotel Casino in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Tropicana Hotel Casino</h3>
@@ -847,7 +847,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/tucan-resort-and-spa/" data-sub="beauty-wellness" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/ed7c77b7f2042b092dc2d315744234ac.webp" alt="Tucan Resort and Spa" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/ed7c77b7f2042b092dc2d315744234ac.webp" alt="Tucan Resort and Spa in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Tucan Resort and Spa</h3>
@@ -861,7 +861,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/villa-famiri/" data-sub="guesthouses" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/81f294c1d05902035b683eec9d321d2c.webp" alt="Villa Famiri" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/81f294c1d05902035b683eec9d321d2c.webp" alt="Villa Famiri, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Villa Famiri</h3>
@@ -875,7 +875,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/villa-zapakara/" data-sub="guesthouses" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/460d45e3de2002e1d080dad78c14ccd1.webp" alt="Villa Zapakara" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/460d45e3de2002e1d080dad78c14ccd1.webp" alt="Villa Zapakara in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Villa Zapakara</h3>
@@ -889,7 +889,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/villas-paramaribo/" data-sub="guesthouses" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/507eed3893204901fb41d3dfac74e78a.webp" alt="Villas Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/507eed3893204901fb41d3dfac74e78a.webp" alt="Villas Paramaribo in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Villas Paramaribo</h3>
@@ -903,7 +903,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/waterland-suites/" data-sub="guesthouses" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/5aa18f12ac52a6995969bfcd3ff7275e.webp" alt="Waterland Suites" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/5aa18f12ac52a6995969bfcd3ff7275e.webp" alt="Waterland Suites, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Waterland Suites</h3>
@@ -917,7 +917,7 @@ function filterDistrict(btn, dist) {
 </a>
 
 <a href="listing/zeelandia-suites/" data-sub="guesthouses" data-district="Paramaribo" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
-  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/8d6854bc62280e46930831674a2881ff.webp" alt="Zeelandia Suites" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
+  <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img src="/images/8d6854bc62280e46930831674a2881ff.webp" alt="Zeelandia Suites, Accommodations in Paramaribo" loading="lazy" width="400" height="224" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'"></div>
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
       <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Zeelandia Suites</h3>
