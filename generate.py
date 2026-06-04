@@ -1780,7 +1780,7 @@ PAGE_HEAD = """\
       align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
     }
     .chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
-    .listing-card { transition:opacity .2s, transform .2s; }
+    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
     .listing-card.hidden { display:none; }
   </style>
   <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
@@ -2547,7 +2547,7 @@ def nature_card(spot, eager=False):
     return f"""
 <a href="{internal_url}" data-sub="{spot.get('subcat','nature-parks')}" class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
   <div class="relative h-56 overflow-hidden">
-    <img src="{spot['image']}" alt="{html_lib.escape(spot['name'])}" loading="{_loading}"
+    <img src="{spot['image']}" alt="{html_lib.escape(spot['name'] + ' in Suriname')}" loading="{_loading}"
          width="400" height="224"
          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
          onerror="this.parentElement.style.background='#2D6A4F'">
@@ -2571,7 +2571,7 @@ def activity_card_rich(act, eager=False):
     internal_url = f"listing/{slug}/"
     img = act.get("image", "")
     _loading = 'eager" fetchpriority="high' if eager else "lazy"
-    img_html = f'<img src="{img}" alt="{html_lib.escape(act["name"])}" loading="{_loading}" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display=\'none\'">' if img else ""
+    img_html = f'<img src="{img}" alt="{html_lib.escape(act["name"] + " in Suriname")}" loading="{_loading}" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display=\'none\'">' if img else ""
     return f"""
 <a href="{internal_url}" data-sub="{act.get('subcat','tours-expeditions')}" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
@@ -2609,7 +2609,7 @@ def poi_card(item, badge_key="cuisine", eager=False):
     badge_html = f'<span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:{bg};color:{fg}">{html_lib.escape(badge)}</span>' if badge else ""
     _loading = 'eager" fetchpriority="high' if eager else "lazy"
     img_html = (f'<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0">'
-                f'<img src="{img}" alt="{html_lib.escape(item["name"])}" loading="{_loading}" '
+                f'<img src="{img}" alt="{html_lib.escape(item["name"] + ((", " + badge) if badge else "") + " in " + area)}" loading="{_loading}" '
                 f'width="400" height="224" '
                 f'class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" '
                 f'onerror="this.parentElement.style.background=\'#2D6A4F\';this.style.display=\'none\'">'
@@ -3927,7 +3927,7 @@ def _related_listings_html(current_slug, sub, prefix="../../"):
         burl  = prefix + item.get("url", "listing/" + item.get("slug","") + "/")
         thumb = (
             f'<div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100">'
-            f'<img src="{bimg}" alt="{_hl.escape(bname)}" loading="lazy" '
+            f'<img src="{bimg}" alt="{_hl.escape(bname + ", " + bloc)}" loading="lazy" '
             f'width="400" height="128" class="w-full h-full object-cover">'
             f'</div>'
         )
@@ -3947,6 +3947,19 @@ def _related_listings_html(current_slug, sub, prefix="../../"):
         + cards_html +
         '\n  </div>'
         '\n</section>'
+    )
+
+
+def _crumb(cat_href, cat_label, name_e, prefix="../../"):
+    """Visible breadcrumb trail for listing detail pages (mirrors the BreadcrumbList schema)."""
+    return (
+        '\n    <nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-1 text-white/70 text-sm mb-5">'
+        '\n      <a href="' + prefix + 'index.html' + '" class="hover:text-white transition">Home</a>'
+        '\n      <span class="text-white/40">&#8250;</span>'
+        '\n      <a href="' + prefix + cat_href + '" class="hover:text-white transition">' + cat_label + '</a>'
+        '\n      <span class="text-white/40">&#8250;</span>'
+        '\n      <span class="text-white font-medium" aria-current="page">' + name_e + '</span>'
+        '\n    </nav>'
     )
 
 
@@ -4257,10 +4270,7 @@ def build_listing_page(slug, b):
         '\n  ' + overlay +
         '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"'
         '\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">'
-        '\n    <a href="../../' + back_file + '"'
-        '\n       class="inline-flex items-center gap-1 text-white/70 text-sm hover:text-white mb-5 transition w-fit">'
-        '\n      &#8592; ' + back_label +
-        '\n    </a>'
+        + _crumb(back_file, back_label, name_e) +
         '\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"'
         '\n          style="background:var(--coral);color:#fff">' + html_lib.escape(category) + '</span>'
         '\n    <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">' + name_e + '</h1>'
@@ -4397,10 +4407,7 @@ def build_activity_listing_page(act, slug):
         '\n  ' + overlay +
         '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"'
         '\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">'
-        '\n    <a href="../../activities.html"'
-        '\n       class="inline-flex items-center gap-1 text-white/70 text-sm hover:text-white mb-5 transition w-fit">'
-        '\n      &#8592; Activities'
-        '\n    </a>'
+        + _crumb("activities.html", "Activities", name_e) +
         '\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"'
         '\n          style="background:var(--coral);color:#fff">' + icon + ' Activity</span>'
         '\n    <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">' + name_e + '</h1>'
@@ -4558,7 +4565,7 @@ def build_nature_listing_page(spot, slug):
         + '\n<div class="relative w-full pt-16" style="min-height:320px">\n  <div class="absolute inset-0" style="'
         + hero_style + '"></div>\n  '
         + overlay
-        + '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">\n    <a href="../../nature.html"\n       class="inline-flex items-center gap-1 text-white/70 text-sm hover:text-white mb-5 transition w-fit">\n      &#8592; Nature &amp; Parks\n    </a>\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"\n          style="background:var(--coral);color:#fff">'
+        + '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">' + _crumb("nature.html", "Nature &amp; Parks", name_e) + '\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"\n          style="background:var(--coral);color:#fff">'
         + html_lib.escape(badge)
         + '</span>\n    <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">'
         + name_e
