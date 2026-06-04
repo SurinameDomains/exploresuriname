@@ -1,5 +1,44 @@
 {
-  "outages": [],
-  "last_updated": "2026-06-04T18:24:17.709111+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD ZONDAG 7 JUNI 2026",
+      "date": "7 Juni 2026",
+      "date_iso": "2026-06-07",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1510/gepland-onderhoud-zondag-7-juni-2026",
+      "meta_description": "Gepland onderhoud: Paramaribo zondag 7 juni 2026 tussen 08:30-15:00 GEDEELTE MAHONYLAAN TUSSEN WILHELMINASTRAAT EN ANTON DRAGTENWEG, GEDEELTE CORNELIS JONGB",
+      "district": "Paramaribo",
+      "time": "08:30 – 15:00",
+      "area": "GEDEELTE MAHONYLAAN TUSSEN WILHELMINASTRAAT EN ANTON DRAGTENWEG, GEDEELTE CORNELIS JONGB"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD VRIJDAG 5 JUNI 2026",
+      "date": "5 Juni 2026",
+      "date_iso": "2026-06-05",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1509/gepland-onderhoud-vrijdag-5-juni-2026",
+      "meta_description": "Gepland onderhoud: Wanica vrijdag 5 juni 2026 tussen 09:00-14:00 GEDEELTE WARAKOEWEG TUSSEN PANDIT PALTAN TEWARIEWEG EN CHAUTHIEWEG EN ALLE ZIJWEGEN",
+      "district": "Wanica",
+      "time": "09:00 – 14:00",
+      "area": "GEDEELTE WARAKOEWEG TUSSEN PANDIT PALTAN TEWARIEWEG EN CHAUTHIEWEG EN ALLE ZIJWEGEN"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD VRIJDAG 5 JUNI 2026",
+      "date": "5 Juni 2026",
+      "date_iso": "2026-06-05",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1507/gepland-onderhoud-vrijdag-5-juni-2026",
+      "meta_description": "GEPLAND ONDERHOUD:PARBO  VRIJDAG 5 JUNI 2026 TUSSEN 9:00 EN 14:00 UURSIDOESTRAAT, RABIENDER MAIKOEWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DEZE",
+      "district": "PARBO"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 4 JUNI 2026",
+      "date": "4 Juni 2026",
+      "date_iso": "2026-06-04",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1506/gepland-onderhoud-donderdag-4-juni-2026"
+    }
+  ],
+  "last_updated": "2026-06-04T19:07:51.538866+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
