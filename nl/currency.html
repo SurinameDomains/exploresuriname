@@ -117,13 +117,13 @@
 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
 <span class="hidden sm:inline">Zoeken…</span>
 <span class="ml-auto hidden sm:inline text-xs bg-gray-200 text-gray-500 rounded px-1.5 py-0.5 font-mono">/</span>
-</button><div data-langswitch="1" style="display:flex;align-items:center;gap:7px;margin-left:10px;flex-shrink:0;font-size:12px;font-weight:600"><svg fill="none" height="15" stroke="#9ca3af" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/currency.html" style="color:#9ca3af;text-decoration:none">EN</a><a href="/nl/currency.html" style="color:var(--forest);text-decoration:underline">NL</a><a href="/es/currency.html" style="color:#9ca3af;text-decoration:none">ES</a></div>
+</button><div class="hidden md:flex items-center" data-langswitch="1" style="gap:7px;margin-left:10px;flex-shrink:0;font-size:12px;font-weight:600"><svg fill="none" height="15" stroke="#9ca3af" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/currency.html" style="color:#9ca3af;text-decoration:none">EN</a><a href="/nl/currency.html" style="color:var(--forest);text-decoration:underline">NL</a><a href="/es/currency.html" style="color:#9ca3af;text-decoration:none">ES</a></div>
 <button aria-label="Menu" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition" id="hamburger" onclick="toggleMobileMenu()">
 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
 </button>
 </div>
 </div>
-<div class="hidden md:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto" id="mm">
+<div class="hidden md:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto" id="mm"><div data-langswitch-mobile="1" style="display:flex;align-items:center;gap:16px;padding:10px 2px 12px;margin-bottom:4px;border-bottom:1px solid #eee;font-size:15px;font-weight:600"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/currency.html" style="color:#6b7280;text-decoration:none">EN</a><a href="/nl/currency.html" style="color:var(--forest);text-decoration:underline">NL</a><a href="/es/currency.html" style="color:#6b7280;text-decoration:none">ES</a></div>
 <div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-todo')"><span>Te doen</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-todo"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="nature.html">Natuur</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="activities.html">Activiteiten</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="shopping.html">Winkelen</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-eat')"><span>Eten &amp; Slapen</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-eat"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="restaurants.html">Waar te eten</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="hotels.html">Waar te overnachten</a></div></div><a class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" href="services.html">Lokale diensten</a><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-plan')"><span>Bezoekersgids</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-plan"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="visitor-guide.html">De basis</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="on-the-road.html">Onderweg</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-ess')" style="color:var(--forest)"><span>Essentieel</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1" id="mg-ess"><a class="flex items-center gap-2 py-2.5 px-3 text-sm font-semibold rounded-lg" href="currency.html" style="color:var(--forest);background:var(--mint)">Wisselkoersen</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="flights.html">Vluchten</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="conditions.html">Weer &amp; getijden</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="daily-notices.html">Dagelijkse mededelingen</a></div></div><a class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" href="news.html">Nieuws</a>
 </div>
 </nav>
@@ -357,7 +357,7 @@ document.addEventListener('keydown', e => {
 </div>
 <a class="text-xs font-semibold shrink-0 hover:underline" href="https://www.cme.sr" rel="noopener noreferrer" style="color:var(--forest2)" target="_blank">cme.sr ↗</a>
 </div>
-<p class="text-gray-400 text-xs mt-2">🕐 CME: 05 Jun 2026 15:15 SR</p>
+<p class="text-gray-400 text-xs mt-2">🕐 CME: 05 Jun 2026 15:30 SR</p>
 </div>
 <div class="hidden sm:block overflow-x-auto">
 <table class="w-full text-sm">
@@ -408,16 +408,16 @@ document.addEventListener('keydown', e => {
 <h2 class="serif text-2xl font-bold text-gray-900">🛣︎Brent Ruwe Olie</h2>
 <p class="text-gray-400 text-sm mt-1">Brent Crude, elk uur bijgewerkt</p>
 </div>
-<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">● 05 Jun 2026 15:15 SR</span>
+<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">● 05 Jun 2026 15:30 SR</span>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 <div class="rounded-xl p-4" style="background:var(--mint)">
 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">USD/vat</p>
-<p class="text-2xl font-bold font-mono text-gray-900">$92.94</p>
+<p class="text-2xl font-bold font-mono text-gray-900">$93.00</p>
 </div>
 <div class="rounded-xl p-4 bg-gray-50">
 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">SRD/vat</p>
-<p class="text-2xl font-bold font-mono text-gray-900">3,471 SRD</p>
+<p class="text-2xl font-bold font-mono text-gray-900">3,474 SRD</p>
 </div>
 </div>
 <p class="text-gray-400 text-xs mt-4">Brent Crude is de mondiale benchmark die voor de meeste internationale oliecontracten wordt gebruikt. De offshore productie van Suriname (Blok 58) is tegen deze index geprijsd. Het SRD-equivalent gebruikt de huidige CME USD-aankoopkoers (37,35). Wordt bij elke herbouw van de site vers opgehaald.</p>
