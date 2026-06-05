@@ -21,6 +21,10 @@ from bs4 import BeautifulSoup, NavigableString, Comment
 ROOT     = Path(__file__).parent
 SITE_URL = "https://exploresuriname.com"
 
+def serialize(soup):
+    """str(soup) but restore camelCase SVG attrs that lxml lowercases (viewBox)."""
+    return str(soup).replace("viewbox=", "viewBox=")
+
 # code -> (html lang attr, og:locale)
 LANGS   = {"en": ("en", "en_US"), "nl": ("nl", "nl_NL"), "es": ("es", "es_ES")}
 TARGETS = ["nl", "es"]                       # generated subtrees (en stays at root)
@@ -163,6 +167,10 @@ def localize(soup, lang: str, rel_path: str):
             m["content"] = m.get("content","").replace("/daily-notices.html", f"/{lang}/daily-notices.html")
         for a in soup.select('a[href="/daily-notices.html"]'):
             a["href"] = f"/{lang}/daily-notices.html"
+    # keep translated nav labels on a single row (they run longer than English)
+    if soup.head:
+        _st = soup.new_tag("style"); _st.string = "nav button,nav a{white-space:nowrap}"
+        soup.head.append(_st)
     inject_hreflang(soup, rel_path)
     inject_switcher(soup, lang, rel_path)
     return soup
@@ -192,19 +200,31 @@ def inject_switcher(soup, lang: str, rel_path: str):
     target = holder or nav.find("div")
     if not target: return
     wrap = soup.new_tag("div"); wrap["data-langswitch"] = "1"
-    wrap["style"] = "display:flex;align-items:center;gap:1px;margin-right:8px;padding:2px;border:1px solid #e5e7eb;border-radius:9999px;background:#fff;flex-shrink:0"
+    wrap["style"] = "display:flex;align-items:center;gap:7px;margin-left:10px;flex-shrink:0;font-size:12px;font-weight:600"
+    # globe icon — a language-agnostic cue for visitors who can't read the UI yet
+    svg = soup.new_tag("svg", attrs={"width":"15","height":"15","viewBox":"0 0 24 24",
+                                     "fill":"none","stroke":"#9ca3af","stroke-width":"2",
+                                     "style":"flex-shrink:0"})
+    svg.append(soup.new_tag("circle", attrs={"cx":"12","cy":"12","r":"9"}))
+    for d in ("M3 12h18", "M12 3c2.6 2.6 2.6 15.4 0 18", "M12 3c-2.6 2.6-2.6 15.4 0 18"):
+        svg.append(soup.new_tag("path", attrs={"d": d}))
+    wrap.append(svg)
     for code in ["en", "nl", "es"]:
         pre = "" if code == "en" else f"/{code}"
         href = f"{pre}/{rel_path}".replace("/index.html", "/") or "/"
         a = soup.new_tag("a", href=href)
         a.string = SWITCH_LABEL[code]
-        base = "display:inline-block;padding:2px 7px;border-radius:9999px;font-size:11px;font-weight:700;letter-spacing:.03em;line-height:1.4;text-decoration:none;"
         if code == lang:
-            a["style"] = base + "background:var(--forest);color:#fff"
+            a["style"] = "color:var(--forest);text-decoration:underline"
         else:
-            a["style"] = base + "color:#6b7280"
+            a["style"] = "color:#9ca3af;text-decoration:none"
         wrap.append(a)
-    target.insert(0, wrap)
+    # place to the RIGHT of the search box (far-right corner on desktop; left of hamburger on mobile)
+    search_btn = target.find("button", onclick=re.compile("openSearch")) or target.find("button")
+    if search_btn is not None:
+        search_btn.insert_after(wrap)
+    else:
+        target.append(wrap)
 
 # ── walk the English tree ─────────────────────────────────────────────────────
 def english_pages():
@@ -228,7 +248,7 @@ def main():
         all_segments |= collect_segments(en_soup)
         inject_hreflang(en_soup, rel)
         inject_switcher(en_soup, "en", rel)
-        src.write_text(str(en_soup), encoding="utf-8")
+        src.write_text(serialize(en_soup), encoding="utf-8")
 
         # emit translated trees
         for lang in TARGETS:
@@ -236,7 +256,7 @@ def main():
             localize(soup, lang, rel)
             out = ROOT / lang / rel
             out.parent.mkdir(parents=True, exist_ok=True)
-            out.write_text(str(soup), encoding="utf-8")
+            out.write_text(serialize(soup), encoding="utf-8")
 
     # per-language search index (names/areas identical; category labels translated)
     si = ROOT / "search-index.json"
