@@ -1,0 +1,64 @@
+name: Fill Translations (NL/ES)
+
+# Resumable. Run manually as many times as needed: each run translates the
+# next batch of pending segments via the keyless Google endpoint (free, no key, no card) and commits the
+# updated translations.json. Stops cleanly when the daily quota is reached;
+# the next run continues where it left off. Once translations.json is complete,
+# further runs are cheap no-ops. Safe to delete this workflow when done, or
+# uncomment the schedule below to auto-resume daily until full.
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '0 5 * * *'   # 05:00 UTC daily until the cache is full
+
+concurrency:
+  group: exploresuriname-translate
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build Tailwind CSS
+        run: npx tailwindcss@3 -i input.css -o tailwind.css --minify
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate English pages (source for the segment inventory)
+        env:
+          WORLDTIDES_KEY:    ${{ secrets.WORLDTIDES_KEY }}
+          AERODATABOX_KEY:   ${{ secrets.AERODATABOX_KEY }}
+        run: python generate.py
+
+      - name: Collect translatable segments
+        run: python build_i18n.py
+
+      - name: Translate pending segments (keyless Google, resumable)
+        run: python translate_cache.py
+
+      - name: Shield business names in listing titles/meta
+        run: python protect_titles.py
+
+      - name: Commit updated cache
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add translations.json i18n_segments.json translation_segments.json || true
+          git diff --staged --quiet || git commit -m "i18n: fill translations cache [$(date -u '+%Y-%m-%d %H:%M') UTC]"
+          git pull --rebase origin main
+          git push
