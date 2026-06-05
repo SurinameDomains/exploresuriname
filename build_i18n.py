@@ -196,35 +196,47 @@ def inject_switcher(soup, lang: str, rel_path: str):
     nav = soup.find("nav")
     if not nav: return
     if nav.find(attrs={"data-langswitch": True}): return
-    holder = soup.find(attrs={"class": re.compile(r"flex items-center gap-2 flex-shrink-0")})
-    target = holder or nav.find("div")
-    if not target: return
-    wrap = soup.new_tag("div"); wrap["data-langswitch"] = "1"
-    wrap["style"] = "display:flex;align-items:center;gap:7px;margin-left:10px;flex-shrink:0;font-size:12px;font-weight:600"
-    # globe icon — a language-agnostic cue for visitors who can't read the UI yet
-    svg = soup.new_tag("svg", attrs={"width":"15","height":"15","viewBox":"0 0 24 24",
-                                     "fill":"none","stroke":"#9ca3af","stroke-width":"2",
-                                     "style":"flex-shrink:0"})
-    svg.append(soup.new_tag("circle", attrs={"cx":"12","cy":"12","r":"9"}))
-    for d in ("M3 12h18", "M12 3c2.6 2.6 2.6 15.4 0 18", "M12 3c-2.6 2.6-2.6 15.4 0 18"):
-        svg.append(soup.new_tag("path", attrs={"d": d}))
-    wrap.append(svg)
-    for code in ["en", "nl", "es"]:
+
+    def href(code):
         pre = "" if code == "en" else f"/{code}"
-        href = f"{pre}/{rel_path}".replace("/index.html", "/") or "/"
-        a = soup.new_tag("a", href=href)
-        a.string = SWITCH_LABEL[code]
-        if code == lang:
-            a["style"] = "color:var(--forest);text-decoration:underline"
-        else:
-            a["style"] = "color:#9ca3af;text-decoration:none"
-        wrap.append(a)
-    # place to the RIGHT of the search box (far-right corner on desktop; left of hamburger on mobile)
-    search_btn = target.find("button", onclick=re.compile("openSearch")) or target.find("button")
-    if search_btn is not None:
-        search_btn.insert_after(wrap)
-    else:
-        target.append(wrap)
+        return (f"{pre}/{rel_path}".replace("/index.html", "/")) or "/"
+
+    def globe(stroke):
+        svg = soup.new_tag("svg", attrs={"width":"15","height":"15","viewBox":"0 0 24 24",
+                                         "fill":"none","stroke":stroke,"stroke-width":"2",
+                                         "style":"flex-shrink:0"})
+        svg.append(soup.new_tag("circle", attrs={"cx":"12","cy":"12","r":"9"}))
+        for d in ("M3 12h18", "M12 3c2.6 2.6 2.6 15.4 0 18", "M12 3c-2.6 2.6-2.6 15.4 0 18"):
+            svg.append(soup.new_tag("path", attrs={"d": d}))
+        return svg
+
+    def links(into, active_col, idle_col):
+        for code in ["en", "nl", "es"]:
+            a = soup.new_tag("a", href=href(code)); a.string = SWITCH_LABEL[code]
+            a["style"] = (f"color:{active_col};text-decoration:underline" if code == lang
+                          else f"color:{idle_col};text-decoration:none")
+            into.append(a)
+
+    # --- desktop: far-right of the search box, hidden on mobile ---
+    holder = soup.find(attrs={"class": re.compile(r"flex items-center gap-2 flex-shrink-0")})
+    if holder is not None:
+        wrap = soup.new_tag("div"); wrap["data-langswitch"] = "1"
+        wrap["class"] = "hidden md:flex items-center"
+        wrap["style"] = "gap:7px;margin-left:10px;flex-shrink:0;font-size:12px;font-weight:600"
+        wrap.append(globe("#9ca3af"))
+        links(wrap, "var(--forest)", "#9ca3af")
+        sb = holder.find("button", onclick=re.compile("openSearch")) or holder.find("button")
+        (sb.insert_after if sb is not None else holder.append)(wrap)
+
+    # --- mobile: row at the top of the hamburger menu (keeps the hamburger intact) ---
+    mm = soup.find(id="mm")
+    if mm is not None:
+        m = soup.new_tag("div"); m["data-langswitch-mobile"] = "1"
+        m["style"] = ("display:flex;align-items:center;gap:16px;padding:10px 2px 12px;"
+                      "margin-bottom:4px;border-bottom:1px solid #eee;font-size:15px;font-weight:600")
+        m.append(globe("#6b7280"))
+        links(m, "var(--forest)", "#6b7280")
+        mm.insert(0, m)
 
 # ── walk the English tree ─────────────────────────────────────────────────────
 def english_pages():
