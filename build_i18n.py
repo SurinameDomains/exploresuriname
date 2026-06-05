@@ -116,6 +116,8 @@ def collect_segments(soup) -> set:
     for sel, attr in [("meta[name=description]", "content"),
                       ("meta[property='og:description']", "content"),
                       ("meta[property='og:title']", "content"),
+                      ("meta[name='twitter:title']", "content"),
+                      ("meta[name='twitter:description']", "content"),
                       ("title", None)]:
         for el in soup.select(sel):
             val = el.get_text() if attr is None else el.get(attr, "")
@@ -142,16 +144,22 @@ def localize(soup, lang: str, rel_path: str):
     # head meta + title
     for sel, attr in [("meta[name=description]", "content"),
                       ("meta[property='og:description']", "content"),
-                      ("meta[property='og:title']", "content")]:
+                      ("meta[property='og:title']", "content"),
+                      ("meta[name='twitter:title']", "content"),
+                      ("meta[name='twitter:description']", "content")]:
         for el in soup.select(sel):
             v = el.get(attr, "")
             if v and translatable(v): el[attr] = tr(v, lang)
     # NB: <title> text is handled by the text-node loop above (don't double-process)
 
-    # html lang + og:locale
+    # html lang + og:locale (+ alternates)
     if soup.html: soup.html["lang"] = html_lang
     for el in soup.select("meta[property='og:locale']"):
         el["content"] = og_locale
+    inject_og_alternates(soup, lang)
+
+    # JSON-LD: localize internal page URLs + inLanguage (schema text stays neutral)
+    localize_jsonld(soup, lang)
 
     # canonical + og:url -> prefix the path for non-en
     prefix = "" if lang == "en" else f"/{lang}"
@@ -189,6 +197,54 @@ def inject_hreflang(soup, rel_path: str):
         head.append(tag)
     xd = soup.new_tag("link", rel="alternate", hreflang="x-default", href=url_for("en"))
     head.append(xd)
+
+# ── og:locale:alternate (signal the other available locales) ──────────────────
+def inject_og_alternates(soup, lang: str):
+    head = soup.head
+    if not head: return
+    for el in head.select("meta[property='og:locale:alternate']"):
+        el.decompose()
+    anchor = soup.select_one("meta[property='og:locale']")
+    for code, (_h, oglc) in LANGS.items():
+        if code == lang: continue
+        tag = soup.new_tag("meta"); tag["property"] = "og:locale:alternate"; tag["content"] = oglc
+        (anchor.insert_after if anchor is not None else head.append)(tag)
+
+# ── JSON-LD localization: prefix internal page URLs, set inLanguage ────────────
+_LD_ASSET_RE = re.compile(r'\.(?:jpg|jpeg|png|webp|gif|svg|ico|css|js|xml|json|mp4|pdf|woff2?|ttf)(?:$|\?)', re.I)
+def localize_jsonld(soup, lang: str):
+    if lang == "en": return
+    base = SITE_URL + "/"
+    prefix = f"{SITE_URL}/{lang}/"
+    def loc_url(u):
+        if not isinstance(u, str) or not u.startswith(base):
+            return u
+        rest = u[len(base):]                 # path (+ optional ?query/#frag)
+        path = rest.split("?", 1)[0].split("#", 1)[0]
+        if _LD_ASSET_RE.search(path):        # leave images/assets at root (no lang variant)
+            return u
+        if rest.startswith(f"{lang}/"):      # already localized
+            return u
+        return prefix + rest
+    def walk(o):
+        if isinstance(o, dict):
+            return {k: (lang if k == "inLanguage"
+                        else loc_url(v) if isinstance(v, str)
+                        else walk(v))
+                    for k, v in o.items()}
+        if isinstance(o, list):
+            return [walk(i) for i in o]
+        if isinstance(o, str):
+            return loc_url(o)
+        return o
+    for sc in soup.select("script[type='application/ld+json']"):
+        raw = sc.string
+        if not raw: continue
+        try:
+            data = json.loads(raw)
+        except Exception:
+            continue                          # malformed → leave English, never break
+        sc.string = json.dumps(walk(data), ensure_ascii=False, separators=(",", ":"))
 
 # ── language switcher injected into nav ───────────────────────────────────────
 SWITCH_LABEL = {"en": "EN", "nl": "NL", "es": "ES"}
@@ -259,6 +315,7 @@ def main():
         en_soup = BeautifulSoup(html, "lxml")
         all_segments |= collect_segments(en_soup)
         inject_hreflang(en_soup, rel)
+        inject_og_alternates(en_soup, "en")
         inject_switcher(en_soup, "en", rel)
         src.write_text(serialize(en_soup), encoding="utf-8")
 

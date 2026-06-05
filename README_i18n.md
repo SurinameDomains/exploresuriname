@@ -8,7 +8,7 @@ new scripts, so the fragile 500 KB generator is untouched.
 ## Files
 - `build_i18n.py` — build stage. Reads the built English site, emits `/nl/` and
   `/es/` trees, finalizes per-page `hreflang` + `x-default`, `<html lang>`,
-  `og:locale`, canonical/og:url, injects the EN/NL/ES switcher, writes a
+  `og:locale` (+ `og:locale:alternate`), translated `twitter:title`/`twitter:description`, canonical/og:url, injects the EN/NL/ES switcher, writes a
   per-language `search-index.json`, and rewrites `sitemap.xml` with reciprocal
   language alternates. Translation comes only from `translations.json`; any
   missing segment falls back to English, so the site never breaks.
@@ -47,8 +47,11 @@ no card, no key); it translates only the new segments and commits the cache.
   machine translation (keyless Google endpoint) — good for whole descriptions and labels, weaker on short
   mid-sentence fragments split by inline tags. Worth a human polish pass on the
   editorial pages (visitor-guide, about, daily-notices).
-- JSON-LD structured data is intentionally left English (schema is language
-  -neutral; avoids mistranslating schema values).
+- JSON-LD: schema *text values* stay English (language-neutral; avoids
+  mistranslating schema), but internal page URLs (`url`, `@id`, breadcrumb /
+  ItemList items, SearchAction target) are rewritten to the `/nl/` `/es/`
+  variant and `inLanguage` is set per language, so self-referential schema
+  matches each page's canonical. Image/asset URLs stay at root.
 - Per-listing auto-generated meta descriptions backfill when CI runs
   `build_i18n.py` against the full site (writes the complete `i18n_segments.json`).
 - Switcher is a lightweight EN/NL/ES text control; restyle in nav if desired.
