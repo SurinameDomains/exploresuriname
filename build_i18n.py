@@ -192,16 +192,17 @@ def inject_switcher(soup, lang: str, rel_path: str):
     target = holder or nav.find("div")
     if not target: return
     wrap = soup.new_tag("div"); wrap["data-langswitch"] = "1"
-    wrap["style"] = "position:relative;display:flex;align-items:center;gap:4px;font-size:.8rem;font-weight:600"
+    wrap["style"] = "display:flex;align-items:center;gap:1px;margin-right:8px;padding:2px;border:1px solid #e5e7eb;border-radius:9999px;background:#fff;flex-shrink:0"
     for code in ["en", "nl", "es"]:
         pre = "" if code == "en" else f"/{code}"
         href = f"{pre}/{rel_path}".replace("/index.html", "/") or "/"
         a = soup.new_tag("a", href=href)
         a.string = SWITCH_LABEL[code]
+        base = "display:inline-block;padding:2px 7px;border-radius:9999px;font-size:11px;font-weight:700;letter-spacing:.03em;line-height:1.4;text-decoration:none;"
         if code == lang:
-            a["style"] = "color:var(--forest);text-decoration:underline"
+            a["style"] = base + "background:var(--forest);color:#fff"
         else:
-            a["style"] = "color:#9ca3af"
+            a["style"] = base + "color:#6b7280"
         wrap.append(a)
     target.insert(0, wrap)
 
