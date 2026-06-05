@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="/favicon.ico" rel="icon" sizes="48x48 32x32 16x16"/>
+<link href="/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/icons/icon-192.png" rel="apple-touch-icon"/>
+<meta content="@exploringsuriname" name="twitter:site"/>
+<meta content="nl_NL" property="og:locale"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/></noscript>
+<link href="/tailwind.css" rel="stylesheet"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<meta content="#1B4332" name="theme-color"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="ExploreSR" name="apple-mobile-web-app-title"/>
+<style>
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#D8F3DC; --coral:#E76F51; }
+    body   { font-family: 'Inter', system-ui, sans-serif; }
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    .hero-bg { background-size:cover; background-position:center; }
+    .card-hover { transition: transform .2s, box-shadow .2s; }
+    .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
+    a { text-decoration: none; }
+    .vh { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+    /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
+    .dd-menu { transform-origin: top center; }
+    .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
+    @keyframes ddFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    #search-results a {
+      display:flex;align-items:center;gap:10px;padding:10px 18px;text-decoration:none;color:#111;transition:background .1s;
+    }
+    #search-results a:hover, #search-results a.sr-active { background:#f5f5f5; }
+    .sr-badge {
+      font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;flex-shrink:0;
+    }
+    .sr-name { font-size:.9rem;font-weight:600;flex:1;min-width:0; }
+    .sr-area { font-size:.78rem;color:#9ca3af;white-space:nowrap; }
+    mark { background:#fef08a;border-radius:2px;padding:0 1px; }
+    .filter-chip {
+      display:inline-flex;align-items:center;gap:5px;padding:10px 16px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
+      color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+      touch-action:manipulation;
+    }
+    .filter-chip:hover { border-color:var(--forest);color:var(--forest); }
+    .filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+    .dist-chip {
+      display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;
+      color:#6b7280;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+    }
+    .dist-chip:hover { border-color:var(--forest2);color:var(--forest2); }
+    .dist-chip.dist-chip-active { background:var(--forest2);border-color:var(--forest2);color:#fff; }
+    .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
+    .filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count { opacity:.8; }
+    .chip-arrow {
+      flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #e5e7eb;
+      background:#fff;font-size:1.1rem;line-height:1;cursor:pointer;display:flex;
+      align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
+    }
+    .chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
+    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+    .listing-card.hidden { display:none; }
+  </style>
+<script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
+<!-- Google tag (gtag.js) -->
+<script>window.addEventListener("load",function(){var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-6LTYHZYNSF");});</script>
+<title>De basis | Reistips Suriname | Explore Suriname</title>
+<meta content="Alles wat een eerste bezoeker van Suriname nodig heeft: visumvereisten, douane, simkaarten, geldautomaten, taxi-apps, voedselbezorging en mobiele betalingen." name="description"/>
+<link href="https://exploresuriname.com/nl/visitor-guide.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Explore Suriname" property="og:site_name"/>
+<meta content="https://exploresuriname.com/nl/visitor-guide.html" property="og:url"/>
+<meta content="De basis | Reistips Suriname | Explore Suriname" property="og:title"/>
+<meta content="Visumvereisten, douane, simkaarten, beste geldautomaten, taxi-apps en tips om door Suriname te reizen. De praktische zaken op één plek." property="og:description"/>
+<meta content="https://exploresuriname.com/og-image.jpg" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="The Basics | Suriname Travel Tips | Explore Suriname" name="twitter:title"/>
+<meta content="Visa requirements, customs, SIM cards, best ATMs, taxi apps and tips for getting around Suriname." name="twitter:description"/>
+<meta content="https://exploresuriname.com/og-image.jpg" name="twitter:image"/>
+<script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebPage","name":"The Basics: Suriname Travel Tips","url":"https://exploresuriname.com/visitor-guide.html","description":"Practical guide for first-time visitors to Suriname: visa and entry requirements, customs declaration, SIM cards, ATMs, tipping, taxi apps, food delivery and mobile payments.","dateModified":"2026-06-05","about":{"@type":"Place","name":"Suriname","addressCountry":"SR"},"isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/"}}
+  </script>
+<script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do I need a visa to visit Suriname?","acceptedAnswer":{"@type":"Answer","text":"Most nationalities need a tourist visa or tourist card for Suriname, arranged through the VFS Global portal before departure. Some nationalities may be exempt. Check the official Suriname immigration requirements for your passport."}},{"@type":"Question","name":"What currency is used in Suriname?","acceptedAnswer":{"@type":"Answer","text":"The Surinamese Dollar (SRD) is the official currency. USD and EUR are accepted at some hotels and shops, but SRD is needed for most local transactions. ATMs dispensing SRD are widely available in Paramaribo."}},{"@type":"Question","name":"Which SIM card should I buy in Suriname?","acceptedAnswer":{"@type":"Answer","text":"Telesur and Digicel are the two main mobile operators. Telesur has broader 4G coverage across the country. Both sell prepaid SIM cards at the airport and shops in Paramaribo."}},{"@type":"Question","name":"What taxi apps work in Suriname?","acceptedAnswer":{"@type":"Answer","text":"Suriname has local ride-hailing apps. Kura and TaxiSR are the most widely used in Paramaribo. Traditional metered taxis are also available."}},{"@type":"Question","name":"What is the best way to get money in Suriname?","acceptedAnswer":{"@type":"Answer","text":"ATMs are the most convenient way to get SRD. Hakrinbank and DSB Bank ATMs are reliable and widely available in Paramaribo. Inform your bank before travelling to avoid card blocks."}},{"@type":"Question","name":"Do I need vaccinations to visit Suriname?","acceptedAnswer":{"@type":"Answer","text":"A yellow fever vaccination certificate is required if you are arriving from a yellow fever risk country. Hepatitis A and B, typhoid and routine vaccines are generally recommended. Malaria prophylaxis is advised if you plan to travel into the interior rainforest. Consult a travel health clinic well before departure."}},{"@type":"Question","name":"Is Suriname safe for tourists?","acceptedAnswer":{"@type":"Answer","text":"Paramaribo is generally safe for tourists who take standard precautions. Petty theft can occur in busy areas. Avoid displaying valuables in public, use registered taxis or ride-hailing apps, and stay aware of your surroundings at night. The interior rainforest is best explored with a licensed guide."}},{"@type":"Question","name":"What is the tipping culture in Suriname?","acceptedAnswer":{"@type":"Answer","text":"Tipping is not mandatory but is welcomed for good service. At restaurants a tip of 5 to 10 percent is appropriate if no service charge is included. Taxi drivers do not generally expect a tip, though rounding up the fare is a common courtesy. Tour guides often appreciate a gratuity at the end of a tour."}}]}
+  </script>
+<script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://exploresuriname.com/"},{"@type":"ListItem","position":2,"name":"The Basics","item":"https://exploresuriname.com/visitor-guide.html"}]}
+  </script>
+<link href="https://exploresuriname.com/visitor-guide.html" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/visitor-guide.html" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/visitor-guide.html" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/visitor-guide.html" hreflang="x-default" rel="alternate"/></head>
+<body class="bg-gray-50 overflow-x-hidden">
+<nav class="fixed top-0 w-full z-50" style="background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.06)">
+<div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+<a class="flex items-baseline flex-shrink-0" href="index.html">
+<span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
+</a>
+<div class="hidden md:flex items-center gap-6"><div class="relative" id="dd-todo" onmouseenter="openDd('dd-todo')" onmouseleave="closeDd('dd-todo')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-todo')">Te doen<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-todo-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="nature.html">Natuur</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="activities.html">Activiteiten</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="shopping.html">Winkelen</a></div></div><div class="relative" id="dd-eat" onmouseenter="openDd('dd-eat')" onmouseleave="closeDd('dd-eat')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-eat')">Eten &amp; overnachten<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-eat-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="restaurants.html">Waar te eten</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="hotels.html">Waar te overnachten</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="services.html">Lokale diensten</a><div class="relative" id="dd-plan" onmouseenter="openDd('dd-plan')" onmouseleave="closeDd('dd-plan')"><button class="dd-trigger flex items-center gap-1 text-sm font-semibold transition py-1" onclick="toggleDd('dd-plan')" style="color:var(--forest)">Bezoekersgids <span class="inline-block w-1.5 h-1.5 rounded-full mb-0.5" style="background:var(--forest)"></span><svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-plan-menu"><a class="block px-4 py-2.5 text-sm font-semibold rounded-lg" href="visitor-guide.html" style="color:var(--forest);background:var(--mint)">De basis</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="on-the-road.html">Onderweg</a></div></div><div class="relative" id="dd-ess" onmouseenter="openDd('dd-ess')" onmouseleave="closeDd('dd-ess')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-ess')">Essentieel<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-ess-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="currency.html">Wisselkoersen</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="flights.html">Vluchten</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="conditions.html">Weer &amp; getijden</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="daily-notices.html">Dagelijkse mededelingen</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="news.html">Nieuws</a></div>
+<div class="flex items-center gap-2 flex-shrink-0"><div data-langswitch="1" style="position:relative;display:flex;align-items:center;gap:4px;font-size:.8rem;font-weight:600"><a href="/visitor-guide.html" style="color:#9ca3af">EN</a><a href="/nl/visitor-guide.html" style="color:var(--forest);text-decoration:underline">NL</a><a href="/es/visitor-guide.html" style="color:#9ca3af">ES</a></div>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50 sm:min-w-[120px]" onclick="openSearch()" title="Search listings (press /)">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<span class="hidden sm:inline">Zoeken…</span>
+<span class="ml-auto hidden sm:inline text-xs bg-gray-200 text-gray-500 rounded px-1.5 py-0.5 font-mono">/</span>
+</button>
+<button aria-label="Menu" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition" id="hamburger" onclick="toggleMobileMenu()">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+<div class="hidden md:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto" id="mm">
+<div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-todo')"><span>Te doen</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-todo"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="nature.html">Natuur</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="activities.html">Activiteiten</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="shopping.html">Winkelen</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-eat')"><span>Eten &amp; overnachten</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-eat"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="restaurants.html">Waar te eten</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="hotels.html">Waar te overnachten</a></div></div><a class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" href="services.html">Lokale diensten</a><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-plan')" style="color:var(--forest)"><span>Bezoekersgids</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1" id="mg-plan"><a class="flex items-center gap-2 py-2.5 px-3 text-sm font-semibold rounded-lg" href="visitor-guide.html" style="color:var(--forest);background:var(--mint)">De basis</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="on-the-road.html">Onderweg</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-ess')"><span>Essentieel</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-ess"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="currency.html">Wisselkoersen</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="flights.html">Vluchten</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="conditions.html">Weer &amp; getijden</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="daily-notices.html">Dagelijkse mededelingen</a></div></div><a class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" href="news.html">Nieuws</a>
+</div>
+</nav>
+<script>
+/* ── Dropdown (desktop) ─────────────────────────────────────────────────── */
+var _openDd = null;
+var _ddTimer = null;
+function openDd(id) {
+  if (_ddTimer) { clearTimeout(_ddTimer); _ddTimer = null; }
+  if (_openDd && _openDd !== id) closeDd(_openDd);
+  var menu = document.getElementById(id + '-menu');
+  var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+  if (menu) menu.classList.remove('hidden');
+  if (chev) chev.style.transform = 'rotate(180deg)';
+  _openDd = id;
+}
+function closeDd(id) {
+  _ddTimer = setTimeout(function() {
+    var menu = document.getElementById(id + '-menu');
+    var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+    if (menu) menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    if (_openDd === id) _openDd = null;
+    _ddTimer = null;
+  }, 80);
+}
+function toggleDd(id) {
+  var menu = document.getElementById(id + '-menu');
+  var btn  = document.getElementById(id);
+  var chev = btn ? btn.querySelector('.dd-chevron') : null;
+  if (_openDd && _openDd !== id) {
+    var prev = document.getElementById(_openDd + '-menu');
+    var prevBtn = document.getElementById(_openDd);
+    if (prev)    prev.classList.add('hidden');
+    if (prevBtn) { var c = prevBtn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+  if (!menu) return;
+  var isOpen = !menu.classList.contains('hidden');
+  if (isOpen) {
+    menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    _openDd = null;
+  } else {
+    menu.classList.remove('hidden');
+    if (chev) chev.style.transform = 'rotate(180deg)';
+    _openDd = id;
+  }
+}
+document.addEventListener('click', function(e) {
+  if (_openDd && !document.getElementById(_openDd).contains(e.target)) {
+    var menu = document.getElementById(_openDd + '-menu');
+    var btn  = document.getElementById(_openDd);
+    if (menu) menu.classList.add('hidden');
+    if (btn)  { var c = btn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+});
+/* ── Mobile accordion ───────────────────────────────────────────────────── */
+function toggleMobileMenu() {
+  var mm = document.getElementById('mm');
+  mm.classList.toggle('hidden');
+}
+function toggleMobGroup(id) {
+  var body = document.getElementById(id);
+  var btn  = body ? body.previousElementSibling : null;
+  var chev = btn  ? btn.querySelector('.mob-chevron') : null;
+  if (!body) return;
+  var isOpen = !body.classList.contains('hidden');
+  body.classList.toggle('hidden', isOpen);
+  if (chev) chev.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+</script>
+<!-- ── Global Search Modal ───────────────────────────────────────────── -->
+<div id="search-modal" onclick="if(event.target===this)closeSearch()" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);padding:80px 16px 16px">
+<div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 25px 60px rgba(0,0,0,.25);overflow:hidden">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #f0f0f0">
+<svg fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:#9ca3af;flex-shrink:0" viewbox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<input autocomplete="off" id="search-input" oninput="runSearch(this.value)" onkeydown="searchKey(event)" placeholder="Search all listings…" spellcheck="false" style="flex:1;border:none;outline:none;font-size:1rem;color:#111;background:transparent" type="text"/>
+<button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">✕</button>
+</div>
+<div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
+<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Begin met typen om in 703 vermeldingen te zoeken...</p>
+</div>
+</div>
+</div>
+<script>
+const _CAT_C = {"Eat & Drink": "#7c3aed", "Stay": "#c05621", "Nature": "var(--forest)", "Activities": "var(--forest2)", "Shopping": "#0369a1", "Services": "#0369a1", "Sightseeing": "var(--forest)"};
+let _SI = null;
+let _SI_loading = false;
+let _sel = -1;
+
+function _loadSI(cb) {
+  if (_SI) { cb(); return; }
+  if (_SI_loading) { setTimeout(() => _loadSI(cb), 50); return; }
+  _SI_loading = true;
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  fetch(depth + 'search-index.json')
+    .then(r => r.json())
+    .then(data => { _SI = data; cb(); })
+    .catch(() => { _SI = []; cb(); });
+}
+function openSearch() {
+  document.getElementById('search-modal').style.display = 'block';
+  setTimeout(() => document.getElementById('search-input').focus(), 50);
+  _loadSI(() => {});
+}
+function closeSearch() {
+  document.getElementById('search-modal').style.display = 'none';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search listings…</p>';
+  _sel = -1;
+}
+function runSearch(q) {
+  const box = document.getElementById('search-results');
+  q = q.trim();
+  if (!q) { closeSearch(); openSearch(); return; }
+  if (!_SI) {
+    _loadSI(() => runSearch(q));
+    box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Loading…</p>';
+    return;
+  }
+  const ql = q.toLowerCase();
+  const hits = _SI.filter(x => x.n.toLowerCase().includes(ql)).slice(0, 10);
+  if (!hits.length) { box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">No results for "' + q + '"</p>'; return; }
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  box.innerHTML = hits.map((h, i) => {
+    const hi = h.n.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi'), '<mark>$1</mark>');
+    const col = _CAT_C[h.c] || '#6b7280';
+    return '<a href="' + depth + h.u + '" class="' + (i===0?'sr-active':'') + '">'
+      + '<span class="sr-badge" style="background:' + col + '">' + h.c + '</span>'
+      + '<span class="sr-name">' + hi + '</span>'
+      + (h.a ? '<span class="sr-area">' + h.a + '</span>' : '')
+      + '</a>';
+  }).join('');
+  _sel = 0;
+}
+function searchKey(e) {
+  const items = document.querySelectorAll('#search-results a');
+  if (e.key === 'Escape') { closeSearch(); return; }
+  if (e.key === 'ArrowDown') { e.preventDefault(); _sel = Math.min(_sel+1, items.length-1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); _sel = Math.max(_sel-1, 0); }
+  else if (e.key === 'Enter') { if(items[_sel]) window.location = items[_sel].href; return; }
+  else return;
+  items.forEach((el,i) => el.classList.toggle('sr-active', i===_sel));
+  if(items[_sel]) items[_sel].scrollIntoView({block:'nearest'});
+}
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault(); openSearch();
+  }
+});
+</script>
+<div class="pt-16"></div>
+<div class="text-white py-14 text-center" style="background:var(--forest)">
+<a class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition" href="index.html">← Terug naar Thuis</a>
+<h1 class="serif text-4xl sm:text-5xl font-bold mb-3">De basis</h1>
+<p class="text-white/65 text-lg max-w-xl mx-auto px-5">Visa, douane, simkaarten, geld en vervoer. De praktische zaken op één plek.</p>
+</div>
+<main class="max-w-5xl mx-auto px-5 py-12 pb-24">
+<!-- VISA + CUSTOMS side by side -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
+<p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Voordat u aan boord gaat</p>
+<h2 class="serif text-xl font-bold text-gray-900 mb-4">Aankomst &amp; Visum</h2>
+<p class="text-gray-700 text-sm leading-relaxed mb-5">
+        Controleer de toegangseisen voor uw paspoort voordat u boekt. De meeste nationaliteiten hebben een
+        toeristenvisum of toeristenkaart die vooraf via het VFS Global-portaal is geregeld
+        sommigen gaan via hun dichtstbijzijnde Surinaamse ambassade. Hoe dan ook, sorteer het voor vertrek.
+      </p>
+<a class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition mb-5" href="https://www.vfsglobal.com" rel="noopener" style="background:var(--forest2)" target="_blank">
+        VFS Mondiaal Portaal ↗
+      </a>
+<div class="rounded-xl p-4 border-l-4" style="background:#fff8f0;border-color:var(--coral)">
+<p class="text-sm font-semibold text-gray-800 mb-1">Certificaat Gele Koorts</p>
+<p class="text-sm text-gray-600 leading-relaxed">
+          Komt u uit sub-Sahara Afrika of delen van Zuid-Amerika? Een geldige vaccinatie
+          certificaat wordt gecontroleerd aan de grens. Laat u minimaal 10 dagen voor vertrek vaccineren.
+          Geen certificaat, geen toegang.
+        </p>
+</div>
+</div>
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
+<p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Bij de grens</p>
+<h2 class="serif text-xl font-bold text-gray-900 mb-4">Douaneaangifte</h2>
+<p class="text-gray-700 text-sm leading-relaxed mb-5">
+        Elke bezoeker vult vooraf een douane- en immigratieaangifteformulier van de ICF in
+        het opruimen van de grens. Het dekt wat u het land binnenbrengt. Contant geld
+        Er moet 10.000 dollar worden aangegeven. Het formulier wordt in het vliegtuig uitgedeeld of is beschikbaar
+        op de luchthaven, en u kunt het ook invullen via het ICF-portaal voordat u op reis gaat.
+      </p>
+<a class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition" href="https://www.icf.sr" rel="noopener" style="background:var(--forest2)" target="_blank">
+        ICF Suriname ↗
+      </a>
+</div>
+</div>
+<!-- MARITIME -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6">
+<div class="md:flex md:items-start md:gap-8">
+<div class="md:flex-1">
+<p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Maritieme toegang</p>
+<h2 class="serif text-xl font-bold text-gray-900 mb-4">Aankomst per boot of jacht</h2>
+<p class="text-gray-700 text-sm leading-relaxed">
+          Voordat u de Surinaamse territoriale wateren betreedt, dient u een Notice of Arrival in te dienen bij de Maritiem
+          Autoriteit van Suriname (MAS). Dit omvat privéjachten, charterboten en dergelijke
+          niet-commercieel schip. Bestand indienen via het MAS-portaal en een gedrukt exemplaar bewaren van het
+          bevestiging aan boord voor inspectie.
+        </p>
+</div>
+<div class="mt-5 md:mt-7 md:shrink-0">
+<a class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition" href="https://www.mas.sr" rel="noopener" style="background:var(--forest2)" target="_blank">
+          MAS Portaal ↗
+        </a>
+</div>
+</div>
+</div>
+<!-- SIM + MONEY -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
+<p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Connectiviteit</p>
+<h2 class="serif text-xl font-bold text-gray-900 mb-4">Een simkaart verkrijgen</h2>
+<p class="text-gray-700 text-sm leading-relaxed mb-5">
+        In Suriname zijn twee vervoerders actief: <strong>Telesur</strong> en <strong>Digicel</strong>.
+        Beiden hebben een balie in de aankomsthal op de luchthaven Johan Adolf Pengel. Breng uw paspoort mee,
+        aangezien registratie verplicht is. De dekking is solide in heel Paramaribo en de kuststrook;
+        het interieur is op beide netwerken een ander verhaal.
+      </p>
+<div class="flex flex-col gap-2">
+<a class="flex items-center justify-between px-4 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-800 hover:border-gray-400 transition" href="https://www.telesur.sr" rel="noopener" target="_blank">
+          Telesur <span style="color:var(--forest2)">↗</span>
+</a>
+<div class="flex items-center justify-between px-4 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-500">
+          Digicel Suriname <span class="text-xs font-normal text-gray-400">verkrijgbaar in de winkel</span>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
+<p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Geld</p>
+<h2 class="serif text-xl font-bold text-gray-900 mb-4">Contant geld en geldautomaten</h2>
+<p class="text-gray-700 text-sm leading-relaxed mb-4">
+        De munteenheid is de <strong>Surinaamse dollar (SRD)</strong>. Voor geldopnames,
+        <strong>DSB-Bank</strong> en <strong>Republiekbank</strong> zijn het meest betrouwbaar
+        met internationale Visa en Mastercard. Voor kaartbetalingen in winkels en restaurants geldt
+        <strong>Zuidelijke Commerciële Bank (SCom Bank)</strong> leidt tot kaartacceptatie
+        Paramaribo. Buiten het stadscentrum werken de meeste kleinere verkopers nog steeds met contant geld.
+      </p>
+<div class="rounded-xl p-4 text-sm" style="background:var(--mint)">
+<span class="font-semibold" style="color:var(--forest)">Fooien:</span>
+<span class="text-gray-700"> Bij restaurants is 10% standaard. Op sommige plaatsen worden automatisch servicekosten in rekening gebracht, dus controleer uw factuur voordat u meer toevoegt.</span>
+</div>
+</div>
+</div>
+<!-- TRANSPORT -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6">
+<p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Rondreizen</p>
+<h2 class="serif text-xl font-bold text-gray-900 mb-4">Taxi's en transport</h2>
+<div class="md:grid md:grid-cols-2 md:gap-8">
+<div>
+<p class="text-gray-700 text-sm leading-relaxed mb-4">
+          De luchthaven Johan Adolf Pengel ligt ongeveer 45 km ten zuiden van Paramaribo, 45 tot 60 minuten
+          rijden afhankelijk van het verkeer. Taxi's op de luchthaven gebruiken geen meters, spreek dus een prijs af
+          voordat je instapt. Suriname rijdt op de <strong>links</strong>.
+        </p>
+<p class="text-gray-700 text-sm leading-relaxed">
+          De belangrijkste rit-app in Paramaribo is <strong>1690 Tourton</strong>. Prijzen worden getoond
+          vooraf voordat u bevestigt, waardoor u niet meer hoeft te raden. Downloaden
+          het voordat je landt.
+        </p>
+</div>
+<div class="mt-5 md:mt-0">
+<div class="rounded-xl p-5 border border-gray-200 h-full flex flex-col justify-between">
+<div>
+<p class="font-bold text-gray-900 text-sm mb-1">1690 Tourton</p>
+<p class="text-gray-500 text-xs mb-4">Taxi-app voor Paramaribo</p>
+</div>
+<div class="flex gap-2 flex-wrap">
+<a class="text-xs px-3 py-2 rounded-lg border border-gray-200 text-gray-700 hover:border-gray-400 transition font-medium" href="https://play.google.com/store/apps/details?id=com.tourtonnestaxi&amp;hl=en" rel="noopener" target="_blank">
+              Google Play↗
+            </a>
+<a class="text-xs px-3 py-2 rounded-lg border border-gray-200 text-gray-700 hover:border-gray-400 transition font-medium" href="https://apps.apple.com/sr/app/tourtonne-taxi-1690/id6760743422" rel="noopener" target="_blank">
+              App Store ↗
+            </a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- FOOD + UNI5PAY -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
+<p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Voedselbezorging</p>
+<h2 class="serif text-xl font-bold text-gray-900 mb-4">Rit eet</h2>
+<p class="text-gray-700 text-sm leading-relaxed mb-5">
+        Ride Eats is de belangrijkste bezorgapp in Paramaribo. De selectie omvat lokale Surinaamse,
+        Chinees, Indiaas en fastfood, met behoorlijke dekking in de hele stad. Download het
+        op je eerste dag.
+      </p>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-800 hover:border-gray-400 transition" href="https://play.google.com/store/apps/details?id=com.resvevo.rideeats" rel="noopener" target="_blank">
+<svg aria-hidden="true" class="w-4 h-4 shrink-0" fill="currentColor" viewbox="0 0 24 24"><path d="M3.18 23.76a2 2 0 0 0 2.08-.15l12.9-7.45-3.32-3.32-11.66 10.92zM.36 1.38A2 2 0 0 0 0 2.5v19a2 2 0 0 0 .36 1.12L.48 23.7l10.66-10.66v-.25L.48 2.13l-.12 1.25zM20.52 10.38l-3.56-2.05-3.73 3.73 3.73 3.73 3.59-2.07a2.03 2.03 0 0 0 0-3.34zM3.18.24L14.84 7.7l-3.32 3.32L.48.38 3.18.24z"></path></svg>
+          Google Play↗
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-800 hover:border-gray-400 transition" href="https://apps.apple.com/sr/app/ride-eats/id1530050503" rel="noopener" target="_blank">
+<svg aria-hidden="true" class="w-4 h-4 shrink-0" fill="currentColor" viewbox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"></path></svg>
+          App Store ↗
+        </a>
+</div>
+</div>
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
+<p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Mobiele betalingen</p>
+<h2 class="serif text-xl font-bold text-gray-900 mb-4">Uni5Pay</h2>
+<p class="text-gray-700 text-sm leading-relaxed mb-5">
+        Uni5Pay is de mobiele portemonnee van Suriname, geaccepteerd bij een groeiend aantal winkels en restaurants
+        en verkopers in heel Paramaribo. Als u langer dan een paar dagen blijft, is het de moeite waard
+        opzetten. Registreren gaat snel en je kunt direct in de app opwaarderen.
+      </p>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-800 hover:border-gray-400 transition" href="https://play.google.com/store/apps/details?id=com.unionpay.scomapp" rel="noopener" target="_blank">
+<svg aria-hidden="true" class="w-4 h-4 shrink-0" fill="currentColor" viewbox="0 0 24 24"><path d="M3.18 23.76a2 2 0 0 0 2.08-.15l12.9-7.45-3.32-3.32-11.66 10.92zM.36 1.38A2 2 0 0 0 0 2.5v19a2 2 0 0 0 .36 1.12L.48 23.7l10.66-10.66v-.25L.48 2.13l-.12 1.25zM20.52 10.38l-3.56-2.05-3.73 3.73 3.73 3.73 3.59-2.07a2.03 2.03 0 0 0 0-3.34zM3.18.24L14.84 7.7l-3.32 3.32L.48.38 3.18.24z"></path></svg>
+          Google Play↗
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-800 hover:border-gray-400 transition" href="https://apps.apple.com/de/app/uni5pay/id1464144473" rel="noopener" target="_blank">
+<svg aria-hidden="true" class="w-4 h-4 shrink-0" fill="currentColor" viewbox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"></path></svg>
+          App Store ↗
+        </a>
+</div>
+</div>
+</div>
+<!-- GOOD TO KNOW -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
+<h2 class="serif text-xl font-bold text-gray-900 mb-6">Goed om te weten</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="pl-4 border-l-2" style="border-color:var(--leaf)">
+<p class="font-semibold text-gray-900 text-sm mb-1">Taal</p>
+<p class="text-gray-600 text-sm leading-relaxed">Nederlands is de officiële taal. Sranan Tongo is de alledaagse straattaal. Engels wordt algemeen begrepen in hotels, restaurants en toeristische gebieden in Paramaribo.</p>
+</div>
+<div class="pl-4 border-l-2" style="border-color:var(--leaf)">
+<p class="font-semibold text-gray-900 text-sm mb-1">Stroom en stekkers</p>
+<p class="text-gray-600 text-sm leading-relaxed">127V / 60Hz, Type A-aansluitingen (platte pin in Amerikaanse stijl). Sommige hotels hebben ook 220V-stopcontacten. Een universele adapter is geschikt voor alle gevallen.</p>
+</div>
+<div class="pl-4 border-l-2" style="border-color:var(--leaf)">
+<p class="font-semibold text-gray-900 text-sm mb-1">Drinkwater</p>
+<p class="text-gray-600 text-sm leading-relaxed">Blijf tijdens uw verblijf bij flessenwater. De kwaliteit van het leidingwater varieert per gebied en de meeste lokale bewoners doen hetzelfde. Flessen zijn goedkoop en overal verkrijgbaar.</p>
+</div>
+<div class="pl-4 border-l-2" style="border-color:var(--leaf)">
+<p class="font-semibold text-gray-900 text-sm mb-1">Noodnummers</p>
+<p class="text-gray-600 text-sm leading-relaxed">Politie: <strong class="text-gray-800">115</strong> · Ambulance: <strong class="text-gray-800">113</strong> · Vuur: <strong class="text-gray-800">110</strong>. Bewaar ze voordat je ze nodig hebt.</p>
+</div>
+</div>
+</div>
+</main>
+<footer class="text-white py-10" style="background:var(--forest)">
+<div class="max-w-6xl mx-auto px-5">
+<div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-6">
+<div class="col-span-2 md:col-span-1">
+<p class="serif text-2xl font-bold mb-3">Explore<span style="color:var(--coral)">Suriname</span></p>
+<p class="text-white/60 text-sm leading-relaxed">Uw gids voor Suriname: plaatsen om te eten, verblijven, ontdekken, winkelen en op de hoogte blijven van lokaal, olie- en gas- en financieel nieuws.</p>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Ontdekken</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li><a class="hover:text-white transition" href="nature.html">Natuur &amp; Parken</a></li>
+<li><a class="hover:text-white transition" href="activities.html">Activiteiten</a></li>
+<li><a class="hover:text-white transition" href="shopping.html">Winkelen</a></li>
+<li><a class="hover:text-white transition" href="restaurants.html">Waar te eten</a></li>
+<li><a class="hover:text-white transition" href="hotels.html">Waar te overnachten</a></li>
+<li><a class="hover:text-white transition" href="services.html">Lokale diensten</a></li>
+</ul>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Essentieel</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li><a class="hover:text-white transition" href="currency.html">Wisselkoersen</a></li>
+<li><a class="hover:text-white transition" href="flights.html">Vluchten</a></li>
+<li><a class="hover:text-white transition" href="conditions.html">Weer &amp; getijden</a></li>
+<li><a class="hover:text-white transition" href="daily-notices.html">Dagelijkse mededelingen</a></li>
+<li><a class="hover:text-white transition" href="visitor-guide.html">De basis</a></li>
+<li><a class="hover:text-white transition" href="on-the-road.html">Onderweg</a></li>
+<li><a class="hover:text-white transition" href="news.html">Nieuws</a></li>
+</ul>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Reisinformatie</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li>Hoofdstad: Paramaribo</li>
+<li>Talen: Nederlands, Sranan Tongo + nog 9</li>
+<li>Valuta: Surinaamse dollar (SRD)</li>
+<li>Klimaat: Tropisch, ~28°C het hele jaar door</li>
+<li>3 UNESCO-werelderfgoedlocaties</li>
+</ul>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Contact</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li><a class="hover:text-white transition" href="contact.html">Neem contact met ons op</a></li>
+<li><a class="hover:text-white transition" href="about.html">Over deze site</a></li>
+<li class="text-white/40 text-xs mt-3">Voor partnerschappen, vermeldingen<br/>of algemene vragen.</li>
+</ul>
+</div>
+</div>
+<div class="border-t border-white/10 pt-8 flex flex-col items-center gap-4">
+<div class="flex gap-3">
+<a class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white transition" href="https://www.facebook.com/exploringsuriname/" rel="noopener" style="background:#1877F2;" target="_blank">
+<svg fill="currentColor" height="16" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987H7.898V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.891h-2.33v6.987C18.343 21.128 22 16.991 22 12z"></path></svg>
+          Facebook
+        </a>
+<a class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white transition" href="https://www.instagram.com/exploringsuriname/" rel="noopener" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);" target="_blank">
+<svg fill="currentColor" height="16" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.336 3.608 1.311.975.975 1.249 2.242 1.311 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.633-1.311 3.608-.975.975-2.242 1.249-3.608 1.311-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.336-3.608-1.311-.975-.975-1.249-2.242-1.311-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.336-2.633 1.311-3.608.975-.975 2.242-1.249 3.608-1.311C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.333.014 7.053.072 5.775.13 4.602.402 3.635 1.368 2.668 2.335 2.396 3.508 2.338 4.786 2.28 6.066 2.266 6.474 2.266 12s.014 5.934.072 7.214c.058 1.278.33 2.451 1.297 3.418.967.967 2.14 1.239 3.418 1.297C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.278-.058 2.451-.33 3.418-1.297.967-.967 1.239-2.14 1.297-3.418.058-1.28.072-1.688.072-7.213s-.014-5.934-.072-7.214c-.058-1.278-.33-2.451-1.297-3.418C19.398.402 18.225.13 16.947.072 15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"></path></svg>
+          Instagram
+        </a>
+</div>
+<p class="text-white/40 text-xs">© 2026 ExploreSuriname.com  ·  <a class="hover:text-white/70 transition" href="privacy.html">Privacybeleid</a></p>
+</div>
+</div>
+</footer>
+</body>
+</html>

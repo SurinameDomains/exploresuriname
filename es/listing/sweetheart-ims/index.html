@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="/favicon.ico" rel="icon" sizes="48x48 32x32 16x16"/>
+<link href="/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/icons/icon-192.png" rel="apple-touch-icon"/>
+<meta content="@exploringsuriname" name="twitter:site"/>
+<meta content="es_ES" property="og:locale"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/></noscript>
+<link href="/tailwind.css" rel="stylesheet"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<meta content="#1B4332" name="theme-color"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="ExploreSR" name="apple-mobile-web-app-title"/>
+<style>
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#D8F3DC; --coral:#E76F51; }
+    body   { font-family: 'Inter', system-ui, sans-serif; }
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    .hero-bg { background-size:cover; background-position:center; }
+    .card-hover { transition: transform .2s, box-shadow .2s; }
+    .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
+    a { text-decoration: none; }
+    .vh { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+    /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
+    .dd-menu { transform-origin: top center; }
+    .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
+    @keyframes ddFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    #search-results a {
+      display:flex;align-items:center;gap:10px;padding:10px 18px;text-decoration:none;color:#111;transition:background .1s;
+    }
+    #search-results a:hover, #search-results a.sr-active { background:#f5f5f5; }
+    .sr-badge {
+      font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;flex-shrink:0;
+    }
+    .sr-name { font-size:.9rem;font-weight:600;flex:1;min-width:0; }
+    .sr-area { font-size:.78rem;color:#9ca3af;white-space:nowrap; }
+    mark { background:#fef08a;border-radius:2px;padding:0 1px; }
+    .filter-chip {
+      display:inline-flex;align-items:center;gap:5px;padding:10px 16px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
+      color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+      touch-action:manipulation;
+    }
+    .filter-chip:hover { border-color:var(--forest);color:var(--forest); }
+    .filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+    .dist-chip {
+      display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;
+      color:#6b7280;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+    }
+    .dist-chip:hover { border-color:var(--forest2);color:var(--forest2); }
+    .dist-chip.dist-chip-active { background:var(--forest2);border-color:var(--forest2);color:#fff; }
+    .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
+    .filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count { opacity:.8; }
+    .chip-arrow {
+      flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #e5e7eb;
+      background:#fff;font-size:1.1rem;line-height:1;cursor:pointer;display:flex;
+      align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
+    }
+    .chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
+    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+    .listing-card.hidden { display:none; }
+  </style>
+<script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
+<!-- Google tag (gtag.js) -->
+<script>window.addEventListener("load",function(){var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-6LTYHZYNSF");});</script>
+<title>Sweetheart IMS in Paramaribo | ExploreSuriname</title>
+<meta content="Sweetheart IMS is a candy and confectionery shop at the International Mall of Suriname stocking sweets, chocolates, lollipops and imported treats. A favourite" name="description"/>
+<link href="https://exploresuriname.com/es/listing/sweetheart-ims/" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Explore Suriname" property="og:site_name"/>
+<meta content="https://exploresuriname.com/es/listing/sweetheart-ims/" property="og:url"/>
+<meta content="Sweetheart IMS in Paramaribo | ExploreSuriname" property="og:title"/>
+<meta content="Sweetheart IMS is a candy and confectionery shop at the International Mall of Suriname stocking sweets, chocolates, lollipops and imported treats. A favourite" property="og:description"/>
+<meta content="https://ims.sr/wp-content/uploads/2024/01/Sweetheart-_1-1024x573.png" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Sweetheart IMS in Paramaribo | ExploreSuriname" name="twitter:title"/>
+<meta content="Sweetheart IMS is a candy and confectionery shop at the International Mall of Suriname stocking sweets, chocolates, lollipops and imported treats. A favourite" name="twitter:description"/>
+<meta content="https://ims.sr/wp-content/uploads/2024/01/Sweetheart-_1-1024x573.png" name="twitter:image"/>
+<script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "Store", "name": "Sweetheart IMS", "url": "https://exploresuriname.com/listing/sweetheart-ims/", "description": "Sweetheart IMS is a candy and confectionery shop at the International Mall of Suriname stocking sweets, chocolates, lollipops and imported treats. A favourite for pick-and-mix and packaged gifts, handy for party bags and last-minute presents.", "address": {"@type": "PostalAddress", "streetAddress": "Ringweg-Zuid 245, Paramaribo", "addressLocality": "Paramaribo", "addressCountry": "SR"}, "telephone": "+597445015", "image": "https://ims.sr/wp-content/uploads/2024/01/Sweetheart-_1-1024x573.png", "currenciesAccepted": "SRD"}
+  </script>
+<script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://exploresuriname.com/"}, {"@type": "ListItem", "position": 2, "name": "Shopping", "item": "https://exploresuriname.com/shopping.html"}, {"@type": "ListItem", "position": 3, "name": "Sweetheart IMS", "item": "https://exploresuriname.com/listing/sweetheart-ims/"}]}
+  </script>
+<link href="https://exploresuriname.com/listing/sweetheart-ims/" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/listing/sweetheart-ims/" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/listing/sweetheart-ims/" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/listing/sweetheart-ims/" hreflang="x-default" rel="alternate"/></head>
+<body class="bg-gray-50 overflow-x-hidden">
+<nav class="fixed top-0 w-full z-50" style="background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.06)">
+<div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+<a class="flex items-baseline flex-shrink-0" href="../../index.html">
+<span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
+</a>
+<div class="hidden md:flex items-center gap-6"><div class="relative" id="dd-todo" onmouseenter="openDd('dd-todo')" onmouseleave="closeDd('dd-todo')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-todo')">Qué hacer<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-todo-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../nature.html">Naturaleza</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../activities.html">Actividades</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../shopping.html">Compras</a></div></div><div class="relative" id="dd-eat" onmouseenter="openDd('dd-eat')" onmouseleave="closeDd('dd-eat')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-eat')">Comer y alojarse<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-eat-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../restaurants.html">Dónde comer</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../hotels.html">Dónde alojarse</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="../../services.html">Servicios locales</a><div class="relative" id="dd-plan" onmouseenter="openDd('dd-plan')" onmouseleave="closeDd('dd-plan')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-plan')">Guía del visitante<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-plan-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../visitor-guide.html">Lo básico</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../on-the-road.html">En ruta</a></div></div><div class="relative" id="dd-ess" onmouseenter="openDd('dd-ess')" onmouseleave="closeDd('dd-ess')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-ess')">Información esencial<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-ess-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../currency.html">Tipos de cambio</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../flights.html">Vuelos</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../conditions.html">Clima y mareas</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../daily-notices.html">Avisos diarios</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="../../news.html">Noticias</a></div>
+<div class="flex items-center gap-2 flex-shrink-0"><div data-langswitch="1" style="position:relative;display:flex;align-items:center;gap:4px;font-size:.8rem;font-weight:600"><a href="/listing/sweetheart-ims/" style="color:#9ca3af">EN</a><a href="/nl/listing/sweetheart-ims/" style="color:#9ca3af">NL</a><a href="/es/listing/sweetheart-ims/" style="color:var(--forest);text-decoration:underline">ES</a></div>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50 sm:min-w-[120px]" onclick="openSearch()" title="Search listings (press /)">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<span class="hidden sm:inline">Buscar…</span>
+<span class="ml-auto hidden sm:inline text-xs bg-gray-200 text-gray-500 rounded px-1.5 py-0.5 font-mono">/</span>
+</button>
+<button aria-label="Menu" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition" id="hamburger" onclick="toggleMobileMenu()">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+<div class="hidden md:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto" id="mm">
+<div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-todo')"><span>Qué hacer</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-todo"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../nature.html">Naturaleza</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../activities.html">Actividades</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../shopping.html">Compras</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-eat')"><span>Comer y alojarse</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-eat"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../restaurants.html">Dónde comer</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../hotels.html">Dónde alojarse</a></div></div><a class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" href="../../services.html">Servicios locales</a><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-plan')"><span>Guía del visitante</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-plan"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../visitor-guide.html">Lo básico</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../on-the-road.html">En ruta</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-ess')"><span>Información esencial</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-ess"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../currency.html">Tipos de cambio</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../flights.html">Vuelos</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../conditions.html">Clima y mareas</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../daily-notices.html">Avisos diarios</a></div></div><a class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" href="../../news.html">Noticias</a>
+</div>
+</nav>
+<script>
+/* ── Dropdown (desktop) ─────────────────────────────────────────────────── */
+var _openDd = null;
+var _ddTimer = null;
+function openDd(id) {
+  if (_ddTimer) { clearTimeout(_ddTimer); _ddTimer = null; }
+  if (_openDd && _openDd !== id) closeDd(_openDd);
+  var menu = document.getElementById(id + '-menu');
+  var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+  if (menu) menu.classList.remove('hidden');
+  if (chev) chev.style.transform = 'rotate(180deg)';
+  _openDd = id;
+}
+function closeDd(id) {
+  _ddTimer = setTimeout(function() {
+    var menu = document.getElementById(id + '-menu');
+    var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+    if (menu) menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    if (_openDd === id) _openDd = null;
+    _ddTimer = null;
+  }, 80);
+}
+function toggleDd(id) {
+  var menu = document.getElementById(id + '-menu');
+  var btn  = document.getElementById(id);
+  var chev = btn ? btn.querySelector('.dd-chevron') : null;
+  if (_openDd && _openDd !== id) {
+    var prev = document.getElementById(_openDd + '-menu');
+    var prevBtn = document.getElementById(_openDd);
+    if (prev)    prev.classList.add('hidden');
+    if (prevBtn) { var c = prevBtn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+  if (!menu) return;
+  var isOpen = !menu.classList.contains('hidden');
+  if (isOpen) {
+    menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    _openDd = null;
+  } else {
+    menu.classList.remove('hidden');
+    if (chev) chev.style.transform = 'rotate(180deg)';
+    _openDd = id;
+  }
+}
+document.addEventListener('click', function(e) {
+  if (_openDd && !document.getElementById(_openDd).contains(e.target)) {
+    var menu = document.getElementById(_openDd + '-menu');
+    var btn  = document.getElementById(_openDd);
+    if (menu) menu.classList.add('hidden');
+    if (btn)  { var c = btn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+});
+/* ── Mobile accordion ───────────────────────────────────────────────────── */
+function toggleMobileMenu() {
+  var mm = document.getElementById('mm');
+  mm.classList.toggle('hidden');
+}
+function toggleMobGroup(id) {
+  var body = document.getElementById(id);
+  var btn  = body ? body.previousElementSibling : null;
+  var chev = btn  ? btn.querySelector('.mob-chevron') : null;
+  if (!body) return;
+  var isOpen = !body.classList.contains('hidden');
+  body.classList.toggle('hidden', isOpen);
+  if (chev) chev.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+</script>
+<!-- ── Global Search Modal ───────────────────────────────────────────── -->
+<div id="search-modal" onclick="if(event.target===this)closeSearch()" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);padding:80px 16px 16px">
+<div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 25px 60px rgba(0,0,0,.25);overflow:hidden">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #f0f0f0">
+<svg fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:#9ca3af;flex-shrink:0" viewbox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<input autocomplete="off" id="search-input" oninput="runSearch(this.value)" onkeydown="searchKey(event)" placeholder="Search all listings…" spellcheck="false" style="flex:1;border:none;outline:none;font-size:1rem;color:#111;background:transparent" type="text"/>
+<button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">✕</button>
+</div>
+<div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
+<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Empiece a escribir para buscar 703 listados...</p>
+</div>
+</div>
+</div>
+<script>
+const _CAT_C = {"Eat & Drink": "#7c3aed", "Stay": "#c05621", "Nature": "var(--forest)", "Activities": "var(--forest2)", "Shopping": "#0369a1", "Services": "#0369a1", "Sightseeing": "var(--forest)"};
+let _SI = null;
+let _SI_loading = false;
+let _sel = -1;
+
+function _loadSI(cb) {
+  if (_SI) { cb(); return; }
+  if (_SI_loading) { setTimeout(() => _loadSI(cb), 50); return; }
+  _SI_loading = true;
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  fetch(depth + 'search-index.json')
+    .then(r => r.json())
+    .then(data => { _SI = data; cb(); })
+    .catch(() => { _SI = []; cb(); });
+}
+function openSearch() {
+  document.getElementById('search-modal').style.display = 'block';
+  setTimeout(() => document.getElementById('search-input').focus(), 50);
+  _loadSI(() => {});
+}
+function closeSearch() {
+  document.getElementById('search-modal').style.display = 'none';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search listings…</p>';
+  _sel = -1;
+}
+function runSearch(q) {
+  const box = document.getElementById('search-results');
+  q = q.trim();
+  if (!q) { closeSearch(); openSearch(); return; }
+  if (!_SI) {
+    _loadSI(() => runSearch(q));
+    box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Loading…</p>';
+    return;
+  }
+  const ql = q.toLowerCase();
+  const hits = _SI.filter(x => x.n.toLowerCase().includes(ql)).slice(0, 10);
+  if (!hits.length) { box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">No results for "' + q + '"</p>'; return; }
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  box.innerHTML = hits.map((h, i) => {
+    const hi = h.n.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi'), '<mark>$1</mark>');
+    const col = _CAT_C[h.c] || '#6b7280';
+    return '<a href="' + depth + h.u + '" class="' + (i===0?'sr-active':'') + '">'
+      + '<span class="sr-badge" style="background:' + col + '">' + h.c + '</span>'
+      + '<span class="sr-name">' + hi + '</span>'
+      + (h.a ? '<span class="sr-area">' + h.a + '</span>' : '')
+      + '</a>';
+  }).join('');
+  _sel = 0;
+}
+function searchKey(e) {
+  const items = document.querySelectorAll('#search-results a');
+  if (e.key === 'Escape') { closeSearch(); return; }
+  if (e.key === 'ArrowDown') { e.preventDefault(); _sel = Math.min(_sel+1, items.length-1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); _sel = Math.max(_sel-1, 0); }
+  else if (e.key === 'Enter') { if(items[_sel]) window.location = items[_sel].href; return; }
+  else return;
+  items.forEach((el,i) => el.classList.toggle('sr-active', i===_sel));
+  if(items[_sel]) items[_sel].scrollIntoView({block:'nearest'});
+}
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault(); openSearch();
+  }
+});
+</script>
+<div class="relative w-full pt-16" style="min-height:320px">
+<div class="absolute inset-0" style="background:url(/images/bed845bedbce4d8f42ab57c3a8b82dd8.webp) center/cover no-repeat"></div>
+<div class="absolute inset-0" style="background:linear-gradient(to top,rgba(0,0,0,.75) 0%,rgba(0,0,0,.3) 60%,transparent 100%)"></div>
+<div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end" style="min-height:320px;padding-top:5rem;padding-bottom:3rem">
+<nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-1 text-white/70 text-sm mb-5">
+<a class="hover:text-white transition" href="../../index.html">Home</a>
+<span class="text-white/40">›</span>
+<a class="hover:text-white transition" href="../../shopping.html">Compras</a>
+<span class="text-white/40">›</span>
+<span aria-current="page" class="text-white font-medium">Sweetheart IMS</span>
+</nav>
+<span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit" style="background:var(--coral);color:#fff"></span>
+<h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">Sweetheart IMS</h1>
+<p class="text-white/70 text-sm">Paramaribo, Suriname</p>
+</div>
+</div>
+<main class="max-w-5xl mx-auto px-5 py-12 pb-24">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2">
+<p class="text-gray-700 leading-relaxed text-base mb-8">Sweetheart IMS es una tienda de dulces y confitería en International Mall of Suriname que vende dulces, chocolates, piruletas y golosinas importadas. Un favorito para elegir y mezclar regalos empaquetados, útil para bolsas de fiesta y regalos de último momento.</p>
+<h2 class="text-lg font-bold text-gray-900 mb-4">Ubicación</h2>
+<div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">
+<iframe allowfullscreen="" height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Sweetheart%20IMS%2C%20Ringweg-Zuid%20245%2C%20Paramaribo&amp;output=embed&amp;hl=en" style="border:0" width="100%"></iframe>
+</div>
+<p class="text-gray-400 text-xs text-center mb-8">
+        Datos del mapa © Google: haga clic en el mapa para ver los horarios, las reseñas y la vista de la calle.
+      </p>
+</div>
+<div class="lg:col-span-1">
+<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">
+<h2 class="text-base font-bold text-gray-900 mb-4">Contacto e información</h2>
+<div class="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0"><span class="text-xl shrink-0 mt-0.5">📍</span><span class="text-gray-700 text-sm leading-relaxed">Ringweg-Zuid 245, Paramaribo</span></div><div class="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0"><span class="text-xl shrink-0 mt-0.5">📞</span><span class="text-gray-700 text-sm leading-relaxed"><a class="hover:underline" href="tel:+597445015" style="color:var(--forest2)">+597445015</a></span></div>
+<div class="mt-6">
+<a class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition mb-3" href="https://www.google.com/maps/search/?api=1&amp;query=Sweetheart%20IMS%2C%20Ringweg-Zuid%20245%2C%20Paramaribo" rel="noopener" style="background:var(--forest)" target="_blank">📍 Ver en Google Maps</a>
+<a class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold border-2 hover:bg-gray-50 transition mb-3" href="https://www.google.com/maps/search/?api=1&amp;query=Sweetheart%20IMS%2C%20Ringweg-Zuid%20245%2C%20Paramaribo" rel="noopener" style="border-color:var(--forest2);color:var(--forest2)" target="_blank">🗺️ Obtener direcciones</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+<section class="max-w-5xl mx-auto px-5 pb-16">
+<h2 class="text-lg font-bold text-gray-900 mb-5">Más como esto</h2>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4"><a class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4" href="../../listing/de-keurslager-interfarm/"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img alt="De Keurslager Interfarm, Paramaribo" class="w-full h-full object-cover" height="128" loading="lazy" src="/images/674e1f32d458913e52bcd723d4f19879.webp" width="400"/></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">De Keurslager Interfarm</h3><p class="text-xs text-gray-400">Paramaribo</p></a><a class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4" href="../../listing/dj-liquor-store/"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img alt="DJ Liquor Store, Paramaribo" class="w-full h-full object-cover" height="128" loading="lazy" src="/images/a9dacb08a0dc3772847946dcd83afc18.webp" width="400"/></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">DJ Liquor Store</h3><p class="text-xs text-gray-400">Paramaribo</p></a><a class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4" href="../../listing/hollandia-bakkerij-north/"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img alt="Hollandia Bakkerij Noord, Paramaribo" class="w-full h-full object-cover" height="128" loading="lazy" src="/images/3d0f1220298dd384f7f0a6bf34354675.webp" width="400"/></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Hollandia Bakkerij Noord</h3><p class="text-xs text-gray-400">Paramaribo</p></a><a class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4" href="../../listing/hollandia-bakkerij-south/"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img alt="Hollandia Bakkerij Zuid, Paramaribo" class="w-full h-full object-cover" height="128" loading="lazy" src="/images/3d0f1220298dd384f7f0a6bf34354675.webp" width="400"/></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Hollandia Bakkerij Zuid</h3><p class="text-xs text-gray-400">Paramaribo</p></a>
+</div>
+</section>
+<footer class="text-white py-10" style="background:var(--forest)">
+<div class="max-w-6xl mx-auto px-5">
+<div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-6">
+<div class="col-span-2 md:col-span-1">
+<p class="serif text-2xl font-bold mb-3">Explore<span style="color:var(--coral)">Suriname</span></p>
+<p class="text-white/60 text-sm leading-relaxed">Su guía de Surinam: lugares para comer, hospedarse, explorar, comprar y mantenerse informado con noticias locales, de petróleo y gas y de finanzas.</p>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Explorar</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li><a class="hover:text-white transition" href="../../nature.html">Naturaleza y parques</a></li>
+<li><a class="hover:text-white transition" href="../../activities.html">Actividades</a></li>
+<li><a class="hover:text-white transition" href="../../shopping.html">Compras</a></li>
+<li><a class="hover:text-white transition" href="../../restaurants.html">Dónde comer</a></li>
+<li><a class="hover:text-white transition" href="../../hotels.html">Dónde alojarse</a></li>
+<li><a class="hover:text-white transition" href="../../services.html">Servicios locales</a></li>
+</ul>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Información esencial</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li><a class="hover:text-white transition" href="../../currency.html">Tipos de cambio</a></li>
+<li><a class="hover:text-white transition" href="../../flights.html">Vuelos</a></li>
+<li><a class="hover:text-white transition" href="../../conditions.html">Clima y mareas</a></li>
+<li><a class="hover:text-white transition" href="../../daily-notices.html">Avisos diarios</a></li>
+<li><a class="hover:text-white transition" href="../../visitor-guide.html">Lo básico</a></li>
+<li><a class="hover:text-white transition" href="../../on-the-road.html">En ruta</a></li>
+<li><a class="hover:text-white transition" href="../../news.html">Noticias</a></li>
+</ul>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Información de viaje</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li>Capital: Paramaribo</li>
+<li>Idiomas: Holandés, Sranan Tongo y 9 más</li>
+<li>Moneda: Dólar de Surinam (SRD)</li>
+<li>Clima: Tropical, ~28°C todo el año</li>
+<li>3 sitios del Patrimonio Mundial de la UNESCO</li>
+</ul>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Contacto</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li><a class="hover:text-white transition" href="../../contact.html">Contáctenos</a></li>
+<li><a class="hover:text-white transition" href="../../about.html">Acerca de este sitio</a></li>
+<li class="text-white/40 text-xs mt-3">Para asociaciones, listados<br/>o consultas generales.</li>
+</ul>
+</div>
+</div>
+<div class="border-t border-white/10 pt-8 flex flex-col items-center gap-4">
+<div class="flex gap-3">
+<a class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white transition" href="https://www.facebook.com/exploringsuriname/" rel="noopener" style="background:#1877F2;" target="_blank">
+<svg fill="currentColor" height="16" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987H7.898V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.891h-2.33v6.987C18.343 21.128 22 16.991 22 12z"></path></svg>
+          Facebook
+        </a>
+<a class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white transition" href="https://www.instagram.com/exploringsuriname/" rel="noopener" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);" target="_blank">
+<svg fill="currentColor" height="16" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.336 3.608 1.311.975.975 1.249 2.242 1.311 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.633-1.311 3.608-.975.975-2.242 1.249-3.608 1.311-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.336-3.608-1.311-.975-.975-1.249-2.242-1.311-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.336-2.633 1.311-3.608.975-.975 2.242-1.249 3.608-1.311C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.333.014 7.053.072 5.775.13 4.602.402 3.635 1.368 2.668 2.335 2.396 3.508 2.338 4.786 2.28 6.066 2.266 6.474 2.266 12s.014 5.934.072 7.214c.058 1.278.33 2.451 1.297 3.418.967.967 2.14 1.239 3.418 1.297C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.278-.058 2.451-.33 3.418-1.297.967-.967 1.239-2.14 1.297-3.418.058-1.28.072-1.688.072-7.213s-.014-5.934-.072-7.214c-.058-1.278-.33-2.451-1.297-3.418C19.398.402 18.225.13 16.947.072 15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"></path></svg>
+          Instagram
+        </a>
+</div>
+<p class="text-white/40 text-xs">© 2026 ExploreSuriname.com  ·  <a class="hover:text-white/70 transition" href="../../privacy.html">política de privacidad</a></p>
+</div>
+</div>
+</footer>
+</body>
+</html>
