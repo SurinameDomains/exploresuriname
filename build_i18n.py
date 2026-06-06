@@ -237,6 +237,30 @@ def localize_jsonld(soup, lang: str):
         if isinstance(o, str):
             return loc_url(o)
         return o
+    def _loc_text(node):
+        # Localize rich-result text (breadcrumb labels, FAQ Q&A) via the existing
+        # translation cache. Proper/business names are not cached, so tr() returns
+        # them unchanged (English fallback). Keeps schema in sync with the already
+        # translated visible content -> localized SERP rich results.
+        if isinstance(node, list):
+            for _n in node: _loc_text(_n)
+            return
+        if not isinstance(node, dict): return
+        _t = node.get("@type")
+        if _t == "BreadcrumbList":
+            for _it in (node.get("itemListElement") or []):
+                if isinstance(_it, dict) and isinstance(_it.get("name"), str):
+                    _it["name"] = tr(_it["name"], lang)
+        elif _t == "FAQPage":
+            for _q in (node.get("mainEntity") or []):
+                if isinstance(_q, dict):
+                    if isinstance(_q.get("name"), str):
+                        _q["name"] = tr(_q["name"], lang)
+                    _a = _q.get("acceptedAnswer")
+                    if isinstance(_a, dict) and isinstance(_a.get("text"), str):
+                        _a["text"] = tr(_a["text"], lang)
+        if isinstance(node.get("@graph"), list):
+            for _n in node["@graph"]: _loc_text(_n)
     for sc in soup.select("script[type='application/ld+json']"):
         raw = sc.string
         if not raw: continue
@@ -244,7 +268,9 @@ def localize_jsonld(soup, lang: str):
             data = json.loads(raw)
         except Exception:
             continue                          # malformed → leave English, never break
-        sc.string = json.dumps(walk(data), ensure_ascii=False, separators=(",", ":"))
+        data = walk(data)
+        _loc_text(data)
+        sc.string = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
 
 # ── language switcher injected into nav ───────────────────────────────────────
 SWITCH_LABEL = {"en": "EN", "nl": "NL", "es": "ES"}
@@ -354,7 +380,14 @@ def localize_sitemap():
         return
     import re as _re
     txt = sm.read_text(encoding="utf-8")
-    locs = _re.findall(r"<loc>(.*?)</loc>", txt)
+    # Parse each <url> block so the English lastmod/changefreq/priority survive
+    # into the localized sitemap. generate.py computes a hash-based lastmod
+    # (only advances when content changes); without this it was being dropped.
+    # The nl/es variants inherit the same values as their English source.
+    url_blocks = _re.findall(r"<url>(.*?)</url>", txt, _re.S)
+    def _tag(block, name):
+        m = _re.search(rf"<{name}>(.*?)</{name}>", block, _re.S)
+        return m.group(1).strip() if m else None
     def path_of(u): return u[len(SITE_URL):] or "/"
     def alt_links(path):
         out = []
@@ -364,20 +397,30 @@ def localize_sitemap():
         out.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE_URL}{path}"/>')
         return "\n".join(out)
     blocks = []
-    for u in locs:
-        path = path_of(u)
+    pages = 0
+    for blk in url_blocks:
+        loc = _tag(blk, "loc")
+        if not loc:
+            continue
+        pages += 1
+        path = path_of(loc)
+        meta = ""
+        for _t in ("lastmod", "changefreq", "priority"):
+            _v = _tag(blk, _t)
+            if _v:
+                meta += f"    <{_t}>{_v}</{_t}>\n"
         for code in ["en", "nl", "es"]:
             pre = "" if code == "en" else f"/{code}"
             blocks.append(
                 f"  <url>\n    <loc>{SITE_URL}{pre}{path}</loc>\n"
-                f"{alt_links(path)}\n  </url>"
+                f"{meta}{alt_links(path)}\n  </url>"
             )
     out = ('<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
            'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
            + "\n".join(blocks) + "\n</urlset>\n")
     sm.write_text(out, encoding="utf-8")
-    print(f"i18n: sitemap localized -> {len(locs)} pages x 3 languages")
+    print(f"i18n: sitemap localized -> {pages} pages x 3 languages (lastmod preserved)")
 
 
 if __name__ == "__main__":
