@@ -1742,6 +1742,7 @@ PAGE_HEAD = """\
     .card-hover { transition: transform .2s, box-shadow .2s; }
     .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
     a { text-decoration: none; }
+    nav a, nav button { white-space: nowrap; }   /* keep nav labels on one line (EN; NL/ES get this via build_i18n) */
     .vh { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
     /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
     .dd-menu { transform-origin: top center; }
@@ -2336,10 +2337,6 @@ def nav_html(active="home", prefix=""):
     </a>
     <div class="hidden md:flex items-center gap-6">{desktop_nav}</div>
     <div class="flex items-center gap-2 flex-shrink-0">
-      <button id="pwa-nav" type="button" onclick="pwaInstall()" title="Install app" aria-label="Install app" style="display:none;background:var(--forest)" class="items-center gap-1.5 px-3 py-1.5 rounded-full text-white text-sm font-semibold hover:opacity-90 transition flex-shrink-0">
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v10m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
-        <span class="hidden sm:inline">Install app</span>
-      </button>
       <button onclick="openSearch()" title="Search listings (press /)" class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50 sm:min-w-[120px]">
         <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
         <span class="hidden sm:inline">Search…</span>

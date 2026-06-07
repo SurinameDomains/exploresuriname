@@ -318,6 +318,13 @@ def inject_switcher(soup, lang: str, rel_path: str):
                       "margin-bottom:4px;border-bottom:1px solid #eee;font-size:15px;font-weight:600")
         m.append(globe("#6b7280"))
         links(m, "var(--forest)", "#6b7280")
+        _ib = soup.new_tag("button", attrs={"id":"pwa-nav","type":"button","onclick":"pwaInstall()","aria-label":"Install app","style":"display:none;margin-left:auto;align-items:center;gap:6px;background:var(--forest);color:#fff;border:0;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0"})
+        _isvg = soup.new_tag("svg", attrs={"width":"15","height":"15","viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","stroke-width":"2","style":"flex-shrink:0"})
+        _isvg.append(soup.new_tag("path", attrs={"stroke-linecap":"round","stroke-linejoin":"round","d":"M12 4v10m0 0l-4-4m4 4l4-4M5 20h14"}))
+        _ib.append(_isvg)
+        _ilbl = soup.new_tag("span"); _ilbl.string = "Install"
+        _ib.append(_ilbl)
+        m.append(_ib)
         mm.insert(0, m)
 
 # ── walk the English tree ─────────────────────────────────────────────────────
