@@ -35,6 +35,13 @@
   ],
   "screenshots": [
     {
+      "src": "/icons/screenshot-mobile.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Explore Suriname on mobile"
+    },
+    {
       "src": "/og-image.jpg",
       "sizes": "1200x630",
       "type": "image/jpeg",
