@@ -1,33 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD DONDERDAG 11 JUNI 2026",
-      "date": "11 Juni 2026",
-      "date_iso": "2026-06-11",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1513/gepland-onderhoud-donderdag-11-juni-2026",
-      "meta_description": "GEPLAND ONDERHOUD:WANICA DONDERDAG 11 JUNI 2026 TUSSEN 9:00 EN 14:00 UURGEDEELTE RONALD KOORNDIJKWEG-NOORD TUSSEN DR. PAUL FAVERYWEG EN CHRIS VAN",
-      "district": "WANICA"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD DINSDAG 9 JUNI 2026",
-      "date": "9 Juni 2026",
-      "date_iso": "2026-06-09",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1512/gepland-onderhoud-dinsdag-9-juni-2026",
-      "meta_description": "GEPLAND ONDERHOUD: WANICA DINSDAG 9 JUNI 2026 TUSSEN 9:00 EN 14:00 UURGEDEELTE SIR WINSTON CHURCHILLWEG TUSSEN TOUT LUI FAUTKANAAL RECHTS",
-      "district": "WANICA"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD MAANDAG 8 JUNI 2026",
-      "date": "8 Juni 2026",
-      "date_iso": "2026-06-08",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1511/gepland-onderhoud-maandag-8-juni-2026",
-      "meta_description": "GEPLAND ONDERHOUD: PARBO MAANDAG 8 JUNI 2026 TUSSEN 8:00 EN 14:00 UURGEDEELTE PLUTOSTRAAT TUSSEN JACQUES D. GOMPERTSSTRAAT EN AIDASTRAAT, GEDEELTE",
-      "district": "PARBO"
-    }
-  ],
-  "last_updated": "2026-06-08T07:07:47.582557+00:00",
+  "outages": [],
+  "last_updated": "2026-06-08T11:07:51.043928+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
