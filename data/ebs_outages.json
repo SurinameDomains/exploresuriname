@@ -1,6 +1,17 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD DINSDAG 9 JUNI 2026",
+      "date": "9 Juni 2026",
+      "date_iso": "2026-06-09",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1516/gepland-onderhoud-dinsdag-9-juni-2026",
+      "meta_description": "Gepland onderhoud: Wanica dinsdag 9 juni 2026 tussen 08:00-15:00 GEHEEL LEIDING 16A EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
+      "district": "Wanica",
+      "time": "08:00 – 15:00",
+      "area": "GEHEEL LEIDING 16A EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED"
+    },
+    {
       "title": "GEPLAND ONDERHOUD DONDERDAG 11 JUNI 2026",
       "date": "11 Juni 2026",
       "date_iso": "2026-06-11",
@@ -26,6 +37,6 @@
       "link": "https://nvebs.com/nieuws/1511/gepland-onderhoud-maandag-8-juni-2026"
     }
   ],
-  "last_updated": "2026-06-08T19:08:00.909896+00:00",
+  "last_updated": "2026-06-08T21:55:11.449049+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
