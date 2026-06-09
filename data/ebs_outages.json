@@ -1,5 +1,37 @@
 {
-  "outages": [],
-  "last_updated": "2026-06-09T21:51:37.819354+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 11 JUNI 2026",
+      "date": "11 Juni 2026",
+      "date_iso": "2026-06-11",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1517/gepland-onderhoud-donderdag-11-juni-2026",
+      "meta_description": "Gepland onderhoud: Commewijne donderdag 11 juni 2026 tussen 08:30-14:00 PLANTAGE RUST & WERK EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT",
+      "district": "Commewijne",
+      "time": "08:30 – 14:00",
+      "area": "PLANTAGE RUST & WERK EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DINSDAG 9 JUNI 2026",
+      "date": "9 Juni 2026",
+      "date_iso": "2026-06-09",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1516/gepland-onderhoud-dinsdag-9-juni-2026",
+      "meta_description": "Gepland onderhoud: Wanica dinsdag 9 juni 2026 tussen 08:00-15:00 GEHEEL LEIDING 16A EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
+      "district": "Wanica",
+      "time": "08:00 – 15:00",
+      "area": "GEHEEL LEIDING 16A EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 11 JUNI 2026",
+      "date": "11 Juni 2026",
+      "date_iso": "2026-06-11",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1513/gepland-onderhoud-donderdag-11-juni-2026",
+      "meta_description": "GEPLAND ONDERHOUD:WANICA DONDERDAG 11 JUNI 2026 TUSSEN 9:00 EN 14:00 UURGEDEELTE RONALD KOORNDIJKWEG-NOORD TUSSEN DR. PAUL FAVERYWEG EN CHRIS VAN",
+      "district": "WANICA"
+    }
+  ],
+  "last_updated": "2026-06-09T23:07:48.434969+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
