@@ -2835,6 +2835,20 @@ function filterDistrict(btn, dist) {{
 }}
 </script>"""
 
+def _itemlist_url(it):
+    """Absolute internal URL for an ItemList entry. Business items carry a
+    relative listing/ URL; ACTIVITIES and NATURE_SPOTS dicts carry an external
+    booking/info link in 'url', but their detail pages live under listing/,
+    so point the schema at our own pages (avoids malformed SITE_URL+http
+    concatenation and keeps ItemList entries on-site)."""
+    u = it.get("url", "")
+    if not u.startswith("http"):
+        return SITE_URL + "/" + u
+    if "badge" in it:                      # NATURE_SPOTS shape
+        return SITE_URL + "/listing/" + _nature_slug(it["name"]) + "/"
+    return SITE_URL + "/listing/" + _act_slug(it["name"]) + "/"
+
+
 def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None, seo_title=None, intro_text="", faq=None):
     _page_active = page_file.replace(".html", "") if page_file else "home"
     page_url = f"{SITE_URL}/{page_file}"
@@ -2858,7 +2872,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   <meta name="twitter:image" content="{_og_img}">
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"ItemList","name":"{title}","url":"{page_url}","numberOfItems":{len(items)},"itemListElement":[{",".join(
-    '{"@type":"ListItem","position":' + str(i+1) + ',"name":' + __import__("json").dumps(it.get("name","")) + ',"url":"' + SITE_URL + "/" + it.get("url","") + '"}' for i,it in enumerate(items[:20])
+    '{"@type":"ListItem","position":' + str(i+1) + ',"name":' + __import__("json").dumps(it.get("name","")) + ',"url":"' + _itemlist_url(it) + '"}' for i,it in enumerate(items[:20])
   )}]}}
   </script>
   <script type="application/ld+json">
