@@ -560,7 +560,7 @@ _IMGS = {
     'mickis-palace-zuid': 'https://socialsuriname.com/wp-content/uploads/2025/01/Mickis-Palace-Zuid.webp',
     'mimi-market': 'https://socialsuriname.com/wp-content/uploads/2024/06/Mimi-Market-v1.webp',
     'mingle-paramaribo': 'https://ims.sr/wp-content/uploads/2025/02/Logo-Mingle-Cocktail-Lounge_gold-1024x1024.png',
-    'mingle-sushi': 'http://mingleparamaribo.com/wp-content/uploads/2022/06/Logo-Mingle-Cocktail-Lounge_gold.png',
+    'mingle-sushi': 'https://mingleparamaribo.com/wp-content/uploads/2022/06/Logo-Mingle-Cocktail-Lounge_gold.png',
     'miniso-gompertstraat': 'https://www.miniso.com/Uploads/img/20230511/6459c5046dd82.jpg',
     'miniso-hermitage-mall': 'https://www.miniso.com/Uploads/img/20230511/6459c5046dd82.jpg',
     'mirage-casino': 'https://www.surinamyp.com/img/sr/h/_1684245517-81-mirage-hotel-casino.jpg',
@@ -618,7 +618,7 @@ _IMGS = {
     'pandie': 'https://www.ilovepandie.com/wp-content/uploads/2022/05/Untitled-design-19-1-e1652362466132.png',
     'pane-e-vino': 'https://socialsuriname.com/wp-content/uploads/2024/06/Pane-E-Vino-v2.webp',
     'papillon-crafts': 'https://socialsuriname.com/wp-content/uploads/2024/10/Papillon-Crafts-v1.webp',
-    'paramaribo-zoo': 'http://paramaribozoo.sr/wp-content/uploads/2024/12/slider-paramaribo-zoo-2.jpg',
+    'paramaribo-zoo': 'https://paramaribozoo.sr/wp-content/uploads/2024/12/slider-paramaribo-zoo-2.jpg',
     'passion-food-and-wines': 'https://impro.usercontent.one/appid/hostnetWsb/domain/passiefoodandwines.com/media/passiefoodandwines.com/onewebmedia/picture-120044.jpg?etag=undefined&sourceContentType=image%2Fjpeg&quality=85',
     'peperpot-nature-park': 'https://images.squarespace-cdn.com/content/v1/5d52bcc2f6730e0001fe9d75/1649371470790-ED2SMLZ2QP4VLM1WUFJ3/Peperpot+Drone8.jpg',
     'petit-bouchon': 'https://socialsuriname.com/wp-content/uploads/2025/07/Petit-Bouchon.webp',
@@ -669,12 +669,12 @@ _IMGS = {
     'rolines-de-waag': 'https://socialsuriname.com/wp-content/uploads/2024/06/Rolines-De-Waag-V1.webp',
     'roopram-roti-shop': 'https://www.surinamyp.com/img/sr/a/1683283161-65-roopram-rotie-shop.jpg',
     'ross-rental-cars': 'https://socialsuriname.com/wp-content/uploads/2024/06/Ross-Rental-Cars-v1.webp',
-    'rossignol-2go-kwattaweg': 'http://rossignolslagerij.com/cdn/shop/files/Rossignol-Logo_No-Name_1200x1200.png?v=1621953656',
-    'rossignol-2go-thurkowstraat': 'http://rossignolslagerij.com/cdn/shop/files/Rossignol-Logo_No-Name_1200x1200.png?v=1621953656',
-    'rossignol-coppename': 'http://rossignolslagerij.com/cdn/shop/files/Rossignol-Logo_No-Name_1200x1200.png?v=1621953656',
-    'rossignol-geyersvlijt': 'http://rossignolslagerij.com/cdn/shop/files/Rossignol-Logo_No-Name_1200x1200.png?v=1621953656',
-    'rossignol-linda': 'http://rossignolslagerij.com/cdn/shop/files/Rossignol-Logo_No-Name_1200x1200.png?v=1621953656',
-    'rossignol-waaldijkstraat': 'http://rossignolslagerij.com/cdn/shop/files/Rossignol-Logo_No-Name_1200x1200.png?v=1621953656',
+    'rossignol-2go-kwattaweg': 'https://rossignolslagerij.com/cdn/shop/files/Rossignol-Logo_No-Name_1200x1200.png?v=1621953656',
+    'rossignol-2go-thurkowstraat': 'https://rossignolslagerij.com/cdn/shop/files/Rossignol-Logo_No-Name_1200x1200.png?v=1621953656',
+    'rossignol-coppename': 'https://rossignolslagerij.com/cdn/shop/files/Rossignol-Logo_No-Name_1200x1200.png?v=1621953656',
+    'rossignol-geyersvlijt': 'https://rossignolslagerij.com/cdn/shop/files/Rossignol-Logo_No-Name_1200x1200.png?v=1621953656',
+    'rossignol-linda': 'https://rossignolslagerij.com/cdn/shop/files/Rossignol-Logo_No-Name_1200x1200.png?v=1621953656',
+    'rossignol-waaldijkstraat': 'https://rossignolslagerij.com/cdn/shop/files/Rossignol-Logo_No-Name_1200x1200.png?v=1621953656',
     'royal-brasil-hotel': 'https://royalbrasilhotel.com/wp-content/uploads/2022/07/building-side-1.jpg',
     'royal-breeze-hotel-paramaribo': 'https://royalbreezeparamaribo.com/wp-content/uploads/2022/12/Royal-breeze-HOR-logo.png',
     'royal-spa': 'https://socialsuriname.com/wp-content/uploads/2024/06/Royal-spa.webp',
@@ -719,7 +719,7 @@ _IMGS = {
     'steps-hermitage-mall': 'https://steps-shop.weblocher.com/img2/about_bg.jpg',
     'steps-noord': 'https://steps-shop.weblocher.com/img2/about_bg.jpg',
     'steps-wanica': 'https://steps-shop.weblocher.com/img2/about_bg.jpg',
-    'stichting-surinaams-museum': 'http://www.surinaamsmuseum.net/wp-content/uploads/2015/08/SurinaamsMuseum-for-web.png',
+    'stichting-surinaams-museum': 'https://www.surinaamsmuseum.net/wp-content/uploads/2015/08/SurinaamsMuseum-for-web.png',
     'store4u': 'https://cdn.shopify.com/s/files/1/0279/8354/4372/files/9399472_orig_76349385-5be0-462b-b95e-db9bc2cfa0f9.png?v=1594058546',
     'stukaderen-in-nederland': 'https://socialsuriname.com/wp-content/uploads/2024/10/Stukaderen-in-Nederland.webp',
     'subway': 'https://newsroom.subway.com/images/header_footer/subway-logo.png',
@@ -801,9 +801,9 @@ _IMGS = {
     'warung-resa-centrum': 'https://socialsuriname.com/wp-content/uploads/2024/06/Warung-Resa-v1.webp',
     'waterland-suites': 'https://waterlandsuites.com/wp-content/uploads/2021/08/20210729_171148-1.jpg',
     'welink-real-estate': 'https://welink.sr/wp-content/uploads/2024/11/1-1-850x550.jpeg',
-    'wollys': 'http://wollys.com/wp-content/uploads/2014/12/Double-Wolly-Shoarmacc.jpg',
-    'wollys-2': 'http://wollys.com/wp-content/uploads/2014/12/Double-Wolly-Shoarmacc.jpg',
-    'wollys-3': 'http://wollys.com/wp-content/uploads/2014/12/Double-Wolly-Shoarmacc.jpg',
+    'wollys': 'https://wollys.com/wp-content/uploads/2014/12/Double-Wolly-Shoarmacc.jpg',
+    'wollys-2': 'https://wollys.com/wp-content/uploads/2014/12/Double-Wolly-Shoarmacc.jpg',
+    'wollys-3': 'https://wollys.com/wp-content/uploads/2014/12/Double-Wolly-Shoarmacc.jpg',
     'wow-plus': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/476007258_601287709291246_2124002390626878176_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=101&ccb=1-7&_nc_sid=f907e8&_nc_ohc=iH2GmAeZSWQQ7kNvwG84Npq&_nc_oc=Adrvf2UsFG5f5TJig0PQFtOORw4jVTkUHj1zK56qwth5Ca1UwsUKfd38N5gIA8z2YkA&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=0sYbuh3h-Gztf2BloiR9KA&oh=00_Af6LJJm61_x_3zUnUs6JYt5S73FiXZB9anZhzWTn3iME6Q&oe=6A1C4DCC',
     'yoga-peetha-happiness-centre': 'https://socialsuriname.com/wp-content/uploads/2024/06/Yoga-Peetha-Happiness-Centre.webp',
     'yogh-hospitality': 'https://socialsuriname.com/wp-content/uploads/2024/06/YOGH-Hospitality-1.webp',
@@ -3617,7 +3617,7 @@ function doConvert(){{
   var to=document.getElementById('cv-to').value;
   var rEl=document.getElementById('cv-result');
   var nEl=document.getElementById('cv-note');
-  if(isNaN(amt)||amt<0){{rEl.textContent='—';nEl.textContent='Enter a valid amount';return;}}
+  if(isNaN(amt)||amt<0){{rEl.textContent='…';nEl.textContent='Enter a valid amount';return;}}
   var result,note;
   if(from===to){{result=amt;note='Same currency';}}
   else if(from==='SRD'){{result=fromSRD(amt,to);note=SELL[to]?'CME: 1 '+to+' costs '+SELL[to]+' SRD':'Rate unavailable';}}
@@ -3779,15 +3779,15 @@ doConvert();"""
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <div class="rounded-xl p-4" style="background:var(--mint)">
         <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">USD / troy oz</p>
-        <p id="gold-usd" class="text-2xl font-bold font-mono text-gray-900">—</p>
+        <p id="gold-usd" class="text-2xl font-bold font-mono text-gray-900">…</p>
       </div>
       <div class="rounded-xl p-4 bg-gray-50">
         <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">SRD / troy oz</p>
-        <p id="gold-srd" class="text-2xl font-bold font-mono text-gray-900">—</p>
+        <p id="gold-srd" class="text-2xl font-bold font-mono text-gray-900">…</p>
       </div>
       <div class="rounded-xl p-4 bg-gray-50">
         <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">USD / gram</p>
-        <p id="gold-usdg" class="text-xl font-bold font-mono text-gray-900">—</p>
+        <p id="gold-usdg" class="text-xl font-bold font-mono text-gray-900">…</p>
       </div>
     </div>
     <p class="text-gray-400 text-xs mt-4">Suriname is one of the world&apos;s leading gold producers per capita. SRD equivalent uses today&apos;s CME USD buy rate ({usd_buy_srd:.2f}). Price updates on each page load.</p>
@@ -4381,7 +4381,8 @@ def build_listing_page(slug, b):
     if address:
         rows += row("📍", html_lib.escape(address))
     if phone:
-        rows += row("📞", '<a href="tel:' + html_lib.escape(phone) + '" class="hover:underline" '
+        _tel = re.sub(r"[^\d+]", "", phone)  # RFC 3966: tel: href digits-only, display stays formatted
+        rows += row("📞", '<a href="tel:' + _tel + '" class="hover:underline" '
                     'style="color:var(--forest2)">' + html_lib.escape(phone) + '</a>')
     if email:
         rows += row("✉️", '<a href="mailto:' + html_lib.escape(email) + '" class="hover:underline" '
@@ -7301,10 +7302,27 @@ if __name__ == "__main__":
         "about.html":       build_about_page(),
         "contact.html":     build_contact_page(),
         "privacy.html":     build_privacy_page(),
-        "today.html":          '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0;url=/daily-notices.html"><link rel="canonical" href="https://exploresuriname.com/daily-notices.html"><title>Redirecting to Daily Notices…</title></head><body><p>This page has moved. <a href="/daily-notices.html">Click here</a>.</p></body></html>',
+        "today.html":          '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=/daily-notices.html"><link rel="canonical" href="https://exploresuriname.com/daily-notices.html"><title>Redirecting to Daily Notices…</title></head><body><p>This page has moved. <a href="/daily-notices.html">Click here</a>.</p></body></html>',
         "daily-notices.html": build_today_page(),
         "visitor-guide.html": build_visitor_guide_page(),
         "on-the-road.html":   build_roads_page(),
+        "404.html": ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
+            '<meta name="viewport" content="width=device-width, initial-scale=1">'
+            '<meta name="robots" content="noindex"><title>Page Not Found | Explore Suriname</title>'
+            '<style>body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;'
+            'background:#11241b;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center}'
+            '.w{padding:2rem;max-width:34rem}h1{font-size:5rem;margin:0;color:#E76F51}h2{font-weight:600;margin:.5rem 0 1rem}'
+            'p{color:rgba(255,255,255,.75);line-height:1.6}a.b{display:inline-block;margin:.4rem .35rem;padding:.7rem 1.4rem;'
+            'border-radius:9999px;background:#E76F51;color:#fff;text-decoration:none;font-weight:600}'
+            'a.o{background:transparent;border:1px solid rgba(255,255,255,.4)}</style></head><body><div class="w">'
+            '<h1>404</h1><h2>This trail leads nowhere.</h2>'
+            '<p>The page you are looking for may have moved or no longer exists. '
+            'Try the homepage or browse our listings instead.</p>'
+            '<a class="b" href="/">Back to homepage</a>'
+            '<a class="b o" href="/restaurants.html">Where to Eat</a>'
+            '<a class="b o" href="/hotels.html">Where to Stay</a>'
+            '<a class="b o" href="/services.html">Local Services</a>'
+            '</div></body></html>'),
     }
 
     for fname, html in pages.items():
