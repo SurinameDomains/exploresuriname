@@ -138,7 +138,7 @@
 <title>Suriname Travel Guide | Restaurants, Hotels, Nature &amp; Tours</title>
 <meta content="Plan your Suriname trip: rainforest lodges, Paramaribo restaurants, local tours, shopping and live SRD exchange rates. Guide to South America's hidden gem." name="description"/>
 <link href="https://exploresuriname.com/" rel="canonical"/>
-<link as="image" fetchpriority="high" href="/images/hero-home.webp" rel="preload"/>
+<link as="image" fetchpriority="high" href="/images/hero-suriname-river.webp" rel="preload"/>
 <meta content="website" property="og:type"/>
 <meta content="Explore Suriname" property="og:site_name"/>
 <meta content="https://exploresuriname.com/" property="og:url"/>
@@ -203,6 +203,34 @@
 <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebPage","name":"Explore Suriname | South America's Hidden Gem","url":"https://exploresuriname.com/","dateModified":"2026-06-10","about":{"@type":"Place","name":"Suriname","addressCountry":"SR"},"isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/"}}
   </script>
+<style>
+    #hero{position:relative;min-height:100vh;min-height:100svh;background:#11241b;overflow:hidden}
+    .hz{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease;will-change:opacity}
+    .hz.on{opacity:1}
+    @media (prefers-reduced-motion: no-preference){
+      .hz.on{animation:kburns 10s ease-out forwards}
+    }
+    @keyframes kburns{from{transform:scale(1)}to{transform:scale(1.06)}}
+    .hsub,.hchip{display:none}
+    .hsub.act{display:block;animation:hfade .9s ease both}
+    .hchip.act{display:inline-flex;animation:hfade .9s ease both}
+    @keyframes hfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .hchip-box{align-items:center;gap:7px;padding:7px 14px;border-radius:999px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(6px);font-size:.75rem;font-weight:500;color:rgba(255,255,255,.88);white-space:nowrap}
+    .hsearch{display:flex;align-items:center;gap:12px;width:100%;max-width:540px;margin:0 auto 2.5rem;padding:15px 24px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(8px);color:rgba(255,255,255,.85);font-size:.95rem;cursor:pointer;transition:background .2s;text-align:left}
+    .hsearch:hover{background:rgba(255,255,255,.24)}
+    .now-item{display:flex;flex-direction:column;gap:2px;min-width:max-content}
+    .now-k{font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.45);font-weight:600}
+    .now-v{font-weight:600;font-size:.95rem;color:#fff;white-space:nowrap;font-variant-numeric:tabular-nums}
+    .live-dot{width:8px;height:8px;border-radius:50%;background:var(--leaf);animation:lpulse 2s infinite;flex-shrink:0}
+    @keyframes lpulse{0%,100%{opacity:1}50%{opacity:.3}}
+    .now-scroll{scrollbar-width:none}
+    .now-scroll::-webkit-scrollbar{display:none}
+    .jcard{position:relative;border-radius:1.25rem;overflow:hidden;display:block}
+    .jcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+    .jcard:hover img{transform:scale(1.05)}
+    .jcard .jov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.74) 0%,rgba(0,0,0,.18) 55%,rgba(0,0,0,.02) 100%)}
+    .stat-tile{border-radius:1rem;padding:1.4rem 1.2rem;background:var(--mint)}
+    </style>
 <link href="https://exploresuriname.com/" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/" hreflang="x-default" rel="alternate"/></head>
 <body class="bg-white overflow-x-hidden">
 <nav class="fixed top-0 w-full z-50" style="background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.06)">
@@ -376,35 +404,113 @@ document.addEventListener('keydown', e => {
   }
 });
 </script>
-<section class="relative min-h-screen flex items-center justify-center hero-bg" style="background-image:url('/images/hero-home.webp')">
-<div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.82) 100%)"></div>
-<div class="relative z-10 text-center text-white px-5 max-w-4xl mx-auto" style="padding-top:5rem;padding-bottom:6rem">
+<section class="flex items-center justify-center" id="hero">
+<div class="hz on" id="hz0" style="background-image:url('/images/hero-suriname-river.webp')"></div>
+<div class="hz" id="hz1"></div>
+<div class="hz" id="hz2"></div>
+<div class="hz" id="hz3"></div>
+<div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(0,0,0,.30) 0%,rgba(0,0,0,.45) 55%,rgba(0,0,0,.80) 100%)"></div>
+<div class="relative z-10 text-center text-white px-5 max-w-4xl mx-auto" style="padding-top:6rem;padding-bottom:7rem">
 <p class="text-xs font-semibold tracking-widest uppercase mb-6" style="color:var(--coral)">The Amazon’s Best-Kept Secret</p>
-<h1 class="serif font-black leading-tight mb-6" style="font-size:clamp(2.5rem,8vw,5.5rem)">Explore Suriname</h1>
-<p class="text-xl font-light leading-relaxed mb-10 max-w-2xl mx-auto text-white/90">94% pristine rainforest. Unmatched biodiversity. Three UNESCO World Heritage Sites. Welcome to Suriname.</p>
+<h1 class="serif font-black leading-tight mb-5" style="font-size:clamp(2.5rem,8vw,5.5rem)">Explore Suriname</h1>
+<div class="text-lg sm:text-xl font-light leading-relaxed mb-8 max-w-2xl mx-auto text-white/90" style="min-height:3.6rem">
+<p class="hsub act">Where the asphalt ends, the river takes over. Welcome to the real South America.</p>
+<p class="hsub">A capital built of wood, shaped by every culture that ever landed here.</p>
+<p class="hsub">94% untouched rainforest. The greenest country on the planet.</p>
+<p class="hsub">Every sunrise here looks like this. Stay a while.</p>
+</div>
+<button aria-label="Search restaurants, hotels, tours and places" class="hsearch" onclick="openSearch()" type="button">
+<svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35" stroke-linecap="round"></path></svg>
+<span>Search 700+ restaurants, lodges, tours and places…</span>
+</button>
 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-<a class="px-8 py-4 rounded-full font-semibold text-lg text-white hover:opacity-90 transition shadow-lg" href="#nature" style="background:var(--forest)">Start Exploring</a>
+<a class="px-8 py-4 rounded-full font-semibold text-lg text-white hover:opacity-90 transition shadow-lg" href="#journeys" style="background:var(--forest)">Start Exploring</a>
 <a class="px-8 py-4 rounded-full font-semibold text-lg text-white border-2 hover:bg-white/10 transition" href="#travel-tools" style="border-color:rgba(255,255,255,.6)">Travel Tools</a>
 </div>
 </div>
-<div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50 text-xs">
+<div class="absolute bottom-7 left-5 z-10">
+<span class="hchip act hchip-box"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="10" r="3"></circle></svg>Atjoni, Upper Suriname River</span>
+<span class="hchip hchip-box"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="10" r="3"></circle></svg>Cathedral-Basilica of St. Peter &amp; Paul, Paramaribo</span>
+<span class="hchip hchip-box"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="10" r="3"></circle></svg>The untouched interior, Sipaliwini</span>
+<span class="hchip hchip-box"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="10" r="3"></circle></svg>Suriname River at sunrise, Paramaribo</span>
+</div>
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-white/50 text-xs">
 <span>Scroll to explore</span>
 <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
 </div>
 </section>
-<section class="text-white py-7" style="background:var(--forest)">
-<h2 class="vh">Suriname at a glance</h2>
-<div class="max-w-5xl mx-auto px-5 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-<div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Climate</p><p class="font-semibold">Tropical, ~28°C</p></div>
-<div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Forest Cover</p><p class="font-semibold">94% Rainforest</p></div>
-<div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">UNESCO Sites</p><p class="font-semibold">3 World Heritage Sites</p></div>
-<div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Bird Species</p><p class="font-semibold">700+ Species</p></div>
+<section class="text-white py-5" id="now-strip" style="background:var(--forest)">
+<h2 class="vh">Suriname right now</h2>
+<div class="max-w-6xl mx-auto px-5 flex items-center gap-7 md:gap-10 overflow-x-auto now-scroll md:justify-center">
+<div class="flex items-center gap-2" style="min-width:max-content"><span class="live-dot"></span><span class="text-xs font-semibold tracking-widest uppercase text-white/55">Right Now</span></div>
+<div class="now-item"><span class="now-k">Paramaribo</span><span class="now-v" id="now-time">--:--</span></div>
+<a class="now-item" href="conditions.html"><span class="now-k">Weather</span><span class="now-v" id="now-wx">~28°C</span></a>
+<a class="now-item" href="currency.html"><span class="now-k">USD → SRD</span><span class="now-v">37.35</span></a>
+<a class="now-item" href="currency.html"><span class="now-k">EUR → SRD</span><span class="now-v">42.20</span></a>
+<a class="now-item" href="conditions.html"><span class="now-k">Sunset</span><span class="now-v" id="now-sun">--:--</span></a>
 </div>
 </section>
-<section class="py-10 bg-white border-b border-gray-100">
-<h2 class="vh">Why Explore Suriname</h2>
-<div class="max-w-2xl mx-auto px-5 text-center">
-<p class="text-gray-500 text-base leading-relaxed">This isn't just a directory. It's a living record of the people and places moving Suriname forward. We find the details so you can find the experience.</p>
+<section class="py-14 md:py-24 bg-white border-b border-gray-100">
+<div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+<div>
+<p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Why Explore Suriname</p>
+<h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 mb-5 leading-tight">Not a directory. A love letter.</h2>
+<p class="text-gray-500 text-lg leading-relaxed mb-4">This is a living record of the people and places moving Suriname forward, kept by people who live here, eat here and travel the same roads you will.</p>
+<p class="text-gray-500 text-lg leading-relaxed">We find the details so you can find the experience.</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="stat-tile"><p class="serif text-3xl font-bold mb-1" style="color:var(--forest)">94%</p><p class="text-gray-600 text-sm leading-relaxed">Rainforest cover, the highest of any country on Earth</p></div>
+<div class="stat-tile"><p class="serif text-3xl font-bold mb-1" style="color:var(--forest)">700+</p><p class="text-gray-600 text-sm leading-relaxed">Bird species recorded across the country</p></div>
+<div class="stat-tile"><p class="serif text-3xl font-bold mb-1" style="color:var(--forest)">3</p><p class="text-gray-600 text-sm leading-relaxed">UNESCO World Heritage Sites, nature and city alike</p></div>
+<div class="stat-tile"><p class="serif text-3xl font-bold mb-1" style="color:var(--forest)">28°C</p><p class="text-gray-600 text-sm leading-relaxed">Tropical warmth, every single day of the year</p></div>
+</div>
+</div>
+</section>
+<section class="py-12 md:py-24" id="journeys" style="background:var(--forest)">
+<div class="max-w-6xl mx-auto px-5">
+<div class="text-center mb-10 md:mb-14">
+<p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--coral)">Choose Your Journey</p>
+<h2 class="serif text-4xl sm:text-5xl font-bold text-white mb-4">Which Suriname calls you?</h2>
+<p class="text-white/60 text-lg max-w-2xl mx-auto leading-relaxed">Four ways in. Pick one, or take them all.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+<a class="jcard card-hover h-72 md:h-80" href="nature.html">
+<img alt="Aerial view of a winding river through untouched rainforest in the Suriname interior" height="900" loading="lazy" src="/images/hero-rainforest.webp" width="1600"/>
+<div class="jov"></div>
+<div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+<p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">30 destinations</p>
+<h3 class="serif text-2xl md:text-3xl font-bold mb-1">The Wild Interior</h3>
+<p class="text-white/80 text-sm leading-relaxed">Reserves, waterfalls and jungle lodges in the greenest country on Earth.</p>
+</div>
+</a>
+<a class="jcard card-hover h-72 md:h-80" href="activities.html">
+<img alt="Colorful wooden boats lined up at Atjoni on the Upper Suriname River" height="900" loading="lazy" src="/images/hero-suriname-river.webp" width="1600"/>
+<div class="jov"></div>
+<div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+<p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">39 experiences</p>
+<h3 class="serif text-2xl md:text-3xl font-bold mb-1">On the Water</h3>
+<p class="text-white/80 text-sm leading-relaxed">Dugout canoes, turtle beaches, river sunsets and village stays.</p>
+</div>
+</a>
+<a class="jcard card-hover h-72 md:h-80" href="restaurants.html">
+<img alt="Fresh produce stalls inside the Central Market of Paramaribo" height="800" loading="lazy" src="/images/home-market.webp" width="1200"/>
+<div class="jov"></div>
+<div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+<p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">171 restaurants</p>
+<h3 class="serif text-2xl md:text-3xl font-bold mb-1">The Flavors</h3>
+<p class="text-white/80 text-sm leading-relaxed">Roti, pom, bami and moksi alesi. Five kitchens, one table.</p>
+</div>
+</a>
+<a class="jcard card-hover h-72 md:h-80" href="hotels.html">
+<img alt="Aerial view of the Cathedral-Basilica and the rooftops of Paramaribo" height="900" loading="lazy" src="/images/hero-paramaribo.webp" width="1600"/>
+<div class="jov"></div>
+<div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+<p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">40 hotels &amp; lodges</p>
+<h3 class="serif text-2xl md:text-3xl font-bold mb-1">The Stay</h3>
+<p class="text-white/80 text-sm leading-relaxed">Riverside hotels in the capital, lodges reached only by boat.</p>
+</div>
+</a>
+</div>
 </div>
 </section>
 <section class="py-12 md:py-24 bg-gray-50" id="nature">
@@ -965,6 +1071,33 @@ document.addEventListener('keydown', e => {
 </div>
 </div>
 </section>
+<section class="py-12 md:py-24 bg-white">
+<div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+<img alt="The Keizerstraat mosque and the Neveh Shalom synagogue standing side by side in Paramaribo" class="rounded-2xl w-full h-auto shadow-lg" height="800" loading="lazy" src="/images/home-faiths.webp" width="1200"/>
+<div>
+<p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">One People, Many Worlds</p>
+<h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 mb-5 leading-tight">A mosque and a synagogue, fence to fence.</h2>
+<p class="text-gray-500 text-lg leading-relaxed mb-4">On Keizerstraat in Paramaribo, one of the Caribbean’s largest mosques has stood beside one of the oldest synagogues in the Americas for nearly a century. That is Suriname in a single frame.</p>
+<p class="text-gray-500 text-lg leading-relaxed mb-7">Indigenous, Maroon, Creole, Hindustani, Javanese, Chinese and Dutch heritage share the same streets, the same holidays and the same dinner tables. You taste it before you understand it.</p>
+<div class="flex flex-wrap gap-3">
+<a class="px-6 py-3 rounded-full text-sm font-semibold text-white hover:opacity-90 transition" href="restaurants.html" style="background:var(--forest)">Taste the mix</a>
+<a class="px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" href="nature.html" style="border-color:var(--forest2);color:var(--forest2)">See the heritage</a>
+</div>
+</div>
+</div>
+</section>
+<section class="relative py-20 md:py-28 hero-bg" style="background-image:url('/images/home-sunset.webp')">
+<div class="absolute inset-0" style="background:rgba(0,0,0,.45)"></div>
+<div class="relative z-10 max-w-3xl mx-auto px-5 text-center text-white">
+<p class="text-xs font-semibold tracking-widest uppercase mb-4" style="color:var(--coral)">Updated Daily From Paramaribo</p>
+<h2 class="serif text-3xl sm:text-5xl font-bold mb-5 leading-tight">Come back tomorrow. It will be different.</h2>
+<p class="text-white/85 text-lg leading-relaxed mb-9 max-w-xl mx-auto">Rates move, flights land, festivals come around. Bookmark us, install the app or just drop by again. The sunset is always free.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<a class="px-8 py-4 rounded-full font-semibold text-white hover:opacity-90 transition shadow-lg" href="visitor-guide.html" style="background:var(--coral)">Read the Visitor Guide</a>
+<a class="px-8 py-4 rounded-full font-semibold text-white border-2 hover:bg-white/10 transition" href="https://www.instagram.com/exploringsuriname/" rel="noopener" style="border-color:rgba(255,255,255,.6)" target="_blank">Follow @exploringsuriname</a>
+</div>
+</div>
+</section>
 <footer class="text-white py-10" style="background:var(--forest)">
 <div class="max-w-6xl mx-auto px-5">
 <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-6">
@@ -1025,9 +1158,57 @@ document.addEventListener('keydown', e => {
           Instagram
         </a>
 </div>
-<p class="text-white/40 text-xs">© 2026 ExploreSuriname.com  ·  <a class="hover:text-white/70 transition" href="privacy.html">Privacy Policy</a></p>
+<p class="text-white/40 text-xs">© 2026 ExploreSuriname.com  ·  <a class="hover:text-white/70 transition" href="privacy.html">Privacy Policy</a>  ·  <a class="hover:text-white/70 transition" href="/images/HOME_CREDITS.txt">Credits</a></p>
 </div>
 </div>
 </footer>
+<script>
+
+(function(){
+  var imgs=["/images/hero-paramaribo.webp","/images/hero-rainforest.webp","/images/hero-bridge.webp"];
+  var n=4, idx=0, started=false;
+  function show(i){
+    for(var k=0;k<n;k++){
+      var L=document.getElementById("hz"+k);
+      if(L) L.className=(k===i)?"hz on":"hz";
+    }
+    var subs=document.querySelectorAll(".hsub"), chips=document.querySelectorAll(".hchip");
+    for(var k2=0;k2<subs.length;k2++) subs[k2].className=(k2===i)?"hsub act":"hsub";
+    for(var k3=0;k3<chips.length;k3++) chips[k3].className=(k3===i)?"hchip act hchip-box":"hchip hchip-box";
+  }
+  function start(){
+    if(started) return; started=true;
+    for(var k=0;k<imgs.length;k++)(function(src,j){
+      var im=new Image();
+      im.onload=function(){var L=document.getElementById("hz"+j); if(L) L.style.backgroundImage="url('"+src+"')";};
+      im.src=src;
+    })(imgs[k],k+1);
+    setInterval(function(){ if(document.hidden) return; idx=(idx+1)%n; show(idx); },6500);
+  }
+  if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+    if(document.readyState==="complete") setTimeout(start,1500);
+    else window.addEventListener("load",function(){setTimeout(start,1500);});
+  }
+})();
+(function(){
+  function tick(){
+    try{
+      var t=new Intl.DateTimeFormat("en-GB",{hour:"2-digit",minute:"2-digit",timeZone:"America/Paramaribo"}).format(new Date());
+      var el=document.getElementById("now-time"); if(el) el.textContent=t;
+    }catch(e){}
+  }
+  tick(); setInterval(tick,30000);
+  var WMO={0:"Clear",1:"Mostly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",48:"Fog",51:"Drizzle",53:"Drizzle",55:"Drizzle",61:"Light rain",63:"Rain",65:"Heavy rain",80:"Showers",81:"Showers",82:"Heavy showers",95:"Thunderstorm",96:"Thunderstorm",99:"Thunderstorm"};
+  fetch("https://api.open-meteo.com/v1/forecast?latitude=5.852&longitude=-55.203&current=temperature_2m,weather_code&daily=sunset&timezone=America%2FParamaribo&forecast_days=1")
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var w=document.getElementById("now-wx");
+      if(w&&d.current) w.textContent=Math.round(d.current.temperature_2m)+"°C "+(WMO[d.current.weather_code]||"");
+      var s=document.getElementById("now-sun");
+      if(s&&d.daily&&d.daily.sunset&&d.daily.sunset[0]) s.textContent=d.daily.sunset[0].slice(11,16);
+    }).catch(function(){});
+})();
+
+</script>
 </body>
 </html>
