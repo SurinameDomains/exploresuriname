@@ -1727,7 +1727,7 @@ PAGE_HEAD = """\
   <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap"></noscript>
-  <link rel="stylesheet" href="/tailwind.css">
+  <link rel="stylesheet" href="/tailwind.css?v=__TWV__">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="theme-color" content="#1B4332">
   <meta name="mobile-web-app-capable" content="yes">
@@ -1850,6 +1850,12 @@ PAGE_HEAD = """\
   </script>
   <!-- Google tag (gtag.js) -->
   <script>window.addEventListener("load",function(){var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-6LTYHZYNSF");});</script>"""
+try:
+    import hashlib as _hashlib
+    _TW_V = _hashlib.md5(open("tailwind.css", "rb").read()).hexdigest()[:8]
+except Exception:
+    _TW_V = "0"
+PAGE_HEAD = PAGE_HEAD.replace("__TWV__", _TW_V)
 
 # ── WorldTides: tide data for Paramaribo ────────────────────────────────────
 # ── WorldTides: district river tide locations ─────────────────────────────────
@@ -2973,7 +2979,7 @@ def build_index(restaurants, hotels, cme_rates=None):
     activity_cards = "\n".join(activity_card_rich(a, eager=(i==0)) for i,a in enumerate(ACTIVITIES[:6]))
     rest_cards     = "\n".join(poi_card(r, "cuisine",  eager=(i==0)) for i,r in enumerate(_pick_featured(RESTAURANTS, _FEATURED_RESTAURANTS)))
     hotel_cards    = "\n".join(poi_card(h, "category", eager=(i==0)) for i,h in enumerate(_pick_featured(HOTELS,      _FEATURED_HOTELS)))
-    shop_cards     = "\n".join(poi_card(s, eager=(i==0))             for i,s in enumerate(_pick_featured(SHOPPING,    _FEATURED_SHOPPING)))
+    shop_cards     = "\n".join(poi_card(s, eager=(i==0))             for i,s in enumerate(_pick_featured(SHOPPING,    _FEATURED_SHOPPING)[:6]))
     more_btn = lambda href, label: f'<a href="{href}" class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" style="border-color:var(--forest2);color:var(--forest2)">{label} &rarr;</a>'
     # ── "Suriname right now" strip: rates + holiday baked at build time (site rebuilds ~15 min) ──
     _usd = _eur = None
@@ -3020,6 +3026,12 @@ def build_index(restaurants, hotels, cme_rates=None):
     .jcard:hover img{transform:scale(1.05)}
     .jcard .jov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.74) 0%,rgba(0,0,0,.18) 55%,rgba(0,0,0,.02) 100%)}
     .stat-tile{border-radius:1rem;padding:1.4rem 1.2rem;background:var(--mint)}
+    .now-wrap{display:flex;align-items:center;gap:2.2rem;overflow-x:auto}
+    @media(min-width:768px){.now-wrap{justify-content:center;gap:2.8rem}}
+    .jcard{height:18rem}
+    @media(min-width:768px){.jcard{height:20rem}}
+    .duo{display:grid;gap:2.5rem;align-items:center}
+    @media(min-width:768px){.duo{grid-template-columns:1fr 1fr;gap:4.5rem}}
     """
     _home_js = r"""
 (function(){
@@ -3177,7 +3189,7 @@ def build_index(restaurants, hotels, cme_rates=None):
 </section>
 <section id="now-strip" style="background:var(--forest)" class="text-white py-5">
   <h2 class="vh">Suriname right now</h2>
-  <div class="max-w-6xl mx-auto px-5 flex items-center gap-7 md:gap-10 overflow-x-auto now-scroll md:justify-center">
+  <div class="max-w-6xl mx-auto px-5 now-wrap now-scroll">
     <div class="flex items-center gap-2" style="min-width:max-content"><span class="live-dot"></span><span class="text-xs font-semibold tracking-widest uppercase text-white/55">Right Now</span></div>
     <div class="now-item"><span class="now-k">Paramaribo</span><span class="now-v" id="now-time">--:--</span></div>
     <a href="conditions.html" class="now-item"><span class="now-k">Weather</span><span class="now-v" id="now-wx">~28&#176;C</span></a>
@@ -3188,7 +3200,7 @@ def build_index(restaurants, hotels, cme_rates=None):
   </div>
 </section>
 <section class="py-14 md:py-24 bg-white border-b border-gray-100">
-  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+  <div class="max-w-6xl mx-auto px-5 duo">
     <div>
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Why Explore Suriname</p>
       <h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 mb-5 leading-tight">Not a directory. A love letter.</h2>
@@ -3211,7 +3223,7 @@ def build_index(restaurants, hotels, cme_rates=None):
       <p class="text-white/60 text-lg max-w-2xl mx-auto leading-relaxed">Four ways in. Pick one, or take them all.</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-      <a href="nature.html" class="jcard card-hover h-72 md:h-80">
+      <a href="nature.html" class="jcard card-hover">
         <img src="/images/hero-rainforest.webp" alt="Aerial view of a winding river through untouched rainforest in the Suriname interior" width="1600" height="900" loading="lazy">
         <div class="jov"></div>
         <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -3220,7 +3232,7 @@ def build_index(restaurants, hotels, cme_rates=None):
           <p class="text-white/80 text-sm leading-relaxed">Reserves, waterfalls and jungle lodges in the greenest country on Earth.</p>
         </div>
       </a>
-      <a href="activities.html" class="jcard card-hover h-72 md:h-80">
+      <a href="activities.html" class="jcard card-hover">
         <img src="/images/hero-suriname-river.webp" alt="Colorful wooden boats lined up at Atjoni on the Upper Suriname River" width="1600" height="900" loading="lazy">
         <div class="jov"></div>
         <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -3229,7 +3241,7 @@ def build_index(restaurants, hotels, cme_rates=None):
           <p class="text-white/80 text-sm leading-relaxed">Dugout canoes, turtle beaches, river sunsets and village stays.</p>
         </div>
       </a>
-      <a href="restaurants.html" class="jcard card-hover h-72 md:h-80">
+      <a href="restaurants.html" class="jcard card-hover">
         <img src="/images/home-market.webp" alt="Fresh produce stalls inside the Central Market of Paramaribo" width="1200" height="800" loading="lazy">
         <div class="jov"></div>
         <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -3238,7 +3250,7 @@ def build_index(restaurants, hotels, cme_rates=None):
           <p class="text-white/80 text-sm leading-relaxed">Roti, pom, bami and moksi alesi. Five kitchens, one table.</p>
         </div>
       </a>
-      <a href="hotels.html" class="jcard card-hover h-72 md:h-80">
+      <a href="hotels.html" class="jcard card-hover">
         <img src="/images/hero-paramaribo.webp" alt="Aerial view of the Cathedral-Basilica and the rooftops of Paramaribo" width="1600" height="900" loading="lazy">
         <div class="jov"></div>
         <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -3389,7 +3401,7 @@ def build_index(restaurants, hotels, cme_rates=None):
   </div>
 </section>
 <section class="py-12 md:py-24 bg-white">
-  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+  <div class="max-w-6xl mx-auto px-5 duo">
     <img src="/images/home-faiths.webp" alt="The Keizerstraat mosque and the Neveh Shalom synagogue standing side by side in Paramaribo" width="1200" height="800" loading="lazy" class="rounded-2xl w-full h-auto shadow-lg">
     <div>
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">One People, Many Worlds</p>
@@ -3411,7 +3423,6 @@ def build_index(restaurants, hotels, cme_rates=None):
     <p class="text-white/85 text-lg leading-relaxed mb-9 max-w-xl mx-auto">Rates move, flights land, festivals come around. Bookmark us, install the app or just drop by again. The sunset is always free.</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <a href="visitor-guide.html" class="px-8 py-4 rounded-full font-semibold text-white hover:opacity-90 transition shadow-lg" style="background:var(--coral)">Read the Visitor Guide</a>
-      <a href="https://www.instagram.com/exploringsuriname/" target="_blank" rel="noopener" class="px-8 py-4 rounded-full font-semibold text-white border-2 hover:bg-white/10 transition" style="border-color:rgba(255,255,255,.6)">Follow @exploringsuriname</a>
     </div>
   </div>
 </section>
