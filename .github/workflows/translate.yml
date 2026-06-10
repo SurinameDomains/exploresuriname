@@ -13,7 +13,10 @@ on:
   #   - cron: '0 5 * * *'   # 05:00 UTC daily until the cache is full
 
 concurrency:
-  group: exploresuriname-translate
+  # Same group as update.yml/cache_images.yml: deploy-type jobs queue up
+  # instead of committing concurrently (concurrent commits made the final
+  # pull --rebase fail every time the 15-min site rebuild landed mid-run).
+  group: exploresuriname-deploy
   cancel-in-progress: false
 
 permissions:
@@ -60,5 +63,10 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add translations.json i18n_segments.json translation_segments.json || true
           git diff --staged --quiet || git commit -m "i18n: fill translations cache [$(date -u '+%Y-%m-%d %H:%M') UTC]"
+          # The build steps above dirty many generated files (HTML, sitemap, ...).
+          # Only the committed JSON caches matter here; discard the rest so
+          # pull --rebase cannot fail on unstaged changes.
+          git checkout -- .
+          git clean -fd --quiet || true
           git pull --rebase origin main
           git push
