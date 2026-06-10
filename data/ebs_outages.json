@@ -1,5 +1,48 @@
 {
-  "outages": [],
-  "last_updated": "2026-06-10T11:43:34.892971+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 11 JUNI 2026",
+      "date": "11 Juni 2026",
+      "date_iso": "2026-06-11",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1517/gepland-onderhoud-donderdag-11-juni-2026",
+      "meta_description": "Gepland onderhoud: Commewijne donderdag 11 juni 2026 tussen 08:30-14:00 PLANTAGE RUST & WERK EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT",
+      "district": "Commewijne",
+      "time": "08:30 – 14:00",
+      "area": "PLANTAGE RUST & WERK EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD VRIJDAG 12 JUNI 2026",
+      "date": "12 Juni 2026",
+      "date_iso": "2026-06-12",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1515/gepland-onderhoud-vrijdag-12-juni-2026",
+      "meta_description": "Gepland onderhoud: Paramaribo vrijdag 12 juni 2026 tussen 09:00-14:00 GEDEELTE MAROWIJNESTRAAT TUSSEN LICANIASTRAAT EN COESEWIJNESTRAAT, GEDEELTE FLORALAAN",
+      "district": "Paramaribo",
+      "time": "09:00 – 14:00",
+      "area": "GEDEELTE MAROWIJNESTRAAT TUSSEN LICANIASTRAAT EN COESEWIJNESTRAAT, GEDEELTE FLORALAAN"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD VRIJDAG 12 JUNI 2026",
+      "date": "12 Juni 2026",
+      "date_iso": "2026-06-12",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1514/gepland-onderhoud-vrijdag-12-juni-2026",
+      "meta_description": "Gepland onderhoud: Paramaribo vrijdag 12 juni 2026 tussen 08:00-14:00 GEDEELTE PLUTOSTRAAT TUSSEN JACQUES D. GOMPERTSSTRAAT EN AIDASTRAAT, GEDEELTE JACQUES",
+      "district": "Paramaribo",
+      "time": "08:00 – 14:00",
+      "area": "GEDEELTE PLUTOSTRAAT TUSSEN JACQUES D. GOMPERTSSTRAAT EN AIDASTRAAT, GEDEELTE JACQUES"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 11 JUNI 2026",
+      "date": "11 Juni 2026",
+      "date_iso": "2026-06-11",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1513/gepland-onderhoud-donderdag-11-juni-2026",
+      "meta_description": "GEPLAND ONDERHOUD:WANICA DONDERDAG 11 JUNI 2026 TUSSEN 9:00 EN 14:00 UURGEDEELTE RONALD KOORNDIJKWEG-NOORD TUSSEN DR. PAUL FAVERYWEG EN CHRIS VAN",
+      "district": "WANICA"
+    }
+  ],
+  "last_updated": "2026-06-10T15:07:45.937723+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
