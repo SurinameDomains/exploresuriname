@@ -227,7 +227,7 @@ ACTIVITIES = [
     {"icon": "🐬", "name": "River Dolphin Watching",
      "desc": "Spot the rare freshwater boto dolphins on a boat tour along the scenic Commewijne River.",
      "url": "https://www.impressivesuriname.com/to_book/commewijne-dolphin-plantation-boat-tour/",
-     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Sotalia_fluviatilis_boto_cinza.jpg/1280px-Sotalia_fluviatilis_boto_cinza.jpg"},
+     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Sotalia_guianensis_Guyane_fran%C3%A7aise_Amandine_Bordin_2.jpg/1280px-Sotalia_guianensis_Guyane_fran%C3%A7aise_Amandine_Bordin_2.jpg"},
     {"icon": "🎨", "name": "Maroon Art & Craft",
      "desc": "Watch master craftsmen carve intricate Maroon woodwork and weave traditional textile art.",
      "url": "https://www.knini-paati.com/en/excursions-suriname/",
@@ -268,7 +268,6 @@ def _biz_url(b):
 
 _IMGS = {
     '4r-gym': 'https://img.youtube.com/vi/_dndYccJtn8/hqdefault.jpg',
-    '9173': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/662820392_1256285163381526_8556063393483538061_n.jpg?stp=c191.191.1666.1666a_dst-jpg_s200x200_tt6&_nc_cat=107&ccb=1-7&_nc_sid=f907e8&_nc_ohc=sNcs8J-3-pEQ7kNvwE1SvRI&_nc_oc=Adox-V9jGzmAd5j8oFnQ2SKJ9G0sMTmyWb6lCZqwO0o4rNAVo05W-Qp-wzDrcJK5KNg&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=m7MXnn46zcFpyVn9_2aDNA&oh=00_Af7mlFZV7FXT-Znfxp0i2u3jh1_A27I0e91imZmMG1mphQ&oe=6A1C5A69',
     'a-la-john': 'https://socialsuriname.com/wp-content/uploads/2024/06/A-La-John-v1.webp',
     'aaras-cafe': 'https://socialsuriname.com/wp-content/uploads/2025/05/Aaras-Cafe-v1.webp',
     'ac-bar-restaurant': 'https://socialsuriname.com/wp-content/uploads/2025/06/AC-Bar-Restaurant-v1.webp',
@@ -289,7 +288,6 @@ _IMGS = {
     'akira-overwater-resort': 'https://www.akiraoverwaterresort.com/wp-content/uploads/2019/01/drone-foto-Akira-resort.jpg',
     'alegria': 'https://socialsuriname.com/wp-content/uploads/2025/06/Alegria-v3.webp',
     'alis-drugstore': 'https://socialsuriname.com/wp-content/uploads/2025/04/Alis-Drugstore.webp',
-    'alliance-francaise': 'https://afsuriname.org/wp-content/uploads/2023/09/Cursus-768x512.jpg',
     'amada-shopping': 'https://media.evendo.com/locations-resized/ShoppingImages/1920x466/6a3e0bdf-e4ec-42d2-9b03-3966d72e5ae7',
     'anaula-nature-resort': 'https://upload.wikimedia.org/wikipedia/commons/3/35/Anaula_Nature_Resort_%2814406614971%29.jpg',
     'anton-de-kom-universiteit-van-suriname': 'https://www.uvs.edu/wp-content/uploads/2017/12/STM_2770.jpg',
@@ -407,7 +405,6 @@ _IMGS = {
     'dojo-couture-hermitage-mall': 'https://ims.sr/wp-content/uploads/2024/01/DOJO.jpg',
     'dojo-couture-ims': 'https://ims.sr/wp-content/uploads/2024/01/DOJO.jpg',
     'dolce-bella-cafe': 'https://socialsuriname.com/wp-content/uploads/2025/06/Dolce-Bella-Cafe-v1.webp',
-    'dresscode': 'https://www.waterkant.net/wp-content/2018/08/i-love-su-suriname.jpg',
     'ec-operations': 'https://socialsuriname.com/wp-content/uploads/2025/05/EC-Operations.webp',
     'eco-resort-miano': 'https://mianoecoresort.wordpress.com/wp-content/uploads/2025/09/05bab-1755531893645.jpg',
     'eco-torarica': 'https://ecotorarica.com/uploads/images/page/original/whatsapp-image-2026-03-22-at-10-05-24.jpeg',
@@ -440,8 +437,7 @@ _IMGS = {
     'flex-phones': 'https://www.surinamyp.com/img/sr/e/1683543969-41-flex-phones.jpg',
     'fly-allways': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Fly_All_Ways_Fokker_F70_at_Paramaribo_Airport.jpg/1280px-Fly_All_Ways_Fokker_F70_at_Paramaribo_Airport.jpg',
     'folo-nature-tours': 'https://socialsuriname.com/wp-content/uploads/2024/06/Folo-Nature-Tours.webp',
-    'footcandy-hermitage-mall': 'https://mallsbycountry.com/images/stores/hermitage-mall/foot-candy-logo.png',
-    'ford-zeelandia': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Fort_Zeelandia.jpg/1280px-Fort_Zeelandia.jpg',
+    'fort-zeelandia': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Fort_Zeelandia.jpg/1280px-Fort_Zeelandia.jpg',
     'free-flow': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/667798109_1506224704854928_6399957566437975518_n.jpg?stp=cp1_dst-jpg_s200x200_tt6&_nc_cat=105&ccb=1-7&_nc_sid=f907e8&_nc_ohc=6CAMesDF-nEQ7kNvwE_LMEH&_nc_oc=AdrZGWvWAtZPgKuBPBnlxAeXia4m-78rvjBm6VwFJfYXh1c4FcDVo25zE4Yia1secHA&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=Xno8JSdIMHn8upMtV9x8yQ&oh=00_Af5Tba91ArQ7nMP0j8OKjh3GKH0IDUxayCZZDyycBn415g&oe=6A1C4F48',
     'from-kay-with-love': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/292565051_413123620854450_3791660954924850141_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=108&ccb=1-7&_nc_sid=f907e8&_nc_ohc=_EJGFW5WknwQ7kNvwFjON85&_nc_oc=AdqQizQ6qX8Mw4Xzc21vXz32LC5O9VfYSR24Zx2k1ouMBiQYWSuNkqdR1e_cFaV_Sac&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=v6yGqZK2pe2ZCXl8DiumUA&oh=00_Af7mgsLmLlxoWHw-sOJP1xrg04Pmmj3Uz_nbnqcPrCqToA&oe=6A1C3A55',
     'from-me-to-me': 'https://socialsuriname.com/wp-content/uploads/2024/11/From-Me-To-Me-1.webp',
@@ -561,8 +557,6 @@ _IMGS = {
     'mimi-market': 'https://socialsuriname.com/wp-content/uploads/2024/06/Mimi-Market-v1.webp',
     'mingle-paramaribo': 'https://ims.sr/wp-content/uploads/2025/02/Logo-Mingle-Cocktail-Lounge_gold-1024x1024.png',
     'mingle-sushi': 'https://mingleparamaribo.com/wp-content/uploads/2022/06/Logo-Mingle-Cocktail-Lounge_gold.png',
-    'miniso-gompertstraat': 'https://www.miniso.com/Uploads/img/20230511/6459c5046dd82.jpg',
-    'miniso-hermitage-mall': 'https://www.miniso.com/Uploads/img/20230511/6459c5046dd82.jpg',
     'mirage-casino': 'https://www.surinamyp.com/img/sr/h/_1684245517-81-mirage-hotel-casino.jpg',
     'miss-doll-fit': 'https://socialsuriname.com/wp-content/uploads/2024/06/Miss-Doll-Fit.webp',
     'moka-coffeebar': 'https://socialsuriname.com/wp-content/uploads/2026/04/Moka-Coffee-Bar-v1-01-ti04.webp',
@@ -589,8 +583,6 @@ _IMGS = {
     'nr-1-spot': 'https://socialsuriname.com/wp-content/uploads/2026/01/Nr.-1-Spot-v1.webp',
     'numa-cafe': 'https://scontent.cdninstagram.com/v/t51.2885-19/469001315_2136242520124595_7042698168608299482_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=103&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=notWWJxMl54Q7kNvwHDzcnO&_nc_oc=AdqKJMmHGbLeIJgPu2a2xjLh3z6RG7lD2xo2CrmpCukWnJuM2bKVYP8hPGnykgbxMQQ&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_ss=7ea02&oh=00_Af49Cniv6uZSq3yMXSSZoypHrg9TOFV_8-DcQ3EgW1cRrw&oe=6A1C6810',
     'oasis-restaurant': 'https://socialsuriname.com/wp-content/uploads/2025/11/Oasis-Restaurant-v1.webp',
-    'ochama-amazing': 'https://mallsbycountry.com/images/stores/hermitage-mall/ochama-logo.jpg',
-    'ochama-hermitage-mall': 'https://mallsbycountry.com/images/stores/hermitage-mall/ochama-logo.jpg',
     'office-world-hermitage-mall': 'https://www.surinamyp.com/img/sr/h/1683221352-13-office-world.jpg',
     'office-world-lelydorp': 'https://www.surinamyp.com/img/sr/h/1683221352-13-office-world.jpg',
     'ogi-teppanyaki-sushi-bar': 'https://www.ramadaparamaribo.com/wp-content/uploads/2024/06/best-seller-food-crop-1.jpg',
@@ -685,7 +677,6 @@ _IMGS = {
     'samba-cafe': 'https://socialsuriname.com/wp-content/uploads/2025/04/Samba-Cafe-v1.webp',
     'sanousch-books': 'https://www.surinamyp.com/img/sr/c/_1684307098-60-sanoush-books.jpg',
     'saras-brunch-cafe': 'https://socialsuriname.com/wp-content/uploads/2024/06/Saras-Brunch-Cafe.webp',
-    'sash-fashion-hermitage-mall': 'https://mallsbycountry.com/images/stores/hermitage-mall/sash-fashion-logo.png',
     'satyam-holidays': 'https://www.surinamyp.com/img/sr/l/_1683208455-48-satyam-holidays.png',
     'savage-den': 'https://savageden.sr/wp-content/uploads/2025/11/PHOTO-2025-11-03-10-30-58-1024x1024.jpg',
     'savannah-casino-hotel': 'https://cdn.worldota.net/t/640x400/content/e7/27/e72767fe01b309ca7a9a45352ac1e9041ddd91a2.jpeg',
@@ -854,7 +845,6 @@ _IMGS = {
     'ondernemershuis': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/491839750_1326108885573615_7535592331881514750_n.jpg?stp=c143.0.1536.1536a_dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=f907e8&_nc_ohc=kuvkPXTLCoYQ7kNvwGItUEA&_nc_oc=AdpOHEapKwKK8WL87BZvoBSVZRIqvWNjq-2H7VAHowq-uwUNASbl_z7oqLIn0wtY0pg&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=O64hoTYIpsufR7zWkrvrbQ&oh=00_Af48wgSZ5-rDuhm77GaiyQuMc0Y_fRE3twj8-Py2KXqaJg&oe=6A1CCD8E',
     'paramaribo-princess-casino': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/494806717_1343242120726263_1843852202794746757_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=106&ccb=1-7&_nc_sid=f907e8&_nc_ohc=hPc1OBV7WvgQ7kNvwFcW5Kk&_nc_oc=AdomINa1f3e8biBwRpS1vpxtbeGI7Cmve151Jo6eNhOfT3g-mGRYhtNTVwTFlm0rUcU&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=vWUj9MpZ4UiunAT71yribA&oh=00_Af7Sut_KOTQFsjwOjGjlHa4WIEzjwhc5HoKxYd5_1FLY7w&oe=6A1CA227',
     'r-k-bisdom-paramaribo': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/327055526_579584383642683_1686326191541290592_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=101&ccb=1-7&_nc_sid=f907e8&_nc_ohc=6qA_clRlrCIQ7kNvwHYDwUz&_nc_oc=Ados4ciOYKVyEJyIyxgyNxljE7k80gcxiQwG3odzIalN16kDl50pARakZ0AfnoXLR5k&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=6QjU4iUCs4qEyIGoij3n0A&oh=00_Af7CyAr7aDN2gqeEb0P8h_j8W0XQiFgSStKGbrqlDRtkMw&oe=6A1C9CF2',
-    'savante-casino-hotel': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/646710075_1411901514071294_3610958283925551366_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=107&ccb=1-7&_nc_sid=f907e8&_nc_ohc=aM71W23jw5YQ7kNvwFIJnDS&_nc_oc=AdoFQYWO3a1q7_qwvFx7MCmyZDeW0zBRgDT6DmMVjJulEwpGVdZlcNijAoCZkN8BoYk&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AOf6bZoEAAAA&_nc_gid=UIFCsj20Z7gHOHyoYF6PxQ&oh=00_Af7lU9p-VJlPulFSRoPCpCaU7fNzJSxVF9I8JCC_FA8UUg&oe=6A1CCA72',
     'sizzlers-signature': 'https://scontent.cdninstagram.com/v/t51.2885-19/341761020_1245021093074308_6065362681766550426_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=108&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDAwLkMzIn0%3D&_nc_ohc=IFHofdiZTbYQ7kNvwHVZcKo&_nc_oc=AdqDuKu2nYZqnqfwEzWJoeNpqGKN-KU0yn5EEUuOdolQAKsywe-mm7nxgxU4UMv28os&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_ss=7ea02&oh=00_Af66TqIj-V6lrnhA9-eTua-EEJGNJJaiVMpDEu4dfJnlbw&oe=6A1CC13F',
     'the-basement-barbershop': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/326170698_1177412356224078_2922193072423638133_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=f907e8&_nc_ohc=KOLgRn-yF4wQ7kNvwE_sxtA&_nc_oc=Adpu6ivwLogsHJ99Jbw1H7Y_L76Z_0WkVPJlHgA0IHuQ6lQUVOCBTAzDmWAkpZdB488&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=qaXYLakL2U2vXMGWedfXqA&oh=00_Af7MGKIWCzogywUg3lT4AuZw-wewgXKAY-MPTvgt0WRGOQ&oe=6A1CA727',
     'the-house-of-beauty': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/292714966_601608424870870_2667245980267594320_n.jpg?stp=c384.0.1280.1280a_dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=f907e8&_nc_ohc=aavc1kABADYQ7kNvwGUFjwp&_nc_oc=AdphIoJVGrwSXu4XIG4SExwA0DROTGfPIGdjnX-1WDcmAKhBkSrBYTzYv6-tyM20ilE&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=DHFxiJB3j-gGBczf3pF0UQ&oh=00_Af65JGHstrdxXwJ2pYaoraTiTLO9SDWb7j3DeeGmLpa7Bg&oe=6A1C9D20',
@@ -878,18 +868,13 @@ _IMGS = {
     'lashlift-suriname': 'https://scontent.cdninstagram.com/v/t51.2885-19/375514928_671229417996402_6109440755739947437_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=105&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=asjgYDKNZ7sQ7kNvwEbJbxn&_nc_oc=AdpKUQXGLdDf0Tc3x6PRZw_ugNF9MoLFAylSHJ3S6hT8U_AJIO8H3i3FsUqs80g1Vlo&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_ss=7ea02&oh=00_Af56wh1jUY3JqvEO6NtNswfSfj96Ng7MSVSMhEV62FCgVQ&oe=6A1CA568',
     'the-aerial-yoga-studio': 'https://scontent.cdninstagram.com/v/t51.82787-19/572385626_17842199037613642_8571585086525256467_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=108&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy41MDAuQzMifQ%3D%3D&_nc_ohc=GtgCUgbgU4EQ7kNvwFB7HDH&_nc_oc=AdobAzrUDTwT1gibPeegVdDpa9AXjjJoj01oNTo1jGz4FrBhBmxLGXhMIG2SqlMSioI&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=6Vf4e2NLJVYZM8So_zL_HQ&_nc_ss=7ea02&oh=00_Af7XFjktO-ze75BO4nyFeR9diWisfoC-sy7R4MjYNWccDg&oe=6A1CD23D',
     'apotheek-mac-donald-north': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/408389143_834841738649386_1012528157907421072_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=109&ccb=1-7&_nc_sid=f907e8&_nc_ohc=MlOKI-CyYEwQ7kNvwFhkI-N&_nc_oc=Adpjk8Y1NYHIa7DU3cDajdoLWbWA6JW8tXyPyYUzBXh9V_HatqmCSyAzk09qdfqLqhc&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=_NLyKEg0gV9HnrWvcvgAAg&oh=00_Af5iim2bL5IkoErfJrXSFIfqqFLkuDpFAS4pzJV6ODHKZw&oe=6A1CCA6E',
-    'fluxo-pilates': 'https://scontent.cdninstagram.com/v/t51.2885-19/154873295_137988848186447_3151428743750882856_n.jpg?stp=dst-jpg_s100x100_tt6&amp;_nc_cat=107&amp;ccb=7-5&amp;_nc_sid=bf7eb4&amp;efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy44MDAuQzMifQ%3D%3D&amp;_nc_ohc=qNrKm8GYVt8Q7kNvwH58Onw&amp;_nc_oc=Adqr2zA5G8r5peM_wxISr8-e7LCFf-Wk9bpBA7x73CfxgaoP4_FybdFMrmNfmQj3s_s&amp;_nc_zt=24&amp;_nc_ht=scontent.cdninstagram.com&amp;_nc_ss=7ea02&amp;oh=00_Af4EQ4UgOuorB8dZdxkOCxvIBq6D5A6o2CioX3h-bSo9Pw&amp;oe=6A1CBE98',
     'free-city-walk-paramaribo': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/641396694_1232685109066242_2531665165895026173_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=f907e8&_nc_ohc=n4Pn8O78OfIQ7kNvwGe60Ii&_nc_oc=AdqfHI-J0w1tUNZGP7708ngzCY4m3ieiKLPwSv0cGWkcSby1E5InXErryZ6Gney-gqA&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=zj2JM5l5UgQN3vi8CnCEKw&oh=00_Af6yNnkF0ITmv8kMdsW3G6k4Zm5m6UERGIdjCJUEV3n_8A&oe=6A1CA6FB',
     'messias-tours': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/646361329_1508587844606864_6728968838676004599_n.jpg?stp=dst-jpg_p200x200_tt6&_nc_cat=104&ccb=1-7&_nc_sid=f907e8&_nc_ohc=fZ__j1E813AQ7kNvwFakSDz&_nc_oc=AdppLE1MQkwQhmIGpl_Ta6Qmr9LaP6Ko83bi_fGACxxMmsWWGPGjqojrRqX_TgoDGk0&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=NiFRJZnwD0-NmnSQqfMczQ&oh=00_Af6pQSeMGhPY3v0RneI0DY6rl_FRcfL81-3vJ7rTCC7-6w&oe=6A1CB98E',
     'orchid': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/334078705_233296579042326_859804335822973521_n.jpg?stp=c79.79.1042.1042a_dst-jpg_s200x200_tt6&_nc_cat=104&ccb=1-7&_nc_sid=f907e8&_nc_ohc=LXGFjJXhQMoQ7kNvwH9ovRD&_nc_oc=Adr44DcvS4vAvupIMXGrlHO6lUMqvM_JFf1ZWBeIX_mkXQDiuLfEOlrwbCWis4O1It4&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=ma7VTnQtJgeiboRuP5pIeA&oh=00_Af7UvvNFa24jOS4dyy-j1H8fI-FNYk1CBBcTIge0V5UrCw&oe=6A1C9FC7',
-    'sthephany-skincare': 'https://scontent.cdninstagram.com/v/t51.82787-19/566199766_18539660500028436_8253290921891114208_n.jpg?stp=dst-jpg_s100x100_tt6&amp;_nc_cat=108&amp;ccb=7-5&amp;_nc_sid=bf7eb4&amp;efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&amp;_nc_ohc=ObCdCRbIHk8Q7kNvwHz9Mzv&amp;_nc_oc=AdrLB180Oq8regU0Koj0AMGeLdaWZTxNzMgxQbP_gFTcHLC13AdhqxmPk_S_mIl6CLQ&amp;_nc_zt=24&amp;_nc_ht=scontent.cdninstagram.com&amp;_nc_gid=DaCs7eXSg0vv30fEOAG62A&amp;_nc_ss=7e20f&amp;oh=00_Af4vBAs7_5_Sx8-L2_LXjdLEB9wx0wm7sCIp8Z98xVdUvw&amp;oe=6A1CD477',
-    'suriname-princess-casino': 'https://scontent.cdninstagram.com/v/t51.2885-19/27580988_1781440875496951_3042507480471961600_n.jpg?stp=dst-jpg_s100x100_tt6&amp;_nc_cat=106&amp;ccb=7-5&amp;_nc_sid=bf7eb4&amp;efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy44NzEuQzMifQ%3D%3D&amp;_nc_ohc=pI4LDXRTRpsQ7kNvwG7kYNx&amp;_nc_oc=AdrYgRGLDSGzeZh48Yw_JGiUU4gldaN93fc3LUg3CkPqpy6TVaQ8s4nsKihFQXHE3pc&amp;_nc_zt=24&amp;_nc_ht=scontent.cdninstagram.com&amp;_nc_ss=7ea02&amp;oh=00_Af4YB4y6hwSHku92clfzz4jnRT504Cq2eeQBqK3aX619hA&amp;oe=6A1CD40C',
     'sweet-tooth-pastries': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/397453185_904119861350300_1244188443690658233_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=108&ccb=1-7&_nc_sid=f907e8&_nc_ohc=APJ-Qr8WFd4Q7kNvwEG0pzL&_nc_oc=AdorAkszR64PLa15GnL1xXO-8mmGurhS1xo7CSefMkb-tmKTEVxu0PQjb0qfTEwKSBM&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=R0Vnf1jAXUstEWxoyrEF9Q&oh=00_Af6ulE-F3OtIa1jSFWUziECXdUwGTDrIC_SO-6zSo-nBmw&oe=6A1C9F17',
-    'tastelicious': 'https://scontent.cdninstagram.com/v/t51.75761-19/504438748_17846834073492897_4517987885479587239_n.jpg?stp=dst-jpg_s100x100_tt6&amp;_nc_cat=110&amp;ccb=7-5&amp;_nc_sid=bf7eb4&amp;efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDI0LkMzIn0%3D&amp;_nc_ohc=2QJWcpshJYAQ7kNvwFVpjAB&amp;_nc_oc=AdqG2rdeTuLyfKcn7aq9g3IaUXRHLBlUvlkeVlvmpCudOSPuHACBTL__pt1AoKPeAgM&amp;_nc_zt=24&amp;_nc_ht=scontent.cdninstagram.com&amp;_nc_gid=GLNb5f62b0HGr4WHsX6aTA&amp;_nc_ss=7ea02&amp;oh=00_Af7_TZ1s_srh5q2g0TSjLxuOP0verOnIoBbG9pWKXh0eNw&amp;oe=6A1CC0A6',
     'the-perfume-spot': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/424576532_780422340792499_3947048810547396511_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=102&ccb=1-7&_nc_sid=f907e8&_nc_ohc=8uC9mMzOs7cQ7kNvwHr1c9S&_nc_oc=AdokX6rUYKXJYNRFRNd0-v3hV-m9FPLQfS5TZ80hh91vTY91Vlo91pRe22WTPFAK8UI&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=x37iFtF9XA36xV7sHWufpg&oh=00_Af4xJvIKsy1qXv67A5flzZEKCHDnYArvIBuW0odLoqsN6w&oe=6A1CD1DE',
     'apotheek-mac-donald-south': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/408389143_834841738649386_1012528157907421072_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=109&ccb=1-7&_nc_sid=f907e8&_nc_ohc=MlOKI-CyYEwQ7kNvwFhkI-N&_nc_oc=Adpjk8Y1NYHIa7DU3cDajdoLWbWA6JW8tXyPyYUzBXh9V_HatqmCSyAzk09qdfqLqhc&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=cq0RmpuorIbCJ83sSJpebg&oh=00_Af5V1latz9APw4TchU2NjlLFmbpMtG1-EKf0WLnIbFJyJg&oe=6A1CCA6E',
     'chique-eyewear-fashion': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/294810794_709247587097791_3809035538220116077_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=f907e8&_nc_ohc=jetIKHDmVNEQ7kNvwG9FxnC&_nc_oc=AdpAz-kJVSox_BAu9RcFV8YWoNNhJMN3IUljNOjsSKw4WC73b_cJcvCOoYNH3IEQUrc&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=pe-heZChmN4b_pzgBSV1rQ&oh=00_Af6P_UEvfV2tgHTpY9T_2Q6UcMAZU5UO_o7Kn9lT5xf7Qg&oe=6A1CD129',
-    'great-wall-motor-suriname': 'https://scontent.cdninstagram.com/v/t51.2885-19/474245008_1000398665443758_3112060744229750391_n.jpg?stp=dst-jpg_s100x100_tt6&amp;_nc_cat=104&amp;ccb=7-5&amp;_nc_sid=bf7eb4&amp;efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&amp;_nc_ohc=t2gVZDGKqfYQ7kNvwG0Ysa2&amp;_nc_oc=Adpqt_ct4PFvW3rdAoYlgzEhopkgEtcFrDj4nO9KFR494Rh6mrTuTNERVzgjlxCsFCo&amp;_nc_zt=24&amp;_nc_ht=scontent.cdninstagram.com&amp;_nc_ss=7ea02&amp;oh=00_Af4fDtetdLb544n1tyHoUnvds5kQPTif5or-oSMICpk5Cg&amp;oe=6A1CADE6',
 }
 
 
@@ -932,8 +917,26 @@ _F = {
     "construction":"https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80",
 }
 
+# ── Local image cache resolution ─────────────────────────────────────────────
+# image_cache.json maps external image URLs to locally cached copies
+# (downloaded by cache_images.py). Resolving at generation time makes
+# heroes, og:image and card thumbnails immune to dead or expired hotlinks.
+try:
+    with open("image_cache.json", encoding="utf-8") as _f:
+        _IMG_CACHE = json.load(_f)
+except Exception:
+    _IMG_CACHE = {}
+
+def _localize_img(url):
+    """Return the locally cached copy of an external image URL when available."""
+    if url and url.startswith("http"):
+        _local = _IMG_CACHE.get(url)
+        if _local and os.path.exists(_local):
+            return "/" + _local.lstrip("/")
+    return url
+
 def _biz_img(slug):
-    return _IMGS.get(slug, "")
+    return _localize_img(_IMGS.get(slug, ""))
 
 # ── Subcategory assignment ────────────────────────────────────────────────────
 def _subcat(slug, main_cat=""):
@@ -1224,8 +1227,6 @@ def _subcat(slug, main_cat=""):
     # ── Nature/sightseeing: slug uses hyphens ──────────────────────────────
     if 'cola-kreek' in s:
         return 'nature-parks'
-    if '9173' in s:
-        return 'supermarkets'
     # Manually added slugs
     if 'gateway-fire' in s:
         return 'security'
@@ -1331,11 +1332,11 @@ RESTAURANTS = [b for slug in ["a-la-john","aaras-cafe","ac-bar-restaurant","ace-
 
 HOTELS = [b for slug in ["bronbella-villa-residence","courtyard-by-marriott","eco-resort-miano","eco-torarica","holland-lodge","hotel-palacio","hotel-peperpot","houttuyn-wellness-river-resort","jacana-amazon-wellness-resort","oxygen-resort","royal-brasil-hotel","royal-breeze-hotel-paramaribo","royal-torarica","taman-indah-resort","the-golden-truly-hotel","tiny-house-tropical-appartment","torarica-resort","villa-famiri","waterland-suites","zeelandia-suites","anaula-nature-resort","atlantis-hotel-casino","danpaati-river-lodge","greenheart-boutique-hotel","guesthouse-albergoalberga","guesthouse-albina","hotel-north-resort","kabalebo-nature-resort","kimboto","marina-resort-waterland","overbridge-river-resort","radisson-hotel","ramada-paramaribo-princess","residence-inn-nickerie","residence-inn-paramaribo","savannah-casino-hotel","tropicana-hotel-casino-suriname","tucan-resort-and-spa","villa-zapakara","villas-paramaribo"] for b in [_make_biz(slug)] if b]
 
-SIGHTSEEING = [b for slug in ["cola-kreek-recreatiepark","conservatorium-suriname","ford-zeelandia","golf-club-paramaribo","het-koto-museum","joden-savanne","museum-bakkie","paramaribo-zoo","peperpot-nature-park","plantage-frederiksdorp","r-k-bisdom-paramaribo","readytex-art-gallery","stichting-surinaams-museum","tbl-cinemas","theater-thalia"] for b in [_make_biz(slug)] if b]
+SIGHTSEEING = [b for slug in ["cola-kreek-recreatiepark","conservatorium-suriname","fort-zeelandia","golf-club-paramaribo","het-koto-museum","joden-savanne","museum-bakkie","paramaribo-zoo","peperpot-nature-park","plantage-frederiksdorp","r-k-bisdom-paramaribo","readytex-art-gallery","stichting-surinaams-museum","tbl-cinemas","theater-thalia"] for b in [_make_biz(slug)] if b]
 
 ADVENTURES_BIZ = [b for slug in ["afobaka-resort","akira-overwater-resort","clevia-park","folo-nature-tours","free-city-walk-paramaribo","huub-explorer-tours","jack-tours-travel-service","jenny-tours","knini-paati","kodouffi-tapawatra-resort","messias-tours","mondowa-tours","no-span-eco-tours","okido-tours-travel","outdoor-living","pineapple-tours","recreatie-oord-carolina-kreek","royal-tours-suriname-guyana","sendang-redjo","suran-adventures-tours-travel","tio-boto-eco-resort","unlimited-suriname-tours","wayfinders-exclusive-n-v"] for b in [_make_biz(slug)] if b]
 
-SHOPPING = [b for slug in ["9173","amada-shopping","ashley-furniture-homestore","auto-style-franchepanestraat","auto-style-johannes-mungrastraat","auto-style-kwatta","auto-style-tweede-rijweg","auto-style-verlengde-gemenelandsweg","bed-bath-more-bbm","best-mart","beyrouth-bazaar","boekhandel-kasco","boekhandel-vaco","building-depot","chees-jewelry-watches","chm-centrum","chm-commewijne","chm-kernkampweg","chm-nickerie","chm-wanica","chm-wilhelminastraat","chm-wilhelminastraat-2","chois-supermarkt","chois-supermarkt-lelydorp","chois-supermarkt-north","combe-bazaar","combe-markt","computer-hardware-services","computronics-north","computronics-south","crocs-ims","da-drogisterij-coppename","da-drogisterij-hermitage","da-drogisterij-ims-mall","da-drogisterij-lelydorp","da-drogisterij-wilhelmina","de-keurslager-interfarm","deto-handelmaatschappij","digital-world-hermitage-mall","digital-world-ims","digital-world-maretraite-mall","digital-world-maretraite-mall-2","divergent-body-jewelry","dj-liquor-store","dojo-couture-hermitage-mall","fish-finder-fishing-and-outdoors","from-kay-with-love","flex-phones","footcandy-hermitage-mall","from-me-to-me","furniture-city-kwatta","furniture-city-north","galaxy","gao-ming-trading-north","gao-ming-trading-south","golderom-healthy-organic-store","h-garden","hermitage-mall","holiday-home-decor","hollandia-bakkerij-north","hollandia-bakkerij-south","honeycare","hurricane-steel","hurricane-steel-ringweg","international-mall-of-suriname","janelles-shoes-and-bags","kaki-supermarkt","kirpalani","kirpalani-domineestraat","kirpalani-maagdenstraat","kirpalani-super-store","ladybug-nursery-and-garden-center","lilis","lins-super-market","lucky-store","mimi-market","miniso-gompertstraat","miniso-hermitage-mall","mon-plaisir-nursery","morevans-outlet","nv-zing-manufacturing","ochama-amazing","ochama-hermitage-mall","office-world-hermitage-mall","office-world-lelydorp","optiek-all-vision","optiek-all-vision-albina","optiek-all-vision-lelydorp","optiek-all-vision-nickerie","optiek-marisa","optiek-ninon","optiek-ninon-hermitage-mall","optiek-ninon-ims","optiek-ninon-lelydorp","optiek-ninon-meerzorg","optiek-ninon-nickerie","papillon-crafts","randoe-meubelen","readytex-souvenirs-and-crafts","rogom-farm-nv","red-century-party-shop-commewijne","red-century-party-shop-kwatta","red-century-party-shop-lelydorp","red-century-party-shop-north","red-century-party-shop-zorg-en-hoop","ring-ring-imports","rossignol-2go-kwattaweg","rossignol-2go-thurkowstraat","rossignol-coppename","rossignol-geyersvlijt","rossignol-linda","rossignol-waaldijkstraat","sanousch-books","sash-fashion-hermitage-mall","shlx-collection","shoebizz-ims","slagerij-abbas","slagerij-asruf","slagerij-stolk","sleepstore-suriname","sleeqe","smoothieskin","soengngie-mega-store","soengngie-oriental-market","sranan-fowru","sranan-fowru-boni","sranan-fowru-combe","sranan-fowru-flu","sranan-fowru-leiding","sranan-fowru-lelydorp","sranan-fowru-meursweg","sranan-fowru-tabiki-fowru","sranan-fowru-tourtonne","sranan-fowru-zinnia","steps-hermitage-mall","store4u","suraniyat","sweetheart-hermitage-mall","sweetheart-ims","switi-momenti-candles-crafts","talking-prints-concept-store","the-old-attic","the-perfume-spot","the-uma-store","the-warehouse-shop","topslager-stolk","toys-n-more","tulip-supermarket","unlocked-candles","vcm-slagerij-centrum","vcm-slagerij-johannes-mungrastraat","vcm-slagerij-verl-gemenelandsweg","vifa-trading","vincent-supermarket","woodwonders-suriname","yokohama-trading","zeepfabriek-joab","ket-mien","kasan-snacks","wing-hung-cake-shop","dojo-couture-centrum","dojo-couture-ims","steps-domineestraat","steps-noord","steps-wanica","honeycare-north","honeycare-south","tomahawk-outdoor-adventures","tomahawk-outdoor-adventures-hermitage-mall","tomahawk-outdoor-adventures-ims","tomahawk-outdoor-adventures-lelydorp"] for b in [_make_biz(slug)] if b]
+SHOPPING = [b for slug in ["amada-shopping","ashley-furniture-homestore","auto-style-franchepanestraat","auto-style-johannes-mungrastraat","auto-style-kwatta","auto-style-tweede-rijweg","auto-style-verlengde-gemenelandsweg","bed-bath-more-bbm","best-mart","beyrouth-bazaar","boekhandel-kasco","boekhandel-vaco","building-depot","chees-jewelry-watches","chm-centrum","chm-commewijne","chm-kernkampweg","chm-nickerie","chm-wanica","chm-wilhelminastraat","chm-wilhelminastraat-2","chois-supermarkt","chois-supermarkt-lelydorp","chois-supermarkt-north","combe-bazaar","combe-markt","computer-hardware-services","computronics-north","computronics-south","crocs-ims","da-drogisterij-coppename","da-drogisterij-hermitage","da-drogisterij-ims-mall","da-drogisterij-lelydorp","da-drogisterij-wilhelmina","de-keurslager-interfarm","deto-handelmaatschappij","digital-world-hermitage-mall","digital-world-ims","digital-world-maretraite-mall","digital-world-maretraite-mall-2","divergent-body-jewelry","dj-liquor-store","dojo-couture-hermitage-mall","fish-finder-fishing-and-outdoors","from-kay-with-love","flex-phones","footcandy-hermitage-mall","from-me-to-me","furniture-city-kwatta","furniture-city-north","galaxy","gao-ming-trading-north","gao-ming-trading-south","golderom-healthy-organic-store","h-garden","hermitage-mall","holiday-home-decor","hollandia-bakkerij-north","hollandia-bakkerij-south","honeycare","hurricane-steel","hurricane-steel-ringweg","international-mall-of-suriname","janelles-shoes-and-bags","kaki-supermarkt","kirpalani","kirpalani-domineestraat","kirpalani-maagdenstraat","kirpalani-super-store","ladybug-nursery-and-garden-center","lilis","lins-super-market","lucky-store","mimi-market","miniso-gompertstraat","miniso-hermitage-mall","mon-plaisir-nursery","morevans-outlet","nv-zing-manufacturing","ochama-amazing","ochama-hermitage-mall","office-world-hermitage-mall","office-world-lelydorp","optiek-all-vision","optiek-all-vision-albina","optiek-all-vision-lelydorp","optiek-all-vision-nickerie","optiek-marisa","optiek-ninon","optiek-ninon-hermitage-mall","optiek-ninon-ims","optiek-ninon-lelydorp","optiek-ninon-meerzorg","optiek-ninon-nickerie","papillon-crafts","randoe-meubelen","readytex-souvenirs-and-crafts","rogom-farm-nv","red-century-party-shop-commewijne","red-century-party-shop-kwatta","red-century-party-shop-lelydorp","red-century-party-shop-north","red-century-party-shop-zorg-en-hoop","ring-ring-imports","rossignol-2go-kwattaweg","rossignol-2go-thurkowstraat","rossignol-coppename","rossignol-geyersvlijt","rossignol-linda","rossignol-waaldijkstraat","sanousch-books","sash-fashion-hermitage-mall","shlx-collection","shoebizz-ims","slagerij-abbas","slagerij-asruf","slagerij-stolk","sleepstore-suriname","sleeqe","smoothieskin","soengngie-mega-store","soengngie-oriental-market","sranan-fowru","sranan-fowru-boni","sranan-fowru-combe","sranan-fowru-flu","sranan-fowru-leiding","sranan-fowru-lelydorp","sranan-fowru-meursweg","sranan-fowru-tabiki-fowru","sranan-fowru-tourtonne","sranan-fowru-zinnia","steps-hermitage-mall","store4u","suraniyat","sweetheart-hermitage-mall","sweetheart-ims","switi-momenti-candles-crafts","talking-prints-concept-store","the-old-attic","the-perfume-spot","the-uma-store","the-warehouse-shop","topslager-stolk","toys-n-more","tulip-supermarket","unlocked-candles","vcm-slagerij-centrum","vcm-slagerij-johannes-mungrastraat","vcm-slagerij-verl-gemenelandsweg","vifa-trading","vincent-supermarket","woodwonders-suriname","yokohama-trading","zeepfabriek-joab","ket-mien","kasan-snacks","wing-hung-cake-shop","dojo-couture-centrum","dojo-couture-ims","steps-domineestraat","steps-noord","steps-wanica","honeycare-north","honeycare-south","tomahawk-outdoor-adventures","tomahawk-outdoor-adventures-hermitage-mall","tomahawk-outdoor-adventures-ims","tomahawk-outdoor-adventures-lelydorp"] for b in [_make_biz(slug)] if b]
 
 SERVICES = [b for slug in ["101-real-estate","ineffable","morgaine-beauty","4r-gym","4x4-rental","abrix-cleaning-services","access-suriname-travel","alegria","alis-drugstore","alliance-francaise","anton-de-kom-universiteit-van-suriname","apotheek-joemmanbaks","apotheek-karis","apotheek-mac-donald-north","apotheek-mac-donald-south","apotheek-rafeka","apotheek-sibilo","apotheek-soma","apotheek-soma-ringweg","arthur-alex-hoogendoorn-atheneum","assuria-hermitage-high-rise","assuria-insurance-walk-in-city","assuria-insurance-walk-in-commewijne","assuria-insurance-walk-in-lelydorp","assuria-insurance-walk-in-nickerie","assuria-insurance-walk-in-noord","augis-travel","ayur-mi-beauty-wellness","balance-studio","balletschool-marlene","bitdynamics","blissful-massage-aromatherapy","blossom-beauty-bar","bmw-suriname","body-enhancement-gym","brahma-centrum","brahma-noord","brahma-zuid","bright-cleaning","brilleman","brotherhood-security","brow-bliss-lounge","buro-workspaces","byd-suriname","camex-suriname","car-rental-city","carline-kwatta","carline-waaldijkstraat","carpe-diem-massagepraktijk","carvision-paramaribo","chique-eyewear-fashion","ciranos","clarissa-vaseur-writing-wellness-services-claw","clean-it","club-oase","cpr-pilates-curves","creative-q","curl-babes","cute-as-a-button","cynsational-glam","da-select-en-service-apotheek","dans-dip-and-detail","dansclub-danzson","dcars-rental","de-cederboom-school","de-nederlandse-basisschool-het-kleurenorkest","de-spetter","de-surinaamsche-bank-hermitage-mall","de-surinaamsche-bank-hoofdkantoor","de-surinaamsche-bank-lelydorp","de-surinaamsche-bank-ma-retraite","de-surinaamsche-bank-ma-retraite-2","de-surinaamsche-bank-nickerie","de-surinaamsche-bank-nickerie-2","de-surinaamsche-bank-nieuwe-haven","de-vrije-school","delete-beauty-lounge","dhl-express-service-point","dierenarts-resopawiro","dierenartspraktijk-l-m-bansse-issa","dierenpoli-lobo","digicel-albina","digicel-business-center","digicel-extacy","digicel-hermitage","digicel-latour","digicel-lelydorp","digicel-nickerie","digicel-wilhelminastraat","djinipi-copy-center","djo-cleaning-service","dli-travel-consultancy","dor-property-management-services-n-v","dream-clean-suriname","dresscode","eaglemedia","ec-operations","ekay-media","energiebedrijven-suriname-ebs","eterno","eucon","everything-sr","faraya-medical-center","farma-vida","fatum","fatum-schadeverzekering-commewijne","fatum-schadeverzekering-hoofdkantoor","fatum-schadeverzekering-kwatta","fatum-schadeverzekering-nickerie","fhr-lim-a-po-institute-for-higher-education","finabank-centrum","finabank-nickerie","finabank-noord","finabank-wanica","finabank-zuid","first-aid-plus","fit-factory","flex-luxuries","fluxo-pilates","fly-allways","free-flow","gaby-april-beauty-clinic","galaxyliving","garage-d-a-ashruf","gateway-fire-nv","glam-curves","glambox","gossip-nails-xx","great-wall-motor-suriname","grounded-botanical-studio","h-t","hairstudio-32","hakrinbank","hakrinbank-flora","hakrinbank-latour","hakrinbank-nickerie","hakrinbank-nieuwe-haven","hakrinbank-tamanredjo","hakrinbank-tourtonne","handmade-by-farrell-nv","happy-flower-services","harry-tjin","hertz-suriname-car-rental","hes-ds","hes-ds-2","hes-ds-3","house-of-pureness","hsds-lifestyle-noord","hsds-lifestyle-wanica","iamchede","ias-wooden-and-construction-nv","infinity-holding","inksane-tattoos","instyle-optics","international-academy-of-suriname","intervast","invictus-brazilian-jiu-jitsu","itrendzz","jamilas-dry-cleaning-north","jamilas-dry-cleaning-south","jjs-place-zuid","just-curlss","kaizen","kasco-customs-solutions","kasimex-indira-ghandiweg","kasimex-makro","keller-williams-suriname","kempes-co","klm-royal-dutch-airlines","lashlift-suriname","le-den","lioness-beauty-effects","lobby","luxe-escape-lotus-spa-wellness-beautysalon","mandy-butka","marchand-notariaat","max-n-co","maze","mini-nail-shop","mirage-casino","miss-doll-fit","mn-international-centrum","mn-international-kwatta","mokisa-busidataa-osu-nv","mokisa-wellness","multi-travel","nassy-brouwer-college","nassy-brouwer-school","new-choice-lalla-rookhweg","new-choice-nickerie","new-choice-ringweg","north-fitness-gym","notariaat-mannes","notariaat-van-dijk","nv-threefold-quality-system-support","ondernemershuis","one-stop-apotheek-drugstore","orchid","organic-skincare","padel-x-suriname","pandie","paramaribo-princess-casino","percy-massage-therapy","pinkmoon-suriname","pitbull-fitness","professional-private-security","protrade-international","qsi-international-school-of-suriname","re-max-suriname","real-one-fitness-gym","remy-vastgoed","republic-bank-head-office","republic-bank-jozef-israelstraat","republic-bank-kernkampweg","republic-bank-nickerie","republic-bank-vant-hogerhuysstraat","republic-bank-zorg-en-hoop","resourceful-real-estate-construction","rich-skin","rif-cleaning-service","rock-fitness-paramaribo","ross-rental-cars","royal-rose-yoni-spa","royal-spa","royal-wellness-lounge","safety-first-quality-always","satyam-holidays","savage-den","scene-beauty-salon","secas","seen-stories","shimmery-beauty-lounge","smart-connexxionz","southern-commercial-bank","squeaky-clean","sthephany-skincare","stichting-shiatsu-massage","stukaderen-in-nederland","sun-ice","supply-solutions-limited-suriname","surgoed-makelaardij","surimami-store","surinaamsche-waterleiding-maatschappij","surinam-airways","suriname-princess-casino","telesur-centrum","telesur-latour","telesur-lelydorp","telesur-nickerie","telesur-noord","telesur-zonnebloemstraat","the-aerial-yoga-studio","the-basement-barbershop","the-beauty-bar","the-beauty-bar-north","the-beauty-bar-south","the-freelance-scout","the-house-of-beauty","the-laundry-spot","the-nail-house","the-rose-manor","the-solution-property-management","the-waxing-booth","the-wonderlab-su","thermen-hermitage-turkish-bath-beautycenter","tianyou-aquafun","timeless-barber-and-nail-shop","topsport","touch-of-heaven-wellness","tranquil-at-mamba-republiek","tranquil-massage","triple-security-unit","tsw-group","typing-nomad-nv","waldos-worldwide-travel-service","welink-real-estate","wow-plus","x-avenue","ying-hao-beautyshop","yoga-peetha-happiness-centre","yogh-hospitality","young-engineers","zenobia-bottling-company"] for b in [_make_biz(slug)] if b]
 
@@ -1357,6 +1358,12 @@ _SEARCH_INDEX = _json.dumps([
     *[{"n": b["name"], "u": b["url"], "c": "Activities",   "a": b.get("area","")} for b in ADVENTURES_BIZ],
     *[{"n": b["name"], "u": b["url"], "c": "Shopping",     "a": b.get("area","")} for b in SHOPPING],
     *[{"n": b["name"], "u": b["url"], "c": "Services",     "a": b.get("area","")} for b in SERVICES],
+    # Nature & activity detail pages (slug logic mirrors _nature_slug/_act_slug,
+    # which are defined later in the file and not yet available here)
+    *[{"n": s["name"], "u": "listing/nature-" + re.sub(r'[^a-z0-9]+', '-', s["name"].lower()).strip('-') + "/",
+       "c": "Nature", "a": "Suriname"} for s in NATURE_SPOTS],
+    *[{"n": a["name"], "u": "listing/activity-" + re.sub(r'[^a-z0-9]+', '-', a["name"].lower()).strip('-') + "/",
+       "c": "Activities", "a": "Suriname"} for a in ACTIVITIES],
 ], ensure_ascii=False, separators=(',', ':'))
 
 # Write the search index to a standalone cacheable file
@@ -2639,7 +2646,7 @@ def nature_card(spot, eager=False):
 def activity_card_rich(act, eager=False):
     slug = _act_slug(act["name"])
     internal_url = f"listing/{slug}/"
-    img = act.get("image", "")
+    img = _localize_img(act.get("image", ""))
     _loading = 'eager" fetchpriority="high' if eager else "lazy"
     img_html = f'<img src="{img}" alt="{html_lib.escape(act["name"] + " in Suriname")}" loading="{_loading}" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display=\'none\'">' if img else ""
     return f"""
@@ -2673,7 +2680,7 @@ def poi_card(item, badge_key="cuisine", eager=False):
     url   = item.get("url", "#")
     badge = item.get(badge_key) or item.get("cuisine") or item.get("category", "")
     area  = item.get("area", "Suriname")
-    img   = item.get("image", "")
+    img   = _localize_img(item.get("image", ""))
     phone = item.get("phone", "")
     bg, fg = ("var(--mint)", "var(--forest2)") if badge_key == "cuisine" else ("#fff3e8", "#c05621")
     badge_html = f'<span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:{bg};color:{fg}">{html_lib.escape(badge)}</span>' if badge else ""
@@ -3266,7 +3273,7 @@ def build_index(restaurants, hotels, cme_rates=None):
   <div class="max-w-6xl mx-auto px-5">
     <div class="text-center mb-10 md:mb-16">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Natural Wonders</p>
-      <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Suriname&apos;s Wild Side</h2>
+      <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Suriname&#8217;s Wild Side</h2>
       <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Suriname protects more of its original forest than any other country on earth.</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{nature_cards}</div>
@@ -3289,7 +3296,7 @@ def build_index(restaurants, hotels, cme_rates=None):
     <div class="text-center mb-10 md:mb-16">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Eat &amp; Drink</p>
       <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Where to Eat</h2>
-      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Suriname&apos;s cuisine is as diverse as its people: Creole, Hindustani, Javanese, Chinese and Maroon flavors.</p>
+      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Suriname&#8217;s cuisine is as diverse as its people: Creole, Hindustani, Javanese, Chinese and Maroon flavors.</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{rest_cards}</div>
     <div class="text-center mt-10">{more_btn("restaurants.html", f"View all {len(RESTAURANTS)} restaurants")}</div>
@@ -3311,7 +3318,7 @@ def build_index(restaurants, hotels, cme_rates=None):
     <div class="text-center mb-10 md:mb-16">
       <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Retail &amp; Souvenirs</p>
       <h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Shopping</h2>
-      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Malls, craft markets and local boutiques &mdash; from handmade souvenirs to everyday essentials.</p>
+      <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Malls, craft markets and local boutiques, from handmade souvenirs to everyday essentials.</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{shop_cards}</div>
     <div class="text-center mt-10">{more_btn("shopping.html", f"View all {len(SHOPPING)} shops")}</div>
@@ -3674,8 +3681,8 @@ doConvert();"""
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
   <div class="rounded-2xl border border-amber-200 p-6 mb-8" style="background:#fffbeb">
     <p class="text-amber-900 text-sm leading-relaxed">
-      <strong class="text-amber-800">&#128161; What&apos;s the difference?</strong>
-      <strong>CBVS</strong> is the Central Bank of Suriname&apos;s official reference rate used for banking.
+      <strong class="text-amber-800">&#128161; What&#8217;s the difference?</strong>
+      <strong>CBVS</strong> is the Central Bank of Suriname&#8217;s official reference rate used for banking.
       <strong>CME</strong> (Central Money Exchange) shows cash rates at local exchange offices: what you actually get when exchanging banknotes.
       &ldquo;We Buy&rdquo; is what they pay when you sell foreign currency; &ldquo;We Sell&rdquo; is what you pay to buy foreign currency.
     </p>
@@ -3717,7 +3724,7 @@ doConvert();"""
         <div class="flex items-start justify-between gap-2">
           <div>
             <p class="font-bold text-gray-900 text-base">CBVS Official Rates {badge(cbvs_live)}</p>
-            <p class="text-gray-400 text-xs mt-0.5">Central Bank of Suriname &mdash; reference rate</p>
+            <p class="text-gray-400 text-xs mt-0.5">Central Bank of Suriname reference rate</p>
           </div>
           <a href="https://www.cbvs.sr" target="_blank" rel="noopener noreferrer"
              class="text-xs font-semibold shrink-0 hover:underline" style="color:var(--forest2)">cbvs.sr &#8599;</a>
@@ -3790,7 +3797,7 @@ doConvert();"""
         <p id="gold-usdg" class="text-xl font-bold font-mono text-gray-900">…</p>
       </div>
     </div>
-    <p class="text-gray-400 text-xs mt-4">Suriname is one of the world&apos;s leading gold producers per capita. SRD equivalent uses today&apos;s CME USD buy rate ({usd_buy_srd:.2f}). Price updates on each page load.</p>
+    <p class="text-gray-400 text-xs mt-4">Suriname is one of the world&#8217;s leading gold producers per capita. SRD equivalent uses today&#8217;s CME USD buy rate ({usd_buy_srd:.2f}). Price updates on each page load.</p>
   </div>
   <!-- Oil price ──────────────────────────────────────────────────────────── -->
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mt-6">
@@ -4239,6 +4246,31 @@ def _crumb(cat_href, cat_label, name_e, prefix="../../"):
     )
 
 
+# Subcategory → human-readable type label. Used in SEO titles and as the
+# 🏷️ category-row fallback when a listing has no category in the JSON.
+_SEO_TYPE_LABEL = {
+    "fast-food": "Fast Food Restaurant", "cafes-coffee": "Café",
+    "bars-lounges": "Bar & Lounge", "asian-fusion": "Asian Restaurant",
+    "local-caribbean": "Surinamese Restaurant", "bakeries-sweets": "Bakery",
+    "pizza-italian": "Italian Restaurant", "eco-lodges": "Eco Lodge",
+    "casino-hotels": "Casino Hotel", "guesthouses": "Guesthouse",
+    "city-hotels": "Hotel", "tours-expeditions": "Tour Operator",
+    "museums-heritage": "Museum", "entertainment": "Entertainment Venue",
+    "nature-parks": "Nature Park", "supermarkets": "Supermarket",
+    "malls-markets": "Shopping Mall", "fashion-clothing": "Fashion Store",
+    "electronics": "Electronics Store", "home-furniture": "Furniture Store",
+    "optical-jewelry": "Jewellery & Optician", "food-specialty": "Specialty Store",
+    "banking": "Bank", "insurance": "Insurance", "fitness-wellness": "Gym & Wellness",
+    "beauty-wellness": "Beauty Salon", "health-pharmacy": "Pharmacy",
+    "telecom-utilities": "Telecom Provider", "real-estate": "Real Estate",
+    "education": "School", "travel-transport": "Travel Agency",
+    "tech-media": "Tech & Media", "cleaning-maintenance": "Cleaning Services",
+    "automotive": "Auto Services", "legal-professional": "Professional Services",
+    "events-party": "Events & Party", "nursery-garden": "Garden Centre",
+    "security": "Security Services",
+}
+
+
 def build_listing_page(slug, b):
     raw_name = b.get("name", slug)
     desc     = b.get("description", "")
@@ -4247,7 +4279,7 @@ def build_listing_page(slug, b):
     email    = b.get("email", "")
     category = b.get("category", "")
     location = b.get("area", b.get("location", "Paramaribo"))
-    img      = _IMGS.get(slug, "")
+    img      = _biz_img(slug)
     ext_url  = _biz_url(b)
 
     # Merge enrichment data — OSM is primary source; FSQ retained only for photo_url
@@ -4266,7 +4298,7 @@ def build_listing_page(slug, b):
     _lon = _osm.get("lon")
     # Photo: FSQ photo_url is the one remaining value FSQ provides
     if not img and _fdet.get("photo_url"):
-        img = _fdet["photo_url"]
+        img = _localize_img(_fdet["photo_url"])
 
     name_e   = html_lib.escape(raw_name)
     # Description already in b via _make_biz; _JSON_DESCS as belt-and-braces fallback
@@ -4361,7 +4393,7 @@ def build_listing_page(slug, b):
     maps_q     = urllib.parse.quote(raw_name + ", " + (address or location + ", Suriname"))
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
     maps_link  = "https://www.google.com/maps/search/?api=1&query=" + maps_q
-    og_img     = (SITE_URL + "/" + img) if img and not img.startswith("http") else (img or SITE_URL + "/og-image.jpg")
+    og_img     = (SITE_URL + "/" + img.lstrip("/")) if img and not img.startswith("http") else (img or SITE_URL + "/og-image.jpg")
 
     hero_style = ("background:url(" + html_lib.escape(img) + ") center/cover no-repeat"
                   if img else "background:var(--forest)")
@@ -4387,8 +4419,9 @@ def build_listing_page(slug, b):
     if email:
         rows += row("✉️", '<a href="mailto:' + html_lib.escape(email) + '" class="hover:underline" '
                     'style="color:var(--forest2)">' + html_lib.escape(email) + '</a>')
-    if category:
-        rows += row("🏷️", html_lib.escape(category))
+    _cat_label = category or _SEO_TYPE_LABEL.get(_subcat(slug), "")
+    if _cat_label:
+        rows += row("🏷️", html_lib.escape(_cat_label))
     if hours:
         # Format hours for display: "Mo-Fr 09:00-17:00; Sa 10:00-14:00" → lines
         hours_display = html_lib.escape(hours).replace("; ", "<br>")
@@ -4488,28 +4521,7 @@ def build_listing_page(slug, b):
         + "\n  <script type=\"application/ld+json\">\n  " + _json.dumps(breadcrumb_obj, ensure_ascii=False) + "\n  </script>"
     )
 
-    # SEO-optimised <title>: "Name — Type in Location, Suriname | ExploreSuriname"
-    _SEO_TYPE_LABEL = {
-        "fast-food": "Fast Food Restaurant", "cafes-coffee": "Café",
-        "bars-lounges": "Bar & Lounge", "asian-fusion": "Asian Restaurant",
-        "local-caribbean": "Surinamese Restaurant", "bakeries-sweets": "Bakery",
-        "pizza-italian": "Italian Restaurant", "eco-lodges": "Eco Lodge",
-        "casino-hotels": "Casino Hotel", "guesthouses": "Guesthouse",
-        "city-hotels": "Hotel", "tours-expeditions": "Tour Operator",
-        "museums-heritage": "Museum", "entertainment": "Entertainment Venue",
-        "nature-parks": "Nature Park", "supermarkets": "Supermarket",
-        "malls-markets": "Shopping Mall", "fashion-clothing": "Fashion Store",
-        "electronics": "Electronics Store", "home-furniture": "Furniture Store",
-        "optical-jewelry": "Jewellery & Optician", "food-specialty": "Specialty Store",
-        "banking": "Bank", "insurance": "Insurance", "fitness-wellness": "Gym & Wellness",
-        "beauty-wellness": "Beauty Salon", "health-pharmacy": "Pharmacy",
-        "telecom-utilities": "Telecom Provider", "real-estate": "Real Estate",
-        "education": "School", "travel-transport": "Travel Agency",
-        "tech-media": "Tech & Media", "cleaning-maintenance": "Cleaning Services",
-        "automotive": "Auto Services", "legal-professional": "Professional Services",
-        "events-party": "Events & Party", "nursery-garden": "Garden Centre",
-        "security": "Security Services",
-    }
+    # SEO-optimised <title>: "Name, Type in Location | ExploreSuriname"
     _seo_biz_type = _SEO_TYPE_LABEL.get(_sub, "")
     # Title: no ', Suriname' suffix — ExploreSuriname implies country.
     # Include type label only when the full title still fits within 60 chars.
@@ -4569,7 +4581,7 @@ def build_listing_page(slug, b):
         '\n          referrerpolicy="no-referrer-when-downgrade"></iframe>'
         '\n      </div>'
         '\n      <p class="text-gray-400 text-xs text-center mb-8">'
-        '\n        Map data &copy; Google &mdash; click the map to see hours, reviews &amp; street view.'
+        '\n        Map data &copy; Google. Click the map to see hours, reviews &amp; street view.'
         '\n      </p>'
         '\n    </div>'
 
@@ -4596,7 +4608,7 @@ def build_activity_listing_page(act, slug):
     """Generate an individual detail page for an ACTIVITIES entry."""
     name    = act.get("name", slug)
     desc    = act.get("desc", "")
-    img     = act.get("image", "")
+    img     = _localize_img(act.get("image", ""))
     ext_url = act.get("url", "")
     icon    = act.get("icon", "\U0001f33f")
 
@@ -4606,7 +4618,7 @@ def build_activity_listing_page(act, slug):
     maps_q     = urllib.parse.quote(name + ", Suriname")
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
     maps_link  = "https://www.google.com/maps/search/?api=1&query=" + maps_q
-    og_img     = (SITE_URL + "/" + img) if img and not img.startswith("http") else (img or SITE_URL + "/og-image.jpg")
+    og_img     = (SITE_URL + "/" + img.lstrip("/")) if img and not img.startswith("http") else (img or SITE_URL + "/og-image.jpg")
 
     hero_style = ("background:url(" + html_lib.escape(img) + ") center/cover no-repeat"
                   if img else "background:var(--forest)")
@@ -4705,7 +4717,7 @@ def build_activity_listing_page(act, slug):
         '\n          referrerpolicy="no-referrer-when-downgrade"></iframe>'
         '\n      </div>'
         '\n      <p class="text-gray-400 text-xs text-center mb-8">'
-        '\n        Map data &copy; Google &mdash; click the map to see locations, reviews &amp; directions.'
+        '\n        Map data &copy; Google. Click the map to see locations, reviews &amp; directions.'
         '\n      </p>'
         '\n    </div>'
         '\n    <div class="lg:col-span-1">'
@@ -4728,7 +4740,7 @@ def build_nature_listing_page(spot, slug):
     """Generate an individual detail page for a NATURE_SPOTS entry."""
     name    = spot.get("name", slug)
     desc    = spot.get("desc", "")
-    img     = spot.get("image", "")
+    img     = _localize_img(spot.get("image", ""))
     ext_url = spot.get("url", "")
     badge   = spot.get("badge", "Nature")
     fact    = spot.get("fact", "")
@@ -4740,7 +4752,7 @@ def build_nature_listing_page(spot, slug):
     maps_q     = urllib.parse.quote(name + ", Suriname")
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
     maps_link  = "https://www.google.com/maps/search/?api=1&query=" + maps_q
-    og_img     = (SITE_URL + "/" + img) if img and not img.startswith("http") else (img or SITE_URL + "/og-image.jpg")
+    og_img     = (SITE_URL + "/" + img.lstrip("/")) if img and not img.startswith("http") else (img or SITE_URL + "/og-image.jpg")
 
 
     hero_style = ("background:url(" + html_lib.escape(img) + ") center/cover no-repeat"
@@ -4856,7 +4868,7 @@ def build_nature_listing_page(spot, slug):
         + '\n      ' + tags_section
         + '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">\n        <iframe src="'
         + maps_embed
-        + '" width="100%" height="100%"\n          style="border:0" allowfullscreen="" loading="lazy"\n          referrerpolicy="no-referrer-when-downgrade"></iframe>\n      </div>\n      <p class="text-gray-400 text-xs text-center mb-8">\n        Map data &copy; Google &mdash; click the map to see locations, reviews &amp; directions.\n      </p>\n    </div>\n    <div class="lg:col-span-1">\n      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">\n        <h2 class="text-base font-bold text-gray-900 mb-4">Plan Your Visit</h2>\n        <div class="mt-2">\n          '
+        + '" width="100%" height="100%"\n          style="border:0" allowfullscreen="" loading="lazy"\n          referrerpolicy="no-referrer-when-downgrade"></iframe>\n      </div>\n      <p class="text-gray-400 text-xs text-center mb-8">\n        Map data &copy; Google. Click the map to see locations, reviews &amp; directions.\n      </p>\n    </div>\n    <div class="lg:col-span-1">\n      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">\n        <h2 class="text-base font-bold text-gray-900 mb-4">Plan Your Visit</h2>\n        <div class="mt-2">\n          '
         + website_btn
         + '\n          ' + directions_btn
         + '\n        </div>\n      </div>\n    </div>\n  </div>\n</main>'
@@ -5660,19 +5672,19 @@ def build_about_page():
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-700">
       <div class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
-        <span><strong>Restaurants &amp; Bars</strong> &mdash; Surinamese, Indonesian, Chinese, Indian, and international cuisine across Paramaribo</span>
+        <span><strong>Restaurants &amp; Bars:</strong> Surinamese, Indonesian, Chinese, Indian, and international cuisine across Paramaribo</span>
       </div>
       <div class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
-        <span><strong>Hotels &amp; Lodges</strong> &mdash; from city hotels to rainforest eco-lodges and overwater bungalows</span>
+        <span><strong>Hotels &amp; Lodges:</strong> from city hotels to rainforest eco-lodges and overwater bungalows</span>
       </div>
       <div class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
-        <span><strong>Nature &amp; Activities</strong> &mdash; jungle treks, river tours, wildlife reserves and UNESCO sites</span>
+        <span><strong>Nature &amp; Activities:</strong> jungle treks, river tours, wildlife reserves and UNESCO sites</span>
       </div>
       <div class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
-        <span><strong>Shopping &amp; Services</strong> &mdash; local retailers, markets and professional services in Paramaribo</span>
+        <span><strong>Shopping &amp; Services:</strong> local retailers, markets and professional services in Paramaribo</span>
       </div>
       <div class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
@@ -5680,7 +5692,7 @@ def build_about_page():
       </div>
       <div class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
-        <span><strong>Flights, Weather &amp; News</strong> &mdash; real-time data to help you plan your stay in Suriname</span>
+        <span><strong>Flights, Weather &amp; News:</strong> real-time data to help you plan your stay in Suriname</span>
       </div>
     </div>
   </div>
@@ -5755,19 +5767,19 @@ def build_contact_page():
     <ul class="space-y-3 text-sm text-gray-700">
       <li class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
-        <span><strong>Listing requests</strong> &mdash; add a new business, hotel, restaurant or attraction to the directory</span>
+        <span><strong>Listing requests:</strong> add a new business, hotel, restaurant or attraction to the directory</span>
       </li>
       <li class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
-        <span><strong>Corrections</strong> &mdash; update an address, phone number, opening hours or description</span>
+        <span><strong>Corrections:</strong> update an address, phone number, opening hours or description</span>
       </li>
       <li class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
-        <span><strong>Partnerships</strong> &mdash; advertising, sponsored listings or content collaborations</span>
+        <span><strong>Partnerships:</strong> advertising, sponsored listings or content collaborations</span>
       </li>
       <li class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
-        <span><strong>General questions</strong> &mdash; anything about Suriname travel, the site or our data</span>
+        <span><strong>General questions:</strong> anything about Suriname travel, the site or our data</span>
       </li>
     </ul>
   </div>
@@ -6307,7 +6319,7 @@ def build_conditions_page(tides_data):
 <div id="tpanel-{loc['id']}" class="tide-panel hidden">
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
     <div class="px-6 py-5 border-b border-gray-100">
-      <p class="font-bold text-gray-900 text-base">&#127754; {html_lib.escape(loc['label'])} &mdash; {html_lib.escape(loc['district'])} {badge}</p>
+      <p class="font-bold text-gray-900 text-base">&#127754; {html_lib.escape(loc['label'])} &bull; {html_lib.escape(loc['district'])} {badge}</p>
       <p class="text-gray-400 text-xs mt-1">&#128336; Updated: {html_lib.escape(updated)} &bull; {cache_note}</p>
     </div>
     <div class="hidden sm:block overflow-x-auto">
@@ -6479,7 +6491,7 @@ def build_conditions_page(tides_data):
     </div>
     <!-- 7-day forecast (clickable) -->
     <div>
-      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3">7-day &mdash; <span class="normal-case font-normal text-gray-400">tap a day for detail</span></h3>
+      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3">7-day &bull; <span class="normal-case font-normal text-gray-400">tap a day for detail</span></h3>
       <div class="overflow-x-auto -mx-2 px-2 pb-1" style="scrollbar-width:none">
         <div id="wx-forecast" class="flex gap-2 sm:grid sm:grid-cols-7"></div>
       </div>
@@ -6524,7 +6536,7 @@ def build_conditions_page(tides_data):
   <!-- Fishermen's Corner: Tides by river -->
   <div class="mb-6">
     <div class="flex items-center gap-3 mb-4">
-      <h2 class="serif text-2xl font-bold text-gray-900">&#9973;&#65039; Fishermen&apos;s Corner</h2>
+      <h2 class="serif text-2xl font-bold text-gray-900">&#9973;&#65039; Fishermen&#8217;s Corner</h2>
       <span class="text-xs font-semibold px-2 py-0.5 rounded-full text-white" style="background:var(--forest2)">For mariners &amp; fishers</span>
     </div>
     {tides_section}
@@ -6875,7 +6887,7 @@ def build_flights_page(flights_data):
   <p class="text-gray-400 text-xs mb-4">&#128336; Updated: {html_lib.escape(updated)} &bull; {cache_note}</p>
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
     <div class="px-6 py-5 border-b border-gray-100">
-      <p class="font-bold text-gray-900 text-base">&#9650; Arrivals &mdash; {html_lib.escape(ap["label"])} {count_badge(len(arrivals))}</p>
+      <p class="font-bold text-gray-900 text-base">&#9650; Arrivals &bull; {html_lib.escape(ap["label"])} {count_badge(len(arrivals))}</p>
       <p class="text-gray-400 text-xs mt-0.5">Scheduled arrivals today</p>
     </div>
     <div class="hidden sm:block overflow-x-auto">
@@ -6893,7 +6905,7 @@ def build_flights_page(flights_data):
   </div>
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
     <div class="px-6 py-5 border-b border-gray-100">
-      <p class="font-bold text-gray-900 text-base">&#9660; Departures &mdash; {html_lib.escape(ap["label"])} {count_badge(len(departures))}</p>
+      <p class="font-bold text-gray-900 text-base">&#9660; Departures &bull; {html_lib.escape(ap["label"])} {count_badge(len(departures))}</p>
       <p class="text-gray-400 text-xs mt-0.5">Scheduled departures today</p>
     </div>
     <div class="hidden sm:block overflow-x-auto">
@@ -6955,7 +6967,7 @@ def build_flights_page(flights_data):
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Flights Today</h1>
-  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Arrivals &amp; departures &mdash; Johan Adolf Pengel (PBM) &bull; Eduard Alexander Gummels (EAX)</p>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Arrivals &amp; departures &bull; Johan Adolf Pengel (PBM) &bull; Eduard Alexander Gummels (EAX)</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
@@ -6972,11 +6984,11 @@ def build_flights_page(flights_data):
     <div class="p-5">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
         <div>
-          <p class="font-bold text-gray-900 text-sm mb-1">Johan Adolf Pengel &mdash; PBM</p>
+          <p class="font-bold text-gray-900 text-sm mb-1">Johan Adolf Pengel &bull; PBM</p>
           <p class="text-gray-500 text-sm leading-relaxed">International airport, 45&nbsp;km south of Paramaribo. Served by KLM (Amsterdam), Copa Airlines (Panama City), Caribbean Airlines (Trinidad) and Surinam Airways.</p>
         </div>
         <div>
-          <p class="font-bold text-gray-900 text-sm mb-1">Eduard Alexander Gummels &mdash; EAX</p>
+          <p class="font-bold text-gray-900 text-sm mb-1">Eduard Alexander Gummels &bull; EAX</p>
           <p class="text-gray-500 text-sm leading-relaxed">City airport handling domestic flights and charter routes to Nickerie, Moengo and interior airstrips.</p>
         </div>
       </div>
@@ -6986,7 +6998,7 @@ def build_flights_page(flights_data):
           Real-time Flight Tracking &rarr;
         </a>
       </div>
-      <p class="text-gray-400 text-xs mt-4 leading-relaxed">Data from FlightRadar24. Scheduled times only &mdash; not for operational use. PBM updates every 6h; EAX every 12h.</p>
+      <p class="text-gray-400 text-xs mt-4 leading-relaxed">Data from FlightRadar24. Scheduled times only, not for operational use. PBM updates every 6h; EAX every 12h.</p>
     </div>
   </div>
 </main>
@@ -7366,9 +7378,27 @@ if __name__ == "__main__":
 
     print(f"  OK  {count} listing pages")
 
+    # ── Legacy listing redirects (renamed slugs keep their old URLs alive) ──
+    _LEGACY_LISTING_REDIRECTS = {
+        "9173":          "tulip-supermarket",   # duplicate listing merged
+        "ford-zeelandia": "fort-zeelandia",     # slug typo fixed
+    }
+    for _old_slug, _new_slug in _LEGACY_LISTING_REDIRECTS.items():
+        _odir = Path("listing") / _old_slug
+        _odir.mkdir(parents=True, exist_ok=True)
+        (_odir / "index.html").write_text(
+            '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
+            '<meta name="robots" content="noindex">'
+            f'<meta http-equiv="refresh" content="0;url=/listing/{_new_slug}/">'
+            f'<link rel="canonical" href="{SITE_URL}/listing/{_new_slug}/">'
+            '<title>Redirecting&hellip;</title></head><body>'
+            f'<p>This page has moved. <a href="/listing/{_new_slug}/">Click here</a>.</p>'
+            '</body></html>', encoding="utf-8")
+
     # ── Purge stale listing directories ─────────────────────────────────────
     # Any listing/ subdir not written in this build is stale and should go.
-    _built_slugs = set(_BIZ.keys()) | set(nat_slugs) | set(act_inline_slugs)
+    _built_slugs = (set(_BIZ.keys()) | set(nat_slugs) | set(act_inline_slugs)
+                    | set(_LEGACY_LISTING_REDIRECTS))
     _listing_root = Path("listing")
     _purged = 0
     if _listing_root.exists():
