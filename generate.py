@@ -2572,7 +2572,7 @@ def footer_html(prefix=""):
           Instagram
         </a>
       </div>
-      <p class="text-white/40 text-xs">&copy; {YEAR} ExploreSuriname.com &nbsp;&middot;&nbsp; <a href="{prefix}privacy.html" class="hover:text-white/70 transition">Privacy Policy</a></p>
+      <p class="text-white/40 text-xs">&copy; {YEAR} ExploreSuriname.com &nbsp;&middot;&nbsp; <a href="{prefix}privacy.html" class="hover:text-white/70 transition">Privacy Policy</a> &nbsp;&middot;&nbsp; <a href="/images/HOME_CREDITS.txt" class="hover:text-white/70 transition">Credits</a></p>
     </div>
   </div>
 </footer>"""
@@ -2968,18 +2968,110 @@ def _render_faq(faq):
     return head, body
 
 
-def build_index(restaurants, hotels):
+def build_index(restaurants, hotels, cme_rates=None):
     nature_cards   = "\n".join(nature_card(s, eager=(i==0))         for i,s in enumerate(NATURE_SPOTS[:6]))
     activity_cards = "\n".join(activity_card_rich(a, eager=(i==0)) for i,a in enumerate(ACTIVITIES[:6]))
     rest_cards     = "\n".join(poi_card(r, "cuisine",  eager=(i==0)) for i,r in enumerate(_pick_featured(RESTAURANTS, _FEATURED_RESTAURANTS)))
     hotel_cards    = "\n".join(poi_card(h, "category", eager=(i==0)) for i,h in enumerate(_pick_featured(HOTELS,      _FEATURED_HOTELS)))
     shop_cards     = "\n".join(poi_card(s, eager=(i==0))             for i,s in enumerate(_pick_featured(SHOPPING,    _FEATURED_SHOPPING)))
     more_btn = lambda href, label: f'<a href="{href}" class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" style="border-color:var(--forest2);color:var(--forest2)">{label} &rarr;</a>'
+    # ── "Suriname right now" strip: rates + holiday baked at build time (site rebuilds ~15 min) ──
+    _usd = _eur = None
+    if cme_rates:
+        _usd = next((float(r["buy"]) for r in cme_rates if r["currency"] == "USD"), None)
+        _eur = next((float(r["buy"]) for r in cme_rates if r["currency"] == "EUR"), None)
+    usd_txt = f"{_usd:,.2f}" if _usd else "37.50"
+    eur_txt = f"{_eur:,.2f}" if _eur else "43.50"
+    holiday_html = ""
+    try:
+        with open("data/holidays.json", encoding="utf-8") as _hf:
+            _hols = _json.load(_hf).get("public", [])
+        _today_s = datetime.now(SR_TZ).strftime("%Y-%m-%d")
+        _hname = next((h["name_en"] for h in _hols if h["date"] == _today_s), "")
+        if _hname:
+            holiday_html = ('<div class="now-item"><span class="now-k">Today</span>'
+                            f'<span class="now-v" style="color:var(--coral)">{_hname}</span></div>')
+    except Exception:
+        pass
+    _home_css = r"""
+    #hero{position:relative;min-height:100vh;min-height:100svh;background:#11241b;overflow:hidden}
+    .hz{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease;will-change:opacity}
+    .hz.on{opacity:1}
+    @media (prefers-reduced-motion: no-preference){
+      .hz.on{animation:kburns 10s ease-out forwards}
+    }
+    @keyframes kburns{from{transform:scale(1)}to{transform:scale(1.06)}}
+    .hsub,.hchip{display:none}
+    .hsub.act{display:block;animation:hfade .9s ease both}
+    .hchip.act{display:inline-flex;animation:hfade .9s ease both}
+    @keyframes hfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .hchip-box{align-items:center;gap:7px;padding:7px 14px;border-radius:999px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(6px);font-size:.75rem;font-weight:500;color:rgba(255,255,255,.88);white-space:nowrap}
+    .hsearch{display:flex;align-items:center;gap:12px;width:100%;max-width:540px;margin:0 auto 2.5rem;padding:15px 24px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(8px);color:rgba(255,255,255,.85);font-size:.95rem;cursor:pointer;transition:background .2s;text-align:left}
+    .hsearch:hover{background:rgba(255,255,255,.24)}
+    .now-item{display:flex;flex-direction:column;gap:2px;min-width:max-content}
+    .now-k{font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.45);font-weight:600}
+    .now-v{font-weight:600;font-size:.95rem;color:#fff;white-space:nowrap;font-variant-numeric:tabular-nums}
+    .live-dot{width:8px;height:8px;border-radius:50%;background:var(--leaf);animation:lpulse 2s infinite;flex-shrink:0}
+    @keyframes lpulse{0%,100%{opacity:1}50%{opacity:.3}}
+    .now-scroll{scrollbar-width:none}
+    .now-scroll::-webkit-scrollbar{display:none}
+    .jcard{position:relative;border-radius:1.25rem;overflow:hidden;display:block}
+    .jcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+    .jcard:hover img{transform:scale(1.05)}
+    .jcard .jov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.74) 0%,rgba(0,0,0,.18) 55%,rgba(0,0,0,.02) 100%)}
+    .stat-tile{border-radius:1rem;padding:1.4rem 1.2rem;background:var(--mint)}
+    """
+    _home_js = r"""
+(function(){
+  var imgs=["/images/hero-paramaribo.webp","/images/hero-rainforest.webp","/images/hero-bridge.webp"];
+  var n=4, idx=0, started=false;
+  function show(i){
+    for(var k=0;k<n;k++){
+      var L=document.getElementById("hz"+k);
+      if(L) L.className=(k===i)?"hz on":"hz";
+    }
+    var subs=document.querySelectorAll(".hsub"), chips=document.querySelectorAll(".hchip");
+    for(var k2=0;k2<subs.length;k2++) subs[k2].className=(k2===i)?"hsub act":"hsub";
+    for(var k3=0;k3<chips.length;k3++) chips[k3].className=(k3===i)?"hchip act hchip-box":"hchip hchip-box";
+  }
+  function start(){
+    if(started) return; started=true;
+    for(var k=0;k<imgs.length;k++)(function(src,j){
+      var im=new Image();
+      im.onload=function(){var L=document.getElementById("hz"+j); if(L) L.style.backgroundImage="url('"+src+"')";};
+      im.src=src;
+    })(imgs[k],k+1);
+    setInterval(function(){ if(document.hidden) return; idx=(idx+1)%n; show(idx); },6500);
+  }
+  if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+    if(document.readyState==="complete") setTimeout(start,1500);
+    else window.addEventListener("load",function(){setTimeout(start,1500);});
+  }
+})();
+(function(){
+  function tick(){
+    try{
+      var t=new Intl.DateTimeFormat("en-GB",{hour:"2-digit",minute:"2-digit",timeZone:"America/Paramaribo"}).format(new Date());
+      var el=document.getElementById("now-time"); if(el) el.textContent=t;
+    }catch(e){}
+  }
+  tick(); setInterval(tick,30000);
+  var WMO={0:"Clear",1:"Mostly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",48:"Fog",51:"Drizzle",53:"Drizzle",55:"Drizzle",61:"Light rain",63:"Rain",65:"Heavy rain",80:"Showers",81:"Showers",82:"Heavy showers",95:"Thunderstorm",96:"Thunderstorm",99:"Thunderstorm"};
+  fetch("https://api.open-meteo.com/v1/forecast?latitude=5.852&longitude=-55.203&current=temperature_2m,weather_code&daily=sunset&timezone=America%2FParamaribo&forecast_days=1")
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var w=document.getElementById("now-wx");
+      if(w&&d.current) w.textContent=Math.round(d.current.temperature_2m)+"°C "+(WMO[d.current.weather_code]||"");
+      var s=document.getElementById("now-sun");
+      if(s&&d.daily&&d.daily.sunset&&d.daily.sunset[0]) s.textContent=d.daily.sunset[0].slice(11,16);
+    }).catch(function(){});
+})();
+"""
     return f"""{PAGE_HEAD}
   <title>Suriname Travel Guide | Restaurants, Hotels, Nature &amp; Tours</title>
   <meta name="description" content="Plan your Suriname trip: rainforest lodges, Paramaribo restaurants, local tours, shopping and live SRD exchange rates. Guide to South America's hidden gem.">
   <link rel="canonical" href="{SITE_URL}/">
-  <link rel="preload" as="image" href="/images/hero-home.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="/images/hero-suriname-river.webp" fetchpriority="high">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/">
@@ -3044,39 +3136,118 @@ def build_index(restaurants, hotels):
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"WebPage","name":"Explore Suriname | South America's Hidden Gem","url":"{SITE_URL}/","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
+  <style>{_home_css}</style>
 </head>
 <body class="bg-white overflow-x-hidden">
 {nav_html("home")}
-<section class="relative min-h-screen flex items-center justify-center hero-bg"
-  style="background-image:url('/images/hero-home.webp')">
-  <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.82) 100%)"></div>
-  <div class="relative z-10 text-center text-white px-5 max-w-4xl mx-auto" style="padding-top:5rem;padding-bottom:6rem">
+<section id="hero" class="flex items-center justify-center">
+  <div id="hz0" class="hz on" style="background-image:url('/images/hero-suriname-river.webp')"></div>
+  <div id="hz1" class="hz"></div>
+  <div id="hz2" class="hz"></div>
+  <div id="hz3" class="hz"></div>
+  <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(0,0,0,.30) 0%,rgba(0,0,0,.45) 55%,rgba(0,0,0,.80) 100%)"></div>
+  <div class="relative z-10 text-center text-white px-5 max-w-4xl mx-auto" style="padding-top:6rem;padding-bottom:7rem">
     <p class="text-xs font-semibold tracking-widest uppercase mb-6" style="color:var(--coral)">The Amazon&#8217;s Best-Kept Secret</p>
-    <h1 class="serif font-black leading-tight mb-6" style="font-size:clamp(2.5rem,8vw,5.5rem)">Explore Suriname</h1>
-    <p class="text-xl font-light leading-relaxed mb-10 max-w-2xl mx-auto text-white/90">94% pristine rainforest. Unmatched biodiversity. Three UNESCO World Heritage Sites. Welcome to Suriname.</p>
+    <h1 class="serif font-black leading-tight mb-5" style="font-size:clamp(2.5rem,8vw,5.5rem)">Explore Suriname</h1>
+    <div class="text-lg sm:text-xl font-light leading-relaxed mb-8 max-w-2xl mx-auto text-white/90" style="min-height:3.6rem">
+      <p class="hsub act">Where the asphalt ends, the river takes over. Welcome to the real South America.</p>
+      <p class="hsub">A capital built of wood, shaped by every culture that ever landed here.</p>
+      <p class="hsub">94% untouched rainforest. The greenest country on the planet.</p>
+      <p class="hsub">Every sunrise here looks like this. Stay a while.</p>
+    </div>
+    <button type="button" class="hsearch" onclick="openSearch()" aria-label="Search restaurants, hotels, tours and places">
+      <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/></svg>
+      <span>Search 700+ restaurants, lodges, tours and places&#8230;</span>
+    </button>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="#nature" class="px-8 py-4 rounded-full font-semibold text-lg text-white hover:opacity-90 transition shadow-lg" style="background:var(--forest)">Start Exploring</a>
+      <a href="#journeys" class="px-8 py-4 rounded-full font-semibold text-lg text-white hover:opacity-90 transition shadow-lg" style="background:var(--forest)">Start Exploring</a>
       <a href="#travel-tools" class="px-8 py-4 rounded-full font-semibold text-lg text-white border-2 hover:bg-white/10 transition" style="border-color:rgba(255,255,255,.6)">Travel Tools</a>
     </div>
   </div>
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50 text-xs">
+  <div class="absolute bottom-7 left-5 z-10">
+    <span class="hchip act hchip-box"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="10" r="3"/></svg>Atjoni, Upper Suriname River</span>
+    <span class="hchip hchip-box"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="10" r="3"/></svg>Cathedral-Basilica of St. Peter &amp; Paul, Paramaribo</span>
+    <span class="hchip hchip-box"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="10" r="3"/></svg>The untouched interior, Sipaliwini</span>
+    <span class="hchip hchip-box"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="10" r="3"/></svg>Suriname River at sunrise, Paramaribo</span>
+  </div>
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-white/50 text-xs">
     <span>Scroll to explore</span>
     <svg class="w-4 h-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
   </div>
 </section>
-<section style="background:var(--forest)" class="text-white py-7">
-  <h2 class="vh">Suriname at a glance</h2>
-  <div class="max-w-5xl mx-auto px-5 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-    <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Climate</p><p class="font-semibold">Tropical, ~28&#176;C</p></div>
-    <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Forest Cover</p><p class="font-semibold">94% Rainforest</p></div>
-    <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">UNESCO Sites</p><p class="font-semibold">3 World Heritage Sites</p></div>
-    <div><p class="text-white/45 text-xs uppercase tracking-widest mb-1">Bird Species</p><p class="font-semibold">700+ Species</p></div>
+<section id="now-strip" style="background:var(--forest)" class="text-white py-5">
+  <h2 class="vh">Suriname right now</h2>
+  <div class="max-w-6xl mx-auto px-5 flex items-center gap-7 md:gap-10 overflow-x-auto now-scroll md:justify-center">
+    <div class="flex items-center gap-2" style="min-width:max-content"><span class="live-dot"></span><span class="text-xs font-semibold tracking-widest uppercase text-white/55">Right Now</span></div>
+    <div class="now-item"><span class="now-k">Paramaribo</span><span class="now-v" id="now-time">--:--</span></div>
+    <a href="conditions.html" class="now-item"><span class="now-k">Weather</span><span class="now-v" id="now-wx">~28&#176;C</span></a>
+    <a href="currency.html" class="now-item"><span class="now-k">USD &#8594; SRD</span><span class="now-v">{usd_txt}</span></a>
+    <a href="currency.html" class="now-item"><span class="now-k">EUR &#8594; SRD</span><span class="now-v">{eur_txt}</span></a>
+    <a href="conditions.html" class="now-item"><span class="now-k">Sunset</span><span class="now-v" id="now-sun">--:--</span></a>
+    {holiday_html}
   </div>
 </section>
-<section class="py-10 bg-white border-b border-gray-100">
-  <h2 class="vh">Why Explore Suriname</h2>
-  <div class="max-w-2xl mx-auto px-5 text-center">
-    <p class="text-gray-500 text-base leading-relaxed">This isn&apos;t just a directory. It&apos;s a living record of the people and places moving Suriname forward. We find the details so you can find the experience.</p>
+<section class="py-14 md:py-24 bg-white border-b border-gray-100">
+  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+    <div>
+      <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Why Explore Suriname</p>
+      <h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 mb-5 leading-tight">Not a directory. A love letter.</h2>
+      <p class="text-gray-500 text-lg leading-relaxed mb-4">This is a living record of the people and places moving Suriname forward, kept by people who live here, eat here and travel the same roads you will.</p>
+      <p class="text-gray-500 text-lg leading-relaxed">We find the details so you can find the experience.</p>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="stat-tile"><p class="serif text-3xl font-bold mb-1" style="color:var(--forest)">94%</p><p class="text-gray-600 text-sm leading-relaxed">Rainforest cover, the highest of any country on Earth</p></div>
+      <div class="stat-tile"><p class="serif text-3xl font-bold mb-1" style="color:var(--forest)">700+</p><p class="text-gray-600 text-sm leading-relaxed">Bird species recorded across the country</p></div>
+      <div class="stat-tile"><p class="serif text-3xl font-bold mb-1" style="color:var(--forest)">3</p><p class="text-gray-600 text-sm leading-relaxed">UNESCO World Heritage Sites, nature and city alike</p></div>
+      <div class="stat-tile"><p class="serif text-3xl font-bold mb-1" style="color:var(--forest)">28&#176;C</p><p class="text-gray-600 text-sm leading-relaxed">Tropical warmth, every single day of the year</p></div>
+    </div>
+  </div>
+</section>
+<section id="journeys" class="py-12 md:py-24" style="background:var(--forest)">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="text-center mb-10 md:mb-14">
+      <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--coral)">Choose Your Journey</p>
+      <h2 class="serif text-4xl sm:text-5xl font-bold text-white mb-4">Which Suriname calls you?</h2>
+      <p class="text-white/60 text-lg max-w-2xl mx-auto leading-relaxed">Four ways in. Pick one, or take them all.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <a href="nature.html" class="jcard card-hover h-72 md:h-80">
+        <img src="/images/hero-rainforest.webp" alt="Aerial view of a winding river through untouched rainforest in the Suriname interior" width="1600" height="900" loading="lazy">
+        <div class="jov"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+          <p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">{len(NATURE_SPOTS) + len(SIGHTSEEING)} destinations</p>
+          <h3 class="serif text-2xl md:text-3xl font-bold mb-1">The Wild Interior</h3>
+          <p class="text-white/80 text-sm leading-relaxed">Reserves, waterfalls and jungle lodges in the greenest country on Earth.</p>
+        </div>
+      </a>
+      <a href="activities.html" class="jcard card-hover h-72 md:h-80">
+        <img src="/images/hero-suriname-river.webp" alt="Colorful wooden boats lined up at Atjoni on the Upper Suriname River" width="1600" height="900" loading="lazy">
+        <div class="jov"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+          <p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">{len(ACTIVITIES) + len(ADVENTURES_BIZ)} experiences</p>
+          <h3 class="serif text-2xl md:text-3xl font-bold mb-1">On the Water</h3>
+          <p class="text-white/80 text-sm leading-relaxed">Dugout canoes, turtle beaches, river sunsets and village stays.</p>
+        </div>
+      </a>
+      <a href="restaurants.html" class="jcard card-hover h-72 md:h-80">
+        <img src="/images/home-market.webp" alt="Fresh produce stalls inside the Central Market of Paramaribo" width="1200" height="800" loading="lazy">
+        <div class="jov"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+          <p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">{len(RESTAURANTS)} restaurants</p>
+          <h3 class="serif text-2xl md:text-3xl font-bold mb-1">The Flavors</h3>
+          <p class="text-white/80 text-sm leading-relaxed">Roti, pom, bami and moksi alesi. Five kitchens, one table.</p>
+        </div>
+      </a>
+      <a href="hotels.html" class="jcard card-hover h-72 md:h-80">
+        <img src="/images/hero-paramaribo.webp" alt="Aerial view of the Cathedral-Basilica and the rooftops of Paramaribo" width="1600" height="900" loading="lazy">
+        <div class="jov"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+          <p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">{len(HOTELS)} hotels &amp; lodges</p>
+          <h3 class="serif text-2xl md:text-3xl font-bold mb-1">The Stay</h3>
+          <p class="text-white/80 text-sm leading-relaxed">Riverside hotels in the capital, lodges reached only by boat.</p>
+        </div>
+      </a>
+    </div>
   </div>
 </section>
 <section id="nature" class="py-12 md:py-24 bg-gray-50">
@@ -3217,7 +3388,37 @@ def build_index(restaurants, hotels):
     </div>
   </div>
 </section>
+<section class="py-12 md:py-24 bg-white">
+  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+    <img src="/images/home-faiths.webp" alt="The Keizerstraat mosque and the Neveh Shalom synagogue standing side by side in Paramaribo" width="1200" height="800" loading="lazy" class="rounded-2xl w-full h-auto shadow-lg">
+    <div>
+      <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">One People, Many Worlds</p>
+      <h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 mb-5 leading-tight">A mosque and a synagogue, fence to fence.</h2>
+      <p class="text-gray-500 text-lg leading-relaxed mb-4">On Keizerstraat in Paramaribo, one of the Caribbean&#8217;s largest mosques has stood beside one of the oldest synagogues in the Americas for nearly a century. That is Suriname in a single frame.</p>
+      <p class="text-gray-500 text-lg leading-relaxed mb-7">Indigenous, Maroon, Creole, Hindustani, Javanese, Chinese and Dutch heritage share the same streets, the same holidays and the same dinner tables. You taste it before you understand it.</p>
+      <div class="flex flex-wrap gap-3">
+        <a href="restaurants.html" class="px-6 py-3 rounded-full text-sm font-semibold text-white hover:opacity-90 transition" style="background:var(--forest)">Taste the mix</a>
+        <a href="nature.html" class="px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" style="border-color:var(--forest2);color:var(--forest2)">See the heritage</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="relative py-20 md:py-28 hero-bg" style="background-image:url('/images/home-sunset.webp')">
+  <div class="absolute inset-0" style="background:rgba(0,0,0,.45)"></div>
+  <div class="relative z-10 max-w-3xl mx-auto px-5 text-center text-white">
+    <p class="text-xs font-semibold tracking-widest uppercase mb-4" style="color:var(--coral)">Updated Daily From Paramaribo</p>
+    <h2 class="serif text-3xl sm:text-5xl font-bold mb-5 leading-tight">Come back tomorrow. It will be different.</h2>
+    <p class="text-white/85 text-lg leading-relaxed mb-9 max-w-xl mx-auto">Rates move, flights land, festivals come around. Bookmark us, install the app or just drop by again. The sunset is always free.</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="visitor-guide.html" class="px-8 py-4 rounded-full font-semibold text-white hover:opacity-90 transition shadow-lg" style="background:var(--coral)">Read the Visitor Guide</a>
+      <a href="https://www.instagram.com/exploringsuriname/" target="_blank" rel="noopener" class="px-8 py-4 rounded-full font-semibold text-white border-2 hover:bg-white/10 transition" style="border-color:rgba(255,255,255,.6)">Follow @exploringsuriname</a>
+    </div>
+  </div>
+</section>
 {footer_html()}
+<script>
+{_home_js}
+</script>
 </body>
 </html>"""
 
@@ -7073,7 +7274,7 @@ if __name__ == "__main__":
     flights_data  = fetch_aerodatabox_flights()
 
     pages = {
-        "index.html":       build_index(RESTAURANTS, HOTELS),
+        "index.html":       build_index(RESTAURANTS, HOTELS, cme_rates),
         "nature.html":      build_nature_page(),
         "activities.html":  build_activities_page(),
         "restaurants.html": build_restaurants_page(RESTAURANTS),
