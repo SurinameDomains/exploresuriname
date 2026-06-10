@@ -12,7 +12,7 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
 <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/></noscript>
-<link href="/tailwind.css" rel="stylesheet"/>
+<link href="/tailwind.css?v=260e898d" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#1B4332" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -179,6 +179,12 @@
     .jcard:hover img{transform:scale(1.05)}
     .jcard .jov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.74) 0%,rgba(0,0,0,.18) 55%,rgba(0,0,0,.02) 100%)}
     .stat-tile{border-radius:1rem;padding:1.4rem 1.2rem;background:var(--mint)}
+    .now-wrap{display:flex;align-items:center;gap:2.2rem;overflow-x:auto}
+    @media(min-width:768px){.now-wrap{justify-content:center;gap:2.8rem}}
+    .jcard{height:18rem}
+    @media(min-width:768px){.jcard{height:20rem}}
+    .duo{display:grid;gap:2.5rem;align-items:center}
+    @media(min-width:768px){.duo{grid-template-columns:1fr 1fr;gap:4.5rem}}
     </style>
 <style>nav button,nav a{white-space:nowrap}</style><link href="https://exploresuriname.com/" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/" hreflang="x-default" rel="alternate"/></head>
 <body class="bg-white overflow-x-hidden">
@@ -390,7 +396,7 @@ document.addEventListener('keydown', e => {
 </section>
 <section class="text-white py-5" id="now-strip" style="background:var(--forest)">
 <h2 class="vh">Suriname right now</h2>
-<div class="max-w-6xl mx-auto px-5 flex items-center gap-7 md:gap-10 overflow-x-auto now-scroll md:justify-center">
+<div class="max-w-6xl mx-auto px-5 now-wrap now-scroll">
 <div class="flex items-center gap-2" style="min-width:max-content"><span class="live-dot"></span><span class="text-xs font-semibold tracking-widest uppercase text-white/55">Right Now</span></div>
 <div class="now-item"><span class="now-k">Paramaribo</span><span class="now-v" id="now-time">--:--</span></div>
 <a class="now-item" href="conditions.html"><span class="now-k">Weather</span><span class="now-v" id="now-wx">~28°C</span></a>
@@ -400,7 +406,7 @@ document.addEventListener('keydown', e => {
 </div>
 </section>
 <section class="py-14 md:py-24 bg-white border-b border-gray-100">
-<div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+<div class="max-w-6xl mx-auto px-5 duo">
 <div>
 <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Por qué explorar Surinam</p>
 <h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 mb-5 leading-tight">Not a directory. A love letter.</h2>
@@ -423,7 +429,7 @@ document.addEventListener('keydown', e => {
 <p class="text-white/60 text-lg max-w-2xl mx-auto leading-relaxed">Four ways in. Pick one, or take them all.</p>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-<a class="jcard card-hover h-72 md:h-80" href="nature.html">
+<a class="jcard card-hover" href="nature.html">
 <img alt="Aerial view of a winding river through untouched rainforest in the Suriname interior" height="900" loading="lazy" src="/images/hero-rainforest.webp" width="1600"/>
 <div class="jov"></div>
 <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -432,7 +438,7 @@ document.addEventListener('keydown', e => {
 <p class="text-white/80 text-sm leading-relaxed">Reserves, waterfalls and jungle lodges in the greenest country on Earth.</p>
 </div>
 </a>
-<a class="jcard card-hover h-72 md:h-80" href="activities.html">
+<a class="jcard card-hover" href="activities.html">
 <img alt="Colorful wooden boats lined up at Atjoni on the Upper Suriname River" height="900" loading="lazy" src="/images/hero-suriname-river.webp" width="1600"/>
 <div class="jov"></div>
 <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -441,7 +447,7 @@ document.addEventListener('keydown', e => {
 <p class="text-white/80 text-sm leading-relaxed">Dugout canoes, turtle beaches, river sunsets and village stays.</p>
 </div>
 </a>
-<a class="jcard card-hover h-72 md:h-80" href="restaurants.html">
+<a class="jcard card-hover" href="restaurants.html">
 <img alt="Fresh produce stalls inside the Central Market of Paramaribo" height="800" loading="lazy" src="/images/home-market.webp" width="1200"/>
 <div class="jov"></div>
 <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -450,7 +456,7 @@ document.addEventListener('keydown', e => {
 <p class="text-white/80 text-sm leading-relaxed">Roti, pom, bami and moksi alesi. Five kitchens, one table.</p>
 </div>
 </a>
-<a class="jcard card-hover h-72 md:h-80" href="hotels.html">
+<a class="jcard card-hover" href="hotels.html">
 <img alt="Aerial view of the Cathedral-Basilica and the rooftops of Paramaribo" height="900" loading="lazy" src="/images/hero-paramaribo.webp" width="1600"/>
 <div class="jov"></div>
 <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -921,18 +927,6 @@ document.addEventListener('keydown', e => {
 <span class="text-xs font-semibold" style="color:var(--forest2)">Visita →</span>
 </div>
 </div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/digital-world-maretraite-mall/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Digital World Ma Retraite Mall in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/a231baed978c7a22bb1784b64bc6d9ec.webp" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Digital World Ma Retraite Mall</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visita →</span>
-</div>
-</div>
 </a></div>
 <div class="text-center mt-10"><a class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" href="shopping.html" style="border-color:var(--forest2);color:var(--forest2)">Ver las 171 tiendas →</a></div>
 </div>
@@ -1021,7 +1015,7 @@ document.addEventListener('keydown', e => {
 </div>
 </section>
 <section class="py-12 md:py-24 bg-white">
-<div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+<div class="max-w-6xl mx-auto px-5 duo">
 <img alt="The Keizerstraat mosque and the Neveh Shalom synagogue standing side by side in Paramaribo" class="rounded-2xl w-full h-auto shadow-lg" height="800" loading="lazy" src="/images/home-faiths.webp" width="1200"/>
 <div>
 <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">One People, Many Worlds</p>
@@ -1043,7 +1037,6 @@ document.addEventListener('keydown', e => {
 <p class="text-white/85 text-lg leading-relaxed mb-9 max-w-xl mx-auto">Rates move, flights land, festivals come around. Bookmark us, install the app or just drop by again. The sunset is always free.</p>
 <div class="flex flex-col sm:flex-row gap-4 justify-center">
 <a class="px-8 py-4 rounded-full font-semibold text-white hover:opacity-90 transition shadow-lg" href="visitor-guide.html" style="background:var(--coral)">Read the Visitor Guide</a>
-<a class="px-8 py-4 rounded-full font-semibold text-white border-2 hover:bg-white/10 transition" href="https://www.instagram.com/exploringsuriname/" rel="noopener" style="border-color:rgba(255,255,255,.6)" target="_blank">Follow @exploringsuriname</a>
 </div>
 </div>
 </section>
