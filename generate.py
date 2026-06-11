@@ -3111,8 +3111,9 @@ def build_index(restaurants, hotels, cme_rates=None):
     setInterval(function(){ if(document.hidden) return; idx=(idx+1)%n; show(idx); },6500);
   }
   if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
-    if(document.readyState==="complete") setTimeout(start,1500);
-    else window.addEventListener("load",function(){setTimeout(start,1500);});
+    ["scroll","click","touchstart","keydown"].forEach(function(e){window.addEventListener(e,start,{once:true,passive:true})});
+    if(document.readyState==="complete") setTimeout(start,9000);
+    else window.addEventListener("load",function(){setTimeout(start,9000);});
   }
 })();
 (function(){
