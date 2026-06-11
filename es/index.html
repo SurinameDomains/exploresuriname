@@ -134,11 +134,12 @@
   })();
   </script>
 <!-- Google tag (gtag.js) -->
-<script>window.addEventListener("load",function(){var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-6LTYHZYNSF");});</script>
+<script>(function(){var d=false;function l(){if(d)return;d=true;var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments);};gtag("js",new Date());gtag("config","G-6LTYHZYNSF");}["scroll","click","touchstart","keydown"].forEach(function(e){window.addEventListener(e,l,{once:true,passive:true})});window.addEventListener("load",function(){setTimeout(l,4000)});})();</script>
 <title>Guía de viaje de Surinam | Restaurantes, Hoteles, Naturaleza y Tours</title>
 <meta content="Planifique su viaje a Surinam: albergues en la selva tropical, restaurantes de Paramaribo, recorridos locales, compras y tipos de cambio SRD en vivo. Guía de la joya escondida de América del Sur." name="description"/>
 <link href="https://exploresuriname.com/es/" rel="canonical"/>
-<link as="image" fetchpriority="high" href="/images/hero-suriname-river.webp" rel="preload"/>
+<link as="image" fetchpriority="high" href="/images/hero-suriname-river-m.webp" media="(max-width:767px)" rel="preload"/>
+<link as="image" fetchpriority="high" href="/images/hero-suriname-river.webp" media="(min-width:768px)" rel="preload"/>
 <meta content="website" property="og:type"/>
 <meta content="Explore Suriname" property="og:site_name"/>
 <meta content="https://exploresuriname.com/es/" property="og:url"/>
@@ -151,7 +152,7 @@
 <meta content="https://exploresuriname.com/og-image.jpg" name="twitter:image"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Explore Suriname","alternateName":"ExploreSuriname.com","url":"https://exploresuriname.com/es/","logo":{"@type":"ImageObject","url":"https://exploresuriname.com/og-image.jpg","width":1200,"height":630},"description":"Your complete travel and lifestyle guide to Suriname: hotels, restaurants, nature, activities and live SRD exchange rates.","areaServed":{"@type":"Country","name":"Suriname","sameAs":"https://en.wikipedia.org/wiki/Suriname"},"knowsAbout":["Suriname","Paramaribo","Travel","Restaurants","Hotels","Tourism"],"sameAs":["https://www.facebook.com/exploresurinamecom","https://www.instagram.com/exploringsuriname/","https://twitter.com/exploringsuriname"]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Explore Suriname","alternateName":"ExploreSuriname.com","url":"https://exploresuriname.com/es/","description":"Your complete travel and lifestyle guide to Suriname: hotels, restaurants, nature, activities and live SRD exchange rates.","inLanguage":"es","about":{"@type":"Place","name":"Suriname","sameAs":"https://en.wikipedia.org/wiki/Suriname"},"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://exploresuriname.com/es/?s={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Explore Suriname | South America's Hidden Gem","url":"https://exploresuriname.com/es/","dateModified":"2026-06-10","about":{"@type":"Place","name":"Suriname","addressCountry":"SR"},"isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/es/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Explore Suriname | South America's Hidden Gem","url":"https://exploresuriname.com/es/","dateModified":"2026-06-11","about":{"@type":"Place","name":"Suriname","addressCountry":"SR"},"isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/es/"}}</script>
 <style>
     #hero{position:relative;min-height:100vh;min-height:100svh;background:#11241b;overflow:hidden}
     .hz{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease;will-change:opacity}
@@ -185,6 +186,8 @@
     @media(min-width:768px){.jcard{height:20rem}}
     .duo{display:grid;gap:2.5rem;align-items:center}
     @media(min-width:768px){.duo{grid-template-columns:1fr 1fr;gap:4.5rem}}
+    #hz0{background-image:url('/images/hero-suriname-river-m.webp')}
+    @media(min-width:768px){#hz0{background-image:url('/images/hero-suriname-river.webp')}}
     </style>
 <style>nav button,nav a{white-space:nowrap}</style><link href="https://exploresuriname.com/" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/" hreflang="x-default" rel="alternate"/></head>
 <body class="bg-white overflow-x-hidden">
@@ -360,7 +363,7 @@ document.addEventListener('keydown', e => {
 });
 </script>
 <section class="flex items-center justify-center" id="hero">
-<div class="hz on" id="hz0" style="background-image:url('/images/hero-suriname-river.webp')"></div>
+<div class="hz on" id="hz0"></div>
 <div class="hz" id="hz1"></div>
 <div class="hz" id="hz2"></div>
 <div class="hz" id="hz3"></div>
@@ -430,7 +433,7 @@ document.addEventListener('keydown', e => {
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
 <a class="jcard card-hover" href="nature.html">
-<img alt="Vista aérea de un río serpenteante entre selva virgen en el interior de Surinam" height="900" loading="lazy" src="/images/hero-rainforest.webp" width="1600"/>
+<img alt="Vista aérea de un río serpenteante entre selva virgen en el interior de Surinam" height="900" loading="lazy" sizes="(max-width:767px) 100vw, 50vw" src="/images/hero-rainforest.webp" srcset="/images/hero-rainforest-m.webp 900w, /images/hero-rainforest.webp 1600w" width="1600"/>
 <div class="jov"></div>
 <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
 <p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">30 destinos</p>
@@ -439,7 +442,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="jcard card-hover" href="activities.html">
-<img alt="Coloridas embarcaciones de madera alineadas en Atjoni, en el Alto Surinam" height="900" loading="lazy" src="/images/hero-suriname-river.webp" width="1600"/>
+<img alt="Coloridas embarcaciones de madera alineadas en Atjoni, en el Alto Surinam" height="900" loading="lazy" sizes="(max-width:767px) 100vw, 50vw" src="/images/hero-suriname-river.webp" srcset="/images/hero-suriname-river-m.webp 900w, /images/hero-suriname-river.webp 1600w" width="1600"/>
 <div class="jov"></div>
 <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
 <p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">39 experiencias</p>
@@ -457,7 +460,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="jcard card-hover" href="hotels.html">
-<img alt="Vista aérea de la catedral basílica y los tejados de Paramaribo" height="900" loading="lazy" src="/images/hero-paramaribo.webp" width="1600"/>
+<img alt="Vista aérea de la catedral basílica y los tejados de Paramaribo" height="900" loading="lazy" sizes="(max-width:767px) 100vw, 50vw" src="/images/hero-paramaribo.webp" srcset="/images/hero-paramaribo-m.webp 900w, /images/hero-paramaribo.webp 1600w" width="1600"/>
 <div class="jov"></div>
 <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
 <p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">40 hoteles y lodges</p>
@@ -478,7 +481,7 @@ document.addEventListener('keydown', e => {
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 <a class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col" data-sub="nature-parks" href="listing/nature-central-suriname-nature-reserve/">
 <div class="relative h-56 overflow-hidden">
-<img alt="Reserva Natural de Surinam Central en Surinam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" fetchpriority="high" height="224" loading="eager" onerror="this.parentElement.style.background='#2D6A4F'" src="/images/b9fc38b50342a177a233d37e16c952d9.webp" width="400"/>
+<img alt="Reserva Natural de Surinam Central en Surinam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" fetchpriority="high" height="224" loading="eager" onerror="this.parentElement.style.background='#2D6A4F'" sizes="(max-width:639px) 92vw, 400px" src="/images/b9fc38b50342a177a233d37e16c952d9.webp" srcset="/images/b9fc38b50342a177a233d37e16c952d9-480.webp 480w, /images/b9fc38b50342a177a233d37e16c952d9.webp 900w" width="400"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
 <div class="absolute bottom-4 left-4 right-4">
 <h3 class="serif text-white font-bold text-lg leading-tight">Reserva Natural Central de Surinam</h3>
@@ -495,7 +498,7 @@ document.addEventListener('keydown', e => {
 </a>
 <a class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col" data-sub="nature-parks" href="listing/nature-brownsberg-nature-park/">
 <div class="relative h-56 overflow-hidden">
-<img alt="Parque Natural Brownsberg en Surinam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" width="400"/>
+<img alt="Parque Natural Brownsberg en Surinam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" sizes="(max-width:639px) 92vw, 400px" src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" srcset="/images/9a71ad5bc48a7f17e058f423852488eb-480.webp 480w, /images/9a71ad5bc48a7f17e058f423852488eb.webp 900w" width="400"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
 <div class="absolute bottom-4 left-4 right-4">
 <h3 class="serif text-white font-bold text-lg leading-tight">Parque Natural de Brownsberg</h3>
@@ -512,7 +515,7 @@ document.addEventListener('keydown', e => {
 </a>
 <a class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col" data-sub="nature-parks" href="listing/nature-galibi-nature-reserve/">
 <div class="relative h-56 overflow-hidden">
-<img alt="Reserva Natural de Galibi en Surinam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" src="/images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp" width="400"/>
+<img alt="Reserva Natural de Galibi en Surinam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" sizes="(max-width:639px) 92vw, 400px" src="/images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp" srcset="/images/ec4fdcef8ebe5328b6972dc3a8b14caf-480.webp 480w, /images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp 900w" width="400"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
 <div class="absolute bottom-4 left-4 right-4">
 <h3 class="serif text-white font-bold text-lg leading-tight">Reserva Natural de Galibi</h3>
@@ -529,7 +532,7 @@ document.addEventListener('keydown', e => {
 </a>
 <a class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col" data-sub="nature-parks" href="listing/nature-peperpot-nature-park/">
 <div class="relative h-56 overflow-hidden">
-<img alt="Peperpot Nature Park en Surinam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" src="/images/d4423cb7cec066ef299021712b2d96d3.webp" width="400"/>
+<img alt="Peperpot Nature Park en Surinam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" sizes="(max-width:639px) 92vw, 400px" src="/images/d4423cb7cec066ef299021712b2d96d3.webp" srcset="/images/d4423cb7cec066ef299021712b2d96d3-480.webp 480w, /images/d4423cb7cec066ef299021712b2d96d3.webp 900w" width="400"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
 <div class="absolute bottom-4 left-4 right-4">
 <h3 class="serif text-white font-bold text-lg leading-tight">Peperpot Nature Park</h3>
@@ -546,7 +549,7 @@ document.addEventListener('keydown', e => {
 </a>
 <a class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col" data-sub="nature-parks" href="listing/nature-voltzberg-raleighvallen/">
 <div class="relative h-56 overflow-hidden">
-<img alt="Voltzberg y Raleighvallen en Surinam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" src="/images/7c96c70342ccb03fb73b5cfad71f003a.webp" width="400"/>
+<img alt="Voltzberg y Raleighvallen en Surinam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" sizes="(max-width:639px) 92vw, 400px" src="/images/7c96c70342ccb03fb73b5cfad71f003a.webp" srcset="/images/7c96c70342ccb03fb73b5cfad71f003a-480.webp 480w, /images/7c96c70342ccb03fb73b5cfad71f003a.webp 900w" width="400"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
 <div class="absolute bottom-4 left-4 right-4">
 <h3 class="serif text-white font-bold text-lg leading-tight">Voltzberg y Raleighvallen</h3>
@@ -563,7 +566,7 @@ document.addEventListener('keydown', e => {
 </a>
 <a class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col" data-sub="nature-parks" href="listing/nature-paramaribo-historic-inner-city/">
 <div class="relative h-56 overflow-hidden">
-<img alt="Centro histórico de Paramaribo en Surinam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" src="/images/d8aefae797694205fb64bfc9bf678e4d.webp" width="400"/>
+<img alt="Centro histórico de Paramaribo en Surinam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" sizes="(max-width:639px) 92vw, 400px" src="/images/d8aefae797694205fb64bfc9bf678e4d.webp" srcset="/images/d8aefae797694205fb64bfc9bf678e4d-480.webp 480w, /images/d8aefae797694205fb64bfc9bf678e4d.webp 900w" width="400"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
 <div class="absolute bottom-4 left-4 right-4">
 <h3 class="serif text-white font-bold text-lg leading-tight">Centro histórico de Paramaribo</h3>
@@ -591,7 +594,7 @@ document.addEventListener('keydown', e => {
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col" data-sub="tours-expeditions" href="listing/activity-jungle-trekking/">
 <div class="relative h-56 overflow-hidden bg-green-900">
-<img alt="Trekking por la selva en Surinam" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" fetchpriority="high" height="224" loading="eager" onerror="this.style.display='none'" src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" width="400"/>
+<img alt="Trekking por la selva en Surinam" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" fetchpriority="high" height="224" loading="eager" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" srcset="/images/9a71ad5bc48a7f17e058f423852488eb-480.webp 480w, /images/9a71ad5bc48a7f17e058f423852488eb.webp 900w" width="400"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
 <span class="absolute top-4 left-4 text-2xl">🌿</span>
 </div>
@@ -603,7 +606,7 @@ document.addEventListener('keydown', e => {
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col" data-sub="tours-expeditions" href="listing/activity-river-canoe-tours/">
 <div class="relative h-56 overflow-hidden bg-green-900">
-<img alt="Tours en canoa por el río en Surinam" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.style.display='none'" src="/images/09be00574894146899f6a9df02847fc0.webp" width="400"/>
+<img alt="Tours en canoa por el río en Surinam" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/09be00574894146899f6a9df02847fc0.webp" srcset="/images/09be00574894146899f6a9df02847fc0-480.webp 480w, /images/09be00574894146899f6a9df02847fc0.webp 900w" width="400"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
 <span class="absolute top-4 left-4 text-2xl">🛶</span>
 </div>
@@ -627,7 +630,7 @@ document.addEventListener('keydown', e => {
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col" data-sub="tours-expeditions" href="listing/activity-indigenous-village-tours/">
 <div class="relative h-56 overflow-hidden bg-green-900">
-<img alt="Tours a aldeas indígenas en Surinam" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.style.display='none'" src="/images/600929c23128b12e2c1d04bdb4f6bd0a.webp" width="400"/>
+<img alt="Tours a aldeas indígenas en Surinam" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/600929c23128b12e2c1d04bdb4f6bd0a.webp" srcset="/images/600929c23128b12e2c1d04bdb4f6bd0a-480.webp 480w, /images/600929c23128b12e2c1d04bdb4f6bd0a.webp 900w" width="400"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
 <span class="absolute top-4 left-4 text-2xl">🏘️</span>
 </div>
@@ -639,7 +642,7 @@ document.addEventListener('keydown', e => {
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col" data-sub="tours-expeditions" href="listing/activity-maroon-village-tours/">
 <div class="relative h-56 overflow-hidden bg-green-900">
-<img alt="Tours a aldeas cimarronas en Surinam" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.style.display='none'" src="/images/96c2837c82999c3a834bbdfa12a54710.webp" width="400"/>
+<img alt="Tours a aldeas cimarronas en Surinam" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/96c2837c82999c3a834bbdfa12a54710.webp" srcset="/images/96c2837c82999c3a834bbdfa12a54710-480.webp 480w, /images/96c2837c82999c3a834bbdfa12a54710.webp 900w" width="400"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
 <span class="absolute top-4 left-4 text-2xl">🥁</span>
 </div>
@@ -651,7 +654,7 @@ document.addEventListener('keydown', e => {
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col" data-sub="tours-expeditions" href="listing/activity-paramaribo-city-walk/">
 <div class="relative h-56 overflow-hidden bg-green-900">
-<img alt="Paseo por la ciudad de Paramaribo en Surinam" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.style.display='none'" src="/images/d8aefae797694205fb64bfc9bf678e4d.webp" width="400"/>
+<img alt="Paseo por la ciudad de Paramaribo en Surinam" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d8aefae797694205fb64bfc9bf678e4d.webp" srcset="/images/d8aefae797694205fb64bfc9bf678e4d-480.webp 480w, /images/d8aefae797694205fb64bfc9bf678e4d.webp 900w" width="400"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
 <span class="absolute top-4 left-4 text-2xl">🏙️</span>
 </div>
@@ -673,7 +676,7 @@ document.addEventListener('keydown', e => {
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="local-caribbean" href="listing/de-gadri/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="De Gadri en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" fetchpriority="high" height="224" loading="eager" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/6836297062a091e0cfff3518aec7dc48.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="De Gadri en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" fetchpriority="high" height="224" loading="eager" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/6836297062a091e0cfff3518aec7dc48.webp" srcset="/images/6836297062a091e0cfff3518aec7dc48-480.webp 480w, /images/6836297062a091e0cfff3518aec7dc48.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">De Gadri</h3>
@@ -686,7 +689,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="local-caribbean" href="listing/baka-foto-restaurant/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Baka Foto Restaurant, comida en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/01c4151cfedb13db20a20abc28be9dff.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Baka Foto Restaurant, comida en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/01c4151cfedb13db20a20abc28be9dff.webp" srcset="/images/01c4151cfedb13db20a20abc28be9dff-480.webp 480w, /images/01c4151cfedb13db20a20abc28be9dff.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Baka Foto Restaurant</h3>
@@ -699,7 +702,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="asian-fusion" href="listing/goe-thai-noodle-bar/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="GoE Thai Noodle Bar, comida en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/4d694a3184c33b7e22a303b366e0b792.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="GoE Thai Noodle Bar, comida en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4d694a3184c33b7e22a303b366e0b792.webp" srcset="/images/4d694a3184c33b7e22a303b366e0b792-480.webp 480w, /images/4d694a3184c33b7e22a303b366e0b792.webp 700w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">GoE Thai Noodle Bar</h3>
@@ -712,7 +715,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="bars-lounges" href="listing/passion-food-and-wines/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Passion Food and Wines, comida en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/5e90c717879f13264f45270e9601efa7.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Passion Food and Wines, comida en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5e90c717879f13264f45270e9601efa7.webp" srcset="/images/5e90c717879f13264f45270e9601efa7-480.webp 480w, /images/5e90c717879f13264f45270e9601efa7.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Passion Food and Wines</h3>
@@ -725,7 +728,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="local-caribbean" href="listing/el-patron-latin-grill/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="El Patron Latin Grill, comida en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/aa41fb6804c1dfc30faa1660be3301d4.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="El Patron Latin Grill, comida en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/aa41fb6804c1dfc30faa1660be3301d4.webp" srcset="/images/aa41fb6804c1dfc30faa1660be3301d4-480.webp 480w, /images/aa41fb6804c1dfc30faa1660be3301d4.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">El Patron Latin Grill</h3>
@@ -738,7 +741,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="cafes-coffee" href="listing/zus-zo-cafe/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Zus &amp; Zo Cafe, comida en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/8797b68dc7eb3268625e3d20eef835bc.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Zus &amp; Zo Cafe, comida en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8797b68dc7eb3268625e3d20eef835bc.webp" srcset="/images/8797b68dc7eb3268625e3d20eef835bc-480.webp 480w, /images/8797b68dc7eb3268625e3d20eef835bc.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Zus &amp; Zo Cafe</h3>
@@ -762,7 +765,7 @@ document.addEventListener('keydown', e => {
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="city-hotels" href="listing/royal-torarica/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Royal Torarica, alojamiento en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" fetchpriority="high" height="224" loading="eager" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/8620d384f93b82969bf15c5b3cbd3af1.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Royal Torarica, alojamiento en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" fetchpriority="high" height="224" loading="eager" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8620d384f93b82969bf15c5b3cbd3af1.webp" srcset="/images/8620d384f93b82969bf15c5b3cbd3af1-480.webp 480w, /images/8620d384f93b82969bf15c5b3cbd3af1.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Royal Torarica</h3>
@@ -775,7 +778,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="city-hotels" href="listing/courtyard-by-marriott/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Courtyard by Marriott, alojamiento en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/4dbb88b526794f2394659f96f323209e.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Courtyard by Marriott, alojamiento en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4dbb88b526794f2394659f96f323209e.webp" srcset="/images/4dbb88b526794f2394659f96f323209e-480.webp 480w, /images/4dbb88b526794f2394659f96f323209e.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Courtyard by Marriott</h3>
@@ -788,7 +791,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="eco-lodges" href="listing/eco-torarica/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Eco Torarica, alojamiento en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/fd15a338dc5a1c6dbf69986aa24a1cd5.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Eco Torarica, alojamiento en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fd15a338dc5a1c6dbf69986aa24a1cd5.webp" srcset="/images/fd15a338dc5a1c6dbf69986aa24a1cd5-480.webp 480w, /images/fd15a338dc5a1c6dbf69986aa24a1cd5.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Eco Torarica</h3>
@@ -801,7 +804,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="city-hotels" href="listing/torarica-resort/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Torarica Resort, alojamiento en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/f1025ab87358145331e18ffca5705cea.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Torarica Resort, alojamiento en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f1025ab87358145331e18ffca5705cea.webp" srcset="/images/f1025ab87358145331e18ffca5705cea-480.webp 480w, /images/f1025ab87358145331e18ffca5705cea.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Torarica Resort</h3>
@@ -814,7 +817,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Commewijne" data-sub="nature-parks" href="listing/hotel-peperpot/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Hotel Peperpot, alojamiento en Commewijne" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/3b59af42734727bbf1b65ac72eb6d55d.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Hotel Peperpot, alojamiento en Commewijne" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3b59af42734727bbf1b65ac72eb6d55d.webp" srcset="/images/3b59af42734727bbf1b65ac72eb6d55d-480.webp 480w, /images/3b59af42734727bbf1b65ac72eb6d55d.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Hotel Peperpot</h3>
@@ -827,7 +830,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="city-hotels" href="listing/radisson-hotel/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Radisson Hotel Paramaribo en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Radisson Hotel Paramaribo en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7.webp" srcset="/images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7-480.webp 480w, /images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Radisson Hotel Paramaribo</h3>
@@ -851,7 +854,7 @@ document.addEventListener('keydown', e => {
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/international-mall-of-suriname/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="International Mall of Suriname, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" fetchpriority="high" height="224" loading="eager" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/1462e2e88e910e4db21b2528fa3dc3a4.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="International Mall of Suriname, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" fetchpriority="high" height="224" loading="eager" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1462e2e88e910e4db21b2528fa3dc3a4.webp" srcset="/images/1462e2e88e910e4db21b2528fa3dc3a4-480.webp 480w, /images/1462e2e88e910e4db21b2528fa3dc3a4.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">International Mall of Suriname</h3>
@@ -864,7 +867,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/hermitage-mall/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Hermitage Mall, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/e1eb106fe979bb093cb49f070fa20781.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Hermitage Mall, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e1eb106fe979bb093cb49f070fa20781.webp" srcset="/images/e1eb106fe979bb093cb49f070fa20781-480.webp 480w, /images/e1eb106fe979bb093cb49f070fa20781.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Hermitage Mall</h3>
@@ -877,7 +880,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/readytex-souvenirs-and-crafts/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Readytex Souvenirs and Crafts, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/48e243ebe10dfeef1b2eadd88ffa6d68.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Readytex Souvenirs and Crafts, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/48e243ebe10dfeef1b2eadd88ffa6d68.webp" srcset="/images/48e243ebe10dfeef1b2eadd88ffa6d68-480.webp 480w, /images/48e243ebe10dfeef1b2eadd88ffa6d68.webp 570w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Readytex Souvenirs and Crafts</h3>
@@ -903,7 +906,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/kirpalani/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Kirpalani, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/7a72892ad4f967c190958c3349bf7c77.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Kirpalani, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7a72892ad4f967c190958c3349bf7c77.webp" srcset="/images/7a72892ad4f967c190958c3349bf7c77-480.webp 480w, /images/7a72892ad4f967c190958c3349bf7c77.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Kirpalani</h3>
@@ -916,7 +919,7 @@ document.addEventListener('keydown', e => {
 </div>
 </a>
 <a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/galaxy/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Galaxy, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/fc616d54eca59fb5444dcf7e26d405ad.webp" width="400"/></div>
+<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Galaxy, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fc616d54eca59fb5444dcf7e26d405ad.webp" srcset="/images/fc616d54eca59fb5444dcf7e26d405ad-480.webp 480w, /images/fc616d54eca59fb5444dcf7e26d405ad.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Galaxy</h3>
@@ -1107,7 +1110,8 @@ document.addEventListener('keydown', e => {
 <script>
 
 (function(){
-  var imgs=["/images/hero-paramaribo.webp","/images/hero-rainforest.webp","/images/hero-bridge.webp"];
+  var _hm=window.matchMedia("(max-width:767px)").matches?"-m":"";
+  var imgs=["/images/hero-paramaribo"+_hm+".webp","/images/hero-rainforest"+_hm+".webp","/images/hero-bridge"+_hm+".webp"];
   var n=4, idx=0, started=false;
   function show(i){
     for(var k=0;k<n;k++){
