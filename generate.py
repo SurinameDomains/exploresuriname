@@ -5091,7 +5091,6 @@ def build_today_page():
 
     <!-- ── HOLIDAYS & FESTIVALS → events.html ───────────────────── -->
     <a href="events.html" class="widget-card flex flex-col justify-center p-6 hover:shadow-md transition" style="background:linear-gradient(135deg,var(--forest) 0%,var(--forest2) 100%)">
-      <div class="text-3xl mb-2">🎉</div>
       <div class="font-bold text-white text-base">Public Holidays &amp; Festivals</div>
       <p class="text-white/70 text-sm mt-1 leading-relaxed">Every official holiday, festival dates, school breaks and what each celebration means, now on its own page.</p>
       <span class="mt-3 text-sm font-semibold text-white">Open the events calendar &#8594;</span>
@@ -5526,17 +5525,17 @@ def build_events_page():
             'style="background:linear-gradient(135deg,var(--forest) 0%,var(--forest2) 100%)">'
             '\n    <p class="text-white/60 text-xs font-bold uppercase tracking-widest mb-3">Next up</p>'
             '\n    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">'
-            '\n      <h2 class="serif text-3xl sm:text-4xl font-bold">' + _ev.get("emoji", "") + ' '
+            '\n      <h2 class="serif text-3xl sm:text-4xl font-bold">'
             + _esc(_ev.get("name", "")) + '</h2>'
             '\n      <span class="text-sm font-bold px-3 py-1 rounded-full" style="background:var(--coral)">'
             + _when + '</span>'
             '\n    </div>'
-            '\n    <p class="text-white/75 text-sm mb-4">' + _esc(_lbl) + ' &middot; \U0001F4CD '
+            '\n    <p class="text-white/75 text-sm mb-4">' + _esc(_lbl) + ' &middot; '
             + _esc(_ev.get("location", "")) + '</p>'
             '\n    <p class="text-white/85 text-base leading-relaxed max-w-2xl">' + _esc(_ev.get("blurb", "")) + '</p>'
             '\n    <a href="' + _gcal(_ev.get("name", ""), _st, _en, _ev.get("location", ""), _ev.get("blurb", ""))
             + '" target="_blank" rel="noopener" class="inline-block mt-5 text-sm font-semibold bg-white/15 '
-            'hover:bg-white/25 transition rounded-full px-5 py-2.5">\U0001F4C5 Add to my calendar</a>'
+            'hover:bg-white/25 transition rounded-full px-5 py-2.5">Add to my calendar</a>'
             '\n  </section>'
         )
 
@@ -5592,12 +5591,12 @@ def build_events_page():
         if _confd:
             foot += ('<a href="' + _gcal(_ev.get("name", ""), _st, _en, _ev.get("location", ""), _ev.get("blurb", ""))
                      + '" target="_blank" rel="noopener" class="text-xs font-semibold hover:underline" '
-                     'style="color:var(--forest2)">\U0001F4C5 Add to calendar</a>')
+                     'style="color:var(--forest2)">Add to calendar</a>')
         _site = _ev.get("website", "")
         if _site:
             foot += ('<a href="' + _esc(_site) + '" target="_blank" rel="noopener" '
                      'class="text-xs font-semibold hover:underline" '
-                     'style="color:var(--forest2)">\U0001F310 Official website</a>')
+                     'style="color:var(--forest2)">Official website</a>')
         _lnk = _ev.get("link")
         if _lnk and _lnk.get("href"):
             foot += ('<a href="' + _esc(_lnk["href"]) + '" class="text-xs font-semibold hover:underline" '
@@ -5609,9 +5608,9 @@ def build_events_page():
             + db +
             '<div class="min-w-0">'
             '<div class="flex flex-wrap items-center gap-2 mb-1.5">'
-            '<h3 class="font-bold text-gray-900 text-base">' + _ev.get("emoji", "") + ' '
+            '<h3 class="font-bold text-gray-900 text-base">'
             + _esc(_ev.get("name", "")) + '</h3>' + badges + '</div>'
-            '<p class="text-xs text-gray-400 mb-2">' + _dateline + ' &middot; \U0001F4CD '
+            '<p class="text-xs text-gray-400 mb-2">' + _dateline + ' &middot; '
             + _esc(_ev.get("location", "")) + '</p>'
             '<p class="text-gray-600 text-sm leading-relaxed">' + _esc(_ev.get("blurb", "")) + '</p>'
             + (('<p class="text-gray-600 text-sm leading-relaxed mt-2">' + _esc(_ev.get("more", "")) + '</p>')

@@ -4,7 +4,6 @@
     {
       "id": "keti-koti",
       "name": "Keti Koti (Emancipation Day)",
-      "emoji": "🥁",
       "kind": "holiday_match",
       "match": "Freedom Day (Keti Koti)",
       "fixed": {
@@ -25,7 +24,6 @@
     {
       "id": "owru-yari",
       "name": "Owru Yari & Pagara Estafette",
-      "emoji": "🎆",
       "kind": "fixed",
       "fixed": {
         "month": 12,
@@ -45,7 +43,6 @@
     {
       "id": "divali",
       "name": "Divali (Festival of Lights)",
-      "emoji": "🪔",
       "kind": "holiday_match",
       "match": "Divali",
       "announced": {
@@ -71,7 +68,6 @@
     {
       "id": "holi-phagwa",
       "name": "Holi Phagwa (Festival of Colours)",
-      "emoji": "🎨",
       "kind": "holiday_match",
       "match": "Holi Phagwa",
       "expected": {
@@ -90,7 +86,6 @@
     {
       "id": "eid-ul-fitr",
       "name": "Eid-ul-Fitr (Bodo / Lebaran)",
-      "emoji": "🌙",
       "kind": "holiday_match",
       "match": "Eid-ul-Fitr",
       "expected": {
@@ -108,7 +103,6 @@
     {
       "id": "eid-ul-adha",
       "name": "Eid-ul-Adha (Feast of Sacrifice)",
-      "emoji": "🕌",
       "kind": "holiday_match",
       "match": "Eid-ul-Adha",
       "expected": {
@@ -126,7 +120,6 @@
     {
       "id": "chinese-new-year",
       "name": "Chinese New Year",
-      "emoji": "🐉",
       "kind": "holiday_match",
       "match": "Chinese New Year",
       "expected": {
@@ -144,7 +137,6 @@
     {
       "id": "javanese-new-year",
       "name": "Javanese New Year",
-      "emoji": "🎭",
       "kind": "holiday_match",
       "match": "Javanese New Year",
       "expected": {
@@ -162,7 +154,6 @@
     {
       "id": "easter-weekend",
       "name": "Easter Weekend",
-      "emoji": "⛪",
       "kind": "easter",
       "holiday": true,
       "category": "Christian holidays",
@@ -178,7 +169,6 @@
     {
       "id": "dag-der-inheemsen",
       "name": "Day of the Indigenous Peoples",
-      "emoji": "🪶",
       "kind": "holiday_match",
       "match": "Day of Indigenous Peoples",
       "fixed": {
@@ -198,7 +188,6 @@
     {
       "id": "dag-der-marrons",
       "name": "Day of the Maroons",
-      "emoji": "🪘",
       "kind": "holiday_match",
       "match": "Day of the Maroons",
       "fixed": {
@@ -218,7 +207,6 @@
     {
       "id": "srefidensi",
       "name": "Srefidensi (Independence Day)",
-      "emoji": "🇸🇷",
       "kind": "holiday_match",
       "match": "Independence Day",
       "fixed": {
@@ -234,7 +222,6 @@
     {
       "id": "christmas",
       "name": "Christmas (Eerste & Tweede Kerstdag)",
-      "emoji": "🎄",
       "kind": "fixed",
       "fixed": {
         "month": 12,
@@ -255,7 +242,6 @@
     {
       "id": "avond-vierdaagse",
       "name": "Avond Vierdaagse (Evening Four-Day Walk)",
-      "emoji": "🚶",
       "kind": "announced",
       "announced": {},
       "expected": {
@@ -273,7 +259,6 @@
     {
       "id": "seogs-2026",
       "name": "SEOGS 2026: Suriname Energy, Oil & Gas Summit",
-      "emoji": "🛢️",
       "kind": "oneoff",
       "start": "2026-06-23",
       "end": "2026-06-26",
