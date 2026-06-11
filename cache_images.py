@@ -343,6 +343,34 @@ def _migrate_existing(cache, dry_run):
 # Main
 # ---------------------------------------------------------------------------
 
+CARD_VARIANT_WIDTH = 480
+WIDTHS_FILE = SCRIPT_DIR / "image_widths.json"
+
+def _build_card_variants():
+    """Create missing -480 card thumbnails and refresh image_widths.json.
+    Idempotent; skips hero-*/home-* art and existing variants."""
+    if not _PILLOW_OK:
+        return
+    widths, made = {}, 0
+    for p in sorted(IMAGES_DIR.glob("*.webp")):
+        if p.name.startswith(("hero-", "home-")) or p.stem.endswith(("-m", "-480")):
+            continue
+        try:
+            img = _PILImage.open(p)
+        except Exception:
+            continue
+        w, h = img.size
+        widths[p.name] = w
+        out = p.with_name(p.stem + "-480.webp")
+        if w > 560 and not out.exists():
+            img.resize((CARD_VARIANT_WIDTH, round(h * CARD_VARIANT_WIDTH / w)),
+                       _PILImage.LANCZOS).save(out, "webp", quality=78, method=4)
+            made += 1
+    WIDTHS_FILE.write_text(json.dumps(widths, separators=(",", ":")), encoding="utf-8")
+    if made:
+        print("\nCard variants: created %d new -480 thumbnails" % made)
+
+
 def main(dry_run=False):
     IMAGES_DIR.mkdir(exist_ok=True)
 
@@ -425,6 +453,9 @@ def main(dry_run=False):
     if not dry_run:
         _save_cache(cache)
         print("\nCache saved -> image_cache.json (%d total entries)" % len(cache))
+
+    if not dry_run:
+        _build_card_variants()
 
     total_cached = len([u for u in all_urls if u in cache])
     print("\nDone. %d/%d URLs cached, %d new images downloaded." % (

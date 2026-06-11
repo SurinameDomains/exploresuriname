@@ -944,6 +944,21 @@ def _localize_img(url):
 def _biz_img(slug):
     return _localize_img(_IMGS.get(slug, ""))
 
+try:
+    with open("image_widths.json", encoding="utf-8") as _f:
+        _IMG_WIDTHS = json.load(_f)
+except Exception:
+    _IMG_WIDTHS = {}
+
+def _card_srcset(img):
+    """srcset/sizes attrs for 400px card imgs when a local -480 variant exists."""
+    if img and img.startswith("/images/") and img.endswith(".webp"):
+        _v = img[:-5] + "-480.webp"
+        if os.path.exists(_v.lstrip("/")):
+            _w = _IMG_WIDTHS.get(os.path.basename(img), 900)
+            return f' srcset="{_v} 480w, {img} {_w}w" sizes="(max-width:639px) 92vw, 400px"'
+    return ""
+
 # ── Subcategory assignment ────────────────────────────────────────────────────
 def _subcat(slug, main_cat=""):
     s = slug.lower()
@@ -1866,7 +1881,7 @@ PAGE_HEAD = """\
   })();
   </script>
   <!-- Google tag (gtag.js) -->
-  <script>window.addEventListener("load",function(){var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-6LTYHZYNSF");});</script>"""
+  <script>(function(){var d=false;function l(){if(d)return;d=true;var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments);};gtag("js",new Date());gtag("config","G-6LTYHZYNSF");}["scroll","click","touchstart","keydown"].forEach(function(e){window.addEventListener(e,l,{once:true,passive:true})});window.addEventListener("load",function(){setTimeout(l,4000)});})();</script>"""
 try:
     import hashlib as _hashlib
     _TW_V = _hashlib.md5(open("tailwind.css", "rb").read()).hexdigest()[:8]
@@ -2606,7 +2621,8 @@ def news_card_html(a, large=False, eager=False):
         h = "h-52" if large else "h-36"
         _loading = 'eager" fetchpriority="high' if eager else "lazy"
         _h_px = "208" if large else "144"
-        img = f'<img src="{a["image"]}" alt="{html_lib.escape(a["title"])}" loading="{_loading}" width="400" height="{_h_px}" class="w-full {h} object-cover" onerror="this.style.display=\'none\'">'
+        _ss = _card_srcset(a["image"])
+        img = f'<img src="{a["image"]}"{_ss} alt="{html_lib.escape(a["title"])}" loading="{_loading}" width="400" height="{_h_px}" class="w-full {h} object-cover" onerror="this.style.display=\'none\'">'
     badge = f'<span class="text-white text-xs font-medium px-2 py-0.5 rounded-full" style="background:{a["color"]}">{html_lib.escape(a["source"])}</span>'
     tc = "text-base font-bold" if large else "text-sm font-semibold"
     return (f'<a href="{a["link"]}" target="_blank" rel="noopener noreferrer" '
@@ -2631,10 +2647,12 @@ def nature_card(spot, eager=False):
     )
     internal_url = f"listing/{_nature_slug(spot['name'])}/"
     _loading = 'eager" fetchpriority="high' if eager else "lazy"
+    _nimg = _localize_img(spot['image'])
+    _ss = _card_srcset(_nimg)
     return f"""
 <a href="{internal_url}" data-sub="{spot.get('subcat','nature-parks')}" class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
   <div class="relative h-56 overflow-hidden">
-    <img src="{spot['image']}" alt="{html_lib.escape(spot['name'] + ' in Suriname')}" loading="{_loading}"
+    <img src="{_nimg}"{_ss} alt="{html_lib.escape(spot['name'] + ' in Suriname')}" loading="{_loading}"
          width="400" height="224"
          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
          onerror="this.parentElement.style.background='#2D6A4F'">
@@ -2658,7 +2676,8 @@ def activity_card_rich(act, eager=False):
     internal_url = f"listing/{slug}/"
     img = _localize_img(act.get("image", ""))
     _loading = 'eager" fetchpriority="high' if eager else "lazy"
-    img_html = f'<img src="{img}" alt="{html_lib.escape(act["name"] + " in Suriname")}" loading="{_loading}" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display=\'none\'">' if img else ""
+    _ss = _card_srcset(img)
+    img_html = f'<img src="{img}"{_ss} alt="{html_lib.escape(act["name"] + " in Suriname")}" loading="{_loading}" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display=\'none\'">' if img else ""
     return f"""
 <a href="{internal_url}" data-sub="{act.get('subcat','tours-expeditions')}" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
   <div class="relative h-56 overflow-hidden bg-green-900">
@@ -2695,8 +2714,9 @@ def poi_card(item, badge_key="cuisine", eager=False):
     bg, fg = ("var(--mint)", "var(--forest2)") if badge_key == "cuisine" else ("#fff3e8", "#c05621")
     badge_html = f'<span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:{bg};color:{fg}">{html_lib.escape(badge)}</span>' if badge else ""
     _loading = 'eager" fetchpriority="high' if eager else "lazy"
+    _ss = _card_srcset(img)
     img_html = (f'<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0">'
-                f'<img src="{img}" alt="{html_lib.escape(item["name"] + ((", " + badge) if badge else "") + " in " + area)}" loading="{_loading}" '
+                f'<img src="{img}"{_ss} alt="{html_lib.escape(item["name"] + ((", " + badge) if badge else "") + " in " + area)}" loading="{_loading}" '
                 f'width="400" height="224" '
                 f'class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" '
                 f'onerror="this.parentElement.style.background=\'#2D6A4F\';this.style.display=\'none\'">'
@@ -3063,10 +3083,13 @@ def build_index(restaurants, hotels, cme_rates=None):
     @media(min-width:768px){.jcard{height:20rem}}
     .duo{display:grid;gap:2.5rem;align-items:center}
     @media(min-width:768px){.duo{grid-template-columns:1fr 1fr;gap:4.5rem}}
+    #hz0{background-image:url('/images/hero-suriname-river-m.webp')}
+    @media(min-width:768px){#hz0{background-image:url('/images/hero-suriname-river.webp')}}
     """
     _home_js = r"""
 (function(){
-  var imgs=["/images/hero-paramaribo.webp","/images/hero-rainforest.webp","/images/hero-bridge.webp"];
+  var _hm=window.matchMedia("(max-width:767px)").matches?"-m":"";
+  var imgs=["/images/hero-paramaribo"+_hm+".webp","/images/hero-rainforest"+_hm+".webp","/images/hero-bridge"+_hm+".webp"];
   var n=4, idx=0, started=false;
   function show(i){
     for(var k=0;k<n;k++){
@@ -3114,7 +3137,8 @@ def build_index(restaurants, hotels, cme_rates=None):
   <title>Suriname Travel Guide | Restaurants, Hotels, Nature &amp; Tours</title>
   <meta name="description" content="Plan your Suriname trip: rainforest lodges, Paramaribo restaurants, local tours, shopping and live SRD exchange rates. Guide to South America's hidden gem.">
   <link rel="canonical" href="{SITE_URL}/">
-  <link rel="preload" as="image" href="/images/hero-suriname-river.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="/images/hero-suriname-river-m.webp" media="(max-width:767px)" fetchpriority="high">
+  <link rel="preload" as="image" href="/images/hero-suriname-river.webp" media="(min-width:768px)" fetchpriority="high">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/">
@@ -3184,7 +3208,7 @@ def build_index(restaurants, hotels, cme_rates=None):
 <body class="bg-white overflow-x-hidden">
 {nav_html("home")}
 <section id="hero" class="flex items-center justify-center">
-  <div id="hz0" class="hz on" style="background-image:url('/images/hero-suriname-river.webp')"></div>
+  <div id="hz0" class="hz on"></div>
   <div id="hz1" class="hz"></div>
   <div id="hz2" class="hz"></div>
   <div id="hz3" class="hz"></div>
@@ -3255,7 +3279,7 @@ def build_index(restaurants, hotels, cme_rates=None):
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
       <a href="nature.html" class="jcard card-hover">
-        <img src="/images/hero-rainforest.webp" alt="Aerial view of a winding river through untouched rainforest in the Suriname interior" width="1600" height="900" loading="lazy">
+        <img src="/images/hero-rainforest.webp" srcset="/images/hero-rainforest-m.webp 900w, /images/hero-rainforest.webp 1600w" sizes="(max-width:767px) 100vw, 50vw" alt="Aerial view of a winding river through untouched rainforest in the Suriname interior" width="1600" height="900" loading="lazy">
         <div class="jov"></div>
         <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
           <p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">{len(NATURE_SPOTS) + len(SIGHTSEEING)} destinations</p>
@@ -3264,7 +3288,7 @@ def build_index(restaurants, hotels, cme_rates=None):
         </div>
       </a>
       <a href="activities.html" class="jcard card-hover">
-        <img src="/images/hero-suriname-river.webp" alt="Colorful wooden boats lined up at Atjoni on the Upper Suriname River" width="1600" height="900" loading="lazy">
+        <img src="/images/hero-suriname-river.webp" srcset="/images/hero-suriname-river-m.webp 900w, /images/hero-suriname-river.webp 1600w" sizes="(max-width:767px) 100vw, 50vw" alt="Colorful wooden boats lined up at Atjoni on the Upper Suriname River" width="1600" height="900" loading="lazy">
         <div class="jov"></div>
         <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
           <p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">{len(ACTIVITIES) + len(ADVENTURES_BIZ)} experiences</p>
@@ -3282,7 +3306,7 @@ def build_index(restaurants, hotels, cme_rates=None):
         </div>
       </a>
       <a href="hotels.html" class="jcard card-hover">
-        <img src="/images/hero-paramaribo.webp" alt="Aerial view of the Cathedral-Basilica and the rooftops of Paramaribo" width="1600" height="900" loading="lazy">
+        <img src="/images/hero-paramaribo.webp" srcset="/images/hero-paramaribo-m.webp 900w, /images/hero-paramaribo.webp 1600w" sizes="(max-width:767px) 100vw, 50vw" alt="Aerial view of the Cathedral-Basilica and the rooftops of Paramaribo" width="1600" height="900" loading="lazy">
         <div class="jov"></div>
         <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
           <p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">{len(HOTELS)} hotels &amp; lodges</p>
