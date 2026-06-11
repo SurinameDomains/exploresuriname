@@ -1,0 +1,295 @@
+{
+  "_readme": "Annual events for events.html (build_events_page in generate.py). kind: 'fixed' = recurring month/day, resolved to next occurrence at build time. 'holiday_match' = date taken from data/holidays.json (match on name_en) when this year's date is still ahead; falls back to 'announced' dates, then 'fixed' recurrence, then 'expected' (rendered as date-to-be-confirmed). 'easter' = computed Good Friday through Easter Monday. 'announced' = explicit dates only + expected fallback. MAINTENANCE: once a year, when official dates are announced (lunar calendar festivals), add them under 'announced' as {\"2027\": \"2027-03-23\"}; refreshing data/holidays.json each school year keeps holiday_match events automatic. Never use em dashes in copy; use curly apostrophes. ONE-OFF EVENTS: kind 'oneoff' with explicit start/end ISO dates; the card auto-expires (disappears) once the end date passes, shows 'happening now' while running, and supports optional 'website' (official site link, shown on card + Event schema url), 'organizer' (schema Organization) and 'free': false (omits isAccessibleForFree). Candidates arrive weekly via the event-radar GitHub issue (scripts/event_radar.py); verify dates on the organizer's official site before adding.",
+  "events": [
+    {
+      "id": "keti-koti",
+      "name": "Keti Koti (Emancipation Day)",
+      "emoji": "🥁",
+      "kind": "holiday_match",
+      "match": "Freedom Day (Keti Koti)",
+      "fixed": {
+        "month": 7,
+        "day": 1
+      },
+      "holiday": true,
+      "category": "National commemoration",
+      "location": "Paramaribo city centre and nationwide",
+      "blurb": "On 1 July 1863 slavery was abolished in Suriname. Keti Koti means ‘the chains are cut’ in Sranan Tongo, and the day remains the most significant commemoration on the national calendar.",
+      "more": "The morning brings wreath-laying at the Kwakoe monument and the Bigi Spikri parade through the historic centre: brass bands, kawina rhythms and women in traditional koto dress with folded angisa headscarves. Street food, music and cultural events continue late into the evening, and the Miss Alida pageant crowns its winner around the same date.",
+      "tip": "It is a full national holiday and the centre gets crowded. Arrive early for a good spot along the parade route, and book restaurants ahead for that evening.",
+      "link": {
+        "href": "listing/activity-paramaribo-city-walk/",
+        "label": "Walk the historic centre"
+      }
+    },
+    {
+      "id": "owru-yari",
+      "name": "Owru Yari & Pagara Estafette",
+      "emoji": "🎆",
+      "kind": "fixed",
+      "fixed": {
+        "month": 12,
+        "day": 31
+      },
+      "holiday": false,
+      "category": "Street festival",
+      "location": "Central Paramaribo, around the Waterkant and the shopping streets",
+      "blurb": "Paramaribo says goodbye to the old year with the biggest street party in Suriname. Owru Yari is the one day when the whole city, from bank staff to market vendors, ends up dancing in the street.",
+      "more": "From late morning, shops and businesses fire their pagara: ribbons of red firecrackers, often hundreds of metres long, detonated in relay through the shopping streets in clouds of smoke and red paper. Kaseko bands and sound systems keep the centre moving until early evening, when the city briefly empties for family dinners and church services ahead of the midnight fireworks. Celebrations roll straight into Nieuwjaarsdag on 1 January, which is a public holiday.",
+      "tip": "Go before noon for the pagara estafette, wear closed shoes and expect the centre to be closed to traffic. Hotel rooms for New Year sell out months ahead.",
+      "link": {
+        "href": "hotels.html",
+        "label": "Stay in the city centre"
+      }
+    },
+    {
+      "id": "divali",
+      "name": "Divali (Festival of Lights)",
+      "emoji": "🪔",
+      "kind": "holiday_match",
+      "match": "Divali",
+      "announced": {
+        "2026": "2026-11-08"
+      },
+      "expected": {
+        "2027": {
+          "label": "Expected late October or early November 2027",
+          "month": 10
+        }
+      },
+      "holiday": true,
+      "category": "Hindu festival",
+      "location": "Paramaribo, Wanica and Nickerie",
+      "blurb": "The Hindu festival of lights is a national holiday in Suriname, where roughly a quarter of the population has Hindustani roots.",
+      "more": "After sunset, rows of diyas (small oil lamps) appear on walls, steps and verandas, mandirs hold Lakshmi puja, and families share sweets with neighbours of every faith. Residential streets across Paramaribo, Wanica and Nickerie glow with lamps and light displays. The date follows the Hindu lunar calendar and shifts each year.",
+      "tip": "Drive or walk through residential neighbourhoods after dark for the full effect of thousands of lamps.",
+      "link": {
+        "href": "restaurants.html",
+        "label": "Hindustani kitchens & roti shops"
+      }
+    },
+    {
+      "id": "holi-phagwa",
+      "name": "Holi Phagwa (Festival of Colours)",
+      "emoji": "🎨",
+      "kind": "holiday_match",
+      "match": "Holi Phagwa",
+      "expected": {
+        "2027": {
+          "label": "Expected late March 2027",
+          "month": 3
+        }
+      },
+      "holiday": true,
+      "category": "Hindu festival",
+      "location": "Parks and open fields nationwide",
+      "blurb": "The Hindu festival of colours is a national holiday and one of the most joyous days of the Surinamese year, celebrated far beyond the Hindustani community.",
+      "more": "Parks and open fields fill with clouds of coloured gulal powder, chowtal singing and music. Friends, families and complete strangers paint each other head to toe, and by mid-afternoon half the country is pink, green and purple. The date follows the Hindu lunar calendar and usually falls in March.",
+      "tip": "Wear white clothes you are willing to sacrifice, keep your phone in a zip bag and join in. Spectators rarely stay clean for long."
+    },
+    {
+      "id": "eid-ul-fitr",
+      "name": "Eid-ul-Fitr (Bodo / Lebaran)",
+      "emoji": "🌙",
+      "kind": "holiday_match",
+      "match": "Eid-ul-Fitr",
+      "expected": {
+        "2027": {
+          "label": "Expected early to mid March 2027, after the official moon sighting",
+          "month": 3
+        }
+      },
+      "holiday": true,
+      "category": "Islamic holiday",
+      "location": "Mosques nationwide, including Keizerstraat, Paramaribo",
+      "blurb": "The end of Ramadan is a national holiday in Suriname, marked with morning prayers, family visits and festive meals.",
+      "more": "Mosques fill at sunrise, including the landmark mosque on Keizerstraat that stands directly beside the Neveh Shalom synagogue, an image Suriname is rightly proud of. Many Javanese Muslim families celebrate the day as Bodo or Lebaran, with sungkeman, the tradition of asking elders for forgiveness. The exact date is confirmed by the official moon sighting and can shift by a day."
+    },
+    {
+      "id": "eid-ul-adha",
+      "name": "Eid-ul-Adha (Feast of Sacrifice)",
+      "emoji": "🕌",
+      "kind": "holiday_match",
+      "match": "Eid-ul-Adha",
+      "expected": {
+        "2027": {
+          "label": "Expected mid May 2027",
+          "month": 5
+        }
+      },
+      "holiday": true,
+      "category": "Islamic holiday",
+      "location": "Mosques nationwide",
+      "blurb": "The Islamic feast of sacrifice, one of Suriname’s newer national holidays, centres on prayer, charity and shared meals.",
+      "more": "After morning prayers, families who can afford it sacrifice a goat, sheep or cow and share the meat three ways: with those in need, with relatives and neighbours, and at home. Like all Islamic holidays the date follows the lunar calendar, moving about eleven days earlier each year."
+    },
+    {
+      "id": "chinese-new-year",
+      "name": "Chinese New Year",
+      "emoji": "🐉",
+      "kind": "holiday_match",
+      "match": "Chinese New Year",
+      "expected": {
+        "2027": {
+          "label": "Expected early February 2027",
+          "month": 2
+        }
+      },
+      "holiday": true,
+      "category": "Cultural holiday",
+      "location": "Chinese associations and shops, Paramaribo",
+      "blurb": "Suriname was among the first countries in the Americas to make Chinese New Year an official national holiday, honouring a community whose roots here go back to 1853.",
+      "more": "Lion dances, drumming and strings of firecrackers mark the day at the Chinese associations of Paramaribo, including the venerable Kong Ngie Tong Sang, and at Chinese-owned shops across the country. Expect red and gold everywhere, food stalls, and a citywide soundtrack of firecrackers from early morning."
+    },
+    {
+      "id": "javanese-new-year",
+      "name": "Javanese New Year",
+      "emoji": "🎭",
+      "kind": "holiday_match",
+      "match": "Javanese New Year",
+      "expected": {
+        "2027": {
+          "label": "Expected June 2027",
+          "month": 6
+        }
+      },
+      "holiday": true,
+      "category": "Cultural holiday",
+      "location": "Javanese communities: Lelydorp, Tamanredjo and Commewijne",
+      "blurb": "One of Suriname’s newest national holidays honours the Javanese community, descended from contract labourers who arrived from Java between 1890 and 1939.",
+      "more": "The day is marked with Javanese cultural performances, from gamelan music to jaran kepang dance, alongside prayer and family gatherings in centres such as Lelydorp, Tamanredjo and the old Commewijne plantation villages. The date follows the Javanese calendar."
+    },
+    {
+      "id": "easter-weekend",
+      "name": "Easter Weekend",
+      "emoji": "⛪",
+      "kind": "easter",
+      "holiday": true,
+      "category": "Christian holidays",
+      "location": "Nationwide",
+      "blurb": "Good Friday and Easter Monday are both national holidays, wrapping a four-day weekend around Easter.",
+      "more": "Churches across the country hold services, schools take their Easter break, and many Surinamese families head to the creek resorts of Para district or the old plantations of Commewijne for the long weekend.",
+      "tip": "District resorts and river lodges fill up over Easter. Book early if your trip overlaps.",
+      "link": {
+        "href": "hotels.html",
+        "label": "Lodges for the long weekend"
+      }
+    },
+    {
+      "id": "dag-der-inheemsen",
+      "name": "Day of the Indigenous Peoples",
+      "emoji": "🪶",
+      "kind": "holiday_match",
+      "match": "Day of Indigenous Peoples",
+      "fixed": {
+        "month": 8,
+        "day": 9
+      },
+      "holiday": true,
+      "category": "National commemoration",
+      "location": "Indigenous villages nationwide and Paramaribo",
+      "blurb": "On the UN International Day of Indigenous Peoples, a full national holiday, Suriname honours its first inhabitants: the Kali’na, Lokono, Trio, Wayana and other peoples.",
+      "more": "Indigenous villages such as Galibi, Powakka and Bigi Poika host cultural festivals with traditional sambura drumming, dance, craft and food, and ceremonies are held in Paramaribo as well. For visitors it is one of the best days of the year to experience Indigenous Surinamese culture.",
+      "link": {
+        "href": "listing/activity-indigenous-village-tours/",
+        "label": "Indigenous village tours"
+      }
+    },
+    {
+      "id": "dag-der-marrons",
+      "name": "Day of the Maroons",
+      "emoji": "🪘",
+      "kind": "holiday_match",
+      "match": "Day of the Maroons",
+      "fixed": {
+        "month": 10,
+        "day": 10
+      },
+      "holiday": true,
+      "category": "National commemoration",
+      "location": "Paramaribo and interior villages",
+      "blurb": "Maroon Day commemorates 10 October 1760, when the colonial government signed a peace treaty with the Ndyuka, recognising the freedom of people who had escaped slavery and built independent societies deep in the rainforest, more than a century before emancipation.",
+      "more": "The day is celebrated with apinti drums, awasa dance, traditional pangi textiles and gatherings in Paramaribo and in Maroon villages along the upper rivers. Cultural organisations host performances, lectures and markets.",
+      "link": {
+        "href": "listing/activity-maroon-village-tours/",
+        "label": "Maroon village tours"
+      }
+    },
+    {
+      "id": "srefidensi",
+      "name": "Srefidensi (Independence Day)",
+      "emoji": "🇸🇷",
+      "kind": "holiday_match",
+      "match": "Independence Day",
+      "fixed": {
+        "month": 11,
+        "day": 25
+      },
+      "holiday": true,
+      "category": "National holiday",
+      "location": "Onafhankelijkheidsplein, Paramaribo",
+      "blurb": "Suriname became independent from the Netherlands on 25 November 1975. Srefidensi Dei is the national day, with the main ceremony on Independence Square in Paramaribo.",
+      "more": "Expect a flag-raising ceremony and parade at Onafhankelijkheidsplein in front of the Presidential Palace, followed by cultural performances, music and festivities across the country."
+    },
+    {
+      "id": "christmas",
+      "name": "Christmas (Eerste & Tweede Kerstdag)",
+      "emoji": "🎄",
+      "kind": "fixed",
+      "fixed": {
+        "month": 12,
+        "day": 25
+      },
+      "duration_days": 2,
+      "holiday": true,
+      "category": "Christian holidays",
+      "location": "Nationwide",
+      "blurb": "First and Second Christmas Day are both full national holidays, and Surinamese Christmas is above all a feast.",
+      "more": "Pom and pastei appear on practically every table, gospel and Christmas concerts fill churches and venues, and the city stays dressed in lights through New Year. Many restaurants run special menus on both days.",
+      "tip": "Book Christmas dinner well in advance; the best tables in Paramaribo go quickly.",
+      "link": {
+        "href": "restaurants.html",
+        "label": "Restaurants for the holidays"
+      }
+    },
+    {
+      "id": "avond-vierdaagse",
+      "name": "Avond Vierdaagse (Evening Four-Day Walk)",
+      "emoji": "🚶",
+      "kind": "announced",
+      "announced": {},
+      "expected": {
+        "2027": {
+          "label": "April 2027, dates announced early in the year",
+          "month": 4
+        }
+      },
+      "holiday": false,
+      "category": "City tradition",
+      "location": "Streets of Paramaribo",
+      "blurb": "Four evenings in a row, thousands of walkers, many in costume or group uniform, parade through Paramaribo with music while half the city cheers from the kerb.",
+      "more": "The Avond Vierdaagse has been a Paramaribo tradition for more than half a century and usually takes place in April. Walking groups train for months, and the final evening turns into one big party along the route. Exact dates are announced each year."
+    },
+    {
+      "id": "seogs-2026",
+      "name": "SEOGS 2026: Suriname Energy, Oil & Gas Summit",
+      "emoji": "🛢️",
+      "kind": "oneoff",
+      "start": "2026-06-23",
+      "end": "2026-06-26",
+      "holiday": false,
+      "free": false,
+      "category": "Business conference",
+      "location": "Paramaribo",
+      "website": "https://suriname-energy.com/",
+      "organizer": "Staatsolie",
+      "blurb": "The sixth edition of the Suriname Energy, Oil & Gas Summit & Exhibition, hosted by Staatsolie under the theme ‘Unlocking Energy, Empowering Nations’, brings the international energy industry to Paramaribo for four days.",
+      "more": "SEOGS has grown into one of the largest energy events in the Caribbean, with hundreds of speakers and exhibitors and delegates from across the offshore industry expected as Suriname builds toward first oil from Block 58. Expect a noticeably international city that week.",
+      "tip": "Visiting that week for other reasons? Book your room early; conference demand fills Paramaribo hotels well in advance.",
+      "link": {
+        "href": "news.html",
+        "label": "Oil & Gas news"
+      }
+    }
+  ]
+}

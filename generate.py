@@ -2237,7 +2237,7 @@ def fetch_aerodatabox_flights():
 
 def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
-    _TODO  = {"nature", "activities", "shopping"}
+    _TODO  = {"nature", "activities", "shopping", "events"}
     _EAT   = {"restaurants", "hotels"}
     _ESS   = {"currency", "flights", "forecast", "daily-notices"}
     _PLAN  = {"visitor", "roads"}
@@ -2281,6 +2281,7 @@ def nav_html(active="home", prefix=""):
     todo_items = (
         f'<a href="{prefix}nature.html"      {_link_cls("nature")}     >Nature</a>'
         f'<a href="{prefix}activities.html"  {_link_cls("activities")} >Activities</a>'
+        f'<a href="{prefix}events.html"      {_link_cls("events")}     >Events &amp; Festivals</a>'
         f'<a href="{prefix}shopping.html"    {_link_cls("shopping")}   >Shopping</a>'
     )
     # Eat & Stay
@@ -2333,6 +2334,7 @@ def nav_html(active="home", prefix=""):
     mob_todo_items = (
         _mob_link(f"{prefix}nature.html",      "Nature",       "nature")     +
         _mob_link(f"{prefix}activities.html",  "Activities",   "activities") +
+        _mob_link(f"{prefix}events.html",      "Events & Festivals", "events") +
         _mob_link(f"{prefix}shopping.html",    "Shopping",     "shopping")
     )
     mob_eat_items = (
@@ -2559,6 +2561,7 @@ def footer_html(prefix=""):
         <ul class="space-y-2 text-sm text-white/70">
           <li><a href="{prefix}nature.html"      class="hover:text-white transition">Nature &amp; Parks</a></li>
           <li><a href="{prefix}activities.html"  class="hover:text-white transition">Activities</a></li>
+          <li><a href="{prefix}events.html"      class="hover:text-white transition">Events &amp; Festivals</a></li>
           <li><a href="{prefix}shopping.html"    class="hover:text-white transition">Shopping</a></li>
           <li><a href="{prefix}restaurants.html" class="hover:text-white transition">Where to Eat</a></li>
           <li><a href="{prefix}hotels.html"      class="hover:text-white transition">Where to Stay</a></li>
@@ -3047,8 +3050,17 @@ def build_index(restaurants, hotels, cme_rates=None):
         _today_s = datetime.now(SR_TZ).strftime("%Y-%m-%d")
         _hname = next((h["name_en"] for h in _hols if h["date"] == _today_s), "")
         if _hname:
-            holiday_html = ('<div class="now-item"><span class="now-k">Today</span>'
-                            f'<span class="now-v" style="color:var(--coral)">{_hname}</span></div>')
+            holiday_html = ('<a class="now-item" href="events.html"><span class="now-k">Today</span>'
+                            f'<span class="now-v" style="color:var(--coral)">{_hname}</span></a>')
+        else:
+            _next_h = min((h for h in _hols if h["date"] > _today_s),
+                          key=lambda h: h["date"], default=None)
+            if _next_h:
+                _nd = datetime.strptime(_next_h["date"], "%Y-%m-%d")
+                holiday_html = ('<a class="now-item" href="events.html">'
+                                '<span class="now-k">Next holiday</span>'
+                                f'<span class="now-v">{_next_h["name_en"]} &middot; '
+                                f'{_nd.day} {_nd.strftime("%b")}</span></a>')
     except Exception:
         pass
     _home_css = r"""
@@ -4502,6 +4514,23 @@ def build_listing_page(slug, b):
         'style="border-color:var(--forest2);color:var(--forest2)">🗺️ Get Directions</a>'
     )
 
+    # ── WhatsApp CTA — Suriname mobiles are 7 digits starting 6/7/8 ─────────
+    # Landlines (6 digits) have no WhatsApp; foreign numbers are skipped.
+    wa_btn = ""
+    if phone:
+        _wad = re.sub(r"\D", "", phone)
+        if _wad.startswith("00597"):
+            _wad = _wad[5:]
+        elif _wad.startswith("597"):
+            _wad = _wad[3:]
+        if len(_wad) == 7 and _wad[0] in "678":
+            wa_btn = (
+                '<a href="https://wa.me/597' + _wad + '" target="_blank" rel="noopener" '
+                'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
+                'text-sm font-semibold text-white hover:opacity-90 transition mb-3" '
+                'style="background:#25D366">💬 Chat on WhatsApp</a>'
+            )
+
     desc_block = ('<p class="text-gray-700 leading-relaxed text-base mb-8">'
                   + html_lib.escape(desc) + '</p>') if desc else ""
 
@@ -4640,6 +4669,7 @@ def build_listing_page(slug, b):
         '\n        <h2 class="text-base font-bold text-gray-900 mb-4">Contact &amp; Info</h2>'
         '\n        ' + rows +
         '\n        <div class="mt-6">'
+        '\n          ' + wa_btn +
         '\n          ' + website_btn +
         '\n          ' + directions_btn +
         '\n        </div>'
@@ -4932,24 +4962,24 @@ def build_nature_listing_page(spot, slug):
 
 
 def build_today_page():
-    """Suriname Today — daily essentials: wachtdienst, SWM, EBS, public holidays."""
+    """Suriname Today — daily essentials: wachtdienst, SWM, EBS outages. Holidays live on events.html."""
     today_str = datetime.now(SR_TZ).strftime("%A, %d %B %Y")
     return f"""{PAGE_HEAD}
   <title>Daily Notices | Suriname | Explore Suriname</title>
-  <meta name="description" content="Daily Notices for Suriname: on-call pharmacies, EBS power outages, SWM water outages, and public holidays. Auto-updated daily.">
+  <meta name="description" content="Daily Notices for Suriname: on-call pharmacies, EBS power outages and SWM water outages. Auto-updated daily.">
   <link rel="canonical" href="{SITE_URL}/daily-notices.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/daily-notices.html">
   <meta property="og:title" content="Daily Notices | Suriname | Explore Suriname">
-  <meta property="og:description" content="On-call pharmacies, EBS power outages, SWM water outages, public holidays. Auto-updated daily.">
+  <meta property="og:description" content="On-call pharmacies, EBS power outages and SWM water outages. Auto-updated daily.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Daily Notices | Suriname | Explore Suriname">
-  <meta name="twitter:description" content="On-call pharmacies, EBS power outages, SWM water outages, public holidays. Auto-updated daily.">
+  <meta name="twitter:description" content="On-call pharmacies, EBS power outages and SWM water outages. Auto-updated daily.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Daily Notices, Suriname","url":"{SITE_URL}/daily-notices.html","description":"Daily Suriname essentials: on-call pharmacies, power and water outage notices, public holidays and school breaks.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Daily Notices, Suriname","url":"{SITE_URL}/daily-notices.html","description":"Daily Suriname essentials: on-call pharmacies, power and water outage notices.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Daily Notices","item":"{SITE_URL}/daily-notices.html"}}]}}
@@ -4977,13 +5007,6 @@ def build_today_page():
     .pharmacy-name {{ font-weight:700; font-size:.85rem; color:#111; }}
     .pharmacy-addr {{ font-size:.78rem; color:#6b7280; margin-top:.15rem; }}
     .pharmacy-phone {{ display:inline-flex; align-items:center; gap:.3rem; margin-top:.35rem; font-size:.78rem; color:var(--forest2); font-weight:600; text-decoration:none; }}
-    .holiday-row {{ display:flex; align-items:center; justify-content:space-between; padding:.6rem 0; border-bottom:1px solid #f3f4f6; }}
-    .holiday-row:last-child {{ border:none; padding-bottom:0; }}
-    .holiday-name {{ font-size:.82rem; color:#111; font-weight:500; }}
-    .holiday-date {{ font-size:.78rem; color:#6b7280; text-align:right; }}
-    .countdown-box {{ background:var(--mint); border-radius:.85rem; padding:.9rem 1rem; margin-bottom:1rem; display:flex; align-items:center; justify-content:space-between; }}
-    .countdown-label {{ font-size:.75rem; color:var(--forest); font-weight:600; }}
-    .countdown-days {{ font-size:1.6rem; font-weight:800; color:var(--forest); }}
     .skeleton {{ background: linear-gradient(90deg,#f3f4f6 25%,#e9eaec 50%,#f3f4f6 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:.5rem; height:1rem; margin-bottom:.5rem; }}
     @keyframes shimmer {{ 0%{{background-position:200% 0}} 100%{{background-position:-200% 0}} }}
     .src-link {{ font-size:.72rem; color:#9ca3af; text-decoration:underline; }}
@@ -5066,22 +5089,13 @@ def build_today_page():
       </div>
     </div>
 
-    <!-- ── HOLIDAYS ──────────────────────────────────────────────────── -->
-    <div class="widget-card">
-      <div class="widget-head">
-        <div class="flex items-center">
-          <div>
-            <div class="widget-title">Public Holidays</div>
-            <div class="widget-sub">Suriname 2026 calendar</div>
-          </div>
-        </div>
-      </div>
-      <div id="hol-body" class="widget-body">
-        <div class="skeleton" style="width:55%"></div>
-        <div class="skeleton" style="width:80%"></div>
-        <div class="skeleton" style="width:65%"></div>
-      </div>
-    </div>
+    <!-- ── HOLIDAYS & FESTIVALS → events.html ───────────────────── -->
+    <a href="events.html" class="widget-card flex flex-col justify-center p-6 hover:shadow-md transition" style="background:linear-gradient(135deg,var(--forest) 0%,var(--forest2) 100%)">
+      <div class="text-3xl mb-2">🎉</div>
+      <div class="font-bold text-white text-base">Public Holidays &amp; Festivals</div>
+      <p class="text-white/70 text-sm mt-1 leading-relaxed">Every official holiday, festival dates, school breaks and what each celebration means, now on its own page.</p>
+      <span class="mt-3 text-sm font-semibold text-white">Open the events calendar &#8594;</span>
+    </a>
 
   </div><!-- /grid -->
 
@@ -5348,61 +5362,446 @@ fetch('/data/ebs_outages.json')
     if (body) body.innerHTML = '<p class="error-note">Data temporarily unavailable.<br>' +
       '<a href="https://nvebs.com/elektriciteit/stroom-onderbrekingen" target="_blank" rel="noopener" class="src-link">Check nvebs.com directly</a></p>';
   }});
-
-/* ── holidays ────────────────────────────────────────────────────────────── */
-fetch('/data/holidays.json')
-  .then(r => r.ok ? r.json() : Promise.reject(r.status))
-  .then(d => {{
-    var body = document.getElementById('hol-body');
-    if (!body) return;
-    var now = new Date(); now.setHours(0,0,0,0);
-    var upcoming = (d.public || []).filter(function(h) {{
-      return new Date(h.date + 'T00:00:00') >= now;
-    }}).slice(0, 6);
-
-    if (upcoming.length === 0) {{
-      body.innerHTML = '<p class="error-note">No upcoming holidays found.</p>';
-      return;
-    }}
-
-    // countdown to next
-    var next = upcoming[0];
-    var nextDate = new Date(next.date + 'T00:00:00');
-    var days = Math.round((nextDate - now) / 86400000);
-    var html = '<div class="countdown-box">'
-      + '<div><div class="countdown-label">Next holiday</div><div style="font-size:.82rem;color:var(--forest2);font-weight:600;margin-top:.1rem">' + escHtml(next.name_en) + '</div></div>'
-      + '<div style="text-align:right"><div class="countdown-days">' + days + '</div><div class="countdown-label">days</div></div>'
-      + '</div>';
-
-    upcoming.forEach(function(h) {{
-      var dt = new Date(h.date + 'T00:00:00');
-      var label = dt.toLocaleDateString('en-SR', {{month:'short', day:'numeric'}});
-      html += '<div class="holiday-row">'
-            + '<span class="holiday-name">' + escHtml(h.name_en) + '</span>'
-            + '<span class="holiday-date">' + label + '</span>'
-            + '</div>';
-    }});
-
-    // school breaks
-    var breaks = (d.school_breaks || []).filter(function(b) {{
-      return new Date(b.end + 'T00:00:00') >= now;
-    }}).slice(0, 3);
-    if (breaks.length > 0) {{
-      html += '<p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-4 mb-2">School Breaks</p>';
-      breaks.forEach(function(b) {{
-        var s = new Date(b.start + 'T00:00:00').toLocaleDateString('en-SR', {{month:'short',day:'numeric'}});
-        var e = new Date(b.end + 'T00:00:00').toLocaleDateString('en-SR',   {{month:'short',day:'numeric'}});
-        html += '<div class="holiday-row"><span class="holiday-name">' + escHtml(b.name) + '</span>'
-              + '<span class="holiday-date">' + s + ' &ndash; ' + e + '</span></div>';
-      }});
-    }}
-    body.innerHTML = html;
-  }})
-  .catch(function() {{
-    var body = document.getElementById('hol-body');
-    if (body) body.innerHTML = '<p class="error-note">Holiday data unavailable.</p>';
-  }});
 </script>
+</body>
+</html>"""
+
+
+def _easter_sunday(year):
+    """Anonymous Gregorian computus: Easter Sunday for a given year."""
+    from datetime import date as _d
+    a = year % 19
+    b, c = divmod(year, 100)
+    d, e = divmod(b, 4)
+    f = (b + 8) // 25
+    g = (b - f + 1) // 3
+    h = (19 * a + b - d - g + 15) % 30
+    i, k = divmod(c, 4)
+    l = (32 + 2 * e + 2 * i - h - k) % 7
+    m = (a + 11 * h + 22 * l) // 451
+    n = h + l - 7 * m + 114
+    return _d(year, n // 31, n % 31 + 1)
+
+
+def build_events_page():
+    """Events & Festivals — Suriname's cultural calendar + official public holidays.
+
+    Data: events.json (annual events with recurrence rules) + data/holidays.json
+    (official public-holiday dates, refreshed each school year). Every event is
+    resolved to its next occurrence at build time, so the ~15-min rebuild cycle
+    keeps the spotlight, countdowns and timeline current with zero manual work.
+    Lunar-calendar festivals without an officially announced date render as
+    "date to be confirmed" instead of guessing. Sources: Ministry of Education
+    national holiday calendar + official announcements; no scraping, no embeds.
+    """
+    from datetime import date as _date, timedelta as _td
+    import json as _json
+    import urllib.parse as _up
+
+    today = datetime.now(SR_TZ).date()
+    _esc = html_lib.escape
+
+    try:
+        with open("events.json", encoding="utf-8") as _f:
+            _events = _json.load(_f).get("events", [])
+    except Exception:
+        _events = []
+    try:
+        with open("data/holidays.json", encoding="utf-8") as _f:
+            _hraw = _json.load(_f)
+        _holidays = _hraw.get("public", [])
+        _breaks = _hraw.get("school_breaks", [])
+        _hol_year = _hraw.get("year", today.year)
+    except Exception:
+        _holidays, _breaks, _hol_year = [], [], today.year
+
+    def _p(s):
+        y, m, d = s.split("-")
+        return _date(int(y), int(m), int(d))
+
+    def _next_fixed(m, d):
+        try:
+            cand = _date(today.year, m, d)
+        except ValueError:
+            return None
+        return cand if cand >= today else _date(today.year + 1, m, d)
+
+    _hol_by_name = {}
+    for _h in _holidays:
+        _hol_by_name.setdefault(_h.get("name_en", ""), []).append(_h)
+
+    def _fmt(d):
+        return d.strftime("%A") + " " + str(d.day) + " " + d.strftime("%B %Y")
+
+    def _gcal(name, st, en, loc, desc):
+        """Google Calendar template link — all-day event, end date exclusive."""
+        return ("https://calendar.google.com/calendar/render?action=TEMPLATE"
+                "&text=" + _up.quote(name + " (Suriname)")
+                + "&dates=" + st.strftime("%Y%m%d") + "/" + (en + _td(days=1)).strftime("%Y%m%d")
+                + "&location=" + _up.quote(loc or "Suriname")
+                + "&details=" + _up.quote(desc + " Full calendar: " + SITE_URL + "/events.html"))
+
+    # ── Resolve every event to its next occurrence ──────────────────────────
+    resolved = []  # (sort_date, confirmed, date_label, start, end, ev)
+    for ev in _events:
+        kind = ev.get("kind", "fixed")
+        start = end = None
+
+        if kind == "easter":
+            es = _easter_sunday(today.year)
+            if es + _td(days=1) < today:
+                es = _easter_sunday(today.year + 1)
+            start, end = es - _td(days=2), es + _td(days=1)
+        elif kind == "oneoff":
+            try:
+                start = _p(ev["start"])
+                end = _p(ev["end"]) if ev.get("end") else start
+            except Exception:
+                start = end = None
+            if start is None or (end or start) < today:
+                continue  # invalid or already finished: auto-expire from the page
+        else:
+            if kind == "holiday_match":
+                for _h in _hol_by_name.get(ev.get("match", ""), []):
+                    hd = _p(_h["date"])
+                    if hd >= today and (start is None or hd < start):
+                        start = hd
+            if start is None:
+                _ann = [_p(v) for v in ev.get("announced", {}).values() if _p(v) >= today]
+                if _ann:
+                    start = min(_ann)
+            if start is None and ev.get("fixed") and kind != "announced":
+                start = _next_fixed(ev["fixed"]["month"], ev["fixed"]["day"])
+
+        if start is not None:
+            dur = int(ev.get("duration_days", 1))
+            if dur > 1 and end is None:
+                end = start + _td(days=dur - 1)
+            if end and end > start:
+                if start.month == end.month and start.year == end.year:
+                    label = (start.strftime("%a") + " " + str(start.day) + " to "
+                             + end.strftime("%a") + " " + str(end.day) + " " + end.strftime("%B %Y"))
+                else:
+                    label = (str(start.day) + " " + start.strftime("%b") + " to "
+                             + str(end.day) + " " + end.strftime("%b %Y"))
+            else:
+                label = _fmt(start)
+            resolved.append((start, True, label, start, end or start, ev))
+        else:
+            _exp, _pick = ev.get("expected", {}), None
+            for _yk in sorted(_exp):
+                try:
+                    cand = _date(int(_yk), int(_exp[_yk].get("month", 12)), 15)
+                except Exception:
+                    continue
+                if cand >= today:
+                    _pick = (cand, _exp[_yk].get("label", "Date to be announced"))
+                    break
+            if _pick is None:
+                _pick = (_date(today.year + 1, 12, 15), "Dates announced yearly")
+            resolved.append((_pick[0], False, _pick[1], None, None, ev))
+
+    resolved.sort(key=lambda t: (t[0], t[5].get("name", "")))
+    _horizon = today + _td(days=370)
+    resolved = [r for r in resolved if r[0] <= _horizon]
+
+    def _pill(txt, bg, fg):
+        return ('<span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 '
+                'rounded-full whitespace-nowrap" style="background:' + bg + ';color:' + fg + '">' + txt + '</span>')
+
+    def _in_days(st, en=None):
+        if en and st <= today <= en:
+            return "happening now"
+        n = (st - today).days
+        return "today" if n == 0 else ("tomorrow" if n == 1 else "in " + str(n) + " days")
+
+    # ── Next-up spotlight ────────────────────────────────────────────────────
+    spotlight = ""
+    _conf = [r for r in resolved if r[1]]
+    if _conf:
+        _sd, _c, _lbl, _st, _en, _ev = _conf[0]
+        _when = _in_days(_st, _en).capitalize()
+        spotlight = (
+            '\n  <section class="rounded-3xl text-white p-7 sm:p-10 mb-10" '
+            'style="background:linear-gradient(135deg,var(--forest) 0%,var(--forest2) 100%)">'
+            '\n    <p class="text-white/60 text-xs font-bold uppercase tracking-widest mb-3">Next up</p>'
+            '\n    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">'
+            '\n      <h2 class="serif text-3xl sm:text-4xl font-bold">' + _ev.get("emoji", "") + ' '
+            + _esc(_ev.get("name", "")) + '</h2>'
+            '\n      <span class="text-sm font-bold px-3 py-1 rounded-full" style="background:var(--coral)">'
+            + _when + '</span>'
+            '\n    </div>'
+            '\n    <p class="text-white/75 text-sm mb-4">' + _esc(_lbl) + ' &middot; \U0001F4CD '
+            + _esc(_ev.get("location", "")) + '</p>'
+            '\n    <p class="text-white/85 text-base leading-relaxed max-w-2xl">' + _esc(_ev.get("blurb", "")) + '</p>'
+            '\n    <a href="' + _gcal(_ev.get("name", ""), _st, _en, _ev.get("location", ""), _ev.get("blurb", ""))
+            + '" target="_blank" rel="noopener" class="inline-block mt-5 text-sm font-semibold bg-white/15 '
+            'hover:bg-white/25 transition rounded-full px-5 py-2.5">\U0001F4C5 Add to my calendar</a>'
+            '\n  </section>'
+        )
+
+    # ── Month-jump chips ─────────────────────────────────────────────────────
+    _mkeys = []
+    for _sd, _c2, _l2, _s2, _e2, _e3 in resolved:
+        _mk = (_sd.year, _sd.month)
+        if _mk not in _mkeys:
+            _mkeys.append(_mk)
+    chips_html = "".join(
+        '<a href="#m-' + str(y) + '-' + str(m) + '" class="px-3 py-1.5 rounded-full text-xs font-semibold '
+        'bg-white border border-gray-200 text-gray-600 hover:border-gray-400 transition">'
+        + _date(y, m, 1).strftime("%b %Y") + '</a>'
+        for y, m in _mkeys)
+
+    # ── Timeline grouped by month ────────────────────────────────────────────
+    months_html, _cur = "", None
+    for _sd, _confd, _lbl, _st, _en, _ev in resolved:
+        _mk = (_sd.year, _sd.month)
+        if _mk != _cur:
+            _cur = _mk
+            months_html += ('\n  <h2 id="m-' + str(_sd.year) + '-' + str(_sd.month)
+                            + '" class="serif text-2xl font-bold text-gray-900 mt-12 mb-5" '
+                            'style="scroll-margin-top:90px">'
+                            + _date(_sd.year, _sd.month, 1).strftime("%B %Y") + '</h2>')
+        badges = ""
+        if _ev.get("holiday"):
+            badges += _pill("Public holiday", "var(--mint)", "var(--forest)")
+        if not _confd:
+            badges += _pill("Date to be confirmed", "#fef3c7", "#92400e")
+        if _confd:
+            db = ('<div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" '
+                  'style="background:var(--mint);min-width:62px">'
+                  '<div class="text-[10px] font-bold uppercase tracking-wide" style="color:var(--forest2)">'
+                  + _st.strftime("%b") + '</div>'
+                  '<div class="text-2xl font-extrabold leading-tight" style="color:var(--forest)">'
+                  + str(_st.day) + '</div>'
+                  '<div class="text-[10px] text-gray-500">' + _st.strftime("%a") + '</div></div>')
+            _dateline = _esc(_lbl) + ' &middot; ' + _in_days(_st, _en)
+        else:
+            db = ('<div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" '
+                  'style="background:#fef3c7;min-width:62px">'
+                  '<div class="text-[10px] font-bold uppercase tracking-wide" style="color:#92400e">'
+                  + _date(_sd.year, _sd.month, 1).strftime("%b") + '</div>'
+                  '<div class="text-2xl font-extrabold leading-tight" style="color:#b45309">?</div>'
+                  '<div class="text-[10px]" style="color:#92400e">' + str(_sd.year) + '</div></div>')
+            _dateline = _esc(_lbl)
+        tip = _ev.get("tip", "")
+        tip_html = (('<p class="text-sm mt-3 pl-3 border-l-2" style="border-color:var(--leaf)">'
+                     '<strong style="color:var(--forest2)">Good to know:</strong> '
+                     '<span class="text-gray-600">' + _esc(tip) + '</span></p>') if tip else "")
+        foot = ""
+        if _confd:
+            foot += ('<a href="' + _gcal(_ev.get("name", ""), _st, _en, _ev.get("location", ""), _ev.get("blurb", ""))
+                     + '" target="_blank" rel="noopener" class="text-xs font-semibold hover:underline" '
+                     'style="color:var(--forest2)">\U0001F4C5 Add to calendar</a>')
+        _site = _ev.get("website", "")
+        if _site:
+            foot += ('<a href="' + _esc(_site) + '" target="_blank" rel="noopener" '
+                     'class="text-xs font-semibold hover:underline" '
+                     'style="color:var(--forest2)">\U0001F310 Official website</a>')
+        _lnk = _ev.get("link")
+        if _lnk and _lnk.get("href"):
+            foot += ('<a href="' + _esc(_lnk["href"]) + '" class="text-xs font-semibold hover:underline" '
+                     'style="color:var(--forest2)">' + _esc(_lnk.get("label", "More")) + ' &#8594;</a>')
+        if foot:
+            foot = '<div class="flex flex-wrap gap-x-5 gap-y-1.5 mt-3">' + foot + '</div>'
+        months_html += (
+            '\n  <article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4">'
+            + db +
+            '<div class="min-w-0">'
+            '<div class="flex flex-wrap items-center gap-2 mb-1.5">'
+            '<h3 class="font-bold text-gray-900 text-base">' + _ev.get("emoji", "") + ' '
+            + _esc(_ev.get("name", "")) + '</h3>' + badges + '</div>'
+            '<p class="text-xs text-gray-400 mb-2">' + _dateline + ' &middot; \U0001F4CD '
+            + _esc(_ev.get("location", "")) + '</p>'
+            '<p class="text-gray-600 text-sm leading-relaxed">' + _esc(_ev.get("blurb", "")) + '</p>'
+            + (('<p class="text-gray-600 text-sm leading-relaxed mt-2">' + _esc(_ev.get("more", "")) + '</p>')
+               if _ev.get("more") else "")
+            + tip_html + foot + '</div></article>'
+        )
+
+    # ── Public holidays table ────────────────────────────────────────────────
+    rows_html = ""
+    for _h in sorted(_holidays, key=lambda x: x.get("date", "")):
+        try:
+            hd = _p(_h["date"])
+        except Exception:
+            continue
+        cls = "text-gray-400" if hd < today else "text-gray-800"
+        star = " *" if _h.get("type") == "variable" else ""
+        rows_html += ('<tr class="border-b border-gray-100">'
+                      '<td class="py-2.5 pr-4 whitespace-nowrap ' + cls + '">' + str(hd.day) + ' ' + hd.strftime("%b") + '</td>'
+                      '<td class="py-2.5 pr-4 font-medium ' + cls + '">' + _esc(_h.get("name_en", "")) + star + '</td>'
+                      '<td class="py-2.5 pr-4 ' + cls + '">' + _esc(_h.get("name_nl", "")) + '</td>'
+                      '<td class="py-2.5 whitespace-nowrap ' + cls + '">' + hd.strftime("%A") + '</td></tr>')
+
+    breaks_html = "".join(
+        '<div class="flex items-center justify-between bg-white rounded-xl border border-gray-100 px-4 py-3">'
+        '<span class="text-sm font-medium text-gray-800">' + _esc(b.get("name", "")) + '</span>'
+        '<span class="text-sm text-gray-500">' + str(_p(b["start"]).day) + ' ' + _p(b["start"]).strftime("%b")
+        + ' to ' + str(_p(b["end"]).day) + ' ' + _p(b["end"]).strftime("%b %Y") + '</span></div>'
+        for b in _breaks if _p(b["end"]) >= today
+    ) or ('<p class="text-sm text-gray-500">School break dates for the new school year are published '
+          'by the Ministry of Education and added here once announced.</p>')
+
+    # ── FAQ (visible + schema share one source) ──────────────────────────────
+    _faqs = [
+        ("What is the biggest festival in Suriname?",
+         "For street energy it is Owru Yari on 31 December, when central Paramaribo turns into one big party "
+         "around the pagara estafette firecracker relay. The most significant cultural commemoration is "
+         "Keti Koti on 1 July, marking the abolition of slavery in 1863."),
+        ("When is Keti Koti celebrated?",
+         "Keti Koti is celebrated every year on 1 July. It is a national holiday commemorating the abolition "
+         "of slavery in Suriname on 1 July 1863, with the Bigi Spikri parade and ceremonies at the Kwakoe "
+         "monument in Paramaribo."),
+        ("Why does Suriname have public holidays from so many religions?",
+         "Suriname is one of the most diverse countries in the world. Indigenous, Maroon, Creole, Hindustani, "
+         "Javanese, Chinese and Dutch heritage all shape daily life, so the official calendar recognises "
+         "Christian, Hindu, Muslim, Chinese, Javanese, Indigenous and Maroon celebrations alike."),
+        ("Do festival dates change every year?",
+         "Fixed national days such as Keti Koti (1 July) and Independence Day (25 November) never move. "
+         "Holi Phagwa, Eid, Divali, Chinese New Year and Javanese New Year follow lunar calendars, so their "
+         "dates shift each year and are confirmed officially, sometimes only weeks in advance."),
+        ("Are shops and banks open on public holidays?",
+         "Government offices and banks close on national holidays, and many shops close or run shorter hours, "
+         "although some supermarkets stay open in the morning. Tours and hotels operate normally. Withdraw "
+         "SRD cash and fill the tank a day ahead, especially before the December holidays."),
+    ]
+    faq_html = "".join(
+        '<div class="pl-4 border-l-2" style="border-color:var(--leaf)">'
+        '<p class="font-semibold text-gray-900 text-sm mb-1">' + _esc(q) + '</p>'
+        '<p class="text-gray-600 text-sm leading-relaxed">' + _esc(a) + '</p></div>'
+        for q, a in _faqs
+    )
+
+    # ── JSON-LD ──────────────────────────────────────────────────────────────
+    _ld_events = []
+    for _sd, _c2, _l2, _st, _en, _ev in resolved:
+        if not _c2:
+            continue
+        _eo = {
+            "@context": "https://schema.org", "@type": "Event",
+            "name": _ev.get("name", ""), "startDate": _st.isoformat(), "endDate": _en.isoformat(),
+            "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+            "eventStatus": "https://schema.org/EventScheduled",
+            "location": {"@type": "Place", "name": _ev.get("location", "Suriname"),
+                         "address": {"@type": "PostalAddress", "addressCountry": "SR"}},
+            "description": _ev.get("blurb", ""),
+        }
+        if _ev.get("free", True):
+            _eo["isAccessibleForFree"] = True
+        if _ev.get("website"):
+            _eo["url"] = _ev["website"]
+        if _ev.get("organizer"):
+            _eo["organizer"] = {"@type": "Organization", "name": _ev["organizer"]}
+        _ld_events.append(_eo)
+    ld_events_tag = (('<script type="application/ld+json">\n  '
+                      + _json.dumps(_ld_events, ensure_ascii=False) + '\n  </script>')
+                     if _ld_events else "")
+    ld_faq = _json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _faqs
+    ]}, ensure_ascii=False)
+    ld_page = _json.dumps({
+        "@context": "https://schema.org", "@type": "WebPage",
+        "name": "Events & Festivals in Suriname",
+        "url": SITE_URL + "/events.html",
+        "description": "Suriname's cultural calendar: national holidays, festivals and celebrations "
+                       "from every community, with dates and traveller tips.",
+        "dateModified": today.isoformat(),
+        "about": {"@type": "Place", "name": "Suriname", "addressCountry": "SR"},
+        "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": SITE_URL + "/"},
+    }, ensure_ascii=False)
+    ld_crumbs = _json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+        {"@type": "ListItem", "position": 2, "name": "Events & Festivals", "item": SITE_URL + "/events.html"},
+    ]}, ensure_ascii=False)
+
+    _yr = str(today.year)
+    _upd = _fmt(today)
+    return f"""{PAGE_HEAD}
+  <title>Events &amp; Festivals in Suriname {_yr} | Explore Suriname</title>
+  <meta name="description" content="Suriname's festival calendar for {_yr}: Keti Koti, Holi Phagwa, Divali, Eid, Owru Yari and Maroon Day, plus every official public holiday with dates and traveller tips.">
+  <link rel="canonical" href="{SITE_URL}/events.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/events.html">
+  <meta property="og:title" content="Events &amp; Festivals in Suriname {_yr} | Explore Suriname">
+  <meta property="og:description" content="The whole Surinamese year: national holidays, festivals and celebrations from every community, with dates and traveller tips.">
+  <meta property="og:image" content="{SITE_URL}/images/home-faiths.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Events &amp; Festivals in Suriname {_yr} | Explore Suriname">
+  <meta name="twitter:description" content="National holidays, festivals and celebrations from every Surinamese community, with dates and traveller tips.">
+  <meta name="twitter:image" content="{SITE_URL}/images/home-faiths.webp">
+  <script type="application/ld+json">
+  {ld_page}
+  </script>
+  <script type="application/ld+json">
+  {ld_crumbs}
+  </script>
+  <script type="application/ld+json">
+  {ld_faq}
+  </script>
+  {ld_events_tag}
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+{nav_html("events")}
+<div class="pt-16"></div>
+<div class="relative text-white py-16 text-center overflow-hidden" style="background:var(--forest)">
+  <div class="absolute inset-0" style="background:url(/images/home-faiths.webp) center/cover no-repeat" aria-hidden="true"></div>
+  <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.85),rgba(13,30,22,.62))" aria-hidden="true"></div>
+  <div class="relative max-w-3xl mx-auto px-4">
+    <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+    <p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-3">The Cultural Calendar</p>
+    <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Events &amp; Festivals in Suriname</h1>
+    <p class="text-white/70 text-base max-w-2xl mx-auto">Every culture that calls Suriname home brings its own celebrations. The whole year is here: national holidays, the big festivals, what they mean and how to join in.</p>
+  </div>
+</div>
+
+<main class="max-w-4xl mx-auto px-4 py-12 pb-24">
+{spotlight}
+  <div class="max-w-3xl">
+    <p class="text-gray-600 leading-relaxed">Suriname celebrates more, and more diversely, than almost anywhere else. Christian, Hindu, Muslim, Javanese, Chinese, Indigenous and Maroon traditions all carry official status here, so the calendar rarely goes quiet for long. Dates on this page update automatically; lunar-calendar festivals are shown as expected until the official dates are announced.</p>
+  </div>
+  <div class="flex flex-wrap gap-2 mt-7">{chips_html}</div>
+{months_html}
+
+  <section class="mt-16">
+    <h2 class="serif text-2xl font-bold text-gray-900 mb-2">Public holidays {_hol_year}</h2>
+    <p class="text-sm text-gray-500 mb-5">Official national holidays. Dates marked * follow lunar calendars and can shift by a day or two; they are updated here as soon as they are officially announced.</p>
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="text-left text-xs text-gray-400 uppercase tracking-wide border-b border-gray-200">
+          <th class="py-2 pr-4 font-semibold">Date</th><th class="py-2 pr-4 font-semibold">Holiday</th><th class="py-2 pr-4 font-semibold">Dutch name</th><th class="py-2 font-semibold">Day</th>
+        </tr></thead>
+        <tbody>{rows_html}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="serif text-2xl font-bold text-gray-900 mb-2">School breaks</h2>
+    <p class="text-sm text-gray-500 mb-5">Worth knowing when you plan: flights and resorts fill up when Surinamese and Dutch-Surinamese families travel.</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">{breaks_html}</div>
+  </section>
+
+  <section class="mt-16">
+    <h2 class="serif text-2xl font-bold text-gray-900 mb-6">Good to know</h2>
+    <div class="space-y-5">{faq_html}</div>
+  </section>
+
+  <section class="mt-16 rounded-3xl p-7 sm:p-10 text-center" style="background:var(--mint)">
+    <h2 class="serif text-2xl font-bold mb-2" style="color:var(--forest)">Planning a trip around a festival?</h2>
+    <p class="text-sm mb-6 max-w-xl mx-auto" style="color:var(--forest2)">Hotels fill up around Keti Koti, the December holidays and school breaks. Check rooms, flights and the weather before you lock in your dates.</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="hotels.html" class="px-6 py-3 rounded-full font-semibold text-white text-sm hover:opacity-90 transition" style="background:var(--forest)">Where to Stay</a>
+      <a href="flights.html" class="px-6 py-3 rounded-full font-semibold text-white text-sm hover:opacity-90 transition" style="background:var(--forest2)">Flights</a>
+      <a href="conditions.html" class="px-6 py-3 rounded-full font-semibold text-sm border-2 hover:bg-white/50 transition" style="border-color:var(--forest2);color:var(--forest2)">Weather &amp; Tides</a>
+    </div>
+  </section>
+
+  <p class="text-xs text-gray-400 mt-12 leading-relaxed max-w-3xl">Holiday dates follow Suriname&#8217;s official national holiday calendar (Ministry of Education school-year publication) and official government announcements. Lunar-calendar dates are confirmed by the responsible authorities and can shift by a day or two. This page rebuilds automatically and was last updated on {_upd}. Spotted an error or missing event? <a href="contact.html" class="underline hover:text-gray-600">Tell us</a>.</p>
+
+</main>
+{footer_html()}
 </body>
 </html>"""
 
@@ -6063,6 +6462,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("visitor-guide.html","0.8", "monthly"),
         ("on-the-road.html", "0.7", "monthly"),
         ("daily-notices.html", "0.9", "daily"),
+        ("events.html",     "0.8", "weekly"),
         ("news.html",       "0.7", "daily"),
         ("about.html",      "0.5", "yearly"),
         ("contact.html",    "0.5", "yearly"),
@@ -6156,7 +6556,7 @@ def build_sw():
     return r"""// ExploreSuriname Service Worker
 const CACHE = 'exploresr-v2';
 const PRECACHE = ['/', '/tailwind.css', '/favicon.ico', '/favicon.svg', '/offline.html'];
-const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html', '/daily-notices.html']);
+const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html', '/daily-notices.html', '/events.html']);
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE)));
@@ -7367,6 +7767,7 @@ if __name__ == "__main__":
         "today.html":          '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=/daily-notices.html"><link rel="canonical" href="https://exploresuriname.com/daily-notices.html"><title>Redirecting to Daily Notices…</title></head><body><p>This page has moved. <a href="/daily-notices.html">Click here</a>.</p></body></html>',
         "daily-notices.html": build_today_page(),
         "visitor-guide.html": build_visitor_guide_page(),
+        "events.html":        build_events_page(),
         "on-the-road.html":   build_roads_page(),
         "404.html": ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
