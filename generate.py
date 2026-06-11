@@ -3027,11 +3027,11 @@ def _render_faq(faq):
 
 
 def build_index(restaurants, hotels, cme_rates=None):
-    nature_cards   = "\n".join(nature_card(s, eager=(i==0))         for i,s in enumerate(NATURE_SPOTS[:6]))
-    activity_cards = "\n".join(activity_card_rich(a, eager=(i==0)) for i,a in enumerate(ACTIVITIES[:6]))
-    rest_cards     = "\n".join(poi_card(r, "cuisine",  eager=(i==0)) for i,r in enumerate(_pick_featured(RESTAURANTS, _FEATURED_RESTAURANTS)))
-    hotel_cards    = "\n".join(poi_card(h, "category", eager=(i==0)) for i,h in enumerate(_pick_featured(HOTELS,      _FEATURED_HOTELS)))
-    shop_cards     = "\n".join(poi_card(s, eager=(i==0))             for i,s in enumerate(_pick_featured(SHOPPING,    _FEATURED_SHOPPING)[:6]))
+    nature_cards   = "\n".join(nature_card(s)         for s in NATURE_SPOTS[:6])
+    activity_cards = "\n".join(activity_card_rich(a) for a in ACTIVITIES[:6])
+    rest_cards     = "\n".join(poi_card(r, "cuisine") for r in _pick_featured(RESTAURANTS, _FEATURED_RESTAURANTS))
+    hotel_cards    = "\n".join(poi_card(h, "category") for h in _pick_featured(HOTELS,      _FEATURED_HOTELS))
+    shop_cards     = "\n".join(poi_card(s)             for s in _pick_featured(SHOPPING,    _FEATURED_SHOPPING)[:6])
     more_btn = lambda href, label: f'<a href="{href}" class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" style="border-color:var(--forest2);color:var(--forest2)">{label} &rarr;</a>'
     # ── "Suriname right now" strip: rates + holiday baked at build time (site rebuilds ~15 min) ──
     _usd = _eur = None
