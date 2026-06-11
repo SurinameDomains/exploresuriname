@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="/favicon.ico" rel="icon" sizes="48x48 32x32 16x16"/>
+<link href="/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/icons/icon-192.png" rel="apple-touch-icon"/>
+<meta content="@exploringsuriname" name="twitter:site"/>
+<meta content="en_US" property="og:locale"/><meta content="es_ES" property="og:locale:alternate"/><meta content="nl_NL" property="og:locale:alternate"/>
+<link as="font" crossorigin="" href="/fonts/playfair-latin-var.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/fonts/inter-latin-var.woff2" rel="preload" type="font/woff2"/>
+<style>
+  @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  </style>
+<link href="/tailwind.css?v=2a63aca0" rel="stylesheet"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<meta content="#1B4332" name="theme-color"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="ExploreSR" name="apple-mobile-web-app-title"/>
+<style>
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#D8F3DC; --coral:#E76F51; }
+    body   { font-family: 'Inter', system-ui, sans-serif; }
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    .hero-bg { background-size:cover; background-position:center; }
+    .card-hover { transition: transform .2s, box-shadow .2s; }
+    .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
+    a { text-decoration: none; }
+    nav a, nav button { white-space: nowrap; }   /* keep nav labels on one line (EN; NL/ES get this via build_i18n) */
+    .vh { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+    /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
+    .dd-menu { transform-origin: top center; }
+    .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
+    @keyframes ddFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    #search-results a {
+      display:flex;align-items:center;gap:10px;padding:10px 18px;text-decoration:none;color:#111;transition:background .1s;
+    }
+    #search-results a:hover, #search-results a.sr-active { background:#f5f5f5; }
+    .sr-badge {
+      font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;flex-shrink:0;
+    }
+    .sr-name { font-size:.9rem;font-weight:600;flex:1;min-width:0; }
+    .sr-area { font-size:.78rem;color:#9ca3af;white-space:nowrap; }
+    mark { background:#fef08a;border-radius:2px;padding:0 1px; }
+    .filter-chip {
+      display:inline-flex;align-items:center;gap:5px;padding:10px 16px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
+      color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+      touch-action:manipulation;
+    }
+    .filter-chip:hover { border-color:var(--forest);color:var(--forest); }
+    .filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+    .dist-chip {
+      display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;
+      color:#6b7280;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+    }
+    .dist-chip:hover { border-color:var(--forest2);color:var(--forest2); }
+    .dist-chip.dist-chip-active { background:var(--forest2);border-color:var(--forest2);color:#fff; }
+    .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
+    .filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count { opacity:.8; }
+    .chip-arrow {
+      flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #e5e7eb;
+      background:#fff;font-size:1.1rem;line-height:1;cursor:pointer;display:flex;
+      align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
+    }
+    .chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
+    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+    .listing-card.hidden { display:none; }
+    /* PWA install bar (Android prompt + iOS A2HS tip) */
+    #pwa-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(130%);transition:transform .35s cubic-bezier(.22,1,.36,1);background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 28px rgba(0,0,0,.14);padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
+    #pwa-bar.pwa-show{transform:translateY(0)}
+    #pwa-bar .pwa-ic{width:42px;height:42px;border-radius:10px;flex:0 0 auto}
+    #pwa-bar .pwa-tx{flex:1 1 auto;min-width:0}
+    #pwa-bar .pwa-tt{font-weight:700;font-size:14px;color:var(--forest);line-height:1.2}
+    #pwa-bar .pwa-sb{font-size:12px;color:#4b5563;line-height:1.3;margin-top:2px}
+    #pwa-bar .pwa-go{flex:0 0 auto;background:var(--forest);color:#fff;border:0;border-radius:10px;font-weight:700;font-size:14px;padding:10px 16px;cursor:pointer;white-space:nowrap;touch-action:manipulation}
+    #pwa-bar .pwa-go:hover{background:var(--forest2)}
+    #pwa-bar .pwa-x{flex:0 0 auto;background:transparent;border:0;color:#9ca3af;font-size:24px;line-height:1;cursor:pointer;padding:2px 6px;touch-action:manipulation}
+    @media(min-width:640px){#pwa-bar{left:auto;right:18px;bottom:18px;max-width:430px;border-radius:16px;border:1px solid rgba(0,0,0,.08)}}
+  </style>
+<script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
+<script>
+  (function(){
+    var DKEY="esr_pwa_dismiss", dp=null, bar=null;
+    function isDismissed(){try{var v=localStorage.getItem(DKEY);if(!v)return false;return (Date.now()-parseInt(v,10))<1209600000;}catch(e){return false;}}
+    function setDismissed(){try{localStorage.setItem(DKEY,String(Date.now()));}catch(e){}}
+    function isStandalone(){return (window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)||window.navigator.standalone===true;}
+    function isIOS(){var ua=navigator.userAgent||"";if(/CriOS|FxiOS|EdgiOS/i.test(ua))return false;if(/iPhone|iPad|iPod/i.test(ua))return true;return /Macintosh/i.test(ua)&&navigator.maxTouchPoints>1;}
+    function remove(){if(bar){var b=bar;bar=null;b.classList.remove("pwa-show");setTimeout(function(){if(b&&b.parentNode)b.parentNode.removeChild(b);},400);}}
+    function show(mode,force){
+      if(bar||(!force&&isDismissed())||isStandalone())return;
+      if(!document.body){document.addEventListener("DOMContentLoaded",function(){show(mode);});return;}
+      bar=document.createElement("div");
+      bar.id="pwa-bar";bar.setAttribute("role","dialog");bar.setAttribute("aria-label","Install Explore Suriname");
+      var ic='<img class="pwa-ic" src="/icons/icon-192.png" width="42" height="42" alt="">';
+      var tt,sb,btns;
+      if(mode==="ios"){
+        tt="Add Explore Suriname";
+        sb="Tap the Share button, then Add to Home Screen.";
+        btns='<button class="pwa-x" type="button" aria-label="Dismiss">&times;</button>';
+      }else{
+        tt="Install Explore Suriname";
+        sb="Live SRD rates and offline access on your home screen.";
+        btns='<button class="pwa-go" type="button">Install</button><button class="pwa-x" type="button" aria-label="Dismiss">&times;</button>';
+      }
+      bar.innerHTML=ic+'<div class="pwa-tx"><div class="pwa-tt">'+tt+'</div><div class="pwa-sb">'+sb+'</div></div>'+btns;
+      document.body.appendChild(bar);
+      requestAnimationFrame(function(){requestAnimationFrame(function(){if(bar)bar.classList.add("pwa-show");});});
+      var go=bar.querySelector(".pwa-go");
+      if(go){go.addEventListener("click",function(){
+        if(!dp){remove();return;}
+        dp.prompt();
+        dp.userChoice.then(function(c){setDismissed();dp=null;hideNav();remove();}).catch(function(){remove();});
+      });}
+      bar.querySelector(".pwa-x").addEventListener("click",function(){setDismissed();remove();});
+    }
+    function navEl(){return document.getElementById("pwa-nav");}
+    function revealNav(){var n=navEl();if(n&&!isStandalone())n.style.display="inline-flex";}
+    function hideNav(){var n=navEl();if(n)n.style.display="none";}
+    window.pwaInstall=function(){
+      if(dp){dp.prompt();dp.userChoice.then(function(c){setDismissed();dp=null;hideNav();}).catch(function(){});return;}
+      if(isIOS()){show("ios",true);}
+    };
+    window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;revealNav();show("android");});
+    window.addEventListener("appinstalled",function(){setDismissed();hideNav();remove();});
+    if(isIOS()){
+      var iosInit=function(){revealNav();setTimeout(function(){show("ios");},1400);};
+      if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",iosInit);}
+      else{iosInit();}
+    }
+    document.addEventListener("DOMContentLoaded",function(){if(dp)revealNav();});
+  })();
+  </script>
+<!-- Google tag (gtag.js) -->
+<script>(function(){var d=false;function l(){if(d)return;d=true;var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments);};gtag("js",new Date());gtag("config","G-6LTYHZYNSF");}["scroll","click","touchstart","keydown"].forEach(function(e){window.addEventListener(e,l,{once:true,passive:true})});window.addEventListener("load",function(){setTimeout(l,4000)});})();</script>
+<title>Events &amp; Festivals in Suriname 2026 | Explore Suriname</title>
+<meta content="Suriname's festival calendar for 2026: Keti Koti, Holi Phagwa, Divali, Eid, Owru Yari and Maroon Day, plus every official public holiday with dates and traveller tips." name="description"/>
+<link href="https://exploresuriname.com/events.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Explore Suriname" property="og:site_name"/>
+<meta content="https://exploresuriname.com/events.html" property="og:url"/>
+<meta content="Events &amp; Festivals in Suriname 2026 | Explore Suriname" property="og:title"/>
+<meta content="The whole Surinamese year: national holidays, festivals and celebrations from every community, with dates and traveller tips." property="og:description"/>
+<meta content="https://exploresuriname.com/images/home-faiths.webp" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Events &amp; Festivals in Suriname 2026 | Explore Suriname" name="twitter:title"/>
+<meta content="National holidays, festivals and celebrations from every Surinamese community, with dates and traveller tips." name="twitter:description"/>
+<meta content="https://exploresuriname.com/images/home-faiths.webp" name="twitter:image"/>
+<script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "WebPage", "name": "Events & Festivals in Suriname", "url": "https://exploresuriname.com/events.html", "description": "Suriname's cultural calendar: national holidays, festivals and celebrations from every community, with dates and traveller tips.", "dateModified": "2026-06-11", "about": {"@type": "Place", "name": "Suriname", "addressCountry": "SR"}, "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": "https://exploresuriname.com/"}}
+  </script>
+<script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://exploresuriname.com/"}, {"@type": "ListItem", "position": 2, "name": "Events & Festivals", "item": "https://exploresuriname.com/events.html"}]}
+  </script>
+<script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is the biggest festival in Suriname?", "acceptedAnswer": {"@type": "Answer", "text": "For street energy it is Owru Yari on 31 December, when central Paramaribo turns into one big party around the pagara estafette firecracker relay. The most significant cultural commemoration is Keti Koti on 1 July, marking the abolition of slavery in 1863."}}, {"@type": "Question", "name": "When is Keti Koti celebrated?", "acceptedAnswer": {"@type": "Answer", "text": "Keti Koti is celebrated every year on 1 July. It is a national holiday commemorating the abolition of slavery in Suriname on 1 July 1863, with the Bigi Spikri parade and ceremonies at the Kwakoe monument in Paramaribo."}}, {"@type": "Question", "name": "Why does Suriname have public holidays from so many religions?", "acceptedAnswer": {"@type": "Answer", "text": "Suriname is one of the most diverse countries in the world. Indigenous, Maroon, Creole, Hindustani, Javanese, Chinese and Dutch heritage all shape daily life, so the official calendar recognises Christian, Hindu, Muslim, Chinese, Javanese, Indigenous and Maroon celebrations alike."}}, {"@type": "Question", "name": "Do festival dates change every year?", "acceptedAnswer": {"@type": "Answer", "text": "Fixed national days such as Keti Koti (1 July) and Independence Day (25 November) never move. Holi Phagwa, Eid, Divali, Chinese New Year and Javanese New Year follow lunar calendars, so their dates shift each year and are confirmed officially, sometimes only weeks in advance."}}, {"@type": "Question", "name": "Are shops and banks open on public holidays?", "acceptedAnswer": {"@type": "Answer", "text": "Government offices and banks close on national holidays, and many shops close or run shorter hours, although some supermarkets stay open in the morning. Tours and hotels operate normally. Withdraw SRD cash and fill the tank a day ahead, especially before the December holidays."}}]}
+  </script>
+<script type="application/ld+json">
+  [{"@context": "https://schema.org", "@type": "Event", "name": "Javanese New Year", "startDate": "2026-06-16", "endDate": "2026-06-16", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "eventStatus": "https://schema.org/EventScheduled", "location": {"@type": "Place", "name": "Javanese communities: Lelydorp, Tamanredjo and Commewijne", "address": {"@type": "PostalAddress", "addressCountry": "SR"}}, "description": "One of Suriname’s newest national holidays honours the Javanese community, descended from contract labourers who arrived from Java between 1890 and 1939.", "isAccessibleForFree": true}, {"@context": "https://schema.org", "@type": "Event", "name": "SEOGS 2026: Suriname Energy, Oil & Gas Summit", "startDate": "2026-06-23", "endDate": "2026-06-26", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "eventStatus": "https://schema.org/EventScheduled", "location": {"@type": "Place", "name": "Paramaribo", "address": {"@type": "PostalAddress", "addressCountry": "SR"}}, "description": "The sixth edition of the Suriname Energy, Oil & Gas Summit & Exhibition, hosted by Staatsolie under the theme ‘Unlocking Energy, Empowering Nations’, brings the international energy industry to Paramaribo for four days.", "url": "https://suriname-energy.com/", "organizer": {"@type": "Organization", "name": "Staatsolie"}}, {"@context": "https://schema.org", "@type": "Event", "name": "Keti Koti (Emancipation Day)", "startDate": "2026-07-01", "endDate": "2026-07-01", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "eventStatus": "https://schema.org/EventScheduled", "location": {"@type": "Place", "name": "Paramaribo city centre and nationwide", "address": {"@type": "PostalAddress", "addressCountry": "SR"}}, "description": "On 1 July 1863 slavery was abolished in Suriname. Keti Koti means ‘the chains are cut’ in Sranan Tongo, and the day remains the most significant commemoration on the national calendar.", "isAccessibleForFree": true}, {"@context": "https://schema.org", "@type": "Event", "name": "Day of the Indigenous Peoples", "startDate": "2026-08-09", "endDate": "2026-08-09", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "eventStatus": "https://schema.org/EventScheduled", "location": {"@type": "Place", "name": "Indigenous villages nationwide and Paramaribo", "address": {"@type": "PostalAddress", "addressCountry": "SR"}}, "description": "On the UN International Day of Indigenous Peoples, a full national holiday, Suriname honours its first inhabitants: the Kali’na, Lokono, Trio, Wayana and other peoples.", "isAccessibleForFree": true}, {"@context": "https://schema.org", "@type": "Event", "name": "Day of the Maroons", "startDate": "2026-10-10", "endDate": "2026-10-10", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "eventStatus": "https://schema.org/EventScheduled", "location": {"@type": "Place", "name": "Paramaribo and interior villages", "address": {"@type": "PostalAddress", "addressCountry": "SR"}}, "description": "Maroon Day commemorates 10 October 1760, when the colonial government signed a peace treaty with the Ndyuka, recognising the freedom of people who had escaped slavery and built independent societies deep in the rainforest, more than a century before emancipation.", "isAccessibleForFree": true}, {"@context": "https://schema.org", "@type": "Event", "name": "Divali (Festival of Lights)", "startDate": "2026-11-08", "endDate": "2026-11-08", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "eventStatus": "https://schema.org/EventScheduled", "location": {"@type": "Place", "name": "Paramaribo, Wanica and Nickerie", "address": {"@type": "PostalAddress", "addressCountry": "SR"}}, "description": "The Hindu festival of lights is a national holiday in Suriname, where roughly a quarter of the population has Hindustani roots.", "isAccessibleForFree": true}, {"@context": "https://schema.org", "@type": "Event", "name": "Srefidensi (Independence Day)", "startDate": "2026-11-25", "endDate": "2026-11-25", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "eventStatus": "https://schema.org/EventScheduled", "location": {"@type": "Place", "name": "Onafhankelijkheidsplein, Paramaribo", "address": {"@type": "PostalAddress", "addressCountry": "SR"}}, "description": "Suriname became independent from the Netherlands on 25 November 1975. Srefidensi Dei is the national day, with the main ceremony on Independence Square in Paramaribo.", "isAccessibleForFree": true}, {"@context": "https://schema.org", "@type": "Event", "name": "Christmas (Eerste & Tweede Kerstdag)", "startDate": "2026-12-25", "endDate": "2026-12-26", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "eventStatus": "https://schema.org/EventScheduled", "location": {"@type": "Place", "name": "Nationwide", "address": {"@type": "PostalAddress", "addressCountry": "SR"}}, "description": "First and Second Christmas Day are both full national holidays, and Surinamese Christmas is above all a feast.", "isAccessibleForFree": true}, {"@context": "https://schema.org", "@type": "Event", "name": "Owru Yari & Pagara Estafette", "startDate": "2026-12-31", "endDate": "2026-12-31", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "eventStatus": "https://schema.org/EventScheduled", "location": {"@type": "Place", "name": "Central Paramaribo, around the Waterkant and the shopping streets", "address": {"@type": "PostalAddress", "addressCountry": "SR"}}, "description": "Paramaribo says goodbye to the old year with the biggest street party in Suriname. Owru Yari is the one day when the whole city, from bank staff to market vendors, ends up dancing in the street.", "isAccessibleForFree": true}, {"@context": "https://schema.org", "@type": "Event", "name": "Easter Weekend", "startDate": "2027-03-26", "endDate": "2027-03-29", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "eventStatus": "https://schema.org/EventScheduled", "location": {"@type": "Place", "name": "Nationwide", "address": {"@type": "PostalAddress", "addressCountry": "SR"}}, "description": "Good Friday and Easter Monday are both national holidays, wrapping a four-day weekend around Easter.", "isAccessibleForFree": true}]
+  </script>
+<link href="https://exploresuriname.com/events.html" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/events.html" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/events.html" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/events.html" hreflang="x-default" rel="alternate"/></head>
+<body class="bg-gray-50 overflow-x-hidden">
+<nav class="fixed top-0 w-full z-50" style="background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.06)">
+<div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+<a class="flex items-baseline flex-shrink-0" href="index.html">
+<span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
+</a>
+<div class="hidden md:flex items-center gap-6"><div class="relative" id="dd-todo" onmouseenter="openDd('dd-todo')" onmouseleave="closeDd('dd-todo')"><button class="dd-trigger flex items-center gap-1 text-sm font-semibold transition py-1" onclick="toggleDd('dd-todo')" style="color:var(--forest)">Things to Do <span class="inline-block w-1.5 h-1.5 rounded-full mb-0.5" style="background:var(--forest)"></span><svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-todo-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="nature.html">Nature</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="activities.html">Activities</a><a class="block px-4 py-2.5 text-sm font-semibold rounded-lg" href="events.html" style="color:var(--forest);background:var(--mint)">Events &amp; Festivals</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="shopping.html">Shopping</a></div></div><div class="relative" id="dd-eat" onmouseenter="openDd('dd-eat')" onmouseleave="closeDd('dd-eat')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-eat')">Eat &amp; Stay<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-eat-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="restaurants.html">Where to Eat</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="hotels.html">Where to Stay</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="services.html">Local Services</a><div class="relative" id="dd-plan" onmouseenter="openDd('dd-plan')" onmouseleave="closeDd('dd-plan')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-plan')">Visitor Guide<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-plan-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="visitor-guide.html">The Basics</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="on-the-road.html">On the Road</a></div></div><div class="relative" id="dd-ess" onmouseenter="openDd('dd-ess')" onmouseleave="closeDd('dd-ess')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-ess')">Essentials<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-ess-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="currency.html">Market Rates</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="flights.html">Flights</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="conditions.html">Weather &amp; Tides</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="daily-notices.html">Daily Notices</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="news.html">News</a></div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50 sm:min-w-[120px]" onclick="openSearch()" title="Search listings (press /)">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<span class="hidden sm:inline">Search…</span>
+<span class="ml-auto hidden sm:inline text-xs bg-gray-200 text-gray-500 rounded px-1.5 py-0.5 font-mono">/</span>
+</button><div class="hidden md:flex items-center" data-langswitch="1" style="gap:7px;margin-left:10px;flex-shrink:0;font-size:12px;font-weight:600"><svg fill="none" height="15" stroke="#9ca3af" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/events.html" style="color:var(--forest);text-decoration:underline">EN</a><a href="/nl/events.html" style="color:#9ca3af;text-decoration:none">NL</a><a href="/es/events.html" style="color:#9ca3af;text-decoration:none">ES</a></div>
+<button aria-label="Menu" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition" id="hamburger" onclick="toggleMobileMenu()">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+<div class="hidden md:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto" id="mm"><div data-langswitch-mobile="1" style="display:flex;align-items:center;gap:16px;padding:10px 2px 12px;margin-bottom:4px;border-bottom:1px solid #eee;font-size:15px;font-weight:600"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/events.html" style="color:var(--forest);text-decoration:underline">EN</a><a href="/nl/events.html" style="color:#6b7280;text-decoration:none">NL</a><a href="/es/events.html" style="color:#6b7280;text-decoration:none">ES</a><button aria-label="Install app" id="pwa-nav" onclick="pwaInstall()" style="display:none;margin-left:auto;align-items:center;gap:6px;background:var(--forest);color:#fff;border:0;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0" type="button"><svg fill="none" height="15" stroke="currentColor" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 20h14" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Install</span></button></div>
+<div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-todo')" style="color:var(--forest)"><span>Things to Do</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1" id="mg-todo"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="nature.html">Nature</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="activities.html">Activities</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm font-semibold rounded-lg" href="events.html" style="color:var(--forest);background:var(--mint)">Events &amp; Festivals</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="shopping.html">Shopping</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-eat')"><span>Eat &amp; Stay</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-eat"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="restaurants.html">Where to Eat</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="hotels.html">Where to Stay</a></div></div><a class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" href="services.html">Local Services</a><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-plan')"><span>Visitor Guide</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-plan"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="visitor-guide.html">The Basics</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="on-the-road.html">On the Road</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-ess')"><span>Essentials</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-ess"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="currency.html">Market Rates</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="flights.html">Flights</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="conditions.html">Weather &amp; Tides</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="daily-notices.html">Daily Notices</a></div></div><a class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" href="news.html">News</a>
+</div>
+</nav>
+<script>
+/* ── Dropdown (desktop) ─────────────────────────────────────────────────── */
+var _openDd = null;
+var _ddTimer = null;
+function openDd(id) {
+  if (_ddTimer) { clearTimeout(_ddTimer); _ddTimer = null; }
+  if (_openDd && _openDd !== id) closeDd(_openDd);
+  var menu = document.getElementById(id + '-menu');
+  var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+  if (menu) menu.classList.remove('hidden');
+  if (chev) chev.style.transform = 'rotate(180deg)';
+  _openDd = id;
+}
+function closeDd(id) {
+  _ddTimer = setTimeout(function() {
+    var menu = document.getElementById(id + '-menu');
+    var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+    if (menu) menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    if (_openDd === id) _openDd = null;
+    _ddTimer = null;
+  }, 80);
+}
+function toggleDd(id) {
+  var menu = document.getElementById(id + '-menu');
+  var btn  = document.getElementById(id);
+  var chev = btn ? btn.querySelector('.dd-chevron') : null;
+  if (_openDd && _openDd !== id) {
+    var prev = document.getElementById(_openDd + '-menu');
+    var prevBtn = document.getElementById(_openDd);
+    if (prev)    prev.classList.add('hidden');
+    if (prevBtn) { var c = prevBtn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+  if (!menu) return;
+  var isOpen = !menu.classList.contains('hidden');
+  if (isOpen) {
+    menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    _openDd = null;
+  } else {
+    menu.classList.remove('hidden');
+    if (chev) chev.style.transform = 'rotate(180deg)';
+    _openDd = id;
+  }
+}
+document.addEventListener('click', function(e) {
+  if (_openDd && !document.getElementById(_openDd).contains(e.target)) {
+    var menu = document.getElementById(_openDd + '-menu');
+    var btn  = document.getElementById(_openDd);
+    if (menu) menu.classList.add('hidden');
+    if (btn)  { var c = btn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+});
+/* ── Mobile accordion ───────────────────────────────────────────────────── */
+function toggleMobileMenu() {
+  var mm = document.getElementById('mm');
+  mm.classList.toggle('hidden');
+}
+function toggleMobGroup(id) {
+  var body = document.getElementById(id);
+  var btn  = body ? body.previousElementSibling : null;
+  var chev = btn  ? btn.querySelector('.mob-chevron') : null;
+  if (!body) return;
+  var isOpen = !body.classList.contains('hidden');
+  body.classList.toggle('hidden', isOpen);
+  if (chev) chev.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+</script>
+<!-- ── Global Search Modal ───────────────────────────────────────────── -->
+<div id="search-modal" onclick="if(event.target===this)closeSearch()" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);padding:80px 16px 16px">
+<div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 25px 60px rgba(0,0,0,.25);overflow:hidden">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #f0f0f0">
+<svg fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:#9ca3af;flex-shrink:0" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<input autocomplete="off" id="search-input" oninput="runSearch(this.value)" onkeydown="searchKey(event)" placeholder="Search all listings…" spellcheck="false" style="flex:1;border:none;outline:none;font-size:1rem;color:#111;background:transparent" type="text"/>
+<button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">✕</button>
+</div>
+<div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
+<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search 733 listings…</p>
+</div>
+</div>
+</div>
+<script>
+const _CAT_C = {"Eat & Drink": "#7c3aed", "Stay": "#c05621", "Nature": "var(--forest)", "Activities": "var(--forest2)", "Shopping": "#0369a1", "Services": "#0369a1", "Sightseeing": "var(--forest)"};
+let _SI = null;
+let _SI_loading = false;
+let _sel = -1;
+
+function _loadSI(cb) {
+  if (_SI) { cb(); return; }
+  if (_SI_loading) { setTimeout(() => _loadSI(cb), 50); return; }
+  _SI_loading = true;
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  fetch(depth + 'search-index.json')
+    .then(r => r.json())
+    .then(data => { _SI = data; cb(); })
+    .catch(() => { _SI = []; cb(); });
+}
+function openSearch() {
+  document.getElementById('search-modal').style.display = 'block';
+  setTimeout(() => document.getElementById('search-input').focus(), 50);
+  _loadSI(() => {});
+}
+function closeSearch() {
+  document.getElementById('search-modal').style.display = 'none';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search listings…</p>';
+  _sel = -1;
+}
+function runSearch(q) {
+  const box = document.getElementById('search-results');
+  q = q.trim();
+  if (!q) { closeSearch(); openSearch(); return; }
+  if (!_SI) {
+    _loadSI(() => runSearch(q));
+    box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Loading…</p>';
+    return;
+  }
+  const ql = q.toLowerCase();
+  const hits = _SI.filter(x => x.n.toLowerCase().includes(ql)).slice(0, 10);
+  if (!hits.length) { box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">No results for "' + q + '"</p>'; return; }
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  box.innerHTML = hits.map((h, i) => {
+    const hi = h.n.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi'), '<mark>$1</mark>');
+    const col = _CAT_C[h.c] || '#6b7280';
+    return '<a href="' + depth + h.u + '" class="' + (i===0?'sr-active':'') + '">'
+      + '<span class="sr-badge" style="background:' + col + '">' + h.c + '</span>'
+      + '<span class="sr-name">' + hi + '</span>'
+      + (h.a ? '<span class="sr-area">' + h.a + '</span>' : '')
+      + '</a>';
+  }).join('');
+  _sel = 0;
+}
+function searchKey(e) {
+  const items = document.querySelectorAll('#search-results a');
+  if (e.key === 'Escape') { closeSearch(); return; }
+  if (e.key === 'ArrowDown') { e.preventDefault(); _sel = Math.min(_sel+1, items.length-1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); _sel = Math.max(_sel-1, 0); }
+  else if (e.key === 'Enter') { if(items[_sel]) window.location = items[_sel].href; return; }
+  else return;
+  items.forEach((el,i) => el.classList.toggle('sr-active', i===_sel));
+  if(items[_sel]) items[_sel].scrollIntoView({block:'nearest'});
+}
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault(); openSearch();
+  }
+});
+</script>
+<div class="pt-16"></div>
+<div class="relative text-white py-16 text-center overflow-hidden" style="background:var(--forest)">
+<div aria-hidden="true" class="absolute inset-0" style="background:url(/images/home-faiths.webp) center/cover no-repeat"></div>
+<div aria-hidden="true" class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.85),rgba(13,30,22,.62))"></div>
+<div class="relative max-w-3xl mx-auto px-4">
+<a class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition" href="index.html">← Back to Home</a>
+<p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-3">The Cultural Calendar</p>
+<h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Events &amp; Festivals in Suriname</h1>
+<p class="text-white/70 text-base max-w-2xl mx-auto">Every culture that calls Suriname home brings its own celebrations. The whole year is here: national holidays, the big festivals, what they mean and how to join in.</p>
+</div>
+</div>
+<main class="max-w-4xl mx-auto px-4 py-12 pb-24">
+<section class="rounded-3xl text-white p-7 sm:p-10 mb-10" style="background:linear-gradient(135deg,var(--forest) 0%,var(--forest2) 100%)">
+<p class="text-white/60 text-xs font-bold uppercase tracking-widest mb-3">Next up</p>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
+<h2 class="serif text-3xl sm:text-4xl font-bold">🎭 Javanese New Year</h2>
+<span class="text-sm font-bold px-3 py-1 rounded-full" style="background:var(--coral)">In 5 days</span>
+</div>
+<p class="text-white/75 text-sm mb-4">Tuesday 16 June 2026 · 📍 Javanese communities: Lelydorp, Tamanredjo and Commewijne</p>
+<p class="text-white/85 text-base leading-relaxed max-w-2xl">One of Suriname’s newest national holidays honours the Javanese community, descended from contract labourers who arrived from Java between 1890 and 1939.</p>
+<a class="inline-block mt-5 text-sm font-semibold bg-white/15 hover:bg-white/25 transition rounded-full px-5 py-2.5" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Javanese%20New%20Year%20%28Suriname%29&amp;dates=20260616/20260617&amp;location=Javanese%20communities%3A%20Lelydorp%2C%20Tamanredjo%20and%20Commewijne&amp;details=One%20of%20Suriname%E2%80%99s%20newest%20national%20holidays%20honours%20the%20Javanese%20community%2C%20descended%20from%20contract%20labourers%20who%20arrived%20from%20Java%20between%201890%20and%201939.%20Full%20calendar%3A%20https%3A//exploresuriname.com/events.html" rel="noopener" target="_blank">📅 Add to my calendar</a>
+</section>
+<div class="max-w-3xl">
+<p class="text-gray-600 leading-relaxed">Suriname celebrates more, and more diversely, than almost anywhere else. Christian, Hindu, Muslim, Javanese, Chinese, Indigenous and Maroon traditions all carry official status here, so the calendar rarely goes quiet for long. Dates on this page update automatically; lunar-calendar festivals are shown as expected until the official dates are announced.</p>
+</div>
+<div class="flex flex-wrap gap-2 mt-7"><a class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-600 hover:border-gray-400 transition" href="#m-2026-6">Jun 2026</a><a class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-600 hover:border-gray-400 transition" href="#m-2026-7">Jul 2026</a><a class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-600 hover:border-gray-400 transition" href="#m-2026-8">Aug 2026</a><a class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-600 hover:border-gray-400 transition" href="#m-2026-10">Oct 2026</a><a class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-600 hover:border-gray-400 transition" href="#m-2026-11">Nov 2026</a><a class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-600 hover:border-gray-400 transition" href="#m-2026-12">Dec 2026</a><a class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-600 hover:border-gray-400 transition" href="#m-2027-2">Feb 2027</a><a class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-600 hover:border-gray-400 transition" href="#m-2027-3">Mar 2027</a><a class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-600 hover:border-gray-400 transition" href="#m-2027-4">Apr 2027</a><a class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-600 hover:border-gray-400 transition" href="#m-2027-5">May 2027</a></div>
+<h2 class="serif text-2xl font-bold text-gray-900 mt-12 mb-5" id="m-2026-6" style="scroll-margin-top:90px">June 2026</h2>
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4"><div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" style="background:var(--mint);min-width:62px"><div class="text-[10px] font-bold uppercase tracking-wide" style="color:var(--forest2)">Jun</div><div class="text-2xl font-extrabold leading-tight" style="color:var(--forest)">16</div><div class="text-[10px] text-gray-500">Tue</div></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1.5"><h3 class="font-bold text-gray-900 text-base">🎭 Javanese New Year</h3><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:var(--mint);color:var(--forest)">Public holiday</span></div><p class="text-xs text-gray-400 mb-2">Tuesday 16 June 2026 · in 5 days · 📍 Javanese communities: Lelydorp, Tamanredjo and Commewijne</p><p class="text-gray-600 text-sm leading-relaxed">One of Suriname’s newest national holidays honours the Javanese community, descended from contract labourers who arrived from Java between 1890 and 1939.</p><p class="text-gray-600 text-sm leading-relaxed mt-2">The day is marked with Javanese cultural performances, from gamelan music to jaran kepang dance, alongside prayer and family gatherings in centres such as Lelydorp, Tamanredjo and the old Commewijne plantation villages. The date follows the Javanese calendar.</p><div class="flex flex-wrap gap-x-5 gap-y-1.5 mt-3"><a class="text-xs font-semibold hover:underline" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Javanese%20New%20Year%20%28Suriname%29&amp;dates=20260616/20260617&amp;location=Javanese%20communities%3A%20Lelydorp%2C%20Tamanredjo%20and%20Commewijne&amp;details=One%20of%20Suriname%E2%80%99s%20newest%20national%20holidays%20honours%20the%20Javanese%20community%2C%20descended%20from%20contract%20labourers%20who%20arrived%20from%20Java%20between%201890%20and%201939.%20Full%20calendar%3A%20https%3A//exploresuriname.com/events.html" rel="noopener" style="color:var(--forest2)" target="_blank">📅 Add to calendar</a></div></div></article>
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4"><div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" style="background:var(--mint);min-width:62px"><div class="text-[10px] font-bold uppercase tracking-wide" style="color:var(--forest2)">Jun</div><div class="text-2xl font-extrabold leading-tight" style="color:var(--forest)">23</div><div class="text-[10px] text-gray-500">Tue</div></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1.5"><h3 class="font-bold text-gray-900 text-base">🛢️ SEOGS 2026: Suriname Energy, Oil &amp; Gas Summit</h3></div><p class="text-xs text-gray-400 mb-2">Tue 23 to Fri 26 June 2026 · in 12 days · 📍 Paramaribo</p><p class="text-gray-600 text-sm leading-relaxed">The sixth edition of the Suriname Energy, Oil &amp; Gas Summit &amp; Exhibition, hosted by Staatsolie under the theme ‘Unlocking Energy, Empowering Nations’, brings the international energy industry to Paramaribo for four days.</p><p class="text-gray-600 text-sm leading-relaxed mt-2">SEOGS has grown into one of the largest energy events in the Caribbean, with hundreds of speakers and exhibitors and delegates from across the offshore industry expected as Suriname builds toward first oil from Block 58. Expect a noticeably international city that week.</p><p class="text-sm mt-3 pl-3 border-l-2" style="border-color:var(--leaf)"><strong style="color:var(--forest2)">Good to know:</strong> <span class="text-gray-600">Visiting that week for other reasons? Book your room early; conference demand fills Paramaribo hotels well in advance.</span></p><div class="flex flex-wrap gap-x-5 gap-y-1.5 mt-3"><a class="text-xs font-semibold hover:underline" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=SEOGS%202026%3A%20Suriname%20Energy%2C%20Oil%20%26%20Gas%20Summit%20%28Suriname%29&amp;dates=20260623/20260627&amp;location=Paramaribo&amp;details=The%20sixth%20edition%20of%20the%20Suriname%20Energy%2C%20Oil%20%26%20Gas%20Summit%20%26%20Exhibition%2C%20hosted%20by%20Staatsolie%20under%20the%20theme%20%E2%80%98Unlocking%20Energy%2C%20Empowering%20Nations%E2%80%99%2C%20brings%20the%20international%20energy%20industry%20to%20Paramaribo%20for%20four%20days.%20Full%20calendar%3A%20https%3A//exploresuriname.com/events.html" rel="noopener" style="color:var(--forest2)" target="_blank">📅 Add to calendar</a><a class="text-xs font-semibold hover:underline" href="https://suriname-energy.com/" rel="noopener" style="color:var(--forest2)" target="_blank">🌐 Official website</a><a class="text-xs font-semibold hover:underline" href="news.html" style="color:var(--forest2)">Oil &amp; Gas news →</a></div></div></article>
+<h2 class="serif text-2xl font-bold text-gray-900 mt-12 mb-5" id="m-2026-7" style="scroll-margin-top:90px">July 2026</h2>
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4"><div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" style="background:var(--mint);min-width:62px"><div class="text-[10px] font-bold uppercase tracking-wide" style="color:var(--forest2)">Jul</div><div class="text-2xl font-extrabold leading-tight" style="color:var(--forest)">1</div><div class="text-[10px] text-gray-500">Wed</div></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1.5"><h3 class="font-bold text-gray-900 text-base">🥁 Keti Koti (Emancipation Day)</h3><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:var(--mint);color:var(--forest)">Public holiday</span></div><p class="text-xs text-gray-400 mb-2">Wednesday 1 July 2026 · in 20 days · 📍 Paramaribo city centre and nationwide</p><p class="text-gray-600 text-sm leading-relaxed">On 1 July 1863 slavery was abolished in Suriname. Keti Koti means ‘the chains are cut’ in Sranan Tongo, and the day remains the most significant commemoration on the national calendar.</p><p class="text-gray-600 text-sm leading-relaxed mt-2">The morning brings wreath-laying at the Kwakoe monument and the Bigi Spikri parade through the historic centre: brass bands, kawina rhythms and women in traditional koto dress with folded angisa headscarves. Street food, music and cultural events continue late into the evening, and the Miss Alida pageant crowns its winner around the same date.</p><p class="text-sm mt-3 pl-3 border-l-2" style="border-color:var(--leaf)"><strong style="color:var(--forest2)">Good to know:</strong> <span class="text-gray-600">It is a full national holiday and the centre gets crowded. Arrive early for a good spot along the parade route, and book restaurants ahead for that evening.</span></p><div class="flex flex-wrap gap-x-5 gap-y-1.5 mt-3"><a class="text-xs font-semibold hover:underline" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Keti%20Koti%20%28Emancipation%20Day%29%20%28Suriname%29&amp;dates=20260701/20260702&amp;location=Paramaribo%20city%20centre%20and%20nationwide&amp;details=On%201%20July%201863%20slavery%20was%20abolished%20in%20Suriname.%20Keti%20Koti%20means%20%E2%80%98the%20chains%20are%20cut%E2%80%99%20in%20Sranan%20Tongo%2C%20and%20the%20day%20remains%20the%20most%20significant%20commemoration%20on%20the%20national%20calendar.%20Full%20calendar%3A%20https%3A//exploresuriname.com/events.html" rel="noopener" style="color:var(--forest2)" target="_blank">📅 Add to calendar</a><a class="text-xs font-semibold hover:underline" href="listing/activity-paramaribo-city-walk/" style="color:var(--forest2)">Walk the historic centre →</a></div></div></article>
+<h2 class="serif text-2xl font-bold text-gray-900 mt-12 mb-5" id="m-2026-8" style="scroll-margin-top:90px">August 2026</h2>
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4"><div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" style="background:var(--mint);min-width:62px"><div class="text-[10px] font-bold uppercase tracking-wide" style="color:var(--forest2)">Aug</div><div class="text-2xl font-extrabold leading-tight" style="color:var(--forest)">9</div><div class="text-[10px] text-gray-500">Sun</div></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1.5"><h3 class="font-bold text-gray-900 text-base">🪶 Day of the Indigenous Peoples</h3><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:var(--mint);color:var(--forest)">Public holiday</span></div><p class="text-xs text-gray-400 mb-2">Sunday 9 August 2026 · in 59 days · 📍 Indigenous villages nationwide and Paramaribo</p><p class="text-gray-600 text-sm leading-relaxed">On the UN International Day of Indigenous Peoples, a full national holiday, Suriname honours its first inhabitants: the Kali’na, Lokono, Trio, Wayana and other peoples.</p><p class="text-gray-600 text-sm leading-relaxed mt-2">Indigenous villages such as Galibi, Powakka and Bigi Poika host cultural festivals with traditional sambura drumming, dance, craft and food, and ceremonies are held in Paramaribo as well. For visitors it is one of the best days of the year to experience Indigenous Surinamese culture.</p><div class="flex flex-wrap gap-x-5 gap-y-1.5 mt-3"><a class="text-xs font-semibold hover:underline" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Day%20of%20the%20Indigenous%20Peoples%20%28Suriname%29&amp;dates=20260809/20260810&amp;location=Indigenous%20villages%20nationwide%20and%20Paramaribo&amp;details=On%20the%20UN%20International%20Day%20of%20Indigenous%20Peoples%2C%20a%20full%20national%20holiday%2C%20Suriname%20honours%20its%20first%20inhabitants%3A%20the%20Kali%E2%80%99na%2C%20Lokono%2C%20Trio%2C%20Wayana%20and%20other%20peoples.%20Full%20calendar%3A%20https%3A//exploresuriname.com/events.html" rel="noopener" style="color:var(--forest2)" target="_blank">📅 Add to calendar</a><a class="text-xs font-semibold hover:underline" href="listing/activity-indigenous-village-tours/" style="color:var(--forest2)">Indigenous village tours →</a></div></div></article>
+<h2 class="serif text-2xl font-bold text-gray-900 mt-12 mb-5" id="m-2026-10" style="scroll-margin-top:90px">October 2026</h2>
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4"><div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" style="background:var(--mint);min-width:62px"><div class="text-[10px] font-bold uppercase tracking-wide" style="color:var(--forest2)">Oct</div><div class="text-2xl font-extrabold leading-tight" style="color:var(--forest)">10</div><div class="text-[10px] text-gray-500">Sat</div></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1.5"><h3 class="font-bold text-gray-900 text-base">🪘 Day of the Maroons</h3><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:var(--mint);color:var(--forest)">Public holiday</span></div><p class="text-xs text-gray-400 mb-2">Saturday 10 October 2026 · in 121 days · 📍 Paramaribo and interior villages</p><p class="text-gray-600 text-sm leading-relaxed">Maroon Day commemorates 10 October 1760, when the colonial government signed a peace treaty with the Ndyuka, recognising the freedom of people who had escaped slavery and built independent societies deep in the rainforest, more than a century before emancipation.</p><p class="text-gray-600 text-sm leading-relaxed mt-2">The day is celebrated with apinti drums, awasa dance, traditional pangi textiles and gatherings in Paramaribo and in Maroon villages along the upper rivers. Cultural organisations host performances, lectures and markets.</p><div class="flex flex-wrap gap-x-5 gap-y-1.5 mt-3"><a class="text-xs font-semibold hover:underline" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Day%20of%20the%20Maroons%20%28Suriname%29&amp;dates=20261010/20261011&amp;location=Paramaribo%20and%20interior%20villages&amp;details=Maroon%20Day%20commemorates%2010%20October%201760%2C%20when%20the%20colonial%20government%20signed%20a%20peace%20treaty%20with%20the%20Ndyuka%2C%20recognising%20the%20freedom%20of%20people%20who%20had%20escaped%20slavery%20and%20built%20independent%20societies%20deep%20in%20the%20rainforest%2C%20more%20than%20a%20century%20before%20emancipation.%20Full%20calendar%3A%20https%3A//exploresuriname.com/events.html" rel="noopener" style="color:var(--forest2)" target="_blank">📅 Add to calendar</a><a class="text-xs font-semibold hover:underline" href="listing/activity-maroon-village-tours/" style="color:var(--forest2)">Maroon village tours →</a></div></div></article>
+<h2 class="serif text-2xl font-bold text-gray-900 mt-12 mb-5" id="m-2026-11" style="scroll-margin-top:90px">November 2026</h2>
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4"><div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" style="background:var(--mint);min-width:62px"><div class="text-[10px] font-bold uppercase tracking-wide" style="color:var(--forest2)">Nov</div><div class="text-2xl font-extrabold leading-tight" style="color:var(--forest)">8</div><div class="text-[10px] text-gray-500">Sun</div></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1.5"><h3 class="font-bold text-gray-900 text-base">🪔 Divali (Festival of Lights)</h3><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:var(--mint);color:var(--forest)">Public holiday</span></div><p class="text-xs text-gray-400 mb-2">Sunday 8 November 2026 · in 150 days · 📍 Paramaribo, Wanica and Nickerie</p><p class="text-gray-600 text-sm leading-relaxed">The Hindu festival of lights is a national holiday in Suriname, where roughly a quarter of the population has Hindustani roots.</p><p class="text-gray-600 text-sm leading-relaxed mt-2">After sunset, rows of diyas (small oil lamps) appear on walls, steps and verandas, mandirs hold Lakshmi puja, and families share sweets with neighbours of every faith. Residential streets across Paramaribo, Wanica and Nickerie glow with lamps and light displays. The date follows the Hindu lunar calendar and shifts each year.</p><p class="text-sm mt-3 pl-3 border-l-2" style="border-color:var(--leaf)"><strong style="color:var(--forest2)">Good to know:</strong> <span class="text-gray-600">Drive or walk through residential neighbourhoods after dark for the full effect of thousands of lamps.</span></p><div class="flex flex-wrap gap-x-5 gap-y-1.5 mt-3"><a class="text-xs font-semibold hover:underline" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Divali%20%28Festival%20of%20Lights%29%20%28Suriname%29&amp;dates=20261108/20261109&amp;location=Paramaribo%2C%20Wanica%20and%20Nickerie&amp;details=The%20Hindu%20festival%20of%20lights%20is%20a%20national%20holiday%20in%20Suriname%2C%20where%20roughly%20a%20quarter%20of%20the%20population%20has%20Hindustani%20roots.%20Full%20calendar%3A%20https%3A//exploresuriname.com/events.html" rel="noopener" style="color:var(--forest2)" target="_blank">📅 Add to calendar</a><a class="text-xs font-semibold hover:underline" href="restaurants.html" style="color:var(--forest2)">Hindustani kitchens &amp; roti shops →</a></div></div></article>
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4"><div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" style="background:var(--mint);min-width:62px"><div class="text-[10px] font-bold uppercase tracking-wide" style="color:var(--forest2)">Nov</div><div class="text-2xl font-extrabold leading-tight" style="color:var(--forest)">25</div><div class="text-[10px] text-gray-500">Wed</div></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1.5"><h3 class="font-bold text-gray-900 text-base">🇸🇷 Srefidensi (Independence Day)</h3><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:var(--mint);color:var(--forest)">Public holiday</span></div><p class="text-xs text-gray-400 mb-2">Wednesday 25 November 2026 · in 167 days · 📍 Onafhankelijkheidsplein, Paramaribo</p><p class="text-gray-600 text-sm leading-relaxed">Suriname became independent from the Netherlands on 25 November 1975. Srefidensi Dei is the national day, with the main ceremony on Independence Square in Paramaribo.</p><p class="text-gray-600 text-sm leading-relaxed mt-2">Expect a flag-raising ceremony and parade at Onafhankelijkheidsplein in front of the Presidential Palace, followed by cultural performances, music and festivities across the country.</p><div class="flex flex-wrap gap-x-5 gap-y-1.5 mt-3"><a class="text-xs font-semibold hover:underline" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Srefidensi%20%28Independence%20Day%29%20%28Suriname%29&amp;dates=20261125/20261126&amp;location=Onafhankelijkheidsplein%2C%20Paramaribo&amp;details=Suriname%20became%20independent%20from%20the%20Netherlands%20on%2025%20November%201975.%20Srefidensi%20Dei%20is%20the%20national%20day%2C%20with%20the%20main%20ceremony%20on%20Independence%20Square%20in%20Paramaribo.%20Full%20calendar%3A%20https%3A//exploresuriname.com/events.html" rel="noopener" style="color:var(--forest2)" target="_blank">📅 Add to calendar</a></div></div></article>
+<h2 class="serif text-2xl font-bold text-gray-900 mt-12 mb-5" id="m-2026-12" style="scroll-margin-top:90px">December 2026</h2>
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4"><div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" style="background:var(--mint);min-width:62px"><div class="text-[10px] font-bold uppercase tracking-wide" style="color:var(--forest2)">Dec</div><div class="text-2xl font-extrabold leading-tight" style="color:var(--forest)">25</div><div class="text-[10px] text-gray-500">Fri</div></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1.5"><h3 class="font-bold text-gray-900 text-base">🎄 Christmas (Eerste &amp; Tweede Kerstdag)</h3><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:var(--mint);color:var(--forest)">Public holiday</span></div><p class="text-xs text-gray-400 mb-2">Fri 25 to Sat 26 December 2026 · in 197 days · 📍 Nationwide</p><p class="text-gray-600 text-sm leading-relaxed">First and Second Christmas Day are both full national holidays, and Surinamese Christmas is above all a feast.</p><p class="text-gray-600 text-sm leading-relaxed mt-2">Pom and pastei appear on practically every table, gospel and Christmas concerts fill churches and venues, and the city stays dressed in lights through New Year. Many restaurants run special menus on both days.</p><p class="text-sm mt-3 pl-3 border-l-2" style="border-color:var(--leaf)"><strong style="color:var(--forest2)">Good to know:</strong> <span class="text-gray-600">Book Christmas dinner well in advance; the best tables in Paramaribo go quickly.</span></p><div class="flex flex-wrap gap-x-5 gap-y-1.5 mt-3"><a class="text-xs font-semibold hover:underline" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Christmas%20%28Eerste%20%26%20Tweede%20Kerstdag%29%20%28Suriname%29&amp;dates=20261225/20261227&amp;location=Nationwide&amp;details=First%20and%20Second%20Christmas%20Day%20are%20both%20full%20national%20holidays%2C%20and%20Surinamese%20Christmas%20is%20above%20all%20a%20feast.%20Full%20calendar%3A%20https%3A//exploresuriname.com/events.html" rel="noopener" style="color:var(--forest2)" target="_blank">📅 Add to calendar</a><a class="text-xs font-semibold hover:underline" href="restaurants.html" style="color:var(--forest2)">Restaurants for the holidays →</a></div></div></article>
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4"><div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" style="background:var(--mint);min-width:62px"><div class="text-[10px] font-bold uppercase tracking-wide" style="color:var(--forest2)">Dec</div><div class="text-2xl font-extrabold leading-tight" style="color:var(--forest)">31</div><div class="text-[10px] text-gray-500">Thu</div></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1.5"><h3 class="font-bold text-gray-900 text-base">🎆 Owru Yari &amp; Pagara Estafette</h3></div><p class="text-xs text-gray-400 mb-2">Thursday 31 December 2026 · in 203 days · 📍 Central Paramaribo, around the Waterkant and the shopping streets</p><p class="text-gray-600 text-sm leading-relaxed">Paramaribo says goodbye to the old year with the biggest street party in Suriname. Owru Yari is the one day when the whole city, from bank staff to market vendors, ends up dancing in the street.</p><p class="text-gray-600 text-sm leading-relaxed mt-2">From late morning, shops and businesses fire their pagara: ribbons of red firecrackers, often hundreds of metres long, detonated in relay through the shopping streets in clouds of smoke and red paper. Kaseko bands and sound systems keep the centre moving until early evening, when the city briefly empties for family dinners and church services ahead of the midnight fireworks. Celebrations roll straight into Nieuwjaarsdag on 1 January, which is a public holiday.</p><p class="text-sm mt-3 pl-3 border-l-2" style="border-color:var(--leaf)"><strong style="color:var(--forest2)">Good to know:</strong> <span class="text-gray-600">Go before noon for the pagara estafette, wear closed shoes and expect the centre to be closed to traffic. Hotel rooms for New Year sell out months ahead.</span></p><div class="flex flex-wrap gap-x-5 gap-y-1.5 mt-3"><a class="text-xs font-semibold hover:underline" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Owru%20Yari%20%26%20Pagara%20Estafette%20%28Suriname%29&amp;dates=20261231/20270101&amp;location=Central%20Paramaribo%2C%20around%20the%20Waterkant%20and%20the%20shopping%20streets&amp;details=Paramaribo%20says%20goodbye%20to%20the%20old%20year%20with%20the%20biggest%20street%20party%20in%20Suriname.%20Owru%20Yari%20is%20the%20one%20day%20when%20the%20whole%20city%2C%20from%20bank%20staff%20to%20market%20vendors%2C%20ends%20up%20dancing%20in%20the%20street.%20Full%20calendar%3A%20https%3A//exploresuriname.com/events.html" rel="noopener" style="color:var(--forest2)" target="_blank">📅 Add to calendar</a><a class="text-xs font-semibold hover:underline" href="hotels.html" style="color:var(--forest2)">Stay in the city centre →</a></div></div></article>
+<h2 class="serif text-2xl font-bold text-gray-900 mt-12 mb-5" id="m-2027-2" style="scroll-margin-top:90px">February 2027</h2>
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4"><div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" style="background:#fef3c7;min-width:62px"><div class="text-[10px] font-bold uppercase tracking-wide" style="color:#92400e">Feb</div><div class="text-2xl font-extrabold leading-tight" style="color:#b45309">?</div><div class="text-[10px]" style="color:#92400e">2027</div></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1.5"><h3 class="font-bold text-gray-900 text-base">🐉 Chinese New Year</h3><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:var(--mint);color:var(--forest)">Public holiday</span><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:#fef3c7;color:#92400e">Date to be confirmed</span></div><p class="text-xs text-gray-400 mb-2">Expected early February 2027 · 📍 Chinese associations and shops, Paramaribo</p><p class="text-gray-600 text-sm leading-relaxed">Suriname was among the first countries in the Americas to make Chinese New Year an official national holiday, honouring a community whose roots here go back to 1853.</p><p class="text-gray-600 text-sm leading-relaxed mt-2">Lion dances, drumming and strings of firecrackers mark the day at the Chinese associations of Paramaribo, including the venerable Kong Ngie Tong Sang, and at Chinese-owned shops across the country. Expect red and gold everywhere, food stalls, and a citywide soundtrack of firecrackers from early morning.</p></div></article>
+<h2 class="serif text-2xl font-bold text-gray-900 mt-12 mb-5" id="m-2027-3" style="scroll-margin-top:90px">March 2027</h2>
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4"><div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" style="background:#fef3c7;min-width:62px"><div class="text-[10px] font-bold uppercase tracking-wide" style="color:#92400e">Mar</div><div class="text-2xl font-extrabold leading-tight" style="color:#b45309">?</div><div class="text-[10px]" style="color:#92400e">2027</div></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1.5"><h3 class="font-bold text-gray-900 text-base">🌙 Eid-ul-Fitr (Bodo / Lebaran)</h3><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:var(--mint);color:var(--forest)">Public holiday</span><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:#fef3c7;color:#92400e">Date to be confirmed</span></div><p class="text-xs text-gray-400 mb-2">Expected early to mid March 2027, after the official moon sighting · 📍 Mosques nationwide, including Keizerstraat, Paramaribo</p><p class="text-gray-600 text-sm leading-relaxed">The end of Ramadan is a national holiday in Suriname, marked with morning prayers, family visits and festive meals.</p><p class="text-gray-600 text-sm leading-relaxed mt-2">Mosques fill at sunrise, including the landmark mosque on Keizerstraat that stands directly beside the Neveh Shalom synagogue, an image Suriname is rightly proud of. Many Javanese Muslim families celebrate the day as Bodo or Lebaran, with sungkeman, the tradition of asking elders for forgiveness. The exact date is confirmed by the official moon sighting and can shift by a day.</p></div></article>
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4"><div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" style="background:#fef3c7;min-width:62px"><div class="text-[10px] font-bold uppercase tracking-wide" style="color:#92400e">Mar</div><div class="text-2xl font-extrabold leading-tight" style="color:#b45309">?</div><div class="text-[10px]" style="color:#92400e">2027</div></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1.5"><h3 class="font-bold text-gray-900 text-base">🎨 Holi Phagwa (Festival of Colours)</h3><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:var(--mint);color:var(--forest)">Public holiday</span><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:#fef3c7;color:#92400e">Date to be confirmed</span></div><p class="text-xs text-gray-400 mb-2">Expected late March 2027 · 📍 Parks and open fields nationwide</p><p class="text-gray-600 text-sm leading-relaxed">The Hindu festival of colours is a national holiday and one of the most joyous days of the Surinamese year, celebrated far beyond the Hindustani community.</p><p class="text-gray-600 text-sm leading-relaxed mt-2">Parks and open fields fill with clouds of coloured gulal powder, chowtal singing and music. Friends, families and complete strangers paint each other head to toe, and by mid-afternoon half the country is pink, green and purple. The date follows the Hindu lunar calendar and usually falls in March.</p><p class="text-sm mt-3 pl-3 border-l-2" style="border-color:var(--leaf)"><strong style="color:var(--forest2)">Good to know:</strong> <span class="text-gray-600">Wear white clothes you are willing to sacrifice, keep your phone in a zip bag and join in. Spectators rarely stay clean for long.</span></p></div></article>
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4"><div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" style="background:var(--mint);min-width:62px"><div class="text-[10px] font-bold uppercase tracking-wide" style="color:var(--forest2)">Mar</div><div class="text-2xl font-extrabold leading-tight" style="color:var(--forest)">26</div><div class="text-[10px] text-gray-500">Fri</div></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1.5"><h3 class="font-bold text-gray-900 text-base">⛪ Easter Weekend</h3><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:var(--mint);color:var(--forest)">Public holiday</span></div><p class="text-xs text-gray-400 mb-2">Fri 26 to Mon 29 March 2027 · in 288 days · 📍 Nationwide</p><p class="text-gray-600 text-sm leading-relaxed">Good Friday and Easter Monday are both national holidays, wrapping a four-day weekend around Easter.</p><p class="text-gray-600 text-sm leading-relaxed mt-2">Churches across the country hold services, schools take their Easter break, and many Surinamese families head to the creek resorts of Para district or the old plantations of Commewijne for the long weekend.</p><p class="text-sm mt-3 pl-3 border-l-2" style="border-color:var(--leaf)"><strong style="color:var(--forest2)">Good to know:</strong> <span class="text-gray-600">District resorts and river lodges fill up over Easter. Book early if your trip overlaps.</span></p><div class="flex flex-wrap gap-x-5 gap-y-1.5 mt-3"><a class="text-xs font-semibold hover:underline" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Easter%20Weekend%20%28Suriname%29&amp;dates=20270326/20270330&amp;location=Nationwide&amp;details=Good%20Friday%20and%20Easter%20Monday%20are%20both%20national%20holidays%2C%20wrapping%20a%20four-day%20weekend%20around%20Easter.%20Full%20calendar%3A%20https%3A//exploresuriname.com/events.html" rel="noopener" style="color:var(--forest2)" target="_blank">📅 Add to calendar</a><a class="text-xs font-semibold hover:underline" href="hotels.html" style="color:var(--forest2)">Lodges for the long weekend →</a></div></div></article>
+<h2 class="serif text-2xl font-bold text-gray-900 mt-12 mb-5" id="m-2027-4" style="scroll-margin-top:90px">April 2027</h2>
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4"><div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" style="background:#fef3c7;min-width:62px"><div class="text-[10px] font-bold uppercase tracking-wide" style="color:#92400e">Apr</div><div class="text-2xl font-extrabold leading-tight" style="color:#b45309">?</div><div class="text-[10px]" style="color:#92400e">2027</div></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1.5"><h3 class="font-bold text-gray-900 text-base">🚶 Avond Vierdaagse (Evening Four-Day Walk)</h3><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:#fef3c7;color:#92400e">Date to be confirmed</span></div><p class="text-xs text-gray-400 mb-2">April 2027, dates announced early in the year · 📍 Streets of Paramaribo</p><p class="text-gray-600 text-sm leading-relaxed">Four evenings in a row, thousands of walkers, many in costume or group uniform, parade through Paramaribo with music while half the city cheers from the kerb.</p><p class="text-gray-600 text-sm leading-relaxed mt-2">The Avond Vierdaagse has been a Paramaribo tradition for more than half a century and usually takes place in April. Walking groups train for months, and the final evening turns into one big party along the route. Exact dates are announced each year.</p></div></article>
+<h2 class="serif text-2xl font-bold text-gray-900 mt-12 mb-5" id="m-2027-5" style="scroll-margin-top:90px">May 2027</h2>
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4"><div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" style="background:#fef3c7;min-width:62px"><div class="text-[10px] font-bold uppercase tracking-wide" style="color:#92400e">May</div><div class="text-2xl font-extrabold leading-tight" style="color:#b45309">?</div><div class="text-[10px]" style="color:#92400e">2027</div></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1.5"><h3 class="font-bold text-gray-900 text-base">🕌 Eid-ul-Adha (Feast of Sacrifice)</h3><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:var(--mint);color:var(--forest)">Public holiday</span><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap" style="background:#fef3c7;color:#92400e">Date to be confirmed</span></div><p class="text-xs text-gray-400 mb-2">Expected mid May 2027 · 📍 Mosques nationwide</p><p class="text-gray-600 text-sm leading-relaxed">The Islamic feast of sacrifice, one of Suriname’s newer national holidays, centres on prayer, charity and shared meals.</p><p class="text-gray-600 text-sm leading-relaxed mt-2">After morning prayers, families who can afford it sacrifice a goat, sheep or cow and share the meat three ways: with those in need, with relatives and neighbours, and at home. Like all Islamic holidays the date follows the lunar calendar, moving about eleven days earlier each year.</p></div></article>
+<section class="mt-16">
+<h2 class="serif text-2xl font-bold text-gray-900 mb-2">Public holidays 2026</h2>
+<p class="text-sm text-gray-500 mb-5">Official national holidays. Dates marked * follow lunar calendars and can shift by a day or two; they are updated here as soon as they are officially announced.</p>
+<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 overflow-x-auto">
+<table class="w-full text-sm">
+<thead><tr class="text-left text-xs text-gray-400 uppercase tracking-wide border-b border-gray-200">
+<th class="py-2 pr-4 font-semibold">Date</th><th class="py-2 pr-4 font-semibold">Holiday</th><th class="py-2 pr-4 font-semibold">Dutch name</th><th class="py-2 font-semibold">Day</th>
+</tr></thead>
+<tbody><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-400">1 Jan</td><td class="py-2.5 pr-4 font-medium text-gray-400">New Year's Day</td><td class="py-2.5 pr-4 text-gray-400">Nieuwjaarsdag</td><td class="py-2.5 whitespace-nowrap text-gray-400">Thursday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-400">17 Feb</td><td class="py-2.5 pr-4 font-medium text-gray-400">Chinese New Year *</td><td class="py-2.5 pr-4 text-gray-400">Chinees Nieuwjaar</td><td class="py-2.5 whitespace-nowrap text-gray-400">Tuesday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-400">4 Mar</td><td class="py-2.5 pr-4 font-medium text-gray-400">Holi Phagwa *</td><td class="py-2.5 pr-4 text-gray-400">Holi Phagwa</td><td class="py-2.5 whitespace-nowrap text-gray-400">Wednesday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-400">20 Mar</td><td class="py-2.5 pr-4 font-medium text-gray-400">Eid-ul-Fitr *</td><td class="py-2.5 pr-4 text-gray-400">Ied-Ul-Fitre</td><td class="py-2.5 whitespace-nowrap text-gray-400">Friday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-400">3 Apr</td><td class="py-2.5 pr-4 font-medium text-gray-400">Good Friday *</td><td class="py-2.5 pr-4 text-gray-400">Goede Vrijdag</td><td class="py-2.5 whitespace-nowrap text-gray-400">Friday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-400">5 Apr</td><td class="py-2.5 pr-4 font-medium text-gray-400">Easter Sunday *</td><td class="py-2.5 pr-4 text-gray-400">Eerste Paasdag</td><td class="py-2.5 whitespace-nowrap text-gray-400">Sunday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-400">6 Apr</td><td class="py-2.5 pr-4 font-medium text-gray-400">Easter Monday *</td><td class="py-2.5 pr-4 text-gray-400">Tweede Paasdag</td><td class="py-2.5 whitespace-nowrap text-gray-400">Monday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-400">1 May</td><td class="py-2.5 pr-4 font-medium text-gray-400">Labour Day</td><td class="py-2.5 pr-4 text-gray-400">Dag van de Arbeid</td><td class="py-2.5 whitespace-nowrap text-gray-400">Friday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-400">27 May</td><td class="py-2.5 pr-4 font-medium text-gray-400">Eid-ul-Adha *</td><td class="py-2.5 pr-4 text-gray-400">Ied-Ul-Adha</td><td class="py-2.5 whitespace-nowrap text-gray-400">Wednesday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-800">16 Jun</td><td class="py-2.5 pr-4 font-medium text-gray-800">Javanese New Year *</td><td class="py-2.5 pr-4 text-gray-800">Javaanse Nieuwjaar</td><td class="py-2.5 whitespace-nowrap text-gray-800">Tuesday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-800">1 Jul</td><td class="py-2.5 pr-4 font-medium text-gray-800">Freedom Day (Keti Koti)</td><td class="py-2.5 pr-4 text-gray-800">Dag der Vrijheden</td><td class="py-2.5 whitespace-nowrap text-gray-800">Wednesday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-800">9 Aug</td><td class="py-2.5 pr-4 font-medium text-gray-800">Day of Indigenous Peoples</td><td class="py-2.5 pr-4 text-gray-800">Dag der Inheemsen</td><td class="py-2.5 whitespace-nowrap text-gray-800">Sunday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-800">10 Oct</td><td class="py-2.5 pr-4 font-medium text-gray-800">Day of the Maroons</td><td class="py-2.5 pr-4 text-gray-800">Dag der Marrons</td><td class="py-2.5 whitespace-nowrap text-gray-800">Saturday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-800">8 Nov</td><td class="py-2.5 pr-4 font-medium text-gray-800">Divali *</td><td class="py-2.5 pr-4 text-gray-800">Divali</td><td class="py-2.5 whitespace-nowrap text-gray-800">Sunday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-800">25 Nov</td><td class="py-2.5 pr-4 font-medium text-gray-800">Independence Day</td><td class="py-2.5 pr-4 text-gray-800">Onafhankelijkheidsdag</td><td class="py-2.5 whitespace-nowrap text-gray-800">Wednesday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-800">25 Dec</td><td class="py-2.5 pr-4 font-medium text-gray-800">Christmas Day</td><td class="py-2.5 pr-4 text-gray-800">Eerste Kerstdag</td><td class="py-2.5 whitespace-nowrap text-gray-800">Friday</td></tr><tr class="border-b border-gray-100"><td class="py-2.5 pr-4 whitespace-nowrap text-gray-800">26 Dec</td><td class="py-2.5 pr-4 font-medium text-gray-800">Boxing Day</td><td class="py-2.5 pr-4 text-gray-800">Tweede Kerstdag</td><td class="py-2.5 whitespace-nowrap text-gray-800">Saturday</td></tr></tbody>
+</table>
+</div>
+</section>
+<section class="mt-12">
+<h2 class="serif text-2xl font-bold text-gray-900 mb-2">School breaks</h2>
+<p class="text-sm text-gray-500 mb-5">Worth knowing when you plan: flights and resorts fill up when Surinamese and Dutch-Surinamese families travel.</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><div class="flex items-center justify-between bg-white rounded-xl border border-gray-100 px-4 py-3"><span class="text-sm font-medium text-gray-800">Summer break</span><span class="text-sm text-gray-500">19 Aug to 30 Sep 2026</span></div></div>
+</section>
+<section class="mt-16">
+<h2 class="serif text-2xl font-bold text-gray-900 mb-6">Good to know</h2>
+<div class="space-y-5"><div class="pl-4 border-l-2" style="border-color:var(--leaf)"><p class="font-semibold text-gray-900 text-sm mb-1">What is the biggest festival in Suriname?</p><p class="text-gray-600 text-sm leading-relaxed">For street energy it is Owru Yari on 31 December, when central Paramaribo turns into one big party around the pagara estafette firecracker relay. The most significant cultural commemoration is Keti Koti on 1 July, marking the abolition of slavery in 1863.</p></div><div class="pl-4 border-l-2" style="border-color:var(--leaf)"><p class="font-semibold text-gray-900 text-sm mb-1">When is Keti Koti celebrated?</p><p class="text-gray-600 text-sm leading-relaxed">Keti Koti is celebrated every year on 1 July. It is a national holiday commemorating the abolition of slavery in Suriname on 1 July 1863, with the Bigi Spikri parade and ceremonies at the Kwakoe monument in Paramaribo.</p></div><div class="pl-4 border-l-2" style="border-color:var(--leaf)"><p class="font-semibold text-gray-900 text-sm mb-1">Why does Suriname have public holidays from so many religions?</p><p class="text-gray-600 text-sm leading-relaxed">Suriname is one of the most diverse countries in the world. Indigenous, Maroon, Creole, Hindustani, Javanese, Chinese and Dutch heritage all shape daily life, so the official calendar recognises Christian, Hindu, Muslim, Chinese, Javanese, Indigenous and Maroon celebrations alike.</p></div><div class="pl-4 border-l-2" style="border-color:var(--leaf)"><p class="font-semibold text-gray-900 text-sm mb-1">Do festival dates change every year?</p><p class="text-gray-600 text-sm leading-relaxed">Fixed national days such as Keti Koti (1 July) and Independence Day (25 November) never move. Holi Phagwa, Eid, Divali, Chinese New Year and Javanese New Year follow lunar calendars, so their dates shift each year and are confirmed officially, sometimes only weeks in advance.</p></div><div class="pl-4 border-l-2" style="border-color:var(--leaf)"><p class="font-semibold text-gray-900 text-sm mb-1">Are shops and banks open on public holidays?</p><p class="text-gray-600 text-sm leading-relaxed">Government offices and banks close on national holidays, and many shops close or run shorter hours, although some supermarkets stay open in the morning. Tours and hotels operate normally. Withdraw SRD cash and fill the tank a day ahead, especially before the December holidays.</p></div></div>
+</section>
+<section class="mt-16 rounded-3xl p-7 sm:p-10 text-center" style="background:var(--mint)">
+<h2 class="serif text-2xl font-bold mb-2" style="color:var(--forest)">Planning a trip around a festival?</h2>
+<p class="text-sm mb-6 max-w-xl mx-auto" style="color:var(--forest2)">Hotels fill up around Keti Koti, the December holidays and school breaks. Check rooms, flights and the weather before you lock in your dates.</p>
+<div class="flex flex-wrap justify-center gap-3">
+<a class="px-6 py-3 rounded-full font-semibold text-white text-sm hover:opacity-90 transition" href="hotels.html" style="background:var(--forest)">Where to Stay</a>
+<a class="px-6 py-3 rounded-full font-semibold text-white text-sm hover:opacity-90 transition" href="flights.html" style="background:var(--forest2)">Flights</a>
+<a class="px-6 py-3 rounded-full font-semibold text-sm border-2 hover:bg-white/50 transition" href="conditions.html" style="border-color:var(--forest2);color:var(--forest2)">Weather &amp; Tides</a>
+</div>
+</section>
+<p class="text-xs text-gray-400 mt-12 leading-relaxed max-w-3xl">Holiday dates follow Suriname’s official national holiday calendar (Ministry of Education school-year publication) and official government announcements. Lunar-calendar dates are confirmed by the responsible authorities and can shift by a day or two. This page rebuilds automatically and was last updated on Thursday 11 June 2026. Spotted an error or missing event? <a class="underline hover:text-gray-600" href="contact.html">Tell us</a>.</p>
+</main>
+<footer class="text-white py-10" style="background:var(--forest)">
+<div class="max-w-6xl mx-auto px-5">
+<div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-6">
+<div class="col-span-2 md:col-span-1">
+<p class="serif text-2xl font-bold mb-3">Explore<span style="color:var(--coral)">Suriname</span></p>
+<p class="text-white/60 text-sm leading-relaxed">Your guide to Suriname: places to eat, stay, explore, shop and stay informed with local, Oil &amp; Gas and Finance news.</p>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Explore</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li><a class="hover:text-white transition" href="nature.html">Nature &amp; Parks</a></li>
+<li><a class="hover:text-white transition" href="activities.html">Activities</a></li>
+<li><a class="hover:text-white transition" href="events.html">Events &amp; Festivals</a></li>
+<li><a class="hover:text-white transition" href="shopping.html">Shopping</a></li>
+<li><a class="hover:text-white transition" href="restaurants.html">Where to Eat</a></li>
+<li><a class="hover:text-white transition" href="hotels.html">Where to Stay</a></li>
+<li><a class="hover:text-white transition" href="services.html">Local Services</a></li>
+</ul>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Essentials</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li><a class="hover:text-white transition" href="currency.html">Market Rates</a></li>
+<li><a class="hover:text-white transition" href="flights.html">Flights</a></li>
+<li><a class="hover:text-white transition" href="conditions.html">Weather &amp; Tides</a></li>
+<li><a class="hover:text-white transition" href="daily-notices.html">Daily Notices</a></li>
+<li><a class="hover:text-white transition" href="visitor-guide.html">The Basics</a></li>
+<li><a class="hover:text-white transition" href="on-the-road.html">On the Road</a></li>
+<li><a class="hover:text-white transition" href="news.html">News</a></li>
+</ul>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Travel Info</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li>Capital: Paramaribo</li>
+<li>Languages: Dutch, Sranan Tongo + 9 more</li>
+<li>Currency: Surinamese Dollar (SRD)</li>
+<li>Climate: Tropical, ~28°C year-round</li>
+<li>3 UNESCO World Heritage Sites</li>
+</ul>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Contact</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li><a class="hover:text-white transition" href="contact.html">Contact Us</a></li>
+<li><a class="hover:text-white transition" href="about.html">About This Site</a></li>
+<li class="text-white/40 text-xs mt-3">For partnerships, listings<br/>or general enquiries.</li>
+</ul>
+</div>
+</div>
+<div class="border-t border-white/10 pt-8 flex flex-col items-center gap-4">
+<div class="flex gap-3">
+<a class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white transition" href="https://www.facebook.com/exploresurinamecom" rel="noopener" style="background:#1877F2;" target="_blank">
+<svg fill="currentColor" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987H7.898V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.891h-2.33v6.987C18.343 21.128 22 16.991 22 12z"></path></svg>
+          Facebook
+        </a>
+<a class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white transition" href="https://www.instagram.com/exploringsuriname/" rel="noopener" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);" target="_blank">
+<svg fill="currentColor" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.336 3.608 1.311.975.975 1.249 2.242 1.311 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.633-1.311 3.608-.975.975-2.242 1.249-3.608 1.311-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.336-3.608-1.311-.975-.975-1.249-2.242-1.311-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.336-2.633 1.311-3.608.975-.975 2.242-1.249 3.608-1.311C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.333.014 7.053.072 5.775.13 4.602.402 3.635 1.368 2.668 2.335 2.396 3.508 2.338 4.786 2.28 6.066 2.266 6.474 2.266 12s.014 5.934.072 7.214c.058 1.278.33 2.451 1.297 3.418.967.967 2.14 1.239 3.418 1.297C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.278-.058 2.451-.33 3.418-1.297.967-.967 1.239-2.14 1.297-3.418.058-1.28.072-1.688.072-7.213s-.014-5.934-.072-7.214c-.058-1.278-.33-2.451-1.297-3.418C19.398.402 18.225.13 16.947.072 15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"></path></svg>
+          Instagram
+        </a>
+</div>
+<p class="text-white/40 text-xs">© 2026 ExploreSuriname.com  ·  <a class="hover:text-white/70 transition" href="privacy.html">Privacy Policy</a>  ·  <a class="hover:text-white/70 transition" href="/images/HOME_CREDITS.txt">Credits</a></p>
+</div>
+</div>
+</footer>
+</body>
+</html>

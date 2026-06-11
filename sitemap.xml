@@ -391,6 +391,36 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/daily-notices.html"/>
   </url>
   <url>
+    <loc>https://exploresuriname.com/events.html</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/events.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/events.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/events.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/events.html"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/nl/events.html</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/events.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/events.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/events.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/events.html"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/es/events.html</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/events.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/events.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/events.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/events.html"/>
+  </url>
+  <url>
     <loc>https://exploresuriname.com/news.html</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>daily</changefreq>
