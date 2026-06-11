@@ -6423,6 +6423,8 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
     import re as _re
     _VOLATILE_PATTS = [
         _re.compile(r'"dateModified":"\d{4}-\d{2}-\d{2}"'),
+        _re.compile(r'[Ii]n \d+ days|happening now|&middot; (?:today|tomorrow)'),
+        _re.compile(r'was last updated on [A-Za-z]+ \d{1,2} [A-Za-z]+ \d{4}'),
         _re.compile(r'\d{1,2}\s+[A-Za-z]{3,9}\s+\d{4}(?:,?\s*\d{1,2}:\d{2})?\s*SR'),
         _re.compile(r'(?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day,\s+\d{1,2}\s+[A-Za-z]+\s+\d{4}'),
     ]
