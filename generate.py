@@ -6475,9 +6475,9 @@ def build_worldcup_page():
         'late evening Suriname time. Check ' + _ilink("restaurants.html", "where to eat") + ' for spots with '
         'screens, and our ' + _ilink("events.html", "events calendar") + ' for everything else happening this season.</p>')
 
-    body = (_hub_card("Watch in Suriname", "STVS, ATV, Telesur+ and SRS", watch_body)
-            + schedule_html
+    body = (schedule_html
             + '<div class="mt-10"></div>'
+            + _hub_card("Watch in Suriname", "STVS, ATV, Telesur+ and SRS", watch_body)
             + _hub_card("The Tournament", "48 Teams, 104 Matches, Three Hosts", format_body)
             + _hub_faq_html(faq))
 
