@@ -1,28 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD MAANDAG 15 JUNI 2026",
-      "date": "15 Juni 2026",
-      "date_iso": "2026-06-15",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1519/gepland-onderhoud-maandag-15-juni-2026",
-      "meta_description": "Gepland onderhoud: Paramaribo maandag 15 juni 2026 tussen 09:00-14:00 MOHAMED AJOEBWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.  Kaart",
-      "district": "Paramaribo",
-      "time": "09:00 – 14:00",
-      "area": "MOHAMED AJOEBWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.  Kaart"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD VRIJDAG 12 JUNI 2026",
-      "date": "12 Juni 2026",
-      "date_iso": "2026-06-12",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1515/gepland-onderhoud-vrijdag-12-juni-2026",
-      "meta_description": "Gepland onderhoud: Paramaribo vrijdag 12 juni 2026 tussen 09:00-14:00 GEDEELTE MAROWIJNESTRAAT TUSSEN LICANIASTRAAT EN COESEWIJNESTRAAT, GEDEELTE FLORALAAN",
-      "district": "Paramaribo",
-      "time": "09:00 – 14:00",
-      "area": "GEDEELTE MAROWIJNESTRAAT TUSSEN LICANIASTRAAT EN COESEWIJNESTRAAT, GEDEELTE FLORALAAN"
-    }
-  ],
-  "last_updated": "2026-06-12T19:07:42.547760+00:00",
+  "outages": [],
+  "last_updated": "2026-06-12T21:53:52.200662+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
