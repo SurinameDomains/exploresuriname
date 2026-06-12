@@ -1,28 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD VRIJDAG 12 JUNI 2026",
-      "date": "12 Juni 2026",
-      "date_iso": "2026-06-12",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1515/gepland-onderhoud-vrijdag-12-juni-2026",
-      "meta_description": "Gepland onderhoud: Paramaribo vrijdag 12 juni 2026 tussen 09:00-14:00 GEDEELTE MAROWIJNESTRAAT TUSSEN LICANIASTRAAT EN COESEWIJNESTRAAT, GEDEELTE FLORALAAN",
-      "district": "Paramaribo",
-      "time": "09:00 – 14:00",
-      "area": "GEDEELTE MAROWIJNESTRAAT TUSSEN LICANIASTRAAT EN COESEWIJNESTRAAT, GEDEELTE FLORALAAN"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD VRIJDAG 12 JUNI 2026",
-      "date": "12 Juni 2026",
-      "date_iso": "2026-06-12",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1514/gepland-onderhoud-vrijdag-12-juni-2026",
-      "meta_description": "Gepland onderhoud: Paramaribo vrijdag 12 juni 2026 tussen 08:00-14:00 GEDEELTE PLUTOSTRAAT TUSSEN JACQUES D. GOMPERTSSTRAAT EN AIDASTRAAT, GEDEELTE JACQUES",
-      "district": "Paramaribo",
-      "time": "08:00 – 14:00",
-      "area": "GEDEELTE PLUTOSTRAAT TUSSEN JACQUES D. GOMPERTSSTRAAT EN AIDASTRAAT, GEDEELTE JACQUES"
-    }
-  ],
-  "last_updated": "2026-06-12T11:07:50.599902+00:00",
+  "outages": [],
+  "last_updated": "2026-06-12T11:48:44.881994+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
