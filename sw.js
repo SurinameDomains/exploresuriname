@@ -1,6 +1,8 @@
 // ExploreSuriname Service Worker
-const CACHE = 'exploresr-v2';
-const PRECACHE = ['/', '/tailwind.css', '/favicon.ico', '/favicon.svg', '/offline.html'];
+const CACHE = 'exploresr-v3';
+const TWV = '2a63aca0';
+const PRECACHE = ['/', '/tailwind.css?v=' + TWV, '/favicon.ico', '/favicon.svg', '/offline.html',
+                  '/fonts/playfair-latin-var.woff2', '/fonts/inter-latin-var.woff2'];
 const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html', '/daily-notices.html', '/events.html']);
 
 self.addEventListener('install', e => {
@@ -9,9 +11,16 @@ self.addEventListener('install', e => {
 });
 
 self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k))))
-  );
+  e.waitUntil((async () => {
+    const ks = await caches.keys();
+    await Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)));
+    // drop superseded tailwind.css versions so only the current one remains
+    const c = await caches.open(CACHE);
+    for (const req of await c.keys()) {
+      const cu = new URL(req.url);
+      if (cu.pathname === '/tailwind.css' && cu.search !== '?v=' + TWV) await c.delete(req);
+    }
+  })());
   self.clients.claim();
 });
 
@@ -37,7 +46,10 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Cache-first for static assets (CSS, JS, images, fonts, icons)
+  // Cache-first for static assets (CSS, JS, images, fonts, icons).
+  // tailwind.css special case: if the exact ?v= misses (version just bumped),
+  // serve the previous version instantly (ignoreSearch) so first paint never
+  // blocks on the network; the background fetch caches the new version.
   if (u.pathname.match(/\.(css|js|svg|webp|png|jpg|ico|woff2?)$/) || isFont) {
     e.respondWith(
       caches.match(e.request).then(cached => {
@@ -45,7 +57,10 @@ self.addEventListener('fetch', e => {
           caches.open(CACHE).then(c => c.put(e.request, r.clone()));
           return r;
         });
-        return cached || network;
+        if (cached) return cached;
+        if (u.pathname === '/tailwind.css')
+          return caches.match('/tailwind.css', {ignoreSearch: true}).then(stale => stale || network);
+        return network;
       })
     );
     return;
