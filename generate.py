@@ -1377,6 +1377,13 @@ SERVICES      = _alpha(SERVICES)
 # ── Global search index — written to search-index.json, loaded lazily ────────
 import json as _json
 _SEARCH_INDEX = _json.dumps([
+    # Guide & utility pages — searchable by name (badge colour: cat_colors["Guides"])
+    {"n": "SEOGS 2026 Visitor Guide", "u": "seogs-2026.html", "c": "Guides", "a": "Paramaribo"},
+    {"n": "Suriname Itinerary: 5, 7 and 10 Days", "u": "suriname-itinerary.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Is Suriname Safe? Safety Guide", "u": "is-suriname-safe.html", "c": "Guides", "a": "Suriname"},
+    {"n": "The Basics: Visas, SIMs and Money", "u": "visitor-guide.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Events and Festivals Calendar", "u": "events.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Market Rates: SRD Exchange", "u": "currency.html", "c": "Guides", "a": "Suriname"},
     *[{"n": b["name"], "u": b["url"], "c": "Eat & Drink",  "a": b.get("area","")} for b in RESTAURANTS],
     *[{"n": b["name"], "u": b["url"], "c": "Stay",         "a": b.get("area","")} for b in HOTELS],
     *[{"n": b["name"], "u": b["url"], "c": "Nature",       "a": b.get("area","")} for b in SIGHTSEEING],
@@ -1882,7 +1889,9 @@ PAGE_HEAD = """\
   })();
   </script>
   <!-- Google tag (gtag.js) -->
-  <script>(function(){var d=false;function l(){if(d)return;d=true;var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments);};gtag("js",new Date());gtag("config","G-6LTYHZYNSF");}["scroll","click","touchstart","keydown"].forEach(function(e){window.addEventListener(e,l,{once:true,passive:true})});window.addEventListener("load",function(){setTimeout(l,4000)});})();</script>"""
+  <script>(function(){var d=false;function l(){if(d)return;d=true;var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments);};gtag("js",new Date());gtag("config","G-6LTYHZYNSF");}["scroll","click","touchstart","keydown"].forEach(function(e){window.addEventListener(e,l,{once:true,passive:true})});window.addEventListener("load",function(){setTimeout(l,4000)});})();</script>
+  <!-- GA4 interaction events: WhatsApp / phone / email / directions / outbound clicks -->
+  <script>window.addEventListener("click",function(ev){var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;var h=a.getAttribute("href")||"",n="",p={};if(h.indexOf("https://wa.me/")===0){n="whatsapp_click"}else if(h.indexOf("tel:")===0){n="phone_click"}else if(h.indexOf("mailto:")===0){n="email_click"}else if(h.indexOf("google.com/maps")!==-1){n="directions_click"}else if(/^https?:\/\//.test(h)&&h.indexOf("exploresuriname.com")===-1){n="outbound_click";try{p.link_domain=new URL(h).hostname}catch(e){}}if(!n)return;p.link_url=h.slice(0,100);window.dataLayer=window.dataLayer||[];if(!window.gtag){window.gtag=function(){window.dataLayer.push(arguments)}}window.gtag("event",n,p)});</script>"""
 try:
     import hashlib as _hashlib
     _TW_V = _hashlib.md5(open("tailwind.css", "rb").read()).hexdigest()[:8]
@@ -2240,7 +2249,7 @@ def nav_html(active="home", prefix=""):
     _TODO  = {"nature", "activities", "shopping", "events"}
     _EAT   = {"restaurants", "hotels"}
     _ESS   = {"currency", "flights", "forecast", "daily-notices"}
-    _PLAN  = {"visitor", "roads"}
+    _PLAN  = {"visitor", "roads", "itinerary", "safety", "seogs"}
 
     def _is_active(key):
         return active == key
@@ -2300,6 +2309,9 @@ def nav_html(active="home", prefix=""):
     plan_items = (
         f'<a href="{prefix}visitor-guide.html"  {_link_cls("visitor")}  >The Basics</a>'
         f'<a href="{prefix}on-the-road.html"    {_link_cls("roads")}    >On the Road</a>'
+        f'<a href="{prefix}suriname-itinerary.html" {_link_cls("itinerary")} >Trip Itineraries</a>'
+        f'<a href="{prefix}is-suriname-safe.html"   {_link_cls("safety")}    >Is Suriname Safe?</a>'
+        f'<a href="{prefix}seogs-2026.html"         {_link_cls("seogs")}     >SEOGS 2026 Guide</a>'
     )
 
     desktop_nav = (
@@ -2349,7 +2361,10 @@ def nav_html(active="home", prefix=""):
     )
     mob_plan_items = (
         _mob_link(f"{prefix}visitor-guide.html", "The Basics",    "visitor") +
-        _mob_link(f"{prefix}on-the-road.html",   "On the Road",   "roads")
+        _mob_link(f"{prefix}on-the-road.html",   "On the Road",   "roads") +
+        _mob_link(f"{prefix}suriname-itinerary.html", "Trip Itineraries", "itinerary") +
+        _mob_link(f"{prefix}is-suriname-safe.html",   "Is Suriname Safe?", "safety") +
+        _mob_link(f"{prefix}seogs-2026.html",         "SEOGS 2026 Guide",  "seogs")
     )
 
     _svc_col  = 'style="color:var(--forest)"' if _is_active("services") else ""
@@ -2358,7 +2373,7 @@ def nav_html(active="home", prefix=""):
     _news_link = f'<a href="{prefix}news.html" class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" {_news_col}>News</a>'
 
     # Used by the search modal JS
-    cat_colors = {"Eat & Drink":"#7c3aed","Stay":"#c05621","Nature":"var(--forest)",
+    cat_colors = {"Eat & Drink":"#7c3aed","Stay":"#c05621","Nature":"var(--forest)","Guides":"#0e7490",
                   "Activities":"var(--forest2)","Shopping":"#0369a1","Services":"#0369a1","Sightseeing":"var(--forest)"}
 
     mobile_menu = (
@@ -2577,6 +2592,8 @@ def footer_html(prefix=""):
           <li><a href="{prefix}daily-notices.html"    class="hover:text-white transition">Daily Notices</a></li>
           <li><a href="{prefix}visitor-guide.html"    class="hover:text-white transition">The Basics</a></li>
           <li><a href="{prefix}on-the-road.html"   class="hover:text-white transition">On the Road</a></li>
+          <li><a href="{prefix}suriname-itinerary.html" class="hover:text-white transition">Trip Itineraries</a></li>
+          <li><a href="{prefix}is-suriname-safe.html"   class="hover:text-white transition">Is Suriname Safe?</a></li>
           <li><a href="{prefix}news.html"          class="hover:text-white transition">News</a></li>
         </ul>
       </div>
@@ -6057,10 +6074,439 @@ def build_visitor_guide_page():
     </div>
   </div>
 
+  <!-- Cross-links to the planning hubs (added Jun 2026) -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+    <a href="suriname-itinerary.html" class="block bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
+      <p class="text-xs font-semibold uppercase tracking-widest mb-1" style="color:var(--forest2)">Next Step</p>
+      <p class="font-bold text-gray-900 mb-1">Build Your Itinerary</p>
+      <p class="text-gray-600 text-sm leading-relaxed">Day-by-day plans for 5, 7 or 10 days, from the UNESCO centre to the deep interior.</p>
+    </a>
+    <a href="is-suriname-safe.html" class="block bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
+      <p class="text-xs font-semibold uppercase tracking-widest mb-1" style="color:var(--forest2)">Good to Know</p>
+      <p class="font-bold text-gray-900 mb-1">Is Suriname Safe?</p>
+      <p class="text-gray-600 text-sm leading-relaxed">The honest answer, plus city, road and interior advice.</p>
+    </a>
+    <a href="events.html" class="block bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
+      <p class="text-xs font-semibold uppercase tracking-widest mb-1" style="color:var(--forest2)">Time It Right</p>
+      <p class="font-bold text-gray-900 mb-1">Events &amp; Festivals</p>
+      <p class="text-gray-600 text-sm leading-relaxed">Holi, Keti Koti, Divali, Owru Yari and everything in between.</p>
+    </a>
+  </div>
+
 </main>
 {footer_html()}
 </body>
 </html>"""
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  TOURISM HUB PAGES — added Jun 2026 (SEO growth plan Sprint A/C)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _hub_head(title, desc, fname, faq=None, extra_ld=None):
+    """Shared <head> for the tourism hub pages: meta + WebPage/FAQ/Breadcrumb JSON-LD."""
+    import json as _json
+    url = f"{SITE_URL}/{fname}"
+    _plain = html_lib.unescape  # JSON-LD must be plain text, not HTML entities
+    ld_blocks = []
+    ld_blocks.append(_json.dumps({
+        "@context": "https://schema.org", "@type": "WebPage", "name": _plain(title),
+        "url": url, "description": _plain(desc),
+        "dateModified": datetime.now(SR_TZ).strftime("%Y-%m-%d"),
+        "about": {"@type": "Place", "name": "Suriname", "addressCountry": "SR"},
+        "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": SITE_URL + "/"},
+    }, ensure_ascii=False))
+    if faq:
+        ld_blocks.append(_json.dumps({
+            "@context": "https://schema.org", "@type": "FAQPage",
+            "mainEntity": [{"@type": "Question", "name": _plain(q),
+                            "acceptedAnswer": {"@type": "Answer", "text": _plain(a)}} for q, a in faq],
+        }, ensure_ascii=False))
+    if extra_ld:
+        ld_blocks.append(_json.dumps(extra_ld, ensure_ascii=False))
+    ld_blocks.append(_json.dumps({
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": _plain(title), "item": url},
+        ]}, ensure_ascii=False))
+    scripts = "".join(
+        '\n  <script type="application/ld+json">\n  ' + b + '\n  </script>' for b in ld_blocks)
+    return (
+        PAGE_HEAD
+        + '\n  <title>' + title + ' | Explore Suriname</title>'
+        + '\n  <meta name="description" content="' + desc + '">'
+        + '\n  <link rel="canonical" href="' + url + '">'
+        + '\n  <meta property="og:type" content="website">'
+        + '\n  <meta property="og:site_name" content="Explore Suriname">'
+        + '\n  <meta property="og:url" content="' + url + '">'
+        + '\n  <meta property="og:title" content="' + title + ' | Explore Suriname">'
+        + '\n  <meta property="og:description" content="' + desc + '">'
+        + '\n  <meta property="og:image" content="' + SITE_URL + '/og-image.jpg">'
+        + '\n  <meta name="twitter:card" content="summary_large_image">'
+        + '\n  <meta name="twitter:title" content="' + title + ' | Explore Suriname">'
+        + '\n  <meta name="twitter:description" content="' + desc + '">'
+        + '\n  <meta name="twitter:image" content="' + SITE_URL + '/og-image.jpg">'
+        + scripts + '\n</head>'
+    )
+
+
+def _hub_hero(kicker, h1, sub):
+    return f"""
+<body class="bg-gray-50 overflow-x-hidden">
+{{NAV}}
+<div class="pt-16"></div>
+<div class="text-white py-14 text-center" style="background:var(--forest)">
+  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--coral)">{kicker}</p>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">{h1}</h1>
+  <p class="text-white/65 text-lg max-w-2xl mx-auto px-5">{sub}</p>
+</div>
+"""
+
+
+def _hub_card(kicker, heading, body_html):
+    return (
+        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6">'
+        f'<p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">{kicker}</p>'
+        f'<h2 class="serif text-xl font-bold text-gray-900 mb-4">{heading}</h2>'
+        + body_html + '</div>'
+    )
+
+
+def _hub_faq_html(faq):
+    items = "".join(
+        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-4">'
+        f'<h3 class="font-bold text-gray-900 mb-2">{q}</h3>'
+        f'<p class="text-gray-700 text-sm leading-relaxed">{a}</p></div>'
+        for q, a in faq)
+    return ('<h2 class="serif text-2xl font-bold text-gray-900 mb-5 mt-2">Frequently Asked Questions</h2>'
+            + items)
+
+
+def _ilink(href, label):
+    return f'<a href="{href}" class="font-semibold hover:underline" style="color:var(--forest2)">{label}</a>'
+
+
+def build_seogs_page():
+    """SEOGS 2026 visitor guide: practical Paramaribo info for summit delegates and visitors."""
+    title = "SEOGS 2026 Visitor Guide for Paramaribo"
+    desc  = ("In Paramaribo for SEOGS 2026 (23 to 26 June)? Where to stay, eat and get around "
+             "during the Suriname Energy, Oil &amp; Gas Summit at Roeli&#8217;s Event Venue.")
+    faq = [
+        ("When and where is SEOGS 2026?",
+         "SEOGS 2026 runs from 23 to 26 June 2026 at Roeli&#8217;s Event Venue in Paramaribo, Suriname. "
+         "It is the sixth edition, hosted by Staatsolie under the theme Unlocking Energy, Empowering Nations."),
+        ("How do I register for SEOGS 2026?",
+         "Delegate and visitor registration is handled on the official website, suriname-energy.com. "
+         "Delegate passes and free visitor registration are separate."),
+        ("How far is the venue from the airport?",
+         "Johan Adolf Pengel International Airport is roughly 45 kilometres south of Paramaribo. "
+         "The drive to the city takes about 45 to 60 minutes. Arrange a hotel transfer or use a registered taxi."),
+        ("Can I pay with US dollars or cards in Paramaribo?",
+         "The local currency is the Surinamese Dollar (SRD). Larger hotels and restaurants accept cards and "
+         "sometimes USD or EUR, but smaller venues are cash based. Exchange money at a cambio or bank and "
+         "check live rates on our Market Rates page."),
+    ]
+    event_ld = {
+        "@context": "https://schema.org", "@type": "BusinessEvent",
+        "name": "SEOGS 2026: Suriname Energy, Oil & Gas Summit & Exhibition",
+        "startDate": "2026-06-23", "endDate": "2026-06-26",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "location": {"@type": "Place", "name": "Roeli's Event Venue",
+                     "address": {"@type": "PostalAddress", "addressLocality": "Paramaribo", "addressCountry": "SR"}},
+        "organizer": {"@type": "Organization", "name": "Staatsolie Maatschappij Suriname N.V."},
+        "url": "https://suriname-energy.com/",
+    }
+    head = _hub_head(title, desc, "seogs-2026.html", faq=faq, extra_ld=event_ld)
+    hero = _hub_hero("23 to 26 June 2026 &middot; Paramaribo",
+                     "SEOGS 2026 Visitor Guide",
+                     "The practical side of the Suriname Energy, Oil &amp; Gas Summit: "
+                     "where to stay, eat, change money and get around.").replace("{NAV}", nav_html("seogs"))
+
+    facts = (
+        '<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">'
+        + "".join(
+            '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 text-center">'
+            f'<p class="text-2xl font-bold mb-1" style="color:var(--forest)">{v}</p>'
+            f'<p class="text-gray-500 text-xs uppercase tracking-wide">{k}</p></div>'
+            for v, k in [("23-26 Jun", "Dates 2026"), ("Roeli&#8217;s", "Event Venue"),
+                         ("1,200+", "Delegates"), ("14,000+", "Visitors")])
+        + '</div>'
+    )
+
+    body = facts + _hub_card("The Event", "What SEOGS Is",
+        '<p class="text-gray-700 text-sm leading-relaxed mb-4">'
+        'The Suriname Energy, Oil &amp; Gas Summit &amp; Exhibition is the largest energy event in the '
+        'Caribbean, hosted by Staatsolie. The 2026 edition expects 230+ speakers, 260+ exhibitors and '
+        'delegates from across the offshore industry as Suriname moves toward first oil from Block 58. '
+        'Registration, programme and floorplans are on the '
+        '<a href="https://suriname-energy.com/" target="_blank" rel="noopener" class="font-semibold hover:underline" style="color:var(--forest2)">official SEOGS website</a>. '
+        'For everything else happening that week, see our ' + _ilink("events.html", "events calendar")
+        + '; for sector headlines, our ' + _ilink("news.html", "Oil &amp; Gas news section") + ' aggregates the trade press daily.</p>')
+
+    body += _hub_card("Getting In &amp; Around", "Airport, Taxis and Traffic",
+        '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
+        'Johan Adolf Pengel International Airport (PBM) lies about 45 kilometres south of the city; '
+        'the drive takes 45 to 60 minutes. Most hotels arrange transfers if you book ahead, and '
+        'registered taxis are available at arrivals. In town, local ride-hailing apps and taxis are '
+        'the easiest way to reach the venue, which has parking for 600+ vehicles.</p>'
+        '<p class="text-gray-700 text-sm leading-relaxed">'
+        'Check ' + _ilink("on-the-road.html", "On the Road") + ' for live road notices and our '
+        + _ilink("flights.html", "flights page") + ' for arrivals and departures at PBM. '
+        'Expect heavier traffic around the venue on summit mornings.</p>')
+
+    body += _hub_card("Money", "SRD, Cambios and Cards",
+        '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
+        'Suriname runs on the Surinamese Dollar (SRD) and is still largely cash based. Cards work at '
+        'the bigger hotels and restaurants, but keep SRD on hand for taxis, small restaurants and shops. '
+        'Exchange at a licensed cambio or bank rather than on the street.</p>'
+        '<p class="text-gray-700 text-sm leading-relaxed">'
+        'Live USD and EUR rates from the Central Bank and street cambios are on our '
+        + _ilink("currency.html", "Market Rates page") + ', updated through the day. Banks with central '
+        'branches include ' + _ilink("listing/hakrinbank/", "Hakrinbank") + ' and '
+        + _ilink("listing/finabank-centrum/", "Finabank") + '.</p>')
+
+    hotels_links = [
+        ("listing/torarica-resort/", "Torarica Resort"),
+        ("listing/royal-torarica/", "Royal Torarica"),
+        ("listing/courtyard-by-marriott/", "Courtyard by Marriott"),
+        ("listing/ramada-paramaribo-princess/", "Ramada Paramaribo Princess"),
+        ("listing/residence-inn-paramaribo/", "Residence Inn Paramaribo"),
+        ("listing/eco-torarica/", "Eco Torarica"),
+    ]
+    body += _hub_card("Where to Stay", "Hotels Used by Business Travellers",
+        '<p class="text-gray-700 text-sm leading-relaxed mb-4">'
+        'SEOGS editions sell out city hotels, so book early. These are the established business options '
+        'in and around the centre:</p>'
+        '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">'
+        + "".join(f'<a href="{h}" class="block rounded-xl border border-gray-200 px-4 py-3 text-sm font-semibold hover:bg-gray-50 transition" style="color:var(--forest)">{n} &#8594;</a>' for h, n in hotels_links)
+        + '</div>'
+        '<p class="text-gray-700 text-sm leading-relaxed">Browse all options on our '
+        + _ilink("hotels.html", "hotels page") + ', including guesthouses and apartments.</p>')
+
+    eats_links = [
+        ("listing/baka-foto-restaurant/", "Baka Foto (Fort Zeelandia)"),
+        ("listing/souposo/", "Souposo"),
+        ("listing/de-gadri/", "De Gadri"),
+        ("listing/kyu-pho-grill/", "Kyu Pho &amp; Grill"),
+        ("listing/garden-of-eden/", "Garden of Eden"),
+        ("listing/mingle-sushi/", "Mingle Sushi"),
+    ]
+    body += _hub_card("Where to Eat", "Dinner After the Exhibition Floor",
+        '<p class="text-gray-700 text-sm leading-relaxed mb-4">'
+        'Paramaribo&#8217;s food scene mixes Surinamese, Javanese, Indian, Chinese and Dutch kitchens. '
+        'A few reliable picks for client dinners and quick bites:</p>'
+        '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">'
+        + "".join(f'<a href="{h}" class="block rounded-xl border border-gray-200 px-4 py-3 text-sm font-semibold hover:bg-gray-50 transition" style="color:var(--forest)">{n} &#8594;</a>' for h, n in eats_links)
+        + '</div>'
+        '<p class="text-gray-700 text-sm leading-relaxed">The full list, with menus, hours and WhatsApp '
+        'contacts, is on our ' + _ilink("restaurants.html", "restaurants page") + '.</p>')
+
+    body += _hub_card("Connectivity", "SIM Cards and Data",
+        '<p class="text-gray-700 text-sm leading-relaxed">'
+        'Telesur and Digicel both sell prepaid SIMs at the airport and in town; bring your passport for '
+        'registration. Central branches: ' + _ilink("listing/telesur-centrum/", "Telesur Centrum") + ' and '
+        + _ilink("listing/digicel-wilhelminastraat/", "Digicel Wilhelminastraat") + '. More practical '
+        'arrival tips, including eSIM and ATM advice, are in our ' + _ilink("visitor-guide.html", "visitor guide") + '.</p>')
+
+    body += _hub_card("Downtime", "If You Have a Free Half Day",
+        '<p class="text-gray-700 text-sm leading-relaxed">'
+        'The ' + _ilink("listing/nature-paramaribo-historic-inner-city/", "UNESCO-listed historic inner city")
+        + ' is walkable from most hotels. With a few more hours, cross the river for the '
+        + _ilink("listing/nature-commewijne-river/", "Commewijne plantation loop") + ', '
+        + _ilink("listing/nature-fort-nieuw-amsterdam/", "Fort Nieuw Amsterdam") + ' or the coffee trails of '
+        + _ilink("listing/nature-peperpot-nature-park/", "Peperpot Nature Park") + '. Staying the weekend? '
+        'Start with our ' + _ilink("suriname-itinerary.html", "Suriname itinerary") + '.</p>')
+
+    body += _hub_faq_html(faq)
+
+    main = ('<main class="max-w-5xl mx-auto px-5 py-12 pb-24">' + body
+            + '<p class="text-gray-400 text-xs mt-8">Event details from the official SEOGS organisers; '
+              'verify programme and registration on suriname-energy.com. Page updated June 2026.</p></main>')
+    return head + hero + main + "\n" + footer_html() + "\n</body>\n</html>"
+
+
+def build_itinerary_page():
+    """Suriname itinerary hub: 5, 7 and 10 day plans linking nature and activity listings."""
+    title = "Suriname Itinerary: 5, 7 and 10 Day Plans"
+    desc  = ("Day-by-day Suriname itineraries for 5, 7 and 10 days: Paramaribo&#8217;s UNESCO centre, "
+             "the Commewijne plantations, Brownsberg, Galibi and the rainforest interior.")
+    faq = [
+        ("How many days do you need in Suriname?",
+         "Five days covers Paramaribo and day trips. Seven days adds an overnight in the rainforest or on "
+         "the coast at Galibi. Ten days lets you reach the deep interior, such as the Central Suriname "
+         "Nature Reserve or Palumeu, which need flights or long boat journeys."),
+        ("What is the best time to visit Suriname?",
+         "The long dry season from August to late November and the short dry season from February to April "
+         "are the most comfortable windows. Sea turtle nesting at Galibi peaks roughly February to August."),
+        ("Do I need a tour operator for the interior?",
+         "Yes, for almost all interior trips. Lodges, river transport and interior flights are sold as "
+         "packages by local operators. Book ahead in the dry season; trips fill up."),
+        ("Is Suriname expensive to travel?",
+         "Paramaribo is affordable by Caribbean standards. Interior packages cost more because of boat fuel "
+         "and charter flights, typically the largest single expense of a trip."),
+    ]
+    head = _hub_head(title, desc, "suriname-itinerary.html", faq=faq)
+    hero = _hub_hero("Plan Your Trip", "Suriname Itinerary",
+                     "Five, seven or ten days. City, plantations, jungle. "
+                     "Built from the places listed on this site.").replace("{NAV}", nav_html("itinerary"))
+
+    def day(num, title_, body_):
+        return ('<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-4">'
+                f'<p class="text-xs font-semibold uppercase tracking-widest mb-1" style="color:var(--coral)">Day {num}</p>'
+                f'<h3 class="serif text-lg font-bold text-gray-900 mb-3">{title_}</h3>'
+                f'<p class="text-gray-700 text-sm leading-relaxed">{body_}</p></div>')
+
+    body = ('<p class="text-gray-700 leading-relaxed mb-8">'
+            'Suriname rewards a slow start: one or two days in the capital, then outward by river and road. '
+            'The five day core below works for any trip; the seven and ten day extensions reach the coast '
+            'and the interior. Every stop links to a full page with photos, contact details and maps. '
+            'Before you book anything, read ' + _ilink("visitor-guide.html", "The Basics")
+            + ' for visas, SIM cards and money, and check ' + _ilink("is-suriname-safe.html", "our safety guide") + '.</p>'
+            '<h2 class="serif text-2xl font-bold text-gray-900 mb-5">The 5 Day Core</h2>')
+
+    body += day(1, "Paramaribo&#8217;s Historic Centre",
+        'Walk the ' + _ilink("listing/nature-paramaribo-historic-inner-city/", "UNESCO World Heritage inner city")
+        + ': the wooden cathedral, Fort Zeelandia and the Waterkant riverfront. Lunch at a roti shop such as '
+        + _ilink("listing/roopram-roti-shop/", "Roopram") + ', dinner at '
+        + _ilink("listing/souposo/", "Souposo") + ' or ' + _ilink("listing/baka-foto-restaurant/", "Baka Foto")
+        + ' inside the fort walls.')
+    body += day(2, "Commewijne Plantation Loop",
+        'Cross the river for ' + _ilink("listing/nature-fort-nieuw-amsterdam/", "Fort Nieuw Amsterdam") + ', the coffee '
+        'trails of ' + _ilink("listing/nature-peperpot-nature-park/", "Peperpot Nature Park") + ' and the restored '
+        'plantation at ' + _ilink("listing/plantage-frederiksdorp/", "Frederiksdorp") + '. End with a sunset boat trip '
+        'on the ' + _ilink("listing/nature-commewijne-river/", "Commewijne River") + ' looking for river dolphins.')
+    body += day(3, "South to Brokopondo",
+        'Head inland to ' + _ilink("listing/nature-brownsberg-nature-park/", "Brownsberg Nature Park") + ', the plateau '
+        'overlooking the vast Brokopondo reservoir. Howler monkeys at dawn, waterfall trails by day. '
+        'Most travellers take a guided overnight package; see our ' + _ilink("activities.html", "tours and activities") + '.')
+    body += day(4, "Brownsberg to the City",
+        'Morning on the trails, then back to Paramaribo. Evening food crawl: Javanese warungs, '
+        + _ilink("listing/kyu-pho-grill/", "Kyu Pho &amp; Grill") + ' or teppanyaki at '
+        + _ilink("listing/ogi-teppanyaki-sushi-bar/", "Ogi") + '.')
+    body += day(5, "Colakreek or Jodensavanne, Then Shopping",
+        'Swim in the tea-coloured creeks at ' + _ilink("listing/nature-colakreek/", "Colakreek") + ', or visit the '
+        'Jodensavanne ruins. Last-minute gifts: see our ' + _ilink("shopping.html", "shopping guide") + '.')
+
+    body += ('<h2 class="serif text-2xl font-bold text-gray-900 mb-5 mt-8">With 7 Days</h2>'
+             '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6">'
+             '<p class="text-gray-700 text-sm leading-relaxed">Add two days on the coast. From February to '
+             'August, the giant leatherback turtles nest at '
+             + _ilink("listing/nature-galibi-nature-reserve/", "Galibi Nature Reserve")
+             + ', reached by boat from Albina. Outside turtle season, go west instead: the lagoons of '
+             + _ilink("listing/nature-bigi-pan-nature-reserve/", "Bigi Pan") + ' near Nickerie are one of the best '
+             'birdwatching sites in South America, scarlet ibis included.</p></div>')
+
+    body += ('<h2 class="serif text-2xl font-bold text-gray-900 mb-5">With 10 Days</h2>'
+             '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6">'
+             '<p class="text-gray-700 text-sm leading-relaxed">Ten days unlocks the deep interior. Fly or boat '
+             'into the ' + _ilink("listing/nature-central-suriname-nature-reserve/", "Central Suriname Nature Reserve")
+             + ' and climb the granite dome of '
+             + _ilink("listing/nature-voltzberg-raleighvallen/", "Voltzberg at Raleighvallen") + ', or stay in the '
+             'Trio village lodge at ' + _ilink("listing/nature-palumeu-trio-village/", "Palumeu") + '. These trips run '
+             'as all-inclusive packages with local operators; compare options on our '
+             + _ilink("activities.html", "activities page") + '.</p></div>')
+
+    body += _hub_faq_html(faq)
+    main = '<main class="max-w-5xl mx-auto px-5 py-12 pb-24">' + body + '</main>'
+    return head + hero + main + "\n" + footer_html() + "\n</body>\n</html>"
+
+
+def build_safety_page():
+    """Is Suriname safe: practical safety guide for visitors."""
+    title = "Is Suriname Safe? Travel Safety Guide (2026)"
+    desc  = ("Honest answers on safety in Suriname: Paramaribo by day and night, taxis and driving, "
+             "the rainforest interior, health, money and emergency numbers.")
+    faq = [
+        ("Is Suriname safe for tourists?",
+         "Yes, broadly. Suriname is one of the quieter corners of South America and most visits are "
+         "trouble free. Petty theft exists in busy parts of Paramaribo, so take the usual precautions: "
+         "keep valuables out of sight, use registered taxis at night and stay aware of your surroundings."),
+        ("Is Paramaribo safe at night?",
+         "The main hotel and restaurant areas are lively and generally fine in the evening. Avoid walking "
+         "alone late at night on quiet or unlit streets, including the Palmentuin and parts of the "
+         "Waterkant after dark. Take a registered taxi or a ride-hailing app instead."),
+        ("Is Suriname safe for solo female travellers?",
+         "Many solo women travel through Suriname without problems. Standard advice applies: arrange "
+         "airport pickup in advance, prefer registered taxis at night and book interior trips with "
+         "licensed operators."),
+        ("Is the tap water safe to drink in Suriname?",
+         "In central Paramaribo the treated tap water is generally considered drinkable and many residents "
+         "drink it. Outside the capital and in the interior, stick to bottled, filtered or boiled water."),
+        ("Is it safe to drive in Suriname?",
+         "Roads in and around Paramaribo are reasonable but driving is assertive, and Suriname "
+         "drives on the left side of the road. Avoid driving outside the city after dark: "
+         "unlit roads, pedestrians and animals are the main hazards."),
+    ]
+    head = _hub_head(title, desc, "is-suriname-safe.html", faq=faq)
+    hero = _hub_hero("Travel Safety", "Is Suriname Safe?",
+                     "Short answer: yes, with normal precautions. "
+                     "Here is the honest, practical version.").replace("{NAV}", nav_html("safety"))
+
+    body = ('<div class="rounded-2xl p-6 border-l-4 mb-8" style="background:#f0f9f4;border-color:var(--forest2)">'
+            '<p class="text-gray-800 text-sm leading-relaxed"><strong>The short answer.</strong> Suriname is a '
+            'calm, low-tourism destination and most trips pass without incident. The realistic risks are petty '
+            'theft in busy city areas, road conditions after dark and the usual tropical health planning. '
+            'None of them should stop you coming; all of them are manageable with the advice below.</p></div>')
+
+    body += _hub_card("In the City", "Paramaribo by Day and Night",
+        '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
+        'Daytime Paramaribo is relaxed: the historic centre, markets and malls see plenty of foot traffic. '
+        'Pickpocketing and bag snatching can happen around the Central Market and crowded bus stops, so '
+        'carry only what you need and keep phones out of back pockets.</p>'
+        '<p class="text-gray-700 text-sm leading-relaxed">'
+        'At night, stick to the busy hotel and restaurant strips. For anything further, use a registered '
+        'taxi or ride-hailing app rather than walking. Most hotels will call a trusted driver; see '
+        + _ilink("visitor-guide.html", "The Basics") + ' for taxi apps.</p>')
+
+    body += _hub_card("On the Move", "Taxis, Buses and Driving",
+        '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
+        'Registered taxis and ride apps are inexpensive and the default for visitors. If you rent a car, '
+        'note that Suriname drives on the left and that roads outside the city are unlit at night. Plan '
+        'long drives, such as Albina or Nickerie, for daylight hours.</p>'
+        '<p class="text-gray-700 text-sm leading-relaxed">'
+        'Live road notices, fuel prices and route conditions are on our '
+        + _ilink("on-the-road.html", "On the Road page") + '.</p>')
+
+    body += _hub_card("The Interior", "Rainforest Trips",
+        '<p class="text-gray-700 text-sm leading-relaxed">'
+        'The interior is remote rather than dangerous: distances are long, phone coverage is patchy and '
+        'help is far away, which is why nearly everyone travels with licensed local operators. Book '
+        'through established companies, follow your guide on the river (life jackets included) and tell '
+        'your hotel your plans. Compare operators on our ' + _ilink("activities.html", "activities page") + '.</p>')
+
+    body += _hub_card("Health", "Vaccinations, Mosquitoes and Water",
+        '<p class="text-gray-700 text-sm leading-relaxed">'
+        'A yellow fever certificate is required if you arrive from a risk country, and malaria prophylaxis '
+        'is advised for deep interior travel. Use repellent at dawn and dusk everywhere. Tap water is '
+        'generally drinkable in central Paramaribo; use bottled or purified water elsewhere. Full health '
+        'and visa details are in ' + _ilink("visitor-guide.html", "The Basics") + '.</p>')
+
+    body += _hub_card("Money", "Cash Without the Stress",
+        '<p class="text-gray-700 text-sm leading-relaxed">'
+        'Suriname is cash based, which makes money handling the main safety habit to build: exchange only '
+        'at licensed cambios or banks, split cash between pockets and the hotel safe, and use ATMs in '
+        'daylight, preferably inside bank branches. Live exchange rates are on our '
+        + _ilink("currency.html", "Market Rates page") + '.</p>')
+
+    body += _hub_card("Emergencies", "Numbers to Save",
+        '<div class="grid grid-cols-3 gap-3 mb-3">'
+        + "".join('<div class="rounded-xl border border-gray-200 p-4 text-center">'
+                  f'<p class="text-2xl font-bold" style="color:var(--forest)">{n}</p>'
+                  f'<p class="text-gray-500 text-xs uppercase tracking-wide mt-1">{s}</p></div>'
+                  for n, s in [("115", "Police"), ("113", "Ambulance"), ("110", "Fire")])
+        + '</div>'
+        '<p class="text-gray-500 text-xs leading-relaxed">Save these before you travel. Response times '
+        'outside Paramaribo can be slow; in the interior, your tour operator is the first line of help.</p>')
+
+    body += _hub_faq_html(faq)
+    main = ('<main class="max-w-5xl mx-auto px-5 py-12 pb-24">' + body
+            + '<p class="text-gray-400 text-xs mt-8">Conditions can change. Check your government&#8217;s '
+              'official travel advisory before departure. Page updated June 2026.</p></main>')
+    return head + hero + main + "\n" + footer_html() + "\n</body>\n</html>"
+
 
 def build_about_page():
     """Static About page — establishes site identity for Google AdSense review."""
@@ -6462,6 +6908,9 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("conditions.html", "0.8", "daily"),
         ("visitor-guide.html","0.8", "monthly"),
         ("on-the-road.html", "0.7", "monthly"),
+        ("suriname-itinerary.html", "0.8", "monthly"),
+        ("is-suriname-safe.html",   "0.7", "monthly"),
+        ("seogs-2026.html",         "0.8", "weekly"),
         ("daily-notices.html", "0.9", "daily"),
         ("events.html",     "0.8", "weekly"),
         ("news.html",       "0.7", "daily"),
@@ -7787,6 +8236,9 @@ if __name__ == "__main__":
         "visitor-guide.html": build_visitor_guide_page(),
         "events.html":        build_events_page(),
         "on-the-road.html":   build_roads_page(),
+        "suriname-itinerary.html": build_itinerary_page(),
+        "is-suriname-safe.html":   build_safety_page(),
+        "seogs-2026.html":         build_seogs_page(),
         "404.html": ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
             '<meta name="robots" content="noindex"><title>Page Not Found | Explore Suriname</title>'
