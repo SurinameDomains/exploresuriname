@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="max-image-preview:large" name="robots"/>
+<link href="/favicon.ico" rel="icon" sizes="48x48 32x32 16x16"/>
+<link href="/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/icons/icon-192.png" rel="apple-touch-icon"/>
+<meta content="@exploringsuriname" name="twitter:site"/>
+<meta content="es_ES" property="og:locale"/><meta content="nl_NL" property="og:locale:alternate"/><meta content="en_US" property="og:locale:alternate"/>
+<link as="font" crossorigin="" href="/fonts/playfair-latin-var.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/fonts/inter-latin-var.woff2" rel="preload" type="font/woff2"/>
+<style>
+  @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  </style>
+<link href="/tailwind.css?v=b85e1057" rel="stylesheet"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<meta content="#1B4332" name="theme-color"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="ExploreSR" name="apple-mobile-web-app-title"/>
+<style>
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#D8F3DC; --coral:#E76F51; }
+    body   { font-family: 'Inter', system-ui, sans-serif; }
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    .hero-bg { background-size:cover; background-position:center; }
+    .card-hover { transition: transform .2s, box-shadow .2s; }
+    .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
+    a { text-decoration: none; }
+    nav a, nav button { white-space: nowrap; }   /* keep nav labels on one line (EN; NL/ES get this via build_i18n) */
+    .vh { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+    /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
+    .dd-menu { transform-origin: top center; }
+    .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
+    @keyframes ddFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    #search-results a {
+      display:flex;align-items:center;gap:10px;padding:10px 18px;text-decoration:none;color:#111;transition:background .1s;
+    }
+    #search-results a:hover, #search-results a.sr-active { background:#f5f5f5; }
+    .sr-badge {
+      font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;flex-shrink:0;
+    }
+    .sr-name { font-size:.9rem;font-weight:600;flex:1;min-width:0; }
+    .sr-area { font-size:.78rem;color:#9ca3af;white-space:nowrap; }
+    mark { background:#fef08a;border-radius:2px;padding:0 1px; }
+    .filter-chip {
+      display:inline-flex;align-items:center;gap:5px;padding:10px 16px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
+      color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+      touch-action:manipulation;
+    }
+    .filter-chip:hover { border-color:var(--forest);color:var(--forest); }
+    .filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+    .dist-chip {
+      display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;
+      color:#6b7280;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+    }
+    .dist-chip:hover { border-color:var(--forest2);color:var(--forest2); }
+    .dist-chip.dist-chip-active { background:var(--forest2);border-color:var(--forest2);color:#fff; }
+    .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
+    .filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count { opacity:.8; }
+    .chip-arrow {
+      flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #e5e7eb;
+      background:#fff;font-size:1.1rem;line-height:1;cursor:pointer;display:flex;
+      align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
+    }
+    .chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
+    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+    .listing-card.hidden { display:none; }
+    /* PWA install bar (Android prompt + iOS A2HS tip) */
+    #pwa-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(130%);transition:transform .35s cubic-bezier(.22,1,.36,1);background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 28px rgba(0,0,0,.14);padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
+    #pwa-bar.pwa-show{transform:translateY(0)}
+    #pwa-bar .pwa-ic{width:42px;height:42px;border-radius:10px;flex:0 0 auto}
+    #pwa-bar .pwa-tx{flex:1 1 auto;min-width:0}
+    #pwa-bar .pwa-tt{font-weight:700;font-size:14px;color:var(--forest);line-height:1.2}
+    #pwa-bar .pwa-sb{font-size:12px;color:#4b5563;line-height:1.3;margin-top:2px}
+    #pwa-bar .pwa-go{flex:0 0 auto;background:var(--forest);color:#fff;border:0;border-radius:10px;font-weight:700;font-size:14px;padding:10px 16px;cursor:pointer;white-space:nowrap;touch-action:manipulation}
+    #pwa-bar .pwa-go:hover{background:var(--forest2)}
+    #pwa-bar .pwa-x{flex:0 0 auto;background:transparent;border:0;color:#9ca3af;font-size:24px;line-height:1;cursor:pointer;padding:2px 6px;touch-action:manipulation}
+    @media(min-width:640px){#pwa-bar{left:auto;right:18px;bottom:18px;max-width:430px;border-radius:16px;border:1px solid rgba(0,0,0,.08)}}
+  </style>
+<script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
+<script>
+  (function(){
+    var DKEY="esr_pwa_dismiss", dp=null, bar=null;
+    function isDismissed(){try{var v=localStorage.getItem(DKEY);if(!v)return false;return (Date.now()-parseInt(v,10))<1209600000;}catch(e){return false;}}
+    function setDismissed(){try{localStorage.setItem(DKEY,String(Date.now()));}catch(e){}}
+    function isStandalone(){return (window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)||window.navigator.standalone===true;}
+    function isIOS(){var ua=navigator.userAgent||"";if(/CriOS|FxiOS|EdgiOS/i.test(ua))return false;if(/iPhone|iPad|iPod/i.test(ua))return true;return /Macintosh/i.test(ua)&&navigator.maxTouchPoints>1;}
+    function remove(){if(bar){var b=bar;bar=null;b.classList.remove("pwa-show");setTimeout(function(){if(b&&b.parentNode)b.parentNode.removeChild(b);},400);}}
+    function show(mode,force){
+      if(bar||(!force&&isDismissed())||isStandalone())return;
+      if(!document.body){document.addEventListener("DOMContentLoaded",function(){show(mode);});return;}
+      bar=document.createElement("div");
+      bar.id="pwa-bar";bar.setAttribute("role","dialog");bar.setAttribute("aria-label","Install Explore Suriname");
+      var ic='<img class="pwa-ic" src="/icons/icon-192.png" width="42" height="42" alt="">';
+      var tt,sb,btns;
+      if(mode==="ios"){
+        tt="Add Explore Suriname";
+        sb="Tap the Share button, then Add to Home Screen.";
+        btns='<button class="pwa-x" type="button" aria-label="Dismiss">&times;</button>';
+      }else{
+        tt="Install Explore Suriname";
+        sb="Live SRD rates and offline access on your home screen.";
+        btns='<button class="pwa-go" type="button">Install</button><button class="pwa-x" type="button" aria-label="Dismiss">&times;</button>';
+      }
+      bar.innerHTML=ic+'<div class="pwa-tx"><div class="pwa-tt">'+tt+'</div><div class="pwa-sb">'+sb+'</div></div>'+btns;
+      document.body.appendChild(bar);
+      requestAnimationFrame(function(){requestAnimationFrame(function(){if(bar)bar.classList.add("pwa-show");});});
+      var go=bar.querySelector(".pwa-go");
+      if(go){go.addEventListener("click",function(){
+        if(!dp){remove();return;}
+        dp.prompt();
+        dp.userChoice.then(function(c){setDismissed();dp=null;hideNav();remove();}).catch(function(){remove();});
+      });}
+      bar.querySelector(".pwa-x").addEventListener("click",function(){setDismissed();remove();});
+    }
+    function navEl(){return document.getElementById("pwa-nav");}
+    function revealNav(){var n=navEl();if(n&&!isStandalone())n.style.display="inline-flex";}
+    function hideNav(){var n=navEl();if(n)n.style.display="none";}
+    window.pwaInstall=function(){
+      if(dp){dp.prompt();dp.userChoice.then(function(c){setDismissed();dp=null;hideNav();}).catch(function(){});return;}
+      if(isIOS()){show("ios",true);}
+    };
+    window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;revealNav();show("android");});
+    window.addEventListener("appinstalled",function(){setDismissed();hideNav();remove();});
+    if(isIOS()){
+      var iosInit=function(){revealNav();setTimeout(function(){show("ios");},1400);};
+      if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",iosInit);}
+      else{iosInit();}
+    }
+    document.addEventListener("DOMContentLoaded",function(){if(dp)revealNav();});
+  })();
+  </script>
+<!-- Google tag (gtag.js) -->
+<script>(function(){var d=false;function l(){if(d)return;d=true;var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments);};gtag("js",new Date());gtag("config","G-6LTYHZYNSF");}["scroll","click","touchstart","keydown"].forEach(function(e){window.addEventListener(e,l,{once:true,passive:true})});window.addEventListener("load",function(){setTimeout(l,4000)});})();</script>
+<!-- GA4 interaction events: WhatsApp / phone / email / directions / outbound clicks -->
+<script>window.addEventListener("click",function(ev){var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;var h=a.getAttribute("href")||"",n="",p={};if(h.indexOf("https://wa.me/")===0){n="whatsapp_click"}else if(h.indexOf("tel:")===0){n="phone_click"}else if(h.indexOf("mailto:")===0){n="email_click"}else if(h.indexOf("google.com/maps")!==-1){n="directions_click"}else if(/^https?:\/\//.test(h)&&h.indexOf("exploresuriname.com")===-1){n="outbound_click";try{p.link_domain=new URL(h).hostname}catch(e){}}if(!n)return;p.link_url=h.slice(0,100);window.dataLayer=window.dataLayer||[];if(!window.gtag){window.gtag=function(){window.dataLayer.push(arguments)}}window.gtag("event",n,p)});</script>
+<title>World Cup 2026: Live Scores, Schedule and Where to Watch | Explore Suriname</title>
+<meta content="Every 2026 FIFA World Cup match in Suriname time with live scores, plus how to watch in Suriname on STVS, ATV and the Telesur+ app." name="description"/>
+<link href="https://exploresuriname.com/es/worldcup-2026.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Explore Suriname" property="og:site_name"/>
+<meta content="https://exploresuriname.com/es/worldcup-2026.html" property="og:url"/>
+<meta content="World Cup 2026: Live Scores, Schedule and Where to Watch | Explore Suriname" property="og:title"/>
+<meta content="Every 2026 FIFA World Cup match in Suriname time with live scores, plus how to watch in Suriname on STVS, ATV and the Telesur+ app." property="og:description"/>
+<meta content="https://exploresuriname.com/og-image.jpg" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="World Cup 2026: Live Scores, Schedule and Where to Watch | Explore Suriname" name="twitter:title"/>
+<meta content="Every 2026 FIFA World Cup match in Suriname time with live scores, plus how to watch in Suriname on STVS, ATV and the Telesur+ app." name="twitter:description"/>
+<meta content="https://exploresuriname.com/og-image.jpg" name="twitter:image"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"World Cup 2026: Live Scores, Schedule and Where to Watch","url":"https://exploresuriname.com/es/worldcup-2026.html","description":"Every 2026 FIFA World Cup match in Suriname time with live scores, plus how to watch in Suriname on STVS, ATV and the Telesur+ app.","dateModified":"2026-06-12","about":{"@type":"Place","name":"Suriname","addressCountry":"SR"},"isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/es/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Where can I watch the 2026 World Cup in Suriname?","acceptedAnswer":{"@type":"Answer","text":"STVS holds the exclusive broadcast rights for Suriname and shows matches free-to-air on national TV. STVS has sublicensed coverage to ATV via Telesur channels 12.1, 12.2 and 12.3, and to SRS for radio commentary. You can also stream matches on the Telesur+ app, the official streaming partner, with a subscription."}},{"@type":"Question","name":"What time are World Cup matches in Suriname?","acceptedAnswer":{"@type":"Answer","text":"Suriname time is UTC-3 with no daylight saving. Host cities span four North American time zones, so kickoffs fall roughly between early afternoon and late evening Suriname time. This page lists every kickoff in Suriname time."}},{"@type":"Question","name":"When and where is the World Cup 2026 final?","acceptedAnswer":{"@type":"Answer","text":"The final is on Sunday 19 July 2026 at MetLife Stadium in New Jersey, United States. The third-place match is on Saturday 18 July."}},{"@type":"Question","name":"How does the new 48-team format work?","acceptedAnswer":{"@type":"Answer","text":"The 2026 World Cup has 48 teams in 12 groups of four. The top two of each group plus the eight best third-placed teams advance to a new round of 32, followed by the usual knockout rounds. There are 104 matches in total, from 11 June to 19 July."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SportsEvent","name":"FIFA World Cup 2026","startDate":"2026-06-11","endDate":"2026-07-19","eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","location":[{"@type":"Country","name":"United States"},{"@type":"Country","name":"Canada"},{"@type":"Country","name":"Mexico"}],"organizer":{"@type":"Organization","name":"FIFA","url":"https://www.fifa.com/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Hogar","item":"https://exploresuriname.com/es/"},{"@type":"ListItem","position":2,"name":"World Cup 2026: Live Scores, Schedule and Where to Watch","item":"https://exploresuriname.com/es/worldcup-2026.html"}]}</script>
+<style>
+    .wc-live{display:inline-block;width:8px;height:8px;border-radius:9999px;background:#dc2626;margin-right:5px;animation:wcpulse 1.2s ease-in-out infinite}
+    @keyframes wcpulse{0%,100%{opacity:1}50%{opacity:.3}}
+    .wc-chips{position:sticky;top:58px;z-index:30;scrollbar-width:none;-ms-overflow-style:none}
+    .wc-chips::-webkit-scrollbar{display:none}
+    .wc-rowlive{border-color:#fecaca;box-shadow:0 0 0 1px #fecaca}
+    #wc-list h2,#wc-list div[id^="d-"]{scroll-margin-top:118px}
+  </style>
+<style>nav button,nav a{white-space:nowrap}</style><link href="https://exploresuriname.com/worldcup-2026.html" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/worldcup-2026.html" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/worldcup-2026.html" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/worldcup-2026.html" hreflang="x-default" rel="alternate"/></head>
+<body class="bg-gray-50 overflow-x-hidden">
+<nav class="fixed top-0 w-full z-50" style="background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.06)">
+<div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+<a class="flex items-baseline flex-shrink-0" href="index.html">
+<span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
+</a>
+<div class="hidden md:flex items-center gap-6"><div class="relative" id="dd-todo" onmouseenter="openDd('dd-todo')" onmouseleave="closeDd('dd-todo')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-todo')">Qué hacer<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-todo-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="nature.html">Naturaleza</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="activities.html">Actividades</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="events.html">Eventos y festivales</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="shopping.html">Compras</a></div></div><div class="relative" id="dd-eat" onmouseenter="openDd('dd-eat')" onmouseleave="closeDd('dd-eat')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-eat')">Comer y dormir<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-eat-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="restaurants.html">Dónde comer</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="hotels.html">Dónde alojarse</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="services.html">Servicios</a><div class="relative" id="dd-plan" onmouseenter="openDd('dd-plan')" onmouseleave="closeDd('dd-plan')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-plan')">Guía visitante<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-plan-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="visitor-guide.html">Lo básico</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="on-the-road.html">En ruta</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-itinerary.html">Itinerarios de viaje</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="is-suriname-safe.html">¿Es seguro Surinam?</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="seogs-2026.html">Guía SEOGS 2026</a></div></div><div class="relative" id="dd-ess" onmouseenter="openDd('dd-ess')" onmouseleave="closeDd('dd-ess')"><button class="dd-trigger flex items-center gap-1 text-sm font-semibold transition py-1" onclick="toggleDd('dd-ess')" style="color:var(--forest)">Esencial <span class="inline-block w-1.5 h-1.5 rounded-full mb-0.5" style="background:var(--forest)"></span><svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-ess-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="currency.html">Tipos de cambio</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="flights.html">Vuelos</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="conditions.html">Clima y mareas</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="daily-notices.html">Avisos diarios</a><a class="block px-4 py-2.5 text-sm font-semibold rounded-lg" href="worldcup-2026.html" style="color:var(--forest);background:var(--mint)">World Cup 2026</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="news.html">Noticias</a></div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50 sm:min-w-[120px]" onclick="openSearch()" title="Search listings (press /)">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<span class="hidden sm:inline">Buscar…</span>
+<span class="ml-auto hidden sm:inline text-xs bg-gray-200 text-gray-500 rounded px-1.5 py-0.5 font-mono">/</span>
+</button><div class="hidden md:flex items-center" data-langswitch="1" style="gap:7px;margin-left:10px;flex-shrink:0;font-size:12px;font-weight:600"><svg fill="none" height="15" stroke="#9ca3af" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/worldcup-2026.html" style="color:#9ca3af;text-decoration:none">EN</a><a href="/nl/worldcup-2026.html" style="color:#9ca3af;text-decoration:none">NL</a><a href="/es/worldcup-2026.html" style="color:var(--forest);text-decoration:underline">ES</a></div>
+<button aria-label="Menu" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition" id="hamburger" onclick="toggleMobileMenu()">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+<div class="hidden md:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto" id="mm"><div data-langswitch-mobile="1" style="display:flex;align-items:center;gap:16px;padding:10px 2px 12px;margin-bottom:4px;border-bottom:1px solid #eee;font-size:15px;font-weight:600"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/worldcup-2026.html" style="color:#6b7280;text-decoration:none">EN</a><a href="/nl/worldcup-2026.html" style="color:#6b7280;text-decoration:none">NL</a><a href="/es/worldcup-2026.html" style="color:var(--forest);text-decoration:underline">ES</a><button aria-label="Install app" id="pwa-nav" onclick="pwaInstall()" style="display:none;margin-left:auto;align-items:center;gap:6px;background:var(--forest);color:#fff;border:0;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0" type="button"><svg fill="none" height="15" stroke="currentColor" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 20h14" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Install</span></button></div>
+<div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-todo')"><span>Qué hacer</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-todo"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="nature.html">Naturaleza</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="activities.html">Actividades</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="events.html">Eventos y festivales</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="shopping.html">Compras</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-eat')"><span>Comer y dormir</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-eat"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="restaurants.html">Dónde comer</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="hotels.html">Dónde alojarse</a></div></div><a class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" href="services.html">Servicios</a><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-plan')"><span>Guía visitante</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-plan"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="visitor-guide.html">Lo básico</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="on-the-road.html">En ruta</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="suriname-itinerary.html">Itinerarios de viaje</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="is-suriname-safe.html">¿Es seguro Surinam?</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="seogs-2026.html">Guía SEOGS 2026</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-ess')" style="color:var(--forest)"><span>Esencial</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1" id="mg-ess"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="currency.html">Tipos de cambio</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="flights.html">Vuelos</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="conditions.html">Clima y mareas</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="daily-notices.html">Avisos diarios</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm font-semibold rounded-lg" href="worldcup-2026.html" style="color:var(--forest);background:var(--mint)">World Cup 2026</a></div></div><a class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" href="news.html">Noticias</a>
+</div>
+</nav>
+<script>
+/* ── Dropdown (desktop) ─────────────────────────────────────────────────── */
+var _openDd = null;
+var _ddTimer = null;
+function openDd(id) {
+  if (_ddTimer) { clearTimeout(_ddTimer); _ddTimer = null; }
+  if (_openDd && _openDd !== id) closeDd(_openDd);
+  var menu = document.getElementById(id + '-menu');
+  var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+  if (menu) menu.classList.remove('hidden');
+  if (chev) chev.style.transform = 'rotate(180deg)';
+  _openDd = id;
+}
+function closeDd(id) {
+  _ddTimer = setTimeout(function() {
+    var menu = document.getElementById(id + '-menu');
+    var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+    if (menu) menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    if (_openDd === id) _openDd = null;
+    _ddTimer = null;
+  }, 80);
+}
+function toggleDd(id) {
+  var menu = document.getElementById(id + '-menu');
+  var btn  = document.getElementById(id);
+  var chev = btn ? btn.querySelector('.dd-chevron') : null;
+  if (_openDd && _openDd !== id) {
+    var prev = document.getElementById(_openDd + '-menu');
+    var prevBtn = document.getElementById(_openDd);
+    if (prev)    prev.classList.add('hidden');
+    if (prevBtn) { var c = prevBtn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+  if (!menu) return;
+  var isOpen = !menu.classList.contains('hidden');
+  if (isOpen) {
+    menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    _openDd = null;
+  } else {
+    menu.classList.remove('hidden');
+    if (chev) chev.style.transform = 'rotate(180deg)';
+    _openDd = id;
+  }
+}
+document.addEventListener('click', function(e) {
+  if (_openDd && !document.getElementById(_openDd).contains(e.target)) {
+    var menu = document.getElementById(_openDd + '-menu');
+    var btn  = document.getElementById(_openDd);
+    if (menu) menu.classList.add('hidden');
+    if (btn)  { var c = btn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+});
+/* ── Mobile accordion ───────────────────────────────────────────────────── */
+function toggleMobileMenu() {
+  var mm = document.getElementById('mm');
+  mm.classList.toggle('hidden');
+}
+function toggleMobGroup(id) {
+  var body = document.getElementById(id);
+  var btn  = body ? body.previousElementSibling : null;
+  var chev = btn  ? btn.querySelector('.mob-chevron') : null;
+  if (!body) return;
+  var isOpen = !body.classList.contains('hidden');
+  body.classList.toggle('hidden', isOpen);
+  if (chev) chev.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+</script>
+<!-- ── Global Search Modal ───────────────────────────────────────────── -->
+<div id="search-modal" onclick="if(event.target===this)closeSearch()" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);padding:80px 16px 16px">
+<div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 25px 60px rgba(0,0,0,.25);overflow:hidden">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #f0f0f0">
+<svg fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:#9ca3af;flex-shrink:0" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<input autocomplete="off" id="search-input" oninput="runSearch(this.value)" onkeydown="searchKey(event)" placeholder="Search all listings…" spellcheck="false" style="flex:1;border:none;outline:none;font-size:1rem;color:#111;background:transparent" type="text"/>
+<button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">✕</button>
+</div>
+<div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
+<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search 740 listings…</p>
+</div>
+</div>
+</div>
+<script>
+const _CAT_C = {"Eat & Drink": "#7c3aed", "Stay": "#c05621", "Nature": "var(--forest)", "Guides": "#0e7490", "Activities": "var(--forest2)", "Shopping": "#0369a1", "Services": "#0369a1", "Sightseeing": "var(--forest)"};
+let _SI = null;
+let _SI_loading = false;
+let _sel = -1;
+
+function _loadSI(cb) {
+  if (_SI) { cb(); return; }
+  if (_SI_loading) { setTimeout(() => _loadSI(cb), 50); return; }
+  _SI_loading = true;
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  fetch(depth + 'search-index.json')
+    .then(r => r.json())
+    .then(data => { _SI = data; cb(); })
+    .catch(() => { _SI = []; cb(); });
+}
+function openSearch() {
+  document.getElementById('search-modal').style.display = 'block';
+  setTimeout(() => document.getElementById('search-input').focus(), 50);
+  _loadSI(() => {});
+}
+function closeSearch() {
+  document.getElementById('search-modal').style.display = 'none';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search listings…</p>';
+  _sel = -1;
+}
+function runSearch(q) {
+  const box = document.getElementById('search-results');
+  q = q.trim();
+  if (!q) { closeSearch(); openSearch(); return; }
+  if (!_SI) {
+    _loadSI(() => runSearch(q));
+    box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Loading…</p>';
+    return;
+  }
+  const ql = q.toLowerCase();
+  const hits = _SI.filter(x => x.n.toLowerCase().includes(ql)).slice(0, 10);
+  if (!hits.length) { box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">No results for "' + q + '"</p>'; return; }
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  box.innerHTML = hits.map((h, i) => {
+    const hi = h.n.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi'), '<mark>$1</mark>');
+    const col = _CAT_C[h.c] || '#6b7280';
+    return '<a href="' + depth + h.u + '" class="' + (i===0?'sr-active':'') + '">'
+      + '<span class="sr-badge" style="background:' + col + '">' + h.c + '</span>'
+      + '<span class="sr-name">' + hi + '</span>'
+      + (h.a ? '<span class="sr-area">' + h.a + '</span>' : '')
+      + '</a>';
+  }).join('');
+  _sel = 0;
+}
+function searchKey(e) {
+  const items = document.querySelectorAll('#search-results a');
+  if (e.key === 'Escape') { closeSearch(); return; }
+  if (e.key === 'ArrowDown') { e.preventDefault(); _sel = Math.min(_sel+1, items.length-1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); _sel = Math.max(_sel-1, 0); }
+  else if (e.key === 'Enter') { if(items[_sel]) window.location = items[_sel].href; return; }
+  else return;
+  items.forEach((el,i) => el.classList.toggle('sr-active', i===_sel));
+  if(items[_sel]) items[_sel].scrollIntoView({block:'nearest'});
+}
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault(); openSearch();
+  }
+});
+</script>
+<div class="pt-16"></div>
+<div class="text-white py-14 text-center" style="background:var(--forest)">
+<a class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition" href="index.html">← Volver al inicio</a>
+<p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--coral)">11 June to 19 July 2026 · USA, Canada &amp; Mexico</p>
+<h1 class="serif text-4xl sm:text-5xl font-bold mb-3">World Cup 2026 Live</h1>
+<p class="text-white/65 text-lg max-w-2xl mx-auto px-5">All 104 matches in Suriname time, scores that update by themselves, and where to watch from Suriname.</p>
+</div>
+<main class="max-w-3xl mx-auto px-5 py-12 pb-24"><div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6"><p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Watch in Suriname</p><h2 class="serif text-xl font-bold text-gray-900 mb-4">STVS, ATV, Telesur+ and SRS</h2><div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4"><div class="rounded-xl border border-gray-200 p-4"><p class="font-bold text-gray-900 text-sm">STVS</p><p class="text-[11px] uppercase tracking-wide font-semibold mt-0.5 mb-1.5" style="color:var(--forest2)">National TV · free-to-air</p><p class="text-gray-600 text-sm leading-relaxed">Exclusive rights holder for Suriname. Matches plus studio shows, analysis and highlights.</p></div><div class="rounded-xl border border-gray-200 p-4"><p class="font-bold text-gray-900 text-sm">ATV (Telesur 12.1, 12.2, 12.3)</p><p class="text-[11px] uppercase tracking-wide font-semibold mt-0.5 mb-1.5" style="color:var(--forest2)">National TV · free-to-air</p><p class="text-gray-600 text-sm leading-relaxed">Sublicensed by STVS so matches reach every district, including via the Telesur TV channels.</p></div><div class="rounded-xl border border-gray-200 p-4"><p class="font-bold text-gray-900 text-sm">Telesur+</p><p class="text-[11px] uppercase tracking-wide font-semibold mt-0.5 mb-1.5" style="color:var(--forest2)">Streaming app · subscription</p><p class="text-gray-600 text-sm leading-relaxed">Official streaming partner. Watch live on your phone, tablet or laptop with a Telesur+ subscription.</p></div><div class="rounded-xl border border-gray-200 p-4"><p class="font-bold text-gray-900 text-sm">SRS</p><p class="text-[11px] uppercase tracking-wide font-semibold mt-0.5 mb-1.5" style="color:var(--forest2)">Radio</p><p class="text-gray-600 text-sm leading-relaxed">Live radio commentary nationwide, sublicensed by STVS.</p></div></div><p class="text-gray-500 text-xs leading-relaxed">Broadcast arrangements as announced by STVS in May 2026. Match-by-match channel listings are published by the broadcasters; see <a class="font-semibold hover:underline" href="https://stvs.sr/" rel="noopener" style="color:var(--forest2)" target="_blank">stvs.sr</a> and Telesur for programming details.</p></div><h2 class="serif text-2xl font-bold text-gray-900 mb-1 mt-2">Schedule &amp; Live Scores</h2><p class="text-gray-500 text-sm mb-3">All kickoff times are Suriname time (UTC-3). Live scores refresh automatically every minute. Match data: ESPN.</p><div class="wc-chips flex gap-2 overflow-x-auto py-2.5 -mx-5 px-5 mb-4" style="background:rgba(249,250,251,.96);backdrop-filter:blur(4px)"><button class="shrink-0 px-4 py-1.5 rounded-full text-xs font-bold text-white" onclick="wcJump('today')" style="background:var(--forest)">Today</button><button class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition" onclick="wcJump('st-group-stage')">Groups</button><button class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition" onclick="wcJump('st-round-of-32')">Round of 32</button><button class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition" onclick="wcJump('st-round-of-16')">Round of 16</button><button class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition" onclick="wcJump('st-quarter-finals')">Quarters</button><button class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition" onclick="wcJump('st-semi-finals')">Semis</button><button class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition" onclick="wcJump('st-third-place')">Third Place</button><button class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition" onclick="wcJump('st-final')">Final</button></div><div id="wc-list"><p class="text-gray-500 text-sm py-6">Loading the match schedule… If nothing appears, refresh the page.</p></div><noscript><p class="text-gray-600 text-sm py-4">Enable JavaScript to see the schedule and live scores.</p></noscript><div class="mt-10"></div><div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6"><p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">The Tournament</p><h2 class="serif text-xl font-bold text-gray-900 mb-4">48 Teams, 104 Matches, Three Hosts</h2><p class="text-gray-700 text-sm leading-relaxed mb-3">The 2026 edition is the first with 48 teams: 12 groups of four, played across 16 host cities in the United States, Canada and Mexico. The top two of each group and the eight best third-placed teams go through to a new round of 32, then the bracket runs as usual down to the final at MetLife Stadium, New Jersey on 19 July.</p><p class="text-gray-700 text-sm leading-relaxed">Watching from a bar or planning your evening around a match? Kickoffs land between roughly midday and late evening Suriname time. Check <a class="font-semibold hover:underline" href="restaurants.html" style="color:var(--forest2)">where to eat</a> for spots with screens, and our <a class="font-semibold hover:underline" href="events.html" style="color:var(--forest2)">calendario de eventos</a> for everything else happening this season.</p></div><h2 class="serif text-2xl font-bold text-gray-900 mb-5 mt-2">Preguntas frecuentes</h2><div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-4"><h3 class="font-bold text-gray-900 mb-2">Where can I watch the 2026 World Cup in Suriname?</h3><p class="text-gray-700 text-sm leading-relaxed">STVS holds the exclusive broadcast rights for Suriname and shows matches free-to-air on national TV. STVS has sublicensed coverage to ATV via Telesur channels 12.1, 12.2 and 12.3, and to SRS for radio commentary. You can also stream matches on the Telesur+ app, the official streaming partner, with a subscription.</p></div><div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-4"><h3 class="font-bold text-gray-900 mb-2">What time are World Cup matches in Suriname?</h3><p class="text-gray-700 text-sm leading-relaxed">Suriname time is UTC-3 with no daylight saving. Host cities span four North American time zones, so kickoffs fall roughly between early afternoon and late evening Suriname time. This page lists every kickoff in Suriname time.</p></div><div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-4"><h3 class="font-bold text-gray-900 mb-2">When and where is the World Cup 2026 final?</h3><p class="text-gray-700 text-sm leading-relaxed">The final is on Sunday 19 July 2026 at MetLife Stadium in New Jersey, United States. The third-place match is on Saturday 18 July.</p></div><div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-4"><h3 class="font-bold text-gray-900 mb-2">How does the new 48-team format work?</h3><p class="text-gray-700 text-sm leading-relaxed">The 2026 World Cup has 48 teams in 12 groups of four. The top two of each group plus the eight best third-placed teams advance to a new round of 32, followed by the usual knockout rounds. There are 104 matches in total, from 11 June to 19 July.</p></div><p class="text-gray-400 text-xs mt-8">Match data via ESPN; broadcast information from STVS announcements, May 2026. Page updated June 2026.</p></main>
+<script>
+var WC = [{"i":"760415","d":"2026-06-11T19:00Z","g":"Group A","v":"Estadio Banorte","c":"Mexico City","h":{"n":"Mexico","a":"MEX","l":"https://a.espncdn.com/i/teamlogos/countries/500/mex.png","s":"2","p":null},"a":{"n":"South Africa","a":"RSA","l":"https://a.espncdn.com/i/teamlogos/countries/500/rsa.png","s":"0","p":null},"st":"FT","sx":"post"},{"i":"760414","d":"2026-06-12T02:00Z","g":"Group A","v":"Estadio Akron","c":"Guadalajara","h":{"n":"South Korea","a":"KOR","l":"https://a.espncdn.com/i/teamlogos/countries/500/kors.png","s":"2","p":null},"a":{"n":"Czechia","a":"CZE","l":"https://a.espncdn.com/i/teamlogos/countries/500/cze.png","s":"1","p":null},"st":"FT","sx":"post"},{"i":"760416","d":"2026-06-12T19:00Z","g":"Group B","v":"BMO Field","c":"Toronto","h":{"n":"Canada","a":"CAN","l":"https://a.espncdn.com/i/teamlogos/countries/500/can.png","s":"1","p":null},"a":{"n":"Bosnia-Herz","a":"BIH","l":"https://a.espncdn.com/i/teamlogos/countries/500/bih.png","s":"1","p":null},"st":"88'","sx":"in"},{"i":"760417","d":"2026-06-13T01:00Z","g":"Group D","v":"SoFi Stadium","c":"Inglewood, California","h":{"n":"USA","a":"USA","l":"https://a.espncdn.com/i/teamlogos/countries/500/usa.png","s":"0","p":null},"a":{"n":"Paraguay","a":"PAR","l":"https://a.espncdn.com/i/teamlogos/countries/500/par.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760420","d":"2026-06-13T19:00Z","g":"Group B","v":"Levi's Stadium","c":"Santa Clara, California","h":{"n":"Qatar","a":"QAT","l":"https://a.espncdn.com/i/teamlogos/countries/500/qat.png","s":"0","p":null},"a":{"n":"Switzerland","a":"SUI","l":"https://a.espncdn.com/i/teamlogos/countries/500/sui.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760419","d":"2026-06-13T22:00Z","g":"Group C","v":"MetLife Stadium","c":"East Rutherford, New Jersey","h":{"n":"Brazil","a":"BRA","l":"https://a.espncdn.com/i/teamlogos/countries/500/bra.png","s":"0","p":null},"a":{"n":"Morocco","a":"MAR","l":"https://a.espncdn.com/i/teamlogos/countries/500/mar.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760418","d":"2026-06-14T01:00Z","g":"Group C","v":"Gillette Stadium","c":"Foxborough, Massachusetts","h":{"n":"Haiti","a":"HAI","l":"https://a.espncdn.com/i/teamlogos/countries/500/hai.png","s":"0","p":null},"a":{"n":"Scotland","a":"SCO","l":"https://a.espncdn.com/i/teamlogos/countries/500/sco.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760421","d":"2026-06-14T04:00Z","g":"Group D","v":"BC Place","c":"Vancouver","h":{"n":"Australia","a":"AUS","l":"https://a.espncdn.com/i/teamlogos/countries/500/aus.png","s":"0","p":null},"a":{"n":"Türkiye","a":"TUR","l":"https://a.espncdn.com/i/teamlogos/countries/500/tur.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760422","d":"2026-06-14T17:00Z","g":"Group E","v":"NRG Stadium","c":"Houston, Texas","h":{"n":"Germany","a":"GER","l":"https://a.espncdn.com/i/teamlogos/countries/500/ger.png","s":"0","p":null},"a":{"n":"Curaçao","a":"CUW","l":"https://a.espncdn.com/i/teamlogos/soccer/500/11678.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760425","d":"2026-06-14T20:00Z","g":"Group F","v":"AT&T Stadium","c":"Arlington, Texas","h":{"n":"Netherlands","a":"NED","l":"https://a.espncdn.com/i/teamlogos/countries/500/ned.png","s":"0","p":null},"a":{"n":"Japan","a":"JPN","l":"https://a.espncdn.com/i/teamlogos/countries/500/jpn.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760423","d":"2026-06-14T23:00Z","g":"Group E","v":"Lincoln Financial Field","c":"Philadelphia, Pennsylvania","h":{"n":"Ivory Coast","a":"CIV","l":"https://a.espncdn.com/i/teamlogos/countries/500/civ.png","s":"0","p":null},"a":{"n":"Ecuador","a":"ECU","l":"https://a.espncdn.com/i/teamlogos/countries/500/ecu.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760424","d":"2026-06-15T02:00Z","g":"Group F","v":"Estadio BBVA","c":"Guadalupe","h":{"n":"Sweden","a":"SWE","l":"https://a.espncdn.com/i/teamlogos/countries/500/swe.png","s":"0","p":null},"a":{"n":"Tunisia","a":"TUN","l":"https://a.espncdn.com/i/teamlogos/countries/500/tun.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760428","d":"2026-06-15T16:00Z","g":"Group H","v":"Mercedes-Benz Stadium","c":"Atlanta, Georgia","h":{"n":"Spain","a":"ESP","l":"https://a.espncdn.com/i/teamlogos/countries/500/esp.png","s":"0","p":null},"a":{"n":"Cape Verde","a":"CPV","l":"https://a.espncdn.com/i/teamlogos/countries/500/cpv.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760426","d":"2026-06-15T19:00Z","g":"Group G","v":"Lumen Field","c":"Seattle, Washington","h":{"n":"Belgium","a":"BEL","l":"https://a.espncdn.com/i/teamlogos/countries/500/bel.png","s":"0","p":null},"a":{"n":"Egypt","a":"EGY","l":"https://a.espncdn.com/i/teamlogos/countries/500/egy.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760429","d":"2026-06-15T22:00Z","g":"Group H","v":"Hard Rock Stadium","c":"Miami Gardens, Florida","h":{"n":"Saudi Arabia","a":"KSA","l":"https://a.espncdn.com/i/teamlogos/countries/500/ksa.png","s":"0","p":null},"a":{"n":"Uruguay","a":"URU","l":"https://a.espncdn.com/i/teamlogos/countries/500/uru.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760427","d":"2026-06-16T01:00Z","g":"Group G","v":"SoFi Stadium","c":"Inglewood, California","h":{"n":"Iran","a":"IRN","l":"https://a.espncdn.com/i/teamlogos/countries/500/irn.png","s":"0","p":null},"a":{"n":"New Zealand","a":"NZL","l":"https://a.espncdn.com/i/teamlogos/countries/500/nzl.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760432","d":"2026-06-16T19:00Z","g":"Group I","v":"MetLife Stadium","c":"East Rutherford, New Jersey","h":{"n":"France","a":"FRA","l":"https://a.espncdn.com/i/teamlogos/countries/500/fra.png","s":"0","p":null},"a":{"n":"Senegal","a":"SEN","l":"https://a.espncdn.com/i/teamlogos/countries/500/sen.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760430","d":"2026-06-16T22:00Z","g":"Group I","v":"Gillette Stadium","c":"Foxborough, Massachusetts","h":{"n":"Iraq","a":"IRQ","l":"https://a.espncdn.com/i/teamlogos/countries/500/irq.png","s":"0","p":null},"a":{"n":"Norway","a":"NOR","l":"https://a.espncdn.com/i/teamlogos/countries/500/nor.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760433","d":"2026-06-17T01:00Z","g":"Group J","v":"GEHA Field at Arrowhead Stadium","c":"Kansas City, Missouri","h":{"n":"Argentina","a":"ARG","l":"https://a.espncdn.com/i/teamlogos/countries/500/arg.png","s":"0","p":null},"a":{"n":"Algeria","a":"ALG","l":"https://a.espncdn.com/i/teamlogos/countries/500/alg.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760431","d":"2026-06-17T04:00Z","g":"Group J","v":"Levi's Stadium","c":"Santa Clara, California","h":{"n":"Austria","a":"AUT","l":"https://a.espncdn.com/i/teamlogos/countries/500/aut.png","s":"0","p":null},"a":{"n":"Jordan","a":"JOR","l":"https://a.espncdn.com/i/teamlogos/countries/500/jor.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760435","d":"2026-06-17T17:00Z","g":"Group K","v":"NRG Stadium","c":"Houston, Texas","h":{"n":"Portugal","a":"POR","l":"https://a.espncdn.com/i/teamlogos/countries/500/por.png","s":"0","p":null},"a":{"n":"Congo DR","a":"COD","l":"https://a.espncdn.com/i/teamlogos/countries/500/rdc.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760437","d":"2026-06-17T20:00Z","g":"Group L","v":"AT&T Stadium","c":"Arlington, Texas","h":{"n":"England","a":"ENG","l":"https://a.espncdn.com/i/teamlogos/countries/500/eng.png","s":"0","p":null},"a":{"n":"Croatia","a":"CRO","l":"https://a.espncdn.com/i/teamlogos/countries/500/cro.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760434","d":"2026-06-17T23:00Z","g":"Group L","v":"BMO Field","c":"Toronto","h":{"n":"Ghana","a":"GHA","l":"https://a.espncdn.com/i/teamlogos/countries/500/gha.png","s":"0","p":null},"a":{"n":"Panama","a":"PAN","l":"https://a.espncdn.com/i/teamlogos/countries/500/pan.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760436","d":"2026-06-18T02:00Z","g":"Group K","v":"Estadio Banorte","c":"Mexico City","h":{"n":"Uzbekistan","a":"UZB","l":"https://a.espncdn.com/i/teamlogos/countries/500/uzb.png","s":"0","p":null},"a":{"n":"Colombia","a":"COL","l":"https://a.espncdn.com/i/teamlogos/countries/500/col.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760438","d":"2026-06-18T16:00Z","g":"Group A","v":"Mercedes-Benz Stadium","c":"Atlanta, Georgia","h":{"n":"Czechia","a":"CZE","l":"https://a.espncdn.com/i/teamlogos/countries/500/cze.png","s":"0","p":null},"a":{"n":"South Africa","a":"RSA","l":"https://a.espncdn.com/i/teamlogos/countries/500/rsa.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760439","d":"2026-06-18T19:00Z","g":"Group B","v":"SoFi Stadium","c":"Inglewood, California","h":{"n":"Switzerland","a":"SUI","l":"https://a.espncdn.com/i/teamlogos/countries/500/sui.png","s":"0","p":null},"a":{"n":"Bosnia-Herz","a":"BIH","l":"https://a.espncdn.com/i/teamlogos/countries/500/bih.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760440","d":"2026-06-18T22:00Z","g":"Group B","v":"BC Place","c":"Vancouver","h":{"n":"Canada","a":"CAN","l":"https://a.espncdn.com/i/teamlogos/countries/500/can.png","s":"0","p":null},"a":{"n":"Qatar","a":"QAT","l":"https://a.espncdn.com/i/teamlogos/countries/500/qat.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760441","d":"2026-06-19T01:00Z","g":"Group A","v":"Estadio Akron","c":"Guadalajara","h":{"n":"Mexico","a":"MEX","l":"https://a.espncdn.com/i/teamlogos/countries/500/mex.png","s":"0","p":null},"a":{"n":"South Korea","a":"KOR","l":"https://a.espncdn.com/i/teamlogos/countries/500/kors.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760442","d":"2026-06-19T19:00Z","g":"Group D","v":"Lumen Field","c":"Seattle, Washington","h":{"n":"USA","a":"USA","l":"https://a.espncdn.com/i/teamlogos/countries/500/usa.png","s":"0","p":null},"a":{"n":"Australia","a":"AUS","l":"https://a.espncdn.com/i/teamlogos/countries/500/aus.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760445","d":"2026-06-19T22:00Z","g":"Group C","v":"Gillette Stadium","c":"Foxborough, Massachusetts","h":{"n":"Scotland","a":"SCO","l":"https://a.espncdn.com/i/teamlogos/countries/500/sco.png","s":"0","p":null},"a":{"n":"Morocco","a":"MAR","l":"https://a.espncdn.com/i/teamlogos/countries/500/mar.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760444","d":"2026-06-20T00:30Z","g":"Group C","v":"Lincoln Financial Field","c":"Philadelphia, Pennsylvania","h":{"n":"Brazil","a":"BRA","l":"https://a.espncdn.com/i/teamlogos/countries/500/bra.png","s":"0","p":null},"a":{"n":"Haiti","a":"HAI","l":"https://a.espncdn.com/i/teamlogos/countries/500/hai.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760443","d":"2026-06-20T03:00Z","g":"Group D","v":"Levi's Stadium","c":"Santa Clara, California","h":{"n":"Türkiye","a":"TUR","l":"https://a.espncdn.com/i/teamlogos/countries/500/tur.png","s":"0","p":null},"a":{"n":"Paraguay","a":"PAR","l":"https://a.espncdn.com/i/teamlogos/countries/500/par.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760447","d":"2026-06-20T17:00Z","g":"Group F","v":"NRG Stadium","c":"Houston, Texas","h":{"n":"Netherlands","a":"NED","l":"https://a.espncdn.com/i/teamlogos/countries/500/ned.png","s":"0","p":null},"a":{"n":"Sweden","a":"SWE","l":"https://a.espncdn.com/i/teamlogos/countries/500/swe.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760448","d":"2026-06-20T20:00Z","g":"Group E","v":"BMO Field","c":"Toronto","h":{"n":"Germany","a":"GER","l":"https://a.espncdn.com/i/teamlogos/countries/500/ger.png","s":"0","p":null},"a":{"n":"Ivory Coast","a":"CIV","l":"https://a.espncdn.com/i/teamlogos/countries/500/civ.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760446","d":"2026-06-21T00:00Z","g":"Group E","v":"GEHA Field at Arrowhead Stadium","c":"Kansas City, Missouri","h":{"n":"Ecuador","a":"ECU","l":"https://a.espncdn.com/i/teamlogos/countries/500/ecu.png","s":"0","p":null},"a":{"n":"Curaçao","a":"CUW","l":"https://a.espncdn.com/i/teamlogos/soccer/500/11678.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760449","d":"2026-06-21T04:00Z","g":"Group F","v":"Estadio BBVA","c":"Guadalupe","h":{"n":"Tunisia","a":"TUN","l":"https://a.espncdn.com/i/teamlogos/countries/500/tun.png","s":"0","p":null},"a":{"n":"Japan","a":"JPN","l":"https://a.espncdn.com/i/teamlogos/countries/500/jpn.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760453","d":"2026-06-21T16:00Z","g":"Group H","v":"Mercedes-Benz Stadium","c":"Atlanta, Georgia","h":{"n":"Spain","a":"ESP","l":"https://a.espncdn.com/i/teamlogos/countries/500/esp.png","s":"0","p":null},"a":{"n":"Saudi Arabia","a":"KSA","l":"https://a.espncdn.com/i/teamlogos/countries/500/ksa.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760451","d":"2026-06-21T19:00Z","g":"Group G","v":"SoFi Stadium","c":"Inglewood, California","h":{"n":"Belgium","a":"BEL","l":"https://a.espncdn.com/i/teamlogos/countries/500/bel.png","s":"0","p":null},"a":{"n":"Iran","a":"IRN","l":"https://a.espncdn.com/i/teamlogos/countries/500/irn.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760450","d":"2026-06-21T22:00Z","g":"Group H","v":"Hard Rock Stadium","c":"Miami Gardens, Florida","h":{"n":"Uruguay","a":"URU","l":"https://a.espncdn.com/i/teamlogos/countries/500/uru.png","s":"0","p":null},"a":{"n":"Cape Verde","a":"CPV","l":"https://a.espncdn.com/i/teamlogos/countries/500/cpv.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760452","d":"2026-06-22T01:00Z","g":"Group G","v":"BC Place","c":"Vancouver","h":{"n":"New Zealand","a":"NZL","l":"https://a.espncdn.com/i/teamlogos/countries/500/nzl.png","s":"0","p":null},"a":{"n":"Egypt","a":"EGY","l":"https://a.espncdn.com/i/teamlogos/countries/500/egy.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760456","d":"2026-06-22T17:00Z","g":"Group J","v":"AT&T Stadium","c":"Arlington, Texas","h":{"n":"Argentina","a":"ARG","l":"https://a.espncdn.com/i/teamlogos/countries/500/arg.png","s":"0","p":null},"a":{"n":"Austria","a":"AUT","l":"https://a.espncdn.com/i/teamlogos/countries/500/aut.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760457","d":"2026-06-22T21:00Z","g":"Group I","v":"Lincoln Financial Field","c":"Philadelphia, Pennsylvania","h":{"n":"France","a":"FRA","l":"https://a.espncdn.com/i/teamlogos/countries/500/fra.png","s":"0","p":null},"a":{"n":"Iraq","a":"IRQ","l":"https://a.espncdn.com/i/teamlogos/countries/500/irq.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760454","d":"2026-06-23T00:00Z","g":"Group I","v":"MetLife Stadium","c":"East Rutherford, New Jersey","h":{"n":"Norway","a":"NOR","l":"https://a.espncdn.com/i/teamlogos/countries/500/nor.png","s":"0","p":null},"a":{"n":"Senegal","a":"SEN","l":"https://a.espncdn.com/i/teamlogos/countries/500/sen.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760455","d":"2026-06-23T03:00Z","g":"Group J","v":"Levi's Stadium","c":"Santa Clara, California","h":{"n":"Jordan","a":"JOR","l":"https://a.espncdn.com/i/teamlogos/countries/500/jor.png","s":"0","p":null},"a":{"n":"Algeria","a":"ALG","l":"https://a.espncdn.com/i/teamlogos/countries/500/alg.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760461","d":"2026-06-23T17:00Z","g":"Group K","v":"NRG Stadium","c":"Houston, Texas","h":{"n":"Portugal","a":"POR","l":"https://a.espncdn.com/i/teamlogos/countries/500/por.png","s":"0","p":null},"a":{"n":"Uzbekistan","a":"UZB","l":"https://a.espncdn.com/i/teamlogos/countries/500/uzb.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760458","d":"2026-06-23T20:00Z","g":"Group L","v":"Gillette Stadium","c":"Foxborough, Massachusetts","h":{"n":"England","a":"ENG","l":"https://a.espncdn.com/i/teamlogos/countries/500/eng.png","s":"0","p":null},"a":{"n":"Ghana","a":"GHA","l":"https://a.espncdn.com/i/teamlogos/countries/500/gha.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760460","d":"2026-06-23T23:00Z","g":"Group L","v":"BMO Field","c":"Toronto","h":{"n":"Panama","a":"PAN","l":"https://a.espncdn.com/i/teamlogos/countries/500/pan.png","s":"0","p":null},"a":{"n":"Croatia","a":"CRO","l":"https://a.espncdn.com/i/teamlogos/countries/500/cro.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760459","d":"2026-06-24T02:00Z","g":"Group K","v":"Estadio Akron","c":"Guadalajara","h":{"n":"Colombia","a":"COL","l":"https://a.espncdn.com/i/teamlogos/countries/500/col.png","s":"0","p":null},"a":{"n":"Congo DR","a":"COD","l":"https://a.espncdn.com/i/teamlogos/countries/500/rdc.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760462","d":"2026-06-24T19:00Z","g":"Group B","v":"Lumen Field","c":"Seattle, Washington","h":{"n":"Bosnia-Herz","a":"BIH","l":"https://a.espncdn.com/i/teamlogos/countries/500/bih.png","s":"0","p":null},"a":{"n":"Qatar","a":"QAT","l":"https://a.espncdn.com/i/teamlogos/countries/500/qat.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760463","d":"2026-06-24T19:00Z","g":"Group B","v":"BC Place","c":"Vancouver","h":{"n":"Switzerland","a":"SUI","l":"https://a.espncdn.com/i/teamlogos/countries/500/sui.png","s":"0","p":null},"a":{"n":"Canada","a":"CAN","l":"https://a.espncdn.com/i/teamlogos/countries/500/can.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760464","d":"2026-06-24T22:00Z","g":"Group C","v":"Mercedes-Benz Stadium","c":"Atlanta, Georgia","h":{"n":"Morocco","a":"MAR","l":"https://a.espncdn.com/i/teamlogos/countries/500/mar.png","s":"0","p":null},"a":{"n":"Haiti","a":"HAI","l":"https://a.espncdn.com/i/teamlogos/countries/500/hai.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760465","d":"2026-06-24T22:00Z","g":"Group C","v":"Hard Rock Stadium","c":"Miami Gardens, Florida","h":{"n":"Scotland","a":"SCO","l":"https://a.espncdn.com/i/teamlogos/countries/500/sco.png","s":"0","p":null},"a":{"n":"Brazil","a":"BRA","l":"https://a.espncdn.com/i/teamlogos/countries/500/bra.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760467","d":"2026-06-25T01:00Z","g":"Group A","v":"Estadio Banorte","c":"Mexico City","h":{"n":"Czechia","a":"CZE","l":"https://a.espncdn.com/i/teamlogos/countries/500/cze.png","s":"0","p":null},"a":{"n":"Mexico","a":"MEX","l":"https://a.espncdn.com/i/teamlogos/countries/500/mex.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760466","d":"2026-06-25T01:00Z","g":"Group A","v":"Estadio BBVA","c":"Guadalupe","h":{"n":"South Africa","a":"RSA","l":"https://a.espncdn.com/i/teamlogos/countries/500/rsa.png","s":"0","p":null},"a":{"n":"South Korea","a":"KOR","l":"https://a.espncdn.com/i/teamlogos/countries/500/kors.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760473","d":"2026-06-25T20:00Z","g":"Group E","v":"Lincoln Financial Field","c":"Philadelphia, Pennsylvania","h":{"n":"Curaçao","a":"CUW","l":"https://a.espncdn.com/i/teamlogos/soccer/500/11678.png","s":"0","p":null},"a":{"n":"Ivory Coast","a":"CIV","l":"https://a.espncdn.com/i/teamlogos/countries/500/civ.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760468","d":"2026-06-25T20:00Z","g":"Group E","v":"MetLife Stadium","c":"East Rutherford, New Jersey","h":{"n":"Ecuador","a":"ECU","l":"https://a.espncdn.com/i/teamlogos/countries/500/ecu.png","s":"0","p":null},"a":{"n":"Germany","a":"GER","l":"https://a.espncdn.com/i/teamlogos/countries/500/ger.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760471","d":"2026-06-25T23:00Z","g":"Group F","v":"AT&T Stadium","c":"Arlington, Texas","h":{"n":"Japan","a":"JPN","l":"https://a.espncdn.com/i/teamlogos/countries/500/jpn.png","s":"0","p":null},"a":{"n":"Sweden","a":"SWE","l":"https://a.espncdn.com/i/teamlogos/countries/500/swe.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760472","d":"2026-06-25T23:00Z","g":"Group F","v":"GEHA Field at Arrowhead Stadium","c":"Kansas City, Missouri","h":{"n":"Tunisia","a":"TUN","l":"https://a.espncdn.com/i/teamlogos/countries/500/tun.png","s":"0","p":null},"a":{"n":"Netherlands","a":"NED","l":"https://a.espncdn.com/i/teamlogos/countries/500/ned.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760469","d":"2026-06-26T02:00Z","g":"Group D","v":"Levi's Stadium","c":"Santa Clara, California","h":{"n":"Paraguay","a":"PAR","l":"https://a.espncdn.com/i/teamlogos/countries/500/par.png","s":"0","p":null},"a":{"n":"Australia","a":"AUS","l":"https://a.espncdn.com/i/teamlogos/countries/500/aus.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760470","d":"2026-06-26T02:00Z","g":"Group D","v":"SoFi Stadium","c":"Inglewood, California","h":{"n":"Türkiye","a":"TUR","l":"https://a.espncdn.com/i/teamlogos/countries/500/tur.png","s":"0","p":null},"a":{"n":"USA","a":"USA","l":"https://a.espncdn.com/i/teamlogos/countries/500/usa.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760475","d":"2026-06-26T19:00Z","g":"Group I","v":"Gillette Stadium","c":"Foxborough, Massachusetts","h":{"n":"Norway","a":"NOR","l":"https://a.espncdn.com/i/teamlogos/countries/500/nor.png","s":"0","p":null},"a":{"n":"France","a":"FRA","l":"https://a.espncdn.com/i/teamlogos/countries/500/fra.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760474","d":"2026-06-26T19:00Z","g":"Group I","v":"BMO Field","c":"Toronto","h":{"n":"Senegal","a":"SEN","l":"https://a.espncdn.com/i/teamlogos/countries/500/sen.png","s":"0","p":null},"a":{"n":"Iraq","a":"IRQ","l":"https://a.espncdn.com/i/teamlogos/countries/500/irq.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760478","d":"2026-06-27T00:00Z","g":"Group H","v":"NRG Stadium","c":"Houston, Texas","h":{"n":"Cape Verde","a":"CPV","l":"https://a.espncdn.com/i/teamlogos/countries/500/cpv.png","s":"0","p":null},"a":{"n":"Saudi Arabia","a":"KSA","l":"https://a.espncdn.com/i/teamlogos/countries/500/ksa.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760479","d":"2026-06-27T00:00Z","g":"Group H","v":"Estadio Akron","c":"Guadalajara","h":{"n":"Uruguay","a":"URU","l":"https://a.espncdn.com/i/teamlogos/countries/500/uru.png","s":"0","p":null},"a":{"n":"Spain","a":"ESP","l":"https://a.espncdn.com/i/teamlogos/countries/500/esp.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760476","d":"2026-06-27T03:00Z","g":"Group G","v":"Lumen Field","c":"Seattle, Washington","h":{"n":"Egypt","a":"EGY","l":"https://a.espncdn.com/i/teamlogos/countries/500/egy.png","s":"0","p":null},"a":{"n":"Iran","a":"IRN","l":"https://a.espncdn.com/i/teamlogos/countries/500/irn.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760477","d":"2026-06-27T03:00Z","g":"Group G","v":"BC Place","c":"Vancouver","h":{"n":"New Zealand","a":"NZL","l":"https://a.espncdn.com/i/teamlogos/countries/500/nzl.png","s":"0","p":null},"a":{"n":"Belgium","a":"BEL","l":"https://a.espncdn.com/i/teamlogos/countries/500/bel.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760480","d":"2026-06-27T21:00Z","g":"Group L","v":"Lincoln Financial Field","c":"Philadelphia, Pennsylvania","h":{"n":"Croatia","a":"CRO","l":"https://a.espncdn.com/i/teamlogos/countries/500/cro.png","s":"0","p":null},"a":{"n":"Ghana","a":"GHA","l":"https://a.espncdn.com/i/teamlogos/countries/500/gha.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760485","d":"2026-06-27T21:00Z","g":"Group L","v":"MetLife Stadium","c":"East Rutherford, New Jersey","h":{"n":"Panama","a":"PAN","l":"https://a.espncdn.com/i/teamlogos/countries/500/pan.png","s":"0","p":null},"a":{"n":"England","a":"ENG","l":"https://a.espncdn.com/i/teamlogos/countries/500/eng.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760481","d":"2026-06-27T23:30Z","g":"Group K","v":"Hard Rock Stadium","c":"Miami Gardens, Florida","h":{"n":"Colombia","a":"COL","l":"https://a.espncdn.com/i/teamlogos/countries/500/col.png","s":"0","p":null},"a":{"n":"Portugal","a":"POR","l":"https://a.espncdn.com/i/teamlogos/countries/500/por.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760482","d":"2026-06-27T23:30Z","g":"Group K","v":"Mercedes-Benz Stadium","c":"Atlanta, Georgia","h":{"n":"Congo DR","a":"COD","l":"https://a.espncdn.com/i/teamlogos/countries/500/rdc.png","s":"0","p":null},"a":{"n":"Uzbekistan","a":"UZB","l":"https://a.espncdn.com/i/teamlogos/countries/500/uzb.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760484","d":"2026-06-28T02:00Z","g":"Group J","v":"GEHA Field at Arrowhead Stadium","c":"Kansas City, Missouri","h":{"n":"Algeria","a":"ALG","l":"https://a.espncdn.com/i/teamlogos/countries/500/alg.png","s":"0","p":null},"a":{"n":"Austria","a":"AUT","l":"https://a.espncdn.com/i/teamlogos/countries/500/aut.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760483","d":"2026-06-28T02:00Z","g":"Group J","v":"AT&T Stadium","c":"Arlington, Texas","h":{"n":"Jordan","a":"JOR","l":"https://a.espncdn.com/i/teamlogos/countries/500/jor.png","s":"0","p":null},"a":{"n":"Argentina","a":"ARG","l":"https://a.espncdn.com/i/teamlogos/countries/500/arg.png","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760486","d":"2026-06-28T19:00Z","g":"","v":"SoFi Stadium","c":"Inglewood, California","h":{"n":"2A","a":"2A","l":"","s":"0","p":null},"a":{"n":"2B","a":"2B","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760487","d":"2026-06-29T17:00Z","g":"","v":"NRG Stadium","c":"Houston, Texas","h":{"n":"1C","a":"1C","l":"","s":"0","p":null},"a":{"n":"2F","a":"2F","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760489","d":"2026-06-29T20:30Z","g":"","v":"Gillette Stadium","c":"Foxborough, Massachusetts","h":{"n":"1E","a":"1E","l":"","s":"0","p":null},"a":{"n":"3RD A/B/C/D/F","a":"3RD","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760488","d":"2026-06-30T01:00Z","g":"","v":"Estadio BBVA","c":"Guadalupe","h":{"n":"1F","a":"1F","l":"","s":"0","p":null},"a":{"n":"2C","a":"2C","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760490","d":"2026-06-30T17:00Z","g":"","v":"AT&T Stadium","c":"Arlington, Texas","h":{"n":"2E","a":"2E","l":"","s":"0","p":null},"a":{"n":"2I","a":"2I","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760492","d":"2026-06-30T21:00Z","g":"","v":"MetLife Stadium","c":"East Rutherford, New Jersey","h":{"n":"1I","a":"1I","l":"","s":"0","p":null},"a":{"n":"3RD C/D/F/G/H","a":"3RD","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760491","d":"2026-07-01T01:00Z","g":"","v":"Estadio Banorte","c":"Mexico City","h":{"n":"1A","a":"1A","l":"","s":"0","p":null},"a":{"n":"3RD C/E/F/H/I","a":"3RD","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760495","d":"2026-07-01T16:00Z","g":"","v":"Mercedes-Benz Stadium","c":"Atlanta, Georgia","h":{"n":"1L","a":"1L","l":"","s":"0","p":null},"a":{"n":"3RD E/H/I/J/K","a":"3RD","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760493","d":"2026-07-01T20:00Z","g":"","v":"Lumen Field","c":"Seattle, Washington","h":{"n":"1G","a":"1G","l":"","s":"0","p":null},"a":{"n":"3RD A/E/H/I/J","a":"3RD","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760494","d":"2026-07-02T00:00Z","g":"","v":"Levi's Stadium","c":"Santa Clara, California","h":{"n":"1D","a":"1D","l":"","s":"0","p":null},"a":{"n":"3RD B/E/F/I/J","a":"3RD","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760497","d":"2026-07-02T19:00Z","g":"","v":"SoFi Stadium","c":"Inglewood, California","h":{"n":"1H","a":"1H","l":"","s":"0","p":null},"a":{"n":"2J","a":"2J","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760496","d":"2026-07-02T23:00Z","g":"","v":"BMO Field","c":"Toronto","h":{"n":"2K","a":"2K","l":"","s":"0","p":null},"a":{"n":"2L","a":"2L","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760498","d":"2026-07-03T03:00Z","g":"","v":"BC Place","c":"Vancouver","h":{"n":"1B","a":"1B","l":"","s":"0","p":null},"a":{"n":"3RD E/F/G/I/J","a":"3RD","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760499","d":"2026-07-03T18:00Z","g":"","v":"AT&T Stadium","c":"Arlington, Texas","h":{"n":"2D","a":"2D","l":"","s":"0","p":null},"a":{"n":"2G","a":"2G","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760500","d":"2026-07-03T22:00Z","g":"","v":"Hard Rock Stadium","c":"Miami Gardens, Florida","h":{"n":"1J","a":"1J","l":"","s":"0","p":null},"a":{"n":"2H","a":"2H","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760501","d":"2026-07-04T01:30Z","g":"","v":"GEHA Field at Arrowhead Stadium","c":"Kansas City, Missouri","h":{"n":"1K","a":"1K","l":"","s":"0","p":null},"a":{"n":"3RD D/E/I/J/L","a":"3RD","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760502","d":"2026-07-04T17:00Z","g":"","v":"NRG Stadium","c":"Houston, Texas","h":{"n":"RD32 W1","a":"RD32","l":"","s":"0","p":null},"a":{"n":"RD32 W3","a":"RD32","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760503","d":"2026-07-04T21:00Z","g":"","v":"Lincoln Financial Field","c":"Philadelphia, Pennsylvania","h":{"n":"RD32 W2","a":"RD32","l":"","s":"0","p":null},"a":{"n":"RD32 W5","a":"RD32","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760504","d":"2026-07-05T20:00Z","g":"","v":"MetLife Stadium","c":"East Rutherford, New Jersey","h":{"n":"RD32 W4","a":"RD32","l":"","s":"0","p":null},"a":{"n":"RD32 W6","a":"RD32","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760505","d":"2026-07-06T00:00Z","g":"","v":"Estadio Banorte","c":"Mexico City","h":{"n":"RD32 W7","a":"RD32","l":"","s":"0","p":null},"a":{"n":"RD32 W8","a":"RD32","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760506","d":"2026-07-06T19:00Z","g":"","v":"AT&T Stadium","c":"Arlington, Texas","h":{"n":"RD32 W11","a":"RD32","l":"","s":"0","p":null},"a":{"n":"RD32 W12","a":"RD32","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760507","d":"2026-07-07T00:00Z","g":"","v":"Lumen Field","c":"Seattle, Washington","h":{"n":"RD32 W9","a":"RD32","l":"","s":"0","p":null},"a":{"n":"RD32 W10","a":"RD32","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760509","d":"2026-07-07T16:00Z","g":"","v":"Mercedes-Benz Stadium","c":"Atlanta, Georgia","h":{"n":"RD32 W14","a":"RD32","l":"","s":"0","p":null},"a":{"n":"RD32 W16","a":"RD32","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760508","d":"2026-07-07T20:00Z","g":"","v":"BC Place","c":"Vancouver","h":{"n":"RD32 W13","a":"RD32","l":"","s":"0","p":null},"a":{"n":"RD32 W15","a":"RD32","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760510","d":"2026-07-09T20:00Z","g":"","v":"Gillette Stadium","c":"Foxborough, Massachusetts","h":{"n":"RD16 W1","a":"RD16 W1","l":"","s":"0","p":null},"a":{"n":"RD16 W2","a":"RD16 W2","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760511","d":"2026-07-10T19:00Z","g":"","v":"SoFi Stadium","c":"Inglewood, California","h":{"n":"RD16 W5","a":"RD16 W5","l":"","s":"0","p":null},"a":{"n":"RD16 W6","a":"RD16 W6","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760512","d":"2026-07-11T21:00Z","g":"","v":"Hard Rock Stadium","c":"Miami Gardens, Florida","h":{"n":"RD16 W3","a":"RD16 W3","l":"","s":"0","p":null},"a":{"n":"RD16 W4","a":"RD16 W4","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760513","d":"2026-07-12T01:00Z","g":"","v":"GEHA Field at Arrowhead Stadium","c":"Kansas City, Missouri","h":{"n":"RD16 W7","a":"RD16 W7","l":"","s":"0","p":null},"a":{"n":"RD16 W8","a":"RD16 W8","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760514","d":"2026-07-14T19:00Z","g":"","v":"AT&T Stadium","c":"Arlington, Texas","h":{"n":"QF W1","a":"QFW1","l":"","s":"0","p":null},"a":{"n":"QF W2","a":"QFW2","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760515","d":"2026-07-15T19:00Z","g":"","v":"Mercedes-Benz Stadium","c":"Atlanta, Georgia","h":{"n":"QF W3","a":"QFW3","l":"","s":"0","p":null},"a":{"n":"QF W4","a":"QW4","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760516","d":"2026-07-18T21:00Z","g":"","v":"Hard Rock Stadium","c":"Miami Gardens, Florida","h":{"n":"SF L1","a":"SF L1","l":"","s":"0","p":null},"a":{"n":"SF L2","a":"SF L2","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"},{"i":"760517","d":"2026-07-19T19:00Z","g":"","v":"MetLife Stadium","c":"East Rutherford, New Jersey","h":{"n":"SF W1","a":"SFW1","l":"","s":"0","p":null},"a":{"n":"SF W2","a":"SFW2","l":"","s":"0","p":null},"st":"Scheduled","sx":"pre"}];
+var WC_API = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
+var WC_TZ  = 'America/Paramaribo';
+var _dayFmt  = new Intl.DateTimeFormat('en-CA', {timeZone: WC_TZ});
+var _timeFmt = new Intl.DateTimeFormat('en-GB', {timeZone: WC_TZ, hour: '2-digit', minute: '2-digit'});
+var _lblFmt  = new Intl.DateTimeFormat('en-GB', {timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long'});
+function srDay(x){ return _dayFmt.format(new Date(x)); }
+function srTime(x){ return _timeFmt.format(new Date(x)); }
+function dayLabel(k){ return _lblFmt.format(new Date(k + 'T12:00:00Z')); }
+function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function stageOf(m){
+  if (m.g && m.g.indexOf('Group') === 0) return 'Group Stage';
+  var d = m.d;
+  if (d < '2026-06-28T07') return 'Group Stage';
+  if (d < '2026-07-04T07') return 'Round of 32';
+  if (d < '2026-07-09T07') return 'Round of 16';
+  if (d < '2026-07-14T07') return 'Quarter-finals';
+  if (d < '2026-07-18T07') return 'Semi-finals';
+  if (d < '2026-07-19T07') return 'Third Place';
+  return 'Final';
+}
+function stageId(s){ return 'st-' + s.toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
+function flag(t){
+  if (!t || !t.l) return '<span class="inline-block w-6 h-6 rounded-full bg-gray-200 shrink-0"></span>';
+  var p = t.l.replace('https://a.espncdn.com', '');
+  return '<img src="https://a.espncdn.com/combiner/i?img=' + p + '&w=48&h=48" width="24" height="24" loading="lazy" decoding="async" alt="" class="shrink-0 rounded-full">';
+}
+function wcRow(m){
+  var live = m.sx === 'in', post = m.sx === 'post';
+  var mid;
+  if (m.sx === 'pre') {
+    mid = '<p class="font-bold text-gray-900 leading-tight">' + srTime(m.d) + '</p><p class="text-[10px] text-gray-400 uppercase tracking-wide">SR time</p>';
+  } else {
+    mid = '<p class="font-bold text-lg leading-tight text-gray-900">' + esc(m.h && m.h.s || '0') + '<span class="text-gray-300 px-1.5">-</span>' + esc(m.a && m.a.s || '0') + '</p>';
+  }
+  var meta = [];
+  if (live) meta.push('<span class="wc-live"></span><span class="font-semibold text-red-600">LIVE ' + esc(m.st) + '</span>');
+  else if (post) meta.push(esc(m.st || 'FT'));
+  if (m.h && m.a && m.h.p != null && m.a.p != null) meta.push('Pens ' + esc(m.h.p) + '-' + esc(m.a.p));
+  if (m.g) meta.push(esc(m.g));
+  var city = (m.c || '').split(',')[0];
+  if (m.v) meta.push(esc(m.v) + (city ? ', ' + esc(city) : ''));
+  return '<div class="bg-white rounded-xl border border-gray-100 shadow-sm px-4 py-3 mb-2' + (live ? ' wc-rowlive' : '') + '">'
+    + '<div class="flex items-center gap-3">'
+    + '<div class="flex-1 flex items-center justify-end gap-2 min-w-0"><span class="font-semibold text-gray-900 text-sm truncate">' + esc(m.h && m.h.n) + '</span>' + flag(m.h) + '</div>'
+    + '<div class="w-20 text-center shrink-0">' + mid + '</div>'
+    + '<div class="flex-1 flex items-center gap-2 min-w-0">' + flag(m.a) + '<span class="font-semibold text-gray-900 text-sm truncate">' + esc(m.a && m.a.n) + '</span></div>'
+    + '</div>'
+    + '<p class="text-center text-[11px] text-gray-400 mt-1">' + meta.join(' &middot; ') + '</p>'
+    + '</div>';
+}
+function wcRender(){
+  var box = document.getElementById('wc-list');
+  if (!WC.length) return;
+  var byDay = {}, order = [];
+  WC.slice().sort(function(a, b){ return a.d < b.d ? -1 : 1; }).forEach(function(m){
+    var k = srDay(m.d);
+    if (!byDay[k]) { byDay[k] = []; order.push(k); }
+    byDay[k].push(m);
+  });
+  var today = srDay(new Date());
+  var html = '', lastStage = '';
+  order.forEach(function(k){
+    var stage = stageOf(byDay[k][0]);
+    if (stage !== lastStage) {
+      html += '<h2 id="' + stageId(stage) + '" class="serif text-2xl font-bold text-gray-900 mt-8 mb-3">' + stage + '</h2>';
+      lastStage = stage;
+    }
+    var isToday = k === today;
+    html += '<div id="d-' + k + '" class="mb-5">'
+      + '<h3 class="text-xs font-bold uppercase tracking-widest mb-2 ' + (isToday ? '' : 'text-gray-500') + '"'
+      + (isToday ? ' style="color:var(--forest)"' : '') + '>' + dayLabel(k) + (isToday ? ' &middot; Today' : '') + '</h3>'
+      + byDay[k].map(wcRow).join('') + '</div>';
+  });
+  box.innerHTML = html;
+}
+function wcJump(id){
+  var el;
+  if (id === 'today') {
+    el = document.getElementById('d-' + srDay(new Date())) || document.getElementById('wc-list');
+  } else { el = document.getElementById(id); }
+  if (el) el.scrollIntoView({behavior: 'smooth'});
+}
+function wcSlim(e){
+  var c = e.competitions[0], h = null, a = null;
+  (c.competitors || []).forEach(function(t){
+    var tm = t.team || {};
+    var o = {n: tm.shortDisplayName || tm.displayName || '', a: tm.abbreviation || '', l: tm.logo || '',
+             s: t.score || '', p: (t.shootoutScore === '' || t.shootoutScore == null) ? null : t.shootoutScore};
+    if (t.homeAway === 'home') h = o; else a = o;
+  });
+  var st = (c.status && c.status.type) || {};
+  var ven = c.venue || {}, ad = ven.address || {};
+  return {i: e.id, d: e.date, g: (c.altGameNote || '').replace('FIFA World Cup, ', '').replace('FIFA World Cup', ''),
+          v: ven.fullName || '', c: ad.city || '', h: h, a: a,
+          st: st.shortDetail || '', sx: st.state || 'pre'};
+}
+function wcApply(events){
+  if (!events || !events.length) return;
+  var idx = {};
+  WC.forEach(function(m, i){ idx[m.i] = i; });
+  events.forEach(function(e){
+    var s = wcSlim(e);
+    if (idx[s.i] != null) WC[idx[s.i]] = s; else WC.push(s);
+  });
+  wcRender();
+}
+function wcFetch(url){
+  fetch(url).then(function(r){ return r.json(); }).then(function(d){ wcApply(d.events || []); }).catch(function(){});
+}
+function wcPoll(){
+  if (document.hidden) return;
+  var now = Date.now();
+  var active = WC.some(function(m){
+    if (m.sx === 'in') return true;
+    if (m.sx === 'pre') {
+      var t = new Date(m.d).getTime();
+      return (t - now) < 7200000 && (now - t) < 14400000;
+    }
+    return false;
+  });
+  if (!active) return;
+  function f(ms){ return new Date(ms).toISOString().slice(0, 10).replace(/-/g, ''); }
+  wcFetch(WC_API + '?dates=' + f(now - 86400000) + '-' + f(now + 86400000) + '&limit=50');
+}
+wcRender();
+wcFetch(WC_API + '?dates=20260611-20260719&limit=200');
+setInterval(wcPoll, 60000);
+document.addEventListener('visibilitychange', function(){ if (!document.hidden) wcPoll(); });
+</script>
+<footer class="text-white py-10" style="background:var(--forest)">
+<div class="max-w-6xl mx-auto px-5">
+<div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-6">
+<div class="col-span-2 md:col-span-1">
+<p class="serif text-2xl font-bold mb-3">Explore<span style="color:var(--coral)">Suriname</span></p>
+<p class="text-white/60 text-sm leading-relaxed">Su guía de Surinam: lugares para comer, hospedarse, explorar, comprar y mantenerse informado con noticias locales, de petróleo y gas y de finanzas.</p>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Explorar</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li><a class="hover:text-white transition" href="nature.html">Naturaleza y parques</a></li>
+<li><a class="hover:text-white transition" href="activities.html">Actividades</a></li>
+<li><a class="hover:text-white transition" href="events.html">Eventos y festivales</a></li>
+<li><a class="hover:text-white transition" href="shopping.html">Compras</a></li>
+<li><a class="hover:text-white transition" href="restaurants.html">Dónde comer</a></li>
+<li><a class="hover:text-white transition" href="hotels.html">Dónde alojarse</a></li>
+<li><a class="hover:text-white transition" href="services.html">Servicios</a></li>
+</ul>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Esencial</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li><a class="hover:text-white transition" href="currency.html">Tipos de cambio</a></li>
+<li><a class="hover:text-white transition" href="flights.html">Vuelos</a></li>
+<li><a class="hover:text-white transition" href="conditions.html">Clima y mareas</a></li>
+<li><a class="hover:text-white transition" href="daily-notices.html">Avisos diarios</a></li>
+<li><a class="hover:text-white transition" href="worldcup-2026.html">World Cup 2026</a></li>
+<li><a class="hover:text-white transition" href="visitor-guide.html">Lo básico</a></li>
+<li><a class="hover:text-white transition" href="on-the-road.html">En ruta</a></li>
+<li><a class="hover:text-white transition" href="suriname-itinerary.html">Itinerarios de viaje</a></li>
+<li><a class="hover:text-white transition" href="is-suriname-safe.html">¿Es seguro Surinam?</a></li>
+<li><a class="hover:text-white transition" href="news.html">Noticias</a></li>
+</ul>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Información de viaje</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li>Capital: Paramaribo</li>
+<li>Idiomas: Holandés, Sranan Tongo y 9 más</li>
+<li>Moneda: Dólar de Surinam (SRD)</li>
+<li>Clima: Tropical, ~28°C todo el año</li>
+<li>3 sitios del Patrimonio Mundial de la UNESCO</li>
+</ul>
+</div>
+<div>
+<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Contacto</p>
+<ul class="space-y-2 text-sm text-white/70">
+<li><a class="hover:text-white transition" href="contact.html">Contáctenos</a></li>
+<li><a class="hover:text-white transition" href="about.html">Acerca de este sitio</a></li>
+<li class="text-white/40 text-xs mt-3">Para asociaciones, listados<br/>o consultas generales.</li>
+</ul>
+</div>
+</div>
+<div class="border-t border-white/10 pt-8 flex flex-col items-center gap-4">
+<div class="flex gap-3">
+<a class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white transition" href="https://www.facebook.com/exploresurinamecom" rel="noopener" style="background:#1877F2;" target="_blank">
+<svg fill="currentColor" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987H7.898V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.891h-2.33v6.987C18.343 21.128 22 16.991 22 12z"></path></svg>
+          Facebook
+        </a>
+<a class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white transition" href="https://www.instagram.com/exploringsuriname/" rel="noopener" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);" target="_blank">
+<svg fill="currentColor" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.336 3.608 1.311.975.975 1.249 2.242 1.311 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.633-1.311 3.608-.975.975-2.242 1.249-3.608 1.311-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.336-3.608-1.311-.975-.975-1.249-2.242-1.311-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.336-2.633 1.311-3.608.975-.975 2.242-1.249 3.608-1.311C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.333.014 7.053.072 5.775.13 4.602.402 3.635 1.368 2.668 2.335 2.396 3.508 2.338 4.786 2.28 6.066 2.266 6.474 2.266 12s.014 5.934.072 7.214c.058 1.278.33 2.451 1.297 3.418.967.967 2.14 1.239 3.418 1.297C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.278-.058 2.451-.33 3.418-1.297.967-.967 1.239-2.14 1.297-3.418.058-1.28.072-1.688.072-7.213s-.014-5.934-.072-7.214c-.058-1.278-.33-2.451-1.297-3.418C19.398.402 18.225.13 16.947.072 15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"></path></svg>
+          Instagram
+        </a>
+</div>
+<p class="text-white/40 text-xs">© 2026 ExploreSuriname.com  ·  <a class="hover:text-white/70 transition" href="privacy.html">política de privacidad</a>  ·  <a class="hover:text-white/70 transition" href="/images/HOME_CREDITS.txt">Créditos</a></p>
+</div>
+</div>
+</footer>
+</body>
+</html>
