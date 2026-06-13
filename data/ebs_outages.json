@@ -1,6 +1,17 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD DINSDAG 16 JUNI 2026",
+      "date": "16 Juni 2026",
+      "date_iso": "2026-06-16",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1520/gepland-onderhoud-dinsdag-16-juni-2026",
+      "meta_description": "Gepland onderhoud: Commewijne dinsdag 16 juni 2026 tussen 08:00-15:00 GEDEELTE WEG NAAR PEPERPOT VANAF GOTONG ROJONGWEG, GEDEELTE MANJADAM TUSSEN CHRISTENDA",
+      "district": "Commewijne",
+      "time": "08:00 – 15:00",
+      "area": "GEDEELTE WEG NAAR PEPERPOT VANAF GOTONG ROJONGWEG, GEDEELTE MANJADAM TUSSEN CHRISTENDA"
+    },
+    {
       "title": "GEPLAND ONDERHOUD MAANDAG 15 JUNI 2026",
       "date": "15 Juni 2026",
       "date_iso": "2026-06-15",
@@ -12,6 +23,6 @@
       "area": "MOHAMED AJOEBWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.  Kaart"
     }
   ],
-  "last_updated": "2026-06-13T14:12:15.582357+00:00",
+  "last_updated": "2026-06-13T17:28:08.971075+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
