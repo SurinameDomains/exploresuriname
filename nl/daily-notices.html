@@ -776,8 +776,8 @@ fetch('/data/tbl_cinema.json')
     if (upd && d.last_updated) upd.textContent = relTime(d.last_updated);
     var body = document.getElementById('tbl-body');
     if (!body) return;
-    var films = d.films || [];
-    if (films.length === 0) {
+    var shows = d.showings || [];
+    if (shows.length === 0) {
       body.innerHTML = '<div style="text-align:center;padding:1rem 0">' + pill('info') + '<p class="text-xs text-gray-400 mt-2">No showings listed today.</p></div>';
       return;
     }
@@ -785,13 +785,13 @@ fetch('/data/tbl_cinema.json')
     if (d.date_label) {
       html += '<p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">' + escHtml(d.date_label) + '</p>';
     }
-    films.forEach(function(f) {
-      var times = (f.times || []).map(escHtml).join(' &bull; ');
-      var name = f.url
-        ? '<a href="' + escHtml(f.url) + '" target="_blank" rel="noopener" style="color:var(--forest2);text-decoration:none">' + escHtml(f.title) + '</a>'
-        : escHtml(f.title);
-      html += '<div class="pharmacy-row"><div class="pharmacy-name">' + name + '</div>'
-            + '<div class="outage-desc" style="color:#374151">' + times + '</div></div>';
+    shows.forEach(function(s) {
+      var name = s.url
+        ? '<a href="' + escHtml(s.url) + '" target="_blank" rel="noopener" class="pharmacy-name" style="text-decoration:none">' + escHtml(s.title) + '</a>'
+        : '<span class="pharmacy-name">' + escHtml(s.title) + '</span>';
+      html += '<div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline">'
+            + '<span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">' + escHtml(s.time) + '</span>'
+            + name + '</div>';
     });
     html += '<p class="text-xs text-gray-300 mt-2">Source: <a href="https://www.tblcinemas.com/films/dagschema" target="_blank" rel="noopener" class="src-link">tblcinemas.com</a> &bull; Box office from 16:00 (wknd 13:00)</p>';
     body.innerHTML = html;
