@@ -1,0 +1,72 @@
+{
+  "last_updated": "2026-06-14T21:21:39.554777+00:00",
+  "date_label": "Today",
+  "films": [
+    {
+      "title": "Michael",
+      "url": "https://www.tblcinemas.com/movie/MI17314/michael",
+      "times": [
+        "02:00 PM",
+        "04:45 PM"
+      ]
+    },
+    {
+      "title": "The Super Mario Galaxy Movie",
+      "url": "https://www.tblcinemas.com/movie/SU31085/the-super-mario-galaxy-movie",
+      "times": [
+        "03:00 PM"
+      ]
+    },
+    {
+      "title": "Scary Movie",
+      "url": "https://www.tblcinemas.com/movie/SC6491/scary-movie",
+      "times": [
+        "03:45 PM",
+        "08:45 PM"
+      ]
+    },
+    {
+      "title": "The Devil Wears Prada 2",
+      "url": "https://www.tblcinemas.com/movie/DE17040/the-devil-wears-prada-2",
+      "times": [
+        "04:15 PM"
+      ]
+    },
+    {
+      "title": "Hai Jawani Toh Ishq Hona Hai",
+      "url": "https://www.tblcinemas.com/movie/HA10827/hai-jawani-toh-ishq-hona-hai",
+      "times": [
+        "05:15 PM"
+      ]
+    },
+    {
+      "title": "Main Vaapas Aaunga",
+      "url": "https://www.tblcinemas.com/movie/MA30219/main-vaapas-aaunga",
+      "times": [
+        "06:00 PM"
+      ]
+    },
+    {
+      "title": "Masters of the Universe",
+      "url": "https://www.tblcinemas.com/movie/MA16633/masters-of-the-universe",
+      "times": [
+        "06:45 PM"
+      ]
+    },
+    {
+      "title": "Disclosure Day",
+      "url": "https://www.tblcinemas.com/movie/DI2750/disclosure-day",
+      "times": [
+        "07:15 PM"
+      ]
+    },
+    {
+      "title": "Obsession",
+      "url": "https://www.tblcinemas.com/movie/OB12184/obsession",
+      "times": [
+        "08:00 PM"
+      ]
+    }
+  ],
+  "source": "https://www.tblcinemas.com/films/dagschema"
+}
