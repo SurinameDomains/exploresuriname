@@ -141,17 +141,17 @@
 <!-- GA4 interaction events: WhatsApp / phone / email / directions / outbound clicks -->
 <script>window.addEventListener("click",function(ev){var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;var h=a.getAttribute("href")||"",n="",p={};if(h.indexOf("https://wa.me/")===0){n="whatsapp_click"}else if(h.indexOf("tel:")===0){n="phone_click"}else if(h.indexOf("mailto:")===0){n="email_click"}else if(h.indexOf("google.com/maps")!==-1){n="directions_click"}else if(/^https?:\/\//.test(h)&&h.indexOf("exploresuriname.com")===-1){n="outbound_click";try{p.link_domain=new URL(h).hostname}catch(e){}}if(!n)return;p.link_url=h.slice(0,100);window.dataLayer=window.dataLayer||[];if(!window.gtag){window.gtag=function(){window.dataLayer.push(arguments)}}window.gtag("event",n,p)});</script>
 <title>Daily Notices | Suriname | Explore Suriname</title>
-<meta content="Daily Notices for Suriname: on-call pharmacies, EBS power outages and SWM water outages. Auto-updated daily." name="description"/>
+<meta content="Daily Notices for Suriname: on-call pharmacies, EBS power outages, SWM water outages, cinema showtimes. Auto-updated daily." name="description"/>
 <link href="https://exploresuriname.com/daily-notices.html" rel="canonical"/>
 <meta content="website" property="og:type"/>
 <meta content="Explore Suriname" property="og:site_name"/>
 <meta content="https://exploresuriname.com/daily-notices.html" property="og:url"/>
 <meta content="Daily Notices | Suriname | Explore Suriname" property="og:title"/>
-<meta content="On-call pharmacies, EBS power outages and SWM water outages. Auto-updated daily." property="og:description"/>
+<meta content="On-call pharmacies, EBS power outages, SWM water outages, cinema showtimes. Auto-updated daily." property="og:description"/>
 <meta content="https://exploresuriname.com/og-image.jpg" property="og:image"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="Daily Notices | Suriname | Explore Suriname" name="twitter:title"/>
-<meta content="On-call pharmacies, EBS power outages and SWM water outages. Auto-updated daily." name="twitter:description"/>
+<meta content="On-call pharmacies, EBS power outages, SWM water outages, cinema showtimes. Auto-updated daily." name="twitter:description"/>
 <meta content="https://exploresuriname.com/og-image.jpg" name="twitter:image"/>
 <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebPage","name":"Daily Notices, Suriname","url":"https://exploresuriname.com/daily-notices.html","description":"Daily Suriname essentials: on-call pharmacies, power and water outage notices.","dateModified":"2026-06-14","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/"}}
@@ -371,7 +371,58 @@ document.addEventListener('keydown', e => {
 <main class="max-w-4xl mx-auto px-4 py-10 pb-24">
 <!-- intro note -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-<!-- ── ON-CALL SERVICE ──────────────────────────────────────────────── -->
+<!-- ── EBS POWER ─────────────────── -->
+<div class="widget-card">
+<div class="widget-head">
+<div class="flex items-center">
+<div>
+<div class="widget-title">EBS Power Outages</div>
+<div class="widget-sub">Planned &amp; active interruptions</div>
+</div>
+</div>
+<span class="upd-badge" id="ebs-upd"></span>
+</div>
+<div class="widget-body" id="ebs-body">
+<div class="skeleton" style="width:60%"></div>
+<div class="skeleton" style="width:75%"></div>
+<div class="skeleton" style="width:50%"></div>
+</div>
+</div>
+<!-- ── SWM WATER ─────────────────── -->
+<div class="widget-card">
+<div class="widget-head">
+<div class="flex items-center">
+<div>
+<div class="widget-title">SWM Water Outages</div>
+<div class="widget-sub">Active outages &amp; planned maintenance</div>
+</div>
+</div>
+<span class="upd-badge" id="swm-upd"></span>
+</div>
+<div class="widget-body" id="swm-body">
+<div class="skeleton" style="width:70%"></div>
+<div class="skeleton" style="width:55%"></div>
+<div class="skeleton" style="width:65%"></div>
+</div>
+</div>
+<!-- ── TBL CINEMAS ────────────────── -->
+<div class="widget-card">
+<div class="widget-head">
+<div class="flex items-center">
+<div>
+<div class="widget-title">Now Showing</div>
+<div class="widget-sub">Today at TBL Cinemas</div>
+</div>
+</div>
+<span class="upd-badge" id="tbl-upd"></span>
+</div>
+<div class="widget-body" id="tbl-body">
+<div class="skeleton" style="width:65%"></div>
+<div class="skeleton" style="width:80%"></div>
+<div class="skeleton" style="width:55%"></div>
+</div>
+</div>
+<!-- ── ON-CALL SERVICE ────────────────── -->
 <div class="widget-card">
 <div class="widget-head">
 <div class="flex items-center">
@@ -393,46 +444,6 @@ document.addEventListener('keydown', e => {
 <div class="skeleton" style="width:50%"></div>
 </div>
 </div>
-<!-- ── EBS POWER ─────────────────────────────────────────────────── -->
-<div class="widget-card">
-<div class="widget-head">
-<div class="flex items-center">
-<div>
-<div class="widget-title">EBS Power Outages</div>
-<div class="widget-sub">Planned &amp; active interruptions</div>
-</div>
-</div>
-<span class="upd-badge" id="ebs-upd"></span>
-</div>
-<div class="widget-body" id="ebs-body">
-<div class="skeleton" style="width:60%"></div>
-<div class="skeleton" style="width:75%"></div>
-<div class="skeleton" style="width:50%"></div>
-</div>
-</div>
-<!-- ── SWM WATER ─────────────────────────────────────────────────── -->
-<div class="widget-card">
-<div class="widget-head">
-<div class="flex items-center">
-<div>
-<div class="widget-title">SWM Water Outages</div>
-<div class="widget-sub">Active outages &amp; planned maintenance</div>
-</div>
-</div>
-<span class="upd-badge" id="swm-upd"></span>
-</div>
-<div class="widget-body" id="swm-body">
-<div class="skeleton" style="width:70%"></div>
-<div class="skeleton" style="width:55%"></div>
-<div class="skeleton" style="width:65%"></div>
-</div>
-</div>
-<!-- ── HOLIDAYS & FESTIVALS → events.html ───────────────────── -->
-<a class="widget-card flex flex-col justify-center p-6 hover:shadow-md transition" href="events.html" style="background:linear-gradient(135deg,var(--forest) 0%,var(--forest2) 100%)">
-<div class="font-bold text-white text-base">Public Holidays &amp; Festivals</div>
-<p class="text-white/70 text-sm mt-1 leading-relaxed">Every official holiday, festival dates, school breaks and what each celebration means, now on its own page.</p>
-<span class="mt-3 text-sm font-semibold text-white">Open the events calendar →</span>
-</a>
 </div><!-- /grid -->
 <!-- source attribution -->
 <p class="text-center text-gray-300 text-xs mt-10">
@@ -759,6 +770,40 @@ fetch('/data/ebs_outages.json')
     var body = document.getElementById('ebs-body');
     if (body) body.innerHTML = '<p class="error-note">Data temporarily unavailable.<br>' +
       '<a href="https://nvebs.com/elektriciteit/stroom-onderbrekingen" target="_blank" rel="noopener" class="src-link">Check nvebs.com directly</a></p>';
+  });
+
+/* ── TBL Cinemas (today's showings) ────────────────── */
+fetch('/data/tbl_cinema.json')
+  .then(r => r.ok ? r.json() : Promise.reject(r.status))
+  .then(d => {
+    var upd = document.getElementById('tbl-upd');
+    if (upd && d.last_updated) upd.textContent = relTime(d.last_updated);
+    var body = document.getElementById('tbl-body');
+    if (!body) return;
+    var films = d.films || [];
+    if (films.length === 0) {
+      body.innerHTML = '<div style="text-align:center;padding:1rem 0">' + pill('info') + '<p class="text-xs text-gray-400 mt-2">No showings listed today.</p></div>';
+      return;
+    }
+    var html = '';
+    if (d.date_label) {
+      html += '<p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">' + escHtml(d.date_label) + '</p>';
+    }
+    films.forEach(function(f) {
+      var times = (f.times || []).map(escHtml).join(' &bull; ');
+      var name = f.url
+        ? '<a href="' + escHtml(f.url) + '" target="_blank" rel="noopener" style="color:var(--forest2);text-decoration:none">' + escHtml(f.title) + '</a>'
+        : escHtml(f.title);
+      html += '<div class="pharmacy-row"><div class="pharmacy-name">' + name + '</div>'
+            + '<div class="outage-desc" style="color:#374151">' + times + '</div></div>';
+    });
+    html += '<p class="text-xs text-gray-300 mt-2">Source: <a href="https://www.tblcinemas.com/films/dagschema" target="_blank" rel="noopener" class="src-link">tblcinemas.com</a> &bull; Box office from 16:00 (wknd 13:00)</p>';
+    body.innerHTML = html;
+  })
+  .catch(function() {
+    var body = document.getElementById('tbl-body');
+    if (body) body.innerHTML = '<p class="error-note">Showtimes temporarily unavailable.<br>' +
+      '<a href="https://www.tblcinemas.com/films/dagschema" target="_blank" rel="noopener" class="src-link">Check tblcinemas.com directly</a></p>';
   });
 </script>
 </body>
