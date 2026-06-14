@@ -1,0 +1,32 @@
+name: Update Cinema
+
+# Triggered externally via cron-job.org (GitHub's built-in scheduler is unreliable).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install beautifulsoup4 --break-system-packages
+
+      - name: Scrape TBL cinema schedule
+        run: python scripts/scrape_tbl.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/tbl_cinema.json
+          git diff --staged --quiet && echo "No changes." || \
+            git commit -m "data: update cinema schedule [skip ci]" && git push
