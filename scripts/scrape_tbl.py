@@ -4,15 +4,9 @@ scrape_tbl.py
 Scrapes TBL Cinemas day schedule -> data/tbl_cinema.json
 Source: https://www.tblcinemas.com/films/dagschema
 
-Page structure (single schedule table):
-  | Vandaag          |                          |   <- day header (today)
-  | 02:00 PM         | <a href="/movie/..">Title|
-  | 03:00 PM         | <a ...>Title</a>         |
-  | ma. 15 jun. 2026 |                          |   <- next day header -> stop
-  ...
-
-We capture only the FIRST day block (today). Showings are grouped by film,
-preserving first-seen order, with each film's list of times.
+Captures the FIRST day block (today) as a CHRONOLOGICAL list of showings,
+one entry per showtime: {time, title, url}. Keeping it chronological (rather
+than grouping by film) means no late show is ever hidden mid-list.
 """
 
 import json, re, sys, urllib.request
@@ -25,7 +19,6 @@ HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; ExploreSuriname/1.0)"}
 
 TIME_RE = re.compile(r"^\d{1,2}:\d{2}\s*(?:AM|PM)$", re.IGNORECASE)
 
-# Dutch day/month abbreviations -> English (for the date label when not "today")
 NL_DAY = {"ma": "Mon", "di": "Tue", "wo": "Wed", "do": "Thu",
           "vr": "Fri", "za": "Sat", "zo": "Sun"}
 NL_MON = {"jan": "Jan", "feb": "Feb", "mrt": "Mar", "apr": "Apr", "mei": "May",
@@ -50,7 +43,6 @@ def clean(t):
 
 
 def _english_label(header):
-    """ 'ma. 15 jun. 2026' -> 'Mon 15 Jun 2026'; 'Vandaag' -> 'Today'. """
     low = header.lower()
     if low.startswith("vandaag") or low == "today":
         return "Today"
@@ -67,7 +59,7 @@ def parse(html):
     soup = BeautifulSoup(html, "html.parser")
     rows = soup.find_all("tr")
 
-    films, order = {}, []
+    showings, seen = [], set()
     started = False
     date_label = "Today"
 
@@ -86,12 +78,11 @@ def parse(html):
                 date_label = _english_label(first)
                 continue
             else:
-                break  # reached the next day -> stop (today only)
+                break  # next day -> stop (today only)
 
         if not started:
             continue
 
-        # Showtime row: find the movie link
         a = tr.find("a", href=True)
         title = clean(a.get_text()) if a else clean(cells[-1].get_text())
         url = a["href"].strip() if a else ""
@@ -100,17 +91,17 @@ def parse(html):
         if not title:
             continue
 
-        if title not in films:
-            films[title] = {"title": title, "url": url, "times": []}
-            order.append(title)
         t = first.upper()
-        if t not in films[title]["times"]:
-            films[title]["times"].append(t)
+        key = (t, title)
+        if key in seen:        # guard against accidental duplicate rows
+            continue
+        seen.add(key)
+        showings.append({"time": t, "title": title, "url": url})
 
     return {
         "last_updated": datetime.now(timezone.utc).isoformat(),
         "date_label": date_label,
-        "films": [films[t] for t in order],
+        "showings": showings,
         "source": URL,
     }
 
@@ -133,17 +124,16 @@ def main():
             print("Keeping existing data.")
         sys.exit(0)
 
-    # Defensive: never overwrite good data with an empty result (parser drift / off-hours)
-    if not data["films"]:
-        print("  No films parsed for today.")
+    if not data["showings"]:
+        print("  No showings parsed for today.")
         if OUT.exists():
             print("Keeping existing data.")
             sys.exit(0)
 
     print(f"  Label: {data['date_label']}")
-    print(f"  Films: {len(data['films'])}")
-    for f in data["films"]:
-        print(f"    {f['title']}  ->  {', '.join(f['times'])}")
+    print(f"  Showings: {len(data['showings'])}")
+    for s in data["showings"]:
+        print(f"    {s['time']}  {s['title']}")
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
