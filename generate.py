@@ -7645,6 +7645,62 @@ def build_conditions_page(tides_data):
     import json as _json
     wx_districts_js = _json.dumps(wx_districts)
 
+    aq_js = """
+function loadAirQuality(lat, lon){
+  var box = document.getElementById('wx-aq'); if(!box) return;
+  function tile(k, v){
+    return '<div class="rounded-lg p-2" style="background:#f6f8f6"><p class="text-xs text-gray-500">' + k +
+      '</p><p class="text-base font-bold font-mono text-gray-900">' + v +
+      ' <span class="text-xs font-normal text-gray-400">&micro;g/m&sup3;</span></p></div>';
+  }
+  var ADV = {
+    'Good':'No precautions needed.',
+    'Moderate':'Unusually sensitive people may want to limit long, intense time outdoors.',
+    'Unhealthy for sensitive groups':'Children, the elderly and people with heart or lung conditions should limit prolonged outdoor exertion.',
+    'Unhealthy':'Everyone may begin to feel effects; sensitive groups should avoid prolonged outdoor exertion.',
+    'Very unhealthy':'Health alert: everyone should avoid prolonged outdoor exertion.',
+    'Hazardous':'Emergency conditions: stay indoors and keep windows closed.'
+  };
+  var url = 'https://air-quality-api.open-meteo.com/v1/air-quality?latitude=' + lat + '&longitude=' + lon +
+    '&current=us_aqi,pm10,pm2_5,dust&hourly=dust&timezone=America%2FParamaribo&forecast_days=1';
+  fetch(url).then(function(r){ return r.json(); }).then(function(j){
+    var c = j.current || {};
+    var aqi = Math.round(c.us_aqi);
+    if (isNaN(aqi)) { box.innerHTML = ''; return; }
+    var pm25 = c.pm2_5, pm10 = c.pm10, dust = (c.dust || 0);
+    var hrs = (j.hourly && j.hourly.dust) || [], mx = 0;
+    for (var i = 0; i < Math.min(24, hrs.length); i++) { if (hrs[i] > mx) mx = hrs[i]; }
+    var watch = (dust < 20 && mx >= 25);
+    var b = aqi<=50 ? ['Good','#2E7D32'] : aqi<=100 ? ['Moderate','#C18A00'] :
+            aqi<=150 ? ['Unhealthy for sensitive groups','#E76F51'] : aqi<=200 ? ['Unhealthy','#C62828'] :
+            aqi<=300 ? ['Very unhealthy','#7B1FA2'] : ['Hazardous','#5D4037'];
+    var dusty = dust >= 20;
+    if (aqi <= 50 && !dusty) {
+      box.innerHTML = '<div class="rounded-xl p-3 flex items-center gap-2" style="background:var(--mint)">' +
+        '<span style="width:9px;height:9px;border-radius:50%;background:#2E7D32;flex:0 0 auto"></span>' +
+        '<span class="text-xs font-semibold text-gray-700">Air quality <b>Good</b> &middot; US AQI ' + aqi +
+        ' &middot; Saharan dust low' + (watch ? ' &middot; <span style="color:#9a5b00">dust expected later</span>' : '') +
+        '</span></div>';
+      return;
+    }
+    var title = dusty ? ('Saharan dust &middot; ' + b[0]) : b[0];
+    var head = dusty ? ('Saharan dust is elevated over this district (' + dust + ' &micro;g/m&sup3;).')
+                     : ('Air quality is ' + b[0].toLowerCase() + ' in this district.');
+    box.innerHTML = '<div class="rounded-xl overflow-hidden" style="border:1px solid #e5e7eb">' +
+      '<div class="p-4" style="background:' + b[1] + ';color:#fff">' +
+        '<p class="text-sm font-bold">&#127787;&#65039; ' + title + ' &middot; AQI ' + aqi + '</p>' +
+        '<p class="text-xs mt-1" style="opacity:.95">' + head + '</p>' +
+      '</div>' +
+      '<div class="p-4 bg-white">' +
+        '<div class="grid grid-cols-3 gap-2 mb-3">' + tile('PM2.5', pm25) + tile('PM10', pm10) + tile('Dust', dust) + '</div>' +
+        '<p class="text-xs text-gray-600">' + (ADV[b[0]] || '') + '</p>' +
+        (watch ? '<p class="text-xs font-semibold mt-2" style="color:#9a5b00">Saharan dust forecast to rise later today.</p>' : '') +
+        '<p class="text-xs text-gray-400 mt-2">Air quality via Open-Meteo / CAMS &middot; updates with selected district</p>' +
+      '</div></div>';
+  }).catch(function(){ box.innerHTML = ''; });
+}
+"""
+
     return f"""{PAGE_HEAD}
   <title>Suriname Weather &amp; River Tides | Live Forecast | Explore Suriname</title>
   <meta name="description" content="Tidal predictions for Suriname's rivers, 7-day weather forecasts by district, sunrise/sunset times and UV index. Updated continuously.">
@@ -7701,6 +7757,8 @@ def build_conditions_page(tides_data):
       <p class="text-xs font-semibold text-gray-500 self-center mr-1">District:</p>
       <div id="wx-district-tabs" class="flex gap-1 flex-wrap"></div>
     </div>
+    <!-- Air quality / Saharan-dust alert (district-aware) -->
+    <div id="wx-aq" class="mb-5"></div>
     <!-- Current conditions: 5 tiles -->
     <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-5">
       <div class="col-span-2 sm:col-span-1 rounded-xl p-4" style="background:var(--mint)">
@@ -7802,6 +7860,7 @@ def build_conditions_page(tides_data):
 </main>
 
 <script>
+{aq_js}
 var WMO = {{
   0:['&#9728;&#65039;','Clear sky'], 1:['&#127780;','Mainly clear'], 2:['&#9925;','Partly cloudy'],
   3:['&#9729;','Overcast'], 45:['&#127787;','Fog'], 48:['&#127787;','Freezing fog'],
@@ -7846,6 +7905,7 @@ function uvLabel(v) {{
       document.getElementById('wx-day-detail').classList.add('hidden');
       loadWeather(d.lat, d.lon);
       loadSunrise(d.lat, d.lon);
+      loadAirQuality(d.lat, d.lon);
     }};
     container.appendChild(btn);
   }});
@@ -8021,6 +8081,7 @@ function showDayDetail(dayIdx) {{
 
 // Initial load: Paramaribo
 loadWeather(WX_DISTRICTS[0].lat, WX_DISTRICTS[0].lon);
+loadAirQuality(WX_DISTRICTS[0].lat, WX_DISTRICTS[0].lon);
 
 function loadSunrise(lat, lon) {{
   fetch('https://api.sunrise-sunset.org/json?lat=' + lat + '&lng=' + lon + '&formatted=0')
