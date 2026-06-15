@@ -4986,26 +4986,72 @@ def build_nature_listing_page(spot, slug):
 def build_today_page():
     """Suriname Today — daily essentials: wachtdienst, SWM, EBS outages, TBL cinema showtimes. Holidays live on events.html."""
     today_str = datetime.now(SR_TZ).strftime("%A, %d %B %Y")
+    # -- TBL Cinemas: server-render today's showings (crawlable) + ScreeningEvent schema --
+    _tbl_rows, _tbl_schema = "", ""
+    try:
+        with open("data/tbl_cinema.json", encoding="utf-8") as _cf:
+            _cine = json.load(_cf)
+        _shows = _cine.get("showings", []) or []
+        if _shows:
+            _dlab = _cine.get("date_label", "")
+            if _dlab:
+                _tbl_rows += '<p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">' + html_lib.escape(_dlab) + '</p>'
+            _today_dt = datetime.now(SR_TZ)
+            _events = []
+            for _s in _shows:
+                _tm    = html_lib.escape(_s.get("time", ""))
+                _title = html_lib.escape(_s.get("title", ""))
+                _url   = html_lib.escape(_s.get("url", ""))
+                _nm = ('<a href="' + _url + '" target="_blank" rel="noopener" class="pharmacy-name" style="text-decoration:none">' + _title + '</a>') if _url else ('<span class="pharmacy-name">' + _title + '</span>')
+                _tbl_rows += ('<div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline">'
+                              '<span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">' + _tm + '</span>' + _nm + '</div>')
+                _iso = None
+                try:
+                    _pt = datetime.strptime(_s.get("time", "").strip(), "%I:%M %p").time()
+                    _iso = _today_dt.replace(hour=_pt.hour, minute=_pt.minute, second=0, microsecond=0).isoformat()
+                except Exception:
+                    _iso = None
+                _st = _s.get("title", "").replace("<", "").replace(">", "")
+                if _iso and _st:
+                    _ev = {"@type": "ScreeningEvent", "name": _st, "startDate": _iso,
+                           "eventStatus": "https://schema.org/EventScheduled",
+                           "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+                           "location": {"@type": "MovieTheater", "name": "TBL Cinemas", "url": "https://www.tblcinemas.com",
+                                        "address": {"@type": "PostalAddress", "addressLocality": "Paramaribo", "addressCountry": "SR"}},
+                           "workPresented": {"@type": "Movie", "name": _st}}
+                    _eu = _s.get("url", "").replace("<", "").replace(">", "")
+                    if _eu:
+                        _ev["url"] = _eu
+                        _ev["workPresented"]["url"] = _eu
+                    _events.append(_ev)
+            _tbl_rows += '<p class="text-xs text-gray-300 mt-2">Source: <a href="https://www.tblcinemas.com/films/dagschema" target="_blank" rel="noopener" class="src-link">tblcinemas.com</a> &bull; Box office from 16:00 (wknd 13:00)</p>'
+            if _events:
+                _tbl_schema = '<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@graph": _events}, ensure_ascii=False, separators=(",", ":")) + '</script>'
+    except Exception:
+        _tbl_rows, _tbl_schema = "", ""
+    if not _tbl_rows:
+        _tbl_rows = '<div class="skeleton" style="width:65%"></div><div class="skeleton" style="width:80%"></div><div class="skeleton" style="width:55%"></div>'
     return f"""{PAGE_HEAD}
-  <title>Daily Notices | Suriname | Explore Suriname</title>
+  <title>Daily Notices &amp; Cinema Showtimes | Suriname | Explore Suriname</title>
   <meta name="description" content="Daily Notices for Suriname: on-call pharmacies, EBS power outages, SWM water outages, cinema showtimes. Auto-updated daily.">
   <link rel="canonical" href="{SITE_URL}/daily-notices.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/daily-notices.html">
-  <meta property="og:title" content="Daily Notices | Suriname | Explore Suriname">
+  <meta property="og:title" content="Daily Notices &amp; Cinema Showtimes | Suriname | Explore Suriname">
   <meta property="og:description" content="On-call pharmacies, EBS power outages, SWM water outages, cinema showtimes. Auto-updated daily.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Daily Notices | Suriname | Explore Suriname">
+  <meta name="twitter:title" content="Daily Notices &amp; Cinema Showtimes | Suriname | Explore Suriname">
   <meta name="twitter:description" content="On-call pharmacies, EBS power outages, SWM water outages, cinema showtimes. Auto-updated daily.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Daily Notices, Suriname","url":"{SITE_URL}/daily-notices.html","description":"Daily Suriname essentials: on-call pharmacies, power and water outage notices.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Daily Notices, Suriname","url":"{SITE_URL}/daily-notices.html","description":"Daily Suriname essentials: on-call pharmacies, EBS power and SWM water outage notices, plus TBL Cinemas showtimes for today.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Daily Notices","item":"{SITE_URL}/daily-notices.html"}}]}}
   </script>
+  {_tbl_schema}
   <style>
     .widget-card {{ background:#fff; border-radius:1.25rem; border:1px solid #f0f0f0; box-shadow:0 1px 8px rgba(0,0,0,.05); overflow:hidden; }}
     .widget-head {{ display:flex; align-items:center; justify-content:space-between; padding:1rem 1.5rem; border-bottom:1px solid #f3f4f6; }}
@@ -5099,11 +5145,7 @@ def build_today_page():
         </div>
         <span id="tbl-upd" class="upd-badge"></span>
       </div>
-      <div id="tbl-body" class="widget-body">
-        <div class="skeleton" style="width:65%"></div>
-        <div class="skeleton" style="width:80%"></div>
-        <div class="skeleton" style="width:55%"></div>
-      </div>
+      <div id="tbl-body" class="widget-body">{_tbl_rows}</div>
     </div>
 
     <!-- ── ON-CALL SERVICE ────────────────── -->
