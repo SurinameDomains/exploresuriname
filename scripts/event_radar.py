@@ -6,13 +6,17 @@ Candidates land in a GitHub issue for HUMAN triage: verify dates on the
 organizer's official site, then add a kind "oneoff" entry to events.json.
 Nothing is ever published automatically.
 
-Sources (all RSS):
+Sources:
   1. Google News RSS - a broad Dutch-edition events query (most Suriname
      event news is in Dutch), plus a tight English query for the
      international / business events (SEOGS-type) reported in English.
   2. Suriname news outlet feeds (general).
   3. Outlet *entertainment category* feeds - far higher event density than
      the main feeds (Suriname Herald and GFC Nieuws expose these).
+  4. Torarica venue calendar (Tor Events) - no feed/API, server-rendered cards
+     scraped with BeautifulSoup; the keyword gate drops its food/drink promos.
+  5. Mi Gudu river-cruise events page - dedicated events listing (per-event
+     URLs); bypasses the keyword gate since every item is already an event.
 
 Noise control:
   - Event-keyword gate (EN + NL) on every headline.
@@ -78,6 +82,13 @@ NEWS_FEEDS = [
     "https://www.dwtonline.com/feed/",
     "https://socialsuriname.com/feed/",
 ]
+
+# Venue calendar (no feed/API; events are server-rendered .room-card blocks,
+# scraped with BeautifulSoup). The keyword gate drops its food/drink promos.
+TORARICA_URL = "https://torarica.com/meetings-events/tor-events"
+# Mi Gudu river-cruise events: dedicated events page with per-event URLs. Every
+# item is already a real event, so these bypass the keyword gate (trust=True).
+MIGUDU_URL = "https://www.mi-gudu.com/en/events/"
 
 # ---- Event vocabulary (EN + NL). A headline must contain at least one. -----
 KEYWORDS = (
@@ -200,37 +211,86 @@ def save_seen(seen_state, surfaced_keys):
         encoding="utf-8")
 
 
+def scrape_torarica():
+    """Torarica 'Tor Events' page has no feed/API; events are server-rendered as
+    .room-card blocks. Scrape the titles - the keyword gate filters the many
+    food-and-drink promos down to real events (expo, jazz, concerts, parties)."""
+    try:
+        from bs4 import BeautifulSoup
+    except ImportError:
+        print("bs4 missing - skipping Torarica"); return []
+    try:
+        req = urllib.request.Request(TORARICA_URL, headers=UA)
+        doc = urllib.request.urlopen(req, timeout=30).read()
+    except Exception as e:
+        print("torarica error:", e); return []
+    titles, seen = [], set()
+    for card in BeautifulSoup(doc, "html.parser").select("div.room-card"):
+        t = card.select_one("h2.title") or card.select_one(".title")
+        if not t:
+            continue
+        name = re.sub(r"\s+", " ", t.get_text(" ", strip=True))
+        if name and name.lower() not in seen:
+            seen.add(name.lower())
+            titles.append(name)
+    return titles
+
+
+def scrape_migudu():
+    """Mi Gudu river-cruise events: server-rendered page, one <a> per event at
+    /en/events/<slug>/. Title is derived from the slug; the listing heading
+    carries the date (shown to the triager). Returns (title, link, date)."""
+    out = []
+    try:
+        req = urllib.request.Request(MIGUDU_URL, headers=UA)
+        doc = urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "replace")
+    except Exception as e:
+        print("mi gudu error:", e); return out
+    seen = set()
+    for m in re.finditer(r'<a[^>]+href="(/en/events/([^"/]+)/)"[^>]*>(.*?)</a>', doc, re.S):
+        href, slug, inner = m.group(1), m.group(2), m.group(3)
+        if slug == "upcoming-events" or slug in seen:
+            continue
+        seen.add(slug)
+        title = re.sub(r"\s+", " ", slug.replace("-", " ")).strip().title()
+        date = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", inner)).strip()
+        out.append((title, "https://www.mi-gudu.com" + href, date))
+    return out
+
+
 def fetch_candidates():
     seen_state = load_seen()
     sigs = _existing_signatures()
     out, keys, surfaced = [], set(), []
 
-    def consider(title, link, published, *, gnews):
+    def consider(title, link, published, *, gnews, source="", dedup_key=None, trust=False):
         if gnews:
-            base, _, source = title.rpartition(" - ")
+            base, _, src = title.rpartition(" - ")
             if not base:
-                base, source = title, ""
+                base, src = title, ""
+            source = source or src
         else:
-            base, source = title, ""        # outlet titles have no " - source"
+            base = title                     # outlet/venue titles have no " - source"
         low, src_low = base.lower(), source.lower()
-        if not (any(k in low for k in KEYWORDS)
-                or any(rx.search(low) for rx in KEYWORD_RX)):
-            return
-        if gnews and not (any(t in low for t in SR_TERMS)
-                          or any(s in src_low for s in SR_OUTLETS)):
-            return
+        if not trust:                        # dedicated events pages skip the gates
+            if not (any(k in low for k in KEYWORDS)
+                    or any(rx.search(low) for rx in KEYWORD_RX)):
+                return
+            if gnews and not (any(t in low for t in SR_TERMS)
+                              or any(s in src_low for s in SR_OUTLETS)):
+                return
         if _is_nl_diaspora(low, src_low):
             return
         if _matches_existing(low, sigs):
             return
-        k = _key(base, link)
+        k = dedup_key or _key(base, link)
         if k in keys:
             return
         keys.add(k)
         if k in seen_state:                  # surfaced in an earlier run
             return
         surfaced.append(k)
-        out.append({"title": title.strip(), "link": link,
+        out.append({"title": base.strip(), "link": link,
                     "published": published, "source": source})
 
     for q, hl, gl, ceid in GNEWS_QUERIES:
@@ -246,6 +306,13 @@ def fetch_candidates():
             if _recent(e):
                 consider(e.get("title", ""), e.get("link", ""),
                          e.get("published", ""), gnews=False)
+
+    for title in scrape_torarica():
+        consider(title, TORARICA_URL, "", gnews=False, source="Torarica Group",
+                 dedup_key="torarica|" + _norm(title))
+
+    for title, link, date in scrape_migudu():
+        consider(title, link, date, gnews=False, source="Mi Gudu", trust=True)
 
     return out[:MAX_CANDIDATES], seen_state, surfaced
 
