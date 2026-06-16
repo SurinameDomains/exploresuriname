@@ -7835,7 +7835,7 @@ function loadAirQuality(lat, lon){
       <span class="text-xs font-semibold px-2 py-0.5 rounded-full text-white" style="background:var(--forest2)">For mariners &amp; fishers</span>
     </div>
     {tides_section}
-    <p class="text-gray-400 text-xs mt-3">Tide heights are relative to lowest astronomical tide (LAT). Always verify with local authorities before heading out.</p>
+    <p class="text-gray-400 text-xs mt-3">Tide heights are relative to Mean Lower Low Water (MLLW), a low-water datum. Always verify with local authorities before heading out.</p>
   </div>
 
 </main>
