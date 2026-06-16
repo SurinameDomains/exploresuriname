@@ -44,7 +44,6 @@ jobs:
 
       - name: Generate English pages (source for the segment inventory)
         env:
-          WORLDTIDES_KEY:    ${{ secrets.WORLDTIDES_KEY }}
           AERODATABOX_KEY:   ${{ secrets.AERODATABOX_KEY }}
         run: python generate.py
 
