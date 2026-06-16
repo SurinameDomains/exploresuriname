@@ -1,5 +1,28 @@
 {
-  "outages": [],
-  "last_updated": "2026-06-16T19:42:03.629368+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 18 JUNI 2026",
+      "date": "18 Juni 2026",
+      "date_iso": "2026-06-18",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1521/gepland-onderhoud-donderdag-18-juni-2026",
+      "meta_description": "Gepland onderhoud: Saramacca donderdag 18 juni 2026 tussen 09:00-14:00 GEDEELTE SIDODADIWEG TUSSEN DAMBOENTONGWEG EN PALOELOEWEG, RAVOSTRAAT, BANKIRAIWEG, H",
+      "district": "Saramacca",
+      "time": "09:00 – 14:00",
+      "area": "GEDEELTE SIDODADIWEG TUSSEN DAMBOENTONGWEG EN PALOELOEWEG, RAVOSTRAAT, BANKIRAIWEG, H"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DINSDAG 16 JUNI 2026",
+      "date": "16 Juni 2026",
+      "date_iso": "2026-06-16",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1520/gepland-onderhoud-dinsdag-16-juni-2026",
+      "meta_description": "Gepland onderhoud: Commewijne dinsdag 16 juni 2026 tussen 08:00-15:00 GEDEELTE WEG NAAR PEPERPOT VANAF GOTONG ROJONGWEG, GEDEELTE MANJADAM TUSSEN CHRISTENDA",
+      "district": "Commewijne",
+      "time": "08:00 – 15:00",
+      "area": "GEDEELTE WEG NAAR PEPERPOT VANAF GOTONG ROJONGWEG, GEDEELTE MANJADAM TUSSEN CHRISTENDA"
+    }
+  ],
+  "last_updated": "2026-06-16T22:19:08.949318+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
