@@ -1901,95 +1901,32 @@ except Exception:
     _TW_V = "0"
 PAGE_HEAD = PAGE_HEAD.replace("__TWV__", _TW_V)
 
-# ── WorldTides: tide data for Paramaribo ────────────────────────────────────
-# ── WorldTides: district river tide locations ─────────────────────────────────
-# API budget (100 free requests/month):
-#   Suriname River  24h cache → 30/month
-#   4 other rivers  72h cache → 10/month each = 40/month
-#   Total: 70/month  ✓ within 100 free limit
+# ── Tides: offline harmonic predictor (see tide_harmonics.py) ──────
+# Tides are deterministic astronomy. Constituents were fitted ONCE to published
+# tide-forecast.com tables (Mean Lower Low Water datum) and are synthesised at
+# build time: zero API calls, no key, no quota. Replaces WorldTides (paid, ran
+# out of credits). Each rebuild recomputes the next 4 days from "now".
 
 TIDES_LOCATIONS = [
-    {"id": "suriname",   "label": "Suriname River",   "district": "Paramaribo",
-     "lat": 5.852, "lon": -55.203, "cache": "tides_cache.json",             "cache_h": 24},
+    {"id": "suriname",   "label": "Suriname River",   "district": "Paramaribo"},
     {"id": "commewijne", "label": "Commewijne River", "district": "Commewijne",
-     "lat": 5.893, "lon": -55.087, "cache": "tides_cache_commewijne.json",  "cache_h": 72},
-    {"id": "nickerie",   "label": "Nickerie River",   "district": "Nickerie",
-     "lat": 5.944, "lon": -57.003, "cache": "tides_cache_nickerie.json",    "cache_h": 72},
+     "note": "Shares the Suriname River tide at the Nieuw Amsterdam confluence."},
+    {"id": "nickerie",   "label": "Nickerie River",   "district": "Nickerie"},
     {"id": "marowijne",  "label": "Marowijne River",  "district": "Marowijne",
-     "lat": 5.502, "lon": -54.056, "cache": "tides_cache_marowijne.json",   "cache_h": 72},
+     "note": "Referenced to the Marowijne (Maroni) river mouth."},
 ]
 
 
-def _fetch_tides_for_location(loc, key):
+def fetch_tides_data():
+    """Offline tide extremes for every TIDES_LOCATIONS entry.
+
+    Delegates to the harmonic predictor in tide_harmonics.py: tides are
+    deterministic astronomy synthesised from constituents fitted once to
+    published tables. No network, no API key, no quota. Returns
+    {id: (extremes, is_live, updated_str)} the same shape the page expects.
     """
-    Fetch 3-day tide extremes for a single TIDES_LOCATIONS entry.
-    Returns (extremes, is_live, updated_str).
-    """
-    import time as _time
-    now_ts = datetime.now(timezone.utc).timestamp()
-    cache_file = loc["cache"]
-    cache_secs = loc["cache_h"] * 3600
-
-    try:
-        with open(cache_file) as _f:
-            cache = json.load(_f)
-        if now_ts - cache.get("fetched", 0) < cache_secs:
-            print(f"  WorldTides [{loc['id']}]: using cached data")
-            return cache["extremes"], True, cache["updated"]
-    except Exception:
-        pass
-
-    try:
-        url = (
-            f"https://www.worldtides.info/api/v3?extremes"
-            f"&lat={loc['lat']}&lon={loc['lon']}&days=3&key={key}"
-        )
-        with urllib.request.urlopen(url, timeout=20) as _r:
-            data = json.loads(_r.read().decode("utf-8"))
-
-        if data.get("status", 0) != 200:
-            raise ValueError(f"WorldTides [{loc['id']}] error: {data}")
-
-        extremes = data.get("extremes", data.get("Extremes", []))
-        ts_str   = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
-
-        cache_obj = {"fetched": now_ts, "extremes": extremes, "updated": ts_str}
-        with open(cache_file, "w") as _f:
-            json.dump(cache_obj, _f)
-        print(f"  WorldTides [{loc['id']}]: fetched {len(extremes)} extremes")
-        return extremes, True, ts_str
-
-    except Exception as e:
-        print(f"  WorldTides [{loc['id']}] error: {e}")
-        try:
-            with open(cache_file) as _f:
-                cache = json.load(_f)
-            return cache["extremes"], False, cache["updated"] + " (cached)"
-        except Exception:
-            return [], False, "Data unavailable"
-
-
-def fetch_worldtides():
-    """
-    Fetch tide extremes for all district river locations.
-    Returns a dict keyed by location id: {id: (extremes, is_live, updated_str)}.
-    Paramaribo (main) result also returned separately for backward compat.
-    """
-    import os as _os
-    import time as _time
-    key = _os.environ.get("WORLDTIDES_KEY", "").strip()
-    if not key:
-        print("  WorldTides: no WORLDTIDES_KEY set — skipping tides")
-        fallback = "No API key configured"
-        results = {loc["id"]: ([], False, fallback) for loc in TIDES_LOCATIONS}
-        return results
-
-    results = {}
-    for i, loc in enumerate(TIDES_LOCATIONS):
-        if i > 0:
-            _time.sleep(2)   # avoid rate limit between requests
-        results[loc["id"]] = _fetch_tides_for_location(loc, key)
-    return results
+    from tide_harmonics import fetch_tides
+    return fetch_tides(TIDES_LOCATIONS)
 
 
 # ── OpenSky: arrivals and departures at Johan Adolf Pengel (SMJP / PBM) ─────
@@ -7608,17 +7545,19 @@ def build_conditions_page(tides_data):
                     '</div>'
                 )
 
-        badge = ('<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Live</span>'
+        badge = ('<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Forecast</span>'
                  if is_live else
-                 '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">&#9675; Cached</span>')
-        cache_note = f"Refreshes every {loc['cache_h']}h"
+                 '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">&#9675; Unavailable</span>')
+        note = loc.get("note", "")
+        note_html = (f'<p class="text-gray-400 text-xs mt-1">{html_lib.escape(note)}</p>' if note else "")
 
         return f"""
 <div id="tpanel-{loc['id']}" class="tide-panel hidden">
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
     <div class="px-6 py-5 border-b border-gray-100">
       <p class="font-bold text-gray-900 text-base">&#127754; {html_lib.escape(loc['label'])} &bull; {html_lib.escape(loc['district'])} {badge}</p>
-      <p class="text-gray-400 text-xs mt-1">&#128336; Updated: {html_lib.escape(updated)} &bull; {cache_note}</p>
+      <p class="text-gray-400 text-xs mt-1">&#128336; Updated: {html_lib.escape(updated)} &bull; Astronomical prediction</p>
+      {note_html}
     </div>
     <div class="hidden sm:block overflow-x-auto">
       <table class="w-full text-sm">
@@ -7662,7 +7601,7 @@ def build_conditions_page(tides_data):
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
   <p class="text-5xl mb-4">&#127754;</p>
   <h3 class="font-bold text-gray-900 mb-2">Tide Predictions</h3>
-  <p class="text-gray-500 text-sm max-w-md mx-auto">Set the <code class="bg-gray-100 px-1 rounded">WORLDTIDES_KEY</code> GitHub Actions secret to enable tidal forecasts.</p>
+  <p class="text-gray-500 text-sm max-w-md mx-auto">Tide predictions are temporarily unavailable.</p>
 </div>"""
     else:
         tides_section = f"""
@@ -8653,7 +8592,7 @@ if __name__ == "__main__":
     cme_rates,  cme_live,  cme_updated  = fetch_cme_rates()
     cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
     brent_price, brent_updated          = fetch_brent_price()
-    tides_data    = fetch_worldtides()
+    tides_data    = fetch_tides_data()
     flights_data  = fetch_aerodatabox_flights()
 
     pages = {
