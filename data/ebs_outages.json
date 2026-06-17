@@ -1,5 +1,17 @@
 {
-  "outages": [],
-  "last_updated": "2026-06-17T03:07:55.804958+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 18 JUNI 2026",
+      "date": "18 Juni 2026",
+      "date_iso": "2026-06-18",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1521/gepland-onderhoud-donderdag-18-juni-2026",
+      "meta_description": "Gepland onderhoud: Saramacca donderdag 18 juni 2026 tussen 09:00-14:00 GEDEELTE SIDODADIWEG TUSSEN DAMBOENTONGWEG EN PALOELOEWEG, RAVOSTRAAT, BANKIRAIWEG, H",
+      "district": "Saramacca",
+      "time": "09:00 – 14:00",
+      "area": "GEDEELTE SIDODADIWEG TUSSEN DAMBOENTONGWEG EN PALOELOEWEG, RAVOSTRAAT, BANKIRAIWEG, H"
+    }
+  ],
+  "last_updated": "2026-06-17T04:46:23.278192+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
