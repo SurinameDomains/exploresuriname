@@ -1,21 +1,21 @@
 {
-  "last_updated": "2026-06-17T16:00:38.590863+00:00",
+  "last_updated": "2026-06-18T10:00:42.292490+00:00",
   "date_label": "Today",
   "showings": [
     {
       "time": "05:00 PM",
+      "title": "Toy Story 5",
+      "url": "https://www.tblcinemas.com/movie/TO22592/toy-story-5"
+    },
+    {
+      "time": "05:30 PM",
       "title": "Michael",
       "url": "https://www.tblcinemas.com/movie/MI17314/michael"
     },
     {
-      "time": "05:45 PM",
-      "title": "Hai Jawani Toh Ishq Hona Hai",
-      "url": "https://www.tblcinemas.com/movie/HA10827/hai-jawani-toh-ishq-hona-hai"
-    },
-    {
-      "time": "06:30 PM",
-      "title": "Main Vaapas Aaunga",
-      "url": "https://www.tblcinemas.com/movie/MA30219/main-vaapas-aaunga"
+      "time": "06:00 PM",
+      "title": "Obsession",
+      "url": "https://www.tblcinemas.com/movie/OB12184/obsession"
     },
     {
       "time": "07:00 PM",
@@ -23,9 +23,14 @@
       "url": "https://www.tblcinemas.com/movie/DI2750/disclosure-day"
     },
     {
-      "time": "08:15 PM",
-      "title": "Obsession",
-      "url": "https://www.tblcinemas.com/movie/OB12184/obsession"
+      "time": "07:45 PM",
+      "title": "Pressure",
+      "url": "https://www.tblcinemas.com/movie/PR22783/pressure"
+    },
+    {
+      "time": "08:30 PM",
+      "title": "Backrooms",
+      "url": "https://www.tblcinemas.com/movie/BA32133/backrooms"
     },
     {
       "time": "09:00 PM",
