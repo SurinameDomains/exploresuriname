@@ -1,28 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD VRIJDAG 19 JUNI 2026",
-      "date": "19 Juni 2026",
-      "date_iso": "2026-06-19",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1524/gepland-onderhoud-vrijdag-19-juni-2026",
-      "meta_description": "Gepland onderhoud: Wanica vrijdag 19 juni 2026 tussen 09:00-14:00 GEDEELTE INDIRA GANDHIWEG TUSSEN MAHABIERPROJEKT EN HARRY PERSADWEG, GEDEELTE DE NIEUWE",
-      "district": "Wanica",
-      "time": "09:00 – 14:00",
-      "area": "GEDEELTE INDIRA GANDHIWEG TUSSEN MAHABIERPROJEKT EN HARRY PERSADWEG, GEDEELTE DE NIEUWE"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD DONDERDAG 18 JUNI 2026",
-      "date": "18 Juni 2026",
-      "date_iso": "2026-06-18",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1521/gepland-onderhoud-donderdag-18-juni-2026",
-      "meta_description": "Gepland onderhoud: Saramacca donderdag 18 juni 2026 tussen 09:00-14:00 GEDEELTE SIDODADIWEG TUSSEN DAMBOENTONGWEG EN PALOELOEWEG, RAVOSTRAAT, BANKIRAIWEG, H",
-      "district": "Saramacca",
-      "time": "09:00 – 14:00",
-      "area": "GEDEELTE SIDODADIWEG TUSSEN DAMBOENTONGWEG EN PALOELOEWEG, RAVOSTRAAT, BANKIRAIWEG, H"
-    }
-  ],
-  "last_updated": "2026-06-18T18:31:56.058653+00:00",
+  "outages": [],
+  "last_updated": "2026-06-18T19:07:55.062537+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
