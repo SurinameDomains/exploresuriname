@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-06-18T16:00:46.810754+00:00",
+  "last_updated": "2026-06-19T10:00:32.561666+00:00",
   "date_label": "Today",
   "showings": [
     {
@@ -14,28 +14,33 @@
     },
     {
       "time": "06:00 PM",
-      "title": "Obsession",
-      "url": "https://www.tblcinemas.com/movie/OB12184/obsession"
+      "title": "Masters of the Universe",
+      "url": "https://www.tblcinemas.com/movie/MA16633/masters-of-the-universe"
     },
     {
-      "time": "07:00 PM",
+      "time": "06:45 PM",
+      "title": "Cocktail 2",
+      "url": "https://www.tblcinemas.com/movie/CO3933/cocktail-2"
+    },
+    {
+      "time": "07:15 PM",
       "title": "Disclosure Day",
       "url": "https://www.tblcinemas.com/movie/DI2750/disclosure-day"
     },
     {
-      "time": "07:45 PM",
-      "title": "Pressure",
-      "url": "https://www.tblcinemas.com/movie/PR22783/pressure"
+      "time": "08:00 PM",
+      "title": "Obsession",
+      "url": "https://www.tblcinemas.com/movie/OB12184/obsession"
     },
     {
-      "time": "08:30 PM",
-      "title": "Backrooms",
-      "url": "https://www.tblcinemas.com/movie/BA32133/backrooms"
-    },
-    {
-      "time": "09:00 PM",
+      "time": "08:45 PM",
       "title": "Scary Movie",
       "url": "https://www.tblcinemas.com/movie/SC6491/scary-movie"
+    },
+    {
+      "time": "09:15 PM",
+      "title": "Backrooms",
+      "url": "https://www.tblcinemas.com/movie/BA32133/backrooms"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
