@@ -1,44 +1,36 @@
 {
-  "date_range": "zaterdag 06 juni tot maandag 08 juni 2026",
+  "date_range": "zaterdag 20 juni tot maandag 22 juni 2026",
   "doctors": [
     {
-      "name": "Drs. Ormskerk Charleen",
-      "clinic": "Polikliniek Flustraat",
+      "name": "Drs. Lahera Diaz Yamilia",
+      "clinic": "Gezondheidscentrum Geyersvlijt",
       "district": "Paramaribo",
-      "address": "Prof. Flustraat no.03",
-      "phone": "440232",
-      "note": "Alleen zaterdag"
-    },
-    {
-      "name": "Drs. Mohan Shrutikant",
-      "clinic": "Polikliniek Flustraat",
-      "district": "Paramaribo",
-      "address": "Prof. Flustraat no.03",
-      "phone": "440232",
-      "note": "Alleen zondag"
-    },
-    {
-      "name": "Drs. Alladin- Ramrattansing Jayanti",
-      "clinic": "Gezondheidscentrum Derde Rijweg",
-      "district": "Paramaribo",
-      "address": "Kwattaweg no. 620",
-      "phone": "435767",
+      "address": "Wongsoredostraat no.02",
+      "phone": "454917",
       "note": ""
     },
     {
-      "name": "Drs. Manger- Mahangi Vina",
-      "clinic": "Polikliniek Chandishawweg",
-      "district": "Wanica",
-      "address": "Chandishawweg (Uitkijk)",
-      "phone": "328490",
-      "note": ""
+      "name": "Drs. Mohan Praveen",
+      "clinic": "Polikliniek Flora",
+      "district": "Paramaribo",
+      "address": "Floralaan no. 23-25",
+      "phone": "464904",
+      "note": "Zaterdag 20 juni 2026"
     },
     {
-      "name": "Drs. Naranjo Tamayo Mauro",
-      "clinic": "Polikliniek Domburg",
+      "name": "Drs. Lynch Natasja",
+      "clinic": "Polikliniek Flora",
+      "district": "Paramaribo",
+      "address": "Floralaan no. 23-25",
+      "phone": "464904",
+      "note": "Zondag 21 juni 2026"
+    },
+    {
+      "name": "Drs. Overeem Raief",
+      "clinic": "Polikliniek Jarikaba",
       "district": "Wanica",
-      "address": "Hebertstraat perceel no. 14",
-      "phone": "370044",
+      "address": "Bananen Bacovenweg no. 14",
+      "phone": "328677",
       "note": ""
     },
     {
@@ -50,8 +42,16 @@
       "note": ""
     },
     {
-      "name": "Drs. Vrede Merlien",
-      "clinic": "Polikliniek Gezondheidscentrum Onverwacht",
+      "name": "Drs. Harderwijk- Lienga Silvana",
+      "clinic": "Polikliniek La Vigilantia",
+      "district": "Para",
+      "address": "Verlengde Laterietweg",
+      "phone": "323253",
+      "note": ""
+    },
+    {
+      "name": "Drs. Soemai Suraj",
+      "clinic": "Gezondheidscentrum Onverwacht",
       "district": "Para",
       "address": "Akrumstraat no. 09",
       "phone": "352097",
@@ -70,8 +70,8 @@
       "phone": "354098"
     }
   ],
-  "doctor_hours": "Spreekuren: zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
+  "doctor_hours": "Spreekuren: Zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
   "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00u.",
-  "last_updated": "2026-06-18T10:20:21.565259+00:00",
+  "last_updated": "2026-06-19T10:20:19.368788+00:00",
   "source": "http://www.rgd.sr/nl/zorg-aanbod/wachtdienst"
 }
