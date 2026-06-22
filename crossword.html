@@ -166,13 +166,13 @@
   #cw .cluebar .nav{border:0;background:transparent;font-size:22px;color:var(--g);cursor:pointer;padding:0 8px;line-height:1}
   #cw .cluebar .txt{flex:1;font-size:16px;font-weight:600;text-align:center;color:#1d2421}
   #cw .cluebar .tag{font-size:10px;font-weight:700;background:#fff;color:var(--g);border-radius:6px;padding:2px 6px;margin-left:4px}
-  #cw table.grid{border-collapse:collapse;margin:0 auto;touch-action:manipulation}
-  #cw table.grid td{width:58px;height:58px;border:1px solid var(--line);text-align:center;vertical-align:middle;position:relative;font-size:26px;font-weight:700;text-transform:uppercase;cursor:pointer;user-select:none;background:#fff;color:#1d2421}
-  #cw table.grid td.block{background:var(--g);border-color:var(--g);cursor:default}
-  #cw table.grid td.word{background:var(--word)}
-  #cw table.grid td.sel{background:var(--sel)}
-  #cw table.grid td.bad{background:var(--bad)}
-  #cw table.grid td .n{position:absolute;top:1px;left:3px;font-size:10px;font-weight:700;color:#6b7a72}
+  #cw table.cwgrid{display:table;border-collapse:collapse;margin:0 auto;touch-action:manipulation}
+  #cw table.cwgrid td{display:table-cell;width:58px;height:58px;border:1px solid var(--line);text-align:center;vertical-align:middle;position:relative;font-size:26px;font-weight:700;text-transform:uppercase;cursor:pointer;user-select:none;background:#fff;color:#1d2421}
+  #cw table.cwgrid td.cwblock{background:var(--g);border-color:var(--g);cursor:default}
+  #cw table.cwgrid td.word{background:var(--word)}
+  #cw table.cwgrid td.sel{background:var(--sel)}
+  #cw table.cwgrid td.bad{background:var(--bad)}
+  #cw table.cwgrid td .n{position:absolute;top:1px;left:3px;font-size:10px;font-weight:700;color:#6b7a72}
   #cw .ctrls{display:flex;gap:8px;justify-content:center;margin:14px 0}
   #cw .ctrls button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:700;color:var(--g);cursor:pointer}
   #cw .clues{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px}
@@ -512,10 +512,10 @@ function show(){const idx=((todayIdx()-back)%N+N)%N;load(idx);updateLabel();}
 function firstCell(){for(const e of P.entries)return[e.cells[0][0],e.cells[0][1]];}
 function save(){localStorage.setItem('cw-fill-'+P.no,JSON.stringify(fill));}
 function cell(r,c){return root.querySelector('td[data-r="'+r+'"][data-c="'+c+'"]');}
-function renderGrid(){const w=$('cw-gridwrap');w.innerHTML='';const tb=document.createElement('table');tb.className='grid';
+function renderGrid(){const w=$('cw-gridwrap');w.innerHTML='';const tb=document.createElement('table');tb.className='cwgrid';
   for(let r=0;r<5;r++){const tr=document.createElement('tr');
     for(let c=0;c<5;c++){const td=document.createElement('td');
-      if(isBlock(r,c))td.className='block';
+      if(isBlock(r,c))td.className='cwblock';
       else{const n=P.numbers[r+','+c];if(n){const s=document.createElement('span');s.className='n';s.textContent=n;td.appendChild(s);}
         const tx=document.createElement('div');tx.className='tx';tx.textContent=fill[r][c]||'';td.appendChild(tx);
         td.dataset.r=r;td.dataset.c=c;td.onclick=()=>{if(cur[0]===r&&cur[1]===c)dir=dir==='A'?'D':'A';cur=[r,c];updateActive();};}
@@ -529,7 +529,7 @@ function renderClues(){for(const d of ['A','D']){const ol=$(d==='A'?'cw-across':
   $('cw-ah').textContent=CT[cwLang].ah;$('cw-dh').textContent=CT[cwLang].dh;}
 function updateActive(){const e=curEntry();if(!e)return;
   if(isBlock(cur[0],cur[1])||!e.cells.some(x=>x[0]===cur[0]&&x[1]===cur[1]))cur=[e.cells[0][0],e.cells[0][1]];
-  root.querySelectorAll('table.grid td').forEach(td=>{td.classList.remove('word','sel','bad');const r=+td.dataset.r,c=+td.dataset.c;const tx=td.querySelector('.tx');if(tx)tx.textContent=fill[r][c]||'';});
+  root.querySelectorAll('table.cwgrid td').forEach(td=>{td.classList.remove('word','sel','bad');const r=+td.dataset.r,c=+td.dataset.c;const tx=td.querySelector('.tx');if(tx)tx.textContent=fill[r][c]||'';});
   e.cells.forEach(([r,c])=>{const td=cell(r,c);if(td)td.classList.add('word');});
   const sc=cell(cur[0],cur[1]);if(sc)sc.classList.add('sel');
   $('cw-curclue').innerHTML=(cwLang==='nl'?e.clue_nl:e.clue_en)+' <span class="tag">'+e.lang+'</span>';
