@@ -1,50 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD WOENSDAG 24 JUNI 2026",
-      "date": "24 Juni 2026",
-      "date_iso": "2026-06-24",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1529/gepland-onderhoud-woensdag-24-juni-2026",
-      "meta_description": "Gepland onderhoud: Paramaribo woensdag 24 juni 2026 tussen 08:30-16:00 GEDEELTE VAN DE MR. JAGERNATH LACHMONSTRAAT TUSSSEN DE TITANIUMSTRAAT EN DE",
-      "district": "Paramaribo",
-      "time": "08:30 – 16:00",
-      "area": "GEDEELTE VAN DE MR. JAGERNATH LACHMONSTRAAT TUSSSEN DE TITANIUMSTRAAT EN DE"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD DINSDAG 23 JUNI 2026",
-      "date": "23 Juni 2026",
-      "date_iso": "2026-06-23",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1526/gepland-onderhoud-dinsdag-23-juni-2026",
-      "meta_description": "Gepland onderhoud: Paramaribo dinsdag 23 juni 2026 tussen 09:00-14:00 UNPUTSTRAAT, PROF. DR. BALTUS OOSTBURGSTRAAT, DR. VOIGTSTRAAT, PATER VERSCHURESTRAAT,",
-      "district": "Paramaribo",
-      "time": "09:00 – 14:00",
-      "area": "UNPUTSTRAAT, PROF. DR. BALTUS OOSTBURGSTRAAT, DR. VOIGTSTRAAT, PATER VERSCHURESTRAAT"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD MAANDAG 22 JUNI 2026",
-      "date": "22 Juni 2026",
-      "date_iso": "2026-06-22",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1525/gepland-onderhoud-maandag-22-juni-2026",
-      "meta_description": "Gepland onderhoud: Wanica maandag 22 juni 2026 tussen 08:30-14:00 GEDEELTE INDIRA GANDHIWEG TUSSEN NANHEKHANWEG EN NEJALWEG, GEDEELTE TOUT LUI FAUTKANAALWEG",
-      "district": "Wanica",
-      "time": "08:30 – 14:00",
-      "area": "GEDEELTE INDIRA GANDHIWEG TUSSEN NANHEKHANWEG EN NEJALWEG, GEDEELTE TOUT LUI FAUTKANAALWEG"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD DINSDAG 23 JUNI 2026",
-      "date": "23 Juni 2026",
-      "date_iso": "2026-06-23",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1523/gepland-onderhoud-dinsdag-23-juni-2026",
-      "meta_description": "Gepland onderhoud: Wanica dinsdag 23 juni 2026 tussen 08:30-15:15 GEHEEL HENKIE SPALBURGWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
-      "district": "Wanica",
-      "time": "08:30 – 15:15",
-      "area": "GEHEEL HENKIE SPALBURGWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED"
-    }
-  ],
-  "last_updated": "2026-06-22T19:36:02.634355+00:00",
+  "outages": [],
+  "last_updated": "2026-06-22T22:09:00.452908+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
