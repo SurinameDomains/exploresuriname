@@ -5864,7 +5864,7 @@ def build_events_page():
 
 # build_crossword_page() — to be inserted into generate.py
 def build_crossword_page():
-    """Switi Mini — daily Surinaamse kruiswoord. Serves today's mini by date
+    """Switi Mini - daily Surinaamse kruiswoord. Serves today's mini by date
     rotation over a premade, human-approvable backlog (data/crossword_minis.json),
     with a browse control for earlier minis. Bilingual NL/EN clues, solve payoff."""
     import json as _json
@@ -5877,23 +5877,23 @@ def build_crossword_page():
     _data = _json.dumps(_puz, ensure_ascii=False)
     _n = len(_puz)
     ld = _json.dumps({"@context":"https://schema.org","@type":"WebPage",
-        "name":"Switi Mini — Surinaamse kruiswoord","url":SITE_URL+"/crossword.html",
+        "name":"Switi Mini: Surinaamse kruiswoord","url":SITE_URL+"/crossword.html",
         "description":"A free daily mini crossword in Surinamese words (Sranan Tongo and Surinaams-Nederlands) with Dutch and English clues. New puzzle every day.",
         "inLanguage":"nl","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":SITE_URL+"/"},
         "dateModified":today.isoformat()}, ensure_ascii=False)
     head = f"""{PAGE_HEAD}
   <title>Switi Mini | Surinaamse kruiswoord | Explore Suriname</title>
-  <meta name="description" content="Switi Mini: a free daily mini crossword in Surinamese words — Sranan Tongo and Surinaams-Nederlands — with clues in Dutch and English. New puzzle every day.">
+  <meta name="description" content="Switi Mini: a free daily mini crossword in Surinamese words (Sranan Tongo and Surinaams-Nederlands), with clues in Dutch and English. New puzzle every day.">
   <link rel="canonical" href="{SITE_URL}/crossword.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/crossword.html">
-  <meta property="og:title" content="Switi Mini — Surinaamse kruiswoord">
+  <meta property="og:title" content="Switi Mini: Surinaamse kruiswoord">
   <meta property="og:description" content="A free daily mini crossword in Sranan Tongo and Surinaams-Nederlands, clues in Dutch and English.">
   <meta property="og:image" content="{SITE_URL}/images/home-faiths.webp">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@exploringsuriname">
-  <meta name="twitter:title" content="Switi Mini — Surinaamse kruiswoord">
+  <meta name="twitter:title" content="Switi Mini: Surinaamse kruiswoord">
   <meta name="twitter:image" content="{SITE_URL}/images/home-faiths.webp">
   <script type="application/ld+json">
   {ld}
@@ -5952,7 +5952,7 @@ __NAV__
     <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
     <p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Daily Surinaamse kruiswoord</p>
     <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Switi Mini</h1>
-    <p class="text-white/70 text-base max-w-xl mx-auto">A little 5&#215;5 in Surinamese words &#8212; Sranan Tongo and Surinaams-Nederlands. A new one every day. Clues in Dutch or English; learn a word with every solve.</p>
+    <p class="text-white/70 text-base max-w-xl mx-auto">A little 5&#215;5 in Surinamese words: Sranan Tongo and Surinaams-Nederlands. A new one every day. Clues in Dutch or English; learn a word with every solve.</p>
   </div>
 </div>
 <main class="max-w-2xl mx-auto px-4 py-10 pb-28">
@@ -5981,7 +5981,7 @@ __NAV__
 <div class="kb" id="cw-kb"></div>
 <canvas id="cwfx"></canvas>
 <div id="cwmodal"><div class="card">
-  <h3 id="cw-mtitle">Switi! &#127881;</h3>
+  <h3 id="cw-mtitle">Switi!</h3>
   <div class="time" id="cw-mtime">0:00</div>
   <div class="lead" id="cw-mlead"></div>
   <ul id="cw-learn"></ul>
@@ -6019,14 +6019,14 @@ function renderGrid(){const w=$('cw-gridwrap');w.innerHTML='';const tb=document.
       if(isBlock(r,c))td.className='cwblock';
       else{const n=P.numbers[r+','+c];if(n){const s=document.createElement('span');s.className='n';s.textContent=n;td.appendChild(s);}
         const tx=document.createElement('div');tx.className='tx';tx.textContent=fill[r][c]||'';td.appendChild(tx);
-        td.dataset.r=r;td.dataset.c=c;td.onclick=()=>{if(cur[0]===r&&cur[1]===c)dir=dir==='A'?'D':'A';cur=[r,c];updateActive();};}
+        td.dataset.r=r;td.dataset.c=c;td.onclick=()=>{if(cur[0]===r&&cur[1]===c)dir=dir==='A'?'D':'A';cur=[r,c];updateActive();if(matchMedia('(pointer:coarse)').matches)$('cw-kb').style.display='block';};}
       tr.appendChild(td);}tb.appendChild(tr);}w.appendChild(tb);}
 function entryAt(r,c,d){return P.entries.find(e=>e.dir===d&&e.cells.some(x=>x[0]===r&&x[1]===c));}
 function curEntry(){return entryAt(cur[0],cur[1],dir)||entryAt(cur[0],cur[1],dir==='A'?'D':'A');}
 function renderClues(){for(const d of ['A','D']){const ol=$(d==='A'?'cw-across':'cw-down');ol.innerHTML='';
   P.entries.filter(e=>e.dir===d).sort((a,b)=>a.num-b.num).forEach(e=>{const li=document.createElement('li');li.dataset.k=e.dir+e.num;
     li.innerHTML='<b>'+e.num+'</b><span>'+(cwLang==='nl'?e.clue_nl:e.clue_en)+' <span class="tag">'+e.lang+'</span></span>';
-    li.onclick=()=>{dir=e.dir;cur=[e.cells[0][0],e.cells[0][1]];updateActive();};ol.appendChild(li);});}
+    li.onclick=()=>{dir=e.dir;cur=[e.cells[0][0],e.cells[0][1]];updateActive();if(matchMedia('(pointer:coarse)').matches)$('cw-kb').style.display='block';};ol.appendChild(li);});}
   $('cw-ah').textContent=CT[cwLang].ah;$('cw-dh').textContent=CT[cwLang].dh;}
 function updateActive(){const e=curEntry();if(!e)return;
   if(isBlock(cur[0],cur[1])||!e.cells.some(x=>x[0]===cur[0]&&x[1]===cur[1]))cur=[e.cells[0][0],e.cells[0][1]];
@@ -6073,12 +6073,12 @@ $('cw-clear').onclick=()=>{if(solved)return;fill=Array.from({length:5},()=>Array
 $('cw-cprev').onclick=()=>nextClue(-1);$('cw-cnext').onclick=()=>nextClue(1);
 $('cw-prev').onclick=()=>{if(back<maxBack()){back++;show();}};$('cw-next').onclick=()=>{if(back>0){back--;show();}};
 $('cw-mclose').onclick=()=>{$('cwmodal').style.display='none';};
-$('cw-share').onclick=()=>{const s=fmt((Date.now()-t0)/1000|0);const txt='Switi Mini #'+P.no+' — '+CT[cwLang].solved+' '+s+' ✨\\nexploresuriname.com/crossword.html';if(navigator.clipboard)navigator.clipboard.writeText(txt);$('cw-share').textContent=cwLang==='nl'?'Gekopieerd!':'Copied!';};
+$('cw-share').onclick=()=>{const s=fmt((Date.now()-t0)/1000|0);const txt='Switi Mini #'+P.no+' · '+CT[cwLang].solved+' '+s+'\\nexploresuriname.com/crossword.html';if(navigator.clipboard)navigator.clipboard.writeText(txt);$('cw-share').textContent=cwLang==='nl'?'Gekopieerd!':'Copied!';};
 function setLang(l){cwLang=l;localStorage.setItem('cw-lang',l);$('cw-nl').classList.toggle('on',l==='nl');$('cw-en').classList.toggle('on',l==='en');
   $('cw-check').textContent=CT[l].check;$('cw-reveal').textContent=CT[l].reveal;$('cw-clear').textContent=CT[l].clear;$('cw-share').textContent=CT[l].share;$('cw-mclose').textContent=CT[l].close;
   renderClues();updateActive();$('cw-note').textContent=CT[l].note;updateLabel();}
 $('cw-nl').onclick=()=>setLang('nl');$('cw-en').onclick=()=>setLang('en');
-buildKB();if(matchMedia('(pointer:coarse)').matches)$('cw-kb').style.display='block';
+buildKB();document.addEventListener('click',function(ev){if($('cw-kb').style.display==='block'&&!ev.target.closest('#cw')&&!ev.target.closest('#cw-kb'))$('cw-kb').style.display='none';});
 show();setLang(cwLang);
 </script>
 </body>
