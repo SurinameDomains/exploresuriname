@@ -1,39 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD MAANDAG 22 JUNI 2026",
-      "date": "22 Juni 2026",
-      "date_iso": "2026-06-22",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1525/gepland-onderhoud-maandag-22-juni-2026",
-      "meta_description": "Gepland onderhoud: Wanica maandag 22 juni 2026 tussen 08:30-14:00 GEDEELTE INDIRA GANDHIWEG TUSSEN NANHEKHANWEG EN NEJALWEG, GEDEELTE TOUT LUI FAUTKANAALWEG",
-      "district": "Wanica",
-      "time": "08:30 – 14:00",
-      "area": "GEDEELTE INDIRA GANDHIWEG TUSSEN NANHEKHANWEG EN NEJALWEG, GEDEELTE TOUT LUI FAUTKANAALWEG"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD DINSDAG 23 JUNI 2026",
-      "date": "23 Juni 2026",
-      "date_iso": "2026-06-23",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1523/gepland-onderhoud-dinsdag-23-juni-2026",
-      "meta_description": "Gepland onderhoud: Wanica dinsdag 23 juni 2026 tussen 08:30-15:15 GEHEEL HENKIE SPALBURGWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
-      "district": "Wanica",
-      "time": "08:30 – 15:15",
-      "area": "GEHEEL HENKIE SPALBURGWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD MAANDAG 22 JUNI 2026",
-      "date": "22 Juni 2026",
-      "date_iso": "2026-06-22",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1522/gepland-onderhoud-maandag-22-juni-2026",
-      "meta_description": "Gepland onderhoud: Paramaribo maandag 22 juni 2026 tussen 08:30-13:00 GEHEEL ANDROMEDASTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED. Kaart",
-      "district": "Paramaribo",
-      "time": "08:30 – 13:00",
-      "area": "GEHEEL ANDROMEDASTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED. Kaart"
-    }
-  ],
-  "last_updated": "2026-06-22T11:07:40.601179+00:00",
+  "outages": [],
+  "last_updated": "2026-06-22T13:39:58.896442+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
