@@ -2187,7 +2187,7 @@ def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
     _TODO  = {"nature", "activities", "shopping", "events"}
     _EAT   = {"restaurants", "hotels"}
-    _ESS   = {"currency", "flights", "forecast", "daily-notices", "worldcup"}
+    _ESS   = {"currency", "flights", "forecast", "daily-notices", "worldcup", "crossword"}
     _PLAN  = {"visitor", "roads", "itinerary", "safety", "seogs"}
 
     def _is_active(key):
@@ -2243,6 +2243,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}flights.html"        {_link_cls("flights")}        >Flights</a>'
         f'<a href="{prefix}conditions.html"     {_link_cls("forecast")}       >Weather &amp; Tides</a>'
         f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")}  >Daily Notices</a>'
+        f'<a href="{prefix}crossword.html"      {_link_cls("crossword")}      >Crossword</a>'
         f'<a href="{prefix}worldcup-2026.html"   {_link_cls("worldcup")}       >World Cup 2026</a>'
     )
     # Visitor Guide
@@ -2298,6 +2299,7 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}flights.html",       "Flights",       "flights")  +
         _mob_link(f"{prefix}conditions.html",    "Weather & Tides", "forecast") +
         _mob_link(f"{prefix}daily-notices.html", "Daily Notices", "daily-notices") +
+        _mob_link(f"{prefix}crossword.html",     "Crossword",     "crossword") +
         _mob_link(f"{prefix}worldcup-2026.html",  "World Cup 2026", "worldcup")
     )
     mob_plan_items = (
@@ -2531,6 +2533,7 @@ def footer_html(prefix=""):
           <li><a href="{prefix}flights.html"       class="hover:text-white transition">Flights</a></li>
           <li><a href="{prefix}conditions.html"       class="hover:text-white transition">Weather &amp; Tides</a></li>
           <li><a href="{prefix}daily-notices.html"    class="hover:text-white transition">Daily Notices</a></li>
+          <li><a href="{prefix}crossword.html"        class="hover:text-white transition">Crossword</a></li>
           <li><a href="{prefix}worldcup-2026.html"    class="hover:text-white transition">World Cup 2026</a></li>
           <li><a href="{prefix}visitor-guide.html"    class="hover:text-white transition">The Basics</a></li>
           <li><a href="{prefix}on-the-road.html"   class="hover:text-white transition">On the Road</a></li>
@@ -5858,6 +5861,228 @@ def build_events_page():
 </html>"""
 
 
+
+# build_crossword_page() — to be inserted into generate.py
+def build_crossword_page():
+    """Switi Mini — daily Surinaamse kruiswoord. Serves today's mini by date
+    rotation over a premade, human-approvable backlog (data/crossword_minis.json),
+    with a browse control for earlier minis. Bilingual NL/EN clues, solve payoff."""
+    import json as _json
+    try:
+        with open("data/crossword_minis.json", encoding="utf-8") as _f:
+            _puz = _json.load(_f).get("puzzles", [])
+    except Exception:
+        _puz = []
+    today = datetime.now(SR_TZ).date()
+    _data = _json.dumps(_puz, ensure_ascii=False)
+    _n = len(_puz)
+    ld = _json.dumps({"@context":"https://schema.org","@type":"WebPage",
+        "name":"Switi Mini — Surinaamse kruiswoord","url":SITE_URL+"/crossword.html",
+        "description":"A free daily mini crossword in Surinamese words (Sranan Tongo and Surinaams-Nederlands) with Dutch and English clues. New puzzle every day.",
+        "inLanguage":"nl","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":SITE_URL+"/"},
+        "dateModified":today.isoformat()}, ensure_ascii=False)
+    head = f"""{PAGE_HEAD}
+  <title>Switi Mini | Surinaamse kruiswoord | Explore Suriname</title>
+  <meta name="description" content="Switi Mini: a free daily mini crossword in Surinamese words — Sranan Tongo and Surinaams-Nederlands — with clues in Dutch and English. New puzzle every day.">
+  <link rel="canonical" href="{SITE_URL}/crossword.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/crossword.html">
+  <meta property="og:title" content="Switi Mini — Surinaamse kruiswoord">
+  <meta property="og:description" content="A free daily mini crossword in Sranan Tongo and Surinaams-Nederlands, clues in Dutch and English.">
+  <meta property="og:image" content="{SITE_URL}/images/home-faiths.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@exploringsuriname">
+  <meta name="twitter:title" content="Switi Mini — Surinaamse kruiswoord">
+  <meta name="twitter:image" content="{SITE_URL}/images/home-faiths.webp">
+  <script type="application/ld+json">
+  {ld}
+  </script>
+  <style>
+  #cw{{--g:#1B4332;--t:#E76F51;--m:#D8F3DC;--sel:#ffe08a;--word:#cde7d6;--bad:#f3c7bd;--line:#cfdbd3}}
+  #cw .lang{{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;font-size:12px;font-weight:700}}
+  #cw .lang button{{border:0;background:#fff;color:#6b7a72;padding:6px 12px;cursor:pointer}}
+  #cw .lang button.on{{background:var(--g);color:#fff}}
+  #cw .timer{{font-variant-numeric:tabular-nums;font-weight:700;color:#6b7a72;font-size:15px;min-width:48px;text-align:right}}
+  #cw .cluebar{{display:flex;align-items:center;gap:8px;background:var(--m);border-radius:14px;padding:12px 8px;margin:14px 0}}
+  #cw .cluebar .nav{{border:0;background:transparent;font-size:22px;color:var(--g);cursor:pointer;padding:0 8px;line-height:1}}
+  #cw .cluebar .txt{{flex:1;font-size:16px;font-weight:600;text-align:center;color:#1d2421}}
+  #cw .cluebar .tag{{font-size:10px;font-weight:700;background:#fff;color:var(--g);border-radius:6px;padding:2px 6px;margin-left:4px}}
+  #cw table.grid{{border-collapse:collapse;margin:0 auto;touch-action:manipulation}}
+  #cw table.grid td{{width:58px;height:58px;border:1px solid var(--line);text-align:center;vertical-align:middle;position:relative;font-size:26px;font-weight:700;text-transform:uppercase;cursor:pointer;user-select:none;background:#fff;color:#1d2421}}
+  #cw table.grid td.block{{background:var(--g);border-color:var(--g);cursor:default}}
+  #cw table.grid td.word{{background:var(--word)}}
+  #cw table.grid td.sel{{background:var(--sel)}}
+  #cw table.grid td.bad{{background:var(--bad)}}
+  #cw table.grid td .n{{position:absolute;top:1px;left:3px;font-size:10px;font-weight:700;color:#6b7a72}}
+  #cw .ctrls{{display:flex;gap:8px;justify-content:center;margin:14px 0}}
+  #cw .ctrls button{{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:700;color:var(--g);cursor:pointer}}
+  #cw .clues{{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px}}
+  #cw .clues h3{{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#6b7a72;margin:0 0 6px}}
+  #cw .clues ol{{list-style:none;margin:0;padding:0}}
+  #cw .clues li{{display:flex;gap:6px;padding:6px;border-radius:8px;font-size:14px;cursor:pointer;line-height:1.3}}
+  #cw .clues li.on{{background:var(--m)}}
+  #cw .clues li b{{color:var(--g);min-width:15px}}
+  #cw .kb{{position:fixed;left:0;right:0;bottom:0;background:#e9efec;border-top:1px solid var(--line);padding:7px 5px calc(7px + env(safe-area-inset-bottom));display:none;z-index:40}}
+  #cw .kb .krow{{display:flex;justify-content:center;gap:4px;margin:3px 0}}
+  #cw .kb button{{flex:1;max-width:34px;height:46px;border:0;border-radius:7px;background:#fff;font-size:17px;font-weight:700;color:#1d2421;box-shadow:0 1px 0 rgba(0,0,0,.18);cursor:pointer}}
+  #cw .kb button.wide{{max-width:64px;font-size:13px}}
+  #cwmodal{{position:fixed;inset:0;background:rgba(20,30,25,.55);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}}
+  #cwmodal .card{{background:#fff;border-radius:18px;max-width:440px;width:100%;padding:22px;max-height:86vh;overflow:auto}}
+  #cwmodal h3{{margin:0;color:var(--g);font-size:22px}}
+  #cwmodal .time{{font-size:32px;font-weight:800;color:var(--t);font-variant-numeric:tabular-nums}}
+  #cwmodal .lead{{color:#6b7a72;font-size:14px;margin:4px 0 14px}}
+  #cwmodal ul{{list-style:none;margin:0;padding:0}}
+  #cwmodal li{{display:flex;align-items:baseline;gap:8px;padding:7px 0;border-top:1px solid var(--line);font-size:14px}}
+  #cwmodal li .w{{font-weight:800;color:var(--g);min-width:62px;text-transform:lowercase}}
+  #cwmodal li .tag{{font-size:9px;font-weight:700;background:var(--m);color:var(--g);border-radius:5px;padding:1px 5px}}
+  #cwmodal .btns{{display:flex;gap:8px;margin-top:16px}}
+  #cwmodal .btns button{{flex:1;border:0;border-radius:10px;padding:12px;font-weight:800;font-size:14px;cursor:pointer}}
+  #cwmodal .share{{background:var(--g);color:#fff}} #cwmodal .again{{background:var(--m);color:var(--g)}}
+  #cwfx{{position:fixed;inset:0;pointer-events:none;z-index:45;display:none}}
+  </style>
+</head>"""
+    body = """
+<body class="bg-gray-50 overflow-x-hidden">
+__NAV__
+<div class="pt-16"></div>
+<div class="relative text-white py-14 text-center overflow-hidden" style="background:var(--forest)">
+  <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.92),rgba(13,30,22,.7))" aria-hidden="true"></div>
+  <div class="relative max-w-3xl mx-auto px-4">
+    <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
+    <p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Daily Surinaamse kruiswoord</p>
+    <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Switi Mini</h1>
+    <p class="text-white/70 text-base max-w-xl mx-auto">A little 5&#215;5 in Surinamese words &#8212; Sranan Tongo and Surinaams-Nederlands. A new one every day. Clues in Dutch or English; learn a word with every solve.</p>
+  </div>
+</div>
+<main class="max-w-2xl mx-auto px-4 py-10 pb-28">
+  <div id="cw">
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <button id="cw-prev" class="cluebar nav" style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-weight:700;color:var(--g);cursor:pointer">&#8249;</button>
+        <div id="cw-label" style="font-weight:700;color:#1d2421"></div>
+        <button id="cw-next" style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-weight:700;color:var(--g);cursor:pointer">&#8250;</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="lang"><button id="cw-nl" class="on">NL</button><button id="cw-en">EN</button></div>
+        <div class="timer" id="cw-timer">0:00</div>
+      </div>
+    </div>
+    <div class="cluebar"><button class="nav" id="cw-cprev">&#8249;</button><div class="txt" id="cw-curclue"></div><button class="nav" id="cw-cnext">&#8250;</button></div>
+    <div id="cw-gridwrap"></div>
+    <div class="ctrls"><button id="cw-check">Check</button><button id="cw-reveal">Toon woord</button><button id="cw-clear">Wis</button></div>
+    <div class="clues">
+      <div><h3 id="cw-ah">Horizontaal</h3><ol id="cw-across"></ol></div>
+      <div><h3 id="cw-dh">Verticaal</h3><ol id="cw-down"></ol></div>
+    </div>
+    <p id="cw-note" class="text-xs text-gray-400 mt-8 leading-relaxed"></p>
+  </div>
+</main>
+<div class="kb" id="cw-kb"></div>
+<canvas id="cwfx"></canvas>
+<div id="cwmodal"><div class="card">
+  <h3 id="cw-mtitle">Switi! &#127881;</h3>
+  <div class="time" id="cw-mtime">0:00</div>
+  <div class="lead" id="cw-mlead"></div>
+  <ul id="cw-learn"></ul>
+  <div class="btns"><button class="share" id="cw-share">Deel resultaat</button><button class="again" id="cw-mclose">Sluiten</button></div>
+</div></div>
+__FOOTER__
+<script>
+const CWP = __DATA__;
+const CT={nl:{ah:"Horizontaal",dh:"Verticaal",check:"Check",reveal:"Toon woord",clear:"Wis",solved:"Opgelost in",lead:"Tik op een woord om de betekenis te zien.",share:"Deel resultaat",close:"Sluiten",note:"Elke dag een nieuwe Switi Mini. Alle woorden komen uit het Sranantongo of het Surinaams-Nederlands en staan in de woordenboeken. Tik op NL of EN voor de aanwijzingen.",mini:"Mini",today:"Vandaag"},en:{ah:"Across",dh:"Down",check:"Check",reveal:"Reveal word",clear:"Clear",solved:"Solved in",lead:"Tap a word to see its meaning.",share:"Share result",close:"Close",note:"A new Switi Mini every day. Every answer is a Sranan Tongo or Surinaams-Nederlands word attested in the dictionaries. Tap NL or EN for the clues.",mini:"Mini",today:"Today"}};
+let cwLang=(localStorage.getItem('cw-lang')||'nl');
+const N=CWP.length;
+const EPOCH=Date.UTC(2026,5,29)/86400000|0;
+function todayIdx(){const d=(Date.now()/86400000|0);return N?(((d-EPOCH)%N)+N)%N:0;}
+let ci=todayIdx(), P, fill, dir='A', cur=[0,0], started=false, t0=0, tick=null, solved=false;
+const root=document.getElementById('cw');
+function $(id){return document.getElementById(id);}
+function isBlock(r,c){return !(r>=0&&r<5&&c>=0&&c<5)||P.grid[r][c]==='#';}
+function load(i){ci=((i%N)+N)%N;P=CWP[ci];solved=false;
+  const sv=JSON.parse(localStorage.getItem('cw-fill-'+P.no)||'null');
+  fill=sv||Array.from({length:5},()=>Array(5).fill(''));
+  started=false;stopTimer();$('cw-timer').textContent='0:00';dir='A';cur=firstCell();
+  renderGrid();renderClues();updateActive();
+  $('cw-label').textContent=(ci===todayIdx()?CT[cwLang].today:CT[cwLang].mini)+' #'+P.no;
+  $('cw-note').textContent=CT[cwLang].note;}
+function firstCell(){for(const e of P.entries)return[e.cells[0][0],e.cells[0][1]];}
+function save(){localStorage.setItem('cw-fill-'+P.no,JSON.stringify(fill));}
+function cell(r,c){return root.querySelector('td[data-r="'+r+'"][data-c="'+c+'"]');}
+function renderGrid(){const w=$('cw-gridwrap');w.innerHTML='';const tb=document.createElement('table');tb.className='grid';
+  for(let r=0;r<5;r++){const tr=document.createElement('tr');
+    for(let c=0;c<5;c++){const td=document.createElement('td');
+      if(isBlock(r,c))td.className='block';
+      else{const n=P.numbers[r+','+c];if(n){const s=document.createElement('span');s.className='n';s.textContent=n;td.appendChild(s);}
+        const tx=document.createElement('div');tx.className='tx';tx.textContent=fill[r][c]||'';td.appendChild(tx);
+        td.dataset.r=r;td.dataset.c=c;td.onclick=()=>{if(cur[0]===r&&cur[1]===c)dir=dir==='A'?'D':'A';cur=[r,c];updateActive();};}
+      tr.appendChild(td);}tb.appendChild(tr);}w.appendChild(tb);}
+function entryAt(r,c,d){return P.entries.find(e=>e.dir===d&&e.cells.some(x=>x[0]===r&&x[1]===c));}
+function curEntry(){return entryAt(cur[0],cur[1],dir)||entryAt(cur[0],cur[1],dir==='A'?'D':'A');}
+function renderClues(){for(const d of ['A','D']){const ol=$(d==='A'?'cw-across':'cw-down');ol.innerHTML='';
+  P.entries.filter(e=>e.dir===d).sort((a,b)=>a.num-b.num).forEach(e=>{const li=document.createElement('li');li.dataset.k=e.dir+e.num;
+    li.innerHTML='<b>'+e.num+'</b><span>'+(cwLang==='nl'?e.clue_nl:e.clue_en)+' <span class="tag">'+e.lang+'</span></span>';
+    li.onclick=()=>{dir=e.dir;cur=[e.cells[0][0],e.cells[0][1]];updateActive();};ol.appendChild(li);});}
+  $('cw-ah').textContent=CT[cwLang].ah;$('cw-dh').textContent=CT[cwLang].dh;}
+function updateActive(){const e=curEntry();if(!e)return;
+  if(isBlock(cur[0],cur[1])||!e.cells.some(x=>x[0]===cur[0]&&x[1]===cur[1]))cur=[e.cells[0][0],e.cells[0][1]];
+  root.querySelectorAll('table.grid td').forEach(td=>{td.classList.remove('word','sel','bad');const r=+td.dataset.r,c=+td.dataset.c;const tx=td.querySelector('.tx');if(tx)tx.textContent=fill[r][c]||'';});
+  e.cells.forEach(([r,c])=>{const td=cell(r,c);if(td)td.classList.add('word');});
+  const sc=cell(cur[0],cur[1]);if(sc)sc.classList.add('sel');
+  $('cw-curclue').innerHTML=(cwLang==='nl'?e.clue_nl:e.clue_en)+' <span class="tag">'+e.lang+'</span>';
+  root.querySelectorAll('.clues li').forEach(li=>li.classList.toggle('on',li.dataset.k===e.dir+e.num));}
+function startTimer(){if(started)return;started=true;t0=Date.now();tick=setInterval(()=>{$('cw-timer').textContent=fmt((Date.now()-t0)/1000|0);},500);}
+function stopTimer(){if(tick)clearInterval(tick);tick=null;}
+function fmt(s){return (s/60|0)+':'+String(s%60).padStart(2,'0');}
+function type(ch){if(solved)return;startTimer();if(isBlock(cur[0],cur[1]))return;fill[cur[0]][cur[1]]=ch;save();const tx=cell(cur[0],cur[1]).querySelector('.tx');if(tx)tx.textContent=ch;advance();updateActive();checkSolved();}
+function advance(){const e=curEntry();if(!e)return;const i=e.cells.findIndex(x=>x[0]===cur[0]&&x[1]===cur[1]);for(let j=i+1;j<e.cells.length;j++){if(!fill[e.cells[j][0]][e.cells[j][1]]){cur=e.cells[j];return;}}if(i+1<e.cells.length)cur=e.cells[i+1];}
+function backspace(){if(solved)return;if(fill[cur[0]][cur[1]]){fill[cur[0]][cur[1]]='';save();updateActive();return;}const e=curEntry();if(!e)return;const i=e.cells.findIndex(x=>x[0]===cur[0]&&x[1]===cur[1]);if(i>0){cur=e.cells[i-1];fill[cur[0]][cur[1]]='';save();updateActive();}}
+function move(dr,dc){let r=cur[0]+dr,c=cur[1]+dc;while(r>=0&&r<5&&c>=0&&c<5){if(!isBlock(r,c)){cur=[r,c];updateActive();return;}r+=dr;c+=dc;}}
+function nextClue(step){const list=P.entries.filter(e=>e.dir===dir).sort((a,b)=>a.num-b.num);const e=curEntry();let i=list.findIndex(x=>x.num===e.num);i=(i+step+list.length)%list.length;cur=[list[i].cells[0][0],list[i].cells[0][1]];updateActive();}
+document.addEventListener('keydown',ev=>{if($('cwmodal').style.display==='flex')return;const k=ev.key;
+  if(/^[a-zA-Z]$/.test(k)){type(k.toUpperCase());ev.preventDefault();}
+  else if(k==='Backspace'){backspace();ev.preventDefault();}
+  else if(k==='ArrowUp')move(-1,0);else if(k==='ArrowDown')move(1,0);else if(k==='ArrowLeft')move(0,-1);else if(k==='ArrowRight')move(0,1);
+  else if(k===' '||k==='Enter'){dir=dir==='A'?'D':'A';updateActive();ev.preventDefault();}
+  else if(k==='Tab'){nextClue(ev.shiftKey?-1:1);ev.preventDefault();}});
+function buildKB(){const rows=['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'];const kb=$('cw-kb');kb.innerHTML='';
+  rows.forEach((row,ri)=>{const d=document.createElement('div');d.className='krow';
+    if(ri===2){const b=document.createElement('button');b.className='wide';b.textContent='⌫';b.onclick=backspace;d.appendChild(b);}
+    row.split('').forEach(ch=>{const b=document.createElement('button');b.textContent=ch;b.onclick=()=>type(ch);d.appendChild(b);});
+    if(ri===2){const b=document.createElement('button');b.className='wide';b.textContent='⇄';b.onclick=()=>{dir=dir==='A'?'D':'A';updateActive();};d.appendChild(b);}
+    kb.appendChild(d);});}
+function checkBad(){let any=false;P.entries.forEach(e=>e.cells.forEach(([r,c],i)=>{if(fill[r][c]&&fill[r][c]!==e.answer[i]){const td=cell(r,c);if(td){td.classList.add('bad');any=true;}}}));if(any)setTimeout(()=>root.querySelectorAll('td.bad').forEach(td=>td.classList.remove('bad')),900);}
+function checkSolved(){for(let r=0;r<5;r++)for(let c=0;c<5;c++){if(!isBlock(r,c)&&!fill[r][c])return false;}
+  for(const e of P.entries)for(let i=0;i<e.cells.length;i++){const[r,c]=e.cells[i];if(fill[r][c]!==e.answer[i])return false;}
+  if(!solved){solved=true;stopTimer();celebrate();}return true;}
+function reveal(){const e=curEntry();if(!e)return;e.cells.forEach(([r,c],i)=>{fill[r][c]=e.answer[i];});save();updateActive();checkSolved();}
+function celebrate(){const s=(Date.now()-t0)/1000|0;$('cw-mtime').textContent=fmt(s);$('cw-mlead').textContent=CT[cwLang].lead;
+  const ul=$('cw-learn');ul.innerHTML='';P.entries.slice().sort((a,b)=>a.dir===b.dir?a.num-b.num:(a.dir<b.dir?-1:1)).forEach(e=>{const li=document.createElement('li');
+    li.innerHTML='<span class="w">'+e.answer.toLowerCase()+'</span><span class="tag">'+e.lang+'</span><span>'+(cwLang==='nl'?e.note_nl:e.note_en)+'</span>';ul.appendChild(li);});
+  $('cwmodal').style.display='flex';confetti();}
+function confetti(){const cv=$('cwfx');cv.style.display='block';cv.width=innerWidth;cv.height=innerHeight;const x=cv.getContext('2d');const C=['#1B4332','#E76F51','#D8F3DC','#f4c430'];
+  let ps=Array.from({length:120},()=>({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.4,s:4+Math.random()*6,vy:2+Math.random()*4,vx:-2+Math.random()*4,c:C[(Math.random()*4)|0],a:Math.random()*6}));
+  let n=0;(function loop(){x.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.y+=p.vy;p.x+=p.vx;p.a+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/2,p.s,p.s);x.restore();});if(n++<90)requestAnimationFrame(loop);else cv.style.display='none';})();}
+$('cw-check').onclick=()=>{if(!checkSolved())checkBad();};
+$('cw-reveal').onclick=reveal;
+$('cw-clear').onclick=()=>{if(solved)return;fill=Array.from({length:5},()=>Array(5).fill(''));save();updateActive();};
+$('cw-cprev').onclick=()=>nextClue(-1);$('cw-cnext').onclick=()=>nextClue(1);
+$('cw-prev').onclick=()=>load(ci-1);$('cw-next').onclick=()=>load(ci+1);
+$('cw-mclose').onclick=()=>{$('cwmodal').style.display='none';};
+$('cw-share').onclick=()=>{const s=fmt((Date.now()-t0)/1000|0);const txt='Switi Mini #'+P.no+' — '+CT[cwLang].solved+' '+s+' ✨\\nexploresuriname.com/crossword.html';if(navigator.clipboard)navigator.clipboard.writeText(txt);$('cw-share').textContent=cwLang==='nl'?'Gekopieerd!':'Copied!';};
+function setLang(l){cwLang=l;localStorage.setItem('cw-lang',l);$('cw-nl').classList.toggle('on',l==='nl');$('cw-en').classList.toggle('on',l==='en');
+  $('cw-check').textContent=CT[l].check;$('cw-reveal').textContent=CT[l].reveal;$('cw-clear').textContent=CT[l].clear;$('cw-share').textContent=CT[l].share;$('cw-mclose').textContent=CT[l].close;
+  renderClues();updateActive();$('cw-note').textContent=CT[l].note;$('cw-label').textContent=(ci===todayIdx()?CT[l].today:CT[l].mini)+' #'+P.no;}
+$('cw-nl').onclick=()=>setLang('nl');$('cw-en').onclick=()=>setLang('en');
+buildKB();if(matchMedia('(pointer:coarse)').matches)$('cw-kb').style.display='block';
+load(todayIdx());setLang(cwLang);
+</script>
+</body>
+</html>"""
+    body = body.replace("__NAV__", nav_html("crossword")).replace("__FOOTER__", footer_html()).replace("__DATA__", _data)
+    return head + body
+
+
 def build_visitor_guide_page():
     """Suriname Visitor Guide — static page covering visas, customs, SIM cards, money, transport and apps."""
     return f"""{PAGE_HEAD}
@@ -7237,6 +7462,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("seogs-2026.html",         "0.8", "weekly"),
         ("worldcup-2026.html",      "0.8", "daily"),
         ("daily-notices.html", "0.9", "daily"),
+        ("crossword.html",   "0.9", "daily"),
         ("events.html",     "0.8", "weekly"),
         ("news.html",       "0.7", "daily"),
         ("about.html",      "0.5", "yearly"),
@@ -8623,6 +8849,7 @@ if __name__ == "__main__":
         "daily-notices.html": build_today_page(),
         "visitor-guide.html": build_visitor_guide_page(),
         "events.html":        build_events_page(),
+        "crossword.html":     build_crossword_page(),
         "on-the-road.html":   build_roads_page(),
         "suriname-itinerary.html": build_itinerary_page(),
         "is-suriname-safe.html":   build_safety_page(),
