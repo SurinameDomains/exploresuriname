@@ -5993,9 +5993,12 @@ const CWP = __DATA__;
 const CT={nl:{ah:"Horizontaal",dh:"Verticaal",check:"Check",reveal:"Toon woord",clear:"Wis",solved:"Opgelost in",lead:"Tik op een woord om de betekenis te zien.",share:"Deel resultaat",close:"Sluiten",note:"Elke dag een nieuwe Switi Mini. Alle woorden komen uit het Sranantongo of het Surinaams-Nederlands en staan in de woordenboeken. Tik op NL of EN voor de aanwijzingen.",mini:"Mini",today:"Vandaag"},en:{ah:"Across",dh:"Down",check:"Check",reveal:"Reveal word",clear:"Clear",solved:"Solved in",lead:"Tap a word to see its meaning.",share:"Share result",close:"Close",note:"A new Switi Mini every day. Every answer is a Sranan Tongo or Surinaams-Nederlands word attested in the dictionaries. Tap NL or EN for the clues.",mini:"Mini",today:"Today"}};
 let cwLang=(localStorage.getItem('cw-lang')||'nl');
 const N=CWP.length;
-const EPOCH=Date.UTC(2026,5,29)/86400000|0;
-function todayIdx(){const d=(Date.now()/86400000|0);return N?(((d-EPOCH)%N)+N)%N:0;}
-let ci=todayIdx(), P, fill, dir='A', cur=[0,0], started=false, t0=0, tick=null, solved=false;
+const EPOCH=Math.floor(Date.UTC(2026,5,22)/86400000);
+function dayNum(){return Math.floor(Date.now()/86400000);}
+function daysSince(){return Math.max(0,dayNum()-EPOCH);}
+function todayIdx(){return N?daysSince()%N:0;}
+function maxBack(){return Math.min(daysSince(),N-1);}
+let back=0, ci=todayIdx(), P, fill, dir='A', cur=[0,0], started=false, t0=0, tick=null, solved=false;
 const root=document.getElementById('cw');
 function $(id){return document.getElementById(id);}
 function isBlock(r,c){return !(r>=0&&r<5&&c>=0&&c<5)||P.grid[r][c]==='#';}
@@ -6004,8 +6007,9 @@ function load(i){ci=((i%N)+N)%N;P=CWP[ci];solved=false;
   fill=sv||Array.from({length:5},()=>Array(5).fill(''));
   started=false;stopTimer();$('cw-timer').textContent='0:00';dir='A';cur=firstCell();
   renderGrid();renderClues();updateActive();
-  $('cw-label').textContent=(ci===todayIdx()?CT[cwLang].today:CT[cwLang].mini)+' #'+P.no;
   $('cw-note').textContent=CT[cwLang].note;}
+function updateLabel(){const dd=new Date((dayNum()-back)*86400000);$('cw-label').textContent=back===0?CT[cwLang].today:dd.toLocaleDateString(cwLang==='nl'?'nl-NL':'en-GB',{weekday:'short',day:'numeric',month:'short',timeZone:'UTC'});$('cw-prev').style.visibility=back>=maxBack()?'hidden':'visible';$('cw-next').style.visibility=back<=0?'hidden':'visible';}
+function show(){const idx=((todayIdx()-back)%N+N)%N;load(idx);updateLabel();}
 function firstCell(){for(const e of P.entries)return[e.cells[0][0],e.cells[0][1]];}
 function save(){localStorage.setItem('cw-fill-'+P.no,JSON.stringify(fill));}
 function cell(r,c){return root.querySelector('td[data-r="'+r+'"][data-c="'+c+'"]');}
@@ -6067,21 +6071,20 @@ $('cw-check').onclick=()=>{if(!checkSolved())checkBad();};
 $('cw-reveal').onclick=reveal;
 $('cw-clear').onclick=()=>{if(solved)return;fill=Array.from({length:5},()=>Array(5).fill(''));save();updateActive();};
 $('cw-cprev').onclick=()=>nextClue(-1);$('cw-cnext').onclick=()=>nextClue(1);
-$('cw-prev').onclick=()=>load(ci-1);$('cw-next').onclick=()=>load(ci+1);
+$('cw-prev').onclick=()=>{if(back<maxBack()){back++;show();}};$('cw-next').onclick=()=>{if(back>0){back--;show();}};
 $('cw-mclose').onclick=()=>{$('cwmodal').style.display='none';};
 $('cw-share').onclick=()=>{const s=fmt((Date.now()-t0)/1000|0);const txt='Switi Mini #'+P.no+' — '+CT[cwLang].solved+' '+s+' ✨\\nexploresuriname.com/crossword.html';if(navigator.clipboard)navigator.clipboard.writeText(txt);$('cw-share').textContent=cwLang==='nl'?'Gekopieerd!':'Copied!';};
 function setLang(l){cwLang=l;localStorage.setItem('cw-lang',l);$('cw-nl').classList.toggle('on',l==='nl');$('cw-en').classList.toggle('on',l==='en');
   $('cw-check').textContent=CT[l].check;$('cw-reveal').textContent=CT[l].reveal;$('cw-clear').textContent=CT[l].clear;$('cw-share').textContent=CT[l].share;$('cw-mclose').textContent=CT[l].close;
-  renderClues();updateActive();$('cw-note').textContent=CT[l].note;$('cw-label').textContent=(ci===todayIdx()?CT[l].today:CT[l].mini)+' #'+P.no;}
+  renderClues();updateActive();$('cw-note').textContent=CT[l].note;updateLabel();}
 $('cw-nl').onclick=()=>setLang('nl');$('cw-en').onclick=()=>setLang('en');
 buildKB();if(matchMedia('(pointer:coarse)').matches)$('cw-kb').style.display='block';
-load(todayIdx());setLang(cwLang);
+show();setLang(cwLang);
 </script>
 </body>
 </html>"""
     body = body.replace("__NAV__", nav_html("crossword")).replace("__FOOTER__", footer_html()).replace("__DATA__", _data)
     return head + body
-
 
 def build_visitor_guide_page():
     """Suriname Visitor Guide — static page covering visas, customs, SIM cards, money, transport and apps."""
