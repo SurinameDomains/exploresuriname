@@ -493,7 +493,7 @@ const CT={nl:{ah:"Horizontaal",dh:"Verticaal",check:"Check",reveal:"Toon woord",
 let cwLang=(localStorage.getItem('cw-lang')||'nl');
 const N=CWP.length;
 const EPOCH=Math.floor(Date.UTC(2026,5,22)/86400000);
-function dayNum(){return Math.floor(Date.now()/86400000);}
+function dayNum(){return Math.floor((Date.now()-10800000)/86400000);}
 function daysSince(){return Math.max(0,dayNum()-EPOCH);}
 function todayIdx(){return N?daysSince()%N:0;}
 function maxBack(){return Math.min(daysSince(),N-1);}
