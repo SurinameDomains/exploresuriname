@@ -1,6 +1,17 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD VRIJDAG 26 JUNI 2026",
+      "date": "26 Juni 2026",
+      "date_iso": "2026-06-26",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1531/gepland-onderhoud-vrijdag-26-juni-2026",
+      "meta_description": "Gepland onderhoud: Wanica vrijdag 26 juni 2026 tussen 09:00-14:00 GEHEEL PELTHOFORUMLAAN EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.  Kaart",
+      "district": "Wanica",
+      "time": "09:00 – 14:00",
+      "area": "GEHEEL PELTHOFORUMLAAN EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.  Kaart"
+    },
+    {
       "title": "GEPLAND ONDERHOUD DONDERDAG 25 JUNI 2026",
       "date": "25 Juni 2026",
       "date_iso": "2026-06-25",
@@ -45,6 +56,6 @@
       "area": "MANGOLAAN, KOFFIELAAN, MISPELLAAN EN ALLE ZIJWEGEN DIE VOORKOMEN IN DEZE GEBIEDEN"
     }
   ],
-  "last_updated": "2026-06-24T14:43:45.228673+00:00",
+  "last_updated": "2026-06-24T15:07:48.359035+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
