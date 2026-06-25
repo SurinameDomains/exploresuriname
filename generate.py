@@ -5876,11 +5876,85 @@ def build_crossword_page():
     today = datetime.now(SR_TZ).date()
     _data = _json.dumps(_puz, ensure_ascii=False)
     _n = len(_puz)
-    ld = _json.dumps({"@context":"https://schema.org","@type":"WebPage",
-        "name":"Switi Mini: Surinaamse kruiswoord","url":SITE_URL+"/crossword.html",
-        "description":"A free daily mini crossword in Surinamese words (Sranan Tongo and Surinaams-Nederlands) with Dutch and English clues. New puzzle every day.",
-        "inLanguage":"nl","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":SITE_URL+"/"},
-        "dateModified":today.isoformat()}, ensure_ascii=False)
+    # today's puzzle: mirror the client-side date rotation so crawlers get fresh content
+    _epoch = datetime(2026, 6, 22).date()
+    _today_idx = (max(0, (today - _epoch).days) % _n) if _n else 0
+    _today_puz = _puz[_today_idx] if _puz else {}
+    _today_no = _today_puz.get("no", _today_idx + 1)
+
+    # share image + structured data (@graph: WebPage + BreadcrumbList + Game)
+    _ogimg = SITE_URL + "/images/crossword-og.jpg"
+    _graph = _json.dumps({"@context": "https://schema.org", "@graph": [
+        {"@type": "WebPage", "@id": SITE_URL + "/crossword.html#webpage",
+         "url": SITE_URL + "/crossword.html",
+         "name": "Switi Mini: Surinaamse kruiswoord",
+         "description": "A free daily mini crossword in Surinamese words (Sranan Tongo and Surinaams-Nederlands) with Dutch and English clues. New puzzle every day.",
+         "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": SITE_URL + "/"},
+         "primaryImageOfPage": _ogimg,
+         "breadcrumb": {"@id": SITE_URL + "/crossword.html#breadcrumb"},
+         "mainEntity": {"@id": SITE_URL + "/crossword.html#game"},
+         "datePublished": "2026-06-22", "dateModified": today.isoformat(),
+         "isAccessibleForFree": True},
+        {"@type": "BreadcrumbList", "@id": SITE_URL + "/crossword.html#breadcrumb",
+         "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Switi Mini Crossword", "item": SITE_URL + "/crossword.html"}]},
+        {"@type": "Game", "@id": SITE_URL + "/crossword.html#game",
+         "name": "Switi Mini", "url": SITE_URL + "/crossword.html",
+         "description": "A daily 5x5 mini crossword built entirely from Sranan Tongo and Surinaams-Nederlands words, with clues in Dutch and English.",
+         "genre": "Crossword puzzle", "gamePlatform": "Web browser",
+         "inLanguage": ["nl", "en"], "isAccessibleForFree": True, "image": _ogimg,
+         "publisher": {"@type": "Organization", "name": "Explore Suriname", "url": SITE_URL + "/"}}
+    ]}, ensure_ascii=False)
+
+    # FAQ: visible Q&A + FAQPage schema from one source (site _render_faq helper)
+    _faq = [
+        ("What is Switi Mini?", "Switi Mini is a free daily mini crossword from Explore Suriname. Every 5x5 puzzle is built from Surinamese words (Sranan Tongo and Surinaams-Nederlands), with clues you can read in Dutch or English."),
+        ("Is Switi Mini free to play?", "Yes. Switi Mini is completely free, needs no account and no app. It runs in any browser on phone or desktop, and can be installed as a web app."),
+        ("How often is there a new puzzle?", "A new Switi Mini is published every day. You can also step back to earlier days' puzzles using the arrows above the grid."),
+        ("What language are the clues in?", "Each clue is written in both Dutch and English. Tap NL or EN to switch. A small tag (SR or SN) shows whether the answer is a Sranan Tongo or Surinaams-Nederlands word."),
+        ("Where do the words come from?", "Every answer is a real Surinamese word attested in the dictionaries of Sranan Tongo and Surinaams-Nederlands, so each solve teaches you a little more of the language."),
+        ("Do I need to download anything?", "No download is required. Switi Mini runs in your browser. On a phone you can add it to your home screen for one-tap access."),
+    ]
+    _faq_head, _faq_body = _render_faq(_faq)
+
+    # About + How to play (evergreen, always-visible crawlable content)
+    _about_html = (
+        '<section class="max-w-3xl mx-auto px-4 mt-16" aria-labelledby="about-heading">'
+        '<h2 id="about-heading" class="serif text-2xl sm:text-3xl font-bold text-gray-900 mb-4">About Switi Mini</h2>'
+        '<p class="text-gray-600 leading-relaxed mb-4">Switi Mini is a free daily <strong>Surinaamse kruiswoord</strong>: a little 5&#215;5 mini crossword built entirely from Surinamese words. Every answer is a word from <strong>Sranan Tongo</strong> or <strong>Surinaams-Nederlands</strong>, attested in the dictionaries, so each puzzle is a small, playful way to learn the language of Suriname.</p>'
+        '<p class="text-gray-600 leading-relaxed mb-4">A new puzzle goes live every day. Clues come in both <strong>Dutch and English</strong> (tap NL or EN to switch), and a tag on each clue tells you whether the answer is Sranan Tongo (SR) or Surinaams-Nederlands (SN). Solve the grid and Switi Mini reveals what every word means, so you finish a few words richer than you started.</p>'
+        '<h2 class="serif text-2xl sm:text-3xl font-bold text-gray-900 mb-4 mt-10">How to play</h2>'
+        '<ol class="text-gray-600 leading-relaxed space-y-2 list-decimal pl-5">'
+        '<li>Tap any square or clue to begin, then type your answer. Tap a cell again to switch between across and down.</li>'
+        '<li>Use <strong>Check</strong> to test your letters, or <strong>Reveal word</strong> when you are stuck.</li>'
+        '<li>Switch the clues between Dutch and English with the NL / EN toggle.</li>'
+        '<li>Use the arrows above the grid to play earlier days\' puzzles.</li>'
+        '<li>Finish the grid to see the meaning of every word, plus your solve time to share.</li>'
+        '</ol></section>'
+    )
+
+    # today's clues, server-rendered for no-JS crawlers/users (clues only, no answers)
+    def _cw_clue_list(_d):
+        items = ""
+        for e in sorted([x for x in _today_puz.get("entries", []) if x.get("dir") == _d],
+                        key=lambda x: x.get("num", 0)):
+            items += ('<li><b>' + str(e.get("num", "")) + '.</b> '
+                      + html_lib.escape(e.get("clue_nl", ""))
+                      + ' <span class="text-gray-400">(' + html_lib.escape(e.get("lang", "")) + ')</span> '
+                      + '<span class="text-gray-500">' + html_lib.escape(e.get("clue_en", "")) + '</span></li>')
+        return items
+    if _today_puz.get("entries"):
+        _today_clues_html = (
+            '<noscript><section class="max-w-2xl mx-auto px-4 mt-6" aria-label="Today\'s Switi Mini clues">'
+            '<h2 class="serif text-xl font-bold text-gray-900 mb-2">Today&#8217;s Switi Mini (#' + str(_today_no) + ')</h2>'
+            '<p class="text-sm text-gray-500 mb-4">The interactive grid needs JavaScript. Here are today&#8217;s clues; every answer is a Sranan Tongo or Surinaams-Nederlands word.</p>'
+            '<h3 class="font-bold text-gray-900 mt-4 mb-1">Horizontaal / Across</h3><ol class="text-sm text-gray-600 space-y-1 pl-1">' + _cw_clue_list("A") + '</ol>'
+            '<h3 class="font-bold text-gray-900 mt-4 mb-1">Verticaal / Down</h3><ol class="text-sm text-gray-600 space-y-1 pl-1">' + _cw_clue_list("D") + '</ol>'
+            '</section></noscript>'
+        )
+    else:
+        _today_clues_html = ""
     head = f"""{PAGE_HEAD}
   <title>Switi Mini | Surinaamse kruiswoord | Explore Suriname</title>
   <meta name="description" content="Switi Mini: a free daily mini crossword in Surinamese words (Sranan Tongo and Surinaams-Nederlands), with clues in Dutch and English. New puzzle every day.">
@@ -5890,14 +5964,18 @@ def build_crossword_page():
   <meta property="og:url" content="{SITE_URL}/crossword.html">
   <meta property="og:title" content="Switi Mini: Surinaamse kruiswoord">
   <meta property="og:description" content="A free daily mini crossword in Sranan Tongo and Surinaams-Nederlands, clues in Dutch and English.">
-  <meta property="og:image" content="{SITE_URL}/images/home-faiths.webp">
+  <meta property="og:image" content="{_ogimg}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Switi Mini, a daily Surinamese mini crossword from Explore Suriname">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@exploringsuriname">
   <meta name="twitter:title" content="Switi Mini: Surinaamse kruiswoord">
-  <meta name="twitter:image" content="{SITE_URL}/images/home-faiths.webp">
+  <meta name="twitter:description" content="A free daily mini crossword in Sranan Tongo and Surinaams-Nederlands, clues in Dutch and English.">
+  <meta name="twitter:image" content="{_ogimg}">
   <script type="application/ld+json">
-  {ld}
-  </script>
+  {_graph}
+  </script>{_faq_head}
   <style>
   #cw{{--g:#1B4332;--t:#E76F51;--m:#D8F3DC;--sel:#ffe08a;--word:#cde7d6;--bad:#f3c7bd;--line:#cfdbd3}}
   #cw .lang{{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;font-size:12px;font-weight:700}}
@@ -5949,7 +6027,11 @@ __NAV__
 <div class="relative text-white py-14 text-center overflow-hidden" style="background:var(--forest)">
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.92),rgba(13,30,22,.7))" aria-hidden="true"></div>
   <div class="relative max-w-3xl mx-auto px-4">
-    <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
+    <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-6">
+      <a href="index.html" class="hover:text-white transition">Home</a>
+      <span class="text-white/40">&#8250;</span>
+      <span class="text-white/90 font-medium" aria-current="page">Switi Mini</span>
+    </nav>
     <p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Daily Surinaamse kruiswoord</p>
     <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Switi Mini</h1>
     <p class="text-white/70 text-base max-w-xl mx-auto">A little 5&#215;5 in Surinamese words: Sranan Tongo and Surinaams-Nederlands. A new one every day. Clues in Dutch or English; learn a word with every solve.</p>
@@ -5970,6 +6052,7 @@ __NAV__
     </div>
     <div class="cluebar"><button class="nav" id="cw-cprev">&#8249;</button><div class="txt" id="cw-curclue"></div><button class="nav" id="cw-cnext">&#8250;</button></div>
     <div id="cw-gridwrap"></div>
+__TODAYCLUES__
     <div class="ctrls"><button id="cw-check">Check</button><button id="cw-reveal">Toon woord</button><button id="cw-clear">Wis</button></div>
     <div class="clues">
       <div><h3 id="cw-ah">Horizontaal</h3><ol id="cw-across"></ol></div>
@@ -5978,6 +6061,8 @@ __NAV__
     <p id="cw-note" class="text-xs text-gray-400 mt-8 leading-relaxed"></p>
   </div>
 </main>
+__ABOUT__
+__FAQ__
 <div class="kb" id="cw-kb"></div>
 <canvas id="cwfx"></canvas>
 <div id="cwmodal"><div class="card">
@@ -6083,7 +6168,7 @@ show();setLang(cwLang);
 </script>
 </body>
 </html>"""
-    body = body.replace("__NAV__", nav_html("crossword")).replace("__FOOTER__", footer_html()).replace("__DATA__", _data)
+    body = body.replace("__NAV__", nav_html("crossword")).replace("__FOOTER__", footer_html()).replace("__DATA__", _data).replace("__TODAYCLUES__", _today_clues_html).replace("__ABOUT__", _about_html).replace("__FAQ__", _faq_body)
     return head + body
 
 def build_visitor_guide_page():
