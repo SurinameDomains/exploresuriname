@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-06-24T16:00:31.377880+00:00",
+  "last_updated": "2026-06-25T10:00:28.115071+00:00",
   "date_label": "Today",
   "showings": [
     {
@@ -8,9 +8,9 @@
       "url": "https://www.tblcinemas.com/movie/TO22592/toy-story-5"
     },
     {
-      "time": "05:45 PM",
-      "title": "Michael",
-      "url": "https://www.tblcinemas.com/movie/MI17314/michael"
+      "time": "06:00 PM",
+      "title": "Scary Movie",
+      "url": "https://www.tblcinemas.com/movie/SC6491/scary-movie"
     },
     {
       "time": "06:30 PM",
@@ -18,24 +18,19 @@
       "url": "https://www.tblcinemas.com/movie/CO3933/cocktail-2"
     },
     {
-      "time": "07:15 PM",
-      "title": "Pressure",
-      "url": "https://www.tblcinemas.com/movie/PR22783/pressure"
-    },
-    {
-      "time": "07:45 PM",
-      "title": "Obsession",
-      "url": "https://www.tblcinemas.com/movie/OB12184/obsession"
-    },
-    {
-      "time": "08:15 PM",
+      "time": "07:30 PM",
       "title": "Backrooms",
       "url": "https://www.tblcinemas.com/movie/BA32133/backrooms"
     },
     {
-      "time": "09:00 PM",
-      "title": "Scary Movie",
-      "url": "https://www.tblcinemas.com/movie/SC6491/scary-movie"
+      "time": "08:15 PM",
+      "title": "Jackass: Best and Last",
+      "url": "https://www.tblcinemas.com/movie/JA31463/jackass-best-and-last"
+    },
+    {
+      "time": "08:45 PM",
+      "title": "Supergirl",
+      "url": "https://www.tblcinemas.com/movie/SU22592/supergirl"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
