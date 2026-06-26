@@ -1,29 +1,29 @@
 {
-  "last_updated": "2026-06-25T16:00:30.617248+00:00",
+  "last_updated": "2026-06-26T10:00:31.389297+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "05:15 PM",
+      "time": "05:00 PM",
       "title": "Toy Story 5",
       "url": "https://www.tblcinemas.com/movie/TO22592/toy-story-5"
     },
     {
-      "time": "06:00 PM",
-      "title": "Scary Movie",
-      "url": "https://www.tblcinemas.com/movie/SC6491/scary-movie"
+      "time": "06:15 PM",
+      "title": "Obsession",
+      "url": "https://www.tblcinemas.com/movie/OB12184/obsession"
     },
     {
-      "time": "06:30 PM",
+      "time": "06:45 PM",
       "title": "Cocktail 2",
       "url": "https://www.tblcinemas.com/movie/CO3933/cocktail-2"
     },
     {
-      "time": "07:30 PM",
-      "title": "Backrooms",
-      "url": "https://www.tblcinemas.com/movie/BA32133/backrooms"
+      "time": "07:15 PM",
+      "title": "Welcome to the Jungle",
+      "url": "https://www.tblcinemas.com/movie/WE14514/welcome-to-the-jungle"
     },
     {
-      "time": "08:15 PM",
+      "time": "08:00 PM",
       "title": "Jackass: Best and Last",
       "url": "https://www.tblcinemas.com/movie/JA31463/jackass-best-and-last"
     },
@@ -31,6 +31,11 @@
       "time": "08:45 PM",
       "title": "Supergirl",
       "url": "https://www.tblcinemas.com/movie/SU22592/supergirl"
+    },
+    {
+      "time": "09:15 PM",
+      "title": "Backrooms",
+      "url": "https://www.tblcinemas.com/movie/BA32133/backrooms"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
