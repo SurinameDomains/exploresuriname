@@ -6208,6 +6208,36 @@ def build_visitor_guide_page():
 
 <main class="max-w-5xl mx-auto px-5 py-12 pb-24">
 
+  <!-- SURINAME AT A GLANCE: quick-facts table (high-extraction summary for search and AI answers) -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6">
+    <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Suriname at a Glance</p>
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">Suriname travel facts</h2>
+    <p class="text-gray-700 text-sm leading-relaxed mb-5">
+      Suriname is a tropical country on the northeast coast of South America. The capital is Paramaribo, the
+      currency is the Surinamese Dollar (SRD) and the official language is Dutch. Most visitors need a tourist
+      visa or tourist card arranged before arrival. The quick reference below covers the essentials.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <tbody>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Capital</th><td class="py-3 text-gray-700 align-top">Paramaribo</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Currency</th><td class="py-3 text-gray-700 align-top">Surinamese Dollar (SRD). USD and EUR are taken at some hotels and larger shops, but SRD is needed for everyday spending.</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Official language</th><td class="py-3 text-gray-700 align-top">Dutch. Sranan Tongo is the common lingua franca, and English is widely understood in Paramaribo.</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Population</th><td class="py-3 text-gray-700 align-top">About 620,000, most living in and around the capital.</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Time zone</th><td class="py-3 text-gray-700 align-top">Atlantic Standard Time (UTC -3), no daylight saving.</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Calling code</th><td class="py-3 text-gray-700 align-top">+597</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Power</th><td class="py-3 text-gray-700 align-top">European-style plugs (types C and F), 127 V, 60 Hz.</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Visa</th><td class="py-3 text-gray-700 align-top">Most nationalities need a tourist visa or tourist card, arranged through the VFS Global portal before departure.</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Health</th><td class="py-3 text-gray-700 align-top">A yellow fever certificate is required if arriving from a risk country. Malaria precautions are advised for the interior rainforest.</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Best time to visit</th><td class="py-3 text-gray-700 align-top">The drier seasons, roughly February to April and August to November.</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Getting around</th><td class="py-3 text-gray-700 align-top">Registered taxis and local ride-hailing apps (Kura, TaxiSR) in Paramaribo. A licensed guide is needed for interior travel.</td></tr>
+          <tr><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Safety</th><td class="py-3 text-gray-700 align-top">Paramaribo is generally safe with standard precautions. Explore the interior rainforest with a licensed guide.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-gray-400 text-xs mt-4">Sources: Central Bank of Suriname, VFS Global and the Explore Suriname guides. Always confirm visa and health requirements for your nationality before travel.</p>
+  </div>
+
   <!-- VISA + CUSTOMS side by side -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
 
@@ -7001,8 +7031,9 @@ def build_itinerary_page():
             'The five day core below works for any trip; the seven and ten day extensions reach the coast '
             'and the interior. Every stop links to a full page with photos, contact details and maps. '
             'Before you book anything, read ' + _ilink("visitor-guide.html", "The Basics")
-            + ' for visas, SIM cards and money, and check ' + _ilink("is-suriname-safe.html", "our safety guide") + '.</p>'
-            '<h2 class="serif text-2xl font-bold text-gray-900 mb-5">The 5 Day Core</h2>')
+            + ' for visas, SIM cards and money, and check ' + _ilink("is-suriname-safe.html", "our safety guide") + '.</p>')
+    body += '<!-- SURINAME ITINERARY: at-a-glance summary (high-extraction for search and AI answers) --><div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6"><p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">How Long Do You Need</p><h2 class="serif text-xl font-bold text-gray-900 mb-3">5, 7 or 10 days in Suriname</h2><p class="text-gray-700 text-sm leading-relaxed mb-5">Five days covers the capital and easy day trips. Seven days adds the coast or a rainforest overnight. Ten days reaches the deep interior. Compare at a glance, then read the day-by-day plans below.</p><div class="overflow-x-auto"><table class="w-full text-sm"><tbody><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">5 days</th><td class="py-3 text-gray-700 align-top">Paramaribo, the Commewijne plantation loop and a Brownsberg overnight. City and easy day trips, no interior flights needed.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">7 days</th><td class="py-3 text-gray-700 align-top">The five-day core plus two days on the coast: leatherback turtle nesting at Galibi (February to August) or birdwatching at Bigi Pan.</td></tr><tr><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">10 days</th><td class="py-3 text-gray-700 align-top">The deep interior, such as the Central Suriname Nature Reserve, Voltzberg or the Trio village at Palumeu, reached by small plane or long boat.</td></tr></tbody></table></div></div>'
+    body += '<h2 class="serif text-2xl font-bold text-gray-900 mb-5">The 5 Day Core</h2>'
 
     body += day(1, "Paramaribo&#8217;s Historic Centre",
         'Walk the ' + _ilink("listing/nature-paramaribo-historic-inner-city/", "UNESCO World Heritage inner city")
@@ -7087,6 +7118,8 @@ def build_safety_page():
             'calm, low-tourism destination and most trips pass without incident. The realistic risks are petty '
             'theft in busy city areas, road conditions after dark and the usual tropical health planning. '
             'None of them should stop you coming; all of them are manageable with the advice below.</p></div>')
+
+    body += '<!-- IS SURINAME SAFE: at-a-glance summary (high-extraction for search and AI answers) --><div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6"><p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Safety at a Glance</p><h2 class="serif text-xl font-bold text-gray-900 mb-3">Is Suriname safe? Quick summary</h2><p class="text-gray-700 text-sm leading-relaxed mb-5">Yes, with normal precautions. Suriname is one of the quieter parts of South America and most visits are trouble free. The table below summarises the practical points covered on this page.</p><div class="overflow-x-auto"><table class="w-full text-sm"><tbody><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Overall</th><td class="py-3 text-gray-700 align-top">Generally safe. One of the quieter parts of South America, and most visits are trouble free.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Main risk</th><td class="py-3 text-gray-700 align-top">Petty theft (pickpocketing and bag snatching) in busy city spots such as the Central Market and bus stops.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Paramaribo at night</th><td class="py-3 text-gray-700 align-top">Busy hotel and restaurant strips are fine. Use a registered taxi or ride-hailing app rather than walking quiet, unlit streets.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Solo female travellers</th><td class="py-3 text-gray-700 align-top">Many travel without problems. Arrange airport pickup, prefer registered taxis at night and book interior trips with licensed operators.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Driving</th><td class="py-3 text-gray-700 align-top">Suriname drives on the left. Roads outside the city are unlit, so drive long routes such as Albina or Nickerie in daylight.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">The interior</th><td class="py-3 text-gray-700 align-top">Remote rather than dangerous. Phone coverage is patchy, so travel with licensed local operators.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Tap water</th><td class="py-3 text-gray-700 align-top">Generally drinkable in central Paramaribo. Use bottled or purified water elsewhere and in the interior.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Health</th><td class="py-3 text-gray-700 align-top">Yellow fever certificate required if arriving from a risk country. Malaria precautions for deep interior travel. Repellent at dawn and dusk.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Money</th><td class="py-3 text-gray-700 align-top">Cash based. Exchange at licensed cambios or banks, and use ATMs in daylight, preferably inside bank branches.</td></tr><tr><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Emergencies</th><td class="py-3 text-gray-700 align-top">Police 115, Ambulance 113, Fire 110.</td></tr></tbody></table></div></div>'
 
     body += _hub_card("In the City", "Paramaribo by Day and Night",
         '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
@@ -7605,6 +7638,45 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
 def build_robots():
     """Return robots.txt content."""
     return f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n"
+
+
+def build_llms_txt():
+    """Return /llms.txt: a curated, LLM-readable map of the site (llmstxt.org spec).
+    Retrieval crawlers for Claude (Anthropic) and Perplexity consult this file to
+    prioritise which pages to read. Regenerated on every build."""
+    S = SITE_URL
+    n_rest = len(RESTAURANTS); n_hotel = len(HOTELS)
+    n_shop = len(SHOPPING);    n_serv  = len(SERVICES)
+    n_nat  = len(NATURE_SPOTS) + len(SIGHTSEEING); n_act  = len(ACTIVITIES) + len(ADVENTURES_BIZ)
+    return f"""# Explore Suriname
+
+> Independent travel and lifestyle guide to Suriname (South America), written and kept current by people who live there. Covers places to eat, stay and visit, plus live SRD exchange rates, flights, weather and local news. The site is regenerated about every 15 minutes, so rates and schedules stay current.
+
+## Places
+- [Restaurants]({S}/restaurants.html): {n_rest} places to eat across Suriname, spanning Creole, Hindustani, Javanese, Chinese and Maroon cooking.
+- [Hotels and Lodges]({S}/hotels.html): {n_hotel} options, from Paramaribo city hotels to interior jungle lodges reached by boat or small plane.
+- [Nature and Parks]({S}/nature.html): {n_nat} reserves and natural sites, including UNESCO-listed rainforest, Brownsberg, Galibi and Bigi Pan.
+- [Activities]({S}/activities.html): {n_act} tours and things to do, from river trips and birdwatching to Maroon and Indigenous village visits.
+- [Shopping]({S}/shopping.html): {n_shop} shops, malls and markets.
+- [Local Services]({S}/services.html): {n_serv} banks, pharmacies, salons and other everyday services.
+- [Events and Festivals]({S}/events.html): annual festivals, public holidays and one-off events, with dates.
+
+## Travel guides
+- [The Basics]({S}/visitor-guide.html): visas, customs, SIM cards, money, ATMs and getting around for first-time visitors.
+- [Is Suriname Safe?]({S}/is-suriname-safe.html): practical safety guidance for tourists.
+- [Suriname Itinerary]({S}/suriname-itinerary.html): suggested multi-day routes combining Paramaribo and the interior.
+- [On the Road]({S}/on-the-road.html): driving, road rules, rainy-season advice and emergency numbers.
+
+## Live data
+- [SRD Exchange Rates]({S}/currency.html): Surinamese Dollar rates from CBVS (the central bank, official reference) and CME (the cash market). The cash rate is what travellers actually receive at exchange offices in Paramaribo, not the mid-market rate shown by global currency converters.
+- [Flights]({S}/flights.html): arrivals and departures for Johan Adolf Pengel International (PBM) and Eduard Alexander Gummels (EAX) airports.
+- [Weather and Tides]({S}/conditions.html): seven-day district forecasts, river tidal predictions and sunrise and sunset times.
+- [Daily Notices]({S}/daily-notices.html): on-call pharmacies, power and water outage notices, and cinema showtimes.
+
+## About
+- [About this site]({S}/about.html): what Explore Suriname is and who maintains it.
+- [Contact]({S}/contact.html): partnership and listing enquiries.
+"""
 
 
 def build_manifest():
@@ -9046,6 +9118,10 @@ if __name__ == "__main__":
 
     with open("robots.txt", "w", encoding="utf-8") as f:
         f.write(build_robots())
+
+    with open("llms.txt", "w", encoding="utf-8") as f:
+        f.write(build_llms_txt())
+    print("  OK  llms.txt")
 
     # PWA files
     with open("manifest.webmanifest", "w", encoding="utf-8") as f:
