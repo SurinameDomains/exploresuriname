@@ -2771,7 +2771,7 @@ def _filter_bar_html(items, cat_key):
 
     bar_id = f"chipbar-{cat_key}"
     return f"""
-<div class="sticky top-16 z-40 pb-2 mb-6" style="background:rgba(249,250,251,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06)">
+<div class="sticky top-16 z-40 pb-2 mb-6" style="background:rgba(244,236,218,.96);backdrop-filter:blur(8px)">
   <div class="max-w-6xl mx-auto px-5">
     <!-- Subcat chips -->
     <div class="relative flex items-center gap-1 pt-3">
@@ -6662,7 +6662,7 @@ def build_worldcup_page():
         'and Telesur for programming details.</p>')
 
     chips = (
-        '<div class="wc-chips flex gap-2 overflow-x-auto py-2.5 -mx-5 px-5 mb-4" style="background:rgba(249,250,251,.96);backdrop-filter:blur(4px)">'
+        '<div class="wc-chips flex gap-2 overflow-x-auto py-2.5 -mx-5 px-5 mb-4">'
         '<button onclick="wcJump(\'today\')" class="shrink-0 px-4 py-1.5 rounded-full text-xs font-bold text-white" style="background:var(--forest)">Today</button>'
         + "".join(
             f'<button onclick="wcJump(\'{i}\')" class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition">{l}</button>'
