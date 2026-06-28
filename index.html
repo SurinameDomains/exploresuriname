@@ -15,17 +15,36 @@
   @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   </style>
-<link href="/tailwind.css?v=57d2736a" rel="stylesheet"/>
+<link href="/tailwind.css?v=cd2c485e" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
-<meta content="#1B4332" name="theme-color"/>
+<meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
-<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="default" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="ExploreSR" name="apple-mobile-web-app-title"/>
 <style>
-    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#D8F3DC; --coral:#E76F51; }
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#E1F0DD; --coral:#E76F51; --gold:#E7AE4D; --clay:#C77B43; --paper:#FBF5E9; --paper-2:#F4ECDA; --card:#FFFDF6; --ink:#233028; --ink-soft:#5C6657; --line:#EBE0CB; }
     body   { font-family: 'Inter', system-ui, sans-serif; }
     .serif { font-family: 'Playfair Display', Georgia, serif; }
+    /* ===== Warm theme roll-over: homepage redesign palette, applied site-wide ===== */
+    html, body { background: var(--paper); }
+    body { color: var(--ink); }
+    .bg-white   { background-color: var(--card) !important; }
+    .bg-gray-50 { background-color: var(--paper-2) !important; }
+    .bg-gray-100{ background-color: #EFE6D2 !important; }
+    .text-gray-900, .text-gray-800 { color: var(--ink) !important; }
+    .text-gray-700, .text-gray-600 { color: #46524A !important; }
+    .text-gray-500, .text-gray-400 { color: var(--ink-soft) !important; }
+    .border-gray-100 { border-color: var(--line) !important; }
+    .border-gray-200 { border-color: #E2D8C2 !important; }
+    ::selection { background: var(--gold); color: var(--forest); }
+    .ftr-h{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .ftr-col{display:flex;flex-direction:column;gap:11px;font-size:14px}
+    .ftr-lnk{color:#B9C2B2;transition:color .15s}
+    .ftr-lnk:hover{color:#FCF7EC}
+    .ftr-gtk{display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:#94A08F;line-height:1.45}
+    .ftr-lnk2{color:#7E8A79;transition:color .15s}
+    .ftr-lnk2:hover{color:#B9C2B2}
     .hero-bg { background-size:cover; background-position:center; }
     .card-hover { transition: transform .2s, box-shadow .2s; }
     .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
@@ -143,8 +162,7 @@
 <title>Suriname Travel Guide | Restaurants, Hotels, Nature &amp; Tours</title>
 <meta content="Plan your Suriname trip: rainforest lodges, Paramaribo restaurants, local tours, shopping and live SRD exchange rates. Guide to South America's hidden gem." name="description"/>
 <link href="https://exploresuriname.com/" rel="canonical"/>
-<link as="image" fetchpriority="high" href="/images/hero-suriname-river-m.webp" media="(max-width:767px)" rel="preload"/>
-<link as="image" fetchpriority="high" href="/images/hero-suriname-river.webp" media="(min-width:768px)" rel="preload"/>
+<link as="image" fetchpriority="high" href="/images/home-sunset.webp" rel="preload"/>
 <meta content="website" property="og:type"/>
 <meta content="Explore Suriname" property="og:site_name"/>
 <meta content="https://exploresuriname.com/" property="og:url"/>
@@ -211,49 +229,111 @@
   {"@context":"https://schema.org","@type":"WebPage","name":"Explore Suriname | South America's Hidden Gem","url":"https://exploresuriname.com/","dateModified":"2026-06-28","about":{"@type":"Place","name":"Suriname","addressCountry":"SR"},"isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/"}}
   </script>
 <style>
-    #hero{position:relative;min-height:100vh;min-height:100svh;background:#11241b;overflow:hidden}
-    .hz{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease;will-change:opacity}
-    .hz.on{opacity:1}
-    @media (prefers-reduced-motion: no-preference){
-      .hz.on{animation:kburns 10s ease-out forwards}
-    }
-    @keyframes kburns{from{transform:scale(1)}to{transform:scale(1.06)}}
-    .hsub,.hchip{display:none}
-    .hsub.act{display:block;animation:hfade .9s ease both}
-    .hchip.act{display:inline-flex;animation:hfade .9s ease both}
-    @keyframes hfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-    .hchip-box{align-items:center;gap:7px;padding:7px 14px;border-radius:999px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(6px);font-size:.75rem;font-weight:500;color:rgba(255,255,255,.88);white-space:nowrap}
-    .hsearch{display:flex;align-items:center;gap:12px;width:100%;max-width:540px;margin:0 auto 2.5rem;padding:15px 24px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(8px);color:rgba(255,255,255,.85);font-size:.95rem;cursor:pointer;transition:background .2s;text-align:left}
-    .hsearch:hover{background:rgba(255,255,255,.24)}
-    .now-item{display:flex;flex-direction:column;gap:2px;min-width:max-content}
-    .now-k{font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.45);font-weight:600}
-    .now-v{font-weight:600;font-size:.95rem;color:#fff;white-space:nowrap;font-variant-numeric:tabular-nums}
-    .live-dot{width:8px;height:8px;border-radius:50%;background:var(--leaf);animation:lpulse 2s infinite;flex-shrink:0}
-    @keyframes lpulse{0%,100%{opacity:1}50%{opacity:.3}}
-    .now-scroll{scrollbar-width:none}
-    .now-scroll::-webkit-scrollbar{display:none}
-    .jcard{position:relative;border-radius:1.25rem;overflow:hidden;display:block}
-    .jcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
-    .jcard:hover img{transform:scale(1.05)}
-    .jcard .jov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.74) 0%,rgba(0,0,0,.18) 55%,rgba(0,0,0,.02) 100%)}
-    .stat-tile{border-radius:1rem;padding:1.4rem 1.2rem;background:var(--mint)}
-    .now-wrap{display:flex;align-items:center;gap:2.2rem;overflow-x:auto}
-    @media(min-width:768px){.now-wrap{justify-content:center;gap:2.8rem}}
-    .jcard{height:18rem}
-    @media(min-width:768px){.jcard{height:20rem}}
-    .duo{display:grid;gap:2.5rem;align-items:center}
-    @media(min-width:768px){.duo{grid-template-columns:1fr 1fr;gap:4.5rem}}
-    #hz0{background-image:url('/images/hero-suriname-river-m.webp')}
-    @media(min-width:768px){#hz0{background-image:url('/images/hero-suriname-river.webp')}}
+    /* ===== HERO ===== */
+    #hero{position:relative;min-height:92vh;min-height:92svh;display:flex;align-items:flex-end;overflow:hidden;background:#173A2A}
+    #hero .hz{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease-in-out;will-change:opacity}
+    #hero .hz.on{opacity:1}
+    @media (prefers-reduced-motion: no-preference){#hero .hz.on{animation:eskb 24s ease-in-out infinite alternate}}
+    @keyframes eskb{from{transform:scale(1.04)}to{transform:scale(1.16)}}
+    #hz0{background-position:center 42%;background-image:url('/images/home-sunset.webp')}
+    #hz1{background-position:center 55%}
+    #hz2{background-position:center 62%}
+    #hz3{background-position:center 48%}
+    #hz4{background-position:center 42%}
+    .hero-scrim-l{position:absolute;inset:0;background:linear-gradient(102deg,rgba(11,24,17,.68) 0%,rgba(11,24,17,.24) 44%,rgba(11,24,17,0) 70%)}
+    .hero-scrim-b{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,38,27,.18) 0%,rgba(18,38,27,0) 38%,rgba(14,30,21,.55) 73%,rgba(10,22,15,.95) 100%)}
+    .hero-inner{position:relative;max-width:1240px;width:100%;margin:0 auto;padding:0 clamp(20px,5vw,52px) clamp(72px,8vw,104px)}
+    .hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+    .hero-eyebrow .rule{width:30px;height:1.5px;background:var(--gold)}
+    .hero-eyebrow .txt{font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#F2E9D4}
+    .hero-h1{font-weight:500;font-size:clamp(46px,7.4vw,92px);line-height:.98;letter-spacing:-.012em;margin:0;color:#FCF7EC;text-shadow:0 2px 34px rgba(10,22,15,.5)}
+    .hero-h1 .it{font-style:italic;font-weight:600;color:var(--gold)}
+    .hero-lead{font-size:clamp(16px,1.5vw,20px);line-height:1.6;color:#ECE4D2;max-width:33rem;margin:26px 0 0}
+    .hero-search{margin-top:36px;display:flex;align-items:stretch;background:rgba(252,247,236,.97);border-radius:16px;overflow:hidden;max-width:580px;box-shadow:0 22px 52px -18px rgba(7,18,12,.72)}
+    .hero-search input{flex:1;border:0;outline:none;background:transparent;padding:18px 22px;font-family:inherit;font-size:16px;color:#233028;min-width:0}
+    .hero-search button{border:0;background:var(--forest);color:#FCF7EC;padding:0 24px;display:flex;align-items:center;gap:9px;cursor:pointer;font-weight:700;font-size:15px;transition:background .2s}
+    .hero-search button:hover{background:var(--forest2)}
+    .hero-chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px;align-items:center}
+    .hero-chips .lbl{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(252,247,236,.72)}
+    .hero-chips a{font-size:13px;padding:7px 14px;border:1px solid rgba(252,247,236,.38);border-radius:999px;color:#FCF7EC;transition:background .2s}
+    .hero-chips a:hover{background:rgba(252,247,236,.14)}
+    #es-cap{position:absolute;right:clamp(20px,5vw,52px);bottom:clamp(58px,7vw,96px);display:flex;flex-direction:column;align-items:flex-end;gap:13px;z-index:2}
+    .cap-pill{display:flex;align-items:center;gap:9px;background:rgba(10,22,15,.4);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);padding:8px 15px;border-radius:999px}
+    .cap-pill .cd{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+    .cap-pill .t{font-size:12px;letter-spacing:.03em;color:#F2E9D4;white-space:nowrap}
+    .hero-dots{display:flex;gap:7px}
+    .hero-dots span{height:6px;width:7px;border-radius:999px;background:rgba(252,247,236,.45);transition:width .45s ease,background .45s ease;cursor:pointer}
+    .hero-dots span.on{width:26px;background:var(--gold)}
+    @media (max-width:780px){#es-cap{display:none}}
+    .scrollcue{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(252,247,236,.62);z-index:2}
+    .scrollcue .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+    @media (prefers-reduced-motion: no-preference){.scrollcue .ch{animation:esbob 2.2s ease-in-out infinite}}
+    @keyframes esbob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+    /* ===== shared section bits ===== */
+    .sec{padding:clamp(64px,8vw,104px) clamp(20px,5vw,52px)}
+    .wrap{max-width:1240px;margin:0 auto}
+    .eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--clay)}
+    .eyebrow-gold{color:var(--gold)}
+    .dsp{font-family:'Playfair Display',Georgia,serif}
+    /* welcome band */
+    .greet-pill{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 12px;background:#E7F2E7;border-radius:999px;margin-bottom:26px}
+    .greet-pill .gd{width:8px;height:8px;border-radius:50%;background:var(--gold)}
+    .greet-pill .sr{font-style:italic;font-size:15px;color:var(--forest2)}
+    .greet-pill .en{font-size:13px;color:#6E7A6B}
+    .stat-n{font-weight:600;font-size:clamp(40px,5vw,58px);line-height:1;color:var(--forest2)}
+    .stat-n .u{font-size:.45em;color:var(--gold)}
+    .stat-c{font-size:14px;color:#6E7A6B;margin-top:10px;line-height:1.5}
+    /* journeys */
+    .jgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+    .jc{display:block;position:relative;border-radius:22px;overflow:hidden;aspect-ratio:3/4.1;background:var(--forest2);box-shadow:0 18px 40px -26px rgba(27,67,50,.7);transition:transform .3s,box-shadow .3s}
+    .jc:hover{transform:translateY(-6px);box-shadow:0 30px 56px -28px rgba(27,67,50,.8)}
+    .jc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .jc .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,40,28,0) 32%,rgba(18,40,28,.92) 100%)}
+    .jc .jidx{position:absolute;top:18px;left:20px;font-style:italic;font-size:19px;color:rgba(252,247,236,.92)}
+    .jc .meta{position:absolute;left:22px;right:22px;bottom:22px;color:#FCF7EC}
+    .jc .kick{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .jc .ttl{font-size:25px;font-weight:600;line-height:1.04}
+    .jc .jsub{font-size:13.5px;color:#DCE4DA;margin-top:7px;line-height:1.45}
+    /* eat & stay */
+    .esgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+    .es-card{background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 14px 36px -28px rgba(27,67,50,.5)}
+    .es-card .ph{aspect-ratio:16/9;overflow:hidden;background:#DFD7C2}
+    .es-card .ph img{width:100%;height:100%;object-fit:cover;display:block}
+    .es-body{padding:28px 30px 30px}
+    .es-lbl{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--clay);margin-bottom:12px}
+    .es-h{font-weight:500;font-size:clamp(24px,2.8vw,34px);margin:0 0 12px;line-height:1.05;color:var(--forest)}
+    .es-p{font-size:15px;color:#5C6657;margin:0 0 20px;line-height:1.6}
+    .es-chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    .es-chip{font-size:13px;padding:7px 14px;border:1px solid #E4DAC3;border-radius:999px;color:var(--forest2);background:#F6F0E1}
+    .es-all{font-size:14px;font-weight:700;color:var(--forest);margin-left:4px}
+    /* essentials */
+    .essgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:16px}
+    .ess-card{display:block;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 10px 30px -24px rgba(27,67,50,.5);transition:transform .25s,box-shadow .25s}
+    .ess-card:hover{transform:translateY(-4px);box-shadow:0 22px 44px -26px rgba(27,67,50,.55)}
+    .ess-card .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--clay)}
+    .ess-card .t{font-size:18px;font-weight:700;color:var(--forest);margin-top:14px}
+    .ess-card .d{font-size:13.5px;color:#5C6657;margin-top:6px;line-height:1.5}
+    /* dark feature sections */
+    .darksec{position:relative;overflow:hidden}
+    .darksec .dbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5}
+    .lead-head{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;flex-wrap:wrap}
+    .btn-gold{background:var(--gold);color:#20180A;font-weight:700;font-size:14.5px;padding:13px 24px;border-radius:999px;transition:transform .2s;display:inline-block}
+    .btn-gold:hover{transform:translateY(-2px)}
+    .btn-ghost{border:1.5px solid rgba(252,247,236,.5);color:#FCF7EC;font-weight:600;font-size:14.5px;padding:13px 24px;border-radius:999px;transition:background .2s;display:inline-block}
+    .btn-ghost:hover{background:rgba(252,247,236,.12)}
+    /* scroll reveal (safe: visible by default; JS opts in, never gates content) */
+    .rv-on [data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+    .rv-on [data-reveal].rv-in{opacity:1;transform:none}
+    @media (prefers-reduced-motion: reduce){.rv-on [data-reveal]{opacity:1!important;transform:none!important;transition:none!important}}
     </style>
 <link href="https://exploresuriname.com/" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/" hreflang="x-default" rel="alternate"/></head>
-<body class="bg-white overflow-x-hidden">
-<nav class="fixed top-0 w-full z-50" style="background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.06)">
+<body class="overflow-x-hidden" style="background:var(--paper);color:var(--ink)">
+<nav class="fixed top-0 w-full z-50" style="background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14);box-shadow:0 1px 12px rgba(20,42,30,.05)">
 <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
 <a class="flex items-baseline flex-shrink-0" href="index.html">
 <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
 </a>
-<div class="hidden md:flex items-center gap-6"><div class="relative" id="dd-todo" onmouseenter="openDd('dd-todo')" onmouseleave="closeDd('dd-todo')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-todo')">Things to Do<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-todo-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="nature.html">Nature</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="activities.html">Activities</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="events.html">Events &amp; Festivals</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="shopping.html">Shopping</a></div></div><div class="relative" id="dd-eat" onmouseenter="openDd('dd-eat')" onmouseleave="closeDd('dd-eat')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-eat')">Eat &amp; Stay<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-eat-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="restaurants.html">Where to Eat</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="hotels.html">Where to Stay</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="services.html">Local Services</a><div class="relative" id="dd-plan" onmouseenter="openDd('dd-plan')" onmouseleave="closeDd('dd-plan')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-plan')">Visitor Guide<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-plan-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="visitor-guide.html">The Basics</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="on-the-road.html">On the Road</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-itinerary.html">Trip Itineraries</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="is-suriname-safe.html">Is Suriname Safe?</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="seogs-2026.html">SEOGS 2026 Guide</a></div></div><div class="relative" id="dd-ess" onmouseenter="openDd('dd-ess')" onmouseleave="closeDd('dd-ess')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-ess')">Essentials<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-ess-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="currency.html">Market Rates</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="flights.html">Flights</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="conditions.html">Weather &amp; Tides</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="daily-notices.html">Daily Notices</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="crossword.html">Crossword</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="worldcup-2026.html">World Cup 2026</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="news.html">News</a></div>
+<div class="hidden md:flex items-center gap-6"><div class="relative" id="dd-todo" onmouseenter="openDd('dd-todo')" onmouseleave="closeDd('dd-todo')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-todo')">Things to Do<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-todo-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="nature.html">Nature</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="activities.html">Activities</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="events.html">Events &amp; Festivals</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="shopping.html">Shopping</a></div></div><div class="relative" id="dd-eat" onmouseenter="openDd('dd-eat')" onmouseleave="closeDd('dd-eat')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-eat')">Eat &amp; Stay<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-eat-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="restaurants.html">Where to Eat</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="hotels.html">Where to Stay</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="services.html">Local Services</a><div class="relative" id="dd-plan" onmouseenter="openDd('dd-plan')" onmouseleave="closeDd('dd-plan')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-plan')">Visitor Guide<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-plan-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="visitor-guide.html">The Basics</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="on-the-road.html">On the Road</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-itinerary.html">Trip Itineraries</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="is-suriname-safe.html">Is Suriname Safe?</a></div></div><div class="relative" id="dd-ess" onmouseenter="openDd('dd-ess')" onmouseleave="closeDd('dd-ess')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-ess')">Essentials<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-ess-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="currency.html">Market Rates</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="flights.html">Flights</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="conditions.html">Weather &amp; Tides</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="daily-notices.html">Daily Notices</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="crossword.html">Crossword</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="worldcup-2026.html">World Cup 2026</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="news.html">News</a></div>
 <div class="flex items-center gap-2 flex-shrink-0">
 <button class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50 sm:min-w-[120px]" onclick="openSearch()" title="Search listings (press /)">
 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
@@ -266,7 +346,7 @@
 </div>
 </div>
 <div class="hidden md:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto" id="mm"><div data-langswitch-mobile="1" style="display:flex;align-items:center;gap:16px;padding:10px 2px 12px;margin-bottom:4px;border-bottom:1px solid #eee;font-size:15px;font-weight:600"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/" style="color:var(--forest);text-decoration:underline">EN</a><a href="/nl/" style="color:#6b7280;text-decoration:none">NL</a><a href="/es/" style="color:#6b7280;text-decoration:none">ES</a><button aria-label="Install app" id="pwa-nav" onclick="pwaInstall()" style="display:none;margin-left:auto;align-items:center;gap:6px;background:var(--forest);color:#fff;border:0;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0" type="button"><svg fill="none" height="15" stroke="currentColor" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 20h14" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Install</span></button></div>
-<div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-todo')"><span>Things to Do</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-todo"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="nature.html">Nature</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="activities.html">Activities</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="events.html">Events &amp; Festivals</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="shopping.html">Shopping</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-eat')"><span>Eat &amp; Stay</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-eat"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="restaurants.html">Where to Eat</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="hotels.html">Where to Stay</a></div></div><a class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" href="services.html">Local Services</a><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-plan')"><span>Visitor Guide</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-plan"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="visitor-guide.html">The Basics</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="on-the-road.html">On the Road</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="suriname-itinerary.html">Trip Itineraries</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="is-suriname-safe.html">Is Suriname Safe?</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="seogs-2026.html">SEOGS 2026 Guide</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-ess')"><span>Essentials</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-ess"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="currency.html">Market Rates</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="flights.html">Flights</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="conditions.html">Weather &amp; Tides</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="daily-notices.html">Daily Notices</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="crossword.html">Crossword</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="worldcup-2026.html">World Cup 2026</a></div></div><a class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" href="news.html">News</a>
+<div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-todo')"><span>Things to Do</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-todo"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="nature.html">Nature</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="activities.html">Activities</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="events.html">Events &amp; Festivals</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="shopping.html">Shopping</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-eat')"><span>Eat &amp; Stay</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-eat"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="restaurants.html">Where to Eat</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="hotels.html">Where to Stay</a></div></div><a class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" href="services.html">Local Services</a><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-plan')"><span>Visitor Guide</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-plan"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="visitor-guide.html">The Basics</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="on-the-road.html">On the Road</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="suriname-itinerary.html">Trip Itineraries</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="is-suriname-safe.html">Is Suriname Safe?</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-ess')"><span>Essentials</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-ess"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="currency.html">Market Rates</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="flights.html">Flights</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="conditions.html">Weather &amp; Tides</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="daily-notices.html">Daily Notices</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="crossword.html">Crossword</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="worldcup-2026.html">World Cup 2026</a></div></div><a class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" href="news.html">News</a>
 </div>
 </nav>
 <script>
@@ -348,7 +428,7 @@ function toggleMobGroup(id) {
 <button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">✕</button>
 </div>
 <div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
-<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search 740 listings…</p>
+<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search 739 listings…</p>
 </div>
 </div>
 </div>
@@ -389,7 +469,7 @@ function runSearch(q) {
     return;
   }
   const ql = q.toLowerCase();
-  const hits = _SI.filter(x => x.n.toLowerCase().includes(ql)).slice(0, 10);
+  const hits = _SI.filter(x => x.n.toLowerCase().includes(ql) || (x.k && x.k.includes(ql))).slice(0, 10);
   if (!hits.length) { box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">No results for "' + q + '"</p>'; return; }
   const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
   box.innerHTML = hits.map((h, i) => {
@@ -419,809 +499,317 @@ document.addEventListener('keydown', e => {
   }
 });
 </script>
-<section class="flex items-center justify-center" id="hero">
+<!-- ===== HERO ===== -->
+<section id="hero">
 <div class="hz on" id="hz0"></div>
 <div class="hz" id="hz1"></div>
 <div class="hz" id="hz2"></div>
 <div class="hz" id="hz3"></div>
-<div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(0,0,0,.30) 0%,rgba(0,0,0,.45) 55%,rgba(0,0,0,.80) 100%)"></div>
-<div class="relative z-10 text-center text-white px-5 max-w-4xl mx-auto" style="padding-top:6rem;padding-bottom:7rem">
-<p class="text-xs font-semibold tracking-widest uppercase mb-6" style="color:var(--coral)">The Amazon’s Best-Kept Secret</p>
-<h1 class="serif font-black leading-tight mb-5" style="font-size:clamp(2.5rem,8vw,5.5rem)">Explore Suriname</h1>
-<div class="text-lg sm:text-xl font-light leading-relaxed mb-8 max-w-2xl mx-auto text-white/90" style="min-height:3.6rem">
-<p class="hsub act">Where the asphalt ends, the river takes over. Welcome to the real South America.</p>
-<p class="hsub">A capital built of wood, shaped by every culture that ever landed here.</p>
-<p class="hsub">94% untouched rainforest. The greenest country on the planet.</p>
-<p class="hsub">Every sunrise here looks like this. Stay a while.</p>
+<div class="hz" id="hz4"></div>
+<div class="hero-scrim-l"></div>
+<div class="hero-scrim-b"></div>
+<div class="hero-inner">
+<div style="max-width:40rem">
+<div class="hero-eyebrow"><span class="rule"></span><span class="txt">Explore Suriname</span></div>
+<h1 class="dsp hero-h1">Some countries you visit.<br/><span class="it">Ours, you belong to.</span></h1>
+<p class="hero-lead">Ninety-three percent rainforest. A dozen cultures around one table. A welcome so warm you’ll forget you ever knocked. Come in, we saved you a seat.</p>
+<div class="hero-search">
+<input aria-label="Search all listings" autocomplete="off" id="hero-q" onkeydown="if(event.key==='Enter')esSearch()" placeholder="Search 700+ places to eat, stay and explore" type="text"/>
+<button aria-label="Search" onclick="esSearch()" type="button"><svg fill="none" height="17" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg><span>Search</span></button>
 </div>
-<button aria-label="Search restaurants, hotels, tours and places" class="hsearch" onclick="openSearch()" type="button">
-<svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35" stroke-linecap="round"></path></svg>
-<span>Search 700+ restaurants, lodges, tours and places…</span>
-</button>
-<div class="flex flex-col sm:flex-row gap-4 justify-center">
-<a class="px-8 py-4 rounded-full font-semibold text-lg text-white hover:opacity-90 transition shadow-lg" href="#journeys" style="background:var(--forest)">Start Exploring</a>
-<a class="px-8 py-4 rounded-full font-semibold text-lg text-white border-2 hover:bg-white/10 transition" href="#travel-tools" style="border-color:rgba(255,255,255,.6)">Travel Tools</a>
+<div class="hero-chips">
+<span class="lbl">Most visited</span>
+<a href="worldcup-2026.html">World Cup 2026</a>
+<a href="crossword.html">Crossword</a>
+<a href="currency.html">Market rates</a>
+<a href="daily-notices.html">Daily notices</a>
 </div>
 </div>
-<div class="absolute bottom-7 left-5 z-10">
-<span class="hchip act hchip-box"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="10" r="3"></circle></svg>Atjoni, Upper Suriname River</span>
-<span class="hchip hchip-box"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="10" r="3"></circle></svg>Cathedral-Basilica of St. Peter &amp; Paul, Paramaribo</span>
-<span class="hchip hchip-box"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="10" r="3"></circle></svg>The untouched interior, Sipaliwini</span>
-<span class="hchip hchip-box"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="10" r="3"></circle></svg>Suriname River at sunrise, Paramaribo</span>
 </div>
-<div class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-white/50 text-xs">
-<span>Scroll to explore</span>
-<svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+<div id="es-cap">
+<div class="cap-pill"><span class="cd"></span><span class="t" id="es-cap-t">Sunset over the Commewijne</span></div>
+<div class="hero-dots">
+<span aria-label="Slide 1" class="on" onclick="esGo(0)" role="button"></span><span aria-label="Slide 2" onclick="esGo(1)" role="button"></span><span aria-label="Slide 3" onclick="esGo(2)" role="button"></span><span aria-label="Slide 4" onclick="esGo(3)" role="button"></span><span aria-label="Slide 5" onclick="esGo(4)" role="button"></span>
+</div>
+</div>
+<div class="scrollcue"><span class="k">Fa waka · how’s it going</span><span class="ch" style="font-size:18px">⌄</span></div>
+</section>
+<!-- ===== WELCOME BAND ===== -->
+<section class="sec" style="background:var(--paper)">
+<div style="max-width:1000px;margin:0 auto;text-align:center">
+<div class="greet-pill" data-reveal=""><span class="gd"></span><span class="sr dsp" id="greet-sr">Fa waka?</span><span class="en" id="greet-en">· how are you</span></div>
+<h2 class="dsp" data-reveal="" style="font-weight:500;font-size:clamp(30px,4.6vw,58px);line-height:1.06;letter-spacing:-.01em;margin:0 auto;max-width:16em;color:var(--forest)">This isn’t a directory. It’s <span style="font-style:italic;color:var(--clay)">home,</span> written down.</h2>
+<p class="dsp-off" data-reveal="" style="font-size:clamp(16px,1.5vw,19px);line-height:1.7;color:#505C50;max-width:38em;margin:28px auto 0">We’re not a guidebook written from somewhere far away. We live here. We eat at these tables, swim under these waterfalls, and watch the same sun sink into the river every evening. Everything you’ll find is kept by people who call Suriname home, ready for the day you’ll want to call it home too.</p>
+<div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:clamp(20px,3vw,44px);margin-top:clamp(44px,5vw,64px);border-top:1px solid var(--line);padding-top:clamp(36px,4vw,48px)">
+<div><div class="stat-n dsp">93<span class="u">%</span></div><div class="stat-c">rainforest still standing, more than any country on Earth.</div></div>
+<div><div class="stat-n dsp">7<span class="u">+</span></div><div class="stat-c">cultures sharing one table, one street, one set of holidays.</div></div>
+<div><div class="stat-n dsp">28<span class="u">°</span></div><div class="stat-c">and golden, every day of the year. Bring less than you think.</div></div>
+</div>
 </div>
 </section>
-<section class="text-white py-5" id="now-strip" style="background:var(--forest)">
-<h2 class="vh">Suriname right now</h2>
-<div class="max-w-6xl mx-auto px-5 now-wrap now-scroll">
-<div class="flex items-center gap-2" style="min-width:max-content"><span class="live-dot"></span><span class="text-xs font-semibold tracking-widest uppercase text-white/55">Right Now</span></div>
-<div class="now-item"><span class="now-k">Paramaribo</span><span class="now-v" id="now-time">--:--</span></div>
-<a class="now-item" href="conditions.html"><span class="now-k">Weather</span><span class="now-v" id="now-wx">~28°C</span></a>
-<a class="now-item" href="currency.html"><span class="now-k">USD → SRD</span><span class="now-v">37.35</span></a>
-<a class="now-item" href="currency.html"><span class="now-k">EUR → SRD</span><span class="now-v">41.75</span></a>
-<a class="now-item" href="conditions.html"><span class="now-k">Sunset</span><span class="now-v" id="now-sun">--:--</span></a>
-<a class="now-item" href="events.html"><span class="now-k">Next holiday</span><span class="now-v">Freedom Day (Keti Koti) · 1 Jul</span></a>
-</div>
-</section>
-<section class="py-14 md:py-24 bg-white border-b border-gray-100">
-<div class="max-w-6xl mx-auto px-5 duo">
+<!-- ===== JOURNEYS ===== -->
+<section class="sec" id="journeys" style="background:var(--paper-2)">
+<div class="wrap">
+<div class="lead-head" data-reveal="" style="margin-bottom:44px">
 <div>
-<p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Why Explore Suriname</p>
-<h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 mb-5 leading-tight">Not a directory. A love letter.</h2>
-<p class="text-gray-500 text-lg leading-relaxed mb-4">This is a living record of the people and places moving Suriname forward, kept by people who live here, eat here and travel the same roads you will.</p>
-<p class="text-gray-500 text-lg leading-relaxed">We find the details so you can find the experience.</p>
+<div class="eyebrow" style="margin-bottom:14px">Find your Suriname</div>
+<h2 class="dsp" style="font-weight:500;font-size:clamp(32px,4.6vw,60px);line-height:1;margin:0;letter-spacing:-.01em;color:var(--forest)">Which one calls you home?</h2>
 </div>
-<div class="grid grid-cols-2 gap-4">
-<div class="stat-tile"><p class="serif text-3xl font-bold mb-1" style="color:var(--forest)">94%</p><p class="text-gray-600 text-sm leading-relaxed">Rainforest cover, the highest of any country on Earth</p></div>
-<div class="stat-tile"><p class="serif text-3xl font-bold mb-1" style="color:var(--forest)">700+</p><p class="text-gray-600 text-sm leading-relaxed">Bird species recorded across the country</p></div>
-<div class="stat-tile"><p class="serif text-3xl font-bold mb-1" style="color:var(--forest)">3</p><p class="text-gray-600 text-sm leading-relaxed">UNESCO World Heritage Sites, nature and city alike</p></div>
-<div class="stat-tile"><p class="serif text-3xl font-bold mb-1" style="color:var(--forest)">28°C</p><p class="text-gray-600 text-sm leading-relaxed">Tropical warmth, every single day of the year</p></div>
+<p style="font-size:16px;color:#5C6657;max-width:23em;margin:0;line-height:1.6">Four ways in. Take one this trip, and let the rest pull you back. Every door opens onto a different Suriname.</p>
 </div>
-</div>
-</section>
-<section class="py-12 md:py-24" id="journeys" style="background:var(--forest)">
-<div class="max-w-6xl mx-auto px-5">
-<div class="text-center mb-10 md:mb-14">
-<p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--coral)">Choose Your Journey</p>
-<h2 class="serif text-4xl sm:text-5xl font-bold text-white mb-4">Which Suriname calls you?</h2>
-<p class="text-white/60 text-lg max-w-2xl mx-auto leading-relaxed">Four ways in. Pick one, or take them all.</p>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-<a class="jcard card-hover" href="nature.html">
-<img alt="Aerial view of a winding river through untouched rainforest in the Suriname interior" height="900" loading="lazy" sizes="(max-width:767px) 100vw, 50vw" src="/images/hero-rainforest.webp" srcset="/images/hero-rainforest-m.webp 900w, /images/hero-rainforest.webp 1600w" width="1600"/>
-<div class="jov"></div>
-<div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-<p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">30 destinations</p>
-<h3 class="serif text-2xl md:text-3xl font-bold mb-1">The Wild Interior</h3>
-<p class="text-white/80 text-sm leading-relaxed">Reserves, waterfalls and jungle lodges in the greenest country on Earth.</p>
-</div>
+<div class="jgrid">
+<a class="jc" data-reveal="" href="nature.html">
+<img alt="Aerial view of rivers winding through the untouched rainforest interior" height="2187" loading="lazy" sizes="(max-width:767px) 100vw, 25vw" src="/images/hero-rainforest.webp" srcset="/images/hero-rainforest-m.webp 900w, /images/hero-rainforest.webp 1600w" width="1600"/>
+<div class="ov"></div><div class="jidx dsp">01</div>
+<div class="meta"><div class="kick">30 places</div><div class="ttl dsp">The Wild Interior</div><div class="jsub">Reserves, waterfalls, and lodges deep in the green.</div></div>
 </a>
-<a class="jcard card-hover" href="activities.html">
-<img alt="Colorful wooden boats lined up at Atjoni on the Upper Suriname River" height="900" loading="lazy" sizes="(max-width:767px) 100vw, 50vw" src="/images/hero-suriname-river.webp" srcset="/images/hero-suriname-river-m.webp 900w, /images/hero-suriname-river.webp 1600w" width="1600"/>
-<div class="jov"></div>
-<div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-<p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">39 experiences</p>
-<h3 class="serif text-2xl md:text-3xl font-bold mb-1">On the Water</h3>
-<p class="text-white/80 text-sm leading-relaxed">Dugout canoes, turtle beaches, river sunsets and village stays.</p>
-</div>
+<a class="jc" data-reveal="" href="activities.html">
+<img alt="Colorful wooden boats at a river landing on the Upper Suriname River" height="2187" loading="lazy" sizes="(max-width:767px) 100vw, 25vw" src="/images/hero-suriname-river.webp" srcset="/images/hero-suriname-river-m.webp 900w, /images/hero-suriname-river.webp 1600w" width="1600"/>
+<div class="ov"></div><div class="jidx dsp">02</div>
+<div class="meta"><div class="kick">39 experiences</div><div class="ttl dsp">On the Water</div><div class="jsub">Dugout canoes, turtle beaches, mornings on the river.</div></div>
 </a>
-<a class="jcard card-hover" href="restaurants.html">
-<img alt="Fresh produce stalls inside the Central Market of Paramaribo" height="800" loading="lazy" src="/images/home-market.webp" width="1200"/>
-<div class="jov"></div>
-<div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-<p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">168 restaurants</p>
-<h3 class="serif text-2xl md:text-3xl font-bold mb-1">The Flavors</h3>
-<p class="text-white/80 text-sm leading-relaxed">Roti, pom, bami and moksi alesi. Five kitchens, one table.</p>
-</div>
+<a class="jc" data-reveal="" href="restaurants.html">
+<img alt="Fresh produce stalls inside the covered market of Paramaribo" height="2187" loading="lazy" src="/images/home-market.webp" width="1600"/>
+<div class="ov"></div><div class="jidx dsp">03</div>
+<div class="meta"><div class="kick">168 kitchens</div><div class="ttl dsp">The Flavors</div><div class="jsub">Roti, pom, bami. Five kitchens, one happy table.</div></div>
 </a>
-<a class="jcard card-hover" href="hotels.html">
-<img alt="Aerial view of the Cathedral-Basilica and the rooftops of Paramaribo" height="900" loading="lazy" sizes="(max-width:767px) 100vw, 50vw" src="/images/hero-paramaribo.webp" srcset="/images/hero-paramaribo-m.webp 900w, /images/hero-paramaribo.webp 1600w" width="1600"/>
-<div class="jov"></div>
-<div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-<p class="text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">40 hotels &amp; lodges</p>
-<h3 class="serif text-2xl md:text-3xl font-bold mb-1">The Stay</h3>
-<p class="text-white/80 text-sm leading-relaxed">Riverside hotels in the capital, lodges reached only by boat.</p>
-</div>
+<a class="jc" data-reveal="" href="hotels.html">
+<img alt="Aerial view over the rooftops of Paramaribo" height="2187" loading="lazy" sizes="(max-width:767px) 100vw, 25vw" src="/images/hero-paramaribo.webp" srcset="/images/hero-paramaribo-m.webp 900w, /images/hero-paramaribo.webp 1600w" width="1600"/>
+<div class="ov"></div><div class="jidx dsp">04</div>
+<div class="meta"><div class="kick">40 stays</div><div class="ttl dsp">The Stay</div><div class="jsub">Riverside rooms, or a hammock reached only by boat.</div></div>
 </a>
 </div>
 </div>
 </section>
-<section class="py-12 md:py-24 bg-gray-50" id="nature">
-<div class="max-w-6xl mx-auto px-5">
-<div class="text-center mb-10 md:mb-16">
-<p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Natural Wonders</p>
-<h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Suriname’s Wild Side</h2>
-<p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Suriname protects more of its original forest than any other country on earth.</p>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-<a class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col" data-sub="nature-parks" href="listing/nature-central-suriname-nature-reserve/">
-<div class="relative h-56 overflow-hidden">
-<img alt="Central Suriname Nature Reserve in Suriname" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" sizes="(max-width:639px) 92vw, 400px" src="/images/b9fc38b50342a177a233d37e16c952d9.webp" srcset="/images/b9fc38b50342a177a233d37e16c952d9-480.webp 480w, /images/b9fc38b50342a177a233d37e16c952d9.webp 900w" width="400"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4">
-<h3 class="serif text-white font-bold text-lg leading-tight">Central Suriname Nature Reserve</h3>
-<p class="text-white/75 text-xs mt-1">✨ Larger than some entire countries</p>
+<!-- ===== THE TABLE ===== -->
+<section class="darksec" style="background:#142A1E">
+<img alt="A mosque and a synagogue standing side by side on Keizerstraat, Paramaribo" class="dbg" height="800" loading="lazy" src="/images/home-faiths.webp" width="1200"/>
+<div style="position:absolute;inset:0;background:linear-gradient(105deg,rgba(18,38,27,.94) 0%,rgba(18,38,27,.72) 46%,rgba(18,38,27,.30) 100%)"></div>
+<div class="wrap" style="position:relative;padding:clamp(72px,9vw,128px) clamp(20px,5vw,52px)">
+<div data-reveal="" style="max-width:38rem;color:#FCF7EC">
+<div class="eyebrow eyebrow-gold" style="margin-bottom:18px">One people, many worlds</div>
+<h2 class="dsp" style="font-weight:500;font-size:clamp(32px,5vw,64px);line-height:1.02;letter-spacing:-.01em;margin:0 0 22px">Pull up a chair. <span style="font-style:italic;color:var(--gold)">There’s always room.</span></h2>
+<p style="font-size:clamp(16px,1.5vw,19px);line-height:1.72;color:#E2DBCB;margin:0 0 18px">On Keizerstraat, one of the Caribbean’s largest mosques has stood shoulder to shoulder with one of the oldest synagogues in the Americas for nearly a century. Fence to fence, neighbours to the bone.</p>
+<p style="font-size:clamp(16px,1.5vw,19px);line-height:1.72;color:#E2DBCB;margin:0 0 32px">Indigenous, Maroon, Creole, Hindustani, Javanese, Chinese and Dutch: seven worlds that share the same streets, the same holidays, and the same dinner table. Here, “stranger” is just a friend who hasn’t eaten yet.</p>
+<div style="display:flex;gap:13px;flex-wrap:wrap">
+<a class="btn-gold" href="restaurants.html">Taste the mix</a>
+<a class="btn-ghost" href="nature.html">See the heritage</a>
 </div>
 </div>
-<div class="p-5 flex flex-col gap-3 flex-1">
-<p class="text-gray-600 text-sm leading-relaxed flex-1">One of the world's largest intact tropical rainforests. Over 1.6 million hectares of pristine rainforest where jaguars, tapirs and giant river otters roam free.</p>
-<div class="flex flex-wrap gap-1 items-center justify-between">
-<div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">UNESCO</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Rainforest</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Wildlife</span></div>
-<span class="text-xs font-medium" style="color:var(--forest2)">Learn more →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col" data-sub="nature-parks" href="listing/nature-brownsberg-nature-park/">
-<div class="relative h-56 overflow-hidden">
-<img alt="Brownsberg Nature Park in Suriname" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" sizes="(max-width:639px) 92vw, 400px" src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" srcset="/images/9a71ad5bc48a7f17e058f423852488eb-480.webp 480w, /images/9a71ad5bc48a7f17e058f423852488eb.webp 900w" width="400"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4">
-<h3 class="serif text-white font-bold text-lg leading-tight">Brownsberg Nature Park</h3>
-<p class="text-white/75 text-xs mt-1">✨ Howler monkeys, toucans &amp; jaguars</p>
-</div>
-</div>
-<div class="p-5 flex flex-col gap-3 flex-1">
-<p class="text-gray-600 text-sm leading-relaxed flex-1">Perched 500m above the Brokopondo Reservoir, Brownsberg rewards visitors with jaw-dropping views, swimming waterfalls and abundant wildlife just 2 hours from Paramaribo.</p>
-<div class="flex flex-wrap gap-1 items-center justify-between">
-<div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Hiking</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Waterfall</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Views</span></div>
-<span class="text-xs font-medium" style="color:var(--forest2)">Learn more →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col" data-sub="nature-parks" href="listing/nature-galibi-nature-reserve/">
-<div class="relative h-56 overflow-hidden">
-<img alt="Galibi Nature Reserve in Suriname" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" sizes="(max-width:639px) 92vw, 400px" src="/images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp" srcset="/images/ec4fdcef8ebe5328b6972dc3a8b14caf-480.webp 480w, /images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp 900w" width="400"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4">
-<h3 class="serif text-white font-bold text-lg leading-tight">Galibi Nature Reserve</h3>
-<p class="text-white/75 text-xs mt-1">✨ Nesting season: February to July</p>
-</div>
-</div>
-<div class="p-5 flex flex-col gap-3 flex-1">
-<p class="text-gray-600 text-sm leading-relaxed flex-1">On Suriname's Atlantic coast, giant leatherback sea turtles haul ashore to nest in one of nature's most breathtaking spectacles.</p>
-<div class="flex flex-wrap gap-1 items-center justify-between">
-<div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Sea Turtles</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Coastal</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Wildlife</span></div>
-<span class="text-xs font-medium" style="color:var(--forest2)">Learn more →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col" data-sub="nature-parks" href="listing/nature-peperpot-nature-park/">
-<div class="relative h-56 overflow-hidden">
-<img alt="Peperpot Nature Park in Suriname" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" sizes="(max-width:639px) 92vw, 400px" src="/images/d4423cb7cec066ef299021712b2d96d3.webp" srcset="/images/d4423cb7cec066ef299021712b2d96d3-480.webp 480w, /images/d4423cb7cec066ef299021712b2d96d3.webp 900w" width="400"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4">
-<h3 class="serif text-white font-bold text-lg leading-tight">Peperpot Nature Park</h3>
-<p class="text-white/75 text-xs mt-1">✨ 700+ bird species in Suriname</p>
-</div>
-</div>
-<div class="p-5 flex flex-col gap-3 flex-1">
-<p class="text-gray-600 text-sm leading-relaxed flex-1">A former plantation turned bird sanctuary just minutes from the capital. Over 200 bird species recorded.</p>
-<div class="flex flex-wrap gap-1 items-center justify-between">
-<div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Birding</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Easy Access</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Peaceful</span></div>
-<span class="text-xs font-medium" style="color:var(--forest2)">Learn more →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col" data-sub="nature-parks" href="listing/nature-voltzberg-raleighvallen/">
-<div class="relative h-56 overflow-hidden">
-<img alt="Voltzberg &amp; Raleighvallen in Suriname" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" sizes="(max-width:639px) 92vw, 400px" src="/images/7c96c70342ccb03fb73b5cfad71f003a.webp" srcset="/images/7c96c70342ccb03fb73b5cfad71f003a-480.webp 480w, /images/7c96c70342ccb03fb73b5cfad71f003a.webp 900w" width="400"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4">
-<h3 class="serif text-white font-bold text-lg leading-tight">Voltzberg &amp; Raleighvallen</h3>
-<p class="text-white/75 text-xs mt-1">✨ Multi-day jungle trek required</p>
-</div>
-</div>
-<div class="p-5 flex flex-col gap-3 flex-1">
-<p class="text-gray-600 text-sm leading-relaxed flex-1">An iconic granite dome rising above the endless jungle canopy. Accessible only by multi-day expedition. The ultimate reward for the most adventurous travellers.</p>
-<div class="flex flex-wrap gap-1 items-center justify-between">
-<div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Expedition</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Climbing</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Remote</span></div>
-<span class="text-xs font-medium" style="color:var(--forest2)">Learn more →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col" data-sub="nature-parks" href="listing/nature-paramaribo-historic-inner-city/">
-<div class="relative h-56 overflow-hidden">
-<img alt="Paramaribo Historic Inner City in Suriname" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F'" sizes="(max-width:639px) 92vw, 400px" src="/images/d8aefae797694205fb64bfc9bf678e4d.webp" srcset="/images/d8aefae797694205fb64bfc9bf678e4d-480.webp 480w, /images/d8aefae797694205fb64bfc9bf678e4d.webp 900w" width="400"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4">
-<h3 class="serif text-white font-bold text-lg leading-tight">Paramaribo Historic Inner City</h3>
-<p class="text-white/75 text-xs mt-1">✨ 3 UNESCO sites in one country</p>
-</div>
-</div>
-<div class="p-5 flex flex-col gap-3 flex-1">
-<p class="text-gray-600 text-sm leading-relaxed flex-1">The only wooden colonial city in the Americas. Dutch colonial architecture, Hindu temples, mosques and synagogues coexist in remarkable harmony along the Suriname River.</p>
-<div class="flex flex-wrap gap-1 items-center justify-between">
-<div class="flex flex-wrap gap-1"><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">UNESCO</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">History</span><span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">Culture</span></div>
-<span class="text-xs font-medium" style="color:var(--forest2)">Learn more →</span>
-</div>
-</div>
-</a></div>
-<div class="text-center mt-10"><a class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" href="nature.html" style="border-color:var(--forest2);color:var(--forest2)">View all 30 nature spots →</a></div>
 </div>
 </section>
-<section class="py-12 md:py-24 bg-white" id="activities">
-<div class="max-w-6xl mx-auto px-5">
-<div class="text-center mb-10 md:mb-16">
-<p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Out &amp; About</p>
-<h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Things to Do</h2>
-<p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Jungle treks, river tours, city walks, turtle watching and more.</p>
+<!-- ===== EAT & STAY ===== -->
+<section class="sec" style="background:var(--paper)">
+<div class="wrap">
+<div data-reveal="" style="text-align:center;max-width:34em;margin:0 auto clamp(40px,5vw,56px)">
+<div class="eyebrow" style="margin-bottom:14px">Eat &amp; stay like a local</div>
+<h2 class="dsp" style="font-weight:500;font-size:clamp(30px,4.4vw,54px);line-height:1.04;margin:0;letter-spacing:-.01em;color:var(--forest)">Where we’d send our own family.</h2>
+</div>
+<div class="esgrid">
+<div class="es-card" data-reveal="">
+<div class="ph"><img alt="Inside the covered central market in Paramaribo" height="900" loading="lazy" src="/images/home-market.webp" width="1600"/></div>
+<div class="es-body">
+<div class="es-lbl">Where to eat · 168 spots</div>
+<h3 class="dsp es-h">Five kitchens, one table.</h3>
+<p class="es-p">Creole, Hindustani, Javanese, Chinese and Maroon. You taste the whole country before you’ve finished your plate.</p>
+<div class="es-chips"><span class="es-chip">De Gadri</span><span class="es-chip">Baka Foto</span><span class="es-chip">Zus &amp; Zo</span><a class="es-all" href="restaurants.html">View all 168 →</a></div>
+</div>
+</div>
+<div class="es-card" data-reveal="">
+<div class="ph"><img alt="Riverside Paramaribo at golden hour" height="900" loading="lazy" sizes="(max-width:767px) 100vw, 50vw" src="/images/hero-paramaribo.webp" srcset="/images/hero-paramaribo-m.webp 900w, /images/hero-paramaribo.webp 1600w" width="1600"/></div>
+<div class="es-body">
+<div class="es-lbl">Where to stay · 40 spots</div>
+<h3 class="dsp es-h">From riverside rooms to canoe-only lodges.</h3>
+<p class="es-p">A suite on the Suriname River, or a hammock you reach only by boat. Out here, both of them count as home.</p>
+<div class="es-chips"><span class="es-chip">Royal Torarica</span><span class="es-chip">Eco lodges</span><a class="es-all" href="hotels.html">View all 40 →</a></div>
 </div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col" data-sub="tours-expeditions" href="listing/activity-jungle-trekking/">
-<div class="relative h-56 overflow-hidden bg-green-900">
-<img alt="Jungle Trekking in Suriname" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" srcset="/images/9a71ad5bc48a7f17e058f423852488eb-480.webp 480w, /images/9a71ad5bc48a7f17e058f423852488eb.webp 900w" width="400"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-<span class="absolute top-4 left-4 text-2xl">🌿</span>
-</div>
-<div class="p-5 flex flex-col gap-2 flex-1">
-<h3 class="font-bold text-gray-900 text-base group-hover:text-green-800 transition">Jungle Trekking</h3>
-<p class="text-gray-500 text-sm leading-relaxed flex-1">Multi-day guided expeditions through primary rainforest with expert Amerindian guides.</p>
-<span class="text-xs font-semibold mt-1" style="color:var(--forest2)">Find out more →</span>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col" data-sub="tours-expeditions" href="listing/activity-river-canoe-tours/">
-<div class="relative h-56 overflow-hidden bg-green-900">
-<img alt="River Canoe Tours in Suriname" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/09be00574894146899f6a9df02847fc0.webp" srcset="/images/09be00574894146899f6a9df02847fc0-480.webp 480w, /images/09be00574894146899f6a9df02847fc0.webp 900w" width="400"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-<span class="absolute top-4 left-4 text-2xl">🛶</span>
-</div>
-<div class="p-5 flex flex-col gap-2 flex-1">
-<h3 class="font-bold text-gray-900 text-base group-hover:text-green-800 transition">River Canoe Tours</h3>
-<p class="text-gray-500 text-sm leading-relaxed flex-1">Glide through the Amazon basin on traditional dugout canoes, spotting caimans and river dolphins.</p>
-<span class="text-xs font-semibold mt-1" style="color:var(--forest2)">Find out more →</span>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col" data-sub="tours-expeditions" href="listing/activity-bird-watching/">
-<div class="relative h-56 overflow-hidden bg-green-900">
-<img alt="Bird Watching in Suriname" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.style.display='none'" src="images/Birding-in-Suriname.webp" width="400"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-<span class="absolute top-4 left-4 text-2xl">🦜</span>
-</div>
-<div class="p-5 flex flex-col gap-2 flex-1">
-<h3 class="font-bold text-gray-900 text-base group-hover:text-green-800 transition">Bird Watching</h3>
-<p class="text-gray-500 text-sm leading-relaxed flex-1">Suriname is a birder's paradise. Spot 700+ species including scarlet macaws and harpy eagles.</p>
-<span class="text-xs font-semibold mt-1" style="color:var(--forest2)">Find out more →</span>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col" data-sub="tours-expeditions" href="listing/activity-indigenous-village-tours/">
-<div class="relative h-56 overflow-hidden bg-green-900">
-<img alt="Indigenous Village Tours in Suriname" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/600929c23128b12e2c1d04bdb4f6bd0a.webp" srcset="/images/600929c23128b12e2c1d04bdb4f6bd0a-480.webp 480w, /images/600929c23128b12e2c1d04bdb4f6bd0a.webp 900w" width="400"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-<span class="absolute top-4 left-4 text-2xl">🏘️</span>
-</div>
-<div class="p-5 flex flex-col gap-2 flex-1">
-<h3 class="font-bold text-gray-900 text-base group-hover:text-green-800 transition">Indigenous Village Tours</h3>
-<p class="text-gray-500 text-sm leading-relaxed flex-1">Visit Trio and Wayana indigenous communities in the deep interior, preserving ancient traditions.</p>
-<span class="text-xs font-semibold mt-1" style="color:var(--forest2)">Find out more →</span>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col" data-sub="tours-expeditions" href="listing/activity-maroon-village-tours/">
-<div class="relative h-56 overflow-hidden bg-green-900">
-<img alt="Maroon Village Tours in Suriname" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/96c2837c82999c3a834bbdfa12a54710.webp" srcset="/images/96c2837c82999c3a834bbdfa12a54710-480.webp 480w, /images/96c2837c82999c3a834bbdfa12a54710.webp 900w" width="400"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-<span class="absolute top-4 left-4 text-2xl">🥁</span>
-</div>
-<div class="p-5 flex flex-col gap-2 flex-1">
-<h3 class="font-bold text-gray-900 text-base group-hover:text-green-800 transition">Maroon Village Tours</h3>
-<p class="text-gray-500 text-sm leading-relaxed flex-1">Experience the living culture of the Saramacca and Matawai Maroon peoples: music, craft and history.</p>
-<span class="text-xs font-semibold mt-1" style="color:var(--forest2)">Find out more →</span>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col" data-sub="tours-expeditions" href="listing/activity-paramaribo-city-walk/">
-<div class="relative h-56 overflow-hidden bg-green-900">
-<img alt="Paramaribo City Walk in Suriname" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d8aefae797694205fb64bfc9bf678e4d.webp" srcset="/images/d8aefae797694205fb64bfc9bf678e4d-480.webp 480w, /images/d8aefae797694205fb64bfc9bf678e4d.webp 900w" width="400"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-<span class="absolute top-4 left-4 text-2xl">🏙️</span>
-</div>
-<div class="p-5 flex flex-col gap-2 flex-1">
-<h3 class="font-bold text-gray-900 text-base group-hover:text-green-800 transition">Paramaribo City Walk</h3>
-<p class="text-gray-500 text-sm leading-relaxed flex-1">Explore the UNESCO-listed historic inner city on foot. The only wooden colonial city in the Americas.</p>
-<span class="text-xs font-semibold mt-1" style="color:var(--forest2)">Find out more →</span>
-</div>
-</a></div>
-<div class="text-center mt-10"><a class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" href="activities.html" style="border-color:var(--forest2);color:var(--forest2)">View all 39 activities →</a></div>
-</div>
-</section>
-<section class="py-12 md:py-24 bg-white" id="dining">
-<div class="max-w-6xl mx-auto px-5">
-<div class="text-center mb-10 md:mb-16">
-<p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Eat &amp; Drink</p>
-<h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Where to Eat</h2>
-<p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Suriname’s cuisine is as diverse as its people: Creole, Hindustani, Javanese, Chinese and Maroon flavors.</p>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="local-caribbean" href="listing/de-gadri/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="De Gadri in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/6836297062a091e0cfff3518aec7dc48.webp" srcset="/images/6836297062a091e0cfff3518aec7dc48-480.webp 480w, /images/6836297062a091e0cfff3518aec7dc48.webp 900w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">De Gadri</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597 420-688</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="local-caribbean" href="listing/baka-foto-restaurant/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Baka Foto Restaurant, Food in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/01c4151cfedb13db20a20abc28be9dff.webp" srcset="/images/01c4151cfedb13db20a20abc28be9dff-480.webp 480w, /images/01c4151cfedb13db20a20abc28be9dff.webp 900w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Baka Foto Restaurant</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597 471-819</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="asian-fusion" href="listing/goe-thai-noodle-bar/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="GoE Thai Noodle Bar, Food in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4d694a3184c33b7e22a303b366e0b792.webp" srcset="/images/4d694a3184c33b7e22a303b366e0b792-480.webp 480w, /images/4d694a3184c33b7e22a303b366e0b792.webp 700w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">GoE Thai Noodle Bar</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597 714-1214</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="bars-lounges" href="listing/passion-food-and-wines/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Passion Food and Wines, Food in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5e90c717879f13264f45270e9601efa7.webp" srcset="/images/5e90c717879f13264f45270e9601efa7-480.webp 480w, /images/5e90c717879f13264f45270e9601efa7.webp 900w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Passion Food and Wines</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597 840-8613</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="local-caribbean" href="listing/el-patron-latin-grill/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="El Patron Latin Grill, Food in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/aa41fb6804c1dfc30faa1660be3301d4.webp" srcset="/images/aa41fb6804c1dfc30faa1660be3301d4-480.webp 480w, /images/aa41fb6804c1dfc30faa1660be3301d4.webp 900w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">El Patron Latin Grill</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597 495-151</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="cafes-coffee" href="listing/zus-zo-cafe/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Zus &amp; Zo Cafe, Food in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8797b68dc7eb3268625e3d20eef835bc.webp" srcset="/images/8797b68dc7eb3268625e3d20eef835bc-480.webp 480w, /images/8797b68dc7eb3268625e3d20eef835bc.webp 900w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Zus &amp; Zo Cafe</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597 520-904</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a></div>
-<div class="text-center mt-10"><a class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" href="restaurants.html" style="border-color:var(--forest2);color:var(--forest2)">View all 168 restaurants →</a></div>
-</div>
-</section>
-<section class="py-12 md:py-24" id="hotels" style="background:var(--mint)">
-<div class="max-w-6xl mx-auto px-5">
-<div class="text-center mb-10 md:mb-16">
-<p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Where to Stay</p>
-<h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Hotels &amp; Lodges</h2>
-<p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">From 5-star riverside hotels to remote jungle lodges only reachable by canoe.</p>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="city-hotels" href="listing/royal-torarica/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Royal Torarica, Accommodations in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8620d384f93b82969bf15c5b3cbd3af1.webp" srcset="/images/8620d384f93b82969bf15c5b3cbd3af1-480.webp 480w, /images/8620d384f93b82969bf15c5b3cbd3af1.webp 900w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Royal Torarica</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597 473-500</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="city-hotels" href="listing/courtyard-by-marriott/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Courtyard by Marriott, Accommodations in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4dbb88b526794f2394659f96f323209e.webp" srcset="/images/4dbb88b526794f2394659f96f323209e-480.webp 480w, /images/4dbb88b526794f2394659f96f323209e.webp 900w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Courtyard by Marriott</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597 456-000</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="eco-lodges" href="listing/eco-torarica/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Eco Torarica, Accommodations in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fd15a338dc5a1c6dbf69986aa24a1cd5.webp" srcset="/images/fd15a338dc5a1c6dbf69986aa24a1cd5-480.webp 480w, /images/fd15a338dc5a1c6dbf69986aa24a1cd5.webp 900w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Eco Torarica</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597 425-522</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="city-hotels" href="listing/torarica-resort/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Torarica Resort, Accommodations in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f1025ab87358145331e18ffca5705cea.webp" srcset="/images/f1025ab87358145331e18ffca5705cea-480.webp 480w, /images/f1025ab87358145331e18ffca5705cea.webp 900w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Torarica Resort</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597 471-500</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Commewijne" data-sub="nature-parks" href="listing/hotel-peperpot/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Hotel Peperpot, Accommodations in Commewijne" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3b59af42734727bbf1b65ac72eb6d55d.webp" srcset="/images/3b59af42734727bbf1b65ac72eb6d55d-480.webp 480w, /images/3b59af42734727bbf1b65ac72eb6d55d.webp 900w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Hotel Peperpot</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Commewijne</p>
-<span class="text-gray-400 text-xs">Tel: +31 202-152-003</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="city-hotels" href="listing/radisson-hotel/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Radisson Hotel Paramaribo in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7.webp" srcset="/images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7-480.webp 480w, /images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7.webp 900w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Radisson Hotel Paramaribo</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597475050</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a></div>
-<div class="text-center mt-10"><a class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" href="hotels.html" style="border-color:var(--forest2);color:var(--forest2)">View all 40 hotels &amp; lodges →</a></div>
-</div>
-</section>
-<section class="py-12 md:py-24 bg-white" id="shopping">
-<div class="max-w-6xl mx-auto px-5">
-<div class="text-center mb-10 md:mb-16">
-<p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Retail &amp; Souvenirs</p>
-<h2 class="serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Shopping</h2>
-<p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">Malls, craft markets and local boutiques, from handmade souvenirs to everyday essentials.</p>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/international-mall-of-suriname/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="International Mall of Suriname, Shopping And Souvenirs in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1462e2e88e910e4db21b2528fa3dc3a4.webp" srcset="/images/1462e2e88e910e4db21b2528fa3dc3a4-480.webp 480w, /images/1462e2e88e910e4db21b2528fa3dc3a4.webp 900w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">International Mall of Suriname</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597 445-555</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/hermitage-mall/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Hermitage Mall, Shopping And Souvenirs in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e1eb106fe979bb093cb49f070fa20781.webp" srcset="/images/e1eb106fe979bb093cb49f070fa20781-480.webp 480w, /images/e1eb106fe979bb093cb49f070fa20781.webp 900w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Hermitage Mall</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597 463-295</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/readytex-souvenirs-and-crafts/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Readytex Souvenirs and Crafts, Shopping And Souvenirs in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/48e243ebe10dfeef1b2eadd88ffa6d68.webp" srcset="/images/48e243ebe10dfeef1b2eadd88ffa6d68-480.webp 480w, /images/48e243ebe10dfeef1b2eadd88ffa6d68.webp 570w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Readytex Souvenirs and Crafts</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597 893-3060</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="other" href="listing/rogom-farm-nv/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Rogom Farm N.V., Food in Wanica" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/ded4ae583f5c784505c1d35f204c4251.webp" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Rogom Farm N.V.</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Wanica</p>
-<span class="text-gray-400 text-xs">Tel: +597 888-0105</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/kirpalani/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Kirpalani, Shopping And Souvenirs in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7a72892ad4f967c190958c3349bf7c77.webp" srcset="/images/7a72892ad4f967c190958c3349bf7c77-480.webp 480w, /images/7a72892ad4f967c190958c3349bf7c77.webp 900w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Kirpalani</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597 471-400</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/galaxy/">
-<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Galaxy, Shopping And Souvenirs in Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fc616d54eca59fb5444dcf7e26d405ad.webp" srcset="/images/fc616d54eca59fb5444dcf7e26d405ad-480.webp 480w, /images/fc616d54eca59fb5444dcf7e26d405ad.webp 900w" width="400"/></div>
-<div class="p-4 flex flex-col gap-2 flex-1">
-<div>
-<h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Galaxy</h3>
-</div>
-<div class="flex items-center justify-between mt-auto pt-2">
-<p class="text-gray-400 text-xs">Paramaribo</p>
-<span class="text-gray-400 text-xs">Tel: +597 473-580</span>
-<span class="text-xs font-semibold" style="color:var(--forest2)">Visit →</span>
-</div>
-</div>
-</a></div>
-<div class="text-center mt-10"><a class="inline-flex items-center gap-1 px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" href="shopping.html" style="border-color:var(--forest2);color:var(--forest2)">View all 171 shops →</a></div>
-</div>
-</section>
-<section class="py-12 md:py-20 bg-gray-50" id="travel-tools">
-<div class="max-w-6xl mx-auto px-5">
-<div class="text-center mb-10">
-<p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">Plan Your Visit</p>
-<h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 mb-3">Travel Tools</h2>
-<p class="text-gray-500 text-base max-w-xl mx-auto">Exchange rates, flights, weather, road conditions, tides and Suriname news in one place.</p>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-<a class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition" href="currency.html">
-<div class="flex items-start justify-between">
-<div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--mint)">
-<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" style="color:var(--forest2)" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M14.5 9a3.5 2 0 1 0 0 6 3.5 2 0 1 0 0-6"></path><path d="M12 7v2M12 15v2"></path></svg>
-</div>
-<svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-</div>
-<div>
-<p class="font-semibold text-gray-900 mb-1">Market Rates</p>
-<p class="text-gray-500 text-sm leading-relaxed">SRD exchange rates from CME and CBVS, plus live gold spot price in USD and SRD.</p>
-</div>
-</a>
-<a class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition" href="flights.html">
-<div class="flex items-start justify-between">
-<div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--mint)">
-<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" style="color:var(--forest2)" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"></path></svg>
-</div>
-<svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-</div>
-<div>
-<p class="font-semibold text-gray-900 mb-1">Flights</p>
-<p class="text-gray-500 text-sm leading-relaxed">Arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX).</p>
-</div>
-</a>
-<a class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition" href="conditions.html">
-<div class="flex items-start justify-between">
-<div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--mint)">
-<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" style="color:var(--forest2)" viewBox="0 0 24 24"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path><circle cx="12" cy="12" r="4"></circle></svg>
-</div>
-<svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-</div>
-<div>
-<p class="font-semibold text-gray-900 mb-1">Weather &amp; Tides</p>
-<p class="text-gray-500 text-sm leading-relaxed">7-day district forecasts, river tidal predictions and daily sunrise &amp; sunset times.</p>
-</div>
-</a>
-<a class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition" href="news.html">
-<div class="flex items-start justify-between">
-<div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--mint)">
-<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" style="color:var(--forest2)" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"></path></svg>
-</div>
-<svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-</div>
-<div>
-<p class="font-semibold text-gray-900 mb-1">Suriname News</p>
-<p class="text-gray-500 text-sm leading-relaxed">Local news in Dutch, Oil &amp; Gas updates (Staatsolie, Block 58, offshore) and English-language Finance &amp; Economy coverage.</p>
-</div>
-</a>
-<a class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition" href="visitor-guide.html">
-<div class="flex items-start justify-between">
-<div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--mint)">
-<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" style="color:var(--forest2)" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path><rect height="4" rx="1" width="6" x="9" y="3"></rect><path d="M9 12h6M9 16h4"></path></svg>
-</div>
-<svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-</div>
-<div>
-<p class="font-semibold text-gray-900 mb-1">The Basics</p>
-<p class="text-gray-500 text-sm leading-relaxed">Visas, customs, SIM cards, ATMs, taxi apps and mobile payments for first-time visitors.</p>
-</div>
-</a>
-<a class="group flex flex-col gap-5 p-7 rounded-2xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-sm transition" href="on-the-road.html">
-<div class="flex items-start justify-between">
-<div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--mint)">
-<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" style="color:var(--forest2)" viewBox="0 0 24 24"><path d="M3 17l2-8h14l2 8"></path><path d="M3 17h18"></path><circle cx="7.5" cy="17" r="1.5"></circle><circle cx="16.5" cy="17" r="1.5"></circle><path d="M10 9v4M14 9v4"></path></svg>
-</div>
-<svg class="w-4 h-4 text-gray-300 group-hover:text-gray-400 transition mt-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-</div>
-<div>
-<p class="font-semibold text-gray-900 mb-1">On the Road</p>
-<p class="text-gray-500 text-sm leading-relaxed">Live traffic via Waze, road rules, rainy season advisories, emergency numbers and what to do after an accident.</p>
-</div>
-</a>
-</div>
-</div>
-</section>
-<section class="py-12 md:py-24 bg-white">
-<div class="max-w-6xl mx-auto px-5 duo">
-<img alt="The Keizerstraat mosque and the Neveh Shalom synagogue standing side by side in Paramaribo" class="rounded-2xl w-full h-auto shadow-lg" height="800" loading="lazy" src="/images/home-faiths.webp" width="1200"/>
-<div>
-<p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--forest2)">One People, Many Worlds</p>
-<h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 mb-5 leading-tight">A mosque and a synagogue, fence to fence.</h2>
-<p class="text-gray-500 text-lg leading-relaxed mb-4">On Keizerstraat in Paramaribo, one of the Caribbean’s largest mosques has stood beside one of the oldest synagogues in the Americas for nearly a century. That is Suriname in a single frame.</p>
-<p class="text-gray-500 text-lg leading-relaxed mb-7">Indigenous, Maroon, Creole, Hindustani, Javanese, Chinese and Dutch heritage share the same streets, the same holidays and the same dinner tables. You taste it before you understand it.</p>
-<div class="flex flex-wrap gap-3">
-<a class="px-6 py-3 rounded-full text-sm font-semibold text-white hover:opacity-90 transition" href="restaurants.html" style="background:var(--forest)">Taste the mix</a>
-<a class="px-6 py-3 rounded-full text-sm font-semibold border-2 transition hover:opacity-80" href="nature.html" style="border-color:var(--forest2);color:var(--forest2)">See the heritage</a>
 </div>
 </div>
 </div>
 </section>
-<section class="relative py-20 md:py-28 hero-bg" style="background-image:url('/images/home-sunset.webp')">
-<div class="absolute inset-0" style="background:rgba(0,0,0,.45)"></div>
-<div class="relative z-10 max-w-3xl mx-auto px-5 text-center text-white">
-<p class="text-xs font-semibold tracking-widest uppercase mb-4" style="color:var(--coral)">Updated Daily From Paramaribo</p>
-<h2 class="serif text-3xl sm:text-5xl font-bold mb-5 leading-tight">Come back tomorrow. It will be different.</h2>
-<p class="text-white/85 text-lg leading-relaxed mb-9 max-w-xl mx-auto">Rates move, flights land, festivals come around. Bookmark us, install the app or just drop by again. The sunset is always free.</p>
-<div class="flex flex-col sm:flex-row gap-4 justify-center">
-<a class="px-8 py-4 rounded-full font-semibold text-white hover:opacity-90 transition shadow-lg" href="visitor-guide.html" style="background:var(--coral)">Read the Visitor Guide</a>
+<!-- ===== ESSENTIALS ===== -->
+<section class="sec" style="background:var(--paper-2)">
+<div class="wrap">
+<div class="lead-head" data-reveal="" style="margin-bottom:40px">
+<div>
+<div class="eyebrow" style="margin-bottom:14px">Before you go · while you’re here</div>
+<h2 class="dsp" style="font-weight:500;font-size:clamp(32px,4.6vw,58px);line-height:1;margin:0;letter-spacing:-.01em;color:var(--forest)">The everyday stuff, sorted.</h2>
+</div>
+<p style="font-size:16px;color:#5C6657;max-width:25em;margin:0;line-height:1.6">The pages Surinamers keep open: rates, flights, weather and the notices that actually matter. Refreshed every day.</p>
+</div>
+<div class="essgrid">
+<a class="ess-card" data-reveal="" href="currency.html"><div class="k">Money</div><div class="t">Exchange rates</div><div class="d">Today’s SRD against the dollar and the euro, plus the gold price.</div></a>
+<a class="ess-card" data-reveal="" href="conditions.html"><div class="k">Sky</div><div class="t">Weather &amp; tides</div><div class="d">Seven-day forecasts, sunrise, sunset and the river tides.</div></a>
+<a class="ess-card" data-reveal="" href="flights.html"><div class="k">Travel</div><div class="t">Flights</div><div class="d">Live arrivals and departures at both Suriname airports.</div></a>
+<a class="ess-card" data-reveal="" href="daily-notices.html"><div class="k">Heads-up</div><div class="t">Daily notices</div><div class="d">Power and water interruptions, before they catch you out.</div></a>
+<a class="ess-card" data-reveal="" href="news.html"><div class="k">The latest</div><div class="t">Suriname news</div><div class="d">Local headlines and the stories people are actually talking about.</div></a>
+<a class="ess-card" data-reveal="" href="visitor-guide.html"><div class="k">First-timer</div><div class="t">Visitor guide</div><div class="d">Visas, SIM cards, money and getting around, in plain language.</div></a>
 </div>
 </div>
 </section>
-<footer class="text-white py-10" style="background:var(--forest)">
-<div class="max-w-6xl mx-auto px-5">
-<div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-6">
-<div class="col-span-2 md:col-span-1">
-<p class="serif text-2xl font-bold mb-3">Explore<span style="color:var(--coral)">Suriname</span></p>
-<p class="text-white/60 text-sm leading-relaxed">Your guide to Suriname: places to eat, stay, explore, shop and stay informed with local, Oil &amp; Gas and Finance news.</p>
+<!-- ===== CLOSING INVITATION ===== -->
+<section class="darksec" style="background:#173A2A">
+<img alt="The Wijdenbosch Bridge over the Suriname River at golden hour" class="dbg" height="900" loading="lazy" sizes="100vw" src="/images/hero-bridge.webp" srcset="/images/hero-bridge-m.webp 900w, /images/hero-bridge.webp 1600w" width="1600"/>
+<div style="position:absolute;inset:0;background:radial-gradient(120% 120% at 50% 0%,rgba(231,174,77,.18) 0%,rgba(23,58,42,.85) 55%,rgba(20,42,30,.96) 100%)"></div>
+<div class="wrap" data-reveal="" style="position:relative;max-width:900px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,5vw,52px);text-align:center;color:#FCF7EC">
+<div class="eyebrow eyebrow-gold" style="margin-bottom:20px">Updated daily, from Paramaribo</div>
+<h2 class="dsp" style="font-weight:500;font-size:clamp(34px,5.6vw,76px);line-height:1.02;margin:0 auto;max-width:13em;letter-spacing:-.01em">Come back tomorrow. The <span style="font-style:italic;color:var(--gold)">sunset’s</span> still free.</h2>
+<p style="font-size:clamp(16px,1.5vw,19px);color:#E2DBCB;max-width:34em;margin:26px auto 34px;line-height:1.65">Rates move, flights land, festivals come around. Bookmark us, or just drop by again whenever you’re missing the warm. We’ll keep a seat for you.</p>
+<div style="display:flex;gap:13px;justify-content:center;flex-wrap:wrap">
+<a class="btn-gold" href="visitor-guide.html">Read the Visitor Guide</a>
+<a class="btn-ghost" href="nature.html">Keep exploring</a>
+</div>
+<div class="dsp" style="font-style:italic;font-size:17px;color:#CFC8B5;margin-top:40px">With love, from all of us here in Suriname</div>
+</div>
+</section>
+<footer style="background:#142A1E;color:#B9C2B2">
+<div style="max-width:1240px;margin:0 auto;padding:clamp(52px,6vw,72px) clamp(20px,5vw,52px) 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:36px 40px">
+<div style="min-width:200px">
+<div style="margin-bottom:16px"><span class="serif" style="font-weight:800;font-size:21px;color:#FCF7EC">Explore</span><span class="serif" style="font-weight:800;font-size:21px;color:var(--coral)">Suriname</span></div>
+<p style="font-size:14px;line-height:1.6;max-width:24em;margin:0 0 20px;color:#A7B1A2">Your guide to places to eat, stay, explore and love in Suriname, kept by people who live here, for the people who’ll wish they did.</p>
+<div style="display:flex;gap:16px;font-size:12.5px;font-weight:600;letter-spacing:.04em">
+<a class="ftr-lnk" href="https://www.facebook.com/exploresurinamecom" rel="noopener" target="_blank">Facebook</a>
+<a class="ftr-lnk" href="https://www.instagram.com/exploresurinamecom/" rel="noopener" target="_blank">Instagram</a>
+<a class="ftr-lnk" href="https://www.tiktok.com/@exploresuriname.com" rel="noopener" target="_blank">TikTok</a>
+</div>
 </div>
 <div>
-<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Explore</p>
-<ul class="space-y-2 text-sm text-white/70">
-<li><a class="hover:text-white transition" href="nature.html">Nature &amp; Parks</a></li>
-<li><a class="hover:text-white transition" href="activities.html">Activities</a></li>
-<li><a class="hover:text-white transition" href="events.html">Events &amp; Festivals</a></li>
-<li><a class="hover:text-white transition" href="shopping.html">Shopping</a></li>
-<li><a class="hover:text-white transition" href="restaurants.html">Where to Eat</a></li>
-<li><a class="hover:text-white transition" href="hotels.html">Where to Stay</a></li>
-<li><a class="hover:text-white transition" href="services.html">Local Services</a></li>
-</ul>
+<div class="ftr-h">Explore</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="nature.html">Nature &amp; Parks</a>
+<a class="ftr-lnk" href="activities.html">Activities</a>
+<a class="ftr-lnk" href="events.html">Events &amp; Festivals</a>
+<a class="ftr-lnk" href="shopping.html">Shopping</a>
+<a class="ftr-lnk" href="restaurants.html">Where to Eat</a>
+<a class="ftr-lnk" href="hotels.html">Where to Stay</a>
+</div>
 </div>
 <div>
-<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Essentials</p>
-<ul class="space-y-2 text-sm text-white/70">
-<li><a class="hover:text-white transition" href="currency.html">Market Rates</a></li>
-<li><a class="hover:text-white transition" href="flights.html">Flights</a></li>
-<li><a class="hover:text-white transition" href="conditions.html">Weather &amp; Tides</a></li>
-<li><a class="hover:text-white transition" href="daily-notices.html">Daily Notices</a></li>
-<li><a class="hover:text-white transition" href="crossword.html">Crossword</a></li>
-<li><a class="hover:text-white transition" href="worldcup-2026.html">World Cup 2026</a></li>
-<li><a class="hover:text-white transition" href="visitor-guide.html">The Basics</a></li>
-<li><a class="hover:text-white transition" href="on-the-road.html">On the Road</a></li>
-<li><a class="hover:text-white transition" href="suriname-itinerary.html">Trip Itineraries</a></li>
-<li><a class="hover:text-white transition" href="is-suriname-safe.html">Is Suriname Safe?</a></li>
-<li><a class="hover:text-white transition" href="news.html">News</a></li>
-</ul>
+<div class="ftr-h">Plan &amp; Essentials</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="visitor-guide.html">Visitor Guide</a>
+<a class="ftr-lnk" href="on-the-road.html">On the Road</a>
+<a class="ftr-lnk" href="suriname-itinerary.html">Trip Itineraries</a>
+<a class="ftr-lnk" href="is-suriname-safe.html">Is Suriname Safe?</a>
+<a class="ftr-lnk" href="currency.html">Exchange Rates</a>
+<a class="ftr-lnk" href="flights.html">Flights</a>
+<a class="ftr-lnk" href="conditions.html">Weather &amp; Tides</a>
+<a class="ftr-lnk" href="daily-notices.html">Daily Notices</a>
+<a class="ftr-lnk" href="news.html">News</a>
+</div>
 </div>
 <div>
-<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Travel Info</p>
-<ul class="space-y-2 text-sm text-white/70">
-<li>Capital: Paramaribo</li>
-<li>Languages: Dutch, Sranan Tongo + 9 more</li>
-<li>Currency: Surinamese Dollar (SRD)</li>
-<li>Climate: Tropical, ~28°C year-round</li>
-<li>3 UNESCO World Heritage Sites</li>
-</ul>
+<div class="ftr-h">More</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="today.html">Today in Suriname</a>
+<a class="ftr-lnk" href="services.html">Local Services</a>
+<a class="ftr-lnk" href="crossword.html">Crossword</a>
+<a class="ftr-lnk" href="worldcup-2026.html">World Cup 2026</a>
+<a class="ftr-lnk" href="about.html">About Us</a>
+<a class="ftr-lnk" href="contact.html">Contact</a>
+<a class="ftr-lnk" href="privacy.html">Privacy</a>
+</div>
 </div>
 <div>
-<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Contact</p>
-<ul class="space-y-2 text-sm text-white/70">
-<li><a class="hover:text-white transition" href="contact.html">Contact Us</a></li>
-<li><a class="hover:text-white transition" href="about.html">About This Site</a></li>
-<li class="text-white/40 text-xs mt-3">For partnerships, listings<br/>or general enquiries.</li>
-</ul>
+<div class="ftr-h">Good to know</div>
+<div class="ftr-gtk">
+<span>Capital · Paramaribo</span>
+<span>Languages · Dutch, Sranan Tongo +9</span>
+<span>Currency · Surinamese Dollar (SRD)</span>
+<span>Climate · Tropical, ~28°C</span>
 </div>
 </div>
-<div class="border-t border-white/10 pt-8 flex flex-col items-center gap-4">
-<div class="flex gap-3">
-<a class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white transition" href="https://www.facebook.com/exploresurinamecom" rel="noopener" style="background:#1877F2;" target="_blank">
-<svg fill="currentColor" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987H7.898V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.891h-2.33v6.987C18.343 21.128 22 16.991 22 12z"></path></svg>
-          Facebook
-        </a>
-<a class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white transition" href="https://www.instagram.com/exploresurinamecom/" rel="noopener" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);" target="_blank">
-<svg fill="currentColor" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.336 3.608 1.311.975.975 1.249 2.242 1.311 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.633-1.311 3.608-.975.975-2.242 1.249-3.608 1.311-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.336-3.608-1.311-.975-.975-1.249-2.242-1.311-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.336-2.633 1.311-3.608.975-.975 2.242-1.249 3.608-1.311C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.333.014 7.053.072 5.775.13 4.602.402 3.635 1.368 2.668 2.335 2.396 3.508 2.338 4.786 2.28 6.066 2.266 6.474 2.266 12s.014 5.934.072 7.214c.058 1.278.33 2.451 1.297 3.418.967.967 2.14 1.239 3.418 1.297C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.278-.058 2.451-.33 3.418-1.297.967-.967 1.239-2.14 1.297-3.418.058-1.28.072-1.688.072-7.213s-.014-5.934-.072-7.214c-.058-1.278-.33-2.451-1.297-3.418C19.398.402 18.225.13 16.947.072 15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"></path></svg>
-          Instagram
-        </a>
-<a class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white transition" href="https://www.tiktok.com/@exploresuriname.com" rel="noopener" style="background:#010101;" target="_blank">
-<svg fill="currentColor" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.43 3.98-2.11 6.15-1.7.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"></path></svg>
-          TikTok
-        </a>
 </div>
-<p class="text-white/40 text-xs">© 2026 ExploreSuriname.com  ·  <a class="hover:text-white/70 transition" href="privacy.html">Privacy Policy</a>  ·  <a class="hover:text-white/70 transition" href="/images/HOME_CREDITS.txt">Credits</a></p>
+<div style="border-top:1px solid rgba(231,174,77,.18)">
+<div style="max-width:1240px;margin:0 auto;padding:18px clamp(20px,5vw,52px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px;color:#7E8A79">
+<span>© 2026 ExploreSuriname.com</span>
+<span><a class="ftr-lnk2" href="privacy.html">Privacy</a> · <a class="ftr-lnk2" href="/images/HOME_CREDITS.txt">Credits</a></span>
 </div>
 </div>
 </footer>
 <script>
 
 (function(){
-  var _hm=window.matchMedia("(max-width:767px)").matches?"-m":"";
-  var imgs=["/images/hero-paramaribo"+_hm+".webp","/images/hero-rainforest"+_hm+".webp","/images/hero-bridge"+_hm+".webp"];
-  var n=4, idx=0, started=false;
-  function show(i){
-    for(var k=0;k<n;k++){
-      var L=document.getElementById("hz"+k);
-      if(L) L.className=(k===i)?"hz on":"hz";
+  /* ---- scroll reveals: only hide once JS is confirmed present ---- */
+  try{
+    var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var revs = [].slice.call(document.querySelectorAll('[data-reveal]'));
+    if(!rm && 'IntersectionObserver' in window && revs.length){
+      document.documentElement.classList.add('rv-on');
+      var io = new IntersectionObserver(function(en){
+        en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add('rv-in'); io.unobserve(x.target); } });
+      }, {rootMargin:'0px 0px -8% 0px', threshold:0.01});
+      revs.forEach(function(el){ io.observe(el); });
+      setTimeout(function(){ revs.forEach(function(el){ el.classList.add('rv-in'); }); }, 2600);
     }
-    var subs=document.querySelectorAll(".hsub"), chips=document.querySelectorAll(".hchip");
-    for(var k2=0;k2<subs.length;k2++) subs[k2].className=(k2===i)?"hsub act":"hsub";
-    for(var k3=0;k3<chips.length;k3++) chips[k3].className=(k3===i)?"hchip act hchip-box":"hchip hchip-box";
+  }catch(e){ document.documentElement.classList.remove('rv-on'); }
+
+  /* ---- hero cross-fade slideshow ---- */
+  var SLIDES=[
+    {cap:'Sunset over the Commewijne'},
+    {img:'/images/hero-rainforest', cap:'The winding heart of the interior'},
+    {img:'/images/hero-suriname-river', cap:'River life at the landing'},
+    {img:'/images/hero-bridge', cap:'Wijdenbosch Bridge, golden hour'},
+    {img:'/images/hero-paramaribo', cap:'Wooden-city Paramaribo'}
+  ];
+  var N=5, idx=0, timer=null, started=false;
+  var loaded=[true,false,false,false,false];
+  var isM = window.matchMedia('(max-width:767px)').matches;
+  function url(base){ return base + (isM ? '-m' : '') + '.webp'; }
+  function ensure(i){
+    if(loaded[i] || !SLIDES[i].img) return;
+    loaded[i]=true;
+    var L=document.getElementById('hz'+i);
+    var im=new Image();
+    im.onload=function(){ if(L) L.style.backgroundImage="url('"+url(SLIDES[i].img)+"')"; };
+    im.src=url(SLIDES[i].img);
   }
-  function start(){
-    if(started) return; started=true;
-    for(var k=0;k<imgs.length;k++)(function(src,j){
-      var im=new Image();
-      im.onload=function(){var L=document.getElementById("hz"+j); if(L) L.style.backgroundImage="url('"+src+"')";};
-      im.src=src;
-    })(imgs[k],k+1);
-    setInterval(function(){ if(document.hidden) return; idx=(idx+1)%n; show(idx); },6500);
+  function show(i){
+    for(var k=0;k<N;k++){ var L=document.getElementById('hz'+k); if(L) L.className=(k===i)?'hz on':'hz'; }
+    var cap=document.getElementById('es-cap-t'); if(cap) cap.textContent=SLIDES[i].cap;
+    var dots=document.querySelectorAll('.hero-dots span');
+    for(var d=0;d<dots.length;d++) dots[d].className=(d===i)?'on':'';
+    ensure((i+1)%N);
   }
-  if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
-    ["scroll","click","touchstart","keydown"].forEach(function(e){window.addEventListener(e,start,{once:true,passive:true})});
-    if(document.readyState==="complete") setTimeout(start,9000);
-    else window.addEventListener("load",function(){setTimeout(start,9000);});
+  function next(){ if(document.hidden) return; idx=(idx+1)%N; show(idx); }
+  window.esGo=function(i){ idx=i; show(i); if(timer){ clearInterval(timer); timer=setInterval(next,5500); } };
+  function start(){ if(started) return; started=true; ensure(1); timer=setInterval(next,5500); }
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    ['scroll','click','touchstart','keydown'].forEach(function(e){ window.addEventListener(e,start,{once:true,passive:true}); });
+    if(document.readyState==='complete') setTimeout(start,6000);
+    else window.addEventListener('load',function(){ setTimeout(start,6000); });
   }
+
+  /* ---- rotating Sranan greeting ---- */
+  (function(){
+    var G=[['Fa waka?','how are you'],['Switi switi','sweet, sweet'],['Welkom, fren','welcome, friend'],['Bun dey','good day']];
+    var sr=document.getElementById('greet-sr'), en=document.getElementById('greet-en'), i=0;
+    if(!sr||!en) return;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    setInterval(function(){ i=(i+1)%G.length; sr.textContent=G[i][0]; en.innerHTML='&middot; '+G[i][1]; }, 3400);
+  })();
+
+  /* ---- rotating hero search placeholder ---- */
+  (function(){
+    var P=['Search 700+ places to eat, stay and explore','Try "jungle lodges on the river"','Try "where to eat roti in Paramaribo"','Try "turtle nesting season at Galibi"','Try "river tours and canoe trips"'];
+    var el=document.getElementById('hero-q'), i=0;
+    if(!el) return;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    setInterval(function(){ i=(i+1)%P.length; if(document.activeElement!==el) el.setAttribute('placeholder',P[i]); }, 3800);
+  })();
 })();
-(function(){
-  function tick(){
-    try{
-      var t=new Intl.DateTimeFormat("en-GB",{hour:"2-digit",minute:"2-digit",timeZone:"America/Paramaribo"}).format(new Date());
-      var el=document.getElementById("now-time"); if(el) el.textContent=t;
-    }catch(e){}
+/* ---- hero search -> existing global search modal (search-index.json) ---- */
+function esSearch(){
+  var el=document.getElementById('hero-q');
+  var q=el?el.value.trim():'';
+  if(typeof openSearch==='function'){
+    openSearch();
+    if(q){
+      var mi=document.getElementById('search-input');
+      if(mi){ mi.value=q; if(typeof runSearch==='function') runSearch(q); }
+    }
   }
-  tick(); setInterval(tick,30000);
-  var WMO={0:"Clear",1:"Mostly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",48:"Fog",51:"Drizzle",53:"Drizzle",55:"Drizzle",61:"Light rain",63:"Rain",65:"Heavy rain",80:"Showers",81:"Showers",82:"Heavy showers",95:"Thunderstorm",96:"Thunderstorm",99:"Thunderstorm"};
-  fetch("https://api.open-meteo.com/v1/forecast?latitude=5.852&longitude=-55.203&current=temperature_2m,weather_code&daily=sunset&timezone=America%2FParamaribo&forecast_days=1")
-    .then(function(r){return r.json();})
-    .then(function(d){
-      var w=document.getElementById("now-wx");
-      if(w&&d.current) w.textContent=Math.round(d.current.temperature_2m)+"°C "+(WMO[d.current.weather_code]||"");
-      var s=document.getElementById("now-sun");
-      if(s&&d.daily&&d.daily.sunset&&d.daily.sunset[0]) s.textContent=d.daily.sunset[0].slice(11,16);
-    }).catch(function(){});
-})();
+}
 
 </script>
 </body>

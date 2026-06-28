@@ -15,17 +15,36 @@
   @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   </style>
-<link href="/tailwind.css?v=57d2736a" rel="stylesheet"/>
+<link href="/tailwind.css?v=cd2c485e" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
-<meta content="#1B4332" name="theme-color"/>
+<meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
-<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="default" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="ExploreSR" name="apple-mobile-web-app-title"/>
 <style>
-    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#D8F3DC; --coral:#E76F51; }
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#E1F0DD; --coral:#E76F51; --gold:#E7AE4D; --clay:#C77B43; --paper:#FBF5E9; --paper-2:#F4ECDA; --card:#FFFDF6; --ink:#233028; --ink-soft:#5C6657; --line:#EBE0CB; }
     body   { font-family: 'Inter', system-ui, sans-serif; }
     .serif { font-family: 'Playfair Display', Georgia, serif; }
+    /* ===== Warm theme roll-over: homepage redesign palette, applied site-wide ===== */
+    html, body { background: var(--paper); }
+    body { color: var(--ink); }
+    .bg-white   { background-color: var(--card) !important; }
+    .bg-gray-50 { background-color: var(--paper-2) !important; }
+    .bg-gray-100{ background-color: #EFE6D2 !important; }
+    .text-gray-900, .text-gray-800 { color: var(--ink) !important; }
+    .text-gray-700, .text-gray-600 { color: #46524A !important; }
+    .text-gray-500, .text-gray-400 { color: var(--ink-soft) !important; }
+    .border-gray-100 { border-color: var(--line) !important; }
+    .border-gray-200 { border-color: #E2D8C2 !important; }
+    ::selection { background: var(--gold); color: var(--forest); }
+    .ftr-h{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .ftr-col{display:flex;flex-direction:column;gap:11px;font-size:14px}
+    .ftr-lnk{color:#B9C2B2;transition:color .15s}
+    .ftr-lnk:hover{color:#FCF7EC}
+    .ftr-gtk{display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:#94A08F;line-height:1.45}
+    .ftr-lnk2{color:#7E8A79;transition:color .15s}
+    .ftr-lnk2:hover{color:#B9C2B2}
     .hero-bg { background-size:cover; background-position:center; }
     .card-hover { transition: transform .2s, box-shadow .2s; }
     .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
@@ -161,12 +180,12 @@
   </script>
 <link href="https://exploresuriname.com/listing/joey-ds/" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/listing/joey-ds/" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/listing/joey-ds/" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/listing/joey-ds/" hreflang="x-default" rel="alternate"/></head>
 <body class="bg-gray-50 overflow-x-hidden">
-<nav class="fixed top-0 w-full z-50" style="background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06);box-shadow:0 1px 12px rgba(0,0,0,.06)">
+<nav class="fixed top-0 w-full z-50" style="background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14);box-shadow:0 1px 12px rgba(20,42,30,.05)">
 <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
 <a class="flex items-baseline flex-shrink-0" href="../../index.html">
 <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
 </a>
-<div class="hidden md:flex items-center gap-6"><div class="relative" id="dd-todo" onmouseenter="openDd('dd-todo')" onmouseleave="closeDd('dd-todo')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-todo')">Things to Do<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-todo-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../nature.html">Nature</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../activities.html">Activities</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../events.html">Events &amp; Festivals</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../shopping.html">Shopping</a></div></div><div class="relative" id="dd-eat" onmouseenter="openDd('dd-eat')" onmouseleave="closeDd('dd-eat')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-eat')">Eat &amp; Stay<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-eat-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../restaurants.html">Where to Eat</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../hotels.html">Where to Stay</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="../../services.html">Local Services</a><div class="relative" id="dd-plan" onmouseenter="openDd('dd-plan')" onmouseleave="closeDd('dd-plan')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-plan')">Visitor Guide<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-plan-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../visitor-guide.html">The Basics</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../on-the-road.html">On the Road</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../suriname-itinerary.html">Trip Itineraries</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../is-suriname-safe.html">Is Suriname Safe?</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../seogs-2026.html">SEOGS 2026 Guide</a></div></div><div class="relative" id="dd-ess" onmouseenter="openDd('dd-ess')" onmouseleave="closeDd('dd-ess')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-ess')">Essentials<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-ess-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../currency.html">Market Rates</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../flights.html">Flights</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../conditions.html">Weather &amp; Tides</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../daily-notices.html">Daily Notices</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../crossword.html">Crossword</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../worldcup-2026.html">World Cup 2026</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="../../news.html">News</a></div>
+<div class="hidden md:flex items-center gap-6"><div class="relative" id="dd-todo" onmouseenter="openDd('dd-todo')" onmouseleave="closeDd('dd-todo')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-todo')">Things to Do<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-todo-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../nature.html">Nature</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../activities.html">Activities</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../events.html">Events &amp; Festivals</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../shopping.html">Shopping</a></div></div><div class="relative" id="dd-eat" onmouseenter="openDd('dd-eat')" onmouseleave="closeDd('dd-eat')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-eat')">Eat &amp; Stay<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-eat-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../restaurants.html">Where to Eat</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../hotels.html">Where to Stay</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="../../services.html">Local Services</a><div class="relative" id="dd-plan" onmouseenter="openDd('dd-plan')" onmouseleave="closeDd('dd-plan')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-plan')">Visitor Guide<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-plan-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../visitor-guide.html">The Basics</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../on-the-road.html">On the Road</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../suriname-itinerary.html">Trip Itineraries</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../is-suriname-safe.html">Is Suriname Safe?</a></div></div><div class="relative" id="dd-ess" onmouseenter="openDd('dd-ess')" onmouseleave="closeDd('dd-ess')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-ess')">Essentials<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-ess-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../currency.html">Market Rates</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../flights.html">Flights</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../conditions.html">Weather &amp; Tides</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../daily-notices.html">Daily Notices</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../crossword.html">Crossword</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../worldcup-2026.html">World Cup 2026</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="../../news.html">News</a></div>
 <div class="flex items-center gap-2 flex-shrink-0">
 <button class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50 sm:min-w-[120px]" onclick="openSearch()" title="Search listings (press /)">
 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
@@ -179,7 +198,7 @@
 </div>
 </div>
 <div class="hidden md:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto" id="mm"><div data-langswitch-mobile="1" style="display:flex;align-items:center;gap:16px;padding:10px 2px 12px;margin-bottom:4px;border-bottom:1px solid #eee;font-size:15px;font-weight:600"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/listing/joey-ds/" style="color:var(--forest);text-decoration:underline">EN</a><a href="/nl/listing/joey-ds/" style="color:#6b7280;text-decoration:none">NL</a><a href="/es/listing/joey-ds/" style="color:#6b7280;text-decoration:none">ES</a><button aria-label="Install app" id="pwa-nav" onclick="pwaInstall()" style="display:none;margin-left:auto;align-items:center;gap:6px;background:var(--forest);color:#fff;border:0;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0" type="button"><svg fill="none" height="15" stroke="currentColor" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 20h14" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Install</span></button></div>
-<div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-todo')"><span>Things to Do</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-todo"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../nature.html">Nature</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../activities.html">Activities</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../events.html">Events &amp; Festivals</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../shopping.html">Shopping</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-eat')"><span>Eat &amp; Stay</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-eat"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../restaurants.html">Where to Eat</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../hotels.html">Where to Stay</a></div></div><a class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" href="../../services.html">Local Services</a><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-plan')"><span>Visitor Guide</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-plan"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../visitor-guide.html">The Basics</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../on-the-road.html">On the Road</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../suriname-itinerary.html">Trip Itineraries</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../is-suriname-safe.html">Is Suriname Safe?</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../seogs-2026.html">SEOGS 2026 Guide</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-ess')"><span>Essentials</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-ess"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../currency.html">Market Rates</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../flights.html">Flights</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../conditions.html">Weather &amp; Tides</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../daily-notices.html">Daily Notices</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../crossword.html">Crossword</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../worldcup-2026.html">World Cup 2026</a></div></div><a class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" href="../../news.html">News</a>
+<div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-todo')"><span>Things to Do</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-todo"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../nature.html">Nature</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../activities.html">Activities</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../events.html">Events &amp; Festivals</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../shopping.html">Shopping</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-eat')"><span>Eat &amp; Stay</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-eat"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../restaurants.html">Where to Eat</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../hotels.html">Where to Stay</a></div></div><a class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" href="../../services.html">Local Services</a><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-plan')"><span>Visitor Guide</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-plan"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../visitor-guide.html">The Basics</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../on-the-road.html">On the Road</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../suriname-itinerary.html">Trip Itineraries</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../is-suriname-safe.html">Is Suriname Safe?</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-ess')"><span>Essentials</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-ess"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../currency.html">Market Rates</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../flights.html">Flights</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../conditions.html">Weather &amp; Tides</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../daily-notices.html">Daily Notices</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../crossword.html">Crossword</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../worldcup-2026.html">World Cup 2026</a></div></div><a class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" href="../../news.html">News</a>
 </div>
 </nav>
 <script>
@@ -261,7 +280,7 @@ function toggleMobGroup(id) {
 <button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">✕</button>
 </div>
 <div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
-<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search 740 listings…</p>
+<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search 739 listings…</p>
 </div>
 </div>
 </div>
@@ -302,7 +321,7 @@ function runSearch(q) {
     return;
   }
   const ql = q.toLowerCase();
-  const hits = _SI.filter(x => x.n.toLowerCase().includes(ql)).slice(0, 10);
+  const hits = _SI.filter(x => x.n.toLowerCase().includes(ql) || (x.k && x.k.includes(ql))).slice(0, 10);
   if (!hits.length) { box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">No results for "' + q + '"</p>'; return; }
   const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
   box.innerHTML = hits.map((h, i) => {
@@ -378,76 +397,68 @@ document.addEventListener('keydown', e => {
 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4"><a class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4" href="../../listing/a-la-john/"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img alt="A La John, Paramaribo" class="w-full h-full object-cover" height="128" loading="lazy" src="/images/3db790dce63a2e6f05bc8b01572b4bdb.webp" width="400"/></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">A La John</h3><p class="text-xs text-gray-400">Paramaribo</p></a><a class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4" href="../../listing/baka-foto-restaurant/"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img alt="Baka Foto Restaurant, Paramaribo" class="w-full h-full object-cover" height="128" loading="lazy" src="/images/01c4151cfedb13db20a20abc28be9dff.webp" width="400"/></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Baka Foto Restaurant</h3><p class="text-xs text-gray-400">Paramaribo</p></a><a class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4" href="../../listing/big-tex/"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img alt="Big Tex, Paramaribo" class="w-full h-full object-cover" height="128" loading="lazy" src="/images/d8bb7a81643ef80810c445b82db10cb9.webp" width="400"/></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Big Tex</h3><p class="text-xs text-gray-400">Paramaribo</p></a><a class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4" href="../../listing/bori-tori/"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img alt="Bori Tori, Paramaribo" class="w-full h-full object-cover" height="128" loading="lazy" src="/images/42834addf00c665ef46e53761f0b16f5.webp" width="400"/></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Bori Tori</h3><p class="text-xs text-gray-400">Paramaribo</p></a>
 </div>
 </section>
-<footer class="text-white py-10" style="background:var(--forest)">
-<div class="max-w-6xl mx-auto px-5">
-<div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-6">
-<div class="col-span-2 md:col-span-1">
-<p class="serif text-2xl font-bold mb-3">Explore<span style="color:var(--coral)">Suriname</span></p>
-<p class="text-white/60 text-sm leading-relaxed">Your guide to Suriname: places to eat, stay, explore, shop and stay informed with local, Oil &amp; Gas and Finance news.</p>
+<footer style="background:#142A1E;color:#B9C2B2">
+<div style="max-width:1240px;margin:0 auto;padding:clamp(52px,6vw,72px) clamp(20px,5vw,52px) 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:36px 40px">
+<div style="min-width:200px">
+<div style="margin-bottom:16px"><span class="serif" style="font-weight:800;font-size:21px;color:#FCF7EC">Explore</span><span class="serif" style="font-weight:800;font-size:21px;color:var(--coral)">Suriname</span></div>
+<p style="font-size:14px;line-height:1.6;max-width:24em;margin:0 0 20px;color:#A7B1A2">Your guide to places to eat, stay, explore and love in Suriname, kept by people who live here, for the people who’ll wish they did.</p>
+<div style="display:flex;gap:16px;font-size:12.5px;font-weight:600;letter-spacing:.04em">
+<a class="ftr-lnk" href="https://www.facebook.com/exploresurinamecom" rel="noopener" target="_blank">Facebook</a>
+<a class="ftr-lnk" href="https://www.instagram.com/exploresurinamecom/" rel="noopener" target="_blank">Instagram</a>
+<a class="ftr-lnk" href="https://www.tiktok.com/@exploresuriname.com" rel="noopener" target="_blank">TikTok</a>
+</div>
 </div>
 <div>
-<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Explore</p>
-<ul class="space-y-2 text-sm text-white/70">
-<li><a class="hover:text-white transition" href="../../nature.html">Nature &amp; Parks</a></li>
-<li><a class="hover:text-white transition" href="../../activities.html">Activities</a></li>
-<li><a class="hover:text-white transition" href="../../events.html">Events &amp; Festivals</a></li>
-<li><a class="hover:text-white transition" href="../../shopping.html">Shopping</a></li>
-<li><a class="hover:text-white transition" href="../../restaurants.html">Where to Eat</a></li>
-<li><a class="hover:text-white transition" href="../../hotels.html">Where to Stay</a></li>
-<li><a class="hover:text-white transition" href="../../services.html">Local Services</a></li>
-</ul>
+<div class="ftr-h">Explore</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="../../nature.html">Nature &amp; Parks</a>
+<a class="ftr-lnk" href="../../activities.html">Activities</a>
+<a class="ftr-lnk" href="../../events.html">Events &amp; Festivals</a>
+<a class="ftr-lnk" href="../../shopping.html">Shopping</a>
+<a class="ftr-lnk" href="../../restaurants.html">Where to Eat</a>
+<a class="ftr-lnk" href="../../hotels.html">Where to Stay</a>
+</div>
 </div>
 <div>
-<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Essentials</p>
-<ul class="space-y-2 text-sm text-white/70">
-<li><a class="hover:text-white transition" href="../../currency.html">Market Rates</a></li>
-<li><a class="hover:text-white transition" href="../../flights.html">Flights</a></li>
-<li><a class="hover:text-white transition" href="../../conditions.html">Weather &amp; Tides</a></li>
-<li><a class="hover:text-white transition" href="../../daily-notices.html">Daily Notices</a></li>
-<li><a class="hover:text-white transition" href="../../crossword.html">Crossword</a></li>
-<li><a class="hover:text-white transition" href="../../worldcup-2026.html">World Cup 2026</a></li>
-<li><a class="hover:text-white transition" href="../../visitor-guide.html">The Basics</a></li>
-<li><a class="hover:text-white transition" href="../../on-the-road.html">On the Road</a></li>
-<li><a class="hover:text-white transition" href="../../suriname-itinerary.html">Trip Itineraries</a></li>
-<li><a class="hover:text-white transition" href="../../is-suriname-safe.html">Is Suriname Safe?</a></li>
-<li><a class="hover:text-white transition" href="../../news.html">News</a></li>
-</ul>
+<div class="ftr-h">Plan &amp; Essentials</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="../../visitor-guide.html">Visitor Guide</a>
+<a class="ftr-lnk" href="../../on-the-road.html">On the Road</a>
+<a class="ftr-lnk" href="../../suriname-itinerary.html">Trip Itineraries</a>
+<a class="ftr-lnk" href="../../is-suriname-safe.html">Is Suriname Safe?</a>
+<a class="ftr-lnk" href="../../currency.html">Exchange Rates</a>
+<a class="ftr-lnk" href="../../flights.html">Flights</a>
+<a class="ftr-lnk" href="../../conditions.html">Weather &amp; Tides</a>
+<a class="ftr-lnk" href="../../daily-notices.html">Daily Notices</a>
+<a class="ftr-lnk" href="../../news.html">News</a>
+</div>
 </div>
 <div>
-<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Travel Info</p>
-<ul class="space-y-2 text-sm text-white/70">
-<li>Capital: Paramaribo</li>
-<li>Languages: Dutch, Sranan Tongo + 9 more</li>
-<li>Currency: Surinamese Dollar (SRD)</li>
-<li>Climate: Tropical, ~28°C year-round</li>
-<li>3 UNESCO World Heritage Sites</li>
-</ul>
+<div class="ftr-h">More</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="../../today.html">Today in Suriname</a>
+<a class="ftr-lnk" href="../../services.html">Local Services</a>
+<a class="ftr-lnk" href="../../crossword.html">Crossword</a>
+<a class="ftr-lnk" href="../../worldcup-2026.html">World Cup 2026</a>
+<a class="ftr-lnk" href="../../about.html">About Us</a>
+<a class="ftr-lnk" href="../../contact.html">Contact</a>
+<a class="ftr-lnk" href="../../privacy.html">Privacy</a>
+</div>
 </div>
 <div>
-<p class="text-white/45 text-xs uppercase tracking-widest font-semibold mb-4">Contact</p>
-<ul class="space-y-2 text-sm text-white/70">
-<li><a class="hover:text-white transition" href="../../contact.html">Contact Us</a></li>
-<li><a class="hover:text-white transition" href="../../about.html">About This Site</a></li>
-<li class="text-white/40 text-xs mt-3">For partnerships, listings<br/>or general enquiries.</li>
-</ul>
+<div class="ftr-h">Good to know</div>
+<div class="ftr-gtk">
+<span>Capital · Paramaribo</span>
+<span>Languages · Dutch, Sranan Tongo +9</span>
+<span>Currency · Surinamese Dollar (SRD)</span>
+<span>Climate · Tropical, ~28°C</span>
 </div>
 </div>
-<div class="border-t border-white/10 pt-8 flex flex-col items-center gap-4">
-<div class="flex gap-3">
-<a class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white transition" href="https://www.facebook.com/exploresurinamecom" rel="noopener" style="background:#1877F2;" target="_blank">
-<svg fill="currentColor" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987H7.898V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.891h-2.33v6.987C18.343 21.128 22 16.991 22 12z"></path></svg>
-          Facebook
-        </a>
-<a class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white transition" href="https://www.instagram.com/exploresurinamecom/" rel="noopener" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);" target="_blank">
-<svg fill="currentColor" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.336 3.608 1.311.975.975 1.249 2.242 1.311 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.633-1.311 3.608-.975.975-2.242 1.249-3.608 1.311-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.336-3.608-1.311-.975-.975-1.249-2.242-1.311-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.336-2.633 1.311-3.608.975-.975 2.242-1.249 3.608-1.311C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.333.014 7.053.072 5.775.13 4.602.402 3.635 1.368 2.668 2.335 2.396 3.508 2.338 4.786 2.28 6.066 2.266 6.474 2.266 12s.014 5.934.072 7.214c.058 1.278.33 2.451 1.297 3.418.967.967 2.14 1.239 3.418 1.297C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.278-.058 2.451-.33 3.418-1.297.967-.967 1.239-2.14 1.297-3.418.058-1.28.072-1.688.072-7.213s-.014-5.934-.072-7.214c-.058-1.278-.33-2.451-1.297-3.418C19.398.402 18.225.13 16.947.072 15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"></path></svg>
-          Instagram
-        </a>
-<a class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white transition" href="https://www.tiktok.com/@exploresuriname.com" rel="noopener" style="background:#010101;" target="_blank">
-<svg fill="currentColor" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.43 3.98-2.11 6.15-1.7.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"></path></svg>
-          TikTok
-        </a>
 </div>
-<p class="text-white/40 text-xs">© 2026 ExploreSuriname.com  ·  <a class="hover:text-white/70 transition" href="../../privacy.html">Privacy Policy</a>  ·  <a class="hover:text-white/70 transition" href="/images/HOME_CREDITS.txt">Credits</a></p>
+<div style="border-top:1px solid rgba(231,174,77,.18)">
+<div style="max-width:1240px;margin:0 auto;padding:18px clamp(20px,5vw,52px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px;color:#7E8A79">
+<span>© 2026 ExploreSuriname.com</span>
+<span><a class="ftr-lnk2" href="../../privacy.html">Privacy</a> · <a class="ftr-lnk2" href="/images/HOME_CREDITS.txt">Credits</a></span>
 </div>
 </div>
 </footer>
