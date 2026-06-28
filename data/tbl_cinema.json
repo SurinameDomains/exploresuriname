@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-06-27T16:00:28.606979+00:00",
+  "last_updated": "2026-06-28T10:00:26.192365+00:00",
   "date_label": "Today",
   "showings": [
     {
@@ -8,9 +8,9 @@
       "url": "https://www.tblcinemas.com/movie/TO14271/toy-story-5"
     },
     {
-      "time": "02:30 PM",
-      "title": "Masters of the Universe",
-      "url": "https://www.tblcinemas.com/movie/MA16633/masters-of-the-universe"
+      "time": "02:45 PM",
+      "title": "The Sheep Detectives",
+      "url": "https://www.tblcinemas.com/movie/SH15037/the-sheep-detectives"
     },
     {
       "time": "03:00 PM",
@@ -23,9 +23,9 @@
       "url": "https://www.tblcinemas.com/movie/SU14271/supergirl"
     },
     {
-      "time": "04:00 PM",
-      "title": "Michael",
-      "url": "https://www.tblcinemas.com/movie/MI17314/michael"
+      "time": "04:15 PM",
+      "title": "Obsession",
+      "url": "https://www.tblcinemas.com/movie/OB12184/obsession"
     },
     {
       "time": "05:00 PM",
@@ -39,8 +39,8 @@
     },
     {
       "time": "06:15 PM",
-      "title": "Jackass: Best and Last",
-      "url": "https://www.tblcinemas.com/movie/JA31463/jackass-best-and-last"
+      "title": "Backrooms",
+      "url": "https://www.tblcinemas.com/movie/BA32133/backrooms"
     },
     {
       "time": "06:45 PM",
@@ -49,8 +49,8 @@
     },
     {
       "time": "07:15 PM",
-      "title": "Supergirl",
-      "url": "https://www.tblcinemas.com/movie/SU22592/supergirl"
+      "title": "Jackass: Best and Last",
+      "url": "https://www.tblcinemas.com/movie/JA31463/jackass-best-and-last"
     },
     {
       "time": "07:45 PM",
@@ -59,13 +59,8 @@
     },
     {
       "time": "08:30 PM",
-      "title": "Scary Movie",
-      "url": "https://www.tblcinemas.com/movie/SC6491/scary-movie"
-    },
-    {
-      "time": "09:15 PM",
-      "title": "Backrooms",
-      "url": "https://www.tblcinemas.com/movie/BA32133/backrooms"
+      "title": "Supergirl",
+      "url": "https://www.tblcinemas.com/movie/SU22592/supergirl"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
