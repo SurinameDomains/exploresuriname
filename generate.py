@@ -2903,7 +2903,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
 {_lcp_preload}</head>
 <body class="bg-gray-50">
 {nav_html(_page_active)}
-<div class="pt-16"></div>
+<div style="height:58px"></div>
 <div class="text-white py-16 text-center" style="background:{bg_color}">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">{title}</h1>
@@ -3024,7 +3024,7 @@ def build_index(restaurants, hotels, cme_rates=None):
     n_hotel  = len(HOTELS)
     _home_css = r"""
     /* ===== HERO ===== */
-    #hero{position:relative;min-height:92vh;min-height:92svh;display:flex;align-items:flex-end;overflow:hidden;background:#173A2A}
+    #hero{position:relative;min-height:92vh;min-height:92svh;display:flex;align-items:flex-end;overflow:hidden;background:#173A2A;padding-top:76px}
     #hero .hz{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease-in-out;will-change:opacity}
     #hero .hz.on{opacity:1}
     @media (prefers-reduced-motion: no-preference){#hero .hz.on{animation:eskb 24s ease-in-out infinite alternate}}
@@ -3686,7 +3686,7 @@ doConvert();"""
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("currency")}
-<div class="pt-16"></div>
+<div style="height:58px"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">SRD Exchange Rates</h1>
@@ -3947,7 +3947,7 @@ def build_news(articles, oil_articles, finance_articles):
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("news")}
-<div class="pt-16"></div>
+<div style="height:58px"></div>
 
 <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
 <div class="text-white text-center py-14" style="background:var(--forest)">
@@ -5014,7 +5014,7 @@ def build_today_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("daily-notices")}
-<div class="pt-16"></div>
+<div style="height:58px"></div>
 
 <!-- Hero -->
 <div class="py-10 text-center text-white" style="background:var(--forest)">
@@ -5782,7 +5782,7 @@ def build_events_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("events")}
-<div class="pt-16"></div>
+<div style="height:58px"></div>
 <div class="relative text-white py-16 text-center overflow-hidden" style="background:var(--forest)">
   <div class="absolute inset-0" style="background:url(/images/home-faiths.webp) center/cover no-repeat" aria-hidden="true"></div>
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.85),rgba(13,30,22,.62))" aria-hidden="true"></div>
@@ -6006,7 +6006,7 @@ def build_crossword_page():
     body = """
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div class="pt-16"></div>
+<div style="height:58px"></div>
 <div class="relative text-white py-14 text-center overflow-hidden" style="background:var(--forest)">
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.92),rgba(13,30,22,.7))" aria-hidden="true"></div>
   <div class="relative max-w-3xl mx-auto px-4">
@@ -6182,7 +6182,7 @@ def build_visitor_guide_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("visitor")}
-<div class="pt-16"></div>
+<div style="height:58px"></div>
 <div class="text-white py-14 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">The Basics</h1>
@@ -6517,7 +6517,7 @@ def _hub_hero(kicker, h1, sub):
     return f"""
 <body class="bg-gray-50 overflow-x-hidden">
 {{NAV}}
-<div class="pt-16"></div>
+<div style="height:58px"></div>
 <div class="text-white py-14 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--coral)">{kicker}</p>
@@ -7047,7 +7047,7 @@ def build_about_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("about")}
-<div class="pt-16"></div>
+<div style="height:58px"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">About Explore Suriname</h1>
@@ -7146,7 +7146,7 @@ def build_contact_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("contact")}
-<div class="pt-16"></div>
+<div style="height:58px"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Contact Us</h1>
@@ -7215,7 +7215,7 @@ def build_privacy_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("privacy")}
-<div class="pt-16"></div>
+<div style="height:58px"></div>
 <div class="text-white py-12 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-3xl sm:text-4xl font-bold mb-2">Privacy Policy</h1>
@@ -7648,7 +7648,7 @@ def build_offline():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html()}
-<div class="pt-16"></div>
+<div style="height:58px"></div>
 <div class="text-white py-20 text-center" style="background:var(--forest)">
   <p class="text-6xl mb-4">🌿</p>
   <h1 class="serif text-4xl font-bold mb-3">You're offline</h1>
@@ -7951,7 +7951,7 @@ function loadAirQuality(lat, lon){
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("forecast")}
-<div class="pt-16"></div>
+<div style="height:58px"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Weather &amp; River Tides</h1>
@@ -8496,7 +8496,7 @@ def build_flights_page(flights_data):
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("flights")}
-<div class="pt-16"></div>
+<div style="height:58px"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Flights Today</h1>
@@ -8625,7 +8625,7 @@ def build_roads_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("roads")}
-<div class="pt-16"></div>
+<div style="height:58px"></div>
 
 <div class="text-white py-10 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
