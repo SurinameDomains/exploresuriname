@@ -1,15 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD ZONDAG 28 JUNI 2026",
-      "date": "28 Juni 2026",
-      "date_iso": "2026-06-28",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1532/gepland-onderhoud-zondag-28-juni-2026",
-      "meta_description": "Gepland onderhoud: Paramaribo zondag 28 juni 2026 tussen 08:0-17:00 GEDEELTE RUST & WERKWEG TUSSEN POMONAWEG EN INDIRA GANDHIWEG, GEDEELTE AITKANTIWEG",
-      "district": "Paramaribo"
-    }
-  ],
-  "last_updated": "2026-06-28T23:07:41.240926+00:00",
+  "outages": [],
+  "last_updated": "2026-06-29T03:07:43.533151+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
