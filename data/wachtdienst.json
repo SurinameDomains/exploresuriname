@@ -1,40 +1,40 @@
 {
-  "date_range": "zaterdag 27 juni tot maandag 29 juni 2026",
+  "date_range": "woensdag 01 juli 2026 (Dag der Vrijheden)",
   "doctors": [
     {
-      "name": "Drs. Ormskerk Charleen",
-      "clinic": "Polikliniek Flustraat",
+      "name": "Drs. Baal Antoine",
+      "clinic": "Gezondheidscentrum Geyersvlijt",
       "district": "Paramaribo",
-      "address": "Professor Flustraat no.03",
-      "phone": "440232",
+      "address": "Wongsoredjostraat no. 02",
+      "phone": "451860",
       "note": ""
     },
     {
-      "name": "Drs. Ori Amit",
-      "clinic": "Gezondheidscentrum Derde Rijweg",
+      "name": "Drs. Jethoe Devika",
+      "clinic": "Polikliniek Sophia’s Lust",
       "district": "Paramaribo",
-      "address": "Kwattaweg no. 620",
-      "phone": "435767",
+      "address": "Anton Budelstraat no. 76",
+      "phone": "331401",
       "note": ""
     },
     {
-      "name": "Drs. Kapoerchan Rewiesha",
-      "clinic": "Polikliniek Santodorp",
+      "name": "Drs. Bholasing Sunayana",
+      "clinic": "Gezondheidscentrum Koewarasan",
       "district": "Wanica",
-      "address": "Hk. Corresburg-Nieuw-Weergevondenweg no. 01",
-      "phone": "487067",
+      "address": "Bomapolder serie 2 no. 02",
+      "phone": "350018",
       "note": ""
     },
     {
-      "name": "Drs. Ghoerai Zarish",
-      "clinic": "Polikliniek Houttuin",
+      "name": "Drs. Naranjo Tamayo Mauro",
+      "clinic": "Polikliniek Domburg",
       "district": "Wanica",
-      "address": "Mirahoedoelaan no. 02",
-      "phone": "372090",
+      "address": "Herbertstraat perceel no. 15",
+      "phone": "370044",
       "note": ""
     },
     {
-      "name": "Drs. Orie Sunil",
+      "name": "Drs. Roep-Nurmohamed Zoraida",
       "clinic": "Gezondheidscentrum Lelydorp",
       "district": "Wanica",
       "address": "Indira Gandhiweg no. 42",
@@ -42,7 +42,7 @@
       "note": ""
     },
     {
-      "name": "Drs. Jaime Castellanos Marcia",
+      "name": "Drs. Vrede Merlien",
       "clinic": "Gezondheidscentrum Onverwacht",
       "district": "Para",
       "address": "Akrumstraat no. 09",
@@ -62,8 +62,8 @@
       "phone": "354098"
     }
   ],
-  "doctor_hours": "Spreekuren: Zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
+  "doctor_hours": "Spreekuren: woensdag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
   "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00u.",
-  "last_updated": "2026-06-29T10:20:20.449679+00:00",
+  "last_updated": "2026-06-30T10:20:22.846296+00:00",
   "source": "http://www.rgd.sr/nl/zorg-aanbod/wachtdienst"
 }
