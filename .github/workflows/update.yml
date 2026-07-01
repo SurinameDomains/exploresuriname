@@ -53,7 +53,7 @@ jobs:
           git add *.html
           git add nl/ es/ || true
           git add data/ || true
-          git add listing/ .last_run sitemap.xml robots.txt tailwind.css search-index.json listing_lastmod_cache.json || true
+          git add listing/ .last_run sitemap.xml robots.txt llms.txt tailwind.css search-index.json listing_lastmod_cache.json || true
           git add translations.json translation_segments.json i18n_segments.json || true
           git add images/ image_cache.json image_widths.json || true
           git add flights_cache.json flights_cache_smeg.json || true
