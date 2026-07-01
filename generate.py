@@ -2868,6 +2868,19 @@ def _itemlist_url(it):
     return SITE_URL + "/listing/" + _act_slug(it["name"]) + "/"
 
 
+def _meta_trunc(s, n=158):
+    """Truncate to <= n chars on a word boundary for meta descriptions, adding an
+    ellipsis only when the text was actually shortened (never cuts mid-word)."""
+    s = " ".join(s.split())
+    if len(s) <= n:
+        return s.rstrip(" ·,.-")
+    cut = s[:n].rstrip()
+    sp = cut.rfind(" ")
+    if sp > 40:
+        cut = cut[:sp]
+    return cut.rstrip(" ·,.-") + "…"
+
+
 def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None, seo_title=None, intro_text="", faq=None):
     _page_active = page_file.replace(".html", "") if page_file else "home"
     page_url = f"{SITE_URL}/{page_file}"
@@ -4342,7 +4355,7 @@ def build_listing_page(slug, b):
         _d = " ".join(desc.split())
         _tail = _struct_parts[0] if _struct_parts else ""
         _raw = (_d.rstrip(".") + ". " + _tail) if (_tail and len(_d) < 120) else _d
-        desc_e = html_lib.escape(_raw[:158].rstrip(" ·,.-"))
+        desc_e = html_lib.escape(_meta_trunc(_raw, 158))
     elif _struct_parts:
         _loc_for_desc = location or "Paramaribo"
         desc_e = html_lib.escape(
@@ -4645,7 +4658,7 @@ def build_activity_listing_page(act, slug):
     icon    = act.get("icon", "\U0001f33f")
 
     name_e     = html_lib.escape(name)
-    desc_e     = html_lib.escape(desc[:160]) if desc else html_lib.escape(name + " on ExploreSuriname.com")
+    desc_e     = html_lib.escape(_meta_trunc(desc, 160)) if desc else html_lib.escape(name + " on ExploreSuriname.com")
     page_url   = SITE_URL + "/listing/" + slug + "/"
     maps_q     = urllib.parse.quote(name + ", Suriname")
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
@@ -4779,7 +4792,7 @@ def build_nature_listing_page(spot, slug):
     tags    = spot.get("tags", [])
 
     name_e     = html_lib.escape(name)
-    desc_e     = html_lib.escape(desc[:160]) if desc else html_lib.escape(name + " on ExploreSuriname.com")
+    desc_e     = html_lib.escape(_meta_trunc(desc, 160)) if desc else html_lib.escape(name + " on ExploreSuriname.com")
     page_url   = SITE_URL + "/listing/" + slug + "/"
     maps_q     = urllib.parse.quote(name + ", Suriname")
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
