@@ -6408,7 +6408,7 @@ function rView(){const L=T[lang],sc=score(),st=stats();cur=5;
   +'<p class="text-center text-sm font-bold" style="color:#3d4a43">'+(sc===5?L.perfect:L.title[5-sc>4?4:5-sc])+"</p>"
   +'<div class="rgrid">'+ans.map((x,k)=>'<span class="'+(Q[k]&&x===Q[k].answer?"ok":"no")+'"></span>').join("")+"</div>"
   +'<div class="stats"><div><b>'+st.s+"</b><i>"+L.streak+"</i></div><div><b>"+st.bs+"</b><i>"+L.best+"</i></div><div><b>"+st.g+"</b><i>"+L.games+"</i></div><div><b>"+(st.g?(st.c/st.g).toFixed(1):"0")+"</b><i>"+L.avg+"</i></div></div>";
- const grid=ans.map((x,k)=>(Q[k]&&x===Q[k].answer)?"\\ud83d\\udfe9":"\\ud83d\\udfe5").join("");
+ const grid=ans.map((x,k)=>(Q[k]&&x===Q[k].answer)?"\\u2705":"\\u274c").join("");
  const txt="Sabi Suriname #"+NUM+" "+grid+" "+sc+"/5\\nexploresuriname.com/quiz.html";
  h+='<div class="sharebtns"><a class="wabtn" id="qz-wa" href="https://wa.me/?text='+encodeURIComponent(txt)+'" target="_blank" rel="noopener">'+L.share+'</a><button class="cpbtn" id="qz-cp">'+L.copy+"</button></div>"
   +'<div class="cd" id="qz-cd"></div>'
