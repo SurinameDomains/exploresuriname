@@ -2277,6 +2277,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}conditions.html"     {_link_cls("forecast")}       >Weather &amp; Tides</a>'
         f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")}  >Daily Notices</a>'
         f'<a href="{prefix}crossword.html"      {_link_cls("crossword")}      >Crossword</a>'
+        f'<a href="{prefix}quiz.html"           {_link_cls("quiz")}           >Daily Quiz</a>'
         f'<a href="{prefix}worldcup-2026.html"   {_link_cls("worldcup")}       >World Cup 2026</a>'
     )
     # Visitor Guide
@@ -2332,6 +2333,7 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}conditions.html",    "Weather & Tides", "forecast") +
         _mob_link(f"{prefix}daily-notices.html", "Daily Notices", "daily-notices") +
         _mob_link(f"{prefix}crossword.html",     "Crossword",     "crossword") +
+        _mob_link(f"{prefix}quiz.html",          "Daily Quiz",    "quiz") +
         _mob_link(f"{prefix}worldcup-2026.html",  "World Cup 2026", "worldcup")
     )
     mob_plan_items = (
@@ -2580,6 +2582,7 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}today.html">Today in Suriname</a>
         <a class="ftr-lnk" href="{prefix}services.html">Local Services</a>
         <a class="ftr-lnk" href="{prefix}crossword.html">Crossword</a>
+        <a class="ftr-lnk" href="{prefix}quiz.html">Daily Quiz</a>
         <a class="ftr-lnk" href="{prefix}worldcup-2026.html">World Cup 2026</a>
         <a class="ftr-lnk" href="{prefix}about.html">About Us</a>
         <a class="ftr-lnk" href="{prefix}contact.html">Contact</a>
@@ -3313,6 +3316,7 @@ function esSearch(){
         <span class="lbl">Most visited</span>
         <a href="worldcup-2026.html">World Cup 2026</a>
         <a href="crossword.html">Crossword</a>
+        <a href="quiz.html">Daily quiz</a>
         <a href="currency.html">Market rates</a>
         <a href="daily-notices.html">Daily notices</a>
       </div>
@@ -5927,7 +5931,9 @@ def build_crossword_page():
         '<li>Switch the clues between Dutch and English with the NL / EN toggle.</li>'
         '<li>Use the arrows above the grid to play earlier days\' puzzles.</li>'
         '<li>Finish the grid to see the meaning of every word, plus your solve time to share.</li>'
-        '</ol></section>'
+        '</ol>'
+        '<p class="text-gray-600 leading-relaxed mt-6">More daily play: try <a class="underline font-semibold" style="color:#1B4332" href="quiz.html">Sabi Suriname</a>, our five-question daily quiz about Suriname.</p>'
+        '</section>'
     )
 
     # today's clues, server-rendered for no-JS crawlers/users (clues only, no answers)
@@ -6165,6 +6171,266 @@ show();setLang(cwLang);
 </body>
 </html>"""
     body = body.replace("__NAV__", nav_html("crossword")).replace("__FOOTER__", footer_html()).replace("__DATA__", _data).replace("__TODAYCLUES__", _today_clues_html).replace("__ABOUT__", _about_html).replace("__FAQ__", _faq_body)
+    return head + body
+
+def build_quiz_page():
+    """Sabi Suriname - daily 5-question Suriname quiz. Deterministic day rotation
+    over data/quiz.json (1 easy + 3 mid + 1 wild per day), bilingual EN/NL,
+    localStorage streak/stats, WhatsApp share. Mirrors the Switi Mini pattern."""
+    import json as _json
+    try:
+        with open("data/quiz.json", encoding="utf-8") as _f:
+            _bank = _json.load(_f).get("questions", [])
+    except Exception:
+        _bank = []
+    today = datetime.now(SR_TZ).date()
+    _epoch = datetime(2026, 7, 2).date()
+    _epoch_day = (_epoch - datetime(1970, 1, 1).date()).days
+    _d = max(0, (today - _epoch).days)
+    _num = _d + 1
+    _E = [q for q in _bank if q.get("diff") == "easy"]
+    _M = [q for q in _bank if q.get("diff") == "mid"]
+    _W = [q for q in _bank if q.get("diff") == "wild"]
+    if _E and _M and _W:
+        _tq = [_E[_d % len(_E)], _M[(3 * _d) % len(_M)], _M[(3 * _d + 1) % len(_M)],
+               _M[(3 * _d + 2) % len(_M)], _W[_d % len(_W)]]
+    else:
+        _tq = []
+    _data = _json.dumps(_bank, ensure_ascii=False)
+
+    # today's questions, server-rendered for no-JS crawlers/users (no answers)
+    _items = ""
+    for _q in _tq:
+        _opts_en = " &nbsp; ".join(chr(65 + _i) + ") " + html_lib.escape(_o) for _i, _o in enumerate(_q["opts_en"]))
+        _opts_nl = " &nbsp; ".join(chr(65 + _i) + ") " + html_lib.escape(_o) for _i, _o in enumerate(_q["opts_nl"]))
+        _items += ('<li class="mb-3"><b>' + html_lib.escape(_q["q_en"]) + '</b><br>'
+                   + '<span class="text-gray-600">' + _opts_en + '</span><br>'
+                   + '<i>' + html_lib.escape(_q["q_nl"]) + '</i><br>'
+                   + '<span class="text-gray-500">' + _opts_nl + '</span></li>')
+    _today_qs_html = (
+        '<noscript><section class="max-w-2xl mx-auto px-4 mt-6" aria-label="Today\'s Sabi Suriname questions">'
+        '<h2 class="serif text-xl font-bold text-gray-900 mb-2">Today&#8217;s Sabi Suriname (#' + str(_num) + ')</h2>'
+        '<p class="text-sm text-gray-500 mb-4">The interactive quiz needs JavaScript. Here are today&#8217;s five questions in English and Dutch.</p>'
+        '<ol class="text-sm text-gray-700 pl-1">' + _items + '</ol>'
+        '</section></noscript>'
+    ) if _items else ""
+
+    _ogimg = SITE_URL + "/og-image.jpg"
+    _graph = _json.dumps({"@context": "https://schema.org", "@graph": [
+        {"@type": "WebPage", "@id": SITE_URL + "/quiz.html#webpage",
+         "url": SITE_URL + "/quiz.html",
+         "name": "Sabi Suriname: the daily Suriname quiz",
+         "description": "A free daily five-question quiz about Suriname: history, food, nature, music, language and places. Playable in English or Dutch, with a new quiz every day.",
+         "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": SITE_URL + "/"},
+         "primaryImageOfPage": _ogimg,
+         "breadcrumb": {"@id": SITE_URL + "/quiz.html#breadcrumb"},
+         "mainEntity": {"@id": SITE_URL + "/quiz.html#game"},
+         "datePublished": "2026-07-02", "dateModified": today.isoformat(),
+         "isAccessibleForFree": True},
+        {"@type": "BreadcrumbList", "@id": SITE_URL + "/quiz.html#breadcrumb",
+         "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Sabi Suriname Daily Quiz", "item": SITE_URL + "/quiz.html"}]},
+        {"@type": "Game", "@id": SITE_URL + "/quiz.html#game",
+         "name": "Sabi Suriname", "url": SITE_URL + "/quiz.html",
+         "description": "A daily five-question trivia quiz about Suriname with facts behind every answer. One warm-up, three tougher questions and one wild card per day.",
+         "genre": "Trivia quiz", "gamePlatform": "Web browser",
+         "inLanguage": ["nl", "en"], "isAccessibleForFree": True, "image": _ogimg,
+         "publisher": {"@type": "Organization", "name": "Explore Suriname", "url": SITE_URL + "/"}}
+    ]}, ensure_ascii=False)
+
+    _faq = [
+        ("What is Sabi Suriname?", "Sabi Suriname is a free daily quiz from Explore Suriname. Every day you get five questions about Suriname: history, food, wildlife, music, language and places. Sabi is Sranan Tongo for to know."),
+        ("How does the daily quiz work?", "Each day has one warm-up question, three tougher ones and one wild card. Answer all five, learn the fact behind every answer, and share your score. A new quiz appears at midnight Suriname time."),
+        ("Is the quiz free to play?", "Yes. Sabi Suriname is completely free, needs no account and no app. It runs in any browser on phone or desktop."),
+        ("Can I play in Dutch or English?", "Both. Tap NL or EN to switch languages at any time; every question, answer and fact exists in both."),
+        ("How do streaks work?", "Play on consecutive days and your streak grows. Your streak, best streak and average score are stored in your own browser, so they are private to you."),
+        ("Where do the questions come from?", "Every question is researched and source-checked by Explore Suriname, from the Treaty of Breda to what a djogo is. If you spot an error, contact us and we will fix it."),
+    ]
+    _faq_head, _faq_body = _render_faq(_faq)
+
+    _about_html = (
+        '<section class="max-w-3xl mx-auto px-4 mt-16" aria-labelledby="qz-about-heading">'
+        '<h2 id="qz-about-heading" class="serif text-2xl sm:text-3xl font-bold text-gray-900 mb-4">About Sabi Suriname</h2>'
+        '<p class="text-gray-600 leading-relaxed mb-4">Sabi Suriname is a free <strong>daily quiz about Suriname</strong>: five questions a day on history, food, wildlife, music, language and places. <em>Sabi</em> is Sranan Tongo for <em>to know</em>, and that is the promise: whether you answer right or wrong, every question ends with a fact worth knowing, from the ship that traded Manhattan for Suriname to why raw bitter cassava is poisonous.</p>'
+        '<p class="text-gray-600 leading-relaxed mb-4">Each day mixes one warm-up, three tougher questions and one wild card. Play in <strong>Dutch or English</strong>, build a streak by coming back daily, and share your score in the family group chat. All questions are researched and source-checked.</p>'
+        '<h2 class="serif text-2xl sm:text-3xl font-bold text-gray-900 mb-4 mt-10">How to play</h2>'
+        '<ol class="text-gray-600 leading-relaxed space-y-2 list-decimal pl-5">'
+        '<li>Tap the answer you think is right. You get instant feedback plus the story behind the answer.</li>'
+        '<li>Answer all five questions to see your score for the day.</li>'
+        '<li>Come back tomorrow to keep your streak alive. A new quiz drops at midnight Suriname time.</li>'
+        '<li>Share your result on WhatsApp and challenge the family.</li>'
+        '</ol>'
+        '<p class="text-gray-600 leading-relaxed mt-6">More daily play: try <a class="underline font-semibold" style="color:#1B4332" href="crossword.html">Switi Mini</a>, our daily Surinamese mini crossword.</p>'
+        '</section>'
+    )
+
+    head = f"""{PAGE_HEAD}
+  <title>Sabi Suriname | Daily Suriname Quiz | Explore Suriname</title>
+  <meta name="description" content="Sabi Suriname: a free daily five-question quiz about Suriname. History, food, wildlife, music and places, in English or Dutch. New quiz every day; build your streak.">
+  <link rel="canonical" href="{SITE_URL}/quiz.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/quiz.html">
+  <meta property="og:title" content="Sabi Suriname: the daily Suriname quiz">
+  <meta property="og:description" content="Five questions about Suriname every day, in English or Dutch. How well do you sabi Suriname?">
+  <meta property="og:image" content="{_ogimg}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Sabi Suriname, the daily Suriname quiz from Explore Suriname">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@exploringsuriname">
+  <meta name="twitter:title" content="Sabi Suriname: the daily Suriname quiz">
+  <meta name="twitter:description" content="Five questions about Suriname every day, in English or Dutch. How well do you sabi Suriname?">
+  <meta name="twitter:image" content="{_ogimg}">
+  <script type="application/ld+json">
+  {_graph}
+  </script>{_faq_head}"""
+    head += """
+  <style>
+  #qz{--g:#1B4332;--t:#E76F51;--m:#D8F3DC;--line:#cfdbd3;--bad:#f8ded7}
+  #qz .lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;font-size:12px;font-weight:700}
+  #qz .lang button{border:0;background:#fff;color:#6b7a72;padding:6px 12px;cursor:pointer}
+  #qz .lang button.on{background:var(--g);color:#fff}
+  #qz .dots{display:flex;gap:8px;justify-content:center;margin:16px 0}
+  #qz .dots span{width:12px;height:12px;border-radius:999px;background:#e2e8e4;border:1px solid var(--line)}
+  #qz .dots span.cur{border-color:var(--g);background:#fff}
+  #qz .dots span.ok{background:var(--g);border-color:var(--g)}
+  #qz .dots span.no{background:var(--t);border-color:var(--t)}
+  #qz .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 1px 3px rgba(20,30,25,.06)}
+  #qz .chip{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;background:var(--m);color:var(--g);border-radius:6px;padding:3px 8px;margin-right:6px}
+  #qz .chip.wild{background:#fdeae3;color:var(--t)}
+  #qz .qtxt{font-size:19px;font-weight:700;color:#1d2421;line-height:1.4;margin:10px 0 16px}
+  #qz .opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:13px 15px;font-size:15px;font-weight:600;color:#1d2421;cursor:pointer;margin-bottom:9px;transition:background .12s}
+  #qz .opt:hover{background:#f4f8f5}
+  #qz .opt.right{background:var(--m);border-color:var(--g);color:var(--g)}
+  #qz .opt.wrong{background:var(--bad);border-color:var(--t);color:#8a3a24}
+  #qz .opt.dim{opacity:.55;cursor:default}
+  #qz .opt .mk{float:right;font-weight:800}
+  #qz .fact{background:#f6faf7;border-left:4px solid var(--g);border-radius:0 10px 10px 0;padding:12px 14px;font-size:14px;color:#3d4a43;line-height:1.55;margin:6px 0 14px}
+  #qz .fact .verdict{display:block;font-weight:800;margin-bottom:3px}
+  #qz .fact .verdict.good{color:var(--g)} #qz .fact .verdict.bad{color:var(--t)}
+  #qz .nextbtn{display:block;width:100%;border:0;border-radius:12px;background:var(--g);color:#fff;font-weight:800;font-size:15px;padding:13px;cursor:pointer}
+  #qz .score{font-size:44px;font-weight:800;color:var(--g);text-align:center;font-variant-numeric:tabular-nums}
+  #qz .rgrid{display:flex;gap:7px;justify-content:center;margin:10px 0 4px}
+  #qz .rgrid span{width:26px;height:26px;border-radius:7px}
+  #qz .rgrid span.ok{background:var(--g)} #qz .rgrid span.no{background:var(--t)}
+  #qz .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0}
+  #qz .stats div{background:#f6faf7;border:1px solid var(--line);border-radius:12px;padding:10px 6px;text-align:center}
+  #qz .stats b{display:block;font-size:20px;color:var(--g);font-variant-numeric:tabular-nums}
+  #qz .stats i{font-style:normal;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#6b7a72}
+  #qz .sharebtns{display:flex;gap:8px;margin-top:14px}
+  #qz .sharebtns a,#qz .sharebtns button{flex:1;border:0;border-radius:12px;padding:13px;font-weight:800;font-size:14px;cursor:pointer;text-align:center;text-decoration:none}
+  #qz .wabtn{background:#25D366;color:#fff} #qz .cpbtn{background:var(--m);color:var(--g)}
+  #qz .rev{list-style:none;margin:14px 0 0;padding:0}
+  #qz .rev li{border-top:1px solid var(--line);padding:10px 0;font-size:14px;color:#3d4a43}
+  #qz .rev .st{font-weight:800;margin-right:6px}
+  #qz .rev .st.ok{color:var(--g)} #qz .rev .st.no{color:var(--t)}
+  #qz .cd{text-align:center;font-size:13px;color:#6b7a72;margin-top:14px;font-variant-numeric:tabular-nums}
+  #qz .daylbl{font-weight:700;color:#1d2421}
+  #qz .srcline{font-size:11px;color:#93a29a;margin-top:6px}
+  </style>
+</head>"""
+    body = """
+<body class="bg-gray-50 overflow-x-hidden">
+__NAV__
+<div style="height:58px"></div>
+<div class="relative text-white py-14 text-center overflow-hidden" style="background:var(--forest)">
+  <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.92),rgba(13,30,22,.7))" aria-hidden="true"></div>
+  <div class="relative max-w-3xl mx-auto px-4">
+    <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-6">
+      <a href="index.html" class="hover:text-white transition">Home</a>
+      <span class="text-white/40">&#8250;</span>
+      <span class="text-white/90 font-medium" aria-current="page">Sabi Suriname</span>
+    </nav>
+    <p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Daily Suriname quiz</p>
+    <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Sabi Suriname</h1>
+    <p class="text-white/70 text-base max-w-xl mx-auto">Five questions a day about Suriname: history, food, nature, music and more. In English or Dutch. How well do you sabi Suriname?</p>
+  </div>
+</div>
+<main class="max-w-xl mx-auto px-4 py-10 pb-20">
+  <div id="qz">
+    <div class="flex items-center justify-between gap-3">
+      <div class="daylbl" id="qz-label"></div>
+      <div class="lang"><button id="qz-nl">NL</button><button id="qz-en">EN</button></div>
+    </div>
+    <div class="dots" id="qz-dots"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="card" id="qz-card"></div>
+    <p id="qz-note" class="text-xs text-gray-400 mt-8 leading-relaxed"></p>
+  </div>
+</main>
+__TODAYQS__
+__ABOUT__
+__FAQ__
+__FOOTER__
+<script>
+const QZ=__DATA__;
+const EPOCH=__EPOCH__;
+const T={
+ en:{q:"Question",of:"of",next:"Next question",see:"See my score",good:"Correct!",bad:"Not quite.",ans:"The answer",score:"out of 5",streak:"Streak",best:"Best",games:"Played",avg:"Avg",share:"Share on WhatsApp",copy:"Copy result",copied:"Copied!",newin:"New quiz in",today:"Today",review:"Today's answers",note:"A new Sabi Suriname every day at midnight Suriname time: one warm-up, three tougher questions and one wild card. Your streak and stats live in this browser only. Every question is researched and source-checked.",day:"Day",perfect:"Perfect! All five.",title:["Sabi tori!","Strong!","Not bad at all","Room to grow","Tomorrow is a new day"],src:"Source"},
+ nl:{q:"Vraag",of:"van",next:"Volgende vraag",see:"Bekijk mijn score",good:"Goed!",bad:"Net niet.",ans:"Het antwoord",score:"van de 5",streak:"Reeks",best:"Record",games:"Gespeeld",avg:"Gem.",share:"Deel op WhatsApp",copy:"Kopieer resultaat",copied:"Gekopieerd!",newin:"Nieuwe quiz over",today:"Vandaag",review:"De antwoorden van vandaag",note:"Elke dag om middernacht Surinaamse tijd een nieuwe Sabi Suriname: een opwarmer, drie pittigere vragen en een wildcard. Je reeks en statistieken blijven alleen in deze browser. Elke vraag is onderzocht en gecheckt.",day:"Dag",perfect:"Perfect! Alle vijf.",title:["Sabi tori!","Sterk!","Zeker niet slecht","Kan beter","Morgen weer een dag"],src:"Bron"}};
+const CATS={history:["History","Geschiedenis"],geography:["Geography","Geografie"],wildlife:["Wildlife","Dieren"],food:["Food & drink","Eten & drinken"],culture:["Culture","Cultuur"],sports:["Sport","Sport"],places:["Places","Plekken"]};
+const E=QZ.filter(q=>q.diff==="easy"),M=QZ.filter(q=>q.diff==="mid"),W=QZ.filter(q=>q.diff==="wild");
+function dayNum(){return Math.floor((Date.now()-10800000)/86400000);}
+const D=Math.max(0,dayNum()-EPOCH),NUM=D+1;
+const Q=(E.length&&M.length&&W.length)?[E[D%E.length],M[(3*D)%M.length],M[(3*D+1)%M.length],M[(3*D+2)%M.length],W[D%W.length]]:[];
+let lang=localStorage.getItem("qz-lang")||"nl";
+let ans=[];try{ans=JSON.parse(localStorage.getItem("qz-a-"+D)||"[]");}catch(e){}
+let cur=Math.min(ans.length,4),showFb=ans.length>cur,cdTick=null;
+function $(id){return document.getElementById(id);}
+function esc(s){const d=document.createElement("div");d.textContent=s;return d.innerHTML;}
+function saveA(){localStorage.setItem("qz-a-"+D,JSON.stringify(ans));}
+function stats(){let s={g:0,c:0,p:0,s:0,bs:0,ld:-9};try{s=Object.assign(s,JSON.parse(localStorage.getItem("qz-stats")||"{}"));}catch(e){}return s;}
+function score(){return ans.reduce((a,x,k)=>a+(Q[k]&&x===Q[k].answer?1:0),0);}
+function finishStats(){const st=stats();if(st.ld===D)return;st.g++;st.c+=score();if(score()===5)st.p++;st.s=(st.ld===D-1)?st.s+1:1;st.bs=Math.max(st.bs,st.s);st.ld=D;localStorage.setItem("qz-stats",JSON.stringify(st));}
+function dots(){const ds=$("qz-dots").children;for(let k=0;k<5;k++){ds[k].className="";if(k<ans.length)ds[k].className=(Q[k]&&ans[k]===Q[k].answer)?"ok":"no";else if(k===cur&&ans.length<5)ds[k].className="cur";}}
+function qView(){const q=Q[cur];if(!q)return;const done=cur<ans.length;const L=T[lang];
+ let h='<span class="chip'+(q.diff==="wild"?" wild":"")+'">'+(q.diff==="wild"?(lang==="nl"?"Wildcard":"Wild card"):CATS[q.cat][lang==="nl"?1:0])+'</span>'
+  +'<span class="text-xs text-gray-400 font-bold">'+L.q+" "+(cur+1)+" "+L.of+" 5</span>"
+  +'<div class="qtxt">'+esc(lang==="nl"?q.q_nl:q.q_en)+"</div>";
+ const opts=lang==="nl"?q.opts_nl:q.opts_en;
+ opts.forEach((o,j)=>{let cls="opt",mk="";
+  if(done){if(j===q.answer){cls+=" right";mk='<span class="mk">&#10003;</span>';}else if(j===ans[cur]){cls+=" wrong";mk='<span class="mk">&#10007;</span>';}else cls+=" dim";}
+  h+='<button class="'+cls+'" data-j="'+j+'" '+(done?"disabled":"")+">"+esc(o)+mk+"</button>";});
+ if(done){const good=ans[cur]===q.answer;
+  h+='<div class="fact"><span class="verdict '+(good?"good":"bad")+'">'+(good?L.good:L.bad+" "+L.ans+": "+esc(opts[q.answer]))+"</span>"
+   +esc(lang==="nl"?q.fact_nl:q.fact_en)
+   +'<div class="srcline">'+L.src+": "+esc(q.src)+"</div></div>"
+   +'<button class="nextbtn" id="qz-next">'+(cur===4?L.see:L.next)+"</button>";}
+ $("qz-card").innerHTML=h;
+ if(!done)$("qz-card").querySelectorAll(".opt").forEach(b=>{b.onclick=()=>{ans[cur]=+b.dataset.j;ans=ans.slice(0,cur+1);saveA();if(ans.length===5)finishStats();qView();dots();};});
+ else $("qz-next").onclick=()=>{if(cur<4){cur++;qView();dots();}else rView();};
+ dots();}
+function pad(n){return String(n).padStart(2,"0");}
+function rView(){const L=T[lang],sc=score(),st=stats();cur=5;
+ let h='<div class="text-center"><span class="chip">'+L.day+" #"+NUM+'</span></div>'
+  +'<div class="score">'+sc+"/5</div>"
+  +'<p class="text-center text-sm font-bold" style="color:#3d4a43">'+(sc===5?L.perfect:L.title[5-sc>4?4:5-sc])+"</p>"
+  +'<div class="rgrid">'+ans.map((x,k)=>'<span class="'+(Q[k]&&x===Q[k].answer?"ok":"no")+'"></span>').join("")+"</div>"
+  +'<div class="stats"><div><b>'+st.s+"</b><i>"+L.streak+"</i></div><div><b>"+st.bs+"</b><i>"+L.best+"</i></div><div><b>"+st.g+"</b><i>"+L.games+"</i></div><div><b>"+(st.g?(st.c/st.g).toFixed(1):"0")+"</b><i>"+L.avg+"</i></div></div>";
+ const grid=ans.map((x,k)=>(Q[k]&&x===Q[k].answer)?"\\ud83d\\udfe9":"\\ud83d\\udfe5").join("");
+ const txt="Sabi Suriname #"+NUM+" "+grid+" "+sc+"/5\\nexploresuriname.com/quiz.html";
+ h+='<div class="sharebtns"><a class="wabtn" id="qz-wa" href="https://wa.me/?text='+encodeURIComponent(txt)+'" target="_blank" rel="noopener">'+L.share+'</a><button class="cpbtn" id="qz-cp">'+L.copy+"</button></div>"
+  +'<div class="cd" id="qz-cd"></div>'
+  +'<h3 class="serif text-lg font-bold text-gray-900 mt-6">'+L.review+'</h3><ul class="rev">'
+  +Q.map((q,k)=>{const good=ans[k]===q.answer;return "<li><span class=\\"st "+(good?"ok":"no")+"\\">"+(good?"&#10003;":"&#10007;")+"</span>"+esc(lang==="nl"?q.q_nl:q.q_en)+"<br><b style=\\"color:#1B4332\\">"+esc((lang==="nl"?q.opts_nl:q.opts_en)[q.answer])+"</b></li>";}).join("")+"</ul>";
+ $("qz-card").innerHTML=h;
+ $("qz-cp").onclick=()=>{if(navigator.clipboard)navigator.clipboard.writeText(txt);$("qz-cp").textContent=L.copied;};
+ if(cdTick)clearInterval(cdTick);
+ const upd=()=>{const ms=(EPOCH+D+1)*86400000+10800000-Date.now();if(ms<=0){$("qz-cd").textContent="";return;}const s=ms/1000|0;$("qz-cd").textContent=L.newin+" "+pad(s/3600|0)+":"+pad((s/60|0)%60)+":"+pad(s%60);};
+ upd();cdTick=setInterval(upd,1000);dots();}
+function label(){const dd=new Date((EPOCH+D)*86400000);$("qz-label").innerHTML=T[lang].today+" &middot; #"+NUM+' <span class="text-gray-400 font-normal">'+dd.toLocaleDateString(lang==="nl"?"nl-NL":"en-GB",{day:"numeric",month:"short",timeZone:"UTC"})+"</span>";}
+function setLang(l){lang=l;localStorage.setItem("qz-lang",l);$("qz-nl").classList.toggle("on",l==="nl");$("qz-en").classList.toggle("on",l==="en");$("qz-note").textContent=T[l].note;label();if(ans.length===5&&cur===5)rView();else qView();}
+$("qz-nl").onclick=()=>setLang("nl");$("qz-en").onclick=()=>setLang("en");
+if(ans.length===5)cur=5;
+if(Q.length){label();setLang(lang);}else{$("qz-card").innerHTML="<p>Quiz data unavailable.</p>";}
+</script>
+</body>
+</html>"""
+    body = (body.replace("__NAV__", nav_html("quiz")).replace("__FOOTER__", footer_html())
+                .replace("__DATA__", _data).replace("__EPOCH__", str(_epoch_day))
+                .replace("__TODAYQS__", _today_qs_html).replace("__ABOUT__", _about_html)
+                .replace("__FAQ__", _faq_body))
     return head + body
 
 def build_visitor_guide_page():
@@ -7439,6 +7705,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("worldcup-2026.html",      "0.8", "daily"),
         ("daily-notices.html", "0.9", "daily"),
         ("crossword.html",   "0.9", "daily"),
+        ("quiz.html",        "0.9", "daily"),
         ("events.html",     "0.8", "weekly"),
         ("news.html",       "0.7", "daily"),
         ("about.html",      "0.5", "yearly"),
@@ -8865,6 +9132,7 @@ if __name__ == "__main__":
         "visitor-guide.html": build_visitor_guide_page(),
         "events.html":        build_events_page(),
         "crossword.html":     build_crossword_page(),
+        "quiz.html":          build_quiz_page(),
         "on-the-road.html":   build_roads_page(),
         "suriname-itinerary.html": build_itinerary_page(),
         "is-suriname-safe.html":   build_safety_page(),
