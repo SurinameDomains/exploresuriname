@@ -6540,7 +6540,7 @@ def build_visitor_guide_page():
     """Suriname Visitor Guide — static page covering visas, customs, SIM cards, money, transport and apps."""
     return f"""{PAGE_HEAD}
   <title>The Basics | Suriname Travel Tips | Explore Suriname</title>
-  <meta name="description" content="Everything a first-time visitor needs for Suriname: visa requirements, customs, SIM cards, ATMs, taxi apps, food delivery and mobile payments.">
+  <meta name="description" content="Everything a first-time visitor needs for Suriname: visa requirements, customs, overland border crossings, SIM cards, ATMs, taxi apps, food delivery and mobile payments.">
   <link rel="canonical" href="{SITE_URL}/visitor-guide.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
@@ -6556,7 +6556,7 @@ def build_visitor_guide_page():
   {{"@context":"https://schema.org","@type":"WebPage","name":"The Basics: Suriname Travel Tips","url":"{SITE_URL}/visitor-guide.html","description":"Practical guide for first-time visitors to Suriname: visa and entry requirements, customs declaration, SIM cards, ATMs, tipping, taxi apps, food delivery and mobile payments.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{"@type":"Question","name":"Do I need a visa to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Most nationalities need a tourist visa or tourist card for Suriname, arranged through the VFS Global portal before departure. Some nationalities may be exempt. Check the official Suriname immigration requirements for your passport."}}}},{{"@type":"Question","name":"What currency is used in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The Surinamese Dollar (SRD) is the official currency. USD and EUR are accepted at some hotels and shops, but SRD is needed for most local transactions. ATMs dispensing SRD are widely available in Paramaribo."}}}},{{"@type":"Question","name":"Which SIM card should I buy in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Telesur and Digicel are the two main mobile operators. Telesur has broader 4G coverage across the country. Both sell prepaid SIM cards at the airport and shops in Paramaribo."}}}},{{"@type":"Question","name":"What taxi apps work in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname has local ride-hailing apps. Kura and TaxiSR are the most widely used in Paramaribo. Traditional metered taxis are also available."}}}},{{"@type":"Question","name":"What is the best way to get money in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"ATMs are the most convenient way to get SRD. Hakrinbank and DSB Bank ATMs are reliable and widely available in Paramaribo. Inform your bank before travelling to avoid card blocks."}}}},{{"@type":"Question","name":"Do I need vaccinations to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"A yellow fever vaccination certificate is required if you are arriving from a yellow fever risk country. Hepatitis A and B, typhoid and routine vaccines are generally recommended. Malaria prophylaxis is advised if you plan to travel into the interior rainforest. Consult a travel health clinic well before departure."}}}},{{"@type":"Question","name":"Is Suriname safe for tourists?","acceptedAnswer":{{"@type":"Answer","text":"Paramaribo is generally safe for tourists who take standard precautions. Petty theft can occur in busy areas. Avoid displaying valuables in public, use registered taxis or ride-hailing apps, and stay aware of your surroundings at night. The interior rainforest is best explored with a licensed guide."}}}},{{"@type":"Question","name":"What is the tipping culture in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Tipping is not mandatory but is welcomed for good service. At restaurants a tip of 5 to 10 percent is appropriate if no service charge is included. Taxi drivers do not generally expect a tip, though rounding up the fare is a common courtesy. Tour guides often appreciate a gratuity at the end of a tour."}}}}]}}
+  {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{"@type":"Question","name":"Do I need a visa to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Most nationalities need a tourist visa or tourist card for Suriname, arranged through the VFS Global portal before departure. Some nationalities may be exempt. Check the official Suriname immigration requirements for your passport."}}}},{{"@type":"Question","name":"What currency is used in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The Surinamese Dollar (SRD) is the official currency. USD and EUR are accepted at some hotels and shops, but SRD is needed for most local transactions. ATMs dispensing SRD are widely available in Paramaribo."}}}},{{"@type":"Question","name":"Which SIM card should I buy in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Telesur and Digicel are the two main mobile operators. Telesur has broader 4G coverage across the country. Both sell prepaid SIM cards at the airport and shops in Paramaribo."}}}},{{"@type":"Question","name":"What taxi apps work in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname has local ride-hailing apps. Kura and TaxiSR are the most widely used in Paramaribo. Traditional metered taxis are also available."}}}},{{"@type":"Question","name":"What is the best way to get money in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"ATMs are the most convenient way to get SRD. Hakrinbank and DSB Bank ATMs are reliable and widely available in Paramaribo. Inform your bank before travelling to avoid card blocks."}}}},{{"@type":"Question","name":"Do I need vaccinations to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"A yellow fever vaccination certificate is required if you are arriving from a yellow fever risk country. Hepatitis A and B, typhoid and routine vaccines are generally recommended. Malaria prophylaxis is advised if you plan to travel into the interior rainforest. Consult a travel health clinic well before departure."}}}},{{"@type":"Question","name":"Is Suriname safe for tourists?","acceptedAnswer":{{"@type":"Answer","text":"Paramaribo is generally safe for tourists who take standard precautions. Petty theft can occur in busy areas. Avoid displaying valuables in public, use registered taxis or ride-hailing apps, and stay aware of your surroundings at night. The interior rainforest is best explored with a licensed guide."}}}},{{"@type":"Question","name":"What is the tipping culture in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Tipping is not mandatory but is welcomed for good service. At restaurants a tip of 5 to 10 percent is appropriate if no service charge is included. Taxi drivers do not generally expect a tip, though rounding up the fare is a common courtesy. Tour guides often appreciate a gratuity at the end of a tour."}}}},{{"@type":"Question","name":"Can I enter Suriname overland from Guyana or French Guiana?","acceptedAnswer":{{"@type":"Answer","text":"Yes. From Guyana, the Canawaima ferry crosses the Corentyne River from Moleson Creek to South Drain once a day, departing around 10:30. From French Guiana, a vehicle ferry and river taxis cross the Marowijne River between Saint-Laurent-du-Maroni and Albina throughout the day. The same visa, tourist card and ICF requirements apply as arriving by air."}}}},{{"@type":"Question","name":"How do I get from Georgetown to Paramaribo overland?","acceptedAnswer":{{"@type":"Answer","text":"Take a minibus or taxi from Georgetown to Moleson Creek, cross on the daily 10:30 Canawaima ferry to South Drain, then continue by shared minibus via Nickerie to Paramaribo, about 3 to 4 hours. Arrive at Moleson Creek by 08:00 for tickets and immigration. The ferry is occasionally suspended for maintenance, so confirm sailings before travelling."}}}}]}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"The Basics","item":"{SITE_URL}/visitor-guide.html"}}]}}
@@ -6594,6 +6594,7 @@ def build_visitor_guide_page():
           <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Power</th><td class="py-3 text-gray-700 align-top">European-style plugs (types C and F), 127 V, 60 Hz.</td></tr>
           <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Visa</th><td class="py-3 text-gray-700 align-top">Most nationalities need a tourist visa or tourist card, arranged through the VFS Global portal before departure.</td></tr>
           <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Health</th><td class="py-3 text-gray-700 align-top">A yellow fever certificate is required if arriving from a risk country. Malaria precautions are advised for the interior rainforest.</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Land borders</th><td class="py-3 text-gray-700 align-top">Daily Canawaima ferry from Guyana (South Drain) and river taxis from French Guiana (Albina). The same visa and ICF rules apply as arriving by air.</td></tr>
           <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Best time to visit</th><td class="py-3 text-gray-700 align-top">The drier seasons, roughly February to April and August to November.</td></tr>
           <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Getting around</th><td class="py-3 text-gray-700 align-top">Registered taxis and local ride-hailing apps (Kura, TaxiSR) in Paramaribo. A licensed guide is needed for interior travel.</td></tr>
           <tr><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Safety</th><td class="py-3 text-gray-700 align-top">Paramaribo is generally safe with standard precautions. Explore the interior rainforest with a licensed guide.</td></tr>
@@ -6667,6 +6668,50 @@ def build_visitor_guide_page():
         </a>
       </div>
     </div>
+  </div>
+
+  <!-- OVERLAND -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6">
+    <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Overland Entry</p>
+    <h2 class="serif text-xl font-bold text-gray-900 mb-4">Arriving by Land</h2>
+    <p class="text-gray-700 text-sm leading-relaxed mb-6">
+      Suriname has two overland gateways: the ferry from Guyana in the west and the Marowijne
+      River crossing from French Guiana in the east. The same entry rules apply as flying in,
+      so arrange your visa or tourist card and the ICF form before you reach the border.
+    </p>
+    <div class="md:grid md:grid-cols-2 md:gap-8">
+      <div class="mb-6 md:mb-0">
+        <h3 class="serif text-base font-bold text-gray-900 mb-2">From Guyana: the Canawaima ferry</h3>
+        <p class="text-gray-700 text-sm leading-relaxed mb-3">
+          The Canawaima ferry crosses the Corentyne River from <strong>Moleson Creek</strong> (Guyana)
+          to <strong>South Drain</strong> (Suriname) once a day, departing around <strong>10:30</strong>.
+          Be at the terminal by 08:00 for tickets and immigration. The crossing takes about 45 minutes
+          and costs roughly US&#8239;$20 return, cash only. From South Drain, shared minibuses run to
+          Paramaribo via Nickerie, another 3 to 4 hours.
+        </p>
+        <div class="rounded-xl p-4 border-l-4" style="background:#fff8f0;border-color:var(--coral)">
+          <p class="text-sm text-gray-600 leading-relaxed">
+            <span class="font-semibold text-gray-800">Skip the backtrack boats.</span>
+            Informal crossings bypass immigration, which means no entry stamp and an illegal entry.
+            Use the official ferry.
+          </p>
+        </div>
+      </div>
+      <div>
+        <h3 class="serif text-base font-bold text-gray-900 mb-2">From French Guiana: the Albina crossing</h3>
+        <p class="text-gray-700 text-sm leading-relaxed mb-3">
+          <strong>Saint-Laurent-du-Maroni</strong> and <strong>Albina</strong> sit 15 minutes apart
+          across the Marowijne River. A vehicle ferry runs a few times a day and river taxis cross
+          all day for a few euros. Get stamped out and in at the immigration posts on both banks,
+          which keep daytime hours. Minibuses cover Albina to Paramaribo in about 2.5 to 3 hours.
+        </p>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Heading east instead? French Guiana is EU territory, so Schengen entry rules apply
+          on the other side.
+        </p>
+      </div>
+    </div>
+    <p class="text-gray-400 text-xs mt-5">The Canawaima ferry is occasionally suspended for maintenance. Confirm sailings with Canawaima Management (+592&#8239;339-2744) or your hotel before travelling.</p>
   </div>
 
   <!-- SIM + MONEY -->
