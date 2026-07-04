@@ -5566,7 +5566,10 @@ def build_events_page():
 
     def _in_days(st, en=None):
         if en and st <= today <= en:
-            return "happening now"
+            if en == today:
+                return "happening now, last day"
+            return ("happening now, until " + en.strftime("%a") + " "
+                    + str(en.day) + " " + en.strftime("%b"))
         n = (st - today).days
         return "today" if n == 0 else ("tomorrow" if n == 1 else "in " + str(n) + " days")
 
@@ -5606,6 +5609,24 @@ def build_events_page():
         'bg-white border border-gray-200 text-gray-600 hover:border-gray-400 transition">'
         + _date(y, m, 1).strftime("%b %Y") + '</a>'
         for y, m in _mkeys)
+    _wd = today.weekday()
+    if _wd == 6:
+        _wk_start, _wk_end = today - _td(days=1), today
+    else:
+        _wk_start = today + _td(days=(5 - _wd) % 7)
+        _wk_end = _wk_start + _td(days=1)
+    _today_evs = [r for r in resolved if r[1] and r[3] <= today <= r[4]]
+    _wknd_evs = [r for r in resolved if r[1] and r[3] <= _wk_end and r[4] >= _wk_start]
+    _quick = ""
+    if _today_evs:
+        _quick += ('<a href="#ev-' + _esc(_today_evs[0][5].get("id", "")) + '" class="px-3 py-1.5 '
+                   'rounded-full text-xs font-bold text-white hover:opacity-90 transition" '
+                   'style="background:var(--coral)">Today &middot; ' + str(len(_today_evs)) + '</a>')
+    if _wknd_evs:
+        _quick += ('<a href="#ev-' + _esc(_wknd_evs[0][5].get("id", "")) + '" class="px-3 py-1.5 '
+                   'rounded-full text-xs font-bold text-white hover:opacity-90 transition" '
+                   'style="background:var(--forest)">This weekend &middot; ' + str(len(_wknd_evs)) + '</a>')
+    chips_html = _quick + chips_html
 
     # ── Timeline grouped by month ────────────────────────────────────────────
     months_html, _cur = "", None
@@ -5653,6 +5674,15 @@ def build_events_page():
             foot += ('<a href="' + _esc(_site) + '" target="_blank" rel="noopener" '
                      'class="text-xs font-semibold hover:underline" '
                      'style="color:var(--forest2)">Official website</a>')
+        _loc2 = _ev.get("location", "")
+        if _confd and _loc2 and not any(w in _loc2.lower() for w in ("nationwide", "across ", "various", "country", " and ")):
+            foot += ('<a href="https://www.google.com/maps/search/?api=1&amp;query=' + _up.quote(_loc2 + ", Suriname")
+                     + '" target="_blank" rel="noopener" class="text-xs font-semibold hover:underline" '
+                     'style="color:var(--forest2)">Directions</a>')
+        if _confd:
+            foot += ('<button type="button" class="ev-share text-xs font-semibold hover:underline cursor-pointer" '
+                     'style="color:var(--forest2)" data-name="' + _esc(_ev.get("name", "")) + '" '
+                     'data-anchor="ev-' + _esc(_ev.get("id", "")) + '">Share</button>')
         _lnk = _ev.get("link")
         if _lnk and _lnk.get("href"):
             foot += ('<a href="' + _esc(_lnk["href"]) + '" class="text-xs font-semibold hover:underline" '
@@ -5660,7 +5690,7 @@ def build_events_page():
         if foot:
             foot = '<div class="flex flex-wrap gap-x-5 gap-y-1.5 mt-3">' + foot + '</div>'
         months_html += (
-            '\n  <article class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4">'
+            '\n  <article id="ev-' + _esc(_ev.get("id", "")) + '" style="scroll-margin-top:90px" class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4">'
             + db +
             '<div class="min-w-0">'
             '<div class="flex flex-wrap items-center gap-2 mb-1.5">'
@@ -5720,6 +5750,10 @@ def build_events_page():
          "Government offices and banks close on national holidays, and many shops close or run shorter hours, "
          "although some supermarkets stay open in the morning. Tours and hotels operate normally. Withdraw "
          "SRD cash and fill the tank a day ahead, especially before the December holidays."),
+        ("How do I get my event listed on this page?",
+         "Use the form further down this page or email " + CONTACT_EMAIL + " with the date, venue and a "
+         "flyer if you have one. Listing is free. We confirm the details with the organiser before anything "
+         "is published, so allow a day or two."),
     ]
     faq_html = "".join(
         '<div class="pl-4 border-l-2" style="border-color:var(--leaf)">'
@@ -5770,6 +5804,72 @@ def build_events_page():
         {"@type": "ListItem", "position": 2, "name": "Events & Festivals", "item": SITE_URL + "/events.html"},
     ]}, ensure_ascii=False)
 
+    _inp = ('class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm '
+            'text-gray-800 focus:outline-none focus:border-gray-400 focus:bg-white transition"')
+    _lab = 'class="block text-xs font-bold uppercase tracking-wide text-gray-400 mb-1.5"'
+    _submit_html = (
+        '\n  <section class="mt-16" id="submit-event" style="scroll-margin-top:90px">'
+        '\n    <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-7 sm:p-10">'
+        '\n      <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:var(--coral)">Free listing</p>'
+        '\n      <h2 class="serif text-2xl font-bold text-gray-900 mb-2">Organising an event?</h2>'
+        '\n      <p class="text-sm text-gray-500 mb-6 max-w-2xl">Festival, concert, market, sports day or cultural '
+        'night: if visitors are welcome, we want it on this page. Send the details and we confirm everything '
+        'with you before it goes live.</p>'
+        '\n      <form id="ev-submit" class="grid grid-cols-1 sm:grid-cols-2 gap-4">'
+        '\n        <div><label ' + _lab + ' for="evf-name">Event name *</label>'
+        '<input ' + _inp + ' type="text" id="evf-name" name="name" required maxlength="120"></div>'
+        '\n        <div><label ' + _lab + ' for="evf-date">Date or dates *</label>'
+        '<input ' + _inp + ' type="text" id="evf-date" name="date" required maxlength="120" '
+        'placeholder="e.g. Sat 15 Aug 2026"></div>'
+        '\n        <div><label ' + _lab + ' for="evf-venue">Venue and district *</label>'
+        '<input ' + _inp + ' type="text" id="evf-venue" name="venue" required maxlength="160"></div>'
+        '\n        <div><label ' + _lab + ' for="evf-org">Organiser</label>'
+        '<input ' + _inp + ' type="text" id="evf-org" name="org" maxlength="120"></div>'
+        '\n        <div class="sm:col-span-2"><label ' + _lab + ' for="evf-link">Ticket or info link</label>'
+        '<input ' + _inp + ' type="text" id="evf-link" name="link" maxlength="300" '
+        'placeholder="Website, Facebook or Instagram post"></div>'
+        '\n        <div class="sm:col-span-2"><label ' + _lab + ' for="evf-details">Tell us about it</label>'
+        '<textarea ' + _inp + ' id="evf-details" name="details" rows="4" maxlength="1500" '
+        'placeholder="What is it, entry price, start time. Attach the flyer to your email."></textarea></div>'
+        '\n        <div class="sm:col-span-2 flex flex-wrap items-center gap-3 mt-1">'
+        '\n          <button type="submit" class="px-6 py-3 rounded-full font-semibold text-white text-sm '
+        'hover:opacity-90 transition" style="background:var(--forest)">Send by email</button>'
+        '\n          <button type="button" id="ev-copy" class="px-6 py-3 rounded-full font-semibold text-sm '
+        'border-2 hover:bg-gray-50 transition" style="border-color:var(--forest2);color:var(--forest2)">'
+        'Copy details</button>'
+        '\n          <span class="text-xs text-gray-400 max-w-xs">Opens your email app addressed to '
+        + CONTACT_EMAIL + '. No email app? Copy the details into any message.</span>'
+        '\n        </div>'
+        '\n      </form>'
+        '\n    </div>'
+        '\n  </section>')
+    _events_js = (
+        '<script>'
+        'document.addEventListener("click",function(e){var b=e.target&&e.target.closest?'
+        'e.target.closest(".ev-share"):null;if(!b)return;'
+        'var u="' + SITE_URL + '/events.html#"+b.getAttribute("data-anchor");'
+        'var d={title:b.getAttribute("data-name")+" in Suriname",url:u};'
+        'if(navigator.share){navigator.share(d).catch(function(){})}'
+        'else if(navigator.clipboard){navigator.clipboard.writeText(u).then(function(){'
+        'var o=b.textContent;b.textContent="Link copied";setTimeout(function(){b.textContent=o},1600)})}});'
+        '(function(){var f=document.getElementById("ev-submit");if(!f)return;'
+        'function body(){var g=function(n){var el=f.querySelector("[name=\'"+n+"\']");'
+        'return el&&el.value?el.value.trim():"-"};'
+        'return "Event: "+g("name")+"\\nDate(s): "+g("date")+"\\nVenue: "+g("venue")'
+        '+"\\nOrganiser: "+g("org")+"\\nLink: "+g("link")+"\\nDetails: "+g("details")'
+        '+"\\n\\nSent via the events page on exploresuriname.com"}'
+        'f.addEventListener("submit",function(e){e.preventDefault();'
+        'var s="Event submission: "+(f.querySelector("[name=\'name\']").value||"untitled");'
+        'if(window.gtag){gtag("event","event_submit",{method:"email"})}'
+        'window.location.href="mailto:' + CONTACT_EMAIL + '?subject="+encodeURIComponent(s)'
+        '+"&body="+encodeURIComponent(body())});'
+        'var c=document.getElementById("ev-copy");if(c){c.addEventListener("click",function(){'
+        'if(!f.reportValidity())return;'
+        'var t="To: ' + CONTACT_EMAIL + '\\n"+body();'
+        'if(window.gtag){gtag("event","event_submit",{method:"copy"})}'
+        'if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){'
+        'var o=c.textContent;c.textContent="Copied";setTimeout(function(){c.textContent=o},1600)})}})}})();'
+        '</script>')
     _yr = str(today.year)
     _upd = _fmt(today)
     return f"""{PAGE_HEAD}
@@ -5843,6 +5943,8 @@ def build_events_page():
     <div class="space-y-5">{faq_html}</div>
   </section>
 
+{_submit_html}
+
   <section class="mt-16 rounded-3xl p-7 sm:p-10 text-center" style="background:var(--mint)">
     <h2 class="serif text-2xl font-bold mb-2" style="color:var(--forest)">Planning a trip around a festival?</h2>
     <p class="text-sm mb-6 max-w-xl mx-auto" style="color:var(--forest2)">Hotels fill up around Keti Koti, the December holidays and school breaks. Check rooms, flights and the weather before you lock in your dates.</p>
@@ -5853,7 +5955,8 @@ def build_events_page():
     </div>
   </section>
 
-  <p class="text-xs text-gray-400 mt-12 leading-relaxed max-w-3xl">Holiday dates follow Suriname&#8217;s official national holiday calendar (Ministry of Education school-year publication) and official government announcements. Lunar-calendar dates are confirmed by the responsible authorities and can shift by a day or two. This page rebuilds automatically and was last updated on {_upd}. Spotted an error or missing event? <a href="contact.html" class="underline hover:text-gray-600">Tell us</a>.</p>
+{_events_js}
+  <p class="text-xs text-gray-400 mt-12 leading-relaxed max-w-3xl">Holiday dates follow Suriname&#8217;s official national holiday calendar (Ministry of Education school-year publication) and official government announcements. Lunar-calendar dates are confirmed by the responsible authorities and can shift by a day or two. This page rebuilds automatically and was last updated on {_upd}. Spotted an error or missing event? <a href="#submit-event" class="underline hover:text-gray-600">Tell us</a>.</p>
 
 </main>
 {footer_html()}
