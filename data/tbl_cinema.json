@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-04T16:00:29.967630+00:00",
+  "last_updated": "2026-07-05T10:00:29.552981+00:00",
   "date_label": "Today",
   "showings": [
     {
@@ -9,58 +9,58 @@
     },
     {
       "time": "02:30 PM",
-      "title": "Kaalia",
-      "url": "https://www.tblcinemas.com/movie/%5BB30852/kaalia"
-    },
-    {
-      "time": "03:00 PM",
-      "title": "Amar Akbar Anthony",
-      "url": "https://www.tblcinemas.com/movie/%5BB6271/amar-akbar-anthony"
-    },
-    {
-      "time": "03:30 PM",
-      "title": "Toy Story 5 (3D)",
-      "url": "https://www.tblcinemas.com/movie/TO14271/toy-story-5"
-    },
-    {
-      "time": "05:00 PM",
-      "title": "Minions & Monsters",
-      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
-    },
-    {
-      "time": "05:45 PM",
-      "title": "Toy Story 5",
-      "url": "https://www.tblcinemas.com/movie/TO22592/toy-story-5"
-    },
-    {
-      "time": "06:15 PM",
       "title": "Satte Pe Satta",
       "url": "https://www.tblcinemas.com/movie/%5BB14853/satte-pe-satta"
     },
     {
-      "time": "06:30 PM",
-      "title": "The Get Out",
-      "url": "https://www.tblcinemas.com/movie/TH24834/the-get-out"
+      "time": "03:00 PM",
+      "title": "Namak Halaal",
+      "url": "https://www.tblcinemas.com/movie/%5BB16035/namak-halaal"
     },
     {
-      "time": "07:15 PM",
-      "title": "Yaarana",
-      "url": "https://www.tblcinemas.com/movie/%5BB18440/yaarana"
+      "time": "03:30 PM",
+      "title": "Michael",
+      "url": "https://www.tblcinemas.com/movie/MI17314/michael"
     },
     {
-      "time": "07:45 PM",
+      "time": "04:00 PM",
       "title": "Welcome to the Jungle",
       "url": "https://www.tblcinemas.com/movie/WE14514/welcome-to-the-jungle"
     },
     {
-      "time": "08:30 PM",
-      "title": "Supergirl",
-      "url": "https://www.tblcinemas.com/movie/SU22592/supergirl"
+      "time": "04:45 PM",
+      "title": "Minions & Monsters",
+      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
     },
     {
-      "time": "09:15 PM",
-      "title": "Scary Movie",
-      "url": "https://www.tblcinemas.com/movie/SC6491/scary-movie"
+      "time": "06:00 PM",
+      "title": "Toy Story 5",
+      "url": "https://www.tblcinemas.com/movie/TO22592/toy-story-5"
+    },
+    {
+      "time": "06:30 PM",
+      "title": "Yaarana",
+      "url": "https://www.tblcinemas.com/movie/%5BB18440/yaarana"
+    },
+    {
+      "time": "07:00 PM",
+      "title": "Amar Akbar Anthony",
+      "url": "https://www.tblcinemas.com/movie/%5BB6271/amar-akbar-anthony"
+    },
+    {
+      "time": "07:30 PM",
+      "title": "Welcome to the Jungle",
+      "url": "https://www.tblcinemas.com/movie/WE14514/welcome-to-the-jungle"
+    },
+    {
+      "time": "08:15 PM",
+      "title": "The Get Out",
+      "url": "https://www.tblcinemas.com/movie/TH24834/the-get-out"
+    },
+    {
+      "time": "08:45 PM",
+      "title": "Backrooms",
+      "url": "https://www.tblcinemas.com/movie/BA32133/backrooms"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
