@@ -15,7 +15,7 @@
   @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   </style>
-<link href="/tailwind.css?v=203ffa2b" rel="stylesheet"/>
+<link href="/tailwind.css?v=8b35e2ad" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -279,7 +279,7 @@ function toggleMobGroup(id) {
 <button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">✕</button>
 </div>
 <div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
-<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Empiece a escribir para buscar 739 listados...</p>
+<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search 741 listings…</p>
 </div>
 </div>
 </div>
@@ -442,7 +442,7 @@ function filterDistrict(btn, dist) {
 </script>
 <div class="text-sm text-gray-400 mb-4 font-medium" id="result-count">171 resultados</div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/amada-shopping/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/amada-shopping/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Amada Shopping en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" fetchpriority="high" height="224" loading="eager" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="https://media.evendo.com/locations-resized/ShoppingImages/1920x466/6a3e0bdf-e4ec-42d2-9b03-3966d72e5ae7" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -455,7 +455,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/ashley-furniture-homestore/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/ashley-furniture-homestore/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Ashley Furniture HomeStore en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7f2d34713c40adb515f19584c4f092b9.webp" srcset="/images/7f2d34713c40adb515f19584c4f092b9-480.webp 480w, /images/7f2d34713c40adb515f19584c4f092b9.webp 1200w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -468,7 +468,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="automotive" href="listing/auto-style-franchepanestraat/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="automotive" href="listing/auto-style-franchepanestraat/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Auto Style Franchepanestraat en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/54b2f1778b330f0f5a74c0f8a0959409.webp" srcset="/images/54b2f1778b330f0f5a74c0f8a0959409-480.webp 480w, /images/54b2f1778b330f0f5a74c0f8a0959409.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -481,7 +481,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="automotive" href="listing/auto-style-johannes-mungrastraat/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="automotive" href="listing/auto-style-johannes-mungrastraat/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Auto Style Johannes Mungrastraat en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/54b2f1778b330f0f5a74c0f8a0959409.webp" srcset="/images/54b2f1778b330f0f5a74c0f8a0959409-480.webp 480w, /images/54b2f1778b330f0f5a74c0f8a0959409.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -494,7 +494,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="automotive" href="listing/auto-style-kwatta/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="automotive" href="listing/auto-style-kwatta/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Auto Style Kwatta en Wanica" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/54b2f1778b330f0f5a74c0f8a0959409.webp" srcset="/images/54b2f1778b330f0f5a74c0f8a0959409-480.webp 480w, /images/54b2f1778b330f0f5a74c0f8a0959409.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -507,7 +507,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="automotive" href="listing/auto-style-tweede-rijweg/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="automotive" href="listing/auto-style-tweede-rijweg/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Auto Style Tweede Rijweg en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/54b2f1778b330f0f5a74c0f8a0959409.webp" srcset="/images/54b2f1778b330f0f5a74c0f8a0959409-480.webp 480w, /images/54b2f1778b330f0f5a74c0f8a0959409.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -520,7 +520,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="automotive" href="listing/auto-style-verlengde-gemenelandsweg/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="automotive" href="listing/auto-style-verlengde-gemenelandsweg/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Auto Style Verlengde Gemenelandsweg en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/54b2f1778b330f0f5a74c0f8a0959409.webp" srcset="/images/54b2f1778b330f0f5a74c0f8a0959409-480.webp 480w, /images/54b2f1778b330f0f5a74c0f8a0959409.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -533,7 +533,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/bed-bath-more-bbm/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/bed-bath-more-bbm/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Bed Bath &amp; More (BB&amp;M), compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3d96fc838150d2b502d26bf43295d451.webp" srcset="/images/3d96fc838150d2b502d26bf43295d451-480.webp 480w, /images/3d96fc838150d2b502d26bf43295d451.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -546,7 +546,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/best-mart/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/best-mart/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Best Mart en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/adb025d34dcca3a618d4f0e1be8c36d0.webp" srcset="/images/adb025d34dcca3a618d4f0e1be8c36d0-480.webp 480w, /images/adb025d34dcca3a618d4f0e1be8c36d0.webp 960w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -559,7 +559,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/beyrouth-bazaar/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/beyrouth-bazaar/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Beyrouth Bazaar en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="https://media.evendo.com/locations-resized/ShoppingImages/1920x466/6bb1563b-3e2a-4ab4-9b80-21058899d91a" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -571,7 +571,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/boekhandel-kasco/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/boekhandel-kasco/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Boekhandel KASCO, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/7ec174c8b22c9c07b8df08190e71945e.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -584,7 +584,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/boekhandel-vaco/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/boekhandel-vaco/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Boekhandel Vaco en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/87ce4759dc72db8a87837f456d46f9d4.webp" srcset="/images/87ce4759dc72db8a87837f456d46f9d4-480.webp 480w, /images/87ce4759dc72db8a87837f456d46f9d4.webp 1600w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -597,7 +597,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/building-depot/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/building-depot/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Building Depot en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="https://media.evendo.com/locations-resized/ShoppingImages/1920x466/b347d2d1-574a-4c21-8c75-afa6e4aedda9" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -610,7 +610,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/chees-jewelry-watches/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/chees-jewelry-watches/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Chees Jewelry Watches en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/160b6b65e2ec88c977fee723f9a921e2.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -623,7 +623,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/chm-centrum/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/chm-centrum/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="CHM Centrum en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/41a38d029d706c7dcfc64ad337fbb413.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -636,7 +636,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/chm-commewijne/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/chm-commewijne/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="CHM Commewijne en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/41a38d029d706c7dcfc64ad337fbb413.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -649,7 +649,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/chm-kernkampweg/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/chm-kernkampweg/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="CHM Kernkampweg en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/41a38d029d706c7dcfc64ad337fbb413.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -662,7 +662,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/chm-nickerie/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/chm-nickerie/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="CHM Nickerie en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/41a38d029d706c7dcfc64ad337fbb413.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -675,7 +675,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/chm-wanica/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/chm-wanica/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="CHM Wanica en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/41a38d029d706c7dcfc64ad337fbb413.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -688,7 +688,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/chm-wilhelminastraat/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/chm-wilhelminastraat/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="CHM Wilhelminastraat en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/41a38d029d706c7dcfc64ad337fbb413.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -701,7 +701,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/chm-wilhelminastraat-2/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/chm-wilhelminastraat-2/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="CHM Wilhelminastraat 2 en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/41a38d029d706c7dcfc64ad337fbb413.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -714,7 +714,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/chois-supermarkt/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/chois-supermarkt/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Chois Supermarkt en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/854e6bc958d1ca2ad4064e60b65c7c12.webp" srcset="/images/854e6bc958d1ca2ad4064e60b65c7c12-480.webp 480w, /images/854e6bc958d1ca2ad4064e60b65c7c12.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -727,7 +727,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="supermarkets" href="listing/chois-supermarkt-lelydorp/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="supermarkets" href="listing/chois-supermarkt-lelydorp/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Chois Supermarkt Lelydorp en Wanica" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/854e6bc958d1ca2ad4064e60b65c7c12.webp" srcset="/images/854e6bc958d1ca2ad4064e60b65c7c12-480.webp 480w, /images/854e6bc958d1ca2ad4064e60b65c7c12.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -740,7 +740,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/chois-supermarkt-north/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/chois-supermarkt-north/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Chois Supermarkt Noord en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/854e6bc958d1ca2ad4064e60b65c7c12.webp" srcset="/images/854e6bc958d1ca2ad4064e60b65c7c12-480.webp 480w, /images/854e6bc958d1ca2ad4064e60b65c7c12.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -753,7 +753,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/combe-bazaar/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/combe-bazaar/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Combe Bazaar en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/071738555b4a7de224075c87176807ea.webp" srcset="/images/071738555b4a7de224075c87176807ea-480.webp 480w, /images/071738555b4a7de224075c87176807ea.webp 792w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -766,7 +766,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/combe-markt/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/combe-markt/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Combe Markt en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/071738555b4a7de224075c87176807ea.webp" srcset="/images/071738555b4a7de224075c87176807ea-480.webp 480w, /images/071738555b4a7de224075c87176807ea.webp 792w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -779,7 +779,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/computer-hardware-services/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/computer-hardware-services/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Computer Hardware Services en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/6698e3a793819a31e249a36d64d5c81f.webp" srcset="/images/6698e3a793819a31e249a36d64d5c81f-480.webp 480w, /images/6698e3a793819a31e249a36d64d5c81f.webp 623w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -792,7 +792,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/computronics-north/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/computronics-north/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Computronics Noord en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a673a7d76b3653fff341ff84b8438874.webp" srcset="/images/a673a7d76b3653fff341ff84b8438874-480.webp 480w, /images/a673a7d76b3653fff341ff84b8438874.webp 583w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -805,7 +805,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/computronics-south/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/computronics-south/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Computronics Zuid en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a673a7d76b3653fff341ff84b8438874.webp" srcset="/images/a673a7d76b3653fff341ff84b8438874-480.webp 480w, /images/a673a7d76b3653fff341ff84b8438874.webp 583w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -818,7 +818,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/crocs-ims/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/crocs-ims/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Crocs IMS en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b5dc69cae2550748f2c91f945bb9fcb9.webp" srcset="/images/b5dc69cae2550748f2c91f945bb9fcb9-480.webp 480w, /images/b5dc69cae2550748f2c91f945bb9fcb9.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -831,7 +831,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="health-beauty" href="listing/da-drogisterij-coppename/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="health-beauty" href="listing/da-drogisterij-coppename/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="DA Drogisterij Coppename en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/a35342468de6b05452fc46e25f289e69.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -843,7 +843,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="health-beauty" href="listing/da-drogisterij-hermitage/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="health-beauty" href="listing/da-drogisterij-hermitage/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="DA Drogisterij Hermitage en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/a35342468de6b05452fc46e25f289e69.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -855,7 +855,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="health-beauty" href="listing/da-drogisterij-ims-mall/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="health-beauty" href="listing/da-drogisterij-ims-mall/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="DA Drogisterij IMS Mall en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/a35342468de6b05452fc46e25f289e69.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -867,7 +867,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="health-beauty" href="listing/da-drogisterij-lelydorp/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="health-beauty" href="listing/da-drogisterij-lelydorp/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="DA Drogisterij Lelydorp en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/a35342468de6b05452fc46e25f289e69.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -879,7 +879,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="health-beauty" href="listing/da-drogisterij-wilhelmina/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="health-beauty" href="listing/da-drogisterij-wilhelmina/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="DA Drogisterij Wilhelmina en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/a35342468de6b05452fc46e25f289e69.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -891,7 +891,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/de-keurslager-interfarm/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/de-keurslager-interfarm/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="De Keurslager Interfarm en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/674e1f32d458913e52bcd723d4f19879.webp" srcset="/images/674e1f32d458913e52bcd723d4f19879-480.webp 480w, /images/674e1f32d458913e52bcd723d4f19879.webp 700w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -904,7 +904,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/deto-handelmaatschappij/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/deto-handelmaatschappij/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Deto Handelmaatschappij en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1d8b314e15c2f8f514864289191a4f7a.webp" srcset="/images/1d8b314e15c2f8f514864289191a4f7a-480.webp 480w, /images/1d8b314e15c2f8f514864289191a4f7a.webp 690w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -916,7 +916,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/digital-world-hermitage-mall/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/digital-world-hermitage-mall/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Digital World Hermitage Mall en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a231baed978c7a22bb1784b64bc6d9ec.webp" srcset="/images/a231baed978c7a22bb1784b64bc6d9ec-480.webp 480w, /images/a231baed978c7a22bb1784b64bc6d9ec.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -929,7 +929,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/digital-world-ims/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/digital-world-ims/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Digital World IMS en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a231baed978c7a22bb1784b64bc6d9ec.webp" srcset="/images/a231baed978c7a22bb1784b64bc6d9ec-480.webp 480w, /images/a231baed978c7a22bb1784b64bc6d9ec.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -942,7 +942,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/digital-world-maretraite-mall/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/digital-world-maretraite-mall/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Digital World Ma Retraite Mall en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a231baed978c7a22bb1784b64bc6d9ec.webp" srcset="/images/a231baed978c7a22bb1784b64bc6d9ec-480.webp 480w, /images/a231baed978c7a22bb1784b64bc6d9ec.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -954,7 +954,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/digital-world-maretraite-mall-2/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/digital-world-maretraite-mall-2/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Digital World Ma Retraite Mall (2) en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a231baed978c7a22bb1784b64bc6d9ec.webp" srcset="/images/a231baed978c7a22bb1784b64bc6d9ec-480.webp 480w, /images/a231baed978c7a22bb1784b64bc6d9ec.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -966,7 +966,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/divergent-body-jewelry/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/divergent-body-jewelry/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Divergent Body Jewelry, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1ead4a57e283115b7bd4622e9f56abfc.webp" srcset="/images/1ead4a57e283115b7bd4622e9f56abfc-480.webp 480w, /images/1ead4a57e283115b7bd4622e9f56abfc.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -979,7 +979,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/dj-liquor-store/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/dj-liquor-store/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="DJ Liquor Store, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a9dacb08a0dc3772847946dcd83afc18.webp" srcset="/images/a9dacb08a0dc3772847946dcd83afc18-480.webp 480w, /images/a9dacb08a0dc3772847946dcd83afc18.webp 1600w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -992,7 +992,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/dojo-couture-centrum/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/dojo-couture-centrum/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Dojo Couture Centrum en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/28862e26999622f2be59eda82964a0b0.webp" srcset="/images/28862e26999622f2be59eda82964a0b0-480.webp 480w, /images/28862e26999622f2be59eda82964a0b0.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1005,7 +1005,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/dojo-couture-hermitage-mall/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/dojo-couture-hermitage-mall/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Dojo Couture Hermitage Mall en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/28862e26999622f2be59eda82964a0b0.webp" srcset="/images/28862e26999622f2be59eda82964a0b0-480.webp 480w, /images/28862e26999622f2be59eda82964a0b0.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1018,7 +1018,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/dojo-couture-ims/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/dojo-couture-ims/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Dojo Couture IMS en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/28862e26999622f2be59eda82964a0b0.webp" srcset="/images/28862e26999622f2be59eda82964a0b0-480.webp 480w, /images/28862e26999622f2be59eda82964a0b0.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1031,7 +1031,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="other" href="listing/fish-finder-fishing-and-outdoors/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="other" href="listing/fish-finder-fishing-and-outdoors/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Fish Finder Fishing &amp; Outdoors en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/e80cf2ffeb68f4ac5eb42ea3b09a2f55.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1043,7 +1043,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/flex-phones/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/flex-phones/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Flex Phones en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/77b7aada0247b20ca3623a8e3781160c.webp" srcset="/images/77b7aada0247b20ca3623a8e3781160c-480.webp 480w, /images/77b7aada0247b20ca3623a8e3781160c.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1056,7 +1056,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/footcandy-hermitage-mall/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/footcandy-hermitage-mall/">
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Footcandy Hermitage Mall</h3>
@@ -1068,7 +1068,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="bakeries-sweets" href="listing/from-kay-with-love/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="bakeries-sweets" href="listing/from-kay-with-love/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="From Kay With Love en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/2b4f97a5ea9458d070083a2809a63898.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1080,7 +1080,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/from-me-to-me/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/from-me-to-me/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="From Me, To Me, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8831a380143d6643d7518ec5a4db5693.webp" srcset="/images/8831a380143d6643d7518ec5a4db5693-480.webp 480w, /images/8831a380143d6643d7518ec5a4db5693.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1093,7 +1093,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="home-furniture" href="listing/furniture-city-kwatta/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="home-furniture" href="listing/furniture-city-kwatta/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Furniture City Kwatta en Wanica" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e69e862c6d0a71cb62e5c97047e32aee.webp" srcset="/images/e69e862c6d0a71cb62e5c97047e32aee-480.webp 480w, /images/e69e862c6d0a71cb62e5c97047e32aee.webp 750w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1106,7 +1106,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/furniture-city-north/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/furniture-city-north/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Furniture City Noord en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e69e862c6d0a71cb62e5c97047e32aee.webp" srcset="/images/e69e862c6d0a71cb62e5c97047e32aee-480.webp 480w, /images/e69e862c6d0a71cb62e5c97047e32aee.webp 750w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1118,7 +1118,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/galaxy/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/galaxy/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Galaxy, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fc616d54eca59fb5444dcf7e26d405ad.webp" srcset="/images/fc616d54eca59fb5444dcf7e26d405ad-480.webp 480w, /images/fc616d54eca59fb5444dcf7e26d405ad.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1131,7 +1131,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/gao-ming-trading-north/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/gao-ming-trading-north/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Gao Ming Trading North en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/970a159a3d483b6e2f501d1b2bfa2e28.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1144,7 +1144,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/gao-ming-trading-south/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/gao-ming-trading-south/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Gao Ming Trading South en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/970a159a3d483b6e2f501d1b2bfa2e28.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1157,7 +1157,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="health-pharmacy" href="listing/golderom-healthy-organic-store/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="health-pharmacy" href="listing/golderom-healthy-organic-store/">
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Golderom Healthy Organic Store</h3>
@@ -1168,7 +1168,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="crafts-souvenirs" href="listing/h-garden/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="crafts-souvenirs" href="listing/h-garden/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="H Garden, compras y souvenirs en Wanica" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f3715ef29057838a35438d1688d45ce2.webp" srcset="/images/f3715ef29057838a35438d1688d45ce2-480.webp 480w, /images/f3715ef29057838a35438d1688d45ce2.webp 1231w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1181,7 +1181,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/hermitage-mall/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/hermitage-mall/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Hermitage Mall, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e1eb106fe979bb093cb49f070fa20781.webp" srcset="/images/e1eb106fe979bb093cb49f070fa20781-480.webp 480w, /images/e1eb106fe979bb093cb49f070fa20781.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1194,7 +1194,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="eco-lodges" href="listing/holiday-home-decor/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="eco-lodges" href="listing/holiday-home-decor/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Holiday Home Decor en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2b32da8ebc07f1a55f64173e09533a16.webp" srcset="/images/2b32da8ebc07f1a55f64173e09533a16-480.webp 480w, /images/2b32da8ebc07f1a55f64173e09533a16.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1207,7 +1207,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/hollandia-bakkerij-north/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/hollandia-bakkerij-north/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Hollandia Bakkerij Noord en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3d0f1220298dd384f7f0a6bf34354675.webp" srcset="/images/3d0f1220298dd384f7f0a6bf34354675-480.webp 480w, /images/3d0f1220298dd384f7f0a6bf34354675.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1220,7 +1220,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/hollandia-bakkerij-south/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/hollandia-bakkerij-south/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Hollandia Bakkerij Zuid en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3d0f1220298dd384f7f0a6bf34354675.webp" srcset="/images/3d0f1220298dd384f7f0a6bf34354675-480.webp 480w, /images/3d0f1220298dd384f7f0a6bf34354675.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1233,7 +1233,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="beauty-wellness" href="listing/honeycare/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="beauty-wellness" href="listing/honeycare/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Honeycare, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/4eeda6d4d963aef854ce26cd19685ca8.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1246,7 +1246,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="beauty-wellness" href="listing/honeycare-north/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="beauty-wellness" href="listing/honeycare-north/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Honeycare North en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/4eeda6d4d963aef854ce26cd19685ca8.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1258,7 +1258,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="beauty-wellness" href="listing/honeycare-south/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="beauty-wellness" href="listing/honeycare-south/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Honeycare South en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/4eeda6d4d963aef854ce26cd19685ca8.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1270,7 +1270,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/hurricane-steel/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/hurricane-steel/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Hurricane Steel en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5ae87513e8bf5fbc6ac0d904f36011ee.webp" srcset="/images/5ae87513e8bf5fbc6ac0d904f36011ee-480.webp 480w, /images/5ae87513e8bf5fbc6ac0d904f36011ee.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1283,7 +1283,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/hurricane-steel-ringweg/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/hurricane-steel-ringweg/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Hurricane Steel (Ringweg Zuid) en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5ae87513e8bf5fbc6ac0d904f36011ee.webp" srcset="/images/5ae87513e8bf5fbc6ac0d904f36011ee-480.webp 480w, /images/5ae87513e8bf5fbc6ac0d904f36011ee.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1296,7 +1296,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/international-mall-of-suriname/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/international-mall-of-suriname/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="International Mall of Suriname, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1462e2e88e910e4db21b2528fa3dc3a4.webp" srcset="/images/1462e2e88e910e4db21b2528fa3dc3a4-480.webp 480w, /images/1462e2e88e910e4db21b2528fa3dc3a4.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1309,7 +1309,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/janelles-shoes-and-bags/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/janelles-shoes-and-bags/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Janelles Shoes &amp; Bags en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="https://media.evendo.com/locations-resized/ShoppingImages/1920x466/7580db81-eb04-4445-80e2-0789b03625f5" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1322,7 +1322,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/kaki-supermarkt/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/kaki-supermarkt/">
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Kaki Supermarkt</h3>
@@ -1334,7 +1334,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="local-caribbean" href="listing/kasan-snacks/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="local-caribbean" href="listing/kasan-snacks/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Kasan Snacks, Comida en Wanica" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3aed6e9145d4f657303167642a1127bb.webp" srcset="/images/3aed6e9145d4f657303167642a1127bb-480.webp 480w, /images/3aed6e9145d4f657303167642a1127bb.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1347,7 +1347,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="asian-fusion" href="listing/ket-mien/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="asian-fusion" href="listing/ket-mien/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Ket Mien en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b99989f3a7a5a1c7a742754db9f9d509.webp" srcset="/images/b99989f3a7a5a1c7a742754db9f9d509-480.webp 480w, /images/b99989f3a7a5a1c7a742754db9f9d509.webp 1200w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1360,7 +1360,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/kirpalani/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/kirpalani/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Kirpalani, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7a72892ad4f967c190958c3349bf7c77.webp" srcset="/images/7a72892ad4f967c190958c3349bf7c77-480.webp 480w, /images/7a72892ad4f967c190958c3349bf7c77.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1373,7 +1373,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/kirpalani-domineestraat/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/kirpalani-domineestraat/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Kirpalani Domineestraat en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/70fe94c5bd9ec1179830c9ddac0bed6d.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1386,7 +1386,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/kirpalani-maagdenstraat/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/kirpalani-maagdenstraat/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Kirpalani Maagdenstraat en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/70fe94c5bd9ec1179830c9ddac0bed6d.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1399,7 +1399,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/kirpalani-super-store/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/kirpalani-super-store/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Kirpalani Super Store en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/70fe94c5bd9ec1179830c9ddac0bed6d.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1412,7 +1412,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="nursery-garden" href="listing/ladybug-nursery-and-garden-center/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="nursery-garden" href="listing/ladybug-nursery-and-garden-center/">
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Ladybug Nursery &amp; Garden Center</h3>
@@ -1423,7 +1423,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/lilis/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/lilis/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Lili's, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/813fd9add700a5b79b6c3c7ba31df33f.webp" srcset="/images/813fd9add700a5b79b6c3c7ba31df33f-480.webp 480w, /images/813fd9add700a5b79b6c3c7ba31df33f.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1436,7 +1436,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/lins-super-market/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/lins-super-market/">
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Lin's Super Market</h3>
@@ -1448,7 +1448,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/lucky-store/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/lucky-store/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Lucky Store en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/96021f0d47cdaae06d84098868c3282d.webp" srcset="/images/96021f0d47cdaae06d84098868c3282d-480.webp 480w, /images/96021f0d47cdaae06d84098868c3282d.webp 1600w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1461,7 +1461,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/mimi-market/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/mimi-market/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Mimi Market en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/626e45f92b8f59c6660d1e8512e1cd80.webp" srcset="/images/626e45f92b8f59c6660d1e8512e1cd80-480.webp 480w, /images/626e45f92b8f59c6660d1e8512e1cd80.webp 960w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1474,7 +1474,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/miniso-gompertstraat/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/miniso-gompertstraat/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Miniso Gompertstraat en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a097b146a4250b963228f07969875ea2.webp" srcset="/images/a097b146a4250b963228f07969875ea2-480.webp 480w, /images/a097b146a4250b963228f07969875ea2.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1486,7 +1486,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/miniso-hermitage-mall/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/miniso-hermitage-mall/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Miniso Hermitage Mall en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a097b146a4250b963228f07969875ea2.webp" srcset="/images/a097b146a4250b963228f07969875ea2-480.webp 480w, /images/a097b146a4250b963228f07969875ea2.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1498,7 +1498,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="nursery-garden" href="listing/mon-plaisir-nursery/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="nursery-garden" href="listing/mon-plaisir-nursery/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Mon Plaisir Nursery en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cc36a70c000875d21b81008f1d39deac.webp" srcset="/images/cc36a70c000875d21b81008f1d39deac-480.webp 480w, /images/cc36a70c000875d21b81008f1d39deac.webp 1600w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1511,7 +1511,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/morevans-outlet/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/morevans-outlet/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Morevans Outlet en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/e8ddb8501d4c8b22733057e09e66f2b7.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1524,7 +1524,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/nv-zing-manufacturing/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/nv-zing-manufacturing/">
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">N.V. ZING Manufacturing</h3>
@@ -1536,7 +1536,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/ochama-amazing/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/ochama-amazing/">
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Ochama Amazing</h3>
@@ -1547,7 +1547,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/ochama-hermitage-mall/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/ochama-hermitage-mall/">
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Ochama Hermitage Mall</h3>
@@ -1558,7 +1558,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="other" href="listing/office-world-hermitage-mall/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="other" href="listing/office-world-hermitage-mall/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Office World Hermitage Mall en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/55921b518909d033d4abd063a002fdab.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1571,7 +1571,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="other" href="listing/office-world-lelydorp/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="other" href="listing/office-world-lelydorp/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Office World Lelydorp en Wanica" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/55921b518909d033d4abd063a002fdab.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1584,7 +1584,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-all-vision/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-all-vision/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Optiek All Vision en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9af3ad0d31835b764d3a09cf67ea0708.webp" srcset="/images/9af3ad0d31835b764d3a09cf67ea0708-480.webp 480w, /images/9af3ad0d31835b764d3a09cf67ea0708.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1597,7 +1597,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-all-vision-albina/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-all-vision-albina/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Optiek All Vision Albina en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9af3ad0d31835b764d3a09cf67ea0708.webp" srcset="/images/9af3ad0d31835b764d3a09cf67ea0708-480.webp 480w, /images/9af3ad0d31835b764d3a09cf67ea0708.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1610,7 +1610,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-all-vision-lelydorp/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-all-vision-lelydorp/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Optiek All Vision Lelydorp en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9af3ad0d31835b764d3a09cf67ea0708.webp" srcset="/images/9af3ad0d31835b764d3a09cf67ea0708-480.webp 480w, /images/9af3ad0d31835b764d3a09cf67ea0708.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1623,7 +1623,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-all-vision-nickerie/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-all-vision-nickerie/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Optiek All Vision Nickerie en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9af3ad0d31835b764d3a09cf67ea0708.webp" srcset="/images/9af3ad0d31835b764d3a09cf67ea0708-480.webp 480w, /images/9af3ad0d31835b764d3a09cf67ea0708.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1636,7 +1636,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-marisa/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-marisa/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Optiek Marisa en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2f0e953fce0146914ed2b79e1c6b10c2.webp" srcset="/images/2f0e953fce0146914ed2b79e1c6b10c2-480.webp 480w, /images/2f0e953fce0146914ed2b79e1c6b10c2.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1649,7 +1649,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-ninon/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-ninon/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Optiek Ninon en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fba3cdd6a2278f542170bb4d85ee54b3.webp" srcset="/images/fba3cdd6a2278f542170bb4d85ee54b3-480.webp 480w, /images/fba3cdd6a2278f542170bb4d85ee54b3.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1662,7 +1662,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-ninon-hermitage-mall/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-ninon-hermitage-mall/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Optiek Ninon Hermitage Mall en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fba3cdd6a2278f542170bb4d85ee54b3.webp" srcset="/images/fba3cdd6a2278f542170bb4d85ee54b3-480.webp 480w, /images/fba3cdd6a2278f542170bb4d85ee54b3.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1675,7 +1675,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-ninon-ims/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-ninon-ims/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Optiek Ninon IMS en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fba3cdd6a2278f542170bb4d85ee54b3.webp" srcset="/images/fba3cdd6a2278f542170bb4d85ee54b3-480.webp 480w, /images/fba3cdd6a2278f542170bb4d85ee54b3.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1688,7 +1688,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-ninon-lelydorp/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-ninon-lelydorp/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Optiek Ninon Lelydorp en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fba3cdd6a2278f542170bb4d85ee54b3.webp" srcset="/images/fba3cdd6a2278f542170bb4d85ee54b3-480.webp 480w, /images/fba3cdd6a2278f542170bb4d85ee54b3.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1701,7 +1701,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-ninon-meerzorg/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-ninon-meerzorg/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Optiek Ninon Meerzorg en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fba3cdd6a2278f542170bb4d85ee54b3.webp" srcset="/images/fba3cdd6a2278f542170bb4d85ee54b3-480.webp 480w, /images/fba3cdd6a2278f542170bb4d85ee54b3.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1714,7 +1714,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-ninon-nickerie/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optiek-ninon-nickerie/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Optiek Ninon Nickerie en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fba3cdd6a2278f542170bb4d85ee54b3.webp" srcset="/images/fba3cdd6a2278f542170bb4d85ee54b3-480.webp 480w, /images/fba3cdd6a2278f542170bb4d85ee54b3.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1727,7 +1727,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/papillon-crafts/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/papillon-crafts/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Papillon Crafts, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/dbdeecebf7b5fb93a71ac45dc2078ec8.webp" srcset="/images/dbdeecebf7b5fb93a71ac45dc2078ec8-480.webp 480w, /images/dbdeecebf7b5fb93a71ac45dc2078ec8.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1740,7 +1740,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/randoe-meubelen/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/randoe-meubelen/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Randoe Meubelen en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/305176b181f2f7c1cff9b98d45f837e2.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1753,7 +1753,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/readytex-souvenirs-and-crafts/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/readytex-souvenirs-and-crafts/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Readytex Souvenirs and Crafts, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/48e243ebe10dfeef1b2eadd88ffa6d68.webp" srcset="/images/48e243ebe10dfeef1b2eadd88ffa6d68-480.webp 480w, /images/48e243ebe10dfeef1b2eadd88ffa6d68.webp 570w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1766,7 +1766,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Commewijne" data-sub="events-party" href="listing/red-century-party-shop-commewijne/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Commewijne" data-sub="events-party" href="listing/red-century-party-shop-commewijne/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Red Century Party Shop Commewijne en Commewijne" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="https://media.evendo.com/locations-resized/ShoppingImages/1920x466/358c883a-ac82-4dad-a02d-20fa6c734371" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1778,7 +1778,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="events-party" href="listing/red-century-party-shop-kwatta/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="events-party" href="listing/red-century-party-shop-kwatta/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Red Century Party Shop Kwatta en Wanica" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="https://media.evendo.com/locations-resized/ShoppingImages/1920x466/358c883a-ac82-4dad-a02d-20fa6c734371" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1790,7 +1790,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="events-party" href="listing/red-century-party-shop-lelydorp/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="events-party" href="listing/red-century-party-shop-lelydorp/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Red Century Party Shop Lelydorp en Wanica" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="https://media.evendo.com/locations-resized/ShoppingImages/1920x466/358c883a-ac82-4dad-a02d-20fa6c734371" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1802,7 +1802,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="events-party" href="listing/red-century-party-shop-north/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="events-party" href="listing/red-century-party-shop-north/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Red Century Party Shop North en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="https://media.evendo.com/locations-resized/ShoppingImages/1920x466/358c883a-ac82-4dad-a02d-20fa6c734371" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1814,7 +1814,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="events-party" href="listing/red-century-party-shop-zorg-en-hoop/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="events-party" href="listing/red-century-party-shop-zorg-en-hoop/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Red Century Party Shop Zorg En Hoop en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="https://media.evendo.com/locations-resized/ShoppingImages/1920x466/358c883a-ac82-4dad-a02d-20fa6c734371" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1826,7 +1826,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/ring-ring-imports/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/ring-ring-imports/">
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Ring Ring Imports</h3>
@@ -1837,7 +1837,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="other" href="listing/rogom-farm-nv/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="other" href="listing/rogom-farm-nv/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Rogom Farm N.V., comida en Wanica" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/ded4ae583f5c784505c1d35f204c4251.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1850,7 +1850,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="food-specialty" href="listing/rossignol-2go-kwattaweg/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="food-specialty" href="listing/rossignol-2go-kwattaweg/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Rossignol 2GO Kwattaweg en Wanica" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/6180e384d7a4a65c14509ae6b6d44432.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1863,7 +1863,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/rossignol-2go-thurkowstraat/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/rossignol-2go-thurkowstraat/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Rossignol 2GO Thurkowstraat en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/6180e384d7a4a65c14509ae6b6d44432.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1876,7 +1876,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/rossignol-coppename/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/rossignol-coppename/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Rossignol Coppename en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/6180e384d7a4a65c14509ae6b6d44432.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1889,7 +1889,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/rossignol-geyersvlijt/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/rossignol-geyersvlijt/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Rossignol Geyersvlijt en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/6180e384d7a4a65c14509ae6b6d44432.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1902,7 +1902,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/rossignol-linda/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/rossignol-linda/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Rossignol Linda en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/6180e384d7a4a65c14509ae6b6d44432.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1915,7 +1915,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/rossignol-waaldijkstraat/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/rossignol-waaldijkstraat/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Rossignol Waaldijkstraat en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/6180e384d7a4a65c14509ae6b6d44432.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1928,7 +1928,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/sanousch-books/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/sanousch-books/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Sanousch Books en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/b5d5d2313c0b3e0aa9c6ce975412c045.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1941,7 +1941,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/sash-fashion-hermitage-mall/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/sash-fashion-hermitage-mall/">
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Sash Fashion Hermitage Mall</h3>
@@ -1953,7 +1953,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/shlx-collection/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/shlx-collection/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="SHLX Collection, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ee89a6883275b9a4c8f06055b9304bdc.webp" srcset="/images/ee89a6883275b9a4c8f06055b9304bdc-480.webp 480w, /images/ee89a6883275b9a4c8f06055b9304bdc.webp 595w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1966,7 +1966,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/shoebizz-ims/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/shoebizz-ims/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Shoebizz IMS en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/84ceba618e1060e17f896f5d3dec9016.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1979,7 +1979,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/slagerij-abbas/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/slagerij-abbas/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Slagerij Abbas en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/b85f2fee2f293281a376709e00f0c886.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -1992,7 +1992,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/slagerij-asruf/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/slagerij-asruf/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Slagerij Asruf en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/c1e98a970fd16b5f7fc77b20f0a4de9e.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2004,7 +2004,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/slagerij-stolk/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/slagerij-stolk/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Slagerij Stolk en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5c1006efd72bea856c56dd05437d459f.webp" srcset="/images/5c1006efd72bea856c56dd05437d459f-480.webp 480w, /images/5c1006efd72bea856c56dd05437d459f.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2017,7 +2017,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/sleepstore-suriname/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/sleepstore-suriname/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Sleepstore Suriname en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/34b58ccd88fef0491cb729f2ea1c47f6.webp" srcset="/images/34b58ccd88fef0491cb729f2ea1c47f6-480.webp 480w, /images/34b58ccd88fef0491cb729f2ea1c47f6.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2030,7 +2030,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="fashion-clothing" href="listing/sleeqe/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="fashion-clothing" href="listing/sleeqe/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Sleeqe, compras y souvenirs en Wanica" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e5fe3e8a1518b2d64eff0f1e5a784c16.webp" srcset="/images/e5fe3e8a1518b2d64eff0f1e5a784c16-480.webp 480w, /images/e5fe3e8a1518b2d64eff0f1e5a784c16.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2043,7 +2043,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="beauty-wellness" href="listing/smoothieskin/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="beauty-wellness" href="listing/smoothieskin/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="SmoothieSkin, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7f8e3c19ad4c3456626e5972c3966144.webp" srcset="/images/7f8e3c19ad4c3456626e5972c3966144-480.webp 480w, /images/7f8e3c19ad4c3456626e5972c3966144.webp 1080w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2056,7 +2056,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/soengngie-mega-store/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/soengngie-mega-store/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Soengngie Mega Store en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/b98e1a17a741b72e54b9de883c67d583.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2068,7 +2068,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/soengngie-oriental-market/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="malls-markets" href="listing/soengngie-oriental-market/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Soengngie Oriental Market en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/b98e1a17a741b72e54b9de883c67d583.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2081,7 +2081,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Sranan Fowru en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7fdea8d871f028a09bdd2b65fc83ff83.webp" srcset="/images/7fdea8d871f028a09bdd2b65fc83ff83-480.webp 480w, /images/7fdea8d871f028a09bdd2b65fc83ff83.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2094,7 +2094,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-boni/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-boni/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Sranan Fowru Boni en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7fdea8d871f028a09bdd2b65fc83ff83.webp" srcset="/images/7fdea8d871f028a09bdd2b65fc83ff83-480.webp 480w, /images/7fdea8d871f028a09bdd2b65fc83ff83.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2107,7 +2107,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-combe/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-combe/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Sranan Fowru Combe en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7fdea8d871f028a09bdd2b65fc83ff83.webp" srcset="/images/7fdea8d871f028a09bdd2b65fc83ff83-480.webp 480w, /images/7fdea8d871f028a09bdd2b65fc83ff83.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2120,7 +2120,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-flu/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-flu/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Sranan Fowru Flu en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7fdea8d871f028a09bdd2b65fc83ff83.webp" srcset="/images/7fdea8d871f028a09bdd2b65fc83ff83-480.webp 480w, /images/7fdea8d871f028a09bdd2b65fc83ff83.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2133,7 +2133,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-leiding/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-leiding/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Sranan Fowru Leiding en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7fdea8d871f028a09bdd2b65fc83ff83.webp" srcset="/images/7fdea8d871f028a09bdd2b65fc83ff83-480.webp 480w, /images/7fdea8d871f028a09bdd2b65fc83ff83.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2146,7 +2146,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="food-specialty" href="listing/sranan-fowru-lelydorp/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="food-specialty" href="listing/sranan-fowru-lelydorp/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Sranan Fowru Lelydorp en Wanica" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7fdea8d871f028a09bdd2b65fc83ff83.webp" srcset="/images/7fdea8d871f028a09bdd2b65fc83ff83-480.webp 480w, /images/7fdea8d871f028a09bdd2b65fc83ff83.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2159,7 +2159,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-meursweg/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-meursweg/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Sranan Fowru Meursweg en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7fdea8d871f028a09bdd2b65fc83ff83.webp" srcset="/images/7fdea8d871f028a09bdd2b65fc83ff83-480.webp 480w, /images/7fdea8d871f028a09bdd2b65fc83ff83.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2172,7 +2172,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-tabiki-fowru/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-tabiki-fowru/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Sranan Fowru Tabiki Fowru en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7fdea8d871f028a09bdd2b65fc83ff83.webp" srcset="/images/7fdea8d871f028a09bdd2b65fc83ff83-480.webp 480w, /images/7fdea8d871f028a09bdd2b65fc83ff83.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2185,7 +2185,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-tourtonne/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-tourtonne/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Sranan Fowru Tourtonne en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7fdea8d871f028a09bdd2b65fc83ff83.webp" srcset="/images/7fdea8d871f028a09bdd2b65fc83ff83-480.webp 480w, /images/7fdea8d871f028a09bdd2b65fc83ff83.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2198,7 +2198,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-zinnia/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sranan-fowru-zinnia/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Sranan Fowru Zinnia en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7fdea8d871f028a09bdd2b65fc83ff83.webp" srcset="/images/7fdea8d871f028a09bdd2b65fc83ff83-480.webp 480w, /images/7fdea8d871f028a09bdd2b65fc83ff83.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2211,7 +2211,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/steps-domineestraat/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/steps-domineestraat/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Steps Domineestraat en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/87aef68891d9942b8ed3e52b53dd7e9f.webp" srcset="/images/87aef68891d9942b8ed3e52b53dd7e9f-480.webp 480w, /images/87aef68891d9942b8ed3e52b53dd7e9f.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2224,7 +2224,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/steps-hermitage-mall/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/steps-hermitage-mall/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Steps Hermitage Mall en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/87aef68891d9942b8ed3e52b53dd7e9f.webp" srcset="/images/87aef68891d9942b8ed3e52b53dd7e9f-480.webp 480w, /images/87aef68891d9942b8ed3e52b53dd7e9f.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2237,7 +2237,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/steps-noord/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/steps-noord/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Steps Noord en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/87aef68891d9942b8ed3e52b53dd7e9f.webp" srcset="/images/87aef68891d9942b8ed3e52b53dd7e9f-480.webp 480w, /images/87aef68891d9942b8ed3e52b53dd7e9f.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2250,7 +2250,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/steps-wanica/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/steps-wanica/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Steps Wanica en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/87aef68891d9942b8ed3e52b53dd7e9f.webp" srcset="/images/87aef68891d9942b8ed3e52b53dd7e9f-480.webp 480w, /images/87aef68891d9942b8ed3e52b53dd7e9f.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2263,7 +2263,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="other" href="listing/store4u/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="other" href="listing/store4u/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Store4u en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/ce4db3a1b5b42e887496a7706caaf2ac.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2276,7 +2276,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/suraniyat/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/suraniyat/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Suraniyat, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5f553ffdbaaf164fcfbf3666b4560835.webp" srcset="/images/5f553ffdbaaf164fcfbf3666b4560835-480.webp 480w, /images/5f553ffdbaaf164fcfbf3666b4560835.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2289,7 +2289,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sweetheart-hermitage-mall/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sweetheart-hermitage-mall/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Sweetheart Hermitage Mall en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/bed845bedbce4d8f42ab57c3a8b82dd8.webp" srcset="/images/bed845bedbce4d8f42ab57c3a8b82dd8-480.webp 480w, /images/bed845bedbce4d8f42ab57c3a8b82dd8.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2302,7 +2302,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sweetheart-ims/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/sweetheart-ims/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Sweetheart IMS en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/bed845bedbce4d8f42ab57c3a8b82dd8.webp" srcset="/images/bed845bedbce4d8f42ab57c3a8b82dd8-480.webp 480w, /images/bed845bedbce4d8f42ab57c3a8b82dd8.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2315,7 +2315,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/switi-momenti-candles-crafts/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/switi-momenti-candles-crafts/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Switi Momenti Candles &amp; Crafts, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9d2aa7921b20f4925e7fea2c02099938.webp" srcset="/images/9d2aa7921b20f4925e7fea2c02099938-480.webp 480w, /images/9d2aa7921b20f4925e7fea2c02099938.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2328,7 +2328,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/talking-prints-concept-store/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/talking-prints-concept-store/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Talking Prints Concept Store, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/bc6192e6d01e13c4491d153d9e38e050.webp" srcset="/images/bc6192e6d01e13c4491d153d9e38e050-480.webp 480w, /images/bc6192e6d01e13c4491d153d9e38e050.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2341,7 +2341,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/talula/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/talula/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Talula en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/8707e3cc873e81d5e7a48037a851f60f.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2353,7 +2353,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/the-old-attic/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/the-old-attic/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="The Old Attic, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/171274f30b37d7eb1388dc0803eed605.webp" srcset="/images/171274f30b37d7eb1388dc0803eed605-480.webp 480w, /images/171274f30b37d7eb1388dc0803eed605.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2366,7 +2366,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="beauty-wellness" href="listing/the-perfume-spot/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="beauty-wellness" href="listing/the-perfume-spot/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="The Perfume Spot en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/1f6c363c9c12e60c22f850bb309d4ee2.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2378,7 +2378,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/the-uma-store/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/the-uma-store/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="The Uma Store, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5c1f83d9b57160fa4a54c39f90ee0f12.webp" srcset="/images/5c1f83d9b57160fa4a54c39f90ee0f12-480.webp 480w, /images/5c1f83d9b57160fa4a54c39f90ee0f12.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2391,7 +2391,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/the-warehouse-shop/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="home-furniture" href="listing/the-warehouse-shop/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="The Warehouse Shop en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/8801382dc6becf06794eec7484e8c157.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2404,7 +2404,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="other" href="listing/tomahawk-outdoor-adventures/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="other" href="listing/tomahawk-outdoor-adventures/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Tomahawk Outdoor Adventures en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="https://tomahawk.sr/wp-content/uploads/2024/02/tomahawk-logo.png" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2416,7 +2416,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="other" href="listing/tomahawk-outdoor-adventures-hermitage-mall/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="other" href="listing/tomahawk-outdoor-adventures-hermitage-mall/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Tomahawk Outdoor Adventures Hermitage en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="https://tomahawk.sr/wp-content/uploads/2024/02/tomahawk-logo.png" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2428,7 +2428,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="other" href="listing/tomahawk-outdoor-adventures-ims/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="other" href="listing/tomahawk-outdoor-adventures-ims/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Tomahawk Outdoor Adventures IMS en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="https://tomahawk.sr/wp-content/uploads/2024/02/tomahawk-logo.png" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2440,7 +2440,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="other" href="listing/tomahawk-outdoor-adventures-lelydorp/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Wanica" data-sub="other" href="listing/tomahawk-outdoor-adventures-lelydorp/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Tomahawk Outdoor Adventures Lelydorp en Wanica" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="https://tomahawk.sr/wp-content/uploads/2024/02/tomahawk-logo.png" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2452,7 +2452,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/topslager-stolk/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/topslager-stolk/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Topslager Stolk en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/6767d2ffaf981ae15ce4be2783dab3a6.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2465,7 +2465,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="other" href="listing/toys-n-more/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="other" href="listing/toys-n-more/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Toys N More en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/282fee7ba843adfef0b5aece3e9d3388.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2478,7 +2478,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/tulip-supermarket/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/tulip-supermarket/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Tulip Supermarket, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/83c4aa8d5dbc416052df7e95a64a6fe8.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2491,7 +2491,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/unlocked-candles/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/unlocked-candles/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Unlocked Candles, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fdae3b9e2365c709d65661db4957e00f.webp" srcset="/images/fdae3b9e2365c709d65661db4957e00f-480.webp 480w, /images/fdae3b9e2365c709d65661db4957e00f.webp 1280w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2504,7 +2504,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/vcm-slagerij-centrum/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/vcm-slagerij-centrum/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="VCM Slagerij Centrum en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/19e4443090eaaee53e78b68378586f8a.webp" srcset="/images/19e4443090eaaee53e78b68378586f8a-480.webp 480w, /images/19e4443090eaaee53e78b68378586f8a.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2516,7 +2516,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/vcm-slagerij-johannes-mungrastraat/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/vcm-slagerij-johannes-mungrastraat/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="VCM Slagerij Johannes Mungrastraat en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/19e4443090eaaee53e78b68378586f8a.webp" srcset="/images/19e4443090eaaee53e78b68378586f8a-480.webp 480w, /images/19e4443090eaaee53e78b68378586f8a.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2528,7 +2528,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/vcm-slagerij-verl-gemenelandsweg/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="food-specialty" href="listing/vcm-slagerij-verl-gemenelandsweg/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="VCM Slagerij Verlengde Gemenelandsweg en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/19e4443090eaaee53e78b68378586f8a.webp" srcset="/images/19e4443090eaaee53e78b68378586f8a-480.webp 480w, /images/19e4443090eaaee53e78b68378586f8a.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2540,7 +2540,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/vifa-trading/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/vifa-trading/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Vifa Trading en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b4343bdfddf9e42c6673ff3f79288a28.webp" srcset="/images/b4343bdfddf9e42c6673ff3f79288a28-480.webp 480w, /images/b4343bdfddf9e42c6673ff3f79288a28.webp 960w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2553,7 +2553,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/vincent-supermarket/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="supermarkets" href="listing/vincent-supermarket/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Vincent Supermarket en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1207c172815beea8cd63feabc3e53d17.webp" srcset="/images/1207c172815beea8cd63feabc3e53d17-480.webp 480w, /images/1207c172815beea8cd63feabc3e53d17.webp 1600w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2566,7 +2566,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="bakeries-sweets" href="listing/wing-hung-cake-shop/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="bakeries-sweets" href="listing/wing-hung-cake-shop/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Wing Hung Cake Shop en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" src="/images/46824008eb4848c0dff1203b52532aee.webp" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2578,7 +2578,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Commewijne" data-sub="crafts-souvenirs" href="listing/woodwonders-suriname/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Commewijne" data-sub="crafts-souvenirs" href="listing/woodwonders-suriname/">
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
 <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">Woodwonders Suriname</h3>
@@ -2590,7 +2590,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/yokohama-trading/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="electronics" href="listing/yokohama-trading/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Yokohama Trading en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8053f826cf51c43996e9f483cede91cd.webp" srcset="/images/8053f826cf51c43996e9f483cede91cd-480.webp 480w, /images/8053f826cf51c43996e9f483cede91cd.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -2603,7 +2603,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/zeepfabriek-joab/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/zeepfabriek-joab/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Zeepfabriek JOAB, compras y souvenirs en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/49daac6749c8ee14c4297c0f8ee38c5f.webp" srcset="/images/49daac6749c8ee14c4297c0f8ee38c5f-480.webp 480w, /images/49daac6749c8ee14c4297c0f8ee38c5f.webp 1024w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
