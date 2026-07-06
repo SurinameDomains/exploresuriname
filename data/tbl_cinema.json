@@ -1,51 +1,26 @@
 {
-  "last_updated": "2026-07-05T16:00:29.489992+00:00",
+  "last_updated": "2026-07-06T10:00:34.935591+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "02:00 PM",
-      "title": "Minions & Monsters (3D)",
-      "url": "https://www.tblcinemas.com/movie/MI20806/minions-monsters"
-    },
-    {
-      "time": "02:30 PM",
-      "title": "Satte Pe Satta",
-      "url": "https://www.tblcinemas.com/movie/%5BB14853/satte-pe-satta"
-    },
-    {
-      "time": "03:00 PM",
-      "title": "Namak Halaal",
-      "url": "https://www.tblcinemas.com/movie/%5BB16035/namak-halaal"
-    },
-    {
-      "time": "03:30 PM",
-      "title": "Michael",
-      "url": "https://www.tblcinemas.com/movie/MI17314/michael"
-    },
-    {
-      "time": "04:00 PM",
-      "title": "Welcome to the Jungle",
-      "url": "https://www.tblcinemas.com/movie/WE14514/welcome-to-the-jungle"
-    },
-    {
-      "time": "04:45 PM",
-      "title": "Minions & Monsters",
-      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
-    },
-    {
-      "time": "06:00 PM",
+      "time": "05:15 PM",
       "title": "Toy Story 5",
       "url": "https://www.tblcinemas.com/movie/TO22592/toy-story-5"
     },
     {
+      "time": "06:00 PM",
+      "title": "Minions & Monsters",
+      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
+    },
+    {
       "time": "06:30 PM",
-      "title": "Yaarana",
-      "url": "https://www.tblcinemas.com/movie/%5BB18440/yaarana"
+      "title": "Cocktail 2",
+      "url": "https://www.tblcinemas.com/movie/CO3933/cocktail-2"
     },
     {
       "time": "07:00 PM",
-      "title": "Amar Akbar Anthony",
-      "url": "https://www.tblcinemas.com/movie/%5BB6271/amar-akbar-anthony"
+      "title": "Baabul",
+      "url": "https://www.tblcinemas.com/movie/%5BB10028/baabul"
     },
     {
       "time": "07:30 PM",
@@ -54,13 +29,13 @@
     },
     {
       "time": "08:15 PM",
-      "title": "The Get Out",
-      "url": "https://www.tblcinemas.com/movie/TH24834/the-get-out"
+      "title": "Scary Movie",
+      "url": "https://www.tblcinemas.com/movie/SC6491/scary-movie"
     },
     {
       "time": "08:45 PM",
-      "title": "Backrooms",
-      "url": "https://www.tblcinemas.com/movie/BA32133/backrooms"
+      "title": "The Get Out",
+      "url": "https://www.tblcinemas.com/movie/TH24834/the-get-out"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
