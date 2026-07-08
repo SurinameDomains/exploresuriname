@@ -3791,18 +3791,12 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
             '</div>'
         )
 
-    # ── Commercial bank comparison (four banks + CME cash) ──────────────────
+    # ── Commercial bank comparison (banks only; CME has its own card above) ─
     bank_section = ""
     if bank_rates:
         cmp_src = [{"name": b["name"], "site": b["site"], "domain": b["domain"],
                     "usd": b["usd"], "eur": b["eur"], "live": b.get("live", False)}
                    for b in bank_rates]
-        _cu = next((r for r in cme_rates if r["currency"] == "USD"), None)
-        _ce = next((r for r in cme_rates if r["currency"] == "EUR"), None)
-        if _cu and _ce:
-            cmp_src.append({"name": "CME (cash)", "site": "https://www.cme.sr", "domain": "cme.sr",
-                            "usd": (float(_cu["buy"]), float(_cu["sell"])),
-                            "eur": (float(_ce["buy"]), float(_ce["sell"])), "live": cme_live})
         best_ub = max(r["usd"][0] for r in cmp_src)
         best_us = min(r["usd"][1] for r in cmp_src)
         best_eb = max(r["eur"][0] for r in cmp_src)
@@ -3873,7 +3867,7 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
       </table>
     </div>
     <div class="sm:hidden py-1">{cmp_cards}</div>
-    <p class="text-gray-400 text-xs px-6 py-4 border-t border-gray-100">Highlighted values are the best rate in each column. Bank rates are giral (account) rates; CME is the cash rate at the exchange office. Rates are indicative. Always confirm with your bank before transacting.</p>
+    <p class="text-gray-400 text-xs px-6 py-4 border-t border-gray-100">Highlighted values are the best rate in each column. Bank rates are giral (account) rates; for cash rates see the CME table above. Rates are indicative. Always confirm with your bank before transacting.</p>
   </div>'''
 
 
