@@ -1765,6 +1765,133 @@ def fetch_cbvs_rates():
     print("  CBVS: all URLs failed, using fallback")
     return CBVS_FALLBACK, False, "Estimated rates (live fetch unavailable)"
 
+# ── Commercial bank rates (Finabank, Hakrinbank, DSB, Republic Bank) ─────────
+# Fetched at build time from each bank's own published rate page or endpoint.
+# Each bank carries a live flag; on failure we fall back to last-known values.
+
+BANK_RATES_FALLBACK = [
+    {"key": "finabank",   "name": "Finabank",      "site": "https://www.finabanknv.com/service-desk/koersen-rates/", "domain": "finabanknv.com",
+     "usd": (37.46, 37.82), "eur": (42.76, 43.19)},
+    {"key": "hakrinbank", "name": "Hakrinbank",    "site": "https://www.hakrinbank.com/en/private/foreign-exchange/", "domain": "hakrinbank.com",
+     "usd": (37.40, 37.82), "eur": (42.65, 43.16)},
+    {"key": "dsb",        "name": "DSB Bank",      "site": "https://www.dsb.sr", "domain": "dsb.sr",
+     "usd": (37.43, 37.81), "eur": (42.70, 43.13)},
+    {"key": "republic",   "name": "Republic Bank", "site": "https://www.republicbanksr.com", "domain": "republicbanksr.com",
+     "usd": (37.11, 37.81), "eur": (42.43, 43.13)},
+]
+
+def _bank_http_get(url, timeout=20):
+    req = urllib.request.Request(url, headers={
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en,nl;q=0.9",
+    })
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return r.read().decode("utf-8", errors="replace")
+
+def _bank_table_rows(tbl_html):
+    """Yield stripped-text cell lists for each <tr> in a table's inner HTML."""
+    for row in re.findall(r"<tr[^>]*>(.*?)</tr>", tbl_html, re.DOTALL | re.IGNORECASE):
+        yield [html_lib.unescape(re.sub(r"<[^>]+>", " ", c)).strip()
+               for c in re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", row, re.DOTALL | re.IGNORECASE)]
+
+def _fetch_finabank_rates():
+    # Rates page publishes a small table with "USD GIRAAL <aankoop> <verkoop>" rows.
+    raw  = _bank_http_get("https://www.finabanknv.com/service-desk/koersen-rates/")
+    text = re.sub(r"\s+", " ", html_lib.unescape(re.sub(r"<[^>]+>", " ", raw)))
+    usd  = re.search(r"USD\s+GIRAAL\s+([\d.,]+)\s+([\d.,]+)", text, re.IGNORECASE)
+    eur  = re.search(r"EUR\s+GIRAAL\s+([\d.,]+)\s+([\d.,]+)", text, re.IGNORECASE)
+    if not (usd and eur):
+        raise ValueError("GIRAAL rows not found")
+    _n = lambda s: float(s.replace(",", "."))
+    return (_n(usd.group(1)), _n(usd.group(2))), (_n(eur.group(1)), _n(eur.group(2)))
+
+def _fetch_dsb_rates():
+    # DSB publishes a plain JSON endpoint with per-currency buy/sell.
+    raw = _bank_http_get("https://service.dsbtools.com/exchange/rates")
+    d = json.loads(raw)["valuta"]
+    return ((float(d["USD"]["buy"]), float(d["USD"]["sell"])),
+            (float(d["EUR"]["buy"]), float(d["EUR"]["sell"])))
+
+def _fetch_hakrinbank_rates():
+    # Foreign-exchange page: target the table with Purchase/Sale columns
+    # (skip the cross-rates table, which has EUR/USD pairs ~1.1).
+    raw = _bank_http_get("https://www.hakrinbank.com/en/private/foreign-exchange/")
+    usd = eur = None
+    for tbl in re.findall(r"<table[^>]*>(.*?)</table>", raw, re.DOTALL | re.IGNORECASE):
+        head = re.sub(r"<[^>]+>", " ", tbl).lower()
+        if "purchase" not in head or "sale" not in head:
+            continue
+        for cells in _bank_table_rows(tbl):
+            if len(cells) < 3:
+                continue
+            code = cells[0].upper()
+            try:
+                buy, sell = float(cells[1]), float(cells[2])
+            except ValueError:
+                continue
+            if code == "USD":
+                usd = (buy, sell)
+            elif code in ("EUR", "EURO"):
+                eur = (buy, sell)
+    if not (usd and eur):
+        raise ValueError("Purchase/Sale table not found")
+    return usd, eur
+
+def _fetch_republic_rates():
+    # Homepage forex table: ABBR. | BUY (CASH) | BUY (SIGHT) | SELL | MID RATE.
+    raw = _bank_http_get("https://www.republicbanksr.com/")
+    usd = eur = None
+    for tbl in re.findall(r"<table[^>]*>(.*?)</table>", raw, re.DOTALL | re.IGNORECASE):
+        head = re.sub(r"<[^>]+>", " ", tbl).lower()
+        if "abbr" not in head or "sell" not in head:
+            continue
+        for cells in _bank_table_rows(tbl):
+            if len(cells) < 4:
+                continue
+            code = cells[0].upper().strip(".")
+            try:
+                buy, sell = float(cells[1]), float(cells[3])
+            except ValueError:
+                continue
+            if code == "USD":
+                usd = (buy, sell)
+            elif code in ("EUR", "EURO"):
+                eur = (buy, sell)
+    if not (usd and eur):
+        raise ValueError("forex table not found")
+    return usd, eur
+
+def fetch_bank_rates():
+    """
+    USD/EUR buy-sell from four commercial banks, scraped from each bank's own
+    published rates (Finabank GIRAAL text, Hakrinbank and Republic rate tables,
+    DSB JSON endpoint). Falls back per bank to last-known values on failure.
+    """
+    fetchers = {
+        "finabank":   _fetch_finabank_rates,
+        "hakrinbank": _fetch_hakrinbank_rates,
+        "dsb":        _fetch_dsb_rates,
+        "republic":   _fetch_republic_rates,
+    }
+    banks = []
+    for fb in BANK_RATES_FALLBACK:
+        b = dict(fb)
+        try:
+            usd, eur = fetchers[b["key"]]()
+            for pair in (usd, eur):
+                if not (5 < pair[0] < 500 and 5 < pair[1] < 500):
+                    raise ValueError(f"implausible rates {pair}")
+            b["usd"], b["eur"], b["live"] = usd, eur, True
+            print(f"  {b['name']}: USD {usd[0]:.2f}/{usd[1]:.2f}  EUR {eur[0]:.2f}/{eur[1]:.2f} (live)")
+        except Exception as e:
+            b["live"] = False
+            print(f"  {b['name']} rates error: {e} (fallback)")
+        banks.append(b)
+    ts = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
+    return banks, ts
+
+
 # -- Shared HTML parts --------------------------------------------------------
 
 PAGE_HEAD = """\
@@ -3559,11 +3686,33 @@ def build_services_page():
         lcp_image=_lcp, seo_title="Local Services in Paramaribo, Suriname",
         intro_text=f"Find {len(SERVICES)} service providers across Suriname: banks, insurance, beauty salons, gyms, pharmacies, schools, real estate agencies, travel agents and more. Whether you need a haircut, a mortgage, a gym membership or a doctor in Paramaribo, this directory covers the essential services that keep the city running.", faq=_FAQ_SERVICES)
 
-def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated, brent_price=None, brent_updated=None):
+def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated, brent_price=None, brent_updated=None, bank_rates=None, banks_updated=""):
     import json as _json
     updated_now = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
-    buy_json  = _json.dumps({r["currency"]: float(r["buy"])  for r in cme_rates})
-    sell_json = _json.dumps({r["currency"]: float(r["sell"]) for r in cme_rates})
+    # Converter rate sources: CME default, plus CBVS and commercial banks
+    def _rate_maps(rates):
+        return ({r["currency"]: float(r["buy"])  for r in rates},
+                {r["currency"]: float(r["sell"]) for r in rates})
+    _cme_b, _cme_s   = _rate_maps(cme_rates)
+    _cbvs_b, _cbvs_s = _rate_maps(cbvs_rates)
+    cv_sources = {"cme":  {"label": "CME (cash)",      "buy": _cme_b,  "sell": _cme_s},
+                  "cbvs": {"label": "CBVS (official)", "buy": _cbvs_b, "sell": _cbvs_s}}
+    for _b in (bank_rates or []):
+        cv_sources[_b["key"]] = {"label": _b["name"],
+                                 "buy":  {"USD": _b["usd"][0], "EUR": _b["eur"][0]},
+                                 "sell": {"USD": _b["usd"][1], "EUR": _b["eur"][1]}}
+    cv_curr = {"SRD": {"n": "Surinamese Dollar", "f": "\U0001f1f8\U0001f1f7"}}
+    for _r in cbvs_rates + cme_rates:
+        cv_curr.setdefault(_r["currency"], {"n": _r["name"], "f": _r["flag"]})
+    src_json  = _json.dumps(cv_sources, ensure_ascii=False)
+    curr_json = _json.dumps(cv_curr, ensure_ascii=False)
+    cv_pills = ""
+    for _k in cv_sources:
+        _st = ("background:var(--forest);border-color:var(--forest);color:#fff" if _k == "cme"
+               else "border-color:#e5e7eb;color:#374151;background:#fff")
+        cv_pills += ('<button type="button" data-src="' + _k + '" onclick="setSrc(\'' + _k + '\')" '
+                     'class="cv-src text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
+                     'style="' + _st + '">' + html_lib.escape(cv_sources[_k]["label"]) + "</button>")
 
     # USD→SRD rate baked in for gold price SRD equivalent
     usd_buy_srd = next((float(r["buy"]) for r in cme_rates if r["currency"] == "USD"), 37.5)
@@ -3642,6 +3791,92 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
             '</div>'
         )
 
+    # ── Commercial bank comparison (four banks + CME cash) ──────────────────
+    bank_section = ""
+    if bank_rates:
+        cmp_src = [{"name": b["name"], "site": b["site"], "domain": b["domain"],
+                    "usd": b["usd"], "eur": b["eur"], "live": b.get("live", False)}
+                   for b in bank_rates]
+        _cu = next((r for r in cme_rates if r["currency"] == "USD"), None)
+        _ce = next((r for r in cme_rates if r["currency"] == "EUR"), None)
+        if _cu and _ce:
+            cmp_src.append({"name": "CME (cash)", "site": "https://www.cme.sr", "domain": "cme.sr",
+                            "usd": (float(_cu["buy"]), float(_cu["sell"])),
+                            "eur": (float(_ce["buy"]), float(_ce["sell"])), "live": cme_live})
+        best_ub = max(r["usd"][0] for r in cmp_src)
+        best_us = min(r["usd"][1] for r in cmp_src)
+        best_eb = max(r["eur"][0] for r in cmp_src)
+        best_es = min(r["eur"][1] for r in cmp_src)
+
+        def _cmp_cell(val, is_best):
+            if is_best:
+                return ('<td class="py-3 px-4 text-right font-mono font-bold" '
+                        f'style="background:var(--mint);color:var(--forest2)">{val:.2f}</td>')
+            return f'<td class="py-3 px-4 text-right font-mono font-bold text-gray-800">{val:.2f}</td>'
+
+        def _cmp_val(val, is_best):
+            if is_best:
+                return f'<span style="color:var(--forest2)">{val:.2f}</span>'
+            return f"{val:.2f}"
+
+        cmp_rows = ""
+        cmp_cards = ""
+        for r in cmp_src:
+            dot = ('<span class="text-green-500 text-xs" title="Live">&#9679;</span>' if r["live"]
+                   else '<span class="text-amber-500 text-xs" title="Estimated">&#9675;</span>')
+            cmp_rows += (
+                '<tr class="border-b border-gray-100 hover:bg-gray-50">'
+                '<td class="py-3 px-4 whitespace-nowrap">'
+                f'<p class="font-semibold text-gray-900">{html_lib.escape(r["name"])} {dot}</p>'
+                f'<a href="{r["site"]}" target="_blank" rel="noopener noreferrer" '
+                f'class="text-xs text-gray-400 hover:underline">{r["domain"]} &#8599;</a></td>'
+                + _cmp_cell(r["usd"][0], r["usd"][0] >= best_ub)
+                + _cmp_cell(r["usd"][1], r["usd"][1] <= best_us)
+                + _cmp_cell(r["eur"][0], r["eur"][0] >= best_eb)
+                + _cmp_cell(r["eur"][1], r["eur"][1] <= best_es)
+                + "</tr>"
+            )
+            cmp_cards += (
+                '<div class="py-3 border-b border-gray-100 last:border-0 px-4">'
+                '<div class="flex items-center justify-between mb-1.5">'
+                f'<p class="font-semibold text-gray-900 text-sm">{html_lib.escape(r["name"])} {dot}</p>'
+                f'<a href="{r["site"]}" target="_blank" rel="noopener noreferrer" '
+                f'class="text-xs text-gray-400 hover:underline">{r["domain"]} &#8599;</a></div>'
+                '<div class="flex items-center justify-between">'
+                '<p class="text-gray-500 text-xs">USD</p>'
+                f'<p class="font-mono font-bold text-gray-800 text-sm">{_cmp_val(r["usd"][0], r["usd"][0] >= best_ub)}'
+                f' <span class="text-gray-300">/</span> {_cmp_val(r["usd"][1], r["usd"][1] <= best_us)}</p></div>'
+                '<div class="flex items-center justify-between">'
+                '<p class="text-gray-500 text-xs">EUR</p>'
+                f'<p class="font-mono font-bold text-gray-800 text-sm">{_cmp_val(r["eur"][0], r["eur"][0] >= best_eb)}'
+                f' <span class="text-gray-300">/</span> {_cmp_val(r["eur"][1], r["eur"][1] <= best_es)}</p></div>'
+                "</div>"
+            )
+
+        bank_section = f'''
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mt-6">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <p class="font-bold text-gray-900 text-base">Bank Rates Compared</p>
+      <p class="text-gray-400 text-xs mt-0.5">USD and EUR at Suriname&#8217;s commercial banks, side by side. Buy is what you receive when selling foreign currency; sell is what you pay to get it.</p>
+      <p class="text-gray-400 text-xs mt-2">&#128336; {html_lib.escape(banks_updated)}</p>
+    </div>
+    <div class="hidden sm:block overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="bg-gray-50 text-left">
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Bank</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">USD Buy</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">USD Sell</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">EUR Buy</th>
+          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">EUR Sell</th>
+        </tr></thead>
+        <tbody>{cmp_rows}</tbody>
+      </table>
+    </div>
+    <div class="sm:hidden py-1">{cmp_cards}</div>
+    <p class="text-gray-400 text-xs px-6 py-4 border-t border-gray-100">Highlighted values are the best rate in each column. Bank rates are giral (account) rates; CME is the cash rate at the exchange office. Rates are indicative. Always confirm with your bank before transacting.</p>
+  </div>'''
+
+
     from_opts = ""
     for r in cme_rates:
         sel = " selected" if r["currency"] == "USD" else ""
@@ -3652,40 +3887,57 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
     for r in cme_rates:
         to_opts += f'<option value="{r["currency"]}">{r["flag"]} {r["currency"]} – {html_lib.escape(r["name"])}</option>\n'
 
-    js = f"""const BUY  = {buy_json};
-const SELL = {sell_json};
-function toSRD(a,c){{return BUY[c]!=null?a*BUY[c]:null;}}
-function fromSRD(a,c){{return SELL[c]!=null?a/SELL[c]:null;}}
-function doConvert(){{
+    js = "const SRC = " + src_json + ";\nconst CURR = " + curr_json + ";\n" + """var curSrc='cme';
+function optHtml(c){var m=CURR[c]||{n:c,f:'\\uD83D\\uDCB1'};return '<option value="'+c+'">'+m.f+' '+c+' \\u2013 '+m.n+'</option>';}
+function rebuildOpts(){
+  var from=document.getElementById('cv-from'),to=document.getElementById('cv-to');
+  var pf=from.value,pt=to.value;
+  var codes=Object.keys(SRC[curSrc].buy);
+  var fo='';for(var i=0;i<codes.length;i++)fo+=optHtml(codes[i]);fo+=optHtml('SRD');
+  var th='';th+=optHtml('SRD');for(var j=0;j<codes.length;j++)th+=optHtml(codes[j]);
+  from.innerHTML=fo;to.innerHTML=th;
+  from.value=(pf==='SRD'||codes.indexOf(pf)>-1)?pf:'USD';
+  to.value=(pt==='SRD'||codes.indexOf(pt)>-1)?pt:'SRD';
+}
+function setSrc(k){
+  curSrc=k;
+  var bs=document.querySelectorAll('.cv-src');
+  for(var i=0;i<bs.length;i++){var b=bs[i];
+    if(b.getAttribute('data-src')===k){b.style.background='var(--forest)';b.style.borderColor='var(--forest)';b.style.color='#fff';}
+    else{b.style.background='#fff';b.style.borderColor='#e5e7eb';b.style.color='#374151';}}
+  rebuildOpts();doConvert();
+}
+function doConvert(){
+  var B=SRC[curSrc].buy,S=SRC[curSrc].sell,L=SRC[curSrc].label;
   var amt=parseFloat(document.getElementById('cv-amt').value);
   var from=document.getElementById('cv-from').value;
   var to=document.getElementById('cv-to').value;
   var rEl=document.getElementById('cv-result');
   var nEl=document.getElementById('cv-note');
-  if(isNaN(amt)||amt<0){{rEl.textContent='…';nEl.textContent='Enter a valid amount';return;}}
+  if(isNaN(amt)||amt<0){rEl.textContent='\\u2026';nEl.textContent='Enter a valid amount';return;}
   var result,note;
-  if(from===to){{result=amt;note='Same currency';}}
-  else if(from==='SRD'){{result=fromSRD(amt,to);note=SELL[to]?'CME: 1 '+to+' costs '+SELL[to]+' SRD':'Rate unavailable';}}
-  else if(to==='SRD'){{result=toSRD(amt,from);note=BUY[from]?'CME: 1 '+from+' = '+BUY[from]+' SRD':'Rate unavailable';}}
-  else{{var srd=toSRD(amt,from);result=srd!=null?fromSRD(srd,to):null;var cross=(BUY[from]&&SELL[to])?(BUY[from]/SELL[to]).toFixed(4):'?';note='Via SRD: 1 '+from+' ≈ '+cross+' '+to;}}
-  if(result==null){{rEl.textContent='N/A';nEl.textContent='Rate not available';}}
-  else{{rEl.textContent=result.toLocaleString('en-US',{{minimumFractionDigits:2,maximumFractionDigits:2}})+' '+to;nEl.textContent=note;}}
-}}
+  if(from===to){result=amt;note='Same currency';}
+  else if(from==='SRD'){result=S[to]?amt/S[to]:null;note=S[to]?L+': 1 '+to+' costs '+S[to]+' SRD':'Rate unavailable';}
+  else if(to==='SRD'){result=B[from]!=null?amt*B[from]:null;note=B[from]?L+': 1 '+from+' = '+B[from]+' SRD':'Rate unavailable';}
+  else{var srd=B[from]!=null?amt*B[from]:null;result=(srd!=null&&S[to])?srd/S[to]:null;var cross=(B[from]&&S[to])?(B[from]/S[to]).toFixed(4):'?';note='Via SRD ('+L+'): 1 '+from+' \\u2248 '+cross+' '+to;}
+  if(result==null){rEl.textContent='N/A';nEl.textContent='Rate not available';}
+  else{rEl.textContent=result.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+' '+to;nEl.textContent=note;}
+}
 doConvert();"""
 
     return f"""{PAGE_HEAD}
   <title>SRD to USD Today | Surinamese Dollar Exchange Rates | Explore Suriname</title>
-  <meta name="description" content="Live Surinamese Dollar (SRD) exchange rates. CBVS official rates updated 3× daily, CME cash rates updated continuously. Free currency converter.">
+  <meta name="description" content="Live Surinamese Dollar (SRD) exchange rates. Compare USD and EUR rates from CBVS, CME, Finabank, Hakrinbank, DSB and Republic Bank. Free currency converter.">
   <link rel="canonical" href="{SITE_URL}/currency.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/currency.html">
   <meta property="og:title" content="SRD to USD Today | Surinamese Dollar Exchange Rates | Explore Suriname">
-  <meta property="og:description" content="Live Surinamese Dollar (SRD) exchange rates. CBVS official rates updated 3× daily, CME cash rates updated continuously.">
+  <meta property="og:description" content="Live SRD exchange rates. Compare USD and EUR rates across Suriname&#8217;s banks and cambios in one view.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="SRD to USD Today | Surinamese Dollar Exchange Rates | Explore Suriname">
-  <meta name="twitter:description" content="Live Surinamese Dollar (SRD) exchange rates. CBVS official rates updated 3× daily, CME cash rates updated continuously.">
+  <meta name="twitter:description" content="Live SRD exchange rates. Compare USD and EUR rates across Suriname&#8217;s banks and cambios in one view.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"WebPage","name":"SRD to USD Today | Surinamese Dollar Exchange Rates","url":"{SITE_URL}/currency.html","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
@@ -3714,7 +3966,7 @@ doConvert();"""
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">SRD Exchange Rates</h1>
-  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">CBVS 3&times; daily (business days) &bull; CME continuous &bull; live gold &amp; Brent oil</p>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">CBVS official &bull; CME cash &bull; commercial banks compared &bull; live gold &amp; Brent oil</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
   <div class="rounded-2xl border border-amber-200 p-6 mb-8" style="background:#fffbeb">
@@ -3727,7 +3979,8 @@ doConvert();"""
   </div>
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-10">
     <h2 class="serif text-2xl font-bold text-gray-900 mb-1">Currency Converter</h2>
-    <p class="text-gray-400 text-sm mb-7">Using CME cash rates (typical exchange-office rates)</p>
+    <p class="text-gray-400 text-sm mb-4">Pick a rate source below. CME cash is what exchange offices typically offer; bank rates are giral (account) rates.</p>
+    <div class="flex flex-wrap gap-2 mb-6">{cv_pills}</div>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
       <div>
         <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Amount</label>
@@ -3808,6 +4061,7 @@ doConvert();"""
       <div class="sm:hidden py-1">{cme_cards}</div>
     </div>
   </div>
+{bank_section}
   <p class="text-center text-gray-400 text-xs mt-8 max-w-2xl mx-auto leading-relaxed px-4">
     Rates are for informational purposes only. Always confirm the current rate before transacting. Page updates daily.
   </p>
@@ -9261,6 +9515,7 @@ if __name__ == "__main__":
     finance_articles = fetch_finance_articles()
     cme_rates,  cme_live,  cme_updated  = fetch_cme_rates()
     cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
+    bank_rates, banks_updated           = fetch_bank_rates()
     brent_price, brent_updated          = fetch_brent_price()
     tides_data    = fetch_tides_data()
     flights_data  = fetch_aerodatabox_flights()
@@ -9275,7 +9530,8 @@ if __name__ == "__main__":
         "services.html":    build_services_page(),
         "currency.html":    build_currency_page(cme_rates, cme_live, cme_updated,
                                                 cbvs_rates, cbvs_live, cbvs_updated,
-                                                brent_price, brent_updated),
+                                                brent_price, brent_updated,
+                                                bank_rates, banks_updated),
         "conditions.html":  build_conditions_page(tides_data),
         "flights.html":     build_flights_page(flights_data),
         "news.html":        build_news(articles, oil_articles, finance_articles),
