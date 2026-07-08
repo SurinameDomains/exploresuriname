@@ -15,7 +15,7 @@
   @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   </style>
-<link href="/tailwind.css?v=8b35e2ad" rel="stylesheet"/>
+<link href="/tailwind.css?v=2802d68a" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -160,17 +160,17 @@
 <!-- GA4 interaction events: WhatsApp / phone / email / directions / outbound clicks -->
 <script>window.addEventListener("click",function(ev){var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;var h=a.getAttribute("href")||"",n="",p={};if(h.indexOf("https://wa.me/")===0){n="whatsapp_click"}else if(h.indexOf("tel:")===0){n="phone_click"}else if(h.indexOf("mailto:")===0){n="email_click"}else if(h.indexOf("google.com/maps")!==-1){n="directions_click"}else if(/^https?:\/\//.test(h)&&h.indexOf("exploresuriname.com")===-1){n="outbound_click";try{p.link_domain=new URL(h).hostname}catch(e){}}if(!n)return;p.link_url=h.slice(0,100);window.dataLayer=window.dataLayer||[];if(!window.gtag){window.gtag=function(){window.dataLayer.push(arguments)}}window.gtag("event",n,p)});</script>
 <title>SRD to USD Today | Surinamese Dollar Exchange Rates | Explore Suriname</title>
-<meta content="Live Surinamese Dollar (SRD) exchange rates. CBVS official rates updated 3× daily, CME cash rates updated continuously. Free currency converter." name="description"/>
+<meta content="Live Surinamese Dollar (SRD) exchange rates. Compare USD and EUR rates from CBVS, CME, Finabank, Hakrinbank, DSB and Republic Bank. Free currency converter." name="description"/>
 <link href="https://exploresuriname.com/currency.html" rel="canonical"/>
 <meta content="website" property="og:type"/>
 <meta content="Explore Suriname" property="og:site_name"/>
 <meta content="https://exploresuriname.com/currency.html" property="og:url"/>
 <meta content="SRD to USD Today | Surinamese Dollar Exchange Rates | Explore Suriname" property="og:title"/>
-<meta content="Live Surinamese Dollar (SRD) exchange rates. CBVS official rates updated 3× daily, CME cash rates updated continuously." property="og:description"/>
+<meta content="Live SRD exchange rates. Compare USD and EUR rates across Suriname’s banks and cambios in one view." property="og:description"/>
 <meta content="https://exploresuriname.com/og-image.jpg" property="og:image"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="SRD to USD Today | Surinamese Dollar Exchange Rates | Explore Suriname" name="twitter:title"/>
-<meta content="Live Surinamese Dollar (SRD) exchange rates. CBVS official rates updated 3× daily, CME cash rates updated continuously." name="twitter:description"/>
+<meta content="Live SRD exchange rates. Compare USD and EUR rates across Suriname’s banks and cambios in one view." name="twitter:description"/>
 <meta content="https://exploresuriname.com/og-image.jpg" name="twitter:image"/>
 <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebPage","name":"SRD to USD Today | Surinamese Dollar Exchange Rates","url":"https://exploresuriname.com/currency.html","dateModified":"2026-07-08","about":{"@type":"Place","name":"Suriname","addressCountry":"SR"},"isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/"}}
@@ -369,7 +369,7 @@ document.addEventListener('keydown', e => {
 <div class="text-white py-16 text-center" style="background:var(--forest)">
 <a class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition" href="index.html">← Back to Home</a>
 <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">SRD Exchange Rates</h1>
-<p class="text-white/60 text-lg max-w-xl mx-auto px-4">CBVS 3× daily (business days) • CME continuous • live gold &amp; Brent oil</p>
+<p class="text-white/60 text-lg max-w-xl mx-auto px-4">CBVS official • CME cash • commercial banks compared • live gold &amp; Brent oil</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
 <div class="rounded-2xl border border-amber-200 p-6 mb-8" style="background:#fffbeb">
@@ -382,7 +382,8 @@ document.addEventListener('keydown', e => {
 </div>
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-10">
 <h2 class="serif text-2xl font-bold text-gray-900 mb-1">Currency Converter</h2>
-<p class="text-gray-400 text-sm mb-7">Using CME cash rates (typical exchange-office rates)</p>
+<p class="text-gray-400 text-sm mb-4">Pick a rate source below. CME cash is what exchange offices typically offer; bank rates are giral (account) rates.</p>
+<div class="flex flex-wrap gap-2 mb-6"><button class="cv-src text-xs font-semibold px-3 py-1.5 rounded-full border transition" data-src="cme" onclick="setSrc('cme')" style="background:var(--forest);border-color:var(--forest);color:#fff" type="button">CME (cash)</button><button class="cv-src text-xs font-semibold px-3 py-1.5 rounded-full border transition" data-src="cbvs" onclick="setSrc('cbvs')" style="border-color:#e5e7eb;color:#374151;background:#fff" type="button">CBVS (official)</button><button class="cv-src text-xs font-semibold px-3 py-1.5 rounded-full border transition" data-src="finabank" onclick="setSrc('finabank')" style="border-color:#e5e7eb;color:#374151;background:#fff" type="button">Finabank</button><button class="cv-src text-xs font-semibold px-3 py-1.5 rounded-full border transition" data-src="hakrinbank" onclick="setSrc('hakrinbank')" style="border-color:#e5e7eb;color:#374151;background:#fff" type="button">Hakrinbank</button><button class="cv-src text-xs font-semibold px-3 py-1.5 rounded-full border transition" data-src="dsb" onclick="setSrc('dsb')" style="border-color:#e5e7eb;color:#374151;background:#fff" type="button">DSB Bank</button><button class="cv-src text-xs font-semibold px-3 py-1.5 rounded-full border transition" data-src="republic" onclick="setSrc('republic')" style="border-color:#e5e7eb;color:#374151;background:#fff" type="button">Republic Bank</button></div>
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
 <div>
 <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Amount</label>
@@ -445,7 +446,7 @@ document.addEventListener('keydown', e => {
 </div>
 <a class="text-xs font-semibold shrink-0 hover:underline" href="https://www.cme.sr" rel="noopener noreferrer" style="color:var(--forest2)" target="_blank">cme.sr ↗</a>
 </div>
-<p class="text-gray-400 text-xs mt-2">🕐 CME: 08 Jul 2026 16:31 SR</p>
+<p class="text-gray-400 text-xs mt-2">🕐 CME: 08 Jul 2026 16:40 SR</p>
 </div>
 <div class="hidden sm:block overflow-x-auto">
 <table class="w-full text-sm">
@@ -460,6 +461,27 @@ document.addEventListener('keydown', e => {
 </div>
 <div class="sm:hidden py-1"><div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 px-4"><div><p class="font-semibold text-gray-900 text-sm">🇺🇸 USD</p><p class="text-gray-500 text-xs mt-0.5">US Dollar</p></div><div class="text-right"><p class="font-mono font-bold text-sm"><span style="color:var(--forest2)">37.35</span><span class="text-gray-300 mx-1">/</span><span style="color:var(--coral)">37.70</span></p><p class="text-gray-400 text-xs mt-0.5">buy / sell</p></div></div><div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 px-4"><div><p class="font-semibold text-gray-900 text-sm">🇪🇺 EUR</p><p class="text-gray-500 text-xs mt-0.5">Euro</p></div><div class="text-right"><p class="font-mono font-bold text-sm"><span style="color:var(--forest2)">42.20</span><span class="text-gray-300 mx-1">/</span><span style="color:var(--coral)">43.00</span></p><p class="text-gray-400 text-xs mt-0.5">buy / sell</p></div></div></div>
 </div>
+</div>
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mt-6">
+<div class="px-6 py-5 border-b border-gray-100">
+<p class="font-bold text-gray-900 text-base">Bank Rates Compared</p>
+<p class="text-gray-400 text-xs mt-0.5">USD and EUR at Suriname’s commercial banks, side by side. Buy is what you receive when selling foreign currency; sell is what you pay to get it.</p>
+<p class="text-gray-400 text-xs mt-2">🕐 08 Jul 2026 16:40 SR</p>
+</div>
+<div class="hidden sm:block overflow-x-auto">
+<table class="w-full text-sm">
+<thead><tr class="bg-gray-50 text-left">
+<th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Bank</th>
+<th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">USD Buy</th>
+<th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">USD Sell</th>
+<th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">EUR Buy</th>
+<th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">EUR Sell</th>
+</tr></thead>
+<tbody><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 whitespace-nowrap"><p class="font-semibold text-gray-900">Finabank <span class="text-green-500 text-xs" title="Live">●</span></p><a class="text-xs text-gray-400 hover:underline" href="https://www.finabanknv.com/service-desk/koersen-rates/" rel="noopener noreferrer" target="_blank">finabanknv.com ↗</a></td><td class="py-3 px-4 text-right font-mono font-bold" style="background:var(--mint);color:var(--forest2)">37.46</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">37.82</td><td class="py-3 px-4 text-right font-mono font-bold" style="background:var(--mint);color:var(--forest2)">42.76</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">43.19</td></tr><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 whitespace-nowrap"><p class="font-semibold text-gray-900">Hakrinbank <span class="text-amber-500 text-xs" title="Estimated">○</span></p><a class="text-xs text-gray-400 hover:underline" href="https://www.hakrinbank.com/en/private/foreign-exchange/" rel="noopener noreferrer" target="_blank">hakrinbank.com ↗</a></td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">37.40</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">37.82</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">42.65</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">43.16</td></tr><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 whitespace-nowrap"><p class="font-semibold text-gray-900">DSB Bank <span class="text-green-500 text-xs" title="Live">●</span></p><a class="text-xs text-gray-400 hover:underline" href="https://www.dsb.sr" rel="noopener noreferrer" target="_blank">dsb.sr ↗</a></td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">37.43</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">37.81</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">42.73</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">43.17</td></tr><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 whitespace-nowrap"><p class="font-semibold text-gray-900">Republic Bank <span class="text-green-500 text-xs" title="Live">●</span></p><a class="text-xs text-gray-400 hover:underline" href="https://www.republicbanksr.com" rel="noopener noreferrer" target="_blank">republicbanksr.com ↗</a></td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">37.11</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">37.81</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">42.43</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">43.13</td></tr><tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-4 whitespace-nowrap"><p class="font-semibold text-gray-900">CME (cash) <span class="text-green-500 text-xs" title="Live">●</span></p><a class="text-xs text-gray-400 hover:underline" href="https://www.cme.sr" rel="noopener noreferrer" target="_blank">cme.sr ↗</a></td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">37.35</td><td class="py-3 px-4 text-right font-mono font-bold" style="background:var(--mint);color:var(--forest2)">37.70</td><td class="py-3 px-4 text-right font-mono font-bold text-gray-800">42.20</td><td class="py-3 px-4 text-right font-mono font-bold" style="background:var(--mint);color:var(--forest2)">43.00</td></tr></tbody>
+</table>
+</div>
+<div class="sm:hidden py-1"><div class="py-3 border-b border-gray-100 last:border-0 px-4"><div class="flex items-center justify-between mb-1.5"><p class="font-semibold text-gray-900 text-sm">Finabank <span class="text-green-500 text-xs" title="Live">●</span></p><a class="text-xs text-gray-400 hover:underline" href="https://www.finabanknv.com/service-desk/koersen-rates/" rel="noopener noreferrer" target="_blank">finabanknv.com ↗</a></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">USD</p><p class="font-mono font-bold text-gray-800 text-sm"><span style="color:var(--forest2)">37.46</span> <span class="text-gray-300">/</span> 37.82</p></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">EUR</p><p class="font-mono font-bold text-gray-800 text-sm"><span style="color:var(--forest2)">42.76</span> <span class="text-gray-300">/</span> 43.19</p></div></div><div class="py-3 border-b border-gray-100 last:border-0 px-4"><div class="flex items-center justify-between mb-1.5"><p class="font-semibold text-gray-900 text-sm">Hakrinbank <span class="text-amber-500 text-xs" title="Estimated">○</span></p><a class="text-xs text-gray-400 hover:underline" href="https://www.hakrinbank.com/en/private/foreign-exchange/" rel="noopener noreferrer" target="_blank">hakrinbank.com ↗</a></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">USD</p><p class="font-mono font-bold text-gray-800 text-sm">37.40 <span class="text-gray-300">/</span> 37.82</p></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">EUR</p><p class="font-mono font-bold text-gray-800 text-sm">42.65 <span class="text-gray-300">/</span> 43.16</p></div></div><div class="py-3 border-b border-gray-100 last:border-0 px-4"><div class="flex items-center justify-between mb-1.5"><p class="font-semibold text-gray-900 text-sm">DSB Bank <span class="text-green-500 text-xs" title="Live">●</span></p><a class="text-xs text-gray-400 hover:underline" href="https://www.dsb.sr" rel="noopener noreferrer" target="_blank">dsb.sr ↗</a></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">USD</p><p class="font-mono font-bold text-gray-800 text-sm">37.43 <span class="text-gray-300">/</span> 37.81</p></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">EUR</p><p class="font-mono font-bold text-gray-800 text-sm">42.73 <span class="text-gray-300">/</span> 43.17</p></div></div><div class="py-3 border-b border-gray-100 last:border-0 px-4"><div class="flex items-center justify-between mb-1.5"><p class="font-semibold text-gray-900 text-sm">Republic Bank <span class="text-green-500 text-xs" title="Live">●</span></p><a class="text-xs text-gray-400 hover:underline" href="https://www.republicbanksr.com" rel="noopener noreferrer" target="_blank">republicbanksr.com ↗</a></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">USD</p><p class="font-mono font-bold text-gray-800 text-sm">37.11 <span class="text-gray-300">/</span> 37.81</p></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">EUR</p><p class="font-mono font-bold text-gray-800 text-sm">42.43 <span class="text-gray-300">/</span> 43.13</p></div></div><div class="py-3 border-b border-gray-100 last:border-0 px-4"><div class="flex items-center justify-between mb-1.5"><p class="font-semibold text-gray-900 text-sm">CME (cash) <span class="text-green-500 text-xs" title="Live">●</span></p><a class="text-xs text-gray-400 hover:underline" href="https://www.cme.sr" rel="noopener noreferrer" target="_blank">cme.sr ↗</a></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">USD</p><p class="font-mono font-bold text-gray-800 text-sm">37.35 <span class="text-gray-300">/</span> <span style="color:var(--forest2)">37.70</span></p></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">EUR</p><p class="font-mono font-bold text-gray-800 text-sm">42.20 <span class="text-gray-300">/</span> <span style="color:var(--forest2)">43.00</span></p></div></div></div>
+<p class="text-gray-400 text-xs px-6 py-4 border-t border-gray-100">Highlighted values are the best rate in each column. Bank rates are giral (account) rates; CME is the cash rate at the exchange office. Rates are indicative. Always confirm with your bank before transacting.</p>
 </div>
 <p class="text-center text-gray-400 text-xs mt-8 max-w-2xl mx-auto leading-relaxed px-4">
     Rates are for informational purposes only. Always confirm the current rate before transacting. Page updates daily.
@@ -496,37 +518,56 @@ document.addEventListener('keydown', e => {
 <h2 class="serif text-2xl font-bold text-gray-900">🛣︎ Brent Crude Oil</h2>
 <p class="text-gray-400 text-sm mt-1">Brent Crude, updated hourly</p>
 </div>
-<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">● 08 Jul 2026 16:31 SR</span>
+<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">● 08 Jul 2026 16:40 SR</span>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 <div class="rounded-xl p-4" style="background:var(--mint)">
 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">USD / barrel</p>
-<p class="text-2xl font-bold font-mono text-gray-900">$78.05</p>
+<p class="text-2xl font-bold font-mono text-gray-900">$78.08</p>
 </div>
 <div class="rounded-xl p-4 bg-gray-50">
 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">SRD / barrel</p>
-<p class="text-2xl font-bold font-mono text-gray-900">2,915 SRD</p>
+<p class="text-2xl font-bold font-mono text-gray-900">2,916 SRD</p>
 </div>
 </div>
 <p class="text-gray-400 text-xs mt-4">Brent Crude is the global benchmark used for most international oil contracts. Suriname’s offshore production (Block 58) is priced against this index. SRD equivalent uses today’s CME USD buy rate (37.35). Fetched fresh on each site rebuild.</p>
 </div>
 </main>
-<script>const BUY  = {"USD": 37.35, "EUR": 42.2};
-const SELL = {"USD": 37.7, "EUR": 43.0};
-function toSRD(a,c){return BUY[c]!=null?a*BUY[c]:null;}
-function fromSRD(a,c){return SELL[c]!=null?a/SELL[c]:null;}
+<script>const SRC = {"cme": {"label": "CME (cash)", "buy": {"USD": 37.35, "EUR": 42.2}, "sell": {"USD": 37.7, "EUR": 43.0}}, "cbvs": {"label": "CBVS (official)", "buy": {"USD": 37.365, "EUR": 43.345, "GBP": 50.415, "XCG": 20.53, "AWG": 20.758, "BRL": 7.472, "TTD": 5.496, "BBD": 18.419, "XCD": 13.839, "GYD": 0.17755, "CNY": 5.466}, "sell": {"USD": 37.679, "EUR": 44.151, "GBP": 51.403, "XCG": 20.933, "AWG": 21.165, "BRL": 7.619, "TTD": 5.603, "BBD": 18.78, "XCD": 14.11, "GYD": 0.18103, "CNY": 5.573}}, "finabank": {"label": "Finabank", "buy": {"USD": 37.457, "EUR": 42.755}, "sell": {"USD": 37.817, "EUR": 43.19}}, "hakrinbank": {"label": "Hakrinbank", "buy": {"USD": 37.4, "EUR": 42.65}, "sell": {"USD": 37.82, "EUR": 43.16}}, "dsb": {"label": "DSB Bank", "buy": {"USD": 37.43, "EUR": 42.73}, "sell": {"USD": 37.81, "EUR": 43.17}}, "republic": {"label": "Republic Bank", "buy": {"USD": 37.11, "EUR": 42.43}, "sell": {"USD": 37.81, "EUR": 43.13}}};
+const CURR = {"SRD": {"n": "Surinamese Dollar", "f": "🇸🇷"}, "USD": {"n": "US Dollar", "f": "🇺🇸"}, "EUR": {"n": "Euro", "f": "🇪🇺"}, "GBP": {"n": "British Pound", "f": "🇬🇧"}, "XCG": {"n": "Curaçao Guilder", "f": "🇨🇼"}, "AWG": {"n": "Aruban Florin", "f": "🇦🇼"}, "BRL": {"n": "Brazilian Real", "f": "🇧🇷"}, "TTD": {"n": "T&T Dollar", "f": "🇹🇹"}, "BBD": {"n": "Barbados Dollar", "f": "🇧🇧"}, "XCD": {"n": "E. Caribbean Dollar", "f": "🏝️"}, "GYD": {"n": "Guyana Dollar", "f": "🇬🇾"}, "CNY": {"n": "Chinese Yuan", "f": "🇨🇳"}};
+var curSrc='cme';
+function optHtml(c){var m=CURR[c]||{n:c,f:'\uD83D\uDCB1'};return '<option value="'+c+'">'+m.f+' '+c+' \u2013 '+m.n+'</option>';}
+function rebuildOpts(){
+  var from=document.getElementById('cv-from'),to=document.getElementById('cv-to');
+  var pf=from.value,pt=to.value;
+  var codes=Object.keys(SRC[curSrc].buy);
+  var fo='';for(var i=0;i<codes.length;i++)fo+=optHtml(codes[i]);fo+=optHtml('SRD');
+  var th='';th+=optHtml('SRD');for(var j=0;j<codes.length;j++)th+=optHtml(codes[j]);
+  from.innerHTML=fo;to.innerHTML=th;
+  from.value=(pf==='SRD'||codes.indexOf(pf)>-1)?pf:'USD';
+  to.value=(pt==='SRD'||codes.indexOf(pt)>-1)?pt:'SRD';
+}
+function setSrc(k){
+  curSrc=k;
+  var bs=document.querySelectorAll('.cv-src');
+  for(var i=0;i<bs.length;i++){var b=bs[i];
+    if(b.getAttribute('data-src')===k){b.style.background='var(--forest)';b.style.borderColor='var(--forest)';b.style.color='#fff';}
+    else{b.style.background='#fff';b.style.borderColor='#e5e7eb';b.style.color='#374151';}}
+  rebuildOpts();doConvert();
+}
 function doConvert(){
+  var B=SRC[curSrc].buy,S=SRC[curSrc].sell,L=SRC[curSrc].label;
   var amt=parseFloat(document.getElementById('cv-amt').value);
   var from=document.getElementById('cv-from').value;
   var to=document.getElementById('cv-to').value;
   var rEl=document.getElementById('cv-result');
   var nEl=document.getElementById('cv-note');
-  if(isNaN(amt)||amt<0){rEl.textContent='…';nEl.textContent='Enter a valid amount';return;}
+  if(isNaN(amt)||amt<0){rEl.textContent='\u2026';nEl.textContent='Enter a valid amount';return;}
   var result,note;
   if(from===to){result=amt;note='Same currency';}
-  else if(from==='SRD'){result=fromSRD(amt,to);note=SELL[to]?'CME: 1 '+to+' costs '+SELL[to]+' SRD':'Rate unavailable';}
-  else if(to==='SRD'){result=toSRD(amt,from);note=BUY[from]?'CME: 1 '+from+' = '+BUY[from]+' SRD':'Rate unavailable';}
-  else{var srd=toSRD(amt,from);result=srd!=null?fromSRD(srd,to):null;var cross=(BUY[from]&&SELL[to])?(BUY[from]/SELL[to]).toFixed(4):'?';note='Via SRD: 1 '+from+' ≈ '+cross+' '+to;}
+  else if(from==='SRD'){result=S[to]?amt/S[to]:null;note=S[to]?L+': 1 '+to+' costs '+S[to]+' SRD':'Rate unavailable';}
+  else if(to==='SRD'){result=B[from]!=null?amt*B[from]:null;note=B[from]?L+': 1 '+from+' = '+B[from]+' SRD':'Rate unavailable';}
+  else{var srd=B[from]!=null?amt*B[from]:null;result=(srd!=null&&S[to])?srd/S[to]:null;var cross=(B[from]&&S[to])?(B[from]/S[to]).toFixed(4):'?';note='Via SRD ('+L+'): 1 '+from+' \u2248 '+cross+' '+to;}
   if(result==null){rEl.textContent='N/A';nEl.textContent='Rate not available';}
   else{rEl.textContent=result.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+' '+to;nEl.textContent=note;}
 }
