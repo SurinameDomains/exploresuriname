@@ -1,41 +1,46 @@
 {
-  "last_updated": "2026-07-08T16:00:37.727666+00:00",
+  "last_updated": "2026-07-09T10:00:45.666636+00:00",
   "date_label": "Today",
   "showings": [
     {
       "time": "05:00 PM",
-      "title": "Toy Story 5",
-      "url": "https://www.tblcinemas.com/movie/TO22592/toy-story-5"
-    },
-    {
-      "time": "05:45 PM",
       "title": "Minions & Monsters",
       "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
     },
     {
-      "time": "06:15 PM",
-      "title": "Namak Halaal",
-      "url": "https://www.tblcinemas.com/movie/%5BB16035/namak-halaal"
+      "time": "05:30 PM",
+      "title": "Moana",
+      "url": "https://www.tblcinemas.com/movie/RS973343229507/moana"
     },
     {
-      "time": "06:45 PM",
-      "title": "Cocktail 2",
-      "url": "https://www.tblcinemas.com/movie/CO3933/cocktail-2"
+      "time": "06:00 PM",
+      "title": "Toy Story 5",
+      "url": "https://www.tblcinemas.com/movie/TO22592/toy-story-5"
     },
     {
-      "time": "07:15 PM",
+      "time": "06:30 PM",
       "title": "Welcome to the Jungle",
       "url": "https://www.tblcinemas.com/movie/WE14514/welcome-to-the-jungle"
     },
     {
-      "time": "08:15 PM",
-      "title": "The Get Out",
-      "url": "https://www.tblcinemas.com/movie/TH24834/the-get-out"
+      "time": "07:00 PM",
+      "title": "Amar Akbar Anthony",
+      "url": "https://www.tblcinemas.com/movie/%5BB6271/amar-akbar-anthony"
     },
     {
-      "time": "08:45 PM",
-      "title": "Supergirl",
-      "url": "https://www.tblcinemas.com/movie/SU22592/supergirl"
+      "time": "07:30 PM",
+      "title": "Alpha",
+      "url": "https://www.tblcinemas.com/movie/RS840813755512/alpha"
+    },
+    {
+      "time": "08:30 PM",
+      "title": "Moana",
+      "url": "https://www.tblcinemas.com/movie/RS973343229507/moana"
+    },
+    {
+      "time": "09:00 PM",
+      "title": "The Get Out",
+      "url": "https://www.tblcinemas.com/movie/TH24834/the-get-out"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
