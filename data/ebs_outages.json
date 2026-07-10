@@ -1,17 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD DINSDAG 14 JULI 2026",
-      "date": "14 Juli 2026",
-      "date_iso": "2026-07-14",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1541/gepland-onderhoud-dinsdag-14-juli-2026",
-      "meta_description": "Gepland onderhoud: Paramaribo dinsdag 14 juli 2026 tussen 08:00-14:00 GEHEEL BOLLETRIE HEE EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
-      "district": "Paramaribo",
-      "time": "08:00 – 14:00",
-      "area": "GEHEEL BOLLETRIE HEE EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED"
-    }
-  ],
-  "last_updated": "2026-07-10T19:07:43.293083+00:00",
+  "outages": [],
+  "last_updated": "2026-07-10T21:11:02.645993+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
