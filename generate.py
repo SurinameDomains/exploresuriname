@@ -7537,7 +7537,7 @@ def build_matches_page(matches):
     _MT_CSS = """  <style>
     .mt-live{display:inline-block;width:7px;height:7px;border-radius:9999px;background:#dc2626;margin-right:4px;animation:mtpulse 1.2s ease-in-out infinite}
     @keyframes mtpulse{0%,100%{opacity:1}50%{opacity:.3}}
-    .mt-chips{position:sticky;top:58px;z-index:30;background:linear-gradient(var(--paper) 85%,rgba(251,245,233,0));scrollbar-width:none;-ms-overflow-style:none}
+    .mt-chips{position:sticky;top:58px;z-index:30;background:linear-gradient(var(--paper-2) 85%,rgba(244,236,218,0));scrollbar-width:none;-ms-overflow-style:none}
     .mt-chips::-webkit-scrollbar{display:none}
     .mt-day h2{scroll-margin-top:118px}
   </style>"""
