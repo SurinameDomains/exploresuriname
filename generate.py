@@ -2349,8 +2349,9 @@ def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
     _TODO  = {"nature", "activities", "shopping", "events"}
     _EAT   = {"restaurants", "hotels"}
-    _ESS   = {"currency", "flights", "forecast", "daily-notices", "worldcup", "crossword"}
+    _ESS   = {"currency", "flights", "forecast", "daily-notices", "worldcup", "matches"}
     _PLAN  = {"visitor", "roads", "itinerary", "safety"}
+    _GAMES = {"crossword", "quiz", "mapgame", "korjaal"}
 
     def _is_active(key):
         return active == key
@@ -2405,9 +2406,8 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}flights.html"        {_link_cls("flights")}        >Flights</a>'
         f'<a href="{prefix}conditions.html"     {_link_cls("forecast")}       >Weather &amp; Tides</a>'
         f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")}  >Daily Notices</a>'
-        f'<a href="{prefix}crossword.html"      {_link_cls("crossword")}      >Crossword</a>'
-        f'<a href="{prefix}quiz.html"           {_link_cls("quiz")}           >Daily Quiz</a>'
         f'<a href="{prefix}worldcup-2026.html"   {_link_cls("worldcup")}       >World Cup 2026</a>'
+        f'<a href="{prefix}matches.html"        {_link_cls("matches")}        >Football Times</a>'
     )
     # Visitor Guide
     plan_items = (
@@ -2417,11 +2417,20 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}is-suriname-safe.html"   {_link_cls("safety")}    >Is Suriname Safe?</a>'
     )
 
+    # Games
+    games_items = (
+        f'<a href="{prefix}quiz.html"      {_link_cls("quiz")}      >Sabi Suriname Quiz</a>'
+        f'<a href="{prefix}crossword.html" {_link_cls("crossword")} >Switi Mini Crossword</a>'
+        f'<a href="{prefix}map-game.html"  {_link_cls("mapgame")}   >Pe A De? Map Game</a>'
+        f'<a href="{prefix}korjaal.html"   {_link_cls("korjaal")}   >Korjaal Run</a>'
+    )
+
     desktop_nav = (
         _desktop_dd("dd-todo", "Things to Do",   todo_items,  _TODO) +
         _desktop_dd("dd-eat",  "Eat &amp; Stay", eat_items,   _EAT)  +
         f'<a href="{prefix}services.html" {_top_single_style("services")}>Local Services</a>' +
         _desktop_dd("dd-plan", "Visitor Guide",  plan_items, _PLAN) +
+        _desktop_dd("dd-games", "Games",         games_items, _GAMES) +
         _desktop_dd("dd-ess",  "Essentials",     ess_items,  _ESS)  +
         f'<a href="{prefix}news.html" {_top_single_style("news")}>News</a>'
     )
@@ -2461,15 +2470,20 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}flights.html",       "Flights",       "flights")  +
         _mob_link(f"{prefix}conditions.html",    "Weather & Tides", "forecast") +
         _mob_link(f"{prefix}daily-notices.html", "Daily Notices", "daily-notices") +
-        _mob_link(f"{prefix}crossword.html",     "Crossword",     "crossword") +
-        _mob_link(f"{prefix}quiz.html",          "Daily Quiz",    "quiz") +
-        _mob_link(f"{prefix}worldcup-2026.html",  "World Cup 2026", "worldcup")
+        _mob_link(f"{prefix}worldcup-2026.html",  "World Cup 2026", "worldcup") +
+        _mob_link(f"{prefix}matches.html",       "Football Times", "matches")
     )
     mob_plan_items = (
         _mob_link(f"{prefix}visitor-guide.html", "The Basics",    "visitor") +
         _mob_link(f"{prefix}on-the-road.html",   "On the Road",   "roads") +
         _mob_link(f"{prefix}suriname-itinerary.html", "Trip Itineraries", "itinerary") +
         _mob_link(f"{prefix}is-suriname-safe.html",   "Is Suriname Safe?", "safety")
+    )
+    mob_games_items = (
+        _mob_link(f"{prefix}quiz.html",      "Sabi Suriname Quiz",   "quiz") +
+        _mob_link(f"{prefix}crossword.html", "Switi Mini Crossword", "crossword") +
+        _mob_link(f"{prefix}map-game.html",  "Pe A De? Map Game",    "mapgame") +
+        _mob_link(f"{prefix}korjaal.html",   "Korjaal Run",          "korjaal")
     )
 
     _svc_col  = 'style="color:var(--forest)"' if _is_active("services") else ""
@@ -2486,6 +2500,7 @@ def nav_html(active="home", prefix=""):
         _mob_group("mg-eat",  "Eat & Stay",      mob_eat_items,   _EAT)  +
         _svc_link +
         _mob_group("mg-plan", "Visitor Guide",   mob_plan_items,  _PLAN) +
+        _mob_group("mg-games", "Games",           mob_games_items, _GAMES) +
         _mob_group("mg-ess",  "Essentials",      mob_ess_items,   _ESS)  +
         _news_link
     )
@@ -2712,7 +2727,10 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}services.html">Local Services</a>
         <a class="ftr-lnk" href="{prefix}crossword.html">Crossword</a>
         <a class="ftr-lnk" href="{prefix}quiz.html">Daily Quiz</a>
+        <a class="ftr-lnk" href="{prefix}map-game.html">Pe A De? Map Game</a>
+        <a class="ftr-lnk" href="{prefix}korjaal.html">Korjaal Run</a>
         <a class="ftr-lnk" href="{prefix}worldcup-2026.html">World Cup 2026</a>
+        <a class="ftr-lnk" href="{prefix}matches.html">Football Times</a>
         <a class="ftr-lnk" href="{prefix}about.html">About Us</a>
         <a class="ftr-lnk" href="{prefix}contact.html">Contact</a>
         <a class="ftr-lnk" href="{prefix}privacy.html">Privacy</a>
@@ -7232,6 +7250,949 @@ def _ilink(href, label):
     return f'<a href="{href}" class="font-semibold hover:underline" style="color:var(--forest2)">{label}</a>'
 
 
+# ── Football in Suriname Time ────────────────────────────────────────────────
+_MATCH_LEAGUES = [
+    # (espn code, label, short key, tag colour)
+    ("fifa.world",     "World Cup 2026",   "wc",  "#B45309"),
+    ("uefa.champions", "Champions League", "cl",  "#1D4ED8"),
+    ("ned.1",          "Eredivisie",       "ere", "#C2410C"),
+    ("eng.1",          "Premier League",   "epl", "#6D28D9"),
+]
+
+
+def fetch_matches_data():
+    """Fixtures and results for the competitions Suriname follows, via the same
+    ESPN scoreboard API the World Cup page uses. Fetched at build time (the site
+    rebuilds ~15 min) with a per-league fallback cache in data/matches_cache.json
+    so an API hiccup never blanks the page. Window: yesterday to +35 days."""
+    cache_path = "data/matches_cache.json"
+    try:
+        with open(cache_path, encoding="utf-8") as _f:
+            cache = json.load(_f)
+    except Exception:
+        cache = {}
+    now = datetime.now(SR_TZ)
+    d0 = (now - timedelta(days=1)).strftime("%Y%m%d")
+    d1 = (now + timedelta(days=35)).strftime("%Y%m%d")
+    out = {}
+    for code, label, key, _col in _MATCH_LEAGUES:
+        url = (f"https://site.api.espn.com/apis/site/v2/sports/soccer/{code}/scoreboard"
+               f"?dates={d0}-{d1}&limit=150")
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "ExploreSuriname/1.0"})
+            with urllib.request.urlopen(req, timeout=15) as r:
+                raw = json.loads(r.read().decode("utf-8"))
+            evs = []
+            for e in raw.get("events", []):
+                c = e["competitions"][0]
+                home = away = None
+                for t in c.get("competitors", []):
+                    team = t.get("team", {})
+                    o = {"n": team.get("shortDisplayName") or team.get("displayName", ""),
+                         "l": team.get("logo", ""), "s": t.get("score", "")}
+                    if t.get("homeAway") == "home":
+                        home = o
+                    else:
+                        away = o
+                st = c.get("status", {}).get("type", {})
+                note = (c.get("altGameNote") or "")
+                evs.append({"d": e.get("date", ""), "h": home, "a": away,
+                            "v": c.get("venue", {}).get("fullName", ""),
+                            "g": note.replace("FIFA World Cup, ", "").replace("FIFA World Cup", ""),
+                            "st": st.get("shortDetail", ""), "sx": st.get("state", "pre")})
+            out[key] = {"label": label, "events": evs}
+            cache[key] = out[key]
+            print(f"  matches: {label}: {len(evs)} fixtures")
+        except Exception as exc:
+            print(f"  ! matches fetch failed for {label} ({exc}); using cached data")
+            out[key] = cache.get(key, {"label": label, "events": []})
+    try:
+        with open(cache_path, "w", encoding="utf-8") as _f:
+            json.dump(cache, _f, ensure_ascii=False)
+    except Exception:
+        pass
+    return out
+
+
+def _match_dt(s):
+    """Parse an ESPN UTC timestamp ('2026-06-11T19:00Z') into SR time."""
+    for fmt in ("%Y-%m-%dT%H:%MZ", "%Y-%m-%dT%H:%M:%SZ"):
+        try:
+            return datetime.strptime(s, fmt).replace(tzinfo=timezone.utc).astimezone(SR_TZ)
+        except (ValueError, TypeError):
+            continue
+    return None
+
+
+def build_matches_page(matches):
+    """matches.html: upcoming football in Suriname time. Server-rendered day-by-day
+    schedule (crawlable, works without JS) + tiny client-side league filter."""
+    now = datetime.now(SR_TZ)
+    today = now.date()
+    lg_meta = {key: (label, col) for _c, label, key, col in _MATCH_LEAGUES}
+
+    # ── Flatten, parse, filter, sort ─────────────────────────────────────────
+    rows = []
+    for key, blob in (matches or {}).items():
+        label, col = lg_meta.get(key, (blob.get("label", key), "#374151"))
+        for e in blob.get("events", []):
+            dt = _match_dt(e.get("d", ""))
+            if dt is None:
+                continue
+            if dt.date() < today - timedelta(days=1) or dt.date() > today + timedelta(days=36):
+                continue
+            rows.append((dt, key, label, col, e))
+    rows.sort(key=lambda r: r[0])
+    has_wc = any(k == "wc" for _dt, k, _l, _c, _e in rows)
+
+    # ── Day-grouped list ─────────────────────────────────────────────────────
+    def _row_html(dt, key, label, col, e):
+        h, a = e.get("h") or {}, e.get("a") or {}
+        hn, an = html_lib.escape(h.get("n", "")), html_lib.escape(a.get("n", ""))
+        sx = e.get("sx", "pre")
+        if sx == "pre":
+            left = ('<p class="font-bold text-gray-900 leading-tight">' + dt.strftime("%H:%M") + '</p>'
+                    '<p class="text-[10px] text-gray-400 uppercase tracking-wide">SR time</p>')
+        else:
+            live = '<span class="mt-live"></span>' if sx == "in" else ''
+            tag = 'LIVE' if sx == "in" else 'FT'
+            left = ('<p class="font-bold text-lg leading-tight text-gray-900">' + html_lib.escape(h.get("s", "") or "0")
+                    + '<span class="text-gray-300 px-1">-</span>' + html_lib.escape(a.get("s", "") or "0") + '</p>'
+                    '<p class="text-[10px] uppercase tracking-wide ' + ("text-red-600 font-bold" if sx == "in" else "text-gray-400")
+                    + '">' + live + tag + '</p>')
+        meta_bits = [f'<span class="font-semibold" style="color:{col}">{label}</span>']
+        if e.get("g"):
+            meta_bits.append(html_lib.escape(e["g"]))
+        if e.get("v"):
+            meta_bits.append(html_lib.escape(e["v"]))
+        row_border = ' style="border-color:#fecaca;box-shadow:0 0 0 1px #fecaca"' if sx == "in" else ''
+        return (f'<div class="mt-row flex items-center gap-4 bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2" data-lg="{key}"{row_border}>'
+                '<div class="w-14 shrink-0 text-center">' + left + '</div>'
+                '<div class="min-w-0">'
+                f'<p class="font-semibold text-gray-900 text-sm leading-snug">{hn} <span class="text-gray-400 font-normal">vs</span> {an}</p>'
+                '<p class="text-[11px] text-gray-500 mt-0.5 truncate">' + " &middot; ".join(meta_bits) + '</p>'
+                '</div></div>')
+
+    list_html, cur_day = "", None
+    for dt, key, label, col, e in rows:
+        dkey = dt.strftime("%Y-%m-%d")
+        if dkey != cur_day:
+            if cur_day is not None:
+                list_html += '</div></section>'
+            cur_day = dkey
+            if dt.date() == today:
+                daylab = 'Today <span class="text-gray-400 font-normal text-base">&middot; ' + dt.strftime("%A %d %B") + '</span>'
+            elif dt.date() == today + timedelta(days=1):
+                daylab = 'Tomorrow <span class="text-gray-400 font-normal text-base">&middot; ' + dt.strftime("%A %d %B") + '</span>'
+            elif dt.date() == today - timedelta(days=1):
+                daylab = 'Yesterday <span class="text-gray-400 font-normal text-base">&middot; ' + dt.strftime("%A %d %B") + '</span>'
+            else:
+                daylab = dt.strftime("%A %d %B")
+            anchor = ' id="mt-today"' if dt.date() == today else ''
+            list_html += (f'<section class="mt-day"{anchor}>'
+                          f'<h2 class="serif text-xl font-bold text-gray-900 mt-7 mb-3">{daylab}</h2><div>')
+        list_html += _row_html(dt, key, label, col, e)
+    if cur_day is not None:
+        list_html += '</div></section>'
+    if not rows:
+        list_html = ('<div class="bg-white rounded-2xl border border-gray-200 p-8 text-center mt-6">'
+                     '<p class="font-semibold text-gray-800 mb-1">Between rounds right now.</p>'
+                     '<p class="text-gray-500 text-sm">New fixtures appear here automatically as soon as they are scheduled. Check back soon.</p></div>')
+
+    # ── League filter chips ──────────────────────────────────────────────────
+    chips = ('<div class="mt-chips flex gap-2 overflow-x-auto py-2.5 -mx-5 px-5">'
+             '<button data-mtf="all" onclick="mtFilter(\'all\')" class="mt-chip shrink-0 px-4 py-1.5 rounded-full text-xs font-bold text-white" style="background:var(--forest)">All</button>')
+    for _c, label, key, col in _MATCH_LEAGUES:
+        if not any(r[1] == key for r in rows):
+            continue
+        chips += (f'<button data-mtf="{key}" onclick="mtFilter(\'{key}\')" '
+                  'class="mt-chip shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition">'
+                  + label + '</button>')
+    chips += '</div>'
+
+    # ── Head / hero / cards ──────────────────────────────────────────────────
+    title = "Football Kickoff Times in Suriname Time"
+    desc = ("Upcoming World Cup, Champions League, Eredivisie and Premier League matches "
+            "with every kickoff converted to Suriname time (UTC-3). Updated automatically through the day.")
+    faq = [
+        ("What time zone are the kickoff times on this page?",
+         "Everything is shown in Suriname time (UTC-3, no daylight saving). No mental math needed: "
+         "the time you see is the time the match starts on your clock in Suriname."),
+        ("Which competitions are covered?",
+         "The FIFA World Cup while it runs, the UEFA Champions League, the Dutch Eredivisie and the "
+         "English Premier League. Competitions with no matches in the coming weeks hide automatically, "
+         "and more competitions can be added over time."),
+        ("How up to date are the scores?",
+         "The page rebuilds itself roughly every 15 minutes, so results and in-play scores are near-live "
+         "rather than second-by-second. Kickoff times and fixtures update automatically as soon as they are announced."),
+        ("Why the Eredivisie?",
+         "Suriname and Dutch football are family. Generations of Eredivisie stars have Surinamese roots, "
+         "from Ruud Gullit and Frank Rijkaard to Virgil van Dijk, and much of the Surinamese diaspora lives in the Netherlands."),
+    ]
+    next_up = [(dt, l, e) for dt, _k, l, _c, e in rows if e.get("sx") == "pre"][:10]
+    extra_ld = None
+    if next_up:
+        extra_ld = {"@context": "https://schema.org", "@type": "ItemList",
+                    "name": "Upcoming football matches in Suriname time",
+                    "itemListElement": [
+                        {"@type": "ListItem", "position": i + 1,
+                         "item": {"@type": "SportsEvent",
+                                  "name": (e.get("h", {}) or {}).get("n", "") + " vs " + (e.get("a", {}) or {}).get("n", ""),
+                                  "startDate": dt.isoformat(),
+                                  "sport": "Soccer",
+                                  "description": l}}
+                        for i, (dt, l, e) in enumerate(next_up)]}
+
+    _MT_CSS = """  <style>
+    .mt-live{display:inline-block;width:7px;height:7px;border-radius:9999px;background:#dc2626;margin-right:4px;animation:mtpulse 1.2s ease-in-out infinite}
+    @keyframes mtpulse{0%,100%{opacity:1}50%{opacity:.3}}
+    .mt-chips{position:sticky;top:58px;z-index:30;background:linear-gradient(#f9fafb 85%,rgba(249,250,251,0));scrollbar-width:none;-ms-overflow-style:none}
+    .mt-chips::-webkit-scrollbar{display:none}
+    .mt-day h2{scroll-margin-top:118px}
+  </style>"""
+    head = _hub_head(title, desc, "matches.html", faq=faq, extra_ld=extra_ld)
+    head = head.replace("</head>", _MT_CSS + "\n</head>")
+
+    hero = _hub_hero("Kickoffs converted, no math needed",
+                     "Football in Suriname Time",
+                     "Upcoming matches from the competitions Suriname actually watches, "
+                     "with every kickoff in Suriname time.").replace("{NAV}", nav_html("matches"))
+
+    wc_banner = ""
+    if has_wc:
+        wc_banner = ('<div class="rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 mt-4 mb-2">'
+                     '<p class="text-sm text-amber-900"><span class="font-bold">World Cup fan?</span> '
+                     'Our ' + _ilink("worldcup-2026.html", "World Cup 2026 page")
+                     + ' has minute-by-minute live scores, the full bracket and where to watch in Suriname.</p></div>')
+
+    intro = ('<p class="text-gray-500 text-sm mt-2 mb-1">All kickoff times are Suriname time (UTC-3). '
+             'Fixtures and scores refresh automatically about every 15 minutes. Match data: ESPN.</p>')
+
+    about_body = (
+        '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
+        'Host broadcasters list kickoffs in European or North American time, and converting to Suriname time '
+        'goes wrong just often enough to ruin an evening. This page does the conversion once, for every match, '
+        'and keeps itself current: fixtures appear as soon as they are scheduled, kickoff changes flow through '
+        'automatically, and finished matches show the final score.</p>'
+        '<p class="text-gray-700 text-sm leading-relaxed">'
+        'Planning to watch somewhere with a screen and a cold Parbo? Browse ' + _ilink("restaurants.html", "where to eat")
+        + '. Waiting for kickoff? Try the ' + _ilink("quiz.html", "daily Suriname quiz") + ' or the '
+        + _ilink("crossword.html", "Switi Mini crossword") + '.</p>')
+
+    _MT_JS = """
+<script>
+function mtFilter(k){
+  document.querySelectorAll('.mt-chip').forEach(function(b){
+    var on = b.getAttribute('data-mtf') === k;
+    b.className = 'mt-chip shrink-0 px-' + (on ? '4' : '3.5') + ' py-1.5 rounded-full text-xs ' +
+      (on ? 'font-bold text-white' : 'font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition');
+    b.style.background = on ? 'var(--forest)' : '';
+  });
+  document.querySelectorAll('.mt-row').forEach(function(r){
+    r.style.display = (k === 'all' || r.getAttribute('data-lg') === k) ? '' : 'none';
+  });
+  document.querySelectorAll('.mt-day').forEach(function(s){
+    var any = false;
+    s.querySelectorAll('.mt-row').forEach(function(r){ if (r.style.display !== 'none') any = true; });
+    s.style.display = any ? '' : 'none';
+  });
+}
+(function(){
+  var t = document.getElementById('mt-today');
+  if (t && t.previousElementSibling) { t.scrollIntoView(); window.scrollTo(0, window.scrollY - 130); }
+})();
+</script>"""
+
+    main = ('<main class="max-w-3xl mx-auto px-5 py-8 pb-24">'
+            + intro + wc_banner + chips + list_html
+            + '<div class="mt-10"></div>'
+            + _hub_card("About this page", "One Page, Every Kickoff, Suriname Time", about_body)
+            + _hub_faq_html(faq)
+            + '<p class="text-gray-400 text-xs mt-8">Match data via ESPN. Fixtures, kickoff times and '
+              'scores refresh automatically with every site rebuild.</p></main>')
+
+    return head + hero + main + _MT_JS + "\n" + footer_html() + "\n</body>\n</html>"
+
+
+# ── Pe A De? daily Suriname map game ─────────────────────────────────────────
+def build_mapgame_page():
+    """map-game.html: Pe A De? - tap the map of Suriname (official shape, includes
+    the Tigri area and the Lawa headwaters) to guess where five places are each day.
+    Distance-based scoring, streaks, bilingual NL/EN. Same architecture as the quiz:
+    full bank embedded, deterministic daily rotation, localStorage stats."""
+    import json as _json
+    try:
+        with open("data/mapgame_places.json", encoding="utf-8") as _f:
+            _mg = _json.load(_f)
+    except Exception:
+        _mg = {"ring": [], "geo": {"lake": [], "rivers": []}, "places": []}
+    _ring, _geo, _places = _mg["ring"], _mg["geo"], _mg["places"]
+
+    # equirectangular projection (Suriname sits almost on the equator)
+    _XMIN, _YMAX, _SC = -58.4773, 6.0435, 100.0
+    def _px(lo, la):
+        return (round((lo - _XMIN) * _SC, 1), round((_YMAX - la) * _SC, 1))
+    def _path(pts, close=True):
+        d = "M" + " L".join(f"{x} {y}" for x, y in (_px(lo, la) for lo, la in pts))
+        return d + (" Z" if close else "")
+
+    _country_d = _path(_ring)
+    _lake_d = _path(_geo["lake"])
+    _rivers_d = "".join(f'<path d="{_path(rv, close=False)}" class="mg-riv"/>' for rv in _geo["rivers"])
+
+    today = datetime.now(SR_TZ).date()
+    _epoch = datetime(2026, 7, 12).date()
+    _epoch_day = (_epoch - datetime(1970, 1, 1).date()).days
+    _D = max(0, (today - _epoch).days)
+    _num = _D + 1
+    _E = [p for p in _places if p["t"] == "e"]
+    _M = [p for p in _places if p["t"] == "m"]
+    _H = [p for p in _places if p["t"] == "h"]
+    _tp = ([_E[(2 * _D) % len(_E)], _E[(2 * _D + 1) % len(_E)],
+            _M[(2 * _D) % len(_M)], _M[(2 * _D + 1) % len(_M)],
+            _H[_D % len(_H)]] if _E and _M and _H else [])
+
+    _data = _json.dumps(_places, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+
+    # noscript: today's places, crawlable
+    _items = "".join('<li class="mb-2"><b>' + html_lib.escape(p["n"]) + '</b>: '
+                     + html_lib.escape(p["f_en"]) + ' <i>' + html_lib.escape(p["f_nl"]) + '</i></li>'
+                     for p in _tp)
+    _noscript = ('<noscript><section class="max-w-2xl mx-auto px-4 mt-6">'
+                 '<h2 class="serif text-xl font-bold text-gray-900 mb-2">Today&#8217;s five places (#' + str(_num) + ')</h2>'
+                 '<p class="text-sm text-gray-500 mb-4">The map game needs JavaScript. These are today&#8217;s places to find.</p>'
+                 '<ol class="text-sm text-gray-700 pl-1">' + _items + '</ol></section></noscript>') if _items else ""
+
+    _title = "Pe A De? The daily Suriname map game"
+    _desc = ("Pe a de? Where is it? Tap the map of Suriname to guess where five places are, "
+             "every day. Villages, falls and mountains from Galibi to Kwamalasamutu, scored by "
+             "distance. Free, in Dutch or English.")
+    _ogimg = SITE_URL + "/og-image.jpg"
+    _faq = [
+        ("What is Pe A De?",
+         "Pe a de is Sranan Tongo for 'where is it?'. Every day the game gives you five real places in Suriname. "
+         "Tap the map where you think each one is; the closer your pin, the more points you score, up to 500 a day."),
+        ("Is the map of Suriname correct?",
+         "Yes. The game uses the official map of Suriname, including the Tigri area in the southwest and the "
+         "Lawa headwaters in the southeast. Distances are calculated from real coordinates."),
+        ("How is my score calculated?",
+         "Each place is worth up to 100 points. Within 8 km of the true location scores the full 100; after that, "
+         "points drop off with distance. Five places a day makes a daily maximum of 500."),
+        ("Where do the places come from?",
+         "From all over Suriname: district capitals, Maroon and Indigenous villages, waterfalls, peaks and "
+         "plantations. Every location is checked against real map coordinates, and every answer teaches you "
+         "a short fact about the place."),
+        ("Do I need an account?",
+         "No. Pe A De is free, runs in any browser and stores your streak and stats only on your own device."),
+    ]
+    _graph = _json.dumps({"@context": "https://schema.org", "@graph": [
+        {"@type": "WebPage", "@id": SITE_URL + "/map-game.html#webpage",
+         "url": SITE_URL + "/map-game.html", "name": _title, "description": _desc,
+         "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": SITE_URL + "/"},
+         "primaryImageOfPage": _ogimg,
+         "breadcrumb": {"@id": SITE_URL + "/map-game.html#breadcrumb"},
+         "mainEntity": {"@id": SITE_URL + "/map-game.html#game"},
+         "datePublished": "2026-07-12", "dateModified": today.isoformat(),
+         "isAccessibleForFree": True},
+        {"@type": "BreadcrumbList", "@id": SITE_URL + "/map-game.html#breadcrumb",
+         "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Pe A De? Map Game", "item": SITE_URL + "/map-game.html"}]},
+        {"@type": "Game", "@id": SITE_URL + "/map-game.html#game",
+         "name": "Pe A De?", "url": SITE_URL + "/map-game.html",
+         "description": "A daily geography game about Suriname: tap the map to guess where five real places are, scored by distance in kilometres.",
+         "genre": "Geography game", "gamePlatform": "Web browser",
+         "inLanguage": ["nl", "en"], "isAccessibleForFree": True, "image": _ogimg,
+         "publisher": {"@type": "Organization", "name": "Explore Suriname", "url": SITE_URL + "/"}},
+        {"@type": "FAQPage", "@id": SITE_URL + "/map-game.html#faq",
+         "mainEntity": [{"@type": "Question", "name": q,
+                         "acceptedAnswer": {"@type": "Answer", "text": ans}} for q, ans in _faq]},
+    ]}, ensure_ascii=False)
+
+    _CSS = """  <style>
+    .mg-map{touch-action:manipulation;user-select:none;-webkit-user-select:none;display:block;width:100%;height:auto;border-radius:16px;background:#dbeafe;cursor:crosshair}
+    .mg-riv{fill:none;stroke:#93c5fd;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+    .mg-card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1.1rem 1.2rem;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+    .mg-dots{display:flex;gap:6px;margin:.7rem 0}
+    .mg-dots span{width:10px;height:10px;border-radius:9999px;background:#e5e7eb}
+    .mg-dots span.on{background:var(--forest)}
+    .mg-dots span.done-g{background:#16a34a}.mg-dots span.done-y{background:#d97706}.mg-dots span.done-r{background:#dc2626}
+    .lang button{padding:.3rem .8rem;border:1px solid #d1d5db;background:#fff;font-size:.78rem;font-weight:700;color:#6b7280}
+    .lang button:first-child{border-radius:9999px 0 0 9999px}.lang button:last-child{border-radius:0 9999px 9999px 0;margin-left:-1px}
+    .lang button.on{background:var(--forest);border-color:var(--forest);color:#fff}
+    .mg-btn{display:block;width:100%;padding:.8rem;border-radius:12px;background:var(--forest);color:#fff;font-weight:700;font-size:.95rem}
+    .mg-btn:disabled{opacity:.4}
+    .mg-zoom{position:absolute;right:10px;top:10px;display:flex;flex-direction:column;gap:6px}
+    .mg-zoom button{width:34px;height:34px;border-radius:10px;background:#fff;border:1px solid #d1d5db;font-weight:800;color:#374151;font-size:1.05rem;line-height:1}
+    .mg-fact{background:var(--mint,#ecfdf5);border:1px solid #bbe5cb;border-radius:12px;padding:.8rem .9rem;font-size:.88rem;color:#1f2937;margin-top:.8rem}
+    .mg-stat{background:#f9fafb;border:1px solid #eef0f2;border-radius:12px;padding:.6rem .4rem;text-align:center}
+    .mg-stat b{display:block;font-size:1.25rem;color:#111827}
+    .mg-stat span{font-size:.68rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em}
+    .wabtn{display:inline-block;background:#25d366;color:#fff;font-weight:700;border-radius:9999px;padding:.65rem 1.3rem;font-size:.9rem}
+    .cpbtn{display:inline-block;background:#fff;border:1px solid #d1d5db;color:#374151;font-weight:700;border-radius:9999px;padding:.65rem 1.3rem;font-size:.9rem;margin-left:.5rem}
+    @keyframes mgdrop{0%{transform:translateY(-14px);opacity:0}60%{transform:translateY(2px)}100%{transform:translateY(0);opacity:1}}
+    .mg-pin{animation:mgdrop .25s ease-out}
+    @keyframes mgpulse{0%{r:6;opacity:.8}100%{r:22;opacity:0}}
+  </style>"""
+
+    head = (PAGE_HEAD
+        + '\n  <title>Pe A De? | Daily Suriname Map Game | Explore Suriname</title>'
+        + '\n  <meta name="description" content="' + _desc + '">'
+        + '\n  <link rel="canonical" href="' + SITE_URL + '/map-game.html">'
+        + '\n  <meta property="og:type" content="website">'
+        + '\n  <meta property="og:site_name" content="Explore Suriname">'
+        + '\n  <meta property="og:url" content="' + SITE_URL + '/map-game.html">'
+        + '\n  <meta property="og:title" content="' + _title + '">'
+        + '\n  <meta property="og:description" content="Tap the map of Suriname and guess where five places are, every day. How well do you know your own country?">'
+        + '\n  <meta property="og:image" content="' + _ogimg + '">'
+        + '\n  <meta property="og:locale" content="nl_NL">'
+        + '\n  <meta property="og:locale:alternate" content="en_US">'
+        + '\n  <meta name="twitter:card" content="summary_large_image">'
+        + '\n  <meta name="twitter:title" content="' + _title + '">'
+        + '\n  <meta name="twitter:description" content="Tap the map of Suriname and guess where five places are, every day.">'
+        + '\n  <meta name="twitter:image" content="' + _ogimg + '">'
+        + '\n  <script type="application/ld+json">\n  ' + _graph + '\n  </script>'
+        + _CSS + '\n</head>')
+
+    _about = """
+<section class="max-w-2xl mx-auto px-4 mt-14">
+  <h2 class="serif text-2xl font-bold text-gray-900 mb-3">About Pe A De?</h2>
+  <p class="text-gray-700 text-sm leading-relaxed mb-3"><i>Pe a de?</i> is Sranan Tongo for <i>where is it?</i>
+  Every day this game names five real places in Suriname and hands you the map, the whole map: the official
+  shape of Suriname including the Tigri area and the Lawa headwaters. Tap where you think each place is and
+  learn how far off you were, in real kilometres.</p>
+  <p class="text-gray-700 text-sm leading-relaxed mb-3">The places run from spots everyone knows, like Albina
+  and Colakreek, to villages deep in the interior that even seasoned Surinamers have to think about:
+  Kwamalasamutu, Alalapadu, Cottica on the Lawa. Wrong or right, every answer comes with the story of the
+  place, so the game slowly teaches you the whole country.</p>
+  <p class="text-gray-700 text-sm leading-relaxed">Play in Dutch or English, build a streak, and share your
+  score in the family group. And when you are done: try our other daily games, the
+  <a href="quiz.html" class="font-semibold hover:underline" style="color:var(--forest2)">Sabi Suriname quiz</a>
+  and the <a href="crossword.html" class="font-semibold hover:underline" style="color:var(--forest2)">Switi Mini crossword</a>,
+  or paddle the rapids in <a href="korjaal.html" class="font-semibold hover:underline" style="color:var(--forest2)">Korjaal Run</a>.</p>
+</section>"""
+
+    _faq_html = ('<section class="max-w-2xl mx-auto px-4 mt-10 mb-4">'
+                 '<h2 class="serif text-2xl font-bold text-gray-900 mb-4">Common questions</h2>'
+                 + "".join('<details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2">'
+                           '<summary class="font-bold text-gray-900 text-sm cursor-pointer">' + q + '</summary>'
+                           '<p class="text-gray-700 text-sm leading-relaxed mt-2">' + ans + '</p></details>'
+                           for q, ans in _faq)
+                 + '</section>')
+
+    body = """
+<body class="bg-gray-50 overflow-x-hidden">
+__NAV__
+<div style="height:58px"></div>
+<div class="relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
+  <div class="relative max-w-3xl mx-auto px-4">
+    <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
+      <a href="index.html" class="hover:text-white transition">Home</a>
+      <span class="text-white/40">&#8250;</span>
+      <span class="text-white/90 font-medium" aria-current="page">Pe A De?</span>
+    </nav>
+    <p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Daily Suriname map game</p>
+    <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Pe A De?</h1>
+    <p class="text-white/70 text-base max-w-xl mx-auto">Five places, one map of Suriname. Tap where you think they are and find out how well you really know your country.</p>
+  </div>
+</div>
+<main class="max-w-xl mx-auto px-4 py-8 pb-20">
+  <div class="flex items-center justify-between gap-3 mb-1">
+    <div class="text-sm font-bold text-gray-700" id="mg-label"></div>
+    <div class="lang"><button id="mg-nl">NL</button><button id="mg-en">EN</button></div>
+  </div>
+  <div class="mg-dots" id="mg-dots"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="mg-card">
+    <div id="mg-ask" class="mb-3"></div>
+    <div class="relative">
+      <svg id="mg-svg" class="mg-map" viewBox="0 0 454 462" xmlns="http://www.w3.org/2000/svg" aria-label="Map of Suriname">
+        <defs><clipPath id="mg-clip"><path d="__COUNTRY__"/></clipPath></defs>
+        <rect x="-40" y="-40" width="534" height="542" fill="#dbeafe"/>
+        <text x="330" y="22" font-size="11" fill="#64748b" letter-spacing="2">ATLANTIC OCEAN</text>
+        <path d="__COUNTRY__" fill="#d8f3dc" stroke="#1b4332" stroke-width="1.6"/>
+        <g clip-path="url(#mg-clip)">
+          <path d="__LAKE__" fill="#93c5fd" stroke="#60a5fa" stroke-width="0.8"/>
+          __RIVERS__
+        </g>
+        <text x="18" y="250" font-size="11" fill="#94a3b8" letter-spacing="1.5" transform="rotate(-70 18 250)">GUYANA</text>
+        <text x="429" y="252" font-size="11" fill="#94a3b8" letter-spacing="1.5" transform="rotate(66 429 252)">FRANS-GUYANA</text>
+        <text x="205" y="452" font-size="11" fill="#94a3b8" letter-spacing="2">BRAZIL</text>
+        <g id="mg-layer"></g>
+      </svg>
+      <div class="mg-zoom">
+        <button id="mg-zin" aria-label="Zoom in">+</button>
+        <button id="mg-zout" aria-label="Zoom out">&#8722;</button>
+      </div>
+    </div>
+    <div id="mg-panel" class="mt-3"></div>
+  </div>
+  <p id="mg-note" class="text-xs text-gray-400 mt-6 leading-relaxed"></p>
+</main>
+__NOSCRIPT__
+__ABOUT__
+__FAQ__
+__FOOTER__
+<script>
+const MG=__DATA__;
+const EPOCH=__EPOCH__;
+const XMIN=-58.4773,YMAX=6.0435,SC=100;
+const T={
+ en:{find:"Find:",tap:"Tap the map where you think it is",confirm:"Plant the pin",adjust:"Drag or tap again to adjust, then confirm",next:"Next place",see:"See my score",km:"km off",pts:"points",bull:"Bullseye! Within 8 km.",place:"Place",of:"of",streak:"Streak",best:"Best",games:"Played",avg:"Avg",share:"Share on WhatsApp",copy:"Copy result",copied:"Copied!",newin:"New round in",practice:"Practice round (does not count)",today:"Today",note:"A new Pe A De every day at midnight Suriname time: two well-known places, two trickier ones and one from deep in the interior. The map is the official map of Suriname, Tigri included. Your streak and stats stay in this browser.",title:["Granman fu a mapu!","Sabiman!","Bun bun!","No wan mofo yari","Luku a mapu moro wan leisi"],day:"Day",total:"Total",back:"Back to today"},
+ nl:{find:"Zoek:",tap:"Tik op de kaart waar je denkt dat het ligt",confirm:"Zet de pin",adjust:"Sleep of tik opnieuw om bij te stellen, bevestig daarna",next:"Volgende plek",see:"Bekijk mijn score",km:"km ernaast",pts:"punten",bull:"In de roos! Binnen 8 km.",place:"Plek",of:"van",streak:"Reeks",best:"Record",games:"Gespeeld",avg:"Gem.",share:"Deel op WhatsApp",copy:"Kopieer resultaat",copied:"Gekopieerd!",newin:"Nieuwe ronde over",practice:"Oefenronde (telt niet mee)",today:"Vandaag",note:"Elke dag om middernacht Surinaamse tijd een nieuwe Pe A De: twee bekende plekken, twee lastigere en een uit het diepe binnenland. De kaart is de officiele kaart van Suriname, met Tigri erbij. Je reeks en statistieken blijven in deze browser.",title:["Granman fu a mapu!","Sabiman!","Bun bun!","No wan mofo yari","Luku a mapu moro wan leisi"],day:"Dag",total:"Totaal",back:"Terug naar vandaag"}};
+function $(i){return document.getElementById(i);}
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function dayNum(){return Math.floor((Date.now()-10800000)/86400000);}
+const D=Math.max(0,dayNum()-EPOCH),NUM=D+1;
+const E=MG.filter(p=>p.t==="e"),M=MG.filter(p=>p.t==="m"),H=MG.filter(p=>p.t==="h");
+const DAILY=(E.length&&M.length&&H.length)?[E[(2*D)%E.length],E[(2*D+1)%E.length],M[(2*D)%M.length],M[(2*D+1)%M.length],H[D%H.length]]:[];
+let lang=localStorage.getItem("mg-lang")||"nl";
+let practice=false,P=DAILY,cur=0,res=[],pin=null,confirmed=false,zoom=1,vb=[0,0,454,462];
+try{res=JSON.parse(localStorage.getItem("mg-r-"+D)||"[]");}catch(e){}
+cur=Math.min(res.length,4);if(res.length===5)cur=5;
+function px(lo,la){return[(lo-XMIN)*SC,(YMAX-la)*SC];}
+function inv(x,y){return[x/SC+XMIN,YMAX-y/SC];}
+function hav(a,b,c,d){const R=6371,r=Math.PI/180,dl=(c-a)*r,dg=(d-b)*r,h=Math.sin(dl/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin(dg/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
+function score(d){return d<=8?100:Math.max(0,Math.round(100*Math.exp(-(d-8)/55)));}
+function saveR(){if(!practice)localStorage.setItem("mg-r-"+D,JSON.stringify(res));}
+function stats(){let s={streak:0,best:0,games:0,sum:0};try{s=JSON.parse(localStorage.getItem("mg-s")||JSON.stringify(s));}catch(e){}return s;}
+function finishStats(){if(practice)return;const s=stats(),tot=res.reduce((a,r)=>a+r.p,0);if(localStorage.getItem("mg-done-"+D))return;localStorage.setItem("mg-done-"+D,"1");
+ s.streak=(localStorage.getItem("mg-done-"+(D-1))?s.streak:0)+1;s.best=Math.max(s.best,s.streak);s.games++;s.sum+=tot;localStorage.setItem("mg-s",JSON.stringify(s));}
+const SV=$("mg-svg"),LAYER=$("mg-layer");
+function setVB(){SV.setAttribute("viewBox",vb.join(" "));}
+function zoomTo(f,cx,cy){const nz=Math.min(4,Math.max(1,f));const w=454/nz,h=462/nz;
+ let x=(cx!=null?cx:vb[0]+vb[2]/2)-w/2,y=(cy!=null?cy:vb[1]+vb[3]/2)-h/2;
+ x=Math.max(-20,Math.min(474-w,x));y=Math.max(-20,Math.min(482-h,y));zoom=nz;vb=[x,y,w,h];setVB();}
+$("mg-zin").onclick=()=>zoomTo(zoom*1.6);
+$("mg-zout").onclick=()=>zoomTo(zoom/1.6);
+function svgPt(ev){const r=SV.getBoundingClientRect();const cx=(ev.clientX-r.left)/r.width*vb[2]+vb[0],cy=(ev.clientY-r.top)/r.height*vb[3]+vb[1];return[cx,cy];}
+let downPt=null,panned=false,vb0=null;
+SV.addEventListener("pointerdown",ev=>{downPt=[ev.clientX,ev.clientY];vb0=vb.slice();panned=false;SV.setPointerCapture(ev.pointerId);});
+SV.addEventListener("pointermove",ev=>{if(!downPt)return;const dx=ev.clientX-downPt[0],dy=ev.clientY-downPt[1];
+ if(Math.abs(dx)+Math.abs(dy)>12)panned=true;
+ if(panned&&zoom>1){const r=SV.getBoundingClientRect();
+  let nx=vb0[0]-dx/r.width*vb0[2],ny=vb0[1]-dy/r.height*vb0[3];
+  nx=Math.max(-20,Math.min(474-vb0[2],nx));ny=Math.max(-20,Math.min(482-vb0[3],ny));vb=[nx,ny,vb0[2],vb0[3]];setVB();}});
+SV.addEventListener("pointercancel",()=>{downPt=null;panned=false;});
+SV.addEventListener("pointerup",ev=>{if(!downPt)return;const wasPan=panned;downPt=null;
+ if(wasPan||confirmed||cur>=5)return;const[x,y]=svgPt(ev);
+ if(x<vb[0]||y<vb[1])return;pin=[x,y];drawPin();$("mg-go").disabled=false;$("mg-hint").textContent=T[lang].adjust;});
+function el(t,at){const e=document.createElementNS("http://www.w3.org/2000/svg",t);for(const k in at)e.setAttribute(k,at[k]);return e;}
+function drawPin(){LAYER.querySelectorAll(".gp").forEach(n=>n.remove());if(!pin)return;
+ const g=el("g",{"class":"gp mg-pin"});
+ g.appendChild(el("circle",{cx:pin[0],cy:pin[1],r:5.5/Math.sqrt(zoom),fill:"#1d4ed8",stroke:"#fff","stroke-width":1.6}));
+ LAYER.appendChild(g);}
+function reveal(p,guess){LAYER.innerHTML="";
+ const[gx,gy]=guess,[tx,ty]=px(p.lo,p.la);
+ LAYER.appendChild(el("line",{x1:gx,y1:gy,x2:tx,y2:ty,stroke:"#6b7280","stroke-width":1.2,"stroke-dasharray":"4 3"}));
+ LAYER.appendChild(el("circle",{cx:gx,cy:gy,r:5,fill:"#1d4ed8",stroke:"#fff","stroke-width":1.5}));
+ const pulse=el("circle",{cx:tx,cy:ty,r:6,fill:"none",stroke:"#dc2626","stroke-width":2});
+ pulse.setAttribute("style","animation:mgpulse 1.1s ease-out infinite");
+ LAYER.appendChild(pulse);
+ LAYER.appendChild(el("circle",{cx:tx,cy:ty,r:5,fill:"#dc2626",stroke:"#fff","stroke-width":1.5}));
+ const lbl=el("text",{x:tx+9,y:ty+4,"font-size":12,"font-weight":700,fill:"#111827",stroke:"#fff","stroke-width":3,"paint-order":"stroke"});
+ lbl.textContent=p.n;LAYER.appendChild(lbl);}
+function dots(){const ds=$("mg-dots").children;for(let i=0;i<5;i++){const d=ds[i];d.className="";
+ if(res[i]){d.className=res[i].p>=70?"done-g":res[i].p>=35?"done-y":"done-r";}else if(i===cur)d.className="on";}}
+function label(){$("mg-label").textContent=practice?T[lang].practice:"Pe A De? #"+NUM;$("mg-note").textContent=T[lang].note;}
+function ask(){const p=P[cur],L=T[lang];
+ $("mg-ask").innerHTML='<p class="text-xs text-gray-400 font-bold uppercase tracking-wide">'+L.place+" "+(cur+1)+" "+L.of+" 5</p>"
+  +'<p class="text-xl font-bold text-gray-900 serif">'+esc(p.n)+"</p>"
+  +'<p class="text-xs text-gray-500 mt-0.5" id="mg-hint">'+L.tap+"</p>";
+ $("mg-panel").innerHTML='<button class="mg-btn" id="mg-go" disabled>'+L.confirm+"</button>";
+ $("mg-go").onclick=confirmPin;pin=null;confirmed=false;LAYER.innerHTML="";dots();}
+function confirmPin(){if(!pin||confirmed)return;confirmed=true;const p=P[cur],L=T[lang];
+ const[glo,gla]=inv(pin[0],pin[1]);const d=Math.round(hav(gla,glo,p.la,p.lo));const pts=score(d);
+ res[cur]={d:d,p:pts};saveR();reveal(p,pin);
+ const verdict=d<=8?L.bull:d+" "+L.km;
+ $("mg-panel").innerHTML='<div class="flex items-baseline justify-between">'
+  +'<p class="font-bold '+(pts>=70?"text-green-700":pts>=35?"text-amber-600":"text-red-600")+'">'+verdict+"</p>"
+  +'<p class="text-2xl font-black text-gray-900">+'+pts+'</p></div>'
+  +'<div class="mg-fact">'+esc(lang==="nl"?p.f_nl:p.f_en)+"</div>"
+  +'<button class="mg-btn mt-3" id="mg-nx">'+(cur===4?L.see:L.next)+"</button>";
+ $("mg-nx").onclick=()=>{cur++;if(cur===5){if(!practice)finishStats();rView();}else ask();dots();};
+ dots();}
+function shareTxt(){const tot=res.reduce((a,r)=>a+r.p,0);
+ const row=res.map(r=>r.p>=70?"\\ud83d\\udfe2":r.p>=35?"\\ud83d\\udfe1":"\\ud83d\\udd34").join("");
+ return "Pe A De? #"+NUM+": "+tot+"/500\\n"+row+"\\nhttps://exploresuriname.com/map-game.html";}
+function rView(){const L=T[lang],tot=res.reduce((a,r)=>a+r.p,0),s=stats();
+ zoomTo(1);LAYER.innerHTML="";
+ P.forEach((p,i)=>{const[tx,ty]=px(p.lo,p.la);
+  LAYER.appendChild(el("circle",{cx:tx,cy:ty,r:5,fill:res[i]&&res[i].p>=70?"#16a34a":res[i]&&res[i].p>=35?"#d97706":"#dc2626",stroke:"#fff","stroke-width":1.5}));
+  const t2=el("text",{x:tx+8,y:ty+4,"font-size":11,"font-weight":700,fill:"#111827",stroke:"#fff","stroke-width":3,"paint-order":"stroke"});t2.textContent=p.n;LAYER.appendChild(t2);});
+ const ttl=tot>=460?L.title[0]:tot>=380?L.title[1]:tot>=290?L.title[2]:tot>=180?L.title[3]:L.title[4];
+ let h='<p class="text-xs text-gray-400 font-bold uppercase tracking-wide">'+(practice?L.practice:L.today)+"</p>"
+  +'<p class="serif text-2xl font-bold text-gray-900">'+ttl+"</p>"
+  +'<p class="text-4xl font-black my-1" style="color:var(--forest)">'+tot+'<span class="text-lg text-gray-400 font-bold">/500</span></p>';
+ h+='<div class="text-sm text-gray-600 mb-2">'+P.map((p,i)=>esc(p.n)+": <b>"+res[i].p+"</b>").join(" &middot; ")+"</div>";
+ if(!practice)h+='<div class="grid grid-cols-4 gap-2 my-3">'
+  +'<div class="mg-stat"><b>'+s.streak+"</b><span>"+L.streak+"</span></div>"
+  +'<div class="mg-stat"><b>'+s.best+"</b><span>"+L.best+"</span></div>"
+  +'<div class="mg-stat"><b>'+s.games+"</b><span>"+L.games+"</span></div>"
+  +'<div class="mg-stat"><b>'+(s.games?Math.round(s.sum/s.games):0)+"</b><span>"+L.avg+"</span></div></div>";
+ h+='<div class="mt-2"><a class="wabtn" href="https://wa.me/?text='+encodeURIComponent(shareTxt())+'" target="_blank" rel="noopener">'+L.share+"</a>"
+  +'<button class="cpbtn" id="mg-cp">'+L.copy+"</button></div>";
+ h+='<button class="mg-btn mt-4" id="mg-pr">'+(practice?L.back:L.practice)+"</button>";
+ $("mg-ask").innerHTML="";$("mg-panel").innerHTML=h;
+ $("mg-cp").onclick=()=>{navigator.clipboard.writeText(shareTxt());$("mg-cp").textContent=L.copied;};
+ $("mg-pr").onclick=()=>{if(practice){practice=false;P=DAILY;try{res=JSON.parse(localStorage.getItem("mg-r-"+D)||"[]");}catch(e){res=[];}cur=5;rView();}
+  else{practice=true;const pool=MG.filter(p=>DAILY.indexOf(p)<0);P=[];const used={};
+   while(P.length<5){const i=Math.floor(Math.random()*pool.length);if(!used[i]){used[i]=1;P.push(pool[i]);}}
+   res=[];cur=0;ask();}label();dots();};
+ dots();}
+function setLang(l){lang=l;localStorage.setItem("mg-lang",l);$("mg-nl").classList.toggle("on",l==="nl");$("mg-en").classList.toggle("on",l==="en");
+ label();if(cur>=5)rView();else ask();}
+$("mg-nl").onclick=()=>setLang("nl");$("mg-en").onclick=()=>setLang("en");
+if(DAILY.length===5){setLang(lang);}else{$("mg-ask").innerHTML="<p class='text-sm text-gray-500'>Loading error. Refresh the page.</p>";}
+</script>
+</body>
+</html>"""
+
+    body = (body.replace("__COUNTRY__", _country_d)
+                .replace("__LAKE__", _lake_d)
+                .replace("__RIVERS__", _rivers_d)
+                .replace("__NAV__", nav_html("mapgame"))
+                .replace("__NOSCRIPT__", _noscript)
+                .replace("__ABOUT__", _about)
+                .replace("__FAQ__", _faq_html)
+                .replace("__FOOTER__", footer_html())
+                .replace("__DATA__", _data)
+                .replace("__EPOCH__", str(_epoch_day)))
+    return head + body
+
+
+# ── Korjaal Run: daily river arcade game ─────────────────────────────────────
+def build_korjaal_page():
+    """korjaal.html: Korjaal Run - steer a korjaal down a jungle river, dodge logs,
+    rocks and sandbanks, ride the sula (rapids) and pick up manja. One seeded
+    'daily river' shared by everyone (compare distances fairly) plus free paddling.
+    Canvas-based, touch + keyboard, no dependencies, everything client-side."""
+    import json as _json
+    today = datetime.now(SR_TZ).date()
+    _epoch = datetime(2026, 7, 12).date()
+    _epoch_day = (_epoch - datetime(1970, 1, 1).date()).days
+    _num = max(0, (today - _epoch).days) + 1
+
+    _title = "Korjaal Run: paddle the Suriname river rapids"
+    _desc = ("Steer a korjaal down a jungle river: dodge logs, rocks and sandbanks, ride the "
+             "sula and collect manja. A new daily river for everyone, every day. Free browser "
+             "game from Explore Suriname.")
+    _ogimg = SITE_URL + "/og-image.jpg"
+    _faq = [
+        ("What is a korjaal?",
+         "A korjaal is the dugout canoe of Suriname's rivers, carved from a single tree trunk. On the upper "
+         "rivers it is still how people, goods and tourists move between villages, powered by paddle or outboard."),
+        ("How do I play Korjaal Run?",
+         "Drag your finger (or use the arrow keys) to steer the korjaal downriver. Avoid drifting logs, rocks and "
+         "sandbanks, survive the sula, the rapids that speed everything up, and grab manja for bonus points. "
+         "The further you get, the faster the river flows."),
+        ("What is the daily river?",
+         "Every day at midnight Suriname time the game generates one new river layout that is exactly the same for "
+         "every player. Everyone paddles the same water, so distances are fair to compare in the group chat. "
+         "Free paddle mode gives you a random river for practice."),
+        ("Is it free?",
+         "Yes. Korjaal Run is free, needs no app or account, and your best runs are stored only in your browser."),
+    ]
+    _graph = _json.dumps({"@context": "https://schema.org", "@graph": [
+        {"@type": "WebPage", "@id": SITE_URL + "/korjaal.html#webpage",
+         "url": SITE_URL + "/korjaal.html", "name": _title, "description": _desc,
+         "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": SITE_URL + "/"},
+         "primaryImageOfPage": _ogimg,
+         "breadcrumb": {"@id": SITE_URL + "/korjaal.html#breadcrumb"},
+         "mainEntity": {"@id": SITE_URL + "/korjaal.html#game"},
+         "datePublished": "2026-07-12", "dateModified": today.isoformat(),
+         "isAccessibleForFree": True},
+        {"@type": "BreadcrumbList", "@id": SITE_URL + "/korjaal.html#breadcrumb",
+         "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Korjaal Run", "item": SITE_URL + "/korjaal.html"}]},
+        {"@type": "VideoGame", "@id": SITE_URL + "/korjaal.html#game",
+         "name": "Korjaal Run", "url": SITE_URL + "/korjaal.html",
+         "description": "An endless-runner browser game set on a Surinamese jungle river: steer a korjaal past logs, rocks and rapids. New daily river for all players.",
+         "genre": "Arcade", "gamePlatform": "Web browser",
+         "inLanguage": ["nl", "en"], "isAccessibleForFree": True, "image": _ogimg,
+         "publisher": {"@type": "Organization", "name": "Explore Suriname", "url": SITE_URL + "/"}},
+        {"@type": "FAQPage", "@id": SITE_URL + "/korjaal.html#faq",
+         "mainEntity": [{"@type": "Question", "name": q,
+                         "acceptedAnswer": {"@type": "Answer", "text": ans}} for q, ans in _faq]},
+    ]}, ensure_ascii=False)
+
+    _CSS = """  <style>
+    #kj-wrap{position:relative;max-width:420px;margin:0 auto}
+    #kj-cv{display:block;width:100%;border-radius:16px;background:#123024;touch-action:none;user-select:none;-webkit-user-select:none}
+    .kj-mode button{padding:.35rem .9rem;border:1px solid #d1d5db;background:#fff;font-size:.78rem;font-weight:700;color:#6b7280}
+    .kj-mode button:first-child{border-radius:9999px 0 0 9999px}.kj-mode button:last-child{border-radius:0 9999px 9999px 0;margin-left:-1px}
+    .kj-mode button.on{background:var(--forest);border-color:var(--forest);color:#fff}
+    .lang button{padding:.3rem .8rem;border:1px solid #d1d5db;background:#fff;font-size:.78rem;font-weight:700;color:#6b7280}
+    .lang button:first-child{border-radius:9999px 0 0 9999px}.lang button:last-child{border-radius:0 9999px 9999px 0;margin-left:-1px}
+    .lang button.on{background:var(--forest);border-color:var(--forest);color:#fff}
+    .kj-stat{background:#f9fafb;border:1px solid #eef0f2;border-radius:12px;padding:.6rem .4rem;text-align:center}
+    .kj-stat b{display:block;font-size:1.2rem;color:#111827}
+    .kj-stat span{font-size:.68rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em}
+    .wabtn{display:inline-block;background:#25d366;color:#fff;font-weight:700;border-radius:9999px;padding:.65rem 1.3rem;font-size:.9rem}
+    .cpbtn{display:inline-block;background:#fff;border:1px solid #d1d5db;color:#374151;font-weight:700;border-radius:9999px;padding:.65rem 1.3rem;font-size:.9rem;margin-left:.5rem}
+  </style>"""
+
+    head = (PAGE_HEAD
+        + '\n  <title>Korjaal Run | Suriname River Game | Explore Suriname</title>'
+        + '\n  <meta name="description" content="' + _desc + '">'
+        + '\n  <link rel="canonical" href="' + SITE_URL + '/korjaal.html">'
+        + '\n  <meta property="og:type" content="website">'
+        + '\n  <meta property="og:site_name" content="Explore Suriname">'
+        + '\n  <meta property="og:url" content="' + SITE_URL + '/korjaal.html">'
+        + '\n  <meta property="og:title" content="' + _title + '">'
+        + '\n  <meta property="og:description" content="Dodge logs, ride the sula, collect manja. How far downriver can you get?">'
+        + '\n  <meta property="og:image" content="' + _ogimg + '">'
+        + '\n  <meta property="og:locale" content="nl_NL">'
+        + '\n  <meta property="og:locale:alternate" content="en_US">'
+        + '\n  <meta name="twitter:card" content="summary_large_image">'
+        + '\n  <meta name="twitter:title" content="' + _title + '">'
+        + '\n  <meta name="twitter:description" content="Dodge logs, ride the sula, collect manja. How far downriver can you get?">'
+        + '\n  <meta name="twitter:image" content="' + _ogimg + '">'
+        + '\n  <script type="application/ld+json">\n  ' + _graph + '\n  </script>'
+        + _CSS + '\n</head>')
+
+    _about = """
+<section class="max-w-2xl mx-auto px-4 mt-14">
+  <h2 class="serif text-2xl font-bold text-gray-900 mb-3">About Korjaal Run</h2>
+  <p class="text-gray-700 text-sm leading-relaxed mb-3">The korjaal is how Suriname's interior moves: a dugout
+  canoe cut from one tree, loaded with people, rice bags and outboard fuel, threading rapids that have their own
+  names and their own moods. Anyone who has taken the boat from Atjoni up the Boven-Suriname knows the feeling
+  this game chases: the boatman reading the water, the sula roaring up ahead, everybody holding their bags a
+  little tighter.</p>
+  <p class="text-gray-700 text-sm leading-relaxed mb-3">Your job is simpler than the boatman's: steer. Logs
+  drift, rocks wait just under the foam, sandbanks reach out from the banks, and the river only gets faster.
+  Ride the sula for speed, grab a manja when it floats past, and see how many metres you survive.</p>
+  <p class="text-gray-700 text-sm leading-relaxed">Every day there is one <b>daily river</b>, the same for
+  everyone, so scores in the family group are a fair fight. Done paddling? Try
+  <a href="map-game.html" class="font-semibold hover:underline" style="color:var(--forest2)">Pe A De?</a>, the
+  <a href="quiz.html" class="font-semibold hover:underline" style="color:var(--forest2)">Sabi Suriname quiz</a> or the
+  <a href="crossword.html" class="font-semibold hover:underline" style="color:var(--forest2)">Switi Mini crossword</a>.</p>
+</section>"""
+
+    _faq_html = ('<section class="max-w-2xl mx-auto px-4 mt-10 mb-4">'
+                 '<h2 class="serif text-2xl font-bold text-gray-900 mb-4">Common questions</h2>'
+                 + "".join('<details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2">'
+                           '<summary class="font-bold text-gray-900 text-sm cursor-pointer">' + q + '</summary>'
+                           '<p class="text-gray-700 text-sm leading-relaxed mt-2">' + ans + '</p></details>'
+                           for q, ans in _faq)
+                 + '</section>')
+
+    _noscript = ('<noscript><section class="max-w-2xl mx-auto px-4 mt-6"><p class="text-sm text-gray-600">'
+                 'Korjaal Run is a browser game and needs JavaScript. Enable JavaScript to paddle today&#8217;s river (#'
+                 + str(_num) + ').</p></section></noscript>')
+
+    body = """
+<body class="bg-gray-50 overflow-x-hidden">
+__NAV__
+<div style="height:58px"></div>
+<div class="relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
+  <div class="relative max-w-3xl mx-auto px-4">
+    <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
+      <a href="index.html" class="hover:text-white transition">Home</a>
+      <span class="text-white/40">&#8250;</span>
+      <span class="text-white/90 font-medium" aria-current="page">Korjaal Run</span>
+    </nav>
+    <p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Suriname river game</p>
+    <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Korjaal Run</h1>
+    <p class="text-white/70 text-base max-w-xl mx-auto">Pari, pari! Steer your korjaal down the river, dodge what the water hides and see how far you get. Same river for everyone, every day.</p>
+  </div>
+</div>
+<main class="max-w-xl mx-auto px-4 py-8 pb-20">
+  <div class="flex items-center justify-between gap-3 mb-3 flex-wrap">
+    <div class="kj-mode"><button id="kj-daily">__DAILYLBL__</button><button id="kj-free">__FREELBL__</button></div>
+    <div class="lang"><button id="kj-nl">NL</button><button id="kj-en">EN</button></div>
+  </div>
+  <div id="kj-wrap"><canvas id="kj-cv" width="400" height="640" aria-label="Korjaal Run game"></canvas></div>
+  <div id="kj-panel" class="mt-4"></div>
+  <p id="kj-note" class="text-xs text-gray-400 mt-6 leading-relaxed"></p>
+</main>
+__NOSCRIPT__
+__ABOUT__
+__FAQ__
+__FOOTER__
+<script>
+(function(){
+const EPOCH=__EPOCH__;
+function dayNum(){return Math.floor((Date.now()-10800000)/86400000);}
+const D=Math.max(0,dayNum()-EPOCH),NUM=D+1;
+const T={
+ en:{daily:"Daily river #"+NUM,free:"Free paddle",tap:"Tap to start",drag:"Drag to steer &middot; arrow keys work too",dist:"m",best:"Best today",all:"All-time",runs:"Runs",share:"Share on WhatsApp",copy:"Copy result",copied:"Copied!",over:"The river won.",again:"Paddle again",manja:"manja",note:"One new daily river at midnight Suriname time, identical for every player, so distances are fair to compare. Free paddle gives a random river. Runs and records stay in this browser. Pro tip: the sula makes you fast, but fast is how korjalen meet rocks.",toasts:{go:"Pari go!",sula:"SULA! Hold on!",far:"Switi rivier!",manja:"Manja!"}},
+ nl:{daily:"Dagrivier #"+NUM,free:"Vrij pagaaien",tap:"Tik om te starten",drag:"Sleep om te sturen &middot; pijltjestoetsen kunnen ook",dist:"m",best:"Beste vandaag",all:"Aller tijden",runs:"Runs",share:"Deel op WhatsApp",copy:"Kopieer resultaat",copied:"Gekopieerd!",over:"De rivier heeft gewonnen.",again:"Nog een keer",manja:"manja",note:"Elke dag om middernacht Surinaamse tijd een nieuwe dagrivier, precies dezelfde voor iedereen, dus afstanden zijn eerlijk te vergelijken. Vrij pagaaien geeft een willekeurige rivier. Records blijven in deze browser. Tip: de sula maakt je snel, maar snel is hoe korjalen rotsen ontmoeten.",toasts:{go:"Pari go!",sula:"SULA! Hori doro!",far:"Switi rivier!",manja:"Manja!"}}};
+let lang=localStorage.getItem("kj-lang")||"nl";
+function $(i){return document.getElementById(i);}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const CV=$("kj-cv"),CX=CV.getContext("2d");
+const W=400,HT=640;
+const DPR=Math.min(2,window.devicePixelRatio||1);
+CV.width=W*DPR;CV.height=HT*DPR;CX.scale(DPR,DPR);
+let mode="daily",st="idle",raf=0;
+let rng,seed,riv,obs,boat,dist,speed,manja,shake,toast,toastT,sulaIn,paddleT,parts,spawnAt,sulaAt;
+function rp(){return{a1:30+rng()*40,f1:.0016+rng()*.001,p1:rng()*9,a2:14+rng()*22,f2:.004+rng()*.003,p2:rng()*9,wb:118-rng()*14};}
+function cxAt(d){return W/2+riv.a1*Math.sin(d*riv.f1+riv.p1)+riv.a2*Math.sin(d*riv.f2+riv.p2);}
+function wAt(d){return Math.max(86,riv.wb-Math.min(26,d/900)+12*Math.sin(d*.0021+riv.p2));}
+function reset(newSeed){seed=newSeed;rng=mulberry32(seed);riv=rp();obs=[];parts=[];
+ boat={x:W/2,tx:W/2,vx:0};dist=0;speed=2.1;manja=0;shake=0;toast=null;toastT=0;sulaIn=0;paddleT=0;
+ spawnAt=420;sulaAt=2600+rng()*900;}
+function spawn(d){const r=rng(),c=cxAt(d),w=wAt(d);
+ if(r<.38){obs.push({t:"log",x:c+(rng()-.5)*(w*1.2),y:-60,w:56+rng()*38,rot:rng()*Math.PI,vr:(rng()-.5)*.02,vx:(rng()-.5)*.5});}
+ else if(r<.68){obs.push({t:"rock",x:c+(rng()-.5)*(w*1.4),y:-40,r:13+rng()*10});}
+ else if(r<.84){const side=rng()<.5?-1:1;obs.push({t:"sand",x:c+side*(w-14),y:-70,rx:34+rng()*26,ry:20+rng()*10});}
+ else{obs.push({t:"manja",x:c+(rng()-.5)*(w*1.3),y:-30,r:9});}}
+function drawBanks(){CX.fillStyle="#1f4d33";CX.fillRect(0,0,W,HT);
+ CX.fillStyle="#5b4632";
+ CX.beginPath();CX.moveTo(0,0);
+ for(let y=0;y<=HT;y+=16){const d=dist+ (HT-y);CX.lineTo(cxAt(d)-wAt(d),y);}
+ CX.lineTo(0,HT);CX.closePath();CX.fill();
+ CX.beginPath();CX.moveTo(W,0);
+ for(let y=0;y<=HT;y+=16){const d=dist+(HT-y);CX.lineTo(cxAt(d)+wAt(d),y);}
+ CX.lineTo(W,HT);CX.closePath();CX.fill();
+ CX.fillStyle="#153826";
+ for(let y=-20;y<=HT+20;y+=34){const d=dist+(HT-y);const cL=cxAt(d)-wAt(d),cR=cxAt(d)+wAt(d);
+  const s1=Math.sin(d*.05)*7;
+  CX.beginPath();CX.arc(cL-26+s1,y,14+((d|0)%3)*3,0,7);CX.fill();
+  CX.beginPath();CX.arc(cR+26-s1,y,15+((d|0)%4)*3,0,7);CX.fill();}}
+function drawWater(){CX.save();CX.beginPath();
+ for(let y=0;y<=HT;y+=16){const d=dist+(HT-y);const x=cxAt(d)-wAt(d);y===0?CX.moveTo(x,0):CX.lineTo(x,y);}
+ for(let y=HT;y>=0;y-=16){const d=dist+(HT-y);CX.lineTo(cxAt(d)+wAt(d),y);}
+ CX.closePath();CX.clip();
+ CX.fillStyle=sulaIn>0?"#3d6b5e":"#385f55";CX.fillRect(0,0,W,HT);
+ CX.strokeStyle="rgba(255,255,255,.10)";CX.lineWidth=2;
+ for(let i=0;i<9;i++){const yy=((dist*2.2+i*97)% (HT+80))-40;const d=dist+(HT-yy);
+  CX.beginPath();CX.moveTo(cxAt(d)-wAt(d)*.6+((i*53)%80),yy);CX.lineTo(cxAt(d)-wAt(d)*.6+((i*53)%80)+3,yy+22);CX.stroke();}
+ if(sulaIn>0){CX.fillStyle="rgba(255,255,255,.28)";
+  for(let i=0;i<26;i++){const yy=((dist*3+i*61)%(HT+40))-20,xx=cxAt(dist+(HT-yy))+((i*37)%160)-80;
+   CX.beginPath();CX.ellipse(xx,yy,7,2.4,0,0,7);CX.fill();}}
+ CX.restore();}
+function drawObs(){obs.forEach(o=>{
+ if(o.t==="log"){CX.save();CX.translate(o.x,o.y);CX.rotate(o.rot);
+  CX.fillStyle="#6f4518";CX.beginPath();if(CX.roundRect)CX.roundRect(-o.w/2,-8,o.w,16,8);else CX.rect(-o.w/2,-8,o.w,16);CX.fill();
+  CX.strokeStyle="#59370f";CX.lineWidth=1.5;CX.beginPath();CX.moveTo(-o.w/2+8,-3);CX.lineTo(o.w/2-8,-3);CX.moveTo(-o.w/2+10,3);CX.lineTo(o.w/2-10,3);CX.stroke();
+  CX.fillStyle="#8a5a26";CX.beginPath();CX.arc(o.w/2,0,7,0,7);CX.fill();CX.restore();}
+ else if(o.t==="rock"){CX.fillStyle="rgba(255,255,255,.35)";CX.beginPath();CX.ellipse(o.x,o.y+o.r*.8,o.r*1.3,5,0,0,7);CX.fill();
+  CX.fillStyle="#8a8f94";CX.beginPath();CX.moveTo(o.x-o.r,o.y+o.r*.4);CX.lineTo(o.x-o.r*.4,o.y-o.r);CX.lineTo(o.x+o.r*.5,o.y-o.r*.7);CX.lineTo(o.x+o.r,o.y+o.r*.3);CX.closePath();CX.fill();
+  CX.fillStyle="#6e7378";CX.beginPath();CX.moveTo(o.x-o.r*.4,o.y-o.r);CX.lineTo(o.x+o.r*.5,o.y-o.r*.7);CX.lineTo(o.x+o.r*.1,o.y+o.r*.2);CX.closePath();CX.fill();}
+ else if(o.t==="sand"){CX.fillStyle="#d9c07f";CX.beginPath();CX.ellipse(o.x,o.y,o.rx,o.ry,0,0,7);CX.fill();
+  CX.fillStyle="#c8ad69";CX.beginPath();CX.ellipse(o.x,o.y+3,o.rx*.7,o.ry*.55,0,0,7);CX.fill();}
+ else if(o.t==="manja"){CX.fillStyle="#f59e0b";CX.beginPath();CX.ellipse(o.x,o.y,o.r,o.r*1.15,.4,0,7);CX.fill();
+  CX.fillStyle="#dc2626";CX.beginPath();CX.ellipse(o.x-2,o.y-2,o.r*.5,o.r*.6,.4,0,7);CX.fill();
+  CX.strokeStyle="#166534";CX.lineWidth=2;CX.beginPath();CX.moveTo(o.x+2,o.y-o.r);CX.quadraticCurveTo(o.x+8,o.y-o.r-6,o.x+10,o.y-o.r-2);CX.stroke();}});}
+function drawBoat(){const b=boat,y=HT*.78;CX.save();CX.translate(b.x,y);CX.rotate(b.vx*.045);
+ CX.fillStyle="rgba(255,255,255,.25)";CX.beginPath();CX.ellipse(0,26,7,10,0,0,7);CX.fill();
+ CX.fillStyle="#7c4a21";CX.beginPath();CX.moveTo(0,-30);CX.quadraticCurveTo(11,-10,10,12);CX.quadraticCurveTo(9,26,0,30);CX.quadraticCurveTo(-9,26,-10,12);CX.quadraticCurveTo(-11,-10,0,-30);CX.fill();
+ CX.strokeStyle="#5e3715";CX.lineWidth=1.6;CX.stroke();
+ CX.strokeStyle="#93602e";CX.lineWidth=1;CX.beginPath();CX.moveTo(0,-26);CX.lineTo(0,26);CX.moveTo(-5,-14);CX.lineTo(-5,18);CX.moveTo(5,-14);CX.lineTo(5,18);CX.stroke();
+ CX.fillStyle="#3b82f6";CX.beginPath();CX.arc(0,4,5,0,7);CX.fill();
+ CX.fillStyle="#7c3aed";CX.beginPath();CX.arc(0,-8,4,0,7);CX.fill();
+ paddleT++;const side=Math.floor(paddleT/22)%2?1:-1;
+ CX.strokeStyle="#eab308";CX.lineWidth=3;CX.beginPath();CX.moveTo(0,6);CX.lineTo(side*15,14);CX.stroke();
+ CX.fillStyle="#eab308";CX.beginPath();CX.ellipse(side*16,16,4,7,side*.5,0,7);CX.fill();
+ CX.fillStyle="#377e3f";CX.fillRect(-3,-30,6,3);CX.fillStyle="#fff";CX.fillRect(-3,-27,6,1.4);CX.fillStyle="#b40a2d";CX.fillRect(-3,-25.6,6,2.4);CX.fillStyle="#fff";CX.fillRect(-3,-23.2,6,1.4);CX.fillStyle="#377e3f";CX.fillRect(-3,-21.8,6,3);
+ CX.restore();}
+function drawParts(){parts.forEach(p=>{CX.fillStyle="rgba(255,255,255,"+p.a+")";CX.beginPath();CX.arc(p.x,p.y,p.r,0,7);CX.fill();});}
+function hud(){CX.fillStyle="rgba(0,0,0,.35)";if(CX.roundRect){CX.beginPath();CX.roundRect(12,12,120,30,9);CX.fill();}else CX.fillRect(12,12,120,30);
+ CX.fillStyle="#fff";CX.font="800 16px system-ui";CX.textAlign="left";CX.fillText(Math.floor(dist/10)+" m",22,33);
+ if(manja>0){CX.fillStyle="rgba(0,0,0,.35)";if(CX.roundRect){CX.beginPath();CX.roundRect(W-96,12,84,30,9);CX.fill();}else CX.fillRect(W-96,12,84,30);
+  CX.fillStyle="#fbbf24";CX.font="800 15px system-ui";CX.fillText(manja+" manja",W-86,33);}
+ if(toastT>0){CX.textAlign="center";CX.font="900 26px system-ui";CX.fillStyle="rgba(0,0,0,.4)";CX.fillText(toast,W/2+2,HT*.34+2);CX.fillStyle="#fff";CX.fillText(toast,W/2,HT*.34);toastT--;}}
+function say(t){toast=t;toastT=80;}
+function step(){
+ const L=T[lang];
+ const ramp=Math.min(3.4,dist/2600);
+ let v=(2.1+ramp)*(sulaIn>0?1.55:1);
+ speed=v;dist+=v;
+ if(dist>spawnAt){spawn(dist+HT);spawnAt+=150+rng()*140-Math.min(70,dist/400);}
+ if(dist>sulaAt){sulaIn=520;sulaAt=dist+2400+rng()*1400;say(L.toasts.sula);
+  for(let i=0;i<3;i++)obs.push({t:"rock",x:cxAt(dist+HT)+(rng()-.5)*wAt(dist+HT)*1.5,y:-40-i*130,r:12+rng()*8});}
+ if(sulaIn>0)sulaIn-=v;
+ if(Math.abs(dist-5000)<v)say(L.toasts.go);
+ if(Math.abs(dist-12000)<v)say(L.toasts.far);
+ boat.x+=(boat.tx-boat.x)*.16;boat.vx=(boat.tx-boat.x);
+ const by=HT*.78;
+ const c=cxAt(dist+(HT-by)),w=wAt(dist+(HT-by));
+ if(boat.x<c-w+8||boat.x>c+w-8)return die();
+ obs.forEach(o=>{o.y+=v;if(o.t==="log"){o.rot+=o.vr;o.x+=o.vx;}});
+ obs=obs.filter(o=>o.y<HT+90);
+ for(const o of obs){const dx=boat.x-o.x,dy=by-o.y;
+  if(o.t==="manja"){if(dx*dx/(20*20)+dy*dy/(34*34)<1&&!o.got){o.got=1;o.y=HT+999;manja++;say(T[lang].toasts.manja);}continue;}
+  let rx=o.t==="log"?o.w*.42:o.t==="sand"?o.rx*.85:o.r+3,ry=o.t==="log"?12:o.t==="sand"?o.ry*.8:o.r+3;
+  if(dx*dx/((rx+9)*(rx+9))+dy*dy/((ry+22)*(ry+22))<1)return die();}
+ if(shake>0)shake--;
+ render();raf=requestAnimationFrame(step);}
+function render(){CX.save();if(sulaIn>0)CX.translate((Math.random()-.5)*4,(Math.random()-.5)*4);
+ drawBanks();drawWater();drawObs();drawBoat();drawParts();hud();CX.restore();}
+function die(){st="over";
+ for(let i=0;i<22;i++)parts.push({x:boat.x+(Math.random()-.5)*30,y:HT*.78+(Math.random()-.5)*30,r:2+Math.random()*4,a:.5+Math.random()*.4});
+ render();
+ const m=Math.floor(dist/10),L=T[lang];
+ const bd=+(localStorage.getItem("kj-best-"+(mode==="daily"?D:"free"))||0);
+ const mx=+(localStorage.getItem("kj-max")||0);
+ const runs=1+ +(localStorage.getItem("kj-runs")||0);
+ localStorage.setItem("kj-runs",runs);
+ if(m>bd)localStorage.setItem("kj-best-"+(mode==="daily"?D:"free"),m);
+ if(m>mx)localStorage.setItem("kj-max",m);
+ CX.fillStyle="rgba(10,25,18,.72)";CX.fillRect(0,0,W,HT);
+ CX.textAlign="center";CX.fillStyle="#fff";
+ CX.font="900 34px system-ui";CX.fillText(m+" m",W/2,HT*.4);
+ CX.font="700 15px system-ui";CX.fillStyle="rgba(255,255,255,.75)";CX.fillText(L.over,W/2,HT*.4+30);
+ CX.font="700 14px system-ui";CX.fillStyle="rgba(255,255,255,.6)";CX.fillText(L.tap,W/2,HT*.4+58);
+ panel(m,Math.max(m,bd),Math.max(m,mx),runs);}
+function shareTxt(m){const tag=mode==="daily"?"#"+NUM:"(free)";
+ return "Korjaal Run "+tag+": "+m+" m \\ud83d\\udea3\\n"+(manja?manja+" manja \\ud83e\\udd6d\\n":"")+"https://exploresuriname.com/korjaal.html";}
+function panel(m,bd,mx,runs){const L=T[lang];
+ $("kj-panel").innerHTML='<div class="grid grid-cols-4 gap-2 mb-3">'
+  +'<div class="kj-stat"><b>'+m+'</b><span>'+L.dist+'</span></div>'
+  +'<div class="kj-stat"><b>'+bd+'</b><span>'+L.best+'</span></div>'
+  +'<div class="kj-stat"><b>'+mx+'</b><span>'+L.all+'</span></div>'
+  +'<div class="kj-stat"><b>'+runs+'</b><span>'+L.runs+'</span></div></div>'
+  +'<div><a class="wabtn" href="https://wa.me/?text='+encodeURIComponent(shareTxt(m))+'" target="_blank" rel="noopener">'+L.share+'</a>'
+  +'<button class="cpbtn" id="kj-cp">'+L.copy+'</button></div>';
+ $("kj-cp").onclick=()=>{navigator.clipboard.writeText(shareTxt(m));$("kj-cp").textContent=L.copied;};}
+function start(){reset(mode==="daily"?D+77:Math.floor(Math.random()*1e9));st="run";$("kj-panel").innerHTML="";
+ cancelAnimationFrame(raf);raf=requestAnimationFrame(step);}
+function idle(){st="idle";reset(mode==="daily"?D+77:Math.floor(Math.random()*1e9));render();
+ CX.fillStyle="rgba(10,25,18,.66)";CX.fillRect(0,0,W,HT);
+ CX.textAlign="center";CX.fillStyle="#fff";CX.font="900 30px system-ui";
+ CX.fillText("Korjaal Run",W/2,HT*.36);
+ CX.font="700 15px system-ui";CX.fillStyle="rgba(255,255,255,.8)";
+ CX.fillText(T[lang][mode==="daily"?"daily":"free"].replace("&middot;","·"),W/2,HT*.36+28);
+ CX.font="700 14px system-ui";CX.fillStyle="rgba(255,255,255,.65)";
+ CX.fillText(T[lang].tap,W/2,HT*.36+58);
+ $("kj-panel").innerHTML="";}
+CV.addEventListener("pointerdown",ev=>{ev.preventDefault();
+ if(st!=="run"){start();return;}
+ const r=CV.getBoundingClientRect();boat.tx=(ev.clientX-r.left)/r.width*W;});
+CV.addEventListener("pointermove",ev=>{if(st!=="run")return;
+ const r=CV.getBoundingClientRect();boat.tx=(ev.clientX-r.left)/r.width*W;});
+document.addEventListener("keydown",ev=>{
+ if(ev.key==="ArrowLeft"){boat.tx=Math.max(20,boat.tx-34);ev.preventDefault();}
+ else if(ev.key==="ArrowRight"){boat.tx=Math.min(W-20,boat.tx+34);ev.preventDefault();}
+ else if((ev.key===" "||ev.key==="Enter")&&st!=="run"){start();ev.preventDefault();}});
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&st==="run"){cancelAnimationFrame(raf);st="pause";}
+ else if(st==="pause"){st="run";raf=requestAnimationFrame(step);}});
+function setMode(mo){mode=mo;$("kj-daily").classList.toggle("on",mo==="daily");$("kj-free").classList.toggle("on",mo==="free");
+ cancelAnimationFrame(raf);idle();}
+function setLang(l){lang=l;localStorage.setItem("kj-lang",l);$("kj-nl").classList.toggle("on",l==="nl");$("kj-en").classList.toggle("on",l==="en");
+ $("kj-daily").textContent=T[l].daily;$("kj-free").textContent=T[l].free;$("kj-note").textContent=T[l].note;
+ if(st!=="run")idle();}
+$("kj-daily").onclick=()=>setMode("daily");$("kj-free").onclick=()=>setMode("free");
+$("kj-nl").onclick=()=>setLang("nl");$("kj-en").onclick=()=>setLang("en");
+setMode("daily");setLang(lang);
+})();
+</script>
+</body>
+</html>"""
+
+    body = (body.replace("__NAV__", nav_html("korjaal"))
+                .replace("__DAILYLBL__", "Dagrivier #" + str(_num))
+                .replace("__FREELBL__", "Vrij pagaaien")
+                .replace("__NOSCRIPT__", _noscript)
+                .replace("__ABOUT__", _about)
+                .replace("__FAQ__", _faq_html)
+                .replace("__FOOTER__", footer_html())
+                .replace("__EPOCH__", str(_epoch_day)))
+    return head + body
+
+
 def build_worldcup_page():
     """FIFA World Cup 2026 hub: full schedule in Suriname time, live scores (ESPN, client-side
     polling + build-time snapshot) and where to watch in Suriname (STVS / ATV / Telesur+)."""
@@ -8106,9 +9067,12 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("suriname-itinerary.html", "0.8", "monthly"),
         ("is-suriname-safe.html",   "0.7", "monthly"),
         ("worldcup-2026.html",      "0.8", "daily"),
+        ("matches.html",            "0.8", "daily"),
         ("daily-notices.html", "0.9", "daily"),
         ("crossword.html",   "0.9", "daily"),
         ("quiz.html",        "0.9", "daily"),
+        ("map-game.html",    "0.9", "daily"),
+        ("korjaal.html",     "0.8", "daily"),
         ("events.html",     "0.8", "weekly"),
         ("news.html",       "0.7", "daily"),
         ("about.html",      "0.5", "yearly"),
@@ -8197,6 +9161,13 @@ def build_llms_txt():
 - [Flights]({S}/flights.html): arrivals and departures for Johan Adolf Pengel International (PBM) and Eduard Alexander Gummels (EAX) airports.
 - [Weather and Tides]({S}/conditions.html): seven-day district forecasts, river tidal predictions and sunrise and sunset times.
 - [Daily Notices]({S}/daily-notices.html): on-call pharmacies, power and water outage notices, and cinema showtimes.
+
+## Daily games
+- [Sabi Suriname]({S}/quiz.html): free daily five-question quiz about Suriname, in Dutch and English.
+- [Switi Mini]({S}/crossword.html): daily Surinamese mini crossword with mixed Dutch, Sranan and English clues.
+- [Pe A De?]({S}/map-game.html): daily map game; tap the official map of Suriname (Tigri area included) to locate five real places.
+- [Korjaal Run]({S}/korjaal.html): arcade river game; steer a korjaal past logs, rocks and rapids on a shared daily river.
+- [Football in Suriname Time]({S}/matches.html): upcoming World Cup, Champions League, Eredivisie and Premier League fixtures with kickoff times converted to Suriname time (UTC-3), plus recent results.
 
 ## About
 - [About this site]({S}/about.html): what Explore Suriname is and who maintains it.
@@ -9513,6 +10484,7 @@ if __name__ == "__main__":
     brent_price, brent_updated          = fetch_brent_price()
     tides_data    = fetch_tides_data()
     flights_data  = fetch_aerodatabox_flights()
+    matches_data  = fetch_matches_data()
 
     pages = {
         "index.html":       build_index(RESTAURANTS, HOTELS, cme_rates),
@@ -9538,6 +10510,8 @@ if __name__ == "__main__":
         "events.html":        build_events_page(),
         "crossword.html":     build_crossword_page(),
         "quiz.html":          build_quiz_page(),
+        "map-game.html":      build_mapgame_page(),
+        "korjaal.html":       build_korjaal_page(),
         "on-the-road.html":   build_roads_page(),
         "suriname-itinerary.html": build_itinerary_page(),
         "is-suriname-safe.html":   build_safety_page(),
@@ -9548,6 +10522,7 @@ if __name__ == "__main__":
             '<title>Redirecting&hellip;</title></head><body>'
             '<p>This page has moved. <a href="/events.html">Click here</a>.</p></body></html>'),
         "worldcup-2026.html":      build_worldcup_page(),
+        "matches.html":            build_matches_page(matches_data),
         "404.html": ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
             '<meta name="robots" content="noindex"><title>Page Not Found | Explore Suriname</title>'
