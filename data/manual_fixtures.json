@@ -1,9 +1,51 @@
 [
-  {"league": "boxing", "date": "2026-07-18", "title": "Diego Pacheco vs Immanuwel Aleem", "detail": "Dignity Health Sports Park, Carson, USA"},
-  {"league": "boxing", "date": "2026-07-24", "title": "Tyson Fury vs Mariusz Wach", "detail": "Pattaya, Thailand"},
-  {"league": "boxing", "date": "2026-07-25", "title": "Anthony Joshua vs Kristian Prenga", "detail": "Riyadh, Saudi Arabia"},
-  {"league": "boxing", "date": "2026-07-26", "title": "Errol Spence Jr vs Tim Tszyu", "detail": "Qudos Bank Arena, Sydney, Australia"},
-  {"league": "boxing", "date": "2026-08-01", "title": "Lamont Roach vs William Zepeda", "detail": "The Theater at Virgin Hotels, Las Vegas"},
-  {"league": "boxing", "date": "2026-08-29", "title": "Chantelle Cameron vs Mikaela Mayer", "detail": "Birmingham, England"},
-  {"league": "glory", "date": "2026-09-05", "title": "Glory 109", "detail": "Rotterdam, Netherlands"}
+  {
+    "league": "boxing",
+    "date": "2026-07-18",
+    "title": "Diego Pacheco vs Immanuwel Aleem",
+    "detail": "Dignity Health Sports Park, Carson, USA"
+  },
+  {
+    "league": "boxing",
+    "date": "2026-07-24",
+    "title": "Tyson Fury vs Mariusz Wach",
+    "detail": "Pattaya, Thailand"
+  },
+  {
+    "league": "boxing",
+    "date": "2026-07-25",
+    "title": "Anthony Joshua vs Kristian Prenga",
+    "detail": "Riyadh, Saudi Arabia"
+  },
+  {
+    "league": "boxing",
+    "date": "2026-07-26",
+    "title": "Errol Spence Jr vs Tim Tszyu",
+    "detail": "Qudos Bank Arena, Sydney, Australia"
+  },
+  {
+    "league": "boxing",
+    "date": "2026-08-01",
+    "title": "Lamont Roach vs William Zepeda",
+    "detail": "The Theater at Virgin Hotels, Las Vegas"
+  },
+  {
+    "league": "boxing",
+    "date": "2026-08-29",
+    "title": "Chantelle Cameron vs Mikaela Mayer",
+    "detail": "Birmingham, England"
+  },
+  {
+    "league": "glory",
+    "date": "2026-09-05",
+    "time_utc": "16:00",
+    "title": "Glory 109: Kwasi vs. Hristov",
+    "detail": "RTM Stage, Rotterdam, Netherlands"
+  },
+  {
+    "league": "glory",
+    "date": "2026-12-12",
+    "title": "Glory Collision 10",
+    "detail": "GelreDome, Arnhem, Netherlands"
+  }
 ]
