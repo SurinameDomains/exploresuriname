@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="max-image-preview:large" name="robots"/>
+<link href="/favicon.ico" rel="icon" sizes="48x48 32x32 16x16"/>
+<link href="/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/icons/icon-192.png" rel="apple-touch-icon"/>
+<meta content="@exploringsuriname" name="twitter:site"/>
+<meta content="nl_NL" property="og:locale"/><meta content="es_ES" property="og:locale:alternate"/><meta content="en_US" property="og:locale:alternate"/>
+<link as="font" crossorigin="" href="/fonts/playfair-latin-var.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/fonts/inter-latin-var.woff2" rel="preload" type="font/woff2"/>
+<style>
+  @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  </style>
+<link href="/tailwind.css?v=8876d4f2" rel="stylesheet"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<meta content="#FBF5E9" name="theme-color"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="default" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="ExploreSR" name="apple-mobile-web-app-title"/>
+<style>
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#E1F0DD; --coral:#E76F51; --gold:#E7AE4D; --clay:#C77B43; --paper:#FBF5E9; --paper-2:#F4ECDA; --card:#FFFDF6; --ink:#233028; --ink-soft:#5C6657; --line:#EBE0CB; }
+    body   { font-family: 'Inter', system-ui, sans-serif; }
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    /* ===== Warm theme roll-over: homepage redesign palette, applied site-wide ===== */
+    html, body { background: var(--paper); }
+    body { color: var(--ink); }
+    .bg-white   { background-color: var(--card) !important; }
+    .bg-gray-50 { background-color: var(--paper-2) !important; }
+    .bg-gray-100{ background-color: #EFE6D2 !important; }
+    .text-gray-900, .text-gray-800 { color: var(--ink) !important; }
+    .text-gray-700, .text-gray-600 { color: #46524A !important; }
+    .text-gray-500, .text-gray-400 { color: var(--ink-soft) !important; }
+    .border-gray-100 { border-color: var(--line) !important; }
+    .border-gray-200 { border-color: #E2D8C2 !important; }
+    ::selection { background: var(--gold); color: var(--forest); }
+    .ftr-h{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .ftr-col{display:flex;flex-direction:column;gap:11px;font-size:14px}
+    .ftr-lnk{color:#B9C2B2;transition:color .15s}
+    .ftr-lnk:hover{color:#FCF7EC}
+    .ftr-gtk{display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:#94A08F;line-height:1.45}
+    .ftr-lnk2{color:#7E8A79;transition:color .15s}
+    .ftr-lnk2:hover{color:#B9C2B2}
+    .hero-bg { background-size:cover; background-position:center; }
+    .card-hover { transition: transform .2s, box-shadow .2s; }
+    .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
+    a { text-decoration: none; }
+    nav a, nav button { white-space: nowrap; }   /* keep nav labels on one line (EN; NL/ES get this via build_i18n) */
+    .vh { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+    /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
+    .dd-menu { transform-origin: top center; }
+    .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
+    @keyframes ddFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    #search-results a {
+      display:flex;align-items:center;gap:10px;padding:10px 18px;text-decoration:none;color:#111;transition:background .1s;
+    }
+    #search-results a:hover, #search-results a.sr-active { background:#f5f5f5; }
+    .sr-badge {
+      font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;flex-shrink:0;
+    }
+    .sr-name { font-size:.9rem;font-weight:600;flex:1;min-width:0; }
+    .sr-area { font-size:.78rem;color:#9ca3af;white-space:nowrap; }
+    mark { background:#fef08a;border-radius:2px;padding:0 1px; }
+    .filter-chip {
+      display:inline-flex;align-items:center;gap:5px;padding:10px 16px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
+      color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+      touch-action:manipulation;
+    }
+    .filter-chip:hover { border-color:var(--forest);color:var(--forest); }
+    .filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+    .dist-chip {
+      display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;
+      color:#6b7280;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+    }
+    .dist-chip:hover { border-color:var(--forest2);color:var(--forest2); }
+    .dist-chip.dist-chip-active { background:var(--forest2);border-color:var(--forest2);color:#fff; }
+    .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
+    .filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count { opacity:.8; }
+    .chip-arrow {
+      flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #e5e7eb;
+      background:#fff;font-size:1.1rem;line-height:1;cursor:pointer;display:flex;
+      align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
+    }
+    .chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
+    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+    .listing-card.hidden { display:none; }
+    /* PWA install bar (Android prompt + iOS A2HS tip) */
+    #pwa-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(130%);transition:transform .35s cubic-bezier(.22,1,.36,1);background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 28px rgba(0,0,0,.14);padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
+    #pwa-bar.pwa-show{transform:translateY(0)}
+    #pwa-bar .pwa-ic{width:42px;height:42px;border-radius:10px;flex:0 0 auto}
+    #pwa-bar .pwa-tx{flex:1 1 auto;min-width:0}
+    #pwa-bar .pwa-tt{font-weight:700;font-size:14px;color:var(--forest);line-height:1.2}
+    #pwa-bar .pwa-sb{font-size:12px;color:#4b5563;line-height:1.3;margin-top:2px}
+    #pwa-bar .pwa-go{flex:0 0 auto;background:var(--forest);color:#fff;border:0;border-radius:10px;font-weight:700;font-size:14px;padding:10px 16px;cursor:pointer;white-space:nowrap;touch-action:manipulation}
+    #pwa-bar .pwa-go:hover{background:var(--forest2)}
+    #pwa-bar .pwa-x{flex:0 0 auto;background:transparent;border:0;color:#9ca3af;font-size:24px;line-height:1;cursor:pointer;padding:2px 6px;touch-action:manipulation}
+    @media(min-width:640px){#pwa-bar{left:auto;right:18px;bottom:18px;max-width:430px;border-radius:16px;border:1px solid rgba(0,0,0,.08)}}
+  </style>
+<script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
+<script>
+  (function(){
+    var DKEY="esr_pwa_dismiss", dp=null, bar=null;
+    function isDismissed(){try{var v=localStorage.getItem(DKEY);if(!v)return false;return (Date.now()-parseInt(v,10))<1209600000;}catch(e){return false;}}
+    function setDismissed(){try{localStorage.setItem(DKEY,String(Date.now()));}catch(e){}}
+    function isStandalone(){return (window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)||window.navigator.standalone===true;}
+    function isIOS(){var ua=navigator.userAgent||"";if(/CriOS|FxiOS|EdgiOS/i.test(ua))return false;if(/iPhone|iPad|iPod/i.test(ua))return true;return /Macintosh/i.test(ua)&&navigator.maxTouchPoints>1;}
+    function remove(){if(bar){var b=bar;bar=null;b.classList.remove("pwa-show");setTimeout(function(){if(b&&b.parentNode)b.parentNode.removeChild(b);},400);}}
+    function show(mode,force){
+      if(bar||(!force&&isDismissed())||isStandalone())return;
+      if(!document.body){document.addEventListener("DOMContentLoaded",function(){show(mode);});return;}
+      bar=document.createElement("div");
+      bar.id="pwa-bar";bar.setAttribute("role","dialog");bar.setAttribute("aria-label","Install Explore Suriname");
+      var ic='<img class="pwa-ic" src="/icons/icon-192.png" width="42" height="42" alt="">';
+      var tt,sb,btns;
+      if(mode==="ios"){
+        tt="Add Explore Suriname";
+        sb="Tap the Share button, then Add to Home Screen.";
+        btns='<button class="pwa-x" type="button" aria-label="Dismiss">&times;</button>';
+      }else{
+        tt="Install Explore Suriname";
+        sb="Live SRD rates and offline access on your home screen.";
+        btns='<button class="pwa-go" type="button">Install</button><button class="pwa-x" type="button" aria-label="Dismiss">&times;</button>';
+      }
+      bar.innerHTML=ic+'<div class="pwa-tx"><div class="pwa-tt">'+tt+'</div><div class="pwa-sb">'+sb+'</div></div>'+btns;
+      document.body.appendChild(bar);
+      requestAnimationFrame(function(){requestAnimationFrame(function(){if(bar)bar.classList.add("pwa-show");});});
+      var go=bar.querySelector(".pwa-go");
+      if(go){go.addEventListener("click",function(){
+        if(!dp){remove();return;}
+        dp.prompt();
+        dp.userChoice.then(function(c){setDismissed();dp=null;hideNav();remove();}).catch(function(){remove();});
+      });}
+      bar.querySelector(".pwa-x").addEventListener("click",function(){setDismissed();remove();});
+    }
+    function navEl(){return document.getElementById("pwa-nav");}
+    function revealNav(){var n=navEl();if(n&&!isStandalone())n.style.display="inline-flex";}
+    function hideNav(){var n=navEl();if(n)n.style.display="none";}
+    window.pwaInstall=function(){
+      if(dp){dp.prompt();dp.userChoice.then(function(c){setDismissed();dp=null;hideNav();}).catch(function(){});return;}
+      if(isIOS()){show("ios",true);}
+    };
+    window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;revealNav();show("android");});
+    window.addEventListener("appinstalled",function(){setDismissed();hideNav();remove();});
+    if(isIOS()){
+      var iosInit=function(){revealNav();setTimeout(function(){show("ios");},1400);};
+      if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",iosInit);}
+      else{iosInit();}
+    }
+    document.addEventListener("DOMContentLoaded",function(){if(dp)revealNav();});
+  })();
+  </script>
+<!-- Google tag (gtag.js) -->
+<script>(function(){var d=false;function l(){if(d)return;d=true;var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments);};gtag("js",new Date());gtag("config","G-6LTYHZYNSF");}["scroll","click","touchstart","keydown"].forEach(function(e){window.addEventListener(e,l,{once:true,passive:true})});window.addEventListener("load",function(){setTimeout(l,4000)});})();</script>
+<!-- GA4 interaction events: WhatsApp / phone / email / directions / outbound clicks -->
+<script>window.addEventListener("click",function(ev){var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;var h=a.getAttribute("href")||"",n="",p={};if(h.indexOf("https://wa.me/")===0){n="whatsapp_click"}else if(h.indexOf("tel:")===0){n="phone_click"}else if(h.indexOf("mailto:")===0){n="email_click"}else if(h.indexOf("google.com/maps")!==-1){n="directions_click"}else if(/^https?:\/\//.test(h)&&h.indexOf("exploresuriname.com")===-1){n="outbound_click";try{p.link_domain=new URL(h).hostname}catch(e){}}if(!n)return;p.link_url=h.slice(0,100);window.dataLayer=window.dataLayer||[];if(!window.gtag){window.gtag=function(){window.dataLayer.push(arguments)}}window.gtag("event",n,p)});</script>
+<title>Pe A De? | Daily Suriname Map Game | Explore Suriname</title>
+<meta content="Pe a de? Where is it? Tap the map of Suriname to guess where five places are, every day. Villages, falls and mountains from Galibi to Kwamalasamutu, scored by distance. Free, in Dutch or English." name="description"/>
+<link href="https://exploresuriname.com/nl/map-game.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Explore Suriname" property="og:site_name"/>
+<meta content="https://exploresuriname.com/nl/map-game.html" property="og:url"/>
+<meta content="Pe A De? The daily Suriname map game" property="og:title"/>
+<meta content="Tap the map of Suriname and guess where five places are, every day. How well do you know your own country?" property="og:description"/>
+<meta content="https://exploresuriname.com/og-image.jpg" property="og:image"/>
+<meta content="nl_NL" property="og:locale"/>
+
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Pe A De? The daily Suriname map game" name="twitter:title"/>
+<meta content="Tap the map of Suriname and guess where five places are, every day." name="twitter:description"/>
+<meta content="https://exploresuriname.com/og-image.jpg" name="twitter:image"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://exploresuriname.com/nl/map-game.html#webpage","url":"https://exploresuriname.com/nl/map-game.html","name":"Pe A De? The daily Suriname map game","description":"Pe a de? Where is it? Tap the map of Suriname to guess where five places are, every day. Villages, falls and mountains from Galibi to Kwamalasamutu, scored by distance. Free, in Dutch or English.","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/nl/"},"primaryImageOfPage":"https://exploresuriname.com/og-image.jpg","breadcrumb":{"@id":"https://exploresuriname.com/nl/map-game.html#breadcrumb"},"mainEntity":{"@id":"https://exploresuriname.com/nl/map-game.html#game"},"datePublished":"2026-07-12","dateModified":"2026-07-11","isAccessibleForFree":true},{"@type":"BreadcrumbList","@id":"https://exploresuriname.com/nl/map-game.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Thuis","item":"https://exploresuriname.com/nl/"},{"@type":"ListItem","position":2,"name":"Pe A De? Map Game","item":"https://exploresuriname.com/nl/map-game.html"}]},{"@type":"Game","@id":"https://exploresuriname.com/nl/map-game.html#game","name":"Pe A De?","url":"https://exploresuriname.com/nl/map-game.html","description":"A daily geography game about Suriname: tap the map to guess where five real places are, scored by distance in kilometres.","genre":"Geography game","gamePlatform":"Web browser","inLanguage":"nl","isAccessibleForFree":true,"image":"https://exploresuriname.com/og-image.jpg","publisher":{"@type":"Organization","name":"Explore Suriname","url":"https://exploresuriname.com/nl/"}},{"@type":"FAQPage","@id":"https://exploresuriname.com/nl/map-game.html#faq","mainEntity":[{"@type":"Question","name":"What is Pe A De?","acceptedAnswer":{"@type":"Answer","text":"Pe a de is Sranan Tongo for 'where is it?'. Every day the game gives you five real places in Suriname. Tap the map where you think each one is; the closer your pin, the more points you score, up to 500 a day."}},{"@type":"Question","name":"Is the map of Suriname correct?","acceptedAnswer":{"@type":"Answer","text":"Yes. The game uses the official map of Suriname, including the Tigri area in the southwest and the Lawa headwaters in the southeast. Distances are calculated from real coordinates."}},{"@type":"Question","name":"How is my score calculated?","acceptedAnswer":{"@type":"Answer","text":"Each place is worth up to 100 points. Within 8 km of the true location scores the full 100; after that, points drop off with distance. Five places a day makes a daily maximum of 500."}},{"@type":"Question","name":"Where do the places come from?","acceptedAnswer":{"@type":"Answer","text":"From all over Suriname: district capitals, Maroon and Indigenous villages, waterfalls, peaks and plantations. Every location is checked against real map coordinates, and every answer teaches you a short fact about the place."}},{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. Pe A De is free, runs in any browser and stores your streak and stats only on your own device."}}]}]}</script> <style>
+    .mg-map{touch-action:manipulation;user-select:none;-webkit-user-select:none;display:block;width:100%;height:auto;border-radius:16px;background:#dbeafe;cursor:crosshair}
+    .mg-riv{fill:none;stroke:#93c5fd;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+    .mg-card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1.1rem 1.2rem;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+    .mg-dots{display:flex;gap:6px;margin:.7rem 0}
+    .mg-dots span{width:10px;height:10px;border-radius:9999px;background:#e5e7eb}
+    .mg-dots span.on{background:var(--forest)}
+    .mg-dots span.done-g{background:#16a34a}.mg-dots span.done-y{background:#d97706}.mg-dots span.done-r{background:#dc2626}
+    .lang button{padding:.3rem .8rem;border:1px solid #d1d5db;background:#fff;font-size:.78rem;font-weight:700;color:#6b7280}
+    .lang button:first-child{border-radius:9999px 0 0 9999px}.lang button:last-child{border-radius:0 9999px 9999px 0;margin-left:-1px}
+    .lang button.on{background:var(--forest);border-color:var(--forest);color:#fff}
+    .mg-btn{display:block;width:100%;padding:.8rem;border-radius:12px;background:var(--forest);color:#fff;font-weight:700;font-size:.95rem}
+    .mg-btn:disabled{opacity:.4}
+    .mg-zoom{position:absolute;right:10px;top:10px;display:flex;flex-direction:column;gap:6px}
+    .mg-zoom button{width:34px;height:34px;border-radius:10px;background:#fff;border:1px solid #d1d5db;font-weight:800;color:#374151;font-size:1.05rem;line-height:1}
+    .mg-fact{background:var(--mint,#ecfdf5);border:1px solid #bbe5cb;border-radius:12px;padding:.8rem .9rem;font-size:.88rem;color:#1f2937;margin-top:.8rem}
+    .mg-stat{background:#f9fafb;border:1px solid #eef0f2;border-radius:12px;padding:.6rem .4rem;text-align:center}
+    .mg-stat b{display:block;font-size:1.25rem;color:#111827}
+    .mg-stat span{font-size:.68rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em}
+    .wabtn{display:inline-block;background:#25d366;color:#fff;font-weight:700;border-radius:9999px;padding:.65rem 1.3rem;font-size:.9rem}
+    .cpbtn{display:inline-block;background:#fff;border:1px solid #d1d5db;color:#374151;font-weight:700;border-radius:9999px;padding:.65rem 1.3rem;font-size:.9rem;margin-left:.5rem}
+    @keyframes mgdrop{0%{transform:translateY(-14px);opacity:0}60%{transform:translateY(2px)}100%{transform:translateY(0);opacity:1}}
+    .mg-pin{animation:mgdrop .25s ease-out}
+    @keyframes mgpulse{0%{r:6;opacity:.8}100%{r:22;opacity:0}}
+  </style>
+<style>nav button,nav a{white-space:nowrap}</style><link href="https://exploresuriname.com/map-game.html" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/map-game.html" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/map-game.html" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/map-game.html" hreflang="x-default" rel="alternate"/></head>
+<body class="bg-gray-50 overflow-x-hidden">
+<nav class="fixed top-0 w-full z-50" style="background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14);box-shadow:0 1px 12px rgba(20,42,30,.05)">
+<div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+<a class="flex items-baseline flex-shrink-0" href="index.html">
+<span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
+</a>
+<div class="hidden md:flex items-center gap-6"><div class="relative" id="dd-todo" onmouseenter="openDd('dd-todo')" onmouseleave="closeDd('dd-todo')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-todo')">Te doen<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-todo-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="nature.html">Natuur</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="activities.html">Activiteiten</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="events.html">Evenementen en festivals</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="shopping.html">Winkelen</a></div></div><div class="relative" id="dd-eat" onmouseenter="openDd('dd-eat')" onmouseleave="closeDd('dd-eat')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-eat')">Eten &amp; Slapen<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-eat-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="restaurants.html">Waar te eten</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="hotels.html">Waar te overnachten</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="services.html">Lokale diensten</a><div class="relative" id="dd-plan" onmouseenter="openDd('dd-plan')" onmouseleave="closeDd('dd-plan')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-plan')">Bezoekersgids<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-plan-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="visitor-guide.html">De basis</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="on-the-road.html">Onderweg</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-itinerary.html">Reisroutes</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="is-suriname-safe.html">Is Suriname veilig?</a></div></div><div class="relative" id="dd-games" onmouseenter="openDd('dd-games')" onmouseleave="closeDd('dd-games')"><button class="dd-trigger flex items-center gap-1 text-sm font-semibold transition py-1" onclick="toggleDd('dd-games')" style="color:var(--forest)">Games <span class="inline-block w-1.5 h-1.5 rounded-full mb-0.5" style="background:var(--forest)"></span><svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-games-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="quiz.html">Sabi Suriname Quiz</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="crossword.html">Switi Mini Crossword</a><a class="block px-4 py-2.5 text-sm font-semibold rounded-lg" href="map-game.html" style="color:var(--forest);background:var(--mint)">Pe A De? Map Game</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="korjaal.html">Korjaal Run</a></div></div><div class="relative" id="dd-ess" onmouseenter="openDd('dd-ess')" onmouseleave="closeDd('dd-ess')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-ess')">Essentieel<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-ess-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="currency.html">Wisselkoersen</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="flights.html">Vluchten</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="conditions.html">Weer &amp; getijden</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="daily-notices.html">Dagelijkse mededelingen</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="worldcup-2026.html">Wereldkampioenschap 2026</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="matches.html">Football Times</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="news.html">Nieuws</a></div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50 sm:min-w-[120px]" onclick="openSearch()" title="Search listings (press /)">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<span class="hidden sm:inline">Zoeken…</span>
+<span class="ml-auto hidden sm:inline text-xs bg-gray-200 text-gray-500 rounded px-1.5 py-0.5 font-mono">/</span>
+</button><div class="hidden md:flex items-center" data-langswitch="1" style="gap:7px;margin-left:10px;flex-shrink:0;font-size:12px;font-weight:600"><svg fill="none" height="15" stroke="#9ca3af" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/map-game.html" style="color:#9ca3af;text-decoration:none">EN</a><a href="/nl/map-game.html" style="color:var(--forest);text-decoration:underline">NL</a><a href="/es/map-game.html" style="color:#9ca3af;text-decoration:none">ES</a></div>
+<button aria-label="Menu" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition" id="hamburger" onclick="toggleMobileMenu()">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+<div class="hidden md:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto" id="mm"><div data-langswitch-mobile="1" style="display:flex;align-items:center;gap:16px;padding:10px 2px 12px;margin-bottom:4px;border-bottom:1px solid #eee;font-size:15px;font-weight:600"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/map-game.html" style="color:#6b7280;text-decoration:none">EN</a><a href="/nl/map-game.html" style="color:var(--forest);text-decoration:underline">NL</a><a href="/es/map-game.html" style="color:#6b7280;text-decoration:none">ES</a><button aria-label="Install app" id="pwa-nav" onclick="pwaInstall()" style="display:none;margin-left:auto;align-items:center;gap:6px;background:var(--forest);color:#fff;border:0;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0" type="button"><svg fill="none" height="15" stroke="currentColor" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 20h14" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Install</span></button></div>
+<div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-todo')"><span>Te doen</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-todo"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="nature.html">Natuur</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="activities.html">Activiteiten</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="events.html">Evenementen en festivals</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="shopping.html">Winkelen</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-eat')"><span>Eten &amp; Slapen</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-eat"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="restaurants.html">Waar te eten</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="hotels.html">Waar te overnachten</a></div></div><a class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" href="services.html">Lokale diensten</a><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-plan')"><span>Bezoekersgids</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-plan"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="visitor-guide.html">De basis</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="on-the-road.html">Onderweg</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="suriname-itinerary.html">Reisroutes</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="is-suriname-safe.html">Is Suriname veilig?</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-games')" style="color:var(--forest)"><span>Games</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1" id="mg-games"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="quiz.html">Sabi Suriname Quiz</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="crossword.html">Switi Mini Crossword</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm font-semibold rounded-lg" href="map-game.html" style="color:var(--forest);background:var(--mint)">Pe A De? Map Game</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="korjaal.html">Korjaal Run</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-ess')"><span>Essentieel</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-ess"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="currency.html">Wisselkoersen</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="flights.html">Vluchten</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="conditions.html">Weer &amp; getijden</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="daily-notices.html">Dagelijkse mededelingen</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="worldcup-2026.html">Wereldkampioenschap 2026</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="matches.html">Football Times</a></div></div><a class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" href="news.html">Nieuws</a>
+</div>
+</nav>
+<script>
+/* ── Dropdown (desktop) ─────────────────────────────────────────────────── */
+var _openDd = null;
+var _ddTimer = null;
+function openDd(id) {
+  if (_ddTimer) { clearTimeout(_ddTimer); _ddTimer = null; }
+  if (_openDd && _openDd !== id) closeDd(_openDd);
+  var menu = document.getElementById(id + '-menu');
+  var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+  if (menu) menu.classList.remove('hidden');
+  if (chev) chev.style.transform = 'rotate(180deg)';
+  _openDd = id;
+}
+function closeDd(id) {
+  _ddTimer = setTimeout(function() {
+    var menu = document.getElementById(id + '-menu');
+    var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+    if (menu) menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    if (_openDd === id) _openDd = null;
+    _ddTimer = null;
+  }, 80);
+}
+function toggleDd(id) {
+  var menu = document.getElementById(id + '-menu');
+  var btn  = document.getElementById(id);
+  var chev = btn ? btn.querySelector('.dd-chevron') : null;
+  if (_openDd && _openDd !== id) {
+    var prev = document.getElementById(_openDd + '-menu');
+    var prevBtn = document.getElementById(_openDd);
+    if (prev)    prev.classList.add('hidden');
+    if (prevBtn) { var c = prevBtn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+  if (!menu) return;
+  var isOpen = !menu.classList.contains('hidden');
+  if (isOpen) {
+    menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    _openDd = null;
+  } else {
+    menu.classList.remove('hidden');
+    if (chev) chev.style.transform = 'rotate(180deg)';
+    _openDd = id;
+  }
+}
+document.addEventListener('click', function(e) {
+  if (_openDd && !document.getElementById(_openDd).contains(e.target)) {
+    var menu = document.getElementById(_openDd + '-menu');
+    var btn  = document.getElementById(_openDd);
+    if (menu) menu.classList.add('hidden');
+    if (btn)  { var c = btn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+});
+/* ── Mobile accordion ───────────────────────────────────────────────────── */
+function toggleMobileMenu() {
+  var mm = document.getElementById('mm');
+  mm.classList.toggle('hidden');
+}
+function toggleMobGroup(id) {
+  var body = document.getElementById(id);
+  var btn  = body ? body.previousElementSibling : null;
+  var chev = btn  ? btn.querySelector('.mob-chevron') : null;
+  if (!body) return;
+  var isOpen = !body.classList.contains('hidden');
+  body.classList.toggle('hidden', isOpen);
+  if (chev) chev.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+</script>
+<!-- ── Global Search Modal ───────────────────────────────────────────── -->
+<div id="search-modal" onclick="if(event.target===this)closeSearch()" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);padding:80px 16px 16px">
+<div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 25px 60px rgba(0,0,0,.25);overflow:hidden">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #f0f0f0">
+<svg fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:#9ca3af;flex-shrink:0" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<input autocomplete="off" id="search-input" oninput="runSearch(this.value)" onkeydown="searchKey(event)" placeholder="Search all listings…" spellcheck="false" style="flex:1;border:none;outline:none;font-size:1rem;color:#111;background:transparent" type="text"/>
+<button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">✕</button>
+</div>
+<div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
+<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Begin met typen om 741 vermeldingen te doorzoeken…</p>
+</div>
+</div>
+</div>
+<script>
+const _CAT_C = {"Eat & Drink": "#7c3aed", "Stay": "#c05621", "Nature": "var(--forest)", "Guides": "#0e7490", "Activities": "var(--forest2)", "Shopping": "#0369a1", "Services": "#0369a1", "Sightseeing": "var(--forest)"};
+let _SI = null;
+let _SI_loading = false;
+let _sel = -1;
+
+function _loadSI(cb) {
+  if (_SI) { cb(); return; }
+  if (_SI_loading) { setTimeout(() => _loadSI(cb), 50); return; }
+  _SI_loading = true;
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  fetch(depth + 'search-index.json')
+    .then(r => r.json())
+    .then(data => { _SI = data; cb(); })
+    .catch(() => { _SI = []; cb(); });
+}
+function openSearch() {
+  document.getElementById('search-modal').style.display = 'block';
+  setTimeout(() => document.getElementById('search-input').focus(), 50);
+  _loadSI(() => {});
+}
+function closeSearch() {
+  document.getElementById('search-modal').style.display = 'none';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search listings…</p>';
+  _sel = -1;
+}
+function runSearch(q) {
+  const box = document.getElementById('search-results');
+  q = q.trim();
+  if (!q) { closeSearch(); openSearch(); return; }
+  if (!_SI) {
+    _loadSI(() => runSearch(q));
+    box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Loading…</p>';
+    return;
+  }
+  const ql = q.toLowerCase();
+  const hits = _SI.filter(x => x.n.toLowerCase().includes(ql) || (x.k && x.k.includes(ql))).slice(0, 10);
+  if (!hits.length) { box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">No results for "' + q + '"</p>'; return; }
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  box.innerHTML = hits.map((h, i) => {
+    const hi = h.n.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi'), '<mark>$1</mark>');
+    const col = _CAT_C[h.c] || '#6b7280';
+    return '<a href="' + depth + h.u + '" class="' + (i===0?'sr-active':'') + '">'
+      + '<span class="sr-badge" style="background:' + col + '">' + h.c + '</span>'
+      + '<span class="sr-name">' + hi + '</span>'
+      + (h.a ? '<span class="sr-area">' + h.a + '</span>' : '')
+      + '</a>';
+  }).join('');
+  _sel = 0;
+}
+function searchKey(e) {
+  const items = document.querySelectorAll('#search-results a');
+  if (e.key === 'Escape') { closeSearch(); return; }
+  if (e.key === 'ArrowDown') { e.preventDefault(); _sel = Math.min(_sel+1, items.length-1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); _sel = Math.max(_sel-1, 0); }
+  else if (e.key === 'Enter') { if(items[_sel]) window.location = items[_sel].href; return; }
+  else return;
+  items.forEach((el,i) => el.classList.toggle('sr-active', i===_sel));
+  if(items[_sel]) items[_sel].scrollIntoView({block:'nearest'});
+}
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault(); openSearch();
+  }
+});
+</script>
+<div style="height:58px"></div>
+<div class="relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
+<div class="relative max-w-3xl mx-auto px-4">
+<nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
+<a class="hover:text-white transition" href="index.html">Thuis</a>
+<span class="text-white/40">›</span>
+<span aria-current="page" class="text-white/90 font-medium">Pe A De?</span>
+</nav>
+<p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Daily Suriname map game</p>
+<h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Pe A De?</h1>
+<p class="text-white/70 text-base max-w-xl mx-auto">Five places, one map of Suriname. Tap where you think they are and find out how well you really know your country.</p>
+</div>
+</div>
+<main class="max-w-xl mx-auto px-4 py-8 pb-20">
+<div class="flex items-center justify-between gap-3 mb-1">
+<div class="text-sm font-bold text-gray-700" id="mg-label"></div>
+<div class="lang"><button id="mg-nl">NL</button><button id="mg-en">EN</button></div>
+</div>
+<div class="mg-dots" id="mg-dots"><span></span><span></span><span></span><span></span><span></span></div>
+<div class="mg-card">
+<div class="mb-3" id="mg-ask"></div>
+<div class="relative">
+<svg aria-label="Map of Suriname" class="mg-map" id="mg-svg" viewBox="0 0 454 462" xmlns="http://www.w3.org/2000/svg">
+<defs><clippath id="mg-clip"><path d="M5.0 456.8 L8.1 456.2 L13.6 445.7 L16.2 445.2 L30.4 449.6 L33.5 452.7 L44.3 452.3 L48.2 446.9 L49.5 439.5 L68.2 434.3 L88.3 433.9 L93.2 431.7 L106.5 413.5 L111.0 410.3 L135.8 403.0 L146.7 412.2 L164.1 416.2 L186.0 412.1 L191.4 413.6 L199.5 410.1 L245.7 420.1 L251.4 418.6 L254.8 415.6 L256.2 400.4 L240.4 380.7 L234.0 378.3 L234.8 374.4 L245.7 365.1 L248.4 354.6 L251.9 352.3 L274.7 363.7 L309.2 360.3 L313.4 355.5 L329.0 349.6 L340.7 349.5 L349.8 344.6 L350.9 349.5 L360.1 359.3 L375.5 360.2 L378.0 368.4 L381.5 371.6 L386.1 371.7 L392.6 375.0 L396.2 379.8 L418.4 388.9 L435.7 391.5 L433.7 387.6 L437.9 384.5 L431.1 377.8 L447.1 346.9 L446.4 336.4 L448.9 317.8 L447.5 305.3 L445.0 301.4 L447.6 297.6 L446.6 292.8 L440.8 289.9 L439.4 271.9 L446.8 259.5 L448.7 245.4 L447.1 242.3 L444.3 241.3 L436.4 227.4 L422.2 214.2 L412.7 199.0 L413.5 190.4 L407.9 184.1 L403.7 161.5 L402.8 155.8 L405.1 146.0 L399.8 120.7 L400.4 112.9 L403.0 108.5 L402.6 102.9 L414.6 85.6 L432.1 68.4 L439.7 54.1 L443.1 43.4 L444.0 32.3 L442.3 23.6 L433.5 18.7 L412.1 13.4 L364.4 5.5 L332.9 5.0 L309.8 9.1 L282.9 5.8 L264.9 8.2 L256.7 15.1 L257.8 33.7 L253.8 24.8 L201.1 10.6 L150.8 5.1 L142.1 10.5 L134.1 30.6 L133.6 40.0 L129.7 51.1 L128.2 49.5 L123.0 55.8 L115.9 70.8 L119.8 79.7 L125.8 81.2 L126.7 84.8 L116.8 93.8 L117.1 99.4 L114.6 102.3 L76.6 105.2 L72.5 108.9 L63.2 112.0 L59.6 116.3 L56.0 122.3 L63.1 137.6 L52.7 169.4 L42.3 187.2 L44.5 204.2 L57.0 218.7 L64.5 236.7 L82.8 252.6 L83.1 264.9 L88.0 267.6 L86.1 291.3 L89.7 297.7 L99.1 307.0 L104.9 324.5 L102.2 330.5 L80.6 342.5 L70.7 345.4 L65.5 359.5 L55.8 365.8 L57.5 374.4 L54.7 381.8 L56.7 398.0 L53.3 402.3 L58.1 412.8 L58.5 419.7 L56.1 425.1 L50.0 427.5 L36.9 424.8 L25.3 428.8 L7.6 446.4 L5.0 456.8 Z"></path></clippath></defs>
+<rect fill="#dbeafe" height="542" width="534" x="-40" y="-40"></rect>
+<text fill="#64748b" font-size="11" letter-spacing="2" x="330" y="22">ATLANTIC OCEAN</text>
+<path d="M5.0 456.8 L8.1 456.2 L13.6 445.7 L16.2 445.2 L30.4 449.6 L33.5 452.7 L44.3 452.3 L48.2 446.9 L49.5 439.5 L68.2 434.3 L88.3 433.9 L93.2 431.7 L106.5 413.5 L111.0 410.3 L135.8 403.0 L146.7 412.2 L164.1 416.2 L186.0 412.1 L191.4 413.6 L199.5 410.1 L245.7 420.1 L251.4 418.6 L254.8 415.6 L256.2 400.4 L240.4 380.7 L234.0 378.3 L234.8 374.4 L245.7 365.1 L248.4 354.6 L251.9 352.3 L274.7 363.7 L309.2 360.3 L313.4 355.5 L329.0 349.6 L340.7 349.5 L349.8 344.6 L350.9 349.5 L360.1 359.3 L375.5 360.2 L378.0 368.4 L381.5 371.6 L386.1 371.7 L392.6 375.0 L396.2 379.8 L418.4 388.9 L435.7 391.5 L433.7 387.6 L437.9 384.5 L431.1 377.8 L447.1 346.9 L446.4 336.4 L448.9 317.8 L447.5 305.3 L445.0 301.4 L447.6 297.6 L446.6 292.8 L440.8 289.9 L439.4 271.9 L446.8 259.5 L448.7 245.4 L447.1 242.3 L444.3 241.3 L436.4 227.4 L422.2 214.2 L412.7 199.0 L413.5 190.4 L407.9 184.1 L403.7 161.5 L402.8 155.8 L405.1 146.0 L399.8 120.7 L400.4 112.9 L403.0 108.5 L402.6 102.9 L414.6 85.6 L432.1 68.4 L439.7 54.1 L443.1 43.4 L444.0 32.3 L442.3 23.6 L433.5 18.7 L412.1 13.4 L364.4 5.5 L332.9 5.0 L309.8 9.1 L282.9 5.8 L264.9 8.2 L256.7 15.1 L257.8 33.7 L253.8 24.8 L201.1 10.6 L150.8 5.1 L142.1 10.5 L134.1 30.6 L133.6 40.0 L129.7 51.1 L128.2 49.5 L123.0 55.8 L115.9 70.8 L119.8 79.7 L125.8 81.2 L126.7 84.8 L116.8 93.8 L117.1 99.4 L114.6 102.3 L76.6 105.2 L72.5 108.9 L63.2 112.0 L59.6 116.3 L56.0 122.3 L63.1 137.6 L52.7 169.4 L42.3 187.2 L44.5 204.2 L57.0 218.7 L64.5 236.7 L82.8 252.6 L83.1 264.9 L88.0 267.6 L86.1 291.3 L89.7 297.7 L99.1 307.0 L104.9 324.5 L102.2 330.5 L80.6 342.5 L70.7 345.4 L65.5 359.5 L55.8 365.8 L57.5 374.4 L54.7 381.8 L56.7 398.0 L53.3 402.3 L58.1 412.8 L58.5 419.7 L56.1 425.1 L50.0 427.5 L36.9 424.8 L25.3 428.8 L7.6 446.4 L5.0 456.8 Z" fill="#d8f3dc" stroke="#1b4332" stroke-width="1.6"></path>
+<g clip-path="url(#mg-clip)">
+<path d="M358.3 126.0 L353.6 131.9 L355.3 137.0 L361.2 138.8 L360.3 144.2 L354.5 146.2 L349.4 143.4 L346.4 144.4 L342.9 147.3 L339.0 155.4 L335.4 158.2 L325.7 155.1 L324.7 152.9 L321.7 151.8 L314.2 151.6 L314.8 146.9 L319.8 142.2 L319.3 134.4 L330.4 116.5 L335.0 104.5 L345.7 107.2 L353.9 113.9 L367.0 113.5 L368.1 116.2 L363.9 125.5 L358.3 126.0 Z" fill="#93c5fd" stroke="#60a5fa" stroke-width="0.8"></path>
+<path class="mg-riv" d="M347.5 106.6 L349.5 98.4 L348.4 90.1 L340.5 91.5 L339.4 87.7 L342.0 79.7 L338.9 74.8 L347.4 66.3 L342.3 42.5 L338.8 42.8 L345.0 36.7 L334.8 30.3 L332.0 24.2 L335.2 22.0"></path><path class="mg-riv" d="M125.4 163.3 L108.6 173.6 L82.2 223.7 L80.6 232.4 L87.3 253.1 L83.6 255.9"></path>
+</g>
+<text fill="#94a3b8" font-size="11" letter-spacing="1.5" transform="rotate(-70 18 250)" x="18" y="250">GUYANA</text>
+<text fill="#94a3b8" font-size="11" letter-spacing="1.5" transform="rotate(66 429 252)" x="429" y="252">FRANS-GUYANA</text>
+<text fill="#94a3b8" font-size="11" letter-spacing="2" x="205" y="452">BRAZIL</text>
+<g id="mg-layer"></g>
+</svg>
+<div class="mg-zoom">
+<button aria-label="Zoom in" id="mg-zin">+</button>
+<button aria-label="Zoom out" id="mg-zout">−</button>
+</div>
+</div>
+<div class="mt-3" id="mg-panel"></div>
+</div>
+<p class="text-xs text-gray-400 mt-6 leading-relaxed" id="mg-note"></p>
+</main>
+<noscript><section class="max-w-2xl mx-auto px-4 mt-6"><h2 class="serif text-xl font-bold text-gray-900 mb-2">Today’s five places (#1)</h2><p class="text-sm text-gray-500 mb-4">The map game needs JavaScript. These are today’s places to find.</p><ol class="text-sm text-gray-700 pl-1"><li class="mb-2"><b>Paramaribo</b>: The capital city; its wooden inner city is UNESCO World Heritage. <i>De hoofdstad; de houten binnenstad is UNESCO-werelderfgoed.</i></li><li class="mb-2"><b>Nieuw Nickerie</b>: Rice capital of the west; the old town was moved after the sea swallowed it. <i>Rijsthoofdstad van het westen; het oude stadje werd verplaatst nadat de zee het opslokte.</i></li><li class="mb-2"><b>Apoera</b>: Corantijn port village, one of few road links into the far west. <i>Havendorp aan de Corantijn, een van de weinige wegen naar het verre westen.</i></li><li class="mb-2"><b>Brownsweg</b>: Transmigration village of families moved for the rising reservoir. <i>Transmigratiedorp voor families die weken voor het stijgende stuwmeer.</i></li><li class="mb-2"><b>Kwamalasamutu</b>: Trio capital in the deep south, near the Sipaliwini savanna. <i>Trio-hoofddorp in het diepe zuiden, bij de Sipaliwinisavanne.</i></li></ol></section></noscript>
+<section class="max-w-2xl mx-auto px-4 mt-14">
+<h2 class="serif text-2xl font-bold text-gray-900 mb-3">About Pe A De?</h2>
+<p class="text-gray-700 text-sm leading-relaxed mb-3"><i>Pe a de?</i> is Sranan Tongo voor <i>where is it?</i>
+  Every day this game names five real places in Suriname and hands you the map, the whole map: the official
+  shape of Suriname including the Tigri area and the Lawa headwaters. Tap where you think each place is and
+  learn how far off you were, in real kilometres.</p>
+<p class="text-gray-700 text-sm leading-relaxed mb-3">The places run from spots everyone knows, like Albina
+  and Colakreek, to villages deep in the interior that even seasoned Surinamers have to think about:
+  Kwamalasamutu, Alalapadu, Cottica on the Lawa. Wrong or right, every answer comes with the story of the
+  place, so the game slowly teaches you the whole country.</p>
+<p class="text-gray-700 text-sm leading-relaxed">Play in Dutch or English, build a streak, and share your
+  score in the family group. And when you are done: try our other daily games, the
+  <a class="font-semibold hover:underline" href="quiz.html" style="color:var(--forest2)">Sabi Suriname quiz</a>
+  and the <a class="font-semibold hover:underline" href="crossword.html" style="color:var(--forest2)">Switi Mini crossword</a>,
+  or paddle the rapids in <a class="font-semibold hover:underline" href="korjaal.html" style="color:var(--forest2)">Korjaal Run</a>.</p>
+</section>
+<section class="max-w-2xl mx-auto px-4 mt-10 mb-4"><h2 class="serif text-2xl font-bold text-gray-900 mb-4">Veelgestelde vragen</h2><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">What is Pe A De?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">Pe a de is Sranan Tongo for 'where is it?'. Every day the game gives you five real places in Suriname. Tap the map where you think each one is; the closer your pin, the more points you score, up to 500 a day.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">Is the map of Suriname correct?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">Yes. The game uses the official map of Suriname, including the Tigri area in the southwest and the Lawa headwaters in the southeast. Distances are calculated from real coordinates.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">How is my score calculated?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">Each place is worth up to 100 points. Within 8 km of the true location scores the full 100; after that, points drop off with distance. Five places a day makes a daily maximum of 500.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">Where do the places come from?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">From all over Suriname: district capitals, Maroon and Indigenous villages, waterfalls, peaks and plantations. Every location is checked against real map coordinates, and every answer teaches you a short fact about the place.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">Do I need an account?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">No. Pe A De is free, runs in any browser and stores your streak and stats only on your own device.</p></details></section>
+<footer style="background:#142A1E;color:#B9C2B2">
+<div style="max-width:1240px;margin:0 auto;padding:clamp(52px,6vw,72px) clamp(20px,5vw,52px) 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:36px 40px">
+<div style="min-width:200px">
+<div style="margin-bottom:16px"><span class="serif" style="font-weight:800;font-size:21px;color:#FCF7EC">Explore</span><span class="serif" style="font-weight:800;font-size:21px;color:var(--coral)">Suriname</span></div>
+<p style="font-size:14px;line-height:1.6;max-width:24em;margin:0 0 20px;color:#A7B1A2">Uw gids voor plekken om te eten, verblijven, ontdekken en liefhebben in Suriname, bewaard door mensen die hier wonen, voor de mensen die dat wensen.</p>
+<div style="display:flex;gap:16px;font-size:12.5px;font-weight:600;letter-spacing:.04em">
+<a class="ftr-lnk" href="https://www.facebook.com/exploresurinamecom" rel="noopener" target="_blank">Facebook</a>
+<a class="ftr-lnk" href="https://www.instagram.com/exploresurinamecom/" rel="noopener" target="_blank">Instagram</a>
+<a class="ftr-lnk" href="https://www.tiktok.com/@exploresuriname.com" rel="noopener" target="_blank">TikTok</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Ontdekken</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="nature.html">Natuur &amp; Parken</a>
+<a class="ftr-lnk" href="activities.html">Activiteiten</a>
+<a class="ftr-lnk" href="events.html">Evenementen en festivals</a>
+<a class="ftr-lnk" href="shopping.html">Winkelen</a>
+<a class="ftr-lnk" href="restaurants.html">Waar te eten</a>
+<a class="ftr-lnk" href="hotels.html">Waar te overnachten</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Plannen en benodigdheden</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="visitor-guide.html">Bezoekersgids</a>
+<a class="ftr-lnk" href="on-the-road.html">Onderweg</a>
+<a class="ftr-lnk" href="suriname-itinerary.html">Reisroutes</a>
+<a class="ftr-lnk" href="is-suriname-safe.html">Is Suriname veilig?</a>
+<a class="ftr-lnk" href="currency.html">Wisselkoersen</a>
+<a class="ftr-lnk" href="flights.html">Vluchten</a>
+<a class="ftr-lnk" href="conditions.html">Weer &amp; getijden</a>
+<a class="ftr-lnk" href="daily-notices.html">Dagelijkse mededelingen</a>
+<a class="ftr-lnk" href="news.html">Nieuws</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Meer</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="today.html">Vandaag in Suriname</a>
+<a class="ftr-lnk" href="services.html">Lokale diensten</a>
+<a class="ftr-lnk" href="crossword.html">Kruiswoordraadsel</a>
+<a class="ftr-lnk" href="quiz.html">Dagelijkse quiz</a>
+<a class="ftr-lnk" href="map-game.html">Pe A De? Map Game</a>
+<a class="ftr-lnk" href="korjaal.html">Korjaal Run</a>
+<a class="ftr-lnk" href="worldcup-2026.html">Wereldkampioenschap 2026</a>
+<a class="ftr-lnk" href="matches.html">Football Times</a>
+<a class="ftr-lnk" href="about.html">Over ons</a>
+<a class="ftr-lnk" href="contact.html">Contact</a>
+<a class="ftr-lnk" href="privacy.html">Privacy</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Goed om te weten</div>
+<div class="ftr-gtk">
+<span>Hoofdstad · Paramaribo</span>
+<span>Talen · Nederlands, Sranan Tongo +9</span>
+<span>Valuta · Surinaamse dollar (SRD)</span>
+<span>Klimaat · Tropisch, ~28°C</span>
+</div>
+</div>
+</div>
+<div style="border-top:1px solid rgba(231,174,77,.18)">
+<div style="max-width:1240px;margin:0 auto;padding:18px clamp(20px,5vw,52px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px;color:#7E8A79">
+<span>© 2026 OntdekSuriname.com</span>
+<span><a class="ftr-lnk2" href="privacy.html">Privacy</a> · <a class="ftr-lnk2" href="/images/HOME_CREDITS.txt">Credits</a></span>
+</div>
+</div>
+</footer>
+<script>
+const MG=[{"n":"Paramaribo","la":5.8242,"lo":-55.1663,"t":"e","f_en":"The capital city; its wooden inner city is UNESCO World Heritage.","f_nl":"De hoofdstad; de houten binnenstad is UNESCO-werelderfgoed."},{"n":"Nieuw Nickerie","la":5.9421,"lo":-56.9894,"t":"e","f_en":"Rice capital of the west; the old town was moved after the sea swallowed it.","f_nl":"Rijsthoofdstad van het westen; het oude stadje werd verplaatst nadat de zee het opslokte."},{"n":"Albina","la":5.4985,"lo":-54.0575,"t":"e","f_en":"Border town on the Marowijne; korjalen cross to French Guiana here.","f_nl":"Grensplaats aan de Marowijne; hier steek je per korjaal over naar Frans-Guyana."},{"n":"Moengo","la":5.6923,"lo":-54.5219,"t":"e","f_en":"Bauxite town turned art town, home of the Moengo Festival.","f_nl":"Bauxietstad die kunststad werd, thuis van het Moengo Festival."},{"n":"Lelydorp","la":5.6935,"lo":-55.2139,"t":"e","f_en":"Suriname's second town, named after engineer Cornelis Lely.","f_nl":"De tweede stad van Suriname, vernoemd naar ingenieur Cornelis Lely."},{"n":"Brownsberg","la":4.9438,"lo":-55.1746,"t":"e","f_en":"Nature park on a plateau overlooking the Brokopondo reservoir.","f_nl":"Natuurpark op een plateau met uitzicht over het stuwmeer."},{"n":"Galibi","la":5.7423,"lo":-53.989,"t":"e","f_en":"Kalina villages where giant leatherback turtles nest on the beach.","f_nl":"Kalina-dorpen waar reuzenlederschildpadden op het strand nestelen."},{"n":"Afobaka","la":4.9822,"lo":-54.9784,"t":"e","f_en":"The dam that created the reservoir and still powers Paramaribo.","f_nl":"De dam die het stuwmeer schiep en Paramaribo nog altijd van stroom voorziet."},{"n":"Colakreek","la":5.4634,"lo":-55.2291,"t":"e","f_en":"Famous swimming creek with cola-coloured water, near Zanderij.","f_nl":"Beroemde zwemkreek met colakleurig water, bij Zanderij."},{"n":"Jodensavanne","la":5.4268,"lo":-54.953,"t":"e","f_en":"Ruins of one of the oldest Jewish settlements in the Americas.","f_nl":"Ruines van een van de oudste joodse nederzettingen van de Amerika's."},{"n":"Zanderij","la":5.4564,"lo":-55.2073,"t":"e","f_en":"Home of Johan Adolf Pengel International Airport.","f_nl":"Hier ligt de internationale luchthaven JAP."},{"n":"Domburg","la":5.701,"lo":-55.0809,"t":"e","f_en":"Riverside village loved for its waterkant and Sunday market vibes.","f_nl":"Dorp aan de Surinamerivier, geliefd om de waterkant."},{"n":"Groningen","la":5.7934,"lo":-55.4763,"t":"e","f_en":"Capital of Saramacca district, on the Saramacca River.","f_nl":"Hoofdplaats van het district Saramacca, aan de Saramaccarivier."},{"n":"Totness","la":5.8771,"lo":-56.3308,"t":"e","f_en":"Capital of Coronie, land of coconuts and honey.","f_nl":"Hoofdplaats van Coronie, land van kokos en honing."},{"n":"Wageningen","la":5.7711,"lo":-56.6877,"t":"e","f_en":"Rice town built as one big polder project in Nickerie.","f_nl":"Rijstplaats in Nickerie, gebouwd als een groot polderproject."},{"n":"Nieuw Amsterdam","la":5.8804,"lo":-55.085,"t":"e","f_en":"Open-air museum fort guarding two river mouths.","f_nl":"Openluchtmuseum-fort op de punt waar twee rivieren samenkomen."},{"n":"Meerzorg","la":5.808,"lo":-55.143,"t":"e","f_en":"Across the Wijdenbosch bridge, gateway to Commewijne's plantations.","f_nl":"Aan de overkant van de brug, poort naar het plantageland van Commewijne."},{"n":"Onverwacht","la":5.5901,"lo":-55.1936,"t":"e","f_en":"Capital of Para district, on the old Lawa railway.","f_nl":"Hoofdplaats van Para, aan de oude Lawaspoorlijn."},{"n":"Brokopondo","la":4.6852,"lo":-55.0611,"t":"e","f_en":"District capital beside the great reservoir that bears its name.","f_nl":"Districtshoofdplaats aan het grote stuwmeer met dezelfde naam."},{"n":"Bigi Pan","la":5.9528,"lo":-56.8493,"t":"e","f_en":"Lagoon full of scarlet ibis, north of Nickerie's rice fields.","f_nl":"Lagune vol rode ibissen, boven de rijstvelden van Nickerie."},{"n":"Braamspunt","la":5.9479,"lo":-55.1625,"t":"e","f_en":"Sandspit with sea-turtle nests at the Suriname River mouth.","f_nl":"Zandpunt met zeeschildpadnesten aan de monding van de Surinamerivier."},{"n":"Paranam","la":5.6107,"lo":-55.0926,"t":"e","f_en":"Former Suralco town from the bauxite era.","f_nl":"Voormalige Suralco-plaats uit het bauxiettijdperk."},{"n":"Weg naar Zee","la":5.8769,"lo":-55.2136,"t":"e","f_en":"Hindu pilgrimage site on the mudflat coast near the city.","f_nl":"Bedevaartsoord aan de slikkust vlak bij de stad."},{"n":"Fort Zeelandia","la":5.8251,"lo":-55.1497,"t":"e","f_en":"The 17th-century fort where Paramaribo began.","f_nl":"Het 17e-eeuwse fort waar Paramaribo begon."},{"n":"Atjoni","la":4.4892,"lo":-55.3718,"t":"e","f_en":"End of the road: from here everything goes by korjaal up the river.","f_nl":"Einde van de weg: hierna gaat alles per korjaal de rivier op."},{"n":"Apoera","la":5.1824,"lo":-57.1638,"t":"m","f_en":"Corantijn port village, one of few road links into the far west.","f_nl":"Havendorp aan de Corantijn, een van de weinige wegen naar het verre westen."},{"n":"Brownsweg","la":5.0161,"lo":-55.169,"t":"m","f_en":"Transmigration village of families moved for the rising reservoir.","f_nl":"Transmigratiedorp voor families die weken voor het stijgende stuwmeer."},{"n":"Pokigron","la":4.4911,"lo":-55.3648,"t":"m","f_en":"Saamaka village next to Atjoni, gateway to the upper Suriname River.","f_nl":"Saamaka-dorp naast Atjoni, poort naar de Boven-Suriname."},{"n":"Stoelmanseiland","la":4.3536,"lo":-54.4209,"t":"m","f_en":"Island where the Tapanahony meets the Lawa.","f_nl":"Eiland waar de Tapanahony en de Lawa samenvloeien."},{"n":"Drietabbetje","la":4.1126,"lo":-54.6739,"t":"m","f_en":"Seat of the Ndyuka granman, on the Tapanahony.","f_nl":"Zetel van de granman van de Ndyuka, aan de Tapanahony."},{"n":"Raleighvallen","la":4.6802,"lo":-56.1823,"t":"m","f_en":"Rapids and the Voltzberg dome in the Central Suriname Nature Reserve.","f_nl":"Stroomversnellingen en de Voltzberg in het Centraal Suriname Natuurreservaat."},{"n":"Tafelberg","la":3.8769,"lo":-56.1433,"t":"m","f_en":"Table mountain deep in the nature reserve.","f_nl":"Tafelberg diep in het natuurreservaat."},{"n":"Blanche Marie Falls","la":4.7503,"lo":-56.8763,"t":"m","f_en":"Waterfalls on the Nickerie River, a classic interior trip.","f_nl":"Watervallen in de Nickerierivier, een klassieke binnenlandtrip."},{"n":"Kabalebo","la":4.3032,"lo":-57.4654,"t":"m","f_en":"Fly-in nature resort in the empty west.","f_nl":"Fly-in natuurresort in het lege westen."},{"n":"Apetina","la":3.5111,"lo":-55.0516,"t":"m","f_en":"Wayana village on the Tapanahony.","f_nl":"Wayana-dorp aan de Tapanahony."},{"n":"Pikin Slee","la":4.2536,"lo":-55.4445,"t":"m","f_en":"Saamaka village with the Saamaka Marron Museum.","f_nl":"Saamaka-dorp met het Saamaka Marronmuseum."},{"n":"Botopasi","la":4.2174,"lo":-55.447,"t":"m","f_en":"Saamaka village on the Boven-Suriname with its own airstrip.","f_nl":"Saamaka-dorp aan de Boven-Suriname met eigen airstrip."},{"n":"Djumu","la":4.0134,"lo":-55.4728,"t":"m","f_en":"Mission post where the Pikin Rio and Gran Rio meet.","f_nl":"Zendingspost waar Pikin Rio en Gran Rio samenkomen."},{"n":"Jaw Jaw","la":4.4261,"lo":-55.375,"t":"m","f_en":"Boven-Suriname village known for its river lodges.","f_nl":"Dorp aan de Boven-Suriname, bekend om zijn riverlodges."},{"n":"Nieuw Aurora","la":4.3753,"lo":-55.4014,"t":"m","f_en":"Large Saamaka village on the Boven-Suriname.","f_nl":"Groot Saamaka-dorp aan de Boven-Suriname."},{"n":"Santigron","la":5.6778,"lo":-55.3415,"t":"m","f_en":"Maroon village on the Saramacca River, closest to the city.","f_nl":"Marrondorp aan de Saramaccarivier, het dichtst bij de stad."},{"n":"Bigi Poika","la":5.2768,"lo":-55.6465,"t":"m","f_en":"Kalina village in Para's savanna belt.","f_nl":"Kalina-dorp in de savannegordel van Para."},{"n":"Powakka","la":5.4454,"lo":-55.0779,"t":"m","f_en":"Lokono village known for savanna walks and swimming spots.","f_nl":"Lokono-dorp, bekend om savanne en zwemplekken."},{"n":"Redi Doti","la":5.4266,"lo":-54.9754,"t":"m","f_en":"Indigenous village near Jodensavanne, named for its red earth.","f_nl":"Inheems dorp bij Jodensavanne, vernoemd naar de rode aarde."},{"n":"Klaaskreek","la":5.1804,"lo":-55.0781,"t":"m","f_en":"Transmigration village at the north end of the reservoir.","f_nl":"Transmigratiedorp aan de noordkant van het stuwmeer."},{"n":"Berg en Dal","la":5.1404,"lo":-55.0682,"t":"m","f_en":"Old plantation turned river resort on the Suriname River.","f_nl":"Oude plantage, nu rivierresort aan de Surinamerivier."},{"n":"Marienburg","la":5.8781,"lo":-55.0441,"t":"m","f_en":"Site of the last sugar factory, heart of Javanese Commewijne.","f_nl":"Plek van de laatste suikerfabriek, hart van Javaans Commewijne."},{"n":"Alliance","la":5.895,"lo":-54.8876,"t":"m","f_en":"Citrus plantation village deep in Commewijne.","f_nl":"Citrusplantagedorp diep in Commewijne."},{"n":"Peperpot","la":5.7679,"lo":-55.1248,"t":"m","f_en":"Former coffee and cocoa plantation, now a nature park.","f_nl":"Voormalige koffie- en cacaoplantage, nu natuurpark."},{"n":"Boskamp","la":5.7863,"lo":-55.895,"t":"m","f_en":"Fishing village at the mouth of the Coppename.","f_nl":"Vissersdorp aan de monding van de Coppename."},{"n":"Washabo","la":5.2143,"lo":-57.1871,"t":"m","f_en":"Arawak village near Apoera with its own airstrip.","f_nl":"Arowak-dorp bij Apoera met eigen airstrip."},{"n":"Wanhatti","la":5.7834,"lo":-54.4558,"t":"m","f_en":"Ndyuka village on the Cottica River.","f_nl":"Ndyuka-dorp aan de Cotticarivier."},{"n":"Patamacca","la":5.4181,"lo":-54.4228,"t":"m","f_en":"Palm-oil country on the road to Moengo.","f_nl":"Palmoliegebied aan de weg naar Moengo."},{"n":"Christiaankondre","la":5.714,"lo":-54.0156,"t":"m","f_en":"One of the two Kalina villages that make up Galibi.","f_nl":"Een van de twee Kalina-dorpen van Galibi."},{"n":"Kajana","la":3.8998,"lo":-55.5724,"t":"m","f_en":"Saamaka village on the Gran Rio with an airstrip.","f_nl":"Saamaka-dorp aan de Gran Rio met airstrip."},{"n":"Witagron","la":5.1625,"lo":-56.0758,"t":"m","f_en":"Kwinti village on the Coppename.","f_nl":"Kwinti-dorp aan de Coppename."},{"n":"Bakhuis","la":4.7302,"lo":-56.7684,"t":"m","f_en":"Mountain range once eyed for a giant bauxite project.","f_nl":"Gebergte, ooit beoogd voor een groot bauxietproject."},{"n":"Donderskamp","la":5.3507,"lo":-56.3656,"t":"m","f_en":"Kalina village on the Wayambo River.","f_nl":"Kalina-dorp aan de Wayambo."},{"n":"Corneliskondre","la":5.3455,"lo":-56.1449,"t":"m","f_en":"Kalina village on the Wayambo, reached by boat.","f_nl":"Kalina-dorp aan de Wayambo, per boot bereikbaar."},{"n":"Matta","la":5.4528,"lo":-55.3235,"t":"m","f_en":"Lokono village in Para with strong Indigenous traditions.","f_nl":"Lokono-dorp in Para met sterke inheemse tradities."},{"n":"Bernharddorp","la":5.6292,"lo":-55.2122,"t":"m","f_en":"Indigenous village just south of Paramaribo.","f_nl":"Inheems dorp net onder Paramaribo."},{"n":"Henar","la":5.8568,"lo":-56.8868,"t":"m","f_en":"Polder village in Nickerie's rice plains.","f_nl":"Polderdorp in de rijstvlakte van Nickerie."},{"n":"Nason","la":4.8579,"lo":-54.4732,"t":"m","f_en":"Ndyuka village on the Marowijne.","f_nl":"Ndyuka-dorp aan de Marowijne."},{"n":"Overbridge","la":5.5266,"lo":-55.0515,"t":"m","f_en":"River resort on the Suriname River.","f_nl":"Rivierresort aan de Surinamerivier."},{"n":"Carolina","la":5.4493,"lo":-54.9969,"t":"m","f_en":"Village at the old Carolina bridge over the Suriname River.","f_nl":"Dorp bij de oude Carolinabrug over de Surinamerivier."},{"n":"Nieuw Jacobkondre","la":4.9378,"lo":-55.5389,"t":"m","f_en":"Matawai village on the Saramacca River.","f_nl":"Matawai-dorp aan de Saramaccarivier."},{"n":"Kwamalasamutu","la":2.3555,"lo":-56.7878,"t":"h","f_en":"Trio capital in the deep south, near the Sipaliwini savanna.","f_nl":"Trio-hoofddorp in het diepe zuiden, bij de Sipaliwinisavanne."},{"n":"Sipaliwini savanna","la":2.0269,"lo":-56.1239,"t":"h","f_en":"Open savanna on the Brazilian border, unlike anywhere else in the country.","f_nl":"Open savanne op de grens met Brazilie, nergens anders zo in het land."},{"n":"Julianatop","la":3.6826,"lo":-56.5354,"t":"h","f_en":"Suriname's highest peak, 1,286 metres.","f_nl":"De hoogste berg van Suriname, 1.286 meter."},{"n":"Kasikasima","la":2.9813,"lo":-55.4086,"t":"h","f_en":"Granite giant near Palumeu, a bucket-list climb.","f_nl":"Granieten reus bij Palumeu, een klim voor op je lijstje."},{"n":"Wonotobo Falls","la":4.3668,"lo":-57.9598,"t":"h","f_en":"Mighty falls in the Corantijn, in the far west.","f_nl":"Machtige vallen in de Corantijn, in het verre westen."},{"n":"Amatopo","la":3.5473,"lo":-57.6429,"t":"h","f_en":"Airstrip hamlet on the upper Corantijn.","f_nl":"Gehucht met airstrip aan de Boven-Corantijn."},{"n":"Alalapadu","la":2.5207,"lo":-56.3272,"t":"h","f_en":"Trio village famous for its brazil-nut harvest.","f_nl":"Trio-dorp, bekend van de paranotenoogst."},{"n":"Benzdorp","la":3.674,"lo":-54.0852,"t":"h","f_en":"Gold-rush village on the Lawa, opposite French Guiana.","f_nl":"Goudzoekersdorp aan de Lawa, tegenover Frans-Guyana."},{"n":"Godo Olo","la":4.0618,"lo":-54.7862,"t":"h","f_en":"Ndyuka village with an airstrip on the Tapanahony.","f_nl":"Ndyuka-dorp met airstrip aan de Tapanahony."},{"n":"Tepu","la":3.1595,"lo":-55.7183,"t":"h","f_en":"Trio village Pelelu Tepu on the upper Tapanahony.","f_nl":"Trio-dorp Pelelu Tepu aan de boven-Tapanahony."},{"n":"Cottica (Lawa)","la":3.854,"lo":-54.2273,"t":"h","f_en":"Aluku village on the Lawa in the far southeast.","f_nl":"Aluku-dorp aan de Lawa in het uiterste zuidoosten."}];
+const EPOCH=20646;
+const XMIN=-58.4773,YMAX=6.0435,SC=100;
+const T={
+ en:{find:"Find:",tap:"Tap the map where you think it is",confirm:"Plant the pin",adjust:"Drag or tap again to adjust, then confirm",next:"Next place",see:"See my score",km:"km off",pts:"points",bull:"Bullseye! Within 8 km.",place:"Place",of:"of",streak:"Streak",best:"Best",games:"Played",avg:"Avg",share:"Share on WhatsApp",copy:"Copy result",copied:"Copied!",newin:"New round in",practice:"Practice round (does not count)",today:"Today",note:"A new Pe A De every day at midnight Suriname time: two well-known places, two trickier ones and one from deep in the interior. The map is the official map of Suriname, Tigri included. Your streak and stats stay in this browser.",title:["Granman fu a mapu!","Sabiman!","Bun bun!","No wan mofo yari","Luku a mapu moro wan leisi"],day:"Day",total:"Total",back:"Back to today"},
+ nl:{find:"Zoek:",tap:"Tik op de kaart waar je denkt dat het ligt",confirm:"Zet de pin",adjust:"Sleep of tik opnieuw om bij te stellen, bevestig daarna",next:"Volgende plek",see:"Bekijk mijn score",km:"km ernaast",pts:"punten",bull:"In de roos! Binnen 8 km.",place:"Plek",of:"van",streak:"Reeks",best:"Record",games:"Gespeeld",avg:"Gem.",share:"Deel op WhatsApp",copy:"Kopieer resultaat",copied:"Gekopieerd!",newin:"Nieuwe ronde over",practice:"Oefenronde (telt niet mee)",today:"Vandaag",note:"Elke dag om middernacht Surinaamse tijd een nieuwe Pe A De: twee bekende plekken, twee lastigere en een uit het diepe binnenland. De kaart is de officiele kaart van Suriname, met Tigri erbij. Je reeks en statistieken blijven in deze browser.",title:["Granman fu a mapu!","Sabiman!","Bun bun!","No wan mofo yari","Luku a mapu moro wan leisi"],day:"Dag",total:"Totaal",back:"Terug naar vandaag"}};
+function $(i){return document.getElementById(i);}
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function dayNum(){return Math.floor((Date.now()-10800000)/86400000);}
+const D=Math.max(0,dayNum()-EPOCH),NUM=D+1;
+const E=MG.filter(p=>p.t==="e"),M=MG.filter(p=>p.t==="m"),H=MG.filter(p=>p.t==="h");
+const DAILY=(E.length&&M.length&&H.length)?[E[(2*D)%E.length],E[(2*D+1)%E.length],M[(2*D)%M.length],M[(2*D+1)%M.length],H[D%H.length]]:[];
+let lang=localStorage.getItem("mg-lang")||"nl";
+let practice=false,P=DAILY,cur=0,res=[],pin=null,confirmed=false,zoom=1,vb=[0,0,454,462];
+try{res=JSON.parse(localStorage.getItem("mg-r-"+D)||"[]");}catch(e){}
+cur=Math.min(res.length,4);if(res.length===5)cur=5;
+function px(lo,la){return[(lo-XMIN)*SC,(YMAX-la)*SC];}
+function inv(x,y){return[x/SC+XMIN,YMAX-y/SC];}
+function hav(a,b,c,d){const R=6371,r=Math.PI/180,dl=(c-a)*r,dg=(d-b)*r,h=Math.sin(dl/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin(dg/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
+function score(d){return d<=8?100:Math.max(0,Math.round(100*Math.exp(-(d-8)/55)));}
+function saveR(){if(!practice)localStorage.setItem("mg-r-"+D,JSON.stringify(res));}
+function stats(){let s={streak:0,best:0,games:0,sum:0};try{s=JSON.parse(localStorage.getItem("mg-s")||JSON.stringify(s));}catch(e){}return s;}
+function finishStats(){if(practice)return;const s=stats(),tot=res.reduce((a,r)=>a+r.p,0);if(localStorage.getItem("mg-done-"+D))return;localStorage.setItem("mg-done-"+D,"1");
+ s.streak=(localStorage.getItem("mg-done-"+(D-1))?s.streak:0)+1;s.best=Math.max(s.best,s.streak);s.games++;s.sum+=tot;localStorage.setItem("mg-s",JSON.stringify(s));}
+const SV=$("mg-svg"),LAYER=$("mg-layer");
+function setVB(){SV.setAttribute("viewBox",vb.join(" "));}
+function zoomTo(f,cx,cy){const nz=Math.min(4,Math.max(1,f));const w=454/nz,h=462/nz;
+ let x=(cx!=null?cx:vb[0]+vb[2]/2)-w/2,y=(cy!=null?cy:vb[1]+vb[3]/2)-h/2;
+ x=Math.max(-20,Math.min(474-w,x));y=Math.max(-20,Math.min(482-h,y));zoom=nz;vb=[x,y,w,h];setVB();}
+$("mg-zin").onclick=()=>zoomTo(zoom*1.6);
+$("mg-zout").onclick=()=>zoomTo(zoom/1.6);
+function svgPt(ev){const r=SV.getBoundingClientRect();const cx=(ev.clientX-r.left)/r.width*vb[2]+vb[0],cy=(ev.clientY-r.top)/r.height*vb[3]+vb[1];return[cx,cy];}
+let downPt=null,panned=false,vb0=null;
+SV.addEventListener("pointerdown",ev=>{downPt=[ev.clientX,ev.clientY];vb0=vb.slice();panned=false;SV.setPointerCapture(ev.pointerId);});
+SV.addEventListener("pointermove",ev=>{if(!downPt)return;const dx=ev.clientX-downPt[0],dy=ev.clientY-downPt[1];
+ if(Math.abs(dx)+Math.abs(dy)>12)panned=true;
+ if(panned&&zoom>1){const r=SV.getBoundingClientRect();
+  let nx=vb0[0]-dx/r.width*vb0[2],ny=vb0[1]-dy/r.height*vb0[3];
+  nx=Math.max(-20,Math.min(474-vb0[2],nx));ny=Math.max(-20,Math.min(482-vb0[3],ny));vb=[nx,ny,vb0[2],vb0[3]];setVB();}});
+SV.addEventListener("pointercancel",()=>{downPt=null;panned=false;});
+SV.addEventListener("pointerup",ev=>{if(!downPt)return;const wasPan=panned;downPt=null;
+ if(wasPan||confirmed||cur>=5)return;const[x,y]=svgPt(ev);
+ if(x<vb[0]||y<vb[1])return;pin=[x,y];drawPin();$("mg-go").disabled=false;$("mg-hint").textContent=T[lang].adjust;});
+function el(t,at){const e=document.createElementNS("http://www.w3.org/2000/svg",t);for(const k in at)e.setAttribute(k,at[k]);return e;}
+function drawPin(){LAYER.querySelectorAll(".gp").forEach(n=>n.remove());if(!pin)return;
+ const g=el("g",{"class":"gp mg-pin"});
+ g.appendChild(el("circle",{cx:pin[0],cy:pin[1],r:5.5/Math.sqrt(zoom),fill:"#1d4ed8",stroke:"#fff","stroke-width":1.6}));
+ LAYER.appendChild(g);}
+function reveal(p,guess){LAYER.innerHTML="";
+ const[gx,gy]=guess,[tx,ty]=px(p.lo,p.la);
+ LAYER.appendChild(el("line",{x1:gx,y1:gy,x2:tx,y2:ty,stroke:"#6b7280","stroke-width":1.2,"stroke-dasharray":"4 3"}));
+ LAYER.appendChild(el("circle",{cx:gx,cy:gy,r:5,fill:"#1d4ed8",stroke:"#fff","stroke-width":1.5}));
+ const pulse=el("circle",{cx:tx,cy:ty,r:6,fill:"none",stroke:"#dc2626","stroke-width":2});
+ pulse.setAttribute("style","animation:mgpulse 1.1s ease-out infinite");
+ LAYER.appendChild(pulse);
+ LAYER.appendChild(el("circle",{cx:tx,cy:ty,r:5,fill:"#dc2626",stroke:"#fff","stroke-width":1.5}));
+ const lbl=el("text",{x:tx+9,y:ty+4,"font-size":12,"font-weight":700,fill:"#111827",stroke:"#fff","stroke-width":3,"paint-order":"stroke"});
+ lbl.textContent=p.n;LAYER.appendChild(lbl);}
+function dots(){const ds=$("mg-dots").children;for(let i=0;i<5;i++){const d=ds[i];d.className="";
+ if(res[i]){d.className=res[i].p>=70?"done-g":res[i].p>=35?"done-y":"done-r";}else if(i===cur)d.className="on";}}
+function label(){$("mg-label").textContent=practice?T[lang].practice:"Pe A De? #"+NUM;$("mg-note").textContent=T[lang].note;}
+function ask(){const p=P[cur],L=T[lang];
+ $("mg-ask").innerHTML='<p class="text-xs text-gray-400 font-bold uppercase tracking-wide">'+L.place+" "+(cur+1)+" "+L.of+" 5</p>"
+  +'<p class="text-xl font-bold text-gray-900 serif">'+esc(p.n)+"</p>"
+  +'<p class="text-xs text-gray-500 mt-0.5" id="mg-hint">'+L.tap+"</p>";
+ $("mg-panel").innerHTML='<button class="mg-btn" id="mg-go" disabled>'+L.confirm+"</button>";
+ $("mg-go").onclick=confirmPin;pin=null;confirmed=false;LAYER.innerHTML="";dots();}
+function confirmPin(){if(!pin||confirmed)return;confirmed=true;const p=P[cur],L=T[lang];
+ const[glo,gla]=inv(pin[0],pin[1]);const d=Math.round(hav(gla,glo,p.la,p.lo));const pts=score(d);
+ res[cur]={d:d,p:pts};saveR();reveal(p,pin);
+ const verdict=d<=8?L.bull:d+" "+L.km;
+ $("mg-panel").innerHTML='<div class="flex items-baseline justify-between">'
+  +'<p class="font-bold '+(pts>=70?"text-green-700":pts>=35?"text-amber-600":"text-red-600")+'">'+verdict+"</p>"
+  +'<p class="text-2xl font-black text-gray-900">+'+pts+'</p></div>'
+  +'<div class="mg-fact">'+esc(lang==="nl"?p.f_nl:p.f_en)+"</div>"
+  +'<button class="mg-btn mt-3" id="mg-nx">'+(cur===4?L.see:L.next)+"</button>";
+ $("mg-nx").onclick=()=>{cur++;if(cur===5){if(!practice)finishStats();rView();}else ask();dots();};
+ dots();}
+function shareTxt(){const tot=res.reduce((a,r)=>a+r.p,0);
+ const row=res.map(r=>r.p>=70?"\ud83d\udfe2":r.p>=35?"\ud83d\udfe1":"\ud83d\udd34").join("");
+ return "Pe A De? #"+NUM+": "+tot+"/500\n"+row+"\nhttps://exploresuriname.com/map-game.html";}
+function rView(){const L=T[lang],tot=res.reduce((a,r)=>a+r.p,0),s=stats();
+ zoomTo(1);LAYER.innerHTML="";
+ P.forEach((p,i)=>{const[tx,ty]=px(p.lo,p.la);
+  LAYER.appendChild(el("circle",{cx:tx,cy:ty,r:5,fill:res[i]&&res[i].p>=70?"#16a34a":res[i]&&res[i].p>=35?"#d97706":"#dc2626",stroke:"#fff","stroke-width":1.5}));
+  const t2=el("text",{x:tx+8,y:ty+4,"font-size":11,"font-weight":700,fill:"#111827",stroke:"#fff","stroke-width":3,"paint-order":"stroke"});t2.textContent=p.n;LAYER.appendChild(t2);});
+ const ttl=tot>=460?L.title[0]:tot>=380?L.title[1]:tot>=290?L.title[2]:tot>=180?L.title[3]:L.title[4];
+ let h='<p class="text-xs text-gray-400 font-bold uppercase tracking-wide">'+(practice?L.practice:L.today)+"</p>"
+  +'<p class="serif text-2xl font-bold text-gray-900">'+ttl+"</p>"
+  +'<p class="text-4xl font-black my-1" style="color:var(--forest)">'+tot+'<span class="text-lg text-gray-400 font-bold">/500</span></p>';
+ h+='<div class="text-sm text-gray-600 mb-2">'+P.map((p,i)=>esc(p.n)+": <b>"+res[i].p+"</b>").join(" &middot; ")+"</div>";
+ if(!practice)h+='<div class="grid grid-cols-4 gap-2 my-3">'
+  +'<div class="mg-stat"><b>'+s.streak+"</b><span>"+L.streak+"</span></div>"
+  +'<div class="mg-stat"><b>'+s.best+"</b><span>"+L.best+"</span></div>"
+  +'<div class="mg-stat"><b>'+s.games+"</b><span>"+L.games+"</span></div>"
+  +'<div class="mg-stat"><b>'+(s.games?Math.round(s.sum/s.games):0)+"</b><span>"+L.avg+"</span></div></div>";
+ h+='<div class="mt-2"><a class="wabtn" href="https://wa.me/?text='+encodeURIComponent(shareTxt())+'" target="_blank" rel="noopener">'+L.share+"</a>"
+  +'<button class="cpbtn" id="mg-cp">'+L.copy+"</button></div>";
+ h+='<button class="mg-btn mt-4" id="mg-pr">'+(practice?L.back:L.practice)+"</button>";
+ $("mg-ask").innerHTML="";$("mg-panel").innerHTML=h;
+ $("mg-cp").onclick=()=>{navigator.clipboard.writeText(shareTxt());$("mg-cp").textContent=L.copied;};
+ $("mg-pr").onclick=()=>{if(practice){practice=false;P=DAILY;try{res=JSON.parse(localStorage.getItem("mg-r-"+D)||"[]");}catch(e){res=[];}cur=5;rView();}
+  else{practice=true;const pool=MG.filter(p=>DAILY.indexOf(p)<0);P=[];const used={};
+   while(P.length<5){const i=Math.floor(Math.random()*pool.length);if(!used[i]){used[i]=1;P.push(pool[i]);}}
+   res=[];cur=0;ask();}label();dots();};
+ dots();}
+function setLang(l){lang=l;localStorage.setItem("mg-lang",l);$("mg-nl").classList.toggle("on",l==="nl");$("mg-en").classList.toggle("on",l==="en");
+ label();if(cur>=5)rView();else ask();}
+$("mg-nl").onclick=()=>setLang("nl");$("mg-en").onclick=()=>setLang("en");
+if(DAILY.length===5){setLang(lang);}else{$("mg-ask").innerHTML="<p class='text-sm text-gray-500'>Loading error. Refresh the page.</p>";}
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 // ExploreSuriname Service Worker
 const CACHE = 'exploresr-v4';
-const TWV = '2802d68a';
+const TWV = '8876d4f2';
 const PRECACHE = ['/', '/tailwind.css?v=' + TWV, '/favicon.ico', '/favicon.svg', '/offline.html',
                   '/fonts/playfair-latin-var.woff2', '/fonts/inter-latin-var.woff2'];
 const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html', '/daily-notices.html', '/events.html']);
