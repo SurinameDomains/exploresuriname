@@ -3468,7 +3468,7 @@ function esSearch(){
       <div class="hero-chips">
         <span class="lbl">Most visited</span>
         <a href="worldcup-2026.html">World Cup 2026</a>
-        <a href="crossword.html">Crossword</a>
+        <a href="korjaal.html">Korjaal Run</a>
         <a href="quiz.html">Daily quiz</a>
         <a href="currency.html">Market rates</a>
         <a href="daily-notices.html">Daily notices</a>
@@ -8518,18 +8518,16 @@ def build_worldcup_page():
     _WC_CSS = """  <style>
     .wc-live{display:inline-block;width:8px;height:8px;border-radius:9999px;background:#dc2626;margin-right:5px;animation:wcpulse 1.2s ease-in-out infinite}
     @keyframes wcpulse{0%,100%{opacity:1}50%{opacity:.3}}
-    .wc-chips{position:sticky;top:58px;z-index:30;scrollbar-width:none;-ms-overflow-style:none}
-    .wc-chips::-webkit-scrollbar{display:none}
     .wc-rowlive{border-color:#fecaca;box-shadow:0 0 0 1px #fecaca}
     #wc-list h2,#wc-list div[id^="d-"]{scroll-margin-top:118px}
   </style>"""
     head = _hub_head(title, desc, "worldcup-2026.html", faq=faq, extra_ld=event_ld)
     head = head.replace("</head>", _WC_CSS + "\n</head>")
 
-    hero = _hub_hero("11 June to 19 July 2026 &middot; USA, Canada &amp; Mexico",
+    hero = _hub_hero("Finals week &middot; the last matches, 14&ndash;19 July",
                      "World Cup 2026 Live",
-                     "All 104 matches in Suriname time, scores that update by themselves, "
-                     "and where to watch from Suriname.").replace("{NAV}", nav_html("worldcup"))
+                     "Down to the last matches. Every kickoff in Suriname time, live scores "
+                     "that update by themselves, and where to watch from Suriname.").replace("{NAV}", nav_html("worldcup"))
 
     # ── Where to watch in Suriname ───────────────────────────────────────────
     _watch_opts = [
@@ -8556,22 +8554,11 @@ def build_worldcup_page():
         '<a href="https://stvs.sr/" target="_blank" rel="noopener" class="font-semibold hover:underline" style="color:var(--forest2)">stvs.sr</a> '
         'and Telesur for programming details.</p>')
 
-    chips = (
-        '<div class="wc-chips flex gap-2 overflow-x-auto py-2.5 -mx-5 px-5 mb-4">'
-        '<button onclick="wcJump(\'today\')" class="shrink-0 px-4 py-1.5 rounded-full text-xs font-bold text-white" style="background:var(--forest)">Today</button>'
-        + "".join(
-            f'<button onclick="wcJump(\'{i}\')" class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition">{l}</button>'
-            for i, l in [("st-group-stage", "Groups"), ("st-round-of-32", "Round of 32"),
-                         ("st-round-of-16", "Round of 16"), ("st-quarter-finals", "Quarters"),
-                         ("st-semi-finals", "Semis"), ("st-third-place", "Third Place"),
-                         ("st-final", "Final")])
-        + '</div>')
 
     schedule_html = (
         '<h2 class="serif text-2xl font-bold text-gray-900 mb-1 mt-2">Schedule &amp; Live Scores</h2>'
         '<p class="text-gray-500 text-sm mb-3">All kickoff times are Suriname time (UTC-3). '
         'Live scores refresh automatically every minute. Match data: ESPN.</p>'
-        + chips +
         '<div id="wc-list"><p class="text-gray-500 text-sm py-6">Loading the match schedule&hellip; '
         'If nothing appears, refresh the page.</p></div>'
         '<noscript><p class="text-gray-600 text-sm py-4">Enable JavaScript to see the schedule and live scores.</p></noscript>')
@@ -8649,34 +8636,53 @@ function wcRow(m){
 function wcRender(){
   var box = document.getElementById('wc-list');
   if (!WC.length) return;
-  var byDay = {}, order = [];
-  WC.slice().sort(function(a, b){ return a.d < b.d ? -1 : 1; }).forEach(function(m){
-    var k = srDay(m.d);
-    if (!byDay[k]) { byDay[k] = []; order.push(k); }
-    byDay[k].push(m);
-  });
+  var wasOpen = !!(document.getElementById('wc-past') && document.getElementById('wc-past').open);
+  var all = WC.slice().sort(function(a, b){ return a.d < b.d ? -1 : 1; });
+  var remaining = all.filter(function(m){ return m.sx !== 'post'; });
+  var past = all.filter(function(m){ return m.sx === 'post'; });
   var today = srDay(new Date());
-  var html = '', lastStage = '';
-  order.forEach(function(k){
-    var stage = stageOf(byDay[k][0]);
-    if (stage !== lastStage) {
-      html += '<h2 id="' + stageId(stage) + '" class="serif text-2xl font-bold text-gray-900 mt-8 mb-3">' + stage + '</h2>';
-      lastStage = stage;
-    }
-    var isToday = k === today;
-    html += '<div id="d-' + k + '" class="mb-5">'
-      + '<h3 class="text-xs font-bold uppercase tracking-widest mb-2 ' + (isToday ? '' : 'text-gray-500') + '"'
-      + (isToday ? ' style="color:var(--forest)"' : '') + '>' + dayLabel(k) + (isToday ? ' &middot; Today' : '') + '</h3>'
-      + byDay[k].map(wcRow).join('') + '</div>';
-  });
+  var html = '';
+  if (remaining.length) {
+    html += '<div class="rounded-2xl border p-5 sm:p-6 mb-6" style="background:var(--card);border-color:var(--line)">'
+      + '<p class="text-xs font-bold uppercase tracking-widest mb-1" style="color:var(--coral)">'
+      + (remaining.length === 1 ? 'One match to go' : remaining.length + ' matches to go') + '</p>'
+      + '<h2 class="serif text-2xl font-bold text-gray-900 mb-3">The Road to the Final</h2>';
+    var lastDay = '';
+    remaining.forEach(function(m){
+      var k = srDay(m.d);
+      if (k !== lastDay) {
+        var isToday = k === today;
+        html += '<h3 class="text-xs font-bold uppercase tracking-widest mt-4 mb-2 ' + (isToday ? '' : 'text-gray-500') + '"'
+          + (isToday ? ' style="color:var(--forest)"' : '') + '>' + stageOf(m) + ' &middot; ' + dayLabel(k) + (isToday ? ' &middot; Today' : '') + '</h3>';
+        lastDay = k;
+      }
+      html += wcRow(m);
+    });
+    html += '</div>';
+  } else if (past.length) {
+    var fin = past[past.length - 1];
+    html += '<h2 class="serif text-2xl font-bold text-gray-900 mb-3 mt-2">The Final</h2>' + wcRow(fin);
+  }
+  if (past.length) {
+    html += '<details id="wc-past"' + (wasOpen ? ' open' : '') + '>'
+      + '<summary class="cursor-pointer font-bold text-gray-900 py-2 select-none">Earlier results &middot; ' + past.length + ' matches</summary><div class="mt-1">';
+    var lastStage = '', lastDay2 = '';
+    past.forEach(function(m){
+      var stage = stageOf(m);
+      if (stage !== lastStage) {
+        html += '<h2 class="serif text-xl font-bold text-gray-900 mt-6 mb-2">' + stage + '</h2>';
+        lastStage = stage; lastDay2 = '';
+      }
+      var k = srDay(m.d);
+      if (k !== lastDay2) {
+        html += '<h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-3 mb-2">' + dayLabel(k) + '</h3>';
+        lastDay2 = k;
+      }
+      html += wcRow(m);
+    });
+    html += '</div></details>';
+  }
   box.innerHTML = html;
-}
-function wcJump(id){
-  var el;
-  if (id === 'today') {
-    el = document.getElementById('d-' + srDay(new Date())) || document.getElementById('wc-list');
-  } else { el = document.getElementById(id); }
-  if (el) el.scrollIntoView({behavior: 'smooth'});
 }
 function wcSlim(e){
   var c = e.competitions[0], h = null, a = null;
