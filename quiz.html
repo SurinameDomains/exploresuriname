@@ -507,7 +507,7 @@ const E=QZ.filter(q=>q.diff==="easy"),M=QZ.filter(q=>q.diff==="mid"),W=QZ.filter
 function dayNum(){return Math.floor((Date.now()-10800000)/86400000);}
 const D=Math.max(0,dayNum()-EPOCH),NUM=D+1;
 const Q=(E.length&&M.length&&W.length)?[E[D%E.length],M[(3*D)%M.length],M[(3*D+1)%M.length],M[(3*D+2)%M.length],W[D%W.length]]:[];
-let lang=localStorage.getItem("qz-lang")||"nl";
+let lang=localStorage.getItem("qz-lang")||(document.documentElement.lang==="nl"?"nl":"en");
 let ans=[];try{ans=JSON.parse(localStorage.getItem("qz-a-"+D)||"[]");}catch(e){}
 let cur=Math.min(ans.length,4),showFb=ans.length>cur,cdTick=null;
 function $(id){return document.getElementById(id);}

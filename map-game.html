@@ -520,7 +520,7 @@ function dayNum(){return Math.floor((Date.now()-10800000)/86400000);}
 const D=Math.max(0,dayNum()-EPOCH),NUM=D+1;
 const E=MG.filter(p=>p.t==="e"),M=MG.filter(p=>p.t==="m"),H=MG.filter(p=>p.t==="h");
 const DAILY=(E.length&&M.length&&H.length)?[E[(2*D)%E.length],E[(2*D+1)%E.length],M[(2*D)%M.length],M[(2*D+1)%M.length],H[D%H.length]]:[];
-let lang=localStorage.getItem("mg-lang")||"nl";
+let lang=localStorage.getItem("mg-lang")||(document.documentElement.lang==="nl"?"nl":"en");
 let practice=false,P=DAILY,cur=0,res=[],pin=null,confirmed=false,zoom=1,vb=[0,0,454,462];
 try{res=JSON.parse(localStorage.getItem("mg-r-"+D)||"[]");}catch(e){}
 cur=Math.min(res.length,4);if(res.length===5)cur=5;
