@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-11T16:00:35.548617+00:00",
+  "last_updated": "2026-07-12T10:00:33.648075+00:00",
   "date_label": "Today",
   "showings": [
     {
@@ -19,8 +19,8 @@
     },
     {
       "time": "03:30 PM",
-      "title": "Michael",
-      "url": "https://www.tblcinemas.com/movie/MI17314/michael"
+      "title": "Supergirl",
+      "url": "https://www.tblcinemas.com/movie/SU22592/supergirl"
     },
     {
       "time": "04:15 PM",
@@ -54,18 +54,13 @@
     },
     {
       "time": "07:45 PM",
-      "title": "Supergirl",
-      "url": "https://www.tblcinemas.com/movie/SU22592/supergirl"
+      "title": "Backrooms",
+      "url": "https://www.tblcinemas.com/movie/BA32133/backrooms"
     },
     {
       "time": "08:30 PM",
       "title": "Moana",
       "url": "https://www.tblcinemas.com/movie/RS973343229507/moana"
-    },
-    {
-      "time": "09:15 PM",
-      "title": "Scary Movie",
-      "url": "https://www.tblcinemas.com/movie/SC6491/scary-movie"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
