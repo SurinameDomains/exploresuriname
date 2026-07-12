@@ -176,7 +176,7 @@
 <meta content="https://exploresuriname.com/og-image.jpg" name="twitter:image"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://exploresuriname.com/es/korjaal.html#webpage","url":"https://exploresuriname.com/es/korjaal.html","name":"Korjaal Run: paddle the Suriname river rapids","description":"Steer a korjaal down a jungle river: dodge logs, rocks and sandbanks, ride the sula and collect manja. A new daily river for everyone, every day. Free browser game from Explore Suriname.","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/es/"},"primaryImageOfPage":"https://exploresuriname.com/og-image.jpg","breadcrumb":{"@id":"https://exploresuriname.com/es/korjaal.html#breadcrumb"},"mainEntity":{"@id":"https://exploresuriname.com/es/korjaal.html#game"},"datePublished":"2026-07-12","dateModified":"2026-07-12","isAccessibleForFree":true},{"@type":"BreadcrumbList","@id":"https://exploresuriname.com/es/korjaal.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Hogar","item":"https://exploresuriname.com/es/"},{"@type":"ListItem","position":2,"name":"Carrera Korjaal","item":"https://exploresuriname.com/es/korjaal.html"}]},{"@type":"VideoGame","@id":"https://exploresuriname.com/es/korjaal.html#game","name":"Korjaal Run","url":"https://exploresuriname.com/es/korjaal.html","description":"An endless-runner browser game set on a Surinamese jungle river: steer a korjaal past logs, rocks and rapids. New daily river for all players.","genre":"Arcade","gamePlatform":"Web browser","inLanguage":"es","isAccessibleForFree":true,"image":"https://exploresuriname.com/og-image.jpg","publisher":{"@type":"Organization","name":"Explore Suriname","url":"https://exploresuriname.com/es/"}},{"@type":"FAQPage","@id":"https://exploresuriname.com/es/korjaal.html#faq","mainEntity":[{"@type":"Question","name":"¿Qué es un korjaal?","acceptedAnswer":{"@type":"Answer","text":"Un korjaal es la canoa de los ríos de Surinam, tallada en un solo tronco de árbol. En los ríos superiores todavía se mueven personas, mercancías y turistas entre los pueblos, impulsados ​​por remo o fuera de borda."}},{"@type":"Question","name":"¿Cómo juego a Korjaal Run?","acceptedAnswer":{"@type":"Answer","text":"Arrastra el dedo (o usa las teclas de flecha) para dirigir el korjaal río abajo. Evite troncos, rocas y bancos de arena a la deriva, sobreviva a la sula, los rápidos que aceleran todo, y agarre manja para obtener puntos de bonificación. Cuanto más avanzas, más rápido fluye el río."}},{"@type":"Question","name":"¿Qué es el río diario?","acceptedAnswer":{"@type":"Answer","text":"Todos los días a la medianoche, hora de Surinam, el juego genera un nuevo diseño de río que es exactamente el mismo para todos los jugadores. Todos reman en la misma agua, por lo que las distancias son justas para comparar en el chat grupal. El modo de remo libre te ofrece un río aleatorio para practicar."}},{"@type":"Question","name":"¿Es gratis?","acceptedAnswer":{"@type":"Answer","text":"Sí. Korjaal Run es gratuito, no necesita aplicación ni cuenta y tus mejores carreras se almacenan únicamente en tu navegador."}}]}]}</script> <style>
     #kj-wrap{position:relative;max-width:420px;margin:0 auto}
-    #kj-cv{display:block;width:100%;border-radius:16px;background:#123024;touch-action:none;user-select:none;-webkit-user-select:none}
+    #kj-cv{display:block;width:100%;border-radius:16px;background:#123024;touch-action:pan-y;user-select:none;-webkit-user-select:none}
     .kj-mode button{padding:.35rem .9rem;border:1px solid #d1d5db;background:#fff;font-size:.78rem;font-weight:700;color:#6b7280}
     .kj-mode button:first-child{border-radius:9999px 0 0 9999px}.kj-mode button:last-child{border-radius:0 9999px 9999px 0;margin-left:-1px}
     .kj-mode button.on{background:var(--forest);border-color:var(--forest);color:#fff}
@@ -582,7 +582,7 @@ function step(){
  render();raf=requestAnimationFrame(step);}
 function render(){CX.save();if(sulaIn>0)CX.translate((Math.random()-.5)*4,(Math.random()-.5)*4);
  drawBanks();drawWater();drawObs();drawBoat();drawParts();hud();CX.restore();}
-function die(){st="over";
+function die(){st="over";CV.style.touchAction="pan-y";
  for(let i=0;i<22;i++)parts.push({x:boat.x+(Math.random()-.5)*30,y:HT*.78+(Math.random()-.5)*30,r:2+Math.random()*4,a:.5+Math.random()*.4});
  render();
  const m=Math.floor(dist/10),L=T[lang];
@@ -609,7 +609,7 @@ function panel(m,bd,mx,runs){const L=T[lang];
   +'<div><a class="wabtn" href="https://wa.me/?text='+encodeURIComponent(shareTxt(m))+'" target="_blank" rel="noopener">'+L.share+'</a>'
   +'<button class="cpbtn" id="kj-cp">'+L.copy+'</button></div>';
  $("kj-cp").onclick=()=>{navigator.clipboard.writeText(shareTxt(m));$("kj-cp").textContent=L.copied;};}
-function start(){reset(mode==="daily"?D+77:Math.floor(Math.random()*1e9));st="run";$("kj-panel").innerHTML="";
+function start(){reset(mode==="daily"?D+77:Math.floor(Math.random()*1e9));st="run";CV.style.touchAction="none";$("kj-panel").innerHTML="";
  cancelAnimationFrame(raf);raf=requestAnimationFrame(step);}
 function idle(){st="idle";reset(mode==="daily"?D+77:Math.floor(Math.random()*1e9));render();
  CX.fillStyle="rgba(10,25,18,.66)";CX.fillRect(0,0,W,HT);
@@ -620,9 +620,14 @@ function idle(){st="idle";reset(mode==="daily"?D+77:Math.floor(Math.random()*1e9
  CX.font="700 14px system-ui";CX.fillStyle="rgba(255,255,255,.65)";
  CX.fillText(T[lang].tap,W/2,HT*.36+58);
  $("kj-panel").innerHTML="";}
-CV.addEventListener("pointerdown",ev=>{ev.preventDefault();
- if(st!=="run"){start();return;}
- const r=CV.getBoundingClientRect();boat.tx=(ev.clientX-r.left)/r.width*W;});
+let _pd=null;
+CV.addEventListener("pointerdown",ev=>{
+ if(st==="run"){ev.preventDefault();const r=CV.getBoundingClientRect();boat.tx=(ev.clientX-r.left)/r.width*W;return;}
+ _pd={x:ev.clientX,y:ev.clientY};});
+CV.addEventListener("pointerup",ev=>{
+ if(st==="run"||!_pd)return;
+ if(Math.abs(ev.clientX-_pd.x)<12&&Math.abs(ev.clientY-_pd.y)<12)start();
+ _pd=null;});
 CV.addEventListener("pointermove",ev=>{if(st!=="run")return;
  const r=CV.getBoundingClientRect();boat.tx=(ev.clientX-r.left)/r.width*W;});
 document.addEventListener("keydown",ev=>{

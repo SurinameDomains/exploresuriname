@@ -178,7 +178,7 @@
   {"@context": "https://schema.org", "@graph": [{"@type": "WebPage", "@id": "https://exploresuriname.com/korjaal.html#webpage", "url": "https://exploresuriname.com/korjaal.html", "name": "Korjaal Run: paddle the Suriname river rapids", "description": "Steer a korjaal down a jungle river: dodge logs, rocks and sandbanks, ride the sula and collect manja. A new daily river for everyone, every day. Free browser game from Explore Suriname.", "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": "https://exploresuriname.com/"}, "primaryImageOfPage": "https://exploresuriname.com/og-image.jpg", "breadcrumb": {"@id": "https://exploresuriname.com/korjaal.html#breadcrumb"}, "mainEntity": {"@id": "https://exploresuriname.com/korjaal.html#game"}, "datePublished": "2026-07-12", "dateModified": "2026-07-12", "isAccessibleForFree": true}, {"@type": "BreadcrumbList", "@id": "https://exploresuriname.com/korjaal.html#breadcrumb", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://exploresuriname.com/"}, {"@type": "ListItem", "position": 2, "name": "Korjaal Run", "item": "https://exploresuriname.com/korjaal.html"}]}, {"@type": "VideoGame", "@id": "https://exploresuriname.com/korjaal.html#game", "name": "Korjaal Run", "url": "https://exploresuriname.com/korjaal.html", "description": "An endless-runner browser game set on a Surinamese jungle river: steer a korjaal past logs, rocks and rapids. New daily river for all players.", "genre": "Arcade", "gamePlatform": "Web browser", "inLanguage": ["nl", "en"], "isAccessibleForFree": true, "image": "https://exploresuriname.com/og-image.jpg", "publisher": {"@type": "Organization", "name": "Explore Suriname", "url": "https://exploresuriname.com/"}}, {"@type": "FAQPage", "@id": "https://exploresuriname.com/korjaal.html#faq", "mainEntity": [{"@type": "Question", "name": "What is a korjaal?", "acceptedAnswer": {"@type": "Answer", "text": "A korjaal is the dugout canoe of Suriname's rivers, carved from a single tree trunk. On the upper rivers it is still how people, goods and tourists move between villages, powered by paddle or outboard."}}, {"@type": "Question", "name": "How do I play Korjaal Run?", "acceptedAnswer": {"@type": "Answer", "text": "Drag your finger (or use the arrow keys) to steer the korjaal downriver. Avoid drifting logs, rocks and sandbanks, survive the sula, the rapids that speed everything up, and grab manja for bonus points. The further you get, the faster the river flows."}}, {"@type": "Question", "name": "What is the daily river?", "acceptedAnswer": {"@type": "Answer", "text": "Every day at midnight Suriname time the game generates one new river layout that is exactly the same for every player. Everyone paddles the same water, so distances are fair to compare in the group chat. Free paddle mode gives you a random river for practice."}}, {"@type": "Question", "name": "Is it free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Korjaal Run is free, needs no app or account, and your best runs are stored only in your browser."}}]}]}
   </script> <style>
     #kj-wrap{position:relative;max-width:420px;margin:0 auto}
-    #kj-cv{display:block;width:100%;border-radius:16px;background:#123024;touch-action:none;user-select:none;-webkit-user-select:none}
+    #kj-cv{display:block;width:100%;border-radius:16px;background:#123024;touch-action:pan-y;user-select:none;-webkit-user-select:none}
     .kj-mode button{padding:.35rem .9rem;border:1px solid #d1d5db;background:#fff;font-size:.78rem;font-weight:700;color:#6b7280}
     .kj-mode button:first-child{border-radius:9999px 0 0 9999px}.kj-mode button:last-child{border-radius:0 9999px 9999px 0;margin-left:-1px}
     .kj-mode button.on{background:var(--forest);border-color:var(--forest);color:#fff}
@@ -584,7 +584,7 @@ function step(){
  render();raf=requestAnimationFrame(step);}
 function render(){CX.save();if(sulaIn>0)CX.translate((Math.random()-.5)*4,(Math.random()-.5)*4);
  drawBanks();drawWater();drawObs();drawBoat();drawParts();hud();CX.restore();}
-function die(){st="over";
+function die(){st="over";CV.style.touchAction="pan-y";
  for(let i=0;i<22;i++)parts.push({x:boat.x+(Math.random()-.5)*30,y:HT*.78+(Math.random()-.5)*30,r:2+Math.random()*4,a:.5+Math.random()*.4});
  render();
  const m=Math.floor(dist/10),L=T[lang];
@@ -611,7 +611,7 @@ function panel(m,bd,mx,runs){const L=T[lang];
   +'<div><a class="wabtn" href="https://wa.me/?text='+encodeURIComponent(shareTxt(m))+'" target="_blank" rel="noopener">'+L.share+'</a>'
   +'<button class="cpbtn" id="kj-cp">'+L.copy+'</button></div>';
  $("kj-cp").onclick=()=>{navigator.clipboard.writeText(shareTxt(m));$("kj-cp").textContent=L.copied;};}
-function start(){reset(mode==="daily"?D+77:Math.floor(Math.random()*1e9));st="run";$("kj-panel").innerHTML="";
+function start(){reset(mode==="daily"?D+77:Math.floor(Math.random()*1e9));st="run";CV.style.touchAction="none";$("kj-panel").innerHTML="";
  cancelAnimationFrame(raf);raf=requestAnimationFrame(step);}
 function idle(){st="idle";reset(mode==="daily"?D+77:Math.floor(Math.random()*1e9));render();
  CX.fillStyle="rgba(10,25,18,.66)";CX.fillRect(0,0,W,HT);
@@ -622,9 +622,14 @@ function idle(){st="idle";reset(mode==="daily"?D+77:Math.floor(Math.random()*1e9
  CX.font="700 14px system-ui";CX.fillStyle="rgba(255,255,255,.65)";
  CX.fillText(T[lang].tap,W/2,HT*.36+58);
  $("kj-panel").innerHTML="";}
-CV.addEventListener("pointerdown",ev=>{ev.preventDefault();
- if(st!=="run"){start();return;}
- const r=CV.getBoundingClientRect();boat.tx=(ev.clientX-r.left)/r.width*W;});
+let _pd=null;
+CV.addEventListener("pointerdown",ev=>{
+ if(st==="run"){ev.preventDefault();const r=CV.getBoundingClientRect();boat.tx=(ev.clientX-r.left)/r.width*W;return;}
+ _pd={x:ev.clientX,y:ev.clientY};});
+CV.addEventListener("pointerup",ev=>{
+ if(st==="run"||!_pd)return;
+ if(Math.abs(ev.clientX-_pd.x)<12&&Math.abs(ev.clientY-_pd.y)<12)start();
+ _pd=null;});
 CV.addEventListener("pointermove",ev=>{if(st!=="run")return;
  const r=CV.getBoundingClientRect();boat.tx=(ev.clientX-r.left)/r.width*W;});
 document.addEventListener("keydown",ev=>{
