@@ -1,0 +1,602 @@
+{
+ "v": 1,
+ "eras": [
+  {
+   "id": "fosten",
+   "t_en": "First peoples",
+   "t_nl": "De eerste bewoners",
+   "sub": "before 1650",
+   "icon": "petro",
+   "i_en": "Thousands of years before any colony, this land already had names, trails and stories.",
+   "i_nl": "Duizenden jaren voor welke kolonie dan ook had dit land al namen, paden en verhalen."
+  },
+  {
+   "id": "kolonie",
+   "t_en": "Conquest and colony",
+   "t_nl": "Verovering en kolonie",
+   "sub": "1650-1683",
+   "icon": "ship",
+   "i_en": "Flags change within a single lifetime: English, Zeeuws, Dutch. The fort on the river watches it all.",
+   "i_nl": "Vlaggen wisselen binnen een mensenleven: Engels, Zeeuws, Nederlands. Het fort aan de rivier ziet alles."
+  },
+  {
+   "id": "slavernij",
+   "t_en": "Slavery and resistance",
+   "t_nl": "Slavernij en verzet",
+   "sub": "1683-1863",
+   "icon": "chain",
+   "i_en": "The colony grows rich on stolen labour, and the forest grows strong with those who refuse it.",
+   "i_nl": "De kolonie wordt rijk van gestolen arbeid, en het bos wordt sterk van wie weigert."
+  },
+  {
+   "id": "kontraki",
+   "t_en": "Contract workers, new people",
+   "t_nl": "Contractarbeiders, nieuw volk",
+   "sub": "1863-1954",
+   "icon": "rice",
+   "i_en": "Ships from Calcutta, Java and China remake the population; a new people takes shape.",
+   "i_nl": "Schepen uit Calcutta, Java en China hervormen de bevolking; een nieuw volk krijgt vorm."
+  },
+  {
+   "id": "autonomie",
+   "t_en": "Autonomy to Srefidensi",
+   "t_nl": "Autonomie naar Srefidensi",
+   "sub": "1954-1975",
+   "icon": "flag",
+   "i_en": "Suriname learns to govern itself, dams its river and reaches for its own flag.",
+   "i_nl": "Suriname leert zichzelf besturen, bedwingt zijn rivier en reikt naar een eigen vlag."
+  },
+  {
+   "id": "militair",
+   "t_en": "The military years",
+   "t_nl": "De militaire jaren",
+   "sub": "1980-1992",
+   "icon": "dark",
+   "i_en": "The hardest chapter: guns in the palace, mourning in December, war in the forest.",
+   "i_nl": "Het zwaarste hoofdstuk: geweren in het paleis, rouw in december, oorlog in het bos."
+  },
+  {
+   "id": "republiek",
+   "t_en": "Rebuilding the republic",
+   "t_nl": "De republiek herbouwt",
+   "sub": "1992-2019",
+   "icon": "build",
+   "i_en": "Democracy returns and holds, through hyperinflation, verdicts and the end of bauxite.",
+   "i_nl": "De democratie keert terug en houdt stand, door hyperinflatie, vonnissen en het einde van de bauxiet."
+  },
+  {
+   "id": "nieuw",
+   "t_en": "The new dawn",
+   "t_nl": "De nieuwe dageraad",
+   "sub": "2020-now",
+   "icon": "sun",
+   "i_en": "Oil under the ocean, a woman in the palace, fifty years of Srefidensi. The story accelerates.",
+   "i_nl": "Olie onder de oceaan, een vrouw in het paleis, vijftig jaar Srefidensi. Het verhaal versnelt."
+  }
+ ],
+ "events": [
+  {
+   "era": "fosten",
+   "y": "10,000+ years ago",
+   "d": "",
+   "t_en": "The first Surinamers",
+   "t_nl": "De eerste Surinamers",
+   "x_en": "Indigenous peoples live on this land for thousands of years before any ship appears. The shell ridges of Hertenrits in Nickerie and the rock carvings of Werehpai near Kwamalasamutu are their oldest signatures.",
+   "x_nl": "Inheemse volken wonen al duizenden jaren op dit land voordat er ooit een schip verschijnt. De schelpruggen van Hertenrits in Nickerie en de rotstekeningen van Werehpai bij Kwamalasamutu zijn hun oudste handtekeningen.",
+   "img": "images/hero-rainforest.webp"
+  },
+  {
+   "era": "fosten",
+   "y": "Before 1500",
+   "d": "",
+   "t_en": "Lokono, Kalina, Trio, Wayana",
+   "t_nl": "Lokono, Kalina, Trio, Wayana",
+   "x_en": "Arawak-speaking Lokono farm the coast, Kalina (Caribs) command the river mouths, Trio and Wayana live deep in the south. The country's name likely comes from the Surinen people.",
+   "x_nl": "Arowaksprekende Lokono bewerken de kust, Kalina beheersen de riviermondingen, Trio en Wayana wonen diep in het zuiden. De naam van het land komt waarschijnlijk van het volk der Surinen."
+  },
+  {
+   "era": "fosten",
+   "y": "1499",
+   "d": "",
+   "t_en": "Sails on the horizon",
+   "t_nl": "Zeilen aan de horizon",
+   "x_en": "Spanish expeditions sight the Guiana coast. For more than a century Europeans try and fail to settle the 'Wild Coast': the peoples already here have other plans.",
+   "x_nl": "Spaanse expedities krijgen de kust van Guyana in zicht. Ruim een eeuw lang proberen Europeanen zich te vestigen op de 'Wilde Kust', en falen: de volken die er al wonen, hebben andere plannen."
+  },
+  {
+   "era": "kolonie",
+   "y": "1651",
+   "d": "",
+   "t_en": "Willoughby's colony",
+   "t_nl": "De kolonie van Willoughby",
+   "x_en": "English planters from Barbados settle on the Suriname River under Lord Willoughby. Sugar plantations rise, worked by enslaved Africans, with a fort at the spot where Paramaribo now stands.",
+   "x_nl": "Engelse planters van Barbados vestigen zich onder Lord Willoughby aan de Surinamerivier. Er verrijzen suikerplantages, bewerkt door tot slaaf gemaakte Afrikanen, met een fort waar nu Paramaribo ligt."
+  },
+  {
+   "era": "kolonie",
+   "y": "1667",
+   "d": "25 February",
+   "t_en": "Crijnssen takes the fort",
+   "t_nl": "Crijnssen neemt het fort",
+   "x_en": "A Zeeland squadron under Abraham Crijnssen sails up the river and takes Fort Willoughby after a short bombardment; on 6 March the whole colony surrenders. The fort gets its lasting name: Zeelandia.",
+   "x_nl": "Een Zeeuws eskader onder Abraham Crijnssen vaart de rivier op en neemt Fort Willoughby na een kort bombardement; op 6 maart geeft de hele kolonie zich over. Het fort krijgt zijn blijvende naam: Zeelandia.",
+   "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Fort_Zeelandia.jpg/1280px-Fort_Zeelandia.jpg"
+  },
+  {
+   "era": "kolonie",
+   "y": "1667",
+   "d": "31 July",
+   "t_en": "Traded for New York",
+   "t_nl": "Geruild voor New York",
+   "x_en": "In the Treaty of Breda the Dutch keep Suriname and the English keep New Amsterdam, today's New York. One of history's most famous swaps is sealed.",
+   "x_nl": "Bij de Vrede van Breda houden de Nederlanders Suriname en houden de Engelsen Nieuw-Amsterdam, het huidige New York. Een van de beroemdste ruilen uit de geschiedenis is een feit."
+  },
+  {
+   "era": "kolonie",
+   "y": "1683",
+   "d": "",
+   "t_en": "The Society of Suriname",
+   "t_nl": "De Sociëteit van Suriname",
+   "x_en": "Amsterdam, the West India Company and the Van Aerssen family buy the colony and run it as a business. Under governor Van Sommelsdijck the plantation economy expands fast.",
+   "x_nl": "Amsterdam, de West-Indische Compagnie en de familie Van Aerssen kopen de kolonie en runnen haar als een bedrijf. Onder gouverneur Van Sommelsdijck groeit de plantage-economie snel."
+  },
+  {
+   "era": "kolonie",
+   "y": "1685",
+   "d": "",
+   "t_en": "Jodensavanne",
+   "t_nl": "Jodensavanne",
+   "x_en": "Sephardic Jewish planters build the Beracha Ve Shalom synagogue on a savanna above the Suriname River: one of the oldest Jewish communities of the Americas, with its own village life for two centuries.",
+   "x_nl": "Sefardisch-Joodse planters bouwen de synagoge Beracha Ve Shalom op een savanne boven de Surinamerivier: een van de oudste Joodse gemeenschappen van de Amerika's, twee eeuwen lang met een eigen dorpsleven.",
+   "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Jodensavanne.jpg/1280px-Jodensavanne.jpg"
+  },
+  {
+   "era": "slavernij",
+   "y": "1700s",
+   "d": "",
+   "t_en": "The plantation machine",
+   "t_nl": "De plantagemachine",
+   "x_en": "Hundreds of plantations line the rivers: sugar, coffee, cacao, cotton. Over two centuries more than 200,000 Africans are shipped to Suriname into slavery. The regime is among the harshest in the Americas; resistance never stops.",
+   "x_nl": "Honderden plantages liggen langs de rivieren: suiker, koffie, cacao, katoen. In twee eeuwen worden ruim 200.000 Afrikanen naar Suriname verscheept, de slavernij in. Het regime is een van de hardste van de Amerika's; het verzet stopt nooit."
+  },
+  {
+   "era": "slavernij",
+   "y": "1712",
+   "d": "",
+   "t_en": "Cassard's raid",
+   "t_nl": "De inval van Cassard",
+   "x_en": "French admiral Jacques Cassard raids the colony and extorts a fortune in ransom. Planters bury their silver and hide enslaved people in the forest to dodge the count.",
+   "x_nl": "De Franse admiraal Jacques Cassard valt de kolonie binnen en perst een fortuin aan losgeld af. Planters begraven hun zilver en verstoppen tot slaaf gemaakten in het bos om de telling te ontlopen.",
+   "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Cannon_near_Fort_Nieuw_Amsterdam_in_Suriname_%2830451879073%29.jpg/1280px-Cannon_near_Fort_Nieuw_Amsterdam_in_Suriname_%2830451879073%29.jpg"
+  },
+  {
+   "era": "slavernij",
+   "y": "1730-1760",
+   "d": "",
+   "t_en": "The Maroon wars",
+   "t_nl": "De Marronoorlogen",
+   "x_en": "Escaped Africans build free societies deep in the rainforest: the Ndyuka, Saamaka, Matawai and others. From there they strike the plantations. Costly military expeditions into the forest fail, again and again.",
+   "x_nl": "Gevluchte Afrikanen bouwen vrije samenlevingen diep in het regenwoud: de Ndyuka, Saamaka, Matawai en anderen. Van daaruit treffen ze de plantages. Dure militaire expedities het bos in mislukken, keer op keer."
+  },
+  {
+   "era": "slavernij",
+   "y": "1760",
+   "d": "10 October",
+   "t_en": "Peace with the Ndyuka",
+   "t_nl": "Vrede met de Ndyuka",
+   "x_en": "At Bongodoti the colony signs a treaty with the Ndyuka: freedom and territorial autonomy, a century before abolition. 10 October is now celebrated as the Day of the Maroons.",
+   "x_nl": "Bij Bongodoti tekent de kolonie een verdrag met de Ndyuka: vrijheid en territoriale autonomie, een eeuw vóór de afschaffing van de slavernij. 10 oktober wordt nu gevierd als de Dag der Marrons.",
+   "img": "images/hero-suriname-river.webp"
+  },
+  {
+   "era": "slavernij",
+   "y": "1762",
+   "d": "19 September",
+   "t_en": "Peace with the Saamaka",
+   "t_nl": "Vrede met de Saamaka",
+   "x_en": "With the Ndyuka as mediators, the Saamaka sign their own peace. The free Maroon nations of the interior are a fact the colony must live with.",
+   "x_nl": "Met de Ndyuka als bemiddelaars tekenen ook de Saamaka hun eigen vrede. De vrije Marronvolken van het binnenland zijn een feit waarmee de kolonie moet leven."
+  },
+  {
+   "era": "slavernij",
+   "y": "1772-1777",
+   "d": "",
+   "t_en": "Boni's war",
+   "t_nl": "De oorlog van Boni",
+   "x_en": "Boni, Baron and Joli-Coeur lead a new Maroon war from strongholds like Fort Boekoe. The colony builds a fortified cordon path around the plantations; Boni's people withdraw across the Marowijne.",
+   "x_nl": "Boni, Baron en Joli-Coeur voeren een nieuwe Marronoorlog vanuit bolwerken als Fort Boekoe. De kolonie legt een verdedigingslinie (het Cordonpad) rond de plantages; Boni's mensen trekken zich terug over de Marowijne."
+  },
+  {
+   "era": "slavernij",
+   "y": "1773",
+   "d": "",
+   "t_en": "The money dries up",
+   "t_nl": "Het geld droogt op",
+   "x_en": "An Amsterdam credit crisis ruins many planters. Estates change hands to absentee owners and administrators; the colony's golden age of profit is over.",
+   "x_nl": "Een Amsterdamse kredietcrisis ruïneert veel planters. Plantages komen in handen van afwezige eigenaren en administrateurs; de gouden winstjaren van de kolonie zijn voorbij."
+  },
+  {
+   "era": "slavernij",
+   "y": "1799-1816",
+   "d": "",
+   "t_en": "British interlude",
+   "t_nl": "Brits tussenbestuur",
+   "x_en": "During the Napoleonic wars Britain governs Suriname. In 1816 it is returned to the new Kingdom of the Netherlands.",
+   "x_nl": "Tijdens de napoleontische oorlogen bestuurt Groot-Brittannië Suriname. In 1816 wordt het teruggegeven aan het nieuwe Koninkrijk der Nederlanden."
+  },
+  {
+   "era": "slavernij",
+   "y": "1853",
+   "d": "",
+   "t_en": "First Chinese arrive",
+   "t_nl": "De eerste Chinezen arriveren",
+   "x_en": "The first Chinese contract workers land, initially from Java. Many later open shops and businesses: the start of Chinese-Surinamese life that shapes commerce to this day.",
+   "x_nl": "De eerste Chinese contractarbeiders komen aan, aanvankelijk vanuit Java. Velen openen later winkels en bedrijven: het begin van het Chinees-Surinaamse leven dat de handel tot vandaag tekent.",
+   "img": "images/home-market.webp"
+  },
+  {
+   "era": "slavernij",
+   "y": "1863",
+   "d": "1 July",
+   "t_en": "Keti Koti",
+   "t_nl": "Keti Koti",
+   "x_en": "Slavery is abolished: around 34,000 people are declared free, though most must keep working plantations under 'state supervision' for ten more years. 1 July, Keti Koti ('the chains are cut'), becomes the country's day of freedom.",
+   "x_nl": "De slavernij wordt afgeschaft: zo'n 34.000 mensen worden vrij verklaard, al moeten de meesten nog tien jaar onder 'staatstoezicht' op de plantages werken. 1 juli, Keti Koti ('de ketenen zijn gebroken'), wordt de dag van de vrijheid."
+  },
+  {
+   "era": "kontraki",
+   "y": "1873",
+   "d": "5 June",
+   "t_en": "The Lalla Rookh arrives",
+   "t_nl": "De Lalla Rookh komt aan",
+   "x_en": "The sailing ship Lalla Rookh brings the first Hindustani contract workers from British India, nearly 400 people. Sixty-four ships and 34,000 immigrants follow. 5 June is still commemorated as Indian Arrival Day.",
+   "x_nl": "Het zeilschip Lalla Rookh brengt de eerste Hindostaanse contractarbeiders uit Brits-Indië, bijna 400 mensen. Er volgen 64 schepen en 34.000 immigranten. 5 juni wordt nog altijd herdacht als Hindostaanse Immigratiedag."
+  },
+  {
+   "era": "kontraki",
+   "y": "1890",
+   "d": "9 August",
+   "t_en": "Java to Mariënburg",
+   "t_nl": "Van Java naar Mariënburg",
+   "x_en": "The first 94 Javanese contract workers arrive to work the Mariënburg sugar factory. Almost 33,000 Javanese follow; 9 August is their day of remembrance.",
+   "x_nl": "De eerste 94 Javaanse contractarbeiders komen aan om op suikerfabriek Mariënburg te werken. Bijna 33.000 Javanen volgen; 9 augustus is hun herdenkingsdag."
+  },
+  {
+   "era": "kontraki",
+   "y": "1885",
+   "d": "",
+   "t_en": "Gold fever",
+   "t_nl": "Goudkoorts",
+   "x_en": "Thousands head up the rivers to dig gold and bleed balata. The interior economy is born, along with legendary porknokker tales.",
+   "x_nl": "Duizenden trekken de rivieren op om goud te delven en balata te tappen. De binnenlandeconomie wordt geboren, samen met legendarische porknokkerverhalen."
+  },
+  {
+   "era": "kontraki",
+   "y": "1902",
+   "d": "",
+   "t_en": "Blood at Mariënburg",
+   "t_nl": "Bloed bij Mariënburg",
+   "x_en": "Javanese and Hindustani workers strike against starvation wages at the Mariënburg sugar factory. Soldiers open fire; many workers are killed and buried in an unmarked grave. The strike becomes a symbol of contract-era injustice.",
+   "x_nl": "Javaanse en Hindostaanse arbeiders staken tegen hongerlonen bij suikerfabriek Mariënburg. Militairen openen het vuur; veel arbeiders worden gedood en anoniem begraven. De staking wordt hét symbool van het onrecht van de contracttijd."
+  },
+  {
+   "era": "kontraki",
+   "y": "1903-1912",
+   "d": "",
+   "t_en": "The Lawa railway",
+   "t_nl": "De Lawaspoorweg",
+   "x_en": "A railway is built toward the goldfields, 173 km into the forest, but the gold disappoints and the line never reaches the Lawa. Its remnants still mark Para today.",
+   "x_nl": "Er wordt een spoorweg richting de goudvelden aangelegd, 173 km het bos in, maar het goud valt tegen en de lijn haalt de Lawa nooit. De restanten tekenen Para tot vandaag."
+  },
+  {
+   "era": "kontraki",
+   "y": "1916",
+   "d": "",
+   "t_en": "Bauxite changes everything",
+   "t_nl": "Bauxiet verandert alles",
+   "x_en": "Alcoa begins mining bauxite at Moengo. For most of a century aluminium ore is Suriname's economic engine, building company towns, wealth and dependence at once.",
+   "x_nl": "Alcoa begint bauxiet te winnen bij Moengo. Bijna een eeuw lang is aluminiumerts de economische motor van Suriname: het bouwt bedrijfssteden, welvaart en afhankelijkheid tegelijk."
+  },
+  {
+   "era": "kontraki",
+   "y": "1934",
+   "d": "",
+   "t_en": "Anton de Kom speaks",
+   "t_nl": "Anton de Kom spreekt",
+   "x_en": "Anton de Kom publishes 'Wij slaven van Suriname', the first history of the country told from the Surinamese side. Exiled by the colonial authorities, he dies in a German camp in 1945 as a resistance hero. His university now carries his name.",
+   "x_nl": "Anton de Kom publiceert 'Wij slaven van Suriname', de eerste geschiedenis van het land verteld vanuit Surinaams perspectief. Door het koloniale bestuur verbannen sterft hij in 1945 als verzetsheld in een Duits kamp. De universiteit draagt nu zijn naam."
+  },
+  {
+   "era": "kontraki",
+   "y": "1941",
+   "d": "",
+   "t_en": "The aluminium war",
+   "t_nl": "De aluminiumoorlog",
+   "x_en": "American troops arrive to guard the bauxite mines: Surinamese ore feeds a large share of Allied aircraft production. The war years bring jobs, airfields (Zanderij) and new confidence.",
+   "x_nl": "Amerikaanse troepen arriveren om de bauxietmijnen te bewaken: Surinaams erts voedt een groot deel van de geallieerde vliegtuigproductie. De oorlogsjaren brengen banen, vliegvelden (Zanderij) en nieuw zelfvertrouwen."
+  },
+  {
+   "era": "kontraki",
+   "y": "1948",
+   "d": "",
+   "t_en": "Everyone votes",
+   "t_nl": "Iedereen stemt",
+   "x_en": "General suffrage arrives; the first mass parties form and Suriname's peoples enter politics as themselves. The road to self-rule opens.",
+   "x_nl": "Het algemeen kiesrecht wordt ingevoerd; de eerste massapartijen ontstaan en de Surinaamse bevolkingsgroepen betreden de politiek. De weg naar zelfbestuur ligt open."
+  },
+  {
+   "era": "kontraki",
+   "y": "1954",
+   "d": "15 December",
+   "t_en": "The Statuut",
+   "t_nl": "Het Statuut",
+   "x_en": "Suriname becomes an autonomous country within the Kingdom of the Netherlands: its own government and parliament, shared crown and passport.",
+   "x_nl": "Suriname wordt een autonoom land binnen het Koninkrijk der Nederlanden: een eigen regering en parlement, gedeelde kroon en paspoort."
+  },
+  {
+   "era": "autonomie",
+   "y": "1958-1965",
+   "d": "",
+   "t_en": "The lake that moved a people",
+   "t_nl": "Het meer dat een volk verplaatste",
+   "x_en": "The Afobaka dam is built to power an aluminium smelter. The rising Brokopondo reservoir swallows dozens of Saamaka and Ndyuka villages; thousands of people are moved to transmigration villages like Brownsweg. Cheap power arrives at a heavy price.",
+   "x_nl": "De Afobakadam wordt gebouwd voor stroom voor een aluminiumsmelter. Het stijgende Brokopondostuwmeer verzwelgt tientallen Saamaka- en Ndyuka-dorpen; duizenden mensen verhuizen naar transmigratiedorpen als Brownsweg. Goedkope stroom komt tegen een hoge prijs.",
+   "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Brokopondo_Meer_Viewpiont_%284%29.jpg/1280px-Brokopondo_Meer_Viewpiont_%284%29.jpg"
+  },
+  {
+   "era": "autonomie",
+   "y": "1963",
+   "d": "1 July",
+   "t_en": "Kwakoe",
+   "t_nl": "Kwakoe",
+   "x_en": "A century after Keti Koti, Paramaribo unveils the Kwakoe statue: a freed man breaking his chains. It becomes the emblem of emancipation.",
+   "x_nl": "Een eeuw na Keti Koti onthult Paramaribo het standbeeld Kwakoe: een bevrijde man die zijn ketenen breekt. Het wordt hét symbool van de emancipatie."
+  },
+  {
+   "era": "autonomie",
+   "y": "1965",
+   "d": "",
+   "t_en": "Television arrives",
+   "t_nl": "Televisie komt aan",
+   "x_en": "STVS begins broadcasting, and living rooms across the country tune in to the same evening news. A national conversation gets its screen.",
+   "x_nl": "De STVS begint met uitzenden en huiskamers door het hele land kijken naar hetzelfde journaal. Het nationale gesprek krijgt een scherm."
+  },
+  {
+   "era": "autonomie",
+   "y": "1973",
+   "d": "",
+   "t_en": "Strike winter",
+   "t_nl": "Stakingswinter",
+   "x_en": "Mass strikes paralyse the country; union leader Abaisa is shot dead. The unrest speeds up the politics of independence.",
+   "x_nl": "Massale stakingen leggen het land plat; vakbondsman Abaisa wordt doodgeschoten. De onrust versnelt de politiek van de onafhankelijkheid."
+  },
+  {
+   "era": "autonomie",
+   "y": "1975",
+   "d": "25 November",
+   "t_en": "Srefidensi",
+   "t_nl": "Srefidensi",
+   "x_en": "The flag with the yellow star rises: Suriname is independent. Johan Ferrier becomes the first president, Henck Arron prime minister. In the years around independence tens of thousands of Surinamers move to the Netherlands, planting today's diaspora.",
+   "x_nl": "De vlag met de gele ster gaat omhoog: Suriname is onafhankelijk. Johan Ferrier wordt de eerste president, Henck Arron premier. In de jaren rond de onafhankelijkheid vertrekken tienduizenden Surinamers naar Nederland: de kiem van de huidige diaspora."
+  },
+  {
+   "era": "militair",
+   "y": "1980",
+   "d": "25 February",
+   "t_en": "The sergeants' coup",
+   "t_nl": "De sergeantencoup",
+   "x_en": "Sixteen sergeants led by Dési Bouterse topple the government. The 'Revolution' promises renewal but brings military rule, curfews and censorship.",
+   "x_nl": "Zestien sergeanten onder leiding van Dési Bouterse plegen een staatsgreep. De 'revolutie' belooft vernieuwing maar brengt militair bewind, avondklokken en censuur."
+  },
+  {
+   "era": "militair",
+   "y": "1982",
+   "d": "8 December",
+   "t_en": "The December murders",
+   "t_nl": "De Decembermoorden",
+   "x_en": "Fifteen prominent critics of the regime, journalists, lawyers, union leaders, soldiers, are executed at Fort Zeelandia. The Netherlands suspends aid. 8 December remains a national day of mourning, and the case would shadow Surinamese politics for four decades.",
+   "x_nl": "Vijftien prominente critici van het regime, journalisten, advocaten, vakbondsleiders, militairen, worden gefusilleerd in Fort Zeelandia. Nederland schort de hulp op. 8 december blijft een dag van rouw, en de zaak zou de politiek veertig jaar achtervolgen."
+  },
+  {
+   "era": "militair",
+   "y": "1986",
+   "d": "",
+   "t_en": "The Interior War",
+   "t_nl": "De Binnenlandse Oorlog",
+   "x_en": "Ronnie Brunswijk's Jungle Commando takes up arms against the army. Villages in the east are destroyed and thousands of Maroons flee to French Guiana. The interior's infrastructure is set back a generation.",
+   "x_nl": "Het Jungle Commando van Ronnie Brunswijk komt in verzet tegen het leger. Dorpen in het oosten worden verwoest en duizenden Marrons vluchten naar Frans-Guyana. De infrastructuur van het binnenland raakt een generatie achterop."
+  },
+  {
+   "era": "militair",
+   "y": "1986",
+   "d": "29 November",
+   "t_en": "Moiwana",
+   "t_nl": "Moiwana",
+   "x_en": "Soldiers attack the Ndyuka village of Moiwana, killing at least 39 people, mostly women and children. Survivors flee across the river. In 2005 the Inter-American Court of Human Rights holds the state responsible.",
+   "x_nl": "Militairen vallen het Ndyuka-dorp Moiwana aan en doden minstens 39 mensen, vooral vrouwen en kinderen. Overlevenden vluchten de rivier over. In 2005 stelt het Inter-Amerikaans Hof voor de Rechten van de Mens de staat aansprakelijk."
+  },
+  {
+   "era": "militair",
+   "y": "1987",
+   "d": "",
+   "t_en": "Back to the ballot box",
+   "t_nl": "Terug naar de stembus",
+   "x_en": "A new constitution is approved and elections return civilian government, though the army keeps real power in the wings.",
+   "x_nl": "Een nieuwe grondwet wordt aangenomen en verkiezingen brengen een burgerregering terug, al blijft het leger achter de schermen machtig."
+  },
+  {
+   "era": "militair",
+   "y": "1988",
+   "d": "September",
+   "t_en": "Nesty strikes gold",
+   "t_nl": "Nesty pakt goud",
+   "x_en": "Anthony Nesty out-touches Matt Biondi by one hundredth of a second in Seoul: Olympic gold on the 100m butterfly. In a bruised decade, one perfect moment the whole country still celebrates.",
+   "x_nl": "Anthony Nesty tikt Matt Biondi in Seoel met één honderdste voor: olympisch goud op de 100 meter vlinderslag. In een gehavend decennium één perfect moment dat het hele land nog altijd viert."
+  },
+  {
+   "era": "militair",
+   "y": "1989",
+   "d": "7 June",
+   "t_en": "The SLM disaster",
+   "t_nl": "De SLM-ramp",
+   "x_en": "Surinam Airways flight PY764 crashes on approach to Zanderij; 176 people die, among them the 'Kleurrijk Elftal' of Dutch-Surinamese footballers. The country's darkest aviation day.",
+   "x_nl": "SLM-vlucht PY764 verongelukt in de nadering van Zanderij; 176 mensen komen om, onder wie het Kleurrijk Elftal van Nederlands-Surinaamse voetballers. De zwartste dag uit de Surinaamse luchtvaart."
+  },
+  {
+   "era": "militair",
+   "y": "1990",
+   "d": "24 December",
+   "t_en": "The telephone coup",
+   "t_nl": "De telefooncoup",
+   "x_en": "The military dismisses the government, by telephone. New elections follow within a year, but the episode shows where power still sits.",
+   "x_nl": "Het leger stuurt de regering naar huis, per telefoon. Binnen een jaar volgen nieuwe verkiezingen, maar het voorval toont waar de macht nog zit."
+  },
+  {
+   "era": "militair",
+   "y": "1992",
+   "d": "8 August",
+   "t_en": "Peace of Lelydorp",
+   "t_nl": "Vrede van Lelydorp",
+   "x_en": "The government and the armed groups of the interior sign peace. The Interior War is over; rebuilding the east and the trust takes far longer.",
+   "x_nl": "De regering en de gewapende groepen uit het binnenland tekenen vrede. De Binnenlandse Oorlog is voorbij; het herstel van het oosten en van het vertrouwen duurt veel langer."
+  },
+  {
+   "era": "republiek",
+   "y": "1990s",
+   "d": "",
+   "t_en": "Hard years, strong shoulders",
+   "t_nl": "Zware jaren, sterke schouders",
+   "x_en": "Structural adjustment and hyperinflation, prices at one point rising several hundred percent a year, hollow out wages. Families lean on each other and on relatives abroad; the guilder never recovers.",
+   "x_nl": "Structurele aanpassing en hyperinflatie, met prijzen die op een gegeven moment honderden procenten per jaar stijgen, hollen de lonen uit. Families leunen op elkaar en op familie in het buitenland; de gulden herstelt nooit meer."
+  },
+  {
+   "era": "republiek",
+   "y": "2000",
+   "d": "",
+   "t_en": "The green crown jewel",
+   "t_nl": "Het groene kroonjuweel",
+   "x_en": "The Central Suriname Nature Reserve, 1.6 million hectares of untouched rainforest around Raleighvallen, Tafelberg and the Wilhelmina range, is inscribed as UNESCO World Heritage.",
+   "x_nl": "Het Centraal Suriname Natuurreservaat, 1,6 miljoen hectare ongerept regenwoud rond Raleighvallen, Tafelberg en het Wilhelminagebergte, wordt UNESCO-werelderfgoed.",
+   "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Leo_val_brownsberg.JPG/1280px-Leo_val_brownsberg.JPG"
+  },
+  {
+   "era": "republiek",
+   "y": "2002",
+   "d": "",
+   "t_en": "Paramaribo on the world list",
+   "t_nl": "Paramaribo op de wereldlijst",
+   "x_en": "The wooden inner city of Paramaribo, where cathedral, synagogue and mosque share the streets, becomes UNESCO World Heritage.",
+   "x_nl": "De houten binnenstad van Paramaribo, waar kathedraal, synagoge en moskee de straten delen, wordt UNESCO-werelderfgoed.",
+   "img": "images/home-faiths.webp"
+  },
+  {
+   "era": "republiek",
+   "y": "2004",
+   "d": "1 January",
+   "t_en": "The SRD is born",
+   "t_nl": "De SRD wordt geboren",
+   "x_en": "The Suriname dollar replaces the battered guilder at 1 to 1,000. A fresh start for the wallet.",
+   "x_nl": "De Surinaamse dollar vervangt de gehavende gulden, 1 op 1.000. Een frisse start voor de portemonnee."
+  },
+  {
+   "era": "republiek",
+   "y": "2007",
+   "d": "",
+   "t_en": "The December trial begins",
+   "t_nl": "Het Decemberproces begint",
+   "x_en": "Twenty-five years after the December murders, a court-martial finally opens the case against 25 suspects, Dési Bouterse first among them. It will run for twelve years.",
+   "x_nl": "Vijfentwintig jaar na de Decembermoorden opent de krijgsraad eindelijk de zaak tegen 25 verdachten, met Dési Bouterse voorop. Het proces zal twaalf jaar duren."
+  },
+  {
+   "era": "republiek",
+   "y": "2010",
+   "d": "",
+   "t_en": "Bouterse returns, via the ballot box",
+   "t_nl": "Bouterse terug, via de stembus",
+   "x_en": "Parliament elects former coup leader Dési Bouterse president. He wins again in 2015; a 2012 amnesty law tries to halt his trial but the courts push on.",
+   "x_nl": "Het parlement kiest oud-coupleider Dési Bouterse tot president. In 2015 wint hij opnieuw; een amnestiewet uit 2012 probeert zijn proces te stoppen, maar de rechters zetten door."
+  },
+  {
+   "era": "republiek",
+   "y": "2015-2017",
+   "d": "",
+   "t_en": "The bauxite century ends",
+   "t_nl": "De bauxieteeuw eindigt",
+   "x_en": "Suralco halts and then closes the refinery; Alcoa leaves after a hundred years. Moengo and Paranam must reinvent themselves, and the economy dives into crisis.",
+   "x_nl": "Suralco legt de raffinaderij stil en sluit definitief; Alcoa vertrekt na honderd jaar. Moengo en Paranam moeten zichzelf opnieuw uitvinden, en de economie duikt een crisis in."
+  },
+  {
+   "era": "republiek",
+   "y": "2019",
+   "d": "29 November",
+   "t_en": "The verdict",
+   "t_nl": "Het vonnis",
+   "x_en": "The court-martial convicts sitting president Bouterse to twenty years for the December murders. The appeal court upholds it in December 2023; he goes into hiding rather than report to prison.",
+   "x_nl": "De krijgsraad veroordeelt zittend president Bouterse tot twintig jaar cel voor de Decembermoorden. Het Hof bevestigt het vonnis in december 2023; hij duikt onder in plaats van zich te melden."
+  },
+  {
+   "era": "nieuw",
+   "y": "2020",
+   "d": "January",
+   "t_en": "Oil under the waves",
+   "t_nl": "Olie onder de golven",
+   "x_en": "The Maka Central-1 well strikes major oil offshore in Block 58, the first in a string of discoveries. After Guyana's boom next door, Suriname's turn appears on the horizon.",
+   "x_nl": "De Maka Central-1-put boort grote olievondsten aan in Blok 58 voor de kust, de eerste van een reeks. Na de boom bij buurland Guyana verschijnt nu de Surinaamse beurt aan de horizon."
+  },
+  {
+   "era": "nieuw",
+   "y": "2020",
+   "d": "",
+   "t_en": "Change of course",
+   "t_nl": "Koerswijziging",
+   "x_en": "Chan Santokhi becomes president amid an acute debt and COVID crisis. Painful reforms follow: the SRD floats, subsidies shrink, an IMF programme steadies the books at street-level cost.",
+   "x_nl": "Chan Santokhi wordt president te midden van een acute schulden- en covidcrisis. Pijnlijke hervormingen volgen: de SRD wordt losgelaten, subsidies verdwijnen, een IMF-programma brengt de boeken op orde, met de rekening op straat."
+  },
+  {
+   "era": "nieuw",
+   "y": "2023",
+   "d": "17 February",
+   "t_en": "Anger boils over",
+   "t_nl": "De woede kookt over",
+   "x_en": "Protests against the cost of living end with demonstrators storming parliament. The message lands even where the methods are condemned: the recovery must reach ordinary households.",
+   "x_nl": "Protest tegen de dure tijd eindigt met demonstranten die het parlement bestormen. De boodschap komt aan, ook waar de methode wordt veroordeeld: het herstel moet de gewone huishoudens bereiken."
+  },
+  {
+   "era": "nieuw",
+   "y": "2024",
+   "d": "1 October",
+   "t_en": "GranMorgu: green light",
+   "t_nl": "GranMorgu: groen licht",
+   "x_en": "TotalEnergies and APA take the 10.5-billion-dollar investment decision for the GranMorgu field: a 220,000-barrels-a-day production ship, first oil expected in 2028. The name is Sranan for 'new dawn'.",
+   "x_nl": "TotalEnergies en APA nemen het investeringsbesluit van 10,5 miljard dollar voor het GranMorgu-veld: een productieschip van 220.000 vaten per dag, eerste olie verwacht in 2028. De naam is Sranan voor 'nieuwe dageraad'."
+  },
+  {
+   "era": "nieuw",
+   "y": "2024",
+   "d": "24 December",
+   "t_en": "Bouterse dies in hiding",
+   "t_nl": "Bouterse sterft ondergedoken",
+   "x_en": "Dési Bouterse dies at 79, still a fugitive from his sentence. Admired by some, condemned by others, he leaves the most divisive legacy in Surinamese history.",
+   "x_nl": "Dési Bouterse overlijdt op 79-jarige leeftijd, nog altijd voortvluchtig. Door sommigen bewonderd, door anderen veroordeeld, laat hij de meest verdeelde erfenis uit de Surinaamse geschiedenis na."
+  },
+  {
+   "era": "nieuw",
+   "y": "2025",
+   "d": "16 July",
+   "t_en": "Madam President",
+   "t_nl": "Mevrouw de president",
+   "x_en": "After the May elections, parliament chooses Jennifer Geerlings-Simons as Suriname's first female president, sworn in on 16 July on the eve of the oil era, fifty years after independence.",
+   "x_nl": "Na de meiverkiezingen kiest het parlement Jennifer Geerlings-Simons tot eerste vrouwelijke president van Suriname, beëdigd op 16 juli, aan de vooravond van het olietijdperk, vijftig jaar na de onafhankelijkheid."
+  },
+  {
+   "era": "nieuw",
+   "y": "2028",
+   "d": "",
+   "t_en": "First oil, next chapter",
+   "t_nl": "Eerste olie, volgend hoofdstuk",
+   "x_en": "If the schedule holds, the GranMorgu production ship pumps Suriname's first offshore oil in 2028. What the country does with that new dawn is the next entry on this timeline.",
+   "x_nl": "Als de planning standhoudt, pompt het GranMorgu-productieschip in 2028 de eerste Surinaamse olie voor de kust op. Wat het land met die nieuwe dageraad doet, is de volgende regel op deze tijdlijn.",
+   "img": "images/home-sunset.webp"
+  }
+ ]
+}
