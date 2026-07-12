@@ -2350,7 +2350,7 @@ def nav_html(active="home", prefix=""):
     _TODO  = {"nature", "activities", "shopping", "events"}
     _EAT   = {"restaurants", "hotels"}
     _ESS   = {"currency", "flights", "forecast", "daily-notices", "worldcup", "matches"}
-    _PLAN  = {"visitor", "roads", "itinerary", "safety"}
+    _PLAN  = {"visitor", "roads", "itinerary", "safety", "history"}
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal"}
 
     def _is_active(key):
@@ -2415,6 +2415,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}on-the-road.html"    {_link_cls("roads")}    >On the Road</a>'
         f'<a href="{prefix}suriname-itinerary.html" {_link_cls("itinerary")} >Trip Itineraries</a>'
         f'<a href="{prefix}is-suriname-safe.html"   {_link_cls("safety")}    >Is Suriname Safe?</a>'
+        f'<a href="{prefix}suriname-history.html"    {_link_cls("history")}   >History Timeline</a>'
     )
 
     # Games
@@ -2477,7 +2478,8 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}visitor-guide.html", "The Basics",    "visitor") +
         _mob_link(f"{prefix}on-the-road.html",   "On the Road",   "roads") +
         _mob_link(f"{prefix}suriname-itinerary.html", "Trip Itineraries", "itinerary") +
-        _mob_link(f"{prefix}is-suriname-safe.html",   "Is Suriname Safe?", "safety")
+        _mob_link(f"{prefix}is-suriname-safe.html",   "Is Suriname Safe?", "safety") +
+        _mob_link(f"{prefix}suriname-history.html",    "History Timeline",  "history")
     )
     mob_games_items = (
         _mob_link(f"{prefix}quiz.html",      "Sabi Suriname Quiz",   "quiz") +
@@ -2713,6 +2715,7 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}on-the-road.html">On the Road</a>
         <a class="ftr-lnk" href="{prefix}suriname-itinerary.html">Trip Itineraries</a>
         <a class="ftr-lnk" href="{prefix}is-suriname-safe.html">Is Suriname Safe?</a>
+        <a class="ftr-lnk" href="{prefix}suriname-history.html">History of Suriname</a>
         <a class="ftr-lnk" href="{prefix}currency.html">Exchange Rates</a>
         <a class="ftr-lnk" href="{prefix}flights.html">Flights</a>
         <a class="ftr-lnk" href="{prefix}conditions.html">Weather &amp; Tides</a>
@@ -8193,6 +8196,250 @@ setMode("daily");setLang(lang);
     return head + body
 
 
+# ── Tori fu Sranan: interactive history timeline ─────────────────────────────
+_TL_ICONS = {
+    "petro": '<path d="M12 4a8 8 0 1 1-8 8 5.5 5.5 0 0 1 5.5-5.5A3.5 3.5 0 0 1 13 10a2 2 0 0 1-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+    "ship": '<path d="M4 16h16l-2 4H6Z M12 4v10 M12 5l6 7H12 M12 7 8 12h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>',
+    "chain": '<path d="M9 7a3 3 0 0 1 6 0v3M9 17a3 3 0 0 0 6 0v-3 M12 8v2 M12 14v2 M5 12l3-1M19 12l-3 1" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+    "rice": '<path d="M12 21V9 M12 13c-4 0-6-2.5-6-6 3.5 0 6 2.5 6 6Zm0-2c0-4 2-7 6-8 0 4.5-2 7.5-6 8Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+    "flag": '<path d="M6 21V4h12l-3 4 3 4H6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M11.2 8.4 12 6l.8 2.4h2.4l-2 1.5.8 2.4-2-1.5-2 1.5.8-2.4-2-1.5Z" fill="currentColor"/>',
+    "dark": '<path d="M12 3 3 20h18Z M12 9v5 M12 16.5v1" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>',
+    "build": '<path d="M4 20h16 M6 20V9l6-4 6 4v11 M10 20v-5h4v5 M9 11h2m2 0h2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>',
+    "sun": '<circle cx="12" cy="14" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 6V4 M6.5 8.5 5 7 M17.5 8.5 19 7 M4 14H2 M22 14h-2 M3 20h18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+}
+_TL_COLORS = {
+    "fosten":    "#6d4c2f",
+    "kolonie":   "#0e7490",
+    "slavernij": "#7f1d1d",
+    "kontraki":  "#a16207",
+    "autonomie": "#1b4332",
+    "militair":  "#111827",
+    "republiek": "#5b21b6",
+    "nieuw":     "#c2410c",
+}
+
+
+def _tl_img_tag(url, alt):
+    """Timeline image: local cache when available, real dimensions, lazy."""
+    src = _localize_img(url) if url.startswith("http") else url
+    w, h = 1280, 853
+    try:
+        from PIL import Image as _PILImage
+        _p = src.lstrip("/")
+        if os.path.exists(_p):
+            w, h = _PILImage.open(_p).size
+    except Exception:
+        pass
+    return (f'<img class="tl-img" src="{src if src.startswith(("http", "/")) else "/" + src}" '
+            f'width="{w}" height="{h}" loading="lazy" decoding="async" alt="{html_lib.escape(alt)}">')
+
+
+def build_history_page():
+    """suriname-history.html: Tori fu Sranan - cinematic scrollytelling timeline of
+    Suriname. 57 events in 8 chapter eras, each era a full-width colour band with
+    its own intro and a colour-matched timeline spine. Bilingual EN/NL (both
+    server-rendered, CSS-toggled), photo hero, scroll reveal, floating year badge.
+    Data: data/history_timeline.json."""
+    import json as _json
+    try:
+        with open("data/history_timeline.json", encoding="utf-8") as _f:
+            _tl = _json.load(_f)
+    except Exception:
+        _tl = {"eras": [], "events": []}
+    _eras, _events = _tl["eras"], _tl["events"]
+    today = datetime.now(SR_TZ).date()
+
+    _title = "The Story of Suriname: Interactive History Timeline"
+    _desc = ("Tori fu Sranan: scroll through the history of Suriname, from the first Indigenous "
+             "peoples and the Maroon wars to Keti Koti, Srefidensi and the oil era. 57 moments, "
+             "in English and Dutch.")
+    _ogimg = SITE_URL + "/og-image.jpg"
+    _graph = _json.dumps({"@context": "https://schema.org", "@graph": [
+        {"@type": "WebPage", "@id": SITE_URL + "/suriname-history.html#webpage",
+         "url": SITE_URL + "/suriname-history.html", "name": _title, "description": _desc,
+         "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": SITE_URL + "/"},
+         "primaryImageOfPage": _ogimg,
+         "breadcrumb": {"@id": SITE_URL + "/suriname-history.html#breadcrumb"},
+         "about": {"@type": "Country", "name": "Suriname"},
+         "datePublished": "2026-07-12", "dateModified": today.isoformat(),
+         "isAccessibleForFree": True, "inLanguage": ["en", "nl"]},
+        {"@type": "BreadcrumbList", "@id": SITE_URL + "/suriname-history.html#breadcrumb",
+         "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": "History of Suriname", "item": SITE_URL + "/suriname-history.html"}]},
+    ]}, ensure_ascii=False)
+
+    _CSS = """  <style>
+    #tl-hero{position:relative;background:#11241b url('/images/hero-paramaribo.webp') center 35%/cover no-repeat}
+    @media (max-width:640px){#tl-hero{background-image:url('/images/hero-paramaribo-m.webp')}}
+    #tl-hero .ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,22,16,.82),rgba(10,22,16,.55) 55%,rgba(249,250,251,1))}
+    @keyframes tlbounce{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+    .tl-cue{animation:tlbounce 1.6s ease-in-out infinite;display:inline-block}
+    .tl-band{position:relative;border-radius:18px;color:#fff;padding:1.5rem 1.4rem 1.6rem;margin:3rem 0 1.6rem;overflow:hidden}
+    .tl-band .bn{position:absolute;right:-6px;bottom:-26px;font-size:6.5rem;font-weight:800;opacity:.14;line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums;pointer-events:none}
+    .tl-band .ic{width:44px;height:44px;border-radius:9999px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.16);margin-bottom:.8rem}
+    .tl-band .ic svg{width:24px;height:24px;color:#fff}
+    .tl-grp{position:relative;padding-top:.4rem}
+    .tl-grp:before{content:"";position:absolute;left:19px;top:0;bottom:0;width:2.5px;background:var(--ec);opacity:.3;border-radius:2px}
+    .tl-ev{position:relative;padding:0 0 1.35rem 56px}
+    .tl-ev:before{content:"";position:absolute;left:13px;top:8px;width:14px;height:14px;border-radius:9999px;background:var(--ec);border:3px solid #f9fafb;box-shadow:0 0 0 1.5px var(--ec)}
+    .tl-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:.95rem 1.1rem;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+    .tl-yr{font-variant-numeric:tabular-nums;font-weight:800;font-size:.8rem;letter-spacing:.02em;color:var(--ec)}
+    .tl-rv{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+    .tl-rv.in{opacity:1;transform:none}
+    @media (prefers-reduced-motion: reduce){.tl-rv{opacity:1;transform:none;transition:none}}
+    .tl-chips{position:sticky;top:58px;z-index:30;background:linear-gradient(#f9fafb 82%,rgba(249,250,251,0));scrollbar-width:none;-ms-overflow-style:none}
+    .tl-chips::-webkit-scrollbar{display:none}
+    .tl-band{scroll-margin-top:120px}
+    #tl-year{position:fixed;right:14px;bottom:14px;z-index:40;background:#111827;color:#fff;font-weight:800;font-size:.85rem;padding:.45rem .8rem;border-radius:9999px;opacity:0;transition:opacity .3s;font-variant-numeric:tabular-nums;pointer-events:none}
+    #tl-year.on{opacity:.88}
+    .lang button{padding:.3rem .8rem;border:1px solid #d1d5db;background:#fff;font-size:.78rem;font-weight:700;color:#6b7280}
+    .lang button:first-child{border-radius:9999px 0 0 9999px}.lang button:last-child{border-radius:0 9999px 9999px 0;margin-left:-1px}
+    .lang button.on{background:var(--forest);border-color:var(--forest);color:#fff}
+    body.tl-nl .tl-en{display:none}body:not(.tl-nl) .tl-nl{display:none}
+    .tl-img{border-radius:10px;margin-top:.75rem;width:100%;height:auto}
+  </style>"""
+
+    head = (PAGE_HEAD
+        + '\n  <title>History of Suriname: Interactive Timeline | Explore Suriname</title>'
+        + '\n  <meta name="description" content="' + _desc + '">'
+        + '\n  <link rel="canonical" href="' + SITE_URL + '/suriname-history.html">'
+        + '\n  <meta property="og:type" content="website">'
+        + '\n  <meta property="og:site_name" content="Explore Suriname">'
+        + '\n  <meta property="og:url" content="' + SITE_URL + '/suriname-history.html">'
+        + '\n  <meta property="og:title" content="' + _title + '">'
+        + '\n  <meta property="og:description" content="Scroll through 500 years of Suriname, from the first peoples to the oil era. In English and Dutch.">'
+        + '\n  <meta property="og:image" content="' + _ogimg + '">'
+        + '\n  <meta name="twitter:card" content="summary_large_image">'
+        + '\n  <meta name="twitter:title" content="' + _title + '">'
+        + '\n  <meta name="twitter:description" content="Scroll through 500 years of Suriname, from the first peoples to the oil era.">'
+        + '\n  <meta name="twitter:image" content="' + _ogimg + '">'
+        + '\n  <link rel="preload" as="image" href="/images/hero-paramaribo.webp" media="(min-width: 641px)">'
+        + '\n  <script type="application/ld+json">\n  ' + _graph + '\n  </script>'
+        + _CSS + '\n</head>')
+
+    chips = ('<div class="tl-chips flex gap-2 overflow-x-auto py-2.5 -mx-5 px-5">'
+             + "".join(
+                f'<button onclick="tlJump(\'{e["id"]}\')" class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition">'
+                f'<span class="tl-en">{e["t_en"]}</span><span class="tl-nl">{e["t_nl"]}</span></button>'
+                for e in _eras)
+             + '</div>')
+
+    # ── chapters ─────────────────────────────────────────────────────────────
+    tl = ""
+    for era in _eras:
+        col = _TL_COLORS.get(era["id"], "#374151")
+        icon = _TL_ICONS.get(era["icon"], "")
+        yr_big = era["sub"].split("-")[0].strip().replace("before 1650", "&lt;1650")
+        tl += (f'<section class="tl-band tl-rv" id="era-{era["id"]}" style="background:{col}">'
+               f'<span class="bn" aria-hidden="true">{yr_big}</span>'
+               f'<div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">{icon}</svg></div>'
+               f'<h2 class="serif text-2xl sm:text-3xl font-bold leading-tight">'
+               f'<span class="tl-en">{era["t_en"]}</span><span class="tl-nl">{era["t_nl"]}</span></h2>'
+               f'<p class="text-xs font-bold uppercase tracking-widest mt-1 text-white/60">{era["sub"]}</p>'
+               f'<p class="text-white/85 text-sm leading-relaxed mt-2 max-w-md">'
+               f'<span class="tl-en">{era["i_en"]}</span><span class="tl-nl">{era["i_nl"]}</span></p>'
+               f'</section>')
+        tl += f'<div class="tl-grp" style="--ec:{col}">'
+        for ev in [e for e in _events if e["era"] == era["id"]]:
+            when = ev["y"] + ((" &middot; " + ev["d"]) if ev["d"] else "")
+            img_html = _tl_img_tag(ev["img"], ev["t_en"]) if ev.get("img") else ""
+            tl += (f'<article class="tl-ev tl-rv" data-y="{html_lib.escape(ev["y"])}">'
+                   '<div class="tl-card">'
+                   f'<p class="tl-yr">{when}</p>'
+                   f'<h3 class="font-bold text-gray-900 text-[1.02rem] leading-snug mt-0.5">'
+                   f'<span class="tl-en">{html_lib.escape(ev["t_en"])}</span><span class="tl-nl">{html_lib.escape(ev["t_nl"])}</span></h3>'
+                   f'<p class="text-gray-600 text-sm leading-relaxed mt-1.5">'
+                   f'<span class="tl-en">{html_lib.escape(ev["x_en"])}</span><span class="tl-nl">{html_lib.escape(ev["x_nl"])}</span></p>'
+                   + img_html + '</div></article>')
+        tl += '</div>'
+
+    outro = """
+<section class="max-w-2xl mx-auto px-4 mt-10">
+  <div class="bg-white rounded-2xl border border-gray-200 p-6">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-2"><span class="tl-en">Keep exploring</span><span class="tl-nl">Verder verkennen</span></h2>
+    <p class="text-gray-700 text-sm leading-relaxed mb-3"><span class="tl-en">History lives all over this site: test yourself in the
+    <a href="quiz.html" class="font-semibold hover:underline" style="color:var(--forest2)">Sabi Suriname quiz</a>, find the places from this
+    timeline in <a href="map-game.html" class="font-semibold hover:underline" style="color:var(--forest2)">Pe A De?</a>, visit
+    <a href="listing/fort-zeelandia/" class="font-semibold hover:underline" style="color:var(--forest2)">Fort Zeelandia</a> and
+    <a href="nature.html" class="font-semibold hover:underline" style="color:var(--forest2)">the nature reserves</a>, or plan a trip with our
+    <a href="suriname-itinerary.html" class="font-semibold hover:underline" style="color:var(--forest2)">itineraries</a>.</span>
+    <span class="tl-nl">Geschiedenis leeft overal op deze site: test jezelf in de
+    <a href="quiz.html" class="font-semibold hover:underline" style="color:var(--forest2)">Sabi Suriname-quiz</a>, zoek de plekken uit deze
+    tijdlijn in <a href="map-game.html" class="font-semibold hover:underline" style="color:var(--forest2)">Pe A De?</a>, bezoek
+    <a href="listing/fort-zeelandia/" class="font-semibold hover:underline" style="color:var(--forest2)">Fort Zeelandia</a> en
+    <a href="nature.html" class="font-semibold hover:underline" style="color:var(--forest2)">de natuurreservaten</a>, of plan een reis met onze
+    <a href="suriname-itinerary.html" class="font-semibold hover:underline" style="color:var(--forest2)">reisroutes</a>.</span></p>
+    <p class="text-gray-400 text-xs leading-relaxed"><span class="tl-en">Compiled from public historical sources and checked against
+    primary dates. Spotted an error? <a href="contact.html" class="underline">Tell us</a> and we will fix it.</span>
+    <span class="tl-nl">Samengesteld uit openbare historische bronnen en gecontroleerd op data. Fout gezien?
+    <a href="contact.html" class="underline">Laat het weten</a>, dan passen we het aan.</span></p>
+  </div>
+</section>"""
+
+    body = """
+<body class="bg-gray-50 overflow-x-hidden">
+__NAV__
+<div style="height:58px"></div>
+<div id="tl-hero" class="relative text-white pt-20 pb-16 text-center overflow-hidden">
+  <div class="ov" aria-hidden="true"></div>
+  <div class="relative max-w-3xl mx-auto px-4">
+    <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-8">
+      <a href="index.html" class="hover:text-white transition">Home</a>
+      <span class="text-white/40">&#8250;</span>
+      <span class="text-white/90 font-medium" aria-current="page"><span class="tl-en">History of Suriname</span><span class="tl-nl">Geschiedenis van Suriname</span></span>
+    </nav>
+    <p class="text-xs font-bold uppercase tracking-widest mb-3" style="color:var(--coral)">Tori fu Sranan</p>
+    <h1 class="serif text-4xl sm:text-6xl font-bold mb-4"><span class="tl-en">The Story of Suriname</span><span class="tl-nl">Het verhaal van Suriname</span></h1>
+    <p class="text-white/80 text-base sm:text-lg max-w-2xl mx-auto"><span class="tl-en">Five centuries and more in 57 moments: the first peoples, the plantations and the resistance, Keti Koti, Srefidensi, the hard years and the new dawn.</span>
+    <span class="tl-nl">Meer dan vijf eeuwen in 57 momenten: de eerste volken, de plantages en het verzet, Keti Koti, Srefidensi, de zware jaren en de nieuwe dageraad.</span></p>
+    <p class="mt-8 text-white/70 text-sm font-semibold"><span class="tl-en">Scroll to begin</span><span class="tl-nl">Scroll om te beginnen</span><br>
+    <span class="tl-cue text-xl" aria-hidden="true">&#8595;</span></p>
+  </div>
+</div>
+<main class="max-w-2xl mx-auto px-5 pt-4 pb-20">
+  <div class="flex items-center justify-between gap-3 mb-1">
+    <p class="text-xs text-gray-400"><span class="tl-en">57 moments &middot; jump by era</span><span class="tl-nl">57 momenten &middot; spring per tijdperk</span></p>
+    <div class="lang"><button id="tl-nlb">NL</button><button id="tl-enb">EN</button></div>
+  </div>
+__CHIPS__
+__TIMELINE__
+</main>
+__OUTRO__
+<div id="tl-year" aria-hidden="true"></div>
+__FOOTER__
+<script>
+function tlJump(id){var el=document.getElementById("era-"+id);if(el)el.scrollIntoView({behavior:"smooth",block:"start"});}
+(function(){
+var langKey="tl-lang",body=document.body;
+function setLang(l){body.classList.toggle("tl-nl",l==="nl");localStorage.setItem(langKey,l);
+ document.getElementById("tl-nlb").classList.toggle("on",l==="nl");
+ document.getElementById("tl-enb").classList.toggle("on",l!=="nl");}
+document.getElementById("tl-nlb").onclick=function(){setLang("nl");};
+document.getElementById("tl-enb").onclick=function(){setLang("en");};
+setLang(localStorage.getItem(langKey)||"nl");
+var yr=document.getElementById("tl-year"),hideT=null;
+if("IntersectionObserver" in window){
+ var io=new IntersectionObserver(function(es){es.forEach(function(en){
+  if(en.isIntersecting){en.target.classList.add("in");
+   var y=en.target.getAttribute("data-y");
+   if(y){yr.textContent=y;yr.classList.add("on");clearTimeout(hideT);hideT=setTimeout(function(){yr.classList.remove("on");},1800);}
+  }});},{threshold:.2,rootMargin:"0px 0px -6% 0px"});
+ document.querySelectorAll(".tl-rv").forEach(function(el){io.observe(el);});
+}else{document.querySelectorAll(".tl-rv").forEach(function(el){el.classList.add("in");});}
+})();
+</script>
+</body>
+</html>"""
+
+    body = (body.replace("__NAV__", nav_html("history"))
+                .replace("__CHIPS__", chips)
+                .replace("__TIMELINE__", tl)
+                .replace("__OUTRO__", outro)
+                .replace("__FOOTER__", footer_html()))
+    return head + body
+
+
 def build_worldcup_page():
     """FIFA World Cup 2026 hub: full schedule in Suriname time, live scores (ESPN, client-side
     polling + build-time snapshot) and where to watch in Suriname (STVS / ATV / Telesur+)."""
@@ -9066,6 +9313,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("on-the-road.html", "0.7", "monthly"),
         ("suriname-itinerary.html", "0.8", "monthly"),
         ("is-suriname-safe.html",   "0.7", "monthly"),
+        ("suriname-history.html",  "0.8", "monthly"),
         ("worldcup-2026.html",      "0.8", "daily"),
         ("matches.html",            "0.8", "daily"),
         ("daily-notices.html", "0.9", "daily"),
@@ -9153,6 +9401,7 @@ def build_llms_txt():
 ## Travel guides
 - [The Basics]({S}/visitor-guide.html): visas, customs, SIM cards, money, ATMs and getting around for first-time visitors.
 - [Is Suriname Safe?]({S}/is-suriname-safe.html): practical safety guidance for tourists.
+- [History of Suriname]({S}/suriname-history.html): interactive timeline of Surinamese history, from the first Indigenous peoples through slavery and Keti Koti to independence and the oil era, in English and Dutch.
 - [Suriname Itinerary]({S}/suriname-itinerary.html): suggested multi-day routes combining Paramaribo and the interior.
 - [On the Road]({S}/on-the-road.html): driving, road rules, rainy-season advice and emergency numbers.
 
@@ -10515,6 +10764,7 @@ if __name__ == "__main__":
         "on-the-road.html":   build_roads_page(),
         "suriname-itinerary.html": build_itinerary_page(),
         "is-suriname-safe.html":   build_safety_page(),
+        "suriname-history.html":   build_history_page(),
         "seogs-2026.html":         ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
             '<meta name="robots" content="noindex">'
             '<meta http-equiv="refresh" content="0;url=/events.html">'
