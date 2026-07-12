@@ -54,6 +54,14 @@ def load_protected():
 
 PROTECTED = load_protected()
 
+# Brand names that must never be machine-translated (news sources etc.).
+# Keep in sync with BRANDS in translate_cache.py.
+BRANDS_NO_TRANSLATE = {
+    "Starnieuws", "De Ware Tijd", "Waterkant", "OilNow", "Offshore Energy",
+    "Rigzone", "Google News", "Staatsolie",
+}
+PROTECTED |= BRANDS_NO_TRANSLATE
+
 PHONE_RE = re.compile(r'^[\+\d][\d\s\-\(\)/]{5,}$')
 CODE_RE  = re.compile(r'^[A-Z]{2,5}$')                 # currency/IATA codes
 NUM_RE   = re.compile(r'^[\d\s.,:%–\-+/x×]+$')         # pure numeric/symbolic

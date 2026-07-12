@@ -6457,7 +6457,7 @@ __FOOTER__
 <script>
 const CWP = __DATA__;
 const CT={nl:{ah:"Horizontaal",dh:"Verticaal",check:"Check",reveal:"Toon woord",clear:"Wis",solved:"Opgelost in",lead:"Tik op een woord om de betekenis te zien.",share:"Deel resultaat",close:"Sluiten",note:"Elke dag een nieuwe Switi Mini. Alle woorden komen uit het Sranantongo of het Surinaams-Nederlands en staan in de woordenboeken. Tik op NL of EN voor de aanwijzingen.",mini:"Mini",today:"Vandaag"},en:{ah:"Across",dh:"Down",check:"Check",reveal:"Reveal word",clear:"Clear",solved:"Solved in",lead:"Tap a word to see its meaning.",share:"Share result",close:"Close",note:"A new Switi Mini every day. Every answer is a Sranan Tongo or Surinaams-Nederlands word attested in the dictionaries. Tap NL or EN for the clues.",mini:"Mini",today:"Today"}};
-let cwLang=(localStorage.getItem('cw-lang')||'nl');
+let cwLang=(localStorage.getItem('cw-lang')||(document.documentElement.lang==='nl'?'nl':'en'));
 const N=CWP.length;
 const EPOCH=Math.floor(Date.UTC(2026,5,22)/86400000);
 function dayNum(){return Math.floor((Date.now()-10800000)/86400000);}
@@ -6753,7 +6753,7 @@ const E=QZ.filter(q=>q.diff==="easy"),M=QZ.filter(q=>q.diff==="mid"),W=QZ.filter
 function dayNum(){return Math.floor((Date.now()-10800000)/86400000);}
 const D=Math.max(0,dayNum()-EPOCH),NUM=D+1;
 const Q=(E.length&&M.length&&W.length)?[E[D%E.length],M[(3*D)%M.length],M[(3*D+1)%M.length],M[(3*D+2)%M.length],W[D%W.length]]:[];
-let lang=localStorage.getItem("qz-lang")||"nl";
+let lang=localStorage.getItem("qz-lang")||(document.documentElement.lang==="nl"?"nl":"en");
 let ans=[];try{ans=JSON.parse(localStorage.getItem("qz-a-"+D)||"[]");}catch(e){}
 let cur=Math.min(ans.length,4),showFb=ans.length>cur,cdTick=null;
 function $(id){return document.getElementById(id);}
@@ -7748,7 +7748,7 @@ function dayNum(){return Math.floor((Date.now()-10800000)/86400000);}
 const D=Math.max(0,dayNum()-EPOCH),NUM=D+1;
 const E=MG.filter(p=>p.t==="e"),M=MG.filter(p=>p.t==="m"),H=MG.filter(p=>p.t==="h");
 const DAILY=(E.length&&M.length&&H.length)?[E[(2*D)%E.length],E[(2*D+1)%E.length],M[(2*D)%M.length],M[(2*D+1)%M.length],H[D%H.length]]:[];
-let lang=localStorage.getItem("mg-lang")||"nl";
+let lang=localStorage.getItem("mg-lang")||(document.documentElement.lang==="nl"?"nl":"en");
 let practice=false,P=DAILY,cur=0,res=[],pin=null,confirmed=false,zoom=1,vb=[0,0,454,462];
 try{res=JSON.parse(localStorage.getItem("mg-r-"+D)||"[]");}catch(e){}
 cur=Math.min(res.length,4);if(res.length===5)cur=5;
@@ -8021,7 +8021,7 @@ const D=Math.max(0,dayNum()-EPOCH),NUM=D+1;
 const T={
  en:{daily:"Daily river #"+NUM,free:"Free paddle",tap:"Tap to start",drag:"Drag to steer &middot; arrow keys work too",dist:"m",best:"Best today",all:"All-time",runs:"Runs",share:"Share on WhatsApp",copy:"Copy result",copied:"Copied!",over:"The river won.",again:"Paddle again",manja:"manja",note:"One new daily river at midnight Suriname time, identical for every player, so distances are fair to compare. Free paddle gives a random river. Runs and records stay in this browser. Pro tip: the sula makes you fast, but fast is how korjalen meet rocks.",toasts:{go:"Pari go!",sula:"SULA! Hold on!",far:"Switi rivier!",manja:"Manja!"}},
  nl:{daily:"Dagrivier #"+NUM,free:"Vrij pagaaien",tap:"Tik om te starten",drag:"Sleep om te sturen &middot; pijltjestoetsen kunnen ook",dist:"m",best:"Beste vandaag",all:"Aller tijden",runs:"Runs",share:"Deel op WhatsApp",copy:"Kopieer resultaat",copied:"Gekopieerd!",over:"De rivier heeft gewonnen.",again:"Nog een keer",manja:"manja",note:"Elke dag om middernacht Surinaamse tijd een nieuwe dagrivier, precies dezelfde voor iedereen, dus afstanden zijn eerlijk te vergelijken. Vrij pagaaien geeft een willekeurige rivier. Records blijven in deze browser. Tip: de sula maakt je snel, maar snel is hoe korjalen rotsen ontmoeten.",toasts:{go:"Pari go!",sula:"SULA! Hori doro!",far:"Switi rivier!",manja:"Manja!"}}};
-let lang=localStorage.getItem("kj-lang")||"nl";
+let lang=localStorage.getItem("kj-lang")||(document.documentElement.lang==="nl"?"nl":"en");
 function $(i){return document.getElementById(i);}
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 const CV=$("kj-cv"),CX=CV.getContext("2d");

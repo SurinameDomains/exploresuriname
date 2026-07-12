@@ -32,6 +32,17 @@ if arg("--langs"):   TARGETS = arg("--langs").split(",")
 LIMIT   = int(arg("--limit"))   if arg("--limit")   else None
 WORKERS = int(arg("--workers")) if arg("--workers") else 6
 
+# Brand names shielded from MT with sentinel tokens, restored after translation.
+# Keep in sync with BRANDS_NO_TRANSLATE in build_i18n.py.
+BRANDS = ["Offshore Energy", "De Ware Tijd", "Google News", "Starnieuws",
+          "Staatsolie", "Waterkant", "Rigzone", "OilNow"]
+def shield(t):
+    for i, b in enumerate(BRANDS): t = t.replace(b, f"ZQXB{i}XQZ")
+    return t
+def unshield(t):
+    for i, b in enumerate(BRANDS): t = t.replace(f"ZQXB{i}XQZ", b)
+    return t
+
 segments = json.load(open(SEGMENTS, encoding="utf-8"))
 cache    = json.load(open(CACHE, encoding="utf-8")) if CACHE.exists() else (json.load(open(REPO, encoding="utf-8")) if REPO.exists() else {})
 lock     = threading.Lock()
@@ -80,7 +91,7 @@ done = 0; errors = 0; stop = False
 
 def task(pair):
     seg, lang = pair
-    return seg, lang, g_translate(seg, lang)
+    return seg, lang, unshield(g_translate(shield(seg), lang))
 
 def save():
     import os as _os
