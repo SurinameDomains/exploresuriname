@@ -2407,7 +2407,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}conditions.html"     {_link_cls("forecast")}       >Weather &amp; Tides</a>'
         f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")}  >Daily Notices</a>'
         f'<a href="{prefix}worldcup-2026.html"   {_link_cls("worldcup")}       >World Cup 2026</a>'
-        f'<a href="{prefix}matches.html"        {_link_cls("matches")}        >Football Times</a>'
+        f'<a href="{prefix}matches.html"        {_link_cls("matches")}        >Sports Times</a>'
     )
     # Visitor Guide
     plan_items = (
@@ -2472,7 +2472,7 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}conditions.html",    "Weather & Tides", "forecast") +
         _mob_link(f"{prefix}daily-notices.html", "Daily Notices", "daily-notices") +
         _mob_link(f"{prefix}worldcup-2026.html",  "World Cup 2026", "worldcup") +
-        _mob_link(f"{prefix}matches.html",       "Football Times", "matches")
+        _mob_link(f"{prefix}matches.html",       "Sports Times", "matches")
     )
     mob_plan_items = (
         _mob_link(f"{prefix}visitor-guide.html", "The Basics",    "visitor") +
@@ -2733,7 +2733,7 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}map-game.html">Pe A De? Map Game</a>
         <a class="ftr-lnk" href="{prefix}korjaal.html">Korjaal Run</a>
         <a class="ftr-lnk" href="{prefix}worldcup-2026.html">World Cup 2026</a>
-        <a class="ftr-lnk" href="{prefix}matches.html">Football Times</a>
+        <a class="ftr-lnk" href="{prefix}matches.html">Sports Times</a>
         <a class="ftr-lnk" href="{prefix}about.html">About Us</a>
         <a class="ftr-lnk" href="{prefix}contact.html">Contact</a>
         <a class="ftr-lnk" href="{prefix}privacy.html">Privacy</a>
@@ -7253,21 +7253,45 @@ def _ilink(href, label):
     return f'<a href="{href}" class="font-semibold hover:underline" style="color:var(--forest2)">{label}</a>'
 
 
-# ── Football in Suriname Time ────────────────────────────────────────────────
+# ── Sports in Suriname Time ──────────────────────────────────────────────────
+# (espn sport path, espn league code, label, short key, tag colour, group)
+# group: "foot" football, "bball" basketball, "fight" fight nights
 _MATCH_LEAGUES = [
-    # (espn code, label, short key, tag colour)
-    ("fifa.world",     "World Cup 2026",   "wc",  "#B45309"),
-    ("uefa.champions", "Champions League", "cl",  "#1D4ED8"),
-    ("ned.1",          "Eredivisie",       "ere", "#C2410C"),
-    ("eng.1",          "Premier League",   "epl", "#6D28D9"),
+    ("soccer",     "fifa.world",            "World Cup 2026",    "wc",  "#B45309", "foot"),
+    ("soccer",     "uefa.champions",        "Champions League",  "cl",  "#1D4ED8", "foot"),
+    ("soccer",     "uefa.europa",           "Europa League",     "uel", "#EA580C", "foot"),
+    ("soccer",     "ned.1",                 "Eredivisie",        "ere", "#C2410C", "foot"),
+    ("soccer",     "eng.1",                 "Premier League",    "epl", "#6D28D9", "foot"),
+    ("soccer",     "esp.1",                 "La Liga",           "lal", "#BE123C", "foot"),
+    ("soccer",     "ita.1",                 "Serie A",           "sea", "#0F766E", "foot"),
+    ("soccer",     "ger.1",                 "Bundesliga",        "bun", "#DC2626", "foot"),
+    ("soccer",     "fra.1",                 "Ligue 1",           "li1", "#1E40AF", "foot"),
+    ("soccer",     "conmebol.libertadores", "Copa Libertadores", "lib", "#047857", "foot"),
+    ("basketball", "nba",                   "NBA",               "nba", "#D97706", "bball"),
+    ("mma",        "ufc",                   "UFC",               "ufc", "#B91C1C", "fight"),
 ]
+
+# Competitions with no usable live data feed (checked Jul 2026: ESPN has no
+# boxing or Glory scoreboard, and no SVB Eerste Divisie coverage). These come
+# from the hand-maintained data/manual_fixtures.json instead. Entry format:
+#   {"league": "glory|boxing|svb", "date": "YYYY-MM-DD",
+#    "time_utc": "HH:MM" (optional; omit = time TBC),
+#    "title": "Glory 109" OR "home"+"away" for a match,
+#    "detail": "venue / city" (optional)}
+_MANUAL_LEAGUES = {
+    "glory":  ("Glory Kickboxing",   "#7C2D12", "fight"),
+    "boxing": ("Boxing",             "#92400E", "fight"),
+    "svb":    ("SVB Eerste Divisie", "#15803D", "foot"),
+}
 
 
 def fetch_matches_data():
-    """Fixtures and results for the competitions Suriname follows, via the same
-    ESPN scoreboard API the World Cup page uses. Fetched at build time (the site
-    rebuilds ~15 min) with a per-league fallback cache in data/matches_cache.json
-    so an API hiccup never blanks the page. Window: yesterday to +35 days."""
+    """Fixtures, tip-offs and fight cards for the sports Suriname follows, via
+    the free ESPN scoreboard API. Fetched at build time (the site rebuilds
+    ~15 min) with a per-league fallback cache in data/matches_cache.json so an
+    API hiccup never blanks the page. Window: yesterday to +35 days (football,
+    NBA) or +65 days (fight cards, which are announced far ahead). Glory,
+    boxing and SVB fixtures are merged in from data/manual_fixtures.json."""
     cache_path = "data/matches_cache.json"
     try:
         with open(cache_path, encoding="utf-8") as _f:
@@ -7276,10 +7300,10 @@ def fetch_matches_data():
         cache = {}
     now = datetime.now(SR_TZ)
     d0 = (now - timedelta(days=1)).strftime("%Y%m%d")
-    d1 = (now + timedelta(days=35)).strftime("%Y%m%d")
     out = {}
-    for code, label, key, _col in _MATCH_LEAGUES:
-        url = (f"https://site.api.espn.com/apis/site/v2/sports/soccer/{code}/scoreboard"
+    for sport, code, label, key, _col, group in _MATCH_LEAGUES:
+        d1 = (now + timedelta(days=65 if group == "fight" else 35)).strftime("%Y%m%d")
+        url = (f"https://site.api.espn.com/apis/site/v2/sports/{sport}/{code}/scoreboard"
                f"?dates={d0}-{d1}&limit=150")
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "ExploreSuriname/1.0"})
@@ -7287,7 +7311,19 @@ def fetch_matches_data():
                 raw = json.loads(r.read().decode("utf-8"))
             evs = []
             for e in raw.get("events", []):
-                c = e["competitions"][0]
+                comps = e.get("competitions", [])
+                if not comps:
+                    continue
+                if group == "fight":
+                    # A UFC "event" is a whole card of bouts; render one row
+                    # per card with the card name (main event is in the name).
+                    sts = [c.get("status", {}).get("type", {}).get("state", "pre") for c in comps]
+                    sx = "in" if "in" in sts else ("post" if all(s == "post" for s in sts) else "pre")
+                    evs.append({"d": e.get("date", ""), "t": e.get("name", ""),
+                                "v": comps[0].get("venue", {}).get("fullName", ""),
+                                "g": "", "st": "", "sx": sx})
+                    continue
+                c = comps[0]
                 home = away = None
                 for t in c.get("competitors", []):
                     team = t.get("team", {})
@@ -7314,35 +7350,64 @@ def fetch_matches_data():
             json.dump(cache, _f, ensure_ascii=False)
     except Exception:
         pass
+    # Hand-maintained fixtures (Glory, boxing, SVB) - no API exists for these.
+    try:
+        with open("data/manual_fixtures.json", encoding="utf-8") as _f:
+            manual = json.load(_f)
+    except Exception:
+        manual = []
+    for lg, (label, _col, _grp) in _MANUAL_LEAGUES.items():
+        evs = []
+        for m in manual:
+            if m.get("league") != lg or not m.get("date"):
+                continue
+            ev = {"d": (m["date"] + "T" + m["time_utc"] + "Z") if m.get("time_utc") else m["date"],
+                  "v": m.get("detail", ""), "g": "", "st": "", "sx": "pre",
+                  "tbc": not m.get("time_utc")}
+            if m.get("title"):
+                ev["t"] = m["title"]
+            else:
+                ev["h"] = {"n": m.get("home", ""), "l": "", "s": ""}
+                ev["a"] = {"n": m.get("away", ""), "l": "", "s": ""}
+            evs.append(ev)
+        out[lg] = {"label": label, "events": evs}
     return out
 
 
 def _match_dt(s):
-    """Parse an ESPN UTC timestamp ('2026-06-11T19:00Z') into SR time."""
+    """Parse an ESPN UTC timestamp ('2026-06-11T19:00Z') into SR time. Bare
+    dates ('2026-09-05', manual entries with no confirmed time) land at midday
+    SR time so they sort into the right day."""
     for fmt in ("%Y-%m-%dT%H:%MZ", "%Y-%m-%dT%H:%M:%SZ"):
         try:
             return datetime.strptime(s, fmt).replace(tzinfo=timezone.utc).astimezone(SR_TZ)
         except (ValueError, TypeError):
             continue
-    return None
+    try:
+        return datetime.strptime(s, "%Y-%m-%d").replace(hour=12, tzinfo=SR_TZ)
+    except (ValueError, TypeError):
+        return None
 
 
 def build_matches_page(matches):
-    """matches.html: upcoming football in Suriname time. Server-rendered day-by-day
-    schedule (crawlable, works without JS) + tiny client-side league filter."""
+    """matches.html: upcoming sport (football, NBA, fight nights) in Suriname
+    time. Server-rendered day-by-day schedule (crawlable, works without JS)
+    + tiny client-side league filter."""
     now = datetime.now(SR_TZ)
     today = now.date()
-    lg_meta = {key: (label, col) for _c, label, key, col in _MATCH_LEAGUES}
+    lg_meta = {key: (label, col, grp) for _s, _c, label, key, col, grp in _MATCH_LEAGUES}
+    lg_meta.update({k: (l, c, g) for k, (l, c, g) in _MANUAL_LEAGUES.items()})
 
     # ── Flatten, parse, filter, sort ─────────────────────────────────────────
     rows = []
     for key, blob in (matches or {}).items():
-        label, col = lg_meta.get(key, (blob.get("label", key), "#374151"))
+        label, col, grp = lg_meta.get(key, (blob.get("label", key), "#374151", "foot"))
         for e in blob.get("events", []):
             dt = _match_dt(e.get("d", ""))
             if dt is None:
                 continue
-            if dt.date() < today - timedelta(days=1) or dt.date() > today + timedelta(days=36):
+            horizon = 66 if grp == "fight" else 36
+            if dt.date() < today - timedelta(days=1) or dt.date() > today + timedelta(days=horizon):
                 continue
             rows.append((dt, key, label, col, e))
     rows.sort(key=lambda r: r[0])
@@ -7353,9 +7418,17 @@ def build_matches_page(matches):
         h, a = e.get("h") or {}, e.get("a") or {}
         hn, an = html_lib.escape(h.get("n", "")), html_lib.escape(a.get("n", ""))
         sx = e.get("sx", "pre")
-        if sx == "pre":
+        if sx == "pre" and e.get("tbc"):
+            left = ('<p class="font-bold text-gray-900 leading-tight">TBC</p>'
+                    '<p class="text-[10px] text-gray-400 uppercase tracking-wide">time</p>')
+        elif sx == "pre":
             left = ('<p class="font-bold text-gray-900 leading-tight">' + dt.strftime("%H:%M") + '</p>'
                     '<p class="text-[10px] text-gray-400 uppercase tracking-wide">SR time</p>')
+        elif e.get("t"):
+            live = '<span class="mt-live"></span>' if sx == "in" else ''
+            tag = 'LIVE' if sx == "in" else 'ENDED'
+            left = ('<p class="text-[11px] uppercase tracking-wide font-bold ' + ("text-red-600" if sx == "in" else "text-gray-400")
+                    + '">' + live + tag + '</p>')
         else:
             live = '<span class="mt-live"></span>' if sx == "in" else ''
             tag = 'LIVE' if sx == "in" else 'FT'
@@ -7369,10 +7442,13 @@ def build_matches_page(matches):
         if e.get("v"):
             meta_bits.append(html_lib.escape(e["v"]))
         row_border = ' style="border-color:#fecaca;box-shadow:0 0 0 1px #fecaca"' if sx == "in" else ''
+        if e.get("t"):  # whole fight card (UFC, Glory, boxing): title, not home vs away
+            main = '<p class="font-semibold text-gray-900 text-sm leading-snug">' + html_lib.escape(e["t"]) + '</p>'
+        else:
+            main = f'<p class="font-semibold text-gray-900 text-sm leading-snug">{hn} <span class="text-gray-400 font-normal">vs</span> {an}</p>'
         return (f'<div class="mt-row flex items-center gap-4 bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2" data-lg="{key}"{row_border}>'
                 '<div class="w-14 shrink-0 text-center">' + left + '</div>'
-                '<div class="min-w-0">'
-                f'<p class="font-semibold text-gray-900 text-sm leading-snug">{hn} <span class="text-gray-400 font-normal">vs</span> {an}</p>'
+                '<div class="min-w-0">' + main +
                 '<p class="text-[11px] text-gray-500 mt-0.5 truncate">' + " &middot; ".join(meta_bits) + '</p>'
                 '</div></div>')
 
@@ -7405,7 +7481,9 @@ def build_matches_page(matches):
     # ── League filter chips ──────────────────────────────────────────────────
     chips = ('<div class="mt-chips flex gap-2 overflow-x-auto py-2.5 -mx-5 px-5">'
              '<button data-mtf="all" onclick="mtFilter(\'all\')" class="mt-chip shrink-0 px-4 py-1.5 rounded-full text-xs font-bold text-white" style="background:var(--forest)">All</button>')
-    for _c, label, key, col in _MATCH_LEAGUES:
+    _all_lgs = [(lb, k) for _s, _c, lb, k, _cl, _g in _MATCH_LEAGUES] + \
+               [(lb, k) for k, (lb, _cl, _g) in _MANUAL_LEAGUES.items()]
+    for label, key in _all_lgs:
         if not any(r[1] == key for r in rows):
             continue
         chips += (f'<button data-mtf="{key}" onclick="mtFilter(\'{key}\')" '
@@ -7414,17 +7492,25 @@ def build_matches_page(matches):
     chips += '</div>'
 
     # ── Head / hero / cards ──────────────────────────────────────────────────
-    title = "Football Kickoff Times in Suriname Time"
-    desc = ("Upcoming World Cup, Champions League, Eredivisie and Premier League matches "
-            "with every kickoff converted to Suriname time (UTC-3). Updated automatically through the day.")
+    title = "Sports Times: Football, NBA and Fight Nights in Suriname Time"
+    desc = ("Kickoffs, tip-offs and fight nights in Suriname time (UTC-3): World Cup, Champions League, "
+            "Europa League, Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Copa "
+            "Libertadores, NBA, UFC, Glory Kickboxing and big boxing cards. Updated automatically through the day.")
     faq = [
         ("What time zone are the kickoff times on this page?",
          "Everything is shown in Suriname time (UTC-3, no daylight saving). No mental math needed: "
          "the time you see is the time the match starts on your clock in Suriname."),
         ("Which competitions are covered?",
-         "The FIFA World Cup while it runs, the UEFA Champions League, the Dutch Eredivisie and the "
-         "English Premier League. Competitions with no matches in the coming weeks hide automatically, "
-         "and more competitions can be added over time."),
+         "Football: the FIFA World Cup while it runs, the Champions League, Europa League, Eredivisie, "
+         "Premier League, La Liga, Serie A, Bundesliga, Ligue 1 and Copa Libertadores. Basketball: every "
+         "NBA game. Fight nights: full UFC cards, Glory Kickboxing events and the big boxing cards. "
+         "Competitions with nothing scheduled in the coming weeks hide automatically."),
+        ("Why is there no NBA game listed right now?",
+         "The NBA is seasonal: roughly October through the Finals in June. During the off-season the "
+         "section hides itself and comes back automatically when the new season tips off."),
+        ("What about local SVB Eerste Divisie matches?",
+         "There is no live data feed for the SVB league, so those fixtures are added by hand around "
+         "each match round rather than automatically. Big local fixtures appear when they are confirmed."),
         ("How up to date are the scores?",
          "The page rebuilds itself roughly every 15 minutes, so results and in-play scores are near-live "
          "rather than second-by-second. Kickoff times and fixtures update automatically as soon as they are announced."),
@@ -7432,19 +7518,21 @@ def build_matches_page(matches):
          "Suriname and Dutch football are family. Generations of Eredivisie stars have Surinamese roots, "
          "from Ruud Gullit and Frank Rijkaard to Virgil van Dijk, and much of the Surinamese diaspora lives in the Netherlands."),
     ]
-    next_up = [(dt, l, e) for dt, _k, l, _c, e in rows if e.get("sx") == "pre"][:10]
+    _sport_name = {"foot": "Soccer", "bball": "Basketball", "fight": "Combat sports"}
+    next_up = [(dt, l, e, _sport_name.get(lg_meta.get(k, ("", "", "foot"))[2], "Soccer"))
+               for dt, k, l, _c, e in rows if e.get("sx") == "pre"][:10]
     extra_ld = None
     if next_up:
         extra_ld = {"@context": "https://schema.org", "@type": "ItemList",
-                    "name": "Upcoming football matches in Suriname time",
+                    "name": "Upcoming sport in Suriname time",
                     "itemListElement": [
                         {"@type": "ListItem", "position": i + 1,
                          "item": {"@type": "SportsEvent",
-                                  "name": (e.get("h", {}) or {}).get("n", "") + " vs " + (e.get("a", {}) or {}).get("n", ""),
+                                  "name": e.get("t") or ((e.get("h", {}) or {}).get("n", "") + " vs " + (e.get("a", {}) or {}).get("n", "")),
                                   "startDate": dt.isoformat(),
-                                  "sport": "Soccer",
+                                  "sport": s,
                                   "description": l}}
-                        for i, (dt, l, e) in enumerate(next_up)]}
+                        for i, (dt, l, e, s) in enumerate(next_up)]}
 
     _MT_CSS = """  <style>
     .mt-live{display:inline-block;width:7px;height:7px;border-radius:9999px;background:#dc2626;margin-right:4px;animation:mtpulse 1.2s ease-in-out infinite}
@@ -7456,10 +7544,10 @@ def build_matches_page(matches):
     head = _hub_head(title, desc, "matches.html", faq=faq, extra_ld=extra_ld)
     head = head.replace("</head>", _MT_CSS + "\n</head>")
 
-    hero = _hub_hero("Kickoffs converted, no math needed",
-                     "Football in Suriname Time",
-                     "Upcoming matches from the competitions Suriname actually watches, "
-                     "with every kickoff in Suriname time.").replace("{NAV}", nav_html("matches"))
+    hero = _hub_hero("Every kickoff, tip-off and fight night converted",
+                     "Sports in Suriname Time",
+                     "Football, NBA and fight nights from the competitions Suriname actually watches, "
+                     "with every start time in Suriname time.").replace("{NAV}", nav_html("matches"))
 
     wc_banner = ""
     if has_wc:
@@ -7468,15 +7556,16 @@ def build_matches_page(matches):
                      'Our ' + _ilink("worldcup-2026.html", "World Cup 2026 page")
                      + ' has minute-by-minute live scores, the full bracket and where to watch in Suriname.</p></div>')
 
-    intro = ('<p class="text-gray-500 text-sm mt-2 mb-1">All kickoff times are Suriname time (UTC-3). '
-             'Fixtures and scores refresh automatically about every 15 minutes. Match data: ESPN.</p>')
+    intro = ('<p class="text-gray-500 text-sm mt-2 mb-1">All start times are Suriname time (UTC-3). '
+             'Fixtures and scores refresh automatically about every 15 minutes. Match data: ESPN. '
+             'Glory, boxing and SVB fixtures are added by hand once confirmed.</p>')
 
     about_body = (
         '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
-        'Host broadcasters list kickoffs in European or North American time, and converting to Suriname time '
-        'goes wrong just often enough to ruin an evening. This page does the conversion once, for every match, '
-        'and keeps itself current: fixtures appear as soon as they are scheduled, kickoff changes flow through '
-        'automatically, and finished matches show the final score.</p>'
+        'Broadcasters list kickoffs, tip-offs and fight cards in European or North American time, and '
+        'converting to Suriname time goes wrong just often enough to ruin an evening. This page does the '
+        'conversion once, for every match and every card, and keeps itself current: fixtures appear as soon '
+        'as they are scheduled, time changes flow through automatically, and finished matches show the final score.</p>'
         '<p class="text-gray-700 text-sm leading-relaxed">'
         'Planning to watch somewhere with a screen and a cold Parbo? Browse ' + _ilink("restaurants.html", "where to eat")
         + '. Waiting for kickoff? Try the ' + _ilink("quiz.html", "daily Suriname quiz") + ' or the '
@@ -7509,7 +7598,7 @@ function mtFilter(k){
     main = ('<main class="max-w-3xl mx-auto px-5 py-8 pb-24">'
             + intro + wc_banner + chips + list_html
             + '<div class="mt-10"></div>'
-            + _hub_card("About this page", "One Page, Every Kickoff, Suriname Time", about_body)
+            + _hub_card("About this page", "One Page, Every Start Time, Suriname Time", about_body)
             + _hub_faq_html(faq)
             + '<p class="text-gray-400 text-xs mt-8">Match data via ESPN. Fixtures, kickoff times and '
               'scores refresh automatically with every site rebuild.</p></main>')
@@ -9427,7 +9516,7 @@ def build_llms_txt():
 - [Switi Mini]({S}/crossword.html): daily Surinamese mini crossword with mixed Dutch, Sranan and English clues.
 - [Pe A De?]({S}/map-game.html): daily map game; tap the official map of Suriname (Tigri area included) to locate five real places.
 - [Korjaal Run]({S}/korjaal.html): arcade river game; steer a korjaal past logs, rocks and rapids on a shared daily river.
-- [Football in Suriname Time]({S}/matches.html): upcoming World Cup, Champions League, Eredivisie and Premier League fixtures with kickoff times converted to Suriname time (UTC-3), plus recent results.
+- [Sports in Suriname Time]({S}/matches.html): football (World Cup, Champions League, Premier League, Eredivisie and more), NBA games and fight nights (UFC, Glory Kickboxing, boxing) with every start time converted to Suriname time (UTC-3), plus recent results.
 
 ## About
 - [About this site]({S}/about.html): what Explore Suriname is and who maintains it.
