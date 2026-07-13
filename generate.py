@@ -2410,7 +2410,7 @@ def nav_html(active="home", prefix=""):
     )
     # Local Services (resident tools)
     svc_items = (
-        f'<a href="{prefix}services.html"       {_link_cls("services")}       >Business Directory</a>'
+        f'<a href="{prefix}services.html"       {_link_cls("services")}       >Services</a>'
         f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")}  >Daily Notices</a>'
         f'<a href="{prefix}flights.html"        {_link_cls("flights")}        >Flights</a>'
     )
@@ -2479,7 +2479,7 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}matches.html",       "Sports Schedule", "matches")
     )
     mob_svc_items = (
-        _mob_link(f"{prefix}services.html",      "Business Directory", "services") +
+        _mob_link(f"{prefix}services.html",      "Services", "services") +
         _mob_link(f"{prefix}daily-notices.html", "Daily Notices", "daily-notices") +
         _mob_link(f"{prefix}flights.html",       "Flights",       "flights")
     )
