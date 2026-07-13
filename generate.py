@@ -3057,6 +3057,56 @@ def _meta_trunc(s, n=158):
     return cut.rstrip(" ·,.-") + "…"
 
 
+# -- Cross-page interlinking (pillar/hub) -------------------------------------
+# Descriptive-anchor links between the top-level category pages. The nav only
+# provides sitewide boilerplate links (discounted by search engines); these are
+# in-content links with real anchor text for discovery + topical SEO.
+_PILLARS = [
+    ("restaurants.html", "Eat &amp; Drink",   "Restaurants, warungs, cafés and bars"),
+    ("hotels.html",      "Where to Stay",     "City hotels, eco-lodges and jungle camps"),
+    ("activities.html",  "Things to Do",      "Tours, river trips and wildlife"),
+    ("nature.html",      "Nature &amp; Parks","Reserves, rainforest and waterfalls"),
+    ("shopping.html",    "Shopping",          "Malls, markets and specialty stores"),
+    ("services.html",    "Local Services",    "Banks, health, telecom and more"),
+]
+
+# One contextual sentence woven under each page's intro, linking 2-3 siblings.
+_INTRO_CROSSLINKS = {
+    "restaurants": 'Planning the rest of your trip? Find <a href="hotels.html" class="underline hover:no-underline">places to stay</a> and <a href="activities.html" class="underline hover:no-underline">things to do</a> across Suriname.',
+    "hotels":      'Booked a room? Explore <a href="restaurants.html" class="underline hover:no-underline">where to eat</a> and <a href="nature.html" class="underline hover:no-underline">nature parks</a> nearby.',
+    "activities":  'Round out your itinerary with <a href="nature.html" class="underline hover:no-underline">nature parks</a>, <a href="hotels.html" class="underline hover:no-underline">places to stay</a> and <a href="restaurants.html" class="underline hover:no-underline">local food</a>.',
+    "nature":      'Turn it into a full trip with <a href="activities.html" class="underline hover:no-underline">guided tours</a> and <a href="hotels.html" class="underline hover:no-underline">eco-lodges</a> across the interior.',
+    "shopping":    'Make a day of it with <a href="restaurants.html" class="underline hover:no-underline">nearby restaurants</a> and <a href="services.html" class="underline hover:no-underline">local services</a>.',
+    "services":    'Also see <a href="shopping.html" class="underline hover:no-underline">shopping</a>, <a href="restaurants.html" class="underline hover:no-underline">restaurants</a> and <a href="hotels.html" class="underline hover:no-underline">hotels</a> in Paramaribo.',
+}
+
+def _explore_more_html(active):
+    """Bottom-of-page 'Keep exploring' card grid linking to the other pillar pages."""
+    active_file = (active or "") + ".html"
+    cards = ""
+    for href, label, tag in _PILLARS:
+        if href == active_file:
+            continue
+        cards += (
+            '<a href="' + href + '" class="block bg-white rounded-2xl border border-gray-100 '
+            'hover:border-gray-300 hover:shadow-sm transition p-5">'
+            '<h3 class="font-semibold text-gray-900 mb-1">' + label + '</h3>'
+            '<p class="text-sm text-gray-500 leading-snug">' + tag + '</p>'
+            '</a>'
+        )
+    if not cards:
+        return ""
+    return (
+        '\n<section class="max-w-6xl mx-auto px-5 pb-20" aria-labelledby="explore-more-heading">'
+        '\n  <h2 id="explore-more-heading" class="serif text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Keep exploring Suriname</h2>'
+        '\n  <p class="text-gray-500 mb-6">More guides to help you plan your trip.</p>'
+        '\n  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">'
+        + cards +
+        '\n  </div>'
+        '\n</section>'
+    )
+
+
 def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None, seo_title=None, intro_text="", faq=None):
     _page_active = page_file.replace(".html", "") if page_file else "home"
     page_url = f"{SITE_URL}/{page_file}"
@@ -3064,6 +3114,10 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
     _seo_title = seo_title or title
     _lcp_preload = f'  <link rel="preload" as="image" href="{lcp_image}" fetchpriority="high">\n' if lcp_image else ""
     _faq_head, _faq_body = _render_faq(faq)
+    _xlinks = _INTRO_CROSSLINKS.get(_page_active, "")
+    _xhtml = ('<p class="mt-3 text-sm text-gray-500">' + _xlinks + '</p>') if _xlinks else ""
+    _intro_block = ('<div class="max-w-3xl mb-8 text-gray-600 leading-relaxed">' + intro_text + _xhtml + '</div>') if intro_text else ""
+    _explore = _explore_more_html(_page_active)
     return f"""{PAGE_HEAD}
   <title>{_seo_title} | ExploreSuriname.com</title>
   <meta name="description" content="{html_lib.escape(meta_desc)}">
@@ -3099,7 +3153,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">{subtitle}</p>
 </div>
 <main class="max-w-6xl mx-auto px-5 py-12 pb-24">
-  {('<div class="max-w-3xl mb-8 text-gray-600 leading-relaxed">' + intro_text + '</div>') if intro_text else ""}
+  {_intro_block}
   {filter_bar}
   <div id="result-count" class="text-sm text-gray-400 mb-4 font-medium">{len(items)} results</div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -3108,6 +3162,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   {extra_html}
   {_faq_body}
 </main>
+{_explore}
 {footer_html()}
 </body>
 </html>"""
