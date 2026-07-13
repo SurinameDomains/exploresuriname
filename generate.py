@@ -2349,7 +2349,7 @@ def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
     _TODO  = {"nature", "activities", "shopping", "events"}
     _EAT   = {"restaurants", "hotels"}
-    _ESS   = {"currency", "flights", "forecast", "daily-notices", "worldcup", "matches"}
+    _ESS   = {"currency", "flights", "forecast", "daily-notices", "worldcup", "matches", "surtime"}
     _PLAN  = {"visitor", "roads", "itinerary", "safety", "history"}
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal"}
 
@@ -2404,6 +2404,7 @@ def nav_html(active="home", prefix=""):
     ess_items = (
         f'<a href="{prefix}currency.html"       {_link_cls("currency")}       >Market Rates</a>'
         f'<a href="{prefix}flights.html"        {_link_cls("flights")}        >Flights</a>'
+        f'<a href="{prefix}suriname-time.html"  {_link_cls("surtime")}        >Time &amp; Converter</a>'
         f'<a href="{prefix}conditions.html"     {_link_cls("forecast")}       >Weather &amp; Tides</a>'
         f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")}  >Daily Notices</a>'
         f'<a href="{prefix}worldcup-2026.html"   {_link_cls("worldcup")}       >World Cup 2026</a>'
@@ -2472,7 +2473,8 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}conditions.html",    "Weather & Tides", "forecast") +
         _mob_link(f"{prefix}daily-notices.html", "Daily Notices", "daily-notices") +
         _mob_link(f"{prefix}worldcup-2026.html",  "World Cup 2026", "worldcup") +
-        _mob_link(f"{prefix}matches.html",       "Sports Schedule", "matches")
+        _mob_link(f"{prefix}matches.html",       "Sports Schedule", "matches") +
+        _mob_link(f"{prefix}suriname-time.html", "Time & Converter", "surtime")
     )
     mob_plan_items = (
         _mob_link(f"{prefix}visitor-guide.html", "The Basics",    "visitor") +
@@ -9650,6 +9652,334 @@ def build_privacy_page():
 </html>"""
 
 
+def build_time_page():
+    """Time in Suriname: live clock, world clocks, converter, NL call-overlap, difference table."""
+    title = "Time in Suriname: Current Local Time &amp; Converter"
+    desc  = ("What time is it in Suriname right now? A live Paramaribo clock, a time-zone converter, "
+             "world clocks and the time difference to the Netherlands, the US, the UK, Brazil, India and "
+             "China. Suriname is UTC&minus;3 and does not use daylight saving.")
+    faq = [
+        ("Does Suriname use daylight saving time?",
+         "No. Suriname stays on UTC&minus;3 all year and never changes its clocks. Countries that do observe "
+         "daylight saving, such as the Netherlands, the United Kingdom and the United States, shift by an hour "
+         "twice a year, so the difference to Suriname changes with their seasons, not ours."),
+        ("What is the time difference between Suriname and the Netherlands?",
+         "The Netherlands is 4 hours ahead of Suriname in its winter (late October to late March) and 5 hours "
+         "ahead in its summer. Suriname itself never moves; the gap changes only because the Netherlands puts "
+         "its clocks forward for summer time."),
+        ("What time zone is Suriname in?",
+         "Suriname Time (SRT), UTC&minus;3. It shares this offset with French Guiana, Argentina and the eastern "
+         "coast of Brazil. The whole country uses a single time zone."),
+        ("Is Suriname the same time as its neighbours?",
+         "French Guiana (Cayenne) is on the same time as Suriname, UTC&minus;3. Guyana (Georgetown) is one hour "
+         "behind, on UTC&minus;4. Eastern Brazil, including S&atilde;o Paulo, matches Suriname."),
+        ("When do the clocks change in Europe?",
+         "In the EU and the UK, clocks go forward on the last Sunday of March and back on the last Sunday of "
+         "October. On those two days the Suriname&ndash;Netherlands difference switches between 4 and 5 hours."),
+    ]
+    head = _hub_head(title, desc, "suriname-time.html", faq=faq)
+    hero = _hub_hero("Time in Suriname", "What Time Is It in Suriname?",
+                     "A live Paramaribo clock, a time-zone converter and the difference to the places that "
+                     "matter. Suriname is UTC&minus;3, all year, no daylight saving."
+                     ).replace("{NAV}", nav_html("surtime"))
+
+    def _lab(t, fid=""):
+        f = (' for="'+fid+'"') if fid else ""
+        return ('<label'+f+' class="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">'
+                + t + '</label>')
+
+    body = ''
+    # ── Live Suriname clock ─────────────────────────────────────────────────
+    body += ('<section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6 text-center">'
+        '<p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--coral)">'
+        'Current local time in Suriname</p>'
+        '<div id="sr-clock" class="serif text-5xl sm:text-6xl font-bold tabular-nums text-gray-900">&#8212;&#8212;:&#8212;&#8212;:&#8212;&#8212;</div>'
+        '<div id="sr-date" class="text-gray-600 mt-3 text-lg"></div>'
+        '<p class="text-sm text-gray-500 mt-4">Suriname Time (SRT) &middot; UTC&minus;3 &middot; no daylight saving, all year round</p>'
+        '<div class="inline-flex mt-5 rounded-full border border-gray-200 overflow-hidden text-sm" role="group" aria-label="Clock format">'
+          '<button type="button" id="fmt-24" class="px-4 py-1.5 font-semibold">24h</button>'
+          '<button type="button" id="fmt-12" class="px-4 py-1.5 font-semibold">12h</button>'
+        '</div>'
+        '</section>')
+
+    body += ('<p class="text-gray-700 leading-relaxed mb-10 text-center max-w-2xl mx-auto">'
+        'Suriname runs on one time zone, Suriname Time (SRT), 3 hours behind UTC, and never changes its clocks '
+        'for daylight saving. Because countries such as the Netherlands and the United States do change their '
+        'clocks, the difference to Suriname shifts by an hour twice a year. Every tool below uses live time-zone '
+        'data, so it stays correct through those changes.</p>')
+
+    # ── World clocks ────────────────────────────────────────────────────────
+    body += '<h2 class="serif text-2xl font-bold text-gray-900 mb-4">Suriname vs the world, right now</h2>'
+    body += '<div id="worldclock" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-12"></div>'
+
+    # ── Converter ───────────────────────────────────────────────────────────
+    body += '<h2 class="serif text-2xl font-bold text-gray-900 mb-4">Time converter</h2>'
+    body += ('<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-12">'
+        '<p class="text-gray-600 text-sm mb-6">The converter starts on your own time zone and the current time. '
+        'Change &ldquo;From&rdquo; or &ldquo;To&rdquo; to any zone &mdash; for example From UTC / GMT to Suriname to '
+        'see what 15:00 UTC is in Paramaribo &mdash; or press Swap to reverse the direction.</p>'
+        '<div class="grid sm:grid-cols-2 gap-6 items-stretch">'
+          '<div>'
+            + _lab('Time','conv-time') +
+            '<input type="time" id="conv-time" class="w-full rounded-xl border border-gray-200 px-3 py-2 mb-4">'
+            + _lab('Date','conv-date') +
+            '<input type="date" id="conv-date" class="w-full rounded-xl border border-gray-200 px-3 py-2 mb-4">'
+            + _lab('From','conv-from') +
+            '<select id="conv-from" class="w-full rounded-xl border border-gray-200 px-3 py-2 bg-white"></select>'
+            '<button id="conv-swap" type="button" class="mt-4 text-sm font-semibold px-4 py-2 rounded-full" '
+            'style="background:var(--mint);color:var(--forest)">&#8645; Swap From / To</button>'
+          '</div>'
+          '<div class="flex flex-col">'
+            + _lab('To','conv-to') +
+            '<select id="conv-to" class="w-full rounded-xl border border-gray-200 px-3 py-2 bg-white mb-4"></select>'
+            '<div class="rounded-xl p-6 text-center flex-1 flex flex-col justify-center" style="background:var(--forest)">'
+              '<div class="text-white/60 text-xs uppercase tracking-widest mb-2" id="conv-result-label">Result</div>'
+              '<div class="serif text-4xl font-bold text-white tabular-nums" id="conv-result-time">&#8212;</div>'
+              '<div class="text-white/70 text-sm mt-2" id="conv-result-date"></div>'
+              '<div class="text-white/60 text-xs mt-3" id="conv-diff"></div>'
+            '</div>'
+          '</div>'
+        '</div></div>')
+
+    # ── Best time to call the Netherlands ───────────────────────────────────
+    body += '<h2 class="serif text-2xl font-bold text-gray-900 mb-3">Best time to call abroad</h2>'
+    body += ('<div class="flex flex-wrap items-center gap-2 mb-4">'
+        '<label for="overlap-city" class="text-sm text-gray-600">Compare Suriname with</label>'
+        '<select id="overlap-city" class="rounded-xl border border-gray-200 px-3 py-2 text-sm bg-white"></select></div>')
+    body += '<p id="overlap-note" class="text-gray-600 text-sm mb-4">&nbsp;</p>'
+    body += ('<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-3">'
+        '<div id="overlap-bar" class="flex gap-px rounded-lg overflow-hidden h-12"></div>'
+        '<div class="flex justify-between text-[10px] text-gray-400 mt-1 px-0.5">'
+        '<span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>'
+        '<p class="text-[11px] text-gray-400 mt-2">Hours shown are Suriname local time. Hover a block to see the '
+        'matching Amsterdam time.</p></div>')
+    body += ('<div class="flex flex-wrap gap-4 text-xs text-gray-600 mb-12">'
+        '<span class="inline-flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-sm" style="background:var(--forest)"></span>Business hours in both</span>'
+        '<span class="inline-flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-sm" style="background:var(--leaf)"></span>Awake in both, fine to call</span>'
+        '<span class="inline-flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-sm" style="background:#E5E7EB"></span>Night somewhere, avoid</span>'
+        '<span class="inline-flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-sm ring-2" style="background:var(--coral);--tw-ring-color:var(--coral)"></span>Now in Suriname</span>'
+        '</div>')
+
+    # ── Difference table ────────────────────────────────────────────────────
+    body += '<h2 class="serif text-2xl font-bold text-gray-900 mb-3">Time difference from Suriname</h2>'
+    body += '<p id="diff-now" class="text-gray-600 text-sm mb-4">&nbsp;</p>'
+    rows = [
+        ("Netherlands", "Amsterdam", "4 hours ahead in winter, 5 in summer", "Yes"),
+        ("United Kingdom", "London", "3 hours ahead in winter, 4 in summer", "Yes"),
+        ("France", "Paris", "4 hours ahead in winter, 5 in summer", "Yes"),
+        ("US East Coast", "New York, Miami", "2 hours behind in winter, 1 in summer", "Yes"),
+        ("Brazil (east)", "S&atilde;o Paulo", "Same time", "No"),
+        ("French Guiana", "Cayenne", "Same time", "No"),
+        ("Guyana", "Georgetown", "1 hour behind", "No"),
+        ("India", "Mumbai", "8 hours 30 minutes ahead", "No"),
+        ("China", "Beijing", "11 hours ahead", "No"),
+        ("Malaysia", "Kuala Lumpur", "11 hours ahead", "No"),
+    ]
+    trs = ""
+    for place, city, diff, dst in rows:
+        trs += ('<tr class="border-b border-gray-100">'
+            f'<td class="py-3 pr-4 font-semibold text-gray-900 align-top">{place}<span class="block text-xs font-normal text-gray-400">{city}</span></td>'
+            f'<td class="py-3 pr-4 text-gray-700 align-top">{diff}</td>'
+            f'<td class="py-3 text-gray-700 align-top">{dst}</td></tr>')
+    body += ('<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-12 overflow-x-auto">'
+        '<table class="w-full text-sm"><thead><tr class="border-b-2 border-gray-200 text-left">'
+        '<th class="py-2 pr-4 font-semibold text-gray-900">Place</th>'
+        '<th class="py-2 pr-4 font-semibold text-gray-900">Difference from Suriname</th>'
+        '<th class="py-2 font-semibold text-gray-900">Daylight saving?</th></tr></thead>'
+        '<tbody>' + trs + '</tbody></table></div>')
+
+    body += _hub_faq_html(faq)
+
+    js = r'''<script>
+(function(){
+  var SR='America/Paramaribo', NL='Europe/Amsterdam';
+  var use12=false;
+  var CITIES=[
+    {tz:'America/Paramaribo', label:'Paramaribo', sub:'Suriname', home:true},
+    {tz:'UTC',                label:'UTC / GMT',  sub:'Coordinated'},
+    {tz:'Europe/Amsterdam',   label:'Amsterdam',  sub:'Netherlands'},
+    {tz:'Europe/Paris',       label:'Paris',      sub:'France'},
+    {tz:'Europe/London',      label:'London',     sub:'United Kingdom'},
+    {tz:'America/New_York',   label:'New York',   sub:'US East'},
+    {tz:'America/Sao_Paulo',  label:'São Paulo', sub:'Brazil'},
+    {tz:'America/Guyana',     label:'Georgetown', sub:'Guyana'},
+    {tz:'America/Cayenne',    label:'Cayenne',    sub:'French Guiana'},
+    {tz:'Asia/Kolkata',       label:'Mumbai',     sub:'India'},
+    {tz:'Asia/Shanghai',      label:'Beijing',    sub:'China'},
+    {tz:'Asia/Kuala_Lumpur',  label:'Kuala Lumpur', sub:'Malaysia'}
+  ];
+  function pad(n){ return (n<10?'0':'')+n; }
+  function offMin(tz, date){
+    var dtf=new Intl.DateTimeFormat('en-US',{timeZone:tz,hour12:false,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    var p={}; dtf.formatToParts(date).forEach(function(x){ p[x.type]=x.value; });
+    var h=(p.hour==='24')?0:parseInt(p.hour,10);
+    var asUTC=Date.UTC(+p.year, +p.month-1, +p.day, h, +p.minute, +p.second);
+    return Math.round((asUTC-date.getTime())/60000);
+  }
+  function fmt(tz, date, opts){
+    opts=opts||{}; opts.timeZone=tz;
+    return new Intl.DateTimeFormat('en-GB', opts).format(date);
+  }
+  function tOpts(sec){
+    var o = use12 ? {hour:'numeric',minute:'2-digit',hour12:true} : {hour:'2-digit',minute:'2-digit',hour12:false};
+    if(sec) o.second='2-digit';
+    return o;
+  }
+  function paintFmt(){
+    var b24=document.getElementById('fmt-24'), b12=document.getElementById('fmt-12');
+    if(!b24) return;
+    b24.style.background=use12?'#fff':'var(--forest)'; b24.style.color=use12?'var(--forest)':'#fff';
+    b12.style.background=use12?'var(--forest)':'#fff'; b12.style.color=use12?'#fff':'var(--forest)';
+  }
+  function setFmt(v){ use12=v; try{ localStorage.setItem('esr_time_fmt', v?'12':'24'); }catch(e){} paintFmt(); tick(); compute(); }
+  function wallToUTC(y, mo, d, h, mi, tz){
+    var guess=Date.UTC(y, mo-1, d, h, mi);
+    var o=offMin(tz, new Date(guess));
+    var utc=guess-o*60000;
+    o=offMin(tz, new Date(utc));
+    return guess-o*60000;
+  }
+  function inCities(tz){ for(var i=0;i<CITIES.length;i++){ if(CITIES[i].tz===tz) return CITIES[i]; } return null; }
+  function labelFor(tz){ var c=inCities(tz); return c? c.label+', '+c.sub : tz.split('/').pop().replace(/_/g,' '); }
+  function shortLabel(tz){ var c=inCities(tz); return c? c.label : tz.split('/').pop().replace(/_/g,' '); }
+  function diffText(mins, a, b){
+    if(mins===0) return a+' is on the same time as '+b;
+    var x=Math.abs(mins), h=Math.floor(x/60), m=x%60, s=h+'h'+(m?(' '+m+'m'):'');
+    return a+' is '+s+' '+(mins>0?'ahead of':'behind')+' '+b;
+  }
+
+  // ── World clock band ──
+  var wc=document.getElementById('worldclock');
+  if(wc){
+    var h='';
+    for(var i=0;i<CITIES.length;i++){
+      var c=CITIES[i];
+      var cls=c.home?'rounded-xl p-3 text-center':'rounded-xl border border-gray-100 bg-white p-3 text-center';
+      var sty=c.home?'style="background:var(--forest)"':'';
+      var lc=c.home?'text-white':'text-gray-900';
+      var sc=c.home?'text-white/60':'text-gray-400';
+      h+='<div class="'+cls+'" '+sty+'>'
+        +'<div class="text-xs '+ (c.home?'text-white/80':'text-gray-500') +'">'+c.label+'</div>'
+        +'<div class="text-[11px] '+sc+' -mt-0.5">'+c.sub+'</div>'
+        +'<div class="serif text-xl font-bold tabular-nums mt-1 '+lc+'" data-clock="'+c.tz+'">--:--</div>'
+        +'<div class="text-[10px] '+sc+'" data-cd="'+c.tz+'"></div></div>';
+    }
+    wc.innerHTML=h;
+  }
+
+  // ── Converter ──
+  var cFrom=document.getElementById('conv-from'), cTo=document.getElementById('conv-to');
+  var cTime=document.getElementById('conv-time'), cDate=document.getElementById('conv-date');
+  var rTime=document.getElementById('conv-result-time'), rDate=document.getElementById('conv-result-date'), rLab=document.getElementById('conv-result-label');
+  function fillSel(sel, def, extra){
+    var o='';
+    if(extra && !inCities(extra)){ o+='<option value="'+extra+'">Your time zone ('+extra.split('/').pop().replace(/_/g,' ')+')</option>'; }
+    for(var i=0;i<CITIES.length;i++){ o+='<option value="'+CITIES[i].tz+'">'+CITIES[i].label+' ('+CITIES[i].sub+')</option>'; }
+    sel.innerHTML=o; sel.value=def;
+  }
+  function compute(){
+    if(!cFrom) return;
+    var t=(cTime.value||'12:00').split(':');
+    var d=(cDate.value||'').split('-');
+    if(d.length!==3){ var n=new Date(); d=[n.getFullYear(), n.getMonth()+1, n.getDate()]; }
+    var utc=wallToUTC(+d[0], +d[1], +d[2], +t[0], +t[1], cFrom.value);
+    var obj=new Date(utc);
+    rTime.textContent=fmt(cTo.value, obj, tOpts(false));
+    rDate.textContent=fmt(cTo.value, obj, {weekday:'long',day:'numeric',month:'long'});
+    rLab.textContent=labelFor(cTo.value);
+    var cd=document.getElementById('conv-diff');
+    if(cd) cd.textContent=diffText(offMin(cTo.value,obj)-offMin(cFrom.value,obj), shortLabel(cTo.value), shortLabel(cFrom.value));
+  }
+  if(cFrom){
+    var userTz='UTC'; try{ userTz=Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC'; }catch(e){}
+    fillSel(cFrom, userTz, userTz); fillSel(cTo, SR, userTz);
+    var now=new Date();
+    cTime.value=pad(now.getHours())+':'+pad(now.getMinutes());
+    cDate.value=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate());
+    [cFrom,cTo,cTime,cDate].forEach(function(el){ el.addEventListener('input', compute); });
+    document.getElementById('conv-swap').addEventListener('click', function(){
+      var a=cFrom.value; cFrom.value=cTo.value; cTo.value=a; compute();
+    });
+    compute();
+  }
+
+  // ── Overlap bar + live diffs ──
+  function relDiff(d){ var a=Math.abs(d), u=(a===1?'hour':'hours'); return d===0?'on the same time as Suriname':(d>0? d+' '+u+' ahead of Suriname':a+' '+u+' behind Suriname'); }
+  function renderOverlap(){
+    var now=new Date();
+    var oc=document.getElementById('overlap-city');
+    var tz=(oc && oc.value)?oc.value:NL;
+    var cityLabel='Amsterdam', countryLabel='the Netherlands';
+    for(var i=0;i<CITIES.length;i++){ if(CITIES[i].tz===tz){ cityLabel=CITIES[i].label; countryLabel=CITIES[i].sub; } }
+    var diff=Math.round((offMin(tz,now)-offMin(SR,now))/60);
+    var srHour=parseInt(fmt(SR, now, {hour:'2-digit',hour12:false}),10)%24;
+    var note=document.getElementById('overlap-note');
+    if(note) note.innerHTML='Right now '+countryLabel+' is <strong>'+relDiff(diff)+'</strong>. Green blocks are good times to call &mdash; daytime in both places.';
+    var bar=document.getElementById('overlap-bar');
+    if(bar){
+      var b='';
+      for(var hh=0; hh<24; hh++){
+        var oh=((hh+diff)%24+24)%24;
+        var col='#E5E7EB';
+        var srDay=(hh>=7 && hh<=22), ocDay=(oh>=7 && oh<=22);
+        var srBiz=(hh>=9 && hh<=17), ocBiz=(oh>=9 && oh<=17);
+        if(srBiz && ocBiz) col='var(--forest)';
+        else if(srDay && ocDay) col='var(--leaf)';
+        var ring=(hh===srHour)?';box-shadow:inset 0 0 0 2px var(--coral)':'';
+        b+='<div class="flex-1" style="background:'+col+ring+'" title="Suriname '+pad(hh)+':00 = '+cityLabel+' '+pad(oh)+':00"></div>';
+      }
+      bar.innerHTML=b;
+    }
+    var dn=document.getElementById('diff-now');
+    if(dn){
+      var nl2=Math.round((offMin(NL,now)-offMin(SR,now))/60);
+      var ny=Math.round((offMin('America/New_York',now)-offMin(SR,now))/60);
+      dn.innerHTML='Right now: the Netherlands is '+nl2+' hours ahead of Suriname, and New York is '
+        +(ny===0?'on the same time.':(ny>0? ny+' hours ahead.':Math.abs(ny)+' hours behind.'));
+    }
+  }
+
+  // ── Ticker ──
+  function tick(){
+    var now=new Date();
+    var sc=document.getElementById('sr-clock');
+    if(sc) sc.textContent=fmt(SR, now, tOpts(true));
+    var sd=document.getElementById('sr-date');
+    if(sd) sd.textContent=fmt(SR, now, {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    var clocks=document.querySelectorAll('[data-clock]');
+    for(var i=0;i<clocks.length;i++){
+      var tz=clocks[i].getAttribute('data-clock');
+      clocks[i].textContent=fmt(tz, now, tOpts(false));
+      var day=document.querySelector('[data-cd="'+tz+'"]');
+      if(day){
+        var od=fmt(tz, now, {weekday:'short'});
+        var here=fmt(SR, now, {weekday:'short'});
+        day.textContent=(od===here)?'':od;
+      }
+    }
+  }
+  var ocSel=document.getElementById('overlap-city');
+  if(ocSel){
+    var oo='';
+    for(var oi=0; oi<CITIES.length; oi++){ if(CITIES[oi].home||CITIES[oi].tz==='UTC') continue; oo+='<option value="'+CITIES[oi].tz+'"'+(CITIES[oi].tz===NL?' selected':'')+'>'+CITIES[oi].label+' ('+CITIES[oi].sub+')</option>'; }
+    ocSel.innerHTML=oo;
+    ocSel.addEventListener('change', renderOverlap);
+  }
+  try{ use12=(localStorage.getItem('esr_time_fmt')==='12'); }catch(e){}
+  var b24=document.getElementById('fmt-24'), b12=document.getElementById('fmt-12');
+  if(b24){ b24.addEventListener('click',function(){setFmt(false);}); b12.addEventListener('click',function(){setFmt(true);}); }
+  paintFmt();
+  tick(); renderOverlap();
+  setInterval(tick, 1000);
+  setInterval(renderOverlap, 60000);
+})();
+</script>'''
+
+    main = '<main class="max-w-5xl mx-auto px-5 py-12 pb-24">' + body + '</main>'
+    return head + hero + main + js + "\n" + footer_html() + "\n</body>\n</html>"
+
+
+
 def build_sitemap(biz_slugs, act_slugs, nat_slugs):
     """Generate sitemap.xml covering all pages and listing URLs."""
     today = datetime.now(SR_TZ).strftime("%Y-%m-%d")
@@ -9732,6 +10062,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("suriname-history.html",  "0.8", "monthly"),
         ("worldcup-2026.html",      "0.8", "daily"),
         ("matches.html",            "0.8", "daily"),
+        ("suriname-time.html",      "0.7", "daily"),
         ("daily-notices.html", "0.9", "daily"),
         ("crossword.html",   "0.9", "daily"),
         ("quiz.html",        "0.9", "daily"),
@@ -11189,6 +11520,7 @@ if __name__ == "__main__":
             '<p>This page has moved. <a href="/events.html">Click here</a>.</p></body></html>'),
         "worldcup-2026.html":      build_worldcup_page(),
         "matches.html":            build_matches_page(matches_data),
+        "suriname-time.html":      build_time_page(),
         "404.html": ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
             '<meta name="robots" content="noindex"><title>Page Not Found | Explore Suriname</title>'
