@@ -7268,10 +7268,13 @@ _MATCH_LEAGUES = [
     ("soccer",     "fra.1",                 "Ligue 1",           "li1", "#1E40AF", "foot"),
     ("soccer",     "conmebol.libertadores", "Copa Libertadores", "lib", "#047857", "foot"),
     ("basketball", "nba",                   "NBA",               "nba", "#D97706", "bball"),
+    ("basketball", "nba-summer-las-vegas",  "NBA Summer League", "nbasl","#F59E0B", "bball"),
     ("mma",        "ufc",                   "UFC",               "ufc", "#B91C1C", "fight"),
     ("racing",     "f1",                    "Formula 1",         "f1",  "#DC2626", "race"),
     ("soccer",     "concacaf.nations.league", "Nations League",  "cnl", "#0E7490", "foot"),
     ("soccer",     "concacaf.gold",         "Gold Cup",          "gc",  "#0891B2", "foot"),
+    ("tennis",     "atp",                   "ATP Tennis",        "atp", "#166534", "tennis"),
+    ("tennis",     "wta",                   "WTA Tennis",        "wta", "#9D174D", "tennis"),
 ]
 
 # Competitions with no usable live data feed (checked Jul 2026: ESPN has no
@@ -7286,6 +7289,87 @@ _MANUAL_LEAGUES = {
     "boxing": ("Boxing",             "#92400E", "fight"),
     "svb":    ("SVB Eerste Divisie", "#15803D", "foot"),
 }
+
+
+def fetch_boxing(cache):
+    """Upcoming boxing from Matchroom Boxing's own events page (the biggest
+    promoter; covers the marquee cards). Server-rendered HTML, parsed by CSS
+    class. Ring-walk times are never published on any boxing schedule until
+    fight week, so time shows as TBC by design. Cached under 'boxing'."""
+    now = datetime.now(SR_TZ)
+    today = now.date()
+    _MON = {"jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+            "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12}
+    url = "https://www.matchroomboxing.com/events/"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; ExploreSuriname/1.0)"})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            page = r.read().decode("utf-8", "ignore")
+        m = re.search(r'<section class="events-upcoming">(.*?)</section>', page, re.S)
+        up = m.group(1) if m else ""
+        evs = []
+        for block in up.split('<div class="fight-card">')[1:]:
+            tm = re.search(r'title="([^"]+)">', block)
+            dm = re.search(r'class="day">([^<]+)<', block)
+            lm = re.search(r'class="location">([^<]*)<', block)
+            if not (tm and dm):
+                continue
+            title = html_lib.unescape(tm.group(1)).strip()
+            dmo = re.match(r'(\d{1,2})\s+([A-Za-z]{3})', dm.group(1).strip())
+            if not dmo:
+                continue
+            dd, mon = int(dmo.group(1)), _MON.get(dmo.group(2).lower())
+            if not mon:
+                continue
+            try:
+                fdate = datetime(today.year, mon, dd).date()
+            except ValueError:
+                continue
+            if (fdate - today).days < -7:  # month already passed -> next year
+                fdate = datetime(today.year + 1, mon, dd).date()
+            loc = html_lib.unescape(lm.group(1)).strip() if lm else ""
+            evs.append({"d": fdate.isoformat(), "t": title, "v": loc,
+                        "g": "", "st": "", "sx": "pre", "tbc": True})
+        cache["boxing"] = {"label": "Boxing", "events": evs}
+        print(f"  matches: Boxing: {len(evs)} events")
+        return cache["boxing"]
+    except Exception as exc:
+        print(f"  ! Boxing fetch failed ({exc}); using cached data")
+        return cache.get("boxing", {"label": "Boxing", "events": []})
+
+
+def fetch_glory(cache):
+    """Glory Kickboxing events from Glory's own public JSON API (Statamic CMS).
+    starts_at carries a real UTC time, so kickoffs are exact (no manual entry).
+    Cached under 'glory' in matches_cache.json for API-hiccup fallback."""
+    now = datetime.now(SR_TZ)
+    url = ("https://glory-api.pinkyellow.computer/api/collections/events/entries"
+           "?filter[ends_at:gt]=" + now.strftime("%Y-%m-%d") + "&sort=starts_at")
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "ExploreSuriname/1.0"})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            raw = json.loads(r.read().decode("utf-8"))
+        evs = []
+        for e in raw.get("data", []):
+            sa = e.get("starts_at") or e.get("date") or ""
+            if not sa:
+                continue
+            d = sa[:19] + "Z"  # 2026-09-05T17:00:00.000000Z -> 2026-09-05T17:00:00Z
+            title = e.get("title") or "Glory"
+            wc, bc = (e.get("white_corner") or {}), (e.get("black_corner") or {})
+            wl = wc.get("last_name") or wc.get("title") or ""
+            bl = bc.get("last_name") or bc.get("title") or ""
+            if wl and bl:
+                title = f"{title}: {wl} vs {bl}"
+            venue = ", ".join(x for x in [e.get("venue"), e.get("city")] if x)
+            evs.append({"d": d, "t": title, "v": venue,
+                        "g": e.get("fight_title", "") or "", "st": "", "sx": "pre"})
+        cache["glory"] = {"label": "Glory Kickboxing", "events": evs}
+        print(f"  matches: Glory: {len(evs)} events")
+        return cache["glory"]
+    except Exception as exc:
+        print(f"  ! Glory fetch failed ({exc}); using cached data")
+        return cache.get("glory", {"label": "Glory Kickboxing", "events": []})
 
 
 def fetch_matches_data():
@@ -7305,7 +7389,7 @@ def fetch_matches_data():
     d0 = (now - timedelta(days=1)).strftime("%Y%m%d")
     out = {}
     for sport, code, label, key, _col, group in _MATCH_LEAGUES:
-        d1 = (now + timedelta(days=65 if group in ("fight", "race") else 35)).strftime("%Y%m%d")
+        d1 = (now + timedelta(days=65 if group in ("fight", "race", "tennis") else 35)).strftime("%Y%m%d")
         url = (f"https://site.api.espn.com/apis/site/v2/sports/{sport}/{code}/scoreboard"
                f"?dates={d0}-{d1}&limit=150")
         try:
@@ -7314,6 +7398,14 @@ def fetch_matches_data():
                 raw = json.loads(r.read().decode("utf-8"))
             evs = []
             for e in raw.get("events", []):
+                if group == "tennis":
+                    # A tennis "event" is a whole tournament (no competitions block);
+                    # render one row per tournament with its name.
+                    _tst = (e.get("status") or {}).get("type", {})
+                    evs.append({"d": e.get("date", ""), "t": e.get("name", ""),
+                                "v": (e.get("venue") or {}).get("fullName", "") or "",
+                                "g": "", "st": _tst.get("shortDetail", ""), "sx": _tst.get("state", "pre")})
+                    continue
                 comps = e.get("competitions", [])
                 if not comps:
                     continue
@@ -7365,6 +7457,8 @@ def fetch_matches_data():
     except Exception:
         manual = []
     for lg, (label, _col, _grp) in _MANUAL_LEAGUES.items():
+        if lg in ("glory", "boxing"):
+            continue  # Glory + boxing are auto-fetched (see below)
         evs = []
         for m in manual:
             if m.get("league") != lg or not m.get("date"):
@@ -7379,6 +7473,13 @@ def fetch_matches_data():
                 ev["a"] = {"n": m.get("away", ""), "l": "", "s": ""}
             evs.append(ev)
         out[lg] = {"label": label, "events": evs}
+    out["glory"] = fetch_glory(cache)
+    out["boxing"] = fetch_boxing(cache)
+    try:
+        with open(cache_path, "w", encoding="utf-8") as _f:
+            json.dump(cache, _f, ensure_ascii=False)
+    except Exception:
+        pass
     return out
 
 
@@ -7414,7 +7515,7 @@ def build_matches_page(matches):
             dt = _match_dt(e.get("d", ""))
             if dt is None:
                 continue
-            horizon = 66 if grp in ("fight", "race") else 36
+            horizon = 66 if grp in ("fight", "race", "tennis") else 36
             if dt.date() < today - timedelta(days=1) or dt.date() > today + timedelta(days=horizon):
                 continue
             rows.append((dt, key, label, col, e))
@@ -7423,6 +7524,7 @@ def build_matches_page(matches):
 
     # ── Day-grouped list ─────────────────────────────────────────────────────
     def _row_html(dt, key, label, col, e):
+        grp = lg_meta.get(key, ("", "", "foot"))[2]
         h, a = e.get("h") or {}, e.get("a") or {}
         hn, an = html_lib.escape(h.get("n", "")), html_lib.escape(a.get("n", ""))
         sx = e.get("sx", "pre")
@@ -7465,9 +7567,8 @@ def build_matches_page(matches):
         # Subtle add-to-calendar link (upcoming, confirmed-time fixtures only)
         cal = ''
         if sx == "pre" and not e.get("tbc"):
-            _grp = lg_meta.get(key, ("", "", "foot"))[2]
             _st = dt.astimezone(timezone.utc)
-            _en = _st + timedelta(hours=3 if _grp in ("fight", "race") else 2)
+            _en = _st + timedelta(hours=3 if grp in ("fight", "race") else 2)
             _ctext = e.get("t") or (h.get("n", "") + " vs " + a.get("n", ""))
             _cal_q = urllib.parse.urlencode({
                 "action": "TEMPLATE",
@@ -7482,7 +7583,7 @@ def build_matches_page(matches):
                    '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
                    'stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/>'
                    '<path d="M16 2v4M8 2v4M3 10h18M12 14v4M10 16h4"/></svg></a>')
-        return (f'<div class="mt-row flex items-center gap-4 bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2" data-lg="{key}" data-date="{dt.strftime("%Y-%m-%d")}"{row_border}>'
+        return (f'<div class="mt-row flex items-center gap-4 bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2" data-lg="{key}" data-grp="{grp}"{row_border}>'
                 '<div class="w-14 shrink-0 text-center">' + left + '</div>'
                 '<div class="flex-1 min-w-0">' + main +
                 '<p class="text-[11px] text-gray-500 mt-0.5 truncate">' + " &middot; ".join(meta_bits) + '</p>'
@@ -7513,37 +7614,20 @@ def build_matches_page(matches):
         list_html = ('<div class="bg-white rounded-2xl border border-gray-200 p-8 text-center mt-6">'
                      '<p class="font-semibold text-gray-800 mb-1">Between rounds right now.</p>'
                      '<p class="text-gray-500 text-sm">New fixtures appear here automatically as soon as they are scheduled. Check back soon.</p></div>')
-    filter_empty = ('<div id="mt-empty" class="bg-white rounded-2xl border border-gray-200 p-6 text-center mt-4" style="display:none">'
-                    '<p class="font-semibold text-gray-800 mb-1">Nothing scheduled in that window.</p>'
-                    '<p class="text-gray-500 text-sm">Switch back to Any time, or pick another competition.</p></div>')
 
-    # ── When filter (Today / Weekend), computed in Suriname time ──────────────
-    _wd = today.weekday()  # Mon=0 .. Sun=6
-    if _wd == 5:
-        _sat, _sun = today, today + timedelta(days=1)
-    elif _wd == 6:
-        _sat, _sun = today - timedelta(days=1), today
-    else:
-        _sat = today + timedelta(days=5 - _wd)
-        _sun = _sat + timedelta(days=1)
-    today_js = '"%s"' % today.isoformat()
-    weekend_js = '["%s","%s"]' % (_sat.isoformat(), _sun.isoformat())
-    has_today = any(dt.date() == today for dt, _k, _l, _c, _e in rows)
-    has_weekend = any(dt.date() in (_sat, _sun) for dt, _k, _l, _c, _e in rows)
-    when_chips = ''
-    if has_today or has_weekend:
-        _wbtn = lambda k, lb, on: (
-            f'<button data-mtw="{k}" onclick="mtWhen(\'{k}\')" class="mt-wchip px-2.5 py-1 rounded-full font-semibold '
-            + ('text-white" style="background:var(--forest)"' if on else 'bg-white border border-gray-200 text-gray-600 hover:border-gray-400"')
-            + f'>{lb}</button>')
-        when_chips = ('<div class="mt-when flex gap-2 items-center pt-1 text-xs">'
-                      '<span class="text-gray-400 font-medium mr-0.5">When</span>'
-                      + _wbtn("all", "Any time", True))
-        if has_today:
-            when_chips += _wbtn("today", "Today", False)
-        if has_weekend:
-            when_chips += _wbtn("weekend", "Weekend", False)
-        when_chips += '</div>'
+    # ── Sport-type pills (Football / Basketball / Fight Sports / Motorsport) ──
+    _grp_of = {k: lg_meta.get(k, ("", "", "foot"))[2] for _dt, k, _l, _c, _e in rows}
+    _present_grps = set(_grp_of.values())
+    _GRP_LABELS = [("foot", "Football"), ("bball", "Basketball"), ("fight", "Fight Sports"), ("race", "Motorsport"), ("tennis", "Tennis")]
+    sport_chips = ('<div class="mt-sports flex gap-2 overflow-x-auto pt-1 pb-1 -mx-5 px-5">'
+                   '<button data-mtg="all" onclick="mtGroup(\'all\')" class="mt-gchip shrink-0 px-4 py-1.5 rounded-full text-sm font-bold text-white" style="background:var(--forest)">All sports</button>')
+    for _g, _glabel in _GRP_LABELS:
+        if _g not in _present_grps:
+            continue
+        sport_chips += (f'<button data-mtg="{_g}" onclick="mtGroup(\'{_g}\')" '
+                        'class="mt-gchip shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition">'
+                        + _glabel + '</button>')
+    sport_chips += '</div>'
 
     # ── League filter chips ──────────────────────────────────────────────────
     chips = ('<div class="mt-chips flex gap-2 overflow-x-auto py-2.5 -mx-5 px-5">'
@@ -7604,6 +7688,8 @@ def build_matches_page(matches):
     @keyframes mtpulse{0%,100%{opacity:1}50%{opacity:.3}}
     .mt-chips{position:sticky;top:58px;z-index:30;background:linear-gradient(var(--paper-2) 85%,rgba(244,236,218,0));scrollbar-width:none;-ms-overflow-style:none}
     .mt-chips::-webkit-scrollbar{display:none}
+    .mt-sports{scrollbar-width:none;-ms-overflow-style:none}
+    .mt-sports::-webkit-scrollbar{display:none}
     .mt-day h2{scroll-margin-top:118px}
   </style>"""
     head = _hub_head(title, desc, "matches.html", faq=faq, extra_ld=extra_ld)
@@ -7636,26 +7722,30 @@ def build_matches_page(matches):
         + '. Waiting for kickoff? Try the ' + _ilink("quiz.html", "daily Suriname quiz") + ' or the '
         + _ilink("crossword.html", "Switi Mini crossword") + '.</p>')
 
-    _MT_JS = ("""
+    _MT_JS = """
 <script>
-var mtLg = 'all', mtWhenState = 'all';
-var MT_TODAY = __TODAY__, MT_WEEKEND = __WEEKEND__;
+var mtLg = 'all', mtGrp = 'all';
 function mtApply(){
   document.querySelectorAll('.mt-row').forEach(function(r){
     var okLg = (mtLg === 'all' || r.getAttribute('data-lg') === mtLg);
-    var d = r.getAttribute('data-date'), okWhen = true;
-    if (mtWhenState === 'today') okWhen = (d === MT_TODAY);
-    else if (mtWhenState === 'weekend') okWhen = (MT_WEEKEND.indexOf(d) >= 0);
-    r.style.display = (okLg && okWhen) ? '' : 'none';
+    var okGrp = (mtGrp === 'all' || r.getAttribute('data-grp') === mtGrp);
+    r.style.display = (okLg && okGrp) ? '' : 'none';
   });
-  var anyVisible = false;
   document.querySelectorAll('.mt-day').forEach(function(s){
     var any = false;
-    s.querySelectorAll('.mt-row').forEach(function(r){ if (r.style.display !== 'none'){ any = true; anyVisible = true; } });
+    s.querySelectorAll('.mt-row').forEach(function(r){ if (r.style.display !== 'none') any = true; });
     s.style.display = any ? '' : 'none';
   });
-  var empty = document.getElementById('mt-empty');
-  if (empty) empty.style.display = anyVisible ? 'none' : '';
+  // league chips: hide those with no row in the current sport group
+  document.querySelectorAll('.mt-chip').forEach(function(b){
+    var k = b.getAttribute('data-mtf');
+    if (k === 'all') return;
+    var vis = false;
+    document.querySelectorAll('.mt-row[data-lg="' + k + '"]').forEach(function(r){
+      if (mtGrp === 'all' || r.getAttribute('data-grp') === mtGrp) vis = true;
+    });
+    b.style.display = vis ? '' : 'none';
+  });
 }
 function mtFilter(k){
   mtLg = k;
@@ -7667,12 +7757,18 @@ function mtFilter(k){
   });
   mtApply();
 }
-function mtWhen(k){
-  mtWhenState = k;
-  document.querySelectorAll('.mt-wchip').forEach(function(b){
-    var on = b.getAttribute('data-mtw') === k;
-    b.className = 'mt-wchip px-2.5 py-1 rounded-full font-semibold ' +
-      (on ? 'text-white' : 'bg-white border border-gray-200 text-gray-600 hover:border-gray-400');
+function mtGroup(g){
+  mtGrp = g;
+  if (mtLg !== 'all'){ mtLg = 'all'; document.querySelectorAll('.mt-chip').forEach(function(b){
+    var on = b.getAttribute('data-mtf') === 'all';
+    b.className = 'mt-chip shrink-0 px-' + (on ? '4' : '3.5') + ' py-1.5 rounded-full text-xs ' +
+      (on ? 'font-bold text-white' : 'font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition');
+    b.style.background = on ? 'var(--forest)' : '';
+  }); }
+  document.querySelectorAll('.mt-gchip').forEach(function(b){
+    var on = b.getAttribute('data-mtg') === g;
+    b.className = 'mt-gchip shrink-0 px-4 py-1.5 rounded-full text-sm ' +
+      (on ? 'font-bold text-white' : 'font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition');
     b.style.background = on ? 'var(--forest)' : '';
   });
   mtApply();
@@ -7681,10 +7777,10 @@ function mtWhen(k){
   var t = document.getElementById('mt-today');
   if (t && t.previousElementSibling) { t.scrollIntoView(); window.scrollTo(0, window.scrollY - 130); }
 })();
-</script>""").replace("__TODAY__", today_js).replace("__WEEKEND__", weekend_js)
+</script>"""
 
     main = ('<main class="max-w-3xl mx-auto px-5 py-8 pb-24">'
-            + intro + wc_banner + when_chips + chips + list_html + filter_empty
+            + intro + wc_banner + sport_chips + chips + list_html
             + '<div class="mt-10"></div>'
             + _hub_card("About this page", "One Page, Every Start Time, Suriname Time", about_body)
             + _hub_faq_html(faq)
