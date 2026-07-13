@@ -9693,7 +9693,7 @@ def build_time_page():
     # ── Live time strip + format toggle ─────────────────────────────────────
     body += ('<div class="flex flex-wrap items-center justify-between gap-3 bg-white rounded-2xl shadow-sm border border-gray-100 px-5 py-4 mb-6">'
         '<div class="text-gray-700"><span class="text-sm text-gray-500">In Suriname it is now</span> '
-        '<span id="sr-clock" class="serif text-2xl font-bold tabular-nums text-gray-900 ml-1">00:00:00</span> '
+        '<span id="sr-clock" class="font-mono text-2xl font-bold tabular-nums text-gray-900 ml-1">00:00:00</span> '
         '<span id="sr-date" class="text-sm text-gray-500 ml-1"></span>'
         '<span class="text-sm text-gray-400 ml-1">, UTC&minus;3, no daylight saving</span></div>'
         '<div class="inline-flex rounded-full border border-gray-200 overflow-hidden text-sm shrink-0" role="group" aria-label="Clock format">'
@@ -9730,7 +9730,7 @@ def build_time_page():
             '<select id="conv-to" class="w-full rounded-xl border border-gray-200 px-3 py-2 bg-white mb-4"></select>'
             '<div class="rounded-xl p-6 text-center flex-1 flex flex-col justify-center" style="background:var(--forest)">'
               '<div class="text-white/60 text-xs uppercase tracking-widest mb-2" id="conv-result-label">Result</div>'
-              '<div class="serif text-4xl font-bold text-white tabular-nums" id="conv-result-time">00:00</div>'
+              '<div class="font-mono text-4xl font-bold text-white tabular-nums" id="conv-result-time">00:00</div>'
               '<div class="text-white/70 text-sm mt-2" id="conv-result-date"></div>'
               '<div class="text-white/60 text-xs mt-3" id="conv-diff"></div>'
             '</div>'
@@ -9903,7 +9903,7 @@ def build_time_page():
       wh+='<div class="'+cls+'" '+sty+'>'
         +'<div class="text-xs '+ (c.home?'text-white/80':'text-gray-500') +'">'+c.label+'</div>'
         +'<div class="text-[11px] '+sc+' -mt-0.5">'+c.sub+'</div>'
-        +'<div class="serif text-xl font-bold tabular-nums mt-1 '+lc+'" data-clock="'+c.tz+'">00:00</div>'
+        +'<div class="font-mono text-xl font-bold tabular-nums mt-1 '+lc+'" data-clock="'+c.tz+'">00:00</div>'
         +'<div class="text-[10px] '+sc+'" data-cd="'+c.tz+'"></div></div>';
     }
     wc.innerHTML=wh;
