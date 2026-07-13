@@ -1401,6 +1401,18 @@ _SEARCH_INDEX = _json.dumps([
     {"n": "Events and Festivals Calendar", "u": "events.html", "c": "Guides", "a": "Suriname"},
     {"n": "Market Rates: SRD Exchange", "u": "currency.html", "c": "Guides", "a": "Suriname"},
     {"n": "World Cup 2026: Live Scores and Schedule", "u": "worldcup-2026.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Sports Schedule: Games in Suriname Time", "u": "matches.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Suriname Time and World Clock Converter", "u": "suriname-time.html", "c": "Guides", "a": "Suriname"},
+    {"n": "History of Suriname: Interactive Timeline", "u": "suriname-history.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Switi Mini: Daily Surinaamse Crossword", "u": "crossword.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Sabi Suriname: Daily Suriname Quiz", "u": "quiz.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Pe A De? Daily Suriname Map Game", "u": "map-game.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Korjaal Run: Suriname River Game", "u": "korjaal.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Daily Notices: Pharmacies, Outages, Cinema", "u": "daily-notices.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Flights: PBM Arrivals and Departures", "u": "flights.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Weather and Tides: 7-Day Forecast", "u": "conditions.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Suriname News: Oil, Gas and Finance", "u": "news.html", "c": "Guides", "a": "Suriname"},
+    {"n": "On the Road: Driving in Suriname", "u": "on-the-road.html", "c": "Guides", "a": "Suriname"},
     *[{"n": b["name"], "u": b["url"], "c": "Eat & Drink",  "a": b.get("area",""), "k": _kw(b, "Eat & Drink")} for b in RESTAURANTS],
     *[{"n": b["name"], "u": b["url"], "c": "Stay",         "a": b.get("area",""), "k": _kw(b, "Stay")} for b in HOTELS],
     *[{"n": b["name"], "u": b["url"], "c": "Nature",       "a": b.get("area",""), "k": _kw(b, "Nature")} for b in SIGHTSEEING],
@@ -10210,6 +10222,7 @@ def build_llms_txt():
 - [Flights]({S}/flights.html): arrivals and departures for Johan Adolf Pengel International (PBM) and Eduard Alexander Gummels (EAX) airports.
 - [Weather and Tides]({S}/conditions.html): seven-day district forecasts, river tidal predictions and sunrise and sunset times.
 - [Daily Notices]({S}/daily-notices.html): on-call pharmacies, power and water outage notices, and cinema showtimes.
+- [Suriname Time and World Clock]({S}/suriname-time.html): current Suriname time (UTC-3, no daylight saving), a live world-clock band and a two-way time-zone converter with a Netherlands call-overlap helper.
 
 ## Daily games
 - [Sabi Suriname]({S}/quiz.html): free daily five-question quiz about Suriname, in Dutch and English.
