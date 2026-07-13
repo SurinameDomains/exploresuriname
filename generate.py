@@ -7291,51 +7291,104 @@ _MANUAL_LEAGUES = {
 }
 
 
-def fetch_boxing(cache):
-    """Upcoming boxing from Matchroom Boxing's own events page (the biggest
-    promoter; covers the marquee cards). Server-rendered HTML, parsed by CSS
-    class. Ring-walk times are never published on any boxing schedule until
-    fight week, so time shows as TBC by design. Cached under 'boxing'."""
-    now = datetime.now(SR_TZ)
-    today = now.date()
-    _MON = {"jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+_BOX_MON = {"jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
             "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12}
-    url = "https://www.matchroomboxing.com/events/"
-    try:
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; ExploreSuriname/1.0)"})
-        with urllib.request.urlopen(req, timeout=15) as r:
-            page = r.read().decode("utf-8", "ignore")
-        m = re.search(r'<section class="events-upcoming">(.*?)</section>', page, re.S)
-        up = m.group(1) if m else ""
-        evs = []
-        for block in up.split('<div class="fight-card">')[1:]:
-            tm = re.search(r'title="([^"]+)">', block)
-            dm = re.search(r'class="day">([^<]+)<', block)
-            lm = re.search(r'class="location">([^<]*)<', block)
-            if not (tm and dm):
+_BOX_UA = "Mozilla/5.0 (compatible; ExploreSuriname/1.0)"
+
+
+def _boxing_matchroom():
+    """Matchroom (Joshua, Taylor, DAZN cards). Server-rendered HTML, no times
+    published -> tbc. Raises on network/parse failure."""
+    today = datetime.now(SR_TZ).date()
+    req = urllib.request.Request("https://www.matchroomboxing.com/events/",
+                                 headers={"User-Agent": _BOX_UA})
+    with urllib.request.urlopen(req, timeout=15) as r:
+        page = r.read().decode("utf-8", "ignore")
+    m = re.search(r'<section class="events-upcoming">(.*?)</section>', page, re.S)
+    up = m.group(1) if m else ""
+    evs = []
+    for block in up.split('<div class="fight-card">')[1:]:
+        tm = re.search(r'title="([^"]+)">', block)
+        dm = re.search(r'class="day">([^<]+)<', block)
+        lm = re.search(r'class="location">([^<]*)<', block)
+        if not (tm and dm):
+            continue
+        dmo = re.match(r'(\d{1,2})\s+([A-Za-z]{3})', dm.group(1).strip())
+        if not dmo:
+            continue
+        dd, mon = int(dmo.group(1)), _BOX_MON.get(dmo.group(2).lower())
+        if not mon:
+            continue
+        try:
+            fdate = datetime(today.year, mon, dd).date()
+        except ValueError:
+            continue
+        if (fdate - today).days < -7:
+            fdate = datetime(today.year + 1, mon, dd).date()
+        loc = html_lib.unescape(lm.group(1)).strip() if lm else ""
+        evs.append({"d": fdate.isoformat(), "t": html_lib.unescape(tm.group(1)).strip(),
+                    "v": loc, "g": "", "st": "", "sx": "pre", "tbc": True})
+    return evs
+
+
+def _boxing_pbc():
+    """Premier Boxing Champions (Spence, Charlo, US cards). JSON-LD SportsEvent
+    blocks carry startDate WITH a time, so PBC fights show a real SR time."""
+    req = urllib.request.Request("https://www.premierboxingchampions.com/schedule",
+                                 headers={"User-Agent": _BOX_UA})
+    with urllib.request.urlopen(req, timeout=15) as r:
+        page = r.read().decode("utf-8", "ignore")
+    evs = []
+    for blob in re.findall(r'<script[^>]*type="application/ld\+json"[^>]*>(.*?)</script>', page, re.S):
+        try:
+            data = json.loads(blob)
+        except Exception:
+            continue
+        for it in (data if isinstance(data, list) else [data]):
+            if "Event" not in str(it.get("@type", "")):
                 continue
-            title = html_lib.unescape(tm.group(1)).strip()
-            dmo = re.match(r'(\d{1,2})\s+([A-Za-z]{3})', dm.group(1).strip())
-            if not dmo:
-                continue
-            dd, mon = int(dmo.group(1)), _MON.get(dmo.group(2).lower())
-            if not mon:
-                continue
+            sd = it.get("startDate") or ""
             try:
-                fdate = datetime(today.year, mon, dd).date()
-            except ValueError:
+                dtu = datetime.fromisoformat(sd).astimezone(timezone.utc)
+            except (ValueError, TypeError):
                 continue
-            if (fdate - today).days < -7:  # month already passed -> next year
-                fdate = datetime(today.year + 1, mon, dd).date()
-            loc = html_lib.unescape(lm.group(1)).strip() if lm else ""
-            evs.append({"d": fdate.isoformat(), "t": title, "v": loc,
-                        "g": "", "st": "", "sx": "pre", "tbc": True})
-        cache["boxing"] = {"label": "Boxing", "events": evs}
-        print(f"  matches: Boxing: {len(evs)} events")
-        return cache["boxing"]
-    except Exception as exc:
-        print(f"  ! Boxing fetch failed ({exc}); using cached data")
+            name = (it.get("name") or "").split(",")[0].strip()
+            if not name:
+                continue
+            loc = it.get("location")
+            loc = loc.get("name") if isinstance(loc, dict) else (loc or "")
+            evs.append({"d": dtu.strftime("%Y-%m-%dT%H:%M:%SZ"), "t": name,
+                        "v": loc, "g": "", "st": "", "sx": "pre"})
+    return evs
+
+
+def fetch_boxing(cache):
+    """Upcoming boxing, stitched from promoters' own sites (no single boxing feed
+    exists). Matchroom + PBC today; each source is independent so one failing
+    never blanks the rest. Deduped by date+fighters (a timed entry wins over a
+    TBC one). Ring-walk times aren't published in advance except where a promoter
+    lists one (PBC), so some cards stay TBC by design. Cached under 'boxing'."""
+    evs = []
+    for name, fn in (("Matchroom", _boxing_matchroom), ("PBC", _boxing_pbc)):
+        try:
+            got = fn()
+            evs += got
+            print(f"  matches: Boxing/{name}: {len(got)} events")
+        except Exception as exc:
+            print(f"  ! Boxing/{name} failed ({exc})")
+    if not evs:
         return cache.get("boxing", {"label": "Boxing", "events": []})
+    seen, out = set(), []
+    for e in sorted(evs, key=lambda x: (x["d"][:10], 1 if x.get("tbc") else 0)):
+        k = (e["d"][:10], re.sub(r'[^a-z]', '', e["t"].lower())[:16])
+        if k in seen:
+            continue
+        seen.add(k)
+        out.append(e)
+    out.sort(key=lambda x: x["d"])
+    cache["boxing"] = {"label": "Boxing", "events": out}
+    print(f"  matches: Boxing: {len(out)} events (deduped)")
+    return cache["boxing"]
 
 
 def fetch_glory(cache):
