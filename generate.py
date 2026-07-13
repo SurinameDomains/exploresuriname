@@ -2407,7 +2407,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}conditions.html"     {_link_cls("forecast")}       >Weather &amp; Tides</a>'
         f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")}  >Daily Notices</a>'
         f'<a href="{prefix}worldcup-2026.html"   {_link_cls("worldcup")}       >World Cup 2026</a>'
-        f'<a href="{prefix}matches.html"        {_link_cls("matches")}        >Sports Times</a>'
+        f'<a href="{prefix}matches.html"        {_link_cls("matches")}        >Sports Schedule</a>'
     )
     # Visitor Guide
     plan_items = (
@@ -2472,7 +2472,7 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}conditions.html",    "Weather & Tides", "forecast") +
         _mob_link(f"{prefix}daily-notices.html", "Daily Notices", "daily-notices") +
         _mob_link(f"{prefix}worldcup-2026.html",  "World Cup 2026", "worldcup") +
-        _mob_link(f"{prefix}matches.html",       "Sports Times", "matches")
+        _mob_link(f"{prefix}matches.html",       "Sports Schedule", "matches")
     )
     mob_plan_items = (
         _mob_link(f"{prefix}visitor-guide.html", "The Basics",    "visitor") +
@@ -2733,7 +2733,7 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}map-game.html">Pe A De? Map Game</a>
         <a class="ftr-lnk" href="{prefix}korjaal.html">Korjaal Run</a>
         <a class="ftr-lnk" href="{prefix}worldcup-2026.html">World Cup 2026</a>
-        <a class="ftr-lnk" href="{prefix}matches.html">Sports Times</a>
+        <a class="ftr-lnk" href="{prefix}matches.html">Sports Schedule</a>
         <a class="ftr-lnk" href="{prefix}about.html">About Us</a>
         <a class="ftr-lnk" href="{prefix}contact.html">Contact</a>
         <a class="ftr-lnk" href="{prefix}privacy.html">Privacy</a>
@@ -7269,6 +7269,9 @@ _MATCH_LEAGUES = [
     ("soccer",     "conmebol.libertadores", "Copa Libertadores", "lib", "#047857", "foot"),
     ("basketball", "nba",                   "NBA",               "nba", "#D97706", "bball"),
     ("mma",        "ufc",                   "UFC",               "ufc", "#B91C1C", "fight"),
+    ("racing",     "f1",                    "Formula 1",         "f1",  "#DC2626", "race"),
+    ("soccer",     "concacaf.nations.league", "Nations League",  "cnl", "#0E7490", "foot"),
+    ("soccer",     "concacaf.gold",         "Gold Cup",          "gc",  "#0891B2", "foot"),
 ]
 
 # Competitions with no usable live data feed (checked Jul 2026: ESPN has no
@@ -7302,7 +7305,7 @@ def fetch_matches_data():
     d0 = (now - timedelta(days=1)).strftime("%Y%m%d")
     out = {}
     for sport, code, label, key, _col, group in _MATCH_LEAGUES:
-        d1 = (now + timedelta(days=65 if group == "fight" else 35)).strftime("%Y%m%d")
+        d1 = (now + timedelta(days=65 if group in ("fight", "race") else 35)).strftime("%Y%m%d")
         url = (f"https://site.api.espn.com/apis/site/v2/sports/{sport}/{code}/scoreboard"
                f"?dates={d0}-{d1}&limit=150")
         try:
@@ -7314,8 +7317,9 @@ def fetch_matches_data():
                 comps = e.get("competitions", [])
                 if not comps:
                     continue
-                if group == "fight":
-                    # A UFC "event" is a whole card of bouts; render one row
+                if group in ("fight", "race"):
+                    # A UFC "event" is a whole card of bouts; an F1 event is one
+                    # Grand Prix; render one title row per event (no home/away).
                     # per card with the card name (main event is in the name).
                     sts = [c.get("status", {}).get("type", {}).get("state", "pre") for c in comps]
                     sx = "in" if "in" in sts else ("post" if all(s == "post" for s in sts) else "pre")
@@ -7333,6 +7337,10 @@ def fetch_matches_data():
                         home = o
                     else:
                         away = o
+                if key in ("cnl", "gc"):
+                    _nm = {(home or {}).get("n", ""), (away or {}).get("n", "")}
+                    if "Suriname" not in _nm:
+                        continue
                 st = c.get("status", {}).get("type", {})
                 note = (c.get("altGameNote") or "")
                 evs.append({"d": e.get("date", ""), "h": home, "a": away,
@@ -7406,7 +7414,7 @@ def build_matches_page(matches):
             dt = _match_dt(e.get("d", ""))
             if dt is None:
                 continue
-            horizon = 66 if grp == "fight" else 36
+            horizon = 66 if grp in ("fight", "race") else 36
             if dt.date() < today - timedelta(days=1) or dt.date() > today + timedelta(days=horizon):
                 continue
             rows.append((dt, key, label, col, e))
@@ -7441,16 +7449,44 @@ def build_matches_page(matches):
             meta_bits.append(html_lib.escape(e["g"]))
         if e.get("v"):
             meta_bits.append(html_lib.escape(e["v"]))
-        row_border = ' style="border-color:#fecaca;box-shadow:0 0 0 1px #fecaca"' if sx == "in" else ''
-        if e.get("t"):  # whole fight card (UFC, Glory, boxing): title, not home vs away
-            main = '<p class="font-semibold text-gray-900 text-sm leading-snug">' + html_lib.escape(e["t"]) + '</p>'
+        is_natio = "Suriname" in (h.get("n", ""), a.get("n", ""))
+        if sx == "in":
+            row_border = ' style="border-color:#fecaca;box-shadow:0 0 0 1px #fecaca"'
+        elif is_natio and sx == "pre":
+            row_border = ' style="border-color:#bbf7d0;box-shadow:0 0 0 1px #16a34a"'
         else:
-            main = f'<p class="font-semibold text-gray-900 text-sm leading-snug">{hn} <span class="text-gray-400 font-normal">vs</span> {an}</p>'
-        return (f'<div class="mt-row flex items-center gap-4 bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2" data-lg="{key}"{row_border}>'
+            row_border = ''
+        natio_tag = ('<span class="align-middle text-[9px] font-bold uppercase tracking-wide text-white '
+                     'px-1.5 py-0.5 rounded mr-1.5" style="background:#16a34a">Natio</span>') if is_natio else ''
+        if e.get("t"):  # whole fight card (UFC, Glory, boxing) or a Grand Prix: title, not home vs away
+            main = '<p class="font-semibold text-gray-900 text-sm leading-snug">' + natio_tag + html_lib.escape(e["t"]) + '</p>'
+        else:
+            main = f'<p class="font-semibold text-gray-900 text-sm leading-snug">{natio_tag}{hn} <span class="text-gray-400 font-normal">vs</span> {an}</p>'
+        # Subtle add-to-calendar link (upcoming, confirmed-time fixtures only)
+        cal = ''
+        if sx == "pre" and not e.get("tbc"):
+            _grp = lg_meta.get(key, ("", "", "foot"))[2]
+            _st = dt.astimezone(timezone.utc)
+            _en = _st + timedelta(hours=3 if _grp in ("fight", "race") else 2)
+            _ctext = e.get("t") or (h.get("n", "") + " vs " + a.get("n", ""))
+            _cal_q = urllib.parse.urlencode({
+                "action": "TEMPLATE",
+                "text": _ctext + " (Suriname time)",
+                "dates": _st.strftime("%Y%m%dT%H%M%SZ") + "/" + _en.strftime("%Y%m%dT%H%M%SZ"),
+                "details": label + " kickoff, shown in Suriname time. Via Explore Suriname.",
+                "location": e.get("v", "") or "",
+            })
+            _cal_url = "https://calendar.google.com/calendar/render?" + _cal_q
+            cal = ('<a href="' + _cal_url + '" target="_blank" rel="noopener" title="Add to Google Calendar" '
+                   'aria-label="Add to calendar" class="mt-cal shrink-0 self-center text-gray-300 hover:text-forest transition p-1 -mr-1">'
+                   '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+                   'stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/>'
+                   '<path d="M16 2v4M8 2v4M3 10h18M12 14v4M10 16h4"/></svg></a>')
+        return (f'<div class="mt-row flex items-center gap-4 bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2" data-lg="{key}" data-date="{dt.strftime("%Y-%m-%d")}"{row_border}>'
                 '<div class="w-14 shrink-0 text-center">' + left + '</div>'
-                '<div class="min-w-0">' + main +
+                '<div class="flex-1 min-w-0">' + main +
                 '<p class="text-[11px] text-gray-500 mt-0.5 truncate">' + " &middot; ".join(meta_bits) + '</p>'
-                '</div></div>')
+                '</div>' + cal + '</div>')
 
     list_html, cur_day = "", None
     for dt, key, label, col, e in rows:
@@ -7477,6 +7513,37 @@ def build_matches_page(matches):
         list_html = ('<div class="bg-white rounded-2xl border border-gray-200 p-8 text-center mt-6">'
                      '<p class="font-semibold text-gray-800 mb-1">Between rounds right now.</p>'
                      '<p class="text-gray-500 text-sm">New fixtures appear here automatically as soon as they are scheduled. Check back soon.</p></div>')
+    filter_empty = ('<div id="mt-empty" class="bg-white rounded-2xl border border-gray-200 p-6 text-center mt-4" style="display:none">'
+                    '<p class="font-semibold text-gray-800 mb-1">Nothing scheduled in that window.</p>'
+                    '<p class="text-gray-500 text-sm">Switch back to Any time, or pick another competition.</p></div>')
+
+    # ── When filter (Today / Weekend), computed in Suriname time ──────────────
+    _wd = today.weekday()  # Mon=0 .. Sun=6
+    if _wd == 5:
+        _sat, _sun = today, today + timedelta(days=1)
+    elif _wd == 6:
+        _sat, _sun = today - timedelta(days=1), today
+    else:
+        _sat = today + timedelta(days=5 - _wd)
+        _sun = _sat + timedelta(days=1)
+    today_js = '"%s"' % today.isoformat()
+    weekend_js = '["%s","%s"]' % (_sat.isoformat(), _sun.isoformat())
+    has_today = any(dt.date() == today for dt, _k, _l, _c, _e in rows)
+    has_weekend = any(dt.date() in (_sat, _sun) for dt, _k, _l, _c, _e in rows)
+    when_chips = ''
+    if has_today or has_weekend:
+        _wbtn = lambda k, lb, on: (
+            f'<button data-mtw="{k}" onclick="mtWhen(\'{k}\')" class="mt-wchip px-2.5 py-1 rounded-full font-semibold '
+            + ('text-white" style="background:var(--forest)"' if on else 'bg-white border border-gray-200 text-gray-600 hover:border-gray-400"')
+            + f'>{lb}</button>')
+        when_chips = ('<div class="mt-when flex gap-2 items-center pt-1 text-xs">'
+                      '<span class="text-gray-400 font-medium mr-0.5">When</span>'
+                      + _wbtn("all", "Any time", True))
+        if has_today:
+            when_chips += _wbtn("today", "Today", False)
+        if has_weekend:
+            when_chips += _wbtn("weekend", "Weekend", False)
+        when_chips += '</div>'
 
     # ── League filter chips ──────────────────────────────────────────────────
     chips = ('<div class="mt-chips flex gap-2 overflow-x-auto py-2.5 -mx-5 px-5">'
@@ -7492,7 +7559,7 @@ def build_matches_page(matches):
     chips += '</div>'
 
     # ── Head / hero / cards ──────────────────────────────────────────────────
-    title = "Sports Times: Football, NBA and Fight Nights in Suriname Time"
+    title = "Sports Schedule: Football, NBA and Fight Nights in Suriname Time"
     desc = ("Kickoffs, tip-offs and fight nights in Suriname time (UTC-3): World Cup, Champions League, "
             "Europa League, Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Copa "
             "Libertadores, NBA, UFC, Glory Kickboxing and big boxing cards. Updated automatically through the day.")
@@ -7518,21 +7585,19 @@ def build_matches_page(matches):
          "Suriname and Dutch football are family. Generations of Eredivisie stars have Surinamese roots, "
          "from Ruud Gullit and Frank Rijkaard to Virgil van Dijk, and much of the Surinamese diaspora lives in the Netherlands."),
     ]
-    _sport_name = {"foot": "Soccer", "bball": "Basketball", "fight": "Combat sports"}
-    next_up = [(dt, l, e, _sport_name.get(lg_meta.get(k, ("", "", "foot"))[2], "Soccer"))
-               for dt, k, l, _c, e in rows if e.get("sx") == "pre"][:10]
+    # Plain ListItem names only — no nested SportsEvent. Google's Event rich
+    # results require location+address (meant for attendable local events);
+    # typed fixtures here just generate GSC "Missing field" errors.
+    next_up = [(dt, l, e) for dt, k, l, _c, e in rows if e.get("sx") == "pre"][:10]
     extra_ld = None
     if next_up:
         extra_ld = {"@context": "https://schema.org", "@type": "ItemList",
                     "name": "Upcoming sport in Suriname time",
                     "itemListElement": [
                         {"@type": "ListItem", "position": i + 1,
-                         "item": {"@type": "SportsEvent",
-                                  "name": e.get("t") or ((e.get("h", {}) or {}).get("n", "") + " vs " + (e.get("a", {}) or {}).get("n", "")),
-                                  "startDate": dt.isoformat(),
-                                  "sport": s,
-                                  "description": l}}
-                        for i, (dt, l, e, s) in enumerate(next_up)]}
+                         "name": (e.get("t") or ((e.get("h", {}) or {}).get("n", "") + " vs " + (e.get("a", {}) or {}).get("n", "")))
+                                 + " (" + l + ", " + dt.strftime("%d %b %H:%M") + " SR time)"}
+                        for i, (dt, l, e) in enumerate(next_up)]}
 
     _MT_CSS = """  <style>
     .mt-live{display:inline-block;width:7px;height:7px;border-radius:9999px;background:#dc2626;margin-right:4px;animation:mtpulse 1.2s ease-in-out infinite}
@@ -7571,32 +7636,55 @@ def build_matches_page(matches):
         + '. Waiting for kickoff? Try the ' + _ilink("quiz.html", "daily Suriname quiz") + ' or the '
         + _ilink("crossword.html", "Switi Mini crossword") + '.</p>')
 
-    _MT_JS = """
+    _MT_JS = ("""
 <script>
+var mtLg = 'all', mtWhenState = 'all';
+var MT_TODAY = __TODAY__, MT_WEEKEND = __WEEKEND__;
+function mtApply(){
+  document.querySelectorAll('.mt-row').forEach(function(r){
+    var okLg = (mtLg === 'all' || r.getAttribute('data-lg') === mtLg);
+    var d = r.getAttribute('data-date'), okWhen = true;
+    if (mtWhenState === 'today') okWhen = (d === MT_TODAY);
+    else if (mtWhenState === 'weekend') okWhen = (MT_WEEKEND.indexOf(d) >= 0);
+    r.style.display = (okLg && okWhen) ? '' : 'none';
+  });
+  var anyVisible = false;
+  document.querySelectorAll('.mt-day').forEach(function(s){
+    var any = false;
+    s.querySelectorAll('.mt-row').forEach(function(r){ if (r.style.display !== 'none'){ any = true; anyVisible = true; } });
+    s.style.display = any ? '' : 'none';
+  });
+  var empty = document.getElementById('mt-empty');
+  if (empty) empty.style.display = anyVisible ? 'none' : '';
+}
 function mtFilter(k){
+  mtLg = k;
   document.querySelectorAll('.mt-chip').forEach(function(b){
     var on = b.getAttribute('data-mtf') === k;
     b.className = 'mt-chip shrink-0 px-' + (on ? '4' : '3.5') + ' py-1.5 rounded-full text-xs ' +
       (on ? 'font-bold text-white' : 'font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition');
     b.style.background = on ? 'var(--forest)' : '';
   });
-  document.querySelectorAll('.mt-row').forEach(function(r){
-    r.style.display = (k === 'all' || r.getAttribute('data-lg') === k) ? '' : 'none';
+  mtApply();
+}
+function mtWhen(k){
+  mtWhenState = k;
+  document.querySelectorAll('.mt-wchip').forEach(function(b){
+    var on = b.getAttribute('data-mtw') === k;
+    b.className = 'mt-wchip px-2.5 py-1 rounded-full font-semibold ' +
+      (on ? 'text-white' : 'bg-white border border-gray-200 text-gray-600 hover:border-gray-400');
+    b.style.background = on ? 'var(--forest)' : '';
   });
-  document.querySelectorAll('.mt-day').forEach(function(s){
-    var any = false;
-    s.querySelectorAll('.mt-row').forEach(function(r){ if (r.style.display !== 'none') any = true; });
-    s.style.display = any ? '' : 'none';
-  });
+  mtApply();
 }
 (function(){
   var t = document.getElementById('mt-today');
   if (t && t.previousElementSibling) { t.scrollIntoView(); window.scrollTo(0, window.scrollY - 130); }
 })();
-</script>"""
+</script>""").replace("__TODAY__", today_js).replace("__WEEKEND__", weekend_js)
 
     main = ('<main class="max-w-3xl mx-auto px-5 py-8 pb-24">'
-            + intro + wc_banner + chips + list_html
+            + intro + wc_banner + when_chips + chips + list_html + filter_empty
             + '<div class="mt-10"></div>'
             + _hub_card("About this page", "One Page, Every Start Time, Suriname Time", about_body)
             + _hub_faq_html(faq)
