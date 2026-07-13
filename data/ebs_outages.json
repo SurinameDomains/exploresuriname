@@ -1,6 +1,28 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 16 JULI 2026",
+      "date": "16 Juli 2026",
+      "date_iso": "2026-07-16",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1545/gepland-onderhoud-donderdag-16-juli-2026",
+      "meta_description": "Gepland onderhoud: Wanica donderdag 16 juli 2026 tussen 08:00-15:00 GEDEELTE NOORDPOLDERDAM TUSSEN 5E RIJWEG EN LEIDING 7B, GEDEELTE RICHARD VAN",
+      "district": "Wanica",
+      "time": "08:00 – 15:00",
+      "area": "GEDEELTE NOORDPOLDERDAM TUSSEN 5E RIJWEG EN LEIDING 7B, GEDEELTE RICHARD VAN"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 16 JULI 2026",
+      "date": "16 Juli 2026",
+      "date_iso": "2026-07-16",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1544/gepland-onderhoud-donderdag-16-juli-2026",
+      "meta_description": "Gepland onderhoud: Wanica donderdag 16 juli 2026 tussen 09:00-14:00 GEDEELTE IDUWEG TUSSEN PRASARASTRAAT EN MENCKENBERGSTRAAT, GEDEELTE MENCKENBERGSTRAAT TU",
+      "district": "Wanica",
+      "time": "09:00 – 14:00",
+      "area": "GEDEELTE IDUWEG TUSSEN PRASARASTRAAT EN MENCKENBERGSTRAAT, GEDEELTE MENCKENBERGSTRAAT TU"
+    },
+    {
       "title": "GEPLAND ONDERHOUD WOENSDAG 15 JULI 2026",
       "date": "15 Juli 2026",
       "date_iso": "2026-07-15",
@@ -34,6 +56,6 @@
       "area": "GEHEEL BOLLETRIE HEE EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED"
     }
   ],
-  "last_updated": "2026-07-13T11:19:05.692843+00:00",
+  "last_updated": "2026-07-13T15:07:48.778896+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
