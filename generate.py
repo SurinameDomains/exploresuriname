@@ -7642,13 +7642,16 @@ def build_matches_page(matches):
                 '<p class="text-[11px] text-gray-500 mt-0.5 truncate">' + " &middot; ".join(meta_bits) + '</p>'
                 '</div>' + cal + '</div>')
 
-    list_html, cur_day = "", None
+    # Day-by-day sections. Past days (before today) go into a collapsed
+    # "earlier" block so today's fixtures lead the page on load.
+    _sections, cur_day, cur_date, sec = [], None, None, ""
     for dt, key, label, col, e in rows:
         dkey = dt.strftime("%Y-%m-%d")
         if dkey != cur_day:
             if cur_day is not None:
-                list_html += '</div></section>'
-            cur_day = dkey
+                sec += '</div></section>'
+                _sections.append((cur_date, sec))
+            cur_day, cur_date = dkey, dt.date()
             if dt.date() == today:
                 daylab = 'Today <span class="text-gray-400 font-normal text-base">&middot; ' + dt.strftime("%A %d %B") + '</span>'
             elif dt.date() == today + timedelta(days=1):
@@ -7658,11 +7661,23 @@ def build_matches_page(matches):
             else:
                 daylab = dt.strftime("%A %d %B")
             anchor = ' id="mt-today"' if dt.date() == today else ''
-            list_html += (f'<section class="mt-day"{anchor}>'
-                          f'<h2 class="serif text-xl font-bold text-gray-900 mt-7 mb-3">{daylab}</h2><div>')
-        list_html += _row_html(dt, key, label, col, e)
+            sec = (f'<section class="mt-day"{anchor}>'
+                   f'<h2 class="serif text-xl font-bold text-gray-900 mt-7 mb-3">{daylab}</h2><div>')
+        sec += _row_html(dt, key, label, col, e)
     if cur_day is not None:
-        list_html += '</div></section>'
+        sec += '</div></section>'
+        _sections.append((cur_date, sec))
+    past_html = "".join(h for d, h in _sections if d < today)
+    main_html = "".join(h for d, h in _sections if d >= today)
+    list_html = ""
+    if past_html:
+        list_html = ('<button onclick="mtEarlier()" class="mt-earlier-btn flex items-center gap-1.5 text-sm '
+                     'font-semibold text-gray-500 hover:text-gray-800 transition mt-3 mb-1">'
+                     '<svg id="mt-earlier-ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+                     'stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .2s">'
+                     '<path d="M6 9l6 6 6-6"/></svg><span id="mt-earlier-lbl">View earlier results</span></button>'
+                     '<div id="mt-earlier" style="display:none">' + past_html + '</div>')
+    list_html += main_html
     if not rows:
         list_html = ('<div class="bg-white rounded-2xl border border-gray-200 p-8 text-center mt-6">'
                      '<p class="font-semibold text-gray-800 mb-1">Between rounds right now.</p>'
@@ -7826,10 +7841,13 @@ function mtGroup(g){
   });
   mtApply();
 }
-(function(){
-  var t = document.getElementById('mt-today');
-  if (t && t.previousElementSibling) { t.scrollIntoView(); window.scrollTo(0, window.scrollY - 130); }
-})();
+function mtEarlier(){
+  var el = document.getElementById('mt-earlier');
+  var lbl = document.getElementById('mt-earlier-lbl');
+  var ic = document.getElementById('mt-earlier-ic');
+  if (el.style.display === 'none'){ el.style.display = ''; if(lbl) lbl.textContent = 'Hide earlier results'; if(ic) ic.style.transform = 'rotate(180deg)'; }
+  else { el.style.display = 'none'; if(lbl) lbl.textContent = 'View earlier results'; if(ic) ic.style.transform = ''; }
+}
 </script>"""
 
     main = ('<main class="max-w-3xl mx-auto px-5 py-8 pb-24">'
