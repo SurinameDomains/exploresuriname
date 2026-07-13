@@ -7362,6 +7362,61 @@ def _boxing_pbc():
     return evs
 
 
+def _us_eastern_offset(d):
+    """UTC offset (hours) for US Eastern on date d: EDT (-4) 2nd Sun Mar..1st Sun
+    Nov, else EST (-5). No tzdata dependency."""
+    y = d.year
+    mar1, nov1 = datetime(y, 3, 1), datetime(y, 11, 1)
+    second_sun_mar = (1 + (6 - mar1.weekday()) % 7) + 7
+    first_sun_nov = 1 + (6 - nov1.weekday()) % 7
+    if datetime(y, 3, second_sun_mar).date() <= d < datetime(y, 11, first_sun_nov).date():
+        return -4
+    return -5
+
+
+def _boxing_boxingscene():
+    """BoxingScene's schedule (all promoters, every card carries a date AND a
+    start time). Times are US Eastern (labelled EST even in summer) or UTC;
+    converted to real UTC so no fight is ever TBC. Server-rendered HTML."""
+    req = urllib.request.Request("https://www.boxingscene.com/schedule",
+                                 headers={"User-Agent": _BOX_UA})
+    with urllib.request.urlopen(req, timeout=15) as r:
+        page = r.read().decode("utf-8", "ignore")
+    cards = re.findall(r'<h3 class="card-title ?">([^<]+)</h3>\s*<(?:div|span)[^>]*text-hoverRed[^>]*>\s*([^<]+?)\s*</(?:div|span)>', page)
+    evs = []
+    for title, dtx in cards:
+        title = html_lib.unescape(title).strip().replace(" vs. ", " vs ").replace("-", " vs ") if " vs" not in html_lib.unescape(title) else html_lib.unescape(title).strip().replace(" vs. ", " vs ")
+        dtx = html_lib.unescape(dtx).strip()
+        if " - " not in dtx:
+            continue
+        datepart, timepart = dtx.split(" - ", 1)
+        dm = re.search(r'([A-Za-z]{3})\s+(\d{1,2}),\s*(\d{4})', datepart)
+        tm = re.search(r'(\d{1,2}):(\d{2})\s*(AM|PM)?\s*([A-Za-z]{2,4})?', timepart, re.I)
+        if not (dm and tm):
+            continue
+        mon = _BOX_MON.get(dm.group(1).lower())
+        if not mon:
+            continue
+        hh, mi = int(tm.group(1)), int(tm.group(2))
+        ap = (tm.group(3) or "").upper()
+        tz = (tm.group(4) or "ET").upper()
+        if ap == "PM" and hh != 12:
+            hh += 12
+        elif ap == "AM" and hh == 12:
+            hh = 0
+        try:
+            naive = datetime(int(dm.group(3)), mon, int(dm.group(2)), hh, mi)
+        except ValueError:
+            continue
+        if tz in ("UTC", "GMT"):
+            utc = naive
+        else:  # US Eastern wall clock -> UTC
+            utc = naive - timedelta(hours=_us_eastern_offset(naive.date()))
+        evs.append({"d": utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                    "t": title, "v": "", "g": "", "st": "", "sx": "pre"})
+    return evs
+
+
 def fetch_boxing(cache):
     """Upcoming boxing, stitched from promoters' own sites (no single boxing feed
     exists). Matchroom + PBC today; each source is independent so one failing
@@ -7369,7 +7424,7 @@ def fetch_boxing(cache):
     TBC one). Ring-walk times aren't published in advance except where a promoter
     lists one (PBC), so some cards stay TBC by design. Cached under 'boxing'."""
     evs = []
-    for name, fn in (("Matchroom", _boxing_matchroom), ("PBC", _boxing_pbc)):
+    for name, fn in (("BoxingScene", _boxing_boxingscene), ("PBC", _boxing_pbc)):
         try:
             got = fn()
             evs += got
@@ -7378,12 +7433,19 @@ def fetch_boxing(cache):
             print(f"  ! Boxing/{name} failed ({exc})")
     if not evs:
         return cache.get("boxing", {"label": "Boxing", "events": []})
-    seen, out = set(), []
-    for e in sorted(evs, key=lambda x: (x["d"][:10], 1 if x.get("tbc") else 0)):
-        k = (e["d"][:10], re.sub(r'[^a-z]', '', e["t"].lower())[:16])
-        if k in seen:
+    def _bkey(e):
+        a = re.sub(r'(?:jr|sr)', '', re.sub(r'[^a-z]', '', e["t"].lower()))
+        return a[:18]
+    seen, out = {}, []
+    # venue'd entries first so the deduped survivor keeps a venue; near-dupes
+    # (same fight ±1 UTC day from different sources) collapse on a date window.
+    for e in sorted(evs, key=lambda x: (0 if x.get("v") else 1, x["d"])):
+        k = _bkey(e)
+        prev = seen.get(k)
+        if prev is not None and abs((datetime.strptime(e["d"][:10], "%Y-%m-%d")
+                                     - datetime.strptime(prev[:10], "%Y-%m-%d")).days) <= 1:
             continue
-        seen.add(k)
+        seen[k] = e["d"]
         out.append(e)
     out.sort(key=lambda x: x["d"])
     cache["boxing"] = {"label": "Boxing", "events": out}
