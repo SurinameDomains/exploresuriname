@@ -9704,13 +9704,20 @@ def build_time_page():
     # ── Converter (first tool) ──────────────────────────────────────────────
     body += '<h2 class="serif text-2xl font-bold text-gray-900 mb-4">Time converter</h2>'
     body += ('<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-12">'
-        '<p class="text-gray-600 text-sm mb-6">Type a time, then pick the zones. You can pick a city or a plain '
+        '<p class="text-gray-600 text-sm mb-6">Pick a time, then choose the zones. You can pick a city or a plain '
         'UTC / GMT offset such as UTC-05:00. Press Swap to reverse the direction.</p>'
         '<div class="grid sm:grid-cols-2 gap-6 items-stretch">'
           '<div>'
-            + _lab('Time', 'conv-time') +
-            '<input type="text" id="conv-time" inputmode="numeric" autocomplete="off" placeholder="15:00" class="w-full rounded-xl border border-gray-200 px-3 py-2">'
-            '<p class="text-xs text-gray-400 mt-1 mb-4">24-hour, for example 15:00. You can also type 3pm.</p>'
+            + _lab('Time', 'conv-hour') +
+            '<div class="flex flex-wrap items-center gap-2 mb-4">'
+              '<div class="flex items-center gap-2">'
+                '<select id="conv-hour" aria-label="Hour" class="rounded-xl border border-gray-200 px-3 py-2 bg-white"></select>'
+                '<span class="font-bold text-gray-400">:</span>'
+                '<select id="conv-min" aria-label="Minute" class="rounded-xl border border-gray-200 px-3 py-2 bg-white"></select>'
+                '<select id="conv-ap" aria-label="AM or PM" class="rounded-xl border border-gray-200 px-3 py-2 bg-white" style="display:none"><option value="AM">AM</option><option value="PM">PM</option></select>'
+              '</div>'
+              '<button id="conv-now" type="button" class="text-sm font-semibold px-3 py-2 rounded-full whitespace-nowrap" style="background:var(--mint);color:var(--forest)">Now</button>'
+            '</div>'
             + _lab('Date', 'conv-date') +
             '<input type="date" id="conv-date" class="w-full rounded-xl border border-gray-200 px-3 py-2 mb-4">'
             + _lab('From', 'conv-from') +
@@ -9838,14 +9845,35 @@ def build_time_page():
     var x=Math.abs(mins), h=Math.floor(x/60), m=x%60, s=h+'h'+(m?(' '+m+'m'):'');
     return a+' is '+s+' '+(mins>0?'ahead of':'behind')+' '+b;
   }
-  function parseTime(s){
-    if(!s) return null; s=(''+s).trim().toLowerCase().replace(/\s+/g,'');
-    var m=s.match(/^(\d{1,2})(?::(\d{2}))?(am|pm)?$/);
-    if(!m) return null;
-    var h=+m[1], mi=m[2]?+m[2]:0, ap=m[3];
-    if(ap){ if(h<1||h>12) return null; if(ap==='pm'&&h!==12) h+=12; if(ap==='am'&&h===12) h=0; }
-    if(h>23||mi>59) return null;
-    return [h,mi];
+  function partsIn(tz, date){
+    var f=new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour12:false,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+    var p={}; f.formatToParts(date).forEach(function(x){ p[x.type]=x.value; });
+    return {y:p.year, mo:p.month, d:p.day, h:(p.hour==='24'?'00':p.hour), mi:p.minute};
+  }
+  function fillHM(){
+    if(!hSel) return;
+    var oh='';
+    if(use12){ for(var i=1;i<=12;i++){ oh+='<option value="'+i+'">'+i+'</option>'; } }
+    else { for(var k=0;k<24;k++){ oh+='<option value="'+k+'">'+pad(k)+'</option>'; } }
+    hSel.innerHTML=oh;
+    var om=''; for(var j=0;j<60;j++){ om+='<option value="'+j+'">'+pad(j)+'</option>'; } mSel.innerHTML=om;
+    if(apSel) apSel.style.display=use12?'':'none';
+  }
+  function get24(){
+    if(use12){ var hh=(+hSel.value)%12; if(apSel.value==='PM') hh+=12; return [hh, +mSel.value]; }
+    return [+hSel.value, +mSel.value];
+  }
+  function set24(h, mi){
+    if(use12){ var ap=h>=12?'PM':'AM', hh=h%12; if(hh===0) hh=12; hSel.value=String(hh); apSel.value=ap; }
+    else { hSel.value=String(h); }
+    mSel.value=String(mi);
+  }
+  function setNow(){
+    if(!cFrom) return;
+    var q=partsIn(cFrom.value, new Date());
+    set24(+q.h, +q.mi);
+    cDate.value=q.y+'-'+q.mo+'-'+q.d;
+    compute();
   }
   function paintFmt(){
     var b24=document.getElementById('fmt-24'), b12=document.getElementById('fmt-12');
@@ -9853,7 +9881,14 @@ def build_time_page():
     b24.style.background=use12?'#fff':'var(--forest)'; b24.style.color=use12?'var(--forest)':'#fff';
     b12.style.background=use12?'var(--forest)':'#fff'; b12.style.color=use12?'#fff':'var(--forest)';
   }
-  function setFmt(v){ use12=v; try{ localStorage.setItem('esr_time_fmt', v?'12':'24'); }catch(e){} paintFmt(); tick(); compute(); }
+  function setFmt(v){
+    var cur = (hSel && hSel.options.length) ? get24() : null;
+    use12=v;
+    try{ localStorage.setItem('esr_time_fmt', v?'12':'24'); }catch(e){}
+    paintFmt();
+    if(hSel){ fillHM(); if(cur) set24(cur[0], cur[1]); }
+    tick(); compute();
+  }
 
   // ── World clock band ──
   var wc=document.getElementById('worldclock');
@@ -9876,7 +9911,7 @@ def build_time_page():
 
   // ── Converter ──
   var cFrom=document.getElementById('conv-from'), cTo=document.getElementById('conv-to');
-  var cTime=document.getElementById('conv-time'), cDate=document.getElementById('conv-date');
+  var hSel=document.getElementById('conv-hour'), mSel=document.getElementById('conv-min'), apSel=document.getElementById('conv-ap'), cDate=document.getElementById('conv-date');
   var rTime=document.getElementById('conv-result-time'), rDate=document.getElementById('conv-result-date'), rLab=document.getElementById('conv-result-label');
   function fillSel(sel, def, extra){
     var o='';
@@ -9890,29 +9925,27 @@ def build_time_page():
   }
   function compute(){
     if(!cFrom) return;
-    var cd=document.getElementById('conv-diff');
-    var pt=parseTime(cTime.value);
-    if(!pt){ rTime.textContent='--'; rDate.textContent='Enter a time like 15:00'; rLab.textContent=''; if(cd) cd.textContent=''; return; }
     var d=(cDate.value||'').split('-');
     if(d.length!==3){ var n=new Date(); d=[n.getFullYear(), n.getMonth()+1, n.getDate()]; }
-    var utc=wallToUTC(+d[0], +d[1], +d[2], pt[0], pt[1], cFrom.value);
+    var t=get24();
+    var utc=wallToUTC(+d[0], +d[1], +d[2], t[0], t[1], cFrom.value);
     var obj=new Date(utc);
     rTime.textContent=fmt(cTo.value, obj, tOpts(false));
     rDate.textContent=fmt(cTo.value, obj, {weekday:'long',day:'numeric',month:'long'});
     rLab.textContent=labelFor(cTo.value);
+    var cd=document.getElementById('conv-diff');
     if(cd) cd.textContent=diffText(offMin(cTo.value,obj)-offMin(cFrom.value,obj), shortLabel(cTo.value), shortLabel(cFrom.value));
   }
   if(cFrom){
     var userTz='UTC'; try{ userTz=Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC'; }catch(e){}
     fillSel(cFrom, userTz, userTz); fillSel(cTo, SR, userTz);
-    var now0=new Date();
-    cTime.value=pad(now0.getHours())+':'+pad(now0.getMinutes());
-    cDate.value=now0.getFullYear()+'-'+pad(now0.getMonth()+1)+'-'+pad(now0.getDate());
-    [cFrom,cTo,cTime,cDate].forEach(function(el){ el.addEventListener('input', compute); el.addEventListener('change', compute); });
+    fillHM();
+    setNow();
+    [cFrom,cTo,hSel,mSel,apSel,cDate].forEach(function(el){ el.addEventListener('change', compute); });
     document.getElementById('conv-swap').addEventListener('click', function(){
       var a=cFrom.value; cFrom.value=cTo.value; cTo.value=a; compute();
     });
-    compute();
+    document.getElementById('conv-now').addEventListener('click', setNow);
   }
 
   // ── Overlap bar + live diffs ──
