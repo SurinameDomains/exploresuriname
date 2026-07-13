@@ -2349,8 +2349,9 @@ def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
     _TODO  = {"nature", "activities", "shopping", "events"}
     _EAT   = {"restaurants", "hotels"}
-    _ESS   = {"currency", "flights", "forecast", "daily-notices", "worldcup", "matches", "surtime"}
-    _PLAN  = {"visitor", "roads", "itinerary", "safety", "history"}
+    _ESS   = {"currency", "forecast", "worldcup", "matches"}
+    _SVC   = {"services", "daily-notices", "flights"}
+    _PLAN  = {"visitor", "surtime", "roads", "itinerary", "safety", "history"}
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal"}
 
     def _is_active(key):
@@ -2403,16 +2404,20 @@ def nav_html(active="home", prefix=""):
     # Essentials (live data)
     ess_items = (
         f'<a href="{prefix}currency.html"       {_link_cls("currency")}       >Market Rates</a>'
-        f'<a href="{prefix}flights.html"        {_link_cls("flights")}        >Flights</a>'
-        f'<a href="{prefix}suriname-time.html"  {_link_cls("surtime")}        >Time &amp; Converter</a>'
         f'<a href="{prefix}conditions.html"     {_link_cls("forecast")}       >Weather &amp; Tides</a>'
-        f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")}  >Daily Notices</a>'
         f'<a href="{prefix}worldcup-2026.html"   {_link_cls("worldcup")}       >World Cup 2026</a>'
         f'<a href="{prefix}matches.html"        {_link_cls("matches")}        >Sports Schedule</a>'
+    )
+    # Local Services (resident tools)
+    svc_items = (
+        f'<a href="{prefix}services.html"       {_link_cls("services")}       >Business Directory</a>'
+        f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")}  >Daily Notices</a>'
+        f'<a href="{prefix}flights.html"        {_link_cls("flights")}        >Flights</a>'
     )
     # Visitor Guide
     plan_items = (
         f'<a href="{prefix}visitor-guide.html"  {_link_cls("visitor")}  >The Basics</a>'
+        f'<a href="{prefix}suriname-time.html"  {_link_cls("surtime")}  >Time &amp; Converter</a>'
         f'<a href="{prefix}on-the-road.html"    {_link_cls("roads")}    >On the Road</a>'
         f'<a href="{prefix}suriname-itinerary.html" {_link_cls("itinerary")} >Trip Itineraries</a>'
         f'<a href="{prefix}is-suriname-safe.html"   {_link_cls("safety")}    >Is Suriname Safe?</a>'
@@ -2430,7 +2435,7 @@ def nav_html(active="home", prefix=""):
     desktop_nav = (
         _desktop_dd("dd-todo", "Things to Do",   todo_items,  _TODO) +
         _desktop_dd("dd-eat",  "Eat &amp; Stay", eat_items,   _EAT)  +
-        f'<a href="{prefix}services.html" {_top_single_style("services")}>Local Services</a>' +
+        _desktop_dd("dd-svc",  "Local Services", svc_items,  _SVC)  +
         _desktop_dd("dd-plan", "Visitor Guide",  plan_items, _PLAN) +
         _desktop_dd("dd-games", "Games",         games_items, _GAMES) +
         _desktop_dd("dd-ess",  "Essentials",     ess_items,  _ESS)  +
@@ -2469,15 +2474,18 @@ def nav_html(active="home", prefix=""):
     )
     mob_ess_items = (
         _mob_link(f"{prefix}currency.html",      "Market Rates",  "currency") +
-        _mob_link(f"{prefix}flights.html",       "Flights",       "flights")  +
         _mob_link(f"{prefix}conditions.html",    "Weather & Tides", "forecast") +
-        _mob_link(f"{prefix}daily-notices.html", "Daily Notices", "daily-notices") +
         _mob_link(f"{prefix}worldcup-2026.html",  "World Cup 2026", "worldcup") +
-        _mob_link(f"{prefix}matches.html",       "Sports Schedule", "matches") +
-        _mob_link(f"{prefix}suriname-time.html", "Time & Converter", "surtime")
+        _mob_link(f"{prefix}matches.html",       "Sports Schedule", "matches")
+    )
+    mob_svc_items = (
+        _mob_link(f"{prefix}services.html",      "Business Directory", "services") +
+        _mob_link(f"{prefix}daily-notices.html", "Daily Notices", "daily-notices") +
+        _mob_link(f"{prefix}flights.html",       "Flights",       "flights")
     )
     mob_plan_items = (
         _mob_link(f"{prefix}visitor-guide.html", "The Basics",    "visitor") +
+        _mob_link(f"{prefix}suriname-time.html", "Time & Converter", "surtime") +
         _mob_link(f"{prefix}on-the-road.html",   "On the Road",   "roads") +
         _mob_link(f"{prefix}suriname-itinerary.html", "Trip Itineraries", "itinerary") +
         _mob_link(f"{prefix}is-suriname-safe.html",   "Is Suriname Safe?", "safety") +
@@ -2502,7 +2510,7 @@ def nav_html(active="home", prefix=""):
     mobile_menu = (
         _mob_group("mg-todo", "Things to Do",    mob_todo_items,  _TODO) +
         _mob_group("mg-eat",  "Eat & Stay",      mob_eat_items,   _EAT)  +
-        _svc_link +
+        _mob_group("mg-svc",  "Local Services",  mob_svc_items,   _SVC)  +
         _mob_group("mg-plan", "Visitor Guide",   mob_plan_items,  _PLAN) +
         _mob_group("mg-games", "Games",           mob_games_items, _GAMES) +
         _mob_group("mg-ess",  "Essentials",      mob_ess_items,   _ESS)  +
