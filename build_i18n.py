@@ -307,16 +307,56 @@ def inject_switcher(soup, lang: str, rel_path: str):
                           else f"color:{idle_col};text-decoration:none")
             into.append(a)
 
-    # --- desktop: far-right of the search box, hidden on mobile ---
+    # --- desktop: globe dropdown to the right of the search box, hidden on mobile ---
     holder = soup.find(attrs={"class": re.compile(r"flex items-center gap-2 flex-shrink-0")})
     if holder is not None:
         wrap = soup.new_tag("div"); wrap["data-langswitch"] = "1"
-        wrap["class"] = "hidden md:flex items-center"
-        wrap["style"] = "gap:7px;margin-left:10px;flex-shrink:0;font-size:12px;font-weight:600"
-        wrap.append(globe("#9ca3af"))
-        links(wrap, "var(--forest)", "#9ca3af")
+        wrap["class"] = "hidden md:flex"
+        wrap["style"] = "position:relative;align-items:center;margin-left:8px;flex-shrink:0"
+
+        btn = soup.new_tag("button", attrs={
+            "type":"button","aria-label":"Language","aria-expanded":"false",
+            "onclick":("var m=this.nextElementSibling,o=m.style.display==='block';"
+                       "document.querySelectorAll('[data-langmenu]').forEach(function(x){x.style.display='none';});"
+                       "m.style.display=o?'none':'block';"
+                       "this.setAttribute('aria-expanded',(!o).toString());"
+                       "event.stopPropagation();"),
+            "style":("display:flex;align-items:center;gap:5px;background:none;border:0;cursor:pointer;"
+                     "font-size:12px;font-weight:600;color:#6b7280;padding:4px 7px;border-radius:8px")})
+        btn.append(globe("#6b7280"))
+        cur = soup.new_tag("span"); cur.string = SWITCH_LABEL[lang]; btn.append(cur)
+        chev = soup.new_tag("svg", attrs={"width":"11","height":"11","viewBox":"0 0 24 24",
+                                          "fill":"none","stroke":"currentColor","stroke-width":"2.5",
+                                          "style":"flex-shrink:0;opacity:.7"})
+        chev.append(soup.new_tag("path", attrs={"d":"M6 9l6 6 6-6","stroke-linecap":"round","stroke-linejoin":"round"}))
+        btn.append(chev)
+        wrap.append(btn)
+
+        menu = soup.new_tag("div"); menu["data-langmenu"] = "1"
+        menu["style"] = ("display:none;position:absolute;right:0;top:100%;margin-top:6px;background:#fff;"
+                         "border:1px solid #eee;border-radius:10px;box-shadow:0 8px 24px rgba(20,42,30,.12);"
+                         "padding:5px;min-width:112px;z-index:60")
+        for code in ["en", "nl", "es"]:
+            a = soup.new_tag("a", href=href(code)); a.string = SWITCH_LABEL[code]
+            active = (code == lang)
+            a["style"] = ("display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;"
+                          "text-decoration:none;" + ("color:var(--forest);background:#eef4ee"
+                          if active else "color:#374151"))
+            menu.append(a)
+        wrap.append(menu)
+
         sb = holder.find("button", onclick=re.compile("openSearch")) or holder.find("button")
         (sb.insert_after if sb is not None else holder.append)(wrap)
+
+        # one outside-click handler closes any open language menu
+        body = soup.body or soup
+        if not soup.find(id="langswitch-js"):
+            js = soup.new_tag("script", id="langswitch-js")
+            js.string = ("document.addEventListener('click',function(){"
+                         "document.querySelectorAll('[data-langmenu]').forEach(function(x){"
+                         "x.style.display='none';var b=x.previousElementSibling;"
+                         "if(b)b.setAttribute('aria-expanded','false');});});")
+            body.append(js)
 
     # --- mobile: row at the top of the hamburger menu (keeps the hamburger intact) ---
     mm = soup.find(id="mm")
