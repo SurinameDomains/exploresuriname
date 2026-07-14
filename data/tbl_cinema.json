@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-13T16:00:40.122309+00:00",
+  "last_updated": "2026-07-14T10:00:39.473337+00:00",
   "date_label": "Today",
   "showings": [
     {
@@ -23,24 +23,19 @@
       "url": "https://www.tblcinemas.com/movie/WE14514/welcome-to-the-jungle"
     },
     {
-      "time": "07:00 PM",
-      "title": "Supergirl",
-      "url": "https://www.tblcinemas.com/movie/SU22592/supergirl"
-    },
-    {
       "time": "07:30 PM",
       "title": "Alpha",
       "url": "https://www.tblcinemas.com/movie/RS840813755512/alpha"
     },
     {
-      "time": "08:30 PM",
+      "time": "08:15 PM",
       "title": "Moana",
       "url": "https://www.tblcinemas.com/movie/RS973343229507/moana"
     },
     {
-      "time": "09:00 PM",
-      "title": "The Get Out",
-      "url": "https://www.tblcinemas.com/movie/TH24834/the-get-out"
+      "time": "08:45 PM",
+      "title": "Backrooms",
+      "url": "https://www.tblcinemas.com/movie/BA32133/backrooms"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
