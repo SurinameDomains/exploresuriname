@@ -9040,7 +9040,8 @@ def build_worldcup_page():
     schedule_html = (
         '<h2 class="serif text-2xl font-bold text-gray-900 mb-1 mt-2">Schedule &amp; Live Scores</h2>'
         '<p class="text-gray-500 text-sm mb-3">All kickoff times are Suriname time (UTC-3). '
-        'Live scores refresh automatically every minute. Match data: ESPN.</p>'
+        'Live scores refresh automatically every minute. Match data: ESPN. '
+        'Ends 19 July &mdash; after that, ' + _ilink("matches.html", "all sport in Suriname time") + '.</p>'
         '<div id="wc-list"><p class="text-gray-500 text-sm py-6">Loading the match schedule&hellip; '
         'If nothing appears, refresh the page.</p></div>'
         '<noscript><p class="text-gray-600 text-sm py-4">Enable JavaScript to see the schedule and live scores.</p></noscript>')
@@ -9056,7 +9057,20 @@ def build_worldcup_page():
         'late evening Suriname time. Check ' + _ilink("restaurants.html", "where to eat") + ' for spots with '
         'screens, and our ' + _ilink("events.html", "events calendar") + ' for everything else happening this season.</p>')
 
+    keep_watching = (
+        '<div class="rounded-2xl border px-5 py-4 mt-6 mb-2" '
+        'style="background:var(--card);border-color:var(--line)">'
+        '<p class="text-xs font-bold uppercase tracking-widest mb-1" style="color:var(--coral)">'
+        'After the final whistle</p>'
+        '<p class="text-sm text-gray-700 leading-relaxed">'
+        'The World Cup ends 19 July, but the football does not stop. Our '
+        + _ilink("matches.html", "Sports Schedule")
+        + ' keeps every kickoff and tip-off in Suriname time all year: Champions League, '
+        'Premier League, Eredivisie, NBA and fight nights (UFC, Glory, boxing). '
+        'Bookmark it now so you never miss the next one.</p></div>')
+
     body = (schedule_html
+            + keep_watching
             + '<div class="mt-10"></div>'
             + _hub_card("Watch in Suriname", "STVS, ATV, Telesur+ and SRS", watch_body)
             + _hub_card("The Tournament", "48 Teams, 104 Matches, Three Hosts", format_body)
