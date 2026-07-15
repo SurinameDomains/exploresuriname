@@ -9040,8 +9040,7 @@ def build_worldcup_page():
     schedule_html = (
         '<h2 class="serif text-2xl font-bold text-gray-900 mb-1 mt-2">Schedule &amp; Live Scores</h2>'
         '<p class="text-gray-500 text-sm mb-3">All kickoff times are Suriname time (UTC-3). '
-        'Live scores refresh automatically every minute. Match data: ESPN. '
-        'Ends 19 July &mdash; after that, ' + _ilink("matches.html", "all sport in Suriname time") + '.</p>'
+        'Live scores refresh automatically every minute. Match data: ESPN.</p>'
         '<div id="wc-list"><p class="text-gray-500 text-sm py-6">Loading the match schedule&hellip; '
         'If nothing appears, refresh the page.</p></div>'
         '<noscript><p class="text-gray-600 text-sm py-4">Enable JavaScript to see the schedule and live scores.</p></noscript>')
@@ -9069,8 +9068,8 @@ def build_worldcup_page():
         'Premier League, Eredivisie, NBA and fight nights (UFC, Glory, boxing). '
         'Bookmark it now so you never miss the next one.</p></div>')
 
-    body = (schedule_html
-            + keep_watching
+    body = (keep_watching
+            + schedule_html
             + '<div class="mt-10"></div>'
             + _hub_card("Watch in Suriname", "STVS, ATV, Telesur+ and SRS", watch_body)
             + _hub_card("The Tournament", "48 Teams, 104 Matches, Three Hosts", format_body)
