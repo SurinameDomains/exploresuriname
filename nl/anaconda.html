@@ -830,6 +830,7 @@ CV.addEventListener("pointerup",ev=>{
   if(Math.abs(dx)>Math.abs(dy))turn(dx>0?1:-1,0);else turn(0,dy>0?1:-1);}
  pd=null;});
 document.addEventListener("keydown",ev=>{
+ if(ev.target&&(ev.target.tagName==="INPUT"||ev.target.tagName==="TEXTAREA"))return;
  const k=ev.key;
  if(k==="ArrowLeft"||k==="a"||k==="A"){turn(-1,0);ev.preventDefault();}
  else if(k==="ArrowRight"||k==="d"||k==="D"){turn(1,0);ev.preventDefault();}

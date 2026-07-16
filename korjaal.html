@@ -801,6 +801,7 @@ CV.addEventListener("pointerup",ev=>{
  else { const r=CV.getBoundingClientRect();const rx=(ev.clientX-r.left)/r.width;moveLane(rx<0.5?-1:1); }
  pd=null;});
 document.addEventListener("keydown",ev=>{
+ if(ev.target&&(ev.target.tagName==="INPUT"||ev.target.tagName==="TEXTAREA"))return;
  if(ev.key==="ArrowLeft"||ev.key==="a"||ev.key==="A"){moveLane(-1);ev.preventDefault();}
  else if(ev.key==="ArrowRight"||ev.key==="d"||ev.key==="D"){moveLane(1);ev.preventDefault();}
  else if((ev.key===" "||ev.key==="Enter")&&st!=="run"){start();ev.preventDefault();}});
