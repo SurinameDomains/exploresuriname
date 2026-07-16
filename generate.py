@@ -8059,6 +8059,134 @@ function mtEarlier(){
     return head + hero + main + _MT_JS + "\n" + footer_html() + "\n</body>\n</html>"
 
 
+# ── Game leaderboards (client for the Cloudflare Worker API) ─────────────────
+# Backend: ../leaderboard-worker (Cloudflare Worker + D1, free tier).
+# Set LB_API to the deployed Worker URL to switch the boards on.
+# Empty string = boards fully disabled/hidden, site works as before.
+LB_API = "https://esr-leaderboard.surinamedomains.workers.dev"
+
+LB_CSS = """
+  <style>
+    #lb-sec{margin-top:2.6rem}
+    .lb-kick{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#9ca3af;font-weight:800;margin-bottom:.15rem}
+    .lb-head{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.7rem}
+    .lb-tabs button{padding:.3rem .8rem;border:1px solid #d1d5db;background:#fff;font-size:.74rem;font-weight:700;color:#6b7280;cursor:pointer}
+    .lb-tabs button:first-child{border-radius:9999px 0 0 9999px}
+    .lb-tabs button:last-child{border-radius:0 9999px 9999px 0;margin-left:-1px}
+    .lb-tabs button.on{background:var(--forest);border-color:var(--forest);color:#fff}
+    #lb-list{list-style:none;margin:0;padding:0}
+    .lb-row{display:flex;align-items:center;gap:.7rem;background:#fff;border:1px solid #eef0f2;border-radius:12px;padding:.5rem .8rem;margin-bottom:.35rem}
+    .lb-row.me{border-color:var(--forest);background:#f0f9f3}
+    .lb-rank{width:1.7rem;height:1.7rem;border-radius:9999px;background:#f3f4f6;color:#6b7280;font-weight:800;font-size:.74rem;display:flex;align-items:center;justify-content:center;flex:none}
+    .lb-row:nth-child(1) .lb-rank{background:#fbbf24;color:#78350f}
+    .lb-row:nth-child(2) .lb-rank{background:#e5e7eb;color:#374151}
+    .lb-row:nth-child(3) .lb-rank{background:#fdba74;color:#7c2d12}
+    .lb-name{flex:1;font-weight:700;color:#111827;font-size:.92rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .lb-sc{font-weight:900;color:var(--forest);font-size:.95rem}
+    .lb-empty{font-size:.85rem;color:#9ca3af;background:#f9fafb;border:1px dashed #d1d5db;border-radius:12px;padding:.9rem;text-align:center}
+    .lb-form{display:flex;gap:.5rem;margin-top:.6rem}
+    .lb-form input{flex:1;border:1px solid #d1d5db;border-radius:9999px;padding:.55rem .9rem;font-size:.9rem;min-width:0}
+    .lb-form button{background:var(--forest);color:#fff;font-weight:700;border:none;border-radius:9999px;padding:.55rem 1.1rem;font-size:.82rem;cursor:pointer;flex:none}
+    #lb-you .lb-rankline{background:#f0f9f3;border:1px solid var(--forest);border-radius:12px;padding:.7rem .9rem;font-size:.9rem;color:#14532d;margin-top:.6rem}
+    #lb-you .lb-chg{color:#6b7280;text-decoration:underline;cursor:pointer}
+    #lb-meta{font-size:.72rem;color:#9ca3af;margin-top:.5rem}
+    .lb-wa{display:inline-block;background:#25d366;color:#fff;font-weight:700;border-radius:9999px;padding:.5rem 1.1rem;font-size:.82rem;margin-top:.55rem}
+  </style>"""
+
+LB_SECTION = """
+  <section id="lb-sec" class="hidden" aria-live="polite">
+    <p class="lb-kick" translate="no">Suma na basi?</p>
+    <div class="lb-head">
+      <h2 id="lb-ttl" class="serif text-xl font-bold text-gray-900">Leaderboard</h2>
+      <div class="lb-tabs"><button id="lb-tt" class="on" type="button">Today</button><button id="lb-ta" type="button">All-time</button></div>
+    </div>
+    <ol id="lb-list"></ol>
+    <div id="lb-you"></div>
+    <p id="lb-meta"></p>
+  </section>"""
+
+_LB_JS_TPL = r"""<script>
+window.ESRLB=(function(){
+var API="__API__",G="__GAME__",PAGE="__PAGE__",TTL="__TTL__";
+var L={
+ en:{ttl:"Leaderboard",today:"Today",all:"All-time",empty:"No scores yet today. Be the first!",nm:"Your name",save:"Put me on the board",bad:"Pick another name (2-14 letters)",you:"You play as",chg:"change",r1:"You are #",r2:" today and #",r3:" all-time.",wa:"Challenge a mati on WhatsApp",wat1:"I am #",wat2:" on the "+TTL+" leaderboard today. Beat that: ",runs:"runs",players:"players"},
+ nl:{ttl:"Scorebord",today:"Vandaag",all:"All-time",empty:"Nog geen scores vandaag. Wees de eerste!",nm:"Je naam",save:"Zet mij op het bord",bad:"Kies een andere naam (2-14 letters)",you:"Je speelt als",chg:"wijzig",r1:"Je staat #",r2:" vandaag en #",r3:" all-time.",wa:"Daag een mati uit op WhatsApp",wat1:"Ik sta #",wat2:" op het "+TTL+" scorebord vandaag. Verbeter dat: ",runs:"runs",players:"spelers"}};
+var lang="en";try{lang=localStorage.getItem("__LK__")||(document.documentElement.lang==="nl"?"nl":"en");}catch(e){}
+var $=function(i){return document.getElementById(i);};
+var data=null,tab="t",last=null,myRt=null,myRa=null,changing=false;
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return c==="&"?"&amp;":c==="<"?"&lt;":c===">"?"&gt;":c==='"'?"&quot;":"&#39;";});}
+function did(){try{var d=localStorage.getItem("esr-did");if(!d){var a=new Uint8Array(12);crypto.getRandomValues(a);d="";for(var i=0;i<a.length;i++)d+=("0"+a[i].toString(16)).slice(-2);localStorage.setItem("esr-did",d);}return d;}catch(e){return null;}}
+function nick(){try{return localStorage.getItem("esr-nick")||"";}catch(e){return "";}}
+function day(){return new Date(Date.now()-108e5).toISOString().slice(0,10);}
+function labels(){var t=L[lang];$("lb-ttl").textContent=t.ttl;$("lb-tt").textContent=t.today;$("lb-ta").textContent=t.all;}
+function rows(arr){var t=L[lang];if(!arr||!arr.length)return '<li class="lb-empty">'+t.empty+'</li>';
+ var h="";for(var i=0;i<arr.length;i++){var r=arr[i];
+  h+='<li class="lb-row'+(r.me?" me":"")+'"><span class="lb-rank">'+(i+1)+'</span><span class="lb-name">'+esc(r.n)+'</span><b class="lb-sc">'+(+r.s).toLocaleString()+'</b></li>';}
+ return h;}
+function you(){var t=L[lang],n=nick(),h="";
+ if(!n&&(last!==null||changing)){h='<div class="lb-form"><input id="lb-nm" maxlength="14" placeholder="'+t.nm+'"><button id="lb-sv" type="button">'+t.save+'</button></div><p id="lb-err" class="text-xs" style="color:#dc2626;margin-top:.3rem"></p>';}
+ else if(n){var r="";
+  if(myRt)r='<div class="lb-rankline">'+t.r1+myRt+t.r2+myRa+t.r3+'<br><a class="lb-wa" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(t.wat1+myRt+t.wat2+"https://exploresuriname.com/"+PAGE)+'">'+t.wa+'</a></div>';
+  h=r+'<p class="text-xs text-gray-400 mt-2">'+t.you+' <b>'+esc(n)+'</b> · <span class="lb-chg" id="lb-chg">'+t.chg+'</span></p>';}
+ $("lb-you").innerHTML=h;
+ var sv=$("lb-sv");if(sv)sv.onclick=save;
+ var nm=$("lb-nm");if(nm)nm.onkeydown=function(ev){if(ev.key==="Enter")save();};
+ var ch=$("lb-chg");if(ch)ch.onclick=function(){changing=true;try{localStorage.removeItem("esr-nick");}catch(e){}you();};}
+function paint(){if(!data)return;labels();$("lb-list").innerHTML=rows(tab==="t"?data.t:data.a);
+ $("lb-meta").textContent=(+data.plays).toLocaleString()+" "+L[lang].runs+" · "+(+data.players).toLocaleString()+" "+L[lang].players;
+ you();$("lb-sec").classList.remove("hidden");}
+function save(){var t=L[lang],el=$("lb-nm"),v=(el&&el.value||"").replace(/\s+/g," ").trim();
+ if(v.length<2){var e1=$("lb-err");if(e1)e1.textContent=t.bad;return;}
+ try{localStorage.setItem("esr-nick",v.slice(0,14));}catch(e){}
+ changing=false;
+ if(last!==null)submit(last);else paint();}
+function submit(sc){var d=did(),n=nick();if(!d||!n)return;
+ fetch(API+"/score",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({g:G,d:d,n:n,s:sc})})
+ .then(function(r){return r.json();})
+ .then(function(j){if(j&&j.ok){myRt=j.rt;myRa=j.ra;try{localStorage.setItem("lb-sent-"+G,day()+":"+(j.best||sc));}catch(e){}refresh();}
+  else if(j&&j.err==="name"){try{localStorage.removeItem("esr-nick");}catch(e){}changing=true;you();var e2=$("lb-err");if(e2)e2.textContent=L[lang].bad;}})
+ .catch(function(){});}
+function refresh(){fetch(API+"/top?game="+G+"&d="+(did()||""))
+ .then(function(r){return r.json();})
+ .then(function(j){if(j&&j.t){data=j;paint();}})
+ .catch(function(){});}
+return{
+ played:function(){try{navigator.sendBeacon&&navigator.sendBeacon(API+"/play",JSON.stringify({g:G}));}catch(e){}},
+ over:function(sc){sc=Math.floor(+sc);if(!(sc>=0))return;last=sc;
+  if(nick()){var v="";try{v=localStorage.getItem("lb-sent-"+G)||"";}catch(e){}var p=v.split(":");
+   if(p[0]===day()&&+p[1]>=sc){paint();return;}
+   submit(sc);}
+  else paint();},
+ lang:function(l){if(l==="nl"||l==="en")lang=l;paint();},
+ init:function(){$("lb-tt").onclick=function(){tab="t";$("lb-tt").classList.add("on");$("lb-ta").classList.remove("on");paint();};
+  $("lb-ta").onclick=function(){tab="a";$("lb-ta").classList.add("on");$("lb-tt").classList.remove("on");paint();};
+  labels();refresh();}
+};
+})();
+if(window.ESRLB)ESRLB.init();
+</script>"""
+
+
+def _lb_css():
+    return LB_CSS if LB_API else ""
+
+
+def _lb_sec():
+    return LB_SECTION if LB_API else ""
+
+
+def _lb_js(game, lang_key, page, title):
+    """Per-game leaderboard client script. Empty when LB_API is not set."""
+    if not LB_API:
+        return ""
+    return (_LB_JS_TPL.replace("__API__", LB_API)
+            .replace("__GAME__", game)
+            .replace("__LK__", lang_key)
+            .replace("__PAGE__", page)
+            .replace("__TTL__", title))
+
+
+
 # ── Pe A De? daily Suriname map game ─────────────────────────────────────────
 def build_mapgame_page():
     """map-game.html: Pe A De? - tap the map of Suriname (official shape, includes
@@ -8197,7 +8325,7 @@ def build_mapgame_page():
         + '\n  <meta name="twitter:description" content="Tap the map of Suriname and guess where five places are, every day.">'
         + '\n  <meta name="twitter:image" content="' + _ogimg + '">'
         + '\n  <script type="application/ld+json">\n  ' + _graph + '\n  </script>'
-        + _CSS + '\n</head>')
+        + _CSS + _lb_css() + '\n</head>')
 
     _about = """
 <section class="max-w-2xl mx-auto px-4 mt-14">
@@ -8271,6 +8399,7 @@ __NAV__
     </div>
     <div id="mg-panel" class="mt-3"></div>
   </div>
+__LBSEC__
   <p id="mg-note" class="text-xs text-gray-400 mt-6 leading-relaxed"></p>
 </main>
 __NOSCRIPT__
@@ -8301,6 +8430,7 @@ function score(d){return d<=8?100:Math.max(0,Math.round(100*Math.exp(-(d-8)/55))
 function saveR(){if(!practice)localStorage.setItem("mg-r-"+D,JSON.stringify(res));}
 function stats(){let s={streak:0,best:0,games:0,sum:0};try{s=JSON.parse(localStorage.getItem("mg-s")||JSON.stringify(s));}catch(e){}return s;}
 function finishStats(){if(practice)return;const s=stats(),tot=res.reduce((a,r)=>a+r.p,0);if(localStorage.getItem("mg-done-"+D))return;localStorage.setItem("mg-done-"+D,"1");
+ window.ESRLB&&ESRLB.played();
  s.streak=(localStorage.getItem("mg-done-"+(D-1))?s.streak:0)+1;s.best=Math.max(s.best,s.streak);s.games++;s.sum+=tot;localStorage.setItem("mg-s",JSON.stringify(s));}
 const SV=$("mg-svg"),LAYER=$("mg-layer");
 function setVB(){SV.setAttribute("viewBox",vb.join(" "));}
@@ -8360,6 +8490,7 @@ function shareTxt(){const tot=res.reduce((a,r)=>a+r.p,0);
  const row=res.map(r=>r.p>=70?"\\ud83d\\udfe2":r.p>=35?"\\ud83d\\udfe1":"\\ud83d\\udd34").join("");
  return "Pe A De? #"+NUM+": "+tot+"/500\\n"+row+"\\nhttps://exploresuriname.com/map-game.html";}
 function rView(){const L=T[lang],tot=res.reduce((a,r)=>a+r.p,0),s=stats();
+ if(!practice&&res.length===5&&res[4])window.ESRLB&&ESRLB.over(tot);
  zoomTo(1);LAYER.innerHTML="";
  P.forEach((p,i)=>{const[tx,ty]=px(p.lo,p.la);
   LAYER.appendChild(el("circle",{cx:tx,cy:ty,r:5,fill:res[i]&&res[i].p>=70?"#16a34a":res[i]&&res[i].p>=35?"#d97706":"#dc2626",stroke:"#fff","stroke-width":1.5}));
@@ -8384,15 +8515,18 @@ function rView(){const L=T[lang],tot=res.reduce((a,r)=>a+r.p,0),s=stats();
    while(P.length<5){const i=Math.floor(Math.random()*pool.length);if(!used[i]){used[i]=1;P.push(pool[i]);}}
    res=[];cur=0;ask();}label();dots();};
  dots();}
-function setLang(l){lang=l;localStorage.setItem("mg-lang",l);$("mg-nl").classList.toggle("on",l==="nl");$("mg-en").classList.toggle("on",l==="en");
+function setLang(l){lang=l;localStorage.setItem("mg-lang",l);$("mg-nl").classList.toggle("on",l==="nl");$("mg-en").classList.toggle("on",l==="en");window.ESRLB&&ESRLB.lang(l);
  label();if(cur>=5)rView();else ask();}
 $("mg-nl").onclick=()=>setLang("nl");$("mg-en").onclick=()=>setLang("en");
 if(DAILY.length===5){setLang(lang);}else{$("mg-ask").innerHTML="<p class='text-sm text-gray-500'>Loading error. Refresh the page.</p>";}
 </script>
+__LBJS__
 </body>
 </html>"""
 
-    body = (body.replace("__COUNTRY__", _country_d)
+    body = (body.replace("__LBSEC__", _lb_sec())
+                .replace("__LBJS__", _lb_js("mapgame", "mg-lang", "map-game.html", "Pe A De?"))
+                .replace("__COUNTRY__", _country_d)
                 .replace("__LAKE__", _lake_d)
                 .replace("__RIVERS__", _rivers_d)
                 .replace("__NAV__", nav_html("mapgame"))
@@ -8494,7 +8628,7 @@ def build_korjaal_page():
         + '\n  <meta name="twitter:description" content="Switch lanes, dodge the river, ride the sula boost. How far can you paddle before it wins?">'
         + '\n  <meta name="twitter:image" content="' + _ogimg + '">'
         + '\n  <script type="application/ld+json">\n  ' + _graph + '\n  </script>'
-        + _CSS + '\n</head>')
+        + _CSS + _lb_css() + '\n</head>')
 
     _about = """
 <section class="max-w-2xl mx-auto px-4 mt-14">
@@ -8551,6 +8685,7 @@ __NAV__
   <div id="kj-wrap"><canvas id="kj-cv" width="400" height="640" aria-label="Korjaal Run game"></canvas><button id="kj-mute" aria-label="Sound on/off">&#128266;</button></div>
   <div class="kj-hint"><span><b id="kj-h1">Tap left / right</b> to switch lane</span><span><b>&#8592; &#8594; / A D</b> keyboard</span></div>
   <div id="kj-panel" class="mt-4"></div>
+__LBSEC__
   <p id="kj-note" class="text-xs text-gray-400 mt-6 leading-relaxed"></p>
 </main>
 __NOSCRIPT__
@@ -8803,6 +8938,7 @@ function die(){st="over";sfxCrash();shake=10;
  const best=+(localStorage.getItem("kj-best")||0);
  const isNew=sc>best;if(isNew)localStorage.setItem("kj-best",sc);
  runsLocal=1+ +(localStorage.getItem("kj-runs")||0);localStorage.setItem("kj-runs",runsLocal);
+ window.ESRLB&&ESRLB.over(sc);
  CX.fillStyle="rgba(8,22,16,.74)";CX.fillRect(0,0,W,HT);
  CX.textAlign="center";
  const L=T[lang];
@@ -8825,6 +8961,7 @@ function panel(sc,best,isNew){const L=T[lang];
  $("kj-cp").onclick=()=>{navigator.clipboard.writeText(shareTxt(sc));$("kj-cp").textContent=L.copied;};}
 
 function start(){reset();st="run";started=0;$("kj-panel").innerHTML="";lastT=0;
+ window.ESRLB&&ESRLB.played();
  ac();cancelAnimationFrame(raf);raf=requestAnimationFrame(step);}
 function idle(){st="idle";reset();render();
  CX.fillStyle="rgba(8,22,16,.62)";CX.fillRect(0,0,W,HT);
@@ -8849,7 +8986,7 @@ document.addEventListener("keydown",ev=>{
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&st==="run"){cancelAnimationFrame(raf);st="pause";}
  else if(st==="pause"){st="run";lastT=0;raf=requestAnimationFrame(step);}});
 
-function setLang(l){lang=l;localStorage.setItem("kj-lang",l);
+function setLang(l){lang=l;localStorage.setItem("kj-lang",l);window.ESRLB&&ESRLB.lang(l);
  $("kj-nl").classList.toggle("on",l==="nl");$("kj-en").classList.toggle("on",l==="en");
  $("kj-note").textContent=T[l].note;$("kj-h1").textContent=T[l].hint;
  if(st==="idle")idle();}
@@ -8860,10 +8997,13 @@ $("kj-mute").innerHTML=muted?"&#128263;":"&#128266;";
 setLang(lang);idle();
 })();
 </script>
+__LBJS__
 </body>
 </html>"""
 
-    body = (body.replace("__NAV__", nav_html("korjaal"))
+    body = (body.replace("__LBSEC__", _lb_sec())
+                .replace("__LBJS__", _lb_js("korjaal", "kj-lang", "korjaal.html", "Korjaal Run"))
+                .replace("__NAV__", nav_html("korjaal"))
                 .replace("__NOSCRIPT__", _noscript)
                 .replace("__ABOUT__", _about)
                 .replace("__FAQ__", _faq_html)
@@ -8960,7 +9100,7 @@ def build_anaconda_page():
         + '\n  <meta name="twitter:description" content="Eat piranhas, build the combo, dodge the driftwood. How long can your anaconda get?">'
         + '\n  <meta name="twitter:image" content="' + _ogimg + '">'
         + '\n  <script type="application/ld+json">\n  ' + _graph + '\n  </script>'
-        + _CSS + '\n</head>')
+        + _CSS + _lb_css() + '\n</head>')
 
     _about = """
 <section class="max-w-2xl mx-auto px-4 mt-14">
@@ -9018,6 +9158,7 @@ __NAV__
   <div id="ab-wrap"><canvas id="ab-cv" width="400" height="640" aria-label="Aboma snake game"></canvas><button id="ab-mute" aria-label="Sound on/off">&#128266;</button></div>
   <div class="ab-hint"><span><b id="ab-h1">Swipe</b> to steer</span><span><b>&#8592;&#8593;&#8595;&#8594; / WASD</b> keyboard</span></div>
   <div id="ab-panel" class="mt-4"></div>
+__LBSEC__
   <p id="ab-note" class="text-xs text-gray-400 mt-6 leading-relaxed"></p>
 </main>
 __NOSCRIPT__
@@ -9141,6 +9282,7 @@ function die(){st="over";sfxCrash();shake=10;flash=1;
  const best=+(localStorage.getItem("ab-best")||0);
  const isNew=sc>best;if(isNew)localStorage.setItem("ab-best",sc);
  localStorage.setItem("ab-runs",1+ +(localStorage.getItem("ab-runs")||0));
+ window.ESRLB&&ESRLB.over(sc);
  CX.fillStyle="rgba(8,22,16,.74)";CX.fillRect(0,0,W,HT);
  CX.textAlign="center";
  const L=T[lang];
@@ -9313,6 +9455,7 @@ function frame(ts){
  raf=requestAnimationFrame(frame);
 }
 function start(){reset();st="run";$("ab-panel").innerHTML="";lastT=0;acc=0;
+ window.ESRLB&&ESRLB.played();
  ac();cancelAnimationFrame(raf);raf=requestAnimationFrame(frame);}
 function idle(){st="idle";reset();render(1);
  CX.fillStyle="rgba(8,22,16,.62)";CX.fillRect(0,0,W,HT);
@@ -9349,7 +9492,7 @@ document.addEventListener("keydown",ev=>{
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&st==="run"){cancelAnimationFrame(raf);st="pause";}
  else if(st==="pause"){st="run";lastT=0;raf=requestAnimationFrame(frame);}});
 
-function setLang(l){lang=l;localStorage.setItem("ab-lang",l);
+function setLang(l){lang=l;localStorage.setItem("ab-lang",l);window.ESRLB&&ESRLB.lang(l);
  $("ab-nl").classList.toggle("on",l==="nl");$("ab-en").classList.toggle("on",l==="en");
  $("ab-note").textContent=T[l].note;$("ab-h1").textContent=T[l].hint;
  if(st==="idle")idle();}
@@ -9360,10 +9503,13 @@ $("ab-mute").innerHTML=muted?"&#128263;":"&#128266;";
 setLang(lang);idle();
 })();
 </script>
+__LBJS__
 </body>
 </html>"""
 
-    body = (body.replace("__NAV__", nav_html("anaconda"))
+    body = (body.replace("__LBSEC__", _lb_sec())
+                .replace("__LBJS__", _lb_js("anaconda", "ab-lang", "anaconda.html", "Aboma"))
+                .replace("__NAV__", nav_html("anaconda"))
                 .replace("__NOSCRIPT__", _noscript)
                 .replace("__ABOUT__", _about)
                 .replace("__FAQ__", _faq_html)
