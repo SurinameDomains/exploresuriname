@@ -1461,6 +1461,7 @@ _SEARCH_INDEX = _json.dumps([
     {"n": "Sabi Suriname: Daily Suriname Quiz", "u": "quiz.html", "c": "Guides", "a": "Suriname"},
     {"n": "Pe A De? Daily Suriname Map Game", "u": "map-game.html", "c": "Guides", "a": "Suriname"},
     {"n": "Korjaal Run: Suriname River Game", "u": "korjaal.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Aboma: Anaconda Snake Game", "u": "anaconda.html", "c": "Guides", "a": "Suriname"},
     {"n": "Daily Notices: Pharmacies, Outages, Cinema", "u": "daily-notices.html", "c": "Guides", "a": "Suriname"},
     {"n": "Flights: PBM Arrivals and Departures", "u": "flights.html", "c": "Guides", "a": "Suriname"},
     {"n": "Weather and Tides: 7-Day Forecast", "u": "conditions.html", "c": "Guides", "a": "Suriname"},
@@ -2417,7 +2418,7 @@ def nav_html(active="home", prefix=""):
     _ESS   = {"currency", "forecast", "worldcup", "matches"}
     _SVC   = {"services", "daily-notices", "flights"}
     _PLAN  = {"visitor", "surtime", "roads", "itinerary", "safety", "history"}
-    _GAMES = {"crossword", "quiz", "mapgame", "korjaal"}
+    _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda"}
 
     def _is_active(key):
         return active == key
@@ -2495,6 +2496,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}crossword.html" {_link_cls("crossword")} >Switi Mini Crossword</a>'
         f'<a href="{prefix}map-game.html"  {_link_cls("mapgame")}   >Pe A De? Map Game</a>'
         f'<a href="{prefix}korjaal.html"   {_link_cls("korjaal")}   >Korjaal Run</a>'
+        f'<a href="{prefix}anaconda.html"  {_link_cls("anaconda")}  >Aboma Snake Game</a>'
     )
 
     desktop_nav = (
@@ -2560,7 +2562,8 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}quiz.html",      "Sabi Suriname Quiz",   "quiz") +
         _mob_link(f"{prefix}crossword.html", "Switi Mini Crossword", "crossword") +
         _mob_link(f"{prefix}map-game.html",  "Pe A De? Map Game",    "mapgame") +
-        _mob_link(f"{prefix}korjaal.html",   "Korjaal Run",          "korjaal")
+        _mob_link(f"{prefix}korjaal.html",   "Korjaal Run",          "korjaal") +
+        _mob_link(f"{prefix}anaconda.html",  "Aboma Snake Game",     "anaconda")
     )
 
     _svc_col  = 'style="color:var(--forest)"' if _is_active("services") else ""
@@ -2806,6 +2809,7 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}quiz.html">Daily Quiz</a>
         <a class="ftr-lnk" href="{prefix}map-game.html">Pe A De? Map Game</a>
         <a class="ftr-lnk" href="{prefix}korjaal.html">Korjaal Run</a>
+        <a class="ftr-lnk" href="{prefix}anaconda.html">Aboma Snake Game</a>
         <a class="ftr-lnk" href="{prefix}worldcup-2026.html">World Cup 2026</a>
         <a class="ftr-lnk" href="{prefix}matches.html">Sports Schedule</a>
         <a class="ftr-lnk" href="{prefix}about.html">About Us</a>
@@ -8506,6 +8510,7 @@ def build_korjaal_page():
   through anything in your way.</p>
   <p class="text-gray-700 text-sm leading-relaxed">Chase your own best score, then send it to the family group and
   watch them try to beat it. Done paddling? Try
+  <a href="anaconda.html" class="font-semibold hover:underline" style="color:var(--forest2)">Aboma</a>,
   <a href="map-game.html" class="font-semibold hover:underline" style="color:var(--forest2)">Pe A De?</a>, the
   <a href="quiz.html" class="font-semibold hover:underline" style="color:var(--forest2)">Sabi Suriname quiz</a> or the
   <a href="crossword.html" class="font-semibold hover:underline" style="color:var(--forest2)">Switi Mini crossword</a>.</p>
@@ -8859,6 +8864,506 @@ setLang(lang);idle();
 </html>"""
 
     body = (body.replace("__NAV__", nav_html("korjaal"))
+                .replace("__NOSCRIPT__", _noscript)
+                .replace("__ABOUT__", _about)
+                .replace("__FAQ__", _faq_html)
+                .replace("__FOOTER__", footer_html()))
+    return head + body
+
+# ── Aboma: anaconda snake game ───────────────────────────────────────────────
+def build_anaconda_page():
+    """anaconda.html: Aboma - snake, Suriname style. Steer a growing anaconda
+    through a jungle river, eat piranhas to grow and build a combo multiplier,
+    grab the golden arowana before it escapes, and dodge driftwood that clogs
+    the river as you feast. Canvas-based, swipe + keyboard, bilingual,
+    everything client-side."""
+    import json as _json
+    today = datetime.now(SR_TZ).date()
+
+    _title = "Aboma: the Suriname anaconda snake game"
+    _desc = ("Steer a hungry anaconda through a Suriname jungle river. Eat piranhas to grow and "
+             "build your combo, catch the golden arowana before it escapes, and dodge the driftwood. "
+             "The longer you get, the faster it moves. Free browser game from Explore Suriname.")
+    _ogimg = SITE_URL + "/og-image.jpg"
+    _faq = [
+        ("What is an aboma?",
+         "Aboma is the Sranantongo name for the green anaconda (Eunectes murinus), the heaviest snake on "
+         "earth and a real resident of Suriname's rivers, swamps and flooded forests. It hunts by ambush "
+         "from the water, which is exactly where this game puts you."),
+        ("How do I play Aboma?",
+         "Swipe on the river to steer (arrow keys or WASD also work). Eat piranhas to grow longer and "
+         "score points. Eating quickly builds a combo multiplier up to x5, and every few piranhas a golden "
+         "arowana appears for a few seconds and is worth five times as much. Hit the riverbank, a piece of "
+         "driftwood or your own body and the run is over."),
+        ("Why does it keep getting harder?",
+         "Every piranha makes the anaconda longer and the river a little faster, and once you are feasting, "
+         "driftwood starts drifting in and stays put. A long anaconda in a cluttered river is the whole "
+         "game: plan your path before you take the bait."),
+        ("Is it free?",
+         "Yes. Aboma is free, needs no app or account, and your best score is stored only in your browser."),
+    ]
+    _graph = _json.dumps({"@context": "https://schema.org", "@graph": [
+        {"@type": "WebPage", "@id": SITE_URL + "/anaconda.html#webpage",
+         "url": SITE_URL + "/anaconda.html", "name": _title, "description": _desc,
+         "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": SITE_URL + "/"},
+         "primaryImageOfPage": _ogimg,
+         "breadcrumb": {"@id": SITE_URL + "/anaconda.html#breadcrumb"},
+         "mainEntity": {"@id": SITE_URL + "/anaconda.html#game"},
+         "datePublished": "2026-07-15", "dateModified": today.isoformat(),
+         "isAccessibleForFree": True},
+        {"@type": "BreadcrumbList", "@id": SITE_URL + "/anaconda.html#breadcrumb",
+         "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Aboma", "item": SITE_URL + "/anaconda.html"}]},
+        {"@type": "VideoGame", "@id": SITE_URL + "/anaconda.html#game",
+         "name": "Aboma", "url": SITE_URL + "/anaconda.html",
+         "description": "Snake, Suriname style: steer a growing anaconda through a jungle river, eat piranhas to build a combo, catch the golden arowana and dodge driftwood as the river speeds up.",
+         "genre": "Arcade", "gamePlatform": "Web browser",
+         "inLanguage": ["nl", "en"], "isAccessibleForFree": True, "image": _ogimg,
+         "publisher": {"@type": "Organization", "name": "Explore Suriname", "url": SITE_URL + "/"}},
+        {"@type": "FAQPage", "@id": SITE_URL + "/anaconda.html#faq",
+         "mainEntity": [{"@type": "Question", "name": q,
+                         "acceptedAnswer": {"@type": "Answer", "text": ans}} for q, ans in _faq]},
+    ]}, ensure_ascii=False)
+
+    _CSS = """  <style>
+    #ab-wrap{position:relative;max-width:420px;margin:0 auto}
+    #ab-cv{display:block;width:100%;border-radius:16px;background:#0d2a20;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+    #ab-mute{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:9999px;border:none;background:rgba(0,0,0,.38);color:#fff;font-size:15px;line-height:34px;text-align:center;cursor:pointer;z-index:3}
+    .lang button{padding:.3rem .8rem;border:1px solid #d1d5db;background:#fff;font-size:.78rem;font-weight:700;color:#6b7280}
+    .lang button:first-child{border-radius:9999px 0 0 9999px}.lang button:last-child{border-radius:0 9999px 9999px 0;margin-left:-1px}
+    .lang button.on{background:var(--forest);border-color:var(--forest);color:#fff}
+    .ab-stat{background:#f9fafb;border:1px solid #eef0f2;border-radius:12px;padding:.6rem .4rem;text-align:center}
+    .ab-stat b{display:block;font-size:1.2rem;color:#111827}
+    .ab-stat span{font-size:.64rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em}
+    .ab-new b{color:var(--forest2,#2f7d4f)}
+    .wabtn{display:inline-block;background:#25d366;color:#fff;font-weight:700;border-radius:9999px;padding:.65rem 1.3rem;font-size:.9rem}
+    .cpbtn{display:inline-block;background:#fff;border:1px solid #d1d5db;color:#374151;font-weight:700;border-radius:9999px;padding:.65rem 1.3rem;font-size:.9rem;margin-left:.5rem}
+    .ab-hint{display:flex;gap:1.1rem;justify-content:center;flex-wrap:wrap;margin-top:.7rem;font-size:.72rem;color:#9ca3af}
+    .ab-hint b{color:#6b7280;font-weight:700}
+  </style>"""
+
+    head = (PAGE_HEAD
+        + '\n  <title>Aboma | Suriname Anaconda Snake Game | Explore Suriname</title>'
+        + '\n  <meta name="description" content="' + _desc + '">'
+        + '\n  <link rel="canonical" href="' + SITE_URL + '/anaconda.html">'
+        + '\n  <meta property="og:type" content="website">'
+        + '\n  <meta property="og:site_name" content="Explore Suriname">'
+        + '\n  <meta property="og:url" content="' + SITE_URL + '/anaconda.html">'
+        + '\n  <meta property="og:title" content="' + _title + '">'
+        + '\n  <meta property="og:description" content="Eat piranhas, build the combo, dodge the driftwood. How long can your anaconda get?">'
+        + '\n  <meta property="og:image" content="' + _ogimg + '">'
+        + '\n  <meta property="og:locale" content="nl_NL">'
+        + '\n  <meta property="og:locale:alternate" content="en_US">'
+        + '\n  <meta name="twitter:card" content="summary_large_image">'
+        + '\n  <meta name="twitter:title" content="' + _title + '">'
+        + '\n  <meta name="twitter:description" content="Eat piranhas, build the combo, dodge the driftwood. How long can your anaconda get?">'
+        + '\n  <meta name="twitter:image" content="' + _ogimg + '">'
+        + '\n  <script type="application/ld+json">\n  ' + _graph + '\n  </script>'
+        + _CSS + '\n</head>')
+
+    _about = """
+<section class="max-w-2xl mx-auto px-4 mt-14">
+  <h2 class="serif text-2xl font-bold text-gray-900 mb-3">About Aboma</h2>
+  <p class="text-gray-700 text-sm leading-relaxed mb-3">The aboma, the green anaconda, is the heaviest snake
+  on earth, and Suriname is its home turf. It hangs in the shallows of rivers and swamps from Bigi Pan to the
+  Coeroeni, eyes and nostrils just above the waterline, and lets dinner come to it. Fishermen tell aboma
+  stories the way city people tell traffic stories: everyone has one, and every year the snake gets a little
+  longer in the retelling.</p>
+  <p class="text-gray-700 text-sm leading-relaxed mb-3">This is the classic snake game with a Surinamese
+  appetite. Every piranha makes you longer and the river faster. Eat quickly and your combo climbs to five
+  times the points, and every few catches a golden arowana flashes up for a few seconds, worth a small
+  fortune if you can reach it in time. Driftwood piles up as you feast, so the river you started in is never
+  the river you die in.</p>
+  <p class="text-gray-700 text-sm leading-relaxed">One run takes a minute. Nobody plays one run. When the
+  aboma finally bites its own tail, try
+  <a href="korjaal.html" class="font-semibold hover:underline" style="color:var(--forest2)">Korjaal Run</a>,
+  <a href="map-game.html" class="font-semibold hover:underline" style="color:var(--forest2)">Pe A De?</a>, the
+  <a href="quiz.html" class="font-semibold hover:underline" style="color:var(--forest2)">Sabi Suriname quiz</a> or the
+  <a href="crossword.html" class="font-semibold hover:underline" style="color:var(--forest2)">Switi Mini crossword</a>.</p>
+</section>"""
+
+    _faq_html = ('<section class="max-w-2xl mx-auto px-4 mt-10 mb-4">'
+                 '<h2 class="serif text-2xl font-bold text-gray-900 mb-4">Common questions</h2>'
+                 + "".join('<details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2">'
+                           '<summary class="font-bold text-gray-900 text-sm cursor-pointer">' + q + '</summary>'
+                           '<p class="text-gray-700 text-sm leading-relaxed mt-2">' + ans + '</p></details>'
+                           for q, ans in _faq)
+                 + '</section>')
+
+    _noscript = ('<noscript><section class="max-w-2xl mx-auto px-4 mt-6"><p class="text-sm text-gray-600">'
+                 'Aboma is a browser game and needs JavaScript. Enable JavaScript to feed the anaconda.'
+                 '</p></section></noscript>')
+
+    body = """
+<body class="bg-gray-50 overflow-x-hidden">
+__NAV__
+<div style="height:58px"></div>
+<div class="relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
+  <div class="relative max-w-3xl mx-auto px-4">
+    <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
+      <a href="index.html" class="hover:text-white transition">Home</a>
+      <span class="text-white/40">&#8250;</span>
+      <span class="text-white/90 font-medium" aria-current="page">Aboma</span>
+    </nav>
+    <p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Suriname snake game</p>
+    <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Aboma</h1>
+    <p class="text-white/70 text-base max-w-xl mx-auto">Snake, Suriname style. Eat piranhas, grow longer, dodge the driftwood. The river speeds up with every bite, so how long can your anaconda get?</p>
+  </div>
+</div>
+<main class="max-w-xl mx-auto px-4 py-8 pb-20">
+  <div class="flex items-center justify-end gap-3 mb-3">
+    <div class="lang"><button id="ab-nl">NL</button><button id="ab-en">EN</button></div>
+  </div>
+  <div id="ab-wrap"><canvas id="ab-cv" width="400" height="640" aria-label="Aboma snake game"></canvas><button id="ab-mute" aria-label="Sound on/off">&#128266;</button></div>
+  <div class="ab-hint"><span><b id="ab-h1">Swipe</b> to steer</span><span><b>&#8592;&#8593;&#8595;&#8594; / WASD</b> keyboard</span></div>
+  <div id="ab-panel" class="mt-4"></div>
+  <p id="ab-note" class="text-xs text-gray-400 mt-6 leading-relaxed"></p>
+</main>
+__NOSCRIPT__
+__ABOUT__
+__FAQ__
+__FOOTER__
+<script>
+(function(){
+const T={
+ en:{score:"Score",best:"Best",len:"Length",fish:"Piranha",tap:"Tap to hunt",again:"Tap to hunt again",over:"The aboma is done hunting.",newbest:"New best!",share:"Share on WhatsApp",copy:"Copy result",copied:"Copied!",hint:"Swipe",note:"Swipe (or use arrow keys / WASD) to steer the anaconda. Piranhas make you longer and the river faster. Eat within a few seconds of your last catch and the combo climbs to x5. The golden arowana is worth five times a piranha but escapes fast, and driftwood starts drifting in once you are feasting. Best score is saved in this browser.",
+  combo:"Combo x",gold:"Golden arowana!",goldgone:"It got away...",wood:"Driftwood!"},
+ nl:{score:"Score",best:"Beste",len:"Lengte",fish:"Piranha",tap:"Tik om te jagen",again:"Tik om weer te jagen",over:"De aboma is klaar met jagen.",newbest:"Nieuw record!",share:"Deel op WhatsApp",copy:"Kopieer resultaat",copied:"Gekopieerd!",hint:"Swipe",note:"Swipe (of gebruik de pijltjestoetsen / WASD) om de anaconda te sturen. Piranha's maken je langer en de rivier sneller. Eet binnen een paar seconden na je vorige vangst en de combo loopt op tot x5. De gouden arowana is vijf keer zoveel waard maar ontsnapt snel, en er komt drijfhout bij zodra je goed aan het eten bent. Beste score blijft in deze browser.",
+  combo:"Combo x",gold:"Gouden arowana!",goldgone:"Ontsnapt...",wood:"Drijfhout!"}};
+let lang=localStorage.getItem("ab-lang")||(document.documentElement.lang==="nl"?"nl":"en");
+let muted=localStorage.getItem("ab-muted")==="1";
+function $(i){return document.getElementById(i);}
+const CV=$("ab-cv"),CX=CV.getContext("2d");
+const W=400,HT=640;
+const DPR=Math.min(2,window.devicePixelRatio||1);
+CV.width=W*DPR;CV.height=HT*DPR;CX.scale(DPR,DPR);
+const CELL=20,GX=20,GY=64,COLS=18,ROWS=27;
+const GW=COLS*CELL,GH=ROWS*CELL;
+function px(c){return GX+c*CELL+CELL/2;}
+function py(r){return GY+r*CELL+CELL/2;}
+
+// ---- sound (tiny WebAudio, unlocked on first tap) ----
+let AC=null;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){AC=null;}}return AC;}
+function beep(f,d,type,vol,slideTo){if(muted)return;const c=ac();if(!c)return;const o=c.createOscillator(),g=c.createGain();
+ o.type=type||"sine";o.frequency.value=f;if(slideTo)o.frequency.exponentialRampToValueAtTime(slideTo,c.currentTime+d);
+ g.gain.value=vol||0.08;g.gain.exponentialRampToValueAtTime(0.0001,c.currentTime+d);
+ o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d);}
+function sfxEat(m){beep(430+m*90,0.09,"square",0.05,640+m*90);}
+function sfxGold(){beep(700,0.12,"triangle",0.07,1200);setTimeout(()=>beep(1000,0.16,"triangle",0.06,1500),90);}
+function sfxTurn(){beep(520,0.04,"triangle",0.025,600);}
+function sfxWood(){beep(240,0.1,"square",0.04,180);}
+function sfxCrash(){beep(200,0.5,"sawtooth",0.12,50);}
+
+let st="idle",raf=0,lastT=0,acc=0;
+let snake,prev,dir,queue,fishP,gold,goldT,logs,score,mult,multT,fishCount,toast,toastT,toastC,shake,flash;
+function R(a,b){return a+Math.random()*(b-a);}
+function reset(){
+ const cx=Math.floor(COLS/2),cy=Math.floor(ROWS/2)+4;
+ snake=[{x:cx,y:cy},{x:cx,y:cy+1},{x:cx,y:cy+2},{x:cx,y:cy+3}];
+ prev=snake.map(s=>({x:s.x,y:s.y}));
+ dir={x:0,y:-1};queue=[];logs=[];gold=null;goldT=0;
+ score=0;mult=1;multT=0;fishCount=0;toast=null;toastT=0;toastC="#fff";shake=0;flash=0;
+ fishP=spawnFree();
+}
+function occupied(x,y){
+ if(snake.some(s=>s.x===x&&s.y===y))return true;
+ if(fishP&&fishP.x===x&&fishP.y===y)return true;
+ if(gold&&gold.x===x&&gold.y===y)return true;
+ return logs.some(l=>l.x===x&&l.y===y);
+}
+function spawnFree(minHeadDist){
+ for(let i=0;i<400;i++){
+  const x=Math.floor(Math.random()*COLS),y=Math.floor(Math.random()*ROWS);
+  if(occupied(x,y))continue;
+  if(minHeadDist&&(Math.abs(x-snake[0].x)+Math.abs(y-snake[0].y))<minHeadDist)continue;
+  return{x:x,y:y,bob:Math.random()*6.28};
+ }
+ return null;
+}
+function addLog(){
+ if(logs.length>=6)return;
+ const horiz=Math.random()<0.5,len=Math.random()<0.5?2:3;
+ for(let i=0;i<60;i++){
+  const x=Math.floor(Math.random()*(COLS-(horiz?len:0))),y=Math.floor(Math.random()*(ROWS-(horiz?0:len)));
+  const cells=[];let ok=true;
+  for(let k=0;k<len;k++){
+   const cx=x+(horiz?k:0),cy=y+(horiz?0:k);
+   if(occupied(cx,cy)||(Math.abs(cx-snake[0].x)+Math.abs(cy-snake[0].y))<7){ok=false;break;}
+   cells.push({x:cx,y:cy,end:k===0?0:(k===len-1?1:2)});
+  }
+  if(ok){cells.forEach(c=>{c.h=horiz;logs.push(c);});say(T[lang].wood,"#d6a26a");sfxWood();return;}
+ }
+}
+function tickMs(){return Math.max(72,150-fishCount*2.2);}
+function say(t,c){toast=t;toastC=c||"#fff";toastT=1.1;}
+
+function turn(dx,dy){
+ if(st!=="run")return;
+ const last=queue.length?queue[queue.length-1]:dir;
+ if(dx===last.x&&dy===last.y)return;
+ if(dx===-last.x&&dy===-last.y)return;
+ if(queue.length<3){queue.push({x:dx,y:dy});sfxTurn();}
+}
+
+function step(){
+ prev=snake.map(s=>({x:s.x,y:s.y}));
+ if(queue.length)dir=queue.shift();
+ const h={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+ if(h.x<0||h.x>=COLS||h.y<0||h.y>=ROWS)return die();
+ if(logs.some(l=>l.x===h.x&&l.y===h.y))return die();
+ for(let i=0;i<snake.length-1;i++)if(snake[i].x===h.x&&snake[i].y===h.y)return die();
+ snake.unshift(h);
+ let ate=false;
+ if(fishP&&h.x===fishP.x&&h.y===fishP.y){
+  ate=true;fishCount++;
+  mult=multT>0?Math.min(5,mult+1):1;multT=6;
+  score+=10*mult;
+  if(mult>1)say(T[lang].combo+mult,"#a7f3d0");
+  sfxEat(mult);burst(px(h.x),py(h.y),"rgba(239,90,60,A)",8);
+  fishP=spawnFree(3);
+  if(fishCount%5===0&&!gold){gold=spawnFree(5);if(gold){goldT=7.5;say(T[lang].gold,"#fbbf24");}}
+  if(fishCount>=8&&fishCount%5===3)addLog();
+ }
+ if(gold&&h.x===gold.x&&h.y===gold.y){
+  ate=true;score+=50*mult;multT=6;
+  sfxGold();burst(px(h.x),py(h.y),"rgba(250,200,60,A)",14);shake=6;
+  gold=null;goldT=0;
+ }
+ if(!ate)snake.pop();
+}
+
+function die(){st="over";sfxCrash();shake=10;flash=1;
+ burst(px(snake[0].x),py(snake[0].y),"rgba(255,255,255,A)",16);
+ render(1);
+ const sc=Math.floor(score);
+ const best=+(localStorage.getItem("ab-best")||0);
+ const isNew=sc>best;if(isNew)localStorage.setItem("ab-best",sc);
+ localStorage.setItem("ab-runs",1+ +(localStorage.getItem("ab-runs")||0));
+ CX.fillStyle="rgba(8,22,16,.74)";CX.fillRect(0,0,W,HT);
+ CX.textAlign="center";
+ const L=T[lang];
+ if(isNew){CX.fillStyle="#fbbf24";CX.font="900 20px system-ui";CX.fillText(L.newbest,W/2,HT*0.32);}
+ CX.fillStyle="#fff";CX.font="900 46px system-ui";CX.fillText(sc.toLocaleString(),W/2,HT*0.40);
+ CX.font="700 14px system-ui";CX.fillStyle="rgba(255,255,255,.7)";CX.fillText(L.over,W/2,HT*0.40+28);
+ CX.font="700 13px system-ui";CX.fillStyle="rgba(255,255,255,.55)";CX.fillText(L.again,W/2,HT*0.40+54);
+ panel(sc,Math.max(sc,best),isNew);
+}
+function shareTxt(sc){
+ return "Aboma: "+sc.toLocaleString()+" \\ud83d\\udc0d\\n"+fishCount+" piranha \\u00b7 "+T[lang].len.toLowerCase()+" "+snake.length+"\\nhttps://exploresuriname.com/anaconda.html";}
+function panel(sc,best,isNew){const L=T[lang];
+ $("ab-panel").innerHTML='<div class="grid grid-cols-4 gap-2 mb-3">'
+  +'<div class="ab-stat'+(isNew?' ab-new':'')+'"><b>'+sc.toLocaleString()+'</b><span>'+L.score+'</span></div>'
+  +'<div class="ab-stat"><b>'+best.toLocaleString()+'</b><span>'+L.best+'</span></div>'
+  +'<div class="ab-stat"><b>'+snake.length+'</b><span>'+L.len+'</span></div>'
+  +'<div class="ab-stat"><b>'+fishCount+'</b><span>'+L.fish+'</span></div></div>'
+  +'<div><a class="wabtn" href="https://wa.me/?text='+encodeURIComponent(shareTxt(sc))+'" target="_blank" rel="noopener">'+L.share+'</a>'
+  +'<button class="cpbtn" id="ab-cp">'+L.copy+'</button></div>';
+ $("ab-cp").onclick=()=>{navigator.clipboard.writeText(shareTxt(sc));$("ab-cp").textContent=L.copied;};}
+
+// ---- particles ----
+let parts=[];
+function burst(x,y,col,n){for(let i=0;i<n;i++){const a=Math.random()*6.28,v=R(1,3.4);
+ parts.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,a:1,col:col});}}
+
+// ---------- drawing ----------
+function drawBg(t){
+ CX.fillStyle="#2c5a3f";CX.fillRect(0,0,W,HT);
+ CX.fillStyle="rgba(0,0,0,.18)";
+ for(let y=0;y<HT+40;y+=40){
+  CX.beginPath();CX.arc(GX-14,y,16,0,7);CX.arc(GX-2,y+18,12,0,7);CX.fill();
+  CX.beginPath();CX.arc(GX+GW+14,y+20,16,0,7);CX.arc(GX+GW+2,y+4,12,0,7);CX.fill();}
+ const g=CX.createLinearGradient(0,GY,0,GY+GH);
+ g.addColorStop(0,"#1d5a4e");g.addColorStop(1,"#123c33");
+ CX.fillStyle=g;
+ CX.beginPath();CX.roundRect(GX,GY,GW,GH,10);CX.fill();
+ CX.strokeStyle="rgba(0,0,0,.3)";CX.lineWidth=2;
+ CX.beginPath();CX.roundRect(GX,GY,GW,GH,10);CX.stroke();
+ // drifting ripples
+ CX.strokeStyle="rgba(255,255,255,.05)";CX.lineWidth=1.5;
+ const tt=Date.now()/1000;
+ for(let i=0;i<5;i++){const yy=GY+((tt*14+i*104)%GH);
+  CX.beginPath();CX.moveTo(GX+16,yy);CX.bezierCurveTo(GX+GW*0.35,yy-6,GX+GW*0.65,yy+6,GX+GW-16,yy);CX.stroke();}
+}
+function drawLog(l){
+ CX.save();CX.translate(px(l.x),py(l.y));
+ CX.fillStyle="#6b4a2b";
+ const r=7;
+ if(l.h){CX.beginPath();CX.roundRect(-CELL/2-(l.end===1?-2:2),-8,CELL+(l.end===2?0:-2)+(l.end===2?4:2),16,l.end===2?0:r);CX.fill();}
+ else{CX.beginPath();CX.roundRect(-8,-CELL/2-(l.end===1?-2:2),16,CELL+(l.end===2?0:-2)+(l.end===2?4:2),l.end===2?0:r);CX.fill();}
+ CX.strokeStyle="rgba(0,0,0,.25)";CX.lineWidth=1.5;
+ if(l.h){CX.beginPath();CX.moveTo(-7,-2);CX.lineTo(7,-2);CX.moveTo(-5,3);CX.lineTo(6,3);CX.stroke();}
+ else{CX.beginPath();CX.moveTo(-2,-7);CX.lineTo(-2,7);CX.moveTo(3,-5);CX.lineTo(3,6);CX.stroke();}
+ CX.restore();
+}
+function drawFish(f,gold){
+ const bob=Math.sin(Date.now()/280+f.bob)*2;
+ const x=px(f.x),y=py(f.y)+bob;
+ CX.save();CX.translate(x,y);
+ if(gold){const p=0.75+0.25*Math.sin(Date.now()/140);
+  CX.shadowColor="rgba(250,200,60,.9)";CX.shadowBlur=14*p;}
+ CX.fillStyle=gold?"#f4b83a":"#e05a3a";
+ CX.beginPath();CX.ellipse(-1,0,7.5,5,0,0,7);CX.fill();
+ CX.beginPath();CX.moveTo(6,0);CX.lineTo(11,-4.5);CX.lineTo(11,4.5);CX.closePath();CX.fill();
+ CX.shadowBlur=0;
+ CX.fillStyle="rgba(0,0,0,.55)";CX.beginPath();CX.arc(-4,-1.4,1.2,0,7);CX.fill();
+ if(!gold){CX.fillStyle="rgba(255,255,255,.25)";CX.beginPath();CX.ellipse(-2,-2,3.5,1.6,-0.4,0,7);CX.fill();}
+ CX.restore();
+}
+function lerpSeg(i,t){
+ const c=snake[i],p=(prev&&prev[i])?prev[i]:c;
+ return{x:px(p.x)+(px(c.x)-px(p.x))*t,y:py(p.y)+(py(c.y)-py(p.y))*t};
+}
+function drawSnake(t){
+ const n=snake.length;
+ const pts=[];for(let i=0;i<n;i++)pts.push(lerpSeg(i,t));
+ // body: one connected tapering stroke, tail first
+ CX.lineCap="round";CX.lineJoin="round";
+ for(let i=n-1;i>=1;i--){
+  const a=pts[i],b=pts[i-1];
+  const taper=i>n-4?(n-i)/4:1;
+  const rad=(8.8-1.8*(i/n))*Math.max(0.5,taper);
+  CX.strokeStyle=i%2?"#4a7c3f":"#557f36";
+  CX.lineWidth=rad*2;
+  CX.beginPath();CX.moveTo(a.x,a.y);CX.lineTo(b.x,b.y);CX.stroke();
+ }
+ // anaconda blotches along the back
+ for(let i=2;i<n-1;i+=3){const s=pts[i];
+  CX.fillStyle="rgba(30,42,20,.5)";CX.beginPath();CX.arc(s.x,s.y-2,2.6,0,7);CX.fill();}
+ // head
+ const h=lerpSeg(0,t);
+ const hd={x:px(snake[0].x)-((prev&&prev[0])?px(prev[0].x):px(snake[0].x)),
+           y:py(snake[0].y)-((prev&&prev[0])?py(prev[0].y):py(snake[0].y))};
+ const ang=Math.atan2(hd.y||dir.y,hd.x||dir.x);
+ CX.save();CX.translate(h.x,h.y);CX.rotate(ang);
+ CX.fillStyle="#4a7c3f";
+ CX.beginPath();CX.ellipse(1,0,11,8.6,0,0,7);CX.fill();
+ CX.fillStyle="rgba(30,42,20,.55)";CX.beginPath();CX.arc(-3,-3.4,2.1,0,7);CX.fill();
+ // eyes on top, croc-style
+ CX.fillStyle="#f5e9c8";CX.beginPath();CX.arc(4,-4.6,2.5,0,7);CX.arc(4,4.6,2.5,0,7);CX.fill();
+ CX.fillStyle="#111";CX.beginPath();CX.arc(4.8,-4.6,1.15,0,7);CX.arc(4.8,4.6,1.15,0,7);CX.fill();
+ // flicking tongue
+ if(Math.floor(Date.now()/380)%3===0){
+  CX.strokeStyle="#e05a5a";CX.lineWidth=1.6;CX.beginPath();
+  CX.moveTo(11,0);CX.lineTo(17,0);CX.moveTo(17,0);CX.lineTo(20,-2.4);CX.moveTo(17,0);CX.lineTo(20,2.4);CX.stroke();}
+ CX.restore();
+}
+function hud(){
+ CX.textAlign="left";CX.fillStyle="rgba(255,255,255,.92)";CX.font="900 20px system-ui";
+ CX.fillText(Math.floor(score).toLocaleString(),GX+2,42);
+ CX.font="700 10px system-ui";CX.fillStyle="rgba(255,255,255,.45)";
+ CX.fillText(T[lang].score.toUpperCase(),GX+2,54);
+ CX.textAlign="right";CX.fillStyle="rgba(255,255,255,.92)";CX.font="900 20px system-ui";
+ const best=+(localStorage.getItem("ab-best")||0);
+ CX.fillText(Math.max(best,Math.floor(score)).toLocaleString(),GX+GW-2,42);
+ CX.font="700 10px system-ui";CX.fillStyle="rgba(255,255,255,.45)";
+ CX.fillText(T[lang].best.toUpperCase(),GX+GW-2,54);
+ if(mult>1&&multT>0){
+  CX.textAlign="center";
+  CX.fillStyle="#fbbf24";CX.font="900 15px system-ui";
+  CX.fillText("x"+mult,W/2,40);
+  CX.fillStyle="rgba(251,191,36,.35)";
+  CX.fillRect(W/2-26,46,52,4);
+  CX.fillStyle="#fbbf24";
+  CX.fillRect(W/2-26,46,52*Math.max(0,multT/6),4);
+ }
+ if(toastT>0&&toast){
+  CX.textAlign="center";CX.globalAlpha=Math.min(1,toastT*2);
+  CX.fillStyle=toastC;CX.font="900 17px system-ui";
+  CX.fillText(toast,W/2,GY+56);
+  CX.globalAlpha=1;
+ }
+}
+function drawParts(){
+ for(const p of parts){CX.globalAlpha=Math.max(0,p.a);
+  CX.fillStyle=p.col.replace("A",String(Math.max(0,p.a)));
+  CX.beginPath();CX.arc(p.x,p.y,2.4,0,7);CX.fill();}
+ CX.globalAlpha=1;
+}
+function render(t){
+ CX.save();
+ if(shake>0){CX.translate(R(-shake,shake),R(-shake,shake));}
+ drawBg(t);
+ logs.forEach(drawLog);
+ if(fishP)drawFish(fishP,false);
+ if(gold)drawFish(gold,true);
+ drawSnake(t);
+ drawParts();
+ hud();
+ if(flash>0){CX.fillStyle="rgba(220,60,40,"+(flash*0.28)+")";CX.fillRect(0,0,W,HT);}
+ CX.restore();
+}
+
+function frame(ts){
+ if(st!=="run")return;
+ if(!lastT)lastT=ts;
+ let dt=Math.min(100,ts-lastT);lastT=ts;
+ acc+=dt;
+ const tm=tickMs();
+ while(acc>=tm){acc-=tm;step();if(st!=="run")return;}
+ const dts=dt/1000;
+ if(multT>0){multT-=dts;if(multT<=0)mult=1;}
+ if(gold){goldT-=dts;if(goldT<=0){gold=null;say(T[lang].goldgone,"#fca5a5");}}
+ if(toastT>0)toastT-=dts;
+ if(shake>0)shake-=0.6;
+ if(flash>0)flash-=dts*2;
+ parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=0.12;p.a-=0.04;});parts=parts.filter(p=>p.a>0);
+ render(Math.min(1,acc/tm));
+ raf=requestAnimationFrame(frame);
+}
+function start(){reset();st="run";$("ab-panel").innerHTML="";lastT=0;acc=0;
+ ac();cancelAnimationFrame(raf);raf=requestAnimationFrame(frame);}
+function idle(){st="idle";reset();render(1);
+ CX.fillStyle="rgba(8,22,16,.62)";CX.fillRect(0,0,W,HT);
+ CX.textAlign="center";CX.fillStyle="#fff";CX.font="900 38px system-ui";CX.fillText("Aboma",W/2,HT*0.36);
+ CX.font="700 14px system-ui";CX.fillStyle="rgba(255,255,255,.72)";
+ CX.fillText(T[lang].tap,W/2,HT*0.36+34);
+ $("ab-panel").innerHTML="";}
+
+// ---- input ----
+let pd=null,swiped=false;
+CV.addEventListener("pointerdown",ev=>{ev.preventDefault();pd={x:ev.clientX,y:ev.clientY};swiped=false;},{passive:false});
+CV.addEventListener("pointermove",ev=>{
+ if(!pd||swiped||st!=="run")return;
+ const dx=ev.clientX-pd.x,dy=ev.clientY-pd.y;
+ if(Math.abs(dx)<18&&Math.abs(dy)<18)return;
+ if(Math.abs(dx)>Math.abs(dy))turn(dx>0?1:-1,0);else turn(0,dy>0?1:-1);
+ swiped=true;pd={x:ev.clientX,y:ev.clientY};
+ setTimeout(()=>{swiped=false;},60);
+},{passive:true});
+CV.addEventListener("pointerup",ev=>{
+ if(!pd)return;
+ const dx=ev.clientX-pd.x,dy=ev.clientY-pd.y;
+ if(st!=="run"){if(Math.abs(dx)<16&&Math.abs(dy)<16)start();pd=null;return;}
+ if(!swiped&&(Math.abs(dx)>18||Math.abs(dy)>18)){
+  if(Math.abs(dx)>Math.abs(dy))turn(dx>0?1:-1,0);else turn(0,dy>0?1:-1);}
+ pd=null;});
+document.addEventListener("keydown",ev=>{
+ const k=ev.key;
+ if(k==="ArrowLeft"||k==="a"||k==="A"){turn(-1,0);ev.preventDefault();}
+ else if(k==="ArrowRight"||k==="d"||k==="D"){turn(1,0);ev.preventDefault();}
+ else if(k==="ArrowUp"||k==="w"||k==="W"){turn(0,-1);ev.preventDefault();}
+ else if(k==="ArrowDown"||k==="s"||k==="S"){turn(0,1);ev.preventDefault();}
+ else if((k===" "||k==="Enter")&&st!=="run"){start();ev.preventDefault();}});
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&st==="run"){cancelAnimationFrame(raf);st="pause";}
+ else if(st==="pause"){st="run";lastT=0;raf=requestAnimationFrame(frame);}});
+
+function setLang(l){lang=l;localStorage.setItem("ab-lang",l);
+ $("ab-nl").classList.toggle("on",l==="nl");$("ab-en").classList.toggle("on",l==="en");
+ $("ab-note").textContent=T[l].note;$("ab-h1").textContent=T[l].hint;
+ if(st==="idle")idle();}
+$("ab-nl").onclick=()=>setLang("nl");$("ab-en").onclick=()=>setLang("en");
+$("ab-mute").onclick=()=>{muted=!muted;localStorage.setItem("ab-muted",muted?"1":"0");
+ $("ab-mute").innerHTML=muted?"&#128263;":"&#128266;";if(!muted){ac();beep(660,0.08,"triangle",0.05);}};
+$("ab-mute").innerHTML=muted?"&#128263;":"&#128266;";
+setLang(lang);idle();
+})();
+</script>
+</body>
+</html>"""
+
+    body = (body.replace("__NAV__", nav_html("anaconda"))
                 .replace("__NOSCRIPT__", _noscript)
                 .replace("__ABOUT__", _about)
                 .replace("__FAQ__", _faq_html)
@@ -10383,6 +10888,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("quiz.html",        "0.9", "daily"),
         ("map-game.html",    "0.9", "daily"),
         ("korjaal.html",     "0.8", "daily"),
+        ("anaconda.html",    "0.8", "daily"),
         ("events.html",     "0.8", "weekly"),
         ("news.html",       "0.7", "daily"),
         ("about.html",      "0.5", "yearly"),
@@ -10479,6 +10985,7 @@ def build_llms_txt():
 - [Switi Mini]({S}/crossword.html): daily Surinamese mini crossword with mixed Dutch, Sranan and English clues.
 - [Pe A De?]({S}/map-game.html): daily map game; tap the official map of Suriname (Tigri area included) to locate five real places.
 - [Korjaal Run]({S}/korjaal.html): arcade river game; steer a korjaal past logs, rocks and rapids on a shared daily river.
+- [Aboma]({S}/anaconda.html): snake game, Suriname style; grow an anaconda by eating piranhas, build combos and dodge driftwood.
 - [Sports in Suriname Time]({S}/matches.html): football (World Cup, Champions League, Premier League, Eredivisie and more), NBA games and fight nights (UFC, Glory Kickboxing, boxing) with every start time converted to Suriname time (UTC-3), plus recent results.
 
 ## About
@@ -11824,6 +12331,7 @@ if __name__ == "__main__":
         "quiz.html":          build_quiz_page(),
         "map-game.html":      build_mapgame_page(),
         "korjaal.html":       build_korjaal_page(),
+        "anaconda.html":      build_anaconda_page(),
         "on-the-road.html":   build_roads_page(),
         "suriname-itinerary.html": build_itinerary_page(),
         "is-suriname-safe.html":   build_safety_page(),
