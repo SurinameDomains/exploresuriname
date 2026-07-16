@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="max-image-preview:large" name="robots"/>
+<link href="/favicon.ico" rel="icon" sizes="48x48 32x32 16x16"/>
+<link href="/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/icons/icon-192.png" rel="apple-touch-icon"/>
+<meta content="@exploringsuriname" name="twitter:site"/>
+<meta content="en_US" property="og:locale"/><meta content="es_ES" property="og:locale:alternate"/><meta content="nl_NL" property="og:locale:alternate"/>
+<link as="font" crossorigin="" href="/fonts/playfair-latin-var.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/fonts/inter-latin-var.woff2" rel="preload" type="font/woff2"/>
+<style>
+  @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  </style>
+<link href="/tailwind.css?v=291a54ec" rel="stylesheet"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<meta content="#FBF5E9" name="theme-color"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="default" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="ExploreSR" name="apple-mobile-web-app-title"/>
+<style>
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#E1F0DD; --coral:#E76F51; --gold:#E7AE4D; --clay:#C77B43; --paper:#FBF5E9; --paper-2:#F4ECDA; --card:#FFFDF6; --ink:#233028; --ink-soft:#5C6657; --line:#EBE0CB; }
+    body   { font-family: 'Inter', system-ui, sans-serif; }
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    /* ===== Warm theme roll-over: homepage redesign palette, applied site-wide ===== */
+    html, body { background: var(--paper); }
+    body { color: var(--ink); }
+    .bg-white   { background-color: var(--card) !important; }
+    .bg-gray-50 { background-color: var(--paper-2) !important; }
+    .bg-gray-100{ background-color: #EFE6D2 !important; }
+    .text-gray-900, .text-gray-800 { color: var(--ink) !important; }
+    .text-gray-700, .text-gray-600 { color: #46524A !important; }
+    .text-gray-500, .text-gray-400 { color: var(--ink-soft) !important; }
+    .border-gray-100 { border-color: var(--line) !important; }
+    .border-gray-200 { border-color: #E2D8C2 !important; }
+    ::selection { background: var(--gold); color: var(--forest); }
+    .ftr-h{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .ftr-col{display:flex;flex-direction:column;gap:11px;font-size:14px}
+    .ftr-lnk{color:#B9C2B2;transition:color .15s}
+    .ftr-lnk:hover{color:#FCF7EC}
+    .ftr-gtk{display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:#94A08F;line-height:1.45}
+    .ftr-lnk2{color:#7E8A79;transition:color .15s}
+    .ftr-lnk2:hover{color:#B9C2B2}
+    .hero-bg { background-size:cover; background-position:center; }
+    .card-hover { transition: transform .2s, box-shadow .2s; }
+    .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
+    a { text-decoration: none; }
+    nav a, nav button { white-space: nowrap; }   /* keep nav labels on one line (EN; NL/ES get this via build_i18n) */
+    .vh { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+    /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
+    .dd-menu { transform-origin: top center; }
+    .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
+    @keyframes ddFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    #search-results a {
+      display:flex;align-items:center;gap:10px;padding:10px 18px;text-decoration:none;color:#111;transition:background .1s;
+    }
+    #search-results a:hover, #search-results a.sr-active { background:#f5f5f5; }
+    .sr-badge {
+      font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;flex-shrink:0;
+    }
+    .sr-name { font-size:.9rem;font-weight:600;flex:1;min-width:0; }
+    .sr-area { font-size:.78rem;color:#9ca3af;white-space:nowrap; }
+    mark { background:#fef08a;border-radius:2px;padding:0 1px; }
+    .filter-chip {
+      display:inline-flex;align-items:center;gap:5px;padding:10px 16px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
+      color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+      touch-action:manipulation;
+    }
+    .filter-chip:hover { border-color:var(--forest);color:var(--forest); }
+    .filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+    .dist-chip {
+      display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;
+      color:#6b7280;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+    }
+    .dist-chip:hover { border-color:var(--forest2);color:var(--forest2); }
+    .dist-chip.dist-chip-active { background:var(--forest2);border-color:var(--forest2);color:#fff; }
+    .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
+    .filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count { opacity:.8; }
+    .chip-arrow {
+      flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #e5e7eb;
+      background:#fff;font-size:1.1rem;line-height:1;cursor:pointer;display:flex;
+      align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
+    }
+    .chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
+    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+    .listing-card.hidden { display:none; }
+    /* PWA install bar (Android prompt + iOS A2HS tip) */
+    #pwa-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(130%);transition:transform .35s cubic-bezier(.22,1,.36,1);background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 28px rgba(0,0,0,.14);padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
+    #pwa-bar.pwa-show{transform:translateY(0)}
+    #pwa-bar .pwa-ic{width:42px;height:42px;border-radius:10px;flex:0 0 auto}
+    #pwa-bar .pwa-tx{flex:1 1 auto;min-width:0}
+    #pwa-bar .pwa-tt{font-weight:700;font-size:14px;color:var(--forest);line-height:1.2}
+    #pwa-bar .pwa-sb{font-size:12px;color:#4b5563;line-height:1.3;margin-top:2px}
+    #pwa-bar .pwa-go{flex:0 0 auto;background:var(--forest);color:#fff;border:0;border-radius:10px;font-weight:700;font-size:14px;padding:10px 16px;cursor:pointer;white-space:nowrap;touch-action:manipulation}
+    #pwa-bar .pwa-go:hover{background:var(--forest2)}
+    #pwa-bar .pwa-x{flex:0 0 auto;background:transparent;border:0;color:#9ca3af;font-size:24px;line-height:1;cursor:pointer;padding:2px 6px;touch-action:manipulation}
+    @media(min-width:640px){#pwa-bar{left:auto;right:18px;bottom:18px;max-width:430px;border-radius:16px;border:1px solid rgba(0,0,0,.08)}}
+  </style>
+<script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
+<script>
+  (function(){
+    var DKEY="esr_pwa_dismiss", dp=null, bar=null;
+    function isDismissed(){try{var v=localStorage.getItem(DKEY);if(!v)return false;return (Date.now()-parseInt(v,10))<1209600000;}catch(e){return false;}}
+    function setDismissed(){try{localStorage.setItem(DKEY,String(Date.now()));}catch(e){}}
+    function isStandalone(){return (window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)||window.navigator.standalone===true;}
+    function isIOS(){var ua=navigator.userAgent||"";if(/CriOS|FxiOS|EdgiOS/i.test(ua))return false;if(/iPhone|iPad|iPod/i.test(ua))return true;return /Macintosh/i.test(ua)&&navigator.maxTouchPoints>1;}
+    function remove(){if(bar){var b=bar;bar=null;b.classList.remove("pwa-show");setTimeout(function(){if(b&&b.parentNode)b.parentNode.removeChild(b);},400);}}
+    function show(mode,force){
+      if(bar||(!force&&isDismissed())||isStandalone())return;
+      if(!document.body){document.addEventListener("DOMContentLoaded",function(){show(mode);});return;}
+      bar=document.createElement("div");
+      bar.id="pwa-bar";bar.setAttribute("role","dialog");bar.setAttribute("aria-label","Install Explore Suriname");
+      var ic='<img class="pwa-ic" src="/icons/icon-192.png" width="42" height="42" alt="">';
+      var tt,sb,btns;
+      if(mode==="ios"){
+        tt="Add Explore Suriname";
+        sb="Tap the Share button, then Add to Home Screen.";
+        btns='<button class="pwa-x" type="button" aria-label="Dismiss">&times;</button>';
+      }else{
+        tt="Install Explore Suriname";
+        sb="Live SRD rates and offline access on your home screen.";
+        btns='<button class="pwa-go" type="button">Install</button><button class="pwa-x" type="button" aria-label="Dismiss">&times;</button>';
+      }
+      bar.innerHTML=ic+'<div class="pwa-tx"><div class="pwa-tt">'+tt+'</div><div class="pwa-sb">'+sb+'</div></div>'+btns;
+      document.body.appendChild(bar);
+      requestAnimationFrame(function(){requestAnimationFrame(function(){if(bar)bar.classList.add("pwa-show");});});
+      var go=bar.querySelector(".pwa-go");
+      if(go){go.addEventListener("click",function(){
+        if(!dp){remove();return;}
+        dp.prompt();
+        dp.userChoice.then(function(c){setDismissed();dp=null;hideNav();remove();}).catch(function(){remove();});
+      });}
+      bar.querySelector(".pwa-x").addEventListener("click",function(){setDismissed();remove();});
+    }
+    function navEl(){return document.getElementById("pwa-nav");}
+    function revealNav(){var n=navEl();if(n&&!isStandalone())n.style.display="inline-flex";}
+    function hideNav(){var n=navEl();if(n)n.style.display="none";}
+    window.pwaInstall=function(){
+      if(dp){dp.prompt();dp.userChoice.then(function(c){setDismissed();dp=null;hideNav();}).catch(function(){});return;}
+      if(isIOS()){show("ios",true);}
+    };
+    window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;revealNav();show("android");});
+    window.addEventListener("appinstalled",function(){setDismissed();hideNav();remove();});
+    if(isIOS()){
+      var iosInit=function(){revealNav();setTimeout(function(){show("ios");},1400);};
+      if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",iosInit);}
+      else{iosInit();}
+    }
+    document.addEventListener("DOMContentLoaded",function(){if(dp)revealNav();});
+  })();
+  </script>
+<!-- Google tag (gtag.js) -->
+<script>(function(){var d=false;function l(){if(d)return;d=true;var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments);};gtag("js",new Date());gtag("config","G-6LTYHZYNSF");}["scroll","click","touchstart","keydown"].forEach(function(e){window.addEventListener(e,l,{once:true,passive:true})});window.addEventListener("load",function(){setTimeout(l,4000)});})();</script>
+<!-- GA4 interaction events: WhatsApp / phone / email / directions / outbound clicks -->
+<script>window.addEventListener("click",function(ev){var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;var h=a.getAttribute("href")||"",n="",p={};if(h.indexOf("https://wa.me/")===0){n="whatsapp_click"}else if(h.indexOf("tel:")===0){n="phone_click"}else if(h.indexOf("mailto:")===0){n="email_click"}else if(h.indexOf("google.com/maps")!==-1){n="directions_click"}else if(/^https?:\/\//.test(h)&&h.indexOf("exploresuriname.com")===-1){n="outbound_click";try{p.link_domain=new URL(h).hostname}catch(e){}}if(!n)return;p.link_url=h.slice(0,100);window.dataLayer=window.dataLayer||[];if(!window.gtag){window.gtag=function(){window.dataLayer.push(arguments)}}window.gtag("event",n,p)});</script>
+<title>Aboma | Suriname Anaconda Snake Game | Explore Suriname</title>
+<meta content="Steer a hungry anaconda through a Suriname jungle river. Eat piranhas to grow and build your combo, catch the golden arowana before it escapes, and dodge the driftwood. The longer you get, the faster it moves. Free browser game from Explore Suriname." name="description"/>
+<link href="https://exploresuriname.com/anaconda.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Explore Suriname" property="og:site_name"/>
+<meta content="https://exploresuriname.com/anaconda.html" property="og:url"/>
+<meta content="Aboma: the Suriname anaconda snake game" property="og:title"/>
+<meta content="Eat piranhas, build the combo, dodge the driftwood. How long can your anaconda get?" property="og:description"/>
+<meta content="https://exploresuriname.com/og-image.jpg" property="og:image"/>
+<meta content="nl_NL" property="og:locale"/>
+
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Aboma: the Suriname anaconda snake game" name="twitter:title"/>
+<meta content="Eat piranhas, build the combo, dodge the driftwood. How long can your anaconda get?" name="twitter:description"/>
+<meta content="https://exploresuriname.com/og-image.jpg" name="twitter:image"/>
+<script type="application/ld+json">
+  {"@context": "https://schema.org", "@graph": [{"@type": "WebPage", "@id": "https://exploresuriname.com/anaconda.html#webpage", "url": "https://exploresuriname.com/anaconda.html", "name": "Aboma: the Suriname anaconda snake game", "description": "Steer a hungry anaconda through a Suriname jungle river. Eat piranhas to grow and build your combo, catch the golden arowana before it escapes, and dodge the driftwood. The longer you get, the faster it moves. Free browser game from Explore Suriname.", "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": "https://exploresuriname.com/"}, "primaryImageOfPage": "https://exploresuriname.com/og-image.jpg", "breadcrumb": {"@id": "https://exploresuriname.com/anaconda.html#breadcrumb"}, "mainEntity": {"@id": "https://exploresuriname.com/anaconda.html#game"}, "datePublished": "2026-07-15", "dateModified": "2026-07-16", "isAccessibleForFree": true}, {"@type": "BreadcrumbList", "@id": "https://exploresuriname.com/anaconda.html#breadcrumb", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://exploresuriname.com/"}, {"@type": "ListItem", "position": 2, "name": "Aboma", "item": "https://exploresuriname.com/anaconda.html"}]}, {"@type": "VideoGame", "@id": "https://exploresuriname.com/anaconda.html#game", "name": "Aboma", "url": "https://exploresuriname.com/anaconda.html", "description": "Snake, Suriname style: steer a growing anaconda through a jungle river, eat piranhas to build a combo, catch the golden arowana and dodge driftwood as the river speeds up.", "genre": "Arcade", "gamePlatform": "Web browser", "inLanguage": ["nl", "en"], "isAccessibleForFree": true, "image": "https://exploresuriname.com/og-image.jpg", "publisher": {"@type": "Organization", "name": "Explore Suriname", "url": "https://exploresuriname.com/"}}, {"@type": "FAQPage", "@id": "https://exploresuriname.com/anaconda.html#faq", "mainEntity": [{"@type": "Question", "name": "What is an aboma?", "acceptedAnswer": {"@type": "Answer", "text": "Aboma is the Sranantongo name for the green anaconda (Eunectes murinus), the heaviest snake on earth and a real resident of Suriname's rivers, swamps and flooded forests. It hunts by ambush from the water, which is exactly where this game puts you."}}, {"@type": "Question", "name": "How do I play Aboma?", "acceptedAnswer": {"@type": "Answer", "text": "Swipe on the river to steer (arrow keys or WASD also work). Eat piranhas to grow longer and score points. Eating quickly builds a combo multiplier up to x5, and every few piranhas a golden arowana appears for a few seconds and is worth five times as much. Hit the riverbank, a piece of driftwood or your own body and the run is over."}}, {"@type": "Question", "name": "Why does it keep getting harder?", "acceptedAnswer": {"@type": "Answer", "text": "Every piranha makes the anaconda longer and the river a little faster, and once you are feasting, driftwood starts drifting in and stays put. A long anaconda in a cluttered river is the whole game: plan your path before you take the bait."}}, {"@type": "Question", "name": "Is it free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Aboma is free, needs no app or account, and your best score is stored only in your browser."}}]}]}
+  </script> <style>
+    #ab-wrap{position:relative;max-width:420px;margin:0 auto}
+    #ab-cv{display:block;width:100%;border-radius:16px;background:#0d2a20;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+    #ab-mute{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:9999px;border:none;background:rgba(0,0,0,.38);color:#fff;font-size:15px;line-height:34px;text-align:center;cursor:pointer;z-index:3}
+    .lang button{padding:.3rem .8rem;border:1px solid #d1d5db;background:#fff;font-size:.78rem;font-weight:700;color:#6b7280}
+    .lang button:first-child{border-radius:9999px 0 0 9999px}.lang button:last-child{border-radius:0 9999px 9999px 0;margin-left:-1px}
+    .lang button.on{background:var(--forest);border-color:var(--forest);color:#fff}
+    .ab-stat{background:#f9fafb;border:1px solid #eef0f2;border-radius:12px;padding:.6rem .4rem;text-align:center}
+    .ab-stat b{display:block;font-size:1.2rem;color:#111827}
+    .ab-stat span{font-size:.64rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em}
+    .ab-new b{color:var(--forest2,#2f7d4f)}
+    .wabtn{display:inline-block;background:#25d366;color:#fff;font-weight:700;border-radius:9999px;padding:.65rem 1.3rem;font-size:.9rem}
+    .cpbtn{display:inline-block;background:#fff;border:1px solid #d1d5db;color:#374151;font-weight:700;border-radius:9999px;padding:.65rem 1.3rem;font-size:.9rem;margin-left:.5rem}
+    .ab-hint{display:flex;gap:1.1rem;justify-content:center;flex-wrap:wrap;margin-top:.7rem;font-size:.72rem;color:#9ca3af}
+    .ab-hint b{color:#6b7280;font-weight:700}
+  </style>
+<link href="https://exploresuriname.com/anaconda.html" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/anaconda.html" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/anaconda.html" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/anaconda.html" hreflang="x-default" rel="alternate"/></head>
+<body class="bg-gray-50 overflow-x-hidden">
+<nav class="fixed top-0 w-full z-50" style="background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14);box-shadow:0 1px 12px rgba(20,42,30,.05)">
+<div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+<a class="flex items-baseline flex-shrink-0" href="index.html">
+<span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
+</a>
+<div class="hidden md:flex items-center gap-6"><div class="relative" id="dd-todo" onmouseenter="openDd('dd-todo')" onmouseleave="closeDd('dd-todo')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-todo')">Things to Do<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-todo-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="nature.html">Nature</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="activities.html">Activities</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="events.html">Events &amp; Festivals</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="shopping.html">Shopping</a></div></div><div class="relative" id="dd-eat" onmouseenter="openDd('dd-eat')" onmouseleave="closeDd('dd-eat')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-eat')">Eat &amp; Stay<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-eat-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="restaurants.html">Where to Eat</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="hotels.html">Where to Stay</a></div></div><div class="relative" id="dd-svc" onmouseenter="openDd('dd-svc')" onmouseleave="closeDd('dd-svc')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-svc')">Local Services<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-svc-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="services.html">Services</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="daily-notices.html">Daily Notices</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="flights.html">Flights</a></div></div><div class="relative" id="dd-plan" onmouseenter="openDd('dd-plan')" onmouseleave="closeDd('dd-plan')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-plan')">Visitor Guide<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-plan-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="visitor-guide.html">The Basics</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-time.html">Time &amp; Converter</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="on-the-road.html">On the Road</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-itinerary.html">Trip Itineraries</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="is-suriname-safe.html">Is Suriname Safe?</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-history.html">History Timeline</a></div></div><div class="relative" id="dd-games" onmouseenter="openDd('dd-games')" onmouseleave="closeDd('dd-games')"><button class="dd-trigger flex items-center gap-1 text-sm font-semibold transition py-1" onclick="toggleDd('dd-games')" style="color:var(--forest)">Games <span class="inline-block w-1.5 h-1.5 rounded-full mb-0.5" style="background:var(--forest)"></span><svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-games-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="quiz.html">Sabi Suriname Quiz</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="crossword.html">Switi Mini Crossword</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="map-game.html">Pe A De? Map Game</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="korjaal.html">Korjaal Run</a><a class="block px-4 py-2.5 text-sm font-semibold rounded-lg" href="anaconda.html" style="color:var(--forest);background:var(--mint)">Aboma Snake Game</a></div></div><div class="relative" id="dd-ess" onmouseenter="openDd('dd-ess')" onmouseleave="closeDd('dd-ess')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-ess')">Essentials<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-ess-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="currency.html">Market Rates</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="conditions.html">Weather &amp; Tides</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="worldcup-2026.html">World Cup 2026</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="matches.html">Sports Schedule</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="news.html">News</a></div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50" onclick="openSearch()" title="Search listings (press /)">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<span class="hidden sm:inline">Search…</span>
+</button><div class="hidden md:flex" data-langswitch="1" style="position:relative;align-items:center;margin-left:8px;flex-shrink:0"><button aria-expanded="false" aria-label="Language" onclick="var m=this.nextElementSibling,o=m.style.display==='block';document.querySelectorAll('[data-langmenu]').forEach(function(x){x.style.display='none';});m.style.display=o?'none':'block';this.setAttribute('aria-expanded',(!o).toString());event.stopPropagation();" style="display:flex;align-items:center;gap:5px;background:none;border:0;cursor:pointer;font-size:12px;font-weight:600;color:#6b7280;padding:4px 7px;border-radius:8px" type="button"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><span>EN</span><svg fill="none" height="11" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;opacity:.7" viewBox="0 0 24 24" width="11"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div data-langmenu="1" style="display:none;position:absolute;right:0;top:100%;margin-top:6px;background:#fff;border:1px solid #eee;border-radius:10px;box-shadow:0 8px 24px rgba(20,42,30,.12);padding:5px;min-width:112px;z-index:60"><a href="/anaconda.html" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:var(--forest);background:#eef4ee">EN</a><a href="/nl/anaconda.html" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:#374151">NL</a><a href="/es/anaconda.html" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:#374151">ES</a></div></div>
+<button aria-label="Menu" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition" id="hamburger" onclick="toggleMobileMenu()">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+<div class="hidden md:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto" id="mm"><div data-langswitch-mobile="1" style="display:flex;align-items:center;gap:16px;padding:10px 2px 12px;margin-bottom:4px;border-bottom:1px solid #eee;font-size:15px;font-weight:600"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/anaconda.html" style="color:var(--forest);text-decoration:underline">EN</a><a href="/nl/anaconda.html" style="color:#6b7280;text-decoration:none">NL</a><a href="/es/anaconda.html" style="color:#6b7280;text-decoration:none">ES</a><button aria-label="Install app" id="pwa-nav" onclick="pwaInstall()" style="display:none;margin-left:auto;align-items:center;gap:6px;background:var(--forest);color:#fff;border:0;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0" type="button"><svg fill="none" height="15" stroke="currentColor" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 20h14" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Install</span></button></div>
+<div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-todo')"><span>Things to Do</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-todo"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="nature.html">Nature</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="activities.html">Activities</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="events.html">Events &amp; Festivals</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="shopping.html">Shopping</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-eat')"><span>Eat &amp; Stay</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-eat"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="restaurants.html">Where to Eat</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="hotels.html">Where to Stay</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-svc')"><span>Local Services</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-svc"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="services.html">Services</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="daily-notices.html">Daily Notices</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="flights.html">Flights</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-plan')"><span>Visitor Guide</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-plan"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="visitor-guide.html">The Basics</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="suriname-time.html">Time &amp; Converter</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="on-the-road.html">On the Road</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="suriname-itinerary.html">Trip Itineraries</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="is-suriname-safe.html">Is Suriname Safe?</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="suriname-history.html">History Timeline</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-games')" style="color:var(--forest)"><span>Games</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1" id="mg-games"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="quiz.html">Sabi Suriname Quiz</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="crossword.html">Switi Mini Crossword</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="map-game.html">Pe A De? Map Game</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="korjaal.html">Korjaal Run</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm font-semibold rounded-lg" href="anaconda.html" style="color:var(--forest);background:var(--mint)">Aboma Snake Game</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-ess')"><span>Essentials</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-ess"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="currency.html">Market Rates</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="conditions.html">Weather &amp; Tides</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="worldcup-2026.html">World Cup 2026</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="matches.html">Sports Schedule</a></div></div><a class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" href="news.html">News</a>
+</div>
+</nav>
+<script>
+/* ── Dropdown (desktop) ─────────────────────────────────────────────────── */
+var _openDd = null;
+var _ddTimer = null;
+function openDd(id) {
+  if (_ddTimer) { clearTimeout(_ddTimer); _ddTimer = null; }
+  if (_openDd && _openDd !== id) closeDd(_openDd);
+  var menu = document.getElementById(id + '-menu');
+  var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+  if (menu) menu.classList.remove('hidden');
+  if (chev) chev.style.transform = 'rotate(180deg)';
+  _openDd = id;
+}
+function closeDd(id) {
+  _ddTimer = setTimeout(function() {
+    var menu = document.getElementById(id + '-menu');
+    var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+    if (menu) menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    if (_openDd === id) _openDd = null;
+    _ddTimer = null;
+  }, 80);
+}
+function toggleDd(id) {
+  var menu = document.getElementById(id + '-menu');
+  var btn  = document.getElementById(id);
+  var chev = btn ? btn.querySelector('.dd-chevron') : null;
+  if (_openDd && _openDd !== id) {
+    var prev = document.getElementById(_openDd + '-menu');
+    var prevBtn = document.getElementById(_openDd);
+    if (prev)    prev.classList.add('hidden');
+    if (prevBtn) { var c = prevBtn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+  if (!menu) return;
+  var isOpen = !menu.classList.contains('hidden');
+  if (isOpen) {
+    menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    _openDd = null;
+  } else {
+    menu.classList.remove('hidden');
+    if (chev) chev.style.transform = 'rotate(180deg)';
+    _openDd = id;
+  }
+}
+document.addEventListener('click', function(e) {
+  if (_openDd && !document.getElementById(_openDd).contains(e.target)) {
+    var menu = document.getElementById(_openDd + '-menu');
+    var btn  = document.getElementById(_openDd);
+    if (menu) menu.classList.add('hidden');
+    if (btn)  { var c = btn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+});
+/* ── Mobile accordion ───────────────────────────────────────────────────── */
+function toggleMobileMenu() {
+  var mm = document.getElementById('mm');
+  mm.classList.toggle('hidden');
+}
+function toggleMobGroup(id) {
+  var body = document.getElementById(id);
+  var btn  = body ? body.previousElementSibling : null;
+  var chev = btn  ? btn.querySelector('.mob-chevron') : null;
+  if (!body) return;
+  var isOpen = !body.classList.contains('hidden');
+  body.classList.toggle('hidden', isOpen);
+  if (chev) chev.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+</script>
+<!-- ── Global Search Modal ───────────────────────────────────────────── -->
+<div id="search-modal" onclick="if(event.target===this)closeSearch()" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);padding:80px 16px 16px">
+<div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 25px 60px rgba(0,0,0,.25);overflow:hidden">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #f0f0f0">
+<svg fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:#9ca3af;flex-shrink:0" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<input autocomplete="off" id="search-input" oninput="runSearch(this.value)" onkeydown="searchKey(event)" placeholder="Search all listings…" spellcheck="false" style="flex:1;border:none;outline:none;font-size:1rem;color:#111;background:transparent" type="text"/>
+<button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">✕</button>
+</div>
+<div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
+<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search 751 listings…</p>
+</div>
+</div>
+</div>
+<script>
+const _CAT_C = {"Eat & Drink": "#7c3aed", "Stay": "#c05621", "Nature": "var(--forest)", "Guides": "#0e7490", "Activities": "var(--forest2)", "Shopping": "#0369a1", "Services": "#0369a1", "Sightseeing": "var(--forest)"};
+let _SI = null;
+let _SI_loading = false;
+let _sel = -1;
+
+function _loadSI(cb) {
+  if (_SI) { cb(); return; }
+  if (_SI_loading) { setTimeout(() => _loadSI(cb), 50); return; }
+  _SI_loading = true;
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  fetch(depth + 'search-index.json')
+    .then(r => r.json())
+    .then(data => { _SI = data; cb(); })
+    .catch(() => { _SI = []; cb(); });
+}
+function openSearch() {
+  document.getElementById('search-modal').style.display = 'block';
+  setTimeout(() => document.getElementById('search-input').focus(), 50);
+  _loadSI(() => {});
+}
+function closeSearch() {
+  document.getElementById('search-modal').style.display = 'none';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search listings…</p>';
+  _sel = -1;
+}
+function runSearch(q) {
+  const box = document.getElementById('search-results');
+  q = q.trim();
+  if (!q) { closeSearch(); openSearch(); return; }
+  if (!_SI) {
+    _loadSI(() => runSearch(q));
+    box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Loading…</p>';
+    return;
+  }
+  const ql = q.toLowerCase();
+  const hits = _SI.filter(x => x.n.toLowerCase().includes(ql) || (x.k && x.k.includes(ql))).slice(0, 10);
+  if (!hits.length) { box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">No results for "' + q + '"</p>'; return; }
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  box.innerHTML = hits.map((h, i) => {
+    const hi = h.n.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi'), '<mark>$1</mark>');
+    const col = _CAT_C[h.c] || '#6b7280';
+    return '<a href="' + depth + h.u + '" class="' + (i===0?'sr-active':'') + '">'
+      + '<span class="sr-badge" style="background:' + col + '">' + h.c + '</span>'
+      + '<span class="sr-name">' + hi + '</span>'
+      + (h.a ? '<span class="sr-area">' + h.a + '</span>' : '')
+      + '</a>';
+  }).join('');
+  _sel = 0;
+}
+function searchKey(e) {
+  const items = document.querySelectorAll('#search-results a');
+  if (e.key === 'Escape') { closeSearch(); return; }
+  if (e.key === 'ArrowDown') { e.preventDefault(); _sel = Math.min(_sel+1, items.length-1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); _sel = Math.max(_sel-1, 0); }
+  else if (e.key === 'Enter') { if(items[_sel]) window.location = items[_sel].href; return; }
+  else return;
+  items.forEach((el,i) => el.classList.toggle('sr-active', i===_sel));
+  if(items[_sel]) items[_sel].scrollIntoView({block:'nearest'});
+}
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault(); openSearch();
+  }
+});
+</script>
+<div style="height:58px"></div>
+<div class="relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
+<div class="relative max-w-3xl mx-auto px-4">
+<nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
+<a class="hover:text-white transition" href="index.html">Home</a>
+<span class="text-white/40">›</span>
+<span aria-current="page" class="text-white/90 font-medium">Aboma</span>
+</nav>
+<p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Suriname snake game</p>
+<h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Aboma</h1>
+<p class="text-white/70 text-base max-w-xl mx-auto">Snake, Suriname style. Eat piranhas, grow longer, dodge the driftwood. The river speeds up with every bite, so how long can your anaconda get?</p>
+</div>
+</div>
+<main class="max-w-xl mx-auto px-4 py-8 pb-20">
+<div class="flex items-center justify-end gap-3 mb-3">
+<div class="lang"><button id="ab-nl">NL</button><button id="ab-en">EN</button></div>
+</div>
+<div id="ab-wrap"><canvas aria-label="Aboma snake game" height="640" id="ab-cv" width="400"></canvas><button aria-label="Sound on/off" id="ab-mute">🔊</button></div>
+<div class="ab-hint"><span><b id="ab-h1">Swipe</b> to steer</span><span><b>←↑↓→ / WASD</b> keyboard</span></div>
+<div class="mt-4" id="ab-panel"></div>
+<p class="text-xs text-gray-400 mt-6 leading-relaxed" id="ab-note"></p>
+</main>
+<noscript><section class="max-w-2xl mx-auto px-4 mt-6"><p class="text-sm text-gray-600">Aboma is a browser game and needs JavaScript. Enable JavaScript to feed the anaconda.</p></section></noscript>
+<section class="max-w-2xl mx-auto px-4 mt-14">
+<h2 class="serif text-2xl font-bold text-gray-900 mb-3">About Aboma</h2>
+<p class="text-gray-700 text-sm leading-relaxed mb-3">The aboma, the green anaconda, is the heaviest snake
+  on earth, and Suriname is its home turf. It hangs in the shallows of rivers and swamps from Bigi Pan to the
+  Coeroeni, eyes and nostrils just above the waterline, and lets dinner come to it. Fishermen tell aboma
+  stories the way city people tell traffic stories: everyone has one, and every year the snake gets a little
+  longer in the retelling.</p>
+<p class="text-gray-700 text-sm leading-relaxed mb-3">This is the classic snake game with a Surinamese
+  appetite. Every piranha makes you longer and the river faster. Eat quickly and your combo climbs to five
+  times the points, and every few catches a golden arowana flashes up for a few seconds, worth a small
+  fortune if you can reach it in time. Driftwood piles up as you feast, so the river you started in is never
+  the river you die in.</p>
+<p class="text-gray-700 text-sm leading-relaxed">One run takes a minute. Nobody plays one run. When the
+  aboma finally bites its own tail, try
+  <a class="font-semibold hover:underline" href="korjaal.html" style="color:var(--forest2)">Korjaal Run</a>,
+  <a class="font-semibold hover:underline" href="map-game.html" style="color:var(--forest2)">Pe A De?</a>, the
+  <a class="font-semibold hover:underline" href="quiz.html" style="color:var(--forest2)">Sabi Suriname quiz</a> or the
+  <a class="font-semibold hover:underline" href="crossword.html" style="color:var(--forest2)">Switi Mini crossword</a>.</p>
+</section>
+<section class="max-w-2xl mx-auto px-4 mt-10 mb-4"><h2 class="serif text-2xl font-bold text-gray-900 mb-4">Common questions</h2><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">What is an aboma?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">Aboma is the Sranantongo name for the green anaconda (Eunectes murinus), the heaviest snake on earth and a real resident of Suriname's rivers, swamps and flooded forests. It hunts by ambush from the water, which is exactly where this game puts you.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">How do I play Aboma?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">Swipe on the river to steer (arrow keys or WASD also work). Eat piranhas to grow longer and score points. Eating quickly builds a combo multiplier up to x5, and every few piranhas a golden arowana appears for a few seconds and is worth five times as much. Hit the riverbank, a piece of driftwood or your own body and the run is over.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">Why does it keep getting harder?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">Every piranha makes the anaconda longer and the river a little faster, and once you are feasting, driftwood starts drifting in and stays put. A long anaconda in a cluttered river is the whole game: plan your path before you take the bait.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">Is it free?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">Yes. Aboma is free, needs no app or account, and your best score is stored only in your browser.</p></details></section>
+<footer style="background:#142A1E;color:#B9C2B2">
+<div style="max-width:1240px;margin:0 auto;padding:clamp(52px,6vw,72px) clamp(20px,5vw,52px) 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:36px 40px">
+<div style="min-width:200px">
+<div style="margin-bottom:16px"><span class="serif" style="font-weight:800;font-size:21px;color:#FCF7EC">Explore</span><span class="serif" style="font-weight:800;font-size:21px;color:var(--coral)">Suriname</span></div>
+<p style="font-size:14px;line-height:1.6;max-width:24em;margin:0 0 20px;color:#A7B1A2">Your guide to places to eat, stay, explore and love in Suriname, kept by people who live here, for the people who’ll wish they did.</p>
+<div style="display:flex;gap:16px;font-size:12.5px;font-weight:600;letter-spacing:.04em">
+<a class="ftr-lnk" href="https://www.facebook.com/exploresurinamecom" rel="noopener" target="_blank">Facebook</a>
+<a class="ftr-lnk" href="https://www.instagram.com/exploresurinamecom/" rel="noopener" target="_blank">Instagram</a>
+<a class="ftr-lnk" href="https://www.tiktok.com/@exploresuriname.com" rel="noopener" target="_blank">TikTok</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Explore</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="nature.html">Nature &amp; Parks</a>
+<a class="ftr-lnk" href="activities.html">Activities</a>
+<a class="ftr-lnk" href="events.html">Events &amp; Festivals</a>
+<a class="ftr-lnk" href="shopping.html">Shopping</a>
+<a class="ftr-lnk" href="restaurants.html">Where to Eat</a>
+<a class="ftr-lnk" href="hotels.html">Where to Stay</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Plan &amp; Essentials</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="visitor-guide.html">Visitor Guide</a>
+<a class="ftr-lnk" href="on-the-road.html">On the Road</a>
+<a class="ftr-lnk" href="suriname-itinerary.html">Trip Itineraries</a>
+<a class="ftr-lnk" href="is-suriname-safe.html">Is Suriname Safe?</a>
+<a class="ftr-lnk" href="suriname-history.html">History of Suriname</a>
+<a class="ftr-lnk" href="currency.html">Exchange Rates</a>
+<a class="ftr-lnk" href="flights.html">Flights</a>
+<a class="ftr-lnk" href="conditions.html">Weather &amp; Tides</a>
+<a class="ftr-lnk" href="daily-notices.html">Daily Notices</a>
+<a class="ftr-lnk" href="news.html">News</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">More</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="today.html">Today in Suriname</a>
+<a class="ftr-lnk" href="services.html">Local Services</a>
+<a class="ftr-lnk" href="crossword.html">Crossword</a>
+<a class="ftr-lnk" href="quiz.html">Daily Quiz</a>
+<a class="ftr-lnk" href="map-game.html">Pe A De? Map Game</a>
+<a class="ftr-lnk" href="korjaal.html">Korjaal Run</a>
+<a class="ftr-lnk" href="anaconda.html">Aboma Snake Game</a>
+<a class="ftr-lnk" href="worldcup-2026.html">World Cup 2026</a>
+<a class="ftr-lnk" href="matches.html">Sports Schedule</a>
+<a class="ftr-lnk" href="about.html">About Us</a>
+<a class="ftr-lnk" href="contact.html">Contact</a>
+<a class="ftr-lnk" href="privacy.html">Privacy</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Good to know</div>
+<div class="ftr-gtk">
+<span>Capital · Paramaribo</span>
+<span>Languages · Dutch, Sranan Tongo +9</span>
+<span>Currency · Surinamese Dollar (SRD)</span>
+<span>Climate · Tropical, ~28°C</span>
+</div>
+</div>
+</div>
+<div style="border-top:1px solid rgba(231,174,77,.18)">
+<div style="max-width:1240px;margin:0 auto;padding:18px clamp(20px,5vw,52px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px;color:#7E8A79">
+<span>© 2026 ExploreSuriname.com</span>
+<span><a class="ftr-lnk2" href="privacy.html">Privacy</a> · <a class="ftr-lnk2" href="/images/HOME_CREDITS.txt">Credits</a></span>
+</div>
+</div>
+</footer>
+<script>
+(function(){
+const T={
+ en:{score:"Score",best:"Best",len:"Length",fish:"Piranha",tap:"Tap to hunt",again:"Tap to hunt again",over:"The aboma is done hunting.",newbest:"New best!",share:"Share on WhatsApp",copy:"Copy result",copied:"Copied!",hint:"Swipe",note:"Swipe (or use arrow keys / WASD) to steer the anaconda. Piranhas make you longer and the river faster. Eat within a few seconds of your last catch and the combo climbs to x5. The golden arowana is worth five times a piranha but escapes fast, and driftwood starts drifting in once you are feasting. Best score is saved in this browser.",
+  combo:"Combo x",gold:"Golden arowana!",goldgone:"It got away...",wood:"Driftwood!"},
+ nl:{score:"Score",best:"Beste",len:"Lengte",fish:"Piranha",tap:"Tik om te jagen",again:"Tik om weer te jagen",over:"De aboma is klaar met jagen.",newbest:"Nieuw record!",share:"Deel op WhatsApp",copy:"Kopieer resultaat",copied:"Gekopieerd!",hint:"Swipe",note:"Swipe (of gebruik de pijltjestoetsen / WASD) om de anaconda te sturen. Piranha's maken je langer en de rivier sneller. Eet binnen een paar seconden na je vorige vangst en de combo loopt op tot x5. De gouden arowana is vijf keer zoveel waard maar ontsnapt snel, en er komt drijfhout bij zodra je goed aan het eten bent. Beste score blijft in deze browser.",
+  combo:"Combo x",gold:"Gouden arowana!",goldgone:"Ontsnapt...",wood:"Drijfhout!"}};
+let lang=localStorage.getItem("ab-lang")||(document.documentElement.lang==="nl"?"nl":"en");
+let muted=localStorage.getItem("ab-muted")==="1";
+function $(i){return document.getElementById(i);}
+const CV=$("ab-cv"),CX=CV.getContext("2d");
+const W=400,HT=640;
+const DPR=Math.min(2,window.devicePixelRatio||1);
+CV.width=W*DPR;CV.height=HT*DPR;CX.scale(DPR,DPR);
+const CELL=20,GX=20,GY=64,COLS=18,ROWS=27;
+const GW=COLS*CELL,GH=ROWS*CELL;
+function px(c){return GX+c*CELL+CELL/2;}
+function py(r){return GY+r*CELL+CELL/2;}
+
+// ---- sound (tiny WebAudio, unlocked on first tap) ----
+let AC=null;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){AC=null;}}return AC;}
+function beep(f,d,type,vol,slideTo){if(muted)return;const c=ac();if(!c)return;const o=c.createOscillator(),g=c.createGain();
+ o.type=type||"sine";o.frequency.value=f;if(slideTo)o.frequency.exponentialRampToValueAtTime(slideTo,c.currentTime+d);
+ g.gain.value=vol||0.08;g.gain.exponentialRampToValueAtTime(0.0001,c.currentTime+d);
+ o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d);}
+function sfxEat(m){beep(430+m*90,0.09,"square",0.05,640+m*90);}
+function sfxGold(){beep(700,0.12,"triangle",0.07,1200);setTimeout(()=>beep(1000,0.16,"triangle",0.06,1500),90);}
+function sfxTurn(){beep(520,0.04,"triangle",0.025,600);}
+function sfxWood(){beep(240,0.1,"square",0.04,180);}
+function sfxCrash(){beep(200,0.5,"sawtooth",0.12,50);}
+
+let st="idle",raf=0,lastT=0,acc=0;
+let snake,prev,dir,queue,fishP,gold,goldT,logs,score,mult,multT,fishCount,toast,toastT,toastC,shake,flash;
+function R(a,b){return a+Math.random()*(b-a);}
+function reset(){
+ const cx=Math.floor(COLS/2),cy=Math.floor(ROWS/2)+4;
+ snake=[{x:cx,y:cy},{x:cx,y:cy+1},{x:cx,y:cy+2},{x:cx,y:cy+3}];
+ prev=snake.map(s=>({x:s.x,y:s.y}));
+ dir={x:0,y:-1};queue=[];logs=[];gold=null;goldT=0;
+ score=0;mult=1;multT=0;fishCount=0;toast=null;toastT=0;toastC="#fff";shake=0;flash=0;
+ fishP=spawnFree();
+}
+function occupied(x,y){
+ if(snake.some(s=>s.x===x&&s.y===y))return true;
+ if(fishP&&fishP.x===x&&fishP.y===y)return true;
+ if(gold&&gold.x===x&&gold.y===y)return true;
+ return logs.some(l=>l.x===x&&l.y===y);
+}
+function spawnFree(minHeadDist){
+ for(let i=0;i<400;i++){
+  const x=Math.floor(Math.random()*COLS),y=Math.floor(Math.random()*ROWS);
+  if(occupied(x,y))continue;
+  if(minHeadDist&&(Math.abs(x-snake[0].x)+Math.abs(y-snake[0].y))<minHeadDist)continue;
+  return{x:x,y:y,bob:Math.random()*6.28};
+ }
+ return null;
+}
+function addLog(){
+ if(logs.length>=6)return;
+ const horiz=Math.random()<0.5,len=Math.random()<0.5?2:3;
+ for(let i=0;i<60;i++){
+  const x=Math.floor(Math.random()*(COLS-(horiz?len:0))),y=Math.floor(Math.random()*(ROWS-(horiz?0:len)));
+  const cells=[];let ok=true;
+  for(let k=0;k<len;k++){
+   const cx=x+(horiz?k:0),cy=y+(horiz?0:k);
+   if(occupied(cx,cy)||(Math.abs(cx-snake[0].x)+Math.abs(cy-snake[0].y))<7){ok=false;break;}
+   cells.push({x:cx,y:cy,end:k===0?0:(k===len-1?1:2)});
+  }
+  if(ok){cells.forEach(c=>{c.h=horiz;logs.push(c);});say(T[lang].wood,"#d6a26a");sfxWood();return;}
+ }
+}
+function tickMs(){return Math.max(72,150-fishCount*2.2);}
+function say(t,c){toast=t;toastC=c||"#fff";toastT=1.1;}
+
+function turn(dx,dy){
+ if(st!=="run")return;
+ const last=queue.length?queue[queue.length-1]:dir;
+ if(dx===last.x&&dy===last.y)return;
+ if(dx===-last.x&&dy===-last.y)return;
+ if(queue.length<3){queue.push({x:dx,y:dy});sfxTurn();}
+}
+
+function step(){
+ prev=snake.map(s=>({x:s.x,y:s.y}));
+ if(queue.length)dir=queue.shift();
+ const h={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+ if(h.x<0||h.x>=COLS||h.y<0||h.y>=ROWS)return die();
+ if(logs.some(l=>l.x===h.x&&l.y===h.y))return die();
+ for(let i=0;i<snake.length-1;i++)if(snake[i].x===h.x&&snake[i].y===h.y)return die();
+ snake.unshift(h);
+ let ate=false;
+ if(fishP&&h.x===fishP.x&&h.y===fishP.y){
+  ate=true;fishCount++;
+  mult=multT>0?Math.min(5,mult+1):1;multT=6;
+  score+=10*mult;
+  if(mult>1)say(T[lang].combo+mult,"#a7f3d0");
+  sfxEat(mult);burst(px(h.x),py(h.y),"rgba(239,90,60,A)",8);
+  fishP=spawnFree(3);
+  if(fishCount%5===0&&!gold){gold=spawnFree(5);if(gold){goldT=7.5;say(T[lang].gold,"#fbbf24");}}
+  if(fishCount>=8&&fishCount%5===3)addLog();
+ }
+ if(gold&&h.x===gold.x&&h.y===gold.y){
+  ate=true;score+=50*mult;multT=6;
+  sfxGold();burst(px(h.x),py(h.y),"rgba(250,200,60,A)",14);shake=6;
+  gold=null;goldT=0;
+ }
+ if(!ate)snake.pop();
+}
+
+function die(){st="over";sfxCrash();shake=10;flash=1;
+ burst(px(snake[0].x),py(snake[0].y),"rgba(255,255,255,A)",16);
+ render(1);
+ const sc=Math.floor(score);
+ const best=+(localStorage.getItem("ab-best")||0);
+ const isNew=sc>best;if(isNew)localStorage.setItem("ab-best",sc);
+ localStorage.setItem("ab-runs",1+ +(localStorage.getItem("ab-runs")||0));
+ CX.fillStyle="rgba(8,22,16,.74)";CX.fillRect(0,0,W,HT);
+ CX.textAlign="center";
+ const L=T[lang];
+ if(isNew){CX.fillStyle="#fbbf24";CX.font="900 20px system-ui";CX.fillText(L.newbest,W/2,HT*0.32);}
+ CX.fillStyle="#fff";CX.font="900 46px system-ui";CX.fillText(sc.toLocaleString(),W/2,HT*0.40);
+ CX.font="700 14px system-ui";CX.fillStyle="rgba(255,255,255,.7)";CX.fillText(L.over,W/2,HT*0.40+28);
+ CX.font="700 13px system-ui";CX.fillStyle="rgba(255,255,255,.55)";CX.fillText(L.again,W/2,HT*0.40+54);
+ panel(sc,Math.max(sc,best),isNew);
+}
+function shareTxt(sc){
+ return "Aboma: "+sc.toLocaleString()+" \ud83d\udc0d\n"+fishCount+" piranha \u00b7 "+T[lang].len.toLowerCase()+" "+snake.length+"\nhttps://exploresuriname.com/anaconda.html";}
+function panel(sc,best,isNew){const L=T[lang];
+ $("ab-panel").innerHTML='<div class="grid grid-cols-4 gap-2 mb-3">'
+  +'<div class="ab-stat'+(isNew?' ab-new':'')+'"><b>'+sc.toLocaleString()+'</b><span>'+L.score+'</span></div>'
+  +'<div class="ab-stat"><b>'+best.toLocaleString()+'</b><span>'+L.best+'</span></div>'
+  +'<div class="ab-stat"><b>'+snake.length+'</b><span>'+L.len+'</span></div>'
+  +'<div class="ab-stat"><b>'+fishCount+'</b><span>'+L.fish+'</span></div></div>'
+  +'<div><a class="wabtn" href="https://wa.me/?text='+encodeURIComponent(shareTxt(sc))+'" target="_blank" rel="noopener">'+L.share+'</a>'
+  +'<button class="cpbtn" id="ab-cp">'+L.copy+'</button></div>';
+ $("ab-cp").onclick=()=>{navigator.clipboard.writeText(shareTxt(sc));$("ab-cp").textContent=L.copied;};}
+
+// ---- particles ----
+let parts=[];
+function burst(x,y,col,n){for(let i=0;i<n;i++){const a=Math.random()*6.28,v=R(1,3.4);
+ parts.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,a:1,col:col});}}
+
+// ---------- drawing ----------
+function drawBg(t){
+ CX.fillStyle="#2c5a3f";CX.fillRect(0,0,W,HT);
+ CX.fillStyle="rgba(0,0,0,.18)";
+ for(let y=0;y<HT+40;y+=40){
+  CX.beginPath();CX.arc(GX-14,y,16,0,7);CX.arc(GX-2,y+18,12,0,7);CX.fill();
+  CX.beginPath();CX.arc(GX+GW+14,y+20,16,0,7);CX.arc(GX+GW+2,y+4,12,0,7);CX.fill();}
+ const g=CX.createLinearGradient(0,GY,0,GY+GH);
+ g.addColorStop(0,"#1d5a4e");g.addColorStop(1,"#123c33");
+ CX.fillStyle=g;
+ CX.beginPath();CX.roundRect(GX,GY,GW,GH,10);CX.fill();
+ CX.strokeStyle="rgba(0,0,0,.3)";CX.lineWidth=2;
+ CX.beginPath();CX.roundRect(GX,GY,GW,GH,10);CX.stroke();
+ // drifting ripples
+ CX.strokeStyle="rgba(255,255,255,.05)";CX.lineWidth=1.5;
+ const tt=Date.now()/1000;
+ for(let i=0;i<5;i++){const yy=GY+((tt*14+i*104)%GH);
+  CX.beginPath();CX.moveTo(GX+16,yy);CX.bezierCurveTo(GX+GW*0.35,yy-6,GX+GW*0.65,yy+6,GX+GW-16,yy);CX.stroke();}
+}
+function drawLog(l){
+ CX.save();CX.translate(px(l.x),py(l.y));
+ CX.fillStyle="#6b4a2b";
+ const r=7;
+ if(l.h){CX.beginPath();CX.roundRect(-CELL/2-(l.end===1?-2:2),-8,CELL+(l.end===2?0:-2)+(l.end===2?4:2),16,l.end===2?0:r);CX.fill();}
+ else{CX.beginPath();CX.roundRect(-8,-CELL/2-(l.end===1?-2:2),16,CELL+(l.end===2?0:-2)+(l.end===2?4:2),l.end===2?0:r);CX.fill();}
+ CX.strokeStyle="rgba(0,0,0,.25)";CX.lineWidth=1.5;
+ if(l.h){CX.beginPath();CX.moveTo(-7,-2);CX.lineTo(7,-2);CX.moveTo(-5,3);CX.lineTo(6,3);CX.stroke();}
+ else{CX.beginPath();CX.moveTo(-2,-7);CX.lineTo(-2,7);CX.moveTo(3,-5);CX.lineTo(3,6);CX.stroke();}
+ CX.restore();
+}
+function drawFish(f,gold){
+ const bob=Math.sin(Date.now()/280+f.bob)*2;
+ const x=px(f.x),y=py(f.y)+bob;
+ CX.save();CX.translate(x,y);
+ if(gold){const p=0.75+0.25*Math.sin(Date.now()/140);
+  CX.shadowColor="rgba(250,200,60,.9)";CX.shadowBlur=14*p;}
+ CX.fillStyle=gold?"#f4b83a":"#e05a3a";
+ CX.beginPath();CX.ellipse(-1,0,7.5,5,0,0,7);CX.fill();
+ CX.beginPath();CX.moveTo(6,0);CX.lineTo(11,-4.5);CX.lineTo(11,4.5);CX.closePath();CX.fill();
+ CX.shadowBlur=0;
+ CX.fillStyle="rgba(0,0,0,.55)";CX.beginPath();CX.arc(-4,-1.4,1.2,0,7);CX.fill();
+ if(!gold){CX.fillStyle="rgba(255,255,255,.25)";CX.beginPath();CX.ellipse(-2,-2,3.5,1.6,-0.4,0,7);CX.fill();}
+ CX.restore();
+}
+function lerpSeg(i,t){
+ const c=snake[i],p=(prev&&prev[i])?prev[i]:c;
+ return{x:px(p.x)+(px(c.x)-px(p.x))*t,y:py(p.y)+(py(c.y)-py(p.y))*t};
+}
+function drawSnake(t){
+ const n=snake.length;
+ const pts=[];for(let i=0;i<n;i++)pts.push(lerpSeg(i,t));
+ // body: one connected tapering stroke, tail first
+ CX.lineCap="round";CX.lineJoin="round";
+ for(let i=n-1;i>=1;i--){
+  const a=pts[i],b=pts[i-1];
+  const taper=i>n-4?(n-i)/4:1;
+  const rad=(8.8-1.8*(i/n))*Math.max(0.5,taper);
+  CX.strokeStyle=i%2?"#4a7c3f":"#557f36";
+  CX.lineWidth=rad*2;
+  CX.beginPath();CX.moveTo(a.x,a.y);CX.lineTo(b.x,b.y);CX.stroke();
+ }
+ // anaconda blotches along the back
+ for(let i=2;i<n-1;i+=3){const s=pts[i];
+  CX.fillStyle="rgba(30,42,20,.5)";CX.beginPath();CX.arc(s.x,s.y-2,2.6,0,7);CX.fill();}
+ // head
+ const h=lerpSeg(0,t);
+ const hd={x:px(snake[0].x)-((prev&&prev[0])?px(prev[0].x):px(snake[0].x)),
+           y:py(snake[0].y)-((prev&&prev[0])?py(prev[0].y):py(snake[0].y))};
+ const ang=Math.atan2(hd.y||dir.y,hd.x||dir.x);
+ CX.save();CX.translate(h.x,h.y);CX.rotate(ang);
+ CX.fillStyle="#4a7c3f";
+ CX.beginPath();CX.ellipse(1,0,11,8.6,0,0,7);CX.fill();
+ CX.fillStyle="rgba(30,42,20,.55)";CX.beginPath();CX.arc(-3,-3.4,2.1,0,7);CX.fill();
+ // eyes on top, croc-style
+ CX.fillStyle="#f5e9c8";CX.beginPath();CX.arc(4,-4.6,2.5,0,7);CX.arc(4,4.6,2.5,0,7);CX.fill();
+ CX.fillStyle="#111";CX.beginPath();CX.arc(4.8,-4.6,1.15,0,7);CX.arc(4.8,4.6,1.15,0,7);CX.fill();
+ // flicking tongue
+ if(Math.floor(Date.now()/380)%3===0){
+  CX.strokeStyle="#e05a5a";CX.lineWidth=1.6;CX.beginPath();
+  CX.moveTo(11,0);CX.lineTo(17,0);CX.moveTo(17,0);CX.lineTo(20,-2.4);CX.moveTo(17,0);CX.lineTo(20,2.4);CX.stroke();}
+ CX.restore();
+}
+function hud(){
+ CX.textAlign="left";CX.fillStyle="rgba(255,255,255,.92)";CX.font="900 20px system-ui";
+ CX.fillText(Math.floor(score).toLocaleString(),GX+2,42);
+ CX.font="700 10px system-ui";CX.fillStyle="rgba(255,255,255,.45)";
+ CX.fillText(T[lang].score.toUpperCase(),GX+2,54);
+ CX.textAlign="right";CX.fillStyle="rgba(255,255,255,.92)";CX.font="900 20px system-ui";
+ const best=+(localStorage.getItem("ab-best")||0);
+ CX.fillText(Math.max(best,Math.floor(score)).toLocaleString(),GX+GW-2,42);
+ CX.font="700 10px system-ui";CX.fillStyle="rgba(255,255,255,.45)";
+ CX.fillText(T[lang].best.toUpperCase(),GX+GW-2,54);
+ if(mult>1&&multT>0){
+  CX.textAlign="center";
+  CX.fillStyle="#fbbf24";CX.font="900 15px system-ui";
+  CX.fillText("x"+mult,W/2,40);
+  CX.fillStyle="rgba(251,191,36,.35)";
+  CX.fillRect(W/2-26,46,52,4);
+  CX.fillStyle="#fbbf24";
+  CX.fillRect(W/2-26,46,52*Math.max(0,multT/6),4);
+ }
+ if(toastT>0&&toast){
+  CX.textAlign="center";CX.globalAlpha=Math.min(1,toastT*2);
+  CX.fillStyle=toastC;CX.font="900 17px system-ui";
+  CX.fillText(toast,W/2,GY+56);
+  CX.globalAlpha=1;
+ }
+}
+function drawParts(){
+ for(const p of parts){CX.globalAlpha=Math.max(0,p.a);
+  CX.fillStyle=p.col.replace("A",String(Math.max(0,p.a)));
+  CX.beginPath();CX.arc(p.x,p.y,2.4,0,7);CX.fill();}
+ CX.globalAlpha=1;
+}
+function render(t){
+ CX.save();
+ if(shake>0){CX.translate(R(-shake,shake),R(-shake,shake));}
+ drawBg(t);
+ logs.forEach(drawLog);
+ if(fishP)drawFish(fishP,false);
+ if(gold)drawFish(gold,true);
+ drawSnake(t);
+ drawParts();
+ hud();
+ if(flash>0){CX.fillStyle="rgba(220,60,40,"+(flash*0.28)+")";CX.fillRect(0,0,W,HT);}
+ CX.restore();
+}
+
+function frame(ts){
+ if(st!=="run")return;
+ if(!lastT)lastT=ts;
+ let dt=Math.min(100,ts-lastT);lastT=ts;
+ acc+=dt;
+ const tm=tickMs();
+ while(acc>=tm){acc-=tm;step();if(st!=="run")return;}
+ const dts=dt/1000;
+ if(multT>0){multT-=dts;if(multT<=0)mult=1;}
+ if(gold){goldT-=dts;if(goldT<=0){gold=null;say(T[lang].goldgone,"#fca5a5");}}
+ if(toastT>0)toastT-=dts;
+ if(shake>0)shake-=0.6;
+ if(flash>0)flash-=dts*2;
+ parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=0.12;p.a-=0.04;});parts=parts.filter(p=>p.a>0);
+ render(Math.min(1,acc/tm));
+ raf=requestAnimationFrame(frame);
+}
+function start(){reset();st="run";$("ab-panel").innerHTML="";lastT=0;acc=0;
+ ac();cancelAnimationFrame(raf);raf=requestAnimationFrame(frame);}
+function idle(){st="idle";reset();render(1);
+ CX.fillStyle="rgba(8,22,16,.62)";CX.fillRect(0,0,W,HT);
+ CX.textAlign="center";CX.fillStyle="#fff";CX.font="900 38px system-ui";CX.fillText("Aboma",W/2,HT*0.36);
+ CX.font="700 14px system-ui";CX.fillStyle="rgba(255,255,255,.72)";
+ CX.fillText(T[lang].tap,W/2,HT*0.36+34);
+ $("ab-panel").innerHTML="";}
+
+// ---- input ----
+let pd=null,swiped=false;
+CV.addEventListener("pointerdown",ev=>{ev.preventDefault();pd={x:ev.clientX,y:ev.clientY};swiped=false;},{passive:false});
+CV.addEventListener("pointermove",ev=>{
+ if(!pd||swiped||st!=="run")return;
+ const dx=ev.clientX-pd.x,dy=ev.clientY-pd.y;
+ if(Math.abs(dx)<18&&Math.abs(dy)<18)return;
+ if(Math.abs(dx)>Math.abs(dy))turn(dx>0?1:-1,0);else turn(0,dy>0?1:-1);
+ swiped=true;pd={x:ev.clientX,y:ev.clientY};
+ setTimeout(()=>{swiped=false;},60);
+},{passive:true});
+CV.addEventListener("pointerup",ev=>{
+ if(!pd)return;
+ const dx=ev.clientX-pd.x,dy=ev.clientY-pd.y;
+ if(st!=="run"){if(Math.abs(dx)<16&&Math.abs(dy)<16)start();pd=null;return;}
+ if(!swiped&&(Math.abs(dx)>18||Math.abs(dy)>18)){
+  if(Math.abs(dx)>Math.abs(dy))turn(dx>0?1:-1,0);else turn(0,dy>0?1:-1);}
+ pd=null;});
+document.addEventListener("keydown",ev=>{
+ const k=ev.key;
+ if(k==="ArrowLeft"||k==="a"||k==="A"){turn(-1,0);ev.preventDefault();}
+ else if(k==="ArrowRight"||k==="d"||k==="D"){turn(1,0);ev.preventDefault();}
+ else if(k==="ArrowUp"||k==="w"||k==="W"){turn(0,-1);ev.preventDefault();}
+ else if(k==="ArrowDown"||k==="s"||k==="S"){turn(0,1);ev.preventDefault();}
+ else if((k===" "||k==="Enter")&&st!=="run"){start();ev.preventDefault();}});
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&st==="run"){cancelAnimationFrame(raf);st="pause";}
+ else if(st==="pause"){st="run";lastT=0;raf=requestAnimationFrame(frame);}});
+
+function setLang(l){lang=l;localStorage.setItem("ab-lang",l);
+ $("ab-nl").classList.toggle("on",l==="nl");$("ab-en").classList.toggle("on",l==="en");
+ $("ab-note").textContent=T[l].note;$("ab-h1").textContent=T[l].hint;
+ if(st==="idle")idle();}
+$("ab-nl").onclick=()=>setLang("nl");$("ab-en").onclick=()=>setLang("en");
+$("ab-mute").onclick=()=>{muted=!muted;localStorage.setItem("ab-muted",muted?"1":"0");
+ $("ab-mute").innerHTML=muted?"&#128263;":"&#128266;";if(!muted){ac();beep(660,0.08,"triangle",0.05);}};
+$("ab-mute").innerHTML=muted?"&#128263;":"&#128266;";
+setLang(lang);idle();
+})();
+</script>
+<script id="langswitch-js">document.addEventListener('click',function(){document.querySelectorAll('[data-langmenu]').forEach(function(x){x.style.display='none';var b=x.previousElementSibling;if(b)b.setAttribute('aria-expanded','false');});});</script></body>
+</html>
