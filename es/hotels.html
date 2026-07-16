@@ -363,7 +363,7 @@ document.addEventListener('keydown', e => {
 <div class="relative flex items-center gap-1 pt-3">
 <button aria-label="scroll left" class="chip-arrow" id="chipbar-hotel-prev" onclick="chipScroll('chipbar-hotel',-1)">‹</button>
 <div class="flex gap-2 overflow-x-auto pb-1" id="chipbar-hotel" style="scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth">
-<button class="filter-chip chip-active" onclick="filterSub(this,'all')">Todo <span class="chip-count">40</span></button><button class="filter-chip" onclick="filterSub(this,'city-hotels')">Hoteles de ciudad <span class="chip-count">11</span></button><button class="filter-chip" onclick="filterSub(this,'casino-hotels')">Hoteles casino <span class="chip-count">4</span></button><button class="filter-chip" onclick="filterSub(this,'eco-lodges')">Lodges ecológicos y fluviales <span class="chip-count">7</span></button><button class="filter-chip" onclick="filterSub(this,'guesthouses')">Pensiones y villas <span class="chip-count">14</span></button>
+<button class="filter-chip chip-active" onclick="filterSub(this,'all')">Todo <span class="chip-count">40</span></button><button class="filter-chip" onclick="filterSub(this,'city-hotels')">Hoteles de ciudad <span class="chip-count">11</span></button><button class="filter-chip" onclick="filterSub(this,'resorts')">Resorts <span class="chip-count">2</span></button><button class="filter-chip" onclick="filterSub(this,'casino-hotels')">Hoteles casino <span class="chip-count">4</span></button><button class="filter-chip" onclick="filterSub(this,'eco-lodges')">Lodges ecológicos y fluviales <span class="chip-count">9</span></button><button class="filter-chip" onclick="filterSub(this,'guesthouses')">Pensiones y villas <span class="chip-count">14</span></button>
 </div>
 <button aria-label="scroll right" class="chip-arrow" id="chipbar-hotel-next" onclick="chipScroll('chipbar-hotel',1)">›</button>
 </div>
@@ -608,7 +608,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Commewijne" data-sub="nature-parks" href="listing/hotel-peperpot/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Commewijne" data-sub="eco-lodges" href="listing/hotel-peperpot/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Hotel Peperpot, alojamiento en Commewijne" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3b59af42734727bbf1b65ac72eb6d55d.webp" srcset="/images/3b59af42734727bbf1b65ac72eb6d55d-480.webp 480w, /images/3b59af42734727bbf1b65ac72eb6d55d.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -621,7 +621,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fitness-wellness" href="listing/houttuyn-wellness-river-resort/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="resorts" href="listing/houttuyn-wellness-river-resort/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Houttuyn Wellness River Resort, Alojamiento en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a22425cfbd26dabaa05d5bedeabf7732.webp" srcset="/images/a22425cfbd26dabaa05d5bedeabf7732-480.webp 480w, /images/a22425cfbd26dabaa05d5bedeabf7732.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -634,7 +634,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="fitness-wellness" href="listing/jacana-amazon-wellness-resort/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="eco-lodges" href="listing/jacana-amazon-wellness-resort/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Jacana Amazon Wellness Resort, Alojamiento en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/626226628b2765619cbb0ce9f6d0a1c6.webp" srcset="/images/626226628b2765619cbb0ce9f6d0a1c6-480.webp 480w, /images/626226628b2765619cbb0ce9f6d0a1c6.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
@@ -880,7 +880,7 @@ function filterDistrict(btn, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="beauty-wellness" href="listing/tucan-resort-and-spa/">
+<a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Paramaribo" data-sub="resorts" href="listing/tucan-resort-and-spa/">
 <div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0"><img alt="Tucan Resort and Spa en Paramaribo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" height="224" loading="lazy" onerror="this.parentElement.style.background='#2D6A4F';this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ed7c77b7f2042b092dc2d315744234ac.webp" srcset="/images/ed7c77b7f2042b092dc2d315744234ac-480.webp 480w, /images/ed7c77b7f2042b092dc2d315744234ac.webp 900w" width="400"/></div>
 <div class="p-4 flex flex-col gap-2 flex-1">
 <div>
