@@ -80,6 +80,29 @@ if _jd_path.exists():
     except Exception as _err:
         print(f"  Warning: could not load listing data — {_err}")
 
+# ── Listing overrides from the admin panel (D1, read via leaderboard Worker) ────
+# Admin panel: https://esr-admin.surinamedomains.workers.dev (Cloudflare Access).
+# Overrides win over JSON; applied before anything reads _BIZ. Build never fails
+# on backend trouble — it just ships without overrides.
+_OVR_FIELDS = ("description", "website", "phone", "address")
+_OVR_URL = "https://esr-leaderboard.surinamedomains.workers.dev/overrides"
+_OVERRIDES: dict = {}
+try:
+    import urllib.request as _ureq
+    _ovr_req = _ureq.Request(_OVR_URL, headers={"User-Agent": "ExploreSR-build/1.0"})
+    with _ureq.urlopen(_ovr_req, timeout=15) as _ovr_r:
+        _OVERRIDES = json.loads(_ovr_r.read().decode("utf-8"))
+    _ovr_applied = 0
+    for _oslug, _o in _OVERRIDES.items():
+        if _oslug in _BIZ and isinstance(_o, dict):
+            for _ok in _OVR_FIELDS:
+                if isinstance(_o.get(_ok), str):
+                    _BIZ[_oslug][_ok] = _o[_ok].strip()
+            _ovr_applied += 1
+    print(f"  Applied {_ovr_applied} listing overrides from admin panel")
+except Exception as _err:
+    print(f"  Warning: listing overrides unavailable — {_err}")
+
 FEEDS = [
     {"name": "De Ware Tijd", "url": "https://www.dwtonline.com/feed/",              "color": "#2D6A4F"},
     {"name": "Starnieuws",   "url": "https://www.starnieuws.com/rss/starnieuws.rss","color": "#B40A2D"},
@@ -1484,6 +1507,14 @@ _SEARCH_INDEX = _json.dumps([
 # Write the search index to a standalone cacheable file
 with open("search-index.json", "w", encoding="utf-8") as _si_f:
     _si_f.write(_SEARCH_INDEX)
+
+# ── Admin panel data file — editable snapshot of every listing (public data) ───
+with open("data/admin_listings.json", "w", encoding="utf-8") as _al_f:
+    json.dump([{"slug": _s, "name": _b.get("name", ""), "category": _b.get("category", ""),
+                "location": _b.get("location", ""), "description": _b.get("description", ""),
+                "website": _b.get("website", ""), "phone": _b.get("phone", ""),
+                "address": _b.get("address", "")}
+               for _s, _b in sorted(_BIZ.items())], _al_f, ensure_ascii=False)
 
 CME_FALLBACK = [
     # CME.sr only publishes SRD, USD, and EUR — no other currencies
@@ -8980,6 +9011,7 @@ CV.addEventListener("pointerup",ev=>{
  else { const r=CV.getBoundingClientRect();const rx=(ev.clientX-r.left)/r.width;moveLane(rx<0.5?-1:1); }
  pd=null;});
 document.addEventListener("keydown",ev=>{
+ if(ev.target&&(ev.target.tagName==="INPUT"||ev.target.tagName==="TEXTAREA"))return;
  if(ev.key==="ArrowLeft"||ev.key==="a"||ev.key==="A"){moveLane(-1);ev.preventDefault();}
  else if(ev.key==="ArrowRight"||ev.key==="d"||ev.key==="D"){moveLane(1);ev.preventDefault();}
  else if((ev.key===" "||ev.key==="Enter")&&st!=="run"){start();ev.preventDefault();}});
@@ -9483,6 +9515,7 @@ CV.addEventListener("pointerup",ev=>{
   if(Math.abs(dx)>Math.abs(dy))turn(dx>0?1:-1,0);else turn(0,dy>0?1:-1);}
  pd=null;});
 document.addEventListener("keydown",ev=>{
+ if(ev.target&&(ev.target.tagName==="INPUT"||ev.target.tagName==="TEXTAREA"))return;
  const k=ev.key;
  if(k==="ArrowLeft"||k==="a"||k==="A"){turn(-1,0);ev.preventDefault();}
  else if(k==="ArrowRight"||k==="d"||k==="D"){turn(1,0);ev.preventDefault();}
