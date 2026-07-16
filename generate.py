@@ -993,6 +993,25 @@ def _subcat(slug, main_cat=""):
         return 'tech-media'
     # ── Audit Jul 2026: exact-slug overrides (take precedence) ───────────────
     _OVERRIDE = {
+        # ── Audit Jul 15 2026: fix subcats that had no chip on their page ──
+        # Restaurants
+        'the-old-garage':'bars-lounges','mighty-racks':'restaurants',
+        # Hotels
+        'hotel-peperpot':'eco-lodges','houttuyn-wellness-river-resort':'resorts',
+        'jacana-amazon-wellness-resort':'eco-lodges','tucan-resort-and-spa':'resorts',
+        # Adventures
+        'sendang-redjo':'nature-parks',
+        # Shopping — mis-tagged to non-shopping chips
+        'holiday-home-decor':'home-furniture','from-kay-with-love':'crafts-souvenirs',
+        'ket-mien':'health-beauty','suraniyat':'fashion-clothing','rogom-farm-nv':'food-specialty',
+        'the-perfume-spot':'health-beauty','honeycare':'health-beauty',
+        'honeycare-north':'health-beauty','honeycare-south':'health-beauty',
+        'smoothieskin':'health-beauty','golderom-healthy-organic-store':'food-specialty',
+        'wing-hung-cake-shop':'food-specialty','kasan-snacks':'food-specialty',
+        # Shopping — car-accessory shops → Other (new shopping chip)
+        'auto-style-franchepanestraat':'other','auto-style-johannes-mungrastraat':'other',
+        'auto-style-kwatta':'other','auto-style-tweede-rijweg':'other',
+        'auto-style-verlengde-gemenelandsweg':'other',
         # food/bar/café → Restaurants page
         'alegria':'bars-lounges','ciranos':'bars-lounges','le-den':'bars-lounges',
         'lobby':'bars-lounges','sun-ice':'bakeries-sweets','x-avenue':'local-caribbean',
@@ -1343,6 +1362,7 @@ SUBCATS = {
         ("events-party",  "Events & Parties", "🎉"),
         ("nursery-garden","Nursery & Garden",  "🌱"),
         ("health-beauty", "Health & Beauty",    "🧴"),
+        ("other",         "Other",             "🔧"),
     ],
     "service": [
         ("all",               "All",              "⚡"),
