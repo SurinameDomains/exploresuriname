@@ -1,52 +1,52 @@
 {
-  "date_range": "zaterdag 11 juli tot maandag 13 juli 2026",
+  "date_range": "zaterdag 18 juli tot maandag 20 juli 2026",
   "doctors": [
     {
-      "name": "Drs. Baal Antonio",
-      "clinic": "Gezondheidscentrum Geyersvlijt",
+      "name": "Drs. Ormskerk Charleen",
+      "clinic": "Polikliniek Flustraat",
       "district": "Paramaribo",
-      "address": "Wongsoredostraat no.02",
-      "phone": "454917",
+      "address": "Prof. Flustraat no. 03",
+      "phone": "440232",
       "note": ""
     },
     {
-      "name": "Drs. Koendan Shobhna",
-      "clinic": "Polikliniek Welgelegen",
+      "name": "Drs. Ori Amit",
+      "clinic": "Gezondheidscentrum Derde Rijweg",
       "district": "Paramaribo",
-      "address": "Patatastraat no. 17",
-      "phone": "436975",
+      "address": "Kwattaweg no. 620",
+      "phone": "435767",
       "note": ""
     },
     {
-      "name": "Drs. Overeem Raief",
-      "clinic": "Polikliniek Jarikaba",
+      "name": "Drs. Manurat Manisha",
+      "clinic": "Polikliniek Santodorp",
       "district": "Wanica",
-      "address": "Bananen Bacovenweg no. 14",
-      "phone": "328677",
+      "address": "Hk. Corresburg- Nieuw-Weergevondenweg no. 01",
+      "phone": "487067",
       "note": ""
     },
     {
-      "name": "Drs. Bhagirath Ruchika",
-      "clinic": "Gezondheidscentrum Lelydorp",
+      "name": "Drs. Ghoerai Zarish",
+      "clinic": "Polikliniek Houttuin",
       "district": "Wanica",
-      "address": "Indira Gandhiweg no. 42",
-      "phone": "366125",
+      "address": "Mirahoedoelaan no. 02",
+      "phone": "372090",
       "note": ""
     },
     {
-      "name": "Drs. Harderwijk- Lienga Silvana",
-      "clinic": "Polikliniek La Vigilantia",
-      "district": "Para",
-      "address": "Verlengde Laterietweg",
-      "phone": "323253",
+      "name": "Drs. Tjin A Joe Susan",
+      "clinic": "Polikliniek Nieuwe Grond",
+      "district": "Wanica",
+      "address": "Indira Gandhiweg no. 12",
+      "phone": "581396",
       "note": ""
     },
     {
-      "name": "Drs. Soemai Suraj",
-      "clinic": "Gezondheidscentrum Onverwacht",
+      "name": "Drs. Jaime Castellanos Marcia",
+      "clinic": "Polikliniek Zanderij",
       "district": "Para",
-      "address": "Akrumstraat no. 09",
-      "phone": "352097",
+      "address": "Albert Plesmanstraat",
+      "phone": "325515",
       "note": ""
     }
   ],
@@ -62,8 +62,8 @@
       "phone": "354098"
     }
   ],
-  "doctor_hours": "Spreekuren: Zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
+  "doctor_hours": "Spreekuren: zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
   "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00u.",
-  "last_updated": "2026-07-16T10:20:37.704677+00:00",
+  "last_updated": "2026-07-17T10:20:28.114325+00:00",
   "source": "http://www.rgd.sr/nl/zorg-aanbod/wachtdienst"
 }
