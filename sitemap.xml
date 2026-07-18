@@ -271,6 +271,36 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/flights.html"/>
   </url>
   <url>
+    <loc>https://exploresuriname.com/atms.html</loc>
+    <lastmod>2026-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/atms.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/atms.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/atms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/atms.html"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/nl/atms.html</loc>
+    <lastmod>2026-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/atms.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/atms.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/atms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/atms.html"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/es/atms.html</loc>
+    <lastmod>2026-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/atms.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/atms.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/atms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/atms.html"/>
+  </url>
+  <url>
     <loc>https://exploresuriname.com/conditions.html</loc>
     <lastmod>2026-07-18</lastmod>
     <changefreq>daily</changefreq>
