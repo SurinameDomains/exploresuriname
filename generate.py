@@ -12916,6 +12916,26 @@ _SPSB_ATMS = [
     ("SPSB Hoofdkantoor", "Knuffelsgracht 10-14", "Paramaribo"),
     ("SPSB Nickerie", "Nieuw Nickerie", "Nickerie"),
 ]
+# VCB Bank offices (coords for 9 come verbatim from VCB's own Google Maps links).
+_VCB_ATMS = [
+    ("VCB Hoofdkantoor", "Waterkant 104", "Paramaribo"),
+    ("VCB Business Center", "Lim A Postraat 28-30", "Paramaribo"),
+    ("VCB Kwatta", "Kwattaweg 614", "Paramaribo"),
+    ("VCB Latour", "Rust en Werkweg 2", "Paramaribo"),
+    ("VCB Lelydorp", "Hk. Indira Gandhiweg 496 / van Drimmelenweg", "Wanica"),
+    ("VCB Para", "J.F. Kennedyweg, Onverwacht", "Para"),
+    ("VCB Saramacca", "Sidodadieweg Br. 1", "Saramacca"),
+    ("VCB Coronie", "Lodewijk Nicolsonstraat 7", "Coronie"),
+    ("VCB Nickerie", "G.G. Maynardstraat 814", "Nickerie"),
+    ("VCB Tamanredjo", "Hadjie L. Soemitaweg, Serie E 1", "Commewijne"),
+]
+# GODO Bank offices.
+_GODO_ATMS = [
+    ("GODO Hoofdkantoor", "Keizerstraat 139-143", "Paramaribo"),
+    ("GODO Albina", "Hk. Luitenant Weyneweg / Struikenstraat 23", "Marowijne"),
+    ("GODO Atjoni", "Naast Politie Atjoni", "Sipaliwini"),
+    ("GODO Lelydorp", "Hk. Indira Gandhiweg / De Craneweg 2", "Wanica"),
+]
 
 
 _ATM_CARD_META = {
@@ -13173,8 +13193,24 @@ def build_atms_page(atms, meta, ref=None):
         'Nickerie offices; most of its other ATMs are now Cashpnt.</p>'
         + _atm_ref_table(_SPSB_ATMS, mapped) +
         '</div>'
-        '<p class="text-sm text-gray-500 mb-10">GODO and VCB Bank are also BNETS members, so their cards work at '
-        'every ATM on the network; most of their own machines are now Cashpnts (shown above).</p>'
+        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 mb-5">'
+        '<div class="flex items-center gap-2 mb-1 flex-wrap">'
+        '<span class="atm-net" style="background:#0f766e">VCB Bank</span>'
+        '<span class="text-sm text-gray-500">Volkscredietbank &middot; local debit (BNETS) &middot; SRD 4,000/day</span></div>'
+        '<p class="text-sm text-gray-500 mb-4">Ten VCB offices across seven districts, each with an ATM. Daily '
+        'limit SRD 4,000 (max SRD 2,000 per transaction).</p>'
+        + _atm_ref_table(_VCB_ATMS, mapped) +
+        '</div>'
+        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 mb-5">'
+        '<div class="flex items-center gap-2 mb-1 flex-wrap">'
+        '<span class="atm-net" style="background:#a16207">GODO</span>'
+        '<span class="text-sm text-gray-500">GODO Bank &middot; local debit (BNETS)</span></div>'
+        '<p class="text-sm text-gray-500 mb-4">The former co-operative GODO Bank, with offices in Paramaribo, '
+        'Lelydorp and the interior (Albina, Atjoni).</p>'
+        + _atm_ref_table(_GODO_ATMS, mapped) +
+        '</div>'
+        '<p class="text-sm text-gray-500 mb-10">Every bank above is a BNETS member, so any Surinamese bank card '
+        'works at all of their ATMs and at every Cashpnt.</p>'
     )
 
     # ── What works where (acceptance matrix) ────────────────────────────────
@@ -13188,6 +13224,8 @@ def build_atms_page(atms, meta, ref=None):
         ("Hakrinbank", "#0e7490", _y(), _n(), _n(), _n(), "SRD 10,000"),
         ("Finabank", "#b45309", _y(), _y(), _n(), _n(), "SRD 3,000"),
         ("SPSB", "#7c3aed", _y(), _n(), _n(), _n(), "Your bank&rsquo;s"),
+        ("VCB Bank", "#0f766e", _y(), _n(), _n(), _n(), "SRD 4,000"),
+        ("GODO", "#a16207", _y(), _n(), _n(), _n(), "Your bank&rsquo;s"),
     ]
     mrows = ""
     for name, col, c1, c2, c3, c4, lim in matrix_rows:
@@ -13430,7 +13468,7 @@ def build_atms_page(atms, meta, ref=None):
         if(state.dist!=="all" && a.district!==state.dist) return;
         var m=window.L.circleMarker([a.lat,a.lng],{radius:6,color:"#fff",weight:1.5,fillColor:"#9ca3af",fillOpacity:.9});
         var g="https://www.google.com/maps/dir/?api=1&destination="+a.lat+","+a.lng;
-        m.bindPopup('<span class="atm-pop-net" style="background:'+({"Republic Bank":"#1D4ED8","Hakrinbank":"#0e7490","Finabank":"#b45309","SPSB":"#7c3aed"}[a.net]||"#6b7280")+'">'+a.net+'</span>'
+        m.bindPopup('<span class="atm-pop-net" style="background:'+({"Republic Bank":"#1D4ED8","Hakrinbank":"#0e7490","Finabank":"#b45309","SPSB":"#7c3aed","VCB Bank":"#0f766e","GODO":"#a16207"}[a.net]||"#6b7280")+'">'+a.net+'</span>'
           +'<div style="font-weight:700;margin:5px 0 2px">'+a.name+'</div>'
           +'<div style="font-size:.72rem;color:#6b7280;margin-bottom:5px">'+a.address+' &middot; approximate, no live status</div>'
           +'<a class="atm-pop-dir" target="_blank" rel="noopener" href="'+g+'">Directions &rarr;</a>');
@@ -13581,7 +13619,9 @@ def _atm_geocode_reference():
     sources = ([("Republic Bank", n, a, d) for (n, a, d) in _REPUBLIC_ATMS] +
                [("Hakrinbank", n, a, d) for (n, a, d) in _HAKRIN_BRANCH_ATMS] +
                [("Finabank", n, a, d) for (n, a, d) in _FINABANK_ATMS] +
-               [("SPSB", n, a, d) for (n, a, d) in _SPSB_ATMS])
+               [("SPSB", n, a, d) for (n, a, d) in _SPSB_ATMS] +
+               [("VCB Bank", n, a, d) for (n, a, d) in _VCB_ATMS] +
+               [("GODO", n, a, d) for (n, a, d) in _GODO_ATMS])
     changed = False
     for net, name, addr, dist in sources:
         key = f"{net}|{name}|{addr}"
