@@ -12903,6 +12903,19 @@ _HAKRIN_BRANCH_ATMS = [
     ("Hoofdkantoor", "Dr. Sophie Redmondstraat 11-13", "Paramaribo"),
     ("Hoofdkantoor (bankhal)", "Dr. Sophie Redmondstraat 11-13", "Paramaribo"),
 ]
+# Finabank "Finamatic" ATMs sit at its branches (also dispense USD/EUR).
+_FINABANK_ATMS = [
+    ("Finabank Centrum", "Dr. Sophie Redmondstraat 59-61", "Paramaribo"),
+    ("Finabank Zuid", "Mr. Jagernath Lachmonstraat 49", "Paramaribo"),
+    ("Finabank Noord", "Hk. Jozef Isra&euml;lstraat/Kristalstraat", "Paramaribo"),
+    ("Finabank Nickerie", "A.K. Doerga Sawhstraat 72", "Nickerie"),
+    ("Finabank Wanica", "Indira Gandhiweg 144", "Wanica"),
+]
+# Surinaamse Postspaarbank (SPSB) offices; most other SPSB ATMs are now Cashpnt.
+_SPSB_ATMS = [
+    ("SPSB Hoofdkantoor", "Knuffelsgracht 10-14", "Paramaribo"),
+    ("SPSB Nickerie", "Nieuw Nickerie", "Nickerie"),
+]
 
 
 _ATM_CARD_META = {
@@ -12963,7 +12976,7 @@ def _atm_ref_table(rows, mapped_names):
     trs = ""
     for name, addr, dist in rows:
         pin = ''
-        if name in mapped_names:
+        if html_lib.unescape(name) in mapped_names:
             pin = '<span class="atm-pin-tag" title="Shown on the map (approximate)">on map</span>'
         trs += (f'<tr class="border-b border-gray-100">'
                 f'<td class="py-2.5 pr-4 font-semibold text-gray-800 align-top">{name}{pin}</td>'
@@ -13057,54 +13070,6 @@ def build_atms_page(atms, meta, ref=None):
         f'Cashpnt status is indicative, not guaranteed real-time.{stale_note}</p>'
     )
 
-    # ── What works where (acceptance matrix) ────────────────────────────────
-    def _y(): return '<span class="atm-y">&#10003;</span>'
-    def _n(): return '<span class="atm-nd">&mdash;</span>'
-    def _t(txt): return f'<span class="atm-some">{txt}</span>'
-    matrix_rows = [
-        ("Cashpnt", "#B23A2E", _y(), _y() + '<span class="atm-fn">*</span>', _n(), _t("Varies"), "Bank sets limit"),
-        ("DSB", "#2D6A4F", _y(), _y(), _n(), _t("Most"), "Bank sets limit"),
-        ("Republic Bank", "#1D4ED8", _y(), _y(), _y(), _y(), "Bank sets limit"),
-        ("Hakrinbank", "#0e7490", _y(), _n(), _n(), _n(), "SRD 10,000/day"),
-        ("Finabank", "#b45309", _y(), _y(), _n(), _n(), "Bank sets limit"),
-    ]
-    mrows = ""
-    for name, col, c1, c2, c3, c4, lim in matrix_rows:
-        mrows += (
-            '<tr class="border-b border-gray-100">'
-            f'<td class="py-3 pr-3 align-middle"><span class="atm-net" style="background:{col}">{name}</span></td>'
-            f'<td class="atm-mx">{c1}</td><td class="atm-mx">{c2}</td><td class="atm-mx">{c3}</td>'
-            f'<td class="atm-mx">{c4}</td>'
-            f'<td class="py-3 text-sm text-gray-600 whitespace-nowrap">{lim}</td></tr>'
-        )
-    body += (
-        '<h2 class="serif text-2xl font-bold text-gray-900 mb-1">Which card works where</h2>'
-        '<p class="text-gray-600 text-sm mb-4 max-w-2xl">Any Surinamese bank card works at every ATM on the '
-        'BNETS network. For a foreign card, look for the Mastercard (or, at Republic Bank, Visa) logo on the '
-        'machine.</p>'
-        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-3 overflow-x-auto">'
-        '<table class="w-full text-sm border-collapse min-w-[560px]">'
-        '<thead><tr class="text-xs uppercase tracking-wide text-gray-400 border-b border-gray-200">'
-        '<th class="py-2 pr-3 text-left font-semibold">Network</th>'
-        '<th class="atm-mx font-semibold">Local<br>(BNETS)</th>'
-        '<th class="atm-mx font-semibold">Mastercard</th><th class="atm-mx font-semibold">Visa</th>'
-        '<th class="atm-mx font-semibold">Foreign</th><th class="py-2 text-left font-semibold">Daily limit</th>'
-        '</tr></thead>'
-        f'<tbody>{mrows}</tbody></table></div>'
-        '<p class="text-xs text-gray-400 mb-3"><span class="atm-fn">*</span> Cashpnt states its machines take '
-        'local cards and Mastercard; in practice, acceptance of foreign-issued cards varies by machine and '
-        'some take only Surinamese cards. &ldquo;Most&rdquo; / &ldquo;Varies&rdquo; = accepted at a portion of that '
-        'network&rsquo;s machines. A cash withdrawal costs SRD 10 + 10% VAT (about SRD 11) at any BNETS ATM, '
-        'Cashpnt or bank. <strong>From 1 August 2026 BNETS is adjusting the ATM withdrawal and balance-inquiry '
-        'fees; the new amounts were not yet published when this page was built.</strong> Daily limits shown are '
-        'each bank&rsquo;s own. Data verified July 2026 from each bank&rsquo;s own website.</p>'
-        '<div class="rounded-xl p-4 mb-10 text-sm" style="background:var(--mint);color:var(--forest)">'
-        '<strong>Visiting with a foreign card?</strong> Republic Bank ATMs take Visa and Mastercard and are '
-        'the most reliable choice. DSB ATMs take Mastercard and most foreign cards. Cashpnt machines take '
-        'Mastercard per its own statement, though this varies machine to machine. Withdraw larger amounts '
-        'less often to save on the per-transaction fee.</div>'
-    )
-
     # ── Toolbar (filters) ───────────────────────────────────────────────────
     districts = sorted({a["district"] for a in atms if a["district"]})
     dist_chips = '<button class="dist-chip dist-chip-active" data-dist="all">All districts</button>'
@@ -13191,9 +13156,74 @@ def build_atms_page(atms, meta, ref=None):
         'above). These branch ATMs are still run by the bank and take Surinamese cards.</p>'
         + _atm_ref_table(_HAKRIN_BRANCH_ATMS, mapped) +
         '</div>'
-        '<p class="text-sm text-gray-500 mb-10">Finabank cash machines (&ldquo;Finamatic&rdquo;) sit at its branches and '
-        'take local cards and Mastercard; its off-site ATMs have moved to Cashpnt. GODO, the Postspaarbank '
-        '(SPSB) and VCB Bank are BNETS members, so their cards work across the whole network.</p>'
+        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 mb-5">'
+        '<div class="flex items-center gap-2 mb-1 flex-wrap">'
+        '<span class="atm-net" style="background:#b45309">Finabank</span>'
+        '<span class="text-sm text-gray-500">Local debit &amp; Mastercard &middot; SRD 3,000/day</span></div>'
+        '<p class="text-sm text-gray-500 mb-4">The &ldquo;Finamatic&rdquo; machines sit at Finabank branches and also '
+        'dispense foreign cash (up to USD 300 or EUR 500 a day from a USD/EUR account). Finabank&rsquo;s off-site '
+        'ATMs have moved to Cashpnt.</p>'
+        + _atm_ref_table(_FINABANK_ATMS, mapped) +
+        '</div>'
+        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 mb-5">'
+        '<div class="flex items-center gap-2 mb-1 flex-wrap">'
+        '<span class="atm-net" style="background:#7c3aed">SPSB</span>'
+        '<span class="text-sm text-gray-500">Postspaarbank &middot; local debit (BNETS)</span></div>'
+        '<p class="text-sm text-gray-500 mb-4">The Surinaamse Postspaarbank runs machines at its Paramaribo and '
+        'Nickerie offices; most of its other ATMs are now Cashpnt.</p>'
+        + _atm_ref_table(_SPSB_ATMS, mapped) +
+        '</div>'
+        '<p class="text-sm text-gray-500 mb-10">GODO and VCB Bank are also BNETS members, so their cards work at '
+        'every ATM on the network; most of their own machines are now Cashpnts (shown above).</p>'
+    )
+
+    # ── What works where (acceptance matrix) ────────────────────────────────
+    def _y(): return '<span class="atm-y">&#10003;</span>'
+    def _n(): return '<span class="atm-nd">&mdash;</span>'
+    def _t(txt): return f'<span class="atm-some">{txt}</span>'
+    matrix_rows = [
+        ("Cashpnt", "#B23A2E", _y(), _y() + '<span class="atm-fn">*</span>', _n(), _t("Varies"), "Your bank&rsquo;s"),
+        ("DSB", "#2D6A4F", _y(), _y(), _n(), _t("Most"), "SRD 10,000"),
+        ("Republic Bank", "#1D4ED8", _y(), _y(), _y(), _y(), "SRD 20,000"),
+        ("Hakrinbank", "#0e7490", _y(), _n(), _n(), _n(), "SRD 10,000"),
+        ("Finabank", "#b45309", _y(), _y(), _n(), _n(), "SRD 3,000"),
+        ("SPSB", "#7c3aed", _y(), _n(), _n(), _n(), "Your bank&rsquo;s"),
+    ]
+    mrows = ""
+    for name, col, c1, c2, c3, c4, lim in matrix_rows:
+        mrows += (
+            '<tr class="border-b border-gray-100">'
+            f'<td class="py-3 pr-3 align-middle"><span class="atm-net" style="background:{col}">{name}</span></td>'
+            f'<td class="atm-mx">{c1}</td><td class="atm-mx">{c2}</td><td class="atm-mx">{c3}</td>'
+            f'<td class="atm-mx">{c4}</td>'
+            f'<td class="py-3 text-sm text-gray-600 whitespace-nowrap">{lim}</td></tr>'
+        )
+    body += (
+        '<h2 class="serif text-2xl font-bold text-gray-900 mb-1">Which card works where</h2>'
+        '<p class="text-gray-600 text-sm mb-4 max-w-2xl">Any Surinamese bank card works at every ATM on the '
+        'BNETS network. For a foreign card, look for the Mastercard (or, at Republic Bank, Visa) logo on the '
+        'machine.</p>'
+        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-3 overflow-x-auto">'
+        '<table class="w-full text-sm border-collapse min-w-[560px]">'
+        '<thead><tr class="text-xs uppercase tracking-wide text-gray-400 border-b border-gray-200">'
+        '<th class="py-2 pr-3 text-left font-semibold">Network</th>'
+        '<th class="atm-mx font-semibold">Local<br>(BNETS)</th>'
+        '<th class="atm-mx font-semibold">Mastercard</th><th class="atm-mx font-semibold">Visa</th>'
+        '<th class="atm-mx font-semibold">Foreign</th><th class="py-2 text-left font-semibold">Daily limit</th>'
+        '</tr></thead>'
+        f'<tbody>{mrows}</tbody></table></div>'
+        '<p class="text-xs text-gray-400 mb-3"><span class="atm-fn">*</span> Cashpnt states its machines take '
+        'local cards and Mastercard; in practice, acceptance of foreign-issued cards varies by machine and '
+        'some take only Surinamese cards. &ldquo;Most&rdquo; / &ldquo;Varies&rdquo; = accepted at a portion of that '
+        'network&rsquo;s machines. A cash withdrawal costs SRD 10 + 10% VAT (about SRD 11) at any BNETS ATM, '
+        'Cashpnt or bank. <strong>From 1 August 2026 BNETS is adjusting the ATM withdrawal and balance-inquiry '
+        'fees; the new amounts were not yet published when this page was built.</strong> Daily limits shown are '
+        'each bank&rsquo;s own. Data verified July 2026 from each bank&rsquo;s own website.</p>'
+        '<div class="rounded-xl p-4 mb-10 text-sm" style="background:var(--mint);color:var(--forest)">'
+        '<strong>Visiting with a foreign card?</strong> Republic Bank ATMs take Visa and Mastercard and are '
+        'the most reliable choice. DSB ATMs take Mastercard and most foreign cards. Cashpnt machines take '
+        'Mastercard per its own statement, though this varies machine to machine. Withdraw larger amounts '
+        'less often to save on the per-transaction fee.</div>'
     )
 
     # ── Practical info ──────────────────────────────────────────────────────
@@ -13400,7 +13430,7 @@ def build_atms_page(atms, meta, ref=None):
         if(state.dist!=="all" && a.district!==state.dist) return;
         var m=window.L.circleMarker([a.lat,a.lng],{radius:6,color:"#fff",weight:1.5,fillColor:"#9ca3af",fillOpacity:.9});
         var g="https://www.google.com/maps/dir/?api=1&destination="+a.lat+","+a.lng;
-        m.bindPopup('<span class="atm-pop-net" style="background:'+(a.net==="Republic Bank"?"#1D4ED8":"#0e7490")+'">'+a.net+'</span>'
+        m.bindPopup('<span class="atm-pop-net" style="background:'+({"Republic Bank":"#1D4ED8","Hakrinbank":"#0e7490","Finabank":"#b45309","SPSB":"#7c3aed"}[a.net]||"#6b7280")+'">'+a.net+'</span>'
           +'<div style="font-weight:700;margin:5px 0 2px">'+a.name+'</div>'
           +'<div style="font-size:.72rem;color:#6b7280;margin-bottom:5px">'+a.address+' &middot; approximate, no live status</div>'
           +'<a class="atm-pop-dir" target="_blank" rel="noopener" href="'+g+'">Directions &rarr;</a>');
@@ -13549,7 +13579,9 @@ def _atm_geocode_reference():
 
     out = []
     sources = ([("Republic Bank", n, a, d) for (n, a, d) in _REPUBLIC_ATMS] +
-               [("Hakrinbank", n, a, d) for (n, a, d) in _HAKRIN_BRANCH_ATMS])
+               [("Hakrinbank", n, a, d) for (n, a, d) in _HAKRIN_BRANCH_ATMS] +
+               [("Finabank", n, a, d) for (n, a, d) in _FINABANK_ATMS] +
+               [("SPSB", n, a, d) for (n, a, d) in _SPSB_ATMS])
     changed = False
     for net, name, addr, dist in sources:
         key = f"{net}|{name}|{addr}"
