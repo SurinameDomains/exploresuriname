@@ -13010,6 +13010,34 @@ def _atm_ref_table(rows, mapped_names):
         f'<tbody>{trs}</tbody></table></div>'
     )
 
+def _atm_ref_card(a, net, net_col, cards):
+    name = html_lib.escape(a["name"]); addr = html_lib.escape(a["address"]); dist = a["district"]
+    if a["lat"] is not None:
+        gmap = f'https://www.google.com/maps/dir/?api=1&destination={a["lat"]},{a["lng"]}'
+    else:
+        q = urllib.parse.quote(f'{a["name"]} {a["address"]} Suriname')
+        gmap = f'https://www.google.com/maps/search/?api=1&query={q}'
+    return (
+        '<div class="atm-card">'
+        '<div class="flex items-start justify-between gap-2 mb-2">'
+        f'<span class="atm-net" style="background:{net_col}">{net}</span>'
+        '<span class="atm-untracked">No live status</span>'
+        '</div>'
+        f'<h3 class="font-bold text-gray-900 leading-snug">{name}</h3>'
+        f'<p class="text-sm text-gray-500 mb-3">{addr} &middot; {dist or "Suriname"}</p>'
+        f'<div class="flex flex-wrap gap-1.5 mb-3">{_atm_card_pills(cards)}</div>'
+        f'<a href="{gmap}" target="_blank" rel="noopener" class="atm-dir">'
+        '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">'
+        '<path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>'
+        'Directions</a>'
+        '</div>'
+    )
+
+def _atm_ref_cards(entries, net, net_col, cards):
+    inner = "".join(_atm_ref_card(a, net, net_col, cards) for a in entries)
+    return f'<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-3">{inner}</div>'
+
+
 def build_atms_page(atms, meta, ref=None):
     """All-in-one Suriname ATM finder: live status, locations and card acceptance."""
     ref = ref or []
@@ -13071,23 +13099,13 @@ def build_atms_page(atms, meta, ref=None):
 
     body = ""
 
-    # ── Live summary strip ──────────────────────────────────────────────────
+    # ── Freshness note (scoped to the live networks) ────────────────────────
     body += (
-        '<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">'
-        f'<div class="atm-stat"><div class="atm-stat-n" id="stat-online" style="color:var(--forest)">{meta.get("online",0)}</div>'
-        '<div class="atm-stat-l">open now</div></div>'
-        f'<div class="atm-stat"><div class="atm-stat-n text-gray-400">{meta.get("total",0)}</div>'
-        '<div class="atm-stat-l">tracked live</div></div>'
-        f'<div class="atm-stat"><div class="atm-stat-n" style="color:#B23A2E">{meta.get("cashpnt_online",0)}'
-        f'<span class="text-base text-gray-400">/{meta.get("cashpnt_total",0)}</span></div>'
-        '<div class="atm-stat-l">Cashpnt open</div></div>'
-        f'<div class="atm-stat"><div class="atm-stat-n" style="color:var(--forest2)">{meta.get("dsb_online",0)}'
-        f'<span class="text-base text-gray-400">/{meta.get("dsb_total",0)}</span></div>'
-        '<div class="atm-stat-l">DSB open</div></div>'
-        '</div>'
-        f'<p class="text-xs text-gray-400 mb-8" id="atm-fresh">Live status from DSB and Cashpnt feeds, refreshed each site '
-        f'rebuild (~15 min). DSB feed stamped {html_lib.escape(upd) or "&mdash;"} UTC. '
-        f'Cashpnt status is indicative, not guaranteed real-time.{stale_note}</p>'
+        '<p class="text-sm text-gray-500 mb-8" id="atm-fresh">'
+        'Green / red status is tracked live for <strong>Cashpnt</strong> and <strong>DSB</strong> only '
+        '(their machines publish a status feed), refreshed each rebuild, roughly every 15 minutes; '
+        'Cashpnt&rsquo;s own status is indicative, not guaranteed real-time. Every other bank&rsquo;s ATMs are '
+        'listed too, marked &ldquo;no live status&rdquo;.' + stale_note + '</p>'
     )
 
     # ── Toolbar (filters) ───────────────────────────────────────────────────
@@ -13153,65 +13171,45 @@ def build_atms_page(atms, meta, ref=None):
         '<p id="atm-empty" class="text-center text-gray-400 py-10 hidden">No ATMs match those filters.</p>'
     )
 
-    # ── Reference tables (no live status) ───────────────────────────────────
-    mapped = {r["name"] for r in ref}
+    # ── Other bank ATMs (cards, no live status) ─────────────────────────────
+    _ref_by_net = {}
+    for _r in ref:
+        _ref_by_net.setdefault(_r["net"], []).append(_r)
+    _REF_SECTIONS = [
+        ("Republic Bank", "#1D4ED8", "Visa &amp; Mastercard &middot; local cards",
+         ["local", "mastercard", "visa", "foreign"],
+         "The largest ATM network among Suriname&rsquo;s commercial banks and the best choice for an "
+         "international Visa or Mastercard."),
+        ("Hakrinbank", "#0e7490", "Local debit (BNETS) &middot; SRD 10,000/day", ["local"],
+         "Most Hakrinbank off-site ATMs are now Cashpnt machines; these branch ATMs are still run by the bank."),
+        ("Finabank", "#b45309", "Local debit &amp; Mastercard &middot; SRD 3,000/day", ["local", "mastercard"],
+         "The &ldquo;Finamatic&rdquo; machines sit at Finabank branches and also dispense foreign cash "
+         "(up to USD 300 or EUR 500 a day from a USD/EUR account)."),
+        ("VCB Bank", "#0f766e", "Volkscredietbank &middot; local debit &middot; SRD 4,000/day", ["local"],
+         "Ten VCB offices across seven districts, each with an ATM (max SRD 2,000 per transaction)."),
+        ("SPSB", "#7c3aed", "Postspaarbank &middot; local debit (BNETS)", ["local"],
+         "The Surinaamse Postspaarbank runs machines at its Paramaribo and Nickerie offices."),
+        ("GODO", "#a16207", "GODO Bank &middot; local debit (BNETS)", ["local"],
+         "The former co-operative GODO Bank, with offices in Paramaribo, Lelydorp and the interior "
+         "(Albina, Atjoni)."),
+    ]
     body += (
         '<h2 class="serif text-2xl font-bold text-gray-900 mb-2 mt-12">Other bank ATMs</h2>'
-        '<p class="text-gray-600 text-sm mb-5 max-w-2xl">These networks publish their locations but not a live '
-        'status feed, so they are listed for reference without an open / out-of-order indicator. Rows tagged '
-        '&ldquo;on map&rdquo; also appear as grey markers above at an approximate location.</p>'
-        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 mb-5">'
-        '<div class="flex items-center gap-2 mb-1 flex-wrap">'
-        '<span class="atm-net" style="background:#1D4ED8">Republic Bank</span>'
-        '<span class="text-sm text-gray-500">Visa &amp; Mastercard &middot; local cards</span></div>'
-        '<p class="text-sm text-gray-500 mb-4">The largest ATM network among Suriname&rsquo;s commercial banks and '
-        'the best choice for an international Visa or Mastercard.</p>'
-        + _atm_ref_table(_REPUBLIC_ATMS, mapped) +
-        '</div>'
-        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 mb-5">'
-        '<div class="flex items-center gap-2 mb-1 flex-wrap">'
-        '<span class="atm-net" style="background:#0e7490">Hakrinbank</span>'
-        '<span class="text-sm text-gray-500">Local debit (BNETS) &middot; SRD 10,000/day</span></div>'
-        '<p class="text-sm text-gray-500 mb-4">Most Hakrinbank off-site ATMs are now Cashpnt machines (shown '
-        'above). These branch ATMs are still run by the bank and take Surinamese cards.</p>'
-        + _atm_ref_table(_HAKRIN_BRANCH_ATMS, mapped) +
-        '</div>'
-        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 mb-5">'
-        '<div class="flex items-center gap-2 mb-1 flex-wrap">'
-        '<span class="atm-net" style="background:#b45309">Finabank</span>'
-        '<span class="text-sm text-gray-500">Local debit &amp; Mastercard &middot; SRD 3,000/day</span></div>'
-        '<p class="text-sm text-gray-500 mb-4">The &ldquo;Finamatic&rdquo; machines sit at Finabank branches and also '
-        'dispense foreign cash (up to USD 300 or EUR 500 a day from a USD/EUR account). Finabank&rsquo;s off-site '
-        'ATMs have moved to Cashpnt.</p>'
-        + _atm_ref_table(_FINABANK_ATMS, mapped) +
-        '</div>'
-        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 mb-5">'
-        '<div class="flex items-center gap-2 mb-1 flex-wrap">'
-        '<span class="atm-net" style="background:#7c3aed">SPSB</span>'
-        '<span class="text-sm text-gray-500">Postspaarbank &middot; local debit (BNETS)</span></div>'
-        '<p class="text-sm text-gray-500 mb-4">The Surinaamse Postspaarbank runs machines at its Paramaribo and '
-        'Nickerie offices; most of its other ATMs are now Cashpnt.</p>'
-        + _atm_ref_table(_SPSB_ATMS, mapped) +
-        '</div>'
-        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 mb-5">'
-        '<div class="flex items-center gap-2 mb-1 flex-wrap">'
-        '<span class="atm-net" style="background:#0f766e">VCB Bank</span>'
-        '<span class="text-sm text-gray-500">Volkscredietbank &middot; local debit (BNETS) &middot; SRD 4,000/day</span></div>'
-        '<p class="text-sm text-gray-500 mb-4">Ten VCB offices across seven districts, each with an ATM. Daily '
-        'limit SRD 4,000 (max SRD 2,000 per transaction).</p>'
-        + _atm_ref_table(_VCB_ATMS, mapped) +
-        '</div>'
-        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 mb-5">'
-        '<div class="flex items-center gap-2 mb-1 flex-wrap">'
-        '<span class="atm-net" style="background:#a16207">GODO</span>'
-        '<span class="text-sm text-gray-500">GODO Bank &middot; local debit (BNETS)</span></div>'
-        '<p class="text-sm text-gray-500 mb-4">The former co-operative GODO Bank, with offices in Paramaribo, '
-        'Lelydorp and the interior (Albina, Atjoni).</p>'
-        + _atm_ref_table(_GODO_ATMS, mapped) +
-        '</div>'
-        '<p class="text-sm text-gray-500 mb-10">Every bank above is a BNETS member, so any Surinamese bank card '
-        'works at all of their ATMs and at every Cashpnt.</p>'
+        '<p class="text-gray-600 text-sm mb-6 max-w-2xl">These banks publish their locations but not a live '
+        'status feed, so their machines are shown as cards marked &ldquo;no live status&rdquo;. Any Surinamese '
+        'bank card works at all of them, and at every Cashpnt.</p>'
     )
+    for _net, _col, _sub, _cards, _blurb in _REF_SECTIONS:
+        _ents = _ref_by_net.get(_net, [])
+        body += (
+            '<div class="mb-8">'
+            '<div class="flex items-center gap-2 mb-1 flex-wrap">'
+            f'<span class="atm-net" style="background:{_col}">{_net}</span>'
+            f'<span class="text-sm text-gray-500">{_sub}</span></div>'
+            f'<p class="text-sm text-gray-500">{_blurb}</p>'
+            + _atm_ref_cards(_ents, _net, _col, _cards) +
+            '</div>'
+        )
 
     # ── What works where (acceptance matrix) ────────────────────────────────
     def _y(): return '<span class="atm-y">&#10003;</span>'
@@ -13307,13 +13305,11 @@ def build_atms_page(atms, meta, ref=None):
     # ── Page-specific styles ────────────────────────────────────────────────
     styles = '''
 <style>
-.atm-stat{background:var(--card);border:1px solid var(--line);border-radius:1rem;padding:14px 10px;text-align:center}
-.atm-stat-n{font-size:2rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
-.atm-stat-l{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin-top:6px}
 .atm-net{display:inline-block;font-size:.68rem;font-weight:700;color:#fff;padding:3px 9px;border-radius:999px;white-space:nowrap}
 .atm-status{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:600;color:#4b5563}
 .atm-dot{width:8px;height:8px;border-radius:999px;display:inline-block}
 .atm-card{background:var(--card);border:1px solid var(--line);border-radius:1rem;padding:16px;display:flex;flex-direction:column}
+.atm-untracked{font-size:.66rem;font-weight:600;color:#9ca3af;background:#f3f4f6;border-radius:999px;padding:3px 9px;white-space:nowrap}
 .atm-card-pill{font-size:.66rem;font-weight:600;color:var(--pc);border:1px solid var(--pc);border-radius:999px;padding:2px 8px;opacity:.9}
 .atm-dir{margin-top:auto;display:inline-flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;color:var(--forest2)}
 .atm-dir:hover{text-decoration:underline}
@@ -13542,7 +13538,7 @@ def build_atms_page(atms, meta, ref=None):
     });
     var so=document.getElementById('stat-online'); if(so) so.textContent=online;
     var fr=document.getElementById('atm-fresh');
-    if(fr) fr.innerHTML='Live status refreshed just now from the DSB and Cashpnt feeds. '
+    if(fr) fr.innerHTML='Green / red status refreshed just now for Cashpnt and DSB; other banks are shown without live status. '
       +'Cashpnt status is indicative, not guaranteed real-time.';
     if(window._atmMap) drawMarkers();
     apply();
@@ -13564,7 +13560,7 @@ def build_atms_page(atms, meta, ref=None):
          for a in atms], ensure_ascii=False))
     js = js.replace("__REF_JSON__", json.dumps(
         [{"net": r["net"], "name": r["name"], "address": r["address"],
-          "district": r["district"], "lat": r["lat"], "lng": r["lng"]} for r in ref],
+          "district": r["district"], "lat": r["lat"], "lng": r["lng"]} for r in ref if r["lat"] is not None],
         ensure_ascii=False))
 
     main = '<main class="max-w-5xl mx-auto px-5 py-12 pb-24">' + body + '</main>'
@@ -13647,16 +13643,16 @@ def _atm_geocode_reference():
             except Exception as e:
                 print(f"  geocode error {name}: {e}")
                 rec = rec or None  # keep prior, retry next build
-        if rec:
-            out.append({"net": net, "name": html_lib.unescape(name), "address": html_lib.unescape(addr),
-                        "district": dist, "lat": rec["lat"], "lng": rec["lng"]})
+        out.append({"net": net, "name": html_lib.unescape(name), "address": html_lib.unescape(addr),
+                    "district": dist, "lat": (rec or {}).get("lat"), "lng": (rec or {}).get("lng")})
     if changed:
         try:
             cache_path.parent.mkdir(exist_ok=True)
             cache_path.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
         except Exception as e:
             print(f"  geocode cache write error: {e}")
-    print(f"  ATM reference geocoded: {len(out)} of {len(sources)} placed")
+    _placed = sum(1 for o in out if o["lat"] is not None)
+    print(f"  ATM reference geocoded: {_placed} of {len(sources)} placed")
     return out
 
 
