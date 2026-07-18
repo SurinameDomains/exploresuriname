@@ -1479,6 +1479,7 @@ _SEARCH_INDEX = _json.dumps([
     {"n": "World Cup 2026: Live Scores and Schedule", "u": "worldcup-2026.html", "c": "Guides", "a": "Suriname"},
     {"n": "Sports Schedule: Games in Suriname Time", "u": "matches.html", "c": "Guides", "a": "Suriname"},
     {"n": "Suriname Time and World Clock Converter", "u": "suriname-time.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Sranan Tongo Dictionary and Phrasebook", "u": "sranan-tongo-dictionary.html", "c": "Guides", "a": "Suriname"},
     {"n": "History of Suriname: Interactive Timeline", "u": "suriname-history.html", "c": "Guides", "a": "Suriname"},
     {"n": "Switi Mini: Daily Surinaamse Crossword", "u": "crossword.html", "c": "Guides", "a": "Suriname"},
     {"n": "Sabi Suriname: Daily Suriname Quiz", "u": "quiz.html", "c": "Guides", "a": "Suriname"},
@@ -2446,7 +2447,7 @@ def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
     _TODO  = {"nature", "activities", "shopping", "events"}
     _EAT   = {"restaurants", "hotels"}
-    _ESS   = {"currency", "forecast", "worldcup", "matches"}
+    _ESS   = {"currency", "forecast", "worldcup", "matches", "dictionary"}
     _SVC   = {"services", "daily-notices", "flights"}
     _PLAN  = {"visitor", "surtime", "roads", "itinerary", "safety", "history"}
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda"}
@@ -2504,6 +2505,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}conditions.html"     {_link_cls("forecast")}       >Weather &amp; Tides</a>'
         f'<a href="{prefix}worldcup-2026.html"   {_link_cls("worldcup")}       >World Cup 2026</a>'
         f'<a href="{prefix}matches.html"        {_link_cls("matches")}        >Sports Schedule</a>'
+        f'<a href="{prefix}sranan-tongo-dictionary.html" {_link_cls("dictionary")} >Sranan Dictionary</a>'
     )
     # Local Services (resident tools)
     svc_items = (
@@ -2574,7 +2576,8 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}currency.html",      "Market Rates",  "currency") +
         _mob_link(f"{prefix}conditions.html",    "Weather & Tides", "forecast") +
         _mob_link(f"{prefix}worldcup-2026.html",  "World Cup 2026", "worldcup") +
-        _mob_link(f"{prefix}matches.html",       "Sports Schedule", "matches")
+        _mob_link(f"{prefix}matches.html",       "Sports Schedule", "matches") +
+        _mob_link(f"{prefix}sranan-tongo-dictionary.html", "Sranan Dictionary", "dictionary")
     )
     mob_svc_items = (
         _mob_link(f"{prefix}services.html",      "Services", "services") +
@@ -2824,6 +2827,7 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}suriname-itinerary.html">Trip Itineraries</a>
         <a class="ftr-lnk" href="{prefix}is-suriname-safe.html">Is Suriname Safe?</a>
         <a class="ftr-lnk" href="{prefix}suriname-history.html">History of Suriname</a>
+        <a class="ftr-lnk" href="{prefix}sranan-tongo-dictionary.html">Sranan Dictionary</a>
         <a class="ftr-lnk" href="{prefix}currency.html">Exchange Rates</a>
         <a class="ftr-lnk" href="{prefix}flights.html">Flights</a>
         <a class="ftr-lnk" href="{prefix}conditions.html">Weather &amp; Tides</a>
@@ -10606,6 +10610,255 @@ def build_privacy_page():
 </html>"""
 
 
+def build_dictionary_page():
+    """sranan-tongo-dictionary.html: a free Sranan Tongo <-> English/Dutch dictionary
+    and phrasebook. Instant client-side search over server-rendered entries (works
+    without JS), category filters, EN/NL toggle and an A-Z jump bar. Fully static;
+    data lives in data/sranan_dictionary.json."""
+    import json as _json, html as _html
+    try:
+        with open("data/sranan_dictionary.json", encoding="utf-8") as _f:
+            _dd = _json.load(_f)
+    except Exception:
+        _dd = {"updated": "", "entries": []}
+    entries = _dd.get("entries", [])
+    updated = _dd.get("updated", "")
+    n_words = len(entries)
+
+    def esc(s):
+        return _html.escape(s or "", quote=True)
+
+    CATS = [
+        ("all",       "All"),
+        ("greetings", "Greetings"),
+        ("everyday",  "Everyday"),
+        ("food",      "Food &amp; drink"),
+        ("nature",    "Animals &amp; nature"),
+        ("people",    "People &amp; family"),
+        ("culture",   "Culture"),
+        ("odo",       "Proverbs (odo)"),
+    ]
+    _POS = {"n": "noun", "v": "verb", "adj": "adjective", "adv": "adverb",
+            "pron": "pronoun", "prep": "preposition", "conj": "conjunction",
+            "num": "number", "interj": "interjection", "phrase": "phrase",
+            "odo": "proverb", "name": "proper noun", "det": "determiner",
+            "art": "article", "part": "particle", "suffix": "suffix", "prefix": "prefix"}
+
+    def _key(e):
+        return e["w"].lower()
+    ents = sorted(entries, key=_key)
+    groups = {}
+    for e in ents:
+        L = e["w"][0].upper()
+        groups.setdefault(L, []).append(e)
+    letters = sorted(groups.keys())
+
+    def card(e):
+        w, pos, en, nl = e["w"], e.get("pos", ""), e.get("en", ""), e.get("nl", "")
+        ex, xen = e.get("ex", ""), e.get("xen", "")
+        tag = e.get("tag", "everyday")
+        old = e.get("old", "")
+        var = e.get("var", "")
+        posl = _POS.get(pos, pos)
+        hay = " ".join([w, en, nl, ex, old, var]).lower()
+        ex_html = ""
+        if ex:
+            _x = '<span class="font-medium" style="color:var(--forest2)">' + esc(ex) + '</span>'
+            if xen:
+                _x += ' <span class="text-gray-400">&mdash;</span> <span class="text-gray-500 italic">' + esc(xen) + '</span>'
+            ex_html = ('<p class="dict-ex text-sm mt-1.5">' + _x + '</p>')
+        return (
+            '<article class="dict-card border-b border-gray-100 py-3.5" '
+            'data-tag="' + tag + '" data-s="' + esc(hay) + '">'
+              '<div class="flex items-baseline flex-wrap gap-x-2">'
+                '<h3 class="text-lg font-bold text-gray-900">' + esc(w) + '</h3>'
+                '<span class="text-xs italic text-gray-400">' + posl + '</span>'
+                + (('<span class="text-[11px] text-gray-400">1855: <span class="italic">' + esc(old) + '</span></span>') if old else '') +
+              '</div>'
+              '<p class="dict-en text-gray-800 leading-snug">' + esc(en) + '</p>'
+              + (('<p class="dict-nl text-sm text-gray-500 leading-snug"><span class="text-gray-400">NL</span> ' + esc(nl) + '</p>') if nl else '')
+              + ex_html +
+            '</article>'
+        )
+
+    sections = ""
+    for L in letters:
+        sections += ('<section class="dict-group" id="L-' + esc(L) + '">'
+            '<h2 class="dict-gh serif text-2xl font-bold mt-8 mb-1 pb-1 border-b-2" '
+            'style="color:var(--forest);border-color:var(--mint)">' + esc(L) + '</h2>'
+            + "".join(card(e) for e in groups[L]) +
+            '</section>')
+
+    az = "".join(
+        '<a href="#L-' + esc(L) + '" class="dict-az px-2 py-1 rounded text-sm font-semibold hover:bg-gray-100" '
+        'style="color:var(--forest2)">' + esc(L) + '</a>'
+        for L in letters)
+
+    chips = ""
+    for key, label in CATS:
+        base = ('dict-chip px-3.5 py-1.5 rounded-full text-sm font-semibold border transition '
+                'whitespace-nowrap')
+        if key == "all":
+            style = 'style="background:var(--forest);color:#fff;border-color:var(--forest)"'
+            active = ' data-active="1"'
+        else:
+            style = 'style="background:#fff;color:#374151;border-color:#e5e7eb"'
+            active = ''
+        chips += ('<button type="button" class="' + base + '" data-cat="' + key + '" '
+                  + style + active + '>' + label + '</button>')
+
+    title = "Sranan Tongo Dictionary: Words, Phrases &amp; Meanings"
+    desc = ("A free Sranan Tongo dictionary and phrasebook. Look up what Surinamese words "
+            "mean in English and Dutch, with example sentences, common greetings, food words "
+            "and traditional proverbs (odo). " + str(n_words) + " words and phrases, searchable.")
+    faq = [
+        ("What is Sranan Tongo?",
+         "Sranan Tongo, also called Sranantongo, Sranan or Surinaams, is the creole language of "
+         "Suriname. It grew up on the plantations and today it is the shared everyday language that "
+         "Surinamers of every background use to talk to one another, alongside Dutch. Its vocabulary "
+         "draws mainly on English, Dutch and West African languages, with Portuguese and Indigenous words too."),
+        ("How do I say hello and thank you in Sranan Tongo?",
+         "A common greeting is &ldquo;Odi&rdquo; (hello) or &ldquo;Fa waka?&rdquo; (how are you, literally "
+         "&ldquo;how is the walk?&rdquo;). To thank someone you say &ldquo;Tangi&rdquo; (thanks) or "
+         "&ldquo;Grantangi&rdquo; (thank you very much). A warm way to say goodbye is &ldquo;Waka bun&rdquo;, "
+         "meaning &ldquo;walk well&rdquo;."),
+        ("Is Sranan Tongo the same as Dutch?",
+         "No. Dutch is the official language of Suriname and the language of school and government, but "
+         "Sranan Tongo is a separate language with its own grammar and words. Many Surinamers speak both, "
+         "and a distinctly Surinamese variety of Dutch (Surinaams-Nederlands) borrows heavily from Sranan Tongo."),
+        ("What is an odo?",
+         "An odo is a traditional proverb or saying. Odo are a treasured part of Surinamese oral culture: "
+         "short, vivid and often built around animals or food, they carry a piece of wisdom or a sharp "
+         "comment on life. This dictionary includes a small selection with their meaning explained."),
+        ("Where do these words and meanings come from?",
+         "The entries are compiled from published Sranan Tongo dictionaries and everyday usage, cross-checked "
+         "for accuracy, and include the vocabulary of H.C. Focke&rsquo;s Neger-Engelsch Woordenboek (1855), the "
+         "first Sranan dictionary, with spelling modernised and the original 1855 spelling shown alongside. "
+         "Spelling in Sranan Tongo can vary, so where a word is often written more than one way "
+         "the common variants are noted."),
+    ]
+    dict_ld = {
+        "@context": "https://schema.org", "@type": "DefinedTermSet",
+        "name": "Sranan Tongo Dictionary", "url": SITE_URL + "/sranan-tongo-dictionary.html",
+        "description": "A dictionary and phrasebook of Sranan Tongo, the creole language of Suriname, "
+                       "with English and Dutch meanings.",
+        "inLanguage": "srn",
+    }
+    head = _hub_head(title, desc, "sranan-tongo-dictionary.html", faq=faq, extra_ld=dict_ld)
+    hero = _hub_hero("Language of Suriname", "Sranan Tongo Dictionary",
+                     "Look up any Surinamese word and see what it means in English and Dutch, with "
+                     "example sentences, everyday greetings and traditional proverbs. Free and searchable."
+                     ).replace("{NAV}", nav_html("dictionary"))
+
+    body = ""
+    body += ('<div class="sticky top-[58px] z-30 -mx-5 px-5 py-3 mb-2" '
+        'style="background:rgba(249,250,251,.95);backdrop-filter:blur(8px)">'
+        '<div class="relative">'
+          '<input id="dict-q" type="search" autocomplete="off" '
+          'placeholder="Search a word in Sranan, English or Dutch&hellip;" '
+          'class="w-full rounded-xl border border-gray-200 bg-white pl-11 pr-4 py-3 text-base '
+          'focus:outline-none focus:ring-2" style="--tw-ring-color:var(--forest2)">'
+          '<svg class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" fill="none" '
+          'viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" '
+          'stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/></svg>'
+        '</div>'
+        '<div class="flex gap-2 mt-3 overflow-x-auto pb-1 -mb-1">' + chips + '</div>'
+        '<div class="flex items-center justify-between mt-2.5 text-sm">'
+          '<span id="dict-count" class="text-gray-500">' + str(n_words) + ' words</span>'
+          '<div class="inline-flex rounded-full border border-gray-200 overflow-hidden text-xs font-semibold" role="group" aria-label="Show language">'
+            '<button type="button" id="lang-both" class="px-3 py-1.5" data-active="1" style="background:var(--forest);color:#fff">EN + NL</button>'
+            '<button type="button" id="lang-en" class="px-3 py-1.5 text-gray-600">EN</button>'
+            '<button type="button" id="lang-nl" class="px-3 py-1.5 text-gray-600">NL</button>'
+          '</div>'
+        '</div>'
+        '</div>')
+
+    body += ('<div class="flex flex-wrap gap-0.5 justify-center py-2 mb-2 border-y border-gray-100">'
+             + az + '</div>')
+
+    body += ('<p id="dict-none" class="hidden text-center text-gray-500 py-10">'
+             'No words match your search. Try a shorter word or another spelling.</p>')
+
+    body += '<div id="dict-list">' + sections + '</div>'
+
+    body += ('<p class="text-xs text-gray-400 mt-10 leading-relaxed">'
+             + str(n_words) + ' entries. Word meanings incorporate data from '
+             '<a href="https://en.wiktionary.org" rel="nofollow" class="underline">Wiktionary</a>, '
+             'used under the <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="nofollow" class="underline">CC BY-SA 4.0</a> licence, '
+             'historical entries adapted from H.C. Focke&rsquo;s <em>Neger-Engelsch Woordenboek</em> (1855, public domain) '
+             'with modernised spelling (the 1855 spelling is shown next to those words), '
+             'alongside original entries and example sentences written for Explore Suriname; '
+             'this dataset is likewise offered under CC BY-SA 4.0. Spelling in Sranan Tongo varies, so common variants may appear separately. '
+             'Spot a mistake or a missing word? <a href="contact.html" class="underline">Let us know</a>. '
+             'Last updated ' + esc(updated) + '.</p>')
+
+    js = '''<script>
+(function(){
+  var q=document.getElementById('dict-q');
+  var cards=Array.prototype.slice.call(document.querySelectorAll('.dict-card'));
+  var groups=Array.prototype.slice.call(document.querySelectorAll('.dict-group'));
+  var count=document.getElementById('dict-count');
+  var none=document.getElementById('dict-none');
+  var chips=Array.prototype.slice.call(document.querySelectorAll('.dict-chip'));
+  var cat='all', term='';
+  function norm(s){return (s||'').toLowerCase().replace(/[^a-z0-9 ]/g,'');}
+  function apply(){
+    var t=norm(term), shown=0;
+    for(var i=0;i<cards.length;i++){
+      var c=cards[i];
+      var okc=(cat==='all'||c.getAttribute('data-tag')===cat);
+      var oks=(!t|| c.getAttribute('data-s').indexOf(t)>-1);
+      var vis=okc&&oks;
+      c.style.display=vis?'':'none';
+      if(vis) shown++;
+    }
+    for(var g=0;g<groups.length;g++){
+      var any=groups[g].querySelector('.dict-card:not([style*="none"])');
+      groups[g].style.display=any?'':'none';
+    }
+    count.textContent=shown+(shown===1?' word':' words');
+    none.style.display=shown?'none':'';
+  }
+  if(q) q.addEventListener('input',function(){term=q.value;apply();});
+  chips.forEach(function(ch){
+    ch.addEventListener('click',function(){
+      cat=ch.getAttribute('data-cat');
+      chips.forEach(function(o){
+        var on=(o===ch);
+        o.setAttribute('data-active',on?'1':'0');
+        o.style.background=on?'var(--forest)':'#fff';
+        o.style.color=on?'#fff':'#374151';
+        o.style.borderColor=on?'var(--forest)':'#e5e7eb';
+      });
+      apply();
+    });
+  });
+  var lb=document.getElementById('lang-both'),le=document.getElementById('lang-en'),ln=document.getElementById('lang-nl');
+  function setLang(mode){
+    cards.forEach(function(c){
+      var en=c.querySelector('.dict-en'), nl=c.querySelector('.dict-nl');
+      if(mode==='en'){ if(en)en.style.display=''; if(nl)nl.style.display='none'; }
+      else if(mode==='nl'){
+        if(nl){ nl.style.display=''; if(en)en.style.display='none'; }
+        else { if(en)en.style.display=''; }   // fall back to English when no Dutch
+      } else { if(en)en.style.display=''; if(nl)nl.style.display=''; }
+    });
+    [['both',lb],['en',le],['nl',ln]].forEach(function(p){
+      var on=(p[0]===mode), b=p[1];
+      b.style.background=on?'var(--forest)':'transparent';
+      b.style.color=on?'#fff':'#4b5563';
+    });
+  }
+  if(lb){lb.addEventListener('click',function(){setLang('both');});
+    le.addEventListener('click',function(){setLang('en');});
+    ln.addEventListener('click',function(){setLang('nl');});}
+})();
+</script>'''
+
+    main = '<main class="max-w-3xl mx-auto px-5 py-8 pb-24">' + body + '</main>'
+    return head + hero + main + js + "\n" + footer_html() + "\n</body>\n</html>"
+
+
 def build_time_page():
     """Time in Suriname: live time strip, converter, world clocks, call-overlap, difference table."""
     title = "Time in Suriname: Current Local Time &amp; Converter"
@@ -11062,6 +11315,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("worldcup-2026.html",      "0.8", "daily"),
         ("matches.html",            "0.8", "daily"),
         ("suriname-time.html",      "0.7", "daily"),
+        ("sranan-tongo-dictionary.html", "0.8", "monthly"),
         ("daily-notices.html", "0.9", "daily"),
         ("crossword.html",   "0.9", "daily"),
         ("quiz.html",        "0.9", "daily"),
@@ -12524,6 +12778,7 @@ if __name__ == "__main__":
         "worldcup-2026.html":      build_worldcup_page(),
         "matches.html":            build_matches_page(matches_data),
         "suriname-time.html":      build_time_page(),
+        "sranan-tongo-dictionary.html": build_dictionary_page(),
         "404.html": ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
             '<meta name="robots" content="noindex"><title>Page Not Found | Explore Suriname</title>'
