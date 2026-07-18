@@ -15,7 +15,7 @@
   @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   </style>
-<link href="/tailwind.css?v=901879a8" rel="stylesheet"/>
+<link href="/tailwind.css?v=8e293d57" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -88,6 +88,8 @@
       align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
     }
     .chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
+    .dict-chiprow{scrollbar-width:none;-ms-overflow-style:none}
+    .dict-chiprow::-webkit-scrollbar{display:none}
     .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
     .listing-card.hidden { display:none; }
     /* PWA install bar (Android prompt + iOS A2HS tip) */
@@ -355,14 +357,6 @@ document.addEventListener('keydown', e => {
 <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Oficial de CBVS • Efectivo de CME • Comparación de bancos comerciales • Oro vivo y petróleo Brent</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
-<div class="rounded-2xl border border-amber-200 p-6 mb-8" style="background:#fffbeb">
-<p class="text-amber-900 text-sm leading-relaxed">
-<strong class="text-amber-800">💡 ¿Cuál es la diferencia?</strong>
-<strong>CBVS</strong> es la tasa de referencia oficial del Banco Central de Surinam utilizada para la banca.
-      <strong>CME</strong> (Central Money Exchange) muestra los tipos de cambio en efectivo en las oficinas de cambio locales: lo que realmente se obtiene al cambiar billetes.
-      “Nosotros Compramos” es lo que pagan cuando vendes moneda extranjera; “Vendemos” es lo que usted paga por comprar moneda extranjera.
-    </p>
-</div>
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-10">
 <h2 class="serif text-2xl font-bold text-gray-900 mb-1">Convertidor de moneda</h2>
 <p class="text-gray-400 text-sm mb-4">Elija una fuente de tarifas a continuación. CME cash es lo que suelen ofrecer las oficinas de cambio; las tasas bancarias son tasas girales (de cuenta).</p>
@@ -429,7 +423,7 @@ document.addEventListener('keydown', e => {
 </div>
 <a class="text-xs font-semibold shrink-0 hover:underline" href="https://www.cme.sr" rel="noopener noreferrer" style="color:var(--forest2)" target="_blank">cme.sr ↗</a>
 </div>
-<p class="text-gray-400 text-xs mt-2">🕐 CME: 18 Jul 2026 12:45 SR</p>
+<p class="text-gray-400 text-xs mt-2">🕐 CME: 18 Jul 2026 13:00 SR</p>
 </div>
 <div class="hidden sm:block overflow-x-auto">
 <table class="w-full text-sm">
@@ -449,7 +443,7 @@ document.addEventListener('keydown', e => {
 <div class="px-6 py-5 border-b border-gray-100">
 <p class="font-bold text-gray-900 text-base">Comparación de tasas bancarias</p>
 <p class="text-gray-400 text-xs mt-0.5">USD y EUR en los bancos comerciales de Surinam, uno al lado del otro. Comprar es lo que se recibe al vender moneda extranjera; vender es lo que pagas para conseguirlo.</p>
-<p class="text-gray-400 text-xs mt-2">🕐 18 Jul 2026 12:45 SR</p>
+<p class="text-gray-400 text-xs mt-2">🕐 18 Jul 2026 13:00 SR</p>
 </div>
 <div class="hidden sm:block overflow-x-auto">
 <table class="w-full text-sm">
@@ -465,6 +459,14 @@ document.addEventListener('keydown', e => {
 </div>
 <div class="sm:hidden py-1"><div class="py-3 border-b border-gray-100 last:border-0 px-4"><div class="flex items-center justify-between mb-1.5"><p class="font-semibold text-gray-900 text-sm">bancofinanciero <span class="text-green-500 text-xs" title="Live">●</span></p><a class="text-xs text-gray-400 hover:underline" href="https://www.finabanknv.com/service-desk/koersen-rates/" rel="noopener noreferrer" target="_blank">finabanknv.com ↗</a></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">USD</p><p class="font-mono font-bold text-gray-800 text-sm"><span style="color:var(--forest2)">37.52</span> <span class="text-gray-300">/</span> 37.90</p></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">EUR</p><p class="font-mono font-bold text-gray-800 text-sm"><span style="color:var(--forest2)">42.95</span> <span class="text-gray-300">/</span> <span style="color:var(--forest2)">43.34</span></p></div></div><div class="py-3 border-b border-gray-100 last:border-0 px-4"><div class="flex items-center justify-between mb-1.5"><p class="font-semibold text-gray-900 text-sm">Hakrinbank <span class="text-green-500 text-xs" title="Live">●</span></p><a class="text-xs text-gray-400 hover:underline" href="https://www.hakrinbank.com/en/private/foreign-exchange/" rel="noopener noreferrer" target="_blank">hakrinbank.com ↗</a></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">USD</p><p class="font-mono font-bold text-gray-800 text-sm">37.30 <span class="text-gray-300">/</span> <span style="color:var(--forest2)">37.90</span></p></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">EUR</p><p class="font-mono font-bold text-gray-800 text-sm">42.70 <span class="text-gray-300">/</span> 43.40</p></div></div><div class="py-3 border-b border-gray-100 last:border-0 px-4"><div class="flex items-center justify-between mb-1.5"><p class="font-semibold text-gray-900 text-sm">DSB Bank <span class="text-green-500 text-xs" title="Live">●</span></p><a class="text-xs text-gray-400 hover:underline" href="https://www.dsb.sr" rel="noopener noreferrer" target="_blank">dsb.sr ↗</a></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">USD</p><p class="font-mono font-bold text-gray-800 text-sm">37.52 <span class="text-gray-300">/</span> <span style="color:var(--forest2)">37.90</span></p></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">EUR</p><p class="font-mono font-bold text-gray-800 text-sm">42.92 <span class="text-gray-300">/</span> 43.36</p></div></div><div class="py-3 border-b border-gray-100 last:border-0 px-4"><div class="flex items-center justify-between mb-1.5"><p class="font-semibold text-gray-900 text-sm">Republic Bank <span class="text-green-500 text-xs" title="Live">●</span></p><a class="text-xs text-gray-400 hover:underline" href="https://www.republicbanksr.com" rel="noopener noreferrer" target="_blank">republicbanksr.com ↗</a></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">USD</p><p class="font-mono font-bold text-gray-800 text-sm">37.20 <span class="text-gray-300">/</span> <span style="color:var(--forest2)">37.90</span></p></div><div class="flex items-center justify-between"><p class="text-gray-500 text-xs">EUR</p><p class="font-mono font-bold text-gray-800 text-sm">42.66 <span class="text-gray-300">/</span> 43.36</p></div></div></div>
 <p class="text-gray-400 text-xs px-6 py-4 border-t border-gray-100">Los valores resaltados son la mejor tarifa en cada columna. Las tasas bancarias son tasas girales (de cuenta); para conocer las tasas de efectivo, consulte la tabla CME anterior. Las tarifas son indicativas. Confirme siempre con su banco antes de realizar la transacción.</p>
+</div>
+<div class="rounded-2xl border border-amber-200 p-6 mt-8 mb-0" style="background:#fffbeb">
+<p class="text-amber-900 text-sm leading-relaxed">
+<strong class="text-amber-800">💡 ¿Cuál es la diferencia?</strong>
+<strong>CBVS</strong> es la tasa de referencia oficial del Banco Central de Surinam utilizada para la banca.
+      <strong>CME</strong> (Central Money Exchange) muestra los tipos de cambio en efectivo en las oficinas de cambio locales: lo que realmente se obtiene al cambiar billetes.
+      “Nosotros Compramos” es lo que pagan cuando vendes moneda extranjera; “Vendemos” es lo que usted paga por comprar moneda extranjera.
+    </p>
 </div>
 <p class="text-center text-gray-400 text-xs mt-8 max-w-2xl mx-auto leading-relaxed px-4">
     Las tarifas son sólo para fines informativos. Confirme siempre la tarifa actual antes de realizar la transacción. La página se actualiza diariamente.
@@ -501,7 +503,7 @@ document.addEventListener('keydown', e => {
 <h2 class="serif text-2xl font-bold text-gray-900">🛣︎ Petróleo crudo Brent</h2>
 <p class="text-gray-400 text-sm mt-1">Crudo Brent, actualizado cada hora</p>
 </div>
-<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">● 18 Jul 2026 12:45 SR</span>
+<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">● 18 Jul 2026 13:00 SR</span>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 <div class="rounded-xl p-4" style="background:var(--mint)">
