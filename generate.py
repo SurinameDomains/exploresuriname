@@ -11014,6 +11014,7 @@ def build_time_page():
     {tz:'Europe/Paris',       label:'Paris',      sub:'France'},
     {tz:'Europe/London',      label:'London',     sub:'United Kingdom'},
     {tz:'America/New_York',   label:'New York',   sub:'US East'},
+    {tz:'America/Chicago',    label:'Chicago',    sub:'US Central'},
     {tz:'America/Sao_Paulo',  label:'São Paulo', sub:'Brazil'},
     {tz:'America/Guyana',     label:'Georgetown', sub:'Guyana'},
     {tz:'America/Cayenne',    label:'Cayenne',    sub:'French Guiana'},
