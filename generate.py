@@ -1488,6 +1488,7 @@ _SEARCH_INDEX = _json.dumps([
     {"n": "Aboma: Anaconda Snake Game", "u": "anaconda.html", "c": "Guides", "a": "Suriname"},
     {"n": "Daily Notices: Pharmacies, Outages, Cinema", "u": "daily-notices.html", "c": "Guides", "a": "Suriname"},
     {"n": "Flights: PBM Arrivals and Departures", "u": "flights.html", "c": "Guides", "a": "Suriname"},
+    {"n": "ATM Finder: Live Status & Which Cards Work", "u": "atms.html", "c": "Guides", "a": "Suriname"},
     {"n": "Weather and Tides: 7-Day Forecast", "u": "conditions.html", "c": "Guides", "a": "Suriname"},
     {"n": "Suriname News: Oil, Gas and Finance", "u": "news.html", "c": "Guides", "a": "Suriname"},
     {"n": "On the Road: Driving in Suriname", "u": "on-the-road.html", "c": "Guides", "a": "Suriname"},
@@ -2450,7 +2451,7 @@ def nav_html(active="home", prefix=""):
     _TODO  = {"nature", "activities", "shopping", "events"}
     _EAT   = {"restaurants", "hotels"}
     _ESS   = {"currency", "forecast", "worldcup", "matches", "dictionary"}
-    _SVC   = {"services", "daily-notices", "flights"}
+    _SVC   = {"services", "daily-notices", "flights", "atms"}
     _PLAN  = {"visitor", "surtime", "roads", "itinerary", "safety", "history"}
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda"}
 
@@ -2514,6 +2515,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}services.html"       {_link_cls("services")}       >Services</a>'
         f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")}  >Daily Notices</a>'
         f'<a href="{prefix}flights.html"        {_link_cls("flights")}        >Flights</a>'
+        f'<a href="{prefix}atms.html"           {_link_cls("atms")}           >ATM Finder</a>'
     )
     # Visitor Guide
     plan_items = (
@@ -2584,7 +2586,8 @@ def nav_html(active="home", prefix=""):
     mob_svc_items = (
         _mob_link(f"{prefix}services.html",      "Services", "services") +
         _mob_link(f"{prefix}daily-notices.html", "Daily Notices", "daily-notices") +
-        _mob_link(f"{prefix}flights.html",       "Flights",       "flights")
+        _mob_link(f"{prefix}flights.html",       "Flights",       "flights") +
+        _mob_link(f"{prefix}atms.html",          "ATM Finder",    "atms")
     )
     mob_plan_items = (
         _mob_link(f"{prefix}visitor-guide.html", "The Basics",    "visitor") +
@@ -11301,6 +11304,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("services.html",   "0.8", "weekly"),
         ("currency.html",   "0.9", "daily"),
         ("flights.html",    "0.8", "daily"),
+        ("atms.html",       "0.8", "daily"),
         ("conditions.html", "0.8", "daily"),
         ("visitor-guide.html","0.8", "monthly"),
         ("on-the-road.html", "0.7", "monthly"),
@@ -12719,6 +12723,871 @@ def build_map_page(gmaps_key=""):
 
 
 
+
+
+# ── ATM finder: live status feeds + card acceptance ─────────────────────────
+# Two Suriname networks publish machine-readable status feeds: DSB's own ATMs
+# and the BNETS/Cashpnt white-label network. The browser can't read them
+# (no CORS), so we pull them at build time and bake status into atms.html,
+# refreshed each ~15-min rebuild. Falls back to data/atm_cache.json per network
+# if a feed is unreachable. Verified sources (Jul 2026):
+#   DSB     https://atm.dsb.sr/data/atm_data.json
+#   Cashpnt https://www.cashpnt.sr/cashpnt.wpgooglemaps.status2.json
+
+def _atm_clean_ws(s):
+    return re.sub(r"\s+", " ", str(s or "")).strip()
+
+def _atm_cards_from_dsb(services):
+    s = (services or "").lower()
+    cards = []
+    if "bnets" in s:
+        cards.append("local")
+    if "mastercard" in s:
+        cards.append("mastercard")
+    if "buitenland" in s or "foreign" in s:
+        cards.append("foreign")
+    return cards or ["local"]
+
+def _atm_read_cache(path):
+    try:
+        return json.loads(Path(path).read_text(encoding="utf-8"))
+    except Exception:
+        return {"meta": {}, "atms": []}
+
+def fetch_atms():
+    """Return (atms, meta): unified live ATM list + status metadata."""
+    cache_path = Path("data/atm_cache.json")
+    live = []
+    meta = {
+        "dsb_live": False, "cashpnt_live": False,
+        "dsb_stale": False, "cashpnt_stale": False,
+        "dsb_updated": "", "cashpnt_updated": "",
+        "generated": datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR"),
+    }
+
+    # ---- DSB own ATMs (distinct named machines) ----
+    dsb = []
+    try:
+        d = json.loads(_bank_http_get("https://atm.dsb.sr/data/atm_data.json", timeout=20))
+        for a in d.get("atms", []):
+            try:
+                lat, lng = float(a["lat"]), float(a["lng"])
+            except (KeyError, ValueError, TypeError):
+                continue
+            on = str(a.get("atm_status", "")).lower() == "online"
+            dsb.append({
+                "net": "DSB",
+                "name": _atm_clean_ws(a.get("name", "")),
+                "district": _atm_clean_ws(a.get("district", "")),
+                "lat": round(lat, 6), "lng": round(lng, 6),
+                "status": "online" if on else "offline",
+                "cards": _atm_cards_from_dsb(a.get("services", "")),
+                "desc": _atm_clean_ws(a.get("description", "")),
+                "machines": 1, "online": 1 if on else 0,
+            })
+        meta["dsb_live"] = True
+        meta["dsb_updated"] = _atm_clean_ws(d.get("last_updated_utc", ""))
+    except Exception as e:
+        print(f"  DSB ATM feed error: {e}")
+
+    # ---- Cashpnt (BNETS) — feed repeats a site once per machine; aggregate ----
+    cp_raw = []
+    try:
+        d = json.loads(_bank_http_get(
+            "https://www.cashpnt.sr/cashpnt.wpgooglemaps.status2.json", timeout=20))
+        for a in d:
+            try:
+                lat, lng = float(a["lat"]), float(a["lng"])
+            except (KeyError, ValueError, TypeError):
+                continue
+            st = str(a.get("status", "")).lower()
+            online = ("open" in st) and ("out" not in st)
+            cp_raw.append({
+                "name": _atm_clean_ws(a.get("title", "")) or _atm_clean_ws(a.get("address", "")),
+                "district": _atm_clean_ws(a.get("district", "")),
+                "lat": round(lat, 6), "lng": round(lng, 6), "online": online,
+            })
+        meta["cashpnt_live"] = True
+    except Exception as e:
+        print(f"  Cashpnt ATM feed error: {e}")
+
+    cashpnt = []
+    if cp_raw:
+        groups = {}
+        for r in cp_raw:
+            key = (r["name"].lower(), round(r["lat"], 4), round(r["lng"], 4))
+            g = groups.get(key)
+            if not g:
+                g = {"net": "Cashpnt", "name": r["name"], "district": r["district"],
+                     "lat": r["lat"], "lng": r["lng"],
+                     "cards": ["local", "mastercard"], "desc": "",
+                     "machines": 0, "online": 0}
+                groups[key] = g
+            g["machines"] += 1
+            if r["online"]:
+                g["online"] += 1
+        for g in groups.values():
+            g["status"] = "online" if g["online"] > 0 else "offline"
+            cashpnt.append(g)
+
+    # ---- Merge live + fall back to cache per network ----
+    if meta["dsb_live"] or meta["cashpnt_live"]:
+        cached = _atm_read_cache(cache_path) if not (meta["dsb_live"] and meta["cashpnt_live"]) else None
+        live += dsb if meta["dsb_live"] else []
+        live += cashpnt if meta["cashpnt_live"] else []
+        if not meta["dsb_live"] and cached:
+            c = [a for a in cached.get("atms", []) if a.get("net") == "DSB"]
+            live += c
+            meta["dsb_stale"] = bool(c)
+            meta["dsb_updated"] = cached.get("meta", {}).get("dsb_updated", "")
+        if not meta["cashpnt_live"] and cached:
+            c = [a for a in cached.get("atms", []) if a.get("net") == "Cashpnt"]
+            live += c
+            meta["cashpnt_stale"] = bool(c)
+        try:
+            cache_path.parent.mkdir(exist_ok=True)
+            cache_path.write_text(json.dumps({"meta": meta, "atms": live}, ensure_ascii=False),
+                                  encoding="utf-8")
+        except Exception as e:
+            print(f"  ATM cache write error: {e}")
+    else:
+        cached = _atm_read_cache(cache_path)
+        live = cached.get("atms", [])
+        meta["dsb_stale"] = meta["cashpnt_stale"] = True
+        meta["dsb_updated"] = cached.get("meta", {}).get("dsb_updated", "")
+
+    live.sort(key=lambda a: (a["net"], 0 if a["status"] == "online" else 1, a["name"]))
+    meta["total"] = len(live)
+    meta["online"] = sum(1 for a in live if a["status"] == "online")
+    meta["offline"] = meta["total"] - meta["online"]
+    meta["dsb_total"] = sum(1 for a in live if a["net"] == "DSB")
+    meta["dsb_online"] = sum(1 for a in live if a["net"] == "DSB" and a["status"] == "online")
+    meta["cashpnt_total"] = sum(1 for a in live if a["net"] == "Cashpnt")
+    meta["cashpnt_online"] = sum(1 for a in live if a["net"] == "Cashpnt" and a["status"] == "online")
+    print(f"  ATMs: {meta['total']} ({meta['online']} online)  "
+          f"DSB={'live' if meta['dsb_live'] else 'cache'}  "
+          f"Cashpnt={'live' if meta['cashpnt_live'] else 'cache'}")
+    return live, meta
+
+
+# Static reference data for banks that publish locations but no live feed.
+_REPUBLIC_ATMS = [
+    ("82 Trading", "Gompertstraat 82", "Paramaribo"),
+    ("A.R. Party Shop", "Martin Luther Kingweg 209 (Highway)", "Wanica"),
+    ("Cheryl&rsquo;s Supermarkt", "Sir Winston Churchillweg 831A", "Domburg"),
+    ("Fatum Building", "Kwattaweg 405", "Paramaribo"),
+    ("Via Bella", "Verlengde Gemenelandsweg 137", "Paramaribo"),
+    ("Republic Bank Nickerie", "Mohamed Jasin Nasrullahstraat 79", "Nickerie"),
+    ("Hollandia Bakery", "Wilhelminastraat 77", "Paramaribo"),
+    ("Kasimex Makro", "Johannes Mungrastraat 2", "Paramaribo"),
+    ("L&rsquo;Hermitage Mall", "Zijde Vieruurbloemstraat 17", "Paramaribo"),
+    ("Courtyard Marriott", "Anton Dragtenweg 52-54", "Paramaribo"),
+    ("Republic Bank &ndash; Jozef Isra&euml;lstraat", "Jozef Isra&euml;lstraat 55-57", "Paramaribo"),
+    ("Republic Bank &ndash; Kernkampweg", "Kernkampweg 26", "Paramaribo"),
+    ("Republic Bank &ndash; Van&rsquo;t Hogerhuysstraat", "Van&rsquo;t Hogerhuysstraat 3", "Paramaribo"),
+    ("Republic Bank Hoofdkantoor", "Kerkplein 1", "Paramaribo"),
+    ("Republic Bank &ndash; Lachmonstraat", "Mr. J. Lachmonstraat/Nickeriestraat 1", "Paramaribo"),
+    ("Telesur Lelydorp", "Indira Gandhiweg 474", "Wanica"),
+    ("Texaco Amirkhan", "Kwattaweg 237-239", "Paramaribo"),
+    ("The Pinnacle", "Commissaris Weytingweg 27", "Paramaribo"),
+    ("Torarica Hotel", "Mr. L.J. Rietbergplein 1", "Paramaribo"),
+    ("Mobile King", "Oost-West verbinding 122", "Commewijne"),
+]
+_HAKRIN_BRANCH_ATMS = [
+    ("Filiaal Tamanredjo", "Hadji Iding Soemitaweg km 19", "Commewijne"),
+    ("Filiaal Flora", "Mr. Jagernath Lachmonstraat", "Paramaribo"),
+    ("Filiaal Flora (Drive Thru)", "Mr. Jagernath Lachmonstraat", "Paramaribo"),
+    ("Filiaal Latour", "Hk. Indira Gandhi- en Latourweg", "Paramaribo"),
+    ("Filiaal Nieuwe Haven", "Havencomplex", "Paramaribo"),
+    ("Filiaal Tourtonne", "Hk. Anamoe- en Plutostraat", "Paramaribo"),
+    ("Hoofdkantoor", "Dr. Sophie Redmondstraat 11-13", "Paramaribo"),
+    ("Hoofdkantoor (bankhal)", "Dr. Sophie Redmondstraat 11-13", "Paramaribo"),
+]
+
+
+_ATM_CARD_META = {
+    "local":      ("Local debit", "#1B4332"),
+    "maestro":    ("Maestro", "#0e7490"),
+    "mastercard": ("Mastercard", "#b45309"),
+    "visa":       ("Visa", "#1D4ED8"),
+    "foreign":    ("Foreign cards", "#6d28d9"),
+}
+
+def _atm_card_pills(cards):
+    out = ""
+    for c in cards:
+        meta = _ATM_CARD_META.get(c)
+        if not meta:
+            continue
+        lbl, col = meta
+        out += f'<span class="atm-card-pill" style="--pc:{col}">{lbl}</span>'
+    return out
+
+def _atm_render_card(a):
+    net = a["net"]
+    net_col = "#B23A2E" if net == "Cashpnt" else "#2D6A4F"
+    net_lbl = "Cashpnt" if net == "Cashpnt" else "DSB"
+    online = a["status"] == "online"
+    dot = "#16a34a" if online else "#dc2626"
+    st_lbl = "Open" if online else "Out of order"
+    machines = a.get("machines", 1)
+    m_txt = ""
+    if machines > 1:
+        m_txt = (f'<span class="text-xs text-gray-400 ml-1">&middot; {machines} machines, '
+                 f'{a.get("online",0)} open</span>')
+    gmap = f'https://www.google.com/maps/dir/?api=1&destination={a["lat"]},{a["lng"]}'
+    search = html_lib.escape((a["name"] + " " + a["district"]).lower(), quote=True)
+    cards_attr = " ".join(a["cards"])
+    return (
+        f'<div class="atm-card" data-net="{net}" data-status="{a["status"]}" '
+        f'data-district="{html_lib.escape(a["district"], quote=True)}" '
+        f'data-cards="{cards_attr}" data-search="{search}" '
+        f'data-lat="{a["lat"]}" data-lng="{a["lng"]}">'
+        f'<div class="flex items-start justify-between gap-2 mb-2">'
+        f'<span class="atm-net" style="background:{net_col}">{net_lbl}</span>'
+        f'<span class="atm-status"><span class="atm-dot" style="background:{dot}"></span>'
+        f'<span class="atm-st-lbl">{st_lbl}</span></span>'
+        f'</div>'
+        f'<h3 class="font-bold text-gray-900 leading-snug">{a["name"]}</h3>'
+        f'<p class="text-sm text-gray-500 mb-3">{a["district"] or "Suriname"}{m_txt}'
+        f'<span class="atm-dist"></span></p>'
+        f'<div class="flex flex-wrap gap-1.5 mb-3">{_atm_card_pills(a["cards"])}</div>'
+        f'<a href="{gmap}" target="_blank" rel="noopener" class="atm-dir">'
+        f'<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">'
+        f'<path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>'
+        f'Directions</a>'
+        f'</div>'
+    )
+
+def _atm_ref_table(rows, mapped_names):
+    trs = ""
+    for name, addr, dist in rows:
+        pin = ''
+        if name in mapped_names:
+            pin = '<span class="atm-pin-tag" title="Shown on the map (approximate)">on map</span>'
+        trs += (f'<tr class="border-b border-gray-100">'
+                f'<td class="py-2.5 pr-4 font-semibold text-gray-800 align-top">{name}{pin}</td>'
+                f'<td class="py-2.5 pr-4 text-gray-600 align-top">{addr}</td>'
+                f'<td class="py-2.5 text-gray-600 align-top whitespace-nowrap">{dist}</td></tr>')
+    return (
+        '<div class="overflow-x-auto"><table class="w-full text-sm border-collapse">'
+        '<thead><tr class="text-left text-xs uppercase tracking-wide text-gray-400 border-b border-gray-200">'
+        '<th class="py-2 pr-4 font-semibold">Location</th><th class="py-2 pr-4 font-semibold">Address</th>'
+        '<th class="py-2 font-semibold">District</th></tr></thead>'
+        f'<tbody>{trs}</tbody></table></div>'
+    )
+
+def build_atms_page(atms, meta, ref=None):
+    """All-in-one Suriname ATM finder: live status, locations and card acceptance."""
+    ref = ref or []
+    title = "Suriname ATM Finder: Live Status &amp; Which Cards Work"
+    desc = ("Find a working ATM in Suriname. Live open / out-of-order status for Cashpnt and DSB "
+            "cash machines, a map, a locate-me button, and exactly which cards each network takes "
+            "&mdash; local debit (BNETS), Mastercard, Visa and foreign cards.")
+    faq = [
+        ("Which ATMs in Suriname accept foreign Visa or Mastercard cards?",
+         "Republic Bank ATMs take both international Visa and Mastercard and are the safest bet for a "
+         "foreign card. DSB&rsquo;s own ATMs take Mastercard and most foreign cards. Cashpnt says its machines "
+         "take Mastercard, but acceptance of foreign-issued cards varies from machine to machine and some "
+         "take only Surinamese cards. As a rule, look for the Mastercard (or, at Republic Bank, Visa) logo on "
+         "the machine. Purely local ATMs such as Hakrinbank&rsquo;s branch machines work only with a Surinamese "
+         "bank card."),
+        ("What is BNETS and what is a Cashpnt?",
+         "BNETS (Banking Network Suriname) is the shared network that lets any Surinamese bank card work in "
+         "any member bank&rsquo;s ATM. Cashpnt is BNETS&rsquo; own network of red-and-grey cash machines, a joint "
+         "venture of DSB, Finabank, GODO, Hakrinbank, the Postspaarbank (SPSB) and VCB Bank that has taken "
+         "over most of those banks&rsquo; off-site ATMs. Your card and PIN stay the same. Republic Bank is not "
+         "part of Cashpnt and runs its own machines."),
+        ("How much can I withdraw per day?",
+         "Cashpnt does not set the daily limit &mdash; your own bank does, together with your balance. A machine "
+         "also dispenses only a set number of notes at once, so a large amount can need two withdrawals "
+         "(for example SRD 3,000 as SRD 2,000 plus SRD 1,000). Hakrinbank quotes a limit of SRD 10,000 per "
+         "day across machines."),
+        ("Are there fees to use an ATM?",
+         "A cash withdrawal costs SRD 10 plus 10% VAT, about SRD 11, whether you use a Cashpnt or a "
+         "bank&rsquo;s own ATM (a BNETS network fee in place since March 2024). BNETS has told the banks it will "
+         "adjust the ATM withdrawal and balance-inquiry fees from 1 August 2026; the new figures were not yet "
+         "published when this page was built, so check with your bank. A foreign card adds its issuer&rsquo;s fee "
+         "and an exchange-rate markup on top."),
+        ("How live is the status shown here?",
+         "It comes straight from DSB&rsquo;s and Cashpnt&rsquo;s own status feeds, refreshed every time the site "
+         "rebuilds (roughly every 15 minutes), and the page also tries to pull a fresh reading when you open "
+         "it. Cashpnt itself calls its status &lsquo;indicative, not guaranteed real-time&rsquo;, so treat a green "
+         "marker as very likely working, not a promise."),
+        ("An ATM kept my card &mdash; what do I do?",
+         "For a Cashpnt, contact the Cashpnt helpdesk on 132 or WhatsApp +597 855 4040; a swallowed foreign "
+         "card can be collected from their office on weekdays between 08:00 and 15:30. For a bank&rsquo;s own ATM "
+         "(DSB, Republic, Hakrinbank), contact that bank. Cashpnt cannot see your account, so a blocked-card "
+         "message still has to be sorted out with your own bank."),
+    ]
+    head = _hub_head(title, desc, "atms.html", faq=faq)
+    hero = _hub_hero("Cash &amp; ATMs",
+                     "Suriname ATM Finder",
+                     "Where the cash machines are, which ones are working right now, and exactly which cards "
+                     "each one takes."
+                     ).replace("{NAV}", nav_html("atms"))
+
+    upd = meta.get("dsb_updated", "")
+    stale_bits = []
+    if meta.get("dsb_stale"): stale_bits.append("DSB")
+    if meta.get("cashpnt_stale"): stale_bits.append("Cashpnt")
+    stale_note = ""
+    if stale_bits:
+        stale_note = (f' <span class="text-amber-600">({", ".join(stale_bits)} feed was unreachable at last '
+                      f'build &mdash; showing the last known snapshot.)</span>')
+
+    body = ""
+
+    # ── Live summary strip ──────────────────────────────────────────────────
+    body += (
+        '<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">'
+        f'<div class="atm-stat"><div class="atm-stat-n" id="stat-online" style="color:var(--forest)">{meta.get("online",0)}</div>'
+        '<div class="atm-stat-l">open now</div></div>'
+        f'<div class="atm-stat"><div class="atm-stat-n text-gray-400">{meta.get("total",0)}</div>'
+        '<div class="atm-stat-l">tracked live</div></div>'
+        f'<div class="atm-stat"><div class="atm-stat-n" style="color:#B23A2E">{meta.get("cashpnt_online",0)}'
+        f'<span class="text-base text-gray-400">/{meta.get("cashpnt_total",0)}</span></div>'
+        '<div class="atm-stat-l">Cashpnt open</div></div>'
+        f'<div class="atm-stat"><div class="atm-stat-n" style="color:var(--forest2)">{meta.get("dsb_online",0)}'
+        f'<span class="text-base text-gray-400">/{meta.get("dsb_total",0)}</span></div>'
+        '<div class="atm-stat-l">DSB open</div></div>'
+        '</div>'
+        f'<p class="text-xs text-gray-400 mb-8" id="atm-fresh">Live status from DSB and Cashpnt feeds, refreshed each site '
+        f'rebuild (~15 min). DSB feed stamped {html_lib.escape(upd) or "&mdash;"} UTC. '
+        f'Cashpnt status is indicative, not guaranteed real-time.{stale_note}</p>'
+    )
+
+    # ── What works where (acceptance matrix) ────────────────────────────────
+    def _y(): return '<span class="atm-y">&#10003;</span>'
+    def _n(): return '<span class="atm-nd">&mdash;</span>'
+    def _t(txt): return f'<span class="atm-some">{txt}</span>'
+    matrix_rows = [
+        ("Cashpnt", "#B23A2E", _y(), _y() + '<span class="atm-fn">*</span>', _n(), _t("Varies"), "Bank sets limit"),
+        ("DSB", "#2D6A4F", _y(), _y(), _n(), _t("Most"), "Bank sets limit"),
+        ("Republic Bank", "#1D4ED8", _y(), _y(), _y(), _y(), "Bank sets limit"),
+        ("Hakrinbank", "#0e7490", _y(), _n(), _n(), _n(), "SRD 10,000/day"),
+        ("Finabank", "#b45309", _y(), _y(), _n(), _n(), "Bank sets limit"),
+    ]
+    mrows = ""
+    for name, col, c1, c2, c3, c4, lim in matrix_rows:
+        mrows += (
+            '<tr class="border-b border-gray-100">'
+            f'<td class="py-3 pr-3 align-middle"><span class="atm-net" style="background:{col}">{name}</span></td>'
+            f'<td class="atm-mx">{c1}</td><td class="atm-mx">{c2}</td><td class="atm-mx">{c3}</td>'
+            f'<td class="atm-mx">{c4}</td>'
+            f'<td class="py-3 text-sm text-gray-600 whitespace-nowrap">{lim}</td></tr>'
+        )
+    body += (
+        '<h2 class="serif text-2xl font-bold text-gray-900 mb-1">Which card works where</h2>'
+        '<p class="text-gray-600 text-sm mb-4 max-w-2xl">Any Surinamese bank card works at every ATM on the '
+        'BNETS network. For a foreign card, look for the Mastercard (or, at Republic Bank, Visa) logo on the '
+        'machine.</p>'
+        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-3 overflow-x-auto">'
+        '<table class="w-full text-sm border-collapse min-w-[560px]">'
+        '<thead><tr class="text-xs uppercase tracking-wide text-gray-400 border-b border-gray-200">'
+        '<th class="py-2 pr-3 text-left font-semibold">Network</th>'
+        '<th class="atm-mx font-semibold">Local<br>(BNETS)</th>'
+        '<th class="atm-mx font-semibold">Mastercard</th><th class="atm-mx font-semibold">Visa</th>'
+        '<th class="atm-mx font-semibold">Foreign</th><th class="py-2 text-left font-semibold">Daily limit</th>'
+        '</tr></thead>'
+        f'<tbody>{mrows}</tbody></table></div>'
+        '<p class="text-xs text-gray-400 mb-3"><span class="atm-fn">*</span> Cashpnt states its machines take '
+        'local cards and Mastercard; in practice, acceptance of foreign-issued cards varies by machine and '
+        'some take only Surinamese cards. &ldquo;Most&rdquo; / &ldquo;Varies&rdquo; = accepted at a portion of that '
+        'network&rsquo;s machines. A cash withdrawal costs SRD 10 + 10% VAT (about SRD 11) at any BNETS ATM, '
+        'Cashpnt or bank. <strong>From 1 August 2026 BNETS is adjusting the ATM withdrawal and balance-inquiry '
+        'fees; the new amounts were not yet published when this page was built.</strong> Daily limits shown are '
+        'each bank&rsquo;s own. Data verified July 2026 from each bank&rsquo;s own website.</p>'
+        '<div class="rounded-xl p-4 mb-10 text-sm" style="background:var(--mint);color:var(--forest)">'
+        '<strong>Visiting with a foreign card?</strong> Republic Bank ATMs take Visa and Mastercard and are '
+        'the most reliable choice. DSB ATMs take Mastercard and most foreign cards. Cashpnt machines take '
+        'Mastercard per its own statement, though this varies machine to machine. Withdraw larger amounts '
+        'less often to save on the per-transaction fee.</div>'
+    )
+
+    # ── Toolbar (filters) ───────────────────────────────────────────────────
+    districts = sorted({a["district"] for a in atms if a["district"]})
+    dist_chips = '<button class="dist-chip dist-chip-active" data-dist="all">All districts</button>'
+    for d in districts:
+        n = sum(1 for a in atms if a["district"] == d)
+        dist_chips += f'<button class="dist-chip" data-dist="{html_lib.escape(d, quote=True)}">{d} <span class="chip-count">{n}</span></button>'
+
+    body += (
+        '<h2 class="serif text-2xl font-bold text-gray-900 mb-4">Find an ATM</h2>'
+        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-5 mb-5">'
+        '<div class="flex flex-col sm:flex-row gap-2 mb-4">'
+        '<div class="relative flex-1">'
+        '<svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>'
+        '<input id="atm-search" type="search" placeholder="Search by place or address&hellip;" '
+        'class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-white text-sm" '
+        'autocomplete="off"></div>'
+        '<button id="atm-near" type="button" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 '
+        'rounded-xl text-sm font-semibold text-white shrink-0" style="background:var(--forest2)">'
+        '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">'
+        '<path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>'
+        '<circle cx="12" cy="11" r="3"/></svg><span id="atm-near-lbl">Nearest to me</span></button>'
+        '</div>'
+        '<div class="flex flex-wrap gap-2 mb-3">'
+        '<button class="filter-chip chip-active" data-net="all">All networks</button>'
+        '<button class="filter-chip" data-net="Cashpnt">Cashpnt</button>'
+        '<button class="filter-chip" data-net="DSB">DSB</button>'
+        '<button class="filter-chip" id="atm-openonly" data-open="0">Open now only</button>'
+        '<button class="filter-chip" data-card="mastercard">Takes Mastercard</button>'
+        '<button class="filter-chip" data-card="foreign">Foreign cards</button>'
+        '</div>'
+        f'<div class="flex flex-wrap gap-2">{dist_chips}</div>'
+        '</div>'
+    )
+
+    # ── Map (lazy) ──────────────────────────────────────────────────────────
+    ref_note = ''
+    if ref:
+        ref_note = (' Grey markers are Republic Bank and Hakrinbank ATMs (approximate location, '
+                    'no live status).')
+    body += (
+        '<div id="atm-map-wrap" class="mb-5">'
+        '<div id="atm-map" style="height:400px;border-radius:1rem;overflow:hidden;'
+        'background:#e8eef0;border:1px solid var(--line)"></div>'
+        '<div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-400 mt-2">'
+        '<span class="inline-flex items-center gap-1.5"><span class="inline-block w-2.5 h-2.5 rounded-full" style="background:#16a34a"></span>Open</span>'
+        '<span class="inline-flex items-center gap-1.5"><span class="inline-block w-2.5 h-2.5 rounded-full" style="background:#dc2626"></span>Out of order</span>'
+        + ('<span class="inline-flex items-center gap-1.5"><span class="inline-block w-2.5 h-2.5 rounded-full" style="background:#9ca3af"></span>Other bank (approx.)</span>' if ref else '')
+        + '<span class="inline-flex items-center gap-1.5"><span class="inline-block w-2.5 h-2.5 rounded-full" style="background:#2563eb"></span>You</span>'
+        '</div>'
+        f'<p class="text-xs text-gray-400 mt-1">Only Cashpnt and DSB machines have live coordinates and status.{ref_note} '
+        'Map tiles &copy; OpenStreetMap contributors.</p>'
+        '</div>'
+    )
+
+    # ── Results ─────────────────────────────────────────────────────────────
+    cards_html = "".join(_atm_render_card(a) for a in atms)
+    body += (
+        '<div class="flex items-center justify-between mb-3">'
+        '<p id="atm-count" class="text-sm text-gray-500"></p></div>'
+        f'<div id="atm-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">{cards_html}</div>'
+        '<p id="atm-empty" class="text-center text-gray-400 py-10 hidden">No ATMs match those filters.</p>'
+    )
+
+    # ── Reference tables (no live status) ───────────────────────────────────
+    mapped = {r["name"] for r in ref}
+    body += (
+        '<h2 class="serif text-2xl font-bold text-gray-900 mb-2 mt-12">Other bank ATMs</h2>'
+        '<p class="text-gray-600 text-sm mb-5 max-w-2xl">These networks publish their locations but not a live '
+        'status feed, so they are listed for reference without an open / out-of-order indicator. Rows tagged '
+        '&ldquo;on map&rdquo; also appear as grey markers above at an approximate location.</p>'
+        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 mb-5">'
+        '<div class="flex items-center gap-2 mb-1 flex-wrap">'
+        '<span class="atm-net" style="background:#1D4ED8">Republic Bank</span>'
+        '<span class="text-sm text-gray-500">Visa &amp; Mastercard &middot; local cards</span></div>'
+        '<p class="text-sm text-gray-500 mb-4">The largest ATM network among Suriname&rsquo;s commercial banks and '
+        'the best choice for an international Visa or Mastercard.</p>'
+        + _atm_ref_table(_REPUBLIC_ATMS, mapped) +
+        '</div>'
+        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 mb-5">'
+        '<div class="flex items-center gap-2 mb-1 flex-wrap">'
+        '<span class="atm-net" style="background:#0e7490">Hakrinbank</span>'
+        '<span class="text-sm text-gray-500">Local debit (BNETS) &middot; SRD 10,000/day</span></div>'
+        '<p class="text-sm text-gray-500 mb-4">Most Hakrinbank off-site ATMs are now Cashpnt machines (shown '
+        'above). These branch ATMs are still run by the bank and take Surinamese cards.</p>'
+        + _atm_ref_table(_HAKRIN_BRANCH_ATMS, mapped) +
+        '</div>'
+        '<p class="text-sm text-gray-500 mb-10">Finabank cash machines (&ldquo;Finamatic&rdquo;) sit at its branches and '
+        'take local cards and Mastercard; its off-site ATMs have moved to Cashpnt. GODO, the Postspaarbank '
+        '(SPSB) and VCB Bank are BNETS members, so their cards work across the whole network.</p>'
+    )
+
+    # ── Practical info ──────────────────────────────────────────────────────
+    body += (
+        '<h2 class="serif text-2xl font-bold text-gray-900 mb-4">Good to know</h2>'
+        '<div class="grid sm:grid-cols-2 gap-4 mb-12">'
+        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">'
+        '<h3 class="font-bold text-gray-900 mb-2">Limits &amp; fees</h3>'
+        '<ul class="text-sm text-gray-600 space-y-1.5 list-disc pl-4">'
+        '<li>Cash withdrawal fee: SRD 10 + 10% VAT (about SRD 11) at any BNETS ATM, Cashpnt or bank '
+        '(since March 2024). <strong>Changing 1 August 2026</strong> &mdash; new amounts not yet published.</li>'
+        '<li>Daily limits (each bank&rsquo;s own): DSB and Hakrinbank SRD 10,000, Republic Bank SRD 20,000, '
+        'VCB SRD 4,000 (max SRD 2,000 per transaction). At a Cashpnt your own bank&rsquo;s limit applies.</li>'
+        '<li>A machine dispenses a limited number of notes at once &mdash; large amounts may need two withdrawals '
+        '(e.g. SRD 3,000 as SRD 2,000 + SRD 1,000).</li>'
+        '<li>Foreign cards: expect an issuer fee and exchange markup on top.</li></ul></div>'
+        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">'
+        '<h3 class="font-bold text-gray-900 mb-2">Problems</h3>'
+        '<ul class="text-sm text-gray-600 space-y-1.5 list-disc pl-4">'
+        '<li>Broken Cashpnt, wrong amount or swallowed card: Cashpnt helpdesk <strong>132</strong> or WhatsApp '
+        '<strong>+597 855 4040</strong>.</li>'
+        '<li>A swallowed foreign card can be collected from the Cashpnt office, weekdays 08:00&ndash;15:30.</li>'
+        '<li>A bank&rsquo;s own ATM (DSB, Republic, Hakrinbank): contact that bank.</li>'
+        '<li>Cover the keypad with your other hand when entering your PIN.</li></ul></div>'
+        '</div>'
+    )
+
+    # ── FAQ ─────────────────────────────────────────────────────────────────
+    body += _hub_faq_html(faq)
+
+    # ── Sources ─────────────────────────────────────────────────────────────
+    body += (
+        '<div class="mt-10 pt-6 border-t border-gray-200 text-xs text-gray-400">'
+        '<p class="mb-1"><strong class="text-gray-500">Sources &amp; live status:</strong></p>'
+        '<p>DSB ATM status &middot; <a class="underline" href="https://atm.dsb.sr/" target="_blank" rel="noopener">atm.dsb.sr</a> &nbsp;|&nbsp; '
+        'Cashpnt locations &middot; <a class="underline" href="https://www.cashpnt.sr/locaties/" target="_blank" rel="noopener">cashpnt.sr</a> &nbsp;|&nbsp; '
+        'Republic Bank &middot; <a class="underline" href="https://republicbanksr.com/about/branches-atms" target="_blank" rel="noopener">republicbanksr.com</a> &nbsp;|&nbsp; '
+        'Hakrinbank &middot; <a class="underline" href="https://www.hakrinbank.com/beschikbaarheid-atms/" target="_blank" rel="noopener">hakrinbank.com</a></p>'
+        f'<p class="mt-2">Status snapshot generated {meta.get("generated","")}.</p>'
+        '</div>'
+    )
+
+    # ── Page-specific styles ────────────────────────────────────────────────
+    styles = '''
+<style>
+.atm-stat{background:var(--card);border:1px solid var(--line);border-radius:1rem;padding:14px 10px;text-align:center}
+.atm-stat-n{font-size:2rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.atm-stat-l{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin-top:6px}
+.atm-net{display:inline-block;font-size:.68rem;font-weight:700;color:#fff;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.atm-status{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:600;color:#4b5563}
+.atm-dot{width:8px;height:8px;border-radius:999px;display:inline-block}
+.atm-card{background:var(--card);border:1px solid var(--line);border-radius:1rem;padding:16px;display:flex;flex-direction:column}
+.atm-card-pill{font-size:.66rem;font-weight:600;color:var(--pc);border:1px solid var(--pc);border-radius:999px;padding:2px 8px;opacity:.9}
+.atm-dir{margin-top:auto;display:inline-flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;color:var(--forest2)}
+.atm-dir:hover{text-decoration:underline}
+.atm-dist{font-size:.72rem;font-weight:700;color:var(--forest2);margin-left:6px}
+.atm-mx{text-align:center;padding:12px 6px;vertical-align:middle}
+.atm-y{color:#16a34a;font-weight:800}
+.atm-nd{color:#cbd5e1}
+.atm-some{font-size:.72rem;font-weight:600;color:#b45309}
+.atm-fn{color:#b45309;font-weight:700}
+.atm-pin-tag{font-size:.6rem;font-weight:700;color:#6b7280;background:#eef2f7;border-radius:999px;padding:1px 6px;margin-left:6px;text-transform:uppercase;letter-spacing:.04em;vertical-align:middle}
+.leaflet-popup-content{font-family:'Inter',sans-serif;margin:11px 13px}
+.atm-pop-net{display:inline-block;font-size:.62rem;font-weight:700;color:#fff;padding:2px 7px;border-radius:999px}
+.atm-pop-dir{color:var(--forest2);font-weight:600;font-size:.78rem}
+</style>
+'''
+
+    # ── JS: filters + geolocation + lazy Leaflet map + live proxy refresh ───
+    js = '''
+<script>
+(function(){
+  // Live refresh proxy: a PUBLIC Cloudflare Worker that returns
+  //   {"dsb":<atm.dsb.sr feed>, "cashpnt":<cashpnt status2.json>}
+  // with CORS enabled, so the page can upgrade the baked status to real-time.
+  // Empty string = baked build-time status only (same idea as the LB_API gate).
+  var ATM_PROXY = "__ATM_PROXY__";
+
+  var ATMS = __ATM_JSON__;
+  var REF  = __REF_JSON__;
+  var state = {net:"all", dist:"all", open:false, cards:[], q:""};
+  var listEl = document.getElementById('atm-list');
+  var cards = listEl ? Array.prototype.slice.call(listEl.children) : [];
+  var countEl = document.getElementById('atm-count');
+  var emptyEl = document.getElementById('atm-empty');
+  var userLL = null, userMarker = null;
+
+  function haversine(a1,b1,a2,b2){
+    var R=6371,dLa=(a2-a1)*Math.PI/180,dLn=(b2-b1)*Math.PI/180,
+        s=Math.sin(dLa/2)*Math.sin(dLa/2)+Math.cos(a1*Math.PI/180)*Math.cos(a2*Math.PI/180)*Math.sin(dLn/2)*Math.sin(dLn/2);
+    return 2*R*Math.asin(Math.sqrt(s));
+  }
+  function matches(el){
+    if(state.net!=="all" && el.getAttribute('data-net')!==state.net) return false;
+    if(state.dist!=="all" && el.getAttribute('data-district')!==state.dist) return false;
+    if(state.open && el.getAttribute('data-status')!=="online") return false;
+    if(state.q){ if(el.getAttribute('data-search').indexOf(state.q)<0) return false; }
+    for(var i=0;i<state.cards.length;i++){
+      if((" "+el.getAttribute('data-cards')+" ").indexOf(" "+state.cards[i]+" ")<0) return false;
+    }
+    return true;
+  }
+  function apply(){
+    var shown=0;
+    for(var i=0;i<cards.length;i++){
+      var ok=matches(cards[i]);
+      cards[i].style.display = ok?"":"none";
+      if(ok) shown++;
+    }
+    if(countEl) countEl.textContent = shown+" of "+cards.length+" ATMs"+(userLL?", nearest first":"");
+    if(emptyEl) emptyEl.classList.toggle('hidden', shown!==0);
+    if(window._atmMap) drawMarkers();
+  }
+
+  function wireChips(attr, cb){
+    var els=document.querySelectorAll('['+attr+']');
+    els.forEach(function(b){ b.addEventListener('click', function(){ cb(b, els); }); });
+  }
+  wireChips('data-net', function(b, els){
+    els.forEach(function(x){ x.classList.remove('chip-active'); });
+    b.classList.add('chip-active'); state.net=b.getAttribute('data-net'); apply();
+  });
+  wireChips('data-dist', function(b, els){
+    els.forEach(function(x){ x.classList.remove('dist-chip-active'); });
+    b.classList.add('dist-chip-active'); state.dist=b.getAttribute('data-dist'); apply();
+  });
+  var openBtn=document.getElementById('atm-openonly');
+  if(openBtn) openBtn.addEventListener('click', function(){
+    state.open=!state.open; openBtn.classList.toggle('chip-active', state.open); apply();
+  });
+  document.querySelectorAll('[data-card]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var c=b.getAttribute('data-card'); var i=state.cards.indexOf(c);
+      if(i<0){ state.cards.push(c); b.classList.add('chip-active'); }
+      else { state.cards.splice(i,1); b.classList.remove('chip-active'); }
+      apply();
+    });
+  });
+  var searchEl=document.getElementById('atm-search');
+  if(searchEl) searchEl.addEventListener('input', function(){
+    state.q=searchEl.value.trim().toLowerCase(); apply();
+  });
+
+  // ── Locate me ──
+  var nearBtn=document.getElementById('atm-near'), nearLbl=document.getElementById('atm-near-lbl');
+  function sortByDistance(){
+    if(!userLL) return;
+    cards.forEach(function(c){
+      var la=parseFloat(c.getAttribute('data-lat')), ln=parseFloat(c.getAttribute('data-lng'));
+      var d=haversine(userLL[0],userLL[1],la,ln); c._dist=d;
+      var badge=c.querySelector('.atm-dist');
+      if(badge) badge.textContent=(d<1?Math.round(d*1000)+' m':d.toFixed(1)+' km')+' away';
+    });
+    cards.sort(function(a,b){return a._dist-b._dist;});
+    cards.forEach(function(c){ listEl.appendChild(c); });
+  }
+  if(nearBtn) nearBtn.addEventListener('click', function(){
+    if(!navigator.geolocation){ nearLbl.textContent='Not supported'; return; }
+    nearLbl.textContent='Locating\\u2026';
+    navigator.geolocation.getCurrentPosition(function(pos){
+      userLL=[pos.coords.latitude, pos.coords.longitude];
+      nearLbl.textContent='Nearest to me';
+      sortByDistance(); apply();
+      if(!window._atmMap) initMap();
+      var place=function(){ if(!window._atmMap||!window.L) return;
+        if(userMarker) window._atmMap.removeLayer(userMarker);
+        userMarker=window.L.circleMarker(userLL,{radius:8,color:'#fff',weight:2,fillColor:'#2563eb',fillOpacity:1}).addTo(window._atmMap);
+        userMarker.bindPopup('You are here');
+        window._atmMap.setView(userLL, 12);
+      };
+      if(window._atmMap&&window.L) place(); else window._atmPlaceUser=place;
+    }, function(err){
+      nearLbl.textContent = err.code===1 ? 'Permission denied' : 'Unavailable';
+      setTimeout(function(){ nearLbl.textContent='Nearest to me'; }, 2500);
+    }, {enableHighAccuracy:true, timeout:8000, maximumAge:60000});
+  });
+
+  // ── Lazy Leaflet map ──
+  var mapEl=document.getElementById('atm-map');
+  var markers=[];
+  function drawMarkers(){
+    if(!window._atmMap||!window.L) return;
+    markers.forEach(function(m){ window._atmMap.removeLayer(m); }); markers=[];
+    ATMS.forEach(function(a){
+      var pseudo={getAttribute:function(k){
+        return {'data-net':a.net,'data-district':a.district,'data-status':a.status,
+          'data-cards':a.cards.join(' '),'data-search':(a.name+' '+a.district).toLowerCase()}[k];
+      }};
+      if(!matches(pseudo)) return;
+      var col=a.status==="online"?"#16a34a":"#dc2626";
+      var m=window.L.circleMarker([a.lat,a.lng],{radius:7,color:"#fff",weight:1.5,fillColor:col,fillOpacity:.95});
+      var netcol=a.net==="Cashpnt"?"#B23A2E":"#2D6A4F";
+      var g="https://www.google.com/maps/dir/?api=1&destination="+a.lat+","+a.lng;
+      m.bindPopup('<span class="atm-pop-net" style="background:'+netcol+'">'+a.net+'</span>'
+        +'<div style="font-weight:700;margin:5px 0 2px">'+a.name+'</div>'
+        +'<div style="font-size:.75rem;color:#6b7280;margin-bottom:5px">'+(a.district||'')
+        +' &middot; '+(a.status==="online"?"Open":"Out of order")+'</div>'
+        +'<a class="atm-pop-dir" target="_blank" rel="noopener" href="'+g+'">Directions &rarr;</a>');
+      m.addTo(window._atmMap); markers.push(m);
+    });
+    // reference (other-bank) markers only when no specific live network is chosen
+    if(state.net==="all"){
+      REF.forEach(function(a){
+        if(state.dist!=="all" && a.district!==state.dist) return;
+        var m=window.L.circleMarker([a.lat,a.lng],{radius:6,color:"#fff",weight:1.5,fillColor:"#9ca3af",fillOpacity:.9});
+        var g="https://www.google.com/maps/dir/?api=1&destination="+a.lat+","+a.lng;
+        m.bindPopup('<span class="atm-pop-net" style="background:'+(a.net==="Republic Bank"?"#1D4ED8":"#0e7490")+'">'+a.net+'</span>'
+          +'<div style="font-weight:700;margin:5px 0 2px">'+a.name+'</div>'
+          +'<div style="font-size:.72rem;color:#6b7280;margin-bottom:5px">'+a.address+' &middot; approximate, no live status</div>'
+          +'<a class="atm-pop-dir" target="_blank" rel="noopener" href="'+g+'">Directions &rarr;</a>');
+        m.addTo(window._atmMap); markers.push(m);
+      });
+    }
+  }
+  function initMap(){
+    if(window._atmMap||!mapEl) return;
+    var css=document.createElement('link'); css.rel="stylesheet";
+    css.href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
+    document.head.appendChild(css);
+    var s=document.createElement('script');
+    s.src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
+    s.onload=function(){
+      window._atmMap=window.L.map(mapEl,{scrollWheelZoom:false}).setView([5.83,-55.17],10);
+      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(window._atmMap);
+      drawMarkers();
+      if(window._atmPlaceUser){ window._atmPlaceUser(); window._atmPlaceUser=null; }
+    };
+    document.head.appendChild(s);
+  }
+  if('IntersectionObserver' in window && mapEl){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ initMap(); io.disconnect(); } });
+    },{rootMargin:"200px"});
+    io.observe(mapEl);
+  } else { initMap(); }
+
+  // ── Optional live refresh via proxy ──
+  function normalize(dsb, cp){
+    var out=[];
+    (dsb&&dsb.atms||[]).forEach(function(a){
+      out.push({net:"DSB",name:(a.name||'').replace(/\\s+/g,' ').trim(),district:(a.district||'').trim(),
+        lat:+a.lat,lng:+a.lng,status:(''+a.atm_status).toLowerCase()==="online"?"online":"offline",
+        cards:(function(){var s=(a.services||'').toLowerCase(),c=[];if(s.indexOf('bnets')>=0)c.push('local');
+          if(s.indexOf('mastercard')>=0)c.push('mastercard');if(s.indexOf('buitenland')>=0)c.push('foreign');
+          return c.length?c:['local'];})()});
+    });
+    var groups={};
+    (cp||[]).forEach(function(a){
+      if(a.lat==null||a.lng==null) return;
+      var st=(''+a.status).toLowerCase(), on=st.indexOf('open')>=0&&st.indexOf('out')<0;
+      var nm=(a.title||a.address||'').replace(/\\s+/g,' ').trim();
+      var k=nm.toLowerCase()+'|'+(+a.lat).toFixed(4)+'|'+(+a.lng).toFixed(4);
+      if(!groups[k]) groups[k]={net:"Cashpnt",name:nm,district:(a.district||'').trim(),
+        lat:+a.lat,lng:+a.lng,cards:['local','mastercard'],on:0,machines:0};
+      groups[k].machines++; if(on) groups[k].on++;
+    });
+    Object.keys(groups).forEach(function(k){var g=groups[k];g.status=g.on>0?"online":"offline";out.push(g);});
+    return out;
+  }
+  function applyFresh(fresh){
+    if(!fresh||!fresh.length) return;
+    ATMS=fresh;
+    // update the rendered cards' status to match live data
+    var byKey={};
+    fresh.forEach(function(a){ byKey[a.net+'|'+a.name.toLowerCase()]=a; });
+    var online=0;
+    cards.forEach(function(c){
+      var k=c.getAttribute('data-net')+'|'+(c.querySelector('h3')?c.querySelector('h3').textContent.toLowerCase():'');
+      var a=byKey[k];
+      if(a){
+        c.setAttribute('data-status',a.status);
+        var dot=c.querySelector('.atm-dot'), lbl=c.querySelector('.atm-st-lbl');
+        if(dot) dot.style.background=a.status==="online"?"#16a34a":"#dc2626";
+        if(lbl) lbl.textContent=a.status==="online"?"Open":"Out of order";
+      }
+      if(c.getAttribute('data-status')==="online") online++;
+    });
+    var so=document.getElementById('stat-online'); if(so) so.textContent=online;
+    var fr=document.getElementById('atm-fresh');
+    if(fr) fr.innerHTML='Live status refreshed just now from the DSB and Cashpnt feeds. '
+      +'Cashpnt status is indicative, not guaranteed real-time.';
+    if(window._atmMap) drawMarkers();
+    apply();
+  }
+  if(ATM_PROXY){
+    fetch(ATM_PROXY,{cache:"no-store"}).then(function(r){return r.json();}).then(function(d){
+      applyFresh(normalize(d.dsb, d.cashpnt));
+    }).catch(function(){});
+  }
+
+  apply();
+})();
+</script>
+'''
+    js = js.replace("__ATM_PROXY__", "https://esr-atm-proxy.surinamedomains.workers.dev/")
+    js = js.replace("__ATM_JSON__", json.dumps(
+        [{"net": a["net"], "name": a["name"], "district": a["district"],
+          "lat": a["lat"], "lng": a["lng"], "status": a["status"], "cards": a["cards"]}
+         for a in atms], ensure_ascii=False))
+    js = js.replace("__REF_JSON__", json.dumps(
+        [{"net": r["net"], "name": r["name"], "address": r["address"],
+          "district": r["district"], "lat": r["lat"], "lng": r["lng"]} for r in ref],
+        ensure_ascii=False))
+
+    main = '<main class="max-w-5xl mx-auto px-5 py-12 pb-24">' + body + '</main>'
+    return head.replace("</head>", styles + "\n</head>") + hero + main + js + "\n" + footer_html() + "\n</body>\n</html>"
+
+
+
+def _atm_geocode_reference():
+    """Geocode the static Republic/Hakrinbank ATM addresses (which publish no
+    coordinates) via Nominatim, cached in data/atm_geocode.json so it is stable
+    and hand-correctable. Tries several query variants (full address, without
+    parenthetical, venue name, street-only). Only results inside Suriname are
+    kept, flagged 'approximate' in the UI. Never blocks the build."""
+    import time as _time
+    cache_path = Path("data/atm_geocode.json")
+    try:
+        cache = json.loads(cache_path.read_text(encoding="utf-8"))
+    except Exception:
+        cache = {}
+
+    def _candidates(name, addr, dist):
+        A = html_lib.unescape(addr); N = html_lib.unescape(name)
+        a_noparen = re.sub(r"\s*\(.*?\)", "", A).strip()
+        a_nonum = re.sub(r"\s+\d+[-\dA-Za-z/]*$", "", a_noparen).strip()
+        street = re.split(r"[/,]", a_nonum)[0].replace("Hk.", "").strip()
+        named = not N.lower().startswith(("republic bank", "filiaal", "hoofdkantoor"))
+        raw = [f"{A}, {dist}, Suriname",
+               f"{a_noparen}, {dist}, Suriname",
+               (f"{N}, {dist}, Suriname" if named else None),
+               f"{street}, {dist}, Suriname",
+               f"{street}, Suriname"]
+        seen, out = set(), []
+        for q in raw:
+            if q and q not in seen:
+                seen.add(q); out.append(q)
+        return out
+
+    def _geocode(q):
+        url = ("https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=sr&q="
+               + urllib.parse.quote(q))
+        req = urllib.request.Request(url, headers={
+            "User-Agent": "ExploreSuriname-ATM/1.0 (https://exploresuriname.com)"})
+        with urllib.request.urlopen(req, timeout=20) as r:
+            res = json.loads(r.read().decode("utf-8", errors="replace"))
+        if res:
+            la, ln = float(res[0]["lat"]), float(res[0]["lon"])
+            if 1.0 < la < 6.6 and -59 < ln < -53:
+                return {"lat": round(la, 6), "lng": round(ln, 6)}
+        return None
+
+    out = []
+    sources = ([("Republic Bank", n, a, d) for (n, a, d) in _REPUBLIC_ATMS] +
+               [("Hakrinbank", n, a, d) for (n, a, d) in _HAKRIN_BRANCH_ATMS])
+    changed = False
+    for net, name, addr, dist in sources:
+        key = f"{net}|{name}|{addr}"
+        rec = cache.get(key)
+        # Only geocode keys not present in the committed cache. Unresolved
+        # entries are stored as {} so CI never re-queries them each build.
+        if rec is None:
+            found = None
+            try:
+                for q in _candidates(name, addr, dist):
+                    found = _geocode(q)
+                    _time.sleep(1.1)  # Nominatim: <=1 req/sec
+                    if found:
+                        break
+                rec = found or {}
+                cache[key] = rec
+                changed = True
+                try:
+                    cache_path.parent.mkdir(exist_ok=True)
+                    cache_path.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
+                except Exception:
+                    pass
+            except Exception as e:
+                print(f"  geocode error {name}: {e}")
+                rec = rec or None  # keep prior, retry next build
+        if rec:
+            out.append({"net": net, "name": html_lib.unescape(name), "address": html_lib.unescape(addr),
+                        "district": dist, "lat": rec["lat"], "lng": rec["lng"]})
+    if changed:
+        try:
+            cache_path.parent.mkdir(exist_ok=True)
+            cache_path.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
+        except Exception as e:
+            print(f"  geocode cache write error: {e}")
+    print(f"  ATM reference geocoded: {len(out)} of {len(sources)} placed")
+    return out
+
+
 if __name__ == "__main__":
     print("ExploreSuriname generator starting...")
 
@@ -12732,6 +13601,8 @@ if __name__ == "__main__":
     tides_data    = fetch_tides_data()
     flights_data  = fetch_aerodatabox_flights()
     matches_data  = fetch_matches_data()
+    atm_list, atm_meta = fetch_atms()
+    atm_ref            = _atm_geocode_reference()
 
     pages = {
         "index.html":       build_index(RESTAURANTS, HOTELS, cme_rates),
@@ -12773,6 +13644,7 @@ if __name__ == "__main__":
         "worldcup-2026.html":      build_worldcup_page(),
         "matches.html":            build_matches_page(matches_data),
         "suriname-time.html":      build_time_page(),
+        "atms.html":               build_atms_page(atm_list, atm_meta, atm_ref),
         "sranan-tongo-dictionary.html": build_dictionary_page(),
         "404.html": ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
