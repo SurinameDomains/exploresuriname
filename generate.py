@@ -2083,6 +2083,8 @@ PAGE_HEAD = """\
       align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
     }
     .chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
+    .dict-chiprow{scrollbar-width:none;-ms-overflow-style:none}
+    .dict-chiprow::-webkit-scrollbar{display:none}
     .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
     .listing-card.hidden { display:none; }
     /* PWA install bar (Android prompt + iOS A2HS tip) */
@@ -4152,14 +4154,6 @@ doConvert();"""
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">CBVS official &bull; CME cash &bull; commercial banks compared &bull; live gold &amp; Brent oil</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
-  <div class="rounded-2xl border border-amber-200 p-6 mb-8" style="background:#fffbeb">
-    <p class="text-amber-900 text-sm leading-relaxed">
-      <strong class="text-amber-800">&#128161; What&#8217;s the difference?</strong>
-      <strong>CBVS</strong> is the Central Bank of Suriname&#8217;s official reference rate used for banking.
-      <strong>CME</strong> (Central Money Exchange) shows cash rates at local exchange offices: what you actually get when exchanging banknotes.
-      &ldquo;We Buy&rdquo; is what they pay when you sell foreign currency; &ldquo;We Sell&rdquo; is what you pay to buy foreign currency.
-    </p>
-  </div>
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-10">
     <h2 class="serif text-2xl font-bold text-gray-900 mb-1">Currency Converter</h2>
     <p class="text-gray-400 text-sm mb-4">Pick a rate source below. CME cash is what exchange offices typically offer; bank rates are giral (account) rates.</p>
@@ -4245,6 +4239,14 @@ doConvert();"""
     </div>
   </div>
 {bank_section}
+  <div class="rounded-2xl border border-amber-200 p-6 mt-8 mb-0" style="background:#fffbeb">
+    <p class="text-amber-900 text-sm leading-relaxed">
+      <strong class="text-amber-800">&#128161; What&#8217;s the difference?</strong>
+      <strong>CBVS</strong> is the Central Bank of Suriname&#8217;s official reference rate used for banking.
+      <strong>CME</strong> (Central Money Exchange) shows cash rates at local exchange offices: what you actually get when exchanging banknotes.
+      &ldquo;We Buy&rdquo; is what they pay when you sell foreign currency; &ldquo;We Sell&rdquo; is what you pay to buy foreign currency.
+    </p>
+  </div>
   <p class="text-center text-gray-400 text-xs mt-8 max-w-2xl mx-auto leading-relaxed px-4">
     Rates are for informational purposes only. Always confirm the current rate before transacting. Page updates daily.
   </p>
@@ -7806,7 +7808,6 @@ def build_matches_page(matches):
                 continue
             rows.append((dt, key, label, col, e))
     rows.sort(key=lambda r: r[0])
-    has_wc = any(k == "wc" for _dt, k, _l, _c, _e in rows)
 
     # ── Day-grouped list ─────────────────────────────────────────────────────
     def _row_html(dt, key, label, col, e):
@@ -8001,13 +8002,6 @@ def build_matches_page(matches):
                      "Football, NBA and fight nights from the competitions Suriname actually watches, "
                      "with every start time in Suriname time.").replace("{NAV}", nav_html("matches"))
 
-    wc_banner = ""
-    if has_wc:
-        wc_banner = ('<div class="rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 mt-4 mb-2">'
-                     '<p class="text-sm text-amber-900"><span class="font-bold">World Cup fan?</span> '
-                     'Our ' + _ilink("worldcup-2026.html", "World Cup 2026 page")
-                     + ' has minute-by-minute live scores, the full bracket and where to watch in Suriname.</p></div>')
-
     intro = ('<p class="text-gray-500 text-sm mt-2 mb-1">All start times are Suriname time (UTC-3). '
              'Fixtures and scores refresh automatically about every 15 minutes. Match data: ESPN. '
              'Glory, boxing and SVB fixtures are added by hand once confirmed.</p>')
@@ -8084,7 +8078,7 @@ function mtEarlier(){
 </script>"""
 
     main = ('<main class="max-w-3xl mx-auto px-5 py-8 pb-24">'
-            + intro + wc_banner + sport_chips + chips + list_html
+            + intro + sport_chips + chips + list_html
             + '<div class="mt-10"></div>'
             + _hub_card("About this page", "One Page, Every Start Time, Suriname Time", about_body)
             + _hub_faq_html(faq)
@@ -10752,7 +10746,7 @@ def build_dictionary_page():
 
     body = ""
     body += ('<div class="sticky top-[58px] z-30 -mx-5 px-5 py-3 mb-2" '
-        'style="background:rgba(249,250,251,.95);backdrop-filter:blur(8px)">'
+        'style="background:rgba(244,236,218,.95);backdrop-filter:blur(8px)">'
         '<div class="relative">'
           '<input id="dict-q" type="search" autocomplete="off" '
           'placeholder="Search a word in Sranan, English or Dutch&hellip;" '
@@ -10762,7 +10756,7 @@ def build_dictionary_page():
           'viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" '
           'stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/></svg>'
         '</div>'
-        '<div class="flex gap-2 mt-3 overflow-x-auto pb-1 -mb-1">' + chips + '</div>'
+        '<div class="dict-chiprow flex gap-2 mt-3 overflow-x-auto pb-1 -mb-1">' + chips + '</div>'
         '<div class="flex items-center justify-between mt-2.5 text-sm">'
           '<span id="dict-count" class="text-gray-500">' + str(n_words) + ' words</span>'
           '<div class="inline-flex rounded-full border border-gray-200 overflow-hidden text-xs font-semibold" role="group" aria-label="Show language">'
