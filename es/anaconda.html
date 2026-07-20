@@ -307,6 +307,11 @@
     #lb-meta{font-size:.72rem;color:#9ca3af;margin-top:.5rem}
     .lb-wa{display:inline-block;background:#25d366;color:#fff;font-weight:700;border-radius:9999px;padding:.5rem 1.1rem;font-size:.82rem;margin-top:.55rem}
   </style>
+<style>
+    .esr-fsbtn{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:9999px;border:none;background:rgba(0,0,0,.38);color:#fff;font-size:16px;line-height:34px;text-align:center;cursor:pointer;z-index:4}
+    .esr-fswrap:fullscreen{background:#101418;display:flex;align-items:center;justify-content:center;max-width:none}
+    .esr-fsfake{position:fixed !important;top:0;left:0;right:0;bottom:0;z-index:99999;background:#101418;display:flex;align-items:center;justify-content:center;max-width:none !important;margin:0 !important;border-radius:0}
+  </style>
 <style>nav button,nav a{white-space:nowrap}</style><link href="https://exploresuriname.com/anaconda.html" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/anaconda.html" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/anaconda.html" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/anaconda.html" hreflang="x-default" rel="alternate"/></head>
 <body class="bg-gray-50 overflow-x-hidden">
 <nav class="fixed top-0 w-full z-50" style="background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14);box-shadow:0 1px 12px rgba(20,42,30,.05)">
@@ -1003,6 +1008,33 @@ return{
 };
 })();
 if(window.ESRLB)ESRLB.init();
+</script>
+<script>
+(function(){
+var w=document.getElementById("ab-wrap");if(!w)return;
+var c=w.querySelector("canvas");var fake=false;
+var b=document.createElement("button");b.className="esr-fsbtn";b.setAttribute("aria-label","Fullscreen");b.innerHTML="&#x26F6;";
+if(w.querySelector("button"))b.style.right="52px";
+w.appendChild(b);w.classList.add("esr-fswrap");
+function on(){return fake||document.fullscreenElement===w;}
+function fit(){if(!on()){c.style.width="";c.style.height="";return;}
+ var ar=c.width/c.height,vw=window.innerWidth,vh=window.innerHeight;
+ if(vw/vh>ar){c.style.height=vh+"px";c.style.width=Math.round(vh*ar)+"px";}
+ else{c.style.width=vw+"px";c.style.height=Math.round(vw/ar)+"px";}}
+function icon(){b.innerHTML=on()?"&#10005;":"&#x26F6;";}
+function offFake(){fake=false;w.classList.remove("esr-fsfake");fit();icon();}
+b.addEventListener("click",function(){
+ if(document.fullscreenElement===w){document.exitFullscreen();return;}
+ if(fake){offFake();return;}
+ var p=null;
+ try{p=w.requestFullscreen&&w.requestFullscreen();}catch(e){}
+ if(p&&p.then){p.then(function(){fit();icon();}).catch(function(){fake=true;w.classList.add("esr-fsfake");fit();icon();});}
+ else{fake=true;w.classList.add("esr-fsfake");fit();icon();}
+});
+document.addEventListener("fullscreenchange",function(){fit();icon();});
+window.addEventListener("resize",fit);
+document.addEventListener("keydown",function(e){if(fake&&e.key==="Escape")offFake();});
+})();
 </script>
 <script id="langswitch-js">document.addEventListener('click',function(){document.querySelectorAll('[data-langmenu]').forEach(function(x){x.style.display='none';var b=x.previousElementSibling;if(b)b.setAttribute('aria-expanded','false');});});</script></body>
 </html>
