@@ -12956,34 +12956,50 @@ def _atm_card_pills(cards):
         out += f'<span class="atm-card-pill" style="--pc:{col}">{lbl}</span>'
     return out
 
+_NET_COL = {"Cashpnt": "#B23A2E", "DSB": "#2D6A4F", "Republic Bank": "#1D4ED8",
+            "Hakrinbank": "#0e7490", "Finabank": "#b45309", "VCB Bank": "#0f766e",
+            "SPSB": "#7c3aed", "GODO": "#a16207"}
+
 def _atm_render_card(a):
-    net = a["net"]
-    net_col = "#B23A2E" if net == "Cashpnt" else "#2D6A4F"
-    net_lbl = "Cashpnt" if net == "Cashpnt" else "DSB"
-    online = a["status"] == "online"
-    dot = "#16a34a" if online else "#dc2626"
-    st_lbl = "Open" if online else "Out of order"
+    net = a["net"]; net_col = _NET_COL.get(net, "#6b7280")
+    status = a.get("status", "untracked")
+    if status == "online":
+        badge = ('<span class="atm-status"><span class="atm-dot" style="background:#16a34a"></span>'
+                 '<span class="atm-st-lbl">Open</span></span>')
+    elif status == "offline":
+        badge = ('<span class="atm-status"><span class="atm-dot" style="background:#dc2626"></span>'
+                 '<span class="atm-st-lbl">Out of order</span></span>')
+    else:
+        badge = '<span class="atm-untracked">No live status</span>'
     machines = a.get("machines", 1)
     m_txt = ""
     if machines > 1:
         m_txt = (f'<span class="text-xs text-gray-400 ml-1">&middot; {machines} machines, '
                  f'{a.get("online",0)} open</span>')
-    gmap = f'https://www.google.com/maps/dir/?api=1&destination={a["lat"]},{a["lng"]}'
-    search = html_lib.escape((a["name"] + " " + a["district"]).lower(), quote=True)
-    cards_attr = " ".join(a["cards"])
+    has_co = a.get("lat") is not None
+    if has_co:
+        gmap = f'https://www.google.com/maps/dir/?api=1&destination={a["lat"]},{a["lng"]}'
+        lat_a, lng_a = a["lat"], a["lng"]
+    else:
+        q = urllib.parse.quote(f'{a["name"]} {a.get("address","")} Suriname')
+        gmap = f'https://www.google.com/maps/search/?api=1&query={q}'
+        lat_a = lng_a = ""
+    live_flag = "1" if status in ("online", "offline") else "0"
+    search = html_lib.escape((a["name"] + " " + (a["district"] or "")).lower(), quote=True)
+    name = html_lib.escape(a["name"])
+    line = a["district"] or "Suriname"
+    if not has_co and a.get("address"):
+        line = html_lib.escape(a["address"]) + " &middot; " + (a["district"] or "Suriname")
     return (
-        f'<div class="atm-card" data-net="{net}" data-status="{a["status"]}" '
-        f'data-district="{html_lib.escape(a["district"], quote=True)}" '
-        f'data-cards="{cards_attr}" data-search="{search}" '
-        f'data-lat="{a["lat"]}" data-lng="{a["lng"]}">'
+        f'<div class="atm-card" data-net="{html_lib.escape(net, quote=True)}" data-status="{status}" '
+        f'data-live="{live_flag}" data-district="{html_lib.escape(a["district"] or "", quote=True)}" '
+        f'data-cards="{" ".join(a["cards"])}" data-search="{search}" '
+        f'data-lat="{lat_a}" data-lng="{lng_a}">'
         f'<div class="flex items-start justify-between gap-2 mb-2">'
-        f'<span class="atm-net" style="background:{net_col}">{net_lbl}</span>'
-        f'<span class="atm-status"><span class="atm-dot" style="background:{dot}"></span>'
-        f'<span class="atm-st-lbl">{st_lbl}</span></span>'
-        f'</div>'
-        f'<h3 class="font-bold text-gray-900 leading-snug">{a["name"]}</h3>'
-        f'<p class="text-sm text-gray-500 mb-3">{a["district"] or "Suriname"}{m_txt}'
-        f'<span class="atm-dist"></span></p>'
+        f'<span class="atm-net" style="background:{net_col}">{html_lib.escape(net)}</span>'
+        f'{badge}</div>'
+        f'<h3 class="font-bold text-gray-900 leading-snug">{name}</h3>'
+        f'<p class="text-sm text-gray-500 mb-3">{line}{m_txt}<span class="atm-dist"></span></p>'
         f'<div class="flex flex-wrap gap-1.5 mb-3">{_atm_card_pills(a["cards"])}</div>'
         f'<a href="{gmap}" target="_blank" rel="noopener" class="atm-dir">'
         f'<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">'
@@ -13041,6 +13057,13 @@ def _atm_ref_cards(entries, net, net_col, cards):
 def build_atms_page(atms, meta, ref=None):
     """All-in-one Suriname ATM finder: live status, locations and card acceptance."""
     ref = ref or []
+    _REF_CARDS = {"Republic Bank": ["local", "mastercard", "visa", "foreign"], "Hakrinbank": ["local"],
+                  "Finabank": ["local", "mastercard"], "VCB Bank": ["local"], "SPSB": ["local"], "GODO": ["local"]}
+    ref_machines = [{"net": r["net"], "name": r["name"], "district": r["district"],
+                     "lat": r["lat"], "lng": r["lng"], "status": "untracked",
+                     "cards": _REF_CARDS.get(r["net"], ["local"]), "machines": 1, "online": 0,
+                     "address": r["address"]} for r in ref]
+    allmachines = list(atms) + ref_machines
     title = "Suriname ATM Finder: Live Status &amp; Which Cards Work"
     desc = ("Find a working ATM in Suriname. Live open / out-of-order status for Cashpnt and DSB "
             "cash machines, a map, a locate-me button, and exactly which cards each network takes "
@@ -13109,10 +13132,17 @@ def build_atms_page(atms, meta, ref=None):
     )
 
     # ── Toolbar (filters) ───────────────────────────────────────────────────
-    districts = sorted({a["district"] for a in atms if a["district"]})
+    from collections import Counter as _Counter
+    _net_counts = _Counter(a["net"] for a in allmachines)
+    net_chips = '<button class="filter-chip chip-active" data-net="all">All</button>'
+    for _n in ["Cashpnt", "DSB", "Republic Bank", "Hakrinbank", "Finabank", "VCB Bank", "SPSB", "GODO"]:
+        if _net_counts.get(_n):
+            net_chips += ('<button class="filter-chip" data-net="' + html_lib.escape(_n, quote=True) + '">'
+                          + _n + ' <span class="chip-count">' + str(_net_counts[_n]) + '</span></button>')
+    districts = sorted({a["district"] for a in allmachines if a["district"]})
     dist_chips = '<button class="dist-chip dist-chip-active" data-dist="all">All districts</button>'
     for d in districts:
-        n = sum(1 for a in atms if a["district"] == d)
+        n = sum(1 for a in allmachines if a["district"] == d)
         dist_chips += f'<button class="dist-chip" data-dist="{html_lib.escape(d, quote=True)}">{d} <span class="chip-count">{n}</span></button>'
 
     body += (
@@ -13130,10 +13160,8 @@ def build_atms_page(atms, meta, ref=None):
         '<path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>'
         '<circle cx="12" cy="11" r="3"/></svg><span id="atm-near-lbl">Nearest to me</span></button>'
         '</div>'
+        '<div class="flex flex-wrap gap-2 mb-3">' + net_chips + '</div>'
         '<div class="flex flex-wrap gap-2 mb-3">'
-        '<button class="filter-chip chip-active" data-net="all">All networks</button>'
-        '<button class="filter-chip" data-net="Cashpnt">Cashpnt</button>'
-        '<button class="filter-chip" data-net="DSB">DSB</button>'
         '<button class="filter-chip" id="atm-openonly" data-open="0">Open now only</button>'
         '<button class="filter-chip" data-card="mastercard">Takes Mastercard</button>'
         '<button class="filter-chip" data-card="foreign">Foreign cards</button>'
@@ -13145,8 +13173,8 @@ def build_atms_page(atms, meta, ref=None):
     # ── Map (lazy) ──────────────────────────────────────────────────────────
     ref_note = ''
     if ref:
-        ref_note = (' Grey markers are Republic Bank and Hakrinbank ATMs (approximate location, '
-                    'no live status).')
+        ref_note = (' Grey markers are the other banks&rsquo; ATMs (Republic, Hakrinbank, Finabank, VCB, '
+                    'SPSB, GODO) at an approximate location, with no live status.')
     body += (
         '<div id="atm-map-wrap" class="mb-5">'
         '<div id="atm-map" style="height:400px;border-radius:1rem;overflow:hidden;'
@@ -13163,53 +13191,13 @@ def build_atms_page(atms, meta, ref=None):
     )
 
     # ── Results ─────────────────────────────────────────────────────────────
-    cards_html = "".join(_atm_render_card(a) for a in atms)
+    cards_html = "".join(_atm_render_card(a) for a in allmachines)
     body += (
         '<div class="flex items-center justify-between mb-3">'
         '<p id="atm-count" class="text-sm text-gray-500"></p></div>'
         f'<div id="atm-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">{cards_html}</div>'
         '<p id="atm-empty" class="text-center text-gray-400 py-10 hidden">No ATMs match those filters.</p>'
     )
-
-    # ── Other bank ATMs (cards, no live status) ─────────────────────────────
-    _ref_by_net = {}
-    for _r in ref:
-        _ref_by_net.setdefault(_r["net"], []).append(_r)
-    _REF_SECTIONS = [
-        ("Republic Bank", "#1D4ED8", "Visa &amp; Mastercard &middot; local cards",
-         ["local", "mastercard", "visa", "foreign"],
-         "The largest ATM network among Suriname&rsquo;s commercial banks and the best choice for an "
-         "international Visa or Mastercard."),
-        ("Hakrinbank", "#0e7490", "Local debit (BNETS) &middot; SRD 10,000/day", ["local"],
-         "Most Hakrinbank off-site ATMs are now Cashpnt machines; these branch ATMs are still run by the bank."),
-        ("Finabank", "#b45309", "Local debit &amp; Mastercard &middot; SRD 3,000/day", ["local", "mastercard"],
-         "The &ldquo;Finamatic&rdquo; machines sit at Finabank branches and also dispense foreign cash "
-         "(up to USD 300 or EUR 500 a day from a USD/EUR account)."),
-        ("VCB Bank", "#0f766e", "Volkscredietbank &middot; local debit &middot; SRD 4,000/day", ["local"],
-         "Ten VCB offices across seven districts, each with an ATM (max SRD 2,000 per transaction)."),
-        ("SPSB", "#7c3aed", "Postspaarbank &middot; local debit (BNETS)", ["local"],
-         "The Surinaamse Postspaarbank runs machines at its Paramaribo and Nickerie offices."),
-        ("GODO", "#a16207", "GODO Bank &middot; local debit (BNETS)", ["local"],
-         "The former co-operative GODO Bank, with offices in Paramaribo, Lelydorp and the interior "
-         "(Albina, Atjoni)."),
-    ]
-    body += (
-        '<h2 class="serif text-2xl font-bold text-gray-900 mb-2 mt-12">Other bank ATMs</h2>'
-        '<p class="text-gray-600 text-sm mb-6 max-w-2xl">These banks publish their locations but not a live '
-        'status feed, so their machines are shown as cards marked &ldquo;no live status&rdquo;. Any Surinamese '
-        'bank card works at all of them, and at every Cashpnt.</p>'
-    )
-    for _net, _col, _sub, _cards, _blurb in _REF_SECTIONS:
-        _ents = _ref_by_net.get(_net, [])
-        body += (
-            '<div class="mb-8">'
-            '<div class="flex items-center gap-2 mb-1 flex-wrap">'
-            f'<span class="atm-net" style="background:{_col}">{_net}</span>'
-            f'<span class="text-sm text-gray-500">{_sub}</span></div>'
-            f'<p class="text-sm text-gray-500">{_blurb}</p>'
-            + _atm_ref_cards(_ents, _net, _col, _cards) +
-            '</div>'
-        )
 
     # ── What works where (acceptance matrix) ────────────────────────────────
     def _y(): return '<span class="atm-y">&#10003;</span>'
@@ -13260,6 +13248,25 @@ def build_atms_page(atms, meta, ref=None):
         'the most reliable choice. DSB ATMs take Mastercard and most foreign cards. Cashpnt machines take '
         'Mastercard per its own statement, though this varies machine to machine. Withdraw larger amounts '
         'less often to save on the per-transaction fee.</div>'
+    )
+
+    # ── About each network ──────────────────────────────────────────────────
+    body += (
+        '<h2 class="serif text-2xl font-bold text-gray-900 mb-4">About each network</h2>'
+        '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-12">'
+        '<ul class="text-sm text-gray-600 space-y-2.5 list-disc pl-4">'
+        '<li><strong>Cashpnt</strong> &mdash; the shared BNETS red/grey machines, the largest network; local '
+        'cards and Mastercard. Live status.</li>'
+        '<li><strong>DSB</strong> &mdash; its own ATMs; Mastercard, local cards and most foreign cards. Live status.</li>'
+        '<li><strong>Republic Bank</strong> &mdash; the largest commercial-bank network and the best choice for '
+        'an international Visa or Mastercard.</li>'
+        '<li><strong>Finabank</strong> &mdash; &ldquo;Finamatic&rdquo; machines at its branches, which also dispense '
+        'foreign cash (up to USD 300 or EUR 500 a day from a USD/EUR account).</li>'
+        '<li><strong>VCB Bank</strong> &mdash; ten offices across seven districts; SRD 4,000 a day (max SRD 2,000 '
+        'per transaction).</li>'
+        '<li><strong>Hakrinbank, SPSB and GODO</strong> &mdash; local (BNETS) cards; most of their off-site '
+        'machines have already become Cashpnts.</li>'
+        '</ul></div>'
     )
 
     # ── Practical info ──────────────────────────────────────────────────────
@@ -13407,6 +13414,7 @@ def build_atms_page(atms, meta, ref=None):
     if(!userLL) return;
     cards.forEach(function(c){
       var la=parseFloat(c.getAttribute('data-lat')), ln=parseFloat(c.getAttribute('data-lng'));
+      if(isNaN(la)||isNaN(ln)){ c._dist=Infinity; var nb=c.querySelector('.atm-dist'); if(nb) nb.textContent=''; return; }
       var d=haversine(userLL[0],userLL[1],la,ln); c._dist=d;
       var badge=c.querySelector('.atm-dist');
       if(badge) badge.textContent=(d<1?Math.round(d*1000)+' m':d.toFixed(1)+' km')+' away';
