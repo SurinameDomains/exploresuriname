@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="max-image-preview:large" name="robots"/>
+<link href="/favicon.ico" rel="icon" sizes="48x48 32x32 16x16"/>
+<link href="/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/icons/icon-192.png" rel="apple-touch-icon"/>
+<meta content="@exploringsuriname" name="twitter:site"/>
+<meta content="en_US" property="og:locale"/><meta content="es_ES" property="og:locale:alternate"/><meta content="nl_NL" property="og:locale:alternate"/>
+<link as="font" crossorigin="" href="/fonts/playfair-latin-var.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/fonts/inter-latin-var.woff2" rel="preload" type="font/woff2"/>
+<style>
+  @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  </style>
+<link href="/tailwind.css?v=ff3401bb" rel="stylesheet"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<meta content="#FBF5E9" name="theme-color"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="default" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="ExploreSR" name="apple-mobile-web-app-title"/>
+<style>
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#E1F0DD; --coral:#E76F51; --gold:#E7AE4D; --clay:#C77B43; --paper:#FBF5E9; --paper-2:#F4ECDA; --card:#FFFDF6; --ink:#233028; --ink-soft:#5C6657; --line:#EBE0CB; }
+    body   { font-family: 'Inter', system-ui, sans-serif; }
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    /* ===== Warm theme roll-over: homepage redesign palette, applied site-wide ===== */
+    html, body { background: var(--paper); }
+    body { color: var(--ink); }
+    .bg-white   { background-color: var(--card) !important; }
+    .bg-gray-50 { background-color: var(--paper-2) !important; }
+    .bg-gray-100{ background-color: #EFE6D2 !important; }
+    .text-gray-900, .text-gray-800 { color: var(--ink) !important; }
+    .text-gray-700, .text-gray-600 { color: #46524A !important; }
+    .text-gray-500, .text-gray-400 { color: var(--ink-soft) !important; }
+    .border-gray-100 { border-color: var(--line) !important; }
+    .border-gray-200 { border-color: #E2D8C2 !important; }
+    ::selection { background: var(--gold); color: var(--forest); }
+    .ftr-h{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .ftr-col{display:flex;flex-direction:column;gap:11px;font-size:14px}
+    .ftr-lnk{color:#B9C2B2;transition:color .15s}
+    .ftr-lnk:hover{color:#FCF7EC}
+    .ftr-gtk{display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:#94A08F;line-height:1.45}
+    .ftr-lnk2{color:#7E8A79;transition:color .15s}
+    .ftr-lnk2:hover{color:#B9C2B2}
+    .hero-bg { background-size:cover; background-position:center; }
+    .card-hover { transition: transform .2s, box-shadow .2s; }
+    .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
+    a { text-decoration: none; }
+    nav a, nav button { white-space: nowrap; }   /* keep nav labels on one line (EN; NL/ES get this via build_i18n) */
+    .vh { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+    /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
+    .dd-menu { transform-origin: top center; }
+    .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
+    @keyframes ddFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    #search-results a {
+      display:flex;align-items:center;gap:10px;padding:10px 18px;text-decoration:none;color:#111;transition:background .1s;
+    }
+    #search-results a:hover, #search-results a.sr-active { background:#f5f5f5; }
+    .sr-badge {
+      font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;flex-shrink:0;
+    }
+    .sr-name { font-size:.9rem;font-weight:600;flex:1;min-width:0; }
+    .sr-area { font-size:.78rem;color:#9ca3af;white-space:nowrap; }
+    mark { background:#fef08a;border-radius:2px;padding:0 1px; }
+    .filter-chip {
+      display:inline-flex;align-items:center;gap:5px;padding:10px 16px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
+      color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+      touch-action:manipulation;
+    }
+    .filter-chip:hover { border-color:var(--forest);color:var(--forest); }
+    .filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+    .dist-chip {
+      display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;
+      color:#6b7280;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+    }
+    .dist-chip:hover { border-color:var(--forest2);color:var(--forest2); }
+    .dist-chip.dist-chip-active { background:var(--forest2);border-color:var(--forest2);color:#fff; }
+    .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
+    .filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count { opacity:.8; }
+    .dict-chiprow{scrollbar-width:none;-ms-overflow-style:none}
+    .dict-chiprow::-webkit-scrollbar{display:none}
+    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+    .listing-card.hidden { display:none; }
+    /* PWA install bar (Android prompt + iOS A2HS tip) */
+    #pwa-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(130%);transition:transform .35s cubic-bezier(.22,1,.36,1);background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 28px rgba(0,0,0,.14);padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
+    #pwa-bar.pwa-show{transform:translateY(0)}
+    #pwa-bar .pwa-ic{width:42px;height:42px;border-radius:10px;flex:0 0 auto}
+    #pwa-bar .pwa-tx{flex:1 1 auto;min-width:0}
+    #pwa-bar .pwa-tt{font-weight:700;font-size:14px;color:var(--forest);line-height:1.2}
+    #pwa-bar .pwa-sb{font-size:12px;color:#4b5563;line-height:1.3;margin-top:2px}
+    #pwa-bar .pwa-go{flex:0 0 auto;background:var(--forest);color:#fff;border:0;border-radius:10px;font-weight:700;font-size:14px;padding:10px 16px;cursor:pointer;white-space:nowrap;touch-action:manipulation}
+    #pwa-bar .pwa-go:hover{background:var(--forest2)}
+    #pwa-bar .pwa-x{flex:0 0 auto;background:transparent;border:0;color:#9ca3af;font-size:24px;line-height:1;cursor:pointer;padding:2px 6px;touch-action:manipulation}
+    @media(min-width:640px){#pwa-bar{left:auto;right:18px;bottom:18px;max-width:430px;border-radius:16px;border:1px solid rgba(0,0,0,.08)}}
+  </style>
+<script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
+<style>
+    .esr-grab{cursor:grab}.esr-grab:active{cursor:grabbing}
+    .esr-arrow{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:9999px;background:#fff;border:1px solid #e5e7eb;box-shadow:0 1px 5px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;color:#374151;padding:0}
+    .esr-arrow:hover{border-color:#9ca3af;color:#111}
+    .esr-arrow-l{left:2px}.esr-arrow-r{right:2px}
+    @media(hover:none){.esr-arrow{display:none!important}}
+  </style>
+<script>
+  /* Horizontal chip strips and scroll rows, sitewide: make them usable with a
+     mouse. Every .overflow-x-auto element that is not a table wrapper gets
+     overlay arrow buttons at either edge while it overflows (hover-capable
+     devices only), vertical-wheel sideways panning (page scroll resumes at
+     the ends) and click-drag panning. Strips share one mechanism sitewide and
+     drag (all strips share one mechanism; arrows hide whenever the strip has
+     nothing to scroll). Content changes are observed so arrows appear when
+     chips render or filter late. Touch and keyboard behaviour unchanged. */
+  (function(){
+    var FINE=window.matchMedia?matchMedia("(hover:hover) and (pointer:fine)"):{matches:false};
+    function skip(el){return !!el.querySelector("table");}
+    function mkArrow(dir){
+      var b=document.createElement("button");
+      b.type="button";b.className="esr-arrow esr-arrow-"+dir;
+      b.setAttribute("aria-label",dir==="l"?"Scroll left":"Scroll right");
+      b.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="'+(dir==="l"?"M15 18l-6-6 6-6":"M9 18l6-6-6-6")+'"/></svg>';
+      return b;
+    }
+    function arm(el){
+      if(el.dataset.esrStrip||skip(el))return;
+      el.dataset.esrStrip="1";
+      el.classList.add("esr-grab");
+      el.addEventListener("wheel",function(ev){
+        if(ev.deltaX!==0||ev.shiftKey||ev.ctrlKey)return;
+        if(el.scrollWidth<=el.clientWidth+2)return;
+        var max=el.scrollWidth-el.clientWidth;
+        if((ev.deltaY>0&&el.scrollLeft>=max-1)||(ev.deltaY<0&&el.scrollLeft<=0))return;
+        el.scrollLeft+=ev.deltaY;ev.preventDefault();
+      },{passive:false});
+      var wrap=document.createElement("div");
+      var cs=getComputedStyle(el);
+      if(cs.position==="sticky"){
+        wrap.style.position="sticky";wrap.style.top=cs.top;wrap.style.zIndex=cs.zIndex;
+        el.style.position="static";
+      }else{wrap.style.position="relative";}
+      el.parentNode.insertBefore(wrap,el);
+      wrap.appendChild(el);
+      var L=mkArrow("l"),R=mkArrow("r");
+      wrap.appendChild(L);wrap.appendChild(R);
+      function upd(){
+        var max=el.scrollWidth-el.clientWidth;
+        var ok=FINE.matches&&max>4;
+        L.style.display=(ok&&el.scrollLeft>4)?"":"none";
+        R.style.display=(ok&&el.scrollLeft<max-4)?"":"none";
+      }
+      function go(s){el.scrollBy({left:s*Math.max(120,Math.round(el.clientWidth*0.7)),behavior:"smooth"});}
+      L.addEventListener("click",function(){go(-1);});
+      R.addEventListener("click",function(){go(1);});
+      el.addEventListener("scroll",upd,{passive:true});
+      window.addEventListener("resize",upd);
+      if(window.MutationObserver){
+        new MutationObserver(function(){upd();}).observe(el,
+          {childList:true,subtree:true,attributes:true,attributeFilter:["style","class"]});
+      }else{
+        el.addEventListener("click",function(){setTimeout(upd,60);});
+      }
+      upd();
+    }
+    function init(){
+      document.querySelectorAll(".overflow-x-auto").forEach(arm);
+      var el=null,sx=0,sl=0,moved=false;
+      document.addEventListener("pointerdown",function(ev){
+        if(ev.pointerType!=="mouse"||ev.button!==0)return;
+        if(ev.target.closest&&ev.target.closest(".esr-arrow"))return;
+        var t=ev.target.closest&&ev.target.closest(".overflow-x-auto");
+        if(!t||skip(t)||t.scrollWidth<=t.clientWidth+2)return;
+        el=t;sx=ev.clientX;sl=t.scrollLeft;moved=false;
+      });
+      document.addEventListener("pointermove",function(ev){
+        if(!el)return;
+        var dx=ev.clientX-sx;
+        if(!moved){if(Math.abs(dx)<5)return;moved=true;el.style.userSelect="none";}
+        el.scrollLeft=sl-dx;ev.preventDefault();
+      });
+      function end(){
+        if(!el)return;
+        var was=el,m=moved;el=null;moved=false;was.style.userSelect="";
+        if(m){var kill=function(e){e.stopPropagation();e.preventDefault();};
+          was.addEventListener("click",kill,true);
+          setTimeout(function(){was.removeEventListener("click",kill,true);},0);}
+      }
+      document.addEventListener("pointerup",end);
+      document.addEventListener("pointercancel",end);
+    }
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+  })();
+  </script>
+<script>
+  (function(){
+    var DKEY="esr_pwa_dismiss", dp=null, bar=null;
+    function isDismissed(){try{var v=localStorage.getItem(DKEY);if(!v)return false;return (Date.now()-parseInt(v,10))<1209600000;}catch(e){return false;}}
+    function setDismissed(){try{localStorage.setItem(DKEY,String(Date.now()));}catch(e){}}
+    function isStandalone(){return (window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)||window.navigator.standalone===true;}
+    function isIOS(){var ua=navigator.userAgent||"";if(/CriOS|FxiOS|EdgiOS/i.test(ua))return false;if(/iPhone|iPad|iPod/i.test(ua))return true;return /Macintosh/i.test(ua)&&navigator.maxTouchPoints>1;}
+    function remove(){if(bar){var b=bar;bar=null;b.classList.remove("pwa-show");setTimeout(function(){if(b&&b.parentNode)b.parentNode.removeChild(b);},400);}}
+    function show(mode,force){
+      if(bar||(!force&&isDismissed())||isStandalone())return;
+      if(!document.body){document.addEventListener("DOMContentLoaded",function(){show(mode);});return;}
+      bar=document.createElement("div");
+      bar.id="pwa-bar";bar.setAttribute("role","dialog");bar.setAttribute("aria-label","Install Explore Suriname");
+      var ic='<img class="pwa-ic" src="/icons/icon-192.png" width="42" height="42" alt="">';
+      var tt,sb,btns;
+      if(mode==="ios"){
+        tt="Add Explore Suriname";
+        sb="Tap the Share button, then Add to Home Screen.";
+        btns='<button class="pwa-x" type="button" aria-label="Dismiss">&times;</button>';
+      }else{
+        tt="Install Explore Suriname";
+        sb="Live SRD rates and offline access on your home screen.";
+        btns='<button class="pwa-go" type="button">Install</button><button class="pwa-x" type="button" aria-label="Dismiss">&times;</button>';
+      }
+      bar.innerHTML=ic+'<div class="pwa-tx"><div class="pwa-tt">'+tt+'</div><div class="pwa-sb">'+sb+'</div></div>'+btns;
+      document.body.appendChild(bar);
+      requestAnimationFrame(function(){requestAnimationFrame(function(){if(bar)bar.classList.add("pwa-show");});});
+      var go=bar.querySelector(".pwa-go");
+      if(go){go.addEventListener("click",function(){
+        if(!dp){remove();return;}
+        dp.prompt();
+        dp.userChoice.then(function(c){setDismissed();dp=null;hideNav();remove();}).catch(function(){remove();});
+      });}
+      bar.querySelector(".pwa-x").addEventListener("click",function(){setDismissed();remove();});
+    }
+    function navEl(){return document.getElementById("pwa-nav");}
+    function revealNav(){var n=navEl();if(n&&!isStandalone())n.style.display="inline-flex";}
+    function hideNav(){var n=navEl();if(n)n.style.display="none";}
+    window.pwaInstall=function(){
+      if(dp){dp.prompt();dp.userChoice.then(function(c){setDismissed();dp=null;hideNav();}).catch(function(){});return;}
+      if(isIOS()){show("ios",true);}
+    };
+    window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;revealNav();show("android");});
+    window.addEventListener("appinstalled",function(){setDismissed();hideNav();remove();});
+    if(isIOS()){
+      var iosInit=function(){revealNav();setTimeout(function(){show("ios");},1400);};
+      if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",iosInit);}
+      else{iosInit();}
+    }
+    document.addEventListener("DOMContentLoaded",function(){if(dp)revealNav();});
+  })();
+  </script>
+<!-- Google tag (gtag.js) -->
+<script>(function(){var d=false;function l(){if(d)return;d=true;var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments);};gtag("js",new Date());gtag("config","G-6LTYHZYNSF");}["scroll","click","touchstart","keydown"].forEach(function(e){window.addEventListener(e,l,{once:true,passive:true})});window.addEventListener("load",function(){setTimeout(l,4000)});})();</script>
+<!-- GA4 interaction events: WhatsApp / phone / email / directions / outbound clicks -->
+<script>window.addEventListener("click",function(ev){var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;var h=a.getAttribute("href")||"",n="",p={};if(h.indexOf("https://wa.me/")===0){n="whatsapp_click"}else if(h.indexOf("tel:")===0){n="phone_click"}else if(h.indexOf("mailto:")===0){n="email_click"}else if(h.indexOf("google.com/maps")!==-1){n="directions_click"}else if(/^https?:\/\//.test(h)&&h.indexOf("exploresuriname.com")===-1){n="outbound_click";try{p.link_domain=new URL(h).hostname}catch(e){}}if(!n)return;p.link_url=h.slice(0,100);window.dataLayer=window.dataLayer||[];if(!window.gtag){window.gtag=function(){window.dataLayer.push(arguments)}}window.gtag("event",n,p)});</script>
+<title>Muskieto Survivor | Suriname Survival Game | Explore Suriname</title>
+<meta content="Survive ten minutes on a Suriname terras against endless muskietos. Your electric mepper fires itself: collect blood drops, level up, evolve wierook coils and sling shots, beat the giant kakalaka and live through the blackout. Free browser game from Explore Suriname." name="description"/>
+<link href="https://exploresuriname.com/muskieto.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Explore Suriname" property="og:site_name"/>
+<meta content="https://exploresuriname.com/muskieto.html" property="og:url"/>
+<meta content="Muskieto Survivor: the Suriname terras survival game" property="og:title"/>
+<meta content="Ten minutes, one terras, endless muskietos. The meppers fire themselves. Can you survive the blackout?" property="og:description"/>
+<meta content="https://exploresuriname.com/og-image.jpg" property="og:image"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Muskieto Survivor: the Suriname terras survival game" name="twitter:title"/>
+<meta content="Ten minutes, one terras, endless muskietos. The meppers fire themselves. Can you survive the blackout?" name="twitter:description"/>
+<meta content="https://exploresuriname.com/og-image.jpg" name="twitter:image"/>
+<script type="application/ld+json">
+  {"@context": "https://schema.org", "@graph": [{"@type": "WebPage", "@id": "https://exploresuriname.com/muskieto.html#webpage", "url": "https://exploresuriname.com/muskieto.html", "name": "Muskieto Survivor: the Suriname terras survival game", "description": "Survive ten minutes on a Suriname terras against endless muskietos. Your electric mepper fires itself: collect blood drops, level up, evolve wierook coils and sling shots, beat the giant kakalaka and live through the blackout. Free browser game from Explore Suriname.", "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": "https://exploresuriname.com/"}, "primaryImageOfPage": "https://exploresuriname.com/og-image.jpg", "breadcrumb": {"@id": "https://exploresuriname.com/muskieto.html#breadcrumb"}, "mainEntity": {"@id": "https://exploresuriname.com/muskieto.html#game"}, "datePublished": "2026-07-20", "dateModified": "2026-07-20", "isAccessibleForFree": true}, {"@type": "BreadcrumbList", "@id": "https://exploresuriname.com/muskieto.html#breadcrumb", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://exploresuriname.com/"}, {"@type": "ListItem", "position": 2, "name": "Muskieto Survivor", "item": "https://exploresuriname.com/muskieto.html"}]}, {"@type": "VideoGame", "@id": "https://exploresuriname.com/muskieto.html#game", "name": "Muskieto Survivor", "url": "https://exploresuriname.com/muskieto.html", "description": "Survive ten minutes of muskietos on a Suriname terras: auto-firing meppers, wierook smoke, a kakalaka boss, a blackout finale and pagara screen-clears.", "genre": "Arcade", "gamePlatform": "Web browser", "inLanguage": ["en"], "isAccessibleForFree": true, "image": "https://exploresuriname.com/og-image.jpg", "publisher": {"@type": "Organization", "name": "Explore Suriname", "url": "https://exploresuriname.com/"}}, {"@type": "FAQPage", "@id": "https://exploresuriname.com/muskieto.html#faq", "mainEntity": [{"@type": "Question", "name": "What is Muskieto Survivor?", "acceptedAnswer": {"@type": "Answer", "text": "A survival game in the Vampire Survivors style, set where every Surinamese has fought this war: the terras at dusk. You only steer. Your weapons, from the electric mepper to the wierook coil, fire automatically. Muskietos stream in from every side for ten minutes, and your job is to be alive when the clock runs out."}}, {"@type": "Question", "name": "How do I play?", "acceptedAnswer": {"@type": "Answer", "text": "Move with WASD or the arrow keys, or drag anywhere on the screen on a phone. Tapping or clicking a bug swats it by hand. Dead bugs drop blood drops; walk near them to collect XP. Each level-up offers three upgrades: new weapons, stronger weapons, or passives like the Cold Djogo. At level five an item evolves into something much nastier."}}, {"@type": "Question", "name": "What is the timeline?", "acceptedAnswer": {"@type": "Answer", "text": "The first minute is slow black muskietos. From minute one the striped dengue muskietos weave in. At minute three a giant kakalaka with 500 HP walks on, and killing it drops an Eksi Koekoe chest with free upgrades. From five to eight minutes the bigi freifrei rain down, and at minute nine the stroom goes and everything comes at you at triple speed in the dark. Watch for the rare pagara drop: it clears the whole screen with one bang."}}, {"@type": "Question", "name": "Is it free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Muskieto Survivor is free, runs in your browser, and needs no app or account."}}]}]}
+  </script> <style>
+    #mq-wrap{max-width:800px;margin:0 auto}
+    #mq-cv{display:block;width:100%;height:auto;border-radius:14px;background:#b4afa4;box-shadow:0 10px 30px rgba(0,0,0,.25);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;cursor:crosshair}
+    .mq-hint{display:flex;gap:1.1rem;justify-content:center;flex-wrap:wrap;margin-top:.7rem;font-size:.72rem;color:#9ca3af}
+    .mq-hint b{color:#6b7280;font-weight:700}
+  </style>
+<link href="https://exploresuriname.com/muskieto.html" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/muskieto.html" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/muskieto.html" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/muskieto.html" hreflang="x-default" rel="alternate"/></head>
+<body class="bg-gray-50 overflow-x-hidden">
+<nav class="fixed top-0 w-full z-50" style="background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14);box-shadow:0 1px 12px rgba(20,42,30,.05)">
+<div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+<a class="flex items-baseline flex-shrink-0" href="index.html">
+<span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
+</a>
+<div class="hidden md:flex items-center gap-6"><div class="relative" id="dd-todo" onmouseenter="openDd('dd-todo')" onmouseleave="closeDd('dd-todo')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-todo')">Things to Do<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-todo-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="nature.html">Nature</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="activities.html">Activities</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="events.html">Events &amp; Festivals</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="shopping.html">Shopping</a></div></div><div class="relative" id="dd-eat" onmouseenter="openDd('dd-eat')" onmouseleave="closeDd('dd-eat')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-eat')">Eat &amp; Stay<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-eat-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="restaurants.html">Where to Eat</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="hotels.html">Where to Stay</a></div></div><div class="relative" id="dd-svc" onmouseenter="openDd('dd-svc')" onmouseleave="closeDd('dd-svc')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-svc')">Local Services<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-svc-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="services.html">Services</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="daily-notices.html">Daily Notices</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="flights.html">Flights</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="atms.html">ATM Finder</a></div></div><div class="relative" id="dd-plan" onmouseenter="openDd('dd-plan')" onmouseleave="closeDd('dd-plan')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-plan')">Visitor Guide<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-plan-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="visitor-guide.html">The Basics</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-time.html">Time &amp; Converter</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="on-the-road.html">On the Road</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-itinerary.html">Trip Itineraries</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="is-suriname-safe.html">Is Suriname Safe?</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-history.html">History Timeline</a></div></div><div class="relative" id="dd-games" onmouseenter="openDd('dd-games')" onmouseleave="closeDd('dd-games')"><button class="dd-trigger flex items-center gap-1 text-sm font-semibold transition py-1" onclick="toggleDd('dd-games')" style="color:var(--forest)">Games <span class="inline-block w-1.5 h-1.5 rounded-full mb-0.5" style="background:var(--forest)"></span><svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-games-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="quiz.html">Sabi Suriname Quiz</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="crossword.html">Switi Mini Crossword</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="map-game.html">Pe A De? Map Game</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="korjaal.html">Korjaal Run</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="anaconda.html">Aboma Snake Game</a><a class="block px-4 py-2.5 text-sm font-semibold rounded-lg" href="muskieto.html" style="color:var(--forest);background:var(--mint)">Muskieto Survivor</a></div></div><div class="relative" id="dd-ess" onmouseenter="openDd('dd-ess')" onmouseleave="closeDd('dd-ess')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-ess')">Essentials<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-ess-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="currency.html">Market Rates</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="conditions.html">Weather &amp; Tides</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="matches.html">Sports Schedule</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="sranan-tongo-dictionary.html">Sranan Dictionary</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="news.html">News</a></div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50" onclick="openSearch()" title="Search listings (press /)">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<span class="hidden sm:inline">Search…</span>
+</button><div class="hidden md:flex" data-langswitch="1" style="position:relative;align-items:center;margin-left:8px;flex-shrink:0"><button aria-expanded="false" aria-label="Language" onclick="var m=this.nextElementSibling,o=m.style.display==='block';document.querySelectorAll('[data-langmenu]').forEach(function(x){x.style.display='none';});m.style.display=o?'none':'block';this.setAttribute('aria-expanded',(!o).toString());event.stopPropagation();" style="display:flex;align-items:center;gap:5px;background:none;border:0;cursor:pointer;font-size:12px;font-weight:600;color:#6b7280;padding:4px 7px;border-radius:8px" type="button"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><span>EN</span><svg fill="none" height="11" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;opacity:.7" viewBox="0 0 24 24" width="11"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div data-langmenu="1" style="display:none;position:absolute;right:0;top:100%;margin-top:6px;background:#fff;border:1px solid #eee;border-radius:10px;box-shadow:0 8px 24px rgba(20,42,30,.12);padding:5px;min-width:112px;z-index:60"><a href="/muskieto.html" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:var(--forest);background:#eef4ee">EN</a><a href="/nl/muskieto.html" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:#374151">NL</a><a href="/es/muskieto.html" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:#374151">ES</a></div></div>
+<button aria-label="Menu" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition" id="hamburger" onclick="toggleMobileMenu()">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+<div class="hidden md:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto" id="mm"><div data-langswitch-mobile="1" style="display:flex;align-items:center;gap:16px;padding:10px 2px 12px;margin-bottom:4px;border-bottom:1px solid #eee;font-size:15px;font-weight:600"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/muskieto.html" style="color:var(--forest);text-decoration:underline">EN</a><a href="/nl/muskieto.html" style="color:#6b7280;text-decoration:none">NL</a><a href="/es/muskieto.html" style="color:#6b7280;text-decoration:none">ES</a><button aria-label="Install app" id="pwa-nav" onclick="pwaInstall()" style="display:none;margin-left:auto;align-items:center;gap:6px;background:var(--forest);color:#fff;border:0;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0" type="button"><svg fill="none" height="15" stroke="currentColor" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 20h14" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Install</span></button></div>
+<div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-todo')"><span>Things to Do</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-todo"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="nature.html">Nature</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="activities.html">Activities</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="events.html">Events &amp; Festivals</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="shopping.html">Shopping</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-eat')"><span>Eat &amp; Stay</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-eat"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="restaurants.html">Where to Eat</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="hotels.html">Where to Stay</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-svc')"><span>Local Services</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-svc"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="services.html">Services</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="daily-notices.html">Daily Notices</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="flights.html">Flights</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="atms.html">ATM Finder</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-plan')"><span>Visitor Guide</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-plan"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="visitor-guide.html">The Basics</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="suriname-time.html">Time &amp; Converter</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="on-the-road.html">On the Road</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="suriname-itinerary.html">Trip Itineraries</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="is-suriname-safe.html">Is Suriname Safe?</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="suriname-history.html">History Timeline</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-games')" style="color:var(--forest)"><span>Games</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1" id="mg-games"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="quiz.html">Sabi Suriname Quiz</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="crossword.html">Switi Mini Crossword</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="map-game.html">Pe A De? Map Game</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="korjaal.html">Korjaal Run</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="anaconda.html">Aboma Snake Game</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm font-semibold rounded-lg" href="muskieto.html" style="color:var(--forest);background:var(--mint)">Muskieto Survivor</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-ess')"><span>Essentials</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-ess"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="currency.html">Market Rates</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="conditions.html">Weather &amp; Tides</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="matches.html">Sports Schedule</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="sranan-tongo-dictionary.html">Sranan Dictionary</a></div></div><a class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" href="news.html">News</a>
+</div>
+</nav>
+<script>
+/* ── Dropdown (desktop) ─────────────────────────────────────────────────── */
+var _openDd = null;
+var _ddTimer = null;
+function openDd(id) {
+  if (_ddTimer) { clearTimeout(_ddTimer); _ddTimer = null; }
+  if (_openDd && _openDd !== id) closeDd(_openDd);
+  var menu = document.getElementById(id + '-menu');
+  var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+  if (menu) menu.classList.remove('hidden');
+  if (chev) chev.style.transform = 'rotate(180deg)';
+  _openDd = id;
+}
+function closeDd(id) {
+  _ddTimer = setTimeout(function() {
+    var menu = document.getElementById(id + '-menu');
+    var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+    if (menu) menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    if (_openDd === id) _openDd = null;
+    _ddTimer = null;
+  }, 80);
+}
+function toggleDd(id) {
+  var menu = document.getElementById(id + '-menu');
+  var btn  = document.getElementById(id);
+  var chev = btn ? btn.querySelector('.dd-chevron') : null;
+  if (_openDd && _openDd !== id) {
+    var prev = document.getElementById(_openDd + '-menu');
+    var prevBtn = document.getElementById(_openDd);
+    if (prev)    prev.classList.add('hidden');
+    if (prevBtn) { var c = prevBtn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+  if (!menu) return;
+  var isOpen = !menu.classList.contains('hidden');
+  if (isOpen) {
+    menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    _openDd = null;
+  } else {
+    menu.classList.remove('hidden');
+    if (chev) chev.style.transform = 'rotate(180deg)';
+    _openDd = id;
+  }
+}
+document.addEventListener('click', function(e) {
+  if (_openDd && !document.getElementById(_openDd).contains(e.target)) {
+    var menu = document.getElementById(_openDd + '-menu');
+    var btn  = document.getElementById(_openDd);
+    if (menu) menu.classList.add('hidden');
+    if (btn)  { var c = btn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+});
+/* ── Mobile accordion ───────────────────────────────────────────────────── */
+function toggleMobileMenu() {
+  var mm = document.getElementById('mm');
+  mm.classList.toggle('hidden');
+}
+function toggleMobGroup(id) {
+  var body = document.getElementById(id);
+  var btn  = body ? body.previousElementSibling : null;
+  var chev = btn  ? btn.querySelector('.mob-chevron') : null;
+  if (!body) return;
+  var isOpen = !body.classList.contains('hidden');
+  body.classList.toggle('hidden', isOpen);
+  if (chev) chev.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+</script>
+<!-- ── Global Search Modal ───────────────────────────────────────────── -->
+<div id="search-modal" onclick="if(event.target===this)closeSearch()" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);padding:80px 16px 16px">
+<div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 25px 60px rgba(0,0,0,.25);overflow:hidden">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #f0f0f0">
+<svg fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:#9ca3af;flex-shrink:0" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<input autocomplete="off" id="search-input" oninput="runSearch(this.value)" onkeydown="searchKey(event)" placeholder="Search all listings…" spellcheck="false" style="flex:1;border:none;outline:none;font-size:1rem;color:#111;background:transparent" type="text"/>
+<button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">✕</button>
+</div>
+<div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
+<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search 752 listings…</p>
+</div>
+</div>
+</div>
+<script>
+const _CAT_C = {"Eat & Drink": "#7c3aed", "Stay": "#c05621", "Nature": "var(--forest)", "Guides": "#0e7490", "Activities": "var(--forest2)", "Shopping": "#0369a1", "Services": "#0369a1", "Sightseeing": "var(--forest)"};
+let _SI = null;
+let _SI_loading = false;
+let _sel = -1;
+
+function _loadSI(cb) {
+  if (_SI) { cb(); return; }
+  if (_SI_loading) { setTimeout(() => _loadSI(cb), 50); return; }
+  _SI_loading = true;
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  fetch(depth + 'search-index.json')
+    .then(r => r.json())
+    .then(data => { _SI = data; cb(); })
+    .catch(() => { _SI = []; cb(); });
+}
+function openSearch() {
+  document.getElementById('search-modal').style.display = 'block';
+  setTimeout(() => document.getElementById('search-input').focus(), 50);
+  _loadSI(() => {});
+}
+function closeSearch() {
+  document.getElementById('search-modal').style.display = 'none';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search listings…</p>';
+  _sel = -1;
+}
+function runSearch(q) {
+  const box = document.getElementById('search-results');
+  q = q.trim();
+  if (!q) { closeSearch(); openSearch(); return; }
+  if (!_SI) {
+    _loadSI(() => runSearch(q));
+    box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Loading…</p>';
+    return;
+  }
+  const ql = q.toLowerCase();
+  const hits = _SI.filter(x => x.n.toLowerCase().includes(ql) || (x.k && x.k.includes(ql))).slice(0, 10);
+  if (!hits.length) { box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">No results for "' + q + '"</p>'; return; }
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  box.innerHTML = hits.map((h, i) => {
+    const hi = h.n.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi'), '<mark>$1</mark>');
+    const col = _CAT_C[h.c] || '#6b7280';
+    return '<a href="' + depth + h.u + '" class="' + (i===0?'sr-active':'') + '">'
+      + '<span class="sr-badge" style="background:' + col + '">' + h.c + '</span>'
+      + '<span class="sr-name">' + hi + '</span>'
+      + (h.a ? '<span class="sr-area">' + h.a + '</span>' : '')
+      + '</a>';
+  }).join('');
+  _sel = 0;
+}
+function searchKey(e) {
+  const items = document.querySelectorAll('#search-results a');
+  if (e.key === 'Escape') { closeSearch(); return; }
+  if (e.key === 'ArrowDown') { e.preventDefault(); _sel = Math.min(_sel+1, items.length-1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); _sel = Math.max(_sel-1, 0); }
+  else if (e.key === 'Enter') { if(items[_sel]) window.location = items[_sel].href; return; }
+  else return;
+  items.forEach((el,i) => el.classList.toggle('sr-active', i===_sel));
+  if(items[_sel]) items[_sel].scrollIntoView({block:'nearest'});
+}
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault(); openSearch();
+  }
+});
+</script>
+<div style="height:58px"></div>
+<div class="relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
+<div class="relative max-w-3xl mx-auto px-4">
+<nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
+<a class="hover:text-white transition" href="index.html">Home</a>
+<span class="text-white/40">›</span>
+<span aria-current="page" class="text-white/90 font-medium">Muskieto Survivor</span>
+</nav>
+<p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Suriname survival game</p>
+<h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Muskieto Survivor</h1>
+<p class="text-white/70 text-base max-w-xl mx-auto">Ten minutes on the terras at dusk. The mepper fires itself, the muskietos never stop, and at minute nine the stroom goes. Survive.</p>
+</div>
+</div>
+<main class="max-w-4xl mx-auto px-4 py-8 pb-20">
+<div id="mq-wrap">
+<canvas aria-label="Muskieto Survivor game" height="600" id="mq-cv" width="800"></canvas>
+<div class="mq-hint"><span><b>WASD / arrows</b> move</span><span><b>Drag</b> to move on touch</span><span><b>Tap or click</b> manual swat</span></div>
+</div>
+</main>
+<noscript><section class="max-w-2xl mx-auto px-4 mt-6"><p class="text-sm text-gray-600">Muskieto Survivor is a browser game and needs JavaScript. Enable JavaScript to grab the mepper.</p></section></noscript>
+<section class="max-w-2xl mx-auto px-4 mt-14">
+<h2 class="serif text-2xl font-bold text-gray-900 mb-3">About Muskieto Survivor</h2>
+<p class="text-gray-700 text-sm leading-relaxed mb-3">Every Surinamese knows the battlefield. The sun drops,
+  the terras is finally cool enough to sit on, and the first muskieto finds your ankle before your drink finds
+  the table. What follows is a national ritual: the electric mepper comes out, somebody lights a wierook coil,
+  somebody else swears by repellent, and the evening becomes a war of attrition that the muskietos usually win.</p>
+<p class="text-gray-700 text-sm leading-relaxed mb-3">This game is that evening, escalated. You steer one
+  person around one porch while the weapons do their own work. Blood drops from swatted bugs level you up, and
+  every level is a choice: a faster mepper, wider wierook smoke, a stronger repellent ring, a sling shot, a
+  cold djogo for your health, or better slippers for your feet. Push any of them to level five and it evolves.
+  At minute three a kakalaka the size of a slipper walks on. At minute nine the stroom goes, because of course
+  it does, and you finish the fight in the dark.</p>
+<p class="text-gray-700 text-sm leading-relaxed">One run is ten minutes, which is exactly one wierook coil of
+  real time. Survived it? Try
+  <a class="font-semibold hover:underline" href="anaconda.html" style="color:var(--forest2)">Aboma</a>, the wild
+  <a class="font-semibold hover:underline" href="korjaal.html" style="color:var(--forest2)">Korjaal Run</a>, the map game
+  <a class="font-semibold hover:underline" href="map-game.html" style="color:var(--forest2)">Pe A De?</a>, the
+  <a class="font-semibold hover:underline" href="quiz.html" style="color:var(--forest2)">Sabi Suriname quiz</a> or the
+  <a class="font-semibold hover:underline" href="crossword.html" style="color:var(--forest2)">Switi Mini crossword</a>.</p>
+</section>
+<section class="max-w-2xl mx-auto px-4 mt-10 mb-4"><h2 class="serif text-2xl font-bold text-gray-900 mb-4">Common questions</h2><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">What is Muskieto Survivor?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">A survival game in the Vampire Survivors style, set where every Surinamese has fought this war: the terras at dusk. You only steer. Your weapons, from the electric mepper to the wierook coil, fire automatically. Muskietos stream in from every side for ten minutes, and your job is to be alive when the clock runs out.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">How do I play?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">Move with WASD or the arrow keys, or drag anywhere on the screen on a phone. Tapping or clicking a bug swats it by hand. Dead bugs drop blood drops; walk near them to collect XP. Each level-up offers three upgrades: new weapons, stronger weapons, or passives like the Cold Djogo. At level five an item evolves into something much nastier.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">What is the timeline?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">The first minute is slow black muskietos. From minute one the striped dengue muskietos weave in. At minute three a giant kakalaka with 500 HP walks on, and killing it drops an Eksi Koekoe chest with free upgrades. From five to eight minutes the bigi freifrei rain down, and at minute nine the stroom goes and everything comes at you at triple speed in the dark. Watch for the rare pagara drop: it clears the whole screen with one bang.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">Is it free?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">Yes. Muskieto Survivor is free, runs in your browser, and needs no app or account.</p></details></section>
+<footer style="background:#142A1E;color:#B9C2B2">
+<div style="max-width:1240px;margin:0 auto;padding:clamp(52px,6vw,72px) clamp(20px,5vw,52px) 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:36px 40px">
+<div style="min-width:200px">
+<div style="margin-bottom:16px"><span class="serif" style="font-weight:800;font-size:21px;color:#FCF7EC">Explore</span><span class="serif" style="font-weight:800;font-size:21px;color:var(--coral)">Suriname</span></div>
+<p style="font-size:14px;line-height:1.6;max-width:24em;margin:0 0 20px;color:#A7B1A2">Your guide to places to eat, stay, explore and love in Suriname, kept by people who live here, for the people who’ll wish they did.</p>
+<div style="display:flex;gap:16px;font-size:12.5px;font-weight:600;letter-spacing:.04em">
+<a class="ftr-lnk" href="https://www.facebook.com/exploresurinamecom" rel="noopener" target="_blank">Facebook</a>
+<a class="ftr-lnk" href="https://www.instagram.com/exploresurinamecom/" rel="noopener" target="_blank">Instagram</a>
+<a class="ftr-lnk" href="https://www.tiktok.com/@exploresuriname.com" rel="noopener" target="_blank">TikTok</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Explore</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="nature.html">Nature &amp; Parks</a>
+<a class="ftr-lnk" href="activities.html">Activities</a>
+<a class="ftr-lnk" href="events.html">Events &amp; Festivals</a>
+<a class="ftr-lnk" href="shopping.html">Shopping</a>
+<a class="ftr-lnk" href="restaurants.html">Where to Eat</a>
+<a class="ftr-lnk" href="hotels.html">Where to Stay</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Plan &amp; Essentials</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="visitor-guide.html">Visitor Guide</a>
+<a class="ftr-lnk" href="on-the-road.html">On the Road</a>
+<a class="ftr-lnk" href="suriname-itinerary.html">Trip Itineraries</a>
+<a class="ftr-lnk" href="is-suriname-safe.html">Is Suriname Safe?</a>
+<a class="ftr-lnk" href="suriname-history.html">History of Suriname</a>
+<a class="ftr-lnk" href="sranan-tongo-dictionary.html">Sranan Dictionary</a>
+<a class="ftr-lnk" href="currency.html">Exchange Rates</a>
+<a class="ftr-lnk" href="flights.html">Flights</a>
+<a class="ftr-lnk" href="conditions.html">Weather &amp; Tides</a>
+<a class="ftr-lnk" href="daily-notices.html">Daily Notices</a>
+<a class="ftr-lnk" href="news.html">News</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">More</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="today.html">Today in Suriname</a>
+<a class="ftr-lnk" href="services.html">Local Services</a>
+<a class="ftr-lnk" href="crossword.html">Crossword</a>
+<a class="ftr-lnk" href="quiz.html">Daily Quiz</a>
+<a class="ftr-lnk" href="map-game.html">Pe A De? Map Game</a>
+<a class="ftr-lnk" href="korjaal.html">Korjaal Run</a>
+<a class="ftr-lnk" href="anaconda.html">Aboma Snake Game</a>
+<a class="ftr-lnk" href="muskieto.html">Muskieto Survivor</a>
+<a class="ftr-lnk" href="matches.html">Sports Schedule</a>
+<a class="ftr-lnk" href="about.html">About Us</a>
+<a class="ftr-lnk" href="contact.html">Contact</a>
+<a class="ftr-lnk" href="privacy.html">Privacy</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Good to know</div>
+<div class="ftr-gtk">
+<span>Capital · Paramaribo</span>
+<span>Languages · Dutch, Sranan Tongo +9</span>
+<span>Currency · Surinamese Dollar (SRD)</span>
+<span>Climate · Tropical, ~28°C</span>
+</div>
+</div>
+</div>
+<div style="border-top:1px solid rgba(231,174,77,.18)">
+<div style="max-width:1240px;margin:0 auto;padding:18px clamp(20px,5vw,52px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px;color:#7E8A79">
+<span>© 2026 ExploreSuriname.com</span>
+<span><a class="ftr-lnk2" href="privacy.html">Privacy</a> · <a class="ftr-lnk2" href="/images/HOME_CREDITS.txt">Credits</a></span>
+</div>
+</div>
+</footer>
+<script>
+
+"use strict";
+/* ================= Muskieto Survivor =================
+   Single-file canvas prototype. No assets, no libraries.
+   Full 10 minute run. Set FAST_MODE = true for a
+   compressed 3 minute test run (same phase ratios).
+   Controls: WASD / arrows, click or tap = manual swat,
+   touch-drag = virtual joystick on mobile.
+
+   Inventory: 4 weapon slots + 2 passive slots, Lv 1-5.
+   Lv 5 = evolution.
+====================================================== */
+const FAST_MODE = false;
+const GAME_LEN = FAST_MODE ? 180 : 600;
+const S = GAME_LEN/600;
+/* Timeline: 0-1:00 early musk | 1:00 dengue swarm | 3:00 KAKALAKA boss (500 HP)
+   5:00-8:00 freifrei rain | 9:00 blackout, 3x speed spawns | 10:00 victory */
+const PH = { dengue:60*S, boss:180*S, flies:300*S, fliesEnd:480*S, black:540*S, win:GAME_LEN };
+const W = 800, H = 600;
+const cv = document.getElementById('mq-cv');
+const cx = cv.getContext('2d');
+
+function rnd2(a,b){ const s = Math.sin(a*127.1 + b*311.7) * 43758.5453; return s - Math.floor(s); }
+
+/* ---------- floor ---------- */
+const floorCv = document.createElement('canvas'); floorCv.width = W; floorCv.height = H;
+const fx = floorCv.getContext('2d');
+function paintFloor(){
+  const T = 80;
+  for(let y=0; y<H; y+=T){
+    for(let x=0; x<W; x+=T){
+      const base = 172 + Math.floor(rnd2(x,y)*14);
+      fx.fillStyle = 'rgb('+base+','+(base-3)+','+(base-9)+')';
+      fx.fillRect(x,y,T,T);
+      for(let i=0;i<26;i++){
+        const px = x + rnd2(x+i,y)*T, py = y + rnd2(x,y+i)*T;
+        fx.fillStyle = rnd2(px,py) > 0.5 ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.06)';
+        fx.fillRect(px,py,1.5,1.5);
+      }
+    }
+  }
+  fx.strokeStyle = 'rgba(70,64,58,0.45)'; fx.lineWidth = 2;
+  for(let x=0; x<=W; x+=T){ fx.beginPath(); fx.moveTo(x,0); fx.lineTo(x,H); fx.stroke(); }
+  for(let y=0; y<=H; y+=T){ fx.beginPath(); fx.moveTo(0,y); fx.lineTo(W,y); fx.stroke(); }
+}
+function stampSplat(x,y,big){
+  const n = big?14:4, R = big?26:6;
+  for(let i=0;i<n;i++){
+    fx.fillStyle = 'rgba(45,32,26,'+(0.18+Math.random()*0.2)+')';
+    fx.beginPath();
+    fx.arc(x+(Math.random()-0.5)*R*2, y+(Math.random()-0.5)*R*2, (big?3:1.2)+Math.random()*(big?4:2), 0, 7);
+    fx.fill();
+  }
+}
+
+/* ---------- audio ---------- */
+let AC = null;
+function ensureAudio(){
+  if(!AC){ try{ AC = new (window.AudioContext||window.webkitAudioContext)(); }catch(err){} }
+  if(AC && AC.state === 'suspended') AC.resume();
+}
+function tone(type,f0,f1,dur,vol){
+  if(!AC) return;
+  const t0 = AC.currentTime;
+  const o = AC.createOscillator(), g = AC.createGain();
+  o.type = type;
+  o.frequency.setValueAtTime(f0,t0);
+  o.frequency.exponentialRampToValueAtTime(Math.max(1,f1), t0+dur);
+  g.gain.setValueAtTime(vol,t0);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+  o.connect(g); g.connect(AC.destination);
+  o.start(t0); o.stop(t0+dur+0.02);
+}
+const zapSound   = () => tone('square',  1700, 240, 0.09, 0.10);
+const thumpSound = () => tone('sine',     110,  42, 0.18, 0.30);
+const swatSound  = () => tone('triangle', 300,  90, 0.06, 0.12);
+const blipSound  = () => tone('triangle', 620, 990, 0.06, 0.05);
+const pingSound  = () => tone('square',   520, 300, 0.05, 0.07);
+function bangSound(){
+  if(!AC) return;
+  tone('sawtooth', 160, 28, 0.45, 0.35);
+  const t0 = AC.currentTime;
+  for(let i=0;i<5;i++){
+    const o=AC.createOscillator(), g=AC.createGain();
+    o.type='square';
+    const st=t0+0.05+i*0.07;
+    o.frequency.setValueAtTime(900+Math.random()*700, st);
+    g.gain.setValueAtTime(0.12, st);
+    g.gain.exponentialRampToValueAtTime(0.0001, st+0.05);
+    o.connect(g); g.connect(AC.destination);
+    o.start(st); o.stop(st+0.06);
+  }
+}
+
+/* ---------- item stat tables (index = level-1) ---------- */
+const MEP_CD    = [1.5, 1.2, 0.95, 0.75, 0.6];
+const MEP_DMG   = [2, 3, 4, 5, 6];
+const MEP_RANGE = [170, 185, 200, 215, 230];
+const COIL_CD   = [3, 2.7, 2.4, 2.1, 2.1];
+const COIL_R    = [45, 53, 61, 69, 69];
+const COIL_DUR  = [2, 2.5, 3, 3.5, 3.5];
+const COIL_DPS  = [16, 20, 24, 28, 80];
+const REP_R     = [55, 71, 87, 103, 170];
+const REP_DPS   = [2.5, 4, 5.5, 7, 9];
+const SLING_CD  = [1.1, 0.95, 0.8, 0.65, 0.5];
+const SLING_DMG = [3, 4, 5, 6, 7];
+const ORB_R = 70, ORB_DMG = 10, ORB_SPEED = 2.4;
+
+/* ---------- state ---------- */
+let state, t, last, rafId = 0, shake, spawnT, flyT, bugId;
+let level, xp, xpNeed, kills, combo, bestCombo, swatDmg;
+let bugs, drops, smokes, zaps, shots, dusts, floaters, trail, chest;
+let choices, choiceBoxes, ann, weapons, passives, player;
+let orbA, coilTrailT, dustT, chillT, chillReady, pagaras, booms, flashT;
+
+function reset(){
+  state='playing'; t=0; last=0; shake=0; spawnT=1; flyT=0; bugId=1;
+  level=1; xp=0; xpNeed=5; kills=0; combo=0; bestCombo=0; swatDmg=3;
+  bugs=[]; drops=[]; smokes=[]; zaps=[]; shots=[]; dusts=[]; floaters=[]; trail=[]; pagaras=[]; booms=[];
+  chest=null; choices=null; choiceBoxes=[];
+  ann={dengue:false,boss:false,flies:false,black:false};
+  weapons={
+    mepper:{key:'mepper', name:'Electric Mepper', lvl:1, timer:0.5},
+    coil:  {key:'coil',   name:'Wierook Coil',    lvl:0, timer:0},
+    repel: {key:'repel',  name:'Insect Repellent',lvl:0},
+    sling: {key:'sling',  name:'Sling Shot',      lvl:0, timer:0}
+  };
+  passives={
+    djogo:   {key:'djogo',   name:'Cold Djogo', lvl:0},
+    slippers:{key:'slippers',name:'Slippers',   lvl:0}
+  };
+  orbA=0; coilTrailT=0; dustT=0; chillT=30; chillReady=false; flashT=0;
+  player={x:W/2,y:H/2,r:12,speed:150,hp:100,maxHp:100,magnet:60,hurtT:0};
+  paintFloor();
+}
+
+/* ---------- input ---------- */
+const keys = new Set();
+addEventListener('keydown', e => {
+  const r0 = cv.getBoundingClientRect();
+  if(r0.bottom < 0 || r0.top > innerHeight) return;
+  if(/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName||'')) return;
+  const k = e.key.toLowerCase();
+  if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k)) e.preventDefault();
+  keys.add(k); ensureAudio();
+  if((state==='gameover'||state==='victory') && (k==='enter'||k===' ')) restart();
+});
+addEventListener('keyup', e => keys.delete(e.key.toLowerCase()));
+
+function scalePos(cxp,cyp){
+  const r = cv.getBoundingClientRect();
+  return { x:(cxp-r.left)*W/r.width, y:(cyp-r.top)*H/r.height };
+}
+cv.addEventListener('click', e => { ensureAudio(); const p = scalePos(e.clientX,e.clientY); tapAction(p.x,p.y); });
+
+let joy = null;
+cv.addEventListener('touchstart', e => {
+  e.preventDefault(); ensureAudio();
+  const p = scalePos(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+  joy = {ox:p.x, oy:p.y, dx:0, dy:0, moved:false, st:performance.now()};
+},{passive:false});
+cv.addEventListener('touchmove', e => {
+  e.preventDefault(); if(!joy) return;
+  const p = scalePos(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+  joy.dx = p.x-joy.ox; joy.dy = p.y-joy.oy;
+  if(Math.hypot(joy.dx,joy.dy) > 12) joy.moved = true;
+},{passive:false});
+cv.addEventListener('touchend', e => {
+  e.preventDefault();
+  if(joy && !joy.moved && performance.now()-joy.st < 250) tapAction(joy.ox,joy.oy);
+  joy = null;
+},{passive:false});
+
+function tapAction(x,y){
+  if(state==='playing'){
+    let best=null, bd=30;
+    for(const b of bugs){ const d=Math.hypot(b.x-x,b.y-y); if(d < bd+b.r){ bd=d; best=b; } }
+    if(best){ damageBug(best,swatDmg); swatSound(); shake=Math.max(shake,3); processDeaths(); }
+  } else if(state==='levelup'){
+    for(const bx of choiceBoxes){
+      if(x>=bx.x && x<=bx.x+bx.w && y>=bx.y && y<=bx.y+bx.h){ bx.c.apply(); resume(); break; }
+    }
+  } else { restart(); }
+}
+
+/* ---------- spawning / timeline ---------- */
+function spawnInterval(){ return Math.max(0.45, 1.5 - (t/GAME_LEN)*1.05); }
+function speedScale(){ return 1 + (t/GAME_LEN)*0.45; }
+function edgePos(pad){
+  const s = Math.floor(Math.random()*4);
+  if(s===0) return {x:Math.random()*W, y:-pad};
+  if(s===1) return {x:W+pad, y:Math.random()*H};
+  if(s===2) return {x:Math.random()*W, y:H+pad};
+  return {x:-pad, y:Math.random()*H};
+}
+function pickType(){ if(t < PH.dengue) return 'musk'; return Math.random()<0.55 ? 'dengue' : 'musk'; }
+function spawnBug(type){
+  const p = edgePos(24);
+  const tough = t > PH.boss;
+  const blk = t >= PH.black ? 3 : 1;
+  if(type==='musk'){
+    const hp = tough ? 2 : 1;
+    bugs.push({id:bugId++,type:'musk',x:p.x,y:p.y,r:7,hp,maxHp:hp,spd:42*speedScale()*blk,touch:5,phase:Math.random()*7,vx:0,vy:0,orbCd:0});
+  } else {
+    const hp = tough ? 4 : 3;
+    bugs.push({id:bugId++,type:'dengue',x:p.x,y:p.y,r:8,hp,maxHp:hp,spd:55*speedScale()*blk,touch:8,phase:Math.random()*7,vx:0,vy:0,orbCd:0});
+  }
+}
+function spawnFly(){ bugs.push({id:bugId++,type:'fly',x:20+Math.random()*(W-40),y:-16,r:6,hp:1,maxHp:1,spd:190,touch:6,phase:Math.random()*7,vx:0,vy:190,orbCd:0}); }
+function spawnBoss(){ const p = edgePos(60); bugs.push({id:bugId++,type:'boss',x:p.x,y:p.y,r:38,hp:500,maxHp:500,spd:15,touch:18,phase:0,vx:0,vy:0,orbCd:0}); }
+
+/* ---------- combat ---------- */
+function damageBug(b,d){ b.hp -= d; }
+function hurtPlayer(dmg){
+  if(passives.djogo.lvl>=5 && chillReady){
+    chillReady=false; chillT=30;
+    floater(player.x, player.y-28, 'Chill Shield!', '#9be8ff', 15);
+    tone('sine', 900, 1400, 0.15, 0.08);
+    player.hurtT=0.7;
+    return;
+  }
+  player.hp -= dmg; player.hurtT = 0.7; combo = 0;
+  thumpSound(); shake = Math.max(shake,6);
+  if(player.hp<=0){ player.hp=0; state='gameover'; }
+}
+function processDeaths(){
+  for(let i=bugs.length-1;i>=0;i--){
+    const b = bugs[i];
+    if(b.hp > 0) continue;
+    bugs.splice(i,1);
+    stampSplat(b.x,b.y,b.type==='boss');
+    if(b.eaten) continue;
+    kills++; combo++; if(combo>bestCombo) bestCombo=combo;
+    if(b.type==='boss'){
+      chest = {x:Math.min(W-30,Math.max(30,b.x)), y:Math.min(H-30,Math.max(30,b.y))};
+      announce('It dropped an Eksi Koekoe chest!');
+    } else {
+      drops.push({x:b.x,y:b.y});
+      if(Math.random()<0.012 && pagaras.length<2){
+        pagaras.push({x:Math.min(W-20,Math.max(20,b.x)), y:Math.min(H-20,Math.max(20,b.y))});
+        floater(b.x,b.y-14,'Pagara!','#ff5a4a',14);
+      }
+    }
+  }
+}
+
+/* ---------- floaters ---------- */
+function floater(x,y,txt,color,size){ floaters.push({x,y,txt,color:color||'#fff',size:size||13,life:1.6,max:1.6,center:true}); }
+function announce(txt){ floaters.push({x:W/2,y:210,txt,color:'#ffd166',size:30,life:2.4,max:2.4,center:true}); }
+
+/* ---------- inventory / level-up ----------
+   4 weapon slots, 2 passive slots. Items level 1-5, Lv5 = evolution. */
+function applyItem(it,isPassive){
+  it.lvl++;
+  if(isPassive){
+    if(it.key==='djogo'){
+      player.maxHp = Math.round(player.maxHp*1.2);
+      player.hp = Math.min(player.maxHp, player.hp + player.hp*0.10);
+    }
+    if(it.key==='slippers') player.speed *= 1.10;
+  }
+  if(it.lvl===5) floater(player.x, player.y-30, it.name+' EVOLVED!', '#ffd166', 16);
+}
+function itemOptions(pool,isPassive){
+  const o = [];
+  for(const k in pool){
+    const it = pool[k];
+    if(it.lvl===0){
+      o.push({name:'Unlock '+it.name, desc:unlockDesc(it.key), apply:()=>applyItem(it,isPassive)});
+    } else if(it.lvl<5){
+      const nxt = it.lvl+1;
+      o.push({
+        name:(nxt===5?'EVOLVE ':'Upgrade ')+it.name+' to Lv.'+nxt,
+        desc:nxt===5?evoDesc(it.key):upDesc(it.key),
+        gold:nxt===5,
+        apply:()=>applyItem(it,isPassive)
+      });
+    }
+  }
+  return o;
+}
+function unlockDesc(k){
+  return {
+    mepper:'Auto-zaps the nearest bug',
+    coil:'Drops killing smoke where you walked',
+    repel:'A ring around you that hurts bugs inside it',
+    sling:'Fires pebbles at random bugs',
+    djogo:'Max HP +20% and heals you now',
+    slippers:'Move 10% faster'
+  }[k];
+}
+function upDesc(k){
+  return {
+    mepper:'Zaps faster and harder',
+    coil:'Bigger, longer-lasting smoke',
+    repel:'Bigger radius, stronger tick damage',
+    sling:'More damage, faster pebbles',
+    djogo:'Max HP +20%, heal 10% now',
+    slippers:'Move 10% faster'
+  }[k];
+}
+function evoDesc(k){
+  return {
+    mepper:'Two electric meppers orbit you, zapping on touch',
+    coil:'You leave a deadly permanent smoke trail',
+    repel:'Huge radius that slows bugs 50% and poisons them',
+    sling:'Pebbles pierce up to 5 bugs with knockback',
+    djogo:'Chill Shield blocks one hit every 30 seconds',
+    slippers:'Yellow dust path grants extra 15% speed'
+  }[k];
+}
+function fillerOptions(){
+  const o = [];
+  if(player.hp<player.maxHp) o.push({name:'Telo Snack', desc:'Restore 30 HP', apply:()=>{player.hp=Math.min(player.maxHp,player.hp+30);}});
+  o.push({name:'Magnet Hands', desc:'Pick up blood drops from further away', apply:()=>{player.magnet*=1.35;}});
+  o.push({name:'Heavy Hand', desc:'Your manual swat hits +1 harder', apply:()=>{swatDmg++;}});
+  return o;
+}
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    const tmp=a[i]; a[i]=a[j]; a[j]=tmp;
+  }
+  return a;
+}
+function openLevelUp(){
+  let pool = itemOptions(weapons,false).concat(itemOptions(passives,true));
+  shuffle(pool);
+  let picked = pool.slice(0,3);
+  if(picked.length<3) picked = picked.concat(shuffle(fillerOptions()).slice(0,3-picked.length));
+  choices = picked;
+  state = 'levelup';               /* frame() stops scheduling: loop pauses */
+}
+function gainXp(n){
+  xp += n;
+  if(xp >= xpNeed){ xp -= xpNeed; level++; xpNeed = 5+(level-1)*3; openLevelUp(); }
+}
+function openChest(){
+  chest = null; blipSound();
+  const n = 1+Math.floor(Math.random()*3);
+  announce('Eksi Koekoe: '+n+(n===1?' free upgrade!':' free upgrades!'));
+  for(let i=0;i<n;i++){
+    const o = itemOptions(weapons,false);
+    if(!o.length){ player.hp = Math.min(player.maxHp, player.hp+25); floater(player.x,player.y-24-i*17,'+25 HP','#57cc63',14); continue; }
+    const c = o[Math.floor(Math.random()*o.length)];
+    c.apply();
+    floater(player.x, player.y-24-i*17, c.name.replace('Upgrade ','').replace('EVOLVE ','').replace('Unlock ',''), '#ffd166', 14);
+  }
+}
+
+function explodePagara(x,y){
+  bangSound(); shake = 14; flashT = 0.3;
+  booms.push({x,y,age:0});
+  for(const b of bugs){
+    if(b.type==='boss') damageBug(b,60);
+    else b.hp = 0;
+  }
+  processDeaths();
+  announce('PAGARA!');
+}
+
+/* ---------- update ---------- */
+function update(dt){
+  /* movement */
+  let dx=0, dy=0;
+  if(keys.has('a')||keys.has('arrowleft'))  dx-=1;
+  if(keys.has('d')||keys.has('arrowright')) dx+=1;
+  if(keys.has('w')||keys.has('arrowup'))    dy-=1;
+  if(keys.has('s')||keys.has('arrowdown'))  dy+=1;
+  if(joy && joy.moved){ const jm=Math.hypot(joy.dx,joy.dy)||1; dx=joy.dx/jm; dy=joy.dy/jm; }
+  const mv = Math.hypot(dx,dy);
+  /* slippers Lv5: dust path boost */
+  let spd = player.speed;
+  if(passives.slippers.lvl>=5){
+    for(const d of dusts){
+      if(d.max-d.life>0.8 && Math.hypot(d.x-player.x,d.y-player.y)<15){ spd*=1.15; break; }
+    }
+  }
+  if(mv>0){
+    player.x += dx/mv*spd*dt; player.y += dy/mv*spd*dt;
+    if(passives.slippers.lvl>=5){
+      dustT -= dt;
+      if(dustT<=0){ dustT=0.12; dusts.push({x:player.x,y:player.y+8,life:4,max:4}); }
+    }
+  }
+  player.x = Math.max(player.r, Math.min(W-player.r, player.x));
+  player.y = Math.max(player.r, Math.min(H-player.r, player.y));
+  player.hurtT = Math.max(0, player.hurtT-dt);
+  trail.push({x:player.x,y:player.y}); if(trail.length>40) trail.shift();
+
+  /* Cold Djogo Lv5: chill shield charge */
+  if(passives.djogo.lvl>=5 && !chillReady){
+    chillT -= dt;
+    if(chillT<=0) chillReady = true;
+  }
+
+  /* timeline */
+  if(!ann.dengue && t>=PH.dengue){ ann.dengue=true; announce('Dengue muskietos incoming!'); }
+  if(!ann.boss   && t>=PH.boss){   ann.boss=true; spawnBoss(); announce('A giant KAKALAKA appears!'); }
+  if(!ann.flies  && t>=PH.flies){  ann.flies=true; announce('Bigi freifrei storm!'); }
+  if(!ann.black  && t>=PH.black){  ann.black=true; announce('Stroom weg! Blackout!'); }
+  if(t>=PH.win){ state='victory'; return; }
+
+  /* spawns */
+  spawnT -= dt;
+  if(spawnT<=0){ spawnT = t>=PH.black ? 0.3 : spawnInterval(); spawnBug(pickType()); }
+  if(t>=PH.flies && t<PH.fliesEnd){ flyT -= dt; if(flyT<=0){ flyT=0.22; spawnFly(); } }
+
+  /* bugs: move + player collision */
+  const repelSlow = weapons.repel.lvl>=5;
+  const repR = weapons.repel.lvl>0 ? REP_R[weapons.repel.lvl-1] : 0;
+  for(let i=bugs.length-1;i>=0;i--){
+    const b = bugs[i];
+    b.orbCd = Math.max(0,b.orbCd-dt);
+    let slow = 1;
+    if(repelSlow && Math.hypot(b.x-player.x,b.y-player.y) < repR+b.r) slow = 0.5;
+    if(b.type==='fly'){
+      b.y += b.spd*slow*dt;
+      if(b.y > H+30){ bugs.splice(i,1); continue; }
+    } else {
+      const ang = Math.atan2(player.y-b.y, player.x-b.x);
+      let vx = Math.cos(ang)*b.spd, vy = Math.sin(ang)*b.spd;
+      if(b.type==='dengue'){
+        const zig = Math.sin(t*6+b.phase)*b.spd*0.9;
+        vx += Math.cos(ang+Math.PI/2)*zig; vy += Math.sin(ang+Math.PI/2)*zig;
+      }
+      b.vx=vx*slow; b.vy=vy*slow; b.x+=b.vx*dt; b.y+=b.vy*dt;
+    }
+    if(Math.hypot(b.x-player.x, b.y-player.y) < b.r+player.r){
+      if(player.hurtT<=0){
+        hurtPlayer(b.touch);
+        if(state==='gameover') return;
+      }
+      if(b.type!=='boss'){ b.hp=0; b.eaten=true; }
+    }
+  }
+
+  /* WEAPON 1: Electric Mepper */
+  const mep = weapons.mepper;
+  if(mep.lvl>0){
+    mep.timer -= dt;
+    if(mep.timer<=0){
+      let best=null, bd=MEP_RANGE[mep.lvl-1];
+      for(const b of bugs){ const d=Math.hypot(b.x-player.x,b.y-player.y); if(d<bd){ bd=d; best=b; } }
+      if(best){
+        mep.timer = MEP_CD[mep.lvl-1];
+        damageBug(best, MEP_DMG[mep.lvl-1]);
+        zaps.push({x1:player.x,y1:player.y,x2:best.x,y2:best.y,life:0.14,seed:Math.random()*100});
+        shake = Math.max(shake,5); zapSound();
+      }
+    }
+    /* Lv5 evolution: two orbiting swatters */
+    if(mep.lvl>=5){
+      orbA += ORB_SPEED*dt;
+      for(let k=0;k<2;k++){
+        const oa = orbA + k*Math.PI;
+        const ox = player.x+Math.cos(oa)*ORB_R, oy = player.y+Math.sin(oa)*ORB_R;
+        for(const b of bugs){
+          if(b.orbCd<=0 && Math.hypot(b.x-ox,b.y-oy) < 16+b.r*0.4){
+            damageBug(b, ORB_DMG); b.orbCd=0.4;
+            zaps.push({x1:ox,y1:oy,x2:b.x,y2:b.y,life:0.1,seed:Math.random()*100});
+            zapSound(); shake=Math.max(shake,3);
+          }
+        }
+      }
+    }
+  }
+
+  /* WEAPON 2: Wierook Coil */
+  const coil = weapons.coil;
+  if(coil.lvl>0 && coil.lvl<5){
+    coil.timer -= dt;
+    if(coil.timer<=0){
+      coil.timer = COIL_CD[coil.lvl-1];
+      const p0 = trail[0] || player;
+      smokes.push({x:p0.x,y:p0.y,r:COIL_R[coil.lvl-1],life:COIL_DUR[coil.lvl-1],max:COIL_DUR[coil.lvl-1],dps:COIL_DPS[coil.lvl-1],spiral:true});
+    }
+  }
+  if(coil.lvl>=5){
+    /* evolution: continuous deadly trail */
+    coilTrailT -= dt;
+    if(coilTrailT<=0){
+      coilTrailT = 0.15;
+      smokes.push({x:player.x,y:player.y,r:26,life:1.2,max:1.2,dps:COIL_DPS[4],spiral:false});
+    }
+  }
+  for(let i=smokes.length-1;i>=0;i--){
+    const s = smokes[i]; s.life -= dt;
+    if(s.life<=0){ smokes.splice(i,1); continue; }
+    for(const b of bugs){ if(Math.hypot(b.x-s.x,b.y-s.y) < s.r+b.r) damageBug(b, s.dps*dt); }
+  }
+
+  /* WEAPON 3: Insect Repellent ring (poison tick; Lv5 also slows, handled above) */
+  const rep = weapons.repel;
+  if(rep.lvl>0){
+    for(const b of bugs){
+      if(Math.hypot(b.x-player.x,b.y-player.y) < REP_R[rep.lvl-1]+b.r) damageBug(b, REP_DPS[rep.lvl-1]*dt);
+    }
+  }
+
+  /* WEAPON 4: Sling Shot */
+  const sling = weapons.sling;
+  if(sling.lvl>0){
+    sling.timer -= dt;
+    if(sling.timer<=0){
+      if(bugs.length){
+        sling.timer = SLING_CD[sling.lvl-1];
+        const tgt = bugs[Math.floor(Math.random()*bugs.length)];
+        const ang = Math.atan2(tgt.y-player.y, tgt.x-player.x);
+        shots.push({x:player.x,y:player.y,vx:Math.cos(ang)*380,vy:Math.sin(ang)*380,dmg:SLING_DMG[sling.lvl-1],pierce:sling.lvl>=5?4:0,knock:sling.lvl>=5,hit:[]});
+        pingSound();
+      } else sling.timer = 0.2;
+    }
+  }
+  for(let i=shots.length-1;i>=0;i--){
+    const p = shots[i];
+    p.x += p.vx*dt; p.y += p.vy*dt;
+    if(p.x<-20||p.x>W+20||p.y<-20||p.y>H+20){ shots.splice(i,1); continue; }
+    let dead=false;
+    for(const b of bugs){
+      if(p.hit.indexOf(b.id)>=0) continue;
+      if(Math.hypot(b.x-p.x,b.y-p.y) < b.r+4){
+        damageBug(b,p.dmg); p.hit.push(b.id);
+        if(p.knock){
+          const m = Math.hypot(p.vx,p.vy)||1;
+          const kb = b.type==='boss' ? 6 : 42;
+          b.x += p.vx/m*kb; b.y += p.vy/m*kb;
+        }
+        if(p.pierce<=0){ shots.splice(i,1); dead=true; break; }
+        p.pierce--;
+      }
+    }
+    if(dead) continue;
+  }
+
+  processDeaths();
+
+  /* drops */
+  for(let i=drops.length-1;i>=0;i--){
+    const d = drops[i];
+    const dist = Math.hypot(player.x-d.x, player.y-d.y);
+    if(dist < player.magnet && dist > 0.001){
+      const sp = 260*(1-dist/player.magnet)+80;
+      d.x += (player.x-d.x)/dist*sp*dt;
+      d.y += (player.y-d.y)/dist*sp*dt;
+    }
+    if(dist < player.r+5){
+      drops.splice(i,1); blipSound(); gainXp(1);
+      if(state!=='playing') return;
+    }
+  }
+
+  if(chest && Math.hypot(player.x-chest.x, player.y-chest.y) < player.r+18) openChest();
+  for(let i=pagaras.length-1;i>=0;i--){
+    const pg = pagaras[i];
+    if(Math.hypot(player.x-pg.x, player.y-pg.y) < player.r+14){
+      pagaras.splice(i,1); explodePagara(pg.x,pg.y);
+    }
+  }
+  flashT = Math.max(0, flashT-dt);
+  for(let i=booms.length-1;i>=0;i--){ booms[i].age+=dt; if(booms[i].age>0.6) booms.splice(i,1); }
+
+  for(let i=zaps.length-1;i>=0;i--){ zaps[i].life-=dt; if(zaps[i].life<=0) zaps.splice(i,1); }
+  for(let i=dusts.length-1;i>=0;i--){ dusts[i].life-=dt; if(dusts[i].life<=0) dusts.splice(i,1); }
+  for(let i=floaters.length-1;i>=0;i--){ const f=floaters[i]; f.life-=dt; f.y-=14*dt; if(f.life<=0) floaters.splice(i,1); }
+}
+
+/* ---------- drawing ---------- */
+function drawBug(b){
+  cx.save(); cx.translate(b.x,b.y);
+  if(b.type==='boss'){ drawBoss(b); cx.restore(); return; }
+  const ang = b.type==='fly' ? Math.PI/2 : Math.atan2(b.vy,b.vx);
+  cx.rotate(ang);
+  const flap = Math.sin(t*45+b.phase)*0.6;
+  if(b.type==='fly'){
+    cx.fillStyle='#3f9d2f'; cx.beginPath(); cx.ellipse(0,0,6,4.5,0,0,7); cx.fill();
+    cx.fillStyle='#8fdc7a'; cx.beginPath(); cx.arc(-1.5,-1.5,1.6,0,7); cx.fill();
+  } else {
+    cx.fillStyle = b.type==='dengue' ? '#30343a' : '#1c1e22';
+    cx.beginPath(); cx.ellipse(0,0,b.type==='dengue'?8:7,3.2,0,0,7); cx.fill();
+    cx.strokeStyle='#1c1e22'; cx.lineWidth=1;
+    cx.beginPath(); cx.moveTo(7,0); cx.lineTo(12,0); cx.stroke();
+    cx.beginPath();
+    for(let i=-1;i<=1;i++){ cx.moveTo(i*3,0); cx.lineTo(i*3-3,6); cx.moveTo(i*3,0); cx.lineTo(i*3-3,-6); }
+    cx.stroke();
+    if(b.type==='dengue'){
+      cx.fillStyle='#e8e8e8';
+      cx.fillRect(-5,-2.5,1.6,5); cx.fillRect(-1.5,-2.8,1.6,5.6); cx.fillRect(2,-2.5,1.6,5);
+    }
+  }
+  cx.globalAlpha=0.45; cx.fillStyle='#cfd8e6';
+  cx.beginPath(); cx.ellipse(-2,-4,5,2,-0.5+flap,0,7); cx.fill();
+  cx.beginPath(); cx.ellipse(-2,4,5,2,0.5-flap,0,7); cx.fill();
+  cx.globalAlpha=1;
+  if(b.maxHp>1 && b.hp<b.maxHp){
+    cx.rotate(-ang);
+    cx.fillStyle='#c0392b'; cx.fillRect(-8,-13,16*Math.max(0,b.hp/b.maxHp),2.5);
+  }
+  cx.restore();
+}
+function drawBoss(b){
+  const ang = Math.atan2(b.vy,b.vx); cx.rotate(ang);
+  cx.fillStyle='rgba(0,0,0,0.25)'; cx.beginPath(); cx.ellipse(0,6,40,22,0,0,7); cx.fill();
+  cx.fillStyle='#5b3a1e'; cx.beginPath(); cx.ellipse(0,0,40,24,0,0,7); cx.fill();
+  cx.fillStyle='#6d4826'; cx.beginPath(); cx.ellipse(-8,0,26,18,0,0,7); cx.fill();
+  cx.fillStyle='#4a2f16'; cx.beginPath(); cx.arc(36,0,11,0,7); cx.fill();
+  cx.strokeStyle='#4a2f16'; cx.lineWidth=2.5;
+  cx.beginPath();
+  cx.moveTo(44,-4); cx.quadraticCurveTo(70,-26,88,-20);
+  cx.moveTo(44,4);  cx.quadraticCurveTo(70,26,88,20);
+  cx.stroke();
+  cx.lineWidth=3;
+  const wig = Math.sin(t*18)*4;
+  cx.beginPath();
+  for(let i=-1;i<=1;i++){
+    cx.moveTo(i*16,-16); cx.lineTo(i*16+wig,-32);
+    cx.moveTo(i*16,16);  cx.lineTo(i*16-wig,32);
+  }
+  cx.stroke();
+}
+function drawPlayer(){
+  const p = player;
+  cx.save(); cx.translate(p.x,p.y);
+  cx.fillStyle='rgba(0,0,0,0.25)'; cx.beginPath(); cx.ellipse(0,12,10,4,0,0,7); cx.fill();
+  if(p.hurtT>0.45 && Math.floor(t*20)%2===0) cx.globalAlpha=0.5;
+  cx.fillStyle='#31572c'; cx.fillRect(-6,4,4,9); cx.fillRect(2,4,4,9);
+  cx.fillStyle='#e76f51'; cx.beginPath(); cx.arc(0,0,9,0,7); cx.fill();
+  cx.fillStyle='#c68863'; cx.beginPath(); cx.arc(0,-11,7,0,7); cx.fill();
+  cx.fillStyle='#222'; cx.fillRect(-3.5,-12.5,2,2); cx.fillRect(1.5,-12.5,2,2);
+  if(weapons.mepper.lvl>0 && weapons.mepper.lvl<5){
+    cx.strokeStyle='#888'; cx.lineWidth=2;
+    cx.beginPath(); cx.moveTo(9,0); cx.lineTo(16,-6); cx.stroke();
+    cx.strokeStyle='#4da3ff'; cx.lineWidth=1.5;
+    cx.beginPath(); cx.ellipse(20,-9,6,4.5,-0.7,0,7); cx.stroke();
+    cx.beginPath(); cx.moveTo(17,-12); cx.lineTo(23,-6); cx.moveTo(16,-9); cx.lineTo(24,-9); cx.stroke();
+  }
+  cx.globalAlpha=1;
+  /* Cold Djogo Lv5: chill shield ring when charged */
+  if(passives.djogo.lvl>=5 && chillReady){
+    cx.strokeStyle='rgba(155,232,255,'+(0.5+0.2*Math.sin(t*5))+')';
+    cx.lineWidth=2.5;
+    cx.beginPath(); cx.arc(0,-4,17,0,7); cx.stroke();
+    cx.fillStyle='rgba(155,232,255,0.6)';
+    for(let i=0;i<4;i++){
+      const aa=t*1.5+i*Math.PI/2;
+      cx.beginPath(); cx.arc(Math.cos(aa)*17,-4+Math.sin(aa)*17,2,0,7); cx.fill();
+    }
+  }
+  cx.restore();
+}
+function drawOrbitals(){
+  if(weapons.mepper.lvl<5) return;
+  for(let k=0;k<2;k++){
+    const oa = orbA + k*Math.PI;
+    const ox = player.x+Math.cos(oa)*ORB_R, oy = player.y+Math.sin(oa)*ORB_R;
+    cx.save(); cx.translate(ox,oy); cx.rotate(oa+Math.PI/2);
+    cx.strokeStyle='#888'; cx.lineWidth=2;
+    cx.beginPath(); cx.moveTo(0,10); cx.lineTo(0,2); cx.stroke();
+    cx.fillStyle='rgba(77,163,255,0.25)';
+    cx.strokeStyle='#4da3ff'; cx.lineWidth=1.5;
+    cx.beginPath(); cx.ellipse(0,-6,7,9,0,0,7); cx.fill(); cx.stroke();
+    cx.beginPath();
+    cx.moveTo(-5,-11); cx.lineTo(5,-1); cx.moveTo(5,-11); cx.lineTo(-5,-1); cx.moveTo(0,-15); cx.lineTo(0,3);
+    cx.stroke();
+    cx.restore();
+  }
+}
+function draw(){
+  cx.save();
+  if(shake>0){ cx.translate((Math.random()-0.5)*shake*1.6,(Math.random()-0.5)*shake*1.6); shake--; }
+  cx.drawImage(floorCv,0,0);
+  /* slipper dust path */
+  for(const d of dusts){
+    cx.fillStyle='rgba(224,201,74,'+(0.30*d.life/d.max)+')';
+    cx.beginPath(); cx.arc(d.x,d.y,7,0,7); cx.fill();
+  }
+  /* smoke */
+  for(const s of smokes){
+    const a = Math.min(1, s.life/s.max+0.2);
+    cx.fillStyle='rgba(90,160,90,'+(0.28*a)+')';
+    cx.beginPath(); cx.arc(s.x,s.y,s.r,0,7); cx.fill();
+    cx.strokeStyle='rgba(60,130,60,'+(0.5*a)+')'; cx.lineWidth=2;
+    cx.beginPath(); cx.arc(s.x,s.y,s.r,0,7); cx.stroke();
+    cx.fillStyle='rgba(210,235,210,'+(0.35*a)+')';
+    for(let i=0;i<3;i++){
+      const px = s.x+Math.sin(t*1.3+i*2.1)*s.r*0.4;
+      const py = s.y+Math.cos(t*1.1+i*2.6)*s.r*0.4 - (s.max-s.life)*10;
+      cx.beginPath(); cx.arc(px,py,6+i*2,0,7); cx.fill();
+    }
+    if(s.spiral){
+      cx.strokeStyle='rgba(40,90,40,'+(0.6*a)+')'; cx.lineWidth=2.5;
+      cx.beginPath();
+      for(let aa=0; aa<Math.PI*4; aa+=0.3){
+        const rr = 2+aa*1.2;
+        const px = s.x+Math.cos(aa)*rr, py = s.y+Math.sin(aa)*rr;
+        if(aa===0) cx.moveTo(px,py); else cx.lineTo(px,py);
+      }
+      cx.stroke();
+    }
+  }
+  /* repellent ring */
+  if(weapons.repel.lvl>0){
+    const r = REP_R[weapons.repel.lvl-1];
+    const evolved = weapons.repel.lvl>=5;
+    cx.fillStyle = evolved ? 'rgba(120,220,120,0.10)' : 'rgba(120,200,120,0.07)';
+    cx.beginPath(); cx.arc(player.x,player.y,r,0,7); cx.fill();
+    cx.strokeStyle='rgba(120,200,120,'+(0.25+0.1*Math.sin(t*4))+')';
+    cx.lineWidth=evolved?3:2; cx.setLineDash([6,6]);
+    cx.beginPath(); cx.arc(player.x,player.y,r,0,7); cx.stroke();
+    cx.setLineDash([]);
+  }
+  /* drops */
+  for(const d of drops){
+    cx.fillStyle='#d62828'; cx.fillRect(d.x-2.5,d.y-2.5,5,5);
+    cx.fillStyle='#ff7b7b'; cx.fillRect(d.x-2.5,d.y-2.5,2,2);
+  }
+  /* chest */
+  if(chest){
+    cx.save(); cx.translate(chest.x, chest.y+Math.sin(t*3)*3);
+    cx.fillStyle='rgba(0,0,0,0.25)'; cx.beginPath(); cx.ellipse(0,14,14,4,0,0,7); cx.fill();
+    cx.fillStyle='#c9962a'; cx.fillRect(-14,-8,28,18);
+    cx.fillStyle='#e3b64b'; cx.fillRect(-14,-12,28,7);
+    cx.fillStyle='#8a651a'; cx.fillRect(-2.5,-2,5,7);
+    cx.restore();
+  }
+  for(const pg of pagaras){
+    cx.save(); cx.translate(pg.x, pg.y+Math.sin(t*4)*2);
+    cx.strokeStyle='#6b4a2a'; cx.lineWidth=1.5;
+    cx.beginPath(); cx.moveTo(0,-9); cx.quadraticCurveTo(4,-13,2,-16); cx.stroke();
+    for(let i=-1;i<=1;i++){
+      cx.fillStyle='#d62828'; cx.fillRect(i*5-2,-8,4.5,14);
+      cx.fillStyle='#ffd166'; cx.fillRect(i*5-2,-3,4.5,3);
+    }
+    cx.globalAlpha=0.35+0.2*Math.sin(t*6);
+    cx.strokeStyle='#ff5a4a'; cx.lineWidth=2;
+    cx.beginPath(); cx.arc(0,0,16,0,7); cx.stroke();
+    cx.globalAlpha=1;
+    cx.restore();
+  }
+  for(const b of bugs) drawBug(b);
+  /* sling pebbles */
+  for(const p of shots){
+    const m = Math.hypot(p.vx,p.vy)||1;
+    cx.strokeStyle='rgba(120,110,95,0.4)'; cx.lineWidth=2;
+    cx.beginPath(); cx.moveTo(p.x-p.vx/m*10,p.y-p.vy/m*10); cx.lineTo(p.x,p.y); cx.stroke();
+    cx.fillStyle='#6e655a'; cx.beginPath(); cx.arc(p.x,p.y,3.5,0,7); cx.fill();
+  }
+  drawPlayer();
+  drawOrbitals();
+  /* zap lightning */
+  for(const z of zaps){
+    const a = Math.max(0,z.life/0.14);
+    cx.strokeStyle='rgba(120,190,255,'+a+')'; cx.lineWidth=2.5;
+    cx.beginPath(); cx.moveTo(z.x1,z.y1);
+    for(let i=1;i<6;i++){
+      const f=i/6;
+      cx.lineTo(z.x1+(z.x2-z.x1)*f+(rnd2(z.seed,i)-0.5)*18,
+                z.y1+(z.y2-z.y1)*f+(rnd2(i,z.seed)-0.5)*18);
+    }
+    cx.lineTo(z.x2,z.y2); cx.stroke();
+    cx.fillStyle='rgba(200,230,255,'+a+')';
+    cx.beginPath(); cx.arc(z.x2,z.y2,5,0,7); cx.fill();
+  }
+  /* floaters */
+  for(const f of floaters){
+    cx.globalAlpha=Math.max(0,f.life/f.max);
+    cx.fillStyle=f.color; cx.font='bold '+f.size+'px system-ui,sans-serif';
+    cx.textAlign = f.center ? 'center' : 'left';
+    cx.fillText(f.txt,f.x,f.y);
+    cx.globalAlpha=1;
+  }
+  cx.textAlign='left';
+  cx.restore();
+  /* 9:00+ blackout: stroom weg, only a lamp glow around you */
+  if(t>=PH.black && (state==='playing'||state==='levelup')){
+    const flick = 150 + Math.sin(t*9)*8 + Math.random()*5;
+    const g = cx.createRadialGradient(player.x,player.y,40,player.x,player.y,flick);
+    g.addColorStop(0,'rgba(0,0,0,0)');
+    g.addColorStop(0.7,'rgba(0,0,0,0.55)');
+    g.addColorStop(1,'rgba(0,0,0,0.93)');
+    cx.fillStyle=g; cx.fillRect(0,0,W,H);
+  }
+  for(const bm of booms){
+    const fr = bm.age/0.6;
+    cx.strokeStyle='rgba(255,140,60,'+(1-fr)+')'; cx.lineWidth=5*(1-fr)+1;
+    cx.beginPath(); cx.arc(bm.x,bm.y,fr*420,0,7); cx.stroke();
+    cx.strokeStyle='rgba(255,220,120,'+((1-fr)*0.8)+')'; cx.lineWidth=2;
+    cx.beginPath(); cx.arc(bm.x,bm.y,fr*300,0,7); cx.stroke();
+  }
+  if(flashT>0){ cx.fillStyle='rgba(255,240,210,'+(flashT/0.3*0.55)+')'; cx.fillRect(0,0,W,H); }
+  drawHud();
+  if(player.hurtT>0.45){ cx.fillStyle='rgba(200,0,0,0.12)'; cx.fillRect(0,0,W,H); }
+  if(joy && joy.moved){
+    cx.strokeStyle='rgba(255,255,255,0.4)'; cx.lineWidth=2;
+    cx.beginPath(); cx.arc(joy.ox,joy.oy,26,0,7); cx.stroke();
+    const jm=Math.hypot(joy.dx,joy.dy)||1, cl=Math.min(jm,26);
+    cx.fillStyle='rgba(255,255,255,0.5)';
+    cx.beginPath(); cx.arc(joy.ox+joy.dx/jm*cl, joy.oy+joy.dy/jm*cl, 10, 0, 7); cx.fill();
+  }
+}
+function drawHud(){
+  cx.fillStyle='rgba(0,0,0,0.55)'; cx.fillRect(0,0,W,7);
+  cx.fillStyle='#ffd166'; cx.fillRect(0,0,W*Math.min(1,xp/xpNeed),7);
+  cx.fillStyle='rgba(0,0,0,0.55)'; cx.fillRect(14,16,190,16);
+  cx.fillStyle = player.hp>player.maxHp*0.3 ? '#57cc63' : '#e63946';
+  cx.fillRect(16,18,186*(player.hp/player.maxHp),12);
+  cx.fillStyle='#fff'; cx.font='bold 11px system-ui,sans-serif';
+  cx.fillText('HP '+Math.ceil(player.hp)+'/'+player.maxHp,20,29);
+  cx.fillText('Lv '+level,214,29);
+  cx.fillText('Kills '+kills,258,29);
+  const rem=Math.max(0,GAME_LEN-t), mm=Math.floor(rem/60), ss=Math.floor(rem%60);
+  cx.font='bold 20px system-ui,sans-serif'; cx.textAlign='center'; cx.fillStyle='#fff';
+  cx.fillText(mm+':'+String(ss).padStart(2,'0'),W/2,34);
+  if(combo>=3){ cx.fillStyle='#ffd166'; cx.font='bold 15px system-ui,sans-serif'; cx.fillText('Combo x'+combo,W/2,54); }
+  cx.textAlign='left';
+  const boss = bugs.find(b=>b.type==='boss');
+  if(boss){
+    cx.fillStyle='rgba(0,0,0,0.55)'; cx.fillRect(W/2-160,64,320,13);
+    cx.fillStyle='#a4531f'; cx.fillRect(W/2-158,66,316*Math.max(0,boss.hp/boss.maxHp),9);
+    cx.fillStyle='#fff'; cx.font='bold 10px system-ui,sans-serif'; cx.textAlign='center';
+    cx.fillText('KAKALAKA',W/2,74); cx.textAlign='left';
+  }
+  drawInventory();
+}
+function drawInventory(){
+  const items = [
+    [weapons.mepper,'MEP'], [weapons.coil,'COIL'], [weapons.repel,'REP'], [weapons.sling,'SLING'],
+    [passives.djogo,'DJOGO'], [passives.slippers,'SLIP']
+  ];
+  let x = 14;
+  cx.font='bold 10px system-ui,sans-serif';
+  for(const [it,lab] of items){
+    if(it.lvl===0) continue;
+    const txt = lab+' '+it.lvl;
+    const w = cx.measureText(txt).width+14;
+    cx.fillStyle='rgba(0,0,0,0.55)'; cx.fillRect(x,H-26,w,17);
+    cx.strokeStyle = it.lvl>=5 ? '#ffd166' : 'rgba(255,255,255,0.35)';
+    cx.lineWidth=1.5; cx.strokeRect(x,H-26,w,17);
+    cx.fillStyle = it.lvl>=5 ? '#ffd166' : '#fff';
+    cx.fillText(txt,x+7,H-14);
+    x += w+6;
+  }
+}
+function wrapText(txt,cxr,y,maxW,lh){
+  const words = txt.split(' '); let line='', yy=y;
+  for(const wd of words){
+    const test = line ? line+' '+wd : wd;
+    if(cx.measureText(test).width>maxW && line){ cx.fillText(line,cxr,yy); line=wd; yy+=lh; }
+    else line=test;
+  }
+  cx.fillText(line,cxr,yy);
+}
+function drawLevelUp(){
+  cx.fillStyle='rgba(10,14,10,0.78)'; cx.fillRect(0,0,W,H);
+  cx.fillStyle='#ffd166'; cx.font='bold 34px system-ui,sans-serif'; cx.textAlign='center';
+  cx.fillText('LEVEL '+level+'!',W/2,140);
+  cx.fillStyle='#cfe8cf'; cx.font='14px system-ui,sans-serif';
+  cx.fillText('Choose an upgrade',W/2,168);
+  choiceBoxes=[];
+  const bw=218, bh=160, gap=22;
+  const total = choices.length*bw+(choices.length-1)*gap;
+  const x0 = W/2-total/2;
+  for(let i=0;i<choices.length;i++){
+    const x = x0+i*(bw+gap), y = 210;
+    cx.fillStyle='#1e2a1e';
+    cx.strokeStyle = choices[i].gold ? '#ffd166' : '#57cc63';
+    cx.lineWidth = choices[i].gold ? 3 : 2;
+    cx.fillRect(x,y,bw,bh); cx.strokeRect(x,y,bw,bh);
+    cx.fillStyle = choices[i].gold ? '#ffd166' : '#fff';
+    cx.font='bold 15px system-ui,sans-serif';
+    wrapText(choices[i].name, x+bw/2, y+32, bw-24, 18);
+    cx.fillStyle='#a8c8a8'; cx.font='12.5px system-ui,sans-serif';
+    wrapText(choices[i].desc, x+bw/2, y+90, bw-24, 16);
+    choiceBoxes.push({x,y,w:bw,h:bh,c:choices[i]});
+  }
+  cx.textAlign='left';
+}
+function drawEnd(win){
+  cx.fillStyle='rgba(8,10,12,0.8)'; cx.fillRect(0,0,W,H);
+  cx.textAlign='center';
+  cx.fillStyle = win ? '#57cc63' : '#e63946';
+  cx.font='bold 40px system-ui,sans-serif';
+  cx.fillText(win ? 'YOU SURVIVED THE TERRAS' : 'EATEN ALIVE', W/2, 240);
+  cx.fillStyle='#fff'; cx.font='16px system-ui,sans-serif';
+  cx.fillText('Kills: '+kills+'    Best combo: '+bestCombo+'    Level: '+level, W/2, 290);
+  cx.fillStyle='#a8c8a8'; cx.font='14px system-ui,sans-serif';
+  cx.fillText('Click, tap or press Enter to play again', W/2, 330);
+  cx.textAlign='left';
+}
+
+/* ---------- main loop ---------- */
+function frame(ts){
+  rafId=0;
+  if(!last) last=ts;
+  const dt = Math.min(0.05,(ts-last)/1000); last=ts;
+  if(state==='playing'){ t+=dt; update(dt); }
+  draw();
+  if(state==='levelup') drawLevelUp();
+  else if(state==='gameover') drawEnd(false);
+  else if(state==='victory') drawEnd(true);
+  if(state==='playing') rafId=requestAnimationFrame(frame);
+}
+function resume(){ state='playing'; choices=null; last=0; if(!rafId) rafId=requestAnimationFrame(frame); }
+function restart(){ reset(); if(!rafId) rafId=requestAnimationFrame(frame); }
+
+reset();
+rafId=requestAnimationFrame(frame);
+
+</script>
+<script id="langswitch-js">document.addEventListener('click',function(){document.querySelectorAll('[data-langmenu]').forEach(function(x){x.style.display='none';var b=x.previousElementSibling;if(b)b.setAttribute('aria-expanded','false');});});</script></body>
+</html>
