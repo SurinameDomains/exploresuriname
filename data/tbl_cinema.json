@@ -1,26 +1,11 @@
 {
-  "last_updated": "2026-07-19T16:00:23.251601+00:00",
+  "last_updated": "2026-07-20T10:00:28.268818+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "02:15 PM",
-      "title": "Dhamaal 4",
-      "url": "https://www.tblcinemas.com/movie/RS99926775360/dhamaal-4"
-    },
-    {
-      "time": "03:00 PM",
-      "title": "Alpha",
-      "url": "https://www.tblcinemas.com/movie/RS840813755512/alpha"
-    },
-    {
-      "time": "04:15 PM",
+      "time": "05:15 PM",
       "title": "Minions & Monsters",
       "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
-    },
-    {
-      "time": "05:00 PM",
-      "title": "Toy Story 5",
-      "url": "https://www.tblcinemas.com/movie/TO22592/toy-story-5"
     },
     {
       "time": "05:45 PM",
@@ -28,14 +13,19 @@
       "url": "https://www.tblcinemas.com/movie/RS973343229507/moana"
     },
     {
-      "time": "06:30 PM",
+      "time": "06:15 PM",
       "title": "Welcome to the Jungle",
       "url": "https://www.tblcinemas.com/movie/WE14514/welcome-to-the-jungle"
     },
     {
-      "time": "07:00 PM",
+      "time": "06:45 PM",
       "title": "The Odyssey",
       "url": "https://www.tblcinemas.com/movie/RS985030847570/the-odyssey"
+    },
+    {
+      "time": "07:15 PM",
+      "title": "Alpha",
+      "url": "https://www.tblcinemas.com/movie/RS840813755512/alpha"
     },
     {
       "time": "07:45 PM",
@@ -44,8 +34,8 @@
     },
     {
       "time": "08:45 PM",
-      "title": "Scary Movie",
-      "url": "https://www.tblcinemas.com/movie/SC6491/scary-movie"
+      "title": "Obsession",
+      "url": "https://www.tblcinemas.com/movie/OB12184/obsession"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
