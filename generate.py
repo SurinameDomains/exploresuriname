@@ -2077,12 +2077,6 @@ PAGE_HEAD = """\
     .dist-chip.dist-chip-active { background:var(--forest2);border-color:var(--forest2);color:#fff; }
     .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
     .filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count { opacity:.8; }
-    .chip-arrow {
-      flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #e5e7eb;
-      background:#fff;font-size:1.1rem;line-height:1;cursor:pointer;display:flex;
-      align-items:center;justify-content:center;color:#6b7280;transition:all .15s;
-    }
-    .chip-arrow:hover { border-color:var(--forest);color:var(--forest); }
     .dict-chiprow{scrollbar-width:none;-ms-overflow-style:none}
     .dict-chiprow::-webkit-scrollbar{display:none}
     .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
@@ -2112,10 +2106,10 @@ PAGE_HEAD = """\
      mouse. Every .overflow-x-auto element that is not a table wrapper gets
      overlay arrow buttons at either edge while it overflows (hover-capable
      devices only), vertical-wheel sideways panning (page scroll resumes at
-     the ends) and click-drag panning. Strips that ship their own arrows
-     (.chip-arrow on listing category bars) keep them and only gain wheel and
-     drag. Content changes are observed so arrows appear when chips render or
-     filter late. Touch and keyboard behaviour unchanged. */
+     the ends) and click-drag panning. Strips share one mechanism sitewide and
+     drag (all strips share one mechanism; arrows hide whenever the strip has
+     nothing to scroll). Content changes are observed so arrows appear when
+     chips render or filter late. Touch and keyboard behaviour unchanged. */
   (function(){
     var FINE=window.matchMedia?matchMedia("(hover:hover) and (pointer:fine)"):{matches:false};
     function skip(el){return !!el.querySelector("table");}
@@ -2137,7 +2131,6 @@ PAGE_HEAD = """\
         if((ev.deltaY>0&&el.scrollLeft>=max-1)||(ev.deltaY<0&&el.scrollLeft<=0))return;
         el.scrollLeft+=ev.deltaY;ev.preventDefault();
       },{passive:false});
-      try{if(el.parentElement&&el.parentElement.querySelector(":scope > .chip-arrow"))return;}catch(e){} /* has its own arrows */
       var wrap=document.createElement("div");
       var cs=getComputedStyle(el);
       if(cs.position==="sticky"){
@@ -2172,7 +2165,7 @@ PAGE_HEAD = """\
       var el=null,sx=0,sl=0,moved=false;
       document.addEventListener("pointerdown",function(ev){
         if(ev.pointerType!=="mouse"||ev.button!==0)return;
-        if(ev.target.closest&&ev.target.closest(".esr-arrow,.chip-arrow"))return;
+        if(ev.target.closest&&ev.target.closest(".esr-arrow"))return;
         var t=ev.target.closest&&ev.target.closest(".overflow-x-auto");
         if(!t||skip(t)||t.scrollWidth<=t.clientWidth+2)return;
         el=t;sx=ev.clientX;sl=t.scrollLeft;moved=false;
@@ -3140,11 +3133,9 @@ def _filter_bar_html(items, cat_key):
   <div class="max-w-6xl mx-auto px-5">
     <!-- Subcat chips -->
     <div class="relative flex items-center gap-1 pt-3">
-      <button id="{bar_id}-prev" onclick="chipScroll('{bar_id}',-1)" class="chip-arrow" aria-label="scroll left">&#8249;</button>
-      <div id="{bar_id}" class="flex gap-2 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth">
+      <div id="{bar_id}" class="flex gap-2 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none">
         {"".join(chips)}
       </div>
-      <button id="{bar_id}-next" onclick="chipScroll('{bar_id}',1)" class="chip-arrow" aria-label="scroll right">&#8250;</button>
     </div>
     <!-- District chips -->
     <div class="flex gap-1.5 overflow-x-auto pt-2 pb-1" style="scrollbar-width:none">
@@ -3197,11 +3188,6 @@ function _applyFilters() {{
       }}
     }}
   }});
-}}
-
-function chipScroll(id, dir) {{
-  var el = document.getElementById(id);
-  if (el) el.scrollBy({{left: dir * 200, behavior: 'smooth'}});
 }}
 
 function filterSub(btn, key) {{
