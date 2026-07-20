@@ -2541,7 +2541,7 @@ def nav_html(active="home", prefix=""):
     _ESS   = {"currency", "forecast", "matches", "dictionary"}
     _SVC   = {"services", "daily-notices", "flights", "atms"}
     _PLAN  = {"visitor", "surtime", "roads", "itinerary", "safety", "history"}
-    _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda"}
+    _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto"}
 
     def _is_active(key):
         return active == key
@@ -2621,6 +2621,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}map-game.html"  {_link_cls("mapgame")}   >Pe A De? Map Game</a>'
         f'<a href="{prefix}korjaal.html"   {_link_cls("korjaal")}   >Korjaal Run</a>'
         f'<a href="{prefix}anaconda.html"  {_link_cls("anaconda")}  >Aboma Snake Game</a>'
+        f'<a href="{prefix}muskieto.html"  {_link_cls("muskieto")}  >Muskieto Survivor</a>'
     )
 
     desktop_nav = (
@@ -2688,7 +2689,8 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}crossword.html", "Switi Mini Crossword", "crossword") +
         _mob_link(f"{prefix}map-game.html",  "Pe A De? Map Game",    "mapgame") +
         _mob_link(f"{prefix}korjaal.html",   "Korjaal Run",          "korjaal") +
-        _mob_link(f"{prefix}anaconda.html",  "Aboma Snake Game",     "anaconda")
+        _mob_link(f"{prefix}anaconda.html",  "Aboma Snake Game",     "anaconda") +
+        _mob_link(f"{prefix}muskieto.html",  "Muskieto Survivor",    "muskieto")
     )
 
     _svc_col  = 'style="color:var(--forest)"' if _is_active("services") else ""
@@ -2936,6 +2938,7 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}map-game.html">Pe A De? Map Game</a>
         <a class="ftr-lnk" href="{prefix}korjaal.html">Korjaal Run</a>
         <a class="ftr-lnk" href="{prefix}anaconda.html">Aboma Snake Game</a>
+        <a class="ftr-lnk" href="{prefix}muskieto.html">Muskieto Survivor</a>
         <a class="ftr-lnk" href="{prefix}matches.html">Sports Schedule</a>
         <a class="ftr-lnk" href="{prefix}about.html">About Us</a>
         <a class="ftr-lnk" href="{prefix}contact.html">Contact</a>
@@ -8950,6 +8953,7 @@ def build_korjaal_page():
   <p class="text-gray-700 text-sm leading-relaxed">Chase your own best score, then send it to the family group and
   watch them try to beat it. Done paddling? Try
   <a href="anaconda.html" class="font-semibold hover:underline" style="color:var(--forest2)">Aboma</a>,
+  <a href="muskieto.html" class="font-semibold hover:underline" style="color:var(--forest2)">Muskieto Survivor</a>,
   <a href="map-game.html" class="font-semibold hover:underline" style="color:var(--forest2)">Pe A De?</a>, the
   <a href="quiz.html" class="font-semibold hover:underline" style="color:var(--forest2)">Sabi Suriname quiz</a> or the
   <a href="crossword.html" class="font-semibold hover:underline" style="color:var(--forest2)">Switi Mini crossword</a>.</p>
@@ -9424,6 +9428,7 @@ def build_anaconda_page():
   <p class="text-gray-700 text-sm leading-relaxed">One run takes a minute. Nobody plays one run. When the
   aboma finally bites its own tail, try
   <a href="korjaal.html" class="font-semibold hover:underline" style="color:var(--forest2)">Korjaal Run</a>,
+  <a href="muskieto.html" class="font-semibold hover:underline" style="color:var(--forest2)">Muskieto Survivor</a>,
   <a href="map-game.html" class="font-semibold hover:underline" style="color:var(--forest2)">Pe A De?</a>, the
   <a href="quiz.html" class="font-semibold hover:underline" style="color:var(--forest2)">Sabi Suriname quiz</a> or the
   <a href="crossword.html" class="font-semibold hover:underline" style="color:var(--forest2)">Switi Mini crossword</a>.</p>
@@ -9859,6 +9864,1074 @@ def _tl_img_tag(url, alt):
         pass
     return (f'<img class="tl-img" src="{src if src.startswith(("http", "/")) else "/" + src}" '
             f'width="{w}" height="{h}" loading="lazy" decoding="async" alt="{html_lib.escape(alt)}">')
+
+
+_MUSKIETO_JS = r"""
+"use strict";
+/* ================= Muskieto Survivor =================
+   Single-file canvas prototype. No assets, no libraries.
+   Full 10 minute run. Set FAST_MODE = true for a
+   compressed 3 minute test run (same phase ratios).
+   Controls: WASD / arrows, click or tap = manual swat,
+   touch-drag = virtual joystick on mobile.
+
+   Inventory: 4 weapon slots + 2 passive slots, Lv 1-5.
+   Lv 5 = evolution.
+====================================================== */
+const FAST_MODE = false;
+const GAME_LEN = FAST_MODE ? 180 : 600;
+const S = GAME_LEN/600;
+/* Timeline: 0-1:00 early musk | 1:00 dengue swarm | 3:00 KAKALAKA boss (500 HP)
+   5:00-8:00 freifrei rain | 9:00 blackout, 3x speed spawns | 10:00 victory */
+const PH = { dengue:60*S, boss:180*S, flies:300*S, fliesEnd:480*S, black:540*S, win:GAME_LEN };
+const W = 800, H = 600;
+const cv = document.getElementById('mq-cv');
+const cx = cv.getContext('2d');
+
+function rnd2(a,b){ const s = Math.sin(a*127.1 + b*311.7) * 43758.5453; return s - Math.floor(s); }
+
+/* ---------- floor ---------- */
+const floorCv = document.createElement('canvas'); floorCv.width = W; floorCv.height = H;
+const fx = floorCv.getContext('2d');
+function paintFloor(){
+  const T = 80;
+  for(let y=0; y<H; y+=T){
+    for(let x=0; x<W; x+=T){
+      const base = 172 + Math.floor(rnd2(x,y)*14);
+      fx.fillStyle = 'rgb('+base+','+(base-3)+','+(base-9)+')';
+      fx.fillRect(x,y,T,T);
+      for(let i=0;i<26;i++){
+        const px = x + rnd2(x+i,y)*T, py = y + rnd2(x,y+i)*T;
+        fx.fillStyle = rnd2(px,py) > 0.5 ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.06)';
+        fx.fillRect(px,py,1.5,1.5);
+      }
+    }
+  }
+  fx.strokeStyle = 'rgba(70,64,58,0.45)'; fx.lineWidth = 2;
+  for(let x=0; x<=W; x+=T){ fx.beginPath(); fx.moveTo(x,0); fx.lineTo(x,H); fx.stroke(); }
+  for(let y=0; y<=H; y+=T){ fx.beginPath(); fx.moveTo(0,y); fx.lineTo(W,y); fx.stroke(); }
+}
+function stampSplat(x,y,big){
+  const n = big?14:4, R = big?26:6;
+  for(let i=0;i<n;i++){
+    fx.fillStyle = 'rgba(45,32,26,'+(0.18+Math.random()*0.2)+')';
+    fx.beginPath();
+    fx.arc(x+(Math.random()-0.5)*R*2, y+(Math.random()-0.5)*R*2, (big?3:1.2)+Math.random()*(big?4:2), 0, 7);
+    fx.fill();
+  }
+}
+
+/* ---------- audio ---------- */
+let AC = null;
+function ensureAudio(){
+  if(!AC){ try{ AC = new (window.AudioContext||window.webkitAudioContext)(); }catch(err){} }
+  if(AC && AC.state === 'suspended') AC.resume();
+}
+function tone(type,f0,f1,dur,vol){
+  if(!AC) return;
+  const t0 = AC.currentTime;
+  const o = AC.createOscillator(), g = AC.createGain();
+  o.type = type;
+  o.frequency.setValueAtTime(f0,t0);
+  o.frequency.exponentialRampToValueAtTime(Math.max(1,f1), t0+dur);
+  g.gain.setValueAtTime(vol,t0);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+  o.connect(g); g.connect(AC.destination);
+  o.start(t0); o.stop(t0+dur+0.02);
+}
+const zapSound   = () => tone('square',  1700, 240, 0.09, 0.10);
+const thumpSound = () => tone('sine',     110,  42, 0.18, 0.30);
+const swatSound  = () => tone('triangle', 300,  90, 0.06, 0.12);
+const blipSound  = () => tone('triangle', 620, 990, 0.06, 0.05);
+const pingSound  = () => tone('square',   520, 300, 0.05, 0.07);
+function bangSound(){
+  if(!AC) return;
+  tone('sawtooth', 160, 28, 0.45, 0.35);
+  const t0 = AC.currentTime;
+  for(let i=0;i<5;i++){
+    const o=AC.createOscillator(), g=AC.createGain();
+    o.type='square';
+    const st=t0+0.05+i*0.07;
+    o.frequency.setValueAtTime(900+Math.random()*700, st);
+    g.gain.setValueAtTime(0.12, st);
+    g.gain.exponentialRampToValueAtTime(0.0001, st+0.05);
+    o.connect(g); g.connect(AC.destination);
+    o.start(st); o.stop(st+0.06);
+  }
+}
+
+/* ---------- item stat tables (index = level-1) ---------- */
+const MEP_CD    = [1.5, 1.2, 0.95, 0.75, 0.6];
+const MEP_DMG   = [2, 3, 4, 5, 6];
+const MEP_RANGE = [170, 185, 200, 215, 230];
+const COIL_CD   = [3, 2.7, 2.4, 2.1, 2.1];
+const COIL_R    = [45, 53, 61, 69, 69];
+const COIL_DUR  = [2, 2.5, 3, 3.5, 3.5];
+const COIL_DPS  = [16, 20, 24, 28, 80];
+const REP_R     = [55, 71, 87, 103, 170];
+const REP_DPS   = [2.5, 4, 5.5, 7, 9];
+const SLING_CD  = [1.1, 0.95, 0.8, 0.65, 0.5];
+const SLING_DMG = [3, 4, 5, 6, 7];
+const ORB_R = 70, ORB_DMG = 10, ORB_SPEED = 2.4;
+
+/* ---------- state ---------- */
+let state, t, last, rafId = 0, shake, spawnT, flyT, bugId;
+let level, xp, xpNeed, kills, combo, bestCombo, swatDmg;
+let bugs, drops, smokes, zaps, shots, dusts, floaters, trail, chest;
+let choices, choiceBoxes, ann, weapons, passives, player;
+let orbA, coilTrailT, dustT, chillT, chillReady, pagaras, booms, flashT;
+
+function reset(){
+  state='playing'; t=0; last=0; shake=0; spawnT=1; flyT=0; bugId=1;
+  level=1; xp=0; xpNeed=5; kills=0; combo=0; bestCombo=0; swatDmg=3;
+  bugs=[]; drops=[]; smokes=[]; zaps=[]; shots=[]; dusts=[]; floaters=[]; trail=[]; pagaras=[]; booms=[];
+  chest=null; choices=null; choiceBoxes=[];
+  ann={dengue:false,boss:false,flies:false,black:false};
+  weapons={
+    mepper:{key:'mepper', name:'Electric Mepper', lvl:1, timer:0.5},
+    coil:  {key:'coil',   name:'Wierook Coil',    lvl:0, timer:0},
+    repel: {key:'repel',  name:'Insect Repellent',lvl:0},
+    sling: {key:'sling',  name:'Sling Shot',      lvl:0, timer:0}
+  };
+  passives={
+    djogo:   {key:'djogo',   name:'Cold Djogo', lvl:0},
+    slippers:{key:'slippers',name:'Slippers',   lvl:0}
+  };
+  orbA=0; coilTrailT=0; dustT=0; chillT=30; chillReady=false; flashT=0;
+  player={x:W/2,y:H/2,r:12,speed:150,hp:100,maxHp:100,magnet:60,hurtT:0};
+  paintFloor();
+}
+
+/* ---------- input ---------- */
+const keys = new Set();
+addEventListener('keydown', e => {
+  const r0 = cv.getBoundingClientRect();
+  if(r0.bottom < 0 || r0.top > innerHeight) return;
+  if(/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName||'')) return;
+  const k = e.key.toLowerCase();
+  if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k)) e.preventDefault();
+  keys.add(k); ensureAudio();
+  if((state==='gameover'||state==='victory') && (k==='enter'||k===' ')) restart();
+});
+addEventListener('keyup', e => keys.delete(e.key.toLowerCase()));
+
+function scalePos(cxp,cyp){
+  const r = cv.getBoundingClientRect();
+  return { x:(cxp-r.left)*W/r.width, y:(cyp-r.top)*H/r.height };
+}
+cv.addEventListener('click', e => { ensureAudio(); const p = scalePos(e.clientX,e.clientY); tapAction(p.x,p.y); });
+
+let joy = null;
+cv.addEventListener('touchstart', e => {
+  e.preventDefault(); ensureAudio();
+  const p = scalePos(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+  joy = {ox:p.x, oy:p.y, dx:0, dy:0, moved:false, st:performance.now()};
+},{passive:false});
+cv.addEventListener('touchmove', e => {
+  e.preventDefault(); if(!joy) return;
+  const p = scalePos(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+  joy.dx = p.x-joy.ox; joy.dy = p.y-joy.oy;
+  if(Math.hypot(joy.dx,joy.dy) > 12) joy.moved = true;
+},{passive:false});
+cv.addEventListener('touchend', e => {
+  e.preventDefault();
+  if(joy && !joy.moved && performance.now()-joy.st < 250) tapAction(joy.ox,joy.oy);
+  joy = null;
+},{passive:false});
+
+function tapAction(x,y){
+  if(state==='playing'){
+    let best=null, bd=30;
+    for(const b of bugs){ const d=Math.hypot(b.x-x,b.y-y); if(d < bd+b.r){ bd=d; best=b; } }
+    if(best){ damageBug(best,swatDmg); swatSound(); shake=Math.max(shake,3); processDeaths(); }
+  } else if(state==='levelup'){
+    for(const bx of choiceBoxes){
+      if(x>=bx.x && x<=bx.x+bx.w && y>=bx.y && y<=bx.y+bx.h){ bx.c.apply(); resume(); break; }
+    }
+  } else { restart(); }
+}
+
+/* ---------- spawning / timeline ---------- */
+function spawnInterval(){ return Math.max(0.45, 1.5 - (t/GAME_LEN)*1.05); }
+function speedScale(){ return 1 + (t/GAME_LEN)*0.45; }
+function edgePos(pad){
+  const s = Math.floor(Math.random()*4);
+  if(s===0) return {x:Math.random()*W, y:-pad};
+  if(s===1) return {x:W+pad, y:Math.random()*H};
+  if(s===2) return {x:Math.random()*W, y:H+pad};
+  return {x:-pad, y:Math.random()*H};
+}
+function pickType(){ if(t < PH.dengue) return 'musk'; return Math.random()<0.55 ? 'dengue' : 'musk'; }
+function spawnBug(type){
+  const p = edgePos(24);
+  const tough = t > PH.boss;
+  const blk = t >= PH.black ? 3 : 1;
+  if(type==='musk'){
+    const hp = tough ? 2 : 1;
+    bugs.push({id:bugId++,type:'musk',x:p.x,y:p.y,r:7,hp,maxHp:hp,spd:42*speedScale()*blk,touch:5,phase:Math.random()*7,vx:0,vy:0,orbCd:0});
+  } else {
+    const hp = tough ? 4 : 3;
+    bugs.push({id:bugId++,type:'dengue',x:p.x,y:p.y,r:8,hp,maxHp:hp,spd:55*speedScale()*blk,touch:8,phase:Math.random()*7,vx:0,vy:0,orbCd:0});
+  }
+}
+function spawnFly(){ bugs.push({id:bugId++,type:'fly',x:20+Math.random()*(W-40),y:-16,r:6,hp:1,maxHp:1,spd:190,touch:6,phase:Math.random()*7,vx:0,vy:190,orbCd:0}); }
+function spawnBoss(){ const p = edgePos(60); bugs.push({id:bugId++,type:'boss',x:p.x,y:p.y,r:38,hp:500,maxHp:500,spd:15,touch:18,phase:0,vx:0,vy:0,orbCd:0}); }
+
+/* ---------- combat ---------- */
+function damageBug(b,d){ b.hp -= d; }
+function hurtPlayer(dmg){
+  if(passives.djogo.lvl>=5 && chillReady){
+    chillReady=false; chillT=30;
+    floater(player.x, player.y-28, 'Chill Shield!', '#9be8ff', 15);
+    tone('sine', 900, 1400, 0.15, 0.08);
+    player.hurtT=0.7;
+    return;
+  }
+  player.hp -= dmg; player.hurtT = 0.7; combo = 0;
+  thumpSound(); shake = Math.max(shake,6);
+  if(player.hp<=0){ player.hp=0; state='gameover'; }
+}
+function processDeaths(){
+  for(let i=bugs.length-1;i>=0;i--){
+    const b = bugs[i];
+    if(b.hp > 0) continue;
+    bugs.splice(i,1);
+    stampSplat(b.x,b.y,b.type==='boss');
+    if(b.eaten) continue;
+    kills++; combo++; if(combo>bestCombo) bestCombo=combo;
+    if(b.type==='boss'){
+      chest = {x:Math.min(W-30,Math.max(30,b.x)), y:Math.min(H-30,Math.max(30,b.y))};
+      announce('It dropped an Eksi Koekoe chest!');
+    } else {
+      drops.push({x:b.x,y:b.y});
+      if(Math.random()<0.012 && pagaras.length<2){
+        pagaras.push({x:Math.min(W-20,Math.max(20,b.x)), y:Math.min(H-20,Math.max(20,b.y))});
+        floater(b.x,b.y-14,'Pagara!','#ff5a4a',14);
+      }
+    }
+  }
+}
+
+/* ---------- floaters ---------- */
+function floater(x,y,txt,color,size){ floaters.push({x,y,txt,color:color||'#fff',size:size||13,life:1.6,max:1.6,center:true}); }
+function announce(txt){ floaters.push({x:W/2,y:210,txt,color:'#ffd166',size:30,life:2.4,max:2.4,center:true}); }
+
+/* ---------- inventory / level-up ----------
+   4 weapon slots, 2 passive slots. Items level 1-5, Lv5 = evolution. */
+function applyItem(it,isPassive){
+  it.lvl++;
+  if(isPassive){
+    if(it.key==='djogo'){
+      player.maxHp = Math.round(player.maxHp*1.2);
+      player.hp = Math.min(player.maxHp, player.hp + player.hp*0.10);
+    }
+    if(it.key==='slippers') player.speed *= 1.10;
+  }
+  if(it.lvl===5) floater(player.x, player.y-30, it.name+' EVOLVED!', '#ffd166', 16);
+}
+function itemOptions(pool,isPassive){
+  const o = [];
+  for(const k in pool){
+    const it = pool[k];
+    if(it.lvl===0){
+      o.push({name:'Unlock '+it.name, desc:unlockDesc(it.key), apply:()=>applyItem(it,isPassive)});
+    } else if(it.lvl<5){
+      const nxt = it.lvl+1;
+      o.push({
+        name:(nxt===5?'EVOLVE ':'Upgrade ')+it.name+' to Lv.'+nxt,
+        desc:nxt===5?evoDesc(it.key):upDesc(it.key),
+        gold:nxt===5,
+        apply:()=>applyItem(it,isPassive)
+      });
+    }
+  }
+  return o;
+}
+function unlockDesc(k){
+  return {
+    mepper:'Auto-zaps the nearest bug',
+    coil:'Drops killing smoke where you walked',
+    repel:'A ring around you that hurts bugs inside it',
+    sling:'Fires pebbles at random bugs',
+    djogo:'Max HP +20% and heals you now',
+    slippers:'Move 10% faster'
+  }[k];
+}
+function upDesc(k){
+  return {
+    mepper:'Zaps faster and harder',
+    coil:'Bigger, longer-lasting smoke',
+    repel:'Bigger radius, stronger tick damage',
+    sling:'More damage, faster pebbles',
+    djogo:'Max HP +20%, heal 10% now',
+    slippers:'Move 10% faster'
+  }[k];
+}
+function evoDesc(k){
+  return {
+    mepper:'Two electric meppers orbit you, zapping on touch',
+    coil:'You leave a deadly permanent smoke trail',
+    repel:'Huge radius that slows bugs 50% and poisons them',
+    sling:'Pebbles pierce up to 5 bugs with knockback',
+    djogo:'Chill Shield blocks one hit every 30 seconds',
+    slippers:'Yellow dust path grants extra 15% speed'
+  }[k];
+}
+function fillerOptions(){
+  const o = [];
+  if(player.hp<player.maxHp) o.push({name:'Telo Snack', desc:'Restore 30 HP', apply:()=>{player.hp=Math.min(player.maxHp,player.hp+30);}});
+  o.push({name:'Magnet Hands', desc:'Pick up blood drops from further away', apply:()=>{player.magnet*=1.35;}});
+  o.push({name:'Heavy Hand', desc:'Your manual swat hits +1 harder', apply:()=>{swatDmg++;}});
+  return o;
+}
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    const tmp=a[i]; a[i]=a[j]; a[j]=tmp;
+  }
+  return a;
+}
+function openLevelUp(){
+  let pool = itemOptions(weapons,false).concat(itemOptions(passives,true));
+  shuffle(pool);
+  let picked = pool.slice(0,3);
+  if(picked.length<3) picked = picked.concat(shuffle(fillerOptions()).slice(0,3-picked.length));
+  choices = picked;
+  state = 'levelup';               /* frame() stops scheduling: loop pauses */
+}
+function gainXp(n){
+  xp += n;
+  if(xp >= xpNeed){ xp -= xpNeed; level++; xpNeed = 5+(level-1)*3; openLevelUp(); }
+}
+function openChest(){
+  chest = null; blipSound();
+  const n = 1+Math.floor(Math.random()*3);
+  announce('Eksi Koekoe: '+n+(n===1?' free upgrade!':' free upgrades!'));
+  for(let i=0;i<n;i++){
+    const o = itemOptions(weapons,false);
+    if(!o.length){ player.hp = Math.min(player.maxHp, player.hp+25); floater(player.x,player.y-24-i*17,'+25 HP','#57cc63',14); continue; }
+    const c = o[Math.floor(Math.random()*o.length)];
+    c.apply();
+    floater(player.x, player.y-24-i*17, c.name.replace('Upgrade ','').replace('EVOLVE ','').replace('Unlock ',''), '#ffd166', 14);
+  }
+}
+
+function explodePagara(x,y){
+  bangSound(); shake = 14; flashT = 0.3;
+  booms.push({x,y,age:0});
+  for(const b of bugs){
+    if(b.type==='boss') damageBug(b,60);
+    else b.hp = 0;
+  }
+  processDeaths();
+  announce('PAGARA!');
+}
+
+/* ---------- update ---------- */
+function update(dt){
+  /* movement */
+  let dx=0, dy=0;
+  if(keys.has('a')||keys.has('arrowleft'))  dx-=1;
+  if(keys.has('d')||keys.has('arrowright')) dx+=1;
+  if(keys.has('w')||keys.has('arrowup'))    dy-=1;
+  if(keys.has('s')||keys.has('arrowdown'))  dy+=1;
+  if(joy && joy.moved){ const jm=Math.hypot(joy.dx,joy.dy)||1; dx=joy.dx/jm; dy=joy.dy/jm; }
+  const mv = Math.hypot(dx,dy);
+  /* slippers Lv5: dust path boost */
+  let spd = player.speed;
+  if(passives.slippers.lvl>=5){
+    for(const d of dusts){
+      if(d.max-d.life>0.8 && Math.hypot(d.x-player.x,d.y-player.y)<15){ spd*=1.15; break; }
+    }
+  }
+  if(mv>0){
+    player.x += dx/mv*spd*dt; player.y += dy/mv*spd*dt;
+    if(passives.slippers.lvl>=5){
+      dustT -= dt;
+      if(dustT<=0){ dustT=0.12; dusts.push({x:player.x,y:player.y+8,life:4,max:4}); }
+    }
+  }
+  player.x = Math.max(player.r, Math.min(W-player.r, player.x));
+  player.y = Math.max(player.r, Math.min(H-player.r, player.y));
+  player.hurtT = Math.max(0, player.hurtT-dt);
+  trail.push({x:player.x,y:player.y}); if(trail.length>40) trail.shift();
+
+  /* Cold Djogo Lv5: chill shield charge */
+  if(passives.djogo.lvl>=5 && !chillReady){
+    chillT -= dt;
+    if(chillT<=0) chillReady = true;
+  }
+
+  /* timeline */
+  if(!ann.dengue && t>=PH.dengue){ ann.dengue=true; announce('Dengue muskietos incoming!'); }
+  if(!ann.boss   && t>=PH.boss){   ann.boss=true; spawnBoss(); announce('A giant KAKALAKA appears!'); }
+  if(!ann.flies  && t>=PH.flies){  ann.flies=true; announce('Bigi freifrei storm!'); }
+  if(!ann.black  && t>=PH.black){  ann.black=true; announce('Stroom weg! Blackout!'); }
+  if(t>=PH.win){ state='victory'; return; }
+
+  /* spawns */
+  spawnT -= dt;
+  if(spawnT<=0){ spawnT = t>=PH.black ? 0.3 : spawnInterval(); spawnBug(pickType()); }
+  if(t>=PH.flies && t<PH.fliesEnd){ flyT -= dt; if(flyT<=0){ flyT=0.22; spawnFly(); } }
+
+  /* bugs: move + player collision */
+  const repelSlow = weapons.repel.lvl>=5;
+  const repR = weapons.repel.lvl>0 ? REP_R[weapons.repel.lvl-1] : 0;
+  for(let i=bugs.length-1;i>=0;i--){
+    const b = bugs[i];
+    b.orbCd = Math.max(0,b.orbCd-dt);
+    let slow = 1;
+    if(repelSlow && Math.hypot(b.x-player.x,b.y-player.y) < repR+b.r) slow = 0.5;
+    if(b.type==='fly'){
+      b.y += b.spd*slow*dt;
+      if(b.y > H+30){ bugs.splice(i,1); continue; }
+    } else {
+      const ang = Math.atan2(player.y-b.y, player.x-b.x);
+      let vx = Math.cos(ang)*b.spd, vy = Math.sin(ang)*b.spd;
+      if(b.type==='dengue'){
+        const zig = Math.sin(t*6+b.phase)*b.spd*0.9;
+        vx += Math.cos(ang+Math.PI/2)*zig; vy += Math.sin(ang+Math.PI/2)*zig;
+      }
+      b.vx=vx*slow; b.vy=vy*slow; b.x+=b.vx*dt; b.y+=b.vy*dt;
+    }
+    if(Math.hypot(b.x-player.x, b.y-player.y) < b.r+player.r){
+      if(player.hurtT<=0){
+        hurtPlayer(b.touch);
+        if(state==='gameover') return;
+      }
+      if(b.type!=='boss'){ b.hp=0; b.eaten=true; }
+    }
+  }
+
+  /* WEAPON 1: Electric Mepper */
+  const mep = weapons.mepper;
+  if(mep.lvl>0){
+    mep.timer -= dt;
+    if(mep.timer<=0){
+      let best=null, bd=MEP_RANGE[mep.lvl-1];
+      for(const b of bugs){ const d=Math.hypot(b.x-player.x,b.y-player.y); if(d<bd){ bd=d; best=b; } }
+      if(best){
+        mep.timer = MEP_CD[mep.lvl-1];
+        damageBug(best, MEP_DMG[mep.lvl-1]);
+        zaps.push({x1:player.x,y1:player.y,x2:best.x,y2:best.y,life:0.14,seed:Math.random()*100});
+        shake = Math.max(shake,5); zapSound();
+      }
+    }
+    /* Lv5 evolution: two orbiting swatters */
+    if(mep.lvl>=5){
+      orbA += ORB_SPEED*dt;
+      for(let k=0;k<2;k++){
+        const oa = orbA + k*Math.PI;
+        const ox = player.x+Math.cos(oa)*ORB_R, oy = player.y+Math.sin(oa)*ORB_R;
+        for(const b of bugs){
+          if(b.orbCd<=0 && Math.hypot(b.x-ox,b.y-oy) < 16+b.r*0.4){
+            damageBug(b, ORB_DMG); b.orbCd=0.4;
+            zaps.push({x1:ox,y1:oy,x2:b.x,y2:b.y,life:0.1,seed:Math.random()*100});
+            zapSound(); shake=Math.max(shake,3);
+          }
+        }
+      }
+    }
+  }
+
+  /* WEAPON 2: Wierook Coil */
+  const coil = weapons.coil;
+  if(coil.lvl>0 && coil.lvl<5){
+    coil.timer -= dt;
+    if(coil.timer<=0){
+      coil.timer = COIL_CD[coil.lvl-1];
+      const p0 = trail[0] || player;
+      smokes.push({x:p0.x,y:p0.y,r:COIL_R[coil.lvl-1],life:COIL_DUR[coil.lvl-1],max:COIL_DUR[coil.lvl-1],dps:COIL_DPS[coil.lvl-1],spiral:true});
+    }
+  }
+  if(coil.lvl>=5){
+    /* evolution: continuous deadly trail */
+    coilTrailT -= dt;
+    if(coilTrailT<=0){
+      coilTrailT = 0.15;
+      smokes.push({x:player.x,y:player.y,r:26,life:1.2,max:1.2,dps:COIL_DPS[4],spiral:false});
+    }
+  }
+  for(let i=smokes.length-1;i>=0;i--){
+    const s = smokes[i]; s.life -= dt;
+    if(s.life<=0){ smokes.splice(i,1); continue; }
+    for(const b of bugs){ if(Math.hypot(b.x-s.x,b.y-s.y) < s.r+b.r) damageBug(b, s.dps*dt); }
+  }
+
+  /* WEAPON 3: Insect Repellent ring (poison tick; Lv5 also slows, handled above) */
+  const rep = weapons.repel;
+  if(rep.lvl>0){
+    for(const b of bugs){
+      if(Math.hypot(b.x-player.x,b.y-player.y) < REP_R[rep.lvl-1]+b.r) damageBug(b, REP_DPS[rep.lvl-1]*dt);
+    }
+  }
+
+  /* WEAPON 4: Sling Shot */
+  const sling = weapons.sling;
+  if(sling.lvl>0){
+    sling.timer -= dt;
+    if(sling.timer<=0){
+      if(bugs.length){
+        sling.timer = SLING_CD[sling.lvl-1];
+        const tgt = bugs[Math.floor(Math.random()*bugs.length)];
+        const ang = Math.atan2(tgt.y-player.y, tgt.x-player.x);
+        shots.push({x:player.x,y:player.y,vx:Math.cos(ang)*380,vy:Math.sin(ang)*380,dmg:SLING_DMG[sling.lvl-1],pierce:sling.lvl>=5?4:0,knock:sling.lvl>=5,hit:[]});
+        pingSound();
+      } else sling.timer = 0.2;
+    }
+  }
+  for(let i=shots.length-1;i>=0;i--){
+    const p = shots[i];
+    p.x += p.vx*dt; p.y += p.vy*dt;
+    if(p.x<-20||p.x>W+20||p.y<-20||p.y>H+20){ shots.splice(i,1); continue; }
+    let dead=false;
+    for(const b of bugs){
+      if(p.hit.indexOf(b.id)>=0) continue;
+      if(Math.hypot(b.x-p.x,b.y-p.y) < b.r+4){
+        damageBug(b,p.dmg); p.hit.push(b.id);
+        if(p.knock){
+          const m = Math.hypot(p.vx,p.vy)||1;
+          const kb = b.type==='boss' ? 6 : 42;
+          b.x += p.vx/m*kb; b.y += p.vy/m*kb;
+        }
+        if(p.pierce<=0){ shots.splice(i,1); dead=true; break; }
+        p.pierce--;
+      }
+    }
+    if(dead) continue;
+  }
+
+  processDeaths();
+
+  /* drops */
+  for(let i=drops.length-1;i>=0;i--){
+    const d = drops[i];
+    const dist = Math.hypot(player.x-d.x, player.y-d.y);
+    if(dist < player.magnet && dist > 0.001){
+      const sp = 260*(1-dist/player.magnet)+80;
+      d.x += (player.x-d.x)/dist*sp*dt;
+      d.y += (player.y-d.y)/dist*sp*dt;
+    }
+    if(dist < player.r+5){
+      drops.splice(i,1); blipSound(); gainXp(1);
+      if(state!=='playing') return;
+    }
+  }
+
+  if(chest && Math.hypot(player.x-chest.x, player.y-chest.y) < player.r+18) openChest();
+  for(let i=pagaras.length-1;i>=0;i--){
+    const pg = pagaras[i];
+    if(Math.hypot(player.x-pg.x, player.y-pg.y) < player.r+14){
+      pagaras.splice(i,1); explodePagara(pg.x,pg.y);
+    }
+  }
+  flashT = Math.max(0, flashT-dt);
+  for(let i=booms.length-1;i>=0;i--){ booms[i].age+=dt; if(booms[i].age>0.6) booms.splice(i,1); }
+
+  for(let i=zaps.length-1;i>=0;i--){ zaps[i].life-=dt; if(zaps[i].life<=0) zaps.splice(i,1); }
+  for(let i=dusts.length-1;i>=0;i--){ dusts[i].life-=dt; if(dusts[i].life<=0) dusts.splice(i,1); }
+  for(let i=floaters.length-1;i>=0;i--){ const f=floaters[i]; f.life-=dt; f.y-=14*dt; if(f.life<=0) floaters.splice(i,1); }
+}
+
+/* ---------- drawing ---------- */
+function drawBug(b){
+  cx.save(); cx.translate(b.x,b.y);
+  if(b.type==='boss'){ drawBoss(b); cx.restore(); return; }
+  const ang = b.type==='fly' ? Math.PI/2 : Math.atan2(b.vy,b.vx);
+  cx.rotate(ang);
+  const flap = Math.sin(t*45+b.phase)*0.6;
+  if(b.type==='fly'){
+    cx.fillStyle='#3f9d2f'; cx.beginPath(); cx.ellipse(0,0,6,4.5,0,0,7); cx.fill();
+    cx.fillStyle='#8fdc7a'; cx.beginPath(); cx.arc(-1.5,-1.5,1.6,0,7); cx.fill();
+  } else {
+    cx.fillStyle = b.type==='dengue' ? '#30343a' : '#1c1e22';
+    cx.beginPath(); cx.ellipse(0,0,b.type==='dengue'?8:7,3.2,0,0,7); cx.fill();
+    cx.strokeStyle='#1c1e22'; cx.lineWidth=1;
+    cx.beginPath(); cx.moveTo(7,0); cx.lineTo(12,0); cx.stroke();
+    cx.beginPath();
+    for(let i=-1;i<=1;i++){ cx.moveTo(i*3,0); cx.lineTo(i*3-3,6); cx.moveTo(i*3,0); cx.lineTo(i*3-3,-6); }
+    cx.stroke();
+    if(b.type==='dengue'){
+      cx.fillStyle='#e8e8e8';
+      cx.fillRect(-5,-2.5,1.6,5); cx.fillRect(-1.5,-2.8,1.6,5.6); cx.fillRect(2,-2.5,1.6,5);
+    }
+  }
+  cx.globalAlpha=0.45; cx.fillStyle='#cfd8e6';
+  cx.beginPath(); cx.ellipse(-2,-4,5,2,-0.5+flap,0,7); cx.fill();
+  cx.beginPath(); cx.ellipse(-2,4,5,2,0.5-flap,0,7); cx.fill();
+  cx.globalAlpha=1;
+  if(b.maxHp>1 && b.hp<b.maxHp){
+    cx.rotate(-ang);
+    cx.fillStyle='#c0392b'; cx.fillRect(-8,-13,16*Math.max(0,b.hp/b.maxHp),2.5);
+  }
+  cx.restore();
+}
+function drawBoss(b){
+  const ang = Math.atan2(b.vy,b.vx); cx.rotate(ang);
+  cx.fillStyle='rgba(0,0,0,0.25)'; cx.beginPath(); cx.ellipse(0,6,40,22,0,0,7); cx.fill();
+  cx.fillStyle='#5b3a1e'; cx.beginPath(); cx.ellipse(0,0,40,24,0,0,7); cx.fill();
+  cx.fillStyle='#6d4826'; cx.beginPath(); cx.ellipse(-8,0,26,18,0,0,7); cx.fill();
+  cx.fillStyle='#4a2f16'; cx.beginPath(); cx.arc(36,0,11,0,7); cx.fill();
+  cx.strokeStyle='#4a2f16'; cx.lineWidth=2.5;
+  cx.beginPath();
+  cx.moveTo(44,-4); cx.quadraticCurveTo(70,-26,88,-20);
+  cx.moveTo(44,4);  cx.quadraticCurveTo(70,26,88,20);
+  cx.stroke();
+  cx.lineWidth=3;
+  const wig = Math.sin(t*18)*4;
+  cx.beginPath();
+  for(let i=-1;i<=1;i++){
+    cx.moveTo(i*16,-16); cx.lineTo(i*16+wig,-32);
+    cx.moveTo(i*16,16);  cx.lineTo(i*16-wig,32);
+  }
+  cx.stroke();
+}
+function drawPlayer(){
+  const p = player;
+  cx.save(); cx.translate(p.x,p.y);
+  cx.fillStyle='rgba(0,0,0,0.25)'; cx.beginPath(); cx.ellipse(0,12,10,4,0,0,7); cx.fill();
+  if(p.hurtT>0.45 && Math.floor(t*20)%2===0) cx.globalAlpha=0.5;
+  cx.fillStyle='#31572c'; cx.fillRect(-6,4,4,9); cx.fillRect(2,4,4,9);
+  cx.fillStyle='#e76f51'; cx.beginPath(); cx.arc(0,0,9,0,7); cx.fill();
+  cx.fillStyle='#c68863'; cx.beginPath(); cx.arc(0,-11,7,0,7); cx.fill();
+  cx.fillStyle='#222'; cx.fillRect(-3.5,-12.5,2,2); cx.fillRect(1.5,-12.5,2,2);
+  if(weapons.mepper.lvl>0 && weapons.mepper.lvl<5){
+    cx.strokeStyle='#888'; cx.lineWidth=2;
+    cx.beginPath(); cx.moveTo(9,0); cx.lineTo(16,-6); cx.stroke();
+    cx.strokeStyle='#4da3ff'; cx.lineWidth=1.5;
+    cx.beginPath(); cx.ellipse(20,-9,6,4.5,-0.7,0,7); cx.stroke();
+    cx.beginPath(); cx.moveTo(17,-12); cx.lineTo(23,-6); cx.moveTo(16,-9); cx.lineTo(24,-9); cx.stroke();
+  }
+  cx.globalAlpha=1;
+  /* Cold Djogo Lv5: chill shield ring when charged */
+  if(passives.djogo.lvl>=5 && chillReady){
+    cx.strokeStyle='rgba(155,232,255,'+(0.5+0.2*Math.sin(t*5))+')';
+    cx.lineWidth=2.5;
+    cx.beginPath(); cx.arc(0,-4,17,0,7); cx.stroke();
+    cx.fillStyle='rgba(155,232,255,0.6)';
+    for(let i=0;i<4;i++){
+      const aa=t*1.5+i*Math.PI/2;
+      cx.beginPath(); cx.arc(Math.cos(aa)*17,-4+Math.sin(aa)*17,2,0,7); cx.fill();
+    }
+  }
+  cx.restore();
+}
+function drawOrbitals(){
+  if(weapons.mepper.lvl<5) return;
+  for(let k=0;k<2;k++){
+    const oa = orbA + k*Math.PI;
+    const ox = player.x+Math.cos(oa)*ORB_R, oy = player.y+Math.sin(oa)*ORB_R;
+    cx.save(); cx.translate(ox,oy); cx.rotate(oa+Math.PI/2);
+    cx.strokeStyle='#888'; cx.lineWidth=2;
+    cx.beginPath(); cx.moveTo(0,10); cx.lineTo(0,2); cx.stroke();
+    cx.fillStyle='rgba(77,163,255,0.25)';
+    cx.strokeStyle='#4da3ff'; cx.lineWidth=1.5;
+    cx.beginPath(); cx.ellipse(0,-6,7,9,0,0,7); cx.fill(); cx.stroke();
+    cx.beginPath();
+    cx.moveTo(-5,-11); cx.lineTo(5,-1); cx.moveTo(5,-11); cx.lineTo(-5,-1); cx.moveTo(0,-15); cx.lineTo(0,3);
+    cx.stroke();
+    cx.restore();
+  }
+}
+function draw(){
+  cx.save();
+  if(shake>0){ cx.translate((Math.random()-0.5)*shake*1.6,(Math.random()-0.5)*shake*1.6); shake--; }
+  cx.drawImage(floorCv,0,0);
+  /* slipper dust path */
+  for(const d of dusts){
+    cx.fillStyle='rgba(224,201,74,'+(0.30*d.life/d.max)+')';
+    cx.beginPath(); cx.arc(d.x,d.y,7,0,7); cx.fill();
+  }
+  /* smoke */
+  for(const s of smokes){
+    const a = Math.min(1, s.life/s.max+0.2);
+    cx.fillStyle='rgba(90,160,90,'+(0.28*a)+')';
+    cx.beginPath(); cx.arc(s.x,s.y,s.r,0,7); cx.fill();
+    cx.strokeStyle='rgba(60,130,60,'+(0.5*a)+')'; cx.lineWidth=2;
+    cx.beginPath(); cx.arc(s.x,s.y,s.r,0,7); cx.stroke();
+    cx.fillStyle='rgba(210,235,210,'+(0.35*a)+')';
+    for(let i=0;i<3;i++){
+      const px = s.x+Math.sin(t*1.3+i*2.1)*s.r*0.4;
+      const py = s.y+Math.cos(t*1.1+i*2.6)*s.r*0.4 - (s.max-s.life)*10;
+      cx.beginPath(); cx.arc(px,py,6+i*2,0,7); cx.fill();
+    }
+    if(s.spiral){
+      cx.strokeStyle='rgba(40,90,40,'+(0.6*a)+')'; cx.lineWidth=2.5;
+      cx.beginPath();
+      for(let aa=0; aa<Math.PI*4; aa+=0.3){
+        const rr = 2+aa*1.2;
+        const px = s.x+Math.cos(aa)*rr, py = s.y+Math.sin(aa)*rr;
+        if(aa===0) cx.moveTo(px,py); else cx.lineTo(px,py);
+      }
+      cx.stroke();
+    }
+  }
+  /* repellent ring */
+  if(weapons.repel.lvl>0){
+    const r = REP_R[weapons.repel.lvl-1];
+    const evolved = weapons.repel.lvl>=5;
+    cx.fillStyle = evolved ? 'rgba(120,220,120,0.10)' : 'rgba(120,200,120,0.07)';
+    cx.beginPath(); cx.arc(player.x,player.y,r,0,7); cx.fill();
+    cx.strokeStyle='rgba(120,200,120,'+(0.25+0.1*Math.sin(t*4))+')';
+    cx.lineWidth=evolved?3:2; cx.setLineDash([6,6]);
+    cx.beginPath(); cx.arc(player.x,player.y,r,0,7); cx.stroke();
+    cx.setLineDash([]);
+  }
+  /* drops */
+  for(const d of drops){
+    cx.fillStyle='#d62828'; cx.fillRect(d.x-2.5,d.y-2.5,5,5);
+    cx.fillStyle='#ff7b7b'; cx.fillRect(d.x-2.5,d.y-2.5,2,2);
+  }
+  /* chest */
+  if(chest){
+    cx.save(); cx.translate(chest.x, chest.y+Math.sin(t*3)*3);
+    cx.fillStyle='rgba(0,0,0,0.25)'; cx.beginPath(); cx.ellipse(0,14,14,4,0,0,7); cx.fill();
+    cx.fillStyle='#c9962a'; cx.fillRect(-14,-8,28,18);
+    cx.fillStyle='#e3b64b'; cx.fillRect(-14,-12,28,7);
+    cx.fillStyle='#8a651a'; cx.fillRect(-2.5,-2,5,7);
+    cx.restore();
+  }
+  for(const pg of pagaras){
+    cx.save(); cx.translate(pg.x, pg.y+Math.sin(t*4)*2);
+    cx.strokeStyle='#6b4a2a'; cx.lineWidth=1.5;
+    cx.beginPath(); cx.moveTo(0,-9); cx.quadraticCurveTo(4,-13,2,-16); cx.stroke();
+    for(let i=-1;i<=1;i++){
+      cx.fillStyle='#d62828'; cx.fillRect(i*5-2,-8,4.5,14);
+      cx.fillStyle='#ffd166'; cx.fillRect(i*5-2,-3,4.5,3);
+    }
+    cx.globalAlpha=0.35+0.2*Math.sin(t*6);
+    cx.strokeStyle='#ff5a4a'; cx.lineWidth=2;
+    cx.beginPath(); cx.arc(0,0,16,0,7); cx.stroke();
+    cx.globalAlpha=1;
+    cx.restore();
+  }
+  for(const b of bugs) drawBug(b);
+  /* sling pebbles */
+  for(const p of shots){
+    const m = Math.hypot(p.vx,p.vy)||1;
+    cx.strokeStyle='rgba(120,110,95,0.4)'; cx.lineWidth=2;
+    cx.beginPath(); cx.moveTo(p.x-p.vx/m*10,p.y-p.vy/m*10); cx.lineTo(p.x,p.y); cx.stroke();
+    cx.fillStyle='#6e655a'; cx.beginPath(); cx.arc(p.x,p.y,3.5,0,7); cx.fill();
+  }
+  drawPlayer();
+  drawOrbitals();
+  /* zap lightning */
+  for(const z of zaps){
+    const a = Math.max(0,z.life/0.14);
+    cx.strokeStyle='rgba(120,190,255,'+a+')'; cx.lineWidth=2.5;
+    cx.beginPath(); cx.moveTo(z.x1,z.y1);
+    for(let i=1;i<6;i++){
+      const f=i/6;
+      cx.lineTo(z.x1+(z.x2-z.x1)*f+(rnd2(z.seed,i)-0.5)*18,
+                z.y1+(z.y2-z.y1)*f+(rnd2(i,z.seed)-0.5)*18);
+    }
+    cx.lineTo(z.x2,z.y2); cx.stroke();
+    cx.fillStyle='rgba(200,230,255,'+a+')';
+    cx.beginPath(); cx.arc(z.x2,z.y2,5,0,7); cx.fill();
+  }
+  /* floaters */
+  for(const f of floaters){
+    cx.globalAlpha=Math.max(0,f.life/f.max);
+    cx.fillStyle=f.color; cx.font='bold '+f.size+'px system-ui,sans-serif';
+    cx.textAlign = f.center ? 'center' : 'left';
+    cx.fillText(f.txt,f.x,f.y);
+    cx.globalAlpha=1;
+  }
+  cx.textAlign='left';
+  cx.restore();
+  /* 9:00+ blackout: stroom weg, only a lamp glow around you */
+  if(t>=PH.black && (state==='playing'||state==='levelup')){
+    const flick = 150 + Math.sin(t*9)*8 + Math.random()*5;
+    const g = cx.createRadialGradient(player.x,player.y,40,player.x,player.y,flick);
+    g.addColorStop(0,'rgba(0,0,0,0)');
+    g.addColorStop(0.7,'rgba(0,0,0,0.55)');
+    g.addColorStop(1,'rgba(0,0,0,0.93)');
+    cx.fillStyle=g; cx.fillRect(0,0,W,H);
+  }
+  for(const bm of booms){
+    const fr = bm.age/0.6;
+    cx.strokeStyle='rgba(255,140,60,'+(1-fr)+')'; cx.lineWidth=5*(1-fr)+1;
+    cx.beginPath(); cx.arc(bm.x,bm.y,fr*420,0,7); cx.stroke();
+    cx.strokeStyle='rgba(255,220,120,'+((1-fr)*0.8)+')'; cx.lineWidth=2;
+    cx.beginPath(); cx.arc(bm.x,bm.y,fr*300,0,7); cx.stroke();
+  }
+  if(flashT>0){ cx.fillStyle='rgba(255,240,210,'+(flashT/0.3*0.55)+')'; cx.fillRect(0,0,W,H); }
+  drawHud();
+  if(player.hurtT>0.45){ cx.fillStyle='rgba(200,0,0,0.12)'; cx.fillRect(0,0,W,H); }
+  if(joy && joy.moved){
+    cx.strokeStyle='rgba(255,255,255,0.4)'; cx.lineWidth=2;
+    cx.beginPath(); cx.arc(joy.ox,joy.oy,26,0,7); cx.stroke();
+    const jm=Math.hypot(joy.dx,joy.dy)||1, cl=Math.min(jm,26);
+    cx.fillStyle='rgba(255,255,255,0.5)';
+    cx.beginPath(); cx.arc(joy.ox+joy.dx/jm*cl, joy.oy+joy.dy/jm*cl, 10, 0, 7); cx.fill();
+  }
+}
+function drawHud(){
+  cx.fillStyle='rgba(0,0,0,0.55)'; cx.fillRect(0,0,W,7);
+  cx.fillStyle='#ffd166'; cx.fillRect(0,0,W*Math.min(1,xp/xpNeed),7);
+  cx.fillStyle='rgba(0,0,0,0.55)'; cx.fillRect(14,16,190,16);
+  cx.fillStyle = player.hp>player.maxHp*0.3 ? '#57cc63' : '#e63946';
+  cx.fillRect(16,18,186*(player.hp/player.maxHp),12);
+  cx.fillStyle='#fff'; cx.font='bold 11px system-ui,sans-serif';
+  cx.fillText('HP '+Math.ceil(player.hp)+'/'+player.maxHp,20,29);
+  cx.fillText('Lv '+level,214,29);
+  cx.fillText('Kills '+kills,258,29);
+  const rem=Math.max(0,GAME_LEN-t), mm=Math.floor(rem/60), ss=Math.floor(rem%60);
+  cx.font='bold 20px system-ui,sans-serif'; cx.textAlign='center'; cx.fillStyle='#fff';
+  cx.fillText(mm+':'+String(ss).padStart(2,'0'),W/2,34);
+  if(combo>=3){ cx.fillStyle='#ffd166'; cx.font='bold 15px system-ui,sans-serif'; cx.fillText('Combo x'+combo,W/2,54); }
+  cx.textAlign='left';
+  const boss = bugs.find(b=>b.type==='boss');
+  if(boss){
+    cx.fillStyle='rgba(0,0,0,0.55)'; cx.fillRect(W/2-160,64,320,13);
+    cx.fillStyle='#a4531f'; cx.fillRect(W/2-158,66,316*Math.max(0,boss.hp/boss.maxHp),9);
+    cx.fillStyle='#fff'; cx.font='bold 10px system-ui,sans-serif'; cx.textAlign='center';
+    cx.fillText('KAKALAKA',W/2,74); cx.textAlign='left';
+  }
+  drawInventory();
+}
+function drawInventory(){
+  const items = [
+    [weapons.mepper,'MEP'], [weapons.coil,'COIL'], [weapons.repel,'REP'], [weapons.sling,'SLING'],
+    [passives.djogo,'DJOGO'], [passives.slippers,'SLIP']
+  ];
+  let x = 14;
+  cx.font='bold 10px system-ui,sans-serif';
+  for(const [it,lab] of items){
+    if(it.lvl===0) continue;
+    const txt = lab+' '+it.lvl;
+    const w = cx.measureText(txt).width+14;
+    cx.fillStyle='rgba(0,0,0,0.55)'; cx.fillRect(x,H-26,w,17);
+    cx.strokeStyle = it.lvl>=5 ? '#ffd166' : 'rgba(255,255,255,0.35)';
+    cx.lineWidth=1.5; cx.strokeRect(x,H-26,w,17);
+    cx.fillStyle = it.lvl>=5 ? '#ffd166' : '#fff';
+    cx.fillText(txt,x+7,H-14);
+    x += w+6;
+  }
+}
+function wrapText(txt,cxr,y,maxW,lh){
+  const words = txt.split(' '); let line='', yy=y;
+  for(const wd of words){
+    const test = line ? line+' '+wd : wd;
+    if(cx.measureText(test).width>maxW && line){ cx.fillText(line,cxr,yy); line=wd; yy+=lh; }
+    else line=test;
+  }
+  cx.fillText(line,cxr,yy);
+}
+function drawLevelUp(){
+  cx.fillStyle='rgba(10,14,10,0.78)'; cx.fillRect(0,0,W,H);
+  cx.fillStyle='#ffd166'; cx.font='bold 34px system-ui,sans-serif'; cx.textAlign='center';
+  cx.fillText('LEVEL '+level+'!',W/2,140);
+  cx.fillStyle='#cfe8cf'; cx.font='14px system-ui,sans-serif';
+  cx.fillText('Choose an upgrade',W/2,168);
+  choiceBoxes=[];
+  const bw=218, bh=160, gap=22;
+  const total = choices.length*bw+(choices.length-1)*gap;
+  const x0 = W/2-total/2;
+  for(let i=0;i<choices.length;i++){
+    const x = x0+i*(bw+gap), y = 210;
+    cx.fillStyle='#1e2a1e';
+    cx.strokeStyle = choices[i].gold ? '#ffd166' : '#57cc63';
+    cx.lineWidth = choices[i].gold ? 3 : 2;
+    cx.fillRect(x,y,bw,bh); cx.strokeRect(x,y,bw,bh);
+    cx.fillStyle = choices[i].gold ? '#ffd166' : '#fff';
+    cx.font='bold 15px system-ui,sans-serif';
+    wrapText(choices[i].name, x+bw/2, y+32, bw-24, 18);
+    cx.fillStyle='#a8c8a8'; cx.font='12.5px system-ui,sans-serif';
+    wrapText(choices[i].desc, x+bw/2, y+90, bw-24, 16);
+    choiceBoxes.push({x,y,w:bw,h:bh,c:choices[i]});
+  }
+  cx.textAlign='left';
+}
+function drawEnd(win){
+  cx.fillStyle='rgba(8,10,12,0.8)'; cx.fillRect(0,0,W,H);
+  cx.textAlign='center';
+  cx.fillStyle = win ? '#57cc63' : '#e63946';
+  cx.font='bold 40px system-ui,sans-serif';
+  cx.fillText(win ? 'YOU SURVIVED THE TERRAS' : 'EATEN ALIVE', W/2, 240);
+  cx.fillStyle='#fff'; cx.font='16px system-ui,sans-serif';
+  cx.fillText('Kills: '+kills+'    Best combo: '+bestCombo+'    Level: '+level, W/2, 290);
+  cx.fillStyle='#a8c8a8'; cx.font='14px system-ui,sans-serif';
+  cx.fillText('Click, tap or press Enter to play again', W/2, 330);
+  cx.textAlign='left';
+}
+
+/* ---------- main loop ---------- */
+function frame(ts){
+  rafId=0;
+  if(!last) last=ts;
+  const dt = Math.min(0.05,(ts-last)/1000); last=ts;
+  if(state==='playing'){ t+=dt; update(dt); }
+  draw();
+  if(state==='levelup') drawLevelUp();
+  else if(state==='gameover') drawEnd(false);
+  else if(state==='victory') drawEnd(true);
+  if(state==='playing') rafId=requestAnimationFrame(frame);
+}
+function resume(){ state='playing'; choices=null; last=0; if(!rafId) rafId=requestAnimationFrame(frame); }
+function restart(){ reset(); if(!rafId) rafId=requestAnimationFrame(frame); }
+
+reset();
+rafId=requestAnimationFrame(frame);
+"""
+
+
+# ── Muskieto Survivor: terras survival game ──────────────────────────────────
+def build_muskieto_page():
+    """muskieto.html: Muskieto Survivor. Vampire Survivors style auto-battler
+    on a Suriname terras: survive 10 minutes of muskietos, evolve meppers,
+    wierook coils, insect repellent and a sling shot, beat the kakalaka boss,
+    live through the blackout. Canvas, keyboard + touch, all client-side."""
+    import json as _json
+    today = datetime.now(SR_TZ).date()
+
+    _title = "Muskieto Survivor: the Suriname terras survival game"
+    _desc = ("Survive ten minutes on a Suriname terras against endless muskietos. Your electric mepper "
+             "fires itself: collect blood drops, level up, evolve wierook coils and sling shots, beat the "
+             "giant kakalaka and live through the blackout. Free browser game from Explore Suriname.")
+    _ogimg = SITE_URL + "/og-image.jpg"
+    _faq = [
+        ("What is Muskieto Survivor?",
+         "A survival game in the Vampire Survivors style, set where every Surinamese has fought this war: "
+         "the terras at dusk. You only steer. Your weapons, from the electric mepper to the wierook coil, "
+         "fire automatically. Muskietos stream in from every side for ten minutes, and your job is to be "
+         "alive when the clock runs out."),
+        ("How do I play?",
+         "Move with WASD or the arrow keys, or drag anywhere on the screen on a phone. Tapping or clicking "
+         "a bug swats it by hand. Dead bugs drop blood drops; walk near them to collect XP. Each level-up "
+         "offers three upgrades: new weapons, stronger weapons, or passives like the Cold Djogo. At level "
+         "five an item evolves into something much nastier."),
+        ("What is the timeline?",
+         "The first minute is slow black muskietos. From minute one the striped dengue muskietos weave in. "
+         "At minute three a giant kakalaka with 500 HP walks on, and killing it drops an Eksi Koekoe chest "
+         "with free upgrades. From five to eight minutes the bigi freifrei rain down, and at minute nine "
+         "the stroom goes and everything comes at you at triple speed in the dark. Watch for the rare "
+         "pagara drop: it clears the whole screen with one bang."),
+        ("Is it free?",
+         "Yes. Muskieto Survivor is free, runs in your browser, and needs no app or account."),
+    ]
+    _graph = _json.dumps({"@context": "https://schema.org", "@graph": [
+        {"@type": "WebPage", "@id": SITE_URL + "/muskieto.html#webpage",
+         "url": SITE_URL + "/muskieto.html", "name": _title, "description": _desc,
+         "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": SITE_URL + "/"},
+         "primaryImageOfPage": _ogimg,
+         "breadcrumb": {"@id": SITE_URL + "/muskieto.html#breadcrumb"},
+         "mainEntity": {"@id": SITE_URL + "/muskieto.html#game"},
+         "datePublished": "2026-07-20", "dateModified": today.isoformat(),
+         "isAccessibleForFree": True},
+        {"@type": "BreadcrumbList", "@id": SITE_URL + "/muskieto.html#breadcrumb",
+         "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Muskieto Survivor", "item": SITE_URL + "/muskieto.html"}]},
+        {"@type": "VideoGame", "@id": SITE_URL + "/muskieto.html#game",
+         "name": "Muskieto Survivor", "url": SITE_URL + "/muskieto.html",
+         "description": "Survive ten minutes of muskietos on a Suriname terras: auto-firing meppers, wierook smoke, a kakalaka boss, a blackout finale and pagara screen-clears.",
+         "genre": "Arcade", "gamePlatform": "Web browser",
+         "inLanguage": ["en"], "isAccessibleForFree": True, "image": _ogimg,
+         "publisher": {"@type": "Organization", "name": "Explore Suriname", "url": SITE_URL + "/"}},
+        {"@type": "FAQPage", "@id": SITE_URL + "/muskieto.html#faq",
+         "mainEntity": [{"@type": "Question", "name": q,
+                         "acceptedAnswer": {"@type": "Answer", "text": ans}} for q, ans in _faq]},
+    ]}, ensure_ascii=False)
+
+    _CSS = """  <style>
+    #mq-wrap{max-width:800px;margin:0 auto}
+    #mq-cv{display:block;width:100%;height:auto;border-radius:14px;background:#b4afa4;box-shadow:0 10px 30px rgba(0,0,0,.25);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;cursor:crosshair}
+    .mq-hint{display:flex;gap:1.1rem;justify-content:center;flex-wrap:wrap;margin-top:.7rem;font-size:.72rem;color:#9ca3af}
+    .mq-hint b{color:#6b7280;font-weight:700}
+  </style>"""
+
+    head = (PAGE_HEAD
+        + '\n  <title>Muskieto Survivor | Suriname Survival Game | Explore Suriname</title>'
+        + '\n  <meta name="description" content="' + _desc + '">'
+        + '\n  <link rel="canonical" href="' + SITE_URL + '/muskieto.html">'
+        + '\n  <meta property="og:type" content="website">'
+        + '\n  <meta property="og:site_name" content="Explore Suriname">'
+        + '\n  <meta property="og:url" content="' + SITE_URL + '/muskieto.html">'
+        + '\n  <meta property="og:title" content="' + _title + '">'
+        + '\n  <meta property="og:description" content="Ten minutes, one terras, endless muskietos. The meppers fire themselves. Can you survive the blackout?">'
+        + '\n  <meta property="og:image" content="' + _ogimg + '">'
+        + '\n  <meta property="og:locale" content="en_US">'
+        + '\n  <meta name="twitter:card" content="summary_large_image">'
+        + '\n  <meta name="twitter:title" content="' + _title + '">'
+        + '\n  <meta name="twitter:description" content="Ten minutes, one terras, endless muskietos. The meppers fire themselves. Can you survive the blackout?">'
+        + '\n  <meta name="twitter:image" content="' + _ogimg + '">'
+        + '\n  <script type="application/ld+json">\n  ' + _graph + '\n  </script>'
+        + _CSS + '\n</head>')
+
+    _about = """
+<section class="max-w-2xl mx-auto px-4 mt-14">
+  <h2 class="serif text-2xl font-bold text-gray-900 mb-3">About Muskieto Survivor</h2>
+  <p class="text-gray-700 text-sm leading-relaxed mb-3">Every Surinamese knows the battlefield. The sun drops,
+  the terras is finally cool enough to sit on, and the first muskieto finds your ankle before your drink finds
+  the table. What follows is a national ritual: the electric mepper comes out, somebody lights a wierook coil,
+  somebody else swears by repellent, and the evening becomes a war of attrition that the muskietos usually win.</p>
+  <p class="text-gray-700 text-sm leading-relaxed mb-3">This game is that evening, escalated. You steer one
+  person around one porch while the weapons do their own work. Blood drops from swatted bugs level you up, and
+  every level is a choice: a faster mepper, wider wierook smoke, a stronger repellent ring, a sling shot, a
+  cold djogo for your health, or better slippers for your feet. Push any of them to level five and it evolves.
+  At minute three a kakalaka the size of a slipper walks on. At minute nine the stroom goes, because of course
+  it does, and you finish the fight in the dark.</p>
+  <p class="text-gray-700 text-sm leading-relaxed">One run is ten minutes, which is exactly one wierook coil of
+  real time. Survived it? Try
+  <a href="anaconda.html" class="font-semibold hover:underline" style="color:var(--forest2)">Aboma</a>, the wild
+  <a href="korjaal.html" class="font-semibold hover:underline" style="color:var(--forest2)">Korjaal Run</a>, the map game
+  <a href="map-game.html" class="font-semibold hover:underline" style="color:var(--forest2)">Pe A De?</a>, the
+  <a href="quiz.html" class="font-semibold hover:underline" style="color:var(--forest2)">Sabi Suriname quiz</a> or the
+  <a href="crossword.html" class="font-semibold hover:underline" style="color:var(--forest2)">Switi Mini crossword</a>.</p>
+</section>"""
+
+    _faq_html = ('<section class="max-w-2xl mx-auto px-4 mt-10 mb-4">'
+                 '<h2 class="serif text-2xl font-bold text-gray-900 mb-4">Common questions</h2>'
+                 + "".join('<details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2">'
+                           '<summary class="font-bold text-gray-900 text-sm cursor-pointer">' + q + '</summary>'
+                           '<p class="text-gray-700 text-sm leading-relaxed mt-2">' + ans + '</p></details>'
+                           for q, ans in _faq)
+                 + '</section>')
+
+    _noscript = ('<noscript><section class="max-w-2xl mx-auto px-4 mt-6"><p class="text-sm text-gray-600">'
+                 'Muskieto Survivor is a browser game and needs JavaScript. Enable JavaScript to grab the mepper.'
+                 '</p></section></noscript>')
+
+    body = """
+<body class="bg-gray-50 overflow-x-hidden">
+__NAV__
+<div style="height:58px"></div>
+<div class="relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
+  <div class="relative max-w-3xl mx-auto px-4">
+    <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
+      <a href="index.html" class="hover:text-white transition">Home</a>
+      <span class="text-white/40">&#8250;</span>
+      <span class="text-white/90 font-medium" aria-current="page">Muskieto Survivor</span>
+    </nav>
+    <p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Suriname survival game</p>
+    <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Muskieto Survivor</h1>
+    <p class="text-white/70 text-base max-w-xl mx-auto">Ten minutes on the terras at dusk. The mepper fires itself, the muskietos never stop, and at minute nine the stroom goes. Survive.</p>
+  </div>
+</div>
+<main class="max-w-4xl mx-auto px-4 py-8 pb-20">
+  <div id="mq-wrap">
+    <canvas id="mq-cv" width="800" height="600" aria-label="Muskieto Survivor game"></canvas>
+    <div class="mq-hint"><span><b>WASD / arrows</b> move</span><span><b>Drag</b> to move on touch</span><span><b>Tap or click</b> manual swat</span></div>
+  </div>
+</main>
+__NOSCRIPT__
+__ABOUT__
+__FAQ__
+__FOOTER__
+<script>
+__GAMEJS__
+</script>
+</body>
+</html>"""
+
+    body = (body.replace("__GAMEJS__", _MUSKIETO_JS)
+                .replace("__NAV__", nav_html("muskieto"))
+                .replace("__NOSCRIPT__", _noscript)
+                .replace("__ABOUT__", _about)
+                .replace("__FAQ__", _faq_html)
+                .replace("__FOOTER__", footer_html()))
+    return head + body
 
 
 def build_history_page():
@@ -11593,6 +12666,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("map-game.html",    "0.9", "daily"),
         ("korjaal.html",     "0.8", "daily"),
         ("anaconda.html",    "0.8", "daily"),
+        ("muskieto.html",    "0.8", "daily"),
         ("events.html",     "0.8", "weekly"),
         ("news.html",       "0.7", "daily"),
         ("about.html",      "0.5", "yearly"),
@@ -13994,6 +15068,7 @@ if __name__ == "__main__":
         "map-game.html":      build_mapgame_page(),
         "korjaal.html":       build_korjaal_page(),
         "anaconda.html":      build_anaconda_page(),
+        "muskieto.html":      build_muskieto_page(),
         "on-the-road.html":   build_roads_page(),
         "suriname-itinerary.html": build_itinerary_page(),
         "is-suriname-safe.html":   build_safety_page(),
