@@ -936,7 +936,7 @@ function rows(arr){var t=L[lang];if(!arr||!arr.length)return '<li class="lb-empt
   h+='<li class="lb-row'+(r.me?" me":"")+'"><span class="lb-rank">'+(i+1)+'</span><span class="lb-name">'+esc(r.n)+'</span><b class="lb-sc">'+(+r.s).toLocaleString()+'</b></li>';}
  return h;}
 function you(){var t=L[lang],n=nick(),h="";
- if(!n&&(last!==null||changing)){h='<div class="lb-form"><input id="lb-nm" maxlength="14" placeholder="'+t.nm+'"><button id="lb-sv" type="button">'+t.save+'</button></div><p id="lb-err" class="text-xs" style="color:#dc2626;margin-top:.3rem"></p>';}
+ if(!n){h='<div class="lb-form"><input id="lb-nm" maxlength="14" placeholder="'+t.nm+'"><button id="lb-sv" type="button">'+t.save+'</button></div><p id="lb-err" class="text-xs" style="color:#dc2626;margin-top:.3rem"></p>';}
  else if(n){var r="";
   if(myRt)r='<div class="lb-rankline">'+t.r1+myRt+t.r2+myRa+t.r3+'<br><a class="lb-wa" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(t.wat1+myRt+t.wat2+"https://exploresuriname.com/"+PAGE)+'">'+t.wa+'</a></div>';
   h=r+'<p class="text-xs text-gray-400 mt-2">'+t.you+' <b>'+esc(n)+'</b> · <span class="lb-chg" id="lb-chg">'+t.chg+'</span></p>';}

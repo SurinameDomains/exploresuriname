@@ -267,6 +267,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://exploresuriname.com/nl/muskieto.html#webpage","url":"https://exploresuriname.com/nl/muskieto.html","name":"Muskieto Survivor: the Suriname terras survival game","description":"Survive ten minutes on a Suriname terras against endless muskietos. Your electric mepper fires itself: collect blood drops, level up, evolve wierook coils and sling shots, beat the giant kakalaka and live through the blackout. Free browser game from Explore Suriname.","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/nl/"},"primaryImageOfPage":"https://exploresuriname.com/og-image.jpg","breadcrumb":{"@id":"https://exploresuriname.com/nl/muskieto.html#breadcrumb"},"mainEntity":{"@id":"https://exploresuriname.com/nl/muskieto.html#game"},"datePublished":"2026-07-20","dateModified":"2026-07-20","isAccessibleForFree":true},{"@type":"BreadcrumbList","@id":"https://exploresuriname.com/nl/muskieto.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Thuis","item":"https://exploresuriname.com/nl/"},{"@type":"ListItem","position":2,"name":"Muskieto Survivor","item":"https://exploresuriname.com/nl/muskieto.html"}]},{"@type":"VideoGame","@id":"https://exploresuriname.com/nl/muskieto.html#game","name":"Muskieto Survivor","url":"https://exploresuriname.com/nl/muskieto.html","description":"Survive ten minutes of muskietos on a Suriname terras: auto-firing meppers, wierook smoke, a kakalaka boss, a blackout finale and pagara screen-clears.","genre":"Arcade","gamePlatform":"Web browser","inLanguage":"nl","isAccessibleForFree":true,"image":"https://exploresuriname.com/og-image.jpg","publisher":{"@type":"Organization","name":"Explore Suriname","url":"https://exploresuriname.com/nl/"}},{"@type":"FAQPage","@id":"https://exploresuriname.com/nl/muskieto.html#faq","mainEntity":[{"@type":"Question","name":"What is Muskieto Survivor?","acceptedAnswer":{"@type":"Answer","text":"A survival game in the Vampire Survivors style, set where every Surinamese has fought this war: the terras at dusk. You only steer. Your weapons, from the electric mepper to the wierook coil, fire automatically. Muskietos stream in from every side for ten minutes, and your job is to be alive when the clock runs out."}},{"@type":"Question","name":"How do I play?","acceptedAnswer":{"@type":"Answer","text":"Move with WASD or the arrow keys, or drag anywhere on the screen on a phone. That is the only control: every weapon fires by itself, and the mepper zaps whatever is in front of you, so which way you move is which way you fight. Dead bugs drop blood drops; walk near them to collect XP. Each level-up offers three upgrades: new weapons, stronger weapons, or passives like the Cold Djogo. At level five an item evolves into something much nastier. On a phone, tap the fullscreen button and play portrait, exactly how it is meant to be played."}},{"@type":"Question","name":"What is the timeline?","acceptedAnswer":{"@type":"Answer","text":"The first minute is slow black muskietos. From minute one the striped dengue muskietos weave in. At minute three a giant kakalaka with 500 HP walks on, and killing it drops an Eksi Koekoe chest with free upgrades. From five to eight minutes the bigi freifrei rain down, and at minute nine the stroom goes and everything comes at you at triple speed in the dark. Watch for the rare pagara drop: it clears the whole screen with one bang."}},{"@type":"Question","name":"Is het gratis?","acceptedAnswer":{"@type":"Answer","text":"Yes. Muskieto Survivor is free, runs in your browser, and needs no app or account."}}]}]}</script> <style>
     #mq-wrap{position:relative;max-width:800px;margin:0 auto}
     #mq-cv{display:block;width:100%;height:auto;border-radius:14px;background:#b4afa4;box-shadow:0 10px 30px rgba(0,0,0,.25);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;cursor:crosshair}
+    #mq-mute{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:9999px;border:none;background:rgba(0,0,0,.38);color:#fff;font-size:15px;line-height:34px;text-align:center;cursor:pointer;z-index:4}
     .mq-hint{display:flex;gap:1.1rem;justify-content:center;flex-wrap:wrap;margin-top:.7rem;font-size:.72rem;color:#9ca3af}
     .mq-hint b{color:#6b7280;font-weight:700}
   </style>
@@ -489,6 +490,7 @@ document.addEventListener('keydown', e => {
 <main class="max-w-4xl mx-auto px-4 py-8 pb-20">
 <div id="mq-wrap">
 <canvas aria-label="Muskieto Survivor game" height="600" id="mq-cv" width="800"></canvas>
+<button aria-label="Sound on/off" id="mq-mute">🔊</button>
 </div>
 <div class="mq-hint"><span><b>WASD / arrows</b> of <b>drag</b> to move. That is the whole game.</span><span><b>⛶</b> fullscreen</span></div>
 <section aria-live="polite" class="hidden" id="lb-sec">
@@ -617,8 +619,9 @@ const S = GAME_LEN/600;
    5:00-8:00 freifrei rain | 9:00 blackout, 3x speed spawns | 10:00 victory */
 const PH = { dengue:60*S, boss:180*S, flies:300*S, fliesEnd:480*S, black:540*S, win:GAME_LEN };
 const cv = document.getElementById('mq-cv');
-const PORTRAIT = matchMedia('(orientation: portrait)').matches && Math.min(window.innerWidth, screen.width) < 820;
-const W = PORTRAIT ? 480 : 800, H = PORTRAIT ? 780 : 600;
+function calcPortrait(){ return (screen.height > screen.width) && screen.width < 820; }
+let PORTRAIT = calcPortrait();
+let W = PORTRAIT ? 480 : 800, H = PORTRAIT ? 780 : 600;
 cv.width = W; cv.height = H;
 const cx = cv.getContext('2d');
 
@@ -656,13 +659,15 @@ function stampSplat(x,y,big){
 }
 
 /* ---------- audio ---------- */
+let muted = false;
+try{ muted = localStorage.getItem('mq-muted')==='1'; }catch(e){}
 let AC = null;
 function ensureAudio(){
   if(!AC){ try{ AC = new (window.AudioContext||window.webkitAudioContext)(); }catch(err){} }
   if(AC && AC.state === 'suspended') AC.resume();
 }
 function tone(type,f0,f1,dur,vol){
-  if(!AC) return;
+  if(muted || !AC) return;
   const t0 = AC.currentTime;
   const o = AC.createOscillator(), g = AC.createGain();
   o.type = type;
@@ -1532,6 +1537,26 @@ function frame(ts){
 function resume(){ state='playing'; choices=null; last=0; if(!rafId) rafId=requestAnimationFrame(frame); }
 function restart(){ reset(); if(!rafId) rafId=requestAnimationFrame(frame); }
 
+function applyMode(){
+  PORTRAIT = calcPortrait();
+  W = PORTRAIT ? 480 : 800; H = PORTRAIT ? 780 : 600;
+  cv.width = W; cv.height = H;
+  floorCv.width = W; floorCv.height = H;
+}
+addEventListener('resize', () => {
+  /* phone rotated (or prerender woke up): rebuild unless a run is deep in progress */
+  if(calcPortrait()!==PORTRAIT && (t<5 || state!=='playing')){ applyMode(); reset(); }
+});
+const muteBtn = document.getElementById('mq-mute');
+function muteIcon(){ if(muteBtn) muteBtn.innerHTML = muted ? '&#128263;' : '&#128266;'; }
+if(muteBtn) muteBtn.onclick = () => {
+  muted = !muted;
+  try{ localStorage.setItem('mq-muted', muted?'1':'0'); }catch(e){}
+  if(!muted){ ensureAudio(); tone('triangle',660,660,0.08,0.05); }
+  muteIcon();
+};
+muteIcon();
+
 reset();
 rafId=requestAnimationFrame(frame);
 
@@ -1555,7 +1580,7 @@ function rows(arr){var t=L[lang];if(!arr||!arr.length)return '<li class="lb-empt
   h+='<li class="lb-row'+(r.me?" me":"")+'"><span class="lb-rank">'+(i+1)+'</span><span class="lb-name">'+esc(r.n)+'</span><b class="lb-sc">'+(+r.s).toLocaleString()+'</b></li>';}
  return h;}
 function you(){var t=L[lang],n=nick(),h="";
- if(!n&&(last!==null||changing)){h='<div class="lb-form"><input id="lb-nm" maxlength="14" placeholder="'+t.nm+'"><button id="lb-sv" type="button">'+t.save+'</button></div><p id="lb-err" class="text-xs" style="color:#dc2626;margin-top:.3rem"></p>';}
+ if(!n){h='<div class="lb-form"><input id="lb-nm" maxlength="14" placeholder="'+t.nm+'"><button id="lb-sv" type="button">'+t.save+'</button></div><p id="lb-err" class="text-xs" style="color:#dc2626;margin-top:.3rem"></p>';}
  else if(n){var r="";
   if(myRt)r='<div class="lb-rankline">'+t.r1+myRt+t.r2+myRa+t.r3+'<br><a class="lb-wa" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(t.wat1+myRt+t.wat2+"https://exploresuriname.com/"+PAGE)+'">'+t.wa+'</a></div>';
   h=r+'<p class="text-xs text-gray-400 mt-2">'+t.you+' <b>'+esc(n)+'</b> · <span class="lb-chg" id="lb-chg">'+t.chg+'</span></p>';}
