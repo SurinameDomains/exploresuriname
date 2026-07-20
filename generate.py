@@ -1476,8 +1476,7 @@ _SEARCH_INDEX = _json.dumps([
     {"n": "The Basics: Visas, SIMs and Money", "u": "visitor-guide.html", "c": "Guides", "a": "Suriname"},
     {"n": "Events and Festivals Calendar", "u": "events.html", "c": "Guides", "a": "Suriname"},
     {"n": "Market Rates: SRD Exchange", "u": "currency.html", "c": "Guides", "a": "Suriname"},
-    {"n": "World Cup 2026: Live Scores and Schedule", "u": "worldcup-2026.html", "c": "Guides", "a": "Suriname"},
-    {"n": "Sports Schedule: Games in Suriname Time", "u": "matches.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Sports Schedule: Football, World Cup, NBA, Fight Nights in Suriname Time", "u": "matches.html", "c": "Guides", "a": "Suriname"},
     {"n": "Suriname Time and World Clock Converter", "u": "suriname-time.html", "c": "Guides", "a": "Suriname"},
     {"n": "Sranan Tongo Dictionary and Phrasebook", "u": "sranan-tongo-dictionary.html", "c": "Guides", "a": "Suriname"},
     {"n": "History of Suriname: Interactive Timeline", "u": "suriname-history.html", "c": "Guides", "a": "Suriname"},
@@ -2450,7 +2449,7 @@ def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
     _TODO  = {"nature", "activities", "shopping", "events"}
     _EAT   = {"restaurants", "hotels"}
-    _ESS   = {"currency", "forecast", "worldcup", "matches", "dictionary"}
+    _ESS   = {"currency", "forecast", "matches", "dictionary"}
     _SVC   = {"services", "daily-notices", "flights", "atms"}
     _PLAN  = {"visitor", "surtime", "roads", "itinerary", "safety", "history"}
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda"}
@@ -2506,7 +2505,6 @@ def nav_html(active="home", prefix=""):
     ess_items = (
         f'<a href="{prefix}currency.html"       {_link_cls("currency")}       >Market Rates</a>'
         f'<a href="{prefix}conditions.html"     {_link_cls("forecast")}       >Weather &amp; Tides</a>'
-        f'<a href="{prefix}worldcup-2026.html"   {_link_cls("worldcup")}       >World Cup 2026</a>'
         f'<a href="{prefix}matches.html"        {_link_cls("matches")}        >Sports Schedule</a>'
         f'<a href="{prefix}sranan-tongo-dictionary.html" {_link_cls("dictionary")} >Sranan Dictionary</a>'
     )
@@ -2579,7 +2577,6 @@ def nav_html(active="home", prefix=""):
     mob_ess_items = (
         _mob_link(f"{prefix}currency.html",      "Market Rates",  "currency") +
         _mob_link(f"{prefix}conditions.html",    "Weather & Tides", "forecast") +
-        _mob_link(f"{prefix}worldcup-2026.html",  "World Cup 2026", "worldcup") +
         _mob_link(f"{prefix}matches.html",       "Sports Schedule", "matches") +
         _mob_link(f"{prefix}sranan-tongo-dictionary.html", "Sranan Dictionary", "dictionary")
     )
@@ -2850,7 +2847,6 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}map-game.html">Pe A De? Map Game</a>
         <a class="ftr-lnk" href="{prefix}korjaal.html">Korjaal Run</a>
         <a class="ftr-lnk" href="{prefix}anaconda.html">Aboma Snake Game</a>
-        <a class="ftr-lnk" href="{prefix}worldcup-2026.html">World Cup 2026</a>
         <a class="ftr-lnk" href="{prefix}matches.html">Sports Schedule</a>
         <a class="ftr-lnk" href="{prefix}about.html">About Us</a>
         <a class="ftr-lnk" href="{prefix}contact.html">Contact</a>
@@ -3640,9 +3636,9 @@ function esSearch(){
       </div>
       <div class="hero-chips">
         <span class="lbl">Most visited</span>
-        <a href="worldcup-2026.html">World Cup 2026</a>
+        <a href="matches.html">Sports Schedule</a>
         <a href="korjaal.html">Korjaal Run</a>
-        <a href="quiz.html">Daily quiz</a>
+        <a href="atms.html">ATM finder</a>
         <a href="currency.html">Market rates</a>
         <a href="daily-notices.html">Daily notices</a>
       </div>
@@ -7949,16 +7945,16 @@ def build_matches_page(matches):
 
     # ── Head / hero / cards ──────────────────────────────────────────────────
     title = "Sports Schedule: Football, NBA and Fight Nights in Suriname Time"
-    desc = ("Kickoffs, tip-offs and fight nights in Suriname time (UTC-3): World Cup, Champions League, "
+    desc = ("Kickoffs, tip-offs and fight nights in Suriname time (UTC-3): Champions League, "
             "Europa League, Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Copa "
-            "Libertadores, NBA, UFC, Glory Kickboxing and big boxing cards. Updated automatically through the day.")
+            "Libertadores, NBA, UFC, Glory Kickboxing, big boxing cards and the World Cup when it runs. Updated automatically through the day.")
     faq = [
         ("What time zone are the kickoff times on this page?",
          "Everything is shown in Suriname time (UTC-3, no daylight saving). No mental math needed: "
          "the time you see is the time the match starts on your clock in Suriname."),
         ("Which competitions are covered?",
-         "Football: the FIFA World Cup while it runs, the Champions League, Europa League, Eredivisie, "
-         "Premier League, La Liga, Serie A, Bundesliga, Ligue 1 and Copa Libertadores. Basketball: every "
+         "Football: the Champions League, Europa League, Eredivisie, "
+         "Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Copa Libertadores, and the World Cup and its qualifiers while they run. Basketball: every "
          "NBA game. Fight nights: full UFC cards, Glory Kickboxing events and the big boxing cards. "
          "Competitions with nothing scheduled in the coming weeks hide automatically."),
         ("Why is there no NBA game listed right now?",
@@ -11311,7 +11307,6 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("suriname-itinerary.html", "0.8", "monthly"),
         ("is-suriname-safe.html",   "0.7", "monthly"),
         ("suriname-history.html",  "0.8", "monthly"),
-        ("worldcup-2026.html",      "0.8", "daily"),
         ("matches.html",            "0.8", "daily"),
         ("suriname-time.html",      "0.7", "daily"),
         ("sranan-tongo-dictionary.html", "0.8", "monthly"),
@@ -11410,6 +11405,8 @@ def build_llms_txt():
 - [Flights]({S}/flights.html): arrivals and departures for Johan Adolf Pengel International (PBM) and Eduard Alexander Gummels (EAX) airports.
 - [Weather and Tides]({S}/conditions.html): seven-day district forecasts, river tidal predictions and sunrise and sunset times.
 - [Daily Notices]({S}/daily-notices.html): on-call pharmacies, power and water outage notices, and cinema showtimes.
+- [ATM Finder]({S}/atms.html): every ATM in Suriname on a map with live up/down status where the bank publishes it, plus which cards each machine accepts (BNETS, Mastercard, Visa, foreign cards).
+- [Sports in Suriname Time]({S}/matches.html): football (Champions League, Premier League, Eredivisie, World Cup when it runs and more), NBA games and fight nights (UFC, Glory Kickboxing, boxing) with every start time converted to Suriname time (UTC-3), plus recent results.
 - [Suriname Time and World Clock]({S}/suriname-time.html): current Suriname time (UTC-3, no daylight saving), a live world-clock band and a two-way time-zone converter with a Netherlands call-overlap helper.
 
 ## Daily games
@@ -11418,7 +11415,6 @@ def build_llms_txt():
 - [Pe A De?]({S}/map-game.html): daily map game; tap the official map of Suriname (Tigri area included) to locate five real places.
 - [Korjaal Run]({S}/korjaal.html): arcade river game; steer a korjaal past logs, rocks and rapids on a shared daily river.
 - [Aboma]({S}/anaconda.html): snake game, Suriname style; grow an anaconda by eating piranhas, build combos and dodge driftwood.
-- [Sports in Suriname Time]({S}/matches.html): football (World Cup, Champions League, Premier League, Eredivisie and more), NBA games and fight nights (UFC, Glory Kickboxing, boxing) with every start time converted to Suriname time (UTC-3), plus recent results.
 
 ## About
 - [About this site]({S}/about.html): what Explore Suriname is and who maintains it.
@@ -12785,8 +12781,12 @@ def fetch_atms():
                 "desc": _atm_clean_ws(a.get("description", "")),
                 "machines": 1, "online": 1 if on else 0,
             })
-        meta["dsb_live"] = True
+        # An empty/unparseable payload is a FAILURE, not "live with zero ATMs" —
+        # otherwise one bad response wipes the network off the page and poisons the cache.
+        meta["dsb_live"] = bool(dsb)
         meta["dsb_updated"] = _atm_clean_ws(d.get("last_updated_utc", ""))
+        if not dsb:
+            print("  DSB ATM feed returned 0 machines; falling back to cache")
     except Exception as e:
         print(f"  DSB ATM feed error: {e}")
 
@@ -12807,7 +12807,9 @@ def fetch_atms():
                 "district": _atm_clean_ws(a.get("district", "")),
                 "lat": round(lat, 6), "lng": round(lng, 6), "online": online,
             })
-        meta["cashpnt_live"] = True
+        meta["cashpnt_live"] = bool(cp_raw)
+        if not cp_raw:
+            print("  Cashpnt ATM feed returned 0 machines; falling back to cache")
     except Exception as e:
         print(f"  Cashpnt ATM feed error: {e}")
 
@@ -12832,7 +12834,7 @@ def fetch_atms():
 
     # ---- Merge live + fall back to cache per network ----
     if meta["dsb_live"] or meta["cashpnt_live"]:
-        cached = _atm_read_cache(cache_path) if not (meta["dsb_live"] and meta["cashpnt_live"]) else None
+        cached = _atm_read_cache(cache_path)
         live += dsb if meta["dsb_live"] else []
         live += cashpnt if meta["cashpnt_live"] else []
         if not meta["dsb_live"] and cached:
@@ -12844,12 +12846,20 @@ def fetch_atms():
             c = [a for a in cached.get("atms", []) if a.get("net") == "Cashpnt"]
             live += c
             meta["cashpnt_stale"] = bool(c)
-        try:
-            cache_path.parent.mkdir(exist_ok=True)
-            cache_path.write_text(json.dumps({"meta": meta, "atms": live}, ensure_ascii=False),
-                                  encoding="utf-8")
-        except Exception as e:
-            print(f"  ATM cache write error: {e}")
+        # Never persist a snapshot that lost a whole network — a poisoned cache would
+        # keep that network off the page long after the feed recovered.
+        _prev = {n: sum(1 for a in (cached or {}).get("atms", []) if a.get("net") == n)
+                 for n in ("DSB", "Cashpnt")}
+        _now = {n: sum(1 for a in live if a.get("net") == n) for n in ("DSB", "Cashpnt")}
+        if all(_now[n] or not _prev[n] for n in _now):
+            try:
+                cache_path.parent.mkdir(exist_ok=True)
+                cache_path.write_text(json.dumps({"meta": meta, "atms": live}, ensure_ascii=False),
+                                      encoding="utf-8")
+            except Exception as e:
+                print(f"  ATM cache write error: {e}")
+        else:
+            print(f"  ATM cache NOT written (would drop a network): {_prev} -> {_now}")
     else:
         cached = _atm_read_cache(cache_path)
         live = cached.get("atms", [])
@@ -13717,7 +13727,14 @@ if __name__ == "__main__":
             '<link rel="canonical" href="https://exploresuriname.com/events.html">'
             '<title>Redirecting&hellip;</title></head><body>'
             '<p>This page has moved. <a href="/events.html">Click here</a>.</p></body></html>'),
-        "worldcup-2026.html":      build_worldcup_page(),
+        "worldcup-2026.html":      ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
+            '<meta name="viewport" content="width=device-width, initial-scale=1">'
+            '<meta name="robots" content="noindex,follow">'
+            '<meta http-equiv="refresh" content="0;url=/matches.html">'
+            '<link rel="canonical" href="https://exploresuriname.com/matches.html">'
+            '<title>Redirecting to the Sports Schedule&hellip;</title></head><body>'
+            '<p>The 2026 World Cup is over. Every other kickoff, tip-off and fight night is on our '
+            '<a href="/matches.html">Sports Schedule</a>, in Suriname time.</p></body></html>'),
         "matches.html":            build_matches_page(matches_data),
         "suriname-time.html":      build_time_page(),
         "atms.html":               build_atms_page(atm_list, atm_meta, atm_ref),

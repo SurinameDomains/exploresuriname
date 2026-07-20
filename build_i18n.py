@@ -172,17 +172,27 @@ def localize(soup, lang: str, rel_path: str):
     # canonical + og:url -> prefix the path for non-en
     prefix = "" if lang == "en" else f"/{lang}"
     canon = f"{SITE_URL}{prefix}/{rel_path}".replace("/index.html", "/")
-    for el in soup.select("link[rel=canonical]"):
-        el["href"] = canon
-    for el in soup.select("meta[property='og:url']"):
-        el["content"] = canon
-
-    # language-aware redirect for the today.html stub
-    if rel_path == "today.html" and lang != "en":
-        for m in soup.select('meta[http-equiv="refresh"]'):
-            m["content"] = m.get("content","").replace("/daily-notices.html", f"/{lang}/daily-notices.html")
-        for a in soup.select('a[href="/daily-notices.html"]'):
-            a["href"] = f"/{lang}/daily-notices.html"
+    # Redirect stubs must keep pointing at their target, never self-canonicalize.
+    _STUBS = {"today.html": "/daily-notices.html",
+              "worldcup-2026.html": "/matches.html",
+              "seogs-2026.html": "/events.html"}
+    if rel_path not in _STUBS:
+        for el in soup.select("link[rel=canonical]"):
+            el["href"] = canon
+        for el in soup.select("meta[property='og:url']"):
+            el["content"] = canon
+    else:
+        _t = _STUBS[rel_path]
+        _tgt = f"{SITE_URL}{prefix}{_t}"
+        for el in soup.select("link[rel=canonical]"):
+            el["href"] = _tgt
+        for el in soup.select("meta[property='og:url']"):
+            el["content"] = _tgt
+        if lang != "en":
+            for m in soup.select('meta[http-equiv="refresh"]'):
+                m["content"] = m.get("content", "").replace(_t, f"/{lang}{_t}")
+            for a in soup.select(f'a[href="{_t}"]'):
+                a["href"] = f"/{lang}{_t}"
     # keep translated nav labels on a single row (they run longer than English)
     if soup.head:
         _st = soup.new_tag("style"); _st.string = "nav button,nav a{white-space:nowrap}"
