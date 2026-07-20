@@ -8475,6 +8475,46 @@ if(window.ESRLB)ESRLB.init();
 </script>"""
 
 
+def _fs_css():
+    """Fullscreen button + fullscreen layout for game canvases."""
+    return """
+  <style>
+    .esr-fsbtn{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:9999px;border:none;background:rgba(0,0,0,.38);color:#fff;font-size:16px;line-height:34px;text-align:center;cursor:pointer;z-index:4}
+    .esr-fswrap:fullscreen{background:#101418;display:flex;align-items:center;justify-content:center;max-width:none}
+    .esr-fsfake{position:fixed !important;top:0;left:0;right:0;bottom:0;z-index:99999;background:#101418;display:flex;align-items:center;justify-content:center;max-width:none !important;margin:0 !important;border-radius:0}
+  </style>"""
+
+
+def _fs_js(wrap_id):
+    """Fullscreen toggle: native Fullscreen API with a CSS overlay fallback
+    (iPhone Safari has no element fullscreen). Adds its own button to the wrap."""
+    return ('<script>\n(function(){\n'
+            'var w=document.getElementById("' + wrap_id + '");if(!w)return;\n'
+            'var c=w.querySelector("canvas");var fake=false;\n'
+            'var b=document.createElement("button");b.className="esr-fsbtn";b.setAttribute("aria-label","Fullscreen");b.innerHTML="&#x26F6;";\n'
+            'if(w.querySelector("button"))b.style.right="52px";\n'
+            'w.appendChild(b);w.classList.add("esr-fswrap");\n'
+            'function on(){return fake||document.fullscreenElement===w;}\n'
+            'function fit(){if(!on()){c.style.width="";c.style.height="";return;}\n'
+            ' var ar=c.width/c.height,vw=window.innerWidth,vh=window.innerHeight;\n'
+            ' if(vw/vh>ar){c.style.height=vh+"px";c.style.width=Math.round(vh*ar)+"px";}\n'
+            ' else{c.style.width=vw+"px";c.style.height=Math.round(vw/ar)+"px";}}\n'
+            'function icon(){b.innerHTML=on()?"&#10005;":"&#x26F6;";}\n'
+            'function offFake(){fake=false;w.classList.remove("esr-fsfake");fit();icon();}\n'
+            'b.addEventListener("click",function(){\n'
+            ' if(document.fullscreenElement===w){document.exitFullscreen();return;}\n'
+            ' if(fake){offFake();return;}\n'
+            ' var p=null;\n'
+            ' try{p=w.requestFullscreen&&w.requestFullscreen();}catch(e){}\n'
+            ' if(p&&p.then){p.then(function(){fit();icon();}).catch(function(){fake=true;w.classList.add("esr-fsfake");fit();icon();});}\n'
+            ' else{fake=true;w.classList.add("esr-fsfake");fit();icon();}\n'
+            '});\n'
+            'document.addEventListener("fullscreenchange",function(){fit();icon();});\n'
+            'window.addEventListener("resize",fit);\n'
+            'document.addEventListener("keydown",function(e){if(fake&&e.key==="Escape")offFake();});\n'
+            '})();\n</script>')
+
+
 def _lb_css():
     return LB_CSS if LB_API else ""
 
@@ -8936,7 +8976,7 @@ def build_korjaal_page():
         + '\n  <meta name="twitter:description" content="Switch lanes, dodge the river, ride the sula boost. How far can you paddle before it wins?">'
         + '\n  <meta name="twitter:image" content="' + _ogimg + '">'
         + '\n  <script type="application/ld+json">\n  ' + _graph + '\n  </script>'
-        + _CSS + _lb_css() + '\n</head>')
+        + _CSS + _lb_css() + _fs_css() + '\n</head>')
 
     _about = """
 <section class="max-w-2xl mx-auto px-4 mt-14">
@@ -9308,11 +9348,13 @@ setLang(lang);idle();
 })();
 </script>
 __LBJS__
+__FSJS__
 </body>
 </html>"""
 
     body = (body.replace("__LBSEC__", _lb_sec())
                 .replace("__LBJS__", _lb_js("korjaal", "kj-lang", "korjaal.html", "Korjaal Run"))
+                .replace("__FSJS__", _fs_js("kj-wrap"))
                 .replace("__NAV__", nav_html("korjaal"))
                 .replace("__NOSCRIPT__", _noscript)
                 .replace("__ABOUT__", _about)
@@ -9410,7 +9452,7 @@ def build_anaconda_page():
         + '\n  <meta name="twitter:description" content="Eat piranhas, build the combo, dodge the driftwood. How long can your anaconda get?">'
         + '\n  <meta name="twitter:image" content="' + _ogimg + '">'
         + '\n  <script type="application/ld+json">\n  ' + _graph + '\n  </script>'
-        + _CSS + _lb_css() + '\n</head>')
+        + _CSS + _lb_css() + _fs_css() + '\n</head>')
 
     _about = """
 <section class="max-w-2xl mx-auto px-4 mt-14">
@@ -9816,11 +9858,13 @@ setLang(lang);idle();
 })();
 </script>
 __LBJS__
+__FSJS__
 </body>
 </html>"""
 
     body = (body.replace("__LBSEC__", _lb_sec())
                 .replace("__LBJS__", _lb_js("anaconda", "ab-lang", "anaconda.html", "Aboma"))
+                .replace("__FSJS__", _fs_js("ab-wrap"))
                 .replace("__NAV__", nav_html("anaconda"))
                 .replace("__NOSCRIPT__", _noscript)
                 .replace("__ABOUT__", _about)
@@ -9872,8 +9916,9 @@ _MUSKIETO_JS = r"""
    Single-file canvas prototype. No assets, no libraries.
    Full 10 minute run. Set FAST_MODE = true for a
    compressed 3 minute test run (same phase ratios).
-   Controls: WASD / arrows, click or tap = manual swat,
-   touch-drag = virtual joystick on mobile.
+   Controls: WASD / arrows, or touch-drag joystick on
+   mobile. One input: all weapons fire automatically.
+   Portrait arena (480x780) on phones, 800x600 on desktop.
 
    Inventory: 4 weapon slots + 2 passive slots, Lv 1-5.
    Lv 5 = evolution.
@@ -9884,8 +9929,10 @@ const S = GAME_LEN/600;
 /* Timeline: 0-1:00 early musk | 1:00 dengue swarm | 3:00 KAKALAKA boss (500 HP)
    5:00-8:00 freifrei rain | 9:00 blackout, 3x speed spawns | 10:00 victory */
 const PH = { dengue:60*S, boss:180*S, flies:300*S, fliesEnd:480*S, black:540*S, win:GAME_LEN };
-const W = 800, H = 600;
 const cv = document.getElementById('mq-cv');
+const PORTRAIT = matchMedia('(orientation: portrait)').matches && Math.min(window.innerWidth, screen.width) < 820;
+const W = PORTRAIT ? 480 : 800, H = PORTRAIT ? 780 : 600;
+cv.width = W; cv.height = H;
 const cx = cv.getContext('2d');
 
 function rnd2(a,b){ const s = Math.sin(a*127.1 + b*311.7) * 43758.5453; return s - Math.floor(s); }
@@ -9941,7 +9988,6 @@ function tone(type,f0,f1,dur,vol){
 }
 const zapSound   = () => tone('square',  1700, 240, 0.09, 0.10);
 const thumpSound = () => tone('sine',     110,  42, 0.18, 0.30);
-const swatSound  = () => tone('triangle', 300,  90, 0.06, 0.12);
 const blipSound  = () => tone('triangle', 620, 990, 0.06, 0.05);
 const pingSound  = () => tone('square',   520, 300, 0.05, 0.07);
 function bangSound(){
@@ -9976,14 +10022,14 @@ const ORB_R = 70, ORB_DMG = 10, ORB_SPEED = 2.4;
 
 /* ---------- state ---------- */
 let state, t, last, rafId = 0, shake, spawnT, flyT, bugId;
-let level, xp, xpNeed, kills, combo, bestCombo, swatDmg;
+let level, xp, xpNeed, kills, combo, bestCombo;
 let bugs, drops, smokes, zaps, shots, dusts, floaters, trail, chest;
 let choices, choiceBoxes, ann, weapons, passives, player;
 let orbA, coilTrailT, dustT, chillT, chillReady, pagaras, booms, flashT;
 
 function reset(){
   state='playing'; t=0; last=0; shake=0; spawnT=1; flyT=0; bugId=1;
-  level=1; xp=0; xpNeed=5; kills=0; combo=0; bestCombo=0; swatDmg=3;
+  level=1; xp=0; xpNeed=5; kills=0; combo=0; bestCombo=0;
   bugs=[]; drops=[]; smokes=[]; zaps=[]; shots=[]; dusts=[]; floaters=[]; trail=[]; pagaras=[]; booms=[];
   chest=null; choices=null; choiceBoxes=[];
   ann={dengue:false,boss:false,flies:false,black:false};
@@ -9998,7 +10044,7 @@ function reset(){
     slippers:{key:'slippers',name:'Slippers',   lvl:0}
   };
   orbA=0; coilTrailT=0; dustT=0; chillT=30; chillReady=false; flashT=0;
-  player={x:W/2,y:H/2,r:12,speed:150,hp:100,maxHp:100,magnet:60,hurtT:0};
+  player={x:W/2,y:H/2,r:12,speed:150,hp:100,maxHp:100,magnet:60,hurtT:0,fx:1,fy:0};
   paintFloor();
 }
 
@@ -10041,9 +10087,7 @@ cv.addEventListener('touchend', e => {
 
 function tapAction(x,y){
   if(state==='playing'){
-    let best=null, bd=30;
-    for(const b of bugs){ const d=Math.hypot(b.x-x,b.y-y); if(d < bd+b.r){ bd=d; best=b; } }
-    if(best){ damageBug(best,swatDmg); swatSound(); shake=Math.max(shake,3); processDeaths(); }
+    /* one-input game: no manual attack */
   } else if(state==='levelup'){
     for(const bx of choiceBoxes){
       if(x>=bx.x && x<=bx.x+bx.w && y>=bx.y && y<=bx.y+bx.h){ bx.c.apply(); resume(); break; }
@@ -10114,7 +10158,7 @@ function processDeaths(){
 
 /* ---------- floaters ---------- */
 function floater(x,y,txt,color,size){ floaters.push({x,y,txt,color:color||'#fff',size:size||13,life:1.6,max:1.6,center:true}); }
-function announce(txt){ floaters.push({x:W/2,y:210,txt,color:'#ffd166',size:30,life:2.4,max:2.4,center:true}); }
+function announce(txt){ floaters.push({x:W/2,y:Math.round(H*0.3),txt,color:'#ffd166',size:W<720?22:30,life:2.4,max:2.4,center:true}); }
 
 /* ---------- inventory / level-up ----------
    4 weapon slots, 2 passive slots. Items level 1-5, Lv5 = evolution. */
@@ -10149,7 +10193,7 @@ function itemOptions(pool,isPassive){
 }
 function unlockDesc(k){
   return {
-    mepper:'Auto-zaps the nearest bug',
+    mepper:'Auto-zaps bugs in front of you',
     coil:'Drops killing smoke where you walked',
     repel:'A ring around you that hurts bugs inside it',
     sling:'Fires pebbles at random bugs',
@@ -10159,7 +10203,7 @@ function unlockDesc(k){
 }
 function upDesc(k){
   return {
-    mepper:'Zaps faster and harder',
+    mepper:'Zaps faster, harder and further',
     coil:'Bigger, longer-lasting smoke',
     repel:'Bigger radius, stronger tick damage',
     sling:'More damage, faster pebbles',
@@ -10181,7 +10225,7 @@ function fillerOptions(){
   const o = [];
   if(player.hp<player.maxHp) o.push({name:'Telo Snack', desc:'Restore 30 HP', apply:()=>{player.hp=Math.min(player.maxHp,player.hp+30);}});
   o.push({name:'Magnet Hands', desc:'Pick up blood drops from further away', apply:()=>{player.magnet*=1.35;}});
-  o.push({name:'Heavy Hand', desc:'Your manual swat hits +1 harder', apply:()=>{swatDmg++;}});
+  o.push({name:'Warm Up', desc:'Move 5% faster', apply:()=>{player.speed*=1.05;}});
   return o;
 }
 function shuffle(a){
@@ -10245,6 +10289,7 @@ function update(dt){
     }
   }
   if(mv>0){
+    player.fx = dx/mv; player.fy = dy/mv;
     player.x += dx/mv*spd*dt; player.y += dy/mv*spd*dt;
     if(passives.slippers.lvl>=5){
       dustT -= dt;
@@ -10308,8 +10353,15 @@ function update(dt){
   if(mep.lvl>0){
     mep.timer -= dt;
     if(mep.timer<=0){
+      /* directional: only bugs in a 120 degree cone in front of you */
       let best=null, bd=MEP_RANGE[mep.lvl-1];
-      for(const b of bugs){ const d=Math.hypot(b.x-player.x,b.y-player.y); if(d<bd){ bd=d; best=b; } }
+      for(const b of bugs){
+        const ddx=b.x-player.x, ddy=b.y-player.y;
+        const d=Math.hypot(ddx,ddy);
+        if(d>=bd) continue;
+        if(d>1 && (ddx*player.fx+ddy*player.fy)/d < 0.5) continue;
+        bd=d; best=b;
+      }
       if(best){
         mep.timer = MEP_CD[mep.lvl-1];
         damageBug(best, MEP_DMG[mep.lvl-1]);
@@ -10496,11 +10548,13 @@ function drawPlayer(){
   cx.fillStyle='#c68863'; cx.beginPath(); cx.arc(0,-11,7,0,7); cx.fill();
   cx.fillStyle='#222'; cx.fillRect(-3.5,-12.5,2,2); cx.fillRect(1.5,-12.5,2,2);
   if(weapons.mepper.lvl>0 && weapons.mepper.lvl<5){
+    cx.save(); cx.rotate(Math.atan2(player.fy,player.fx));
     cx.strokeStyle='#888'; cx.lineWidth=2;
     cx.beginPath(); cx.moveTo(9,0); cx.lineTo(16,-6); cx.stroke();
     cx.strokeStyle='#4da3ff'; cx.lineWidth=1.5;
     cx.beginPath(); cx.ellipse(20,-9,6,4.5,-0.7,0,7); cx.stroke();
     cx.beginPath(); cx.moveTo(17,-12); cx.lineTo(23,-6); cx.moveTo(16,-9); cx.lineTo(24,-9); cx.stroke();
+    cx.restore();
   }
   cx.globalAlpha=1;
   /* Cold Djogo Lv5: chill shield ring when charged */
@@ -10720,39 +10774,44 @@ function wrapText(txt,cxr,y,maxW,lh){
 }
 function drawLevelUp(){
   cx.fillStyle='rgba(10,14,10,0.78)'; cx.fillRect(0,0,W,H);
+  const vert = W < 720;
+  const ty = vert ? Math.round(H*0.13) : 140;
   cx.fillStyle='#ffd166'; cx.font='bold 34px system-ui,sans-serif'; cx.textAlign='center';
-  cx.fillText('LEVEL '+level+'!',W/2,140);
+  cx.fillText('LEVEL '+level+'!',W/2,ty);
   cx.fillStyle='#cfe8cf'; cx.font='14px system-ui,sans-serif';
-  cx.fillText('Choose an upgrade',W/2,168);
+  cx.fillText('Choose an upgrade',W/2,ty+28);
   choiceBoxes=[];
-  const bw=218, bh=160, gap=22;
+  const bw = vert ? Math.min(360, W-48) : 218;
+  const bh = vert ? 112 : 160;
+  const gap = vert ? 16 : 22;
   const total = choices.length*bw+(choices.length-1)*gap;
-  const x0 = W/2-total/2;
   for(let i=0;i<choices.length;i++){
-    const x = x0+i*(bw+gap), y = 210;
+    const x = vert ? W/2-bw/2 : W/2-total/2+i*(bw+gap);
+    const y = vert ? Math.round(H*0.2)+i*(bh+gap) : 210;
     cx.fillStyle='#1e2a1e';
     cx.strokeStyle = choices[i].gold ? '#ffd166' : '#57cc63';
     cx.lineWidth = choices[i].gold ? 3 : 2;
     cx.fillRect(x,y,bw,bh); cx.strokeRect(x,y,bw,bh);
     cx.fillStyle = choices[i].gold ? '#ffd166' : '#fff';
     cx.font='bold 15px system-ui,sans-serif';
-    wrapText(choices[i].name, x+bw/2, y+32, bw-24, 18);
+    wrapText(choices[i].name, x+bw/2, y+(vert?28:32), bw-24, 18);
     cx.fillStyle='#a8c8a8'; cx.font='12.5px system-ui,sans-serif';
-    wrapText(choices[i].desc, x+bw/2, y+90, bw-24, 16);
+    wrapText(choices[i].desc, x+bw/2, y+(vert?66:90), bw-24, 16);
     choiceBoxes.push({x,y,w:bw,h:bh,c:choices[i]});
   }
   cx.textAlign='left';
 }
 function drawEnd(win){
   cx.fillStyle='rgba(8,10,12,0.8)'; cx.fillRect(0,0,W,H);
+  const ey = Math.round(H*0.4);
   cx.textAlign='center';
   cx.fillStyle = win ? '#57cc63' : '#e63946';
-  cx.font='bold 40px system-ui,sans-serif';
-  cx.fillText(win ? 'YOU SURVIVED THE TERRAS' : 'EATEN ALIVE', W/2, 240);
+  cx.font='bold '+(W<720?26:40)+'px system-ui,sans-serif';
+  cx.fillText(win ? 'YOU SURVIVED THE TERRAS' : 'EATEN ALIVE', W/2, ey);
   cx.fillStyle='#fff'; cx.font='16px system-ui,sans-serif';
-  cx.fillText('Kills: '+kills+'    Best combo: '+bestCombo+'    Level: '+level, W/2, 290);
+  cx.fillText('Kills: '+kills+'    Best combo: '+bestCombo+'    Level: '+level, W/2, ey+50);
   cx.fillStyle='#a8c8a8'; cx.font='14px system-ui,sans-serif';
-  cx.fillText('Click, tap or press Enter to play again', W/2, 330);
+  cx.fillText('Click, tap or press Enter to play again', W/2, ey+90);
   cx.textAlign='left';
 }
 
@@ -10797,10 +10856,12 @@ def build_muskieto_page():
          "fire automatically. Muskietos stream in from every side for ten minutes, and your job is to be "
          "alive when the clock runs out."),
         ("How do I play?",
-         "Move with WASD or the arrow keys, or drag anywhere on the screen on a phone. Tapping or clicking "
-         "a bug swats it by hand. Dead bugs drop blood drops; walk near them to collect XP. Each level-up "
-         "offers three upgrades: new weapons, stronger weapons, or passives like the Cold Djogo. At level "
-         "five an item evolves into something much nastier."),
+         "Move with WASD or the arrow keys, or drag anywhere on the screen on a phone. That is the only "
+         "control: every weapon fires by itself, and the mepper zaps whatever is in front of you, so which "
+         "way you move is which way you fight. Dead bugs drop blood drops; walk near them to collect XP. "
+         "Each level-up offers three upgrades: new weapons, stronger weapons, or passives like the Cold "
+         "Djogo. At level five an item evolves into something much nastier. On a phone, tap the fullscreen "
+         "button and play portrait, exactly how it is meant to be played."),
         ("What is the timeline?",
          "The first minute is slow black muskietos. From minute one the striped dengue muskietos weave in. "
          "At minute three a giant kakalaka with 500 HP walks on, and killing it drops an Eksi Koekoe chest "
@@ -10835,7 +10896,7 @@ def build_muskieto_page():
     ]}, ensure_ascii=False)
 
     _CSS = """  <style>
-    #mq-wrap{max-width:800px;margin:0 auto}
+    #mq-wrap{position:relative;max-width:800px;margin:0 auto}
     #mq-cv{display:block;width:100%;height:auto;border-radius:14px;background:#b4afa4;box-shadow:0 10px 30px rgba(0,0,0,.25);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;cursor:crosshair}
     .mq-hint{display:flex;gap:1.1rem;justify-content:center;flex-wrap:wrap;margin-top:.7rem;font-size:.72rem;color:#9ca3af}
     .mq-hint b{color:#6b7280;font-weight:700}
@@ -10857,7 +10918,7 @@ def build_muskieto_page():
         + '\n  <meta name="twitter:description" content="Ten minutes, one terras, endless muskietos. The meppers fire themselves. Can you survive the blackout?">'
         + '\n  <meta name="twitter:image" content="' + _ogimg + '">'
         + '\n  <script type="application/ld+json">\n  ' + _graph + '\n  </script>'
-        + _CSS + '\n</head>')
+        + _CSS + _fs_css() + '\n</head>')
 
     _about = """
 <section class="max-w-2xl mx-auto px-4 mt-14">
@@ -10867,7 +10928,7 @@ def build_muskieto_page():
   the table. What follows is a national ritual: the electric mepper comes out, somebody lights a wierook coil,
   somebody else swears by repellent, and the evening becomes a war of attrition that the muskietos usually win.</p>
   <p class="text-gray-700 text-sm leading-relaxed mb-3">This game is that evening, escalated. You steer one
-  person around one porch while the weapons do their own work. Blood drops from swatted bugs level you up, and
+  person around one porch while the weapons do their own work. Blood drops from fallen bugs level you up, and
   every level is a choice: a faster mepper, wider wierook smoke, a stronger repellent ring, a sling shot, a
   cold djogo for your health, or better slippers for your feet. Push any of them to level five and it evolves.
   At minute three a kakalaka the size of a slipper walks on. At minute nine the stroom goes, because of course
@@ -10912,8 +10973,8 @@ __NAV__
 <main class="max-w-4xl mx-auto px-4 py-8 pb-20">
   <div id="mq-wrap">
     <canvas id="mq-cv" width="800" height="600" aria-label="Muskieto Survivor game"></canvas>
-    <div class="mq-hint"><span><b>WASD / arrows</b> move</span><span><b>Drag</b> to move on touch</span><span><b>Tap or click</b> manual swat</span></div>
   </div>
+  <div class="mq-hint"><span><b>WASD / arrows</b> or <b>drag</b> to move. That is the whole game.</span><span><b>&#x26F6;</b> fullscreen</span></div>
 </main>
 __NOSCRIPT__
 __ABOUT__
@@ -10922,10 +10983,12 @@ __FOOTER__
 <script>
 __GAMEJS__
 </script>
+__FSJS__
 </body>
 </html>"""
 
     body = (body.replace("__GAMEJS__", _MUSKIETO_JS)
+                .replace("__FSJS__", _fs_js("mq-wrap"))
                 .replace("__NAV__", nav_html("muskieto"))
                 .replace("__NOSCRIPT__", _noscript)
                 .replace("__ABOUT__", _about)
