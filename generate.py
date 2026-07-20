@@ -8432,7 +8432,7 @@ function rows(arr){var t=L[lang];if(!arr||!arr.length)return '<li class="lb-empt
   h+='<li class="lb-row'+(r.me?" me":"")+'"><span class="lb-rank">'+(i+1)+'</span><span class="lb-name">'+esc(r.n)+'</span><b class="lb-sc">'+(+r.s).toLocaleString()+'</b></li>';}
  return h;}
 function you(){var t=L[lang],n=nick(),h="";
- if(!n&&(last!==null||changing)){h='<div class="lb-form"><input id="lb-nm" maxlength="14" placeholder="'+t.nm+'"><button id="lb-sv" type="button">'+t.save+'</button></div><p id="lb-err" class="text-xs" style="color:#dc2626;margin-top:.3rem"></p>';}
+ if(!n){h='<div class="lb-form"><input id="lb-nm" maxlength="14" placeholder="'+t.nm+'"><button id="lb-sv" type="button">'+t.save+'</button></div><p id="lb-err" class="text-xs" style="color:#dc2626;margin-top:.3rem"></p>';}
  else if(n){var r="";
   if(myRt)r='<div class="lb-rankline">'+t.r1+myRt+t.r2+myRa+t.r3+'<br><a class="lb-wa" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(t.wat1+myRt+t.wat2+"https://exploresuriname.com/"+PAGE)+'">'+t.wa+'</a></div>';
   h=r+'<p class="text-xs text-gray-400 mt-2">'+t.you+' <b>'+esc(n)+'</b> · <span class="lb-chg" id="lb-chg">'+t.chg+'</span></p>';}
@@ -9930,8 +9930,9 @@ const S = GAME_LEN/600;
    5:00-8:00 freifrei rain | 9:00 blackout, 3x speed spawns | 10:00 victory */
 const PH = { dengue:60*S, boss:180*S, flies:300*S, fliesEnd:480*S, black:540*S, win:GAME_LEN };
 const cv = document.getElementById('mq-cv');
-const PORTRAIT = matchMedia('(orientation: portrait)').matches && Math.min(window.innerWidth, screen.width) < 820;
-const W = PORTRAIT ? 480 : 800, H = PORTRAIT ? 780 : 600;
+function calcPortrait(){ return (screen.height > screen.width) && screen.width < 820; }
+let PORTRAIT = calcPortrait();
+let W = PORTRAIT ? 480 : 800, H = PORTRAIT ? 780 : 600;
 cv.width = W; cv.height = H;
 const cx = cv.getContext('2d');
 
@@ -9969,13 +9970,15 @@ function stampSplat(x,y,big){
 }
 
 /* ---------- audio ---------- */
+let muted = false;
+try{ muted = localStorage.getItem('mq-muted')==='1'; }catch(e){}
 let AC = null;
 function ensureAudio(){
   if(!AC){ try{ AC = new (window.AudioContext||window.webkitAudioContext)(); }catch(err){} }
   if(AC && AC.state === 'suspended') AC.resume();
 }
 function tone(type,f0,f1,dur,vol){
-  if(!AC) return;
+  if(muted || !AC) return;
   const t0 = AC.currentTime;
   const o = AC.createOscillator(), g = AC.createGain();
   o.type = type;
@@ -10845,6 +10848,26 @@ function frame(ts){
 function resume(){ state='playing'; choices=null; last=0; if(!rafId) rafId=requestAnimationFrame(frame); }
 function restart(){ reset(); if(!rafId) rafId=requestAnimationFrame(frame); }
 
+function applyMode(){
+  PORTRAIT = calcPortrait();
+  W = PORTRAIT ? 480 : 800; H = PORTRAIT ? 780 : 600;
+  cv.width = W; cv.height = H;
+  floorCv.width = W; floorCv.height = H;
+}
+addEventListener('resize', () => {
+  /* phone rotated (or prerender woke up): rebuild unless a run is deep in progress */
+  if(calcPortrait()!==PORTRAIT && (t<5 || state!=='playing')){ applyMode(); reset(); }
+});
+const muteBtn = document.getElementById('mq-mute');
+function muteIcon(){ if(muteBtn) muteBtn.innerHTML = muted ? '&#128263;' : '&#128266;'; }
+if(muteBtn) muteBtn.onclick = () => {
+  muted = !muted;
+  try{ localStorage.setItem('mq-muted', muted?'1':'0'); }catch(e){}
+  if(!muted){ ensureAudio(); tone('triangle',660,660,0.08,0.05); }
+  muteIcon();
+};
+muteIcon();
+
 reset();
 rafId=requestAnimationFrame(frame);
 """
@@ -10913,6 +10936,7 @@ def build_muskieto_page():
     _CSS = """  <style>
     #mq-wrap{position:relative;max-width:800px;margin:0 auto}
     #mq-cv{display:block;width:100%;height:auto;border-radius:14px;background:#b4afa4;box-shadow:0 10px 30px rgba(0,0,0,.25);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;cursor:crosshair}
+    #mq-mute{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:9999px;border:none;background:rgba(0,0,0,.38);color:#fff;font-size:15px;line-height:34px;text-align:center;cursor:pointer;z-index:4}
     .mq-hint{display:flex;gap:1.1rem;justify-content:center;flex-wrap:wrap;margin-top:.7rem;font-size:.72rem;color:#9ca3af}
     .mq-hint b{color:#6b7280;font-weight:700}
   </style>"""
@@ -10988,6 +11012,7 @@ __NAV__
 <main class="max-w-4xl mx-auto px-4 py-8 pb-20">
   <div id="mq-wrap">
     <canvas id="mq-cv" width="800" height="600" aria-label="Muskieto Survivor game"></canvas>
+    <button id="mq-mute" aria-label="Sound on/off">&#128266;</button>
   </div>
   <div class="mq-hint"><span><b>WASD / arrows</b> or <b>drag</b> to move. That is the whole game.</span><span><b>&#x26F6;</b> fullscreen</span></div>
 __LBSEC__
