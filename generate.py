@@ -10021,14 +10021,14 @@ const SLING_DMG = [3, 4, 5, 6, 7];
 const ORB_R = 70, ORB_DMG = 10, ORB_SPEED = 2.4;
 
 /* ---------- state ---------- */
-let state, t, last, rafId = 0, shake, spawnT, flyT, bugId;
+let state, t, last, rafId = 0, shake, spawnT, flyT, bugId, playedSent;
 let level, xp, xpNeed, kills, combo, bestCombo;
 let bugs, drops, smokes, zaps, shots, dusts, floaters, trail, chest;
 let choices, choiceBoxes, ann, weapons, passives, player;
 let orbA, coilTrailT, dustT, chillT, chillReady, pagaras, booms, flashT;
 
 function reset(){
-  state='playing'; t=0; last=0; shake=0; spawnT=1; flyT=0; bugId=1;
+  state='playing'; t=0; last=0; shake=0; spawnT=1; flyT=0; bugId=1; playedSent=false;
   level=1; xp=0; xpNeed=5; kills=0; combo=0; bestCombo=0;
   bugs=[]; drops=[]; smokes=[]; zaps=[]; shots=[]; dusts=[]; floaters=[]; trail=[]; pagaras=[]; booms=[];
   chest=null; choices=null; choiceBoxes=[];
@@ -10133,7 +10133,7 @@ function hurtPlayer(dmg){
   }
   player.hp -= dmg; player.hurtT = 0.7; combo = 0;
   thumpSound(); shake = Math.max(shake,6);
-  if(player.hp<=0){ player.hp=0; state='gameover'; }
+  if(player.hp<=0){ player.hp=0; state='gameover'; window.ESRLB&&ESRLB.over(kills); }
 }
 function processDeaths(){
   for(let i=bugs.length-1;i>=0;i--){
@@ -10307,12 +10307,14 @@ function update(dt){
     if(chillT<=0) chillReady = true;
   }
 
+  if(!playedSent && t>2){ playedSent=true; window.ESRLB&&ESRLB.played(); }
+
   /* timeline */
   if(!ann.dengue && t>=PH.dengue){ ann.dengue=true; announce('Dengue muskietos incoming!'); }
   if(!ann.boss   && t>=PH.boss){   ann.boss=true; spawnBoss(); announce('A giant KAKALAKA appears!'); }
   if(!ann.flies  && t>=PH.flies){  ann.flies=true; announce('Bigi freifrei storm!'); }
   if(!ann.black  && t>=PH.black){  ann.black=true; announce('Stroom weg! Blackout!'); }
-  if(t>=PH.win){ state='victory'; return; }
+  if(t>=PH.win){ state='victory'; window.ESRLB&&ESRLB.over(kills); return; }
 
   /* spawns */
   spawnT -= dt;
@@ -10723,22 +10725,35 @@ function draw(){
 function drawHud(){
   cx.fillStyle='rgba(0,0,0,0.55)'; cx.fillRect(0,0,W,7);
   cx.fillStyle='#ffd166'; cx.fillRect(0,0,W*Math.min(1,xp/xpNeed),7);
-  cx.fillStyle='rgba(0,0,0,0.55)'; cx.fillRect(14,16,190,16);
+  const vert = W < 720;
+  const hpw = vert ? 150 : 190;
+  cx.fillStyle='rgba(0,0,0,0.55)'; cx.fillRect(14,16,hpw,16);
   cx.fillStyle = player.hp>player.maxHp*0.3 ? '#57cc63' : '#e63946';
-  cx.fillRect(16,18,186*(player.hp/player.maxHp),12);
+  cx.fillRect(16,18,(hpw-4)*(player.hp/player.maxHp),12);
   cx.fillStyle='#fff'; cx.font='bold 11px system-ui,sans-serif';
   cx.fillText('HP '+Math.ceil(player.hp)+'/'+player.maxHp,20,29);
-  cx.fillText('Lv '+level,214,29);
-  cx.fillText('Kills '+kills,258,29);
   const rem=Math.max(0,GAME_LEN-t), mm=Math.floor(rem/60), ss=Math.floor(rem%60);
-  cx.font='bold 20px system-ui,sans-serif'; cx.textAlign='center'; cx.fillStyle='#fff';
-  cx.fillText(mm+':'+String(ss).padStart(2,'0'),W/2,34);
-  if(combo>=3){ cx.fillStyle='#ffd166'; cx.font='bold 15px system-ui,sans-serif'; cx.fillText('Combo x'+combo,W/2,54); }
-  cx.textAlign='left';
+  if(vert){
+    /* narrow: timer top right, Lv/Kills on their own line below the HP bar */
+    cx.fillText('Lv '+level+'   Kills '+kills,14,46);
+    cx.font='bold 18px system-ui,sans-serif'; cx.textAlign='right'; cx.fillStyle='#fff';
+    cx.fillText(mm+':'+String(ss).padStart(2,'0'),W-14,31);
+    cx.textAlign='center';
+    if(combo>=3){ cx.fillStyle='#ffd166'; cx.font='bold 14px system-ui,sans-serif'; cx.fillText('Combo x'+combo,W/2,59); }
+    cx.textAlign='left';
+  } else {
+    cx.fillText('Lv '+level,214,29);
+    cx.fillText('Kills '+kills,258,29);
+    cx.font='bold 20px system-ui,sans-serif'; cx.textAlign='center'; cx.fillStyle='#fff';
+    cx.fillText(mm+':'+String(ss).padStart(2,'0'),W/2,34);
+    if(combo>=3){ cx.fillStyle='#ffd166'; cx.font='bold 15px system-ui,sans-serif'; cx.fillText('Combo x'+combo,W/2,54); }
+    cx.textAlign='left';
+  }
   const boss = bugs.find(b=>b.type==='boss');
   if(boss){
-    cx.fillStyle='rgba(0,0,0,0.55)'; cx.fillRect(W/2-160,64,320,13);
-    cx.fillStyle='#a4531f'; cx.fillRect(W/2-158,66,316*Math.max(0,boss.hp/boss.maxHp),9);
+    const bbw = Math.min(320, W-40);
+    cx.fillStyle='rgba(0,0,0,0.55)'; cx.fillRect(W/2-bbw/2,64,bbw,13);
+    cx.fillStyle='#a4531f'; cx.fillRect(W/2-bbw/2+2,66,(bbw-4)*Math.max(0,boss.hp/boss.maxHp),9);
     cx.fillStyle='#fff'; cx.font='bold 10px system-ui,sans-serif'; cx.textAlign='center';
     cx.fillText('KAKALAKA',W/2,74); cx.textAlign='left';
   }
@@ -10918,7 +10933,7 @@ def build_muskieto_page():
         + '\n  <meta name="twitter:description" content="Ten minutes, one terras, endless muskietos. The meppers fire themselves. Can you survive the blackout?">'
         + '\n  <meta name="twitter:image" content="' + _ogimg + '">'
         + '\n  <script type="application/ld+json">\n  ' + _graph + '\n  </script>'
-        + _CSS + _fs_css() + '\n</head>')
+        + _CSS + _lb_css() + _fs_css() + '\n</head>')
 
     _about = """
 <section class="max-w-2xl mx-auto px-4 mt-14">
@@ -10975,6 +10990,7 @@ __NAV__
     <canvas id="mq-cv" width="800" height="600" aria-label="Muskieto Survivor game"></canvas>
   </div>
   <div class="mq-hint"><span><b>WASD / arrows</b> or <b>drag</b> to move. That is the whole game.</span><span><b>&#x26F6;</b> fullscreen</span></div>
+__LBSEC__
 </main>
 __NOSCRIPT__
 __ABOUT__
@@ -10983,11 +10999,14 @@ __FOOTER__
 <script>
 __GAMEJS__
 </script>
+__LBJS__
 __FSJS__
 </body>
 </html>"""
 
     body = (body.replace("__GAMEJS__", _MUSKIETO_JS)
+                .replace("__LBSEC__", _lb_sec())
+                .replace("__LBJS__", _lb_js("muskieto", "mq-lang", "muskieto.html", "Muskieto Survivor"))
                 .replace("__FSJS__", _fs_js("mq-wrap"))
                 .replace("__NAV__", nav_html("muskieto"))
                 .replace("__NOSCRIPT__", _noscript)
