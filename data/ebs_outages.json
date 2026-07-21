@@ -1,24 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD DONDERDAG 23 JULI 2026",
-      "date": "23 Juli 2026",
-      "date_iso": "2026-07-23",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1548/gepland-onderhoud-donderdag-23-juli-2026",
-      "meta_description": "GEPLAND ONDERHOUD: PARA DONDERDAG 23 JULI 2026 TUSSEN  8:30 EN 14:00 UURGEDEELTE SURALCOWEG IN DE OMGEVING VAN DE ZWARTBONDSTRAAT EN",
-      "district": "PARA"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD DINSDAG 21 JULI 2026",
-      "date": "21 Juli 2026",
-      "date_iso": "2026-07-21",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1547/gepland-onderhoud-dinsdag-21-juli-2026",
-      "meta_description": "GEPLAND ONDERHOUD:COMM DINSDAG 21 JULI 2026 TUSSEN 8:00 EN 16:00 UURGEDEELTE REEBERGWEG TUSSEN KODIRONOWEG EN MANDOERWEG, GEDEELTE DJOJOSOEPARTOWEG TUSSEN K",
-      "district": "COMM"
-    }
-  ],
-  "last_updated": "2026-07-21T10:29:13.245543+00:00",
+  "outages": [],
+  "last_updated": "2026-07-21T11:07:37.421246+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
