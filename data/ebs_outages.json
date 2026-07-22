@@ -1,26 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD DONDERDAG 23 JULI 2026",
-      "date": "23 Juli 2026",
-      "date_iso": "2026-07-23",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1549/gepland-onderhoud-donderdag-23-juli-2026",
-      "meta_description": "Gepland onderhoud: Paramaribo donderdag 23 juli 2026 tussen 09:00-14:00 GEDEELTE DE BOERBUITENWEG TUSSEN MOEJEKREEKWEG EN KWATTAWEG, GEDEELTE KWATTAWEG TUSS",
-      "district": "Paramaribo",
-      "time": "09:00 – 14:00",
-      "area": "GEDEELTE DE BOERBUITENWEG TUSSEN MOEJEKREEKWEG EN KWATTAWEG, GEDEELTE KWATTAWEG TUSS"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD DONDERDAG 23 JULI 2026",
-      "date": "23 Juli 2026",
-      "date_iso": "2026-07-23",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1548/gepland-onderhoud-donderdag-23-juli-2026",
-      "meta_description": "GEPLAND ONDERHOUD: PARA DONDERDAG 23 JULI 2026 TUSSEN  8:30 EN 14:00 UURGEDEELTE SURALCOWEG IN DE OMGEVING VAN DE ZWARTBONDSTRAAT EN",
-      "district": "PARA"
-    }
-  ],
-  "last_updated": "2026-07-22T11:07:49.328346+00:00",
+  "outages": [],
+  "last_updated": "2026-07-22T14:09:37.457252+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
