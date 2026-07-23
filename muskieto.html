@@ -887,6 +887,38 @@ function adoptRemote(dataStr, msg){
   if(msg) syncMsg(msg);
   return true;
 }
+/* Combine two progress saves without losing anything: union of unlocks and
+   characters, max of upgrades / coins / lifetime stats, preferences from the
+   newer save. Used only when JOINING profiles (Google sign-in / link code), so
+   neither the guest progress on this device nor the progress already on the
+   account is ever clobbered. Background sync (cloudPull) still uses last-write
+   -wins by timestamp, which is correct once devices share one profile. */
+function mergeProgress(a, b){
+  const r = metaDefaults();
+  r.coins = Math.max(a.coins||0, b.coins||0);
+  for(const k in r.up) r.up[k] = Math.max(a.up[k]||0, b.up[k]||0);
+  for(const k in r.chars) r.chars[k] = (a.chars[k]||b.chars[k]) ? 1 : 0;
+  r.un.hyper = (a.un.hyper||b.un.hyper) ? 1 : 0;
+  r.un.stage2 = (a.un.stage2||b.un.stage2) ? 1 : 0;
+  for(const k in r.st) r.st[k] = Math.max(a.st[k]||0, b.st[k]||0);
+  const newer = (b.ts||0) >= (a.ts||0) ? b : a;
+  let sel = newer.sel;
+  if(!(sel==='you' || r.chars[sel])) sel = 'you';
+  r.sel = sel;
+  r.stage = newer.stage===2 ? 2 : 1;
+  r.hyper = newer.hyper ? 1 : 0;
+  r.ts = Math.max(a.ts||0, b.ts||0);
+  return r;
+}
+function adoptMerge(dataStr){
+  let raw = null;
+  try{ raw = typeof dataStr==='string' ? JSON.parse(dataStr) : dataStr; }catch(e){}
+  if(!raw || typeof raw !== 'object' || !Object.keys(raw).length) return false;
+  meta = mergeProgress(meta, mergeMeta(raw));
+  try{ localStorage.setItem('mq-meta', JSON.stringify(meta)); }catch(e){}
+  if(state==='menu'||state==='shop'||state==='chars') renderShell();
+  return true;
+}
 function cloudPull(){
   if(!MQAPI) return;
   const d = mqDid(); if(!d) return;
@@ -1199,7 +1231,12 @@ function openLevelUp(){
 function endRun(win){
   state = win ? 'victory' : 'gameover';
   const mins = Math.floor(realT/60);
-  coinsEarned = Math.round(xpTotal*(run.hyper?0.125:0.25)) + mins*2 + (win?50:0);
+  /* Coins: 0.25 per XP for BOTH modes. Hyper doubles XP-per-drop but spawns half
+     as many enemies, so xpTotal ends up equal to a normal run — the old 0.125
+     Hyper rate double-counted that and paid Hyper HALF, making it a downgrade.
+     Now Hyper earns the same per run as normal, in half the real time, plus a
+     flat clear bonus as the reward for beating the harder mode. */
+  coinsEarned = Math.round(xpTotal*0.25) + mins*2 + (win?50:0) + (win && run.hyper ? 30 : 0);
   meta.coins += coinsEarned;
   meta.st.coinsEver += coinsEarned;
   meta.st.runs++;
@@ -1946,7 +1983,7 @@ function drawMenu(){
     fn:function(){ state='shop'; renderShell(); }});
   y += bh+gap;
   uiBtn(bx,y,cw,bh,{label:'Hyper Mode: '+(meta.hyper&&meta.un.hyper?'ON':'OFF'),
-    sub: meta.un.hyper ? 'Faster everything, double XP, 5 minute run' : 'Survive one full 10:00 run to unlock',
+    sub: meta.un.hyper ? 'Faster, harder, 5 min run - same coins + a clear bonus' : 'Survive one full 10:00 run to unlock',
     locked: !meta.un.hyper, gold: !!(meta.hyper&&meta.un.hyper),
     fn:function(){ meta.hyper = meta.hyper?0:1; saveMeta(); renderShell(); }});
   y += bh+gap;
@@ -2125,8 +2162,10 @@ function initSyncUi(){
       .then(function(r){return r.json();})
       .then(function(j){
         if(j && j.ok){
-          if(adoptRemote(j.data, null)) syncMsg('Linked! Your progress from the other device is now here.');
-          else { saveMeta(); syncMsg('Linked! This device now shares one profile with the other one.'); }
+          const had = adoptMerge(j.data);
+          saveMeta();   /* push the combined result up so both devices converge on it */
+          syncMsg(had ? 'Linked! Your progress from both devices is now combined.'
+                      : 'Linked! This device now shares one profile.');
         } else if(j && j.err==='code') syncMsg('That code is wrong or expired. Get a fresh one.');
         else syncMsg('Could not link. Try again in a minute.');
       }).catch(function(){ syncMsg('No connection. Try again later.'); });
@@ -2173,7 +2212,7 @@ function onGoogleCred(resp){
     .then(function(r){return r.json();})
     .then(function(j){
       if(j && j.ok){
-        adoptRemote(j.data, null);   /* pull any progress already on this account */
+        adoptMerge(j.data);          /* combine guest progress with the account, losing neither */
         setLinked(true); saveMeta();
         if(state==='menu') renderShell();
         showDone(name);              /* prominent signed-in view */
