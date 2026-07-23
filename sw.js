@@ -1,5 +1,5 @@
 // ExploreSuriname Service Worker
-const CACHE = 'exploresr-v4';
+const CACHE = 'exploresr-v5';
 const TWV = 'ff3401bb';
 const PRECACHE = ['/', '/tailwind.css?v=' + TWV, '/favicon.ico', '/favicon.svg', '/offline.html',
                   '/fonts/playfair-latin-var.woff2', '/fonts/inter-latin-var.woff2'];
@@ -66,13 +66,12 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Stale-while-revalidate for HTML pages
+  // Network-first for HTML pages: always serve the freshest page when online,
+  // fall back to cache only when the network is unavailable. This stops the
+  // service worker from trapping visitors on a stale build after a deploy.
   e.respondWith(
-    caches.match(e.request).then(cached => {
-      const network = fetch(e.request)
-        .then(r => { caches.open(CACHE).then(c => c.put(e.request, r.clone())); return r; })
-        .catch(() => cached || caches.match('/offline.html'));
-      return cached || network;
-    })
+    fetch(e.request)
+      .then(r => { caches.open(CACHE).then(c => c.put(e.request, r.clone())); return r; })
+      .catch(() => caches.match(e.request).then(cached => cached || caches.match('/offline.html')))
   );
 });
