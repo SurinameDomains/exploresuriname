@@ -11307,7 +11307,9 @@ function syncMsg(s){ const e = syncEl('mq-syncmsg'); if(e) e.textContent = s; }
 function openSync(){ const m = syncEl('mq-sync'); if(m){ m.hidden = false; initGsi(); } }
 function initSyncUi(){
   const m = syncEl('mq-sync'); if(!m) return;
-  syncEl('mq-sync-close').onclick = function(){ m.hidden = true; renderShell(); };
+  function closeSync(){ m.hidden = true; renderShell(); }
+  syncEl('mq-sync-close').onclick = closeSync;
+  m.onclick = function(e){ if(e.target === m) closeSync(); };   /* tap the dark backdrop to close */
   if(!MQAPI || !mqDid()){
     syncEl('mq-sync-online').hidden = true;
     syncMsg('Sync is not available right now. Your progress still saves on this device.');
@@ -11342,21 +11344,36 @@ function initSyncUi(){
       }).catch(function(){ syncMsg('No connection. Try again later.'); });
   };
 }
-let gsiLoaded = false;
+function gsiReady(){ return typeof google!=='undefined' && google.accounts && google.accounts.id; }
+let gsiRendered = false;
 function initGsi(){
-  if(!MQ_GCID || !MQAPI || gsiLoaded) return;
-  gsiLoaded = true;
-  const wrap = syncEl('mq-gsi-wrap'); if(!wrap) return;
-  wrap.hidden = false;
-  const s = document.createElement('script');
-  s.src = 'https://accounts.google.com/gsi/client'; s.async = true;
-  s.onload = function(){
-    try{
-      google.accounts.id.initialize({client_id: MQ_GCID, callback: onGoogleCred});
-      google.accounts.id.renderButton(syncEl('mq-gsi'), {theme:'outline', size:'large', width:250});
-    }catch(e){ wrap.hidden = true; }
-  };
-  document.head.appendChild(s);
+  if(!MQ_GCID || !MQAPI) return;
+  const wrap = syncEl('mq-gsi-wrap'), host = syncEl('mq-gsi');
+  if(!wrap || !host) return;
+  wrap.hidden = false;              /* always show the Google area; never hide it on error */
+  if(gsiRendered) return;
+  /* the gsi script is loaded eagerly in <head>; poll until it is ready, then render.
+     if it never loads (browser tracking-protection can block it), fall back to a note. */
+  let tries = 0;
+  (function tryRender(){
+    if(gsiRendered) return;
+    if(gsiReady()){
+      try{
+        google.accounts.id.initialize({client_id: MQ_GCID, callback: onGoogleCred, auto_select:false});
+        host.innerHTML = '';
+        google.accounts.id.renderButton(host, {theme:'filled_blue', size:'large', width:250, text:'signin_with', shape:'pill'});
+        gsiRendered = true;
+      }catch(e){
+        host.innerHTML = '<div style="font-size:.72rem;color:#e0c060;line-height:1.4">Google sign-in could not start here. Use a link code below instead.</div>';
+      }
+      return;
+    }
+    if(tries++ > 45){                /* ~9s: script blocked or offline */
+      host.innerHTML = '<div style="font-size:.72rem;color:#e0c060;line-height:1.4">Google sign-in did not load (your browser may be blocking it). Use a link code below instead.</div>';
+      return;
+    }
+    setTimeout(tryRender, 200);
+  })();
 }
 function onGoogleCred(resp){
   if(!resp || !resp.credential) return;
@@ -11530,6 +11547,7 @@ def build_muskieto_page():
         + '\n  <meta name="twitter:description" content="Ten minutes, one terras, endless muskietos. The meppers fire themselves. Can you survive the blackout?">'
         + '\n  <meta name="twitter:image" content="' + _ogimg + '">'
         + '\n  <script type="application/ld+json">\n  ' + _graph + '\n  </script>'
+        + ('\n  <script src="https://accounts.google.com/gsi/client" async></script>' if MQ_GOOGLE_CLIENT_ID else '')
         + _CSS + _lb_css() + _fs_css() + '\n</head>')
 
     _about = """
