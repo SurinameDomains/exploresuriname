@@ -15,7 +15,7 @@
   @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   </style>
-<link href="/tailwind.css?v=ff3401bb" rel="stylesheet"/>
+<link href="/tailwind.css?v=a7378224" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -251,7 +251,7 @@
 <!-- GA4 interaction events: WhatsApp / phone / email / directions / outbound clicks -->
 <script>window.addEventListener("click",function(ev){var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;var h=a.getAttribute("href")||"",n="",p={};if(h.indexOf("https://wa.me/")===0){n="whatsapp_click"}else if(h.indexOf("tel:")===0){n="phone_click"}else if(h.indexOf("mailto:")===0){n="email_click"}else if(h.indexOf("google.com/maps")!==-1){n="directions_click"}else if(/^https?:\/\//.test(h)&&h.indexOf("exploresuriname.com")===-1){n="outbound_click";try{p.link_domain=new URL(h).hostname}catch(e){}}if(!n)return;p.link_url=h.slice(0,100);window.dataLayer=window.dataLayer||[];if(!window.gtag){window.gtag=function(){window.dataLayer.push(arguments)}}window.gtag("event",n,p)});</script>
 <title>Muskieto Survivor | Suriname Survival Game | Explore Suriname</title>
-<meta content="Survive ten minutes on a Suriname terras against endless muskietos. Your electric mepper fires itself: collect blood drops, level up, evolve wierook coils and sling shots, beat the giant kakalaka and live through the blackout. Free browser game from Explore Suriname." name="description"/>
+<meta content="Survive ten minutes on a Suriname terras against endless muskietos. Your electric mepper fires itself: collect blood drops, level up, evolve wierook coils and sling shots, beat the giant kakalaka and live through the blackout. Earn SRD coins for permanent upgrades, unlock Hyper Mode, new characters and the Palmentuin night stage. Free browser game from Explore Suriname." name="description"/>
 <link href="https://exploresuriname.com/muskieto.html" rel="canonical"/>
 <meta content="website" property="og:type"/>
 <meta content="Explore Suriname" property="og:site_name"/>
@@ -265,13 +265,29 @@
 <meta content="Ten minutes, one terras, endless muskietos. The meppers fire themselves. Can you survive the blackout?" name="twitter:description"/>
 <meta content="https://exploresuriname.com/og-image.jpg" name="twitter:image"/>
 <script type="application/ld+json">
-  {"@context": "https://schema.org", "@graph": [{"@type": "WebPage", "@id": "https://exploresuriname.com/muskieto.html#webpage", "url": "https://exploresuriname.com/muskieto.html", "name": "Muskieto Survivor: the Suriname terras survival game", "description": "Survive ten minutes on a Suriname terras against endless muskietos. Your electric mepper fires itself: collect blood drops, level up, evolve wierook coils and sling shots, beat the giant kakalaka and live through the blackout. Free browser game from Explore Suriname.", "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": "https://exploresuriname.com/"}, "primaryImageOfPage": "https://exploresuriname.com/og-image.jpg", "breadcrumb": {"@id": "https://exploresuriname.com/muskieto.html#breadcrumb"}, "mainEntity": {"@id": "https://exploresuriname.com/muskieto.html#game"}, "datePublished": "2026-07-20", "dateModified": "2026-07-23", "isAccessibleForFree": true}, {"@type": "BreadcrumbList", "@id": "https://exploresuriname.com/muskieto.html#breadcrumb", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://exploresuriname.com/"}, {"@type": "ListItem", "position": 2, "name": "Muskieto Survivor", "item": "https://exploresuriname.com/muskieto.html"}]}, {"@type": "VideoGame", "@id": "https://exploresuriname.com/muskieto.html#game", "name": "Muskieto Survivor", "url": "https://exploresuriname.com/muskieto.html", "description": "Survive ten minutes of muskietos on a Suriname terras: auto-firing meppers, wierook smoke, a kakalaka boss, a blackout finale and pagara screen-clears.", "genre": "Arcade", "gamePlatform": "Web browser", "inLanguage": ["en"], "isAccessibleForFree": true, "image": "https://exploresuriname.com/og-image.jpg", "publisher": {"@type": "Organization", "name": "Explore Suriname", "url": "https://exploresuriname.com/"}}, {"@type": "FAQPage", "@id": "https://exploresuriname.com/muskieto.html#faq", "mainEntity": [{"@type": "Question", "name": "What is Muskieto Survivor?", "acceptedAnswer": {"@type": "Answer", "text": "A survival game in the Vampire Survivors style, set where every Surinamese has fought this war: the terras at dusk. You only steer. Your weapons, from the electric mepper to the wierook coil, fire automatically. Muskietos stream in from every side for ten minutes, and your job is to be alive when the clock runs out."}}, {"@type": "Question", "name": "How do I play?", "acceptedAnswer": {"@type": "Answer", "text": "Move with WASD or the arrow keys, or drag anywhere on the screen on a phone. That is the only control: every weapon fires by itself, and the mepper zaps whatever is in front of you, so which way you move is which way you fight. Dead bugs drop blood drops; walk near them to collect XP. Each level-up offers three upgrades: new weapons, stronger weapons, or passives like the Cold Djogo. At level five an item evolves into something much nastier. On a phone, tap the fullscreen button and play portrait, exactly how it is meant to be played."}}, {"@type": "Question", "name": "What is the timeline?", "acceptedAnswer": {"@type": "Answer", "text": "The first minute is slow black muskietos. From minute one the striped dengue muskietos weave in. At minute three a giant kakalaka with 500 HP walks on, and killing it drops an Eksi Koekoe chest with free upgrades. From five to eight minutes the bigi freifrei rain down, and at minute nine the stroom goes and everything comes at you at triple speed in the dark. Watch for the rare pagara drop: it clears the whole screen with one bang."}}, {"@type": "Question", "name": "Is it free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Muskieto Survivor is free, runs in your browser, and needs no app or account."}}]}]}
+  {"@context": "https://schema.org", "@graph": [{"@type": "WebPage", "@id": "https://exploresuriname.com/muskieto.html#webpage", "url": "https://exploresuriname.com/muskieto.html", "name": "Muskieto Survivor: the Suriname terras survival game", "description": "Survive ten minutes on a Suriname terras against endless muskietos. Your electric mepper fires itself: collect blood drops, level up, evolve wierook coils and sling shots, beat the giant kakalaka and live through the blackout. Earn SRD coins for permanent upgrades, unlock Hyper Mode, new characters and the Palmentuin night stage. Free browser game from Explore Suriname.", "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": "https://exploresuriname.com/"}, "primaryImageOfPage": "https://exploresuriname.com/og-image.jpg", "breadcrumb": {"@id": "https://exploresuriname.com/muskieto.html#breadcrumb"}, "mainEntity": {"@id": "https://exploresuriname.com/muskieto.html#game"}, "datePublished": "2026-07-20", "dateModified": "2026-07-23", "isAccessibleForFree": true}, {"@type": "BreadcrumbList", "@id": "https://exploresuriname.com/muskieto.html#breadcrumb", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://exploresuriname.com/"}, {"@type": "ListItem", "position": 2, "name": "Muskieto Survivor", "item": "https://exploresuriname.com/muskieto.html"}]}, {"@type": "VideoGame", "@id": "https://exploresuriname.com/muskieto.html#game", "name": "Muskieto Survivor", "url": "https://exploresuriname.com/muskieto.html", "description": "Survive ten minutes of muskietos on a Suriname terras: auto-firing meppers, wierook smoke, a kakalaka boss, a blackout finale and pagara screen-clears. Earn SRD coins for permanent upgrades, unlockable characters, Hyper Mode and the Palmentuin night stage.", "genre": "Arcade", "gamePlatform": "Web browser", "inLanguage": ["en"], "isAccessibleForFree": true, "image": "https://exploresuriname.com/og-image.jpg", "publisher": {"@type": "Organization", "name": "Explore Suriname", "url": "https://exploresuriname.com/"}}, {"@type": "FAQPage", "@id": "https://exploresuriname.com/muskieto.html#faq", "mainEntity": [{"@type": "Question", "name": "What is Muskieto Survivor?", "acceptedAnswer": {"@type": "Answer", "text": "A survival game in the Vampire Survivors style, set where every Surinamese has fought this war: the terras at dusk. You only steer. Your weapons, from the electric mepper to the wierook coil, fire automatically. Muskietos stream in from every side for ten minutes, and your job is to be alive when the clock runs out."}}, {"@type": "Question", "name": "How do I play?", "acceptedAnswer": {"@type": "Answer", "text": "Move with WASD or the arrow keys, or drag anywhere on the screen on a phone. That is the only control: every weapon fires by itself, and the mepper zaps whatever is in front of you, so which way you move is which way you fight. Dead bugs drop blood drops; walk near them to collect XP. Each level-up offers three upgrades: new weapons, stronger weapons, or passives like the Cold Djogo. At level five an item evolves into something much nastier. On a phone, tap the fullscreen button and play portrait, exactly how it is meant to be played."}}, {"@type": "Question", "name": "What is the timeline?", "acceptedAnswer": {"@type": "Answer", "text": "The first minute is slow black muskietos. From minute one the striped dengue muskietos weave in. At minute three a giant kakalaka with 500 HP walks on, and killing it drops an Eksi Koekoe chest with free upgrades. From five to eight minutes the bigi freifrei rain down, and at minute nine the stroom goes and everything comes at you at triple speed in the dark. Watch for the rare pagara drop: it clears the whole screen with one bang."}}, {"@type": "Question", "name": "Does my progress save?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every run pays out SRD coins based on the blood you collected and how long you lasted. Coins buy permanent upgrades in the shop, from Thick Skin to an Extra Life, plus new characters like Oom Tjin, Tante Anita and Pinto. Survive one full run and you unlock Hyper Mode, a five minute run at double pace, and the second stage: Palmentuin bij Nacht, a moonlit park with swooping vleermuis and glowing glimworms that burst with bonus XP. Everything saves automatically on your device, and the Sync progress button in the menu gives you a short code to carry your profile to another phone or PC. No account needed."}}, {"@type": "Question", "name": "Is it free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Muskieto Survivor is free, runs in your browser, and needs no app or account."}}]}]}
   </script> <style>
     #mq-wrap{position:relative;max-width:800px;margin:0 auto}
     #mq-cv{display:block;width:100%;height:auto;border-radius:14px;background:#b4afa4;box-shadow:0 10px 30px rgba(0,0,0,.25);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;cursor:crosshair}
     #mq-mute{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:9999px;border:none;background:rgba(0,0,0,.38);color:#fff;font-size:15px;line-height:34px;text-align:center;cursor:pointer;z-index:4}
     .mq-hint{display:flex;gap:1.1rem;justify-content:center;flex-wrap:wrap;margin-top:.7rem;font-size:.72rem;color:#9ca3af}
     .mq-hint b{color:#6b7280;font-weight:700}
+    #mq-sync{position:absolute;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;background:rgba(8,12,8,.72);border-radius:14px}
+    .mq-sync-panel{position:relative;width:min(340px,88%);background:#162116;border:2px solid #57cc63;border-radius:14px;padding:1.2rem 1.2rem 1rem;color:#e5efe5}
+    .mq-sync-panel h3{font-weight:800;font-size:1.05rem;color:#ffd166;margin-bottom:.4rem}
+    .mq-sync-panel p{font-size:.78rem;line-height:1.45;color:#a8c8a8;margin-bottom:.7rem}
+    #mq-sync-close{position:absolute;top:.45rem;right:.6rem;background:none;border:none;color:#a8c8a8;font-size:1.4rem;line-height:1;cursor:pointer}
+    .mq-btn{display:block;width:100%;background:#1e2a1e;border:2px solid #57cc63;color:#fff;font-weight:700;font-size:.85rem;border-radius:10px;padding:.55rem .8rem;cursor:pointer}
+    .mq-btn:hover{background:#243524}
+    #mq-code-wrap{text-align:center;margin:.7rem 0}
+    #mq-code{display:inline-block;font-weight:800;font-size:1.6rem;letter-spacing:.35em;padding:.35rem .6rem .35rem .95rem;background:#0e150e;border:1px dashed #ffd166;border-radius:10px;color:#ffd166}
+    .mq-row{display:flex;gap:.5rem;margin-top:.7rem}
+    .mq-row input{flex:1;min-width:0;background:#0e150e;border:1px solid #3a4a3a;border-radius:10px;color:#fff;font-size:.9rem;padding:.5rem .7rem;text-transform:uppercase;letter-spacing:.15em}
+    .mq-row .mq-btn{width:auto}
+    #mq-gsi-wrap{margin-bottom:.8rem;text-align:center}
+    #mq-gsi{display:flex;justify-content:center}
+    .mq-or{font-size:.72rem;color:#6b8a6b;margin-top:.6rem}
+    .mq-syncmsg{min-height:1.1em;font-size:.75rem;color:#ffd166;margin-top:.6rem;margin-bottom:0}
   </style>
 <style>
     #lb-sec{margin-top:2.6rem}
@@ -493,8 +509,25 @@ document.addEventListener('keydown', e => {
 <div id="mq-wrap">
 <canvas aria-label="Muskieto Survivor game" height="600" id="mq-cv" width="800"></canvas>
 <button aria-label="Sound on/off" id="mq-mute">🔊</button>
+<div hidden="" id="mq-sync">
+<div class="mq-sync-panel">
+<button aria-label="Close sync panel" id="mq-sync-close">×</button>
+<h3>Sync your progress</h3>
+<p>Your SRD coins, upgrades and unlocks save automatically. Sign in with Google and your progress follows you to any phone or PC, even a brand new one.</p>
+<div id="mq-sync-online">
+<div hidden="" id="mq-gsi-wrap"><div id="mq-gsi"></div><div class="mq-or">or use a one-time link code instead</div></div>
+<button class="mq-btn" id="mq-getcode" type="button">Get a link code</button>
+<div hidden="" id="mq-code-wrap"><span id="mq-code"></span></div>
+<div class="mq-row">
+<input aria-label="Link code from your other device" autocomplete="off" id="mq-codein" maxlength="8" placeholder="CODE"/>
+<button class="mq-btn" id="mq-claim" type="button">Link</button>
 </div>
-<div class="mq-hint"><span><b>WASD / arrows</b> or <b>drag</b> to move. That is the whole game.</span><span><b>⛶</b> fullscreen</span></div>
+</div>
+<p class="mq-syncmsg" id="mq-syncmsg"></p>
+</div>
+</div>
+</div>
+<div class="mq-hint"><span><b>WASD / arrows</b> or <b>drag</b> to move. That is the whole game.</span><span><b>SRD coins</b> and unlocks save automatically</span><span><b>⛶</b> fullscreen</span></div>
 <section aria-live="polite" class="hidden" id="lb-sec">
 <p class="lb-kick" translate="no">Suma na basi?</p>
 <div class="lb-head">
@@ -527,7 +560,7 @@ document.addEventListener('keydown', e => {
   <a class="font-semibold hover:underline" href="quiz.html" style="color:var(--forest2)">Sabi Suriname quiz</a> or the
   <a class="font-semibold hover:underline" href="crossword.html" style="color:var(--forest2)">Switi Mini crossword</a>.</p>
 </section>
-<section class="max-w-2xl mx-auto px-4 mt-10 mb-4"><h2 class="serif text-2xl font-bold text-gray-900 mb-4">Common questions</h2><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">What is Muskieto Survivor?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">A survival game in the Vampire Survivors style, set where every Surinamese has fought this war: the terras at dusk. You only steer. Your weapons, from the electric mepper to the wierook coil, fire automatically. Muskietos stream in from every side for ten minutes, and your job is to be alive when the clock runs out.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">How do I play?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">Move with WASD or the arrow keys, or drag anywhere on the screen on a phone. That is the only control: every weapon fires by itself, and the mepper zaps whatever is in front of you, so which way you move is which way you fight. Dead bugs drop blood drops; walk near them to collect XP. Each level-up offers three upgrades: new weapons, stronger weapons, or passives like the Cold Djogo. At level five an item evolves into something much nastier. On a phone, tap the fullscreen button and play portrait, exactly how it is meant to be played.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">What is the timeline?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">The first minute is slow black muskietos. From minute one the striped dengue muskietos weave in. At minute three a giant kakalaka with 500 HP walks on, and killing it drops an Eksi Koekoe chest with free upgrades. From five to eight minutes the bigi freifrei rain down, and at minute nine the stroom goes and everything comes at you at triple speed in the dark. Watch for the rare pagara drop: it clears the whole screen with one bang.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">Is it free?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">Yes. Muskieto Survivor is free, runs in your browser, and needs no app or account.</p></details></section>
+<section class="max-w-2xl mx-auto px-4 mt-10 mb-4"><h2 class="serif text-2xl font-bold text-gray-900 mb-4">Common questions</h2><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">What is Muskieto Survivor?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">A survival game in the Vampire Survivors style, set where every Surinamese has fought this war: the terras at dusk. You only steer. Your weapons, from the electric mepper to the wierook coil, fire automatically. Muskietos stream in from every side for ten minutes, and your job is to be alive when the clock runs out.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">How do I play?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">Move with WASD or the arrow keys, or drag anywhere on the screen on a phone. That is the only control: every weapon fires by itself, and the mepper zaps whatever is in front of you, so which way you move is which way you fight. Dead bugs drop blood drops; walk near them to collect XP. Each level-up offers three upgrades: new weapons, stronger weapons, or passives like the Cold Djogo. At level five an item evolves into something much nastier. On a phone, tap the fullscreen button and play portrait, exactly how it is meant to be played.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">What is the timeline?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">The first minute is slow black muskietos. From minute one the striped dengue muskietos weave in. At minute three a giant kakalaka with 500 HP walks on, and killing it drops an Eksi Koekoe chest with free upgrades. From five to eight minutes the bigi freifrei rain down, and at minute nine the stroom goes and everything comes at you at triple speed in the dark. Watch for the rare pagara drop: it clears the whole screen with one bang.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">Does my progress save?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">Yes. Every run pays out SRD coins based on the blood you collected and how long you lasted. Coins buy permanent upgrades in the shop, from Thick Skin to an Extra Life, plus new characters like Oom Tjin, Tante Anita and Pinto. Survive one full run and you unlock Hyper Mode, a five minute run at double pace, and the second stage: Palmentuin bij Nacht, a moonlit park with swooping vleermuis and glowing glimworms that burst with bonus XP. Everything saves automatically on your device, and the Sync progress button in the menu gives you a short code to carry your profile to another phone or PC. No account needed.</p></details><details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2"><summary class="font-bold text-gray-900 text-sm cursor-pointer">Is it free?</summary><p class="text-gray-700 text-sm leading-relaxed mt-2">Yes. Muskieto Survivor is free, runs in your browser, and needs no app or account.</p></details></section>
 <footer style="background:#142A1E;color:#B9C2B2">
 <div style="max-width:1240px;margin:0 auto;padding:clamp(52px,6vw,72px) clamp(20px,5vw,52px) 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:36px 40px">
 <div style="min-width:200px">
@@ -613,6 +646,12 @@ document.addEventListener('keydown', e => {
 
    Inventory: 4 weapon slots + 2 passive slots, Lv 1-5.
    Lv 5 = evolution.
+
+   Meta-progression (Jul 2026): SRD coins earned per run buy
+   permanent upgrades, characters, Hyper Mode and the
+   Palmentuin night stage. Progress saves locally and to the
+   leaderboard Worker (anonymous device profile + link codes,
+   optional Google sign-in). See /prog endpoints in worker.js.
 ====================================================== */
 const FAST_MODE = false;
 const GAME_LEN = FAST_MODE ? 180 : 600;
@@ -632,7 +671,8 @@ function rnd2(a,b){ const s = Math.sin(a*127.1 + b*311.7) * 43758.5453; return s
 /* ---------- floor ---------- */
 const floorCv = document.createElement('canvas'); floorCv.width = W; floorCv.height = H;
 const fx = floorCv.getContext('2d');
-function paintFloor(){
+function paintFloor(stg){
+  if(stg===2){ paintPalm(); return; }
   const T = 80;
   for(let y=0; y<H; y+=T){
     for(let x=0; x<W; x+=T){
@@ -649,6 +689,48 @@ function paintFloor(){
   fx.strokeStyle = 'rgba(70,64,58,0.45)'; fx.lineWidth = 2;
   for(let x=0; x<=W; x+=T){ fx.beginPath(); fx.moveTo(x,0); fx.lineTo(x,H); fx.stroke(); }
   for(let y=0; y<=H; y+=T){ fx.beginPath(); fx.moveTo(0,y); fx.lineTo(W,y); fx.stroke(); }
+}
+/* Stage 2: Palmentuin bij Nacht. Moonlit park grass, palm frond shadows. */
+function paintPalm(){
+  fx.fillStyle = '#2b3d2b'; fx.fillRect(0,0,W,H);
+  const T = 40;
+  for(let y=0; y<H; y+=T){
+    for(let x=0; x<W; x+=T){
+      const v = rnd2(x,y);
+      fx.fillStyle = 'rgba('+(v>0.5?60:28)+','+(v>0.5?82:48)+','+(v>0.5?52:30)+',0.35)';
+      fx.fillRect(x,y,T,T);
+      for(let i=0;i<8;i++){
+        const px = x + rnd2(x+i,y)*T, py = y + rnd2(x,y+i)*T;
+        fx.fillStyle = rnd2(px,py) > 0.5 ? 'rgba(0,0,0,0.10)' : 'rgba(140,190,130,0.08)';
+        fx.fillRect(px,py,1.5,3);
+      }
+    }
+  }
+  /* moonlight pool */
+  const mg = fx.createRadialGradient(W*0.5, H*0.32, 30, W*0.5, H*0.32, Math.max(W,H)*0.75);
+  mg.addColorStop(0,'rgba(190,215,235,0.13)');
+  mg.addColorStop(0.5,'rgba(190,215,235,0.04)');
+  mg.addColorStop(1,'rgba(0,0,10,0.22)');
+  fx.fillStyle = mg; fx.fillRect(0,0,W,H);
+  /* worn sand path through the park */
+  fx.strokeStyle = 'rgba(160,140,100,0.20)'; fx.lineWidth = 46; fx.lineCap='round';
+  fx.beginPath(); fx.moveTo(-20,H*0.75);
+  fx.quadraticCurveTo(W*0.45,H*0.55,W+20,H*0.68); fx.stroke();
+  fx.lineCap='butt';
+  /* palm trunk + frond shadows */
+  for(let k=0;k<6;k++){
+    const px = (rnd2(k,7)*0.9+0.05)*W, py = (rnd2(3,k)*0.9+0.05)*H;
+    const rot = rnd2(k,k)*Math.PI*2, fr = 60+rnd2(k,11)*40;
+    fx.save(); fx.translate(px,py); fx.rotate(rot);
+    fx.fillStyle = 'rgba(6,12,6,0.30)';
+    for(let f=0; f<7; f++){
+      fx.save(); fx.rotate(f*Math.PI*2/7 + rnd2(f,k));
+      fx.beginPath(); fx.ellipse(fr*0.55,0,fr*0.55,7+rnd2(k,f)*5,0,0,7); fx.fill();
+      fx.restore();
+    }
+    fx.beginPath(); fx.arc(0,0,10,0,7); fx.fill();
+    fx.restore();
+  }
 }
 function stampSplat(x,y,big){
   const n = big?14:4, R = big?26:6;
@@ -700,6 +782,91 @@ function bangSound(){
   }
 }
 
+/* ---------- meta-progression: SRD coins, shop, characters, cloud sync ---------- */
+const MQAPI = "https://esr-leaderboard.surinamedomains.workers.dev";
+const MQ_GCID = "619201503917-0sstlcf5hk17v58suh56u1rg4eufces7.apps.googleusercontent.com";
+const SHOP = [
+  {k:'skin',   name:'Thick Skin',     max:5, cost:[100,200,400,700,1100], desc:'+10% max HP per level'},
+  {k:'feet',   name:'Slippery Feet',  max:3, cost:[150,350,700],          desc:'+5% move speed per level'},
+  {k:'magnet', name:'Lobi Magnet',    max:3, cost:[120,280,550],          desc:'+15% blood drop pickup range per level'},
+  {k:'life',   name:'Extra Life',     max:1, cost:[800],                  desc:'Revive once per run with half HP'}
+];
+const CHARS = {
+  you:  {name:'You',         cost:0,   desc:'The classic terras fighter. Starts with the mepper.'},
+  tjin: {name:'Oom Tjin',    cost:300, desc:'Mepper veteran. +10% speed, -10% HP.'},
+  anita:{name:'Tante Anita', cost:300, desc:'Starts with the repellent ring. +20% HP, a bit slower.'},
+  pinto:{name:'Pinto',       cost:500, desc:'Starts with the sling shot. +15% luck.'}
+};
+const CHAR_ORDER = ['you','tjin','anita','pinto'];
+function metaDefaults(){
+  return {v:1, ts:0, coins:0,
+    up:{skin:0,feet:0,magnet:0,life:0},
+    chars:{tjin:0,anita:0,pinto:0},
+    sel:'you', stage:1, hyper:0,
+    un:{hyper:0,stage2:0},
+    st:{runs:0,wins:0,bestKills:0,coinsEver:0}};
+}
+function mergeMeta(raw){
+  const d = metaDefaults();
+  if(!raw || typeof raw !== 'object') return d;
+  d.ts = +raw.ts||0;
+  d.coins = Math.max(0, Math.min(999999, Math.floor(+raw.coins||0)));
+  for(const k in d.up) if(raw.up) d.up[k] = Math.max(0, Math.min(9, Math.floor(+raw.up[k]||0)));
+  for(const k in d.chars) if(raw.chars) d.chars[k] = raw.chars[k]?1:0;
+  if(CHARS[raw.sel] && (raw.sel==='you' || d.chars[raw.sel])) d.sel = raw.sel;
+  if(raw.stage===2) d.stage = 2;
+  d.hyper = raw.hyper?1:0;
+  if(raw.un){ d.un.hyper = raw.un.hyper?1:0; d.un.stage2 = raw.un.stage2?1:0; }
+  if(raw.st) for(const k in d.st) d.st[k] = Math.max(0, Math.floor(+raw.st[k]||0));
+  return d;
+}
+let meta = metaDefaults();
+function mqDid(){
+  try{
+    let d = localStorage.getItem('esr-did');
+    if(!d){ const a=new Uint8Array(12); crypto.getRandomValues(a); d=''; for(let i=0;i<a.length;i++)d+=('0'+a[i].toString(16)).slice(-2); localStorage.setItem('esr-did',d); }
+    return d;
+  }catch(e){ return null; }
+}
+function loadMeta(){
+  try{ meta = mergeMeta(JSON.parse(localStorage.getItem('mq-meta'))); }catch(e){ meta = metaDefaults(); }
+}
+let pushTimer = 0;
+function saveMeta(){
+  meta.ts = Date.now();
+  try{ localStorage.setItem('mq-meta', JSON.stringify(meta)); }catch(e){}
+  if(MQAPI && mqDid()){
+    clearTimeout(pushTimer);
+    pushTimer = setTimeout(cloudPush, 1500);
+  }
+}
+function cloudPush(){
+  if(!MQAPI) return;
+  const d = mqDid(); if(!d) return;
+  fetch(MQAPI+'/prog',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({d:d, data:meta})}).catch(function(e){});
+}
+function adoptRemote(dataStr, msg){
+  let raw = null;
+  try{ raw = typeof dataStr==='string' ? JSON.parse(dataStr) : dataStr; }catch(e){}
+  if(!raw || typeof raw !== 'object' || !Object.keys(raw).length) return false;
+  meta = mergeMeta(raw);
+  try{ localStorage.setItem('mq-meta', JSON.stringify(meta)); }catch(e){}
+  if(state==='menu'||state==='shop'||state==='chars') renderShell();
+  if(msg) syncMsg(msg);
+  return true;
+}
+function cloudPull(){
+  if(!MQAPI) return;
+  const d = mqDid(); if(!d) return;
+  fetch(MQAPI+'/prog?d='+d).then(function(r){return r.json();}).then(function(j){
+    if(!j || !j.ok || !j.data) return;
+    let raw = null; try{ raw = JSON.parse(j.data); }catch(e){}
+    if(raw && (+raw.ts||0) > meta.ts) adoptRemote(raw, null);
+    else if(meta.st.runs > 0) cloudPush();
+  }).catch(function(e){});
+}
+
 /* ---------- item stat tables (index = level-1) ---------- */
 const MEP_CD    = [1.5, 1.2, 0.95, 0.75, 0.6];
 const MEP_DMG   = [2, 3, 4, 5, 6];
@@ -720,27 +887,49 @@ let level, xp, xpNeed, kills, combo, bestCombo;
 let bugs, drops, smokes, zaps, shots, dusts, floaters, trail, chest;
 let choices, choiceBoxes, ann, weapons, passives, player;
 let orbA, coilTrailT, dustT, chillT, chillReady, pagaras, booms, flashT;
+let xpTotal, realT, coinsEarned, unlockMsgs, glimT;
+let run = {hyper:false, stage:1, luck:1, revives:0};
+let uiBoxes = [];
 
+function selStage(){ return meta.stage===2 && meta.un.stage2 ? 2 : 1; }
 function reset(){
+  const C = meta.sel;
+  run = {
+    hyper: !!(meta.hyper && meta.un.hyper),
+    stage: selStage(),
+    luck: C==='pinto' ? 1.15 : 1,
+    revives: meta.up.life>0 ? 1 : 0
+  };
   state='playing'; t=0; last=0; shake=0; spawnT=1; flyT=0; bugId=1; playedSent=false;
   level=1; xp=0; xpNeed=5; kills=0; combo=0; bestCombo=0;
+  xpTotal=0; realT=0; coinsEarned=0; unlockMsgs=[]; glimT=4;
   bugs=[]; drops=[]; smokes=[]; zaps=[]; shots=[]; dusts=[]; floaters=[]; trail=[]; pagaras=[]; booms=[];
   chest=null; choices=null; choiceBoxes=[];
   ann={dengue:false,boss:false,flies:false,black:false};
   weapons={
-    mepper:{key:'mepper', name:'Electric Mepper', lvl:1, timer:0.5},
+    mepper:{key:'mepper', name:'Electric Mepper', lvl:(C==='anita'||C==='pinto')?0:1, timer:0.5},
     coil:  {key:'coil',   name:'Wierook Coil',    lvl:0, timer:0},
-    repel: {key:'repel',  name:'Insect Repellent',lvl:0},
-    sling: {key:'sling',  name:'Sling Shot',      lvl:0, timer:0}
+    repel: {key:'repel',  name:'Insect Repellent',lvl:C==='anita'?1:0},
+    sling: {key:'sling',  name:'Sling Shot',      lvl:C==='pinto'?1:0, timer:0}
   };
   passives={
     djogo:   {key:'djogo',   name:'Cold Djogo', lvl:0},
     slippers:{key:'slippers',name:'Slippers',   lvl:0}
   };
   orbA=0; coilTrailT=0; dustT=0; chillT=30; chillReady=false; flashT=0;
-  player={x:W/2,y:H/2,r:12,speed:150,hp:100,maxHp:100,magnet:60,hurtT:0,fx:1,fy:0};
-  paintFloor();
+  let hp = 100*(1+0.10*meta.up.skin);
+  if(C==='tjin') hp *= 0.90;
+  if(C==='anita') hp *= 1.20;
+  hp = Math.round(hp);
+  let spd = 150*(1+0.05*meta.up.feet);
+  if(C==='tjin') spd *= 1.10;
+  if(C==='anita') spd *= 0.92;
+  if(run.hyper) spd *= 1.5;
+  const mag = Math.round(60*(1+0.15*meta.up.magnet));
+  player={x:W/2,y:H/2,r:12,speed:spd,hp:hp,maxHp:hp,magnet:mag,hurtT:0,fx:1,fy:0};
+  paintFloor(run.stage);
 }
+function hf(){ return run.hyper ? 1.5 : 1; }
 
 /* ---------- input ---------- */
 const keys = new Set();
@@ -751,7 +940,8 @@ addEventListener('keydown', e => {
   const k = e.key.toLowerCase();
   if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k)) e.preventDefault();
   keys.add(k); ensureAudio();
-  if((state==='gameover'||state==='victory') && (k==='enter'||k===' ')) restart();
+  if((state==='gameover'||state==='victory') && (k==='enter'||k===' ')) toMenu();
+  else if(state==='menu' && (k==='enter'||k===' ')) startRun();
 });
 addEventListener('keyup', e => keys.delete(e.key.toLowerCase()));
 
@@ -786,7 +976,11 @@ function tapAction(x,y){
     for(const bx of choiceBoxes){
       if(x>=bx.x && x<=bx.x+bx.w && y>=bx.y && y<=bx.y+bx.h){ bx.c.apply(); resume(); break; }
     }
-  } else { restart(); }
+  } else if(state==='menu'||state==='shop'||state==='chars'){
+    for(const b of uiBoxes){
+      if(x>=b.x && x<=b.x+b.w && y>=b.y && y<=b.y+b.h){ if(b.fn) b.fn(); break; }
+    }
+  } else { toMenu(); }
 }
 
 /* ---------- spawning / timeline ---------- */
@@ -799,21 +993,38 @@ function edgePos(pad){
   if(s===2) return {x:Math.random()*W, y:H+pad};
   return {x:-pad, y:Math.random()*H};
 }
-function pickType(){ if(t < PH.dengue) return 'musk'; return Math.random()<0.55 ? 'dengue' : 'musk'; }
+function pickType(){
+  if(t < PH.dengue) return 'musk';
+  if(run.stage===2 && Math.random()<0.18) return 'bat';
+  return Math.random()<0.55 ? 'dengue' : 'musk';
+}
 function spawnBug(type){
+  if(type==='bat'){ spawnBat(); return; }
   const p = edgePos(24);
   const tough = t > PH.boss;
   const blk = t >= PH.black ? 3 : 1;
   if(type==='musk'){
     const hp = tough ? 2 : 1;
-    bugs.push({id:bugId++,type:'musk',x:p.x,y:p.y,r:7,hp,maxHp:hp,spd:42*speedScale()*blk,touch:5,phase:Math.random()*7,vx:0,vy:0,orbCd:0});
+    bugs.push({id:bugId++,type:'musk',x:p.x,y:p.y,r:7,hp,maxHp:hp,spd:42*speedScale()*blk*hf(),touch:5,phase:Math.random()*7,vx:0,vy:0,orbCd:0});
   } else {
     const hp = tough ? 4 : 3;
-    bugs.push({id:bugId++,type:'dengue',x:p.x,y:p.y,r:8,hp,maxHp:hp,spd:55*speedScale()*blk,touch:8,phase:Math.random()*7,vx:0,vy:0,orbCd:0});
+    bugs.push({id:bugId++,type:'dengue',x:p.x,y:p.y,r:8,hp,maxHp:hp,spd:55*speedScale()*blk*hf(),touch:8,phase:Math.random()*7,vx:0,vy:0,orbCd:0});
   }
 }
-function spawnFly(){ bugs.push({id:bugId++,type:'fly',x:20+Math.random()*(W-40),y:-16,r:6,hp:1,maxHp:1,spd:190,touch:6,phase:Math.random()*7,vx:0,vy:190,orbCd:0}); }
-function spawnBoss(){ const p = edgePos(60); bugs.push({id:bugId++,type:'boss',x:p.x,y:p.y,r:38,hp:500,maxHp:500,spd:15,touch:18,phase:0,vx:0,vy:0,orbCd:0}); }
+function spawnFly(){ bugs.push({id:bugId++,type:'fly',x:20+Math.random()*(W-40),y:-16,r:6,hp:1,maxHp:1,spd:190*hf(),touch:6,phase:Math.random()*7,vx:0,vy:190*hf(),orbCd:0}); }
+/* Stage 2 extras: vleermuis swoops, glimworms carry bonus XP */
+function spawnBat(){
+  const fromLeft = Math.random()<0.5;
+  const hp = t > PH.boss ? 3 : 2;
+  bugs.push({id:bugId++,type:'bat',x:fromLeft?-20:W+20,y:Math.random()*H*0.5,r:10,hp,maxHp:hp,
+             spd:120*speedScale()*hf(),touch:10,phase:Math.random()*7,vx:0,vy:0,orbCd:0});
+}
+function spawnGlim(){
+  const p = edgePos(14);
+  bugs.push({id:bugId++,type:'glim',x:p.x,y:p.y,r:5,hp:1,maxHp:1,spd:34,touch:0,
+             phase:Math.random()*7,vx:0,vy:0,orbCd:0,wt:0,wa:Math.random()*7});
+}
+function spawnBoss(){ const p = edgePos(60); bugs.push({id:bugId++,type:'boss',x:p.x,y:p.y,r:38,hp:500,maxHp:500,spd:15*hf(),touch:18,phase:0,vx:0,vy:0,orbCd:0}); }
 
 /* ---------- combat ---------- */
 function damageBug(b,d){ b.hp -= d; }
@@ -827,7 +1038,17 @@ function hurtPlayer(dmg){
   }
   player.hp -= dmg; player.hurtT = 0.7; combo = 0;
   thumpSound(); shake = Math.max(shake,6);
-  if(player.hp<=0){ player.hp=0; state='gameover'; window.ESRLB&&ESRLB.over(kills); }
+  if(player.hp<=0){
+    if(run.revives>0){
+      run.revives--;
+      player.hp = Math.ceil(player.maxHp*0.5); player.hurtT = 2;
+      for(const b of bugs){ if(b.type!=='boss' && Math.hypot(b.x-player.x,b.y-player.y)<160){ b.hp=0; b.eaten=true; } }
+      processDeaths();
+      announce('Extra Life!'); bangSound(); shake = 12; flashT = 0.25;
+      return;
+    }
+    player.hp=0; endRun(false);
+  }
 }
 function processDeaths(){
   for(let i=bugs.length-1;i>=0;i--){
@@ -840,9 +1061,14 @@ function processDeaths(){
     if(b.type==='boss'){
       chest = {x:Math.min(W-30,Math.max(30,b.x)), y:Math.min(H-30,Math.max(30,b.y))};
       announce('It dropped an Eksi Koekoe chest!');
+    } else if(b.type==='glim'){
+      /* glimworm: burst of bonus XP */
+      for(let g=0; g<3; g++) drops.push({x:b.x+(Math.random()-0.5)*22, y:b.y+(Math.random()-0.5)*22});
+      floater(b.x,b.y-12,'Glimworm!','#d7f76a',13);
     } else {
       drops.push({x:b.x,y:b.y});
-      if(Math.random()<0.012 && pagaras.length<2){
+      if(run.luck>1 && Math.random()<run.luck-1) drops.push({x:b.x+(Math.random()-0.5)*14,y:b.y+(Math.random()-0.5)*14});
+      if(Math.random()<0.012*run.luck && pagaras.length<2){
         pagaras.push({x:Math.min(W-20,Math.max(20,b.x)), y:Math.min(H-20,Math.max(20,b.y))});
         floater(b.x,b.y-14,'Pagara!','#ff5a4a',14);
       }
@@ -937,8 +1163,25 @@ function openLevelUp(){
   choices = picked;
   state = 'levelup';               /* frame() stops scheduling: loop pauses */
 }
+function endRun(win){
+  state = win ? 'victory' : 'gameover';
+  const mins = Math.floor(realT/60);
+  coinsEarned = Math.round(xpTotal*(run.hyper?0.125:0.25)) + mins*2 + (win?50:0);
+  meta.coins += coinsEarned;
+  meta.st.coinsEver += coinsEarned;
+  meta.st.runs++;
+  if(kills > meta.st.bestKills) meta.st.bestKills = kills;
+  unlockMsgs = [];
+  if(win){
+    meta.st.wins++;
+    if(!meta.un.hyper){ meta.un.hyper=1; unlockMsgs.push('HYPER MODE unlocked'); }
+    if(run.stage===1 && !meta.un.stage2){ meta.un.stage2=1; unlockMsgs.push('New stage unlocked: Palmentuin bij Nacht'); }
+  }
+  saveMeta();
+  window.ESRLB&&ESRLB.over(kills);
+}
 function gainXp(n){
-  xp += n;
+  xp += n; xpTotal += n;
   if(xp >= xpNeed){ xp -= xpNeed; level++; xpNeed = 5+(level-1)*3; openLevelUp(); }
 }
 function openChest(){
@@ -1008,12 +1251,19 @@ function update(dt){
   if(!ann.boss   && t>=PH.boss){   ann.boss=true; spawnBoss(); announce('A giant KAKALAKA appears!'); }
   if(!ann.flies  && t>=PH.flies){  ann.flies=true; announce('Bigi freifrei storm!'); }
   if(!ann.black  && t>=PH.black){  ann.black=true; announce('Stroom weg! Blackout!'); }
-  if(t>=PH.win){ state='victory'; window.ESRLB&&ESRLB.over(kills); return; }
+  if(t>=PH.win){ endRun(true); return; }
 
   /* spawns */
   spawnT -= dt;
   if(spawnT<=0){ spawnT = t>=PH.black ? 0.3 : spawnInterval(); spawnBug(pickType()); }
   if(t>=PH.flies && t<PH.fliesEnd){ flyT -= dt; if(flyT<=0){ flyT=0.22; spawnFly(); } }
+  if(run.stage===2){
+    glimT -= dt;
+    if(glimT<=0){
+      glimT = 6+Math.random()*4;
+      if(bugs.filter(b=>b.type==='glim').length<3) spawnGlim();
+    }
+  }
 
   /* bugs: move + player collision */
   const repelSlow = weapons.repel.lvl>=5;
@@ -1026,6 +1276,14 @@ function update(dt){
     if(b.type==='fly'){
       b.y += b.spd*slow*dt;
       if(b.y > H+30){ bugs.splice(i,1); continue; }
+    } else if(b.type==='glim'){
+      b.wt -= dt;
+      if(b.wt<=0){ b.wt = 1.2+Math.random()*1.6; b.wa = Math.random()*Math.PI*2; }
+      b.vx = Math.cos(b.wa)*b.spd + Math.cos(t*3+b.phase)*12;
+      b.vy = Math.sin(b.wa)*b.spd + Math.sin(t*2.4+b.phase)*12;
+      b.x += b.vx*dt; b.y += b.vy*dt;
+      b.x = Math.max(10, Math.min(W-10, b.x));
+      b.y = Math.max(10, Math.min(H-10, b.y));
     } else {
       const ang = Math.atan2(player.y-b.y, player.x-b.x);
       let vx = Math.cos(ang)*b.spd, vy = Math.sin(ang)*b.spd;
@@ -1033,9 +1291,16 @@ function update(dt){
         const zig = Math.sin(t*6+b.phase)*b.spd*0.9;
         vx += Math.cos(ang+Math.PI/2)*zig; vy += Math.sin(ang+Math.PI/2)*zig;
       }
+      if(b.type==='bat'){
+        /* swoop: dives hard at you, then wheels up and around for another pass */
+        const sw = Math.sin(t*2.2+b.phase);
+        vy += sw*b.spd*1.1;
+        vx *= 1.25;
+      }
       b.vx=vx*slow; b.vy=vy*slow; b.x+=b.vx*dt; b.y+=b.vy*dt;
     }
     if(Math.hypot(b.x-player.x, b.y-player.y) < b.r+player.r){
+      if(b.type==='glim'){ b.hp=0; continue; }
       if(player.hurtT<=0){
         hurtPlayer(b.touch);
         if(state==='gameover') return;
@@ -1161,7 +1426,7 @@ function update(dt){
       d.y += (player.y-d.y)/dist*sp*dt;
     }
     if(dist < player.r+5){
-      drops.splice(i,1); blipSound(); gainXp(1);
+      drops.splice(i,1); blipSound(); gainXp(run.hyper?2:1);
       if(state!=='playing') return;
     }
   }
@@ -1185,6 +1450,37 @@ function update(dt){
 function drawBug(b){
   cx.save(); cx.translate(b.x,b.y);
   if(b.type==='boss'){ drawBoss(b); cx.restore(); return; }
+  if(b.type==='bat'){
+    const flapB = Math.sin(t*22+b.phase);
+    cx.rotate(Math.atan2(b.vy,b.vx));
+    cx.fillStyle='#241a2e';
+    cx.beginPath(); cx.ellipse(0,0,9,5.5,0,0,7); cx.fill();
+    cx.beginPath(); cx.arc(8,0,4,0,7); cx.fill();
+    cx.fillStyle='#3a2a4a';
+    cx.beginPath(); cx.moveTo(-2,0);
+    cx.quadraticCurveTo(-6,-14-flapB*7,-20,-10-flapB*9);
+    cx.quadraticCurveTo(-10,-4,-2,0); cx.fill();
+    cx.beginPath(); cx.moveTo(-2,0);
+    cx.quadraticCurveTo(-6,14+flapB*7,-20,10+flapB*9);
+    cx.quadraticCurveTo(-10,4,-2,0); cx.fill();
+    cx.fillStyle='#ffb3b3'; cx.fillRect(9,-2,1.6,1.6); cx.fillRect(9,1,1.6,1.6);
+    if(b.maxHp>1 && b.hp<b.maxHp){
+      cx.rotate(-Math.atan2(b.vy,b.vx));
+      cx.fillStyle='#c0392b'; cx.fillRect(-9,-15,18*Math.max(0,b.hp/b.maxHp),2.5);
+    }
+    cx.restore(); return;
+  }
+  if(b.type==='glim'){
+    const pulse = 0.5+0.5*Math.sin(t*6+b.phase);
+    const gl = cx.createRadialGradient(0,0,1,0,0,14+pulse*6);
+    gl.addColorStop(0,'rgba(215,247,106,'+(0.55+pulse*0.35)+')');
+    gl.addColorStop(1,'rgba(215,247,106,0)');
+    cx.fillStyle=gl; cx.beginPath(); cx.arc(0,0,14+pulse*6,0,7); cx.fill();
+    cx.fillStyle='#2c2c1e'; cx.beginPath(); cx.ellipse(0,0,4.5,2.6,Math.atan2(b.vy,b.vx),0,7); cx.fill();
+    cx.fillStyle='rgba(233,255,140,'+(0.75+pulse*0.25)+')';
+    cx.beginPath(); cx.arc(-2.5*Math.cos(Math.atan2(b.vy,b.vx)),-2.5*Math.sin(Math.atan2(b.vy,b.vx)),2.2,0,7); cx.fill();
+    cx.restore(); return;
+  }
   const ang = b.type==='fly' ? Math.PI/2 : Math.atan2(b.vy,b.vx);
   cx.rotate(ang);
   const flap = Math.sin(t*45+b.phase)*0.6;
@@ -1391,7 +1687,7 @@ function draw(){
   cx.restore();
   /* 9:00+ blackout: stroom weg, only a lamp glow around you */
   if(t>=PH.black && (state==='playing'||state==='levelup')){
-    const flick = 150 + Math.sin(t*9)*8 + Math.random()*5;
+    const flick = (run.stage===2?115:150) + Math.sin(t*9)*8 + Math.random()*5;
     const g = cx.createRadialGradient(player.x,player.y,40,player.x,player.y,flick);
     g.addColorStop(0,'rgba(0,0,0,0)');
     g.addColorStop(0.7,'rgba(0,0,0,0.55)');
@@ -1442,6 +1738,10 @@ function drawHud(){
     cx.fillText(mm+':'+String(ss).padStart(2,'0'),W/2,34);
     if(combo>=3){ cx.fillStyle='#ffd166'; cx.font='bold 15px system-ui,sans-serif'; cx.fillText('Combo x'+combo,W/2,54); }
     cx.textAlign='left';
+  }
+  if(run.hyper){
+    cx.fillStyle='#ff5a4a'; cx.font='bold 11px system-ui,sans-serif';
+    cx.textAlign='right'; cx.fillText('HYPER', W-14, vert?46:48); cx.textAlign='left';
   }
   const boss = bugs.find(b=>b.type==='boss');
   if(boss){
@@ -1512,16 +1812,284 @@ function drawLevelUp(){
 }
 function drawEnd(win){
   cx.fillStyle='rgba(8,10,12,0.8)'; cx.fillRect(0,0,W,H);
-  const ey = Math.round(H*0.4);
+  const ey = Math.round(H*0.34);
   cx.textAlign='center';
   cx.fillStyle = win ? '#57cc63' : '#e63946';
   cx.font='bold '+(W<720?26:40)+'px system-ui,sans-serif';
-  cx.fillText(win ? 'YOU SURVIVED THE TERRAS' : 'EATEN ALIVE', W/2, ey);
+  cx.fillText(win ? (run.stage===2?'YOU SURVIVED THE PALMENTUIN':'YOU SURVIVED THE TERRAS') : 'EATEN ALIVE', W/2, ey);
   cx.fillStyle='#fff'; cx.font='16px system-ui,sans-serif';
-  cx.fillText('Kills: '+kills+'    Best combo: '+bestCombo+'    Level: '+level, W/2, ey+50);
+  cx.fillText('Kills: '+kills+'    Best combo: '+bestCombo+'    Level: '+level, W/2, ey+46);
+  cx.fillStyle='#ffd166'; cx.font='bold 22px system-ui,sans-serif';
+  cx.fillText('+ '+coinsEarned+' SRD', W/2, ey+86);
+  cx.fillStyle='#c8b06a'; cx.font='12px system-ui,sans-serif';
+  cx.fillText('Total: '+meta.coins+' SRD for the shop', W/2, ey+106);
+  let uy = ey+140;
+  for(const m of unlockMsgs){
+    cx.fillStyle='#ffd166'; cx.font='bold 15px system-ui,sans-serif';
+    cx.fillText(m, W/2, uy); uy += 24;
+  }
   cx.fillStyle='#a8c8a8'; cx.font='14px system-ui,sans-serif';
-  cx.fillText('Click, tap or press Enter to play again', W/2, ey+90);
+  cx.fillText('Click, tap or press Enter for the menu', W/2, uy+16);
   cx.textAlign='left';
+}
+
+/* ---------- main menu, shop, characters ---------- */
+function rrect(x,y,w,h,r){
+  cx.beginPath();
+  cx.moveTo(x+r,y);
+  cx.arcTo(x+w,y,x+w,y+h,r); cx.arcTo(x+w,y+h,x,y+h,r);
+  cx.arcTo(x,y+h,x,y,r); cx.arcTo(x,y,x+w,y,r);
+  cx.closePath();
+}
+function uiBtn(x,y,w,h,o){
+  rrect(x,y,w,h,10);
+  cx.fillStyle = o.locked ? 'rgba(20,26,20,0.85)' : (o.gold ? '#2c2a16' : '#1e2a1e');
+  cx.fill();
+  cx.strokeStyle = o.locked ? 'rgba(255,255,255,0.18)' : (o.gold ? '#ffd166' : '#57cc63');
+  cx.lineWidth = o.gold ? 3 : 2; cx.stroke();
+  cx.textAlign='center';
+  cx.fillStyle = o.locked ? 'rgba(255,255,255,0.45)' : (o.gold ? '#ffd166' : '#fff');
+  cx.font='bold '+(o.big?24:15)+'px system-ui,sans-serif';
+  cx.fillText(o.label, x+w/2, y+(o.sub? h/2-4 : h/2+(o.big?8:5)));
+  if(o.sub){
+    cx.fillStyle = o.locked ? 'rgba(255,255,255,0.35)' : '#a8c8a8';
+    cx.font='11.5px system-ui,sans-serif';
+    cx.fillText(o.sub, x+w/2, y+h/2+15);
+  }
+  cx.textAlign='left';
+  if(!o.locked && o.fn) uiBoxes.push({x,y,w,h,fn:o.fn});
+}
+function drawCoinsPill(){
+  const txt = meta.coins+' SRD';
+  cx.font='bold 14px system-ui,sans-serif';
+  const tw = cx.measureText(txt).width+34;
+  rrect(W-tw-14,14,tw,28,14);
+  cx.fillStyle='rgba(0,0,0,0.5)'; cx.fill();
+  cx.strokeStyle='#ffd166'; cx.lineWidth=1.5; cx.stroke();
+  cx.fillStyle='#ffd166';
+  cx.beginPath(); cx.arc(W-tw+2,28,7,0,7); cx.fill();
+  cx.fillStyle='#8a651a'; cx.font='bold 9px system-ui,sans-serif'; cx.textAlign='center';
+  cx.fillText('$',W-tw+2,31);
+  cx.fillStyle='#ffd166'; cx.font='bold 14px system-ui,sans-serif'; cx.textAlign='left';
+  cx.fillText(txt, W-tw+12, 33);
+}
+function renderShell(){
+  cx.setTransform(1,0,0,1,0,0);
+  cx.drawImage(floorCv,0,0);
+  cx.fillStyle='rgba(8,12,8,0.62)'; cx.fillRect(0,0,W,H);
+  uiBoxes=[];
+  if(state==='menu') drawMenu();
+  else if(state==='shop') drawShop();
+  else if(state==='chars') drawChars();
+}
+function drawMenu(){
+  const vert = W<720;
+  drawCoinsPill();
+  cx.textAlign='center';
+  cx.fillStyle='#ffd166'; cx.font='bold '+(vert?34:38)+'px Fraunces,Georgia,serif';
+  cx.fillText('MUSKIETO', W/2, vert?H*0.10:74);
+  cx.fillText('SURVIVOR', W/2, (vert?H*0.10:74)+(vert?38:42));
+  cx.textAlign='left';
+  const cw = Math.min(340, W-48), bx = W/2-cw/2;
+  let y = vert ? H*0.22 : 168;
+  const bh = vert?58:50, gap = vert?14:9;
+  const st2 = meta.un.stage2;
+  const stName = selStage()===2 ? 'Palmentuin bij Nacht' : 'Op de Terras';
+  uiBtn(bx,y,cw,bh+10,{label:'PLAY',big:true,gold:true,
+    sub:stName+'  |  '+CHARS[meta.sel].name+(meta.hyper&&meta.un.hyper?'  |  HYPER':''),
+    fn:startRun});
+  y += bh+10+gap;
+  uiBtn(bx,y,cw,bh,{label:'Stage: '+stName,
+    sub: st2 ? 'Tap to switch stage' : 'Survive 10:00 on the terras to unlock stage 2',
+    locked: !st2,
+    fn:function(){ meta.stage = meta.stage===2?1:2; saveMeta(); paintFloor(selStage()); renderShell(); }});
+  y += bh+gap;
+  uiBtn(bx,y,cw,bh,{label:'Character: '+CHARS[meta.sel].name, sub:'Pick who fights tonight',
+    fn:function(){ state='chars'; renderShell(); }});
+  y += bh+gap;
+  uiBtn(bx,y,cw,bh,{label:'Shop', sub:'Permanent upgrades for SRD coins',
+    fn:function(){ state='shop'; renderShell(); }});
+  y += bh+gap;
+  uiBtn(bx,y,cw,bh,{label:'Hyper Mode: '+(meta.hyper&&meta.un.hyper?'ON':'OFF'),
+    sub: meta.un.hyper ? 'Faster everything, double XP, 5 minute run' : 'Survive one full 10:00 run to unlock',
+    locked: !meta.un.hyper, gold: !!(meta.hyper&&meta.un.hyper),
+    fn:function(){ meta.hyper = meta.hyper?0:1; saveMeta(); renderShell(); }});
+  y += bh+gap;
+  uiBtn(bx,y,cw,bh,{label:'Sync progress',
+    sub: MQ_GCID ? 'Sign in with Google or link a device' : 'Play on your phone and PC with one profile',
+    fn:openSync});
+  y += bh+gap;
+  cx.textAlign='center'; cx.fillStyle='rgba(255,255,255,0.45)'; cx.font='11.5px system-ui,sans-serif';
+  cx.fillText('Runs '+meta.st.runs+'   Wins '+meta.st.wins+'   Best kills '+meta.st.bestKills, W/2, Math.min(H-14,y+16));
+  cx.textAlign='left';
+}
+function drawShop(){
+  const vert = W<720;
+  drawCoinsPill();
+  cx.textAlign='center'; cx.fillStyle='#ffd166'; cx.font='bold 26px system-ui,sans-serif';
+  cx.fillText('SHOP', W/2, vert?60:52); cx.textAlign='left';
+  const cw = Math.min(430, W-36), bx = W/2-cw/2;
+  let y = vert?92:78;
+  const rh = vert?92:86, gap = 12;
+  for(const it of SHOP){
+    const lvl = meta.up[it.k], maxed = lvl>=it.max;
+    const cost = maxed ? 0 : it.cost[lvl];
+    const can = !maxed && meta.coins>=cost;
+    rrect(bx,y,cw,rh,10);
+    cx.fillStyle='#1e2a1e'; cx.fill();
+    cx.strokeStyle = maxed ? '#ffd166' : (can ? '#57cc63' : 'rgba(255,255,255,0.22)');
+    cx.lineWidth=2; cx.stroke();
+    cx.fillStyle = maxed?'#ffd166':'#fff'; cx.font='bold 15px system-ui,sans-serif';
+    cx.fillText(it.name, bx+14, y+24);
+    for(let p=0;p<it.max;p++){
+      cx.fillStyle = p<lvl ? '#ffd166' : 'rgba(255,255,255,0.18)';
+      cx.beginPath(); cx.arc(bx+14+p*15+5, y+38, 4.5, 0, 7); cx.fill();
+    }
+    cx.fillStyle='#a8c8a8'; cx.font='12px system-ui,sans-serif';
+    cx.fillText(it.desc, bx+14, y+rh-16);
+    cx.textAlign='right';
+    if(maxed){
+      cx.fillStyle='#ffd166'; cx.font='bold 14px system-ui,sans-serif';
+      cx.fillText('MAX', bx+cw-14, y+30);
+    } else {
+      cx.fillStyle = can ? '#ffd166' : '#e07070'; cx.font='bold 15px system-ui,sans-serif';
+      cx.fillText(cost+' SRD', bx+cw-14, y+30);
+      cx.fillStyle='rgba(255,255,255,0.45)'; cx.font='11px system-ui,sans-serif';
+      cx.fillText(can?'Tap to buy':'Not enough SRD', bx+cw-14, y+48);
+    }
+    cx.textAlign='left';
+    if(can){
+      (function(item,c){
+        uiBoxes.push({x:bx,y:y,w:cw,h:rh,fn:function(){
+          meta.coins -= c; meta.up[item.k]++;
+          saveMeta(); blipSound(); renderShell();
+        }});
+      })(it,cost);
+    }
+    y += rh+gap;
+  }
+  uiBtn(W/2-70, Math.min(H-56, y+4), 140, 42, {label:'Back', fn:toMenu});
+}
+function drawChars(){
+  const vert = W<720;
+  drawCoinsPill();
+  cx.textAlign='center'; cx.fillStyle='#ffd166'; cx.font='bold 26px system-ui,sans-serif';
+  cx.fillText('CHARACTERS', W/2, vert?60:52); cx.textAlign='left';
+  const cw = Math.min(430, W-36), bx = W/2-cw/2;
+  let y = vert?92:78;
+  const rh = vert?86:80, gap = 12;
+  for(const k of CHAR_ORDER){
+    const c = CHARS[k];
+    const owned = k==='you' || meta.chars[k];
+    const sel = meta.sel===k;
+    const can = owned || meta.coins>=c.cost;
+    rrect(bx,y,cw,rh,10);
+    cx.fillStyle = sel ? '#243524' : '#1e2a1e'; cx.fill();
+    cx.strokeStyle = sel ? '#ffd166' : (owned ? '#57cc63' : (can?'rgba(255,255,255,0.4)':'rgba(255,255,255,0.22)'));
+    cx.lineWidth = sel?3:2; cx.stroke();
+    cx.fillStyle = sel?'#ffd166':'#fff'; cx.font='bold 15px system-ui,sans-serif';
+    cx.fillText(c.name, bx+14, y+26);
+    cx.fillStyle='#a8c8a8'; cx.font='12px system-ui,sans-serif';
+    cx.fillText(c.desc, bx+14, y+rh-18);
+    cx.textAlign='right';
+    if(sel){ cx.fillStyle='#ffd166'; cx.font='bold 13px system-ui,sans-serif'; cx.fillText('SELECTED', bx+cw-14, y+28); }
+    else if(owned){ cx.fillStyle='#57cc63'; cx.font='bold 13px system-ui,sans-serif'; cx.fillText('Tap to select', bx+cw-14, y+28); }
+    else {
+      cx.fillStyle = can?'#ffd166':'#e07070'; cx.font='bold 14px system-ui,sans-serif';
+      cx.fillText(c.cost+' SRD', bx+cw-14, y+28);
+      cx.fillStyle='rgba(255,255,255,0.45)'; cx.font='11px system-ui,sans-serif';
+      cx.fillText(can?'Tap to unlock':'Not enough SRD', bx+cw-14, y+45);
+    }
+    cx.textAlign='left';
+    if(!sel && (owned || can)){
+      (function(key,ow,cost){
+        uiBoxes.push({x:bx,y:y,w:cw,h:rh,fn:function(){
+          if(!ow){ meta.coins -= cost; meta.chars[key]=1; }
+          meta.sel = key;
+          saveMeta(); blipSound(); renderShell();
+        }});
+      })(k,owned,c.cost);
+    }
+    y += rh+gap;
+  }
+  uiBtn(W/2-70, Math.min(H-56, y+4), 140, 42, {label:'Back', fn:toMenu});
+}
+function toMenu(){
+  state='menu';
+  if(rafId){ cancelAnimationFrame(rafId); rafId=0; }
+  paintFloor(selStage());
+  renderShell();
+}
+
+/* ---------- sync modal (DOM overlay) ---------- */
+function syncEl(id){ return document.getElementById(id); }
+function syncMsg(s){ const e = syncEl('mq-syncmsg'); if(e) e.textContent = s; }
+function openSync(){ const m = syncEl('mq-sync'); if(m){ m.hidden = false; initGsi(); } }
+function initSyncUi(){
+  const m = syncEl('mq-sync'); if(!m) return;
+  syncEl('mq-sync-close').onclick = function(){ m.hidden = true; renderShell(); };
+  if(!MQAPI || !mqDid()){
+    syncEl('mq-sync-online').hidden = true;
+    syncMsg('Sync is not available right now. Your progress still saves on this device.');
+    return;
+  }
+  syncEl('mq-getcode').onclick = function(){
+    syncMsg('Getting a code...');
+    fetch(MQAPI+'/link/new',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({d:mqDid()})})
+      .then(function(r){return r.json();})
+      .then(function(j){
+        if(j && j.ok){
+          syncEl('mq-code').textContent = j.code;
+          syncEl('mq-code-wrap').hidden = false;
+          syncMsg('Type this code on your other device within '+j.mins+' minutes.');
+        } else syncMsg('Could not get a code. Try again in a minute.');
+      }).catch(function(){ syncMsg('No connection. Try again later.'); });
+  };
+  syncEl('mq-claim').onclick = function(){
+    const code = (syncEl('mq-codein').value||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6);
+    if(code.length!==6){ syncMsg('A link code has 6 letters and numbers.'); return; }
+    syncMsg('Linking...');
+    fetch(MQAPI+'/link/claim',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({d:mqDid(), code:code})})
+      .then(function(r){return r.json();})
+      .then(function(j){
+        if(j && j.ok){
+          if(adoptRemote(j.data, null)) syncMsg('Linked! Your progress from the other device is now here.');
+          else { saveMeta(); syncMsg('Linked! This device now shares one profile with the other one.'); }
+        } else if(j && j.err==='code') syncMsg('That code is wrong or expired. Get a fresh one.');
+        else syncMsg('Could not link. Try again in a minute.');
+      }).catch(function(){ syncMsg('No connection. Try again later.'); });
+  };
+}
+let gsiLoaded = false;
+function initGsi(){
+  if(!MQ_GCID || !MQAPI || gsiLoaded) return;
+  gsiLoaded = true;
+  const wrap = syncEl('mq-gsi-wrap'); if(!wrap) return;
+  wrap.hidden = false;
+  const s = document.createElement('script');
+  s.src = 'https://accounts.google.com/gsi/client'; s.async = true;
+  s.onload = function(){
+    try{
+      google.accounts.id.initialize({client_id: MQ_GCID, callback: onGoogleCred});
+      google.accounts.id.renderButton(syncEl('mq-gsi'), {theme:'outline', size:'large', width:250});
+    }catch(e){ wrap.hidden = true; }
+  };
+  document.head.appendChild(s);
+}
+function onGoogleCred(resp){
+  if(!resp || !resp.credential) return;
+  syncMsg('Signing in...');
+  fetch(MQAPI+'/auth/google',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({d:mqDid(), jwt:resp.credential})})
+    .then(function(r){return r.json();})
+    .then(function(j){
+      if(j && j.ok){
+        if(adoptRemote(j.data, null)) syncMsg('Signed in. Your progress follows your Google account now.');
+        else { saveMeta(); syncMsg('Signed in. This profile is now attached to your Google account.'); }
+      } else syncMsg('Sign-in did not work. You can still use a link code.');
+    }).catch(function(){ syncMsg('No connection. Try again later.'); });
 }
 
 /* ---------- main loop ---------- */
@@ -1529,7 +2097,7 @@ function frame(ts){
   rafId=0;
   if(!last) last=ts;
   const dt = Math.min(0.05,(ts-last)/1000); last=ts;
-  if(state==='playing'){ t+=dt; update(dt); }
+  if(state==='playing'){ t += dt*(run.hyper?2:1); realT += dt; update(dt); }
   draw();
   if(state==='levelup') drawLevelUp();
   else if(state==='gameover') drawEnd(false);
@@ -1537,7 +2105,7 @@ function frame(ts){
   if(state==='playing') rafId=requestAnimationFrame(frame);
 }
 function resume(){ state='playing'; choices=null; last=0; if(!rafId) rafId=requestAnimationFrame(frame); }
-function restart(){ reset(); if(!rafId) rafId=requestAnimationFrame(frame); }
+function startRun(){ ensureAudio(); reset(); last=0; if(!rafId) rafId=requestAnimationFrame(frame); }
 
 function applyMode(){
   PORTRAIT = calcPortrait();
@@ -1547,7 +2115,14 @@ function applyMode(){
 }
 addEventListener('resize', () => {
   /* phone rotated (or prerender woke up): rebuild unless a run is deep in progress */
-  if(calcPortrait()!==PORTRAIT && (t<5 || state!=='playing')){ applyMode(); reset(); }
+  if(calcPortrait()===PORTRAIT) return;
+  if(state==='playing'){
+    if(t<5){ applyMode(); reset(); }
+  } else if(state==='levelup'){
+    /* leave the paused run alone */
+  } else {
+    applyMode(); toMenu();
+  }
 });
 const muteBtn = document.getElementById('mq-mute');
 function muteIcon(){ if(muteBtn) muteBtn.innerHTML = muted ? '&#128263;' : '&#128266;'; }
@@ -1559,8 +2134,10 @@ if(muteBtn) muteBtn.onclick = () => {
 };
 muteIcon();
 
-reset();
-rafId=requestAnimationFrame(frame);
+loadMeta();
+cloudPull();
+initSyncUi();
+toMenu();
 
 </script>
 <script>
