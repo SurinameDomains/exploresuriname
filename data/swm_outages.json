@@ -1,5 +1,16 @@
 {
-  "active": [],
+  "active": [
+    {
+      "area": "·Martin Luther Kingweg met alle oostelijke en westelijke wegen tot PWB-project ·Industrieweg Zuid, ·Sir Winston Churchilweg tot Domburg Waterkant en M. Adhinweg met alle zijwegen die voorkomen in dit gebied",
+      "description": "De SWM maakt hierbij bekend dat vanwege een lekkage op haar productiestation Livorno, er momenteel een aangepaste verpomping plaatsvindt. Als gevolg hiervan ervaren verbruikers in het voorzieningsgebied van dit station, een lage waterdruk tot een tijdelijke onderbreking van de watervoorziening. Technici van de SWM zijn reeds bezig met herstelwerkzaamheden en doen er alles aan de watervoorziening zo snel mogelijk te normaliseren. De SWM biedt haar verontschuldigingen aan voor het ontstane ongerief.",
+      "date": "23 Jul 2026"
+    },
+    {
+      "area": "Charlesburg en omliggende gebieden",
+      "description": "De SWM maakt hierbij bekend dat als gevolg van een buisbreuk aan de Reineweg (Charlesburg), de bovenstaande gebieden momenteel een lage waterdruk tot een tijdelijke onderbreking van de watervoorziening ervaren. Technici van de SWM zijn reeds bezig met herstelwerkzaamheden en doen er alles aan de watervoorziening zo snel mogelijk te normaliseren. Wij bieden onze verontschuldigingen aan voor het ongerief.",
+      "date": "23 Jul 2026"
+    }
+  ],
   "planned": [
     {
       "area": "Groot-Paramaribo en het gebied dat ligt tussen de Mottonshooplaan, Coppenamestraat, hoek Corantijnstraat en de Duisburglaan",
@@ -23,6 +34,6 @@
       "date": "22 Jul 2026"
     }
   ],
-  "last_updated": "2026-07-23T15:07:39.412537+00:00",
+  "last_updated": "2026-07-23T19:07:55.509112+00:00",
   "source": "https://swm.sr/storing-onderhoud/"
 }
