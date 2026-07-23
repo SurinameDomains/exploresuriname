@@ -284,10 +284,22 @@
     .mq-row{display:flex;gap:.5rem;margin-top:.7rem}
     .mq-row input{flex:1;min-width:0;background:#0e150e;border:1px solid #3a4a3a;border-radius:10px;color:#fff;font-size:.9rem;padding:.5rem .7rem;text-transform:uppercase;letter-spacing:.15em}
     .mq-row .mq-btn{width:auto}
-    #mq-gsi-wrap{margin-bottom:.8rem;text-align:center}
+    #mq-gsi-wrap{margin-bottom:.4rem;text-align:center;min-height:44px}
     #mq-gsi{display:flex;justify-content:center}
     .mq-or{font-size:.72rem;color:#6b8a6b;margin-top:.6rem}
     .mq-syncmsg{min-height:1.1em;font-size:.75rem;color:#ffd166;margin-top:.6rem;margin-bottom:0}
+    /* demoted link-code path: a small text toggle that reveals the code box */
+    .mq-linktoggle{display:block;width:100%;background:none;border:none;color:#7fa88a;font-size:.72rem;text-decoration:underline;text-align:center;cursor:pointer;padding:.35rem 0;margin-top:.2rem}
+    .mq-linktoggle:hover{color:#a8c8a8}
+    #mq-linkbox{margin-top:.5rem;padding-top:.6rem;border-top:1px solid #23331f}
+    .mq-btn-ghost{background:transparent;border-color:#3a4a3a;color:#cfe0cf;font-weight:600}
+    .mq-btn-ghost:hover{background:#1a221a}
+    /* signed-in success view */
+    #mq-sync-done{text-align:center}
+    .mq-check{width:52px;height:52px;margin:.2rem auto .6rem;border-radius:9999px;background:#1e3a24;border:2px solid #57cc63;color:#57cc63;font-size:1.6rem;line-height:50px}
+    #mq-done-title{color:#57cc63}
+    .mq-again{display:block;width:100%;background:none;border:none;color:#7fa88a;font-size:.72rem;text-decoration:underline;text-align:center;cursor:pointer;padding:.4rem 0 0}
+    .mq-again:hover{color:#a8c8a8}
   </style>
 <style>
     #lb-sec{margin-top:2.6rem}
@@ -512,11 +524,14 @@ document.addEventListener('keydown', e => {
 <div hidden="" id="mq-sync">
 <div class="mq-sync-panel">
 <button aria-label="Close sync panel" id="mq-sync-close">×</button>
+<div id="mq-sync-signin">
 <h3>Sync your progress</h3>
-<p>Your SRD coins, upgrades and unlocks save automatically. Sign in with Google and your progress follows you to any phone or PC, even a brand new one.</p>
+<p>Your SRD coins, upgrades and unlocks save automatically on this device. Sign in with Google to carry them to any phone or PC, even a brand new one.</p>
 <div id="mq-sync-online">
-<div hidden="" id="mq-gsi-wrap"><div id="mq-gsi"></div><div class="mq-or">or use a one-time link code instead</div></div>
-<button class="mq-btn" id="mq-getcode" type="button">Get a link code</button>
+<div hidden="" id="mq-gsi-wrap"><div id="mq-gsi"></div></div>
+<button class="mq-linktoggle" id="mq-linktoggle" type="button">Have a link code from another device?</button>
+<div hidden="" id="mq-linkbox">
+<button class="mq-btn mq-btn-ghost" id="mq-getcode" type="button">Get a link code for this device</button>
 <div hidden="" id="mq-code-wrap"><span id="mq-code"></span></div>
 <div class="mq-row">
 <input aria-label="Link code from your other device" autocomplete="off" id="mq-codein" maxlength="8" placeholder="CODE"/>
@@ -524,6 +539,15 @@ document.addEventListener('keydown', e => {
 </div>
 </div>
 <p class="mq-syncmsg" id="mq-syncmsg"></p>
+</div>
+</div>
+<div hidden="" id="mq-sync-done">
+<div class="mq-check">✓</div>
+<h3 id="mq-done-title">You are signed in</h3>
+<p id="mq-done-sub">Your progress is saved to your Google account now. Play on any phone or PC and it follows you.</p>
+<button class="mq-btn" id="mq-done-btn" type="button">Back to the game</button>
+<button class="mq-again" id="mq-again" type="button">Use a different account or a link code</button>
+</div>
 </div>
 </div>
 </div>
@@ -821,6 +845,11 @@ function mergeMeta(raw){
   return d;
 }
 let meta = metaDefaults();
+/* device-local truth about whether this device is tied to a Google account.
+   kept out of `meta` because meta gets overwritten by remote sync data. */
+let gLinked = false;
+try{ gLinked = localStorage.getItem('mq-glinked')==='1'; }catch(e){}
+function setLinked(v){ gLinked = !!v; try{ localStorage.setItem('mq-glinked', gLinked?'1':'0'); }catch(e){} }
 function mqDid(){
   try{
     let d = localStorage.getItem('esr-did');
@@ -860,7 +889,9 @@ function cloudPull(){
   if(!MQAPI) return;
   const d = mqDid(); if(!d) return;
   fetch(MQAPI+'/prog?d='+d).then(function(r){return r.json();}).then(function(j){
-    if(!j || !j.ok || !j.data) return;
+    if(!j || !j.ok) return;
+    if(j.linked){ setLinked(true); if(state==='menu') renderShell(); }
+    if(!j.data) return;
     let raw = null; try{ raw = JSON.parse(j.data); }catch(e){}
     if(raw && (+raw.ts||0) > meta.ts) adoptRemote(raw, null);
     else if(meta.st.runs > 0) cloudPush();
@@ -1860,18 +1891,20 @@ function uiBtn(x,y,w,h,o){
   if(!o.locked && o.fn) uiBoxes.push({x,y,w,h,fn:o.fn});
 }
 function drawCoinsPill(){
+  /* top-LEFT so it never sits under the sound/fullscreen buttons (top-right) */
   const txt = meta.coins+' SRD';
   cx.font='bold 14px system-ui,sans-serif';
   const tw = cx.measureText(txt).width+34;
-  rrect(W-tw-14,14,tw,28,14);
+  const x0 = 14;
+  rrect(x0,14,tw,28,14);
   cx.fillStyle='rgba(0,0,0,0.5)'; cx.fill();
   cx.strokeStyle='#ffd166'; cx.lineWidth=1.5; cx.stroke();
   cx.fillStyle='#ffd166';
-  cx.beginPath(); cx.arc(W-tw+2,28,7,0,7); cx.fill();
+  cx.beginPath(); cx.arc(x0+16,28,7,0,7); cx.fill();
   cx.fillStyle='#8a651a'; cx.font='bold 9px system-ui,sans-serif'; cx.textAlign='center';
-  cx.fillText('$',W-tw+2,31);
+  cx.fillText('$',x0+16,31);
   cx.fillStyle='#ffd166'; cx.font='bold 14px system-ui,sans-serif'; cx.textAlign='left';
-  cx.fillText(txt, W-tw+12, 33);
+  cx.fillText(txt, x0+26, 33);
 }
 function renderShell(){
   cx.setTransform(1,0,0,1,0,0);
@@ -1915,8 +1948,10 @@ function drawMenu(){
     locked: !meta.un.hyper, gold: !!(meta.hyper&&meta.un.hyper),
     fn:function(){ meta.hyper = meta.hyper?0:1; saveMeta(); renderShell(); }});
   y += bh+gap;
-  uiBtn(bx,y,cw,bh,{label:'Sync progress',
-    sub: MQ_GCID ? 'Sign in with Google or link a device' : 'Play on your phone and PC with one profile',
+  uiBtn(bx,y,cw,bh,{label: gLinked ? 'Synced to Google' : 'Sync progress',
+    sub: gLinked ? 'Signed in ✓  your progress follows you'
+                 : (MQ_GCID ? 'Sign in with Google or link a device' : 'Play on your phone and PC with one profile'),
+    gold: gLinked,
     fn:openSync});
   y += bh+gap;
   cx.textAlign='center'; cx.fillStyle='rgba(255,255,255,0.45)'; cx.font='11.5px system-ui,sans-serif';
@@ -2024,12 +2059,43 @@ function toMenu(){
 /* ---------- sync modal (DOM overlay) ---------- */
 function syncEl(id){ return document.getElementById(id); }
 function syncMsg(s){ const e = syncEl('mq-syncmsg'); if(e) e.textContent = s; }
-function openSync(){ const m = syncEl('mq-sync'); if(m){ m.hidden = false; initGsi(); } }
+/* switch between the sign-in view and the signed-in success view */
+function syncView(view){
+  const si = syncEl('mq-sync-signin'), dn = syncEl('mq-sync-done');
+  if(si) si.hidden = view!=='signin';
+  if(dn) dn.hidden = view!=='done';
+}
+function showDone(name){
+  const t = syncEl('mq-done-title');
+  if(t) t.textContent = name ? ('Signed in as '+name) : 'You are signed in';
+  syncView('done');
+}
+/* read the display name out of the Google credential, client-side only, never sent anywhere */
+function jwtName(tok){
+  try{
+    const p = tok.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
+    const j = JSON.parse(decodeURIComponent(atob(p).split('').map(function(c){return '%'+('00'+c.charCodeAt(0).toString(16)).slice(-2);}).join('')));
+    return j.given_name || j.name || j.email || '';
+  }catch(e){ return ''; }
+}
+function closeSyncPanel(){ const m = syncEl('mq-sync'); if(m) m.hidden = true; renderShell(); }
+function openSync(){
+  const m = syncEl('mq-sync'); if(!m) return;
+  m.hidden = false;
+  if(gLinked){ showDone(''); }
+  else { syncView('signin'); initGsi(); }
+}
 function initSyncUi(){
   const m = syncEl('mq-sync'); if(!m) return;
-  function closeSync(){ m.hidden = true; renderShell(); }
-  syncEl('mq-sync-close').onclick = closeSync;
-  m.onclick = function(e){ if(e.target === m) closeSync(); };   /* tap the dark backdrop to close */
+  syncEl('mq-sync-close').onclick = closeSyncPanel;
+  m.onclick = function(e){ if(e.target === m) closeSyncPanel(); };   /* tap the dark backdrop to close */
+  const doneBtn = syncEl('mq-done-btn'); if(doneBtn) doneBtn.onclick = closeSyncPanel;
+  const again = syncEl('mq-again'); if(again) again.onclick = function(){ syncView('signin'); initGsi(); };
+  const tog = syncEl('mq-linktoggle');
+  if(tog) tog.onclick = function(){
+    const box = syncEl('mq-linkbox');
+    if(box){ box.hidden = !box.hidden; tog.textContent = box.hidden ? 'Have a link code from another device?' : 'Hide link code options'; }
+  };
   if(!MQAPI || !mqDid()){
     syncEl('mq-sync-online').hidden = true;
     syncMsg('Sync is not available right now. Your progress still saves on this device.');
@@ -2097,14 +2163,17 @@ function initGsi(){
 }
 function onGoogleCred(resp){
   if(!resp || !resp.credential) return;
+  const name = jwtName(resp.credential);
   syncMsg('Signing in...');
   fetch(MQAPI+'/auth/google',{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({d:mqDid(), jwt:resp.credential})})
     .then(function(r){return r.json();})
     .then(function(j){
       if(j && j.ok){
-        if(adoptRemote(j.data, null)) syncMsg('Signed in. Your progress follows your Google account now.');
-        else { saveMeta(); syncMsg('Signed in. This profile is now attached to your Google account.'); }
+        adoptRemote(j.data, null);   /* pull any progress already on this account */
+        setLinked(true); saveMeta();
+        if(state==='menu') renderShell();
+        showDone(name);              /* prominent signed-in view */
       } else syncMsg('Sign-in did not work. You can still use a link code.');
     }).catch(function(){ syncMsg('No connection. Try again later.'); });
 }
