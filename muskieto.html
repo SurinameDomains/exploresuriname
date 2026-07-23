@@ -824,6 +824,14 @@ const CHARS = {
   pinto:{name:'Pinto',       cost:500, desc:'Starts with the sling shot. +15% luck.'}
 };
 const CHAR_ORDER = ['you','tjin','anita','pinto'];
+/* Stage roster. `unlock` is the meta.un key that gates it (null = always open).
+   Add future stages here and the selector list grows automatically. */
+const STAGES = [
+  {n:1, name:'Op het Terras',       unlock:null,     desc:'The classic porch at dusk. Balanced.'},
+  {n:2, name:'Palmentuin bij Nacht', unlock:'stage2', desc:'Dark park: fast bats, darker blackout, bonus glimworms.'}
+];
+function stageUnlocked(s){ return !s.unlock || meta.un[s.unlock]; }
+function stageByN(n){ for(const s of STAGES) if(s.n===n) return s; return STAGES[0]; }
 function metaDefaults(){
   return {v:1, ts:0, coins:0,
     up:{skin:0,feet:0,magnet:0,life:0},
@@ -1041,7 +1049,7 @@ function tapAction(x,y){
     for(const bx of choiceBoxes){
       if(x>=bx.x && x<=bx.x+bx.w && y>=bx.y && y<=bx.y+bx.h){ bx.c.apply(); resume(); break; }
     }
-  } else if(state==='menu'||state==='shop'||state==='chars'){
+  } else if(state==='menu'||state==='shop'||state==='chars'||state==='stages'){
     for(const b of uiBoxes){
       if(x>=b.x && x<=b.x+b.w && y>=b.y && y<=b.y+b.h){ if(b.fn) b.fn(); break; }
     }
@@ -1953,6 +1961,7 @@ function renderShell(){
   if(state==='menu') drawMenu();
   else if(state==='shop') drawShop();
   else if(state==='chars') drawChars();
+  else if(state==='stages') drawStages();
 }
 function drawMenu(){
   const vert = W<720;
@@ -1965,16 +1974,16 @@ function drawMenu(){
   const cw = Math.min(340, W-48), bx = W/2-cw/2;
   let y = vert ? H*0.22 : 168;
   const bh = vert?58:50, gap = vert?14:9;
-  const st2 = meta.un.stage2;
-  const stName = selStage()===2 ? 'Palmentuin bij Nacht' : 'Op het Terras';
+  const curN = selStage();
+  const curStage = stageByN(curN);
+  const stLabel = 'Stage '+curN;
   uiBtn(bx,y,cw,bh+10,{label:'PLAY',big:true,gold:true,
-    sub:stName+'  |  '+CHARS[meta.sel].name+(meta.hyper&&meta.un.hyper?'  |  HYPER':''),
+    sub:stLabel+': '+curStage.name+'  |  '+CHARS[meta.sel].name+(meta.hyper&&meta.un.hyper?'  |  HYPER':''),
     fn:startRun});
   y += bh+10+gap;
-  uiBtn(bx,y,cw,bh,{label:'Stage: '+stName,
-    sub: st2 ? 'Tap to switch stage' : 'Survive 10:00 on the terras to unlock stage 2',
-    locked: !st2,
-    fn:function(){ meta.stage = meta.stage===2?1:2; saveMeta(); paintFloor(selStage()); renderShell(); }});
+  uiBtn(bx,y,cw,bh,{label:stLabel+': '+curStage.name,
+    sub:'Choose a stage',
+    fn:function(){ state='stages'; renderShell(); }});
   y += bh+gap;
   uiBtn(bx,y,cw,bh,{label:'Character: '+CHARS[meta.sel].name, sub:'Pick who fights tonight',
     fn:function(){ state='chars'; renderShell(); }});
@@ -2083,6 +2092,43 @@ function drawChars(){
           saveMeta(); blipSound(); renderShell();
         }});
       })(k,owned,c.cost);
+    }
+    y += rh+gap;
+  }
+  uiBtn(W/2-70, Math.min(H-56, y+4), 140, 42, {label:'Back', fn:toMenu});
+}
+function drawStages(){
+  const vert = W<720;
+  drawCoinsPill();
+  cx.textAlign='center'; cx.fillStyle='#ffd166'; cx.font='bold 26px system-ui,sans-serif';
+  cx.fillText('STAGES', W/2, vert?60:52); cx.textAlign='left';
+  const cw = Math.min(430, W-36), bx = W/2-cw/2;
+  let y = vert?92:78;
+  const rh = vert?92:84, gap = 12;
+  for(const s of STAGES){
+    const open = stageUnlocked(s);
+    const sel = selStage()===s.n;
+    rrect(bx,y,cw,rh,10);
+    cx.fillStyle = sel ? '#243524' : '#1e2a1e'; cx.fill();
+    cx.strokeStyle = sel ? '#ffd166' : (open ? '#57cc63' : 'rgba(255,255,255,0.22)');
+    cx.lineWidth = sel?3:2; cx.stroke();
+    cx.fillStyle = open ? '#7fa88a' : 'rgba(255,255,255,0.4)'; cx.font='bold 11px system-ui,sans-serif';
+    cx.fillText('STAGE '+s.n, bx+14, y+22);
+    cx.fillStyle = open ? (sel?'#ffd166':'#fff') : 'rgba(255,255,255,0.5)'; cx.font='bold 15px system-ui,sans-serif';
+    cx.fillText(s.name, bx+14, y+42);
+    cx.fillStyle = open ? '#a8c8a8' : 'rgba(255,255,255,0.35)'; cx.font='12px system-ui,sans-serif';
+    cx.fillText(s.desc, bx+14, y+rh-16);
+    cx.textAlign='right';
+    if(sel){ cx.fillStyle='#ffd166'; cx.font='bold 13px system-ui,sans-serif'; cx.fillText('SELECTED', bx+cw-14, y+24); }
+    else if(open){ cx.fillStyle='#57cc63'; cx.font='bold 13px system-ui,sans-serif'; cx.fillText('Tap to select', bx+cw-14, y+24); }
+    else { cx.fillStyle='#e0c060'; cx.font='bold 11px system-ui,sans-serif'; cx.fillText('Win Stage 1 to unlock', bx+cw-14, y+24); }
+    cx.textAlign='left';
+    if(!sel && open){
+      (function(sn){
+        uiBoxes.push({x:bx,y:y,w:cw,h:rh,fn:function(){
+          meta.stage = sn; saveMeta(); blipSound(); paintFloor(selStage()); renderShell();
+        }});
+      })(s.n);
     }
     y += rh+gap;
   }
