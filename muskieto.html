@@ -1929,7 +1929,7 @@ function drawMenu(){
   let y = vert ? H*0.22 : 168;
   const bh = vert?58:50, gap = vert?14:9;
   const st2 = meta.un.stage2;
-  const stName = selStage()===2 ? 'Palmentuin bij Nacht' : 'Op de Terras';
+  const stName = selStage()===2 ? 'Palmentuin bij Nacht' : 'Op het Terras';
   uiBtn(bx,y,cw,bh+10,{label:'PLAY',big:true,gold:true,
     sub:stName+'  |  '+CHARS[meta.sel].name+(meta.hyper&&meta.un.hyper?'  |  HYPER':''),
     fn:startRun});
@@ -2147,9 +2147,10 @@ function initGsi(){
     if(gsiRendered) return;
     if(gsiReady()){
       try{
+        var lang = (document.documentElement.lang || 'en').slice(0,2);
         google.accounts.id.initialize({client_id: MQ_GCID, callback: onGoogleCred, auto_select:false});
         host.innerHTML = '';
-        google.accounts.id.renderButton(host, {theme:'filled_blue', size:'large', width:250, text:'signin_with', shape:'pill'});
+        google.accounts.id.renderButton(host, {theme:'filled_blue', size:'large', width:250, text:'signin_with', shape:'pill', locale:lang});
         gsiRendered = true;
       }catch(e){
         host.innerHTML = '<div style="font-size:.72rem;color:#e0c060;line-height:1.4">Google sign-in could not start here. Use a link code below instead.</div>';
