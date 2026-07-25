@@ -1,17 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD VRIJDAG 24 JULI 2026",
-      "date": "24 Juli 2026",
-      "date_iso": "2026-07-24",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1551/gepland-onderhoud-vrijdag-24-juli-2026",
-      "meta_description": "Gepland onderhoud: Paramaribo vrijdag 24 juli 2026 tussen 08:00-13:00 GEDEELTE AQUARIUSSTRAAT TUSSEN NOORDWIJKWEG EN PEU ET CONTENTSTRAAT, TILLYSTRAAT, PEU",
-      "district": "Paramaribo",
-      "time": "08:00 – 13:00",
-      "area": "GEDEELTE AQUARIUSSTRAAT TUSSEN NOORDWIJKWEG EN PEU ET CONTENTSTRAAT, TILLYSTRAAT, PEU"
-    }
-  ],
-  "last_updated": "2026-07-24T23:08:06.851835+00:00",
+  "outages": [],
+  "last_updated": "2026-07-25T03:07:46.293987+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
