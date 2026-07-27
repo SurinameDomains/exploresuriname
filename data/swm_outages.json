@@ -1,5 +1,11 @@
 {
-  "active": [],
+  "active": [
+    {
+      "area": "Helena Christinaweg, Poerwodadiweg, De Craneweg, Javaweg, Magentakanaalweg tot aan de Nieuw Weergevondenweg, Reeberg, Bomaweg met alle zijwegen die er voorkomen",
+      "description": "De SWM maakt hierbij bekend dat zij noodzakelijke werkzaamheden zal uitvoeren op haar productiestation te Helena Christina. Als gevolg hiervan zullen verbruikers in het voorzieningsgebied van dit station, gedurende de werkzaamheden een verlaagde waterdruk ervaren. Afhankelijk van het verloop van de werkzaamheden kan de watervoorziening eerder worden genormaliseerd. De SWM biedt haar verontschuldigingen aan voor het ontstane ongerief.",
+      "date": "27 Jul 2026"
+    }
+  ],
   "planned": [
     {
       "area": "Groot-Paramaribo en het gebied dat ligt tussen de Mottonshooplaan, Coppenamestraat, hoek Corantijnstraat en de Duisburglaan",
@@ -9,6 +15,6 @@
       "date": ""
     }
   ],
-  "last_updated": "2026-07-27T11:30:33.136186+00:00",
+  "last_updated": "2026-07-27T15:07:40.280882+00:00",
   "source": "https://swm.sr/storing-onderhoud/"
 }
