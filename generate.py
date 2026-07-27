@@ -1423,7 +1423,7 @@ def _make_biz(slug):
             "address":     b.get("address")     or fsq.get("address") or "",
             "phone":       b.get("phone")       or fsq.get("phone")   or "",
             "email":       b.get("email", ""),
-            "website":     b.get("website")     or fsq.get("website") or "",
+            "website":     b.get("website", ""),   # curated JSON / admin panel only — FSQ websites are unreliable
             "category":    b.get("category", ""),
             "description": b.get("description", ""),
             "url": f"listing/{slug}/",
@@ -2018,7 +2018,7 @@ PAGE_HEAD = """\
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="ExploreSR">
   <style>
-    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#E1F0DD; --coral:#E76F51; --gold:#E7AE4D; --clay:#C77B43; --paper:#FBF5E9; --paper-2:#F4ECDA; --card:#FFFDF6; --ink:#233028; --ink-soft:#5C6657; --line:#EBE0CB; }
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#E1F0DD; --coral:#E76F51; --gold:#E7AE4D; --clay:#9C5822; --paper:#FBF5E9; --paper-2:#F4ECDA; --card:#FFFDF6; --ink:#233028; --ink-soft:#5C6657; --line:#EBE0CB; }
     body   { font-family: 'Inter', system-ui, sans-serif; }
     .serif { font-family: 'Playfair Display', Georgia, serif; }
     /* ===== Warm theme roll-over: homepage redesign palette, applied site-wide ===== */
@@ -2038,7 +2038,7 @@ PAGE_HEAD = """\
     .ftr-lnk{color:#B9C2B2;transition:color .15s}
     .ftr-lnk:hover{color:#FCF7EC}
     .ftr-gtk{display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:#94A08F;line-height:1.45}
-    .ftr-lnk2{color:#7E8A79;transition:color .15s}
+    .ftr-lnk2{color:#9BAA97;transition:color .15s}
     .ftr-lnk2:hover{color:#B9C2B2}
     .hero-bg { background-size:cover; background-position:center; }
     .card-hover { transition: transform .2s, box-shadow .2s; }
@@ -2058,7 +2058,7 @@ PAGE_HEAD = """\
       font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;flex-shrink:0;
     }
     .sr-name { font-size:.9rem;font-weight:600;flex:1;min-width:0; }
-    .sr-area { font-size:.78rem;color:#9ca3af;white-space:nowrap; }
+    .sr-area { font-size:.78rem;color:var(--ink-soft);white-space:nowrap; }
     mark { background:#fef08a;border-radius:2px;padding:0 1px; }
     .filter-chip {
       display:inline-flex;align-items:center;gap:5px;padding:10px 16px;border-radius:999px;
@@ -2137,6 +2137,12 @@ PAGE_HEAD = """\
         wrap.style.position="sticky";wrap.style.top=cs.top;wrap.style.zIndex=cs.zIndex;
         el.style.position="static";
       }else{wrap.style.position="relative";}
+      /* The wrapper must be allowed to shrink: as a flex item its default
+         min-width:auto is the content width, which pushed the whole page
+         sideways on mobile (category pages scrolled ~1300px wide). */
+      wrap.style.minWidth="0";wrap.style.maxWidth="100%";
+      var _pcs=el.parentNode?getComputedStyle(el.parentNode):null;
+      if(_pcs&&(_pcs.display==="flex"||_pcs.display==="inline-flex")){wrap.style.flex="1 1 0%";}
       el.parentNode.insertBefore(wrap,el);
       wrap.appendChild(el);
       var L=mkArrow("l"),R=mkArrow("r");
@@ -2816,7 +2822,7 @@ function toggleMobGroup(id) {{
       <button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">&#x2715;</button>
     </div>
     <div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
-      <p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search {len(_SEARCH_INDEX.split('"n"')) - 1} listings…</p>
+      <p id="search-hint" style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Start typing to search {len(_SEARCH_INDEX.split('"n"')) - 1} listings…</p>
     </div>
   </div>
 </div>
@@ -2844,7 +2850,7 @@ function openSearch() {{
 function closeSearch() {{
   document.getElementById('search-modal').style.display = 'none';
   document.getElementById('search-input').value = '';
-  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Start typing to search listings…</p>';
+  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Start typing to search listings…</p>';
   _sel = -1;
 }}
 function runSearch(q) {{
@@ -2853,12 +2859,12 @@ function runSearch(q) {{
   if (!q) {{ closeSearch(); openSearch(); return; }}
   if (!_SI) {{
     _loadSI(() => runSearch(q));
-    box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">Loading…</p>';
+    box.innerHTML = '<p style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Loading…</p>';
     return;
   }}
   const ql = q.toLowerCase();
   const hits = _SI.filter(x => x.n.toLowerCase().includes(ql) || (x.k && x.k.includes(ql))).slice(0, 10);
-  if (!hits.length) {{ box.innerHTML = '<p style="text-align:center;color:#9ca3af;font-size:.85rem;padding:32px 0">No results for "' + q + '"</p>'; return; }}
+  if (!hits.length) {{ box.innerHTML = '<p style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">No results for "' + q + '"</p>'; return; }}
   const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
   box.innerHTML = hits.map((h, i) => {{
     const hi = h.n.replace(new RegExp('(' + q.replace(/[.*+?^${{}}()|[\]\\\\]/g,'\\\\$&') + ')', 'gi'), '<mark>$1</mark>');
@@ -2956,7 +2962,7 @@ def footer_html(prefix=""):
     </div>
   </div>
   <div style="border-top:1px solid rgba(231,174,77,.18)">
-    <div style="max-width:1240px;margin:0 auto;padding:18px clamp(20px,5vw,52px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px;color:#7E8A79">
+    <div style="max-width:1240px;margin:0 auto;padding:18px clamp(20px,5vw,52px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px;color:#9BAA97">
       <span>&copy; {YEAR} ExploreSuriname.com</span>
       <span><a class="ftr-lnk2" href="{prefix}privacy.html">Privacy</a> &middot; <a class="ftr-lnk2" href="/images/HOME_CREDITS.txt">Credits</a></span>
     </div>
@@ -3297,17 +3303,17 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
     _intro_block = ('<div class="max-w-3xl mb-8 text-gray-600 leading-relaxed">' + intro_text + _xhtml + '</div>') if intro_text else ""
     _explore = _explore_more_html(_page_active)
     return f"""{PAGE_HEAD}
-  <title>{_seo_title} | ExploreSuriname.com</title>
+  <title>{_seo_title} | Explore Suriname</title>
   <meta name="description" content="{html_lib.escape(meta_desc)}">
   <link rel="canonical" href="{page_url}">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{page_url}">
-  <meta property="og:title" content="{_seo_title} | ExploreSuriname.com">
+  <meta property="og:title" content="{_seo_title} | Explore Suriname">
   <meta property="og:description" content="{html_lib.escape(meta_desc)}">
   <meta property="og:image" content="{_og_img}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{_seo_title} | ExploreSuriname.com">
+  <meta name="twitter:title" content="{_seo_title} | Explore Suriname">
   <meta name="twitter:description" content="{html_lib.escape(meta_desc)}">
   <meta name="twitter:image" content="{_og_img}">
   <script type="application/ld+json">
@@ -3319,10 +3325,10 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"{title}","item":"{page_url}"}}]}}
   </script>
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"{_seo_title} | ExploreSuriname.com","url":"{page_url}","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"{_seo_title} | Explore Suriname","url":"{page_url}","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>{_faq_head}
 {_lcp_preload}</head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 overflow-x-hidden">
 {nav_html(_page_active)}
 <div style="height:58px"></div>
 <div class="text-white py-16 text-center" style="background:{bg_color}">
@@ -4195,21 +4201,21 @@ function doConvert(){
 doConvert();"""
 
     return f"""{PAGE_HEAD}
-  <title>SRD to USD Today | Surinamese Dollar Exchange Rates | Explore Suriname</title>
+  <title>SRD to USD Today | Suriname Exchange Rates | Explore Suriname</title>
   <meta name="description" content="Live Surinamese Dollar (SRD) exchange rates. Compare USD and EUR rates from CBVS, CME, Finabank, Hakrinbank, DSB and Republic Bank. Free currency converter.">
   <link rel="canonical" href="{SITE_URL}/currency.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/currency.html">
-  <meta property="og:title" content="SRD to USD Today | Surinamese Dollar Exchange Rates | Explore Suriname">
+  <meta property="og:title" content="SRD to USD Today | Suriname Exchange Rates | Explore Suriname">
   <meta property="og:description" content="Live SRD exchange rates. Compare USD and EUR rates across Suriname&#8217;s banks and cambios in one view.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="SRD to USD Today | Surinamese Dollar Exchange Rates | Explore Suriname">
+  <meta name="twitter:title" content="SRD to USD Today | Suriname Exchange Rates | Explore Suriname">
   <meta name="twitter:description" content="Live SRD exchange rates. Compare USD and EUR rates across Suriname&#8217;s banks and cambios in one view.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"SRD to USD Today | Surinamese Dollar Exchange Rates","url":"{SITE_URL}/currency.html","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"SRD to USD Today | Suriname Exchange Rates","url":"{SITE_URL}/currency.html","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"SRD Exchange Rates","item":"{SITE_URL}/currency.html"}}]}}
@@ -5102,30 +5108,37 @@ def build_listing_page(slug, b):
         + "\n  <script type=\"application/ld+json\">\n  " + _json.dumps(breadcrumb_obj, ensure_ascii=False) + "\n  </script>"
     )
 
-    # SEO-optimised <title>: "Name, Type in Location | ExploreSuriname"
+    # SEO-optimised <title>: "Name, Type in Location | Explore Suriname"
     _seo_biz_type = _SEO_TYPE_LABEL.get(_sub, "")
     # Title: no ', Suriname' suffix — ExploreSuriname implies country.
     # Include type label only when the full title still fits within 60 chars.
     _seo_loc = _loc if _loc.lower() not in ("suriname", "") else "Paramaribo"
-    _candidate_with_type = (raw_name + ", " + _seo_biz_type + " in " + _seo_loc + " | ExploreSuriname") if _seo_biz_type else ""
+    _candidate_with_type = (raw_name + ", " + _seo_biz_type + " in " + _seo_loc + " | Explore Suriname") if _seo_biz_type else ""
     if _seo_biz_type and len(_candidate_with_type) <= 60:
         seo_page_title = name_e + html_lib.escape(", " + _seo_biz_type + " in " + _seo_loc)
     else:
         seo_page_title = name_e + html_lib.escape(" in " + _seo_loc)
+    # Brand suffix only when the title still fits Google's ~60-char display; long
+    # business names were pushing titles to 70-78 chars and getting truncated.
+    _brand_sfx = " | Explore Suriname"
+    if len(html_lib.unescape(seo_page_title)) + len(_brand_sfx) <= 62:
+        seo_title_tag = seo_page_title + _brand_sfx
+    else:
+        seo_title_tag = seo_page_title
 
     head = (
         PAGE_HEAD +
-        "\n  <title>" + seo_page_title + " | ExploreSuriname</title>"
+        "\n  <title>" + seo_title_tag + "</title>"
         "\n  <meta name=\"description\" content=\"" + desc_e + "\">"
         "\n  <link rel=\"canonical\" href=\"" + page_url + "\">"
         "\n  <meta property=\"og:type\" content=\"website\">"
         "\n  <meta property=\"og:site_name\" content=\"Explore Suriname\">"
         "\n  <meta property=\"og:url\" content=\"" + page_url + "\">"
-        "\n  <meta property=\"og:title\" content=\"" + seo_page_title + " | ExploreSuriname\">"
+        "\n  <meta property=\"og:title\" content=\"" + seo_title_tag + "\">"
         "\n  <meta property=\"og:description\" content=\"" + desc_e + "\">"
         "\n  <meta property=\"og:image\" content=\"" + og_img + "\">"
         "\n  <meta name=\"twitter:card\" content=\"summary_large_image\">"
-        "\n  <meta name=\"twitter:title\" content=\"" + seo_page_title + " | ExploreSuriname\">"
+        "\n  <meta name=\"twitter:title\" content=\"" + seo_title_tag + "\">"
         "\n  <meta name=\"twitter:description\" content=\"" + desc_e + "\">"
         "\n  <meta name=\"twitter:image\" content=\"" + og_img + "\">"
         + ld_script +
@@ -5253,17 +5266,17 @@ def build_activity_listing_page(act, slug):
 
     head = (
         PAGE_HEAD +
-        "\n  <title>" + name_e + " in Suriname | ExploreSuriname.com</title>"
+        "\n  <title>" + name_e + " in Suriname | Explore Suriname</title>"
         "\n  <meta name=\"description\" content=\"" + desc_e + "\">"
         "\n  <link rel=\"canonical\" href=\"" + page_url + "\">"
         "\n  <meta property=\"og:type\" content=\"website\">"
         "\n  <meta property=\"og:site_name\" content=\"Explore Suriname\">"
         "\n  <meta property=\"og:url\" content=\"" + page_url + "\">"
-        "\n  <meta property=\"og:title\" content=\"" + name_e + " in Suriname | ExploreSuriname.com\">"
+        "\n  <meta property=\"og:title\" content=\"" + name_e + " in Suriname | Explore Suriname\">"
         "\n  <meta property=\"og:description\" content=\"" + desc_e + "\">"
         "\n  <meta property=\"og:image\" content=\"" + og_img + "\">"
         "\n  <meta name=\"twitter:card\" content=\"summary_large_image\">"
-        "\n  <meta name=\"twitter:title\" content=\"" + name_e + " | ExploreSuriname.com\">"
+        "\n  <meta name=\"twitter:title\" content=\"" + name_e + " | Explore Suriname\">"
         "\n  <meta name=\"twitter:description\" content=\"" + desc_e + "\">"
         "\n  <meta name=\"twitter:image\" content=\"" + og_img + "\">"
         + act_ld_scripts +
@@ -5412,18 +5425,25 @@ def build_nature_listing_page(spot, slug):
         + '\n  </script>'
     )
 
+    # Title: keep the type label and brand only while it fits ~60 chars.
+    _nat_base = name_e + ', Nature Park in Suriname'
+    if len(html_lib.unescape(_nat_base)) + 19 <= 62:
+        _nat_title = _nat_base + ' | Explore Suriname'
+    else:
+        _nat_title = name_e + ' | Nature Park in Suriname'
+
     head = (
         PAGE_HEAD
-        + '\n  <title>' + name_e + ', Nature Park in Suriname | ExploreSuriname</title>\n  <meta name="description" content="'
+        + '\n  <title>' + _nat_title + '</title>\n  <meta name="description" content="'
         + desc_e
         + '">\n  <link rel="canonical" href="' + page_url
         + '">\n  <meta property="og:type" content="website">\n  <meta property="og:site_name" content="Explore Suriname">\n  <meta property="og:url" content="'
         + page_url
-        + '">\n  <meta property="og:title" content="' + name_e + ', Nature Park in Suriname | ExploreSuriname">\n  <meta property="og:description" content="'
+        + '">\n  <meta property="og:title" content="' + _nat_title + '">\n  <meta property="og:description" content="'
         + desc_e
         + '">\n  <meta property="og:image" content="' + og_img
         + '">\n  <meta name="twitter:card" content="summary_large_image">\n  <meta name="twitter:title" content="'
-        + name_e + ', Nature Park in Suriname | ExploreSuriname">\n  <meta name="twitter:description" content="'
+        + _nat_title + '">\n  <meta name="twitter:description" content="'
         + desc_e + '">\n  <meta name="twitter:image" content="'
         + og_img + '">'
         + nat_ld_scripts
@@ -5537,7 +5557,7 @@ def build_today_page():
     .widget-head {{ display:flex; align-items:center; justify-content:space-between; padding:1rem 1.5rem; border-bottom:1px solid #f3f4f6; }}
     .widget-icon {{ font-size:1.6rem; margin-right:.75rem; }}
     .widget-title {{ font-weight:700; color:#111; font-size:.95rem; }}
-    .widget-sub   {{ font-size:.72rem; color:#9ca3af; margin-top:.1rem; }}
+    .widget-sub   {{ font-size:.72rem; color:var(--ink-soft); margin-top:.1rem; }}
     .widget-body  {{ padding:1.25rem 1.5rem; }}
     .upd-badge {{ font-size:.65rem; color:#9ca3af; white-space:nowrap; }}
     .status-pill {{ display:inline-flex; align-items:center; gap:.35rem; font-size:.7rem; font-weight:700; padding:.25rem .65rem; border-radius:99px; text-transform:uppercase; letter-spacing:.05em; }}
@@ -6407,7 +6427,7 @@ def build_events_page():
     _upd = _fmt(today)
     return f"""{PAGE_HEAD}
   <title>Events &amp; Festivals in Suriname {_yr} | Explore Suriname</title>
-  <meta name="description" content="Suriname's festival calendar for {_yr}: Keti Koti, Holi Phagwa, Divali, Eid, Owru Yari and Maroon Day, plus every official public holiday with dates and traveller tips.">
+  <meta name="description" content="Suriname's festival calendar for {_yr}: Keti Koti, Holi Phagwa, Divali, Eid, Owru Yari and Maroon Day, plus every public holiday with dates.">
   <link rel="canonical" href="{SITE_URL}/events.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
@@ -6903,7 +6923,7 @@ def build_quiz_page():
 
     head = f"""{PAGE_HEAD}
   <title>Sabi Suriname | Daily Suriname Quiz | Explore Suriname</title>
-  <meta name="description" content="Sabi Suriname: a free daily five-question quiz about Suriname. History, food, wildlife, music and places, in English or Dutch. New quiz every day; build your streak.">
+  <meta name="description" content="Sabi Suriname: a free daily five-question quiz on Suriname history, food, wildlife and places, in English or Dutch. New quiz every day.">
   <link rel="canonical" href="{SITE_URL}/quiz.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
@@ -7073,7 +7093,7 @@ def build_visitor_guide_page():
     """Suriname Visitor Guide — static page covering visas, customs, SIM cards, money, transport and apps."""
     return f"""{PAGE_HEAD}
   <title>The Basics | Suriname Travel Tips | Explore Suriname</title>
-  <meta name="description" content="Everything a first-time visitor needs for Suriname: visa requirements, customs, overland border crossings, SIM cards, ATMs, taxi apps, food delivery and mobile payments.">
+  <meta name="description" content="Everything a first-time visitor needs for Suriname: visas, customs, border crossings, SIM cards, ATMs, taxi apps and mobile payments.">
   <link rel="canonical" href="{SITE_URL}/visitor-guide.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
@@ -8213,11 +8233,9 @@ def build_matches_page(matches):
     chips += '</div>'
 
     # ── Head / hero / cards ──────────────────────────────────────────────────
-    title = "Sports Schedule: Natio, SML, Football and NBA in Suriname Time"
-    desc = ("Every kickoff in Suriname time (UTC-3): Natio internationals, the Suriname Major League, "
-            "the Concacaf Caribbean Cup, Champions League, Europa and Conference League, Eredivisie, "
-            "Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Libertadores, Sudamericana, Gold Cup, "
-            "Leagues Cup, MLS, NBA, UFC and the big fight cards. Updated automatically through the day.")
+    title = "Football & Sports Schedule in Suriname Time"
+    desc = ("Every kickoff in Suriname time (UTC-3): Natio, the Suriname Major League, "
+            "Caribbean Cup, Champions League, Europa, the big European leagues, MLS, NBA and UFC.")
     faq = [
         ("What time zone are the kickoff times on this page?",
          "Everything is shown in Suriname time (UTC-3, no daylight saving). No mental math needed: "
@@ -8589,9 +8607,8 @@ def build_mapgame_page():
                  '<ol class="text-sm text-gray-700 pl-1">' + _items + '</ol></section></noscript>') if _items else ""
 
     _title = "Pe A De? The daily Suriname map game"
-    _desc = ("Pe a de? Where is it? Tap the map of Suriname to guess where five places are, "
-             "every day. Villages, falls and mountains from Galibi to Kwamalasamutu, scored by "
-             "distance. Free, in Dutch or English.")
+    _desc = ("Pe a de? Tap the map of Suriname to guess where five places are, every day. "
+             "Villages, falls and mountains, scored by distance. Free, in Dutch or English.")
     _ogimg = SITE_URL + "/og-image.jpg"
     _faq = [
         ("What is Pe A De?",
@@ -8902,9 +8919,8 @@ def build_korjaal_page():
     today = datetime.now(SR_TZ).date()
 
     _title = "Korjaal Run: endless Suriname river runner"
-    _desc = ("Race a korjaal down an endless jungle river. Switch lanes to dodge logs, rocks and "
-             "sandbanks, grab manja to build your multiplier, ride the sula boost and chase a high "
-             "score on a river that only gets faster. Free browser game from Explore Suriname.")
+    _desc = ("Race a korjaal down an endless jungle river: dodge logs and sandbanks, grab manja "
+             "for your multiplier and ride the sula boost. Free browser game.")
     _ogimg = SITE_URL + "/og-image.jpg"
     _faq = [
         ("What is a korjaal?",
@@ -9377,9 +9393,8 @@ def build_anaconda_page():
     today = datetime.now(SR_TZ).date()
 
     _title = "Aboma: the Suriname anaconda snake game"
-    _desc = ("Steer a hungry anaconda through a Suriname jungle river. Eat piranhas to grow and "
-             "build your combo, catch the golden arowana before it escapes, and dodge the driftwood. "
-             "The longer you get, the faster it moves. Free browser game from Explore Suriname.")
+    _desc = ("Steer a hungry anaconda through a Suriname jungle river. Eat piranhas to grow, "
+             "catch the golden arowana and dodge driftwood. Free browser game.")
     _ogimg = SITE_URL + "/og-image.jpg"
     _faq = [
         ("What is an aboma?",
@@ -11579,10 +11594,8 @@ def build_muskieto_page():
     today = datetime.now(SR_TZ).date()
 
     _title = "Muskieto Survivor: the Suriname terras survival game"
-    _desc = ("Survive ten minutes on a Suriname terras against endless muskietos. Your electric mepper "
-             "fires itself: collect blood drops, level up, evolve wierook coils and sling shots, beat the "
-             "giant kakalaka and live through the blackout. Earn SRD coins for permanent upgrades, unlock "
-             "Hyper Mode, new characters and the Palmentuin night stage. Free browser game from Explore Suriname.")
+    _desc = ("Survive ten minutes on a Suriname terras against endless muskietos. Level up your "
+             "mepper, evolve wierook coils and beat the blackout. Free browser game.")
     _ogimg = SITE_URL + "/og-image.jpg"
     _faq = [
         ("What is Muskieto Survivor?",
@@ -11823,9 +11836,8 @@ def build_history_page():
     today = datetime.now(SR_TZ).date()
 
     _title = "The Story of Suriname: Interactive History Timeline"
-    _desc = ("Tori fu Sranan: scroll through the history of Suriname, from the first Indigenous "
-             "peoples and the Maroon wars to Keti Koti, Srefidensi and the oil era. 57 moments, "
-             "in English and Dutch.")
+    _desc = ("Tori fu Sranan: the history of Suriname from the first Indigenous peoples and the "
+             "Maroon wars to Keti Koti, Srefidensi and the oil era. 57 moments.")
     _ogimg = SITE_URL + "/og-image.jpg"
     _graph = _json.dumps({"@context": "https://schema.org", "@graph": [
         {"@type": "WebPage", "@id": SITE_URL + "/suriname-history.html#webpage",
@@ -12923,10 +12935,9 @@ def build_dictionary_page():
         chips += ('<button type="button" class="' + base + '" data-cat="' + key + '" '
                   + style + active + '>' + label + '</button>')
 
-    title = "Sranan Tongo Dictionary: Words, Phrases &amp; Meanings"
-    desc = ("A free Sranan Tongo dictionary and phrasebook. Look up what Surinamese words "
-            "mean in English and Dutch, with example sentences, common greetings, food words "
-            "and traditional proverbs (odo). " + str(n_words) + " words and phrases, searchable.")
+    title = "Sranan Tongo Dictionary &amp; Phrasebook"
+    desc = ("A free Sranan Tongo dictionary and phrasebook: look up Surinamese words in English "
+            "and Dutch, with greetings, food words and proverbs (odo).")
     faq = [
         ("What is Sranan Tongo?",
          "Sranan Tongo, also called Sranantongo, Sranan or Surinaams, is the creole language of "
@@ -13077,10 +13088,9 @@ def build_dictionary_page():
 
 def build_time_page():
     """Time in Suriname: live time strip, converter, world clocks, call-overlap, difference table."""
-    title = "Time in Suriname: Current Local Time &amp; Converter"
-    desc  = ("What time is it in Suriname right now? A live Paramaribo time, a time-zone converter, "
-             "world clocks and the time difference to the Netherlands, the US, the UK, France, Brazil, India, "
-             "China and Malaysia. Suriname is UTC&minus;3 and does not use daylight saving.")
+    title = "Time in Suriname: Local Time &amp; Converter"
+    desc  = ("What time is it in Suriname right now? Live Paramaribo time, a time-zone converter "
+             "and the difference to the Netherlands, the US and Brazil (UTC&minus;3).")
     faq = [
         ("Does Suriname use daylight saving time?",
          "No. Suriname stays on UTC&minus;3 all year and never changes its clocks. Countries that do observe "
@@ -14581,17 +14591,17 @@ def build_flights_page(flights_data):
 </div>"""
 
     return f"""{PAGE_HEAD}
-  <title>Suriname Flights Today | PBM Arrivals &amp; Departures | Explore Suriname</title>
+  <title>Suriname Flights: PBM Arrivals &amp; Departures | Explore Suriname</title>
   <meta name="description" content="Live arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX). KLM, Copa Airlines, Caribbean Airlines and Surinam Airways.">
   <link rel="canonical" href="{SITE_URL}/flights.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/flights.html">
-  <meta property="og:title" content="Suriname Flights Today | PBM Arrivals &amp; Departures | Explore Suriname">
+  <meta property="og:title" content="Suriname Flights: PBM Arrivals &amp; Departures | Explore Suriname">
   <meta property="og:description" content="Live arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX). KLM, Copa Airlines, Caribbean Airlines and Surinam Airways.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Suriname Flights Today | PBM Arrivals &amp; Departures | Explore Suriname">
+  <meta name="twitter:title" content="Suriname Flights: PBM Arrivals &amp; Departures | Explore Suriname">
   <meta name="twitter:description" content="Live arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX). KLM, Copa Airlines, Caribbean Airlines and Surinam Airways.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
@@ -15297,10 +15307,9 @@ def build_atms_page(atms, meta, ref=None):
                      "cards": _REF_CARDS.get(r["net"], ["local"]), "machines": 1, "online": 0,
                      "address": r["address"]} for r in ref]
     allmachines = list(atms) + ref_machines
-    title = "Suriname ATM Finder: Live Status &amp; Which Cards Work"
-    desc = ("Find a working ATM in Suriname. Live open / out-of-order status for Cashpnt and DSB "
-            "cash machines, a map, a locate-me button, and exactly which cards each network takes "
-            "&mdash; local debit (BNETS), Mastercard, Visa and foreign cards.")
+    title = "Suriname ATM Finder: Live Status &amp; Cards"
+    desc = ("Find a working ATM in Suriname: live status for Cashpnt and DSB machines, a map, and "
+            "exactly which cards each network takes (BNETS, Mastercard, Visa).")
     faq = [
         ("Which ATMs in Suriname accept foreign Visa or Mastercard cards?",
          "Republic Bank ATMs take both international Visa and Mastercard and are the safest bet for a "
@@ -15549,7 +15558,7 @@ def build_atms_page(atms, meta, ref=None):
 .atm-status{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:600;color:#4b5563}
 .atm-dot{width:8px;height:8px;border-radius:999px;display:inline-block}
 .atm-card{background:var(--card);border:1px solid var(--line);border-radius:1rem;padding:16px;display:flex;flex-direction:column}
-.atm-untracked{font-size:.66rem;font-weight:600;color:#9ca3af;background:#f3f4f6;border-radius:999px;padding:3px 9px;white-space:nowrap}
+.atm-untracked{font-size:.72rem;font-weight:600;color:#4B5563;background:#f3f4f6;border-radius:999px;padding:3px 9px;white-space:nowrap}
 .atm-card-pill{font-size:.66rem;font-weight:600;color:var(--pc);border:1px solid var(--pc);border-radius:999px;padding:2px 8px;opacity:.9}
 .atm-dir{margin-top:auto;display:inline-flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;color:var(--forest2)}
 .atm-dir:hover{text-decoration:underline}

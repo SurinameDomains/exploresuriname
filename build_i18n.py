@@ -467,8 +467,14 @@ def localize_sitemap():
         loc = _tag(blk, "loc")
         if not loc:
             continue
-        pages += 1
         path = path_of(loc)
+        # Idempotency guard: if this function runs twice without generate.py
+        # rewriting sitemap.xml in between, the file already contains /nl/ and
+        # /es/ URLs. Re-prefixing them produced /nl/nl/… entries (a 20k-URL
+        # sitemap full of 404s). Only English paths are localized.
+        if re.match(r"^/(nl|es)(/|$)", path):
+            continue
+        pages += 1
         meta = ""
         for _t in ("lastmod", "changefreq", "priority"):
             _v = _tag(blk, _t)
