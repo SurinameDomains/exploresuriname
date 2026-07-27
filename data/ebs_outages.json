@@ -1,5 +1,25 @@
 {
-  "outages": [],
-  "last_updated": "2026-07-27T15:07:40.584618+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD VRIJDAG 31 JULI 2026",
+      "date": "31 Juli 2026",
+      "date_iso": "2026-07-31",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1554/gepland-onderhoud-vrijdag-31-juli-2026",
+      "meta_description": "GEPLAND ONDERHOUD:  VRIJDAG 31 JULI 2026 TUSSEN 9:00 EN 14:00 UUR GEDEELTE MENCKENBERGSTRAAT TUSSEN BASIRANGATOENSTRAAT EN BHAILALWEG EN ALLE ZIJWEGEN"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD WOENSDAG 29 JULI 2026",
+      "date": "29 Juli 2026",
+      "date_iso": "2026-07-29",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1552/gepland-onderhoud-woensdag-29-juli-2026",
+      "meta_description": "Gepland onderhoud: Wanica woensdag 29 juli 2026 tussen 09:00-14:00 GEDEELTE INDIRA GANDHIWEG TUSSEN HARRY PERSADWEG EN VREDESLUSTWEG 2, JADOENATH MISSIERWEG",
+      "district": "Wanica",
+      "time": "09:00 – 14:00",
+      "area": "GEDEELTE INDIRA GANDHIWEG TUSSEN HARRY PERSADWEG EN VREDESLUSTWEG 2, JADOENATH MISSIERWEG"
+    }
+  ],
+  "last_updated": "2026-07-27T17:46:54.995329+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
