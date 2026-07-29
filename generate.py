@@ -16,6 +16,9 @@ from datetime import datetime, timezone, timedelta
 
 SITE_URL       = "https://exploresuriname.com"
 CONTACT_EMAIL  = "contact@exploresuriname.com"
+# Cloudflare Turnstile site key for the public submission form. Empty = widget
+# off (honeypot + per-IP rate limit still apply). Secret lives on the Worker.
+TURNSTILE_SITEKEY = "0x4AAAAAAEA9rqn_-t206NGg"
 SR_TZ          = timezone(timedelta(hours=-3))   # Suriname time (UTC-3, no DST)
 YEAR           = datetime.now(SR_TZ).year
 MAX_PER_FEED   = 10
@@ -102,6 +105,47 @@ try:
     print(f"  Applied {_ovr_applied} listing overrides from admin panel")
 except Exception as _err:
     print(f"  Warning: listing overrides unavailable — {_err}")
+
+# ── Approved public submissions (Add your business form) ──────────────────────
+# Anyone can propose a listing at /submit-business.html. Nothing is published
+# until it is approved in the admin panel; approved rows arrive here and are
+# injected into the same structures the repo listings use, so once live a
+# submitted listing is indistinguishable from a curated one.
+# A repo listing ALWAYS wins: a submission can never overwrite curated data.
+# Build never fails on backend trouble — it just ships without them.
+_SUB_URL = "https://esr-leaderboard.surinamedomains.workers.dev/listings/approved"
+_SUB_LIST_KEY = {"restaurant": "RESTAURANTS", "hotel": "HOTELS", "shopping": "SHOPPING",
+                 "service": "SERVICES", "adventure": "ADVENTURES_BIZ", "sightseeing": "SIGHTSEEING"}
+_SUB_BY_CAT: dict = {_k: [] for _k in _SUB_LIST_KEY}
+_SUB_IMGS: dict = {}      # slug -> image url, merged into _IMGS below
+_SUB_SUBCAT: dict = {}    # slug -> chip key, consulted first by _subcat()
+try:
+    import urllib.request as _ureq
+    _sub_req = _ureq.Request(_SUB_URL, headers={"User-Agent": "ExploreSR-build/1.0"})
+    with _ureq.urlopen(_sub_req, timeout=15) as _sub_r:
+        _sub_rows = json.loads(_sub_r.read().decode("utf-8"))
+    _sub_skipped = 0
+    for _s in (_sub_rows if isinstance(_sub_rows, list) else []):
+        _sslug = (_s.get("slug") or "").strip()
+        _scat  = _s.get("category") or ""
+        if not _sslug or _sslug in _BIZ or _scat not in _SUB_LIST_KEY:
+            _sub_skipped += 1
+            continue
+        _BIZ[_sslug] = {"slug": _sslug, "name": _s.get("name", ""), "category": "",
+                        "description": _s.get("description", ""),
+                        "location": _s.get("location") or "Suriname",
+                        "address": _s.get("address", ""), "phone": _s.get("phone", ""),
+                        "website": _s.get("website", ""), "email": _s.get("email", ""),
+                        "main_image": _s.get("image", ""), "submitted": True}
+        if (_s.get("description") or "").strip():
+            _JSON_DESCS[_sslug] = _s["description"].strip()
+        if _s.get("image"):  _SUB_IMGS[_sslug]   = _s["image"]
+        if _s.get("subcat"): _SUB_SUBCAT[_sslug] = _s["subcat"]
+        _SUB_BY_CAT[_scat].append(_sslug)
+    print(f"  Added {sum(len(_v) for _v in _SUB_BY_CAT.values())} approved submissions"
+          + (f" ({_sub_skipped} skipped)" if _sub_skipped else ""))
+except Exception as _err:
+    print(f"  Warning: approved submissions unavailable — {_err}")
 
 FEEDS = [
     {"name": "De Ware Tijd", "url": "https://www.dwtonline.com/feed/",              "color": "#2D6A4F"},
@@ -908,6 +952,10 @@ _IMGS = {
     'great-wall-motor-suriname': 'https://exploresuriname.com/images/great-wall-motor.webp',
 }
 
+# Photos uploaded through the public form (served from R2 via the Worker).
+# Merged, never assigned: _IMGS stays authoritative for repo listings.
+_IMGS.update(_SUB_IMGS)
+
 
 
 _F = {
@@ -987,6 +1035,10 @@ def _card_srcset(img):
 # ── Subcategory assignment ────────────────────────────────────────────────────
 def _subcat(slug, main_cat=""):
     s = slug.lower()
+    # Public submissions carry a chip the reviewer picked in the admin panel;
+    # it beats every keyword rule below.
+    if s in _SUB_SUBCAT:
+        return _SUB_SUBCAT[s]
     # ── Disambiguation guards (run first): brands whose slug collides with a
     #    greedy substring keyword below — e.g. "latour" contains "tour", mall
     #    tenants contain "mall", insurers "assuria"/"fatum", poultry "sranan-fowru".
@@ -1442,6 +1494,17 @@ ADVENTURES_BIZ = [b for slug in ["afobaka-resort","akira-overwater-resort","clev
 SHOPPING = [b for slug in ["talula", "amada-shopping", "ashley-furniture-homestore", "auto-style-franchepanestraat", "auto-style-johannes-mungrastraat", "auto-style-kwatta", "auto-style-tweede-rijweg", "auto-style-verlengde-gemenelandsweg", "bed-bath-more-bbm", "best-mart", "beyrouth-bazaar", "boekhandel-kasco", "boekhandel-vaco", "building-depot", "chees-jewelry-watches", "chm-centrum", "chm-commewijne", "chm-kernkampweg", "chm-nickerie", "chm-wanica", "chm-wilhelminastraat", "chm-wilhelminastraat-2", "chois-supermarkt", "chois-supermarkt-lelydorp", "chois-supermarkt-north", "combe-bazaar", "combe-markt", "computer-hardware-services", "computronics-north", "computronics-south", "crocs-ims", "da-drogisterij-coppename", "da-drogisterij-hermitage", "da-drogisterij-ims-mall", "da-drogisterij-lelydorp", "da-drogisterij-wilhelmina", "de-keurslager-interfarm", "deto-handelmaatschappij", "digital-world-hermitage-mall", "digital-world-ims", "digital-world-maretraite-mall", "digital-world-maretraite-mall-2", "divergent-body-jewelry", "dj-liquor-store", "dojo-couture-hermitage-mall", "fish-finder-fishing-and-outdoors", "from-kay-with-love", "flex-phones", "footcandy-hermitage-mall", "from-me-to-me", "furniture-city-kwatta", "furniture-city-north", "galaxy", "gao-ming-trading-north", "gao-ming-trading-south", "golderom-healthy-organic-store", "h-garden", "hermitage-mall", "holiday-home-decor", "hollandia-bakkerij-north", "hollandia-bakkerij-south", "honeycare", "hurricane-steel", "hurricane-steel-ringweg", "international-mall-of-suriname", "janelles-shoes-and-bags", "kaki-supermarkt", "kirpalani", "kirpalani-domineestraat", "kirpalani-maagdenstraat", "kirpalani-super-store", "ladybug-nursery-and-garden-center", "lilis", "lins-super-market", "lucky-store", "mimi-market", "miniso-gompertstraat", "miniso-hermitage-mall", "mon-plaisir-nursery", "morevans-outlet", "nv-zing-manufacturing", "ochama-amazing", "ochama-hermitage-mall", "office-world-hermitage-mall", "office-world-lelydorp", "optiek-all-vision", "optiek-all-vision-albina", "optiek-all-vision-lelydorp", "optiek-all-vision-nickerie", "optiek-marisa", "optiek-ninon", "optiek-ninon-hermitage-mall", "optiek-ninon-ims", "optiek-ninon-lelydorp", "optiek-ninon-meerzorg", "optiek-ninon-nickerie", "papillon-crafts", "randoe-meubelen", "readytex-souvenirs-and-crafts", "rogom-farm-nv", "red-century-party-shop-commewijne", "red-century-party-shop-kwatta", "red-century-party-shop-lelydorp", "red-century-party-shop-north", "red-century-party-shop-zorg-en-hoop", "ring-ring-imports", "rossignol-2go-kwattaweg", "rossignol-2go-thurkowstraat", "rossignol-coppename", "rossignol-geyersvlijt", "rossignol-linda", "rossignol-waaldijkstraat", "sanousch-books", "sash-fashion-hermitage-mall", "shlx-collection", "shoebizz-ims", "slagerij-abbas", "slagerij-asruf", "slagerij-stolk", "sleepstore-suriname", "sleeqe", "smoothieskin", "soengngie-mega-store", "soengngie-oriental-market", "sranan-fowru", "sranan-fowru-boni", "sranan-fowru-combe", "sranan-fowru-flu", "sranan-fowru-leiding", "sranan-fowru-lelydorp", "sranan-fowru-meursweg", "sranan-fowru-tabiki-fowru", "sranan-fowru-tourtonne", "sranan-fowru-zinnia", "steps-hermitage-mall", "store4u", "suraniyat", "sweetheart-hermitage-mall", "sweetheart-ims", "switi-momenti-candles-crafts", "talking-prints-concept-store", "the-old-attic", "the-perfume-spot", "the-uma-store", "the-warehouse-shop", "topslager-stolk", "toys-n-more", "tulip-supermarket", "unlocked-candles", "vcm-slagerij-centrum", "vcm-slagerij-johannes-mungrastraat", "vcm-slagerij-verl-gemenelandsweg", "vifa-trading", "vincent-supermarket", "woodwonders-suriname", "yokohama-trading", "zeepfabriek-joab", "ket-mien", "kasan-snacks", "wing-hung-cake-shop", "dojo-couture-centrum", "dojo-couture-ims", "steps-domineestraat", "steps-noord", "steps-wanica", "honeycare-north", "honeycare-south", "tomahawk-outdoor-adventures", "tomahawk-outdoor-adventures-hermitage-mall", "tomahawk-outdoor-adventures-ims", "tomahawk-outdoor-adventures-lelydorp", "cute-as-a-button", "dresscode", "eterno", "everything-sr", "flex-luxuries", "itrendzz", "pandie", "mn-international-centrum", "mn-international-kwatta", "new-choice-lalla-rookhweg", "new-choice-nickerie", "new-choice-ringweg", "wow-plus", "chique-eyewear-fashion", "instyle-optics", "galaxyliving", "grounded-botanical-studio", "kasimex-indira-ghandiweg", "kasimex-makro", "brahma-centrum", "brahma-noord", "brahma-zuid", "alis-drugstore", "one-stop-apotheek-drugstore", "maze", "max-n-co", "jjs-place-zuid"] for b in [_make_biz(slug)] if b]
 
 SERVICES = [b for slug in ["the-girl-house", "101-real-estate", "ineffable", "morgaine-beauty", "4r-gym", "4x4-rental", "abrix-cleaning-services", "access-suriname-travel", "alliance-francaise", "anton-de-kom-universiteit-van-suriname", "apotheek-joemmanbaks", "apotheek-karis", "apotheek-mac-donald-north", "apotheek-mac-donald-south", "apotheek-rafeka", "apotheek-sibilo", "apotheek-soma", "apotheek-soma-ringweg", "arthur-alex-hoogendoorn-atheneum", "assuria-hermitage-high-rise", "assuria-insurance-walk-in-city", "assuria-insurance-walk-in-commewijne", "assuria-insurance-walk-in-lelydorp", "assuria-insurance-walk-in-nickerie", "assuria-insurance-walk-in-noord", "augis-travel", "ayur-mi-beauty-wellness", "balance-studio", "balletschool-marlene", "bitdynamics", "blissful-massage-aromatherapy", "blossom-beauty-bar", "bmw-suriname", "body-enhancement-gym", "bright-cleaning", "brilleman", "brotherhood-security", "brow-bliss-lounge", "buro-workspaces", "byd-suriname", "camex-suriname", "car-rental-city", "carline-kwatta", "carline-waaldijkstraat", "carpe-diem-massagepraktijk", "carvision-paramaribo", "clarissa-vaseur-writing-wellness-services-claw", "clean-it", "club-oase", "cpr-pilates-curves", "creative-q", "curl-babes", "cynsational-glam", "da-select-en-service-apotheek", "dans-dip-and-detail", "dansclub-danzson", "dcars-rental", "de-cederboom-school", "de-nederlandse-basisschool-het-kleurenorkest", "de-spetter", "de-surinaamsche-bank-hermitage-mall", "de-surinaamsche-bank-hoofdkantoor", "de-surinaamsche-bank-lelydorp", "de-surinaamsche-bank-ma-retraite", "de-surinaamsche-bank-ma-retraite-2", "de-surinaamsche-bank-nickerie", "de-surinaamsche-bank-nickerie-2", "de-surinaamsche-bank-nieuwe-haven", "de-vrije-school", "delete-beauty-lounge", "dhl-express-service-point", "dierenarts-resopawiro", "dierenartspraktijk-l-m-bansse-issa", "dierenpoli-lobo", "digicel-albina", "digicel-business-center", "digicel-extacy", "digicel-hermitage", "digicel-latour", "digicel-lelydorp", "digicel-nickerie", "digicel-wilhelminastraat", "djinipi-copy-center", "djo-cleaning-service", "dli-travel-consultancy", "dor-property-management-services-n-v", "dream-clean-suriname", "eaglemedia", "ec-operations", "ekay-media", "energiebedrijven-suriname-ebs", "eucon", "faraya-medical-center", "farma-vida", "fatum", "fatum-schadeverzekering-commewijne", "fatum-schadeverzekering-hoofdkantoor", "fatum-schadeverzekering-kwatta", "fatum-schadeverzekering-nickerie", "fhr-lim-a-po-institute-for-higher-education", "finabank-centrum", "finabank-nickerie", "finabank-noord", "finabank-wanica", "finabank-zuid", "first-aid-plus", "fit-factory", "fluxo-pilates", "fly-allways", "free-flow", "gaby-april-beauty-clinic", "garage-d-a-ashruf", "gateway-fire-nv", "glam-curves", "glambox", "gossip-nails-xx", "great-wall-motor-suriname", "h-t", "hairstudio-32", "hakrinbank", "hakrinbank-flora", "hakrinbank-latour", "hakrinbank-nickerie", "hakrinbank-nieuwe-haven", "hakrinbank-tamanredjo", "hakrinbank-tourtonne", "han-palace", "handmade-by-farrell-nv", "happy-flower-services", "harry-tjin", "hertz-suriname-car-rental", "house-of-pureness", "hsds-lifestyle-noord", "hsds-lifestyle-wanica", "iamchede", "ias-wooden-and-construction-nv", "infinity-holding", "inksane-tattoos", "international-academy-of-suriname", "intervast", "invictus-brazilian-jiu-jitsu", "jamilas-dry-cleaning-north", "jamilas-dry-cleaning-south", "just-curlss", "kaizen", "kasco-customs-solutions", "keller-williams-suriname", "kempes-co", "klm-royal-dutch-airlines", "lashlift-suriname", "lioness-beauty-effects", "luxe-escape-lotus-spa-wellness-beautysalon", "marchand-notariaat", "mini-nail-shop", "mirage-casino", "miss-doll-fit", "mokisa-busidataa-osu-nv", "mokisa-wellness", "multi-travel", "nassy-brouwer-college", "nassy-brouwer-school", "north-fitness-gym", "notariaat-mannes", "notariaat-van-dijk", "nv-threefold-quality-system-support", "ondernemershuis", "orchid", "organic-skincare", "padel-x-suriname", "paramaribo-princess-casino", "percy-massage-therapy", "pinkmoon-suriname", "pitbull-fitness", "professional-private-security", "proplan-vastgoed", "protrade-international", "qsi-international-school-of-suriname", "re-max-suriname", "real-one-fitness-gym", "remy-vastgoed", "republic-bank-head-office", "republic-bank-jozef-israelstraat", "republic-bank-kernkampweg", "republic-bank-nickerie", "republic-bank-vant-hogerhuysstraat", "republic-bank-zorg-en-hoop", "resourceful-real-estate-construction", "rich-skin", "rif-cleaning-service", "rock-fitness-paramaribo", "ross-rental-cars", "royal-rose-yoni-spa", "royal-spa", "royal-wellness-lounge", "safety-first-quality-always", "satyam-holidays", "savage-den", "scene-beauty-salon", "secas", "seen-stories", "shimmery-beauty-lounge", "smart-connexxionz", "southern-commercial-bank", "squeaky-clean", "sthephany-skincare", "stichting-shiatsu-massage", "stukaderen-in-nederland", "supply-solutions-limited-suriname", "surgoed-makelaardij", "surinaamsche-waterleiding-maatschappij", "surinam-airways", "suriname-princess-casino", "telesur-centrum", "telesur-latour", "telesur-lelydorp", "telesur-nickerie", "telesur-noord", "telesur-zonnebloemstraat", "the-aerial-yoga-studio", "the-basement-barbershop", "the-beauty-bar", "the-beauty-bar-north", "the-beauty-bar-south", "the-freelance-scout", "the-house-of-beauty", "the-laundry-spot", "the-nail-house", "the-solution-property-management", "the-waxing-booth", "the-wonderlab-su", "thermen-hermitage-turkish-bath-beautycenter", "tianyou-aquafun", "timeless-barber-and-nail-shop", "topsport", "touch-of-heaven-wellness", "tranquil-at-mamba-republiek", "tranquil-massage", "triple-security-unit", "tsw-group", "typing-nomad-nv", "waldos-worldwide-travel-service", "welink-real-estate", "ying-hao-beautyshop", "yoga-peetha-happiness-centre", "yogh-hospitality", "young-engineers", "zenobia-bottling-company"] for b in [_make_biz(slug)] if b]
+
+# Approved public submissions join the same category lists as repo listings,
+# so they get cards, chips, search entries and a listing page for free.
+for _scat, _key in _SUB_LIST_KEY.items():
+    _target = globals().get(_key)
+    if not isinstance(_target, list):
+        continue
+    for _sslug in _SUB_BY_CAT.get(_scat, []):
+        _sb = _make_biz(_sslug)
+        if _sb:
+            _target.append(_sb)
 
 # Sort every category list alphabetically by display name
 _alpha = lambda lst: sorted(lst, key=lambda b: b["name"].lower())
@@ -2947,6 +3010,7 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}muskieto.html">Muskieto Survivor</a>
         <a class="ftr-lnk" href="{prefix}matches.html">Sports Schedule</a>
         <a class="ftr-lnk" href="{prefix}about.html">About Us</a>
+        <a class="ftr-lnk" href="{prefix}submit-business.html">Add Your Business</a>
         <a class="ftr-lnk" href="{prefix}contact.html">Contact</a>
         <a class="ftr-lnk" href="{prefix}privacy.html">Privacy</a>
       </div>
@@ -12668,7 +12732,7 @@ def build_contact_page():
     <ul class="space-y-3 text-sm text-gray-700">
       <li class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
-        <span><strong>Listing requests:</strong> add a new business, hotel, restaurant or attraction to the directory</span>
+        <span><strong>Listing requests:</strong> add a new business, hotel, restaurant or attraction to the directory. Fastest route is the <a href="submit-business.html" class="underline" style="color:var(--forest)">Add Your Business form</a>.</span>
       </li>
       <li class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
@@ -12689,6 +12753,310 @@ def build_contact_page():
 {footer_html()}
 </body>
 </html>"""
+
+
+def build_submit_page():
+    """Public "Add your business" form. Posts to the Worker; nothing publishes
+    until it is approved in the admin panel."""
+    _districts = ["Paramaribo", "Wanica", "Commewijne", "Saramacca", "Nickerie",
+                  "Coronie", "Marowijne", "Para", "Brokopondo", "Sipaliwini"]
+    _cat_label = {"restaurant": "Restaurant, bar or cafe", "hotel": "Hotel, resort or guesthouse",
+                  "shopping": "Shop or store", "service": "Service or business",
+                  "adventure": "Tour, activity or resort", "sightseeing": "Attraction or museum"}
+    # Chip options mirror the category pages exactly, minus the "All" pseudo-chip.
+    _chip_json = _json.dumps(
+        {_c: [[_k, _lbl] for _k, _lbl, _ico in _rows if _k != "all"]
+         for _c, _rows in SUBCATS.items()}, ensure_ascii=False)
+    _cat_opts = "".join(
+        f'<option value="{_c}">{_l}</option>' for _c, _l in _cat_label.items())
+    _dist_opts = "".join(f'<option value="{_d}">{_d}</option>' for _d in _districts)
+    _turnstile_head = ('<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>'
+                       if TURNSTILE_SITEKEY else "")
+    _turnstile_box = (f'<div class="cf-turnstile mt-5" data-sitekey="{TURNSTILE_SITEKEY}" data-theme="light"></div>'
+                      if TURNSTILE_SITEKEY else "")
+
+    head = f"""{PAGE_HEAD}
+  <title>Add Your Business | Explore Suriname</title>
+  <meta name="description" content="List your Surinamese business on Explore Suriname for free. Submit your restaurant, hotel, shop or service and we will review it within a few days.">
+  <link rel="canonical" href="{SITE_URL}/submit-business.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/submit-business.html">
+  <meta property="og:title" content="Add Your Business | Explore Suriname">
+  <meta property="og:description" content="List your Surinamese business on Explore Suriname for free. Submit your details and photo, and we will review it within a few days.">
+  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Add Your Business | Explore Suriname">
+  <meta name="twitter:description" content="List your Surinamese business on Explore Suriname for free.">
+  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
+  {_turnstile_head}
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@graph":[
+    {{"@type":"WebPage","@id":"{SITE_URL}/submit-business.html","name":"Add Your Business","url":"{SITE_URL}/submit-business.html","description":"Submit a Surinamese business for a free listing on Explore Suriname.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}},
+    {{"@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Add Your Business","item":"{SITE_URL}/submit-business.html"}}]}},
+    {{"@type":"FAQPage","mainEntity":[
+      {{"@type":"Question","name":"Does it cost anything to be listed?","acceptedAnswer":{{"@type":"Answer","text":"No. A standard listing on Explore Suriname is free."}}}},
+      {{"@type":"Question","name":"How long does approval take?","acceptedAnswer":{{"@type":"Answer","text":"We review submissions by hand, usually within a few days. Once approved, the listing appears on the site within about fifteen minutes."}}}},
+      {{"@type":"Question","name":"Can I change my listing later?","acceptedAnswer":{{"@type":"Answer","text":"Yes. Email us with the change and we will update it."}}}}
+    ]}}
+  ]}}
+  </script>
+  <style>
+    .fld{{margin-bottom:1.1rem}}
+    .fld label{{display:block;font-size:.76rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#5b645d;margin-bottom:.35rem}}
+    .fld .hint{{font-size:.78rem;color:#7a827b;margin-top:.3rem}}
+    .fld input[type=text],.fld input[type=email],.fld input[type=tel],.fld input[type=url],.fld select,.fld textarea{{
+      width:100%;border:1px solid #d3d8d3;border-radius:12px;padding:.7rem .85rem;font:inherit;background:#fff;color:#1a201c}}
+    .fld textarea{{min-height:140px;resize:vertical}}
+    .fld input:focus,.fld select:focus,.fld textarea:focus{{outline:none;border-color:var(--forest);box-shadow:0 0 0 3px rgba(27,67,50,.12)}}
+    .req{{color:#b3392b}}
+    .hp{{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;overflow:hidden}}
+    #drop{{border:2px dashed #c9cec9;border-radius:14px;padding:1.4rem;text-align:center;color:#7a827b;cursor:pointer;background:#fbfcfb}}
+    #drop:hover{{border-color:var(--forest);color:var(--forest)}}
+    #prev{{max-height:190px;border-radius:12px;margin:0 auto .6rem;display:block}}
+    .two{{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem}}
+    @media(max-width:640px){{.two{{grid-template-columns:1fr}}}}
+  </style>
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+__NAV__
+<div style="height:58px"></div>
+<div class="text-white py-16 text-center" style="background:var(--forest)">
+  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Add Your Business</h1>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Free listing on Suriname&#8217;s local directory</p>
+</div>
+"""
+
+    body = """
+<main class="max-w-2xl mx-auto px-5 py-12 pb-24">
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mb-6">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-2">How this works</h2>
+    <ul class="space-y-2.5 text-sm text-gray-700 mb-1">
+      <li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span>Listing on Explore Suriname is <strong>free</strong>. We do not charge for inclusion.</span></li>
+      <li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span>Every submission is <strong>reviewed by a person</strong>, usually within a few days.</span></li>
+      <li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span>Once approved, your page is live within about fifteen minutes.</span></li>
+      <li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span>We may edit wording, category or photo so the listing fits the rest of the site.</span></li>
+    </ul>
+  </div>
+
+  <form id="frm" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8" novalidate>
+
+    <h2 class="serif text-xl font-bold text-gray-900 mb-5">The business</h2>
+
+    <div class="fld">
+      <label for="f-name">Business name <span class="req">*</span></label>
+      <input type="text" id="f-name" name="name" maxlength="80" required autocomplete="organization">
+    </div>
+
+    <div class="two">
+      <div class="fld">
+        <label for="f-category">Category <span class="req">*</span></label>
+        <select id="f-category" name="category" required>
+          <option value="">Choose one</option>
+          __CATOPTS__
+        </select>
+      </div>
+      <div class="fld">
+        <label for="f-subcat">Type</label>
+        <select id="f-subcat" name="subcat" disabled>
+          <option value="">Pick a category first</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="two">
+      <div class="fld">
+        <label for="f-location">District</label>
+        <select id="f-location" name="location">
+          <option value="">Choose one</option>
+          __DISTOPTS__
+        </select>
+      </div>
+      <div class="fld">
+        <label for="f-phone">Phone</label>
+        <input type="tel" id="f-phone" name="phone" maxlength="60" placeholder="+597 ..." autocomplete="tel">
+        <div class="hint">A Suriname mobile number gets a WhatsApp button on your page.</div>
+      </div>
+    </div>
+
+    <div class="fld">
+      <label for="f-address">Address</label>
+      <input type="text" id="f-address" name="address" maxlength="200" autocomplete="street-address">
+    </div>
+
+    <div class="two">
+      <div class="fld">
+        <label for="f-website">Website or social page</label>
+        <input type="text" id="f-website" name="website" maxlength="300" placeholder="www.example.sr">
+      </div>
+      <div class="fld">
+        <label for="f-email">Public email</label>
+        <input type="email" id="f-email" name="email" maxlength="120">
+        <div class="hint">Shown on your listing. Leave empty to hide it.</div>
+      </div>
+    </div>
+
+    <div class="fld">
+      <label for="f-description">Describe the business <span class="req">*</span></label>
+      <textarea id="f-description" name="description" maxlength="2000" required
+        placeholder="What you offer, what makes you worth the trip, opening hours if they are fixed. Two or three sentences is plenty."></textarea>
+      <div class="hint"><span id="cnt">0</span> of 2000 characters. Minimum 20.</div>
+    </div>
+
+    <div class="fld">
+      <label>Photo</label>
+      <div id="drop" tabindex="0">
+        <img id="prev" alt="" hidden>
+        <div id="dropmsg"><strong>Choose a photo</strong><br>JPG, PNG or WebP, up to 5 MB</div>
+      </div>
+      <input type="file" id="f-photo" name="photo" accept="image/jpeg,image/png,image/webp" hidden>
+      <div class="hint">One good wide shot of the place, the food or the product. Use a photo you own the rights to.</div>
+    </div>
+
+    <h2 class="serif text-xl font-bold text-gray-900 mt-9 mb-5">You</h2>
+    <p class="text-sm text-gray-600 mb-5">Not published. We only use this to reach you about the listing.</p>
+
+    <div class="two">
+      <div class="fld">
+        <label for="f-contact_name">Your name</label>
+        <input type="text" id="f-contact_name" name="contact_name" maxlength="80" autocomplete="name">
+      </div>
+      <div class="fld">
+        <label for="f-contact_email">Your email <span class="req">*</span></label>
+        <input type="email" id="f-contact_email" name="contact_email" maxlength="120" required autocomplete="email">
+      </div>
+    </div>
+
+    <label class="flex items-start gap-3 text-sm text-gray-700 cursor-pointer">
+      <input type="checkbox" id="f-owner_claim" name="owner_claim" value="1" class="mt-1 w-4 h-4">
+      <span>I own this business or I am authorised to represent it.</span>
+    </label>
+
+    <div class="hp"><label for="company_url">Leave this empty</label>
+      <input type="text" id="company_url" name="company_url" tabindex="-1" autocomplete="off"></div>
+
+    __TURNSTILE__
+
+    <button type="submit" id="go"
+      class="w-full mt-6 px-6 py-3.5 rounded-xl text-white font-semibold text-sm transition hover:opacity-90 disabled:opacity-50"
+      style="background:var(--forest)">Submit for review</button>
+
+    <p id="msg" class="text-sm mt-4" role="status" aria-live="polite"></p>
+    <p class="text-xs text-gray-500 mt-4">By submitting you confirm the details are accurate and that you may share the photo with us. See our <a href="privacy.html" class="underline">privacy notice</a>.</p>
+  </form>
+
+  <div id="done" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center" hidden>
+    <div class="text-4xl mb-3" style="color:var(--forest)">&#10003;</div>
+    <h2 class="serif text-2xl font-bold text-gray-900 mb-2">Thank you, we have it</h2>
+    <p class="text-gray-600 text-sm max-w-md mx-auto mb-6">We review every submission by hand, usually within a few days. You will hear from us at the email address you gave.</p>
+    <a href="index.html" class="inline-block px-6 py-3 rounded-xl text-white font-semibold text-sm" style="background:var(--forest)">Back to the site</a>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mt-6">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-4">Questions</h2>
+    <div class="text-sm text-gray-700 space-y-4">
+      <div><strong class="block text-gray-900 mb-1">Does it cost anything?</strong>
+        No. A standard listing is free.</div>
+      <div><strong class="block text-gray-900 mb-1">My business is already listed but the details are wrong.</strong>
+        Do not submit it again. <a href="contact.html" class="underline">Email us</a> with the correction and we will fix it.</div>
+      <div><strong class="block text-gray-900 mb-1">Can I change the listing later?</strong>
+        Yes, email us and we will update it.</div>
+      <div><strong class="block text-gray-900 mb-1">What gets declined?</strong>
+        Businesses outside Suriname, duplicates, listings with no real address or contact, and anything we cannot verify.</div>
+    </div>
+  </div>
+
+</main>
+__FOOTER__
+<script>
+(function(){
+  var CHIPS = __CHIPS__;
+  var API = "__API__";
+  var $ = function(i){return document.getElementById(i)};
+  var frm = $("frm"), photo = null;
+
+  // Type options follow the category, so a submission can only claim a chip
+  // that the category page actually renders.
+  $("f-category").addEventListener("change", function(){
+    var list = CHIPS[this.value] || [], sel = $("f-subcat");
+    sel.innerHTML = list.length
+      ? '<option value="">Choose one</option>' + list.map(function(c){
+          return '<option value="' + c[0] + '">' + c[1] + '</option>'}).join("")
+      : '<option value="">Pick a category first</option>';
+    sel.disabled = !list.length;
+  });
+
+  $("f-description").addEventListener("input", function(){ $("cnt").textContent = this.value.length; });
+
+  var drop = $("drop"), file = $("f-photo");
+  drop.addEventListener("click", function(){ file.click() });
+  drop.addEventListener("keydown", function(e){ if(e.key === "Enter" || e.key === " "){ e.preventDefault(); file.click(); } });
+  drop.addEventListener("dragover", function(e){ e.preventDefault(); });
+  drop.addEventListener("drop", function(e){ e.preventDefault(); if(e.dataTransfer.files[0]) take(e.dataTransfer.files[0]); });
+  file.addEventListener("change", function(){ if(this.files[0]) take(this.files[0]); });
+
+  function take(f){
+    if(!/^image\\/(jpeg|png|webp)$/.test(f.type)){ say("Photo must be a JPG, PNG or WebP file.", true); return; }
+    if(f.size > 5 * 1024 * 1024){ say("Photo must be under 5 MB.", true); return; }
+    photo = f;
+    var img = $("prev");
+    img.src = URL.createObjectURL(f);
+    img.hidden = false;
+    $("dropmsg").innerHTML = "<strong>" + f.name.replace(/[<>]/g, "") + "</strong><br>Click to choose a different photo";
+    say("");
+  }
+
+  function say(t, bad){
+    var m = $("msg");
+    m.textContent = t || "";
+    m.className = "text-sm mt-4 " + (bad ? "text-red-700 font-semibold" : "text-green-800 font-semibold");
+  }
+
+  frm.addEventListener("submit", async function(e){
+    e.preventDefault();
+    var name = $("f-name").value.trim();
+    if(name.length < 2) return say("Please enter the business name.", true);
+    if(!$("f-category").value) return say("Please choose a category.", true);
+    if($("f-description").value.trim().length < 20) return say("Please describe the business in a sentence or two.", true);
+    if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test($("f-contact_email").value.trim()))
+      return say("Please enter your email so we can reach you.", true);
+
+    var fd = new FormData(frm);
+    fd.delete("photo");
+    if(photo) fd.append("photo", photo, photo.name);
+
+    $("go").disabled = true;
+    say("Sending...");
+    try{
+      var r = await fetch(API + "/submit", { method: "POST", body: fd });
+      var j = await r.json();
+      if(j && j.ok){ frm.hidden = true; $("done").hidden = false; window.scrollTo({top: 0, behavior: "smooth"}); return; }
+      say((j && j.err) || "Something went wrong. Please try again.", true);
+    }catch(err){
+      say("We could not reach the server. Check your connection and try again.", true);
+    }
+    $("go").disabled = false;
+    if(window.turnstile) window.turnstile.reset();
+  });
+})();
+</script>
+</body>
+</html>"""
+
+    return ((head + body)
+            .replace("__NAV__", nav_html("submit"))
+            .replace("__FOOTER__", footer_html())
+            .replace("__CATOPTS__", _cat_opts)
+            .replace("__DISTOPTS__", _dist_opts)
+            .replace("__TURNSTILE__", _turnstile_box)
+            .replace("__CHIPS__", _chip_json)
+            .replace("__API__", LB_API))
 
 
 def build_privacy_page():
@@ -13554,6 +13922,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("news.html",       "0.7", "daily"),
         ("about.html",      "0.5", "yearly"),
         ("contact.html",    "0.5", "yearly"),
+        ("submit-business.html", "0.6", "yearly"),
         ("privacy.html",    "0.3", "yearly"),
     ]
 
@@ -15939,6 +16308,7 @@ if __name__ == "__main__":
         "news.html":        build_news(articles, oil_articles, finance_articles),
         "about.html":       build_about_page(),
         "contact.html":     build_contact_page(),
+        "submit-business.html": build_submit_page(),
         "privacy.html":     build_privacy_page(),
         "today.html":          '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=/daily-notices.html"><link rel="canonical" href="https://exploresuriname.com/daily-notices.html"><title>Redirecting to Daily Notices…</title></head><body><p>This page has moved. <a href="/daily-notices.html">Click here</a>.</p></body></html>',
         "daily-notices.html": build_today_page(),
