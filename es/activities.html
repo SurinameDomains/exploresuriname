@@ -15,7 +15,7 @@
   @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   </style>
-<link href="/tailwind.css?v=2218b3be" rel="stylesheet"/>
+<link href="/tailwind.css?v=e26ea025" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -493,8 +493,7 @@ document.addEventListener('keydown', e => {
 </div>
 </div>
 </div>
-<main class="max-w-6xl mx-auto px-5 py-8 pb-24">
-<div class="sticky top-16 z-40 pb-2 mb-6" style="background:rgba(244,236,218,.96);backdrop-filter:blur(8px)">
+<div class="sticky top-[58px] z-40 pb-2 mb-6" style="background:linear-gradient(var(--paper-2) 92%,rgba(244,236,218,0));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)">
 <div class="max-w-6xl mx-auto px-5">
 <!-- Subcat chips -->
 <div class="relative flex items-center gap-1 pt-3">
@@ -569,6 +568,7 @@ function filterDistrict(btn, dist) {
   _applyFilters();
 }
 </script>
+<main class="max-w-6xl mx-auto px-5 pt-2 pb-24">
 <div class="text-sm text-gray-400 mb-4 font-medium" id="result-count">16 resultados</div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 <a class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden" data-district="Brokopondo" data-sub="eco-lodges" href="listing/afobaka-resort/">
