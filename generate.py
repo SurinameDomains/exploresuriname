@@ -2103,6 +2103,15 @@ PAGE_HEAD = """\
     .ftr-gtk{display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:#94A08F;line-height:1.45}
     .ftr-lnk2{color:#9BAA97;transition:color .15s}
     .ftr-lnk2:hover{color:#B9C2B2}
+    .ftr-cta{display:inline-block;border:1px solid var(--coral);color:#FCF7EC;border-radius:9999px;padding:.5rem 1.1rem;
+             font-size:13px;font-weight:700;text-decoration:none;transition:background .18s,color .18s}
+    .ftr-cta:hover{background:var(--coral);color:#fff}
+    .ftr-facts{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:13px;color:#8B978A;line-height:1.5}
+    .ftr-bar{max-width:1140px;margin:0 auto;padding:18px clamp(20px,5vw,48px);display:flex;justify-content:space-between;
+             align-items:center;gap:12px 20px;flex-wrap:wrap;font-size:13px;color:#8B978A}
+    .ftr-bar-links{display:flex;gap:18px;flex-wrap:wrap}
+    @media(max-width:900px){footer>div:first-child{grid-template-columns:1fr 1fr!important;gap:32px!important}}
+    @media(max-width:560px){footer>div:first-child{grid-template-columns:1fr!important}.ftr-bar{justify-content:flex-start}}
     .hero-bg { background-size:cover; background-position:center; }
     .card-hover { transition: transform .2s, box-shadow .2s; }
     .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
@@ -2157,6 +2166,29 @@ PAGE_HEAD = """\
     @media(min-width:640px){#pwa-bar{left:auto;right:18px;bottom:18px;max-width:430px;border-radius:16px;border:1px solid rgba(0,0,0,.08)}}
   </style>
   <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
+  <style>
+    /* Category listing header. The per-category colour is demoted from a full
+       background flood to a top accent rule, so every listing page reads as the
+       same brand surface while keeping the colour coding. */
+    .cat-hero{background:var(--forest);border-top:3px solid var(--cat,var(--coral));color:#fff}
+    .cat-hero-in{max-width:72rem;margin:0 auto;padding:1.1rem 1.25rem 1.4rem}
+    .cat-crumb{font-size:.75rem;color:rgba(255,255,255,.55);display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
+    .cat-crumb a{color:rgba(255,255,255,.72);text-decoration:none}
+    .cat-crumb a:hover{color:#fff;text-decoration:underline}
+    .cat-row{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:.55rem}
+    .cat-row h1{font-size:clamp(1.7rem,4.2vw,2.4rem);font-weight:700;line-height:1.1;margin:0}
+    .cat-sub{color:rgba(255,255,255,.68);font-size:.92rem;margin:.3rem 0 0}
+    .cat-cta{display:inline-flex;align-items:center;gap:.4rem;border:1px solid rgba(255,255,255,.42);border-radius:9999px;
+             padding:.5rem 1.05rem;font-size:.8rem;font-weight:600;color:#fff;text-decoration:none;white-space:nowrap;
+             transition:background .18s,color .18s,border-color .18s}
+    .cat-cta:hover{background:#fff;color:var(--forest);border-color:#fff}
+    @media(max-width:640px){.cat-hero-in{padding:.9rem 1.1rem 1.2rem}.cat-row{gap:.7rem}.cat-cta{padding:.45rem .9rem;font-size:.76rem}}
+    /* Intro prose lives below the listings: indexable, out of the way. */
+    .cat-about{border-top:1px solid var(--line,#e6ddc9);margin-top:3rem;padding-top:1.8rem}
+    .cat-about h2{font-size:1.15rem;font-weight:700;color:var(--ink,#233028);margin:0 0 .6rem}
+    .cat-about p{color:#46524A;line-height:1.75;max-width:60ch;margin:0 0 .6rem}
+    .cat-about .xlinks{font-size:.88rem;color:#6b7469}
+  </style>
   <style>
     .esr-grab{cursor:grab}.esr-grab:active{cursor:grabbing}
     .esr-arrow{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:9999px;background:#fff;border:1px solid #e5e7eb;box-shadow:0 1px 5px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;color:#374151;padding:0}
@@ -2603,6 +2635,22 @@ def fetch_aerodatabox_flights():
     return results
 
 
+# ── Category accent palette ───────────────────────────────────────────────────
+# One colour per category, used BOTH as the listing-page header accent rule and
+# as the search-result badge. Every value clears 4.5:1 against white (AA for the
+# small badge text) and stays visible as a rule on the forest header. Replaces
+# the old set, which had Shopping and Services on the same blue and Nature and
+# Sightseeing both on the header background colour.
+_CAT_ACCENT = {
+    "Eat & Drink": "#CA4E2F",   # coral, brand-led
+    "Stay":        "#A56822",   # warm amber
+    "Nature":      "#35825C",   # leaf, lifted off the forest header
+    "Activities":  "#1C809C",   # teal
+    "Shopping":    "#B85185",   # plum
+    "Services":    "#4676B9",   # blue
+    "Guides":      "#677889",   # slate
+}
+
 def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
     _TODO  = {"nature", "activities", "shopping", "events"}
@@ -2768,8 +2816,7 @@ def nav_html(active="home", prefix=""):
     _news_link = f'<a href="{prefix}news.html" class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" {_news_col}>News</a>'
 
     # Used by the search modal JS
-    cat_colors = {"Eat & Drink":"#7c3aed","Stay":"#c05621","Nature":"var(--forest)","Guides":"#0e7490",
-                  "Activities":"var(--forest2)","Shopping":"#0369a1","Services":"#0369a1","Sightseeing":"var(--forest)"}
+    cat_colors = dict(_CAT_ACCENT, **{"Sightseeing": _CAT_ACCENT["Nature"]})
 
     mobile_menu = (
         _mob_group("mg-todo", "Things to Do",    mob_todo_items,  _TODO) +
@@ -2958,13 +3005,17 @@ document.addEventListener('keydown', e => {{
 </script>"""
 
 def footer_html(prefix=""):
+    """Site footer. Four balanced columns: brand, Explore, Plan, Games. Utility
+    links and the country facts sit in the bottom bar rather than padding out a
+    fifth sparse column."""
     return f"""
 <footer style="background:#142A1E;color:#B9C2B2">
-  <div style="max-width:1240px;margin:0 auto;padding:clamp(52px,6vw,72px) clamp(20px,5vw,52px) 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:36px 40px">
-    <div style="min-width:200px">
-      <div style="margin-bottom:16px"><span class="serif" style="font-weight:800;font-size:21px;color:#FCF7EC">Explore</span><span class="serif" style="font-weight:800;font-size:21px;color:var(--coral)">Suriname</span></div>
-      <p style="font-size:14px;line-height:1.6;max-width:24em;margin:0 0 20px;color:#A7B1A2">Your guide to places to eat, stay, explore and love in Suriname, kept by people who live here, for the people who&#8217;ll wish they did.</p>
-      <div style="display:flex;gap:16px;font-size:12.5px;font-weight:600;letter-spacing:.04em">
+  <div style="max-width:1140px;margin:0 auto;padding:clamp(48px,5.5vw,64px) clamp(20px,5vw,48px) 32px;display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:40px">
+    <div>
+      <div style="margin-bottom:14px"><span class="serif" style="font-weight:800;font-size:21px;color:#FCF7EC">Explore</span><span class="serif" style="font-weight:800;font-size:21px;color:var(--coral)">Suriname</span></div>
+      <p style="font-size:14px;line-height:1.6;max-width:26em;margin:0 0 18px;color:#A7B1A2">Your guide to places to eat, stay, explore and love in Suriname, kept by people who live here, for the people who&#8217;ll wish they did.</p>
+      <a class="ftr-cta" href="{prefix}submit-business.html">Add your business</a>
+      <div style="display:flex;gap:16px;font-size:12.5px;font-weight:600;letter-spacing:.04em;margin-top:20px">
         <a class="ftr-lnk" href="https://www.facebook.com/exploresurinamecom" target="_blank" rel="noopener">Facebook</a>
         <a class="ftr-lnk" href="https://www.instagram.com/exploresurinamecom/" target="_blank" rel="noopener">Instagram</a>
         <a class="ftr-lnk" href="https://www.tiktok.com/@exploresuriname.com" target="_blank" rel="noopener">TikTok</a>
@@ -2973,62 +3024,62 @@ def footer_html(prefix=""):
     <div>
       <div class="ftr-h">Explore</div>
       <div class="ftr-col">
+        <a class="ftr-lnk" href="{prefix}restaurants.html">Where to Eat</a>
+        <a class="ftr-lnk" href="{prefix}hotels.html">Where to Stay</a>
         <a class="ftr-lnk" href="{prefix}nature.html">Nature &amp; Parks</a>
         <a class="ftr-lnk" href="{prefix}activities.html">Activities</a>
         <a class="ftr-lnk" href="{prefix}events.html">Events &amp; Festivals</a>
         <a class="ftr-lnk" href="{prefix}shopping.html">Shopping</a>
-        <a class="ftr-lnk" href="{prefix}restaurants.html">Where to Eat</a>
-        <a class="ftr-lnk" href="{prefix}hotels.html">Where to Stay</a>
+        <a class="ftr-lnk" href="{prefix}services.html">Local Services</a>
       </div>
     </div>
     <div>
       <div class="ftr-h">Plan &amp; Essentials</div>
       <div class="ftr-col">
         <a class="ftr-lnk" href="{prefix}visitor-guide.html">Visitor Guide</a>
-        <a class="ftr-lnk" href="{prefix}on-the-road.html">On the Road</a>
         <a class="ftr-lnk" href="{prefix}suriname-itinerary.html">Trip Itineraries</a>
         <a class="ftr-lnk" href="{prefix}is-suriname-safe.html">Is Suriname Safe?</a>
+        <a class="ftr-lnk" href="{prefix}on-the-road.html">On the Road</a>
+        <a class="ftr-lnk" href="{prefix}currency.html">Exchange Rates</a>
+        <a class="ftr-lnk" href="{prefix}conditions.html">Weather &amp; Tides</a>
+        <a class="ftr-lnk" href="{prefix}flights.html">Flights</a>
+        <a class="ftr-lnk" href="{prefix}daily-notices.html">Daily Notices</a>
+        <a class="ftr-lnk" href="{prefix}matches.html">Sports Schedule</a>
         <a class="ftr-lnk" href="{prefix}suriname-history.html">History of Suriname</a>
         <a class="ftr-lnk" href="{prefix}sranan-tongo-dictionary.html">Sranan Dictionary</a>
-        <a class="ftr-lnk" href="{prefix}currency.html">Exchange Rates</a>
-        <a class="ftr-lnk" href="{prefix}flights.html">Flights</a>
-        <a class="ftr-lnk" href="{prefix}conditions.html">Weather &amp; Tides</a>
-        <a class="ftr-lnk" href="{prefix}daily-notices.html">Daily Notices</a>
         <a class="ftr-lnk" href="{prefix}news.html">News</a>
       </div>
     </div>
     <div>
-      <div class="ftr-h">More</div>
+      <div class="ftr-h">Games</div>
       <div class="ftr-col">
-        <a class="ftr-lnk" href="{prefix}today.html">Today in Suriname</a>
-        <a class="ftr-lnk" href="{prefix}services.html">Local Services</a>
-        <a class="ftr-lnk" href="{prefix}crossword.html">Crossword</a>
+        <a class="ftr-lnk" href="{prefix}crossword.html">Switi Mini Crossword</a>
         <a class="ftr-lnk" href="{prefix}quiz.html">Daily Quiz</a>
         <a class="ftr-lnk" href="{prefix}map-game.html">Pe A De? Map Game</a>
         <a class="ftr-lnk" href="{prefix}korjaal.html">Korjaal Run</a>
         <a class="ftr-lnk" href="{prefix}anaconda.html">Aboma Snake Game</a>
         <a class="ftr-lnk" href="{prefix}muskieto.html">Muskieto Survivor</a>
-        <a class="ftr-lnk" href="{prefix}matches.html">Sports Schedule</a>
-        <a class="ftr-lnk" href="{prefix}about.html">About Us</a>
-        <a class="ftr-lnk" href="{prefix}submit-business.html">Add Your Business</a>
-        <a class="ftr-lnk" href="{prefix}contact.html">Contact</a>
-        <a class="ftr-lnk" href="{prefix}privacy.html">Privacy</a>
-      </div>
-    </div>
-    <div>
-      <div class="ftr-h">Good to know</div>
-      <div class="ftr-gtk">
-        <span>Capital &middot; Paramaribo</span>
-        <span>Languages &middot; Dutch, Sranan Tongo +9</span>
-        <span>Currency &middot; Surinamese Dollar (SRD)</span>
-        <span>Climate &middot; Tropical, ~28&deg;C</span>
       </div>
     </div>
   </div>
-  <div style="border-top:1px solid rgba(231,174,77,.18)">
-    <div style="max-width:1240px;margin:0 auto;padding:18px clamp(20px,5vw,52px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px;color:#9BAA97">
-      <span>&copy; {YEAR} ExploreSuriname.com</span>
-      <span><a class="ftr-lnk2" href="{prefix}privacy.html">Privacy</a> &middot; <a class="ftr-lnk2" href="/images/HOME_CREDITS.txt">Credits</a></span>
+  <div style="max-width:1140px;margin:0 auto;padding:0 clamp(20px,5vw,48px) 20px">
+    <div class="ftr-facts">
+      <span>Capital &middot; Paramaribo</span>
+      <span>Languages &middot; Dutch, Sranan Tongo +9</span>
+      <span>Currency &middot; Surinamese Dollar (SRD)</span>
+      <span>Climate &middot; Tropical, ~28&deg;C</span>
+    </div>
+  </div>
+  <div style="border-top:1px solid rgba(255,255,255,.09)">
+    <div class="ftr-bar">
+      <span>&copy; {datetime.now(SR_TZ).year} ExploreSuriname.com</span>
+      <span class="ftr-bar-links">
+        <a class="ftr-lnk2" href="{prefix}about.html">About</a>
+        <a class="ftr-lnk2" href="{prefix}contact.html">Contact</a>
+        <a class="ftr-lnk2" href="{prefix}today.html">Today in Suriname</a>
+        <a class="ftr-lnk2" href="{prefix}privacy.html">Privacy</a>
+        <a class="ftr-lnk2" href="/images/HOME_CREDITS.txt">Credits</a>
+      </span>
     </div>
   </div>
 </footer>"""
@@ -3363,8 +3414,13 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
     _lcp_preload = f'  <link rel="preload" as="image" href="{lcp_image}" fetchpriority="high">\n' if lcp_image else ""
     _faq_head, _faq_body = _render_faq(faq)
     _xlinks = _INTRO_CROSSLINKS.get(_page_active, "")
-    _xhtml = ('<p class="mt-3 text-sm text-gray-500">' + _xlinks + '</p>') if _xlinks else ""
-    _intro_block = ('<div class="max-w-3xl mb-8 text-gray-600 leading-relaxed">' + intro_text + _xhtml + '</div>') if intro_text else ""
+    _xhtml = ('<p class="xlinks">' + _xlinks + '</p>') if _xlinks else ""
+    # Intro copy is SEO text, not wayfinding: it renders below the listings so
+    # the grid starts near the top of the page while the words stay indexable.
+    _intro_block = ('<section class="cat-about"><h2>About ' + title + '</h2><p>'
+                    + intro_text + '</p>' + _xhtml + '</section>') if intro_text else ""
+    _cta = ('<a class="cat-cta" href="submit-business.html">'
+            '<span aria-hidden="true">+</span> Add your business</a>')
     _explore = _explore_more_html(_page_active)
     return f"""{PAGE_HEAD}
   <title>{_seo_title} | Explore Suriname</title>
@@ -3395,13 +3451,21 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html(_page_active)}
 <div style="height:58px"></div>
-<div class="text-white py-16 text-center" style="background:{bg_color}">
-  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">{title}</h1>
-  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">{subtitle}</p>
+<div class="cat-hero" style="--cat:{bg_color}">
+  <div class="cat-hero-in">
+    <nav class="cat-crumb" aria-label="Breadcrumb">
+      <a href="index.html">Home</a><span aria-hidden="true">&rsaquo;</span><span>{title}</span>
+    </nav>
+    <div class="cat-row">
+      <div>
+        <h1 class="serif">{title}</h1>
+        <p class="cat-sub">{subtitle}</p>
+      </div>
+      {_cta}
+    </div>
+  </div>
 </div>
-<main class="max-w-6xl mx-auto px-5 py-12 pb-24">
-  {_intro_block}
+<main class="max-w-6xl mx-auto px-5 py-8 pb-24">
   {filter_bar}
   <div id="result-count" class="text-sm text-gray-400 mb-4 font-medium">{len(items)} results</div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -3409,6 +3473,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   </div>
   {extra_html}
   {_faq_body}
+  {_intro_block}
 </main>
 {_explore}
 {footer_html()}
@@ -3958,7 +4023,7 @@ def build_nature_page():
     total = len(NATURE_SPOTS) + len(SIGHTSEEING)
     return listing_page("Nature & Parks", f"{total} destinations across Suriname's pristine wilderness",
         f"Explore {total} nature reserves, national parks and rainforest destinations in Suriname. From Central Suriname Reserve to Brownsberg. Plan your eco-adventure.",
-        NATURE_SPOTS, all_cards, page_file="nature.html", extra_html="", filter_bar=filter_bar_s,
+        NATURE_SPOTS, all_cards, bg_color=_CAT_ACCENT["Nature"], page_file="nature.html", extra_html="", filter_bar=filter_bar_s,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Leo_val_brownsberg.JPG/1280px-Leo_val_brownsberg.JPG",
         lcp_image=NATURE_SPOTS[0]["image"] if NATURE_SPOTS else None, seo_title="Nature Parks & Wildlife Reserves in Suriname",
         intro_text=f"Suriname protects over 93% of its land as pristine rainforest, the highest percentage of any country on Earth. Explore {total} nature parks, wildlife reserves and UNESCO World Heritage Sites. From the vast Central Suriname Nature Reserve to Brownsberg, Galibi and Bigi Pan, this is South America&#8217;s last great wilderness.", faq=_FAQ_NATURE)
@@ -3980,7 +4045,7 @@ def build_activities_page():
     total = len(ACTIVITIES) + len(ADVENTURES_BIZ)
     return listing_page("Activities", f"{total} things to do in Suriname",
         f"Discover {total} things to do in Suriname: jungle tours, river trips, birdwatching, kayaking and more. Find tours and adventure operators in Paramaribo.",
-        ACTIVITIES, all_cards, bg_color="var(--forest2)", page_file="activities.html", extra_html="", filter_bar=filter_bar_a,
+        ACTIVITIES, all_cards, bg_color=_CAT_ACCENT["Activities"], page_file="activities.html", extra_html="", filter_bar=filter_bar_a,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Atjoni_%2833496718666%29.jpg/1280px-Atjoni_%2833496718666%29.jpg",
         lcp_image=_first_img, seo_title="Things to Do in Suriname: Tours and Treks",
         intro_text=f"Looking for things to do in Suriname? Browse {total} activities, tours and adventure experiences. Canoe through the jungle interior, watch leatherback turtles at Galibi, take a guided rainforest trek or explore Maroon villages by boat. From half-day trips out of Paramaribo to multi-day expeditions, find and book with local operators here.", faq=_FAQ_ACTIVITIES)
@@ -3991,7 +4056,7 @@ def build_restaurants_page(restaurants):
     _lcp  = restaurants[0].get("image") if restaurants else None
     return listing_page("Eat & Drink", f"{len(restaurants)} places to eat & drink in Suriname",
         f"Browse {len(restaurants)} restaurants, cafes, bars and fast food in Suriname. Find local Surinamese food, Asian cuisine, coffee shops and more.",
-        restaurants, cards, bg_color="#7c3aed", page_file="restaurants.html", filter_bar=fb,
+        restaurants, cards, bg_color=_CAT_ACCENT["Eat & Drink"], page_file="restaurants.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/2016_0624_Tjauw_min_moksie_meti_speciaal.jpg/1280px-2016_0624_Tjauw_min_moksie_meti_speciaal.jpg",
         lcp_image=_lcp, seo_title="Restaurants in Paramaribo, Suriname",
         intro_text=f"Discover {len(restaurants)} restaurants, caf\u00e9s, bars and fast food spots across Suriname. From traditional Surinamese cuisine and Dutch-Indonesian rijsttafel to Asian fusion, pizza, and international chains, Paramaribo&#8217;s food scene reflects the country&#8217;s rich multicultural heritage. Use the filters to find your perfect dining experience.", faq=_FAQ_RESTAURANTS)
@@ -4002,7 +4067,7 @@ def build_hotels_page(hotels):
     _lcp  = hotels[0].get("image") if hotels else None
     return listing_page("Hotels & Lodges", f"{len(hotels)} places to stay in Suriname",
         f"Browse {len(hotels)} hotels, eco-lodges and jungle retreats in Suriname. From Paramaribo city hotels to remote river resorts. Find your perfect stay.",
-        hotels, cards, bg_color="#c05621", page_file="hotels.html", filter_bar=fb,
+        hotels, cards, bg_color=_CAT_ACCENT["Stay"], page_file="hotels.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Bigi_Pan_Nature_Reserve_%282719369111%29.jpg/1280px-Bigi_Pan_Nature_Reserve_%282719369111%29.jpg",
         lcp_image=_lcp, seo_title="Hotels in Suriname: City and Jungle Lodges",
         intro_text=f"Find the right place to stay from {len(hotels)} hotels, lodges and jungle retreats across Suriname. Paramaribo offers modern city hotels and casino resorts, while the interior has eco-lodges and remote river camps along the Suriname River. Whether you&#8217;re in town for business or heading deep into the rainforest, this is your full accommodation guide.", faq=_FAQ_HOTELS)
@@ -4013,7 +4078,7 @@ def build_shopping_page():
     _lcp  = SHOPPING[0].get("image") if SHOPPING else None
     return listing_page("Shopping", f"{len(SHOPPING)} shops & stores in Suriname",
         f"Discover {len(SHOPPING)} shops in Suriname: supermarkets, malls, fashion, electronics, furniture, butchers and specialty stores in Paramaribo.",
-        SHOPPING, cards, bg_color="#7c3aed", page_file="shopping.html", filter_bar=fb,
+        SHOPPING, cards, bg_color=_CAT_ACCENT["Shopping"], page_file="shopping.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
         lcp_image=_lcp, seo_title="Shopping in Paramaribo, Suriname",
         intro_text=f"Shop across {len(SHOPPING)} stores in Suriname, from supermarkets, malls and fashion boutiques to electronics, furniture and specialty food stores. Hermitage Mall and International Mall of Suriname are Paramaribo&#8217;s main retail hubs, with a wide range of local and international brands. Use the filters to browse by category or district.", faq=_FAQ_SHOPPING)
@@ -4026,7 +4091,7 @@ def build_services_page():
     _lcp  = _order[0].get("image") if _order else None
     return listing_page("Services", f"{len(SERVICES)} service providers in Suriname",
         f"Find {len(SERVICES)} service providers in Suriname: banks, beauty, health, fitness, education, telecom, real estate and more.",
-        SERVICES, cards, bg_color="#0369a1", page_file="services.html", filter_bar=fb,
+        SERVICES, cards, bg_color=_CAT_ACCENT["Services"], page_file="services.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
         lcp_image=_lcp, seo_title="Local Services in Paramaribo, Suriname",
         intro_text=f"Find {len(SERVICES)} service providers across Suriname: banks, insurance, beauty salons, gyms, pharmacies, schools, real estate agencies, travel agents and more. Whether you need a haircut, a mortgage, a gym membership or a doctor in Paramaribo, this directory covers the essential services that keep the city running.", faq=_FAQ_SERVICES)
