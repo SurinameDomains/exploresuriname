@@ -61,6 +61,3 @@ jobs:
           git diff --staged --quiet || git commit -m "chore: cache new listing images [$(TZ='America/Paramaribo' date '+%Y-%m-%d %H:%M') SR]"
           git pull --rebase origin main
           git push
-
-      - name: Ping IndexNow (Bing/Yandex)
-        run: python indexnow_ping.py

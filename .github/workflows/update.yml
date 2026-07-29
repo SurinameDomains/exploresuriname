@@ -45,6 +45,10 @@ jobs:
       - name: Build NL/ES language trees (reads committed translations.json)
         run: python build_i18n.py
 
+      - name: Ping IndexNow (changed URLs only)
+        continue-on-error: true   # never block the deploy on a ping failure
+        run: python indexnow_ping.py
+
       - name: Commit and push
         run: |
           git config user.name  "github-actions[bot]"
@@ -54,6 +58,7 @@ jobs:
           git add nl/ es/ || true
           git add data/ || true
           git add listing/ .last_run sitemap.xml robots.txt llms.txt tailwind.css search-index.json listing_lastmod_cache.json || true
+          git add indexnow_state.json || true
           git add translations.json translation_segments.json i18n_segments.json || true
           git add images/ image_cache.json image_widths.json || true
           git add flights_cache.json flights_cache_smeg.json || true
@@ -62,6 +67,3 @@ jobs:
           git diff --staged --quiet || git commit -m "Auto-update $(TZ='America/Paramaribo' date '+%Y-%m-%d %H:%M') SR"
           git pull --rebase origin main
           git push
-
-      - name: Ping IndexNow (Bing/Yandex)
-        run: python indexnow_ping.py
