@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="max-image-preview:large" name="robots"/>
+<link href="/favicon.ico" rel="icon" sizes="48x48 32x32 16x16"/>
+<link href="/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/icons/icon-192.png" rel="apple-touch-icon"/>
+<meta content="@exploringsuriname" name="twitter:site"/>
+<meta content="es_ES" property="og:locale"/><meta content="nl_NL" property="og:locale:alternate"/><meta content="en_US" property="og:locale:alternate"/>
+<link as="font" crossorigin="" href="/fonts/playfair-latin-var.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/fonts/inter-latin-var.woff2" rel="preload" type="font/woff2"/>
+<style>
+  @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  </style>
+<link href="/tailwind.css?v=2218b3be" rel="stylesheet"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<meta content="#FBF5E9" name="theme-color"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="default" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="ExploreSR" name="apple-mobile-web-app-title"/>
+<style>
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#E1F0DD; --coral:#E76F51; --gold:#E7AE4D; --clay:#9C5822; --paper:#FBF5E9; --paper-2:#F4ECDA; --card:#FFFDF6; --ink:#233028; --ink-soft:#5C6657; --line:#EBE0CB; }
+    body   { font-family: 'Inter', system-ui, sans-serif; }
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    /* ===== Warm theme roll-over: homepage redesign palette, applied site-wide ===== */
+    html, body { background: var(--paper); }
+    body { color: var(--ink); }
+    .bg-white   { background-color: var(--card) !important; }
+    .bg-gray-50 { background-color: var(--paper-2) !important; }
+    .bg-gray-100{ background-color: #EFE6D2 !important; }
+    .text-gray-900, .text-gray-800 { color: var(--ink) !important; }
+    .text-gray-700, .text-gray-600 { color: #46524A !important; }
+    .text-gray-500, .text-gray-400 { color: var(--ink-soft) !important; }
+    .border-gray-100 { border-color: var(--line) !important; }
+    .border-gray-200 { border-color: #E2D8C2 !important; }
+    ::selection { background: var(--gold); color: var(--forest); }
+    .ftr-h{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .ftr-col{display:flex;flex-direction:column;gap:11px;font-size:14px}
+    .ftr-lnk{color:#B9C2B2;transition:color .15s}
+    .ftr-lnk:hover{color:#FCF7EC}
+    .ftr-gtk{display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:#94A08F;line-height:1.45}
+    .ftr-lnk2{color:#9BAA97;transition:color .15s}
+    .ftr-lnk2:hover{color:#B9C2B2}
+    .hero-bg { background-size:cover; background-position:center; }
+    .card-hover { transition: transform .2s, box-shadow .2s; }
+    .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
+    a { text-decoration: none; }
+    nav a, nav button { white-space: nowrap; }   /* keep nav labels on one line (EN; NL/ES get this via build_i18n) */
+    .vh { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+    /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
+    .dd-menu { transform-origin: top center; }
+    .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
+    @keyframes ddFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    #search-results a {
+      display:flex;align-items:center;gap:10px;padding:10px 18px;text-decoration:none;color:#111;transition:background .1s;
+    }
+    #search-results a:hover, #search-results a.sr-active { background:#f5f5f5; }
+    .sr-badge {
+      font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;flex-shrink:0;
+    }
+    .sr-name { font-size:.9rem;font-weight:600;flex:1;min-width:0; }
+    .sr-area { font-size:.78rem;color:var(--ink-soft);white-space:nowrap; }
+    mark { background:#fef08a;border-radius:2px;padding:0 1px; }
+    .filter-chip {
+      display:inline-flex;align-items:center;gap:5px;padding:10px 16px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
+      color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+      touch-action:manipulation;
+    }
+    .filter-chip:hover { border-color:var(--forest);color:var(--forest); }
+    .filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+    .dist-chip {
+      display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;
+      color:#6b7280;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+    }
+    .dist-chip:hover { border-color:var(--forest2);color:var(--forest2); }
+    .dist-chip.dist-chip-active { background:var(--forest2);border-color:var(--forest2);color:#fff; }
+    .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
+    .filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count { opacity:.8; }
+    .dict-chiprow{scrollbar-width:none;-ms-overflow-style:none}
+    .dict-chiprow::-webkit-scrollbar{display:none}
+    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+    .listing-card.hidden { display:none; }
+    /* PWA install bar (Android prompt + iOS A2HS tip) */
+    #pwa-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(130%);transition:transform .35s cubic-bezier(.22,1,.36,1);background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 28px rgba(0,0,0,.14);padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
+    #pwa-bar.pwa-show{transform:translateY(0)}
+    #pwa-bar .pwa-ic{width:42px;height:42px;border-radius:10px;flex:0 0 auto}
+    #pwa-bar .pwa-tx{flex:1 1 auto;min-width:0}
+    #pwa-bar .pwa-tt{font-weight:700;font-size:14px;color:var(--forest);line-height:1.2}
+    #pwa-bar .pwa-sb{font-size:12px;color:#4b5563;line-height:1.3;margin-top:2px}
+    #pwa-bar .pwa-go{flex:0 0 auto;background:var(--forest);color:#fff;border:0;border-radius:10px;font-weight:700;font-size:14px;padding:10px 16px;cursor:pointer;white-space:nowrap;touch-action:manipulation}
+    #pwa-bar .pwa-go:hover{background:var(--forest2)}
+    #pwa-bar .pwa-x{flex:0 0 auto;background:transparent;border:0;color:#9ca3af;font-size:24px;line-height:1;cursor:pointer;padding:2px 6px;touch-action:manipulation}
+    @media(min-width:640px){#pwa-bar{left:auto;right:18px;bottom:18px;max-width:430px;border-radius:16px;border:1px solid rgba(0,0,0,.08)}}
+  </style>
+<script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
+<style>
+    .esr-grab{cursor:grab}.esr-grab:active{cursor:grabbing}
+    .esr-arrow{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:9999px;background:#fff;border:1px solid #e5e7eb;box-shadow:0 1px 5px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;color:#374151;padding:0}
+    .esr-arrow:hover{border-color:#9ca3af;color:#111}
+    .esr-arrow-l{left:2px}.esr-arrow-r{right:2px}
+    @media(hover:none){.esr-arrow{display:none!important}}
+  </style>
+<script>
+  /* Horizontal chip strips and scroll rows, sitewide: make them usable with a
+     mouse. Every .overflow-x-auto element that is not a table wrapper gets
+     overlay arrow buttons at either edge while it overflows (hover-capable
+     devices only), vertical-wheel sideways panning (page scroll resumes at
+     the ends) and click-drag panning. Strips share one mechanism sitewide and
+     drag (all strips share one mechanism; arrows hide whenever the strip has
+     nothing to scroll). Content changes are observed so arrows appear when
+     chips render or filter late. Touch and keyboard behaviour unchanged. */
+  (function(){
+    var FINE=window.matchMedia?matchMedia("(hover:hover) and (pointer:fine)"):{matches:false};
+    function skip(el){return !!el.querySelector("table");}
+    function mkArrow(dir){
+      var b=document.createElement("button");
+      b.type="button";b.className="esr-arrow esr-arrow-"+dir;
+      b.setAttribute("aria-label",dir==="l"?"Scroll left":"Scroll right");
+      b.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="'+(dir==="l"?"M15 18l-6-6 6-6":"M9 18l6-6-6-6")+'"/></svg>';
+      return b;
+    }
+    function arm(el){
+      if(el.dataset.esrStrip||skip(el))return;
+      el.dataset.esrStrip="1";
+      el.classList.add("esr-grab");
+      el.addEventListener("wheel",function(ev){
+        if(ev.deltaX!==0||ev.shiftKey||ev.ctrlKey)return;
+        if(el.scrollWidth<=el.clientWidth+2)return;
+        var max=el.scrollWidth-el.clientWidth;
+        if((ev.deltaY>0&&el.scrollLeft>=max-1)||(ev.deltaY<0&&el.scrollLeft<=0))return;
+        el.scrollLeft+=ev.deltaY;ev.preventDefault();
+      },{passive:false});
+      var wrap=document.createElement("div");
+      var cs=getComputedStyle(el);
+      if(cs.position==="sticky"){
+        wrap.style.position="sticky";wrap.style.top=cs.top;wrap.style.zIndex=cs.zIndex;
+        el.style.position="static";
+      }else{wrap.style.position="relative";}
+      /* The wrapper must be allowed to shrink: as a flex item its default
+         min-width:auto is the content width, which pushed the whole page
+         sideways on mobile (category pages scrolled ~1300px wide). */
+      wrap.style.minWidth="0";wrap.style.maxWidth="100%";
+      var _pcs=el.parentNode?getComputedStyle(el.parentNode):null;
+      if(_pcs&&(_pcs.display==="flex"||_pcs.display==="inline-flex")){wrap.style.flex="1 1 0%";}
+      el.parentNode.insertBefore(wrap,el);
+      wrap.appendChild(el);
+      var L=mkArrow("l"),R=mkArrow("r");
+      wrap.appendChild(L);wrap.appendChild(R);
+      function upd(){
+        var max=el.scrollWidth-el.clientWidth;
+        var ok=FINE.matches&&max>4;
+        L.style.display=(ok&&el.scrollLeft>4)?"":"none";
+        R.style.display=(ok&&el.scrollLeft<max-4)?"":"none";
+      }
+      function go(s){el.scrollBy({left:s*Math.max(120,Math.round(el.clientWidth*0.7)),behavior:"smooth"});}
+      L.addEventListener("click",function(){go(-1);});
+      R.addEventListener("click",function(){go(1);});
+      el.addEventListener("scroll",upd,{passive:true});
+      window.addEventListener("resize",upd);
+      if(window.MutationObserver){
+        new MutationObserver(function(){upd();}).observe(el,
+          {childList:true,subtree:true,attributes:true,attributeFilter:["style","class"]});
+      }else{
+        el.addEventListener("click",function(){setTimeout(upd,60);});
+      }
+      upd();
+    }
+    function init(){
+      document.querySelectorAll(".overflow-x-auto").forEach(arm);
+      var el=null,sx=0,sl=0,moved=false;
+      document.addEventListener("pointerdown",function(ev){
+        if(ev.pointerType!=="mouse"||ev.button!==0)return;
+        if(ev.target.closest&&ev.target.closest(".esr-arrow"))return;
+        var t=ev.target.closest&&ev.target.closest(".overflow-x-auto");
+        if(!t||skip(t)||t.scrollWidth<=t.clientWidth+2)return;
+        el=t;sx=ev.clientX;sl=t.scrollLeft;moved=false;
+      });
+      document.addEventListener("pointermove",function(ev){
+        if(!el)return;
+        var dx=ev.clientX-sx;
+        if(!moved){if(Math.abs(dx)<5)return;moved=true;el.style.userSelect="none";}
+        el.scrollLeft=sl-dx;ev.preventDefault();
+      });
+      function end(){
+        if(!el)return;
+        var was=el,m=moved;el=null;moved=false;was.style.userSelect="";
+        if(m){var kill=function(e){e.stopPropagation();e.preventDefault();};
+          was.addEventListener("click",kill,true);
+          setTimeout(function(){was.removeEventListener("click",kill,true);},0);}
+      }
+      document.addEventListener("pointerup",end);
+      document.addEventListener("pointercancel",end);
+    }
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+  })();
+  </script>
+<script>
+  (function(){
+    var DKEY="esr_pwa_dismiss", dp=null, bar=null;
+    function isDismissed(){try{var v=localStorage.getItem(DKEY);if(!v)return false;return (Date.now()-parseInt(v,10))<1209600000;}catch(e){return false;}}
+    function setDismissed(){try{localStorage.setItem(DKEY,String(Date.now()));}catch(e){}}
+    function isStandalone(){return (window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)||window.navigator.standalone===true;}
+    function isIOS(){var ua=navigator.userAgent||"";if(/CriOS|FxiOS|EdgiOS/i.test(ua))return false;if(/iPhone|iPad|iPod/i.test(ua))return true;return /Macintosh/i.test(ua)&&navigator.maxTouchPoints>1;}
+    function remove(){if(bar){var b=bar;bar=null;b.classList.remove("pwa-show");setTimeout(function(){if(b&&b.parentNode)b.parentNode.removeChild(b);},400);}}
+    function show(mode,force){
+      if(bar||(!force&&isDismissed())||isStandalone())return;
+      if(!document.body){document.addEventListener("DOMContentLoaded",function(){show(mode);});return;}
+      bar=document.createElement("div");
+      bar.id="pwa-bar";bar.setAttribute("role","dialog");bar.setAttribute("aria-label","Install Explore Suriname");
+      var ic='<img class="pwa-ic" src="/icons/icon-192.png" width="42" height="42" alt="">';
+      var tt,sb,btns;
+      if(mode==="ios"){
+        tt="Add Explore Suriname";
+        sb="Tap the Share button, then Add to Home Screen.";
+        btns='<button class="pwa-x" type="button" aria-label="Dismiss">&times;</button>';
+      }else{
+        tt="Install Explore Suriname";
+        sb="Live SRD rates and offline access on your home screen.";
+        btns='<button class="pwa-go" type="button">Install</button><button class="pwa-x" type="button" aria-label="Dismiss">&times;</button>';
+      }
+      bar.innerHTML=ic+'<div class="pwa-tx"><div class="pwa-tt">'+tt+'</div><div class="pwa-sb">'+sb+'</div></div>'+btns;
+      document.body.appendChild(bar);
+      requestAnimationFrame(function(){requestAnimationFrame(function(){if(bar)bar.classList.add("pwa-show");});});
+      var go=bar.querySelector(".pwa-go");
+      if(go){go.addEventListener("click",function(){
+        if(!dp){remove();return;}
+        dp.prompt();
+        dp.userChoice.then(function(c){setDismissed();dp=null;hideNav();remove();}).catch(function(){remove();});
+      });}
+      bar.querySelector(".pwa-x").addEventListener("click",function(){setDismissed();remove();});
+    }
+    function navEl(){return document.getElementById("pwa-nav");}
+    function revealNav(){var n=navEl();if(n&&!isStandalone())n.style.display="inline-flex";}
+    function hideNav(){var n=navEl();if(n)n.style.display="none";}
+    window.pwaInstall=function(){
+      if(dp){dp.prompt();dp.userChoice.then(function(c){setDismissed();dp=null;hideNav();}).catch(function(){});return;}
+      if(isIOS()){show("ios",true);}
+    };
+    window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;revealNav();show("android");});
+    window.addEventListener("appinstalled",function(){setDismissed();hideNav();remove();});
+    if(isIOS()){
+      var iosInit=function(){revealNav();setTimeout(function(){show("ios");},1400);};
+      if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",iosInit);}
+      else{iosInit();}
+    }
+    document.addEventListener("DOMContentLoaded",function(){if(dp)revealNav();});
+  })();
+  </script>
+<!-- Google tag (gtag.js) -->
+<script>(function(){var d=false;function l(){if(d)return;d=true;var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments);};gtag("js",new Date());gtag("config","G-6LTYHZYNSF");}["scroll","click","touchstart","keydown"].forEach(function(e){window.addEventListener(e,l,{once:true,passive:true})});window.addEventListener("load",function(){setTimeout(l,4000)});})();</script>
+<!-- GA4 interaction events: WhatsApp / phone / email / directions / outbound clicks -->
+<script>window.addEventListener("click",function(ev){var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;var h=a.getAttribute("href")||"",n="",p={};if(h.indexOf("https://wa.me/")===0){n="whatsapp_click"}else if(h.indexOf("tel:")===0){n="phone_click"}else if(h.indexOf("mailto:")===0){n="email_click"}else if(h.indexOf("google.com/maps")!==-1){n="directions_click"}else if(/^https?:\/\//.test(h)&&h.indexOf("exploresuriname.com")===-1){n="outbound_click";try{p.link_domain=new URL(h).hostname}catch(e){}}if(!n)return;p.link_url=h.slice(0,100);window.dataLayer=window.dataLayer||[];if(!window.gtag){window.gtag=function(){window.dataLayer.push(arguments)}}window.gtag("event",n,p)});</script>
+<title>Add Your Business | Explore Suriname</title>
+<meta content="List your Surinamese business on Explore Suriname for free. Submit your restaurant, hotel, shop or service and we will review it within a few days." name="description"/>
+<link href="https://exploresuriname.com/es/submit-business.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Explore Suriname" property="og:site_name"/>
+<meta content="https://exploresuriname.com/es/submit-business.html" property="og:url"/>
+<meta content="Add Your Business | Explore Suriname" property="og:title"/>
+<meta content="List your Surinamese business on Explore Suriname for free. Submit your details and photo, and we will review it within a few days." property="og:description"/>
+<meta content="https://exploresuriname.com/og-image.jpg" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Add Your Business | Explore Suriname" name="twitter:title"/>
+<meta content="List your Surinamese business on Explore Suriname for free." name="twitter:description"/>
+<meta content="https://exploresuriname.com/og-image.jpg" name="twitter:image"/>
+<script async="" defer="" src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://exploresuriname.com/es/submit-business.html","name":"Add Your Business","url":"https://exploresuriname.com/es/submit-business.html","description":"Submit a Surinamese business for a free listing on Explore Suriname.","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/es/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Hogar","item":"https://exploresuriname.com/es/"},{"@type":"ListItem","position":2,"name":"Add Your Business","item":"https://exploresuriname.com/es/submit-business.html"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it cost anything to be listed?","acceptedAnswer":{"@type":"Answer","text":"No. A standard listing on Explore Suriname is free."}},{"@type":"Question","name":"How long does approval take?","acceptedAnswer":{"@type":"Answer","text":"We review submissions by hand, usually within a few days. Once approved, the listing appears on the site within about fifteen minutes."}},{"@type":"Question","name":"Can I change my listing later?","acceptedAnswer":{"@type":"Answer","text":"Yes. Email us with the change and we will update it."}}]}]}</script>
+<style>
+    .fld{margin-bottom:1.1rem}
+    .fld label{display:block;font-size:.76rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#5b645d;margin-bottom:.35rem}
+    .fld .hint{font-size:.78rem;color:#7a827b;margin-top:.3rem}
+    .fld input[type=text],.fld input[type=email],.fld input[type=tel],.fld input[type=url],.fld select,.fld textarea{
+      width:100%;border:1px solid #d3d8d3;border-radius:12px;padding:.7rem .85rem;font:inherit;background:#fff;color:#1a201c}
+    .fld textarea{min-height:140px;resize:vertical}
+    .fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--forest);box-shadow:0 0 0 3px rgba(27,67,50,.12)}
+    .req{color:#b3392b}
+    .hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;overflow:hidden}
+    #drop{border:2px dashed #c9cec9;border-radius:14px;padding:1.4rem;text-align:center;color:#7a827b;cursor:pointer;background:#fbfcfb}
+    #drop:hover{border-color:var(--forest);color:var(--forest)}
+    #prev{max-height:190px;border-radius:12px;margin:0 auto .6rem;display:block}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem}
+    @media(max-width:640px){.two{grid-template-columns:1fr}}
+  </style>
+<style>nav button,nav a{white-space:nowrap}</style><link href="https://exploresuriname.com/submit-business.html" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/submit-business.html" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/submit-business.html" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/submit-business.html" hreflang="x-default" rel="alternate"/></head>
+<body class="bg-gray-50 overflow-x-hidden">
+<nav class="fixed top-0 w-full z-50" style="background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14);box-shadow:0 1px 12px rgba(20,42,30,.05)">
+<div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+<a class="flex items-baseline flex-shrink-0" href="index.html">
+<span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
+</a>
+<div class="hidden md:flex items-center gap-6"><div class="relative" id="dd-todo" onmouseenter="openDd('dd-todo')" onmouseleave="closeDd('dd-todo')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-todo')">Qué hacer<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-todo-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="nature.html">Naturaleza</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="activities.html">Actividades</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="events.html">Eventos y festivales</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="shopping.html">Compras</a></div></div><div class="relative" id="dd-eat" onmouseenter="openDd('dd-eat')" onmouseleave="closeDd('dd-eat')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-eat')">Comer y dormir<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-eat-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="restaurants.html">Dónde comer</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="hotels.html">Dónde alojarse</a></div></div><div class="relative" id="dd-svc" onmouseenter="openDd('dd-svc')" onmouseleave="closeDd('dd-svc')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-svc')">Servicios<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-svc-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="services.html">Servicios</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="daily-notices.html">Avisos diarios</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="flights.html">Vuelos</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="atms.html">ATM Finder</a></div></div><div class="relative" id="dd-plan" onmouseenter="openDd('dd-plan')" onmouseleave="closeDd('dd-plan')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-plan')">Guía visitante<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-plan-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="visitor-guide.html">Lo básico</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-time.html">Tiempo y convertidor</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="on-the-road.html">En ruta</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-itinerary.html">Itinerarios de viaje</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="is-suriname-safe.html">¿Es seguro Surinam?</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-history.html">Cronología de la historia</a></div></div><div class="relative" id="dd-games" onmouseenter="openDd('dd-games')" onmouseleave="closeDd('dd-games')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-games')">Juegos<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-games-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="quiz.html">Prueba de Sabi Surinam</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="crossword.html">Mini crucigrama de Suiza</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="map-game.html">¿Pe A De? Juego de mapas</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="korjaal.html">Carrera Korjaal</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="anaconda.html">Aboma Snake Game</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="muskieto.html">Muskieto Survivor</a></div></div><div class="relative" id="dd-ess" onmouseenter="openDd('dd-ess')" onmouseleave="closeDd('dd-ess')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-ess')">Esencial<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-ess-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="currency.html">Tipos de cambio</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="conditions.html">Clima y mareas</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="matches.html">Horario deportivo</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="sranan-tongo-dictionary.html">Sranan Dictionary</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="news.html">Noticias</a></div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50" onclick="openSearch()" title="Search listings (press /)">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<span class="hidden sm:inline">Buscar…</span>
+</button><div class="hidden md:flex" data-langswitch="1" style="position:relative;align-items:center;margin-left:8px;flex-shrink:0"><button aria-expanded="false" aria-label="Language" onclick="var m=this.nextElementSibling,o=m.style.display==='block';document.querySelectorAll('[data-langmenu]').forEach(function(x){x.style.display='none';});m.style.display=o?'none':'block';this.setAttribute('aria-expanded',(!o).toString());event.stopPropagation();" style="display:flex;align-items:center;gap:5px;background:none;border:0;cursor:pointer;font-size:12px;font-weight:600;color:#6b7280;padding:4px 7px;border-radius:8px" type="button"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><span>ES</span><svg fill="none" height="11" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;opacity:.7" viewBox="0 0 24 24" width="11"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div data-langmenu="1" style="display:none;position:absolute;right:0;top:100%;margin-top:6px;background:#fff;border:1px solid #eee;border-radius:10px;box-shadow:0 8px 24px rgba(20,42,30,.12);padding:5px;min-width:112px;z-index:60"><a href="/submit-business.html" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:#374151">EN</a><a href="/nl/submit-business.html" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:#374151">NL</a><a href="/es/submit-business.html" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:var(--forest);background:#eef4ee">ES</a></div></div>
+<button aria-label="Menu" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition" id="hamburger" onclick="toggleMobileMenu()">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+<div class="hidden md:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto" id="mm"><div data-langswitch-mobile="1" style="display:flex;align-items:center;gap:16px;padding:10px 2px 12px;margin-bottom:4px;border-bottom:1px solid #eee;font-size:15px;font-weight:600"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/submit-business.html" style="color:#6b7280;text-decoration:none">EN</a><a href="/nl/submit-business.html" style="color:#6b7280;text-decoration:none">NL</a><a href="/es/submit-business.html" style="color:var(--forest);text-decoration:underline">ES</a><button aria-label="Install app" id="pwa-nav" onclick="pwaInstall()" style="display:none;margin-left:auto;align-items:center;gap:6px;background:var(--forest);color:#fff;border:0;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0" type="button"><svg fill="none" height="15" stroke="currentColor" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 20h14" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Install</span></button></div>
+<div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-todo')"><span>Qué hacer</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-todo"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="nature.html">Naturaleza</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="activities.html">Actividades</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="events.html">Eventos y festivales</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="shopping.html">Compras</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-eat')"><span>Comer y dormir</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-eat"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="restaurants.html">Dónde comer</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="hotels.html">Dónde alojarse</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-svc')"><span>Servicios</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-svc"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="services.html">Servicios</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="daily-notices.html">Avisos diarios</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="flights.html">Vuelos</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="atms.html">ATM Finder</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-plan')"><span>Guía visitante</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-plan"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="visitor-guide.html">Lo básico</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="suriname-time.html">Tiempo y convertidor</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="on-the-road.html">En ruta</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="suriname-itinerary.html">Itinerarios de viaje</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="is-suriname-safe.html">¿Es seguro Surinam?</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="suriname-history.html">Cronología de la historia</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-games')"><span>Juegos</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-games"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="quiz.html">Prueba de Sabi Surinam</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="crossword.html">Mini crucigrama de Suiza</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="map-game.html">¿Pe A De? Juego de mapas</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="korjaal.html">Carrera Korjaal</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="anaconda.html">Aboma Snake Game</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="muskieto.html">Muskieto Survivor</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-ess')"><span>Esencial</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-ess"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="currency.html">Tipos de cambio</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="conditions.html">Clima y mareas</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="matches.html">Horario deportivo</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="sranan-tongo-dictionary.html">Sranan Dictionary</a></div></div><a class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" href="news.html">Noticias</a>
+</div>
+</nav>
+<script>
+/* ── Dropdown (desktop) ─────────────────────────────────────────────────── */
+var _openDd = null;
+var _ddTimer = null;
+function openDd(id) {
+  if (_ddTimer) { clearTimeout(_ddTimer); _ddTimer = null; }
+  if (_openDd && _openDd !== id) closeDd(_openDd);
+  var menu = document.getElementById(id + '-menu');
+  var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+  if (menu) menu.classList.remove('hidden');
+  if (chev) chev.style.transform = 'rotate(180deg)';
+  _openDd = id;
+}
+function closeDd(id) {
+  _ddTimer = setTimeout(function() {
+    var menu = document.getElementById(id + '-menu');
+    var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+    if (menu) menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    if (_openDd === id) _openDd = null;
+    _ddTimer = null;
+  }, 80);
+}
+function toggleDd(id) {
+  var menu = document.getElementById(id + '-menu');
+  var btn  = document.getElementById(id);
+  var chev = btn ? btn.querySelector('.dd-chevron') : null;
+  if (_openDd && _openDd !== id) {
+    var prev = document.getElementById(_openDd + '-menu');
+    var prevBtn = document.getElementById(_openDd);
+    if (prev)    prev.classList.add('hidden');
+    if (prevBtn) { var c = prevBtn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+  if (!menu) return;
+  var isOpen = !menu.classList.contains('hidden');
+  if (isOpen) {
+    menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    _openDd = null;
+  } else {
+    menu.classList.remove('hidden');
+    if (chev) chev.style.transform = 'rotate(180deg)';
+    _openDd = id;
+  }
+}
+document.addEventListener('click', function(e) {
+  if (_openDd && !document.getElementById(_openDd).contains(e.target)) {
+    var menu = document.getElementById(_openDd + '-menu');
+    var btn  = document.getElementById(_openDd);
+    if (menu) menu.classList.add('hidden');
+    if (btn)  { var c = btn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+});
+/* ── Mobile accordion ───────────────────────────────────────────────────── */
+function toggleMobileMenu() {
+  var mm = document.getElementById('mm');
+  mm.classList.toggle('hidden');
+}
+function toggleMobGroup(id) {
+  var body = document.getElementById(id);
+  var btn  = body ? body.previousElementSibling : null;
+  var chev = btn  ? btn.querySelector('.mob-chevron') : null;
+  if (!body) return;
+  var isOpen = !body.classList.contains('hidden');
+  body.classList.toggle('hidden', isOpen);
+  if (chev) chev.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+</script>
+<!-- ── Global Search Modal ───────────────────────────────────────────── -->
+<div id="search-modal" onclick="if(event.target===this)closeSearch()" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);padding:80px 16px 16px">
+<div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 25px 60px rgba(0,0,0,.25);overflow:hidden">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #f0f0f0">
+<svg fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:#9ca3af;flex-shrink:0" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<input autocomplete="off" id="search-input" oninput="runSearch(this.value)" onkeydown="searchKey(event)" placeholder="Search all listings…" spellcheck="false" style="flex:1;border:none;outline:none;font-size:1rem;color:#111;background:transparent" type="text"/>
+<button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">✕</button>
+</div>
+<div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
+<p id="search-hint" style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Start typing to search 752 listings…</p>
+</div>
+</div>
+</div>
+<script>
+const _CAT_C = {"Eat & Drink": "#7c3aed", "Stay": "#c05621", "Nature": "var(--forest)", "Guides": "#0e7490", "Activities": "var(--forest2)", "Shopping": "#0369a1", "Services": "#0369a1", "Sightseeing": "var(--forest)"};
+let _SI = null;
+let _SI_loading = false;
+let _sel = -1;
+
+function _loadSI(cb) {
+  if (_SI) { cb(); return; }
+  if (_SI_loading) { setTimeout(() => _loadSI(cb), 50); return; }
+  _SI_loading = true;
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  fetch(depth + 'search-index.json')
+    .then(r => r.json())
+    .then(data => { _SI = data; cb(); })
+    .catch(() => { _SI = []; cb(); });
+}
+function openSearch() {
+  document.getElementById('search-modal').style.display = 'block';
+  setTimeout(() => document.getElementById('search-input').focus(), 50);
+  _loadSI(() => {});
+}
+function closeSearch() {
+  document.getElementById('search-modal').style.display = 'none';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Start typing to search listings…</p>';
+  _sel = -1;
+}
+function runSearch(q) {
+  const box = document.getElementById('search-results');
+  q = q.trim();
+  if (!q) { closeSearch(); openSearch(); return; }
+  if (!_SI) {
+    _loadSI(() => runSearch(q));
+    box.innerHTML = '<p style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Loading…</p>';
+    return;
+  }
+  const ql = q.toLowerCase();
+  const hits = _SI.filter(x => x.n.toLowerCase().includes(ql) || (x.k && x.k.includes(ql))).slice(0, 10);
+  if (!hits.length) { box.innerHTML = '<p style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">No results for "' + q + '"</p>'; return; }
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  box.innerHTML = hits.map((h, i) => {
+    const hi = h.n.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi'), '<mark>$1</mark>');
+    const col = _CAT_C[h.c] || '#6b7280';
+    return '<a href="' + depth + h.u + '" class="' + (i===0?'sr-active':'') + '">'
+      + '<span class="sr-badge" style="background:' + col + '">' + h.c + '</span>'
+      + '<span class="sr-name">' + hi + '</span>'
+      + (h.a ? '<span class="sr-area">' + h.a + '</span>' : '')
+      + '</a>';
+  }).join('');
+  _sel = 0;
+}
+function searchKey(e) {
+  const items = document.querySelectorAll('#search-results a');
+  if (e.key === 'Escape') { closeSearch(); return; }
+  if (e.key === 'ArrowDown') { e.preventDefault(); _sel = Math.min(_sel+1, items.length-1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); _sel = Math.max(_sel-1, 0); }
+  else if (e.key === 'Enter') { if(items[_sel]) window.location = items[_sel].href; return; }
+  else return;
+  items.forEach((el,i) => el.classList.toggle('sr-active', i===_sel));
+  if(items[_sel]) items[_sel].scrollIntoView({block:'nearest'});
+}
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault(); openSearch();
+  }
+});
+</script>
+<div style="height:58px"></div>
+<div class="text-white py-16 text-center" style="background:var(--forest)">
+<a class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition" href="index.html">← Volver al inicio</a>
+<h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Add Your Business</h1>
+<p class="text-white/60 text-lg max-w-xl mx-auto px-4">Free listing on Suriname’s local directory</p>
+</div>
+<main class="max-w-2xl mx-auto px-5 py-12 pb-24">
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mb-6">
+<h2 class="serif text-xl font-bold text-gray-900 mb-2">How this works</h2>
+<ul class="space-y-2.5 text-sm text-gray-700 mb-1">
+<li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">✓</span>
+<span>Listing on Explore Suriname is <strong>free</strong>. We do not charge for inclusion.</span></li>
+<li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">✓</span>
+<span>Every submission is <strong>reviewed by a person</strong>, usually within a few days.</span></li>
+<li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">✓</span>
+<span>Once approved, your page is live within about fifteen minutes.</span></li>
+<li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">✓</span>
+<span>We may edit wording, category or photo so the listing fits the rest of the site.</span></li>
+</ul>
+</div>
+<form class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8" id="frm" novalidate="">
+<h2 class="serif text-xl font-bold text-gray-900 mb-5">The business</h2>
+<div class="fld">
+<label for="f-name">Business name <span class="req">*</span></label>
+<input autocomplete="organization" id="f-name" maxlength="80" name="name" required="" type="text"/>
+</div>
+<div class="two">
+<div class="fld">
+<label for="f-category">Category <span class="req">*</span></label>
+<select id="f-category" name="category" required="">
+<option value="">Choose one</option>
+<option value="restaurant">Restaurant, bar or cafe</option><option value="hotel">Hotel, resort or guesthouse</option><option value="shopping">Shop or store</option><option value="service">Service or business</option><option value="adventure">Tour, activity or resort</option><option value="sightseeing">Attraction or museum</option>
+</select>
+</div>
+<div class="fld">
+<label for="f-subcat">Type</label>
+<select disabled="" id="f-subcat" name="subcat">
+<option value="">Pick a category first</option>
+</select>
+</div>
+</div>
+<div class="two">
+<div class="fld">
+<label for="f-location">District</label>
+<select id="f-location" name="location">
+<option value="">Choose one</option>
+<option value="Paramaribo">Paramaribo</option><option value="Wanica">Wánica</option><option value="Commewijne">Commewijne</option><option value="Saramacca">Saramacca</option><option value="Nickerie">Nickerie</option><option value="Coronie">Coronie</option><option value="Marowijne">Marowijne</option><option value="Para">Pará</option><option value="Brokopondo">Brokopondo</option><option value="Sipaliwini">Sipaliwini</option>
+</select>
+</div>
+<div class="fld">
+<label for="f-phone">Teléfono</label>
+<input autocomplete="tel" id="f-phone" maxlength="60" name="phone" placeholder="+597 ..." type="tel"/>
+<div class="hint">A Suriname mobile number gets a WhatsApp button on your page.</div>
+</div>
+</div>
+<div class="fld">
+<label for="f-address">Dirección</label>
+<input autocomplete="street-address" id="f-address" maxlength="200" name="address" type="text"/>
+</div>
+<div class="two">
+<div class="fld">
+<label for="f-website">Website or social page</label>
+<input id="f-website" maxlength="300" name="website" placeholder="www.example.sr" type="text"/>
+</div>
+<div class="fld">
+<label for="f-email">Public email</label>
+<input id="f-email" maxlength="120" name="email" type="email"/>
+<div class="hint">Shown on your listing. Leave empty to hide it.</div>
+</div>
+</div>
+<div class="fld">
+<label for="f-description">Describe the business <span class="req">*</span></label>
+<textarea id="f-description" maxlength="2000" name="description" placeholder="What you offer, what makes you worth the trip, opening hours if they are fixed. Two or three sentences is plenty." required=""></textarea>
+<div class="hint"><span id="cnt">0</span> of 2000 characters. Minimum 20.</div>
+</div>
+<div class="fld">
+<label>Photo</label>
+<div id="drop" tabindex="0">
+<img alt="" hidden="" id="prev"/>
+<div id="dropmsg"><strong>Choose a photo</strong><br/>JPG, PNG or WebP, up to 5 MB</div>
+</div>
+<input accept="image/jpeg,image/png,image/webp" hidden="" id="f-photo" name="photo" type="file"/>
+<div class="hint">One good wide shot of the place, the food or the product. Use a photo you own the rights to.</div>
+</div>
+<h2 class="serif text-xl font-bold text-gray-900 mt-9 mb-5">You</h2>
+<p class="text-sm text-gray-600 mb-5">Not published. We only use this to reach you about the listing.</p>
+<div class="two">
+<div class="fld">
+<label for="f-contact_name">Your name</label>
+<input autocomplete="name" id="f-contact_name" maxlength="80" name="contact_name" type="text"/>
+</div>
+<div class="fld">
+<label for="f-contact_email">Your email <span class="req">*</span></label>
+<input autocomplete="email" id="f-contact_email" maxlength="120" name="contact_email" required="" type="email"/>
+</div>
+</div>
+<label class="flex items-start gap-3 text-sm text-gray-700 cursor-pointer">
+<input class="mt-1 w-4 h-4" id="f-owner_claim" name="owner_claim" type="checkbox" value="1"/>
+<span>I own this business or I am authorised to represent it.</span>
+</label>
+<div class="hp"><label for="company_url">Leave this empty</label>
+<input autocomplete="off" id="company_url" name="company_url" tabindex="-1" type="text"/></div>
+<div class="cf-turnstile mt-5" data-sitekey="0x4AAAAAAEA9rqn_-t206NGg" data-theme="light"></div>
+<button class="w-full mt-6 px-6 py-3.5 rounded-xl text-white font-semibold text-sm transition hover:opacity-90 disabled:opacity-50" id="go" style="background:var(--forest)" type="submit">Submit for review</button>
+<p aria-live="polite" class="text-sm mt-4" id="msg" role="status"></p>
+<p class="text-xs text-gray-500 mt-4">By submitting you confirm the details are accurate and that you may share the photo with us. See our <a class="underline" href="privacy.html">privacy notice</a>.</p>
+</form>
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center" hidden="" id="done">
+<div class="text-4xl mb-3" style="color:var(--forest)">✓</div>
+<h2 class="serif text-2xl font-bold text-gray-900 mb-2">Thank you, we have it</h2>
+<p class="text-gray-600 text-sm max-w-md mx-auto mb-6">We review every submission by hand, usually within a few days. You will hear from us at the email address you gave.</p>
+<a class="inline-block px-6 py-3 rounded-xl text-white font-semibold text-sm" href="index.html" style="background:var(--forest)">Back to the site</a>
+</div>
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mt-6">
+<h2 class="serif text-xl font-bold text-gray-900 mb-4">Questions</h2>
+<div class="text-sm text-gray-700 space-y-4">
+<div><strong class="block text-gray-900 mb-1">Does it cost anything?</strong>
+        No. A standard listing is free.</div>
+<div><strong class="block text-gray-900 mb-1">My business is already listed but the details are wrong.</strong>
+        Do not submit it again. <a class="underline" href="contact.html">Email us</a> with the correction and we will fix it.</div>
+<div><strong class="block text-gray-900 mb-1">Can I change the listing later?</strong>
+        Yes, email us and we will update it.</div>
+<div><strong class="block text-gray-900 mb-1">What gets declined?</strong>
+        Businesses outside Suriname, duplicates, listings with no real address or contact, and anything we cannot verify.</div>
+</div>
+</div>
+</main>
+<footer style="background:#142A1E;color:#B9C2B2">
+<div style="max-width:1240px;margin:0 auto;padding:clamp(52px,6vw,72px) clamp(20px,5vw,52px) 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:36px 40px">
+<div style="min-width:200px">
+<div style="margin-bottom:16px"><span class="serif" style="font-weight:800;font-size:21px;color:#FCF7EC">Explore</span><span class="serif" style="font-weight:800;font-size:21px;color:var(--coral)">Suriname</span></div>
+<p style="font-size:14px;line-height:1.6;max-width:24em;margin:0 0 20px;color:#A7B1A2">Su guía de lugares para comer, hospedarse, explorar y amar en Surinam, conservada por personas que viven aquí, para las personas que desearían hacerlo.</p>
+<div style="display:flex;gap:16px;font-size:12.5px;font-weight:600;letter-spacing:.04em">
+<a class="ftr-lnk" href="https://www.facebook.com/exploresurinamecom" rel="noopener" target="_blank">Facebook</a>
+<a class="ftr-lnk" href="https://www.instagram.com/exploresurinamecom/" rel="noopener" target="_blank">Instagram</a>
+<a class="ftr-lnk" href="https://www.tiktok.com/@exploresuriname.com" rel="noopener" target="_blank">tiktok</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Explorar</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="nature.html">Naturaleza y parques</a>
+<a class="ftr-lnk" href="activities.html">Actividades</a>
+<a class="ftr-lnk" href="events.html">Eventos y festivales</a>
+<a class="ftr-lnk" href="shopping.html">Compras</a>
+<a class="ftr-lnk" href="restaurants.html">Dónde comer</a>
+<a class="ftr-lnk" href="hotels.html">Dónde alojarse</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Plan y elementos esenciales</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="visitor-guide.html">Guía visitante</a>
+<a class="ftr-lnk" href="on-the-road.html">En ruta</a>
+<a class="ftr-lnk" href="suriname-itinerary.html">Itinerarios de viaje</a>
+<a class="ftr-lnk" href="is-suriname-safe.html">¿Es seguro Surinam?</a>
+<a class="ftr-lnk" href="suriname-history.html">Historia de Surinam</a>
+<a class="ftr-lnk" href="sranan-tongo-dictionary.html">Sranan Dictionary</a>
+<a class="ftr-lnk" href="currency.html">Tipos de cambio</a>
+<a class="ftr-lnk" href="flights.html">Vuelos</a>
+<a class="ftr-lnk" href="conditions.html">Clima y mareas</a>
+<a class="ftr-lnk" href="daily-notices.html">Avisos diarios</a>
+<a class="ftr-lnk" href="news.html">Noticias</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Más</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="today.html">Hoy en Surinam</a>
+<a class="ftr-lnk" href="services.html">Servicios</a>
+<a class="ftr-lnk" href="crossword.html">Crucigrama</a>
+<a class="ftr-lnk" href="quiz.html">Prueba diaria</a>
+<a class="ftr-lnk" href="map-game.html">¿Pe A De? Juego de mapas</a>
+<a class="ftr-lnk" href="korjaal.html">Carrera Korjaal</a>
+<a class="ftr-lnk" href="anaconda.html">Aboma Snake Game</a>
+<a class="ftr-lnk" href="muskieto.html">Muskieto Survivor</a>
+<a class="ftr-lnk" href="matches.html">Horario deportivo</a>
+<a class="ftr-lnk" href="about.html">Sobre nosotros</a>
+<a class="ftr-lnk" href="submit-business.html">Add Your Business</a>
+<a class="ftr-lnk" href="contact.html">Contacto</a>
+<a class="ftr-lnk" href="privacy.html">Privacidad</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Es bueno saberlo</div>
+<div class="ftr-gtk">
+<span>Capital · Paramaribo</span>
+<span>Idiomas · Holandés, Sranan Tongo +9</span>
+<span>Moneda · Dólar de Surinam (SRD)</span>
+<span>Clima · Tropical, ~28°C</span>
+</div>
+</div>
+</div>
+<div style="border-top:1px solid rgba(231,174,77,.18)">
+<div style="max-width:1240px;margin:0 auto;padding:18px clamp(20px,5vw,52px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px;color:#9BAA97">
+<span>© 2026 ExploraSurinam.com</span>
+<span><a class="ftr-lnk2" href="privacy.html">Privacidad</a> · <a class="ftr-lnk2" href="/images/HOME_CREDITS.txt">Créditos</a></span>
+</div>
+</div>
+</footer>
+<script>
+(function(){
+  var CHIPS = {"restaurant": [["fast-food", "Fast Food"], ["cafes-coffee", "Cafés & Coffee"], ["bars-lounges", "Bars & Lounges"], ["asian-fusion", "Asian & Fusion"], ["local-caribbean", "Local & Caribbean"], ["pizza-italian", "Pizza & Italian"], ["bakeries-sweets", "Bakeries & Sweets"], ["restaurants", "Restaurants"]], "hotel": [["city-hotels", "City Hotels"], ["resorts", "Resorts"], ["casino-hotels", "Casino Hotels"], ["eco-lodges", "Eco & River Lodges"], ["guesthouses", "Guesthouses & Villas"]], "adventure": [["tours-expeditions", "Tours & Expeditions"], ["eco-lodges", "Eco & River Lodges"], ["nature-parks", "Nature & Parks"], ["museums-heritage", "Museums & Heritage"], ["entertainment", "Entertainment"]], "sightseeing": [["museums-heritage", "Museums & Heritage"], ["nature-parks", "Nature & Parks"], ["entertainment", "Entertainment"], ["tours-expeditions", "Tours"], ["other", "Other"]], "shopping": [["malls-markets", "Malls & Markets"], ["supermarkets", "Supermarkets"], ["fashion-clothing", "Fashion & Shoes"], ["electronics", "Electronics"], ["home-furniture", "Home & Furniture"], ["food-specialty", "Food & Specialty"], ["optical-jewelry", "Optical & Jewelry"], ["crafts-souvenirs", "Crafts & Souvenirs"], ["events-party", "Events & Parties"], ["nursery-garden", "Nursery & Garden"], ["health-beauty", "Health & Beauty"], ["other", "Other"]], "service": [["beauty-wellness", "Beauty & Wellness"], ["fitness-wellness", "Fitness"], ["health-pharmacy", "Health & Pharmacy"], ["veterinary", "Veterinary"], ["banking", "Banking"], ["insurance", "Insurance"], ["telecom-utilities", "Telecom & Utilities"], ["travel-transport", "Travel & Transport"], ["real-estate", "Real Estate"], ["education", "Education"], ["tech-media", "Tech & Media"], ["cleaning-maintenance", "Cleaning"], ["automotive", "Automotive"], ["legal-professional", "Legal & Professional"], ["events-party", "Events & Parties"], ["entertainment", "Entertainment"], ["security", "Security"], ["nursery-garden", "Nursery & Garden"], ["other", "Other"]]};
+  var API = "https://esr-leaderboard.surinamedomains.workers.dev";
+  var $ = function(i){return document.getElementById(i)};
+  var frm = $("frm"), photo = null;
+
+  // Type options follow the category, so a submission can only claim a chip
+  // that the category page actually renders.
+  $("f-category").addEventListener("change", function(){
+    var list = CHIPS[this.value] || [], sel = $("f-subcat");
+    sel.innerHTML = list.length
+      ? '<option value="">Choose one</option>' + list.map(function(c){
+          return '<option value="' + c[0] + '">' + c[1] + '</option>'}).join("")
+      : '<option value="">Pick a category first</option>';
+    sel.disabled = !list.length;
+  });
+
+  $("f-description").addEventListener("input", function(){ $("cnt").textContent = this.value.length; });
+
+  var drop = $("drop"), file = $("f-photo");
+  drop.addEventListener("click", function(){ file.click() });
+  drop.addEventListener("keydown", function(e){ if(e.key === "Enter" || e.key === " "){ e.preventDefault(); file.click(); } });
+  drop.addEventListener("dragover", function(e){ e.preventDefault(); });
+  drop.addEventListener("drop", function(e){ e.preventDefault(); if(e.dataTransfer.files[0]) take(e.dataTransfer.files[0]); });
+  file.addEventListener("change", function(){ if(this.files[0]) take(this.files[0]); });
+
+  function take(f){
+    if(!/^image\/(jpeg|png|webp)$/.test(f.type)){ say("Photo must be a JPG, PNG or WebP file.", true); return; }
+    if(f.size > 5 * 1024 * 1024){ say("Photo must be under 5 MB.", true); return; }
+    photo = f;
+    var img = $("prev");
+    img.src = URL.createObjectURL(f);
+    img.hidden = false;
+    $("dropmsg").innerHTML = "<strong>" + f.name.replace(/[<>]/g, "") + "</strong><br>Click to choose a different photo";
+    say("");
+  }
+
+  function say(t, bad){
+    var m = $("msg");
+    m.textContent = t || "";
+    m.className = "text-sm mt-4 " + (bad ? "text-red-700 font-semibold" : "text-green-800 font-semibold");
+  }
+
+  frm.addEventListener("submit", async function(e){
+    e.preventDefault();
+    var name = $("f-name").value.trim();
+    if(name.length < 2) return say("Please enter the business name.", true);
+    if(!$("f-category").value) return say("Please choose a category.", true);
+    if($("f-description").value.trim().length < 20) return say("Please describe the business in a sentence or two.", true);
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($("f-contact_email").value.trim()))
+      return say("Please enter your email so we can reach you.", true);
+
+    var fd = new FormData(frm);
+    fd.delete("photo");
+    if(photo) fd.append("photo", photo, photo.name);
+
+    $("go").disabled = true;
+    say("Sending...");
+    try{
+      var r = await fetch(API + "/submit", { method: "POST", body: fd });
+      var j = await r.json();
+      if(j && j.ok){ frm.hidden = true; $("done").hidden = false; window.scrollTo({top: 0, behavior: "smooth"}); return; }
+      say((j && j.err) || "Something went wrong. Please try again.", true);
+    }catch(err){
+      say("We could not reach the server. Check your connection and try again.", true);
+    }
+    $("go").disabled = false;
+    if(window.turnstile) window.turnstile.reset();
+  });
+})();
+</script>
+<script id="langswitch-js">document.addEventListener('click',function(){document.querySelectorAll('[data-langmenu]').forEach(function(x){x.style.display='none';var b=x.previousElementSibling;if(b)b.setAttribute('aria-expanded','false');});});</script></body>
+</html>
