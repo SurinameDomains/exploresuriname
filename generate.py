@@ -3253,7 +3253,7 @@ def _filter_bar_html(items, cat_key):
 
     bar_id = f"chipbar-{cat_key}"
     return f"""
-<div class="sticky top-16 z-40 pb-2 mb-6" style="background:rgba(244,236,218,.96);backdrop-filter:blur(8px)">
+<div class="sticky top-[58px] z-40 pb-2 mb-6" style="background:linear-gradient(var(--paper-2) 92%,rgba(244,236,218,0));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)">
   <div class="max-w-6xl mx-auto px-5">
     <!-- Subcat chips -->
     <div class="relative flex items-center gap-1 pt-3">
@@ -3421,6 +3421,9 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
                     + intro_text + '</p>' + _xhtml + '</section>') if intro_text else ""
     _cta = ('<a class="cat-cta" href="submit-business.html">'
             '<span aria-hidden="true">+</span> Add your business</a>')
+    # The filter bar carries its own bottom margin, so main only needs top
+    # padding when there is no bar above it.
+    _main_pt = "pt-2" if filter_bar else "pt-8"
     _explore = _explore_more_html(_page_active)
     return f"""{PAGE_HEAD}
   <title>{_seo_title} | Explore Suriname</title>
@@ -3465,8 +3468,8 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
     </div>
   </div>
 </div>
-<main class="max-w-6xl mx-auto px-5 py-8 pb-24">
-  {filter_bar}
+{filter_bar}
+<main class="max-w-6xl mx-auto px-5 {_main_pt} pb-24">
   <div id="result-count" class="text-sm text-gray-400 mb-4 font-medium">{len(items)} results</div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     {cards_html}
@@ -4638,7 +4641,7 @@ def build_news(articles, oil_articles, finance_articles):
 </div>
 
 <!-- ── Tab switcher ──────────────────────────────────────────────────────── -->
-<div class="sticky top-16 z-40 bg-white border-b border-gray-100 shadow-sm">
+<div class="sticky top-[58px] z-40 bg-white border-b border-gray-100 shadow-sm">
   <div class="max-w-5xl mx-auto px-5">
     <div class="flex gap-1 py-2" role="tablist">
       <button id="tab-local" role="tab" aria-selected="true" aria-controls="section-local"
