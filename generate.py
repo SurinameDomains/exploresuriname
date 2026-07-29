@@ -3253,7 +3253,7 @@ def _filter_bar_html(items, cat_key):
 
     bar_id = f"chipbar-{cat_key}"
     return f"""
-<div class="sticky top-[58px] z-40 pb-2 mb-6" style="background:linear-gradient(var(--paper-2) 92%,rgba(244,236,218,0));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)">
+<div class="sticky top-[58px] z-40 pb-2 mb-6" style="background:var(--paper-2)">
   <div class="max-w-6xl mx-auto px-5">
     <!-- Subcat chips -->
     <div class="relative flex items-center gap-1 pt-3">
