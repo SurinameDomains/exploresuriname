@@ -2100,13 +2100,11 @@ PAGE_HEAD = """\
     .ftr-col{display:flex;flex-direction:column;gap:11px;font-size:14px}
     .ftr-lnk{color:#B9C2B2;transition:color .15s}
     .ftr-lnk:hover{color:#FCF7EC}
-    .ftr-gtk{display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:#94A08F;line-height:1.45}
     .ftr-lnk2{color:#9BAA97;transition:color .15s}
     .ftr-lnk2:hover{color:#B9C2B2}
     .ftr-cta{display:inline-block;border:1px solid var(--coral);color:#FCF7EC;border-radius:9999px;padding:.5rem 1.1rem;
              font-size:13px;font-weight:700;text-decoration:none;transition:background .18s,color .18s}
     .ftr-cta:hover{background:var(--coral);color:#fff}
-    .ftr-facts{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:13px;color:#8B978A;line-height:1.5}
     .ftr-bar{max-width:1140px;margin:0 auto;padding:18px clamp(20px,5vw,48px);display:flex;justify-content:space-between;
              align-items:center;gap:12px 20px;flex-wrap:wrap;font-size:13px;color:#8B978A}
     .ftr-bar-links{display:flex;gap:18px;flex-wrap:wrap}
@@ -3060,14 +3058,6 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}anaconda.html">Aboma Snake Game</a>
         <a class="ftr-lnk" href="{prefix}muskieto.html">Muskieto Survivor</a>
       </div>
-    </div>
-  </div>
-  <div style="max-width:1140px;margin:0 auto;padding:0 clamp(20px,5vw,48px) 20px">
-    <div class="ftr-facts">
-      <span>Capital &middot; Paramaribo</span>
-      <span>Languages &middot; Dutch, Sranan Tongo +9</span>
-      <span>Currency &middot; Surinamese Dollar (SRD)</span>
-      <span>Climate &middot; Tropical, ~28&deg;C</span>
     </div>
   </div>
   <div style="border-top:1px solid rgba(255,255,255,.09)">
