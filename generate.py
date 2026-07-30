@@ -106,6 +106,20 @@ try:
 except Exception as _err:
     print(f"  Warning: listing overrides unavailable — {_err}")
 
+# Featured listings are driven entirely from the admin panel (Listings tab →
+# "Featured listing" checkbox + priority). slug -> rank, where a lower rank
+# sorts first and 999 means "featured but unranked".
+_ADMIN_FEATURED: dict = {}
+for _oslug, _o in _OVERRIDES.items():
+    if isinstance(_o, dict) and _o.get("featured"):
+        try:
+            _rank = int(_o.get("feat_rank") or 0)
+        except (TypeError, ValueError):
+            _rank = 0
+        _ADMIN_FEATURED[_oslug] = _rank if 1 <= _rank <= 999 else 999
+if _ADMIN_FEATURED:
+    print(f"  Featured listings from admin panel: {len(_ADMIN_FEATURED)}")
+
 # ── Approved public submissions (Add your business form) ──────────────────────
 # Anyone can propose a listing at /submit-business.html. Nothing is published
 # until it is approved in the admin panel; approved rows arrive here and are
@@ -3756,15 +3770,21 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
 
 # -- Page builders ------------------------------------------------------------
 
-_FEATURED_HOTELS      = ["royal-torarica","courtyard-by-marriott","eco-torarica","torarica-resort","hotel-peperpot","radisson-hotel"]
-_FEATURED_RESTAURANTS = ["de-gadri","baka-foto-restaurant","goe-thai-noodle-bar","passion-food-and-wines","el-patron-latin-grill","zus-zo-cafe"]
-_FEATURED_SERVICES    = ["proplan-vastgoed"]
-_FEATURED_SHOPPING    = ["international-mall-of-suriname","hermitage-mall","readytex-souvenirs-and-crafts","rogom-farm-nv","kirpalani","galaxy","digital-world-maretraite-mall"]
+def _featured_order(lst):
+    """Float admin-featured listings to the top of a category grid.
 
-def _pick_featured(lst, slugs):
-    """Return items from lst ordered by the given slug list, skipping missing slugs."""
-    lut = {b["slug"]: b for b in lst}
-    return [lut[s] for s in slugs if s in lut]
+    Featured slugs and their priority come from the admin panel (_ADMIN_FEATURED);
+    nothing is hardcoded here. Within the featured block: lower priority number
+    first, then alphabetical. Everything else keeps its existing order.
+    """
+    if not _ADMIN_FEATURED:
+        return list(lst)
+    feat = sorted(
+        (b for b in lst if b["slug"] in _ADMIN_FEATURED),
+        key=lambda b: (_ADMIN_FEATURED[b["slug"]], b.get("name", "").lower()),
+    )
+    rest = [b for b in lst if b["slug"] not in _ADMIN_FEATURED]
+    return feat + rest
 
 
 # -- Category-page FAQs (visible Q&A + matching FAQPage structured data) -------
@@ -4325,7 +4345,8 @@ def build_activities_page():
         intro_text=f"Looking for things to do in Suriname? Browse {total} activities, tours and adventure experiences. Canoe through the jungle interior, watch leatherback turtles at Galibi, take a guided rainforest trek or explore Maroon villages by boat. From half-day trips out of Paramaribo to multi-day expeditions, find and book with local operators here.", faq=_FAQ_ACTIVITIES)
 
 def build_restaurants_page(restaurants):
-    cards = "\n".join(poi_card(r, "cuisine", eager=(i==0)) for i,r in enumerate(restaurants))
+    restaurants = _featured_order(restaurants)
+    cards = "\n".join(poi_card(r, "cuisine", eager=(i==0), featured=(r["slug"] in _ADMIN_FEATURED)) for i,r in enumerate(restaurants))
     fb    = _filter_bar_html(restaurants, "restaurant")
     _lcp  = restaurants[0].get("image") if restaurants else None
     return listing_page("Eat & Drink", f"{len(restaurants)} places to eat & drink in Suriname",
@@ -4336,7 +4357,8 @@ def build_restaurants_page(restaurants):
         intro_text=f"Discover {len(restaurants)} restaurants, caf\u00e9s, bars and fast food spots across Suriname. From traditional Surinamese cuisine and Dutch-Indonesian rijsttafel to Asian fusion, pizza, and international chains, Paramaribo&#8217;s food scene reflects the country&#8217;s rich multicultural heritage. Use the filters to find your perfect dining experience.", faq=_FAQ_RESTAURANTS)
 
 def build_hotels_page(hotels):
-    cards = "\n".join(poi_card(h, "category", eager=(i==0)) for i,h in enumerate(hotels))
+    hotels = _featured_order(hotels)
+    cards = "\n".join(poi_card(h, "category", eager=(i==0), featured=(h["slug"] in _ADMIN_FEATURED)) for i,h in enumerate(hotels))
     fb    = _filter_bar_html(hotels, "hotel")
     _lcp  = hotels[0].get("image") if hotels else None
     return listing_page("Hotels & Lodges", f"{len(hotels)} places to stay in Suriname",
@@ -4347,9 +4369,10 @@ def build_hotels_page(hotels):
         intro_text=f"Find the right place to stay from {len(hotels)} hotels, lodges and jungle retreats across Suriname. Paramaribo offers modern city hotels and casino resorts, while the interior has eco-lodges and remote river camps along the Suriname River. Whether you&#8217;re in town for business or heading deep into the rainforest, this is your full accommodation guide.", faq=_FAQ_HOTELS)
 
 def build_shopping_page():
-    cards = "\n".join(poi_card(b, eager=(i==0)) for i,b in enumerate(SHOPPING))
-    fb    = _filter_bar_html(SHOPPING, "shopping")
-    _lcp  = SHOPPING[0].get("image") if SHOPPING else None
+    _order = _featured_order(SHOPPING)
+    cards = "\n".join(poi_card(b, eager=(i==0), featured=(b["slug"] in _ADMIN_FEATURED)) for i,b in enumerate(_order))
+    fb    = _filter_bar_html(_order, "shopping")
+    _lcp  = _order[0].get("image") if _order else None
     return listing_page("Shopping", f"{len(SHOPPING)} shops & stores in Suriname",
         f"Discover {len(SHOPPING)} shops in Suriname: supermarkets, malls, fashion, electronics, furniture, butchers and specialty stores in Paramaribo.",
         SHOPPING, cards, bg_color=_CAT_ACCENT["Shopping"], page_file="shopping.html", filter_bar=fb,
@@ -4358,9 +4381,8 @@ def build_shopping_page():
         intro_text=f"Shop across {len(SHOPPING)} stores in Suriname, from supermarkets, malls and fashion boutiques to electronics, furniture and specialty food stores. Hermitage Mall and International Mall of Suriname are Paramaribo&#8217;s main retail hubs, with a wide range of local and international brands. Use the filters to browse by category or district.", faq=_FAQ_SHOPPING)
 
 def build_services_page():
-    _feat  = _pick_featured(SERVICES, _FEATURED_SERVICES)
-    _order = _feat + [b for b in SERVICES if b["slug"] not in _FEATURED_SERVICES]
-    cards = "\n".join(poi_card(b, eager=(i==0), featured=(b["slug"] in _FEATURED_SERVICES)) for i,b in enumerate(_order))
+    _order = _featured_order(SERVICES)
+    cards = "\n".join(poi_card(b, eager=(i==0), featured=(b["slug"] in _ADMIN_FEATURED)) for i,b in enumerate(_order))
     fb    = _filter_bar_html(_order, "service")
     _lcp  = _order[0].get("image") if _order else None
     return listing_page("Services", f"{len(SERVICES)} service providers in Suriname",
