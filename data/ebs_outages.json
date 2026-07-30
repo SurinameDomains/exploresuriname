@@ -1,6 +1,15 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD DINSDAG 4 AUG 2026",
+      "date": "4 Aug 2026",
+      "date_iso": "2026-08-04",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1558/gepland-onderhoud-dinsdag-4-aug-2026",
+      "meta_description": "GEPLAND ONDERHOUD: WANICA DINSDAG 4 AUG 2026 TUSSEN 8:00 EN 14:00 UURGEDEELTE WELGEDACHT A WEG TUSSEN BOMAWEG EN MAWAKABOWEG EN",
+      "district": "WANICA"
+    },
+    {
       "title": "GEPLAND ONDERHOUD WOENSDAG 5 AUG 2026",
       "date": "5 Aug 2026",
       "date_iso": "2026-08-05",
@@ -21,6 +30,6 @@
       "area": "GEDEELTE DE VIERKINDERENWEG TUSSEN INDIRA GANDHIWEG EN NAGESARWEG EN ALLE ZIJWEGEN"
     }
   ],
-  "last_updated": "2026-07-30T17:41:21.303629+00:00",
+  "last_updated": "2026-07-30T19:07:48.887355+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
