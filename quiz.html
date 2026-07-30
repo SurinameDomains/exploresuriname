@@ -596,7 +596,9 @@ const _QSTOP = new Set(['the','and','for','with','from','into','that','this','al
  'kan','ik','wil','zoek','zoeken','vind','vinden','ben','hebben','doen','gaan','iets',
  'find','need','want','looking','show','give','there','here','something','anything']);
 function _sTokens(q) {
-  const raw = _sFold(q).split(/[^a-z0-9]+/).filter(t => t.length > 1);
+  /* Keep single characters: the first keystroke of every search is one letter,
+     and it must still be a valid prefix query. */
+  const raw = _sFold(q).split(/[^a-z0-9]+/).filter(t => t.length > 0);
   const kept = raw.filter(t => !_QSTOP.has(t));
   return kept.length ? kept : raw;          /* never return an empty query */
 }
@@ -670,17 +672,21 @@ function _sMark(name, toks) {
   if (!pats.length) return out;
   return out.replace(new RegExp('(' + pats.join('|') + ')', 'gi'), '<mark>$1</mark>');
 }
+function _sHint(box, msg) {
+  box.innerHTML = '<p id="search-hint" style="text-align:center;color:var(--ink-soft);'
+    + 'font-size:.85rem;padding:32px 0">' + msg + '</p>';
+}
 function runSearch(q) {
   const box = document.getElementById('search-results');
   q = q.trim();
-  if (!q) { closeSearch(); openSearch(); return; }
+  if (!q) { _sHint(box, 'Start typing to search listings…'); _sel = -1; return; }
   if (!_SI) {
     _loadSI(() => runSearch(q));
     box.innerHTML = '<p style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Loading…</p>';
     return;
   }
   const toks = _sTokens(q);
-  if (!toks.length) { closeSearch(); openSearch(); return; }
+  if (!toks.length) { _sHint(box, 'Start typing to search listings…'); _sel = -1; return; }
   let scored = [];
   for (let pass = 0; pass < 2; pass++) {
     const loose = pass === 1;
@@ -691,6 +697,10 @@ function runSearch(q) {
     if (scored.length || toks.length < 2) break;   /* only fall back if AND found nothing */
   }
   scored.sort((a, b) => b[0] - a[0] || a[1].n.length - b[1].n.length);
+  if (scored.length) {
+    const floor = scored[0][0] * 0.2;
+    scored = scored.filter(p => p[0] >= floor);
+  }
   const hits = scored.slice(0, 12).map(p => p[1]);
   if (!hits.length) { box.innerHTML = '<p style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">No results for "' + _sEsc(q) + '"</p>'; return; }
   const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
