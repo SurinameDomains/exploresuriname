@@ -1113,6 +1113,9 @@ def _subcat(slug, main_cat=""):
         'access-suriname-travel':'travel-transport','augis-travel':'travel-transport',
         'multi-travel':'travel-transport','satyam-holidays':'travel-transport',
         'waldos-worldwide-travel-service':'travel-transport',
+        # verified cuisine corrections (Jul 2026) — NOT Surinamese/local food
+        'big-tex':'restaurants',   # Texas BBQ, smoked brisket + smash burgers
+        'tori-oso':'restaurants',  # cafe-restaurant, burgers and pasta
     }
     if s in _OVERRIDE:
         return _OVERRIDE[s]
@@ -1142,7 +1145,7 @@ def _subcat(slug, main_cat=""):
         return 'asian-fusion'
     if any(x in s for x in ['roti','warung','baka-foto','joosje','ritas','sendang',
             'roopram','oasis','eethuis','kasan','la-s','restoran-bibit',
-            'tori-oso','okopipi','petisco','leiding-1','rolines','de-waag',
+            'okopipi','petisco','leiding-1','rolines','de-waag',
             'restaurant-sarinah','sranan']):
         return 'local-caribbean'
     if any(x in s for x in ['bakery','patisserie','tirzahs','overdough','wing-hung',
@@ -1330,7 +1333,7 @@ def _subcat(slug, main_cat=""):
     if any(x in s for x in ['ac-bar','mingle-paramaribo','passion-food','bistro-brwni',
             'bistro-don-julio','bistro-lequatorze','lamour']):
         return 'bars-lounges'
-    if any(x in s for x in ['a-la-john','big-tex','bori-tori','de-gadri','el-patron',
+    if any(x in s for x in ['a-la-john','bori-tori','de-gadri','el-patron',
             'garden-of-eden','joey-ds','julias-food','las-tias','mickis-palace',
             'moments-restaurant','souposo','flavor-restaurant',
             'restaurant-lhermitage']):
@@ -5109,6 +5112,7 @@ _SUBCAT_SCHEMA = {
     "bars-lounges":         ("BarOrPub",                  None),
     "asian-fusion":         ("Restaurant",                "Asian, International"),
     "local-caribbean":      ("Restaurant",                "Surinamese, Caribbean"),
+    "restaurants":          ("Restaurant",                None),
     "bakeries-sweets":      ("Bakery",                    None),
     "pizza-italian":        ("Restaurant",                "Italian, Pizza"),
     "eco-lodges":           ("LodgingBusiness",           None),
@@ -5220,6 +5224,7 @@ _SEO_TYPE_LABEL = {
     "fast-food": "Fast Food Restaurant", "cafes-coffee": "Café",
     "bars-lounges": "Bar & Lounge", "asian-fusion": "Asian Restaurant",
     "local-caribbean": "Surinamese Restaurant", "bakeries-sweets": "Bakery",
+    "restaurants": "Restaurant",
     "pizza-italian": "Italian Restaurant", "eco-lodges": "Eco Lodge",
     "casino-hotels": "Casino Hotel", "guesthouses": "Guesthouse",
     "city-hotels": "Hotel", "tours-expeditions": "Tour Operator",
@@ -5313,6 +5318,7 @@ def build_listing_page(slug, b):
             "bars-lounges":        "bar & lounge",
             "asian-fusion":        "Asian restaurant",
             "local-caribbean":     "local Surinamese restaurant",
+            "restaurants":         "restaurant",
             "bakeries-sweets":     "bakery & pastry shop",
             "pizza-italian":       "pizza & Italian restaurant",
             # Hotels
