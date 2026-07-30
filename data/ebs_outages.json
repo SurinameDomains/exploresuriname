@@ -1,5 +1,26 @@
 {
-  "outages": [],
-  "last_updated": "2026-07-30T15:07:53.062580+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD WOENSDAG 5 AUG 2026",
+      "date": "5 Aug 2026",
+      "date_iso": "2026-08-05",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1556/gepland-onderhoud-woensdag-5-aug-2026",
+      "meta_description": "GEPLAND ONDERHOUD WOENSDAG 5 AUG 2026 TUSSEN 9:00 EN 14:00 UURGEDEELTE OOST – WEST VERBINDING TUSSEN TAJERBLADWEG EN TAMBAREDJOWEG, MOESAFIRWEG,",
+      "district": "GEPLAND ONDERHOUD"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 30 JULI 2026",
+      "date": "30 Juli 2026",
+      "date_iso": "2026-07-30",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1553/gepland-onderhoud-donderdag-30-juli-2026",
+      "meta_description": "Gepland onderhoud: Wanica donderdag 30 juli 2026 tussen 09:00-14:00 GEDEELTE DE VIERKINDERENWEG TUSSEN INDIRA GANDHIWEG EN NAGESARWEG EN ALLE ZIJWEGEN",
+      "district": "Wanica",
+      "time": "09:00 – 14:00",
+      "area": "GEDEELTE DE VIERKINDERENWEG TUSSEN INDIRA GANDHIWEG EN NAGESARWEG EN ALLE ZIJWEGEN"
+    }
+  ],
+  "last_updated": "2026-07-30T17:41:21.303629+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
