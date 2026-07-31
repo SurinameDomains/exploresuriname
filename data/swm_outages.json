@@ -1,11 +1,5 @@
 {
-  "active": [
-    {
-      "area": "Helena Christinaweg, Poerwodadiweg, De Craneweg, Javaweg, Magentakanaalweg tot aan de Nieuw Weergevondenweg, Reeberg, Bomaweg met alle zijwegen die er voorkomen",
-      "description": "De SWM maakt hierbij bekend dat zij noodzakelijke werkzaamheden zal uitvoeren op haar productiestation te Helena Christina. Als gevolg hiervan zullen verbruikers in het voorzieningsgebied van dit station, gedurende de werkzaamheden een verlaagde waterdruk ervaren. Afhankelijk van het verloop van de werkzaamheden kan de watervoorziening eerder worden genormaliseerd. De SWM biedt haar verontschuldigingen aan voor het ontstane ongerief.",
-      "date": "27 Jul 2026"
-    }
-  ],
+  "active": [],
   "planned": [
     {
       "area": "Jagernath Lachmonstraat, Corantijnstraat, Coesewijnestraat, Duisburglaan, Mattonshooplaan en alle zijwegen",
@@ -15,6 +9,6 @@
       "date": "29 Jul 2026"
     }
   ],
-  "last_updated": "2026-07-30T23:07:48.862464+00:00",
+  "last_updated": "2026-07-31T03:07:43.465907+00:00",
   "source": "https://swm.sr/storing-onderhoud/"
 }
