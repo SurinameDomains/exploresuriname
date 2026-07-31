@@ -1,52 +1,52 @@
 {
-  "date_range": "zaterdag 25 juli tot maandag 27 juli 2026",
+  "date_range": "zaterdag 01 augustus tot maandag 03 augustus 2026",
   "doctors": [
     {
-      "name": "Drs. Badal Giriradj",
-      "clinic": "Gezondheidscentrum Limesgracht",
+      "name": "Drs. Mohan Shrutikant",
+      "clinic": "Polikliniek Flustraat",
       "district": "Paramaribo",
-      "address": "Limesgracht no. 78",
-      "phone": "420506",
-      "note": "alleen zaterdag en zondag ochtend"
-    },
-    {
-      "name": "Drs. Bikhari Jaleycha",
-      "clinic": "Polikliniek Welgelegen",
-      "district": "Paramaribo",
-      "address": "Patatastraat no. 17",
-      "phone": "436975",
+      "address": "Prof. Flustraat no. 03",
+      "phone": "440232",
       "note": ""
     },
     {
-      "name": "Drs. Oemar Umair",
-      "clinic": "Polikliniek Santodorp",
+      "name": "Drs. Mohan Praveeni",
+      "clinic": "Polikliniek Flora",
+      "district": "Paramaribo",
+      "address": "Floralaan no. 23-25",
+      "phone": "464904",
+      "note": ""
+    },
+    {
+      "name": "Drs. Bholasing Sunayana",
+      "clinic": "Gezondheidscentrum Koewarasan",
       "district": "Wanica",
-      "address": "Hk. Corresburg Nieuw-Weergevondenweg no. 01",
-      "phone": "487067",
+      "address": "Bomapolder Serie 2 no. 02",
+      "phone": "350018",
       "note": ""
     },
     {
-      "name": "Drs. Naranjo Tamayo Mauro",
+      "name": "Drs. Naranjo Tamaya Mauro",
       "clinic": "Polikliniek Domburg",
       "district": "Wanica",
-      "address": "Herbertstraat Perceel no. 15",
-      "phone": "370044",
+      "address": "Herbertstraat perceel no. 15",
+      "phone": "340044",
       "note": ""
     },
     {
-      "name": "Drs. Roep-Nurmohamed Zoraida",
-      "clinic": "Gezondheidscentrum Lelydorp",
+      "name": "Drs. Ramautar Prakash",
+      "clinic": "Polikliniek Nieuwe Grond",
       "district": "Wanica",
-      "address": "Indira Gandhiweg no. 42",
-      "phone": "366125",
+      "address": "Indira Gandhiweg no. 12",
+      "phone": "585838",
       "note": ""
     },
     {
-      "name": "Drs. Vrede Merlien",
-      "clinic": "Gezondheidscentrum Onverwacht",
+      "name": "Drs. Jhanjan Cyril",
+      "clinic": "Polkliniek Bernharddorp",
       "district": "Para",
-      "address": "Akrumstraat no. 09",
-      "phone": "352097",
+      "address": "Indira Gandhiweg no. 894",
+      "phone": "352590",
       "note": ""
     }
   ],
@@ -62,8 +62,8 @@
       "phone": "354098"
     }
   ],
-  "doctor_hours": "Spreekuren: Zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
+  "doctor_hours": "Spreekuren: zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
   "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00u.",
-  "last_updated": "2026-07-30T10:20:25.434042+00:00",
+  "last_updated": "2026-07-31T10:20:23.353818+00:00",
   "source": "http://www.rgd.sr/nl/zorg-aanbod/wachtdienst"
 }
