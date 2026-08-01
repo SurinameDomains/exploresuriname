@@ -1,26 +1,16 @@
 {
-  "last_updated": "2026-07-31T16:00:39.394819+00:00",
+  "last_updated": "2026-08-01T10:00:27.547823+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "05:15 PM",
-      "title": "Moana",
-      "url": "https://www.tblcinemas.com/movie/RS973343229507/moana"
-    },
-    {
-      "time": "05:45 PM",
-      "title": "Dhamaal 4",
-      "url": "https://www.tblcinemas.com/movie/RS99926775360/dhamaal-4"
-    },
-    {
-      "time": "06:15 PM",
+      "time": "02:00 PM",
       "title": "Minions & Monsters",
       "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
     },
     {
-      "time": "06:45 PM",
-      "title": "The Odyssey",
-      "url": "https://www.tblcinemas.com/movie/RS985030847570/the-odyssey"
+      "time": "02:30 PM",
+      "title": "Toy Story 5",
+      "url": "https://www.tblcinemas.com/movie/TO22592/toy-story-5"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
