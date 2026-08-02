@@ -2238,16 +2238,20 @@ PAGE_HEAD = """\
     .navsearch .nslabel { max-width:7rem; overflow:hidden; white-space:nowrap; font-size:.875rem;
                           transition:max-width .22s ease; }
     .navsearch:hover, .navsearch:focus-visible { border-color:#9ca3af; color:#4b5563; }
+    /* Seven top-level items, kept generously spaced. Two narrow-desktop tiers,
+       and the search label collapses earlier on the NL/ES trees because those
+       nav labels run longer (build_i18n sets html[lang]). Verified at
+       1024/1152/1280/1440/1920 in all three languages. */
+    .navlinks { gap:24px; }
     @media (max-width:1279px) {
+      html[lang="nl"] .navsearch, html[lang="es"] .navsearch { gap:0; padding:7px; }
+      html[lang="nl"] .navsearch .nslabel, html[lang="es"] .navsearch .nslabel { max-width:0; }
+    }
+    @media (max-width:1151px) {
+      .navlinks { gap:10px; }
+      .navlinks .dd-trigger, .navlinks > a { font-size:13px; }
       .navsearch { gap:0; padding:7px; }
       .navsearch .nslabel { max-width:0; }
-    }
-    /* Seven top-level items fit comfortably at 1280+. Between 1024 and 1279 the
-       bar runs denser so the longer NL/ES labels and the language switcher fit. */
-    .navlinks { gap:14px; }
-    @media (min-width:1024px) and (max-width:1279px) {
-      .navlinks { gap:11px; }
-      .navlinks .dd-trigger, .navlinks > a { font-size:13px; }
     }
     /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
     .dd-menu { transform-origin: top center; }
@@ -2983,7 +2987,7 @@ def nav_html(active="home", prefix=""):
 
     return f"""
 <nav class="fixed top-0 w-full z-50" style="background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14);box-shadow:0 1px 12px rgba(20,42,30,.05)">
-  <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+  <div class="max-w-7xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
     <a href="{prefix}index.html" class="flex items-baseline flex-shrink-0">
       <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
     </a>
