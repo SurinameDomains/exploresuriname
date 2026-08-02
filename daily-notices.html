@@ -1186,9 +1186,11 @@ fetch('/data/tbl_cinema.json')
       var name = s.url
         ? '<a href="' + escHtml(s.url) + '" target="_blank" rel="noopener" class="pharmacy-name" style="text-decoration:none">' + escHtml(s.title) + '</a>'
         : '<span class="pharmacy-name">' + escHtml(s.title) + '</span>';
+      var tcell = (s.sold_out || !s.time)
+        ? '<span style="font-weight:700;font-size:.7rem;color:#b91c1c;white-space:nowrap;min-width:70px;text-transform:uppercase;letter-spacing:.03em">Sold out</span>'
+        : '<span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">' + escHtml(s.time) + '</span>';
       html += '<div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline">'
-            + '<span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">' + escHtml(s.time) + '</span>'
-            + name + '</div>';
+            + tcell + name + '</div>';
     });
     html += '<p class="text-xs text-gray-300 mt-2">Source: <a href="https://www.tblcinemas.com/films/dagschema" target="_blank" rel="noopener" class="src-link">tblcinemas.com</a> &bull; Box office from 16:00 (wknd 13:00)</p>';
     body.innerHTML = html;
