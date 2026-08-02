@@ -2243,9 +2243,12 @@ PAGE_HEAD = """\
        nav labels run longer (build_i18n sets html[lang]). Verified at
        1024/1152/1280/1440/1920 in all three languages. */
     .navlinks { gap:24px; }
-    @media (max-width:1279px) {
-      html[lang="nl"] .navsearch, html[lang="es"] .navsearch { gap:0; padding:7px; }
-      html[lang="nl"] .navsearch .nslabel, html[lang="es"] .navsearch .nslabel { max-width:0; }
+    /* Dutch labels fit alongside the pill all the way down to 1152, so only the
+       Spanish tree needs an early collapse. Threshold measured, not guessed:
+       ES runs out of room at about 1210. */
+    @media (max-width:1219px) {
+      html[lang="es"] .navsearch { gap:0; padding:7px; }
+      html[lang="es"] .navsearch .nslabel { max-width:0; }
     }
     @media (max-width:1151px) {
       .navlinks { gap:10px; }
