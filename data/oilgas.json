@@ -1,0 +1,510 @@
+{
+ "meta": {
+  "updated": "2026-08-02",
+  "note": "Reference data for the Explore Suriname oil & gas section. Every figure below is sourced from operator, government or trade-press statements. Update the 'updated' field whenever rows change.",
+  "sources": [
+   {
+    "label": "Staatsolie Maatschappij Suriname N.V.",
+    "url": "https://www.staatsolie.com/en/"
+   },
+   {
+    "label": "Ministry of Oil, Gas and Environment (OGM)",
+    "url": "https://gov.sr/ministeries/ministerie-van-olie-gas-en-milieu/"
+   },
+   {
+    "label": "TotalEnergies: GranMorgu project",
+    "url": "https://totalenergies.com/company/projects/oil/granmorgu-suriname-oil-project-line-totalenergies-transition-strategy"
+   },
+   {
+    "label": "Offshore Magazine: Suriname offshore E&P frontier (Jun 2026)",
+    "url": "https://www.offshore-mag.com/special-reports/article/55383533/suriname-emerges-as-a-high-potential-offshore-ep-frontier"
+   },
+   {
+    "label": "OilNOW: GranMorgu H1 2026 progress",
+    "url": "https://oilnow.gy/featured/granmorgu-moves-from-blueprint-to-buildout-as-suriname-targets-first-oil/"
+   },
+   {
+    "label": "IMF: Suriname 2025 Article IV Consultation",
+    "url": "https://www.imf.org/en/news/articles/2026/02/11/pr-26043-suriname-imf-executive-board-concludes-2025-article-iv-consult"
+   },
+   {
+    "label": "SEOGS: Suriname Energy, Oil & Gas Summit",
+    "url": "https://suriname-energy.com/"
+   }
+  ]
+ },
+ "keynumbers": [
+  {
+   "v": "2028",
+   "l": "Target year for first offshore oil",
+   "s": "TotalEnergies / Staatsolie"
+  },
+  {
+   "v": "220,000",
+   "l": "Barrels per day, GranMorgu FPSO capacity",
+   "s": "TotalEnergies"
+  },
+  {
+   "v": "US$10.5bn",
+   "l": "GranMorgu investment approved at FID",
+   "s": "TotalEnergies, Oct 2024"
+  },
+  {
+   "v": "750m+",
+   "l": "Barrels of oil in the GranMorgu development",
+   "s": "TotalEnergies Suriname, Jan 2026"
+  },
+  {
+   "v": "20%",
+   "l": "Staatsolie stake in GranMorgu, for US$2.4bn",
+   "s": "Staatsolie"
+  },
+  {
+   "v": "~17,000",
+   "l": "Barrels per day produced onshore today",
+   "s": "Offshore Magazine, Jun 2026"
+  },
+  {
+   "v": "60-70%",
+   "l": "Government take after costs under a Suriname PSC",
+   "s": "Staatsolie"
+  },
+  {
+   "v": "~55%",
+   "l": "Projected GDP growth in the first full oil year",
+   "s": "IMF projection for 2028"
+  }
+ ],
+ "blocks": [
+  {
+   "block": "Block 58",
+   "water": "Deepwater",
+   "operator": "TotalEnergies (40%)",
+   "partners": "APA Corporation 40%, Staatsolie 20%",
+   "status": "Development",
+   "note": "Home of the GranMorgu development (Sapakara South and Krabdagu fields), about 150 km offshore. FID October 2024. First oil targeted 2028."
+  },
+  {
+   "block": "Block 52",
+   "water": "Deepwater",
+   "operator": "PETRONAS (80%)",
+   "partners": "Staatsolie 20%",
+   "status": "Pre-FID",
+   "note": "4,749 km2. Sloanea gas field declared commercial in late 2025; a floating LNG development is the leading concept with FID targeted in the second half of 2026 and first gas around 2030. Roystonea and Fusaea oil finds still under evaluation."
+  },
+  {
+   "block": "Block 53",
+   "water": "Deepwater",
+   "operator": "APA Corporation (45%)",
+   "partners": "PETRONAS 30%, TotalEnergies 25%",
+   "status": "Exploration",
+   "note": "Sits directly against Block 58. Holds the Baja-1 discovery. TotalEnergies farmed in for 25% in June 2025."
+  },
+  {
+   "block": "Block 5",
+   "water": "Shallow offshore",
+   "operator": "Chevron",
+   "partners": "Paradise Oil Company (Staatsolie), QatarEnergy; Shell took a stake via farm-out",
+   "status": "Exploration",
+   "note": "Korikori-1 was drilled here in the 2025 campaign."
+  },
+  {
+   "block": "Block 7",
+   "water": "Shallow offshore",
+   "operator": "Chevron (80%)",
+   "partners": "Paradise Oil Company (Staatsolie) 20%",
+   "status": "Exploration",
+   "note": "Awarded in the Shallow Offshore Bid Round 2020-2021."
+  },
+  {
+   "block": "Blocks 6 and 8",
+   "water": "Shallow offshore",
+   "operator": "TotalEnergies",
+   "partners": "QatarEnergy, Paradise Oil Company (Staatsolie) 40%",
+   "status": "Exploration",
+   "note": "30-year production sharing contracts finalised in May 2023."
+  },
+  {
+   "block": "Block 64",
+   "water": "Deepwater",
+   "operator": "TotalEnergies (40%)",
+   "partners": "QatarEnergy 30%, PETRONAS 30%",
+   "status": "Exploration",
+   "note": "Awarded out of the Demerara Bid Round. Macaw-1 was drilled here in 2025."
+  },
+  {
+   "block": "Block 65",
+   "water": "Deepwater",
+   "operator": "Shell (BG International)",
+   "partners": "QatarEnergy",
+   "status": "Exploration",
+   "note": "Araku Deep-1 was the headline well going into 2026."
+  },
+  {
+   "block": "Block 63",
+   "water": "Deepwater",
+   "operator": "PETRONAS",
+   "partners": "Staatsolie back-in right",
+   "status": "Exploration",
+   "note": "Also awarded out of the Demerara Bid Round (2022-2023)."
+  },
+  {
+   "block": "Blocks 9 and 10",
+   "water": "Shallow offshore",
+   "operator": "PETRONAS and Chevron",
+   "partners": "Staatsolie back-in right",
+   "status": "Exploration",
+   "note": "Production sharing contracts signed as the shallow offshore acreage was opened up."
+  },
+  {
+   "block": "Onshore: Tambaredjo, Tambaredjo North-West, Calcutta",
+   "water": "Onshore (Saramacca)",
+   "operator": "Staatsolie (100%)",
+   "partners": "None",
+   "status": "Producing",
+   "note": "Suriname's only production today: heavy Saramacca Crude, piped 55 km to the Tout Lui Faut refinery near Paramaribo."
+  }
+ ],
+ "wells": [
+  {
+   "name": "Maka Central-1",
+   "block": "58",
+   "year": "2020",
+   "operator": "Apache / Total",
+   "result": "Oil and condensate. The discovery that put Suriname on the map."
+  },
+  {
+   "name": "Sapakara West-1",
+   "block": "58",
+   "year": "2020",
+   "operator": "Apache / Total",
+   "result": "Oil and condensate."
+  },
+  {
+   "name": "Kwaskwasi-1",
+   "block": "58",
+   "year": "2020",
+   "operator": "Apache / Total",
+   "result": "Oil and condensate."
+  },
+  {
+   "name": "Sloanea-1",
+   "block": "52",
+   "year": "2020",
+   "operator": "PETRONAS",
+   "result": "Gas. Declared commercial in late 2025; anchor for a possible FLNG project."
+  },
+  {
+   "name": "Sapakara South-1",
+   "block": "58",
+   "year": "2021",
+   "operator": "TotalEnergies",
+   "result": "Oil. One of the two fields feeding GranMorgu."
+  },
+  {
+   "name": "Krabdagu-1",
+   "block": "58",
+   "year": "2022",
+   "operator": "TotalEnergies",
+   "result": "Oil. The second GranMorgu field."
+  },
+  {
+   "name": "Baja-1",
+   "block": "53",
+   "year": "2023",
+   "operator": "APA Corporation",
+   "result": "Discovery close to the Block 58 boundary."
+  },
+  {
+   "name": "Roystonea-1 / -2",
+   "block": "52",
+   "year": "2024-2026",
+   "operator": "PETRONAS",
+   "result": "Hydrocarbons; appraisal ongoing."
+  },
+  {
+   "name": "Korikori-1",
+   "block": "5",
+   "year": "2025",
+   "operator": "Chevron",
+   "result": "Shallow-offshore exploration well."
+  },
+  {
+   "name": "Macaw-1",
+   "block": "64",
+   "year": "2025",
+   "operator": "TotalEnergies",
+   "result": "Deepwater exploration well."
+  },
+  {
+   "name": "Caiman-1",
+   "block": "52",
+   "year": "2025",
+   "operator": "PETRONAS",
+   "result": "Deepwater exploration well."
+  },
+  {
+   "name": "Araku Deep-1",
+   "block": "65",
+   "year": "2025-2026",
+   "operator": "Shell",
+   "result": "High-impact deep test drilled around the turn of the year."
+  }
+ ],
+ "players": [
+  {
+   "n": "Staatsolie Maatschappij Suriname N.V.",
+   "r": "State oil company and resource manager",
+   "c": "Suriname",
+   "u": "https://www.staatsolie.com/en/",
+   "d": "Founded in 1980 and 100% state owned. Staatsolie is both a producer (onshore fields, the Tout Lui Faut refinery, power generation, a gold royalty from Rosebel) and the body that manages Suriname's petroleum acreage: it markets blocks, negotiates production sharing contracts and can take up to a 20% share in any development."
+  },
+  {
+   "n": "TotalEnergies",
+   "r": "Operator, Block 58 and Block 64",
+   "c": "France",
+   "u": "https://totalenergies.com/totalenergies-suriname",
+   "d": "Operator of GranMorgu, Suriname's first offshore development, and a partner or operator across several other blocks."
+  },
+  {
+   "n": "APA Corporation",
+   "r": "Partner, Block 58; operator, Block 53",
+   "c": "United States",
+   "u": "https://www.apacorp.com/",
+   "d": "Formerly Apache. Drilled the original Maka Central discovery in 2020 and holds 40% of Block 58."
+  },
+  {
+   "n": "PETRONAS",
+   "r": "Operator, Block 52",
+   "c": "Malaysia",
+   "u": "https://www.petronas.com/",
+   "d": "Holds the gas story: Sloanea, Roystonea and Fusaea in Block 52, plus positions in Blocks 53, 63, 64 and shallow-offshore acreage."
+  },
+  {
+   "n": "Shell",
+   "r": "Operator, Block 65",
+   "c": "United Kingdom / Netherlands",
+   "u": "https://www.shell.com/",
+   "d": "Entered through the Demerara round and a farm-out from Chevron, targeting deeper plays."
+  },
+  {
+   "n": "Chevron",
+   "r": "Operator, shallow offshore blocks",
+   "c": "United States",
+   "u": "https://www.chevron.com/",
+   "d": "The main shallow-water explorer, working with Paradise Oil Company and QatarEnergy."
+  },
+  {
+   "n": "QatarEnergy",
+   "r": "Partner across several blocks",
+   "c": "Qatar",
+   "u": "https://www.qatarenergy.qa/",
+   "d": "A recurring non-operating partner alongside TotalEnergies, Chevron and Shell."
+  },
+  {
+   "n": "SBM Offshore",
+   "r": "FPSO contractor",
+   "c": "Netherlands",
+   "u": "https://www.sbmoffshore.com/",
+   "d": "Building the GranMorgu FPSO on a Fast4Ward hull, in partnership with Technip Energies. Together with Suriname they run the STS joint venture and its graduate programme."
+  },
+  {
+   "n": "Technip Energies",
+   "r": "FPSO topsides partner",
+   "c": "France",
+   "u": "https://www.ten.com/",
+   "d": "Partner to SBM Offshore on the GranMorgu FPSO."
+  },
+  {
+   "n": "Saipem",
+   "r": "Subsea contractor",
+   "c": "Italy",
+   "u": "https://www.saipem.com/",
+   "d": "Won the roughly US$1.9 billion subsea scope on GranMorgu."
+  },
+  {
+   "n": "TechnipFMC",
+   "r": "Subsea equipment",
+   "c": "United Kingdom / United States",
+   "u": "https://www.technipfmc.com/",
+   "d": "Supplying subsea production systems, including the Christmas trees assembled and tested in Malaysia."
+  },
+  {
+   "n": "Paradise Oil Company (POC)",
+   "r": "Staatsolie subsidiary",
+   "c": "Suriname",
+   "u": "https://www.staatsolie.com/en/",
+   "d": "The vehicle Staatsolie uses to hold working interests in shallow offshore blocks."
+  }
+ ],
+ "timeline": [
+  {
+   "y": "1928",
+   "t": "Oil found in Nickerie",
+   "d": "The first oil in Suriname is found in Nickerie district, on the coastal plain near the Guyana border. Nothing commercial follows, and systematic exploration only begins in the early 1960s.",
+   "k": "past"
+  },
+  {
+   "y": "1965",
+   "t": "Oil in a schoolyard",
+   "d": "A Geological Mining Department crew drilling for drinking water in Saramacca district hits heavy oil in a school yard. That accident is the Tambaredjo field.",
+   "k": "past"
+  },
+  {
+   "y": "1980",
+   "t": "Staatsolie is founded",
+   "d": "The state creates its own oil company on 13 December 1980 rather than leaving the resource to foreign operators.",
+   "k": "past"
+  },
+  {
+   "y": "1982",
+   "t": "Production starts at Tambaredjo",
+   "d": "Commercial production starts at Tambaredjo on 25 November 1982, at 200 barrels a day. Output is small but it funds everything that follows.",
+   "k": "past"
+  },
+  {
+   "y": "1997",
+   "t": "Tout Lui Faut refinery opens",
+   "d": "Staatsolie starts refining its own crude rather than exporting all of it, initially into asphalt bitumen and fuel oil.",
+   "k": "past"
+  },
+  {
+   "y": "2015",
+   "t": "Refinery expansion completed",
+   "d": "A roughly US$1 billion upgrade lifts the plant to around 15,000 to 16,000 barrels a day and adds diesel and gasoline.",
+   "k": "past"
+  },
+  {
+   "y": "2020",
+   "t": "Maka Central-1 changes everything",
+   "d": "Apache and Total hit oil in Block 58. Kwaskwasi, Sapakara West and PETRONAS's Sloanea gas find follow in the same year.",
+   "k": "past"
+  },
+  {
+   "y": "2021-2022",
+   "t": "Sapakara South and Krabdagu",
+   "d": "Appraisal drilling proves the two fields that will become GranMorgu.",
+   "k": "past"
+  },
+  {
+   "y": "Oct 2024",
+   "t": "Final Investment Decision",
+   "d": "TotalEnergies and APA sanction GranMorgu, committing about US$10.5 billion. Staatsolie exercises its 20% back-in right.",
+   "k": "past"
+  },
+  {
+   "y": "2025",
+   "t": "Financing and contracts",
+   "d": "Staatsolie raises more than US$2 billion, including a US$516 million bond and a US$1.6 billion syndicated loan from 18 lenders, to fund its US$2.4 billion share. Saipem, SBM Offshore and Technip Energies start work.",
+   "k": "past"
+  },
+  {
+   "y": "Nov 2025",
+   "t": "Open Door Offering launched",
+   "d": "Staatsolie opens roughly 60% of offshore acreage, more than 70,000 km2, to nomination by companies at any time instead of waiting for a bid round.",
+   "k": "past"
+  },
+  {
+   "y": "2025",
+   "t": "A ministry for oil and gas",
+   "d": "The new government creates the Ministry of Oil, Gas and Environment, headed by former Staatsolie manager Patrick Brunings.",
+   "k": "past"
+  },
+  {
+   "y": "H1 2026",
+   "t": "From blueprint to buildout",
+   "d": "The FPSO hull enters dry dock in China, the first subsea equipment lands at the Dr. Jules Sedney Terminal in Paramaribo, and subsea trees roll off the line in Malaysia.",
+   "k": "past"
+  },
+  {
+   "y": "2026",
+   "t": "Sovereign fund becomes real",
+   "d": "All mineral revenue is supposed to flow into the Savings and Stabilisation Fund. The IMF notes the fund still needs a board, procedures and an investment framework.",
+   "k": "now"
+  },
+  {
+   "y": "Late 2026 - Q1 2027",
+   "t": "Development drilling starts",
+   "d": "Up to 32 producer and injector wells are planned for GranMorgu.",
+   "k": "future"
+  },
+  {
+   "y": "H2 2026",
+   "t": "Sloanea gas decision expected",
+   "d": "PETRONAS targets an FID on a floating LNG development in Block 52.",
+   "k": "future"
+  },
+  {
+   "y": "2027",
+   "t": "FPSO sail-away and hook-up",
+   "d": "The vessel leaves the yard for Suriname; installation and commissioning offshore follow.",
+   "k": "future"
+  },
+  {
+   "y": "2028",
+   "t": "First oil",
+   "d": "GranMorgu is targeted to start producing, ramping toward 220,000 barrels a day. The IMF projects GDP growth around 55% in the first full year.",
+   "k": "future"
+  },
+  {
+   "y": "~2030",
+   "t": "First gas",
+   "d": "If Sloanea is sanctioned, Suriname could export LNG for the first time. The IMF sees crude output peaking around 73 million barrels in 2030 and 2031.",
+   "k": "future"
+  }
+ ],
+ "glossary": [
+  {
+   "t": "Barrel (bbl)",
+   "d": "159 litres of oil. Production is quoted in barrels per day (bpd or b/d)."
+  },
+  {
+   "t": "Block",
+   "d": "A numbered area of seabed that the state licenses to a company for exploration and production."
+  },
+  {
+   "t": "PSC",
+   "d": "Production Sharing Contract. The company pays the costs and takes the risk; the state keeps ownership of the oil and takes a royalty plus a share of the profit oil."
+  },
+  {
+   "t": "Operator",
+   "d": "The company that actually runs the work on a block. Other companies in the block are non-operating partners and just pay their share."
+  },
+  {
+   "t": "FID",
+   "d": "Final Investment Decision. The moment partners commit the money and construction can start. GranMorgu reached FID in October 2024."
+  },
+  {
+   "t": "FPSO",
+   "d": "Floating Production, Storage and Offloading vessel. A ship that receives oil from the seabed, separates it, stores it and offloads it to tankers. GranMorgu uses one instead of a fixed platform."
+  },
+  {
+   "t": "Subsea tree",
+   "d": "The valve stack that sits on the seabed on top of a well. Also called a Christmas tree."
+  },
+  {
+   "t": "Tieback",
+   "d": "Connecting a new field to existing production equipment by pipeline, instead of building a whole new facility. Cheap and fast, which is why nearby discoveries matter."
+  },
+  {
+   "t": "FLNG",
+   "d": "Floating Liquefied Natural Gas. A vessel that chills gas to liquid at sea so it can be shipped. The leading concept for Sloanea."
+  },
+  {
+   "t": "Cost oil / profit oil",
+   "d": "Under a PSC the company first recovers its costs from a slice of production (cost oil, 75 to 80% in Suriname), and the rest (profit oil) is split with the state."
+  },
+  {
+   "t": "Back-in right",
+   "d": "Staatsolie's option to take up to 20% of a development once it is proven, by paying its 20% of the costs from that point on."
+  },
+  {
+   "t": "Local content",
+   "d": "The share of the work, spend and jobs that goes to Surinamese companies and workers."
+  },
+  {
+   "t": "Government take",
+   "d": "The total share of project value the state ends up with through royalty, profit oil, taxes and its Staatsolie stake. Roughly 60 to 70% in Suriname after costs."
+  }
+ ]
+}
