@@ -10,6 +10,7 @@ Run daily via GitHub Actions.
 import feedparser
 import html as html_lib
 import re, os, json
+import concurrent.futures as cf
 from pathlib import Path
 import urllib.request, urllib.parse
 from datetime import datetime, timezone, timedelta
@@ -1628,7 +1629,9 @@ _GUIDE_KW = {
  "visitor-guide.html":      "visa sim card money currency simkaart geld visum airport arrival tips basics",
  "events.html":             "events festivals calendar agenda evenementen festival holidays feestdagen owru yari",
  "currency.html":           "exchange rate rates srd usd euro dollar cambio wisselkoers koers valuta money bank rates",
- "matches.html":            "sports football soccer natio sml nba fight schedule voetbal wedstrijden uitslagen",
+ "matches.html":            "sports football soccer natio sml nba fight schedule voetbal wedstrijden uitslagen "
+                            "stand standen tabel league table eerste divisie tweede divisie svb jeugd u17 u20 "
+                            "vrouwen dames women youth marathon hardlopen loop robinhood broki transvaal leo victor",
  "suriname-time.html":      "time clock timezone converter tijd tijdzone tijdverschil klok",
  "sranan-tongo-dictionary.html": "sranan tongo dictionary phrasebook translate language woordenboek taal vertalen",
  "suriname-history.html":   "history timeline slavery colonial independence geschiedenis tijdlijn",
@@ -7986,18 +7989,85 @@ _MATCH_LEAGUES = [
     ("tennis",     "wta",                   "WTA Tennis",        "wta", "#9D174D", "tennis"),
 ]
 
-# Suriname first. "natio" aggregates every Natio international from the ESPN
-# feeds in _NATIO_SCAN plus any Suriname games lifted out of the full-coverage
-# World Cup / Gold Cup feeds above, so one chip covers Nations League, WC
-# qualifiers, friendlies and tournament games. "sml" is the Suriname Major
+# Suriname first. "natio" aggregates every senior men's international from the
+# ESPN feeds in _NATIO_SCANS plus any Suriname games lifted out of the
+# full-coverage World Cup / Gold Cup feeds above, so one chip covers Nations
+# League, WC qualifiers, friendlies and tournament games. "natiow" and "natioy"
+# do the same for the women's and youth sides, sourced from Concacaf rather
+# than ESPN (see _CONCACAF_NATIO). "sml" is the Suriname Major
 # League straight from sml.sr's own JSON API (Robinhood, SV Broki, Leo Victor
 # and co); "carib" is the Concacaf Caribbean Cup via the api-sdp.concacaf.com
 # API that powers concacaf.com. ESPN carries neither of the last two.
-_NATIO_SCAN = ["concacaf.nations.league", "fifa.worldq.concacaf", "fifa.friendly"]
+# Every ESPN feed a Suriname national side can turn up in, grouped by the chip
+# it feeds. We scan the whole feed and keep only games with Suriname in them,
+# so a competition Suriname is not in costs one request and adds no rows.
+# All codes verified live against the ESPN league list (Aug 2026).
+_NATIO_SCANS = {
+    "natio": [  # senior men
+        "concacaf.nations.league", "fifa.worldq.concacaf", "fifa.friendly",
+        "concacaf.gold_qual", "fifa.wcq.ply", "concacaf.confederations_playoff",
+    ],
+    "natiow": [  # senior women - friendlies and the World Cup itself
+        "fifa.friendly.w", "fifa.wwc",
+    ],
+    "natioy": [  # youth finals: only relevant if Suriname qualifies, but cheap
+        "fifa.world.u20", "fifa.world.u17", "fifa.olympics",
+    ],
+}
+# Concacaf's own API (the one behind concacaf.com, already used for the
+# Caribbean Cup) is the ONLY source with Suriname youth and women's football:
+# checked Aug 2026, ESPN has not carried a single Suriname game in its U-17,
+# U-20, U-23 or women's feeds in eight years, while Concacaf has Suriname U-20
+# qualifying, U-15, Women's U-17 and W Qualifiers. competitionId -> chip.
+_CONCACAF_NATIO = {
+    # senior women
+    "e3cc06302bcd406592b485c5570f2f5b": ("natiow", "Concacaf W Championship"),
+    "934c2697ee0c4fcd9cf25b1639b53348": ("natiow", "W World Cup qualifying"),
+    "065f19ea7ada42c99a5b71164dfa64d2": ("natiow", "W Gold Cup qualifying"),
+    "4bd96a52f8034e66beaf7fe4bdeaa31e": ("natiow", "Concacaf W Gold Cup"),
+    # youth, men and women
+    "fd165f3c7d1d4627a670a1073b5d4bcb": ("natioy", "Concacaf U-20"),
+    "3f163772b74d45dbb5b3579dfe682f17": ("natioy", "U-20 qualifying"),
+    "0eb051aa5b6d48999925c9a219e3a6ce": ("natioy", "Concacaf U-17"),
+    "23402c7be0344f839eb4655eff89f949": ("natioy", "Concacaf U-15"),
+    "4b41166b2e73489689fd674d419256ca": ("natioy", "Concacaf Women's U-20"),
+    "9d26581565ae4072bfdd4efa1674ed3d": ("natioy", "Women's U-20 qualifying"),
+    "988e3941b08a4abfafcd18c96f645b2f": ("natioy", "Concacaf Women's U-17"),
+}
+_SDP_BASE = "https://api-sdp.concacaf.com/v1/concacaf/football"
+
+
+def _is_suriname(name):
+    """Concacaf names youth sides 'Suriname U20' / 'Suriname U15', ESPN uses a
+    bare 'Suriname', so match on the substring rather than on equality."""
+    return "surinam" in (name or "").lower()
+
+
+# Readable competition names for the Natio scan feeds, used as the row note so
+# a Natio Youth or Natio Women row says which tournament it belongs to.
+_ESPN_LG_NAMES = {
+    "concacaf.nations.league": "Concacaf Nations League",
+    "fifa.worldq.concacaf": "World Cup qualifying",
+    "fifa.friendly": "International friendly",
+    "concacaf.gold_qual": "Gold Cup qualifying",
+    "fifa.wcq.ply": "World Cup playoff",
+    "concacaf.confederations_playoff": "Confederations playoff",
+    "fifa.friendly.w": "International friendly",
+    "fifa.wwc": "Women's World Cup",
+    "fifa.world.u20": "U-20 World Cup",
+    "fifa.world.u17": "U-17 World Cup",
+    "fifa.olympics": "Olympic Games",
+}
+
+# Full-coverage feeds we already render as their own chips; Suriname games are
+# lifted out of them into the Natio chip so they never appear twice.
+_NATIO_LIFT = {"natio": ("wc", "gc"), "natiow": (), "natioy": ()}
 _EXTRA_LEAGUES = {  # key: (label, colour, sport-group) - chips render before _MATCH_LEAGUES
-    "natio": ("Natio Suriname",        "#16A34A", "foot"),
-    "sml":   ("Suriname Major League", "#15803D", "foot"),
-    "carib": ("Caribbean Cup",         "#0E7490", "foot"),
+    "natio":  ("Natio Suriname",        "#16A34A", "foot"),
+    "natiow": ("Natio Women",           "#BE185D", "foot"),
+    "natioy": ("Natio Youth",           "#0D9488", "foot"),
+    "sml":    ("Suriname Major League", "#15803D", "foot"),
+    "carib":  ("Caribbean Cup",         "#0E7490", "foot"),
 }
 _CONCACAF_SDP_SEASONS = ("https://api-sdp.concacaf.com/v1/concacaf/football/"
                          "competitions/concacaf%3A%3AFootball_Competition%3A%3A"
@@ -8268,6 +8338,190 @@ def fetch_sml(cache):
         return cache.get("sml", {"label": label, "events": []})
 
 
+# SVB (Surinaamse Voetbal Bond) publishes the domestic competitions below the
+# top flight - Eerste Divisie, Tweede Divisie, the women's league, the youth
+# competitions and the Lidbondentoernooi - as posts on svb.sr, not as a fixture
+# feed. There is no API with kickoff times for them, so rather than invent
+# fixtures we surface the federation's own schedule/results bulletins with
+# their dates, straight from the site's WordPress REST API.
+_SVB_CATS = {107: "Eerste Divisie", 108: "Tweede Divisie", 109: "Vrouwen",
+             110: "Jeugd", 112: "Lidbonden", 66: "Agenda"}
+
+
+def fetch_svb_notices(cache):
+    """Latest SVB competition bulletins (schedules, standings, results) per
+    competition. Cached under 'svb_notices'; a failure never blanks it."""
+    try:
+        cats = ",".join(str(c) for c in _SVB_CATS)
+        url = ("https://svb.sr/wp-json/wp/v2/posts?categories=" + cats +
+               "&per_page=30&_fields=date,title,link,categories")
+        req = urllib.request.Request(url, headers={"User-Agent": _BOX_UA})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            posts = json.loads(r.read().decode("utf-8"))
+        out = []
+        for po in posts:
+            labels = [_SVB_CATS[c] for c in po.get("categories", []) if c in _SVB_CATS]
+            if not labels:
+                continue
+            out.append({"d": (po.get("date") or "")[:10],
+                        "t": html_lib.unescape((po.get("title") or {}).get("rendered", "")).strip(),
+                        "u": po.get("link", ""),
+                        "c": labels[0]})
+        # Keep the full window: the page picks the newest per competition, so a
+        # quiet category (Tweede Divisie, Lidbonden) still gets represented.
+        out = [o for o in out if o["t"] and o["u"]]
+        if not out:
+            raise ValueError("no SVB notices in payload")
+        cache["svb_notices"] = out
+        print(f"  matches: SVB notices: {len(out)} bulletins (latest {out[0]['d']})")
+        return out
+    except Exception as exc:
+        print(f"  ! SVB notices fetch failed ({exc}); using cached data")
+        return cache.get("svb_notices", [])
+
+
+# Road running is the one Suriname sport outside football with a real public
+# calendar: runsuriname.org is the registration platform the local clubs use
+# (Tigri Endurance Sports Club and co), and its homepage lists every open event
+# with date, location and distances in server-rendered HTML. No API, so we
+# parse the event cards. Feeds the "Suriname Sport Events" chip alongside any
+# hand-entered fixtures in data/manual_fixtures.json.
+_RS_MON = {"jan": 1, "feb": 2, "mar": 3, "mrt": 3, "apr": 4, "may": 5, "mei": 5,
+           "jun": 6, "jul": 7, "aug": 8, "sep": 9, "oct": 10, "okt": 10,
+           "nov": 11, "dec": 12}
+
+
+def fetch_run_suriname(cache):
+    """Upcoming running events in Suriname from runsuriname.org's event cards."""
+    try:
+        req = urllib.request.Request("https://runsuriname.org/",
+                                     headers={"User-Agent": _BOX_UA})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            page = r.read().decode("utf-8", "replace")
+        evs = []
+        for card in re.findall(r'<div class="event-card">(.*?)(?=<div class="event-card">|<footer)',
+                               page, re.S):
+            m = re.search(r'<h2[^>]*>(.*?)</h2>', card, re.S)
+            if not m:
+                continue
+            name = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", m.group(1))).strip()
+
+            def _field(lbl):
+                fm = re.search(lbl + r'\s*:(.*?)</p>', card, re.S)
+                if not fm:
+                    return []
+                return [re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", b)).strip()
+                        for b in re.findall(r'<span[^>]*>(.*?)</span>', fm.group(1), re.S)]
+
+            datum = (_field("Datum") or [""])[0]
+            dm = re.match(r"(\d{1,2})\s+([A-Za-z]{3})[a-z]*\.?\s+(\d{4})", datum)
+            if not name or not dm:
+                continue
+            mon = _RS_MON.get(dm.group(2).lower())
+            if not mon:
+                continue
+            iso = f"{int(dm.group(3)):04d}-{mon:02d}-{int(dm.group(1)):02d}"
+            loc = (_field("Locatie") or [""])[0]
+            dists = _field("Afstanden")
+            detail = " \u00b7 ".join(x for x in [loc, ", ".join(dists)] if x)
+            evs.append({"d": iso, "t": name, "v": detail, "g": "",
+                        "st": "", "sx": "pre", "tbc": True})
+        if not evs:
+            raise ValueError("no runsuriname events parsed")
+        evs.sort(key=lambda e: e["d"])
+        cache["runsr"] = evs
+        print(f"  matches: Run Suriname: {len(evs)} running events")
+        return evs
+    except Exception as exc:
+        print(f"  ! Run Suriname fetch failed ({exc}); using cached data")
+        return cache.get("runsr", [])
+
+
+def fetch_sml_table(cache):
+    """SML league table + honours roll, both derived from sml.sr's own API.
+
+    There is no /standings endpoint (404), so the table is computed from the
+    finished matches of the running season: 3-1-0, sorted on points, then goal
+    difference, then goals for, then name. The honours roll comes from the
+    seasons payload, which carries champion_team_id / runner_up_team_id /
+    top scorer per season. Cached under 'sml_table' so an API hiccup never
+    blanks the section."""
+    try:
+        req = urllib.request.Request("https://sml.sr/api/v1/teams",
+                                     headers={"User-Agent": _BOX_UA})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            teams = {t["id"]: t for t in json.loads(r.read().decode("utf-8")).get("data", [])}
+        req = urllib.request.Request("https://sml.sr/api/v1/seasons",
+                                     headers={"User-Agent": _BOX_UA})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            seasons = [s for s in json.loads(r.read().decode("utf-8")).get("data", [])
+                       if s.get("start_date")]
+        seasons.sort(key=lambda s: s["start_date"], reverse=True)
+        if not seasons:
+            raise ValueError("no SML seasons")
+        today = datetime.now(SR_TZ).date().isoformat()
+        cur = next((s for s in seasons
+                    if s["start_date"] <= today <= (s.get("end_date") or "9999")),
+                   seasons[0])
+        req = urllib.request.Request(
+            f"https://sml.sr/api/v1/matches?season_id={cur['id']}&per_page=200",
+            headers={"User-Agent": _BOX_UA})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            ms = json.loads(r.read().decode("utf-8")).get("data", [])
+        tab = {}
+        played = 0
+        for m in ms:
+            if (m.get("status") or "").lower() not in ("finished", "completed", "full_time"):
+                continue
+            hs, as_ = m.get("score_home"), m.get("score_away")
+            if hs is None or as_ is None:
+                continue
+            played += 1
+            for side, gf, ga in (("home_team", hs, as_), ("away_team", as_, hs)):
+                t = m.get(side) or {}
+                nm = t.get("name", "")
+                if not nm:
+                    continue
+                row = tab.setdefault(nm, {"n": nm, "b": t.get("badge_url", "") or "",
+                                          "p": 0, "w": 0, "d": 0, "l": 0,
+                                          "gf": 0, "ga": 0, "pts": 0})
+                row["p"] += 1
+                row["gf"] += gf
+                row["ga"] += ga
+                if gf > ga:
+                    row["w"] += 1
+                    row["pts"] += 3
+                elif gf == ga:
+                    row["d"] += 1
+                    row["pts"] += 1
+                else:
+                    row["l"] += 1
+        rows = sorted(tab.values(),
+                      key=lambda r: (-r["pts"], -(r["gf"] - r["ga"]), -r["gf"], r["n"]))
+        for r_ in rows:
+            r_["gd"] = r_["gf"] - r_["ga"]
+        honours = []
+        for sn in seasons:
+            ch = teams.get(sn.get("champion_team_id") or 0, {}).get("name", "")
+            if not ch:
+                continue
+            honours.append({"s": sn.get("name", ""), "c": ch,
+                            "r": teams.get(sn.get("runner_up_team_id") or 0, {}).get("name", ""),
+                            "t": sn.get("top_scorer_name") or "",
+                            "tg": sn.get("top_scorer_goals")})
+        out = {"season": cur.get("name", ""), "rows": rows, "honours": honours,
+               "played": played}
+        if not rows and not honours:
+            raise ValueError("SML table empty")
+        cache["sml_table"] = out
+        print(f"  matches: SML table: {len(rows)} teams, {played} matches played, "
+              f"{len(honours)} past champions")
+        return out
+    except Exception as exc:
+        print(f"  ! SML table fetch failed ({exc}); using cached data")
+        return cache.get("sml_table", {"season": "", "rows": [], "honours": [], "played": 0})
+
+
 def fetch_caribbean(cache):
     """Concacaf Caribbean Cup (Suriname's champion plays in it: SV Broki in
     2026, at the Essed Stadion) via the api-sdp.concacaf.com API behind
@@ -8318,6 +8572,82 @@ def fetch_caribbean(cache):
     except Exception as exc:
         print(f"  ! Caribbean Cup fetch failed ({exc}); using cached data")
         return cache.get("carib", {"label": label, "events": []})
+
+
+def fetch_concacaf_natio(cache):
+    """Suriname youth and women's internationals from Concacaf's own API.
+
+    Per competition: resolve the seasons list, take the two most recent (youth
+    tournaments run on a two-year cycle), pull each season's match list and keep
+    the games with a Suriname side in them. Seasons that are announced but have
+    no fixtures yet return 404, which is normal and ignored. Returns
+    {chip_key: [event, ...]}; cached under 'concacaf_natio'."""
+    def _one(item):
+        cid, (chip, note) = item
+        found = []
+        try:
+            url = (f"{_SDP_BASE}/competitions/"
+                   f"concacaf%3A%3AFootball_Competition%3A%3A{cid}/seasons")
+            req = urllib.request.Request(url, headers={"User-Agent": _BOX_UA})
+            with urllib.request.urlopen(req, timeout=15) as r:
+                seasons = json.loads(r.read().decode("utf-8")).get("seasons", [])
+        except Exception as exc:
+            print(f"  ! Concacaf seasons failed for {note} ({exc})")
+            return chip, found
+        seasons = [sn for sn in seasons if sn.get("seasonId")]
+        seasons.sort(key=lambda sn: (sn.get("startDateUtc") or ""), reverse=True)
+        for sn in seasons[:2]:
+            sid = urllib.parse.quote(sn["seasonId"], safe="")
+            try:
+                req = urllib.request.Request(f"{_SDP_BASE}/seasons/{sid}/matches?matchDayId=",
+                                             headers={"User-Agent": _BOX_UA})
+                with urllib.request.urlopen(req, timeout=20) as r:
+                    ms = json.loads(r.read().decode("utf-8")).get("matches", [])
+            except Exception:
+                continue  # season announced, fixtures not published yet
+            for m in ms:
+                h, a = m.get("home") or {}, m.get("away") or {}
+                hn = h.get("officialName") or h.get("name") or ""
+                an = a.get("officialName") or a.get("name") or ""
+                if not (_is_suriname(hn) or _is_suriname(an)):
+                    continue
+                status = (m.get("status") or "").upper()
+                if status in ("UPCOMING", "POSTPONED", ""):
+                    sx = "pre"
+                elif status == "LIVE":
+                    sx = "in"
+                else:
+                    sx = "post"
+                hs, aw = m.get("providerHomeScore"), m.get("providerAwayScore")
+                _rd = m.get("roundName") or m.get("groupName") or ""
+                found.append({"d": m.get("matchDateUtc", ""),
+                              "h": {"n": hn, "l": "", "s": "" if hs is None else str(hs)},
+                              "a": {"n": an, "l": "", "s": "" if aw is None else str(aw)},
+                              "v": ", ".join(x for x in (m.get("stadiumName") or "",
+                                                         m.get("cityName") or "") if x),
+                              "g": (note + " \u00b7 " + _rd) if _rd else note,
+                              "st": "FT" if sx == "post" else "", "sx": sx,
+                              "tbc": bool(m.get("isUnknownKickOffTime"))})
+        return chip, found
+
+    out = {}
+    try:
+        with cf.ThreadPoolExecutor(max_workers=6) as ex:
+            for chip, found in ex.map(_one, list(_CONCACAF_NATIO.items())):
+                out.setdefault(chip, []).extend(found)
+        # {"natiow": [], "natioy": []} is a truthy dict, so test the contents:
+        # an outage must fall back to the cache, not blank both chips.
+        if not any(out.values()):
+            print("  ! Concacaf Natio returned nothing; using cached data")
+            return cache.get("concacaf_natio", {})
+        cache["concacaf_natio"] = out
+        for _c, _v in out.items():
+            if _v:
+                print(f"  matches: Concacaf {_c}: {len(_v)} Suriname fixtures")
+        return out
+    except Exception as exc:
+        print(f"  ! Concacaf Natio fetch failed ({exc}); using cached data")
+        return cache.get("concacaf_natio", {})
 
 
 def fetch_matches_data():
@@ -8394,61 +8724,102 @@ def fetch_matches_data():
             json.dump(cache, _f, ensure_ascii=False)
     except Exception:
         pass
-    # ── Natio Suriname: every international in one place ────────────────────
-    # Lift Suriname games out of the full-coverage World Cup / Gold Cup feeds
-    # (so they appear once, under the Natio chip), then scan the Suriname-only
-    # ESPN feeds (Nations League, WC qualifying, friendlies) with a 180-day
-    # window - international windows are announced far ahead.
-    natio_evs = []
-    for _nk in ("wc", "gc"):
-        _blob = out.get(_nk) or {}
-        _keep = []
-        for _ev in _blob.get("events", []):
-            _nm = {(_ev.get("h") or {}).get("n", ""), (_ev.get("a") or {}).get("n", "")}
-            (natio_evs if "Suriname" in _nm else _keep).append(_ev)
-        _blob["events"] = _keep
+    # ── Natio Suriname: every international side in one place ──────────────
+    # Three chips: senior men, senior women, youth/Olympic. For each we lift
+    # Suriname games out of the full-coverage feeds we already render (World
+    # Cup, Gold Cup) so they never appear twice, then scan the competition
+    # feeds in _NATIO_SCANS over a 180-day window and keep only the games with
+    # Suriname in them - international windows are announced far ahead.
+    # That is ~20 feeds, most of them empty for Suriname most of the year, so
+    # they are fetched concurrently: serially this added minutes to a build
+    # that runs every 15 minutes.
     d1 = (now + timedelta(days=180)).strftime("%Y%m%d")
-    for code in _NATIO_SCAN:
+
+    def _scan_feed(code):
         url = (f"https://site.api.espn.com/apis/site/v2/sports/soccer/{code}/scoreboard"
-               f"?dates={d0}-{d1}&limit=1000")
+               f"?dates={d0}-{d1}&limit=300")
+        found = []
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "ExploreSuriname/1.0"})
-            with urllib.request.urlopen(req, timeout=15) as r:
+            with urllib.request.urlopen(req, timeout=12) as r:
                 raw = json.loads(r.read().decode("utf-8"))
-            for e in raw.get("events", []):
-                comps = e.get("competitions", [])
-                if not comps:
-                    continue
-                c = comps[0]
-                home = away = None
-                for t in c.get("competitors", []):
-                    team = t.get("team", {})
-                    o = {"n": team.get("shortDisplayName") or team.get("displayName", ""),
-                         "l": team.get("logo", ""), "s": t.get("score", "")}
-                    if t.get("homeAway") == "home":
-                        home = o
-                    else:
-                        away = o
-                if "Suriname" not in {(home or {}).get("n", ""), (away or {}).get("n", "")}:
-                    continue
-                st = c.get("status", {}).get("type", {})
-                natio_evs.append({"d": e.get("date", ""), "h": home, "a": away,
-                                  "v": c.get("venue", {}).get("fullName", ""),
-                                  "g": (c.get("altGameNote") or ""),
-                                  "st": st.get("shortDetail", ""), "sx": st.get("state", "pre")})
         except Exception as exc:
             print(f"  ! natio scan failed for {code} ({exc})")
-    natio_evs.sort(key=lambda ev: ev.get("d", ""))
-    if natio_evs:
-        out["natio"] = {"label": "Natio Suriname", "events": natio_evs}
-        cache["natio"] = out["natio"]
-        print(f"  matches: Natio: {len(natio_evs)} fixtures")
-    else:
-        out["natio"] = cache.get("natio", {"label": "Natio Suriname", "events": []})
+            return found
+        for e in raw.get("events", []):
+            comps = e.get("competitions", [])
+            if not comps:
+                continue
+            c = comps[0]
+            home = away = None
+            for t in c.get("competitors", []):
+                team = t.get("team", {})
+                o = {"n": team.get("shortDisplayName") or team.get("displayName", ""),
+                     "l": team.get("logo", ""), "s": t.get("score", "")}
+                if t.get("homeAway") == "home":
+                    home = o
+                else:
+                    away = o
+            if not (_is_suriname((home or {}).get("n")) or _is_suriname((away or {}).get("n"))):
+                continue
+            st = c.get("status", {}).get("type", {})
+            # Competition name as the row note, so "Natio Youth" rows say which
+            # tournament it is (U-17 World Cup, Olympic qualifying, ...).
+            note = (c.get("altGameNote") or "") or _ESPN_LG_NAMES.get(code, "")
+            found.append({"d": e.get("date", ""), "h": home, "a": away,
+                          "v": c.get("venue", {}).get("fullName", ""),
+                          "g": note,
+                          "st": st.get("shortDetail", ""), "sx": st.get("state", "pre")})
+        return found
+
+    _concacaf = fetch_concacaf_natio(cache)
+    _all_codes = [c for codes in _NATIO_SCANS.values() for c in codes]
+    _scanned = {}
+    try:
+        with cf.ThreadPoolExecutor(max_workers=8) as _ex:
+            for _code, _res in zip(_all_codes, _ex.map(_scan_feed, _all_codes)):
+                _scanned[_code] = _res
+    except Exception as exc:  # never let a threading problem kill the build
+        print(f"  ! natio parallel scan failed ({exc}); falling back to serial")
+        _scanned = {c: _scan_feed(c) for c in _all_codes}
+
+    for _chip, _codes in _NATIO_SCANS.items():
+        _label = _EXTRA_LEAGUES[_chip][0]
+        chip_evs = []
+        for _nk in _NATIO_LIFT.get(_chip, ()):
+            _blob = out.get(_nk) or {}
+            _keep = []
+            for _ev in _blob.get("events", []):
+                _hit = (_is_suriname((_ev.get("h") or {}).get("n"))
+                        or _is_suriname((_ev.get("a") or {}).get("n")))
+                (chip_evs if _hit else _keep).append(_ev)
+            _blob["events"] = _keep
+        for _code in _codes:
+            chip_evs.extend(_scanned.get(_code, []))
+        chip_evs.extend(_concacaf.get(_chip, []))
+        # Dedupe: the same fixture can sit in two feeds (e.g. a friendly that is
+        # also listed under a qualifying playoff). Key on kickoff + both sides.
+        _seen, _uniq = set(), []
+        for _ev in chip_evs:
+            _k = (_ev.get("d", ""), (_ev.get("h") or {}).get("n", ""), (_ev.get("a") or {}).get("n", ""))
+            if _k in _seen:
+                continue
+            _seen.add(_k)
+            _uniq.append(_ev)
+        _uniq.sort(key=lambda ev: ev.get("d", ""))
+        if _uniq:
+            out[_chip] = {"label": _label, "events": _uniq}
+            cache[_chip] = out[_chip]
+            print(f"  matches: {_label}: {len(_uniq)} fixtures")
+        else:
+            out[_chip] = cache.get(_chip, {"label": _label, "events": []})
 
     # ── Suriname Major League + Concacaf Caribbean Cup (own APIs) ───────────
     out["sml"] = fetch_sml(cache)
     out["carib"] = fetch_caribbean(cache)
+    # Not a fixture list: no "events" key, so the schedule loop skips it.
+    out["_sml_table"] = fetch_sml_table(cache)
+    out["_svb_notices"] = {"notices": fetch_svb_notices(cache)}
 
     # Hand-maintained fixtures (Glory, boxing, SVB, local sport events) - no API exists for these.
     try:
@@ -8475,6 +8846,16 @@ def fetch_matches_data():
         out[lg] = {"label": label, "events": evs}
     out["glory"] = fetch_glory(cache)
     out["boxing"] = fetch_boxing(cache)
+    # Road running: merged into the hand-maintained "sr" chip so local sport
+    # events and running races sit together under Suriname Sport Events.
+    _run = fetch_run_suriname(cache)
+    if _run:
+        _sr = out.setdefault("sr", {"label": _MANUAL_LEAGUES["sr"][0], "events": []})
+        _have = {(e.get("d", "")[:10], e.get("t", "")) for e in _sr["events"]}
+        for _e in _run:
+            if (_e["d"], _e["t"]) not in _have:
+                _sr["events"].append(_e)
+        _sr["events"].sort(key=lambda e: e.get("d", ""))
     try:
         with open(cache_path, "w", encoding="utf-8") as _f:
             json.dump(cache, _f, ensure_ascii=False)
@@ -8517,9 +8898,16 @@ def build_matches_page(matches):
             if dt is None:
                 continue
             horizon = 66 if grp in ("fight", "race", "tennis") else 36
-            if key in ("natio", "sml", "carib"):
-                horizon = 75  # Suriname fixtures surface as far out as we have them
-            if dt.date() < today - timedelta(days=1) or dt.date() > today + timedelta(days=horizon):
+            if key in ("natio", "natiow", "natioy", "sml", "carib", "svb"):
+                horizon = 75   # Suriname fixtures surface as far out as we have them
+            if key == "sr":
+                horizon = 300  # local sport events are announced a season ahead
+            # Youth and women's campaigns run in short windows once or twice a
+            # year, so a one-day look-back would leave those chips empty for
+            # months. Keep a season of Natio history: it lands in the collapsed
+            # "earlier results" block, not in the upcoming list.
+            lookback = 400 if key in ("natio", "natiow", "natioy") else 1
+            if dt.date() < today - timedelta(days=lookback) or dt.date() > today + timedelta(days=horizon):
                 continue
             rows.append((dt, key, label, col, e))
     rows.sort(key=lambda r: r[0])
@@ -8553,7 +8941,7 @@ def build_matches_page(matches):
             meta_bits.append(html_lib.escape(e["g"]))
         if e.get("v"):
             meta_bits.append(html_lib.escape(e["v"]))
-        is_natio = "Suriname" in (h.get("n", ""), a.get("n", ""))
+        is_natio = _is_suriname(h.get("n")) or _is_suriname(a.get("n"))
         if sx == "in":
             row_border = ' style="border-color:#fecaca;box-shadow:0 0 0 1px #fecaca"'
         elif is_natio and sx == "pre":
@@ -8660,22 +9048,147 @@ def build_matches_page(matches):
                   + label + '</button>')
     chips += '</div>'
 
+    # ── Suriname Major League table + honours ────────────────────────────────
+    # Server-rendered (crawlable, no JS). The table is empty between seasons -
+    # in that case only the honours roll shows, so the section never looks broken.
+    _tbl = (matches or {}).get("_sml_table") or {}
+    sml_html = ""
+    _trows = _tbl.get("rows") or []
+    _hon = _tbl.get("honours") or []
+    if _trows or _hon:
+        sml_html = ('<section class="mt-12"><h2 class="text-2xl font-bold text-gray-900 mb-1">'
+                    'Suriname Major League</h2>')
+        if _trows:
+            sml_html += ('<p class="text-gray-500 text-sm mb-4">Season ' + html_lib.escape(_tbl.get("season", ""))
+                         + ', after ' + str(_tbl.get("played", 0)) + ' matches. Updated with every rebuild.</p>'
+                         '<div class="overflow-x-auto bg-white rounded-2xl border border-gray-200">'
+                         '<table class="w-full text-sm"><thead>'
+                         '<tr class="text-left text-[11px] uppercase tracking-wide text-gray-400 border-b border-gray-100">'
+                         '<th class="py-2.5 pl-4 pr-2 font-bold">#</th>'
+                         '<th class="py-2.5 pr-2 font-bold">Club</th>'
+                         '<th class="py-2.5 px-2 font-bold text-center">P</th>'
+                         '<th class="py-2.5 px-2 font-bold text-center">W</th>'
+                         '<th class="py-2.5 px-2 font-bold text-center">D</th>'
+                         '<th class="py-2.5 px-2 font-bold text-center">L</th>'
+                         '<th class="py-2.5 px-2 font-bold text-center">GD</th>'
+                         '<th class="py-2.5 pr-4 pl-2 font-bold text-center">Pts</th></tr></thead><tbody>')
+            for _i, _r in enumerate(_trows, 1):
+                _badge = ('<img src="' + html_lib.escape(_r.get("b", "")) + '" alt="" width="20" height="20" '
+                          'loading="lazy" class="w-5 h-5 object-contain shrink-0">') if _r.get("b") else ''
+                _gd = _r.get("gd", 0)
+                sml_html += ('<tr class="border-b border-gray-50 last:border-0">'
+                             '<td class="py-2.5 pl-4 pr-2 text-gray-400 font-semibold">' + str(_i) + '</td>'
+                             '<td class="py-2.5 pr-2"><span class="flex items-center gap-2 font-semibold text-gray-900">'
+                             + _badge + '<span>' + html_lib.escape(_r.get("n", "")) + '</span></span></td>'
+                             '<td class="py-2.5 px-2 text-center text-gray-600">' + str(_r.get("p", 0)) + '</td>'
+                             '<td class="py-2.5 px-2 text-center text-gray-600">' + str(_r.get("w", 0)) + '</td>'
+                             '<td class="py-2.5 px-2 text-center text-gray-600">' + str(_r.get("d", 0)) + '</td>'
+                             '<td class="py-2.5 px-2 text-center text-gray-600">' + str(_r.get("l", 0)) + '</td>'
+                             '<td class="py-2.5 px-2 text-center text-gray-600">' + (("+" + str(_gd)) if _gd > 0 else str(_gd)) + '</td>'
+                             '<td class="py-2.5 pr-4 pl-2 text-center font-bold text-gray-900">' + str(_r.get("pts", 0)) + '</td></tr>')
+            sml_html += '</tbody></table></div>'
+        else:
+            sml_html += ('<p class="text-gray-500 text-sm mb-4">The ' + html_lib.escape(_tbl.get("season", ""))
+                         + ' table appears here once the first matchday has been played.</p>')
+        if _hon:
+            sml_html += ('<h3 class="text-lg font-bold text-gray-900 mt-8 mb-3">Past champions</h3>'
+                         '<div class="overflow-x-auto bg-white rounded-2xl border border-gray-200">'
+                         '<table class="w-full text-sm"><thead>'
+                         '<tr class="text-left text-[11px] uppercase tracking-wide text-gray-400 border-b border-gray-100">'
+                         '<th class="py-2.5 pl-4 pr-2 font-bold">Season</th>'
+                         '<th class="py-2.5 px-2 font-bold">Champion</th>'
+                         '<th class="py-2.5 px-2 font-bold">Runner-up</th>'
+                         '<th class="py-2.5 pr-4 pl-2 font-bold">Top scorer</th></tr></thead><tbody>')
+            for _h in _hon:
+                _ts = html_lib.escape(_h.get("t") or "")
+                if _ts and _h.get("tg"):
+                    _ts += ' <span class="text-gray-400">(' + str(_h["tg"]) + ')</span>'
+                sml_html += ('<tr class="border-b border-gray-50 last:border-0">'
+                             '<td class="py-2.5 pl-4 pr-2 text-gray-500">' + html_lib.escape(_h.get("s", "")) + '</td>'
+                             '<td class="py-2.5 px-2 font-semibold text-gray-900">' + html_lib.escape(_h.get("c", "")) + '</td>'
+                             '<td class="py-2.5 px-2 text-gray-600">' + (html_lib.escape(_h.get("r") or "") or '<span class="text-gray-300">-</span>') + '</td>'
+                             '<td class="py-2.5 pr-4 pl-2 text-gray-600">' + (_ts or '<span class="text-gray-300">-</span>') + '</td></tr>')
+            sml_html += '</tbody></table></div>'
+        sml_html += ('<p class="text-gray-400 text-xs mt-3">Table computed from finished SML results '
+                     '(3 points a win). Source: the league\'s own feed at '
+                     '<a href="https://sml.sr" rel="noopener" class="underline hover:text-gray-600">sml.sr</a>.</p>'
+                     '</section>')
+
+    # ── SVB domestic competitions (below the top flight) ─────────────────────
+    # No fixture feed exists for these, so we link the federation's own
+    # bulletins with their publication date rather than guess at kickoff times.
+    _svb = ((matches or {}).get("_svb_notices") or {}).get("notices") or []
+    svb_html = ""
+    if _svb:
+        _cut = (now - timedelta(days=550)).date().isoformat()
+        _svb = [n for n in _svb if (n.get("d") or "") >= _cut]
+    if _svb:
+        # One bulletin per competition (the newest), so a busy youth section
+        # cannot crowd out Tweede Divisie or the women's league.
+        _by = {}
+        for _n in _svb:
+            _by.setdefault(_n["c"], []).append(_n)
+        _svb = sorted((v[0] for v in _by.values()), key=lambda n: n.get("d", ""), reverse=True)
+        svb_html = ('<section class="mt-12"><h2 class="text-2xl font-bold text-gray-900 mb-1">'
+                    'SVB competitions</h2>'
+                    '<p class="text-gray-500 text-sm mb-4">Eerste Divisie, Tweede Divisie, the women\'s '
+                    'league, the youth competitions and the Lidbondentoernooi are run by the Surinaamse '
+                    'Voetbal Bond, which publishes schedules, standings and results as bulletins rather '
+                    'than as a live fixture feed. The latest from each competition, newest first:</p>'
+                    '<div class="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-100">')
+        for _n in _svb[:8]:
+            try:
+                _dl = datetime.strptime(_n["d"], "%Y-%m-%d").strftime("%-d %b %Y")
+            except Exception:
+                _dl = _n.get("d", "")
+            svb_html += ('<a href="' + html_lib.escape(_n["u"]) + '" rel="noopener nofollow" '
+                         'class="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition">'
+                         '<span class="shrink-0 mt-0.5 text-[10px] font-bold uppercase tracking-wide '
+                         'px-2 py-1 rounded-full bg-lime-50 text-lime-800">' + html_lib.escape(_n["c"]) + '</span>'
+                         '<span class="min-w-0"><span class="block font-semibold text-gray-900 text-sm leading-snug">'
+                         + html_lib.escape(_n["t"]) + '</span>'
+                         '<span class="block text-xs text-gray-400 mt-0.5">' + _dl + ' &middot; svb.sr</span></span></a>')
+        svb_html += ('</div><p class="text-gray-400 text-xs mt-3">Published by the '
+                     '<a href="https://svb.sr" rel="noopener nofollow" class="underline hover:text-gray-600">'
+                     'Surinaamse Voetbal Bond</a>. Confirmed kickoff times for these competitions are added '
+                     'to the schedule above once the SVB publishes them.</p></section>')
+
     # ── Head / hero / cards ──────────────────────────────────────────────────
     title = "Football & Sports Schedule in Suriname Time"
-    desc = ("Every kickoff in Suriname time (UTC-3): Natio, the Suriname Major League, "
-            "Caribbean Cup, Champions League, Europa, the big European leagues, MLS, NBA and UFC.")
+    desc = ("Every kickoff in Suriname time (UTC-3): Natio men, women and youth, the Suriname "
+            "Major League table, SVB competitions, Caribbean Cup, Champions League, the big "
+            "European leagues, MLS, NBA and UFC.")
     faq = [
         ("What time zone are the kickoff times on this page?",
          "Everything is shown in Suriname time (UTC-3, no daylight saving). No mental math needed: "
          "the time you see is the time the match starts on your clock in Suriname."),
         ("Which competitions are covered?",
-         "Suriname first: every Natio international (Nations League, World Cup qualifiers, friendlies "
-         "and tournaments), the full Suriname Major League season and the Concacaf Caribbean Cup. "
+         "Suriname first: every Natio international for the men's, women's and youth sides (Nations "
+         "League, World Cup qualifying, friendlies and the Concacaf youth and women's tournaments), the "
+         "full Suriname Major League season with its live table and past champions, the SVB competitions "
+         "below the top flight, local running events and the Concacaf Caribbean Cup. "
          "World football: the Champions League, Europa League, Conference League, Eredivisie, "
          "Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Copa Libertadores, Copa Sudamericana, "
          "Concacaf Champions Cup, Gold Cup, Leagues Cup, MLS, and the World Cup and its qualifiers while "
          "they run. Basketball: every NBA game. Fight nights: full UFC cards, Glory Kickboxing events and "
          "the big boxing cards. Competitions with nothing scheduled in the coming weeks hide automatically."),
+        ("Are the women's and youth national teams included?",
+         "Yes, with their own Natio Women and Natio Youth chips. These come from Concacaf's own match "
+         "data rather than the international feeds, because that is where Suriname actually appears: the "
+         "W Championship and Women's World Cup qualifying for the senior women, and the Concacaf U-20, "
+         "U-17, U-15, Women's U-20 and Women's U-17 tournaments and their qualifying rounds for the "
+         "youth sides. Those campaigns run in short windows once or twice a year, so both chips keep the "
+         "last season of results under \u2018View earlier results\u2019 instead of sitting empty between "
+         "tournaments."),
+        ("Where can I find Eerste Divisie, Tweede Divisie, women's or youth league fixtures?",
+         "In the SVB competitions section further down the page. The Surinaamse Voetbal Bond runs those "
+         "leagues and publishes schedules, standings and results as bulletins on svb.sr rather than as a "
+         "live fixture feed, so we link the newest bulletin for each competition with its date instead of "
+         "guessing at kickoff times. Once the SVB publishes confirmed times they go into the schedule above."),
+        ("Is there a Suriname Major League table?",
+         "Yes, directly under the schedule. It is computed from the finished SML results, three points a "
+         "win, sorted on points then goal difference then goals scored, and it refreshes with every "
+         "rebuild. Below it is the roll of past champions, runners-up and top scorers."),
         ("When does Natio play next?",
          "Every confirmed Natio fixture appears here automatically, whatever the competition, with a green "
          "Natio tag. Nations League and World Cup qualifying rounds are announced by Concacaf per match "
@@ -8687,8 +9200,9 @@ def build_matches_page(matches):
          "Yes. Suriname Major League fixtures, kickoff times and scores come straight from the league "
          "at sml.sr and refresh with every rebuild, so Robinhood, SV Broki, Leo Victor and the rest of "
          "the SML are always current. The Concacaf Caribbean Cup, where Suriname's champion represents "
-         "the country, is tracked the same way. Other local fixtures, such as SVB knockout football or "
-         "events like the Bigi Broki Waka, are added by hand once organisers confirm dates."),
+         "the country, is tracked the same way. Local running events, such as the Tigri Savanne Run and "
+         "the TotalEnergies Para Marathon, come from the Run Suriname registration platform and appear "
+         "under Suriname Sport Events. Other local fixtures are added by hand once organisers confirm dates."),
         ("How up to date are the scores?",
          "The page rebuilds itself roughly every 15 minutes, so results and in-play scores are near-live "
          "rather than second-by-second. Kickoff times and fixtures update automatically as soon as they are announced."),
@@ -8756,6 +9270,20 @@ function mtApply(){
     s.querySelectorAll('.mt-row').forEach(function(r){ if (r.style.display !== 'none') any = true; });
     s.style.display = any ? '' : 'none';
   });
+  // A filter can match only finished games (youth and women's campaigns run in
+  // short windows). Without this the page would look empty while the matching
+  // results sat inside the collapsed "earlier results" block, so open it.
+  var earlier = document.getElementById('mt-earlier');
+  if (earlier){
+    var vis = function(root){
+      var n = 0;
+      root.querySelectorAll('.mt-row').forEach(function(r){ if (r.style.display !== 'none') n++; });
+      return n;
+    };
+    var inEarlier = vis(earlier);
+    var total = vis(document);
+    if (inEarlier > 0 && total === inEarlier && earlier.style.display === 'none') mtEarlier();
+  }
   // league chips: hide those with no row in the current sport group
   document.querySelectorAll('.mt-chip').forEach(function(b){
     var k = b.getAttribute('data-mtf');
@@ -8804,6 +9332,7 @@ function mtEarlier(){
 
     main = ('<main class="max-w-3xl mx-auto px-5 py-8 pb-24">'
             + intro + sport_chips + chips + list_html
+            + sml_html + svb_html
             + '<div class="mt-10"></div>'
             + _hub_card("About this page", "One Page, Every Start Time, Suriname Time", about_body)
             + _hub_faq_html(faq)
