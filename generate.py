@@ -1606,6 +1606,13 @@ _SI_LIST = [
     {"n": "ATM Finder: Live Status & Which Cards Work", "u": "atms.html", "c": "Guides", "a": "Suriname"},
     {"n": "Weather and Tides: 7-Day Forecast", "u": "conditions.html", "c": "Guides", "a": "Suriname"},
     {"n": "Suriname News: Oil, Gas and Finance", "u": "news.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Suriname Oil & Gas: Overview", "u": "oil-and-gas.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Suriname Offshore Blocks & Operators", "u": "suriname-oil-blocks.html", "c": "Guides", "a": "Suriname"},
+    {"n": "GranMorgu: Suriname's First Offshore Oil Project", "u": "granmorgu.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Suriname Oil Timeline and Road to First Oil", "u": "suriname-oil-timeline.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Suriname Petroleum Contracts and Fiscal Terms", "u": "suriname-oil-contracts.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Who Governs Suriname's Oil: Ministry, Staatsolie, Oil Fund", "u": "suriname-oil-government.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Suriname Oil & Gas Jobs, Local Content and Suppliers", "u": "suriname-oil-jobs.html", "c": "Guides", "a": "Suriname"},
     {"n": "On the Road: Driving in Suriname", "u": "on-the-road.html", "c": "Guides", "a": "Suriname"},
     *[{"n": b["name"], "u": b["url"], "c": "Eat & Drink",  "a": b.get("area",""), "k": _kw(b, "Eat & Drink")} for b in RESTAURANTS],
     *[{"n": b["name"], "u": b["url"], "c": "Stay",         "a": b.get("area",""), "k": _kw(b, "Stay")} for b in HOTELS],
@@ -1645,6 +1652,20 @@ _GUIDE_KW = {
  "atms.html":               "atm atms cash machine withdraw card geldautomaat pinautomaat pinnen geld opnemen bank",
  "conditions.html":         "weather forecast rain tides temperature uv weer regen getijden temperatuur",
  "news.html":               "news oil gas finance headlines nieuws olie",
+ "oil-and-gas.html":        "oil gas petroleum offshore staatsolie granmorgu block 58 first oil 2028 energy "
+                            "olie gas aardolie offshore olieindustrie oliesector eerste olie energie",
+ "suriname-oil-blocks.html":"blocks operators block 58 52 53 totalenergies petronas apa chevron shell qatarenergy "
+                            "offshore acreage blokken operators concessies exploratie boringen",
+ "granmorgu.html":          "granmorgu fpso block 58 sapakara krabdagu totalenergies first oil project 220000 "
+                            "barrels sbm offshore saipem project ontwikkeling",
+ "suriname-oil-timeline.html":"timeline history first oil 2028 roadmap milestones tijdlijn geschiedenis olie "
+                            "eerste olie mijlpalen",
+ "suriname-oil-contracts.html":"contracts psc production sharing royalty tax fiscal terms bid round open door "
+                            "contracten belasting royalty voorwaarden bieden concessie",
+ "suriname-oil-government.html":"ministry oil gas environment ogm brunings staatsolie nma sovereign wealth fund "
+                            "spaar stabilisatiefonds imf ministerie olie gas milieu regelgeving",
+ "suriname-oil-jobs.html":  "jobs work vacancies local content supplier registration ssrp training natin bosiet "
+                            "banen werk vacatures leveranciers opleiding training offshore",
  "on-the-road.html":        "driving car road rules traffic rijden auto verkeer wegen",
  "restaurants.html":        "restaurants eat food dining takeaway eten restaurant eetgelegenheden uit eten",
  "hotels.html":             "hotels stay sleep accommodation lodge resort guesthouse slapen verblijf overnachten hotel",
@@ -2748,6 +2769,8 @@ def nav_html(active="home", prefix=""):
     _SVC   = {"services", "daily-notices", "flights", "atms"}
     _PLAN  = {"visitor", "surtime", "roads", "itinerary", "safety", "history"}
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto"}
+    _OILG  = {"oilgas", "oilblocks", "granmorgu", "oiltimeline", "oilcontracts",
+              "oilgov", "oiljobs"}
 
     def _is_active(key):
         return active == key
@@ -2830,6 +2853,17 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}muskieto.html"  {_link_cls("muskieto")}  >Muskieto Survivor</a>'
     )
 
+    # Oil & Gas
+    oil_items = (
+        f'<a href="{prefix}oil-and-gas.html"             {_link_cls("oilgas")}       >Overview</a>'
+        f'<a href="{prefix}suriname-oil-blocks.html"     {_link_cls("oilblocks")}    >Blocks &amp; Operators</a>'
+        f'<a href="{prefix}granmorgu.html"               {_link_cls("granmorgu")}    >GranMorgu Project</a>'
+        f'<a href="{prefix}suriname-oil-timeline.html"   {_link_cls("oiltimeline")}  >Timeline &amp; Roadmap</a>'
+        f'<a href="{prefix}suriname-oil-contracts.html"  {_link_cls("oilcontracts")} >Contracts &amp; Terms</a>'
+        f'<a href="{prefix}suriname-oil-government.html" {_link_cls("oilgov")}       >Who Governs It</a>'
+        f'<a href="{prefix}suriname-oil-jobs.html"       {_link_cls("oiljobs")}      >Jobs &amp; Local Content</a>'
+    )
+
     desktop_nav = (
         _desktop_dd("dd-todo", "Things to Do",   todo_items,  _TODO) +
         _desktop_dd("dd-eat",  "Eat &amp; Stay", eat_items,   _EAT)  +
@@ -2837,6 +2871,7 @@ def nav_html(active="home", prefix=""):
         _desktop_dd("dd-plan", "Visitor Guide",  plan_items, _PLAN) +
         _desktop_dd("dd-games", "Games",         games_items, _GAMES) +
         _desktop_dd("dd-ess",  "Essentials",     ess_items,  _ESS)  +
+        _desktop_dd("dd-oil",  "Oil &amp; Gas",  oil_items,  _OILG) +
         f'<a href="{prefix}news.html" {_top_single_style("news")}>News</a>'
     )
 
@@ -2899,6 +2934,16 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}muskieto.html",  "Muskieto Survivor",    "muskieto")
     )
 
+    mob_oil_items = (
+        _mob_link(f"{prefix}oil-and-gas.html",             "Overview",             "oilgas") +
+        _mob_link(f"{prefix}suriname-oil-blocks.html",     "Blocks & Operators",   "oilblocks") +
+        _mob_link(f"{prefix}granmorgu.html",               "GranMorgu Project",    "granmorgu") +
+        _mob_link(f"{prefix}suriname-oil-timeline.html",   "Timeline & Roadmap",   "oiltimeline") +
+        _mob_link(f"{prefix}suriname-oil-contracts.html",  "Contracts & Terms",    "oilcontracts") +
+        _mob_link(f"{prefix}suriname-oil-government.html", "Who Governs It",       "oilgov") +
+        _mob_link(f"{prefix}suriname-oil-jobs.html",       "Jobs & Local Content", "oiljobs")
+    )
+
     _svc_col  = 'style="color:var(--forest)"' if _is_active("services") else ""
     _news_col = 'style="color:var(--forest)"' if _is_active("news")     else ""
     _svc_link  = f'<a href="{prefix}services.html" class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" {_svc_col}>Local Services</a>'
@@ -2914,6 +2959,7 @@ def nav_html(active="home", prefix=""):
         _mob_group("mg-plan", "Visitor Guide",   mob_plan_items,  _PLAN) +
         _mob_group("mg-games", "Games",           mob_games_items, _GAMES) +
         _mob_group("mg-ess",  "Essentials",      mob_ess_items,   _ESS)  +
+        _mob_group("mg-oil",  "Oil & Gas",       mob_oil_items,   _OILG) +
         _news_link
     )
 
@@ -2923,18 +2969,18 @@ def nav_html(active="home", prefix=""):
     <a href="{prefix}index.html" class="flex items-baseline flex-shrink-0">
       <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
     </a>
-    <div class="hidden md:flex items-center gap-6">{desktop_nav}</div>
+    <div class="hidden lg:flex items-center gap-4">{desktop_nav}</div>
     <div class="flex items-center gap-2 flex-shrink-0">
       <button onclick="openSearch()" title="Search listings (press /)" class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50">
         <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
         <span class="hidden sm:inline">Search…</span>
       </button>
-      <button id="hamburger" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition" aria-label="Menu">
+      <button id="hamburger" onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition" aria-label="Menu">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>
   </div>
-  <div id="mm" class="hidden md:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto">
+  <div id="mm" class="hidden lg:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto">
     {mobile_menu}
   </div>
 </nav>
@@ -3355,6 +3401,16 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}korjaal.html">Korjaal Run</a>
         <a class="ftr-lnk" href="{prefix}anaconda.html">Aboma Snake Game</a>
         <a class="ftr-lnk" href="{prefix}muskieto.html">Muskieto Survivor</a>
+      </div>
+      <div class="ftr-h" style="margin-top:26px">Oil &amp; Gas</div>
+      <div class="ftr-col">
+        <a class="ftr-lnk" href="{prefix}oil-and-gas.html">Overview</a>
+        <a class="ftr-lnk" href="{prefix}suriname-oil-blocks.html">Blocks &amp; Operators</a>
+        <a class="ftr-lnk" href="{prefix}granmorgu.html">GranMorgu Project</a>
+        <a class="ftr-lnk" href="{prefix}suriname-oil-timeline.html">Timeline &amp; Roadmap</a>
+        <a class="ftr-lnk" href="{prefix}suriname-oil-contracts.html">Contracts &amp; Terms</a>
+        <a class="ftr-lnk" href="{prefix}suriname-oil-government.html">Who Governs It</a>
+        <a class="ftr-lnk" href="{prefix}suriname-oil-jobs.html">Jobs &amp; Local Content</a>
       </div>
     </div>
   </div>
@@ -14813,6 +14869,13 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("muskieto.html",    "0.8", "daily"),
         ("events.html",     "0.8", "weekly"),
         ("news.html",       "0.7", "daily"),
+        ("oil-and-gas.html",             "0.9", "daily"),
+        ("suriname-oil-blocks.html",     "0.8", "weekly"),
+        ("granmorgu.html",               "0.8", "weekly"),
+        ("suriname-oil-timeline.html",   "0.7", "monthly"),
+        ("suriname-oil-contracts.html",  "0.7", "monthly"),
+        ("suriname-oil-government.html", "0.7", "monthly"),
+        ("suriname-oil-jobs.html",       "0.8", "monthly"),
         ("about.html",      "0.5", "yearly"),
         ("contact.html",    "0.5", "yearly"),
         ("submit-business.html", "0.6", "yearly"),
@@ -14904,6 +14967,15 @@ def build_llms_txt():
 - [ATM Finder]({S}/atms.html): every ATM in Suriname on a map with live up/down status where the bank publishes it, plus which cards each machine accepts (BNETS, Mastercard, Visa, foreign cards).
 - [Sports in Suriname Time]({S}/matches.html): Natio Suriname internationals, the Suriname Major League, the Concacaf Caribbean Cup, world football (Champions League, Premier League, Eredivisie, World Cup when it runs and more), NBA games and fight nights (UFC, Glory Kickboxing, boxing) with every start time converted to Suriname time (UTC-3), plus recent results.
 - [Suriname Time and World Clock]({S}/suriname-time.html): current Suriname time (UTC-3, no daylight saving), a live world-clock band and a two-way time-zone converter with a Netherlands call-overlap helper.
+
+## Oil and gas
+- [Suriname Oil and Gas Overview]({S}/oil-and-gas.html): the whole sector in one page. Suriname has no offshore production yet; first oil from the GranMorgu development in Block 58 is targeted for 2028, while onshore fields produce around 17,000 barrels a day. Includes live Brent crude and the latest sector headlines.
+- [Offshore Blocks and Operators]({S}/suriname-oil-blocks.html): block-by-block table of who operates what offshore Suriname (TotalEnergies on Block 58, PETRONAS on Block 52, APA on Block 53, Chevron and Shell in shallow and deep acreage), the discovery-well record and the Open Door Offering.
+- [The GranMorgu Project]({S}/granmorgu.html): Suriname's first offshore oil development. US$10.5 billion sanctioned in October 2024, a 220,000 barrel per day FPSO, up to 32 wells, TotalEnergies 40% / APA 40% / Staatsolie 20%, first oil targeted 2028.
+- [Oil Timeline and Roadmap]({S}/suriname-oil-timeline.html): from the 1928 traces and Staatsolie's founding in 1980 to the 2020 discoveries, the 2024 final investment decision, first oil in 2028 and possible first gas around 2030.
+- [Petroleum Contracts and Fiscal Terms]({S}/suriname-oil-contracts.html): how Suriname's production sharing contracts work, the 6.25% royalty, cost oil and profit oil, the 36% income tax, Staatsolie's 20% back-in right, past bid rounds and how to bid.
+- [Who Governs the Oil]({S}/suriname-oil-government.html): the Ministry of Oil, Gas and Environment (created 2025, Minister Patrick Brunings), Staatsolie, the National Environment Authority and the Savings and Stabilisation Fund, plus what the IMF says is unfinished.
+- [Oil and Gas Jobs and Local Content]({S}/suriname-oil-jobs.html): supplier registration through the SSRP and SAP Ariba, offshore safety and NATIN training routes, realistic job expectations and why Suriname still has no local content law.
 
 ## Daily games
 - [Sabi Suriname]({S}/quiz.html): free daily five-question quiz about Suriname, in Dutch and English.
@@ -17253,6 +17325,23 @@ if __name__ == "__main__":
             '<a class="b o" href="/services.html">Local Services</a>'
             '</div></body></html>'),
     }
+
+    # ── Oil & Gas section (oilgas_pages.py, data/oilgas.json) ───────────────
+    from oilgas_pages import build_oilgas_pages
+    pages.update(build_oilgas_pages({
+        "hub_head":       _hub_head,
+        "hub_hero":       _hub_hero,
+        "hub_card":       _hub_card,
+        "hub_faq":        _hub_faq_html,
+        "ilink":          _ilink,
+        "nav_html":       nav_html,
+        "footer_html":    footer_html,
+        "news_card_html": news_card_html,
+        "oil_articles":   oil_articles,
+        "brent_price":    brent_price,
+        "brent_updated":  brent_updated,
+        "SITE_URL":       SITE_URL,
+    }))
 
     for fname, html in pages.items():
         with open(fname, "w", encoding="utf-8") as f:
