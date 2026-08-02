@@ -321,7 +321,7 @@ def inject_switcher(soup, lang: str, rel_path: str):
     holder = soup.find(attrs={"class": re.compile(r"flex items-center gap-2 flex-shrink-0")})
     if holder is not None:
         wrap = soup.new_tag("div"); wrap["data-langswitch"] = "1"
-        wrap["class"] = "hidden md:flex"
+        wrap["class"] = "hidden lg:flex"
         wrap["style"] = "position:relative;align-items:center;margin-left:8px;flex-shrink:0"
 
         btn = soup.new_tag("button", attrs={

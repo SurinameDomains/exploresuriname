@@ -2228,6 +2228,27 @@ PAGE_HEAD = """\
     a { text-decoration: none; }
     nav a, nav button { white-space: nowrap; }   /* keep nav labels on one line (EN; NL/ES get this via build_i18n) */
     .vh { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+    /* Nav search: a small pill with a visible label. On tighter viewports it
+       collapses to just the magnifying glass so the nav labels and the language
+       switcher keep their room in NL and ES. Widths verified at 1024/1280/1440. */
+    .navsearch { display:flex; align-items:center; gap:6px; padding:7px 13px 7px 10px;
+                 border-radius:9999px; border:1px solid #e5e7eb; background:#f9fafb;
+                 color:#9ca3af; cursor:pointer;
+                 transition:gap .18s ease, padding .18s ease, border-color .18s ease, color .18s ease; }
+    .navsearch .nslabel { max-width:7rem; overflow:hidden; white-space:nowrap; font-size:.875rem;
+                          transition:max-width .22s ease; }
+    .navsearch:hover, .navsearch:focus-visible { border-color:#9ca3af; color:#4b5563; }
+    @media (max-width:1279px) {
+      .navsearch { gap:0; padding:7px; }
+      .navsearch .nslabel { max-width:0; }
+    }
+    /* Seven top-level items fit comfortably at 1280+. Between 1024 and 1279 the
+       bar runs denser so the longer NL/ES labels and the language switcher fit. */
+    .navlinks { gap:14px; }
+    @media (min-width:1024px) and (max-width:1279px) {
+      .navlinks { gap:11px; }
+      .navlinks .dd-trigger, .navlinks > a { font-size:13px; }
+    }
     /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
     .dd-menu { transform-origin: top center; }
     .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
@@ -2763,11 +2784,16 @@ _CAT_ACCENT = {
 
 def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
-    _TODO  = {"nature", "activities", "shopping", "events"}
+    # Six groups, split by task rather than by audience:
+    #   Explore  = directories of places and businesses
+    #   Eat&Stay = the two commercial listing sets, kept top-level on purpose
+    #   Plan     = what you read before or during a trip
+    #   Live     = anything whose numbers changed since yesterday
+    #   Oil&Gas / Games = self-contained sections
+    _EXPL  = {"nature", "activities", "events", "shopping", "services"}
     _EAT   = {"restaurants", "hotels"}
-    _ESS   = {"currency", "forecast", "matches", "dictionary"}
-    _SVC   = {"services", "daily-notices", "flights", "atms"}
-    _PLAN  = {"visitor", "surtime", "roads", "itinerary", "safety", "history"}
+    _PLAN  = {"visitor", "itinerary", "safety", "roads", "flights", "history", "dictionary"}
+    _LIVE  = {"currency", "forecast", "daily-notices", "atms", "matches", "surtime"}
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto"}
     _OILG  = {"oilgas", "oilblocks", "granmorgu", "oiltimeline", "oilcontracts",
               "oilgov", "oiljobs"}
@@ -2807,40 +2833,37 @@ def nav_html(active="home", prefix=""):
             f'</div></div>'
         )
 
-    # Things to Do
-    todo_items = (
+    # Explore
+    expl_items = (
         f'<a href="{prefix}nature.html"      {_link_cls("nature")}     >Nature</a>'
         f'<a href="{prefix}activities.html"  {_link_cls("activities")} >Activities</a>'
         f'<a href="{prefix}events.html"      {_link_cls("events")}     >Events &amp; Festivals</a>'
         f'<a href="{prefix}shopping.html"    {_link_cls("shopping")}   >Shopping</a>'
+        f'<a href="{prefix}services.html"    {_link_cls("services")}   >Local Services</a>'
     )
     # Eat & Stay
     eat_items = (
         f'<a href="{prefix}restaurants.html" {_link_cls("restaurants")}>Where to Eat</a>'
         f'<a href="{prefix}hotels.html"      {_link_cls("hotels")}     >Where to Stay</a>'
     )
-    # Essentials (live data)
-    ess_items = (
-        f'<a href="{prefix}currency.html"       {_link_cls("currency")}       >Market Rates</a>'
-        f'<a href="{prefix}conditions.html"     {_link_cls("forecast")}       >Weather &amp; Tides</a>'
-        f'<a href="{prefix}matches.html"        {_link_cls("matches")}        >Sports Schedule</a>'
+    # Plan
+    plan_items = (
+        f'<a href="{prefix}visitor-guide.html"       {_link_cls("visitor")}    >The Basics</a>'
+        f'<a href="{prefix}suriname-itinerary.html"  {_link_cls("itinerary")}  >Trip Itineraries</a>'
+        f'<a href="{prefix}is-suriname-safe.html"    {_link_cls("safety")}     >Is Suriname Safe?</a>'
+        f'<a href="{prefix}on-the-road.html"         {_link_cls("roads")}      >On the Road</a>'
+        f'<a href="{prefix}flights.html"             {_link_cls("flights")}    >Flights</a>'
+        f'<a href="{prefix}suriname-history.html"    {_link_cls("history")}    >History Timeline</a>'
         f'<a href="{prefix}sranan-tongo-dictionary.html" {_link_cls("dictionary")} >Sranan Dictionary</a>'
     )
-    # Local Services (resident tools)
-    svc_items = (
-        f'<a href="{prefix}services.html"       {_link_cls("services")}       >Services</a>'
-        f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")}  >Daily Notices</a>'
-        f'<a href="{prefix}flights.html"        {_link_cls("flights")}        >Flights</a>'
-        f'<a href="{prefix}atms.html"           {_link_cls("atms")}           >ATM Finder</a>'
-    )
-    # Visitor Guide
-    plan_items = (
-        f'<a href="{prefix}visitor-guide.html"  {_link_cls("visitor")}  >The Basics</a>'
-        f'<a href="{prefix}suriname-time.html"  {_link_cls("surtime")}  >Time &amp; Converter</a>'
-        f'<a href="{prefix}on-the-road.html"    {_link_cls("roads")}    >On the Road</a>'
-        f'<a href="{prefix}suriname-itinerary.html" {_link_cls("itinerary")} >Trip Itineraries</a>'
-        f'<a href="{prefix}is-suriname-safe.html"   {_link_cls("safety")}    >Is Suriname Safe?</a>'
-        f'<a href="{prefix}suriname-history.html"    {_link_cls("history")}   >History Timeline</a>'
+    # Live
+    live_items = (
+        f'<a href="{prefix}currency.html"       {_link_cls("currency")}      >Market Rates</a>'
+        f'<a href="{prefix}conditions.html"     {_link_cls("forecast")}      >Weather &amp; Tides</a>'
+        f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")} >Daily Notices</a>'
+        f'<a href="{prefix}atms.html"           {_link_cls("atms")}          >ATM Finder</a>'
+        f'<a href="{prefix}matches.html"        {_link_cls("matches")}       >Sports Schedule</a>'
+        f'<a href="{prefix}suriname-time.html"  {_link_cls("surtime")}       >Time &amp; Converter</a>'
     )
 
     # Games
@@ -2865,13 +2888,12 @@ def nav_html(active="home", prefix=""):
     )
 
     desktop_nav = (
-        _desktop_dd("dd-todo", "Things to Do",   todo_items,  _TODO) +
-        _desktop_dd("dd-eat",  "Eat &amp; Stay", eat_items,   _EAT)  +
-        _desktop_dd("dd-svc",  "Local Services", svc_items,  _SVC)  +
-        _desktop_dd("dd-plan", "Visitor Guide",  plan_items, _PLAN) +
-        _desktop_dd("dd-games", "Games",         games_items, _GAMES) +
-        _desktop_dd("dd-ess",  "Essentials",     ess_items,  _ESS)  +
+        _desktop_dd("dd-expl", "Explore",        expl_items, _EXPL) +
+        _desktop_dd("dd-eat",  "Eat &amp; Stay", eat_items,  _EAT)  +
+        _desktop_dd("dd-plan", "Plan",           plan_items, _PLAN) +
+        _desktop_dd("dd-live", "Live",           live_items, _LIVE) +
         _desktop_dd("dd-oil",  "Oil &amp; Gas",  oil_items,  _OILG) +
+        _desktop_dd("dd-games","Games",          games_items,_GAMES) +
         f'<a href="{prefix}news.html" {_top_single_style("news")}>News</a>'
     )
 
@@ -2895,35 +2917,33 @@ def nav_html(active="home", prefix=""):
             f'</div>'
         )
 
-    mob_todo_items = (
-        _mob_link(f"{prefix}nature.html",      "Nature",       "nature")     +
-        _mob_link(f"{prefix}activities.html",  "Activities",   "activities") +
-        _mob_link(f"{prefix}events.html",      "Events & Festivals", "events") +
-        _mob_link(f"{prefix}shopping.html",    "Shopping",     "shopping")
+    mob_expl_items = (
+        _mob_link(f"{prefix}nature.html",      "Nature",             "nature")     +
+        _mob_link(f"{prefix}activities.html",  "Activities",         "activities") +
+        _mob_link(f"{prefix}events.html",      "Events & Festivals", "events")     +
+        _mob_link(f"{prefix}shopping.html",    "Shopping",           "shopping")   +
+        _mob_link(f"{prefix}services.html",    "Local Services",     "services")
     )
     mob_eat_items = (
         _mob_link(f"{prefix}restaurants.html", "Where to Eat",  "restaurants") +
         _mob_link(f"{prefix}hotels.html",      "Where to Stay", "hotels")
     )
-    mob_ess_items = (
-        _mob_link(f"{prefix}currency.html",      "Market Rates",  "currency") +
-        _mob_link(f"{prefix}conditions.html",    "Weather & Tides", "forecast") +
-        _mob_link(f"{prefix}matches.html",       "Sports Schedule", "matches") +
+    mob_plan_items = (
+        _mob_link(f"{prefix}visitor-guide.html",      "The Basics",        "visitor")   +
+        _mob_link(f"{prefix}suriname-itinerary.html", "Trip Itineraries",  "itinerary") +
+        _mob_link(f"{prefix}is-suriname-safe.html",   "Is Suriname Safe?", "safety")    +
+        _mob_link(f"{prefix}on-the-road.html",        "On the Road",       "roads")     +
+        _mob_link(f"{prefix}flights.html",            "Flights",           "flights")   +
+        _mob_link(f"{prefix}suriname-history.html",   "History Timeline",  "history")   +
         _mob_link(f"{prefix}sranan-tongo-dictionary.html", "Sranan Dictionary", "dictionary")
     )
-    mob_svc_items = (
-        _mob_link(f"{prefix}services.html",      "Services", "services") +
-        _mob_link(f"{prefix}daily-notices.html", "Daily Notices", "daily-notices") +
-        _mob_link(f"{prefix}flights.html",       "Flights",       "flights") +
-        _mob_link(f"{prefix}atms.html",          "ATM Finder",    "atms")
-    )
-    mob_plan_items = (
-        _mob_link(f"{prefix}visitor-guide.html", "The Basics",    "visitor") +
-        _mob_link(f"{prefix}suriname-time.html", "Time & Converter", "surtime") +
-        _mob_link(f"{prefix}on-the-road.html",   "On the Road",   "roads") +
-        _mob_link(f"{prefix}suriname-itinerary.html", "Trip Itineraries", "itinerary") +
-        _mob_link(f"{prefix}is-suriname-safe.html",   "Is Suriname Safe?", "safety") +
-        _mob_link(f"{prefix}suriname-history.html",    "History Timeline",  "history")
+    mob_live_items = (
+        _mob_link(f"{prefix}currency.html",      "Market Rates",     "currency")      +
+        _mob_link(f"{prefix}conditions.html",    "Weather & Tides",  "forecast")      +
+        _mob_link(f"{prefix}daily-notices.html", "Daily Notices",    "daily-notices") +
+        _mob_link(f"{prefix}atms.html",          "ATM Finder",       "atms")          +
+        _mob_link(f"{prefix}matches.html",       "Sports Schedule",  "matches")       +
+        _mob_link(f"{prefix}suriname-time.html", "Time & Converter", "surtime")
     )
     mob_games_items = (
         _mob_link(f"{prefix}quiz.html",      "Sabi Suriname Quiz",   "quiz") +
@@ -2944,22 +2964,20 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}suriname-oil-jobs.html",       "Jobs & Local Content", "oiljobs")
     )
 
-    _svc_col  = 'style="color:var(--forest)"' if _is_active("services") else ""
-    _news_col = 'style="color:var(--forest)"' if _is_active("news")     else ""
-    _svc_link  = f'<a href="{prefix}services.html" class="flex items-center justify-between py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" {_svc_col}>Local Services</a>'
-    _news_link = f'<a href="{prefix}news.html" class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" {_news_col}>News</a>'
+    _news_col  = 'style="color:var(--forest)"' if _is_active("news") else ""
+    _news_link = (f'<a href="{prefix}news.html" class="flex items-center py-3 px-1 text-sm '
+                  f'font-semibold text-gray-800" {_news_col}>News</a>')
 
     # Used by the search modal JS
     cat_colors = dict(_CAT_ACCENT, **{"Sightseeing": _CAT_ACCENT["Nature"]})
 
     mobile_menu = (
-        _mob_group("mg-todo", "Things to Do",    mob_todo_items,  _TODO) +
-        _mob_group("mg-eat",  "Eat & Stay",      mob_eat_items,   _EAT)  +
-        _mob_group("mg-svc",  "Local Services",  mob_svc_items,   _SVC)  +
-        _mob_group("mg-plan", "Visitor Guide",   mob_plan_items,  _PLAN) +
-        _mob_group("mg-games", "Games",           mob_games_items, _GAMES) +
-        _mob_group("mg-ess",  "Essentials",      mob_ess_items,   _ESS)  +
-        _mob_group("mg-oil",  "Oil & Gas",       mob_oil_items,   _OILG) +
+        _mob_group("mg-expl", "Explore",     mob_expl_items,  _EXPL)  +
+        _mob_group("mg-eat",  "Eat & Stay",  mob_eat_items,   _EAT)   +
+        _mob_group("mg-plan", "Plan",        mob_plan_items,  _PLAN)  +
+        _mob_group("mg-live", "Live",        mob_live_items,  _LIVE)  +
+        _mob_group("mg-oil",  "Oil & Gas",   mob_oil_items,   _OILG)  +
+        _mob_group("mg-games","Games",       mob_games_items, _GAMES) +
         _news_link
     )
 
@@ -2969,11 +2987,11 @@ def nav_html(active="home", prefix=""):
     <a href="{prefix}index.html" class="flex items-baseline flex-shrink-0">
       <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
     </a>
-    <div class="hidden lg:flex items-center gap-4">{desktop_nav}</div>
+    <div class="hidden lg:flex items-center navlinks">{desktop_nav}</div>
     <div class="flex items-center gap-2 flex-shrink-0">
-      <button onclick="openSearch()" title="Search listings (press /)" class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-400 text-sm hover:border-gray-400 hover:text-gray-600 transition bg-gray-50">
+      <button onclick="openSearch()" title="Search listings (press /)" aria-label="Search" class="navsearch">
         <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
-        <span class="hidden sm:inline">Search…</span>
+        <span class="nslabel">Search&#8230;</span>
       </button>
       <button id="hamburger" onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition" aria-label="Menu">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -3366,34 +3384,30 @@ def footer_html(prefix=""):
     <div>
       <div class="ftr-h">Explore</div>
       <div class="ftr-col">
-        <a class="ftr-lnk" href="{prefix}restaurants.html">Where to Eat</a>
-        <a class="ftr-lnk" href="{prefix}hotels.html">Where to Stay</a>
         <a class="ftr-lnk" href="{prefix}nature.html">Nature &amp; Parks</a>
         <a class="ftr-lnk" href="{prefix}activities.html">Activities</a>
         <a class="ftr-lnk" href="{prefix}events.html">Events &amp; Festivals</a>
         <a class="ftr-lnk" href="{prefix}shopping.html">Shopping</a>
         <a class="ftr-lnk" href="{prefix}services.html">Local Services</a>
       </div>
-    </div>
-    <div>
-      <div class="ftr-h">Plan &amp; Essentials</div>
+      <div class="ftr-h" style="margin-top:26px">Eat &amp; Stay</div>
       <div class="ftr-col">
-        <a class="ftr-lnk" href="{prefix}visitor-guide.html">Visitor Guide</a>
-        <a class="ftr-lnk" href="{prefix}suriname-itinerary.html">Trip Itineraries</a>
-        <a class="ftr-lnk" href="{prefix}is-suriname-safe.html">Is Suriname Safe?</a>
-        <a class="ftr-lnk" href="{prefix}on-the-road.html">On the Road</a>
-        <a class="ftr-lnk" href="{prefix}currency.html">Exchange Rates</a>
-        <a class="ftr-lnk" href="{prefix}conditions.html">Weather &amp; Tides</a>
-        <a class="ftr-lnk" href="{prefix}flights.html">Flights</a>
-        <a class="ftr-lnk" href="{prefix}daily-notices.html">Daily Notices</a>
-        <a class="ftr-lnk" href="{prefix}matches.html">Sports Schedule</a>
-        <a class="ftr-lnk" href="{prefix}suriname-history.html">History of Suriname</a>
-        <a class="ftr-lnk" href="{prefix}sranan-tongo-dictionary.html">Sranan Dictionary</a>
-        <a class="ftr-lnk" href="{prefix}news.html">News</a>
+        <a class="ftr-lnk" href="{prefix}restaurants.html">Where to Eat</a>
+        <a class="ftr-lnk" href="{prefix}hotels.html">Where to Stay</a>
       </div>
     </div>
     <div>
-      <div class="ftr-h">Games</div>
+      <div class="ftr-h">Plan</div>
+      <div class="ftr-col">
+        <a class="ftr-lnk" href="{prefix}visitor-guide.html">The Basics</a>
+        <a class="ftr-lnk" href="{prefix}suriname-itinerary.html">Trip Itineraries</a>
+        <a class="ftr-lnk" href="{prefix}is-suriname-safe.html">Is Suriname Safe?</a>
+        <a class="ftr-lnk" href="{prefix}on-the-road.html">On the Road</a>
+        <a class="ftr-lnk" href="{prefix}flights.html">Flights</a>
+        <a class="ftr-lnk" href="{prefix}suriname-history.html">History of Suriname</a>
+        <a class="ftr-lnk" href="{prefix}sranan-tongo-dictionary.html">Sranan Dictionary</a>
+      </div>
+      <div class="ftr-h" style="margin-top:26px">Games</div>
       <div class="ftr-col">
         <a class="ftr-lnk" href="{prefix}crossword.html">Switi Mini Crossword</a>
         <a class="ftr-lnk" href="{prefix}quiz.html">Daily Quiz</a>
@@ -3401,6 +3415,18 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}korjaal.html">Korjaal Run</a>
         <a class="ftr-lnk" href="{prefix}anaconda.html">Aboma Snake Game</a>
         <a class="ftr-lnk" href="{prefix}muskieto.html">Muskieto Survivor</a>
+      </div>
+    </div>
+    <div>
+      <div class="ftr-h">Live</div>
+      <div class="ftr-col">
+        <a class="ftr-lnk" href="{prefix}currency.html">Market Rates</a>
+        <a class="ftr-lnk" href="{prefix}conditions.html">Weather &amp; Tides</a>
+        <a class="ftr-lnk" href="{prefix}daily-notices.html">Daily Notices</a>
+        <a class="ftr-lnk" href="{prefix}atms.html">ATM Finder</a>
+        <a class="ftr-lnk" href="{prefix}matches.html">Sports Schedule</a>
+        <a class="ftr-lnk" href="{prefix}suriname-time.html">Time &amp; Converter</a>
+        <a class="ftr-lnk" href="{prefix}news.html">News</a>
       </div>
       <div class="ftr-h" style="margin-top:26px">Oil &amp; Gas</div>
       <div class="ftr-col">
