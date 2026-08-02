@@ -55,6 +55,9 @@ def _english_label(header):
 
 
 def parse(html):
+    """Rows that link to a /movie/ page are showings; anything else is a day
+    header. Sold-out screenings show a 'SOLD OUT' badge instead of a time, so
+    they must NOT be treated as a day header (that used to truncate the list)."""
     from bs4 import BeautifulSoup
     soup = BeautifulSoup(html, "html.parser")
     rows = soup.find_all("tr")
@@ -68,35 +71,42 @@ def parse(html):
         if not cells:
             continue
         first = clean(cells[0].get_text())
-        if not first:
-            continue
+        a = tr.find("a", href=re.compile(r"/movie/"))
 
-        if not TIME_RE.match(first):
-            # Day-header row
+        if a is None:
+            # Day-header row (no film link)
+            if not first:
+                continue
             if not started:
                 started = True
                 date_label = _english_label(first)
                 continue
-            else:
-                break  # next day -> stop (today only)
+            break  # next day -> stop (today only)
 
         if not started:
-            continue
+            started = True  # defensive: table began straight with showings
 
-        a = tr.find("a", href=True)
-        title = clean(a.get_text()) if a else clean(cells[-1].get_text())
-        url = a["href"].strip() if a else ""
-        if url.startswith("/"):
-            url = "https://www.tblcinemas.com" + url
+        title = clean(a.get_text()) or clean(cells[-1].get_text())
         if not title:
             continue
+        url = a["href"].strip()
+        if url.startswith("/"):
+            url = "https://www.tblcinemas.com" + url
 
-        t = first.upper()
-        key = (t, title)
-        if key in seen:        # guard against accidental duplicate rows
+        if TIME_RE.match(first):
+            t, sold = first.upper(), False
+            key = ("T", t, title)
+        else:
+            t, sold = "", True          # sold out: real time not published
+            key = ("S", title)          # collapse repeat sold-out screenings
+        if key in seen:
             continue
         seen.add(key)
-        showings.append({"time": t, "title": title, "url": url})
+
+        entry = {"time": t, "title": title, "url": url}
+        if sold:
+            entry["sold_out"] = True
+        showings.append(entry)
 
     return {
         "last_updated": datetime.now(timezone.utc).isoformat(),
@@ -133,7 +143,7 @@ def main():
     print(f"  Label: {data['date_label']}")
     print(f"  Showings: {len(data['showings'])}")
     for s in data["showings"]:
-        print(f"    {s['time']}  {s['title']}")
+        print(f"    {s['time'] or 'SOLD OUT':9}  {s['title']}")
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
