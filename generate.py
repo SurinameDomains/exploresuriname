@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 ExploreSuriname.com - Full Tourism & News Site Generator
-Generates: index.html, nature.html, activities.html,
+Generates: index.html, activities.html (Things to Do; nature.html is a stub),
            restaurants.html, hotels.html, currency.html, news.html,
            sitemap.xml, robots.txt
 Run daily via GitHub Actions.
@@ -1426,20 +1426,27 @@ SUBCATS = {
         ("eco-lodges",   "Eco & River Lodges","🌿"),
         ("guesthouses",  "Guesthouses & Villas","🏡"),
     ],
+    # Things to Do (activities.html). Carries the old sightseeing chips too,
+    # since nature.html was merged in here. _filter_bar_html drops empty chips.
     "adventure": [
         ("all",             "All",             "🌍"),
+        ("nature-parks",    "Nature & Parks",  "🦜"),
         ("tours-expeditions","Tours & Expeditions","🧭"),
         ("eco-lodges",      "Eco & River Lodges","🌿"),
-        ("nature-parks",    "Nature & Parks",  "🦜"),
         ("museums-heritage","Museums & Heritage","🏛️"),
         ("entertainment",   "Entertainment",   "🎭"),
+        ("other",           "Other",           "🔧"),
     ],
+    # Reference only since the nature.html merge: sightseeing listings render on
+    # activities.html using the "adventure" chip bar above. Kept so the admin
+    # worker's sightseeing category still has a documented chip whitelist.
     "sightseeing": [
         ("all",             "All",             "🗺️"),
         ("museums-heritage","Museums & Heritage","🏛️"),
         ("nature-parks",    "Nature & Parks",  "🌿"),
         ("entertainment",   "Entertainment",   "🎭"),
         ("tours-expeditions","Tours",          "🧭"),
+        ("eco-lodges",      "Eco & River Lodges","🌿"),
         ("other",           "Other",           "🔧"),
     ],
     "shopping": [
@@ -1541,8 +1548,8 @@ import json as _json
 _CAT_KW = {
     "Eat & Drink": "restaurant food dining eat",
     "Stay":        "hotel lodge resort guesthouse accommodation stay",
-    "Nature":      "nature park reserve sightseeing",
-    "Activities":  "activity tour excursion adventure",
+    "Nature":      "nature park reserve sightseeing activity tour excursion",
+    "Activities":  "activity tour excursion adventure nature park reserve sightseeing",
     "Shopping":    "shop store shopping",
     "Services":    "service",
     "Guides":      "guide",
@@ -1583,8 +1590,7 @@ _SI_LIST = [
     # surface the browse page, not only one arbitrary listing.
     {"n": "Where to Eat: All Restaurants", "u": "restaurants.html", "p": 1, "c": "Eat & Drink", "a": "Suriname"},
     {"n": "Where to Stay: All Hotels & Resorts", "u": "hotels.html", "p": 1, "c": "Stay", "a": "Suriname"},
-    {"n": "Nature & Parks", "u": "nature.html", "p": 1, "c": "Nature", "a": "Suriname"},
-    {"n": "Things to Do: Activities & Tours", "u": "activities.html", "p": 1, "c": "Activities", "a": "Suriname"},
+    {"n": "Things to Do: Nature, Activities & Tours", "u": "activities.html", "p": 1, "c": "Activities", "a": "Suriname"},
     {"n": "Shopping in Suriname", "u": "shopping.html", "p": 1, "c": "Shopping", "a": "Suriname"},
     {"n": "Local Services", "u": "services.html", "p": 1, "c": "Services", "a": "Suriname"},
     {"n": "Suriname Itinerary: 5, 7 and 10 Days", "u": "suriname-itinerary.html", "c": "Guides", "a": "Suriname"},
@@ -1669,8 +1675,9 @@ _GUIDE_KW = {
  "on-the-road.html":        "driving car road rules traffic rijden auto verkeer wegen",
  "restaurants.html":        "restaurants eat food dining takeaway eten restaurant eetgelegenheden uit eten",
  "hotels.html":             "hotels stay sleep accommodation lodge resort guesthouse slapen verblijf overnachten hotel",
- "nature.html":             "nature parks reserve rainforest wildlife natuur natuurparken oerwous jungle",
- "activities.html":         "activities things to do tours excursions adventure activiteiten uitstapjes tours",
+ "activities.html":         "activities things to do tours excursions adventure activiteiten uitstapjes tours "
+                            "nature parks reserve rainforest wildlife sightseeing museum attraction "
+                            "natuur natuurparken oerwous jungle bezienswaardigheden musea",
  "shopping.html":           "shopping shops stores malls winkels winkelen mall",
  "services.html":           "services business local diensten bedrijven",
 }
@@ -2797,7 +2804,7 @@ def nav_html(active="home", prefix=""):
     #   Plan     = what you read before or during a trip
     #   Live     = anything whose numbers changed since yesterday
     #   Oil&Gas / Games = self-contained sections
-    _EXPL  = {"nature", "activities", "events", "shopping", "services"}
+    _EXPL  = {"activities", "events", "shopping", "services"}
     _EAT   = {"restaurants", "hotels"}
     _PLAN  = {"visitor", "itinerary", "safety", "roads", "flights", "history", "dictionary"}
     _LIVE  = {"currency", "forecast", "daily-notices", "atms", "matches", "surtime"}
@@ -2842,8 +2849,7 @@ def nav_html(active="home", prefix=""):
 
     # Explore
     expl_items = (
-        f'<a href="{prefix}nature.html"      {_link_cls("nature")}     >Nature</a>'
-        f'<a href="{prefix}activities.html"  {_link_cls("activities")} >Activities</a>'
+        f'<a href="{prefix}activities.html"  {_link_cls("activities")} >Things to Do</a>'
         f'<a href="{prefix}events.html"      {_link_cls("events")}     >Events &amp; Festivals</a>'
         f'<a href="{prefix}shopping.html"    {_link_cls("shopping")}   >Shopping</a>'
         f'<a href="{prefix}services.html"    {_link_cls("services")}   >Local Services</a>'
@@ -2925,8 +2931,7 @@ def nav_html(active="home", prefix=""):
         )
 
     mob_expl_items = (
-        _mob_link(f"{prefix}nature.html",      "Nature",             "nature")     +
-        _mob_link(f"{prefix}activities.html",  "Activities",         "activities") +
+        _mob_link(f"{prefix}activities.html",  "Things to Do",       "activities") +
         _mob_link(f"{prefix}events.html",      "Events & Festivals", "events")     +
         _mob_link(f"{prefix}shopping.html",    "Shopping",           "shopping")   +
         _mob_link(f"{prefix}services.html",    "Local Services",     "services")
@@ -3391,8 +3396,7 @@ def footer_html(prefix=""):
     <div>
       <div class="ftr-h">Explore</div>
       <div class="ftr-col">
-        <a class="ftr-lnk" href="{prefix}nature.html">Nature &amp; Parks</a>
-        <a class="ftr-lnk" href="{prefix}activities.html">Activities</a>
+        <a class="ftr-lnk" href="{prefix}activities.html">Things to Do</a>
         <a class="ftr-lnk" href="{prefix}events.html">Events &amp; Festivals</a>
         <a class="ftr-lnk" href="{prefix}shopping.html">Shopping</a>
         <a class="ftr-lnk" href="{prefix}services.html">Local Services</a>
@@ -3704,6 +3708,28 @@ function filterDistrict(btn, dist) {{
   btn.classList.add('dist-chip-active');
   _applyFilters();
 }}
+
+/* Deep link: /activities.html?sub=nature-parks pre-selects a chip. Used by the
+   homepage journey cards since Nature was merged into Things to Do. Silently
+   ignored when the key matches no chip on this page. */
+(function() {{
+  var want = new URLSearchParams(location.search).get('sub');
+  if (!want || want === 'all') return;
+  function apply() {{
+    var chips = document.querySelectorAll('#{bar_id} .filter-chip');
+    for (var i = 0; i < chips.length; i++) {{
+      var oc = chips[i].getAttribute('onclick') || '';
+      var m  = oc.match(/filterSub\(this,\s*'([^']+)'\)/);
+      if (m && m[1] === want) {{ filterSub(chips[i], want); return; }}
+    }}
+  }}
+  /* The bar renders above the grid, so wait for the cards to exist. */
+  if (document.readyState === 'loading') {{
+    document.addEventListener('DOMContentLoaded', apply);
+  }} else {{
+    apply();
+  }}
+}})();
 </script>"""
 
 def _itemlist_url(it):
@@ -3740,8 +3766,7 @@ def _meta_trunc(s, n=158):
 _PILLARS = [
     ("restaurants.html", "Eat &amp; Drink",   "Restaurants, warungs, cafés and bars"),
     ("hotels.html",      "Where to Stay",     "City hotels, eco-lodges and jungle camps"),
-    ("activities.html",  "Things to Do",      "Tours, river trips and wildlife"),
-    ("nature.html",      "Nature &amp; Parks","Reserves, rainforest and waterfalls"),
+    ("activities.html",  "Things to Do",      "Nature parks, tours, river trips and sights"),
     ("shopping.html",    "Shopping",          "Malls, markets and specialty stores"),
     ("services.html",    "Local Services",    "Banks, health, telecom and more"),
 ]
@@ -3749,9 +3774,8 @@ _PILLARS = [
 # One contextual sentence woven under each page's intro, linking 2-3 siblings.
 _INTRO_CROSSLINKS = {
     "restaurants": 'Planning the rest of your trip? Find <a href="hotels.html" class="underline hover:no-underline">places to stay</a> and <a href="activities.html" class="underline hover:no-underline">things to do</a> across Suriname.',
-    "hotels":      'Booked a room? Explore <a href="restaurants.html" class="underline hover:no-underline">where to eat</a> and <a href="nature.html" class="underline hover:no-underline">nature parks</a> nearby.',
-    "activities":  'Round out your itinerary with <a href="nature.html" class="underline hover:no-underline">nature parks</a>, <a href="hotels.html" class="underline hover:no-underline">places to stay</a> and <a href="restaurants.html" class="underline hover:no-underline">local food</a>.',
-    "nature":      'Turn it into a full trip with <a href="activities.html" class="underline hover:no-underline">guided tours</a> and <a href="hotels.html" class="underline hover:no-underline">eco-lodges</a> across the interior.',
+    "hotels":      'Booked a room? Explore <a href="restaurants.html" class="underline hover:no-underline">where to eat</a> and <a href="activities.html" class="underline hover:no-underline">things to do</a> nearby.',
+    "activities":  'Round out your itinerary with <a href="hotels.html" class="underline hover:no-underline">places to stay</a>, <a href="restaurants.html" class="underline hover:no-underline">local food</a> and <a href="events.html" class="underline hover:no-underline">events and festivals</a>.',
     "shopping":    'Make a day of it with <a href="restaurants.html" class="underline hover:no-underline">nearby restaurants</a> and <a href="services.html" class="underline hover:no-underline">local services</a>.',
     "services":    'Also see <a href="shopping.html" class="underline hover:no-underline">shopping</a>, <a href="restaurants.html" class="underline hover:no-underline">restaurants</a> and <a href="hotels.html" class="underline hover:no-underline">hotels</a> in Paramaribo.',
 }
@@ -3760,9 +3784,11 @@ def _explore_more_html(active):
     """Bottom-of-page 'Keep exploring' card grid linking to the other pillar pages."""
     active_file = (active or "") + ".html"
     cards = ""
+    n = 0
     for href, label, tag in _PILLARS:
         if href == active_file:
             continue
+        n += 1
         cards += (
             '<a href="' + href + '" class="block bg-white rounded-2xl border border-gray-100 '
             'hover:border-gray-300 hover:shadow-sm transition p-5">'
@@ -3776,7 +3802,12 @@ def _explore_more_html(active):
         '\n<section class="max-w-6xl mx-auto px-5 pb-20" aria-labelledby="explore-more-heading">'
         '\n  <h2 id="explore-more-heading" class="serif text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Keep exploring Suriname</h2>'
         '\n  <p class="text-gray-500 mb-6">More guides to help you plan your trip.</p>'
-        '\n  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">'
+        # _PILLARS shrank to 5 when Nature merged into Things to Do, so this grid
+        # renders 4 cards on a pillar page and 5 elsewhere. Match the column count
+        # to the card count so the last row never leaves a hole. Both class names
+        # appear literally here because tailwind.config scans this file.
+        '\n  <div class="grid grid-cols-2 sm:grid-cols-3 ' +
+        ('lg:grid-cols-4' if n <= 4 else 'lg:grid-cols-5') + ' gap-4">'
         + cards +
         '\n  </div>'
         '\n</section>'
@@ -4284,12 +4315,12 @@ function esSearch(){
       <p style="font-size:16px;color:#5C6657;max-width:23em;margin:0;line-height:1.6">Four ways in. Take one this trip, and let the rest pull you back. Every door opens onto a different Suriname.</p>
     </div>
     <div class="jgrid">
-      <a class="jc" data-reveal href="nature.html">
+      <a class="jc" data-reveal href="activities.html?sub=nature-parks">
         <img loading="lazy" src="/images/hero-rainforest.webp" srcset="/images/hero-rainforest-m.webp 900w, /images/hero-rainforest.webp 1600w" sizes="(max-width:767px) 100vw, 25vw" alt="Aerial view of rivers winding through the untouched rainforest interior" width="1600" height="2187">
         <div class="ov"></div><div class="jidx dsp">01</div>
         <div class="meta"><div class="kick">{n_nature} places</div><div class="ttl dsp">The Wild Interior</div><div class="jsub">Reserves, waterfalls, and lodges deep in the green.</div></div>
       </a>
-      <a class="jc" data-reveal href="activities.html">
+      <a class="jc" data-reveal href="activities.html?sub=tours-expeditions">
         <img loading="lazy" src="/images/hero-suriname-river.webp" srcset="/images/hero-suriname-river-m.webp 900w, /images/hero-suriname-river.webp 1600w" sizes="(max-width:767px) 100vw, 25vw" alt="Colorful wooden boats at a river landing on the Upper Suriname River" width="1600" height="2187">
         <div class="ov"></div><div class="jidx dsp">02</div>
         <div class="meta"><div class="kick">{n_act} experiences</div><div class="ttl dsp">On the Water</div><div class="jsub">Dugout canoes, turtle beaches, mornings on the river.</div></div>
@@ -4320,7 +4351,7 @@ function esSearch(){
       <p style="font-size:clamp(16px,1.5vw,19px);line-height:1.72;color:#E2DBCB;margin:0 0 32px">Indigenous, Maroon, Creole, Hindustani, Javanese, Chinese and Dutch: seven worlds that share the same streets, the same holidays, and the same dinner table. Here, &#8220;stranger&#8221; is just a friend who hasn&#8217;t eaten yet.</p>
       <div style="display:flex;gap:13px;flex-wrap:wrap">
         <a class="btn-gold" href="restaurants.html">Taste the mix</a>
-        <a class="btn-ghost" href="nature.html">See the heritage</a>
+        <a class="btn-ghost" href="activities.html?sub=museums-heritage">See the heritage</a>
       </div>
     </div>
   </div>
@@ -4387,7 +4418,7 @@ function esSearch(){
     <p style="font-size:clamp(16px,1.5vw,19px);color:#E2DBCB;max-width:34em;margin:26px auto 34px;line-height:1.65">Rates move, flights land, festivals come around. Bookmark us, or just drop by again whenever you&#8217;re missing the warm. We&#8217;ll keep a seat for you.</p>
     <div style="display:flex;gap:13px;justify-content:center;flex-wrap:wrap">
       <a class="btn-gold" href="visitor-guide.html">Read the Visitor Guide</a>
-      <a class="btn-ghost" href="nature.html">Keep exploring</a>
+      <a class="btn-ghost" href="activities.html">Keep exploring</a>
     </div>
     <div class="dsp" style="font-style:italic;font-size:17px;color:#CFC8B5;margin-top:40px">With love, from all of us here in Suriname</div>
   </div>
@@ -4399,42 +4430,43 @@ function esSearch(){
 </body>
 </html>"""
 
-def build_nature_page():
-    nature_cards = "\n".join(nature_card(s, eager=(i==0)) for i,s in enumerate(NATURE_SPOTS))
-    sight_cards  = "\n".join(poi_card(b) for b in SIGHTSEEING)
-    all_cards    = nature_cards + "\n" + sight_cards
-    # build filter bar from combined list (nature spots default to "nature-parks" subcat)
-    combined_items = [{"subcat": s.get("subcat", "nature-parks")} for s in NATURE_SPOTS] + list(SIGHTSEEING)
-    filter_bar_s = _filter_bar_html(combined_items, "sightseeing")
-    total = len(NATURE_SPOTS) + len(SIGHTSEEING)
-    return listing_page("Nature & Parks", f"{total} destinations across Suriname's pristine wilderness",
-        f"Explore {total} nature reserves, national parks and rainforest destinations in Suriname. From Central Suriname Reserve to Brownsberg. Plan your eco-adventure.",
-        NATURE_SPOTS, all_cards, bg_color=_CAT_ACCENT["Nature"], page_file="nature.html", extra_html="", filter_bar=filter_bar_s,
-        og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Leo_val_brownsberg.JPG/1280px-Leo_val_brownsberg.JPG",
-        lcp_image=NATURE_SPOTS[0]["image"] if NATURE_SPOTS else None, seo_title="Nature Parks & Wildlife Reserves in Suriname",
-        intro_text=f"Suriname protects over 93% of its land as pristine rainforest, the highest percentage of any country on Earth. Explore {total} nature parks, wildlife reserves and UNESCO World Heritage Sites. From the vast Central Suriname Nature Reserve to Brownsberg, Galibi and Bigi Pan, this is South America&#8217;s last great wilderness.", faq=_FAQ_NATURE)
-
 def build_activities_page():
-    # Merge ACTIVITIES and ADVENTURES_BIZ sorted alphabetically by name
+    """Things to Do — the merged Activities + Nature page.
+
+    nature.html was folded into this page (Aug 2026): NATURE_SPOTS and
+    SIGHTSEEING now render here alongside ACTIVITIES and ADVENTURES_BIZ, and
+    nature.html ships only as a redirect stub. Cards are interleaved
+    alphabetically; the subcat chip bar (key "adventure") separates them.
+    """
     tagged = (
         [(a["name"].lower(), "activity", a) for a in ACTIVITIES] +
-        [(b["name"].lower(), "biz",      b) for b in ADVENTURES_BIZ]
+        [(s["name"].lower(), "nature",   s) for s in NATURE_SPOTS] +
+        [(b["name"].lower(), "biz",      b) for b in ADVENTURES_BIZ] +
+        [(b["name"].lower(), "biz",      b) for b in SIGHTSEEING]
     )
     tagged.sort(key=lambda x: x[0])
+    _CARD = {"activity": activity_card_rich, "nature": nature_card, "biz": poi_card}
     all_cards = "\n".join(
-        (activity_card_rich(item, eager=(i==0)) if kind == "activity" else poi_card(item, eager=(i==0)))
+        _CARD[kind](item, eager=(i == 0))
         for i, (_, kind, item) in enumerate(tagged)
     )
-    _first_img = next((item.get("image","") for _,_,item in tagged if item.get("image")), None)
-    combined_items = [{"subcat": a.get("subcat", "tours-expeditions")} for a in ACTIVITIES] + list(ADVENTURES_BIZ)
+    _first_img = next((item.get("image", "") for _, _, item in tagged if item.get("image")), None)
+    # Chip counts: editorial dicts carry no "area", so they fall through to the
+    # same Paramaribo default the client-side filter uses. Keep it that way.
+    combined_items = (
+        [{"subcat": a.get("subcat", "tours-expeditions")} for a in ACTIVITIES] +
+        [{"subcat": s.get("subcat", "nature-parks")} for s in NATURE_SPOTS] +
+        list(ADVENTURES_BIZ) + list(SIGHTSEEING)
+    )
     filter_bar_a = _filter_bar_html(combined_items, "adventure")
-    total = len(ACTIVITIES) + len(ADVENTURES_BIZ)
-    return listing_page("Activities", f"{total} things to do in Suriname",
-        f"Discover {total} things to do in Suriname: jungle tours, river trips, birdwatching, kayaking and more. Find tours and adventure operators in Paramaribo.",
-        ACTIVITIES, all_cards, bg_color=_CAT_ACCENT["Activities"], page_file="activities.html", extra_html="", filter_bar=filter_bar_a,
+    total = len(ACTIVITIES) + len(NATURE_SPOTS) + len(ADVENTURES_BIZ) + len(SIGHTSEEING)
+    _items_ld = list(ACTIVITIES) + list(NATURE_SPOTS)
+    return listing_page("Things to Do", f"{total} things to do in Suriname",
+        f"Browse {total} things to do in Suriname: nature parks, jungle tours, river trips, museums, birdwatching and guided expeditions. Find operators and attractions.",
+        _items_ld, all_cards, bg_color=_CAT_ACCENT["Activities"], page_file="activities.html", extra_html="", filter_bar=filter_bar_a,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Atjoni_%2833496718666%29.jpg/1280px-Atjoni_%2833496718666%29.jpg",
-        lcp_image=_first_img, seo_title="Things to Do in Suriname: Tours and Treks",
-        intro_text=f"Looking for things to do in Suriname? Browse {total} activities, tours and adventure experiences. Canoe through the jungle interior, watch leatherback turtles at Galibi, take a guided rainforest trek or explore Maroon villages by boat. From half-day trips out of Paramaribo to multi-day expeditions, find and book with local operators here.", faq=_FAQ_ACTIVITIES)
+        lcp_image=_first_img, seo_title="Things to Do in Suriname: Nature, Tours and Sights",
+        intro_text=f"Looking for things to do in Suriname? Browse {total} nature parks, activities, tours and attractions in one place. Suriname protects more than 90% of its land as rainforest, the highest share of any country on Earth, so most trips start with the green: canoe through the interior, trek to Brownsberg and the Central Suriname Nature Reserve, or watch leatherback turtles nest at Galibi. Closer to town there are plantation walks, Maroon and Indigenous village visits, museums and the historic inner city of Paramaribo. From half-day trips to multi-day expeditions, find and book with local operators here.", faq=_FAQ_ACTIVITIES + _FAQ_NATURE)
 
 def build_restaurants_page(restaurants):
     restaurants = _featured_order(restaurants)
@@ -5931,7 +5963,7 @@ def build_nature_listing_page(spot, slug):
         "@type":    "BreadcrumbList",
         "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home",           "item": SITE_URL + "/"},
-            {"@type": "ListItem", "position": 2, "name": "Nature & Parks", "item": SITE_URL + "/nature.html"},
+            {"@type": "ListItem", "position": 2, "name": "Things to Do", "item": SITE_URL + "/activities.html"},
             {"@type": "ListItem", "position": 3, "name": name,             "item": page_url},
         ]
     }
@@ -5976,7 +6008,7 @@ def build_nature_listing_page(spot, slug):
         + '\n<div class="relative w-full pt-16" style="min-height:320px">\n  <div class="absolute inset-0" style="'
         + hero_style + '"></div>\n  '
         + overlay
-        + '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">' + _crumb("nature.html", "Nature &amp; Parks", name_e) + '\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"\n          style="background:var(--coral);color:#fff">'
+        + '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">' + _crumb("activities.html", "Things to Do", name_e) + '\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"\n          style="background:var(--coral);color:#fff">'
         + html_lib.escape(badge)
         + '</span>\n    <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">'
         + name_e
@@ -12999,13 +13031,13 @@ def build_history_page():
     <a href="quiz.html" class="font-semibold hover:underline" style="color:var(--forest2)">Sabi Suriname quiz</a>, find the places from this
     timeline in <a href="map-game.html" class="font-semibold hover:underline" style="color:var(--forest2)">Pe A De?</a>, visit
     <a href="listing/fort-zeelandia/" class="font-semibold hover:underline" style="color:var(--forest2)">Fort Zeelandia</a> and
-    <a href="nature.html" class="font-semibold hover:underline" style="color:var(--forest2)">the nature reserves</a>, or plan a trip with our
+    <a href="activities.html?sub=nature-parks" class="font-semibold hover:underline" style="color:var(--forest2)">the nature reserves</a>, or plan a trip with our
     <a href="suriname-itinerary.html" class="font-semibold hover:underline" style="color:var(--forest2)">itineraries</a>.</span>
     <span class="tl-nl">Geschiedenis leeft overal op deze site: test jezelf in de
     <a href="quiz.html" class="font-semibold hover:underline" style="color:var(--forest2)">Sabi Suriname-quiz</a>, zoek de plekken uit deze
     tijdlijn in <a href="map-game.html" class="font-semibold hover:underline" style="color:var(--forest2)">Pe A De?</a>, bezoek
     <a href="listing/fort-zeelandia/" class="font-semibold hover:underline" style="color:var(--forest2)">Fort Zeelandia</a> en
-    <a href="nature.html" class="font-semibold hover:underline" style="color:var(--forest2)">de natuurreservaten</a>, of plan een reis met onze
+    <a href="activities.html?sub=nature-parks" class="font-semibold hover:underline" style="color:var(--forest2)">de natuurreservaten</a>, of plan een reis met onze
     <a href="suriname-itinerary.html" class="font-semibold hover:underline" style="color:var(--forest2)">reisroutes</a>.</span></p>
     <p class="text-gray-400 text-xs leading-relaxed"><span class="tl-en">Compiled from public historical sources and checked against
     primary dates. Spotted an error? <a href="contact.html" class="underline">Tell us</a> and we will fix it.</span>
@@ -14884,7 +14916,6 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("restaurants.html","0.9", "weekly"),
         ("hotels.html",     "0.9", "weekly"),
         ("activities.html", "0.9", "weekly"),
-        ("nature.html",     "0.9", "weekly"),
         ("shopping.html",   "0.8", "weekly"),
         ("services.html",   "0.8", "weekly"),
         ("currency.html",   "0.9", "daily"),
@@ -14977,7 +15008,7 @@ def build_llms_txt():
     S = SITE_URL
     n_rest = len(RESTAURANTS); n_hotel = len(HOTELS)
     n_shop = len(SHOPPING);    n_serv  = len(SERVICES)
-    n_nat  = len(NATURE_SPOTS) + len(SIGHTSEEING); n_act  = len(ACTIVITIES) + len(ADVENTURES_BIZ)
+    n_nat_act = len(NATURE_SPOTS) + len(SIGHTSEEING) + len(ACTIVITIES) + len(ADVENTURES_BIZ)
     return f"""# Explore Suriname
 
 > Independent travel and lifestyle guide to Suriname (South America), written and kept current by people who live there. Covers places to eat, stay and visit, plus live SRD exchange rates, flights, weather and local news. The site is regenerated about every 15 minutes, so rates and schedules stay current.
@@ -14985,8 +15016,7 @@ def build_llms_txt():
 ## Places
 - [Restaurants]({S}/restaurants.html): {n_rest} places to eat across Suriname, spanning Creole, Hindustani, Javanese, Chinese and Maroon cooking.
 - [Hotels and Lodges]({S}/hotels.html): {n_hotel} options, from Paramaribo city hotels to interior jungle lodges reached by boat or small plane.
-- [Nature and Parks]({S}/nature.html): {n_nat} reserves and natural sites, including UNESCO-listed rainforest, Brownsberg, Galibi and Bigi Pan.
-- [Activities]({S}/activities.html): {n_act} tours and things to do, from river trips and birdwatching to Maroon and Indigenous village visits.
+- [Things to Do]({S}/activities.html): {n_nat_act} nature parks, tours, attractions and experiences in one list, including UNESCO-listed rainforest, Brownsberg, Galibi, Bigi Pan, river trips, birdwatching and Maroon and Indigenous village visits.
 - [Shopping]({S}/shopping.html): {n_shop} shops, malls and markets.
 - [Local Services]({S}/services.html): {n_serv} banks, pharmacies, salons and other everyday services.
 - [Events and Festivals]({S}/events.html): annual festivals, public holidays and one-off events, with dates.
@@ -15055,7 +15085,7 @@ def build_manifest():
         "shortcuts": [
             {"name": "Restaurants",   "url": "/restaurants.html", "description": "Paramaribo restaurants & dining", "icons": [{"src": "/favicon.svg", "sizes": "any"}]},
             {"name": "Exchange Rates","url": "/currency.html",     "description": "Live SRD exchange rates",         "icons": [{"src": "/favicon.svg", "sizes": "any"}]},
-            {"name": "Nature & Parks","url": "/nature.html",       "description": "Suriname nature spots",           "icons": [{"src": "/favicon.svg", "sizes": "any"}]},
+            {"name": "Things to Do",  "url": "/activities.html",   "description": "Nature parks, tours and sights",  "icons": [{"src": "/favicon.svg", "sizes": "any"}]},
             {"name": "Flights",       "url": "/flights.html",      "description": "PBM arrivals & departures",       "icons": [{"src": "/favicon.svg", "sizes": "any"}]},
         ],
     }
@@ -17297,8 +17327,17 @@ if __name__ == "__main__":
 
     pages = {
         "index.html":       build_index(RESTAURANTS, HOTELS, cme_rates),
-        "nature.html":      build_nature_page(),
         "activities.html":  build_activities_page(),
+        # Folded into activities.html (Aug 2026). Kept as a stub so existing
+        # links and indexed URLs consolidate instead of 404ing.
+        "nature.html":             ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
+            '<meta name="viewport" content="width=device-width, initial-scale=1">'
+            '<meta name="robots" content="noindex,follow">'
+            '<meta http-equiv="refresh" content="0;url=/activities.html">'
+            '<link rel="canonical" href="https://exploresuriname.com/activities.html">'
+            '<title>Redirecting to Things to Do&hellip;</title></head><body>'
+            '<p>Nature parks and reserves now live on our '
+            '<a href="/activities.html">Things to Do</a> page, alongside tours and sights.</p></body></html>'),
         "restaurants.html": build_restaurants_page(RESTAURANTS),
         "hotels.html":      build_hotels_page(HOTELS),
         "shopping.html":    build_shopping_page(),

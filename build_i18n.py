@@ -175,7 +175,8 @@ def localize(soup, lang: str, rel_path: str):
     # Redirect stubs must keep pointing at their target, never self-canonicalize.
     _STUBS = {"today.html": "/daily-notices.html",
               "worldcup-2026.html": "/matches.html",
-              "seogs-2026.html": "/events.html"}
+              "seogs-2026.html": "/events.html",
+              "nature.html": "/activities.html"}
     if rel_path not in _STUBS:
         for el in soup.select("link[rel=canonical]"):
             el["href"] = canon
