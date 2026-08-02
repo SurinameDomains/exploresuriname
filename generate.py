@@ -6023,8 +6023,12 @@ def build_today_page():
                 _title = html_lib.escape(_s.get("title", ""))
                 _url   = html_lib.escape(_s.get("url", ""))
                 _nm = ('<a href="' + _url + '" target="_blank" rel="noopener" class="pharmacy-name" style="text-decoration:none">' + _title + '</a>') if _url else ('<span class="pharmacy-name">' + _title + '</span>')
+                if _s.get("sold_out") or not _tm:
+                    _tcell = '<span style="font-weight:700;font-size:.7rem;color:#b91c1c;white-space:nowrap;min-width:70px;text-transform:uppercase;letter-spacing:.03em">Sold out</span>'
+                else:
+                    _tcell = '<span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">' + _tm + '</span>'
                 _tbl_rows += ('<div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline">'
-                              '<span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">' + _tm + '</span>' + _nm + '</div>')
+                              + _tcell + _nm + '</div>')
                 _iso = None
                 try:
                     _pt = datetime.strptime(_s.get("time", "").strip(), "%I:%M %p").time()
@@ -6478,9 +6482,11 @@ fetch('/data/tbl_cinema.json')
       var name = s.url
         ? '<a href="' + escHtml(s.url) + '" target="_blank" rel="noopener" class="pharmacy-name" style="text-decoration:none">' + escHtml(s.title) + '</a>'
         : '<span class="pharmacy-name">' + escHtml(s.title) + '</span>';
+      var tcell = (s.sold_out || !s.time)
+        ? '<span style="font-weight:700;font-size:.7rem;color:#b91c1c;white-space:nowrap;min-width:70px;text-transform:uppercase;letter-spacing:.03em">Sold out</span>'
+        : '<span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">' + escHtml(s.time) + '</span>';
       html += '<div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline">'
-            + '<span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">' + escHtml(s.time) + '</span>'
-            + name + '</div>';
+            + tcell + name + '</div>';
     }});
     html += '<p class="text-xs text-gray-300 mt-2">Source: <a href="https://www.tblcinemas.com/films/dagschema" target="_blank" rel="noopener" class="src-link">tblcinemas.com</a> &bull; Box office from 16:00 (wknd 13:00)</p>';
     body.innerHTML = html;
