@@ -15,7 +15,7 @@
   @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   </style>
-<link href="/tailwind.css?v=f430754c" rel="stylesheet"/>
+<link href="/tailwind.css?v=0039939f" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -68,16 +68,20 @@
     .navsearch .nslabel { max-width:7rem; overflow:hidden; white-space:nowrap; font-size:.875rem;
                           transition:max-width .22s ease; }
     .navsearch:hover, .navsearch:focus-visible { border-color:#9ca3af; color:#4b5563; }
+    /* Seven top-level items, kept generously spaced. Two narrow-desktop tiers,
+       and the search label collapses earlier on the NL/ES trees because those
+       nav labels run longer (build_i18n sets html[lang]). Verified at
+       1024/1152/1280/1440/1920 in all three languages. */
+    .navlinks { gap:24px; }
     @media (max-width:1279px) {
+      html[lang="nl"] .navsearch, html[lang="es"] .navsearch { gap:0; padding:7px; }
+      html[lang="nl"] .navsearch .nslabel, html[lang="es"] .navsearch .nslabel { max-width:0; }
+    }
+    @media (max-width:1151px) {
+      .navlinks { gap:10px; }
+      .navlinks .dd-trigger, .navlinks > a { font-size:13px; }
       .navsearch { gap:0; padding:7px; }
       .navsearch .nslabel { max-width:0; }
-    }
-    /* Seven top-level items fit comfortably at 1280+. Between 1024 and 1279 the
-       bar runs denser so the longer NL/ES labels and the language switcher fit. */
-    .navlinks { gap:14px; }
-    @media (min-width:1024px) and (max-width:1279px) {
-      .navlinks { gap:11px; }
-      .navlinks .dd-trigger, .navlinks > a { font-size:13px; }
     }
     /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
     .dd-menu { transform-origin: top center; }
@@ -327,7 +331,7 @@
 <style>nav button,nav a{white-space:nowrap}</style><link href="https://exploresuriname.com/currency.html" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/currency.html" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/currency.html" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/currency.html" hreflang="x-default" rel="alternate"/></head>
 <body class="bg-gray-50 overflow-x-hidden">
 <nav class="fixed top-0 w-full z-50" style="background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14);box-shadow:0 1px 12px rgba(20,42,30,.05)">
-<div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+<div class="max-w-7xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
 <a class="flex items-baseline flex-shrink-0" href="index.html">
 <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
 </a>
@@ -776,7 +780,7 @@ document.addEventListener('keydown', e => {
 </div>
 <a class="text-xs font-semibold shrink-0 hover:underline" href="https://www.cme.sr" rel="noopener noreferrer" style="color:var(--forest2)" target="_blank">cme.sr ↗</a>
 </div>
-<p class="text-gray-400 text-xs mt-2">🕐 CME: 02 Aug 2026 16:58 SR</p>
+<p class="text-gray-400 text-xs mt-2">🕐 CME: 02 Aug 2026 17:15 SR</p>
 </div>
 <div class="hidden sm:block overflow-x-auto">
 <table class="w-full text-sm">
@@ -796,7 +800,7 @@ document.addEventListener('keydown', e => {
 <div class="px-6 py-5 border-b border-gray-100">
 <p class="font-bold text-gray-900 text-base">Banktarieven vergeleken</p>
 <p class="text-gray-400 text-xs mt-0.5">USD en EUR bij de commerciële banken van Suriname, zij aan zij. Kopen is wat u ontvangt als u vreemde valuta verkoopt; verkopen is wat je betaalt om het te krijgen.</p>
-<p class="text-gray-400 text-xs mt-2">🕐 02 Aug 2026 16:59 SR</p>
+<p class="text-gray-400 text-xs mt-2">🕐 02 Aug 2026 17:15 SR</p>
 </div>
 <div class="hidden sm:block overflow-x-auto">
 <table class="w-full text-sm">
@@ -856,7 +860,7 @@ document.addEventListener('keydown', e => {
 <h2 class="serif text-2xl font-bold text-gray-900">🛣︎Brent Ruwe Olie</h2>
 <p class="text-gray-400 text-sm mt-1">Brent Crude, elk uur bijgewerkt</p>
 </div>
-<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">● 02 Aug 2026 16:59 SR</span>
+<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">● 02 Aug 2026 17:15 SR</span>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 <div class="rounded-xl p-4" style="background:var(--mint)">
