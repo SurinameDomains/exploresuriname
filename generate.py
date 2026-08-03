@@ -3814,13 +3814,15 @@ def _explore_more_html(active):
     )
 
 
-def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None, seo_title=None, intro_text="", faq=None):
+def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None, seo_title=None, intro_text="", faq=None, card_count=None):
     _page_active = page_file.replace(".html", "") if page_file else "home"
     page_url = f"{SITE_URL}/{page_file}"
     _og_img = og_image or f"{SITE_URL}/og-image.jpg"
     _seo_title = seo_title or title
     _lcp_preload = f'  <link rel="preload" as="image" href="{lcp_image}" fetchpriority="high">\n' if lcp_image else ""
     _faq_head, _faq_body = _render_faq(faq)
+    # Cards rendered, which is not always len(items) — see card_count.
+    _n_cards = card_count if card_count is not None else len(items)
     _xlinks = _INTRO_CROSSLINKS.get(_page_active, "")
     _xhtml = ('<p class="xlinks">' + _xlinks + '</p>') if _xlinks else ""
     # Intro copy is SEO text, not wayfinding: it renders below the listings so
@@ -3878,7 +3880,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
 </div>
 {filter_bar}
 <main class="max-w-6xl mx-auto px-5 {_main_pt} pb-24">
-  <div id="result-count" class="text-sm text-gray-400 mb-4 font-medium">{len(items)} results</div>
+  <div id="result-count" class="text-sm text-gray-400 mb-4 font-medium">{_n_cards} results</div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     {cards_html}
   </div>
@@ -4465,7 +4467,7 @@ def build_activities_page():
         f"Browse {total} things to do in Suriname: nature parks, jungle tours, river trips, museums, birdwatching and guided expeditions. Find operators and attractions.",
         _items_ld, all_cards, bg_color=_CAT_ACCENT["Activities"], page_file="activities.html", extra_html="", filter_bar=filter_bar_a,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Atjoni_%2833496718666%29.jpg/1280px-Atjoni_%2833496718666%29.jpg",
-        lcp_image=_first_img, seo_title="Things to Do in Suriname: Nature, Tours and Sights",
+        lcp_image=_first_img, seo_title="Things to Do in Suriname: Nature, Tours and Sights", card_count=total,
         intro_text=f"Looking for things to do in Suriname? Browse {total} nature parks, activities, tours and attractions in one place. Suriname protects more than 90% of its land as rainforest, the highest share of any country on Earth, so most trips start with the green: canoe through the interior, trek to Brownsberg and the Central Suriname Nature Reserve, or watch leatherback turtles nest at Galibi. Closer to town there are plantation walks, Maroon and Indigenous village visits, museums and the historic inner city of Paramaribo. From half-day trips to multi-day expeditions, find and book with local operators here.", faq=_FAQ_ACTIVITIES + _FAQ_NATURE)
 
 def build_restaurants_page(restaurants):
