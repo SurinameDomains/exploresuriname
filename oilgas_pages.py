@@ -24,6 +24,7 @@ used here will not be compiled.
 """
 
 import json
+import re
 from pathlib import Path
 
 _DATA_PATH = Path(__file__).parent / "data" / "oilgas.json"
@@ -93,9 +94,19 @@ def _table(headers, rows, first_col_bold=True):
             cls = "py-3 px-4 align-top text-gray-700"
             if idx == 0 and first_col_bold:
                 cls = "py-3 px-4 align-top font-semibold text-gray-900"
-            tds.append(f'<td class="{cls}">{cell}</td>')
+            # Mobile card label. Two-column tables need none: the first cell
+            # already reads as the row heading. Long prose headers are skipped
+            # too, they would shout on every card.
+            lab = headers[idx] if idx < len(headers) else ""
+            lab = re.sub(r"<[^>]+>", "", lab).replace('"', "").strip()
+            if len(headers) < 3 or len(lab) > 22:
+                lab = ""
+            tds.append(f'<td class="{cls}" data-label="{lab}">{cell}</td>')
         body.append('<tr class="border-t border-gray-100">' + "".join(tds) + '</tr>')
-    return ('<div class="overflow-x-auto -mx-2 px-2"><table class="w-full text-sm min-w-[640px]">'
+    # esr-rtable: horizontal scroll from sm up, stacked labelled cards on phones
+    # (the CSS lives in PAGE_HEAD in generate.py).
+    return ('<div class="esr-rtable sm:overflow-x-auto sm:-mx-2 sm:px-2">'
+            '<table class="w-full text-sm sm:min-w-[640px]">'
             '<thead class="bg-gray-50"><tr>' + head + '</tr></thead><tbody>'
             + "".join(body) + '</tbody></table></div>')
 

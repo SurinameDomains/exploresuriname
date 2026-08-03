@@ -2340,6 +2340,19 @@ PAGE_HEAD = """\
     .esr-arrow:hover{border-color:#9ca3af;color:#111}
     .esr-arrow-l{left:2px}.esr-arrow-r{right:2px}
     @media(hover:none){.esr-arrow{display:none!important}}
+    /* Data tables: scroll on desktop, stack into labelled cards on phones. */
+    @media(max-width:639px){
+      .esr-rtable{overflow-x:visible!important}
+      .esr-rtable table{min-width:0!important;width:100%;display:block;font-size:.875rem}
+      .esr-rtable thead{display:none}
+      .esr-rtable tbody{display:block}
+      .esr-rtable tr{display:block;border:1px solid #e5e7eb;border-radius:.9rem;padding:.7rem .25rem;margin-bottom:.7rem;background:#fff}
+      .esr-rtable td{display:block;border:0!important;padding:.3rem .85rem!important}
+      .esr-rtable td::before{content:attr(data-label);display:block;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#9ca3af;margin-bottom:.1rem}
+      .esr-rtable td[data-label=""]::before{display:none}
+      .esr-rtable td:first-child{font-size:.98rem;padding-bottom:.15rem!important}
+      .esr-rtable td:first-child::before{display:none}
+    }
   </style>
   <script>
   /* Horizontal chip strips and scroll rows, sitewide: make them usable with a
