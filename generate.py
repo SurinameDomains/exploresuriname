@@ -13973,8 +13973,8 @@ __NAV__
       <span>I own this business or I am authorised to represent it.</span>
     </label>
 
-    <div class="hp"><label for="company_url">Leave this empty</label>
-      <input type="text" id="company_url" name="company_url" tabindex="-1" autocomplete="off"></div>
+    <div class="hp" aria-hidden="true"><label for="hp_ref">Leave this empty</label>
+      <input type="text" id="hp_ref" name="hp_ref" tabindex="-1" autocomplete="off" readonly></div>
 
     __TURNSTILE__
 
