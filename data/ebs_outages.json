@@ -1,24 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD DINSDAG 4 AUG 2026",
-      "date": "4 Aug 2026",
-      "date_iso": "2026-08-04",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1558/gepland-onderhoud-dinsdag-4-aug-2026",
-      "meta_description": "GEPLAND ONDERHOUD: COMMEWIJNE DINSDAG 4 AUG 2026 TUSSEN 8:00 EN 14:00 UURCHEDIWEG, PANDIT MANURATWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
-      "district": "COMMEWIJNE"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD WOENSDAG 5 AUG 2026",
-      "date": "5 Aug 2026",
-      "date_iso": "2026-08-05",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1556/gepland-onderhoud-woensdag-5-aug-2026",
-      "meta_description": "GEPLAND ONDERHOUD WOENSDAG 5 AUG 2026 TUSSEN 9:00 EN 14:00 UURGEDEELTE OOST – WEST VERBINDING TUSSEN TAJERBLADWEG EN TAMBAREDJOWEG, MOESAFIRWEG,",
-      "district": "GEPLAND ONDERHOUD"
-    }
-  ],
-  "last_updated": "2026-08-02T23:07:47.954955+00:00",
+  "outages": [],
+  "last_updated": "2026-08-03T03:07:45.767475+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
