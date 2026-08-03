@@ -837,8 +837,8 @@ document.addEventListener('keydown', e => {
 <input class="mt-1 w-4 h-4" id="f-owner_claim" name="owner_claim" type="checkbox" value="1"/>
 <span>Ik ben eigenaar van dit bedrijf of ik ben bevoegd om het te vertegenwoordigen.</span>
 </label>
-<div class="hp"><label for="company_url">Laat dit leeg</label>
-<input autocomplete="off" id="company_url" name="company_url" tabindex="-1" type="text"/></div>
+<div aria-hidden="true" class="hp"><label for="hp_ref">Laat dit leeg</label>
+<input autocomplete="off" id="hp_ref" name="hp_ref" readonly="" tabindex="-1" type="text"/></div>
 <div class="cf-turnstile mt-5" data-sitekey="0x4AAAAAAEA9rqn_-t206NGg" data-theme="light"></div>
 <button class="w-full mt-6 px-6 py-3.5 rounded-xl text-white font-semibold text-sm transition hover:opacity-90 disabled:opacity-50" id="go" style="background:var(--forest)" type="submit">Ter beoordeling indienen</button>
 <p aria-live="polite" class="text-sm mt-4" id="msg" role="status"></p>
