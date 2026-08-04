@@ -1,6 +1,28 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 6 AUGUSTUS 2026",
+      "date": "6 Augustus 2026",
+      "date_iso": "2026-08-06",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1564/gepland-onderhoud-donderdag-6-augustus-2026",
+      "meta_description": "Gepland onderhoud: Wanica donderdag 6 augustus 2026 tussen 08:00-12:30 GEDEELTE SOPHIA’S LUSTWEG TUSSEN I. JAHANGIERWEG EN ANTON BUDELSTRAAT, BAAS ADR",
+      "district": "Wanica",
+      "time": "08:00 – 12:30",
+      "area": "GEDEELTE SOPHIA’S LUSTWEG TUSSEN I. JAHANGIERWEG EN ANTON BUDELSTRAAT, BAAS ADR"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 6 AUGUSTUS 2026",
+      "date": "6 Augustus 2026",
+      "date_iso": "2026-08-06",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1563/gepland-onderhoud-donderdag-6-augustus-2026",
+      "meta_description": "Gepland onderhoud: Wanica donderdag 6 augustus 2026 tussen 09:00-14:00 WEG NAAR BEM EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
+      "district": "Wanica",
+      "time": "09:00 – 14:00",
+      "area": "WEG NAAR BEM EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED"
+    },
+    {
       "title": "GEPLAND ONDERHOUD WOENSDAG 5 AUGUSTUS 2026",
       "date": "5 Augustus 2026",
       "date_iso": "2026-08-05",
@@ -12,24 +34,17 @@
       "area": "CALCUTTAWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED. Kaart openen:"
     },
     {
-      "title": "GEPLAND ONDERHOUD DINSDAG 4 AUG 2026",
-      "date": "4 Aug 2026",
-      "date_iso": "2026-08-04",
+      "title": "GEPLAND ONDERHOUD DONDERDAG 6 AUGUSTUS 2026",
+      "date": "6 Augustus 2026",
+      "date_iso": "2026-08-06",
       "type": "planned",
-      "link": "https://nvebs.com/nieuws/1558/gepland-onderhoud-dinsdag-4-aug-2026",
-      "meta_description": "GEPLAND ONDERHOUD: COMMEWIJNE DINSDAG 4 AUG 2026 TUSSEN 8:00 EN 14:00 UURCHEDIWEG, PANDIT MANURATWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
-      "district": "COMMEWIJNE"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD WOENSDAG 5 AUG 2026",
-      "date": "5 Aug 2026",
-      "date_iso": "2026-08-05",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1556/gepland-onderhoud-woensdag-5-aug-2026",
-      "meta_description": "GEPLAND ONDERHOUD WOENSDAG 5 AUG 2026 TUSSEN 9:00 EN 14:00 UURGEDEELTE OOST – WEST VERBINDING TUSSEN TAJERBLADWEG EN TAMBAREDJOWEG, MOESAFIRWEG,",
-      "district": "GEPLAND ONDERHOUD"
+      "link": "https://nvebs.com/nieuws/1559/gepland-onderhoud-donderdag-6-augustus-2026",
+      "meta_description": "Gepland onderhoud: Commewijne donderdag 6 augustus 2026 tussen 07:45-15:00 ALKMAAR, OOST-WEST VERBINDING COMMEWIJNE TUSSEN PEPERPOT CITY EN MOENGO, OOST &nd",
+      "district": "Commewijne",
+      "time": "07:45 – 15:00",
+      "area": "ALKMAAR, OOST-WEST VERBINDING COMMEWIJNE TUSSEN PEPERPOT CITY EN MOENGO, OOST &nd"
     }
   ],
-  "last_updated": "2026-08-04T11:07:38.292923+00:00",
+  "last_updated": "2026-08-04T14:28:16.351618+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
