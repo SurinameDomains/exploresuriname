@@ -1,5 +1,39 @@
 {
-  "outages": [],
-  "last_updated": "2026-08-05T06:33:16.351284+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 6 AUGUSTUS 2026",
+      "date": "6 Augustus 2026",
+      "date_iso": "2026-08-06",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1564/gepland-onderhoud-donderdag-6-augustus-2026",
+      "meta_description": "Gepland onderhoud: Wanica donderdag 6 augustus 2026 tussen 08:00-12:30 GEDEELTE SOPHIA’S LUSTWEG TUSSEN I. JAHANGIERWEG EN ANTON BUDELSTRAAT, BAAS ADR",
+      "district": "Wanica",
+      "time": "08:00 – 12:30",
+      "area": "GEDEELTE SOPHIA’S LUSTWEG TUSSEN I. JAHANGIERWEG EN ANTON BUDELSTRAAT, BAAS ADR"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 6 AUGUSTUS 2026",
+      "date": "6 Augustus 2026",
+      "date_iso": "2026-08-06",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1563/gepland-onderhoud-donderdag-6-augustus-2026",
+      "meta_description": "Gepland onderhoud: Wanica donderdag 6 augustus 2026 tussen 09:00-14:00 WEG NAAR BEM EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
+      "district": "Wanica",
+      "time": "09:00 – 14:00",
+      "area": "WEG NAAR BEM EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD WOENSDAG 5 AUGUSTUS 2026",
+      "date": "5 Augustus 2026",
+      "date_iso": "2026-08-05",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1562/gepland-onderhoud-woensdag-5-augustus-2026",
+      "meta_description": "Gepland onderhoud: Saramacca woensdag 5 augustus 2026 tussen 08:00-14:00 CALCUTTAWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED. Kaart openen:",
+      "district": "Saramacca",
+      "time": "08:00 – 14:00",
+      "area": "CALCUTTAWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED. Kaart openen:"
+    }
+  ],
+  "last_updated": "2026-08-05T07:07:54.208275+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
