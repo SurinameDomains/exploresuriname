@@ -7117,7 +7117,7 @@ def build_crossword_page():
         {"@type": "WebPage", "@id": SITE_URL + "/crossword.html#webpage",
          "url": SITE_URL + "/crossword.html",
          "name": "Switi Mini: Surinaamse kruiswoord",
-         "description": "A free daily mini crossword in Surinamese words (Sranan Tongo and Surinaams-Nederlands) with Dutch and English clues. New puzzle every day.",
+         "description": "A free daily crossword in Surinamese words (Sranan Tongo and Surinaams-Nederlands) with Dutch and English clues, in sizes from 5x5 to 11x11. New puzzle every day.",
          "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": SITE_URL + "/"},
          "primaryImageOfPage": _ogimg,
          "breadcrumb": {"@id": SITE_URL + "/crossword.html#breadcrumb"},
@@ -7130,7 +7130,7 @@ def build_crossword_page():
             {"@type": "ListItem", "position": 2, "name": "Switi Mini Crossword", "item": SITE_URL + "/crossword.html"}]},
         {"@type": "Game", "@id": SITE_URL + "/crossword.html#game",
          "name": "Switi Mini", "url": SITE_URL + "/crossword.html",
-         "description": "A daily 5x5 mini crossword built entirely from Sranan Tongo and Surinaams-Nederlands words, with clues in Dutch and English.",
+         "description": "A daily crossword built entirely from Sranan Tongo and Surinaams-Nederlands words, in sizes from 5x5 to 11x11, with clues in Dutch and English.",
          "genre": "Crossword puzzle", "gamePlatform": "Web browser",
          "inLanguage": ["nl", "en"], "isAccessibleForFree": True, "image": _ogimg,
          "publisher": {"@type": "Organization", "name": "Explore Suriname", "url": SITE_URL + "/"}}
@@ -7138,7 +7138,8 @@ def build_crossword_page():
 
     # FAQ: visible Q&A + FAQPage schema from one source (site _render_faq helper)
     _faq = [
-        ("What is Switi Mini?", "Switi Mini is a free daily mini crossword from Explore Suriname. Every 5x5 puzzle is built from Surinamese words (Sranan Tongo and Surinaams-Nederlands), with clues you can read in Dutch or English."),
+        ("What is Switi Mini?", "Switi Mini is a free daily crossword from Explore Suriname. Every puzzle is built from Surinamese words (Sranan Tongo and Surinaams-Nederlands), with clues you can read in Dutch or English."),
+        ("How big are the puzzles?", "The size changes from day to day. Most days are a quick 5x5. Every few days the grid steps up to a 7x7 or 9x9, and once in the rotation there is a full 11x11 holding more than forty answers. Today's size is shown next to the date above the grid."),
         ("Is Switi Mini free to play?", "Yes. Switi Mini is completely free, needs no account and no app. It runs in any browser on phone or desktop, and can be installed as a web app."),
         ("How often is there a new puzzle?", "A new Switi Mini is published every day. You can also step back to earlier days' puzzles using the arrows above the grid."),
         ("What language are the clues in?", "Each clue is written in both Dutch and English. Tap NL or EN to switch. A small tag (SR or SN) shows whether the answer is a Sranan Tongo or Surinaams-Nederlands word."),
@@ -7151,7 +7152,8 @@ def build_crossword_page():
     _about_html = (
         '<section class="max-w-3xl mx-auto px-4 mt-16" aria-labelledby="about-heading">'
         '<h2 id="about-heading" class="serif text-2xl sm:text-3xl font-bold text-gray-900 mb-4">About Switi Mini</h2>'
-        '<p class="text-gray-600 leading-relaxed mb-4">Switi Mini is a free daily <strong>Surinaamse kruiswoord</strong>: a little 5&#215;5 mini crossword built entirely from Surinamese words. Every answer is a word from <strong>Sranan Tongo</strong> or <strong>Surinaams-Nederlands</strong>, attested in the dictionaries, so each puzzle is a small, playful way to learn the language of Suriname.</p>'
+        '<p class="text-gray-600 leading-relaxed mb-4">Switi Mini is a free daily <strong>Surinaamse kruiswoord</strong> built entirely from Surinamese words. Every answer is a word from <strong>Sranan Tongo</strong> or <strong>Surinaams-Nederlands</strong>, attested in the dictionaries, so each puzzle is a small, playful way to learn the language of Suriname.</p>'
+        '<p class="text-gray-600 leading-relaxed mb-4">The grid changes shape and size from day to day. Most days bring a quick 5&#215;5, and every few days it steps up to a 7&#215;7 or 9&#215;9. Once in the rotation there is a full 11&#215;11 with more than forty answers. Today&#8217;s size is shown next to the date above the grid.</p>'
         '<p class="text-gray-600 leading-relaxed mb-4">A new puzzle goes live every day. Clues come in both <strong>Dutch and English</strong> (tap NL or EN to switch), and a tag on each clue tells you whether the answer is Sranan Tongo (SR) or Surinaams-Nederlands (SN). Solve the grid and Switi Mini reveals what every word means, so you finish a few words richer than you started.</p>'
         '<h2 class="serif text-2xl sm:text-3xl font-bold text-gray-900 mb-4 mt-10">How to play</h2>'
         '<ol class="text-gray-600 leading-relaxed space-y-2 list-decimal pl-5">'
@@ -7188,7 +7190,7 @@ def build_crossword_page():
         _today_clues_html = ""
     head = f"""{PAGE_HEAD}
   <title>Switi Mini | Surinaamse kruiswoord | Explore Suriname</title>
-  <meta name="description" content="Switi Mini: a free daily mini crossword in Surinamese words (Sranan Tongo and Surinaams-Nederlands), with clues in Dutch and English. New puzzle every day.">
+  <meta name="description" content="Switi Mini: a free daily crossword in Surinamese words (Sranan Tongo and Surinaams-Nederlands), in grids from 5x5 to 11x11, with clues in Dutch and English. New puzzle every day.">
   <link rel="canonical" href="{SITE_URL}/crossword.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
@@ -7218,12 +7220,14 @@ def build_crossword_page():
   #cw .cluebar .txt{{flex:1;font-size:16px;font-weight:600;text-align:center;color:#1d2421}}
   #cw .cluebar .tag{{font-size:10px;font-weight:700;background:#fff;color:var(--g);border-radius:6px;padding:2px 6px;margin-left:4px}}
   #cw table.cwgrid{{display:table;border-collapse:collapse;margin:0 auto;touch-action:manipulation}}
-  #cw table.cwgrid td{{display:table-cell;width:58px;height:58px;border:1px solid var(--line);text-align:center;vertical-align:middle;position:relative;font-size:26px;font-weight:700;text-transform:uppercase;cursor:pointer;user-select:none;background:#fff;color:#1d2421}}
+  #cw{{--cell:58px;--cellfs:26px;--cellnum:10px}}
+  #cw table.cwgrid td{{display:table-cell;width:var(--cell);height:var(--cell);border:1px solid var(--line);text-align:center;vertical-align:middle;position:relative;font-size:var(--cellfs);font-weight:700;text-transform:uppercase;cursor:pointer;user-select:none;background:#fff;color:#1d2421}}
   #cw table.cwgrid td.cwblock{{background:var(--g);border-color:var(--g);cursor:default}}
   #cw table.cwgrid td.word{{background:var(--word)}}
   #cw table.cwgrid td.sel{{background:var(--sel)}}
   #cw table.cwgrid td.bad{{background:var(--bad)}}
-  #cw table.cwgrid td .n{{position:absolute;top:1px;left:3px;font-size:10px;font-weight:700;color:#6b7a72}}
+  #cw table.cwgrid td .n{{position:absolute;top:1px;left:2px;font-size:var(--cellnum);font-weight:700;color:#6b7a72;line-height:1}}
+  #cw .sizebadge{{font-size:11px;font-weight:800;color:var(--g);background:var(--m);border-radius:6px;padding:3px 7px;letter-spacing:.5px}}
   #cw .ctrls{{display:flex;gap:8px;justify-content:center;margin:14px 0}}
   #cw .ctrls button{{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:700;color:var(--g);cursor:pointer}}
   #cw .clues{{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px}}
@@ -7265,7 +7269,7 @@ __NAV__
     </nav>
     <p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Daily Surinaamse kruiswoord</p>
     <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Switi Mini</h1>
-    <p class="text-white/70 text-base max-w-xl mx-auto">A little 5&#215;5 in Surinamese words: Sranan Tongo and Surinaams-Nederlands. A new one every day. Clues in Dutch or English; learn a word with every solve.</p>
+    <p class="text-white/70 text-base max-w-xl mx-auto">A daily crossword in Surinamese words: Sranan Tongo and Surinaams-Nederlands. Grids run from a quick 5&#215;5 to a full 11&#215;11. Clues in Dutch or English; learn a word with every solve.</p>
   </div>
 </div>
 <main class="max-w-2xl mx-auto px-4 py-10 pb-28">
@@ -7274,6 +7278,7 @@ __NAV__
       <div class="flex items-center gap-2">
         <button id="cw-prev" class="cluebar nav" style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-weight:700;color:var(--g);cursor:pointer">&#8249;</button>
         <div id="cw-label" style="font-weight:700;color:#1d2421"></div>
+        <span class="sizebadge" id="cw-size">5&#215;5</span>
         <button id="cw-next" style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-weight:700;color:var(--g);cursor:pointer">&#8250;</button>
       </div>
       <div class="flex items-center gap-2">
@@ -7314,29 +7319,40 @@ function dayNum(){return Math.floor((Date.now()-10800000)/86400000);}
 function daysSince(){return Math.max(0,dayNum()-EPOCH);}
 function todayIdx(){return N?daysSince()%N:0;}
 function maxBack(){return Math.min(daysSince(),N-1);}
-let back=0, ci=todayIdx(), P, fill, dir='A', cur=[0,0], started=false, t0=0, tick=null, solved=false;
+let back=0, ci=todayIdx(), P, fill, dir='A', cur=[0,0], started=false, t0=0, tick=null, solved=false, SZ=5;
 const root=document.getElementById('cw');
 function $(id){return document.getElementById(id);}
-function isBlock(r,c){return !(r>=0&&r<5&&c>=0&&c<5)||P.grid[r][c]==='#';}
-function load(i){ci=((i%N)+N)%N;P=CWP[ci];solved=false;
-  const sv=JSON.parse(localStorage.getItem('cw-fill-'+P.no)||'null');
-  fill=sv||Array.from({length:5},()=>Array(5).fill(''));
+function isBlock(r,c){return !(r>=0&&r<SZ&&c>=0&&c<SZ)||P.grid[r][c]==='#';}
+function pfp(){let h=5381;const s=P.grid.join('|');for(let i=0;i<s.length;i++)h=((h*33)^s.charCodeAt(i))>>>0;return h.toString(36);}
+function pkey(){return 'cw-fill-'+P.no+'-'+pfp();}
+function load(i){ci=((i%N)+N)%N;P=CWP[ci];solved=false;SZ=P.size||P.grid.length;
+  const sv=JSON.parse(localStorage.getItem(pkey())||'null');
+  fill=(sv&&sv.length===SZ)?sv:Array.from({length:SZ},()=>Array(SZ).fill(''));
   started=false;stopTimer();$('cw-timer').textContent='0:00';dir='A';cur=firstCell();
   renderGrid();renderClues();updateActive();
   $('cw-note').textContent=CT[cwLang].note;}
 function updateLabel(){const dd=new Date((dayNum()-back)*86400000);$('cw-label').textContent=back===0?CT[cwLang].today:dd.toLocaleDateString(cwLang==='nl'?'nl-NL':'en-GB',{weekday:'short',day:'numeric',month:'short',timeZone:'UTC'});$('cw-prev').style.visibility=back>=maxBack()?'hidden':'visible';$('cw-next').style.visibility=back<=0?'hidden':'visible';}
 function show(){const idx=((todayIdx()-back)%N+N)%N;load(idx);updateLabel();}
 function firstCell(){for(const e of P.entries)return[e.cells[0][0],e.cells[0][1]];}
-function save(){localStorage.setItem('cw-fill-'+P.no,JSON.stringify(fill));}
+function save(){try{localStorage.setItem(pkey(),JSON.stringify(fill));}catch(e){}}
 function cell(r,c){return root.querySelector('td[data-r="'+r+'"][data-c="'+c+'"]');}
 function renderGrid(){const w=$('cw-gridwrap');w.innerHTML='';const tb=document.createElement('table');tb.className='cwgrid';
-  for(let r=0;r<5;r++){const tr=document.createElement('tr');
-    for(let c=0;c<5;c++){const td=document.createElement('td');
+  sizeGrid();
+  for(let r=0;r<SZ;r++){const tr=document.createElement('tr');
+    for(let c=0;c<SZ;c++){const td=document.createElement('td');
       if(isBlock(r,c))td.className='cwblock';
       else{const n=P.numbers[r+','+c];if(n){const s=document.createElement('span');s.className='n';s.textContent=n;td.appendChild(s);}
         const tx=document.createElement('div');tx.className='tx';tx.textContent=fill[r][c]||'';td.appendChild(tx);
         td.dataset.r=r;td.dataset.c=c;td.onclick=()=>{if(cur[0]===r&&cur[1]===c)dir=dir==='A'?'D':'A';cur=[r,c];updateActive();if(matchMedia('(pointer:coarse)').matches)$('cw-kb').style.display='block';};}
       tr.appendChild(td);}tb.appendChild(tr);}w.appendChild(tb);}
+function sizeGrid(){
+  const wrap=$('cw-gridwrap');const avail=Math.min(wrap.clientWidth||520,520);
+  const cell=Math.max(26,Math.min(58,Math.floor((avail-2)/SZ)-1));
+  document.getElementById('cw').style.setProperty('--cell',cell+'px');
+  document.getElementById('cw').style.setProperty('--cellfs',Math.round(cell*0.45)+'px');
+  document.getElementById('cw').style.setProperty('--cellnum',Math.max(7,Math.round(cell*0.20))+'px');
+  const b=$('cw-size');if(b)b.textContent=SZ+'\u00d7'+SZ;}
+addEventListener('resize',()=>{if(P)sizeGrid();});
 function entryAt(r,c,d){return P.entries.find(e=>e.dir===d&&e.cells.some(x=>x[0]===r&&x[1]===c));}
 function curEntry(){return entryAt(cur[0],cur[1],dir)||entryAt(cur[0],cur[1],dir==='A'?'D':'A');}
 function renderClues(){for(const d of ['A','D']){const ol=$(d==='A'?'cw-across':'cw-down');ol.innerHTML='';
@@ -7357,7 +7373,7 @@ function fmt(s){return (s/60|0)+':'+String(s%60).padStart(2,'0');}
 function type(ch){if(solved)return;startTimer();if(isBlock(cur[0],cur[1]))return;fill[cur[0]][cur[1]]=ch;save();const tx=cell(cur[0],cur[1]).querySelector('.tx');if(tx)tx.textContent=ch;advance();updateActive();checkSolved();}
 function advance(){const e=curEntry();if(!e)return;const i=e.cells.findIndex(x=>x[0]===cur[0]&&x[1]===cur[1]);for(let j=i+1;j<e.cells.length;j++){if(!fill[e.cells[j][0]][e.cells[j][1]]){cur=e.cells[j];return;}}if(i+1<e.cells.length)cur=e.cells[i+1];}
 function backspace(){if(solved)return;if(fill[cur[0]][cur[1]]){fill[cur[0]][cur[1]]='';save();updateActive();return;}const e=curEntry();if(!e)return;const i=e.cells.findIndex(x=>x[0]===cur[0]&&x[1]===cur[1]);if(i>0){cur=e.cells[i-1];fill[cur[0]][cur[1]]='';save();updateActive();}}
-function move(dr,dc){let r=cur[0]+dr,c=cur[1]+dc;while(r>=0&&r<5&&c>=0&&c<5){if(!isBlock(r,c)){cur=[r,c];updateActive();return;}r+=dr;c+=dc;}}
+function move(dr,dc){let r=cur[0]+dr,c=cur[1]+dc;while(r>=0&&r<SZ&&c>=0&&c<SZ){if(!isBlock(r,c)){cur=[r,c];updateActive();return;}r+=dr;c+=dc;}}
 function nextClue(step){const list=P.entries.filter(e=>e.dir===dir).sort((a,b)=>a.num-b.num);const e=curEntry();let i=list.findIndex(x=>x.num===e.num);i=(i+step+list.length)%list.length;cur=[list[i].cells[0][0],list[i].cells[0][1]];updateActive();}
 document.addEventListener('keydown',ev=>{if($('cwmodal').style.display==='flex')return;const k=ev.key;
   if(/^[a-zA-Z]$/.test(k)){type(k.toUpperCase());ev.preventDefault();}
@@ -7372,7 +7388,7 @@ function buildKB(){const rows=['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'];const kb=$('c
     if(ri===2){const b=document.createElement('button');b.className='wide';b.textContent='⇄';b.onclick=()=>{dir=dir==='A'?'D':'A';updateActive();};d.appendChild(b);}
     kb.appendChild(d);});}
 function checkBad(){let any=false;P.entries.forEach(e=>e.cells.forEach(([r,c],i)=>{if(fill[r][c]&&fill[r][c]!==e.answer[i]){const td=cell(r,c);if(td){td.classList.add('bad');any=true;}}}));if(any)setTimeout(()=>root.querySelectorAll('td.bad').forEach(td=>td.classList.remove('bad')),900);}
-function checkSolved(){for(let r=0;r<5;r++)for(let c=0;c<5;c++){if(!isBlock(r,c)&&!fill[r][c])return false;}
+function checkSolved(){for(let r=0;r<SZ;r++)for(let c=0;c<SZ;c++){if(!isBlock(r,c)&&!fill[r][c])return false;}
   for(const e of P.entries)for(let i=0;i<e.cells.length;i++){const[r,c]=e.cells[i];if(fill[r][c]!==e.answer[i])return false;}
   if(!solved){solved=true;stopTimer();celebrate();}return true;}
 function reveal(){const e=curEntry();if(!e)return;e.cells.forEach(([r,c],i)=>{fill[r][c]=e.answer[i];});save();updateActive();checkSolved();}
@@ -7385,7 +7401,7 @@ function confetti(){const cv=$('cwfx');cv.style.display='block';cv.width=innerWi
   let n=0;(function loop(){x.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.y+=p.vy;p.x+=p.vx;p.a+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/2,p.s,p.s);x.restore();});if(n++<90)requestAnimationFrame(loop);else cv.style.display='none';})();}
 $('cw-check').onclick=()=>{if(!checkSolved())checkBad();};
 $('cw-reveal').onclick=reveal;
-$('cw-clear').onclick=()=>{if(solved)return;fill=Array.from({length:5},()=>Array(5).fill(''));save();updateActive();};
+$('cw-clear').onclick=()=>{if(solved)return;fill=Array.from({length:SZ},()=>Array(SZ).fill(''));save();updateActive();};
 $('cw-cprev').onclick=()=>nextClue(-1);$('cw-cnext').onclick=()=>nextClue(1);
 $('cw-prev').onclick=()=>{if(back<maxBack()){back++;show();}};$('cw-next').onclick=()=>{if(back>0){back--;show();}};
 $('cw-mclose').onclick=()=>{$('cwmodal').style.display='none';};
@@ -7394,6 +7410,10 @@ function setLang(l){cwLang=l;localStorage.setItem('cw-lang',l);$('cw-nl').classL
   $('cw-check').textContent=CT[l].check;$('cw-reveal').textContent=CT[l].reveal;$('cw-clear').textContent=CT[l].clear;$('cw-share').textContent=CT[l].share;$('cw-mclose').textContent=CT[l].close;
   renderClues();updateActive();$('cw-note').textContent=CT[l].note;updateLabel();}
 $('cw-nl').onclick=()=>setLang('nl');$('cw-en').onclick=()=>setLang('en');
+(function migrate(){try{if(localStorage.getItem('cw-mig2'))return;
+  const kill=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);
+    if(k&&k.indexOf('cw-fill-')===0&&/^cw-fill-\d+$/.test(k))kill.push(k);}
+  kill.forEach(k=>localStorage.removeItem(k));localStorage.setItem('cw-mig2','1');}catch(e){}})();
 buildKB();document.addEventListener('click',function(ev){if($('cw-kb').style.display==='block'&&!ev.target.closest('#cw')&&!ev.target.closest('#cw-kb'))$('cw-kb').style.display='none';});
 show();setLang(cwLang);
 </script>
