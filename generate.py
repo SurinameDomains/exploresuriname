@@ -2184,7 +2184,6 @@ PAGE_HEAD = """\
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
-  <meta name="twitter:site" content="@exploringsuriname">
   <meta property="og:locale" content="en_US">
   <link rel="preload" as="font" type="font/woff2" href="/fonts/playfair-latin-var.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-var.woff2" crossorigin>
@@ -4231,7 +4230,6 @@ function esSearch(){
     "sameAs": [
       "https://www.facebook.com/exploresurinamecom",
       "https://www.instagram.com/exploresurinamecom/",
-      "https://twitter.com/exploringsuriname",
       "https://www.tiktok.com/@exploresuriname.com"
     ]
   }}
@@ -7202,7 +7200,6 @@ def build_crossword_page():
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Switi Mini, a daily Surinamese mini crossword from Explore Suriname">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@exploringsuriname">
   <meta name="twitter:title" content="Switi Mini: Surinaamse kruiswoord">
   <meta name="twitter:description" content="A free daily mini crossword in Sranan Tongo and Surinaams-Nederlands, clues in Dutch and English.">
   <meta name="twitter:image" content="{_ogimg}">
@@ -7528,7 +7525,6 @@ def build_quiz_page():
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Sabi Suriname, the daily Suriname quiz from Explore Suriname">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@exploringsuriname">
   <meta name="twitter:title" content="Sabi Suriname: the daily Suriname quiz">
   <meta name="twitter:description" content="Five questions about Suriname every day, in English or Dutch. How well do you sabi Suriname?">
   <meta name="twitter:image" content="{_ogimg}">
@@ -13647,7 +13643,6 @@ def build_about_page():
   <meta property="og:description" content="Explore Suriname is an independent travel and lifestyle guide to Suriname.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@exploringsuriname">
   <meta name="twitter:title" content="About | Explore Suriname">
   <meta name="twitter:description" content="Explore Suriname is an independent travel and lifestyle guide to Suriname, covering restaurants, hotels, nature, activities, currency rates and local news.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
@@ -13746,7 +13741,6 @@ def build_contact_page():
   <meta property="og:description" content="Get in touch with Explore Suriname for listing requests, corrections or partnerships.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@exploringsuriname">
   <meta name="twitter:title" content="Contact | Explore Suriname">
   <meta name="twitter:description" content="Get in touch with Explore Suriname for listing requests, corrections or partnerships.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
