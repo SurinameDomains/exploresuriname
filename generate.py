@@ -162,6 +162,35 @@ try:
 except Exception as _err:
     print(f"  Warning: approved submissions unavailable — {_err}")
 
+# ── Approved public event submissions (Submit your event form) ────────────────
+# Anyone can propose an event at /submit-event.html. Nothing is published until
+# it is approved in the admin panel. Approved rows arrive here and are appended
+# to events.json's list inside build_events_page() as "oneoff" events, so they
+# expire from the page by themselves once the last day has passed.
+# A curated event in events.json ALWAYS wins on an id clash.
+# Build never fails on backend trouble — it just ships without them.
+_EV_SUB_URL = "https://esr-leaderboard.surinamedomains.workers.dev/events/approved"
+EVENT_CATS = ["festival", "concert", "sports", "market", "cultural",
+              "food-drink", "nightlife", "family", "business", "community", "other"]
+EVENT_CAT_LABEL = {
+    "festival": "Festival", "concert": "Concert", "sports": "Sports",
+    "market": "Market & fair", "cultural": "Cultural", "food-drink": "Food & drink",
+    "nightlife": "Nightlife", "family": "Family", "business": "Conference",
+    "community": "Community", "other": "Event",
+}
+_EVENT_SUBS: list = []
+try:
+    import urllib.request as _ureq2
+    _ev_req = _ureq2.Request(_EV_SUB_URL, headers={"User-Agent": "ExploreSR-build/1.0"})
+    with _ureq2.urlopen(_ev_req, timeout=15) as _ev_r:
+        _ev_rows = json.loads(_ev_r.read().decode("utf-8"))
+    for _e in (_ev_rows if isinstance(_ev_rows, list) else []):
+        if isinstance(_e, dict) and (_e.get("eid") or "").strip() and (_e.get("start_date") or "").strip():
+            _EVENT_SUBS.append(_e)
+    print(f"  Added {len(_EVENT_SUBS)} approved community events")
+except Exception as _err2:
+    print(f"  Warning: approved events unavailable — {_err2}")
+
 FEEDS = [
     {"name": "De Ware Tijd", "url": "https://www.dwtonline.com/feed/",              "color": "#2D6A4F"},
     {"name": "Starnieuws",   "url": "https://www.starnieuws.com/rss/starnieuws.rss","color": "#B40A2D"},
@@ -6585,6 +6614,46 @@ def build_events_page():
             _events = _json.load(_f).get("events", [])
     except Exception:
         _events = []
+
+    # Community events approved in the admin panel. They join the same pipeline
+    # as curated events as "oneoff" entries, so the existing resolver expires
+    # them the day after they end and the countdown/calendar links come free.
+    # A curated event in events.json always wins an id clash.
+    _curated_ids = {(_e.get("id") or "") for _e in _events}
+    for _cs in _EVENT_SUBS:
+        _cid = (_cs.get("eid") or "").strip()
+        if not _cid or _cid in _curated_ids:
+            continue
+        _curated_ids.add(_cid)
+        _place = ", ".join(x for x in [(_cs.get("venue") or "").strip(),
+                                       (_cs.get("district") or "").strip()] if x)
+        _know = []
+        if (_cs.get("time_text") or "").strip():
+            _know.append("Starts " + _cs["time_text"].strip() + ".")
+        if _cs.get("free"):
+            _know.append("Free to attend.")
+        elif (_cs.get("price") or "").strip():
+            _know.append("Entry " + _cs["price"].strip() + ".")
+        if (_cs.get("organizer") or "").strip():
+            _know.append("Organised by " + _cs["organizer"].strip() + ".")
+        _events.append({
+            "id": _cid,
+            "name": _cs.get("name", ""),
+            "kind": "oneoff",
+            "start": _cs.get("start_date", ""),
+            "end": (_cs.get("end_date") or _cs.get("start_date") or ""),
+            "holiday": False,
+            "category": EVENT_CAT_LABEL.get(_cs.get("category", ""), "Event"),
+            "location": _place or "Suriname",
+            "blurb": _cs.get("blurb", ""),
+            "more": _cs.get("more", ""),
+            "tip": " ".join(_know),
+            "website": _cs.get("website", ""),
+            "organizer": _cs.get("organizer", ""),
+            "free": bool(_cs.get("free")),
+            "image": _cs.get("image", ""),
+            "community": True,
+        })
     try:
         with open("data/holidays.json", encoding="utf-8") as _f:
             _hraw = _json.load(_f)
@@ -6765,6 +6834,8 @@ def build_events_page():
         badges = ""
         if _ev.get("holiday"):
             badges += _pill("Public holiday", "var(--mint)", "var(--forest)")
+        if _ev.get("community"):
+            badges += _pill("Community event", "#fdece7", "#a4462c")
         if not _confd:
             badges += _pill("Date to be confirmed", "#fef3c7", "#92400e")
         if _confd:
@@ -6788,6 +6859,14 @@ def build_events_page():
         tip_html = (('<p class="text-sm mt-3 pl-3 border-l-2" style="border-color:var(--leaf)">'
                      '<strong style="color:var(--forest2)">Good to know:</strong> '
                      '<span class="text-gray-600">' + _esc(tip) + '</span></p>') if tip else "")
+        # Submitted flyers are the organiser's own artwork and come in every
+        # aspect ratio, so they are capped by height and never cropped.
+        _flyer = _ev.get("image", "")
+        if _flyer:
+            tip_html = ('<img src="' + _esc(_flyer) + '" alt="Flyer for '
+                        + _esc(_ev.get("name", "")) + '" loading="lazy" decoding="async" '
+                        'class="mt-3 rounded-xl border border-gray-100" '
+                        'style="max-height:260px;width:auto;max-width:100%">') + tip_html
         foot = ""
         if _confd:
             foot += ('<a href="' + _gcal(_ev.get("name", ""), _st, _en, _ev.get("location", ""), _ev.get("blurb", ""))
@@ -6875,9 +6954,9 @@ def build_events_page():
          "although some supermarkets stay open in the morning. Tours and hotels operate normally. Withdraw "
          "SRD cash and fill the tank a day ahead, especially before the December holidays."),
         ("How do I get my event listed on this page?",
-         "Use the form further down this page or email " + CONTACT_EMAIL + " with the date, venue and a "
-         "flyer if you have one. Listing is free. We confirm the details with the organiser before anything "
-         "is published, so allow a day or two."),
+         "Fill in the Submit your event form on this site with the date, venue and flyer, or email "
+         + CONTACT_EMAIL + ". Listing is free. We confirm the details with the organiser before anything "
+         "is published, so allow a day or two. The event removes itself from the calendar the day after it ends."),
     ]
     faq_html = "".join(
         '<div class="pl-4 border-l-2" style="border-color:var(--leaf)">'
@@ -6904,6 +6983,8 @@ def build_events_page():
             _eo["isAccessibleForFree"] = True
         if _ev.get("website"):
             _eo["url"] = _ev["website"]
+        if _ev.get("image"):
+            _eo["image"] = _ev["image"]
         if _ev.get("organizer"):
             _eo["organizer"] = {"@type": "Organization", "name": _ev["organizer"]}
         _ld_events.append(_eo)
@@ -6928,43 +7009,24 @@ def build_events_page():
         {"@type": "ListItem", "position": 2, "name": "Events & Festivals", "item": SITE_URL + "/events.html"},
     ]}, ensure_ascii=False)
 
-    _inp = ('class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm '
-            'text-gray-800 focus:outline-none focus:border-gray-400 focus:bg-white transition"')
-    _lab = 'class="block text-xs font-bold uppercase tracking-wide text-gray-400 mb-1.5"'
+    # The form itself lives on submit-event.html so it can carry Turnstile,
+    # a flyer upload and its own schema. This section keeps the #submit-event
+    # anchor that older links and the FAQ point at.
     _submit_html = (
         '\n  <section class="mt-16" id="submit-event" style="scroll-margin-top:90px">'
-        '\n    <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-7 sm:p-10">'
-        '\n      <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:var(--coral)">Free listing</p>'
-        '\n      <h2 class="serif text-2xl font-bold text-gray-900 mb-2">Organising an event?</h2>'
-        '\n      <p class="text-sm text-gray-500 mb-6 max-w-2xl">Festival, concert, market, sports day or cultural '
-        'night: if visitors are welcome, we want it on this page. Send the details and we confirm everything '
-        'with you before it goes live.</p>'
-        '\n      <form id="ev-submit" class="grid grid-cols-1 sm:grid-cols-2 gap-4">'
-        '\n        <div><label ' + _lab + ' for="evf-name">Event name *</label>'
-        '<input ' + _inp + ' type="text" id="evf-name" name="name" required maxlength="120"></div>'
-        '\n        <div><label ' + _lab + ' for="evf-date">Date or dates *</label>'
-        '<input ' + _inp + ' type="text" id="evf-date" name="date" required maxlength="120" '
-        'placeholder="e.g. Sat 15 Aug 2026"></div>'
-        '\n        <div><label ' + _lab + ' for="evf-venue">Venue and district *</label>'
-        '<input ' + _inp + ' type="text" id="evf-venue" name="venue" required maxlength="160"></div>'
-        '\n        <div><label ' + _lab + ' for="evf-org">Organiser</label>'
-        '<input ' + _inp + ' type="text" id="evf-org" name="org" maxlength="120"></div>'
-        '\n        <div class="sm:col-span-2"><label ' + _lab + ' for="evf-link">Ticket or info link</label>'
-        '<input ' + _inp + ' type="text" id="evf-link" name="link" maxlength="300" '
-        'placeholder="Website, Facebook or Instagram post"></div>'
-        '\n        <div class="sm:col-span-2"><label ' + _lab + ' for="evf-details">Tell us about it</label>'
-        '<textarea ' + _inp + ' id="evf-details" name="details" rows="4" maxlength="1500" '
-        'placeholder="What is it, entry price, start time. Attach the flyer to your email."></textarea></div>'
-        '\n        <div class="sm:col-span-2 flex flex-wrap items-center gap-3 mt-1">'
-        '\n          <button type="submit" class="px-6 py-3 rounded-full font-semibold text-white text-sm '
-        'hover:opacity-90 transition" style="background:var(--forest)">Send by email</button>'
-        '\n          <button type="button" id="ev-copy" class="px-6 py-3 rounded-full font-semibold text-sm '
-        'border-2 hover:bg-gray-50 transition" style="border-color:var(--forest2);color:var(--forest2)">'
-        'Copy details</button>'
-        '\n          <span class="text-xs text-gray-400 max-w-xs">Opens your email app addressed to '
-        + CONTACT_EMAIL + '. No email app? Copy the details into any message.</span>'
-        '\n        </div>'
-        '\n      </form>'
+        '\n    <div class="rounded-3xl text-white p-7 sm:p-10" '
+        'style="background:linear-gradient(135deg,var(--forest) 0%,var(--forest2) 100%)">'
+        '\n      <p class="text-white/60 text-xs font-bold uppercase tracking-widest mb-3">Free listing</p>'
+        '\n      <h2 class="serif text-2xl sm:text-3xl font-bold mb-2">Organising an event?</h2>'
+        '\n      <p class="text-white/80 text-sm leading-relaxed max-w-2xl mb-6">Festival, concert, market, '
+        'sports day or cultural night: if visitors are welcome, we want it on this page. Send the date, the '
+        'venue and the flyer. We confirm the details with you before it goes live, and the listing removes '
+        'itself the day after the event ends.</p>'
+        '\n      <div class="flex flex-wrap items-center gap-4">'
+        '\n        <a href="submit-event.html" class="inline-block text-sm font-semibold rounded-full '
+        'px-6 py-3 transition hover:opacity-90" style="background:var(--coral);color:#fff">Submit your event</a>'
+        '\n        <span class="text-white/50 text-xs">Free &middot; reviewed by a person &middot; usually live within a day or two</span>'
+        '\n      </div>'
         '\n    </div>'
         '\n  </section>')
     _events_js = (
@@ -6976,23 +7038,6 @@ def build_events_page():
         'if(navigator.share){navigator.share(d).catch(function(){})}'
         'else if(navigator.clipboard){navigator.clipboard.writeText(u).then(function(){'
         'var o=b.textContent;b.textContent="Link copied";setTimeout(function(){b.textContent=o},1600)})}});'
-        '(function(){var f=document.getElementById("ev-submit");if(!f)return;'
-        'function body(){var g=function(n){var el=f.querySelector("[name=\'"+n+"\']");'
-        'return el&&el.value?el.value.trim():"-"};'
-        'return "Event: "+g("name")+"\\nDate(s): "+g("date")+"\\nVenue: "+g("venue")'
-        '+"\\nOrganiser: "+g("org")+"\\nLink: "+g("link")+"\\nDetails: "+g("details")'
-        '+"\\n\\nSent via the events page on exploresuriname.com"}'
-        'f.addEventListener("submit",function(e){e.preventDefault();'
-        'var s="Event submission: "+(f.querySelector("[name=\'name\']").value||"untitled");'
-        'if(window.gtag){gtag("event","event_submit",{method:"email"})}'
-        'window.location.href="mailto:' + CONTACT_EMAIL + '?subject="+encodeURIComponent(s)'
-        '+"&body="+encodeURIComponent(body())});'
-        'var c=document.getElementById("ev-copy");if(c){c.addEventListener("click",function(){'
-        'if(!f.reportValidity())return;'
-        'var t="To: ' + CONTACT_EMAIL + '\\n"+body();'
-        'if(window.gtag){gtag("event","event_submit",{method:"copy"})}'
-        'if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){'
-        'var o=c.textContent;c.textContent="Copied";setTimeout(function(){c.textContent=o},1600)})}})}})();'
         '</script>')
     _yr = str(today.year)
     _upd = _fmt(today)
@@ -7032,6 +7077,7 @@ def build_events_page():
     <p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-3">The Cultural Calendar</p>
     <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Events &amp; Festivals in Suriname</h1>
     <p class="text-white/70 text-base max-w-2xl mx-auto">Every culture that calls Suriname home brings its own celebrations. The whole year is here: national holidays, the big festivals, what they mean and how to join in.</p>
+    <a href="submit-event.html" class="cat-cta mt-7"><span aria-hidden="true">+</span> Submit your event</a>
   </div>
 </div>
 
@@ -14108,6 +14154,332 @@ __FOOTER__
             .replace("__API__", LB_API))
 
 
+def build_submit_event_page():
+    """Public "Submit your event" form. Posts to the Worker; nothing appears on
+    events.html until it is approved in the admin panel. Deliberately mirrors
+    build_submit_page() field for field so the two forms behave the same."""
+    from datetime import timedelta as _td2
+    _today = datetime.now(SR_TZ).date()
+    _min_d = _today.isoformat()
+    _max_d = (_today + _td2(days=365)).isoformat()
+    _districts = ["Paramaribo", "Wanica", "Commewijne", "Saramacca", "Nickerie",
+                  "Coronie", "Marowijne", "Para", "Brokopondo", "Sipaliwini"]
+    _cat_opts = "".join(f'<option value="{_c}">{html_lib.escape(EVENT_CAT_LABEL[_c])}</option>'
+                        for _c in EVENT_CATS)
+    _dist_opts = "".join(f'<option value="{_d}">{_d}</option>' for _d in _districts)
+    _turnstile_head = ('<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>'
+                       if TURNSTILE_SITEKEY else "")
+    _turnstile_box = (f'<div class="cf-turnstile mt-5" data-sitekey="{TURNSTILE_SITEKEY}" data-theme="light"></div>'
+                      if TURNSTILE_SITEKEY else "")
+
+    head = f"""{PAGE_HEAD}
+  <title>Submit Your Event | Explore Suriname</title>
+  <meta name="description" content="Put your Surinamese event on the Explore Suriname calendar for free. Send the date, venue and flyer, and we publish it after a quick check.">
+  <link rel="canonical" href="{SITE_URL}/submit-event.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{SITE_URL}/submit-event.html">
+  <meta property="og:title" content="Submit Your Event | Explore Suriname">
+  <meta property="og:description" content="Free listing on Suriname's events calendar. Send the date, venue and flyer, and we publish it after a quick check.">
+  <meta property="og:image" content="{SITE_URL}/images/home-faiths.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Submit Your Event | Explore Suriname">
+  <meta name="twitter:description" content="Free listing on Suriname's events calendar.">
+  <meta name="twitter:image" content="{SITE_URL}/images/home-faiths.webp">
+  {_turnstile_head}
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@graph":[
+    {{"@type":"WebPage","@id":"{SITE_URL}/submit-event.html","name":"Submit Your Event","url":"{SITE_URL}/submit-event.html","description":"Submit a Surinamese event for the free Explore Suriname events calendar.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}},
+    {{"@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Events &amp; Festivals","item":"{SITE_URL}/events.html"}},{{"@type":"ListItem","position":3,"name":"Submit Your Event","item":"{SITE_URL}/submit-event.html"}}]}},
+    {{"@type":"FAQPage","mainEntity":[
+      {{"@type":"Question","name":"Does it cost anything to list an event?","acceptedAnswer":{{"@type":"Answer","text":"No. Listing an event on the Explore Suriname calendar is free."}}}},
+      {{"@type":"Question","name":"How long does it take to appear?","acceptedAnswer":{{"@type":"Answer","text":"We check every event by hand, usually within a day or two. Once approved it appears on the events page within about fifteen minutes."}}}},
+      {{"@type":"Question","name":"What happens after the event is over?","acceptedAnswer":{{"@type":"Answer","text":"The event disappears from the calendar automatically the day after it ends. You do not need to ask us to remove it."}}}}
+    ]}}
+  ]}}
+  </script>
+  <style>
+    .fld{{margin-bottom:1.1rem}}
+    .fld label{{display:block;font-size:.76rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#5b645d;margin-bottom:.35rem}}
+    .fld .hint{{font-size:.78rem;color:#7a827b;margin-top:.3rem}}
+    .fld input[type=text],.fld input[type=email],.fld input[type=tel],.fld input[type=url],.fld input[type=date],.fld select,.fld textarea{{
+      width:100%;border:1px solid #d3d8d3;border-radius:12px;padding:.7rem .85rem;font:inherit;background:#fff;color:#1a201c}}
+    .fld textarea{{min-height:140px;resize:vertical}}
+    .fld input:focus,.fld select:focus,.fld textarea:focus{{outline:none;border-color:var(--forest);box-shadow:0 0 0 3px rgba(27,67,50,.12)}}
+    .req{{color:#b3392b}}
+    .hp{{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;overflow:hidden}}
+    #drop{{border:2px dashed #c9cec9;border-radius:14px;padding:1.4rem;text-align:center;color:#7a827b;cursor:pointer;background:#fbfcfb}}
+    #drop:hover{{border-color:var(--forest);color:var(--forest)}}
+    #prev{{max-height:190px;border-radius:12px;margin:0 auto .6rem;display:block}}
+    .two{{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem}}
+    @media(max-width:640px){{.two{{grid-template-columns:1fr}}}}
+  </style>
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+__NAV__
+<div style="height:58px"></div>
+<div class="text-white py-16 text-center" style="background:var(--forest)">
+  <a href="events.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Events &amp; Festivals</a>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Submit Your Event</h1>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Free listing on Suriname&#8217;s events calendar</p>
+</div>
+"""
+
+    body = """
+<main class="max-w-2xl mx-auto px-5 py-12 pb-24">
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mb-6">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-2">How this works</h2>
+    <ul class="space-y-2.5 text-sm text-gray-700 mb-1">
+      <li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span>Listing an event is <strong>free</strong>. Concerts, festivals, markets, sports days, fundraisers, anything the public can attend.</span></li>
+      <li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span>Every event is <strong>checked by a person</strong>, usually within a day or two.</span></li>
+      <li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span>Once approved it is on the calendar within about fifteen minutes, with a countdown and an add-to-calendar link.</span></li>
+      <li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span>It <strong>removes itself</strong> the day after the event ends. Nothing to chase.</span></li>
+    </ul>
+  </div>
+
+  <form id="frm" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8" novalidate>
+
+    <h2 class="serif text-xl font-bold text-gray-900 mb-5">The event</h2>
+
+    <div class="fld">
+      <label for="f-name">Event name <span class="req">*</span></label>
+      <input type="text" id="f-name" name="name" maxlength="120" required>
+    </div>
+
+    <div class="two">
+      <div class="fld">
+        <label for="f-start_date">First day <span class="req">*</span></label>
+        <input type="date" id="f-start_date" name="start_date" required min="__MIND__" max="__MAXD__">
+      </div>
+      <div class="fld">
+        <label for="f-end_date">Last day</label>
+        <input type="date" id="f-end_date" name="end_date" min="__MIND__" max="__MAXD__">
+        <div class="hint">Leave empty if it is a one-day event.</div>
+      </div>
+    </div>
+
+    <div class="two">
+      <div class="fld">
+        <label for="f-time_text">Time</label>
+        <input type="text" id="f-time_text" name="time_text" maxlength="60" placeholder="e.g. 20:00 until late">
+      </div>
+      <div class="fld">
+        <label for="f-category">Type of event <span class="req">*</span></label>
+        <select id="f-category" name="category" required>
+          <option value="">Choose one</option>
+          __CATOPTS__
+        </select>
+      </div>
+    </div>
+
+    <div class="fld">
+      <label for="f-venue">Venue or place <span class="req">*</span></label>
+      <input type="text" id="f-venue" name="venue" maxlength="160" placeholder="e.g. Onafhankelijkheidsplein">
+    </div>
+
+    <div class="two">
+      <div class="fld">
+        <label for="f-district">District</label>
+        <select id="f-district" name="district">
+          <option value="">Choose one</option>
+          __DISTOPTS__
+        </select>
+      </div>
+      <div class="fld">
+        <label for="f-price">Entry price</label>
+        <input type="text" id="f-price" name="price" maxlength="60" placeholder="e.g. SRD 250 at the door">
+      </div>
+    </div>
+
+    <label class="flex items-start gap-3 text-sm text-gray-700 cursor-pointer mb-5">
+      <input type="checkbox" id="f-free" name="free" value="1" class="mt-1 w-4 h-4">
+      <span>Free to attend.</span>
+    </label>
+
+    <div class="two">
+      <div class="fld">
+        <label for="f-website">Ticket or info link</label>
+        <input type="text" id="f-website" name="website" maxlength="300" placeholder="Website, Facebook or Instagram post">
+      </div>
+      <div class="fld">
+        <label for="f-organizer">Organiser</label>
+        <input type="text" id="f-organizer" name="organizer" maxlength="120">
+      </div>
+    </div>
+
+    <div class="fld">
+      <label for="f-blurb">Describe the event <span class="req">*</span></label>
+      <textarea id="f-blurb" name="blurb" maxlength="1200" required
+        placeholder="What happens, who it is for, who is playing or performing, what to expect. Two or three sentences is plenty."></textarea>
+      <div class="hint"><span id="cnt">0</span> of 1200 characters. Minimum 20.</div>
+    </div>
+
+    <div class="fld">
+      <label>Flyer or photo</label>
+      <div id="drop" tabindex="0">
+        <img id="prev" alt="" hidden>
+        <div id="dropmsg"><strong>Choose the flyer</strong><br>JPG, PNG or WebP, up to 5 MB</div>
+      </div>
+      <input type="file" id="f-photo" name="photo" accept="image/jpeg,image/png,image/webp" hidden>
+      <div class="hint">Use an image you own the rights to. We may crop it to fit the page.</div>
+    </div>
+
+    <h2 class="serif text-xl font-bold text-gray-900 mt-9 mb-5">You</h2>
+    <p class="text-sm text-gray-600 mb-5">Not published. We only use this to confirm the details before the event goes on the calendar.</p>
+
+    <div class="two">
+      <div class="fld">
+        <label for="f-contact_name">Your name</label>
+        <input type="text" id="f-contact_name" name="contact_name" maxlength="80" autocomplete="name">
+      </div>
+      <div class="fld">
+        <label for="f-contact_email">Your email <span class="req">*</span></label>
+        <input type="email" id="f-contact_email" name="contact_email" maxlength="120" required autocomplete="email">
+      </div>
+    </div>
+
+    <div class="fld">
+      <label for="f-contact_phone">Your phone</label>
+      <input type="tel" id="f-contact_phone" name="contact_phone" maxlength="60" placeholder="+597 ..." autocomplete="tel">
+      <div class="hint">Optional, but it is the fastest way for us to check a detail with you.</div>
+    </div>
+
+    <label class="flex items-start gap-3 text-sm text-gray-700 cursor-pointer">
+      <input type="checkbox" id="f-organiser_claim" name="organiser_claim" value="1" class="mt-1 w-4 h-4">
+      <span>I am organising this event or I am authorised to promote it.</span>
+    </label>
+
+    <div class="hp" aria-hidden="true"><label for="hp_ref">Leave this empty</label>
+      <input type="text" id="hp_ref" name="hp_ref" tabindex="-1" autocomplete="off" readonly></div>
+
+    __TURNSTILE__
+
+    <button type="submit" id="go"
+      class="w-full mt-6 px-6 py-3.5 rounded-xl text-white font-semibold text-sm transition hover:opacity-90 disabled:opacity-50"
+      style="background:var(--forest)">Submit for review</button>
+
+    <p id="msg" class="text-sm mt-4" role="status" aria-live="polite"></p>
+    <p class="text-xs text-gray-500 mt-4">By submitting you confirm the details are accurate and that you may share the flyer with us. See our <a href="privacy.html" class="underline">privacy notice</a>.</p>
+  </form>
+
+  <div id="done" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center" hidden>
+    <div class="text-4xl mb-3" style="color:var(--forest)">&#10003;</div>
+    <h2 class="serif text-2xl font-bold text-gray-900 mb-2">Thank you, we have it</h2>
+    <p class="text-gray-600 text-sm max-w-md mx-auto mb-6">We check every event by hand, usually within a day or two. You will hear from us at the email address you gave.</p>
+    <a href="events.html" class="inline-block px-6 py-3 rounded-xl text-white font-semibold text-sm" style="background:var(--forest)">Back to the calendar</a>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mt-6">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-4">Questions</h2>
+    <div class="text-sm text-gray-700 space-y-4">
+      <div><strong class="block text-gray-900 mb-1">Does it cost anything?</strong>
+        No. Listing an event is free.</div>
+      <div><strong class="block text-gray-900 mb-1">The date moved, or I made a mistake.</strong>
+        Do not submit it twice. <a href="contact.html" class="underline">Email us</a> and we will correct it.</div>
+      <div><strong class="block text-gray-900 mb-1">Do I have to remove it afterwards?</strong>
+        No. The event drops off the calendar by itself the day after it ends.</div>
+      <div><strong class="block text-gray-900 mb-1">What gets declined?</strong>
+        Private parties, events outside Suriname, anything we cannot verify with the organiser, and anything already on the calendar.</div>
+      <div><strong class="block text-gray-900 mb-1">I want my business listed too, not just this event.</strong>
+        That is a separate free form: <a href="submit-business.html" class="underline">add your business</a>.</div>
+    </div>
+  </div>
+
+</main>
+__FOOTER__
+<script>
+(function(){
+  var API = "__API__";
+  var $ = function(i){return document.getElementById(i)};
+  var frm = $("frm"), photo = null;
+
+  $("f-blurb").addEventListener("input", function(){ $("cnt").textContent = this.value.length; });
+
+  // A free event has no price, and a price means it is not free. Keep the two
+  // from contradicting each other before the reviewer ever sees the row.
+  $("f-free").addEventListener("change", function(){ if(this.checked) $("f-price").value = ""; });
+  $("f-price").addEventListener("input", function(){ if(this.value.trim()) $("f-free").checked = false; });
+
+  var drop = $("drop"), file = $("f-photo");
+  drop.addEventListener("click", function(){ file.click() });
+  drop.addEventListener("keydown", function(e){ if(e.key === "Enter" || e.key === " "){ e.preventDefault(); file.click(); } });
+  drop.addEventListener("dragover", function(e){ e.preventDefault(); });
+  drop.addEventListener("drop", function(e){ e.preventDefault(); if(e.dataTransfer.files[0]) take(e.dataTransfer.files[0]); });
+  file.addEventListener("change", function(){ if(this.files[0]) take(this.files[0]); });
+
+  function take(f){
+    if(!/^image\\/(jpeg|png|webp)$/.test(f.type)){ say("The flyer must be a JPG, PNG or WebP file.", true); return; }
+    if(f.size > 5 * 1024 * 1024){ say("The flyer must be under 5 MB.", true); return; }
+    photo = f;
+    var img = $("prev");
+    img.src = URL.createObjectURL(f);
+    img.hidden = false;
+    $("dropmsg").innerHTML = "<strong>" + f.name.replace(/[<>]/g, "") + "</strong><br>Click to choose a different image";
+    say("");
+  }
+
+  function say(t, bad){
+    var m = $("msg");
+    m.textContent = t || "";
+    m.className = "text-sm mt-4 " + (bad ? "text-red-700 font-semibold" : "text-green-800 font-semibold");
+  }
+
+  frm.addEventListener("submit", async function(e){
+    e.preventDefault();
+    if($("f-name").value.trim().length < 3) return say("Please enter the event name.", true);
+    var sd = $("f-start_date").value, ed = $("f-end_date").value;
+    if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(sd)) return say("Please pick the first day of the event.", true);
+    if(sd < "__MIND__") return say("That date has already passed.", true);
+    if(sd > "__MAXD__") return say("That date is more than a year away. Send it closer to the time.", true);
+    if(ed && ed < sd) return say("The last day cannot be before the first day.", true);
+    if(!$("f-category").value) return say("Please choose the type of event.", true);
+    if($("f-venue").value.trim().length < 2) return say("Please say where it happens.", true);
+    if($("f-blurb").value.trim().length < 20) return say("Please describe the event in a sentence or two.", true);
+    if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test($("f-contact_email").value.trim()))
+      return say("Please enter your email so we can reach you.", true);
+
+    var fd = new FormData(frm);
+    fd.delete("photo");
+    if(photo) fd.append("photo", photo, photo.name);
+
+    $("go").disabled = true;
+    say("Sending...");
+    try{
+      var r = await fetch(API + "/submit-event", { method: "POST", body: fd });
+      var j = await r.json();
+      if(j && j.ok){
+        if(window.gtag){ gtag("event", "event_submit", {method: "form"}); }
+        frm.hidden = true; $("done").hidden = false;
+        window.scrollTo({top: 0, behavior: "smooth"}); return;
+      }
+      say((j && j.err) || "Something went wrong. Please try again.", true);
+    }catch(err){
+      say("We could not reach the server. Check your connection and try again.", true);
+    }
+    $("go").disabled = false;
+    if(window.turnstile) window.turnstile.reset();
+  });
+})();
+</script>
+</body>
+</html>"""
+
+    return ((head + body)
+            .replace("__NAV__", nav_html("events"))
+            .replace("__FOOTER__", footer_html())
+            .replace("__CATOPTS__", _cat_opts)
+            .replace("__DISTOPTS__", _dist_opts)
+            .replace("__TURNSTILE__", _turnstile_box)
+            .replace("__MIND__", _min_d)
+            .replace("__MAXD__", _max_d)
+            .replace("__API__", LB_API))
+
+
 def build_privacy_page():
     """Privacy Policy page — required for Google AdSense compliance.
     Discloses cookie use, third-party advertising, and how to opt out."""
@@ -14978,6 +15350,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("about.html",      "0.5", "yearly"),
         ("contact.html",    "0.5", "yearly"),
         ("submit-business.html", "0.6", "yearly"),
+        ("submit-event.html",    "0.6", "monthly"),
         ("privacy.html",    "0.3", "yearly"),
     ]
 
@@ -17386,6 +17759,7 @@ if __name__ == "__main__":
         "about.html":       build_about_page(),
         "contact.html":     build_contact_page(),
         "submit-business.html": build_submit_page(),
+        "submit-event.html":    build_submit_event_page(),
         "privacy.html":     build_privacy_page(),
         "today.html":          '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=/daily-notices.html"><link rel="canonical" href="https://exploresuriname.com/daily-notices.html"><title>Redirecting to Daily Notices…</title></head><body><p>This page has moved. <a href="/daily-notices.html">Click here</a>.</p></body></html>',
         "daily-notices.html": build_today_page(),
