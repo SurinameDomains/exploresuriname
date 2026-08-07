@@ -1,52 +1,52 @@
 {
-  "date_range": "zaterdag 01 augustus tot maandag 03 augustus 2026",
+  "date_range": "zaterdag 08 augustus tot maandag 10 augustus 2026",
   "doctors": [
     {
-      "name": "Drs. Mohan Shrutikant",
-      "clinic": "Polikliniek Flustraat",
+      "name": "Drs. Lahera Diaz Yamilia",
+      "clinic": "Gezondheidscentrum Geyersvlijt",
       "district": "Paramaribo",
-      "address": "Prof. Flustraat no. 03",
-      "phone": "440232",
+      "address": "",
+      "phone": "",
       "note": ""
     },
     {
-      "name": "Drs. Mohan Praveeni",
-      "clinic": "Polikliniek Flora",
+      "name": "Drs. Koendan Shobhna",
+      "clinic": "Polikliniek Welgelegen",
       "district": "Paramaribo",
-      "address": "Floralaan no. 23-25",
-      "phone": "464904",
+      "address": "Patatastraat no. 17",
+      "phone": "436975",
       "note": ""
     },
     {
-      "name": "Drs. Bholasing Sunayana",
-      "clinic": "Gezondheidscentrum Koewarasan",
+      "name": "Drs. Debidien Shafieda",
+      "clinic": "Polikliniek Chandishawweg",
       "district": "Wanica",
-      "address": "Bomapolder Serie 2 no. 02",
-      "phone": "350018",
+      "address": "Chandishawweg (Uitkijk)",
+      "phone": "328490",
       "note": ""
     },
     {
-      "name": "Drs. Naranjo Tamaya Mauro",
+      "name": "Drs. Basulto Marrero Anisbel",
       "clinic": "Polikliniek Domburg",
       "district": "Wanica",
       "address": "Herbertstraat perceel no. 15",
-      "phone": "340044",
+      "phone": "370044",
       "note": ""
     },
     {
-      "name": "Drs. Ramautar Prakash",
-      "clinic": "Polikliniek Nieuwe Grond",
+      "name": "Drs. Orie Sunil",
+      "clinic": "Gezondheidscentrum Lelydorp",
       "district": "Wanica",
-      "address": "Indira Gandhiweg no. 12",
-      "phone": "585838",
+      "address": "Indira Gandhiweg no. 42",
+      "phone": "366125",
       "note": ""
     },
     {
-      "name": "Drs. Jhanjan Cyril",
-      "clinic": "Polkliniek Bernharddorp",
+      "name": "Drs. Soemai Suraj",
+      "clinic": "Gezondheidscentrum Onverwacht",
       "district": "Para",
-      "address": "Indira Gandhiweg no. 894",
-      "phone": "352590",
+      "address": "Akrumstraat no. 09",
+      "phone": "352097",
       "note": ""
     }
   ],
@@ -64,6 +64,6 @@
   ],
   "doctor_hours": "Spreekuren: zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
   "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00u.",
-  "last_updated": "2026-08-06T10:20:22.688921+00:00",
+  "last_updated": "2026-08-07T10:20:24.959330+00:00",
   "source": "http://www.rgd.sr/nl/zorg-aanbod/wachtdienst"
 }
