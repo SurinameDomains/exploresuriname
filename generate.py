@@ -2183,7 +2183,7 @@ PAGE_HEAD = """\
   <meta name="robots" content="max-image-preview:large">
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png">
   <meta property="og:locale" content="en_US">
   <link rel="preload" as="font" type="font/woff2" href="/fonts/playfair-latin-var.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-var.woff2" crossorigin>
@@ -15102,9 +15102,12 @@ def build_manifest():
         "lang": "en",
         "scope": "/",
         "icons": [
-            {"src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
-            {"src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"},
-            {"src": "/favicon.svg",        "sizes": "any",     "type": "image/svg+xml", "purpose": "any"},
+            {"src": "/icons/icon-192.png",          "sizes": "192x192",   "type": "image/png", "purpose": "any"},
+            {"src": "/icons/icon-512.png",          "sizes": "512x512",   "type": "image/png", "purpose": "any"},
+            {"src": "/icons/icon-1024.png",         "sizes": "1024x1024", "type": "image/png", "purpose": "any"},
+            {"src": "/icons/icon-maskable-192.png", "sizes": "192x192",   "type": "image/png", "purpose": "maskable"},
+            {"src": "/icons/icon-maskable-512.png", "sizes": "512x512",   "type": "image/png", "purpose": "maskable"},
+            {"src": "/favicon.svg",                 "sizes": "any",       "type": "image/svg+xml", "purpose": "any"},
         ],
         "categories": ["travel", "lifestyle", "food"],
         "screenshots": [
@@ -15125,7 +15128,7 @@ def build_sw():
     """Return sw.js service worker content. _TW_V is injected so the precache
     always holds the exact versioned tailwind.css URL the pages request."""
     sw = r"""// ExploreSuriname Service Worker
-const CACHE = 'exploresr-v5';
+const CACHE = 'exploresr-v6';
 const TWV = '__TWV__';
 const PRECACHE = ['/', '/tailwind.css?v=' + TWV, '/favicon.ico', '/favicon.svg', '/offline.html',
                   '/fonts/playfair-latin-var.woff2', '/fonts/inter-latin-var.woff2'];
@@ -15235,8 +15238,10 @@ def _generate_pwa_icons():
     import os as _os
     _os.makedirs("icons", exist_ok=True)
 
+    # Icons are hand-designed brand assets committed to the repo (Aug 2026 logo).
+    # Only fall back to the generated placeholder if they are genuinely missing.
     if _os.path.exists("icons/icon-192.png") and _os.path.exists("icons/icon-512.png"):
-        print("  SKIP  icons — using committed versions")
+        print("  SKIP  icons — using committed brand icons")
         return
 
     _ICON_SVG = b"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
