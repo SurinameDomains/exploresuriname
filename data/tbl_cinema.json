@@ -1,26 +1,27 @@
 {
-  "last_updated": "2026-08-06T10:00:27.798121+00:00",
+  "last_updated": "2026-08-07T16:00:31.572848+00:00",
   "date_label": "Today",
   "showings": [
     {
       "time": "05:00 PM",
-      "title": "Minions & Monsters",
-      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
-    },
-    {
-      "time": "05:30 PM",
       "title": "Moana",
       "url": "https://www.tblcinemas.com/movie/RS973343229507/moana"
     },
     {
-      "time": "06:00 PM",
+      "time": "05:30 PM",
       "title": "Dhamaal 4",
       "url": "https://www.tblcinemas.com/movie/RS99926775360/dhamaal-4"
     },
     {
-      "time": "06:30 PM",
+      "time": "06:00 PM",
+      "title": "Minions & Monsters",
+      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
+    },
+    {
+      "time": "",
       "title": "Spider-Man: Brand New Day (3D)",
-      "url": "https://www.tblcinemas.com/movie/RS460318580733/spider-man-brand-new-day"
+      "url": "https://www.tblcinemas.com/movie/RS460318580733/spider-man-brand-new-day",
+      "sold_out": true
     },
     {
       "time": "07:00 PM",
@@ -28,12 +29,18 @@
       "url": "https://www.tblcinemas.com/movie/RS985030847570/the-odyssey"
     },
     {
-      "time": "08:00 PM",
+      "time": "",
       "title": "Spider-Man: Brand New Day",
-      "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
+      "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day",
+      "sold_out": true
     },
     {
       "time": "08:45 PM",
+      "title": "Motor City",
+      "url": "https://www.tblcinemas.com/movie/RS318610921281/motor-city"
+    },
+    {
+      "time": "09:15 PM",
       "title": "Evil Dead Burn",
       "url": "https://www.tblcinemas.com/movie/RS182466198241/evil-dead-burn"
     }
