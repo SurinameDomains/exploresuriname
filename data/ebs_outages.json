@@ -1,28 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD DONDERDAG 6 AUGUSTUS 2026",
-      "date": "6 Augustus 2026",
-      "date_iso": "2026-08-06",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1564/gepland-onderhoud-donderdag-6-augustus-2026",
-      "meta_description": "Gepland onderhoud: Wanica donderdag 6 augustus 2026 tussen 08:00-12:30 GEDEELTE SOPHIA’S LUSTWEG TUSSEN I. JAHANGIERWEG EN ANTON BUDELSTRAAT, BAAS ADR",
-      "district": "Wanica",
-      "time": "08:00 – 12:30",
-      "area": "GEDEELTE SOPHIA’S LUSTWEG TUSSEN I. JAHANGIERWEG EN ANTON BUDELSTRAAT, BAAS ADR"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD DONDERDAG 6 AUGUSTUS 2026",
-      "date": "6 Augustus 2026",
-      "date_iso": "2026-08-06",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1563/gepland-onderhoud-donderdag-6-augustus-2026",
-      "meta_description": "Gepland onderhoud: Wanica donderdag 6 augustus 2026 tussen 09:00-14:00 WEG NAAR BEM EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
-      "district": "Wanica",
-      "time": "09:00 – 14:00",
-      "area": "WEG NAAR BEM EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED"
-    }
-  ],
-  "last_updated": "2026-08-07T00:54:06.624722+00:00",
+  "outages": [],
+  "last_updated": "2026-08-07T03:07:47.022581+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
