@@ -9,7 +9,7 @@ Run daily via GitHub Actions.
 
 import feedparser
 import html as html_lib
-import re, os, json
+import re, os, json, math
 import concurrent.futures as cf
 from pathlib import Path
 import urllib.request, urllib.parse
@@ -22,7 +22,7 @@ CONTACT_EMAIL  = "contact@exploresuriname.com"
 TURNSTILE_SITEKEY = "0x4AAAAAAEA9rqn_-t206NGg"
 SR_TZ          = timezone(timedelta(hours=-3))   # Suriname time (UTC-3, no DST)
 YEAR           = datetime.now(SR_TZ).year
-MAX_PER_FEED   = 10
+MAX_PER_FEED   = 14
 
 # Load OSM enrichment cache (produced by enrich_from_osm.py, committed periodically)
 # Keys: slug → {opening_hours, phone, address, cuisine, price_range, ...}
@@ -200,9 +200,16 @@ except Exception as _err2:
     print(f"  Warning: approved events unavailable — {_err2}")
 
 FEEDS = [
-    {"name": "De Ware Tijd", "url": "https://www.dwtonline.com/feed/",              "color": "#2D6A4F"},
-    {"name": "Starnieuws",   "url": "https://www.starnieuws.com/rss/starnieuws.rss","color": "#B40A2D"},
-    {"name": "Waterkant",    "url": "https://www.waterkant.net/feed/",               "color": "#1a56db"},
+    {"name": "De Ware Tijd",     "url": "https://www.dwtonline.com/feed/",               "color": "#2D6A4F"},
+    {"name": "Starnieuws",       "url": "https://www.starnieuws.com/rss/starnieuws.rss", "color": "#B40A2D"},
+    {"name": "Waterkant",        "url": "https://www.waterkant.net/feed/",               "color": "#1a56db"},
+    {"name": "Suriname Herald",  "url": "https://www.srherald.com/feed/",                "color": "#7c2d12"},
+    {"name": "United News",      "url": "https://unitednews.sr/feed/",                   "color": "#4338ca"},
+    {"name": "GFC Nieuws",       "url": "https://www.gfcnieuws.com/feed/",               "color": "#0e7490"},
+    {"name": "Dagblad Suriname", "url": "https://www.dbsuriname.com/feed/",              "color": "#9d174d"},
+    {"name": "ABC Online",       "url": "https://www.abcsuriname.com/feed/",             "color": "#a16207"},
+    {"name": "Parbode",          "url": "https://parbode.com/feed/",                     "color": "#6d28d9"},
+    {"name": "Overheid (gov.sr)","url": "https://www.gov.sr/feed/",                      "color": "#1f2937"},
 ]
 
 # Oil & gas feeds — broad feeds (filter=True) are restricted to Suriname-relevant articles
@@ -1875,6 +1882,155 @@ def fetch_articles():
     articles.sort(key=lambda a: a["date"], reverse=True)
     return articles
 
+# ── Story clustering ────────────────────────────────────────────────────────
+# Ten local outlets cover the same story, so the raw merged feed shows each
+# event three to five times. Cluster near-duplicate headlines into one card and
+# list the other outlets as "also covered by" links.
+
+_NEWS_STOPWORDS = {
+    # Dutch
+    "aan", "als", "ander", "andere", "bij", "daar", "dan", "dat", "deze", "die",
+    "dit", "door", "een", "eerste", "geen", "gaan", "gaat", "haar", "had", "heb",
+    "hebben", "heeft", "het", "hier", "hij", "hoe", "hun", "iets", "kan", "komen",
+    "komt", "kunnen", "maar", "meer", "meest", "met", "moet", "moeten", "naar",
+    "niet", "nieuw", "nieuwe", "nog", "omdat", "onder", "ook", "over", "tegen",
+    "toch", "tot", "tussen", "uit", "van", "veel", "voor", "waar", "want", "was",
+    "wat", "weer", "wel", "werd", "worden", "wordt", "zeer", "zegt", "zich",
+    "zijn", "zonder", "jaar", "jaren", "dag", "dagen", "week", "maand",
+    # English
+    "about", "after", "against", "and", "are", "been", "but", "for", "from",
+    "has", "have", "into", "its", "more", "new", "not", "over", "said", "says",
+    "that", "the", "their", "there", "they", "this", "was", "were", "what",
+    "when", "where", "which", "will", "with", "year", "years",
+}
+
+# Dutch number words normalised to digits: two outlets writing "tien jaar cel"
+# and "10 jaar cel" must produce the same token, because numbers are the
+# strongest signal for telling two similar-sounding court cases apart.
+_NEWS_NUM_WORDS = {
+    "twee": "2", "drie": "3", "vier": "4", "vijf": "5", "zes": "6", "zeven": "7",
+    "acht": "8", "negen": "9", "tien": "10", "elf": "11", "twaalf": "12",
+    "dertien": "13", "veertien": "14", "vijftien": "15", "twintig": "20",
+    "dertig": "30", "veertig": "40", "vijftig": "50", "honderd": "100",
+    "duizend": "1000", "miljoen": "1000000", "miljard": "1000000000",
+}
+
+_NEWS_TOKEN_RE = re.compile(r"[a-z\u00e0-\u00ff]+|\d+(?:\.\d+)?")
+
+def _news_tokens(title):
+    """Content-word token set for headline similarity, numbers included."""
+    t = (title or "").lower().replace("\u2019", "'")
+    t = re.sub(r"(\d),(\d)", r"\1.\2", t)      # 2,5 jaar -> 2.5
+    out = set()
+    for w in _NEWS_TOKEN_RE.findall(t):
+        if w[0].isdigit():
+            out.add(w.rstrip(".").lstrip("0") or "0")
+        elif w in _NEWS_NUM_WORDS:
+            out.add(_NEWS_NUM_WORDS[w])
+        elif len(w) >= 3 and w not in _NEWS_STOPWORDS:
+            out.add(w)
+    return out
+
+def _news_idf(token_sets):
+    """Inverse document frequency over the day's headlines.
+
+    Plain word overlap merges unrelated stories, because Surinamese headlines
+    share a lot of boilerplate ("OM eist ... jaar cel tegen ..."). Weighting by
+    IDF makes the rare, story-defining words decide the match instead.
+    """
+    df = {}
+    for toks in token_sets:
+        for w in toks:
+            df[w] = df.get(w, 0) + 1
+    n = max(len(token_sets), 1)
+    return {w: math.log(n / (1 + c)) + 0.15 for w, c in df.items()}
+
+_NEWS_SIM_THRESHOLD    = 0.35   # weighted overlap needed to call it one story
+_NEWS_SIM_NUM_CONFLICT = 0.65   # needed when the headlines disagree on numbers
+
+def _news_same_story(a_toks, b_toks, idf):
+    """True if two headlines almost certainly describe the same event."""
+    if not a_toks or not b_toks:
+        return False
+    shared = a_toks & b_toks
+    if len(shared) < 2:
+        return False
+    wa = sum(idf.get(w, 1.0) for w in a_toks)
+    wb = sum(idf.get(w, 1.0) for w in b_toks)
+    ws = sum(idf.get(w, 1.0) for w in shared)
+    denom = min(wa, wb)
+    if denom <= 0:
+        return False
+    score = ws / denom
+
+    # Two reports of the same event almost always agree on at least one number.
+    # Disagreeing numbers usually means two different cases, amounts or dates.
+    a_nums = {w for w in a_toks if w[0].isdigit()}
+    b_nums = {w for w in b_toks if w[0].isdigit()}
+    if a_nums and b_nums and not (a_nums & b_nums):
+        return score >= _NEWS_SIM_NUM_CONFLICT
+    return score >= _NEWS_SIM_THRESHOLD
+
+def cluster_articles(articles, window_hours=72):
+    """Group near-duplicate stories across feeds.
+
+    Input is the merged, newest-first article list. Returns the same dict shape
+    with two extra keys so news_card_html can render them:
+      also    - [{"source", "link", "color"}] for the other outlets
+      sources - every source name in the cluster, representative first
+    """
+    clusters = []          # list of {"rep", "members", "toks"}
+    seen_links = set()
+    window = timedelta(hours=window_hours)
+    idf = _news_idf([_news_tokens(a["title"]) for a in articles])
+
+    for art in articles:
+        link = (art.get("link") or "").strip()
+        if link and link != "#":
+            if link in seen_links:
+                continue
+            seen_links.add(link)
+        toks = _news_tokens(art["title"])
+        placed = False
+        for c in clusters:
+            if abs((c["rep"]["date"] - art["date"]).total_seconds()) > window.total_seconds():
+                continue
+            if _news_same_story(c["toks"], toks, idf):
+                c["members"].append(art)
+                placed = True
+                break
+        if not placed:
+            clusters.append({"rep": art, "members": [art], "toks": toks})
+
+    out = []
+    for c in clusters:
+        rep = dict(c["rep"])
+        members = c["members"]
+        # Borrow an image from a sibling when the newest item has none
+        if not rep.get("image"):
+            for m in members:
+                if m.get("image"):
+                    rep["image"] = m["image"]
+                    break
+        # Longest summary across the cluster is usually the most informative
+        best_summary = max((m.get("summary") or "" for m in members), key=len)
+        if len(best_summary) > len(rep.get("summary") or ""):
+            rep["summary"] = best_summary
+        also, seen_src = [], {rep["source"]}
+        for m in members:
+            if m["source"] in seen_src:
+                continue
+            seen_src.add(m["source"])
+            also.append({"source": m["source"], "link": m["link"], "color": m["color"]})
+        rep["also"] = also
+        rep["sources"] = [rep["source"]] + [x["source"] for x in also]
+        out.append(rep)
+
+    out.sort(key=lambda a: a["date"], reverse=True)
+    print(f"  Clustered {len(articles)} articles into {len(out)} stories")
+    return out
+
+
 def fetch_oil_articles():
     """Fetch Oil & Gas articles relevant to Suriname.
     Broad feeds (filter=True) are restricted to articles mentioning Suriname keywords.
@@ -2270,6 +2426,9 @@ PAGE_HEAD = """\
     @media(max-width:900px){footer>div:first-child{grid-template-columns:1fr 1fr!important;gap:32px!important}}
     @media(max-width:560px){footer>div:first-child{grid-template-columns:1fr!important}.ftr-bar{justify-content:flex-start}}
     .hero-bg { background-size:cover; background-position:center; }
+    .nws-card { position: relative; }
+    .nws-card .nws-t::after { content:""; position:absolute; inset:0; z-index:1; }
+    .nws-also { position: relative; z-index: 2; }
     .card-hover { transition: transform .2s, box-shadow .2s; }
     .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
     a { text-decoration: none; }
@@ -3519,6 +3678,13 @@ def footer_html(prefix=""):
 </footer>"""
 
 def news_card_html(a, large=False, eager=False):
+    """Render one story card.
+
+    Clustered stories (from cluster_articles) carry "also" and "sources" keys:
+    the card links to the representative article and lists the other outlets
+    that covered the same story underneath. The root is a div with a stretched
+    title link, because nesting the "also" anchors inside an anchor is invalid.
+    """
     img = ""
     if a["image"]:
         h = "h-52" if large else "h-36"
@@ -3528,16 +3694,35 @@ def news_card_html(a, large=False, eager=False):
         img = f'<img src="{a["image"]}"{_ss} alt="{html_lib.escape(a["title"])}" loading="{_loading}" width="400" height="{_h_px}" class="w-full {h} object-cover" onerror="this.style.display=\'none\'">'
     badge = f'<span class="text-white text-xs font-medium px-2 py-0.5 rounded-full" style="background:{a["color"]}">{html_lib.escape(a["source"])}</span>'
     tc = "text-base font-bold" if large else "text-sm font-semibold"
-    return (f'<a href="{a["link"]}" target="_blank" rel="noopener noreferrer" '
-            f'data-source="{html_lib.escape(a["source"])}" '
-            f'class="group flex flex-col bg-white rounded-2xl overflow-hidden card-hover border border-gray-100">'
+
+    also = a.get("also") or []
+    also_html = ""
+    if also:
+        links = ", ".join(
+            f'<a href="{x["link"]}" target="_blank" rel="noopener noreferrer" '
+            f'class="underline decoration-gray-300 hover:decoration-gray-500 hover:text-gray-700">'
+            f'{html_lib.escape(x["source"])}</a>'
+            for x in also
+        )
+        also_html = (f'<div class="nws-also text-xs text-gray-400 pt-1 border-t border-gray-100 mt-1">'
+                     f'Also covered by {links}</div>')
+
+    sources = a.get("sources") or [a["source"]]
+    src_attr = "|" + "|".join(html_lib.escape(s) for s in sources) + "|"
+
+    return (f'<div class="nws-card group flex flex-col bg-white rounded-2xl overflow-hidden '
+            f'card-hover border border-gray-100" '
+            f'data-source="{html_lib.escape(a["source"])}" data-sources="{src_attr}">'
             f'{img}'
             f'<div class="p-5 flex flex-col gap-2 flex-1">'
             f'<div class="flex items-center gap-2 flex-wrap">{badge}'
             f'<span class="text-gray-400 text-xs">{a["ago"]}</span></div>'
-            f'<h3 class="{tc} text-gray-900 group-hover:text-green-800 leading-snug">{html_lib.escape(a["title"])}</h3>'
+            f'<h3 class="{tc} text-gray-900 group-hover:text-green-800 leading-snug">'
+            f'<a class="nws-t" href="{a["link"]}" target="_blank" rel="noopener noreferrer">'
+            f'{html_lib.escape(a["title"])}</a></h3>'
             f'<p class="text-gray-500 text-xs leading-relaxed flex-1">{html_lib.escape(a["summary"])}</p>'
-            f'</div></a>')
+            f'{also_html}'
+            f'</div></div>')
 
 def ad_slot(label):
     # Placeholder for ad unit — no visible text shown to users or crawlers
@@ -5016,7 +5201,11 @@ def build_news(articles, oil_articles, finance_articles):
     updated   = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
 
     # ── Local news section ──────────────────────────────────────────────────
-    local_cards_html = "\n".join(news_card_html(a, eager=(idx==0)) for idx, a in enumerate(articles[:30]))
+    # Ten outlets cover the same events, so collapse duplicates into one card
+    _raw_local = len(articles)
+    stories    = cluster_articles(articles)
+    local_cards_html = "\n".join(news_card_html(a, eager=(idx==0)) for idx, a in enumerate(stories[:40]))
+    _multi = sum(1 for s in stories[:40] if s.get("also"))
     local_filter_html = (
         '<button onclick="filterSection(\'local\',\'all\')" id="lf-all" '
         'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
@@ -5054,7 +5243,7 @@ def build_news(articles, oil_articles, finance_articles):
             f'{html_lib.escape(_fn)}</button>\n'
         )
 
-    local_count   = len(articles)
+    local_count   = len(stories)
     oil_count     = len(oil_articles)
 
     # ── Finance section ────────────────────────────────────────────────────
@@ -5153,9 +5342,10 @@ def build_news(articles, oil_articles, finance_articles):
         <strong>Note:</strong> Articles are published in Dutch, the national language of Suriname. Readers outside Suriname may wish to use browser translation.
       </p>
     </div>
-    <div class="flex gap-2 flex-wrap mb-6" id="local-filters">
+    <div class="flex gap-2 flex-wrap mb-3" id="local-filters">
       {local_filter_html}
     </div>
+    <p class="text-xs text-gray-400 mb-6">{local_count} stories from {len(FEEDS)} Surinamese outlets, updated {updated}. {_multi} of the stories below were reported by more than one outlet.</p>
     <div id="local-feed" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{local_cards_html}</div>
   </div>
 
@@ -5229,8 +5419,10 @@ function filterSection(section, source) {{
     activeBtn.style.color       = '#fff';
   }}
 
-  document.querySelectorAll('#' + feedId + ' > a').forEach(function(card) {{
-    card.style.display = (source === 'all' || card.dataset.source === source) ? '' : 'none';
+  document.querySelectorAll('#' + feedId + ' > *').forEach(function(card) {{
+    var srcs  = card.dataset.sources || ('|' + (card.dataset.source || '') + '|');
+    var match = source === 'all' || srcs.indexOf('|' + source + '|') !== -1;
+    card.style.display = match ? '' : 'none';
   }});
 }}
 
