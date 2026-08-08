@@ -1,21 +1,42 @@
 {
-  "last_updated": "2026-08-07T16:00:31.572848+00:00",
+  "last_updated": "2026-08-08T10:00:32.220526+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "05:00 PM",
+      "time": "02:00 PM",
+      "title": "Minions & Monsters",
+      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
+    },
+    {
+      "time": "02:30 PM",
       "title": "Moana",
       "url": "https://www.tblcinemas.com/movie/RS973343229507/moana"
     },
     {
-      "time": "05:30 PM",
+      "time": "",
+      "title": "Spider-Man: Brand New Day",
+      "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day",
+      "sold_out": true
+    },
+    {
+      "time": "03:30 PM",
       "title": "Dhamaal 4",
       "url": "https://www.tblcinemas.com/movie/RS99926775360/dhamaal-4"
     },
     {
+      "time": "04:15 PM",
+      "title": "Spider-Man: Brand New Day (3D)",
+      "url": "https://www.tblcinemas.com/movie/RS460318580733/spider-man-brand-new-day"
+    },
+    {
+      "time": "05:30 PM",
+      "title": "Makandra Documentaire Festival: Vriendschap Zonder Grenzen + Het Bloed dat door mij Stroomt",
+      "url": "https://www.tblcinemas.com/movie/VR9183/makandra-documentaire-festival-vriendschap-zonder-grenzen-het-bloed-dat-door-mij-stroomt"
+    },
+    {
       "time": "06:00 PM",
-      "title": "Minions & Monsters",
-      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
+      "title": "PAW Patrol: The Dino Movie",
+      "url": "https://www.tblcinemas.com/movie/RS931685169274/paw-patrol-the-dino-movie"
     },
     {
       "time": "",
@@ -27,12 +48,6 @@
       "time": "07:00 PM",
       "title": "The Odyssey",
       "url": "https://www.tblcinemas.com/movie/RS985030847570/the-odyssey"
-    },
-    {
-      "time": "",
-      "title": "Spider-Man: Brand New Day",
-      "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day",
-      "sold_out": true
     },
     {
       "time": "08:45 PM",
