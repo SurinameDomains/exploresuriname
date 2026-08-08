@@ -509,7 +509,7 @@ function toggleMobGroup(id) {
 <button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">✕</button>
 </div>
 <div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
-<p id="search-hint" style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Start typing to search 764 listings…</p>
+<p id="search-hint" style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Empiece a escribir para buscar 765 listados...</p>
 </div>
 </div>
 </div>
@@ -839,7 +839,7 @@ document.addEventListener('keydown', e => {
 <p class="lb-kick" translate="no">¿Suma na basi?</p>
 <div class="lb-head">
 <h2 class="serif text-xl font-bold text-gray-900" id="lb-ttl">Tabla de clasificación</h2>
-<div class="lb-tabs"><button class="on" id="lb-tt" type="button">Hoy</button><button id="lb-ta" type="button">Todos los tiempos</button></div>
+<div class="lb-tabs"><button id="lb-tt" type="button">Hoy</button><button class="on" id="lb-ta" type="button">Todos los tiempos</button></div>
 </div>
 <ol id="lb-list"></ol>
 <div id="lb-you"></div>
@@ -2610,17 +2610,17 @@ toMenu();
 window.ESRLB=(function(){
 var API="https://esr-leaderboard.surinamedomains.workers.dev",G="muskieto",PAGE="muskieto.html",TTL="Muskieto Survivor";
 var L={
- en:{ttl:"Leaderboard",today:"Today",all:"All-time",empty:"No scores yet today. Be the first!",nm:"Your name",save:"Put me on the board",bad:"Pick another name (2-14 letters)",you:"You play as",chg:"change",r1:"You are #",r2:" today and #",r3:" all-time.",wa:"Challenge a mati on WhatsApp",wat1:"I am #",wat2:" on the "+TTL+" leaderboard today. Beat that: ",runs:"runs",players:"players"},
- nl:{ttl:"Scorebord",today:"Vandaag",all:"All-time",empty:"Nog geen scores vandaag. Wees de eerste!",nm:"Je naam",save:"Zet mij op het bord",bad:"Kies een andere naam (2-14 letters)",you:"Je speelt als",chg:"wijzig",r1:"Je staat #",r2:" vandaag en #",r3:" all-time.",wa:"Daag een mati uit op WhatsApp",wat1:"Ik sta #",wat2:" op het "+TTL+" scorebord vandaag. Verbeter dat: ",runs:"runs",players:"spelers"}};
+ en:{ttl:"Leaderboard",today:"Today",all:"All-time",empty:"No scores yet today. Be the first!",emptya:"No scores yet. Be the first!",nm:"Your name",save:"Put me on the board",bad:"Pick another name (2-14 letters)",you:"You play as",chg:"change",r1:"You are #",r2:" today and #",r3:" all-time.",wa:"Challenge a mati on WhatsApp",wat1:"I am #",wat2:" on the "+TTL+" leaderboard today. Beat that: ",runs:"runs",players:"players"},
+ nl:{ttl:"Scorebord",today:"Vandaag",all:"All-time",empty:"Nog geen scores vandaag. Wees de eerste!",emptya:"Nog geen scores. Wees de eerste!",nm:"Je naam",save:"Zet mij op het bord",bad:"Kies een andere naam (2-14 letters)",you:"Je speelt als",chg:"wijzig",r1:"Je staat #",r2:" vandaag en #",r3:" all-time.",wa:"Daag een mati uit op WhatsApp",wat1:"Ik sta #",wat2:" op het "+TTL+" scorebord vandaag. Verbeter dat: ",runs:"runs",players:"spelers"}};
 var lang="en";try{lang=localStorage.getItem("mq-lang")||(document.documentElement.lang==="nl"?"nl":"en");}catch(e){}
 var $=function(i){return document.getElementById(i);};
-var data=null,tab="t",last=null,myRt=null,myRa=null,changing=false;
+var data=null,tab="a",last=null,myRt=null,myRa=null,changing=false;
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return c==="&"?"&amp;":c==="<"?"&lt;":c===">"?"&gt;":c==='"'?"&quot;":"&#39;";});}
 function did(){try{var d=localStorage.getItem("esr-did");if(!d){var a=new Uint8Array(12);crypto.getRandomValues(a);d="";for(var i=0;i<a.length;i++)d+=("0"+a[i].toString(16)).slice(-2);localStorage.setItem("esr-did",d);}return d;}catch(e){return null;}}
 function nick(){try{return localStorage.getItem("esr-nick")||"";}catch(e){return "";}}
 function day(){return new Date(Date.now()-108e5).toISOString().slice(0,10);}
 function labels(){var t=L[lang];$("lb-ttl").textContent=t.ttl;$("lb-tt").textContent=t.today;$("lb-ta").textContent=t.all;}
-function rows(arr){var t=L[lang];if(!arr||!arr.length)return '<li class="lb-empty">'+t.empty+'</li>';
+function rows(arr){var t=L[lang];if(!arr||!arr.length)return '<li class="lb-empty">'+(tab==="t"?t.empty:t.emptya)+'</li>';
  var h="";for(var i=0;i<arr.length;i++){var r=arr[i];
   h+='<li class="lb-row'+(r.me?" me":"")+'"><span class="lb-rank">'+(i+1)+'</span><span class="lb-name">'+esc(r.n)+'</span><b class="lb-sc">'+(+r.s).toLocaleString()+'</b></li>';}
  return h;}
