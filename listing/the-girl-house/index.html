@@ -14,7 +14,7 @@
   @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   </style>
-<link href="/tailwind.css?v=75f1f43f" rel="stylesheet"/>
+<link href="/tailwind.css?v=701744f8" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -52,6 +52,9 @@
     @media(max-width:900px){footer>div:first-child{grid-template-columns:1fr 1fr!important;gap:32px!important}}
     @media(max-width:560px){footer>div:first-child{grid-template-columns:1fr!important}.ftr-bar{justify-content:flex-start}}
     .hero-bg { background-size:cover; background-position:center; }
+    .nws-card { position: relative; }
+    .nws-card .nws-t::after { content:""; position:absolute; inset:0; z-index:1; }
+    .nws-also { position: relative; z-index: 2; }
     .card-hover { transition: transform .2s, box-shadow .2s; }
     .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
     a { text-decoration: none; }
