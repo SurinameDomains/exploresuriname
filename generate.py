@@ -172,12 +172,20 @@ except Exception as _err:
 _EV_SUB_URL = "https://esr-leaderboard.surinamedomains.workers.dev/events/approved"
 EVENT_CATS = ["festival", "concert", "sports", "market", "cultural",
               "food-drink", "nightlife", "family", "business", "community", "other"]
+# Two label sets, because the same key reads differently in the two places it
+# appears. On an event card the category is a descriptive noun, so the catch-all
+# should read "Event". In the submission dropdown it is a choice among peers, so
+# the catch-all must read "Other" or it looks like a category of its own.
 EVENT_CAT_LABEL = {
     "festival": "Festival", "concert": "Concert", "sports": "Sports",
     "market": "Market & fair", "cultural": "Cultural", "food-drink": "Food & drink",
     "nightlife": "Nightlife", "family": "Family", "business": "Conference",
     "community": "Community", "other": "Event",
 }
+EVENT_CAT_FORM_LABEL = dict(EVENT_CAT_LABEL, **{
+    "business": "Conference or expo",
+    "other": "Other",
+})
 _EVENT_SUBS: list = []
 try:
     import urllib.request as _ureq2
@@ -680,6 +688,7 @@ _IMGS = {
     'mondowa-tours': 'https://img.youtube.com/vi/wvFWCxPvzYA/hqdefault.jpg',
     'morevans-outlet': 'https://img.youtube.com/vi/SEAFaXpvjmE/hqdefault.jpg',
     'multi-travel': 'https://www.surinamyp.com/img/sr/g/_1684246192-86-multi-travel.jpg',
+    'cafe-amsterdam': 'https://cafe-amsterdam.sr/__l5e/assets-v1/681f3bb0-ff28-4659-b65e-484fc1191df6/cafe-amsterdam-logo.jpg',
     'murphys-irish-pub': 'https://ims.sr/wp-content/uploads/2023/07/murphys.png',
     'museum-bakkie': 'https://museumbakkie.com/wp-content/uploads/2022/02/museum-bakkie-sluis.jpg',
     'naskip': 'https://www.naskip.com/wp-content/uploads/2025/02/logo.jpg',
@@ -1160,6 +1169,9 @@ def _subcat(slug, main_cat=""):
         # verified cuisine corrections (Jul 2026) — NOT Surinamese/local food
         'big-tex':'restaurants',   # Texas BBQ, smoked brisket + smash burgers
         'tori-oso':'restaurants',  # cafe-restaurant, burgers and pasta
+        # Aug 2026 — late-night brown cafe/bar, not a coffee shop; 'cafe' in the
+        # slug would otherwise match the cafes-coffee rule first.
+        'cafe-amsterdam':'bars-lounges',
     }
     if s in _OVERRIDE:
         return _OVERRIDE[s]
@@ -1537,7 +1549,7 @@ def _make_biz(slug):
             "image": _biz_img(slug) or _fdet.get("photo_url", ""),
             "subcat": _subcat(slug)}
 
-RESTAURANTS = [b for slug in ["a-la-john", "aaras-cafe", "ac-bar-restaurant", "ace-restaurant-lounge", "ayo-river-lounge", "baka-foto-restaurant", "bar-qle", "bar-zuid", "bella-italia", "big-tex", "bingo-pizza-coppename", "bingo-pizza-kwatta", "bistro-brwni", "bistro-don-julio", "bistro-lequatorze", "bloom-wellness-cafe", "blue-grand-cafe", "bori-tori", "boss-burgers", "burger-king-centrum", "burger-king-latour", "chi-min", "chuck-e-cheese", "cinnagirl", "coffee-mama", "cookie-closet", "cupcake-fantasy", "cy-coffee", "d-mighty-view-lounge", "de-gadri", "de-spot", "de-verdieping", "dlish", "dolce-bella-cafe", "eethuis-liv", "el-patron-latin-grill", "elev8te", "elines-pizza", "etembe-rainforest-restaurant", "ettores-pizza-kitchen", "flavor-restaurant", "frygri", "garden-of-eden", "georgies-bar-chill", "goe-thai-noodle-bar", "goldenwings", "habco-delight", "habco-delight-north", "hard-rock-cafe-suriname", "holy-moly", "jadore-cafe-grill", "jage-caffe", "jage-caffe-2", "joey-ds", "joosje-roti-shop", "julias-food", "karans-indian-food", "kfc-ims", "kfc-kwatta", "kfc-lallarookh", "kfc-latour", "kfc-lelydorp", "kfc-waterkant", "kfc-wilhelminastraat", "kong-nam-snack", "krioro", "krioro-north", "kushiyaki-the-next-episode", "kwan-tai-restaurant", "kwan-tai-restaurant-2", "kyu-pho-grill", "lamour-restaurant", "las-tias", "lees-korean-grill", "leiding-1-restaurant", "lucky-twins-restaurant", "maharaja-palace", "matcha-loft", "mcdonalds-centrum", "mcdonalds-hermitage-mall", "mezze-suriname", "mickis-palace-noord", "mickis-palace-zuid", "mighty-racks", "mingle-paramaribo", "mingle-sushi", "moka-coffeebar", "moments-restaurant", "muntjes-take-out-juniors-place", "murphys-irish-pub", "naskip", "naskip-2", "naskip-3", "naskip-4", "naskip-5", "new-suriname-dream-cafe", "norrii-zushii", "nr-1-spot", "numa-cafe", "oasis-restaurant", "ogi-teppanyaki-sushi-bar", "okopipi-tropical-grill", "olive-multi-cuisine-restaurant", "overdoughsed-suriname", "padre-nostro-italian-restaurant", "pane-e-vino", "pannekoek-en-poffertjes-cafe", "passion-food-and-wines", "petisco-restaurant", "petit-bouchon", "pizza-hut-leysweg", "pizza-hut-south", "pizza-hut-wilhelminastraat", "pizza-mafia", "popeyes-centrum", "popeyes-lelydorp", "popeyes-tbl", "popeyes-wilhelminastraat", "raja-ji", "restaurant-lhermitage", "restaurant-sarinah", "restoran-bibit", "ricos-a-gladiator-foodtruck", "ritas-roti-shop", "rolines-de-waag", "roopram-roti-shop", "sakura", "samba-cafe", "saras-brunch-cafe", "sizzler-midnight-grill", "sizzlers-signature", "souposo", "south-america-hot-pot", "spice-quest", "squeezy-hot-pot-restaurant", "subway", "subway-2", "subway-3", "sugar", "sushi-ya", "sweet-tooth-pastries", "sweetie-coffee", "tapauku-terras", "tastelicious", "tasty-fresh-food-coffee-bar", "teasee", "the-bakery-house", "the-coffee-box", "the-coffee-box-north", "the-coffee-hobbyist", "the-maillard-cafe", "the-old-garage", "the-sweetest-thing", "three-little-beans", "tipsy-bar-lounge", "tirzahs-patisserie", "tori-oso", "tout-tout-petit", "twins-pizza-burgers", "u-s-bakery", "uitkijk-riverlounge-cafe", "viva-mexico", "warung-resa-centrum", "warung-soepy-ann", "wollys", "wollys-2", "wollys-3", "zeg-ijsje", "zus-zo-cafe", "alegria", "le-den", "lobby", "ciranos", "sun-ice", "x-avenue", "hes-ds", "hes-ds-2", "hes-ds-3"] for b in [_make_biz(slug)] if b]
+RESTAURANTS = [b for slug in ["a-la-john", "aaras-cafe", "ac-bar-restaurant", "ace-restaurant-lounge", "ayo-river-lounge", "baka-foto-restaurant", "bar-qle", "bar-zuid", "bella-italia", "big-tex", "bingo-pizza-coppename", "bingo-pizza-kwatta", "bistro-brwni", "bistro-don-julio", "bistro-lequatorze", "bloom-wellness-cafe", "blue-grand-cafe", "bori-tori", "boss-burgers", "burger-king-centrum", "burger-king-latour", "cafe-amsterdam", "chi-min", "chuck-e-cheese", "cinnagirl", "coffee-mama", "cookie-closet", "cupcake-fantasy", "cy-coffee", "d-mighty-view-lounge", "de-gadri", "de-spot", "de-verdieping", "dlish", "dolce-bella-cafe", "eethuis-liv", "el-patron-latin-grill", "elev8te", "elines-pizza", "etembe-rainforest-restaurant", "ettores-pizza-kitchen", "flavor-restaurant", "frygri", "garden-of-eden", "georgies-bar-chill", "goe-thai-noodle-bar", "goldenwings", "habco-delight", "habco-delight-north", "hard-rock-cafe-suriname", "holy-moly", "jadore-cafe-grill", "jage-caffe", "jage-caffe-2", "joey-ds", "joosje-roti-shop", "julias-food", "karans-indian-food", "kfc-ims", "kfc-kwatta", "kfc-lallarookh", "kfc-latour", "kfc-lelydorp", "kfc-waterkant", "kfc-wilhelminastraat", "kong-nam-snack", "krioro", "krioro-north", "kushiyaki-the-next-episode", "kwan-tai-restaurant", "kwan-tai-restaurant-2", "kyu-pho-grill", "lamour-restaurant", "las-tias", "lees-korean-grill", "leiding-1-restaurant", "lucky-twins-restaurant", "maharaja-palace", "matcha-loft", "mcdonalds-centrum", "mcdonalds-hermitage-mall", "mezze-suriname", "mickis-palace-noord", "mickis-palace-zuid", "mighty-racks", "mingle-paramaribo", "mingle-sushi", "moka-coffeebar", "moments-restaurant", "muntjes-take-out-juniors-place", "murphys-irish-pub", "naskip", "naskip-2", "naskip-3", "naskip-4", "naskip-5", "new-suriname-dream-cafe", "norrii-zushii", "nr-1-spot", "numa-cafe", "oasis-restaurant", "ogi-teppanyaki-sushi-bar", "okopipi-tropical-grill", "olive-multi-cuisine-restaurant", "overdoughsed-suriname", "padre-nostro-italian-restaurant", "pane-e-vino", "pannekoek-en-poffertjes-cafe", "passion-food-and-wines", "petisco-restaurant", "petit-bouchon", "pizza-hut-leysweg", "pizza-hut-south", "pizza-hut-wilhelminastraat", "pizza-mafia", "popeyes-centrum", "popeyes-lelydorp", "popeyes-tbl", "popeyes-wilhelminastraat", "raja-ji", "restaurant-lhermitage", "restaurant-sarinah", "restoran-bibit", "ricos-a-gladiator-foodtruck", "ritas-roti-shop", "rolines-de-waag", "roopram-roti-shop", "sakura", "samba-cafe", "saras-brunch-cafe", "sizzler-midnight-grill", "sizzlers-signature", "souposo", "south-america-hot-pot", "spice-quest", "squeezy-hot-pot-restaurant", "subway", "subway-2", "subway-3", "sugar", "sushi-ya", "sweet-tooth-pastries", "sweetie-coffee", "tapauku-terras", "tastelicious", "tasty-fresh-food-coffee-bar", "teasee", "the-bakery-house", "the-coffee-box", "the-coffee-box-north", "the-coffee-hobbyist", "the-maillard-cafe", "the-old-garage", "the-sweetest-thing", "three-little-beans", "tipsy-bar-lounge", "tirzahs-patisserie", "tori-oso", "tout-tout-petit", "twins-pizza-burgers", "u-s-bakery", "uitkijk-riverlounge-cafe", "viva-mexico", "warung-resa-centrum", "warung-soepy-ann", "wollys", "wollys-2", "wollys-3", "zeg-ijsje", "zus-zo-cafe", "alegria", "le-den", "lobby", "ciranos", "sun-ice", "x-avenue", "hes-ds", "hes-ds-2", "hes-ds-3"] for b in [_make_biz(slug)] if b]
 
 HOTELS = [b for slug in ["bronbella-villa-residence","courtyard-by-marriott","eco-resort-miano","eco-torarica","holland-lodge","hotel-palacio","hotel-peperpot","houttuyn-wellness-river-resort","jacana-amazon-wellness-resort","oxygen-resort","royal-brasil-hotel","royal-breeze-hotel-paramaribo","royal-torarica","taman-indah-resort","the-golden-truly-hotel","tiny-house-tropical-appartment","torarica-resort","villa-famiri","waterland-suites","zeelandia-suites","anaula-nature-resort","atlantis-hotel-casino","danpaati-river-lodge","greenheart-boutique-hotel","guesthouse-albergoalberga","guesthouse-albina","hotel-north-resort","kabalebo-nature-resort","kimboto","marina-resort-waterland","overbridge-river-resort","radisson-hotel","ramada-paramaribo-princess","residence-inn-nickerie","residence-inn-paramaribo","savannah-casino-hotel","tropicana-hotel-casino-suriname","tucan-resort-and-spa","villa-zapakara","villas-paramaribo"] for b in [_make_biz(slug)] if b]
 
@@ -7934,6 +7946,9 @@ def build_visitor_guide_page():
         with international Visa and Mastercard. For card payments at shops and restaurants,
         <strong>Southern Commercial Bank (SCom Bank)</strong> leads card acceptance across
         Paramaribo. Outside the city centre, most smaller vendors still work in cash.
+        Since 1 August 2026 each ATM withdrawal carries an SRD 17.60 network fee and a balance
+        check costs SRD 1.10, so take out larger amounts less often. See the
+        <a href="atms.html" class="underline">ATM finder</a> for live machine status and which cards work.
       </p>
       <div class="rounded-xl p-4 text-sm" style="background:var(--mint)">
         <span class="font-semibold" style="color:var(--forest)">Tipping:</span>
@@ -9589,7 +9604,7 @@ LB_SECTION = """
     <p class="lb-kick" translate="no">Suma na basi?</p>
     <div class="lb-head">
       <h2 id="lb-ttl" class="serif text-xl font-bold text-gray-900">Leaderboard</h2>
-      <div class="lb-tabs"><button id="lb-tt" class="on" type="button">Today</button><button id="lb-ta" type="button">All-time</button></div>
+      <div class="lb-tabs"><button id="lb-tt" type="button">Today</button><button id="lb-ta" class="on" type="button">All-time</button></div>
     </div>
     <ol id="lb-list"></ol>
     <div id="lb-you"></div>
@@ -9600,17 +9615,17 @@ _LB_JS_TPL = r"""<script>
 window.ESRLB=(function(){
 var API="__API__",G="__GAME__",PAGE="__PAGE__",TTL="__TTL__";
 var L={
- en:{ttl:"Leaderboard",today:"Today",all:"All-time",empty:"No scores yet today. Be the first!",nm:"Your name",save:"Put me on the board",bad:"Pick another name (2-14 letters)",you:"You play as",chg:"change",r1:"You are #",r2:" today and #",r3:" all-time.",wa:"Challenge a mati on WhatsApp",wat1:"I am #",wat2:" on the "+TTL+" leaderboard today. Beat that: ",runs:"runs",players:"players"},
- nl:{ttl:"Scorebord",today:"Vandaag",all:"All-time",empty:"Nog geen scores vandaag. Wees de eerste!",nm:"Je naam",save:"Zet mij op het bord",bad:"Kies een andere naam (2-14 letters)",you:"Je speelt als",chg:"wijzig",r1:"Je staat #",r2:" vandaag en #",r3:" all-time.",wa:"Daag een mati uit op WhatsApp",wat1:"Ik sta #",wat2:" op het "+TTL+" scorebord vandaag. Verbeter dat: ",runs:"runs",players:"spelers"}};
+ en:{ttl:"Leaderboard",today:"Today",all:"All-time",empty:"No scores yet today. Be the first!",emptya:"No scores yet. Be the first!",nm:"Your name",save:"Put me on the board",bad:"Pick another name (2-14 letters)",you:"You play as",chg:"change",r1:"You are #",r2:" today and #",r3:" all-time.",wa:"Challenge a mati on WhatsApp",wat1:"I am #",wat2:" on the "+TTL+" leaderboard today. Beat that: ",runs:"runs",players:"players"},
+ nl:{ttl:"Scorebord",today:"Vandaag",all:"All-time",empty:"Nog geen scores vandaag. Wees de eerste!",emptya:"Nog geen scores. Wees de eerste!",nm:"Je naam",save:"Zet mij op het bord",bad:"Kies een andere naam (2-14 letters)",you:"Je speelt als",chg:"wijzig",r1:"Je staat #",r2:" vandaag en #",r3:" all-time.",wa:"Daag een mati uit op WhatsApp",wat1:"Ik sta #",wat2:" op het "+TTL+" scorebord vandaag. Verbeter dat: ",runs:"runs",players:"spelers"}};
 var lang="en";try{lang=localStorage.getItem("__LK__")||(document.documentElement.lang==="nl"?"nl":"en");}catch(e){}
 var $=function(i){return document.getElementById(i);};
-var data=null,tab="t",last=null,myRt=null,myRa=null,changing=false;
+var data=null,tab="a",last=null,myRt=null,myRa=null,changing=false;
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return c==="&"?"&amp;":c==="<"?"&lt;":c===">"?"&gt;":c==='"'?"&quot;":"&#39;";});}
 function did(){try{var d=localStorage.getItem("esr-did");if(!d){var a=new Uint8Array(12);crypto.getRandomValues(a);d="";for(var i=0;i<a.length;i++)d+=("0"+a[i].toString(16)).slice(-2);localStorage.setItem("esr-did",d);}return d;}catch(e){return null;}}
 function nick(){try{return localStorage.getItem("esr-nick")||"";}catch(e){return "";}}
 function day(){return new Date(Date.now()-108e5).toISOString().slice(0,10);}
 function labels(){var t=L[lang];$("lb-ttl").textContent=t.ttl;$("lb-tt").textContent=t.today;$("lb-ta").textContent=t.all;}
-function rows(arr){var t=L[lang];if(!arr||!arr.length)return '<li class="lb-empty">'+t.empty+'</li>';
+function rows(arr){var t=L[lang];if(!arr||!arr.length)return '<li class="lb-empty">'+(tab==="t"?t.empty:t.emptya)+'</li>';
  var h="";for(var i=0;i<arr.length;i++){var r=arr[i];
   h+='<li class="lb-row'+(r.me?" me":"")+'"><span class="lb-rank">'+(i+1)+'</span><span class="lb-name">'+esc(r.n)+'</span><b class="lb-sc">'+(+r.s).toLocaleString()+'</b></li>';}
  return h;}
@@ -14164,7 +14179,7 @@ def build_submit_event_page():
     _max_d = (_today + _td2(days=365)).isoformat()
     _districts = ["Paramaribo", "Wanica", "Commewijne", "Saramacca", "Nickerie",
                   "Coronie", "Marowijne", "Para", "Brokopondo", "Sipaliwini"]
-    _cat_opts = "".join(f'<option value="{_c}">{html_lib.escape(EVENT_CAT_LABEL[_c])}</option>'
+    _cat_opts = "".join(f'<option value="{_c}">{html_lib.escape(EVENT_CAT_FORM_LABEL[_c])}</option>'
                         for _c in EVENT_CATS)
     _dist_opts = "".join(f'<option value="{_d}">{_d}</option>' for _d in _districts)
     _turnstile_head = ('<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>'
@@ -17140,11 +17155,14 @@ def build_atms_page(atms, meta, ref=None):
          "(for example SRD 3,000 as SRD 2,000 plus SRD 1,000). Hakrinbank quotes a limit of SRD 10,000 per "
          "day across machines."),
         ("Are there fees to use an ATM?",
-         "A cash withdrawal costs SRD 10 plus 10% VAT, about SRD 11, whether you use a Cashpnt or a "
-         "bank&rsquo;s own ATM (a BNETS network fee in place since March 2024). BNETS has told the banks it will "
-         "adjust the ATM withdrawal and balance-inquiry fees from 1 August 2026; the new figures were not yet "
-         "published when this page was built, so check with your bank. A foreign card adds its issuer&rsquo;s fee "
-         "and an exchange-rate markup on top."),
+         "Yes, and they went up on 1 August 2026. A cash withdrawal now costs SRD 17.60 per transaction "
+         "(including VAT) at any BNETS ATM, Cashpnt or a bank&rsquo;s own machine, up from SRD 11. Checking your "
+         "balance is no longer free either: it costs SRD 1.10 per enquiry. BNETS, which runs the national ATM "
+         "network, set the new rates, but each bank decides what it actually charges its own customers, so the "
+         "amount can differ from bank to bank. DSB, for example, keeps the old SRD 11 withdrawal and a free "
+         "balance check for account holders aged 60 and over, but only at DSB&rsquo;s own machines. Paying by card "
+         "at a shop (POS) and transfers in internet or mobile banking are still free. A foreign card adds its "
+         "issuer&rsquo;s fee and an exchange-rate markup on top."),
         ("How live is the status shown here?",
          "It comes straight from DSB&rsquo;s and Cashpnt&rsquo;s own status feeds, refreshed every time the site "
          "rebuilds (roughly every 15 minutes), and the page also tries to pull a fresh reading when you open "
@@ -17291,15 +17309,15 @@ def build_atms_page(atms, meta, ref=None):
         '<p class="text-xs text-gray-400 mb-3"><span class="atm-fn">*</span> Cashpnt states its machines take '
         'local cards and Mastercard; in practice, acceptance of foreign-issued cards varies by machine and '
         'some take only Surinamese cards. &ldquo;Most&rdquo; / &ldquo;Varies&rdquo; = accepted at a portion of that '
-        'network&rsquo;s machines. A cash withdrawal costs SRD 10 + 10% VAT (about SRD 11) at any BNETS ATM, '
-        'Cashpnt or bank. <strong>From 1 August 2026 BNETS is adjusting the ATM withdrawal and balance-inquiry '
-        'fees; the new amounts were not yet published when this page was built.</strong> Daily limits shown are '
-        'each bank&rsquo;s own. Data verified July 2026 from each bank&rsquo;s own website.</p>'
+        'network&rsquo;s machines. <strong>Since 1 August 2026 a cash withdrawal costs SRD 17.60 and a balance '
+        'check SRD 1.10</strong> (both incl. VAT) at any BNETS ATM, Cashpnt or bank &mdash; up from SRD 11, and a '
+        'balance check used to be free. Each bank sets what it charges its own customers, so your bank may differ. '
+        'Daily limits shown are each bank&rsquo;s own. Data verified August 2026 from each bank&rsquo;s own website.</p>'
         '<div class="rounded-xl p-4 mb-10 text-sm" style="background:var(--mint);color:var(--forest)">'
         '<strong>Visiting with a foreign card?</strong> Republic Bank ATMs take Visa and Mastercard and are '
         'the most reliable choice. DSB ATMs take Mastercard and most foreign cards. Cashpnt machines take '
-        'Mastercard per its own statement, though this varies machine to machine. Withdraw larger amounts '
-        'less often to save on the per-transaction fee.</div>'
+        'Mastercard per its own statement, though this varies machine to machine. Each withdrawal now carries '
+        'an SRD 17.60 fee on top of your own bank&rsquo;s charges, so take out larger amounts less often.</div>'
     )
 
     # ── About each network ──────────────────────────────────────────────────
@@ -17328,8 +17346,13 @@ def build_atms_page(atms, meta, ref=None):
         '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">'
         '<h3 class="font-bold text-gray-900 mb-2">Limits &amp; fees</h3>'
         '<ul class="text-sm text-gray-600 space-y-1.5 list-disc pl-4">'
-        '<li>Cash withdrawal fee: SRD 10 + 10% VAT (about SRD 11) at any BNETS ATM, Cashpnt or bank '
-        '(since March 2024). <strong>Changing 1 August 2026</strong> &mdash; new amounts not yet published.</li>'
+        '<li>Cash withdrawal fee: <strong>SRD 17.60</strong> per transaction (incl. VAT) at any BNETS ATM, '
+        'Cashpnt or bank, since 1 August 2026. It was SRD 11 from March 2024, and SRD 5 before that.</li>'
+        '<li>Balance check: <strong>SRD 1.10</strong> per enquiry since 1 August 2026. It used to be free.</li>'
+        '<li>Rates can differ per bank &mdash; BNETS sets the network fee, each bank decides what it passes on. '
+        'DSB keeps SRD 11 and a free balance check for account holders aged 60+, but only at DSB machines.</li>'
+        '<li>Paying by card at a shop (POS) and transfers in internet or mobile banking are still free, so paying '
+        'by card instead of withdrawing cash avoids the fee entirely.</li>'
         '<li>Daily limits (each bank&rsquo;s own): DSB and Hakrinbank SRD 10,000, Republic Bank SRD 20,000, '
         'VCB SRD 4,000 (max SRD 2,000 per transaction). At a Cashpnt your own bank&rsquo;s limit applies.</li>'
         '<li>A machine dispenses a limited number of notes at once &mdash; large amounts may need two withdrawals '

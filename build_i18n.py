@@ -62,6 +62,16 @@ BRANDS_NO_TRANSLATE = {
 }
 PROTECTED |= BRANDS_NO_TRANSLATE
 
+# District names are proper nouns. MT mangles the short ones — "Para" came back
+# as "Par." in the NL district dropdowns on submit-business.html and
+# submit-event.html. The posted <option value> was always correct, but the label
+# the user reads was not.
+DISTRICTS_NO_TRANSLATE = {
+    "Paramaribo", "Wanica", "Commewijne", "Saramacca", "Nickerie",
+    "Coronie", "Marowijne", "Para", "Brokopondo", "Sipaliwini",
+}
+PROTECTED |= DISTRICTS_NO_TRANSLATE
+
 PHONE_RE = re.compile(r'^[\+\d][\d\s\-\(\)/]{5,}$')
 CODE_RE  = re.compile(r'^[A-Z]{2,5}$')                 # currency/IATA codes
 NUM_RE   = re.compile(r'^[\d\s.,:%–\-+/x×]+$')         # pure numeric/symbolic
