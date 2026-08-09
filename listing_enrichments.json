@@ -355,6 +355,13 @@
     "lat": 5.8246237,
     "lon": -55.2009225
   },
+  "cafe-amsterdam": {
+    "slug": "cafe-amsterdam",
+    "found": true,
+    "osm_name": "CAF",
+    "lat": 5.5011119,
+    "lon": -54.0296926
+  },
   "carline-kwatta": {
     "slug": "carline-kwatta",
     "found": true,
