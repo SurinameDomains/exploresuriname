@@ -22,7 +22,7 @@ CONTACT_EMAIL  = "contact@exploresuriname.com"
 TURNSTILE_SITEKEY = "0x4AAAAAAEA9rqn_-t206NGg"
 SR_TZ          = timezone(timedelta(hours=-3))   # Suriname time (UTC-3, no DST)
 YEAR           = datetime.now(SR_TZ).year
-MAX_PER_FEED   = 14
+MAX_PER_FEED   = 40   # outlets expose 8-20 items; take whatever the feed offers
 
 # Load OSM enrichment cache (produced by enrich_from_osm.py, committed periodically)
 # Keys: slug → {opening_hours, phone, address, cuisine, price_range, ...}
@@ -217,6 +217,16 @@ FEEDS = [
     {"name": "Parbode",          "url": "https://parbode.com/feed/",                     "color": "#6d28d9"},
     {"name": "Overheid (gov.sr)","url": "https://www.gov.sr/feed/",                      "color": "#1f2937"},
 ]
+
+# Local news archive — RSS feeds only expose the newest 8-20 items, which on a
+# busy day is barely 6 hours of news. The site rebuilds every ~15 min, so each
+# build appends what it saw to data/news_archive.json and reads back the window
+# below. That is the only way to show more than the feeds themselves hold.
+NEWS_ARCHIVE_PATH = Path("data/news_archive.json")
+NEWS_ARCHIVE_DAYS = 4      # rolling retention
+NEWS_ARCHIVE_MAX  = 900    # hard cap on stored rows
+LOCAL_RENDER_MAX  = 180    # clustered stories written into news.html
+LOCAL_PAGE_SIZE   = 40     # cards visible before "Show more"
 
 # Oil & gas feeds — broad feeds (filter=True) are restricted to Suriname-relevant articles
 # OilNow blocks direct RSS (403); routed via Google News proxy instead.
@@ -1900,7 +1910,76 @@ def fetch_articles():
         except Exception as e:
             print(f"  ERR {src['name']}: {e}")
     articles.sort(key=lambda a: a["date"], reverse=True)
-    return articles
+    return _news_archive_merge(articles)
+
+
+def _news_archive_merge(live):
+    """Merge this build's headlines with the rolling archive on disk.
+
+    Returns the merged list (newest first) and rewrites data/news_archive.json.
+    Live entries win over archived copies of the same link, because outlets
+    edit titles and summaries after publishing.
+    """
+    now    = datetime.now(timezone.utc)
+    cutoff = now - timedelta(days=NEWS_ARCHIVE_DAYS)
+    epoch  = datetime.fromtimestamp(0, tz=timezone.utc)
+    colors = {f["name"]: f["color"] for f in FEEDS}
+    merged = {}
+
+    def _keep(row, dt):
+        link = (row.get("link") or "").strip()
+        if not link or link == "#":
+            return
+        if dt <= epoch or dt < cutoff or dt > now + timedelta(hours=6):
+            return          # missing/absurd dates would otherwise pin to the top
+        row = dict(row)
+        row["date"]  = dt
+        row["color"] = colors.get(row.get("source"), row.get("color", "#374151"))
+        merged[link] = row
+
+    try:
+        rows = json.loads(NEWS_ARCHIVE_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        rows = []
+    for r in rows if isinstance(rows, list) else []:
+        try:
+            dt = datetime.fromisoformat(r["date"])
+        except Exception:
+            continue
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        _keep(r, dt)
+    _archived = len(merged)
+
+    for a in live:
+        _keep(a, a["date"])
+
+    out = sorted(merged.values(), key=lambda a: a["date"], reverse=True)[:NEWS_ARCHIVE_MAX]
+
+    # Rewrite only when something actually changed — the site rebuilds every
+    # ~15 min but the outlets do not publish that often, and an unchanged file
+    # means no commit and no repo churn.
+    _payload = json.dumps(
+        [{k: (v.isoformat() if k == "date" else v)
+          for k, v in a.items() if k != "ago"} for a in out],
+        ensure_ascii=False, separators=(",", ":"))
+    try:
+        if _payload != NEWS_ARCHIVE_PATH.read_text(encoding="utf-8"):
+            raise ValueError("changed")
+    except Exception:
+        try:
+            NEWS_ARCHIVE_PATH.parent.mkdir(parents=True, exist_ok=True)
+            NEWS_ARCHIVE_PATH.write_text(_payload, encoding="utf-8")
+        except Exception as e:
+            print(f"  News archive write failed: {e}")
+
+    for a in out:            # "ago" is relative to build time, always recompute
+        a["ago"] = time_ago(a["date"])
+
+    _span = (now - out[-1]["date"]).total_seconds() / 3600 if out else 0
+    print(f"  News archive: {len(live)} live + {_archived} stored -> "
+          f"{len(out)} articles spanning {_span:.0f}h")
+    return out
 
 # ── Story clustering ────────────────────────────────────────────────────────
 # Ten local outlets cover the same story, so the raw merged feed shows each
@@ -5225,9 +5304,20 @@ def build_news(articles, oil_articles, finance_articles):
     # ── Local news section ──────────────────────────────────────────────────
     # Ten outlets cover the same events, so collapse duplicates into one card
     _raw_local = len(articles)
-    stories    = cluster_articles(articles)
-    local_cards_html = "\n".join(news_card_html(a, eager=(idx==0)) for idx, a in enumerate(stories[:40]))
-    _multi = sum(1 for s in stories[:40] if s.get("also"))
+    stories    = cluster_articles(articles)[:LOCAL_RENDER_MAX]
+    _cards = []
+    for idx, a in enumerate(stories):
+        _c = news_card_html(a, eager=(idx == 0))
+        if idx >= LOCAL_PAGE_SIZE:      # revealed by showMore(), not re-fetched
+            _c = _c.replace('<div class="nws-card', '<div style="display:none" class="nws-card', 1)
+        _cards.append(_c)
+    local_cards_html = "\n".join(_cards)
+    _more_style = "" if len(stories) > LOCAL_PAGE_SIZE else ' style="display:none"'
+    _multi = sum(1 for s in stories if s.get("also"))
+    # Window actually on the page, for the counter line under the filters
+    _span_h = int((datetime.now(timezone.utc) - stories[-1]["date"]).total_seconds() // 3600) if stories else 0
+    _span_txt = (f"the last {_span_h} hours" if _span_h < 48
+                 else f"the last {_span_h // 24} days")
     local_filter_html = (
         '<button onclick="filterSection(\'local\',\'all\')" id="lf-all" '
         'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
@@ -5367,8 +5457,13 @@ def build_news(articles, oil_articles, finance_articles):
     <div class="flex gap-2 flex-wrap mb-3" id="local-filters">
       {local_filter_html}
     </div>
-    <p class="text-xs text-gray-400 mb-6">{local_count} stories from {len(FEEDS)} Surinamese outlets, updated {updated}. {_multi} of the stories below were reported by more than one outlet.</p>
+    <p class="text-xs text-gray-400 mb-6">{local_count} stories from {len(FEEDS)} Surinamese outlets covering {_span_txt}, updated {updated}. {_multi} of the stories below were reported by more than one outlet.</p>
     <div id="local-feed" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{local_cards_html}</div>
+    <div class="text-center mt-8" id="local-more-wrap"{_more_style}>
+      <button id="local-more" onclick="showMore('local')" type="button"
+              class="text-sm font-semibold px-6 py-2.5 rounded-full border transition"
+              style="border-color:var(--forest);color:var(--forest);background:#fff">Show older stories</button>
+    </div>
   </div>
 
   <!-- ── Oil & Gas ──────────────────────────────────────────────────────── -->
@@ -5441,15 +5536,52 @@ function filterSection(section, source) {{
     activeBtn.style.color       = '#fff';
   }}
 
-  document.querySelectorAll('#' + feedId + ' > *').forEach(function(card) {{
+  SEC_SOURCE[section] = source;
+  SEC_LIMIT[section]  = SEC_BASE[section] || 0;   // a new filter starts at page 1
+  applySection(section);
+}}
+
+/* ── Paging ─────────────────────────────────────────────────────────────────
+   Every story is already in the HTML; "Show older stories" only raises the
+   visible count, so there is no second request and no layout jump.          */
+var SEC_SOURCE = {{'local':'all','oil':'all','finance':'all'}};
+var SEC_BASE   = {{'local':{LOCAL_PAGE_SIZE},'oil':0,'finance':0}};   // 0 = no limit
+var SEC_LIMIT  = {{'local':{LOCAL_PAGE_SIZE},'oil':0,'finance':0}};
+
+function applySection(section) {{
+  var feedMap = {{'local':'local-feed','oil':'oil-feed','finance':'finance-feed'}};
+  var feed    = document.getElementById(feedMap[section] || 'local-feed');
+  if (!feed) return;
+  var source  = SEC_SOURCE[section] || 'all';
+  var limit   = SEC_LIMIT[section]  || 0;
+  var shown = 0, matched = 0;
+
+  Array.prototype.forEach.call(feed.children, function(card) {{
     var srcs  = card.dataset.sources || ('|' + (card.dataset.source || '') + '|');
     var match = source === 'all' || srcs.indexOf('|' + source + '|') !== -1;
-    card.style.display = match ? '' : 'none';
+    if (match) matched++;
+    var visible = match && (!limit || shown < limit);
+    if (visible) shown++;
+    card.style.display = visible ? '' : 'none';
   }});
+
+  var wrap = document.getElementById(section + '-more-wrap');
+  var btn  = document.getElementById(section + '-more');
+  if (wrap && btn) {{
+    var left = matched - shown;
+    wrap.style.display = left > 0 ? '' : 'none';
+    btn.textContent = 'Show older stories (' + left + ')';
+  }}
+}}
+
+function showMore(section) {{
+  SEC_LIMIT[section] = (SEC_LIMIT[section] || 0) + (SEC_BASE[section] || 40);
+  applySection(section);
 }}
 
 /* ── Hash routing (optional deep-link) ─────────────────────────────────── */
 (function() {{
+  applySection('local');            // sets the remaining-count on the button
   var h = window.location.hash;
   if (h === '#oil') switchTab('oil');
   else if (h === '#finance') switchTab('finance');
