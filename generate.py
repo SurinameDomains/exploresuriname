@@ -42,6 +42,12 @@ if _enrich_path.exists():
     except Exception as _err:
         print(f"  Warning: could not load listing_enrichments.json — {_err}")
 
+# Owner-confirmed opening hours (OSM syntax). Takes precedence over the OSM cache,
+# which enrich.yml overwrites wholesale every Sunday.
+_MANUAL_HOURS = {
+    "farmers-world": "Mo-Sa 11:00-13:00",   # confirmed by owner Aug 2026
+}
+
 # Load Foursquare enrichment cache (produced by scripts/fetch_foursquare.py, committed manually)
 # Keys: slug → {name, address, phone, website, lat, lng, score, matched, ...}
 _FSQ: dict = {}
@@ -547,6 +553,7 @@ _IMGS = {
     'eucon': 'https://socialsuriname.com/wp-content/uploads/2024/06/EUCON.webp',
     'everything-sr': 'https://socialsuriname.com/wp-content/uploads/2025/06/Everything.sr-v2.webp',
     'farma-vida': 'https://socialsuriname.com/wp-content/uploads/2025/10/Farma-Vida-v1.webp',
+    'farmers-world': 'https://exploresuriname.com/images/farmers-world.webp',
     'fatum': 'https://socialsuriname.com/wp-content/uploads/2025/06/Fatum-v1.webp',
     'fatum-schadeverzekering-commewijne': 'https://info-suriname.com/wp-content/uploads/2017/09/logo-Fatum.png',
     'fatum-schadeverzekering-hoofdkantoor': 'https://info-suriname.com/wp-content/uploads/2017/09/logo-Fatum.png',
@@ -1085,11 +1092,21 @@ except Exception:
 
 def _card_srcset(img):
     """srcset/sizes attrs for 400px card imgs when a local -480 variant exists."""
-    if img and img.startswith("/images/") and img.endswith(".webp"):
-        _v = img[:-5] + "-480.webp"
-        if os.path.exists(_v.lstrip("/")):
-            _w = _IMG_WIDTHS.get(os.path.basename(img), 900)
-            return f' srcset="{_v} 480w, {img} {_w}w" sizes="(max-width:639px) 92vw, 400px"'
+    if not (img and img.endswith(".webp")):
+        return ""
+    # Some _IMGS entries store locally-hosted images as absolute own-domain URLs
+    # (https://exploresuriname.com/images/x.webp) rather than root-relative.
+    # Normalise those so they get the same -480 treatment; without this they
+    # silently shipped the full-size file to phones.
+    _rel = img
+    if _rel.startswith(SITE_URL + "/images/"):
+        _rel = _rel[len(SITE_URL):]
+    if not _rel.startswith("/images/"):
+        return ""
+    _v = _rel[:-5] + "-480.webp"
+    if os.path.exists(_v.lstrip("/")):
+        _w = _IMG_WIDTHS.get(os.path.basename(_rel), 900)
+        return f' srcset="{_v} 480w, {_rel} {_w}w" sizes="(max-width:639px) 92vw, 400px"'
     return ""
 
 # ── Subcategory assignment ────────────────────────────────────────────────────
@@ -1140,6 +1157,8 @@ def _subcat(slug, main_cat=""):
         'holiday-home-decor':'home-furniture','from-kay-with-love':'crafts-souvenirs',
         'ket-mien':'health-beauty','suraniyat':'fashion-clothing','rogom-farm-nv':'food-specialty',
         'the-perfume-spot':'health-beauty','honeycare':'health-beauty',
+        # Aug 2026 — agri/vet supply wholesaler, not a nursery or food shop
+        'farmers-world':'vet-livestock',
         'honeycare-north':'health-beauty','honeycare-south':'health-beauty',
         'smoothieskin':'health-beauty','golderom-healthy-organic-store':'food-specialty',
         'wing-hung-cake-shop':'food-specialty','kasan-snacks':'food-specialty',
@@ -1509,6 +1528,7 @@ SUBCATS = {
         ("crafts-souvenirs","Crafts & Souvenirs","🎨"),
         ("events-party",  "Events & Parties", "🎉"),
         ("nursery-garden","Nursery & Garden",  "🌱"),
+        ("vet-livestock", "Veterinary & Livestock", "🐾"),
         ("health-beauty", "Health & Beauty",    "🧴"),
         ("other",         "Other",             "🔧"),
     ],
@@ -1564,7 +1584,7 @@ SIGHTSEEING = [b for slug in ["cola-kreek-recreatiepark","conservatorium-surinam
 
 ADVENTURES_BIZ = [b for slug in ["afobaka-resort","akira-overwater-resort","clevia-park","folo-nature-tours","free-city-walk-paramaribo","huub-explorer-tours","jack-tours-travel-service","jenny-tours","knini-paati","kodouffi-tapawatra-resort","messias-tours","mondowa-tours","no-span-eco-tours","okido-tours-travel","outdoor-living","pineapple-tours","recreatie-oord-carolina-kreek","royal-tours-suriname-guyana","sendang-redjo","suran-adventures-tours-travel","tio-boto-eco-resort","unlimited-suriname-tours","wayfinders-exclusive-n-v"] for b in [_make_biz(slug)] if b]
 
-SHOPPING = [b for slug in ["talula", "amada-shopping", "ashley-furniture-homestore", "auto-style-franchepanestraat", "auto-style-johannes-mungrastraat", "auto-style-kwatta", "auto-style-tweede-rijweg", "auto-style-verlengde-gemenelandsweg", "bed-bath-more-bbm", "best-mart", "beyrouth-bazaar", "boekhandel-kasco", "boekhandel-vaco", "building-depot", "chees-jewelry-watches", "chm-centrum", "chm-commewijne", "chm-kernkampweg", "chm-nickerie", "chm-wanica", "chm-wilhelminastraat", "chm-wilhelminastraat-2", "chois-supermarkt", "chois-supermarkt-lelydorp", "chois-supermarkt-north", "combe-bazaar", "combe-markt", "computer-hardware-services", "computronics-north", "computronics-south", "crocs-ims", "da-drogisterij-coppename", "da-drogisterij-hermitage", "da-drogisterij-ims-mall", "da-drogisterij-lelydorp", "da-drogisterij-wilhelmina", "de-keurslager-interfarm", "deto-handelmaatschappij", "digital-world-hermitage-mall", "digital-world-ims", "digital-world-maretraite-mall", "digital-world-maretraite-mall-2", "divergent-body-jewelry", "dj-liquor-store", "dojo-couture-hermitage-mall", "fish-finder-fishing-and-outdoors", "from-kay-with-love", "flex-phones", "footcandy-hermitage-mall", "from-me-to-me", "furniture-city-kwatta", "furniture-city-north", "galaxy", "gao-ming-trading-north", "gao-ming-trading-south", "golderom-healthy-organic-store", "h-garden", "hermitage-mall", "holiday-home-decor", "hollandia-bakkerij-north", "hollandia-bakkerij-south", "honeycare", "hurricane-steel", "hurricane-steel-ringweg", "international-mall-of-suriname", "janelles-shoes-and-bags", "kaki-supermarkt", "kirpalani", "kirpalani-domineestraat", "kirpalani-maagdenstraat", "kirpalani-super-store", "ladybug-nursery-and-garden-center", "lilis", "lins-super-market", "lucky-store", "mimi-market", "miniso-gompertstraat", "miniso-hermitage-mall", "mon-plaisir-nursery", "morevans-outlet", "nv-zing-manufacturing", "ochama-amazing", "ochama-hermitage-mall", "office-world-hermitage-mall", "office-world-lelydorp", "optiek-all-vision", "optiek-all-vision-albina", "optiek-all-vision-lelydorp", "optiek-all-vision-nickerie", "optiek-marisa", "optiek-ninon", "optiek-ninon-hermitage-mall", "optiek-ninon-ims", "optiek-ninon-lelydorp", "optiek-ninon-meerzorg", "optiek-ninon-nickerie", "papillon-crafts", "randoe-meubelen", "readytex-souvenirs-and-crafts", "rogom-farm-nv", "red-century-party-shop-commewijne", "red-century-party-shop-kwatta", "red-century-party-shop-lelydorp", "red-century-party-shop-north", "red-century-party-shop-zorg-en-hoop", "ring-ring-imports", "rossignol-2go-kwattaweg", "rossignol-2go-thurkowstraat", "rossignol-coppename", "rossignol-geyersvlijt", "rossignol-linda", "rossignol-waaldijkstraat", "sanousch-books", "sash-fashion-hermitage-mall", "shlx-collection", "shoebizz-ims", "slagerij-abbas", "slagerij-asruf", "slagerij-stolk", "sleepstore-suriname", "sleeqe", "smoothieskin", "soengngie-mega-store", "soengngie-oriental-market", "sranan-fowru", "sranan-fowru-boni", "sranan-fowru-combe", "sranan-fowru-flu", "sranan-fowru-leiding", "sranan-fowru-lelydorp", "sranan-fowru-meursweg", "sranan-fowru-tabiki-fowru", "sranan-fowru-tourtonne", "sranan-fowru-zinnia", "steps-hermitage-mall", "store4u", "suraniyat", "sweetheart-hermitage-mall", "sweetheart-ims", "switi-momenti-candles-crafts", "talking-prints-concept-store", "the-old-attic", "the-perfume-spot", "the-uma-store", "the-warehouse-shop", "topslager-stolk", "toys-n-more", "tulip-supermarket", "unlocked-candles", "vcm-slagerij-centrum", "vcm-slagerij-johannes-mungrastraat", "vcm-slagerij-verl-gemenelandsweg", "vifa-trading", "vincent-supermarket", "woodwonders-suriname", "yokohama-trading", "zeepfabriek-joab", "ket-mien", "kasan-snacks", "wing-hung-cake-shop", "dojo-couture-centrum", "dojo-couture-ims", "steps-domineestraat", "steps-noord", "steps-wanica", "honeycare-north", "honeycare-south", "tomahawk-outdoor-adventures", "tomahawk-outdoor-adventures-hermitage-mall", "tomahawk-outdoor-adventures-ims", "tomahawk-outdoor-adventures-lelydorp", "cute-as-a-button", "dresscode", "eterno", "everything-sr", "flex-luxuries", "itrendzz", "pandie", "mn-international-centrum", "mn-international-kwatta", "new-choice-lalla-rookhweg", "new-choice-nickerie", "new-choice-ringweg", "wow-plus", "chique-eyewear-fashion", "instyle-optics", "galaxyliving", "grounded-botanical-studio", "kasimex-indira-ghandiweg", "kasimex-makro", "brahma-centrum", "brahma-noord", "brahma-zuid", "alis-drugstore", "one-stop-apotheek-drugstore", "maze", "max-n-co", "jjs-place-zuid"] for b in [_make_biz(slug)] if b]
+SHOPPING = [b for slug in ["talula", "amada-shopping", "ashley-furniture-homestore", "auto-style-franchepanestraat", "auto-style-johannes-mungrastraat", "auto-style-kwatta", "auto-style-tweede-rijweg", "auto-style-verlengde-gemenelandsweg", "bed-bath-more-bbm", "best-mart", "beyrouth-bazaar", "boekhandel-kasco", "boekhandel-vaco", "building-depot", "chees-jewelry-watches", "chm-centrum", "chm-commewijne", "chm-kernkampweg", "chm-nickerie", "chm-wanica", "chm-wilhelminastraat", "chm-wilhelminastraat-2", "chois-supermarkt", "chois-supermarkt-lelydorp", "chois-supermarkt-north", "combe-bazaar", "combe-markt", "computer-hardware-services", "computronics-north", "computronics-south", "crocs-ims", "da-drogisterij-coppename", "da-drogisterij-hermitage", "da-drogisterij-ims-mall", "da-drogisterij-lelydorp", "da-drogisterij-wilhelmina", "de-keurslager-interfarm", "deto-handelmaatschappij", "farmers-world", "digital-world-hermitage-mall", "digital-world-ims", "digital-world-maretraite-mall", "digital-world-maretraite-mall-2", "divergent-body-jewelry", "dj-liquor-store", "dojo-couture-hermitage-mall", "fish-finder-fishing-and-outdoors", "from-kay-with-love", "flex-phones", "footcandy-hermitage-mall", "from-me-to-me", "furniture-city-kwatta", "furniture-city-north", "galaxy", "gao-ming-trading-north", "gao-ming-trading-south", "golderom-healthy-organic-store", "h-garden", "hermitage-mall", "holiday-home-decor", "hollandia-bakkerij-north", "hollandia-bakkerij-south", "honeycare", "hurricane-steel", "hurricane-steel-ringweg", "international-mall-of-suriname", "janelles-shoes-and-bags", "kaki-supermarkt", "kirpalani", "kirpalani-domineestraat", "kirpalani-maagdenstraat", "kirpalani-super-store", "ladybug-nursery-and-garden-center", "lilis", "lins-super-market", "lucky-store", "mimi-market", "miniso-gompertstraat", "miniso-hermitage-mall", "mon-plaisir-nursery", "morevans-outlet", "nv-zing-manufacturing", "ochama-amazing", "ochama-hermitage-mall", "office-world-hermitage-mall", "office-world-lelydorp", "optiek-all-vision", "optiek-all-vision-albina", "optiek-all-vision-lelydorp", "optiek-all-vision-nickerie", "optiek-marisa", "optiek-ninon", "optiek-ninon-hermitage-mall", "optiek-ninon-ims", "optiek-ninon-lelydorp", "optiek-ninon-meerzorg", "optiek-ninon-nickerie", "papillon-crafts", "randoe-meubelen", "readytex-souvenirs-and-crafts", "rogom-farm-nv", "red-century-party-shop-commewijne", "red-century-party-shop-kwatta", "red-century-party-shop-lelydorp", "red-century-party-shop-north", "red-century-party-shop-zorg-en-hoop", "ring-ring-imports", "rossignol-2go-kwattaweg", "rossignol-2go-thurkowstraat", "rossignol-coppename", "rossignol-geyersvlijt", "rossignol-linda", "rossignol-waaldijkstraat", "sanousch-books", "sash-fashion-hermitage-mall", "shlx-collection", "shoebizz-ims", "slagerij-abbas", "slagerij-asruf", "slagerij-stolk", "sleepstore-suriname", "sleeqe", "smoothieskin", "soengngie-mega-store", "soengngie-oriental-market", "sranan-fowru", "sranan-fowru-boni", "sranan-fowru-combe", "sranan-fowru-flu", "sranan-fowru-leiding", "sranan-fowru-lelydorp", "sranan-fowru-meursweg", "sranan-fowru-tabiki-fowru", "sranan-fowru-tourtonne", "sranan-fowru-zinnia", "steps-hermitage-mall", "store4u", "suraniyat", "sweetheart-hermitage-mall", "sweetheart-ims", "switi-momenti-candles-crafts", "talking-prints-concept-store", "the-old-attic", "the-perfume-spot", "the-uma-store", "the-warehouse-shop", "topslager-stolk", "toys-n-more", "tulip-supermarket", "unlocked-candles", "vcm-slagerij-centrum", "vcm-slagerij-johannes-mungrastraat", "vcm-slagerij-verl-gemenelandsweg", "vifa-trading", "vincent-supermarket", "woodwonders-suriname", "yokohama-trading", "zeepfabriek-joab", "ket-mien", "kasan-snacks", "wing-hung-cake-shop", "dojo-couture-centrum", "dojo-couture-ims", "steps-domineestraat", "steps-noord", "steps-wanica", "honeycare-north", "honeycare-south", "tomahawk-outdoor-adventures", "tomahawk-outdoor-adventures-hermitage-mall", "tomahawk-outdoor-adventures-ims", "tomahawk-outdoor-adventures-lelydorp", "cute-as-a-button", "dresscode", "eterno", "everything-sr", "flex-luxuries", "itrendzz", "pandie", "mn-international-centrum", "mn-international-kwatta", "new-choice-lalla-rookhweg", "new-choice-nickerie", "new-choice-ringweg", "wow-plus", "chique-eyewear-fashion", "instyle-optics", "galaxyliving", "grounded-botanical-studio", "kasimex-indira-ghandiweg", "kasimex-makro", "brahma-centrum", "brahma-noord", "brahma-zuid", "alis-drugstore", "one-stop-apotheek-drugstore", "maze", "max-n-co", "jjs-place-zuid"] for b in [_make_biz(slug)] if b]
 
 SERVICES = [b for slug in ["the-girl-house", "101-real-estate", "ineffable", "morgaine-beauty", "4r-gym", "4x4-rental", "abrix-cleaning-services", "access-suriname-travel", "alliance-francaise", "anton-de-kom-universiteit-van-suriname", "apotheek-joemmanbaks", "apotheek-karis", "apotheek-mac-donald-north", "apotheek-mac-donald-south", "apotheek-rafeka", "apotheek-sibilo", "apotheek-soma", "apotheek-soma-ringweg", "arthur-alex-hoogendoorn-atheneum", "assuria-hermitage-high-rise", "assuria-insurance-walk-in-city", "assuria-insurance-walk-in-commewijne", "assuria-insurance-walk-in-lelydorp", "assuria-insurance-walk-in-nickerie", "assuria-insurance-walk-in-noord", "augis-travel", "ayur-mi-beauty-wellness", "balance-studio", "balletschool-marlene", "bitdynamics", "blissful-massage-aromatherapy", "blossom-beauty-bar", "bmw-suriname", "body-enhancement-gym", "bright-cleaning", "brilleman", "brotherhood-security", "brow-bliss-lounge", "buro-workspaces", "byd-suriname", "camex-suriname", "car-rental-city", "carline-kwatta", "carline-waaldijkstraat", "carpe-diem-massagepraktijk", "carvision-paramaribo", "clarissa-vaseur-writing-wellness-services-claw", "clean-it", "club-oase", "cpr-pilates-curves", "creative-q", "curl-babes", "cynsational-glam", "da-select-en-service-apotheek", "dans-dip-and-detail", "dansclub-danzson", "dcars-rental", "de-cederboom-school", "de-nederlandse-basisschool-het-kleurenorkest", "de-spetter", "de-surinaamsche-bank-hermitage-mall", "de-surinaamsche-bank-hoofdkantoor", "de-surinaamsche-bank-lelydorp", "de-surinaamsche-bank-ma-retraite", "de-surinaamsche-bank-ma-retraite-2", "de-surinaamsche-bank-nickerie", "de-surinaamsche-bank-nickerie-2", "de-surinaamsche-bank-nieuwe-haven", "de-vrije-school", "delete-beauty-lounge", "dhl-express-service-point", "dierenarts-resopawiro", "dierenartspraktijk-l-m-bansse-issa", "dierenpoli-lobo", "digicel-albina", "digicel-business-center", "digicel-extacy", "digicel-hermitage", "digicel-latour", "digicel-lelydorp", "digicel-nickerie", "digicel-wilhelminastraat", "djinipi-copy-center", "djo-cleaning-service", "dli-travel-consultancy", "dor-property-management-services-n-v", "dream-clean-suriname", "eaglemedia", "ec-operations", "ekay-media", "energiebedrijven-suriname-ebs", "eucon", "faraya-medical-center", "farma-vida", "fatum", "fatum-schadeverzekering-commewijne", "fatum-schadeverzekering-hoofdkantoor", "fatum-schadeverzekering-kwatta", "fatum-schadeverzekering-nickerie", "fhr-lim-a-po-institute-for-higher-education", "finabank-centrum", "finabank-nickerie", "finabank-noord", "finabank-wanica", "finabank-zuid", "first-aid-plus", "fit-factory", "fluxo-pilates", "fly-allways", "free-flow", "gaby-april-beauty-clinic", "garage-d-a-ashruf", "gateway-fire-nv", "glam-curves", "glambox", "gossip-nails-xx", "great-wall-motor-suriname", "h-t", "hairstudio-32", "hakrinbank", "hakrinbank-flora", "hakrinbank-latour", "hakrinbank-nickerie", "hakrinbank-nieuwe-haven", "hakrinbank-tamanredjo", "hakrinbank-tourtonne", "han-palace", "handmade-by-farrell-nv", "happy-flower-services", "harry-tjin", "hertz-suriname-car-rental", "house-of-pureness", "hsds-lifestyle-noord", "hsds-lifestyle-wanica", "iamchede", "ias-wooden-and-construction-nv", "infinity-holding", "inksane-tattoos", "international-academy-of-suriname", "intervast", "invictus-brazilian-jiu-jitsu", "jamilas-dry-cleaning-north", "jamilas-dry-cleaning-south", "just-curlss", "kaizen", "kasco-customs-solutions", "keller-williams-suriname", "kempes-co", "klm-royal-dutch-airlines", "lashlift-suriname", "lioness-beauty-effects", "luxe-escape-lotus-spa-wellness-beautysalon", "marchand-notariaat", "mini-nail-shop", "mirage-casino", "miss-doll-fit", "mokisa-busidataa-osu-nv", "mokisa-wellness", "multi-travel", "nassy-brouwer-college", "nassy-brouwer-school", "north-fitness-gym", "notariaat-mannes", "notariaat-van-dijk", "nv-threefold-quality-system-support", "ondernemershuis", "orchid", "organic-skincare", "padel-x-suriname", "paramaribo-princess-casino", "percy-massage-therapy", "pinkmoon-suriname", "pitbull-fitness", "professional-private-security", "proplan-vastgoed", "protrade-international", "qsi-international-school-of-suriname", "re-max-suriname", "real-one-fitness-gym", "remy-vastgoed", "republic-bank-head-office", "republic-bank-jozef-israelstraat", "republic-bank-kernkampweg", "republic-bank-nickerie", "republic-bank-vant-hogerhuysstraat", "republic-bank-zorg-en-hoop", "resourceful-real-estate-construction", "rich-skin", "rif-cleaning-service", "rock-fitness-paramaribo", "ross-rental-cars", "royal-rose-yoni-spa", "royal-spa", "royal-wellness-lounge", "safety-first-quality-always", "satyam-holidays", "savage-den", "scene-beauty-salon", "secas", "seen-stories", "shimmery-beauty-lounge", "smart-connexxionz", "southern-commercial-bank", "squeaky-clean", "sthephany-skincare", "stichting-shiatsu-massage", "stukaderen-in-nederland", "supply-solutions-limited-suriname", "surgoed-makelaardij", "surinaamsche-waterleiding-maatschappij", "surinam-airways", "suriname-princess-casino", "telesur-centrum", "telesur-latour", "telesur-lelydorp", "telesur-nickerie", "telesur-noord", "telesur-zonnebloemstraat", "the-aerial-yoga-studio", "the-basement-barbershop", "the-beauty-bar", "the-beauty-bar-north", "the-beauty-bar-south", "the-freelance-scout", "the-house-of-beauty", "the-laundry-spot", "the-nail-house", "the-solution-property-management", "the-waxing-booth", "the-wonderlab-su", "thermen-hermitage-turkish-bath-beautycenter", "tianyou-aquafun", "timeless-barber-and-nail-shop", "topsport", "touch-of-heaven-wellness", "tranquil-at-mamba-republiek", "tranquil-massage", "triple-security-unit", "tsw-group", "typing-nomad-nv", "waldos-worldwide-travel-service", "welink-real-estate", "ying-hao-beautyshop", "yoga-peetha-happiness-centre", "yogh-hospitality", "young-engineers", "zenobia-bottling-company"] for b in [_make_biz(slug)] if b]
 
@@ -3395,6 +3415,8 @@ const _SYN = {{
   notary:['notary','notaris','notariaat'],
   school:['school','scholen','education','onderwijs','academy'],
   vet:['vet','veterinary','dierenarts','dierenkliniek'],
+  livestock:['livestock','vee','veevoer','pluimvee','poultry','landbouw','farm','boer'],
+  landbouw:['landbouw','agriculture','farming','farm','livestock','vee','boer'],
   dierenarts:['dierenarts','veterinary','vet','dierenkliniek'],
   telecom:['telecom','internet','mobile','simcard','simkaart','prepaid'],
   realestate:['realestate','vastgoed','makelaar','makelaardij','property','huis'],
@@ -5538,6 +5560,7 @@ _SUBCAT_SCHEMA = {
     "automotive":           ("AutoRepair",                None),
     "events-party":         ("EventVenue",                None),
     "nursery-garden":       ("Store",                     None),
+    "vet-livestock":        ("Store",                     None),
     "other":                ("LocalBusiness",             None),
 }
 
@@ -5633,6 +5656,7 @@ _SEO_TYPE_LABEL = {
     "tech-media": "Tech & Media", "cleaning-maintenance": "Cleaning Services",
     "automotive": "Auto Services", "legal-professional": "Professional Services",
     "events-party": "Events & Party", "nursery-garden": "Garden Centre",
+    "vet-livestock": "Veterinary & Livestock Supplies",
     "security": "Security Services",
 }
 
@@ -5657,7 +5681,7 @@ def build_listing_page(slug, b):
     if not address and _osm.get("address"): address = _osm["address"]
     if not ext_url and _osm.get("website"): ext_url = _osm["website"]
     # Hours: OSM only (OSM strings are well-structured; FSQ phased out)
-    hours     = _osm.get("opening_hours") or ""
+    hours     = _MANUAL_HOURS.get(slug) or _osm.get("opening_hours") or ""
     osm_price = _osm.get("price_range", "")
     # Coordinates from OSM
     _lat = _osm.get("lat")
@@ -5747,6 +5771,7 @@ def build_listing_page(slug, b):
             "legal-professional":  "legal & professional services",
             "events-party":        "events & party services",
             "nursery-garden":      "nursery & garden center",
+            "vet-livestock":       "veterinary medicine & livestock supply store",
             "security":            "security services",
         }
         biz_type = _SUBCAT_LABELS.get(sub, "business")
