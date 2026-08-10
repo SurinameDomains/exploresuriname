@@ -1,41 +1,16 @@
 {
-  "last_updated": "2026-08-09T16:00:24.303139+00:00",
+  "last_updated": "2026-08-10T10:00:31.054752+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "02:00 PM",
-      "title": "Toy Story 5",
-      "url": "https://www.tblcinemas.com/movie/TO22592/toy-story-5"
-    },
-    {
-      "time": "02:30 PM",
-      "title": "Moana",
-      "url": "https://www.tblcinemas.com/movie/RS973343229507/moana"
-    },
-    {
-      "time": "03:00 PM",
-      "title": "Spider-Man: Brand New Day",
-      "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
-    },
-    {
-      "time": "03:30 PM",
-      "title": "PAW Patrol: The Dino Movie",
-      "url": "https://www.tblcinemas.com/movie/RS931685169274/paw-patrol-the-dino-movie"
-    },
-    {
-      "time": "04:00 PM",
-      "title": "Spider-Man: Brand New Day (3D)",
-      "url": "https://www.tblcinemas.com/movie/RS460318580733/spider-man-brand-new-day"
-    },
-    {
       "time": "05:00 PM",
-      "title": "Spider-Man: Brand New Day",
-      "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
+      "title": "Minions & Monsters",
+      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
     },
     {
       "time": "05:30 PM",
-      "title": "Makandra Documentaire Festival: Werehpai + Langabere",
-      "url": "https://www.tblcinemas.com/movie/WE15360/makandra-documentaire-festival-werehpai-langabere"
+      "title": "Moana",
+      "url": "https://www.tblcinemas.com/movie/RS973343229507/moana"
     },
     {
       "time": "06:00 PM",
@@ -43,24 +18,24 @@
       "url": "https://www.tblcinemas.com/movie/RS985030847570/the-odyssey"
     },
     {
-      "time": "06:45 PM",
-      "title": "Spider-Man: Brand New Day",
-      "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
+      "time": "06:30 PM",
+      "title": "Makandra Documentaire Festival: Vogelvrij + A Dede Wroko fu La Prosperité + Boyke",
+      "url": "https://www.tblcinemas.com/movie/VO7270/makandra-documentaire-festival-vogelvrij-a-dede-wroko-fu-la-prosperit-boyke"
     },
     {
-      "time": "07:30 PM",
+      "time": "07:15 PM",
       "title": "Spider-Man: Brand New Day (3D)",
       "url": "https://www.tblcinemas.com/movie/RS460318580733/spider-man-brand-new-day"
     },
     {
-      "time": "08:15 PM",
-      "title": "Evil Dead Burn",
-      "url": "https://www.tblcinemas.com/movie/RS182466198241/evil-dead-burn"
+      "time": "08:00 PM",
+      "title": "Spider-Man: Brand New Day",
+      "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
     },
     {
       "time": "08:45 PM",
-      "title": "Motor City",
-      "url": "https://www.tblcinemas.com/movie/RS318610921281/motor-city"
+      "title": "Evil Dead Burn",
+      "url": "https://www.tblcinemas.com/movie/RS182466198241/evil-dead-burn"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
