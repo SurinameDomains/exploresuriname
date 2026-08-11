@@ -37,6 +37,18 @@
     "image": "https://exploresuriname.com/images/4x4-rental.webp"
   },
   {
+    "slug": "597-savri",
+    "name": "597 SavRi",
+    "description": "597 SavRi is a light, fresh breakfast and lunch bar in Paramaribo, serving honest home-made food. All-day breakfast, sandwiches, omelettes, sizzling plates and fresh drinks such as fruit sparklers and booster shots.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "+597 888-5217",
+    "website": "",
+    "email": "savricafe@gmail.com",
+    "main_image": ""
+  },
+  {
     "slug": "a-la-john",
     "name": "A La John",
     "description": "A La John is a restaurant in Paramaribo run by Chef John, serving dishes that combine traditional Surinamese flavours with modern cooking techniques. The kitchen uses locally sourced ingredients across a menu covering both everyday meals and special occasion dining. One of Paramaribo's more creative independent restaurants.",
@@ -83,6 +95,18 @@
     "website": "",
     "email": "acbarerestaurante@gmail.com",
     "main_image": ""
+  },
+  {
+    "slug": "academisch-ziekenhuis-paramaribo",
+    "name": "Academisch Ziekenhuis Paramaribo",
+    "description": "The national teaching hospital and the country's largest, with the main emergency department and most specialist departments.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Flustraat 1, Paramaribo, Suriname",
+    "phone": "",
+    "website": "https://www.azp.sr",
+    "email": "",
+    "main_image": "https://www.azp.sr/img/logo.jpg"
   },
   {
     "slug": "access-suriname-travel",
@@ -203,6 +227,18 @@
     "website": "https://uvs.edu",
     "email": "",
     "main_image": "https://www.uvs.edu/wp-content/uploads/2017/12/STM_2770.jpg"
+  },
+  {
+    "slug": "apintie",
+    "name": "Apintie Suriname",
+    "description": "Broadcaster running Radio Apintie 97.1 FM and Apintie Television, one of the oldest media houses in the country.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Verlengde Gemenelandsweg 37, Paramaribo, Suriname",
+    "phone": "",
+    "website": "https://www.apintie.sr",
+    "email": "",
+    "main_image": "https://apintie.sr/images/sitelogotv.png"
   },
   {
     "slug": "apotheek-joemmanbaks",
@@ -409,6 +445,18 @@
     "main_image": "https://ak-d.tripcdn.com/images/220k12000000tb7oy527E_R_960_660_R5_D.jpg"
   },
   {
+    "slug": "atv-suriname",
+    "name": "ATV Suriname",
+    "description": "Algemene Televisie Verzorging. Commercial television network carrying news, current affairs and entertainment.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "+597 402050",
+    "website": "https://atv.sr",
+    "email": "",
+    "main_image": "https://atv.sr/wp-content/uploads/2024/07/Logo_ATV-2.png"
+  },
+  {
     "slug": "augis-travel",
     "name": "Augis Travel",
     "description": "Augis Travel is a Surinamese travel agency offering flight bookings, holiday packages and personalised travel services. Experienced in outbound travel and Suriname-based tourism arrangements.",
@@ -501,6 +549,18 @@
     "address": "Paramaribo, Suriname",
     "phone": "",
     "website": "",
+    "email": "",
+    "main_image": ""
+  },
+  {
+    "slug": "baitali-group",
+    "name": "Baitali Group",
+    "description": "Surinamese group active in construction, infrastructure, mining services and heavy equipment.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "https://www.baitaligroup.com",
     "email": "",
     "main_image": ""
   },
@@ -746,6 +806,18 @@
     "main_image": "https://media.evendo.com/locations-resized/RestaurantImages/1920x466/279d3513-01e0-4a6f-a566-2aa86fcb9cd3"
   },
   {
+    "slug": "blue-wing-airlines",
+    "name": "Blue Wing Airlines",
+    "description": "Domestic airline operating from Zorg en Hoop to airstrips in the interior.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Doekhieweg 3, Paramaribo, Suriname",
+    "phone": "",
+    "website": "https://bluewingairlines.com",
+    "email": "",
+    "main_image": "https://bluewingairlines.com/wp-content/uploads/2022/01/bluewing-logo_.png"
+  },
+  {
     "slug": "bmw-suriname",
     "name": "BMW Suriname",
     "description": "BMW Suriname is the official BMW dealership in Paramaribo, offering new BMW passenger cars, SUVs and motorcycles alongside certified used vehicles, service and genuine parts.",
@@ -914,6 +986,18 @@
     "main_image": ""
   },
   {
+    "slug": "bruynzeel-suriname",
+    "name": "Bruynzeel Suriname Houtmaatschappij",
+    "description": "Long-established timber and wood processing company, one of the country's traditional industrial names.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
+  },
+  {
     "slug": "building-depot",
     "name": "Building Depot",
     "description": "Building Depot is a major building materials and home improvement retailer in Suriname, offering timber, tiles, paint, tools and construction supplies. A trusted resource for DIY and professional builders.",
@@ -924,6 +1008,18 @@
     "website": "https://buildingdepotsr.com",
     "email": "",
     "main_image": "https://media.evendo.com/locations-resized/ShoppingImages/1920x466/b347d2d1-574a-4c21-8c75-afa6e4aedda9"
+  },
+  {
+    "slug": "bureau-openbare-gezondheidszorg",
+    "name": "Bureau voor Openbare Gezondheidszorg",
+    "description": "The national public health institute. Publishes outbreak notices, vaccination programmes and food and water advisories.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Rodekruislaan 22, Paramaribo, Suriname",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
   },
   {
     "slug": "burger-king-centrum",
@@ -1012,6 +1108,18 @@
     "main_image": ""
   },
   {
+    "slug": "caribbean-airlines",
+    "name": "Caribbean Airlines",
+    "description": "Regional carrier connecting Paramaribo with Trinidad and onward destinations in the Caribbean and North America.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "https://www.caribbean-airlines.com",
+    "email": "",
+    "main_image": ""
+  },
+  {
     "slug": "carline-kwatta",
     "name": "Carline Kwatta",
     "description": "Carline Kwatta is an automotive services and parts outlet in the Kwatta area of Paramaribo, offering vehicle maintenance, repairs and auto accessories.",
@@ -1058,6 +1166,18 @@
     "website": "https://carvision.io",
     "email": "",
     "main_image": "https://carvision.io/wp-content/uploads/2024/03/carvision3.jpg"
+  },
+  {
+    "slug": "centrale-bank-van-suriname",
+    "name": "Centrale Bank van Suriname",
+    "description": "The central bank. Sets monetary policy, supervises the banking sector and publishes the official exchange rates used across the country.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Waterkant 20, Paramaribo, Suriname",
+    "phone": "",
+    "website": "https://www.cbvs.sr",
+    "email": "",
+    "main_image": "https://www.cbvs.sr/templates/cbvs_v2/gfx/logo.png"
   },
   {
     "slug": "chees-jewelry-watches",
@@ -1873,6 +1993,18 @@
     "main_image": "https://exploresuriname.com/images/dhl-express.webp"
   },
   {
+    "slug": "diakonessenhuis",
+    "name": "Diakonessenhuis",
+    "description": "General hospital in Paramaribo, one of the four main hospitals in the country.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Zinniastraat 39, Paramaribo, Suriname",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
+  },
+  {
     "slug": "dierenarts-resopawiro",
     "name": "Dierenarts Resopawiro",
     "description": "Dierenarts Resopawiro is a veterinary practice in Suriname providing animal health services for domestic pets and livestock, including consultations, vaccinations, treatment and surgery. A trusted vet practice for Paramaribo pet owners and farmers in the surrounding area.",
@@ -2485,6 +2617,18 @@
     "main_image": "https://info-suriname.com/wp-content/uploads/2017/09/logo-Fatum.png"
   },
   {
+    "slug": "fernandes-group",
+    "name": "Fernandes Group",
+    "description": "One of Suriname's largest family-owned business groups, active in soft drinks and the Coca-Cola franchise, bakery products, ice cream, concrete and retail. A major private employer.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "https://www.fernandesgroup.com",
+    "email": "",
+    "main_image": "https://www.fernandesgroup.com/images/fernandes-group-logo.png"
+  },
+  {
     "slug": "fhr-lim-a-po-institute-for-higher-education",
     "name": "FHR Lim a Po Institute For Higher Education",
     "description": "FHR Lim A Po Institute for Higher Education is a Surinamese private university offering degree programmes in business, law and social sciences.",
@@ -2555,6 +2699,18 @@
     "website": "https://www.finabanknv.com",
     "email": "",
     "main_image": "https://www.finabanknv.com/media/199735/finabank_1920x450_website_banner.jpg"
+  },
+  {
+    "slug": "finatrust",
+    "name": "Finatrust",
+    "description": "Surinamese financial institution offering savings and credit products.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
   },
   {
     "slug": "first-aid-plus",
@@ -2903,6 +3059,18 @@
     "main_image": ""
   },
   {
+    "slug": "godo",
+    "name": "Godo",
+    "description": "Surinamese savings and credit institution serving retail customers and small businesses.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
+  },
+  {
     "slug": "goe-thai-noodle-bar",
     "name": "GoE Thai Noodle Bar",
     "description": "GoE Thai Noodle Bar is a Thai restaurant in Paramaribo serving noodle soups, stir-fries and classic Thai dishes with a focus on authentic flavour profiles. A more casual dining option than the upmarket Thai spots, with quick service and a straightforward menu.",
@@ -2963,6 +3131,30 @@
     "main_image": ""
   },
   {
+    "slug": "gow2-energy",
+    "name": "GOw2 Energy Suriname",
+    "description": "Fuel retailer and energy company operating a national network of service stations, formerly the Texaco network in Suriname.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "+597 403111",
+    "website": "https://www.gow2.com",
+    "email": "",
+    "main_image": "https://www.gow2.com/media/foifczyj/gow2_logo.png"
+  },
+  {
+    "slug": "grassalco",
+    "name": "Grassalco",
+    "description": "State-owned mining company holding gold and construction-materials concessions and participating in joint ventures with international operators.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "https://grassalco.com",
+    "email": "",
+    "main_image": "https://grassalco.com/wp-content/uploads/2026/07/grassalco-logo.png"
+  },
+  {
     "slug": "great-wall-motor-suriname",
     "name": "Great Wall Motor Suriname",
     "description": "Great Wall Motor Suriname is the official GWM dealership, offering a range of Chinese-engineered SUVs and pickup trucks. Providing sales, service and parts for the growing GWM vehicle range.",
@@ -3021,6 +3213,30 @@
     "website": "",
     "email": "",
     "main_image": "https://guesthousealbina.com/wp-content/uploads/2024/05/Guesthouse-Albina-Logo-dunne-ronde-kader-Transparant.png"
+  },
+  {
+    "slug": "gum-air",
+    "name": "Gum Air",
+    "description": "Charter airline flying to the interior airstrips from Zorg en Hoop, the usual way to reach the jungle lodges.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Doekhieweg 3, Paramaribo, Suriname",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
+  },
+  {
+    "slug": "guru-rotishop",
+    "name": "Guru Rotishop",
+    "description": "Guru Rotishop on Sir Winston Churchillweg serves heerlijke oso nyang and belegde broden, the everyday Surinamese home cooking locals pick up for lunch.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Sir Winston Churchillweg 160, Paramaribo, Suriname",
+    "phone": "+597 863-2121",
+    "website": "",
+    "email": "",
+    "main_image": ""
   },
   {
     "slug": "h-garden",
@@ -3225,6 +3441,18 @@
     "website": "",
     "email": "",
     "main_image": ""
+  },
+  {
+    "slug": "havenbeheer-suriname",
+    "name": "N.V. Havenbeheer Suriname",
+    "description": "The national port authority, operating the Nieuwe Haven container terminal in Paramaribo and the country's other public port facilities.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "+597 404044",
+    "website": "https://havenbeheer.com",
+    "email": "",
+    "main_image": "https://havenbeheer.com/wp-content/uploads/2018/04/main-logo.png"
   },
   {
     "slug": "hermitage-mall",
@@ -3946,6 +4174,18 @@
     "main_image": ""
   },
   {
+    "slug": "kersten-group",
+    "name": "Kersten Group of Companies",
+    "description": "Founded in 1768 and one of the oldest companies in Suriname. The group spans retail, healthcare, automotive, hospitality, construction and shipping.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Domineestraat 36, Paramaribo, Suriname",
+    "phone": "+597 471150",
+    "website": "https://www.kersten.sr",
+    "email": "",
+    "main_image": ""
+  },
+  {
     "slug": "ket-mien",
     "name": "Ket Mien",
     "description": "Ket Mien Co. is a beauty and hair supply shop in Paramaribo stocking hair care products, styling tools, accessories and beauty essentials.",
@@ -4485,6 +4725,18 @@
     "main_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/McDonald%27s_logo_Targ%C3%B3wek.JPG/1280px-McDonald%27s_logo_Targ%C3%B3wek.JPG"
   },
   {
+    "slug": "medische-zending",
+    "name": "Medische Zending Primary Health Care Suriname",
+    "description": "Provides primary health care to the interior, running clinics in villages along the rivers where no other medical services exist.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Zonnebloemstraat 45-47, Paramaribo, Suriname",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
+  },
+  {
     "slug": "messias-tours",
     "name": "Messias Tours",
     "description": "Messias Tours is a Surinamese tour operator offering guided excursions including jungle adventures, river trips and cultural tours. Known for professional guiding and customised itineraries.",
@@ -4894,6 +5146,18 @@
     "main_image": ""
   },
   {
+    "slug": "nationaal-vervoer-bedrijf",
+    "name": "Nationaal Vervoer Bedrijf",
+    "description": "The state bus company, running scheduled public transport in Paramaribo and to the districts.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
+  },
+  {
     "slug": "new-choice-lalla-rookhweg",
     "name": "New Choice Lalla Rookhweg",
     "description": "New Choice Lalla Rookhweg is a retail and goods store in Paramaribo offering a variety of products on the popular Lalla Rookhweg commercial strip.",
@@ -4937,6 +5201,18 @@
     "location": "Paramaribo",
     "address": "Dr. Sophie Redmond Straat 248, Paramaribo",
     "phone": "+5978801708",
+    "website": "",
+    "email": "",
+    "main_image": ""
+  },
+  {
+    "slug": "newmont-suriname",
+    "name": "Newmont Suriname",
+    "description": "Operator of the Merian gold mine in the east of the country, one of Suriname's largest foreign investments and a significant employer.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
     "website": "",
     "email": "",
     "main_image": ""
@@ -5791,6 +6067,18 @@
     "main_image": ""
   },
   {
+    "slug": "rasonic",
+    "name": "Rasonic Televisie en Radio Suriname",
+    "description": "Broadcaster covering Nickerie and Paramaribo, one of the few media houses with real district coverage.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Nickerie, Suriname",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
+  },
+  {
     "slug": "re-max-suriname",
     "name": "Re Max Suriname",
     "description": "RE/MAX Suriname is the local franchise of the world's largest real estate network, offering professional property sales, rentals and investment advisory services across Suriname.",
@@ -5908,6 +6196,18 @@
     "website": "",
     "email": "",
     "main_image": "https://media.evendo.com/locations-resized/ShoppingImages/1920x466/358c883a-ac82-4dad-a02d-20fa6c734371"
+  },
+  {
+    "slug": "regionale-gezondheidsdienst",
+    "name": "Regionale Gezondheidsdienst",
+    "description": "The RGD runs the national network of primary care clinics across Paramaribo, Wanica and the districts.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "J.A. Pengelstraat 188, Paramaribo, Suriname",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
   },
   {
     "slug": "remy-vastgoed",
@@ -6339,6 +6639,30 @@
     "main_image": ""
   },
   {
+    "slug": "rudisa",
+    "name": "Rudisa International",
+    "description": "Surinamese group with beverage bottling, food distribution, real estate and franchise operations including Burger King in Suriname.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "https://rudisa.com",
+    "email": "",
+    "main_image": ""
+  },
+  {
+    "slug": "s-lands-hospitaal",
+    "name": "'s Lands Hospitaal",
+    "description": "State hospital in Paramaribo, with maternity care among its main services.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
+  },
+  {
     "slug": "safety-first-quality-always",
     "name": "Safety First Quality Always",
     "description": "Safety First Quality Always is a Surinamese occupational health and safety consultancy providing workplace safety training, audits and compliance services.",
@@ -6483,6 +6807,18 @@
     "main_image": "https://images.squarespace-cdn.com/content/v1/67d096a1ab6b7b756d0e779b/eb825299-fae9-4c65-9309-cbc5ca4d4bcc/Shell+docu+1.png"
   },
   {
+    "slug": "self-reliance",
+    "name": "Self Reliance Verzekeringen",
+    "description": "One of Suriname's larger insurers, covering life, health, motor, property and travel.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "https://www.selfreliance.sr",
+    "email": "",
+    "main_image": ""
+  },
+  {
     "slug": "sendang-redjo",
     "name": "Sendang Redjo",
     "description": "Sendang Redjo is a Javanese-Surinamese recreation resort in Tamanredjo, Commewijne, about a 30-minute drive east of Paramaribo along the Oost-West Verbinding. Swimming pools, mature tropical gardens and open green space make it a favourite day out for local families, and the site is closely tied to the Javanese heritage of the Commewijne district.",
@@ -6502,6 +6838,18 @@
     "location": "Paramaribo",
     "address": "Paramaribo, Suriname",
     "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
+  },
+  {
+    "slug": "shlx-cafe",
+    "name": "SHLX Cafe",
+    "description": "SHLX Cafe is a breakfast, brunch and lunch spot on Verlengde Gemenlandsweg. Fresh coffee, lattes, matcha and chai alongside bagels, sandwiches, bowls and a wide range of desserts. Open Monday to Friday 8.00 to 17.30 and Saturday 9.00 to 15.00.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Verlengde Gemenlandsweg 164, Paramaribo, Suriname",
+    "phone": "+597 746-0933",
     "website": "",
     "email": "",
     "main_image": ""
@@ -6529,6 +6877,18 @@
     "website": "",
     "email": "",
     "main_image": "https://ims.sr/wp-content/uploads/2023/09/shoebizz_office.jpg"
+  },
+  {
+    "slug": "sint-vincentius-ziekenhuis",
+    "name": "Sint Vincentius Ziekenhuis",
+    "description": "General hospital in central Paramaribo, one of the four main hospitals in the country.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Koninginnestraat 4, Paramaribo, Suriname",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
   },
   {
     "slug": "sizzler-midnight-grill",
@@ -6661,6 +7021,18 @@
     "website": "https://www.soengco.com",
     "email": "",
     "main_image": "https://www.soengco.com/adimages/logo.png"
+  },
+  {
+    "slug": "sol-suriname",
+    "name": "Sol Suriname",
+    "description": "Caribbean fuel and lubricants company operating service stations and commercial fuel supply in Suriname.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "https://www.solpetroleum.com",
+    "email": "",
+    "main_image": ""
   },
   {
     "slug": "souposo",
@@ -6855,6 +7227,18 @@
     "main_image": "https://srananfowru.sr/wp-content/uploads/2025/06/SF_Hele-Kip.png"
   },
   {
+    "slug": "staatsolie",
+    "name": "Staatsolie Maatschappij Suriname",
+    "description": "The state oil and gas company. Onshore production at Tambaredjo, the Tout Lui Faut refinery, power generation, and operator interest in the offshore GranMorgu development in Block 58.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Dr. Ir. H.S. Adhinstraat 21, Paramaribo, Suriname",
+    "phone": "",
+    "website": "https://www.staatsolie.com",
+    "email": "",
+    "main_image": "https://www.staatsolie.com/media/s3slkhxb/staatsolie_logo.png"
+  },
+  {
     "slug": "steps-domineestraat",
     "name": "Steps Domineestraat",
     "description": "Steps Domineestraat brings the popular footwear brand to central Paramaribo's shopping street, offering trendy affordable shoes and accessories.",
@@ -6960,6 +7344,18 @@
     "phone": "",
     "website": "https://stukaderenin.nl",
     "main_image": ""
+  },
+  {
+    "slug": "stvs",
+    "name": "STVS",
+    "description": "Surinaamse Televisie Stichting, the state broadcaster.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "https://stvs.sr",
+    "email": "",
+    "main_image": "https://stvs.sr/wp-content/uploads/2022/06/stvs-logo-transparent-small.png"
   },
   {
     "slug": "subway",
@@ -7082,6 +7478,18 @@
     "main_image": "https://swm.sr/wp-content/uploads/2023/04/swm-logo.png"
   },
   {
+    "slug": "surinaamse-postspaarbank",
+    "name": "Surinaamse Postspaarbank",
+    "description": "State savings bank offering savings accounts, loans and payment services, with branches across the districts.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
+  },
+  {
     "slug": "surinam-airways",
     "name": "Surinam Airways",
     "description": "Surinam Airways is the national airline of Suriname, operating scheduled flights connecting Paramaribo to destinations across the Caribbean, South America and Europe, including direct services to Amsterdam. The primary carrier for international travel to and from Johan Adolf Pengel International Airport.",
@@ -7102,6 +7510,18 @@
     "address": "Wagenwegstraat 81, Paramaribo",
     "phone": "+597 472030",
     "website": "https://worldofprincess.com/properties/suriname-princess-casino/",
+    "email": "",
+    "main_image": ""
+  },
+  {
+    "slug": "surpost",
+    "name": "Surpost",
+    "description": "The national postal service, handling mail, parcels and postal financial services across the districts.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "",
     "email": "",
     "main_image": ""
   },
@@ -7930,6 +8350,18 @@
     "main_image": "https://ak-d.tripcdn.com/images/200i0a0000004jxq769BE_R_960_660_R5_D.jpg"
   },
   {
+    "slug": "trustbank-amanah",
+    "name": "Trustbank Amanah",
+    "description": "Suriname's Islamic bank, offering interest-free banking products to retail and business customers.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "+597 828-7878",
+    "website": "https://www.trustbankamanah.com",
+    "email": "",
+    "main_image": "https://www.trustbankamanah.com/media/o4cjv3et/new_logo_tba.png"
+  },
+  {
     "slug": "tsw-group",
     "name": "Tsw Group",
     "description": "TSW Group is a Surinamese conglomerate offering services across multiple sectors including logistics, trading and business services.",
@@ -8035,6 +8467,18 @@
     "phone": "+597 873-2131",
     "website": "",
     "email": "Unlockedcandles@hotmail.com",
+    "main_image": ""
+  },
+  {
+    "slug": "varossieau-suriname",
+    "name": "Varossieau Suriname",
+    "description": "Paint and coatings manufacturer supplying the Surinamese construction and industrial market.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "",
+    "email": "",
     "main_image": ""
   },
   {
@@ -8144,6 +8588,30 @@
     "website": "",
     "email": "",
     "main_image": "https://socialsuriname.com/wp-content/uploads/2025/10/Viva-Mexico-v1.webp"
+  },
+  {
+    "slug": "volkscredietbank",
+    "name": "Surinaamse Volkscredietbank",
+    "description": "State-owned bank focused on small business and consumer credit.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Paramaribo, Suriname",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": ""
+  },
+  {
+    "slug": "vsh-united",
+    "name": "VSH United",
+    "description": "N.V. Verenigde Surinaamse Holdingmaatschappij. A diversified holding with interests in food, shipping, industrial supply, real estate and financial services.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Van 't Hogerhuysstraat 9, Paramaribo, Suriname",
+    "phone": "+597 402558",
+    "website": "https://vshunited.com",
+    "email": "",
+    "main_image": "https://vshunited.com/assets/vsh-logo.png"
   },
   {
     "slug": "waldos-worldwide-travel-service",
