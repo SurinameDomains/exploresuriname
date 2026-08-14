@@ -1,52 +1,52 @@
 {
-  "date_range": "zaterdag 08 augustus tot maandag 10 augustus 2026",
+  "date_range": "zaterdag 15 augustus tot maandag 17 augustus 2026",
   "doctors": [
     {
-      "name": "Drs. Lahera Diaz Yamilia",
-      "clinic": "Gezondheidscentrum Geyersvlijt",
+      "name": "Drs. Asomodikromo Gracia",
+      "clinic": "Gezondheidscentrum Limesgracht",
       "district": "Paramaribo",
-      "address": "",
-      "phone": "",
+      "address": "Limesgracht no. 78",
+      "phone": "420506",
       "note": ""
     },
     {
-      "name": "Drs. Koendan Shobhna",
-      "clinic": "Polikliniek Welgelegen",
+      "name": "Drs. Alladin-Ramrattansing Jayanti",
+      "clinic": "Gezondheidscentrum Derde Rijweg",
       "district": "Paramaribo",
-      "address": "Patatastraat no. 17",
-      "phone": "436975",
+      "address": "Kwattaweg no. 620",
+      "phone": "435767",
       "note": ""
     },
     {
-      "name": "Drs. Debidien Shafieda",
-      "clinic": "Polikliniek Chandishawweg",
+      "name": "Drs. Overeem Raief",
+      "clinic": "Polikliniek Jarikaba",
       "district": "Wanica",
-      "address": "Chandishawweg (Uitkijk)",
-      "phone": "328490",
+      "address": "Bananen Bacovenweg no. 14",
+      "phone": "328677",
       "note": ""
     },
     {
-      "name": "Drs. Basulto Marrero Anisbel",
-      "clinic": "Polikliniek Domburg",
+      "name": "Drs. Mahabier Madhuri",
+      "clinic": "Polikliniek Nieuwe Grond",
       "district": "Wanica",
-      "address": "Herbertstraat perceel no. 15",
-      "phone": "370044",
+      "address": "Indira Gandhiweg no. 12",
+      "phone": "585838",
       "note": ""
     },
     {
-      "name": "Drs. Orie Sunil",
-      "clinic": "Gezondheidscentrum Lelydorp",
-      "district": "Wanica",
-      "address": "Indira Gandhiweg no. 42",
-      "phone": "366125",
-      "note": ""
-    },
-    {
-      "name": "Drs. Soemai Suraj",
-      "clinic": "Gezondheidscentrum Onverwacht",
+      "name": "Drs. Harderwijk- Lienga Silvana",
+      "clinic": "Polkliniek La Vigilantia",
       "district": "Para",
-      "address": "Akrumstraat no. 09",
-      "phone": "352097",
+      "address": "Verlengde Laterietweg",
+      "phone": "323253",
+      "note": ""
+    },
+    {
+      "name": "Drs. Jaime Castellanos",
+      "clinic": "Polikliniek Zanderij",
+      "district": "Para",
+      "address": "Albert Plesmanstraat",
+      "phone": "325515",
       "note": ""
     }
   ],
@@ -64,6 +64,6 @@
   ],
   "doctor_hours": "Spreekuren: zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
   "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00u.",
-  "last_updated": "2026-08-13T10:20:25.403484+00:00",
+  "last_updated": "2026-08-14T10:20:23.997489+00:00",
   "source": "http://www.rgd.sr/nl/zorg-aanbod/wachtdienst"
 }
