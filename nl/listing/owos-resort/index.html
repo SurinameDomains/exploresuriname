@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="max-image-preview:large" name="robots"/>
+<link href="/favicon.ico" rel="icon" sizes="48x48 32x32 16x16"/>
+<link href="/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/icons/apple-touch-icon-180.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="nl_NL" property="og:locale"/><meta content="es_ES" property="og:locale:alternate"/><meta content="en_US" property="og:locale:alternate"/>
+<link as="font" crossorigin="" href="/fonts/playfair-latin-var.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/fonts/inter-latin-var.woff2" rel="preload" type="font/woff2"/>
+<style>
+  @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  </style>
+<link href="/tailwind.css?v=701744f8" rel="stylesheet"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<meta content="#FBF5E9" name="theme-color"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="default" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="ExploreSR" name="apple-mobile-web-app-title"/>
+<style>
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#E1F0DD; --coral:#E76F51; --gold:#E7AE4D; --clay:#9C5822; --paper:#FBF5E9; --paper-2:#F4ECDA; --card:#FFFDF6; --ink:#233028; --ink-soft:#5C6657; --line:#EBE0CB; }
+    body   { font-family: 'Inter', system-ui, sans-serif; }
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    /* ===== Warm theme roll-over: homepage redesign palette, applied site-wide ===== */
+    html, body { background: var(--paper); }
+    body { color: var(--ink); }
+    .bg-white   { background-color: var(--card) !important; }
+    .bg-gray-50 { background-color: var(--paper-2) !important; }
+    .bg-gray-100{ background-color: #EFE6D2 !important; }
+    .text-gray-900, .text-gray-800 { color: var(--ink) !important; }
+    .text-gray-700, .text-gray-600 { color: #46524A !important; }
+    .text-gray-500, .text-gray-400 { color: var(--ink-soft) !important; }
+    .border-gray-100 { border-color: var(--line) !important; }
+    .border-gray-200 { border-color: #E2D8C2 !important; }
+    ::selection { background: var(--gold); color: var(--forest); }
+    .ftr-h{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .ftr-col{display:flex;flex-direction:column;gap:11px;font-size:14px}
+    .ftr-lnk{color:#B9C2B2;transition:color .15s}
+    .ftr-lnk:hover{color:#FCF7EC}
+    .ftr-lnk2{color:#9BAA97;transition:color .15s}
+    .ftr-lnk2:hover{color:#B9C2B2}
+    .ftr-cta{display:inline-block;border:1px solid var(--coral);color:#FCF7EC;border-radius:9999px;padding:.5rem 1.1rem;
+             font-size:13px;font-weight:700;text-decoration:none;transition:background .18s,color .18s}
+    .ftr-cta:hover{background:var(--coral);color:#fff}
+    .ftr-bar{max-width:1140px;margin:0 auto;padding:18px clamp(20px,5vw,48px);display:flex;justify-content:space-between;
+             align-items:center;gap:12px 20px;flex-wrap:wrap;font-size:13px;color:#8B978A}
+    .ftr-bar-links{display:flex;gap:18px;flex-wrap:wrap}
+    @media(max-width:900px){footer>div:first-child{grid-template-columns:1fr 1fr!important;gap:32px!important}}
+    @media(max-width:560px){footer>div:first-child{grid-template-columns:1fr!important}.ftr-bar{justify-content:flex-start}}
+    .hero-bg { background-size:cover; background-position:center; }
+    .nws-card { position: relative; }
+    .nws-card .nws-t::after { content:""; position:absolute; inset:0; z-index:1; }
+    .nws-also { position: relative; z-index: 2; }
+    .card-hover { transition: transform .2s, box-shadow .2s; }
+    .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
+    a { text-decoration: none; }
+    nav a, nav button { white-space: nowrap; }   /* keep nav labels on one line (EN; NL/ES get this via build_i18n) */
+    .vh { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+    /* Nav search: a small pill with a visible label. On tighter viewports it
+       collapses to just the magnifying glass so the nav labels and the language
+       switcher keep their room in NL and ES. Widths verified at 1024/1280/1440. */
+    .navsearch { display:flex; align-items:center; gap:6px; padding:7px 13px 7px 10px;
+                 border-radius:9999px; border:1px solid #e5e7eb; background:#f9fafb;
+                 color:#9ca3af; cursor:pointer;
+                 transition:gap .18s ease, padding .18s ease, border-color .18s ease, color .18s ease; }
+    .navsearch .nslabel { max-width:7rem; overflow:hidden; white-space:nowrap; font-size:.875rem;
+                          transition:max-width .22s ease; }
+    .navsearch:hover, .navsearch:focus-visible { border-color:#9ca3af; color:#4b5563; }
+    /* Seven top-level items, kept generously spaced. Two narrow-desktop tiers,
+       and the search label collapses earlier on the NL/ES trees because those
+       nav labels run longer (build_i18n sets html[lang]). Verified at
+       1024/1152/1280/1440/1920 in all three languages. */
+    .navlinks { gap:24px; }
+    /* Dutch labels fit alongside the pill all the way down to 1152, so only the
+       Spanish tree needs an early collapse. Threshold measured, not guessed:
+       ES runs out of room at about 1210. */
+    @media (max-width:1219px) {
+      html[lang="es"] .navsearch { gap:0; padding:7px; }
+      html[lang="es"] .navsearch .nslabel { max-width:0; }
+    }
+    @media (max-width:1151px) {
+      .navlinks { gap:10px; }
+      .navlinks .dd-trigger, .navlinks > a { font-size:13px; }
+      .navsearch { gap:0; padding:7px; }
+      .navsearch .nslabel { max-width:0; }
+    }
+    /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
+    .dd-menu { transform-origin: top center; }
+    .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
+    @keyframes ddFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    #search-results a {
+      display:flex;align-items:center;gap:10px;padding:10px 18px;text-decoration:none;color:#111;transition:background .1s;
+    }
+    #search-results a:hover, #search-results a.sr-active { background:#f5f5f5; }
+    .sr-badge {
+      font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;flex-shrink:0;
+    }
+    .sr-name { font-size:.9rem;font-weight:600;flex:1;min-width:0; }
+    .sr-area { font-size:.78rem;color:var(--ink-soft);white-space:nowrap; }
+    mark { background:#fef08a;border-radius:2px;padding:0 1px; }
+    .filter-chip {
+      display:inline-flex;align-items:center;gap:5px;padding:10px 16px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
+      color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+      touch-action:manipulation;
+    }
+    .filter-chip:hover { border-color:var(--forest);color:var(--forest); }
+    .filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+    .dist-chip {
+      display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;
+      border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;
+      color:#6b7280;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+    }
+    .dist-chip:hover { border-color:var(--forest2);color:var(--forest2); }
+    .dist-chip.dist-chip-active { background:var(--forest2);border-color:var(--forest2);color:#fff; }
+    .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
+    .filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count { opacity:.8; }
+    .dict-chiprow{scrollbar-width:none;-ms-overflow-style:none}
+    .dict-chiprow::-webkit-scrollbar{display:none}
+    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+    .listing-card.hidden { display:none; }
+    /* PWA install bar (Android prompt + iOS A2HS tip) */
+    #pwa-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(130%);transition:transform .35s cubic-bezier(.22,1,.36,1);background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 28px rgba(0,0,0,.14);padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
+    #pwa-bar.pwa-show{transform:translateY(0)}
+    #pwa-bar .pwa-ic{width:42px;height:42px;border-radius:10px;flex:0 0 auto}
+    #pwa-bar .pwa-tx{flex:1 1 auto;min-width:0}
+    #pwa-bar .pwa-tt{font-weight:700;font-size:14px;color:var(--forest);line-height:1.2}
+    #pwa-bar .pwa-sb{font-size:12px;color:#4b5563;line-height:1.3;margin-top:2px}
+    #pwa-bar .pwa-go{flex:0 0 auto;background:var(--forest);color:#fff;border:0;border-radius:10px;font-weight:700;font-size:14px;padding:10px 16px;cursor:pointer;white-space:nowrap;touch-action:manipulation}
+    #pwa-bar .pwa-go:hover{background:var(--forest2)}
+    #pwa-bar .pwa-x{flex:0 0 auto;background:transparent;border:0;color:#9ca3af;font-size:24px;line-height:1;cursor:pointer;padding:2px 6px;touch-action:manipulation}
+    @media(min-width:640px){#pwa-bar{left:auto;right:18px;bottom:18px;max-width:430px;border-radius:16px;border:1px solid rgba(0,0,0,.08)}}
+  </style>
+<script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
+<style>
+    /* Category listing header. The per-category colour is demoted from a full
+       background flood to a top accent rule, so every listing page reads as the
+       same brand surface while keeping the colour coding. */
+    .cat-hero{background:var(--forest);border-top:3px solid var(--cat,var(--coral));color:#fff}
+    .cat-hero-in{max-width:72rem;margin:0 auto;padding:1.1rem 1.25rem 1.4rem}
+    .cat-crumb{font-size:.75rem;color:rgba(255,255,255,.55);display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
+    .cat-crumb a{color:rgba(255,255,255,.72);text-decoration:none}
+    .cat-crumb a:hover{color:#fff;text-decoration:underline}
+    .cat-row{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:.55rem}
+    .cat-row h1{font-size:clamp(1.7rem,4.2vw,2.4rem);font-weight:700;line-height:1.1;margin:0}
+    .cat-sub{color:rgba(255,255,255,.68);font-size:.92rem;margin:.3rem 0 0}
+    .cat-cta{display:inline-flex;align-items:center;gap:.4rem;border:1px solid rgba(255,255,255,.42);border-radius:9999px;
+             padding:.5rem 1.05rem;font-size:.8rem;font-weight:600;color:#fff;text-decoration:none;white-space:nowrap;
+             transition:background .18s,color .18s,border-color .18s}
+    .cat-cta:hover{background:#fff;color:var(--forest);border-color:#fff}
+    @media(max-width:640px){.cat-hero-in{padding:.9rem 1.1rem 1.2rem}.cat-row{gap:.7rem}.cat-cta{padding:.45rem .9rem;font-size:.76rem}}
+    /* Intro prose lives below the listings: indexable, out of the way. */
+    .cat-about{border-top:1px solid var(--line,#e6ddc9);margin-top:3rem;padding-top:1.8rem}
+    .cat-about h2{font-size:1.15rem;font-weight:700;color:var(--ink,#233028);margin:0 0 .6rem}
+    .cat-about p{color:#46524A;line-height:1.75;max-width:60ch;margin:0 0 .6rem}
+    .cat-about .xlinks{font-size:.88rem;color:#6b7469}
+  </style>
+<style>
+    .esr-grab{cursor:grab}.esr-grab:active{cursor:grabbing}
+    .esr-arrow{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:9999px;background:#fff;border:1px solid #e5e7eb;box-shadow:0 1px 5px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;color:#374151;padding:0}
+    .esr-arrow:hover{border-color:#9ca3af;color:#111}
+    .esr-arrow-l{left:2px}.esr-arrow-r{right:2px}
+    @media(hover:none){.esr-arrow{display:none!important}}
+    /* Data tables: scroll on desktop, stack into labelled cards on phones. */
+    @media(max-width:639px){
+      .esr-rtable{overflow-x:visible!important}
+      .esr-rtable table{min-width:0!important;width:100%;display:block;font-size:.875rem}
+      .esr-rtable thead{display:none}
+      .esr-rtable tbody{display:block}
+      .esr-rtable tr{display:block;border:1px solid #e5e7eb;border-radius:.9rem;padding:.7rem .25rem;margin-bottom:.7rem;background:#fff}
+      .esr-rtable td{display:block;border:0!important;padding:.3rem .85rem!important}
+      .esr-rtable td::before{content:attr(data-label);display:block;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#9ca3af;margin-bottom:.1rem}
+      .esr-rtable td[data-label=""]::before{display:none}
+      .esr-rtable td:first-child{font-size:.98rem;padding-bottom:.15rem!important}
+      .esr-rtable td:first-child::before{display:none}
+    }
+  </style>
+<script>
+  /* Horizontal chip strips and scroll rows, sitewide: make them usable with a
+     mouse. Every .overflow-x-auto element that is not a table wrapper gets
+     overlay arrow buttons at either edge while it overflows (hover-capable
+     devices only), vertical-wheel sideways panning (page scroll resumes at
+     the ends) and click-drag panning. Strips share one mechanism sitewide and
+     drag (all strips share one mechanism; arrows hide whenever the strip has
+     nothing to scroll). Content changes are observed so arrows appear when
+     chips render or filter late. Touch and keyboard behaviour unchanged. */
+  (function(){
+    var FINE=window.matchMedia?matchMedia("(hover:hover) and (pointer:fine)"):{matches:false};
+    function skip(el){return !!el.querySelector("table");}
+    function mkArrow(dir){
+      var b=document.createElement("button");
+      b.type="button";b.className="esr-arrow esr-arrow-"+dir;
+      b.setAttribute("aria-label",dir==="l"?"Scroll left":"Scroll right");
+      b.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="'+(dir==="l"?"M15 18l-6-6 6-6":"M9 18l6-6-6-6")+'"/></svg>';
+      return b;
+    }
+    function arm(el){
+      if(el.dataset.esrStrip||skip(el))return;
+      el.dataset.esrStrip="1";
+      el.classList.add("esr-grab");
+      el.addEventListener("wheel",function(ev){
+        if(ev.deltaX!==0||ev.shiftKey||ev.ctrlKey)return;
+        if(el.scrollWidth<=el.clientWidth+2)return;
+        var max=el.scrollWidth-el.clientWidth;
+        if((ev.deltaY>0&&el.scrollLeft>=max-1)||(ev.deltaY<0&&el.scrollLeft<=0))return;
+        el.scrollLeft+=ev.deltaY;ev.preventDefault();
+      },{passive:false});
+      var wrap=document.createElement("div");
+      var cs=getComputedStyle(el);
+      if(cs.position==="sticky"){
+        wrap.style.position="sticky";wrap.style.top=cs.top;wrap.style.zIndex=cs.zIndex;
+        el.style.position="static";
+      }else{wrap.style.position="relative";}
+      /* The wrapper must be allowed to shrink: as a flex item its default
+         min-width:auto is the content width, which pushed the whole page
+         sideways on mobile (category pages scrolled ~1300px wide). */
+      wrap.style.minWidth="0";wrap.style.maxWidth="100%";
+      var _pcs=el.parentNode?getComputedStyle(el.parentNode):null;
+      if(_pcs&&(_pcs.display==="flex"||_pcs.display==="inline-flex")){wrap.style.flex="1 1 0%";}
+      el.parentNode.insertBefore(wrap,el);
+      wrap.appendChild(el);
+      var L=mkArrow("l"),R=mkArrow("r");
+      wrap.appendChild(L);wrap.appendChild(R);
+      function upd(){
+        var max=el.scrollWidth-el.clientWidth;
+        var ok=FINE.matches&&max>4;
+        L.style.display=(ok&&el.scrollLeft>4)?"":"none";
+        R.style.display=(ok&&el.scrollLeft<max-4)?"":"none";
+      }
+      function go(s){el.scrollBy({left:s*Math.max(120,Math.round(el.clientWidth*0.7)),behavior:"smooth"});}
+      L.addEventListener("click",function(){go(-1);});
+      R.addEventListener("click",function(){go(1);});
+      el.addEventListener("scroll",upd,{passive:true});
+      window.addEventListener("resize",upd);
+      if(window.MutationObserver){
+        new MutationObserver(function(){upd();}).observe(el,
+          {childList:true,subtree:true,attributes:true,attributeFilter:["style","class"]});
+      }else{
+        el.addEventListener("click",function(){setTimeout(upd,60);});
+      }
+      upd();
+    }
+    function init(){
+      document.querySelectorAll(".overflow-x-auto").forEach(arm);
+      var el=null,sx=0,sl=0,moved=false;
+      document.addEventListener("pointerdown",function(ev){
+        if(ev.pointerType!=="mouse"||ev.button!==0)return;
+        if(ev.target.closest&&ev.target.closest(".esr-arrow"))return;
+        var t=ev.target.closest&&ev.target.closest(".overflow-x-auto");
+        if(!t||skip(t)||t.scrollWidth<=t.clientWidth+2)return;
+        el=t;sx=ev.clientX;sl=t.scrollLeft;moved=false;
+      });
+      document.addEventListener("pointermove",function(ev){
+        if(!el)return;
+        var dx=ev.clientX-sx;
+        if(!moved){if(Math.abs(dx)<5)return;moved=true;el.style.userSelect="none";}
+        el.scrollLeft=sl-dx;ev.preventDefault();
+      });
+      function end(){
+        if(!el)return;
+        var was=el,m=moved;el=null;moved=false;was.style.userSelect="";
+        if(m){var kill=function(e){e.stopPropagation();e.preventDefault();};
+          was.addEventListener("click",kill,true);
+          setTimeout(function(){was.removeEventListener("click",kill,true);},0);}
+      }
+      document.addEventListener("pointerup",end);
+      document.addEventListener("pointercancel",end);
+    }
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+  })();
+  </script>
+<script>
+  (function(){
+    var DKEY="esr_pwa_dismiss", dp=null, bar=null;
+    function isDismissed(){try{var v=localStorage.getItem(DKEY);if(!v)return false;return (Date.now()-parseInt(v,10))<1209600000;}catch(e){return false;}}
+    function setDismissed(){try{localStorage.setItem(DKEY,String(Date.now()));}catch(e){}}
+    function isStandalone(){return (window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)||window.navigator.standalone===true;}
+    function isIOS(){var ua=navigator.userAgent||"";if(/CriOS|FxiOS|EdgiOS/i.test(ua))return false;if(/iPhone|iPad|iPod/i.test(ua))return true;return /Macintosh/i.test(ua)&&navigator.maxTouchPoints>1;}
+    function remove(){if(bar){var b=bar;bar=null;b.classList.remove("pwa-show");setTimeout(function(){if(b&&b.parentNode)b.parentNode.removeChild(b);},400);}}
+    function show(mode,force){
+      if(bar||(!force&&isDismissed())||isStandalone())return;
+      if(!document.body){document.addEventListener("DOMContentLoaded",function(){show(mode);});return;}
+      bar=document.createElement("div");
+      bar.id="pwa-bar";bar.setAttribute("role","dialog");bar.setAttribute("aria-label","Install Explore Suriname");
+      var ic='<img class="pwa-ic" src="/icons/icon-192.png" width="42" height="42" alt="">';
+      var tt,sb,btns;
+      if(mode==="ios"){
+        tt="Add Explore Suriname";
+        sb="Tap the Share button, then Add to Home Screen.";
+        btns='<button class="pwa-x" type="button" aria-label="Dismiss">&times;</button>';
+      }else{
+        tt="Install Explore Suriname";
+        sb="Live SRD rates and offline access on your home screen.";
+        btns='<button class="pwa-go" type="button">Install</button><button class="pwa-x" type="button" aria-label="Dismiss">&times;</button>';
+      }
+      bar.innerHTML=ic+'<div class="pwa-tx"><div class="pwa-tt">'+tt+'</div><div class="pwa-sb">'+sb+'</div></div>'+btns;
+      document.body.appendChild(bar);
+      requestAnimationFrame(function(){requestAnimationFrame(function(){if(bar)bar.classList.add("pwa-show");});});
+      var go=bar.querySelector(".pwa-go");
+      if(go){go.addEventListener("click",function(){
+        if(!dp){remove();return;}
+        dp.prompt();
+        dp.userChoice.then(function(c){setDismissed();dp=null;hideNav();remove();}).catch(function(){remove();});
+      });}
+      bar.querySelector(".pwa-x").addEventListener("click",function(){setDismissed();remove();});
+    }
+    function navEl(){return document.getElementById("pwa-nav");}
+    function revealNav(){var n=navEl();if(n&&!isStandalone())n.style.display="inline-flex";}
+    function hideNav(){var n=navEl();if(n)n.style.display="none";}
+    window.pwaInstall=function(){
+      if(dp){dp.prompt();dp.userChoice.then(function(c){setDismissed();dp=null;hideNav();}).catch(function(){});return;}
+      if(isIOS()){show("ios",true);}
+    };
+    window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;revealNav();show("android");});
+    window.addEventListener("appinstalled",function(){setDismissed();hideNav();remove();});
+    if(isIOS()){
+      var iosInit=function(){revealNav();setTimeout(function(){show("ios");},1400);};
+      if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",iosInit);}
+      else{iosInit();}
+    }
+    document.addEventListener("DOMContentLoaded",function(){if(dp)revealNav();});
+  })();
+  </script>
+<!-- Google tag (gtag.js) -->
+<script>(function(){var d=false;function l(){if(d)return;d=true;var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments);};gtag("js",new Date());gtag("config","G-6LTYHZYNSF");}["scroll","click","touchstart","keydown"].forEach(function(e){window.addEventListener(e,l,{once:true,passive:true})});window.addEventListener("load",function(){setTimeout(l,4000)});})();</script>
+<!-- GA4 interaction events: WhatsApp / phone / email / directions / outbound clicks -->
+<script>window.addEventListener("click",function(ev){var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;var h=a.getAttribute("href")||"",n="",p={};if(h.indexOf("https://wa.me/")===0){n="whatsapp_click"}else if(h.indexOf("tel:")===0){n="phone_click"}else if(h.indexOf("mailto:")===0){n="email_click"}else if(h.indexOf("google.com/maps")!==-1){n="directions_click"}else if(/^https?:\/\//.test(h)&&h.indexOf("exploresuriname.com")===-1){n="outbound_click";try{p.link_domain=new URL(h).hostname}catch(e){}}if(!n)return;p.link_url=h.slice(0,100);window.dataLayer=window.dataLayer||[];if(!window.gtag){window.gtag=function(){window.dataLayer.push(arguments)}}window.gtag("event",n,p)});</script>
+<title>Owos Resort, Nature Park in Para | Explore Suriname</title>
+<meta content="A relaxation resort in the greenery at Powakka in Para, beside the Powakka creek. Guests swim, fish or take a hammock, and there are cabins and camping…" name="description"/>
+<link href="https://exploresuriname.com/nl/listing/owos-resort/" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Explore Suriname" property="og:site_name"/>
+<meta content="https://exploresuriname.com/nl/listing/owos-resort/" property="og:url"/>
+<meta content="Owos Resort, Nature Park in Para | Explore Suriname" property="og:title"/>
+<meta content="A relaxation resort in the greenery at Powakka in Para, beside the Powakka creek. Guests swim, fish or take a hammock, and there are cabins and camping…" property="og:description"/>
+<meta content="https://exploresuriname.com/og-image.jpg" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Owos Resort, Nature Park in Para | Explore Suriname" name="twitter:title"/>
+<meta content="A relaxation resort in the greenery at Powakka in Para, beside the Powakka creek. Guests swim, fish or take a hammock, and there are cabins and camping…" name="twitter:description"/>
+<meta content="https://exploresuriname.com/og-image.jpg" name="twitter:image"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Park","name":"Owos Resort","url":"https://exploresuriname.com/nl/listing/owos-resort/","description":"A relaxation resort in the greenery at Powakka in Para, beside the Powakka creek. Guests swim, fish or take a hammock, and there are cabins and camping pitches on site. It also trades as Owos Ontspanningsoord.","address":{"@type":"PostalAddress","streetAddress":"Powakka, Suriname","addressLocality":"Para","addressCountry":"SR"},"telephone":"+5978504858","currenciesAccepted":"SRD"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Thuis","item":"https://exploresuriname.com/nl/"},{"@type":"ListItem","position":2,"name":"Hotels en lodges","item":"https://exploresuriname.com/nl/hotels.html"},{"@type":"ListItem","position":3,"name":"Owos Resort","item":"https://exploresuriname.com/nl/listing/owos-resort/"}]}</script>
+<style>nav button,nav a{white-space:nowrap}</style><link href="https://exploresuriname.com/listing/owos-resort/" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/listing/owos-resort/" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/listing/owos-resort/" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/listing/owos-resort/" hreflang="x-default" rel="alternate"/></head>
+<body class="bg-gray-50 overflow-x-hidden">
+<nav class="fixed top-0 w-full z-50" style="background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14);box-shadow:0 1px 12px rgba(20,42,30,.05)">
+<div class="max-w-7xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+<a class="flex items-baseline flex-shrink-0" href="../../index.html">
+<span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
+</a>
+<div class="hidden lg:flex items-center navlinks"><div class="relative" id="dd-expl" onmouseenter="openDd('dd-expl')" onmouseleave="closeDd('dd-expl')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-expl')">Ontdekken<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-expl-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../activities.html">Te doen</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../events.html">Evenementen en festivals</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../shopping.html">Winkelen</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../services.html">Lokale diensten</a></div></div><div class="relative" id="dd-eat" onmouseenter="openDd('dd-eat')" onmouseleave="closeDd('dd-eat')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-eat')">Eten &amp; Slapen<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-eat-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../restaurants.html">Waar te eten</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../hotels.html">Waar te overnachten</a></div></div><div class="relative" id="dd-plan" onmouseenter="openDd('dd-plan')" onmouseleave="closeDd('dd-plan')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-plan')">Plan<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-plan-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../visitor-guide.html">De basis</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../suriname-itinerary.html">Reisroutes</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../is-suriname-safe.html">Is Suriname veilig?</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../on-the-road.html">Onderweg</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../flights.html">Vluchten</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../suriname-history.html">Geschiedenis tijdlijn</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../sranan-tongo-dictionary.html">Sranan-woordenboek</a></div></div><div class="relative" id="dd-live" onmouseenter="openDd('dd-live')" onmouseleave="closeDd('dd-live')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-live')">Live<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-live-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../currency.html">Wisselkoersen</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../conditions.html">Weer &amp; getijden</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../daily-notices.html">Dagelijkse mededelingen</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../atms.html">ATM-zoeker</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../matches.html">Sportschema</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../suriname-time.html">Tijd &amp; Omzetter</a></div></div><div class="relative" id="dd-oil" onmouseenter="openDd('dd-oil')" onmouseleave="closeDd('dd-oil')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-oil')">Olie en gas<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-oil-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../oil-and-gas.html">Overzicht</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../suriname-oil-blocks.html">Blokken en operators</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../granmorgu.html">GranMorgu-project</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../suriname-oil-timeline.html">Tijdlijn en routekaart</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../suriname-oil-contracts.html">Contracten en voorwaarden</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../suriname-oil-government.html">Wie regeert</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../suriname-oil-jobs.html">Banen en lokale inhoud</a></div></div><div class="relative" id="dd-games" onmouseenter="openDd('dd-games')" onmouseleave="closeDd('dd-games')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-games')">Spellen<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-games-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../quiz.html">Sabi Suriname Quiz</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../crossword.html">Switi Mini-kruiswoordraadsel</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../map-game.html">Pe A De? Kaartspel</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../korjaal.html">Korjaal Run</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../anaconda.html">Aboma Snake-spel</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="../../muskieto.html">Muskieto-overlevende</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="../../news.html">Nieuws</a></div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<button aria-label="Search" class="navsearch" onclick="openSearch()" title="Search listings (press /)">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<span class="nslabel">Zoeken…</span>
+</button><div class="hidden lg:flex" data-langswitch="1" style="position:relative;align-items:center;margin-left:8px;flex-shrink:0"><button aria-expanded="false" aria-label="Language" onclick="var m=this.nextElementSibling,o=m.style.display==='block';document.querySelectorAll('[data-langmenu]').forEach(function(x){x.style.display='none';});m.style.display=o?'none':'block';this.setAttribute('aria-expanded',(!o).toString());event.stopPropagation();" style="display:flex;align-items:center;gap:5px;background:none;border:0;cursor:pointer;font-size:12px;font-weight:600;color:#6b7280;padding:4px 7px;border-radius:8px" type="button"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><span>NL</span><svg fill="none" height="11" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;opacity:.7" viewBox="0 0 24 24" width="11"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div data-langmenu="1" style="display:none;position:absolute;right:0;top:100%;margin-top:6px;background:#fff;border:1px solid #eee;border-radius:10px;box-shadow:0 8px 24px rgba(20,42,30,.12);padding:5px;min-width:112px;z-index:60"><a href="/listing/owos-resort/" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:#374151">EN</a><a href="/nl/listing/owos-resort/" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:var(--forest);background:#eef4ee">NL</a><a href="/es/listing/owos-resort/" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:#374151">ES</a></div></div>
+<button aria-label="Menu" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition" id="hamburger" onclick="toggleMobileMenu()">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+<div class="hidden lg:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto" id="mm"><div data-langswitch-mobile="1" style="display:flex;align-items:center;gap:16px;padding:10px 2px 12px;margin-bottom:4px;border-bottom:1px solid #eee;font-size:15px;font-weight:600"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/listing/owos-resort/" style="color:#6b7280;text-decoration:none">EN</a><a href="/nl/listing/owos-resort/" style="color:var(--forest);text-decoration:underline">NL</a><a href="/es/listing/owos-resort/" style="color:#6b7280;text-decoration:none">ES</a><button aria-label="Install app" id="pwa-nav" onclick="pwaInstall()" style="display:none;margin-left:auto;align-items:center;gap:6px;background:var(--forest);color:#fff;border:0;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0" type="button"><svg fill="none" height="15" stroke="currentColor" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 20h14" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Install</span></button></div>
+<div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-expl')"><span>Ontdekken</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-expl"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../activities.html">Te doen</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../events.html">Evenementen en festivals</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../shopping.html">Winkelen</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../services.html">Lokale diensten</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-eat')"><span>Eten &amp; Slapen</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-eat"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../restaurants.html">Waar te eten</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../hotels.html">Waar te overnachten</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-plan')"><span>Plan</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-plan"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../visitor-guide.html">De basis</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../suriname-itinerary.html">Reisroutes</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../is-suriname-safe.html">Is Suriname veilig?</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../on-the-road.html">Onderweg</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../flights.html">Vluchten</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../suriname-history.html">Geschiedenis tijdlijn</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../sranan-tongo-dictionary.html">Sranan-woordenboek</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-live')"><span>Live</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-live"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../currency.html">Wisselkoersen</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../conditions.html">Weer &amp; getijden</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../daily-notices.html">Dagelijkse mededelingen</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../atms.html">ATM-zoeker</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../matches.html">Sportschema</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../suriname-time.html">Tijd &amp; Omzetter</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-oil')"><span>Olie en gas</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-oil"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../oil-and-gas.html">Overzicht</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../suriname-oil-blocks.html">Blokken en operators</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../granmorgu.html">GranMorgu-project</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../suriname-oil-timeline.html">Tijdlijn en routekaart</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../suriname-oil-contracts.html">Contracten en voorwaarden</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../suriname-oil-government.html">Wie regeert</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../suriname-oil-jobs.html">Banen en lokale inhoud</a></div></div><div class="mob-group"><button class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" onclick="toggleMobGroup('mg-games')"><span>Spellen</span><svg class="mob-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body pl-2 pb-1 hidden" id="mg-games"><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../quiz.html">Sabi Suriname Quiz</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../crossword.html">Switi Mini-kruiswoordraadsel</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../map-game.html">Pe A De? Kaartspel</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../korjaal.html">Korjaal Run</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../anaconda.html">Aboma Snake-spel</a><a class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg" href="../../muskieto.html">Muskieto-overlevende</a></div></div><a class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" href="../../news.html">Nieuws</a>
+</div>
+</nav>
+<script>
+/* ── Dropdown (desktop) ─────────────────────────────────────────────────── */
+var _openDd = null;
+var _ddTimer = null;
+function openDd(id) {
+  if (_ddTimer) { clearTimeout(_ddTimer); _ddTimer = null; }
+  if (_openDd && _openDd !== id) closeDd(_openDd);
+  var menu = document.getElementById(id + '-menu');
+  var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+  if (menu) menu.classList.remove('hidden');
+  if (chev) chev.style.transform = 'rotate(180deg)';
+  _openDd = id;
+}
+function closeDd(id) {
+  _ddTimer = setTimeout(function() {
+    var menu = document.getElementById(id + '-menu');
+    var chev = document.getElementById(id) ? document.getElementById(id).querySelector('.dd-chevron') : null;
+    if (menu) menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    if (_openDd === id) _openDd = null;
+    _ddTimer = null;
+  }, 80);
+}
+function toggleDd(id) {
+  var menu = document.getElementById(id + '-menu');
+  var btn  = document.getElementById(id);
+  var chev = btn ? btn.querySelector('.dd-chevron') : null;
+  if (_openDd && _openDd !== id) {
+    var prev = document.getElementById(_openDd + '-menu');
+    var prevBtn = document.getElementById(_openDd);
+    if (prev)    prev.classList.add('hidden');
+    if (prevBtn) { var c = prevBtn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+  if (!menu) return;
+  var isOpen = !menu.classList.contains('hidden');
+  if (isOpen) {
+    menu.classList.add('hidden');
+    if (chev) chev.style.transform = '';
+    _openDd = null;
+  } else {
+    menu.classList.remove('hidden');
+    if (chev) chev.style.transform = 'rotate(180deg)';
+    _openDd = id;
+  }
+}
+document.addEventListener('click', function(e) {
+  if (_openDd && !document.getElementById(_openDd).contains(e.target)) {
+    var menu = document.getElementById(_openDd + '-menu');
+    var btn  = document.getElementById(_openDd);
+    if (menu) menu.classList.add('hidden');
+    if (btn)  { var c = btn.querySelector('.dd-chevron'); if(c) c.style.transform=''; }
+    _openDd = null;
+  }
+});
+/* ── Mobile accordion ───────────────────────────────────────────────────── */
+function toggleMobileMenu() {
+  var mm = document.getElementById('mm');
+  mm.classList.toggle('hidden');
+}
+function toggleMobGroup(id) {
+  var body = document.getElementById(id);
+  var btn  = body ? body.previousElementSibling : null;
+  var chev = btn  ? btn.querySelector('.mob-chevron') : null;
+  if (!body) return;
+  var isOpen = !body.classList.contains('hidden');
+  body.classList.toggle('hidden', isOpen);
+  if (chev) chev.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+</script>
+<!-- ── Global Search Modal ───────────────────────────────────────────── -->
+<div id="search-modal" onclick="if(event.target===this)closeSearch()" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);padding:80px 16px 16px">
+<div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 25px 60px rgba(0,0,0,.25);overflow:hidden">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #f0f0f0">
+<svg fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:#9ca3af;flex-shrink:0" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<input autocomplete="off" id="search-input" oninput="runSearch(this.value)" onkeydown="searchKey(event)" placeholder="Search all listings…" spellcheck="false" style="flex:1;border:none;outline:none;font-size:1rem;color:#111;background:transparent" type="text"/>
+<button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">✕</button>
+</div>
+<div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
+<p id="search-hint" style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Start typing to search 1016 listings…</p>
+</div>
+</div>
+</div>
+<script>
+const _CAT_C = {"Eat & Drink": "#CA4E2F", "Stay": "#A56822", "Nature": "#35825C", "Activities": "#1C809C", "Shopping": "#B85185", "Services": "#4676B9", "Guides": "#677889", "Sightseeing": "#35825C"};
+let _SI = null;
+let _SI_loading = false;
+let _sel = -1;
+
+function _loadSI(cb) {
+  if (_SI) { cb(); return; }
+  if (_SI_loading) { setTimeout(() => _loadSI(cb), 50); return; }
+  _SI_loading = true;
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  fetch(depth + 'search-index.json')
+    .then(r => r.json())
+    .then(data => { _SI = data; cb(); })
+    .catch(() => { _SI = []; cb(); });
+}
+function openSearch() {
+  document.getElementById('search-modal').style.display = 'block';
+  setTimeout(() => document.getElementById('search-input').focus(), 50);
+  _loadSI(() => {});
+}
+function closeSearch() {
+  document.getElementById('search-modal').style.display = 'none';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Start typing to search listings…</p>';
+  _sel = -1;
+}
+/* ── Search matching ─────────────────────────────────────────────────────
+   Tokenised AND matching over name + keyword blob (which now includes the
+   listing description), with diacritic folding, EN/NL + cuisine synonyms and
+   relevance ranking. Replaces the old single-substring filter, which missed
+   "sushi" for Norrii Zushii and broke on any multi-word query. */
+const _SYN = {
+  sushi:['sushi','zushi','sashimi','japanese','japans'],
+  japanese:['japanese','japans','sushi','zushi','teppanyaki','ramen'],
+  thai:['thai','thais','thaise'],
+  chinese:['chinese','chinees','chinees','dimsum'],
+  indian:['indian','indiaas','indiase','tandoori','curry'],
+  roti:['roti','indian','indiaas'],
+  javanese:['javanese','javaans','javaanse','warung','saoto','bami'],
+  creole:['creole','creoolse','creools','surinamese','surinaamse'],
+  surinamese:['surinamese','surinaamse','creole','creoolse','local'],
+  pizza:['pizza','pizzas','italian','italiaans','italiaanse'],
+  italian:['italian','italiaans','italiaanse','pizza','pasta'],
+  burger:['burger','burgers','hamburger'],
+  bbq:['bbq','barbecue','grill','grilled'],
+  coffee:['coffee','koffie','cafe','espresso','cappuccino','barista'],
+  cafe:['cafe','coffee','koffie','lunchroom'],
+  bakery:['bakery','bakkerij','patisserie','pastry','pastries','bread','brood'],
+  cake:['cake','cakes','taart','patisserie','pastry'],
+  icecream:['icecream','ice','ijs','gelato'],
+  vegan:['vegan','vegetarian','vegetarisch','plantbased'],
+  vegetarian:['vegetarian','vegetarisch','vegan'],
+  seafood:['seafood','fish','vis','shrimp'],
+  bar:['bar','lounge','pub','drinks','cocktails','borrel'],
+  restaurant:['restaurant','restaurants','eten','dining','eetcafe','food'],
+  eten:['eten','food','restaurant','dining'],
+  hotel:['hotel','hotels','accommodation','verblijf','overnachten','slapen','guesthouse'],
+  lodge:['lodge','lodges','resort','ecolodge','jungle'],
+  resort:['resort','resorts','lodge','vakantie'],
+  pharmacy:['pharmacy','apotheek','drogisterij','drugstore'],
+  apotheek:['apotheek','pharmacy','drogisterij','drugstore'],
+  salon:['salon','kapper','barber','hairdresser','hair','beauty','nails'],
+  kapper:['kapper','barber','salon','hair','hairstudio'],
+  barber:['barber','kapper','barbershop','salon'],
+  gym:['gym','fitness','sportschool','workout','crossfit'],
+  fitness:['fitness','gym','sportschool','pilates','yoga'],
+  spa:['spa','massage','wellness','sauna'],
+  massage:['massage','spa','wellness','masseur'],
+  bank:['bank','banking','banken','geldzaken'],
+  atm:['atm','geldautomaat','pinautomaat','pinnen','cash','bank'],
+  supermarket:['supermarket','supermarkt','grocery','groceries','boodschappen','market'],
+  supermarkt:['supermarkt','supermarket','grocery','boodschappen'],
+  butcher:['butcher','slagerij','slager','meat','vlees'],
+  laundry:['laundry','wasserij','drycleaning','stomerij'],
+  carrental:['carrental','rental','huurauto','autoverhuur','rentacar'],
+  rental:['rental','rentals','huur','verhuur','huurauto'],
+  garage:['garage','automotive','autobedrijf','monteur','repair'],
+  insurance:['insurance','verzekering','verzekeringen','assurantie'],
+  notary:['notary','notaris','notariaat'],
+  school:['school','scholen','education','onderwijs','academy'],
+  vet:['vet','veterinary','dierenarts','dierenkliniek'],
+  livestock:['livestock','vee','veevoer','pluimvee','poultry','landbouw','farm','boer'],
+  landbouw:['landbouw','agriculture','farming','farm','livestock','vee','boer'],
+  dierenarts:['dierenarts','veterinary','vet','dierenkliniek'],
+  telecom:['telecom','internet','mobile','simcard','simkaart','prepaid'],
+  realestate:['realestate','vastgoed','makelaar','makelaardij','property','huis'],
+  vastgoed:['vastgoed','realestate','makelaar','makelaardij','property'],
+  tour:['tour','tours','excursie','excursies','trip','uitstapje','guide'],
+  tours:['tours','tour','excursies','trips','reizen'],
+  beach:['beach','strand','coast','kust'],
+  river:['river','rivier','kreek','creek','water'],
+  jungle:['jungle','rainforest','oerwous','oerwoud','forest','bos','regenwoud'],
+  nature:['nature','natuur','park','reserve','wildlife'],
+  wifi:['wifi','internet','telecom'],
+  casino:['casino','gambling','gokken','slots'],
+  museum:['museum','musea','history','geschiedenis','gallery'],
+  tattoo:['tattoo','tattoos','tatoeage','piercing'],
+  security:['security','beveiliging','bewaking'],
+  cleaning:['cleaning','schoonmaak','cleaningservice','poetsen'],
+  parking:['parking','parkeren'],
+  wedding:['wedding','bruiloft','trouwen','events','feest'],
+  party:['party','feest','events','evenementen'],
+  kids:['kids','children','kinderen','family','familie'],
+  halal:['halal'],
+  delivery:['delivery','bezorging','takeaway','afhalen','bezorgen'],
+  north:['north','noord','noordelijk','geyersvlijt','kwatta'],
+  south:['south','zuid','zuidelijk','latour'],
+  centre:['centre','center','centrum','city','downtown'],
+  paramaribo:['paramaribo','pbm','city']
+};
+/* The table above is written one-way; mirror it so "koffie" finds the "coffee"
+   row and vice versa. One hop only, no transitive chains. */
+const _SYN_X = (function () {
+  const m = {};
+  const add = (a, b) => { (m[a] = m[a] || []).push(b); };
+  for (const key in _SYN) {
+    const row = _SYN[key];
+    for (let i = 0; i < row.length; i++) {
+      for (let j = 0; j < row.length; j++) if (i !== j) add(row[i], row[j]);
+      if (row[i] !== key) { add(row[i], key); add(key, row[i]); }
+    }
+  }
+  for (const k in m) m[k] = m[k].filter((v, i, a) => v !== k && a.indexOf(v) === i);
+  return m;
+})();
+function _sFold(x) {
+  return (x || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+/* Filler words are dropped from the query, otherwise strict AND matching kills
+   natural-language searches like "where to eat roti in Paramaribo" (which the
+   hero placeholder actively invites people to type). */
+const _QSTOP = new Set(['the','and','for','with','from','into','that','this','all','any','some',
+ 'where','what','when','how','who','why','best','top','good','cheap','near','nearby','around',
+ 'are','was','you','your','can','have','has','its','but','out','let','get','place','places',
+ 'in','on','at','to','of','is','it','my','me','we','us','or','an','as','by','be','do','if',
+ 'de','het','een','van','voor','met','naar','aan','bij','over','waar','hoe','wat','welke',
+ 'beste','goede','dichtbij','zijn','ook','deze','dat','die','dit','niet','uit','ligt','plek',
+ 'kan','ik','wil','zoek','zoeken','vind','vinden','ben','hebben','doen','gaan','iets',
+ 'find','need','want','looking','show','give','there','here','something','anything']);
+function _sTokens(q) {
+  /* Keep single characters: the first keystroke of every search is one letter,
+     and it must still be a valid prefix query. */
+  const raw = _sFold(q).split(/[^a-z0-9]+/).filter(t => t.length > 0);
+  const kept = raw.filter(t => !_QSTOP.has(t));
+  return kept.length ? kept : raw;          /* never return an empty query */
+}
+function _sEsc(x) {
+  return (x || '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+function _sRxEsc(x) {
+  return x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+/* A token matches itself, its singular form, or a known synonym. Synonym and
+   plural hits score lower so exact wording always ranks first. */
+function _sTerms(tok) {
+  /* [term, weight, wholeWordOnly]. What the user actually typed may match as a
+     prefix (so "restau" finds restaurants); short synonyms must match a whole
+     word, otherwise "maki" hits "making" and drags junk into a sushi search. */
+  const out = [[tok, 1, false]];
+  if (tok.length > 4 && tok.slice(-1) === 's') out.push([tok.slice(0, -1), 0.9, false]);
+  const syn = _SYN_X[tok];
+  if (syn) for (let i = 0; i < syn.length; i++) out.push([syn[i], 0.5, syn[i].length < 5]);
+  return out;
+}
+function _sScore(rec, toks, loose) {
+  if (!rec._n) {
+    rec._n = _sFold(rec.n);
+    rec._k = _sFold([rec.n, rec.k || '', rec.a || '', rec.c || ''].join(' '));
+  }
+  const n = rec._n, k = rec._k;
+  let total = 0, matched = 0, strongest = 0;
+  for (let i = 0; i < toks.length; i++) {
+    const terms = _sTerms(toks[i]);
+    let best = 0;
+    for (let j = 0; j < terms.length; j++) {
+      const t = terms[j][0], w = terms[j][1];
+      const wb = new RegExp('\\b' + _sRxEsc(t) + (terms[j][2] ? '\\b' : ''));
+      let s = 0;
+      if (n === t)             s = 1000;
+      else if (n.indexOf(t) === 0) s = 600;
+      else if (wb.test(n))     s = 420;
+      else if (wb.test(k))     s = 130;
+      /* Mid-word hits only for the literal token, and cheap: they are what made
+         "hot pot" rank Hotel Peperpot above the actual hot pot restaurants. */
+      else if (w === 1 && t.length > 3 && n.indexOf(t) >= 0) s = 90;
+      s = s * w;
+      if (s > best) best = s;
+    }
+    if (best) { total += best; matched++; if (best > strongest) strongest = best; }
+    else if (!loose) return 0;    /* strict pass: every token must match */
+  }
+  if (!matched) return 0;
+  if (total > 0 && rec.p) total += 250;   /* category browse pages outrank a
+                                             single listing on generic queries */
+  /* Loose pass ranks by how many query words matched, then by score, and needs
+     at least one solid hit so leftover words can't drag in noise. */
+  if (loose) {
+    if (strongest < 130 || matched < Math.min(2, toks.length)) return 0;
+    return matched * 100000 + Math.min(Math.round(total), 99999);
+  }
+  return total;
+}
+/* Highlight each matching token (and its matching synonym) in the name. */
+function _sMark(name, toks) {
+  const pats = [];
+  const nf = _sFold(name);
+  for (let i = 0; i < toks.length; i++) {
+    const terms = _sTerms(toks[i]);
+    for (let j = 0; j < terms.length; j++) {
+      if (nf.indexOf(terms[j][0]) >= 0) { pats.push(_sRxEsc(terms[j][0])); break; }
+    }
+  }
+  let out = _sEsc(name);
+  if (!pats.length) return out;
+  return out.replace(new RegExp('(' + pats.join('|') + ')', 'gi'), '<mark>$1</mark>');
+}
+function _sHint(box, msg) {
+  box.innerHTML = '<p id="search-hint" style="text-align:center;color:var(--ink-soft);'
+    + 'font-size:.85rem;padding:32px 0">' + msg + '</p>';
+}
+function runSearch(q) {
+  const box = document.getElementById('search-results');
+  q = q.trim();
+  if (!q) { _sHint(box, 'Start typing to search listings…'); _sel = -1; return; }
+  if (!_SI) {
+    _loadSI(() => runSearch(q));
+    box.innerHTML = '<p style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Loading…</p>';
+    return;
+  }
+  const toks = _sTokens(q);
+  if (!toks.length) { _sHint(box, 'Start typing to search listings…'); _sel = -1; return; }
+  let scored = [];
+  for (let pass = 0; pass < 2; pass++) {
+    const loose = pass === 1;
+    for (let i = 0; i < _SI.length; i++) {
+      const sc = _sScore(_SI[i], toks, loose);
+      if (sc > 0) scored.push([sc, _SI[i]]);
+    }
+    if (scored.length || toks.length < 2) break;   /* only fall back if AND found nothing */
+  }
+  scored.sort((a, b) => b[0] - a[0] || a[1].n.length - b[1].n.length);
+  if (scored.length) {
+    const floor = scored[0][0] * 0.2;
+    scored = scored.filter(p => p[0] >= floor);
+  }
+  const hits = scored.slice(0, 12).map(p => p[1]);
+  if (!hits.length) { box.innerHTML = '<p style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">No results for "' + _sEsc(q) + '"</p>'; return; }
+  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
+  box.innerHTML = hits.map((h, i) => {
+    const hi = _sMark(h.n, toks);
+    const col = _CAT_C[h.c] || '#6b7280';
+    return '<a href="' + depth + h.u + '" class="' + (i===0?'sr-active':'') + '">'
+      + '<span class="sr-badge" style="background:' + col + '">' + h.c + '</span>'
+      + '<span class="sr-name">' + hi + '</span>'
+      + (h.a ? '<span class="sr-area">' + h.a + '</span>' : '')
+      + '</a>';
+  }).join('');
+  _sel = 0;
+}
+function searchKey(e) {
+  const items = document.querySelectorAll('#search-results a');
+  if (e.key === 'Escape') { closeSearch(); return; }
+  if (e.key === 'ArrowDown') { e.preventDefault(); _sel = Math.min(_sel+1, items.length-1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); _sel = Math.max(_sel-1, 0); }
+  else if (e.key === 'Enter') { if(items[_sel]) window.location = items[_sel].href; return; }
+  else return;
+  items.forEach((el,i) => el.classList.toggle('sr-active', i===_sel));
+  if(items[_sel]) items[_sel].scrollIntoView({block:'nearest'});
+}
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault(); openSearch();
+  }
+});
+</script>
+<div class="relative w-full pt-16" style="min-height:320px">
+<div class="absolute inset-0" style="background:var(--forest)"></div>
+<div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end" style="min-height:320px;padding-top:5rem;padding-bottom:3rem">
+<nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-1 text-white/70 text-sm mb-5">
+<a class="hover:text-white transition" href="../../index.html">Thuis</a>
+<span class="text-white/40">›</span>
+<a class="hover:text-white transition" href="../../hotels.html">Hotels en lodges</a>
+<span class="text-white/40">›</span>
+<span aria-current="page" class="text-white font-medium">Owos Resort</span>
+</nav>
+<span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit" style="background:var(--coral);color:#fff"></span>
+<h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">Owos Resort</h1>
+<p class="text-white/70 text-sm">Para, Suriname</p>
+</div>
+</div>
+<main class="max-w-5xl mx-auto px-5 py-12 pb-24">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2">
+<p class="text-gray-700 leading-relaxed text-base mb-8">A relaxation resort in the greenery at Powakka in Para, beside the Powakka creek. Guests swim, fish or take a hammock, and there are cabins and camping pitches on site. It also trades as Owos Ontspanningsoord.</p>
+<h2 class="text-lg font-bold text-gray-900 mb-4">Locatie</h2>
+<div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">
+<iframe allowfullscreen="" height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Owos%20Resort%2C%20Powakka%2C%20Suriname&amp;output=embed&amp;hl=en" style="border:0" width="100%"></iframe>
+</div>
+<p class="text-gray-400 text-xs text-center mb-8">
+        Kaartgegevens © Google. Klik op de kaart om openingstijden, recensies en straatweergave te bekijken.
+      </p>
+</div>
+<div class="lg:col-span-1">
+<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">
+<h2 class="text-base font-bold text-gray-900 mb-4">Contact &amp; Info</h2>
+<div class="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0"><span class="text-xl shrink-0 mt-0.5">📍</span><span class="text-gray-700 text-sm leading-relaxed">Powakka, Suriname</span></div><div class="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0"><span class="text-xl shrink-0 mt-0.5">📞</span><span class="text-gray-700 text-sm leading-relaxed"><a class="hover:underline" href="tel:+5978504858" style="color:var(--forest2)">+5978504858</a></span></div><div class="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0"><span class="text-xl shrink-0 mt-0.5">🏷️</span><span class="text-gray-700 text-sm leading-relaxed">Natuurpark</span></div>
+<div class="mt-6">
+<a class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition mb-3" href="https://wa.me/5978504858" rel="noopener" style="background:#25D366" target="_blank">💬 Chat op WhatsApp</a>
+<a class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition mb-3" href="https://www.google.com/maps/search/?api=1&amp;query=Owos%20Resort%2C%20Powakka%2C%20Suriname" rel="noopener" style="background:var(--forest)" target="_blank">📍 Bekijk op Google Maps</a>
+<a class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold border-2 hover:bg-gray-50 transition mb-3" href="https://www.google.com/maps/search/?api=1&amp;query=Owos%20Resort%2C%20Powakka%2C%20Suriname" rel="noopener" style="border-color:var(--forest2);color:var(--forest2)" target="_blank">🗺️ Routebeschrijving opvragen</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+<section class="max-w-5xl mx-auto px-5 pb-16">
+<h2 class="text-lg font-bold text-gray-900 mb-5">Meer zoals dit</h2>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4"><a class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4" href="../../listing/cola-kreek-recreatiepark/"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img alt="Cola Kreek Recreatiepark, par" class="w-full h-full object-cover" height="128" loading="lazy" src="/images/753690f5e1d4c63e15a7ebdff0b5b69b.webp" width="400"/></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Cola Kreek Recreatiepark</h3><p class="text-xs text-gray-400">Para</p></a><a class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4" href="../../listing/peperpot-nature-park/"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img alt="Peperpot Nature Park, Commewijne" class="w-full h-full object-cover" height="128" loading="lazy" src="/images/7dd9affea5a6a4d8a85cf5f1413f0f7f.webp" width="400"/></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Peperpot Nature Park</h3><p class="text-xs text-gray-400">Commewijne</p></a><a class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4" href="../../listing/recreatie-oord-carolina-kreek/"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img alt="Recreatie Oord Carolina Kreek, par" class="w-full h-full object-cover" height="128" loading="lazy" src="/images/ba09a405a8d378f61a0f1f8d88d53fd5.webp" width="400"/></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Recreatie Oord Carolina Kreek</h3><p class="text-xs text-gray-400">Para</p></a><a class="block bg-white rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition p-4" href="../../listing/sendang-redjo/"><div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-gray-100"><img alt="Sendang Redjo, Commewijne" class="w-full h-full object-cover" height="128" loading="lazy" src="/images/f3bc20217250f6afbd021d9729cb7ad2.webp" width="400"/></div><h3 class="text-sm font-semibold text-gray-900 leading-snug mb-1">Sendang Redjo</h3><p class="text-xs text-gray-400">Commewijne</p></a>
+</div>
+</section>
+<footer style="background:#142A1E;color:#B9C2B2">
+<div style="max-width:1140px;margin:0 auto;padding:clamp(48px,5.5vw,64px) clamp(20px,5vw,48px) 32px;display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:40px">
+<div>
+<div style="margin-bottom:14px"><span class="serif" style="font-weight:800;font-size:21px;color:#FCF7EC">Explore</span><span class="serif" style="font-weight:800;font-size:21px;color:var(--coral)">Suriname</span></div>
+<p style="font-size:14px;line-height:1.6;max-width:26em;margin:0 0 18px;color:#A7B1A2">Uw gids voor plaatsen om te eten, te verblijven, te verkennen en lief te hebben in Suriname, bewaard door mensen die hier wonen, voor de mensen die dat wensen.</p>
+<a class="ftr-cta" href="../../submit-business.html">Voeg uw bedrijf toe</a>
+<div style="display:flex;gap:16px;font-size:12.5px;font-weight:600;letter-spacing:.04em;margin-top:20px">
+<a class="ftr-lnk" href="https://www.facebook.com/exploresurinamecom" rel="noopener" target="_blank">Facebook</a>
+<a class="ftr-lnk" href="https://www.instagram.com/exploresurinamecom/" rel="noopener" target="_blank">Instagram</a>
+<a class="ftr-lnk" href="https://www.tiktok.com/@exploresuriname.com" rel="noopener" target="_blank">TikTok</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Ontdekken</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="../../activities.html">Te doen</a>
+<a class="ftr-lnk" href="../../events.html">Evenementen en festivals</a>
+<a class="ftr-lnk" href="../../shopping.html">Winkelen</a>
+<a class="ftr-lnk" href="../../services.html">Lokale diensten</a>
+</div>
+<div class="ftr-h" style="margin-top:26px">Eten &amp; Slapen</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="../../restaurants.html">Waar te eten</a>
+<a class="ftr-lnk" href="../../hotels.html">Waar te overnachten</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Plan</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="../../visitor-guide.html">De basis</a>
+<a class="ftr-lnk" href="../../suriname-itinerary.html">Reisroutes</a>
+<a class="ftr-lnk" href="../../is-suriname-safe.html">Is Suriname veilig?</a>
+<a class="ftr-lnk" href="../../on-the-road.html">Onderweg</a>
+<a class="ftr-lnk" href="../../flights.html">Vluchten</a>
+<a class="ftr-lnk" href="../../suriname-history.html">Geschiedenis van Suriname</a>
+<a class="ftr-lnk" href="../../sranan-tongo-dictionary.html">Sranan-woordenboek</a>
+</div>
+<div class="ftr-h" style="margin-top:26px">Spellen</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="../../crossword.html">Switi Mini-kruiswoordraadsel</a>
+<a class="ftr-lnk" href="../../quiz.html">Dagelijkse quiz</a>
+<a class="ftr-lnk" href="../../map-game.html">Pe A De? Kaartspel</a>
+<a class="ftr-lnk" href="../../korjaal.html">Korjaal Run</a>
+<a class="ftr-lnk" href="../../anaconda.html">Aboma Snake-spel</a>
+<a class="ftr-lnk" href="../../muskieto.html">Muskieto-overlevende</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">Live</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="../../currency.html">Wisselkoersen</a>
+<a class="ftr-lnk" href="../../conditions.html">Weer &amp; getijden</a>
+<a class="ftr-lnk" href="../../daily-notices.html">Dagelijkse mededelingen</a>
+<a class="ftr-lnk" href="../../atms.html">ATM-zoeker</a>
+<a class="ftr-lnk" href="../../matches.html">Sportschema</a>
+<a class="ftr-lnk" href="../../suriname-time.html">Tijd &amp; Omzetter</a>
+<a class="ftr-lnk" href="../../news.html">Nieuws</a>
+</div>
+<div class="ftr-h" style="margin-top:26px">Olie en gas</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="../../oil-and-gas.html">Overzicht</a>
+<a class="ftr-lnk" href="../../suriname-oil-blocks.html">Blokken en operators</a>
+<a class="ftr-lnk" href="../../granmorgu.html">GranMorgu-project</a>
+<a class="ftr-lnk" href="../../suriname-oil-timeline.html">Tijdlijn en routekaart</a>
+<a class="ftr-lnk" href="../../suriname-oil-contracts.html">Contracten en voorwaarden</a>
+<a class="ftr-lnk" href="../../suriname-oil-government.html">Wie regeert</a>
+<a class="ftr-lnk" href="../../suriname-oil-jobs.html">Banen en lokale inhoud</a>
+</div>
+</div>
+</div>
+<div style="border-top:1px solid rgba(255,255,255,.09)">
+<div class="ftr-bar">
+<span>© 2026 OntdekSuriname.com</span>
+<span class="ftr-bar-links">
+<a class="ftr-lnk2" href="../../about.html">Over</a>
+<a class="ftr-lnk2" href="../../contact.html">Contact</a>
+<a class="ftr-lnk2" href="../../today.html">Vandaag in Suriname</a>
+<a class="ftr-lnk2" href="../../privacy.html">Privacy</a>
+<a class="ftr-lnk2" href="/images/HOME_CREDITS.txt">Credits</a>
+</span>
+</div>
+</div>
+</footer>
+<script id="langswitch-js">document.addEventListener('click',function(){document.querySelectorAll('[data-langmenu]').forEach(function(x){x.style.display='none';var b=x.previousElementSibling;if(b)b.setAttribute('aria-expanded','false');});});</script></body>
+</html>
