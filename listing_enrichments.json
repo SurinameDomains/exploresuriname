@@ -16,6 +16,13 @@
     "lat": 5.5011119,
     "lon": -54.0296926
   },
+  "aboikonie-zwembad-bedrijf": {
+    "slug": "aboikonie-zwembad-bedrijf",
+    "found": true,
+    "osm_name": "ABO",
+    "lat": 5.8266792,
+    "lon": -55.1608166
+  },
   "ac-bar-restaurant": {
     "slug": "ac-bar-restaurant",
     "found": true,
@@ -25,6 +32,13 @@
     "lat": 5.852333,
     "lon": -55.1443421
   },
+  "academisch-ziekenhuis-paramaribo": {
+    "slug": "academisch-ziekenhuis-paramaribo",
+    "found": true,
+    "osm_name": "Academisch Ziekenhuis Paramaribo",
+    "lat": 5.8363362,
+    "lon": -55.1833429
+  },
   "ace-restaurant-lounge": {
     "slug": "ace-restaurant-lounge",
     "found": true,
@@ -32,6 +46,14 @@
     "address": "23, Kasabaholoweg, Paramaribo",
     "lat": 5.8246237,
     "lon": -55.2009225
+  },
+  "alafasi-botopasi-lodge": {
+    "slug": "alafasi-botopasi-lodge",
+    "found": true,
+    "osm_name": "Top",
+    "address": "Dr. Sophie Redmondstraat",
+    "lat": 5.8254505,
+    "lon": -55.1631918
   },
   "alegria": {
     "slug": "alegria",
@@ -50,6 +72,13 @@
     "lat": 5.8367021,
     "lon": -55.1531608
   },
+  "amits-sport-cafe": {
+    "slug": "amits-sport-cafe",
+    "found": true,
+    "osm_name": "CAF",
+    "lat": 5.5011119,
+    "lon": -54.0296926
+  },
   "anaula-nature-resort": {
     "slug": "anaula-nature-resort",
     "found": true,
@@ -63,6 +92,14 @@
     "osm_name": "Anton",
     "lat": 5.824522,
     "lon": -55.1679581
+  },
+  "apintie": {
+    "slug": "apintie",
+    "found": true,
+    "osm_name": "Apin",
+    "address": "Munderweg, Paramaribo",
+    "lat": 5.8426873,
+    "lon": -55.1816099
   },
   "apotheek-joemmanbaks": {
     "slug": "apotheek-joemmanbaks",
@@ -216,6 +253,21 @@
     "lat": 5.8183856,
     "lon": -55.2051444
   },
+  "awarradam-jungle-lodge": {
+    "slug": "awarradam-jungle-lodge",
+    "found": true,
+    "osm_name": "Adam",
+    "address": "Waterkant, Paramaribo",
+    "lat": 5.8233818,
+    "lon": -55.1589905
+  },
+  "bakaaboto-nature-resort": {
+    "slug": "bakaaboto-nature-resort",
+    "found": true,
+    "osm_name": "ABO",
+    "lat": 5.8266792,
+    "lon": -55.1608166
+  },
   "balance-studio": {
     "slug": "balance-studio",
     "found": true,
@@ -237,6 +289,14 @@
     "osm_name": "Bar Zuid",
     "lat": 5.8294182,
     "lon": -55.1482388
+  },
+  "bbq-bar-hermitage": {
+    "slug": "bbq-bar-hermitage",
+    "found": true,
+    "osm_name": "BBQ Bar",
+    "address": "118, Plutostraat, Paramaribo",
+    "lat": 5.8414556,
+    "lon": -55.1404338
   },
   "bed-bath-more-bbm": {
     "slug": "bed-bath-more-bbm",
@@ -289,6 +349,21 @@
     "lat": 5.5011119,
     "lon": -54.0296926
   },
+  "blue-dress-boutique": {
+    "slug": "blue-dress-boutique",
+    "found": true,
+    "osm_name": "Dress",
+    "address": "Unit 6, Connection Mall, Paramaribo",
+    "lat": 5.819711,
+    "lon": -55.2030899
+  },
+  "blue-frog-travel": {
+    "slug": "blue-frog-travel",
+    "found": true,
+    "osm_name": "OG",
+    "lat": 5.4443194,
+    "lon": -54.9962575
+  },
   "blue-grand-cafe": {
     "slug": "blue-grand-cafe",
     "found": true,
@@ -303,6 +378,13 @@
     "address": "Kwattaweg",
     "lat": 5.8392657,
     "lon": -55.1823213
+  },
+  "boni-tours": {
+    "slug": "boni-tours",
+    "found": true,
+    "osm_name": "Boni Tours",
+    "lat": 5.8250189,
+    "lon": -55.1541286
   },
   "brilleman": {
     "slug": "brilleman",
@@ -362,6 +444,21 @@
     "lat": 5.5011119,
     "lon": -54.0296926
   },
+  "caribo-beach-resort": {
+    "slug": "caribo-beach-resort",
+    "found": true,
+    "osm_name": "Caribo Beach Resort",
+    "lat": 5.6344184,
+    "lon": -55.0761294
+  },
+  "carline-centrum": {
+    "slug": "carline-centrum",
+    "found": true,
+    "osm_name": "Carline",
+    "address": "Dr. Sophie Redmondstraat, Paramaribo",
+    "lat": 5.8251747,
+    "lon": -55.1639131
+  },
   "carline-kwatta": {
     "slug": "carline-kwatta",
     "found": true,
@@ -384,6 +481,21 @@
     "address": "Dr. Sophie Redmondstraat",
     "lat": 5.8266324,
     "lon": -55.1660748
+  },
+  "casa-blanca-hotel": {
+    "slug": "casa-blanca-hotel",
+    "found": true,
+    "osm_name": "Casa Blanca Hotel & Casino",
+    "address": "28, Wilhelminastraat, Paramaribo",
+    "lat": 5.8322204,
+    "lon": -55.1442786
+  },
+  "centrale-bank-van-suriname": {
+    "slug": "centrale-bank-van-suriname",
+    "found": true,
+    "osm_name": "Centrale Bank",
+    "lat": 5.8253719,
+    "lon": -55.1530912
   },
   "chi-min": {
     "slug": "chi-min",
@@ -512,6 +624,14 @@
     "lat": 5.8394595,
     "lon": -55.1848631
   },
+  "connection-gym": {
+    "slug": "connection-gym",
+    "found": true,
+    "osm_name": "Connection Gym",
+    "address": "Henkielaan, Paramaribo",
+    "lat": 5.8195536,
+    "lon": -55.2025218
+  },
   "courtyard-by-marriott": {
     "slug": "courtyard-by-marriott",
     "found": true,
@@ -522,6 +642,14 @@
     "address": "Anton Dragtenweg, Paramaribo",
     "lat": 5.8321939,
     "lon": -55.1349994
+  },
+  "crazy-churros": {
+    "slug": "crazy-churros",
+    "found": true,
+    "osm_name": "Crazy Churros",
+    "address": "Vieruurbloemstraat, Paramaribo",
+    "lat": 5.8200321,
+    "lon": -55.2042145
   },
   "cute-as-a-button": {
     "slug": "cute-as-a-button",
@@ -567,12 +695,27 @@
     "lat": 5.4443194,
     "lon": -54.9962575
   },
+  "da-kaboera-resort": {
+    "slug": "da-kaboera-resort",
+    "found": true,
+    "osm_name": "ABO",
+    "lat": 5.8266792,
+    "lon": -55.1608166
+  },
   "da-select-en-service-apotheek": {
     "slug": "da-select-en-service-apotheek",
     "found": true,
     "osm_name": "Apotheek",
     "lat": 5.8320662,
     "lon": -55.1985052
+  },
+  "danceclub-tequila": {
+    "slug": "danceclub-tequila",
+    "found": true,
+    "osm_name": "DA",
+    "address": "93, Sewbarath Misserstraat, Paramaribo",
+    "lat": 5.839133,
+    "lon": -55.1403836
   },
   "danpaati-river-lodge": {
     "slug": "danpaati-river-lodge",
@@ -718,6 +861,13 @@
     "lat": 5.8952361,
     "lon": -57.1367216
   },
+  "diakonessenhuis": {
+    "slug": "diakonessenhuis",
+    "found": true,
+    "osm_name": "Diakonessenhuis",
+    "lat": 5.8219614,
+    "lon": -55.1838068
+  },
   "digicel-albina": {
     "slug": "digicel-albina",
     "found": true,
@@ -816,6 +966,14 @@
     "lat": 5.8337645,
     "lon": -55.1643763
   },
+  "does-travel-cadushi-tours": {
+    "slug": "does-travel-cadushi-tours",
+    "found": true,
+    "osm_name": "Does Travel & Cadushi Tours",
+    "address": "4, Burenstraat, Paramaribo",
+    "lat": 5.8267736,
+    "lon": -55.1622981
+  },
   "dojo-couture-centrum": {
     "slug": "dojo-couture-centrum",
     "found": true,
@@ -875,6 +1033,14 @@
     "lat": 5.317361,
     "lon": -55.5221716
   },
+  "elegance-hotel-casino": {
+    "slug": "elegance-hotel-casino",
+    "found": true,
+    "osm_name": "Elegance Hotel & Casino",
+    "address": "Fredrik Derbystraat, Paramaribo",
+    "lat": 5.8287689,
+    "lon": -55.1652176
+  },
   "energiebedrijven-suriname-ebs": {
     "slug": "energiebedrijven-suriname-ebs",
     "found": true,
@@ -882,6 +1048,13 @@
     "address": "57, Saramaccastraat",
     "lat": 5.8211208,
     "lon": -55.1639684
+  },
+  "eskimo-koeltechnisch-bedrijf": {
+    "slug": "eskimo-koeltechnisch-bedrijf",
+    "found": true,
+    "osm_name": "Eskimo",
+    "lat": 5.8252378,
+    "lon": -55.1625876
   },
   "etembe-rainforest-restaurant": {
     "slug": "etembe-rainforest-restaurant",
@@ -944,6 +1117,14 @@
     "address": "Noorderkerkstraat",
     "lat": 5.8281187,
     "lon": -55.1548024
+  },
+  "fernandes-group": {
+    "slug": "fernandes-group",
+    "found": true,
+    "osm_name": "Fernandes Group",
+    "address": "C.R. Biswamitreweg",
+    "lat": 5.912682,
+    "lon": -56.9865106
   },
   "finabank-centrum": {
     "slug": "finabank-centrum",
@@ -1026,6 +1207,15 @@
     "lat": 5.8251427,
     "lon": -55.1497155
   },
+  "fred-eco-tours": {
+    "slug": "fred-eco-tours",
+    "found": true,
+    "osm_name": "Fred eco Tours",
+    "website": "https://www.stagehuisvestingsuriname.nl/",
+    "address": "176, Henck Arronstraat",
+    "lat": 5.8337952,
+    "lon": -55.1644575
+  },
   "free-city-walk-paramaribo": {
     "slug": "free-city-walk-paramaribo",
     "found": true,
@@ -1076,6 +1266,14 @@
     "lat": 5.8356625,
     "lon": -55.1959075
   },
+  "godo": {
+    "slug": "godo",
+    "found": true,
+    "osm_name": "Godo",
+    "address": "139-143, Keizerstraat, Paramaribo",
+    "lat": 5.8302322,
+    "lon": -55.1635096
+  },
   "goldenwings": {
     "slug": "goldenwings",
     "found": true,
@@ -1090,6 +1288,14 @@
     "address": "Dr. Sophie Redmondstraat",
     "lat": 5.8266324,
     "lon": -55.1660748
+  },
+  "gow2-energy": {
+    "slug": "gow2-energy",
+    "found": true,
+    "osm_name": "GOw2",
+    "address": "Kasabaholoweg, Paramaribo",
+    "lat": 5.8227891,
+    "lon": -55.2097171
   },
   "great-wall-motor-suriname": {
     "slug": "great-wall-motor-suriname",
@@ -1122,6 +1328,13 @@
     "lat": 5.4953665,
     "lon": -54.0564772
   },
+  "gunsi-eco-resort-tei-wei": {
+    "slug": "gunsi-eco-resort-tei-wei",
+    "found": true,
+    "osm_name": "Tei Wei",
+    "lat": 4.3885724,
+    "lon": -55.3913349
+  },
   "h-t": {
     "slug": "h-t",
     "found": true,
@@ -1131,8 +1344,23 @@
     "lat": 5.8402656,
     "lon": -55.1447551
   },
+  "hairfreak-barbershop": {
+    "slug": "hairfreak-barbershop",
+    "found": true,
+    "osm_name": "Barber",
+    "lat": 5.8768028,
+    "lon": -57.1413946
+  },
   "hairstudio-32": {
     "slug": "hairstudio-32",
+    "found": true,
+    "osm_name": "DIO",
+    "address": "Unit 16, Hermitage Mall, Paramaribo",
+    "lat": 5.8184913,
+    "lon": -55.2051071
+  },
+  "hairstudio-dawson": {
+    "slug": "hairstudio-dawson",
     "found": true,
     "osm_name": "DIO",
     "address": "Unit 16, Hermitage Mall, Paramaribo",
@@ -1208,6 +1436,14 @@
     "lat": 5.8246237,
     "lon": -55.2009225
   },
+  "harbour-resort-domburg": {
+    "slug": "harbour-resort-domburg",
+    "found": true,
+    "osm_name": "River Breeze",
+    "address": "30, G.G. Maynardstraat, Nieuw Nickerie",
+    "lat": 5.9475644,
+    "lon": -56.995421
+  },
   "hard-rock-cafe-suriname": {
     "slug": "hard-rock-cafe-suriname",
     "found": true,
@@ -1223,6 +1459,13 @@
     "lat": 5.839152,
     "lon": -55.1819077
   },
+  "havana-lounge": {
+    "slug": "havana-lounge",
+    "found": true,
+    "osm_name": "The Havana Lounge",
+    "lat": 5.8101235,
+    "lon": -55.1706219
+  },
   "hermitage-mall": {
     "slug": "hermitage-mall",
     "found": true,
@@ -1230,6 +1473,13 @@
     "address": "73, Lalla Rookhweg, Paramaribo",
     "lat": 5.8190351,
     "lon": -55.2049414
+  },
+  "het-geologisch-museum": {
+    "slug": "het-geologisch-museum",
+    "found": true,
+    "osm_name": "OG",
+    "lat": 5.4443194,
+    "lon": -54.9962575
   },
   "het-koto-museum": {
     "slug": "het-koto-museum",
@@ -1274,6 +1524,22 @@
     "lat": 5.8238821,
     "lon": -55.1585614
   },
+  "hotel-botopassie": {
+    "slug": "hotel-botopassie",
+    "found": true,
+    "osm_name": "Top",
+    "address": "Dr. Sophie Redmondstraat",
+    "lat": 5.8254505,
+    "lon": -55.1631918
+  },
+  "hotel-de-luifel": {
+    "slug": "hotel-de-luifel",
+    "found": true,
+    "osm_name": "De Luifel",
+    "address": "13, Gondastraat, Paramaribo",
+    "lat": 5.8338159,
+    "lon": -55.1990281
+  },
   "hotel-north-resort": {
     "slug": "hotel-north-resort",
     "found": true,
@@ -1293,6 +1559,16 @@
     "lat": 5.8279979,
     "lon": -55.1560728
   },
+  "hotel-paramuru": {
+    "slug": "hotel-paramuru",
+    "found": true,
+    "osm_name": "Hotel Paramuru",
+    "phone": "+5978805104",
+    "website": "https://paramuru.com/",
+    "address": "28-30, A.L. Waaldijkstraat, Paramaribo",
+    "lat": 5.8248907,
+    "lon": -55.1646039
+  },
   "hotel-peperpot": {
     "slug": "hotel-peperpot",
     "found": true,
@@ -1300,6 +1576,14 @@
     "address": "1, Plantage Peperpot, Meerzorg",
     "lat": 5.7749101,
     "lon": -55.1325306
+  },
+  "hotel-tyche": {
+    "slug": "hotel-tyche",
+    "found": true,
+    "osm_name": "Hotel Tyche (voorheen Royal)",
+    "address": "77, Van Idsingaweg",
+    "lat": 5.9525928,
+    "lon": -57.0064652
   },
   "house-of-pureness": {
     "slug": "house-of-pureness",
@@ -1332,6 +1616,16 @@
     "lat": 5.8286058,
     "lon": -55.1576444
   },
+  "hugo-boss-ims": {
+    "slug": "hugo-boss-ims",
+    "found": true,
+    "osm_name": "International Mall of Suriname",
+    "email": "publicrelations@ims.sr",
+    "website": "https://ims.sr/",
+    "address": "245, Ringweg Zuid, Paramaribo",
+    "lat": 5.856018,
+    "lon": -55.1732229
+  },
   "international-mall-of-suriname": {
     "slug": "international-mall-of-suriname",
     "found": true,
@@ -1359,6 +1653,14 @@
     "address": "Commewijnestraat, Paramaribo",
     "lat": 5.8134536,
     "lon": -55.1884738
+  },
+  "jadah-lauren-resort": {
+    "slug": "jadah-lauren-resort",
+    "found": true,
+    "osm_name": "DA",
+    "address": "93, Sewbarath Misserstraat, Paramaribo",
+    "lat": 5.839133,
+    "lon": -55.1403836
   },
   "jadore-cafe-grill": {
     "slug": "jadore-cafe-grill",
@@ -1424,6 +1726,13 @@
     "lat": 5.8242889,
     "lon": -55.1583985
   },
+  "jungle-lodge-palumeu": {
+    "slug": "jungle-lodge-palumeu",
+    "found": true,
+    "osm_name": "Palumeu",
+    "lat": 3.3459133,
+    "lon": -55.4414018
+  },
   "kabalebo-nature-resort": {
     "slug": "kabalebo-nature-resort",
     "found": true,
@@ -1438,6 +1747,13 @@
     "address": "153, Tourtonnelaan, Paramaribo",
     "lat": 5.8425288,
     "lon": -55.149938
+  },
+  "kangoeroe-community-school": {
+    "slug": "kangoeroe-community-school",
+    "found": true,
+    "osm_name": "Stichting Kangoeroe Community School",
+    "lat": 5.8368233,
+    "lon": -55.2002268
   },
   "karans-indian-food": {
     "slug": "karans-indian-food",
@@ -1462,12 +1778,28 @@
     "lat": 5.85972,
     "lon": -55.1339531
   },
+  "kekemba-resort-paramaribo": {
+    "slug": "kekemba-resort-paramaribo",
+    "found": true,
+    "osm_name": "Kekemba Resort Paramaribo",
+    "website": "https://www.kekemba.info/",
+    "lat": 5.8487189,
+    "lon": -55.1617417
+  },
   "keller-williams-suriname": {
     "slug": "keller-williams-suriname",
     "found": true,
     "osm_name": "William",
     "lat": 5.8343939,
     "lon": -55.1413071
+  },
+  "kersten-group": {
+    "slug": "kersten-group",
+    "found": true,
+    "osm_name": "PAN",
+    "address": "46, Djamoestraat",
+    "lat": 5.865896,
+    "lon": -55.1058659
   },
   "ket-mien": {
     "slug": "ket-mien",
@@ -1560,6 +1892,14 @@
     "lat": 5.8356369,
     "lon": -55.1424722
   },
+  "kimberlys-vip-resort": {
+    "slug": "kimberlys-vip-resort",
+    "found": true,
+    "osm_name": "VIP",
+    "address": "Verlengde Mahonylaan, Paramaribo",
+    "lat": 5.8354678,
+    "lon": -55.1480035
+  },
   "kirpalani": {
     "slug": "kirpalani",
     "found": true,
@@ -1627,6 +1967,13 @@
     "lat": 5.843148,
     "lon": -55.2119923
   },
+  "kwatta-carfix": {
+    "slug": "kwatta-carfix",
+    "found": true,
+    "osm_name": "Kwatta",
+    "lat": 4.9490843,
+    "lon": -55.1809706
+  },
   "las-tias": {
     "slug": "las-tias",
     "found": true,
@@ -1635,6 +1982,13 @@
     "cuisine": "Mexican",
     "lat": 5.8321966,
     "lon": -55.2000245
+  },
+  "leguana-park": {
+    "slug": "leguana-park",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
   },
   "lins-super-market": {
     "slug": "lins-super-market",
@@ -1675,6 +2029,23 @@
     "lat": 5.8669702,
     "lon": -57.1447759
   },
+  "luxe-luminous-beauty-salon": {
+    "slug": "luxe-luminous-beauty-salon",
+    "found": true,
+    "osm_name": "Salon",
+    "lat": 5.8669702,
+    "lon": -57.1447759
+  },
+  "luxury-resort-surinat": {
+    "slug": "luxury-resort-surinat",
+    "found": true,
+    "osm_name": "Surinat Luxury Resort",
+    "phone": "+579370048",
+    "website": "https://www.surinat.com/",
+    "address": "234, La Rencontre 5e Straat, Domburg",
+    "lat": 5.6894264,
+    "lon": -55.0705147
+  },
   "maharaja-palace": {
     "slug": "maharaja-palace",
     "found": true,
@@ -1683,6 +2054,20 @@
     "cuisine": "Indian",
     "lat": 5.8322219,
     "lon": -55.1949891
+  },
+  "mantje-bigi-pan-tours": {
+    "slug": "mantje-bigi-pan-tours",
+    "found": true,
+    "osm_name": "bigi pan",
+    "lat": 5.9608024,
+    "lon": -56.8639576
+  },
+  "marinalex-resort-waterpark": {
+    "slug": "marinalex-resort-waterpark",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
   },
   "max-n-co": {
     "slug": "max-n-co",
@@ -1711,6 +2096,35 @@
     "takeaway": "yes",
     "lat": 5.8183376,
     "lon": -55.205495
+  },
+  "medische-zending": {
+    "slug": "medische-zending",
+    "found": true,
+    "osm_name": "Medische Zending",
+    "lat": 4.488413,
+    "lon": -55.3652942
+  },
+  "melilew-boutique-hotel": {
+    "slug": "melilew-boutique-hotel",
+    "found": true,
+    "osm_name": "Melilew Boutique Hotel",
+    "lat": 5.8295341,
+    "lon": -55.1566827
+  },
+  "menimi-eco-resort": {
+    "slug": "menimi-eco-resort",
+    "found": true,
+    "osm_name": "Menimi Eco Resort",
+    "website": "https://menimi.net/",
+    "lat": 4.3526867,
+    "lon": -55.3957261
+  },
+  "mets-travel-tours": {
+    "slug": "mets-travel-tours",
+    "found": true,
+    "osm_name": "METS Travel & Tours",
+    "lat": 5.8301476,
+    "lon": -55.1599059
   },
   "mickis-palace-noord": {
     "slug": "mickis-palace-noord",
@@ -1767,6 +2181,14 @@
     "address": "73, Lalla Rookhweg, Paramaribo",
     "lat": 5.8190351,
     "lon": -55.2049414
+  },
+  "mn-car-center": {
+    "slug": "mn-car-center",
+    "found": true,
+    "osm_name": "M&N Car Center",
+    "address": "Meerzorgweg, Meerzorg",
+    "lat": 5.8115023,
+    "lon": -55.1534382
   },
   "mn-international-centrum": {
     "slug": "mn-international-centrum",
@@ -1845,6 +2267,35 @@
     "lat": 5.8786196,
     "lon": -56.3335819
   },
+  "nationaal-vervoer-bedrijf": {
+    "slug": "nationaal-vervoer-bedrijf",
+    "found": true,
+    "osm_name": "Nationaal Vervoer Bedrijf N.V.",
+    "lat": 5.8255177,
+    "lon": -55.1569159
+  },
+  "naughty-angel-beauty-salon": {
+    "slug": "naughty-angel-beauty-salon",
+    "found": true,
+    "osm_name": "Salon",
+    "lat": 5.8669702,
+    "lon": -57.1447759
+  },
+  "neotropical-butterfly-park": {
+    "slug": "neotropical-butterfly-park",
+    "found": true,
+    "osm_name": "But",
+    "lat": 5.4916705,
+    "lon": -54.0324183
+  },
+  "new-babunhol-river-resort": {
+    "slug": "new-babunhol-river-resort",
+    "found": true,
+    "osm_name": "Babunhol River Resort",
+    "website": "http://www.babunhol.com/",
+    "lat": 5.2276587,
+    "lon": -55.0596586
+  },
   "new-choice-lalla-rookhweg": {
     "slug": "new-choice-lalla-rookhweg",
     "found": true,
@@ -1873,6 +2324,28 @@
     "lat": 5.5011119,
     "lon": -54.0296926
   },
+  "newmont-suriname": {
+    "slug": "newmont-suriname",
+    "found": true,
+    "osm_name": "Newmont Suriname",
+    "lat": 5.1100478,
+    "lon": -54.5523383
+  },
+  "next-club-suriname": {
+    "slug": "next-club-suriname",
+    "found": true,
+    "osm_name": "Next Club",
+    "address": "9, Cornelis Jongbawstraat, Paramaribo",
+    "lat": 5.8283272,
+    "lon": -55.1472539
+  },
+  "nickerie-tennis-club": {
+    "slug": "nickerie-tennis-club",
+    "found": true,
+    "osm_name": "NTC Nickerie Tennis Club",
+    "lat": 5.9340472,
+    "lon": -56.9945457
+  },
   "no-span-eco-tours": {
     "slug": "no-span-eco-tours",
     "found": true,
@@ -1895,6 +2368,14 @@
     "address": "73, Lalla Rookhweg, Paramaribo",
     "lat": 5.8190351,
     "lon": -55.2049414
+  },
+  "octopus-resort-suriname": {
+    "slug": "octopus-resort-suriname",
+    "found": true,
+    "osm_name": "Top",
+    "address": "Dr. Sophie Redmondstraat",
+    "lat": 5.8254505,
+    "lon": -55.1631918
   },
   "office-world-hermitage-mall": {
     "slug": "office-world-hermitage-mall",
@@ -1973,6 +2454,13 @@
     "lat": 5.6951277,
     "lon": -55.2161122
   },
+  "optiek-ligeon": {
+    "slug": "optiek-ligeon",
+    "found": true,
+    "osm_name": "Optiek Ligeon",
+    "lat": 5.8263522,
+    "lon": -55.1591969
+  },
   "optiek-marisa": {
     "slug": "optiek-marisa",
     "found": true,
@@ -1996,6 +2484,14 @@
     "address": "van drimmelen weg",
     "lat": 5.6962534,
     "lon": -55.2175832
+  },
+  "orange-travel-nv": {
+    "slug": "orange-travel-nv",
+    "found": true,
+    "osm_name": "Orange",
+    "address": "Van Sommelsdijckstraat, Paramaribo",
+    "lat": 5.8289053,
+    "lon": -55.1470516
   },
   "orchid": {
     "slug": "orchid",
@@ -2060,6 +2556,22 @@
     "lat": 5.865896,
     "lon": -55.1058659
   },
+  "paradise-city-casino": {
+    "slug": "paradise-city-casino",
+    "found": true,
+    "osm_name": "Paradise City",
+    "address": "56, Estreliastraat, Paramaribo",
+    "lat": 5.8177031,
+    "lon": -55.2049466
+  },
+  "paramaribo-golden-dragon-casino": {
+    "slug": "paramaribo-golden-dragon-casino",
+    "found": true,
+    "osm_name": "Paramaribo",
+    "address": "Dr. Sophie Redmondstraat",
+    "lat": 5.8266324,
+    "lon": -55.1660748
+  },
   "paramaribo-princess-casino": {
     "slug": "paramaribo-princess-casino",
     "found": true,
@@ -2074,6 +2586,14 @@
     "osm_name": "Paramaribo Zoo",
     "lat": 5.8475352,
     "lon": -55.1597654
+  },
+  "pension-asia-inn": {
+    "slug": "pension-asia-inn",
+    "found": true,
+    "osm_name": "ASIA",
+    "address": "Dr. Sophie Redmondstraat",
+    "lat": 5.8258427,
+    "lon": -55.1648583
   },
   "peperpot-nature-park": {
     "slug": "peperpot-nature-park",
@@ -2119,6 +2639,22 @@
     "cuisine": "Pizza",
     "lat": 5.8357787,
     "lon": -55.1423964
+  },
+  "places2go-suriname": {
+    "slug": "places2go-suriname",
+    "found": true,
+    "osm_name": "ACE",
+    "address": "23, Kasabaholoweg, Paramaribo",
+    "lat": 5.8246237,
+    "lon": -55.2009225
+  },
+  "planet-casino": {
+    "slug": "planet-casino",
+    "found": true,
+    "osm_name": "Planet Casino",
+    "address": "596, Kwattaweg, Wanica",
+    "lat": 5.8463072,
+    "lon": -55.2284851
   },
   "plantage-frederiksdorp": {
     "slug": "plantage-frederiksdorp",
@@ -2175,12 +2711,30 @@
     "lat": 5.8347158,
     "lon": -55.1661986
   },
+  "q-inn-boutique-hotel-paramaribo": {
+    "slug": "q-inn-boutique-hotel-paramaribo",
+    "found": true,
+    "osm_name": "Paramaribo",
+    "address": "Dr. Sophie Redmondstraat",
+    "lat": 5.8266324,
+    "lon": -55.1660748
+  },
   "qsi-international-school-of-suriname": {
     "slug": "qsi-international-school-of-suriname",
     "found": true,
     "osm_name": "School",
     "lat": 5.8786196,
     "lon": -56.3335819
+  },
+  "queens-hotel": {
+    "slug": "queens-hotel",
+    "found": true,
+    "osm_name": "Queens Hotel",
+    "phone": "+597 474 967",
+    "website": "http://www.queenshotelsuriname.com/",
+    "address": "15, Kleine Waterstraat, Parimaribo",
+    "lat": 5.8285767,
+    "lon": -55.147242
   },
   "r-k-bisdom-paramaribo": {
     "slug": "r-k-bisdom-paramaribo",
@@ -2189,6 +2743,14 @@
     "address": "Dr. Sophie Redmondstraat",
     "lat": 5.8266324,
     "lon": -55.1660748
+  },
+  "radiologie-kliniek-halfhide-hofwijk": {
+    "slug": "radiologie-kliniek-halfhide-hofwijk",
+    "found": true,
+    "osm_name": "DIO",
+    "address": "Unit 16, Hermitage Mall, Paramaribo",
+    "lat": 5.8184913,
+    "lon": -55.2051071
   },
   "radisson-hotel": {
     "slug": "radisson-hotel",
@@ -2205,6 +2767,21 @@
     "address": "Dr. Sophie Redmondstraat",
     "lat": 5.8266324,
     "lon": -55.1660748
+  },
+  "rasonic": {
+    "slug": "rasonic",
+    "found": true,
+    "osm_name": "DIO",
+    "address": "Unit 16, Hermitage Mall, Paramaribo",
+    "lat": 5.8184913,
+    "lon": -55.2051071
+  },
+  "rasonic-travel": {
+    "slug": "rasonic-travel",
+    "found": true,
+    "osm_name": "Rasonic Travel",
+    "lat": 5.8253851,
+    "lon": -55.184802
   },
   "re-max-suriname": {
     "slug": "re-max-suriname",
@@ -2273,6 +2850,14 @@
     "address": "361, Kwattaweg, Paramaribo",
     "lat": 5.841713,
     "lon": -55.1974387
+  },
+  "regionale-gezondheidsdienst": {
+    "slug": "regionale-gezondheidsdienst",
+    "found": true,
+    "osm_name": "Regionale Gezondheidsdienst Tamanredjo",
+    "address": "Oost west Verbinding Commewijne",
+    "lat": 5.7855222,
+    "lon": -55.0254097
   },
   "republic-bank-head-office": {
     "slug": "republic-bank-head-office",
@@ -2345,6 +2930,21 @@
     "address": "187, Verlengde Gemeenelandsweg, Paramaribo",
     "lat": 5.8281264,
     "lon": -55.1979669
+  },
+  "revasur-zorgwinkel": {
+    "slug": "revasur-zorgwinkel",
+    "found": true,
+    "osm_name": "winkel",
+    "lat": 5.7970663,
+    "lon": -55.2071506
+  },
+  "rhythms-of-nature-ayurveda-wellness-center": {
+    "slug": "rhythms-of-nature-ayurveda-wellness-center",
+    "found": true,
+    "osm_name": "DA",
+    "address": "93, Sewbarath Misserstraat, Paramaribo",
+    "lat": 5.839133,
+    "lon": -55.1403836
   },
   "ritas-roti-shop": {
     "slug": "ritas-roti-shop",
@@ -2459,6 +3059,14 @@
     "lat": 5.8270847,
     "lon": -55.1476727
   },
+  "rudan-trading-co": {
+    "slug": "rudan-trading-co",
+    "found": true,
+    "osm_name": "DA",
+    "address": "93, Sewbarath Misserstraat, Paramaribo",
+    "lat": 5.839133,
+    "lon": -55.1403836
+  },
   "samba-cafe": {
     "slug": "samba-cafe",
     "found": true,
@@ -2500,12 +3108,26 @@
     "lat": 5.839133,
     "lon": -55.1403836
   },
+  "savoie-hotel-apartments": {
+    "slug": "savoie-hotel-apartments",
+    "found": true,
+    "osm_name": "Savoie",
+    "lat": 5.8319746,
+    "lon": -55.1913914
+  },
   "scene-beauty-salon": {
     "slug": "scene-beauty-salon",
     "found": true,
     "osm_name": "Salon",
     "lat": 5.8669702,
     "lon": -57.1447759
+  },
+  "self-reliance": {
+    "slug": "self-reliance",
+    "found": true,
+    "osm_name": "self reliance ",
+    "lat": 5.5263537,
+    "lon": -55.0530317
   },
   "sendang-redjo": {
     "slug": "sendang-redjo",
@@ -2515,6 +3137,21 @@
     "lat": 5.839133,
     "lon": -55.1403836
   },
+  "shlx-cafe": {
+    "slug": "shlx-cafe",
+    "found": true,
+    "osm_name": "CAF",
+    "lat": 5.5011119,
+    "lon": -54.0296926
+  },
+  "sint-vincentius-ziekenhuis": {
+    "slug": "sint-vincentius-ziekenhuis",
+    "found": true,
+    "osm_name": "Sint Vincentius Ziekenhuis",
+    "address": "Koninginnestraat, Paramaribo",
+    "lat": 5.8323664,
+    "lon": -55.1525473
+  },
   "sizzler-midnight-grill": {
     "slug": "sizzler-midnight-grill",
     "found": true,
@@ -2522,6 +3159,14 @@
     "address": "78, Zwartenhovenbrugstraat, Paramaribo",
     "lat": 5.8257731,
     "lon": -55.1626356
+  },
+  "skechers-hermitage": {
+    "slug": "skechers-hermitage",
+    "found": true,
+    "osm_name": "Hermitage Mall",
+    "address": "73, Lalla Rookhweg, Paramaribo",
+    "lat": 5.8190351,
+    "lon": -55.2049414
   },
   "slagerij-abbas": {
     "slug": "slagerij-abbas",
@@ -2562,6 +3207,13 @@
     "lat": 4.9487968,
     "lon": -55.1807796
   },
+  "sol-suriname": {
+    "slug": "sol-suriname",
+    "found": true,
+    "osm_name": "Sol",
+    "lat": 5.8130387,
+    "lon": -55.2051013
+  },
   "souposo": {
     "slug": "souposo",
     "found": true,
@@ -2577,6 +3229,14 @@
     "address": "33, Tourtonnelaan, Paramaribo",
     "lat": 5.8338351,
     "lon": -55.1545333
+  },
+  "spanhoek-boutique-hotel": {
+    "slug": "spanhoek-boutique-hotel",
+    "found": true,
+    "osm_name": "PAN",
+    "address": "46, Djamoestraat",
+    "lat": 5.865896,
+    "lon": -55.1058659
   },
   "spice-quest": {
     "slug": "spice-quest",
@@ -2657,6 +3317,28 @@
     "lat": 5.8241239,
     "lon": -55.1818625
   },
+  "staatsolie": {
+    "slug": "staatsolie",
+    "found": true,
+    "osm_name": "Sol",
+    "lat": 5.8130387,
+    "lon": -55.2051013
+  },
+  "stanleys-optics": {
+    "slug": "stanleys-optics",
+    "found": true,
+    "osm_name": "Stanley's",
+    "address": "102, Zwartenhovenbrugstraat, Paramaribo",
+    "lat": 5.8243638,
+    "lon": -55.1634279
+  },
+  "stedin-speciaal-slagerij": {
+    "slug": "stedin-speciaal-slagerij",
+    "found": true,
+    "osm_name": "Slagerij",
+    "lat": 5.8356092,
+    "lon": -55.1713603
+  },
   "steps-domineestraat": {
     "slug": "steps-domineestraat",
     "found": true,
@@ -2684,6 +3366,44 @@
     "osm_name": "Steps",
     "lat": 5.8264508,
     "lon": -55.1593859
+  },
+  "stichting-openlucht-museum-fort-nieuw-amsterdam": {
+    "slug": "stichting-openlucht-museum-fort-nieuw-amsterdam",
+    "found": true,
+    "osm_name": "DA",
+    "address": "93, Sewbarath Misserstraat, Paramaribo",
+    "lat": 5.839133,
+    "lon": -55.1403836
+  },
+  "stichting-upper-suriname-lodgeholders": {
+    "slug": "stichting-upper-suriname-lodgeholders",
+    "found": true,
+    "osm_name": "DA",
+    "address": "93, Sewbarath Misserstraat, Paramaribo",
+    "lat": 5.839133,
+    "lon": -55.1403836
+  },
+  "stichting-zwembad-parima": {
+    "slug": "stichting-zwembad-parima",
+    "found": true,
+    "osm_name": "Zwembad Parima",
+    "lat": 5.8303121,
+    "lon": -55.1673041
+  },
+  "stinasu-stichting-natuurbehoud-suriname": {
+    "slug": "stinasu-stichting-natuurbehoud-suriname",
+    "found": true,
+    "osm_name": "RBE",
+    "address": "Indira Gandhiweg, Lelydorp",
+    "lat": 5.7323626,
+    "lon": -55.2126741
+  },
+  "ston-eiland-resort": {
+    "slug": "ston-eiland-resort",
+    "found": true,
+    "osm_name": "Ston Eiland",
+    "lat": 4.9836672,
+    "lon": -55.1487981
   },
   "subway": {
     "slug": "subway",
@@ -2720,12 +3440,43 @@
     "lat": 5.8306324,
     "lon": -55.1679216
   },
+  "sun-smile-hotel-apartments": {
+    "slug": "sun-smile-hotel-apartments",
+    "found": true,
+    "osm_name": "Smile",
+    "address": "Kwattaweg",
+    "lat": 5.8446792,
+    "lon": -55.2201197
+  },
+  "sundae-bliss": {
+    "slug": "sundae-bliss",
+    "found": true,
+    "osm_name": "DA",
+    "address": "93, Sewbarath Misserstraat, Paramaribo",
+    "lat": 5.839133,
+    "lon": -55.1403836
+  },
   "supply-solutions-limited-suriname": {
     "slug": "supply-solutions-limited-suriname",
     "found": true,
     "osm_name": "Sol",
     "lat": 5.8130387,
     "lon": -55.2051013
+  },
+  "surinaamse-badminton-bond": {
+    "slug": "surinaamse-badminton-bond",
+    "found": true,
+    "osm_name": "ABO",
+    "lat": 5.8266792,
+    "lon": -55.1608166
+  },
+  "surinaamse-postspaarbank": {
+    "slug": "surinaamse-postspaarbank",
+    "found": true,
+    "osm_name": "Surinaamse Postspaarbank",
+    "address": "5, Oostkanaalstraat, Nieuw Nickerie",
+    "lat": 5.9448805,
+    "lon": -56.9921613
   },
   "suriname-princess-casino": {
     "slug": "suriname-princess-casino",
@@ -2734,6 +3485,33 @@
     "address": "246, Tourtonnelaan, Paramaribo",
     "lat": 5.8437878,
     "lon": -55.1487724
+  },
+  "suriname-tulip-hotel": {
+    "slug": "suriname-tulip-hotel",
+    "found": true,
+    "osm_name": "Tulip",
+    "opening_hours": "Mo-Su 08:00-20:00",
+    "phone": "+597 521060",
+    "email": "info@tulip-supermarket.com",
+    "address": "131, Tourtonnelaan, Paramaribo",
+    "lat": 5.8406679,
+    "lon": -55.1517958
+  },
+  "surpost": {
+    "slug": "surpost",
+    "found": true,
+    "osm_name": "SurPost",
+    "address": "5, Oostkanaalstraat, Nieuw Nickerie",
+    "lat": 5.9447754,
+    "lon": -56.9921609
+  },
+  "sutopia-resort": {
+    "slug": "sutopia-resort",
+    "found": true,
+    "osm_name": "Top",
+    "address": "Dr. Sophie Redmondstraat",
+    "lat": 5.8254505,
+    "lon": -55.1631918
   },
   "sweetheart-hermitage-mall": {
     "slug": "sweetheart-hermitage-mall",
@@ -2817,6 +3595,14 @@
     "lat": 5.9450854,
     "lon": -56.9921744
   },
+  "telesur-telecommunicatie-museum": {
+    "slug": "telesur-telecommunicatie-museum",
+    "found": true,
+    "osm_name": "Telesur",
+    "address": "3, Oostkanaalstraat, Nieuw Nickerie",
+    "lat": 5.9450854,
+    "lon": -56.9921744
+  },
   "telesur-zonnebloemstraat": {
     "slug": "telesur-zonnebloemstraat",
     "found": true,
@@ -2834,6 +3620,13 @@
     "lat": 5.8184913,
     "lon": -55.2051071
   },
+  "the-ark-hotel": {
+    "slug": "the-ark-hotel",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
+  },
   "the-bakery-house": {
     "slug": "the-bakery-house",
     "found": true,
@@ -2848,6 +3641,13 @@
     "osm_name": "Barber",
     "lat": 5.8768028,
     "lon": -57.1413946
+  },
+  "the-caterpillar-montessorischool": {
+    "slug": "the-caterpillar-montessorischool",
+    "found": true,
+    "osm_name": "Esso",
+    "lat": 5.618454,
+    "lon": -54.3967935
   },
   "the-coffee-box": {
     "slug": "the-coffee-box",
@@ -3011,6 +3811,18 @@
     "lat": 5.8331931,
     "lon": -55.1528107
   },
+  "travel-the-guianas": {
+    "slug": "travel-the-guianas",
+    "found": true,
+    "osm_name": "Travel The Guianas Touroperator",
+    "opening_hours": "Mo-Fr 08:30-16:00",
+    "phone": "+5978500724",
+    "email": "info@travelthrguianas.com",
+    "website": "https://www.traveltheguianas.com/",
+    "address": "40, Parijsstraat, Paramaribo",
+    "lat": 5.8501592,
+    "lon": -55.1809531
+  },
   "triple-security-unit": {
     "slug": "triple-security-unit",
     "found": true,
@@ -3018,6 +3830,24 @@
     "address": "15, Washingtonstraat, Paramaribo",
     "lat": 5.8425438,
     "lon": -55.1846774
+  },
+  "trustbank-amanah": {
+    "slug": "trustbank-amanah",
+    "found": true,
+    "osm_name": "Trustbank Amanah",
+    "opening_hours": "Mo-Fr 07:45-15:30; Sa 08:00-12:00",
+    "phone": "+597 452 800",
+    "website": "https://trustbankamanah.com/",
+    "address": "116, Plutostraat, Paramaribo",
+    "lat": 5.841394,
+    "lon": -55.1402632
+  },
+  "tulip-cafeteria": {
+    "slug": "tulip-cafeteria",
+    "found": true,
+    "osm_name": "CAF",
+    "lat": 5.5011119,
+    "lon": -54.0296926
   },
   "tulip-supermarket": {
     "slug": "tulip-supermarket",
@@ -3041,6 +3871,14 @@
     "lat": 5.5011119,
     "lon": -54.0296926
   },
+  "unique-package-plan": {
+    "slug": "unique-package-plan",
+    "found": true,
+    "osm_name": "Unique",
+    "address": "Fredrik Derbystraat, Paramaribo",
+    "lat": 5.8313109,
+    "lon": -55.1636246
+  },
   "unlimited-suriname-tours": {
     "slug": "unlimited-suriname-tours",
     "found": true,
@@ -3048,6 +3886,14 @@
     "address": "Zinniastraat, Paramaribo",
     "lat": 5.827444,
     "lon": -55.1810781
+  },
+  "us-polo-assn-suriname": {
+    "slug": "us-polo-assn-suriname",
+    "found": true,
+    "osm_name": "U.S. Polo Assn.",
+    "address": "Unit 24-25, Hermitage Mall, Paramaribo",
+    "lat": 5.8182579,
+    "lon": -55.2050707
   },
   "vcm-slagerij-centrum": {
     "slug": "vcm-slagerij-centrum",
@@ -3080,6 +3926,13 @@
     "address": "136, Franchepanestraat, Paramaribo",
     "lat": 5.8208652,
     "lon": -55.1974404
+  },
+  "village-park-33": {
+    "slug": "village-park-33",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
   },
   "villas-paramaribo": {
     "slug": "villas-paramaribo",
@@ -3173,6 +4026,13 @@
     "lat": 5.8299662,
     "lon": -55.1442384
   },
+  "zeedijk-resort-nickerie": {
+    "slug": "zeedijk-resort-nickerie",
+    "found": true,
+    "osm_name": "Zeedijk",
+    "lat": 5.9622682,
+    "lon": -57.0261969
+  },
   "zeelandia-suites": {
     "slug": "zeelandia-suites",
     "found": true,
@@ -3195,5 +4055,12 @@
     "osm_name": "CAF",
     "lat": 5.5011119,
     "lon": -54.0296926
+  },
+  "zwemschool-tukunari": {
+    "slug": "zwemschool-tukunari",
+    "found": true,
+    "osm_name": "School",
+    "lat": 5.8786196,
+    "lon": -56.3335819
   }
 }
