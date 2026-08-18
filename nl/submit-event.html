@@ -770,11 +770,11 @@ document.addEventListener('keydown', e => {
 <div class="two">
 <div class="fld">
 <label for="f-start_date">First day <span class="req">*</span></label>
-<input id="f-start_date" max="2027-08-17" min="2026-08-17" name="start_date" required="" type="date"/>
+<input id="f-start_date" max="2027-08-18" min="2026-08-18" name="start_date" required="" type="date"/>
 </div>
 <div class="fld">
 <label for="f-end_date">Last day</label>
-<input id="f-end_date" max="2027-08-17" min="2026-08-17" name="end_date" type="date"/>
+<input id="f-end_date" max="2027-08-18" min="2026-08-18" name="end_date" type="date"/>
 <div class="hint">Leave empty if it is a one-day event.</div>
 </div>
 </div>
@@ -1011,8 +1011,8 @@ document.addEventListener('keydown', e => {
     if($("f-name").value.trim().length < 3) return say("Please enter the event name.", true);
     var sd = $("f-start_date").value, ed = $("f-end_date").value;
     if(!/^\d{4}-\d{2}-\d{2}$/.test(sd)) return say("Please pick the first day of the event.", true);
-    if(sd < "2026-08-17") return say("That date has already passed.", true);
-    if(sd > "2027-08-17") return say("That date is more than a year away. Send it closer to the time.", true);
+    if(sd < "2026-08-18") return say("That date has already passed.", true);
+    if(sd > "2027-08-18") return say("That date is more than a year away. Send it closer to the time.", true);
     if(ed && ed < sd) return say("The last day cannot be before the first day.", true);
     if(!$("f-category").value) return say("Please choose the type of event.", true);
     if($("f-venue").value.trim().length < 2) return say("Please say where it happens.", true);
