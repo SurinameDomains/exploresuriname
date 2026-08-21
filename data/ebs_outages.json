@@ -1,6 +1,17 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD ZONDAG 23 AUGUSTUS 2026",
+      "date": "23 Augustus 2026",
+      "date_iso": "2026-08-23",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1581/gepland-onderhoud-zondag-23-augustus-2026",
+      "meta_description": "Gepland onderhoud: Commewijne zondag 23 augustus 2026 tussen 09:00-15:00 GEDEELTE OOST – WEST VERBINDING TUSSEN VEERPLEIN EN REDJOWEG, GEDEELTE PANDIT",
+      "district": "Commewijne",
+      "time": "09:00 – 15:00",
+      "area": "GEDEELTE OOST – WEST VERBINDING TUSSEN VEERPLEIN EN REDJOWEG, GEDEELTE PANDIT"
+    },
+    {
       "title": "GEPLAND ONDERHOUD ZATERDAG 22 AUGUSTUS 2026",
       "date": "22 Augustus 2026",
       "date_iso": "2026-08-22",
@@ -23,6 +34,6 @@
       "area": "WAYAMBOWEG, OOST-WEST VERBINDING SARAMACCA, BOSKAMP, LARECOWEG, GANGARAM PANDAYWEG"
     }
   ],
-  "last_updated": "2026-08-21T12:57:42.801262+00:00",
+  "last_updated": "2026-08-21T15:07:51.238403+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
