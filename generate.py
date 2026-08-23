@@ -6500,9 +6500,11 @@ def _chain_block(brand):
     chips, panels = [], []
     for i, m in enumerate(mem):
         label = html_lib.escape(_branch_label(brand, m))
-        chips.append('<button type="button" class="dist-chip' +
+        # An anchor, not a button: crawlers and no-JS visitors follow it to that
+        # branch's own page, everyone else gets the inline swap and stays put.
+        chips.append('<a href="../' + m["slug"] + '/" class="branch-chip dist-chip' +
                      (' dist-chip-active' if i == 0 else '') +
-                     '" onclick="esrBranch(' + str(i) + ',this)">' + label + '</button>')
+                     '" onclick="return esrBranch(' + str(i) + ',this)">' + label + '</a>')
 
         rows = row("📍", html_lib.escape(m["address"] or (m["area"] + ", Suriname")))
         if m["phone"]:
@@ -6525,14 +6527,11 @@ def _chain_block(brand):
                     'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm '
                     'font-semibold text-white hover:opacity-90 transition mb-3" '
                     'style="background:#25D366">💬 Chat on WhatsApp</a>') + btns
-        _link = ('<a href="../' + m["slug"] + '/" class="block text-center text-xs font-semibold '
-                 'hover:underline mb-1" style="color:var(--forest2)">Open the ' +
-                 html_lib.escape(_branch_label(brand, m)) + ' page</a>')
-
         panels.append('<div class="branch-panel' + ('' if i == 0 else ' hidden') +
                       '" id="esr-bp-' + str(i) + '" data-map="' +
-                      html_lib.escape(m["maps_embed"], quote=True) + '">' +
-                      rows + '<div class="mt-6">' + btns + _link + '</div></div>')
+                      html_lib.escape(m["maps_embed"], quote=True) + '" data-name="' +
+                      html_lib.escape(m["name"], quote=True) + '">' +
+                      rows + '<div class="mt-6">' + btns + '</div></div>')
 
     script = ('<script>function esrBranch(i,btn){'
               'var c=document.querySelectorAll(".branch-chip");'
@@ -6540,20 +6539,38 @@ def _chain_block(brand):
               'btn.classList.add("dist-chip-active");'
               'var p=document.querySelectorAll(".branch-panel");'
               'for(var j=0;j<p.length;j++){p[j].classList.toggle("hidden",j!==i);}'
-              'var f=document.getElementById("esr-branch-map"),a=document.getElementById("esr-bp-"+i);'
-              'if(f&&a&&a.getAttribute("data-map")){f.src=a.getAttribute("data-map");}'
-              '}</script>')
+              'var a=document.getElementById("esr-bp-"+i);if(!a){return false;}'
+              'var f=document.getElementById("esr-branch-map");'
+              'if(f&&a.getAttribute("data-map")){f.src=a.getAttribute("data-map");}'
+              'var h=document.getElementById("esr-info-title");'
+              'if(h&&a.getAttribute("data-name")){h.textContent=a.getAttribute("data-name");}'
+              'return false;}</script>')
+
+    def link_row(active_slug):
+        """The same chip row for a branch page: every chip is a link, the chip
+        for the page you are on is the active one. Chips never disappear."""
+        out = []
+        for m in mem:
+            lbl = html_lib.escape(_branch_label(brand, m))
+            if m["slug"] == active_slug:
+                out.append('<span class="dist-chip dist-chip-active" aria-current="page">'
+                           + lbl + '</span>')
+            else:
+                out.append('<a href="../' + m["slug"] + '/" class="dist-chip">' + lbl + '</a>')
+        return ('<h2 class="text-lg font-bold text-gray-900 mb-2">'
+                + html_lib.escape(brand) + ' locations</h2>'
+                '<p class="text-gray-500 text-sm mb-3">' + str(len(mem)) + ' locations in Suriname. '
+                'Tap another one to see its address, opening hours and directions.</p>'
+                '<div class="flex flex-wrap gap-2 mb-6">' + "".join(out) + '</div>')
 
     chips_html = ('<h2 class="text-lg font-bold text-gray-900 mb-2">Locations</h2>'
                   '<p class="text-gray-500 text-sm mb-3">Pick a location to see its address, '
                   'opening hours and directions.</p>'
-                  '<div class="flex flex-wrap gap-2 mb-6">' +
-                  "".join(chips).replace('class="dist-chip', 'class="branch-chip dist-chip') +
-                  '</div>')
+                  '<div class="flex flex-wrap gap-2 mb-6">' + "".join(chips) + '</div>')
 
     return {"count": len(mem), "chips": chips_html, "panels": "".join(panels),
-            "first_map": mem[0]["maps_embed"], "script": script,
-            "areas": sorted({m["area"] for m in mem})}
+            "first_map": mem[0]["maps_embed"], "script": script, "link_row": link_row,
+            "first_name": mem[0]["name"], "areas": sorted({m["area"] for m in mem})}
 
 
 def build_listing_page(slug, b):
@@ -6571,8 +6588,9 @@ def build_listing_page(slug, b):
     # the brand name rather than this one branch's name. Branch pages stay as
     # they are and link back up here.
     _brand    = _CHAIN_OF.get(slug)
-    _chain    = _chain_block(_brand) if (_brand and _CHAIN_PRIMARY.get(_brand) == slug) else None
-    _is_branch = bool(_brand) and _chain is None
+    _chain_any = _chain_block(_brand) if _brand else None
+    _chain    = _chain_any if (_chain_any and _CHAIN_PRIMARY.get(_brand) == slug) else None
+    _is_branch = bool(_chain_any) and _chain is None
     _hub_marks = []
     if _chain:
         # Remember what makes the primary's own listing specific, so a branch
@@ -6927,14 +6945,13 @@ def build_listing_page(slug, b):
     share_btn = _share_button(page_url, raw_name)
 
     # A branch of a chain: point back at the hub that lists every address.
+    # A branch page carries the same chip row as the hub, so the locations never
+    # vanish once you are on one of them. Here the chips are plain links: each
+    # page keeps its own name, address and map, and the chip you are on is the
+    # active one.
     branch_note = ""
     if _is_branch:
-        _hub = _CHAIN_PRIMARY.get(_brand, "")
-        _tot = len(_CHAIN_GROUPS.get(_brand, []))
-        branch_note = ('\n      <p class="text-sm text-gray-600 mb-6">One of ' + str(_tot) + ' '
-                       + html_lib.escape(_brand) + ' locations. '
-                       '<a href="../' + _hub + '/" class="font-semibold hover:underline" '
-                       'style="color:var(--forest2)">See all ' + str(_tot) + ' locations</a></p>')
+        branch_note = '\n      ' + _chain_any["link_row"](slug)
 
     if _chain:
         left_top = ('\n      ' + desc_block + '\n      ' + _chain["chips"])
@@ -6943,6 +6960,8 @@ def build_listing_page(slug, b):
                     '\n          style="border:0" allowfullscreen="" loading="lazy"'
                     '\n          referrerpolicy="no-referrer-when-downgrade"></iframe>'
                     '\n      </div>')
+        info_title = ('\n        <h2 id="esr-info-title" class="text-base font-bold text-gray-900 mb-4">'
+                      + html_lib.escape(_chain["first_name"]) + '</h2>')
         info_html = ('\n        ' + _chain["panels"] +
                      '\n        <div class="mt-6">'
                      '\n          ' + website_btn +
@@ -6956,6 +6975,7 @@ def build_listing_page(slug, b):
                     '\n          style="border:0" allowfullscreen="" loading="lazy"'
                     '\n          referrerpolicy="no-referrer-when-downgrade"></iframe>'
                     '\n      </div>')
+        info_title = '\n        <h2 class="text-base font-bold text-gray-900 mb-4">Contact &amp; Info</h2>'
         info_html = ('\n        ' + rows +
                      '\n        <div class="mt-6">'
                      '\n          ' + wa_btn +
@@ -6978,7 +6998,7 @@ def build_listing_page(slug, b):
 
         '\n    <div class="lg:col-span-1">'
         '\n      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">'
-        '\n        <h2 class="text-base font-bold text-gray-900 mb-4">Contact &amp; Info</h2>'
+        + info_title
         + info_html +
         '\n      </div>'
         '\n    </div>'
