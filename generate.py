@@ -544,9 +544,7 @@ _IMGS = {
     'de-surinaamsche-bank-hoofdkantoor': 'https://www.dsb.sr/assets/og-dsb.png',
     'de-surinaamsche-bank-lelydorp': 'https://www.dsb.sr/assets/og-dsb.png',
     'de-surinaamsche-bank-ma-retraite': 'https://www.dsb.sr/assets/og-dsb.png',
-    'de-surinaamsche-bank-ma-retraite-2': 'https://www.dsb.sr/assets/og-dsb.png',
     'de-surinaamsche-bank-nickerie': 'https://www.dsb.sr/assets/og-dsb.png',
-    'de-surinaamsche-bank-nickerie-2': 'https://www.dsb.sr/assets/og-dsb.png',
     'de-surinaamsche-bank-nieuwe-haven': 'https://www.dsb.sr/assets/og-dsb.png',
     'de-verdieping': 'https://socialsuriname.com/wp-content/uploads/2024/06/De-Verdieping-v1.webp',
     'delete-beauty-lounge': 'https://socialsuriname.com/wp-content/uploads/2024/06/Delete-Beauty-Lounge-v2.webp',
@@ -563,7 +561,6 @@ _IMGS = {
     'digital-world-hermitage-mall': 'https://cmsdigitalworld.b-cdn.net/assets/a0b4f195-fab0-4eca-a0f3-bd980e1c3fe4/OG%20Image.png?cache=20240315',
     'digital-world-ims': 'https://cmsdigitalworld.b-cdn.net/assets/a0b4f195-fab0-4eca-a0f3-bd980e1c3fe4/OG%20Image.png?cache=20240315',
     'digital-world-maretraite-mall': 'https://cmsdigitalworld.b-cdn.net/assets/a0b4f195-fab0-4eca-a0f3-bd980e1c3fe4/OG%20Image.png?cache=20240315',
-    'digital-world-maretraite-mall-2': 'https://cmsdigitalworld.b-cdn.net/assets/a0b4f195-fab0-4eca-a0f3-bd980e1c3fe4/OG%20Image.png?cache=20240315',
     'divergent-body-jewelry': 'https://socialsuriname.com/wp-content/uploads/2025/04/Divergent-Body-Jewelry.webp',
     'dj-liquor-store': 'https://socialsuriname.com/wp-content/uploads/2024/11/DJ-Liquor-Store.webp',
     'dlish': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/302349694_516331653825667_227559306130458651_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=106&ccb=1-7&_nc_sid=f907e8&_nc_ohc=PImT5sX0itcQ7kNvwHYTP5Z&_nc_oc=AdqtUud9n0DeoiexjjsWLHWCcRWzEi0aoD8XTDXRPWlvFiR_MaRblBMfS4L7Zv-o8UA&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=8ZefdTzAk1XDXB2mL4dcKA&oh=00_Af6VRGTUSUjsyIIdWXnuBnFvk4GhBZjh0pG_fxmQ9KoXJw&oe=6A1C6E43',
@@ -996,7 +993,6 @@ _IMGS = {
     'chm-nickerie': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/366317182_674556038049167_1147907716366175315_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=102&ccb=1-7&_nc_sid=f907e8&_nc_ohc=qGsJuDnHHUAQ7kNvwG4yTR4&_nc_oc=Ado0JWgF-scL-l6FiMy3ZjRL9jQaXmntUVPkCBOICDBF3e9IFprZAdXyyAaBoPE2Qh4&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=IqWl-9xFnxGyuY-Pxwslhg&oh=00_Af42X2pFRpQQ2nxkX3wkMsiCrn789l-Kn3iphJ633j3p2g&oe=6A1C5ED9',
     'chm-wanica': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/366317182_674556038049167_1147907716366175315_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=102&ccb=1-7&_nc_sid=f907e8&_nc_ohc=qGsJuDnHHUAQ7kNvwG4yTR4&_nc_oc=Ado0JWgF-scL-l6FiMy3ZjRL9jQaXmntUVPkCBOICDBF3e9IFprZAdXyyAaBoPE2Qh4&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=IqWl-9xFnxGyuY-Pxwslhg&oh=00_Af42X2pFRpQQ2nxkX3wkMsiCrn789l-Kn3iphJ633j3p2g&oe=6A1C5ED9',
     'chm-wilhelminastraat': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/366317182_674556038049167_1147907716366175315_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=102&ccb=1-7&_nc_sid=f907e8&_nc_ohc=qGsJuDnHHUAQ7kNvwG4yTR4&_nc_oc=Ado0JWgF-scL-l6FiMy3ZjRL9jQaXmntUVPkCBOICDBF3e9IFprZAdXyyAaBoPE2Qh4&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=IqWl-9xFnxGyuY-Pxwslhg&oh=00_Af42X2pFRpQQ2nxkX3wkMsiCrn789l-Kn3iphJ633j3p2g&oe=6A1C5ED9',
-    'chm-wilhelminastraat-2': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/366317182_674556038049167_1147907716366175315_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=102&ccb=1-7&_nc_sid=f907e8&_nc_ohc=qGsJuDnHHUAQ7kNvwG4yTR4&_nc_oc=Ado0JWgF-scL-l6FiMy3ZjRL9jQaXmntUVPkCBOICDBF3e9IFprZAdXyyAaBoPE2Qh4&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=IqWl-9xFnxGyuY-Pxwslhg&oh=00_Af42X2pFRpQQ2nxkX3wkMsiCrn789l-Kn3iphJ633j3p2g&oe=6A1C5ED9',
     'cy-coffee': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/327133322_1190380144925141_8278882331385627578_n.png?stp=c58.0.626.626a_dst-png_s200x200&_nc_cat=102&ccb=1-7&_nc_sid=f907e8&_nc_ohc=xuyjd_WrmT0Q7kNvwEt_HTC&_nc_oc=AdqEPyqwmyEx9q6-jbK3zH-YFzUHpQG7TpwVbiz1NoCIDzpffk_AS0aDu384LgbhVwM&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AOf6bZoEAAAA&_nc_gid=6jD0QsGQsjRvd41AvStukQ&oh=00_Af68hUxuD00xZoi60ehVQQdcZqxMT3QBcG50hgd2BQdjrA&oe=6A1C657B',
     'matcha-loft': 'https://scontent.cdninstagram.com/v/t51.75761-19/499542476_17881744206297986_5529898728890905035_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=111&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=13h-or55o7YQ7kNvwHXmwCQ&_nc_oc=AdoMbn9IO0ww7pOHYNgHbojvYCh5Mj0IKjvgOqQNUOKysVVTAJq2lgXrh9-dUykhUko&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=SMfCaxSeidvt7VJQqss1yw&_nc_ss=7ea02&oh=00_Af4d_QPloNLXUwYn-plPC28yUhL1to5itQuD4Goltp2gNw&oe=6A1C6916',
     'mighty-racks': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/362618328_613729240889139_829982698736143104_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=f907e8&_nc_ohc=-dWTHLsv0w0Q7kNvwHGP3kP&_nc_oc=AdrUrw2TBNZu3jRVuxAqCO2e7og4rCJG_4qiPbmGYSYIWaTBWcn47ztOV9BtJraqXiI&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=kMcAxAaCXd20316J9ZiiLg&oh=00_Af5v0vAlUjsKDP6ST-Fr_xjjE3CezPIMzy51TrvaqLWT4Q&oe=6A1C3DF5',
@@ -1360,6 +1356,34 @@ def _card_srcset(img):
         _w = _IMG_WIDTHS.get(os.path.basename(_rel), 900)
         return f' srcset="{_v} 480w, {_rel} {_w}w" sizes="(max-width:639px) 92vw, 400px"'
     return ""
+
+def _og_share_image(img):
+    """Return an og:image a link preview can actually render.
+
+    Two things break WhatsApp, Signal and several Android preview crawlers: they
+    do not decode WebP (every cached thumbnail here is WebP), and they drop
+    images under roughly 300px. cache_images.py writes a JPEG twin under
+    images/og/ for every cached image at least 400px wide; anything smaller or
+    not locally cached falls back to the site card, so a shared link always
+    shows something instead of an empty grey box.
+    """
+    fallback = SITE_URL + "/og-image.jpg"
+    if not img:
+        return fallback
+    rel = img[len(SITE_URL):] if img.startswith(SITE_URL) else img
+    if rel.startswith("http"):
+        return img if rel.lower().split("?")[0].endswith((".jpg", ".jpeg", ".png")) else fallback
+    rel = "/" + rel.lstrip("/")
+    if not rel.startswith("/images/"):
+        return fallback
+    if rel.endswith(".webp"):
+        if _IMG_WIDTHS.get(os.path.basename(rel), 0) < 400:
+            return fallback
+        return SITE_URL + "/images/og/" + os.path.basename(rel)[:-5] + ".jpg"
+    if rel.lower().endswith((".jpg", ".jpeg", ".png")):
+        return SITE_URL + rel
+    return fallback
+
 
 # ── Subcategory assignment ────────────────────────────────────────────────────
 
@@ -2008,9 +2032,9 @@ SIGHTSEEING = [b for slug in ["cola-kreek-recreatiepark","conservatorium-surinam
 
 ADVENTURES_BIZ = [b for slug in ["afobaka-resort","akira-overwater-resort","clevia-park","folo-nature-tours","free-city-walk-paramaribo","huub-explorer-tours","jack-tours-travel-service","jenny-tours","knini-paati","kodouffi-tapawatra-resort","messias-tours","mondowa-tours","no-span-eco-tours","okido-tours-travel","outdoor-living","pineapple-tours","recreatie-oord-carolina-kreek","royal-tours-suriname-guyana","sendang-redjo","suran-adventures-tours-travel","tio-boto-eco-resort","unlimited-suriname-tours","wayfinders-exclusive-n-v", "amits-sport-cafe", "cardy-adventures-bike-rental", "cola-creek", "connection-gym", "danceclub-tequila", "deans-gym", "edge-gym-n-v", "emery-fitness-suriname", "first-class-gym", "fred-eco-tours", "golden-eye-suriname", "havana-lounge", "het-geologisch-museum", "ismay-van-wilgen-sporthal", "jungle-xperience-suriname", "kombat-sports-suriname", "lalla-rookh-museum", "luxury-sky-resort", "mgr-aloysius-zichem-sportcomplex", "mi-gudu-river-cruiser", "mj-lounge-club", "neotropical-butterfly-park", "next-club-suriname", "nickerie-tennis-club", "night-club-diamond", "owru-cul-sport-complex", "pro-fitness-nickerie", "ring-sport-center", "saamaka-marron-museum", "simson-gym", "stichting-openlucht-museum-fort-nieuw-amsterdam", "stichting-zwembad-parima", "stinasu-stichting-natuurbehoud-suriname", "surinaamse-badminton-bond", "suriname-wildlife-sanctuary", "telesur-telecommunicatie-museum", "tropa-de-elite-paintball-field", "zin-resort", "zwemschool-tukunari"] for b in [_make_biz(slug)] if b]
 
-SHOPPING = [b for slug in ["talula", "blue-dress-boutique", "john-ziel-paints-n-v", "amada-shopping", "ashley-furniture-homestore", "auto-style-franchepanestraat", "auto-style-johannes-mungrastraat", "auto-style-kwatta", "auto-style-tweede-rijweg", "auto-style-verlengde-gemenelandsweg", "bed-bath-more-bbm", "best-mart", "beyrouth-bazaar", "boekhandel-kasco", "boekhandel-vaco", "building-depot", "chees-jewelry-watches", "chm-centrum", "chm-commewijne", "chm-kernkampweg", "chm-nickerie", "chm-wanica", "chm-wilhelminastraat", "chm-wilhelminastraat-2", "chois-supermarkt", "chois-supermarkt-lelydorp", "chois-supermarkt-north", "combe-bazaar", "combe-markt", "computer-hardware-services", "computronics-north", "computronics-south", "crocs-ims", "da-drogisterij-coppename", "da-drogisterij-hermitage", "da-drogisterij-ims-mall", "da-drogisterij-lelydorp", "da-drogisterij-wilhelmina", "de-keurslager-interfarm", "deto-handelmaatschappij", "farmers-world", "digital-world-hermitage-mall", "digital-world-ims", "digital-world-maretraite-mall", "digital-world-maretraite-mall-2", "divergent-body-jewelry", "dj-liquor-store", "dojo-couture-hermitage-mall", "fish-finder-fishing-and-outdoors", "from-kay-with-love", "flex-phones", "footcandy-hermitage-mall", "from-me-to-me", "furniture-city-kwatta", "furniture-city-north", "galaxy", "gao-ming-trading-north", "gao-ming-trading-south", "golderom-healthy-organic-store", "h-garden", "hermitage-mall", "holiday-home-decor", "hollandia-bakkerij-north", "hollandia-bakkerij-south", "honeycare", "hurricane-steel", "hurricane-steel-ringweg", "international-mall-of-suriname", "janelles-shoes-and-bags", "kaki-supermarkt", "kirpalani", "kirpalani-domineestraat", "kirpalani-maagdenstraat", "kirpalani-super-store", "ladybug-nursery-and-garden-center", "lilis", "lins-super-market", "lucky-store", "mimi-market", "miniso-gompertstraat", "miniso-hermitage-mall", "mon-plaisir-nursery", "morevans-outlet", "nv-zing-manufacturing", "ochama-amazing", "ochama-hermitage-mall", "office-world-hermitage-mall", "office-world-lelydorp", "optiek-all-vision", "optiek-all-vision-albina", "optiek-all-vision-lelydorp", "optiek-all-vision-nickerie", "optiek-marisa", "optiek-ninon", "optiek-ninon-hermitage-mall", "optiek-ninon-ims", "optiek-ninon-lelydorp", "optiek-ninon-meerzorg", "optiek-ninon-nickerie", "papillon-crafts", "randoe-meubelen", "readytex-souvenirs-and-crafts", "rogom-farm-nv", "red-century-party-shop-commewijne", "red-century-party-shop-kwatta", "red-century-party-shop-lelydorp", "red-century-party-shop-north", "red-century-party-shop-zorg-en-hoop", "ring-ring-imports", "rossignol-2go-kwattaweg", "rossignol-2go-thurkowstraat", "rossignol-coppename", "rossignol-geyersvlijt", "rossignol-linda", "rossignol-waaldijkstraat", "sanousch-books", "sash-fashion-hermitage-mall", "shlx-collection", "shoebizz-ims", "slagerij-abbas", "slagerij-asruf", "slagerij-stolk", "sleepstore-suriname", "sleeqe", "smoothieskin", "soengngie-mega-store", "soengngie-oriental-market", "sranan-fowru", "sranan-fowru-boni", "sranan-fowru-combe", "sranan-fowru-flu", "sranan-fowru-leiding", "sranan-fowru-lelydorp", "sranan-fowru-meursweg", "sranan-fowru-tabiki-fowru", "sranan-fowru-tourtonne", "sranan-fowru-zinnia", "steps-hermitage-mall", "store4u", "suraniyat", "sweetheart-hermitage-mall", "sweetheart-ims", "switi-momenti-candles-crafts", "talking-prints-concept-store", "the-old-attic", "the-perfume-spot", "the-uma-store", "the-warehouse-shop", "topslager-stolk", "toys-n-more", "tulip-supermarket", "unlocked-candles", "vcm-slagerij-centrum", "vcm-slagerij-johannes-mungrastraat", "vcm-slagerij-verl-gemenelandsweg", "vifa-trading", "vincent-supermarket", "woodwonders-suriname", "yokohama-trading", "zeepfabriek-joab", "ket-mien", "kasan-snacks", "wing-hung-cake-shop", "dojo-couture-centrum", "dojo-couture-ims", "steps-domineestraat", "steps-noord", "steps-wanica", "honeycare-north", "honeycare-south", "tomahawk-outdoor-adventures", "tomahawk-outdoor-adventures-hermitage-mall", "tomahawk-outdoor-adventures-ims", "tomahawk-outdoor-adventures-lelydorp", "cute-as-a-button", "dresscode", "eterno", "everything-sr", "flex-luxuries", "itrendzz", "pandie", "mn-international-centrum", "mn-international-kwatta", "new-choice-lalla-rookhweg", "new-choice-nickerie", "new-choice-ringweg", "wow-plus", "chique-eyewear-fashion", "instyle-optics", "galaxyliving", "grounded-botanical-studio", "kasimex-indira-ghandiweg", "kasimex-makro", "brahma-centrum", "brahma-noord", "brahma-zuid", "alis-drugstore", "one-stop-apotheek-drugstore", "maze", "max-n-co", "jjs-place-zuid", "babel-food-resort", "calvin-klein", "carline-centrum", "hugo-boss-ims", "jazmine-cosmetics", "kwatta-carfix", "leguana-park", "luni-gifts", "mn-car-center", "optiek-eyeplus", "optiek-ligeon", "revasur-zorgwinkel", "rudan-trading-co", "skechers-hermitage", "stanleys-optics", "stedin-speciaal-slagerij", "us-polo-assn-suriname", "warsha-n-v"] for b in [_make_biz(slug)] if b]
+SHOPPING = [b for slug in ["talula", "blue-dress-boutique", "john-ziel-paints-n-v", "amada-shopping", "ashley-furniture-homestore", "auto-style-franchepanestraat", "auto-style-johannes-mungrastraat", "auto-style-kwatta", "auto-style-tweede-rijweg", "auto-style-verlengde-gemenelandsweg", "bed-bath-more-bbm", "best-mart", "beyrouth-bazaar", "boekhandel-kasco", "boekhandel-vaco", "building-depot", "chees-jewelry-watches", "chm-centrum", "chm-commewijne", "chm-kernkampweg", "chm-nickerie", "chm-wanica", "chm-wilhelminastraat", "chois-supermarkt", "chois-supermarkt-lelydorp", "chois-supermarkt-north", "combe-bazaar", "combe-markt", "computer-hardware-services", "computronics-north", "computronics-south", "crocs-ims", "da-drogisterij-coppename", "da-drogisterij-hermitage", "da-drogisterij-ims-mall", "da-drogisterij-lelydorp", "da-drogisterij-wilhelmina", "de-keurslager-interfarm", "deto-handelmaatschappij", "farmers-world", "digital-world-hermitage-mall", "digital-world-ims", "digital-world-maretraite-mall", "divergent-body-jewelry", "dj-liquor-store", "dojo-couture-hermitage-mall", "fish-finder-fishing-and-outdoors", "from-kay-with-love", "flex-phones", "footcandy-hermitage-mall", "from-me-to-me", "furniture-city-kwatta", "furniture-city-north", "galaxy", "gao-ming-trading-north", "gao-ming-trading-south", "golderom-healthy-organic-store", "h-garden", "hermitage-mall", "holiday-home-decor", "hollandia-bakkerij-north", "hollandia-bakkerij-south", "honeycare", "hurricane-steel", "hurricane-steel-ringweg", "international-mall-of-suriname", "janelles-shoes-and-bags", "kaki-supermarkt", "kirpalani", "kirpalani-domineestraat", "kirpalani-maagdenstraat", "kirpalani-super-store", "ladybug-nursery-and-garden-center", "lilis", "lins-super-market", "lucky-store", "mimi-market", "miniso-gompertstraat", "miniso-hermitage-mall", "mon-plaisir-nursery", "morevans-outlet", "nv-zing-manufacturing", "ochama-amazing", "ochama-hermitage-mall", "office-world-hermitage-mall", "office-world-lelydorp", "optiek-all-vision", "optiek-all-vision-albina", "optiek-all-vision-lelydorp", "optiek-all-vision-nickerie", "optiek-marisa", "optiek-ninon", "optiek-ninon-hermitage-mall", "optiek-ninon-ims", "optiek-ninon-lelydorp", "optiek-ninon-meerzorg", "optiek-ninon-nickerie", "papillon-crafts", "randoe-meubelen", "readytex-souvenirs-and-crafts", "rogom-farm-nv", "red-century-party-shop-commewijne", "red-century-party-shop-kwatta", "red-century-party-shop-lelydorp", "red-century-party-shop-north", "red-century-party-shop-zorg-en-hoop", "ring-ring-imports", "rossignol-2go-kwattaweg", "rossignol-2go-thurkowstraat", "rossignol-coppename", "rossignol-geyersvlijt", "rossignol-linda", "rossignol-waaldijkstraat", "sanousch-books", "sash-fashion-hermitage-mall", "shlx-collection", "shoebizz-ims", "slagerij-abbas", "slagerij-asruf", "slagerij-stolk", "sleepstore-suriname", "sleeqe", "smoothieskin", "soengngie-mega-store", "soengngie-oriental-market", "sranan-fowru", "sranan-fowru-boni", "sranan-fowru-combe", "sranan-fowru-flu", "sranan-fowru-leiding", "sranan-fowru-lelydorp", "sranan-fowru-meursweg", "sranan-fowru-tabiki-fowru", "sranan-fowru-tourtonne", "sranan-fowru-zinnia", "steps-hermitage-mall", "store4u", "suraniyat", "sweetheart-hermitage-mall", "sweetheart-ims", "switi-momenti-candles-crafts", "talking-prints-concept-store", "the-old-attic", "the-perfume-spot", "the-uma-store", "the-warehouse-shop", "topslager-stolk", "toys-n-more", "tulip-supermarket", "unlocked-candles", "vcm-slagerij-centrum", "vcm-slagerij-johannes-mungrastraat", "vcm-slagerij-verl-gemenelandsweg", "vifa-trading", "vincent-supermarket", "woodwonders-suriname", "yokohama-trading", "zeepfabriek-joab", "ket-mien", "kasan-snacks", "wing-hung-cake-shop", "dojo-couture-centrum", "dojo-couture-ims", "steps-domineestraat", "steps-noord", "steps-wanica", "honeycare-north", "honeycare-south", "tomahawk-outdoor-adventures", "tomahawk-outdoor-adventures-hermitage-mall", "tomahawk-outdoor-adventures-ims", "tomahawk-outdoor-adventures-lelydorp", "cute-as-a-button", "dresscode", "eterno", "everything-sr", "flex-luxuries", "itrendzz", "pandie", "mn-international-centrum", "mn-international-kwatta", "new-choice-lalla-rookhweg", "new-choice-nickerie", "new-choice-ringweg", "wow-plus", "chique-eyewear-fashion", "instyle-optics", "galaxyliving", "grounded-botanical-studio", "kasimex-indira-ghandiweg", "kasimex-makro", "brahma-centrum", "brahma-noord", "brahma-zuid", "alis-drugstore", "one-stop-apotheek-drugstore", "maze", "max-n-co", "jjs-place-zuid", "babel-food-resort", "calvin-klein", "carline-centrum", "hugo-boss-ims", "jazmine-cosmetics", "kwatta-carfix", "leguana-park", "luni-gifts", "mn-car-center", "optiek-eyeplus", "optiek-ligeon", "revasur-zorgwinkel", "rudan-trading-co", "skechers-hermitage", "stanleys-optics", "stedin-speciaal-slagerij", "us-polo-assn-suriname", "warsha-n-v"] for b in [_make_biz(slug)] if b]
 
-SERVICES = [b for slug in ["the-girl-house", "kokkie-miquisine", "101-real-estate", "ineffable", "morgaine-beauty", "4r-gym", "4x4-rental", "abrix-cleaning-services", "access-suriname-travel", "alliance-francaise", "anton-de-kom-universiteit-van-suriname", "apotheek-joemmanbaks", "apotheek-karis", "apotheek-mac-donald-north", "apotheek-mac-donald-south", "apotheek-rafeka", "apotheek-sibilo", "apotheek-soma", "apotheek-soma-ringweg", "arthur-alex-hoogendoorn-atheneum", "assuria-hermitage-high-rise", "assuria-insurance-walk-in-city", "assuria-insurance-walk-in-commewijne", "assuria-insurance-walk-in-lelydorp", "assuria-insurance-walk-in-nickerie", "assuria-insurance-walk-in-noord", "augis-travel", "ayur-mi-beauty-wellness", "balance-studio", "balletschool-marlene", "bitdynamics", "blissful-massage-aromatherapy", "blossom-beauty-bar", "bmw-suriname", "body-enhancement-gym", "bright-cleaning", "brilleman", "brotherhood-security", "brow-bliss-lounge", "buro-workspaces", "byd-suriname", "camex-suriname", "car-rental-city", "carline-kwatta", "carline-waaldijkstraat", "carpe-diem-massagepraktijk", "carvision-paramaribo", "clarissa-vaseur-writing-wellness-services-claw", "clean-it", "club-oase", "cpr-pilates-curves", "creative-q", "curl-babes", "cynsational-glam", "da-select-en-service-apotheek", "dans-dip-and-detail", "dansclub-danzson", "dcars-rental", "de-cederboom-school", "de-nederlandse-basisschool-het-kleurenorkest", "de-spetter", "de-surinaamsche-bank-hermitage-mall", "de-surinaamsche-bank-hoofdkantoor", "de-surinaamsche-bank-lelydorp", "de-surinaamsche-bank-ma-retraite", "de-surinaamsche-bank-ma-retraite-2", "de-surinaamsche-bank-nickerie", "de-surinaamsche-bank-nickerie-2", "de-surinaamsche-bank-nieuwe-haven", "de-vrije-school", "delete-beauty-lounge", "dhl-express-service-point", "dierenarts-resopawiro", "dierenartspraktijk-l-m-bansse-issa", "dierenpoli-lobo", "digicel-albina", "digicel-business-center", "digicel-extacy", "digicel-hermitage", "digicel-latour", "digicel-lelydorp", "digicel-nickerie", "digicel-wilhelminastraat", "djinipi-copy-center", "djo-cleaning-service", "dli-travel-consultancy", "dor-property-management-services-n-v", "dream-clean-suriname", "eaglemedia", "ec-operations", "ekay-media", "energiebedrijven-suriname-ebs", "eucon", "faraya-medical-center", "farma-vida", "fatum", "fatum-schadeverzekering-commewijne", "fatum-schadeverzekering-hoofdkantoor", "fatum-schadeverzekering-kwatta", "fatum-schadeverzekering-nickerie", "fhr-lim-a-po-institute-for-higher-education", "finabank-centrum", "finabank-nickerie", "finabank-noord", "finabank-wanica", "finabank-zuid", "first-aid-plus", "fit-factory", "fluxo-pilates", "fly-allways", "free-flow", "gaby-april-beauty-clinic", "garage-d-a-ashruf", "gateway-fire-nv", "glam-curves", "glambox", "gossip-nails-xx", "great-wall-motor-suriname", "h-t", "hairstudio-32", "hakrinbank", "hakrinbank-flora", "hakrinbank-latour", "hakrinbank-nickerie", "hakrinbank-nieuwe-haven", "hakrinbank-tamanredjo", "hakrinbank-tourtonne", "han-palace", "handmade-by-farrell-nv", "happy-flower-services", "harry-tjin", "hertz-suriname-car-rental", "house-of-pureness", "hsds-lifestyle-noord", "hsds-lifestyle-wanica", "iamchede", "ias-wooden-and-construction-nv", "infinity-holding", "inksane-tattoos", "international-academy-of-suriname", "intervast", "invictus-brazilian-jiu-jitsu", "jamilas-dry-cleaning-north", "jamilas-dry-cleaning-south", "just-curlss", "kaizen", "kasco-customs-solutions", "keller-williams-suriname", "kempes-co", "klm-royal-dutch-airlines", "lashlift-suriname", "lioness-beauty-effects", "luxe-escape-lotus-spa-wellness-beautysalon", "marchand-notariaat", "mini-nail-shop", "mirage-casino", "miss-doll-fit", "mokisa-busidataa-osu-nv", "mokisa-wellness", "multi-travel", "nassy-brouwer-college", "nassy-brouwer-school", "north-fitness-gym", "notariaat-mannes", "notariaat-van-dijk", "nv-threefold-quality-system-support", "ondernemershuis", "orchid", "organic-skincare", "padel-x-suriname", "paramaribo-princess-casino", "percy-massage-therapy", "pinkmoon-suriname", "pitbull-fitness", "professional-private-security", "proplan-vastgoed", "protrade-international", "qsi-international-school-of-suriname", "re-max-suriname", "real-one-fitness-gym", "remy-vastgoed", "republic-bank-head-office", "republic-bank-jozef-israelstraat", "republic-bank-kernkampweg", "republic-bank-nickerie", "republic-bank-vant-hogerhuysstraat", "republic-bank-zorg-en-hoop", "resourceful-real-estate-construction", "rich-skin", "rif-cleaning-service", "rock-fitness-paramaribo", "ross-rental-cars", "royal-rose-yoni-spa", "royal-spa", "royal-wellness-lounge", "safety-first-quality-always", "satyam-holidays", "savage-den", "scene-beauty-salon", "secas", "seen-stories", "shimmery-beauty-lounge", "smart-connexxionz", "southern-commercial-bank", "squeaky-clean", "sthephany-skincare", "stichting-shiatsu-massage", "stukaderen-in-nederland", "supply-solutions-limited-suriname", "surgoed-makelaardij", "surinaamsche-waterleiding-maatschappij", "surinam-airways", "suriname-princess-casino", "telesur-centrum", "telesur-latour", "telesur-lelydorp", "telesur-nickerie", "telesur-noord", "telesur-zonnebloemstraat", "the-aerial-yoga-studio", "the-basement-barbershop", "the-beauty-bar", "the-beauty-bar-north", "the-beauty-bar-south", "the-freelance-scout", "the-house-of-beauty", "the-laundry-spot", "the-nail-house", "the-solution-property-management", "the-waxing-booth", "the-wonderlab-su", "thermen-hermitage-turkish-bath-beautycenter", "tianyou-aquafun", "timeless-barber-and-nail-shop", "topsport", "touch-of-heaven-wellness", "tranquil-at-mamba-republiek", "tranquil-massage", "triple-security-unit", "tsw-group", "typing-nomad-nv", "waldos-worldwide-travel-service", "welink-real-estate", "ying-hao-beautyshop", "yoga-peetha-happiness-centre", "yogh-hospitality", "young-engineers", "zenobia-bottling-company", "fernandes-group", "kersten-group", "vsh-united", "staatsolie", "rudisa", "baitali-group", "bruynzeel-suriname", "varossieau-suriname", "grassalco", "havenbeheer-suriname", "newmont-suriname", "gow2-energy", "sol-suriname", "centrale-bank-van-suriname", "trustbank-amanah", "surinaamse-postspaarbank", "volkscredietbank", "godo", "finatrust", "self-reliance", "academisch-ziekenhuis-paramaribo", "diakonessenhuis", "sint-vincentius-ziekenhuis", "s-lands-hospitaal", "regionale-gezondheidsdienst", "medische-zending", "bureau-openbare-gezondheidszorg", "apintie", "atv-suriname", "stvs", "rasonic", "surpost", "nationaal-vervoer-bedrijf", "gum-air", "blue-wing-airlines", "caribbean-airlines", "aboikonie-zwembad-bedrijf", "advocatenkantoor-tjong-a-sie", "airboat-tours-suriname", "asomena-travel-tours", "bamboo-adventure-tours", "beauty-haven", "blue-frog-travel", "boni-tours", "carolina-tours", "celestial-tours-suriname", "discover-suriname-tours", "does-travel-cadushi-tours", "eco-royal-garden", "eskimo-koeltechnisch-bedrijf", "genade-hairstyle", "gorgeous-beauty-nails", "green-tours-n-travel", "greentour", "hair-saloon-splendora", "hairfreak-barbershop", "hairstudio-dawson", "intertravel", "kangoeroe-community-school", "kangoeroe-high", "kimyras-beauty-and-spa", "kirans-dolfijnen-tours", "krasnapolsky-travel-tours", "lely-hills-casino", "luxe-luminous-beauty-salon", "mantje-bigi-pan-tours", "mets-travel-tours", "myrysji-tours-suriname", "naughty-angel-beauty-salon", "orange-travel-nv", "packed-ready-travel", "paradise-city-casino", "paramaribo-golden-dragon-casino", "places2go-suriname", "planet-casino", "pristine-rainforest-tours", "radiologie-kliniek-halfhide-hofwijk", "rasonic-travel", "rcr-medical-centre", "regis-hair-therapy", "rhythms-of-nature-ayurveda-wellness-center", "rudisa-worldwide-travel-n-v", "special-party-catering-and-cocktails", "stas-international", "stichting-lodgeholders-boven-suriname", "stichting-upper-suriname-lodgeholders", "suriname-hospitality-tourism-association", "suriname-hotel-association", "suriname-tuk-tuk-tours", "the-caterpillar-montessorischool", "the-suriname-tourism-foundation", "tourbox-suriname", "travel-the-guianas", "trizzles-beauty-spot", "unique-package-plan", "unlock-nature-tours", "utec-opleidingen", "waterproof-tours-suriname"] for b in [_make_biz(slug)] if b]
+SERVICES = [b for slug in ["the-girl-house", "kokkie-miquisine", "101-real-estate", "ineffable", "morgaine-beauty", "4r-gym", "4x4-rental", "abrix-cleaning-services", "access-suriname-travel", "alliance-francaise", "anton-de-kom-universiteit-van-suriname", "apotheek-joemmanbaks", "apotheek-karis", "apotheek-mac-donald-north", "apotheek-mac-donald-south", "apotheek-rafeka", "apotheek-sibilo", "apotheek-soma", "apotheek-soma-ringweg", "arthur-alex-hoogendoorn-atheneum", "assuria-hermitage-high-rise", "assuria-insurance-walk-in-city", "assuria-insurance-walk-in-commewijne", "assuria-insurance-walk-in-lelydorp", "assuria-insurance-walk-in-nickerie", "assuria-insurance-walk-in-noord", "augis-travel", "ayur-mi-beauty-wellness", "balance-studio", "balletschool-marlene", "bitdynamics", "blissful-massage-aromatherapy", "blossom-beauty-bar", "bmw-suriname", "body-enhancement-gym", "bright-cleaning", "brilleman", "brotherhood-security", "brow-bliss-lounge", "buro-workspaces", "byd-suriname", "camex-suriname", "car-rental-city", "carline-kwatta", "carline-waaldijkstraat", "carpe-diem-massagepraktijk", "carvision-paramaribo", "clarissa-vaseur-writing-wellness-services-claw", "clean-it", "club-oase", "cpr-pilates-curves", "creative-q", "curl-babes", "cynsational-glam", "da-select-en-service-apotheek", "dans-dip-and-detail", "dansclub-danzson", "dcars-rental", "de-cederboom-school", "de-nederlandse-basisschool-het-kleurenorkest", "de-spetter", "de-surinaamsche-bank-hermitage-mall", "de-surinaamsche-bank-hoofdkantoor", "de-surinaamsche-bank-lelydorp", "de-surinaamsche-bank-ma-retraite", "de-surinaamsche-bank-nickerie", "de-surinaamsche-bank-nieuwe-haven", "de-vrije-school", "delete-beauty-lounge", "dhl-express-service-point", "dierenarts-resopawiro", "dierenartspraktijk-l-m-bansse-issa", "dierenpoli-lobo", "digicel-albina", "digicel-business-center", "digicel-extacy", "digicel-hermitage", "digicel-latour", "digicel-lelydorp", "digicel-nickerie", "digicel-wilhelminastraat", "djinipi-copy-center", "djo-cleaning-service", "dli-travel-consultancy", "dor-property-management-services-n-v", "dream-clean-suriname", "eaglemedia", "ec-operations", "ekay-media", "energiebedrijven-suriname-ebs", "eucon", "faraya-medical-center", "farma-vida", "fatum", "fatum-schadeverzekering-commewijne", "fatum-schadeverzekering-hoofdkantoor", "fatum-schadeverzekering-kwatta", "fatum-schadeverzekering-nickerie", "fhr-lim-a-po-institute-for-higher-education", "finabank-centrum", "finabank-nickerie", "finabank-noord", "finabank-wanica", "finabank-zuid", "first-aid-plus", "fit-factory", "fluxo-pilates", "fly-allways", "free-flow", "gaby-april-beauty-clinic", "garage-d-a-ashruf", "gateway-fire-nv", "glam-curves", "glambox", "gossip-nails-xx", "great-wall-motor-suriname", "h-t", "hairstudio-32", "hakrinbank", "hakrinbank-flora", "hakrinbank-latour", "hakrinbank-nickerie", "hakrinbank-nieuwe-haven", "hakrinbank-tamanredjo", "hakrinbank-tourtonne", "han-palace", "handmade-by-farrell-nv", "happy-flower-services", "harry-tjin", "hertz-suriname-car-rental", "house-of-pureness", "hsds-lifestyle-noord", "hsds-lifestyle-wanica", "iamchede", "ias-wooden-and-construction-nv", "infinity-holding", "inksane-tattoos", "international-academy-of-suriname", "intervast", "invictus-brazilian-jiu-jitsu", "jamilas-dry-cleaning-north", "jamilas-dry-cleaning-south", "just-curlss", "kaizen", "kasco-customs-solutions", "keller-williams-suriname", "kempes-co", "klm-royal-dutch-airlines", "lashlift-suriname", "lioness-beauty-effects", "luxe-escape-lotus-spa-wellness-beautysalon", "marchand-notariaat", "mini-nail-shop", "mirage-casino", "miss-doll-fit", "mokisa-busidataa-osu-nv", "mokisa-wellness", "multi-travel", "nassy-brouwer-college", "nassy-brouwer-school", "north-fitness-gym", "notariaat-mannes", "notariaat-van-dijk", "nv-threefold-quality-system-support", "ondernemershuis", "orchid", "organic-skincare", "padel-x-suriname", "paramaribo-princess-casino", "percy-massage-therapy", "pinkmoon-suriname", "pitbull-fitness", "professional-private-security", "proplan-vastgoed", "protrade-international", "qsi-international-school-of-suriname", "re-max-suriname", "real-one-fitness-gym", "remy-vastgoed", "republic-bank-head-office", "republic-bank-jozef-israelstraat", "republic-bank-kernkampweg", "republic-bank-nickerie", "republic-bank-vant-hogerhuysstraat", "republic-bank-zorg-en-hoop", "resourceful-real-estate-construction", "rich-skin", "rif-cleaning-service", "rock-fitness-paramaribo", "ross-rental-cars", "royal-rose-yoni-spa", "royal-spa", "royal-wellness-lounge", "safety-first-quality-always", "satyam-holidays", "savage-den", "scene-beauty-salon", "secas", "seen-stories", "shimmery-beauty-lounge", "smart-connexxionz", "southern-commercial-bank", "squeaky-clean", "sthephany-skincare", "stichting-shiatsu-massage", "stukaderen-in-nederland", "supply-solutions-limited-suriname", "surgoed-makelaardij", "surinaamsche-waterleiding-maatschappij", "surinam-airways", "suriname-princess-casino", "telesur-centrum", "telesur-latour", "telesur-lelydorp", "telesur-nickerie", "telesur-noord", "telesur-zonnebloemstraat", "the-aerial-yoga-studio", "the-basement-barbershop", "the-beauty-bar", "the-beauty-bar-north", "the-beauty-bar-south", "the-freelance-scout", "the-house-of-beauty", "the-laundry-spot", "the-nail-house", "the-solution-property-management", "the-waxing-booth", "the-wonderlab-su", "thermen-hermitage-turkish-bath-beautycenter", "tianyou-aquafun", "timeless-barber-and-nail-shop", "topsport", "touch-of-heaven-wellness", "tranquil-at-mamba-republiek", "tranquil-massage", "triple-security-unit", "tsw-group", "typing-nomad-nv", "waldos-worldwide-travel-service", "welink-real-estate", "ying-hao-beautyshop", "yoga-peetha-happiness-centre", "yogh-hospitality", "young-engineers", "zenobia-bottling-company", "fernandes-group", "kersten-group", "vsh-united", "staatsolie", "rudisa", "baitali-group", "bruynzeel-suriname", "varossieau-suriname", "grassalco", "havenbeheer-suriname", "newmont-suriname", "gow2-energy", "sol-suriname", "centrale-bank-van-suriname", "trustbank-amanah", "surinaamse-postspaarbank", "volkscredietbank", "godo", "finatrust", "self-reliance", "academisch-ziekenhuis-paramaribo", "diakonessenhuis", "sint-vincentius-ziekenhuis", "s-lands-hospitaal", "regionale-gezondheidsdienst", "medische-zending", "bureau-openbare-gezondheidszorg", "apintie", "atv-suriname", "stvs", "rasonic", "surpost", "nationaal-vervoer-bedrijf", "gum-air", "blue-wing-airlines", "caribbean-airlines", "aboikonie-zwembad-bedrijf", "advocatenkantoor-tjong-a-sie", "airboat-tours-suriname", "asomena-travel-tours", "bamboo-adventure-tours", "beauty-haven", "blue-frog-travel", "boni-tours", "carolina-tours", "celestial-tours-suriname", "discover-suriname-tours", "does-travel-cadushi-tours", "eco-royal-garden", "eskimo-koeltechnisch-bedrijf", "genade-hairstyle", "gorgeous-beauty-nails", "green-tours-n-travel", "greentour", "hair-saloon-splendora", "hairfreak-barbershop", "hairstudio-dawson", "intertravel", "kangoeroe-community-school", "kangoeroe-high", "kimyras-beauty-and-spa", "kirans-dolfijnen-tours", "krasnapolsky-travel-tours", "lely-hills-casino", "luxe-luminous-beauty-salon", "mantje-bigi-pan-tours", "mets-travel-tours", "myrysji-tours-suriname", "naughty-angel-beauty-salon", "orange-travel-nv", "packed-ready-travel", "paradise-city-casino", "paramaribo-golden-dragon-casino", "places2go-suriname", "planet-casino", "pristine-rainforest-tours", "radiologie-kliniek-halfhide-hofwijk", "rasonic-travel", "rcr-medical-centre", "regis-hair-therapy", "rhythms-of-nature-ayurveda-wellness-center", "rudisa-worldwide-travel-n-v", "special-party-catering-and-cocktails", "stas-international", "stichting-lodgeholders-boven-suriname", "stichting-upper-suriname-lodgeholders", "suriname-hospitality-tourism-association", "suriname-hotel-association", "suriname-tuk-tuk-tours", "the-caterpillar-montessorischool", "the-suriname-tourism-foundation", "tourbox-suriname", "travel-the-guianas", "trizzles-beauty-spot", "unique-package-plan", "unlock-nature-tours", "utec-opleidingen", "waterproof-tours-suriname"] for b in [_make_biz(slug)] if b]
 
 # Approved public submissions join the same category lists as repo listings,
 # so they get cards, chips, search entries and a listing page for free.
@@ -2023,14 +2047,156 @@ for _scat, _key in _SUB_LIST_KEY.items():
         if _sb:
             _target.append(_sb)
 
+# ── Multi-branch chains (Aug 2026) ──────────────────────────────────────────
+# One brand with several addresses used to burn a card per address, so KFC ate
+# seven slots in Eat & Drink and Digicel eight in Services. The brand now gets a
+# single card; every address lives on the primary listing page, where a chip
+# swaps address, phone, hours, map, Directions and WhatsApp without a reload.
+# Branch pages stay online and indexed — they just leave the grid.
+# First slug in each list is the primary: its page becomes the brand hub.
+_CHAIN_GROUPS = {
+    "KFC":                           ["kfc-ims", "kfc-kwatta", "kfc-lallarookh", "kfc-latour", "kfc-lelydorp", "kfc-waterkant", "kfc-wilhelminastraat"],
+    "Popeyes":                       ["popeyes-centrum", "popeyes-lelydorp", "popeyes-tbl", "popeyes-wilhelminastraat"],
+    "Burger King":                   ["burger-king-centrum", "burger-king-latour"],
+    "McDonald's":                    ["mcdonalds-centrum", "mcdonalds-hermitage-mall"],
+    "Pizza Hut":                     ["pizza-hut-leysweg", "pizza-hut-south", "pizza-hut-wilhelminastraat"],
+    "Subway":                        ["subway", "subway-2", "subway-3"],
+    "Naskip":                        ["naskip", "naskip-2", "naskip-3", "naskip-4", "naskip-5"],
+    "Wolly's":                       ["wollys", "wollys-2", "wollys-3"],
+    "Bingo Pizza":                   ["bingo-pizza-coppename", "bingo-pizza-kwatta"],
+    "Habco Delight":                 ["habco-delight", "habco-delight-north"],
+    "Jage Caffe":                    ["jage-caffe", "jage-caffe-2"],
+    "Kwan Tai":                      ["kwan-tai-restaurant", "kwan-tai-restaurant-2"],
+    "Krioro":                        ["krioro", "krioro-north"],
+    "Micki's Palace":                ["mickis-palace-noord", "mickis-palace-zuid"],
+    "The Coffee Box":                ["the-coffee-box", "the-coffee-box-north"],
+    "HES DS":                        ["hes-ds", "hes-ds-2", "hes-ds-3"],
+    "Hakrinbank":                    ["hakrinbank", "hakrinbank-flora", "hakrinbank-latour", "hakrinbank-nickerie", "hakrinbank-nieuwe-haven", "hakrinbank-tamanredjo", "hakrinbank-tourtonne"],
+    "DSB":                           ["de-surinaamsche-bank-hoofdkantoor", "de-surinaamsche-bank-hermitage-mall", "de-surinaamsche-bank-lelydorp", "de-surinaamsche-bank-ma-retraite", "de-surinaamsche-bank-nickerie", "de-surinaamsche-bank-nieuwe-haven"],
+    "Republic Bank":                 ["republic-bank-head-office", "republic-bank-jozef-israelstraat", "republic-bank-kernkampweg", "republic-bank-nickerie", "republic-bank-vant-hogerhuysstraat", "republic-bank-zorg-en-hoop"],
+    "Finabank":                      ["finabank-centrum", "finabank-nickerie", "finabank-noord", "finabank-wanica", "finabank-zuid"],
+    "Assuria Walk-in":               ["assuria-insurance-walk-in-city", "assuria-insurance-walk-in-commewijne", "assuria-insurance-walk-in-lelydorp", "assuria-insurance-walk-in-nickerie", "assuria-insurance-walk-in-noord"],
+    "FATUM":                         ["fatum", "fatum-schadeverzekering-hoofdkantoor", "fatum-schadeverzekering-commewijne", "fatum-schadeverzekering-kwatta", "fatum-schadeverzekering-nickerie"],
+    "Telesur":                       ["telesur-centrum", "telesur-latour", "telesur-lelydorp", "telesur-nickerie", "telesur-noord", "telesur-zonnebloemstraat"],
+    "Digicel":                       ["digicel-albina", "digicel-business-center", "digicel-extacy", "digicel-hermitage", "digicel-latour", "digicel-lelydorp", "digicel-nickerie", "digicel-wilhelminastraat"],
+    "CHM":                           ["chm-centrum", "chm-commewijne", "chm-kernkampweg", "chm-nickerie", "chm-wanica", "chm-wilhelminastraat"],
+    "DA Drogisterij":                ["da-drogisterij-coppename", "da-drogisterij-hermitage", "da-drogisterij-ims-mall", "da-drogisterij-lelydorp", "da-drogisterij-wilhelmina"],
+    "Apotheek Mac Donald":           ["apotheek-mac-donald-north", "apotheek-mac-donald-south"],
+    "Apotheek Soma":                 ["apotheek-soma", "apotheek-soma-ringweg"],
+    "Optiek Ninon":                  ["optiek-ninon", "optiek-ninon-hermitage-mall", "optiek-ninon-ims", "optiek-ninon-lelydorp", "optiek-ninon-meerzorg", "optiek-ninon-nickerie"],
+    "Optiek All Vision":             ["optiek-all-vision", "optiek-all-vision-albina", "optiek-all-vision-lelydorp", "optiek-all-vision-nickerie"],
+    "Sranan Fowru":                  ["sranan-fowru", "sranan-fowru-boni", "sranan-fowru-combe", "sranan-fowru-flu", "sranan-fowru-leiding", "sranan-fowru-lelydorp", "sranan-fowru-meursweg", "sranan-fowru-tabiki-fowru", "sranan-fowru-tourtonne", "sranan-fowru-zinnia"],
+    "Rossignol":                     ["rossignol-coppename", "rossignol-geyersvlijt", "rossignol-linda", "rossignol-waaldijkstraat", "rossignol-2go-kwattaweg", "rossignol-2go-thurkowstraat"],
+    "Auto Style":                    ["auto-style-franchepanestraat", "auto-style-johannes-mungrastraat", "auto-style-kwatta", "auto-style-tweede-rijweg", "auto-style-verlengde-gemenelandsweg"],
+    "Red Century Party Shop":        ["red-century-party-shop-commewijne", "red-century-party-shop-kwatta", "red-century-party-shop-lelydorp", "red-century-party-shop-north", "red-century-party-shop-zorg-en-hoop"],
+    "Digital World":                 ["digital-world-hermitage-mall", "digital-world-ims", "digital-world-maretraite-mall"],
+    "Kirpalani":                     ["kirpalani", "kirpalani-domineestraat", "kirpalani-maagdenstraat", "kirpalani-super-store"],
+    "Steps":                         ["steps-domineestraat", "steps-hermitage-mall", "steps-noord", "steps-wanica"],
+    "Tomahawk Outdoor Adventures":   ["tomahawk-outdoor-adventures", "tomahawk-outdoor-adventures-hermitage-mall", "tomahawk-outdoor-adventures-ims", "tomahawk-outdoor-adventures-lelydorp"],
+    "Brahma":                        ["brahma-centrum", "brahma-noord", "brahma-zuid"],
+    "Carline":                       ["carline-centrum", "carline-kwatta", "carline-waaldijkstraat"],
+    "Chois Supermarkt":              ["chois-supermarkt", "chois-supermarkt-lelydorp", "chois-supermarkt-north"],
+    "Dojo Couture":                  ["dojo-couture-centrum", "dojo-couture-hermitage-mall", "dojo-couture-ims"],
+    "The Beauty Bar":                ["the-beauty-bar", "the-beauty-bar-north", "the-beauty-bar-south"],
+    "Honeycare":                     ["honeycare", "honeycare-north", "honeycare-south"],
+    "New Choice":                    ["new-choice-lalla-rookhweg", "new-choice-nickerie", "new-choice-ringweg"],
+    "VCM Slagerij":                  ["vcm-slagerij-centrum", "vcm-slagerij-johannes-mungrastraat", "vcm-slagerij-verl-gemenelandsweg"],
+    "Computronics":                  ["computronics-north", "computronics-south"],
+    "Furniture City":                ["furniture-city-kwatta", "furniture-city-north"],
+    "Gao Ming Trading":              ["gao-ming-trading-north", "gao-ming-trading-south"],
+    "Hollandia Bakkerij":            ["hollandia-bakkerij-north", "hollandia-bakkerij-south"],
+    "Hsds Lifestyle":                ["hsds-lifestyle-noord", "hsds-lifestyle-wanica"],
+    "Hurricane Steel":               ["hurricane-steel", "hurricane-steel-ringweg"],
+    "Jamilas Dry Cleaning":          ["jamilas-dry-cleaning-north", "jamilas-dry-cleaning-south"],
+    "Kasimex":                       ["kasimex-indira-ghandiweg", "kasimex-makro"],
+    "Miniso":                        ["miniso-gompertstraat", "miniso-hermitage-mall"],
+    "MN International":              ["mn-international-centrum", "mn-international-kwatta"],
+    "Ochama":                        ["ochama-amazing", "ochama-hermitage-mall"],
+    "Office World":                  ["office-world-hermitage-mall", "office-world-lelydorp"],
+    "Sweetheart":                    ["sweetheart-hermitage-mall", "sweetheart-ims"],
+    "Residence Inn":                 ["residence-inn-nickerie", "residence-inn-paramaribo"],
+}
+_CHAIN_OF      = {}   # member slug -> brand
+_CHAIN_PRIMARY = {}   # brand -> hub slug
+for _cbrand, _cmem in _CHAIN_GROUPS.items():
+    _CHAIN_PRIMARY[_cbrand] = _cmem[0]
+    for _cs in _cmem:
+        _CHAIN_OF[_cs] = _cbrand
+
+
+def _branch_label(brand, b):
+    """Short chip label: whatever distinguishes this address from the brand."""
+    n = (b.get("name") or "").strip()
+    m = re.fullmatch(re.escape(brand) + r"\s*\((.+)\)", n, re.I)
+    if m:
+        return m.group(1).strip()
+    if n.lower().startswith(brand.lower()) and len(n) > len(brand):
+        rest = n[len(brand):].strip(" -\u2013\u2014:,")
+        if rest:
+            return rest
+    addr = (b.get("address") or "").split(",")[0].strip()
+    area = (b.get("area") or "").strip()
+    if addr and addr.lower() != area.lower() and len(addr) <= 34:
+        return addr
+    return area or "Main branch"
+
+
+def _chain_members(brand):
+    """Full biz dicts for every address of a chain, primary first."""
+    return [x for x in (_make_biz(s) for s in _CHAIN_GROUPS.get(brand, [])) if x]
+
+
+def _collapse_chains(lst):
+    """Drop branch cards from a category grid, keep one card per brand."""
+    out = []
+    for b in lst:
+        brand = _CHAIN_OF.get(b["slug"])
+        if brand is None:
+            out.append(b)
+            continue
+        if _CHAIN_PRIMARY[brand] != b["slug"]:
+            continue   # a branch — its page stays, its card does not
+        mem = _chain_members(brand)
+        c = dict(b)
+        c["name"]            = brand
+        c["chain_count"]     = len(mem)
+        c["chain_districts"] = sorted({x.get("area") or "Paramaribo" for x in mem})
+        out.append(c)
+    return out
+
+
 # Sort every category list alphabetically by display name
 _alpha = lambda lst: sorted(lst, key=lambda b: b["name"].lower())
-RESTAURANTS   = _alpha(RESTAURANTS)
-HOTELS        = _alpha(HOTELS)
-SIGHTSEEING   = _alpha(SIGHTSEEING)
-ADVENTURES_BIZ= _alpha(ADVENTURES_BIZ)
-SHOPPING      = _alpha(SHOPPING)
-SERVICES      = _alpha(SERVICES)
+RESTAURANTS   = _alpha(_collapse_chains(RESTAURANTS))
+HOTELS        = _alpha(_collapse_chains(HOTELS))
+SIGHTSEEING   = _alpha(_collapse_chains(SIGHTSEEING))
+ADVENTURES_BIZ= _alpha(_collapse_chains(ADVENTURES_BIZ))
+SHOPPING      = _alpha(_collapse_chains(SHOPPING))
+SERVICES      = _alpha(_collapse_chains(SERVICES))
+
+# Branch listings left the grids but keep their pages, so they must stay
+# findable by name: "Hakrinbank Nickerie" has to reach the Nickerie page, not
+# just the brand hub. Collected here, turned into index entries below where
+# _kw() exists.
+_CHAIN_SEARCH = []
+_CHAIN_HUB_ALIAS = {}   # hub url -> the primary branch's own name
+for _clabel, _clist in (("Eat & Drink", RESTAURANTS), ("Stay", HOTELS),
+                        ("Nature", SIGHTSEEING), ("Activities", ADVENTURES_BIZ),
+                        ("Shopping", SHOPPING), ("Services", SERVICES)):
+    for _ci in _clist:
+        _cbrand = _CHAIN_OF.get(_ci["slug"])
+        if not _cbrand:
+            continue
+        for _cbs in _CHAIN_GROUPS[_cbrand]:
+            _cbd = _make_biz(_cbs)
+            if not _cbd:
+                continue
+            if _cbs == _ci["slug"]:
+                # The hub card carries the brand name, so its own branch name
+                # ("DSB Hoofdkantoor") would otherwise match nothing in search.
+                _CHAIN_HUB_ALIAS[_cbd["url"]] = _cbd["name"]
+            else:
+                _CHAIN_SEARCH.append((_clabel, _cbd))
 
 # ── Global search index — written to search-index.json, loaded lazily ────────
 import json as _json
@@ -2118,6 +2284,8 @@ _SI_LIST = [
     *[{"n": b["name"], "u": b["url"], "c": "Activities",   "a": b.get("area",""), "k": _kw(b, "Activities")} for b in ADVENTURES_BIZ],
     *[{"n": b["name"], "u": b["url"], "c": "Shopping",     "a": b.get("area",""), "k": _kw(b, "Shopping")} for b in SHOPPING],
     *[{"n": b["name"], "u": b["url"], "c": "Services",     "a": b.get("area",""), "k": _kw(b, "Services")} for b in SERVICES],
+    *[{"n": _b2["name"], "u": _b2["url"], "c": _c2, "a": _b2.get("area",""), "k": _kw(_b2, _c2)}
+      for _c2, _b2 in _CHAIN_SEARCH],
     # Nature & activity detail pages (slug logic mirrors _nature_slug/_act_slug,
     # which are defined later in the file and not yet available here)
     *[{"n": s["name"], "u": "listing/nature-" + re.sub(r'[^a-z0-9]+', '-', s["name"].lower()).strip('-') + "/",
@@ -2176,6 +2344,11 @@ _GUIDE_KW = {
 for _e in _SI_LIST:
     if _e["u"] in _GUIDE_KW and not _e.get("k"):
         _e["k"] = (_e["n"] + " " + _GUIDE_KW[_e["u"]]).lower()
+
+for _e in _SI_LIST:
+    _alias = _CHAIN_HUB_ALIAS.get(_e["u"])
+    if _alias and _alias.lower() not in (_e.get("k") or ""):
+        _e["k"] = ((_e.get("k") or "") + " " + _alias).strip().lower()
 
 _SEARCH_INDEX = _json.dumps(_SI_LIST, ensure_ascii=False, separators=(',', ':'))
 
@@ -4327,9 +4500,22 @@ def poi_card(item, badge_key="cuisine", eager=False, featured=False):
     phone_html = f'<span class="text-gray-400 text-xs">Tel: {html_lib.escape(phone)}</span>' if phone else ""
     feat_html  = '<span class="absolute top-3 left-3 z-10 text-xs font-bold px-2.5 py-1 rounded-full shadow" style="background:#E76F51;color:#fff">Featured</span>' if featured else ""
     district   = item.get("area", item.get("location", "Paramaribo"))
+    # Multi-branch brand: one card for the whole chain. data-district carries every
+    # district it covers (pipe separated) so the district filter still finds it.
+    chain_n    = item.get("chain_count", 0)
+    chain_html = ""
+    if chain_n:
+        _dists   = item.get("chain_districts") or [district]
+        district = "|".join(_dists)
+        area     = ", ".join(_dists[:2]) + (f" +{len(_dists) - 2}" if len(_dists) > 2 else "")
+        phone_html = ""   # one branch's number would be misleading on a brand card
+        chain_html = ('<span class="absolute top-3 right-3 z-10 text-xs font-bold px-2.5 py-1 '
+                      'rounded-full shadow" style="background:#fff;color:var(--forest2)">'
+                      f'{chain_n} locations</span>')
     return f"""
 <a href="{url}" data-sub="{item.get('subcat','other')}" data-district="{html_lib.escape(district)}" class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
   {feat_html}
+  {chain_html}
   {img_html}
   <div class="p-4 flex flex-col gap-2 flex-1">
     <div>
@@ -4338,7 +4524,7 @@ def poi_card(item, badge_key="cuisine", eager=False, featured=False):
     <div class="flex items-center justify-between mt-auto pt-2">
       <p class="text-gray-400 text-xs">{html_lib.escape(area)}</p>
       {phone_html}
-      <span class="text-xs font-semibold" style="color:var(--forest2)">Visit &rarr;</span>
+      <span class="text-xs font-semibold" style="color:var(--forest2)">{"See locations &rarr;" if chain_n else "Visit &rarr;"}</span>
     </div>
   </div>
 </a>"""
@@ -4348,7 +4534,10 @@ def _filter_bar_html(items, cat_key):
     """Sticky filter chip bar with subcat + district filtering."""
     from collections import Counter
     sub_counts  = Counter(b.get("subcat","other")     for b in items)
-    dist_counts = Counter(b.get("area", b.get("location","Paramaribo")) for b in items)
+    dist_counts = Counter()
+    for _b in items:
+        for _d in (_b.get("chain_districts") or [_b.get("area", _b.get("location","Paramaribo"))]):
+            dist_counts[_d] += 1
 
     chips_cfg  = SUBCATS.get(cat_key, [("all","All","🔍")])
 
@@ -4379,7 +4568,8 @@ def _filter_bar_html(items, cat_key):
             )
     # Any districts not in order list
     for d, cnt in sorted(dist_counts.items()):
-        if d not in _DIST_ORDER and cnt > 0:
+        # A listing with a blank location used to emit a nameless chip.
+        if d and d not in _DIST_ORDER and cnt > 0:
             dist_chips.append(
                 f'<button onclick="filterDistrict(this,\'{d}\')" class="dist-chip">'
                 f'{d} <span class="chip-count">{cnt}</span></button>'
@@ -4409,7 +4599,7 @@ var _activeDist = 'all';
 function _applyFilters() {{
   document.querySelectorAll('.listing-card').forEach(function(card) {{
     var subOk  = _activeSub  === 'all' || card.dataset.sub      === _activeSub;
-    var distOk = _activeDist === 'all' || card.dataset.district === _activeDist;
+    var distOk = _activeDist === 'all' || (card.dataset.district || '').split('|').indexOf(_activeDist) >= 0;
     card.classList.toggle('hidden', !(subOk && distOk));
   }});
   var visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
@@ -4422,8 +4612,8 @@ function _applyFilters() {{
   document.querySelectorAll('.listing-card').forEach(function(card) {{
     var subOk = _activeSub === 'all' || card.dataset.sub === _activeSub;
     if (!subOk) return;
-    var d = card.dataset.district || 'Paramaribo';
-    distCounts[d] = (distCounts[d] || 0) + 1;
+    var ds = (card.dataset.district || 'Paramaribo').split('|');
+    for (var di = 0; di < ds.length; di++) {{ distCounts[ds[di]] = (distCounts[ds[di]] || 0) + 1; }}
     totalVisible++;
   }});
   document.querySelectorAll('.dist-chip').forEach(function(btn) {{
@@ -6138,6 +6328,8 @@ def _related_listings_html(current_slug, sub, prefix="../../"):
     candidates = [
         item for item in _src
         if item.get("slug") != current_slug and item.get("subcat") == sub and item.get("image")
+        and not (_CHAIN_OF.get(current_slug) and
+                 _CHAIN_OF.get(item.get("slug")) == _CHAIN_OF.get(current_slug))
     ]
     candidates.sort(key=lambda x: x.get("name", "").lower())
     picks = candidates[:4]
@@ -6222,6 +6414,148 @@ _SEO_TYPE_LABEL = {
 }
 
 
+def _share_button(page_url, title):
+    """Share control for a listing page.
+
+    Mobile gets the OS share sheet (WhatsApp sits at the top of it in Suriname);
+    desktop, where navigator.share does not exist, opens WhatsApp Web with the
+    link prefilled. The icon is drawn from primitives rather than icon-font
+    glyphs or a remote sprite, so it cannot render as a missing-glyph box.
+    """
+    wa = "https://wa.me/?text=" + urllib.parse.quote(title + " " + page_url)
+    svg = ('<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+           'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" '
+           'focusable="false">'
+           '<circle cx="18" cy="5" r="3"></circle>'
+           '<circle cx="6" cy="12" r="3"></circle>'
+           '<circle cx="18" cy="19" r="3"></circle>'
+           '<line x1="8.6" y1="10.5" x2="15.4" y2="6.5"></line>'
+           '<line x1="15.4" y1="17.5" x2="8.6" y2="13.5"></line>'
+           '</svg>')
+    return (
+        '<button type="button" onclick="esrShare(this)" aria-label="Share this listing"'
+        ' data-share-url="' + html_lib.escape(page_url, quote=True) + '"'
+        ' data-share-title="' + html_lib.escape(title, quote=True) + '"'
+        ' data-share-wa="' + html_lib.escape(wa, quote=True) + '"'
+        ' class="flex items-center justify-center gap-2 w-full py-3 rounded-xl'
+        ' text-sm font-semibold border-2 hover:bg-gray-50 transition mb-3"'
+        ' style="border-color:#25D366;color:#128C4A">' + svg + '<span>Share</span></button>'
+        '\n<script>function esrShare(b){var u=b.getAttribute("data-share-url"),'
+        't=b.getAttribute("data-share-title");'
+        'if(navigator.share){navigator.share({title:t,text:t,url:u}).catch(function(){});}'
+        'else{window.open(b.getAttribute("data-share-wa"),"_blank","noopener");}'
+        'if(window.gtag){window.gtag("event","share_click",{link_url:u});}}</script>'
+    )
+
+
+def _wa_number(phone):
+    """Suriname mobile in wa.me form, or "" for landlines and foreign numbers."""
+    d = re.sub(r"\D", "", phone or "")
+    if d.startswith("00597"):
+        d = d[5:]
+    elif d.startswith("597"):
+        d = d[3:]
+    return ("597" + d) if (len(d) == 7 and d[0] in "678") else ""
+
+
+def _branch_info(bslug):
+    """One address of a chain, using the same fallbacks a listing page uses."""
+    b = _make_biz(bslug)
+    if not b:
+        return None
+    osm     = _ENRICHMENTS.get(bslug, {})
+    address = b.get("address") or osm.get("address") or ""
+    area    = b.get("area") or "Paramaribo"
+    q = urllib.parse.quote(b["name"] + ", " + (address or area + ", Suriname"))
+    return {
+        "slug":    bslug,
+        "name":    b["name"],
+        "area":    area,
+        "address": address,
+        "phone":   b.get("phone") or osm.get("phone") or "",
+        "hours":   _MANUAL_HOURS.get(bslug) or osm.get("opening_hours") or "",
+        "maps_embed": "https://maps.google.com/maps?q=" + q + "&output=embed&hl=en",
+        "maps_link":  "https://www.google.com/maps/search/?api=1&query=" + q,
+    }
+
+
+def _chain_block(brand):
+    """Chips + one panel per address for a brand's hub page.
+
+    Every panel is rendered server side and all but the active one is hidden, so
+    switching address needs no data round trip and nothing depends on JSON that
+    could break on an apostrophe. Only the map iframe is swapped, which keeps
+    the page to a single embed instead of one per branch.
+    """
+    mem = [i for i in (_branch_info(s) for s in _CHAIN_GROUPS.get(brand, [])) if i]
+    if len(mem) < 2:
+        return None
+
+    def row(icon, content):
+        return ('<div class="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0">'
+                '<span class="text-xl shrink-0 mt-0.5">' + icon + '</span>'
+                '<span class="text-gray-700 text-sm leading-relaxed">' + content + '</span>'
+                '</div>')
+
+    chips, panels = [], []
+    for i, m in enumerate(mem):
+        label = html_lib.escape(_branch_label(brand, m))
+        chips.append('<button type="button" class="dist-chip' +
+                     (' dist-chip-active' if i == 0 else '') +
+                     '" onclick="esrBranch(' + str(i) + ',this)">' + label + '</button>')
+
+        rows = row("📍", html_lib.escape(m["address"] or (m["area"] + ", Suriname")))
+        if m["phone"]:
+            rows += row("📞", '<a href="tel:' + re.sub(r"[^\d+]", "", m["phone"]) +
+                        '" class="hover:underline" style="color:var(--forest2)">' +
+                        html_lib.escape(m["phone"]) + '</a>')
+        if m["hours"]:
+            _h = (html_lib.escape(m["hours"]).replace("Mo", "Mon").replace("Tu", "Tue")
+                  .replace("We", "Wed").replace("Th", "Thu").replace("Fr", "Fri")
+                  .replace("Sa", "Sat").replace("Su", "Sun").replace("; ", "<br>"))
+            rows += row("🕐", _h)
+
+        btns = ('<a href="' + html_lib.escape(m["maps_link"]) + '" target="_blank" rel="noopener" '
+                'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm '
+                'font-semibold border-2 hover:bg-gray-50 transition mb-3" '
+                'style="border-color:var(--forest2);color:var(--forest2)">🗺️ Get Directions</a>')
+        wa = _wa_number(m["phone"])
+        if wa:
+            btns = ('<a href="https://wa.me/' + wa + '" target="_blank" rel="noopener" '
+                    'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm '
+                    'font-semibold text-white hover:opacity-90 transition mb-3" '
+                    'style="background:#25D366">💬 Chat on WhatsApp</a>') + btns
+        _link = ('<a href="../' + m["slug"] + '/" class="block text-center text-xs font-semibold '
+                 'hover:underline mb-1" style="color:var(--forest2)">Open the ' +
+                 html_lib.escape(_branch_label(brand, m)) + ' page</a>')
+
+        panels.append('<div class="branch-panel' + ('' if i == 0 else ' hidden') +
+                      '" id="esr-bp-' + str(i) + '" data-map="' +
+                      html_lib.escape(m["maps_embed"], quote=True) + '">' +
+                      rows + '<div class="mt-6">' + btns + _link + '</div></div>')
+
+    script = ('<script>function esrBranch(i,btn){'
+              'var c=document.querySelectorAll(".branch-chip");'
+              'for(var k=0;k<c.length;k++){c[k].classList.remove("dist-chip-active");}'
+              'btn.classList.add("dist-chip-active");'
+              'var p=document.querySelectorAll(".branch-panel");'
+              'for(var j=0;j<p.length;j++){p[j].classList.toggle("hidden",j!==i);}'
+              'var f=document.getElementById("esr-branch-map"),a=document.getElementById("esr-bp-"+i);'
+              'if(f&&a&&a.getAttribute("data-map")){f.src=a.getAttribute("data-map");}'
+              '}</script>')
+
+    chips_html = ('<h2 class="text-lg font-bold text-gray-900 mb-2">Locations</h2>'
+                  '<p class="text-gray-500 text-sm mb-3">Pick a location to see its address, '
+                  'opening hours and directions.</p>'
+                  '<div class="flex flex-wrap gap-2 mb-6">' +
+                  "".join(chips).replace('class="dist-chip', 'class="branch-chip dist-chip') +
+                  '</div>')
+
+    return {"count": len(mem), "chips": chips_html, "panels": "".join(panels),
+            "first_map": mem[0]["maps_embed"], "script": script,
+            "areas": sorted({m["area"] for m in mem})}
+
+
 def build_listing_page(slug, b):
     raw_name = b.get("name", slug)
     desc     = b.get("description", "")
@@ -6232,6 +6566,22 @@ def build_listing_page(slug, b):
     location = b.get("area", b.get("location", "Paramaribo"))
     img      = _biz_img(slug)
     ext_url  = _biz_url(b)
+
+    # Multi-branch brand: this page is the hub for every address, so it carries
+    # the brand name rather than this one branch's name. Branch pages stay as
+    # they are and link back up here.
+    _brand    = _CHAIN_OF.get(slug)
+    _chain    = _chain_block(_brand) if (_brand and _CHAIN_PRIMARY.get(_brand) == slug) else None
+    _is_branch = bool(_brand) and _chain is None
+    _hub_marks = []
+    if _chain:
+        # Remember what makes the primary's own listing specific, so a branch
+        # specific blurb ("KFC at the International Mall of Suriname") does not
+        # end up as the intro on a page that covers all seven addresses.
+        _hub_marks = [_branch_label(_brand, b), (b.get("address") or "").split(",")[0].strip()]
+        _hub_marks = [m for m in _hub_marks if len(m) >= 6]
+        raw_name = _brand
+        b = dict(b, name=_brand)
 
     # Merge enrichment data — OSM is primary source; FSQ retained only for photo_url
     _osm  = _ENRICHMENTS.get(slug, {})
@@ -6349,7 +6699,7 @@ def build_listing_page(slug, b):
     maps_q     = urllib.parse.quote(raw_name + ", " + (address or location + ", Suriname"))
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
     maps_link  = "https://www.google.com/maps/search/?api=1&query=" + maps_q
-    og_img     = (SITE_URL + "/" + img.lstrip("/")) if img and not img.startswith("http") else (img or SITE_URL + "/og-image.jpg")
+    og_img     = _og_share_image(img)
 
     hero_style = ("background:url(" + html_lib.escape(img) + ") center/cover no-repeat"
                   if img else "background:var(--forest)")
@@ -6411,6 +6761,11 @@ def build_listing_page(slug, b):
         'style="border-color:var(--forest2);color:var(--forest2)">🗺️ Get Directions</a>'
     )
 
+    # On a chain hub the "View on Google Maps" fallback would duplicate the
+    # Get Directions button that every branch panel already carries.
+    if _chain and (not ext_url or "google.com/search" in ext_url):
+        website_btn = ""
+
     # ── WhatsApp CTA — Suriname mobiles are 7 digits starting 6/7/8 ─────────
     # Landlines (6 digits) have no WhatsApp; foreign numbers are skipped.
     wa_btn = ""
@@ -6427,6 +6782,13 @@ def build_listing_page(slug, b):
                 'text-sm font-semibold text-white hover:opacity-90 transition mb-3" '
                 'style="background:#25D366">💬 Chat on WhatsApp</a>'
             )
+
+    if _chain:
+        if desc and any(m.lower() in desc.lower() for m in _hub_marks):
+            desc = ""      # written about one branch, not about the brand
+        if not desc:
+            desc = (f"{_brand} has {_chain['count']} locations in Suriname: "
+                    + ", ".join(_chain["areas"]) + ".")
 
     desc_block = ('<p class="text-gray-700 leading-relaxed text-base mb-8">'
                   + html_lib.escape(desc) + '</p>') if desc else ""
@@ -6515,6 +6877,14 @@ def build_listing_page(slug, b):
     else:
         seo_title_tag = seo_page_title
 
+    if _chain:
+        _n = _chain["count"]
+        seo_page_title = html_lib.escape(f"{_brand}: {_n} locations in Suriname")
+        seo_title_tag  = seo_page_title + (_brand_sfx if len(html_lib.unescape(seo_page_title)) + len(_brand_sfx) <= 62 else "")
+        desc_e = html_lib.escape(_meta_trunc(
+            f"All {_n} {_brand} locations in Suriname in one place: "
+            + ", ".join(_chain["areas"]) + ". Addresses, opening hours, phone numbers and directions.", 158))
+
     head = (
         PAGE_HEAD +
         "\n  <title>" + seo_title_tag + "</title>"
@@ -6526,6 +6896,7 @@ def build_listing_page(slug, b):
         "\n  <meta property=\"og:title\" content=\"" + seo_title_tag + "\">"
         "\n  <meta property=\"og:description\" content=\"" + desc_e + "\">"
         "\n  <meta property=\"og:image\" content=\"" + og_img + "\">"
+        "\n  <meta property=\"og:image:alt\" content=\"" + name_e + "\">"
         "\n  <meta name=\"twitter:card\" content=\"summary_large_image\">"
         "\n  <meta name=\"twitter:title\" content=\"" + seo_title_tag + "\">"
         "\n  <meta name=\"twitter:description\" content=\"" + desc_e + "\">"
@@ -6546,23 +6917,60 @@ def build_listing_page(slug, b):
         '\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"'
         '\n          style="background:var(--coral);color:#fff">' + html_lib.escape(category) + '</span>'
         '\n    <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">' + name_e + '</h1>'
-        '\n    <p class="text-white/70 text-sm">' + html_lib.escape(location) + ', Suriname</p>'
+        '\n    <p class="text-white/70 text-sm">' + (
+            html_lib.escape(f"{_chain['count']} locations in Suriname") if _chain
+            else html_lib.escape(location) + ', Suriname') + '</p>'
         '\n  </div>'
         '\n</div>'
     )
+
+    share_btn = _share_button(page_url, raw_name)
+
+    # A branch of a chain: point back at the hub that lists every address.
+    branch_note = ""
+    if _is_branch:
+        _hub = _CHAIN_PRIMARY.get(_brand, "")
+        _tot = len(_CHAIN_GROUPS.get(_brand, []))
+        branch_note = ('\n      <p class="text-sm text-gray-600 mb-6">One of ' + str(_tot) + ' '
+                       + html_lib.escape(_brand) + ' locations. '
+                       '<a href="../' + _hub + '/" class="font-semibold hover:underline" '
+                       'style="color:var(--forest2)">See all ' + str(_tot) + ' locations</a></p>')
+
+    if _chain:
+        left_top = ('\n      ' + desc_block + '\n      ' + _chain["chips"])
+        map_html = ('\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">'
+                    '\n        <iframe id="esr-branch-map" src="' + _chain["first_map"] + '" width="100%" height="100%"'
+                    '\n          style="border:0" allowfullscreen="" loading="lazy"'
+                    '\n          referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                    '\n      </div>')
+        info_html = ('\n        ' + _chain["panels"] +
+                     '\n        <div class="mt-6">'
+                     '\n          ' + website_btn +
+                     '\n          ' + share_btn +
+                     '\n        </div>' + _chain["script"])
+    else:
+        left_top = ('\n      ' + desc_block + branch_note +
+                    '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>')
+        map_html = ('\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">'
+                    '\n        <iframe src="' + maps_embed + '" width="100%" height="100%"'
+                    '\n          style="border:0" allowfullscreen="" loading="lazy"'
+                    '\n          referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                    '\n      </div>')
+        info_html = ('\n        ' + rows +
+                     '\n        <div class="mt-6">'
+                     '\n          ' + wa_btn +
+                     '\n          ' + website_btn +
+                     '\n          ' + directions_btn +
+                     '\n          ' + share_btn +
+                     '\n        </div>')
 
     main = (
         '\n<main class="max-w-5xl mx-auto px-5 py-12 pb-24">'
         '\n  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">'
 
         '\n    <div class="lg:col-span-2">'
-        '\n      ' + desc_block +
-        '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>'
-        '\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">'
-        '\n        <iframe src="' + maps_embed + '" width="100%" height="100%"'
-        '\n          style="border:0" allowfullscreen="" loading="lazy"'
-        '\n          referrerpolicy="no-referrer-when-downgrade"></iframe>'
-        '\n      </div>'
+        + left_top
+        + map_html +
         '\n      <p class="text-gray-400 text-xs text-center mb-8">'
         '\n        Map data &copy; Google. Click the map to see hours, reviews &amp; street view.'
         '\n      </p>'
@@ -6571,12 +6979,7 @@ def build_listing_page(slug, b):
         '\n    <div class="lg:col-span-1">'
         '\n      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">'
         '\n        <h2 class="text-base font-bold text-gray-900 mb-4">Contact &amp; Info</h2>'
-        '\n        ' + rows +
-        '\n        <div class="mt-6">'
-        '\n          ' + wa_btn +
-        '\n          ' + website_btn +
-        '\n          ' + directions_btn +
-        '\n        </div>'
+        + info_html +
         '\n      </div>'
         '\n    </div>'
 
@@ -6602,7 +7005,7 @@ def build_activity_listing_page(act, slug):
     maps_q     = urllib.parse.quote(name + ", Suriname")
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
     maps_link  = "https://www.google.com/maps/search/?api=1&query=" + maps_q
-    og_img     = (SITE_URL + "/" + img.lstrip("/")) if img and not img.startswith("http") else (img or SITE_URL + "/og-image.jpg")
+    og_img     = _og_share_image(img)
 
     hero_style = ("background:url(" + html_lib.escape(img) + ") center/cover no-repeat"
                   if img else "background:var(--forest)")
@@ -6710,6 +7113,7 @@ def build_activity_listing_page(act, slug):
         '\n        <div class="mt-2">'
         '\n          ' + website_btn +
         '\n          ' + directions_btn +
+        '\n          ' + _share_button(page_url, name) +
         '\n        </div>'
         '\n      </div>'
         '\n    </div>'
@@ -6736,7 +7140,7 @@ def build_nature_listing_page(spot, slug):
     maps_q     = urllib.parse.quote(name + ", Suriname")
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
     maps_link  = "https://www.google.com/maps/search/?api=1&query=" + maps_q
-    og_img     = (SITE_URL + "/" + img.lstrip("/")) if img and not img.startswith("http") else (img or SITE_URL + "/og-image.jpg")
+    og_img     = _og_share_image(img)
 
 
     hero_style = ("background:url(" + html_lib.escape(img) + ") center/cover no-repeat"
@@ -6862,6 +7266,7 @@ def build_nature_listing_page(spot, slug):
         + '" width="100%" height="100%"\n          style="border:0" allowfullscreen="" loading="lazy"\n          referrerpolicy="no-referrer-when-downgrade"></iframe>\n      </div>\n      <p class="text-gray-400 text-xs text-center mb-8">\n        Map data &copy; Google. Click the map to see locations, reviews &amp; directions.\n      </p>\n    </div>\n    <div class="lg:col-span-1">\n      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">\n        <h2 class="text-base font-bold text-gray-900 mb-4">Plan Your Visit</h2>\n        <div class="mt-2">\n          '
         + website_btn
         + '\n          ' + directions_btn
+        + '\n          ' + _share_button(page_url, name)
         + '\n        </div>\n      </div>\n    </div>\n  </div>\n</main>'
     )
 
@@ -18682,6 +19087,15 @@ if __name__ == "__main__":
     _LEGACY_LISTING_REDIRECTS = {
         "9173":          "tulip-supermarket",   # duplicate listing merged
         "ford-zeelandia": "fort-zeelandia",     # slug typo fixed
+        # Aug 23 2026 — four records were copies of the listing next to them, same
+        # address, phone, website and image. Each company's own site confirms one
+        # branch, not two: dsb.sr lists 8 offices with a single Ma Retraite and a
+        # single Nickerie, chmsuriname.com one Wilhelminastraat showroom, and
+        # digitalworld.sr one Maretraite Mall store.
+        "de-surinaamsche-bank-ma-retraite-2": "de-surinaamsche-bank-ma-retraite",
+        "de-surinaamsche-bank-nickerie-2":    "de-surinaamsche-bank-nickerie",
+        "chm-wilhelminastraat-2":             "chm-wilhelminastraat",
+        "digital-world-maretraite-mall-2":    "digital-world-maretraite-mall",
     }
     for _old_slug, _new_slug in _LEGACY_LISTING_REDIRECTS.items():
         _odir = Path("listing") / _old_slug

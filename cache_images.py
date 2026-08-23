@@ -371,6 +371,53 @@ def _build_card_variants():
         print("\nCard variants: created %d new -480 thumbnails" % made)
 
 
+OG_DIR = IMAGES_DIR / "og"
+OG_MIN_WIDTH = 400      # link-preview crawlers drop anything smaller
+OG_MAX_WIDTH = 1200
+
+
+def _build_og_jpegs():
+    """Write a JPEG twin of every cached image into images/og/.
+
+    WhatsApp, Signal and several Android link-preview crawlers do not decode
+    WebP, so a shared listing link showed a preview card with no thumbnail even
+    though the page had a perfectly good og:image. generate.py points og:image
+    at images/og/<name>.jpg for any source at least OG_MIN_WIDTH wide and falls
+    back to the site card below that. Idempotent: an existing twin newer than
+    its source is left alone.
+
+    The og/ subdirectory matters. _migrate_existing() converts every JPEG
+    sitting directly in images/ to WebP and deletes the original, so twins kept
+    beside their sources would be eaten on the next run. Both that scan and the
+    card-variant scan are non-recursive, so a subdirectory is safe.
+    """
+    if not _PILLOW_OK:
+        return
+    OG_DIR.mkdir(exist_ok=True)
+    made = 0
+    for p in sorted(IMAGES_DIR.glob("*.webp")):
+        if p.stem.endswith(("-480", "-m")):
+            continue
+        out = OG_DIR / (p.stem + ".jpg")
+        try:
+            if out.exists() and out.stat().st_mtime >= p.stat().st_mtime:
+                continue
+            img = _PILImage.open(p)
+            if img.size[0] < OG_MIN_WIDTH:
+                if out.exists():
+                    out.unlink()      # source shrank below the useful threshold
+                continue
+            img = img.convert("RGB")
+            if img.size[0] > OG_MAX_WIDTH:
+                w, h = img.size
+                img = img.resize((OG_MAX_WIDTH, round(h * OG_MAX_WIDTH / w)), _PILImage.LANCZOS)
+            img.save(out, "JPEG", quality=82, optimize=True, progressive=True)
+            made += 1
+        except Exception as e:
+            print("  og twin failed for %s: %s" % (p.name, e))
+    print("\nShare previews: %d JPEG twin(s) written to images/og/" % made)
+
+
 def main(dry_run=False):
     IMAGES_DIR.mkdir(exist_ok=True)
 
@@ -456,6 +503,7 @@ def main(dry_run=False):
 
     if not dry_run:
         _build_card_variants()
+        _build_og_jpegs()
 
     total_cached = len([u for u in all_urls if u in cache])
     print("\nDone. %d/%d URLs cached, %d new images downloaded." % (
