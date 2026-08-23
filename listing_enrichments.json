@@ -2911,6 +2911,9 @@
     "slug": "residence-inn-nickerie",
     "found": true,
     "osm_name": "Residence Inn",
+    "phone": "+597 47 38 02",
+    "email": "frontdesk@residenceinn.sr",
+    "website": "https://residenceinn.sr/",
     "address": "7, Anton Dragtenweg, Paramaribo",
     "lat": 5.832359,
     "lon": -55.138059
@@ -3490,12 +3493,9 @@
     "slug": "suriname-tulip-hotel",
     "found": true,
     "osm_name": "Tulip",
-    "opening_hours": "Mo-Su 08:00-20:00",
-    "phone": "+597 521060",
-    "email": "info@tulip-supermarket.com",
-    "address": "131, Tourtonnelaan, Paramaribo",
-    "lat": 5.8406679,
-    "lon": -55.1517958
+    "address": "118, Verlengde Gemeenelandsweg, Paramaribo",
+    "lat": 5.8278548,
+    "lon": -55.1877939
   },
   "surpost": {
     "slug": "surpost",
