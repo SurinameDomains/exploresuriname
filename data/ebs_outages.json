@@ -1,6 +1,15 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD DINSDAG 25 AUGUSTUS 2026",
+      "date": "25 Augustus 2026",
+      "date_iso": "2026-08-25",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1586/gepland-onderhoud-dinsdag-25-augustus-2026",
+      "meta_description": "GEPLAND ONDERHOUD DINSDAG 25 AUGUSTUS 2026 TUSSEN 9:00 EN 14:00 UUR GEDEELTE COMMISSARIS E.A. ROBLESWEG TUSSEN BASITOSTRAAT EN BARRONSTRAAT, GEDEELTE",
+      "district": "GEPLAND ONDERHOUD"
+    },
+    {
       "title": "GEPLAND ONDERHOUD MAANDAG 24 AUGUSTUS 2026",
       "date": "24 Augustus 2026",
       "date_iso": "2026-08-24",
@@ -12,6 +21,6 @@
       "area": "GEDEELTE NOORDPOLDERDAM TUSSEN LEIDING 8A EN LEIDING 9A EN ALLE ZIJWEGEN"
     }
   ],
-  "last_updated": "2026-08-24T12:59:44.731580+00:00",
+  "last_updated": "2026-08-24T15:07:50.190016+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
