@@ -1,6 +1,15 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD WOENSDAG 26 AUGUSTUS 2026",
+      "date": "26 Augustus 2026",
+      "date_iso": "2026-08-26",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1587/gepland-onderhoud-woensdag-26-augustus-2026",
+      "meta_description": "GEPLAND ONDERHOUD WOENSDAG 26 AUGUSTUS 2026 TUSSEN 8:00 EN 16:00 UURGEDEELTE NOORDPOLDERDAM TUSSEN 5E RIJWEG EN LEIDING 7B, RICHARD VAN",
+      "district": "GEPLAND ONDERHOUD"
+    },
+    {
       "title": "GEPLAND ONDERHOUD DINSDAG 25 AUGUSTUS 2026",
       "date": "25 Augustus 2026",
       "date_iso": "2026-08-25",
@@ -19,6 +28,6 @@
       "area": "GEHEEL HENRY FERNANDESWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED"
     }
   ],
-  "last_updated": "2026-08-25T16:43:00.062957+00:00",
+  "last_updated": "2026-08-25T19:08:05.123167+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
