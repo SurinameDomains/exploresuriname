@@ -17,6 +17,17 @@
       "link": "https://nvebs.com/nieuws/1587/gepland-onderhoud-woensdag-26-augustus-2026"
     },
     {
+      "title": "GEPLAND ONDERHOUD ZATERDAG 29 AUGUSTUS 2026",
+      "date": "29 Augustus 2026",
+      "date_iso": "2026-08-29",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1585/gepland-onderhoud-zaterdag-29-augustus-2026",
+      "meta_description": "Gepland onderhoud: Wanica zaterdag 29 augustus 2026 tussen 08:00-17:00 VERLENGDE SASTRODISOEMOWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.  Kaart",
+      "district": "Wanica",
+      "time": "08:00 – 17:00",
+      "area": "VERLENGDE SASTRODISOEMOWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.  Kaart"
+    },
+    {
       "title": "GEPLAND ONDERHOUD VRIJDAG 29 AUGUSTUS 2026",
       "date": "29 Augustus 2026",
       "date_iso": "2026-08-29",
@@ -26,19 +37,8 @@
       "district": "Para",
       "time": "09:00 – 14:00",
       "area": "GEDEELTE WEST VERBINDING TUSSEN PIKIEN SARON EN TROELI KAMP, PIKIEN SARON"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD DONDERDAG 27 AUGUSTUS 2026",
-      "date": "27 Augustus 2026",
-      "date_iso": "2026-08-27",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1583/gepland-onderhoud-donderdag-27-augustus-2026",
-      "meta_description": "Gepland onderhoud: Paramaribo donderdag 27 augustus 2026 tussen 09:00-14:00 GEHEEL HENRY FERNANDESWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
-      "district": "Paramaribo",
-      "time": "09:00 – 14:00",
-      "area": "GEHEEL HENRY FERNANDESWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED"
     }
   ],
-  "last_updated": "2026-08-26T16:51:14.330911+00:00",
+  "last_updated": "2026-08-26T19:08:05.273061+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
