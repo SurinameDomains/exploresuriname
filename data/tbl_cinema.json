@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-27T16:00:35.800058+00:00",
+  "last_updated": "2026-08-28T10:00:30.664592+00:00",
   "date_label": "Today",
   "showings": [
     {
@@ -9,38 +9,38 @@
     },
     {
       "time": "05:30 PM",
-      "title": "Spider-Man: Brand New Day (3D)",
-      "url": "https://www.tblcinemas.com/movie/RS460318580733/spider-man-brand-new-day"
-    },
-    {
-      "time": "06:00 PM",
-      "title": "Mutiny",
-      "url": "https://www.tblcinemas.com/movie/RS283821619176/mutiny"
-    },
-    {
-      "time": "06:30 PM",
       "title": "Awarapan 2",
       "url": "https://www.tblcinemas.com/movie/RS40961354695/awarapan-2"
     },
     {
-      "time": "07:15 PM",
+      "time": "06:30 PM",
+      "title": "The Fast and the Furious",
+      "url": "https://www.tblcinemas.com/movie/RS446967471801/the-fast-and-the-furious"
+    },
+    {
+      "time": "07:00 PM",
       "title": "Spider-Man: Brand New Day",
       "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
     },
     {
-      "time": "08:00 PM",
+      "time": "07:45 PM",
       "title": "The Dog Stars",
       "url": "https://www.tblcinemas.com/movie/RS926484522506/the-dog-stars"
     },
     {
-      "time": "08:30 PM",
+      "time": "08:15 PM",
+      "title": "Spa Weekend",
+      "url": "https://www.tblcinemas.com/movie/RS733763642722/spa-weekend"
+    },
+    {
+      "time": "09:00 PM",
       "title": "Insidious: Out of the Further",
       "url": "https://www.tblcinemas.com/movie/RS381118155603/insidious-out-of-the-further"
     },
     {
-      "time": "09:00 PM",
-      "title": "Spa Weekend",
-      "url": "https://www.tblcinemas.com/movie/RS733763642722/spa-weekend"
+      "time": "09:30 PM",
+      "title": "Mutiny",
+      "url": "https://www.tblcinemas.com/movie/RS283821619176/mutiny"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
