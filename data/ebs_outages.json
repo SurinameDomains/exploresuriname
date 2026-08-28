@@ -1,13 +1,22 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD DINSDAG 1 SEPTEMBER 2026",
+      "date": "1 September 2026",
+      "date_iso": "2026-09-01",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1590/gepland-onderhoud-dinsdag-1-september-2026",
+      "meta_description": "Gepland onderhoud: Commewijne dinsdag 1 september 2026 tussen 09:00-14:00 PANDIT TILAKDHARIEWEG, WALLERWEG, TJE TJEWEG, PAK S. RAKIMIWEG, KAPPASTRAAT, MAISS",
+      "district": "Commewijne",
+      "time": "09:00 – 14:00",
+      "area": "PANDIT TILAKDHARIEWEG, WALLERWEG, TJE TJEWEG, PAK S. RAKIMIWEG, KAPPASTRAAT, MAISS"
+    },
+    {
       "title": "GEPLAND ONDERHOUD VRIJDAG 28 AUGUSTUS 2026",
       "date": "28 Augustus 2026",
       "date_iso": "2026-08-28",
       "type": "planned",
-      "link": "https://nvebs.com/nieuws/1589/gepland-onderhoud-vrijdag-28-augustus-2026",
-      "meta_description": "GEPLAND ONDERHOUD PARBO VRIJDAG 28 AUGUSTUS 2026 TUSSEN 8:00 en 14:00 uur GEDEELTE JACQUES D. GOMPERTSSTRAAT TUSSEN JOZEF ISRAELSTRAAT EN",
-      "district": "GEPLAND ONDERHOUD PARBO"
+      "link": "https://nvebs.com/nieuws/1589/gepland-onderhoud-vrijdag-28-augustus-2026"
     },
     {
       "title": "GEPLAND ONDERHOUD ZATERDAG 29 AUGUSTUS 2026",
@@ -32,6 +41,6 @@
       "area": "GEDEELTE WEST VERBINDING TUSSEN PIKIEN SARON EN TROELI KAMP, PIKIEN SARON"
     }
   ],
-  "last_updated": "2026-08-28T15:07:46.027490+00:00",
+  "last_updated": "2026-08-28T19:08:03.963193+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
