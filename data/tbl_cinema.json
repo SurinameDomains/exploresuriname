@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-29T16:00:30.646120+00:00",
+  "last_updated": "2026-08-30T10:00:30.385642+00:00",
   "date_label": "Today",
   "showings": [
     {
@@ -24,23 +24,23 @@
     },
     {
       "time": "04:30 PM",
-      "title": "The Odyssey",
-      "url": "https://www.tblcinemas.com/movie/RS985030847570/the-odyssey"
+      "title": "The End of Oak Street",
+      "url": "https://www.tblcinemas.com/movie/RS618072140839/the-end-of-oak-street"
     },
     {
       "time": "05:00 PM",
-      "title": "Tad and The Magic Lamp",
-      "url": "https://www.tblcinemas.com/movie/RS68595530288/tad-and-the-magic-lamp"
-    },
-    {
-      "time": "05:30 PM",
       "title": "Awarapan 2",
       "url": "https://www.tblcinemas.com/movie/RS40961354695/awarapan-2"
     },
     {
+      "time": "05:30 PM",
+      "title": "Tad and The Magic Lamp",
+      "url": "https://www.tblcinemas.com/movie/RS68595530288/tad-and-the-magic-lamp"
+    },
+    {
       "time": "06:30 PM",
-      "title": "The Dog Stars",
-      "url": "https://www.tblcinemas.com/movie/RS926484522506/the-dog-stars"
+      "title": "The Fast and the Furious",
+      "url": "https://www.tblcinemas.com/movie/RS446967471801/the-fast-and-the-furious"
     },
     {
       "time": "07:00 PM",
@@ -48,24 +48,19 @@
       "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
     },
     {
-      "time": "07:45 PM",
-      "title": "The End of Oak Street",
-      "url": "https://www.tblcinemas.com/movie/RS618072140839/the-end-of-oak-street"
-    },
-    {
-      "time": "08:30 PM",
+      "time": "07:30 PM",
       "title": "Spa Weekend",
       "url": "https://www.tblcinemas.com/movie/RS733763642722/spa-weekend"
     },
     {
-      "time": "09:00 PM",
-      "title": "Insidious: Out of the Further",
-      "url": "https://www.tblcinemas.com/movie/RS381118155603/insidious-out-of-the-further"
+      "time": "08:00 PM",
+      "title": "The Dog Stars",
+      "url": "https://www.tblcinemas.com/movie/RS926484522506/the-dog-stars"
     },
     {
-      "time": "09:30 PM",
-      "title": "Mutiny",
-      "url": "https://www.tblcinemas.com/movie/RS283821619176/mutiny"
+      "time": "08:30 PM",
+      "title": "Insidious: Out of the Further",
+      "url": "https://www.tblcinemas.com/movie/RS381118155603/insidious-out-of-the-further"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
