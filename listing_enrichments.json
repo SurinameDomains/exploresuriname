@@ -556,13 +556,6 @@
     "lat": 5.8139034,
     "lon": -55.135318
   },
-  "chm-wilhelminastraat-2": {
-    "slug": "chm-wilhelminastraat-2",
-    "found": true,
-    "osm_name": "CHM",
-    "lat": 5.8139034,
-    "lon": -55.135318
-  },
   "chois-supermarkt": {
     "slug": "chois-supermarkt",
     "found": true,
@@ -798,22 +791,8 @@
     "lat": 5.8309451,
     "lon": -55.4645984
   },
-  "de-surinaamsche-bank-ma-retraite-2": {
-    "slug": "de-surinaamsche-bank-ma-retraite-2",
-    "found": true,
-    "osm_name": "DSB",
-    "lat": 5.8309451,
-    "lon": -55.4645984
-  },
   "de-surinaamsche-bank-nickerie": {
     "slug": "de-surinaamsche-bank-nickerie",
-    "found": true,
-    "osm_name": "DSB",
-    "lat": 5.8309451,
-    "lon": -55.4645984
-  },
-  "de-surinaamsche-bank-nickerie-2": {
-    "slug": "de-surinaamsche-bank-nickerie-2",
     "found": true,
     "osm_name": "DSB",
     "lat": 5.8309451,
@@ -942,14 +921,6 @@
   },
   "digital-world-maretraite-mall": {
     "slug": "digital-world-maretraite-mall",
-    "found": true,
-    "osm_name": "Digital World",
-    "address": "Unit 27, Ma Retraite Mall, Paramaribo",
-    "lat": 5.8463265,
-    "lon": -55.1382501
-  },
-  "digital-world-maretraite-mall-2": {
-    "slug": "digital-world-maretraite-mall-2",
     "found": true,
     "osm_name": "Digital World",
     "address": "Unit 27, Ma Retraite Mall, Paramaribo",
@@ -1952,11 +1923,9 @@
   "kwan-tai-restaurant": {
     "slug": "kwan-tai-restaurant",
     "found": true,
-    "osm_name": "Kwan Tai",
-    "address": "428, Kwattaweg, Paramaribo",
-    "cuisine": "Thai",
-    "lat": 5.843148,
-    "lon": -55.2119923
+    "osm_name": "Kwatta",
+    "lat": 4.9490843,
+    "lon": -55.1809706
   },
   "kwan-tai-restaurant-2": {
     "slug": "kwan-tai-restaurant-2",
