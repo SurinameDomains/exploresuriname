@@ -1,5 +1,61 @@
 {
-  "outages": [],
-  "last_updated": "2026-09-01T13:20:55.900200+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD VRIJDAG 4 SEPTEMBER 2026",
+      "date": "4 September 2026",
+      "date_iso": "2026-09-04",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1594/gepland-onderhoud-vrijdag-4-september-2026",
+      "meta_description": "Gepland onderhoud: Wanica vrijdag 4 september 2026 tussen 09:00-13:00 GEDEELTE JAVAWEG TUSSEN INDIRA GANDHIWEG EN MADURASTRAAT EN ALLE ZIJWEGEN DIE",
+      "district": "Wanica",
+      "time": "09:00 – 13:00",
+      "area": "GEDEELTE JAVAWEG TUSSEN INDIRA GANDHIWEG EN MADURASTRAAT EN ALLE ZIJWEGEN DIE"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 3 SEPTEMBER 2026",
+      "date": "3 September 2026",
+      "date_iso": "2026-09-03",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1593/gepland-onderhoud-donderdag-3-september-2026",
+      "meta_description": "Gepland onderhoud: Wanica donderdag 3 september 2026 tussen 09:00-14:00 GEHEEL WONOREDJOWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED. Kaart",
+      "district": "Wanica",
+      "time": "09:00 – 14:00",
+      "area": "GEHEEL WONOREDJOWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED. Kaart"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 3 SEPTEMBER 2026",
+      "date": "3 September 2026",
+      "date_iso": "2026-09-03",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1592/gepland-onderhoud-donderdag-3-september-2026",
+      "meta_description": "Gepland onderhoud: Wanica donderdag 3 september 2026 tussen 09:00-14:00 GEDEELTE MAWAKABOWEG TUSSEN MOHAMED RASHID PIERKHANWEG EN WELGEDACHT C WEG, GEDEELTE",
+      "district": "Wanica",
+      "time": "09:00 – 14:00",
+      "area": "GEDEELTE MAWAKABOWEG TUSSEN MOHAMED RASHID PIERKHANWEG EN WELGEDACHT C WEG, GEDEELTE"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 3 SEPTEMBER 2026",
+      "date": "3 September 2026",
+      "date_iso": "2026-09-03",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1591/gepland-onderhoud-donderdag-3-september-2026",
+      "meta_description": "Gepland onderhoud: Paramaribo donderdag 3 september 2026 tussen 09:00-14:00 GIJSBERTUSSTRAAT, ACHILLESTRAAT, WILLIAMSTRAAT, MEDUSASTRAAT, SOLONSTRAAT, VESTA",
+      "district": "Paramaribo",
+      "time": "09:00 – 14:00",
+      "area": "GIJSBERTUSSTRAAT, ACHILLESTRAAT, WILLIAMSTRAAT, MEDUSASTRAAT, SOLONSTRAAT, VESTA"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DINSDAG 1 SEPTEMBER 2026",
+      "date": "1 September 2026",
+      "date_iso": "2026-09-01",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1590/gepland-onderhoud-dinsdag-1-september-2026",
+      "meta_description": "Gepland onderhoud: Commewijne dinsdag 1 september 2026 tussen 09:00-14:00 PANDIT TILAKDHARIEWEG, WALLERWEG, TJE TJEWEG, PAK S. RAKIMIWEG, KAPPASTRAAT, MAISS",
+      "district": "Commewijne",
+      "time": "09:00 – 14:00",
+      "area": "PANDIT TILAKDHARIEWEG, WALLERWEG, TJE TJEWEG, PAK S. RAKIMIWEG, KAPPASTRAAT, MAISS"
+    }
+  ],
+  "last_updated": "2026-09-01T15:08:06.783515+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
