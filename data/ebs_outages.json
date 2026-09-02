@@ -1,6 +1,17 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD ZONDAG 6 SEPTEMBER 2026",
+      "date": "6 September 2026",
+      "date_iso": "2026-09-06",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1595/gepland-onderhoud-zondag-6-september-2026",
+      "meta_description": "Gepland onderhoud: Paramaribo zondag 6 september 2026 tussen 09:00-15:30 GEDEELTE DUISBURGLAAN TUSSEN COESEWIJNESTRAAT EN AGOEMASTRAAT, GEDEELTE COESEWIJNES",
+      "district": "Paramaribo",
+      "time": "09:00 – 15:30",
+      "area": "GEDEELTE DUISBURGLAAN TUSSEN COESEWIJNESTRAAT EN AGOEMASTRAAT, GEDEELTE COESEWIJNES"
+    },
+    {
       "title": "GEPLAND ONDERHOUD VRIJDAG 4 SEPTEMBER 2026",
       "date": "4 September 2026",
       "date_iso": "2026-09-04",
@@ -45,6 +56,6 @@
       "area": "GIJSBERTUSSTRAAT, ACHILLESTRAAT, WILLIAMSTRAAT, MEDUSASTRAAT, SOLONSTRAAT, VESTA"
     }
   ],
-  "last_updated": "2026-09-02T11:07:45.225696+00:00",
+  "last_updated": "2026-09-02T15:07:43.498271+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
