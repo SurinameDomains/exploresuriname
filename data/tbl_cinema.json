@@ -1,21 +1,21 @@
 {
-  "last_updated": "2026-09-02T16:00:34.516537+00:00",
+  "last_updated": "2026-09-03T10:00:30.089455+00:00",
   "date_label": "Today",
   "showings": [
     {
       "time": "05:00 PM",
+      "title": "Spider-Man: Brand New Day (3D)",
+      "url": "https://www.tblcinemas.com/movie/RS460318580733/spider-man-brand-new-day"
+    },
+    {
+      "time": "05:30 PM",
       "title": "Tad and The Magic Lamp",
       "url": "https://www.tblcinemas.com/movie/RS68595530288/tad-and-the-magic-lamp"
     },
     {
-      "time": "05:30 PM",
-      "title": "The Dog Stars",
-      "url": "https://www.tblcinemas.com/movie/RS926484522506/the-dog-stars"
-    },
-    {
       "time": "06:00 PM",
-      "title": "Awarapan 2",
-      "url": "https://www.tblcinemas.com/movie/RS40961354695/awarapan-2"
+      "title": "The Odyssey",
+      "url": "https://www.tblcinemas.com/movie/RS985030847570/the-odyssey"
     },
     {
       "time": "06:30 PM",
@@ -29,8 +29,8 @@
     },
     {
       "time": "08:00 PM",
-      "title": "The Fast and the Furious",
-      "url": "https://www.tblcinemas.com/movie/RS446967471801/the-fast-and-the-furious"
+      "title": "One Night Only",
+      "url": "https://www.tblcinemas.com/movie/RS618316868921/one-night-only"
     },
     {
       "time": "08:30 PM",
@@ -39,8 +39,8 @@
     },
     {
       "time": "09:00 PM",
-      "title": "Mutiny",
-      "url": "https://www.tblcinemas.com/movie/RS283821619176/mutiny"
+      "title": "Fall 2: Deadpoint",
+      "url": "https://www.tblcinemas.com/movie/RS10062314469/fall-2-deadpoint"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
