@@ -1,20 +1,12 @@
 {
-  "date_range": "zaterdag 29 augustus tot maandag 31 augustus 2026",
+  "date_range": "zaterdag 05 september tot maandag 07 september 2026",
   "doctors": [
     {
-      "name": "Drs. Lahera Diaz Yamila",
-      "clinic": "Gezondheidscentrum Geyersvlijt",
+      "name": "Drs. Angoelal Suraja",
+      "clinic": "Gezondheidscentrum limesgracht",
       "district": "Paramaribo",
-      "address": "Wongsoredjostraat no. 02",
-      "phone": "454917",
-      "note": "Zaterdag ochtend"
-    },
-    {
-      "name": "Drs. Baal Antoine",
-      "clinic": "Gezondheidscentrum Geyersvlijt",
-      "district": "Paramaribo",
-      "address": "",
-      "phone": "",
+      "address": "Limesgracht no. 78",
+      "phone": "420506",
       "note": ""
     },
     {
@@ -26,35 +18,27 @@
       "note": ""
     },
     {
-      "name": "Drs. Basropansingh Bharat",
-      "clinic": "Gezondheidscentrum Koewarasan",
-      "district": "Wanica",
-      "address": "Bomapolder serie 2 no. 02",
-      "phone": "350018",
-      "note": ""
-    },
-    {
-      "name": "Drs. Naranjo Tamayo Mauro",
+      "name": "Drs. Basulto Marrero Anisbel",
       "clinic": "Polikliniek Domburg",
       "district": "Wanica",
-      "address": "Herberstraat perceel no. 15",
+      "address": "Herbertstraat perceel no. 15",
       "phone": "370044",
       "note": ""
     },
     {
-      "name": "Drs. Tjin A Joe Susan",
-      "clinic": "Polikliniek Nieuwe Grond",
+      "name": "Drs. Roep- Nurmohamed Zoraida",
+      "clinic": "Gezondheidscentrum Lelydorp",
       "district": "Wanica",
-      "address": "Indira Gandhiweg no. 12",
-      "phone": "585838",
+      "address": "Indira Gandhiweg no. 42",
+      "phone": "366125",
       "note": ""
     },
     {
-      "name": "Drs. Jhanjan Cyril",
-      "clinic": "Polikliniek Bernharddorp",
+      "name": "Drs. Soemai Suraj",
+      "clinic": "Gezondheidscentrum Onverwacht",
       "district": "Para",
-      "address": "Indira Gandhiweg no. 894",
-      "phone": "352590",
+      "address": "Akrumstraat no. 09",
+      "phone": "352097",
       "note": ""
     }
   ],
@@ -72,6 +56,6 @@
   ],
   "doctor_hours": "Spreekuren: zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
   "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00u.",
-  "last_updated": "2026-09-03T10:20:29.951907+00:00",
+  "last_updated": "2026-09-04T10:20:21.895746+00:00",
   "source": "http://www.rgd.sr/nl/zorg-aanbod/wachtdienst"
 }
