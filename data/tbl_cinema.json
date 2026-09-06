@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-05T16:00:27.876102+00:00",
+  "last_updated": "2026-09-06T10:00:29.392267+00:00",
   "date_label": "Today",
   "showings": [
     {
@@ -24,48 +24,43 @@
     },
     {
       "time": "04:30 PM",
-      "title": "The Odyssey",
-      "url": "https://www.tblcinemas.com/movie/RS985030847570/the-odyssey"
-    },
-    {
-      "time": "05:00 PM",
       "title": "Tad and The Magic Lamp",
       "url": "https://www.tblcinemas.com/movie/RS68595530288/tad-and-the-magic-lamp"
     },
     {
-      "time": "05:30 PM",
+      "time": "05:00 PM",
       "title": "Awarapan 2",
       "url": "https://www.tblcinemas.com/movie/RS40961354695/awarapan-2"
     },
     {
-      "time": "06:15 PM",
-      "title": "Insidious: Out of the Further",
-      "url": "https://www.tblcinemas.com/movie/RS381118155603/insidious-out-of-the-further"
+      "time": "05:30 PM",
+      "title": "Spa Weekend",
+      "url": "https://www.tblcinemas.com/movie/RS733763642722/spa-weekend"
     },
     {
-      "time": "07:00 PM",
+      "time": "06:15 PM",
+      "title": "Mutiny",
+      "url": "https://www.tblcinemas.com/movie/RS283821619176/mutiny"
+    },
+    {
+      "time": "06:45 PM",
       "title": "Spider-Man: Brand New Day",
       "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
     },
     {
-      "time": "08:00 PM",
-      "title": "The End of Oak Street",
-      "url": "https://www.tblcinemas.com/movie/RS618072140839/the-end-of-oak-street"
-    },
-    {
-      "time": "08:30 PM",
+      "time": "07:15 PM",
       "title": "One Night Only",
       "url": "https://www.tblcinemas.com/movie/RS618316868921/one-night-only"
     },
     {
-      "time": "09:00 PM",
-      "title": "Insidious: Out of the Further",
-      "url": "https://www.tblcinemas.com/movie/RS381118155603/insidious-out-of-the-further"
-    },
-    {
-      "time": "09:30 PM",
+      "time": "08:00 PM",
       "title": "Fall 2: Deadpoint",
       "url": "https://www.tblcinemas.com/movie/RS10062314469/fall-2-deadpoint"
+    },
+    {
+      "time": "08:30 PM",
+      "title": "Insidious: Out of the Further",
+      "url": "https://www.tblcinemas.com/movie/RS381118155603/insidious-out-of-the-further"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
