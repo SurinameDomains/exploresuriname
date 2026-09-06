@@ -1,5 +1,39 @@
 {
-  "outages": [],
-  "last_updated": "2026-09-06T03:07:56.860511+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD ZONDAG 6 SEPTEMBER 2026",
+      "date": "6 September 2026",
+      "date_iso": "2026-09-06",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1598/gepland-onderhoud-zondag-6-september-2026",
+      "meta_description": "Gepland onderhoud: Paramaribo zondag 6 september 2026 tussen 08:00-15:00 OMGEVING VALEN EN DR. J.F. NASSYLAAN EN ALLE ZIJWEGEN DIE VOORKOMEN",
+      "district": "Paramaribo",
+      "time": "08:00 – 15:00",
+      "area": "OMGEVING VALEN EN DR. J.F. NASSYLAAN EN ALLE ZIJWEGEN DIE VOORKOMEN"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD MAANDAG 7 SEPTEMBER 2026",
+      "date": "7 September 2026",
+      "date_iso": "2026-09-07",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1597/gepland-onderhoud-maandag-7-september-2026",
+      "meta_description": "Gepland onderhoud: Brokopondo-Para maandag 7 september 2026 tussen 08:30-17:00 GEDEELTE KRAKKAWEG TUSSEN CABENDADORP EN AVOBAKAWEG, GEDEELTE AVOKABAWEG TUSS",
+      "district": "Brokopondo-Para",
+      "time": "08:30 – 17:00",
+      "area": "GEDEELTE KRAKKAWEG TUSSEN CABENDADORP EN AVOBAKAWEG, GEDEELTE AVOKABAWEG TUSS"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD ZONDAG 6 SEPTEMBER 2026",
+      "date": "6 September 2026",
+      "date_iso": "2026-09-06",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1595/gepland-onderhoud-zondag-6-september-2026",
+      "meta_description": "Gepland onderhoud: Paramaribo zondag 6 september 2026 tussen 09:00-15:30 GEDEELTE DUISBURGLAAN TUSSEN COESEWIJNESTRAAT EN AGOEMASTRAAT, GEDEELTE COESEWIJNES",
+      "district": "Paramaribo",
+      "time": "09:00 – 15:30",
+      "area": "GEDEELTE DUISBURGLAAN TUSSEN COESEWIJNESTRAAT EN AGOEMASTRAAT, GEDEELTE COESEWIJNES"
+    }
+  ],
+  "last_updated": "2026-09-06T03:57:16.781938+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
