@@ -1,66 +1,46 @@
 {
-  "last_updated": "2026-09-06T16:00:27.015504+00:00",
+  "last_updated": "2026-09-07T10:00:29.412245+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "02:00 PM",
-      "title": "Awarapan 2",
-      "url": "https://www.tblcinemas.com/movie/RS40961354695/awarapan-2"
-    },
-    {
-      "time": "02:30 PM",
-      "title": "Minions & Monsters",
-      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
-    },
-    {
-      "time": "03:15 PM",
-      "title": "Spider-Man: Brand New Day (3D)",
-      "url": "https://www.tblcinemas.com/movie/RS460318580733/spider-man-brand-new-day"
-    },
-    {
-      "time": "03:45 PM",
-      "title": "PAW Patrol: The Dino Movie",
-      "url": "https://www.tblcinemas.com/movie/RS931685169274/paw-patrol-the-dino-movie"
-    },
-    {
-      "time": "04:30 PM",
+      "time": "05:15 PM",
       "title": "Tad and The Magic Lamp",
       "url": "https://www.tblcinemas.com/movie/RS68595530288/tad-and-the-magic-lamp"
     },
     {
-      "time": "05:00 PM",
+      "time": "05:45 PM",
+      "title": "The Fast and the Furious",
+      "url": "https://www.tblcinemas.com/movie/RS446967471801/the-fast-and-the-furious"
+    },
+    {
+      "time": "06:15 PM",
+      "title": "The End of Oak Street",
+      "url": "https://www.tblcinemas.com/movie/RS618072140839/the-end-of-oak-street"
+    },
+    {
+      "time": "06:45 PM",
       "title": "Awarapan 2",
       "url": "https://www.tblcinemas.com/movie/RS40961354695/awarapan-2"
     },
     {
-      "time": "05:30 PM",
-      "title": "Spa Weekend",
-      "url": "https://www.tblcinemas.com/movie/RS733763642722/spa-weekend"
-    },
-    {
-      "time": "06:15 PM",
-      "title": "Mutiny",
-      "url": "https://www.tblcinemas.com/movie/RS283821619176/mutiny"
-    },
-    {
-      "time": "06:45 PM",
+      "time": "07:15 PM",
       "title": "Spider-Man: Brand New Day",
       "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
     },
     {
-      "time": "07:15 PM",
+      "time": "07:45 PM",
       "title": "One Night Only",
       "url": "https://www.tblcinemas.com/movie/RS618316868921/one-night-only"
-    },
-    {
-      "time": "08:00 PM",
-      "title": "Fall 2: Deadpoint",
-      "url": "https://www.tblcinemas.com/movie/RS10062314469/fall-2-deadpoint"
     },
     {
       "time": "08:30 PM",
       "title": "Insidious: Out of the Further",
       "url": "https://www.tblcinemas.com/movie/RS381118155603/insidious-out-of-the-further"
+    },
+    {
+      "time": "09:00 PM",
+      "title": "Fall 2: Deadpoint",
+      "url": "https://www.tblcinemas.com/movie/RS10062314469/fall-2-deadpoint"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
