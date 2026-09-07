@@ -1,17 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD MAANDAG 7 SEPTEMBER 2026",
-      "date": "7 September 2026",
-      "date_iso": "2026-09-07",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1597/gepland-onderhoud-maandag-7-september-2026",
-      "meta_description": "Gepland onderhoud: Brokopondo-Para maandag 7 september 2026 tussen 08:30-17:00 GEDEELTE KRAKKAWEG TUSSEN CABENDADORP EN AVOBAKAWEG, GEDEELTE AVOKABAWEG TUSS",
-      "district": "Brokopondo-Para",
-      "time": "08:30 – 17:00",
-      "area": "GEDEELTE KRAKKAWEG TUSSEN CABENDADORP EN AVOBAKAWEG, GEDEELTE AVOKABAWEG TUSS"
-    }
-  ],
-  "last_updated": "2026-09-07T11:07:52.581857+00:00",
+  "outages": [],
+  "last_updated": "2026-09-07T15:07:50.981549+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
