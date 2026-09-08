@@ -1,5 +1,33 @@
 {
-  "outages": [],
-  "last_updated": "2026-09-08T19:07:50.182114+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD ZONDAG 13 SEPTEMBER 2026",
+      "date": "13 September 2026",
+      "date_iso": "2026-09-13",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1601/gepland-onderhoud-zondag-13-september-2026",
+      "meta_description": "GEPLAND ONDERHOUD:WANICA  ZONDAG 13 SEPTEMBER 2026 TUSSEN 8:30 EN 16:00 UURGEDEELTE DS. MARTIN LUTHER KINGWEG TUSSEN DAGERAADWEG EN MENKENDAM, GEDEELTE",
+      "district": "WANICA"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 10 SEPTEMBER 2026",
+      "date": "10 September 2026",
+      "date_iso": "2026-09-10",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1600/gepland-onderhoud-donderdag-10-september-2026",
+      "meta_description": "GEPLAND ONDERHOUD: WANICA DONDERDAG 10 SEPTEMBER 2026 TUSSEN 9:00 EN 14:00 UURGEDEELTE DS. MARTIN LUTHER KINGWEG TUSSEN DWARKAWEG EN MAHADJAN",
+      "district": "WANICA"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD WOENSDAG 8 SEPTEMBER 2026",
+      "date": "8 September 2026",
+      "date_iso": "2026-09-08",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1599/gepland-onderhoud-woensdag-8-september-2026",
+      "meta_description": "GEPLAND ONDERHOUD:WANICA WOENSDAG 8 SEPTEMBER 2026 TUSSEN 9:00 EN 13:00 UURGEDEELTE SIR WINSTON CHURCHILLWEG TUSSEN TOUT LUI FAUT KANAAL RECHTS",
+      "district": "WANICA"
+    }
+  ],
+  "last_updated": "2026-09-08T22:29:37.415465+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
