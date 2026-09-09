@@ -1,6 +1,24 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD VRIJDAG 11 SEPTEMBER 2026",
+      "date": "11 September 2026",
+      "date_iso": "2026-09-11",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1604/gepland-onderhoud-vrijdag-11-september-2026",
+      "meta_description": "GEPLAND ONDERHOUD: PARBO VRIJDAG 11 SEPTEMBER 2026 TUSSEN 8:00 EN 12:00 UUR GEDEELTE KWATTAWEG TUSSEN MOENGOSTRAAT EN DERDE RIJWEG, HENRY FERNANDESWEG",
+      "district": "PARBO"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DINSDAG 15 SEPTEMBER 2026",
+      "date": "15 September 2026",
+      "date_iso": "2026-09-15",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1603/gepland-onderhoud-dinsdag-15-september-2026",
+      "meta_description": "GEPLAND ONDERHOUD: WANICA DINSDAG 15 SEPTEMBER 2026 TUSSEN 9:00 EN 14:00 UURHOSSINWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
+      "district": "WANICA"
+    },
+    {
       "title": "GEPLAND ONDERHOUD ZONDAG 13 SEPTEMBER 2026",
       "date": "13 September 2026",
       "date_iso": "2026-09-13",
@@ -19,6 +37,6 @@
       "district": "WANICA"
     }
   ],
-  "last_updated": "2026-09-09T15:07:57.943826+00:00",
+  "last_updated": "2026-09-09T19:07:45.031635+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
