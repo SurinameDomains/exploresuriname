@@ -23,9 +23,7 @@
       "date": "12 September 2026",
       "date_iso": "2026-09-12",
       "type": "planned",
-      "link": "https://nvebs.com/nieuws/1605/gepland-onderhoud-zaterdag-12-september-2026",
-      "meta_description": "GEPLAND ONDERHOUD:PARA ZATERDAG 12 SEPTEMBER 2026 TUSSEN 8:00 EN 12:00 UURGEDEELTE WEST VERBINDING TUSSEN PIKIEN SARON EN TROELI KAMP, PIKIEN",
-      "district": "PARA"
+      "link": "https://nvebs.com/nieuws/1605/gepland-onderhoud-zaterdag-12-september-2026"
     },
     {
       "title": "GEPLAND ONDERHOUD DINSDAG 15 SEPTEMBER 2026",
@@ -35,8 +33,17 @@
       "link": "https://nvebs.com/nieuws/1603/gepland-onderhoud-dinsdag-15-september-2026",
       "meta_description": "GEPLAND ONDERHOUD: WANICA DINSDAG 15 SEPTEMBER 2026 TUSSEN 9:00 EN 14:00 UURHOSSINWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
       "district": "WANICA"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD ZONDAG 13 SEPTEMBER 2026",
+      "date": "13 September 2026",
+      "date_iso": "2026-09-13",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1601/gepland-onderhoud-zondag-13-september-2026",
+      "meta_description": "GEPLAND ONDERHOUD:WANICA  ZONDAG 13 SEPTEMBER 2026 TUSSEN 8:30 EN 16:00 UURGEDEELTE DS. MARTIN LUTHER KINGWEG TUSSEN DAGERAADWEG EN MENKENDAM, GEDEELTE",
+      "district": "WANICA"
     }
   ],
-  "last_updated": "2026-09-12T15:07:44.885400+00:00",
+  "last_updated": "2026-09-12T18:15:08.549217+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
