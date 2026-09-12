@@ -1,16 +1,41 @@
 {
-  "last_updated": "2026-09-11T16:00:27.772597+00:00",
+  "last_updated": "2026-09-12T10:00:28.086689+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "05:15 PM",
-      "title": "PAW Patrol: The Dino Movie",
-      "url": "https://www.tblcinemas.com/movie/RS931685169274/paw-patrol-the-dino-movie"
+      "time": "02:15 PM",
+      "title": "Practical Magic 2",
+      "url": "https://www.tblcinemas.com/movie/RS661264885651/practical-magic-2"
+    },
+    {
+      "time": "02:45 PM",
+      "title": "Awarapan 2",
+      "url": "https://www.tblcinemas.com/movie/RS40961354695/awarapan-2"
+    },
+    {
+      "time": "03:15 PM",
+      "title": "Tad and The Magic Lamp",
+      "url": "https://www.tblcinemas.com/movie/RS68595530288/tad-and-the-magic-lamp"
+    },
+    {
+      "time": "03:45 PM",
+      "title": "Spider-Man: Brand New Day (3D)",
+      "url": "https://www.tblcinemas.com/movie/RS460318580733/spider-man-brand-new-day"
+    },
+    {
+      "time": "04:15 PM",
+      "title": "Minions & Monsters",
+      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
+    },
+    {
+      "time": "05:30 PM",
+      "title": "The End of Oak Street",
+      "url": "https://www.tblcinemas.com/movie/RS618072140839/the-end-of-oak-street"
     },
     {
       "time": "06:00 PM",
-      "title": "Fall 2: Deadpoint",
-      "url": "https://www.tblcinemas.com/movie/RS10062314469/fall-2-deadpoint"
+      "title": "Onslaught",
+      "url": "https://www.tblcinemas.com/movie/RS251312878430/onslaught"
     },
     {
       "time": "06:15 PM",
@@ -39,8 +64,8 @@
     },
     {
       "time": "09:30 PM",
-      "title": "Onslaught",
-      "url": "https://www.tblcinemas.com/movie/RS251312878430/onslaught"
+      "title": "Fall 2: Deadpoint",
+      "url": "https://www.tblcinemas.com/movie/RS10062314469/fall-2-deadpoint"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
