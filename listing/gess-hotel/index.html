@@ -182,6 +182,23 @@
     .ftr-cta, .btn-gold, .btn-ghost { border-radius: 9999px !important; }
     .bg-paper { background-color: var(--paper) !important; }
     .group:hover [class~="group-hover:scale-105"], [class~="group-hover:scale-105"]:hover { transform: none !important; }
+    /* ===== Interior page header =====
+       Browse surfaces (home, category pages) sit on paper. Content and utility
+       pages keep a dark header, restyled into the same type system so the two read
+       as a deliberate pair rather than one finished and one left behind. The dark
+       matches the utility rail so a page never shows two different greens. Photo
+       heroes keep their image and scrim; only the type and accents change. */
+    .pg-hero { background:#142A1E !important; border-bottom:1px solid rgba(252,247,236,.13); }
+    .pg-hero h1 { font-weight:400 !important; letter-spacing:-.02em; line-height:1.05; }
+    .pg-hero p[style*="color:var("] { color:var(--gold) !important; font-size:.66rem !important;
+                                      font-weight:600 !important; letter-spacing:.22em; }
+    .pg-hero a.inline-flex,
+    .pg-hero nav[aria-label="Breadcrumb"] { font-size:.66rem !important; font-weight:600;
+                                            letter-spacing:.2em; text-transform:uppercase; }
+    .pg-hero a.inline-flex,
+    .pg-hero nav[aria-label="Breadcrumb"] a { color:#9FAC9C !important; }
+    .pg-hero a.inline-flex:hover,
+    .pg-hero nav[aria-label="Breadcrumb"] a:hover { color:#FCF7EC !important; }
   </style>
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
 <style>
@@ -404,7 +421,7 @@
   </script>
 <link href="https://exploresuriname.com/listing/gess-hotel/" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/listing/gess-hotel/" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/listing/gess-hotel/" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/listing/gess-hotel/" hreflang="x-default" rel="alternate"/></head>
 <body class="bg-gray-50 overflow-x-hidden">
-<div class="util-rail"><div class="util-in"><div class="util-l"><a href="../../currency.html"><strong>SRD 37.90</strong> USD</a><a href="../../conditions.html">29° Paramaribo</a><a href="../../daily-notices.html"><strong>1</strong> Outage notices today</a></div><div class="util-r"><span>Mon 14 September</span></div></div></div>
+<div class="util-rail"><div class="util-in"><div class="util-l"><a href="../../currency.html" title="CME cash rate: we buy / we sell">USD <strong>37.50</strong> / <strong>37.90</strong></a><a href="../../conditions.html">29° Paramaribo</a><a href="../../daily-notices.html"><strong>1</strong> Outage notices today</a></div><div class="util-r"><span>Mon 14 September</span></div></div></div>
 <nav class="w-full z-50" style="position:sticky;top:0;background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14)">
 <div class="max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
 <a class="flex flex-col justify-center flex-shrink-0" href="../../index.html">
