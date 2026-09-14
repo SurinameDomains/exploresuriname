@@ -8,13 +8,14 @@
 <link href="/favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="/icons/apple-touch-icon-180.png" rel="apple-touch-icon" sizes="180x180"/>
 <meta content="nl_NL" property="og:locale"/><meta content="es_ES" property="og:locale:alternate"/><meta content="en_US" property="og:locale:alternate"/>
-<link as="font" crossorigin="" href="/fonts/playfair-latin-var.woff2" rel="preload" type="font/woff2"/>
-<link as="font" crossorigin="" href="/fonts/inter-latin-var.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/fonts/newsreader-latin-var.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/fonts/instrument-latin-var.woff2" rel="preload" type="font/woff2"/>
 <style>
-  @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-  @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:'Newsreader';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/newsreader-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:'Newsreader';font-style:italic;font-weight:300 600;font-display:swap;src:url(/fonts/newsreader-latin-var-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400 600;font-display:swap;src:url(/fonts/instrument-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   </style>
-<link href="/tailwind.css?v=9a7f3e4d" rel="stylesheet"/>
+<link href="/tailwind.css?v=13b9f6f1" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -23,8 +24,8 @@
 <meta content="ExploreSR" name="apple-mobile-web-app-title"/>
 <style>
     :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#E1F0DD; --coral:#E76F51; --gold:#E7AE4D; --clay:#9C5822; --paper:#FBF5E9; --paper-2:#F4ECDA; --card:#FFFDF6; --ink:#233028; --ink-soft:#5C6657; --line:#EBE0CB; }
-    body   { font-family: 'Inter', system-ui, sans-serif; }
-    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    body   { font-family: 'Instrument Sans', system-ui, sans-serif; font-feature-settings:"tnum" 0; }
+    .serif { font-family: 'Newsreader', Georgia, serif; }
     /* ===== Warm theme roll-over: homepage redesign palette, applied site-wide ===== */
     html, body { background: var(--paper); }
     body { color: var(--ink); }
@@ -55,37 +56,56 @@
     .nws-card { position: relative; }
     .nws-card .nws-t::after { content:""; position:absolute; inset:0; z-index:1; }
     .nws-also { position: relative; z-index: 2; }
-    .card-hover { transition: transform .2s, box-shadow .2s; }
-    .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
+    .card-hover { transition: filter .15s ease, border-color .15s ease; }
+    .card-hover:hover { filter: brightness(1.03); }
+    .card-hover:hover h3 { text-decoration: underline; text-decoration-color: var(--clay); text-underline-offset: 3px; }
     a { text-decoration: none; }
     nav a, nav button { white-space: nowrap; }   /* keep nav labels on one line (EN; NL/ES get this via build_i18n) */
     .vh { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
     /* Nav search: a small pill with a visible label. On tighter viewports it
        collapses to just the magnifying glass so the nav labels and the language
        switcher keep their room in NL and ES. Widths verified at 1024/1280/1440. */
-    .navsearch { display:flex; align-items:center; gap:6px; padding:7px 13px 7px 10px;
-                 border-radius:9999px; border:1px solid #e5e7eb; background:#f9fafb;
-                 color:#9ca3af; cursor:pointer;
-                 transition:gap .18s ease, padding .18s ease, border-color .18s ease, color .18s ease; }
+    .navsearch { display:flex; align-items:center; gap:7px; padding:0 0 3px;
+                 border:0; border-radius:0; background:none; border-bottom:1px solid #CFC7B6;
+                 color:var(--ink-soft); cursor:pointer;
+                 transition:gap .18s ease, border-color .18s ease, color .18s ease; }
     .navsearch .nslabel { max-width:7rem; overflow:hidden; white-space:nowrap; font-size:.875rem;
                           transition:max-width .22s ease; }
-    .navsearch:hover, .navsearch:focus-visible { border-color:#9ca3af; color:#4b5563; }
+    .navsearch:hover, .navsearch:focus-visible { border-bottom-color:var(--forest); color:var(--forest); }
     /* Seven top-level items, kept generously spaced. Two narrow-desktop tiers,
        and the search label collapses earlier on the NL/ES trees because those
        nav labels run longer (build_i18n sets html[lang]). Verified at
        1024/1152/1280/1440/1920 in all three languages. */
-    .navlinks { gap:24px; }
+    .navlinks { gap:26px; }
+    .navmark{font-family:'Newsreader',Georgia,serif;font-size:27px;font-weight:600;line-height:1;letter-spacing:-.01em}
+    .navtag{font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);
+            line-height:1;margin-top:5px}
+    .navlinks .dd-trigger, .navlinks > a { font-size:12.5px; letter-spacing:.06em; text-transform:uppercase;
+                                           font-weight:500; }
+    .navlinks .nav-active { border-bottom:1.5px solid var(--clay); }
+    /* Utility rail: a 34px strip of live numbers above the nav. It is in normal
+       flow on purpose, so it scrolls away and every nav offset stays at 58px. */
+    .util-rail{background:#142A1E;height:34px;font-size:.66rem;font-weight:500;letter-spacing:.14em;
+               text-transform:uppercase}
+    .util-in{max-width:80rem;margin:0 auto;padding:0 1.25rem;height:34px;display:flex;align-items:center;
+             justify-content:space-between;gap:1rem}
+    .util-l,.util-r{display:flex;gap:1.4rem;align-items:center;overflow:hidden;white-space:nowrap}
+    .util-l a,.util-r a,.util-r span{color:#9FAC9C;transition:color .15s}
+    .util-l a:hover,.util-r a:hover{color:#FCF7EC}
+    .util-l a strong{color:var(--gold);font-weight:600}
+    @media(max-width:640px){.util-in{padding:0 1rem;gap:.9rem}.util-l{gap:.9rem}
+      .util-l a:nth-child(3){display:none}.util-r{display:none}}
     /* Dutch labels fit alongside the pill all the way down to 1152, so only the
        Spanish tree needs an early collapse. Threshold measured, not guessed:
        ES runs out of room at about 1210. */
     @media (max-width:1219px) {
-      html[lang="es"] .navsearch { gap:0; padding:7px; }
+      html[lang="es"] .navsearch { gap:0; }
       html[lang="es"] .navsearch .nslabel { max-width:0; }
     }
     @media (max-width:1151px) {
       .navlinks { gap:10px; }
-      .navlinks .dd-trigger, .navlinks > a { font-size:13px; }
-      .navsearch { gap:0; padding:7px; }
+      .navlinks .dd-trigger, .navlinks > a { font-size:11.5px; letter-spacing:.04em; }
+      .navsearch { gap:0; }
       .navsearch .nslabel { max-width:0; }
     }
     /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
@@ -103,25 +123,44 @@
     .sr-area { font-size:.78rem;color:var(--ink-soft);white-space:nowrap; }
     mark { background:#fef08a;border-radius:2px;padding:0 1px; }
     .filter-chip {
-      display:inline-flex;align-items:center;gap:5px;padding:10px 16px;border-radius:999px;
-      border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
-      color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
-      touch-action:manipulation;
+      display:inline-flex;align-items:center;gap:5px;padding:.55rem 0;border:0;background:none;
+      border-radius:0!important;border-bottom:1.5px solid transparent;
+      font-size:.9rem;font-weight:400;color:#4B564D;cursor:pointer;white-space:nowrap;flex-shrink:0;
+      touch-action:manipulation;transition:color .15s,border-color .15s;
     }
-    .filter-chip:hover { border-color:var(--forest);color:var(--forest); }
-    .filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+    .filter-chip:hover { color:var(--forest);border-bottom-color:#DDD4C1; }
+    .filter-chip.chip-active { background:none;color:var(--forest);border-bottom-color:var(--forest); }
     .dist-chip {
-      display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;
-      border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;
-      color:#6b7280;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+      display:inline-flex;align-items:center;gap:4px;padding:.35rem 0;border:0;background:none;
+      border-radius:0!important;border-bottom:1.5px solid transparent;
+      font-size:.78rem;color:#6b7280;cursor:pointer;white-space:nowrap;flex-shrink:0;
+      transition:color .15s,border-color .15s;
     }
-    .dist-chip:hover { border-color:var(--forest2);color:var(--forest2); }
-    .dist-chip.dist-chip-active { background:var(--forest2);border-color:var(--forest2);color:#fff; }
-    .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
-    .filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count { opacity:.8; }
+    .dist-chip:hover { color:var(--forest2);border-bottom-color:#DDD4C1; }
+    .dist-chip.dist-chip-active { background:none;color:var(--forest2);border-bottom-color:var(--forest2); }
+    .chip-count { font-size:.66rem;color:#A9A392;vertical-align:super;font-weight:500;opacity:1; }
+    .filter-chip.chip-active .chip-count { color:#8A9187; }
+    /* Text chips are only 40px/30px tall, so touch devices get a proper target
+       without loosening the desktop rhythm. */
+    @media(hover:none){ .filter-chip, .dist-chip { min-height:44px; } }
     .dict-chiprow{scrollbar-width:none;-ms-overflow-style:none}
     .dict-chiprow::-webkit-scrollbar{display:none}
-    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+    .listing-card { transition:opacity .2s; content-visibility:auto; contain-intrinsic-size:560px; contain-intrinsic-size:auto 560px; }
+    .listing-ph { position:relative; aspect-ratio:4/5; overflow:hidden; background:#DFD7C2; }
+    .listing-name { font-size:1.5rem; line-height:1.15; font-weight:400; color:var(--forest); }
+    .listing-blurb { font-size:.9rem; line-height:1.5; color:var(--ink-soft); margin:.25rem 0 0;
+                     display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .listing-meta { display:flex; justify-content:space-between; gap:.75rem; margin-top:auto;
+                    border-top:1px solid #DDD4C1; padding-top:.55rem;
+                    font-size:.66rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+                    color:#8A9187; }
+    .listing-meta span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    /* One column on phones: a 4:5 crop makes each card a full screen, so the
+       photo goes landscape below 640 and the scroll roughly halves. */
+    @media(max-width:640px){
+      .listing-ph { aspect-ratio:3/2; }
+      .listing-card { contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+    }
     .listing-card.hidden { display:none; }
     /* PWA install bar (Android prompt + iOS A2HS tip) */
     #pwa-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(130%);transition:transform .35s cubic-bezier(.22,1,.36,1);background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 28px rgba(0,0,0,.14);padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
@@ -134,25 +173,39 @@
     #pwa-bar .pwa-go:hover{background:var(--forest2)}
     #pwa-bar .pwa-x{flex:0 0 auto;background:transparent;border:0;color:#9ca3af;font-size:24px;line-height:1;cursor:pointer;padding:2px 6px;touch-action:manipulation}
     @media(min-width:640px){#pwa-bar{left:auto;right:18px;bottom:18px;max-width:430px;border-radius:16px;border:1px solid rgba(0,0,0,.08)}}
+    /* ===== Surface reset: hairlines and ratios instead of radius and shadow. ===== */
+    .rounded-3xl, .rounded-2xl, .rounded-xl, .rounded-lg, .rounded-t-2xl { border-radius: 0 !important; }
+    .shadow-sm, .shadow, .shadow-md, .shadow-lg, .shadow-xl { box-shadow: none !important; }
+    .border-gray-100, .border-gray-200 { border-color: rgba(35,48,40,.16) !important; }
+    input, textarea, select { border-radius: 2px; }
+    /* Pills survive only where they are a genuine control. */
+    .ftr-cta, .btn-gold, .btn-ghost { border-radius: 9999px !important; }
+    .bg-paper { background-color: var(--paper) !important; }
+    .group:hover [class~="group-hover:scale-105"], [class~="group-hover:scale-105"]:hover { transform: none !important; }
   </style>
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
 <style>
     /* Category listing header. The per-category colour is demoted from a full
        background flood to a top accent rule, so every listing page reads as the
        same brand surface while keeping the colour coding. */
-    .cat-hero{background:var(--forest);border-top:3px solid var(--cat,var(--coral));color:#fff}
-    .cat-hero-in{max-width:72rem;margin:0 auto;padding:1.1rem 1.25rem 1.4rem}
-    .cat-crumb{font-size:.75rem;color:rgba(255,255,255,.55);display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
-    .cat-crumb a{color:rgba(255,255,255,.72);text-decoration:none}
-    .cat-crumb a:hover{color:#fff;text-decoration:underline}
+    .cat-hero{background:var(--paper);border-bottom:1px solid rgba(35,48,40,.16);color:var(--ink)}
+    .cat-hero-in{max-width:72rem;margin:0 auto;padding:2.2rem 1.25rem 1.4rem}
+    .cat-crumb{font-size:.66rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--clay);
+               display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+    .cat-crumb a{color:var(--clay);text-decoration:none}
+    .cat-crumb a:hover{text-decoration:underline}
     .cat-row{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:.55rem}
-    .cat-row h1{font-size:clamp(1.7rem,4.2vw,2.4rem);font-weight:700;line-height:1.1;margin:0}
-    .cat-sub{color:rgba(255,255,255,.68);font-size:.92rem;margin:.3rem 0 0}
-    .cat-cta{display:inline-flex;align-items:center;gap:.4rem;border:1px solid rgba(255,255,255,.42);border-radius:9999px;
-             padding:.5rem 1.05rem;font-size:.8rem;font-weight:600;color:#fff;text-decoration:none;white-space:nowrap;
-             transition:background .18s,color .18s,border-color .18s}
-    .cat-cta:hover{background:#fff;color:var(--forest);border-color:#fff}
-    @media(max-width:640px){.cat-hero-in{padding:.9rem 1.1rem 1.2rem}.cat-row{gap:.7rem}.cat-cta{padding:.45rem .9rem;font-size:.76rem}}
+    .cat-row h1{font-size:clamp(2.2rem,5vw,3.75rem);font-weight:400;line-height:1;letter-spacing:-.02em;
+                color:var(--forest);margin:0}
+    .cat-sub{color:#4B564D;font-size:1.03rem;line-height:1.6;margin:.6rem 0 0;max-width:44em}
+    .h1-count{font-family:'Instrument Sans',sans-serif;font-size:1.05rem;font-weight:500;color:#8A9187;
+              vertical-align:super;letter-spacing:.04em}
+    .cat-cta{display:inline-flex;align-items:center;gap:.4rem;border:0;
+             border-bottom:1.5px solid var(--cat,var(--clay));border-radius:0!important;padding:0 0 .25rem;
+             font-size:.69rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--forest);
+             text-decoration:none;white-space:nowrap;transition:color .18s,border-color .18s}
+    .cat-cta:hover{background:none;color:var(--clay)}
+    @media(max-width:640px){.cat-hero-in{padding:1.5rem 1.1rem 1.1rem}.cat-row{gap:.7rem}}
     /* Intro prose lives below the listings: indexable, out of the way. */
     .cat-about{border-top:1px solid var(--line,#e6ddc9);margin-top:3rem;padding-top:1.8rem}
     .cat-about h2{font-size:1.15rem;font-weight:700;color:var(--ink,#233028);margin:0 0 .6rem}
@@ -161,8 +214,8 @@
   </style>
 <style>
     .esr-grab{cursor:grab}.esr-grab:active{cursor:grabbing}
-    .esr-arrow{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:9999px;background:#fff;border:1px solid #e5e7eb;box-shadow:0 1px 5px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;color:#374151;padding:0}
-    .esr-arrow:hover{border-color:#9ca3af;color:#111}
+    .esr-arrow{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:9999px;background:var(--paper);border:1px solid rgba(35,48,40,.16);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;color:var(--forest);padding:0}
+    .esr-arrow:hover{border-color:var(--forest);color:var(--forest)}
     .esr-arrow-l{left:2px}.esr-arrow-r{right:2px}
     @media(hover:none){.esr-arrow{display:none!important}}
     /* Data tables: scroll on desktop, stack into labelled cards on phones. */
@@ -348,7 +401,13 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Explore Suriname | South America's Hidden Gem","url":"https://exploresuriname.com/nl/","dateModified":"2026-09-14","about":{"@type":"Place","name":"Suriname","addressCountry":"SR"},"isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/nl/"}}</script>
 <style>
     /* ===== HERO ===== */
-    #hero{position:relative;min-height:92vh;min-height:92svh;display:flex;align-items:flex-end;overflow:hidden;background:#173A2A;padding-top:76px}
+    /* Split hero: words on paper in the left column, photograph in the right.
+       The .hz crossfade, esGo() and the Ken Burns keyframes are untouched — only
+       the box they live in changed. */
+    #hero{position:relative;background:var(--paper);display:grid;
+          grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:stretch;
+          min-height:calc(88vh - 92px);min-height:calc(88svh - 92px)}
+    .hero-photo{position:relative;overflow:hidden;background:#173A2A}
     #hero .hz{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease-in-out;will-change:opacity}
     #hero .hz.on{opacity:1}
     @media (prefers-reduced-motion: no-preference){#hero .hz.on{animation:eskb 24s ease-in-out infinite alternate}}
@@ -358,32 +417,48 @@
     #hz2{background-position:center 62%}
     #hz3{background-position:center 48%}
     #hz4{background-position:center 42%}
-    .hero-scrim-l{position:absolute;inset:0;background:linear-gradient(102deg,rgba(11,24,17,.68) 0%,rgba(11,24,17,.24) 44%,rgba(11,24,17,0) 70%)}
-    .hero-scrim-b{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,38,27,.18) 0%,rgba(18,38,27,0) 38%,rgba(14,30,21,.55) 73%,rgba(10,22,15,.95) 100%)}
-    .hero-inner{position:relative;max-width:1240px;width:100%;margin:0 auto;padding:0 clamp(20px,5vw,52px) clamp(72px,8vw,104px)}
+    .hero-scrim-b{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,22,15,0) 55%,rgba(10,22,15,.62) 100%)}
+    .hero-inner{position:relative;display:flex;flex-direction:column;justify-content:center;
+                padding:clamp(40px,5vw,72px) clamp(20px,4vw,64px)}
     .hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:22px}
-    .hero-eyebrow .rule{width:30px;height:1.5px;background:var(--gold)}
-    .hero-eyebrow .txt{font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#F2E9D4}
-    .hero-h1{font-weight:500;font-size:clamp(46px,7.4vw,92px);line-height:.98;letter-spacing:-.012em;margin:0;color:#FCF7EC;text-shadow:0 2px 34px rgba(10,22,15,.5)}
-    .hero-h1 .it{font-style:italic;font-weight:600;color:var(--gold)}
-    .hero-lead{font-size:clamp(16px,1.5vw,20px);line-height:1.6;color:#ECE4D2;max-width:33rem;margin:26px 0 0}
-    .hero-search{margin-top:36px;display:flex;align-items:stretch;background:rgba(252,247,236,.97);border-radius:16px;overflow:hidden;max-width:580px;box-shadow:0 22px 52px -18px rgba(7,18,12,.72)}
-    .hero-search input{flex:1;border:0;outline:none;background:transparent;padding:18px 22px;font-family:inherit;font-size:16px;color:#233028;min-width:0}
-    .hero-search button{border:0;background:var(--forest);color:#FCF7EC;padding:0 24px;display:flex;align-items:center;gap:9px;cursor:pointer;font-weight:700;font-size:15px;transition:background .2s}
-    .hero-search button:hover{background:var(--forest2)}
-    .hero-chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px;align-items:center}
-    .hero-chips .lbl{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(252,247,236,.72)}
-    .hero-chips a{font-size:13px;padding:7px 14px;border:1px solid rgba(252,247,236,.38);border-radius:999px;color:#FCF7EC;transition:background .2s}
-    .hero-chips a:hover{background:rgba(252,247,236,.14)}
-    #es-cap{position:absolute;right:clamp(20px,5vw,52px);bottom:clamp(58px,7vw,96px);display:flex;flex-direction:column;align-items:flex-end;gap:13px;z-index:2}
+    .hero-eyebrow .rule{width:30px;height:1.5px;background:var(--clay)}
+    .hero-eyebrow .txt{font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--clay)}
+    .hero-h1{font-weight:400;font-size:clamp(44px,5.4vw,78px);line-height:1;letter-spacing:-.02em;margin:0;color:var(--forest)}
+    .hero-h1 .it{font-style:italic;font-weight:400;color:var(--clay)}
+    .hero-lead{font-size:clamp(16px,1.2vw,19px);line-height:1.65;color:#4B564D;max-width:31rem;margin:24px 0 0}
+    .hero-search{margin-top:34px;display:flex;align-items:flex-end;gap:14px;max-width:34rem;
+                 border-bottom:1.5px solid #CFC7B6;padding-bottom:.5rem}
+    .hero-search input{flex:1;border:0;outline:none;background:transparent;padding:2px 0;
+                       font-family:inherit;font-size:17px;color:#233028;min-width:0}
+    .hero-search input::placeholder{color:#8A9187}
+    .hero-search button{border:0;background:none;color:var(--forest);padding:0;display:flex;align-items:center;
+                        gap:7px;cursor:pointer;font-weight:600;font-size:.69rem;letter-spacing:.16em;
+                        text-transform:uppercase;transition:color .2s}
+    .hero-search button:hover{color:var(--clay)}
+    .hero-chips{display:flex;flex-wrap:wrap;gap:9px 18px;margin-top:20px;align-items:center}
+    .hero-chips .lbl{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8A9187}
+    .hero-chips a{font-size:13px;padding:2px 0;border:0;border-bottom:1px solid #D8CFBC;border-radius:0;
+                  color:#4B564D;transition:color .2s,border-color .2s}
+    .hero-chips a:hover{color:var(--forest);border-bottom-color:var(--forest)}
+    #es-cap{position:absolute;right:clamp(16px,2vw,28px);bottom:clamp(20px,3vw,34px);display:flex;
+            flex-direction:column;align-items:flex-end;gap:13px;z-index:2}
     .cap-pill{display:flex;align-items:center;gap:9px;background:rgba(10,22,15,.4);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);padding:8px 15px;border-radius:999px}
     .cap-pill .cd{width:6px;height:6px;border-radius:50%;background:var(--gold)}
     .cap-pill .t{font-size:12px;letter-spacing:.03em;color:#F2E9D4;white-space:nowrap}
     .hero-dots{display:flex;gap:7px}
     .hero-dots span{height:6px;width:7px;border-radius:999px;background:rgba(252,247,236,.45);transition:width .45s ease,background .45s ease;cursor:pointer}
     .hero-dots span.on{width:26px;background:var(--gold)}
+    @media (max-width:899px){
+      #hero{grid-template-columns:1fr;min-height:0}
+      .hero-photo{order:-1;height:270px}
+      .hero-inner{padding:32px clamp(20px,5vw,40px) 44px}
+      #hero .scrollcue{display:none}
+      .hero-chips{display:block;margin-top:22px}
+      .hero-chips .lbl{display:block;margin-bottom:10px}
+      .hero-chips a{display:block;padding:.7rem 0;border-bottom:1px solid #D8CFBC}
+    }
     @media (max-width:780px){#es-cap{display:none}}
-    .scrollcue{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(252,247,236,.62);z-index:2}
+    .scrollcue{position:absolute;bottom:18px;left:clamp(20px,4vw,64px);display:flex;flex-direction:column;align-items:flex-start;gap:6px;color:#8A9187;z-index:2}
     .scrollcue .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase}
     @media (prefers-reduced-motion: no-preference){.scrollcue .ch{animation:esbob 2.2s ease-in-out infinite}}
     @keyframes esbob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
@@ -392,19 +467,23 @@
     .wrap{max-width:1240px;margin:0 auto}
     .eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--clay)}
     .eyebrow-gold{color:var(--gold)}
-    .dsp{font-family:'Playfair Display',Georgia,serif}
+    .dsp{font-family:'Newsreader',Georgia,serif}
     /* welcome band */
-    .greet-pill{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 12px;background:#E7F2E7;border-radius:999px;margin-bottom:26px}
+    .greet-pill{display:inline-flex;align-items:center;gap:10px;padding:0 0 .35rem;background:none;border-radius:0;border-bottom:1px solid #D8CFBC;margin-bottom:26px}
     .greet-pill .gd{width:8px;height:8px;border-radius:50%;background:var(--gold)}
     .greet-pill .sr{font-style:italic;font-size:15px;color:var(--forest2)}
     .greet-pill .en{font-size:13px;color:#6E7A6B}
     .stat-n{font-weight:600;font-size:clamp(40px,5vw,58px);line-height:1;color:var(--forest2)}
     .stat-n .u{font-size:.45em;color:var(--gold)}
     .stat-c{font-size:14px;color:#6E7A6B;margin-top:10px;line-height:1.5}
+    .statgrid{display:grid;grid-template-columns:1fr;gap:clamp(20px,3vw,44px)}
+    @media(min-width:700px){.statgrid{grid-template-columns:repeat(3,1fr)}}
     /* journeys */
-    .jgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
-    .jc{display:block;position:relative;border-radius:22px;overflow:hidden;aspect-ratio:3/4.1;background:var(--forest2);box-shadow:0 18px 40px -26px rgba(27,67,50,.7);transition:transform .3s,box-shadow .3s}
-    .jc:hover{transform:translateY(-6px);box-shadow:0 30px 56px -28px rgba(27,67,50,.8)}
+    .jgrid{display:grid;grid-template-columns:1fr;gap:20px}
+    @media(min-width:640px){.jgrid{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:1024px){.jgrid{grid-template-columns:repeat(4,1fr)}}
+    .jc{display:block;position:relative;border-radius:0;overflow:hidden;aspect-ratio:3/4.1;background:var(--forest2);transition:filter .2s}
+    .jc:hover{filter:brightness(1.05)}
     .jc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
     .jc .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,40,28,0) 32%,rgba(18,40,28,.92) 100%)}
     .jc .jidx{position:absolute;top:18px;left:20px;font-style:italic;font-size:19px;color:rgba(252,247,236,.92)}
@@ -413,21 +492,25 @@
     .jc .ttl{font-size:25px;font-weight:600;line-height:1.04}
     .jc .jsub{font-size:13.5px;color:#DCE4DA;margin-top:7px;line-height:1.45}
     /* eat & stay */
-    .esgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
-    .es-card{background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 14px 36px -28px rgba(27,67,50,.5)}
+    .esgrid{display:grid;grid-template-columns:1fr;gap:22px}
+    @media(min-width:900px){.esgrid{grid-template-columns:repeat(2,1fr)}}
+    .es-card{background:none;border:0;border-top:1px solid rgba(35,48,40,.16);border-radius:0;overflow:hidden;display:flex;flex-direction:column}
     .es-card .ph{aspect-ratio:16/9;overflow:hidden;background:#DFD7C2}
     .es-card .ph img{width:100%;height:100%;object-fit:cover;display:block}
-    .es-body{padding:28px 30px 30px}
+    .es-body{padding:24px 0 0}
     .es-lbl{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--clay);margin-bottom:12px}
     .es-h{font-weight:500;font-size:clamp(24px,2.8vw,34px);margin:0 0 12px;line-height:1.05;color:var(--forest)}
     .es-p{font-size:15px;color:#5C6657;margin:0 0 20px;line-height:1.6}
-    .es-chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-    .es-chip{font-size:13px;padding:7px 14px;border:1px solid #E4DAC3;border-radius:999px;color:var(--forest2);background:#F6F0E1}
+    .es-chips{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+    .es-chip{font-size:13px;padding:2px 0;border:0;border-bottom:1px solid #D8CFBC;border-radius:0;color:#4B564D;background:none}
+    .es-chip:hover{color:var(--forest);border-bottom-color:var(--forest)}
     .es-all{font-size:14px;font-weight:700;color:var(--forest);margin-left:4px}
     /* essentials */
-    .essgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:16px}
-    .ess-card{display:block;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 10px 30px -24px rgba(27,67,50,.5);transition:transform .25s,box-shadow .25s}
-    .ess-card:hover{transform:translateY(-4px);box-shadow:0 22px 44px -26px rgba(27,67,50,.55)}
+    .essgrid{display:grid;grid-template-columns:1fr;gap:0}
+    @media(min-width:700px){.essgrid{grid-template-columns:repeat(3,1fr);gap:0 36px}}
+    .ess-card{display:block;background:none;border:0;border-top:1px solid rgba(35,48,40,.16);border-radius:0;
+              padding:22px 0;transition:color .2s}
+    .ess-card:hover .t{color:var(--clay)}
     .ess-card .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--clay)}
     .ess-card .t{font-size:18px;font-weight:700;color:var(--forest);margin-top:14px}
     .ess-card .d{font-size:13.5px;color:#5C6657;margin-top:6px;line-height:1.5}
@@ -439,6 +522,10 @@
     .btn-gold:hover{transform:translateY(-2px)}
     .btn-ghost{border:1.5px solid rgba(252,247,236,.5);color:#FCF7EC;font-weight:600;font-size:14.5px;padding:13px 24px;border-radius:999px;transition:background .2s;display:inline-block}
     .btn-ghost:hover{background:rgba(252,247,236,.12)}
+    .btn-ghost-light{border-color:rgba(35,48,40,.3);color:var(--forest)}
+    .btn-ghost-light:hover{background:rgba(35,48,40,.06)}
+    .btn-gold{box-shadow:none}
+    .btn-gold:hover{transform:none;background:#D89E3C}
     /* scroll reveal (safe: visible by default; JS opts in, never gates content) */
     .rv-on [data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
     .rv-on [data-reveal].rv-in{opacity:1;transform:none}
@@ -446,10 +533,12 @@
     </style>
 <style>nav button,nav a{white-space:nowrap}</style><link href="https://exploresuriname.com/" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/" hreflang="x-default" rel="alternate"/></head>
 <body class="overflow-x-hidden" style="background:var(--paper);color:var(--ink)">
-<nav class="fixed top-0 w-full z-50" style="background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14);box-shadow:0 1px 12px rgba(20,42,30,.05)">
-<div class="max-w-7xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
-<a class="flex items-baseline flex-shrink-0" href="index.html">
-<span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
+<div class="util-rail"><div class="util-in"><div class="util-l"><a href="currency.html"><strong>SRD 37.90</strong> USD</a><a href="conditions.html">30° Paramaribo</a><a href="daily-notices.html">1 outage notice today</a></div><div class="util-r"><span>Mon 14 September</span></div></div></div>
+<nav class="w-full z-50" style="position:sticky;top:0;background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14)">
+<div class="max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
+<a class="flex flex-col justify-center flex-shrink-0" href="index.html">
+<span class="navmark"><span style="color:var(--forest)">Ontdekken</span><span style="color:var(--coral)">Suriname</span></span>
+<span class="navtag">Kept in Paramaribo</span>
 </a>
 <div class="hidden lg:flex items-center navlinks"><div class="relative" id="dd-expl" onmouseenter="openDd('dd-expl')" onmouseleave="closeDd('dd-expl')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-expl')">Ontdekken<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-expl-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="activities.html">Te doen</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="events.html">Evenementen en festivals</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="shopping.html">Winkelen</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="services.html">Lokale diensten</a></div></div><div class="relative" id="dd-eat" onmouseenter="openDd('dd-eat')" onmouseleave="closeDd('dd-eat')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-eat')">Eten &amp; Slapen<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-eat-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="restaurants.html">Waar te eten</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="hotels.html">Waar te overnachten</a></div></div><div class="relative" id="dd-plan" onmouseenter="openDd('dd-plan')" onmouseleave="closeDd('dd-plan')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-plan')">Plan<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-plan-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="visitor-guide.html">De basis</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-itinerary.html">Reisroutes</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="is-suriname-safe.html">Is Suriname veilig?</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="on-the-road.html">Onderweg</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="flights.html">Vluchten</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-history.html">Geschiedenis tijdlijn</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="sranan-tongo-dictionary.html">Sranan-woordenboek</a></div></div><div class="relative" id="dd-live" onmouseenter="openDd('dd-live')" onmouseleave="closeDd('dd-live')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-live')">Live<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-live-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="currency.html">Wisselkoersen</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="conditions.html">Weer &amp; getijden</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="daily-notices.html">Dagelijkse mededelingen</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="atms.html">ATM-zoeker</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="matches.html">Sportschema</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-time.html">Tijd &amp; Omzetter</a></div></div><div class="relative" id="dd-oil" onmouseenter="openDd('dd-oil')" onmouseleave="closeDd('dd-oil')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-oil')">Olie en gas<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-oil-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="oil-and-gas.html">Overzicht</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-oil-blocks.html">Blokken en operators</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="granmorgu.html">GranMorgu-project</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-oil-timeline.html">Tijdlijn en routekaart</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-oil-contracts.html">Contracten en voorwaarden</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-oil-government.html">Wie regeert</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="suriname-oil-jobs.html">Banen en lokale inhoud</a></div></div><div class="relative" id="dd-games" onmouseenter="openDd('dd-games')" onmouseleave="closeDd('dd-games')"><button class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1" onclick="toggleDd('dd-games')">Spellen<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50" id="dd-games-menu"><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="quiz.html">Sabi Suriname Quiz</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="crossword.html">Switi Mini-kruiswoordraadsel</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="map-game.html">Pe A De? Kaartspel</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="korjaal.html">Korjaal Run</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="anaconda.html">Aboma Snake-spel</a><a class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition" href="muskieto.html">Muskieto-overlevende</a></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="news.html">Nieuws</a></div>
 <div class="flex items-center gap-2 flex-shrink-0">
@@ -827,13 +916,6 @@ document.addEventListener('keydown', e => {
 </script>
 <!-- ===== HERO ===== -->
 <section id="hero">
-<div class="hz on" id="hz0"></div>
-<div class="hz" id="hz1"></div>
-<div class="hz" id="hz2"></div>
-<div class="hz" id="hz3"></div>
-<div class="hz" id="hz4"></div>
-<div class="hero-scrim-l"></div>
-<div class="hero-scrim-b"></div>
 <div class="hero-inner">
 <div style="max-width:40rem">
 <div class="hero-eyebrow"><span class="rule"></span><span class="txt">Verken Suriname</span></div>
@@ -853,21 +935,29 @@ document.addEventListener('keydown', e => {
 </div>
 </div>
 </div>
+<div class="hero-photo">
+<div class="hz on" id="hz0"></div>
+<div class="hz" id="hz1"></div>
+<div class="hz" id="hz2"></div>
+<div class="hz" id="hz3"></div>
+<div class="hz" id="hz4"></div>
+<div class="hero-scrim-b"></div>
 <div id="es-cap">
 <div class="cap-pill"><span class="cd"></span><span class="t" id="es-cap-t">Zonsondergang boven de Commewijne</span></div>
 <div class="hero-dots">
 <span aria-label="Slide 1" class="on" onclick="esGo(0)" role="button"></span><span aria-label="Slide 2" onclick="esGo(1)" role="button"></span><span aria-label="Slide 3" onclick="esGo(2)" role="button"></span><span aria-label="Slide 4" onclick="esGo(3)" role="button"></span><span aria-label="Slide 5" onclick="esGo(4)" role="button"></span>
 </div>
 </div>
+</div>
 <div class="scrollcue"><span class="k">Fa waka · hoe gaat het</span><span class="ch" style="font-size:18px">⌄</span></div>
 </section>
 <!-- ===== WELCOME BAND ===== -->
 <section class="sec" style="background:var(--paper)">
-<div style="max-width:1000px;margin:0 auto;text-align:center">
+<div style="max-width:1000px;margin:0 auto">
 <div class="greet-pill" data-reveal=""><span class="gd"></span><span class="sr dsp" id="greet-sr">Fa waka?</span><span class="en" id="greet-en">· Hoe is het</span></div>
-<h2 class="dsp" data-reveal="" style="font-weight:500;font-size:clamp(30px,4.6vw,58px);line-height:1.06;letter-spacing:-.01em;margin:0 auto;max-width:16em;color:var(--forest)">Dit is geen map. Zijn <span style="font-style:italic;color:var(--clay)">thuis,</span> opgeschreven.</h2>
-<p class="dsp-off" data-reveal="" style="font-size:clamp(16px,1.5vw,19px);line-height:1.7;color:#505C50;max-width:38em;margin:28px auto 0">We zijn geen gids die ergens ver weg is geschreven. Wij wonen hier. We eten aan deze tafels, zwemmen onder deze watervallen en zien elke avond dezelfde zon in de rivier zinken. Alles wat u aantreft wordt bewaard door mensen die Suriname uw thuis noemen, klaar voor de dag dat u het ook uw thuis wilt noemen.</p>
-<div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:clamp(20px,3vw,44px);margin-top:clamp(44px,5vw,64px);border-top:1px solid var(--line);padding-top:clamp(36px,4vw,48px)">
+<h2 class="dsp" data-reveal="" style="font-weight:400;font-size:clamp(30px,4.6vw,58px);line-height:1.06;letter-spacing:-.01em;margin:0;max-width:16em;color:var(--forest)">Dit is geen map. Zijn <span style="font-style:italic;color:var(--clay)">thuis,</span> opgeschreven.</h2>
+<p class="dsp-off" data-reveal="" style="font-size:clamp(16px,1.5vw,19px);line-height:1.7;color:#505C50;max-width:38em;margin:28px 0 0">We zijn geen gids die ergens ver weg is geschreven. Wij wonen hier. We eten aan deze tafels, zwemmen onder deze watervallen en zien elke avond dezelfde zon in de rivier zinken. Alles wat u aantreft wordt bewaard door mensen die Suriname uw thuis noemen, klaar voor de dag dat u het ook uw thuis wilt noemen.</p>
+<div class="statgrid" data-reveal="" style="margin-top:clamp(44px,5vw,64px);border-top:1px solid rgba(35,48,40,.16);padding-top:clamp(36px,4vw,48px)">
 <div><div class="stat-n dsp">93<span class="u">%</span></div><div class="stat-c">regenwoud bestaat nog steeds, meer dan enig land op aarde.</div></div>
 <div><div class="stat-n dsp">7<span class="u">+</span></div><div class="stat-c">culturen die één tafel, één straat, één reeks vakanties delen.</div></div>
 <div><div class="stat-n dsp">28<span class="u">°</span></div><div class="stat-c">en goudkleurig, elke dag van het jaar. Neem minder mee dan je denkt.</div></div>
@@ -975,18 +1065,16 @@ document.addEventListener('keydown', e => {
 </div>
 </section>
 <!-- ===== CLOSING INVITATION ===== -->
-<section class="darksec" style="background:#173A2A">
-<img alt="De Wijdenboschbrug over de Surinamerivier op gouden uur" class="dbg" height="900" loading="lazy" sizes="100vw" src="/images/hero-bridge.webp" srcset="/images/hero-bridge-m.webp 900w, /images/hero-bridge.webp 1600w" width="1600"/>
-<div style="position:absolute;inset:0;background:radial-gradient(120% 120% at 50% 0%,rgba(231,174,77,.18) 0%,rgba(23,58,42,.85) 55%,rgba(20,42,30,.96) 100%)"></div>
-<div class="wrap" data-reveal="" style="position:relative;max-width:900px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,5vw,52px);text-align:center;color:#FCF7EC">
-<div class="eyebrow eyebrow-gold" style="margin-bottom:20px">Dagelijks bijgewerkt, vanuit Paramaribo</div>
-<h2 class="dsp" style="font-weight:500;font-size:clamp(34px,5.6vw,76px);line-height:1.02;margin:0 auto;max-width:13em;letter-spacing:-.01em">Kom morgen terug. De <span style="font-style:italic;color:var(--gold)">zonsondergang</span> nog steeds vrij.</h2>
-<p style="font-size:clamp(16px,1.5vw,19px);color:#E2DBCB;max-width:34em;margin:26px auto 34px;line-height:1.65">Tarieven veranderen, vluchten landen, festivals komen eraan. Voeg ons toe aan je favorieten, of kom gewoon nog eens langs als je de warmte mist. Wij houden een stoel voor u vrij.</p>
-<div style="display:flex;gap:13px;justify-content:center;flex-wrap:wrap">
+<section style="background:var(--paper);border-top:2px solid var(--gold)">
+<div class="wrap" data-reveal="" style="position:relative;max-width:900px;margin:0 auto;padding:clamp(64px,8vw,112px) clamp(20px,5vw,52px);color:var(--ink)">
+<div class="eyebrow" style="margin-bottom:20px">Dagelijks bijgewerkt, vanuit Paramaribo</div>
+<h2 class="dsp" style="font-weight:400;font-size:clamp(34px,5.6vw,72px);line-height:1.02;margin:0;max-width:13em;letter-spacing:-.02em;color:var(--forest)">Kom morgen terug. De <span style="font-style:italic;color:var(--clay)">zonsondergang</span> nog steeds vrij.</h2>
+<p style="font-size:clamp(16px,1.5vw,19px);color:#4B564D;max-width:34em;margin:26px 0 34px;line-height:1.65">Tarieven veranderen, vluchten landen, festivals komen eraan. Voeg ons toe aan je favorieten, of kom gewoon nog eens langs als je de warmte mist. Wij houden een stoel voor u vrij.</p>
+<div style="display:flex;gap:13px;flex-wrap:wrap">
 <a class="btn-gold" href="visitor-guide.html">Lees de bezoekersgids</a>
-<a class="btn-ghost" href="activities.html">Blijf ontdekken</a>
+<a class="btn-ghost btn-ghost-light" href="activities.html">Blijf ontdekken</a>
 </div>
-<div class="dsp" style="font-style:italic;font-size:17px;color:#CFC8B5;margin-top:40px">Met liefde, van ons allemaal hier in Suriname</div>
+<div class="dsp" style="font-style:italic;font-size:17px;color:#8A9187;margin-top:40px">Met liefde, van ons allemaal hier in Suriname</div>
 </div>
 </section>
 <footer style="background:#142A1E;color:#B9C2B2">

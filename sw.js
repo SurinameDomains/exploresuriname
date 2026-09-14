@@ -1,8 +1,8 @@
 // ExploreSuriname Service Worker
-const CACHE = 'exploresr-v8';
-const TWV = '9a7f3e4d';
+const CACHE = 'exploresr-v9';
+const TWV = '13b9f6f1';
 const PRECACHE = ['/', '/tailwind.css?v=' + TWV, '/favicon.ico', '/favicon.svg', '/offline.html',
-                  '/fonts/playfair-latin-var.woff2', '/fonts/inter-latin-var.woff2'];
+                  '/fonts/newsreader-latin-var.woff2', '/fonts/instrument-latin-var.woff2'];
 const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html', '/daily-notices.html', '/events.html']);
 
 self.addEventListener('install', e => {
