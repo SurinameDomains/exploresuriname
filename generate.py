@@ -3249,6 +3249,23 @@ PAGE_HEAD = """\
     .ftr-cta, .btn-gold, .btn-ghost { border-radius: 9999px !important; }
     .bg-paper { background-color: var(--paper) !important; }
     .group:hover [class~="group-hover:scale-105"], [class~="group-hover:scale-105"]:hover { transform: none !important; }
+    /* ===== Interior page header =====
+       Browse surfaces (home, category pages) sit on paper. Content and utility
+       pages keep a dark header, restyled into the same type system so the two read
+       as a deliberate pair rather than one finished and one left behind. The dark
+       matches the utility rail so a page never shows two different greens. Photo
+       heroes keep their image and scrim; only the type and accents change. */
+    .pg-hero { background:#142A1E !important; border-bottom:1px solid rgba(252,247,236,.13); }
+    .pg-hero h1 { font-weight:400 !important; letter-spacing:-.02em; line-height:1.05; }
+    .pg-hero p[style*="color:var("] { color:var(--gold) !important; font-size:.66rem !important;
+                                      font-weight:600 !important; letter-spacing:.22em; }
+    .pg-hero a.inline-flex,
+    .pg-hero nav[aria-label="Breadcrumb"] { font-size:.66rem !important; font-weight:600;
+                                            letter-spacing:.2em; text-transform:uppercase; }
+    .pg-hero a.inline-flex,
+    .pg-hero nav[aria-label="Breadcrumb"] a { color:#9FAC9C !important; }
+    .pg-hero a.inline-flex:hover,
+    .pg-hero nav[aria-label="Breadcrumb"] a:hover { color:#FCF7EC !important; }
   </style>
   <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
   <style>
@@ -3791,25 +3808,33 @@ def _rail_notice_count():
 
 def build_rail_data(cme_rates):
     """Populate _RAIL before any page is built. Missing items are simply omitted."""
-    usd = ""
+    buy = sell = ""
     for r in (cme_rates or []):
         if r.get("currency") == "USD":
             try:
-                usd = f"{float(r['sell']):.2f}"
+                buy  = f"{float(r['buy']):.2f}"
+                sell = f"{float(r['sell']):.2f}"
             except Exception:
-                usd = ""
+                buy = sell = ""
             break
-    _RAIL["srd_usd"] = usd
+    _RAIL["usd_buy"]  = buy
+    _RAIL["usd_sell"] = sell
     _RAIL["temp"]    = fetch_paramaribo_temp()
     _RAIL["notices"] = _rail_notice_count()
     _RAIL["date"]    = datetime.now(SR_TZ).strftime("%a %-d %B")
-    print(f"  OK  utility rail: USD {usd or 'n/a'}, {_RAIL['temp']}C, {_RAIL['notices']} outage notices")
+    print(f"  OK  utility rail: USD {buy or 'n/a'}/{sell or 'n/a'}, {_RAIL['temp']}C, {_RAIL['notices']} outage notices")
 
 def util_rail_html(prefix=""):
     """The 34px strip above the nav. Scrolls away with the page by design."""
     left = []
-    if _RAIL.get("srd_usd"):
-        left.append(f'<a href="{prefix}currency.html"><strong>SRD {_RAIL["srd_usd"]}</strong> USD</a>')
+    # Cambio boards show two columns, so the pair reads naturally here. Order and
+    # wording match currency.html: "We Buy" is what they pay you, "We Sell" is what
+    # you pay them.
+    if _RAIL.get("usd_buy") and _RAIL.get("usd_sell"):
+        left.append(f'<a href="{prefix}currency.html" title="CME cash rate: we buy / we sell">'
+                    f'USD <strong>{_RAIL["usd_buy"]}</strong> / <strong>{_RAIL["usd_sell"]}</strong></a>')
+    elif _RAIL.get("usd_sell"):
+        left.append(f'<a href="{prefix}currency.html">USD <strong>{_RAIL["usd_sell"]}</strong></a>')
     if _RAIL.get("temp") is not None:
         left.append(f'<a href="{prefix}conditions.html">{_RAIL["temp"]}&deg; Paramaribo</a>')
     # Two fixed strings, count kept outside them, so build_i18n only ever has two
@@ -5107,7 +5132,7 @@ def build_index(restaurants, hotels, cme_rates=None):
     #hz4{background-position:center 42%}
     .hero-scrim-b{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,22,15,0) 55%,rgba(10,22,15,.62) 100%)}
     .hero-inner{position:relative;display:flex;flex-direction:column;justify-content:center;
-                padding:clamp(40px,5vw,72px) clamp(20px,4vw,64px)}
+                padding:clamp(40px,5vw,72px) clamp(20px,4vw,64px) 104px}
     .hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:22px}
     .hero-eyebrow .rule{width:30px;height:1.5px;background:var(--clay)}
     .hero-eyebrow .txt{font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--clay)}
@@ -5912,7 +5937,7 @@ doConvert();"""
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("currency")}
-<div class="text-white py-16 text-center" style="background:var(--forest)">
+<div class="pg-hero text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">SRD Exchange Rates</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">CBVS official &bull; CME cash &bull; commercial banks compared &bull; live gold &amp; Brent oil</p>
@@ -6191,7 +6216,7 @@ def build_news(articles, oil_articles, finance_articles):
 {nav_html("news")}
 
 <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
-<div class="text-white text-center py-14" style="background:var(--forest)">
+<div class="pg-hero text-white text-center py-14" style="background:var(--forest)">
   <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--leaf)">Suriname News</p>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Stay Informed</h1>
 </div>
@@ -7584,7 +7609,7 @@ def build_today_page():
 {nav_html("daily-notices")}
 
 <!-- Hero -->
-<div class="py-10 text-center text-white" style="background:var(--forest)">
+<div class="pg-hero py-10 text-center text-white" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Daily Notices</h1>
   <p class="text-white/65 text-base">{today_str}</p>
@@ -8467,7 +8492,7 @@ def build_events_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("events")}
-<div class="relative text-white py-16 text-center overflow-hidden" style="background:var(--forest)">
+<div class="pg-hero relative text-white py-16 text-center overflow-hidden" style="background:var(--forest)">
   <div class="absolute inset-0" style="background:url(/images/home-faiths.webp) center/cover no-repeat" aria-hidden="true"></div>
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.85),rgba(13,30,22,.62))" aria-hidden="true"></div>
   <div class="relative max-w-3xl mx-auto px-4">
@@ -8699,7 +8724,7 @@ def build_crossword_page():
     body = """
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div class="relative text-white py-14 text-center overflow-hidden" style="background:var(--forest)">
+<div class="pg-hero relative text-white py-14 text-center overflow-hidden" style="background:var(--forest)">
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.92),rgba(13,30,22,.7))" aria-hidden="true"></div>
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-6">
@@ -9022,7 +9047,7 @@ def build_quiz_page():
     body = """
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div class="relative text-white py-14 text-center overflow-hidden" style="background:var(--forest)">
+<div class="pg-hero relative text-white py-14 text-center overflow-hidden" style="background:var(--forest)">
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.92),rgba(13,30,22,.7))" aria-hidden="true"></div>
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-6">
@@ -9148,7 +9173,7 @@ def build_visitor_guide_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("visitor")}
-<div class="text-white py-14 text-center" style="background:var(--forest)">
+<div class="pg-hero text-white py-14 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">The Basics</h1>
   <p class="text-white/65 text-lg max-w-xl mx-auto px-5">Visas, customs, SIM cards, money and getting around. The practical stuff, in one place.</p>
@@ -9532,7 +9557,7 @@ def _hub_hero(kicker, h1, sub):
     return f"""
 <body class="bg-gray-50 overflow-x-hidden">
 {{NAV}}
-<div class="text-white py-14 text-center" style="background:var(--forest)">
+<div class="pg-hero text-white py-14 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--coral)">{kicker}</p>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">{h1}</h1>
@@ -11285,7 +11310,7 @@ def build_mapgame_page():
     body = """
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div class="relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
+<div class="pg-hero relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
       <a href="index.html" class="hover:text-white transition">Home</a>
@@ -11593,7 +11618,7 @@ def build_korjaal_page():
     body = """
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div class="relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
+<div class="pg-hero relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
       <a href="index.html" class="hover:text-white transition">Home</a>
@@ -12068,7 +12093,7 @@ def build_anaconda_page():
     body = """
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div class="relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
+<div class="pg-hero relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
       <a href="index.html" class="hover:text-white transition">Home</a>
@@ -14301,7 +14326,7 @@ def build_muskieto_page():
     body = """
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div class="relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
+<div class="pg-hero relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
       <a href="index.html" class="hover:text-white transition">Home</a>
@@ -15095,7 +15120,7 @@ def build_about_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("about")}
-<div class="text-white py-16 text-center" style="background:var(--forest)">
+<div class="pg-hero text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">About Explore Suriname</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">South America&rsquo;s best-kept secret, uncovered</p>
@@ -15192,7 +15217,7 @@ def build_contact_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("contact")}
-<div class="text-white py-16 text-center" style="background:var(--forest)">
+<div class="pg-hero text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Contact Us</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">We&rsquo;d love to hear from you</p>
@@ -15307,7 +15332,7 @@ def build_submit_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div class="text-white py-16 text-center" style="background:var(--forest)">
+<div class="pg-hero text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Add Your Business</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Free listing on Suriname&#8217;s local directory</p>
@@ -15608,7 +15633,7 @@ def build_submit_event_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div class="text-white py-16 text-center" style="background:var(--forest)">
+<div class="pg-hero text-white py-16 text-center" style="background:var(--forest)">
   <a href="events.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Events &amp; Festivals</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Submit Your Event</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Free listing on Suriname&#8217;s events calendar</p>
@@ -15888,7 +15913,7 @@ def build_privacy_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("privacy")}
-<div class="text-white py-12 text-center" style="background:var(--forest)">
+<div class="pg-hero text-white py-12 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-3xl sm:text-4xl font-bold mb-2">Privacy Policy</h1>
   <p class="text-white/60 text-sm">Last updated: {policy_date}</p>
@@ -16979,7 +17004,7 @@ def build_offline():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html()}
-<div class="text-white py-20 text-center" style="background:var(--forest)">
+<div class="pg-hero text-white py-20 text-center" style="background:var(--forest)">
   <p class="text-6xl mb-4">🌿</p>
   <h1 class="serif text-4xl font-bold mb-3">You're offline</h1>
   <p class="text-white/70 text-lg max-w-sm mx-auto px-5">Check your connection and try again. Or explore pages you've already visited.</p>
@@ -17283,7 +17308,7 @@ function loadAirQuality(lat, lon){
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("forecast")}
-<div class="text-white py-16 text-center" style="background:var(--forest)">
+<div class="pg-hero text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Weather &amp; River Tides</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Live weather by district &bull; tidal forecasts for 4 rivers &bull; sunrise &amp; sunset</p>
@@ -17827,7 +17852,7 @@ def build_flights_page(flights_data):
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("flights")}
-<div class="text-white py-16 text-center" style="background:var(--forest)">
+<div class="pg-hero text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Flights Today</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Arrivals &amp; departures &bull; Johan Adolf Pengel (PBM) &bull; Eduard Alexander Gummels (EAX)</p>
@@ -17956,7 +17981,7 @@ def build_roads_page():
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("roads")}
 
-<div class="text-white py-10 text-center" style="background:var(--forest)">
+<div class="pg-hero text-white py-10 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Road Conditions</h1>
   <p class="text-white/65 text-lg max-w-xl mx-auto px-5">Waze drivers across Suriname report accidents, closures and hazards as they happen. Check before you go.</p>
