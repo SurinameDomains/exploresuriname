@@ -1357,6 +1357,8 @@ def _card_srcset(img):
         return f' srcset="{_v} 480w, {_rel} {_w}w" sizes="(max-width:639px) 92vw, 400px"'
     return ""
 
+_OG_HOTLINK_HOSTILE = ("upload.wikimedia.org", "commons.wikimedia.org")
+
 def _og_share_image(img):
     """Return an og:image a link preview can actually render.
 
@@ -1372,6 +1374,11 @@ def _og_share_image(img):
         return fallback
     rel = img[len(SITE_URL):] if img.startswith(SITE_URL) else img
     if rel.startswith("http"):
+        # Some hosts serve the file to a browser but 403 the social crawlers, so a
+        # hotlinked og:image there renders as an empty preview card. Verified Sep
+        # 2026: upload.wikimedia.org returns 403 to facebookexternalhit.
+        if any(h in rel for h in _OG_HOTLINK_HOSTILE):
+            return fallback
         return img if rel.lower().split("?")[0].endswith((".jpg", ".jpeg", ".png")) else fallback
     rel = "/" + rel.lstrip("/")
     if not rel.startswith("/images/"):
@@ -3193,13 +3200,13 @@ PAGE_HEAD = """\
     .dist-chip {
       display:inline-flex;align-items:center;gap:4px;padding:.35rem 0;border:0;background:none;
       border-radius:0!important;border-bottom:1.5px solid transparent;
-      font-size:.78rem;color:#6b7280;cursor:pointer;white-space:nowrap;flex-shrink:0;
+      font-size:.78rem;color:#646A78;cursor:pointer;white-space:nowrap;flex-shrink:0;
       transition:color .15s,border-color .15s;
     }
     .dist-chip:hover { color:var(--forest2);border-bottom-color:#DDD4C1; }
     .dist-chip.dist-chip-active { background:none;color:var(--forest2);border-bottom-color:var(--forest2); }
-    .chip-count { font-size:.66rem;color:#A9A392;vertical-align:super;font-weight:500;opacity:1; }
-    .filter-chip.chip-active .chip-count { color:#8A9187; }
+    .chip-count { font-size:.66rem;color:#706958;vertical-align:super;font-weight:500;opacity:1; }
+    .filter-chip.chip-active .chip-count { color:#656C63; }
     /* Text chips are only 40px/30px tall, so touch devices get a proper target
        without loosening the desktop rhythm. */
     @media(hover:none){ .filter-chip, .dist-chip { min-height:44px; } }
@@ -3213,7 +3220,7 @@ PAGE_HEAD = """\
     .listing-meta { display:flex; justify-content:space-between; gap:.75rem; margin-top:auto;
                     border-top:1px solid #DDD4C1; padding-top:.55rem;
                     font-size:.66rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
-                    color:#8A9187; }
+                    color:#656C63; }
     .listing-meta span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     /* One column on phones: a 4:5 crop makes each card a full screen, so the
        photo goes landscape below 640 and the scroll roughly halves. */
@@ -3258,7 +3265,7 @@ PAGE_HEAD = """\
     .cat-row h1{font-size:clamp(2.2rem,5vw,3.75rem);font-weight:400;line-height:1;letter-spacing:-.02em;
                 color:var(--forest);margin:0}
     .cat-sub{color:#4B564D;font-size:1.03rem;line-height:1.6;margin:.6rem 0 0;max-width:44em}
-    .h1-count{font-family:'Instrument Sans',sans-serif;font-size:1.05rem;font-weight:500;color:#8A9187;
+    .h1-count{font-family:'Instrument Sans',sans-serif;font-size:1.05rem;font-weight:500;color:#656C63;
               vertical-align:super;letter-spacing:.04em}
     .cat-cta{display:inline-flex;align-items:center;gap:.4rem;border:0;
              border-bottom:1.5px solid var(--cat,var(--clay));border-radius:0!important;padding:0 0 .25rem;
@@ -3766,8 +3773,8 @@ def fetch_paramaribo_temp():
         print(f"  !! Open-Meteo temp failed: {e}")
         return None
 
-def _rail_notice():
-    """One short line about today's utility outages, from the scraped caches."""
+def _rail_notice_count():
+    """How many utility outage notices apply to today, from the scraped caches."""
     today = datetime.now(SR_TZ).strftime("%Y-%m-%d")
     n = 0
     try:
@@ -3780,11 +3787,7 @@ def _rail_notice():
             n += len(json.load(f).get("active", []))
     except Exception:
         pass
-    if n == 1:
-        return "1 outage notice today"
-    if n > 1:
-        return f"{n} outage notices today"
-    return "No outages listed today"
+    return n
 
 def build_rail_data(cme_rates):
     """Populate _RAIL before any page is built. Missing items are simply omitted."""
@@ -3798,9 +3801,9 @@ def build_rail_data(cme_rates):
             break
     _RAIL["srd_usd"] = usd
     _RAIL["temp"]    = fetch_paramaribo_temp()
-    _RAIL["notice"]  = _rail_notice()
+    _RAIL["notices"] = _rail_notice_count()
     _RAIL["date"]    = datetime.now(SR_TZ).strftime("%a %-d %B")
-    print(f"  OK  utility rail: USD {usd or 'n/a'}, {_RAIL['temp']}C, {_RAIL['notice']}")
+    print(f"  OK  utility rail: USD {usd or 'n/a'}, {_RAIL['temp']}C, {_RAIL['notices']} outage notices")
 
 def util_rail_html(prefix=""):
     """The 34px strip above the nav. Scrolls away with the page by design."""
@@ -3809,8 +3812,14 @@ def util_rail_html(prefix=""):
         left.append(f'<a href="{prefix}currency.html"><strong>SRD {_RAIL["srd_usd"]}</strong> USD</a>')
     if _RAIL.get("temp") is not None:
         left.append(f'<a href="{prefix}conditions.html">{_RAIL["temp"]}&deg; Paramaribo</a>')
-    if _RAIL.get("notice"):
-        left.append(f'<a href="{prefix}daily-notices.html">{_RAIL["notice"]}</a>')
+    # Two fixed strings, count kept outside them, so build_i18n only ever has two
+    # segments to carry no matter what the number is on the day.
+    _n = _RAIL.get("notices")
+    if _n:
+        left.append(f'<a href="{prefix}daily-notices.html">'
+                    f'<strong>{_n}</strong> Outage notices today</a>')
+    elif _n == 0:
+        left.append(f'<a href="{prefix}daily-notices.html">No outages today</a>')
     if not left:
         return ""
     right = f'<span>{_RAIL["date"]}</span>' if _RAIL.get("date") else ""
@@ -4602,6 +4611,19 @@ def activity_card_icon(act):
   <p class="text-white/65 text-sm leading-relaxed">{html_lib.escape(act['desc'])}</p>
 </a>"""
 
+def _first_img_idx(items):
+    """Index of the first item with a photo.
+
+    The eager/fetchpriority hint and the LCP preload used to go to item 0, but a
+    photoless listing there (9 of 169 on Eat & Drink) wasted both: the browser
+    got no priority signal for the image that actually becomes the LCP element.
+    """
+    for i, it in enumerate(items or []):
+        if it.get("image"):
+            return i
+    return 0
+
+
 def poi_card(item, badge_key="cuisine", eager=False, featured=False):
     url   = item.get("url", "#")
     badge = item.get(badge_key) or item.get("cuisine") or item.get("category", "")
@@ -5102,7 +5124,7 @@ def build_index(restaurants, hotels, cme_rates=None):
                         text-transform:uppercase;transition:color .2s}
     .hero-search button:hover{color:var(--clay)}
     .hero-chips{display:flex;flex-wrap:wrap;gap:9px 18px;margin-top:20px;align-items:center}
-    .hero-chips .lbl{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8A9187}
+    .hero-chips .lbl{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#656C63}
     .hero-chips a{font-size:13px;padding:2px 0;border:0;border-bottom:1px solid #D8CFBC;border-radius:0;
                   color:#4B564D;transition:color .2s,border-color .2s}
     .hero-chips a:hover{color:var(--forest);border-bottom-color:var(--forest)}
@@ -5141,7 +5163,7 @@ def build_index(restaurants, hotels, cme_rates=None):
     .greet-pill .en{font-size:13px;color:#6E7A6B}
     .stat-n{font-weight:600;font-size:clamp(40px,5vw,58px);line-height:1;color:var(--forest2)}
     .stat-n .u{font-size:.45em;color:var(--gold)}
-    .stat-c{font-size:14px;color:#6E7A6B;margin-top:10px;line-height:1.5}
+    .stat-c{font-size:14px;color:#626D60;margin-top:10px;line-height:1.5}
     .statgrid{display:grid;grid-template-columns:1fr;gap:clamp(20px,3vw,44px)}
     @media(min-width:700px){.statgrid{grid-template-columns:repeat(3,1fr)}}
     /* journeys */
@@ -5564,55 +5586,59 @@ def build_activities_page():
     return listing_page("Things to Do", "Things to do in Suriname",
         f"Browse {total} things to do in Suriname: nature parks, jungle tours, river trips, museums, birdwatching and guided expeditions. Find operators and attractions.",
         _items_ld, all_cards, bg_color=_CAT_ACCENT["Activities"], page_file="activities.html", extra_html="", filter_bar=filter_bar_a,
-        og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Atjoni_%2833496718666%29.jpg/1280px-Atjoni_%2833496718666%29.jpg",
+        og_image=_og_share_image(_first_img),
         lcp_image=_first_img, seo_title="Things to Do in Suriname: Nature, Tours and Sights", card_count=total,
         intro_text=f"Looking for things to do in Suriname? Browse {total} nature parks, activities, tours and attractions in one place. Suriname protects more than 90% of its land as rainforest, the highest share of any country on Earth, so most trips start with the green: canoe through the interior, trek to Brownsberg and the Central Suriname Nature Reserve, or watch leatherback turtles nest at Galibi. Closer to town there are plantation walks, Maroon and Indigenous village visits, museums and the historic inner city of Paramaribo. From half-day trips to multi-day expeditions, find and book with local operators here.", faq=_FAQ_ACTIVITIES + _FAQ_NATURE)
 
 def build_restaurants_page(restaurants):
     restaurants = _featured_order(restaurants)
-    cards = "\n".join(poi_card(r, "cuisine", eager=(i==0), featured=(r["slug"] in _ADMIN_FEATURED)) for i,r in enumerate(restaurants))
+    _eag  = _first_img_idx(restaurants)
+    cards = "\n".join(poi_card(r, "cuisine", eager=(i==_eag), featured=(r["slug"] in _ADMIN_FEATURED)) for i,r in enumerate(restaurants))
     fb    = _filter_bar_html(restaurants, "restaurant")
-    _lcp  = restaurants[0].get("image") if restaurants else None
+    _lcp  = restaurants[_eag].get("image") if restaurants else None
     return listing_page("Eat & Drink", "Places to eat & drink in Suriname",
         f"Browse {len(restaurants)} restaurants, cafes, bars and fast food in Suriname. Find local Surinamese food, Asian cuisine, coffee shops and more.",
         restaurants, cards, bg_color=_CAT_ACCENT["Eat & Drink"], page_file="restaurants.html", filter_bar=fb,
-        og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/2016_0624_Tjauw_min_moksie_meti_speciaal.jpg/1280px-2016_0624_Tjauw_min_moksie_meti_speciaal.jpg",
+        og_image=_og_share_image(_lcp),
         lcp_image=_lcp, seo_title="Restaurants in Paramaribo, Suriname",
         intro_text=f"Discover {len(restaurants)} restaurants, caf\u00e9s, bars and fast food spots across Suriname. From traditional Surinamese cuisine and Dutch-Indonesian rijsttafel to Asian fusion, pizza, and international chains, Paramaribo&#8217;s food scene reflects the country&#8217;s rich multicultural heritage. Use the filters to find your perfect dining experience.", faq=_FAQ_RESTAURANTS)
 
 def build_hotels_page(hotels):
     hotels = _featured_order(hotels)
-    cards = "\n".join(poi_card(h, "category", eager=(i==0), featured=(h["slug"] in _ADMIN_FEATURED)) for i,h in enumerate(hotels))
+    _eag  = _first_img_idx(hotels)
+    cards = "\n".join(poi_card(h, "category", eager=(i==_eag), featured=(h["slug"] in _ADMIN_FEATURED)) for i,h in enumerate(hotels))
     fb    = _filter_bar_html(hotels, "hotel")
-    _lcp  = hotels[0].get("image") if hotels else None
+    _lcp  = hotels[_eag].get("image") if hotels else None
     return listing_page("Hotels & Lodges", "Places to stay in Suriname",
         f"Browse {len(hotels)} hotels, eco-lodges and jungle retreats in Suriname. From Paramaribo city hotels to remote river resorts. Find your perfect stay.",
         hotels, cards, bg_color=_CAT_ACCENT["Stay"], page_file="hotels.html", filter_bar=fb,
-        og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Bigi_Pan_Nature_Reserve_%282719369111%29.jpg/1280px-Bigi_Pan_Nature_Reserve_%282719369111%29.jpg",
+        og_image=_og_share_image(_lcp),
         lcp_image=_lcp, seo_title="Hotels in Suriname: City and Jungle Lodges",
         intro_text=f"Find the right place to stay from {len(hotels)} hotels, lodges and jungle retreats across Suriname. Paramaribo offers modern city hotels and casino resorts, while the interior has eco-lodges and remote river camps along the Suriname River. Whether you&#8217;re in town for business or heading deep into the rainforest, this is your full accommodation guide.", faq=_FAQ_HOTELS)
 
 def build_shopping_page():
     _order = _featured_order(SHOPPING)
-    cards = "\n".join(poi_card(b, eager=(i==0), featured=(b["slug"] in _ADMIN_FEATURED)) for i,b in enumerate(_order))
+    _eag  = _first_img_idx(_order)
+    cards = "\n".join(poi_card(b, eager=(i==_eag), featured=(b["slug"] in _ADMIN_FEATURED)) for i,b in enumerate(_order))
     fb    = _filter_bar_html(_order, "shopping")
-    _lcp  = _order[0].get("image") if _order else None
+    _lcp  = _order[_eag].get("image") if _order else None
     return listing_page("Shopping", "Shops & stores in Suriname",
         f"Discover {len(SHOPPING)} shops in Suriname: supermarkets, malls, fashion, electronics, furniture, butchers and specialty stores in Paramaribo.",
         SHOPPING, cards, bg_color=_CAT_ACCENT["Shopping"], page_file="shopping.html", filter_bar=fb,
-        og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
+        og_image=_og_share_image(_lcp),
         lcp_image=_lcp, seo_title="Shopping in Paramaribo, Suriname",
         intro_text=f"Shop across {len(SHOPPING)} stores in Suriname, from supermarkets, malls and fashion boutiques to electronics, furniture and specialty food stores. Hermitage Mall and International Mall of Suriname are Paramaribo&#8217;s main retail hubs, with a wide range of local and international brands. Use the filters to browse by category or district.", faq=_FAQ_SHOPPING)
 
 def build_services_page():
     _order = _featured_order(SERVICES)
-    cards = "\n".join(poi_card(b, eager=(i==0), featured=(b["slug"] in _ADMIN_FEATURED)) for i,b in enumerate(_order))
+    _eag  = _first_img_idx(_order)
+    cards = "\n".join(poi_card(b, eager=(i==_eag), featured=(b["slug"] in _ADMIN_FEATURED)) for i,b in enumerate(_order))
     fb    = _filter_bar_html(_order, "service")
-    _lcp  = _order[0].get("image") if _order else None
+    _lcp  = _order[_eag].get("image") if _order else None
     return listing_page("Services", "Service providers in Suriname",
         f"Find {len(SERVICES)} service providers in Suriname: banks, beauty, health, fitness, education, telecom, real estate and more.",
         SERVICES, cards, bg_color=_CAT_ACCENT["Services"], page_file="services.html", filter_bar=fb,
-        og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
+        og_image=_og_share_image(_lcp),
         lcp_image=_lcp, seo_title="Local Services in Paramaribo, Suriname",
         intro_text=f"Find {len(SERVICES)} service providers across Suriname: banks, insurance, beauty salons, gyms, pharmacies, schools, real estate agencies, travel agents and more. Whether you need a haircut, a mortgage, a gym membership or a doctor in Paramaribo, this directory covers the essential services that keep the city running.", faq=_FAQ_SERVICES)
 
