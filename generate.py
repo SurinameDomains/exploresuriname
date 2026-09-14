@@ -6131,7 +6131,7 @@ def build_news(articles, oil_articles, finance_articles):
     local_filter_html = (
         '<button onclick="filterSection(\'local\',\'all\')" id="lf-all" '
         'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
-        'style="background:var(--forest);border-color:var(--forest);color:#fff">All</button>\n'
+        'style="background:#142A1E;border-color:#142A1E;color:#fff">All</button>\n'
     )
     for _feed in FEEDS:
         _fn  = _feed["name"]
@@ -6139,7 +6139,7 @@ def build_news(articles, oil_articles, finance_articles):
         local_filter_html += (
             f'<button onclick="filterSection(\'local\',\'{html_lib.escape(_fn)}\')" id="lf-{_fid}" '
             f'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
-            f'style="border-color:#e5e7eb;color:#374151;background:#fff">'
+            f'style="border-color:#DDD4C1;color:var(--ink);background:var(--card)">'
             f'{html_lib.escape(_fn)}</button>\n'
         )
 
@@ -6153,7 +6153,7 @@ def build_news(articles, oil_articles, finance_articles):
     oil_filter_html = (
         '<button onclick="filterSection(\'oil\',\'all\')" id="of-all" '
         'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
-        'style="background:#92400e;border-color:#92400e;color:#fff">All</button>\n'
+        'style="background:var(--clay);border-color:var(--clay);color:#fff">All</button>\n'
     )
     for _feed in OIL_FEEDS:
         _fn  = _feed["name"]
@@ -6161,7 +6161,7 @@ def build_news(articles, oil_articles, finance_articles):
         oil_filter_html += (
             f'<button onclick="filterSection(\'oil\',\'{html_lib.escape(_fn)}\')" id="of-{_fid}" '
             f'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
-            f'style="border-color:#e5e7eb;color:#374151;background:#fff">'
+            f'style="border-color:#DDD4C1;color:var(--ink);background:var(--card)">'
             f'{html_lib.escape(_fn)}</button>\n'
         )
 
@@ -6178,7 +6178,7 @@ def build_news(articles, oil_articles, finance_articles):
     finance_filter_html = (
         '<button onclick="filterSection(\'finance\',\'all\')" id="ff-all" '
         'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
-        'style="background:#0f766e;border-color:#0f766e;color:#fff">All</button>\n'
+        'style="background:var(--forest2);border-color:var(--forest2);color:#fff">All</button>\n'
     )
     for _feed in FINANCE_FEEDS:
         _fn  = _feed["name"]
@@ -6186,7 +6186,7 @@ def build_news(articles, oil_articles, finance_articles):
         finance_filter_html += (
             f'<button onclick="filterSection(\'finance\',\'{html_lib.escape(_fn)}\')" id="ff-{_fid}" '
             f'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
-            f'style="border-color:#e5e7eb;color:#374151;background:#fff">'
+            f'style="border-color:#DDD4C1;color:var(--ink);background:var(--card)">'
             f'{html_lib.escape(_fn)}</button>\n'
         )
     finance_count = len(finance_articles)
@@ -6228,7 +6228,7 @@ def build_news(articles, oil_articles, finance_articles):
       <button id="tab-local" role="tab" aria-selected="true" aria-controls="section-local"
         onclick="switchTab('local')"
         class="tab-btn flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
-        style="background:var(--forest);color:#fff">
+        style="background:#142A1E;color:#fff">
         <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 12h6m-6-4h2"/></svg>
         <span>Local News</span>
         <span class="hidden sm:inline text-xs font-normal opacity-70">({local_count} stories)</span>
@@ -6236,7 +6236,7 @@ def build_news(articles, oil_articles, finance_articles):
       <button id="tab-oil" role="tab" aria-selected="false" aria-controls="section-oil"
         onclick="switchTab('oil')"
         class="tab-btn flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
-        style="background:#f3f4f6;color:#374151">
+        style="background:var(--paper-2);color:var(--ink)">
         <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
         <span>Oil &amp; Gas</span>
         <span class="hidden sm:inline text-xs font-normal opacity-70">({oil_count} stories)</span>
@@ -6244,7 +6244,7 @@ def build_news(articles, oil_articles, finance_articles):
       <button id="tab-finance" role="tab" aria-selected="false" aria-controls="section-finance"
         onclick="switchTab('finance')"
         class="tab-btn flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
-        style="background:#f3f4f6;color:#374151">
+        style="background:var(--paper-2);color:var(--ink)">
         <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
         <span>Finance</span>
         <span class="hidden sm:inline text-xs font-normal opacity-70">({finance_count} stories)</span>
@@ -6306,13 +6306,13 @@ def build_news(articles, oil_articles, finance_articles):
 /* ── Tab switching ──────────────────────────────────────────────────────── */
 function switchTab(tab) {{
   var tabs     = ['local','oil','finance'];
-  var colors   = {{'local':'var(--forest)','oil':'#92400e','finance':'#0f766e'}};
+  var colors   = {{'local':'#142A1E','oil':'var(--clay)','finance':'var(--forest2)'}};
   tabs.forEach(function(t) {{
     var btn = document.getElementById('tab-' + t);
     var sec = document.getElementById('section-' + t);
     var active = (t === tab);
-    btn.style.background = active ? colors[t] : '#f3f4f6';
-    btn.style.color      = active ? '#fff' : '#374151';
+    btn.style.background = active ? colors[t] : 'var(--paper-2)';
+    btn.style.color      = active ? '#fff' : 'var(--ink)';
     btn.setAttribute('aria-selected', active ? 'true' : 'false');
     sec.style.display    = active ? '' : 'none';
   }});
@@ -6322,17 +6322,17 @@ function switchTab(tab) {{
 function filterSection(section, source) {{
   var feedMap   = {{'local':'local-feed','oil':'oil-feed','finance':'finance-feed'}};
   var filterMap = {{'local':'local-filters','oil':'oil-filters','finance':'finance-filters'}};
-  var colorMap  = {{'local':'var(--forest)','oil':'#92400e','finance':'#0f766e'}};
+  var colorMap  = {{'local':'#142A1E','oil':'var(--clay)','finance':'var(--forest2)'}};
   var prefMap   = {{'local':'lf-','oil':'of-','finance':'ff-'}};
   var feedId    = feedMap[section]   || 'local-feed';
   var filterId  = filterMap[section] || 'local-filters';
-  var activeColor = colorMap[section] || 'var(--forest)';
+  var activeColor = colorMap[section] || '#142A1E';
   var allBtnId  = prefMap[section] + 'all';
 
   document.querySelectorAll('#' + filterId + ' .sec-filt').forEach(function(b) {{
-    b.style.background   = '#fff';
-    b.style.borderColor  = '#e5e7eb';
-    b.style.color        = '#374151';
+    b.style.background   = 'var(--card)';
+    b.style.borderColor  = '#DDD4C1';
+    b.style.color        = 'var(--ink)';
   }});
 
   var activeId  = source === 'all'
