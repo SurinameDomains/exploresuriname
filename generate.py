@@ -3068,11 +3068,12 @@ PAGE_HEAD = """\
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png">
   <meta property="og:locale" content="en_US">
-  <link rel="preload" as="font" type="font/woff2" href="/fonts/playfair-latin-var.woff2" crossorigin>
-  <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-var.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/newsreader-latin-var.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/instrument-latin-var.woff2" crossorigin>
   <style>
-  @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-  @font-face{font-family:'Inter';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/inter-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:'Newsreader';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/newsreader-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:'Newsreader';font-style:italic;font-weight:300 600;font-display:swap;src:url(/fonts/newsreader-latin-var-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400 600;font-display:swap;src:url(/fonts/instrument-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   </style>
   <link rel="stylesheet" href="/tailwind.css?v=__TWV__">
   <link rel="manifest" href="/manifest.webmanifest">
@@ -3083,8 +3084,8 @@ PAGE_HEAD = """\
   <meta name="apple-mobile-web-app-title" content="ExploreSR">
   <style>
     :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#E1F0DD; --coral:#E76F51; --gold:#E7AE4D; --clay:#9C5822; --paper:#FBF5E9; --paper-2:#F4ECDA; --card:#FFFDF6; --ink:#233028; --ink-soft:#5C6657; --line:#EBE0CB; }
-    body   { font-family: 'Inter', system-ui, sans-serif; }
-    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    body   { font-family: 'Instrument Sans', system-ui, sans-serif; font-feature-settings:"tnum" 0; }
+    .serif { font-family: 'Newsreader', Georgia, serif; }
     /* ===== Warm theme roll-over: homepage redesign palette, applied site-wide ===== */
     html, body { background: var(--paper); }
     body { color: var(--ink); }
@@ -3115,37 +3116,56 @@ PAGE_HEAD = """\
     .nws-card { position: relative; }
     .nws-card .nws-t::after { content:""; position:absolute; inset:0; z-index:1; }
     .nws-also { position: relative; z-index: 2; }
-    .card-hover { transition: transform .2s, box-shadow .2s; }
-    .card-hover:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.12); }
+    .card-hover { transition: filter .15s ease, border-color .15s ease; }
+    .card-hover:hover { filter: brightness(1.03); }
+    .card-hover:hover h3 { text-decoration: underline; text-decoration-color: var(--clay); text-underline-offset: 3px; }
     a { text-decoration: none; }
     nav a, nav button { white-space: nowrap; }   /* keep nav labels on one line (EN; NL/ES get this via build_i18n) */
     .vh { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
     /* Nav search: a small pill with a visible label. On tighter viewports it
        collapses to just the magnifying glass so the nav labels and the language
        switcher keep their room in NL and ES. Widths verified at 1024/1280/1440. */
-    .navsearch { display:flex; align-items:center; gap:6px; padding:7px 13px 7px 10px;
-                 border-radius:9999px; border:1px solid #e5e7eb; background:#f9fafb;
-                 color:#9ca3af; cursor:pointer;
-                 transition:gap .18s ease, padding .18s ease, border-color .18s ease, color .18s ease; }
+    .navsearch { display:flex; align-items:center; gap:7px; padding:0 0 3px;
+                 border:0; border-radius:0; background:none; border-bottom:1px solid #CFC7B6;
+                 color:var(--ink-soft); cursor:pointer;
+                 transition:gap .18s ease, border-color .18s ease, color .18s ease; }
     .navsearch .nslabel { max-width:7rem; overflow:hidden; white-space:nowrap; font-size:.875rem;
                           transition:max-width .22s ease; }
-    .navsearch:hover, .navsearch:focus-visible { border-color:#9ca3af; color:#4b5563; }
+    .navsearch:hover, .navsearch:focus-visible { border-bottom-color:var(--forest); color:var(--forest); }
     /* Seven top-level items, kept generously spaced. Two narrow-desktop tiers,
        and the search label collapses earlier on the NL/ES trees because those
        nav labels run longer (build_i18n sets html[lang]). Verified at
        1024/1152/1280/1440/1920 in all three languages. */
-    .navlinks { gap:24px; }
+    .navlinks { gap:26px; }
+    .navmark{font-family:'Newsreader',Georgia,serif;font-size:27px;font-weight:600;line-height:1;letter-spacing:-.01em}
+    .navtag{font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);
+            line-height:1;margin-top:5px}
+    .navlinks .dd-trigger, .navlinks > a { font-size:12.5px; letter-spacing:.06em; text-transform:uppercase;
+                                           font-weight:500; }
+    .navlinks .nav-active { border-bottom:1.5px solid var(--clay); }
+    /* Utility rail: a 34px strip of live numbers above the nav. It is in normal
+       flow on purpose, so it scrolls away and every nav offset stays at 58px. */
+    .util-rail{background:#142A1E;height:34px;font-size:.66rem;font-weight:500;letter-spacing:.14em;
+               text-transform:uppercase}
+    .util-in{max-width:80rem;margin:0 auto;padding:0 1.25rem;height:34px;display:flex;align-items:center;
+             justify-content:space-between;gap:1rem}
+    .util-l,.util-r{display:flex;gap:1.4rem;align-items:center;overflow:hidden;white-space:nowrap}
+    .util-l a,.util-r a,.util-r span{color:#9FAC9C;transition:color .15s}
+    .util-l a:hover,.util-r a:hover{color:#FCF7EC}
+    .util-l a strong{color:var(--gold);font-weight:600}
+    @media(max-width:640px){.util-in{padding:0 1rem;gap:.9rem}.util-l{gap:.9rem}
+      .util-l a:nth-child(3){display:none}.util-r{display:none}}
     /* Dutch labels fit alongside the pill all the way down to 1152, so only the
        Spanish tree needs an early collapse. Threshold measured, not guessed:
        ES runs out of room at about 1210. */
     @media (max-width:1219px) {
-      html[lang="es"] .navsearch { gap:0; padding:7px; }
+      html[lang="es"] .navsearch { gap:0; }
       html[lang="es"] .navsearch .nslabel { max-width:0; }
     }
     @media (max-width:1151px) {
       .navlinks { gap:10px; }
-      .navlinks .dd-trigger, .navlinks > a { font-size:13px; }
-      .navsearch { gap:0; padding:7px; }
+      .navlinks .dd-trigger, .navlinks > a { font-size:11.5px; letter-spacing:.04em; }
+      .navsearch { gap:0; }
       .navsearch .nslabel { max-width:0; }
     }
     /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
@@ -3163,25 +3183,44 @@ PAGE_HEAD = """\
     .sr-area { font-size:.78rem;color:var(--ink-soft);white-space:nowrap; }
     mark { background:#fef08a;border-radius:2px;padding:0 1px; }
     .filter-chip {
-      display:inline-flex;align-items:center;gap:5px;padding:10px 16px;border-radius:999px;
-      border:1.5px solid #e5e7eb;background:#fff;font-size:.8rem;font-weight:600;
-      color:#374151;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
-      touch-action:manipulation;
+      display:inline-flex;align-items:center;gap:5px;padding:.55rem 0;border:0;background:none;
+      border-radius:0!important;border-bottom:1.5px solid transparent;
+      font-size:.9rem;font-weight:400;color:#4B564D;cursor:pointer;white-space:nowrap;flex-shrink:0;
+      touch-action:manipulation;transition:color .15s,border-color .15s;
     }
-    .filter-chip:hover { border-color:var(--forest);color:var(--forest); }
-    .filter-chip.chip-active { background:var(--forest);border-color:var(--forest);color:#fff; }
+    .filter-chip:hover { color:var(--forest);border-bottom-color:#DDD4C1; }
+    .filter-chip.chip-active { background:none;color:var(--forest);border-bottom-color:var(--forest); }
     .dist-chip {
-      display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;
-      border:1.5px solid #e5e7eb;background:#fff;font-size:.72rem;font-weight:600;
-      color:#6b7280;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+      display:inline-flex;align-items:center;gap:4px;padding:.35rem 0;border:0;background:none;
+      border-radius:0!important;border-bottom:1.5px solid transparent;
+      font-size:.78rem;color:#6b7280;cursor:pointer;white-space:nowrap;flex-shrink:0;
+      transition:color .15s,border-color .15s;
     }
-    .dist-chip:hover { border-color:var(--forest2);color:var(--forest2); }
-    .dist-chip.dist-chip-active { background:var(--forest2);border-color:var(--forest2);color:#fff; }
-    .chip-count { opacity:.65;font-weight:500;font-size:.75rem; }
-    .filter-chip.chip-active .chip-count, .dist-chip.dist-chip-active .chip-count { opacity:.8; }
+    .dist-chip:hover { color:var(--forest2);border-bottom-color:#DDD4C1; }
+    .dist-chip.dist-chip-active { background:none;color:var(--forest2);border-bottom-color:var(--forest2); }
+    .chip-count { font-size:.66rem;color:#A9A392;vertical-align:super;font-weight:500;opacity:1; }
+    .filter-chip.chip-active .chip-count { color:#8A9187; }
+    /* Text chips are only 40px/30px tall, so touch devices get a proper target
+       without loosening the desktop rhythm. */
+    @media(hover:none){ .filter-chip, .dist-chip { min-height:44px; } }
     .dict-chiprow{scrollbar-width:none;-ms-overflow-style:none}
     .dict-chiprow::-webkit-scrollbar{display:none}
-    .listing-card { transition:opacity .2s, transform .2s; content-visibility:auto; contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+    .listing-card { transition:opacity .2s; content-visibility:auto; contain-intrinsic-size:560px; contain-intrinsic-size:auto 560px; }
+    .listing-ph { position:relative; aspect-ratio:4/5; overflow:hidden; background:#DFD7C2; }
+    .listing-name { font-size:1.5rem; line-height:1.15; font-weight:400; color:var(--forest); }
+    .listing-blurb { font-size:.9rem; line-height:1.5; color:var(--ink-soft); margin:.25rem 0 0;
+                     display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .listing-meta { display:flex; justify-content:space-between; gap:.75rem; margin-top:auto;
+                    border-top:1px solid #DDD4C1; padding-top:.55rem;
+                    font-size:.66rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+                    color:#8A9187; }
+    .listing-meta span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    /* One column on phones: a 4:5 crop makes each card a full screen, so the
+       photo goes landscape below 640 and the scroll roughly halves. */
+    @media(max-width:640px){
+      .listing-ph { aspect-ratio:3/2; }
+      .listing-card { contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+    }
     .listing-card.hidden { display:none; }
     /* PWA install bar (Android prompt + iOS A2HS tip) */
     #pwa-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(130%);transition:transform .35s cubic-bezier(.22,1,.36,1);background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 28px rgba(0,0,0,.14);padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
@@ -3194,25 +3233,39 @@ PAGE_HEAD = """\
     #pwa-bar .pwa-go:hover{background:var(--forest2)}
     #pwa-bar .pwa-x{flex:0 0 auto;background:transparent;border:0;color:#9ca3af;font-size:24px;line-height:1;cursor:pointer;padding:2px 6px;touch-action:manipulation}
     @media(min-width:640px){#pwa-bar{left:auto;right:18px;bottom:18px;max-width:430px;border-radius:16px;border:1px solid rgba(0,0,0,.08)}}
+    /* ===== Surface reset: hairlines and ratios instead of radius and shadow. ===== */
+    .rounded-3xl, .rounded-2xl, .rounded-xl, .rounded-lg, .rounded-t-2xl { border-radius: 0 !important; }
+    .shadow-sm, .shadow, .shadow-md, .shadow-lg, .shadow-xl { box-shadow: none !important; }
+    .border-gray-100, .border-gray-200 { border-color: rgba(35,48,40,.16) !important; }
+    input, textarea, select { border-radius: 2px; }
+    /* Pills survive only where they are a genuine control. */
+    .ftr-cta, .btn-gold, .btn-ghost { border-radius: 9999px !important; }
+    .bg-paper { background-color: var(--paper) !important; }
+    .group:hover [class~="group-hover:scale-105"], [class~="group-hover:scale-105"]:hover { transform: none !important; }
   </style>
   <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
   <style>
     /* Category listing header. The per-category colour is demoted from a full
        background flood to a top accent rule, so every listing page reads as the
        same brand surface while keeping the colour coding. */
-    .cat-hero{background:var(--forest);border-top:3px solid var(--cat,var(--coral));color:#fff}
-    .cat-hero-in{max-width:72rem;margin:0 auto;padding:1.1rem 1.25rem 1.4rem}
-    .cat-crumb{font-size:.75rem;color:rgba(255,255,255,.55);display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
-    .cat-crumb a{color:rgba(255,255,255,.72);text-decoration:none}
-    .cat-crumb a:hover{color:#fff;text-decoration:underline}
+    .cat-hero{background:var(--paper);border-bottom:1px solid rgba(35,48,40,.16);color:var(--ink)}
+    .cat-hero-in{max-width:72rem;margin:0 auto;padding:2.2rem 1.25rem 1.4rem}
+    .cat-crumb{font-size:.66rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--clay);
+               display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+    .cat-crumb a{color:var(--clay);text-decoration:none}
+    .cat-crumb a:hover{text-decoration:underline}
     .cat-row{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:.55rem}
-    .cat-row h1{font-size:clamp(1.7rem,4.2vw,2.4rem);font-weight:700;line-height:1.1;margin:0}
-    .cat-sub{color:rgba(255,255,255,.68);font-size:.92rem;margin:.3rem 0 0}
-    .cat-cta{display:inline-flex;align-items:center;gap:.4rem;border:1px solid rgba(255,255,255,.42);border-radius:9999px;
-             padding:.5rem 1.05rem;font-size:.8rem;font-weight:600;color:#fff;text-decoration:none;white-space:nowrap;
-             transition:background .18s,color .18s,border-color .18s}
-    .cat-cta:hover{background:#fff;color:var(--forest);border-color:#fff}
-    @media(max-width:640px){.cat-hero-in{padding:.9rem 1.1rem 1.2rem}.cat-row{gap:.7rem}.cat-cta{padding:.45rem .9rem;font-size:.76rem}}
+    .cat-row h1{font-size:clamp(2.2rem,5vw,3.75rem);font-weight:400;line-height:1;letter-spacing:-.02em;
+                color:var(--forest);margin:0}
+    .cat-sub{color:#4B564D;font-size:1.03rem;line-height:1.6;margin:.6rem 0 0;max-width:44em}
+    .h1-count{font-family:'Instrument Sans',sans-serif;font-size:1.05rem;font-weight:500;color:#8A9187;
+              vertical-align:super;letter-spacing:.04em}
+    .cat-cta{display:inline-flex;align-items:center;gap:.4rem;border:0;
+             border-bottom:1.5px solid var(--cat,var(--clay));border-radius:0!important;padding:0 0 .25rem;
+             font-size:.69rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--forest);
+             text-decoration:none;white-space:nowrap;transition:color .18s,border-color .18s}
+    .cat-cta:hover{background:none;color:var(--clay)}
+    @media(max-width:640px){.cat-hero-in{padding:1.5rem 1.1rem 1.1rem}.cat-row{gap:.7rem}}
     /* Intro prose lives below the listings: indexable, out of the way. */
     .cat-about{border-top:1px solid var(--line,#e6ddc9);margin-top:3rem;padding-top:1.8rem}
     .cat-about h2{font-size:1.15rem;font-weight:700;color:var(--ink,#233028);margin:0 0 .6rem}
@@ -3221,8 +3274,8 @@ PAGE_HEAD = """\
   </style>
   <style>
     .esr-grab{cursor:grab}.esr-grab:active{cursor:grabbing}
-    .esr-arrow{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:9999px;background:#fff;border:1px solid #e5e7eb;box-shadow:0 1px 5px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;color:#374151;padding:0}
-    .esr-arrow:hover{border-color:#9ca3af;color:#111}
+    .esr-arrow{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:9999px;background:var(--paper);border:1px solid rgba(35,48,40,.16);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;color:var(--forest);padding:0}
+    .esr-arrow:hover{border-color:var(--forest);color:var(--forest)}
     .esr-arrow-l{left:2px}.esr-arrow-r{right:2px}
     @media(hover:none){.esr-arrow{display:none!important}}
     /* Data tables: scroll on desktop, stack into labelled cards on phones. */
@@ -3694,6 +3747,79 @@ _CAT_ACCENT = {
     "Guides":      "#677889",   # slate
 }
 
+# ── Utility rail data ───────────────────────────────────────────────────────
+# Three numbers the build already has (or can get for one cheap request) so the
+# rail costs the visitor nothing: no client-side fetch on every page.
+_RAIL: dict = {}
+
+def fetch_paramaribo_temp():
+    """Current Paramaribo temperature from Open-Meteo. Returns int or None."""
+    try:
+        url = ("https://api.open-meteo.com/v1/forecast?latitude=5.8520&longitude=-55.2038"
+               "&current=temperature_2m&timezone=America%2FParamaribo")
+        req = urllib.request.Request(url, headers={"User-Agent": "ExploreSuriname/1.0"})
+        with urllib.request.urlopen(req, timeout=12) as r:
+            d = json.loads(r.read().decode("utf-8"))
+        t = d.get("current", {}).get("temperature_2m")
+        return round(float(t)) if t is not None else None
+    except Exception as e:
+        print(f"  !! Open-Meteo temp failed: {e}")
+        return None
+
+def _rail_notice():
+    """One short line about today's utility outages, from the scraped caches."""
+    today = datetime.now(SR_TZ).strftime("%Y-%m-%d")
+    n = 0
+    try:
+        with open("data/ebs_outages.json", encoding="utf-8") as f:
+            n += sum(1 for o in json.load(f).get("outages", []) if o.get("date_iso") == today)
+    except Exception:
+        pass
+    try:
+        with open("data/swm_outages.json", encoding="utf-8") as f:
+            n += len(json.load(f).get("active", []))
+    except Exception:
+        pass
+    if n == 1:
+        return "1 outage notice today"
+    if n > 1:
+        return f"{n} outage notices today"
+    return "No outages listed today"
+
+def build_rail_data(cme_rates):
+    """Populate _RAIL before any page is built. Missing items are simply omitted."""
+    usd = ""
+    for r in (cme_rates or []):
+        if r.get("currency") == "USD":
+            try:
+                usd = f"{float(r['sell']):.2f}"
+            except Exception:
+                usd = ""
+            break
+    _RAIL["srd_usd"] = usd
+    _RAIL["temp"]    = fetch_paramaribo_temp()
+    _RAIL["notice"]  = _rail_notice()
+    _RAIL["date"]    = datetime.now(SR_TZ).strftime("%a %-d %B")
+    print(f"  OK  utility rail: USD {usd or 'n/a'}, {_RAIL['temp']}C, {_RAIL['notice']}")
+
+def util_rail_html(prefix=""):
+    """The 34px strip above the nav. Scrolls away with the page by design."""
+    left = []
+    if _RAIL.get("srd_usd"):
+        left.append(f'<a href="{prefix}currency.html"><strong>SRD {_RAIL["srd_usd"]}</strong> USD</a>')
+    if _RAIL.get("temp") is not None:
+        left.append(f'<a href="{prefix}conditions.html">{_RAIL["temp"]}&deg; Paramaribo</a>')
+    if _RAIL.get("notice"):
+        left.append(f'<a href="{prefix}daily-notices.html">{_RAIL["notice"]}</a>')
+    if not left:
+        return ""
+    right = f'<span>{_RAIL["date"]}</span>' if _RAIL.get("date") else ""
+    return (f'<div class="util-rail"><div class="util-in">'
+            f'<div class="util-l">{"".join(left)}</div>'
+            f'<div class="util-r">{right}</div>'
+            f'</div></div>')
+
+
 def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
     # Six groups, split by task rather than by audience:
@@ -3723,19 +3849,19 @@ def nav_html(active="home", prefix=""):
 
     def _top_btn_style(group_keys):
         if _group_active(group_keys):
-            return 'class="dd-trigger flex items-center gap-1 text-sm font-semibold transition py-1" style="color:var(--forest)"'
+            return 'class="dd-trigger nav-active flex items-center gap-1 text-sm font-semibold transition py-1" style="color:var(--forest)"'
         return 'class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1"'
 
     def _top_single_style(key):
         if _is_active(key):
-            return 'class="text-sm font-semibold py-1" style="color:var(--forest)"'
+            return 'class="nav-active text-sm font-semibold py-1" style="color:var(--forest)"'
         return 'class="text-sm text-gray-700 hover:text-green-800 transition py-1"'
 
     _chevron = '<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>'
 
     # ── Desktop dropdowns ───────────────────────────────────────────────────
     def _desktop_dd(dd_id, label, items_html, group_keys):
-        dot = ' <span class="inline-block w-1.5 h-1.5 rounded-full mb-0.5" style="background:var(--forest)"></span>' if _group_active(group_keys) else ''
+        dot = ''
         return (
             f'<div class="relative" id="{dd_id}" onmouseenter="openDd(\'{dd_id}\')" onmouseleave="closeDd(\'{dd_id}\')">'
             f'<button onclick="toggleDd(\'{dd_id}\')" {_top_btn_style(group_keys)}>'
@@ -3892,10 +4018,12 @@ def nav_html(active="home", prefix=""):
     )
 
     return f"""
-<nav class="fixed top-0 w-full z-50" style="background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14);box-shadow:0 1px 12px rgba(20,42,30,.05)">
-  <div class="max-w-7xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
-    <a href="{prefix}index.html" class="flex items-baseline flex-shrink-0">
-      <span class="serif text-2xl font-bold" style="color:var(--forest)">Explore</span><span class="serif text-2xl font-bold" style="color:var(--coral)">Suriname</span>
+{util_rail_html(prefix)}
+<nav class="w-full z-50" style="position:sticky;top:0;background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14)">
+  <div class="max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
+    <a href="{prefix}index.html" class="flex flex-col justify-center flex-shrink-0">
+      <span class="navmark"><span style="color:var(--forest)">Explore</span><span style="color:var(--coral)">Suriname</span></span>
+      <span class="navtag">Kept in Paramaribo</span>
     </a>
     <div class="hidden lg:flex items-center navlinks">{desktop_nav}</div>
     <div class="flex items-center gap-2 flex-shrink-0">
@@ -4417,32 +4545,24 @@ def ad_slot(label):
     return '<div class="my-6" aria-hidden="true"></div>'
 
 def nature_card(spot, eager=False):
-    tags_html = "".join(
-        f'<span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:var(--mint);color:var(--forest)">{t}</span>'
-        for t in spot["tags"]
-    )
     internal_url = f"listing/{_nature_slug(spot['name'])}/"
     _loading = 'eager" fetchpriority="high' if eager else "lazy"
     _nimg = _localize_img(spot['image'])
     _ss = _card_srcset(_nimg)
+    _sub_lbl = spot.get('subcat', 'nature-parks').replace('-', ' ')
     return f"""
-<a href="{internal_url}" data-sub="{spot.get('subcat','nature-parks')}" class="listing-card group rounded-2xl overflow-hidden card-hover bg-white border border-gray-100 shadow-sm flex flex-col">
-  <div class="relative h-56 overflow-hidden">
+<a href="{internal_url}" data-sub="{spot.get('subcat','nature-parks')}" class="listing-card group relative card-hover flex flex-col">
+  <div class="listing-ph">
     <img src="{_nimg}"{_ss} alt="{html_lib.escape(spot['name'] + ' in Suriname')}" loading="{_loading}"
-         width="400" height="224"
-         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-         onerror="this.parentElement.style.background='#2D6A4F'">
-    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
-    <div class="absolute bottom-4 left-4 right-4">
-      <h3 class="serif text-white font-bold text-lg leading-tight">{html_lib.escape(spot['name'])}</h3>
-      <p class="text-white/75 text-xs mt-1">&#10024; {html_lib.escape(spot['fact'])}</p>
-    </div>
+         width="400" height="500"
+         class="w-full h-full object-cover"
+         onerror="this.style.display='none'">
   </div>
-  <div class="p-5 flex flex-col gap-3 flex-1">
-    <p class="text-gray-600 text-sm leading-relaxed flex-1">{html_lib.escape(spot['desc'])}</p>
-    <div class="flex flex-wrap gap-1 items-center justify-between">
-      <div class="flex flex-wrap gap-1">{tags_html}</div>
-      <span class="text-xs font-medium" style="color:var(--forest2)">Learn more &rarr;</span>
+  <div class="pt-3 flex flex-col gap-1 flex-1">
+    <h3 class="serif listing-name">{html_lib.escape(spot['name'])}</h3>
+    <p class="listing-blurb">{html_lib.escape(spot['desc'])}</p>
+    <div class="listing-meta">
+      <span>{html_lib.escape(_sub_lbl)}</span>
     </div>
   </div>
 </a>"""
@@ -4453,18 +4573,19 @@ def activity_card_rich(act, eager=False):
     img = _localize_img(act.get("image", ""))
     _loading = 'eager" fetchpriority="high' if eager else "lazy"
     _ss = _card_srcset(img)
-    img_html = f'<img src="{img}"{_ss} alt="{html_lib.escape(act["name"] + " in Suriname")}" loading="{_loading}" width="400" height="224" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display=\'none\'">' if img else ""
+    img_html = f'<img src="{img}"{_ss} alt="{html_lib.escape(act["name"] + " in Suriname")}" loading="{_loading}" width="400" height="500" class="w-full h-full object-cover" onerror="this.style.display=\'none\'">' if img else ""
+    _sub_lbl = act.get('subcat', 'tours-expeditions').replace('-', ' ')
     return f"""
-<a href="{internal_url}" data-sub="{act.get('subcat','tours-expeditions')}" class="listing-card group bg-white rounded-2xl border border-gray-100 shadow-sm card-hover overflow-hidden flex flex-col">
-  <div class="relative h-56 overflow-hidden bg-green-900">
+<a href="{internal_url}" data-sub="{act.get('subcat','tours-expeditions')}" class="listing-card group relative card-hover flex flex-col">
+  <div class="listing-ph">
     {img_html}
-    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-    <span class="absolute top-4 left-4 text-2xl">{act['icon']}</span>
   </div>
-  <div class="p-5 flex flex-col gap-2 flex-1">
-    <h3 class="font-bold text-gray-900 text-base group-hover:text-green-800 transition">{html_lib.escape(act['name'])}</h3>
-    <p class="text-gray-500 text-sm leading-relaxed flex-1">{html_lib.escape(act['desc'])}</p>
-    <span class="text-xs font-semibold mt-1" style="color:var(--forest2)">Find out more &rarr;</span>
+  <div class="pt-3 flex flex-col gap-1 flex-1">
+    <h3 class="serif listing-name">{html_lib.escape(act['name'])}</h3>
+    <p class="listing-blurb">{html_lib.escape(act['desc'])}</p>
+    <div class="listing-meta">
+      <span>{html_lib.escape(_sub_lbl)}</span>
+    </div>
   </div>
 </a>"""
 
@@ -4491,13 +4612,21 @@ def poi_card(item, badge_key="cuisine", eager=False, featured=False):
     badge_html = f'<span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:{bg};color:{fg}">{html_lib.escape(badge)}</span>' if badge else ""
     _loading = 'eager" fetchpriority="high' if eager else "lazy"
     _ss = _card_srcset(img)
-    img_html = (f'<div class="w-full h-56 overflow-hidden rounded-t-2xl -mx-0 -mt-0">'
+    img_html = (f'<div class="listing-ph">'
                 f'<img src="{img}"{_ss} alt="{html_lib.escape(item["name"] + ((", " + badge) if badge else "") + " in " + area)}" loading="{_loading}" '
-                f'width="400" height="224" '
-                f'class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" '
-                f'onerror="this.parentElement.style.background=\'#2D6A4F\';this.style.display=\'none\'">'
-                f'</div>') if img else ""
-    phone_html = f'<span class="text-gray-400 text-xs">Tel: {html_lib.escape(phone)}</span>' if phone else ""
+                f'width="400" height="500" '
+                f'class="w-full h-full object-cover" '
+                f'onerror="this.style.display=\'none\'">'
+                f'</div>') if img else '<div class="listing-ph"></div>'
+    phone_html = f'<span>Tel: {html_lib.escape(phone)}</span>' if phone else ""
+    _desc = (item.get("description") or _JSON_DESCS.get(item.get("slug", ""), "")).strip()
+    _desc = " ".join(_desc.split())
+    if len(_desc) > 110:
+        _cut = _desc[:110].rsplit(" ", 1)[0].rstrip(" ,.;:-")
+        desc_html = f'<p class="listing-blurb">{html_lib.escape(_cut)}&hellip;</p>'
+    else:
+        desc_html = f'<p class="listing-blurb">{html_lib.escape(_desc)}</p>' if _desc else ""
+
     feat_html  = '<span class="absolute top-3 left-3 z-10 text-xs font-bold px-2.5 py-1 rounded-full shadow" style="background:#E76F51;color:#fff">Featured</span>' if featured else ""
     district   = item.get("area", item.get("location", "Paramaribo"))
     # Multi-branch brand: one card for the whole chain. data-district carries every
@@ -4508,23 +4637,18 @@ def poi_card(item, badge_key="cuisine", eager=False, featured=False):
         _dists   = item.get("chain_districts") or [district]
         district = "|".join(_dists)
         area     = ", ".join(_dists[:2]) + (f" +{len(_dists) - 2}" if len(_dists) > 2 else "")
-        phone_html = ""   # one branch's number would be misleading on a brand card
-        chain_html = ('<span class="absolute top-3 right-3 z-10 text-xs font-bold px-2.5 py-1 '
-                      'rounded-full shadow" style="background:#fff;color:var(--forest2)">'
-                      f'{chain_n} locations</span>')
+        phone_html = f'<span>{chain_n} locations</span>'   # a single branch number would mislead on a brand card
     return f"""
-<a href="{url}" data-sub="{item.get('subcat','other')}" data-district="{html_lib.escape(district)}" class="listing-card group relative bg-white rounded-2xl border border-gray-100 shadow-sm card-hover flex flex-col overflow-hidden">
+<a href="{url}" data-sub="{item.get('subcat','other')}" data-district="{html_lib.escape(district)}" class="listing-card group relative card-hover flex flex-col">
   {feat_html}
   {chain_html}
   {img_html}
-  <div class="p-4 flex flex-col gap-2 flex-1">
-    <div>
-      <h3 class="font-bold text-gray-900 text-base leading-tight group-hover:text-green-800 transition">{html_lib.escape(item['name'])}</h3>
-    </div>
-    <div class="flex items-center justify-between mt-auto pt-2">
-      <p class="text-gray-400 text-xs">{html_lib.escape(area)}</p>
+  <div class="pt-3 flex flex-col gap-1 flex-1">
+    <h3 class="serif listing-name">{html_lib.escape(item['name'])}</h3>
+    {desc_html}
+    <div class="listing-meta">
+      <span>{html_lib.escape(area)}</span>
       {phone_html}
-      <span class="text-xs font-semibold" style="color:var(--forest2)">{"See locations &rarr;" if chain_n else "Visit &rarr;"}</span>
     </div>
   </div>
 </a>"""
@@ -4581,12 +4705,12 @@ def _filter_bar_html(items, cat_key):
   <div class="max-w-6xl mx-auto px-5">
     <!-- Subcat chips -->
     <div class="relative flex items-center gap-1 pt-3">
-      <div id="{bar_id}" class="flex gap-2 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none">
+      <div id="{bar_id}" class="flex gap-6 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none">
         {"".join(chips)}
       </div>
     </div>
     <!-- District chips -->
-    <div class="flex gap-1.5 overflow-x-auto pt-2 pb-1" style="scrollbar-width:none">
+    <div class="flex gap-5 overflow-x-auto pt-2 pb-1" style="scrollbar-width:none">
       <span class="text-xs font-semibold text-gray-400 self-center shrink-0 mr-1">District:</span>
       {"".join(dist_chips)}
     </div>
@@ -4804,9 +4928,8 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
   {{"@context":"https://schema.org","@type":"WebPage","name":"{_seo_title} | Explore Suriname","url":"{page_url}","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>{_faq_head}
 {_lcp_preload}</head>
-<body class="bg-gray-50 overflow-x-hidden">
+<body class="bg-paper overflow-x-hidden">
 {nav_html(_page_active)}
-<div style="height:58px"></div>
 <div class="cat-hero" style="--cat:{bg_color}">
   <div class="cat-hero-in">
     <nav class="cat-crumb" aria-label="Breadcrumb">
@@ -4814,7 +4937,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
     </nav>
     <div class="cat-row">
       <div>
-        <h1 class="serif">{title}</h1>
+        <h1 class="serif">{title} <span class="h1-count">{_n_cards}</span></h1>
         <p class="cat-sub">{subtitle}</p>
       </div>
       {_cta}
@@ -4944,7 +5067,13 @@ def build_index(restaurants, hotels, cme_rates=None):
     n_hotel  = len(HOTELS)
     _home_css = r"""
     /* ===== HERO ===== */
-    #hero{position:relative;min-height:92vh;min-height:92svh;display:flex;align-items:flex-end;overflow:hidden;background:#173A2A;padding-top:76px}
+    /* Split hero: words on paper in the left column, photograph in the right.
+       The .hz crossfade, esGo() and the Ken Burns keyframes are untouched — only
+       the box they live in changed. */
+    #hero{position:relative;background:var(--paper);display:grid;
+          grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:stretch;
+          min-height:calc(88vh - 92px);min-height:calc(88svh - 92px)}
+    .hero-photo{position:relative;overflow:hidden;background:#173A2A}
     #hero .hz{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease-in-out;will-change:opacity}
     #hero .hz.on{opacity:1}
     @media (prefers-reduced-motion: no-preference){#hero .hz.on{animation:eskb 24s ease-in-out infinite alternate}}
@@ -4954,32 +5083,48 @@ def build_index(restaurants, hotels, cme_rates=None):
     #hz2{background-position:center 62%}
     #hz3{background-position:center 48%}
     #hz4{background-position:center 42%}
-    .hero-scrim-l{position:absolute;inset:0;background:linear-gradient(102deg,rgba(11,24,17,.68) 0%,rgba(11,24,17,.24) 44%,rgba(11,24,17,0) 70%)}
-    .hero-scrim-b{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,38,27,.18) 0%,rgba(18,38,27,0) 38%,rgba(14,30,21,.55) 73%,rgba(10,22,15,.95) 100%)}
-    .hero-inner{position:relative;max-width:1240px;width:100%;margin:0 auto;padding:0 clamp(20px,5vw,52px) clamp(72px,8vw,104px)}
+    .hero-scrim-b{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,22,15,0) 55%,rgba(10,22,15,.62) 100%)}
+    .hero-inner{position:relative;display:flex;flex-direction:column;justify-content:center;
+                padding:clamp(40px,5vw,72px) clamp(20px,4vw,64px)}
     .hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:22px}
-    .hero-eyebrow .rule{width:30px;height:1.5px;background:var(--gold)}
-    .hero-eyebrow .txt{font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#F2E9D4}
-    .hero-h1{font-weight:500;font-size:clamp(46px,7.4vw,92px);line-height:.98;letter-spacing:-.012em;margin:0;color:#FCF7EC;text-shadow:0 2px 34px rgba(10,22,15,.5)}
-    .hero-h1 .it{font-style:italic;font-weight:600;color:var(--gold)}
-    .hero-lead{font-size:clamp(16px,1.5vw,20px);line-height:1.6;color:#ECE4D2;max-width:33rem;margin:26px 0 0}
-    .hero-search{margin-top:36px;display:flex;align-items:stretch;background:rgba(252,247,236,.97);border-radius:16px;overflow:hidden;max-width:580px;box-shadow:0 22px 52px -18px rgba(7,18,12,.72)}
-    .hero-search input{flex:1;border:0;outline:none;background:transparent;padding:18px 22px;font-family:inherit;font-size:16px;color:#233028;min-width:0}
-    .hero-search button{border:0;background:var(--forest);color:#FCF7EC;padding:0 24px;display:flex;align-items:center;gap:9px;cursor:pointer;font-weight:700;font-size:15px;transition:background .2s}
-    .hero-search button:hover{background:var(--forest2)}
-    .hero-chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px;align-items:center}
-    .hero-chips .lbl{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(252,247,236,.72)}
-    .hero-chips a{font-size:13px;padding:7px 14px;border:1px solid rgba(252,247,236,.38);border-radius:999px;color:#FCF7EC;transition:background .2s}
-    .hero-chips a:hover{background:rgba(252,247,236,.14)}
-    #es-cap{position:absolute;right:clamp(20px,5vw,52px);bottom:clamp(58px,7vw,96px);display:flex;flex-direction:column;align-items:flex-end;gap:13px;z-index:2}
+    .hero-eyebrow .rule{width:30px;height:1.5px;background:var(--clay)}
+    .hero-eyebrow .txt{font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--clay)}
+    .hero-h1{font-weight:400;font-size:clamp(44px,5.4vw,78px);line-height:1;letter-spacing:-.02em;margin:0;color:var(--forest)}
+    .hero-h1 .it{font-style:italic;font-weight:400;color:var(--clay)}
+    .hero-lead{font-size:clamp(16px,1.2vw,19px);line-height:1.65;color:#4B564D;max-width:31rem;margin:24px 0 0}
+    .hero-search{margin-top:34px;display:flex;align-items:flex-end;gap:14px;max-width:34rem;
+                 border-bottom:1.5px solid #CFC7B6;padding-bottom:.5rem}
+    .hero-search input{flex:1;border:0;outline:none;background:transparent;padding:2px 0;
+                       font-family:inherit;font-size:17px;color:#233028;min-width:0}
+    .hero-search input::placeholder{color:#8A9187}
+    .hero-search button{border:0;background:none;color:var(--forest);padding:0;display:flex;align-items:center;
+                        gap:7px;cursor:pointer;font-weight:600;font-size:.69rem;letter-spacing:.16em;
+                        text-transform:uppercase;transition:color .2s}
+    .hero-search button:hover{color:var(--clay)}
+    .hero-chips{display:flex;flex-wrap:wrap;gap:9px 18px;margin-top:20px;align-items:center}
+    .hero-chips .lbl{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8A9187}
+    .hero-chips a{font-size:13px;padding:2px 0;border:0;border-bottom:1px solid #D8CFBC;border-radius:0;
+                  color:#4B564D;transition:color .2s,border-color .2s}
+    .hero-chips a:hover{color:var(--forest);border-bottom-color:var(--forest)}
+    #es-cap{position:absolute;right:clamp(16px,2vw,28px);bottom:clamp(20px,3vw,34px);display:flex;
+            flex-direction:column;align-items:flex-end;gap:13px;z-index:2}
     .cap-pill{display:flex;align-items:center;gap:9px;background:rgba(10,22,15,.4);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);padding:8px 15px;border-radius:999px}
     .cap-pill .cd{width:6px;height:6px;border-radius:50%;background:var(--gold)}
     .cap-pill .t{font-size:12px;letter-spacing:.03em;color:#F2E9D4;white-space:nowrap}
     .hero-dots{display:flex;gap:7px}
     .hero-dots span{height:6px;width:7px;border-radius:999px;background:rgba(252,247,236,.45);transition:width .45s ease,background .45s ease;cursor:pointer}
     .hero-dots span.on{width:26px;background:var(--gold)}
+    @media (max-width:899px){
+      #hero{grid-template-columns:1fr;min-height:0}
+      .hero-photo{order:-1;height:270px}
+      .hero-inner{padding:32px clamp(20px,5vw,40px) 44px}
+      #hero .scrollcue{display:none}
+      .hero-chips{display:block;margin-top:22px}
+      .hero-chips .lbl{display:block;margin-bottom:10px}
+      .hero-chips a{display:block;padding:.7rem 0;border-bottom:1px solid #D8CFBC}
+    }
     @media (max-width:780px){#es-cap{display:none}}
-    .scrollcue{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(252,247,236,.62);z-index:2}
+    .scrollcue{position:absolute;bottom:18px;left:clamp(20px,4vw,64px);display:flex;flex-direction:column;align-items:flex-start;gap:6px;color:#8A9187;z-index:2}
     .scrollcue .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase}
     @media (prefers-reduced-motion: no-preference){.scrollcue .ch{animation:esbob 2.2s ease-in-out infinite}}
     @keyframes esbob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
@@ -4988,19 +5133,23 @@ def build_index(restaurants, hotels, cme_rates=None):
     .wrap{max-width:1240px;margin:0 auto}
     .eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--clay)}
     .eyebrow-gold{color:var(--gold)}
-    .dsp{font-family:'Playfair Display',Georgia,serif}
+    .dsp{font-family:'Newsreader',Georgia,serif}
     /* welcome band */
-    .greet-pill{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 12px;background:#E7F2E7;border-radius:999px;margin-bottom:26px}
+    .greet-pill{display:inline-flex;align-items:center;gap:10px;padding:0 0 .35rem;background:none;border-radius:0;border-bottom:1px solid #D8CFBC;margin-bottom:26px}
     .greet-pill .gd{width:8px;height:8px;border-radius:50%;background:var(--gold)}
     .greet-pill .sr{font-style:italic;font-size:15px;color:var(--forest2)}
     .greet-pill .en{font-size:13px;color:#6E7A6B}
     .stat-n{font-weight:600;font-size:clamp(40px,5vw,58px);line-height:1;color:var(--forest2)}
     .stat-n .u{font-size:.45em;color:var(--gold)}
     .stat-c{font-size:14px;color:#6E7A6B;margin-top:10px;line-height:1.5}
+    .statgrid{display:grid;grid-template-columns:1fr;gap:clamp(20px,3vw,44px)}
+    @media(min-width:700px){.statgrid{grid-template-columns:repeat(3,1fr)}}
     /* journeys */
-    .jgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
-    .jc{display:block;position:relative;border-radius:22px;overflow:hidden;aspect-ratio:3/4.1;background:var(--forest2);box-shadow:0 18px 40px -26px rgba(27,67,50,.7);transition:transform .3s,box-shadow .3s}
-    .jc:hover{transform:translateY(-6px);box-shadow:0 30px 56px -28px rgba(27,67,50,.8)}
+    .jgrid{display:grid;grid-template-columns:1fr;gap:20px}
+    @media(min-width:640px){.jgrid{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:1024px){.jgrid{grid-template-columns:repeat(4,1fr)}}
+    .jc{display:block;position:relative;border-radius:0;overflow:hidden;aspect-ratio:3/4.1;background:var(--forest2);transition:filter .2s}
+    .jc:hover{filter:brightness(1.05)}
     .jc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
     .jc .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,40,28,0) 32%,rgba(18,40,28,.92) 100%)}
     .jc .jidx{position:absolute;top:18px;left:20px;font-style:italic;font-size:19px;color:rgba(252,247,236,.92)}
@@ -5009,21 +5158,25 @@ def build_index(restaurants, hotels, cme_rates=None):
     .jc .ttl{font-size:25px;font-weight:600;line-height:1.04}
     .jc .jsub{font-size:13.5px;color:#DCE4DA;margin-top:7px;line-height:1.45}
     /* eat & stay */
-    .esgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
-    .es-card{background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 14px 36px -28px rgba(27,67,50,.5)}
+    .esgrid{display:grid;grid-template-columns:1fr;gap:22px}
+    @media(min-width:900px){.esgrid{grid-template-columns:repeat(2,1fr)}}
+    .es-card{background:none;border:0;border-top:1px solid rgba(35,48,40,.16);border-radius:0;overflow:hidden;display:flex;flex-direction:column}
     .es-card .ph{aspect-ratio:16/9;overflow:hidden;background:#DFD7C2}
     .es-card .ph img{width:100%;height:100%;object-fit:cover;display:block}
-    .es-body{padding:28px 30px 30px}
+    .es-body{padding:24px 0 0}
     .es-lbl{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--clay);margin-bottom:12px}
     .es-h{font-weight:500;font-size:clamp(24px,2.8vw,34px);margin:0 0 12px;line-height:1.05;color:var(--forest)}
     .es-p{font-size:15px;color:#5C6657;margin:0 0 20px;line-height:1.6}
-    .es-chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-    .es-chip{font-size:13px;padding:7px 14px;border:1px solid #E4DAC3;border-radius:999px;color:var(--forest2);background:#F6F0E1}
+    .es-chips{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+    .es-chip{font-size:13px;padding:2px 0;border:0;border-bottom:1px solid #D8CFBC;border-radius:0;color:#4B564D;background:none}
+    .es-chip:hover{color:var(--forest);border-bottom-color:var(--forest)}
     .es-all{font-size:14px;font-weight:700;color:var(--forest);margin-left:4px}
     /* essentials */
-    .essgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:16px}
-    .ess-card{display:block;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 10px 30px -24px rgba(27,67,50,.5);transition:transform .25s,box-shadow .25s}
-    .ess-card:hover{transform:translateY(-4px);box-shadow:0 22px 44px -26px rgba(27,67,50,.55)}
+    .essgrid{display:grid;grid-template-columns:1fr;gap:0}
+    @media(min-width:700px){.essgrid{grid-template-columns:repeat(3,1fr);gap:0 36px}}
+    .ess-card{display:block;background:none;border:0;border-top:1px solid rgba(35,48,40,.16);border-radius:0;
+              padding:22px 0;transition:color .2s}
+    .ess-card:hover .t{color:var(--clay)}
     .ess-card .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--clay)}
     .ess-card .t{font-size:18px;font-weight:700;color:var(--forest);margin-top:14px}
     .ess-card .d{font-size:13.5px;color:#5C6657;margin-top:6px;line-height:1.5}
@@ -5035,6 +5188,10 @@ def build_index(restaurants, hotels, cme_rates=None):
     .btn-gold:hover{transform:translateY(-2px)}
     .btn-ghost{border:1.5px solid rgba(252,247,236,.5);color:#FCF7EC;font-weight:600;font-size:14.5px;padding:13px 24px;border-radius:999px;transition:background .2s;display:inline-block}
     .btn-ghost:hover{background:rgba(252,247,236,.12)}
+    .btn-ghost-light{border-color:rgba(35,48,40,.3);color:var(--forest)}
+    .btn-ghost-light:hover{background:rgba(35,48,40,.06)}
+    .btn-gold{box-shadow:none}
+    .btn-gold:hover{transform:none;background:#D89E3C}
     /* scroll reveal (safe: visible by default; JS opts in, never gates content) */
     .rv-on [data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
     .rv-on [data-reveal].rv-in{opacity:1;transform:none}
@@ -5199,13 +5356,6 @@ function esSearch(){
 
 <!-- ===== HERO ===== -->
 <section id="hero">
-  <div id="hz0" class="hz on"></div>
-  <div id="hz1" class="hz"></div>
-  <div id="hz2" class="hz"></div>
-  <div id="hz3" class="hz"></div>
-  <div id="hz4" class="hz"></div>
-  <div class="hero-scrim-l"></div>
-  <div class="hero-scrim-b"></div>
   <div class="hero-inner">
     <div style="max-width:40rem">
       <div class="hero-eyebrow"><span class="rule"></span><span class="txt">Explore Suriname</span></div>
@@ -5225,22 +5375,30 @@ function esSearch(){
       </div>
     </div>
   </div>
+  <div class="hero-photo">
+    <div id="hz0" class="hz on"></div>
+    <div id="hz1" class="hz"></div>
+    <div id="hz2" class="hz"></div>
+    <div id="hz3" class="hz"></div>
+    <div id="hz4" class="hz"></div>
+    <div class="hero-scrim-b"></div>
   <div id="es-cap">
     <div class="cap-pill"><span class="cd"></span><span class="t" id="es-cap-t">Sunset over the Commewijne</span></div>
     <div class="hero-dots">
       <span class="on" onclick="esGo(0)" role="button" aria-label="Slide 1"></span><span onclick="esGo(1)" role="button" aria-label="Slide 2"></span><span onclick="esGo(2)" role="button" aria-label="Slide 3"></span><span onclick="esGo(3)" role="button" aria-label="Slide 4"></span><span onclick="esGo(4)" role="button" aria-label="Slide 5"></span>
     </div>
   </div>
+  </div>
   <div class="scrollcue"><span class="k">Fa waka &middot; how&#8217;s it going</span><span class="ch" style="font-size:18px">&#8964;</span></div>
 </section>
 
 <!-- ===== WELCOME BAND ===== -->
 <section class="sec" style="background:var(--paper)">
-  <div style="max-width:1000px;margin:0 auto;text-align:center">
+  <div style="max-width:1000px;margin:0 auto">
     <div class="greet-pill" data-reveal><span class="gd"></span><span class="sr dsp" id="greet-sr">Fa waka?</span><span class="en" id="greet-en">&middot; how are you</span></div>
-    <h2 class="dsp" data-reveal style="font-weight:500;font-size:clamp(30px,4.6vw,58px);line-height:1.06;letter-spacing:-.01em;margin:0 auto;max-width:16em;color:var(--forest)">This isn&#8217;t a directory. It&#8217;s <span style="font-style:italic;color:var(--clay)">home,</span> written down.</h2>
-    <p class="dsp-off" data-reveal style="font-size:clamp(16px,1.5vw,19px);line-height:1.7;color:#505C50;max-width:38em;margin:28px auto 0">We&#8217;re not a guidebook written from somewhere far away. We live here. We eat at these tables, swim under these waterfalls, and watch the same sun sink into the river every evening. Everything you&#8217;ll find is kept by people who call Suriname home, ready for the day you&#8217;ll want to call it home too.</p>
-    <div data-reveal style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:clamp(20px,3vw,44px);margin-top:clamp(44px,5vw,64px);border-top:1px solid var(--line);padding-top:clamp(36px,4vw,48px)">
+    <h2 class="dsp" data-reveal style="font-weight:400;font-size:clamp(30px,4.6vw,58px);line-height:1.06;letter-spacing:-.01em;margin:0;max-width:16em;color:var(--forest)">This isn&#8217;t a directory. It&#8217;s <span style="font-style:italic;color:var(--clay)">home,</span> written down.</h2>
+    <p class="dsp-off" data-reveal style="font-size:clamp(16px,1.5vw,19px);line-height:1.7;color:#505C50;max-width:38em;margin:28px 0 0">We&#8217;re not a guidebook written from somewhere far away. We live here. We eat at these tables, swim under these waterfalls, and watch the same sun sink into the river every evening. Everything you&#8217;ll find is kept by people who call Suriname home, ready for the day you&#8217;ll want to call it home too.</p>
+    <div data-reveal class="statgrid" style="margin-top:clamp(44px,5vw,64px);border-top:1px solid rgba(35,48,40,.16);padding-top:clamp(36px,4vw,48px)">
       <div><div class="stat-n dsp">93<span class="u">%</span></div><div class="stat-c">rainforest still standing, more than any country on Earth.</div></div>
       <div><div class="stat-n dsp">7<span class="u">+</span></div><div class="stat-c">cultures sharing one table, one street, one set of holidays.</div></div>
       <div><div class="stat-n dsp">28<span class="u">&deg;</span></div><div class="stat-c">and golden, every day of the year. Bring less than you think.</div></div>
@@ -5353,18 +5511,16 @@ function esSearch(){
 </section>
 
 <!-- ===== CLOSING INVITATION ===== -->
-<section class="darksec" style="background:#173A2A">
-  <img class="dbg" loading="lazy" src="/images/hero-bridge.webp" srcset="/images/hero-bridge-m.webp 900w, /images/hero-bridge.webp 1600w" sizes="100vw" alt="The Wijdenbosch Bridge over the Suriname River at golden hour" width="1600" height="900">
-  <div style="position:absolute;inset:0;background:radial-gradient(120% 120% at 50% 0%,rgba(231,174,77,.18) 0%,rgba(23,58,42,.85) 55%,rgba(20,42,30,.96) 100%)"></div>
-  <div class="wrap" data-reveal style="position:relative;max-width:900px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,5vw,52px);text-align:center;color:#FCF7EC">
-    <div class="eyebrow eyebrow-gold" style="margin-bottom:20px">Updated daily, from Paramaribo</div>
-    <h2 class="dsp" style="font-weight:500;font-size:clamp(34px,5.6vw,76px);line-height:1.02;margin:0 auto;max-width:13em;letter-spacing:-.01em">Come back tomorrow. The <span style="font-style:italic;color:var(--gold)">sunset&#8217;s</span> still free.</h2>
-    <p style="font-size:clamp(16px,1.5vw,19px);color:#E2DBCB;max-width:34em;margin:26px auto 34px;line-height:1.65">Rates move, flights land, festivals come around. Bookmark us, or just drop by again whenever you&#8217;re missing the warm. We&#8217;ll keep a seat for you.</p>
-    <div style="display:flex;gap:13px;justify-content:center;flex-wrap:wrap">
+<section style="background:var(--paper);border-top:2px solid var(--gold)">
+  <div class="wrap" data-reveal style="position:relative;max-width:900px;margin:0 auto;padding:clamp(64px,8vw,112px) clamp(20px,5vw,52px);color:var(--ink)">
+    <div class="eyebrow" style="margin-bottom:20px">Updated daily, from Paramaribo</div>
+    <h2 class="dsp" style="font-weight:400;font-size:clamp(34px,5.6vw,72px);line-height:1.02;margin:0;max-width:13em;letter-spacing:-.02em;color:var(--forest)">Come back tomorrow. The <span style="font-style:italic;color:var(--clay)">sunset&#8217;s</span> still free.</h2>
+    <p style="font-size:clamp(16px,1.5vw,19px);color:#4B564D;max-width:34em;margin:26px 0 34px;line-height:1.65">Rates move, flights land, festivals come around. Bookmark us, or just drop by again whenever you&#8217;re missing the warm. We&#8217;ll keep a seat for you.</p>
+    <div style="display:flex;gap:13px;flex-wrap:wrap">
       <a class="btn-gold" href="visitor-guide.html">Read the Visitor Guide</a>
-      <a class="btn-ghost" href="activities.html">Keep exploring</a>
+      <a class="btn-ghost btn-ghost-light" href="activities.html">Keep exploring</a>
     </div>
-    <div class="dsp" style="font-style:italic;font-size:17px;color:#CFC8B5;margin-top:40px">With love, from all of us here in Suriname</div>
+    <div class="dsp" style="font-style:italic;font-size:17px;color:#8A9187;margin-top:40px">With love, from all of us here in Suriname</div>
   </div>
 </section>
 {footer_html()}
@@ -5405,7 +5561,7 @@ def build_activities_page():
     filter_bar_a = _filter_bar_html(combined_items, "adventure")
     total = len(ACTIVITIES) + len(NATURE_SPOTS) + len(ADVENTURES_BIZ) + len(SIGHTSEEING)
     _items_ld = list(ACTIVITIES) + list(NATURE_SPOTS)
-    return listing_page("Things to Do", f"{total} things to do in Suriname",
+    return listing_page("Things to Do", "Things to do in Suriname",
         f"Browse {total} things to do in Suriname: nature parks, jungle tours, river trips, museums, birdwatching and guided expeditions. Find operators and attractions.",
         _items_ld, all_cards, bg_color=_CAT_ACCENT["Activities"], page_file="activities.html", extra_html="", filter_bar=filter_bar_a,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Atjoni_%2833496718666%29.jpg/1280px-Atjoni_%2833496718666%29.jpg",
@@ -5417,7 +5573,7 @@ def build_restaurants_page(restaurants):
     cards = "\n".join(poi_card(r, "cuisine", eager=(i==0), featured=(r["slug"] in _ADMIN_FEATURED)) for i,r in enumerate(restaurants))
     fb    = _filter_bar_html(restaurants, "restaurant")
     _lcp  = restaurants[0].get("image") if restaurants else None
-    return listing_page("Eat & Drink", f"{len(restaurants)} places to eat & drink in Suriname",
+    return listing_page("Eat & Drink", "Places to eat & drink in Suriname",
         f"Browse {len(restaurants)} restaurants, cafes, bars and fast food in Suriname. Find local Surinamese food, Asian cuisine, coffee shops and more.",
         restaurants, cards, bg_color=_CAT_ACCENT["Eat & Drink"], page_file="restaurants.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/2016_0624_Tjauw_min_moksie_meti_speciaal.jpg/1280px-2016_0624_Tjauw_min_moksie_meti_speciaal.jpg",
@@ -5429,7 +5585,7 @@ def build_hotels_page(hotels):
     cards = "\n".join(poi_card(h, "category", eager=(i==0), featured=(h["slug"] in _ADMIN_FEATURED)) for i,h in enumerate(hotels))
     fb    = _filter_bar_html(hotels, "hotel")
     _lcp  = hotels[0].get("image") if hotels else None
-    return listing_page("Hotels & Lodges", f"{len(hotels)} places to stay in Suriname",
+    return listing_page("Hotels & Lodges", "Places to stay in Suriname",
         f"Browse {len(hotels)} hotels, eco-lodges and jungle retreats in Suriname. From Paramaribo city hotels to remote river resorts. Find your perfect stay.",
         hotels, cards, bg_color=_CAT_ACCENT["Stay"], page_file="hotels.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Bigi_Pan_Nature_Reserve_%282719369111%29.jpg/1280px-Bigi_Pan_Nature_Reserve_%282719369111%29.jpg",
@@ -5441,7 +5597,7 @@ def build_shopping_page():
     cards = "\n".join(poi_card(b, eager=(i==0), featured=(b["slug"] in _ADMIN_FEATURED)) for i,b in enumerate(_order))
     fb    = _filter_bar_html(_order, "shopping")
     _lcp  = _order[0].get("image") if _order else None
-    return listing_page("Shopping", f"{len(SHOPPING)} shops & stores in Suriname",
+    return listing_page("Shopping", "Shops & stores in Suriname",
         f"Discover {len(SHOPPING)} shops in Suriname: supermarkets, malls, fashion, electronics, furniture, butchers and specialty stores in Paramaribo.",
         SHOPPING, cards, bg_color=_CAT_ACCENT["Shopping"], page_file="shopping.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
@@ -5453,7 +5609,7 @@ def build_services_page():
     cards = "\n".join(poi_card(b, eager=(i==0), featured=(b["slug"] in _ADMIN_FEATURED)) for i,b in enumerate(_order))
     fb    = _filter_bar_html(_order, "service")
     _lcp  = _order[0].get("image") if _order else None
-    return listing_page("Services", f"{len(SERVICES)} service providers in Suriname",
+    return listing_page("Services", "Service providers in Suriname",
         f"Find {len(SERVICES)} service providers in Suriname: banks, beauty, health, fitness, education, telecom, real estate and more.",
         SERVICES, cards, bg_color=_CAT_ACCENT["Services"], page_file="services.html", filter_bar=fb,
         og_image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Paramaribo_city_collage.png/1280px-Paramaribo_city_collage.png",
@@ -5730,7 +5886,6 @@ doConvert();"""
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("currency")}
-<div style="height:58px"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">SRD Exchange Rates</h1>
@@ -6008,7 +6163,6 @@ def build_news(articles, oil_articles, finance_articles):
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("news")}
-<div style="height:58px"></div>
 
 <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
 <div class="text-white text-center py-14" style="background:var(--forest)">
@@ -7402,7 +7556,6 @@ def build_today_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("daily-notices")}
-<div style="height:58px"></div>
 
 <!-- Hero -->
 <div class="py-10 text-center text-white" style="background:var(--forest)">
@@ -8288,7 +8441,6 @@ def build_events_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("events")}
-<div style="height:58px"></div>
 <div class="relative text-white py-16 text-center overflow-hidden" style="background:var(--forest)">
   <div class="absolute inset-0" style="background:url(/images/home-faiths.webp) center/cover no-repeat" aria-hidden="true"></div>
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.85),rgba(13,30,22,.62))" aria-hidden="true"></div>
@@ -8521,7 +8673,6 @@ def build_crossword_page():
     body = """
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div style="height:58px"></div>
 <div class="relative text-white py-14 text-center overflow-hidden" style="background:var(--forest)">
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.92),rgba(13,30,22,.7))" aria-hidden="true"></div>
   <div class="relative max-w-3xl mx-auto px-4">
@@ -8845,7 +8996,6 @@ def build_quiz_page():
     body = """
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div style="height:58px"></div>
 <div class="relative text-white py-14 text-center overflow-hidden" style="background:var(--forest)">
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.92),rgba(13,30,22,.7))" aria-hidden="true"></div>
   <div class="relative max-w-3xl mx-auto px-4">
@@ -8972,7 +9122,6 @@ def build_visitor_guide_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("visitor")}
-<div style="height:58px"></div>
 <div class="text-white py-14 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">The Basics</h1>
@@ -9357,7 +9506,6 @@ def _hub_hero(kicker, h1, sub):
     return f"""
 <body class="bg-gray-50 overflow-x-hidden">
 {{NAV}}
-<div style="height:58px"></div>
 <div class="text-white py-14 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--coral)">{kicker}</p>
@@ -11111,7 +11259,6 @@ def build_mapgame_page():
     body = """
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div style="height:58px"></div>
 <div class="relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
@@ -11420,7 +11567,6 @@ def build_korjaal_page():
     body = """
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div style="height:58px"></div>
 <div class="relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
@@ -11896,7 +12042,6 @@ def build_anaconda_page():
     body = """
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div style="height:58px"></div>
 <div class="relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
@@ -14130,7 +14275,6 @@ def build_muskieto_page():
     body = """
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div style="height:58px"></div>
 <div class="relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
@@ -14351,7 +14495,6 @@ def build_history_page():
     body = """
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div style="height:58px"></div>
 <div id="tl-hero" class="relative text-white pt-20 pb-16 text-center overflow-hidden">
   <div class="ov" aria-hidden="true"></div>
   <div class="relative max-w-3xl mx-auto px-4">
@@ -14926,7 +15069,6 @@ def build_about_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("about")}
-<div style="height:58px"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">About Explore Suriname</h1>
@@ -15024,7 +15166,6 @@ def build_contact_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("contact")}
-<div style="height:58px"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Contact Us</h1>
@@ -15140,7 +15281,6 @@ def build_submit_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div style="height:58px"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Add Your Business</h1>
@@ -15442,7 +15582,6 @@ def build_submit_event_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
-<div style="height:58px"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="events.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Events &amp; Festivals</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Submit Your Event</h1>
@@ -15723,7 +15862,6 @@ def build_privacy_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("privacy")}
-<div style="height:58px"></div>
 <div class="text-white py-12 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-3xl sm:text-4xl font-bold mb-2">Privacy Policy</h1>
@@ -16726,10 +16864,10 @@ def build_sw():
     """Return sw.js service worker content. _TW_V is injected so the precache
     always holds the exact versioned tailwind.css URL the pages request."""
     sw = r"""// ExploreSuriname Service Worker
-const CACHE = 'exploresr-v8';
+const CACHE = 'exploresr-v9';
 const TWV = '__TWV__';
 const PRECACHE = ['/', '/tailwind.css?v=' + TWV, '/favicon.ico', '/favicon.svg', '/offline.html',
-                  '/fonts/playfair-latin-var.woff2', '/fonts/inter-latin-var.woff2'];
+                  '/fonts/newsreader-latin-var.woff2', '/fonts/instrument-latin-var.woff2'];
 const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html', '/daily-notices.html', '/events.html']);
 
 self.addEventListener('install', e => {
@@ -16815,7 +16953,6 @@ def build_offline():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html()}
-<div style="height:58px"></div>
 <div class="text-white py-20 text-center" style="background:var(--forest)">
   <p class="text-6xl mb-4">🌿</p>
   <h1 class="serif text-4xl font-bold mb-3">You're offline</h1>
@@ -17120,7 +17257,6 @@ function loadAirQuality(lat, lon){
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("forecast")}
-<div style="height:58px"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Weather &amp; River Tides</h1>
@@ -17665,7 +17801,6 @@ def build_flights_page(flights_data):
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("flights")}
-<div style="height:58px"></div>
 <div class="text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Flights Today</h1>
@@ -17794,7 +17929,6 @@ def build_roads_page():
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("roads")}
-<div style="height:58px"></div>
 
 <div class="text-white py-10 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
@@ -18612,7 +18746,7 @@ def build_atms_page(atms, meta, ref=None):
 .atm-some{font-size:.72rem;font-weight:600;color:#b45309}
 .atm-fn{color:#b45309;font-weight:700}
 .atm-pin-tag{font-size:.6rem;font-weight:700;color:#6b7280;background:#eef2f7;border-radius:999px;padding:1px 6px;margin-left:6px;text-transform:uppercase;letter-spacing:.04em;vertical-align:middle}
-.leaflet-popup-content{font-family:'Inter',sans-serif;margin:11px 13px}
+.leaflet-popup-content{font-family:'Instrument Sans',sans-serif;margin:11px 13px}
 .atm-pop-net{display:inline-block;font-size:.62rem;font-weight:700;color:#fff;padding:2px 7px;border-radius:999px}
 .atm-pop-dir{color:var(--forest2);font-weight:600;font-size:.78rem}
 </style>
@@ -18959,6 +19093,7 @@ if __name__ == "__main__":
     cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
     bank_rates, banks_updated           = fetch_bank_rates()
     brent_price, brent_updated          = fetch_brent_price()
+    build_rail_data(cme_rates)
     tides_data    = fetch_tides_data()
     flights_data  = fetch_aerodatabox_flights()
     matches_data  = fetch_matches_data()
