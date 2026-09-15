@@ -5416,11 +5416,10 @@ function esSearch(){
       </div>
       <div class="hero-chips">
         <span class="lbl">Most visited</span>
-        <a href="matches.html">Sports Schedule</a>
-        <a href="korjaal.html">Korjaal Run</a>
-        <a href="atms.html">ATM finder</a>
+        <a href="restaurants.html">Where to Eat</a>
         <a href="currency.html">Market rates</a>
         <a href="daily-notices.html">Daily notices</a>
+        <a href="real-estate.html">Real Estate</a>
       </div>
     </div>
   </div>
