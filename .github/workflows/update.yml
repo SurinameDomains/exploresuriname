@@ -58,6 +58,7 @@ jobs:
           git add nl/ es/ || true
           git add data/ || true
           git add listing/ .last_run sitemap.xml robots.txt llms.txt tailwind.css search-index.json listing_lastmod_cache.json || true
+          git add real-estate/ post-ad.html my-ads.html || true
           git add indexnow_state.json || true
           git add translations.json translation_segments.json i18n_segments.json || true
           git add images/ image_cache.json image_widths.json || true
