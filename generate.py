@@ -16101,7 +16101,11 @@ def build_dictionary_page():
                 _x += ' <span class="text-gray-400">&mdash;</span> <span class="text-gray-500 italic">' + esc(xen) + '</span>'
             ex_html = ('<p class="dict-ex text-sm mt-1.5">' + _x + '</p>')
         return (
-            '<article class="dict-card border-b border-gray-100 py-3.5" '
+            # translate="no": dictionary entries are source data (Sranan headwords,
+            # their glosses and the hand-written NL field). Machine-translating
+            # them is both wrong and, at 3025 entries, ~10k of the site's ~21k
+            # translatable segments. Page chrome and prose stay translatable.
+            '<article class="dict-card border-b border-gray-100 py-3.5" translate="no" '
             'data-tag="' + tag + '" data-s="' + esc(hay) + '">'
               '<div class="flex items-baseline flex-wrap gap-x-2">'
                 '<h3 class="text-lg font-bold text-gray-900">' + esc(w) + '</h3>'
