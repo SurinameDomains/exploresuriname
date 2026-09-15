@@ -1,35 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD DINSDAG 15 SEPTEMBER 2026",
-      "date": "15 September 2026",
-      "date_iso": "2026-09-15",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1608/gepland-onderhoud-dinsdag-15-september-2026",
-      "meta_description": "Gepland onderhoud: Para-Brokopondo dinsdag 15 september 2026 tussen 08:00-17:00 GEDEELTE KRAKKAWEG TUSSEN CABENDADORP EN AVOBAKAWEG, GEDEELTE AVOKABAWEG TUS",
-      "district": "Para-Brokopondo",
-      "time": "08:00 – 17:00",
-      "area": "GEDEELTE KRAKKAWEG TUSSEN CABENDADORP EN AVOBAKAWEG, GEDEELTE AVOKABAWEG TUS"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD ZATERDAG 19 SEPTEMBER 2026",
-      "date": "19 September 2026",
-      "date_iso": "2026-09-19",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1607/gepland-onderhoud-zaterdag-19-september-2026",
-      "meta_description": "GEPLAND ONDERHOUD: COMM ZATERDAG 19 SEPTEMBER 2026 TUSSEN 9:00 EN 17:00 UURGEDEELTE OOST – WEST VERBINDING TUSSEN VEERPLEIN EN TIMORWEG,",
-      "district": "COMM"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD DINSDAG 15 SEPTEMBER 2026",
-      "date": "15 September 2026",
-      "date_iso": "2026-09-15",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1603/gepland-onderhoud-dinsdag-15-september-2026",
-      "meta_description": "GEPLAND ONDERHOUD: WANICA DINSDAG 15 SEPTEMBER 2026 TUSSEN 9:00 EN 14:00 UURHOSSINWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
-      "district": "WANICA"
-    }
-  ],
-  "last_updated": "2026-09-15T11:08:16.170848+00:00",
+  "outages": [],
+  "last_updated": "2026-09-15T13:20:22.822953+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
