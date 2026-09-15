@@ -3862,7 +3862,7 @@ def nav_html(active="home", prefix=""):
     #   Plan     = what you read before or during a trip
     #   Live     = anything whose numbers changed since yesterday
     #   Oil&Gas / Games = self-contained sections
-    _EXPL  = {"activities", "events", "shopping", "services"}
+    _EXPL  = {"activities", "events", "shopping", "services", "realestate"}
     _EAT   = {"restaurants", "hotels"}
     _PLAN  = {"visitor", "itinerary", "safety", "roads", "flights", "history", "dictionary"}
     _LIVE  = {"currency", "forecast", "daily-notices", "atms", "matches", "surtime"}
@@ -3911,6 +3911,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}events.html"      {_link_cls("events")}     >Events &amp; Festivals</a>'
         f'<a href="{prefix}shopping.html"    {_link_cls("shopping")}   >Shopping</a>'
         f'<a href="{prefix}services.html"    {_link_cls("services")}   >Local Services</a>'
+        f'<a href="{prefix}real-estate.html" {_link_cls("realestate")} >Real Estate</a>'
     )
     # Eat & Stay
     eat_items = (
@@ -3992,7 +3993,8 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}activities.html",  "Things to Do",       "activities") +
         _mob_link(f"{prefix}events.html",      "Events & Festivals", "events")     +
         _mob_link(f"{prefix}shopping.html",    "Shopping",           "shopping")   +
-        _mob_link(f"{prefix}services.html",    "Local Services",     "services")
+        _mob_link(f"{prefix}services.html",    "Local Services",     "services")   +
+        _mob_link(f"{prefix}real-estate.html", "Real Estate",        "realestate")
     )
     mob_eat_items = (
         _mob_link(f"{prefix}restaurants.html", "Where to Eat",  "restaurants") +
@@ -16662,7 +16664,7 @@ def build_time_page():
     return head + hero + main + js + "\n" + footer_html() + "\n</body>\n</html>"
 
 
-def build_sitemap(biz_slugs, act_slugs, nat_slugs):
+def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
     """Generate sitemap.xml covering all pages and listing URLs."""
     today = datetime.now(SR_TZ).strftime("%Y-%m-%d")
 
@@ -16765,6 +16767,8 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
         ("contact.html",    "0.5", "yearly"),
         ("submit-business.html", "0.6", "yearly"),
         ("submit-event.html",    "0.6", "monthly"),
+        ("real-estate.html",     "0.9", "daily"),
+        ("post-ad.html",         "0.5", "monthly"),
         ("privacy.html",    "0.3", "yearly"),
     ]
 
@@ -16777,6 +16781,18 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs):
             f"    <lastmod>{_static_lastmod(path_seg)}</lastmod>\n"
             f"    <changefreq>{freq}</changefreq>\n"
             f"    <priority>{priority}</priority>\n"
+            f"  </url>"
+        )
+
+    # Marketplace ads. Weekly on purpose: a property ad is only worth indexing
+    # while it is still for sale. Sold ones carry noindex and are left out here.
+    for slug in (market_slugs or []):
+        urls.append(
+            f"  <url>\n"
+            f"    <loc>{SITE_URL}/real-estate/{slug}/</loc>\n"
+            f"    <lastmod>{today}</lastmod>\n"
+            f"    <changefreq>weekly</changefreq>\n"
+            f"    <priority>0.6</priority>\n"
             f"  </url>"
         )
 
@@ -19248,7 +19264,29 @@ if __name__ == "__main__":
         "SITE_URL":       SITE_URL,
     }))
 
+    # ── Marketplace (market.py) ─────────────────────────────────────────────
+    # Returns nested keys like real-estate/<slug>/index.html, so the write loop
+    # below creates directories. update.yml must git add real-estate/ or these
+    # get generated and then never committed.
+    from market import build_market_pages
+    _market_pages = build_market_pages({
+        "hub_head":          _hub_head,
+        "nav_html":          nav_html,
+        "footer_html":       footer_html,
+        "SITE_URL":          SITE_URL,
+        "GOOGLE_CLIENT_ID":  MQ_GOOGLE_CLIENT_ID,
+        "TURNSTILE_SITEKEY": TURNSTILE_SITEKEY,
+        "cbvs_rates":        cbvs_rates,
+    })
+    pages.update(_market_pages)
+    _market_slugs = [k.split("/")[1] for k in _market_pages
+                     if k.startswith("real-estate/") and 'content="noindex' not in _market_pages[k]]
+
+    import os as _os_pages
     for fname, html in pages.items():
+        _d = _os_pages.path.dirname(fname)
+        if _d:
+            _os_pages.makedirs(_d, exist_ok=True)
         with open(fname, "w", encoding="utf-8") as f:
             f.write(html)
         print(f"  OK  {fname}")
@@ -19337,7 +19375,7 @@ if __name__ == "__main__":
     act_slugs = [b["slug"] for b in ADVENTURES_BIZ + SIGHTSEEING] + act_inline_slugs
 
     with open("sitemap.xml", "w", encoding="utf-8") as f:
-        f.write(build_sitemap(list(_BIZ.keys()), act_slugs, nat_slugs))
+        f.write(build_sitemap(list(_BIZ.keys()), act_slugs, nat_slugs, _market_slugs))
 
     with open("robots.txt", "w", encoding="utf-8") as f:
         f.write(build_robots())

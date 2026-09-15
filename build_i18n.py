@@ -91,6 +91,16 @@ def in_brand(node):
         return True
     return False
 
+def no_translate(node):
+    """
+    Honour the standard HTML translate="no" attribute on any ancestor. Used by
+    the marketplace: an ad page's chrome should appear in Dutch and Spanish, but
+    the seller's own words must not go through MT (most are already Dutch, and
+    round-tripping them produces nonsense).
+    """
+    return node.find_parent(attrs={"translate": "no"}) is not None
+
+
 def translatable(s: str) -> bool:
     t = s.strip()
     if len(t) < 2:                 return False
@@ -126,6 +136,7 @@ def collect_segments(soup) -> set:
         if type(node) is not NavigableString:         continue  # skip Doctype/Comment/CData
         if node.parent and node.parent.name in SKIP_PARENTS: continue
         if in_brand(node):                            continue
+        if no_translate(node):                        continue
         if translatable(str(node)):
             segs.add(str(node).strip())
     # translatable attributes
@@ -151,6 +162,7 @@ def localize(soup, lang: str, rel_path: str):
         if type(node) is not NavigableString:         continue  # skip Doctype/Comment/CData
         if node.parent and node.parent.name in SKIP_PARENTS: continue
         if in_brand(node):                            continue
+        if no_translate(node):                        continue
         s = str(node)
         if translatable(s):
             node.replace_with(tr(s, lang))
@@ -402,6 +414,10 @@ def english_pages():
         yield p, p.name
     for p in (ROOT / "listing").glob("*/index.html"):
         yield p, f"listing/{p.parent.name}/index.html"
+    # Marketplace ads. The seller's own text carries translate="no", so only the
+    # page furniture is localised.
+    for p in (ROOT / "real-estate").glob("*/index.html"):
+        yield p, f"real-estate/{p.parent.name}/index.html"
 
 def main():
     pages = list(english_pages())
