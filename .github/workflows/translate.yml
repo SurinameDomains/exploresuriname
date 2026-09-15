@@ -1,11 +1,17 @@
 name: Fill Translations (NL/ES)
 
-# Resumable. Run manually as many times as needed: each run translates the
-# next batch of pending segments via the keyless Google endpoint (free, no key, no card) and commits the
-# updated translations.json. Stops cleanly when the daily quota is reached;
-# the next run continues where it left off. Once translations.json is complete,
-# further runs are cheap no-ops. Safe to delete this workflow when done, or
-# uncomment the schedule below to auto-resume daily until full.
+# Resumable and BOUNDED. Each run translates at most --limit pending segments
+# via the keyless Google endpoint (free, no key, no card) and commits the
+# updated translations.json; the next run continues where it left off.
+#
+# Keep the limits. The endpoint sustains roughly 4 requests/second, so an
+# unbounded run against a full backlog takes hours and holds the shared
+# exploresuriname-deploy lock the whole time, delaying every "Update Site" run.
+#
+# Note this never reaches a steady "complete" state: the site emits volatile
+# segments each build (news headlines, "10h ago", "169 results", fixtures), so
+# some pending work is normal. Translating those patterns instead of their
+# rendered output is the open follow-up.
 
 on:
   workflow_dispatch:
@@ -25,6 +31,10 @@ permissions:
 jobs:
   translate:
     runs-on: ubuntu-latest
+    # Hard ceiling. Without it a full backlog (~38k keyless-Google requests at
+    # ~4 req/s) ran 2h40m and held the shared exploresuriname-deploy lock, which
+    # delayed every 15-min "Update Site" run behind it.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
@@ -51,10 +61,12 @@ jobs:
         run: python build_i18n.py
 
       - name: Translate pending segments (keyless Google, resumable)
-        run: python translate_cache.py
+        # Bounded batch: the script is resumable, so repeated short runs
+        # drain the backlog without ever blocking a deploy.
+        run: python translate_cache.py --limit 1500
 
       - name: Shield business names in listing titles/meta
-        run: python protect_titles.py
+        run: python protect_titles.py --limit 800
 
       - name: Commit updated cache
         run: |
