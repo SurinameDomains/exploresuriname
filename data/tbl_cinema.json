@@ -1,21 +1,21 @@
 {
-  "last_updated": "2026-09-14T16:00:28.378199+00:00",
+  "last_updated": "2026-09-15T10:00:33.156155+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "05:00 PM",
+      "time": "05:15 PM",
       "title": "Tad and The Magic Lamp",
       "url": "https://www.tblcinemas.com/movie/RS68595530288/tad-and-the-magic-lamp"
     },
     {
-      "time": "05:30 PM",
-      "title": "Spider-Man: Brand New Day",
-      "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
+      "time": "05:45 PM",
+      "title": "The Rivals of Amziah King",
+      "url": "https://www.tblcinemas.com/movie/RS982599637584/the-rivals-of-amziah-king"
     },
     {
       "time": "06:00 PM",
-      "title": "Onslaught",
-      "url": "https://www.tblcinemas.com/movie/RS251312878430/onslaught"
+      "title": "Fall 2: Deadpoint",
+      "url": "https://www.tblcinemas.com/movie/RS10062314469/fall-2-deadpoint"
     },
     {
       "time": "06:30 PM",
@@ -24,11 +24,11 @@
     },
     {
       "time": "07:00 PM",
-      "title": "The Rivals of Amziah King",
-      "url": "https://www.tblcinemas.com/movie/RS982599637584/the-rivals-of-amziah-king"
+      "title": "Spider-Man: Brand New Day",
+      "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
     },
     {
-      "time": "07:45 PM",
+      "time": "08:00 PM",
       "title": "Practical Magic 2",
       "url": "https://www.tblcinemas.com/movie/RS661264885651/practical-magic-2"
     },
@@ -39,8 +39,8 @@
     },
     {
       "time": "09:00 PM",
-      "title": "Fall 2: Deadpoint",
-      "url": "https://www.tblcinemas.com/movie/RS10062314469/fall-2-deadpoint"
+      "title": "Onslaught",
+      "url": "https://www.tblcinemas.com/movie/RS251312878430/onslaught"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
