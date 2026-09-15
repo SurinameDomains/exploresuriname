@@ -190,6 +190,20 @@ def _specs(ad):
     return out
 
 
+def _postal(ad):
+    """
+    Schema.org address. streetAddress is included only when the seller published
+    it, so the structured data can never expose more than the page does.
+    """
+    a = {"@type": "PostalAddress",
+         "addressLocality": ad.get("area") or ad.get("district", ""),
+         "addressRegion": ad.get("district", ""),
+         "addressCountry": "SR"}
+    if ad.get("show_addr") and ad.get("address"):
+        a["streetAddress"] = ad["address"]
+    return a
+
+
 def _is_dead(ad):
     return ad.get("status") in ("sold", "expired")
 
@@ -452,6 +466,7 @@ def _build_detail(ctx, ad, table):
             "priceCurrency": ad.get("currency", "SRD"),
             "availability": "https://schema.org/SoldOut" if dead else "https://schema.org/InStock",
             "areaServed": {"@type": "Place", "name": ad.get("district", "Suriname")},
+            "availableAtOrFrom": {"@type": "Place", "address": _postal(ad)},
         },
     }
     if imgs:
@@ -524,6 +539,14 @@ def _build_detail(ctx, ad, table):
     posted = ""
     if ad.get("created"):
         posted = datetime.fromtimestamp(ad["created"], timezone.utc).strftime("%d %B %Y")
+    addr_block = ""
+    if ad.get("show_addr") and ad.get("address"):
+        q = urllib.parse.quote(f'{ad["address"]}, {ad.get("area") or ad.get("district","")}, Suriname')
+        addr_block = (
+            '<p class="mt-1 mb-4" style="color:#5A625B"><b class="text-gray-900" translate="no">'
+            + _esc(ad["address"]) + '</b> &middot; '
+            f'<a href="https://www.google.com/maps/search/?api=1&amp;query={q}" target="_blank" '
+            'rel="noopener" class="underline" style="color:var(--forest2)">Directions</a></p>')
     api = json.dumps(MK_API)
     slug_js = json.dumps(slug)
 
@@ -541,7 +564,8 @@ def _build_detail(ctx, ad, table):
     <div>
       {gallery}
       <h1 translate="no" class="serif text-3xl mt-6 mb-1" style="color:var(--forest);font-weight:400">{title}</h1>
-      <p class="mb-4" style="color:#5A625B">{_esc(cat)} {deal} in {_esc(where)}</p>
+      <p class="mb-1" style="color:#5A625B">{_esc(cat)} {deal} in {_esc(where)}</p>
+      {addr_block}
       {spec_rows}
       <h2 class="serif text-xl mt-7 mb-2" style="color:var(--forest);font-weight:400">About this property</h2>
       <p translate="no" class="text-gray-700 leading-relaxed" style="white-space:pre-wrap">{_esc(ad.get("descr","")) or "The seller did not add a description."}</p>
@@ -685,7 +709,12 @@ def _build_post(ctx):
           <select name="district" required class="w-full rounded-xl border px-3 py-2.5" style="border-color:#DDD4C1"><option value="">Choose one</option>{dist_opts}</select></label>
         <label class="block"><span class="block text-sm font-semibold mb-1">Area <span class="font-normal" style="color:#656C63">optional</span></span>
           <input name="area" maxlength="60" placeholder="Kwatta" class="w-full rounded-xl border px-3 py-2.5" style="border-color:#DDD4C1"></label>
+
       </div>
+      <label class="block mb-2"><span class="block text-sm font-semibold mb-1">Street and number <span class="font-normal" style="color:#656C63">optional</span></span>
+        <input name="address" maxlength="160" placeholder="Kwattaweg 123" class="w-full rounded-xl border px-3 py-2.5" style="border-color:#DDD4C1"></label>
+      <label class="flex items-start gap-2 text-sm mb-1"><input type="checkbox" name="hide_addr" value="1" class="mt-1">
+        <span>Do not show the exact address on the ad. Buyers then see only the area until you give them the address yourself. Worth ticking for an empty property.</span></label>
       <div class="grid gap-4" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">
         <label class="block"><span class="block text-sm font-semibold mb-1">Price</span>
           <input name="price" id="f-price" inputmode="numeric" required placeholder="85000" class="w-full rounded-xl border px-3 py-2.5" style="border-color:#DDD4C1"></label>
@@ -915,7 +944,9 @@ function row(a){{
   if(a.status==="live"){{
     btns='<button data-a="sold" data-s="'+esc(a.slug)+'" class="mk-b">Mark as sold</button>'
        +'<button data-a="renew" data-s="'+esc(a.slug)+'" class="mk-b">Renew 60 days</button>'
-       +'<button data-a="price" data-s="'+esc(a.slug)+'" class="mk-b">Change price</button>';
+       +'<button data-a="price" data-s="'+esc(a.slug)+'" class="mk-b">Change price</button>'
+       +(a.address?'<button data-a="addr" data-s="'+esc(a.slug)+'" data-v="'+(a.show_addr?'0':'1')+'" class="mk-b">'
+          +(a.show_addr?'Hide the address':'Show the address')+'</button>':'');
   }} else if(a.status==="sold"||a.status==="expired"){{
     btns='<button data-a="relist" data-s="'+esc(a.slug)+'" class="mk-b">Put it back up</button>';
   }}
@@ -927,6 +958,8 @@ function row(a){{
     +'<span class="inline-block px-2 py-0.5 rounded-full text-xs font-semibold text-white mb-1" style="background:'+(COLOR[a.status]||"#3F3F3F")+'">'+(LABEL[a.status]||a.status)+'</span>'
     +'<h3 class="font-semibold text-gray-900">'+esc(a.title)+'</h3>'
     +'<p class="font-bold" style="color:var(--forest)">'+esc(a.currency+" "+amt(a.price))+(a.deal==="rent"?" per "+(a.period||"month"):"")+'</p>'
+    +(a.address?'<p class="text-sm" style="color:#656C63">'+esc(a.address)
+       +(a.show_addr?'':' (not shown on the ad)')+'</p>':'')
     +link+warn+note
     +'<div class="flex flex-wrap gap-2 mt-3">'+btns+'</div>'
     +'</div></div>';
@@ -963,6 +996,7 @@ document.addEventListener("click",function(e){{
     var p=prompt("New price (numbers only):"); if(p===null) return;
     act(s,{{act:"edit",price:p}});
   }}
+  else if(a==="addr") act(s,{{act:"edit",show_addr:Number(b.dataset.v)}});
 }});
 bootAuth();
 }})();
