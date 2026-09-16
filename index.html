@@ -14,6 +14,27 @@
   @font-face{font-family:'Newsreader';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/newsreader-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Newsreader';font-style:italic;font-weight:300 600;font-display:swap;src:url(/fonts/newsreader-latin-var-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400 600;font-display:swap;src:url(/fonts/instrument-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  /* Wide-screen scale (Sep 2026). The whole site is designed at 1280-1536px and
+     capped at max-w-7xl, so on a 1920/2560 monitor at 100% Windows scaling it
+     rendered laptop-sized with huge empty margins. Above 1600px the page is zoomed
+     as a unit (text, nav, dropdowns, cards, spacing together). Laptops, tablets
+     and phones stay at --z:1. --z is also read by _wide_scale_units() (vw/vh
+     compensation, zoom multiplies viewport units) and by JS that sizes things
+     from innerWidth/innerHeight. Tested at 1280/1536/1920/2560. */
+  html{--z:1}
+  @media (min-width:1600px){html{--z:1.1}}
+  @media (min-width:1760px){html{--z:1.18}}
+  @media (min-width:1900px){html{--z:1.25}}
+  @media (min-width:2200px){html{--z:1.4}}
+  @media (min-width:2500px){html{--z:1.6}}
+  @media (min-width:3200px){html{--z:2}}
+  html{zoom:var(--z)}
+  /* Header spans the window on desktop, as it already does on a 1280 laptop, so the
+     logo and the search/language controls sit at the page edges on every screen
+     and line up with the full-bleed homepage hero (same gutter as .hero-inner). */
+  @media (min-width:1280px){
+    .util-rail .util-in, nav .site-navin{max-width:none;padding-left:clamp(20px,calc(4vw / var(--z,1)),64px);padding-right:clamp(20px,calc(4vw / var(--z,1)),64px)}
+  }
   </style>
 <link href="/tailwind.css?v=887c2426" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
@@ -47,7 +68,7 @@
     .ftr-cta{display:inline-block;border:1px solid var(--coral);color:#FCF7EC;border-radius:9999px;padding:.5rem 1.1rem;
              font-size:13px;font-weight:700;text-decoration:none;transition:background .18s,color .18s}
     .ftr-cta:hover{background:var(--coral);color:#fff}
-    .ftr-bar{max-width:1140px;margin:0 auto;padding:18px clamp(20px,5vw,48px);display:flex;justify-content:space-between;
+    .ftr-bar{max-width:1140px;margin:0 auto;padding:18px clamp(20px,calc(5vw / var(--z,1)),48px);display:flex;justify-content:space-between;
              align-items:center;gap:12px 20px;flex-wrap:wrap;font-size:13px;color:#8B978A}
     .ftr-bar-links{display:flex;gap:18px;flex-wrap:wrap}
     @media(max-width:900px){footer>div:first-child{grid-template-columns:1fr 1fr!important;gap:32px!important}}
@@ -212,7 +233,7 @@
     .cat-crumb a{color:var(--clay);text-decoration:none}
     .cat-crumb a:hover{text-decoration:underline}
     .cat-row{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:.55rem}
-    .cat-row h1{font-size:clamp(2.2rem,5vw,3.75rem);font-weight:400;line-height:1;letter-spacing:-.02em;
+    .cat-row h1{font-size:clamp(2.2rem,calc(5vw / var(--z,1)),3.75rem);font-weight:400;line-height:1;letter-spacing:-.02em;
                 color:var(--forest);margin:0}
     .cat-sub{color:#4B564D;font-size:1.03rem;line-height:1.6;margin:.6rem 0 0;max-width:44em}
     .h1-count{font-family:'Instrument Sans',sans-serif;font-size:1.05rem;font-weight:500;color:#656C63;
@@ -474,17 +495,7 @@
        the box they live in changed. */
     #hero{position:relative;background:var(--paper);display:grid;
           grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:stretch;
-          min-height:calc(88vh - 92px);min-height:calc(88svh - 92px)}
-    /* Home only: the split hero is full-bleed, so the rail + nav go full-width too
-       and share the hero's left gutter (otherwise on wide monitors the logo sits
-       inside a centred 80rem box while the hero text hugs the window edge). */
-    @media (min-width:900px){
-      .util-in,.navin{max-width:none!important;padding-left:clamp(20px,4vw,64px)!important;padding-right:clamp(20px,4vw,64px)!important}
-      #hero{min-height:calc(100vh - 91px);min-height:calc(100svh - 91px)}
-    }
-    /* Big monitors: scale the hero copy so it fills its column like it does on a laptop */
-    @media (min-width:1700px){.hero-inner>div{zoom:1.22}}
-    @media (min-width:2200px){.hero-inner>div{zoom:1.45}}
+          min-height:calc(calc(88vh / var(--z,1)) - 92px);min-height:calc(calc(88svh / var(--z,1)) - 92px)}
     .hero-photo{position:relative;overflow:hidden;background:#173A2A}
     #hero .hz{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease-in-out;will-change:opacity}
     #hero .hz.on{opacity:1}
@@ -497,13 +508,13 @@
     #hz4{background-position:center 42%}
     .hero-scrim-b{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,22,15,0) 55%,rgba(10,22,15,.62) 100%)}
     .hero-inner{position:relative;display:flex;flex-direction:column;justify-content:center;
-                padding:clamp(40px,5vw,72px) clamp(20px,4vw,64px) 104px}
+                padding:clamp(40px,calc(5vw / var(--z,1)),72px) clamp(20px,calc(4vw / var(--z,1)),64px) 104px}
     .hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:22px}
     .hero-eyebrow .rule{width:30px;height:1.5px;background:var(--clay)}
     .hero-eyebrow .txt{font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--clay)}
-    .hero-h1{font-weight:400;font-size:clamp(44px,5.4vw,78px);line-height:1;letter-spacing:-.02em;margin:0;color:var(--forest)}
+    .hero-h1{font-weight:400;font-size:clamp(44px,calc(5.4vw / var(--z,1)),78px);line-height:1;letter-spacing:-.02em;margin:0;color:var(--forest)}
     .hero-h1 .it{font-style:italic;font-weight:400;color:var(--clay)}
-    .hero-lead{font-size:clamp(16px,1.2vw,19px);line-height:1.65;color:#4B564D;max-width:31rem;margin:24px 0 0}
+    .hero-lead{font-size:clamp(16px,calc(1.2vw / var(--z,1)),19px);line-height:1.65;color:#4B564D;max-width:31rem;margin:24px 0 0}
     .hero-search{margin-top:34px;display:flex;align-items:flex-end;gap:14px;max-width:34rem;
                  border-bottom:1.5px solid #CFC7B6;padding-bottom:.5rem}
     .hero-search input{flex:1;border:0;outline:none;background:transparent;padding:2px 0;
@@ -518,7 +529,7 @@
     .hero-chips a{font-size:13px;padding:2px 0;border:0;border-bottom:1px solid #D8CFBC;border-radius:0;
                   color:#4B564D;transition:color .2s,border-color .2s}
     .hero-chips a:hover{color:var(--forest);border-bottom-color:var(--forest)}
-    #es-cap{position:absolute;right:clamp(16px,2vw,28px);bottom:clamp(20px,3vw,34px);display:flex;
+    #es-cap{position:absolute;right:clamp(16px,calc(2vw / var(--z,1)),28px);bottom:clamp(20px,calc(3vw / var(--z,1)),34px);display:flex;
             flex-direction:column;align-items:flex-end;gap:13px;z-index:2}
     .cap-pill{display:flex;align-items:center;gap:9px;background:rgba(10,22,15,.4);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);padding:8px 15px;border-radius:999px}
     .cap-pill .cd{width:6px;height:6px;border-radius:50%;background:var(--gold)}
@@ -529,20 +540,20 @@
     @media (max-width:899px){
       #hero{grid-template-columns:1fr;min-height:0}
       .hero-photo{order:-1;height:270px}
-      .hero-inner{padding:32px clamp(20px,5vw,40px) 44px}
+      .hero-inner{padding:32px clamp(20px,calc(5vw / var(--z,1)),40px) 44px}
       #hero .scrollcue{display:none}
       .hero-chips{display:block;margin-top:22px}
       .hero-chips .lbl{display:block;margin-bottom:10px}
       .hero-chips a{display:block;padding:.7rem 0;border-bottom:1px solid #D8CFBC}
     }
     @media (max-width:780px){#es-cap{display:none}}
-    .scrollcue{position:absolute;bottom:18px;left:clamp(20px,4vw,64px);display:flex;flex-direction:column;align-items:flex-start;gap:6px;color:#8A9187;z-index:2}
+    .scrollcue{position:absolute;bottom:18px;left:clamp(20px,calc(4vw / var(--z,1)),64px);display:flex;flex-direction:column;align-items:flex-start;gap:6px;color:#8A9187;z-index:2}
     .scrollcue .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase}
     .scrollcue .ch{display:block;line-height:0}
     @media (prefers-reduced-motion: no-preference){.scrollcue .ch{animation:esbob 2.2s ease-in-out infinite}}
     @keyframes esbob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
     /* ===== shared section bits ===== */
-    .sec{padding:clamp(64px,8vw,104px) clamp(20px,5vw,52px)}
+    .sec{padding:clamp(64px,calc(8vw / var(--z,1)),104px) clamp(20px,calc(5vw / var(--z,1)),52px)}
     .wrap{max-width:1240px;margin:0 auto}
     .eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--clay)}
     .eyebrow-gold{color:var(--gold)}
@@ -552,10 +563,10 @@
     .greet-pill .gd{width:8px;height:8px;border-radius:50%;background:var(--gold)}
     .greet-pill .sr{font-style:italic;font-size:15px;color:var(--forest2)}
     .greet-pill .en{font-size:13px;color:#6E7A6B}
-    .stat-n{font-weight:600;font-size:clamp(40px,5vw,58px);line-height:1;color:var(--forest2)}
+    .stat-n{font-weight:600;font-size:clamp(40px,calc(5vw / var(--z,1)),58px);line-height:1;color:var(--forest2)}
     .stat-n .u{font-size:.45em;color:var(--gold)}
     .stat-c{font-size:14px;color:#626D60;margin-top:10px;line-height:1.5}
-    .statgrid{display:grid;grid-template-columns:1fr;gap:clamp(20px,3vw,44px)}
+    .statgrid{display:grid;grid-template-columns:1fr;gap:clamp(20px,calc(3vw / var(--z,1)),44px)}
     @media(min-width:700px){.statgrid{grid-template-columns:repeat(3,1fr)}}
     /* journeys */
     .jgrid{display:grid;grid-template-columns:1fr;gap:20px}
@@ -578,7 +589,7 @@
     .es-card .ph img{width:100%;height:100%;object-fit:cover;display:block}
     .es-body{padding:24px 0 0}
     .es-lbl{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--clay);margin-bottom:12px}
-    .es-h{font-weight:500;font-size:clamp(24px,2.8vw,34px);margin:0 0 12px;line-height:1.05;color:var(--forest)}
+    .es-h{font-weight:500;font-size:clamp(24px,calc(2.8vw / var(--z,1)),34px);margin:0 0 12px;line-height:1.05;color:var(--forest)}
     .es-p{font-size:15px;color:#5C6657;margin:0 0 20px;line-height:1.6}
     .es-chips{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
     .es-chip{font-size:13px;padding:2px 0;border:0;border-bottom:1px solid #D8CFBC;border-radius:0;color:#4B564D;background:none}
@@ -614,7 +625,7 @@
 <body class="overflow-x-hidden" style="background:var(--paper);color:var(--ink)">
 <div class="util-rail"><div class="util-in"><div class="util-l"><a href="currency.html" title="CME cash rate: we buy / we sell">USD <strong>37.50</strong> / <strong>37.90</strong></a><a href="conditions.html">30° Paramaribo</a><a href="daily-notices.html">No outages today</a></div><div class="util-r"><span>Wed 16 September</span></div></div></div>
 <nav class="w-full z-50" style="position:sticky;top:0;background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14)">
-<div class="navin max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
+<div class="site-navin max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
 <a class="flex flex-col justify-center flex-shrink-0" href="index.html">
 <span class="navmark"><span style="color:var(--forest)">Explore</span><span style="color:var(--coral)">Suriname</span></span>
 <span class="navtag">Kept in Paramaribo</span>
@@ -1033,9 +1044,9 @@ document.addEventListener('keydown', e => {
 <section class="sec" style="background:var(--paper)">
 <div style="max-width:1000px;margin:0 auto">
 <div class="greet-pill" data-reveal=""><span class="gd"></span><span class="sr dsp" id="greet-sr">Fa waka?</span><span class="en" id="greet-en">· how are you</span></div>
-<h2 class="dsp" data-reveal="" style="font-weight:400;font-size:clamp(30px,4.6vw,58px);line-height:1.06;letter-spacing:-.01em;margin:0;max-width:16em;color:var(--forest)">This isn’t a directory. It’s <span style="font-style:italic;color:var(--clay)">home,</span> written down.</h2>
-<p class="dsp-off" data-reveal="" style="font-size:clamp(16px,1.5vw,19px);line-height:1.7;color:#505C50;max-width:38em;margin:28px 0 0">We’re not a guidebook written from somewhere far away. We live here. We eat at these tables, swim under these waterfalls, and watch the same sun sink into the river every evening. Everything you’ll find is kept by people who call Suriname home, ready for the day you’ll want to call it home too.</p>
-<div class="statgrid" data-reveal="" style="margin-top:clamp(44px,5vw,64px);border-top:1px solid rgba(35,48,40,.16);padding-top:clamp(36px,4vw,48px)">
+<h2 class="dsp" data-reveal="" style="font-weight:400;font-size:clamp(30px,calc(4.6vw / var(--z,1)),58px);line-height:1.06;letter-spacing:-.01em;margin:0;max-width:16em;color:var(--forest)">This isn’t a directory. It’s <span style="font-style:italic;color:var(--clay)">home,</span> written down.</h2>
+<p class="dsp-off" data-reveal="" style="font-size:clamp(16px,calc(1.5vw / var(--z,1)),19px);line-height:1.7;color:#505C50;max-width:38em;margin:28px 0 0">We’re not a guidebook written from somewhere far away. We live here. We eat at these tables, swim under these waterfalls, and watch the same sun sink into the river every evening. Everything you’ll find is kept by people who call Suriname home, ready for the day you’ll want to call it home too.</p>
+<div class="statgrid" data-reveal="" style="margin-top:clamp(44px,calc(5vw / var(--z,1)),64px);border-top:1px solid rgba(35,48,40,.16);padding-top:clamp(36px,calc(4vw / var(--z,1)),48px)">
 <div><div class="stat-n dsp">93<span class="u">%</span></div><div class="stat-c">rainforest still standing, more than any country on Earth.</div></div>
 <div><div class="stat-n dsp">7<span class="u">+</span></div><div class="stat-c">cultures sharing one table, one street, one set of holidays.</div></div>
 <div><div class="stat-n dsp">28<span class="u">°</span></div><div class="stat-c">and golden, every day of the year. Bring less than you think.</div></div>
@@ -1048,7 +1059,7 @@ document.addEventListener('keydown', e => {
 <div class="lead-head" data-reveal="" style="margin-bottom:44px">
 <div>
 <div class="eyebrow" style="margin-bottom:14px">Find your Suriname</div>
-<h2 class="dsp" style="font-weight:500;font-size:clamp(32px,4.6vw,60px);line-height:1;margin:0;letter-spacing:-.01em;color:var(--forest)">Which one calls you home?</h2>
+<h2 class="dsp" style="font-weight:500;font-size:clamp(32px,calc(4.6vw / var(--z,1)),60px);line-height:1;margin:0;letter-spacing:-.01em;color:var(--forest)">Which one calls you home?</h2>
 </div>
 <p style="font-size:16px;color:#5C6657;max-width:23em;margin:0;line-height:1.6">Four ways in. Take one this trip, and let the rest pull you back. Every door opens onto a different Suriname.</p>
 </div>
@@ -1080,12 +1091,12 @@ document.addEventListener('keydown', e => {
 <section class="darksec" style="background:#142A1E">
 <img alt="A mosque and a synagogue standing side by side on Keizerstraat, Paramaribo" class="dbg" height="800" loading="lazy" src="/images/home-faiths.webp" width="1200"/>
 <div style="position:absolute;inset:0;background:linear-gradient(105deg,rgba(18,38,27,.94) 0%,rgba(18,38,27,.72) 46%,rgba(18,38,27,.30) 100%)"></div>
-<div class="wrap" style="position:relative;padding:clamp(72px,9vw,128px) clamp(20px,5vw,52px)">
+<div class="wrap" style="position:relative;padding:clamp(72px,calc(9vw / var(--z,1)),128px) clamp(20px,calc(5vw / var(--z,1)),52px)">
 <div data-reveal="" style="max-width:38rem;color:#FCF7EC">
 <div class="eyebrow eyebrow-gold" style="margin-bottom:18px">One people, many worlds</div>
-<h2 class="dsp" style="font-weight:500;font-size:clamp(32px,5vw,64px);line-height:1.02;letter-spacing:-.01em;margin:0 0 22px">Pull up a chair. <span style="font-style:italic;color:var(--gold)">There’s always room.</span></h2>
-<p style="font-size:clamp(16px,1.5vw,19px);line-height:1.72;color:#E2DBCB;margin:0 0 18px">On Keizerstraat, one of the Caribbean’s largest mosques has stood shoulder to shoulder with one of the oldest synagogues in the Americas for nearly a century. Fence to fence, neighbours to the bone.</p>
-<p style="font-size:clamp(16px,1.5vw,19px);line-height:1.72;color:#E2DBCB;margin:0 0 32px">Indigenous, Maroon, Creole, Hindustani, Javanese, Chinese and Dutch: seven worlds that share the same streets, the same holidays, and the same dinner table. Here, “stranger” is just a friend who hasn’t eaten yet.</p>
+<h2 class="dsp" style="font-weight:500;font-size:clamp(32px,calc(5vw / var(--z,1)),64px);line-height:1.02;letter-spacing:-.01em;margin:0 0 22px">Pull up a chair. <span style="font-style:italic;color:var(--gold)">There’s always room.</span></h2>
+<p style="font-size:clamp(16px,calc(1.5vw / var(--z,1)),19px);line-height:1.72;color:#E2DBCB;margin:0 0 18px">On Keizerstraat, one of the Caribbean’s largest mosques has stood shoulder to shoulder with one of the oldest synagogues in the Americas for nearly a century. Fence to fence, neighbours to the bone.</p>
+<p style="font-size:clamp(16px,calc(1.5vw / var(--z,1)),19px);line-height:1.72;color:#E2DBCB;margin:0 0 32px">Indigenous, Maroon, Creole, Hindustani, Javanese, Chinese and Dutch: seven worlds that share the same streets, the same holidays, and the same dinner table. Here, “stranger” is just a friend who hasn’t eaten yet.</p>
 <div style="display:flex;gap:13px;flex-wrap:wrap">
 <a class="btn-gold" href="restaurants.html">Taste the mix</a>
 <a class="btn-ghost" href="activities.html?sub=museums-heritage">See the heritage</a>
@@ -1096,9 +1107,9 @@ document.addEventListener('keydown', e => {
 <!-- ===== EAT & STAY ===== -->
 <section class="sec" style="background:var(--paper)">
 <div class="wrap">
-<div data-reveal="" style="text-align:center;max-width:34em;margin:0 auto clamp(40px,5vw,56px)">
+<div data-reveal="" style="text-align:center;max-width:34em;margin:0 auto clamp(40px,calc(5vw / var(--z,1)),56px)">
 <div class="eyebrow" style="margin-bottom:14px">Eat &amp; stay like a local</div>
-<h2 class="dsp" style="font-weight:500;font-size:clamp(30px,4.4vw,54px);line-height:1.04;margin:0;letter-spacing:-.01em;color:var(--forest)">Where we’d send our own family.</h2>
+<h2 class="dsp" style="font-weight:500;font-size:clamp(30px,calc(4.4vw / var(--z,1)),54px);line-height:1.04;margin:0;letter-spacing:-.01em;color:var(--forest)">Where we’d send our own family.</h2>
 </div>
 <div class="esgrid">
 <div class="es-card" data-reveal="">
@@ -1128,7 +1139,7 @@ document.addEventListener('keydown', e => {
 <div class="lead-head" data-reveal="" style="margin-bottom:40px">
 <div>
 <div class="eyebrow" style="margin-bottom:14px">Before you go · while you’re here</div>
-<h2 class="dsp" style="font-weight:500;font-size:clamp(32px,4.6vw,58px);line-height:1;margin:0;letter-spacing:-.01em;color:var(--forest)">The everyday stuff, sorted.</h2>
+<h2 class="dsp" style="font-weight:500;font-size:clamp(32px,calc(4.6vw / var(--z,1)),58px);line-height:1;margin:0;letter-spacing:-.01em;color:var(--forest)">The everyday stuff, sorted.</h2>
 </div>
 <p style="font-size:16px;color:#5C6657;max-width:25em;margin:0;line-height:1.6">The pages Surinamers keep open: rates, flights, weather and the notices that actually matter. Refreshed every day.</p>
 </div>
@@ -1144,10 +1155,10 @@ document.addEventListener('keydown', e => {
 </section>
 <!-- ===== CLOSING INVITATION ===== -->
 <section style="background:var(--paper);border-top:2px solid var(--gold)">
-<div class="wrap" data-reveal="" style="position:relative;max-width:900px;margin:0 auto;padding:clamp(64px,8vw,112px) clamp(20px,5vw,52px);color:var(--ink)">
+<div class="wrap" data-reveal="" style="position:relative;max-width:900px;margin:0 auto;padding:clamp(64px,calc(8vw / var(--z,1)),112px) clamp(20px,calc(5vw / var(--z,1)),52px);color:var(--ink)">
 <div class="eyebrow" style="margin-bottom:20px">Updated daily, from Paramaribo</div>
-<h2 class="dsp" style="font-weight:400;font-size:clamp(34px,5.6vw,72px);line-height:1.02;margin:0;max-width:13em;letter-spacing:-.02em;color:var(--forest)">Come back tomorrow. The <span style="font-style:italic;color:var(--clay)">sunset’s</span> still free.</h2>
-<p style="font-size:clamp(16px,1.5vw,19px);color:#4B564D;max-width:34em;margin:26px 0 34px;line-height:1.65">Rates move, flights land, festivals come around. Bookmark us, or just drop by again whenever you’re missing the warm. We’ll keep a seat for you.</p>
+<h2 class="dsp" style="font-weight:400;font-size:clamp(34px,calc(5.6vw / var(--z,1)),72px);line-height:1.02;margin:0;max-width:13em;letter-spacing:-.02em;color:var(--forest)">Come back tomorrow. The <span style="font-style:italic;color:var(--clay)">sunset’s</span> still free.</h2>
+<p style="font-size:clamp(16px,calc(1.5vw / var(--z,1)),19px);color:#4B564D;max-width:34em;margin:26px 0 34px;line-height:1.65">Rates move, flights land, festivals come around. Bookmark us, or just drop by again whenever you’re missing the warm. We’ll keep a seat for you.</p>
 <div style="display:flex;gap:13px;flex-wrap:wrap">
 <a class="btn-gold" href="visitor-guide.html">Read the Visitor Guide</a>
 <a class="btn-ghost btn-ghost-light" href="activities.html">Keep exploring</a>
@@ -1156,7 +1167,7 @@ document.addEventListener('keydown', e => {
 </div>
 </section>
 <footer style="background:#142A1E;color:#B9C2B2">
-<div style="max-width:1140px;margin:0 auto;padding:clamp(48px,5.5vw,64px) clamp(20px,5vw,48px) 32px;display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:40px">
+<div style="max-width:1140px;margin:0 auto;padding:clamp(48px,calc(5.5vw / var(--z,1)),64px) clamp(20px,calc(5vw / var(--z,1)),48px) 32px;display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:40px">
 <div>
 <div style="margin-bottom:14px"><span class="serif" style="font-weight:800;font-size:21px;color:#FCF7EC">Explore</span><span class="serif" style="font-weight:800;font-size:21px;color:var(--coral)">Suriname</span></div>
 <p style="font-size:14px;line-height:1.6;max-width:26em;margin:0 0 18px;color:#A7B1A2">Your guide to places to eat, stay, explore and love in Suriname, kept by people who live here, for the people who’ll wish they did.</p>

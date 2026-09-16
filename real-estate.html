@@ -14,6 +14,27 @@
   @font-face{font-family:'Newsreader';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/newsreader-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Newsreader';font-style:italic;font-weight:300 600;font-display:swap;src:url(/fonts/newsreader-latin-var-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400 600;font-display:swap;src:url(/fonts/instrument-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  /* Wide-screen scale (Sep 2026). The whole site is designed at 1280-1536px and
+     capped at max-w-7xl, so on a 1920/2560 monitor at 100% Windows scaling it
+     rendered laptop-sized with huge empty margins. Above 1600px the page is zoomed
+     as a unit (text, nav, dropdowns, cards, spacing together). Laptops, tablets
+     and phones stay at --z:1. --z is also read by _wide_scale_units() (vw/vh
+     compensation, zoom multiplies viewport units) and by JS that sizes things
+     from innerWidth/innerHeight. Tested at 1280/1536/1920/2560. */
+  html{--z:1}
+  @media (min-width:1600px){html{--z:1.1}}
+  @media (min-width:1760px){html{--z:1.18}}
+  @media (min-width:1900px){html{--z:1.25}}
+  @media (min-width:2200px){html{--z:1.4}}
+  @media (min-width:2500px){html{--z:1.6}}
+  @media (min-width:3200px){html{--z:2}}
+  html{zoom:var(--z)}
+  /* Header spans the window on desktop, as it already does on a 1280 laptop, so the
+     logo and the search/language controls sit at the page edges on every screen
+     and line up with the full-bleed homepage hero (same gutter as .hero-inner). */
+  @media (min-width:1280px){
+    .util-rail .util-in, nav .site-navin{max-width:none;padding-left:clamp(20px,calc(4vw / var(--z,1)),64px);padding-right:clamp(20px,calc(4vw / var(--z,1)),64px)}
+  }
   </style>
 <link href="/tailwind.css?v=887c2426" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
@@ -47,7 +68,7 @@
     .ftr-cta{display:inline-block;border:1px solid var(--coral);color:#FCF7EC;border-radius:9999px;padding:.5rem 1.1rem;
              font-size:13px;font-weight:700;text-decoration:none;transition:background .18s,color .18s}
     .ftr-cta:hover{background:var(--coral);color:#fff}
-    .ftr-bar{max-width:1140px;margin:0 auto;padding:18px clamp(20px,5vw,48px);display:flex;justify-content:space-between;
+    .ftr-bar{max-width:1140px;margin:0 auto;padding:18px clamp(20px,calc(5vw / var(--z,1)),48px);display:flex;justify-content:space-between;
              align-items:center;gap:12px 20px;flex-wrap:wrap;font-size:13px;color:#8B978A}
     .ftr-bar-links{display:flex;gap:18px;flex-wrap:wrap}
     @media(max-width:900px){footer>div:first-child{grid-template-columns:1fr 1fr!important;gap:32px!important}}
@@ -212,7 +233,7 @@
     .cat-crumb a{color:var(--clay);text-decoration:none}
     .cat-crumb a:hover{text-decoration:underline}
     .cat-row{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:.55rem}
-    .cat-row h1{font-size:clamp(2.2rem,5vw,3.75rem);font-weight:400;line-height:1;letter-spacing:-.02em;
+    .cat-row h1{font-size:clamp(2.2rem,calc(5vw / var(--z,1)),3.75rem);font-weight:400;line-height:1;letter-spacing:-.02em;
                 color:var(--forest);margin:0}
     .cat-sub{color:#4B564D;font-size:1.03rem;line-height:1.6;margin:.6rem 0 0;max-width:44em}
     .h1-count{font-family:'Instrument Sans',sans-serif;font-size:1.05rem;font-weight:500;color:#656C63;
@@ -425,7 +446,7 @@
 <body class="bg-gray-50 overflow-x-hidden">
 <div class="util-rail"><div class="util-in"><div class="util-l"><a href="currency.html" title="CME cash rate: we buy / we sell">USD <strong>37.50</strong> / <strong>37.90</strong></a><a href="conditions.html">30° Paramaribo</a><a href="daily-notices.html">No outages today</a></div><div class="util-r"><span>Wed 16 September</span></div></div></div>
 <nav class="w-full z-50" style="position:sticky;top:0;background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14)">
-<div class="navin max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
+<div class="site-navin max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
 <a class="flex flex-col justify-center flex-shrink-0" href="index.html">
 <span class="navmark"><span style="color:var(--forest)">Explore</span><span style="color:var(--coral)">Suriname</span></span>
 <span class="navtag">Kept in Paramaribo</span>
@@ -853,7 +874,7 @@ document.addEventListener('keydown', e => {
 <div class="mt-8"><div class="rounded-xl p-4 text-sm leading-relaxed" style="background:#FFF6E6;border:1px solid #E8CF9A;color:#7A5A12"><b>Before you pay anything.</b> See the property in person, meet at the address itself, and check ownership papers at the GLIS before any money changes hands. Explore Suriname does not handle payments, hold deposits or vet sellers. Nobody with a real listing needs a deposit to show it to you.</div></div>
 </main>
 <footer style="background:#142A1E;color:#B9C2B2">
-<div style="max-width:1140px;margin:0 auto;padding:clamp(48px,5.5vw,64px) clamp(20px,5vw,48px) 32px;display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:40px">
+<div style="max-width:1140px;margin:0 auto;padding:clamp(48px,calc(5.5vw / var(--z,1)),64px) clamp(20px,calc(5vw / var(--z,1)),48px) 32px;display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:40px">
 <div>
 <div style="margin-bottom:14px"><span class="serif" style="font-weight:800;font-size:21px;color:#FCF7EC">Explore</span><span class="serif" style="font-weight:800;font-size:21px;color:var(--coral)">Suriname</span></div>
 <p style="font-size:14px;line-height:1.6;max-width:26em;margin:0 0 18px;color:#A7B1A2">Your guide to places to eat, stay, explore and love in Suriname, kept by people who live here, for the people who’ll wish they did.</p>
