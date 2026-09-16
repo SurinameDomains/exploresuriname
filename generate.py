@@ -5134,7 +5134,8 @@ def build_index(restaurants, hotels, cme_rates=None):
     #hz4{background-position:center 42%}
     .hero-scrim-b{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,22,15,0) 55%,rgba(10,22,15,.62) 100%)}
     .hero-inner{position:relative;display:flex;flex-direction:column;justify-content:center;
-                padding:clamp(40px,5vw,72px) clamp(20px,4vw,64px) 104px}
+                padding:clamp(40px,5vw,72px) clamp(20px,4vw,64px) 104px;
+                padding-left:max(clamp(20px,4vw,64px),calc((100vw - 80rem)/2 + 1.25rem))}
     .hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:22px}
     .hero-eyebrow .rule{width:30px;height:1.5px;background:var(--clay)}
     .hero-eyebrow .txt{font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--clay)}
@@ -5173,8 +5174,9 @@ def build_index(restaurants, hotels, cme_rates=None):
       .hero-chips a{display:block;padding:.7rem 0;border-bottom:1px solid #D8CFBC}
     }
     @media (max-width:780px){#es-cap{display:none}}
-    .scrollcue{position:absolute;bottom:18px;left:clamp(20px,4vw,64px);display:flex;flex-direction:column;align-items:flex-start;gap:6px;color:#8A9187;z-index:2}
+    .scrollcue{position:absolute;bottom:18px;left:max(clamp(20px,4vw,64px),calc((100vw - 80rem)/2 + 1.25rem));display:flex;flex-direction:column;align-items:flex-start;gap:6px;color:#8A9187;z-index:2}
     .scrollcue .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+    .scrollcue .ch{display:block;line-height:0}
     @media (prefers-reduced-motion: no-preference){.scrollcue .ch{animation:esbob 2.2s ease-in-out infinite}}
     @keyframes esbob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
     /* ===== shared section bits ===== */
@@ -5437,7 +5439,7 @@ function esSearch(){
     </div>
   </div>
   </div>
-  <div class="scrollcue"><span class="k">Fa waka &middot; how&#8217;s it going</span><span class="ch" style="font-size:18px">&#8964;</span></div>
+  <div class="scrollcue"><span class="k">Fa waka &middot; how&#8217;s it going</span><span class="ch" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span></div>
 </section>
 
 <!-- ===== WELCOME BAND ===== -->
