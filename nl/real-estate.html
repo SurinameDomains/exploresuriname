@@ -861,8 +861,8 @@ document.addEventListener('keydown', e => {
 <span data-k="furnished">furnished</span>
 <span data-k="prop1">property listed</span><span data-k="propN">properties listed</span>
 </div>
-<p class="text-sm mb-4" id="mk-count" style="color:#5A625B">1 property listed</p>
-<div class="grid gap-5" id="mk-grid" style="grid-template-columns:repeat(auto-fill,minmax(270px,1fr))"><a class="block bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition" href="/real-estate/nieuwestraat-33-perceel-aad103/"><div class="relative"><img alt="Nieuwestraat 33 perceel" class="w-full h-[200px] object-cover" fetchpriority="high" height="260" loading="eager" src="/images/ddf00baee852101de88324ec91df1800.webp" width="400"/></div><div class="p-4"><p class="font-bold text-lg" style="color:var(--forest)">EUR 1.234</p><p class="text-xs mb-1" style="color:#656C63">about SRD 54.270 or USD 1.430</p><h3 class="font-semibold text-gray-900 leading-snug mb-1" translate="no">Nieuwestraat 33 perceel</h3><p class="text-sm mt-1" style="color:#656C63" translate="no">Paramaribo</p></div></a></div>
+<p class="text-sm mb-4" id="mk-count" style="color:#5A625B">0 properties listed</p>
+<div class="grid gap-5" id="mk-grid" style="grid-template-columns:repeat(auto-fill,minmax(270px,1fr))"></div>
 <p class="hidden text-center py-12" id="mk-empty" style="color:#656C63">Nothing matches those filters yet. Try widening them.</p>
 <div class="mt-10 rounded-2xl p-6 text-center" style="background:var(--paper-2)">
 <h2 class="serif text-2xl mb-2" style="color:var(--forest);font-weight:400">Selling or renting out a property?</h2>
@@ -958,7 +958,7 @@ document.addEventListener('keydown', e => {
 (function(){
   var API="https://esr-leaderboard.surinamedomains.workers.dev";
   var RATES={"SRD": 1.0, "USD": 37.956, "EUR": 43.979};
-  var ADS=[{"slug": "nieuwestraat-33-perceel-aad103", "section": "realestate", "category": "house", "deal": "sale", "title": "Nieuwestraat 33 perceel", "price": 1234, "currency": "EUR", "period": "", "district": "Paramaribo", "area": "", "descr": "", "address": "test123", "show_addr": 1, "beds": 0, "baths": 0, "plot_m2": 0, "built_m2": 0, "furnished": 0, "make": "", "model": "", "year": 0, "mileage": 0, "fuel": "", "gearbox": "", "cond": "", "phone": "", "wa": 0, "email": "contact@exploresuriname.com", "link": "", "images": ["https://esr-leaderboard.surinamedomains.workers.dev/img/live/mk-nieuwestraat-33-perceel-aad103-0.jpg"], "status": "live", "created": 1789567571, "bumped": 1789567571, "expires": 1794751571, "seller": {"name": "Aman Bhulai", "verified": 0, "vlabel": ""}}];
+  var ADS=[];
   var F={deal:"",cat:""};
   var $=function(i){return document.getElementById(i)};
   var S=(function(){
