@@ -3081,6 +3081,27 @@ PAGE_HEAD = """\
   @font-face{font-family:'Newsreader';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/newsreader-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Newsreader';font-style:italic;font-weight:300 600;font-display:swap;src:url(/fonts/newsreader-latin-var-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400 600;font-display:swap;src:url(/fonts/instrument-latin-var.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  /* Wide-screen scale (Sep 2026). The whole site is designed at 1280-1536px and
+     capped at max-w-7xl, so on a 1920/2560 monitor at 100% Windows scaling it
+     rendered laptop-sized with huge empty margins. Above 1600px the page is zoomed
+     as a unit (text, nav, dropdowns, cards, spacing together). Laptops, tablets
+     and phones stay at --z:1. --z is also read by _wide_scale_units() (vw/vh
+     compensation, zoom multiplies viewport units) and by JS that sizes things
+     from innerWidth/innerHeight. Tested at 1280/1536/1920/2560. */
+  html{--z:1}
+  @media (min-width:1600px){html{--z:1.1}}
+  @media (min-width:1760px){html{--z:1.18}}
+  @media (min-width:1900px){html{--z:1.25}}
+  @media (min-width:2200px){html{--z:1.4}}
+  @media (min-width:2500px){html{--z:1.6}}
+  @media (min-width:3200px){html{--z:2}}
+  html{zoom:var(--z)}
+  /* Header spans the window on desktop, as it already does on a 1280 laptop, so the
+     logo and the search/language controls sit at the page edges on every screen
+     and line up with the full-bleed homepage hero (same gutter as .hero-inner). */
+  @media (min-width:1280px){
+    .util-rail .util-in, nav .site-navin{max-width:none;padding-left:clamp(20px,4vw,64px);padding-right:clamp(20px,4vw,64px)}
+  }
   </style>
   <link rel="stylesheet" href="/tailwind.css?v=__TWV__">
   <link rel="manifest" href="/manifest.webmanifest">
@@ -3472,6 +3493,27 @@ try:
 except Exception:
     _TW_V = "0"
 PAGE_HEAD = PAGE_HEAD.replace("__TWV__", _TW_V)
+
+import re as _re_z
+_Z_UNIT = _re_z.compile(r'(?<![\w.#-])(-?\d*\.?\d+)(vw|vh|svh|dvh|lvh)\b')
+_Z_STYLE_BLOCK = _re_z.compile(r'(<style\b[^>]*>)(.*?)(</style>)', _re_z.S | _re_z.I)
+_Z_STYLE_ATTR = _re_z.compile(r'(\sstyle=")([^"]*)(")', _re_z.I)
+def _wide_scale_units(html):
+    """Divide CSS viewport units by --z (see the wide-screen scale in PAGE_HEAD).
+    Under CSS zoom, 50vw resolves to 50% of the viewport and is THEN zoomed, so a
+    88svh hero or a clamp(..,5.4vw,..) headline came out 25-60% too big on wide
+    monitors. Only <style> blocks and style="" attributes are touched: img
+    sizes="..vw" and JS are left alone. Idempotent (skips values already wrapped)."""
+    if not html or ('vw' not in html and 'vh' not in html):
+        return html
+    def _units(css):
+        return _Z_UNIT.sub(lambda m: f'calc({m.group(1)}{m.group(2)} / var(--z,1))', css)
+    def _blk(m):
+        return m.group(1) + (m.group(2) if '/ var(--z,1)' in m.group(2) else _units(m.group(2))) + m.group(3)
+    html = _Z_STYLE_BLOCK.sub(_blk, html)
+    html = _Z_STYLE_ATTR.sub(lambda m: m.group(0) if '/ var(--z,1)' in m.group(2)
+                             else m.group(1) + _units(m.group(2)) + m.group(3), html)
+    return html
 
 # ── Tides: offline harmonic predictor (see tide_harmonics.py) ──────
 # Tides are deterministic astronomy. Constituents were fitted ONCE to published
@@ -4056,7 +4098,7 @@ def nav_html(active="home", prefix=""):
     return f"""
 {util_rail_html(prefix)}
 <nav class="w-full z-50" style="position:sticky;top:0;background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14)">
-  <div class="navin max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
+  <div class="site-navin max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
     <a href="{prefix}index.html" class="flex flex-col justify-center flex-shrink-0">
       <span class="navmark"><span style="color:var(--forest)">Explore</span><span style="color:var(--coral)">Suriname</span></span>
       <span class="navtag">Kept in Paramaribo</span>
@@ -5122,16 +5164,6 @@ def build_index(restaurants, hotels, cme_rates=None):
     #hero{position:relative;background:var(--paper);display:grid;
           grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:stretch;
           min-height:calc(88vh - 92px);min-height:calc(88svh - 92px)}
-    /* Home only: the split hero is full-bleed, so the rail + nav go full-width too
-       and share the hero's left gutter (otherwise on wide monitors the logo sits
-       inside a centred 80rem box while the hero text hugs the window edge). */
-    @media (min-width:900px){
-      .util-in,.navin{max-width:none!important;padding-left:clamp(20px,4vw,64px)!important;padding-right:clamp(20px,4vw,64px)!important}
-      #hero{min-height:calc(100vh - 91px);min-height:calc(100svh - 91px)}
-    }
-    /* Big monitors: scale the hero copy so it fills its column like it does on a laptop */
-    @media (min-width:1700px){.hero-inner>div{zoom:1.22}}
-    @media (min-width:2200px){.hero-inner>div{zoom:1.45}}
     .hero-photo{position:relative;overflow:hidden;background:#173A2A}
     #hero .hz{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease-in-out;will-change:opacity}
     #hero .hz.on{opacity:1}
@@ -11115,7 +11147,8 @@ def _fs_js(wrap_id):
             'w.appendChild(b);w.classList.add("esr-fswrap");\n'
             'function on(){return fake||document.fullscreenElement===w;}\n'
             'function fit(){if(!on()){c.style.width="";c.style.height="";return;}\n'
-            ' var ar=c.width/c.height,vw=window.innerWidth,vh=window.innerHeight;\n'
+            ' var z=parseFloat(getComputedStyle(document.documentElement).zoom)||1;\n'
+            ' var ar=c.width/c.height,vw=window.innerWidth/z,vh=window.innerHeight/z;\n'
             ' if(vw/vh>ar){c.style.height=vh+"px";c.style.width=Math.round(vh*ar)+"px";}\n'
             ' else{c.style.width=vw+"px";c.style.height=Math.round(vw/ar)+"px";}}\n'
             'function icon(){b.innerHTML=on()?"&#10005;":"&#x26F6;";}\n'
@@ -19302,7 +19335,7 @@ if __name__ == "__main__":
         if _d:
             _os_pages.makedirs(_d, exist_ok=True)
         with open(fname, "w", encoding="utf-8") as f:
-            f.write(html)
+            f.write(_wide_scale_units(html))
         print(f"  OK  {fname}")
 
     import os as _os
@@ -19313,7 +19346,7 @@ if __name__ == "__main__":
         b = _make_biz(slug)
         if not b:
             continue
-        html    = build_listing_page(slug, b)
+        html    = _wide_scale_units(build_listing_page(slug, b))
         out_dir = Path("listing") / slug
         out_dir.mkdir(parents=True, exist_ok=True)
         (out_dir / "index.html").write_text(html, encoding="utf-8")
@@ -19323,7 +19356,7 @@ if __name__ == "__main__":
     for spot in NATURE_SPOTS:
         slug    = _nature_slug(spot["name"])
         nat_slugs.append(slug)
-        html    = build_nature_listing_page(spot, slug)
+        html    = _wide_scale_units(build_nature_listing_page(spot, slug))
         out_dir = Path("listing") / slug
         out_dir.mkdir(parents=True, exist_ok=True)
         (out_dir / "index.html").write_text(html, encoding="utf-8")
@@ -19333,7 +19366,7 @@ if __name__ == "__main__":
     for act in ACTIVITIES:
         _aslug = _act_slug(act["name"])
         act_inline_slugs.append(_aslug)
-        _ahtml = build_activity_listing_page(act, _aslug)
+        _ahtml = _wide_scale_units(build_activity_listing_page(act, _aslug))
         _adir = Path("listing") / _aslug
         _adir.mkdir(parents=True, exist_ok=True)
         (_adir / "index.html").write_text(_ahtml, encoding="utf-8")
