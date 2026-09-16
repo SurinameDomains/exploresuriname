@@ -220,6 +220,10 @@
     .pg-hero nav[aria-label="Breadcrumb"] a { color:#9FAC9C !important; }
     .pg-hero a.inline-flex:hover,
     .pg-hero nav[aria-label="Breadcrumb"] a:hover { color:#FCF7EC !important; }
+    /* .cat-cta was built for the paper hero (forest text). Inside a dark header
+       it vanished, e.g. "Submit your event" on events.html. */
+    .pg-hero .cat-cta { color:#FCF7EC; border-bottom-color:var(--gold); }
+    .pg-hero .cat-cta:hover { color:var(--gold); }
   </style>
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
 <style>

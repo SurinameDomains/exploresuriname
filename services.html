@@ -220,6 +220,10 @@
     .pg-hero nav[aria-label="Breadcrumb"] a { color:#9FAC9C !important; }
     .pg-hero a.inline-flex:hover,
     .pg-hero nav[aria-label="Breadcrumb"] a:hover { color:#FCF7EC !important; }
+    /* .cat-cta was built for the paper hero (forest text). Inside a dark header
+       it vanished, e.g. "Submit your event" on events.html. */
+    .pg-hero .cat-cta { color:#FCF7EC; border-bottom-color:var(--gold); }
+    .pg-hero .cat-cta:hover { color:var(--gold); }
   </style>
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
 <style>
@@ -1874,7 +1878,7 @@ function filterDistrict(btn, dist) {
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="beauty-wellness" href="listing/elevate-our-health/">
-<div class="listing-ph"><img alt="Elevate 'our Health in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/d8c7f57ec3ff1f39d004fa743288003b.webp" width="400"/></div>
+<div class="listing-ph"><img alt="Elevate 'our Health in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d8c7f57ec3ff1f39d004fa743288003b.webp" srcset="/images/d8c7f57ec3ff1f39d004fa743288003b-480.webp 480w, /images/d8c7f57ec3ff1f39d004fa743288003b.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Elevate 'our Health</h3>
 <p class="listing-blurb">Elevate 'our Health is a proudly Surinamese wellness and health education service focused on pain relief…</p>
