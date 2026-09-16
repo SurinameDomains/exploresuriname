@@ -1,37 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD DONDERDAG 17 SEPTEMBER 2026",
-      "date": "17 September 2026",
-      "date_iso": "2026-09-17",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1610/gepland-onderhoud-donderdag-17-september-2026",
-      "meta_description": "Gepland onderhoud: Commewijne donderdag 17 september 2026 tussen 09:00-14:00 GEDEELTE BAKAPASIWEG TUSSEN PANDIT MURLIWEG EN BINDADINWEG, GEHEEL PANDIT MURLI",
-      "district": "Commewijne",
-      "time": "09:00 – 14:00",
-      "area": "GEDEELTE BAKAPASIWEG TUSSEN PANDIT MURLIWEG EN BINDADINWEG, GEHEEL PANDIT MURLI"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD DONDERDAG 17 SEPTEMBER 2026",
-      "date": "17 September 2026",
-      "date_iso": "2026-09-17",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1609/gepland-onderhoud-donderdag-17-september-2026",
-      "meta_description": "Gepland onderhoud Paramaribo donderdag 17 september 2026 tussen 09:00-14:00 GEDEELTE JOHANNES MUNGRASTRAAT TUSSEN KOLONISTENWEG EN VIROLASTRAAT, GEDEELTE VE",
-      "district": "Gepland onderhoud Paramaribo",
-      "time": "09:00 – 14:00",
-      "area": "GEDEELTE JOHANNES MUNGRASTRAAT TUSSEN KOLONISTENWEG EN VIROLASTRAAT, GEDEELTE VE"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD ZATERDAG 19 SEPTEMBER 2026",
-      "date": "19 September 2026",
-      "date_iso": "2026-09-19",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1607/gepland-onderhoud-zaterdag-19-september-2026",
-      "meta_description": "GEPLAND ONDERHOUD: COMM ZATERDAG 19 SEPTEMBER 2026 TUSSEN 9:00 EN 17:00 UURGEDEELTE OOST – WEST VERBINDING TUSSEN VEERPLEIN EN TIMORWEG,",
-      "district": "COMM"
-    }
-  ],
-  "last_updated": "2026-09-16T13:18:31.153617+00:00",
+  "outages": [],
+  "last_updated": "2026-09-16T15:07:42.090953+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
