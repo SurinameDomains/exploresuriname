@@ -442,7 +442,7 @@
   </style>
 <link href="https://exploresuriname.com/submit-event.html" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/submit-event.html" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/submit-event.html" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/submit-event.html" hreflang="x-default" rel="alternate"/></head>
 <body class="bg-gray-50 overflow-x-hidden">
-<div class="util-rail"><div class="util-in"><div class="util-l"><a href="currency.html" title="CME cash rate: we buy / we sell">USD <strong>37.50</strong> / <strong>37.90</strong></a><a href="conditions.html">26° Paramaribo</a><a href="daily-notices.html"><strong>1</strong> Outage notices today</a></div><div class="util-r"><span>Tue 15 September</span></div></div></div>
+<div class="util-rail"><div class="util-in"><div class="util-l"><a href="currency.html" title="CME cash rate: we buy / we sell">USD <strong>37.50</strong> / <strong>37.90</strong></a><a href="conditions.html">26° Paramaribo</a><a href="daily-notices.html">No outages today</a></div><div class="util-r"><span>Wed 16 September</span></div></div></div>
 <nav class="w-full z-50" style="position:sticky;top:0;background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14)">
 <div class="max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
 <a class="flex flex-col justify-center flex-shrink-0" href="index.html">
@@ -851,11 +851,11 @@ document.addEventListener('keydown', e => {
 <div class="two">
 <div class="fld">
 <label for="f-start_date">First day <span class="req">*</span></label>
-<input id="f-start_date" max="2027-09-15" min="2026-09-15" name="start_date" required="" type="date"/>
+<input id="f-start_date" max="2027-09-16" min="2026-09-16" name="start_date" required="" type="date"/>
 </div>
 <div class="fld">
 <label for="f-end_date">Last day</label>
-<input id="f-end_date" max="2027-09-15" min="2026-09-15" name="end_date" type="date"/>
+<input id="f-end_date" max="2027-09-16" min="2026-09-16" name="end_date" type="date"/>
 <div class="hint">Leave empty if it is a one-day event.</div>
 </div>
 </div>
@@ -1092,8 +1092,8 @@ document.addEventListener('keydown', e => {
     if($("f-name").value.trim().length < 3) return say("Please enter the event name.", true);
     var sd = $("f-start_date").value, ed = $("f-end_date").value;
     if(!/^\d{4}-\d{2}-\d{2}$/.test(sd)) return say("Please pick the first day of the event.", true);
-    if(sd < "2026-09-15") return say("That date has already passed.", true);
-    if(sd > "2027-09-15") return say("That date is more than a year away. Send it closer to the time.", true);
+    if(sd < "2026-09-16") return say("That date has already passed.", true);
+    if(sd > "2027-09-16") return say("That date is more than a year away. Send it closer to the time.", true);
     if(ed && ed < sd) return say("The last day cannot be before the first day.", true);
     if(!$("f-category").value) return say("Please choose the type of event.", true);
     if($("f-venue").value.trim().length < 2) return say("Please say where it happens.", true);
