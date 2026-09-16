@@ -4056,7 +4056,7 @@ def nav_html(active="home", prefix=""):
     return f"""
 {util_rail_html(prefix)}
 <nav class="w-full z-50" style="position:sticky;top:0;background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14)">
-  <div class="max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
+  <div class="navin max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
     <a href="{prefix}index.html" class="flex flex-col justify-center flex-shrink-0">
       <span class="navmark"><span style="color:var(--forest)">Explore</span><span style="color:var(--coral)">Suriname</span></span>
       <span class="navtag">Kept in Paramaribo</span>
@@ -5122,6 +5122,16 @@ def build_index(restaurants, hotels, cme_rates=None):
     #hero{position:relative;background:var(--paper);display:grid;
           grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:stretch;
           min-height:calc(88vh - 92px);min-height:calc(88svh - 92px)}
+    /* Home only: the split hero is full-bleed, so the rail + nav go full-width too
+       and share the hero's left gutter (otherwise on wide monitors the logo sits
+       inside a centred 80rem box while the hero text hugs the window edge). */
+    @media (min-width:900px){
+      .util-in,.navin{max-width:none!important;padding-left:clamp(20px,4vw,64px)!important;padding-right:clamp(20px,4vw,64px)!important}
+      #hero{min-height:calc(100vh - 91px);min-height:calc(100svh - 91px)}
+    }
+    /* Big monitors: scale the hero copy so it fills its column like it does on a laptop */
+    @media (min-width:1700px){.hero-inner>div{zoom:1.22}}
+    @media (min-width:2200px){.hero-inner>div{zoom:1.45}}
     .hero-photo{position:relative;overflow:hidden;background:#173A2A}
     #hero .hz{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease-in-out;will-change:opacity}
     #hero .hz.on{opacity:1}
@@ -5134,8 +5144,7 @@ def build_index(restaurants, hotels, cme_rates=None):
     #hz4{background-position:center 42%}
     .hero-scrim-b{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,22,15,0) 55%,rgba(10,22,15,.62) 100%)}
     .hero-inner{position:relative;display:flex;flex-direction:column;justify-content:center;
-                padding:clamp(40px,5vw,72px) clamp(20px,4vw,64px) 104px;
-                padding-left:max(clamp(20px,4vw,64px),calc((100vw - 80rem)/2 + 1.25rem))}
+                padding:clamp(40px,5vw,72px) clamp(20px,4vw,64px) 104px}
     .hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:22px}
     .hero-eyebrow .rule{width:30px;height:1.5px;background:var(--clay)}
     .hero-eyebrow .txt{font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--clay)}
@@ -5174,7 +5183,7 @@ def build_index(restaurants, hotels, cme_rates=None):
       .hero-chips a{display:block;padding:.7rem 0;border-bottom:1px solid #D8CFBC}
     }
     @media (max-width:780px){#es-cap{display:none}}
-    .scrollcue{position:absolute;bottom:18px;left:max(clamp(20px,4vw,64px),calc((100vw - 80rem)/2 + 1.25rem));display:flex;flex-direction:column;align-items:flex-start;gap:6px;color:#8A9187;z-index:2}
+    .scrollcue{position:absolute;bottom:18px;left:clamp(20px,4vw,64px);display:flex;flex-direction:column;align-items:flex-start;gap:6px;color:#8A9187;z-index:2}
     .scrollcue .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase}
     .scrollcue .ch{display:block;line-height:0}
     @media (prefers-reduced-motion: no-preference){.scrollcue .ch{animation:esbob 2.2s ease-in-out infinite}}
