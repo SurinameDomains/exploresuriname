@@ -289,7 +289,8 @@ def _build_browse(ctx, ads, table):
     <h1 class="serif text-4xl sm:text-5xl mb-2" style="color:var(--forest);font-weight:400">Real estate in Suriname</h1>
     <p class="text-gray-600 max-w-2xl">Houses, apartments, land and commercial space, for sale and to rent.
       Placed by owners and agencies here in Suriname. You contact the seller yourself.</p>
-    <p class="mt-4"><a href="/post-ad.html" class="cat-cta">Place your property ad</a></p>
+    <p class="mt-4 flex flex-wrap items-center gap-3"><a href="/post-ad.html" class="cat-cta">Place your property ad</a>
+      <a href="/my-ads.html" class="inline-flex items-center px-5 py-2.5 rounded-full font-semibold text-sm border transition hover:bg-white" style="border-color:var(--forest);color:var(--forest)">Your ads</a></p>
   </div>
 </div>
 
@@ -331,6 +332,7 @@ def _build_browse(ctx, ads, table):
     <h2 class="serif text-2xl mb-2" style="color:var(--forest);font-weight:400">Selling or renting out a property?</h2>
     <p class="text-gray-600 mb-4 max-w-xl mx-auto">Put it in front of people already looking for property in Suriname, including Surinamers abroad. Free, and it takes about a minute.</p>
     <a href="/post-ad.html" class="inline-block px-6 py-3 rounded-xl font-semibold text-white" style="background:var(--forest)">Place your ad</a>
+    <p class="text-sm mt-3" style="color:#5A625B">Already placed one? <a href="/my-ads.html" class="underline font-semibold" style="color:var(--forest)">Manage your ads</a></p>
   </div>
 
   <div class="mt-8">{SAFETY}</div>
@@ -606,7 +608,10 @@ def _build_detail(ctx, ad, table):
 </body>
 </html>
 """
-    return head + body.replace("{NAV}", ctx["nav_html"]("realestate")).replace("{FOOTER}", ctx["footer_html"]())
+    # The ad lives at /real-estate/<slug>/, two levels down. nav_html and
+    # footer_html emit relative hrefs, so without the prefix every nav link on
+    # an ad resolved to /real-estate/<slug>/whatever.html and 404'd.
+    return head + body.replace("{NAV}", ctx["nav_html"]("realestate", "../../")).replace("{FOOTER}", ctx["footer_html"]("../../"))
 
 
 # ── shared client bits for the two signed-in pages ───────────────────────────
@@ -676,6 +681,7 @@ def _build_post(ctx):
   <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--coral)">Marketplace</p>
   <h1 class="serif text-4xl mb-3">Place your property ad</h1>
   <p class="text-white/65 max-w-xl mx-auto px-5">Free. Takes about a minute. Buyers message you straight on WhatsApp.</p>
+  <p class="mt-4"><a href="/my-ads.html" class="inline-block px-5 py-2 rounded-full text-sm font-semibold border border-white/40 text-white hover:bg-white/10 transition">Already placed an ad? See your ads</a></p>
 </div>
 
 <main class="max-w-2xl mx-auto px-5 py-8">
@@ -1005,6 +1011,85 @@ bootAuth();
 </html>
 """
     return head + body.replace("{NAV}", ctx["nav_html"]("realestate")).replace("{FOOTER}", ctx["footer_html"]())
+
+
+# ── not built yet: the 404 fallback ─────────────────────────────────────────
+#
+# An ad goes live in D1 the moment it is approved, and the browse grid re-reads
+# the feed, so its card shows at once. Its own page only exists after the next
+# build (~15 min). GitHub Pages answers that gap with 404.html, so generate.py
+# injects these two strings into 404.html: if the missing path is an ad that is
+# already live in the feed, show the ad with working contact buttons, say the
+# full page is on its way, and reload by itself once the page exists.
+# Plain strings, not f-strings: the JS braces stay single.
+
+PENDING_AD_CSS = (
+    "body.mk-p{display:block;background:#F4EEE2;color:#1F2A24;text-align:left}"
+    ".mk-w{max-width:40rem;margin:0 auto;padding:1.5rem 1rem 3rem}"
+    ".mk-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem}"
+    ".mk-top a{color:#1B4332;text-decoration:none;font-weight:700}"
+    ".mk-c{background:#fff;border:1px solid #E7DFCF;border-radius:1rem;overflow:hidden}"
+    ".mk-c img{width:100%;height:280px;object-fit:cover;display:block}"
+    ".mk-b{padding:1.25rem}"
+    ".mk-n{background:#FFF6E6;border:1px solid #E8CF9A;color:#7A5A12;border-radius:.75rem;padding:.8rem 1rem;font-size:.92rem;line-height:1.5;margin-bottom:1rem}"
+    ".mk-pr{font-size:1.8rem;font-weight:700;color:#1B4332;margin:.2rem 0}"
+    ".mk-s{color:#5A625B;margin:.15rem 0}"
+    ".mk-d{white-space:pre-wrap;color:#374151;line-height:1.6;margin-top:1rem}"
+    ".mk-k{display:block;text-align:center;padding:.8rem;border-radius:.75rem;font-weight:600;text-decoration:none;margin-top:.5rem}"
+    ".mk-wa{background:#25D366;color:#fff}.mk-ph{background:#1B4332;color:#fff}"
+    ".mk-o{border:1px solid #1B4332;color:#1B4332}"
+    ".mk-sf{font-size:.85rem;color:#656C63;margin-top:1rem;line-height:1.5}"
+)
+
+PENDING_AD_JS = r"""<script>
+(function(){
+  var m=location.pathname.match(/^\/(?:(nl|es)\/)?real-estate\/([a-z0-9-]{1,80})\/?(?:index\.html)?$/);
+  if(!m) return;
+  var slug=m[2];
+  var more=document.querySelector(".w a.b.o");
+  if(more){ more.href="/real-estate.html"; more.textContent="Browse real estate"; }
+  var esc=function(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+  var amt=function(n){return Number(n||0).toLocaleString("nl-NL",{maximumFractionDigits:0})};
+  var CAT={house:"House",apartment:"Apartment",land:"Land",commercial:"Commercial",room:"Room or studio"};
+  fetch("__API__/market/approved?s=realestate",{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){
+    var a=(Array.isArray(j)?j:[]).filter(function(x){return x.slug===slug})[0];
+    if(!a||a.status!=="live") return;
+    document.title=a.title+" | Explore Suriname";
+    var price=a.currency+" "+amt(a.price)+(a.deal==="rent"?" per "+(a.period||"month"):"");
+    var url=location.origin+"/real-estate/"+slug+"/";
+    var k="", d=String(a.phone||"").replace(/\D/g,"");
+    if(a.phone&&a.wa){
+      var msg='Hi, I saw your ad "'+a.title+'" on Explore Suriname. Is it still available?\n'+url;
+      k+='<a class="mk-k mk-wa" target="_blank" rel="noopener nofollow" href="https://wa.me/'+d+'?text='+encodeURIComponent(msg)+'">Message on WhatsApp</a>';
+    } else if(a.phone){
+      k+='<a class="mk-k mk-ph" href="tel:+'+d+'">Call '+esc(a.phone)+'</a>';
+    }
+    if(a.email) k+='<a class="mk-k mk-o" href="mailto:'+esc(a.email)+'?subject='+encodeURIComponent("About your ad: "+a.title)+'">Send an email</a>';
+    if(a.link) k+='<a class="mk-k mk-o" target="_blank" rel="noopener nofollow" href="'+esc(a.link)+'">Open the seller&#8217;s page</a>';
+    var img=(a.images&&a.images[0])||"";
+    document.body.className="mk-p";
+    document.body.innerHTML='<div class="mk-w">'
+      +'<div class="mk-top"><a href="/">Explore Suriname</a><a href="/real-estate.html">All real estate</a></div>'
+      +'<div class="mk-n" role="status"><b>Just published.</b> The full page for this ad is being built and goes live within about 15 minutes. This page switches over by itself.</div>'
+      +'<div class="mk-c">'+(img?'<img src="'+esc(img)+'" alt="'+esc(a.title)+'">':'')
+      +'<div class="mk-b"><h1 translate="no" style="font-size:1.6rem;margin:0 0 .25rem;color:#1B4332">'+esc(a.title)+'</h1>'
+      +'<p class="mk-pr">'+esc(price)+'</p>'
+      +'<p class="mk-s">'+esc(CAT[a.category]||"Property")+' '+(a.deal==="rent"?"for rent":"for sale")+' in '+esc(a.district)+(a.area?', '+esc(a.area):'')+'</p>'
+      +(a.seller&&a.seller.name?'<p class="mk-s">Placed by <b>'+esc(a.seller.name)+'</b></p>':'')
+      +(a.descr?'<p class="mk-d" translate="no">'+esc(a.descr)+'</p>':'')
+      +k
+      +'<p class="mk-sf"><b>Before you pay anything.</b> See the property in person and check ownership papers at the GLIS before any money changes hands. Explore Suriname does not handle payments or vet sellers.</p>'
+      +'</div></div></div>';
+    // Poll for the built page, then swap to it. Stops after 40 minutes.
+    var tries=0, t=setInterval(function(){
+      if(++tries>53){ clearInterval(t); return; }
+      fetch(location.pathname+"?cb="+Date.now(),{method:"HEAD",cache:"no-store"}).then(function(r){
+        if(r.ok){ clearInterval(t); location.reload(); }
+      }).catch(function(){});
+    },45000);
+  }).catch(function(){});
+})();
+</script>""".replace("__API__", MK_API)
 
 
 # ── entry point ──────────────────────────────────────────────────────────────

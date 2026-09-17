@@ -19295,7 +19295,9 @@ if __name__ == "__main__":
             '<a class="b o" href="/restaurants.html">Where to Eat</a>'
             '<a class="b o" href="/hotels.html">Where to Stay</a>'
             '<a class="b o" href="/services.html">Local Services</a>'
-            '</div></body></html>'),
+            '</div>__MK_PENDING_JS__</body></html>').replace(
+                '</style>', __import__("market").PENDING_AD_CSS + '</style>').replace(
+                '__MK_PENDING_JS__', __import__("market").PENDING_AD_JS),
     }
 
     # ── Oil & Gas section (oilgas_pages.py, data/oilgas.json) ───────────────
