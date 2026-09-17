@@ -1,6 +1,15 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD ZATERDAG 19 SEPTEMBER 2026",
+      "date": "19 September 2026",
+      "date_iso": "2026-09-19",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1607/gepland-onderhoud-zaterdag-19-september-2026",
+      "meta_description": "GEPLAND ONDERHOUD: COMM ZATERDAG 19 SEPTEMBER 2026 TUSSEN 9:00 EN 17:00 UURGEDEELTE OOST – WEST VERBINDING TUSSEN VEERPLEIN EN TIMORWEG,",
+      "district": "COMM"
+    },
+    {
       "title": "GEPLAND ONDERHOUD VRIJDAG 18 SEPTEMBER 2026",
       "date": "18 September 2026",
       "date_iso": "2026-09-18",
@@ -34,6 +43,6 @@
       "area": "GEDEELTE JOHANNES MUNGRASTRAAT TUSSEN KOLONISTENWEG EN VIROLASTRAAT, GEDEELTE VE"
     }
   ],
-  "last_updated": "2026-09-17T15:08:16.967388+00:00",
+  "last_updated": "2026-09-17T19:07:41.565241+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
