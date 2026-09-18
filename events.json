@@ -300,6 +300,66 @@
    "blurb": "Orchid Restaurant marks Father’s Day with an evening of live jazz and refined dining.",
    "more": "Live jazz and a sophisticated dinner atmosphere at Orchid from 19:00 to 22:00 on Saturday 20 June, an early Father’s Day treat. A 10% local discount applies.",
    "tip": "Reserve ahead on 471500 ext. 5371; seating for the live set is limited."
+  },
+  {
+   "id": "no-curfew-bollywood-2026",
+   "name": "No Curfew: Exclusive Bollywood Night",
+   "kind": "oneoff",
+   "start": "2026-09-26",
+   "end": "2026-09-26",
+   "holiday": false,
+   "free": false,
+   "category": "Bollywood night",
+   "location": "Café Amsterdam, International Mall of Suriname, Ringweg-Zuid 243, Paramaribo",
+   "organizer": "Café Amsterdam",
+   "image": "https://exploresuriname.com/images/event-no-curfew-sep2026.webp",
+   "blurb": "Café Amsterdam at the International Mall goes fully Bollywood for one Saturday night, with the doors open from 23:00 until 06:00.",
+   "more": "Bollywood hits, singalong moments and a dance floor that keeps going until sunrise. The night is billed as No Curfew for a reason: the music runs to 06:00, well past the usual closing hour. Tables can be reserved in advance.",
+   "tip": "Doors open at 23:00 and the night runs until 06:00. Reserve a table on +597 880-7711; the mall car park is the easiest place to leave the car.",
+   "link": {
+    "href": "listing/cafe-amsterdam/",
+    "label": "Café Amsterdam"
+   }
+  },
+  {
+   "id": "fosi-flashback-of-sound-2026",
+   "name": "FOSI: Flashback of Sound",
+   "kind": "oneoff",
+   "start": "2026-12-05",
+   "end": "2026-12-05",
+   "holiday": false,
+   "free": false,
+   "category": "Retro party",
+   "location": "Mingle Sushi, International Mall of Suriname, Ringweg-Zuid 245, Paramaribo",
+   "organizer": "Mingle Sushi",
+   "image": "https://exploresuriname.com/images/event-fosi-dec2026.webp",
+   "blurb": "Mingle Sushi rewinds three decades for one Saturday night: 70s, 80s and 90s classics back to back.",
+   "more": "Flashback of Sound is a retro night built around the records people already know the words to, from disco and funk through to the dance floor fillers of the 90s. It runs at Mingle Sushi inside the International Mall of Suriname.",
+   "tip": "Reserve a table on +597 727-4441. Saturday nights at the mall fill up early, so book ahead rather than walking in.",
+   "link": {
+    "href": "listing/mingle-sushi/",
+    "label": "Mingle Sushi"
+   }
+  },
+  {
+   "id": "bota-house-music-2026",
+   "name": "BOTA: Exclusive House Music",
+   "kind": "oneoff",
+   "start": "2026-12-12",
+   "end": "2026-12-12",
+   "holiday": false,
+   "free": false,
+   "category": "House music night",
+   "location": "Mingle Cocktail Lounge, International Mall of Suriname, Ringweg-Zuid, Paramaribo",
+   "organizer": "Mingle Cocktail Lounge and Alexion Events",
+   "image": "https://exploresuriname.com/images/event-bota-dec2026.webp",
+   "blurb": "Mingle Cocktail Lounge and Alexion Events present BOTA, an exclusive house music night in the run-up to the holidays.",
+   "more": "One night given over to house music, under the tagline ‘Playtime is over…’. It is pitched at people who come for the set rather than the chart hits, and follows the cocktail lounge’s earlier collaborations with Alexion Events.",
+   "tip": "Capacity is limited and it is billed as an exclusive night, so check entry and table reservations with the lounge ahead of the date.",
+   "link": {
+    "href": "listing/mingle-paramaribo/",
+    "label": "Mingle Cocktail Lounge"
+   }
   }
  ]
 }
