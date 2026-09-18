@@ -8152,12 +8152,30 @@ def build_events_page():
             _know.append("Entry " + _cs["price"].strip() + ".")
         if (_cs.get("organizer") or "").strip():
             _know.append("Organised by " + _cs["organizer"].strip() + ".")
+        # A series stores a rule, not dates: "every Friday" is one row that
+        # resolves to its next occurrence on every rebuild and only stops when
+        # recur_until passes. Anything else is still a dated one-off.
+        _rkind = (_cs.get("recur") or "").strip()
+        _rdays = [int(_x) for _x in str(_cs.get("recur_days") or "").split(",")
+                  if _x.strip().isdigit() and 0 <= int(_x.strip()) <= 6]
+        if _rkind in ("weekly", "monthly") and _rdays:
+            _shape = {
+                "kind": _rkind,
+                "weekdays": sorted(set(_rdays)),
+                "nth": int(_cs.get("recur_nth") or 1),
+                "until": (_cs.get("recur_until") or "").strip(),
+                "since": (_cs.get("start_date") or "").strip(),
+            }
+        else:
+            _shape = {
+                "kind": "oneoff",
+                "start": _cs.get("start_date", ""),
+                "end": (_cs.get("end_date") or _cs.get("start_date") or ""),
+            }
         _events.append({
             "id": _cid,
             "name": _cs.get("name", ""),
-            "kind": "oneoff",
-            "start": _cs.get("start_date", ""),
-            "end": (_cs.get("end_date") or _cs.get("start_date") or ""),
+            **_shape,
             "holiday": False,
             "category": EVENT_CAT_LABEL.get(_cs.get("category", ""), "Event"),
             "location": _place or "Suriname",
@@ -8189,6 +8207,51 @@ def build_events_page():
         except ValueError:
             return None
         return cand if cand >= today else _date(today.year + 1, m, d)
+
+    # ── Recurring series ("every Friday", "first Saturday of the month") ────
+    # These come from approved community submissions, never from events.json.
+    # They resolve to their NEXT occurrence, so a weekly night appears once, on
+    # the day it is next on, exactly like a one-off. That is what an agenda
+    # reader wants: not 52 identical cards, just "what is on this Friday".
+    _DOW_NAME = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    _NTH_NAME = {1: "First", 2: "Second", 3: "Third", 4: "Fourth", 5: "Fifth", -1: "Last"}
+
+    def _nth_weekday(y, m, w, nth):
+        """The nth weekday w of month m, or None when that month has no fifth one."""
+        if nth == -1:
+            last = (_date(y, 12, 31) if m == 12 else _date(y, m + 1, 1) - _td(days=1))
+            return last - _td(days=(last.weekday() - w) % 7)
+        first = _date(y, m, 1)
+        cand = first + _td(days=(w - first.weekday()) % 7) + _td(days=7 * (max(1, nth) - 1))
+        return cand if cand.month == m else None
+
+    def _next_recur(kind, weekdays, nth, frm):
+        best = None
+        if kind == "weekly":
+            for w in weekdays:
+                cand = frm + _td(days=(w - frm.weekday()) % 7)
+                if best is None or cand < best:
+                    best = cand
+            return best
+        for w in weekdays:
+            for mo in range(0, 14):          # this month plus a year of lookahead
+                y = frm.year + (frm.month - 1 + mo) // 12
+                m = (frm.month - 1 + mo) % 12 + 1
+                cand = _nth_weekday(y, m, w, nth)
+                if cand is not None and cand >= frm:
+                    if best is None or cand < best:
+                        best = cand
+                    break
+        return best
+
+    def _recur_label(kind, ev):
+        days = [_DOW_NAME[d] for d in ev.get("weekdays", []) if 0 <= d <= 6]
+        if not days:
+            return "Recurring"
+        joined = days[0] if len(days) == 1 else (", ".join(days[:-1]) + " and " + days[-1])
+        if kind == "weekly":
+            return "Every " + joined
+        return _NTH_NAME.get(int(ev.get("nth") or 1), "First") + " " + joined + " of the month"
 
     _hol_by_name = {}
     for _h in _holidays:
@@ -8224,6 +8287,25 @@ def build_events_page():
                 start = end = None
             if start is None or (end or start) < today:
                 continue  # invalid or already finished: auto-expire from the page
+        elif kind in ("weekly", "monthly"):
+            _wd = [d for d in ev.get("weekdays", []) if isinstance(d, int) and 0 <= d <= 6]
+            if not _wd:
+                continue
+            try:
+                _until = _p(ev["until"]) if ev.get("until") else None
+            except Exception:
+                _until = None
+            try:
+                _since = _p(ev["since"]) if ev.get("since") else None
+            except Exception:
+                _since = None
+            # A series that has not started yet counts from its first day; one
+            # already running counts from today.
+            _from = _since if (_since is not None and _since > today) else today
+            start = _next_recur(kind, _wd, int(ev.get("nth") or 1), _from)
+            if start is None or (_until is not None and start > _until):
+                continue  # finished, or no occurrence left before it stops
+            end = start
         else:
             if kind == "holiday_match":
                 for _h in _hol_by_name.get(ev.get("match", ""), []):
@@ -8250,6 +8332,9 @@ def build_events_page():
                              + str(end.day) + " " + end.strftime("%b %Y"))
             else:
                 label = _fmt(start)
+            if kind in ("weekly", "monthly"):
+                label = (_recur_label(kind, ev) + ", next on " + start.strftime("%a") + " "
+                         + str(start.day) + " " + start.strftime("%b"))
             resolved.append((start, True, label, start, end or start, ev))
         else:
             _exp, _pick = ev.get("expected", {}), None
@@ -8352,6 +8437,8 @@ def build_events_page():
             badges += _pill("Public holiday", "var(--mint)", "var(--forest)")
         if _ev.get("community"):
             badges += _pill("Community event", "#fdece7", "#a4462c")
+        if _ev.get("kind") in ("weekly", "monthly"):
+            badges += _pill(_recur_label(_ev.get("kind"), _ev), "#e0f2fe", "#075985")
         if not _confd:
             badges += _pill("Date to be confirmed", "#fef3c7", "#92400e")
         if _confd:
@@ -15762,6 +15849,15 @@ def build_submit_event_page():
     #prev{{max-height:190px;border-radius:12px;margin:0 auto .6rem;display:block}}
     .two{{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem}}
     @media(max-width:640px){{.two{{grid-template-columns:1fr}}}}
+    .dows{{display:flex;flex-wrap:wrap;gap:.4rem}}
+    .dow{{border:1px solid #d3d8d3;background:#fff;border-radius:999px;padding:.45rem .95rem;font:inherit;font-size:.85rem;cursor:pointer;color:#5b645d}}
+    .dow[aria-pressed=true]{{background:var(--forest);border-color:var(--forest);color:#fff;font-weight:600}}
+    .aibox{{border-radius:12px;padding:.8rem 1rem;font-size:.85rem;margin-top:.6rem;line-height:1.5}}
+    .aibox.busy{{background:#f1f5f9;color:#475569}}
+    .aibox.ok{{background:#ecfdf5;color:#065f46}}
+    .aibox.bad{{background:#fef2f2;color:#991b1b}}
+    .aibox ul{{margin:.45rem 0 0 1.15rem;list-style:disc}}
+    .aifill{{background:#fffbeb!important;border-color:#fcd34d!important}}
   </style>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -15782,6 +15878,10 @@ __NAV__
       <li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
         <span>Listing an event is <strong>free</strong>. Concerts, festivals, markets, sports days, fundraisers, anything the public can attend.</span></li>
       <li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span><strong>Start with the flyer.</strong> Drop it in below and we read the name, date, venue and line-up off it, so you only have to check the details instead of typing them.</span></li>
+      <li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span>Running something <strong>every week</strong>? One entry covers the whole series. You do not submit it again each Friday.</span></li>
+      <li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
         <span>Every event is <strong>checked by a person</strong>, usually within a day or two.</span></li>
       <li class="flex items-start gap-3"><span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
         <span>Once approved it is on the calendar within about fifteen minutes, with a countdown and an add-to-calendar link.</span></li>
@@ -15792,19 +15892,69 @@ __NAV__
 
   <form id="frm" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8" novalidate>
 
-    <h2 class="serif text-xl font-bold text-gray-900 mb-5">The event</h2>
+    <h2 class="serif text-xl font-bold text-gray-900 mb-1">Start with the flyer</h2>
+    <p class="text-sm text-gray-600 mb-4">Optional, and it saves you most of the typing. We read the poster and fill in what we can find; you check it. Nothing is sent until you press the button at the bottom.</p>
+
+    <div class="fld">
+      <label>Flyer or photo</label>
+      <div id="drop" tabindex="0" role="button" aria-describedby="drophint">
+        <img id="prev" alt="" hidden>
+        <div id="dropmsg"><strong>Choose the flyer</strong><br>JPG, PNG or WebP, up to 5 MB</div>
+      </div>
+      <input type="file" id="f-photo" name="photo" accept="image/jpeg,image/png,image/webp" hidden>
+      <div id="aibox" class="aibox" role="status" aria-live="polite" hidden><span id="aistat"></span></div>
+      <div class="hint" id="drophint">Use an image you own the rights to. We may crop it to fit the page.</div>
+    </div>
+
+    <h2 class="serif text-xl font-bold text-gray-900 mt-9 mb-5">The event</h2>
 
     <div class="fld">
       <label for="f-name">Event name <span class="req">*</span></label>
       <input type="text" id="f-name" name="name" maxlength="120" required>
     </div>
 
+    <div class="fld">
+      <label for="f-recur">How often</label>
+      <select id="f-recur" name="recur">
+        <option value="">It happens once</option>
+        <option value="weekly">Every week</option>
+        <option value="monthly">Once a month</option>
+      </select>
+      <div class="hint">Pick a repeat for a regular night. One entry then covers the whole series and the calendar always shows the next one.</div>
+    </div>
+
+    <div id="recurbox" hidden>
+      <div class="fld">
+        <label id="lbl-dows">Which day <span class="req">*</span></label>
+        <div id="dows" class="dows" role="group" aria-labelledby="lbl-dows"></div>
+        <input type="hidden" id="f-recur_days" name="recur_days" value="">
+      </div>
+      <div class="two">
+        <div class="fld" id="nthfld" hidden>
+          <label for="f-recur_nth">Which one in the month</label>
+          <select id="f-recur_nth" name="recur_nth">
+            <option value="1">First</option>
+            <option value="2">Second</option>
+            <option value="3">Third</option>
+            <option value="4">Fourth</option>
+            <option value="-1">Last</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label for="f-recur_until">Runs until</label>
+          <input type="date" id="f-recur_until" name="recur_until" min="__MIND__">
+          <div class="hint">Leave empty if it keeps going. Email us when it stops and we take it down.</div>
+        </div>
+      </div>
+    </div>
+
     <div class="two">
       <div class="fld">
-        <label for="f-start_date">First day <span class="req">*</span></label>
+        <label for="f-start_date" id="lbl-start">First day <span class="req">*</span></label>
         <input type="date" id="f-start_date" name="start_date" required min="__MIND__" max="__MAXD__">
+        <div class="hint" id="hint-start" hidden>The day the series started. It may be in the past.</div>
       </div>
-      <div class="fld">
+      <div class="fld" id="endwrap">
         <label for="f-end_date">Last day</label>
         <input type="date" id="f-end_date" name="end_date" min="__MIND__" max="__MAXD__">
         <div class="hint">Leave empty if it is a one-day event.</div>
@@ -15867,16 +16017,6 @@ __NAV__
       <div class="hint"><span id="cnt">0</span> of 1200 characters. Minimum 20.</div>
     </div>
 
-    <div class="fld">
-      <label>Flyer or photo</label>
-      <div id="drop" tabindex="0">
-        <img id="prev" alt="" hidden>
-        <div id="dropmsg"><strong>Choose the flyer</strong><br>JPG, PNG or WebP, up to 5 MB</div>
-      </div>
-      <input type="file" id="f-photo" name="photo" accept="image/jpeg,image/png,image/webp" hidden>
-      <div class="hint">Use an image you own the rights to. We may crop it to fit the page.</div>
-    </div>
-
     <h2 class="serif text-xl font-bold text-gray-900 mt-9 mb-5">You</h2>
     <p class="text-sm text-gray-600 mb-5">Not published. We only use this to confirm the details before the event goes on the calendar.</p>
 
@@ -15930,7 +16070,11 @@ __NAV__
       <div><strong class="block text-gray-900 mb-1">The date moved, or I made a mistake.</strong>
         Do not submit it twice. <a href="contact.html" class="underline">Email us</a> and we will correct it.</div>
       <div><strong class="block text-gray-900 mb-1">Do I have to remove it afterwards?</strong>
-        No. The event drops off the calendar by itself the day after it ends.</div>
+        No. A one-off drops off the calendar by itself the day after it ends. A weekly night stays until you tell us it has stopped.</div>
+      <div><strong class="block text-gray-900 mb-1">How does reading the flyer work?</strong>
+        We pass the image to a text-recognition model that pulls out the name, date, venue and any line-up, and we put that in the form for you to correct. It gets things wrong, dates most of all, so check every field before you send it. Nothing is published straight from it: a person still reviews every event.</div>
+      <div><strong class="block text-gray-900 mb-1">My night runs every Friday.</strong>
+        Set <em>How often</em> to every week and tick Friday. Submit it once. The calendar shows the coming Friday and keeps doing that by itself.</div>
       <div><strong class="block text-gray-900 mb-1">What gets declined?</strong>
         Private parties, events outside Suriname, anything we cannot verify with the organiser, and anything already on the calendar.</div>
       <div><strong class="block text-gray-900 mb-1">I want my business listed too, not just this event.</strong>
@@ -15953,6 +16097,40 @@ __FOOTER__
   $("f-free").addEventListener("change", function(){ if(this.checked) $("f-price").value = ""; });
   $("f-price").addEventListener("input", function(){ if(this.value.trim()) $("f-free").checked = false; });
 
+  // ── recurring series ──────────────────────────────────────────────────
+  var DOWS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  var recSel = $("f-recur"), recBox = $("recurbox"), dows = $("dows"), rdays = $("f-recur_days");
+  DOWS.forEach(function(nm, i){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "dow"; b.textContent = nm;
+    b.setAttribute("aria-pressed", "false");
+    b.setAttribute("data-d", String(i));
+    b.addEventListener("click", function(){
+      this.setAttribute("aria-pressed", this.getAttribute("aria-pressed") === "true" ? "false" : "true");
+      syncDays();
+    });
+    dows.appendChild(b);
+  });
+  function syncDays(){
+    rdays.value = Array.prototype.slice.call(dows.children)
+      .filter(function(b){ return b.getAttribute("aria-pressed") === "true" })
+      .map(function(b){ return b.getAttribute("data-d") }).join(",");
+  }
+  function syncRecur(){
+    var r = recSel.value;
+    recBox.hidden = !r;
+    $("nthfld").hidden = (r !== "monthly");
+    $("endwrap").hidden = !!r;
+    $("hint-start").hidden = !r;
+    $("lbl-start").innerHTML = (r ? "Running since" : "First day") + ' <span class="req">*</span>';
+    // A weekly night may have been running for years; a one-off may not be in
+    // the past. Same field, two rules, so the browser constraint has to move.
+    $("f-start_date").min = r ? "" : "__MIND__";
+    if(!r){ rdays.value = ""; $("f-recur_until").value = ""; }
+  }
+  recSel.addEventListener("change", syncRecur);
+  syncRecur();
+
   var drop = $("drop"), file = $("f-photo");
   drop.addEventListener("click", function(){ file.click() });
   drop.addEventListener("keydown", function(e){ if(e.key === "Enter" || e.key === " "){ e.preventDefault(); file.click(); } });
@@ -15969,6 +16147,143 @@ __FOOTER__
     img.hidden = false;
     $("dropmsg").innerHTML = "<strong>" + f.name.replace(/[<>]/g, "") + "</strong><br>Click to choose a different image";
     say("");
+    readFlyer(f);
+  }
+
+  // ── reading the flyer ─────────────────────────────────────────────────
+  // The poster is resized to 1280px before it is sent: the model reads it just
+  // as well, it costs a fraction of the tokens, and it is a far kinder upload
+  // on a Surinamese mobile connection. The full-size original is what goes to
+  // /submit-event and ends up on the site.
+  //
+  // Nothing here can publish anything. It fills boxes in, the organiser
+  // corrects them, and a person still reviews the result.
+  var aiBusy = false, aiDone = false;
+
+  function aiSay(cls, html){
+    var box = $("aibox");
+    box.hidden = false;
+    box.className = "aibox " + cls;
+    $("aistat").innerHTML = html;
+  }
+
+  function shrink(f){
+    return new Promise(function(done){
+      try{
+        var img = new Image();
+        img.onerror = function(){ done(f) };
+        img.onload = function(){
+          var m = Math.max(img.width, img.height);
+          if(m <= 1280 && f.size < 900 * 1024) return done(f);
+          var sc = Math.min(1, 1280 / m);
+          var c = document.createElement("canvas");
+          c.width = Math.round(img.width * sc);
+          c.height = Math.round(img.height * sc);
+          c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+          c.toBlob(function(b){ done(b && b.size ? b : f) }, "image/jpeg", 0.85);
+        };
+        img.src = URL.createObjectURL(f);
+      }catch(e){ done(f) }
+    });
+  }
+
+  // Somebody who drops a flyer in the second the page loads can get here before
+  // Turnstile has issued a token. Wait for it rather than failing them for being
+  // quick. Resolves to "" if it never arrives.
+  function token(ms){
+    var end = Date.now() + (ms || 8000);
+    return new Promise(function(done){
+      (function tick(){
+        var el = document.querySelector('[name="cf-turnstile-response"]');
+        var v = el ? el.value : "";
+        if(v) return done(v);
+        if(Date.now() > end) return done("");
+        setTimeout(tick, 300);
+      })();
+    });
+  }
+
+  function clearFill(){ this.classList.remove("aifill"); }
+
+  function setv(id, v){
+    if(!v) return false;
+    var el = $(id);
+    if(!el || (el.value && String(el.value).trim())) return false;   // never overwrite a person
+    el.value = v;
+    if(String(el.value) !== String(v)){ el.value = ""; return false; }  // a select with no such option
+    el.classList.add("aifill");
+    el.addEventListener("input", clearFill, {once: true});
+    el.addEventListener("change", clearFill, {once: true});
+    return true;
+  }
+
+  function apply(j){
+    var f = j.fields || {}, n = 0, i, b;
+
+    if(f.recur){
+      recSel.value = f.recur;
+      syncRecur();
+      for(i = 0; i < (f.recur_days || []).length; i++){
+        b = dows.children[f.recur_days[i]];
+        if(b) b.setAttribute("aria-pressed", "true");
+      }
+      syncDays();
+      if(f.recur === "monthly" && f.recur_nth) $("f-recur_nth").value = String(f.recur_nth);
+      if(rdays.value) n++;
+    }
+
+    ["name","start_date","end_date","time_text","venue","price","organizer","website","district","category"]
+      .forEach(function(k){ if(setv("f-" + k, f[k])) n++; });
+
+    if(f.free){ $("f-free").checked = true; $("f-price").value = ""; }
+
+    var blurb = f.blurb || "";
+    if(j.artists && j.artists.length)
+      blurb = (blurb ? blurb + " " : "") + "Line-up: " + j.artists.join(", ") + ".";
+    if(setv("f-blurb", blurb)) n++;
+    $("cnt").textContent = $("f-blurb").value.length;
+
+    var notes = (j.notes || []).map(function(t){
+      return "<li>" + String(t).replace(/[<>]/g, "") + "</li>" }).join("");
+    notes = notes ? "<ul>" + notes + "</ul>" : "";
+
+    if(!n){
+      aiSay("bad", "<strong>We could not get anything usable off that flyer.</strong> Please fill the form in below." + notes);
+      return;
+    }
+    aiDone = true;
+    aiSay("ok", "<strong>Filled in " + n + " field" + (n === 1 ? "" : "s") + " from your flyer.</strong> "
+      + "Check every one before you send it, the date above all." + notes);
+  }
+
+  async function readFlyer(f){
+    if(aiBusy || aiDone) return;
+    aiBusy = true;
+    aiSay("busy", "Reading the flyer...");
+    try{
+      var tk = await token();
+      if(!tk){
+        aiSay("bad", "We could not verify your browser, so we did not read the flyer. Please fill the form in below.");
+        return;
+      }
+      var fd = new FormData();
+      fd.append("photo", await shrink(f), "flyer.jpg");
+      fd.append("cf-turnstile-response", tk);
+      var r = await fetch(API + "/ai/parse-flyer", { method: "POST", body: fd });
+      var j = await r.json();
+      if(window.turnstile) window.turnstile.reset();      // that token is spent
+      if(!j || j.err){
+        aiSay("bad", ((j && j.err) || "We could not read the flyer.") + " Please fill the form in below.");
+        return;
+      }
+      if(window.gtag){ gtag("event", "flyer_read", {method: "ai"}); }
+      apply(j);
+    }catch(e){
+      if(window.turnstile) window.turnstile.reset();
+      aiSay("bad", "We could not reach the flyer reader. Please fill the form in below.");
+    }finally{
+      aiBusy = false;
+    }
   }
 
   function say(t, bad){
@@ -15980,23 +16295,36 @@ __FOOTER__
   frm.addEventListener("submit", async function(e){
     e.preventDefault();
     if($("f-name").value.trim().length < 3) return say("Please enter the event name.", true);
+    var rec = recSel.value;
     var sd = $("f-start_date").value, ed = $("f-end_date").value;
-    if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(sd)) return say("Please pick the first day of the event.", true);
-    if(sd < "__MIND__") return say("That date has already passed.", true);
+    if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(sd))
+      return say(rec ? "Please pick the day the series started." : "Please pick the first day of the event.", true);
+    if(!rec && sd < "__MIND__") return say("That date has already passed.", true);
     if(sd > "__MAXD__") return say("That date is more than a year away. Send it closer to the time.", true);
-    if(ed && ed < sd) return say("The last day cannot be before the first day.", true);
+    if(!rec && ed && ed < sd) return say("The last day cannot be before the first day.", true);
+    if(rec && !rdays.value) return say("Please tick which day of the week it happens.", true);
+    if(rec && $("f-recur_until").value && $("f-recur_until").value < "__MIND__")
+      return say("That series has already finished.", true);
     if(!$("f-category").value) return say("Please choose the type of event.", true);
     if($("f-venue").value.trim().length < 2) return say("Please say where it happens.", true);
     if($("f-blurb").value.trim().length < 20) return say("Please describe the event in a sentence or two.", true);
     if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test($("f-contact_email").value.trim()))
       return say("Please enter your email so we can reach you.", true);
 
+    $("go").disabled = true;
+    say("Sending...");
+
+    // Reading the flyer spends the Turnstile token, so a fresh one may still be
+    // on its way. Wait for it instead of bouncing a perfectly good submission.
+    if(document.querySelector(".cf-turnstile") && !(await token(10000))){
+      $("go").disabled = false;
+      return say("Still verifying your browser. Give it a moment and press the button again.", true);
+    }
+
     var fd = new FormData(frm);
     fd.delete("photo");
     if(photo) fd.append("photo", photo, photo.name);
 
-    $("go").disabled = true;
-    say("Sending...");
     try{
       var r = await fetch(API + "/submit-event", { method: "POST", body: fd });
       var j = await r.json();
