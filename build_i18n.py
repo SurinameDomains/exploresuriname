@@ -9,13 +9,25 @@ Translation comes only from the committed cache (translations.json); this stage
 never calls the network, so the 15-min rebuild loop stays deterministic. Any
 segment missing from the cache falls back to English, so the site never breaks.
 
+Incremental: the NL/ES output for a page depends only on the raw English HTML,
+translations.json, this file, and exploresuriname_listings.json (PROTECTED names).
+i18n_build_cache.json records the md5 of each English page as generate.py emitted
+it; on the next run, pages whose md5 is unchanged keep their existing /nl/ and
+/es/ files instead of being re-parsed and re-translated. Any change to the three
+global inputs invalidates the whole cache. English pages are ALWAYS re-finalized
+(generate.py strips hreflang + the switcher every run), so the segment inventory
+stays complete even on a fully cached run.
+
 Usage:
     python3 build_i18n.py            # use cache (production / CI)
     python3 build_i18n.py --stub     # fake [nl]/[es] prefixes, no cache needed (dev)
     python3 build_i18n.py --only "index.html,restaurants.html"   # subset (dev)
+    python3 build_i18n.py --jobs 1   # serial (default: one worker per CPU)
+    python3 build_i18n.py --no-cache # force a full rebuild, ignore i18n_build_cache.json
 """
-import json, re, sys, shutil
+import json, re, sys, shutil, os, time, hashlib
 from pathlib import Path
+import multiprocessing
 from bs4 import BeautifulSoup, NavigableString, Comment
 
 ROOT     = Path(__file__).parent
@@ -32,11 +44,15 @@ TARGETS = ["nl", "es"]                       # generated subtrees (en stays at r
 CACHE_FILE = ROOT / "translations.json"
 
 # ── flags ────────────────────────────────────────────────────────────────────
-STUB = "--stub" in sys.argv
+STUB     = "--stub" in sys.argv
+NO_CACHE = "--no-cache" in sys.argv
 ONLY = None
+JOBS = 0                                     # 0 = one worker per CPU
 for i, a in enumerate(sys.argv):
     if a == "--only" and i + 1 < len(sys.argv):
         ONLY = set(sys.argv[i + 1].split(","))
+    if a == "--jobs" and i + 1 < len(sys.argv):
+        JOBS = max(1, int(sys.argv[i + 1]))
 
 # ── do-not-translate dictionary (proper nouns from listings data) ─────────────
 def load_protected():
@@ -116,6 +132,47 @@ def translatable(s: str) -> bool:
 cache = {}
 if CACHE_FILE.exists():
     cache = json.load(open(CACHE_FILE, encoding="utf-8"))
+
+# ── incremental build cache: {english page -> md5 of generate.py's output} ────
+# Lives in data/ on purpose: update.yml already does `git add data/`, so the
+# cache persists between CI runs without touching the workflow.
+BUILD_CACHE_FILE = ROOT / "data" / "i18n_build_cache.json"
+
+def _file_md5(path: Path) -> str:
+    try:
+        return hashlib.md5(path.read_bytes()).hexdigest()
+    except OSError:
+        return ""
+
+def build_key() -> str:
+    """Hash of everything that changes NL/ES output for an UNCHANGED English page.
+
+    translations.json  -> the translations themselves
+    build_i18n.py      -> switcher markup, hreflang, JSON-LD rules, this logic
+    listings json      -> PROTECTED (business names/addresses never translated)
+
+    If any of these moves, every page is rebuilt. That is the intended blunt
+    instrument: a nav or template change also changes every English page, so the
+    per-page hashes would all miss anyway.
+    """
+    h = hashlib.md5()
+    for name in ("translations.json", "build_i18n.py", "exploresuriname_listings.json"):
+        h.update(name.encode())
+        h.update(_file_md5(ROOT / name).encode())
+    h.update("|".join(sorted(TARGETS)).encode())
+    return h.hexdigest()
+
+def load_build_cache(key: str) -> dict:
+    # --stub writes fake text into nl/es; never let that be recorded as current.
+    if STUB or NO_CACHE:
+        return {}
+    try:
+        data = json.loads(BUILD_CACHE_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    if data.get("key") != key:
+        return {}
+    return data.get("pages") or {}
 
 def tr(text: str, lang: str) -> str:
     """Translate a text node, preserving leading/trailing whitespace."""
@@ -419,31 +476,90 @@ def english_pages():
     for p in (ROOT / "real-estate").glob("*/index.html"):
         yield p, f"real-estate/{p.parent.name}/index.html"
 
-def main():
-    pages = list(english_pages())
-    if ONLY:
-        pages = [(p, rel) for (p, rel) in pages if p.name in ONLY or rel in ONLY]
-    print(f"i18n: {len(pages)} source pages | stub={STUB} | cache={len(cache)} keys")
+def process_page(job):
+    """One English page: always re-finalize EN, emit nl/es only when stale.
 
-    all_segments = set()
-    for src, rel in pages:
-        html = src.read_text(encoding="utf-8")
+    Runs in a worker process. Everything it touches (the translation cache,
+    PROTECTED) is read-only and inherited by fork, so there is nothing to pickle
+    beyond the small job tuple and the returned segment list.
+    """
+    src_str, rel, old_hash = job
+    src = Path(src_str)
 
-        # finalize English in place (hreflang + switcher only, no translation)
-        en_soup = BeautifulSoup(html, "lxml")
-        all_segments |= collect_segments(en_soup)
-        inject_hreflang(en_soup, rel)
-        inject_og_alternates(en_soup, "en")
-        inject_switcher(en_soup, "en", rel)
-        src.write_text(serialize(en_soup), encoding="utf-8")
+    raw = src.read_bytes()
+    new_hash = hashlib.md5(raw).hexdigest()
+    # match Path.read_text()'s universal newlines so output is byte-for-byte
+    # identical to the pre-incremental version on CRLF checkouts too
+    html = raw.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
 
-        # emit translated trees
+    # finalize English in place (hreflang + switcher only, no translation).
+    # never skipped: generate.py rewrites this file from scratch every run.
+    en_soup = BeautifulSoup(html, "lxml")
+    segs = collect_segments(en_soup)
+    inject_hreflang(en_soup, rel)
+    inject_og_alternates(en_soup, "en")
+    inject_switcher(en_soup, "en", rel)
+    src.write_text(serialize(en_soup), encoding="utf-8")
+
+    reuse = (old_hash is not None and old_hash == new_hash
+             and all((ROOT / lang / rel).exists() for lang in TARGETS))
+
+    if not reuse:
         for lang in TARGETS:
             soup = BeautifulSoup(html, "lxml")
             localize(soup, lang, rel)
             out = ROOT / lang / rel
             out.parent.mkdir(parents=True, exist_ok=True)
             out.write_text(serialize(soup), encoding="utf-8")
+
+    return rel, new_hash, sorted(segs), reuse
+
+
+def main():
+    t0 = time.time()
+    pages = list(english_pages())
+    if ONLY:
+        pages = [(p, rel) for (p, rel) in pages if p.name in ONLY or rel in ONLY]
+
+    key   = build_key()
+    known = load_build_cache(key)
+    jobs  = [(str(p), rel, known.get(rel)) for (p, rel) in pages]
+
+    # Only fork is safe here: a spawned worker re-imports this module with a
+    # different sys.argv, which would drop --stub/--only and reload the
+    # translation cache per process. Windows/macOS therefore run serial.
+    try:
+        ctx = multiprocessing.get_context("fork")
+    except ValueError:
+        ctx = None
+    workers = JOBS or min(len(jobs), os.cpu_count() or 1) or 1
+    if ctx is None and workers > 1:
+        workers = 1
+        print("i18n: no fork() on this platform, running serial")
+    print(f"i18n: {len(jobs)} source pages | stub={STUB} | cache={len(cache)} keys "
+          f"| reusable={len(known)} | workers={workers}")
+
+    all_segments = set()
+    hashes = {}
+    reused = 0
+
+    def absorb(result):
+        nonlocal reused
+        rel, h, segs, was_reused = result
+        hashes[rel] = h
+        all_segments.update(segs)
+        if was_reused:
+            reused += 1
+
+    if workers > 1 and len(jobs) > 1:
+        with ctx.Pool(workers) as pool:
+            for result in pool.imap_unordered(process_page, jobs, chunksize=4):
+                absorb(result)
+    else:
+        for job in jobs:
+            absorb(process_page(job))
+
+    print(f"i18n: {len(jobs) - reused} pages translated, {reused} reused from cache")
 
     # per-language search index (names/areas identical; category labels translated)
     si = ROOT / "search-index.json"
@@ -455,14 +571,29 @@ def main():
             out.write_text(json.dumps(loc, ensure_ascii=False, separators=(",", ":")),
                            encoding="utf-8")
 
-    localize_sitemap()
+    # A --only run has seen a subset of the site, so anything derived from the
+    # FULL page set would be written truncated. Skip those writes instead of
+    # clobbering them (this used to require backing up 3 files by hand).
+    if ONLY:
+        print("i18n: --only run; sitemap, i18n_segments.json and the build cache left untouched")
+    else:
+        localize_sitemap()
 
-    # dump the segment inventory for translate_cache.py to consume
-    (ROOT / "i18n_segments.json").write_text(
-        json.dumps(sorted(all_segments), ensure_ascii=False, indent=0),
-        encoding="utf-8")
-    print(f"i18n: collected {len(all_segments)} unique segments -> i18n_segments.json")
-    print("i18n: done")
+        # dump the segment inventory for translate_cache.py to consume.
+        # complete even on a fully cached run: every English page is still parsed.
+        (ROOT / "i18n_segments.json").write_text(
+            json.dumps(sorted(all_segments), ensure_ascii=False, indent=0),
+            encoding="utf-8")
+        print(f"i18n: collected {len(all_segments)} unique segments -> i18n_segments.json")
+
+        if not STUB:
+            BUILD_CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+            BUILD_CACHE_FILE.write_text(
+                json.dumps({"key": key, "pages": hashes}, separators=(",", ":"),
+                           sort_keys=True),
+                encoding="utf-8")
+
+    print(f"i18n: done in {time.time() - t0:.1f}s")
 
 
 # ── multilingual sitemap (adds nl/es URLs + xhtml:link alternates) ────────────
