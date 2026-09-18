@@ -1,26 +1,26 @@
 {
-  "last_updated": "2026-09-17T16:00:29.981347+00:00",
+  "last_updated": "2026-09-18T10:00:29.572384+00:00",
   "date_label": "Today",
   "showings": [
     {
       "time": "05:00 PM",
-      "title": "Minions & Monsters",
-      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
+      "title": "PAW Patrol: The Dino Movie",
+      "url": "https://www.tblcinemas.com/movie/RS931685169274/paw-patrol-the-dino-movie"
     },
     {
-      "time": "05:30 PM",
+      "time": "06:00 PM",
       "title": "Spider-Man: Brand New Day",
       "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
     },
     {
-      "time": "06:00 PM",
+      "time": "06:30 PM",
       "title": "Onslaught",
       "url": "https://www.tblcinemas.com/movie/RS251312878430/onslaught"
     },
     {
-      "time": "06:30 PM",
-      "title": "Practical Magic 2",
-      "url": "https://www.tblcinemas.com/movie/RS661264885651/practical-magic-2"
+      "time": "07:00 PM",
+      "title": "Vibe",
+      "url": "https://www.tblcinemas.com/movie/RS758911445358/vibe"
     },
     {
       "time": "07:45 PM",
@@ -29,13 +29,18 @@
     },
     {
       "time": "08:30 PM",
+      "title": "Resident Evil",
+      "url": "https://www.tblcinemas.com/movie/RS762482270455/resident-evil"
+    },
+    {
+      "time": "09:00 PM",
       "title": "Insidious: Out of the Further",
       "url": "https://www.tblcinemas.com/movie/RS381118155603/insidious-out-of-the-further"
     },
     {
-      "time": "09:00 PM",
-      "title": "Resident Evil",
-      "url": "https://www.tblcinemas.com/movie/RS762482270455/resident-evil"
+      "time": "09:30 PM",
+      "title": "Fall 2: Deadpoint",
+      "url": "https://www.tblcinemas.com/movie/RS10062314469/fall-2-deadpoint"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
