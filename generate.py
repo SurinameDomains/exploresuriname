@@ -8379,10 +8379,19 @@ def build_events_page():
         # aspect ratio, so they are capped by height and never cropped.
         _flyer = _ev.get("image", "")
         if _flyer:
-            tip_html = ('<img src="' + _esc(_flyer) + '" alt="Flyer for '
-                        + _esc(_ev.get("name", "")) + '" loading="lazy" decoding="async" '
-                        'class="mt-3 rounded-xl border border-gray-100" '
-                        'style="max-height:260px;width:auto;max-width:100%">') + tip_html
+            # The card preview is capped at 260px, which is too small to read a
+            # flyer that carries the date, venue and phone number as artwork, so
+            # the thumbnail is a button that opens the full image in #ev-lb.
+            _falt = "Flyer for " + _ev.get("name", "")
+            tip_html = ('<button type="button" class="ev-flyer mt-3 block relative rounded-xl '
+                        'border border-gray-100 overflow-hidden cursor-zoom-in" '
+                        'data-full="' + _esc(_flyer) + '" data-alt="' + _esc(_falt) + '" '
+                        'aria-label="' + _esc(_falt) + ', view larger">'
+                        '<img src="' + _esc(_flyer) + '" alt="" loading="lazy" decoding="async" '
+                        'style="max-height:260px;width:auto;max-width:100%;display:block">'
+                        '<span class="absolute bottom-2 right-2 text-[10px] font-semibold text-white '
+                        'px-2 py-0.5 rounded-full pointer-events-none" style="background:rgba(0,0,0,.55)" '
+                        'aria-hidden="true">View larger</span></button>') + tip_html
         foot = ""
         if _confd:
             foot += ('<a href="' + _gcal(_ev.get("name", ""), _st, _en, _ev.get("location", ""), _ev.get("blurb", ""))
@@ -8545,15 +8554,46 @@ def build_events_page():
         '\n      </div>'
         '\n    </div>'
         '\n  </section>')
+    # Flyer lightbox. A native <dialog> gives Esc, the focus trap and the top
+    # layer for free; browsers without showModal fall back to opening the image
+    # in a new tab, so the flyer is always reachable at full size.
     _events_js = (
+        '<style>#ev-lb::backdrop{background:rgba(0,0,0,.82)}'
+        '#ev-lb{border:0;background:transparent;padding:0;max-width:96vw;max-height:96vh}</style>'
+        '<dialog id="ev-lb" aria-label="Event flyer">'
+        '<img id="ev-lb-img" src="" alt="" '
+        'style="max-width:96vw;max-height:84vh;width:auto;height:auto;display:block;'
+        'margin:0 auto;border-radius:12px">'
+        '<div class="flex items-center justify-between gap-4 mt-3">'
+        '<p id="ev-lb-cap" class="text-white text-xs"></p>'
+        '<button type="button" id="ev-lb-x" class="text-white text-xs font-semibold rounded-full '
+        'px-4 py-1.5 shrink-0" style="background:rgba(255,255,255,.2)">Close</button>'
+        '</div></dialog>'
         '<script>'
-        'document.addEventListener("click",function(e){var b=e.target&&e.target.closest?'
-        'e.target.closest(".ev-share"):null;if(!b)return;'
+        '(function(){'
+        'var lb=document.getElementById("ev-lb"),im=document.getElementById("ev-lb-img"),'
+        'cp=document.getElementById("ev-lb-cap");'
+        'function shut(){if(lb&&lb.open)lb.close()}'
+        'document.addEventListener("click",function(e){'
+        'var t=e.target&&e.target.closest?e.target:null;if(!t)return;'
+        'var b=t.closest(".ev-share");'
+        'if(b){'
         'var u="' + SITE_URL + '/events.html#"+b.getAttribute("data-anchor");'
         'var d={title:b.getAttribute("data-name")+" in Suriname",url:u};'
         'if(navigator.share){navigator.share(d).catch(function(){})}'
         'else if(navigator.clipboard){navigator.clipboard.writeText(u).then(function(){'
-        'var o=b.textContent;b.textContent="Link copied";setTimeout(function(){b.textContent=o},1600)})}});'
+        'var o=b.textContent;b.textContent="Link copied";setTimeout(function(){b.textContent=o},1600)})}'
+        'return}'
+        'var f=t.closest(".ev-flyer");'
+        'if(f){'
+        'var src=f.getAttribute("data-full"),alt=f.getAttribute("data-alt")||"";'
+        'if(!lb||!lb.showModal){window.open(src,"_blank","noopener");return}'
+        'im.src=src;im.alt=alt;cp.textContent=alt;lb.showModal();'
+        'document.documentElement.style.overflow="hidden";return}'
+        'if(lb&&lb.open&&(t===lb||t.id==="ev-lb-x"))shut()});'
+        'if(lb){lb.addEventListener("close",function(){'
+        'document.documentElement.style.overflow="";im.removeAttribute("src");cp.textContent=""})}'
+        '})();'
         '</script>')
     _yr = str(today.year)
     _upd = _fmt(today)
