@@ -29,11 +29,13 @@ Two-phase design:
     than leaving all HTML unchanged.
 """
 
+import datetime
 import hashlib
 import json
 import re
 import sys
 import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -53,7 +55,23 @@ except ImportError:
 SCRIPT_DIR = Path(__file__).parent
 IMAGES_DIR = SCRIPT_DIR / "images"
 CACHE_FILE = SCRIPT_DIR / "image_cache.json"
-HTML_GLOB  = list(SCRIPT_DIR.rglob("*.html"))
+# Generated language trees. build_i18n.py rebuilds nl/ and es/ from the English
+# pages immediately after this script runs, so rewriting them here is thrown
+# away: two thirds of the files for nothing. An image URL can only reach a
+# translated page via its English source, and rewriting an English page changes
+# its hash, which makes build_i18n re-emit that page's translations.
+GENERATED_TREES = {"nl", "es"}
+
+def _english_html():
+    out = []
+    for p in SCRIPT_DIR.rglob("*.html"):
+        rel = p.relative_to(SCRIPT_DIR)
+        if rel.parts and rel.parts[0] in GENERATED_TREES:
+            continue
+        out.append(p)
+    return out
+
+HTML_GLOB  = _english_html()
 
 IMG_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg"}
 
@@ -86,8 +104,45 @@ HEADERS = {
     )
 }
 
-TIMEOUT     = 15
-MAX_RETRIES = 2
+TIMEOUT     = 8
+MAX_RETRIES = 1
+
+# Download failures used to be forgotten between runs, so a permanently dead
+# image was re-attempted on every build: 3 attempts with 2s and 4s backoff each
+# time. Failures are now remembered and skipped for a week, then retried once in
+# case the host came back. Conversion failures (corrupt files that can never
+# become WebP) are remembered here too, under the "convert:" prefix.
+FAILURES_FILE    = SCRIPT_DIR / "data" / "image_failures.json"
+RETRY_AFTER_DAYS = 7
+
+def _load_failures():
+    try:
+        return json.loads(FAILURES_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+def _save_failures(failures):
+    FAILURES_FILE.parent.mkdir(parents=True, exist_ok=True)
+    FAILURES_FILE.write_text(json.dumps(failures, indent=1, sort_keys=True),
+                             encoding="utf-8")
+
+def _recently_failed(failures, key):
+    rec = failures.get(key)
+    if not rec:
+        return False
+    try:
+        last = datetime.datetime.fromisoformat(rec["last"])
+    except Exception:
+        return False
+    age = datetime.datetime.now(datetime.timezone.utc) - last
+    return age.days < RETRY_AFTER_DAYS
+
+def _note_failure(failures, key, error):
+    rec = failures.get(key) or {}
+    rec["last"]  = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+    rec["count"] = int(rec.get("count", 0)) + 1
+    rec["error"] = str(error)[:120]
+    failures[key] = rec
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -156,30 +211,31 @@ def _extract_img_srcs(html):
     return [u for u in raw if _is_image_url(u)]
 
 
+# src="URL" / src='URL' / url(URL) / url('URL') / url("URL")
+_EXT_REF_RE = re.compile(
+    r"""(src=["']|url\(["']?)(https?://[^"'()\s>]+)""")
+
 def _rewrite_html(html_contents, cache, dry_run):
-    """Replace cached external URLs with local paths in all HTML files."""
+    """Replace cached external URLs with local paths in all HTML files.
+
+    One regex pass per file. The old version looped over every cache entry for
+    every file, so cost grew with cache size (789 entries x 3216 files).
+    html_contents is updated in place so callers never have to re-read the site.
+    """
+    def _repl(m):
+        local = cache.get(m.group(2))
+        if not local:
+            return m.group(0)
+        # Always use an absolute path so it resolves correctly from
+        # any subdirectory depth (e.g. /listing/slug/index.html).
+        return m.group(1) + "/" + local.lstrip("/")
+
     rewrites = 0
     for html_path, content in html_contents.items():
-        new_content = content
-        for url, local_path in cache.items():
-            if url in new_content:
-                # Always use an absolute path so it resolves correctly from
-                # any subdirectory depth (e.g. /listing/slug/index.html).
-                abs_path = "/" + local_path.lstrip("/")
-                new_content = new_content.replace(
-                    'src="%s"' % url, 'src="%s"' % abs_path
-                ).replace(
-                    "src='%s'" % url, "src='%s'" % abs_path
-                )
-                new_content = new_content.replace(
-                    "url('%s')" % url, "url('%s')" % abs_path
-                ).replace(
-                    'url("%s")' % url, 'url("%s")' % abs_path
-                ).replace(
-                    "url(%s)" % url, "url(%s)" % abs_path
-                )
+        new_content = _EXT_REF_RE.sub(_repl, content)
         if new_content != content:
             rewrites += 1
+            html_contents[html_path] = new_content
             if not dry_run:
                 html_path.write_text(new_content, encoding="utf-8")
                 print("  rewritten   : %s" % html_path.name)
@@ -234,11 +290,15 @@ def _download(url, dest):
             raw_dest.write_bytes(data)
             break
         except Exception as exc:
-            if attempt <= MAX_RETRIES:
+            # A 403/404 is a verdict, not a hiccup. Sleeping and asking the same
+            # server the same question twice more just burns build minutes.
+            fatal = (isinstance(exc, urllib.error.HTTPError)
+                     and 400 <= exc.code < 500 and exc.code != 429)
+            if attempt <= MAX_RETRIES and not fatal:
                 time.sleep(2 ** attempt)
             else:
                 print("  FAILED (%s): %s" % (type(exc).__name__, url[:80]))
-                return False
+                return exc
 
     if needs_convert:
         ok = _convert_to_webp(raw_dest, dest)
@@ -246,7 +306,7 @@ def _download(url, dest):
             raw_dest.unlink(missing_ok=True)
         else:
             raw_dest.rename(dest.with_suffix(src_ext))
-            return False
+            return "WebP conversion failed"
     return True
 
 
@@ -254,7 +314,7 @@ def _download(url, dest):
 # Migration pass
 # ---------------------------------------------------------------------------
 
-def _migrate_existing(cache, dry_run):
+def _migrate_existing(cache, dry_run, failures):
     """Convert ALL JPG/PNG files in images/ to WebP -- whether they arrived
     via the cache script or were manually uploaded to the repo.
 
@@ -279,6 +339,10 @@ def _migrate_existing(cache, dry_run):
 
     for p in sorted(IMAGES_DIR.glob("*")):
         if p.suffix.lower() not in CONVERT_TO_WEBP:
+            continue
+        # A file that failed to decode last week will fail again today. Two of
+        # these were being retried, and logged, on every single build.
+        if _recently_failed(failures, "convert:" + p.name):
             continue
 
         webp_path = p.with_suffix(".webp")
@@ -331,7 +395,9 @@ def _migrate_existing(cache, dry_run):
                 pass  # best-effort; GitHub Actions has full write access
             converted += 1
         else:
-            print("  migrate FAILED: %s (keeping original)" % p.name)
+            print("  migrate FAILED: %s (keeping original, skipping for %d days)"
+                  % (p.name, RETRY_AFTER_DAYS))
+            _note_failure(failures, "convert:" + p.name, "WebP conversion failed")
 
     if converted and not dry_run:
         print("Migration: saved %d KB total across %d images" % (saved_kb, converted))
@@ -372,6 +438,7 @@ def _build_card_variants():
 
 
 OG_DIR = IMAGES_DIR / "og"
+OG_MANIFEST = SCRIPT_DIR / "data" / "og_twins.json"
 OG_MIN_WIDTH = 400      # link-preview crawlers drop anything smaller
 OG_MAX_WIDTH = 1200
 
@@ -383,8 +450,13 @@ def _build_og_jpegs():
     WebP, so a shared listing link showed a preview card with no thumbnail even
     though the page had a perfectly good og:image. generate.py points og:image
     at images/og/<name>.jpg for any source at least OG_MIN_WIDTH wide and falls
-    back to the site card below that. Idempotent: an existing twin newer than
-    its source is left alone.
+    back to the site card below that.
+
+    Skipping used to compare mtimes, which cannot work on CI: actions/checkout
+    writes every file in the same instant, so the comparison was decided by git
+    index order rather than by content. ~93 twins were re-encoded on every run
+    and committed again as changed binaries. The skip is now a content hash of
+    the source, recorded in data/og_twins.json.
 
     The og/ subdirectory matters. _migrate_existing() converts every JPEG
     sitting directly in images/ to WebP and deletes the original, so twins kept
@@ -394,13 +466,21 @@ def _build_og_jpegs():
     if not _PILLOW_OK:
         return
     OG_DIR.mkdir(exist_ok=True)
-    made = 0
+    try:
+        seen = json.loads(OG_MANIFEST.read_text(encoding="utf-8"))
+    except Exception:
+        seen = {}
+    made, skipped = 0, 0
+    fresh = {}
     for p in sorted(IMAGES_DIR.glob("*.webp")):
         if p.stem.endswith(("-480", "-m")):
             continue
         out = OG_DIR / (p.stem + ".jpg")
         try:
-            if out.exists() and out.stat().st_mtime >= p.stat().st_mtime:
+            digest = hashlib.md5(p.read_bytes()).hexdigest()
+            fresh[p.name] = digest
+            if out.exists() and seen.get(p.name) == digest:
+                skipped += 1
                 continue
             img = _PILImage.open(p)
             if img.size[0] < OG_MIN_WIDTH:
@@ -414,12 +494,24 @@ def _build_og_jpegs():
             img.save(out, "JPEG", quality=82, optimize=True, progressive=True)
             made += 1
         except Exception as e:
+            fresh.pop(p.name, None)
             print("  og twin failed for %s: %s" % (p.name, e))
-    print("\nShare previews: %d JPEG twin(s) written to images/og/" % made)
+    OG_MANIFEST.parent.mkdir(parents=True, exist_ok=True)
+    OG_MANIFEST.write_text(json.dumps(fresh, separators=(",", ":"), sort_keys=True),
+                           encoding="utf-8")
+    print("\nShare previews: %d JPEG twin(s) written to images/og/, %d unchanged"
+          % (made, skipped))
 
 
 def main(dry_run=False):
+    t_start = time.time()
+    _laps = []
+    def lap(name):
+        _laps.append((name, time.time() - lap.t)); lap.t = time.time()
+    lap.t = time.time()
+
     IMAGES_DIR.mkdir(exist_ok=True)
+    failures = _load_failures()
 
     if CACHE_FILE.exists():
         raw = CACHE_FILE.read_text(encoding="utf-8").strip()
@@ -434,13 +526,14 @@ def main(dry_run=False):
     # Migration pass: convert ALL jpg/png in images/ to WebP
     if _PILLOW_OK:
         print("Migration pass: converting all JPG/PNG in images/ to WebP...")
-        n_migrated = _migrate_existing(cache, dry_run)
+        n_migrated = _migrate_existing(cache, dry_run, failures)
         if n_migrated:
             print("Migration: converted %d image(s) to WebP\n" % n_migrated)
             if not dry_run:
                 _save_cache(cache)
         else:
             print("Migration: nothing to convert (all already WebP or non-convertible)\n")
+    lap("migration")
 
     # Collect all unique external image URLs from generated HTML
     all_urls = set()
@@ -450,8 +543,10 @@ def main(dry_run=False):
         html_contents[html_path] = content
         all_urls.update(_extract_img_srcs(content))
 
-    print("Found %d unique external image URLs across %d HTML files\n" % (
+    print("Found %d unique external image URLs across %d HTML files "
+          "(nl/ and es/ excluded; build_i18n.py regenerates them)\n" % (
         len(all_urls), len(HTML_GLOB)))
+    lap("read html")
 
     # Phase 1 (fast): register already-downloaded files
     registered = 0
@@ -471,11 +566,18 @@ def main(dry_run=False):
     rewrites_1 = _rewrite_html(html_contents, cache, dry_run)
     if rewrites_1:
         print("Phase 1: rewrote %d HTML file(s) with cached paths\n" % rewrites_1)
-        html_contents = {p: p.read_text(encoding="utf-8") for p in sorted(HTML_GLOB)}
+        # _rewrite_html updates html_contents in place, so the whole site no
+        # longer has to be read off disk a second time here.
+    lap("rewrite")
 
     # Phase 2 (slow): download missing images
-    missing = sorted(u for u in all_urls if u not in cache)
-    print("Phase 2: %d image(s) still need downloading" % len(missing))
+    missing_all = sorted(u for u in all_urls if u not in cache)
+    missing = [u for u in missing_all if not _recently_failed(failures, u)]
+    deferred = len(missing_all) - len(missing)
+    print("Phase 2: %d image(s) still need downloading"
+          "%s" % (len(missing),
+                  " (%d known-dead skipped, retried after %d days)"
+                  % (deferred, RETRY_AFTER_DAYS) if deferred else ""))
 
     newly_downloaded = 0
     for url in missing:
@@ -485,29 +587,40 @@ def main(dry_run=False):
         print("  downloading : %s" % label)
         if dry_run:
             continue
-        if _download(url, dest):
+        result = _download(url, dest)
+        if result is True:
             size_kb = dest.stat().st_size // 1024
             print("    saved %d KB -> images/%s" % (size_kb, filename))
             cache[url] = "images/" + filename
+            failures.pop(url, None)
             newly_downloaded += 1
             _save_cache(cache)
+        else:
+            _note_failure(failures, url, result)
 
     if newly_downloaded:
         rewrites_2 = _rewrite_html(html_contents, cache, dry_run)
         if rewrites_2:
             print("\nPhase 2: rewrote %d HTML file(s) with new images" % rewrites_2)
+    lap("download")
 
     if not dry_run:
         _save_cache(cache)
         print("\nCache saved -> image_cache.json (%d total entries)" % len(cache))
 
     if not dry_run:
+        _save_failures(failures)
         _build_card_variants()
+        lap("card variants")
         _build_og_jpegs()
+        lap("share previews")
 
     total_cached = len([u for u in all_urls if u in cache])
     print("\nDone. %d/%d URLs cached, %d new images downloaded." % (
         total_cached, len(all_urls), newly_downloaded))
+    print("Timing: %s | total %.1fs" % (
+        ", ".join("%s %.1fs" % (n, d) for n, d in _laps if d >= 0.05),
+        time.time() - t_start))
 
 
 if __name__ == "__main__":
