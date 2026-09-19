@@ -466,7 +466,7 @@
   </style>
 <style>nav button,nav a{white-space:nowrap}</style><link href="https://exploresuriname.com/submit-event.html" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/submit-event.html" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/submit-event.html" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/submit-event.html" hreflang="x-default" rel="alternate"/></head>
 <body class="bg-gray-50 overflow-x-hidden">
-<div class="util-rail"><div class="util-in"><div class="util-l"><a href="currency.html" title="CME cash rate: we buy / we sell">USD <strong>37.50</strong> / <strong>37.90</strong></a><a href="conditions.html">26° Paramaribo</a><a href="daily-notices.html"><strong>1</strong> Outage notices today</a></div><div class="util-r"><span>Fri 18 September</span></div></div></div>
+<div class="util-rail"><div class="util-in"><div class="util-l"><a href="currency.html" title="CME cash rate: we buy / we sell">USD <strong>37.50</strong> / <strong>37.90</strong></a><a href="conditions.html">26° Paramaribo</a><a href="daily-notices.html"><strong>1</strong> Outage notices today</a></div><div class="util-r"><span>Sat 19 September</span></div></div></div>
 <nav class="w-full z-50" style="position:sticky;top:0;background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14)">
 <div class="site-navin max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
 <a class="flex flex-col justify-center flex-shrink-0" href="index.html">
@@ -916,7 +916,7 @@ document.addEventListener('keydown', e => {
 </div>
 <div class="fld">
 <label for="f-recur_until">Runs until</label>
-<input id="f-recur_until" min="2026-09-18" name="recur_until" type="date"/>
+<input id="f-recur_until" min="2026-09-19" name="recur_until" type="date"/>
 <div class="hint">Leave empty if it keeps going. Email us when it stops and we take it down.</div>
 </div>
 </div>
@@ -924,12 +924,12 @@ document.addEventListener('keydown', e => {
 <div class="two">
 <div class="fld">
 <label for="f-start_date" id="lbl-start">Eerste dag <span class="req">*</span></label>
-<input id="f-start_date" max="2027-09-18" min="2026-09-18" name="start_date" required="" type="date"/>
+<input id="f-start_date" max="2027-09-19" min="2026-09-19" name="start_date" required="" type="date"/>
 <div class="hint" hidden="" id="hint-start">The day the series started. It may be in the past.</div>
 </div>
 <div class="fld" id="endwrap">
 <label for="f-end_date">Laatste dag</label>
-<input id="f-end_date" max="2027-09-18" min="2026-09-18" name="end_date" type="date"/>
+<input id="f-end_date" max="2027-09-19" min="2026-09-19" name="end_date" type="date"/>
 <div class="hint">Laat leeg als het een eendaags evenement is.</div>
 </div>
 </div>
@@ -1160,7 +1160,7 @@ document.addEventListener('keydown', e => {
     $("lbl-start").innerHTML = (r ? "Running since" : "First day") + ' <span class="req">*</span>';
     // A weekly night may have been running for years; a one-off may not be in
     // the past. Same field, two rules, so the browser constraint has to move.
-    $("f-start_date").min = r ? "" : "2026-09-18";
+    $("f-start_date").min = r ? "" : "2026-09-19";
     if(!r){ rdays.value = ""; $("f-recur_until").value = ""; }
   }
   recSel.addEventListener("change", syncRecur);
@@ -1334,11 +1334,11 @@ document.addEventListener('keydown', e => {
     var sd = $("f-start_date").value, ed = $("f-end_date").value;
     if(!/^\d{4}-\d{2}-\d{2}$/.test(sd))
       return say(rec ? "Please pick the day the series started." : "Please pick the first day of the event.", true);
-    if(!rec && sd < "2026-09-18") return say("That date has already passed.", true);
-    if(sd > "2027-09-18") return say("That date is more than a year away. Send it closer to the time.", true);
+    if(!rec && sd < "2026-09-19") return say("That date has already passed.", true);
+    if(sd > "2027-09-19") return say("That date is more than a year away. Send it closer to the time.", true);
     if(!rec && ed && ed < sd) return say("The last day cannot be before the first day.", true);
     if(rec && !rdays.value) return say("Please tick which day of the week it happens.", true);
-    if(rec && $("f-recur_until").value && $("f-recur_until").value < "2026-09-18")
+    if(rec && $("f-recur_until").value && $("f-recur_until").value < "2026-09-19")
       return say("That series has already finished.", true);
     if(!$("f-category").value) return say("Please choose the type of event.", true);
     if($("f-venue").value.trim().length < 2) return say("Please say where it happens.", true);
