@@ -1,15 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD ZATERDAG 19 SEPTEMBER 2026",
-      "date": "19 September 2026",
-      "date_iso": "2026-09-19",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1607/gepland-onderhoud-zaterdag-19-september-2026",
-      "meta_description": "GEPLAND ONDERHOUD: COMM ZATERDAG 19 SEPTEMBER 2026 TUSSEN 9:00 EN 17:00 UURGEDEELTE OOST – WEST VERBINDING TUSSEN VEERPLEIN EN TIMORWEG,",
-      "district": "COMM"
-    }
-  ],
-  "last_updated": "2026-09-19T23:07:44.806277+00:00",
+  "outages": [],
+  "last_updated": "2026-09-20T03:07:39.709384+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
