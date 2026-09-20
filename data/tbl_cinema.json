@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-19T16:00:27.943174+00:00",
+  "last_updated": "2026-09-20T10:00:27.793059+00:00",
   "date_label": "Today",
   "showings": [
     {
@@ -13,7 +13,12 @@
       "url": "https://www.tblcinemas.com/movie/RS379596603128/mirzapur-the-movie"
     },
     {
-      "time": "03:45 PM",
+      "time": "03:30 PM",
+      "title": "PAW Patrol: The Dino Movie",
+      "url": "https://www.tblcinemas.com/movie/RS931685169274/paw-patrol-the-dino-movie"
+    },
+    {
+      "time": "04:00 PM",
       "title": "Tad and The Magic Lamp",
       "url": "https://www.tblcinemas.com/movie/RS68595530288/tad-and-the-magic-lamp"
     },
@@ -24,18 +29,18 @@
     },
     {
       "time": "05:15 PM",
-      "title": "PAW Patrol: The Dino Movie",
-      "url": "https://www.tblcinemas.com/movie/RS931685169274/paw-patrol-the-dino-movie"
+      "title": "Onslaught",
+      "url": "https://www.tblcinemas.com/movie/RS251312878430/onslaught"
     },
     {
-      "time": "06:15 PM",
-      "title": "Practical Magic 2",
-      "url": "https://www.tblcinemas.com/movie/RS661264885651/practical-magic-2"
+      "time": "06:00 PM",
+      "title": "Fall 2: Deadpoint",
+      "url": "https://www.tblcinemas.com/movie/RS10062314469/fall-2-deadpoint"
     },
     {
       "time": "06:30 PM",
-      "title": "Onslaught",
-      "url": "https://www.tblcinemas.com/movie/RS251312878430/onslaught"
+      "title": "Practical Magic 2",
+      "url": "https://www.tblcinemas.com/movie/RS661264885651/practical-magic-2"
     },
     {
       "time": "07:15 PM",
@@ -48,19 +53,14 @@
       "url": "https://www.tblcinemas.com/movie/RS840574743966/runner"
     },
     {
-      "time": "08:30 PM",
-      "title": "Resident Evil",
-      "url": "https://www.tblcinemas.com/movie/RS762482270455/resident-evil"
-    },
-    {
-      "time": "09:00 PM",
+      "time": "08:15 PM",
       "title": "Insidious: Out of the Further",
       "url": "https://www.tblcinemas.com/movie/RS381118155603/insidious-out-of-the-further"
     },
     {
-      "time": "09:30 PM",
-      "title": "Fall 2: Deadpoint",
-      "url": "https://www.tblcinemas.com/movie/RS10062314469/fall-2-deadpoint"
+      "time": "08:45 PM",
+      "title": "Resident Evil",
+      "url": "https://www.tblcinemas.com/movie/RS762482270455/resident-evil"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
