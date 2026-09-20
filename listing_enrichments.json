@@ -4031,5 +4031,106 @@
     "osm_name": "School",
     "lat": 5.8786196,
     "lon": -56.3335819
+  },
+  "meat-at-midnight": {
+    "slug": "meat-at-midnight",
+    "found": true,
+    "osm_name": "Midnight",
+    "address": "78, Zwartenhovenbrugstraat, Paramaribo",
+    "lat": 5.8257731,
+    "lon": -55.1626356
+  },
+  "dim-sum-cuisine": {
+    "slug": "dim-sum-cuisine",
+    "found": true,
+    "osm_name": "Dim Sum Cuisine",
+    "address": "Johannes S. Mungrastraat, Paramaribo",
+    "lat": 5.832311,
+    "lon": -55.1962291
+  },
+  "glow-and-gadget": {
+    "slug": "glow-and-gadget",
+    "found": true,
+    "osm_name": "Glow",
+    "lat": 5.8292413,
+    "lon": -55.1583819
+  },
+  "optica-johannes-mungrastraat": {
+    "slug": "optica-johannes-mungrastraat",
+    "found": true,
+    "osm_name": "Optica",
+    "address": "17, Johannes S. Mungrastraat, Paramaribo",
+    "lat": 5.8319954,
+    "lon": -55.1903561
+  },
+  "optica-wilhelminastraat": {
+    "slug": "optica-wilhelminastraat",
+    "found": true,
+    "osm_name": "Optica",
+    "address": "17, Johannes S. Mungrastraat, Paramaribo",
+    "lat": 5.8319954,
+    "lon": -55.1903561
+  },
+  "optica-lalla-rookhweg": {
+    "slug": "optica-lalla-rookhweg",
+    "found": true,
+    "osm_name": "Optica",
+    "address": "17, Johannes S. Mungrastraat, Paramaribo",
+    "lat": 5.8319954,
+    "lon": -55.1903561
+  },
+  "optica-verlengde-gemenelandsweg": {
+    "slug": "optica-verlengde-gemenelandsweg",
+    "found": true,
+    "osm_name": "Optica",
+    "address": "17, Johannes S. Mungrastraat, Paramaribo",
+    "lat": 5.8319954,
+    "lon": -55.1903561
+  },
+  "telesur-hoofdkantoor": {
+    "slug": "telesur-hoofdkantoor",
+    "found": true,
+    "osm_name": "Telesur",
+    "address": "3, Oostkanaalstraat, Nieuw Nickerie",
+    "lat": 5.9450854,
+    "lon": -56.9921744
+  },
+  "telesur-havenlaan": {
+    "slug": "telesur-havenlaan",
+    "found": true,
+    "osm_name": "Telesur",
+    "address": "3, Oostkanaalstraat, Nieuw Nickerie",
+    "lat": 5.9450854,
+    "lon": -56.9921744
+  },
+  "telesur-moengo": {
+    "slug": "telesur-moengo",
+    "found": true,
+    "osm_name": "Telesur",
+    "address": "3, Oostkanaalstraat, Nieuw Nickerie",
+    "lat": 5.9450854,
+    "lon": -56.9921744
+  },
+  "telesur-tamanredjo": {
+    "slug": "telesur-tamanredjo",
+    "found": true,
+    "osm_name": "Telesur",
+    "address": "3, Oostkanaalstraat, Nieuw Nickerie",
+    "lat": 5.9450854,
+    "lon": -56.9921744
+  },
+  "digicel-lalla-rookhweg": {
+    "slug": "digicel-lalla-rookhweg",
+    "found": true,
+    "osm_name": "Digicel",
+    "lat": 5.8239483,
+    "lon": -55.1582922
+  },
+  "ingipipa-park": {
+    "slug": "ingipipa-park",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
   }
 }
