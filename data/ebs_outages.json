@@ -1,5 +1,17 @@
 {
-  "outages": [],
-  "last_updated": "2026-09-21T11:07:40.980062+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD DINSDAG 22 SEPTEMBER 2026",
+      "date": "22 September 2026",
+      "date_iso": "2026-09-22",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1612/gepland-onderhoud-dinsdag-22-september-2026",
+      "meta_description": "Gepland onderhoud: Saramacca dinsdag 22 september 2026 tussen 08:00-16:00 GEDEELTE VIJFDE RIJWEG TUSSEN COMMISSARIS WEYTHINGWEG EN NOORDPOLDERDAM EN ALLE ZI",
+      "district": "Saramacca",
+      "time": "08:00 – 16:00",
+      "area": "GEDEELTE VIJFDE RIJWEG TUSSEN COMMISSARIS WEYTHINGWEG EN NOORDPOLDERDAM EN ALLE ZI"
+    }
+  ],
+  "last_updated": "2026-09-21T14:59:16.377582+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
