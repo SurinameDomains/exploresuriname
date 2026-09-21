@@ -9739,18 +9739,21 @@ def build_events_page():
     _upd = _fmt(today)
     return f"""{PAGE_HEAD}
   <title>Events &amp; Festivals in Suriname {_yr} | Explore Suriname</title>
-  <meta name="description" content="Suriname's festival calendar for {_yr}: Keti Koti, Holi Phagwa, Divali, Eid, Owru Yari and Maroon Day, plus every public holiday with dates.">
+  <meta name="description" content="What's on in Suriname in {_yr}: parties, concerts and one-off events, plus the festivals \u2014 Keti Koti, Holi Phagwa, Divali, Eid, Owru Yari, Maroon Day \u2014 and every public holiday.">
   <link rel="canonical" href="{SITE_URL}/events.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/events.html">
   <meta property="og:title" content="Events &amp; Festivals in Suriname {_yr} | Explore Suriname">
-  <meta property="og:description" content="The whole Surinamese year: national holidays, festivals and celebrations from every community, with dates and traveller tips.">
-  <meta property="og:image" content="{SITE_URL}/images/home-faiths.webp">
+  <meta property="og:description" content="Parties, concerts, festivals and every public holiday \u2014 the whole Surinamese year in one calendar. Free to list your own event.">
+  <meta property="og:image" content="{SITE_URL}/images/events-og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="A calendar of Surinamese events and festivals from Explore Suriname">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Events &amp; Festivals in Suriname {_yr} | Explore Suriname">
-  <meta name="twitter:description" content="National holidays, festivals and celebrations from every Surinamese community, with dates and traveller tips.">
-  <meta name="twitter:image" content="{SITE_URL}/images/home-faiths.webp">
+  <meta name="twitter:description" content="Parties, concerts, festivals and every public holiday \u2014 the whole Surinamese year in one calendar.">
+  <meta name="twitter:image" content="{SITE_URL}/images/events-og.jpg">
   <script type="application/ld+json">
   {ld_page}
   </script>
@@ -9765,13 +9768,14 @@ def build_events_page():
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("events")}
 <div class="pg-hero relative text-white py-16 text-center overflow-hidden" style="background:var(--forest)">
-  <div class="absolute inset-0" style="background:url(/images/home-faiths.webp) center/cover no-repeat" aria-hidden="true"></div>
-  <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.85),rgba(13,30,22,.62))" aria-hidden="true"></div>
+  <div class="absolute inset-0" style="background-image:linear-gradient(rgba(252,247,236,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(252,247,236,.055) 1px,transparent 1px);background-size:74px 74px;background-position:center" aria-hidden="true"></div>
+  <div class="absolute inset-0" style="background:radial-gradient(64% 116% at 14% 2%,rgba(231,174,77,.34),transparent 62%),radial-gradient(58% 112% at 90% 100%,rgba(231,111,81,.30),transparent 64%)" aria-hidden="true"></div>
+  <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.26),rgba(13,30,22,.62))" aria-hidden="true"></div>
   <div class="relative max-w-3xl mx-auto px-4">
     <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
-    <p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-3">The Cultural Calendar</p>
+    <p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-3">What&#8217;s on in Suriname</p>
     <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Events &amp; Festivals in Suriname</h1>
-    <p class="text-white/70 text-base max-w-2xl mx-auto">Every culture that calls Suriname home brings its own celebrations. The whole year is here: national holidays, the big festivals, what they mean and how to join in.</p>
+    <p class="text-white/70 text-base max-w-2xl mx-auto">Parties, concerts and one-off events, the big cultural festivals, and every public holiday &#8212; the whole Surinamese year in one calendar. Listing your own event is free.</p>
     <a href="submit-event.html" class="cat-cta mt-7"><span aria-hidden="true">+</span> Submit your event</a>
   </div>
 </div>
@@ -16870,11 +16874,14 @@ def build_submit_event_page():
   <meta property="og:url" content="{SITE_URL}/submit-event.html">
   <meta property="og:title" content="Submit Your Event | Explore Suriname">
   <meta property="og:description" content="Free listing on Suriname's events calendar. Send the date, venue and flyer, and we publish it after a quick check.">
-  <meta property="og:image" content="{SITE_URL}/images/home-faiths.webp">
+  <meta property="og:image" content="{SITE_URL}/images/submit-event-og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Submit your event to the free Explore Suriname events calendar">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Submit Your Event | Explore Suriname">
   <meta name="twitter:description" content="Free listing on Suriname's events calendar.">
-  <meta name="twitter:image" content="{SITE_URL}/images/home-faiths.webp">
+  <meta name="twitter:image" content="{SITE_URL}/images/submit-event-og.jpg">
   {_turnstile_head}
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@graph":[
