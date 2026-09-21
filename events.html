@@ -425,18 +425,21 @@
 <!-- GA4 interaction events: WhatsApp / phone / email / directions / outbound clicks -->
 <script>window.addEventListener("click",function(ev){var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;var h=a.getAttribute("href")||"",n="",p={};if(h.indexOf("https://wa.me/")===0){n="whatsapp_click"}else if(h.indexOf("tel:")===0){n="phone_click"}else if(h.indexOf("mailto:")===0){n="email_click"}else if(h.indexOf("google.com/maps")!==-1){n="directions_click"}else if(/^https?:\/\//.test(h)&&h.indexOf("exploresuriname.com")===-1){n="outbound_click";try{p.link_domain=new URL(h).hostname}catch(e){}}if(!n)return;p.link_url=h.slice(0,100);window.dataLayer=window.dataLayer||[];if(!window.gtag){window.gtag=function(){window.dataLayer.push(arguments)}}window.gtag("event",n,p)});</script>
 <title>Events &amp; Festivals in Suriname 2026 | Explore Suriname</title>
-<meta content="Suriname's festival calendar for 2026: Keti Koti, Holi Phagwa, Divali, Eid, Owru Yari and Maroon Day, plus every public holiday with dates." name="description"/>
+<meta content="What's on in Suriname in 2026: parties, concerts and one-off events, plus the festivals — Keti Koti, Holi Phagwa, Divali, Eid, Owru Yari, Maroon Day — and every public holiday." name="description"/>
 <link href="https://exploresuriname.com/events.html" rel="canonical"/>
 <meta content="website" property="og:type"/>
 <meta content="Explore Suriname" property="og:site_name"/>
 <meta content="https://exploresuriname.com/events.html" property="og:url"/>
 <meta content="Events &amp; Festivals in Suriname 2026 | Explore Suriname" property="og:title"/>
-<meta content="The whole Surinamese year: national holidays, festivals and celebrations from every community, with dates and traveller tips." property="og:description"/>
-<meta content="https://exploresuriname.com/images/home-faiths.webp" property="og:image"/>
+<meta content="Parties, concerts, festivals and every public holiday — the whole Surinamese year in one calendar. Free to list your own event." property="og:description"/>
+<meta content="https://exploresuriname.com/images/events-og.jpg" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="A calendar of Surinamese events and festivals from Explore Suriname" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="Events &amp; Festivals in Suriname 2026 | Explore Suriname" name="twitter:title"/>
-<meta content="National holidays, festivals and celebrations from every Surinamese community, with dates and traveller tips." name="twitter:description"/>
-<meta content="https://exploresuriname.com/images/home-faiths.webp" name="twitter:image"/>
+<meta content="Parties, concerts, festivals and every public holiday — the whole Surinamese year in one calendar." name="twitter:description"/>
+<meta content="https://exploresuriname.com/images/events-og.jpg" name="twitter:image"/>
 <script type="application/ld+json">
   {"@context": "https://schema.org", "@type": "WebPage", "name": "Events & Festivals in Suriname", "url": "https://exploresuriname.com/events.html", "description": "Suriname's cultural calendar: national holidays, festivals and celebrations from every community, with dates and traveller tips.", "dateModified": "2026-09-21", "about": {"@type": "Place", "name": "Suriname", "addressCountry": "SR"}, "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": "https://exploresuriname.com/"}}
   </script>
@@ -833,13 +836,14 @@ document.addEventListener('keydown', e => {
 });
 </script>
 <div class="pg-hero relative text-white py-16 text-center overflow-hidden" style="background:var(--forest)">
-<div aria-hidden="true" class="absolute inset-0" style="background:url(/images/home-faiths.webp) center/cover no-repeat"></div>
-<div aria-hidden="true" class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.85),rgba(13,30,22,.62))"></div>
+<div aria-hidden="true" class="absolute inset-0" style="background-image:linear-gradient(rgba(252,247,236,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(252,247,236,.055) 1px,transparent 1px);background-size:74px 74px;background-position:center"></div>
+<div aria-hidden="true" class="absolute inset-0" style="background:radial-gradient(64% 116% at 14% 2%,rgba(231,174,77,.34),transparent 62%),radial-gradient(58% 112% at 90% 100%,rgba(231,111,81,.30),transparent 64%)"></div>
+<div aria-hidden="true" class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.26),rgba(13,30,22,.62))"></div>
 <div class="relative max-w-3xl mx-auto px-4">
 <a class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition" href="index.html">← Back to Home</a>
-<p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-3">The Cultural Calendar</p>
+<p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-3">What’s on in Suriname</p>
 <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Events &amp; Festivals in Suriname</h1>
-<p class="text-white/70 text-base max-w-2xl mx-auto">Every culture that calls Suriname home brings its own celebrations. The whole year is here: national holidays, the big festivals, what they mean and how to join in.</p>
+<p class="text-white/70 text-base max-w-2xl mx-auto">Parties, concerts and one-off events, the big cultural festivals, and every public holiday — the whole Surinamese year in one calendar. Listing your own event is free.</p>
 <a class="cat-cta mt-7" href="submit-event.html"><span aria-hidden="true">+</span> Submit your event</a>
 </div>
 </div>
