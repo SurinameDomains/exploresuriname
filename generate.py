@@ -3095,6 +3095,17 @@ SUBCATS = {
     ],
 }
 
+def _subcat_label(cat_key, sub):
+    """Human label for a subcat key, as shown on that page's chip bar.
+
+    Looked up per category because a few keys carry different labels on
+    different pages (bars-lounges is "Nightlife" on Things to Do)."""
+    for k, lbl, _e in SUBCATS.get(cat_key, []):
+        if k == sub:
+            return lbl
+    return (sub or "").replace("-", " ").title()
+
+
 
 def _make_biz(slug):
     b = _BIZ.get(slug)
@@ -4323,22 +4334,63 @@ PAGE_HEAD = """\
     @media(hover:none){ .filter-chip, .dist-chip { min-height:44px; } }
     .dict-chiprow{scrollbar-width:none;-ms-overflow-style:none}
     .dict-chiprow::-webkit-scrollbar{display:none}
-    .listing-card { transition:opacity .2s; content-visibility:auto; contain-intrinsic-size:560px; contain-intrinsic-size:auto 560px; }
-    .listing-ph { position:relative; aspect-ratio:4/5; overflow:hidden; background:#DFD7C2; }
-    .listing-name { font-size:1.5rem; line-height:1.15; font-weight:400; color:var(--forest); }
-    .listing-blurb { font-size:.9rem; line-height:1.5; color:var(--ink-soft); margin:.25rem 0 0;
+    /* Category grids (Sep 2026 redesign): 4 landscape cards per row on desktop
+       instead of 3 portrait ones, so ~8 listings show above the fold, not 3.
+       Services/Shopping use .listing-rows (compact thumbnail rows): people
+       pick a salon or hardware store on category and area, not on a photo. */
+    .listing-grid { display:grid; grid-template-columns:minmax(0,1fr); gap:2rem 1.25rem; }
+    @media(min-width:640px){ .listing-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media(min-width:900px){ .listing-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+    @media(min-width:1100px){ .listing-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+    .listing-card { transition:opacity .2s; content-visibility:auto; contain-intrinsic-size:330px; contain-intrinsic-size:auto 330px; }
+    .listing-ph { position:relative; aspect-ratio:4/3; overflow:hidden; background:#DFD7C2; }
+    .listing-ph > img { position:absolute; inset:0; background:#DFD7C2; }
+    /* Shown when a listing has no photo, or its photo fails to load (the img
+       hides itself onerror and this sits underneath). */
+    .ph-fb { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+             font-family:inherit; font-size:3rem; line-height:1; color:rgba(35,48,40,.28); user-select:none; }
+    .listing-name { font-size:1.25rem; line-height:1.2; font-weight:400; color:var(--forest); }
+    .listing-blurb { font-size:.86rem; line-height:1.5; color:var(--ink-soft); margin:.2rem 0 0;
                      display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
     .listing-meta { display:flex; justify-content:space-between; gap:.75rem; margin-top:auto;
                     border-top:1px solid #DDD4C1; padding-top:.55rem;
                     font-size:.66rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
                     color:#656C63; }
     .listing-meta span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    /* One column on phones: a 4:5 crop makes each card a full screen, so the
-       photo goes landscape below 640 and the scroll roughly halves. */
-    @media(max-width:640px){
+    .listing-meta span:last-child:not(:first-child) { flex-shrink:0; max-width:50%; }
+    /* Phones: one column, a slightly flatter 3:2 photo keeps ~2 cards per screen. */
+    @media(max-width:639px){
       .listing-ph { aspect-ratio:3/2; }
-      .listing-card { contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+      .listing-card { contain-intrinsic-size:340px; contain-intrinsic-size:auto 340px; }
+      .listing-name { font-size:1.35rem; }
     }
+    /* Compact rows (Services, Shopping) */
+    .listing-rows { display:grid; grid-template-columns:minmax(0,1fr); column-gap:2.5rem; border-top:1px solid #DDD4C1; }
+    @media(min-width:900px){ .listing-rows { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    .listing-row { display:flex; flex-direction:row; align-items:center; gap:1rem; padding:.85rem 0;
+                   border-bottom:1px solid #DDD4C1; contain-intrinsic-size:108px; contain-intrinsic-size:auto 108px; }
+    .listing-row .listing-ph { flex:0 0 5.25rem; width:5.25rem; aspect-ratio:1/1; }
+    .listing-row .ph-fb { font-size:1.9rem; }
+    .row-body { min-width:0; flex:1; display:flex; flex-direction:column; gap:.15rem; }
+    .listing-row .listing-name { font-size:1.12rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .listing-row .listing-blurb { -webkit-line-clamp:1; line-clamp:1; font-size:.84rem; margin:0; }
+    .row-meta { display:flex; flex-wrap:nowrap; overflow:hidden; column-gap:.5rem; font-size:.66rem; font-weight:600; letter-spacing:.12em;
+                text-transform:uppercase; color:#656C63; }
+    .row-meta span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+    .row-meta span:first-child { flex-shrink:0; max-width:60%; }
+    .row-meta span + span::before { content:"·"; margin-right:.5rem; color:#A39B88; }
+    .row-feat { display:inline-block; vertical-align:middle; margin-left:.4rem; font-family:system-ui,sans-serif;
+                font-size:.62rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+                padding:.15rem .45rem; border-radius:9999px; background:#E76F51; color:#fff; }
+    @media(max-width:639px){ .listing-row { contain-intrinsic-size:100px; contain-intrinsic-size:auto 100px; }
+                             .listing-row .listing-ph { flex-basis:4.5rem; width:4.5rem; }
+                             .dist-sel { max-width:8.5rem; font-size:.8rem; } }
+    /* District picker (replaces the second chip row, saves ~45px of sticky bar) */
+    .dist-sel { flex-shrink:0; appearance:none; -webkit-appearance:none; border:0; border-bottom:1.5px solid #DDD4C1;
+                border-radius:0!important; background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23656C63' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right .1rem center;
+                padding:.45rem 1.1rem .45rem 0; font-size:.85rem; color:var(--forest2); cursor:pointer; max-width:11rem; }
+    .dist-sel:focus-visible { outline:2px solid var(--forest2); outline-offset:2px; }
+    @media(hover:none){ .dist-sel { min-height:44px; } }
     .listing-card.hidden { display:none; }
     /* PWA install bar (Android prompt + iOS A2HS tip) */
     #pwa-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(130%);transition:transform .35s cubic-bezier(.22,1,.36,1);background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 28px rgba(0,0,0,.14);padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
@@ -5716,17 +5768,23 @@ def ad_slot(label):
     # Placeholder for ad unit — no visible text shown to users or crawlers
     return '<div class="my-6" aria-hidden="true"></div>'
 
+def _ph_fallback(name):
+    """Initial-letter placeholder that sits under every card photo."""
+    _ch = next((c for c in (name or "") if c.isalnum()), "")
+    return f'<span class="ph-fb serif" aria-hidden="true">{html_lib.escape(_ch.upper())}</span>'
+
 def nature_card(spot, eager=False):
     internal_url = f"listing/{_nature_slug(spot['name'])}/"
     _loading = 'eager" fetchpriority="high' if eager else "lazy"
     _nimg = _localize_img(spot['image'])
     _ss = _card_srcset(_nimg)
-    _sub_lbl = spot.get('subcat', 'nature-parks').replace('-', ' ')
+    _sub_lbl = _subcat_label("adventure", spot.get('subcat', 'nature-parks'))
     return f"""
 <a href="{internal_url}" data-sub="{spot.get('subcat','nature-parks')}" class="listing-card group relative card-hover flex flex-col">
   <div class="listing-ph">
+    {_ph_fallback(spot['name'])}
     <img src="{_nimg}"{_ss} alt="{html_lib.escape(spot['name'] + ' in Suriname')}" loading="{_loading}"
-         width="400" height="500"
+         width="400" height="300"
          class="w-full h-full object-cover"
          onerror="this.style.display='none'">
   </div>
@@ -5745,11 +5803,12 @@ def activity_card_rich(act, eager=False):
     img = _localize_img(act.get("image", ""))
     _loading = 'eager" fetchpriority="high' if eager else "lazy"
     _ss = _card_srcset(img)
-    img_html = f'<img src="{img}"{_ss} alt="{html_lib.escape(act["name"] + " in Suriname")}" loading="{_loading}" width="400" height="500" class="w-full h-full object-cover" onerror="this.style.display=\'none\'">' if img else ""
-    _sub_lbl = act.get('subcat', 'tours-expeditions').replace('-', ' ')
+    img_html = f'<img src="{img}"{_ss} alt="{html_lib.escape(act["name"] + " in Suriname")}" loading="{_loading}" width="400" height="300" class="w-full h-full object-cover" onerror="this.style.display=\'none\'">' if img else ""
+    _sub_lbl = _subcat_label("adventure", act.get('subcat', 'tours-expeditions'))
     return f"""
 <a href="{internal_url}" data-sub="{act.get('subcat','tours-expeditions')}" class="listing-card group relative card-hover flex flex-col">
   <div class="listing-ph">
+    {_ph_fallback(act['name'])}
     {img_html}
   </div>
   <div class="pt-3 flex flex-col gap-1 flex-1">
@@ -5787,23 +5846,28 @@ def _first_img_idx(items):
     return 0
 
 
-def poi_card(item, badge_key="cuisine", eager=False, featured=False):
+def poi_card(item, badge_key="cuisine", eager=False, featured=False, cat_key=None, layout="grid"):
+    """Category-page card for a business listing.
+
+    layout="grid": photo card (Eat & Drink, Hotels, Things to Do).
+    layout="row":  compact thumbnail row (Services, Shopping).
+    The meta line shows the listing's chip-bar category and area: the phone
+    number moved off grid cards (it rarely decides a click; it is one tap away
+    on the listing page) but stays on rows, where calling is the usual next step.
+    """
     url   = item.get("url", "#")
     badge = item.get(badge_key) or item.get("cuisine") or item.get("category", "")
     area  = item.get("area", "Suriname")
     img   = _localize_img(item.get("image", ""))
     phone = item.get("phone", "")
-    bg, fg = ("var(--mint)", "var(--forest2)") if badge_key == "cuisine" else ("#fff3e8", "#c05621")
-    badge_html = f'<span class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0" style="background:{bg};color:{fg}">{html_lib.escape(badge)}</span>' if badge else ""
     _loading = 'eager" fetchpriority="high' if eager else "lazy"
     _ss = _card_srcset(img)
-    img_html = (f'<div class="listing-ph">'
-                f'<img src="{img}"{_ss} alt="{html_lib.escape(item["name"] + ((", " + badge) if badge else "") + " in " + area)}" loading="{_loading}" '
-                f'width="400" height="500" '
+    _wh = 'width="400" height="400"' if layout == "row" else 'width="400" height="300"'
+    _img_tag = (f'<img src="{img}"{_ss} alt="{html_lib.escape(item["name"] + ((", " + badge) if badge else "") + " in " + area)}" loading="{_loading}" '
+                f'{_wh} '
                 f'class="w-full h-full object-cover" '
-                f'onerror="this.style.display=\'none\'">'
-                f'</div>') if img else '<div class="listing-ph"></div>'
-    phone_html = f'<span>Tel: {html_lib.escape(phone)}</span>' if phone else ""
+                f'onerror="this.style.display=\'none\'">') if img else ""
+    img_html = f'<div class="listing-ph">{_ph_fallback(item["name"])}{_img_tag}</div>'
     _desc = (item.get("description") or _JSON_DESCS.get(item.get("slug", ""), "")).strip()
     _desc = " ".join(_desc.split())
     if len(_desc) > 110:
@@ -5812,28 +5876,50 @@ def poi_card(item, badge_key="cuisine", eager=False, featured=False):
     else:
         desc_html = f'<p class="listing-blurb">{html_lib.escape(_desc)}</p>' if _desc else ""
 
-    feat_html  = '<span class="absolute top-3 left-3 z-10 text-xs font-bold px-2.5 py-1 rounded-full shadow" style="background:#E76F51;color:#fff">Featured</span>' if featured else ""
+    _cat_lbl   = _subcat_label(cat_key, item.get("subcat", "")) if cat_key and item.get("subcat") else ""
     district   = item.get("area", item.get("location", "Paramaribo"))
+    # "Suriname" is the no-district placeholder; it says nothing on a card.
+    area_lbl   = area if area and area != "Suriname" else ""
+    tail_lbl   = f"Tel: {phone}" if phone else ""
     # Multi-branch brand: one card for the whole chain. data-district carries every
     # district it covers (pipe separated) so the district filter still finds it.
     chain_n    = item.get("chain_count", 0)
-    chain_html = ""
     if chain_n:
         _dists   = item.get("chain_districts") or [district]
         district = "|".join(_dists)
-        area     = ", ".join(_dists[:2]) + (f" +{len(_dists) - 2}" if len(_dists) > 2 else "")
-        phone_html = f'<span>{chain_n} locations</span>'   # a single branch number would mislead on a brand card
+        area_lbl = ", ".join(_dists[:2]) + (f" +{len(_dists) - 2}" if len(_dists) > 2 else "")
+        tail_lbl = f"{chain_n} locations"   # a single branch number would mislead on a brand card
+    _open = (f'<a href="{url}" data-sub="{item.get("subcat","other")}" data-district="{html_lib.escape(district)}" '
+             f'class="listing-card{" listing-row" if layout == "row" else ""} group relative card-hover flex{"" if layout == "row" else " flex-col"}">')
+
+    if layout == "row":
+        _meta = "".join(f"<span>{html_lib.escape(x)}</span>" for x in (_cat_lbl, area_lbl, tail_lbl) if x)
+        _feat = '<span class="row-feat">Featured</span>' if featured else ""
+        return f"""
+{_open}
+  {img_html}
+  <div class="row-body">
+    <h3 class="serif listing-name">{html_lib.escape(item['name'])}{_feat}</h3>
+    <div class="row-meta">{_meta}</div>
+    {desc_html}
+  </div>
+</a>"""
+
+    feat_html = '<span class="absolute top-3 left-3 z-10 text-xs font-bold px-2.5 py-1 rounded-full shadow" style="background:#E76F51;color:#fff">Featured</span>' if featured else ""
+    _left  = _cat_lbl or area_lbl
+    _right = area_lbl if (_cat_lbl and area_lbl) else ""
+    if chain_n:
+        _left, _right = (_cat_lbl or area_lbl), tail_lbl
+    meta_html = "".join(f"<span>{html_lib.escape(x)}</span>" for x in (_left, _right) if x)
     return f"""
-<a href="{url}" data-sub="{item.get('subcat','other')}" data-district="{html_lib.escape(district)}" class="listing-card group relative card-hover flex flex-col">
+{_open}
   {feat_html}
-  {chain_html}
   {img_html}
   <div class="pt-3 flex flex-col gap-1 flex-1">
     <h3 class="serif listing-name">{html_lib.escape(item['name'])}</h3>
     {desc_html}
     <div class="listing-meta">
-      <span>{html_lib.escape(area)}</span>
-      {phone_html}
+      {meta_html}
     </div>
   </div>
 </a>"""
@@ -5864,40 +5950,34 @@ def _filter_bar_html(items, cat_key):
             f'''{label} <span class="chip-count">{count}</span></button>'''
         )
 
-    # District chips — only show districts that have at least one item
+    # District picker — a <select> instead of a second chip row: the sticky bar
+    # was two rows (~165px) and pushed the first listings below the fold.
+    # Only districts that have at least one item are listed.
     _DIST_ORDER = ["Paramaribo","Wanica","Commewijne","Para","Nickerie",
                    "Marowijne","Brokopondo","Saramacca","Coronie","Sipaliwini"]
-    dist_chips = [f'<button onclick="filterDistrict(this,\'all\')" class="dist-chip dist-chip-active">All districts <span class="chip-count">{len(items)}</span></button>']
-    for d in _DIST_ORDER:
-        cnt = dist_counts.get(d, 0)
-        if cnt > 0:
-            dist_chips.append(
-                f'<button onclick="filterDistrict(this,\'{d}\')" class="dist-chip">'
-                f'{d} <span class="chip-count">{cnt}</span></button>'
-            )
-    # Any districts not in order list
-    for d, cnt in sorted(dist_counts.items()):
-        # A listing with a blank location used to emit a nameless chip.
-        if d and d not in _DIST_ORDER and cnt > 0:
-            dist_chips.append(
-                f'<button onclick="filterDistrict(this,\'{d}\')" class="dist-chip">'
-                f'{d} <span class="chip-count">{cnt}</span></button>'
-            )
+    _dists = [d for d in _DIST_ORDER if dist_counts.get(d, 0) > 0]
+    # Only the ten real districts are offered. Some listings carry a street
+    # address or "Suriname" in their area field; those used to become chips of
+    # their own ("Larecoweg 138"). They still show under "All districts".
+    # Option text is the bare label (no counts) so build_i18n.py can translate
+    # "All districts" from its existing cache; JS hides districts that have no
+    # match under the active category.
+    dist_opts = ['<option value="all">All districts</option>']
+    for d in _dists:
+        dist_opts.append(f'<option value="{html_lib.escape(d, quote=True)}">{html_lib.escape(d)}</option>')
+    # One district only (e.g. everything in Paramaribo): nothing to pick.
+    dist_html = (f'<select id="dist-sel" class="dist-sel" aria-label="District" onchange="filterDistrict(this, this.value)">'
+                 f'{"".join(dist_opts)}</select>') if len(_dists) > 1 else ""
 
     bar_id = f"chipbar-{cat_key}"
     return f"""
-<div class="sticky top-[58px] z-40 pb-2 mb-6" style="background:var(--paper-2)">
+<div class="sticky top-[58px] z-40 pb-2 mb-5" style="background:var(--paper-2)">
   <div class="max-w-6xl mx-auto px-5">
-    <!-- Subcat chips -->
-    <div class="relative flex items-center gap-1 pt-3">
+    <div class="relative flex items-center gap-5 pt-3">
       <div id="{bar_id}" class="flex gap-6 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none">
         {"".join(chips)}
       </div>
-    </div>
-    <!-- District chips -->
-    <div class="flex gap-5 overflow-x-auto pt-2 pb-1" style="scrollbar-width:none">
-      <span class="text-xs font-semibold text-gray-400 self-center shrink-0 mr-1">District:</span>
-      {"".join(dist_chips)}
+      {dist_html}
     </div>
   </div>
 </div>
@@ -5915,7 +5995,7 @@ function _applyFilters() {{
   var lbl = document.getElementById('result-count');
   if (lbl) lbl.textContent = visible + ' results';
 
-  /* ── Update district chip counts dynamically ── */
+  /* ── Update district option counts dynamically ── */
   var distCounts = {{}};
   var totalVisible = 0;
   document.querySelectorAll('.listing-card').forEach(function(card) {{
@@ -5925,26 +6005,20 @@ function _applyFilters() {{
     for (var di = 0; di < ds.length; di++) {{ distCounts[ds[di]] = (distCounts[ds[di]] || 0) + 1; }}
     totalVisible++;
   }});
-  document.querySelectorAll('.dist-chip').forEach(function(btn) {{
-    var dist = btn.getAttribute('onclick').match(/'([^']+)'\s*\)/);
-    if (!dist) return;
-    dist = dist[1];
-    var countEl = btn.querySelector('.chip-count');
-    if (dist === 'all') {{
-      if (countEl) countEl.textContent = totalVisible;
-    }} else {{
-      var c = distCounts[dist] || 0;
-      if (countEl) countEl.textContent = c;
-      btn.style.display = c > 0 ? '' : 'none';
+  var sel = document.getElementById('dist-sel');
+  if (sel) {{
+    var reset = false;
+    for (var oi = 0; oi < sel.options.length; oi++) {{
+      var o = sel.options[oi], v = o.value;
+      if (v === 'all') continue;
+      var c = distCounts[v] || 0;
+      o.disabled = c === 0;
+      o.hidden = c === 0;
       /* if active district now has 0 results, reset to all */
-      if (c === 0 && _activeDist === dist) {{
-        _activeDist = 'all';
-        document.querySelectorAll('.dist-chip').forEach(function(b) {{ b.classList.remove('dist-chip-active'); }});
-        var allBtn = document.querySelector('.dist-chip');
-        if (allBtn) allBtn.classList.add('dist-chip-active');
-      }}
+      if (c === 0 && _activeDist === v) reset = true;
     }}
-  }});
+    if (reset) {{ _activeDist = 'all'; sel.value = 'all'; _applyFilters(); return; }}
+  }}
 }}
 
 function filterSub(btn, key) {{
@@ -5954,10 +6028,9 @@ function filterSub(btn, key) {{
   _applyFilters();
 }}
 
-function filterDistrict(btn, dist) {{
-  _activeDist = dist;
-  document.querySelectorAll('.dist-chip').forEach(function(b) {{ b.classList.remove('dist-chip-active'); }});
-  btn.classList.add('dist-chip-active');
+function filterDistrict(el, dist) {{
+  _activeDist = dist || 'all';
+  if (el && el.tagName === 'SELECT' && el.value !== _activeDist) el.value = _activeDist;
   _applyFilters();
 }}
 
@@ -6066,7 +6139,7 @@ def _explore_more_html(active):
     )
 
 
-def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None, seo_title=None, intro_text="", faq=None, card_count=None):
+def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None, seo_title=None, intro_text="", faq=None, card_count=None, grid_class="listing-grid"):
     _page_active = page_file.replace(".html", "") if page_file else "home"
     page_url = f"{SITE_URL}/{page_file}"
     _og_img = og_image or f"{SITE_URL}/og-image.jpg"
@@ -6132,7 +6205,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
 {filter_bar}
 <main class="max-w-6xl mx-auto px-5 {_main_pt} pb-24">
   <div id="result-count" class="text-sm text-gray-400 mb-4 font-medium">{_n_cards} results</div>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="{grid_class}">
     {cards_html}
   </div>
   {extra_html}
@@ -6730,7 +6803,8 @@ def build_activities_page():
         [(b["name"].lower(), "biz",      b) for b in SIGHTSEEING]
     )
     tagged.sort(key=lambda x: x[0])
-    _CARD = {"activity": activity_card_rich, "nature": nature_card, "biz": poi_card}
+    _CARD = {"activity": activity_card_rich, "nature": nature_card,
+             "biz": lambda it, eager=False: poi_card(it, eager=eager, cat_key="adventure")}
     all_cards = "\n".join(
         _CARD[kind](item, eager=(i == 0))
         for i, (_, kind, item) in enumerate(tagged)
@@ -6756,7 +6830,7 @@ def build_activities_page():
 def build_restaurants_page(restaurants):
     restaurants = _featured_order(restaurants)
     _eag  = _first_img_idx(restaurants)
-    cards = "\n".join(poi_card(r, "cuisine", eager=(i==_eag), featured=(r["slug"] in _ADMIN_FEATURED)) for i,r in enumerate(restaurants))
+    cards = "\n".join(poi_card(r, "cuisine", eager=(i==_eag), featured=(r["slug"] in _ADMIN_FEATURED), cat_key="restaurant") for i,r in enumerate(restaurants))
     fb    = _filter_bar_html(restaurants, "restaurant")
     _lcp  = restaurants[_eag].get("image") if restaurants else None
     return listing_page("Eat & Drink", "Places to eat & drink in Suriname",
@@ -6769,7 +6843,7 @@ def build_restaurants_page(restaurants):
 def build_hotels_page(hotels):
     hotels = _featured_order(hotels)
     _eag  = _first_img_idx(hotels)
-    cards = "\n".join(poi_card(h, "category", eager=(i==_eag), featured=(h["slug"] in _ADMIN_FEATURED)) for i,h in enumerate(hotels))
+    cards = "\n".join(poi_card(h, "category", eager=(i==_eag), featured=(h["slug"] in _ADMIN_FEATURED), cat_key="hotel") for i,h in enumerate(hotels))
     fb    = _filter_bar_html(hotels, "hotel")
     _lcp  = hotels[_eag].get("image") if hotels else None
     return listing_page("Hotels & Lodges", "Places to stay in Suriname",
@@ -6782,12 +6856,12 @@ def build_hotels_page(hotels):
 def build_shopping_page():
     _order = _featured_order(SHOPPING)
     _eag  = _first_img_idx(_order)
-    cards = "\n".join(poi_card(b, eager=(i==_eag), featured=(b["slug"] in _ADMIN_FEATURED)) for i,b in enumerate(_order))
+    cards = "\n".join(poi_card(b, eager=(i==_eag), featured=(b["slug"] in _ADMIN_FEATURED), cat_key="shopping", layout="row") for i,b in enumerate(_order))
     fb    = _filter_bar_html(_order, "shopping")
     _lcp  = _order[_eag].get("image") if _order else None
     return listing_page("Shopping", "Shops & stores in Suriname",
         f"Discover {len(SHOPPING)} shops in Suriname: supermarkets, malls, fashion, electronics, furniture, butchers and specialty stores in Paramaribo.",
-        SHOPPING, cards, bg_color=_CAT_ACCENT["Shopping"], page_file="shopping.html", filter_bar=fb,
+        SHOPPING, cards, bg_color=_CAT_ACCENT["Shopping"], page_file="shopping.html", filter_bar=fb, grid_class="listing-rows",
         og_image=_og_share_image(_lcp),
         lcp_image=_lcp, seo_title="Shopping in Paramaribo, Suriname",
         intro_text=f"Shop across {len(SHOPPING)} stores in Suriname, from supermarkets, malls and fashion boutiques to electronics, furniture and specialty food stores. Hermitage Mall and International Mall of Suriname are Paramaribo&#8217;s main retail hubs, with a wide range of local and international brands. Use the filters to browse by category or district.", faq=_FAQ_SHOPPING)
@@ -6795,12 +6869,12 @@ def build_shopping_page():
 def build_services_page():
     _order = _featured_order(SERVICES)
     _eag  = _first_img_idx(_order)
-    cards = "\n".join(poi_card(b, eager=(i==_eag), featured=(b["slug"] in _ADMIN_FEATURED)) for i,b in enumerate(_order))
+    cards = "\n".join(poi_card(b, eager=(i==_eag), featured=(b["slug"] in _ADMIN_FEATURED), cat_key="service", layout="row") for i,b in enumerate(_order))
     fb    = _filter_bar_html(_order, "service")
     _lcp  = _order[_eag].get("image") if _order else None
     return listing_page("Services", "Service providers in Suriname",
         f"Find {len(SERVICES)} service providers in Suriname: banks, beauty, health, fitness, education, telecom, real estate and more.",
-        SERVICES, cards, bg_color=_CAT_ACCENT["Services"], page_file="services.html", filter_bar=fb,
+        SERVICES, cards, bg_color=_CAT_ACCENT["Services"], page_file="services.html", filter_bar=fb, grid_class="listing-rows",
         og_image=_og_share_image(_lcp),
         lcp_image=_lcp, seo_title="Local Services in Paramaribo, Suriname",
         intro_text=f"Find {len(SERVICES)} service providers across Suriname: banks, insurance, beauty salons, gyms, pharmacies, schools, real estate agencies, travel agents and more. Whether you need a haircut, a mortgage, a gym membership or a doctor in Paramaribo, this directory covers the essential services that keep the city running.", faq=_FAQ_SERVICES)
