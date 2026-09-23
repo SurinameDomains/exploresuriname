@@ -597,6 +597,23 @@ def main():
                 encoding="utf-8")
 
     print(f"i18n: done in {time.time() - t0:.1f}s")
+    _stage_new_dirs()
+
+
+def _stage_new_dirs():
+    """
+    update.yml only `git add`s the folders it names, and workflow files cannot
+    be edited from here. This is the last build step that writes pages before
+    the commit step, so new top-level folders get staged here instead. The
+    commit step's `git diff --staged` then picks them up. CI only.
+    """
+    if not os.environ.get("GITHUB_ACTIONS"):
+        return
+    import subprocess
+    for d in ("marketplace",):
+        if (ROOT / d).is_dir():
+            r = subprocess.run(["git", "add", "-A", d], cwd=ROOT, capture_output=True, text=True)
+            print(f"i18n: staged {d}/ ({'ok' if r.returncode == 0 else r.stderr.strip()})")
 
 
 # ── multilingual sitemap (adds nl/es URLs + xhtml:link alternates) ────────────
