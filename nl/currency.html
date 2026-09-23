@@ -166,22 +166,63 @@
     @media(hover:none){ .filter-chip, .dist-chip { min-height:44px; } }
     .dict-chiprow{scrollbar-width:none;-ms-overflow-style:none}
     .dict-chiprow::-webkit-scrollbar{display:none}
-    .listing-card { transition:opacity .2s; content-visibility:auto; contain-intrinsic-size:560px; contain-intrinsic-size:auto 560px; }
-    .listing-ph { position:relative; aspect-ratio:4/5; overflow:hidden; background:#DFD7C2; }
-    .listing-name { font-size:1.5rem; line-height:1.15; font-weight:400; color:var(--forest); }
-    .listing-blurb { font-size:.9rem; line-height:1.5; color:var(--ink-soft); margin:.25rem 0 0;
+    /* Category grids (Sep 2026 redesign): 4 landscape cards per row on desktop
+       instead of 3 portrait ones, so ~8 listings show above the fold, not 3.
+       Services/Shopping use .listing-rows (compact thumbnail rows): people
+       pick a salon or hardware store on category and area, not on a photo. */
+    .listing-grid { display:grid; grid-template-columns:minmax(0,1fr); gap:2rem 1.25rem; }
+    @media(min-width:640px){ .listing-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media(min-width:900px){ .listing-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+    @media(min-width:1100px){ .listing-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+    .listing-card { transition:opacity .2s; content-visibility:auto; contain-intrinsic-size:330px; contain-intrinsic-size:auto 330px; }
+    .listing-ph { position:relative; aspect-ratio:4/3; overflow:hidden; background:#DFD7C2; }
+    .listing-ph > img { position:absolute; inset:0; background:#DFD7C2; }
+    /* Shown when a listing has no photo, or its photo fails to load (the img
+       hides itself onerror and this sits underneath). */
+    .ph-fb { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+             font-family:inherit; font-size:3rem; line-height:1; color:rgba(35,48,40,.28); user-select:none; }
+    .listing-name { font-size:1.25rem; line-height:1.2; font-weight:400; color:var(--forest); }
+    .listing-blurb { font-size:.86rem; line-height:1.5; color:var(--ink-soft); margin:.2rem 0 0;
                      display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
     .listing-meta { display:flex; justify-content:space-between; gap:.75rem; margin-top:auto;
                     border-top:1px solid #DDD4C1; padding-top:.55rem;
                     font-size:.66rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
                     color:#656C63; }
     .listing-meta span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    /* One column on phones: a 4:5 crop makes each card a full screen, so the
-       photo goes landscape below 640 and the scroll roughly halves. */
-    @media(max-width:640px){
+    .listing-meta span:last-child:not(:first-child) { flex-shrink:0; max-width:50%; }
+    /* Phones: one column, a slightly flatter 3:2 photo keeps ~2 cards per screen. */
+    @media(max-width:639px){
       .listing-ph { aspect-ratio:3/2; }
-      .listing-card { contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+      .listing-card { contain-intrinsic-size:340px; contain-intrinsic-size:auto 340px; }
+      .listing-name { font-size:1.35rem; }
     }
+    /* Compact rows (Services, Shopping) */
+    .listing-rows { display:grid; grid-template-columns:minmax(0,1fr); column-gap:2.5rem; border-top:1px solid #DDD4C1; }
+    @media(min-width:900px){ .listing-rows { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    .listing-row { display:flex; flex-direction:row; align-items:center; gap:1rem; padding:.85rem 0;
+                   border-bottom:1px solid #DDD4C1; contain-intrinsic-size:108px; contain-intrinsic-size:auto 108px; }
+    .listing-row .listing-ph { flex:0 0 5.25rem; width:5.25rem; aspect-ratio:1/1; }
+    .listing-row .ph-fb { font-size:1.9rem; }
+    .row-body { min-width:0; flex:1; display:flex; flex-direction:column; gap:.15rem; }
+    .listing-row .listing-name { font-size:1.12rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .listing-row .listing-blurb { -webkit-line-clamp:1; line-clamp:1; font-size:.84rem; margin:0; }
+    .row-meta { display:flex; flex-wrap:nowrap; overflow:hidden; column-gap:.5rem; font-size:.66rem; font-weight:600; letter-spacing:.12em;
+                text-transform:uppercase; color:#656C63; }
+    .row-meta span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+    .row-meta span:first-child { flex-shrink:0; max-width:60%; }
+    .row-meta span + span::before { content:"·"; margin-right:.5rem; color:#A39B88; }
+    .row-feat { display:inline-block; vertical-align:middle; margin-left:.4rem; font-family:system-ui,sans-serif;
+                font-size:.62rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+                padding:.15rem .45rem; border-radius:9999px; background:#E76F51; color:#fff; }
+    @media(max-width:639px){ .listing-row { contain-intrinsic-size:100px; contain-intrinsic-size:auto 100px; }
+                             .listing-row .listing-ph { flex-basis:4.5rem; width:4.5rem; }
+                             .dist-sel { max-width:8.5rem; font-size:.8rem; } }
+    /* District picker (replaces the second chip row, saves ~45px of sticky bar) */
+    .dist-sel { flex-shrink:0; appearance:none; -webkit-appearance:none; border:0; border-bottom:1.5px solid #DDD4C1;
+                border-radius:0!important; background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23656C63' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right .1rem center;
+                padding:.45rem 1.1rem .45rem 0; font-size:.85rem; color:var(--forest2); cursor:pointer; max-width:11rem; }
+    .dist-sel:focus-visible { outline:2px solid var(--forest2); outline-offset:2px; }
+    @media(hover:none){ .dist-sel { min-height:44px; } }
     .listing-card.hidden { display:none; }
     /* PWA install bar (Android prompt + iOS A2HS tip) */
     #pwa-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(130%);transition:transform .35s cubic-bezier(.22,1,.36,1);background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 28px rgba(0,0,0,.14);padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
@@ -896,7 +937,7 @@ document.addEventListener('keydown', e => {
 </div>
 <a class="text-xs font-semibold shrink-0 hover:underline" href="https://www.cme.sr" rel="noopener noreferrer" style="color:var(--forest2)" target="_blank">cme.sr ↗</a>
 </div>
-<p class="text-gray-400 text-xs mt-2">🕐 CME: 23 Sep 2026 15:45 SR</p>
+<p class="text-gray-400 text-xs mt-2">🕐 CME: 23 Sep 2026 15:48 SR</p>
 </div>
 <div class="hidden sm:block overflow-x-auto">
 <table class="w-full text-sm">
@@ -916,7 +957,7 @@ document.addEventListener('keydown', e => {
 <div class="px-6 py-5 border-b border-gray-100">
 <p class="font-bold text-gray-900 text-base">Bankkoersen vergeleken</p>
 <p class="text-gray-400 text-xs mt-0.5">USD en EUR bij de Surinaamse commerciële banken naast elkaar. Aankoop is wat je krijgt als je vreemde valuta verkoopt; verkoop is wat je betaalt om die te kopen.</p>
-<p class="text-gray-400 text-xs mt-2">🕐 23 Sep 2026 15:45 SR</p>
+<p class="text-gray-400 text-xs mt-2">🕐 23 Sep 2026 15:48 SR</p>
 </div>
 <div class="hidden sm:block overflow-x-auto">
 <table class="w-full text-sm">
@@ -975,16 +1016,16 @@ document.addEventListener('keydown', e => {
 <h2 class="serif text-2xl font-bold text-gray-900">🛣︎ Brent-ruwe olie</h2>
 <p class="text-gray-400 text-sm mt-1">Brent-ruwe olie, elk uur bijgewerkt</p>
 </div>
-<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">● 23 Sep 2026 15:45 SR</span>
+<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">● 23 Sep 2026 15:48 SR</span>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 <div class="rounded-xl p-4" style="background:var(--mint)">
 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">USD / vat</p>
-<p class="text-2xl font-bold font-mono text-gray-900">$98.54</p>
+<p class="text-2xl font-bold font-mono text-gray-900">$98.76</p>
 </div>
 <div class="rounded-xl p-4 bg-gray-50">
 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">SRD / vat</p>
-<p class="text-2xl font-bold font-mono text-gray-900">3,695 SRD</p>
+<p class="text-2xl font-bold font-mono text-gray-900">3,704 SRD</p>
 </div>
 </div>
 <p class="text-gray-400 text-xs mt-4">Brent is de wereldwijde maatstaf voor de meeste internationale oliecontracten. De offshoreproductie van Suriname (Blok 58) wordt tegen deze index geprijsd. De SRD-waarde gebruikt de CME-aankoopkoers voor USD van vandaag (37,50). Bij elke nieuwe build van de site opnieuw opgehaald.</p>

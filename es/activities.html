@@ -166,22 +166,63 @@
     @media(hover:none){ .filter-chip, .dist-chip { min-height:44px; } }
     .dict-chiprow{scrollbar-width:none;-ms-overflow-style:none}
     .dict-chiprow::-webkit-scrollbar{display:none}
-    .listing-card { transition:opacity .2s; content-visibility:auto; contain-intrinsic-size:560px; contain-intrinsic-size:auto 560px; }
-    .listing-ph { position:relative; aspect-ratio:4/5; overflow:hidden; background:#DFD7C2; }
-    .listing-name { font-size:1.5rem; line-height:1.15; font-weight:400; color:var(--forest); }
-    .listing-blurb { font-size:.9rem; line-height:1.5; color:var(--ink-soft); margin:.25rem 0 0;
+    /* Category grids (Sep 2026 redesign): 4 landscape cards per row on desktop
+       instead of 3 portrait ones, so ~8 listings show above the fold, not 3.
+       Services/Shopping use .listing-rows (compact thumbnail rows): people
+       pick a salon or hardware store on category and area, not on a photo. */
+    .listing-grid { display:grid; grid-template-columns:minmax(0,1fr); gap:2rem 1.25rem; }
+    @media(min-width:640px){ .listing-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media(min-width:900px){ .listing-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+    @media(min-width:1100px){ .listing-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+    .listing-card { transition:opacity .2s; content-visibility:auto; contain-intrinsic-size:330px; contain-intrinsic-size:auto 330px; }
+    .listing-ph { position:relative; aspect-ratio:4/3; overflow:hidden; background:#DFD7C2; }
+    .listing-ph > img { position:absolute; inset:0; background:#DFD7C2; }
+    /* Shown when a listing has no photo, or its photo fails to load (the img
+       hides itself onerror and this sits underneath). */
+    .ph-fb { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+             font-family:inherit; font-size:3rem; line-height:1; color:rgba(35,48,40,.28); user-select:none; }
+    .listing-name { font-size:1.25rem; line-height:1.2; font-weight:400; color:var(--forest); }
+    .listing-blurb { font-size:.86rem; line-height:1.5; color:var(--ink-soft); margin:.2rem 0 0;
                      display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
     .listing-meta { display:flex; justify-content:space-between; gap:.75rem; margin-top:auto;
                     border-top:1px solid #DDD4C1; padding-top:.55rem;
                     font-size:.66rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
                     color:#656C63; }
     .listing-meta span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    /* One column on phones: a 4:5 crop makes each card a full screen, so the
-       photo goes landscape below 640 and the scroll roughly halves. */
-    @media(max-width:640px){
+    .listing-meta span:last-child:not(:first-child) { flex-shrink:0; max-width:50%; }
+    /* Phones: one column, a slightly flatter 3:2 photo keeps ~2 cards per screen. */
+    @media(max-width:639px){
       .listing-ph { aspect-ratio:3/2; }
-      .listing-card { contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+      .listing-card { contain-intrinsic-size:340px; contain-intrinsic-size:auto 340px; }
+      .listing-name { font-size:1.35rem; }
     }
+    /* Compact rows (Services, Shopping) */
+    .listing-rows { display:grid; grid-template-columns:minmax(0,1fr); column-gap:2.5rem; border-top:1px solid #DDD4C1; }
+    @media(min-width:900px){ .listing-rows { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    .listing-row { display:flex; flex-direction:row; align-items:center; gap:1rem; padding:.85rem 0;
+                   border-bottom:1px solid #DDD4C1; contain-intrinsic-size:108px; contain-intrinsic-size:auto 108px; }
+    .listing-row .listing-ph { flex:0 0 5.25rem; width:5.25rem; aspect-ratio:1/1; }
+    .listing-row .ph-fb { font-size:1.9rem; }
+    .row-body { min-width:0; flex:1; display:flex; flex-direction:column; gap:.15rem; }
+    .listing-row .listing-name { font-size:1.12rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .listing-row .listing-blurb { -webkit-line-clamp:1; line-clamp:1; font-size:.84rem; margin:0; }
+    .row-meta { display:flex; flex-wrap:nowrap; overflow:hidden; column-gap:.5rem; font-size:.66rem; font-weight:600; letter-spacing:.12em;
+                text-transform:uppercase; color:#656C63; }
+    .row-meta span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+    .row-meta span:first-child { flex-shrink:0; max-width:60%; }
+    .row-meta span + span::before { content:"·"; margin-right:.5rem; color:#A39B88; }
+    .row-feat { display:inline-block; vertical-align:middle; margin-left:.4rem; font-family:system-ui,sans-serif;
+                font-size:.62rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+                padding:.15rem .45rem; border-radius:9999px; background:#E76F51; color:#fff; }
+    @media(max-width:639px){ .listing-row { contain-intrinsic-size:100px; contain-intrinsic-size:auto 100px; }
+                             .listing-row .listing-ph { flex-basis:4.5rem; width:4.5rem; }
+                             .dist-sel { max-width:8.5rem; font-size:.8rem; } }
+    /* District picker (replaces the second chip row, saves ~45px of sticky bar) */
+    .dist-sel { flex-shrink:0; appearance:none; -webkit-appearance:none; border:0; border-bottom:1.5px solid #DDD4C1;
+                border-radius:0!important; background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23656C63' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right .1rem center;
+                padding:.45rem 1.1rem .45rem 0; font-size:.85rem; color:var(--forest2); cursor:pointer; max-width:11rem; }
+    .dist-sel:focus-visible { outline:2px solid var(--forest2); outline-offset:2px; }
+    @media(hover:none){ .dist-sel { min-height:44px; } }
     .listing-card.hidden { display:none; }
     /* PWA install bar (Android prompt + iOS A2HS tip) */
     #pwa-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(130%);transition:transform .35s cubic-bezier(.22,1,.36,1);background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 28px rgba(0,0,0,.14);padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
@@ -839,18 +880,13 @@ document.addEventListener('keydown', e => {
 </div>
 </div>
 </div>
-<div class="sticky top-[58px] z-40 pb-2 mb-6" style="background:var(--paper-2)">
+<div class="sticky top-[58px] z-40 pb-2 mb-5" style="background:var(--paper-2)">
 <div class="max-w-6xl mx-auto px-5">
-<!-- Subcat chips -->
-<div class="relative flex items-center gap-1 pt-3">
+<div class="relative flex items-center gap-5 pt-3">
 <div class="flex gap-6 overflow-x-auto pb-1" id="chipbar-adventure" style="scrollbar-width:none;-ms-overflow-style:none">
 <button class="filter-chip chip-active" onclick="filterSub(this,'all')">Todo <span class="chip-count">111</span></button><button class="filter-chip" onclick="filterSub(this,'nature-parks')">Naturaleza y parques <span class="chip-count">27</span></button><button class="filter-chip" onclick="filterSub(this,'tours-expeditions')">Tours y expediciones <span class="chip-count">31</span></button><button class="filter-chip" onclick="filterSub(this,'eco-lodges')">Lodges ecológicos y de río <span class="chip-count">8</span></button><button class="filter-chip" onclick="filterSub(this,'museums-heritage')">Museos y patrimonio <span class="chip-count">15</span></button><button class="filter-chip" onclick="filterSub(this,'entertainment')">Entretenimiento <span class="chip-count">10</span></button><button class="filter-chip" onclick="filterSub(this,'fitness-wellness')">Deporte y fitness <span class="chip-count">15</span></button><button class="filter-chip" onclick="filterSub(this,'bars-lounges')">Vida nocturna <span class="chip-count">5</span></button>
 </div>
-</div>
-<!-- District chips -->
-<div class="flex gap-5 overflow-x-auto pt-2 pb-1" style="scrollbar-width:none">
-<span class="text-xs font-semibold text-gray-400 self-center shrink-0 mr-1">Distrito:</span>
-<button class="dist-chip dist-chip-active" onclick="filterDistrict(this,'all')">Todos los distritos <span class="chip-count">111</span></button><button class="dist-chip" onclick="filterDistrict(this,'Paramaribo')">Paramaribo <span class="chip-count">90</span></button><button class="dist-chip" onclick="filterDistrict(this,'Wanica')">Wanica <span class="chip-count">1</span></button><button class="dist-chip" onclick="filterDistrict(this,'Commewijne')">Commewijne <span class="chip-count">6</span></button><button class="dist-chip" onclick="filterDistrict(this,'Para')">Para <span class="chip-count">5</span></button><button class="dist-chip" onclick="filterDistrict(this,'Nickerie')">Nickerie <span class="chip-count">3</span></button><button class="dist-chip" onclick="filterDistrict(this,'Brokopondo')">Brokopondo <span class="chip-count">2</span></button><button class="dist-chip" onclick="filterDistrict(this,'Sipaliwini')">Sipaliwini <span class="chip-count">4</span></button>
+<select aria-label="District" class="dist-sel" id="dist-sel" onchange="filterDistrict(this, this.value)"><option value="all">Todos los distritos</option><option value="Paramaribo">Paramaribo</option><option value="Wanica">Wanica</option><option value="Commewijne">Commewijne</option><option value="Para">Para</option><option value="Nickerie">Nickerie</option><option value="Brokopondo">Brokopondo</option><option value="Sipaliwini">Sipaliwini</option></select>
 </div>
 </div>
 </div>
@@ -868,7 +904,7 @@ function _applyFilters() {
   var lbl = document.getElementById('result-count');
   if (lbl) lbl.textContent = visible + ' results';
 
-  /* ── Update district chip counts dynamically ── */
+  /* ── Update district option counts dynamically ── */
   var distCounts = {};
   var totalVisible = 0;
   document.querySelectorAll('.listing-card').forEach(function(card) {
@@ -878,26 +914,20 @@ function _applyFilters() {
     for (var di = 0; di < ds.length; di++) { distCounts[ds[di]] = (distCounts[ds[di]] || 0) + 1; }
     totalVisible++;
   });
-  document.querySelectorAll('.dist-chip').forEach(function(btn) {
-    var dist = btn.getAttribute('onclick').match(/'([^']+)'\s*\)/);
-    if (!dist) return;
-    dist = dist[1];
-    var countEl = btn.querySelector('.chip-count');
-    if (dist === 'all') {
-      if (countEl) countEl.textContent = totalVisible;
-    } else {
-      var c = distCounts[dist] || 0;
-      if (countEl) countEl.textContent = c;
-      btn.style.display = c > 0 ? '' : 'none';
+  var sel = document.getElementById('dist-sel');
+  if (sel) {
+    var reset = false;
+    for (var oi = 0; oi < sel.options.length; oi++) {
+      var o = sel.options[oi], v = o.value;
+      if (v === 'all') continue;
+      var c = distCounts[v] || 0;
+      o.disabled = c === 0;
+      o.hidden = c === 0;
       /* if active district now has 0 results, reset to all */
-      if (c === 0 && _activeDist === dist) {
-        _activeDist = 'all';
-        document.querySelectorAll('.dist-chip').forEach(function(b) { b.classList.remove('dist-chip-active'); });
-        var allBtn = document.querySelector('.dist-chip');
-        if (allBtn) allBtn.classList.add('dist-chip-active');
-      }
+      if (c === 0 && _activeDist === v) reset = true;
     }
-  });
+    if (reset) { _activeDist = 'all'; sel.value = 'all'; _applyFilters(); return; }
+  }
 }
 
 function filterSub(btn, key) {
@@ -907,10 +937,9 @@ function filterSub(btn, key) {
   _applyFilters();
 }
 
-function filterDistrict(btn, dist) {
-  _activeDist = dist;
-  document.querySelectorAll('.dist-chip').forEach(function(b) { b.classList.remove('dist-chip-active'); });
-  btn.classList.add('dist-chip-active');
+function filterDistrict(el, dist) {
+  _activeDist = dist || 'all';
+  if (el && el.tagName === 'SELECT' && el.value !== _activeDist) el.value = _activeDist;
   _applyFilters();
 }
 
@@ -938,1214 +967,1206 @@ function filterDistrict(btn, dist) {
 </script>
 <main class="max-w-6xl mx-auto px-5 pt-2 pb-24">
 <div class="text-sm text-gray-400 mb-4 font-medium" id="result-count">111 resultados</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="listing-grid">
 <a class="listing-card group relative card-hover flex flex-col" data-district="Brokopondo" data-sub="eco-lodges" href="listing/afobaka-resort/">
-<div class="listing-ph"><img alt="Afobaka Resort, Alojamiento en Brokopondo" class="w-full h-full object-cover" fetchpriority="high" height="500" loading="eager" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ca42b1842bee14eb01e4bb7dee62b292.webp" srcset="/images/ca42b1842bee14eb01e4bb7dee62b292-480.webp 480w, /images/ca42b1842bee14eb01e4bb7dee62b292.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Afobaka Resort, Alojamiento en Brokopondo" class="w-full h-full object-cover" fetchpriority="high" height="300" loading="eager" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ca42b1842bee14eb01e4bb7dee62b292.webp" srcset="/images/ca42b1842bee14eb01e4bb7dee62b292-480.webp 480w, /images/ca42b1842bee14eb01e4bb7dee62b292.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Afobaka Resort</h3>
 <p class="listing-blurb">Afobaka Resort sits on the edge of the Brokopondo Reservoir in Suriname's interior, a remote eco-lodge…</p>
 <div class="listing-meta">
-<span>Brokopondo</span>
-<span>Tel.: +597 868-5636</span>
+<span>Lodges ecológicos y de río</span><span>Brokopondo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-sub="eco-lodges" href="listing/akira-overwater-resort/">
-<div class="listing-ph"><img alt="Akira Overwater Resort, Alojamiento en Nickerie" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7c939ca772fe312d139fde4ba900edec.webp" srcset="/images/7c939ca772fe312d139fde4ba900edec-480.webp 480w, /images/7c939ca772fe312d139fde4ba900edec.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Akira Overwater Resort, Alojamiento en Nickerie" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7c939ca772fe312d139fde4ba900edec.webp" srcset="/images/7c939ca772fe312d139fde4ba900edec-480.webp 480w, /images/7c939ca772fe312d139fde4ba900edec.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Akira Overwater Resort</h3>
 <p class="listing-blurb">Akira Overwater Resort offers detached overwater lodges in the Bigi Pan Nature Reserve, one of Suriname's…</p>
 <div class="listing-meta">
-<span>Nickerie</span>
-<span>Tel.: +597 410-700</span>
+<span>Lodges ecológicos y de río</span><span>Nickerie</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="entertainment" href="listing/amits-sport-cafe/">
-<div class="listing-ph"><img alt="Amit's Sport Café en Commewijne" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7da81f35d74677c0811840849f8cd7fe.webp" srcset="/images/7da81f35d74677c0811840849f8cd7fe-480.webp 480w, /images/7da81f35d74677c0811840849f8cd7fe.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Amit's Sport Café en Commewijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7da81f35d74677c0811840849f8cd7fe.webp" srcset="/images/7da81f35d74677c0811840849f8cd7fe-480.webp 480w, /images/7da81f35d74677c0811840849f8cd7fe.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Amit's Sport Café</h3>
 <p class="listing-blurb">Un café deportivo en Pandit Murliweg en Nieuw Meerzorg, Commewijne.</p>
 <div class="listing-meta">
-<span>Commewijne</span>
+<span>Entretenimiento</span><span>Commewijne</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-atv-4x4-interior-tours/">
 <div class="listing-ph">
-<img alt="Tours en cuatrimoto y 4x4 por el interior en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" srcset="/images/9a71ad5bc48a7f17e058f423852488eb-480.webp 480w, /images/9a71ad5bc48a7f17e058f423852488eb.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">A</span>
+<img alt="Tours en cuatrimoto y 4x4 por el interior en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" srcset="/images/9a71ad5bc48a7f17e058f423852488eb-480.webp 480w, /images/9a71ad5bc48a7f17e058f423852488eb.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tours en cuatrimoto y 4x4 por el interior</h3>
 <p class="listing-blurb">Explore senderos en la jungla, áreas mineras de oro y pueblos remotos en ATV o 4x4.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="nature-parks" href="listing/nature-bigi-pan-nature-reserve/">
 <div class="listing-ph">
-<img alt="Reserva Natural Bigi Pan en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/abe75d75eb5b44e8cedc706d6c753f76.webp" srcset="/images/abe75d75eb5b44e8cedc706d6c753f76-480.webp 480w, /images/abe75d75eb5b44e8cedc706d6c753f76.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">B</span>
+<img alt="Reserva Natural Bigi Pan en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/abe75d75eb5b44e8cedc706d6c753f76.webp" srcset="/images/abe75d75eb5b44e8cedc706d6c753f76-480.webp 480w, /images/abe75d75eb5b44e8cedc706d6c753f76.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Reserva Natural Bigi Pan</h3>
 <p class="listing-blurb">Uno de los mayores manglares de la región del Caribe, con espectaculares bandadas de flamencos y una avifauna costera extraordinaria.</p>
 <div class="listing-meta">
-<span>parques naturales</span>
+<span>Naturaleza y parques</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-bird-watching/">
 <div class="listing-ph">
-<img alt="Observación de aves en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="images/Birding-in-Suriname.webp" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">B</span>
+<img alt="Observación de aves en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="images/Birding-in-Suriname.webp" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Observación de aves</h3>
 <p class="listing-blurb">Surinam es un paraíso para los observadores de aves: más de 700 especies, entre ellas la guacamaya roja y el águila harpía.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="nature-parks" href="listing/nature-brownsberg-nature-park/">
 <div class="listing-ph">
-<img alt="Parque Natural Brownsberg en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" srcset="/images/9a71ad5bc48a7f17e058f423852488eb-480.webp 480w, /images/9a71ad5bc48a7f17e058f423852488eb.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">B</span>
+<img alt="Parque Natural Brownsberg en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" srcset="/images/9a71ad5bc48a7f17e058f423852488eb-480.webp 480w, /images/9a71ad5bc48a7f17e058f423852488eb.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Parque Natural Brownsberg</h3>
 <p class="listing-blurb">A 500 m sobre el embalse de Brokopondo, Brownsberg ofrece vistas impresionantes, cascadas para bañarse y abundante fauna, a solo 2 horas de Paramaribo.</p>
 <div class="listing-meta">
-<span>parques naturales</span>
+<span>Naturaleza y parques</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/cardy-adventures-bike-rental/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Cardy Adventures &amp; Bike Rental</h3>
 <p class="listing-blurb">Operating since 1992 from Cornelis Jongbawstraat, a short walk from Torarica and the historic centre. Cardy…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597422518</span>
+<span>Tours y expediciones</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="nature-parks" href="listing/nature-central-suriname-nature-reserve/">
 <div class="listing-ph">
-<img alt="Reserva Natural de Surinam Central en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b9fc38b50342a177a233d37e16c952d9.webp" srcset="/images/b9fc38b50342a177a233d37e16c952d9-480.webp 480w, /images/b9fc38b50342a177a233d37e16c952d9.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">C</span>
+<img alt="Reserva Natural de Surinam Central en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b9fc38b50342a177a233d37e16c952d9.webp" srcset="/images/b9fc38b50342a177a233d37e16c952d9-480.webp 480w, /images/b9fc38b50342a177a233d37e16c952d9.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Reserva Natural de Surinam Central</h3>
 <p class="listing-blurb">Una de las mayores selvas tropicales intactas del mundo: más de 1,6 millones de hectáreas de bosque virgen donde jaguares, tapires y nutrias gigantes viven en libertad.</p>
 <div class="listing-meta">
-<span>parques naturales</span>
+<span>Naturaleza y parques</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/clevia-park/">
-<div class="listing-ph"><img alt="Clevia Park en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2ac2b8e505f0f31589e516ac17285ae5.webp" srcset="/images/2ac2b8e505f0f31589e516ac17285ae5-480.webp 480w, /images/2ac2b8e505f0f31589e516ac17285ae5.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Clevia Park en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2ac2b8e505f0f31589e516ac17285ae5.webp" srcset="/images/2ac2b8e505f0f31589e516ac17285ae5-480.webp 480w, /images/2ac2b8e505f0f31589e516ac17285ae5.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Clevia Park</h3>
 <p class="listing-blurb">Clevia Park is an outdoor recreation and entertainment park near Paramaribo offering leisure activities…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597 556-550</span>
+<span>Entretenimiento</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="nature-parks" href="listing/cola-creek/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Cola Creek</h3>
 <p class="listing-blurb">Un complejo recreativo dirigido por METS en el cinturón de sabana, construido para nadar en el arroyo oscuro de color cola...</p>
 <div class="listing-meta">
-<span>Para</span>
+<span>Naturaleza y parques</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="nature-parks" href="listing/cola-kreek-recreatiepark/">
-<div class="listing-ph"><img alt="Cola Kreek Recreatiepark, Aventura en Para" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/753690f5e1d4c63e15a7ebdff0b5b69b.webp" srcset="/images/753690f5e1d4c63e15a7ebdff0b5b69b-480.webp 480w, /images/753690f5e1d4c63e15a7ebdff0b5b69b.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Cola Kreek Recreatiepark, Aventura en Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/753690f5e1d4c63e15a7ebdff0b5b69b.webp" srcset="/images/753690f5e1d4c63e15a7ebdff0b5b69b-480.webp 480w, /images/753690f5e1d4c63e15a7ebdff0b5b69b.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Cola Kreek Recreatiepark</h3>
 <p class="listing-blurb">Colakreek Recreation Park is a day-trip destination from Paramaribo, built around a natural creek where…</p>
 <div class="listing-meta">
-<span>Para</span>
-<span>Tel.: +597 472-621</span>
+<span>Naturaleza y parques</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="nature-parks" href="listing/nature-colakreek/">
 <div class="listing-ph">
-<img alt="Colakreek en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/753690f5e1d4c63e15a7ebdff0b5b69b.webp" srcset="/images/753690f5e1d4c63e15a7ebdff0b5b69b-480.webp 480w, /images/753690f5e1d4c63e15a7ebdff0b5b69b.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">C</span>
+<img alt="Colakreek en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/753690f5e1d4c63e15a7ebdff0b5b69b.webp" srcset="/images/753690f5e1d4c63e15a7ebdff0b5b69b-480.webp 480w, /images/753690f5e1d4c63e15a7ebdff0b5b69b.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Colakreek</h3>
 <p class="listing-blurb">Un precioso arroyo de agua dulce a las afueras de Paramaribo, ideal para bañarse y hacer un pícnic rodeado de selva.</p>
 <div class="listing-meta">
-<span>parques naturales</span>
+<span>Naturaleza y parques</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-colonial-plantation-tours/">
 <div class="listing-ph">
-<img alt="Tours por plantaciones coloniales en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/97fcf36bdc7575d6df090e5ac34b621d.webp" srcset="/images/97fcf36bdc7575d6df090e5ac34b621d-480.webp 480w, /images/97fcf36bdc7575d6df090e5ac34b621d.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">C</span>
+<img alt="Tours por plantaciones coloniales en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/97fcf36bdc7575d6df090e5ac34b621d.webp" srcset="/images/97fcf36bdc7575d6df090e5ac34b621d-480.webp 480w, /images/97fcf36bdc7575d6df090e5ac34b621d.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tours por plantaciones coloniales</h3>
 <p class="listing-blurb">Recorre en bicicleta o en bote el distrito de Commewijne y visita antiguas plantaciones de café y cacao.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="nature-parks" href="listing/nature-commewijne-river/">
 <div class="listing-ph">
-<img alt="Río Commewijne en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/97fcf36bdc7575d6df090e5ac34b621d.webp" srcset="/images/97fcf36bdc7575d6df090e5ac34b621d-480.webp 480w, /images/97fcf36bdc7575d6df090e5ac34b621d.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">C</span>
+<img alt="Río Commewijne en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/97fcf36bdc7575d6df090e5ac34b621d.webp" srcset="/images/97fcf36bdc7575d6df090e5ac34b621d-480.webp 480w, /images/97fcf36bdc7575d6df090e5ac34b621d.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Río Commewijne</h3>
 <p class="listing-blurb">Un río pintoresco justo enfrente de Paramaribo, famoso por sus delfines, las ruinas de antiguas plantaciones y el Fuerte Nieuw Amsterdam.</p>
 <div class="listing-meta">
-<span>parques naturales</span>
+<span>Naturaleza y parques</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="fitness-wellness" href="listing/connection-gym/">
-<div class="listing-ph"><img alt="Connection Gym en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1e61afa13e41a4797c870f6fa2814cfd.webp" srcset="/images/1e61afa13e41a4797c870f6fa2814cfd-480.webp 480w, /images/1e61afa13e41a4797c870f6fa2814cfd.webp 630w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Connection Gym en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1e61afa13e41a4797c870f6fa2814cfd.webp" srcset="/images/1e61afa13e41a4797c870f6fa2814cfd-480.webp 480w, /images/1e61afa13e41a4797c870f6fa2814cfd.webp 630w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Connection Gym</h3>
 <p class="listing-blurb">Un gimnasio abierto las 24 horas en la esquina de Henkielaan y Vieruurbloemstraat en Paramaribo.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Deporte y fitness</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/conservatorium-suriname/">
-<div class="listing-ph"><img alt="Conservatorium Suriname en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/88811b695bb256584abee876d140540a.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Conservatorium Suriname en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/88811b695bb256584abee876d140540a.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Conservatorium Suriname</h3>
 <p class="listing-blurb">Conservatorium Suriname is the country's premier music education institution in Paramaribo, offering…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Museos y patrimonio</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="bars-lounges" href="listing/danceclub-tequila/">
-<div class="listing-ph"><img alt="Danceclub Tequila en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f018d4ea8b7adc6125abe5a4ff0c4eca.webp" srcset="/images/f018d4ea8b7adc6125abe5a4ff0c4eca-480.webp 480w, /images/f018d4ea8b7adc6125abe5a4ff0c4eca.webp 576w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="Danceclub Tequila en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f018d4ea8b7adc6125abe5a4ff0c4eca.webp" srcset="/images/f018d4ea8b7adc6125abe5a4ff0c4eca-480.webp 480w, /images/f018d4ea8b7adc6125abe5a4ff0c4eca.webp 576w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Danceclub Tequila</h3>
 <p class="listing-blurb">Una discoteca en la Kleine Dwarsstraat, en Paramaribo.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Vida nocturna</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="fitness-wellness" href="listing/deans-gym/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Deans Gym</h3>
 <p class="listing-blurb">Un gimnasio en Dageraadweg en Paramaribo, bien valorado a nivel local y uno de los gimnasios independientes más conocidos...</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Deporte y fitness</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="fitness-wellness" href="listing/edge-gym-n-v/">
-<div class="listing-ph"><img alt="Edge Gym N.V. en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e2ce5a0c8c5f46aaffa4677cfda1e06e.webp" srcset="/images/e2ce5a0c8c5f46aaffa4677cfda1e06e-480.webp 480w, /images/e2ce5a0c8c5f46aaffa4677cfda1e06e.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="Edge Gym N.V. en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e2ce5a0c8c5f46aaffa4677cfda1e06e.webp" srcset="/images/e2ce5a0c8c5f46aaffa4677cfda1e06e-480.webp 480w, /images/e2ce5a0c8c5f46aaffa4677cfda1e06e.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Edge Gym N.V.</h3>
 <p class="listing-blurb">Una escuela de artes marciales en Kristalstraat en Paramaribo-Noord que enseña kickboxing a nivel principiante y avanzado.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Deporte y fitness</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="fitness-wellness" href="listing/emery-fitness-suriname/">
-<div class="listing-ph"><img alt="EMERY Fitness Suriname en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/bc7cffafdaf6bc2a4191218dd4908666.webp" srcset="/images/bc7cffafdaf6bc2a4191218dd4908666-480.webp 480w, /images/bc7cffafdaf6bc2a4191218dd4908666.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="EMERY Fitness Suriname en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/bc7cffafdaf6bc2a4191218dd4908666.webp" srcset="/images/bc7cffafdaf6bc2a4191218dd4908666-480.webp 480w, /images/bc7cffafdaf6bc2a4191218dd4908666.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">EMERY Fitness Suriname</h3>
 <p class="listing-blurb">Un gimnasio en Plutostraat en Paramaribo que ofrece clases de diversas disciplinas.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Deporte y fitness</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="fitness-wellness" href="listing/first-class-gym/">
-<div class="listing-ph"><img alt="First Class Gym en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/bafbb9183b1cc5ddd5cd4b39fdec1860.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="First Class Gym en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/bafbb9183b1cc5ddd5cd4b39fdec1860.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">First Class Gym</h3>
 <p class="listing-blurb">Un gimnasio en Previenlaan en Paramaribo, equipado para pesas y entrenamiento físico general.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Deporte y fitness</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/folo-nature-tours/">
-<div class="listing-ph"><img alt="Folo Nature Tours en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/95a7414b45fa9ffd922dfceaa79d87ec.webp" srcset="/images/95a7414b45fa9ffd922dfceaa79d87ec-480.webp 480w, /images/95a7414b45fa9ffd922dfceaa79d87ec.webp 1280w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="Folo Nature Tours en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/95a7414b45fa9ffd922dfceaa79d87ec.webp" srcset="/images/95a7414b45fa9ffd922dfceaa79d87ec-480.webp 480w, /images/95a7414b45fa9ffd922dfceaa79d87ec.webp 1280w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Folo Nature Tours</h3>
 <p class="listing-blurb">Folo Nature Tours is a Surinamese eco-tourism operator offering guided birding tours, nature walks and…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: 885-8495</span>
+<span>Tours y expediciones</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="nature-parks" href="listing/nature-fort-nieuw-amsterdam/">
 <div class="listing-ph">
-<img alt="Fuerte Nieuw Amsterdam en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/299aacf49cb92cbfd09aec7b574302a9.webp" srcset="/images/299aacf49cb92cbfd09aec7b574302a9-480.webp 480w, /images/299aacf49cb92cbfd09aec7b574302a9.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">F</span>
+<img alt="Fuerte Nieuw Amsterdam en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/299aacf49cb92cbfd09aec7b574302a9.webp" srcset="/images/299aacf49cb92cbfd09aec7b574302a9-480.webp 480w, /images/299aacf49cb92cbfd09aec7b574302a9.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Fuerte Nieuw Amsterdam</h3>
 <p class="listing-blurb">Un fuerte del siglo XVIII en forma de estrella en la confluencia de los ríos Surinam y Commewijne. Hoy es un museo al aire libre.</p>
 <div class="listing-meta">
-<span>parques naturales</span>
+<span>Naturaleza y parques</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/fort-zeelandia/">
-<div class="listing-ph"><img alt="Fort Zeelandia, Turismo en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5dd63a457e914609d53d5de5e729143b.webp" srcset="/images/5dd63a457e914609d53d5de5e729143b-480.webp 480w, /images/5dd63a457e914609d53d5de5e729143b.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="Fort Zeelandia, Turismo en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5dd63a457e914609d53d5de5e729143b.webp" srcset="/images/5dd63a457e914609d53d5de5e729143b-480.webp 480w, /images/5dd63a457e914609d53d5de5e729143b.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Fort Zeelandia</h3>
 <p class="listing-blurb">Fort Zeelandia is Paramaribo's iconic 17th-century fort on the banks of the Suriname River, now housing the…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597 425-871</span>
+<span>Museos y patrimonio</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="eco-lodges" href="listing/fred-eco-tours/">
-<div class="listing-ph"><img alt="Fred Eco Tours en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/38e7d8c1d7228646145a9e7ac5b755cd.webp" srcset="/images/38e7d8c1d7228646145a9e7ac5b755cd-480.webp 480w, /images/38e7d8c1d7228646145a9e7ac5b755cd.webp 851w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="Fred Eco Tours en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/38e7d8c1d7228646145a9e7ac5b755cd.webp" srcset="/images/38e7d8c1d7228646145a9e7ac5b755cd-480.webp 480w, /images/38e7d8c1d7228646145a9e7ac5b755cd.webp 851w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Fred Eco Tours</h3>
 <p class="listing-blurb">Un operador turístico dirigido por hermanos que crecieron en la isla de Apiapaati y los pueblos circundantes, con…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +5978858495</span>
+<span>Lodges ecológicos y de río</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/free-city-walk-paramaribo/">
-<div class="listing-ph"><img alt="Free City Walk Paramaribo en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/1a6aec34a606a31dcba1d070cb23b7b7.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="Free City Walk Paramaribo en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/1a6aec34a606a31dcba1d070cb23b7b7.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Free City Walk Paramaribo</h3>
 <p class="listing-blurb">Free City Walk Paramaribo runs free guided walking tours of Paramaribo's UNESCO World Heritage-listed…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: 456-000</span>
+<span>Tours y expediciones</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="nature-parks" href="listing/nature-galibi-nature-reserve/">
 <div class="listing-ph">
-<img alt="Reserva Natural de Galibi en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp" srcset="/images/ec4fdcef8ebe5328b6972dc3a8b14caf-480.webp 480w, /images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">G</span>
+<img alt="Reserva Natural de Galibi en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp" srcset="/images/ec4fdcef8ebe5328b6972dc3a8b14caf-480.webp 480w, /images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Reserva Natural de Galibi</h3>
 <p class="listing-blurb">En la costa atlántica de Surinam, enormes tortugas laúd salen del mar para desovar en uno de los espectáculos más impresionantes de la naturaleza.</p>
 <div class="listing-meta">
-<span>parques naturales</span>
+<span>Naturaleza y parques</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/golf-club-paramaribo/">
-<div class="listing-ph"><img alt="Golf Club Paramaribo en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d4d8e378c5d45e8faf18e84042c5e309.webp" srcset="/images/d4d8e378c5d45e8faf18e84042c5e309-480.webp 480w, /images/d4d8e378c5d45e8faf18e84042c5e309.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Golf Club Paramaribo en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d4d8e378c5d45e8faf18e84042c5e309.webp" srcset="/images/d4d8e378c5d45e8faf18e84042c5e309-480.webp 480w, /images/d4d8e378c5d45e8faf18e84042c5e309.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Golf Club Paramaribo</h3>
 <p class="listing-blurb">Golf Club Paramaribo is Suriname's premier golf facility, offering an 18-hole course in a tropical setting…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Entretenimiento</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="bars-lounges" href="listing/havana-lounge/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Havana Lounge</h3>
 <p class="listing-blurb">Un club y lounge de tendencia latina en Paramaribo. Los jueves es la noche de salsa y dura hasta la 1 a.m. antes…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Vida nocturna</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/het-geologisch-museum/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Het Geologisch Museum</h3>
 <p class="listing-blurb">Un museo sobre la geología y la historia minera de Surinam, ubicado en el Geologisch Mijnbouwkundige Dienst…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Museos y patrimonio</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/het-koto-museum/">
-<div class="listing-ph"><img alt="Het Koto Museum, Turismo en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/eaeae3a95ce7e062136ca4ec6b427fa5.webp" srcset="/images/eaeae3a95ce7e062136ca4ec6b427fa5-480.webp 480w, /images/eaeae3a95ce7e062136ca4ec6b427fa5.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Het Koto Museum, Turismo en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/eaeae3a95ce7e062136ca4ec6b427fa5.webp" srcset="/images/eaeae3a95ce7e062136ca4ec6b427fa5-480.webp 480w, /images/eaeae3a95ce7e062136ca4ec6b427fa5.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Het Koto Museum</h3>
 <p class="listing-blurb">Het Koto Museum in Paramaribo documents the traditional dress of Surinamese Creole women, the koto, through…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597 894-5261</span>
+<span>Museos y patrimonio</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/huub-explorer-tours/">
-<div class="listing-ph"><img alt="Huub Explorer Tours, Aventura en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/caa6b456056c0deea91d17193df20da5.webp" srcset="/images/caa6b456056c0deea91d17193df20da5-480.webp 480w, /images/caa6b456056c0deea91d17193df20da5.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Huub Explorer Tours, Aventura en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/caa6b456056c0deea91d17193df20da5.webp" srcset="/images/caa6b456056c0deea91d17193df20da5-480.webp 480w, /images/caa6b456056c0deea91d17193df20da5.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Huub Explorer Tours</h3>
 <p class="listing-blurb">Huub Explorer Tours is a Paramaribo-based tour operator offering personalised jungle treks, river tours and…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597 826-4189</span>
+<span>Tours y expediciones</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-indigenous-village-tours/">
 <div class="listing-ph">
-<img alt="Visitas a aldeas indígenas en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/600929c23128b12e2c1d04bdb4f6bd0a.webp" srcset="/images/600929c23128b12e2c1d04bdb4f6bd0a-480.webp 480w, /images/600929c23128b12e2c1d04bdb4f6bd0a.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">I</span>
+<img alt="Visitas a aldeas indígenas en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/600929c23128b12e2c1d04bdb4f6bd0a.webp" srcset="/images/600929c23128b12e2c1d04bdb4f6bd0a-480.webp 480w, /images/600929c23128b12e2c1d04bdb4f6bd0a.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Visitas a aldeas indígenas</h3>
 <p class="listing-blurb">Visita las comunidades indígenas trío y wayana en lo profundo del interior, donde siguen vivas tradiciones ancestrales.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="fitness-wellness" href="listing/ismay-van-wilgen-sporthal/">
-<div class="listing-ph"><img alt="Ismay van Wilgen Sporthal en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7e1d176cec7386bd11a52ca5b10f21ba.webp" srcset="/images/7e1d176cec7386bd11a52ca5b10f21ba-480.webp 480w, /images/7e1d176cec7386bd11a52ca5b10f21ba.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">I</span><img alt="Ismay van Wilgen Sporthal en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7e1d176cec7386bd11a52ca5b10f21ba.webp" srcset="/images/7e1d176cec7386bd11a52ca5b10f21ba-480.webp 480w, /images/7e1d176cec7386bd11a52ca5b10f21ba.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Ismay van Wilgen Sporthal</h3>
 <p class="listing-blurb">Un pabellón de deportes en Gravenberchstraat en Paramaribo, que lleva el nombre de Ismay van Wilgen, uno de los líderes de Surinam…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Deporte y fitness</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/jack-tours-travel-service/">
-<div class="listing-ph"><img alt="Jack Tours &amp; Travel Service en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cf46bb83cbfffd26b0f1bb1a79e62c36.webp" srcset="/images/cf46bb83cbfffd26b0f1bb1a79e62c36-480.webp 480w, /images/cf46bb83cbfffd26b0f1bb1a79e62c36.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="Jack Tours &amp; Travel Service en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cf46bb83cbfffd26b0f1bb1a79e62c36.webp" srcset="/images/cf46bb83cbfffd26b0f1bb1a79e62c36-480.webp 480w, /images/cf46bb83cbfffd26b0f1bb1a79e62c36.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Jack Tours &amp; Travel Service</h3>
 <p class="listing-blurb">Jack Tours &amp; Travel Service is a Paramaribo-based tour and travel agency offering guided tours, airport…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597 411755</span>
+<span>Tours y expediciones</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/jenny-tours/">
-<div class="listing-ph"><img alt="Jenny Tours en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/de3f3f7a598d59b4315eff0ab3eb498c.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="Jenny Tours en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/de3f3f7a598d59b4315eff0ab3eb498c.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Jenny Tours</h3>
 <p class="listing-blurb">Jenny Tours is a Surinamese tour operator specialising in guided nature and cultural tours. Offering…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597 885 8495</span>
+<span>Tours y expediciones</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="museums-heritage" href="listing/joden-savanne/">
-<div class="listing-ph"><img alt="Joden Savanne, Aventura en Para" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f5242c4dcb68c6ec348c618da87711db.webp" srcset="/images/f5242c4dcb68c6ec348c618da87711db-480.webp 480w, /images/f5242c4dcb68c6ec348c618da87711db.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="Joden Savanne, Aventura en Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f5242c4dcb68c6ec348c618da87711db.webp" srcset="/images/f5242c4dcb68c6ec348c618da87711db-480.webp 480w, /images/f5242c4dcb68c6ec348c618da87711db.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Joden Savanne</h3>
 <p class="listing-blurb">Joden Savanne is the archaeological remains of one of the oldest Jewish settlements in the Americas, located…</p>
 <div class="listing-meta">
-<span>Para</span>
-<span>Tel.: +597 479-272</span>
+<span>Museos y patrimonio</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-jungle-stargazing/">
 <div class="listing-ph">
+<span aria-hidden="true" class="ph-fb serif">J</span>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Observación de estrellas en la selva</h3>
 <p class="listing-blurb">Sin contaminación lumínica en lo profundo del interior, el cielo nocturno está entre los más impresionantes del mundo.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-jungle-trekking/">
 <div class="listing-ph">
-<img alt="Trekking por la selva en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" srcset="/images/9a71ad5bc48a7f17e058f423852488eb-480.webp 480w, /images/9a71ad5bc48a7f17e058f423852488eb.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">J</span>
+<img alt="Trekking por la selva en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9a71ad5bc48a7f17e058f423852488eb.webp" srcset="/images/9a71ad5bc48a7f17e058f423852488eb-480.webp 480w, /images/9a71ad5bc48a7f17e058f423852488eb.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Trekking por la selva</h3>
 <p class="listing-blurb">Expediciones guiadas de varios días por selva virgen con guías indígenas expertos.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="eco-lodges" href="listing/jungle-xperience-suriname/">
-<div class="listing-ph"><img alt="Jungle Xperience Suriname en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b03a04d2b1685236c9f7e3f07be75421.webp" srcset="/images/b03a04d2b1685236c9f7e3f07be75421-480.webp 480w, /images/b03a04d2b1685236c9f7e3f07be75421.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="Jungle Xperience Suriname en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b03a04d2b1685236c9f7e3f07be75421.webp" srcset="/images/b03a04d2b1685236c9f7e3f07be75421-480.webp 480w, /images/b03a04d2b1685236c9f7e3f07be75421.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Jungle Xperience Suriname</h3>
 <p class="listing-blurb">Una agencia de ecoturismo con excursiones al interior y a la selva de Surinam.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Lodges ecológicos y de río</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-kayaking-paddling/">
 <div class="listing-ph">
-<img alt="Kayak y remo en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/84fe4f9831e42ee235617c70798969c4.webp" srcset="/images/84fe4f9831e42ee235617c70798969c4-480.webp 480w, /images/84fe4f9831e42ee235617c70798969c4.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">K</span>
+<img alt="Kayak y remo en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/84fe4f9831e42ee235617c70798969c4.webp" srcset="/images/84fe4f9831e42ee235617c70798969c4-480.webp 480w, /images/84fe4f9831e42ee235617c70798969c4.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Kayak y remo</h3>
 <p class="listing-blurb">Rema entre manglares, ríos de selva y lagos, con guía o por tu cuenta.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/knini-paati/">
-<div class="listing-ph"><img alt="Knini Paati, Alojamiento en Sipaliwini" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e5bc2d77c05b6ecab0ac76a7a3db1c7e.webp" srcset="/images/e5bc2d77c05b6ecab0ac76a7a3db1c7e-480.webp 480w, /images/e5bc2d77c05b6ecab0ac76a7a3db1c7e.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Knini Paati, Alojamiento en Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e5bc2d77c05b6ecab0ac76a7a3db1c7e.webp" srcset="/images/e5bc2d77c05b6ecab0ac76a7a3db1c7e-480.webp 480w, /images/e5bc2d77c05b6ecab0ac76a7a3db1c7e.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Knini Paati</h3>
 <p class="listing-blurb">Knini Paati River Resort is in the Sipaliwini district, roughly 200 km from Paramaribo, reached by a…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
-<span>Tel.: +597 885-9355</span>
+<span>Lodges ecológicos y de río</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/kodouffi-tapawatra-resort/">
-<div class="listing-ph"><img alt="Kodouffi Tapawatra Resort, Alojamiento en Sipaliwini" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/315266ed486cbd378ad0e279bd329943.webp" srcset="/images/315266ed486cbd378ad0e279bd329943-480.webp 480w, /images/315266ed486cbd378ad0e279bd329943.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kodouffi Tapawatra Resort, Alojamiento en Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/315266ed486cbd378ad0e279bd329943.webp" srcset="/images/315266ed486cbd378ad0e279bd329943-480.webp 480w, /images/315266ed486cbd378ad0e279bd329943.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Kodouffi Tapawatra Resort</h3>
 <p class="listing-blurb">Kodouffi Tapawatra Resort sits at the confluence of the PikienRio and GranRio rivers in the Surinamese…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
-<span>Tel.: +597 862-7899</span>
+<span>Lodges ecológicos y de río</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="fitness-wellness" href="listing/kombat-sports-suriname/">
-<div class="listing-ph"><img alt="Kombat Sports Suriname en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ea45901bf6364b726df17dc8bc0fdc84.webp" srcset="/images/ea45901bf6364b726df17dc8bc0fdc84-480.webp 480w, /images/ea45901bf6364b726df17dc8bc0fdc84.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kombat Sports Suriname en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ea45901bf6364b726df17dc8bc0fdc84.webp" srcset="/images/ea45901bf6364b726df17dc8bc0fdc84-480.webp 480w, /images/ea45901bf6364b726df17dc8bc0fdc84.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Kombat Sports Suriname</h3>
 <p class="listing-blurb">Una fundación que promueve y preserva las artes marciales tradicionales en Surinam, que dirige taekwondo y actividades relacionadas...</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Deporte y fitness</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/lalla-rookh-museum/">
-<div class="listing-ph"><img alt="Lalla Rookh Museum en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/6ac25c310e7dc8076169b758436be90e.webp" srcset="/images/6ac25c310e7dc8076169b758436be90e-480.webp 480w, /images/6ac25c310e7dc8076169b758436be90e.webp 720w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">L</span><img alt="Lalla Rookh Museum en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/6ac25c310e7dc8076169b758436be90e.webp" srcset="/images/6ac25c310e7dc8076169b758436be90e-480.webp 480w, /images/6ac25c310e7dc8076169b758436be90e.webp 720w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Lalla Rookh Museum</h3>
 <p class="listing-blurb">Un museo sobre la historia y la cultura indo-surinamesa, inaugurado el 5 de junio de 2016 por el vicepresidente Ashwin Adhin para conmemorar...</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Museos y patrimonio</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="nature-parks" href="listing/luxury-sky-resort/">
-<div class="listing-ph"><img alt="Luxury Sky Resort en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d25d2acc595641f61a1de4bb27159ce3.webp" srcset="/images/d25d2acc595641f61a1de4bb27159ce3-480.webp 480w, /images/d25d2acc595641f61a1de4bb27159ce3.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">L</span><img alt="Luxury Sky Resort en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d25d2acc595641f61a1de4bb27159ce3.webp" srcset="/images/d25d2acc595641f61a1de4bb27159ce3-480.webp 480w, /images/d25d2acc595641f61a1de4bb27159ce3.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Luxury Sky Resort</h3>
 <p class="listing-blurb">Una piscina pública y restaurante en Paramaribo, inaugurada como la segunda piscina de Luxury Sky Residence y…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +5978860670</span>
+<span>Naturaleza y parques</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-maroon-art-craft/">
 <div class="listing-ph">
-<img alt="Arte y artesanía cimarrona en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ce1112ce098966d27fb379a624e44274.webp" srcset="/images/ce1112ce098966d27fb379a624e44274-480.webp 480w, /images/ce1112ce098966d27fb379a624e44274.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">M</span>
+<img alt="Arte y artesanía cimarrona en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ce1112ce098966d27fb379a624e44274.webp" srcset="/images/ce1112ce098966d27fb379a624e44274-480.webp 480w, /images/ce1112ce098966d27fb379a624e44274.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Arte y artesanía cimarrona</h3>
 <p class="listing-blurb">Mira cómo maestros artesanos tallan la fina madera cimarrona y tejen textiles tradicionales.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-maroon-village-tours/">
 <div class="listing-ph">
-<img alt="Visitas a aldeas cimarronas en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/96c2837c82999c3a834bbdfa12a54710.webp" srcset="/images/96c2837c82999c3a834bbdfa12a54710-480.webp 480w, /images/96c2837c82999c3a834bbdfa12a54710.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">M</span>
+<img alt="Visitas a aldeas cimarronas en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/96c2837c82999c3a834bbdfa12a54710.webp" srcset="/images/96c2837c82999c3a834bbdfa12a54710-480.webp 480w, /images/96c2837c82999c3a834bbdfa12a54710.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Visitas a aldeas cimarronas</h3>
 <p class="listing-blurb">Vive la cultura de los pueblos cimarrones saramaka y matawai: música, artesanía e historia.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/messias-tours/">
-<div class="listing-ph"><img alt="Messias Tours en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/3d850e229672706c3c84514f3ee28830.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Messias Tours en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/3d850e229672706c3c84514f3ee28830.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Messias Tours</h3>
 <p class="listing-blurb">Messias Tours is a Surinamese tour operator offering guided excursions including jungle adventures, river…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: 885-8495</span>
+<span>Tours y expediciones</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="fitness-wellness" href="listing/mgr-aloysius-zichem-sportcomplex/">
-<div class="listing-ph"><img alt="Mgr. Aloysius Zichem Sportcentrum (AZS), en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/424ac6c3564544e13e2e53ff4a1fa3c2.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Mgr. Aloysius Zichem Sportcentrum (AZS), en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/424ac6c3564544e13e2e53ff4a1fa3c2.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Mgr. Aloysius Zichem Sportcentrum (AZS)</h3>
 <p class="listing-blurb">Un centro deportivo en la Prins Hendrikstraat, en Paramaribo.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Deporte y fitness</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/mi-gudu-river-cruiser/">
-<div class="listing-ph"><img alt="Mi Gudu River Cruiser en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/944c796d9e7df268a02fade2651e1572.webp" srcset="/images/944c796d9e7df268a02fade2651e1572-480.webp 480w, /images/944c796d9e7df268a02fade2651e1572.webp 820w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Mi Gudu River Cruiser en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/944c796d9e7df268a02fade2651e1572.webp" srcset="/images/944c796d9e7df268a02fade2651e1572-480.webp 480w, /images/944c796d9e7df268a02fade2651e1572.webp 820w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Mi Gudu River Cruiser</h3>
 <p class="listing-blurb">Un operador de cruceros fluviales en el río Surinam, desde Prinsessestraat en Paramaribo.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Tours y expediciones</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="bars-lounges" href="listing/mj-lounge-club/">
-<div class="listing-ph"><img alt="MJ Lounge &amp; Club en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/da1b661583695ee98b181ababe962f34.webp" srcset="/images/da1b661583695ee98b181ababe962f34-480.webp 480w, /images/da1b661583695ee98b181ababe962f34.webp 720w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="MJ Lounge &amp; Club en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/da1b661583695ee98b181ababe962f34.webp" srcset="/images/da1b661583695ee98b181ababe962f34-480.webp 480w, /images/da1b661583695ee98b181ababe962f34.webp 720w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">MJ Lounge &amp; Club</h3>
 <p class="listing-blurb">Una discoteca y salón en Hofstraat, en el centro de Paramaribo, abierto los fines de semana.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Vida nocturna</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/mondowa-tours/">
-<div class="listing-ph"><img alt="Mondowa Tours en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/6345b80b3d685d755587a7c177c85415.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Mondowa Tours en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/6345b80b3d685d755587a7c177c85415.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Mondowa Tours</h3>
 <p class="listing-blurb">Mondowa Tours is a reputable Surinamese tour operator offering eco-tours, jungle expeditions and cultural…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +5978536423</span>
+<span>Tours y expediciones</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="museums-heritage" href="listing/museum-bakkie/">
-<div class="listing-ph"><img alt="Museum Bakkie, Aventura en Commewijne" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/22677dd3782ef148ddb6b50f76577359.webp" srcset="/images/22677dd3782ef148ddb6b50f76577359-480.webp 480w, /images/22677dd3782ef148ddb6b50f76577359.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Museum Bakkie, Aventura en Commewijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/22677dd3782ef148ddb6b50f76577359.webp" srcset="/images/22677dd3782ef148ddb6b50f76577359-480.webp 480w, /images/22677dd3782ef148ddb6b50f76577359.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Museum Bakkie</h3>
 <p class="listing-blurb">Museum Bakkie is a unique plantation heritage museum on former coffee plantation Reynsdorp in Commewijne. Set…</p>
 <div class="listing-meta">
-<span>Commewijne</span>
-<span>Tel.: +597 865-4130</span>
+<span>Museos y patrimonio</span><span>Commewijne</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-natural-swimming/">
 <div class="listing-ph">
-<img alt="Baños en la naturaleza en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/753690f5e1d4c63e15a7ebdff0b5b69b.webp" srcset="/images/753690f5e1d4c63e15a7ebdff0b5b69b-480.webp 480w, /images/753690f5e1d4c63e15a7ebdff0b5b69b.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">N</span>
+<img alt="Baños en la naturaleza en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/753690f5e1d4c63e15a7ebdff0b5b69b.webp" srcset="/images/753690f5e1d4c63e15a7ebdff0b5b69b-480.webp 480w, /images/753690f5e1d4c63e15a7ebdff0b5b69b.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Baños en la naturaleza</h3>
 <p class="listing-blurb">Date un chapuzón en ríos cristalinos de la selva y pozas naturales en Colakreek y Brownsberg.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="nature-parks" href="listing/neotropical-butterfly-park/">
-<div class="listing-ph"><img alt="Neotropical Butterfly Park en Wanica" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/852dfee40d3278e867957e149fbad33e.webp" srcset="/images/852dfee40d3278e867957e149fbad33e-480.webp 480w, /images/852dfee40d3278e867957e149fbad33e.webp 595w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="Neotropical Butterfly Park en Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/852dfee40d3278e867957e149fbad33e.webp" srcset="/images/852dfee40d3278e867957e149fbad33e-480.webp 480w, /images/852dfee40d3278e867957e149fbad33e.webp 595w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Neotropical Butterfly Park</h3>
 <p class="listing-blurb">Un parque de mariposas en Lelydorp, a 30 o 45 minutos de Paramaribo, que alberga más de 150 especies. La cría…</p>
 <div class="listing-meta">
-<span>Wanica</span>
+<span>Naturaleza y parques</span><span>Wanica</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="bars-lounges" href="listing/next-club-suriname/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Next Club Suriname</h3>
 <p class="listing-blurb">Una discoteca en el hotel Ramada Paramaribo Princess en Kleine Waterstraat.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Vida nocturna</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-sub="fitness-wellness" href="listing/nickerie-tennis-club/">
-<div class="listing-ph"><img alt="Nickerie Tennis Club en Nickerie" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/67fce54efd7d60cfae052737c52955ce.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="Nickerie Tennis Club en Nickerie" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/67fce54efd7d60cfae052737c52955ce.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Nickerie Tennis Club</h3>
 <p class="listing-blurb">Club de tenis en Nieuw Nickerie, fundado el 1 de marzo de 1939 para promover el deporte en el distrito.</p>
 <div class="listing-meta">
-<span>Nickerie</span>
+<span>Deporte y fitness</span><span>Nickerie</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="bars-lounges" href="listing/night-club-diamond/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Night Club Diamond</h3>
 <p class="listing-blurb">Una discoteca en Anton Dragtenweg con DJ residentes y actuaciones en directo que atrae a un público joven. Hay un…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Vida nocturna</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="eco-lodges" href="listing/no-span-eco-tours/">
-<div class="listing-ph"><img alt="No Span Eco Tours en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/02254e51fddfc0cdca237dc549658530.webp" srcset="/images/02254e51fddfc0cdca237dc549658530-480.webp 480w, /images/02254e51fddfc0cdca237dc549658530.webp 865w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="No Span Eco Tours en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/02254e51fddfc0cdca237dc549658530.webp" srcset="/images/02254e51fddfc0cdca237dc549658530-480.webp 480w, /images/02254e51fddfc0cdca237dc549658530.webp 865w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">No Span Eco Tours</h3>
 <p class="listing-blurb">No Span Eco Tours is a Surinamese eco-tour company offering responsible nature tourism including jungle…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Lodges ecológicos y de río</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/okido-tours-travel/">
-<div class="listing-ph"><img alt="Okido Tours &amp; Travel en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/f09f9fc5cabda3e75c7c4efc4fdbd717.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="Okido Tours &amp; Travel en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/f09f9fc5cabda3e75c7c4efc4fdbd717.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Okido Tours &amp; Travel</h3>
 <p class="listing-blurb">Okido Tours &amp; Travel is a Surinamese tour operator and travel agency offering guided day tours, multi-day…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Tours y expediciones</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="museums-heritage" href="listing/stichting-openlucht-museum-fort-nieuw-amsterdam/">
-<div class="listing-ph"><img alt="Museo al aire libre Fuerte Nieuw Amsterdam, en Commewijne" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9199652ccbb4928e8b86cdc1dd2c2ac0.webp" srcset="/images/9199652ccbb4928e8b86cdc1dd2c2ac0-480.webp 480w, /images/9199652ccbb4928e8b86cdc1dd2c2ac0.webp 590w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="Museo al aire libre Fuerte Nieuw Amsterdam, en Commewijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9199652ccbb4928e8b86cdc1dd2c2ac0.webp" srcset="/images/9199652ccbb4928e8b86cdc1dd2c2ac0-480.webp 480w, /images/9199652ccbb4928e8b86cdc1dd2c2ac0.webp 590w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Openluchtmuseum Fort Nieuw-Amsterdam</h3>
 <p class="listing-blurb">An open-air museum inside the walls of Fort Nieuw-Amsterdam, at the point where the Suriname and Commewijne…</p>
 <div class="listing-meta">
-<span>Commewijne</span>
+<span>Museos y patrimonio</span><span>Commewijne</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/outdoor-living/">
-<div class="listing-ph"><img alt="Outdoor Living en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1351a753194e8dc18c980697b97bcce2.webp" srcset="/images/1351a753194e8dc18c980697b97bcce2-480.webp 480w, /images/1351a753194e8dc18c980697b97bcce2.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="Outdoor Living en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1351a753194e8dc18c980697b97bcce2.webp" srcset="/images/1351a753194e8dc18c980697b97bcce2-480.webp 480w, /images/1351a753194e8dc18c980697b97bcce2.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Outdoor Living</h3>
 <p class="listing-blurb">Outdoor Living is a Surinamese outdoor activities and adventure company offering equipment, guided…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597520779</span>
+<span>Entretenimiento</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="fitness-wellness" href="listing/owru-cul-sport-complex/">
-<div class="listing-ph"><img alt="Owru Cul Sport Complex en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/814ecead350cfc91919ac2aa28af88d1.webp" srcset="/images/814ecead350cfc91919ac2aa28af88d1-480.webp 480w, /images/814ecead350cfc91919ac2aa28af88d1.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="Owru Cul Sport Complex en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/814ecead350cfc91919ac2aa28af88d1.webp" srcset="/images/814ecead350cfc91919ac2aa28af88d1-480.webp 480w, /images/814ecead350cfc91919ac2aa28af88d1.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Owru Cul Sport Complex</h3>
 <p class="listing-blurb">Un complejo deportivo y sala de conciertos en Letitia Vriesdelaan en Paramaribo, utilizado tanto para eventos como para deportes.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Deporte y fitness</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="nature-parks" href="listing/nature-palumeu-trio-village/">
 <div class="listing-ph">
-<img alt="Palumeu, aldea trío en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ab2e4fbf15d24db742604fd0e128d1e6.webp" srcset="/images/ab2e4fbf15d24db742604fd0e128d1e6-480.webp 480w, /images/ab2e4fbf15d24db742604fd0e128d1e6.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">P</span>
+<img alt="Palumeu, aldea trío en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ab2e4fbf15d24db742604fd0e128d1e6.webp" srcset="/images/ab2e4fbf15d24db742604fd0e128d1e6-480.webp 480w, /images/ab2e4fbf15d24db742604fd0e128d1e6.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Palumeu, aldea trío</h3>
 <p class="listing-blurb">En lo profundo de la selva del sur, la aldea indígena trío de Palumeu ofrece una mirada única a un modo de vida que no ha cambiado en generaciones.</p>
 <div class="listing-meta">
-<span>parques naturales</span>
+<span>Naturaleza y parques</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-paramaribo-city-walk/">
 <div class="listing-ph">
-<img alt="Paseo por Paramaribo en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d8aefae797694205fb64bfc9bf678e4d.webp" srcset="/images/d8aefae797694205fb64bfc9bf678e4d-480.webp 480w, /images/d8aefae797694205fb64bfc9bf678e4d.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">P</span>
+<img alt="Paseo por Paramaribo en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d8aefae797694205fb64bfc9bf678e4d.webp" srcset="/images/d8aefae797694205fb64bfc9bf678e4d-480.webp 480w, /images/d8aefae797694205fb64bfc9bf678e4d.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Paseo por Paramaribo</h3>
 <p class="listing-blurb">Recorre a pie el centro histórico, Patrimonio de la Humanidad de la UNESCO. La única ciudad colonial de madera de América.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="nature-parks" href="listing/nature-paramaribo-historic-inner-city/">
 <div class="listing-ph">
-<img alt="Centro histórico de Paramaribo en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d8aefae797694205fb64bfc9bf678e4d.webp" srcset="/images/d8aefae797694205fb64bfc9bf678e4d-480.webp 480w, /images/d8aefae797694205fb64bfc9bf678e4d.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">P</span>
+<img alt="Centro histórico de Paramaribo en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d8aefae797694205fb64bfc9bf678e4d.webp" srcset="/images/d8aefae797694205fb64bfc9bf678e4d-480.webp 480w, /images/d8aefae797694205fb64bfc9bf678e4d.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Centro histórico de Paramaribo</h3>
 <p class="listing-blurb">La única ciudad colonial de madera de América. Arquitectura colonial neerlandesa, templos hindúes, mezquitas y sinagogas conviven en notable armonía a orillas del río Surinam.</p>
 <div class="listing-meta">
-<span>parques naturales</span>
+<span>Naturaleza y parques</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/paramaribo-zoo/">
-<div class="listing-ph"><img alt="Paramaribo Zoo en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/48d29ee57648e6abd195cc58ea7fe408.webp" srcset="/images/48d29ee57648e6abd195cc58ea7fe408-480.webp 480w, /images/48d29ee57648e6abd195cc58ea7fe408.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Paramaribo Zoo en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/48d29ee57648e6abd195cc58ea7fe408.webp" srcset="/images/48d29ee57648e6abd195cc58ea7fe408-480.webp 480w, /images/48d29ee57648e6abd195cc58ea7fe408.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Paramaribo Zoo</h3>
 <p class="listing-blurb">Paramaribo Zoo is Suriname's national zoo, home to a diverse collection of South American and Surinamese…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597545275</span>
+<span>Entretenimiento</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="nature-parks" href="listing/nature-peperpot-nature-park/">
 <div class="listing-ph">
-<img alt="Peperpot Nature Park en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d4423cb7cec066ef299021712b2d96d3.webp" srcset="/images/d4423cb7cec066ef299021712b2d96d3-480.webp 480w, /images/d4423cb7cec066ef299021712b2d96d3.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">P</span>
+<img alt="Peperpot Nature Park en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d4423cb7cec066ef299021712b2d96d3.webp" srcset="/images/d4423cb7cec066ef299021712b2d96d3-480.webp 480w, /images/d4423cb7cec066ef299021712b2d96d3.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Peperpot Nature Park</h3>
 <p class="listing-blurb">Una antigua plantación convertida en santuario de aves, a pocos minutos de la capital. Se han registrado más de 200 especies.</p>
 <div class="listing-meta">
-<span>parques naturales</span>
+<span>Naturaleza y parques</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="nature-parks" href="listing/peperpot-nature-park/">
-<div class="listing-ph"><img alt="Peperpot Nature Park, Aventura en Commewijne" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7dd9affea5a6a4d8a85cf5f1413f0f7f.webp" srcset="/images/7dd9affea5a6a4d8a85cf5f1413f0f7f-480.webp 480w, /images/7dd9affea5a6a4d8a85cf5f1413f0f7f.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Peperpot Nature Park, Aventura en Commewijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7dd9affea5a6a4d8a85cf5f1413f0f7f.webp" srcset="/images/7dd9affea5a6a4d8a85cf5f1413f0f7f-480.webp 480w, /images/7dd9affea5a6a4d8a85cf5f1413f0f7f.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Peperpot Nature Park</h3>
 <p class="listing-blurb">Peperpot Nature Park in Commewijne is a former plantation transformed into a birding paradise just 10 minutes…</p>
 <div class="listing-meta">
-<span>Commewijne</span>
-<span>Tel.: +597 354-547</span>
+<span>Naturaleza y parques</span><span>Commewijne</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/pineapple-tours/">
-<div class="listing-ph"><img alt="Pineapple Tours en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a02bc8b8c1dee686801eb8b2062d53e8.webp" srcset="/images/a02bc8b8c1dee686801eb8b2062d53e8-480.webp 480w, /images/a02bc8b8c1dee686801eb8b2062d53e8.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Pineapple Tours en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a02bc8b8c1dee686801eb8b2062d53e8.webp" srcset="/images/a02bc8b8c1dee686801eb8b2062d53e8-480.webp 480w, /images/a02bc8b8c1dee686801eb8b2062d53e8.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Pineapple Tours</h3>
 <p class="listing-blurb">Pineapple Tours is a Paramaribo-based tour operator offering a range of Surinamese experiences from city…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597 891-3305</span>
+<span>Tours y expediciones</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="museums-heritage" href="listing/plantage-frederiksdorp/">
-<div class="listing-ph"><img alt="Plantage Frederiksdorp, Aventura en Commewijne" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/97fcf36bdc7575d6df090e5ac34b621d.webp" srcset="/images/97fcf36bdc7575d6df090e5ac34b621d-480.webp 480w, /images/97fcf36bdc7575d6df090e5ac34b621d.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Plantage Frederiksdorp, Aventura en Commewijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/97fcf36bdc7575d6df090e5ac34b621d.webp" srcset="/images/97fcf36bdc7575d6df090e5ac34b621d-480.webp 480w, /images/97fcf36bdc7575d6df090e5ac34b621d.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Plantage Frederiksdorp</h3>
 <p class="listing-blurb">Plantage Frederiksdorp is a plantation resort on the Commewijne River combining a small museum, a slavery…</p>
 <div class="listing-meta">
-<span>Commewijne</span>
-<span>Tel.: +597 820-0378</span>
+<span>Museos y patrimonio</span><span>Commewijne</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-sub="fitness-wellness" href="listing/pro-fitness-nickerie/">
-<div class="listing-ph"><img alt="Pro-Fitness Nickerie en Nickerie" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/593f62fc2951f8af1def71c75133a0a2.webp" srcset="/images/593f62fc2951f8af1def71c75133a0a2-480.webp 480w, /images/593f62fc2951f8af1def71c75133a0a2.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Pro-Fitness Nickerie en Nickerie" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/593f62fc2951f8af1def71c75133a0a2.webp" srcset="/images/593f62fc2951f8af1def71c75133a0a2-480.webp 480w, /images/593f62fc2951f8af1def71c75133a0a2.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Pro-Fitness Nickerie</h3>
 <p class="listing-blurb">Un gimnasio en Awinistraat en Nieuw Nickerie, que cotiza bajo la línea Get Fit For Life.</p>
 <div class="listing-meta">
-<span>Nickerie</span>
+<span>Deporte y fitness</span><span>Nickerie</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/r-k-bisdom-paramaribo/">
-<div class="listing-ph"><img alt="R K Bisdom Paramaribo en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/1fb5343bc5613f418a85b51f99d3cd99.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="R K Bisdom Paramaribo en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/1fb5343bc5613f418a85b51f99d3cd99.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">R K Bisdom Paramaribo</h3>
 <p class="listing-blurb">R.K. Bisdom Paramaribo is the Roman Catholic Diocese of Paramaribo, the central institution of the Catholic…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Museos y patrimonio</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/readytex-art-gallery/">
-<div class="listing-ph"><img alt="Readytex Art Gallery en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7b86c8e066c871f4eb672b791a8fb720.webp" srcset="/images/7b86c8e066c871f4eb672b791a8fb720-480.webp 480w, /images/7b86c8e066c871f4eb672b791a8fb720.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Readytex Art Gallery en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7b86c8e066c871f4eb672b791a8fb720.webp" srcset="/images/7b86c8e066c871f4eb672b791a8fb720-480.webp 480w, /images/7b86c8e066c871f4eb672b791a8fb720.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Readytex Art Gallery</h3>
 <p class="listing-blurb">Readytex Art Gallery is Suriname's leading contemporary art gallery, representing local and Caribbean…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597421750</span>
+<span>Museos y patrimonio</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="nature-parks" href="listing/recreatie-oord-carolina-kreek/">
-<div class="listing-ph"><img alt="Recreatie Oord Carolina Kreek, Aventura en Para" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ba09a405a8d378f61a0f1f8d88d53fd5.webp" srcset="/images/ba09a405a8d378f61a0f1f8d88d53fd5-480.webp 480w, /images/ba09a405a8d378f61a0f1f8d88d53fd5.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Recreatie Oord Carolina Kreek, Aventura en Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ba09a405a8d378f61a0f1f8d88d53fd5.webp" srcset="/images/ba09a405a8d378f61a0f1f8d88d53fd5-480.webp 480w, /images/ba09a405a8d378f61a0f1f8d88d53fd5.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Recreatie Oord Carolina Kreek</h3>
 <p class="listing-blurb">Recreatie Oord Carolina Kreek is a nature recreation area outside Paramaribo built around a natural creek…</p>
 <div class="listing-meta">
-<span>Para</span>
-<span>Tel.: +597 853-2977</span>
+<span>Naturaleza y parques</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="fitness-wellness" href="listing/ring-sport-center/">
-<div class="listing-ph"><img alt="Ring Sport Center en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/a6140b6c245190b3b19175cd74d76963.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Ring Sport Center en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/a6140b6c245190b3b19175cd74d76963.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Ring Sport Center</h3>
 <p class="listing-blurb">Una sede de bádminton e instalaciones para eventos deportivos en Ringweg-Noord en Paramaribo.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Deporte y fitness</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-river-canoe-tours/">
 <div class="listing-ph">
-<img alt="Paseos en canoa por el río en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/09be00574894146899f6a9df02847fc0.webp" srcset="/images/09be00574894146899f6a9df02847fc0-480.webp 480w, /images/09be00574894146899f6a9df02847fc0.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">R</span>
+<img alt="Paseos en canoa por el río en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/09be00574894146899f6a9df02847fc0.webp" srcset="/images/09be00574894146899f6a9df02847fc0-480.webp 480w, /images/09be00574894146899f6a9df02847fc0.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Paseos en canoa por el río</h3>
 <p class="listing-blurb">Navega en canoas tradicionales talladas en un tronco por la cuenca amazónica y avista caimanes y delfines de río.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-river-dolphin-watching/">
 <div class="listing-ph">
-<img alt="Avistamiento de delfines de río en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/baf0e785040591ff143ed427e43983a8.webp" srcset="/images/baf0e785040591ff143ed427e43983a8-480.webp 480w, /images/baf0e785040591ff143ed427e43983a8.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">R</span>
+<img alt="Avistamiento de delfines de río en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/baf0e785040591ff143ed427e43983a8.webp" srcset="/images/baf0e785040591ff143ed427e43983a8-480.webp 480w, /images/baf0e785040591ff143ed427e43983a8.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Avistamiento de delfines de río</h3>
 <p class="listing-blurb">Avista los escasos delfines de agua dulce en un paseo en bote por el pintoresco río Commewijne.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/royal-tours-suriname-guyana/">
-<div class="listing-ph"><img alt="Royal Tours Suriname Guyana en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/3722b8c4c2332d9b371632ddc349c814.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Royal Tours Suriname Guyana en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/3722b8c4c2332d9b371632ddc349c814.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Royal Tours Suriname Guyana</h3>
 <p class="listing-blurb">Royal Tours Suriname &amp; Guyana is a travel and tour company offering guided tours within Suriname and…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597 897 9400</span>
+<span>Tours y expediciones</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="museums-heritage" href="listing/saamaka-marron-museum/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Saamaka Marron Museum</h3>
 <p class="listing-blurb">Un museo de arte e historia cultural saamaka en el pueblo de Pikin Slee en el río Alto Surinam. El…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
+<span>Museos y patrimonio</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/sana-budaya/">
-<div class="listing-ph"><img alt="Sana Budaya in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/f0f00eae8a826fad8724305daec6e511.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Sana Budaya in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/f0f00eae8a826fad8724305daec6e511.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Sana Budaya</h3>
 <p class="listing-blurb">Sana Budaya is a cultural and community centre of the Vereniging Herdenking Javaanse Immigratie (VHJI) in…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 7228263</span>
+<span>Museos y patrimonio</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="nature-parks" href="listing/sendang-redjo/">
-<div class="listing-ph"><img alt="Sendang Redjo en Commewijne" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f3bc20217250f6afbd021d9729cb7ad2.webp" srcset="/images/f3bc20217250f6afbd021d9729cb7ad2-480.webp 480w, /images/f3bc20217250f6afbd021d9729cb7ad2.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Sendang Redjo en Commewijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f3bc20217250f6afbd021d9729cb7ad2.webp" srcset="/images/f3bc20217250f6afbd021d9729cb7ad2-480.webp 480w, /images/f3bc20217250f6afbd021d9729cb7ad2.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Sendang Redjo</h3>
 <p class="listing-blurb">Sendang Redjo is a Javanese-Surinamese recreation resort in Tamanredjo, Commewijne, about a 30-minute drive…</p>
 <div class="listing-meta">
-<span>Commewijne</span>
-<span>Tel.: +5978592337</span>
+<span>Naturaleza y parques</span><span>Commewijne</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="fitness-wellness" href="listing/simson-gym/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Simson Gym</h3>
 <p class="listing-blurb">Un gimnasio de kickboxing en Nieuwe Charlesburgweg en Paramaribo, que entrena a miembros recreativos y competitivos...</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Deporte y fitness</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="nature-parks" href="listing/nature-sipaliwini-savanna/">
 <div class="listing-ph">
-<img alt="Sabana de Sipaliwini en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/6796f1cde4b573ca79acd33dcfc4c08d.jpg" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">S</span>
+<img alt="Sabana de Sipaliwini en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/6796f1cde4b573ca79acd33dcfc4c08d.jpg" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Sabana de Sipaliwini</h3>
 <p class="listing-blurb">Una sabana aislada cerca de la frontera con Brasil, hogar de osos hormigueros gigantes, pumas y ríos de aguas negras intactos.</p>
 <div class="listing-meta">
-<span>parques naturales</span>
+<span>Naturaleza y parques</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-sport-fishing/">
 <div class="listing-ph">
-<img alt="Pesca deportiva en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5bceaeb0abb7e7a2ed5c7270f6420a0d.webp" srcset="/images/5bceaeb0abb7e7a2ed5c7270f6420a0d-480.webp 480w, /images/5bceaeb0abb7e7a2ed5c7270f6420a0d.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">S</span>
+<img alt="Pesca deportiva en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5bceaeb0abb7e7a2ed5c7270f6420a0d.webp" srcset="/images/5bceaeb0abb7e7a2ed5c7270f6420a0d-480.webp 480w, /images/5bceaeb0abb7e7a2ed5c7270f6420a0d.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Pesca deportiva</h3>
 <p class="listing-blurb">Pesca pirañas, arapaimas y tucunarés en ríos de selva y embalses.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/stichting-surinaams-museum/">
-<div class="listing-ph"><img alt="Stichting Surinaams Museum en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d2818c08116731f5e604859e5f2bd101.webp" srcset="/images/d2818c08116731f5e604859e5f2bd101-480.webp 480w, /images/d2818c08116731f5e604859e5f2bd101.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Stichting Surinaams Museum en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d2818c08116731f5e604859e5f2bd101.webp" srcset="/images/d2818c08116731f5e604859e5f2bd101-480.webp 480w, /images/d2818c08116731f5e604859e5f2bd101.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Stichting Surinaams Museum</h3>
 <p class="listing-blurb">Stichting Surinaams Museum manages Fort Zeelandia and Suriname's national museum collection, preserving and…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597425871</span>
+<span>Museos y patrimonio</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="nature-parks" href="listing/stinasu-stichting-natuurbehoud-suriname/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">STINASU - Stichting Natuurbehoud Suriname</h3>
 <p class="listing-blurb">The Foundation for Nature Conservation in Suriname, set up in 1969 to handle education and visitor access in…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Naturaleza y parques</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/suran-adventures-tours-travel/">
-<div class="listing-ph"><img alt="Suran Adventures Tours &amp; Travel, en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/3fa54f6483087f636af40e56c75f56fc.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Suran Adventures Tours &amp; Travel, en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/3fa54f6483087f636af40e56c75f56fc.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Suran Adventures Tours &amp; Travel</h3>
 <p class="listing-blurb">Suran Adventures Tours &amp; Travel is a Surinamese adventure tour operator offering jungle treks, river…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +5978403943</span>
+<span>Tours y expediciones</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="fitness-wellness" href="listing/surinaamse-badminton-bond/">
-<div class="listing-ph"><img alt="Surinaamse Badminton Bond (SuBaBo), en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/7bebe232979e852306d73b1218db58fd.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Surinaamse Badminton Bond (SuBaBo), en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/7bebe232979e852306d73b1218db58fd.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Surinaamse Badminton Bond (SuBaBo)</h3>
 <p class="listing-blurb">La federación oficial de bádminton de Surinam.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Deporte y fitness</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="nature-parks" href="listing/suriname-wildlife-sanctuary/">
-<div class="listing-ph"><img alt="Suriname Wildlife Sanctuary en Para" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ce315b90d8b478c2a4813e8d0df9f76d.webp" srcset="/images/ce315b90d8b478c2a4813e8d0df9f76d-480.webp 480w, /images/ce315b90d8b478c2a4813e8d0df9f76d.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Suriname Wildlife Sanctuary en Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ce315b90d8b478c2a4813e8d0df9f76d.webp" srcset="/images/ce315b90d8b478c2a4813e8d0df9f76d-480.webp 480w, /images/ce315b90d8b478c2a4813e8d0df9f76d.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Suriname Wildlife Sanctuary</h3>
 <p class="listing-blurb">Un centro de rescate y rehabilitación de vida silvestre nativa, fundado por Matthijs y Valeska Kuijpers quienes se mudaron a…</p>
 <div class="listing-meta">
-<span>Para</span>
+<span>Naturaleza y parques</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-surinamese-cooking-class/">
 <div class="listing-ph">
-<img alt="Clase de cocina surinamesa en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/35bcb075947351879e4f91b05c4e9014.webp" srcset="/images/35bcb075947351879e4f91b05c4e9014-480.webp 480w, /images/35bcb075947351879e4f91b05c4e9014.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">S</span>
+<img alt="Clase de cocina surinamesa en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/35bcb075947351879e4f91b05c4e9014.webp" srcset="/images/35bcb075947351879e4f91b05c4e9014-480.webp 480w, /images/35bcb075947351879e4f91b05c4e9014.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Clase de cocina surinamesa</h3>
 <p class="listing-blurb">Aprende a cocinar platos tradicionales criollos, indostanos y javaneses con una familia de Paramaribo.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/suundergrnd/">
-<div class="listing-ph"><img alt="SuUndergrnd en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/65be281f969cac3efefe433741dfbfef.webp" srcset="/images/65be281f969cac3efefe433741dfbfef-480.webp 480w, /images/65be281f969cac3efefe433741dfbfef.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="SuUndergrnd en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/65be281f969cac3efefe433741dfbfef.webp" srcset="/images/65be281f969cac3efefe433741dfbfef-480.webp 480w, /images/65be281f969cac3efefe433741dfbfef.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">SuUndergrnd</h3>
 <p class="listing-blurb">SuUnderGrnd is a new movement that celebrates the beauty of humanity and nature. Every gathering strangers…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597 8996640</span>
+<span>Entretenimiento</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="nature-parks" href="listing/nature-tafelberg/">
 <div class="listing-ph">
-<img alt="Tafelberg en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a4bde2187936caee6f5d2e090e984daa.webp" srcset="/images/a4bde2187936caee6f5d2e090e984daa-480.webp 480w, /images/a4bde2187936caee6f5d2e090e984daa.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">T</span>
+<img alt="Tafelberg en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a4bde2187936caee6f5d2e090e984daa.webp" srcset="/images/a4bde2187936caee6f5d2e090e984daa-480.webp 480w, /images/a4bde2187936caee6f5d2e090e984daa.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tafelberg</h3>
 <p class="listing-blurb">Una montaña de cima plana que se alza de forma espectacular sobre la selva, con especies vegetales únicas en el mundo.</p>
 <div class="listing-meta">
-<span>parques naturales</span>
+<span>Naturaleza y parques</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/tbl-cinemas/">
-<div class="listing-ph"><img alt="TBL Cinemas en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ca152e0d3e8d10da2f42b21d8d204b9f.webp" srcset="/images/ca152e0d3e8d10da2f42b21d8d204b9f-480.webp 480w, /images/ca152e0d3e8d10da2f42b21d8d204b9f.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="TBL Cinemas en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ca152e0d3e8d10da2f42b21d8d204b9f.webp" srcset="/images/ca152e0d3e8d10da2f42b21d8d204b9f-480.webp 480w, /images/ca152e0d3e8d10da2f42b21d8d204b9f.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">TBL Cinemas</h3>
 <p class="listing-blurb">TBL Cinemas is Suriname's largest cinema chain, with multi-screen locations across Paramaribo showing the…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597463737</span>
+<span>Entretenimiento</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/telesur-telecommunicatie-museum/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Telesur Telecommunicatie Museum</h3>
 <p class="listing-blurb">Un museo de las telecomunicaciones gestionado por Telesur sobre la historia de la red en Surinam.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Museos y patrimonio</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/golden-eye-suriname/">
-<div class="listing-ph"><img alt="The Golden Eye of Suriname en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7c73f726b48ba2705fa39cd94ed80dd3.webp" srcset="/images/7c73f726b48ba2705fa39cd94ed80dd3-480.webp 480w, /images/7c73f726b48ba2705fa39cd94ed80dd3.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="The Golden Eye of Suriname en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7c73f726b48ba2705fa39cd94ed80dd3.webp" srcset="/images/7c73f726b48ba2705fa39cd94ed80dd3-480.webp 480w, /images/7c73f726b48ba2705fa39cd94ed80dd3.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">The Golden Eye of Suriname</h3>
 <p class="listing-blurb">Un nuevo mirador en construcción en Surinam, promocionado como punto panorámico emblemático.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Entretenimiento</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/theater-thalia/">
-<div class="listing-ph"><img alt="Theater Thalia en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/55bdfd4276dc4db790f0b0c9986aa20f.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Theater Thalia en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/55bdfd4276dc4db790f0b0c9986aa20f.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Theater Thalia</h3>
 <p class="listing-blurb">Theater Thalia is Paramaribo's main performing arts venue, staging theatre productions, live music, dance…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Entretenimiento</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/tio-boto-eco-resort/">
-<div class="listing-ph"><img alt="Tio Boto Eco Resort, Aventura en Sipaliwini" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8af62e22915bf8acea87f6859d5801d0.webp" srcset="/images/8af62e22915bf8acea87f6859d5801d0-480.webp 480w, /images/8af62e22915bf8acea87f6859d5801d0.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Tio Boto Eco Resort, Aventura en Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8af62e22915bf8acea87f6859d5801d0.webp" srcset="/images/8af62e22915bf8acea87f6859d5801d0-480.webp 480w, /images/8af62e22915bf8acea87f6859d5801d0.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tio Boto Eco Resort</h3>
 <p class="listing-blurb">Tio Boto Eco Resort is a riverside eco-lodge in Suriname's interior, built and managed by the local Maroon…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
-<span>Tel.: +597 875-8790</span>
+<span>Lodges ecológicos y de río</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/tropa-de-elite-paintball-field/">
-<div class="listing-ph"><img alt="Tropa de Elite Paintball en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b85c16ffcb73bb2ed684833443085ce4.webp" srcset="/images/b85c16ffcb73bb2ed684833443085ce4-480.webp 480w, /images/b85c16ffcb73bb2ed684833443085ce4.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Tropa de Elite Paintball en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b85c16ffcb73bb2ed684833443085ce4.webp" srcset="/images/b85c16ffcb73bb2ed684833443085ce4-480.webp 480w, /images/b85c16ffcb73bb2ed684833443085ce4.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tropa de Elite Paintball</h3>
 <p class="listing-blurb">Un lugar de paintball en Surinam, administrado junto al equipo de paintball Tropa de Elite. Uno de los pocos lugares en el…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Entretenimiento</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="tours-expeditions" href="listing/activity-turtle-watching/">
 <div class="listing-ph">
-<img alt="Observación de tortugas en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp" srcset="/images/ec4fdcef8ebe5328b6972dc3a8b14caf-480.webp 480w, /images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">T</span>
+<img alt="Observación de tortugas en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp" srcset="/images/ec4fdcef8ebe5328b6972dc3a8b14caf-480.webp 480w, /images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Observación de tortugas</h3>
 <p class="listing-blurb">Observa a las enormes tortugas laúd desovar en la costa atlántica de Surinam, en Galibi o Wia Wia.</p>
 <div class="listing-meta">
-<span>tours expediciones</span>
+<span>Tours y expediciones</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/unlimited-suriname-tours/">
-<div class="listing-ph"><img alt="Unlimited Suriname Tours, Aventura en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8d069d1ea08fc540d47b7d4158f4e58b.webp" srcset="/images/8d069d1ea08fc540d47b7d4158f4e58b-480.webp 480w, /images/8d069d1ea08fc540d47b7d4158f4e58b.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">U</span><img alt="Unlimited Suriname Tours, Aventura en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8d069d1ea08fc540d47b7d4158f4e58b.webp" srcset="/images/8d069d1ea08fc540d47b7d4158f4e58b-480.webp 480w, /images/8d069d1ea08fc540d47b7d4158f4e58b.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Unlimited Suriname Tours</h3>
 <p class="listing-blurb">Unlimited Suriname Tours runs guided tours into Suriname's interior, covering rainforest, river and…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597 879-5436</span>
+<span>Tours y expediciones</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="nature-parks" href="listing/nature-upper-suriname-river/">
 <div class="listing-ph">
-<img alt="Alto río Surinam en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/09be00574894146899f6a9df02847fc0.webp" srcset="/images/09be00574894146899f6a9df02847fc0-480.webp 480w, /images/09be00574894146899f6a9df02847fc0.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">U</span>
+<img alt="Alto río Surinam en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/09be00574894146899f6a9df02847fc0.webp" srcset="/images/09be00574894146899f6a9df02847fc0-480.webp 480w, /images/09be00574894146899f6a9df02847fc0.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Alto río Surinam</h3>
 <p class="listing-blurb">Remonta el río entre selva densa hasta las aldeas cimarronas de los pueblos saramaka y matawai. Alójate en lodges tradicionales y vive una cultura ancestral que sigue viva.</p>
 <div class="listing-meta">
-<span>parques naturales</span>
+<span>Naturaleza y parques</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Brokopondo" data-sub="nature-parks" href="listing/vigys-camp/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Vigy's Camp</h3>
 <p class="listing-blurb">Un lugar de recreación en Avobakaweg en Rama en Brokopondo, preparado para visitas de un día, natación y barbacoas en un…</p>
 <div class="listing-meta">
-<span>Brokopondo</span>
-<span>Tel: +5978732747</span>
+<span>Naturaleza y parques</span><span>Brokopondo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="nature-parks" href="listing/nature-voltzberg-raleighvallen/">
 <div class="listing-ph">
-<img alt="Voltzberg y Raleighvallen en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7c96c70342ccb03fb73b5cfad71f003a.webp" srcset="/images/7c96c70342ccb03fb73b5cfad71f003a-480.webp 480w, /images/7c96c70342ccb03fb73b5cfad71f003a.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">V</span>
+<img alt="Voltzberg y Raleighvallen en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7c96c70342ccb03fb73b5cfad71f003a.webp" srcset="/images/7c96c70342ccb03fb73b5cfad71f003a-480.webp 480w, /images/7c96c70342ccb03fb73b5cfad71f003a.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Voltzberg y Raleighvallen</h3>
 <p class="listing-blurb">Una icónica cúpula de granito sobre el interminable dosel de la selva. Solo accesible en expediciones de varios días: la recompensa definitiva para los viajeros más aventureros.</p>
 <div class="listing-meta">
-<span>parques naturales</span>
+<span>Naturaleza y parques</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/wayfinders-exclusive-n-v/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">W</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Wayfinders Exclusive N.V.</h3>
 <p class="listing-blurb">Wayfinders Exclusive is a car rental and ATV tour operator in Suriname, offering vehicle hire for independent…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +597 766-4837</span>
+<span>Tours y expediciones</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-sub="nature-parks" href="listing/nature-wia-wia-nature-reserve/">
 <div class="listing-ph">
-<img alt="Reserva Natural Wia Wia en Surinam" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp" srcset="/images/ec4fdcef8ebe5328b6972dc3a8b14caf-480.webp 480w, /images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp 900w" width="400"/>
+<span aria-hidden="true" class="ph-fb serif">W</span>
+<img alt="Reserva Natural Wia Wia en Surinam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp" srcset="/images/ec4fdcef8ebe5328b6972dc3a8b14caf-480.webp 480w, /images/ec4fdcef8ebe5328b6972dc3a8b14caf.webp 900w" width="400"/>
 </div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Reserva Natural Wia Wia</h3>
 <p class="listing-blurb">Un tramo protegido de costa atlántica donde las tortugas marinas en peligro llevan siglos desovando. Remoto, poco visitado y completamente salvaje.</p>
 <div class="listing-meta">
-<span>parques naturales</span>
+<span>Naturaleza y parques</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="nature-parks" href="listing/zin-resort/">
-<div class="listing-ph"><img alt="Zin Resort en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3396986ca07450a52a4896956a4c23df.webp" srcset="/images/3396986ca07450a52a4896956a4c23df-480.webp 480w, /images/3396986ca07450a52a4896956a4c23df.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Z</span><img alt="Zin Resort en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3396986ca07450a52a4896956a4c23df.webp" srcset="/images/3396986ca07450a52a4896956a4c23df-480.webp 480w, /images/3396986ca07450a52a4896956a4c23df.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Zin Resort</h3>
 <p class="listing-blurb">Piscina pública, casa de huéspedes y bar en Van Roseveltkade en Paramaribo, a unos 3 km del centro. El…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel.: +5978627978</span>
+<span>Naturaleza y parques</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="nature-parks" href="listing/stichting-zwembad-parima/">
-<div class="listing-ph"><img alt="Zwembad Parima en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/e7c231a0f6ca0bc065ccc4557333520a.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Z</span><img alt="Zwembad Parima en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/e7c231a0f6ca0bc065ccc4557333520a.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Zwembad Parima</h3>
 <p class="listing-blurb">Una piscina pública en Paramaribo para todas las edades, con turnos de mañana y de tarde.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Naturaleza y parques</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="fitness-wellness" href="listing/zwemschool-tukunari/">
-<div class="listing-ph"><img alt="Zwemschool Tukunari en Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/b00f943a9d3c974ea818c3a2568374be.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Z</span><img alt="Zwemschool Tukunari en Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/b00f943a9d3c974ea818c3a2568374be.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Zwemschool Tukunari</h3>
 <p class="listing-blurb">Una escuela de natación en la calle Sr. Eduard J. Brumastraat en Paramaribo, que enseña a todas las edades.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Deporte y fitness</span><span>Paramaribo</span>
 </div>
 </div>
 </a>

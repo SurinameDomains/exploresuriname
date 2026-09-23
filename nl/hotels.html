@@ -166,22 +166,63 @@
     @media(hover:none){ .filter-chip, .dist-chip { min-height:44px; } }
     .dict-chiprow{scrollbar-width:none;-ms-overflow-style:none}
     .dict-chiprow::-webkit-scrollbar{display:none}
-    .listing-card { transition:opacity .2s; content-visibility:auto; contain-intrinsic-size:560px; contain-intrinsic-size:auto 560px; }
-    .listing-ph { position:relative; aspect-ratio:4/5; overflow:hidden; background:#DFD7C2; }
-    .listing-name { font-size:1.5rem; line-height:1.15; font-weight:400; color:var(--forest); }
-    .listing-blurb { font-size:.9rem; line-height:1.5; color:var(--ink-soft); margin:.25rem 0 0;
+    /* Category grids (Sep 2026 redesign): 4 landscape cards per row on desktop
+       instead of 3 portrait ones, so ~8 listings show above the fold, not 3.
+       Services/Shopping use .listing-rows (compact thumbnail rows): people
+       pick a salon or hardware store on category and area, not on a photo. */
+    .listing-grid { display:grid; grid-template-columns:minmax(0,1fr); gap:2rem 1.25rem; }
+    @media(min-width:640px){ .listing-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media(min-width:900px){ .listing-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+    @media(min-width:1100px){ .listing-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+    .listing-card { transition:opacity .2s; content-visibility:auto; contain-intrinsic-size:330px; contain-intrinsic-size:auto 330px; }
+    .listing-ph { position:relative; aspect-ratio:4/3; overflow:hidden; background:#DFD7C2; }
+    .listing-ph > img { position:absolute; inset:0; background:#DFD7C2; }
+    /* Shown when a listing has no photo, or its photo fails to load (the img
+       hides itself onerror and this sits underneath). */
+    .ph-fb { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+             font-family:inherit; font-size:3rem; line-height:1; color:rgba(35,48,40,.28); user-select:none; }
+    .listing-name { font-size:1.25rem; line-height:1.2; font-weight:400; color:var(--forest); }
+    .listing-blurb { font-size:.86rem; line-height:1.5; color:var(--ink-soft); margin:.2rem 0 0;
                      display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
     .listing-meta { display:flex; justify-content:space-between; gap:.75rem; margin-top:auto;
                     border-top:1px solid #DDD4C1; padding-top:.55rem;
                     font-size:.66rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
                     color:#656C63; }
     .listing-meta span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    /* One column on phones: a 4:5 crop makes each card a full screen, so the
-       photo goes landscape below 640 and the scroll roughly halves. */
-    @media(max-width:640px){
+    .listing-meta span:last-child:not(:first-child) { flex-shrink:0; max-width:50%; }
+    /* Phones: one column, a slightly flatter 3:2 photo keeps ~2 cards per screen. */
+    @media(max-width:639px){
       .listing-ph { aspect-ratio:3/2; }
-      .listing-card { contain-intrinsic-size:380px; contain-intrinsic-size:auto 380px; }
+      .listing-card { contain-intrinsic-size:340px; contain-intrinsic-size:auto 340px; }
+      .listing-name { font-size:1.35rem; }
     }
+    /* Compact rows (Services, Shopping) */
+    .listing-rows { display:grid; grid-template-columns:minmax(0,1fr); column-gap:2.5rem; border-top:1px solid #DDD4C1; }
+    @media(min-width:900px){ .listing-rows { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    .listing-row { display:flex; flex-direction:row; align-items:center; gap:1rem; padding:.85rem 0;
+                   border-bottom:1px solid #DDD4C1; contain-intrinsic-size:108px; contain-intrinsic-size:auto 108px; }
+    .listing-row .listing-ph { flex:0 0 5.25rem; width:5.25rem; aspect-ratio:1/1; }
+    .listing-row .ph-fb { font-size:1.9rem; }
+    .row-body { min-width:0; flex:1; display:flex; flex-direction:column; gap:.15rem; }
+    .listing-row .listing-name { font-size:1.12rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .listing-row .listing-blurb { -webkit-line-clamp:1; line-clamp:1; font-size:.84rem; margin:0; }
+    .row-meta { display:flex; flex-wrap:nowrap; overflow:hidden; column-gap:.5rem; font-size:.66rem; font-weight:600; letter-spacing:.12em;
+                text-transform:uppercase; color:#656C63; }
+    .row-meta span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+    .row-meta span:first-child { flex-shrink:0; max-width:60%; }
+    .row-meta span + span::before { content:"·"; margin-right:.5rem; color:#A39B88; }
+    .row-feat { display:inline-block; vertical-align:middle; margin-left:.4rem; font-family:system-ui,sans-serif;
+                font-size:.62rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+                padding:.15rem .45rem; border-radius:9999px; background:#E76F51; color:#fff; }
+    @media(max-width:639px){ .listing-row { contain-intrinsic-size:100px; contain-intrinsic-size:auto 100px; }
+                             .listing-row .listing-ph { flex-basis:4.5rem; width:4.5rem; }
+                             .dist-sel { max-width:8.5rem; font-size:.8rem; } }
+    /* District picker (replaces the second chip row, saves ~45px of sticky bar) */
+    .dist-sel { flex-shrink:0; appearance:none; -webkit-appearance:none; border:0; border-bottom:1.5px solid #DDD4C1;
+                border-radius:0!important; background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23656C63' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right .1rem center;
+                padding:.45rem 1.1rem .45rem 0; font-size:.85rem; color:var(--forest2); cursor:pointer; max-width:11rem; }
+    .dist-sel:focus-visible { outline:2px solid var(--forest2); outline-offset:2px; }
+    @media(hover:none){ .dist-sel { min-height:44px; } }
     .listing-card.hidden { display:none; }
     /* PWA install bar (Android prompt + iOS A2HS tip) */
     #pwa-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(130%);transition:transform .35s cubic-bezier(.22,1,.36,1);background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 28px rgba(0,0,0,.14);padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
@@ -839,18 +880,13 @@ document.addEventListener('keydown', e => {
 </div>
 </div>
 </div>
-<div class="sticky top-[58px] z-40 pb-2 mb-6" style="background:var(--paper-2)">
+<div class="sticky top-[58px] z-40 pb-2 mb-5" style="background:var(--paper-2)">
 <div class="max-w-6xl mx-auto px-5">
-<!-- Subcat chips -->
-<div class="relative flex items-center gap-1 pt-3">
+<div class="relative flex items-center gap-5 pt-3">
 <div class="flex gap-6 overflow-x-auto pb-1" id="chipbar-hotel" style="scrollbar-width:none;-ms-overflow-style:none">
 <button class="filter-chip chip-active" onclick="filterSub(this,'all')">Alles <span class="chip-count">119</span></button><button class="filter-chip" onclick="filterSub(this,'city-hotels')">Stadshotels <span class="chip-count">29</span></button><button class="filter-chip" onclick="filterSub(this,'resorts')">Resorts <span class="chip-count">16</span></button><button class="filter-chip" onclick="filterSub(this,'casino-hotels')">Casinohotels <span class="chip-count">7</span></button><button class="filter-chip" onclick="filterSub(this,'eco-lodges')">Eco- &amp; rivierlodges <span class="chip-count">35</span></button><button class="filter-chip" onclick="filterSub(this,'guesthouses')">Guesthouses &amp; villa's <span class="chip-count">32</span></button>
 </div>
-</div>
-<!-- District chips -->
-<div class="flex gap-5 overflow-x-auto pt-2 pb-1" style="scrollbar-width:none">
-<span class="text-xs font-semibold text-gray-400 self-center shrink-0 mr-1">District:</span>
-<button class="dist-chip dist-chip-active" onclick="filterDistrict(this,'all')">Alle districten <span class="chip-count">119</span></button><button class="dist-chip" onclick="filterDistrict(this,'Paramaribo')">Paramaribo <span class="chip-count">65</span></button><button class="dist-chip" onclick="filterDistrict(this,'Wanica')">Wanica <span class="chip-count">11</span></button><button class="dist-chip" onclick="filterDistrict(this,'Commewijne')">Commewijne <span class="chip-count">3</span></button><button class="dist-chip" onclick="filterDistrict(this,'Para')">Para <span class="chip-count">13</span></button><button class="dist-chip" onclick="filterDistrict(this,'Nickerie')">Nickerie <span class="chip-count">5</span></button><button class="dist-chip" onclick="filterDistrict(this,'Marowijne')">Marowijne <span class="chip-count">4</span></button><button class="dist-chip" onclick="filterDistrict(this,'Brokopondo')">Brokopondo <span class="chip-count">3</span></button><button class="dist-chip" onclick="filterDistrict(this,'Saramacca')">Saramacca <span class="chip-count">1</span></button><button class="dist-chip" onclick="filterDistrict(this,'Sipaliwini')">Sipaliwini <span class="chip-count">15</span></button>
+<select aria-label="District" class="dist-sel" id="dist-sel" onchange="filterDistrict(this, this.value)"><option value="all">Alle districten</option><option value="Paramaribo">Paramaribo</option><option value="Wanica">Wanica</option><option value="Commewijne">Commewijne</option><option value="Para">Para</option><option value="Nickerie">Nickerie</option><option value="Marowijne">Marowijne</option><option value="Brokopondo">Brokopondo</option><option value="Saramacca">Saramacca</option><option value="Sipaliwini">Sipaliwini</option></select>
 </div>
 </div>
 </div>
@@ -868,7 +904,7 @@ function _applyFilters() {
   var lbl = document.getElementById('result-count');
   if (lbl) lbl.textContent = visible + ' results';
 
-  /* ── Update district chip counts dynamically ── */
+  /* ── Update district option counts dynamically ── */
   var distCounts = {};
   var totalVisible = 0;
   document.querySelectorAll('.listing-card').forEach(function(card) {
@@ -878,26 +914,20 @@ function _applyFilters() {
     for (var di = 0; di < ds.length; di++) { distCounts[ds[di]] = (distCounts[ds[di]] || 0) + 1; }
     totalVisible++;
   });
-  document.querySelectorAll('.dist-chip').forEach(function(btn) {
-    var dist = btn.getAttribute('onclick').match(/'([^']+)'\s*\)/);
-    if (!dist) return;
-    dist = dist[1];
-    var countEl = btn.querySelector('.chip-count');
-    if (dist === 'all') {
-      if (countEl) countEl.textContent = totalVisible;
-    } else {
-      var c = distCounts[dist] || 0;
-      if (countEl) countEl.textContent = c;
-      btn.style.display = c > 0 ? '' : 'none';
+  var sel = document.getElementById('dist-sel');
+  if (sel) {
+    var reset = false;
+    for (var oi = 0; oi < sel.options.length; oi++) {
+      var o = sel.options[oi], v = o.value;
+      if (v === 'all') continue;
+      var c = distCounts[v] || 0;
+      o.disabled = c === 0;
+      o.hidden = c === 0;
       /* if active district now has 0 results, reset to all */
-      if (c === 0 && _activeDist === dist) {
-        _activeDist = 'all';
-        document.querySelectorAll('.dist-chip').forEach(function(b) { b.classList.remove('dist-chip-active'); });
-        var allBtn = document.querySelector('.dist-chip');
-        if (allBtn) allBtn.classList.add('dist-chip-active');
-      }
+      if (c === 0 && _activeDist === v) reset = true;
     }
-  });
+    if (reset) { _activeDist = 'all'; sel.value = 'all'; _applyFilters(); return; }
+  }
 }
 
 function filterSub(btn, key) {
@@ -907,10 +937,9 @@ function filterSub(btn, key) {
   _applyFilters();
 }
 
-function filterDistrict(btn, dist) {
-  _activeDist = dist;
-  document.querySelectorAll('.dist-chip').forEach(function(b) { b.classList.remove('dist-chip-active'); });
-  btn.classList.add('dist-chip-active');
+function filterDistrict(el, dist) {
+  _activeDist = dist || 'all';
+  if (el && el.tagName === 'SELECT' && el.value !== _activeDist) el.value = _activeDist;
   _applyFilters();
 }
 
@@ -938,1302 +967,1194 @@ function filterDistrict(btn, dist) {
 </script>
 <main class="max-w-6xl mx-auto px-5 pt-2 pb-24">
 <div class="text-sm text-gray-400 mb-4 font-medium" id="result-count">119 resultaten</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="listing-grid">
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/101-suites/">
-<div class="listing-ph"><img alt="101 Suites in Paramaribo" class="w-full h-full object-cover" fetchpriority="high" height="500" loading="eager" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1d36ba6006605f2152acb3c9c63a2da3.webp" srcset="/images/1d36ba6006605f2152acb3c9c63a2da3-480.webp 480w, /images/1d36ba6006605f2152acb3c9c63a2da3.webp 681w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">1</span><img alt="101 Suites in Paramaribo" class="w-full h-full object-cover" fetchpriority="high" height="300" loading="eager" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1d36ba6006605f2152acb3c9c63a2da3.webp" srcset="/images/1d36ba6006605f2152acb3c9c63a2da3-480.webp 480w, /images/1d36ba6006605f2152acb3c9c63a2da3.webp 681w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">101 Suites</h3>
 <p class="listing-blurb">101 Suites is een klein zakenhotel aan de Keizerstraat in het centrum van Paramaribo, op loopafstand van…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 420230</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/alafasi-botopasi-lodge/">
-<div class="listing-ph"><img alt="Alafasi Botopasi Lodge in Sipaliwini" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a3d80628db4394661492904bd0325443.webp" srcset="/images/a3d80628db4394661492904bd0325443-480.webp 480w, /images/a3d80628db4394661492904bd0325443.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Alafasi Botopasi Lodge in Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a3d80628db4394661492904bd0325443.webp" srcset="/images/a3d80628db4394661492904bd0325443-480.webp 480w, /images/a3d80628db4394661492904bd0325443.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Alafasi Botopasi Lodge</h3>
 <p class="listing-blurb">Een natuurlodge in Botopasi aan de Boven-Surinamerivier, voornamelijk verkocht als drie- en vierdaagse arrangementen die…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
-<span>Tel: +5978508742</span>
+<span>Eco- &amp; rivierlodges</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/alkebuland-resort/">
-<div class="listing-ph"><img alt="Alkebuland Resort in Para" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/43cf8244e0cef8e99f0fb81eee7e57a0.webp" srcset="/images/43cf8244e0cef8e99f0fb81eee7e57a0-480.webp 480w, /images/43cf8244e0cef8e99f0fb81eee7e57a0.webp 720w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Alkebuland Resort in Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/43cf8244e0cef8e99f0fb81eee7e57a0.webp" srcset="/images/43cf8244e0cef8e99f0fb81eee7e57a0-480.webp 480w, /images/43cf8244e0cef8e99f0fb81eee7e57a0.webp 720w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Alkebuland Resort</h3>
 <p class="listing-blurb">Een dagresort aan de Arubaweg in Para, dicht genoeg bij Paramaribo voor een korte rit buiten de stad.</p>
 <div class="listing-meta">
-<span>Para</span>
-<span>Tel: +5978407720</span>
+<span>Resorts</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="guesthouses" href="listing/amazonica-bungalows/">
-<div class="listing-ph"><img alt="Amazonica Bungalows in Wanica" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/200dd9d38a9b37d981ec309ac5431a4f.webp" srcset="/images/200dd9d38a9b37d981ec309ac5431a4f-480.webp 480w, /images/200dd9d38a9b37d981ec309ac5431a4f.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Amazonica Bungalows in Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/200dd9d38a9b37d981ec309ac5431a4f.webp" srcset="/images/200dd9d38a9b37d981ec309ac5431a4f-480.webp 480w, /images/200dd9d38a9b37d981ec309ac5431a4f.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Amazonica Bungalows</h3>
 <p class="listing-blurb">Six bungalows on Somaiweg in Wanica, open since 2016. Each has three bedrooms, a living room, two bathrooms…</p>
 <div class="listing-meta">
-<span>Wanica</span>
-<span>Tel: +5978707607</span>
+<span>Guesthouses &amp; villa's</span><span>Wanica</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/anaula-nature-resort/">
-<div class="listing-ph"><img alt="Anaula Nature Resort in Sipaliwini" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8b288627df64785af0e590f4617a0c3f.webp" srcset="/images/8b288627df64785af0e590f4617a0c3f-480.webp 480w, /images/8b288627df64785af0e590f4617a0c3f.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Anaula Nature Resort in Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8b288627df64785af0e590f4617a0c3f.webp" srcset="/images/8b288627df64785af0e590f4617a0c3f-480.webp 480w, /images/8b288627df64785af0e590f4617a0c3f.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Anaula Nature Resort</h3>
 <p class="listing-blurb">Anaula Nature Resort is a riverside eco-lodge in the Surinamese interior offering jungle cabins, wildlife…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
-<span>Tel: 531-000</span>
+<span>Eco- &amp; rivierlodges</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="eco-lodges" href="listing/anjuli-nature-resort/">
-<div class="listing-ph"><img alt="Anjuli Nature Resort in Wanica" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d5e514deda659ddc5c15b0dbf2352b3c.webp" srcset="/images/d5e514deda659ddc5c15b0dbf2352b3c-480.webp 480w, /images/d5e514deda659ddc5c15b0dbf2352b3c.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Anjuli Nature Resort in Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d5e514deda659ddc5c15b0dbf2352b3c.webp" srcset="/images/d5e514deda659ddc5c15b0dbf2352b3c-480.webp 480w, /images/d5e514deda659ddc5c15b0dbf2352b3c.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Anjuli Nature Resort</h3>
 <p class="listing-blurb">Een privé resort aan de Libanonweg te Lelydorp, ongeveer 23 km van Paramaribo, in zijn geheel verhuurd voor rustige…</p>
 <div class="listing-meta">
-<span>Wanica</span>
-<span>Tel: +5978858754</span>
+<span>Eco- &amp; rivierlodges</span><span>Wanica</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/apetina-eco-river-resort/">
-<div class="listing-ph"><img alt="Apetina Eco River Resort in Sipaliwini" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a26a85d1184e1b683f250c3ae60df4ee.webp" srcset="/images/a26a85d1184e1b683f250c3ae60df4ee-480.webp 480w, /images/a26a85d1184e1b683f250c3ae60df4ee.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Apetina Eco River Resort in Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a26a85d1184e1b683f250c3ae60df4ee.webp" srcset="/images/a26a85d1184e1b683f250c3ae60df4ee-480.webp 480w, /images/a26a85d1184e1b683f250c3ae60df4ee.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Apetina Eco River Resort</h3>
 <p class="listing-blurb">Een junglelodge in Apetina, ook bekend als Puleowime, aan de Tapanahony-rivier in het zuidoosten van Suriname. De…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
-<span>Tel: +5978791434</span>
+<span>Eco- &amp; rivierlodges</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="casino-hotels" href="listing/atlantis-hotel-casino/">
-<div class="listing-ph"><img alt="Atlantis Hotel Casino in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/28d72f01709b41ff47c3088caf706bf1.webp" srcset="/images/28d72f01709b41ff47c3088caf706bf1-480.webp 480w, /images/28d72f01709b41ff47c3088caf706bf1.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Atlantis Hotel Casino in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/28d72f01709b41ff47c3088caf706bf1.webp" srcset="/images/28d72f01709b41ff47c3088caf706bf1-480.webp 480w, /images/28d72f01709b41ff47c3088caf706bf1.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Atlantis Hotel Casino</h3>
 <p class="listing-blurb">Atlantis Hotel &amp; Casino is a hotel and gaming destination in Paramaribo offering rooms alongside casino…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597443411</span>
+<span>Casinohotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/awarradam-jungle-lodge/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Awarradam Jungle Lodge</h3>
 <p class="listing-blurb">Een METS-junglelodge aan de Gran Rio in het Boven-Suriname-gebied, gelegen tussen stroomversnellingen en regenwoud.</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
+<span>Eco- &amp; rivierlodges</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/bakaaboto-nature-resort/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Bakaaboto Nature Resort</h3>
 <p class="listing-blurb">Een back-to-basics natuurresort aan de voet van de Bakaaboto-stroomversnelling aan de Boven-Surinamerivier, ten zuiden van de…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
-<span>Tel: +5978800157</span>
+<span>Eco- &amp; rivierlodges</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="eco-lodges" href="listing/biharies-resort/">
-<div class="listing-ph"><img alt="Biharie's Resort in Wanica" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2eb3905c367db656ef12e885767f9c22.webp" srcset="/images/2eb3905c367db656ef12e885767f9c22-480.webp 480w, /images/2eb3905c367db656ef12e885767f9c22.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Biharie's Resort in Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2eb3905c367db656ef12e885767f9c22.webp" srcset="/images/2eb3905c367db656ef12e885767f9c22-480.webp 480w, /images/2eb3905c367db656ef12e885767f9c22.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Biharie's Resort</h3>
 <p class="listing-blurb">Een resort bij Welgedacht in Wanica, zo’n vijftien minuten van Paramaribo en vijfentwintig minuten van Johan Adolf…</p>
 <div class="listing-meta">
-<span>Wanica</span>
-<span>Tel: +597582301</span>
+<span>Eco- &amp; rivierlodges</span><span>Wanica</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/blanche-marie-nature-resort/">
-<div class="listing-ph"><img alt="Blanche Marie Nature Resort in Sipaliwini" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7aee35c423c66d83da6f7b72e1102120.webp" srcset="/images/7aee35c423c66d83da6f7b72e1102120-480.webp 480w, /images/7aee35c423c66d83da6f7b72e1102120.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Blanche Marie Nature Resort in Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7aee35c423c66d83da6f7b72e1102120.webp" srcset="/images/7aee35c423c66d83da6f7b72e1102120-480.webp 480w, /images/7aee35c423c66d83da6f7b72e1102120.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Blanche Marie Nature Resort</h3>
 <p class="listing-blurb">Basic lodge and hammock accommodation at the Blanche Marie falls on the Nickerie River, at the foot of the…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
-<span>Tel: +5978503687</span>
+<span>Eco- &amp; rivierlodges</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="eco-lodges" href="listing/braumuller-nature-resort/">
-<div class="listing-ph"><img alt="Braumuller Nature Resort in Wanica" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/a464b7fbd79ef05693f8f885d06e97ea.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Braumuller Nature Resort in Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/a464b7fbd79ef05693f8f885d06e97ea.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Braumuller Nature Resort</h3>
 <p class="listing-blurb">Een recreatiecentrum en evenementenlocatie aan de Tout Lui Fautkanaalweg in Wanica, verhuurd voor evenementen.</p>
 <div class="listing-meta">
-<span>Wanica</span>
-<span>Tel: +5977426231</span>
+<span>Eco- &amp; rivierlodges</span><span>Wanica</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/bronbella-villa-residence/">
-<div class="listing-ph"><img alt="Bronbella Villa Residence, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/813cd9898eeef45b3279e978f14dc2b0.webp" srcset="/images/813cd9898eeef45b3279e978f14dc2b0-480.webp 480w, /images/813cd9898eeef45b3279e978f14dc2b0.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Bronbella Villa Residence, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/813cd9898eeef45b3279e978f14dc2b0.webp" srcset="/images/813cd9898eeef45b3279e978f14dc2b0-480.webp 480w, /images/813cd9898eeef45b3279e978f14dc2b0.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Bronbella Villa Residence</h3>
 <p class="listing-blurb">Bronbella Villa Residence is a boutique holiday villa complex in Suriname, set in tropical grounds with…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +31 (0) 637501731</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="eco-lodges" href="listing/capella-nature-eco-resort/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Capella Nature &amp; Eco Resort</h3>
 <p class="listing-blurb">Een natuurresort aan de Nieuw Copieweg bij Onverwacht in Para, waar zowel dagbezoekers als groepsboekingen kunnen worden geboekt.</p>
 <div class="listing-meta">
-<span>Para</span>
-<span>Tel: +5978901296</span>
+<span>Eco- &amp; rivierlodges</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/caribo-beach-resort/">
-<div class="listing-ph"><img alt="Caribo Beach Resort in Para" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/157619ca02a84922fab0e76d574e48ac.webp" srcset="/images/157619ca02a84922fab0e76d574e48ac-480.webp 480w, /images/157619ca02a84922fab0e76d574e48ac.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Caribo Beach Resort in Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/157619ca02a84922fab0e76d574e48ac.webp" srcset="/images/157619ca02a84922fab0e76d574e48ac-480.webp 480w, /images/157619ca02a84922fab0e76d574e48ac.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Caribo Beach Resort</h3>
 <p class="listing-blurb">Een resort aan de rivier in Paranam, ongeveer 35 minuten van het centrum van Paramaribo aan de Oude Weg naar Domburg, of…</p>
 <div class="listing-meta">
-<span>Para</span>
-<span>Tel: +5978952904</span>
+<span>Resorts</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="eco-lodges" href="listing/carmelitas-nature-resort/">
-<div class="listing-ph"><img alt="Carmelita's Nature Resort in Wanica" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ec50b49182da2a87618e79ee0feb8a0d.webp" srcset="/images/ec50b49182da2a87618e79ee0feb8a0d-480.webp 480w, /images/ec50b49182da2a87618e79ee0feb8a0d.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Carmelita's Nature Resort in Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ec50b49182da2a87618e79ee0feb8a0d.webp" srcset="/images/ec50b49182da2a87618e79ee0feb8a0d-480.webp 480w, /images/ec50b49182da2a87618e79ee0feb8a0d.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Carmelita's Nature Resort</h3>
 <p class="listing-blurb">Een recreatieresort aan de Carmalita Malonaweg te Lelydorp, gebouwd rondom zwemmen en een dagje uit de stad…</p>
 <div class="listing-meta">
-<span>Wanica</span>
-<span>Tel: +5978684122</span>
+<span>Eco- &amp; rivierlodges</span><span>Wanica</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/casa-blanca-hotel/">
-<div class="listing-ph"><img alt="Casa Blanca Hotel in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/0b17df2a15d22f16367de6b8b06092d8.webp" srcset="/images/0b17df2a15d22f16367de6b8b06092d8-480.webp 480w, /images/0b17df2a15d22f16367de6b8b06092d8.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Casa Blanca Hotel in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/0b17df2a15d22f16367de6b8b06092d8.webp" srcset="/images/0b17df2a15d22f16367de6b8b06092d8-480.webp 480w, /images/0b17df2a15d22f16367de6b8b06092d8.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Casa Blanca Hotel</h3>
 <p class="listing-blurb">Een klein hotel aan de Wilhelminastraat, een paar kilometer buiten het centrum van Paramaribo. De kamers zijn lucht…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +5978468858</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Saramacca" data-sub="eco-lodges" href="listing/chotelal-sons-resort/">
-<div class="listing-ph"><img alt="Chotelal &amp; Sons Resort in Saramacca" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2dc761f0e3082bfc28c25c975e52b8a2.webp" srcset="/images/2dc761f0e3082bfc28c25c975e52b8a2-480.webp 480w, /images/2dc761f0e3082bfc28c25c975e52b8a2.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Chotelal &amp; Sons Resort in Saramacca" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2dc761f0e3082bfc28c25c975e52b8a2.webp" srcset="/images/2dc761f0e3082bfc28c25c975e52b8a2-480.webp 480w, /images/2dc761f0e3082bfc28c25c975e52b8a2.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Chotelal &amp; Sons Resort</h3>
 <p class="listing-blurb">Een resort in Damboentong bij Groningen in Saramacca, waar overnachtende gasten worden ondergebracht en feesten en groepen worden georganiseerd...</p>
 <div class="listing-meta">
-<span>Saramacca</span>
-<span>Tel: +5978731415</span>
+<span>Eco- &amp; rivierlodges</span><span>Saramacca</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/colonial-resort-n-v/">
-<div class="listing-ph"><img alt="Colonial Resort N.V. in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d779dc13784fcbf20b13c5bbba958f53.webp" srcset="/images/d779dc13784fcbf20b13c5bbba958f53-480.webp 480w, /images/d779dc13784fcbf20b13c5bbba958f53.webp 851w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Colonial Resort N.V. in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d779dc13784fcbf20b13c5bbba958f53.webp" srcset="/images/d779dc13784fcbf20b13c5bbba958f53-480.webp 480w, /images/d779dc13784fcbf20b13c5bbba958f53.webp 851w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Colonial Resort N.V.</h3>
 <p class="listing-blurb">Een pand aan de rivier aan de Anton Dragtenweg, ongeveer een kilometer van het centrum van Paramaribo langs de Surinaamse…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597559400</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/courtyard-by-marriott/">
-<div class="listing-ph"><img alt="Courtyard by Marriott, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4dbb88b526794f2394659f96f323209e.webp" srcset="/images/4dbb88b526794f2394659f96f323209e-480.webp 480w, /images/4dbb88b526794f2394659f96f323209e.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Courtyard by Marriott, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4dbb88b526794f2394659f96f323209e.webp" srcset="/images/4dbb88b526794f2394659f96f323209e-480.webp 480w, /images/4dbb88b526794f2394659f96f323209e.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Courtyard by Marriott</h3>
 <p class="listing-blurb">Courtyard by Marriott Paramaribo is an international hotel overlooking the Suriname River in downtown…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 456-000</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/da-kaboera-resort/">
-<div class="listing-ph"><img alt="Da Kaboera Resort in Para" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/78cac345931dd8c566f2f1bdbe36b7a5.webp" srcset="/images/78cac345931dd8c566f2f1bdbe36b7a5-480.webp 480w, /images/78cac345931dd8c566f2f1bdbe36b7a5.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="Da Kaboera Resort in Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/78cac345931dd8c566f2f1bdbe36b7a5.webp" srcset="/images/78cac345931dd8c566f2f1bdbe36b7a5-480.webp 480w, /images/78cac345931dd8c566f2f1bdbe36b7a5.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Da Kaboera Resort</h3>
 <p class="listing-blurb">Een kreekbadresort in het dorp Powakka in Para, gebouwd rond zwemmen in koud natuurlijk kreekwater...</p>
 <div class="listing-meta">
-<span>Para</span>
-<span>Tel: +5978676395</span>
+<span>Resorts</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/danpaati-river-lodge/">
-<div class="listing-ph"><img alt="Danpaati River Lodge in Sipaliwini" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1fb3d31877cdfd3b224c2f1ed1a02732.webp" srcset="/images/1fb3d31877cdfd3b224c2f1ed1a02732-480.webp 480w, /images/1fb3d31877cdfd3b224c2f1ed1a02732.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="Danpaati River Lodge in Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1fb3d31877cdfd3b224c2f1ed1a02732.webp" srcset="/images/1fb3d31877cdfd3b224c2f1ed1a02732-480.webp 480w, /images/1fb3d31877cdfd3b224c2f1ed1a02732.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Danpaati River Lodge</h3>
 <p class="listing-blurb">Danpaati River Lodge is a highly acclaimed boutique eco-lodge on the Upper Suriname River. Offering open-air…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
-<span>Tel: +597471113</span>
+<span>Eco- &amp; rivierlodges</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="eco-lodges" href="listing/eco-torarica/">
-<div class="listing-ph"><img alt="Eco Torarica, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fd15a338dc5a1c6dbf69986aa24a1cd5.webp" srcset="/images/fd15a338dc5a1c6dbf69986aa24a1cd5-480.webp 480w, /images/fd15a338dc5a1c6dbf69986aa24a1cd5.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="Eco Torarica, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fd15a338dc5a1c6dbf69986aa24a1cd5.webp" srcset="/images/fd15a338dc5a1c6dbf69986aa24a1cd5-480.webp 480w, /images/fd15a338dc5a1c6dbf69986aa24a1cd5.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Eco Torarica</h3>
 <p class="listing-blurb">Eco Torarica is a boutique eco-lodging option in Paramaribo combining comfort with a focus on sustainable…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 425-522</span>
+<span>Eco- &amp; rivierlodges</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="eco-lodges" href="listing/eco-resort-miano/">
-<div class="listing-ph"><img alt="Eco-Resort Miano, Accommodatie in Para" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d2fef266b68a0975cee75f25a7759bea.webp" srcset="/images/d2fef266b68a0975cee75f25a7759bea-480.webp 480w, /images/d2fef266b68a0975cee75f25a7759bea.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="Eco-Resort Miano, Accommodatie in Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d2fef266b68a0975cee75f25a7759bea.webp" srcset="/images/d2fef266b68a0975cee75f25a7759bea-480.webp 480w, /images/d2fef266b68a0975cee75f25a7759bea.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Eco-Resort Miano</h3>
 <p class="listing-blurb">Eco-Resort Miano is an eco-lodge in Redi Doti in the Surinamese interior, close to the historic Jodensavanne…</p>
 <div class="listing-meta">
-<span>Para</span>
-<span>Tel: +597 875-0593</span>
+<span>Eco- &amp; rivierlodges</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="casino-hotels" href="listing/elegance-hotel-casino/">
-<div class="listing-ph"><img alt="Elegance Hotel &amp; Casino in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cbd20987c7dff354e60e55c7e60dc5f6.webp" srcset="/images/cbd20987c7dff354e60e55c7e60dc5f6-480.webp 480w, /images/cbd20987c7dff354e60e55c7e60dc5f6.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="Elegance Hotel &amp; Casino in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cbd20987c7dff354e60e55c7e60dc5f6.webp" srcset="/images/cbd20987c7dff354e60e55c7e60dc5f6-480.webp 480w, /images/cbd20987c7dff354e60e55c7e60dc5f6.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Elegance Hotel &amp; Casino</h3>
 <p class="listing-blurb">Een viersterrenhotel en casino aan de Frederik Derbystraat in Paramaribo. De kamers zijn voorzien van airconditioning, een bureau…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597420007</span>
+<span>Casinohotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/fallawatra-green-resort/">
-<div class="listing-ph"><img alt="Fallawatra Green Resort in Sipaliwini" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/08c34bab0bac9d706e96888bb022ef6a.webp" srcset="/images/08c34bab0bac9d706e96888bb022ef6a-480.webp 480w, /images/08c34bab0bac9d706e96888bb022ef6a.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="Fallawatra Green Resort in Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/08c34bab0bac9d706e96888bb022ef6a.webp" srcset="/images/08c34bab0bac9d706e96888bb022ef6a-480.webp 480w, /images/08c34bab0bac9d706e96888bb022ef6a.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Fallawatra Green Resort</h3>
 <p class="listing-blurb">Een jungleresort in het Kabalebo-gebied in West-Suriname, gelegen rond een tropisch park en een kreek die door…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
-<span>Tel: +5978608000</span>
+<span>Eco- &amp; rivierlodges</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/gess-hotel/">
-<div class="listing-ph"><img alt="Gess Hotel in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/0a6588e9347601135ec9f1985492c54e.webp" srcset="/images/0a6588e9347601135ec9f1985492c54e-480.webp 480w, /images/0a6588e9347601135ec9f1985492c54e.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Gess Hotel in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/0a6588e9347601135ec9f1985492c54e.webp" srcset="/images/0a6588e9347601135ec9f1985492c54e-480.webp 480w, /images/0a6588e9347601135ec9f1985492c54e.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Gess Hotel</h3>
 <p class="listing-blurb">Een hotel aan de Dr. Sophie Redmondstraat in het centrum van Paramaribo, met 50 kamers, een casino, lounge en…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597478567</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-sub="casino-hotels" href="listing/golden-west-hotel-casino/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Golden West Hotel &amp; Casino</h3>
 <p class="listing-blurb">Een hotel, casino, restaurant, bar en reisbureau aan de Hendrikstraat in Nieuw Nickerie. De kamers hebben airconditioning…</p>
 <div class="listing-meta">
-<span>Nickerie</span>
-<span>Tel: +597211025</span>
+<span>Casinohotels</span><span>Nickerie</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/green-village-resort/">
-<div class="listing-ph"><img alt="Green Village Resort in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a32580f487ebb71d7f3b1e70e575029d.webp" srcset="/images/a32580f487ebb71d7f3b1e70e575029d-480.webp 480w, /images/a32580f487ebb71d7f3b1e70e575029d.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Green Village Resort in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a32580f487ebb71d7f3b1e70e575029d.webp" srcset="/images/a32580f487ebb71d7f3b1e70e575029d-480.webp 480w, /images/a32580f487ebb71d7f3b1e70e575029d.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Green Village Resort</h3>
 <p class="listing-blurb">Apartments in a quiet green setting on Livornoweg in the south of Paramaribo. Units have fully equipped…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +5978220275</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/greenheart-boutique-hotel/">
-<div class="listing-ph"><img alt="Greenheart Boutique Hotel in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/45fe27c09f485d47dc7e7df89aa1353e.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Greenheart Boutique Hotel in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/45fe27c09f485d47dc7e7df89aa1353e.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Greenheart Boutique Hotel</h3>
 <p class="listing-blurb">Greenheart Boutique Hotel is a design-forward eco-conscious hotel in Paramaribo. Using sustainable materials…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 762760</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/guesthouse-albergoalberga/">
-<div class="listing-ph"><img alt="Guesthouse Albergo Alberga in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/195e52ceefa3deb2d3b447724839d27f.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Guesthouse Albergo Alberga in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/195e52ceefa3deb2d3b447724839d27f.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Guesthouse Albergo Alberga</h3>
 <p class="listing-blurb">Albergo Alberga is an intimate guesthouse in Paramaribo set in a restored historic building. Offering…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Marowijne" data-sub="guesthouses" href="listing/guesthouse-albina/">
-<div class="listing-ph"><img alt="Guesthouse Albina in Marowijne" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b3a10ab931b369cb274e03896d13f16d.webp" srcset="/images/b3a10ab931b369cb274e03896d13f16d-480.webp 480w, /images/b3a10ab931b369cb274e03896d13f16d.webp 861w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Guesthouse Albina in Marowijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b3a10ab931b369cb274e03896d13f16d.webp" srcset="/images/b3a10ab931b369cb274e03896d13f16d-480.webp 480w, /images/b3a10ab931b369cb274e03896d13f16d.webp 861w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Guesthouse Albina</h3>
 <p class="listing-blurb">Guesthouse Albina provides clean, affordable accommodation in Albina, Suriname's border town with French…</p>
 <div class="listing-meta">
-<span>Marowijne</span>
+<span>Guesthouses &amp; villa's</span><span>Marowijne</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/guesthouse-amice/">
-<div class="listing-ph"><img alt="Guesthouse Amice in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/dc3707206c32d24f61dc3b1c6073594e.webp" srcset="/images/dc3707206c32d24f61dc3b1c6073594e-480.webp 480w, /images/dc3707206c32d24f61dc3b1c6073594e.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Guesthouse Amice in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/dc3707206c32d24f61dc3b1c6073594e.webp" srcset="/images/dc3707206c32d24f61dc3b1c6073594e-480.webp 480w, /images/dc3707206c32d24f61dc3b1c6073594e.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Guesthouse Amice</h3>
 <p class="listing-blurb">Een gastenverblijf met tien kamers aan de Gravenberchstraat in Paramaribo. De kamers zijn voorzien van airconditioning en rookvrij.…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597434289</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/gunsi-eco-resort-tei-wei/">
-<div class="listing-ph"><img alt="Gunsi Eco Resort Tei Wei in Sipaliwini" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/48c0aec49544b79389c03e5a78268ec6.webp" srcset="/images/48c0aec49544b79389c03e5a78268ec6-480.webp 480w, /images/48c0aec49544b79389c03e5a78268ec6.webp 720w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Gunsi Eco Resort Tei Wei in Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/48c0aec49544b79389c03e5a78268ec6.webp" srcset="/images/48c0aec49544b79389c03e5a78268ec6-480.webp 480w, /images/48c0aec49544b79389c03e5a78268ec6.webp 720w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Gunsi Eco Resort Tei Wei</h3>
 <p class="listing-blurb">Een eco-resort op een heuvel in het eilanddorp Gunsi in de Boven-Surinamerivier, ongeveer anderhalf uur rijden van…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
-<span>Tel: +5978697748</span>
+<span>Eco- &amp; rivierlodges</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/holland-lodge/">
-<div class="listing-ph"><img alt="Holland Lodge, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e8453e080049f589b426dfbf66cd2843.webp" srcset="/images/e8453e080049f589b426dfbf66cd2843-480.webp 480w, /images/e8453e080049f589b426dfbf66cd2843.webp 768w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Holland Lodge, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e8453e080049f589b426dfbf66cd2843.webp" srcset="/images/e8453e080049f589b426dfbf66cd2843-480.webp 480w, /images/e8453e080049f589b426dfbf66cd2843.webp 768w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Holland Lodge</h3>
 <p class="listing-blurb">Holland Lodge is a hotel in Suriname with spacious rooms, a swimming pool and rental bikes for exploring the…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 520-663</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/hotel-botopassie/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel Botopassie</h3>
 <p class="listing-blurb">Simple riverside bungalows on the Suriname River, reached by bus from Saramaccastraat in Paramaribo and then…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
+<span>Eco- &amp; rivierlodges</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/hotel-cactus/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel Cactus II</h3>
 <p class="listing-blurb">Een klein hotel aan de Daniel Ijveraarstraat in Paramaribo.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +5978711786</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/hotel-de-luifel/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel De Luifel</h3>
 <p class="listing-blurb">Een hotel aan de Gondastraat in het centrum van Paramaribo, dichtbij het Onafhankelijkheidsplein en het presidentieel paleis. Kamers…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597439933</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-sub="city-hotels" href="listing/hotel-en-restaurant-concorde/">
-<div class="listing-ph"><img alt="Hotel en Restaurant Concorde in Nickerie" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3a765550de08ae4361d7be946fcbc88b.webp" srcset="/images/3a765550de08ae4361d7be946fcbc88b-480.webp 480w, /images/3a765550de08ae4361d7be946fcbc88b.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Hotel en Restaurant Concorde in Nickerie" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3a765550de08ae4361d7be946fcbc88b.webp" srcset="/images/3a765550de08ae4361d7be946fcbc88b-480.webp 480w, /images/3a765550de08ae4361d7be946fcbc88b.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel en Restaurant Concorde</h3>
 <p class="listing-blurb">Een hotel en Javaans restaurant aan de Wilhelminastraat in Nieuw Nickerie. De kamers zijn voorzien van airconditioning, wifi en…</p>
 <div class="listing-meta">
-<span>Nickerie</span>
+<span>Stadshotels</span><span>Nickerie</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/hotel-north-resort/">
-<div class="listing-ph"><img alt="Hotel North Resort in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/c301e10fee519eca9abc07664b822140.webp" srcset="/images/c301e10fee519eca9abc07664b822140-480.webp 480w, /images/c301e10fee519eca9abc07664b822140.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Hotel North Resort in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/c301e10fee519eca9abc07664b822140.webp" srcset="/images/c301e10fee519eca9abc07664b822140-480.webp 480w, /images/c301e10fee519eca9abc07664b822140.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel North Resort</h3>
 <p class="listing-blurb">Hotel North Resort is a comfortable hotel in northern Paramaribo offering rooms, a pool and meeting…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 457591</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/hotel-palacio/">
-<div class="listing-ph"><img alt="Hotel Palacio, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f5b109cef663d94999a0dd22f67134d7.webp" srcset="/images/f5b109cef663d94999a0dd22f67134d7-480.webp 480w, /images/f5b109cef663d94999a0dd22f67134d7.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Hotel Palacio, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f5b109cef663d94999a0dd22f67134d7.webp" srcset="/images/f5b109cef663d94999a0dd22f67134d7-480.webp 480w, /images/f5b109cef663d94999a0dd22f67134d7.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel Palacio</h3>
 <p class="listing-blurb">Hotel Palacio is a centrally located hotel in the historic heart of Paramaribo. Housed in a beautifully…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 420-064</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/hotel-paramuru/">
-<div class="listing-ph"><img alt="Hotel Paramuru in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/25d8afae339a27c2e27e11a755a1d0c6.webp" srcset="/images/25d8afae339a27c2e27e11a755a1d0c6-480.webp 480w, /images/25d8afae339a27c2e27e11a755a1d0c6.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Hotel Paramuru in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/25d8afae339a27c2e27e11a755a1d0c6.webp" srcset="/images/25d8afae339a27c2e27e11a755a1d0c6-480.webp 480w, /images/25d8afae339a27c2e27e11a755a1d0c6.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel Paramuru</h3>
 <p class="listing-blurb">Een centraal gelegen hotel aan de A.L. Waaldijkstraat met 24 kamers en een penthouse, ingericht in een traditionele…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597411020</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="eco-lodges" href="listing/hotel-peperpot/">
-<div class="listing-ph"><img alt="Hotel Peperpot, Accommodatie in Commewijne" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3b59af42734727bbf1b65ac72eb6d55d.webp" srcset="/images/3b59af42734727bbf1b65ac72eb6d55d-480.webp 480w, /images/3b59af42734727bbf1b65ac72eb6d55d.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Hotel Peperpot, Accommodatie in Commewijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3b59af42734727bbf1b65ac72eb6d55d.webp" srcset="/images/3b59af42734727bbf1b65ac72eb6d55d-480.webp 480w, /images/3b59af42734727bbf1b65ac72eb6d55d.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel Peperpot</h3>
 <p class="listing-blurb">Hotel Peperpot is a unique nature retreat on a former plantation estate in Commewijne, across the river from…</p>
 <div class="listing-meta">
-<span>Commewijne</span>
-<span>Tel: +31 202-152-003</span>
+<span>Eco- &amp; rivierlodges</span><span>Commewijne</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/hotel-perola/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel Perola</h3>
 <p class="listing-blurb">Een budgethotel aan de Prinsessestraat, op nog geen drie kilometer van de Centrale Markt. De kamers zijn voorzien van satelliet-tv, een…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597421359</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-sub="city-hotels" href="listing/hotel-tyche/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel Tyche</h3>
 <p class="listing-blurb">Een hotel aan de Van Idsingaweg in Nieuw Nickerie, voorheen handelend onder de naam Royal. De kamers zijn voorzien van gratis wifi en een…</p>
 <div class="listing-meta">
-<span>Nickerie</span>
-<span>Tel: +5978913996</span>
+<span>Stadshotels</span><span>Nickerie</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="resorts" href="listing/houttuyn-wellness-river-resort/">
-<div class="listing-ph"><img alt="Houttuyn Wellness River Resort, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a22425cfbd26dabaa05d5bedeabf7732.webp" srcset="/images/a22425cfbd26dabaa05d5bedeabf7732-480.webp 480w, /images/a22425cfbd26dabaa05d5bedeabf7732.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Houttuyn Wellness River Resort, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a22425cfbd26dabaa05d5bedeabf7732.webp" srcset="/images/a22425cfbd26dabaa05d5bedeabf7732-480.webp 480w, /images/a22425cfbd26dabaa05d5bedeabf7732.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Houttuyn Wellness River Resort</h3>
 <p class="listing-blurb">Houttuyn Wellness River Resort is a river resort in Suriname set in tropical garden grounds along the water…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 825-2888</span>
+<span>Resorts</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="eco-lodges" href="listing/ingipipa-park/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">I</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Ingipipa Park</h3>
 <p class="listing-blurb">Een klein ecopark en natuurretraite aan de rand van Paramaribo, met mangobomen, stilstaand water en hutten voor…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +31620740892</span>
+<span>Eco- &amp; rivierlodges</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="eco-lodges" href="listing/jacana-amazon-wellness-resort/">
-<div class="listing-ph"><img alt="Jacana Amazon Wellness Resort, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/626226628b2765619cbb0ce9f6d0a1c6.webp" srcset="/images/626226628b2765619cbb0ce9f6d0a1c6-480.webp 480w, /images/626226628b2765619cbb0ce9f6d0a1c6.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="Jacana Amazon Wellness Resort, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/626226628b2765619cbb0ce9f6d0a1c6.webp" srcset="/images/626226628b2765619cbb0ce9f6d0a1c6-480.webp 480w, /images/626226628b2765619cbb0ce9f6d0a1c6.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Jacana Amazon Wellness Resort</h3>
 <p class="listing-blurb">Inspired by the natural beauty of our pristine rainforest, rich native culture, and unique heritage, Jacana…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 531-000</span>
+<span>Eco- &amp; rivierlodges</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/jadah-lauren-resort/">
-<div class="listing-ph"><img alt="Jadah-Lauren Resort in Para" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/13c38429036e5d0009dc511ddd17d9af.webp" srcset="/images/13c38429036e5d0009dc511ddd17d9af-480.webp 480w, /images/13c38429036e5d0009dc511ddd17d9af.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="Jadah-Lauren Resort in Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/13c38429036e5d0009dc511ddd17d9af.webp" srcset="/images/13c38429036e5d0009dc511ddd17d9af-480.webp 480w, /images/13c38429036e5d0009dc511ddd17d9af.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Jadah-Lauren Resort</h3>
 <p class="listing-blurb">Een resort in de buurt van Zanderij, gebouwd rond de zwartwaterkreek Blakka Watra, met boswandelingen en vissen...</p>
 <div class="listing-meta">
-<span>Para</span>
-<span>Tel: +5978477513</span>
+<span>Resorts</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/joah-inn-appartementen/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Joah Inn Appartementen</h3>
 <p class="listing-blurb">Joah Inn offers studios and larger apartments in central Paramaribo, with a swimming pool, jacuzzi and an…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 422037</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/jungle-lodge-palumeu/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Jungle Lodge Palumeu</h3>
 <p class="listing-blurb">Een junglelodge aan de Palumeu-rivier naast het gelijknamige dorp, gerund door METS met Trio en Wayana…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
+<span>Eco- &amp; rivierlodges</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/jungle-resort-pingpe-suriname/">
-<div class="listing-ph"><img alt="Jungle Resort Pingpe in Sipaliwini" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e6b8c1102be360ad77ff0252cffdbff8.webp" srcset="/images/e6b8c1102be360ad77ff0252cffdbff8-480.webp 480w, /images/e6b8c1102be360ad77ff0252cffdbff8.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="Jungle Resort Pingpe in Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e6b8c1102be360ad77ff0252cffdbff8.webp" srcset="/images/e6b8c1102be360ad77ff0252cffdbff8-480.webp 480w, /images/e6b8c1102be360ad77ff0252cffdbff8.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Jungle Resort Pingpe</h3>
 <p class="listing-blurb">Een klein resort aan de rivier aan de Boven-Surinamerivier, aan de overkant van het Saramaccaanse dorp Pingpe…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
-<span>Tel: +597420472</span>
+<span>Eco- &amp; rivierlodges</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/kabalebo-nature-resort/">
-<div class="listing-ph"><img alt="Kabalebo Nature Resort in Sipaliwini" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/0a18ff391fd0af4ca34c84713066b186.webp" srcset="/images/0a18ff391fd0af4ca34c84713066b186-480.webp 480w, /images/0a18ff391fd0af4ca34c84713066b186.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kabalebo Nature Resort in Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/0a18ff391fd0af4ca34c84713066b186.webp" srcset="/images/0a18ff391fd0af4ca34c84713066b186-480.webp 480w, /images/0a18ff391fd0af4ca34c84713066b186.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Kabalebo Nature Resort</h3>
 <p class="listing-blurb">Kabalebo Nature Resort is a remote wilderness lodge in western Suriname, accessible only by small aircraft…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
-<span>Tel: +597426532</span>
+<span>Eco- &amp; rivierlodges</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="resorts" href="listing/kana-r-resort/">
-<div class="listing-ph"><img alt="Kana R Resort in Wanica" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/163b0e1903387ab5d6e40d1f57719686.webp" srcset="/images/163b0e1903387ab5d6e40d1f57719686-480.webp 480w, /images/163b0e1903387ab5d6e40d1f57719686.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kana R Resort in Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/163b0e1903387ab5d6e40d1f57719686.webp" srcset="/images/163b0e1903387ab5d6e40d1f57719686-480.webp 480w, /images/163b0e1903387ab5d6e40d1f57719686.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Kana R Resort</h3>
 <p class="listing-blurb">Een resort aan de kreek in het Suricompark bij Reeberg, aan de weg richting het Marrondorp Santigron in…</p>
 <div class="listing-meta">
-<span>Wanica</span>
-<span>Tel: +5978599526</span>
+<span>Resorts</span><span>Wanica</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/kekemba-resort-paramaribo/">
-<div class="listing-ph"><img alt="Kekemba Resort Paramaribo in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/53d9c95d6292801e7dce7d50d603bb5e.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kekemba Resort Paramaribo in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/53d9c95d6292801e7dce7d50d603bb5e.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Kekemba Resort Paramaribo</h3>
 <p class="listing-blurb">Een kleinschalig vakantiecomplex aan de Mangolaan, circa 2,5 km van het centrum van Paramaribo. Kekemba heeft zes…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597546904</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Brokopondo" data-sub="resorts" href="listing/kimberlys-vip-resort/">
-<div class="listing-ph"><img alt="Kimberly's VIP Resort in Brokopondo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5d6a49296a1d184b8d85eb134ce1c7ae.webp" srcset="/images/5d6a49296a1d184b8d85eb134ce1c7ae-480.webp 480w, /images/5d6a49296a1d184b8d85eb134ce1c7ae.webp 720w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kimberly's VIP Resort in Brokopondo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5d6a49296a1d184b8d85eb134ce1c7ae.webp" srcset="/images/5d6a49296a1d184b8d85eb134ce1c7ae-480.webp 480w, /images/5d6a49296a1d184b8d85eb134ce1c7ae.webp 720w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Kimberly's VIP Resort</h3>
 <p class="listing-blurb">Een recreatiepark en resort aan de Afobakaweg tegenover mast 43, voorheen handelend onder de naam Kimberly Pretpark…</p>
 <div class="listing-meta">
-<span>Brokopondo</span>
-<span>Tel: +5978678930</span>
+<span>Resorts</span><span>Brokopondo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/kimboto/">
-<div class="listing-ph"><img alt="Kimboto Lodge in Sipaliwini" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="https://i0.wp.com/sairahtujeehut.com/wp-content/uploads/2022/02/kimboto-cover-website.png?fit=1200%2C676&amp;ssl=1" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kimboto Lodge in Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="https://i0.wp.com/sairahtujeehut.com/wp-content/uploads/2022/02/kimboto-cover-website.png?fit=1200%2C676&amp;ssl=1" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Kimboto Lodge</h3>
 <p class="listing-blurb">Kimboto is an intimate eco-lodge on the Suriname River, offering bungalow accommodation, river excursions and…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
-<span>Tel: +597 422138</span>
+<span>Eco- &amp; rivierlodges</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Brokopondo" data-sub="eco-lodges" href="listing/koina-resort/">
-<div class="listing-ph"><img alt="Koina Resort in Brokopondo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/733c2dc4166c2d6351e7acd24b75693a.webp" srcset="/images/733c2dc4166c2d6351e7acd24b75693a-480.webp 480w, /images/733c2dc4166c2d6351e7acd24b75693a.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Koina Resort in Brokopondo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/733c2dc4166c2d6351e7acd24b75693a.webp" srcset="/images/733c2dc4166c2d6351e7acd24b75693a-480.webp 480w, /images/733c2dc4166c2d6351e7acd24b75693a.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Koina Resort</h3>
 <p class="listing-blurb">Een resort aan de Afobakaweg bij Rama, circa kilometer 70 aan de weg naar Brokopondo, met sport- en recreatiemogelijkheden…</p>
 <div class="listing-meta">
-<span>Brokopondo</span>
-<span>Tel: +5978714168</span>
+<span>Eco- &amp; rivierlodges</span><span>Brokopondo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/maretraite-hotel/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Maretraite Hotel</h3>
 <p class="listing-blurb">Een hotel met 14 kamers aan de Haydnstraat aan de Maretraite 3 in Blauwgrond, ongeveer vier kilometer van de Centrale Markt…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +5977614288</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/marina-resort-waterland/">
-<div class="listing-ph"><img alt="Marina Resort Waterland in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cfd823a106909594cf96e0f588cd9638.webp" srcset="/images/cfd823a106909594cf96e0f588cd9638-480.webp 480w, /images/cfd823a106909594cf96e0f588cd9638.webp 813w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Marina Resort Waterland in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cfd823a106909594cf96e0f588cd9638.webp" srcset="/images/cfd823a106909594cf96e0f588cd9638-480.webp 480w, /images/cfd823a106909594cf96e0f588cd9638.webp 813w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Marina Resort Waterland</h3>
 <p class="listing-blurb">Marina Resort Waterland is a riverside resort near Paramaribo offering boat docking, comfortable…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 458482</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/marinalex-resort-waterpark/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Marinalex Resort &amp; Waterpark</h3>
 <p class="listing-blurb">Een resort en waterpark aan de kreek aan de J.F. Kennedy Highway bij Zanderij. Marinalex heeft bungalows…</p>
 <div class="listing-meta">
-<span>Para</span>
-<span>Tel: +5978613111</span>
+<span>Resorts</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Marowijne" data-sub="eco-lodges" href="listing/marowijne-resort/">
-<div class="listing-ph"><img alt="Marowijne Resort in Marowijne" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8a0c24672fc03cdad2ecade96bb39fb3.webp" srcset="/images/8a0c24672fc03cdad2ecade96bb39fb3-480.webp 480w, /images/8a0c24672fc03cdad2ecade96bb39fb3.webp 720w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Marowijne Resort in Marowijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8a0c24672fc03cdad2ecade96bb39fb3.webp" srcset="/images/8a0c24672fc03cdad2ecade96bb39fb3-480.webp 480w, /images/8a0c24672fc03cdad2ecade96bb39fb3.webp 720w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Marowijne Resort</h3>
 <p class="listing-blurb">Een hotel en resort aan de Juliana Weyneweg in Moengo, Marowijne.</p>
 <div class="listing-meta">
-<span>Marowijne</span>
-<span>Tel: +5978862121</span>
+<span>Eco- &amp; rivierlodges</span><span>Marowijne</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/melilew-boutique-hotel/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Melilew Boutique Hotel</h3>
 <p class="listing-blurb">Een bed en breakfast midden in Paramaribo aan de Henck Arronstraat, vijf minuten lopen van de Sint…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597475887</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/menimi-eco-resort/">
-<div class="listing-ph"><img alt="Menimi Eco Resort in Sipaliwini" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3d3dcd40a12ddea8581029471e2238df.webp" srcset="/images/3d3dcd40a12ddea8581029471e2238df-480.webp 480w, /images/3d3dcd40a12ddea8581029471e2238df.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Menimi Eco Resort in Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3d3dcd40a12ddea8581029471e2238df.webp" srcset="/images/3d3dcd40a12ddea8581029471e2238df-480.webp 480w, /images/3d3dcd40a12ddea8581029471e2238df.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Menimi Eco Resort</h3>
 <p class="listing-blurb">Een door een familie gerund ecoresort op een eiland bij de stroomversnelling Djemongo in de Boven-Surinamerivier, ongeveer een uur…</p>
 <div class="listing-meta">
-<span>Sipaliwini</span>
-<span>Tel: +5978884134</span>
+<span>Eco- &amp; rivierlodges</span><span>Sipaliwini</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/millies-resort/">
-<div class="listing-ph"><img alt="Millie's Resort in Para" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4839d116319952e77f688f8277abd1d9.webp" srcset="/images/4839d116319952e77f688f8277abd1d9-480.webp 480w, /images/4839d116319952e77f688f8277abd1d9.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Millie's Resort in Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4839d116319952e77f688f8277abd1d9.webp" srcset="/images/4839d116319952e77f688f8277abd1d9-480.webp 480w, /images/4839d116319952e77f688f8277abd1d9.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Millie's Resort</h3>
 <p class="listing-blurb">Een familierecreatieresort op de voormalige Plantage Vierkinderen in Republiek, gelegen langs de Tawayakoera-kreek…</p>
 <div class="listing-meta">
-<span>Para</span>
-<span>Tel: +5978531920</span>
+<span>Resorts</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/mtc-resort/">
-<div class="listing-ph"><img alt="MTC Resort in Para" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/88410d5592ce74bfa600909292d20c22.webp" srcset="/images/88410d5592ce74bfa600909292d20c22-480.webp 480w, /images/88410d5592ce74bfa600909292d20c22.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="MTC Resort in Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/88410d5592ce74bfa600909292d20c22.webp" srcset="/images/88410d5592ce74bfa600909292d20c22-480.webp 480w, /images/88410d5592ce74bfa600909292d20c22.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">MTC Resort</h3>
 <p class="listing-blurb">Een sport- en recreatieoord aan de Grankreekweg bij Rijsdijk in Para, zo’n veertig kilometer ten zuiden van…</p>
 <div class="listing-meta">
-<span>Para</span>
-<span>Tel: +5977280250</span>
+<span>Resorts</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/nazubs-suites/">
-<div class="listing-ph"><img alt="Nazubs Suites in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="https://exploresuriname.com/images/nazubs-suites.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="Nazubs Suites in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="https://exploresuriname.com/images/nazubs-suites.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Nazubs Suites</h3>
 <p class="listing-blurb">Nazubs Suites rents self-catering apartments on Leysweg in southern Paramaribo. Full kitchens and quiet…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 8913494</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="eco-lodges" href="listing/new-babunhol-river-resort/">
-<div class="listing-ph"><img alt="New Babunhol River Resort in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/426a58514480b36ff4a7156d07157b14.webp" srcset="/images/426a58514480b36ff4a7156d07157b14-480.webp 480w, /images/426a58514480b36ff4a7156d07157b14.webp 816w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="New Babunhol River Resort in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/426a58514480b36ff4a7156d07157b14.webp" srcset="/images/426a58514480b36ff4a7156d07157b14-480.webp 480w, /images/426a58514480b36ff4a7156d07157b14.webp 816w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">New Babunhol River Resort</h3>
 <p class="listing-blurb">Een rivierresort met een boekingskantoor aan de Industrieweg Zuid in Paramaribo.</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Eco- &amp; rivierlodges</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/nirvana-business-hotel/">
-<div class="listing-ph"><img alt="Nirvana Business Hotel in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2a6f4baf0f7ac43f87dbc6daf3fb2783.webp" srcset="/images/2a6f4baf0f7ac43f87dbc6daf3fb2783-480.webp 480w, /images/2a6f4baf0f7ac43f87dbc6daf3fb2783.webp 828w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="Nirvana Business Hotel in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2a6f4baf0f7ac43f87dbc6daf3fb2783.webp" srcset="/images/2a6f4baf0f7ac43f87dbc6daf3fb2783-480.webp 480w, /images/2a6f4baf0f7ac43f87dbc6daf3fb2783.webp 828w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Nirvana Business Hotel</h3>
 <p class="listing-blurb">Een zakenhotel met tien kamers aan de Keizerstraat, vlak bij Princess Casino en op ongeveer een kilometer van het centrum…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="resorts" href="listing/octopus-resort-suriname/">
-<div class="listing-ph"><img alt="Octopus Resort Suriname in Wanica" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/24280d8d26453b0ff0c0fbad4c812f2e.webp" srcset="/images/24280d8d26453b0ff0c0fbad4c812f2e-480.webp 480w, /images/24280d8d26453b0ff0c0fbad4c812f2e.webp 779w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="Octopus Resort Suriname in Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/24280d8d26453b0ff0c0fbad4c812f2e.webp" srcset="/images/24280d8d26453b0ff0c0fbad4c812f2e-480.webp 480w, /images/24280d8d26453b0ff0c0fbad4c812f2e.webp 779w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Octopus Resort Suriname</h3>
 <p class="listing-blurb">Een dagresort aan de Sumatraweg in Lelydorp met cabana's, appartementen, een zwembad en een bar en restaurant. Het is geopend…</p>
 <div class="listing-meta">
-<span>Wanica</span>
-<span>Tel: +5978180606</span>
+<span>Resorts</span><span>Wanica</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="eco-lodges" href="listing/overbridge-river-resort/">
-<div class="listing-ph"><img alt="Overbridge River Resort in Para" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/7b84a9ad7e7b490f3803f74c401c149a.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="Overbridge River Resort in Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/7b84a9ad7e7b490f3803f74c401c149a.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Overbridge River Resort</h3>
 <p class="listing-blurb">Overbridge River Resort offers riverside cabin accommodation and water-based activities in a tranquil…</p>
 <div class="listing-meta">
-<span>Para</span>
-<span>Tel: +597 422565</span>
+<span>Eco- &amp; rivierlodges</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/owos-resort/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Owos Resort</h3>
 <p class="listing-blurb">Een ontspanningsresort in het groen van Powakka in Para, naast de Powakka-kreek. Gasten kunnen zwemmen, vissen of een…</p>
 <div class="listing-meta">
-<span>Para</span>
-<span>Tel: +5978504858</span>
+<span>Resorts</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/oxygen-resort/">
-<div class="listing-ph"><img alt="Oxygen Resort, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/857c1243a16d4e5cdb31109b7f91804e.webp" srcset="/images/857c1243a16d4e5cdb31109b7f91804e-480.webp 480w, /images/857c1243a16d4e5cdb31109b7f91804e.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="Oxygen Resort, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/857c1243a16d4e5cdb31109b7f91804e.webp" srcset="/images/857c1243a16d4e5cdb31109b7f91804e-480.webp 480w, /images/857c1243a16d4e5cdb31109b7f91804e.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Oxygen Resort</h3>
 <p class="listing-blurb">Oxygen Resort in Paramaribo provides comfortable, affordable accommodation in a calm residential setting…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 441-819</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/pension-asia-inn/">
-<div class="listing-ph"><img alt="Pension Asia Inn in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/38ae79e2a9b0b5962da5a1fea2798950.webp" srcset="/images/38ae79e2a9b0b5962da5a1fea2798950-480.webp 480w, /images/38ae79e2a9b0b5962da5a1fea2798950.webp 851w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Pension Asia Inn in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/38ae79e2a9b0b5962da5a1fea2798950.webp" srcset="/images/38ae79e2a9b0b5962da5a1fea2798950-480.webp 480w, /images/38ae79e2a9b0b5962da5a1fea2798950.webp 851w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Pension Asia Inn</h3>
 <p class="listing-blurb">Een klein pension aan de Geerlingstraat in Paramaribo met kamers met airconditioning, warm water, televisie, gratis wifi…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +5978491775</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="eco-lodges" href="listing/victorious-eco-resort/">
-<div class="listing-ph"><img alt="Private Eco Resort Victorious in Para" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1de3679c9590d54e71818effdd1fea7f.webp" srcset="/images/1de3679c9590d54e71818effdd1fea7f-480.webp 480w, /images/1de3679c9590d54e71818effdd1fea7f.webp 851w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Private Eco Resort Victorious in Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1de3679c9590d54e71818effdd1fea7f.webp" srcset="/images/1de3679c9590d54e71818effdd1fea7f-480.webp 480w, /images/1de3679c9590d54e71818effdd1fea7f.webp 851w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Private Eco Resort Victorious</h3>
 <p class="listing-blurb">Een privéresort in Republiek in Para, aan de oever van de Coropina-kreek en ongeveer tien minuten van…</p>
 <div class="listing-meta">
-<span>Para</span>
+<span>Eco- &amp; rivierlodges</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/q-inn-boutique-hotel-paramaribo/">
-<div class="listing-ph"><img alt="Q-Inn Boutique Hotel Paramaribo in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ced1c4864c4d07bec05021e8ab1c68df.webp" srcset="/images/ced1c4864c4d07bec05021e8ab1c68df-480.webp 480w, /images/ced1c4864c4d07bec05021e8ab1c68df.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Q</span><img alt="Q-Inn Boutique Hotel Paramaribo in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ced1c4864c4d07bec05021e8ab1c68df.webp" srcset="/images/ced1c4864c4d07bec05021e8ab1c68df-480.webp 480w, /images/ced1c4864c4d07bec05021e8ab1c68df.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Q-Inn Boutique Hotel Paramaribo</h3>
 <p class="listing-blurb">Een boetiekhotel aan de Costerstraat, op nog geen twee kilometer van de Centrale Markt en op ongeveer een kilometer van de…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597521381</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/queens-hotel/">
-<div class="listing-ph"><img alt="Queens Hotel in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d484e4b66f9fc4cdd6e35a230b30dd42.webp" srcset="/images/d484e4b66f9fc4cdd6e35a230b30dd42-480.webp 480w, /images/d484e4b66f9fc4cdd6e35a230b30dd42.webp 851w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Q</span><img alt="Queens Hotel in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d484e4b66f9fc4cdd6e35a230b30dd42.webp" srcset="/images/d484e4b66f9fc4cdd6e35a230b30dd42-480.webp 480w, /images/d484e4b66f9fc4cdd6e35a230b30dd42.webp 851w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Queens Hotel</h3>
 <p class="listing-blurb">Een hotel aan de Kleine Waterstraat, midden in het uitgaansgebied van Paramaribo en op loopafstand…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597474969</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/rachels-apartments/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Rachel's Apartments</h3>
 <p class="listing-blurb">Rachel's Apartments provides serviced apartments on Sipaliwinilaan in Paramaribo, a long-established option…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 520-421</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/radisson-hotel/">
-<div class="listing-ph"><img alt="Radisson Hotel Paramaribo in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7.webp" srcset="/images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7-480.webp 480w, /images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Radisson Hotel Paramaribo in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7.webp" srcset="/images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7-480.webp 480w, /images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Radisson Hotel Paramaribo</h3>
 <p class="listing-blurb">Radisson Hotel Paramaribo is the city's flagship international luxury hotel, offering spacious rooms, rooftop…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597475050</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="casino-hotels" href="listing/ramada-paramaribo-princess/">
-<div class="listing-ph"><img alt="Ramada Paramaribo Princess in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/63e0eeb7a9980acc0a7f00cdd4d69796.webp" srcset="/images/63e0eeb7a9980acc0a7f00cdd4d69796-480.webp 480w, /images/63e0eeb7a9980acc0a7f00cdd4d69796.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Ramada Paramaribo Princess in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/63e0eeb7a9980acc0a7f00cdd4d69796.webp" srcset="/images/63e0eeb7a9980acc0a7f00cdd4d69796-480.webp 480w, /images/63e0eeb7a9980acc0a7f00cdd4d69796.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Ramada Paramaribo Princess</h3>
 <p class="listing-blurb">Ramada by Wyndham Paramaribo Princess is an upscale city hotel featuring well-appointed rooms, a rooftop…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 424160</span>
+<span>Casinohotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="resorts" href="listing/recreatieoord-tropic-resort/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Recreatieoord Tropic Resort</h3>
 <p class="listing-blurb">Een particulier recreatieterrein aan de Palisadeweg bij Lelydorp, ongeveer 30 km van Paramaribo, verhuurd aan één groep…</p>
 <div class="listing-meta">
-<span>Wanica</span>
-<span>Tel: +597410112</span>
+<span>Resorts</span><span>Wanica</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie|Paramaribo" data-sub="guesthouses" href="listing/residence-inn-nickerie/">
-<div class="listing-ph"><img alt="Residence Inn in Nickerie" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/dcb3b342ef8be87da103833275e3f0ad.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Residence Inn in Nickerie" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/dcb3b342ef8be87da103833275e3f0ad.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Residence Inn</h3>
 <p class="listing-blurb">Residence Inn Nickerie biedt comfortabel onderdak in het westelijke district Nickerie, vlak bij…</p>
 <div class="listing-meta">
-<span>Nickerie, Paramaribo</span>
-<span>2 vestigingen</span>
+<span>Guesthouses &amp; villa's</span><span>2 vestigingen</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="eco-lodges" href="listing/harbour-resort-domburg/">
-<div class="listing-ph"><img alt="River Breeze Domburg / Marina Suriname in Wanica" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f7dbd2ea7b048560d254ec345be906c5.webp" srcset="/images/f7dbd2ea7b048560d254ec345be906c5-480.webp 480w, /images/f7dbd2ea7b048560d254ec345be906c5.webp 1200w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="River Breeze Domburg / Marina Suriname in Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f7dbd2ea7b048560d254ec345be906c5.webp" srcset="/images/f7dbd2ea7b048560d254ec345be906c5-480.webp 480w, /images/f7dbd2ea7b048560d254ec345be906c5.webp 1200w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">River Breeze Domburg / Marina Suriname</h3>
 <p class="listing-blurb">Een jachthaven en resort aan de Surinamerivier bij Domburg, ongeveer 16 km stroomopwaarts van Paramaribo. Havenresort…</p>
 <div class="listing-meta">
-<span>Wanica</span>
-<span>Tel: +5978101025</span>
+<span>Eco- &amp; rivierlodges</span><span>Wanica</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/royal-brasil-hotel/">
-<div class="listing-ph"><img alt="Royal Brasil Hotel, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3a8c7a0006b54c0797dbdf4f9189fe00.webp" srcset="/images/3a8c7a0006b54c0797dbdf4f9189fe00-480.webp 480w, /images/3a8c7a0006b54c0797dbdf4f9189fe00.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Royal Brasil Hotel, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3a8c7a0006b54c0797dbdf4f9189fe00.webp" srcset="/images/3a8c7a0006b54c0797dbdf4f9189fe00-480.webp 480w, /images/3a8c7a0006b54c0797dbdf4f9189fe00.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Royal Brasil Hotel</h3>
 <p class="listing-blurb">Royal Brasil Hotel offers luxurious accommodation at an accessible price in Paramaribo. Featuring…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 855-5585</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/royal-breeze-hotel-paramaribo/">
-<div class="listing-ph"><img alt="Royal Breeze Hotel Paramaribo, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f09d5577a459334245aad54944e4eb8b.webp" srcset="/images/f09d5577a459334245aad54944e4eb8b-480.webp 480w, /images/f09d5577a459334245aad54944e4eb8b.webp 762w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Royal Breeze Hotel Paramaribo, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f09d5577a459334245aad54944e4eb8b.webp" srcset="/images/f09d5577a459334245aad54944e4eb8b-480.webp 480w, /images/f09d5577a459334245aad54944e4eb8b.webp 762w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Royal Breeze Hotel Paramaribo</h3>
 <p class="listing-blurb">Royal Breeze Hotel Paramaribo is a city-centre hotel within walking distance of the historic waterfront and…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 421-640</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="casino-hotels" href="listing/royal-inn-suriname-hotel-casino/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Royal Inn Suriname Hotel &amp; Casino</h3>
 <p class="listing-blurb">Een hotel en casino aan de Steenbakkerijstraat in het centrum van Paramaribo. De casinovloer beslaat ongeveer 740 vierkante meter…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597472873</span>
+<span>Casinohotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/royal-torarica/">
-<div class="listing-ph"><img alt="Royal Torarica, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8620d384f93b82969bf15c5b3cbd3af1.webp" srcset="/images/8620d384f93b82969bf15c5b3cbd3af1-480.webp 480w, /images/8620d384f93b82969bf15c5b3cbd3af1.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Royal Torarica, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8620d384f93b82969bf15c5b3cbd3af1.webp" srcset="/images/8620d384f93b82969bf15c5b3cbd3af1-480.webp 480w, /images/8620d384f93b82969bf15c5b3cbd3af1.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Royal Torarica</h3>
 <p class="listing-blurb">Royal Torarica is Paramaribo's most upmarket hotel, set in a landscaped riverside property with a pool…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 473-500</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="casino-hotels" href="listing/savannah-casino-hotel/">
-<div class="listing-ph"><img alt="Savannah Casino Hotel in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ee9346e2cb9d5f46ebbf92e18959ac66.webp" srcset="/images/ee9346e2cb9d5f46ebbf92e18959ac66-480.webp 480w, /images/ee9346e2cb9d5f46ebbf92e18959ac66.webp 640w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Savannah Casino Hotel in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ee9346e2cb9d5f46ebbf92e18959ac66.webp" srcset="/images/ee9346e2cb9d5f46ebbf92e18959ac66-480.webp 480w, /images/ee9346e2cb9d5f46ebbf92e18959ac66.webp 640w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Savannah Casino Hotel</h3>
 <p class="listing-blurb">Savannah Casino Hotel is a Paramaribo hotel combining accommodation with a full casino floor. Offering rooms…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 459166</span>
+<span>Casinohotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/savoie-hotel-apartments/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Savoie Hotel &amp; Apartments</h3>
 <p class="listing-blurb">Een hotel en appartementencomplex aan de Johannes Mungrastraat, ongeveer 3,7 km van de Centrale Markt. De kamers zijn lucht…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597432495</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/sheva-hotel/">
-<div class="listing-ph"><img alt="Sheva Hotel in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="https://exploresuriname.com/images/sheva-hotel.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Sheva Hotel in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="https://exploresuriname.com/images/sheva-hotel.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Sheva Hotel</h3>
 <p class="listing-blurb">Sheva Hotel is a 22-room hotel on Hofstedecrull'laan in Paramaribo, with its own bar and restaurant. Rooms…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 422275</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Marowijne" data-sub="eco-lodges" href="listing/shiritjo-lodge-tours/">
-<div class="listing-ph"><img alt="Shiritjo Lodge &amp; Tours in Marowijne" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d9530280896aae8f29caa1adc7d7ce0d.webp" srcset="/images/d9530280896aae8f29caa1adc7d7ce0d-480.webp 480w, /images/d9530280896aae8f29caa1adc7d7ce0d.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Shiritjo Lodge &amp; Tours in Marowijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d9530280896aae8f29caa1adc7d7ce0d.webp" srcset="/images/d9530280896aae8f29caa1adc7d7ce0d-480.webp 480w, /images/d9530280896aae8f29caa1adc7d7ce0d.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Shiritjo Lodge &amp; Tours</h3>
 <p class="listing-blurb">Een door een familie gerunde lodge en touroperator in Galibi, die accommodatie combineert met uitstapjes rond Galibi en…</p>
 <div class="listing-meta">
-<span>Marowijne</span>
-<span>Tel: +5978296690</span>
+<span>Eco- &amp; rivierlodges</span><span>Marowijne</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/silver-moon-resort/">
-<div class="listing-ph"><img alt="Silver Moon Resort in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ac1b246973bfc5a3c30039880e1b356b.webp" srcset="/images/ac1b246973bfc5a3c30039880e1b356b-480.webp 480w, /images/ac1b246973bfc5a3c30039880e1b356b.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Silver Moon Resort in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ac1b246973bfc5a3c30039880e1b356b.webp" srcset="/images/ac1b246973bfc5a3c30039880e1b356b-480.webp 480w, /images/ac1b246973bfc5a3c30039880e1b356b.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Silver Moon Resort</h3>
 <p class="listing-blurb">Een klein pand in pensionstijl aan de Jessurunstraat, ongeveer 2,6 km van het centrum van Paramaribo. Vijf eenheden…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +5978893812</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/spanhoek-boutique-hotel/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Spanhoek Boutique Hotel</h3>
 <p class="listing-blurb">Een 23-kamer hotel aan de Domineestraat in het centrum van Paramaribo, vlakbij de Keizerstraatmoskee en de Sint-Jan…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +5977473060</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Brokopondo" data-sub="eco-lodges" href="listing/ston-eiland-resort/">
-<div class="listing-ph"><img alt="Ston Eiland Resort in Brokopondo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/c863560bdadbb121862978e6788ef9fb.webp" srcset="/images/c863560bdadbb121862978e6788ef9fb-480.webp 480w, /images/c863560bdadbb121862978e6788ef9fb.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Ston Eiland Resort in Brokopondo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/c863560bdadbb121862978e6788ef9fb.webp" srcset="/images/c863560bdadbb121862978e6788ef9fb-480.webp 480w, /images/c863560bdadbb121862978e6788ef9fb.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Ston Eiland Resort</h3>
 <p class="listing-blurb">Een resort op een schiereiland in het Brokopondo-stuwmeer aan de voet van de Brownsberg, bereikbaar via een onverharde weg vanuit…</p>
 <div class="listing-meta">
-<span>Brokopondo</span>
-<span>Tel: +597424875</span>
+<span>Eco- &amp; rivierlodges</span><span>Brokopondo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/sun-smile-hotel-apartments/">
-<div class="listing-ph"><img alt="Sun Smile Hotel &amp; Apartments in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/443cb17b82e0bf5a5b1ee9705bd8b8eb.webp" srcset="/images/443cb17b82e0bf5a5b1ee9705bd8b8eb-480.webp 480w, /images/443cb17b82e0bf5a5b1ee9705bd8b8eb.webp 677w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Sun Smile Hotel &amp; Apartments in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/443cb17b82e0bf5a5b1ee9705bd8b8eb.webp" srcset="/images/443cb17b82e0bf5a5b1ee9705bd8b8eb-480.webp 480w, /images/443cb17b82e0bf5a5b1ee9705bd8b8eb.webp 677w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Sun Smile Hotel &amp; Apartments</h3>
 <p class="listing-blurb">Een hotel en appartementencomplex aan de Jacabastraat, ongeveer 3,5 km van de Centrale Markt en 3 km van het…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597442577</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/suriname-tulip-hotel/">
-<div class="listing-ph"><img alt="Suriname Tulip Hotel in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ed04e548751db6c3725ce13eeaa316ff.webp" srcset="/images/ed04e548751db6c3725ce13eeaa316ff-480.webp 480w, /images/ed04e548751db6c3725ce13eeaa316ff.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Suriname Tulip Hotel in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ed04e548751db6c3725ce13eeaa316ff.webp" srcset="/images/ed04e548751db6c3725ce13eeaa316ff-480.webp 480w, /images/ed04e548751db6c3725ce13eeaa316ff.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Suriname Tulip Hotel</h3>
 <p class="listing-blurb">Een budgethotel aan de Waterkant, ongeveer 200 meter van de Centrale Markt en op loopafstand van Fort…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="guesthouses" href="listing/luxury-resort-surinat/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Surinat Luxury Resort</h3>
 <p class="listing-blurb">Four bungalows on the grounds of the old La Rencontre plantation in the village of Domburg, about thirty…</p>
 <div class="listing-meta">
-<span>Wanica</span>
-<span>Tel: +597370048</span>
+<span>Guesthouses &amp; villa's</span><span>Wanica</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="guesthouses" href="listing/sutopia-resort/">
-<div class="listing-ph"><img alt="Sutopia Resort in Commewijne" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/27a7b5af8e07a9aa2f171fe2a9bfb410.webp" srcset="/images/27a7b5af8e07a9aa2f171fe2a9bfb410-480.webp 480w, /images/27a7b5af8e07a9aa2f171fe2a9bfb410.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Sutopia Resort in Commewijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/27a7b5af8e07a9aa2f171fe2a9bfb410.webp" srcset="/images/27a7b5af8e07a9aa2f171fe2a9bfb410-480.webp 480w, /images/27a7b5af8e07a9aa2f171fe2a9bfb410.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Sutopia Resort</h3>
 <p class="listing-blurb">Een klein aparthotel aan de Weg naar Peperpot in Meerzorg, gelegen aan de Surinamerivier tussen inheemse beplanting. Acht…</p>
 <div class="listing-meta">
-<span>Commewijne</span>
-<span>Tel: +5978701118</span>
+<span>Guesthouses &amp; villa's</span><span>Commewijne</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="city-hotels" href="listing/taman-indah-resort/">
-<div class="listing-ph"><img alt="Taman Indah Resort, Accommodatie in Commewijne" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/481142f7bf9e4e168cf5ca2c93f99c84.webp" srcset="/images/481142f7bf9e4e168cf5ca2c93f99c84-480.webp 480w, /images/481142f7bf9e4e168cf5ca2c93f99c84.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Taman Indah Resort, Accommodatie in Commewijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/481142f7bf9e4e168cf5ca2c93f99c84.webp" srcset="/images/481142f7bf9e4e168cf5ca2c93f99c84-480.webp 480w, /images/481142f7bf9e4e168cf5ca2c93f99c84.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Taman Indah Resort</h3>
 <p class="listing-blurb">Taman Indah Resort is a peaceful resort near Paramaribo featuring lush gardens, a pool and comfortable…</p>
 <div class="listing-meta">
-<span>Commewijne</span>
-<span>Tel: +597 356-685</span>
+<span>Stadshotels</span><span>Commewijne</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/the-ark-hotel/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">The Ark Hotel</h3>
 <p class="listing-blurb">Een klein hotel aan de Anton Dragtenweg in Paramaribo. De kamers zijn rookvrij en voorzien van airconditioning. Roomservice…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597559275</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/the-golden-truly-hotel/">
-<div class="listing-ph"><img alt="The Golden Truly Hotel, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" src="/images/a2274436f25643033261b3ab2f7a49b5.webp" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="The Golden Truly Hotel, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/a2274436f25643033261b3ab2f7a49b5.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">The Golden Truly Hotel</h3>
 <p class="listing-blurb">The Golden Truly Hotel &amp; Casino is a centrally located Paramaribo hotel offering rooms, a casino, bar and…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 454-249</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="guesthouses" href="listing/tiny-house-tropical-appartment/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tiny House Tropical Appartment</h3>
 <p class="listing-blurb">Tiny House Tropical Apartment offers a compact, stylishly designed holiday apartment in Paramaribo. Ideal for…</p>
 <div class="listing-meta">
-<span>Wanica</span>
-<span>Tel: +597 769-9407</span>
+<span>Guesthouses &amp; villa's</span><span>Wanica</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/torarica-resort/">
-<div class="listing-ph"><img alt="Torarica Resort, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f1025ab87358145331e18ffca5705cea.webp" srcset="/images/f1025ab87358145331e18ffca5705cea-480.webp 480w, /images/f1025ab87358145331e18ffca5705cea.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Torarica Resort, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f1025ab87358145331e18ffca5705cea.webp" srcset="/images/f1025ab87358145331e18ffca5705cea-480.webp 480w, /images/f1025ab87358145331e18ffca5705cea.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Torarica Resort</h3>
 <p class="listing-blurb">Torarica Resort is a large riverfront resort complex in Paramaribo with pools, a casino, multiple dining…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 471-500</span>
+<span>Stadshotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/tran-elite-hotel-apartments/">
-<div class="listing-ph"><img alt="Tran Elite Hotel Apartments in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/dae3911ddc2ca2d41f1b0fcfe1fc3b70.webp" srcset="/images/dae3911ddc2ca2d41f1b0fcfe1fc3b70-480.webp 480w, /images/dae3911ddc2ca2d41f1b0fcfe1fc3b70.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Tran Elite Hotel Apartments in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/dae3911ddc2ca2d41f1b0fcfe1fc3b70.webp" srcset="/images/dae3911ddc2ca2d41f1b0fcfe1fc3b70-480.webp 480w, /images/dae3911ddc2ca2d41f1b0fcfe1fc3b70.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tran Elite Hotel Apartments</h3>
 <p class="listing-blurb">Een hotel en appartementencomplex aan de Jacques Gompertstraat in Paramaribo Noord, op enkele minuten van…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597458275</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/tropical-breeze-apartments/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tropical Breeze Apartments</h3>
 <p class="listing-blurb">Tropical Breeze Apartments offers two-bedroom self-catering apartments on Lalla Rookhweg, each with a full…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 432165</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="casino-hotels" href="listing/tropicana-hotel-casino-suriname/">
-<div class="listing-ph"><img alt="Tropicana Hotel Casino in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/50b2cabfd05e7d0fc9c8bfc4d261b88f.webp" srcset="/images/50b2cabfd05e7d0fc9c8bfc4d261b88f-480.webp 480w, /images/50b2cabfd05e7d0fc9c8bfc4d261b88f.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Tropicana Hotel Casino in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/50b2cabfd05e7d0fc9c8bfc4d261b88f.webp" srcset="/images/50b2cabfd05e7d0fc9c8bfc4d261b88f-480.webp 480w, /images/50b2cabfd05e7d0fc9c8bfc4d261b88f.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tropicana Hotel Casino</h3>
 <p class="listing-blurb">Tropicana Hotel &amp; Casino is a full-service hotel and entertainment complex in Paramaribo. Featuring a casino…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 520990</span>
+<span>Casinohotels</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="resorts" href="listing/tucan-residence/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tucan Residence</h3>
 <p class="listing-blurb">Tucan Residence on Krakoenstraat offers rooms and suites with resort-style service and a private wellness…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 8503570</span>
+<span>Resorts</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="resorts" href="listing/tucan-resort-and-spa/">
-<div class="listing-ph"><img alt="Tucan Resort and Spa in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ed7c77b7f2042b092dc2d315744234ac.webp" srcset="/images/ed7c77b7f2042b092dc2d315744234ac-480.webp 480w, /images/ed7c77b7f2042b092dc2d315744234ac.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Tucan Resort and Spa in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ed7c77b7f2042b092dc2d315744234ac.webp" srcset="/images/ed7c77b7f2042b092dc2d315744234ac-480.webp 480w, /images/ed7c77b7f2042b092dc2d315744234ac.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tucan Resort and Spa</h3>
 <p class="listing-blurb">Tucan Resort &amp; Spa is a wellness-focused resort near Paramaribo offering spa treatments, a pool and…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 850357</span>
+<span>Resorts</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/twenty4-hostel/">
-<div class="listing-ph"><img alt="Twenty4 Hostel in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/59cb614e23c7cd20994e289203bfc26b.webp" srcset="/images/59cb614e23c7cd20994e289203bfc26b-480.webp 480w, /images/59cb614e23c7cd20994e289203bfc26b.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Twenty4 Hostel in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/59cb614e23c7cd20994e289203bfc26b.webp" srcset="/images/59cb614e23c7cd20994e289203bfc26b-480.webp 480w, /images/59cb614e23c7cd20994e289203bfc26b.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Twenty4 Hostel</h3>
 <p class="listing-blurb">Paramaribo's first and only hostel, on Jessurunstraat, aimed at backpackers and independent travellers. It…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +5978979585</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Marowijne" data-sub="eco-lodges" href="listing/urusji-lodge/">
-<div class="listing-ph"><img alt="Urusji Lodge in Marowijne" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7d255e1b222cc0a4f55b7dde2c198095.webp" srcset="/images/7d255e1b222cc0a4f55b7dde2c198095-480.webp 480w, /images/7d255e1b222cc0a4f55b7dde2c198095.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">U</span><img alt="Urusji Lodge in Marowijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7d255e1b222cc0a4f55b7dde2c198095.webp" srcset="/images/7d255e1b222cc0a4f55b7dde2c198095-480.webp 480w, /images/7d255e1b222cc0a4f55b7dde2c198095.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Urusji Lodge</h3>
 <p class="listing-blurb">Een kleine, door een familie gerunde lodge in Galibi aan de monding van de Marowijne, met vier kamers met maximaal drie bedden, gedeelde…</p>
 <div class="listing-meta">
-<span>Marowijne</span>
-<span>Tel: +5978843915</span>
+<span>Eco- &amp; rivierlodges</span><span>Marowijne</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/villa-famiri/">
-<div class="listing-ph"><img alt="Villa Famiri, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/81f294c1d05902035b683eec9d321d2c.webp" srcset="/images/81f294c1d05902035b683eec9d321d2c-480.webp 480w, /images/81f294c1d05902035b683eec9d321d2c.webp 605w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span><img alt="Villa Famiri, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/81f294c1d05902035b683eec9d321d2c.webp" srcset="/images/81f294c1d05902035b683eec9d321d2c-480.webp 480w, /images/81f294c1d05902035b683eec9d321d2c.webp 605w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Villa Famiri</h3>
 <p class="listing-blurb">Villa Famiri is a boutique hotel in Paramaribo with a warm, family atmosphere. Centrally located, it offers…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 450-230</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/villa-zapakara/">
-<div class="listing-ph"><img alt="Villa Zapakara in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/460d45e3de2002e1d080dad78c14ccd1.webp" srcset="/images/460d45e3de2002e1d080dad78c14ccd1-480.webp 480w, /images/460d45e3de2002e1d080dad78c14ccd1.webp 1541w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span><img alt="Villa Zapakara in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/460d45e3de2002e1d080dad78c14ccd1.webp" srcset="/images/460d45e3de2002e1d080dad78c14ccd1-480.webp 480w, /images/460d45e3de2002e1d080dad78c14ccd1.webp 1541w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Villa Zapakara</h3>
 <p class="listing-blurb">Villa Zapakara is a private villa retreat near Paramaribo, offering exclusive accommodation surrounded by…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 422212</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/village-park-33/">
-<div class="listing-ph"></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Village Park 33</h3>
 <p class="listing-blurb">Een privéstrandresort in Cabendadorp in Para, verhuurd als privélocatie.</p>
 <div class="listing-meta">
-<span>Para</span>
-<span>Tel: +5978995293</span>
+<span>Resorts</span><span>Para</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/villas-paramaribo/">
-<div class="listing-ph"><img alt="Villas Paramaribo in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/507eed3893204901fb41d3dfac74e78a.webp" srcset="/images/507eed3893204901fb41d3dfac74e78a-480.webp 480w, /images/507eed3893204901fb41d3dfac74e78a.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span><img alt="Villas Paramaribo in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/507eed3893204901fb41d3dfac74e78a.webp" srcset="/images/507eed3893204901fb41d3dfac74e78a-480.webp 480w, /images/507eed3893204901fb41d3dfac74e78a.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Villas Paramaribo</h3>
 <p class="listing-blurb">Villas Paramaribo offers a collection of self-catering villas and apartments for short and long-term stays in…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/waterland-suites/">
-<div class="listing-ph"><img alt="Waterland Suites, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5aa18f12ac52a6995969bfcd3ff7275e.webp" srcset="/images/5aa18f12ac52a6995969bfcd3ff7275e-480.webp 480w, /images/5aa18f12ac52a6995969bfcd3ff7275e.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">W</span><img alt="Waterland Suites, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5aa18f12ac52a6995969bfcd3ff7275e.webp" srcset="/images/5aa18f12ac52a6995969bfcd3ff7275e-480.webp 480w, /images/5aa18f12ac52a6995969bfcd3ff7275e.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Waterland Suites</h3>
 <p class="listing-blurb">Waterland Suites is a small hotel in the Zorg en Hoop neighbourhood of Paramaribo offering two- and…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 530-151</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/yasmin-luxury-resort/">
-<div class="listing-ph"><img alt="Yasmin Luxury Resort in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8d37ebbbd1b038432d326617a1d8e724.webp" srcset="/images/8d37ebbbd1b038432d326617a1d8e724-480.webp 480w, /images/8d37ebbbd1b038432d326617a1d8e724.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Y</span><img alt="Yasmin Luxury Resort in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8d37ebbbd1b038432d326617a1d8e724.webp" srcset="/images/8d37ebbbd1b038432d326617a1d8e724-480.webp 480w, /images/8d37ebbbd1b038432d326617a1d8e724.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Yasmin Luxury Resort</h3>
 <p class="listing-blurb">Een familiegericht resort aan de Verlengde Jacques Gompertstraat in Paramaribo. De kamers zijn voorzien van airconditioning…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +5978761617</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-sub="guesthouses" href="listing/zeedijk-resort-nickerie/">
-<div class="listing-ph"><img alt="Zeedijk Resort Nickerie in Nickerie" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f4f5930eedb42f1b9b2f971313fc3989.webp" srcset="/images/f4f5930eedb42f1b9b2f971313fc3989-480.webp 480w, /images/f4f5930eedb42f1b9b2f971313fc3989.webp 960w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Z</span><img alt="Zeedijk Resort Nickerie in Nickerie" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f4f5930eedb42f1b9b2f971313fc3989.webp" srcset="/images/f4f5930eedb42f1b9b2f971313fc3989-480.webp 480w, /images/f4f5930eedb42f1b9b2f971313fc3989.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Zeedijk Resort Nickerie</h3>
 <p class="listing-blurb">Een gastenverblijf aan de Van Idsingaweg in Nieuw Nickerie, ongeveer 2 km van het stadscentrum en met uitzicht op de zeedijk…</p>
 <div class="listing-meta">
-<span>Nickerie</span>
-<span>Tel: +5977603480</span>
+<span>Guesthouses &amp; villa's</span><span>Nickerie</span>
 </div>
 </div>
 </a>
 <a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/zeelandia-suites/">
-<div class="listing-ph"><img alt="Zeelandia Suites, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="500" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8d6854bc62280e46930831674a2881ff.webp" srcset="/images/8d6854bc62280e46930831674a2881ff-480.webp 480w, /images/8d6854bc62280e46930831674a2881ff.webp 900w" width="400"/></div>
+<div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Z</span><img alt="Zeelandia Suites, Accommodatie in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8d6854bc62280e46930831674a2881ff.webp" srcset="/images/8d6854bc62280e46930831674a2881ff-480.webp 480w, /images/8d6854bc62280e46930831674a2881ff.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Zeelandia Suites</h3>
 <p class="listing-blurb">Zeelandia Suites is a hotel in Paramaribo established in March 1997, located near the city's commercial…</p>
 <div class="listing-meta">
-<span>Paramaribo</span>
-<span>Tel: +597 840-8613</span>
+<span>Guesthouses &amp; villa's</span><span>Paramaribo</span>
 </div>
 </div>
 </a>
