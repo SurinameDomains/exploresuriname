@@ -73,18 +73,6 @@
     "image": "https://exploresuriname.com/images/4x4-rental.webp"
   },
   {
-    "slug": "597-savri",
-    "name": "597 SavRi",
-    "description": "597 SavRi is a light, fresh breakfast and lunch bar in Paramaribo, serving honest home-made food. All-day breakfast, sandwiches, omelettes, sizzling plates and fresh drinks such as fruit sparklers and booster shots.",
-    "category": "",
-    "location": "Paramaribo",
-    "address": "Paramaribo, Suriname",
-    "phone": "+597 888-5217",
-    "website": "",
-    "email": "savricafe@gmail.com",
-    "main_image": ""
-  },
-  {
     "slug": "82-trading",
     "name": "N.V. 82 TRADING",
     "description": "N.V. 82 TRADING is a business in Paramaribo, Suriname, offering construction and trading. Located at J.D. Gomperstraat 82.",
@@ -517,18 +505,6 @@
     "main_image": ""
   },
   {
-    "slug": "alembo-nv",
-    "name": "Alembo NV",
-    "description": "Alembo NV is a technology and media company in Paramaribo, Suriname, offering accounting and outsourcing and contact-centre services. Located at Tourtonnelaan 36-38.",
-    "category": "",
-    "location": "Paramaribo",
-    "address": "Tourtonnelaan 36-38, Paramaribo, Suriname",
-    "phone": "+597 433937",
-    "website": "https://alembo.nl",
-    "email": "reacties@alembo.nl",
-    "main_image": "https://exploresuriname.com/images/alembo-nv.webp"
-  },
-  {
     "slug": "alis-drugstore",
     "name": "Alis Drugstore",
     "description": "Alis Drugstore is a pharmacy and health store in Suriname offering prescription medicines, health supplements and personal care products.",
@@ -671,6 +647,18 @@
     "website": "https://anaulanatureresort.com/",
     "email": "",
     "main_image": "https://upload.wikimedia.org/wikipedia/commons/3/35/Anaula_Nature_Resort_%2814406614971%29.jpg"
+  },
+  {
+    "slug": "andjiros",
+    "name": "AndJiro's",
+    "description": "AndJiro's is a restaurant on the Nassylaan in Paramaribo, paired with Lodi's Bar, serving meat, fish and vegan dishes in a relaxed setting. Plates are carefully presented and backed by a cocktail menu, and the kitchen opens for dinner in the evening. The bar hosts themed nights such as karaoke and networking evenings.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Nassylaan 141, Paramaribo, Suriname",
+    "phone": "+597 890-7865",
+    "website": "https://www.facebook.com/profile.php?id=61574440017533",
+    "email": "",
+    "main_image": "https://exploresuriname.com/images/andjiros.webp"
   },
   {
     "slug": "angelo-services-suriname",
@@ -2112,6 +2100,18 @@
     "website": "https://thrivedesignstudio.net",
     "email": "info@thrivedesignstudio.net",
     "main_image": "https://exploresuriname.com/images/branding-and-design.webp"
+  },
+  {
+    "slug": "brasa-suriname",
+    "name": "Brasa Suriname",
+    "description": "Brasa is a Brazilian steakhouse on the Anton Dragtenweg in Paramaribo that calls itself the “Brazilian Steak Avenue”. The menu centres on churrasco-style grilled steaks and sausages, with seafood on the side, served in a lively setting that mixes Brazilian and Surinamese hospitality. Regular music nights accompany dinner; reservations go through WhatsApp.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Anton Dragtenweg 170, Paramaribo, Suriname",
+    "phone": "+597 765-4080",
+    "website": "https://www.facebook.com/profile.php?id=61563318766215",
+    "email": "",
+    "main_image": "https://exploresuriname.com/images/brasa-suriname.webp"
   },
   {
     "slug": "braumuller-nature-resort",
@@ -5221,18 +5221,6 @@
     "main_image": ""
   },
   {
-    "slug": "farmers-choice-nv",
-    "name": "Farmer's Choice Nv",
-    "description": "Farmer's Choice Nv is a business in Paramaribo, Suriname, offering agricultural supplies and plants and garden supplies. Located at Fred Derbystraat 202.",
-    "category": "",
-    "location": "Paramaribo",
-    "address": "Fred Derbystraat 202, Paramaribo, Suriname",
-    "phone": "+597 40 51 00",
-    "website": "https://farmerschoice.sr",
-    "email": "info@farmerschoice.sr",
-    "main_image": "https://exploresuriname.com/images/farmers-choice-nv.webp"
-  },
-  {
     "slug": "farmers-world",
     "name": "Farmers World",
     "description": "Farmers World, trading as Surbola N.V., is Suriname's best known supplier of veterinary medicine and livestock supplies. The Lelydorp store on Indira Gandhiweg stocks animal health products, vaccines and treatments for poultry, cattle, pigs and small livestock, alongside feed supplements, farming tools, agricultural machinery and spare parts. Farmers across Wanica and Saramacca come here as much for the staff's product advice as for the stock itself.",
@@ -6837,18 +6825,6 @@
     "website": "https://haselhoef.com",
     "email": "contact@haselhoef.com",
     "main_image": "https://exploresuriname.com/images/haselhoef-md-solutions.webp"
-  },
-  {
-    "slug": "havana-lounge",
-    "name": "Havana Lounge",
-    "description": "A Latin-leaning club and lounge in Paramaribo. Thursdays are the salsa night, running until around 1am before the music shifts to reggae and hip-hop. Quieter earlier in the evening, with cocktails and live music.",
-    "category": "",
-    "location": "Paramaribo",
-    "address": "Paramaribo, Suriname",
-    "phone": "",
-    "website": "https://www.facebook.com/HavanaLoungeSuriname/",
-    "email": "",
-    "main_image": ""
   },
   {
     "slug": "havenbeheer-suriname",
@@ -11542,18 +11518,6 @@
     "main_image": "https://exploresuriname.com/images/nv-vsh-trading-canon.webp"
   },
   {
-    "slug": "nv-zing-manufacturing",
-    "name": "N.V. ZING Manufacturing",
-    "description": "N.V. ZING Manufacturing is a Surinamese production company with a service focus on quality output and client satisfaction. Active in manufacturing and production services for commercial clients in Paramaribo and beyond.",
-    "category": "Shopping And Souvenirs",
-    "location": "Paramaribo",
-    "address": "Aquariusstraat 96-98",
-    "phone": "+597 864-9098",
-    "website": "",
-    "email": "zingsuriname@gmail.com",
-    "main_image": ""
-  },
-  {
     "slug": "nvgraniet",
     "name": "N.V.Graniet",
     "description": "N.V.Graniet is a building materials supplier in Paramaribo, Suriname, offering tiles, sanitary ware and construction. Located at Duisburglaan 17.",
@@ -12332,14 +12296,14 @@
     "main_image": "https://exploresuriname.com/images/parsasco.webp"
   },
   {
-    "slug": "passion-food-and-wines",
-    "name": "Passion Food and Wines",
-    "description": "Passion Food and Wines is a fine dining restaurant in Paramaribo with an international menu, a strong wine list and a more formal atmosphere than most of the city's restaurants. Suited to special occasions and business dinners rather than casual eating.",
+    "slug": "passie-food-and-wines",
+    "name": "Passie Food and Wines",
+    "description": "Passie Food and Wines is a restaurant and wine bar on the Kolonistenweg in Paramaribo, open six days a week. The day starts with freshly ground coffee, lunch is served on the terrace, and the afternoon borrel runs into an extensive dinner menu. Passie also hosts private celebrations and tailor-made wine tastings led by in-house wine expert Marloes.",
     "category": "Food",
     "location": "Paramaribo",
     "address": "Kolonistenweg 39, Paramaribo, Suriname",
     "phone": "+597 840-8613",
-    "website": "https://passiefoodandwines.com/passie-food/",
+    "website": "https://passiefoodandwines.com/",
     "main_image": "https://impro.usercontent.one/appid/hostnetWsb/domain/passiefoodandwines.com/media/passiefoodandwines.com/onewebmedia/picture-120044.jpg?etag=undefined&sourceContentType=image%2Fjpeg&quality=85"
   },
   {
@@ -12689,6 +12653,18 @@
     "website": "",
     "email": "",
     "main_image": "https://www.surinamyp.com/img/sr/e/1683207102-18-popeyes.jpg"
+  },
+  {
+    "slug": "pot-cova",
+    "name": "Pot Cova Restaurant",
+    "description": "Pot Cova is a Jamaican restaurant on the Wagenweg in Paramaribo, cooking under the motto “Yaad A’broad, Pot Fulla Flava”. Expect island classics such as curry chicken alongside tropical drinks, with a relaxed, reggae-flavoured atmosphere. Group and birthday packages are available with advance reservation.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Wagenweg 44, Paramaribo, Suriname",
+    "phone": "+597 835-9229",
+    "website": "https://www.facebook.com/profile.php?id=61580726830318",
+    "email": "",
+    "main_image": "https://exploresuriname.com/images/pot-cova.webp"
   },
   {
     "slug": "powerful-automotive",
@@ -17496,13 +17472,25 @@
   {
     "slug": "tulip-supermarket",
     "name": "Tulip Supermarket",
-    "description": "Tulip Supermarket is a supermarket chain in Suriname stocking fresh produce, groceries, household essentials and a solid selection of international products. Part of the Amazone Retail group, with multiple locations across Paramaribo and the interior.",
+    "description": "Tulip Supermarket on the Tourtonnelaan is the original Tulip store, opened in 2009 by the wholesale distributor Amazone International N.V. It stocks fresh produce, groceries, household essentials and a wide range of imported international brands. Tulip's second, larger store is on the Verlengde Gemenelandsweg.",
     "category": "Shopping And Souvenirs",
     "location": "Paramaribo",
-    "address": "Tourtonnelaan 133-135, Paramaribo, Suriname",
+    "address": "Tourtonnelaan 131, Paramaribo, Suriname",
     "phone": "+597 521060",
-    "website": "",
-    "email": "info@tulip-supermarket.com",
+    "website": "https://www.tulip-supermarket.com/",
+    "email": "customerservice@tulip-supermarket.com",
+    "main_image": "https://www.surinamyp.com/img/sr/l/1683208614-24-tulip.jpg"
+  },
+  {
+    "slug": "tulip-supermarket-verlengde-gemenelandsweg",
+    "name": "Tulip Supermarket (Verl. Gemenelandsweg)",
+    "description": "Tulip II on the Verlengde Gemenelandsweg is Tulip's newest and largest store: a two-floor premium supermarket with more than 65,000 products and over 500 free parking spaces. Departments include fresh produce, bakery, cheese and deli, butcher, frozen, liquor, cosmetics, drugstore and a pharmacy. Open seven days a week from 8 AM to 8 PM, holidays included.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Verlengde Gemenelandsweg 118, Paramaribo, Suriname",
+    "phone": "+597 521061",
+    "website": "https://www.tulip-supermarket.com/",
+    "email": "customerservice@tulip-supermarket.com",
     "main_image": "https://www.surinamyp.com/img/sr/l/1683208614-24-tulip.jpg"
   },
   {
