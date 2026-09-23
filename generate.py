@@ -9392,13 +9392,28 @@ def build_events_page():
                     break
         return best
 
+    _DOW_SHORT = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
     def _recur_label(kind, ev):
-        days = [_DOW_NAME[d] for d in ev.get("weekdays", []) if 0 <= d <= 6]
-        if not days:
+        # Kept short: it renders as a one-line pill on cards as narrow as
+        # 88px-thumb rows on phones. Six days spelled out ran off the card and
+        # widened the whole page on mobile.
+        wd = sorted({d for d in ev.get("weekdays", []) if 0 <= d <= 6})
+        if not wd:
             return "Recurring"
-        joined = days[0] if len(days) == 1 else (", ".join(days[:-1]) + " and " + days[-1])
+        if len(wd) == 1:
+            joined = _DOW_NAME[wd[0]]
+        elif len(wd) == 7:
+            joined = None
+        elif len(wd) >= 3 and wd == list(range(wd[0], wd[-1] + 1)):
+            joined = _DOW_SHORT[wd[0]] + "\u2013" + _DOW_SHORT[wd[-1]]
+        else:
+            sh = [_DOW_SHORT[d] for d in wd]
+            joined = ", ".join(sh[:-1]) + " & " + sh[-1]
         if kind == "weekly":
-            return "Every " + joined
+            return "Daily" if joined is None else "Every " + joined
+        if joined is None:
+            joined = "day"
         return _NTH_NAME.get(int(ev.get("nth") or 1), "First") + " " + joined + " of the month"
 
     _hol_by_name = {}
@@ -9985,7 +10000,7 @@ def build_events_page():
         '.ev-seeall{font-size:.8rem;font-weight:700;color:var(--forest2);background:none;border:0;cursor:pointer;padding:.3rem .2rem}'
         '.ev-rail-s{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 2px;'
         'padding:2px 2px 10px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}'
-        '.ev-rc{flex:0 0 68%;max-width:230px;scroll-snap-align:start;text-decoration:none;color:inherit}'
+        '.ev-rc{flex:0 0 68%;max-width:230px;min-width:0;scroll-snap-align:start;text-decoration:none;color:inherit}'
         '@media(min-width:640px){.ev-rc{flex-basis:210px}}'
         '.ev-rt{font-weight:700;font-size:.9rem;color:#111827;line-height:1.3;margin:.15rem 0 0;'
         'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}'
@@ -10044,8 +10059,8 @@ def build_events_page():
         '.ev-t{font-size:.98rem;font-weight:700;line-height:1.3;color:#111827;margin:0;'
         'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}'
         '.ev-where{font-size:.8rem;color:#6b7280;margin:.15rem 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
-        '.ev-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.4rem}'
-        '.ev-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:.12rem .45rem;border-radius:999px;white-space:nowrap}'
+        '.ev-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.4rem;min-width:0;max-width:100%}'
+        '.ev-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:.12rem .45rem;border-radius:999px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}'
         '.t-rec{background:#e0f2fe;color:#075985}.t-hol{background:var(--mint);color:var(--forest)}'
         '.t-free{background:#dcfce7;color:#166534}.t-tbc{background:#fef3c7;color:#92400e}'
         '.ev-save{position:absolute;top:8px;right:8px;width:34px;height:34px;border-radius:999px;border:0;cursor:pointer;'
@@ -10064,7 +10079,7 @@ def build_events_page():
         '.ev-act:hover{background:#cfe7c9}'
         '.ev-hide{display:none!important}'
         # compact rows for months further out
-        '.ev-list{display:grid;grid-template-columns:1fr;gap:10px}'
+        '.ev-list{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}'
         '@media(min-width:768px){.ev-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px}}'
         '.ev-row .ev-open{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);'
         'border-radius:14px;padding:10px 52px 10px 10px;height:100%}'
@@ -10081,7 +10096,7 @@ def build_events_page():
         # agenda as a single column on mobile; none uses a 2-up grid. The poster
         # grid stays from 768px up, where there is room for the artwork.
         '@media(max-width:767px){'
-        '.ev-grid{grid-template-columns:1fr;gap:10px}'
+        '.ev-grid{grid-template-columns:minmax(0,1fr);gap:10px}'
         '.ev-grid .ev-open{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);'
         'border-radius:14px;padding:10px 50px 10px 10px}'
         '.ev-grid .ev-pos{flex:0 0 88px;width:88px;aspect-ratio:4/5;border-radius:10px;box-shadow:none}'
