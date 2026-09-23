@@ -9,6 +9,16 @@
   "error": "WebP conversion failed",
   "last": "2026-09-18T16:56:02+00:00"
  },
+ "https://exploresuriname.com/images/andjiros.webp": {
+  "count": 1,
+  "error": "HTTP Error 404: Not Found",
+  "last": "2026-09-23T20:07:03+00:00"
+ },
+ "https://exploresuriname.com/images/brasa-suriname.webp": {
+  "count": 1,
+  "error": "HTTP Error 404: Not Found",
+  "last": "2026-09-23T20:07:03+00:00"
+ },
  "https://exploresuriname.com/images/landbouw-en-veeteeltbedrijf-van-dijk-nv.webp": {
   "count": 1,
   "error": "HTTP Error 404: Not Found",
@@ -433,6 +443,11 @@
   "count": 1,
   "error": "HTTP Error 404: Not Found",
   "last": "2026-09-21T21:51:32+00:00"
+ },
+ "https://exploresuriname.com/images/pot-cova.webp": {
+  "count": 1,
+  "error": "HTTP Error 404: Not Found",
+  "last": "2026-09-23T20:07:03+00:00"
  },
  "https://exploresuriname.com/images/preconsu-construction-and-environmental-services-nv.webp": {
   "count": 1,
