@@ -1,5 +1,17 @@
 {
-  "outages": [],
-  "last_updated": "2026-09-23T07:07:48.311127+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD WOENSDAG 23 SEPTEMBER 2026",
+      "date": "23 September 2026",
+      "date_iso": "2026-09-23",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1614/gepland-onderhoud-woensdag-23-september-2026",
+      "meta_description": "Gepland onderhoud: Wanica woensdag 23 september 2026 tussen 08:00-14:00 GEDEELTE WELGEDACHT C WEG TUSSEN INDIRA GANDHIWEG EN MAGENTA KANAALWEG EN",
+      "district": "Wanica",
+      "time": "08:00 – 14:00",
+      "area": "GEDEELTE WELGEDACHT C WEG TUSSEN INDIRA GANDHIWEG EN MAGENTA KANAALWEG EN"
+    }
+  ],
+  "last_updated": "2026-09-23T11:07:47.985527+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
