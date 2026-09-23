@@ -255,7 +255,8 @@ def localize(soup, lang: str, rel_path: str):
     _STUBS = {"today.html": "/daily-notices.html",
               "worldcup-2026.html": "/matches.html",
               "seogs-2026.html": "/events.html",
-              "nature.html": "/activities.html"}
+              "nature.html": "/activities.html",
+              "real-estate.html": "/marketplace/"}
     if rel_path not in _STUBS:
         for el in soup.select("link[rel=canonical]"):
             el["href"] = canon
@@ -471,10 +472,12 @@ def english_pages():
         yield p, p.name
     for p in (ROOT / "listing").glob("*/index.html"):
         yield p, f"listing/{p.parent.name}/index.html"
-    # Marketplace ads. The seller's own text carries translate="no", so only the
-    # page furniture is localised.
-    for p in (ROOT / "real-estate").glob("*/index.html"):
-        yield p, f"real-estate/{p.parent.name}/index.html"
+    # Marketplace browse page + ads. The seller's own text carries
+    # translate="no", so only the page furniture is localised.
+    if (ROOT / "marketplace" / "index.html").exists():
+        yield ROOT / "marketplace" / "index.html", "marketplace/index.html"
+    for p in (ROOT / "marketplace").glob("*/index.html"):
+        yield p, f"marketplace/{p.parent.name}/index.html"
 
 def process_page(job):
     """One English page: always re-finalize EN, emit nl/es only when stale.

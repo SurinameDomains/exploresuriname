@@ -4998,7 +4998,7 @@ def nav_html(active="home", prefix=""):
     #   Plan     = what you read before or during a trip
     #   Live     = anything whose numbers changed since yesterday
     #   Oil&Gas / Games = self-contained sections
-    _EXPL  = {"activities", "events", "shopping", "services", "realestate"}
+    _EXPL  = {"activities", "events", "shopping", "services", "marketplace"}
     _EAT   = {"restaurants", "hotels"}
     _PLAN  = {"visitor", "itinerary", "safety", "roads", "flights", "history", "dictionary"}
     _LIVE  = {"currency", "forecast", "daily-notices", "atms", "matches", "surtime"}
@@ -5047,7 +5047,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}events.html"      {_link_cls("events")}     >Events &amp; Festivals</a>'
         f'<a href="{prefix}shopping.html"    {_link_cls("shopping")}   >Shopping</a>'
         f'<a href="{prefix}services.html"    {_link_cls("services")}   >Local Services</a>'
-        f'<a href="{prefix}real-estate.html" {_link_cls("realestate")} >Real Estate</a>'
+        f'<a href="{prefix}marketplace/"     {_link_cls("marketplace")}>Marketplace</a>'
     )
     # Eat & Stay
     eat_items = (
@@ -5130,7 +5130,7 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}events.html",      "Events & Festivals", "events")     +
         _mob_link(f"{prefix}shopping.html",    "Shopping",           "shopping")   +
         _mob_link(f"{prefix}services.html",    "Local Services",     "services")   +
-        _mob_link(f"{prefix}real-estate.html", "Real Estate",        "realestate")
+        _mob_link(f"{prefix}marketplace/",     "Marketplace",        "marketplace")
     )
     mob_eat_items = (
         _mob_link(f"{prefix}restaurants.html", "Where to Eat",  "restaurants") +
@@ -6556,7 +6556,7 @@ function esSearch(){
         <a href="restaurants.html">Where to Eat</a>
         <a href="currency.html">Market rates</a>
         <a href="daily-notices.html">Daily notices</a>
-        <a href="real-estate.html">Real Estate</a>
+        <a href="marketplace/">Marketplace</a>
       </div>
     </div>
   </div>
@@ -18690,7 +18690,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         # Lastmod for a static/category page. Hash the page with volatile date tokens
         # stripped, so evergreen pages stop claiming they changed today on every build.
         # Only the sitemap date is affected here; the generated page output is untouched.
-        fname = seg if seg else "index.html"
+        fname = (seg + "index.html") if (not seg or seg.endswith("/")) else seg
         _p = Path(fname)
         if not _p.exists():
             return today
@@ -18746,7 +18746,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("contact.html",    "0.5", "yearly"),
         ("submit-business.html", "0.6", "yearly"),
         ("submit-event.html",    "0.6", "monthly"),
-        ("real-estate.html",     "0.9", "daily"),
+        ("marketplace/",         "0.9", "daily"),
         ("post-ad.html",         "0.5", "monthly"),
         ("privacy.html",    "0.3", "yearly"),
     ]
@@ -18763,12 +18763,12 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
             f"  </url>"
         )
 
-    # Marketplace ads. Weekly on purpose: a property ad is only worth indexing
-    # while it is still for sale. Sold ones carry noindex and are left out here.
+    # Marketplace ads. Weekly on purpose: an ad is only worth indexing while it
+    # is still for sale. Sold ones carry noindex and are left out here.
     for slug in (market_slugs or []):
         urls.append(
             f"  <url>\n"
-            f"    <loc>{SITE_URL}/real-estate/{slug}/</loc>\n"
+            f"    <loc>{SITE_URL}/marketplace/{slug}/</loc>\n"
             f"    <lastmod>{today}</lastmod>\n"
             f"    <changefreq>weekly</changefreq>\n"
             f"    <priority>0.6</priority>\n"
@@ -21149,6 +21149,16 @@ if __name__ == "__main__":
     pages = {
         "index.html":       build_index(RESTAURANTS, HOTELS, cme_rates),
         "activities.html":  build_activities_page(),
+        # Real estate became the general Marketplace (Sep 2026). Stub so shared
+        # links and the indexed URL land on the new page.
+        "real-estate.html":        ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
+            '<meta name="viewport" content="width=device-width, initial-scale=1">'
+            '<meta name="robots" content="noindex,follow">'
+            '<meta http-equiv="refresh" content="0;url=/marketplace/?c=property">'
+            '<link rel="canonical" href="https://exploresuriname.com/marketplace/">'
+            '<title>Redirecting to the Marketplace&hellip;</title></head><body>'
+            '<p>Property ads now live in the <a href="/marketplace/?c=property">Explore Suriname Marketplace</a>.</p>'
+            '</body></html>'),
         # Folded into activities.html (Aug 2026). Kept as a stub so existing
         # links and indexed URLs consolidate instead of 404ing.
         "nature.html":             ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
@@ -21246,8 +21256,8 @@ if __name__ == "__main__":
     }))
 
     # ── Marketplace (market.py) ─────────────────────────────────────────────
-    # Returns nested keys like real-estate/<slug>/index.html, so the write loop
-    # below creates directories. update.yml must git add real-estate/ or these
+    # Returns nested keys like marketplace/<slug>/index.html, so the write loop
+    # below creates directories. update.yml must git add marketplace/ or these
     # get generated and then never committed.
     from market import build_market_pages
     _market_pages = build_market_pages({
@@ -21261,7 +21271,8 @@ if __name__ == "__main__":
     })
     pages.update(_market_pages)
     _market_slugs = [k.split("/")[1] for k in _market_pages
-                     if k.startswith("real-estate/") and 'content="noindex' not in _market_pages[k]]
+                     if k.startswith("marketplace/") and k.count("/") == 2
+                     and 'content="noindex' not in _market_pages[k]]
 
     import os as _os_pages
     for fname, html in pages.items():
