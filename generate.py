@@ -9197,12 +9197,25 @@ def build_events_page():
         _place = ", ".join(x for x in [(_cs.get("venue") or "").strip(),
                                        (_cs.get("district") or "").strip()] if x)
         _know = []
-        if (_cs.get("time_text") or "").strip():
-            _know.append("Starts " + _cs["time_text"].strip() + ".")
+        _tt = (_cs.get("time_text") or "").strip().rstrip(".")
+        if _tt:
+            # Organisers type this freely: "20:00", "Starting 14:00", "Doors open
+            # at 10pm", "16:00-23:00". Only a bare time gets a verb in front, so
+            # the card never reads "Starts Starting 14:00".
+            if _tt[0].isdigit():
+                _know.append(("Time: " if re.search(r"[-–]\s*\d", _tt) else "Starts ") + _tt + ".")
+            else:
+                _know.append(_tt[0].upper() + _tt[1:] + ".")
         if _cs.get("free"):
             _know.append("Free to attend.")
         elif (_cs.get("price") or "").strip():
-            _know.append("Entry " + _cs["price"].strip() + ".")
+            _pr = _cs["price"].strip().rstrip(".")
+            # "SRD 200" reads as "Entry SRD 200."; "Early-bird tickets SRD 500"
+            # already says what it is and must not become "Entry Early-bird...".
+            if re.match(r"(?i)(srd|usd|eur|\$|\u20ac|\d)", _pr):
+                _know.append("Entry " + _pr + ".")
+            else:
+                _know.append(_pr[0].upper() + _pr[1:] + ".")
         if (_cs.get("organizer") or "").strip():
             _know.append("Organised by " + _cs["organizer"].strip() + ".")
         # A series stores a rule, not dates: "every Friday" is one row that
@@ -9240,6 +9253,10 @@ def build_events_page():
             "free": bool(_cs.get("free")),
             "image": _cs.get("image", ""),
             "community": True,
+            # Raw form values, used only by the card layout (filter bucket and
+            # the short time on the card). Nothing else reads them.
+            "cat_key": (_cs.get("category") or "").strip(),
+            "time_text": _tt,
         })
     try:
         with open("data/holidays.json", encoding="utf-8") as _f:
@@ -9420,157 +9437,315 @@ def build_events_page():
         n = (st - today).days
         return "today" if n == 0 else ("tomorrow" if n == 1 else "in " + str(n) + " days")
 
-    # ── Next-up spotlight ────────────────────────────────────────────────────
-    spotlight = ""
+    # ── Card layout (Sep 2026 redesign) ──────────────────────────────────────
+    # The agenda used to be one long column of text cards (16k px on desktop,
+    # 25k on a phone). It is now a poster grid: the flyer or a typographic
+    # poster, then date, name and venue. Everything else (blurb, tips, links)
+    # sits in a <details> inside the same <article>, so it stays in the HTML for
+    # search engines and for readers without JavaScript; with JavaScript the
+    # card opens that content in a dialog, and #ev-<id> links open it directly.
+    # Filters (when / type / free / saved) are client-side over data-* attrs,
+    # so the static build and the 15-minute rebuild cycle are unchanged.
+    _BUCKETS = [
+        ("nightlife", "Nightlife & parties"), ("music", "Concerts & live music"),
+        ("culture", "Festivals & culture"), ("food", "Food & drink"),
+        ("market", "Markets & fairs"), ("family", "Family"), ("sports", "Sports"),
+        ("business", "Business & expos"), ("holiday", "Public holidays"), ("other", "Other"),
+    ]
+    _KEY_BUCKET = {"festival": "culture", "cultural": "culture", "concert": "music",
+                   "nightlife": "nightlife", "food-drink": "food", "market": "market",
+                   "family": "family", "sports": "sports", "business": "business"}
+
+    def _bucket(ev):
+        if ev.get("holiday"):
+            return "holiday"
+        if ev.get("cat_key"):
+            return _KEY_BUCKET.get(ev["cat_key"], "other")
+        c = (ev.get("category") or "").lower()
+        for words, b in ((("party", "club", "bollywood", "house", "soca", "dj"), "nightlife"),
+                         (("jazz", "concert", "music"), "music"),
+                         (("expo", "conference", "business"), "business"),
+                         (("market", "fair"), "market"),
+                         (("food", "culinary"), "food"),
+                         (("sport", "race", "run"), "sports"),
+                         (("family", "kids"), "family"),
+                         (("festival", "holiday", "commemoration", "tradition", "cultur"), "culture")):
+            if any(w in c for w in words):
+                return b
+        return "other"
+
+    def _short_time(ev):
+        _t = ev.get("time_text") or ""
+        m = re.search(r"\b(\d{1,2}[:.]\d{2})\b", _t) or re.search(r"\b(\d{1,2}\s?(?:am|pm|AM|PM))\b", _t)
+        return m.group(1) if m else ""
+
+    def _flyer_src(ev):
+        return _localize_img(ev.get("image", "")) if ev.get("image") else ""
+
+    def _when_short(st, en):
+        if en and en > st:
+            if st.month == en.month:
+                return st.strftime("%a") + " " + str(st.day) + " – " + en.strftime("%a") + " " + str(en.day) + " " + en.strftime("%b")
+            return str(st.day) + " " + st.strftime("%b") + " – " + str(en.day) + " " + en.strftime("%b")
+        return st.strftime("%a") + " " + str(st.day) + " " + st.strftime("%b")
+
+    def _flag(st, en):
+        """Short status for the poster corner: only for the next two days."""
+        if st <= today <= en and en > st:
+            return "On now", "now"
+        n = (st - today).days
+        if n == 0:
+            return "Today", "now"
+        if n == 1:
+            return "Tomorrow", "soon"
+        return "", ""
+
+    def _poster(ev, bucket, confd, st, sd, lbl, lazy=True):
+        """Flyer image, or a typographic poster for events without artwork."""
+        src = _flyer_src(ev)
+        if src:
+            return ('<img class="ev-img" src="' + _esc(src) + '" alt="Flyer for ' + _esc(ev.get("name", ""))
+                    + '"' + (' loading="lazy"' if lazy else '') + ' decoding="async">')
+        if confd:
+            big, sub = str(st.day), st.strftime("%b") + " · " + st.strftime("%a")
+        else:
+            big, sub = "?", _date(sd.year, sd.month, 1).strftime("%b %Y")
+        return ('<div class="ev-typo" aria-hidden="true">'
+                '<span class="ev-typo-c">' + _esc(ev.get("category", "") or "Event") + '</span>'
+                '<span class="ev-typo-d">' + big + '</span>'
+                '<span class="ev-typo-m">' + sub + '</span></div>')
+
+    _HEART = ('<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2'
+              'C.9 8.2 3.2 4.5 6.9 4.5c2.1 0 3.6 1.1 4.6 2.6.9-1.5 2.5-2.6 4.6-2.6 3.7 0 6 3.7 4.5 7.3C19.5 16.4 12 21 12 21z"'
+              ' fill="currentColor"/></svg>')
+
+    # ── Buckets, weekend window, spotlight pick ──────────────────────────────
+    _bk = {id(r[5]): _bucket(r[5]) for r in resolved}
+    _wd = today.weekday()
+    if _wd >= 4:                                   # Fri, Sat or Sun: this weekend is now
+        _wk_start, _wk_end = today, today + _td(days=6 - _wd)
+    else:
+        _wk_start = today + _td(days=4 - _wd)
+        _wk_end = _wk_start + _td(days=2)
     _conf = [r for r in resolved if r[1]]
-    if _conf:
-        _sd, _c, _lbl, _st, _en, _ev = _conf[0]
+    _wknd_evs = [r for r in _conf if r[3] <= _wk_end and r[4] >= _wk_start]
+
+    def _spot_score(r):
+        ev, st, en = r[5], r[3], r[4]
+        s = 0
+        if ev.get("image"):
+            s += 3
+        if en > st:
+            s += 2
+        if _bk[id(ev)] in ("culture", "music", "holiday"):
+            s += 1
+        if ev.get("holiday"):
+            s += 1
+        return (-s, st)
+
+    # A weekly food deal is a poor "next up". Prefer something happening in the
+    # next three weeks that is not a recurring series, weighted toward events
+    # with artwork, several days, or festival/concert/holiday character.
+    _spot_pool = [r for r in _conf if r[5].get("kind") not in ("weekly", "monthly")
+                  and r[3] <= today + _td(days=21)]
+    _spot = (sorted(_spot_pool, key=_spot_score)[0] if _spot_pool
+             else next((r for r in _conf if r[5].get("kind") not in ("weekly", "monthly")),
+                       _conf[0] if _conf else None))
+
+    # ── Spotlight ────────────────────────────────────────────────────────────
+    spotlight = ""
+    if _spot:
+        _sd, _c, _lbl, _st, _en, _ev = _spot
         _when = _in_days(_st, _en).capitalize()
+        _src = _flyer_src(_ev)
+        _media = (('<a href="#ev-' + _esc(_ev.get("id", "")) + '" class="ev-spot-m">'
+                   '<img src="' + _esc(_src) + '" alt="Flyer for ' + _esc(_ev.get("name", ""))
+                   + '" decoding="async"></a>') if _src else "")
         spotlight = (
-            '\n  <section class="rounded-3xl text-white p-7 sm:p-10 mb-10" '
-            'style="background:linear-gradient(135deg,var(--forest) 0%,var(--forest2) 100%)">'
-            '\n    <p class="text-white/60 text-xs font-bold uppercase tracking-widest mb-3">Next up</p>'
-            '\n    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">'
-            '\n      <h2 class="serif text-3xl sm:text-4xl font-bold">'
-            + _esc(_ev.get("name", "")) + '</h2>'
-            '\n      <span class="text-sm font-bold px-3 py-1 rounded-full" style="background:var(--coral)">'
-            + _when + '</span>'
+            '\n  <section class="ev-spot' + (' has-m' if _src else '') + '" aria-label="Featured event">'
+            + _media +
+            '\n    <div class="ev-spot-b">'
+            '\n      <p class="ev-kick">Featured &middot; ' + _esc(_when) + '</p>'
+            '\n      <h2 class="serif ev-spot-t">' + _esc(_ev.get("name", "")) + '</h2>'
+            '\n      <p class="ev-spot-w">' + _esc(_lbl) + ' &middot; ' + _esc(_ev.get("location", "")) + '</p>'
+            '\n      <p class="ev-spot-d">' + _esc(_ev.get("blurb", "")) + '</p>'
+            '\n      <div class="ev-spot-a">'
+            '<a href="#ev-' + _esc(_ev.get("id", "")) + '" class="ev-btn ev-btn-p">See details</a>'
+            '<a href="' + _gcal(_ev.get("name", ""), _st, _en, _ev.get("location", ""), _ev.get("blurb", ""))
+            + '" target="_blank" rel="noopener" class="ev-btn ev-btn-g">Add to my calendar</a>'
+            '</div>'
             '\n    </div>'
-            '\n    <p class="text-white/75 text-sm mb-4">' + _esc(_lbl) + ' &middot; '
-            + _esc(_ev.get("location", "")) + '</p>'
-            '\n    <p class="text-white/85 text-base leading-relaxed max-w-2xl">' + _esc(_ev.get("blurb", "")) + '</p>'
-            '\n    <a href="' + _gcal(_ev.get("name", ""), _st, _en, _ev.get("location", ""), _ev.get("blurb", ""))
-            + '" target="_blank" rel="noopener" class="inline-block mt-5 text-sm font-semibold bg-white/15 '
-            'hover:bg-white/25 transition rounded-full px-5 py-2.5">Add to my calendar</a>'
             '\n  </section>'
         )
 
-    # ── Month-jump chips ─────────────────────────────────────────────────────
-    _mkeys = []
-    for _sd, _c2, _l2, _s2, _e2, _e3 in resolved:
-        _mk = (_sd.year, _sd.month)
-        if _mk not in _mkeys:
-            _mkeys.append(_mk)
-    chips_html = "".join(
-        '<a href="#m-' + str(y) + '-' + str(m) + '" class="px-3 py-1.5 rounded-full text-xs font-semibold '
-        'bg-white border border-gray-200 text-gray-600 hover:border-gray-400 transition">'
-        + _date(y, m, 1).strftime("%b %Y") + '</a>'
-        for y, m in _mkeys)
-    _wd = today.weekday()
-    if _wd == 6:
-        _wk_start, _wk_end = today - _td(days=1), today
-    else:
-        _wk_start = today + _td(days=(5 - _wd) % 7)
-        _wk_end = _wk_start + _td(days=1)
-    _today_evs = [r for r in resolved if r[1] and r[3] <= today <= r[4]]
-    _wknd_evs = [r for r in resolved if r[1] and r[3] <= _wk_end and r[4] >= _wk_start]
-    _quick = ""
-    if _today_evs:
-        _quick += ('<a href="#ev-' + _esc(_today_evs[0][5].get("id", "")) + '" class="px-3 py-1.5 '
-                   'rounded-full text-xs font-bold text-white hover:opacity-90 transition" '
-                   'style="background:var(--coral)">Today &middot; ' + str(len(_today_evs)) + '</a>')
-    if _wknd_evs:
-        _quick += ('<a href="#ev-' + _esc(_wknd_evs[0][5].get("id", "")) + '" class="px-3 py-1.5 '
-                   'rounded-full text-xs font-bold text-white hover:opacity-90 transition" '
-                   'style="background:var(--forest)">This weekend &middot; ' + str(len(_wknd_evs)) + '</a>')
-    chips_html = _quick + chips_html
+    # ── Weekend rail (horizontal, short and prioritised) ─────────────────────
+    # A rail only works for a handful of items that matter most right now
+    # (NN/g: most people stop after 3-4 swipes), so it carries this weekend's
+    # events and nothing else. The full agenda below stays a vertical grid.
+    _rail_items, _rail_title, _rail_when = _wknd_evs, "This weekend", "weekend"
+    if len(_rail_items) < 2:
+        _rail_items = [r for r in _conf if r[3] <= today + _td(days=14)]
+        _rail_title, _rail_when = "Coming up", "all"
+    _rail_items = _rail_items[:12]
+    rail_html = ""
+    if len(_rail_items) >= 2:
+        _cards = ""
+        for _sd, _c, _lbl, _st, _en, _ev in _rail_items:
+            _fl, _fk = _flag(_st, _en)
+            _cards += ('<a class="ev-rc" href="#ev-' + _esc(_ev.get("id", "")) + '">'
+                       '<div class="ev-pos b-' + _bk[id(_ev)] + '">'
+                       + _poster(_ev, _bk[id(_ev)], True, _st, _sd, _lbl)
+                       + (('<span class="ev-flag ' + _fk + '">' + _fl + '</span>') if _fl else '')
+                       + '</div><p class="ev-when">' + _esc(_when_short(_st, _en))
+                       + ((' &middot; ' + _esc(_short_time(_ev))) if _short_time(_ev) else '')
+                       + '</p><p class="ev-rt">' + _esc(_ev.get("name", "")) + '</p></a>')
+        rail_html = (
+            '\n  <section class="ev-rail" aria-labelledby="ev-rail-h">'
+            '\n    <div class="ev-rail-h"><h2 id="ev-rail-h" class="serif">' + _rail_title
+            + ' <span class="ev-rail-n">' + str(len(_rail_items)) + '</span></h2>'
+            '<div class="ev-rail-nav"><button type="button" class="ev-arr" data-dir="-1" aria-label="Scroll back">&#8249;</button>'
+            '<button type="button" class="ev-arr" data-dir="1" aria-label="Scroll forward">&#8250;</button>'
+            '<button type="button" class="ev-seeall" data-go-when="' + _rail_when + '">See all &#8594;</button></div></div>'
+            '\n    <div class="ev-rail-s" tabindex="0" aria-label="' + _rail_title + ' events, scroll sideways">' + _cards + '</div>'
+            '\n  </section>')
 
-    # ── Timeline grouped by month ────────────────────────────────────────────
-    months_html, _cur = "", None
+    # ── Filter bar ───────────────────────────────────────────────────────────
+    _present = []
+    for _r in resolved:
+        _b = _bk[id(_r[5])]
+        if _b not in _present:
+            _present.append(_b)
+    _type_chips = "".join(
+        '<button type="button" class="ev-chip" data-cat="' + k + '" aria-pressed="false">' + _esc(lab) + '</button>'
+        for k, lab in _BUCKETS if k in _present)
+    _any_free = any(r[5].get("free") and not r[5].get("holiday") for r in resolved)
+    filter_html = (
+        '\n  <div class="ev-bar" role="toolbar" aria-label="Filter events">'
+        '<div class="ev-bar-s">'
+        '<button type="button" class="ev-chip" data-when="all" aria-pressed="true">All upcoming</button>'
+        '<button type="button" class="ev-chip" data-when="today" aria-pressed="false">Today<span class="ev-n"></span></button>'
+        '<button type="button" class="ev-chip" data-when="weekend" aria-pressed="false">This weekend<span class="ev-n"></span></button>'
+        '<button type="button" class="ev-chip" data-when="week" aria-pressed="false">Next 7 days<span class="ev-n"></span></button>'
+        '<button type="button" class="ev-chip ev-chip-sv" data-saved="1" aria-pressed="false" hidden>'
+        + _HEART + ' Saved<span class="ev-n"></span></button>'
+        '<span class="ev-sep" aria-hidden="true"></span>'
+        + _type_chips
+        + ('<button type="button" class="ev-chip" data-free="1" aria-pressed="false">Free entry</button>' if _any_free else '')
+        + '</div></div>'
+        '\n  <div id="ev-empty" class="ev-empty" hidden><p>No events match these filters yet.</p>'
+        '<button type="button" class="ev-btn ev-btn-p" data-clear="1">Show all events</button>'
+        ' <a href="submit-event.html" class="ev-btn ev-btn-o">Know one? Add it</a></div>')
+
+    # ── Agenda: month sections, each a poster grid ───────────────────────────
+    months_html, _cur, _open = "", None, False
+    _img_months = {(r[0].year, r[0].month) for r in resolved if r[5].get("image")}
     for _sd, _confd, _lbl, _st, _en, _ev in resolved:
         _mk = (_sd.year, _sd.month)
+        _b = _bk[id(_ev)]
         if _mk != _cur:
-            _cur = _mk
-            months_html += ('\n  <h2 id="m-' + str(_sd.year) + '-' + str(_sd.month)
-                            + '" class="serif text-2xl font-bold text-gray-900 mt-12 mb-5" '
-                            'style="scroll-margin-top:90px">'
-                            + _date(_sd.year, _sd.month, 1).strftime("%B %Y") + '</h2>')
-        badges = ""
+            if _open:
+                months_html += '</div></section>'
+            _cur, _open = _mk, True
+            # Months more than about two months out hold mostly holidays and
+            # "date to be confirmed" festivals. Full posters there doubled the
+            # page length for little value, so those months use compact rows.
+            # A month that carries real flyers (a big December concert, say)
+            # keeps the poster grid however far out it is.
+            _compact = ((_date(_sd.year, _sd.month, 1) - today).days > 60
+                        and _mk not in _img_months)
+            months_html += ('\n  <section class="ev-month"><h2 id="m-' + str(_sd.year) + '-' + str(_sd.month)
+                            + '" class="serif ev-mh">'
+                            + _date(_sd.year, _sd.month, 1).strftime("%B %Y") + '</h2><div class="'
+                            + ('ev-list' if _compact else 'ev-grid') + '">')
+        _eid = _esc(_ev.get("id", ""))
+        _name = _esc(_ev.get("name", ""))
+        _is_rec = _ev.get("kind") in ("weekly", "monthly")
+
+        # Card tags: only what changes the decision to go.
+        tags = ""
+        if _is_rec:
+            tags += '<span class="ev-tag t-rec">' + _esc(_recur_label(_ev.get("kind"), _ev)) + '</span>'
         if _ev.get("holiday"):
-            badges += _pill("Public holiday", "var(--mint)", "var(--forest)")
-        if _ev.get("community"):
-            badges += _pill("Community event", "#fdece7", "#a4462c")
-        if _ev.get("kind") in ("weekly", "monthly"):
-            badges += _pill(_recur_label(_ev.get("kind"), _ev), "#e0f2fe", "#075985")
+            tags += '<span class="ev-tag t-hol">Public holiday</span>'
+        elif _ev.get("free") and _ev.get("community"):
+            tags += '<span class="ev-tag t-free">Free</span>'
         if not _confd:
-            badges += _pill("Date to be confirmed", "#fef3c7", "#92400e")
+            tags += '<span class="ev-tag t-tbc">Date to be confirmed</span>'
+
         if _confd:
-            db = ('<div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" '
-                  'style="background:var(--mint);min-width:62px">'
-                  '<div class="text-[10px] font-bold uppercase tracking-wide" style="color:var(--forest2)">'
-                  + _st.strftime("%b") + '</div>'
-                  '<div class="text-2xl font-extrabold leading-tight" style="color:var(--forest)">'
-                  + str(_st.day) + '</div>'
-                  '<div class="text-[10px] text-gray-500">' + _st.strftime("%a") + '</div></div>')
+            _cw = _when_short(_st, _en) + ((' · ' + _short_time(_ev)) if _short_time(_ev) else '')
+            _fl, _fk = _flag(_st, _en)
             _dateline = _esc(_lbl) + ' &middot; ' + _in_days(_st, _en)
         else:
-            db = ('<div class="shrink-0 text-center rounded-xl px-2 py-2 self-start" '
-                  'style="background:#fef3c7;min-width:62px">'
-                  '<div class="text-[10px] font-bold uppercase tracking-wide" style="color:#92400e">'
-                  + _date(_sd.year, _sd.month, 1).strftime("%b") + '</div>'
-                  '<div class="text-2xl font-extrabold leading-tight" style="color:#b45309">?</div>'
-                  '<div class="text-[10px]" style="color:#92400e">' + str(_sd.year) + '</div></div>')
+            _cw, _fl, _fk = _lbl, "", ""
             _dateline = _esc(_lbl)
+        _venue = (_ev.get("location", "") or "").split(",")[0].strip()
+
+        # Details: the full text the old card showed, unchanged in substance.
+        _db_badges = ""
+        if _ev.get("community"):
+            _db_badges += _pill("Community event", "#fdece7", "#a4462c")
+        if _ev.get("category"):
+            _db_badges += _pill(_esc(_ev.get("category", "")), "var(--mint)", "var(--forest)")
         tip = _ev.get("tip", "")
         tip_html = (('<p class="text-sm mt-3 pl-3 border-l-2" style="border-color:var(--leaf)">'
                      '<strong style="color:var(--forest2)">Good to know:</strong> '
                      '<span class="text-gray-600">' + _esc(tip) + '</span></p>') if tip else "")
-        # Submitted flyers are the organiser's own artwork and come in every
-        # aspect ratio, so they are capped by height and never cropped.
-        _flyer = _ev.get("image", "")
-        if _flyer:
-            # The card preview is capped at 260px, which is too small to read a
-            # flyer that carries the date, venue and phone number as artwork, so
-            # the thumbnail is a button that opens the full image in #ev-lb.
-            _falt = "Flyer for " + _ev.get("name", "")
-            tip_html = ('<button type="button" class="ev-flyer mt-3 block relative rounded-xl '
-                        'border border-gray-100 overflow-hidden cursor-zoom-in" '
-                        'data-full="' + _esc(_flyer) + '" data-alt="' + _esc(_falt) + '" '
-                        'aria-label="' + _esc(_falt) + ', view larger">'
-                        '<img src="' + _esc(_flyer) + '" alt="" loading="lazy" decoding="async" '
-                        'style="max-height:260px;width:auto;max-width:100%;display:block">'
-                        '<span class="absolute bottom-2 right-2 text-[10px] font-semibold text-white '
-                        'px-2 py-0.5 rounded-full pointer-events-none" style="background:rgba(0,0,0,.55)" '
-                        'aria-hidden="true">View larger</span></button>') + tip_html
         foot = ""
         if _confd:
             foot += ('<a href="' + _gcal(_ev.get("name", ""), _st, _en, _ev.get("location", ""), _ev.get("blurb", ""))
-                     + '" target="_blank" rel="noopener" class="text-xs font-semibold hover:underline" '
-                     'style="color:var(--forest2)">Add to calendar</a>')
+                     + '" target="_blank" rel="noopener" class="ev-act">Add to calendar</a>')
         _site = _ev.get("website", "")
         if _site:
-            foot += ('<a href="' + _esc(_site) + '" target="_blank" rel="noopener" '
-                     'class="text-xs font-semibold hover:underline" '
-                     'style="color:var(--forest2)">Official website</a>')
+            foot += ('<a href="' + _esc(_site) + '" target="_blank" rel="noopener" class="ev-act">Official website</a>')
         _loc2 = _ev.get("location", "")
         if _confd and _loc2 and not any(w in _loc2.lower() for w in ("nationwide", "across ", "various", "country", " and ")):
             foot += ('<a href="https://www.google.com/maps/search/?api=1&amp;query=' + _up.quote(_loc2 + ", Suriname")
-                     + '" target="_blank" rel="noopener" class="text-xs font-semibold hover:underline" '
-                     'style="color:var(--forest2)">Directions</a>')
+                     + '" target="_blank" rel="noopener" class="ev-act">Directions</a>')
         if _confd:
-            foot += ('<button type="button" class="ev-share text-xs font-semibold hover:underline cursor-pointer" '
-                     'style="color:var(--forest2)" data-name="' + _esc(_ev.get("name", "")) + '" '
-                     'data-anchor="ev-' + _esc(_ev.get("id", "")) + '">Share</button>')
+            _wa = (_ev.get("name", "") + " – " + _when_short(_st, _en) + ", " + (_venue or "Suriname")
+                   + ". " + SITE_URL + "/events.html#ev-" + _ev.get("id", ""))
+            foot += ('<a href="https://wa.me/?text=' + _up.quote(_wa) + '" target="_blank" rel="noopener" '
+                     'class="ev-act">Send on WhatsApp</a>')
+            foot += ('<button type="button" class="ev-share ev-act" data-name="' + _name + '" '
+                     'data-anchor="ev-' + _eid + '">Share</button>')
         _lnk = _ev.get("link")
         if _lnk and _lnk.get("href"):
-            foot += ('<a href="' + _esc(_lnk["href"]) + '" class="text-xs font-semibold hover:underline" '
-                     'style="color:var(--forest2)">' + _esc(_lnk.get("label", "More")) + ' &#8594;</a>')
+            foot += ('<a href="' + _esc(_lnk["href"]) + '" class="ev-act">' + _esc(_lnk.get("label", "More")) + ' &#8594;</a>')
         if foot:
-            foot = '<div class="flex flex-wrap gap-x-5 gap-y-1.5 mt-3">' + foot + '</div>'
+            foot = '<div class="ev-acts">' + foot + '</div>'
+        _flyer = _ev.get("image", "")
+
         months_html += (
-            '\n  <article id="ev-' + _esc(_ev.get("id", "")) + '" style="scroll-margin-top:90px" class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex gap-4 sm:gap-5 mb-4">'
-            + db +
-            '<div class="min-w-0">'
-            '<div class="flex flex-wrap items-center gap-2 mb-1.5">'
-            '<h3 class="font-bold text-gray-900 text-base">'
-            + _esc(_ev.get("name", "")) + '</h3>' + badges + '</div>'
-            '<p class="text-xs text-gray-400 mb-2">' + _dateline + ' &middot; '
-            + _esc(_ev.get("location", "")) + '</p>'
+            '\n  <article id="ev-' + _eid + '" class="ev-card' + (' ev-row' if _compact else '') + '"'
+            ' data-s="' + (_st.isoformat() if _confd else '') + '"'
+            ' data-e="' + (_en.isoformat() if _confd else '') + '"'
+            ' data-c="' + _b + '" data-f="' + ('1' if (_ev.get("free") and not _ev.get("holiday")) else '0') + '"'
+            + (' data-full="' + _esc(_flyer) + '"' if _flyer else '') + '>'
+            '<a class="ev-open" href="#ev-' + _eid + '">'
+            '<div class="ev-pos b-' + _b + '">'
+            + _poster(_ev, _b, _confd, _st, _sd, _lbl)
+            + (('<span class="ev-flag ' + _fk + '">' + _fl + '</span>') if _fl else '')
+            + '</div>'
+            '<div class="ev-meta">'
+            '<p class="ev-when">' + _esc(_cw) + '</p>'
+            '<h3 class="ev-t">' + _name + '</h3>'
+            + (('<p class="ev-where">' + _esc(_venue) + '</p>') if _venue else '')
+            + (('<div class="ev-tags">' + tags + '</div>') if tags else '')
+            + '</div></a>'
+            '<button type="button" class="ev-save" data-id="' + _eid + '" aria-pressed="false" '
+            'aria-label="Save ' + _name + '">' + _HEART + '</button>'
+            '<details class="ev-d"><summary>Details</summary><div class="ev-db">'
+            '<div class="ev-db-b">' + _db_badges + '</div>'
+            '<p class="ev-dl">' + _dateline + ' &middot; ' + _esc(_ev.get("location", "")) + '</p>'
             '<p class="text-gray-600 text-sm leading-relaxed">' + _esc(_ev.get("blurb", "")) + '</p>'
             + (('<p class="text-gray-600 text-sm leading-relaxed mt-2">' + _esc(_ev.get("more", "")) + '</p>')
                if _ev.get("more") else "")
-            + tip_html + foot + '</div></article>'
+            + tip_html + foot + '</div></details>'
+            '</article>'
         )
+    if _open:
+        months_html += '</div></section>'
 
     # ── Public holidays table ────────────────────────────────────────────────
     rows_html = ""
@@ -9694,9 +9869,175 @@ def build_events_page():
         '\n      </div>'
         '\n    </div>'
         '\n  </section>')
+    # Scoped styles for the card layout. Plain CSS rather than Tailwind classes
+    # so the look never depends on which utilities the CI Tailwind pass kept.
+    _events_css = (
+        '<style>'
+        '.ev-wrap{max-width:72rem;margin:0 auto;padding:2rem 1rem 0}'
+        '.ev-kick{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65);margin:0 0 .5rem}'
+        '.ev-spot{display:grid;gap:0;border-radius:24px;overflow:hidden;color:#fff;margin-bottom:2rem;'
+        'background:linear-gradient(135deg,var(--forest) 0%,var(--forest2) 100%)}'
+        '.ev-spot.has-m{grid-template-columns:1fr}'
+        '@media(min-width:768px){.ev-spot.has-m{grid-template-columns:minmax(0,300px) 1fr}}'
+        '.ev-spot-m{display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.22);padding:14px}'
+        '.ev-spot-m img{max-height:300px;width:auto;max-width:100%;border-radius:12px;display:block}'
+        '.ev-spot-b{padding:1.6rem 1.5rem}@media(min-width:768px){.ev-spot-b{padding:2.2rem 2.4rem}}'
+        '.ev-spot-t{font-size:1.9rem;line-height:1.15;font-weight:700;margin:0 0 .4rem}'
+        '@media(min-width:768px){.ev-spot-t{font-size:2.3rem}}'
+        '.ev-spot-w{font-size:.85rem;color:rgba(255,255,255,.75);margin:0 0 .8rem}'
+        '.ev-spot-d{font-size:.95rem;line-height:1.6;color:rgba(255,255,255,.88);margin:0;max-width:40rem;'
+        'display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}'
+        '.ev-spot-a{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem}'
+        '.ev-btn{display:inline-block;font-size:.85rem;font-weight:600;border-radius:999px;padding:.6rem 1.2rem;'
+        'text-decoration:none;cursor:pointer;border:0;transition:opacity .15s,background .15s}'
+        '.ev-btn:hover{opacity:.9}'
+        '.ev-btn-p{background:var(--coral);color:#fff}.ev-btn-g{background:rgba(255,255,255,.16);color:#fff}'
+        '.ev-btn-o{background:transparent;color:var(--forest2);border:1.5px solid var(--forest2)}'
+        # rail
+        '.ev-rail{margin:0 0 2rem}'
+        '.ev-rail-h{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:.8rem}'
+        '.ev-rail-h h2{font-size:1.5rem;font-weight:700;color:#111827;margin:0}'
+        '.ev-rail-n{font-family:inherit;font-size:.8rem;font-weight:700;vertical-align:middle;color:var(--forest2);'
+        'background:var(--mint);border-radius:999px;padding:.1rem .55rem;margin-left:.3rem}'
+        '.ev-rail-nav{display:flex;align-items:center;gap:.4rem}'
+        '.ev-arr{display:none;width:34px;height:34px;border-radius:999px;border:1px solid var(--line);background:var(--card);'
+        'font-size:20px;line-height:1;color:var(--ink);cursor:pointer}'
+        '.ev-arr:hover{border-color:var(--forest2)}'
+        '@media(min-width:768px){.ev-arr{display:inline-flex;align-items:center;justify-content:center}}'
+        '.ev-seeall{font-size:.8rem;font-weight:700;color:var(--forest2);background:none;border:0;cursor:pointer;padding:.3rem .2rem}'
+        '.ev-rail-s{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 2px;'
+        'padding:2px 2px 10px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}'
+        '.ev-rc{flex:0 0 68%;max-width:230px;scroll-snap-align:start;text-decoration:none;color:inherit}'
+        '@media(min-width:640px){.ev-rc{flex-basis:210px}}'
+        '.ev-rt{font-weight:700;font-size:.9rem;color:#111827;line-height:1.3;margin:.15rem 0 0;'
+        'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}'
+        # filter bar
+        '.ev-bar{display:none}'
+        '.ev-js .ev-bar{display:block;position:sticky;top:57px;z-index:30;margin:0 -1rem 1rem;padding:.55rem 1rem;'
+        'background:rgba(251,245,233,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);'
+        'border-bottom:1px solid var(--line)}'
+        '.ev-bar-s{display:flex;gap:.45rem;overflow-x:auto;scrollbar-width:none;align-items:center;'
+        '-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent);padding-right:24px}'
+        '.ev-bar-s::-webkit-scrollbar{display:none}'
+        '.ev-chip{flex:0 0 auto;display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;font-weight:600;white-space:nowrap;'
+        'padding:.42rem .85rem;border-radius:999px;border:1px solid #e5dccb;background:#fff;color:#4b5563;cursor:pointer}'
+        '.ev-chip:hover{border-color:#9ca3af}'
+        '.ev-chip[hidden]{display:none}'
+        '.ev-chip[aria-pressed="true"]{background:var(--forest);border-color:var(--forest);color:#fff}'
+        '.ev-chip-sv svg{color:var(--coral)}.ev-chip-sv[aria-pressed="true"] svg{color:#fff}'
+        '.ev-n:not(:empty){font-size:.7rem;font-weight:700;opacity:.7;margin-left:.1rem}'
+        '.ev-n:not(:empty)::before{content:"\\00b7\\00a0"}'
+        '.ev-sep{flex:0 0 1px;height:20px;background:#e5dccb;margin:0 .15rem}'
+        '.ev-empty{text-align:center;padding:2.5rem 1rem;background:var(--card);border:1px dashed var(--line);border-radius:20px;margin:1rem 0}'
+        '.ev-empty p{color:#4b5563;margin:0 0 1rem}'
+        # grid + cards
+        '.ev-mh{font-size:1.5rem;font-weight:700;color:#111827;margin:2.2rem 0 1rem;scroll-margin-top:130px}'
+        '.ev-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 14px}'
+        '@media(min-width:768px){.ev-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:26px 20px}}'
+        '@media(min-width:1100px){.ev-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}'
+        '.ev-card{position:relative;scroll-margin-top:130px;min-width:0}'
+        '.ev-open{display:block;text-decoration:none;color:inherit;border-radius:16px}'
+        '.ev-open:focus-visible{outline:3px solid var(--leaf);outline-offset:3px}'
+        '.ev-pos{position:relative;aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:var(--paper-2);'
+        'box-shadow:0 1px 2px rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s}'
+        '.ev-open:hover .ev-pos,.ev-rc:hover .ev-pos{transform:translateY(-2px);box-shadow:0 10px 24px -10px rgba(27,67,50,.45)}'
+        '.ev-img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}'
+        '.ev-typo{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:14px;color:#fff}'
+        '.ev-typo-c{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.85}'
+        '.ev-typo-d{font-family:Georgia,serif;font-size:4.2rem;line-height:1;font-weight:700}'
+        '.ev-typo-m{font-size:.8rem;font-weight:600;opacity:.9}'
+        '.b-nightlife{background:linear-gradient(160deg,#3b2352,#1f1330)}'
+        '.b-music{background:linear-gradient(160deg,#274b72,#16304d)}'
+        '.b-culture{background:linear-gradient(160deg,#2D6A4F,#1B4332)}'
+        '.b-food{background:linear-gradient(160deg,#b8733a,#9C5822)}'
+        '.b-market{background:linear-gradient(160deg,#d09a3e,#a8741f)}'
+        '.b-family{background:linear-gradient(160deg,#3f8f6b,#2D6A4F)}'
+        '.b-sports{background:linear-gradient(160deg,#2f6690,#1d4466)}'
+        '.b-business{background:linear-gradient(160deg,#4b5563,#2f3743)}'
+        '.b-holiday{background:linear-gradient(160deg,#E76F51,#b9533a)}'
+        '.b-other{background:linear-gradient(160deg,#55624f,#3a4436)}'
+        '.ev-pos:has(.ev-img){background:var(--paper-2)}'
+        '.ev-flag{position:absolute;left:10px;top:10px;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;'
+        'padding:.25rem .55rem;border-radius:999px;color:#fff;background:var(--coral);box-shadow:0 2px 6px rgba(0,0,0,.2)}'
+        '.ev-flag.soon{background:var(--forest)}'
+        '.ev-meta{padding:.6rem .1rem 0}'
+        '.ev-when{font-size:.72rem;font-weight:700;letter-spacing:.02em;color:var(--coral);margin:.55rem 0 .1rem;text-transform:uppercase}'
+        '.ev-meta .ev-when{margin-top:0}'
+        '.ev-t{font-size:.98rem;font-weight:700;line-height:1.3;color:#111827;margin:0;'
+        'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}'
+        '.ev-where{font-size:.8rem;color:#6b7280;margin:.15rem 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
+        '.ev-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.4rem}'
+        '.ev-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:.12rem .45rem;border-radius:999px;white-space:nowrap}'
+        '.t-rec{background:#e0f2fe;color:#075985}.t-hol{background:var(--mint);color:var(--forest)}'
+        '.t-free{background:#dcfce7;color:#166534}.t-tbc{background:#fef3c7;color:#92400e}'
+        '.ev-save{position:absolute;top:8px;right:8px;width:34px;height:34px;border-radius:999px;border:0;cursor:pointer;'
+        'display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.9);color:#9ca3af;'
+        'box-shadow:0 1px 4px rgba(0,0,0,.18);transition:color .15s,transform .15s}'
+        '.ev-save:hover{color:var(--coral)}.ev-save[aria-pressed="true"]{color:var(--coral)}'
+        '.ev-save.pop{transform:scale(1.18)}'
+        '.ev-d{margin-top:.4rem;font-size:.85rem}'
+        '.ev-d>summary{cursor:pointer;font-size:.78rem;font-weight:700;color:var(--forest2)}'
+        '.ev-js .ev-d{display:none}'
+        '.ev-db-b{display:flex;flex-wrap:wrap;gap:.35rem;margin:.2rem 0 .5rem}'
+        '.ev-dl{font-size:.8rem;color:#6b7280;margin:0 0 .6rem}'
+        '.ev-acts{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1rem}'
+        '.ev-act{font-size:.78rem;font-weight:700;color:var(--forest2);background:var(--mint);border:0;border-radius:999px;'
+        'padding:.45rem .85rem;text-decoration:none;cursor:pointer}'
+        '.ev-act:hover{background:#cfe7c9}'
+        '.ev-hide{display:none!important}'
+        # compact rows for months further out
+        '.ev-list{display:grid;grid-template-columns:1fr;gap:10px}'
+        '@media(min-width:768px){.ev-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px}}'
+        '.ev-row .ev-open{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);'
+        'border-radius:14px;padding:10px 52px 10px 10px;height:100%}'
+        '.ev-row .ev-open:hover{border-color:#d6c9ad}'
+        '.ev-row .ev-pos{flex:0 0 64px;width:64px;aspect-ratio:1/1;border-radius:10px;box-shadow:none}'
+        '.ev-row .ev-open:hover .ev-pos{transform:none;box-shadow:none}'
+        '.ev-row .ev-typo{padding:4px;justify-content:center;align-items:center;gap:1px}'
+        '.ev-row .ev-typo-c{display:none}.ev-row .ev-typo-d{font-size:1.55rem}.ev-row .ev-typo-m{font-size:.58rem;white-space:nowrap}'
+        '.ev-row .ev-meta{padding:0;min-width:0}.ev-row .ev-flag{display:none}'
+        '.ev-row .ev-when{font-size:.66rem}'
+        '.ev-row .ev-save{top:50%;margin-top:-17px;right:8px;box-shadow:none;background:transparent}'
+        # Phones: one column of rows, thumbnail left. Every major listing we
+        # benchmarked (DICE, Eventbrite, Songkick, Luma, AllEvents) runs its
+        # agenda as a single column on mobile; none uses a 2-up grid. The poster
+        # grid stays from 768px up, where there is room for the artwork.
+        '@media(max-width:767px){'
+        '.ev-grid{grid-template-columns:1fr;gap:10px}'
+        '.ev-grid .ev-open{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);'
+        'border-radius:14px;padding:10px 50px 10px 10px}'
+        '.ev-grid .ev-pos{flex:0 0 88px;width:88px;aspect-ratio:4/5;border-radius:10px;box-shadow:none}'
+        '.ev-grid .ev-open:hover .ev-pos{transform:none;box-shadow:none}'
+        '.ev-grid .ev-typo{padding:6px;justify-content:center;align-items:center;gap:2px}'
+        '.ev-grid .ev-typo-c{display:none}.ev-grid .ev-typo-d{font-size:2rem}.ev-grid .ev-typo-m{font-size:.62rem;white-space:nowrap}'
+        '.ev-grid .ev-meta{padding:0;min-width:0}'
+        '.ev-grid .ev-flag{left:4px;top:4px;font-size:8px;padding:.15rem .4rem}'
+        '.ev-grid .ev-save{top:50%;margin-top:-17px;right:8px;box-shadow:none;background:transparent}'
+        '}'
+        # detail dialog
+        '#ev-dlg{border:0;padding:0;border-radius:22px;width:min(640px,94vw);max-height:92vh;background:var(--card);'
+        'box-shadow:0 30px 60px -20px rgba(0,0,0,.5)}'
+        '#ev-dlg::backdrop{background:rgba(13,30,22,.7)}'
+        '@media(max-width:639px){#ev-dlg{width:100vw;max-width:100vw;max-height:94vh;margin:auto 0 0;border-radius:22px 22px 0 0}}'
+        '.ev-dlg-in{position:relative;padding:0 0 1.4rem}'
+        '.ev-dlg-x{position:sticky;top:10px;float:right;margin:10px 10px 0 -48px;z-index:2;width:38px;height:38px;border-radius:999px;'
+        'border:0;background:rgba(255,255,255,.95);box-shadow:0 1px 6px rgba(0,0,0,.2);font-size:22px;line-height:1;cursor:pointer;color:#111827}'
+        '#ev-dlg-m{background:var(--paper-2);display:flex;justify-content:center}'
+        '#ev-dlg-m .ev-flyer{display:block;border:0;padding:14px;background:none;cursor:zoom-in}'
+        '#ev-dlg-m img{max-height:52vh;width:auto;max-width:100%;border-radius:12px;display:block}'
+        '#ev-dlg-m .ev-typo{position:relative;min-height:170px;border-radius:0}'
+        '#ev-dlg-m .ev-pos{aspect-ratio:auto;width:100%;border-radius:0}'
+        '.ev-dlg-b{padding:1.1rem 1.4rem 0}'
+        '.ev-dlg-t{font-size:1.6rem;line-height:1.2;font-weight:700;color:#111827;margin:.1rem 0 .3rem}'
+        '.ev-dlg-sv{display:inline-flex;align-items:center;gap:.35rem}'
+        '.ev-dlg-sv[aria-pressed="true"]{background:#fde2da;color:#a4462c}'
+        '</style>'
+    )
     # Flyer lightbox. A native <dialog> gives Esc, the focus trap and the top
     # layer for free; browsers without showModal fall back to opening the image
     # in a new tab, so the flyer is always reachable at full size.
+    # The detail dialog (#ev-dlg) follows the same rule: without showModal the
+    # card link simply jumps to its anchor and <details> expands in place.
     _events_js = (
         '<style>#ev-lb::backdrop{background:rgba(0,0,0,.82)}'
         '#ev-lb{border:0;background:transparent;padding:0;max-width:96vw;max-height:96vh}</style>'
@@ -9709,12 +10050,87 @@ def build_events_page():
         '<button type="button" id="ev-lb-x" class="text-white text-xs font-semibold rounded-full '
         'px-4 py-1.5 shrink-0" style="background:rgba(255,255,255,.2)">Close</button>'
         '</div></dialog>'
+        '<dialog id="ev-dlg" aria-labelledby="ev-dlg-t"><div class="ev-dlg-in">'
+        '<button type="button" class="ev-dlg-x" id="ev-dlg-x" aria-label="Close">&#215;</button>'
+        '<div id="ev-dlg-m"></div>'
+        '<div class="ev-dlg-b"><p class="ev-when" id="ev-dlg-w"></p>'
+        '<h2 class="serif ev-dlg-t" id="ev-dlg-t"></h2>'
+        '<div id="ev-dlg-body"></div>'
+        '<div class="ev-acts"><button type="button" class="ev-act ev-save ev-dlg-sv" id="ev-dlg-sv" style="position:static;'
+        'width:auto;height:auto;box-shadow:none" aria-pressed="false">' + _HEART + '<span>Save to my plans</span></button></div>'
+        '</div></div></dialog>'
         '<script>'
         '(function(){'
-        'var lb=document.getElementById("ev-lb"),im=document.getElementById("ev-lb-img"),'
-        'cp=document.getElementById("ev-lb-cap");'
+        'var D=document,lb=D.getElementById("ev-lb"),im=D.getElementById("ev-lb-img"),'
+        'cp=D.getElementById("ev-lb-cap"),dl=D.getElementById("ev-dlg"),K="esr_ev_saved",cur=null;'
+        'var cards=[].slice.call(D.querySelectorAll(".ev-card"));'
+        # saved list (per-viewer convenience; storage can throw or be empty)
+        'function rd(){try{var v=JSON.parse(localStorage.getItem(K)||"[]");return Array.isArray(v)?v:[]}catch(e){return[]}}'
+        'function wr(v){try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}}'
+        'var saved=rd().filter(function(id){return D.getElementById("ev-"+id)});'
+        'function syncSave(){'
+        '[].forEach.call(D.querySelectorAll(".ev-save[data-id]"),function(b){'
+        'b.setAttribute("aria-pressed",saved.indexOf(b.getAttribute("data-id"))>-1?"true":"false")});'
+        'var sv=D.querySelector(".ev-chip-sv");if(sv){sv.hidden=!saved.length;'
+        'sv.querySelector(".ev-n").textContent=saved.length?saved.length:"";'
+        'if(!saved.length&&st.saved){st.saved=false;apply()}}}'
+        # SR date helpers (the page is static; "today" must be the reader's today in Suriname)
+        'function iso(d){return d.toISOString().slice(0,10)}'
+        'function srToday(){try{var p=new Intl.DateTimeFormat("en-CA",{timeZone:"America/Paramaribo",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());'
+        'if(/^\\d{4}-\\d{2}-\\d{2}$/.test(p))return p}catch(e){}return iso(new Date(Date.now()-3*36e5))}'
+        'function add(s,n){var d=new Date(s+"T12:00:00Z");d.setUTCDate(d.getUTCDate()+n);return iso(d)}'
+        'var T=srToday(),wd=(new Date(T+"T12:00:00Z").getUTCDay()+6)%7,'
+        'W0=wd>=4?T:add(T,4-wd),W1=wd>=4?add(T,6-wd):add(T,6-wd),'
+        'R={all:null,today:[T,T],weekend:[W0,W1],week:[T,add(T,6)]};'
+        'var st={when:"all",cat:"",free:false,saved:false};'
+        'function hit(c,w){var s=c.getAttribute("data-s"),e=c.getAttribute("data-e");'
+        'if(s&&e<T)return false;var r=R[w];if(!r)return true;return !!s&&s<=r[1]&&e>=r[0]}'
+        'function apply(){var n=0;'
+        'cards.forEach(function(c){var ok=hit(c,st.when)&&(!st.cat||c.getAttribute("data-c")===st.cat)'
+        '&&(!st.free||c.getAttribute("data-f")==="1")&&(!st.saved||saved.indexOf(c.id.slice(3))>-1);'
+        'c.classList.toggle("ev-hide",!ok);if(ok)n++});'
+        '[].forEach.call(D.querySelectorAll(".ev-month"),function(m){'
+        'm.classList.toggle("ev-hide",!m.querySelector(".ev-card:not(.ev-hide)"))});'
+        'var busy=st.when!=="all"||st.cat||st.free||st.saved,b=D.getElementById("ev-browse");'
+        'if(b)b.classList.toggle("ev-hide",!!busy);'
+        'var em=D.getElementById("ev-empty");if(em)em.hidden=n>0;'
+        '[].forEach.call(D.querySelectorAll(".ev-chip"),function(x){var on=false;'
+        'if(x.hasAttribute("data-when"))on=x.getAttribute("data-when")===st.when;'
+        'else if(x.hasAttribute("data-cat"))on=x.getAttribute("data-cat")===st.cat;'
+        'else if(x.hasAttribute("data-free"))on=st.free;else if(x.hasAttribute("data-saved"))on=st.saved;'
+        'x.setAttribute("aria-pressed",on?"true":"false")});'
+        'try{var q=new URLSearchParams(location.search);'
+        '["when","type"].forEach(function(k){q.delete(k)});'
+        'if(st.when!=="all")q.set("when",st.when);if(st.cat)q.set("type",st.cat);'
+        'var qs=q.toString();history.replaceState(null,"",location.pathname+(qs?"?"+qs:"")+location.hash)}catch(e){}}'
+        # chip counts for the date filters
+        '["today","weekend","week"].forEach(function(w){var n=cards.filter(function(c){return hit(c,w)}).length,'
+        'x=D.querySelector(\'.ev-chip[data-when="\'+w+\'"]\');if(x){x.querySelector(".ev-n").textContent=n||"";if(!n)x.hidden=true}});'
+        # detail dialog
+        'function openCard(c,push){if(!dl||!dl.showModal)return false;cur=c;'
+        'var m=D.getElementById("ev-dlg-m");m.innerHTML="";'
+        'var img=c.querySelector(".ev-img");'
+        'if(img){var b=D.createElement("button");b.type="button";b.className="ev-flyer";'
+        'b.setAttribute("data-full",c.getAttribute("data-full")||img.currentSrc||img.src);'
+        'b.setAttribute("data-alt",img.alt);b.setAttribute("aria-label",img.alt+", view full size");'
+        'var i2=D.createElement("img");i2.src=img.currentSrc||img.src;i2.alt=img.alt;b.appendChild(i2);m.appendChild(b)}'
+        'else{var p=c.querySelector(".ev-pos");if(p)m.appendChild(p.cloneNode(true))}'
+        'D.getElementById("ev-dlg-w").textContent=(c.querySelector(".ev-when")||{}).textContent||"";'
+        'D.getElementById("ev-dlg-t").textContent=(c.querySelector(".ev-t")||{}).textContent||"";'
+        'var bd=D.getElementById("ev-dlg-body");bd.innerHTML="";'
+        'var tg=c.querySelector(".ev-tags");if(tg)bd.appendChild(tg.cloneNode(true));'
+        'var db=c.querySelector(".ev-db");if(db)bd.appendChild(db.cloneNode(true));'
+        'var sv=D.getElementById("ev-dlg-sv");sv.setAttribute("data-id",c.id.slice(3));syncSave();'
+        'if(!dl.open){dl.showModal();D.documentElement.style.overflow="hidden"}dl.scrollTop=0;'
+        'if(push!==false){try{history.replaceState(null,"",location.pathname+location.search+"#"+c.id)}catch(e){}}'
+        'try{if(window.gtag)gtag("event","event_open",{event_id:c.id.slice(3)})}catch(e){}'
+        'return true}'
+        'function shutDlg(){if(dl&&dl.open)dl.close()}'
+        'if(dl){dl.addEventListener("close",function(){cur=null;'
+        'if(!(lb&&lb.open))D.documentElement.style.overflow="";'
+        'if(/^#ev-/.test(location.hash)){try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})}'
         'function shut(){if(lb&&lb.open)lb.close()}'
-        'document.addEventListener("click",function(e){'
+        'D.addEventListener("click",function(e){'
         'var t=e.target&&e.target.closest?e.target:null;if(!t)return;'
         'var b=t.closest(".ev-share");'
         'if(b){'
@@ -9729,10 +10145,41 @@ def build_events_page():
         'var src=f.getAttribute("data-full"),alt=f.getAttribute("data-alt")||"";'
         'if(!lb||!lb.showModal){window.open(src,"_blank","noopener");return}'
         'im.src=src;im.alt=alt;cp.textContent=alt;lb.showModal();'
-        'document.documentElement.style.overflow="hidden";return}'
-        'if(lb&&lb.open&&(t===lb||t.id==="ev-lb-x"))shut()});'
+        'D.documentElement.style.overflow="hidden";return}'
+        'if(lb&&lb.open&&(t===lb||t.id==="ev-lb-x")){shut();return}'
+        'if(dl&&dl.open&&(t===dl||t.id==="ev-dlg-x"||t.closest("#ev-dlg-x"))){shutDlg();return}'
+        'var s=t.closest(".ev-save[data-id]");'
+        'if(s){e.preventDefault();var id=s.getAttribute("data-id"),k=saved.indexOf(id);'
+        'if(k>-1)saved.splice(k,1);else saved.push(id);wr(saved);syncSave();'
+        's.classList.add("pop");setTimeout(function(){s.classList.remove("pop")},180);if(st.saved)apply();return}'
+        'var ch=t.closest(".ev-chip");'
+        'if(ch){if(ch.hasAttribute("data-when"))st.when=ch.getAttribute("data-when");'
+        'else if(ch.hasAttribute("data-cat")){var v=ch.getAttribute("data-cat");st.cat=st.cat===v?"":v}'
+        'else if(ch.hasAttribute("data-free"))st.free=!st.free;'
+        'else if(ch.hasAttribute("data-saved"))st.saved=!st.saved;apply();return}'
+        'var g=t.closest("[data-go-when]");'
+        'if(g){st.when=g.getAttribute("data-go-when");apply();'
+        'var bar=D.querySelector(".ev-bar");if(bar)bar.scrollIntoView({behavior:"smooth",block:"start"});return}'
+        'if(t.closest("[data-clear]")){st={when:"all",cat:"",free:false,saved:false};apply();return}'
+        'var ar=t.closest(".ev-arr");'
+        'if(ar){var sc=ar.closest(".ev-rail").querySelector(".ev-rail-s");'
+        'sc.scrollBy({left:(+ar.getAttribute("data-dir"))*sc.clientWidth*.8,behavior:"smooth"});return}'
+        'var a=t.closest(\'a[href^="#ev-"]\');'
+        'if(a&&!e.metaKey&&!e.ctrlKey&&!e.shiftKey){var c=D.getElementById(a.getAttribute("href").slice(1));'
+        'if(c&&c.classList.contains("ev-card")&&openCard(c))e.preventDefault()}'
+        '});'
         'if(lb){lb.addEventListener("close",function(){'
-        'document.documentElement.style.overflow="";im.removeAttribute("src");cp.textContent=""})}'
+        'if(!(dl&&dl.open))D.documentElement.style.overflow="";im.removeAttribute("src");cp.textContent=""})}'
+        # initial state from ?when= / ?type= and #ev-<id>
+        'try{var q0=new URLSearchParams(location.search),w0=q0.get("when"),t0=q0.get("type");'
+        'if(w0&&R.hasOwnProperty(w0))st.when=w0;'
+        'if(t0&&D.querySelector(\'.ev-chip[data-cat="\'+t0+\'"]\'))st.cat=t0}catch(e){}'
+        'syncSave();apply();'
+        'function fromHash(){var h=location.hash;if(!/^#ev-/.test(h))return;'
+        'var c=D.getElementById(h.slice(1));if(!c||!c.classList.contains("ev-card"))return;'
+        'if(c.classList.contains("ev-hide")){st={when:"all",cat:"",free:false,saved:false};apply()}'
+        'if(!openCard(c,false)){var d=c.querySelector(".ev-d");if(d)d.open=true}}'
+        'fromHash();window.addEventListener("hashchange",fromHash);'
         '})();'
         '</script>')
     _yr = str(today.year)
@@ -9780,13 +10227,22 @@ def build_events_page():
   </div>
 </div>
 
-<main class="max-w-4xl mx-auto px-4 py-12 pb-24">
+<main class="pb-24">
+{_events_css}
+<script>document.documentElement.classList.add("ev-js")</script>
+<div class="ev-wrap">
+{filter_html}
+  <div id="ev-browse">
 {spotlight}
-  <div class="max-w-3xl">
+{rail_html}
+  </div>
+{months_html}
+</div>
+<div class="max-w-4xl mx-auto px-4">
+  <div class="max-w-3xl mt-16">
+    <h2 class="serif text-2xl font-bold text-gray-900 mb-2">A calendar that rarely goes quiet</h2>
     <p class="text-gray-600 leading-relaxed">Suriname celebrates more, and more diversely, than almost anywhere else. Christian, Hindu, Muslim, Javanese, Chinese, Indigenous and Maroon traditions all carry official status here, so the calendar rarely goes quiet for long. Dates on this page update automatically; lunar-calendar festivals are shown as expected until the official dates are announced.</p>
   </div>
-  <div class="flex flex-wrap gap-2 mt-7">{chips_html}</div>
-{months_html}
 
   <section class="mt-16">
     <h2 class="serif text-2xl font-bold text-gray-900 mb-2">Public holidays {_hol_year}</h2>
@@ -9826,7 +10282,7 @@ def build_events_page():
 
 {_events_js}
   <p class="text-xs text-gray-400 mt-12 leading-relaxed max-w-3xl">Holiday dates follow Suriname&#8217;s official national holiday calendar (Ministry of Education school-year publication) and official government announcements. Lunar-calendar dates are confirmed by the responsible authorities and can shift by a day or two. This page rebuilds automatically and was last updated on {_upd}. Spotted an error or missing event? <a href="#submit-event" class="underline hover:text-gray-600">Tell us</a>.</p>
-
+</div>
 </main>
 {footer_html()}
 </body>
