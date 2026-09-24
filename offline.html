@@ -222,6 +222,31 @@
                 border-radius:0!important; background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23656C63' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right .1rem center;
                 padding:.45rem 1.1rem .45rem 0; font-size:.85rem; color:var(--forest2); cursor:pointer; max-width:11rem; }
     .dist-sel:focus-visible { outline:2px solid var(--forest2); outline-offset:2px; }
+    /* Listing filter bar on phones: full-width chip strip with an edge fade,
+       district picker tucked behind "More", which also expands the strip into
+       a wrapped list of every category (Services has 25). */
+    .fbar-more { display:none; }
+    .fbar-more[hidden] { display:none!important; }
+    @media(max-width:639px){
+      .fbar-row { flex-wrap:wrap; column-gap:.6rem; row-gap:.35rem; }
+      .fbar-row > div { flex:1 1 0%; min-width:0; }
+      .fbar .fbar-chips { column-gap:1.25rem; padding-right:1.75rem;
+        -webkit-mask-image:linear-gradient(90deg,#000 82%,transparent); mask-image:linear-gradient(90deg,#000 82%,transparent); }
+      .fbar-more { display:inline-flex; order:1; align-items:center; gap:.3rem; flex-shrink:0; position:relative;
+        min-height:44px; padding:0 .1rem 0 .4rem; border:0; background:none; cursor:pointer;
+        font-size:.85rem; font-weight:600; color:var(--forest2); touch-action:manipulation; }
+      .fbar-more svg { transition:transform .2s; }
+      .fbar-more .fm-c, .fbar-more[aria-expanded="true"] .fm-o { display:none; }
+      .fbar-more[aria-expanded="true"] .fm-c { display:inline; }
+      .fbar-more[aria-expanded="true"] svg { transform:rotate(180deg); }
+      .fbar-more.has-dist::after { content:""; position:absolute; top:10px; left:-2px; width:7px; height:7px;
+        border-radius:50%; background:var(--coral); }
+      .fbar-row > .dist-sel { display:none; order:2; }
+      .fbar.fbar-open .fbar-row { align-items:flex-start; }
+      .fbar.fbar-open .fbar-row > .dist-sel { display:block; flex:1 0 100%; max-width:none; font-size:.9rem; }
+      .fbar.fbar-open .fbar-chips { flex-wrap:wrap; row-gap:0; overflow-y:auto; max-height:55vh; padding-right:0;
+        -webkit-mask-image:none; mask-image:none; }
+    }
     @media(hover:none){ .dist-sel { min-height:44px; } }
     .listing-card.hidden { display:none; }
     /* PWA install bar (Android prompt + iOS A2HS tip) */

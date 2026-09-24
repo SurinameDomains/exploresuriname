@@ -1,5 +1,5 @@
 // ExploreSuriname Service Worker
-const CACHE = 'exploresr-v9';
+const CACHE = 'exploresr-v10';
 const TWV = 'c13debae';
 const PRECACHE = ['/', '/tailwind.css?v=' + TWV, '/favicon.ico', '/favicon.svg', '/offline.html',
                   '/fonts/newsreader-latin-var.woff2', '/fonts/instrument-latin-var.woff2'];
