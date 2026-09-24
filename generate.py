@@ -19065,7 +19065,7 @@ def build_sw():
     """Return sw.js service worker content. _TW_V is injected so the precache
     always holds the exact versioned tailwind.css URL the pages request."""
     sw = r"""// ExploreSuriname Service Worker
-const CACHE = 'exploresr-v10';
+const CACHE = 'exploresr-v11';
 const TWV = '__TWV__';
 const PRECACHE = ['/', '/tailwind.css?v=' + TWV, '/favicon.ico', '/favicon.svg', '/offline.html',
                   '/fonts/newsreader-latin-var.woff2', '/fonts/instrument-latin-var.woff2'];
