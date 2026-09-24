@@ -4394,6 +4394,31 @@ PAGE_HEAD = """\
                 border-radius:0!important; background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23656C63' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right .1rem center;
                 padding:.45rem 1.1rem .45rem 0; font-size:.85rem; color:var(--forest2); cursor:pointer; max-width:11rem; }
     .dist-sel:focus-visible { outline:2px solid var(--forest2); outline-offset:2px; }
+    /* Listing filter bar on phones: full-width chip strip with an edge fade,
+       district picker tucked behind "More", which also expands the strip into
+       a wrapped list of every category (Services has 25). */
+    .fbar-more { display:none; }
+    .fbar-more[hidden] { display:none!important; }
+    @media(max-width:639px){
+      .fbar-row { flex-wrap:wrap; column-gap:.6rem; row-gap:.35rem; }
+      .fbar-row > div { flex:1 1 0%; min-width:0; }
+      .fbar .fbar-chips { column-gap:1.25rem; padding-right:1.75rem;
+        -webkit-mask-image:linear-gradient(90deg,#000 82%,transparent); mask-image:linear-gradient(90deg,#000 82%,transparent); }
+      .fbar-more { display:inline-flex; order:1; align-items:center; gap:.3rem; flex-shrink:0; position:relative;
+        min-height:44px; padding:0 .1rem 0 .4rem; border:0; background:none; cursor:pointer;
+        font-size:.85rem; font-weight:600; color:var(--forest2); touch-action:manipulation; }
+      .fbar-more svg { transition:transform .2s; }
+      .fbar-more .fm-c, .fbar-more[aria-expanded="true"] .fm-o { display:none; }
+      .fbar-more[aria-expanded="true"] .fm-c { display:inline; }
+      .fbar-more[aria-expanded="true"] svg { transform:rotate(180deg); }
+      .fbar-more.has-dist::after { content:""; position:absolute; top:10px; left:-2px; width:7px; height:7px;
+        border-radius:50%; background:var(--coral); }
+      .fbar-row > .dist-sel { display:none; order:2; }
+      .fbar.fbar-open .fbar-row { align-items:flex-start; }
+      .fbar.fbar-open .fbar-row > .dist-sel { display:block; flex:1 0 100%; max-width:none; font-size:.9rem; }
+      .fbar.fbar-open .fbar-chips { flex-wrap:wrap; row-gap:0; overflow-y:auto; max-height:55vh; padding-right:0;
+        -webkit-mask-image:none; mask-image:none; }
+    }
     @media(hover:none){ .dist-sel { min-height:44px; } }
     .listing-card.hidden { display:none; }
     /* PWA install bar (Android prompt + iOS A2HS tip) */
@@ -5975,13 +6000,14 @@ def _filter_bar_html(items, cat_key):
 
     bar_id = f"chipbar-{cat_key}"
     return f"""
-<div class="sticky top-[58px] z-40 pb-2 mb-5" style="background:var(--paper-2)">
+<div id="fbar-{cat_key}" class="fbar sticky top-[58px] z-40 pb-2 mb-5" style="background:var(--paper-2)">
   <div class="max-w-6xl mx-auto px-5">
-    <div class="relative flex items-center gap-5 pt-3">
-      <div id="{bar_id}" class="flex gap-6 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none">
+    <div class="fbar-row relative flex items-center gap-5 pt-3">
+      <div id="{bar_id}" class="fbar-chips flex gap-6 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none">
         {"".join(chips)}
       </div>
       {dist_html}
+      <button type="button" class="fbar-more" aria-expanded="false" aria-controls="{bar_id}"><span class="fm-o">More</span><span class="fm-c">Close</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
     </div>
   </div>
 </div>
@@ -5997,7 +6023,9 @@ function _applyFilters() {{
   }});
   var visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
   var lbl = document.getElementById('result-count');
-  if (lbl) lbl.textContent = visible + ' results';
+  if (lbl) lbl.textContent = visible + ' results' + (_activeDist !== 'all' ? ' \u00b7 ' + _activeDist : '');
+  var _mb = document.querySelector('.fbar-more');
+  if (_mb) _mb.classList.toggle('has-dist', _activeDist !== 'all');
 
   /* ── Update district option counts dynamically ── */
   var distCounts = {{}};
@@ -6030,7 +6058,41 @@ function filterSub(btn, key) {{
   document.querySelectorAll('.filter-chip').forEach(function(b) {{ b.classList.remove('chip-active'); }});
   btn.classList.add('chip-active');
   _applyFilters();
+  _fbarReveal();
 }}
+
+/* Keep the selected chip visible in the sideways strip (after a pick in the
+   expanded "More" view, or a ?sub= deep link to a chip far down the list). */
+function _fbarReveal() {{
+  var s = document.getElementById('{bar_id}');
+  var a = s && s.querySelector('.chip-active');
+  if (!a || s.scrollWidth <= s.clientWidth + 2) return;
+  var x = Math.max(0, a.offsetLeft - s.offsetLeft - 16);
+  try {{ s.scrollTo({{left: x, behavior: 'smooth'}}); }} catch (e) {{ s.scrollLeft = x; }}
+}}
+
+/* Phones: the strip only fits ~2 chips, so "More" expands it into a wrapped
+   list of every category plus the district picker. Picking a chip collapses
+   it again. Hidden on wider screens (CSS) and when there is nothing extra. */
+(function() {{
+  var fb = document.getElementById('fbar-{cat_key}');
+  var btn = fb && fb.querySelector('.fbar-more');
+  var strip = document.getElementById('{bar_id}');
+  if (!btn || !strip) return;
+  function setOpen(o) {{
+    fb.classList.toggle('fbar-open', o);
+    btn.setAttribute('aria-expanded', o ? 'true' : 'false');
+    if (!o) _fbarReveal();
+  }}
+  btn.addEventListener('click', function() {{ setOpen(!fb.classList.contains('fbar-open')); }});
+  strip.addEventListener('click', function(e) {{
+    if (fb.classList.contains('fbar-open') && e.target.closest && e.target.closest('.filter-chip')) setOpen(false);
+  }});
+  document.addEventListener('keydown', function(e) {{
+    if (e.key === 'Escape' && fb.classList.contains('fbar-open')) {{ setOpen(false); btn.focus(); }}
+  }});
+  if (!document.getElementById('dist-sel') && strip.querySelectorAll('.filter-chip').length < 4) btn.hidden = true;
+}})();
 
 function filterDistrict(el, dist) {{
   _activeDist = dist || 'all';
@@ -9714,7 +9776,7 @@ def build_events_page():
     _any_free = any(r[5].get("free") and not r[5].get("holiday") for r in resolved)
     filter_html = (
         '\n  <div class="ev-bar" role="toolbar" aria-label="Filter events">'
-        '<div class="ev-bar-s">'
+        '<div class="ev-bar-s overflow-x-auto">'
         '<button type="button" class="ev-chip" data-when="all" aria-pressed="true">All upcoming</button>'
         '<button type="button" class="ev-chip" data-when="today" aria-pressed="false">Today<span class="ev-n"></span></button>'
         '<button type="button" class="ev-chip" data-when="weekend" aria-pressed="false">This weekend<span class="ev-n"></span></button>'
@@ -10007,7 +10069,7 @@ def build_events_page():
         # filter bar
         '.ev-bar{display:none}'
         '.ev-js .ev-bar{display:block;position:sticky;top:57px;z-index:30;margin:0 -1rem 1rem;padding:.55rem 1rem;'
-        'background:rgba(251,245,233,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);'
+        'background:rgba(244,236,218,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);'
         'border-bottom:1px solid var(--line)}'
         '.ev-bar-s{display:flex;gap:.45rem;overflow-x:auto;scrollbar-width:none;align-items:center;'
         '-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent);padding-right:24px}'
@@ -19003,7 +19065,7 @@ def build_sw():
     """Return sw.js service worker content. _TW_V is injected so the precache
     always holds the exact versioned tailwind.css URL the pages request."""
     sw = r"""// ExploreSuriname Service Worker
-const CACHE = 'exploresr-v9';
+const CACHE = 'exploresr-v10';
 const TWV = '__TWV__';
 const PRECACHE = ['/', '/tailwind.css?v=' + TWV, '/favicon.ico', '/favicon.svg', '/offline.html',
                   '/fonts/newsreader-latin-var.woff2', '/fonts/instrument-latin-var.woff2'];
