@@ -1,26 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD ZONDAG 27 SEPTEMBER 2026",
-      "date": "27 September 2026",
-      "date_iso": "2026-09-27",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1617/gepland-onderhoud-zondag-27-september-2026",
-      "meta_description": "GEPLAND ONDERHOUD: PARBO ZONDAG 27 SEPTEMBER 2026 TUSSEN 8:00 EN 15:00 UURGEDEELTE INDUSTRIEWEG – ZUID TUSSEN DS. MARTIN LUTHER KINGWEG",
-      "district": "PARBO"
-    },
-    {
-      "title": "GEPLAND ONDERHOUD VRIJDAG 25 SEPTEMBER 2026",
-      "date": "25 September 2026",
-      "date_iso": "2026-09-25",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1615/gepland-onderhoud-vrijdag-25-september-2026",
-      "meta_description": "Gepland onderhoud: Wanica vrijdag 25 september 2026 tussen 08:00-15:30 GEHEEL BAAS ADRIANSTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
-      "district": "Wanica",
-      "time": "08:00 – 15:30",
-      "area": "GEHEEL BAAS ADRIANSTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED"
-    }
-  ],
-  "last_updated": "2026-09-24T13:26:14.552524+00:00",
+  "outages": [],
+  "last_updated": "2026-09-24T15:08:00.691354+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
