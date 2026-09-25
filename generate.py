@@ -6710,6 +6710,7 @@ function esSearch(){
       <div class="hero-chips">
         <span class="lbl">Most visited</span>
         <a href="restaurants.html">Where to Eat</a>
+        <a href="events.html">Events &amp; Festivals</a>
         <a href="currency.html">Market rates</a>
         <a href="daily-notices.html">Daily notices</a>
         <a href="marketplace/">Marketplace</a>
