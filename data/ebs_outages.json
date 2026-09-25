@@ -10,6 +10,17 @@
       "district": "PARBO"
     },
     {
+      "title": "GEPLAND ONDERHOUD DINSDAG 29 SEPTEMBER 2026",
+      "date": "29 September 2026",
+      "date_iso": "2026-09-29",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1616/gepland-onderhoud-dinsdag-29-september-2026",
+      "meta_description": "Gepland onderhoud: Saramacca dinsdag 29 september 2026 tussen 07:45-15:30 WAYAMBOWEG, OOST-WEST VERBINDING SARAMACCA, BOSKAMP, LARECOWEG, GANGARAM PANDAYWEG",
+      "district": "Saramacca",
+      "time": "07:45 – 15:30",
+      "area": "WAYAMBOWEG, OOST-WEST VERBINDING SARAMACCA, BOSKAMP, LARECOWEG, GANGARAM PANDAYWEG"
+    },
+    {
       "title": "GEPLAND ONDERHOUD VRIJDAG 25 SEPTEMBER 2026",
       "date": "25 September 2026",
       "date_iso": "2026-09-25",
@@ -21,6 +32,6 @@
       "area": "GEHEEL BAAS ADRIANSTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED"
     }
   ],
-  "last_updated": "2026-09-25T13:29:29.816943+00:00",
+  "last_updated": "2026-09-25T15:08:56.222215+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
