@@ -17,6 +17,9 @@ from datetime import datetime, timezone, timedelta
 
 SITE_URL       = "https://exploresuriname.com"
 CONTACT_EMAIL  = "contact@exploresuriname.com"
+CONTACT_PHONE  = "+597 833-3888"      # display form (call + WhatsApp)
+CONTACT_TEL    = "+5978333888"        # tel: / schema form
+CONTACT_WA     = "5978333888"         # wa.me form (digits only)
 # Cloudflare Turnstile site key for the public submission form. Empty = widget
 # off (honeypot + per-IP rate limit still apply). Secret lives on the Worker.
 TURNSTILE_SITEKEY = "0x4AAAAAAEA9rqn_-t206NGg"
@@ -5673,6 +5676,11 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="https://www.instagram.com/exploresurinamecom/" target="_blank" rel="noopener">Instagram</a>
         <a class="ftr-lnk" href="https://www.tiktok.com/@exploresuriname.com" target="_blank" rel="noopener">TikTok</a>
       </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;margin-top:14px">
+        <a class="ftr-lnk" href="tel:{CONTACT_TEL}">{CONTACT_PHONE}</a>
+        <a class="ftr-lnk" href="https://wa.me/{CONTACT_WA}" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="ftr-lnk" href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a>
+      </div>
     </div>
     <div>
       <div class="ftr-h">Explore</div>
@@ -6640,6 +6648,15 @@ function esSearch(){
       "sameAs": "https://en.wikipedia.org/wiki/Suriname"
     }},
     "knowsAbout": ["Suriname", "Paramaribo", "Travel", "Restaurants", "Hotels", "Tourism"],
+    "email": "{CONTACT_EMAIL}",
+    "telephone": "{CONTACT_TEL}",
+    "contactPoint": {{
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "telephone": "{CONTACT_TEL}",
+      "email": "{CONTACT_EMAIL}",
+      "areaServed": "SR"
+    }},
     "sameAs": [
       "https://www.facebook.com/exploresurinamecom",
       "https://www.instagram.com/exploresurinamecom/",
@@ -17097,7 +17114,7 @@ def build_contact_page():
   <meta name="twitter:description" content="Get in touch with Explore Suriname for listing requests, corrections or partnerships.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"ContactPage","name":"Contact Explore Suriname","url":"{SITE_URL}/contact.html","description":"Contact Explore Suriname for listing requests, corrections or partnerships.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"ContactPage","name":"Contact Explore Suriname","url":"{SITE_URL}/contact.html","description":"Contact Explore Suriname for listing requests, corrections or partnerships.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}},"mainEntity":{{"@type":"Organization","name":"Explore Suriname","url":"{SITE_URL}/","email":"{CONTACT_EMAIL}","telephone":"{CONTACT_TEL}"}}}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Contact","item":"{SITE_URL}/contact.html"}}]}}
@@ -17115,16 +17132,40 @@ def build_contact_page():
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
     <h2 class="serif text-xl font-bold text-gray-900 mb-2">Get in touch</h2>
     <p class="text-gray-600 text-sm leading-relaxed mb-6">
-      Use the button below to send us an email. We respond to all enquiries within a few business days.
+      Call or WhatsApp us, or send us an email. We respond to all enquiries within a few business days.
     </p>
-    <a href="mailto:{CONTACT_EMAIL}?subject=Enquiry%20via%20ExploreSuriname.com"
-       class="inline-flex items-center gap-3 px-6 py-3 rounded-xl text-white font-semibold text-sm transition hover:opacity-90"
-       style="background:var(--forest)">
-      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-      </svg>
-      Send us an email
-    </a>
+    <div class="flex flex-wrap gap-3">
+      <a href="tel:{CONTACT_TEL}"
+         class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-white font-semibold text-sm transition hover:opacity-90"
+         style="background:var(--forest)">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.5 1.21l-2.26 1.13a11.04 11.04 0 005.52 5.52l1.13-2.26a1 1 0 011.21-.5l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/>
+        </svg>
+        Call us
+      </a>
+      <a href="https://wa.me/{CONTACT_WA}?text=Hi%20Explore%20Suriname%2C%20" target="_blank" rel="noopener"
+         class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-white font-semibold text-sm transition hover:opacity-90"
+         style="background:#1FA855">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.04 21.8h-.01a9.8 9.8 0 01-5-1.37l-.36-.21-3.72.98 1-3.63-.24-.37a9.78 9.78 0 01-1.5-5.22c0-5.41 4.41-9.82 9.83-9.82a9.76 9.76 0 016.95 2.88 9.76 9.76 0 012.87 6.95c0 5.42-4.41 9.82-9.82 9.82zm8.36-18.18A11.73 11.73 0 0012.04.15C5.5.15.18 5.46.18 12c0 2.09.55 4.13 1.59 5.93L.08 24l6.22-1.63a11.8 11.8 0 005.73 1.46h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.47-8.39z"/>
+        </svg>
+        WhatsApp
+      </a>
+      <a href="mailto:{CONTACT_EMAIL}?subject=Enquiry%20via%20ExploreSuriname.com"
+         class="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition hover:opacity-90"
+         style="color:var(--forest);border:1.5px solid var(--forest)">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+        </svg>
+        Send us an email
+      </a>
+    </div>
+    <dl class="mt-6 text-sm" style="display:grid;grid-template-columns:1fr;gap:2px">
+      <dt class="text-gray-500 text-xs">Phone &amp; WhatsApp</dt>
+      <dd style="margin:0 0 10px"><a href="tel:{CONTACT_TEL}" class="font-semibold hover:underline" style="color:var(--forest);white-space:nowrap">{CONTACT_PHONE}</a></dd>
+      <dt class="text-gray-500 text-xs">Email</dt>
+      <dd style="margin:0;overflow-wrap:anywhere"><a href="mailto:{CONTACT_EMAIL}" class="font-semibold hover:underline" style="color:var(--forest)">{CONTACT_EMAIL}</a></dd>
+    </dl>
   </div>
 
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
