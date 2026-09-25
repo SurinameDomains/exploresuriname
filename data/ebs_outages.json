@@ -1,6 +1,24 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 1 OKTOBER 2026",
+      "date": "1 Oktober 2026",
+      "date_iso": "2026-10-01",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1619/gepland-onderhoud-donderdag-1-oktober-2026",
+      "meta_description": "GEPLAND ONDERHOUD: WANICA DONDERDAG 1 OKTOBER 2026 TUSSEN 9:00 EN 14:00 UURGEDEELTE WELGEDACHT A WEG TUSSEN MAWAKABOWEG EN KRONENBURGWEG EN",
+      "district": "WANICA"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD WOENSDAG 30 SEPTEMBER 2026",
+      "date": "30 September 2026",
+      "date_iso": "2026-09-30",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1618/gepland-onderhoud-woensdag-30-september-2026",
+      "meta_description": "GEPLAND ONDERHOUD:WANICA  WOENSDAG 30 SEPTEMBER 2026 TUSSEN 9:00 EN 14:00 UURGEDEELTE VREDENBURG SERIE A TUSSEN WENEGEHOUTSTRAAT EN MALANGWEG EN ALLE",
+      "district": "WANICA"
+    },
+    {
       "title": "GEPLAND ONDERHOUD ZONDAG 27 SEPTEMBER 2026",
       "date": "27 September 2026",
       "date_iso": "2026-09-27",
@@ -32,6 +50,6 @@
       "area": "GEHEEL BAAS ADRIANSTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED"
     }
   ],
-  "last_updated": "2026-09-25T15:08:56.222215+00:00",
+  "last_updated": "2026-09-25T19:09:16.067414+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
