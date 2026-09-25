@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-24T16:00:31.026615+00:00",
+  "last_updated": "2026-09-25T10:00:37.962083+00:00",
   "date_label": "Today",
   "showings": [
     {
@@ -13,9 +13,9 @@
       "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
     },
     {
-      "time": "06:30 PM",
-      "title": "Vibe",
-      "url": "https://www.tblcinemas.com/movie/RS758911445358/vibe"
+      "time": "06:00 PM",
+      "title": "Daayra",
+      "url": "https://www.tblcinemas.com/movie/RS622254283418/daayra"
     },
     {
       "time": "07:00 PM",
@@ -36,6 +36,11 @@
       "time": "09:00 PM",
       "title": "Resident Evil",
       "url": "https://www.tblcinemas.com/movie/RS762482270455/resident-evil"
+    },
+    {
+      "time": "09:30 PM",
+      "title": "Runner",
+      "url": "https://www.tblcinemas.com/movie/RS840574743966/runner"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
