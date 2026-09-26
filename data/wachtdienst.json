@@ -1,60 +1,52 @@
 {
-  "date_range": "zaterdag 19 september tot maandag 21 september 2026",
+  "date_range": "zaterdag 26 september tot maandag 28 september 2026",
   "doctors": [
     {
-      "name": "Drs. Lahera Diaz Yamilia",
-      "clinic": "Gezondheidscentrum Geyersvlijt",
+      "name": "Drs. Badal Giriradj",
+      "clinic": "Gezondheidscentrum Limesgracht",
       "district": "Paramaribo",
-      "address": "Wongsoredjostraat no. 02",
-      "phone": "451860",
-      "note": "Alleen zaterdag ochtend"
+      "address": "",
+      "phone": "",
+      "note": ""
     },
     {
-      "name": "Drs. Baal Antione",
-      "clinic": "Gezondheidscentrum Geyersvlijt",
+      "name": "Drs. Ori Amit",
+      "clinic": "Gezondheidscentrum Derde Rijweg",
       "district": "Paramaribo",
-      "address": "Wongsoredjostraat no. 02",
-      "phone": "451860",
-      "note": "Alleen zaterdag & zondag middag"
-    },
-    {
-      "name": "Drs. Lynch Natasja",
-      "clinic": "Polikliniek Flora",
-      "district": "Paramaribo",
-      "address": "Floralaan no. 23-25",
-      "phone": "464904",
+      "address": "Kwattaweg no. 620",
+      "phone": "435767",
       "note": ""
     },
     {
-      "name": "Drs. Bholasing Sunayana",
-      "clinic": "Gezondheidscentrum Koewarasan",
+      "name": "Drs. Kapoerchan Rewiesha",
+      "clinic": "Polikliniek Santodorp",
       "district": "Wanica",
-      "address": "Bomapolder serie 2 no. 02",
-      "phone": "350018",
+      "address": "Hk. Corresburg Nieuw-Weergevondenweg no. 01",
+      "phone": "487067",
       "note": ""
     },
     {
-      "name": "Drs. Ghoerai Zarish",
-      "clinic": "Polikliniek Houttuin",
+      "name": "Drs. Naranjo Tamayo Mauro",
+      "clinic": "Polikliniek Domburg",
       "district": "Wanica",
-      "address": "Mirahoedoelaan no. 02",
-      "phone": "372090",
+      "address": "Herbertstraat perceel no. 15",
+      "phone": "370044",
       "note": ""
     },
     {
-      "name": "Drs. Orie Sunil",
-      "clinic": "Gezondheidscentrum Lelydorp",
+      "name": "Drs. Mahabier Madhuri",
+      "clinic": "Polikliniek Nieuwe Grond",
       "district": "Wanica",
-      "address": "Indira Gandhiweg no. 42",
-      "phone": "366125",
+      "address": "Indira Gandhiweg no. 12",
+      "phone": "585838",
       "note": ""
     },
     {
-      "name": "Drs. Vrede Merlien",
-      "clinic": "Gezondheidscentrum Onverwacht",
+      "name": "Drs. Jhanjan Cyril",
+      "clinic": "Polkliniek Bernharddorp",
       "district": "Para",
-      "address": "Akrumstraat no. 09",
-      "phone": "352097",
+      "address": "Indira Ghandiweg no. 894",
+      "phone": "352590",
       "note": ""
     }
   ],
@@ -68,10 +60,45 @@
       "name": "Apotheek Meerzorg",
       "address": "Weg naar Peperpot br. 01",
       "phone": "354098"
+    },
+    {
+      "name": "Apotheek Limesgracht",
+      "address": "Limesgracht no. 78",
+      "phone": "420506"
+    },
+    {
+      "name": "Apotheek Derde Rijweg",
+      "address": "Kwattaweg no. 620",
+      "phone": "435767"
+    },
+    {
+      "name": "Apotheek Nieuwe Grond",
+      "address": "Indira Ghandhiweg no. 12",
+      "phone": "585838"
+    },
+    {
+      "name": "Apotheek Wageningen",
+      "address": "Molenweg no. 01",
+      "phone": "233141"
+    },
+    {
+      "name": "Apotheek Tijgerkreek",
+      "address": "Catharina Sophiastraat no. 208",
+      "phone": "375144"
+    },
+    {
+      "name": "Apotheek Groot Henar",
+      "address": "Wooncentrum Groot- Henar no. 352",
+      "phone": "234172"
+    },
+    {
+      "name": "Apotheek Corantijnpolder",
+      "address": "Rambaran Misreweg no. 07",
+      "phone": "231962"
     }
   ],
   "doctor_hours": "Spreekuren: zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
-  "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00u.",
-  "last_updated": "2026-09-25T10:21:04.211067+00:00",
+  "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00.",
+  "last_updated": "2026-09-26T01:04:45.747948+00:00",
   "source": "http://www.rgd.sr/nl/zorg-aanbod/wachtdienst"
 }
