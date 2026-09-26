@@ -1,11 +1,36 @@
 {
-  "last_updated": "2026-09-25T16:00:31.595374+00:00",
+  "last_updated": "2026-09-26T10:00:27.033407+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "05:00 PM",
+      "time": "02:00 PM",
+      "title": "Minions & Monsters",
+      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
+    },
+    {
+      "time": "02:30 PM",
+      "title": "Forgotten Island (3D)",
+      "url": "https://www.tblcinemas.com/movie/RS666011273014/forgotten-island"
+    },
+    {
+      "time": "03:00 PM",
+      "title": "Avengers: Endgame (3D)",
+      "url": "https://www.tblcinemas.com/movie/RS887314415013/avengers-endgame"
+    },
+    {
+      "time": "03:30 PM",
+      "title": "PAW Patrol: The Dino Movie",
+      "url": "https://www.tblcinemas.com/movie/RS931685169274/paw-patrol-the-dino-movie"
+    },
+    {
+      "time": "04:30 PM",
       "title": "Forgotten Island",
       "url": "https://www.tblcinemas.com/movie/RS706204767478/forgotten-island"
+    },
+    {
+      "time": "05:00 PM",
+      "title": "Vibe",
+      "url": "https://www.tblcinemas.com/movie/RS758911445358/vibe"
     },
     {
       "time": "05:30 PM",
@@ -23,7 +48,7 @@
       "url": "https://www.tblcinemas.com/movie/RS178125418089/avengers-endgame"
     },
     {
-      "time": "08:00 PM",
+      "time": "07:30 PM",
       "title": "Insidious: Out of the Further",
       "url": "https://www.tblcinemas.com/movie/RS381118155603/insidious-out-of-the-further"
     },
