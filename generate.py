@@ -3409,6 +3409,19 @@ _SI_LIST = [
        "c": "Activities", "a": "Suriname", "k": _kw(a, "Activities")} for a in ACTIVITIES],
 ]
 
+# ── Business tools (business_pages.py, Sep 2026) ───────────────────────────
+# Registry lives in business_pages.py so nav, search, sitemap and llms.txt all
+# read the same list. Entries already carry their own Dutch keyword blob ("k").
+try:
+    from business_pages import (BIZ_SEARCH as _BIZTOOLS_SEARCH, BIZ_KEYS as _BIZTOOLS_KEYS,
+                                BIZ_SITEMAP as _BIZTOOLS_SITEMAP, llms_section as _biztools_llms)
+except Exception as _biz_imp_err:  # never let the Business section break the rest of the site
+    print(f"  ERROR business_pages import failed, Business section skipped: {_biz_imp_err}")
+    _BIZTOOLS_SEARCH, _BIZTOOLS_KEYS, _BIZTOOLS_SITEMAP = [], set(), []
+    def _biztools_llms(_u):
+        return ""
+_SI_LIST.extend(_BIZTOOLS_SEARCH)
+
 # Guide & utility pages get a keyword blob too, incl. Dutch, so locals find the
 # tools by what they call them ("wisselkoers", "apotheek dienst", "geldautomaat").
 _GUIDE_KW = {
@@ -4268,11 +4281,11 @@ PAGE_HEAD = """\
     .navsearch .nslabel { max-width:7rem; overflow:hidden; white-space:nowrap; font-size:.875rem;
                           transition:max-width .22s ease; }
     .navsearch:hover, .navsearch:focus-visible { border-bottom-color:var(--forest); color:var(--forest); }
-    /* Seven top-level items, kept generously spaced. Two narrow-desktop tiers,
+    /* Top-level items, kept generously spaced (tiers below),
        and the search label collapses earlier on the NL/ES trees because those
        nav labels run longer (build_i18n sets html[lang]). Verified at
        1024/1152/1280/1440/1920 in all three languages. */
-    .navlinks { gap:26px; }
+    .navlinks { gap:22px; }
     .navmark{font-family:'Newsreader',Georgia,serif;font-size:27px;font-weight:600;line-height:1;letter-spacing:-.01em}
     .navtag{font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);
             line-height:1;margin-top:5px}
@@ -4291,18 +4304,31 @@ PAGE_HEAD = """\
     .util-l a strong{color:var(--gold);font-weight:600}
     @media(max-width:640px){.util-in{padding:0 1rem;gap:.9rem}.util-l{gap:.9rem}
       .util-l a:nth-child(3){display:none}.util-r{display:none}}
-    /* Dutch labels fit alongside the pill all the way down to 1152, so only the
-       Spanish tree needs an early collapse. Threshold measured, not guessed:
-       ES runs out of room at about 1210. */
-    @media (max-width:1219px) {
-      html[lang="es"] .navsearch { gap:0; }
-      html[lang="es"] .navsearch .nslabel { max-width:0; }
+    /* Eight top-level items since the Business menu (Sep 2026). Tiers measured,
+       not guessed: no overflow and one row at 1024/1100/1152/1200/1220/1280/
+       1366/1440/1536/1920 in EN, NL and ES. NL/ES labels run longer, so their
+       search label collapses first. */
+    @media (max-width:1535px) {
+      .navlinks { gap:16px; }
+      .navlinks .dd-trigger, .navlinks > a { letter-spacing:.045em; }
+      html[lang="es"] .navsearch, html[lang="nl"] .navsearch { gap:0; }
+      html[lang="es"] .navsearch .nslabel, html[lang="nl"] .navsearch .nslabel { max-width:0; }
     }
-    @media (max-width:1151px) {
-      .navlinks { gap:10px; }
-      .navlinks .dd-trigger, .navlinks > a { font-size:11.5px; letter-spacing:.04em; }
+    @media (max-width:1365px) {
+      .navlinks { gap:11px; }
+      .navlinks .dd-trigger, .navlinks > a { font-size:11.5px; letter-spacing:.03em; }
       .navsearch { gap:0; }
       .navsearch .nslabel { max-width:0; }
+    }
+    @media (max-width:1219px) {
+      .navlinks { gap:8px; }
+      .navlinks .dd-trigger, .navlinks > a { font-size:11px; letter-spacing:.02em; }
+      .navtag { display:none; }
+    }
+    @media (max-width:1099px) {
+      .navlinks { gap:6px; }
+      .navlinks .dd-trigger, .navlinks > a { font-size:10.5px; letter-spacing:.01em; }
+      .navlinks .dd-chevron { width:.7rem; height:.7rem; }
     }
     /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
     .dd-menu { transform-origin: top center; }
@@ -5089,6 +5115,7 @@ def nav_html(active="home", prefix=""):
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto"}
     _OILG  = {"oilgas", "oilblocks", "granmorgu", "oiltimeline", "oilcontracts",
               "oilgov", "oiljobs"}
+    _BIZT  = _BIZTOOLS_KEYS   # Business tools (business_pages.py)
 
     def _is_active(key):
         return active == key
@@ -5158,6 +5185,18 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}suriname-time.html"  {_link_cls("surtime")}       >Time &amp; Converter</a>'
     )
 
+    # Business tools: a short list of the most-used tools + the hub with everything
+    biz_items = (
+        f'<a href="{prefix}business.html"             {_link_cls("biz")}          >All Business Tools</a>'
+        f'<a href="{prefix}btw-calculator.html"       {_link_cls("biz-btw")}      >BTW Calculator</a>'
+        f'<a href="{prefix}salary-calculator.html"    {_link_cls("biz-salary")}   >Salary Calculator</a>'
+        f'<a href="{prefix}invoice-generator.html"    {_link_cls("biz-invoice")}  >Invoice Maker</a>'
+        f'<a href="{prefix}tax-deadlines.html"        {_link_cls("biz-deadlines")}>Tax Deadlines</a>'
+        f'<a href="{prefix}government-tenders.html"   {_link_cls("biz-tenders")}  >Government Tenders</a>'
+        f'<a href="{prefix}qr-code-generator.html"    {_link_cls("biz-qr")}       >QR Code Generator</a>'
+        f'<a href="{prefix}pdf-tools.html"            {_link_cls("biz-pdf")}      >PDF Tools</a>'
+    )
+
     # Games
     games_items = (
         f'<a href="{prefix}quiz.html"      {_link_cls("quiz")}      >Sabi Suriname Quiz</a>'
@@ -5184,6 +5223,7 @@ def nav_html(active="home", prefix=""):
         _desktop_dd("dd-eat",  "Eat &amp; Stay", eat_items,  _EAT)  +
         _desktop_dd("dd-plan", "Plan",           plan_items, _PLAN) +
         _desktop_dd("dd-live", "Live",           live_items, _LIVE) +
+        _desktop_dd("dd-biz",  "Business",       biz_items,  _BIZT) +
         _desktop_dd("dd-oil",  "Oil &amp; Gas",  oil_items,  _OILG) +
         _desktop_dd("dd-games","Games",          games_items,_GAMES) +
         f'<a href="{prefix}news.html" {_top_single_style("news")}>News</a>'
@@ -5237,6 +5277,16 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}matches.html",       "Sports Schedule",  "matches")       +
         _mob_link(f"{prefix}suriname-time.html", "Time & Converter", "surtime")
     )
+    mob_biz_items = (
+        _mob_link(f"{prefix}business.html",           "All Business Tools", "biz")           +
+        _mob_link(f"{prefix}btw-calculator.html",     "BTW Calculator",     "biz-btw")       +
+        _mob_link(f"{prefix}salary-calculator.html",  "Salary Calculator",  "biz-salary")    +
+        _mob_link(f"{prefix}invoice-generator.html",  "Invoice Maker",      "biz-invoice")   +
+        _mob_link(f"{prefix}tax-deadlines.html",      "Tax Deadlines",      "biz-deadlines") +
+        _mob_link(f"{prefix}government-tenders.html", "Government Tenders", "biz-tenders")   +
+        _mob_link(f"{prefix}qr-code-generator.html",  "QR Code Generator",  "biz-qr")        +
+        _mob_link(f"{prefix}pdf-tools.html",          "PDF Tools",          "biz-pdf")
+    )
     mob_games_items = (
         _mob_link(f"{prefix}quiz.html",      "Sabi Suriname Quiz",   "quiz") +
         _mob_link(f"{prefix}crossword.html", "Switi Mini Crossword", "crossword") +
@@ -5268,6 +5318,7 @@ def nav_html(active="home", prefix=""):
         _mob_group("mg-eat",  "Eat & Stay",  mob_eat_items,   _EAT)   +
         _mob_group("mg-plan", "Plan",        mob_plan_items,  _PLAN)  +
         _mob_group("mg-live", "Live",        mob_live_items,  _LIVE)  +
+        _mob_group("mg-biz",  "Business",    mob_biz_items,   _BIZT)  +
         _mob_group("mg-oil",  "Oil & Gas",   mob_oil_items,   _OILG)  +
         _mob_group("mg-games","Games",       mob_games_items, _GAMES) +
         _news_link
@@ -5694,6 +5745,14 @@ def footer_html(prefix=""):
       <div class="ftr-col">
         <a class="ftr-lnk" href="{prefix}restaurants.html">Where to Eat</a>
         <a class="ftr-lnk" href="{prefix}hotels.html">Where to Stay</a>
+      </div>
+      <div class="ftr-h" style="margin-top:26px">Business</div>
+      <div class="ftr-col">
+        <a class="ftr-lnk" href="{prefix}business.html">All Business Tools</a>
+        <a class="ftr-lnk" href="{prefix}btw-calculator.html">BTW Calculator</a>
+        <a class="ftr-lnk" href="{prefix}salary-calculator.html">Salary Calculator</a>
+        <a class="ftr-lnk" href="{prefix}invoice-generator.html">Invoice Maker</a>
+        <a class="ftr-lnk" href="{prefix}government-tenders.html">Government Tenders</a>
       </div>
     </div>
     <div>
@@ -18946,7 +19005,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("marketplace/",         "0.9", "daily"),
         ("post-ad.html",         "0.5", "monthly"),
         ("privacy.html",    "0.3", "yearly"),
-    ]
+    ] + list(_BIZTOOLS_SITEMAP)
 
     urls = []
     for path_seg, priority, freq in static_pages:
@@ -19061,6 +19120,7 @@ def build_llms_txt():
 - [Korjaal Run]({S}/korjaal.html): arcade river game; steer a korjaal past logs, rocks and rapids on a shared daily river.
 - [Aboma]({S}/anaconda.html): snake game, Suriname style; grow an anaconda by eating piranhas, build combos and dodge driftwood.
 
+{_biztools_llms(S)}
 ## About
 - [About this site]({S}/about.html): what Explore Suriname is and who maintains it.
 - [Contact]({S}/contact.html): partnership and listing enquiries.
@@ -21452,6 +21512,29 @@ if __name__ == "__main__":
         "SITE_URL":       SITE_URL,
     }))
 
+    # ── Business tools (business_pages.py, data/business_rules.json) ────────
+    # Pure local build: reads rules + data/biz_feeds.json + data/max_prices.json
+    # (written by the separate biz_feeds.yml workflow). No network here.
+    try:
+        from business_pages import build_business_pages
+    except Exception as _e:  # import already reported above
+        def build_business_pages(_ctx):
+            return {}, {}
+    _biz_pages, _biz_files = build_business_pages({
+        "hub_head":      _hub_head,
+        "hub_hero":      _hub_hero,
+        "hub_faq":       _hub_faq_html,
+        "nav_html":      nav_html,
+        "footer_html":   footer_html,
+        "SITE_URL":      SITE_URL,
+        "bank_rates":    bank_rates,
+        "banks_updated": banks_updated,
+        "cbvs_rates":    cbvs_rates,
+        "cbvs_live":     cbvs_live,
+        "cbvs_updated":  cbvs_updated,
+    })
+    pages.update(_biz_pages)
+
     # ── Marketplace (market.py) ─────────────────────────────────────────────
     # Returns nested keys like marketplace/<slug>/index.html, so the write loop
     # below creates directories. update.yml must git add marketplace/ or these
@@ -21479,6 +21562,11 @@ if __name__ == "__main__":
         with open(fname, "w", encoding="utf-8") as f:
             f.write(_wide_scale_units(html))
         print(f"  OK  {fname}")
+    # Non-HTML business files (calendar feed). Written verbatim: no HTML post-processing.
+    for _bfn, _bcontent in _biz_files.items():
+        with open(_bfn, "w", encoding="utf-8", newline="") as _bf:
+            _bf.write(_bcontent)
+        print(f"  OK  {_bfn}")
 
     import os as _os
     _os.makedirs("listing", exist_ok=True)
