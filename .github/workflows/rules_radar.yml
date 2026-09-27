@@ -1,0 +1,53 @@
+name: Rules Radar
+
+# Daily accuracy watch for the Business tools. Checks the official sources
+# listed in data/rules_radar_config.json and opens a GitHub issue (label
+# "rules-radar") when a law, rate, amount or contact detail changes, or when a
+# source can no longer be read. It NEVER changes a number: a person verifies the
+# official text and updates data/business_rules.json.
+# Not in the exploresuriname-deploy concurrency group on purpose.
+
+on:
+  schedule:
+    - cron: "41 10 * * *"       # daily, 07:41 Suriname time
+  workflow_dispatch:
+
+concurrency:
+  group: rules-radar
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pdftotext
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+
+      - name: Run sentinels (opens issues for changes)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/rules_radar.py
+
+      - name: Commit radar state
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/rules_radar_state.json
+          git diff --staged --quiet && { echo "No changes."; exit 0; }
+          git commit -m "data: rules radar state $(TZ='America/Paramaribo' date '+%Y-%m-%d') [skip ci]"
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push && exit 0
+            echo "push failed (attempt $i), retrying"; sleep $((i * 10))
+          done
+          echo "::warning::could not push radar state after 5 attempts"; exit 1

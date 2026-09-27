@@ -34,6 +34,20 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # Business tools: the calculation engine must pass its tests before its
+      # pages are rebuilt. A failure does NOT stop the rest of the site: the
+      # business pages are then skipped and their previous versions stay live.
+      - name: Test business engine (biz_engine.js)
+        id: biztest
+        continue-on-error: true
+        run: node --test tests/biz_engine.test.cjs
+
+      - name: Keep previous business pages if the engine failed its tests
+        if: steps.biztest.outcome == 'failure'
+        run: |
+          echo "::warning::biz_engine.js failed its tests: business pages are NOT rebuilt this run (previous versions stay live)."
+          echo "BIZ_SKIP=1" >> "$GITHUB_ENV"
+
       - name: Generate all pages
         env:
           AERODATABOX_KEY:   ${{ secrets.AERODATABOX_KEY }}

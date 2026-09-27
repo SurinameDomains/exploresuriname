@@ -1,0 +1,53 @@
+name: Business Feeds
+
+# Government tenders/announcements, Belastingdienst notices and the EZOTI
+# maximum-price list for the Business section. Runs separately from
+# "Update Site" so that job never waits on these websites; the site build only
+# READS data/biz_feeds.json and data/max_prices.json.
+# Deliberately NOT in the exploresuriname-deploy concurrency group (a queued run
+# there would cancel a pending site deploy).
+
+on:
+  schedule:
+    - cron: "17 */3 * * *"      # every 3 hours
+  workflow_dispatch:
+
+concurrency:
+  group: biz-feeds
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  feeds:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pdftotext
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+
+      - name: Fetch feeds and max prices (keeps previous data on any error)
+        run: python scripts/biz_feeds.py
+
+      - name: Commit if something changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! python scripts/biz_commit_needed.py data/biz_feeds.json data/max_prices.json; then
+            exit 0
+          fi
+          git add data/biz_feeds.json data/max_prices.json
+          git diff --staged --quiet && { echo "No changes."; exit 0; }
+          git commit -m "data: business feeds $(TZ='America/Paramaribo' date '+%Y-%m-%d %H:%M') SR [skip ci]"
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push && exit 0
+            echo "push failed (attempt $i), retrying"; sleep $((i * 10))
+          done
+          echo "::warning::could not push business feeds after 5 attempts"; exit 1
