@@ -1,836 +1,1721 @@
 {
- "pdf_url": "https://gov.sr/wp-content/uploads/2026/09/Publicatielijst-Basis-goederen-voor-de-periode-05-18-september-2026.pdf",
+ "show": "srdcheck",
+ "srdcheck": {
+  "changed": "",
+  "rows": [
+   {
+    "product": "Aardappelen",
+    "importer": "NV Dam",
+    "wholesale_pack": "25 kg",
+    "wholesale_price": "SRD 896,00",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 44,80"
+   },
+   {
+    "product": "Aardappelen",
+    "importer": "Sosar Express NV",
+    "wholesale_pack": "25 kg",
+    "wholesale_price": "SRD 846,00",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 42,30"
+   },
+   {
+    "product": "Babyvoeding: Merk Lactogen 1",
+    "importer": "Hem Suriname NV",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 4.530,78",
+    "retail_pack": "400 g",
+    "retail_price": "SRD 217,10"
+   },
+   {
+    "product": "Babyvoeding: Merk Nutrilon 1",
+    "importer": "NV Nutrisur",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 4.676,87",
+    "retail_pack": "400 g",
+    "retail_price": "SRD 224,10"
+   },
+   {
+    "product": "Babyvoeding: Merk Lactogen 2",
+    "importer": "Hem Suriname NV",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 4.530,78",
+    "retail_pack": "400 g",
+    "retail_price": "SRD 217,10"
+   },
+   {
+    "product": "Babyvoeding: Merk Nutrilon 2",
+    "importer": "NV Nutrisur",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 4.763,48",
+    "retail_pack": "400 g",
+    "retail_price": "SRD 228,25"
+   },
+   {
+    "product": "Babyvoeding: Merk Lactogen 3",
+    "importer": "Hem Suriname NV",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 4.402,43",
+    "retail_pack": "800 g",
+    "retail_price": "SRD 421,90"
+   },
+   {
+    "product": "Bruine Bonen: Merk Annabel",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 738,72",
+    "retail_pack": "720 ml",
+    "retail_price": "SRD 76,95"
+   },
+   {
+    "product": "Witte Bonen: Merk Coroos",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 639,84",
+    "retail_pack": "850 ml",
+    "retail_price": "SRD 66,65"
+   },
+   {
+    "product": "Witte Suiker",
+    "importer": "Combe markt",
+    "wholesale_pack": "50 kg",
+    "wholesale_price": "SRD 1.516,00",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 37,90"
+   },
+   {
+    "product": "Gele Erwten",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "22,7 kg",
+    "wholesale_price": "SRD 940,69",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 51,80"
+   },
+   {
+    "product": "Groene Erwten",
+    "importer": "Combe markt",
+    "wholesale_pack": "22,7 kg",
+    "wholesale_price": "SRD 1.095,96",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 60,35"
+   },
+   {
+    "product": "Maandverband: Libresse Maxi Reg Cotton",
+    "importer": "Firgos Suriname NV",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 692,16",
+    "retail_pack": "10 stuks",
+    "retail_price": "SRD 36,05"
+   },
+   {
+    "product": "Maandverband: Merk Diana Classic Normal, Long",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 425,00",
+    "retail_pack": "1 stuk",
+    "retail_price": "SRD 21,25"
+   },
+   {
+    "product": "Maandverband: Confylady Ultra Normal,Long,Extra Long",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 715,00",
+    "retail_pack": "10 stuks",
+    "retail_price": "SRD 35,75"
+   },
+   {
+    "product": "Maandverband: Merk Sally Maxit Fit",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "18 stuks",
+    "wholesale_price": "SRD 303,00",
+    "retail_pack": "10 stuks",
+    "retail_price": "SRD 20,20"
+   },
+   {
+    "product": "Sardien Tomatensaus: Merk Excellence",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "50 stuks",
+    "wholesale_price": "SRD 860,00",
+    "retail_pack": "155 g",
+    "retail_price": "SRD 21,50"
+   },
+   {
+    "product": "Sardien Tomatensaus: Merk Excellence",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 1.094,40",
+    "retail_pack": "425 g",
+    "retail_price": "SRD 57,00"
+   },
+   {
+    "product": "Thee: Merk Breakfast",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 542,40",
+    "retail_pack": "20 x 2 g",
+    "retail_price": "SRD 28,25"
+   },
+   {
+    "product": "Thee: Merk Jumbo Groene Thee Cranberry",
+    "importer": "Carimega NV",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 429,60",
+    "retail_pack": "20 stuks",
+    "retail_price": "SRD 44,75"
+   },
+   {
+    "product": "Uien (Rood)",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "10 kg",
+    "wholesale_price": "SRD 394,00",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 49,25"
+   },
+   {
+    "product": "Uien (Geel)",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "25 kg",
+    "wholesale_price": "SRD 889,00",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 44,45"
+   },
+   {
+    "product": "Wegwerpluiers Volwassen: Merk Evony Adult Diapers (L)",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "6 stuks",
+    "wholesale_price": "SRD 1.029,00",
+    "retail_pack": "8 stuks",
+    "retail_price": "SRD 205,80"
+   },
+   {
+    "product": "Wegwerpluiers Baby: Merk Ppl Baby Diapers (L)",
+    "importer": "Suriname Wanda Paper Company",
+    "wholesale_pack": "6 stuks",
+    "wholesale_price": "SRD 1.678,33",
+    "retail_pack": "40 stuks",
+    "retail_price": "SRD 201,40"
+   },
+   {
+    "product": "Wegwerpluiers Baby: Merk Snow-Kleen Baby Diaper (S)",
+    "importer": "Sheng Long Company NV",
+    "wholesale_pack": "6 stuks",
+    "wholesale_price": "SRD 757,25",
+    "retail_pack": "40 stuks",
+    "retail_price": "SRD 151,45"
+   },
+   {
+    "product": "Wegwerpluiers Baby: Merk Zahra Soft (M)",
+    "importer": "Zahra Soft",
+    "wholesale_pack": "5 stuks",
+    "wholesale_price": "SRD 791,25",
+    "retail_pack": "40 stuks",
+    "retail_price": "SRD 189,89"
+   },
+   {
+    "product": "Wegwerpluiers Baby: Merk Zahra Soft (L)",
+    "importer": "Zahra Soft",
+    "wholesale_pack": "5 stuks",
+    "wholesale_price": "SRD 746,04",
+    "retail_pack": "40 stuks",
+    "retail_price": "SRD 179,05"
+   },
+   {
+    "product": "Babyvoeding: Merk Lactogen 1",
+    "importer": "Hem Suriname NV",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 4.943,48",
+    "retail_pack": "900 g",
+    "retail_price": "SRD 473,75"
+   },
+   {
+    "product": "Babyvoeding: Merk Lactogen 2",
+    "importer": "Hem Suriname NV",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 4.943,48",
+    "retail_pack": "900 g",
+    "retail_price": "SRD 473,75"
+   },
+   {
+    "product": "Babyvoeding: Merk Nutrilon 1",
+    "importer": "NV Nutrisur",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 5.257,57",
+    "retail_pack": "900 g",
+    "retail_price": "SRD 503,85"
+   },
+   {
+    "product": "Babyvoeding: Merk Nutrilon 2",
+    "importer": "NV Nutrisur",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 5.345,22",
+    "retail_pack": "900 g",
+    "retail_price": "SRD 512,25"
+   },
+   {
+    "product": "Babyvoeding: Merk Nutrilon 3",
+    "importer": "NV Nutrisur",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 4.760,87",
+    "retail_pack": "900 g",
+    "retail_price": "SRD 456,25"
+   },
+   {
+    "product": "Wegwerpluiers Volwassen: Merk Grandee-Kleen (M)",
+    "importer": "Shen Long Company NV",
+    "wholesale_pack": "6 stuks",
+    "wholesale_price": "SRD 1.194,50",
+    "retail_pack": "40 stuks",
+    "retail_price": "SRD 238,90"
+   },
+   {
+    "product": "Wegwerpluiers Volwassen: Merk Grandee-Kleen (L)",
+    "importer": "Shen Long Company NV",
+    "wholesale_pack": "6 stuks",
+    "wholesale_price": "SRD 1.267,00",
+    "retail_pack": "40 stuks",
+    "retail_price": "SRD 253,40"
+   },
+   {
+    "product": "Wegwerpluiers Volwassen: Merk Panal Tena Slip Ultra Protect M",
+    "importer": "Firgos Suriname NV",
+    "wholesale_pack": "8 stuks",
+    "wholesale_price": "SRD 1.241,00",
+    "retail_pack": "9 stuks",
+    "retail_price": "SRD 186,15"
+   },
+   {
+    "product": "Zonnebloem Olie: Merk Vip",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 1.212,00",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 101,00"
+   },
+   {
+    "product": "Zonnebloem Olie: Merk Vip",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 1.195,20",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 99,60"
+   },
+   {
+    "product": "Zonnebloem Olie: Merk Kernel",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 1.193,40",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 99,45"
+   },
+   {
+    "product": "Zonnebloem Olie: Merk Coroli",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 1.317,00",
+    "retail_pack": "815 ml",
+    "retail_price": "SRD 109,75"
+   },
+   {
+    "product": "Zonnebloem Olie: Merk Familiar",
+    "importer": "Simpex International NV",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 1.005,60",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 104,75"
+   },
+   {
+    "product": "Zonnebloem Olie: Merk Sunflower",
+    "importer": "Simi Trading",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 1.244,40",
+    "retail_pack": "870 ml",
+    "retail_price": "SRD 103,70"
+   },
+   {
+    "product": "Zonnebloem Olie: Merk Oilio",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 1.129,20",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 94,10"
+   },
+   {
+    "product": "Soja Olie: Merk Habibi",
+    "importer": "Combe Markt",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 891,84",
+    "retail_pack": "1 L",
+    "retail_price": "SRD 92,90"
+   },
+   {
+    "product": "Soja Olie: Merk Habibi",
+    "importer": "Best food supply NV",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 1.118,88",
+    "retail_pack": "1 L",
+    "retail_price": "SRD 116,55"
+   },
+   {
+    "product": "Soja Olie: Merk Unoli",
+    "importer": "B.Bisheshar",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 773,76",
+    "retail_pack": "1 L",
+    "retail_price": "SRD 80,60"
+   },
+   {
+    "product": "Soja Olie: Merk Soya",
+    "importer": "Saf Trade NV",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 1.359,20",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 84,95"
+   },
+   {
+    "product": "Soja Olie: Merk Primor",
+    "importer": "NV Dam Import en Export",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 1.236,80",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 77,30"
+   },
+   {
+    "product": "Witte Suiker",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "50 kg",
+    "wholesale_price": "SRD 1.544,00",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 38,60"
+   },
+   {
+    "product": "Zout",
+    "importer": "NV Dam IMport en Export",
+    "wholesale_pack": "25 kg",
+    "wholesale_price": "SRD 299,00",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 14,95"
+   },
+   {
+    "product": "Zout",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "25 kg",
+    "wholesale_price": "SRD 372,00",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 18,60"
+   },
+   {
+    "product": "Zout",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "25 kg",
+    "wholesale_price": "SRD 407,00",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 20,35"
+   },
+   {
+    "product": "Soja Olie: Merk Unoli",
+    "importer": "B.Bisheshar",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 1.389,60",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 86,85"
+   },
+   {
+    "product": "Sardien In Tomatensaus: Merk Vip",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 1.526,40",
+    "retail_pack": "425 g",
+    "retail_price": "SRD 79,50"
+   },
+   {
+    "product": "Maandverband: Merk Sally Panty Liner",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 316,00",
+    "retail_pack": "20 stuks",
+    "retail_price": "SRD 15,80"
+   },
+   {
+    "product": "Wegwerpluiers Baby: Merk Ppl Baby Diapers (M)",
+    "importer": "Suriname Wanda Paper Company",
+    "wholesale_pack": "6 stuks",
+    "wholesale_price": "SRD 2.085,00",
+    "retail_pack": "40 stuks",
+    "retail_price": "SRD 250,20"
+   },
+   {
+    "product": "Zonnebloem Olie: Merk Aoil",
+    "importer": "B. Chotelal NV",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 1.159,80",
+    "retail_pack": "850 ml",
+    "retail_price": "SRD 96,65"
+   },
+   {
+    "product": "Bruine Bonen: Merk Vip",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 574,56",
+    "retail_pack": "800 ml",
+    "retail_price": "SRD 59,85"
+   },
+   {
+    "product": "Soja Olie: Merk Siglo De Oro",
+    "importer": "Simpex International NV",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 1.447,20",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 90,45"
+   },
+   {
+    "product": "Zonnebloem Olie: Allnature's",
+    "importer": "COMBE MARKT",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 1.044,00",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 87,00"
+   },
+   {
+    "product": "Sardien In Tomatensaus: Merk Vip",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "50 stuks",
+    "wholesale_price": "SRD 868,00",
+    "retail_pack": "155 g",
+    "retail_price": "SRD 21,70"
+   },
+   {
+    "product": "Zonnebloem Olie: Merk Vip",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 1.664,03",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 104,00"
+   },
+   {
+    "product": "Zonnebloem Olie: Merk Zer",
+    "importer": "Gao Ming NV",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 1.057,60",
+    "retail_pack": "825 ml",
+    "retail_price": "SRD 66,10"
+   },
+   {
+    "product": "Zonnebloemolie: Merk Oxxo",
+    "importer": "Ziran Import",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 685,92",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 71,45"
+   },
+   {
+    "product": "Soja Olie: Merk Golden Fields",
+    "importer": "Avam Agencies NV",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 443,52",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 46,20"
+   },
+   {
+    "product": "Groene Erwten",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "22,7 kg",
+    "wholesale_price": "SRD 977,01",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 53,80"
+   },
+   {
+    "product": "Uien (Rood)",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "10 kg",
+    "wholesale_price": "SRD 407,60",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 50,95"
+   },
+   {
+    "product": "Babyvoeding: Merk Lactogen 3",
+    "importer": "Hem Suriname NV",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 4.008,00",
+    "retail_pack": "350 g",
+    "retail_price": "SRD 192,05"
+   },
+   {
+    "product": "Gist: Merk Pakmaya (Instand Dry Yeast)",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 1.656,80",
+    "retail_pack": "500 g",
+    "retail_price": "SRD 103,55"
+   },
+   {
+    "product": "Thee: Merk Kings Garden",
+    "importer": "SAF Trade NV",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 958,08",
+    "retail_pack": "20 stuks",
+    "retail_price": "SRD 49,90"
+   },
+   {
+    "product": "Aardappelen",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "25 kg",
+    "wholesale_price": "SRD 886,00",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 44,30"
+   },
+   {
+    "product": "Wegwerpluiers Baby: Merk Kids Kit Baby Diaper (M)",
+    "importer": "Shen Long Company NV",
+    "wholesale_pack": "6 stuks",
+    "wholesale_price": "SRD 1.452,25",
+    "retail_pack": "40 stuks",
+    "retail_price": "SRD 290,45"
+   },
+   {
+    "product": "Zonnebloemolie: Merk Oleovita",
+    "importer": "B.Chotelal NV",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 1.251,60",
+    "retail_pack": "880 ml",
+    "retail_price": "SRD 104,30"
+   },
+   {
+    "product": "Bruine Bonen: Merk Coroos",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 730,08",
+    "retail_pack": "850 ml",
+    "retail_price": "SRD 76,05"
+   },
+   {
+    "product": "Witte Suiker",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "50 kg",
+    "wholesale_price": "SRD 1.452,00",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 36,30"
+   },
+   {
+    "product": "Witte Bonen: Merk Coroos",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 400,32",
+    "retail_pack": "425 ml",
+    "retail_price": "SRD 41,70"
+   },
+   {
+    "product": "Soja Olie: Merk Belle",
+    "importer": "B. Chotelal NV",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 868,80",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 90,50"
+   },
+   {
+    "product": "Uien (Geel)",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "25 kg",
+    "wholesale_price": "SRD 879,00",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 43,95"
+   },
+   {
+    "product": "Zonnebloem Olie: Merk Vip",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 1.336,00",
+    "retail_pack": "700 ml",
+    "retail_price": "SRD 83,50"
+   },
+   {
+    "product": "Bruine Bonen: Merk Annabel",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 587,04",
+    "retail_pack": "370 ml",
+    "retail_price": "SRD 61,15"
+   },
+   {
+    "product": "Groene Erwten",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "22,7 kg",
+    "wholesale_price": "SRD 1.011,51",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 55,70"
+   },
+   {
+    "product": "Bruine Bonen: Merk Vip",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 571,20",
+    "retail_pack": "850 ml",
+    "retail_price": "SRD 59,50"
+   },
+   {
+    "product": "Soja Olie: Merk Golden Fields",
+    "importer": "Avam Agencies NV",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 650,88",
+    "retail_pack": "800 ml",
+    "retail_price": "SRD 67,80"
+   },
+   {
+    "product": "Zonnebloem Olie: Merk Bonlife",
+    "importer": "Combe Markt",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 921,60",
+    "retail_pack": "800 ml",
+    "retail_price": "SRD 76,80"
+   },
+   {
+    "product": "Zonnebloem Olie: Merk Sarbio",
+    "importer": "Combe Markt",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 900,60",
+    "retail_pack": "1 L",
+    "retail_price": "SRD 75,05"
+   },
+   {
+    "product": "Zonnebloem Olie: Merk Victoria",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 1.274,40",
+    "retail_pack": "1 L",
+    "retail_price": "SRD 132,75"
+   },
+   {
+    "product": "Zonnebloem Olie: Merk Pure Sunshine",
+    "importer": "SAF Trade NV",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 785,37",
+    "retail_pack": "1 L",
+    "retail_price": "SRD 65,45"
+   },
+   {
+    "product": "Zonnebloemolie: Fryday's",
+    "importer": "Parbo Inklaringen",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 606,60",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 50,55"
+   },
+   {
+    "product": "Soja Olie: Salad Special",
+    "importer": "Nv Dam Import en Export",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 1.237,60",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 77,35"
+   },
+   {
+    "product": "Zonnebloem Olie: Pro-Life",
+    "importer": "Rudisa agencies NV",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 1.243,20",
+    "retail_pack": "810 ml",
+    "retail_price": "SRD 103,60"
+   },
+   {
+    "product": "Zonnebloem Olie: Sunar",
+    "importer": "Sharen Trading",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 1.152,00",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 96,00"
+   },
+   {
+    "product": "Zonnebloem Olie: Prima",
+    "importer": "HJ De Vries Engros NV",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 1.341,60",
+    "retail_pack": "750 ml",
+    "retail_price": "SRD 83,85"
+   },
+   {
+    "product": "Zonnebloem Olie: Ino",
+    "importer": "B. Chotelal NV0+2",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 998,88",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 104,05"
+   },
+   {
+    "product": "Zonnebloemolie: Sun Empire",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 1.020,60",
+    "retail_pack": "1 L",
+    "retail_price": "SRD 85,05"
+   },
+   {
+    "product": "Babyvoeding: Merk Nutrilon 3",
+    "importer": "NV Nutrisur",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 4.763,48",
+    "retail_pack": "400 g",
+    "retail_price": "SRD 228,25"
+   },
+   {
+    "product": "Kindervoeding Van Granen: Phosphatine Honey",
+    "importer": "NV Nutrisur",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 1.424,35",
+    "retail_pack": "190 g",
+    "retail_price": "SRD 136,50"
+   },
+   {
+    "product": "Kindervoeding Van Granen: Phosphatine Multicereal",
+    "importer": "NV Nutrisur",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 1.424,35",
+    "retail_pack": "190 g",
+    "retail_price": "SRD 136,50"
+   },
+   {
+    "product": "Gele Erwten",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "22,7 kg",
+    "wholesale_price": "SRD 847,16",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 46,65"
+   },
+   {
+    "product": "Knoflook",
+    "importer": "NV Dam",
+    "wholesale_pack": "10 kg",
+    "wholesale_price": "SRD 603,20",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 75,40"
+   },
+   {
+    "product": "Wegwerpluiers Volwassen: Merk Panal Tena Pants Ultra Protect L",
+    "importer": "Firgos Suriname Nv",
+    "wholesale_pack": "4 stuks",
+    "wholesale_price": "SRD 1.499,67",
+    "retail_pack": "20 stuks",
+    "retail_price": "SRD 449,90"
+   },
+   {
+    "product": "Maandverband: Merk Libresse Dailies Regular, Multistyle",
+    "importer": "Firgos Suriname NV",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 621,12",
+    "retail_pack": "15 stuks",
+    "retail_price": "SRD 32,35"
+   },
+   {
+    "product": "Uien (Rood)",
+    "importer": "Sosar Express NV",
+    "wholesale_pack": "10 kg",
+    "wholesale_price": "SRD 1.000,00",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 50,00"
+   },
+   {
+    "product": "Uien (Geel)",
+    "importer": "Sosar Express NV",
+    "wholesale_pack": "25 kg",
+    "wholesale_price": "SRD 818,00",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 40,90"
+   },
+   {
+    "product": "Wegwerpluiers Baby's: Merk Softlove Baby Diapers (XL)",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "6 stuks",
+    "wholesale_price": "SRD 820,75",
+    "retail_pack": "30 stuks",
+    "retail_price": "SRD 164,15"
+   },
+   {
+    "product": "Wegwerpluiers Baby's: Merk Softlove Baby Diapers (M)",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "4 stuks",
+    "wholesale_price": "SRD 922,67",
+    "retail_pack": "60 stuks",
+    "retail_price": "SRD 276,80"
+   },
+   {
+    "product": "Knoflook",
+    "importer": "King Long Trading NV",
+    "wholesale_pack": "10 kg",
+    "wholesale_price": "SRD 689,60",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 86,20"
+   },
+   {
+    "product": "Zonnebloemolie: Merk Sor",
+    "importer": "Mini Stepper NV",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 912,00",
+    "retail_pack": "9,825 L",
+    "retail_price": "SRD 76,00"
+   },
+   {
+    "product": "Zonnebloemolie: Merk Oleina",
+    "importer": "Simpex International NV",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 1.024,00",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 106,70"
+   },
+   {
+    "product": "Wegwerpluiers Baby: Merk Evony Adult Diapers (L)",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "6 stuks",
+    "wholesale_price": "SRD 1.029,00",
+    "retail_pack": "8 stuks",
+    "retail_price": "SRD 205,80"
+   },
+   {
+    "product": "Wegwerpluiers Baby: Merk Vip Baby Pants (Midi,Maxi)",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "5 stuks",
+    "wholesale_price": "SRD 813,96",
+    "retail_pack": "1 stuk",
+    "retail_price": "SRD 195,35"
+   }
+  ],
+  "url": "https://ez.gov.sr/product/index",
+  "checked": "2026-09-27T18:12-03:00",
+  "error": "",
+  "fails": 0
+ },
+ "pdf": {
+  "pdf_url": "https://gov.sr/wp-content/uploads/2026/09/Publicatielijst-Basis-goederen-voor-de-periode-05-18-september-2026.pdf",
+  "valid_from": "2026-09-05",
+  "valid_to": "2026-09-18",
+  "rows": [
+   {
+    "product": "Aardappelen",
+    "importer": "NV Dam",
+    "wholesale_pack": "per zak @ 25 kg",
+    "wholesale_price": "SRD 906.00",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 45.30"
+   },
+   {
+    "product": "Aardappelen",
+    "importer": "B.Chotelal NV",
+    "wholesale_pack": "per zak @ 25 kg",
+    "wholesale_price": "SRD 902.00",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 45.10"
+   },
+   {
+    "product": "Aardappelen",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "per zak @ 25 kg",
+    "wholesale_price": "SRD 973.00",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 48.65"
+   },
+   {
+    "product": "Babyvoeding: merk Lactogen (1+2)",
+    "importer": "Hem Suriname NV",
+    "wholesale_pack": "per karton @ 24 blikken",
+    "wholesale_price": "SRD 4,560.00",
+    "retail_pack": "per blik @ 400 gr",
+    "retail_price": "SRD 218.50"
+   },
+   {
+    "product": "Babyvoeding: merk Nutrilon (1+2+3)",
+    "importer": "NV Nutrisur",
+    "wholesale_pack": "per karton @ 24 blikken",
+    "wholesale_price": "SRD 4,763.48",
+    "retail_pack": "per blik @ 400 gr",
+    "retail_price": "SRD 228.25"
+   },
+   {
+    "product": "Babyvoeding: merk Lactogen (1+2)",
+    "importer": "Hem Suriname NV",
+    "wholesale_pack": "per karton @ 12 blikken",
+    "wholesale_price": "SRD 4,980.00",
+    "retail_pack": "per blik @ 900 gr",
+    "retail_price": "SRD 477.25"
+   },
+   {
+    "product": "Babyvoeding: merk Lactogen (3)",
+    "importer": "Hem Suriname NV",
+    "wholesale_pack": "per karton @ 24 blikken",
+    "wholesale_price": "SRD 4,560.00",
+    "retail_pack": "per blik @ 350 gr",
+    "retail_price": "SRD 218.50"
+   },
+   {
+    "product": "Babyvoeding: merk Lactogen (3)",
+    "importer": "Hem Suriname NV",
+    "wholesale_pack": "per karton @ 12 blikken",
+    "wholesale_price": "SRD 4,980.00",
+    "retail_pack": "per blik @ 800 gr",
+    "retail_price": "SRD 477.25"
+   },
+   {
+    "product": "Babyvoeding: merk Nutrilon (1+2+3)",
+    "importer": "NV Nutrisur",
+    "wholesale_pack": "per karton @ 12 blikken",
+    "wholesale_price": "SRD 5,257.57",
+    "retail_pack": "per blik @ 900 gr",
+    "retail_price": "SRD 503.85"
+   },
+   {
+    "product": "Kindervoeding van granen: Phosphatine Honey",
+    "importer": "NV Nutrisur",
+    "wholesale_pack": "per karton @ 12 blikken",
+    "wholesale_price": "SRD 1,424.35",
+    "retail_pack": "per blik @ 190 gr",
+    "retail_price": "SRD 136.50"
+   },
+   {
+    "product": "Kindervoeding van granen: Phosphatine Multicereal",
+    "importer": "NV Nutrisur",
+    "wholesale_pack": "per karton @ 12 blikken",
+    "wholesale_price": "SRD 1,424.35",
+    "retail_pack": "per blik @ 190 gr",
+    "retail_price": "SRD 136.50"
+   },
+   {
+    "product": "Bruine bonen: merk VIP",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 12 blikken",
+    "wholesale_price": "SRD 574.56",
+    "retail_pack": "per blik @ 800 ml",
+    "retail_price": "SRD 59.85"
+   },
+   {
+    "product": "Bruine bonen: merk VIP",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 12 blikken",
+    "wholesale_price": "SRD 571.20",
+    "retail_pack": "per blik @ 850 ml",
+    "retail_price": "SRD 59.50"
+   },
+   {
+    "product": "Bruine bonen: merk Coroos",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 12 blikken",
+    "wholesale_price": "SRD 730.08",
+    "retail_pack": "per blik @ 850 ml",
+    "retail_price": "SRD 76.05"
+   },
+   {
+    "product": "Bruine bonen: merk Annabel",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "per karton @ 12 potten",
+    "wholesale_price": "SRD 775.20",
+    "retail_pack": "per pot @ 720 ml",
+    "retail_price": "SRD 80.75"
+   },
+   {
+    "product": "Bruine bonen: merk Annabel",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "per karton @ 12 potten",
+    "wholesale_price": "SRD 587.04",
+    "retail_pack": "per pot @ 370 ml",
+    "retail_price": "SRD 61.15"
+   },
+   {
+    "product": "Witte bonen: merk Coroos",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 12 blikken",
+    "wholesale_price": "SRD 639.84",
+    "retail_pack": "per blik @ 850 ml",
+    "retail_price": "SRD 66.65"
+   },
+   {
+    "product": "Witte bonen: merk Coroos",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 12 blikken",
+    "wholesale_price": "SRD 400.32",
+    "retail_pack": "per blik @ 425 ml",
+    "retail_price": "SRD 41.70"
+   },
+   {
+    "product": "Witte suiker",
+    "importer": "Combe Markt",
+    "wholesale_pack": "per zak @ 50 kg",
+    "wholesale_price": "SRD 1,516.00",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 37.90"
+   },
+   {
+    "product": "Witte suiker",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "per zak @ 50 kg",
+    "wholesale_price": "SRD 1,544.00",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 38.60"
+   },
+   {
+    "product": "Witte suiker",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per zak @ 25 kg",
+    "wholesale_price": "SRD 755.00",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 37.75"
+   },
+   {
+    "product": "Witte suiker",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per zak @ 50 kg",
+    "wholesale_price": "SRD 1,470.00",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 36.75"
+   },
+   {
+    "product": "Gele erwten",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "per zak @ 22.7 kg",
+    "wholesale_price": "SRD 1,036.00",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 51.80"
+   },
+   {
+    "product": "Groene erwten",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "per zak @ 22.7 kg",
+    "wholesale_price": "SRD 1,011.51",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 55.70"
+   },
+   {
+    "product": "Groene erwten",
+    "importer": "Combe Markt",
+    "wholesale_pack": "per zak @ 22.7 kg",
+    "wholesale_price": "SRD 1,095.96",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 60.35"
+   },
+   {
+    "product": "Gele erwten",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per zak @ 22.7 kg",
+    "wholesale_price": "SRD 847.16",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 46.65"
+   },
+   {
+    "product": "Groene erwten",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per zak @ 22.7 kg",
+    "wholesale_price": "SRD 977.01",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 53.80"
+   },
+   {
+    "product": "Gist: merk Pakmaya (instand dry yeast)",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "per karton @ 20 pakken",
+    "wholesale_price": "SRD 1,902.40",
+    "retail_pack": "per pak @ 500 gr",
+    "retail_price": "SRD 118.90"
+   },
+   {
+    "product": "Knoflook",
+    "importer": "NV Dam",
+    "wholesale_pack": "per zak @ 10 kg",
+    "wholesale_price": "SRD 603.20",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 75.40"
+   },
+   {
+    "product": "Knoflook",
+    "importer": "King Long Trading NV",
+    "wholesale_pack": "per zak @ 10 kg",
+    "wholesale_price": "SRD 689.60",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 86.20"
+   },
+   {
+    "product": "Maandverband: merk Libresse maxi reg cotton",
+    "importer": "Firgos Suriname NV",
+    "wholesale_pack": "per karton @ 24 pakken",
+    "wholesale_price": "SRD 684.00",
+    "retail_pack": "per pak @ 10 stuks",
+    "retail_price": "SRD 34.20"
+   },
+   {
+    "product": "Maandverband: merk Libresse dailies regular, multistyle",
+    "importer": "Firgos Suriname NV",
+    "wholesale_pack": "per karton @ 24 pakken",
+    "wholesale_price": "SRD 645.00",
+    "retail_pack": "per pak @ 15 stuks",
+    "retail_price": "SRD 32.25"
+   },
+   {
+    "product": "Maandverband: merk Diana Classic Normal, Long",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 24 pakken",
+    "wholesale_price": "SRD 425.00",
+    "retail_pack": "per pak",
+    "retail_price": "SRD 21.25"
+   },
+   {
+    "product": "Maandverband: merk Confylady Ultra Normal,long,extra long",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 24 pakken",
+    "wholesale_price": "SRD 715.00",
+    "retail_pack": "per pak @ 10 stuks",
+    "retail_price": "SRD 35.75"
+   },
+   {
+    "product": "Maandverband: merk Sally maxit fit",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "per karton @ 18 pakken",
+    "wholesale_price": "SRD 303.00",
+    "retail_pack": "per pak @ 10 stuks",
+    "retail_price": "SRD 20.20"
+   },
+   {
+    "product": "Maandverband: merk Sally Panty Liner",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "per karton @ 24 pakken",
+    "wholesale_price": "SRD 316.00",
+    "retail_pack": "per pak @ 20 stuks",
+    "retail_price": "SRD 15.80"
+   },
+   {
+    "product": "Sardien in tomatensaus: merk Excellence",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "per karton @ 50 blikken",
+    "wholesale_price": "SRD 860.00",
+    "retail_pack": "per blik @ 155 gr",
+    "retail_price": "SRD 21.50"
+   },
+   {
+    "product": "Sardien in tomatensaus: merk Excellence",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "per karton @ 24 blikken",
+    "wholesale_price": "SRD 1,094.40",
+    "retail_pack": "per blik @ 425 gr",
+    "retail_price": "SRD 57.00"
+   },
+   {
+    "product": "Sardien in tomatensaus: merk VIP",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 24 blikken",
+    "wholesale_price": "SRD 1,177.92",
+    "retail_pack": "per blik @ 425 gr",
+    "retail_price": "SRD 61.35"
+   },
+   {
+    "product": "Sardien in tomatensaus: merk VIP",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 50 blikken",
+    "wholesale_price": "SRD 872.00",
+    "retail_pack": "per blik @ 155 gr",
+    "retail_price": "SRD 21.80"
+   },
+   {
+    "product": "Thee: merk Breakfast",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "per karton @ 24 pakken",
+    "wholesale_price": "SRD 542.40",
+    "retail_pack": "per pak @ 20 zakjes @ 2 gr",
+    "retail_price": "SRD 28.25"
+   },
+   {
+    "product": "Thee: merk Kings Garden",
+    "importer": "SAF Trade NV",
+    "wholesale_pack": "per karton @ 24 pakken",
+    "wholesale_price": "SRD 958.08",
+    "retail_pack": "per pak @ 20 zakjes",
+    "retail_price": "SRD 49.90"
+   },
+   {
+    "product": "Thee: merk Jumbo groene thee cranberry",
+    "importer": "Carimega NV",
+    "wholesale_pack": "per karton @ 12 pakken",
+    "wholesale_price": "SRD 430.56",
+    "retail_pack": "per pak @ 20 zakjes",
+    "retail_price": "SRD 44.85"
+   },
+   {
+    "product": "Uien (rood)",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per zak @ 10 kg",
+    "wholesale_price": "SRD 385.20",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 48.15"
+   },
+   {
+    "product": "Uien (rood)",
+    "importer": "B.Bisheshar NV",
+    "wholesale_pack": "per zak @ 10 kg",
+    "wholesale_price": "SRD 394.40",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 49.30"
+   },
+   {
+    "product": "Uien (rood)",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "per zak @ 10 kg",
+    "wholesale_price": "SRD 422.40",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 52.80"
+   },
+   {
+    "product": "Uien (geel)",
+    "importer": "NV Dam",
+    "wholesale_pack": "per zak @ 25 kg",
+    "wholesale_price": "SRD 786.00",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 39.30"
+   },
+   {
+    "product": "Uien (geel)",
+    "importer": "B.Chotelal NV",
+    "wholesale_pack": "per zak @ 25 kg",
+    "wholesale_price": "SRD 781.00",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 39.05"
+   },
+   {
+    "product": "Uien (geel)",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "per zak @ 25 kg",
+    "wholesale_price": "SRD 842.00",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 42.10"
+   },
+   {
+    "product": "Wegwerpluiers baby's: merk VIP Baby Pants (Midi,Maxi)",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per baal @ 5 pakken",
+    "wholesale_price": "SRD 813.96",
+    "retail_pack": "per pak",
+    "retail_price": "SRD 195.35"
+   },
+   {
+    "product": "Wegwerpluiers baby's: merk PPL baby diapers (M)",
+    "importer": "Suriname Wanda Paper Company",
+    "wholesale_pack": "per baal @ 6 pakken",
+    "wholesale_price": "SRD 2,085.00",
+    "retail_pack": "per pak @ 40 stuks",
+    "retail_price": "SRD 250.20"
+   },
+   {
+    "product": "Wegwerpluiers baby's: merk PPL baby diapers (L)",
+    "importer": "Suriname Wanda Paper Company",
+    "wholesale_pack": "per baal @ 6 pakken",
+    "wholesale_price": "SRD 1,678.33",
+    "retail_pack": "per pak @ 40 stuks",
+    "retail_price": "SRD 201.40"
+   },
+   {
+    "product": "Wegwerpluiers baby's: merk merk Softlove Baby diapers (XL)",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "per baal @ 6 pakken",
+    "wholesale_price": "SRD 820.75",
+    "retail_pack": "per pak @ 30 stuks",
+    "retail_price": "SRD 164.15"
+   },
+   {
+    "product": "Wegwerpluiers baby's: merk merk Softlove Baby diapers (M)",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "per baal @ 4 pakken",
+    "wholesale_price": "SRD 922.67",
+    "retail_pack": "per pak @ 60 stuks",
+    "retail_price": "SRD 276.80"
+   },
+   {
+    "product": "Wegwerpluiers baby's: merk Kids Kit baby diaper (M)",
+    "importer": "Shen Long Company NV",
+    "wholesale_pack": "per baal @ 6 pakken",
+    "wholesale_price": "SRD 1,452.25",
+    "retail_pack": "per pak @ 40 stuks",
+    "retail_price": "SRD 290.45"
+   },
+   {
+    "product": "Wegwerpluiers baby's: merk Snow-Kleen Baby Diaper (S)",
+    "importer": "Shen Long Company NV",
+    "wholesale_pack": "per baal @ 6 pakken",
+    "wholesale_price": "SRD 757.25",
+    "retail_pack": "per pak @ 40 stuks",
+    "retail_price": "SRD 151.45"
+   },
+   {
+    "product": "Wegwerpluiers baby's: merk Zahra Soft (M)",
+    "importer": "Zahra Soft",
+    "wholesale_pack": "per baal @ 5 pakken",
+    "wholesale_price": "SRD 791.25",
+    "retail_pack": "per pak @ 40 stuks",
+    "retail_price": "SRD 189.90"
+   },
+   {
+    "product": "Wegwerpluiers baby's: merk Zahra Soft (L)",
+    "importer": "Zahra Soft",
+    "wholesale_pack": "per baal @ 5 pakken",
+    "wholesale_price": "SRD 746.04",
+    "retail_pack": "per pak @ 40 stuks",
+    "retail_price": "SRD 179.05"
+   },
+   {
+    "product": "Wegwerpluiers volwassen: merk Grandee-Kleen (M)",
+    "importer": "Shen Long Company NV",
+    "wholesale_pack": "per baal @ 6 pakken",
+    "wholesale_price": "SRD 1,194.50",
+    "retail_pack": "per pak @ 40 stuks",
+    "retail_price": "SRD 238.90"
+   },
+   {
+    "product": "Wegwerpluiers volwassen: merk Grandee-Kleen (L)",
+    "importer": "Shen Long Company NV",
+    "wholesale_pack": "per baal @ 6 pakken",
+    "wholesale_price": "SRD 1,267.00",
+    "retail_pack": "per pak @ 40 stuks",
+    "retail_price": "SRD 253.40"
+   },
+   {
+    "product": "Wegwerpluiers volwassen: merk Evony Adult diapers (L)",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per baal @ 6 pakken",
+    "wholesale_price": "SRD 1,022.25",
+    "retail_pack": "per pak @ 8 stuks",
+    "retail_price": "SRD 204.45"
+   },
+   {
+    "product": "Wegwerpluiers volwassen: merk Panal Tena Slip Ultra Protect M",
+    "importer": "Firgos Suriname NV",
+    "wholesale_pack": "per baal @ 8 pakken",
+    "wholesale_price": "SRD 1,241.00",
+    "retail_pack": "per pak @ 9 stuks",
+    "retail_price": "SRD 186.15"
+   },
+   {
+    "product": "Wegwerpluiers volwassen: merk Panal Tena Pants Ultra Protect L Firgos Suriname NV",
+    "importer": "",
+    "wholesale_pack": "per baal @ 4 pakken",
+    "wholesale_price": "SRD 1,499.67",
+    "retail_pack": "per pak @ 20 stuks",
+    "retail_price": "SRD 449.90"
+   },
+   {
+    "product": "Zonnebloem olie: merk Allnature's",
+    "importer": "Combe Markt",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 1,044.00",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 87.00"
+   },
+   {
+    "product": "Zonnebloem olie: merk Sarbio",
+    "importer": "Combe Markt",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 900.60",
+    "retail_pack": "per fles @ 1 l",
+    "retail_price": "SRD 75.05"
+   },
+   {
+    "product": "Zonnebloem olie: merk Victoria",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "per karton @ 12 flessen",
+    "wholesale_price": "SRD 1,274.40",
+    "retail_pack": "per fles @ 1 l",
+    "retail_price": "SRD 132.75"
+   },
+   {
+    "product": "Zonnebloem olie: merk Bonlife",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 921.60",
+    "retail_pack": "per fles @ 800 ml",
+    "retail_price": "SRD 76.80"
+   },
+   {
+    "product": "Zonnebloem olie: merk Sun Empire",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 1,020.60",
+    "retail_pack": "per fles @ 1 l",
+    "retail_price": "SRD 85.05"
+   },
+   {
+    "product": "Zonnebloem olie: merk VIP",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 20 flessen",
+    "wholesale_price": "SRD 1,315.20",
+    "retail_pack": "per fles @ 700 ml",
+    "retail_price": "SRD 82.20"
+   },
+   {
+    "product": "Zonnebloem olie: merk VIP",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 20 flessen",
+    "wholesale_price": "SRD 1,664.03",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 104.00"
+   },
+   {
+    "product": "Zonnebloem olie: merk VIP",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 1,195.20",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 99.60"
+   },
+   {
+    "product": "Zonnebloem olie: merk VIP",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 12 flessen",
+    "wholesale_price": "SRD 1,222.20",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 101.85"
+   },
+   {
+    "product": "Zonnebloem olie: merk Kernel",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 1,193.40",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 99.45"
+   },
+   {
+    "product": "Zonnebloem olie: merk Coroli",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 1,317.00",
+    "retail_pack": "per fles @ 815 ml",
+    "retail_price": "SRD 109.75"
+   },
+   {
+    "product": "Zonnebloem olie: merk Aoil",
+    "importer": "B.Chotelal NV",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 1,159.80",
+    "retail_pack": "per fles @ 850 ml",
+    "retail_price": "SRD 96.65"
+   },
+   {
+    "product": "Zonnebloemolie: merk Oleovita",
+    "importer": "B.Chotelal NV",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 1,251.60",
+    "retail_pack": "per fles @ 880 ml",
+    "retail_price": "SRD 104.30"
+   },
+   {
+    "product": "Zonnebloemolie: merk Ino",
+    "importer": "B.Chotelal NV",
+    "wholesale_pack": "per karton @ 12 flessen",
+    "wholesale_price": "SRD 998.88",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 104.05"
+   },
+   {
+    "product": "Zonnebloem olie: merk Prima",
+    "importer": "HJ de Vries Engros NV",
+    "wholesale_pack": "per karton @ 20 flessen",
+    "wholesale_price": "SRD 1,341.60",
+    "retail_pack": "per fles @ 750 ml",
+    "retail_price": "SRD 83.85"
+   },
+   {
+    "product": "Zonnebloem olie: merk Familiar",
+    "importer": "Simpex International NV",
+    "wholesale_pack": "per karton @ 12 flessen",
+    "wholesale_price": "SRD 1,005.60",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 104.75"
+   },
+   {
+    "product": "Zonnebloem olie: merk Oleina",
+    "importer": "Simpex International NV",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 1,024.32",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 106.70"
+   },
+   {
+    "product": "Zonnebloem olie: merk Sor",
+    "importer": "Mini Stepper NV",
+    "wholesale_pack": "per karton @ 20 flessen",
+    "wholesale_price": "SRD 912.00",
+    "retail_pack": "per fles @ 825 ml",
+    "retail_price": "SRD 76.00"
+   },
+   {
+    "product": "Zonnebloem olie: merk Fryday's",
+    "importer": "Prabo Inklaringen",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 606.60",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 50.55"
+   },
+   {
+    "product": "Zonnebloem olie: merk Sunflower",
+    "importer": "Simi Trading",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 1,232.40",
+    "retail_pack": "per fles @ 870 ml",
+    "retail_price": "SRD 102.70"
+   },
+   {
+    "product": "Zonnebloem olie: merk Sunar",
+    "importer": "Sharen Trading",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 1,152.00",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 96.00"
+   },
+   {
+    "product": "Zonnebloem olie: merk Pure Sunshine",
+    "importer": "SAF Trade NV",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 785.37",
+    "retail_pack": "per fles @ 1 l",
+    "retail_price": "SRD 65.45"
+   },
+   {
+    "product": "Zonnebloem olie: merk ZER",
+    "importer": "Gao Ming NV",
+    "wholesale_pack": "per karton @ 20 flessen",
+    "wholesale_price": "SRD 1,057.60",
+    "retail_pack": "per fles @ 825 ml",
+    "retail_price": "SRD 66.10"
+   },
+   {
+    "product": "Zonnebloem olie: merk Oilio",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 1,129.20",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 94.10"
+   },
+   {
+    "product": "Zonnebloem olie: Oxxo",
+    "importer": "Ziran Import",
+    "wholesale_pack": "per karton @ 12 flessen",
+    "wholesale_price": "SRD 685.92",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 71.45"
+   },
+   {
+    "product": "Zonnebloem olie: Pro-Life",
+    "importer": "Rudisa agencies NV",
+    "wholesale_pack": "per karton @ 15 flessen",
+    "wholesale_price": "SRD 1,243.20",
+    "retail_pack": "per fles @ 810 ml",
+    "retail_price": "SRD 103.60"
+   },
+   {
+    "product": "Soja olie: merk Habibi",
+    "importer": "Combe Markt",
+    "wholesale_pack": "per karton @ 12 flessen",
+    "wholesale_price": "SRD 891.84",
+    "retail_pack": "per fles @ 1 l",
+    "retail_price": "SRD 92.90"
+   },
+   {
+    "product": "Soja olie: merk Habibi",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "per karton @ 12 flessen",
+    "wholesale_price": "SRD 1,118.88",
+    "retail_pack": "per fles @ 1 l",
+    "retail_price": "SRD 116.55"
+   },
+   {
+    "product": "Soja olie: merk Unoli",
+    "importer": "B.Bisheshar NV",
+    "wholesale_pack": "per karton @ 12 flessen",
+    "wholesale_price": "SRD 773.76",
+    "retail_pack": "per fles @ 1 l",
+    "retail_price": "SRD 80.60"
+   },
+   {
+    "product": "Soja olie: merk Unoli",
+    "importer": "B.Bisheshar NV",
+    "wholesale_pack": "per karton @ 20 flessen",
+    "wholesale_price": "SRD 1,389.60",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 86.85"
+   },
+   {
+    "product": "Soja olie: merk Soya",
+    "importer": "SAF Trade NV",
+    "wholesale_pack": "per karton @ 20 flessen",
+    "wholesale_price": "SRD 1,359.20",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 84.95"
+   },
+   {
+    "product": "Soja olie: merk Primor",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 20 flessen",
+    "wholesale_price": "SRD 1,236.80",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 77.30"
+   },
+   {
+    "product": "Soja olie: merk Salad Special",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per karton @ 20 flessen",
+    "wholesale_price": "SRD 1,237.60",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 77.35"
+   },
+   {
+    "product": "Soja olie: merk Siglo De Oro",
+    "importer": "Simpex International NV",
+    "wholesale_pack": "per karton @ 20 flessen",
+    "wholesale_price": "SRD 1,447.20",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 90.45"
+   },
+   {
+    "product": "Soja olie: merk Golden Fields",
+    "importer": "Avam Agencies NV",
+    "wholesale_pack": "per karton @ 12 flessen",
+    "wholesale_price": "SRD 443.52",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 46.20"
+   },
+   {
+    "product": "Soja olie: merk Golden Fields",
+    "importer": "Avam Agencies NV",
+    "wholesale_pack": "per karton @ 12 flessen",
+    "wholesale_price": "SRD 650.88",
+    "retail_pack": "per fles @ 800 ml",
+    "retail_price": "SRD 67.80"
+   },
+   {
+    "product": "Soja olie: merk Belle",
+    "importer": "B.Chotelal NV",
+    "wholesale_pack": "per karton @ 12 flessen",
+    "wholesale_price": "SRD 868.80",
+    "retail_pack": "per fles @ 900 ml",
+    "retail_price": "SRD 90.50"
+   },
+   {
+    "product": "Zout",
+    "importer": "NV Dam Import & Export",
+    "wholesale_pack": "per zak @ 25 kg",
+    "wholesale_price": "SRD 299.00",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 14.95"
+   },
+   {
+    "product": "Zout",
+    "importer": "Best Food Supply NV",
+    "wholesale_pack": "per zak @ 25 kg",
+    "wholesale_price": "SRD 407.00",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 20.35"
+   },
+   {
+    "product": "Zout",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "per zak @ 25 kg",
+    "wholesale_price": "SRD 372.00",
+    "retail_pack": "per kg",
+    "retail_price": "SRD 18.60"
+   }
+  ],
+  "price_lines": 103,
+  "fetched": "2026-09-27T11:55-03:00",
+  "checked": "2026-09-27T18:12-03:00",
+  "error": ""
+ },
  "source_page": "https://gov.sr/ministeries/ministerie-van-economische-zaken-ondernemerschap-technologische-innovatie/richtprijzen-basis-en-strategische-goederen/",
- "valid_from": "2026-09-05",
- "valid_to": "2026-09-18",
- "rows": [
-  {
-   "product": "Aardappelen",
-   "importer": "NV Dam",
-   "wholesale_pack": "per zak @ 25 kg",
-   "wholesale_price": "SRD 906.00",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 45.30"
-  },
-  {
-   "product": "Aardappelen",
-   "importer": "B.Chotelal NV",
-   "wholesale_pack": "per zak @ 25 kg",
-   "wholesale_price": "SRD 902.00",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 45.10"
-  },
-  {
-   "product": "Aardappelen",
-   "importer": "Best Food Supply NV",
-   "wholesale_pack": "per zak @ 25 kg",
-   "wholesale_price": "SRD 973.00",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 48.65"
-  },
-  {
-   "product": "Babyvoeding: merk Lactogen (1+2)",
-   "importer": "Hem Suriname NV",
-   "wholesale_pack": "per karton @ 24 blikken",
-   "wholesale_price": "SRD 4,560.00",
-   "retail_pack": "per blik @ 400 gr",
-   "retail_price": "SRD 218.50"
-  },
-  {
-   "product": "Babyvoeding: merk Nutrilon (1+2+3)",
-   "importer": "NV Nutrisur",
-   "wholesale_pack": "per karton @ 24 blikken",
-   "wholesale_price": "SRD 4,763.48",
-   "retail_pack": "per blik @ 400 gr",
-   "retail_price": "SRD 228.25"
-  },
-  {
-   "product": "Babyvoeding: merk Lactogen (1+2)",
-   "importer": "Hem Suriname NV",
-   "wholesale_pack": "per karton @ 12 blikken",
-   "wholesale_price": "SRD 4,980.00",
-   "retail_pack": "per blik @ 900 gr",
-   "retail_price": "SRD 477.25"
-  },
-  {
-   "product": "Babyvoeding: merk Lactogen (3)",
-   "importer": "Hem Suriname NV",
-   "wholesale_pack": "per karton @ 24 blikken",
-   "wholesale_price": "SRD 4,560.00",
-   "retail_pack": "per blik @ 350 gr",
-   "retail_price": "SRD 218.50"
-  },
-  {
-   "product": "Babyvoeding: merk Lactogen (3)",
-   "importer": "Hem Suriname NV",
-   "wholesale_pack": "per karton @ 12 blikken",
-   "wholesale_price": "SRD 4,980.00",
-   "retail_pack": "per blik @ 800 gr",
-   "retail_price": "SRD 477.25"
-  },
-  {
-   "product": "Babyvoeding: merk Nutrilon (1+2+3)",
-   "importer": "NV Nutrisur",
-   "wholesale_pack": "per karton @ 12 blikken",
-   "wholesale_price": "SRD 5,257.57",
-   "retail_pack": "per blik @ 900 gr",
-   "retail_price": "SRD 503.85"
-  },
-  {
-   "product": "Kindervoeding van granen: Phosphatine Honey",
-   "importer": "NV Nutrisur",
-   "wholesale_pack": "per karton @ 12 blikken",
-   "wholesale_price": "SRD 1,424.35",
-   "retail_pack": "per blik @ 190 gr",
-   "retail_price": "SRD 136.50"
-  },
-  {
-   "product": "Kindervoeding van granen: Phosphatine Multicereal",
-   "importer": "NV Nutrisur",
-   "wholesale_pack": "per karton @ 12 blikken",
-   "wholesale_price": "SRD 1,424.35",
-   "retail_pack": "per blik @ 190 gr",
-   "retail_price": "SRD 136.50"
-  },
-  {
-   "product": "Bruine bonen: merk VIP",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 12 blikken",
-   "wholesale_price": "SRD 574.56",
-   "retail_pack": "per blik @ 800 ml",
-   "retail_price": "SRD 59.85"
-  },
-  {
-   "product": "Bruine bonen: merk VIP",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 12 blikken",
-   "wholesale_price": "SRD 571.20",
-   "retail_pack": "per blik @ 850 ml",
-   "retail_price": "SRD 59.50"
-  },
-  {
-   "product": "Bruine bonen: merk Coroos",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 12 blikken",
-   "wholesale_price": "SRD 730.08",
-   "retail_pack": "per blik @ 850 ml",
-   "retail_price": "SRD 76.05"
-  },
-  {
-   "product": "Bruine bonen: merk Annabel",
-   "importer": "Subisco International NV",
-   "wholesale_pack": "per karton @ 12 potten",
-   "wholesale_price": "SRD 775.20",
-   "retail_pack": "per pot @ 720 ml",
-   "retail_price": "SRD 80.75"
-  },
-  {
-   "product": "Bruine bonen: merk Annabel",
-   "importer": "Subisco International NV",
-   "wholesale_pack": "per karton @ 12 potten",
-   "wholesale_price": "SRD 587.04",
-   "retail_pack": "per pot @ 370 ml",
-   "retail_price": "SRD 61.15"
-  },
-  {
-   "product": "Witte bonen: merk Coroos",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 12 blikken",
-   "wholesale_price": "SRD 639.84",
-   "retail_pack": "per blik @ 850 ml",
-   "retail_price": "SRD 66.65"
-  },
-  {
-   "product": "Witte bonen: merk Coroos",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 12 blikken",
-   "wholesale_price": "SRD 400.32",
-   "retail_pack": "per blik @ 425 ml",
-   "retail_price": "SRD 41.70"
-  },
-  {
-   "product": "Witte suiker",
-   "importer": "Combe Markt",
-   "wholesale_pack": "per zak @ 50 kg",
-   "wholesale_price": "SRD 1,516.00",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 37.90"
-  },
-  {
-   "product": "Witte suiker",
-   "importer": "Best Food Supply NV",
-   "wholesale_pack": "per zak @ 50 kg",
-   "wholesale_price": "SRD 1,544.00",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 38.60"
-  },
-  {
-   "product": "Witte suiker",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per zak @ 25 kg",
-   "wholesale_price": "SRD 755.00",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 37.75"
-  },
-  {
-   "product": "Witte suiker",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per zak @ 50 kg",
-   "wholesale_price": "SRD 1,470.00",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 36.75"
-  },
-  {
-   "product": "Gele erwten",
-   "importer": "Best Food Supply NV",
-   "wholesale_pack": "per zak @ 22.7 kg",
-   "wholesale_price": "SRD 1,036.00",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 51.80"
-  },
-  {
-   "product": "Groene erwten",
-   "importer": "Best Food Supply NV",
-   "wholesale_pack": "per zak @ 22.7 kg",
-   "wholesale_price": "SRD 1,011.51",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 55.70"
-  },
-  {
-   "product": "Groene erwten",
-   "importer": "Combe Markt",
-   "wholesale_pack": "per zak @ 22.7 kg",
-   "wholesale_price": "SRD 1,095.96",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 60.35"
-  },
-  {
-   "product": "Gele erwten",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per zak @ 22.7 kg",
-   "wholesale_price": "SRD 847.16",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 46.65"
-  },
-  {
-   "product": "Groene erwten",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per zak @ 22.7 kg",
-   "wholesale_price": "SRD 977.01",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 53.80"
-  },
-  {
-   "product": "Gist: merk Pakmaya (instand dry yeast)",
-   "importer": "Subisco International NV",
-   "wholesale_pack": "per karton @ 20 pakken",
-   "wholesale_price": "SRD 1,902.40",
-   "retail_pack": "per pak @ 500 gr",
-   "retail_price": "SRD 118.90"
-  },
-  {
-   "product": "Knoflook",
-   "importer": "NV Dam",
-   "wholesale_pack": "per zak @ 10 kg",
-   "wholesale_price": "SRD 603.20",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 75.40"
-  },
-  {
-   "product": "Knoflook",
-   "importer": "King Long Trading NV",
-   "wholesale_pack": "per zak @ 10 kg",
-   "wholesale_price": "SRD 689.60",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 86.20"
-  },
-  {
-   "product": "Maandverband: merk Libresse maxi reg cotton",
-   "importer": "Firgos Suriname NV",
-   "wholesale_pack": "per karton @ 24 pakken",
-   "wholesale_price": "SRD 684.00",
-   "retail_pack": "per pak @ 10 stuks",
-   "retail_price": "SRD 34.20"
-  },
-  {
-   "product": "Maandverband: merk Libresse dailies regular, multistyle",
-   "importer": "Firgos Suriname NV",
-   "wholesale_pack": "per karton @ 24 pakken",
-   "wholesale_price": "SRD 645.00",
-   "retail_pack": "per pak @ 15 stuks",
-   "retail_price": "SRD 32.25"
-  },
-  {
-   "product": "Maandverband: merk Diana Classic Normal, Long",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 24 pakken",
-   "wholesale_price": "SRD 425.00",
-   "retail_pack": "per pak",
-   "retail_price": "SRD 21.25"
-  },
-  {
-   "product": "Maandverband: merk Confylady Ultra Normal,long,extra long",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 24 pakken",
-   "wholesale_price": "SRD 715.00",
-   "retail_pack": "per pak @ 10 stuks",
-   "retail_price": "SRD 35.75"
-  },
-  {
-   "product": "Maandverband: merk Sally maxit fit",
-   "importer": "Subisco International NV",
-   "wholesale_pack": "per karton @ 18 pakken",
-   "wholesale_price": "SRD 303.00",
-   "retail_pack": "per pak @ 10 stuks",
-   "retail_price": "SRD 20.20"
-  },
-  {
-   "product": "Maandverband: merk Sally Panty Liner",
-   "importer": "Subisco International NV",
-   "wholesale_pack": "per karton @ 24 pakken",
-   "wholesale_price": "SRD 316.00",
-   "retail_pack": "per pak @ 20 stuks",
-   "retail_price": "SRD 15.80"
-  },
-  {
-   "product": "Sardien in tomatensaus: merk Excellence",
-   "importer": "Subisco International NV",
-   "wholesale_pack": "per karton @ 50 blikken",
-   "wholesale_price": "SRD 860.00",
-   "retail_pack": "per blik @ 155 gr",
-   "retail_price": "SRD 21.50"
-  },
-  {
-   "product": "Sardien in tomatensaus: merk Excellence",
-   "importer": "Subisco International NV",
-   "wholesale_pack": "per karton @ 24 blikken",
-   "wholesale_price": "SRD 1,094.40",
-   "retail_pack": "per blik @ 425 gr",
-   "retail_price": "SRD 57.00"
-  },
-  {
-   "product": "Sardien in tomatensaus: merk VIP",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 24 blikken",
-   "wholesale_price": "SRD 1,177.92",
-   "retail_pack": "per blik @ 425 gr",
-   "retail_price": "SRD 61.35"
-  },
-  {
-   "product": "Sardien in tomatensaus: merk VIP",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 50 blikken",
-   "wholesale_price": "SRD 872.00",
-   "retail_pack": "per blik @ 155 gr",
-   "retail_price": "SRD 21.80"
-  },
-  {
-   "product": "Thee: merk Breakfast",
-   "importer": "Subisco International NV",
-   "wholesale_pack": "per karton @ 24 pakken",
-   "wholesale_price": "SRD 542.40",
-   "retail_pack": "per pak @ 20 zakjes @ 2 gr",
-   "retail_price": "SRD 28.25"
-  },
-  {
-   "product": "Thee: merk Kings Garden",
-   "importer": "SAF Trade NV",
-   "wholesale_pack": "per karton @ 24 pakken",
-   "wholesale_price": "SRD 958.08",
-   "retail_pack": "per pak @ 20 zakjes",
-   "retail_price": "SRD 49.90"
-  },
-  {
-   "product": "Thee: merk Jumbo groene thee cranberry",
-   "importer": "Carimega NV",
-   "wholesale_pack": "per karton @ 12 pakken",
-   "wholesale_price": "SRD 430.56",
-   "retail_pack": "per pak @ 20 zakjes",
-   "retail_price": "SRD 44.85"
-  },
-  {
-   "product": "Uien (rood)",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per zak @ 10 kg",
-   "wholesale_price": "SRD 385.20",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 48.15"
-  },
-  {
-   "product": "Uien (rood)",
-   "importer": "B.Bisheshar NV",
-   "wholesale_pack": "per zak @ 10 kg",
-   "wholesale_price": "SRD 394.40",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 49.30"
-  },
-  {
-   "product": "Uien (rood)",
-   "importer": "Best Food Supply NV",
-   "wholesale_pack": "per zak @ 10 kg",
-   "wholesale_price": "SRD 422.40",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 52.80"
-  },
-  {
-   "product": "Uien (geel)",
-   "importer": "NV Dam",
-   "wholesale_pack": "per zak @ 25 kg",
-   "wholesale_price": "SRD 786.00",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 39.30"
-  },
-  {
-   "product": "Uien (geel)",
-   "importer": "B.Chotelal NV",
-   "wholesale_pack": "per zak @ 25 kg",
-   "wholesale_price": "SRD 781.00",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 39.05"
-  },
-  {
-   "product": "Uien (geel)",
-   "importer": "Best Food Supply NV",
-   "wholesale_pack": "per zak @ 25 kg",
-   "wholesale_price": "SRD 842.00",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 42.10"
-  },
-  {
-   "product": "Wegwerpluiers baby's: merk VIP Baby Pants (Midi,Maxi)",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per baal @ 5 pakken",
-   "wholesale_price": "SRD 813.96",
-   "retail_pack": "per pak",
-   "retail_price": "SRD 195.35"
-  },
-  {
-   "product": "Wegwerpluiers baby's: merk PPL baby diapers (M)",
-   "importer": "Suriname Wanda Paper Company",
-   "wholesale_pack": "per baal @ 6 pakken",
-   "wholesale_price": "SRD 2,085.00",
-   "retail_pack": "per pak @ 40 stuks",
-   "retail_price": "SRD 250.20"
-  },
-  {
-   "product": "Wegwerpluiers baby's: merk PPL baby diapers (L)",
-   "importer": "Suriname Wanda Paper Company",
-   "wholesale_pack": "per baal @ 6 pakken",
-   "wholesale_price": "SRD 1,678.33",
-   "retail_pack": "per pak @ 40 stuks",
-   "retail_price": "SRD 201.40"
-  },
-  {
-   "product": "Wegwerpluiers baby's: merk merk Softlove Baby diapers (XL)",
-   "importer": "Subisco International NV",
-   "wholesale_pack": "per baal @ 6 pakken",
-   "wholesale_price": "SRD 820.75",
-   "retail_pack": "per pak @ 30 stuks",
-   "retail_price": "SRD 164.15"
-  },
-  {
-   "product": "Wegwerpluiers baby's: merk merk Softlove Baby diapers (M)",
-   "importer": "Subisco International NV",
-   "wholesale_pack": "per baal @ 4 pakken",
-   "wholesale_price": "SRD 922.67",
-   "retail_pack": "per pak @ 60 stuks",
-   "retail_price": "SRD 276.80"
-  },
-  {
-   "product": "Wegwerpluiers baby's: merk Kids Kit baby diaper (M)",
-   "importer": "Shen Long Company NV",
-   "wholesale_pack": "per baal @ 6 pakken",
-   "wholesale_price": "SRD 1,452.25",
-   "retail_pack": "per pak @ 40 stuks",
-   "retail_price": "SRD 290.45"
-  },
-  {
-   "product": "Wegwerpluiers baby's: merk Snow-Kleen Baby Diaper (S)",
-   "importer": "Shen Long Company NV",
-   "wholesale_pack": "per baal @ 6 pakken",
-   "wholesale_price": "SRD 757.25",
-   "retail_pack": "per pak @ 40 stuks",
-   "retail_price": "SRD 151.45"
-  },
-  {
-   "product": "Wegwerpluiers baby's: merk Zahra Soft (M)",
-   "importer": "Zahra Soft",
-   "wholesale_pack": "per baal @ 5 pakken",
-   "wholesale_price": "SRD 791.25",
-   "retail_pack": "per pak @ 40 stuks",
-   "retail_price": "SRD 189.90"
-  },
-  {
-   "product": "Wegwerpluiers baby's: merk Zahra Soft (L)",
-   "importer": "Zahra Soft",
-   "wholesale_pack": "per baal @ 5 pakken",
-   "wholesale_price": "SRD 746.04",
-   "retail_pack": "per pak @ 40 stuks",
-   "retail_price": "SRD 179.05"
-  },
-  {
-   "product": "Wegwerpluiers volwassen: merk Grandee-Kleen (M)",
-   "importer": "Shen Long Company NV",
-   "wholesale_pack": "per baal @ 6 pakken",
-   "wholesale_price": "SRD 1,194.50",
-   "retail_pack": "per pak @ 40 stuks",
-   "retail_price": "SRD 238.90"
-  },
-  {
-   "product": "Wegwerpluiers volwassen: merk Grandee-Kleen (L)",
-   "importer": "Shen Long Company NV",
-   "wholesale_pack": "per baal @ 6 pakken",
-   "wholesale_price": "SRD 1,267.00",
-   "retail_pack": "per pak @ 40 stuks",
-   "retail_price": "SRD 253.40"
-  },
-  {
-   "product": "Wegwerpluiers volwassen: merk Evony Adult diapers (L)",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per baal @ 6 pakken",
-   "wholesale_price": "SRD 1,022.25",
-   "retail_pack": "per pak @ 8 stuks",
-   "retail_price": "SRD 204.45"
-  },
-  {
-   "product": "Wegwerpluiers volwassen: merk Panal Tena Slip Ultra Protect M",
-   "importer": "Firgos Suriname NV",
-   "wholesale_pack": "per baal @ 8 pakken",
-   "wholesale_price": "SRD 1,241.00",
-   "retail_pack": "per pak @ 9 stuks",
-   "retail_price": "SRD 186.15"
-  },
-  {
-   "product": "Wegwerpluiers volwassen: merk Panal Tena Pants Ultra Protect L Firgos Suriname NV",
-   "importer": "",
-   "wholesale_pack": "per baal @ 4 pakken",
-   "wholesale_price": "SRD 1,499.67",
-   "retail_pack": "per pak @ 20 stuks",
-   "retail_price": "SRD 449.90"
-  },
-  {
-   "product": "Zonnebloem olie: merk Allnature's",
-   "importer": "Combe Markt",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 1,044.00",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 87.00"
-  },
-  {
-   "product": "Zonnebloem olie: merk Sarbio",
-   "importer": "Combe Markt",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 900.60",
-   "retail_pack": "per fles @ 1 l",
-   "retail_price": "SRD 75.05"
-  },
-  {
-   "product": "Zonnebloem olie: merk Victoria",
-   "importer": "Best Food Supply NV",
-   "wholesale_pack": "per karton @ 12 flessen",
-   "wholesale_price": "SRD 1,274.40",
-   "retail_pack": "per fles @ 1 l",
-   "retail_price": "SRD 132.75"
-  },
-  {
-   "product": "Zonnebloem olie: merk Bonlife",
-   "importer": "Best Food Supply NV",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 921.60",
-   "retail_pack": "per fles @ 800 ml",
-   "retail_price": "SRD 76.80"
-  },
-  {
-   "product": "Zonnebloem olie: merk Sun Empire",
-   "importer": "Best Food Supply NV",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 1,020.60",
-   "retail_pack": "per fles @ 1 l",
-   "retail_price": "SRD 85.05"
-  },
-  {
-   "product": "Zonnebloem olie: merk VIP",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 20 flessen",
-   "wholesale_price": "SRD 1,315.20",
-   "retail_pack": "per fles @ 700 ml",
-   "retail_price": "SRD 82.20"
-  },
-  {
-   "product": "Zonnebloem olie: merk VIP",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 20 flessen",
-   "wholesale_price": "SRD 1,664.03",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 104.00"
-  },
-  {
-   "product": "Zonnebloem olie: merk VIP",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 1,195.20",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 99.60"
-  },
-  {
-   "product": "Zonnebloem olie: merk VIP",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 12 flessen",
-   "wholesale_price": "SRD 1,222.20",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 101.85"
-  },
-  {
-   "product": "Zonnebloem olie: merk Kernel",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 1,193.40",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 99.45"
-  },
-  {
-   "product": "Zonnebloem olie: merk Coroli",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 1,317.00",
-   "retail_pack": "per fles @ 815 ml",
-   "retail_price": "SRD 109.75"
-  },
-  {
-   "product": "Zonnebloem olie: merk Aoil",
-   "importer": "B.Chotelal NV",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 1,159.80",
-   "retail_pack": "per fles @ 850 ml",
-   "retail_price": "SRD 96.65"
-  },
-  {
-   "product": "Zonnebloemolie: merk Oleovita",
-   "importer": "B.Chotelal NV",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 1,251.60",
-   "retail_pack": "per fles @ 880 ml",
-   "retail_price": "SRD 104.30"
-  },
-  {
-   "product": "Zonnebloemolie: merk Ino",
-   "importer": "B.Chotelal NV",
-   "wholesale_pack": "per karton @ 12 flessen",
-   "wholesale_price": "SRD 998.88",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 104.05"
-  },
-  {
-   "product": "Zonnebloem olie: merk Prima",
-   "importer": "HJ de Vries Engros NV",
-   "wholesale_pack": "per karton @ 20 flessen",
-   "wholesale_price": "SRD 1,341.60",
-   "retail_pack": "per fles @ 750 ml",
-   "retail_price": "SRD 83.85"
-  },
-  {
-   "product": "Zonnebloem olie: merk Familiar",
-   "importer": "Simpex International NV",
-   "wholesale_pack": "per karton @ 12 flessen",
-   "wholesale_price": "SRD 1,005.60",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 104.75"
-  },
-  {
-   "product": "Zonnebloem olie: merk Oleina",
-   "importer": "Simpex International NV",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 1,024.32",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 106.70"
-  },
-  {
-   "product": "Zonnebloem olie: merk Sor",
-   "importer": "Mini Stepper NV",
-   "wholesale_pack": "per karton @ 20 flessen",
-   "wholesale_price": "SRD 912.00",
-   "retail_pack": "per fles @ 825 ml",
-   "retail_price": "SRD 76.00"
-  },
-  {
-   "product": "Zonnebloem olie: merk Fryday's",
-   "importer": "Prabo Inklaringen",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 606.60",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 50.55"
-  },
-  {
-   "product": "Zonnebloem olie: merk Sunflower",
-   "importer": "Simi Trading",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 1,232.40",
-   "retail_pack": "per fles @ 870 ml",
-   "retail_price": "SRD 102.70"
-  },
-  {
-   "product": "Zonnebloem olie: merk Sunar",
-   "importer": "Sharen Trading",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 1,152.00",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 96.00"
-  },
-  {
-   "product": "Zonnebloem olie: merk Pure Sunshine",
-   "importer": "SAF Trade NV",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 785.37",
-   "retail_pack": "per fles @ 1 l",
-   "retail_price": "SRD 65.45"
-  },
-  {
-   "product": "Zonnebloem olie: merk ZER",
-   "importer": "Gao Ming NV",
-   "wholesale_pack": "per karton @ 20 flessen",
-   "wholesale_price": "SRD 1,057.60",
-   "retail_pack": "per fles @ 825 ml",
-   "retail_price": "SRD 66.10"
-  },
-  {
-   "product": "Zonnebloem olie: merk Oilio",
-   "importer": "Subisco International NV",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 1,129.20",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 94.10"
-  },
-  {
-   "product": "Zonnebloem olie: Oxxo",
-   "importer": "Ziran Import",
-   "wholesale_pack": "per karton @ 12 flessen",
-   "wholesale_price": "SRD 685.92",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 71.45"
-  },
-  {
-   "product": "Zonnebloem olie: Pro-Life",
-   "importer": "Rudisa agencies NV",
-   "wholesale_pack": "per karton @ 15 flessen",
-   "wholesale_price": "SRD 1,243.20",
-   "retail_pack": "per fles @ 810 ml",
-   "retail_price": "SRD 103.60"
-  },
-  {
-   "product": "Soja olie: merk Habibi",
-   "importer": "Combe Markt",
-   "wholesale_pack": "per karton @ 12 flessen",
-   "wholesale_price": "SRD 891.84",
-   "retail_pack": "per fles @ 1 l",
-   "retail_price": "SRD 92.90"
-  },
-  {
-   "product": "Soja olie: merk Habibi",
-   "importer": "Best Food Supply NV",
-   "wholesale_pack": "per karton @ 12 flessen",
-   "wholesale_price": "SRD 1,118.88",
-   "retail_pack": "per fles @ 1 l",
-   "retail_price": "SRD 116.55"
-  },
-  {
-   "product": "Soja olie: merk Unoli",
-   "importer": "B.Bisheshar NV",
-   "wholesale_pack": "per karton @ 12 flessen",
-   "wholesale_price": "SRD 773.76",
-   "retail_pack": "per fles @ 1 l",
-   "retail_price": "SRD 80.60"
-  },
-  {
-   "product": "Soja olie: merk Unoli",
-   "importer": "B.Bisheshar NV",
-   "wholesale_pack": "per karton @ 20 flessen",
-   "wholesale_price": "SRD 1,389.60",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 86.85"
-  },
-  {
-   "product": "Soja olie: merk Soya",
-   "importer": "SAF Trade NV",
-   "wholesale_pack": "per karton @ 20 flessen",
-   "wholesale_price": "SRD 1,359.20",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 84.95"
-  },
-  {
-   "product": "Soja olie: merk Primor",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 20 flessen",
-   "wholesale_price": "SRD 1,236.80",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 77.30"
-  },
-  {
-   "product": "Soja olie: merk Salad Special",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per karton @ 20 flessen",
-   "wholesale_price": "SRD 1,237.60",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 77.35"
-  },
-  {
-   "product": "Soja olie: merk Siglo De Oro",
-   "importer": "Simpex International NV",
-   "wholesale_pack": "per karton @ 20 flessen",
-   "wholesale_price": "SRD 1,447.20",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 90.45"
-  },
-  {
-   "product": "Soja olie: merk Golden Fields",
-   "importer": "Avam Agencies NV",
-   "wholesale_pack": "per karton @ 12 flessen",
-   "wholesale_price": "SRD 443.52",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 46.20"
-  },
-  {
-   "product": "Soja olie: merk Golden Fields",
-   "importer": "Avam Agencies NV",
-   "wholesale_pack": "per karton @ 12 flessen",
-   "wholesale_price": "SRD 650.88",
-   "retail_pack": "per fles @ 800 ml",
-   "retail_price": "SRD 67.80"
-  },
-  {
-   "product": "Soja olie: merk Belle",
-   "importer": "B.Chotelal NV",
-   "wholesale_pack": "per karton @ 12 flessen",
-   "wholesale_price": "SRD 868.80",
-   "retail_pack": "per fles @ 900 ml",
-   "retail_price": "SRD 90.50"
-  },
-  {
-   "product": "Zout",
-   "importer": "NV Dam Import & Export",
-   "wholesale_pack": "per zak @ 25 kg",
-   "wholesale_price": "SRD 299.00",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 14.95"
-  },
-  {
-   "product": "Zout",
-   "importer": "Best Food Supply NV",
-   "wholesale_pack": "per zak @ 25 kg",
-   "wholesale_price": "SRD 407.00",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 20.35"
-  },
-  {
-   "product": "Zout",
-   "importer": "Subisco International NV",
-   "wholesale_pack": "per zak @ 25 kg",
-   "wholesale_price": "SRD 372.00",
-   "retail_pack": "per kg",
-   "retail_price": "SRD 18.60"
-  }
- ],
- "price_lines": 103,
- "fetched": "2026-09-27T11:55-03:00",
- "checked": "2026-09-27T11:55-03:00",
- "error": ""
+ "checked": "2026-09-27T18:12-03:00"
 }
