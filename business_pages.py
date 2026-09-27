@@ -132,6 +132,38 @@ BIZ_SITEMAP = [(biz_url(p[0]), "0.8" if p[4] in ("hub", "calc", "people", "live"
                 "daily" if p[4] in ("hub", "live") else "monthly") for p in BIZ_PAGES]
 
 
+# ── Site nav (Business mega menu) ────────────────────────────────────────────
+# Short labels for the nav only; page titles stay in BIZ_PAGES. A page without
+# a label here falls back to its full title, so a new tool can never go missing
+# from the menu. NAV_MOBILE = the short list shown in the mobile accordion.
+NAV_LABELS = {
+    "biz-btw": "BTW Calculator", "biz-salary": "Salary Calculator", "biz-minwage": "Minimum Wage",
+    "biz-timesheet": "Timesheet", "biz-vacation": "Holiday Calculator", "biz-payslip": "Payslip Generator",
+    "biz-ib": "Income Tax Calculator", "biz-deadlines": "Tax Deadlines", "biz-workdays": "Working Days",
+    "biz-pricing": "Price & Markup", "biz-import": "Import Costs", "biz-invoice": "Invoice Maker",
+    "biz-receipt": "Receipt Maker", "biz-reminder": "Payment Reminder", "biz-register": "BTW Register",
+    "biz-words": "Amount in Words", "biz-cash": "Cash Counter", "biz-loan": "Loan Calculator",
+    "biz-breakeven": "Break-Even", "biz-qr": "QR Code Generator", "biz-barcode": "Barcode Maker",
+    "biz-pdf": "PDF Tools", "biz-image": "Image Tools", "biz-card": "Business Cards",
+    "biz-tenders": "Government Tenders", "biz-prices": "Max Prices",
+    "biz-g-start": "Start a Business", "biz-g-btw": "BTW Guide", "biz-g-staff": "Hiring Staff",
+    "biz-g-import": "Import & Export", "biz-g-finance": "Business Financing",
+    "biz-g-contacts": "Government Contacts",
+}
+NAV_MOBILE = ["biz-btw", "biz-salary", "biz-invoice", "biz-deadlines", "biz-tenders", "biz-qr", "biz-pdf"]
+
+
+def nav_groups():
+    """[(group label, [(url, label, key), ...]), ...] in hub order, hub page excluded.
+    URLs are clean (no .html) and relative; the caller adds its prefix."""
+    out = []
+    for g, glabel in GROUPS:
+        items = [(biz_url(p[0]), NAV_LABELS.get(p[1], p[2]), p[1]) for p in BIZ_PAGES if p[4] == g]
+        if items:
+            out.append((glabel, items))
+    return out
+
+
 def llms_section(site_url):
     lines = ["", "## Business tools (free, for Surinamese businesses)"]
     for f, _k, t, d, _g, _kw in BIZ_PAGES:

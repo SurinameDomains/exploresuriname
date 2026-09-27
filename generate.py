@@ -3414,10 +3414,14 @@ _SI_LIST = [
 # read the same list. Entries already carry their own Dutch keyword blob ("k").
 try:
     from business_pages import (BIZ_SEARCH as _BIZTOOLS_SEARCH, BIZ_KEYS as _BIZTOOLS_KEYS,
-                                BIZ_SITEMAP as _BIZTOOLS_SITEMAP, llms_section as _biztools_llms)
+                                BIZ_SITEMAP as _BIZTOOLS_SITEMAP, llms_section as _biztools_llms,
+                                nav_groups as _biztools_nav_groups, NAV_MOBILE as _BIZTOOLS_NAV_MOBILE)
 except Exception as _biz_imp_err:  # never let the Business section break the rest of the site
     print(f"  ERROR business_pages import failed, Business section skipped: {_biz_imp_err}")
     _BIZTOOLS_SEARCH, _BIZTOOLS_KEYS, _BIZTOOLS_SITEMAP = [], set(), []
+    _BIZTOOLS_NAV_MOBILE = []
+    def _biztools_nav_groups():
+        return []
     def _biztools_llms(_u):
         return ""
 _SI_LIST.extend(_BIZTOOLS_SEARCH)
@@ -4304,7 +4308,8 @@ PAGE_HEAD = """\
     .util-l a strong{color:var(--gold);font-weight:600}
     @media(max-width:640px){.util-in{padding:0 1rem;gap:.9rem}.util-l{gap:.9rem}
       .util-l a:nth-child(3){display:none}.util-r{display:none}}
-    /* Eight top-level items since the Business menu (Sep 2026). Tiers measured,
+    /* Seven top-level items since the Sep 2026 restructure (was eight with
+       the Business menu; tiers were measured for eight, so seven has slack). Tiers measured,
        not guessed: no overflow and one row at 1024/1100/1152/1200/1220/1280/
        1366/1440/1536/1920 in EN, NL and ES. NL/ES labels run longer, so their
        search label collapses first. */
@@ -4332,6 +4337,25 @@ PAGE_HEAD = """\
     }
     /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
     .dd-menu { transform-origin: top center; }
+    /* Mega menus (Explore, Business). Explore anchors under its trigger;
+       Business is .megap-wide, anchored to the sticky <nav> (its wrapper is
+       static) and starts 14px up with transparent padding so hover survives
+       the move from the trigger down into the panel. */
+    .megap { position:absolute; z-index:50; }
+    .megap-2 { top:100%; left:50%; transform:translateX(-50%); padding-top:4px; }
+    .megap-wide { left:0; right:0; margin:0 auto; width:min(980px, calc(100% - 2rem));
+                  top:calc(100% - 14px); padding-top:14px; }
+    .megacard { background:#fff; border:1px solid #f3f4f6; border-radius:1rem;
+                box-shadow:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1); padding:.75rem; }
+    .megagrid-2 { display:grid; grid-template-columns:repeat(2, minmax(170px, auto)); gap:.25rem 1rem; }
+    .megagrid-wide { column-count:4; column-gap:1.25rem; }
+    .megagrid-wide .megacol { break-inside:avoid; padding-bottom:.5rem; }
+    .megah { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+             color:var(--clay); padding:.5rem .75rem .25rem; }
+    .megap a { white-space:normal; }
+    .megafoot { border-top:1px solid #f3f4f6; margin-top:.25rem; padding:.6rem .75rem .15rem; }
+    .mob-sub { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+               color:var(--clay); padding:.75rem .75rem .25rem; }
     .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
     @keyframes ddFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
     #search-results a {
@@ -5102,19 +5126,24 @@ def util_rail_html(prefix=""):
 
 def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
-    # Six groups, split by task rather than by audience:
-    #   Explore  = directories of places and businesses
-    #   Eat&Stay = the two commercial listing sets, kept top-level on purpose
+    # Seven top-level items (Sep 2026 restructure, was eight):
+    #   Explore  = mega menu: places and businesses + Eat & Stay (restaurants/hotels)
     #   Plan     = what you read before or during a trip
     #   Live     = anything whose numbers changed since yesterday
-    #   Oil&Gas / Games = self-contained sections
+    #   Business = mega menu: every tool from business_pages.py, grouped
+    #   Learn    = Oil & Gas (hub only; the section has its own chip strip),
+    #              History, Sranan dictionary
+    #   Games    = self-contained section
+    #   News     = single link
     _EXPL  = {"activities", "events", "shopping", "services", "marketplace"}
     _EAT   = {"restaurants", "hotels"}
-    _PLAN  = {"visitor", "itinerary", "safety", "roads", "flights", "history", "dictionary"}
+    _EXPLORE = _EXPL | _EAT
+    _PLAN  = {"visitor", "itinerary", "safety", "roads", "flights"}
     _LIVE  = {"currency", "forecast", "daily-notices", "atms", "matches", "surtime"}
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto"}
     _OILG  = {"oilgas", "oilblocks", "granmorgu", "oiltimeline", "oilcontracts",
               "oilgov", "oiljobs"}
+    _LEARN = {"history", "dictionary"} | _OILG
     _BIZT  = _BIZTOOLS_KEYS   # Business tools (business_pages.py)
 
     def _is_active(key):
@@ -5123,8 +5152,8 @@ def nav_html(active="home", prefix=""):
     def _group_active(keys):
         return active in keys
 
-    def _link_cls(key):
-        if _is_active(key):
+    def _link_cls(key, keys=None):
+        if _is_active(key) or (keys is not None and active in keys):
             return 'class="block px-4 py-2.5 text-sm font-semibold rounded-lg" style="color:var(--forest);background:var(--mint)"'
         return 'class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition"'
 
@@ -5152,18 +5181,49 @@ def nav_html(active="home", prefix=""):
             f'</div></div>'
         )
 
-    # Explore
-    expl_items = (
-        f'<a href="{prefix}activities.html"  {_link_cls("activities")} >Things to Do</a>'
-        f'<a href="{prefix}events.html"      {_link_cls("events")}     >Events &amp; Festivals</a>'
-        f'<a href="{prefix}shopping.html"    {_link_cls("shopping")}   >Shopping</a>'
-        f'<a href="{prefix}services.html"    {_link_cls("services")}   >Local Services</a>'
-        f'<a href="{prefix}marketplace/"     {_link_cls("marketplace")}>Marketplace</a>'
-    )
-    # Eat & Stay
-    eat_items = (
-        f'<a href="{prefix}restaurants.html" {_link_cls("restaurants")}>Where to Eat</a>'
-        f'<a href="{prefix}hotels.html"      {_link_cls("hotels")}     >Where to Stay</a>'
+    # Mega menus. Explore is a small two-column panel anchored under its
+    # trigger. Business is a wide panel anchored to the <nav> itself (the
+    # wrapper is static, the sticky <nav> is the containing block), so it
+    # never runs off-screen at 1024px. Both keep the same #id-menu + hidden
+    # toggle, so openDd/closeDd/toggleDd and click-outside work unchanged.
+    # The panel starts 14px up inside the nav bar with transparent padding:
+    # that bridges the gap under the trigger so hover does not drop.
+    def _mega_dd(dd_id, label, cols_html, group_keys, wide=False, foot_html=""):
+        # Positioning lives in PAGE_HEAD (.megap / .megap-wide / .megap-2)
+        wrap_cls = "static" if wide else "relative"
+        pos      = "megap-wide" if wide else "megap-2"
+        grid     = "megagrid-wide" if wide else "megagrid-2"
+        foot     = f'<div class="megafoot">{foot_html}</div>' if foot_html else ""
+        return (
+            f'<div class="{wrap_cls}" id="{dd_id}" onmouseenter="openDd(\'{dd_id}\')" onmouseleave="closeDd(\'{dd_id}\')">'
+            f'<button onclick="toggleDd(\'{dd_id}\')" {_top_btn_style(group_keys)}>'
+            f'{label}{_chevron}</button>'
+            f'<div id="{dd_id}-menu" class="dd-menu megap {pos} hidden">'
+            f'<div class="megacard"><div class="{grid}">{cols_html}</div>{foot}</div>'
+            f'</div></div>'
+        )
+
+    def _mega_col(heading, links_html):
+        return (f'<div class="megacol"><p class="megah">{heading}</p>{links_html}</div>')
+
+    def _mega_link(href, label, key, keys=None):
+        if _is_active(key) or (keys is not None and active in keys):
+            return (f'<a href="{href}" class="block px-3 py-1.5 text-sm font-semibold rounded-lg" '
+                    f'style="color:var(--forest);background:var(--mint)">{label}</a>')
+        return (f'<a href="{href}" class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50 '
+                f'hover:text-green-800 rounded-lg transition">{label}</a>')
+
+    # Explore (mega): Explore | Eat & Stay
+    expl_cols = (
+        _mega_col("Explore",
+                  _mega_link(f"{prefix}activities.html",  "Things to Do",           "activities") +
+                  _mega_link(f"{prefix}events.html",      "Events &amp; Festivals", "events") +
+                  _mega_link(f"{prefix}shopping.html",    "Shopping",               "shopping") +
+                  _mega_link(f"{prefix}services.html",    "Local Services",         "services") +
+                  _mega_link(f"{prefix}marketplace/",     "Marketplace",            "marketplace")) +
+        _mega_col("Eat &amp; Stay",
+                  _mega_link(f"{prefix}restaurants.html", "Where to Eat",  "restaurants") +
+                  _mega_link(f"{prefix}hotels.html",      "Where to Stay", "hotels"))
     )
     # Plan
     plan_items = (
@@ -5172,8 +5232,12 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}is-suriname-safe.html"    {_link_cls("safety")}     >Is Suriname Safe?</a>'
         f'<a href="{prefix}on-the-road.html"         {_link_cls("roads")}      >On the Road</a>'
         f'<a href="{prefix}flights.html"             {_link_cls("flights")}    >Flights</a>'
-        f'<a href="{prefix}suriname-history.html"    {_link_cls("history")}    >History Timeline</a>'
-        f'<a href="{prefix}sranan-tongo-dictionary.html" {_link_cls("dictionary")} >Sranan Dictionary</a>'
+    )
+    # Learn
+    learn_items = (
+        f'<a href="{prefix}oil-and-gas.html"             {_link_cls("oilgas", _OILG)} >Oil &amp; Gas</a>'
+        f'<a href="{prefix}suriname-history.html"        {_link_cls("history")}       >History Timeline</a>'
+        f'<a href="{prefix}sranan-tongo-dictionary.html" {_link_cls("dictionary")}    >Sranan Dictionary</a>'
     )
     # Live
     live_items = (
@@ -5185,17 +5249,20 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}suriname-time.html"  {_link_cls("surtime")}       >Time &amp; Converter</a>'
     )
 
-    # Business tools: a short list of the most-used tools + the hub with everything
-    biz_items = (
-        f'<a href="{prefix}business"             {_link_cls("biz")}          >All Business Tools</a>'
-        f'<a href="{prefix}btw-calculator"       {_link_cls("biz-btw")}      >BTW Calculator</a>'
-        f'<a href="{prefix}salary-calculator"    {_link_cls("biz-salary")}   >Salary Calculator</a>'
-        f'<a href="{prefix}invoice-generator"    {_link_cls("biz-invoice")}  >Invoice Maker</a>'
-        f'<a href="{prefix}tax-deadlines"        {_link_cls("biz-deadlines")}>Tax Deadlines</a>'
-        f'<a href="{prefix}government-tenders"   {_link_cls("biz-tenders")}  >Government Tenders</a>'
-        f'<a href="{prefix}qr-code-generator"    {_link_cls("biz-qr")}       >QR Code Generator</a>'
-        f'<a href="{prefix}pdf-tools"            {_link_cls("biz-pdf")}      >PDF Tools</a>'
-    )
+    # Business: every tool, grouped as on the hub, built from the
+    # business_pages.py registry so a new tool appears here automatically.
+    def _esc_nav(t):
+        return html_lib.escape(t, quote=False)
+    _biz_groups = _biztools_nav_groups()
+    _biz_labels = {_k: _l for _g, _i in _biz_groups for _u, _l, _k in _i}
+    _biz_urls   = {_k: _u for _g, _i in _biz_groups for _u, _l, _k in _i}
+    biz_cols = "".join(
+        _mega_col(_esc_nav(_g), "".join(_mega_link(f"{prefix}{_u}", _esc_nav(_l), _k) for _u, _l, _k in _i))
+        for _g, _i in _biz_groups)
+    biz_mega = _mega_dd(
+        "dd-biz", "Business", biz_cols, _BIZT, wide=True,
+        foot_html=(f'<a href="{prefix}business" class="text-sm font-semibold hover:underline" '
+                   f'style="color:var(--forest)">All Business Tools</a>'))
 
     # Games
     games_items = (
@@ -5207,31 +5274,20 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}muskieto.html"  {_link_cls("muskieto")}  >Muskieto Survivor</a>'
     )
 
-    # Oil & Gas
-    oil_items = (
-        f'<a href="{prefix}oil-and-gas.html"             {_link_cls("oilgas")}       >Overview</a>'
-        f'<a href="{prefix}suriname-oil-blocks.html"     {_link_cls("oilblocks")}    >Blocks &amp; Operators</a>'
-        f'<a href="{prefix}granmorgu.html"               {_link_cls("granmorgu")}    >GranMorgu Project</a>'
-        f'<a href="{prefix}suriname-oil-timeline.html"   {_link_cls("oiltimeline")}  >Timeline &amp; Roadmap</a>'
-        f'<a href="{prefix}suriname-oil-contracts.html"  {_link_cls("oilcontracts")} >Contracts &amp; Terms</a>'
-        f'<a href="{prefix}suriname-oil-government.html" {_link_cls("oilgov")}       >Who Governs It</a>'
-        f'<a href="{prefix}suriname-oil-jobs.html"       {_link_cls("oiljobs")}      >Jobs &amp; Local Content</a>'
-    )
 
     desktop_nav = (
-        _desktop_dd("dd-expl", "Explore",        expl_items, _EXPL) +
-        _desktop_dd("dd-eat",  "Eat &amp; Stay", eat_items,  _EAT)  +
-        _desktop_dd("dd-plan", "Plan",           plan_items, _PLAN) +
-        _desktop_dd("dd-live", "Live",           live_items, _LIVE) +
-        _desktop_dd("dd-biz",  "Business",       biz_items,  _BIZT) +
-        _desktop_dd("dd-oil",  "Oil &amp; Gas",  oil_items,  _OILG) +
-        _desktop_dd("dd-games","Games",          games_items,_GAMES) +
+        _mega_dd("dd-expl", "Explore", expl_cols, _EXPLORE)                 +
+        _desktop_dd("dd-plan", "Plan",           plan_items, _PLAN)         +
+        _desktop_dd("dd-live", "Live",           live_items, _LIVE)         +
+        biz_mega                                                            +
+        _desktop_dd("dd-learn","Learn",          learn_items, _LEARN)       +
+        _desktop_dd("dd-games","Games",          games_items,_GAMES)        +
         f'<a href="{prefix}news.html" {_top_single_style("news")}>News</a>'
     )
 
     # ── Mobile accordion ────────────────────────────────────────────────────
-    def _mob_link(href, label, key):
-        if _is_active(key):
+    def _mob_link(href, label, key, keys=None):
+        if _is_active(key) or (keys is not None and active in keys):
             return f'<a href="{href}" class="flex items-center gap-2 py-2.5 px-3 text-sm font-semibold rounded-lg" style="color:var(--forest);background:var(--mint)">{label}</a>'
         return f'<a href="{href}" class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg">{label}</a>'
 
@@ -5249,6 +5305,11 @@ def nav_html(active="home", prefix=""):
             f'</div>'
         )
 
+    # Mega-menu columns become small subheadings inside the same accordion
+    # group on mobile (no nested accordions).
+    def _mob_sub(label):
+        return f'<p class="mob-sub">{label}</p>'
+
     mob_expl_items = (
         _mob_link(f"{prefix}activities.html",  "Things to Do",       "activities") +
         _mob_link(f"{prefix}events.html",      "Events & Festivals", "events")     +
@@ -5257,6 +5318,7 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}marketplace/",     "Marketplace",        "marketplace")
     )
     mob_eat_items = (
+        _mob_sub("Eat &amp; Stay") +
         _mob_link(f"{prefix}restaurants.html", "Where to Eat",  "restaurants") +
         _mob_link(f"{prefix}hotels.html",      "Where to Stay", "hotels")
     )
@@ -5265,8 +5327,11 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}suriname-itinerary.html", "Trip Itineraries",  "itinerary") +
         _mob_link(f"{prefix}is-suriname-safe.html",   "Is Suriname Safe?", "safety")    +
         _mob_link(f"{prefix}on-the-road.html",        "On the Road",       "roads")     +
-        _mob_link(f"{prefix}flights.html",            "Flights",           "flights")   +
-        _mob_link(f"{prefix}suriname-history.html",   "History Timeline",  "history")   +
+        _mob_link(f"{prefix}flights.html",            "Flights",           "flights")
+    )
+    mob_learn_items = (
+        _mob_link(f"{prefix}oil-and-gas.html",             "Oil & Gas",         "oilgas", _OILG) +
+        _mob_link(f"{prefix}suriname-history.html",        "History Timeline",  "history")       +
         _mob_link(f"{prefix}sranan-tongo-dictionary.html", "Sranan Dictionary", "dictionary")
     )
     mob_live_items = (
@@ -5277,15 +5342,15 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}matches.html",       "Sports Schedule",  "matches")       +
         _mob_link(f"{prefix}suriname-time.html", "Time & Converter", "surtime")
     )
+    # Business on mobile: the hub + the most-used tools (all 32 would be
+    # ~1,400px of scrolling inside the menu). The page you are on is added
+    # when it is not in the short list, so the active item is always visible.
+    _mob_biz_keys = [k for k in _BIZTOOLS_NAV_MOBILE if k in _biz_urls]
+    if active in _biz_urls and active not in _mob_biz_keys:
+        _mob_biz_keys.append(active)
     mob_biz_items = (
-        _mob_link(f"{prefix}business",           "All Business Tools", "biz")           +
-        _mob_link(f"{prefix}btw-calculator",     "BTW Calculator",     "biz-btw")       +
-        _mob_link(f"{prefix}salary-calculator",  "Salary Calculator",  "biz-salary")    +
-        _mob_link(f"{prefix}invoice-generator",  "Invoice Maker",      "biz-invoice")   +
-        _mob_link(f"{prefix}tax-deadlines",      "Tax Deadlines",      "biz-deadlines") +
-        _mob_link(f"{prefix}government-tenders", "Government Tenders", "biz-tenders")   +
-        _mob_link(f"{prefix}qr-code-generator",  "QR Code Generator",  "biz-qr")        +
-        _mob_link(f"{prefix}pdf-tools",          "PDF Tools",          "biz-pdf")
+        _mob_link(f"{prefix}business", "All Business Tools", "biz") +
+        "".join(_mob_link(f"{prefix}{_biz_urls[k]}", _esc_nav(_biz_labels[k]), k) for k in _mob_biz_keys)
     )
     mob_games_items = (
         _mob_link(f"{prefix}quiz.html",      "Sabi Suriname Quiz",   "quiz") +
@@ -5296,15 +5361,6 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}muskieto.html",  "Muskieto Survivor",    "muskieto")
     )
 
-    mob_oil_items = (
-        _mob_link(f"{prefix}oil-and-gas.html",             "Overview",             "oilgas") +
-        _mob_link(f"{prefix}suriname-oil-blocks.html",     "Blocks & Operators",   "oilblocks") +
-        _mob_link(f"{prefix}granmorgu.html",               "GranMorgu Project",    "granmorgu") +
-        _mob_link(f"{prefix}suriname-oil-timeline.html",   "Timeline & Roadmap",   "oiltimeline") +
-        _mob_link(f"{prefix}suriname-oil-contracts.html",  "Contracts & Terms",    "oilcontracts") +
-        _mob_link(f"{prefix}suriname-oil-government.html", "Who Governs It",       "oilgov") +
-        _mob_link(f"{prefix}suriname-oil-jobs.html",       "Jobs & Local Content", "oiljobs")
-    )
 
     _news_col  = 'style="color:var(--forest)"' if _is_active("news") else ""
     _news_link = (f'<a href="{prefix}news.html" class="flex items-center py-3 px-1 text-sm '
@@ -5314,13 +5370,12 @@ def nav_html(active="home", prefix=""):
     cat_colors = dict(_CAT_ACCENT, **{"Sightseeing": _CAT_ACCENT["Nature"]})
 
     mobile_menu = (
-        _mob_group("mg-expl", "Explore",     mob_expl_items,  _EXPL)  +
-        _mob_group("mg-eat",  "Eat & Stay",  mob_eat_items,   _EAT)   +
-        _mob_group("mg-plan", "Plan",        mob_plan_items,  _PLAN)  +
-        _mob_group("mg-live", "Live",        mob_live_items,  _LIVE)  +
-        _mob_group("mg-biz",  "Business",    mob_biz_items,   _BIZT)  +
-        _mob_group("mg-oil",  "Oil & Gas",   mob_oil_items,   _OILG)  +
-        _mob_group("mg-games","Games",       mob_games_items, _GAMES) +
+        _mob_group("mg-expl", "Explore",     mob_expl_items + mob_eat_items, _EXPLORE) +
+        _mob_group("mg-plan", "Plan",        mob_plan_items,  _PLAN)   +
+        _mob_group("mg-live", "Live",        mob_live_items,  _LIVE)   +
+        _mob_group("mg-biz",  "Business",    mob_biz_items,   _BIZT)   +
+        _mob_group("mg-learn","Learn",       mob_learn_items, _LEARN)  +
+        _mob_group("mg-games","Games",       mob_games_items, _GAMES)  +
         _news_link
     )
 
