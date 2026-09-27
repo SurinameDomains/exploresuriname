@@ -1,0 +1,22 @@
+{
+  "_about": "Public holidays beyond data/holidays.json, used ONLY by the Business tools (working-day and deadline maths). holidays.json itself is left untouched because events.html depends on its exact shape. Only dates that are certain are listed: fixed-date holidays and Easter-based Christian holidays (computed). Lunar/announced holidays (Chinese New Year, Holi Phagwa, Ied-ul-Fitr, Ied-ul-Adha, Javaanse Nieuwjaar, Divali) are added only after official announcement; until then 'incomplete' makes the tools show a warning for that year.",
+  "years": {
+    "2027": {
+      "incomplete": true,
+      "missing_note": "Chinees Nieuwjaar, Holi Phagwa, Ied-Ul-Fitre, Ied-Ul-Adha, Javaanse Nieuwjaar en Divali 2027 zijn nog niet officieel bekendgemaakt.",
+      "public": [
+        {"date": "2027-01-01", "name_nl": "Nieuwjaarsdag", "name_en": "New Year's Day", "type": "fixed"},
+        {"date": "2027-03-26", "name_nl": "Goede Vrijdag", "name_en": "Good Friday", "type": "easter"},
+        {"date": "2027-03-28", "name_nl": "Eerste Paasdag", "name_en": "Easter Sunday", "type": "easter"},
+        {"date": "2027-03-29", "name_nl": "Tweede Paasdag", "name_en": "Easter Monday", "type": "easter"},
+        {"date": "2027-05-01", "name_nl": "Dag van de Arbeid", "name_en": "Labour Day", "type": "fixed"},
+        {"date": "2027-07-01", "name_nl": "Dag der Vrijheden", "name_en": "Freedom Day (Keti Koti)", "type": "fixed"},
+        {"date": "2027-08-09", "name_nl": "Dag der Inheemsen", "name_en": "Day of Indigenous Peoples", "type": "fixed"},
+        {"date": "2027-10-10", "name_nl": "Dag der Marrons", "name_en": "Day of the Maroons", "type": "fixed"},
+        {"date": "2027-11-25", "name_nl": "Onafhankelijkheidsdag", "name_en": "Independence Day", "type": "fixed"},
+        {"date": "2027-12-25", "name_nl": "Eerste Kerstdag", "name_en": "Christmas Day", "type": "fixed"},
+        {"date": "2027-12-26", "name_nl": "Tweede Kerstdag", "name_en": "Boxing Day", "type": "fixed"}
+      ]
+    }
+  }
+}

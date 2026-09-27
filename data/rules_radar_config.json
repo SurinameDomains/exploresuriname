@@ -1,0 +1,272 @@
+{
+ "_about": "Sentinels for scripts/rules_radar.py (daily, .github/workflows/rules_radar.yml). Each sentinel watches one OFFICIAL source. A change opens a GitHub issue labelled 'rules-radar'; nothing is ever changed automatically. 'expect' values must match data/business_rules.json; when you update a rule after an alert, update the matching 'expect' here too.",
+ "issue_label": "rules-radar",
+ "fail_alert_after": 3,
+ "sentinels": [
+  {
+   "id": "belastingdienst_wetten",
+   "type": "link_list",
+   "title": "Belastingdienst: nieuwe wet/beschikking op de wettenpagina",
+   "pages": [
+    "https://belastingdienst.sr/wetten-page/",
+    "https://belastingdienst.sr/wetten-page/2/",
+    "https://belastingdienst.sr/wetten-page/3/",
+    "https://belastingdienst.sr/wetten-page/4/",
+    "https://belastingdienst.sr/wetten-page/5/"
+   ],
+   "link_regex": "https://belastingdienst\\.sr/wp-content/uploads/[^\"'\\s]+\\.pdf",
+   "min_links": 15
+  },
+  {
+   "id": "wet_loonbelasting",
+   "type": "pdf_regex",
+   "title": "Wet Loonbelasting: nieuwe wijziging",
+   "url": "https://belastingdienst.sr/wp-content/uploads/2024/10/Wet-Loonbelasting.pdf",
+   "regex": "laatstelijk\\s+gewijzigd\\s+bij\\s*S\\.\\s?B\\.\\s*(\\d{4})\\s+no\\.\\s*(\\d+)",
+   "expect": [
+    "2024",
+    "2"
+   ]
+  },
+  {
+   "id": "wet_inkomstenbelasting",
+   "type": "pdf_regex",
+   "title": "Wet Inkomstenbelasting: nieuwe wijziging",
+   "url": "https://belastingdienst.sr/wp-content/uploads/2024/10/Wet-Inkomstenbelasting.pdf",
+   "regex": "laatstelijk\\s+gewijzigd\\s+bij\\s*S\\.\\s?B\\.\\s*(\\d{4})\\s+no\\.\\s*(\\d+)",
+   "expect": [
+    "2024",
+    "3"
+   ]
+  },
+  {
+   "id": "wet_aov",
+   "type": "pdf_regex",
+   "title": "Wet AOV: nieuwe wijziging",
+   "url": "https://belastingdienst.sr/wp-content/uploads/2024/10/Wet-AOV.pdf",
+   "regex": "laatstelijk\\s+gewijzigd\\s+bij\\s*S\\.\\s?B\\.\\s*(\\d{4})\\s+no\\.\\s*(\\d+)",
+   "expect": [
+    "2002",
+    "96"
+   ]
+  },
+  {
+   "id": "apf_rate",
+   "type": "html_regex",
+   "title": "APF: nieuwe pensioenpremie gepubliceerd",
+   "url": "https://www.pensioen.sr/",
+   "regex": "pensioenpremie\\s+voor\\s+het\\s+jaar\\s+(\\d{4})\\s+gesteld\\s+op\\s+([\\d,.]+)\\s*%",
+   "expect_from_rules": "apf"
+  },
+  {
+   "id": "apf_base",
+   "type": "html_regex",
+   "title": "APF: premiegrondslag (min/max) gewijzigd",
+   "url": "https://www.pensioen.sr/veelgestelde-vragen/",
+   "regex": "minimaal\\s+SRD\\s*([\\d.,]+?)[,.]?[\\s\\u2013\\u2014-]*en\\s+maximaal\\s+SRD\\s*([\\d.,]+?)[,.]?[\\s\\u2013\\u2014-]",
+   "expect": [
+    "500",
+    "5000"
+   ]
+  },
+  {
+   "id": "fvo_rate",
+   "type": "html_regex",
+   "title": "FVO: premie gewijzigd",
+   "url": "https://gov.sr/fvo/",
+   "regex": "(\\d+(?:[.,]\\d+)?)\\s*%\\s*van\\s*het\\s*bruto",
+   "expect": [
+    "1"
+   ]
+  },
+  {
+   "id": "minimum_wage",
+   "type": "rss_value",
+   "title": "Minimumuurloon: nieuw bedrag in overheidsnieuws",
+   "url": "https://gov.sr/?s=minimumuurloon&feed=rss2",
+   "regex": "SRD\\s*(\\d+,\\d{2})",
+   "expect_from_rules": "minimum_wage"
+  },
+  {
+   "id": "cbvs_denominations",
+   "type": "html_regex",
+   "title": "CBvS: munten/biljetten in omloop gewijzigd",
+   "url": "https://www.cbvs.sr/financieel-systeem/munten-en-biljetten-in-circulatie",
+   "regex": "coupures\\s+van\\s+([^.]{10,140})",
+   "expect_text_contains": [
+    "SRD 5",
+    "SRD 500"
+   ]
+  },
+  {
+   "id": "dna_ingediend",
+   "type": "link_list",
+   "title": "DNA: nieuwe ingediende ontwerpwet",
+   "pages": [
+    "https://www.dna.sr/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/"
+   ],
+   "link_regex": "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/[a-z0-9\\-]+/",
+   "min_links": 1,
+   "priority_regex": "belasting|btw|loon|invoer|accijns|arbeid|pensioen|minimum|aov|douane|prijs|onderneming|bedrijf|kkf"
+  },
+  {
+   "id": "dna_in_behandeling",
+   "type": "link_list",
+   "title": "DNA: ontwerpwet in behandeling (nieuw)",
+   "pages": [
+    "https://www.dna.sr/wetgeving/ontwerpwetten-bij-dna/in-behandeling/"
+   ],
+   "link_regex": "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/[a-z0-9\\-]+/",
+   "min_links": 1,
+   "alert_on_removed": true,
+   "priority_regex": "belasting|btw|loon|invoer|accijns|arbeid|pensioen|minimum|aov|douane|prijs|onderneming|bedrijf|kkf"
+  },
+  {
+   "id": "dna_goedgekeurd",
+   "type": "link_list",
+   "title": "DNA: ontwerpwet goedgekeurd",
+   "pages": [
+    "https://www.dna.sr/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/"
+   ],
+   "link_regex": "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/[a-z0-9\\-]+/",
+   "min_links": 1,
+   "priority_regex": "belasting|btw|loon|invoer|accijns|arbeid|pensioen|minimum|aov|douane|prijs|onderneming|bedrijf|kkf"
+  },
+  {
+   "id": "govsr_terms",
+   "type": "rss_terms",
+   "title": "Overheidsnieuws over belastingen/lonen/import",
+   "url": "https://gov.sr/?s={q}&feed=rss2",
+   "terms": [
+    "loonbelasting",
+    "belastingvrije",
+    "btw",
+    "AOV premie",
+    "pensioenpremie",
+    "FVO",
+    "basiszorgverzekering",
+    "invoerrechten",
+    "douanekoers",
+    "negatieve lijst",
+    "koerscompensatie",
+    "Algemene Wet Belastingen",
+    "begroting 2027",
+    "prijzenwet",
+    "maximumprijs",
+    "vakantiewet",
+    "arbeidswet",
+    "overwerk"
+   ]
+  },
+  {
+   "id": "belastingdienst_news",
+   "type": "rss_filtered",
+   "title": "Belastingdienst: bericht over regels/termijnen",
+   "url": "https://belastingdienst.sr/feed/",
+   "regex": "btw|loonbelasting|aov|inkomstenbelasting|tarief|wet|besluit|beschikking|boete|termijn|aangifte|uitstel|vrijstelling|invoer|douane"
+  },
+  {
+   "id": "guide_belastingdienst_contact",
+   "type": "html_contains",
+   "title": "Belastingdienst: contactgegevens/openingstijden gewijzigd",
+   "url": "https://belastingdienst.sr/contact/",
+   "rules_key": "contacts_belastingdienst",
+   "must_contain": [
+    "Kerkplein 12",
+    "Sommelsdijckstraat 27",
+    "Havenlaan 1",
+    "402626",
+    "toestel 345",
+    "Oost westverbinding 16",
+    "Landingstraat 1",
+    "07.30",
+    "14:00",
+    "13.00"
+   ]
+  },
+  {
+   "id": "guide_apf_contact",
+   "type": "html_contains",
+   "title": "APF: adres/telefoon/openingstijden gewijzigd",
+   "url": "https://www.pensioen.sr/",
+   "rules_key": "contacts_apf",
+   "must_contain": [
+    "Cordialaan 9",
+    "531-252",
+    "8:00",
+    "15:00"
+   ]
+  },
+  {
+   "id": "guide_kkf_contact",
+   "type": "html_contains",
+   "title": "KKF: adres/telefoon gewijzigd (gov.sr)",
+   "url": "https://gov.sr/thema/kamer-van-koophandel-en-fabriekenkff/",
+   "rules_key": "contacts_kkf",
+   "must_contain": [
+    "Kernkampweg 37",
+    "530311"
+   ]
+  },
+  {
+   "id": "guide_financieringswijzer",
+   "type": "html_contains",
+   "title": "MKB-Financieringswijzer: contactgegevens gewijzigd",
+   "url": "https://financieringswijzer.sr/en/",
+   "rules_key": "contacts_financieringswijzer",
+   "must_contain": [
+    "420-029",
+    "Derbystraat 81"
+   ]
+  },
+  {
+   "id": "guide_nob_products",
+   "type": "html_contains",
+   "title": "NOB: kredietproducten of bedragen gewijzigd",
+   "url": "https://www.nob.sr/",
+   "rules_key": "financing_nob",
+   "must_contain": [
+    "100.000",
+    "50.000",
+    "5 miljoen",
+    "400.000",
+    "25.000",
+    "80%",
+    "Lachmonstraat 160",
+    "465000"
+   ]
+  },
+  {
+   "id": "guide_werktijden",
+   "type": "html_contains",
+   "title": "gov.sr Werktijden: arbeidstijd/overwerkregels gewijzigd",
+   "url": "https://gov.sr/thema/werktijden/",
+   "rules_key": "working_time",
+   "must_contain": [
+    "48 uren per week",
+    "64",
+    "150 %",
+    "tweemaal",
+    "driemaal",
+    "72"
+   ]
+  },
+  {
+   "id": "guide_iud_negatieve_lijst",
+   "type": "html_contains",
+   "title": "EZOTI/IUD: pagina over invoervergunningen/Negatieve Lijst gewijzigd",
+   "url": "https://gov.sr/ministeries/ministerie-van-economische-zaken-ondernemerschap-technologische-innovatie/invoer-uitvoer-en-deviezen-controle-iud/",
+   "rules_key": "import_licence",
+   "must_contain": [
+    "Wet Goederenverkeer",
+    "S.B. 2003 no.74"
+   ]
+  }
+ ],
+ "expected_updates": {
+  "apf_new_year_by": "03-01",
+  "holidays_days_ahead": 120,
+  "minimum_wage_max_age_days": 400,
+  "rule_verified_max_age_days": 180
+ }
+}
