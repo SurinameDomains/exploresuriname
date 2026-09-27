@@ -36,7 +36,7 @@
     .util-rail .util-in, nav .site-navin{max-width:none;padding-left:clamp(20px,calc(4vw / var(--z,1)),64px);padding-right:clamp(20px,calc(4vw / var(--z,1)),64px)}
   }
   </style>
-<link href="/tailwind.css?v=c13debae" rel="stylesheet"/>
+<link href="/tailwind.css?v=edddf851" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -162,6 +162,26 @@
              color:var(--clay); padding:.5rem .75rem .25rem; }
     .megap a { white-space:normal; }
     .megafoot { border-top:1px solid #f3f4f6; margin-top:.25rem; padding:.6rem .75rem .15rem; }
+    /* Phone tables (Sep 2026): .mstack turns a wide table into one block per
+       row below 640px instead of scrolling sideways. Each cell carries a
+       .mlbl span with its column name (a text node, so NL/ES translate it);
+       hidden on wider screens where the normal header row shows. */
+    .mlbl { display:none; }
+    @media (max-width:639px) {
+      table.mstack { min-width:0!important; }
+      table.mstack, .mstack tbody { display:block; }
+      .mstack thead { display:none; }
+      .mstack tr { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:.15rem .9rem; padding:.75rem 0; }
+      .mstack.mstack-3 tr { grid-template-columns:repeat(3, minmax(0,1fr)); }
+      .mstack td { display:block; padding:.2rem 0!important; text-align:left!important; white-space:normal!important; min-width:0; overflow-wrap:anywhere; }
+      .mstack td:first-child { grid-column:1/-1; }
+      .mstack td.mspan2 { grid-column:span 2; }
+      /* holidays: date and weekday share the first line */
+      .mstack.mstack-hol td:first-child { grid-column:1; }
+      .mstack.mstack-hol td:last-child { grid-row:1; grid-column:2; text-align:right!important; }
+      .mstack.mstack-hol td:last-child .mlbl { display:none!important; }
+      .mstack .mlbl { display:block; font-size:.65rem; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:#9ca3af; margin-bottom:.1rem; }
+    }
     .mob-sub { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
                color:var(--clay); padding:.75rem .75rem .25rem; }
     .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
@@ -995,7 +1015,7 @@ document.addEventListener('keydown', e => {
 </div>
 <a class="text-xs font-semibold shrink-0 hover:underline" href="https://www.cme.sr" rel="noopener noreferrer" style="color:var(--forest2)" target="_blank">cme.sr ↗</a>
 </div>
-<p class="text-gray-400 text-xs mt-2">🕐 CME: 27 Sep 2026 20:00 SR</p>
+<p class="text-gray-400 text-xs mt-2">🕐 CME: 27 Sep 2026 20:09 SR</p>
 </div>
 <div class="hidden sm:block overflow-x-auto">
 <table class="w-full text-sm">
@@ -1015,7 +1035,7 @@ document.addEventListener('keydown', e => {
 <div class="px-6 py-5 border-b border-gray-100">
 <p class="font-bold text-gray-900 text-base">Bankkoersen vergeleken</p>
 <p class="text-gray-400 text-xs mt-0.5">USD en EUR bij de Surinaamse commerciële banken naast elkaar. Aankoop is wat je krijgt als je vreemde valuta verkoopt; verkoop is wat je betaalt om die te kopen.</p>
-<p class="text-gray-400 text-xs mt-2">🕐 27 Sep 2026 20:01 SR</p>
+<p class="text-gray-400 text-xs mt-2">🕐 27 Sep 2026 20:09 SR</p>
 </div>
 <div class="hidden sm:block overflow-x-auto">
 <table class="w-full text-sm">
@@ -1074,16 +1094,16 @@ document.addEventListener('keydown', e => {
 <h2 class="serif text-2xl font-bold text-gray-900">🛣︎ Brent-ruwe olie</h2>
 <p class="text-gray-400 text-sm mt-1">Brent-ruwe olie, elk uur bijgewerkt</p>
 </div>
-<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">● 27 Sep 2026 20:01 SR</span>
+<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">● 27 Sep 2026 20:09 SR</span>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 <div class="rounded-xl p-4" style="background:var(--mint)">
 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">USD / vat</p>
-<p class="text-2xl font-bold font-mono text-gray-900">$98.70</p>
+<p class="text-2xl font-bold font-mono text-gray-900">$98.62</p>
 </div>
 <div class="rounded-xl p-4 bg-gray-50">
 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">SRD / vat</p>
-<p class="text-2xl font-bold font-mono text-gray-900">3,701 SRD</p>
+<p class="text-2xl font-bold font-mono text-gray-900">3,698 SRD</p>
 </div>
 </div>
 <p class="text-gray-400 text-xs mt-4">Brent is de wereldwijde maatstaf voor de meeste internationale oliecontracten. De offshoreproductie van Suriname (Blok 58) wordt tegen deze index geprijsd. De SRD-waarde gebruikt de CME-aankoopkoers voor USD van vandaag (37,50). Bij elke nieuwe build van de site opnieuw opgehaald.</p>

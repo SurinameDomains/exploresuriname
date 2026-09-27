@@ -36,7 +36,7 @@
     .util-rail .util-in, nav .site-navin{max-width:none;padding-left:clamp(20px,calc(4vw / var(--z,1)),64px);padding-right:clamp(20px,calc(4vw / var(--z,1)),64px)}
   }
   </style>
-<link href="/tailwind.css?v=c13debae" rel="stylesheet"/>
+<link href="/tailwind.css?v=edddf851" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -162,6 +162,26 @@
              color:var(--clay); padding:.5rem .75rem .25rem; }
     .megap a { white-space:normal; }
     .megafoot { border-top:1px solid #f3f4f6; margin-top:.25rem; padding:.6rem .75rem .15rem; }
+    /* Phone tables (Sep 2026): .mstack turns a wide table into one block per
+       row below 640px instead of scrolling sideways. Each cell carries a
+       .mlbl span with its column name (a text node, so NL/ES translate it);
+       hidden on wider screens where the normal header row shows. */
+    .mlbl { display:none; }
+    @media (max-width:639px) {
+      table.mstack { min-width:0!important; }
+      table.mstack, .mstack tbody { display:block; }
+      .mstack thead { display:none; }
+      .mstack tr { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:.15rem .9rem; padding:.75rem 0; }
+      .mstack.mstack-3 tr { grid-template-columns:repeat(3, minmax(0,1fr)); }
+      .mstack td { display:block; padding:.2rem 0!important; text-align:left!important; white-space:normal!important; min-width:0; overflow-wrap:anywhere; }
+      .mstack td:first-child { grid-column:1/-1; }
+      .mstack td.mspan2 { grid-column:span 2; }
+      /* holidays: date and weekday share the first line */
+      .mstack.mstack-hol td:first-child { grid-column:1; }
+      .mstack.mstack-hol td:last-child { grid-row:1; grid-column:2; text-align:right!important; }
+      .mstack.mstack-hol td:last-child .mlbl { display:none!important; }
+      .mstack .mlbl { display:block; font-size:.65rem; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:#9ca3af; margin-bottom:.1rem; }
+    }
     .mob-sub { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
                color:var(--clay); padding:.75rem .75rem .25rem; }
     .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
