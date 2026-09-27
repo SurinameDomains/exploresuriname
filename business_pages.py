@@ -233,7 +233,10 @@ KIT_CSS = """
 .bz-tool:hover{border-color:var(--forest2);transform:translateY(-1px)}
 .bz-tool b{display:block;color:var(--ink);font-size:1rem;margin-bottom:.2rem}
 .bz-tool span{display:block;color:var(--ink-soft);font-size:.86rem;line-height:1.45}
-.bz-sec{font-family:'Newsreader',Georgia,serif;font-size:1.5rem;font-weight:700;color:var(--ink);margin:2rem 0 .8rem}
+.bz-jump{display:flex;flex-wrap:wrap;gap:.45rem;margin:0 0 .25rem}
+.bz-jump a{background:#fff;border:1px solid var(--line);border-radius:999px;padding:.4rem .85rem;font-size:.85rem;font-weight:600;color:var(--forest);text-decoration:none}
+.bz-jump a:hover{border-color:var(--forest2)}
+.bz-sec{scroll-margin-top:72px;font-family:'Newsreader',Georgia,serif;font-size:1.5rem;font-weight:700;color:var(--ink);margin:2rem 0 .8rem}
 .bz-feed li{padding:.55rem 0;border-bottom:1px solid var(--line);list-style:none}
 .bz-feed a{color:var(--ink);font-weight:600}
 .bz-feed a:hover{color:var(--forest2);text-decoration:underline}
@@ -246,6 +249,32 @@ KIT_CSS = """
 .bz-row{display:grid;gap:.6rem;align-items:end}
 .bz-x{background:none;border:0;color:#B45309;font-weight:800;font-size:1.2rem;cursor:pointer;padding:.3rem .5rem}
 .bz-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+/* Mobile tables (Sep 2026): a wide table that would scroll sideways on a
+   phone becomes one card per row, each value under its column name. KIT_JS
+   adds .bz-stack only when the table actually overflows its box and copies
+   the header names into data-label, also for rows added later by the tools.
+   Stacking is overflow-driven at any width (a narrow desktop column counts).
+   .bz-one = single column when some values are long (addresses).
+   .bz-nostack.bz-compact = numeric table kept as a table, just tighter (phones). */
+@media screen{
+.bz-tbl.bz-stack{min-width:0!important}
+.bz-stack thead{display:none}
+.bz-stack,.bz-stack tbody{display:block}
+.bz-stack tr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.1rem .9rem;align-items:end;position:relative;background:#fff;border:1px solid var(--line);border-radius:14px;padding:.55rem .8rem;margin-bottom:.6rem}
+.bz-stack.bz-one tr{grid-template-columns:minmax(0,1fr)}
+.bz-stack td{display:block;border:0!important;padding:.3rem 0!important;text-align:left!important;white-space:normal!important;min-width:0}
+.bz-stack td::before{content:attr(data-label);display:block;font-size:.66rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:.1rem}
+.bz-stack td[data-label=""]::before{display:none}
+.bz-stack td:first-child{grid-column:1/-1;font-weight:600;padding-right:2.2rem!important}
+.bz-stack td:last-child[data-label=""]{position:absolute;top:.25rem;right:.3rem;padding:0!important}
+.bz-stack input:not([type=checkbox]):not([type=radio]),.bz-stack select{width:100%;max-width:none!important;min-width:0;box-sizing:border-box}
+}
+@media screen and (max-width:639px){
+.bz-tbl.bz-compact{min-width:0!important;font-size:.8rem}
+.bz-compact td,.bz-compact th{padding:.45rem .12rem}
+.bz-compact th{font-size:.6rem;letter-spacing:.03em;white-space:nowrap}
+.bz-compact.bz-m-hide2 tr>:nth-child(2){display:none}
+}
 .bz-acts>a:not(.bz-btn):not(.bz-btn2){display:inline-flex;align-items:center;gap:.35rem;background:#fff;color:var(--forest);border:1.5px solid var(--forest2);border-radius:999px;padding:.52rem 1.05rem;font-weight:700;font-size:.9rem;text-decoration:none}
 .bz-acts>a[target=_blank]:not(.bz-btn):not(.bz-btn2)::after{content:"\2197";font-weight:400}
 .bz-toast{position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);background:var(--ink);color:#fff;padding:.6rem 1rem;border-radius:999px;font-size:.9rem;z-index:80;opacity:0;transition:opacity .2s;pointer-events:none}
@@ -324,6 +353,48 @@ KIT_JS = r"""
   });
   window.BZ = {E:E, L:L, R:R, H:H, $:$, T:T, money:money, fmtIn:fmtIn, srd:srd, amt:amt, num:num, today:today, fmtDate:fmtDate, fmtDay:fmtDay, seg:seg, segVal:segVal, segSet:segSet,
     toast:toast, copy:copy, wa:wa, saveUrl:saveUrl, loadUrl:loadUrl, store:store, download:download, loadScript:loadScript, on:on, esc:esc, rows:rows, shareText:null};
+})();
+/* Mobile tables: see .bz-stack in KIT_CSS. Separate block so a failure here
+   can never break the tools above. */
+(function(){
+  if(!document.querySelectorAll) return;
+  var tables = [].slice.call(document.querySelectorAll('.bz-scroll > table.bz-tbl'));
+  function label(t){
+    var h = t.tHead && t.tHead.rows[0]; if(!h) return;
+    var names = [].map.call(h.cells, function(c){ return c.textContent.trim(); });
+    var long = false;
+    [].forEach.call(t.tBodies, function(b){ [].forEach.call(b.rows, function(r){
+      var i = 0;
+      [].forEach.call(r.cells, function(c, j){
+        c.setAttribute('data-label', names[i] || '');
+        if(j > 0 && c.textContent.trim().length > 30) long = true;
+        i += c.colSpan || 1;
+      });
+    }); });
+    if(long) t.classList.add('bz-one');
+  }
+  function decide(){
+    tables.forEach(function(t){
+      if(!t.tHead || t.classList.contains('bz-nostack')) return;
+      t.classList.remove('bz-stack');
+      var w = t.parentNode;
+      if(w.clientWidth > 0 && w.scrollWidth > w.clientWidth + 2) t.classList.add('bz-stack');
+    });
+  }
+  tables.forEach(function(t){
+    label(t);
+    if(window.MutationObserver) [].forEach.call(t.tBodies, function(b){
+      new MutationObserver(function(){ label(t); }).observe(b, {childList:true});
+    });
+  });
+  decide();
+  // Tables inside a hidden tab measure 0 wide at load: re-decide when a
+  // wrapper's width changes (tab shown, rotation). Width only, so the height
+  // change from stacking can never retrigger it.
+  if(window.ResizeObserver) tables.forEach(function(t){
+    var w = t.parentNode, last = w.clientWidth;
+    new ResizeObserver(function(){ if(w.clientWidth !== last){ last = w.clientWidth; decide(); } }).observe(w);
+  });
 })();
 </script>
 """
@@ -920,8 +991,9 @@ def _hub_page(X, feeds, prices):
     cards = ""
     for g, label in GROUPS:
         items = [p for p in BIZ_PAGES if p[4] == g]
-        cards += f'<h2 class="bz-sec">{label}</h2><div class="bz-tools">' + "".join(
+        cards += f'<h2 class="bz-sec" id="g-{g}">{label}</h2><div class="bz-tools">' + "".join(
             f'<a class="bz-tool" href="{p[0]}"><b>{p[2]}</b><span>{p[3]}</span></a>' for p in items) + '</div>'
+    jump = "".join(f'<a href="#g-{g}">{label}</a>' for g, label in GROUPS)
     dl = upcoming_deadlines(X.R, X.H, X.today, months=3)[:6]
     kinds = {"btw": "BTW return and payment", "wage_tax": "Wage tax and AOV return", "apf": "APF pension premium",
              "ib_prov": "Income tax: provisional return", "ib_final": "Income tax: final return",
@@ -937,12 +1009,17 @@ def _hub_page(X, feeds, prices):
     elif PV["rows"]:
         mp = (f'<p class="text-sm">Current list: <span class="bz-date" data-d="{PV["valid_from"]}">{PV["valid_from"]}</span> &ndash; '
               f'<span class="bz-date" data-d="{PV["valid_to"]}">{PV["valid_to"]}</span>, <span translate="no">{len(PV["rows"])}</span> products.</p>')
+    # Tools first (Sep 2026): on mobile there is no mega menu, so the hub is
+    # how people reach a tool; the live panels follow below the tool list.
     body = f"""
-<div class="bz-card" style="background:var(--mint);border-color:#BFDDB8">
+<div class="bz-jump">{jump}</div>
+{cards}
+<div class="bz-card" style="background:var(--mint);border-color:#BFDDB8;margin-top:2rem">
   <p style="font-size:1.05rem;line-height:1.6;color:var(--forest)">Free tools for Surinamese businesses: no account, no limits, and they work on your phone, also offline.
   Every tax and wage rule is taken from the official source and checked every day.</p>
 </div>
-<div class="bz-grid bz-g3" style="margin-top:1rem">
+<h2 class="bz-sec">Deadlines &amp; updates</h2>
+<div class="bz-grid bz-g3">
   <div class="bz-card"><h2>Next deadlines</h2><table class="bz-tbl"><tbody>{dl_rows}</tbody></table>
     <div class="bz-acts"><a class="bz-btn2" href="tax-deadlines.html">All deadlines &amp; calendar</a></div></div>
   <div class="bz-card"><h2>Government tenders</h2>{_feed_list([i for i in feeds.get("bekendmakingen", []) if i.get("tender")], 5)}
@@ -952,7 +1029,6 @@ def _hub_page(X, feeds, prices):
 </div>
 <div class="bz-card"><h2>Maximum prices of basic goods</h2>{mp}
   <div class="bz-acts"><a class="bz-btn2" href="max-prices-basic-goods.html">Search the price list</a></div></div>
-{cards}
 """
     js = r"""
 (function(){ [].forEach.call(document.querySelectorAll('.bz-date'), function(e){ e.textContent = BZ.fmtDate(e.getAttribute('data-d')); }); })();
@@ -2560,7 +2636,7 @@ def _page_loan(X, feeds, prices):
     <div class="bz-card"><table class="bz-tbl"><tbody id="tbl"></tbody></table>{_share_bar()}</div>
   </div>
 </div>
-<div class="bz-card"><h2>Repayment table</h2><div class="bz-scroll"><table class="bz-tbl" style="min-width:520px"><thead><tr><th>Month</th><th class="n">Payment</th><th class="n">Interest</th><th class="n">Repayment</th><th class="n">Balance</th></tr></thead><tbody id="sched"></tbody></table></div></div>
+<div class="bz-card"><h2>Repayment table</h2><div class="bz-scroll"><table class="bz-tbl bz-nostack bz-compact bz-m-hide2" style="min-width:520px"><thead><tr><th>Month</th><th class="n">Payment</th><th class="n">Interest</th><th class="n">Repayment</th><th class="n">Balance</th></tr></thead><tbody id="sched"></tbody></table></div></div>
 """
     strings = {"say": "{n} payments of {p}. You pay {i} interest in total.", "r_p": "Loan amount", "r_i": "Total interest", "r_t": "Total to pay back"}
     js = r"""

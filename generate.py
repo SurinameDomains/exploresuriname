@@ -4354,6 +4354,26 @@ PAGE_HEAD = """\
              color:var(--clay); padding:.5rem .75rem .25rem; }
     .megap a { white-space:normal; }
     .megafoot { border-top:1px solid #f3f4f6; margin-top:.25rem; padding:.6rem .75rem .15rem; }
+    /* Phone tables (Sep 2026): .mstack turns a wide table into one block per
+       row below 640px instead of scrolling sideways. Each cell carries a
+       .mlbl span with its column name (a text node, so NL/ES translate it);
+       hidden on wider screens where the normal header row shows. */
+    .mlbl { display:none; }
+    @media (max-width:639px) {
+      table.mstack { min-width:0!important; }
+      table.mstack, .mstack tbody { display:block; }
+      .mstack thead { display:none; }
+      .mstack tr { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:.15rem .9rem; padding:.75rem 0; }
+      .mstack.mstack-3 tr { grid-template-columns:repeat(3, minmax(0,1fr)); }
+      .mstack td { display:block; padding:.2rem 0!important; text-align:left!important; white-space:normal!important; min-width:0; overflow-wrap:anywhere; }
+      .mstack td:first-child { grid-column:1/-1; }
+      .mstack td.mspan2 { grid-column:span 2; }
+      /* holidays: date and weekday share the first line */
+      .mstack.mstack-hol td:first-child { grid-column:1; }
+      .mstack.mstack-hol td:last-child { grid-row:1; grid-column:2; text-align:right!important; }
+      .mstack.mstack-hol td:last-child .mlbl { display:none!important; }
+      .mstack .mlbl { display:block; font-size:.65rem; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:#9ca3af; margin-bottom:.1rem; }
+    }
     .mob-sub { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
                color:var(--clay); padding:.75rem .75rem .25rem; }
     .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
@@ -10044,10 +10064,10 @@ def build_events_page():
         cls = "text-gray-400" if hd < today else "text-gray-800"
         star = " *" if _h.get("type") == "variable" else ""
         rows_html += ('<tr class="border-b border-gray-100">'
-                      '<td class="py-2.5 pr-4 whitespace-nowrap ' + cls + '">' + str(hd.day) + ' ' + hd.strftime("%b") + '</td>'
-                      '<td class="py-2.5 pr-4 font-medium ' + cls + '">' + _esc(_h.get("name_en", "")) + star + '</td>'
-                      '<td class="py-2.5 pr-4 ' + cls + '">' + _esc(_h.get("name_nl", "")) + '</td>'
-                      '<td class="py-2.5 whitespace-nowrap ' + cls + '">' + hd.strftime("%A") + '</td></tr>')
+                      '<td class="py-2.5 pr-4 whitespace-nowrap font-semibold sm:font-normal ' + cls + '">' + str(hd.day) + ' ' + hd.strftime("%b") + '</td>'
+                      '<td class="py-2.5 pr-4 font-medium ' + cls + '"><span class="mlbl">Holiday</span>' + _esc(_h.get("name_en", "")) + star + '</td>'
+                      '<td class="py-2.5 pr-4 ' + cls + '"><span class="mlbl">Dutch name</span>' + _esc(_h.get("name_nl", "")) + '</td>'
+                      '<td class="py-2.5 whitespace-nowrap ' + cls + '"><span class="mlbl">Day</span>' + hd.strftime("%A") + '</td></tr>')
 
     breaks_html = "".join(
         '<div class="flex items-center justify-between bg-white rounded-xl border border-gray-100 px-4 py-3">'
@@ -10535,7 +10555,7 @@ def build_events_page():
     <h2 class="serif text-2xl font-bold text-gray-900 mb-2">Public holidays {_hol_year}</h2>
     <p class="text-sm text-gray-500 mb-5">Official national holidays. Dates marked * follow lunar calendars and can shift by a day or two; they are updated here as soon as they are officially announced.</p>
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 overflow-x-auto">
-      <table class="w-full text-sm">
+      <table class="w-full text-sm mstack mstack-hol">
         <thead><tr class="text-left text-xs text-gray-400 uppercase tracking-wide border-b border-gray-200">
           <th class="py-2 pr-4 font-semibold">Date</th><th class="py-2 pr-4 font-semibold">Holiday</th><th class="py-2 pr-4 font-semibold">Dutch name</th><th class="py-2 font-semibold">Day</th>
         </tr></thead>
@@ -20992,9 +21012,11 @@ def build_atms_page(atms, meta, ref=None):
         mrows += (
             '<tr class="border-b border-gray-100">'
             f'<td class="py-3 pr-3 align-middle"><span class="atm-net" style="background:{col}">{name}</span></td>'
-            f'<td class="atm-mx">{c1}</td><td class="atm-mx">{c2}</td><td class="atm-mx">{c3}</td>'
-            f'<td class="atm-mx">{c4}</td>'
-            f'<td class="py-3 text-sm text-gray-600 whitespace-nowrap">{lim}</td></tr>'
+            f'<td class="atm-mx"><span class="mlbl">Local</span>{c1}</td>'
+            f'<td class="atm-mx"><span class="mlbl">Mastercard</span>{c2}</td>'
+            f'<td class="atm-mx"><span class="mlbl">Visa</span>{c3}</td>'
+            f'<td class="atm-mx"><span class="mlbl">Foreign</span>{c4}</td>'
+            f'<td class="py-3 text-sm text-gray-600 whitespace-nowrap mspan2"><span class="mlbl">Daily limit</span>{lim}</td></tr>'
         )
     body += (
         '<h2 class="serif text-2xl font-bold text-gray-900 mb-1">Which card works where</h2>'
@@ -21002,7 +21024,7 @@ def build_atms_page(atms, meta, ref=None):
         'BNETS network. For a foreign card, look for the Mastercard (or, at Republic Bank, Visa) logo on the '
         'machine.</p>'
         '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-3 overflow-x-auto">'
-        '<table class="w-full text-sm border-collapse min-w-[560px]">'
+        '<table class="w-full text-sm border-collapse min-w-[560px] mstack mstack-3">'
         '<thead><tr class="text-xs uppercase tracking-wide text-gray-400 border-b border-gray-200">'
         '<th class="py-2 pr-3 text-left font-semibold">Network</th>'
         '<th class="atm-mx font-semibold">Local<br>(BNETS)</th>'
