@@ -1,41 +1,41 @@
 {
-  "last_updated": "2026-09-26T16:00:30.009720+00:00",
+  "last_updated": "2026-09-27T10:00:27.837447+00:00",
   "date_label": "Today",
   "showings": [
     {
       "time": "02:00 PM",
-      "title": "Minions & Monsters",
-      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
-    },
-    {
-      "time": "02:30 PM",
       "title": "Forgotten Island (3D)",
       "url": "https://www.tblcinemas.com/movie/RS666011273014/forgotten-island"
     },
     {
+      "time": "02:30 PM",
+      "title": "Tad and The Magic Lamp",
+      "url": "https://www.tblcinemas.com/movie/RS68595530288/tad-and-the-magic-lamp"
+    },
+    {
       "time": "03:00 PM",
-      "title": "Avengers: Endgame (3D)",
-      "url": "https://www.tblcinemas.com/movie/RS887314415013/avengers-endgame"
+      "title": "Spider-Man: Brand New Day",
+      "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
     },
     {
       "time": "03:30 PM",
-      "title": "PAW Patrol: The Dino Movie",
-      "url": "https://www.tblcinemas.com/movie/RS931685169274/paw-patrol-the-dino-movie"
+      "title": "Minions & Monsters",
+      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
     },
     {
-      "time": "04:30 PM",
-      "title": "Forgotten Island",
-      "url": "https://www.tblcinemas.com/movie/RS706204767478/forgotten-island"
-    },
-    {
-      "time": "05:00 PM",
+      "time": "04:00 PM",
       "title": "Vibe",
       "url": "https://www.tblcinemas.com/movie/RS758911445358/vibe"
     },
     {
+      "time": "05:00 PM",
+      "title": "Forgotten Island",
+      "url": "https://www.tblcinemas.com/movie/RS706204767478/forgotten-island"
+    },
+    {
       "time": "05:30 PM",
-      "title": "Spider-Man: Brand New Day",
-      "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
+      "title": "Practical Magic 2",
+      "url": "https://www.tblcinemas.com/movie/RS661264885651/practical-magic-2"
     },
     {
       "time": "06:00 PM",
@@ -43,29 +43,24 @@
       "url": "https://www.tblcinemas.com/movie/RS622254283418/daayra"
     },
     {
-      "time": "07:00 PM",
-      "title": "Avengers: Endgame",
-      "url": "https://www.tblcinemas.com/movie/RS178125418089/avengers-endgame"
+      "time": "06:30 PM",
+      "title": "Avengers: Endgame (3D)",
+      "url": "https://www.tblcinemas.com/movie/RS887314415013/avengers-endgame"
     },
     {
       "time": "07:30 PM",
-      "title": "Insidious: Out of the Further",
-      "url": "https://www.tblcinemas.com/movie/RS381118155603/insidious-out-of-the-further"
-    },
-    {
-      "time": "08:30 PM",
       "title": "Heart of the Beast",
       "url": "https://www.tblcinemas.com/movie/RS484269798639/heart-of-the-beast"
     },
     {
-      "time": "09:00 PM",
-      "title": "Resident Evil",
-      "url": "https://www.tblcinemas.com/movie/RS762482270455/resident-evil"
+      "time": "08:00 PM",
+      "title": "Insidious: Out of the Further",
+      "url": "https://www.tblcinemas.com/movie/RS381118155603/insidious-out-of-the-further"
     },
     {
-      "time": "09:30 PM",
-      "title": "Runner",
-      "url": "https://www.tblcinemas.com/movie/RS840574743966/runner"
+      "time": "08:45 PM",
+      "title": "Resident Evil",
+      "url": "https://www.tblcinemas.com/movie/RS762482270455/resident-evil"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
