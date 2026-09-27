@@ -1,0 +1,832 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//ExploreSuriname//Business deadlines//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Suriname tax deadlines (ExploreSuriname)
+X-WR-TIMEZONE:America/Paramaribo
+REFRESH-INTERVAL;VALUE=DURATION:P1D
+X-PUBLISHED-TTL:P1D
+BEGIN:VEVENT
+UID:wage_tax-2026-09-20261009@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20261009
+DTEND;VALUE=DATE:20261010
+SUMMARY:Loonbelasting en AOV aangifte
+DESCRIPTION:Aangifte en afdracht loonbelasting en AOV over september 2026
+  (portaal: 26ste t/m 10de\; wet: 7e werkdag\, de vroegste geldt) / Wage t
+ ax and AOV return for September 2026 (portal window 26th to 10th\; law: 7
+ th working day\, whichever is first). https://exploresuriname.com/salary-
+ calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Loonbelasting en AOV aangifte
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:apf-2026-09-20261015@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20261015
+DTEND;VALUE=DATE:20261016
+SUMMARY:APF pensioenpremie
+DESCRIPTION:Afdracht APF pensioenpremie over september 2026 / APF pension
+  premium for September 2026. https://exploresuriname.com/salary-calculato
+ r.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:APF pensioenpremie
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:btw-2026-09-20261015@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20261015
+DTEND;VALUE=DATE:20261016
+SUMMARY:BTW-aangifte en betaling
+DESCRIPTION:BTW-aangifte en betaling over september 2026 / BTW return and
+  payment for September 2026. https://exploresuriname.com/btw-calculator.h
+ tml
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BTW-aangifte en betaling
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ib_inst-2026-20261015@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20261015
+DTEND;VALUE=DATE:20261016
+SUMMARY:Inkomstenbelasting: termijn voorlopige aanslag
+DESCRIPTION:Betaaltermijn voorlopige aanslag inkomstenbelasting 2026 / Pr
+ ovisional income tax instalment 2026. https://exploresuriname.com/income-
+ tax-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Inkomstenbelasting: termijn voorlopige aanslag
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:wage_tax-2026-10-20261110@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20261110
+DTEND;VALUE=DATE:20261111
+SUMMARY:Loonbelasting en AOV aangifte
+DESCRIPTION:Aangifte en afdracht loonbelasting en AOV over oktober 2026 (
+ portaal: 26ste t/m 10de\; wet: 7e werkdag\, de vroegste geldt) / Wage tax
+  and AOV return for October 2026 (portal window 26th to 10th\; law: 7th w
+ orking day\, whichever is first). https://exploresuriname.com/salary-calc
+ ulator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Loonbelasting en AOV aangifte
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:apf-2026-10-20261115@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20261115
+DTEND;VALUE=DATE:20261116
+SUMMARY:APF pensioenpremie
+DESCRIPTION:Afdracht APF pensioenpremie over oktober 2026 / APF pension p
+ remium for October 2026. https://exploresuriname.com/salary-calculator.ht
+ ml
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:APF pensioenpremie
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:btw-2026-10-20261115@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20261115
+DTEND;VALUE=DATE:20261116
+SUMMARY:BTW-aangifte en betaling
+DESCRIPTION:BTW-aangifte en betaling over oktober 2026 / BTW return and p
+ ayment for October 2026. https://exploresuriname.com/btw-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BTW-aangifte en betaling
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:wage_tax-2026-11-20261209@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20261209
+DTEND;VALUE=DATE:20261210
+SUMMARY:Loonbelasting en AOV aangifte
+DESCRIPTION:Aangifte en afdracht loonbelasting en AOV over november 2026 
+ (portaal: 26ste t/m 10de\; wet: 7e werkdag\, de vroegste geldt) / Wage ta
+ x and AOV return for November 2026 (portal window 26th to 10th\; law: 7th
+  working day\, whichever is first). https://exploresuriname.com/salary-ca
+ lculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Loonbelasting en AOV aangifte
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:apf-2026-11-20261215@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20261215
+DTEND;VALUE=DATE:20261216
+SUMMARY:APF pensioenpremie
+DESCRIPTION:Afdracht APF pensioenpremie over november 2026 / APF pension 
+ premium for November 2026. https://exploresuriname.com/salary-calculator.
+ html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:APF pensioenpremie
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:btw-2026-11-20261215@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20261215
+DTEND;VALUE=DATE:20261216
+SUMMARY:BTW-aangifte en betaling
+DESCRIPTION:BTW-aangifte en betaling over november 2026 / BTW return and 
+ payment for November 2026. https://exploresuriname.com/btw-calculator.htm
+ l
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BTW-aangifte en betaling
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ib_inst-2026-20261231@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20261231
+DTEND;VALUE=DATE:20270101
+SUMMARY:Inkomstenbelasting: termijn voorlopige aanslag
+DESCRIPTION:Betaaltermijn voorlopige aanslag inkomstenbelasting 2026 / Pr
+ ovisional income tax instalment 2026. https://exploresuriname.com/income-
+ tax-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Inkomstenbelasting: termijn voorlopige aanslag
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:wage_tax-2026-12-20270110@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270110
+DTEND;VALUE=DATE:20270111
+SUMMARY:Loonbelasting en AOV aangifte
+DESCRIPTION:Aangifte en afdracht loonbelasting en AOV over december 2026 
+ (portaal: 26ste t/m 10de\; wet: 7e werkdag\, de vroegste geldt) / Wage ta
+ x and AOV return for December 2026 (portal window 26th to 10th\; law: 7th
+  working day\, whichever is first). Datum berekend met de feestdagen die 
+ nu bekend zijn / date based on the public holidays known today. https://e
+ xploresuriname.com/salary-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Loonbelasting en AOV aangifte
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:apf-2026-12-20270115@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+SUMMARY:APF pensioenpremie
+DESCRIPTION:Afdracht APF pensioenpremie over december 2026 / APF pension 
+ premium for December 2026. https://exploresuriname.com/salary-calculator.
+ html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:APF pensioenpremie
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:btw-2026-12-20270115@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+SUMMARY:BTW-aangifte en betaling
+DESCRIPTION:BTW-aangifte en betaling over december 2026 / BTW return and 
+ payment for December 2026. https://exploresuriname.com/btw-calculator.htm
+ l
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BTW-aangifte en betaling
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:wage_tax-2027-01-20270209@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270209
+DTEND;VALUE=DATE:20270210
+SUMMARY:Loonbelasting en AOV aangifte
+DESCRIPTION:Aangifte en afdracht loonbelasting en AOV over januari 2027 (
+ portaal: 26ste t/m 10de\; wet: 7e werkdag\, de vroegste geldt) / Wage tax
+  and AOV return for January 2027 (portal window 26th to 10th\; law: 7th w
+ orking day\, whichever is first). Datum berekend met de feestdagen die nu
+  bekend zijn / date based on the public holidays known today. https://exp
+ loresuriname.com/salary-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Loonbelasting en AOV aangifte
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:apf-2027-01-20270215@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270215
+DTEND;VALUE=DATE:20270216
+SUMMARY:APF pensioenpremie
+DESCRIPTION:Afdracht APF pensioenpremie over januari 2027 / APF pension p
+ remium for January 2027. https://exploresuriname.com/salary-calculator.ht
+ ml
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:APF pensioenpremie
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:btw-2027-01-20270215@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270215
+DTEND;VALUE=DATE:20270216
+SUMMARY:BTW-aangifte en betaling
+DESCRIPTION:BTW-aangifte en betaling over januari 2027 / BTW return and p
+ ayment for January 2027. https://exploresuriname.com/btw-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BTW-aangifte en betaling
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:wage_tax-2027-02-20270309@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270309
+DTEND;VALUE=DATE:20270310
+SUMMARY:Loonbelasting en AOV aangifte
+DESCRIPTION:Aangifte en afdracht loonbelasting en AOV over februari 2027 
+ (portaal: 26ste t/m 10de\; wet: 7e werkdag\, de vroegste geldt) / Wage ta
+ x and AOV return for February 2027 (portal window 26th to 10th\; law: 7th
+  working day\, whichever is first). Datum berekend met de feestdagen die 
+ nu bekend zijn / date based on the public holidays known today. https://e
+ xploresuriname.com/salary-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Loonbelasting en AOV aangifte
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:apf-2027-02-20270315@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270315
+DTEND;VALUE=DATE:20270316
+SUMMARY:APF pensioenpremie
+DESCRIPTION:Afdracht APF pensioenpremie over februari 2027 / APF pension 
+ premium for February 2027. https://exploresuriname.com/salary-calculator.
+ html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:APF pensioenpremie
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:btw-2027-02-20270315@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270315
+DTEND;VALUE=DATE:20270316
+SUMMARY:BTW-aangifte en betaling
+DESCRIPTION:BTW-aangifte en betaling over februari 2027 / BTW return and 
+ payment for February 2027. https://exploresuriname.com/btw-calculator.htm
+ l
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BTW-aangifte en betaling
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:wage_tax-2027-03-20270409@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270409
+DTEND;VALUE=DATE:20270410
+SUMMARY:Loonbelasting en AOV aangifte
+DESCRIPTION:Aangifte en afdracht loonbelasting en AOV over maart 2027 (po
+ rtaal: 26ste t/m 10de\; wet: 7e werkdag\, de vroegste geldt) / Wage tax a
+ nd AOV return for March 2027 (portal window 26th to 10th\; law: 7th worki
+ ng day\, whichever is first). Datum berekend met de feestdagen die nu bek
+ end zijn / date based on the public holidays known today. https://explore
+ suriname.com/salary-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Loonbelasting en AOV aangifte
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:apf-2027-03-20270415@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270415
+DTEND;VALUE=DATE:20270416
+SUMMARY:APF pensioenpremie
+DESCRIPTION:Afdracht APF pensioenpremie over maart 2027 / APF pension pre
+ mium for March 2027. https://exploresuriname.com/salary-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:APF pensioenpremie
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:btw-2027-03-20270415@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270415
+DTEND;VALUE=DATE:20270416
+SUMMARY:BTW-aangifte en betaling
+DESCRIPTION:BTW-aangifte en betaling over maart 2027 / BTW return and pay
+ ment for March 2027. https://exploresuriname.com/btw-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BTW-aangifte en betaling
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ib_inst-2027-20270415@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270415
+DTEND;VALUE=DATE:20270416
+SUMMARY:Inkomstenbelasting: termijn voorlopige aanslag
+DESCRIPTION:Betaaltermijn voorlopige aanslag inkomstenbelasting 2027 / Pr
+ ovisional income tax instalment 2027. https://exploresuriname.com/income-
+ tax-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Inkomstenbelasting: termijn voorlopige aanslag
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ib_prov-2027-20270415@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270415
+DTEND;VALUE=DATE:20270416
+SUMMARY:Inkomstenbelasting: voorlopige aangifte
+DESCRIPTION:Voorlopige aangifte inkomstenbelasting 2027 / Provisional inc
+ ome tax return 2027. https://exploresuriname.com/income-tax-calculator.ht
+ ml
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Inkomstenbelasting: voorlopige aangifte
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ib_final-2027-20270430@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270430
+DTEND;VALUE=DATE:20270501
+SUMMARY:Inkomstenbelasting: definitieve aangifte
+DESCRIPTION:Definitieve aangifte inkomstenbelasting over 2026 / Final inc
+ ome tax return for 2026. https://exploresuriname.com/income-tax-calculato
+ r.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Inkomstenbelasting: definitieve aangifte
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:wage_tax-2027-04-20270510@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270510
+DTEND;VALUE=DATE:20270511
+SUMMARY:Loonbelasting en AOV aangifte
+DESCRIPTION:Aangifte en afdracht loonbelasting en AOV over april 2027 (po
+ rtaal: 26ste t/m 10de\; wet: 7e werkdag\, de vroegste geldt) / Wage tax a
+ nd AOV return for April 2027 (portal window 26th to 10th\; law: 7th worki
+ ng day\, whichever is first). Datum berekend met de feestdagen die nu bek
+ end zijn / date based on the public holidays known today. https://explore
+ suriname.com/salary-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Loonbelasting en AOV aangifte
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:apf-2027-04-20270515@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270515
+DTEND;VALUE=DATE:20270516
+SUMMARY:APF pensioenpremie
+DESCRIPTION:Afdracht APF pensioenpremie over april 2027 / APF pension pre
+ mium for April 2027. https://exploresuriname.com/salary-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:APF pensioenpremie
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:btw-2027-04-20270515@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270515
+DTEND;VALUE=DATE:20270516
+SUMMARY:BTW-aangifte en betaling
+DESCRIPTION:BTW-aangifte en betaling over april 2027 / BTW return and pay
+ ment for April 2027. https://exploresuriname.com/btw-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BTW-aangifte en betaling
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:wage_tax-2027-05-20270609@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270609
+DTEND;VALUE=DATE:20270610
+SUMMARY:Loonbelasting en AOV aangifte
+DESCRIPTION:Aangifte en afdracht loonbelasting en AOV over mei 2027 (port
+ aal: 26ste t/m 10de\; wet: 7e werkdag\, de vroegste geldt) / Wage tax and
+  AOV return for May 2027 (portal window 26th to 10th\; law: 7th working d
+ ay\, whichever is first). Datum berekend met de feestdagen die nu bekend 
+ zijn / date based on the public holidays known today. https://exploresuri
+ name.com/salary-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Loonbelasting en AOV aangifte
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:apf-2027-05-20270615@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270615
+DTEND;VALUE=DATE:20270616
+SUMMARY:APF pensioenpremie
+DESCRIPTION:Afdracht APF pensioenpremie over mei 2027 / APF pension premi
+ um for May 2027. https://exploresuriname.com/salary-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:APF pensioenpremie
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:btw-2027-05-20270615@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270615
+DTEND;VALUE=DATE:20270616
+SUMMARY:BTW-aangifte en betaling
+DESCRIPTION:BTW-aangifte en betaling over mei 2027 / BTW return and payme
+ nt for May 2027. https://exploresuriname.com/btw-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BTW-aangifte en betaling
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:wage_tax-2027-06-20270710@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270710
+DTEND;VALUE=DATE:20270711
+SUMMARY:Loonbelasting en AOV aangifte
+DESCRIPTION:Aangifte en afdracht loonbelasting en AOV over juni 2027 (por
+ taal: 26ste t/m 10de\; wet: 7e werkdag\, de vroegste geldt) / Wage tax an
+ d AOV return for June 2027 (portal window 26th to 10th\; law: 7th working
+  day\, whichever is first). Datum berekend met de feestdagen die nu beken
+ d zijn / date based on the public holidays known today. https://exploresu
+ riname.com/salary-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Loonbelasting en AOV aangifte
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:apf-2027-06-20270715@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270715
+DTEND;VALUE=DATE:20270716
+SUMMARY:APF pensioenpremie
+DESCRIPTION:Afdracht APF pensioenpremie over juni 2027 / APF pension prem
+ ium for June 2027. https://exploresuriname.com/salary-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:APF pensioenpremie
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:btw-2027-06-20270715@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270715
+DTEND;VALUE=DATE:20270716
+SUMMARY:BTW-aangifte en betaling
+DESCRIPTION:BTW-aangifte en betaling over juni 2027 / BTW return and paym
+ ent for June 2027. https://exploresuriname.com/btw-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BTW-aangifte en betaling
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ib_inst-2027-20270715@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270715
+DTEND;VALUE=DATE:20270716
+SUMMARY:Inkomstenbelasting: termijn voorlopige aanslag
+DESCRIPTION:Betaaltermijn voorlopige aanslag inkomstenbelasting 2027 / Pr
+ ovisional income tax instalment 2027. https://exploresuriname.com/income-
+ tax-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Inkomstenbelasting: termijn voorlopige aanslag
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:wage_tax-2027-07-20270810@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270810
+DTEND;VALUE=DATE:20270811
+SUMMARY:Loonbelasting en AOV aangifte
+DESCRIPTION:Aangifte en afdracht loonbelasting en AOV over juli 2027 (por
+ taal: 26ste t/m 10de\; wet: 7e werkdag\, de vroegste geldt) / Wage tax an
+ d AOV return for July 2027 (portal window 26th to 10th\; law: 7th working
+  day\, whichever is first). Datum berekend met de feestdagen die nu beken
+ d zijn / date based on the public holidays known today. https://exploresu
+ riname.com/salary-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Loonbelasting en AOV aangifte
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:apf-2027-07-20270815@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270815
+DTEND;VALUE=DATE:20270816
+SUMMARY:APF pensioenpremie
+DESCRIPTION:Afdracht APF pensioenpremie over juli 2027 / APF pension prem
+ ium for July 2027. https://exploresuriname.com/salary-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:APF pensioenpremie
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:btw-2027-07-20270815@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270815
+DTEND;VALUE=DATE:20270816
+SUMMARY:BTW-aangifte en betaling
+DESCRIPTION:BTW-aangifte en betaling over juli 2027 / BTW return and paym
+ ent for July 2027. https://exploresuriname.com/btw-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BTW-aangifte en betaling
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:wage_tax-2027-08-20270909@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270909
+DTEND;VALUE=DATE:20270910
+SUMMARY:Loonbelasting en AOV aangifte
+DESCRIPTION:Aangifte en afdracht loonbelasting en AOV over augustus 2027 
+ (portaal: 26ste t/m 10de\; wet: 7e werkdag\, de vroegste geldt) / Wage ta
+ x and AOV return for August 2027 (portal window 26th to 10th\; law: 7th w
+ orking day\, whichever is first). Datum berekend met de feestdagen die nu
+  bekend zijn / date based on the public holidays known today. https://exp
+ loresuriname.com/salary-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Loonbelasting en AOV aangifte
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:apf-2027-08-20270915@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270915
+DTEND;VALUE=DATE:20270916
+SUMMARY:APF pensioenpremie
+DESCRIPTION:Afdracht APF pensioenpremie over augustus 2027 / APF pension 
+ premium for August 2027. https://exploresuriname.com/salary-calculator.ht
+ ml
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:APF pensioenpremie
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:btw-2027-08-20270915@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20270915
+DTEND;VALUE=DATE:20270916
+SUMMARY:BTW-aangifte en betaling
+DESCRIPTION:BTW-aangifte en betaling over augustus 2027 / BTW return and 
+ payment for August 2027. https://exploresuriname.com/btw-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BTW-aangifte en betaling
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:wage_tax-2027-09-20271010@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20271010
+DTEND;VALUE=DATE:20271011
+SUMMARY:Loonbelasting en AOV aangifte
+DESCRIPTION:Aangifte en afdracht loonbelasting en AOV over september 2027
+  (portaal: 26ste t/m 10de\; wet: 7e werkdag\, de vroegste geldt) / Wage t
+ ax and AOV return for September 2027 (portal window 26th to 10th\; law: 7
+ th working day\, whichever is first). Datum berekend met de feestdagen di
+ e nu bekend zijn / date based on the public holidays known today. https:/
+ /exploresuriname.com/salary-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Loonbelasting en AOV aangifte
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:apf-2027-09-20271015@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20271015
+DTEND;VALUE=DATE:20271016
+SUMMARY:APF pensioenpremie
+DESCRIPTION:Afdracht APF pensioenpremie over september 2027 / APF pension
+  premium for September 2027. https://exploresuriname.com/salary-calculato
+ r.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:APF pensioenpremie
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:btw-2027-09-20271015@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20271015
+DTEND;VALUE=DATE:20271016
+SUMMARY:BTW-aangifte en betaling
+DESCRIPTION:BTW-aangifte en betaling over september 2027 / BTW return and
+  payment for September 2027. https://exploresuriname.com/btw-calculator.h
+ tml
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:BTW-aangifte en betaling
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ib_inst-2027-20271015@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20271015
+DTEND;VALUE=DATE:20271016
+SUMMARY:Inkomstenbelasting: termijn voorlopige aanslag
+DESCRIPTION:Betaaltermijn voorlopige aanslag inkomstenbelasting 2027 / Pr
+ ovisional income tax instalment 2027. https://exploresuriname.com/income-
+ tax-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Inkomstenbelasting: termijn voorlopige aanslag
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ib_inst-2027-20271231@exploresuriname.com
+DTSTAMP:20260927T000000Z
+DTSTART;VALUE=DATE:20271231
+DTEND;VALUE=DATE:20280101
+SUMMARY:Inkomstenbelasting: termijn voorlopige aanslag
+DESCRIPTION:Betaaltermijn voorlopige aanslag inkomstenbelasting 2027 / Pr
+ ovisional income tax instalment 2027. https://exploresuriname.com/income-
+ tax-calculator.html
+URL:https://exploresuriname.com/tax-deadlines.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Inkomstenbelasting: termijn voorlopige aanslag
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+END:VCALENDAR
