@@ -37712,10 +37712,6 @@
 "nl": "CIF-waarde in SRD (goederen + vracht + verzekering)",
 "es": "Valor CIF en SRD (mercancía + flete + seguro)"
 },
-"Calculated with the official Surinamese rules; see exploresuriname.com/salary-calculator.html": {
-"nl": "Berekend met de officiële Surinaamse regels; zie exploresuriname.com/salary-calculator.html",
-"es": "Calculado con las normas oficiales de Surinam; vea exploresuriname.com/salary-calculator.html"
-},
 "Calculator": {
 "nl": "Calculator",
 "es": "Calculadora"
@@ -39343,10 +39339,6 @@
 "Look up the rate for your HS code in the official tariff": {
 "nl": "Zoek het tarief voor uw HS-code op in het officiële tarief",
 "es": "Consulte el tipo para su código HS en el arancel oficial"
-},
-"Made with exploresuriname.com/invoice-generator.html": {
-"nl": "Gemaakt met exploresuriname.com/invoice-generator.html",
-"es": "Hecho con exploresuriname.com/invoice-generator.html"
 },
 "Make EAN-13 or Code128 barcodes and print a full A4 sheet of price labels.": {
 "nl": "Maak EAN-13- of Code128-barcodes en print een volledig A4-vel met prijsetiketten.",
@@ -42151,5 +42143,49 @@
 "· the statistics and consent fees are the rates reported by three independent sources; the legal text is not published online, so you can change them.": {
 "nl": "· het statistiekrecht en consentrecht zijn de tarieven die door drie onafhankelijke bronnen worden gemeld; de wettekst is niet online gepubliceerd, dus u kunt ze aanpassen.",
 "es": "· los derechos de estadística y de consentimiento son las tasas indicadas por tres fuentes independientes; el texto legal no se publica en línea, así que puede modificarlas."
+},
+"Calculated with the official Surinamese rules; see exploresuriname.com/salary-calculator": {
+"nl": "Berekend met de officiële Surinaamse regels; zie exploresuriname.com/salary-calculator",
+"es": "Calculado con las normas oficiales de Surinam; vea exploresuriname.com/salary-calculator"
+},
+"Made with exploresuriname.com/invoice-generator": {
+"nl": "Gemaakt met exploresuriname.com/invoice-generator",
+"es": "Hecho con exploresuriname.com/invoice-generator"
+},
+"Earlier PDF lists (gov.sr)": {
+"nl": "Eerdere PDF-lijsten (gov.sr)",
+"es": "Listas PDF anteriores (gov.sr)"
+},
+"Official prices, as published now": {
+"nl": "Officiële prijzen, zoals nu gepubliceerd",
+"es": "Precios oficiales, tal como se publican ahora"
+},
+"Prices are copied word for word from the ministry; we do not recalculate them. If anything differs, the ministry's own publication is leading.\n  Complaints about prices go to the Ministry of Economic Affairs via": {
+"nl": "De prijzen worden letterlijk van het ministerie overgenomen; wij rekenen ze niet om. Bij verschillen is de publicatie van het ministerie zelf leidend. Klachten over prijzen dient u in bij het Ministerie van Economische Zaken via",
+"es": "Los precios se copian literalmente del ministerio; no los recalculamos. Si algo difiere, prevalece la publicación del propio ministerio. Las quejas sobre precios se presentan al Ministerio de Asuntos Económicos a través de"
+},
+"SRD Check (EZOTI)": {
+"nl": "SRD Check (EZOTI)",
+"es": "SRD Check (EZOTI)"
+},
+"The ministry updates its prices regularly, usually every two weeks. We check the ministry's price portal SRD Check and its published lists several times a day and always show the newest official prices.": {
+"nl": "Het ministerie werkt de prijzen regelmatig bij, meestal elke twee weken. Wij controleren het prijsportaal SRD Check en de gepubliceerde lijsten van het ministerie meerdere keren per dag en tonen altijd de nieuwste officiële prijzen.",
+"es": "El ministerio actualiza sus precios con regularidad, normalmente cada dos semanas. Revisamos el portal de precios SRD Check y las listas publicadas del ministerio varias veces al día y siempre mostramos los precios oficiales más recientes."
+},
+"products, as published now on the ministry's price portal. Checked on": {
+"nl": "producten, zoals nu gepubliceerd op het prijsportaal van het ministerie. Gecontroleerd op",
+"es": "productos, tal como se publican ahora en el portal de precios del ministerio. Verificado el"
+},
+"products, exactly as published by the Ministry of Economic Affairs (EZOTI) on its price portal. Checked on": {
+"nl": "producten, precies zoals gepubliceerd door het Ministerie van Economische Zaken (EZOTI) op zijn prijsportaal. Gecontroleerd op",
+"es": "productos, exactamente como los publica el Ministerio de Asuntos Económicos (EZOTI) en su portal de precios. Verificado el"
+},
+"Last change we saw:": {
+"nl": "Laatste wijziging die wij zagen:",
+"es": "Último cambio que vimos:"
+},
+"The ministry's price portal could not be reached recently; these are the last prices we received.": {
+"nl": "Het prijsportaal van het ministerie was de laatste tijd niet bereikbaar; dit zijn de laatste prijzen die wij ontvingen.",
+"es": "El portal de precios del ministerio no ha estado disponible recientemente; estos son los últimos precios que recibimos."
 }
 }

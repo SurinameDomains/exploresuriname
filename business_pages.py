@@ -110,16 +110,32 @@ BIZ_PAGES = [
      "belastingdienst adres openingstijden telefoon douane kkf contact"),
 ]
 BIZ_KEYS = {p[1] for p in BIZ_PAGES}
-BIZ_SEARCH = [{"n": p[2], "u": p[0], "c": "Guides", "a": "Suriname",
+
+
+def biz_url(fname):
+    """Public URL path of a business page: no .html (GitHub Pages serves
+    business.html at /business). Files on disk keep their .html name."""
+    return fname[:-5] if fname.endswith(".html") else fname
+
+
+BIZ_FILES = [p[0] for p in BIZ_PAGES]
+# href="x.html", href='x.html', "/x.html", "../x.html" and SITE_URL/x.html -> clean;
+# the lookbehind stops e.g. submit-business.html from matching business.html.
+_CLEAN_RE = __import__("re").compile(r"(?<=[\"'/])(" + "|".join(__import__("re").escape(f[:-5]) for f in BIZ_FILES) + r")\.html(?=[\"'#?\s])")
+
+
+def clean_links(html):
+    return _CLEAN_RE.sub(r"\1", html)
+BIZ_SEARCH = [{"n": p[2], "u": biz_url(p[0]), "c": "Guides", "a": "Suriname",
                "k": (p[2] + " " + p[3] + " " + p[5]).lower()} for p in BIZ_PAGES]
-BIZ_SITEMAP = [(p[0], "0.8" if p[4] in ("hub", "calc", "people", "live") else "0.7",
+BIZ_SITEMAP = [(biz_url(p[0]), "0.8" if p[4] in ("hub", "calc", "people", "live") else "0.7",
                 "daily" if p[4] in ("hub", "live") else "monthly") for p in BIZ_PAGES]
 
 
 def llms_section(site_url):
     lines = ["", "## Business tools (free, for Surinamese businesses)"]
     for f, _k, t, d, _g, _kw in BIZ_PAGES:
-        lines.append(f"- [{t}]({site_url}/{f}): {d}")
+        lines.append(f"- [{t}]({site_url}/{biz_url(f)}): {d}")
     return "\n".join(lines) + "\n"
 
 
@@ -243,7 +259,10 @@ KIT_JS = r"""
     function fallback(){ var ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); toast(T('copied')); }catch(e){} document.body.removeChild(ta); } }
   function wa(text){ window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener'); }
   // shareable state: ?a=1&b=2 (only the listed input ids)
-  function saveUrl(ids){ try{ var q = new URLSearchParams(); ids.forEach(function(id){ var el=$(id); if(!el) return;
+  // Only put inputs in the address bar after the visitor changed something, so a
+  // freshly opened tool keeps its clean URL (/btw-calculator, not ?amt=...).
+  var touched = false; ['input','change','click'].forEach(function(ev){ document.addEventListener(ev, function(e){ if(e.isTrusted && e.target && e.target.closest && e.target.closest('main')) touched = true; }, true); });
+  function saveUrl(ids){ if(!touched) return; try{ var q = new URLSearchParams(); ids.forEach(function(id){ var el=$(id); if(!el) return;
       var v = el.type==='checkbox' ? (el.checked?'1':'') : (el.getAttribute('role')==='group' ? segVal(id) : el.value); if(v) q.set(id, v); });
       var s = q.toString(); history.replaceState(null, '', location.pathname + (s ? '?' + s : '')); }catch(e){} }
   function loadUrl(ids){ try{ var q = new URLSearchParams(location.search); ids.forEach(function(id){ if(!q.has(id)) return; var el=$(id); if(!el) return;
@@ -500,11 +519,11 @@ class _Ctx:
         title = title or meta[2]
         desc = desc or meta[3]
         ld = {"@context": "https://schema.org", "@type": "WebApplication", "name": title,
-              "url": f'{self.c["SITE_URL"]}/{fname}', "description": desc,
+              "url": f'{self.c["SITE_URL"]}/{biz_url(fname)}', "description": desc,
               "applicationCategory": "BusinessApplication", "operatingSystem": "Any",
               "inLanguage": "en", "isAccessibleForFree": True,
               "offers": {"@type": "Offer", "price": "0", "priceCurrency": "SRD"}} if meta[4] not in ("guide", "hub") else None
-        head = self.c["hub_head"](_esc(title), _esc(desc), fname, faq=faq, extra_ld=ld)
+        head = self.c["hub_head"](_esc(title), _esc(desc), biz_url(fname), faq=faq, extra_ld=ld)
         head = head.replace("</head>", KIT_CSS + extra_head + "\n</head>", 1)
         hero = self.c["hub_hero"](kicker, h1, sub).replace("{NAV}", self.c["nav_html"](key))
         tstr = dict(KIT_T)
@@ -518,7 +537,7 @@ class _Ctx:
         vend = "".join(f'<script src="{v}" defer></script>' for v in vendor)
         scripts = data + '<script>' + self.engine + '</script>' + KIT_JS + vend + (('<script>' + js + '</script>') if js else "")
         html = (head + hero + main + _t_block(tstr) + scripts + "\n" + self.c["footer_html"]() + "\n</body>\n</html>")
-        return _fill_tokens(html, _rule_tokens(self.R, self.today), fname)
+        return clean_links(_fill_tokens(html, _rule_tokens(self.R, self.today), fname))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -785,9 +804,9 @@ _NL_MONTHS = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "a
               "oktober", "november", "december"]
 _EN_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
               "October", "November", "December"]
-_DL_TOOL = {"btw": "btw-calculator.html", "wage_tax": "salary-calculator.html", "apf": "salary-calculator.html",
-            "ib_prov": "income-tax-calculator.html", "ib_final": "income-tax-calculator.html",
-            "ib_inst": "income-tax-calculator.html"}
+_DL_TOOL = {"btw": "btw-calculator", "wage_tax": "salary-calculator", "apf": "salary-calculator",
+            "ib_prov": "income-tax-calculator", "ib_final": "income-tax-calculator",
+            "ib_inst": "income-tax-calculator"}
 
 
 def build_ics(R, H, site_url, start):
@@ -828,7 +847,7 @@ def build_ics(R, H, site_url, start):
         L += ["BEGIN:VEVENT", f"UID:{o['kind']}-{p}-{d:%Y%m%d}@exploresuriname.com", f"DTSTAMP:{stamp}",
               f"DTSTART;VALUE=DATE:{d:%Y%m%d}", f"DTEND;VALUE=DATE:{(d + _dt.timedelta(days=1)):%Y%m%d}",
               fold("SUMMARY:" + esc(summary)), fold("DESCRIPTION:" + esc(desc)),
-              f"URL:{site_url}/tax-deadlines.html", "TRANSP:TRANSPARENT",
+              f"URL:{site_url}/tax-deadlines", "TRANSP:TRANSPARENT",
               "BEGIN:VALARM", "ACTION:DISPLAY", fold("DESCRIPTION:" + esc(summary)), "TRIGGER:-P2D", "END:VALARM",
               "END:VEVENT"]
     L.append("END:VCALENDAR")
@@ -878,9 +897,14 @@ def _hub_page(X, feeds, prices):
     dl_rows = "".join(f'<tr><td class="bz-num"><span class="bz-date" data-d="{o["date"].isoformat()}">{o["date"].isoformat()}</span></td>'
                       f'<td>{kinds[o["kind"]]}</td></tr>' for o in dl)
     mp = ""
-    if prices.get("rows"):
-        mp = (f'<p class="text-sm">Current list: <span class="bz-date" data-d="{prices["valid_from"]}">{prices["valid_from"]}</span> &ndash; '
-              f'<span class="bz-date" data-d="{prices["valid_to"]}">{prices["valid_to"]}</span>, {len(prices["rows"])} products.</p>')
+    PV = _prices_view(prices)
+    if PV["rows"] and PV["source"] == "srdcheck":
+        ck = PV["checked"][:10]
+        mp = (f'<p class="text-sm"><span translate="no">{len(PV["rows"])}</span> products, as published now on the ministry&#39;s price portal. '
+              f'Checked on <span class="bz-date" data-d="{ck}" translate="no">{ck}</span>.</p>')
+    elif PV["rows"]:
+        mp = (f'<p class="text-sm">Current list: <span class="bz-date" data-d="{PV["valid_from"]}">{PV["valid_from"]}</span> &ndash; '
+              f'<span class="bz-date" data-d="{PV["valid_to"]}">{PV["valid_to"]}</span>, <span translate="no">{len(PV["rows"])}</span> products.</p>')
     body = f"""
 <div class="bz-card" style="background:var(--mint);border-color:#BFDDB8">
   <p style="font-size:1.05rem;line-height:1.6;color:var(--forest)">Free tools for Surinamese businesses: no account, no limits, and they work on your phone, also offline.
@@ -1505,18 +1529,47 @@ def _page_tenders(X, feeds, prices):
 # ─────────────────────────────────────────────────────────────────────────────
 # Maximum prices basic goods (data/max_prices.json)
 # ─────────────────────────────────────────────────────────────────────────────
+def _prices_view(prices):
+    """data/max_prices.json -> what the pages show. Handles the current format
+    (srdcheck + pdf, written by scripts/biz_feeds.py) and the old PDF-only one."""
+    if "show" not in prices:  # old format
+        return {"source": "pdf" if prices.get("rows") else "", "rows": prices.get("rows") or [],
+                "valid_from": prices.get("valid_from", ""), "valid_to": prices.get("valid_to", ""),
+                "pdf_url": prices.get("pdf_url", ""), "checked": prices.get("checked", ""), "changed": "", "fails": 0}
+    src = prices.get("show", "")
+    part = prices.get("srdcheck" if src == "srdcheck" else "pdf") or {}
+    pdf = prices.get("pdf") or {}
+    return {"source": src, "rows": part.get("rows") or [],
+            "valid_from": pdf.get("valid_from", "") if src == "pdf" else "", "valid_to": pdf.get("valid_to", "") if src == "pdf" else "",
+            "pdf_url": pdf.get("pdf_url", ""), "checked": part.get("checked", ""), "changed": part.get("changed", ""),
+            "fails": int(part.get("fails", 0) or 0)}
+
+
+SRDCHECK_URL = "https://ez.gov.sr/product/index"
+
+
 def _page_prices(X, feeds, prices):
     """max-prices-basic-goods.html"""
-    rows = prices.get("rows") or []
+    P = _prices_view(prices)
+    rows = P["rows"]
     src_page = "https://gov.sr/ministeries/ministerie-van-economische-zaken-ondernemerschap-technologische-innovatie/richtprijzen-basis-en-strategische-goederen/"
     if rows:
-        vf, vt = prices["valid_from"], prices["valid_to"]
-        expired = vt < X.today.isoformat()
-        head = (f'<div class="bz-res"><div class="bz-k">Official list valid</div>'
-                f'<div class="bz-big" style="font-size:1.5rem"><span class="bz-date" data-d="{vf}">{vf}</span> &ndash; <span class="bz-date" data-d="{vt}">{vt}</span></div>'
-                f'<div class="bz-say">{len(rows)} products. Prices exactly as published by the Ministry of Economic Affairs (EZOTI).</div></div>')
-        exp_html = ('<div class="bz-note" id="expnote">This list&#39;s period has ended and no newer list has been published yet. '
-                    'It is the most recent official list; we check for a new one every few hours.</div>') if expired else '<div id="expnote" hidden></div>'
+        ck = P["checked"][:10]
+        if P["source"] == "srdcheck":
+            chg = (f'<br>Last change we saw: <span class="bz-date" data-d="{P["changed"]}" translate="no">{P["changed"]}</span>.' if P["changed"] else "")
+            head = (f'<div class="bz-res"><div class="bz-k">Official prices, as published now</div>'
+                    f'<div class="bz-big" style="font-size:1.5rem"><span translate="no">SRD Check</span></div>'
+                    f'<div class="bz-say"><span translate="no">{len(rows)}</span> products, exactly as published by the Ministry of Economic Affairs (EZOTI) on its price portal. '
+                    f'Checked on <span class="bz-date" data-d="{ck}" translate="no">{ck}</span>.{chg}</div></div>')
+            exp_html = ('<div class="bz-note" id="expnote">The ministry&#39;s price portal could not be reached recently; these are the last prices we received.</div>'
+                        if P["fails"] >= 3 else '<div id="expnote" hidden></div>')
+        else:
+            vf, vt = P["valid_from"], P["valid_to"]
+            head = (f'<div class="bz-res"><div class="bz-k">Official list valid</div>'
+                    f'<div class="bz-big" style="font-size:1.5rem"><span class="bz-date" data-d="{vf}">{vf}</span> &ndash; <span class="bz-date" data-d="{vt}">{vt}</span></div>'
+                    f'<div class="bz-say"><span translate="no">{len(rows)}</span> products. Prices exactly as published by the Ministry of Economic Affairs (EZOTI).</div></div>')
+            exp_html = ('<div class="bz-note" id="expnote">This list&#39;s period has ended and no newer list has been published yet. '
+                        'It is the most recent official list; we check for a new one every few hours.</div>') if vt < X.today.isoformat() else '<div id="expnote" hidden></div>'
         trs = "".join(
             f'<tr data-s="{_esc((r["product"] + " " + r["importer"]).lower())}"><td translate="no"><b>{_esc(r["product"])}</b>'
             + (f'<br><small style="color:var(--ink-soft)">{_esc(r["importer"])}</small>' if r["importer"] else "")
@@ -1527,17 +1580,18 @@ def _page_prices(X, feeds, prices):
                  f'<div class="bz-scroll"><table class="bz-tbl" style="min-width:640px"><thead><tr><th>Product / importer</th><th>Retail unit</th>'
                  f'<th class="n">Max. consumer price</th><th>Wholesale unit</th><th class="n">Max. wholesale price</th></tr></thead>'
                  f'<tbody id="pt">{trs}</tbody></table></div>')
-        pdf = f'<a class="bz-btn2" href="{_esc(prices.get("pdf_url", src_page))}" target="_blank" rel="noopener">Official PDF</a>'
+        pdf = (f'<a class="bz-btn2" href="{SRDCHECK_URL}" target="_blank" rel="noopener">SRD Check (EZOTI)</a>' if P["source"] == "srdcheck"
+               else f'<a class="bz-btn2" href="{_esc(P["pdf_url"] or src_page)}" target="_blank" rel="noopener">Official PDF</a>')
     else:
-        head, exp_html, table = "", "", '<div class="bz-note">The price list could not be read automatically right now. Please use the official PDF below.</div>'
-        pdf = f'<a class="bz-btn2" href="{src_page}" target="_blank" rel="noopener">Official price lists</a>'
+        head, exp_html, table = "", "", '<div class="bz-note">The price list could not be read automatically right now. Please use the official source below.</div>'
+        pdf = f'<a class="bz-btn2" href="{SRDCHECK_URL}" target="_blank" rel="noopener">SRD Check (EZOTI)</a>'
     body = f"""
 {head}{exp_html}
 <div class="bz-card">
   <h2>Price list</h2>
   {table}
-  <div class="bz-acts">{pdf}<a class="bz-btn2" href="{src_page}" target="_blank" rel="noopener">All published lists</a></div>
-  <p class="bz-src" style="margin-top:.7rem">Prices are copied word for word from the official PDF; we do not recalculate them. If anything differs, the official PDF is leading.
+  <div class="bz-acts">{pdf}<a class="bz-btn2" href="{src_page}" target="_blank" rel="noopener">Earlier PDF lists (gov.sr)</a></div>
+  <p class="bz-src" style="margin-top:.7rem">Prices are copied word for word from the ministry; we do not recalculate them. If anything differs, the ministry&#39;s own publication is leading.
   Complaints about prices go to the Ministry of Economic Affairs via <a href="https://ez.gov.sr/" target="_blank" rel="noopener">ez.gov.sr</a>.</p>
 </div>
 """
@@ -1551,7 +1605,7 @@ function f(){ var q=($('q').value||'').toLowerCase().trim().split(/\s+/).filter(
 var ex=$('expnote'); if(ex && ex.hidden===false){ } $('q').addEventListener('input', f); f(); })();
 """
     faq = [("What are these maximum prices?", "The Ministry of Economic Affairs (EZOTI) publishes a list of basic goods every period with the maximum wholesale price and the maximum consumer price per brand and importer."),
-           ("How often is the list updated?", "Usually every two weeks. We check the ministry's page several times a day and show the newest list with its validity period.")]
+           ("How often is the list updated?", "The ministry updates its prices regularly, usually every two weeks. We check the ministry's price portal SRD Check and its published lists several times a day and always show the newest official prices.")]
     return X.page("max-prices-basic-goods.html", "biz-prices", "Live from the government", "Maximum Prices of Basic Goods",
                   "The official maximum prices of basic goods in Suriname, searchable by product, brand and importer.",
                   body, js, strings, faq, rule_keys=(), related=("biz-pricing", "biz-tenders", "biz-import"))
@@ -1857,7 +1911,7 @@ def _page_invoice(X, feeds, prices):
         "p_from": "From", "p_to": "To", "p_no": "Number", "p_date": "Date", "p_deliv": "Delivery date", "p_due": "Due date", "p_valid": "Valid until",
         "p_desc": "Description", "p_qty": "Qty", "p_price": "Unit price", "p_btw": "BTW", "p_amt": "Amount", "p_ref": "Your reference",
         "p_kkf": "KKF", "p_fin": "FIN", "p_pay": "Payment details", "p_fx": "Exchange rate used: 1 {c} = SRD {r}",
-        "p_ex": "exempt", "p_page": "Made with exploresuriname.com/invoice-generator.html",
+        "p_ex": "exempt", "p_page": "Made with exploresuriname.com/invoice-generator",
         "saved_c": "Customer saved", "new_q": "Start a new document? Unsaved changes are kept in your history.", "line_def": "Description",
         "h_open": "open"})
     js = _DOCS_JS + r"""
@@ -2335,7 +2389,7 @@ def _page_payslip(X, feeds, prices):
     strings = dict(_DOC_STRINGS)
     strings.update(_SALARY_STRINGS)
     strings.update({"say": "{n} for {m}.", "t_slip": "PAYSLIP", "p_emp": "Employee", "p_per": "Period", "p_job": "Job", "p_no": "Staff no.",
-                    "p_employer": "Employer", "p_fin": "FIN", "p_paid": "Net pay", "p_note": "Calculated with the official Surinamese rules; see exploresuriname.com/salary-calculator.html",
+                    "p_employer": "Employer", "p_fin": "FIN", "p_paid": "Net pay", "p_note": "Calculated with the official Surinamese rules; see exploresuriname.com/salary-calculator",
                     "p_ercost": "Employer contributions (not deducted from the employee)", "no_emps": "Save at least one employee first.", "saved_e": "Employee saved", "sel": "New employee"})
     ids = "['e_name','e_no','e_job','amt','ot','ta','ua','ca','kids','apf','apfer','bzv','bzver','med','a60','nop']"
     js = _DOCS_JS + _SALARY_JS + r"""

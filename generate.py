@@ -5187,14 +5187,14 @@ def nav_html(active="home", prefix=""):
 
     # Business tools: a short list of the most-used tools + the hub with everything
     biz_items = (
-        f'<a href="{prefix}business.html"             {_link_cls("biz")}          >All Business Tools</a>'
-        f'<a href="{prefix}btw-calculator.html"       {_link_cls("biz-btw")}      >BTW Calculator</a>'
-        f'<a href="{prefix}salary-calculator.html"    {_link_cls("biz-salary")}   >Salary Calculator</a>'
-        f'<a href="{prefix}invoice-generator.html"    {_link_cls("biz-invoice")}  >Invoice Maker</a>'
-        f'<a href="{prefix}tax-deadlines.html"        {_link_cls("biz-deadlines")}>Tax Deadlines</a>'
-        f'<a href="{prefix}government-tenders.html"   {_link_cls("biz-tenders")}  >Government Tenders</a>'
-        f'<a href="{prefix}qr-code-generator.html"    {_link_cls("biz-qr")}       >QR Code Generator</a>'
-        f'<a href="{prefix}pdf-tools.html"            {_link_cls("biz-pdf")}      >PDF Tools</a>'
+        f'<a href="{prefix}business"             {_link_cls("biz")}          >All Business Tools</a>'
+        f'<a href="{prefix}btw-calculator"       {_link_cls("biz-btw")}      >BTW Calculator</a>'
+        f'<a href="{prefix}salary-calculator"    {_link_cls("biz-salary")}   >Salary Calculator</a>'
+        f'<a href="{prefix}invoice-generator"    {_link_cls("biz-invoice")}  >Invoice Maker</a>'
+        f'<a href="{prefix}tax-deadlines"        {_link_cls("biz-deadlines")}>Tax Deadlines</a>'
+        f'<a href="{prefix}government-tenders"   {_link_cls("biz-tenders")}  >Government Tenders</a>'
+        f'<a href="{prefix}qr-code-generator"    {_link_cls("biz-qr")}       >QR Code Generator</a>'
+        f'<a href="{prefix}pdf-tools"            {_link_cls("biz-pdf")}      >PDF Tools</a>'
     )
 
     # Games
@@ -5278,14 +5278,14 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}suriname-time.html", "Time & Converter", "surtime")
     )
     mob_biz_items = (
-        _mob_link(f"{prefix}business.html",           "All Business Tools", "biz")           +
-        _mob_link(f"{prefix}btw-calculator.html",     "BTW Calculator",     "biz-btw")       +
-        _mob_link(f"{prefix}salary-calculator.html",  "Salary Calculator",  "biz-salary")    +
-        _mob_link(f"{prefix}invoice-generator.html",  "Invoice Maker",      "biz-invoice")   +
-        _mob_link(f"{prefix}tax-deadlines.html",      "Tax Deadlines",      "biz-deadlines") +
-        _mob_link(f"{prefix}government-tenders.html", "Government Tenders", "biz-tenders")   +
-        _mob_link(f"{prefix}qr-code-generator.html",  "QR Code Generator",  "biz-qr")        +
-        _mob_link(f"{prefix}pdf-tools.html",          "PDF Tools",          "biz-pdf")
+        _mob_link(f"{prefix}business",           "All Business Tools", "biz")           +
+        _mob_link(f"{prefix}btw-calculator",     "BTW Calculator",     "biz-btw")       +
+        _mob_link(f"{prefix}salary-calculator",  "Salary Calculator",  "biz-salary")    +
+        _mob_link(f"{prefix}invoice-generator",  "Invoice Maker",      "biz-invoice")   +
+        _mob_link(f"{prefix}tax-deadlines",      "Tax Deadlines",      "biz-deadlines") +
+        _mob_link(f"{prefix}government-tenders", "Government Tenders", "biz-tenders")   +
+        _mob_link(f"{prefix}qr-code-generator",  "QR Code Generator",  "biz-qr")        +
+        _mob_link(f"{prefix}pdf-tools",          "PDF Tools",          "biz-pdf")
     )
     mob_games_items = (
         _mob_link(f"{prefix}quiz.html",      "Sabi Suriname Quiz",   "quiz") +
@@ -5748,11 +5748,11 @@ def footer_html(prefix=""):
       </div>
       <div class="ftr-h" style="margin-top:26px">Business</div>
       <div class="ftr-col">
-        <a class="ftr-lnk" href="{prefix}business.html">All Business Tools</a>
-        <a class="ftr-lnk" href="{prefix}btw-calculator.html">BTW Calculator</a>
-        <a class="ftr-lnk" href="{prefix}salary-calculator.html">Salary Calculator</a>
-        <a class="ftr-lnk" href="{prefix}invoice-generator.html">Invoice Maker</a>
-        <a class="ftr-lnk" href="{prefix}government-tenders.html">Government Tenders</a>
+        <a class="ftr-lnk" href="{prefix}business">All Business Tools</a>
+        <a class="ftr-lnk" href="{prefix}btw-calculator">BTW Calculator</a>
+        <a class="ftr-lnk" href="{prefix}salary-calculator">Salary Calculator</a>
+        <a class="ftr-lnk" href="{prefix}invoice-generator">Invoice Maker</a>
+        <a class="ftr-lnk" href="{prefix}government-tenders">Government Tenders</a>
       </div>
     </div>
     <div>
@@ -18948,6 +18948,8 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         # Only the sitemap date is affected here; the generated page output is untouched.
         fname = (seg + "index.html") if (not seg or seg.endswith("/")) else seg
         _p = Path(fname)
+        if not _p.exists() and Path(fname + ".html").exists():   # clean URLs (business pages)
+            _p = Path(fname + ".html")
         if not _p.exists():
             return today
         try:

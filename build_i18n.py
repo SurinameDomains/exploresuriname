@@ -250,7 +250,7 @@ def localize(soup, lang: str, rel_path: str):
 
     # canonical + og:url -> prefix the path for non-en
     prefix = "" if lang == "en" else f"/{lang}"
-    canon = f"{SITE_URL}{prefix}/{rel_path}".replace("/index.html", "/")
+    canon = f"{SITE_URL}{prefix}/{url_path(rel_path)}".replace("/index.html", "/")
     # Redirect stubs must keep pointing at their target, never self-canonicalize.
     _STUBS = {"today.html": "/daily-notices.html",
               "worldcup-2026.html": "/matches.html",
@@ -283,6 +283,23 @@ def localize(soup, lang: str, rel_path: str):
     return soup
 
 # ── per-page hreflang/x-default (identical set on every tree) ─────────────────
+# Clean URLs: pages listed here are published without ".html" (GitHub Pages
+# serves x.html at /x). Read from the business registry; if that import fails,
+# fall back to the old behaviour (with .html) rather than breaking the build.
+try:
+    from business_pages import BIZ_FILES as _CLEAN_FILES
+    _CLEAN_FILES = set(_CLEAN_FILES)
+except Exception:
+    _CLEAN_FILES = set()
+
+
+def url_path(rel_path: str) -> str:
+    """Public path for a file path (index.html -> '', clean pages lose .html)."""
+    if rel_path in _CLEAN_FILES:
+        return rel_path[:-5]
+    return rel_path
+
+
 def inject_hreflang(soup, rel_path: str):
     head = soup.head
     if not head: return
@@ -290,7 +307,7 @@ def inject_hreflang(soup, rel_path: str):
         el.decompose()
     def url_for(code):
         pre = "" if code == "en" else f"/{code}"
-        return f"{SITE_URL}{pre}/{rel_path}".replace("/index.html", "/")
+        return f"{SITE_URL}{pre}/{url_path(rel_path)}".replace("/index.html", "/")
     for code in ["en", "nl", "es"]:
         tag = soup.new_tag("link", rel="alternate", hreflang=code, href=url_for(code))
         head.append(tag)
@@ -380,7 +397,7 @@ def inject_switcher(soup, lang: str, rel_path: str):
 
     def href(code):
         pre = "" if code == "en" else f"/{code}"
-        return (f"{pre}/{rel_path}".replace("/index.html", "/")) or "/"
+        return (f"{pre}/{url_path(rel_path)}".replace("/index.html", "/")) or "/"
 
     def globe(stroke):
         svg = soup.new_tag("svg", attrs={"width":"15","height":"15","viewBox":"0 0 24 24",
