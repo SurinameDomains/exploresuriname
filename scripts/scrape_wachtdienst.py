@@ -128,6 +128,14 @@ def parse(html):
                     clinic = clinic[:note_m.start()].strip()
 
                 address, phone = "", ""
+                # RGD sometimes puts a note on its own line between the name and
+                # the address, e.g. "(zaterdag en zondag ochtend)". Take it as the
+                # note and keep looking for the Adres line, or that doctor ends up
+                # without an address and phone (happened 26-28 Sep 2026).
+                while (i + 1 < len(lines)
+                       and re.fullmatch(r"\(.{1,120}\)", lines[i + 1])):
+                    note = (note + "; " if note else "") + lines[i + 1].strip("() ").strip()
+                    i += 1
                 # Check next line for Adres
                 if i + 1 < len(lines) and re.match(r"Adres\s*[:]\s*", lines[i + 1], re.IGNORECASE):
                     address, phone = _split_adres(lines[i + 1])
