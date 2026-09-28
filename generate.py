@@ -3405,6 +3405,7 @@ _SI_LIST = [
     {"n": "Sports Schedule: Natio, SML, Football, NBA, Fight Nights in Suriname Time", "u": "matches.html", "c": "Guides", "a": "Suriname"},
     {"n": "Suriname Time and World Clock Converter", "u": "suriname-time.html", "c": "Guides", "a": "Suriname"},
     {"n": "Sranan Tongo Dictionary and Phrasebook", "u": "sranan-tongo-dictionary.html", "c": "Guides", "a": "Suriname"},
+    {"n": "About Suriname: Facts, Geography, People and Culture", "u": "about-suriname.html", "c": "Guides", "a": "Suriname"},
     {"n": "History of Suriname: Interactive Timeline", "u": "suriname-history.html", "c": "Guides", "a": "Suriname"},
     {"n": "Switi Mini: Daily Surinaamse Crossword", "u": "crossword.html", "c": "Guides", "a": "Suriname"},
     {"n": "Sabi Suriname: Daily Suriname Quiz", "u": "quiz.html", "c": "Guides", "a": "Suriname"},
@@ -3470,6 +3471,7 @@ _GUIDE_KW = {
                             "vrouwen dames women youth marathon hardlopen loop robinhood broki transvaal leo victor",
  "suriname-time.html":      "time clock timezone converter tijd tijdzone tijdverschil klok",
  "sranan-tongo-dictionary.html": "sranan tongo dictionary phrasebook translate language woordenboek taal vertalen",
+ "about-suriname.html":     "about suriname facts country population language religion climate geography capital districts flag anthem economy over suriname feiten land bevolking taal",
  "suriname-history.html":   "history timeline slavery colonial independence geschiedenis tijdlijn",
  "crossword.html":          "crossword puzzle game switi kruiswoord puzzel spel",
  "quiz.html":               "quiz trivia game questions spel vragen",
@@ -5219,8 +5221,8 @@ def nav_html(active="home", prefix=""):
     #   Live     = anything whose numbers changed since yesterday
     #   Business = plain dropdown (Sep 28 2026, was a 32-link mega menu):
     #              All tools + popular / live / guides, from business_pages.NAV_MENU
-    #   Learn    = Oil & Gas (hub only; the section has its own chip strip),
-    #              History, Sranan dictionary
+    #   Learn    = About Suriname (country fact file), Oil & Gas (hub only; the
+    #              section has its own chip strip), History, Sranan dictionary
     #   Games    = self-contained section
     #   News     = single link
     _EXPL  = {"activities", "events", "shopping", "services"}
@@ -5231,7 +5233,7 @@ def nav_html(active="home", prefix=""):
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto"}
     _OILG  = {"oilgas", "oilblocks", "granmorgu", "oiltimeline", "oilcontracts",
               "oilgov", "oiljobs"}
-    _LEARN = {"history", "dictionary"} | _OILG
+    _LEARN = {"aboutsr", "history", "dictionary"} | _OILG
     _BIZT  = _BIZTOOLS_KEYS   # Business tools (business_pages.py)
 
     def _is_active(key):
@@ -5322,6 +5324,7 @@ def nav_html(active="home", prefix=""):
     )
     # Learn
     learn_items = (
+        f'<a href="{prefix}about-suriname.html"          {_link_cls("aboutsr")}       >About Suriname</a>'
         f'<a href="{prefix}oil-and-gas.html"             {_link_cls("oilgas", _OILG)} >Oil &amp; Gas</a>'
         f'<a href="{prefix}suriname-history.html"        {_link_cls("history")}       >History Timeline</a>'
         f'<a href="{prefix}sranan-tongo-dictionary.html" {_link_cls("dictionary")}    >Sranan Dictionary</a>'
@@ -5380,9 +5383,9 @@ def nav_html(active="home", prefix=""):
         _mega_dd("dd-expl", "Explore", expl_cols, _EXPLORE)                 +
         _desktop_dd("dd-plan", "Plan",           plan_items, _PLAN)         +
         _desktop_dd("dd-live", "Live",           live_items, _LIVE)         +
-        _desktop_dd("dd-biz", "Business",      biz_items, _BIZT)          +
         _desktop_dd("dd-learn","Learn",          learn_items, _LEARN)       +
         _desktop_dd("dd-games","Games",          games_items,_GAMES)        +
+        _desktop_dd("dd-biz", "Business",      biz_items, _BIZT)          +
         f'<a href="{prefix}news.html" {_top_single_style("news")}>News</a>'
     )
 
@@ -5430,6 +5433,7 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}flights.html",            "Flights",           "flights")
     )
     mob_learn_items = (
+        _mob_link(f"{prefix}about-suriname.html",          "About Suriname",    "aboutsr")       +
         _mob_link(f"{prefix}oil-and-gas.html",             "Oil & Gas",         "oilgas", _OILG) +
         _mob_link(f"{prefix}suriname-history.html",        "History Timeline",  "history")       +
         _mob_link(f"{prefix}sranan-tongo-dictionary.html", "Sranan Dictionary", "dictionary")
@@ -5465,9 +5469,9 @@ def nav_html(active="home", prefix=""):
         _mob_group("mg-expl", "Explore",     mob_expl_items + mob_eat_items, _EXPLORE) +
         _mob_group("mg-plan", "Plan",        mob_plan_items,  _PLAN)   +
         _mob_group("mg-live", "Live",        mob_live_items,  _LIVE)   +
-        _mob_group("mg-biz",  "Business",    mob_biz_items,   _BIZT)   +
         _mob_group("mg-learn","Learn",       mob_learn_items, _LEARN)  +
         _mob_group("mg-games","Games",       mob_games_items, _GAMES)  +
+        _mob_group("mg-biz",  "Business",    mob_biz_items,   _BIZT)   +
         _news_link
     )
 
@@ -5938,6 +5942,7 @@ def footer_html(prefix=""):
       </div>
       <div class="ftr-h" style="margin-top:26px">Learn</div>
       <div class="ftr-col">
+        <a class="ftr-lnk" href="{prefix}about-suriname.html">About Suriname</a>
         <a class="ftr-lnk" href="{prefix}oil-and-gas.html">Oil &amp; Gas</a>
         <a class="ftr-lnk" href="{prefix}suriname-history.html">History Timeline</a>
         <a class="ftr-lnk" href="{prefix}sranan-tongo-dictionary.html">Sranan Dictionary</a>
@@ -17277,6 +17282,431 @@ def build_safety_page():
     return head + hero + main + "\n" + footer_html() + "\n</body>\n</html>"
 
 
+def build_about_suriname_page():
+    """about-suriname.html: the country fact file (Sep 2026).
+    Long-form, fact-dense reference page aimed at the "about Suriname" /
+    "Suriname facts" queries. Every section opens with a scannable table or
+    stat grid (high extraction for search snippets and AI answers), then short
+    prose, then links into the deeper pages (history, dictionary, events,
+    currency, oil & gas). Figures carry their source year; refresh the
+    population block when the ABS publishes the 2024-25 census results."""
+    title = "About Suriname: Facts, Geography, People and Culture (2026)"
+    desc  = ("Suriname in one page: where it is, population and peoples, languages, religions, "
+             "climate, history, government, economy, nature and national symbols. Updated for 2026.")
+
+    faq = [
+        ("Where is Suriname?",
+         "Suriname is on the north-east coast of South America, on the Atlantic Ocean. It borders "
+         "Guyana to the west, French Guiana to the east and Brazil to the south. It is the smallest "
+         "independent country in South America by both area and population."),
+        ("What language is spoken in Suriname?",
+         "Dutch is the official language, used in government, schools and the media. In daily life "
+         "almost everyone also speaks Sranan Tongo, the national lingua franca. Sarnami, Surinamese "
+         "Javanese, Maroon and Indigenous languages, Chinese and Portuguese are widely spoken too, and "
+         "English is broadly understood in Paramaribo."),
+        ("Is Suriname part of the Netherlands?",
+         "No. Suriname was a Dutch colony and later an autonomous country within the Kingdom of the "
+         "Netherlands, but it has been a fully independent republic since 25 November 1975."),
+        ("Is Suriname in the Caribbean or South America?",
+         "Geographically Suriname is in South America. Culturally and politically it is closely tied to "
+         "the Caribbean: it has been a member of CARICOM, the Caribbean Community, since 1995."),
+        ("What is the capital of Suriname?",
+         "Paramaribo, on the Suriname River about 15 km from the sea. Roughly half the population lives "
+         "in and around the city, and its wooden colonial centre is a UNESCO World Heritage site."),
+        ("How many people live in Suriname?",
+         "About 620,000 (current estimates). The last census with published results, in 2012, counted "
+         "541,638 people. Results of the 2024-2025 census are expected from the General Bureau of "
+         "Statistics (ABS)."),
+        ("What currency does Suriname use?",
+         "The Surinamese dollar (SRD), introduced on 1 January 2004 to replace the Surinamese guilder. "
+         "US dollars and euros are accepted in some hotels and larger shops, but everyday spending is in SRD."),
+        ("What is the best time to visit Suriname?",
+         "The long dry season, from mid-August to early December, is the most popular. February to April "
+         "is a shorter, drier spell. It is warm all year, around 27 to 32 &#176;C by day, and Suriname lies "
+         "south of the hurricane belt."),
+        ("What is Suriname known for?",
+         "Rainforest covering over 90% of the country, one of the most ethnically diverse populations in "
+         "the world, a wooden UNESCO-listed capital where a mosque and a synagogue stand side by side, "
+         "and a cuisine that blends Creole, Hindustani, Javanese, Chinese and Maroon cooking."),
+    ]
+
+    extra_ld = {
+        "@context": "https://schema.org", "@type": "Country", "name": "Suriname",
+        "alternateName": ["Republic of Suriname", "Republiek Suriname", "Sranan"],
+        "url": SITE_URL + "/about-suriname.html",
+        "sameAs": ["https://en.wikipedia.org/wiki/Suriname", "https://www.wikidata.org/wiki/Q730"],
+    }
+    head = _hub_head(title, desc, "about-suriname.html", faq=faq, extra_ld=extra_ld)
+    hero = _hub_hero("Country Guide", "About Suriname",
+                     "The facts, the peoples, the land and the story of South America&#8217;s "
+                     "smallest, greenest and most diverse country.").replace("{NAV}", nav_html("aboutsr"))
+
+    P  = '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
+    PL = '<p class="text-gray-700 text-sm leading-relaxed">'
+
+    def _table(rows):
+        out = '<div class="overflow-x-auto"><table class="w-full text-sm"><tbody>'
+        for i, (k, v) in enumerate(rows):
+            border = ' class="border-b border-gray-100"' if i < len(rows) - 1 else ''
+            out += (f'<tr{border}><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">{k}</th>'
+                    f'<td class="py-3 text-gray-700 align-top">{v}</td></tr>')
+        return out + '</tbody></table></div>'
+
+    def _stats(items):
+        return ('<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">'
+                + "".join('<div class="rounded-xl border border-gray-200 p-4 text-center">'
+                          f'<p class="text-2xl font-bold" style="color:var(--forest)">{n}</p>'
+                          f'<p class="text-gray-500 text-xs uppercase tracking-wide mt-1">{s}</p></div>'
+                          for n, s in items)
+                + '</div>')
+
+    def _bars(items, note):
+        top = max(p for _, p in items)
+        out = '<div class="mb-3">'
+        for lab, pct in items:
+            w = round(pct / top * 100, 1)
+            out += ('<div class="mb-2"><div class="flex justify-between text-sm mb-1">'
+                    f'<span class="text-gray-800">{lab}</span>'
+                    f'<span class="font-semibold text-gray-900">{pct:.1f}%</span></div>'
+                    '<div class="rounded-full" style="background:#eef2ef;height:8px">'
+                    f'<div class="rounded-full" style="background:var(--forest2);height:8px;width:{w}%"></div>'
+                    '</div></div>')
+        return out + f'<p class="text-gray-500 text-xs">{note}</p></div>'
+
+    # Suriname flag (proportions 2:3; stripes 2-1-4-1-2; star centred in the red band)
+    flag_svg = ('<svg viewBox="0 0 450 300" width="120" height="80" role="img" aria-label="Flag of Suriname" '
+                'style="border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.15);flex-shrink:0">'
+                '<rect width="450" height="300" fill="#377e3f"/>'
+                '<rect y="60" width="450" height="180" fill="#fff"/>'
+                '<rect y="90" width="450" height="120" fill="#b40a2d"/>'
+                '<polygon fill="#ecc81d" points="225,114 234.4,142.9 264.9,143 240.3,160.9 249.7,189.8 '
+                '225,172 200.3,189.8 209.7,160.9 185.1,143 215.6,142.9"/>'
+                '<rect x="1" y="1" width="448" height="298" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="2"/></svg>')
+
+    toc = [("glance", "At a glance"), ("geography", "Geography"), ("climate", "Climate"),
+           ("people", "People"), ("languages", "Languages"), ("religion", "Religion"),
+           ("history", "History"), ("government", "Government"), ("economy", "Economy"),
+           ("nature", "Nature"), ("districts", "Districts"), ("culture", "Culture &amp; food"),
+           ("symbols", "Symbols &amp; holidays"), ("practical", "Practical facts"),
+           ("fun-facts", "Fun facts"), ("faq", "FAQ")]
+    body = ('<nav aria-label="On this page" class="flex flex-wrap gap-2 mb-8">'
+            + "".join(f'<a href="#{a}" class="px-3 py-1.5 text-sm rounded-full border border-gray-200 bg-white '
+                      f'text-gray-700 hover:bg-gray-50 transition">{l}</a>' for a, l in toc)
+            + '</nav>')
+
+    body += ('<div class="rounded-2xl p-6 border-l-4 mb-8" style="background:#f0f9f4;border-color:var(--forest2)">'
+             '<p class="text-gray-800 text-sm leading-relaxed"><strong>Suriname in one paragraph.</strong> '
+             'Suriname is a small republic on the north-east shoulder of South America, the only Dutch-speaking '
+             'country on the continent. Around 620,000 people live here, most of them along a narrow coastal strip, '
+             'while more than 90% of the land is tropical rainforest. Its population descends from Indigenous '
+             'peoples, enslaved Africans and the Maroons who freed themselves, and contract workers from India, '
+             'Java and China, which makes it one of the most diverse societies on earth. Independent since 1975, '
+             'it lives from gold, oil and agriculture, and is preparing for an offshore oil boom from 2028.</p></div>')
+
+    # ── At a glance ─────────────────────────────────────────────────────────
+    body += ('<div id="glance" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6" style="scroll-margin-top:90px">'
+             '<div class="flex items-start justify-between gap-4 mb-4"><div>'
+             '<p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Fact File</p>'
+             '<h2 class="serif text-xl font-bold text-gray-900">Suriname at a glance</h2></div>'
+             + flag_svg + '</div>'
+             + _table([
+                 ("Official name", "Republic of Suriname (Republiek Suriname)"),
+                 ("Capital", "Paramaribo"),
+                 ("Location", "North-east South America, on the Atlantic Ocean"),
+                 ("Neighbours", "Guyana (west), French Guiana (east), Brazil (south)"),
+                 ("Area", "About 163,820 km&#178; (63,250 sq mi), roughly four times the Netherlands"),
+                 ("Population", "About 620,000 (estimate); 541,638 at the 2012 census"),
+                 ("Official language", "Dutch; Sranan Tongo is the everyday lingua franca"),
+                 ("Independence", "25 November 1975, from the Kingdom of the Netherlands"),
+                 ("Government", "Presidential republic; President Jennifer Geerlings-Simons since July 2025"),
+                 ("Currency", "Surinamese dollar (SRD), since 2004"),
+                 ("Time zone", "UTC&#8722;3 all year, no daylight saving"),
+                 ("Calling code / internet", "+597 / .sr"),
+                 ("Drives on the", "Left"),
+                 ("Highest point", "Julianatop, about 1,280 m (4,200 ft)"),
+                 ("Forest cover", "About 93% of the land, one of the highest shares in the world"),
+                 ("UNESCO sites", "3: Central Suriname Nature Reserve, Paramaribo&#8217;s historic inner city, Jodensavanne"),
+             ]) + '</div>')
+
+    def _sec(anchor, kicker, heading, html):
+        return _hub_card(kicker, heading, html).replace(
+            '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6">',
+            f'<div id="{anchor}" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6" '
+            'style="scroll-margin-top:90px">', 1)
+
+    # ── Geography ───────────────────────────────────────────────────────────
+    body += _sec("geography", "The Land", "Geography of Suriname",
+        _stats([("163,820", "km&#178; area"), ("~386", "km coastline"), ("1,280", "m Julianatop"),
+                ("~80%", "in Sipaliwini")])
+        + P + 'Suriname sits just north of the equator, between 2&#176; and 6&#176; north. Three natural bands run '
+        'from the coast inland. The <strong>young coastal plain</strong> is a strip of clay, mangrove and swamp '
+        'where rice, bananas and almost all the towns are found. Behind it lie the <strong>old coastal plain</strong> '
+        'and the <strong>savanna belt</strong> of white sand around Zanderij, the international airport. The rest, '
+        'about four fifths of the country, is the <strong>interior uplands</strong>: an almost unbroken rainforest '
+        'on the ancient Guiana Shield, with granite inselbergs such as the Voltzberg and mountain ranges that '
+        'peak at Julianatop.</p>'
+        + P + 'Rivers are the country&#8217;s roads. The Corantijn (Courantyne) forms the border with Guyana and '
+        'the Marowijne (Maroni) the border with French Guiana; in between flow the Nickerie, Coppename, '
+        'Saramacca, Suriname and Commewijne. The Afobaka dam on the Suriname River created the Brokopondo '
+        'Reservoir in 1964, one of the largest man-made lakes in the world at roughly 1,500 km&#178;.</p>'
+        + PL + 'Two border areas are disputed: the Tigri area (New River Triangle) with Guyana, and a zone in the '
+        'south-east with French Guiana. Test your map knowledge with our daily '
+        + _ilink("map-game.html", "Pe A De? map game") + '.</p>')
+
+    # ── Climate ─────────────────────────────────────────────────────────────
+    body += _sec("climate", "Weather", "Climate and Seasons",
+        P + 'Suriname has a hot, humid tropical climate with little change in temperature through the year: '
+        'daytime highs are usually 29 to 32 &#176;C and nights rarely fall below 22 &#176;C. The coast gets '
+        'around 2,000 to 2,500 mm of rain a year, and the country lies south of the Atlantic hurricane belt. '
+        'Instead of summer and winter there are four seasons of rain and sun:</p>'
+        + _table([
+            ("Short rainy season", "Early December to early February"),
+            ("Short dry season", "Early February to late April"),
+            ("Long rainy season", "Late April to mid-August (the wettest months are May to July)"),
+            ("Long dry season", "Mid-August to early December: the most popular time to visit"),
+        ])
+        + '<p class="text-gray-700 text-sm leading-relaxed mt-3">Even in the rainy season, showers tend to be '
+        'short and heavy rather than all day. Live forecasts for every district, rain radar and river tides are '
+        'on our ' + _ilink("conditions.html", "Weather &amp; Tides page") + '.</p>')
+
+    # ── People ──────────────────────────────────────────────────────────────
+    body += _sec("people", "Population", "The People of Suriname",
+        P + 'No group forms a majority in Suriname. Its people descend from the Indigenous nations who were '
+        'here first, the Africans brought in slavery, the Maroons who escaped it and built free societies in '
+        'the forest, and the contract workers who came after abolition from India (from 1873), Java (from 1890) '
+        'and China (from 1853), plus Lebanese, Portuguese-Jewish, Dutch and, more recently, Brazilian and '
+        'Haitian communities. Mixed families are common and growing fast.</p>'
+        + _bars([("Hindustani (Indo-Surinamese)", 27.4), ("Maroon", 21.7), ("Creole (Afro-Surinamese)", 15.7),
+                 ("Javanese", 13.7), ("Mixed", 13.4), ("Indigenous", 3.8), ("Chinese", 1.5), ("Other and unknown", 2.8)],
+                "Source: General Bureau of Statistics (ABS), 2012 census. Results of the 2024-2025 census "
+                "have not yet been published.")
+        + P + 'About half of all Surinamese live in Paramaribo, and most of the rest in the coastal districts '
+        'of Wanica, Nickerie, Commewijne and Para. The interior is home mainly to Maroon and Indigenous villages '
+        'along the rivers. The Maroon population has grown fastest in recent decades.</p>'
+        + PL + 'There is also a large diaspora: roughly 350,000 people of Surinamese origin live in the '
+        'Netherlands, most of whom left in the years around independence. Their story, and the rest of the '
+        'country&#8217;s, is told in our ' + _ilink("suriname-history.html", "interactive history timeline") + '.</p>')
+
+    # ── Languages ───────────────────────────────────────────────────────────
+    body += _sec("languages", "Languages", "What Languages Are Spoken in Suriname?",
+        P + '<strong>Dutch</strong> is the official language of government, education, law and most media, '
+        'and Suriname is an associate member of the Dutch Language Union (Taalunie). It is the only Dutch-speaking country '
+        'in South America. On the street, though, the shared language is <strong>Sranan Tongo</strong>, an '
+        'English-based creole that grew on the plantations and is understood by nearly everyone.</p>'
+        + P + 'More than 20 languages are spoken in all:</p>'
+        + _table([
+            ("Lingua franca", "Sranan Tongo"),
+            ("Asian heritage", "Sarnami (Surinamese Hindustani), Surinamese Javanese, Hakka and Mandarin Chinese"),
+            ("Maroon languages", "Ndyuka (Aukan), Saramaccan, Paramaccan, Kwinti, Matawai"),
+            ("Indigenous languages", "Kari&#8217;na (Carib), Lokono (Arawak), Trio, Wayana and others"),
+            ("Also widely heard", "English (understood in Paramaribo and tourism), Brazilian Portuguese, Spanish"),
+        ])
+        + '<p class="text-gray-700 text-sm leading-relaxed mt-3">Want to try a few words? Our '
+        + _ilink("sranan-tongo-dictionary.html", "Sranan Tongo dictionary and phrasebook")
+        + ' has thousands of entries, from <em>fa waka?</em> (how are you?) to <em>switi</em> (sweet, nice).</p>')
+
+    # ── Religion ────────────────────────────────────────────────────────────
+    body += _sec("religion", "Faith", "Religion in Suriname",
+        P + 'Suriname is known for religious tolerance. In the heart of Paramaribo the Neveh Shalom synagogue and '
+        'the Keizerstraat mosque stand side by side, and churches, Hindu mandirs, mosques and Chinese temples '
+        'share the same streets. Many families celebrate each other&#8217;s holidays, and the major feasts of '
+        'several faiths are national public holidays.</p>'
+        + _bars([("Christian (all denominations)", 48.4), ("Hindu", 22.3), ("Muslim", 13.9),
+                 ("No religion", 7.5), ("Winti and other Afro-Surinamese", 1.8), ("Javanism (Kejawen)", 0.8),
+                 ("Other and unknown", 5.3)],
+                "Source: ABS, 2012 census. The largest Christian groups are Roman Catholics (21.6%), "
+                "Pentecostals and the Moravian Church (about 11% each).")
+    )
+
+    # ── History ─────────────────────────────────────────────────────────────
+    body += _sec("history", "The Story", "A Short History of Suriname",
+        _table([
+            ("Before 1500", "Indigenous peoples, including the Lokono, Kali&#8217;na, Trio and Wayana, have lived here for thousands of years"),
+            ("1651", "English planters from Barbados found a sugar colony under Lord Willoughby"),
+            ("1667", "Abraham Crijnssen takes the colony for Zeeland; at the Treaty of Breda the Dutch keep Suriname and the English keep New Amsterdam (New York)"),
+            ("1683", "The Society of Suriname takes over; plantation slavery expands"),
+            ("1760 and 1762", "Peace treaties with the Ndyuka and Saamaka Maroons, a century before abolition"),
+            ("1853", "First Chinese contract workers arrive"),
+            ("1 July 1863", "Slavery is abolished (Keti Koti), followed by ten years of forced &#8216;state supervision&#8217;"),
+            ("5 June 1873", "The Lalla Rookh brings the first contract workers from British India"),
+            ("9 August 1890", "The first Javanese contract workers arrive"),
+            ("1916", "Bauxite mining begins at Moengo, the economic engine for most of a century"),
+            ("1954", "Autonomy within the Kingdom of the Netherlands"),
+            ("25 November 1975", "Independence: Johan Ferrier is the first president, Henck Arron prime minister"),
+            ("1980-1992", "Military coup, the December murders of 1982 and the Interior War"),
+            ("1987 onward", "Return to civilian government under a new constitution"),
+            ("2020s", "Economic crisis and recovery; major offshore oil discoveries in Block 58"),
+            ("2025", "Jennifer Geerlings-Simons becomes the first woman president"),
+        ])
+        + '<p class="text-gray-700 text-sm leading-relaxed mt-3">Scroll through more than 50 moments, in English '
+        'and Dutch, in our ' + _ilink("suriname-history.html", "History of Suriname timeline") + '.</p>')
+
+    # ── Government ──────────────────────────────────────────────────────────
+    body += _sec("government", "Politics", "Government and Politics",
+        P + 'Suriname is a constitutional democracy with a presidential system. Voters elect the 51 members of '
+        'the <strong>National Assembly</strong> (De Nationale Assemblee) every five years; the Assembly then '
+        'elects the <strong>President</strong>, who is head of state and head of government, and the Vice '
+        'President, who leads the Council of Ministers day to day. Local government runs through ten districts '
+        'and 62 resorts, each with elected councils.</p>'
+        + _table([
+            ("President", "Jennifer Geerlings-Simons (NDP), since 16 July 2025, the first woman in the office"),
+            ("Vice President", "Gregory Rusland (NPS)"),
+            ("Constitution", "1987 (amended 1992)"),
+            ("Parliament", "National Assembly, 51 seats, elected for five years"),
+            ("International", "UN, OAS, CARICOM (since 1995), Organisation of Islamic Cooperation, Dutch Language Union (associate)"),
+        ]))
+
+    # ── Economy ─────────────────────────────────────────────────────────────
+    body += _sec("economy", "Money", "Economy of Suriname",
+        P + 'Suriname&#8217;s economy rests on natural resources. <strong>Gold</strong> is the largest export, '
+        'from large mines such as Merian and Rosebel and from thousands of small-scale miners in the interior. '
+        '<strong>Oil</strong> is produced onshore by the state company Staatsolie, and the offshore '
+        + _ilink("granmorgu.html", "GranMorgu project") + ' in Block 58, led by TotalEnergies, is scheduled '
+        'to start production in 2028 at around 220,000 barrels a day, which could transform public finances. '
+        '<strong>Bauxite</strong>, the backbone of the economy for nearly 100 years, ended with the closure of '
+        'the Suralco refinery in 2015.</p>'
+        + P + 'Agriculture and fisheries matter too: rice from Nickerie, bananas, shrimp and fish, vegetables and '
+        'timber. The government is the largest employer, and trade and services dominate the private sector. '
+        'After a debt crisis and high inflation in 2020-2022, the economy stabilised under an IMF-supported reform programme. '
+        'Nominal GDP is roughly US$4.5 billion.</p>'
+        + PL + 'Follow the SRD exchange rate on our ' + _ilink("currency.html", "Market Rates page")
+        + ' and the oil sector on the ' + _ilink("oil-and-gas.html", "Oil &amp; Gas hub") + '.</p>')
+
+    # ── Nature ──────────────────────────────────────────────────────────────
+    body += _sec("nature", "Wildlife", "Nature and Wildlife",
+        _stats([("~93%", "forest cover"), ("715+", "bird species"), ("190+", "mammal species"),
+                ("5,000+", "plant species")])
+        + P + 'Suriname is one of the greenest countries on earth and one of very few that absorb more carbon '
+        'than they emit. In 2025 the government pledged to protect 90% of its forest permanently. The '
+        '<strong>Central Suriname Nature Reserve</strong>, 1.6 million hectares of untouched rainforest around '
+        'Raleighvallen, the Voltzberg and Tafelberg, has been a UNESCO World Heritage site since 2000.</p>'
+        + P + 'Wildlife highlights include the jaguar, giant otter, giant anteater, tapir, eight species of '
+        'monkey (from red howlers to golden-handed tamarins), the harpy eagle, the Guianan cock-of-the-rock and '
+        'flocks of scarlet ibis at Bigi Pan. Four species of sea turtle nest on the beaches, and Galibi is one of '
+        'the most important leatherback nesting sites in the world (roughly March to August). West Indian '
+        'manatees and Guiana dolphins live in the estuaries.</p>'
+        + PL + 'Find reserves, river trips and guided tours on our '
+        + _ilink("activities.html", "Things to Do page") + '.</p>')
+
+    # ── Districts ───────────────────────────────────────────────────────────
+    districts = [
+        ("Paramaribo", "Paramaribo", "The capital; UNESCO-listed historic centre, government and business"),
+        ("Wanica", "Lelydorp", "Fast-growing suburbs and farmland just south of the capital"),
+        ("Commewijne", "Nieuw Amsterdam", "Old plantations, Fort Nieuw Amsterdam, dolphin tours"),
+        ("Para", "Onverwacht", "Savanna, black-water creeks, resorts and the international airport"),
+        ("Saramacca", "Groningen", "Rural coast, rice and vegetables, the Saramacca River"),
+        ("Coronie", "Totness", "Coconut groves, swamps and a quiet coastline"),
+        ("Nickerie", "Nieuw Nickerie", "The rice granary; Bigi Pan wetlands; ferry to Guyana"),
+        ("Marowijne", "Albina", "Moengo art town, Galibi turtles, border with French Guiana"),
+        ("Brokopondo", "Brokopondo", "The Brokopondo Reservoir, Brownsberg Nature Park"),
+        ("Sipaliwini", "No district capital", "The vast interior: rainforest, Maroon and Indigenous villages"),
+    ]
+    body += _sec("districts", "Regions", "The 10 Districts of Suriname",
+        P + 'Suriname is divided into ten districts (distrikten), which are subdivided into 62 resorts. Nine '
+        'lie in the north; Sipaliwini alone covers about four fifths of the country.</p>'
+        + '<div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="border-b border-gray-200">'
+        '<th class="py-2 pr-4 text-left font-semibold text-gray-900 w-2/5">District <span class="font-normal text-gray-500">/ capital</span></th>'
+        '<th class="py-2 text-left font-semibold text-gray-900">Known for</th></tr></thead><tbody>'
+        + "".join(f'<tr class="border-b border-gray-100"><td class="py-3 pr-4 align-top">'
+                  f'<span class="block font-semibold text-gray-900">{d}</span>'
+                  f'<span class="block text-gray-500 text-xs mt-0.5">{c}</span></td>'
+                  f'<td class="py-3 text-gray-700 align-top">{k}</td></tr>' for d, c, k in districts)
+        + '</tbody></table></div>')
+
+    # ── Culture & food ──────────────────────────────────────────────────────
+    body += _sec("culture", "Culture", "Culture, Food and Sport",
+        P + 'Surinamese culture is a mix you can taste. <strong>Pom</strong> (an oven dish of pomtajer root and '
+        'chicken) is the party classic; <strong>roti</strong> with curried chicken, potato and long beans came '
+        'with the Hindustani; the Javanese brought <strong>bami</strong>, <strong>nasi</strong> and '
+        '<strong>saoto soup</strong>; Creole kitchens serve <strong>moksi alesi</strong>, <strong>peanut soup</strong> '
+        'and <strong>bakbana</strong>; and Chinese restaurants are everywhere. Wash it down with a '
+        '<strong>Parbo</strong> beer or <strong>Borgoe</strong> rum. Browse local favourites on our '
+        + _ilink("restaurants.html", "Where to Eat page") + '.</p>'
+        + P + 'Music ranges from kaseko and kawina to baithak gana and Javanese pop, and the year is full of '
+        'festivals: Phagwa, Divali, Keti Koti, Chinese and Javanese New Year and the famous '
+        '<strong>Owru Yari</strong> New Year&#8217;s Eve street party in Paramaribo. See what&#8217;s on in our '
+        + _ilink("events.html", "Events &amp; Festivals calendar") + '.</p>'
+        + PL + 'Football is the national passion. Suriname-born or Surinamese-heritage players such as Ruud Gullit, '
+        'Frank Rijkaard, Clarence Seedorf and Edgar Davids starred for the Netherlands, and the national team, '
+        'Natio, now fields many diaspora players. Swimmer Anthony Nesty won Suriname&#8217;s first Olympic gold, '
+        'in the 100 m butterfly at Seoul 1988. Follow Natio on our '
+        + _ilink("matches.html", "Sports Schedule") + '.</p>')
+
+    # ── Symbols & holidays ──────────────────────────────────────────────────
+    body += _sec("symbols", "National Symbols", "Flag, Anthem and Public Holidays",
+        _table([
+            ("Flag", "Green, white and red stripes with a yellow star, adopted 25 November 1975. Green stands for "
+                     "fertile land, white for justice and freedom, red for progress and love, and the star for unity and a golden future"),
+            ("Anthem", "&#8220;God zij met ons Suriname&#8221; (God be with our Suriname), with a second verse in Sranan Tongo, "
+                       "&#8220;Opo kondreman&#8221;, by the poet Trefossa"),
+            ("Motto", "Justitia, Pietas, Fides (Justice, Piety, Trust)"),
+            ("National flower", "Faja lobi (Ixora coccinea), the &#8216;fiery love&#8217;"),
+        ])
+        + '<h3 class="font-bold text-gray-900 mt-6 mb-3">Public holidays</h3>'
+        + _table([
+            ("1 January", "New Year&#8217;s Day"),
+            ("1 May", "Labour Day"),
+            ("1 July", "Keti Koti, Day of Freedoms (abolition of slavery)"),
+            ("9 August", "Day of the Indigenous Peoples"),
+            ("10 October", "Day of the Maroons"),
+            ("25 November", "Independence Day (Srefidensi)"),
+            ("25-26 December", "Christmas"),
+            ("Moving dates", "Chinese New Year, Holi Phagwa, Good Friday and Easter Monday, Eid-ul-Fitr, "
+                             "Eid-ul-Adha, Javanese New Year and Divali"),
+        ])
+        + '<p class="text-gray-700 text-sm leading-relaxed mt-3">This year&#8217;s exact dates are in the '
+        + _ilink("events.html", "Events &amp; Festivals calendar") + '.</p>')
+
+    # ── Practical facts ─────────────────────────────────────────────────────
+    body += _sec("practical", "For Visitors", "Practical Facts",
+        _table([
+            ("Main airport", "Johan Adolf Pengel International (PBM) at Zanderij, about 45 km south of Paramaribo"),
+            ("Entry", "Most visitors need an e-visa or tourist card and pay an entry fee online before travel"),
+            ("Money", "SRD cash is king; cards work in larger hotels, restaurants and supermarkets"),
+            ("Electricity", "127 V, 60 Hz; plug types C and F (some A and B)"),
+            ("Time", "UTC&#8722;3: 1 to 2 hours ahead of New York, 4 to 5 hours behind the Netherlands"),
+            ("Emergency numbers", "Police 115, Ambulance 113, Fire 110"),
+            ("Tap water", "Generally drinkable in central Paramaribo; bottled elsewhere"),
+        ])
+        + '<p class="text-gray-700 text-sm leading-relaxed mt-3">Everything for your trip: '
+        + _ilink("visitor-guide.html", "The Basics") + ' (visas, SIM cards, money), '
+        + _ilink("is-suriname-safe.html", "Is Suriname Safe?") + ', '
+        + _ilink("suriname-itinerary.html", "trip itineraries") + ' and the '
+        + _ilink("suriname-time.html", "time converter") + '.</p>')
+
+    # ── Fun facts ───────────────────────────────────────────────────────────
+    facts = [
+        "In 1667 the Dutch kept Suriname and let the English keep New Amsterdam, today&#8217;s New York.",
+        "Suriname is the smallest independent country in South America, and the only one where Dutch is the official language.",
+        "With about 93% forest cover, it is among the most forested countries on earth and absorbs more carbon than it emits.",
+        "A mosque and a synagogue stand next to each other on the Keizerstraat in Paramaribo.",
+        "The Saints Peter and Paul Cathedral in Paramaribo is one of the largest wooden buildings in the Americas.",
+        "Jodensavanne, where Sephardic Jewish planters built a synagogue in 1685, was one of the oldest Jewish communities in the Americas and became a UNESCO site in 2023.",
+        "The Ndyuka and Saamaka Maroons won their freedom by treaty in 1760 and 1762, a century before slavery was abolished.",
+        "Suriname has one of the largest Javanese communities outside Indonesia.",
+        "Leatherback turtles, the largest turtles alive, come ashore to nest at Galibi.",
+        "Owru Yari in Paramaribo is famous for its pagara: kilometres-long strings of firecrackers.",
+    ]
+    body += _sec("fun-facts", "Did You Know?", "10 Fun Facts About Suriname",
+        '<ol class="list-decimal pl-5 space-y-2 text-gray-700 text-sm leading-relaxed">'
+        + "".join(f'<li>{f}</li>' for f in facts) + '</ol>'
+        + '<p class="text-gray-700 text-sm leading-relaxed mt-4">Think you know Suriname now? Try the daily '
+        + _ilink("quiz.html", "Sabi Suriname quiz") + '.</p>')
+
+    body += '<div id="faq" style="scroll-margin-top:90px"></div>' + _hub_faq_html(faq)
+
+    body += ('<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mt-6">'
+             '<p class="text-gray-500 text-xs leading-relaxed"><strong class="text-gray-700">Sources.</strong> '
+             'General Bureau of Statistics Suriname (ABS), 2012 census; UNESCO World Heritage Centre; '
+             'Central Bank of Suriname (CBvS); Staatsolie and TotalEnergies project releases; Ministry of Education '
+             'holiday schedule; Government of Suriname. Population figures are estimates until the 2024-2025 '
+             'census results are published. Last reviewed September 2026. Spotted an error? '
+             + _ilink("contact.html", "Let us know") + '.</p></div>')
+
+    main = '<main class="max-w-5xl mx-auto px-5 py-12 pb-24">' + body + '</main>'
+    return head + hero + main + "\n" + footer_html() + "\n</body>\n</html>"
+
+
 def build_about_page():
     """Static About page — establishes site identity for Google AdSense review."""
     return f"""{PAGE_HEAD}
@@ -19206,6 +19636,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("on-the-road.html", "0.7", "monthly"),
         ("suriname-itinerary.html", "0.8", "monthly"),
         ("is-suriname-safe.html",   "0.7", "monthly"),
+        ("about-suriname.html",    "0.8", "monthly"),
         ("suriname-history.html",  "0.8", "monthly"),
         ("matches.html",            "0.8", "daily"),
         ("suriname-time.html",      "0.7", "daily"),
@@ -19317,6 +19748,7 @@ def build_llms_txt():
 ## Travel guides
 - [The Basics]({S}/visitor-guide.html): visas, customs, SIM cards, money, ATMs and getting around for first-time visitors.
 - [Is Suriname Safe?]({S}/is-suriname-safe.html): practical safety guidance for tourists.
+- [About Suriname]({S}/about-suriname.html): country fact file: geography, climate, population and ethnic groups, languages, religion, history, government, economy, nature, the ten districts, national symbols, public holidays and practical facts.
 - [History of Suriname]({S}/suriname-history.html): interactive timeline of Surinamese history, from the first Indigenous peoples through slavery and Keti Koti to independence and the oil era, in English and Dutch.
 - [Suriname Itinerary]({S}/suriname-itinerary.html): suggested multi-day routes combining Paramaribo and the interior.
 - [On the Road]({S}/on-the-road.html): driving, road rules, rainy-season advice and emergency numbers.
@@ -21685,6 +22117,7 @@ if __name__ == "__main__":
         "on-the-road.html":   build_roads_page(),
         "suriname-itinerary.html": build_itinerary_page(),
         "is-suriname-safe.html":   build_safety_page(),
+        "about-suriname.html":     build_about_suriname_page(),
         "suriname-history.html":   build_history_page(),
         "seogs-2026.html":         ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
             '<meta name="robots" content="noindex">'
