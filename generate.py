@@ -4381,6 +4381,10 @@ PAGE_HEAD = """\
     }
     /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
     .dd-menu { transform-origin: top center; }
+    /* Dropdowns float over content, so they keep a soft shadow despite the flat
+       surface reset (which strips .shadow-xl). Mega menus carry it on .megacard,
+       not on the .megap wrapper, whose transparent padding would show it. */
+    .dd-menu:not(.megap) { box-shadow:0 12px 24px -8px rgba(35,48,40,.18) !important; }
     /* Mega menus (Explore, Business). Explore anchors under its trigger;
        Business is .megap-wide, anchored to the sticky <nav> (its wrapper is
        static) and starts 14px up with transparent padding so hover survives
@@ -4389,15 +4393,16 @@ PAGE_HEAD = """\
     .megap-2 { top:100%; left:50%; transform:translateX(-50%); padding-top:4px; }
     .megap-wide { left:0; right:0; margin:0 auto; width:min(980px, calc(100% - 2rem));
                   top:calc(100% - 14px); padding-top:14px; }
-    .megacard { background:#fff; border:1px solid #f3f4f6; border-radius:1rem;
-                box-shadow:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1); padding:.75rem; }
+    /* Same surface as the simple dropdowns (.bg-white/.border-gray-100 under the surface reset) */
+    .megacard { background:var(--card); border:1px solid rgba(35,48,40,.16); border-radius:0;
+                box-shadow:0 12px 24px -8px rgba(35,48,40,.18); padding:.75rem; }
     .megagrid-2 { display:grid; grid-template-columns:repeat(2, minmax(170px, auto)); gap:.25rem 1rem; }
     .megagrid-wide { column-count:4; column-gap:1.25rem; }
     .megagrid-wide .megacol { break-inside:avoid; padding-bottom:.5rem; }
     .megah { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
              color:var(--clay); padding:.5rem .75rem .25rem; }
     .megap a { white-space:normal; }
-    .megafoot { border-top:1px solid #f3f4f6; margin-top:.25rem; padding:.6rem .75rem .15rem; }
+    .megafoot { border-top:1px solid rgba(35,48,40,.16); margin-top:.25rem; padding:.6rem .75rem .15rem; }
     /* Phone tables (Sep 2026): .mstack turns a wide table into one block per
        row below 640px instead of scrolling sideways. Each cell carries a
        .mlbl span with its column name (a text node, so NL/ES translate it);
