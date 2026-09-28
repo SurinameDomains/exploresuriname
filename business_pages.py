@@ -216,6 +216,7 @@ KIT_CSS = """
 .bz-btn2{display:inline-flex;align-items:center;gap:.4rem;background:#fff;color:var(--forest);border:1.5px solid var(--forest2);border-radius:999px;padding:.52rem 1.05rem;font-weight:700;font-size:.9rem;cursor:pointer}
 .bz-btn2:hover{background:var(--mint)}
 .bz-btn:disabled,.bz-btn2:disabled{opacity:.45;cursor:not-allowed}
+.bz-tbl .bz-btn,.bz-tbl .bz-btn2{white-space:nowrap;overflow-wrap:normal}
 .bz-acts{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.9rem}
 .bz-note{background:#FEF6E7;border:1px solid #F3D9A4;color:#6B4A12;border-radius:12px;padding:.7rem .9rem;font-size:.88rem;line-height:1.5;margin:.6rem 0}
 .bz-ok{background:var(--mint);border:1px solid #BFDDB8;color:var(--forest);border-radius:12px;padding:.7rem .9rem;font-size:.88rem;line-height:1.5;margin:.6rem 0}
@@ -268,7 +269,14 @@ KIT_CSS = """
 .bz-stack td:first-child{grid-column:1/-1;font-weight:600;padding-right:2.2rem!important}
 .bz-stack td:last-child[data-label=""]{position:absolute;top:.25rem;right:.3rem;padding:0!important}
 .bz-stack input:not([type=checkbox]):not([type=radio]),.bz-stack select{width:100%;max-width:none!important;min-width:0;box-sizing:border-box}
+/* tax-deadlines: card = date | button on top, What | Period below (always two columns) */
+#dlt.bz-stack tr,#dlt.bz-stack.bz-one tr{grid-template-columns:minmax(0,1fr) auto;align-items:start}
+#dlt.bz-stack td:first-child{grid-column:1;padding-right:0!important}
+#dlt.bz-stack td:last-child[data-label=""]{position:static;grid-column:2;grid-row:1;justify-self:end;padding:.3rem 0!important}
+#dlt.bz-stack td:nth-child(2){grid-column:1}
+#dlt.bz-stack td:nth-child(3){grid-column:2;text-align:right!important}
 }
+@media screen and (max-width:359px){#dlt.bz-stack tr,#dlt.bz-stack.bz-one tr{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
 @media screen and (max-width:639px){
 .bz-tbl.bz-compact{min-width:0!important;font-size:.8rem}
 .bz-compact td,.bz-compact th{padding:.45rem .12rem}
@@ -1446,7 +1454,7 @@ def _page_deadlines(X, feeds, prices):
     <button type="button" data-v="all" aria-pressed="true">All</button><button type="button" data-v="btw" aria-pressed="false">BTW</button>
     <button type="button" data-v="staff" aria-pressed="false">Staff</button><button type="button" data-v="ib" aria-pressed="false">Income tax</button>
   </div>
-  <div class="bz-scroll"><table class="bz-tbl"><thead><tr><th>Due date</th><th>What</th><th>Period</th><th></th></tr></thead><tbody id="dl"></tbody></table></div>
+  <div class="bz-scroll"><table class="bz-tbl" id="dlt" style="min-width:520px"><thead><tr><th>Due date</th><th>What</th><th>Period</th><th></th></tr></thead><tbody id="dl"></tbody></table></div>
   <div id="dlw"></div>
 </div>
 <div class="bz-card">
