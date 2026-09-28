@@ -12,7 +12,7 @@ import html as html_lib
 import re, os, json, math
 import concurrent.futures as cf
 from pathlib import Path
-import urllib.request, urllib.parse
+import urllib.request, urllib.parse, urllib.error
 from datetime import datetime, timezone, timedelta
 
 SITE_URL       = "https://exploresuriname.com"
@@ -12273,7 +12273,7 @@ def fetch_caribbean(cache):
                                      headers={"User-Agent": _BOX_UA})
         with urllib.request.urlopen(req, timeout=15) as r:
             seasons = json.loads(r.read().decode("utf-8")).get("seasons", [])
-        seasons.sort(key=lambda s: s.get("startDateUtc", ""), reverse=True)
+        seasons.sort(key=lambda s: s.get("startDateUtc") or "", reverse=True)
         if not seasons:
             raise ValueError("no Caribbean Cup seasons in payload")
         sid = urllib.parse.quote(seasons[0]["seasonId"], safe="")
@@ -12390,6 +12390,60 @@ def fetch_concacaf_natio(cache):
         return cache.get("concacaf_natio", {})
 
 
+def _espn_events(sport, code, d0, d1, limit, timeout=15):
+    """ESPN scoreboard events between d0 and d1 (YYYYMMDD, inclusive).
+
+    Since Sep 2026 ESPN answers a dates=START-END range with HTTP 400 ("Failed
+    to get events endpoint") for soccer and NBA feeds, while UFC/F1/tennis still
+    accept it. A 400 used to drop the league to data/matches_cache.json, so the
+    page kept showing stale kickoff times (Suriname-Martinique at 15:00 instead
+    of the rescheduled 19:00). Try the range first (one request where it still
+    works), else fetch each calendar month (dates=YYYYMM, still supported),
+    dedupe by event id and trim to the window. Raises if nothing could be read,
+    so callers keep their cache fallback for a real outage."""
+    base = f"https://site.api.espn.com/apis/site/v2/sports/{sport}/{code}/scoreboard"
+
+    def _get(q, lim=limit):
+        # Default Python-urllib UA on purpose: ESPN's edge (Akamai) now answers
+        # the old "ExploreSuriname/1.0" UA with 403 (tested Sep 2026).
+        with urllib.request.urlopen(f"{base}?{q}&limit={lim}", timeout=timeout) as r:
+            return json.loads(r.read().decode("utf-8")).get("events", [])
+
+    try:
+        return _get(f"dates={d0}-{d1}")
+    except urllib.error.HTTPError as exc:
+        if exc.code != 400:
+            raise
+    months, y, m = [], int(d0[:4]), int(d0[4:6])
+    while f"{y:04d}{m:02d}" <= d1[:6]:
+        months.append(f"{y:04d}{m:02d}")
+        y, m = (y + 1, 1) if m == 12 else (y, m + 1)
+    with cf.ThreadPoolExecutor(max_workers=min(2, len(months))) as ex:
+        # A whole month of NBA is ~230 games, so lift the cap for month pages.
+        res = list(ex.map(lambda mo: _safe(_get, f"dates={mo}", 1000), months))
+    if any(r is None for r in res):
+        # All-or-nothing, as before: a partial month set would overwrite the
+        # cache with a schedule missing games. Next build (~15 min) retries.
+        raise RuntimeError(f"ESPN {code}: month fallback incomplete")
+    seen, evs = set(), []
+    for batch in res:
+        for e in batch or []:
+            day = (e.get("date") or "")[:10].replace("-", "")
+            if not (d0 <= day <= d1) or e.get("id") in seen:
+                continue
+            seen.add(e.get("id"))
+            evs.append(e)
+    evs.sort(key=lambda e: e.get("date", ""))
+    return evs
+
+
+def _safe(fn, *a):
+    try:
+        return fn(*a)
+    except Exception:
+        return None
+
+
 def fetch_matches_data():
     """Fixtures, tip-offs and fight cards for the sports Suriname follows, via
     the free ESPN scoreboard API. Fetched at build time (the site rebuilds
@@ -12408,14 +12462,9 @@ def fetch_matches_data():
     out = {}
     for sport, code, label, key, _col, group in _MATCH_LEAGUES:
         d1 = (now + timedelta(days=65 if group in ("fight", "race", "tennis") else 35)).strftime("%Y%m%d")
-        url = (f"https://site.api.espn.com/apis/site/v2/sports/{sport}/{code}/scoreboard"
-               f"?dates={d0}-{d1}&limit=150")
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "ExploreSuriname/1.0"})
-            with urllib.request.urlopen(req, timeout=15) as r:
-                raw = json.loads(r.read().decode("utf-8"))
             evs = []
-            for e in raw.get("events", []):
+            for e in _espn_events(sport, code, d0, d1, 150):
                 if group == "tennis":
                     # A tennis "event" is a whole tournament (no competitions block);
                     # render one row per tournament with its name.
@@ -12476,17 +12525,13 @@ def fetch_matches_data():
     d1 = (now + timedelta(days=180)).strftime("%Y%m%d")
 
     def _scan_feed(code):
-        url = (f"https://site.api.espn.com/apis/site/v2/sports/soccer/{code}/scoreboard"
-               f"?dates={d0}-{d1}&limit=300")
         found = []
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "ExploreSuriname/1.0"})
-            with urllib.request.urlopen(req, timeout=12) as r:
-                raw = json.loads(r.read().decode("utf-8"))
+            _evs = _espn_events("soccer", code, d0, d1, 300, timeout=12)
         except Exception as exc:
             print(f"  ! natio scan failed for {code} ({exc})")
             return found
-        for e in raw.get("events", []):
+        for e in _evs:
             comps = e.get("competitions", [])
             if not comps:
                 continue
