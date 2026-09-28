@@ -14,13 +14,13 @@ name: Fill Translations (NL/ES)
 # rendered output is the open follow-up.
 
 on:
+  # Manual only (schedule OFF since 28 Sep 2026). GitHub's runner IPs get 429'd
+  # by the keyless Google endpoint, so scheduled runs sat on the deploy lock for
+  # the full 45-min timeout and committed nothing (progress lives in /tmp until
+  # the script exits). The backlog was filled offline instead. New listings,
+  # events and marketplace text stay English on /nl/ and /es/ until the next
+  # offline fill or manual run.
   workflow_dispatch:
-  # Re-enabled 28 Sep 2026: with the schedule off, new listings, events and
-  # marketplace text stayed English on /nl/ and /es/. build_i18n.py now lists
-  # stable page text before live-feed text (headlines, fixtures), so the daily
-  # budget goes to text that lasts.
-  schedule:
-    - cron: '0 5 * * *'   # 05:00 UTC daily (02:00 Suriname), quiet hours for the deploy lock
 
 concurrency:
   # Same group as update.yml/cache_images.yml: deploy-type jobs queue up
