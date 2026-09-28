@@ -510,7 +510,11 @@ def localize(soup, lang: str, rel_path: str):
               "worldcup-2026.html": "/matches.html",
               "seogs-2026.html": "/events.html",
               "nature.html": "/activities.html",
-              "real-estate.html": "/marketplace/"}
+              "real-estate.html": "/business",
+              # Marketplace retired Sep 28 2026 (generate._retired_stub)
+              "marketplace/index.html": "/business",
+              "post-ad.html": "/business",
+              "my-ads.html": "/business"}
     if rel_path not in _STUBS:
         for el in soup.select("link[rel=canonical]"):
             el["href"] = canon

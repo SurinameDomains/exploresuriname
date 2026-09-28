@@ -3446,11 +3446,11 @@ _SI_LIST = [
 try:
     from business_pages import (BIZ_SEARCH as _BIZTOOLS_SEARCH, BIZ_KEYS as _BIZTOOLS_KEYS,
                                 BIZ_SITEMAP as _BIZTOOLS_SITEMAP, llms_section as _biztools_llms,
-                                nav_groups as _biztools_nav_groups, NAV_MOBILE as _BIZTOOLS_NAV_MOBILE)
+                                nav_groups as _biztools_nav_groups, NAV_MENU as _BIZTOOLS_NAV_MENU)
 except Exception as _biz_imp_err:  # never let the Business section break the rest of the site
     print(f"  ERROR business_pages import failed, Business section skipped: {_biz_imp_err}")
     _BIZTOOLS_SEARCH, _BIZTOOLS_KEYS, _BIZTOOLS_SITEMAP = [], set(), []
-    _BIZTOOLS_NAV_MOBILE = []
+    _BIZTOOLS_NAV_MENU = []
     def _biztools_nav_groups():
         return []
     def _biztools_llms(_u):
@@ -4423,6 +4423,8 @@ PAGE_HEAD = """\
       .mstack.mstack-hol td:last-child .mlbl { display:none!important; }
       .mstack .mlbl { display:block; font-size:.65rem; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:#9ca3af; margin-bottom:.1rem; }
     }
+    .dd-sub { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+              color:var(--clay); padding:.6rem 1rem .2rem; }
     .mob-sub { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
                color:var(--clay); padding:.75rem .75rem .25rem; }
     .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
@@ -5196,18 +5198,32 @@ def util_rail_html(prefix=""):
             f'</div></div>')
 
 
+def _retired_stub(target):
+    """noindex meta-refresh page for a retired URL (build_i18n._STUBS must list it too)."""
+    return ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
+            '<meta name="viewport" content="width=device-width, initial-scale=1">'
+            '<meta name="robots" content="noindex,follow">'
+            f'<meta http-equiv="refresh" content="0;url={target}">'
+            f'<link rel="canonical" href="{SITE_URL}{target}">'
+            '<title>Redirecting&hellip;</title></head><body>'
+            f'<p>This page has moved to <a href="{target}">Business Tools for Suriname</a>.</p>'
+            '</body></html>')
+
+
 def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
     # Seven top-level items (Sep 2026 restructure, was eight):
     #   Explore  = mega menu: places and businesses + Eat & Stay (restaurants/hotels)
+    #              (Marketplace removed Sep 28 2026: no ads; /marketplace/ redirects to /business)
     #   Plan     = what you read before or during a trip
     #   Live     = anything whose numbers changed since yesterday
-    #   Business = mega menu: every tool from business_pages.py, grouped
+    #   Business = plain dropdown (Sep 28 2026, was a 32-link mega menu):
+    #              All tools + popular / live / guides, from business_pages.NAV_MENU
     #   Learn    = Oil & Gas (hub only; the section has its own chip strip),
     #              History, Sranan dictionary
     #   Games    = self-contained section
     #   News     = single link
-    _EXPL  = {"activities", "events", "shopping", "services", "marketplace"}
+    _EXPL  = {"activities", "events", "shopping", "services"}
     _EAT   = {"restaurants", "hotels"}
     _EXPLORE = _EXPL | _EAT
     _PLAN  = {"visitor", "itinerary", "safety", "roads", "flights"}
@@ -5291,8 +5307,7 @@ def nav_html(active="home", prefix=""):
                   _mega_link(f"{prefix}activities.html",  "Things to Do",           "activities") +
                   _mega_link(f"{prefix}events.html",      "Events &amp; Festivals", "events") +
                   _mega_link(f"{prefix}shopping.html",    "Shopping",               "shopping") +
-                  _mega_link(f"{prefix}services.html",    "Local Services",         "services") +
-                  _mega_link(f"{prefix}marketplace/",     "Marketplace",            "marketplace")) +
+                  _mega_link(f"{prefix}services.html",    "Local Services",         "services")) +
         _mega_col("Eat &amp; Stay",
                   _mega_link(f"{prefix}restaurants.html", "Where to Eat",  "restaurants") +
                   _mega_link(f"{prefix}hotels.html",      "Where to Stay", "hotels"))
@@ -5321,20 +5336,34 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}suriname-time.html"  {_link_cls("surtime")}       >Time &amp; Converter</a>'
     )
 
-    # Business: every tool, grouped as on the hub, built from the
-    # business_pages.py registry so a new tool appears here automatically.
+    # Business: a plain dropdown (Sep 28 2026). The old mega menu listed all
+    # 32 tools; the hub (/business) is now the compact index of everything and
+    # the menu only carries the hub, the popular tools, live info and guides.
+    # Built from business_pages.NAV_MENU so the registry stays the one source.
     def _esc_nav(t):
         return html_lib.escape(t, quote=False)
     _biz_groups = _biztools_nav_groups()
     _biz_labels = {_k: _l for _g, _i in _biz_groups for _u, _l, _k in _i}
     _biz_urls   = {_k: _u for _g, _i in _biz_groups for _u, _l, _k in _i}
-    biz_cols = "".join(
-        _mega_col(_esc_nav(_g), "".join(_mega_link(f"{prefix}{_u}", _esc_nav(_l), _k) for _u, _l, _k in _i))
-        for _g, _i in _biz_groups)
-    biz_mega = _mega_dd(
-        "dd-biz", "Business", biz_cols, _BIZT, wide=True,
-        foot_html=(f'<a href="{prefix}business" class="text-sm font-semibold hover:underline" '
-                   f'style="color:var(--forest)">All Business Tools</a>'))
+    _biz_listed = {k for _h, _ks, _x in _BIZTOOLS_NAV_MENU for k in _ks}
+
+    def _biz_menu(link_fn, sub_fn):
+        out = link_fn(f"{prefix}business", "All Business Tools", "biz")
+        for _h, _ks, _extra in _BIZTOOLS_NAV_MENU:
+            _ks = [k for k in _ks if k in _biz_urls]
+            if not _ks:
+                continue
+            out += sub_fn(_esc_nav(_h))
+            out += "".join(link_fn(f"{prefix}{_biz_urls[k]}", _esc_nav(_biz_labels[k]), k) for k in _ks)
+            if _extra:   # (url, label, group keys): e.g. All Guides -> business#g-guide
+                _eu, _el, _ek = _extra
+                out += link_fn(f"{prefix}{_eu}", _esc_nav(_el), "", set(_ek) - _biz_listed)
+        return out
+
+    def _dd_link(href, label, key, keys=None):
+        return f'<a href="{href}" {_link_cls(key, keys)}>{label}</a>'
+
+    biz_items = _biz_menu(_dd_link, lambda h: f'<p class="dd-sub">{h}</p>')
 
     # Games
     games_items = (
@@ -5351,7 +5380,7 @@ def nav_html(active="home", prefix=""):
         _mega_dd("dd-expl", "Explore", expl_cols, _EXPLORE)                 +
         _desktop_dd("dd-plan", "Plan",           plan_items, _PLAN)         +
         _desktop_dd("dd-live", "Live",           live_items, _LIVE)         +
-        biz_mega                                                            +
+        _desktop_dd("dd-biz", "Business",      biz_items, _BIZT)          +
         _desktop_dd("dd-learn","Learn",          learn_items, _LEARN)       +
         _desktop_dd("dd-games","Games",          games_items,_GAMES)        +
         f'<a href="{prefix}news.html" {_top_single_style("news")}>News</a>'
@@ -5386,8 +5415,7 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}activities.html",  "Things to Do",       "activities") +
         _mob_link(f"{prefix}events.html",      "Events & Festivals", "events")     +
         _mob_link(f"{prefix}shopping.html",    "Shopping",           "shopping")   +
-        _mob_link(f"{prefix}services.html",    "Local Services",     "services")   +
-        _mob_link(f"{prefix}marketplace/",     "Marketplace",        "marketplace")
+        _mob_link(f"{prefix}services.html",    "Local Services",     "services")
     )
     mob_eat_items = (
         _mob_sub("Eat &amp; Stay") +
@@ -5414,16 +5442,8 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}matches.html",       "Sports Schedule",  "matches")       +
         _mob_link(f"{prefix}suriname-time.html", "Time & Converter", "surtime")
     )
-    # Business on mobile: the hub + the most-used tools (all 32 would be
-    # ~1,400px of scrolling inside the menu). The page you are on is added
-    # when it is not in the short list, so the active item is always visible.
-    _mob_biz_keys = [k for k in _BIZTOOLS_NAV_MOBILE if k in _biz_urls]
-    if active in _biz_urls and active not in _mob_biz_keys:
-        _mob_biz_keys.append(active)
-    mob_biz_items = (
-        _mob_link(f"{prefix}business", "All Business Tools", "biz") +
-        "".join(_mob_link(f"{prefix}{_biz_urls[k]}", _esc_nav(_biz_labels[k]), k) for k in _mob_biz_keys)
-    )
+    # Business on mobile: same short menu as desktop, subheads via .mob-sub.
+    mob_biz_items = _biz_menu(_mob_link, _mob_sub)
     mob_games_items = (
         _mob_link(f"{prefix}quiz.html",      "Sabi Suriname Quiz",   "quiz") +
         _mob_link(f"{prefix}crossword.html", "Switi Mini Crossword", "crossword") +
@@ -5871,7 +5891,6 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}events.html">Events &amp; Festivals</a>
         <a class="ftr-lnk" href="{prefix}shopping.html">Shopping</a>
         <a class="ftr-lnk" href="{prefix}services.html">Local Services</a>
-        <a class="ftr-lnk" href="{prefix}marketplace/">Marketplace</a>
       </div>
       <div class="ftr-h" style="margin-top:26px">Eat &amp; Stay</div>
       <div class="ftr-col">
@@ -6897,7 +6916,7 @@ function esSearch(){
         <a href="events.html">Events &amp; Festivals</a>
         <a href="currency.html">Market rates</a>
         <a href="daily-notices.html">Daily notices</a>
-        <a href="marketplace/">Marketplace</a>
+        <a href="business">Business tools</a>
       </div>
     </div>
   </div>
@@ -19211,8 +19230,6 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("contact.html",    "0.5", "yearly"),
         ("submit-business.html", "0.6", "yearly"),
         ("submit-event.html",    "0.6", "monthly"),
-        ("marketplace/",         "0.9", "daily"),
-        ("post-ad.html",         "0.5", "monthly"),
         ("privacy.html",    "0.3", "yearly"),
     ] + list(_BIZTOOLS_SITEMAP)
 
@@ -21626,16 +21643,9 @@ if __name__ == "__main__":
     pages = {
         "index.html":       build_index(RESTAURANTS, HOTELS, cme_rates),
         "activities.html":  build_activities_page(),
-        # Real estate became the general Marketplace (Sep 2026). Stub so shared
-        # links and the indexed URL land on the new page.
-        "real-estate.html":        ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
-            '<meta name="viewport" content="width=device-width, initial-scale=1">'
-            '<meta name="robots" content="noindex,follow">'
-            '<meta http-equiv="refresh" content="0;url=/marketplace/?c=property">'
-            '<link rel="canonical" href="https://exploresuriname.com/marketplace/">'
-            '<title>Redirecting to the Marketplace&hellip;</title></head><body>'
-            '<p>Property ads now live in the <a href="/marketplace/?c=property">Explore Suriname Marketplace</a>.</p>'
-            '</body></html>'),
+        # Real estate became the Marketplace (Sep 2026), which was retired on
+        # Sep 28 2026 (no ads). Point straight at /business, no redirect chain.
+        "real-estate.html":        _retired_stub("/business"),
         # Folded into activities.html (Aug 2026). Kept as a stub so existing
         # links and indexed URLs consolidate instead of 404ing.
         "nature.html":             ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
@@ -21755,24 +21765,16 @@ if __name__ == "__main__":
     })
     pages.update(_biz_pages)
 
-    # ── Marketplace (market.py) ─────────────────────────────────────────────
-    # Returns nested keys like marketplace/<slug>/index.html, so the write loop
-    # below creates directories. update.yml must git add marketplace/ or these
-    # get generated and then never committed.
-    from market import build_market_pages
-    _market_pages = build_market_pages({
-        "hub_head":          _hub_head,
-        "nav_html":          nav_html,
-        "footer_html":       footer_html,
-        "SITE_URL":          SITE_URL,
-        "GOOGLE_CLIENT_ID":  MQ_GOOGLE_CLIENT_ID,
-        "TURNSTILE_SITEKEY": TURNSTILE_SITEKEY,
-        "cbvs_rates":        cbvs_rates,
+    # ── Marketplace: retired Sep 28 2026 ─────────────────────────────────────
+    # Zero ads, so it came out of the nav/footer/sitemap. market.py and the
+    # moderation Worker are left untouched so it can be switched back on; the
+    # old URLs become noindex redirect stubs to /business.
+    pages.update({
+        "marketplace/index.html": _retired_stub("/business"),
+        "post-ad.html":           _retired_stub("/business"),
+        "my-ads.html":            _retired_stub("/business"),
     })
-    pages.update(_market_pages)
-    _market_slugs = [k.split("/")[1] for k in _market_pages
-                     if k.startswith("marketplace/") and k.count("/") == 2
-                     and 'content="noindex' not in _market_pages[k]]
+    _market_slugs = []
 
     import os as _os_pages
     for fname, html in pages.items():

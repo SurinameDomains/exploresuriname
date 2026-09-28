@@ -135,7 +135,7 @@ BIZ_SITEMAP = [(biz_url(p[0]), "0.8" if p[4] in ("hub", "calc", "people", "live"
 # ── Site nav (Business mega menu) ────────────────────────────────────────────
 # Short labels for the nav only; page titles stay in BIZ_PAGES. A page without
 # a label here falls back to its full title, so a new tool can never go missing
-# from the menu. NAV_MOBILE = the short list shown in the mobile accordion.
+# from the hub index. NAV_MENU = the short Business dropdown (desktop + mobile).
 NAV_LABELS = {
     "biz-btw": "BTW Calculator", "biz-salary": "Salary Calculator", "biz-minwage": "Minimum Wage",
     "biz-timesheet": "Timesheet", "biz-vacation": "Holiday Calculator", "biz-payslip": "Payslip Generator",
@@ -150,7 +150,14 @@ NAV_LABELS = {
     "biz-g-import": "Import & Export", "biz-g-finance": "Business Financing",
     "biz-g-contacts": "Government Contacts",
 }
-NAV_MOBILE = ["biz-btw", "biz-salary", "biz-invoice", "biz-deadlines", "biz-tenders", "biz-qr", "biz-pdf"]
+# (subheading, [keys], optional extra link (url, label, keys it stands for)).
+# The dropdown always starts with "All Business Tools" (the hub).
+NAV_MENU = [
+    ("Popular tools",    ["biz-btw", "biz-salary", "biz-invoice"], None),
+    ("Live information", ["biz-deadlines", "biz-tenders", "biz-prices"], None),
+    ("Guides",           ["biz-g-start"],
+                         ("business#g-guide", "All Guides", [p[1] for p in BIZ_PAGES if p[4] == "guide"])),
+]
 
 
 def nav_groups():
@@ -234,6 +241,18 @@ KIT_CSS = """
 .bz-tool:hover{border-color:var(--forest2);transform:translateY(-1px)}
 .bz-tool b{display:block;color:var(--ink);font-size:1rem;margin-bottom:.2rem}
 .bz-tool span{display:block;color:var(--ink-soft);font-size:.86rem;line-height:1.45}
+.bz-find input{width:100%;max-width:440px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:.7rem .95rem;font-size:1rem;color:var(--ink)}
+.bz-find input:focus{outline:2px solid var(--forest2);outline-offset:1px}
+.bz-index{column-count:2;column-gap:1.25rem;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1rem 1.1rem .5rem;margin-top:.75rem}
+@media(min-width:760px){.bz-index{column-count:3}}
+@media(min-width:1024px){.bz-index{column-count:4}}
+.bz-icol{break-inside:avoid;padding-bottom:.9rem;scroll-margin-top:80px}
+.bz-icol[hidden],.bz-icol a[hidden]{display:none}
+.bz-ih{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--clay);margin:0 0 .3rem}
+.bz-icol a{display:block;padding:.4rem 0;color:var(--ink);font-size:.95rem;line-height:1.3;text-decoration:none}
+.bz-icol a:hover{color:var(--forest);text-decoration:underline}
+.bz-none{margin-top:.75rem;color:var(--ink-soft)}
+.bz-none button{color:var(--forest);font-weight:600;text-decoration:underline;background:none;border:0;padding:0;cursor:pointer}
 .bz-jump{display:flex;flex-wrap:wrap;gap:.45rem;margin:0 0 .25rem}
 .bz-jump a{background:#fff;border:1px solid var(--line);border-radius:999px;padding:.4rem .85rem;font-size:.85rem;font-weight:600;color:var(--forest);text-decoration:none}
 .bz-jump a:hover{border-color:var(--forest2)}
@@ -996,12 +1015,18 @@ GROUPS = [
 
 
 def _hub_page(X, feeds, prices):
-    cards = ""
+    # Compact index (Sep 28 2026): every tool as a short link in grouped
+    # columns plus a filter box, instead of jump pills + 32 description cards.
+    # The description stays as the link's title; the filter also searches the
+    # Dutch keywords, so "factuur" finds the invoice maker.
+    cols = ""
     for g, label in GROUPS:
         items = [p for p in BIZ_PAGES if p[4] == g]
-        cards += f'<h2 class="bz-sec" id="g-{g}">{label}</h2><div class="bz-tools">' + "".join(
-            f'<a class="bz-tool" href="{p[0]}"><b>{p[2]}</b><span>{p[3]}</span></a>' for p in items) + '</div>'
-    jump = "".join(f'<a href="#g-{g}">{label}</a>' for g, label in GROUPS)
+        if not items:
+            continue
+        cols += (f'<div class="bz-icol" id="g-{g}"><h2 class="bz-ih">{label}</h2>' + "".join(
+            f'<a href="{p[0]}" title="{_esc(p[3])}" data-k="{_esc((p[2] + " " + p[3] + " " + p[5]).lower())}">'
+            f'{_esc(NAV_LABELS.get(p[1], p[2]))}</a>' for p in items) + '</div>')
     dl = upcoming_deadlines(X.R, X.H, X.today, months=3)[:6]
     kinds = {"btw": "BTW return and payment", "wage_tax": "Wage tax and AOV return", "apf": "APF pension premium",
              "ib_prov": "Income tax: provisional return", "ib_final": "Income tax: final return",
@@ -1017,11 +1042,12 @@ def _hub_page(X, feeds, prices):
     elif PV["rows"]:
         mp = (f'<p class="text-sm">Current list: <span class="bz-date" data-d="{PV["valid_from"]}">{PV["valid_from"]}</span> &ndash; '
               f'<span class="bz-date" data-d="{PV["valid_to"]}">{PV["valid_to"]}</span>, <span translate="no">{len(PV["rows"])}</span> products.</p>')
-    # Tools first (Sep 2026): on mobile there is no mega menu, so the hub is
-    # how people reach a tool; the live panels follow below the tool list.
+    # Tools first: the nav only carries a short Business menu, so the hub is
+    # how people reach a tool; the live panels follow below the tool index.
     body = f"""
-<div class="bz-jump">{jump}</div>
-{cards}
+<div class="bz-find"><input type="search" id="bz-find" placeholder="Find a tool: BTW, invoice, salary&#8230;" aria-label="Find a tool" autocomplete="off"></div>
+<div class="bz-index" id="bz-index">{cols}</div>
+<p class="bz-none" id="bz-none" hidden>No tool matches that. <button type="button" id="bz-clear">Show all tools</button></p>
 <div class="bz-card" style="background:var(--mint);border-color:#BFDDB8;margin-top:2rem">
   <p style="font-size:1.05rem;line-height:1.6;color:var(--forest)">Free tools for Surinamese businesses: no account, no limits, and they work on your phone, also offline.
   Every tax and wage rule is taken from the official source and checked every day.</p>
@@ -1040,6 +1066,26 @@ def _hub_page(X, feeds, prices):
 """
     js = r"""
 (function(){ [].forEach.call(document.querySelectorAll('.bz-date'), function(e){ e.textContent = BZ.fmtDate(e.getAttribute('data-d')); }); })();
+(function(){
+  var q = document.getElementById('bz-find'), none = document.getElementById('bz-none');
+  if (!q) return;
+  var cols = [].slice.call(document.querySelectorAll('#bz-index .bz-icol'));
+  function run(){
+    var w = q.value.toLowerCase().trim().split(/\s+/).filter(Boolean), any = false;
+    cols.forEach(function(c){
+      var n = 0;
+      [].forEach.call(c.querySelectorAll('a'), function(a){
+        var k = (a.getAttribute('data-k') || '') + ' ' + a.textContent.toLowerCase();
+        var ok = w.every(function(t){ return k.indexOf(t) > -1; });
+        a.hidden = !ok; if (ok) n++;
+      });
+      c.hidden = !n; if (n) any = true;
+    });
+    none.hidden = any;
+  }
+  q.addEventListener('input', run);
+  document.getElementById('bz-clear').addEventListener('click', function(){ q.value = ''; run(); q.focus(); });
+})();
 """
     faq = [("Are these tools really free?", "Yes. No account, no limits and no adverts inside the tools. Files you open in the PDF and image tools never leave your device."),
            ("How do you keep the rules up to date?", "Every rule comes from an official source such as the Belastingdienst, the pension fund or a decree in the Staatsblad. A daily check watches those sources and flags any change, and we only update a number after verifying the official text."),
