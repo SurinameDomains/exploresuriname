@@ -744,6 +744,81 @@ def inject_switcher(soup, lang: str, rel_path: str):
         m.append(_ib)
         mm.insert(0, m)
 
+# ── per-build volatile markup (kept OUT of the page hash, spliced back in) ────
+# generate.py stamps three things on (nearly) every page that change between
+# builds without changing anything translatable in the page body:
+#   * the utility rail above the nav: live °C, USD rate, outage count, date
+#   * JSON-LD "dateModified" (today's date)
+#   * the tailwind.css?v=<hash> cache-buster
+# Hashing them made every page miss the incremental cache on every 15-min run
+# (e.g. "1656 pages translated, 18 reused"). They are now stripped before
+# hashing; on a hit the cached NL/ES file gets the fresh values spliced in. If
+# the counts don't line up for any reason, the page is fully rebuilt instead,
+# so this can only ever fall back to the old behaviour, never serve stale text.
+_RAIL_RE   = re.compile(r'<div class="util-rail">.*?</div></div></div>', re.S)
+_LDDATE_RE = re.compile(r'("dateModified":\s?")(\d{4}-\d{2}-\d{2})(")')
+_TWV_RE    = re.compile(r'(tailwind\.css\?v=)([0-9A-Za-z]+)')
+
+def stable_hash(html: str) -> str:
+    """md5 of the English page with the per-build volatile markup removed."""
+    t = _RAIL_RE.sub("", html)
+    t = _LDDATE_RE.sub(r"\1\3", t)
+    t = _TWV_RE.sub(r"\1", t)
+    return hashlib.md5(t.encode("utf-8")).hexdigest()
+
+def _localize_rail(frag: str, lang: str) -> str:
+    """The rail through the same text/date rules localize() applies to a page."""
+    soup = BeautifulSoup(frag, "lxml")
+    rail = soup.find("div", class_="util-rail")
+    if rail is None:
+        return None
+    for node in rail.find_all(string=True):
+        if type(node) is not NavigableString:         continue
+        if node.parent and node.parent.name in SKIP_PARENTS: continue
+        if in_brand(node):                            continue
+        if no_translate(node):                        continue
+        s = str(node)
+        if translatable(s):
+            node.replace_with(tr(s, lang))
+    for el in rail.find_all(attrs={"data-srdate": True}):
+        _d = localize_date(el.get("data-srdate", ""), lang)
+        if _d:
+            el.string = _d
+    for el in rail.find_all(attrs={"data-srdate-long": True}):
+        _d = localize_date(el.get("data-srdate-long", ""), lang, long=True)
+        if _d:
+            el.string = _d
+    return serialize(rail)
+
+def refresh_volatile(cached: str, en_html: str, lang: str):
+    """Cached NL/ES page with this build's rail/dates/CSS version, or None."""
+    en_rails = _RAIL_RE.findall(en_html)
+    if len(_RAIL_RE.findall(cached)) != len(en_rails):
+        return None
+    loc = [_localize_rail(r, lang) for r in en_rails]
+    if any(x is None for x in loc):
+        return None
+    it = iter(loc)
+    out = _RAIL_RE.sub(lambda m: next(it), cached)
+
+    en_dates = [m.group(2) for m in _LDDATE_RE.finditer(en_html)]
+    if len(_LDDATE_RE.findall(out)) != len(en_dates):
+        return None
+    it = iter(en_dates)
+    out = _LDDATE_RE.sub(lambda m: m.group(1) + next(it) + m.group(3), out)
+
+    en_v = {m.group(2) for m in _TWV_RE.finditer(en_html)}
+    if len(en_v) > 1:
+        return None
+    if en_v:
+        if not _TWV_RE.search(out):
+            return None
+        v = en_v.pop()
+        out = _TWV_RE.sub(lambda m: m.group(1) + v, out)
+    elif _TWV_RE.search(out):
+        return None
+    return out
+
 # ── walk the English tree ─────────────────────────────────────────────────────
 # Pages whose text is mostly a live feed (headlines, fixtures, flights, rates).
 LIVE_FEED_PAGES = {"news.html", "matches.html", "flights.html", "currency.html",
@@ -773,10 +848,10 @@ def process_page(job):
     src = Path(src_str)
 
     raw = src.read_bytes()
-    new_hash = hashlib.md5(raw).hexdigest()
     # match Path.read_text()'s universal newlines so output is byte-for-byte
     # identical to the pre-incremental version on CRLF checkouts too
     html = raw.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
+    new_hash = stable_hash(html)
 
     # finalize English in place (hreflang + switcher only, no translation).
     # never skipped: generate.py rewrites this file from scratch every run.
@@ -789,6 +864,20 @@ def process_page(job):
 
     reuse = (old_hash is not None and old_hash == new_hash
              and all((ROOT / lang / rel).exists() for lang in TARGETS))
+
+    if reuse:
+        # same page body; only rail/dates/CSS version moved -> splice, don't re-render
+        fresh = {}
+        for lang in TARGETS:
+            out = ROOT / lang / rel
+            upd = refresh_volatile(out.read_text(encoding="utf-8"), html, lang)
+            if upd is None:
+                reuse = False
+                break
+            fresh[out] = upd
+        if reuse:
+            for out, upd in fresh.items():
+                out.write_text(upd, encoding="utf-8")
 
     if not reuse:
         for lang in TARGETS:
