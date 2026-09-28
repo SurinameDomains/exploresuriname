@@ -5,9 +5,9 @@
       "name": "Drs. Badal Giriradj",
       "clinic": "Gezondheidscentrum Limesgracht",
       "district": "Paramaribo",
-      "address": "",
-      "phone": "",
-      "note": ""
+      "address": "Limesgracht no. 78",
+      "phone": "420506",
+      "note": "zaterdag en zondag ochtend"
     },
     {
       "name": "Drs. Ori Amit",
@@ -99,6 +99,6 @@
   ],
   "doctor_hours": "Spreekuren: zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
   "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00.",
-  "last_updated": "2026-09-27T15:25:01.469044+00:00",
+  "last_updated": "2026-09-28T10:20:28.654107+00:00",
   "source": "http://www.rgd.sr/nl/zorg-aanbod/wachtdienst"
 }
