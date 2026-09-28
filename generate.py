@@ -265,6 +265,18 @@ FINANCE_FEEDS = [
     {"name": "Banking & Financial Sector", "url": "https://news.google.com/rss/search?q=%22Suriname%22+%28%22Centrale+Bank%22+OR+%22De+Surinaamsche+Bank%22+OR+%22Hakrinbank%22+OR+%22Finabank%22+OR+%22Republic+Bank+Suriname%22+OR+%22SRD%22+OR+%22Surinamese+dollar%22+OR+%22exchange+rate+Suriname%22+OR+%22financial+sector+Suriname%22+OR+%22credit+rating+Suriname%22%29&hl=en&gl=US&ceid=US:en", "color": "#b45309"},
 ]
 
+# Sports — Surinamese sport news. De Sport Wekker (WordPress) category
+# "Binnenlands" (id 2). The WP REST API is used first because the RSS feed
+# carries no images; the category RSS feed is the fallback.
+SPORTS_FEEDS = [
+    {"name": "De Sport Wekker",
+     "api":  "https://www.desportwekker.com/wp-json/wp/v2/posts?categories=2&per_page=30&_embed=wp:featuredmedia&_fields=id,date_gmt,link,title,excerpt,_links,_embedded",
+     "url":  "https://www.desportwekker.com/category/binnenlands/feed/",
+     "color": "#c2410c"},
+]
+# Titles open with flag/sport emoji ("🇸🇷⚽🔥 Fraser ..."); cards stay text-only.
+_LEAD_EMOJI_RE = re.compile(r"^[^\w‘'\"(]+", re.U)
+
 NATURE_SPOTS = [
     {"name": "Central Suriname Nature Reserve", "badge": "UNESCO World Heritage",
      "desc": "One of the world's largest intact tropical rainforests. Over 1.6 million hectares of pristine rainforest where jaguars, tapirs and giant river otters roam free.",
@@ -3973,6 +3985,66 @@ def fetch_finance_articles():
     articles.sort(key=lambda a: a["date"], reverse=True)
     return articles
 
+def fetch_sports_articles():
+    """Fetch Surinamese sport news (De Sport Wekker, category Binnenlands).
+    WP REST API first (gives featured images), category RSS as fallback."""
+    _UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    def _clean_title(t):
+        t = strip_tags(t).strip()
+        return _LEAD_EMOJI_RE.sub("", t).strip() or t
+    articles = []
+    for src_feed in SPORTS_FEEDS:
+        got = 0
+        try:
+            req = urllib.request.Request(src_feed["api"], headers={"User-Agent": _UA, "Accept": "application/json"})
+            with urllib.request.urlopen(req, timeout=25) as r:
+                posts = json.loads(r.read().decode("utf-8"))
+            for p in posts if isinstance(posts, list) else []:
+                title = _clean_title((p.get("title") or {}).get("rendered", ""))
+                if not title:
+                    continue
+                summary = clean_summary(strip_tags((p.get("excerpt") or {}).get("rendered", "")))
+                summary = _LEAD_EMOJI_RE.sub("", summary).strip()
+                if len(summary) > 200: summary = summary[:197] + "..."
+                img = ""
+                media = ((p.get("_embedded") or {}).get("wp:featuredmedia") or [{}])[0] or {}
+                sizes = (media.get("media_details") or {}).get("sizes") or {}
+                for k in ("medium_large", "large", "medium", "full"):
+                    if (sizes.get(k) or {}).get("source_url"):
+                        img = sizes[k]["source_url"]; break
+                img = img or media.get("source_url", "") or ""
+                try:
+                    pub = datetime.strptime(p.get("date_gmt", ""), "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
+                except Exception:
+                    pub = datetime.fromtimestamp(0, tz=timezone.utc)
+                articles.append({"title": title, "link": p.get("link", "#"), "summary": summary,
+                                 "image": img, "date": pub, "ago": time_ago(pub),
+                                 "source": src_feed["name"], "color": src_feed["color"]})
+                got += 1
+            print(f"  OK  {src_feed['name']} (sports, api): {got}")
+        except Exception as e:
+            print(f"  WARN {src_feed['name']} (sports, api): {e} — trying RSS")
+        if got:
+            continue
+        try:
+            feed = feedparser.parse(src_feed["url"], agent=_UA)
+            for entry in feed.entries[:30]:
+                title = _clean_title(getattr(entry, "title", ""))
+                summary = _LEAD_EMOJI_RE.sub("", clean_summary(strip_tags(getattr(entry, "summary", "")))).strip()
+                if len(summary) > 200: summary = summary[:197] + "..."
+                pub = parse_date(entry)
+                img = get_image(entry)
+                if "s.w.org/images/core/emoji" in img: img = ""
+                articles.append({"title": title, "link": getattr(entry, "link", "#"), "summary": summary,
+                                 "image": img, "date": pub, "ago": time_ago(pub),
+                                 "source": src_feed["name"], "color": src_feed["color"]})
+                got += 1
+            print(f"  OK  {src_feed['name']} (sports, rss): {got}")
+        except Exception as e:
+            print(f"  ERR {src_feed['name']} (sports): {e}")
+    articles.sort(key=lambda a: a["date"], reverse=True)
+    return articles
+
 def fetch_cme_rates():
     """
     CME.sr rates via their internal JSON API.
@@ -7612,7 +7684,8 @@ doConvert();"""
 </body>
 </html>"""
 
-def build_news(articles, oil_articles, finance_articles):
+def build_news(articles, oil_articles, finance_articles, sports_articles=None):
+    sports_articles = sports_articles or []
     updated   = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
 
     # ── Local news section ──────────────────────────────────────────────────
@@ -7695,22 +7768,38 @@ def build_news(articles, oil_articles, finance_articles):
         )
     finance_count = len(finance_articles)
 
+    # ── Sports section ─────────────────────────────────────────────────────
+    sports_cards_html = "\n".join(news_card_html(a, eager=False) for a in sports_articles[:30]) if sports_articles else (
+        '<div class="col-span-full text-center py-16 text-gray-400">'
+        '<p class="text-4xl mb-3">&#x26BD;</p>'
+        '<p class="text-sm">No sports articles available right now. Check back soon.</p>'
+        '</div>'
+    )
+    sports_count = min(len(sports_articles), 30)
+
+    # Tab bar: inactive tabs are card-coloured on the paper-2 bar (same surface
+    # as the category filter bars on listing pages) — not white on white.
+    _tab_cls = ("tab-btn flex-1 sm:flex-none flex items-center justify-center gap-2 "
+                "px-2 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold "
+                "whitespace-nowrap border transition-all")
+    _tab_off = "background:var(--card);color:var(--ink);border-color:var(--line)"
+
     return f"""{PAGE_HEAD}
-  <title>Suriname News | Local, Oil &amp; Gas and Finance | Explore Suriname</title>
+  <title>Suriname News | Local, Sports, Oil &amp; Gas and Finance | Explore Suriname</title>
   <meta name="description" content="Suriname local news, oil &amp; gas updates and finance in one place: De Ware Tijd, Starnieuws, Waterkant, Staatsolie, Block 58, IMF and more.">
   <link rel="canonical" href="{SITE_URL}/news.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/news.html">
-  <meta property="og:title" content="Suriname News | Local, Oil &amp; Gas and Finance | Explore Suriname">
+  <meta property="og:title" content="Suriname News | Local, Sports, Oil &amp; Gas and Finance | Explore Suriname">
   <meta property="og:description" content="Suriname local news, oil &amp; gas and finance updates from De Ware Tijd, Starnieuws, Waterkant, OilNow, IMF and more.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Suriname News | Local, Oil &amp; Gas and Finance | Explore Suriname">
+  <meta name="twitter:title" content="Suriname News | Local, Sports, Oil &amp; Gas and Finance | Explore Suriname">
   <meta name="twitter:description" content="Suriname local news, oil &amp; gas and finance updates in one place.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"CollectionPage","name":"Suriname News | Local, Oil & Gas and Finance","url":"{SITE_URL}/news.html","description":"Suriname local news, oil & gas and finance updates from De Ware Tijd, Starnieuws, Waterkant, OilNow, IMF and more.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}},"dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}"}}
+  {{"@context":"https://schema.org","@type":"CollectionPage","name":"Suriname News | Local, Sports, Oil & Gas and Finance","url":"{SITE_URL}/news.html","description":"Suriname local news, oil & gas and finance updates from De Ware Tijd, Starnieuws, Waterkant, OilNow, IMF and more.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}},"dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}"}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"News","item":"{SITE_URL}/news.html"}}]}}
@@ -7726,30 +7815,30 @@ def build_news(articles, oil_articles, finance_articles):
 </div>
 
 <!-- ── Tab switcher ──────────────────────────────────────────────────────── -->
-<div class="sticky top-[58px] z-40 bg-white border-b border-gray-100 shadow-sm">
+<div class="sticky top-[58px] z-40 border-b" style="background:var(--paper-2);border-color:var(--line)">
   <div class="max-w-5xl mx-auto px-5">
-    <div class="flex gap-1 py-2" role="tablist">
+    <div class="flex gap-1.5 sm:gap-2 py-2.5 overflow-x-auto" role="tablist" style="scrollbar-width:none">
       <button id="tab-local" role="tab" aria-selected="true" aria-controls="section-local"
-        onclick="switchTab('local')"
-        class="tab-btn flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
-        style="background:#142A1E;color:#fff">
-        <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 12h6m-6-4h2"/></svg>
-        <span>Local News</span>
+        onclick="switchTab('local')" class="{_tab_cls}" style="background:#142A1E;color:#fff;border-color:#142A1E">
+        <svg class="w-4 h-4 flex-shrink-0 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 12h6m-6-4h2"/></svg>
+        <span><span class="sm:hidden">Local</span><span class="hidden sm:inline">Local News</span></span>
         <span class="hidden sm:inline text-xs font-normal opacity-70">({local_count} stories)</span>
       </button>
+      <button id="tab-sports" role="tab" aria-selected="false" aria-controls="section-sports"
+        onclick="switchTab('sports')" class="{_tab_cls}" style="{_tab_off}">
+        <svg class="w-4 h-4 flex-shrink-0 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 21h8m-4-4v4m-5-17h10v5a5 5 0 01-10 0V4zm10 2h3v1a3 3 0 01-3 3M7 6H4v1a3 3 0 003 3"/></svg>
+        <span>Sports</span>
+        <span class="hidden sm:inline text-xs font-normal opacity-70">({sports_count} stories)</span>
+      </button>
       <button id="tab-oil" role="tab" aria-selected="false" aria-controls="section-oil"
-        onclick="switchTab('oil')"
-        class="tab-btn flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
-        style="background:var(--paper-2);color:var(--ink)">
-        <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        onclick="switchTab('oil')" class="{_tab_cls}" style="{_tab_off}">
+        <svg class="w-4 h-4 flex-shrink-0 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
         <span>Oil &amp; Gas</span>
         <span class="hidden sm:inline text-xs font-normal opacity-70">({oil_count} stories)</span>
       </button>
       <button id="tab-finance" role="tab" aria-selected="false" aria-controls="section-finance"
-        onclick="switchTab('finance')"
-        class="tab-btn flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
-        style="background:var(--paper-2);color:var(--ink)">
-        <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        onclick="switchTab('finance')" class="{_tab_cls}" style="{_tab_off}">
+        <svg class="w-4 h-4 flex-shrink-0 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
         <span>Finance</span>
         <span class="hidden sm:inline text-xs font-normal opacity-70">({finance_count} stories)</span>
       </button>
@@ -7777,6 +7866,16 @@ def build_news(articles, oil_articles, finance_articles):
               class="text-sm font-semibold px-6 py-2.5 rounded-full border transition"
               style="border-color:var(--forest);color:var(--forest);background:#fff">Show older stories</button>
     </div>
+  </div>
+
+  <!-- ── Sports ─────────────────────────────────────────────────────────── -->
+  <div id="section-sports" role="tabpanel" aria-labelledby="tab-sports" style="display:none">
+    <div class="rounded-2xl border px-5 py-3 mb-5" style="background:#fff7ed;border-color:#fed7aa">
+      <p class="text-sm leading-relaxed" style="color:#7c2d12">
+        <strong>Suriname Sports:</strong> Natio, SVB Eerste Divisie, athletics, chess and other Surinamese sport news from De Sport Wekker (in Dutch).
+      </p>
+    </div>
+    <div id="sports-feed" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{sports_cards_html}</div>
   </div>
 
   <!-- ── Oil & Gas ──────────────────────────────────────────────────────── -->
@@ -7809,16 +7908,18 @@ def build_news(articles, oil_articles, finance_articles):
 <script>
 /* ── Tab switching ──────────────────────────────────────────────────────── */
 function switchTab(tab) {{
-  var tabs     = ['local','oil','finance'];
-  var colors   = {{'local':'#142A1E','oil':'var(--clay)','finance':'var(--forest2)'}};
+  var tabs     = ['local','sports','oil','finance'];
+  var colors   = {{'local':'#142A1E','sports':'#c2410c','oil':'var(--clay)','finance':'var(--forest2)'}};
   tabs.forEach(function(t) {{
     var btn = document.getElementById('tab-' + t);
     var sec = document.getElementById('section-' + t);
     var active = (t === tab);
-    btn.style.background = active ? colors[t] : 'var(--paper-2)';
-    btn.style.color      = active ? '#fff' : 'var(--ink)';
+    btn.style.background  = active ? colors[t] : 'var(--card)';
+    btn.style.color       = active ? '#fff' : 'var(--ink)';
+    btn.style.borderColor = active ? colors[t] : 'var(--line)';
     btn.setAttribute('aria-selected', active ? 'true' : 'false');
     sec.style.display    = active ? '' : 'none';
+    if (active && btn.scrollIntoView && window.innerWidth < 640) btn.scrollIntoView({{block:'nearest',inline:'nearest'}});
   }});
 }}
 
@@ -7857,7 +7958,7 @@ function filterSection(section, source) {{
 /* ── Paging ─────────────────────────────────────────────────────────────────
    Every story is already in the HTML; "Show older stories" only raises the
    visible count, so there is no second request and no layout jump.          */
-var SEC_SOURCE = {{'local':'all','oil':'all','finance':'all'}};
+var SEC_SOURCE = {{'local':'all','sports':'all','oil':'all','finance':'all'}};
 var SEC_BASE   = {{'local':{LOCAL_PAGE_SIZE},'oil':0,'finance':0}};   // 0 = no limit
 var SEC_LIMIT  = {{'local':{LOCAL_PAGE_SIZE},'oil':0,'finance':0}};
 
@@ -7898,6 +7999,7 @@ function showMore(section) {{
   var h = window.location.hash;
   if (h === '#oil') switchTab('oil');
   else if (h === '#finance') switchTab('finance');
+  else if (h === '#sports') switchTab('sports');
 }})();
 </script>
 {footer_html()}
@@ -22064,6 +22166,7 @@ if __name__ == "__main__":
     articles     = fetch_articles()
     oil_articles     = fetch_oil_articles()
     finance_articles = fetch_finance_articles()
+    sports_articles  = fetch_sports_articles()
     cme_rates,  cme_live,  cme_updated  = fetch_cme_rates()
     cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
     bank_rates, banks_updated           = fetch_bank_rates()
@@ -22101,7 +22204,7 @@ if __name__ == "__main__":
                                                 bank_rates, banks_updated),
         "conditions.html":  build_conditions_page(tides_data),
         "flights.html":     build_flights_page(flights_data),
-        "news.html":        build_news(articles, oil_articles, finance_articles),
+        "news.html":        build_news(articles, oil_articles, finance_articles, sports_articles),
         "about.html":       build_about_page(),
         "contact.html":     build_contact_page(),
         "submit-business.html": build_submit_page(),
