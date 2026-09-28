@@ -28,7 +28,7 @@
     "date": "2026-09-28"
   },
   "static:currency.html": {
-    "hash": "cd180520fcbd96488f9d2f20ed1bafa1",
+    "hash": "4b553fd01b17712dd9f54f93632a5a18",
     "date": "2026-09-28"
   },
   "static:flights.html": {
@@ -52,7 +52,7 @@
     "date": "2026-09-28"
   },
   "static:news.html": {
-    "hash": "ae8fcd5b3869ad449b7304c791fc0b42",
+    "hash": "4e7cfe2ac9990c88527dfc77cd133792",
     "date": "2026-09-28"
   },
   "static:about.html": {
@@ -3016,7 +3016,7 @@
     "date": "2026-06-12"
   },
   "static:events.html": {
-    "hash": "d549c537fbe3c2049e050f070d765d5a",
+    "hash": "d4dbd982e56ff0f9eb1e81c6679c5d9d",
     "date": "2026-09-28"
   },
   "fort-zeelandia": {
@@ -3040,7 +3040,7 @@
     "date": "2026-09-28"
   },
   "static:matches.html": {
-    "hash": "b5fa9b054252d0de3ed0aaa3b2d079e6",
+    "hash": "b4930ad15ad9bfcdf57eecc8721f0038",
     "date": "2026-09-28"
   },
   "static:suriname-time.html": {
@@ -3064,7 +3064,7 @@
     "date": "2026-09-28"
   },
   "static:atms.html": {
-    "hash": "57237f683312791e708453daf98b9595",
+    "hash": "d0e308fad4f5562f717ccaccfbcb7f88",
     "date": "2026-09-28"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-09-28"
   },
   "static:oil-and-gas.html": {
-    "hash": "05ba8cd1f0d6b7d1ef355fbd3d671e15",
+    "hash": "7f6cc0bdd6ea9eba53eda3850ef42af9",
     "date": "2026-09-28"
   },
   "static:suriname-oil-blocks.html": {
@@ -6708,135 +6708,135 @@
     "date": "2026-09-27"
   },
   "static:business": {
-    "hash": "271e809bd0c2685374933f700a5618a3",
+    "hash": "dce4068cd091be6ab2349808d921182f",
     "date": "2026-09-28"
   },
   "static:btw-calculator": {
-    "hash": "4f36e0ed9b5319bc69af7aa737e4fcaa",
+    "hash": "56044252e6d8eb81abfbd78cf4efb994",
     "date": "2026-09-28"
   },
   "static:salary-calculator": {
-    "hash": "e6bb8970aaba666590b3e2ef36bd10ce",
+    "hash": "a31a12ad0c3b79b9723486e2cdb203f4",
     "date": "2026-09-28"
   },
   "static:minimum-wage-suriname": {
-    "hash": "4de543422b5fe4e3be3a549822452569",
+    "hash": "ea8f8daffde7bea966460d4ef32b2289",
     "date": "2026-09-28"
   },
   "static:timesheet": {
-    "hash": "7cc9ddc5914feffa90d01d97cb59b90f",
+    "hash": "618de83887160af961b1ececede42a9c",
     "date": "2026-09-28"
   },
   "static:vacation-calculator": {
-    "hash": "22fcb59316669625d40509e7426b4b30",
+    "hash": "0ef450cc327ce61606cdefe1bd57fd57",
     "date": "2026-09-28"
   },
   "static:payslip-generator": {
-    "hash": "a5d1478bbd8de13e3ee53f602fe41d84",
+    "hash": "be9d7850254dc57e9bc9ecea5560cdc9",
     "date": "2026-09-28"
   },
   "static:income-tax-calculator": {
-    "hash": "0d37ac20d00e57b406d7409d1f3f030b",
+    "hash": "b91d7c0360ff39ae4eadf17a8d799b46",
     "date": "2026-09-28"
   },
   "static:tax-deadlines": {
-    "hash": "3c59fa8955f818f48c52f076bcb5d255",
+    "hash": "f694d60f79499444d5707d541fc79c9f",
     "date": "2026-09-28"
   },
   "static:working-days-calculator": {
-    "hash": "5a98a4f18fefbe0baf73830f3a595504",
+    "hash": "3ff24a9173e074812af46f907c92c53b",
     "date": "2026-09-28"
   },
   "static:pricing-calculator": {
-    "hash": "e3059c067822ec70e4690b1601ceabea",
+    "hash": "ab940a9fdfb2ada86f369cb2a9affd9f",
     "date": "2026-09-28"
   },
   "static:import-cost-calculator": {
-    "hash": "4dd33e420b91ed576d058038b45aced7",
+    "hash": "0af79fe44749411f651bbf2cd5074dc7",
     "date": "2026-09-28"
   },
   "static:invoice-generator": {
-    "hash": "ba791fbd449f1844ef4b9e8680df8291",
+    "hash": "99a2a027ec3ac203a0834d7e89844b99",
     "date": "2026-09-28"
   },
   "static:receipt-generator": {
-    "hash": "dee71cafd1051a4769cd8135ff5ffb5d",
+    "hash": "e105e87a48e9c7a4d813bc1d90da0ace",
     "date": "2026-09-28"
   },
   "static:payment-reminder": {
-    "hash": "59079e5d38491366ca168aa117a5976d",
+    "hash": "fc053c383fe2acd8a803e9a8c26d15d4",
     "date": "2026-09-28"
   },
   "static:btw-register": {
-    "hash": "cb93afcc233845a9f443f118d0398ade",
+    "hash": "87740514fac258a557a6f559f49f816b",
     "date": "2026-09-28"
   },
   "static:amount-in-words": {
-    "hash": "7a795e7e85257a6c766e7a8adc09dcd4",
+    "hash": "774de449dce19ec6af4b8ef401c41716",
     "date": "2026-09-28"
   },
   "static:cash-counter": {
-    "hash": "e2f7311e75b1935530f4cb0e0140547f",
+    "hash": "046a20b13914624c9f5f976161d30323",
     "date": "2026-09-28"
   },
   "static:loan-calculator": {
-    "hash": "b07fd68d29ca48f08e02711ce954f904",
+    "hash": "8d7a167b5138f34e5e89ac2078ed2fc6",
     "date": "2026-09-28"
   },
   "static:break-even-calculator": {
-    "hash": "033e5a38814dac7c7cd80bf9fc876a78",
+    "hash": "675d5ba50b4c17cc584926a70fad38c1",
     "date": "2026-09-28"
   },
   "static:qr-code-generator": {
-    "hash": "1660051fffdf12298e778a9c919fe271",
+    "hash": "5ef2eea1349ccbb37f82fe5db6582c55",
     "date": "2026-09-28"
   },
   "static:barcode-generator": {
-    "hash": "de81c996780a9de4acf06b5cbe6b385a",
+    "hash": "09e5b8d488993394ed6dfaeaa238cb81",
     "date": "2026-09-28"
   },
   "static:pdf-tools": {
-    "hash": "c9d7c323aa74531dd29cca1d264a543a",
+    "hash": "60d31cc5c041b0b39fb60a19d3c2107d",
     "date": "2026-09-28"
   },
   "static:image-tools": {
-    "hash": "8ac9cc3d916c38d4e0dc42895dbcba29",
+    "hash": "393e1a6d216cff2bcc77b984f32cc6f1",
     "date": "2026-09-28"
   },
   "static:business-card-maker": {
-    "hash": "d7d7cbc40da223ae7f72c2d55d21123c",
+    "hash": "6e72631abbc07091da39231471c6c159",
     "date": "2026-09-28"
   },
   "static:government-tenders": {
-    "hash": "46bdf9729ef67b6466c93b719e7d5551",
+    "hash": "72fa3175237769bb272febd298e08369",
     "date": "2026-09-28"
   },
   "static:max-prices-basic-goods": {
-    "hash": "a36bfe1ea1e4258495e01e2df96589a2",
+    "hash": "c6f6c06db2099edf7afedc4739d5a314",
     "date": "2026-09-28"
   },
   "static:start-business-suriname": {
-    "hash": "16f8bcb0b02cdcaff787329d714038d7",
+    "hash": "6d65df42d20b4430909dcc8efb56e09e",
     "date": "2026-09-28"
   },
   "static:btw-guide-suriname": {
-    "hash": "af4c084581e7761212039e214d951b6c",
+    "hash": "6d463f30714adacdf96267f5e27ee075",
     "date": "2026-09-28"
   },
   "static:hiring-staff-suriname": {
-    "hash": "95a3feb7b1cd498f360eede37b8271de",
+    "hash": "6bdd922e1bb4d8a6ae132a1b7e838052",
     "date": "2026-09-28"
   },
   "static:import-export-suriname": {
-    "hash": "94338b80a629e6ed76f6f549c339e17c",
+    "hash": "526e6a1c839ff0524519909498c4ba9b",
     "date": "2026-09-28"
   },
   "static:business-financing-suriname": {
-    "hash": "b0e5ed61c6a062b48eb07591ca9fdc52",
+    "hash": "e76f6f607a42dbe427868fd8b148ad08",
     "date": "2026-09-28"
   },
   "static:government-contacts-suriname": {
-    "hash": "3cdd7196fdaa06c0b310fe88764f1fe1",
+    "hash": "2470e7fa224246131a0da791a0aa6d73",
     "date": "2026-09-28"
   }
 }
