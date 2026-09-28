@@ -3405,7 +3405,7 @@ _SI_LIST = [
     {"n": "Sports Schedule: Natio, SML, Football, NBA, Fight Nights in Suriname Time", "u": "matches.html", "c": "Guides", "a": "Suriname"},
     {"n": "Suriname Time and World Clock Converter", "u": "suriname-time.html", "c": "Guides", "a": "Suriname"},
     {"n": "Sranan Tongo Dictionary and Phrasebook", "u": "sranan-tongo-dictionary.html", "c": "Guides", "a": "Suriname"},
-    {"n": "About Suriname: Facts, Geography, People and Culture", "u": "about-suriname.html", "c": "Guides", "a": "Suriname"},
+    {"n": "About Suriname: Facts, Geography, People and Culture", "u": "about-suriname", "c": "Guides", "a": "Suriname"},
     {"n": "History of Suriname: Interactive Timeline", "u": "suriname-history.html", "c": "Guides", "a": "Suriname"},
     {"n": "Switi Mini: Daily Surinaamse Crossword", "u": "crossword.html", "c": "Guides", "a": "Suriname"},
     {"n": "Sabi Suriname: Daily Suriname Quiz", "u": "quiz.html", "c": "Guides", "a": "Suriname"},
@@ -3471,7 +3471,7 @@ _GUIDE_KW = {
                             "vrouwen dames women youth marathon hardlopen loop robinhood broki transvaal leo victor",
  "suriname-time.html":      "time clock timezone converter tijd tijdzone tijdverschil klok",
  "sranan-tongo-dictionary.html": "sranan tongo dictionary phrasebook translate language woordenboek taal vertalen",
- "about-suriname.html":     "about suriname facts country population language religion climate geography capital districts flag anthem economy over suriname feiten land bevolking taal",
+ "about-suriname":          "about suriname facts country population language religion climate geography capital districts flag anthem economy over suriname feiten land bevolking taal",
  "suriname-history.html":   "history timeline slavery colonial independence geschiedenis tijdlijn",
  "crossword.html":          "crossword puzzle game switi kruiswoord puzzel spel",
  "quiz.html":               "quiz trivia game questions spel vragen",
@@ -5324,7 +5324,7 @@ def nav_html(active="home", prefix=""):
     )
     # Learn
     learn_items = (
-        f'<a href="{prefix}about-suriname.html"          {_link_cls("aboutsr")}       >About Suriname</a>'
+        f'<a href="{prefix}about-suriname"               {_link_cls("aboutsr")}       >About Suriname</a>'
         f'<a href="{prefix}oil-and-gas.html"             {_link_cls("oilgas", _OILG)} >Oil &amp; Gas</a>'
         f'<a href="{prefix}suriname-history.html"        {_link_cls("history")}       >History Timeline</a>'
         f'<a href="{prefix}sranan-tongo-dictionary.html" {_link_cls("dictionary")}    >Sranan Dictionary</a>'
@@ -5433,7 +5433,7 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}flights.html",            "Flights",           "flights")
     )
     mob_learn_items = (
-        _mob_link(f"{prefix}about-suriname.html",          "About Suriname",    "aboutsr")       +
+        _mob_link(f"{prefix}about-suriname",               "About Suriname",    "aboutsr")       +
         _mob_link(f"{prefix}oil-and-gas.html",             "Oil & Gas",         "oilgas", _OILG) +
         _mob_link(f"{prefix}suriname-history.html",        "History Timeline",  "history")       +
         _mob_link(f"{prefix}sranan-tongo-dictionary.html", "Sranan Dictionary", "dictionary")
@@ -5942,7 +5942,7 @@ def footer_html(prefix=""):
       </div>
       <div class="ftr-h" style="margin-top:26px">Learn</div>
       <div class="ftr-col">
-        <a class="ftr-lnk" href="{prefix}about-suriname.html">About Suriname</a>
+        <a class="ftr-lnk" href="{prefix}about-suriname">About Suriname</a>
         <a class="ftr-lnk" href="{prefix}oil-and-gas.html">Oil &amp; Gas</a>
         <a class="ftr-lnk" href="{prefix}suriname-history.html">History Timeline</a>
         <a class="ftr-lnk" href="{prefix}sranan-tongo-dictionary.html">Sranan Dictionary</a>
@@ -17333,10 +17333,12 @@ def build_about_suriname_page():
     extra_ld = {
         "@context": "https://schema.org", "@type": "Country", "name": "Suriname",
         "alternateName": ["Republic of Suriname", "Republiek Suriname", "Sranan"],
-        "url": SITE_URL + "/about-suriname.html",
+        "url": SITE_URL + "/about-suriname",
         "sameAs": ["https://en.wikipedia.org/wiki/Suriname", "https://www.wikidata.org/wiki/Q730"],
     }
-    head = _hub_head(title, desc, "about-suriname.html", faq=faq, extra_ld=extra_ld)
+    # Clean URL (no .html): the file stays about-suriname.html on disk and GitHub
+    # Pages serves it at /about-suriname. build_i18n.py lists it in _CLEAN_FILES.
+    head = _hub_head(title, desc, "about-suriname", faq=faq, extra_ld=extra_ld)
     hero = _hub_hero("Country Guide", "About Suriname",
                      "The facts, the peoples, the land and the story of South America&#8217;s "
                      "smallest, greenest and most diverse country.").replace("{NAV}", nav_html("aboutsr"))
@@ -17422,7 +17424,7 @@ def build_about_suriname_page():
                  ("Currency", "Surinamese dollar (SRD), since 2004"),
                  ("Time zone", "UTC&#8722;3 all year, no daylight saving"),
                  ("Calling code / internet", "+597 / .sr"),
-                 ("Drives on the", "Left"),
+                 ("Driving side", "Left"),
                  ("Highest point", "Julianatop, about 1,280 m (4,200 ft)"),
                  ("Forest cover", "About 93% of the land, one of the highest shares in the world"),
                  ("UNESCO sites", "3: Central Suriname Nature Reserve, Paramaribo&#8217;s historic inner city, Jodensavanne"),
@@ -17436,13 +17438,15 @@ def build_about_suriname_page():
 
     # ── Geography ───────────────────────────────────────────────────────────
     body += _sec("geography", "The Land", "Geography of Suriname",
-        _stats([("163,820", "km&#178; area"), ("~386", "km coastline"), ("1,280", "m Julianatop"),
+        # Thousands separator is a narrow no-break space (&#8239;): the /nl/ and /es/
+        # copies keep these numbers verbatim, and "163,820" reads as 163.82 there.
+        _stats([("163&#8239;820", "km&#178; area"), ("~386", "km coastline"), ("1&#8239;280", "m Julianatop"),
                 ("~80%", "in Sipaliwini")])
         + P + 'Suriname sits just north of the equator, between 2&#176; and 6&#176; north. Three natural bands run '
-        'from the coast inland. The <strong>young coastal plain</strong> is a strip of clay, mangrove and swamp '
-        'where rice, bananas and almost all the towns are found. Behind it lie the <strong>old coastal plain</strong> '
-        'and the <strong>savanna belt</strong> of white sand around Zanderij, the international airport. The rest, '
-        'about four fifths of the country, is the <strong>interior uplands</strong>: an almost unbroken rainforest '
+        'from the coast inland. The young coastal plain is a strip of clay, mangrove and swamp '
+        'where rice, bananas and almost all the towns are found. Behind it lie the old coastal plain '
+        'and the savanna belt of white sand around Zanderij, the international airport. The rest, '
+        'about four fifths of the country, is the interior uplands: an almost unbroken rainforest '
         'on the ancient Guiana Shield, with granite inselbergs such as the Voltzberg and mountain ranges that '
         'peak at Julianatop.</p>'
         + P + 'Rivers are the country&#8217;s roads. The Corantijn (Courantyne) forms the border with Guyana and '
@@ -17451,7 +17455,7 @@ def build_about_suriname_page():
         'Reservoir in 1964, one of the largest man-made lakes in the world at roughly 1,500 km&#178;.</p>'
         + PL + 'Two border areas are disputed: the Tigri area (New River Triangle) with Guyana, and a zone in the '
         'south-east with French Guiana. Test your map knowledge with our daily '
-        + _ilink("map-game.html", "Pe A De? map game") + '.</p>')
+        + _ilink("map-game.html", "Pe A De? Map Game") + '.</p>')
 
     # ── Climate ─────────────────────────────────────────────────────────────
     body += _sec("climate", "Weather", "Climate and Seasons",
@@ -17489,9 +17493,9 @@ def build_about_suriname_page():
 
     # ── Languages ───────────────────────────────────────────────────────────
     body += _sec("languages", "Languages", "What Languages Are Spoken in Suriname?",
-        P + '<strong>Dutch</strong> is the official language of government, education, law and most media, '
+        P + 'Dutch is the official language of government, education, law and most media, '
         'and Suriname is an associate member of the Dutch Language Union (Taalunie). It is the only Dutch-speaking country '
-        'in South America. On the street, though, the shared language is <strong>Sranan Tongo</strong>, an '
+        'in South America. On the street, though, the shared language is Sranan Tongo, an '
         'English-based creole that grew on the plantations and is understood by nearly everyone.</p>'
         + P + 'More than 20 languages are spoken in all:</p>'
         + _table([
@@ -17501,9 +17505,9 @@ def build_about_suriname_page():
             ("Indigenous languages", "Kari&#8217;na (Carib), Lokono (Arawak), Trio, Wayana and others"),
             ("Also widely heard", "English (understood in Paramaribo and tourism), Brazilian Portuguese, Spanish"),
         ])
-        + '<p class="text-gray-700 text-sm leading-relaxed mt-3">Want to try a few words? Our '
-        + _ilink("sranan-tongo-dictionary.html", "Sranan Tongo dictionary and phrasebook")
-        + ' has thousands of entries, from <em>fa waka?</em> (how are you?) to <em>switi</em> (sweet, nice).</p>')
+        + '<p class="text-gray-700 text-sm leading-relaxed mt-3">Want to learn a few words, such as fa waka? (how are you?) '
+        'or switi (sweet, nice)? Look them up in our '
+        + _ilink("sranan-tongo-dictionary.html", "Sranan Tongo dictionary and phrasebook") + '.</p>')
 
     # ── Religion ────────────────────────────────────────────────────────────
     body += _sec("religion", "Faith", "Religion in Suriname",
@@ -17544,8 +17548,8 @@ def build_about_suriname_page():
     # ── Government ──────────────────────────────────────────────────────────
     body += _sec("government", "Politics", "Government and Politics",
         P + 'Suriname is a constitutional democracy with a presidential system. Voters elect the 51 members of '
-        'the <strong>National Assembly</strong> (De Nationale Assemblee) every five years; the Assembly then '
-        'elects the <strong>President</strong>, who is head of state and head of government, and the Vice '
+        'the National Assembly (De Nationale Assemblee) every five years; the Assembly then '
+        'elects the President, who is head of state and head of government, and the Vice '
         'President, who leads the Council of Ministers day to day. Local government runs through ten districts '
         'and 62 resorts, each with elected councils.</p>'
         + _table([
@@ -17558,27 +17562,27 @@ def build_about_suriname_page():
 
     # ── Economy ─────────────────────────────────────────────────────────────
     body += _sec("economy", "Money", "Economy of Suriname",
-        P + 'Suriname&#8217;s economy rests on natural resources. <strong>Gold</strong> is the largest export, '
+        P + 'Suriname&#8217;s economy rests on natural resources. Gold is the largest export, '
         'from large mines such as Merian and Rosebel and from thousands of small-scale miners in the interior. '
-        '<strong>Oil</strong> is produced onshore by the state company Staatsolie, and the offshore '
-        + _ilink("granmorgu.html", "GranMorgu project") + ' in Block 58, led by TotalEnergies, is scheduled '
-        'to start production in 2028 at around 220,000 barrels a day, which could transform public finances. '
-        '<strong>Bauxite</strong>, the backbone of the economy for nearly 100 years, ended with the closure of '
-        'the Suralco refinery in 2015.</p>'
+        'Oil is produced onshore by the state company Staatsolie. Offshore, the GranMorgu project in Block 58, '
+        'led by TotalEnergies, is scheduled to start production in 2028 at around 220,000 barrels a day, which '
+        'could transform public finances. Bauxite, the backbone of the economy for nearly 100 years, ended with '
+        'the closure of the Suralco refinery in 2015.</p>'
         + P + 'Agriculture and fisheries matter too: rice from Nickerie, bananas, shrimp and fish, vegetables and '
         'timber. The government is the largest employer, and trade and services dominate the private sector. '
         'After a debt crisis and high inflation in 2020-2022, the economy stabilised under an IMF-supported reform programme. '
         'Nominal GDP is roughly US$4.5 billion.</p>'
         + PL + 'Follow the SRD exchange rate on our ' + _ilink("currency.html", "Market Rates page")
-        + ' and the oil sector on the ' + _ilink("oil-and-gas.html", "Oil &amp; Gas hub") + '.</p>')
+        + ', the oil sector on the ' + _ilink("oil-and-gas.html", "Oil &amp; Gas hub")
+        + ' and the offshore project on the ' + _ilink("granmorgu.html", "GranMorgu page") + '.</p>')
 
     # ── Nature ──────────────────────────────────────────────────────────────
     body += _sec("nature", "Wildlife", "Nature and Wildlife",
         _stats([("~93%", "forest cover"), ("715+", "bird species"), ("190+", "mammal species"),
-                ("5,000+", "plant species")])
+                ("5&#8239;000+", "plant species")])
         + P + 'Suriname is one of the greenest countries on earth and one of very few that absorb more carbon '
         'than they emit. In 2025 the government pledged to protect 90% of its forest permanently. The '
-        '<strong>Central Suriname Nature Reserve</strong>, 1.6 million hectares of untouched rainforest around '
+        'Central Suriname Nature Reserve, 1.6 million hectares of untouched rainforest around '
         'Raleighvallen, the Voltzberg and Tafelberg, has been a UNESCO World Heritage site since 2000.</p>'
         + P + 'Wildlife highlights include the jaguar, giant otter, giant anteater, tapir, eight species of '
         'monkey (from red howlers to golden-handed tamarins), the harpy eagle, the Guianan cock-of-the-rock and '
@@ -17615,16 +17619,15 @@ def build_about_suriname_page():
 
     # ── Culture & food ──────────────────────────────────────────────────────
     body += _sec("culture", "Culture", "Culture, Food and Sport",
-        P + 'Surinamese culture is a mix you can taste. <strong>Pom</strong> (an oven dish of pomtajer root and '
-        'chicken) is the party classic; <strong>roti</strong> with curried chicken, potato and long beans came '
-        'with the Hindustani; the Javanese brought <strong>bami</strong>, <strong>nasi</strong> and '
-        '<strong>saoto soup</strong>; Creole kitchens serve <strong>moksi alesi</strong>, <strong>peanut soup</strong> '
-        'and <strong>bakbana</strong>; and Chinese restaurants are everywhere. Wash it down with a '
-        '<strong>Parbo</strong> beer or <strong>Borgoe</strong> rum. Browse local favourites on our '
+        P + 'Surinamese culture is a mix you can taste. Pom (an oven dish of pomtajer root and '
+        'chicken) is the party classic; roti with curried chicken, potato and long beans came '
+        'with the Hindustani; the Javanese brought bami, nasi and saoto soup; Creole kitchens serve '
+        'moksi alesi, peanut soup and bakbana; and Chinese restaurants are everywhere. Wash it down with a '
+        'Parbo beer or Borgoe rum. Browse local favourites on our '
         + _ilink("restaurants.html", "Where to Eat page") + '.</p>'
         + P + 'Music ranges from kaseko and kawina to baithak gana and Javanese pop, and the year is full of '
         'festivals: Phagwa, Divali, Keti Koti, Chinese and Javanese New Year and the famous '
-        '<strong>Owru Yari</strong> New Year&#8217;s Eve street party in Paramaribo. See what&#8217;s on in our '
+        'Owru Yari New Year&#8217;s Eve street party in Paramaribo. See what&#8217;s on in our '
         + _ilink("events.html", "Events &amp; Festivals calendar") + '.</p>'
         + PL + 'Football is the national passion. Suriname-born or Surinamese-heritage players such as Ruud Gullit, '
         'Frank Rijkaard, Clarence Seedorf and Edgar Davids starred for the Netherlands, and the national team, '
@@ -17668,11 +17671,11 @@ def build_about_suriname_page():
             ("Emergency numbers", "Police 115, Ambulance 113, Fire 110"),
             ("Tap water", "Generally drinkable in central Paramaribo; bottled elsewhere"),
         ])
-        + '<p class="text-gray-700 text-sm leading-relaxed mt-3">Everything for your trip: '
-        + _ilink("visitor-guide.html", "The Basics") + ' (visas, SIM cards, money), '
-        + _ilink("is-suriname-safe.html", "Is Suriname Safe?") + ', '
-        + _ilink("suriname-itinerary.html", "trip itineraries") + ' and the '
-        + _ilink("suriname-time.html", "time converter") + '.</p>')
+        + '<p class="text-gray-700 text-sm leading-relaxed mt-3"><span class="font-semibold text-gray-900">Plan</span>: '
+        + _ilink("visitor-guide.html", "The Basics") + ' &#183; '
+        + _ilink("is-suriname-safe.html", "Is Suriname Safe?") + ' &#183; '
+        + _ilink("suriname-itinerary.html", "Trip Itineraries") + ' &#183; '
+        + _ilink("suriname-time.html", "Time &amp; Converter") + '</p>')
 
     # ── Fun facts ───────────────────────────────────────────────────────────
     facts = [
@@ -19636,7 +19639,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("on-the-road.html", "0.7", "monthly"),
         ("suriname-itinerary.html", "0.8", "monthly"),
         ("is-suriname-safe.html",   "0.7", "monthly"),
-        ("about-suriname.html",    "0.8", "monthly"),
+        ("about-suriname",         "0.8", "monthly"),
         ("suriname-history.html",  "0.8", "monthly"),
         ("matches.html",            "0.8", "daily"),
         ("suriname-time.html",      "0.7", "daily"),
@@ -19748,7 +19751,7 @@ def build_llms_txt():
 ## Travel guides
 - [The Basics]({S}/visitor-guide.html): visas, customs, SIM cards, money, ATMs and getting around for first-time visitors.
 - [Is Suriname Safe?]({S}/is-suriname-safe.html): practical safety guidance for tourists.
-- [About Suriname]({S}/about-suriname.html): country fact file: geography, climate, population and ethnic groups, languages, religion, history, government, economy, nature, the ten districts, national symbols, public holidays and practical facts.
+- [About Suriname]({S}/about-suriname): country fact file: geography, climate, population and ethnic groups, languages, religion, history, government, economy, nature, the ten districts, national symbols, public holidays and practical facts.
 - [History of Suriname]({S}/suriname-history.html): interactive timeline of Surinamese history, from the first Indigenous peoples through slavery and Keti Koti to independence and the oil era, in English and Dutch.
 - [Suriname Itinerary]({S}/suriname-itinerary.html): suggested multi-day routes combining Paramaribo and the interior.
 - [On the Road]({S}/on-the-road.html): driving, road rules, rainy-season advice and emergency numbers.

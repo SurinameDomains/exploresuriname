@@ -549,6 +549,9 @@ try:
     _CLEAN_FILES = set(_CLEAN_FILES)
 except Exception:
     _CLEAN_FILES = set()
+# Non-business pages that are also published without ".html" (keep in sync with
+# the hrefs/canonical in generate.py).
+_CLEAN_FILES |= {"about-suriname.html"}
 
 
 def url_path(rel_path: str) -> str:
