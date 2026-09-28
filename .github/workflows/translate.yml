@@ -15,8 +15,12 @@ name: Fill Translations (NL/ES)
 
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: '0 5 * * *'   # 05:00 UTC daily until the cache is full
+  # Re-enabled 28 Sep 2026: with the schedule off, new listings, events and
+  # marketplace text stayed English on /nl/ and /es/. build_i18n.py now lists
+  # stable page text before live-feed text (headlines, fixtures), so the daily
+  # budget goes to text that lasts.
+  schedule:
+    - cron: '0 5 * * *'   # 05:00 UTC daily (02:00 Suriname), quiet hours for the deploy lock
 
 concurrency:
   # Same group as update.yml/cache_images.yml: deploy-type jobs queue up
@@ -63,7 +67,7 @@ jobs:
       - name: Translate pending segments (keyless Google, resumable)
         # Bounded batch: the script is resumable, so repeated short runs
         # drain the backlog without ever blocking a deploy.
-        run: python translate_cache.py --limit 1500
+        run: python translate_cache.py --limit 3000
 
       - name: Shield business names in listing titles/meta
         run: python protect_titles.py --limit 800
