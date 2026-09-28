@@ -36,18 +36,6 @@
     "main_image": "https://exploresuriname.com/images/19-trading.webp"
   },
   {
-    "slug": "4r-gym",
-    "name": "4r Gym",
-    "description": "4r Gym is a Paramaribo fitness centre offering gym equipment, group classes and personal training. A welcoming fitness community for residents looking to improve their health and strength.",
-    "category": "",
-    "location": "Paramaribo",
-    "address": "Paramaribo, Suriname",
-    "phone": "",
-    "website": "",
-    "email": "",
-    "main_image": "https://img.youtube.com/vi/_dndYccJtn8/hqdefault.jpg"
-  },
-  {
     "slug": "4r-gym-academia",
     "name": "4R Gym Academia",
     "description": "4R Gym Academia is a fitness and wellness centre in Paramaribo, Suriname, offering training courses and gym facilities. Located at Verlengde Gemenelandsweg #127.",
@@ -1105,27 +1093,15 @@
     "main_image": "https://exploresuriname.com/images/atlas-fitness-center.webp"
   },
   {
-    "slug": "atv",
-    "name": "ATV",
-    "description": "ATV is a technology and media company in Paramaribo, Suriname, offering education programmes. Located at Van ‘t Hogerhuysstraat 58-60.",
-    "category": "",
-    "location": "Paramaribo",
-    "address": "Van ‘t Hogerhuysstraat 58-60, Centrum, Paramaribo, Suriname",
-    "phone": "+597 404611",
-    "website": "",
-    "email": "info@atv.sr",
-    "main_image": "https://exploresuriname.com/images/atv.webp"
-  },
-  {
     "slug": "atv-suriname",
     "name": "ATV Suriname",
     "description": "Algemene Televisie Verzorging. Commercial television network carrying news, current affairs and entertainment.",
     "category": "",
     "location": "Paramaribo",
-    "address": "Paramaribo, Suriname",
+    "address": "Van 't Hogerhuysstraat 58-60, Paramaribo, Suriname",
     "phone": "+597 402050",
     "website": "https://atv.sr",
-    "email": "",
+    "email": "info@atv.sr",
     "main_image": "https://atv.sr/wp-content/uploads/2024/07/Logo_ATV-2.png"
   },
   {
@@ -1232,8 +1208,8 @@
     "location": "Paramaribo",
     "address": "Otto Pengelstraat #3, Paramaribo, Suriname",
     "phone": "+597 8594463",
-    "website": "https://autoradarsuriname.com",
-    "email": "info@autoradarsuriname.com",
+    "website": "",
+    "email": "",
     "main_image": "https://exploresuriname.com/images/autoradar-suriname.webp"
   },
   {
@@ -1299,11 +1275,11 @@
   {
     "slug": "b-singh-trading",
     "name": "B. Singh Trading",
-    "description": "B. Singh Trading is a specialty food retailer in Paramaribo, Suriname, offering electrical supplies, furniture and trading. Located at Lakhnauweg #23-27.",
+    "description": "B. Singh Trading is a furniture and electronics store in Paramaribo, Suriname, selling TVs, kitchen appliances, furniture, mattresses and household goods. Located at Lakhnauweg #23-27.",
     "category": "",
     "location": "Paramaribo",
     "address": "Lakhnauweg #23-27, Paramaribo, Suriname",
-    "phone": "+597-53336",
+    "phone": "",
     "website": "",
     "email": "b.singhtrading533364@gmail.com",
     "main_image": "https://exploresuriname.com/images/b-singh-trading.webp"
@@ -2649,8 +2625,8 @@
     "description": "CarVision Paramaribo is a Surinamese car dealership offering a selection of new and used vehicles. Known for a diverse inventory and professional sales and aftersales service.",
     "category": "",
     "location": "Paramaribo",
-    "address": "Paramaribo, Suriname",
-    "phone": "",
+    "address": "Ringweg Noord #717, Paramaribo, Suriname",
+    "phone": "+597 546464",
     "website": "https://carvision.io",
     "email": "",
     "main_image": "https://carvision.io/wp-content/uploads/2024/03/carvision3.jpg"
@@ -2795,7 +2771,7 @@
     "location": "Paramaribo",
     "address": "Cornelis Jongbawstraat 83, Paramaribo, Suriname",
     "phone": "+597 412-155",
-    "website": "https://www.chimin-restaurant.com",
+    "website": "",
     "email": "chiminrest@yahoo.com",
     "main_image": ""
   },
@@ -4196,7 +4172,7 @@
     "location": "Paramaribo",
     "address": "Johan Adolf Pengelstraat 212, Paramaribo",
     "phone": "+597 402909",
-    "website": "https://www.dhlsuriname.com",
+    "website": "",
     "email": "",
     "main_image": "https://exploresuriname.com/images/dhl-express.webp"
   },
@@ -4652,7 +4628,7 @@
     "location": "Paramaribo",
     "address": "Nieuwe Domineestraat 30A, Paramaribo, Suriname",
     "phone": "+597 520270",
-    "website": "https://drieankra.com",
+    "website": "",
     "email": "info@drieankra.com",
     "main_image": "https://exploresuriname.com/images/drie-ankra.webp"
   },
@@ -5744,7 +5720,7 @@
     "location": "Paramaribo",
     "address": "Paramaribo, Suriname",
     "phone": "+5978858495",
-    "website": "https://www.fredecotours.nl/",
+    "website": "",
     "email": "",
     "main_image": ""
   },
@@ -6186,7 +6162,7 @@
     "location": "Nickerie",
     "address": "Hendrikstraat 114, Nieuw Nickerie, Suriname",
     "phone": "+597211025",
-    "website": "https://www.regencynickerie.com",
+    "website": "",
     "email": "info@gwhcnv.com",
     "main_image": ""
   },
@@ -6438,8 +6414,8 @@
     "location": "Paramaribo",
     "address": "Henck Arronstraat #188, Paramaribo, Suriname",
     "phone": "+597 7220140",
-    "website": "https://guguplextechsac.com",
-    "email": "info@guguplextechsac.com",
+    "website": "",
+    "email": "",
     "main_image": "https://exploresuriname.com/images/guguplex-technologies-sac.webp"
   },
   {
@@ -6930,8 +6906,8 @@
     "location": "Paramaribo",
     "address": "Franchepanestraat # 29, Paramaribo, Suriname",
     "phone": "+597 7132797",
-    "website": "https://hencomtrai.com",
-    "email": "v.walden@hencomtrai.com",
+    "website": "",
+    "email": "",
     "main_image": "https://exploresuriname.com/images/hencom-trai-nv.webp"
   },
   {
@@ -7589,8 +7565,8 @@
     "location": "Paramaribo",
     "address": "Zinnia St 3, Paramaribo, Suriname",
     "phone": "+597 8814346",
-    "website": "https://innovativedriven.sr",
-    "email": "info@innovativedriven.sr",
+    "website": "",
+    "email": "",
     "main_image": "https://exploresuriname.com/images/innovative-driven-nv.webp"
   },
   {
@@ -7637,7 +7613,7 @@
     "location": "Paramaribo",
     "address": "Van ‘t Hogerhuysstraat 13-15, Paramaribo, Suriname",
     "phone": "+597 427687",
-    "website": "https://integramar.com",
+    "website": "https://www.integramar.com",
     "email": "integra@integramar.com",
     "main_image": "https://exploresuriname.com/images/integra-marine-freight-services-nv.webp"
   },
@@ -8285,8 +8261,8 @@
     "location": "Paramaribo",
     "address": "Zonnebloemstraat 15, Paramaribo, Suriname",
     "phone": "+597 8759074",
-    "website": "https://jvengineeringnv.com",
-    "email": "info@jvengineeringnv.com",
+    "website": "",
+    "email": "",
     "main_image": ""
   },
   {
@@ -9183,7 +9159,7 @@
     "category": "",
     "location": "Suriname",
     "address": "Nieuwe Charlesburgweg 95",
-    "phone": "718-227-7357",
+    "phone": "+1 718-227-7357",
     "website": "https://laparkan.com",
     "email": "customerservice@laparkan.com",
     "main_image": "https://exploresuriname.com/images/laparkan-suriname.webp"
@@ -11021,7 +10997,7 @@
     "location": "Paramaribo",
     "address": "Watermolenstraat 34, Centrum, Paramaribo, Suriname",
     "phone": "+597 424401",
-    "website": "https://bishoen.sr",
+    "website": "",
     "email": "notariaat@bishoen.sr",
     "main_image": ""
   },
@@ -11069,7 +11045,7 @@
     "location": "Paramaribo",
     "address": "Julianastraat 27, Paramaribo, Suriname",
     "phone": "+597 422911",
-    "website": "https://notariaatdollartderby.com",
+    "website": "",
     "email": "info@notariaatdollartderby.com",
     "main_image": ""
   },
@@ -11141,7 +11117,7 @@
     "location": "Paramaribo",
     "address": "Borretstraat 14, Paramaribo, Suriname",
     "phone": "+597 463939",
-    "website": "https://notariaatkderby.com",
+    "website": "",
     "email": "info@notariaatkderby.com",
     "main_image": ""
   },
@@ -11177,7 +11153,7 @@
     "location": "Paramaribo",
     "address": "Dr. S. Redmondstraat 163, Centrum, Paramaribo, Suriname",
     "phone": "+597 425780",
-    "website": "https://notariaatolff.com",
+    "website": "",
     "email": "secretariaat@notariaatolff.com",
     "main_image": ""
   },
@@ -12362,7 +12338,7 @@
     "location": "Commewijne",
     "address": "Hadji Iding Soemitaweg 32, Nieuw Meerzorg, Commewijne, Suriname",
     "phone": "+597 354-547",
-    "website": "https://peperpotnaturepark.com/",
+    "website": "",
     "email": "info@peperpotnaturepark.com",
     "main_image": "https://images.squarespace-cdn.com/content/v1/5d52bcc2f6730e0001fe9d75/1649371470790-ED2SMLZ2QP4VLM1WUFJ3/Peperpot+Drone8.jpg"
   },
@@ -13873,7 +13849,7 @@
     "location": "Paramaribo",
     "address": "Steenbakkerijstraat 6-12, Paramaribo, Suriname",
     "phone": "+597472873",
-    "website": "http://www.royalinnsuriname.com/general/index.php",
+    "website": "",
     "email": "",
     "main_image": ""
   },
@@ -15214,7 +15190,7 @@
     "location": "Paramaribo",
     "address": "Nieuw Weergevondenweg 193, Paramaribo, Suriname",
     "phone": "+597 48 53 45",
-    "website": "https://sscenter.sr",
+    "website": "",
     "email": "info@sscenter.sr",
     "main_image": "https://exploresuriname.com/images/ss-center.webp"
   },
@@ -15454,7 +15430,7 @@
     "location": "Paramaribo",
     "address": "Paramaribo, Suriname",
     "phone": "",
-    "website": "http://www.stinasu.sr/en/protected-areas",
+    "website": "",
     "email": "",
     "main_image": ""
   },
@@ -15921,8 +15897,8 @@
     "location": "Paramaribo",
     "address": "Kolonistenweg 70, Paramaribo, Suriname",
     "phone": "+597 434444",
-    "website": "https://surinamemotors.com",
-    "email": "info@surinamemotors.com",
+    "website": "",
+    "email": "",
     "main_image": "https://exploresuriname.com/images/suriname-motors-nv.webp"
   },
   {
@@ -17717,7 +17693,7 @@
     "location": "Paramaribo",
     "address": "Paramaribo, Suriname",
     "phone": "",
-    "website": "https://www.utecopleidingen.com/",
+    "website": "",
     "email": "",
     "main_image": ""
   },
@@ -17753,7 +17729,7 @@
     "location": "Wanica",
     "address": "Welgedacht C No 461 B, Wanica, Suriname",
     "phone": "+597 8839146",
-    "website": "https://vanbrusseldesigns.com",
+    "website": "",
     "email": "blueprints@vanbrusseldesigns.com",
     "main_image": "https://exploresuriname.com/images/van-brussel-design-build-nv.webp"
   },
@@ -17945,8 +17921,8 @@
     "location": "Paramaribo",
     "address": "Lalla Rookhweg #65, Paramaribo, Suriname",
     "phone": "597 538622",
-    "website": "https://visancars.com",
-    "email": "info@visancars.com",
+    "website": "",
+    "email": "",
     "main_image": "https://exploresuriname.com/images/visan-cars.webp"
   },
   {
@@ -18072,12 +18048,12 @@
   {
     "slug": "wan-bon-biri",
     "name": "Wan Bon Biri",
-    "description": "Wan Bon Biri is a specialty food retailer in Paramaribo, Suriname, offering a full menu and drinks. Located at Wilhelmina St 19.",
+    "description": "Wan Bon Biri is a beer bar in Paramaribo, Suriname, pouring its own \"Oso Biri\" craft beers alongside imported beers, with a food menu to go with them. Located at Wilhelminastraat 19.",
     "category": "",
     "location": "Paramaribo",
     "address": "Wilhelmina St 19, Paramaribo, Suriname",
     "phone": "+597 8601311",
-    "website": "https://anbonbiri.com",
+    "website": "https://wanbonbiri.com",
     "email": "info@wanbonbiri.com",
     "main_image": "https://exploresuriname.com/images/wan-bon-biri.webp"
   },
@@ -18209,7 +18185,7 @@
     "location": "Paramaribo",
     "address": "Copernicusstraat 41, Paramaribo, Suriname",
     "phone": "+597 551793",
-    "website": "https://eblocher.com",
+    "website": "https://weblocher.com",
     "email": "info@weblocher.com",
     "main_image": "https://exploresuriname.com/images/weblocher-nv.webp"
   },

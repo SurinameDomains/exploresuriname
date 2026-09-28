@@ -92,6 +92,8 @@ PHONE_RE = re.compile(r'^[\+\d][\d\s\-\(\)/]{5,}$')
 CODE_RE  = re.compile(r'^[A-Z]{2,5}$')                 # currency/IATA codes
 NUM_RE   = re.compile(r'^[\d\s.,:%–\-+/x×]+$')         # pure numeric/symbolic
 URL_RE   = re.compile(r'^(https?://|www\.|@|#)')
+TELLINE_RE = re.compile(r'^(?:Tel|Phone|WhatsApp)\.?:?\s*[\+\d][\d\s\-\(\)/]{5,}$', re.I)
+EMAIL_RE = re.compile(r'^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$')
 SKIP_PARENTS = {"script", "style", "code", "kbd", "samp", "noscript", "svg"}
 BRAND_RE = re.compile(r'items-baseline')      # the ExploreSuriname logo anchor
 
@@ -123,6 +125,8 @@ def translatable(s: str) -> bool:
     if not re.search(r'[A-Za-z]', t): return False
     if NUM_RE.match(t):            return False
     if PHONE_RE.match(t):          return False
+    if TELLINE_RE.match(t):        return False   # "Tel: +597 123456"
+    if EMAIL_RE.match(t):          return False
     if CODE_RE.match(t):           return False
     if URL_RE.match(t):            return False
     if t in PROTECTED:             return False
@@ -174,6 +178,159 @@ def load_build_cache(key: str) -> dict:
         return {}
     return data.get("pages") or {}
 
+_NUM_RE = re.compile(r"\d+(?:[.,]\d+)*")
+_IN_PLACE_RE = re.compile(r"(.{2,90}?) in (Paramaribo|Para|Suriname|Wanica|Nickerie|Commewijne|Lelydorp|"
+                          r"Saramacca|Marowijne|Brokopondo|Coronie|Sipaliwini|Moengo|Albina)")
+# ── Event dates and the short fact lines generate.py writes on event cards ────
+# These change every day ("in 5 days", "Sat 3 Oct · 10pm"), so no cache key
+# ever lasts. They are built from a small, fixed vocabulary, so they are
+# localised by pattern instead. Anything not recognised falls back to English.
+_EN_DAYS_S = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+_EN_DAYS_L = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+_EN_MON_S  = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+_EN_MON_L  = ["January", "February", "March", "April", "May", "June", "July", "August",
+              "September", "October", "November", "December"]
+_LOC = {
+    "nl": {"ds": ["ma", "di", "wo", "do", "vr", "za", "zo"],
+           "dl": ["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag"],
+           "ms": ["jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt", "nov", "dec"],
+           "ml": ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus",
+                  "september", "oktober", "november", "december"]},
+    "es": {"ds": ["lun", "mar", "mié", "jue", "vie", "sáb", "dom"],
+           "dl": ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"],
+           "ms": ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
+           "ml": ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto",
+                  "septiembre", "octubre", "noviembre", "diciembre"]},
+}
+_DS = "|".join(_EN_DAYS_S); _DL = "|".join(_EN_DAYS_L)
+_MS = "|".join(_EN_MON_S);  _ML = "|".join(_EN_MON_L)
+_TIME = r"\d{1,2}(?:[:.]\d{2})?\s?(?:[AaPp]\.?[Mm]\.?)?u?"
+
+
+def _cap(t):
+    return t[:1].upper() + t[1:]
+
+
+def _loc_part(p, lang):
+    """One ' · '-separated piece of an event date line, or None if unknown."""
+    L = _LOC[lang]; es = lang == "es"
+    ds = lambda d: L["ds"][_EN_DAYS_S.index(d)]
+    dl = lambda d: L["dl"][_EN_DAYS_L.index(d)]
+    ms = lambda m: L["ms"][_EN_MON_S.index(m)]
+    ml = lambda m: L["ml"][_EN_MON_L.index(m)]
+    m = re.fullmatch(rf"({_DS}) (\d{{1,2}}) ({_MS})", p)
+    if m: return f"{ds(m[1])} {m[2]} {ms(m[3])}"
+    m = re.fullmatch(rf"({_DS}) (\d{{1,2}}) – ({_DS}) (\d{{1,2}}) ({_MS})", p)
+    if m: return f"{ds(m[1])} {m[2]} – {ds(m[3])} {m[4]} {ms(m[5])}"
+    m = re.fullmatch(rf"({_DL}) (\d{{1,2}}) ({_ML}) (\d{{4}})", p)
+    if m: return (f"{dl(m[1])} {m[2]} de {ml(m[3])} de {m[4]}" if es
+                  else f"{dl(m[1])} {m[2]} {ml(m[3])} {m[4]}")
+    m = re.fullmatch(rf"({_DS}) (\d{{1,2}}) to ({_DS}) (\d{{1,2}}) ({_ML}) (\d{{4}})", p)
+    if m: return (f"{ds(m[1])} {m[2]} al {ds(m[3])} {m[4]} de {ml(m[5])} de {m[6]}" if es
+                  else f"{ds(m[1])} {m[2]} t/m {ds(m[3])} {m[4]} {ml(m[5])} {m[6]}")
+    m = re.fullmatch(rf"({_ML}) (\d{{4}})", p)
+    if m: return _cap(f"{ml(m[1])} de {m[2]}" if es else f"{ml(m[1])} {m[2]}")
+    m = re.fullmatch(rf"({_MS}) · ({_DS})", p)
+    if m: return f"{ms(m[1])} · {ds(m[2])}"
+    if re.fullmatch(_TIME, p):
+        return p
+    m = re.fullmatch(r"[Ii]n (\d+) days", p)
+    if m: return ((f"en {m[1]} días" if es else f"over {m[1]} dagen") if p[0] == "i"
+                  else (f"En {m[1]} días" if es else f"Over {m[1]} dagen"))
+    fixed = {"today": ("vandaag", "hoy"), "tomorrow": ("morgen", "mañana"),
+             "Today": ("Vandaag", "Hoy"), "Tomorrow": ("Morgen", "Mañana"),
+             "happening now": ("nu bezig", "en curso"),
+             "happening now, last day": ("nu bezig, laatste dag", "en curso, último día"),
+             "Happening now, last day": ("Nu bezig, laatste dag", "En curso, último día"),
+             "Featured": ("Uitgelicht", "Destacado"), "Daily": ("Dagelijks", "Diario")}
+    if p in fixed:
+        return fixed[p][1 if es else 0]
+    m = re.fullmatch(rf"happening now, until ({_DS}) (\d{{1,2}}) ({_MS})", p)
+    if m: return (f"en curso, hasta el {ds(m[1])} {m[2]} {ms(m[3])}" if es
+                  else f"nu bezig, tot {ds(m[1])} {m[2]} {ms(m[3])}")
+    m = re.fullmatch(rf"Every ((?:{_DL})|(?:{_DS})(?:–(?:{_DS}))?)(?:, next on (.+))?", p)
+    if m:
+        w = m[1]
+        if "–" in w:
+            a, b = w.split("–"); wl = f"{ds(a)}–{ds(b)}"
+        elif w in _EN_DAYS_L:
+            wl = dl(w)
+        else:
+            wl = ds(w)
+        head = (f"Cada {wl}" if es else f"Elke {wl}")
+        if m[2]:
+            nxt = _loc_part(m[2], lang)
+            if nxt is None:
+                return None
+            head += (f", el próximo: {nxt}" if es else f", volgende op {nxt}")
+        return head
+    return None
+
+
+def localize_event_line(key, lang):
+    """'Sat 3 Oct · 10pm', 'Saturday 3 October 2026 · in 5 days · De Dolfijn',
+    'Every Monday, next on Mon 28 Sep · happening now, last day · Venue'.
+    At least one piece must be a date; the last piece may be a venue name,
+    which is kept (or translated if the cache has it)."""
+    if lang not in _LOC:
+        return None
+    parts = key.split(" · ")
+    out, dated = [], False
+    for i, p in enumerate(parts):
+        l = _loc_part(p, lang)
+        if l is not None:
+            out.append(l)
+            if l != p or re.search(r"\d", p):
+                dated = dated or bool(re.search(rf"{_DS}|{_DL}|{_MS}|{_ML}|days|today|tomorrow|happening|Every|Featured", p))
+            continue
+        e = cache.get(p)
+        if e and e.get(lang):
+            out.append(e[lang]); continue
+        if i == len(parts) - 1 and i > 0:      # venue / place name: keep
+            out.append(p); continue
+        return None
+    return " · ".join(out) if dated else None
+
+
+_FACT_RE = [
+    (re.compile(r"Starts (.+)"),            ("Begint om {0}", "Empieza a las {0}")),
+    (re.compile(r"Starting (.+)"),          ("Vanaf {0}", "Desde las {0}")),
+    (re.compile(r"Start (.+)"),             ("Begin {0}", "Inicio {0}")),
+    (re.compile(r"Time: (.+)"),             ("Tijd: {0}", "Hora: {0}")),
+    (re.compile(r"Doors open at (.+)"),     ("Deuren open om {0}", "Puertas abiertas a las {0}")),
+    (re.compile(r"Entry (.+)"),             ("Toegang {0}", "Entrada {0}")),
+    (re.compile(r"Organised by (.+)"),      ("Georganiseerd door {0}", "Organizado por {0}")),
+    (re.compile(r"Free to attend"),         ("Gratis toegang", "Entrada gratuita")),
+]
+
+
+def localize_event_facts(key, lang):
+    """'Starts 12:00. Entry SRD 450.00. Organised by X.' — every sentence must be
+    one generate.py writes, otherwise None (English kept)."""
+    if lang not in _LOC or not key.endswith("."):
+        return None
+    sents = [x.strip() for x in re.split(r"(?<=\.)\s+(?=[A-Z])", key) if x.strip()]
+    out = []
+    for snt in sents:
+        body = snt[:-1] if snt.endswith(".") else snt
+        for rx, (nl, es) in _FACT_RE:
+            m = rx.fullmatch(body)
+            if m:
+                arg = m.group(1) if m.groups() else ""
+                if rx.pattern.startswith(("Starts", "Starting", "Start ", "Time", "Doors")) and not re.search(r"\d", arg):
+                    m = None
+                    break
+                out.append((es if lang == "es" else nl).format(arg) + ".")
+                break
+        else:
+            m = None
+        if m is None:
+            return None
+    return " ".join(out)
+
+
+
+
 def tr(text: str, lang: str) -> str:
     """Translate a text node, preserving leading/trailing whitespace."""
     key = text.strip()
@@ -182,9 +339,63 @@ def tr(text: str, lang: str) -> str:
     entry = cache.get(key)
     if entry and entry.get(lang):
         return lead + entry[lang] + trail
+    # Strings with a count or date in them ("Browse 185 restaurants…",
+    # "109 of 109 products shown") change whenever the number does, so an exact
+    # key never lasts. A cache key written with {#} for each number matches any
+    # numbers; they are put back in the same order.
+    nums = _NUM_RE.findall(key)
+    if nums:
+        tmpl = cache.get(_NUM_RE.sub("{#}", key))
+        if tmpl and tmpl.get(lang) and tmpl[lang].count("{#}") == len(nums):
+            out = tmpl[lang]
+            for n in nums:
+                out = out.replace("{#}", n, 1)
+            return lead + out + trail
+    if lang in _LOC:
+        ev = localize_event_line(key, lang) or localize_event_facts(key, lang)
+        if ev:
+            return lead + ev + trail
+    # "<Business> in Paramaribo" (image alt text on every listing card)
+    m = _IN_PLACE_RE.fullmatch(key)
+    if m and lang == "es" and not re.search(
+            r"\b(?:is|are|was|a|an|the|of|and|with|for|to|serves|offers|runs|near|from)\b", m.group(1)):
+        place = "Surinam" if m.group(2) == "Suriname" else m.group(2)
+        return lead + m.group(1) + " en " + place + trail
+    # Category cards show a listing's description cut short with "…". The full
+    # description is translated (the listing page uses it), so translate that
+    # and cut the translation at the same relative point.
+    if key.endswith("…") and len(key) > 40:
+        pre = key[:-1].rstrip()
+        full = _prefix_key(pre)
+        if full and cache[full].get(lang):
+            t = cache[full][lang]
+            cut = max(20, int(len(t) * len(pre) / max(1, len(full))))
+            if cut < len(t):
+                sp = t.rfind(" ", 0, cut)
+                t = t[:sp if sp > 20 else cut].rstrip(" ,;:-–—") + "…"
+            return lead + t + trail
     if STUB:
         return lead + f"[{lang}] " + key + trail
     return text   # English fallback
+
+
+_SORTED_KEYS = None
+
+
+def _prefix_key(pre: str):
+    """Shortest cache key that starts with *pre* (and is longer than it)."""
+    global _SORTED_KEYS
+    import bisect
+    if _SORTED_KEYS is None:
+        _SORTED_KEYS = sorted(cache)
+    i = bisect.bisect_left(_SORTED_KEYS, pre)
+    best = None
+    while i < len(_SORTED_KEYS) and _SORTED_KEYS[i].startswith(pre):
+        k = _SORTED_KEYS[i]
+        if len(k) > len(pre) and (best is None or len(k) < len(best)):
+            best = k
+        i += 1
+    return best
 
 # ── collect every translatable source segment (for translate_cache.py) ────────
 def collect_segments(soup) -> set:
@@ -211,6 +422,39 @@ def collect_segments(soup) -> set:
     return segs
 
 # ── localize a parsed page into `lang` (mutates soup) ─────────────────────────
+_DATE_WORDS = {
+    "nl": (["ma", "di", "wo", "do", "vr", "za", "zo"],
+           ["januari", "februari", "maart", "april", "mei", "juni", "juli",
+            "augustus", "september", "oktober", "november", "december"]),
+    "es": (["lun", "mar", "mié", "jue", "vie", "sáb", "dom"],
+           ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
+            "agosto", "septiembre", "octubre", "noviembre", "diciembre"]),
+}
+
+
+def localize_date(iso: str, lang: str, long: bool = False) -> str:
+    """"2026-09-27" -> "zo 27 september" / "dom 27 de septiembre";
+    long=True -> "zondag 27 september 2026" / "domingo 27 de septiembre de 2026"."""
+    import datetime as _dt
+    try:
+        d = _dt.date.fromisoformat(iso)
+    except Exception:
+        return ""
+    days, months = _DATE_WORDS.get(lang, (None, None))
+    if not days:
+        return ""
+    wd, mo = days[d.weekday()], months[d.month - 1]
+    if long:
+        wd = _LONG_DAYS[lang][d.weekday()]
+        return (f"{wd} {d.day} de {mo} de {d.year}" if lang == "es"
+                else f"{wd} {d.day} {mo} {d.year}")
+    return f"{wd} {d.day} de {mo}" if lang == "es" else f"{wd} {d.day} {mo}"
+
+
+_LONG_DAYS = {"nl": ["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag"],
+              "es": ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]}
+
+
 def localize(soup, lang: str, rel_path: str):
     html_lang, og_locale = LANGS[lang]
 
@@ -223,6 +467,16 @@ def localize(soup, lang: str, rel_path: str):
         s = str(node)
         if translatable(s):
             node.replace_with(tr(s, lang))
+
+    # dates stamped by generate.py as data-srdate="YYYY-MM-DD" (utility rail)
+    for el in soup.find_all(attrs={"data-srdate": True}):
+        _d = localize_date(el.get("data-srdate", ""), lang)
+        if _d:
+            el.string = _d
+    for el in soup.find_all(attrs={"data-srdate-long": True}):
+        _d = localize_date(el.get("data-srdate-long", ""), lang, long=True)
+        if _d:
+            el.string = _d
 
     # alt attributes
     for el in soup.find_all(attrs={"alt": True}):
@@ -484,6 +738,11 @@ def inject_switcher(soup, lang: str, rel_path: str):
         mm.insert(0, m)
 
 # ── walk the English tree ─────────────────────────────────────────────────────
+# Pages whose text is mostly a live feed (headlines, fixtures, flights, rates).
+LIVE_FEED_PAGES = {"news.html", "matches.html", "flights.html", "currency.html",
+                   "conditions.html", "daily-notices.html", "atms.html"}
+
+
 def english_pages():
     for p in ROOT.glob("*.html"):
         yield p, p.name
@@ -560,6 +819,7 @@ def main():
           f"| reusable={len(known)} | workers={workers}")
 
     all_segments = set()
+    stable_segments = set()   # seen on at least one page that is not a live feed
     hashes = {}
     reused = 0
 
@@ -568,6 +828,8 @@ def main():
         rel, h, segs, was_reused = result
         hashes[rel] = h
         all_segments.update(segs)
+        if rel not in LIVE_FEED_PAGES:
+            stable_segments.update(segs)
         if was_reused:
             reused += 1
 
@@ -601,8 +863,12 @@ def main():
 
         # dump the segment inventory for translate_cache.py to consume.
         # complete even on a fully cached run: every English page is still parsed.
+        # Stable text first: translate_cache.py works through this list in order
+        # with a --limit, so headlines and fixtures that are gone tomorrow no
+        # longer use up the budget ahead of listings and page text.
+        _ordered = sorted(stable_segments) + sorted(all_segments - stable_segments)
         (ROOT / "i18n_segments.json").write_text(
-            json.dumps(sorted(all_segments), ensure_ascii=False, indent=0),
+            json.dumps(_ordered, ensure_ascii=False, indent=0),
             encoding="utf-8")
         print(f"i18n: collected {len(all_segments)} unique segments -> i18n_segments.json")
 
