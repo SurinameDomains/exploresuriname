@@ -561,7 +561,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://exploresuriname.com/nl/"},{"@type":"ListItem","position":2,"name":"Winkelen","item":"https://exploresuriname.com/nl/shopping.html"},{"@type":"ListItem","position":3,"name":"BN Trading","item":"https://exploresuriname.com/nl/listing/bn-trading/"}]}</script>
 <style>nav button,nav a{white-space:nowrap}</style><link href="https://exploresuriname.com/listing/bn-trading/" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/listing/bn-trading/" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/listing/bn-trading/" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/listing/bn-trading/" hreflang="x-default" rel="alternate"/></head>
 <body class="bg-gray-50 overflow-x-hidden">
-<div class="util-rail"><div class="util-in"><div class="util-l"><a href="../../currency.html" title="CME cash rate: we buy / we sell">USD <strong>37.50</strong> / <strong>37.80</strong></a><a href="../../conditions.html">27° Paramaribo</a><a href="../../daily-notices.html">Vandaag geen onderbrekingen</a></div><div class="util-r"><span>Mon 28 September</span></div></div></div>
+<div class="util-rail"><div class="util-in"><div class="util-l"><a href="../../currency.html" title="CME cash rate: we buy / we sell">USD <strong>37.50</strong> / <strong>37.80</strong></a><a href="../../conditions.html">27° Paramaribo</a><a href="../../daily-notices.html">Vandaag geen onderbrekingen</a></div><div class="util-r"><span data-srdate="2026-09-28">ma 28 september</span></div></div></div>
 <nav class="w-full z-50" style="position:sticky;top:0;background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14)">
 <div class="site-navin max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
 <a class="flex flex-col justify-center flex-shrink-0" href="../../index.html">
@@ -662,12 +662,15 @@ function toggleMobGroup(id) {
 <button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">✕</button>
 </div>
 <div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
-<p id="search-hint" style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Start typing to search 1649 listings…</p>
+<p id="search-hint" style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Begin met typen om te zoeken…</p>
 </div>
 </div>
 </div>
 <script>
 const _CAT_C = {"Eat & Drink": "#CA4E2F", "Stay": "#A56822", "Nature": "#35825C", "Activities": "#1C809C", "Shopping": "#B85185", "Services": "#4676B9", "Guides": "#677889", "Sightseeing": "#35825C"};
+/* The hint is read from the page, so the Dutch and Spanish trees reuse their
+   translated text when the box is cleared (build_i18n does not touch JS). */
+const _HINT0 = (document.getElementById('search-hint') || {}).textContent || 'Start typing to search listings…';
 let _SI = null;
 let _SI_loading = false;
 let _sel = -1;
@@ -690,7 +693,8 @@ function openSearch() {
 function closeSearch() {
   document.getElementById('search-modal').style.display = 'none';
   document.getElementById('search-input').value = '';
-  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Start typing to search listings…</p>';
+  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0"></p>';
+  document.getElementById('search-hint').textContent = _HINT0;
   _sel = -1;
 }
 /* ── Search matching ─────────────────────────────────────────────────────
@@ -890,14 +894,14 @@ function _sHint(box, msg) {
 function runSearch(q) {
   const box = document.getElementById('search-results');
   q = q.trim();
-  if (!q) { _sHint(box, 'Start typing to search listings…'); _sel = -1; return; }
+  if (!q) { _sHint(box, _HINT0); _sel = -1; return; }
   if (!_SI) {
     _loadSI(() => runSearch(q));
     box.innerHTML = '<p style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Loading…</p>';
     return;
   }
   const toks = _sTokens(q);
-  if (!toks.length) { _sHint(box, 'Start typing to search listings…'); _sel = -1; return; }
+  if (!toks.length) { _sHint(box, _HINT0); _sel = -1; return; }
   let scored = [];
   for (let pass = 0; pass < 2; pass++) {
     const loose = pass === 1;
@@ -1014,6 +1018,7 @@ document.addEventListener('keydown', e => {
 <a class="ftr-lnk" href="../../events.html">Evenementen &amp; festivals</a>
 <a class="ftr-lnk" href="../../shopping.html">Winkelen</a>
 <a class="ftr-lnk" href="../../services.html">Lokale diensten</a>
+<a class="ftr-lnk" href="../../marketplace/">Marktplaats</a>
 </div>
 <div class="ftr-h" style="margin-top:26px">Eten &amp; slapen</div>
 <div class="ftr-col">
@@ -1037,8 +1042,6 @@ document.addEventListener('keydown', e => {
 <a class="ftr-lnk" href="../../is-suriname-safe.html">Is Suriname veilig?</a>
 <a class="ftr-lnk" href="../../on-the-road.html">Onderweg</a>
 <a class="ftr-lnk" href="../../flights.html">Vluchten</a>
-<a class="ftr-lnk" href="../../suriname-history.html">Geschiedenis van Suriname</a>
-<a class="ftr-lnk" href="../../sranan-tongo-dictionary.html">Sranan woordenboek</a>
 </div>
 <div class="ftr-h" style="margin-top:26px">Spellen</div>
 <div class="ftr-col">
@@ -1061,15 +1064,11 @@ document.addEventListener('keydown', e => {
 <a class="ftr-lnk" href="../../suriname-time.html">Tijd &amp; omrekenen</a>
 <a class="ftr-lnk" href="../../news.html">Nieuws</a>
 </div>
-<div class="ftr-h" style="margin-top:26px">Olie &amp; gas</div>
+<div class="ftr-h" style="margin-top:26px">Leren</div>
 <div class="ftr-col">
-<a class="ftr-lnk" href="../../oil-and-gas.html">Overzicht</a>
-<a class="ftr-lnk" href="../../suriname-oil-blocks.html">Blokken &amp; operators</a>
-<a class="ftr-lnk" href="../../granmorgu.html">GranMorgu-project</a>
-<a class="ftr-lnk" href="../../suriname-oil-timeline.html">Tijdlijn &amp; vooruitblik</a>
-<a class="ftr-lnk" href="../../suriname-oil-contracts.html">Contracten &amp; voorwaarden</a>
-<a class="ftr-lnk" href="../../suriname-oil-government.html">Wie het beheert</a>
-<a class="ftr-lnk" href="../../suriname-oil-jobs.html">Banen &amp; lokale inbreng</a>
+<a class="ftr-lnk" href="../../oil-and-gas.html">Olie &amp; gas</a>
+<a class="ftr-lnk" href="../../suriname-history.html">Tijdlijn geschiedenis</a>
+<a class="ftr-lnk" href="../../sranan-tongo-dictionary.html">Sranan woordenboek</a>
 </div>
 </div>
 </div>
@@ -1079,7 +1078,6 @@ document.addEventListener('keydown', e => {
 <span class="ftr-bar-links">
 <a class="ftr-lnk2" href="../../about.html">Over ons</a>
 <a class="ftr-lnk2" href="../../contact.html">Contact</a>
-<a class="ftr-lnk2" href="../../today.html">Vandaag in Suriname</a>
 <a class="ftr-lnk2" href="../../privacy.html">Privacy</a>
 <a class="ftr-lnk2" href="/images/HOME_CREDITS.txt">Bronvermelding</a>
 </span>

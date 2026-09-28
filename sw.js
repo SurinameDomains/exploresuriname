@@ -1,5 +1,5 @@
 // ExploreSuriname Service Worker
-const CACHE = 'exploresr-v12';
+const CACHE = 'exploresr-v13';
 const TWV = 'edddf851';
 const PRECACHE = ['/', '/tailwind.css?v=' + TWV, '/favicon.ico', '/favicon.svg', '/offline.html',
                   '/fonts/newsreader-latin-var.woff2', '/fonts/instrument-latin-var.woff2'];
@@ -24,6 +24,18 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 
+// Store a copy of a good response. The copy is taken right away, before the
+// response is handed to the page; cloning later fails ("body already used"),
+// which is why nothing but the precache was ever stored up to v12. Errors,
+// 404s and redirects are never stored, so a missing file cannot stick.
+function keep(req, r) {
+  if (r && r.ok && !r.redirected) {
+    const copy = r.clone();
+    caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
+  }
+  return r;
+}
+
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   const u = new URL(e.request.url);
@@ -40,7 +52,7 @@ self.addEventListener('fetch', e => {
   if (sameOrigin && LIVE_PAGES.has(u.pathname)) {
     e.respondWith(
       fetch(e.request)
-        .then(r => { caches.open(CACHE).then(c => c.put(e.request, r.clone())); return r; })
+        .then(r => keep(e.request, r))
         .catch(() => caches.match(e.request).then(r => r || caches.match('/offline.html')))
     );
     return;
@@ -53,10 +65,7 @@ self.addEventListener('fetch', e => {
   if (u.pathname.match(/\.(css|js|svg|webp|png|jpg|ico|woff2?)$/) || isFont) {
     e.respondWith(
       caches.match(e.request).then(cached => {
-        const network = fetch(e.request).then(r => {
-          caches.open(CACHE).then(c => c.put(e.request, r.clone()));
-          return r;
-        });
+        const network = fetch(e.request).then(r => keep(e.request, r));
         if (cached) return cached;
         if (u.pathname === '/tailwind.css')
           return caches.match('/tailwind.css', {ignoreSearch: true}).then(stale => stale || network);
@@ -71,7 +80,7 @@ self.addEventListener('fetch', e => {
   // service worker from trapping visitors on a stale build after a deploy.
   e.respondWith(
     fetch(e.request)
-      .then(r => { caches.open(CACHE).then(c => c.put(e.request, r.clone())); return r; })
+      .then(r => keep(e.request, r))
       .catch(() => caches.match(e.request).then(cached => cached || caches.match('/offline.html')))
   );
 });
