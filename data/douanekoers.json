@@ -1,0 +1,289 @@
+{
+ "current": {
+  "valid_from": "2026-09-22",
+  "lang": "nl",
+  "url": "https://www.cbvs.sr/images/content/publicaties/Douanekoersen/2026/UWKOVZ-22092026.pdf",
+  "fetched_at": "2026-09-29 12:26",
+  "rates": [
+   {
+    "code": "USD",
+    "name": "US Dollar",
+    "unit": 1,
+    "rate": 37.8
+   },
+   {
+    "code": "EUR",
+    "name": "Euro",
+    "unit": 1,
+    "rate": 43.87
+   },
+   {
+    "code": "GBP",
+    "name": "British Pound",
+    "unit": 1,
+    "rate": 51.34
+   },
+   {
+    "code": "XCG",
+    "name": "Caribbean Guilder",
+    "unit": 1,
+    "rate": 21.06
+   },
+   {
+    "code": "CHF",
+    "name": "Swiss Franc",
+    "unit": 1,
+    "rate": 46.66
+   },
+   {
+    "code": "AWG",
+    "name": "Aruban Florin",
+    "unit": 1,
+    "rate": 21.29
+   },
+   {
+    "code": "SEK",
+    "name": "Swedish Krona",
+    "unit": 1,
+    "rate": 3.91
+   },
+   {
+    "code": "DKK",
+    "name": "Danish Krone",
+    "unit": 1,
+    "rate": 5.89
+   },
+   {
+    "code": "NOK",
+    "name": "Norwegian Krone",
+    "unit": 1,
+    "rate": 4.07
+   },
+   {
+    "code": "CAD",
+    "name": "Canadian Dollar",
+    "unit": 1,
+    "rate": 27.37
+   },
+   {
+    "code": "AUD",
+    "name": "Australian Dollar",
+    "unit": 1,
+    "rate": 27.36
+   },
+   {
+    "code": "JPY",
+    "name": "Japanese Yen",
+    "unit": 10000,
+    "rate": 2437.12
+   },
+   {
+    "code": "HKD",
+    "name": "Hong Kong Dollar",
+    "unit": 1,
+    "rate": 4.89
+   },
+   {
+    "code": "BBD",
+    "name": "Barbados Dollar",
+    "unit": 1,
+    "rate": 18.89
+   },
+   {
+    "code": "BSD",
+    "name": "Bahamian Dollar",
+    "unit": 1,
+    "rate": 38.33
+   },
+   {
+    "code": "BZD",
+    "name": "Belize Dollar",
+    "unit": 1,
+    "rate": 19.16
+   },
+   {
+    "code": "XCD",
+    "name": "East Caribbean Dollar",
+    "unit": 1,
+    "rate": 14.2
+   },
+   {
+    "code": "TTD",
+    "name": "Trinidad & Tobago Dollar",
+    "unit": 1,
+    "rate": 5.66
+   },
+   {
+    "code": "GYD",
+    "name": "Guyana Dollar",
+    "unit": 100,
+    "rate": 18.21
+   },
+   {
+    "code": "INR",
+    "name": "Indian Rupee",
+    "unit": 100,
+    "rate": 40.0
+   },
+   {
+    "code": "BRL",
+    "name": "Brazilian Real",
+    "unit": 1,
+    "rate": 7.47
+   },
+   {
+    "code": "CNY",
+    "name": "Chinese Yuan",
+    "unit": 1,
+    "rate": 5.73
+   }
+  ]
+ },
+ "history": [
+  {
+   "valid_from": "2026-09-08",
+   "USD": 37.95,
+   "EUR": 44.12
+  }
+ ],
+ "previous": {
+  "valid_from": "2026-09-08",
+  "lang": "nl",
+  "url": "https://www.cbvs.sr/images/content/publicaties/Douanekoersen/2026/UWKOVZ-08092026.pdf",
+  "fetched_at": "2026-09-29 12:26",
+  "rates": [
+   {
+    "code": "USD",
+    "name": "US Dollar",
+    "unit": 1,
+    "rate": 37.95
+   },
+   {
+    "code": "EUR",
+    "name": "Euro",
+    "unit": 1,
+    "rate": 44.12
+   },
+   {
+    "code": "GBP",
+    "name": "British Pound",
+    "unit": 1,
+    "rate": 52.08
+   },
+   {
+    "code": "XCG",
+    "name": "Caribbean Guilder",
+    "unit": 1,
+    "rate": 21.15
+   },
+   {
+    "code": "CHF",
+    "name": "Swiss Franc",
+    "unit": 1,
+    "rate": 47.56
+   },
+   {
+    "code": "AWG",
+    "name": "Aruban Florin",
+    "unit": 1,
+    "rate": 21.38
+   },
+   {
+    "code": "SEK",
+    "name": "Swedish Krona",
+    "unit": 1,
+    "rate": 4.01
+   },
+   {
+    "code": "DKK",
+    "name": "Danish Krone",
+    "unit": 1,
+    "rate": 5.98
+   },
+   {
+    "code": "NOK",
+    "name": "Norwegian Krone",
+    "unit": 1,
+    "rate": 4.15
+   },
+   {
+    "code": "CAD",
+    "name": "Canadian Dollar",
+    "unit": 1,
+    "rate": 27.85
+   },
+   {
+    "code": "AUD",
+    "name": "Australian Dollar",
+    "unit": 1,
+    "rate": 27.77
+   },
+   {
+    "code": "JPY",
+    "name": "Japanese Yen",
+    "unit": 10000,
+    "rate": 2487.06
+   },
+   {
+    "code": "HKD",
+    "name": "Hong Kong Dollar",
+    "unit": 1,
+    "rate": 4.91
+   },
+   {
+    "code": "BBD",
+    "name": "Barbados Dollar",
+    "unit": 1,
+    "rate": 18.97
+   },
+   {
+    "code": "BSD",
+    "name": "Bahamian Dollar",
+    "unit": 1,
+    "rate": 38.49
+   },
+   {
+    "code": "BZD",
+    "name": "Belize Dollar",
+    "unit": 1,
+    "rate": 19.24
+   },
+   {
+    "code": "XCD",
+    "name": "East Caribbean Dollar",
+    "unit": 1,
+    "rate": 14.26
+   },
+   {
+    "code": "TTD",
+    "name": "Trinidad & Tobago Dollar",
+    "unit": 1,
+    "rate": 5.66
+   },
+   {
+    "code": "GYD",
+    "name": "Guyana Dollar",
+    "unit": 100,
+    "rate": 18.29
+   },
+   {
+    "code": "INR",
+    "name": "Indian Rupee",
+    "unit": 100,
+    "rate": 40.73
+   },
+   {
+    "code": "BRL",
+    "name": "Brazilian Real",
+    "unit": 1,
+    "rate": 7.51
+   },
+   {
+    "code": "CNY",
+    "name": "Chinese Yuan",
+    "unit": 1,
+    "rate": 5.74
+   }
+  ]
+ }
+}
