@@ -319,6 +319,11 @@ def _fmt(v):
     return f"{v:,.2f}"
 
 
+def _ds(d):
+    """Date for the page; build_i18n rewrites data-srdate-long into NL/ES."""
+    return f'<span data-srdate-long="{d.isoformat()}">{_d(d)}</span>'
+
+
 def _d(d):
     return f"{d:%a} {d.day} {d:%b %Y}"
 
@@ -359,18 +364,19 @@ def render_section(state, esc):
     if state["pending"]:
         badge = '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">&#9675; New list due</span>'
         notice = ('<div class="mx-6 mt-5 rounded-xl border border-amber-200 p-4 text-amber-900 text-sm leading-relaxed" style="background:#fffbeb">'
-                  f'<strong>New period started {_d(state["next_period_start"])}.</strong> CBvS publishes its list on the second working day '
-                  f'(expected {_d(state["next_expected"])}); by law that list applies to the whole period, including declarations filed before it appears. '
-                  f'Shown below: the list for {_d(state["period_start"])} &#8211; {_d(state["period_end"])}.</div>')
+                  f'<strong><span>New period started</span> {_ds(state["next_period_start"])}.</strong> '
+                  f'<span>CBvS publishes its list on the second working day. Expected:</span> {_ds(state["next_expected"])}. '
+                  f'<span>By law that list applies to the whole period, including declarations filed before it appears. Shown below: the list for</span> '
+                  f'{_ds(state["period_start"])} &#8211; {_ds(state["period_end"])}.</div>')
     else:
         badge = '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Current</span>'
         notice = ""
-    meta = (f'<p class="text-gray-500 text-xs mt-2">&#128197; In force from <strong>{_d(vf)}</strong> &#183; '
-            f'applies to declarations filed {_d(state["period_start"])} &#8211; {_d(state["period_end"])} &#183; '
-            f'next list expected {_d(state["next_expected"])}</p>')
+    meta = (f'<p class="text-gray-500 text-xs mt-2"><span>In force from</span> <strong>{_ds(vf)}</strong> &#183; '
+            f'<span>Applies to declarations filed</span> {_ds(state["period_start"])} &#8211; {_ds(state["period_end"])} &#183; '
+            f'<span>Next list expected</span> {_ds(state["next_expected"])}</p>')
 
     tiles = ""
-    for code, flag in (("USD", "\U0001f1fa\U0001f1f8"), ("EUR", "\U0001f1ea\U0001f1fa")):
+    for code in ("USD", "EUR"):
         r = by[code]
         chg = ""
         if code in pby:
@@ -380,9 +386,9 @@ def render_section(state, esc):
                 chg = (f'<p class="text-xs font-semibold mt-1" style="color:{"var(--coral)" if up else "var(--forest2)"}">'
                        f'{"&#9650;" if up else "&#9660;"} {abs(diff):.2f} vs previous list ({_fmt(pby[code]["rate"])})</p>')
             else:
-                chg = '<p class="text-xs text-gray-400 mt-1">unchanged vs previous list</p>'
+                chg = '<p class="text-xs text-gray-400 mt-1">Unchanged vs previous list</p>'
         tiles += (f'<div class="rounded-xl p-4" style="background:var(--mint)">'
-                  f'<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">{flag} 1 {code}</p>'
+                  f'<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">1 {code}</p>'
                   f'<p class="text-2xl font-bold font-mono text-gray-900">SRD {_fmt(r["rate"])}</p>{chg}</div>')
 
     rows = ""

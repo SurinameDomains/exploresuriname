@@ -7268,9 +7268,9 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
         douane_section = _douane.render_section(douane_state, html_lib.escape)
     except Exception as _dk_err:
         print(f"  Douanekoers section skipped: {_dk_err}")
-    cv_curr = {"SRD": {"n": "Surinamese Dollar", "f": "\U0001f1f8\U0001f1f7"}}
+    cv_curr = {"SRD": {"n": "Surinamese Dollar"}}
     for _r in cbvs_rates + cme_rates:
-        cv_curr.setdefault(_r["currency"], {"n": _r["name"], "f": _r["flag"]})
+        cv_curr.setdefault(_r["currency"], {"n": _r["name"]})
     src_json  = _json.dumps(cv_sources, ensure_ascii=False)
     curr_json = _json.dumps(cv_curr, ensure_ascii=False)
     cv_pills = ""
@@ -7313,7 +7313,7 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
     for r in cbvs_rates:
         cbvs_rows += (
             '<tr class="border-b border-gray-100 hover:bg-gray-50">'
-            f'<td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">{r["flag"]} {r["currency"]}</td>'
+            f'<td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">{r["currency"]}</td>'
             f'<td class="py-3 px-4 text-gray-500 text-sm">{html_lib.escape(r["name"])}</td>'
             f'<td class="py-3 px-4 text-right font-mono font-bold text-gray-800">{r["buy"]}</td>'
             f'<td class="py-3 px-4 text-right font-mono font-bold text-gray-800">{r["sell"]}</td>'
@@ -7322,7 +7322,7 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
         cbvs_cards += (
             '<div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 px-4">'
             '<div>'
-            f'<p class="font-semibold text-gray-900 text-sm">{r["flag"]} {r["currency"]}</p>'
+            f'<p class="font-semibold text-gray-900 text-sm">{r["currency"]}</p>'
             f'<p class="text-gray-500 text-xs mt-0.5">{html_lib.escape(r["name"])}</p>'
             '</div>'
             '<div class="text-right">'
@@ -7337,7 +7337,7 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
     for r in cme_rates:
         cme_rows += (
             '<tr class="border-b border-gray-100 hover:bg-gray-50">'
-            f'<td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">{r["flag"]} {r["currency"]}</td>'
+            f'<td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">{r["currency"]}</td>'
             f'<td class="py-3 px-4 text-gray-500 text-sm">{html_lib.escape(r["name"])}</td>'
             f'<td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--forest2)">{r["buy"]}</td>'
             f'<td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--coral)">{r["sell"]}</td>'
@@ -7346,7 +7346,7 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
         cme_cards += (
             '<div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 px-4">'
             '<div>'
-            f'<p class="font-semibold text-gray-900 text-sm">{r["flag"]} {r["currency"]}</p>'
+            f'<p class="font-semibold text-gray-900 text-sm">{r["currency"]}</p>'
             f'<p class="text-gray-500 text-xs mt-0.5">{html_lib.escape(r["name"])}</p>'
             '</div>'
             '<div class="text-right">'
@@ -7419,7 +7419,7 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
     <div class="px-6 py-5 border-b border-gray-100">
       <p class="font-bold text-gray-900 text-base">Bank Rates Compared</p>
       <p class="text-gray-400 text-xs mt-0.5">USD and EUR at Suriname&#8217;s commercial banks, side by side. Buy is what you receive when selling foreign currency; sell is what you pay to get it.</p>
-      <p class="text-gray-400 text-xs mt-2">&#128336; {html_lib.escape(banks_updated)}</p>
+      <p class="text-gray-400 text-xs mt-2"><span>Updated:</span> {html_lib.escape(banks_updated)}</p>
     </div>
     <div class="hidden sm:block overflow-x-auto">
       <table class="w-full text-sm">
@@ -7441,15 +7441,15 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
     from_opts = ""
     for r in cme_rates:
         sel = " selected" if r["currency"] == "USD" else ""
-        from_opts += f'<option value="{r["currency"]}"{sel}>{r["flag"]} {r["currency"]} – {html_lib.escape(r["name"])}</option>\n'
-    from_opts += '<option value="SRD">\U0001f1f8\U0001f1f7 SRD – Surinamese Dollar</option>'
+        from_opts += f'<option value="{r["currency"]}"{sel}>{r["currency"]} – {html_lib.escape(r["name"])}</option>\n'
+    from_opts += '<option value="SRD">SRD – Surinamese Dollar</option>'
 
-    to_opts = '<option value="SRD" selected>\U0001f1f8\U0001f1f7 SRD – Surinamese Dollar</option>\n'
+    to_opts = '<option value="SRD" selected>SRD – Surinamese Dollar</option>\n'
     for r in cme_rates:
-        to_opts += f'<option value="{r["currency"]}">{r["flag"]} {r["currency"]} – {html_lib.escape(r["name"])}</option>\n'
+        to_opts += f'<option value="{r["currency"]}">{r["currency"]} – {html_lib.escape(r["name"])}</option>\n'
 
     js = "const SRC = " + src_json + ";\nconst CURR = " + curr_json + ";\n" + """var curSrc='cme';
-function optHtml(c){var m=CURR[c]||{n:c,f:'\\uD83D\\uDCB1'};return '<option value="'+c+'">'+m.f+' '+c+' \\u2013 '+m.n+'</option>';}
+function optHtml(c){var m=CURR[c]||{n:c};return '<option value="'+c+'">'+c+' \\u2013 '+m.n+'</option>';}
 function rebuildOpts(){
   var from=document.getElementById('cv-from'),to=document.getElementById('cv-to');
   var pf=from.value,pt=to.value;
@@ -7573,7 +7573,7 @@ doConvert();"""
           <a href="https://www.cbvs.sr" target="_blank" rel="noopener noreferrer"
              class="text-xs font-semibold shrink-0 hover:underline" style="color:var(--forest2)">cbvs.sr &#8599;</a>
         </div>
-        <p class="text-gray-400 text-xs mt-2">&#128336; {html_lib.escape(cbvs_updated)}</p>
+        <p class="text-gray-400 text-xs mt-2"><span>Updated:</span> {html_lib.escape(cbvs_updated)}</p>
       </div>
       <div class="hidden sm:block overflow-x-auto">
         <table class="w-full text-sm">
@@ -7598,7 +7598,7 @@ doConvert();"""
           <a href="https://www.cme.sr" target="_blank" rel="noopener noreferrer"
              class="text-xs font-semibold shrink-0 hover:underline" style="color:var(--forest2)">cme.sr &#8599;</a>
         </div>
-        <p class="text-gray-400 text-xs mt-2">&#128336; {html_lib.escape(cme_updated)}</p>
+        <p class="text-gray-400 text-xs mt-2"><span>Updated:</span> {html_lib.escape(cme_updated)}</p>
       </div>
       <div class="hidden sm:block overflow-x-auto">
         <table class="w-full text-sm">
@@ -7618,11 +7618,13 @@ doConvert();"""
 {douane_section}
   <div class="rounded-2xl border border-amber-200 p-6 mt-8 mb-0" style="background:#fffbeb">
     <p class="text-amber-900 text-sm leading-relaxed">
-      <strong class="text-amber-800">&#128161; What&#8217;s the difference?</strong>
+      <strong class="text-amber-800">What&#8217;s the difference?</strong>
       <strong>CBVS</strong> is the Central Bank of Suriname&#8217;s official reference rate used for banking.
       <strong>CME</strong> (Central Money Exchange) shows cash rates at local exchange offices: what you actually get when exchanging banknotes.
       &ldquo;We Buy&rdquo; is what they pay when you sell foreign currency; &ldquo;We Sell&rdquo; is what you pay to buy foreign currency.
-      The <strong>douanekoers</strong> is the CBVS selling rate fixed every two weeks that customs uses to value imports; it is not a rate you can exchange at.
+    </p>
+    <p class="text-amber-900 text-sm leading-relaxed mt-2">
+      <strong class="text-amber-800">Douanekoers:</strong> the CBVS selling rate fixed every two weeks that customs uses to value imports; it is not a rate you can exchange at.
     </p>
   </div>
   <p class="text-center text-gray-400 text-xs mt-8 max-w-2xl mx-auto leading-relaxed px-4">
@@ -7633,7 +7635,7 @@ doConvert();"""
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mt-8">
     <div class="flex items-start justify-between mb-5">
       <div>
-        <h2 class="serif text-2xl font-bold text-gray-900">&#129351; Gold Price</h2>
+        <h2 class="serif text-2xl font-bold text-gray-900">Gold Price</h2>
         <p class="text-gray-400 text-sm mt-1">XAU spot price, live from markets via <a href="https://gold-api.com" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">gold-api.com</a></p>
       </div>
       <span id="gold-badge" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0">Loading…</span>
@@ -7658,7 +7660,7 @@ doConvert();"""
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mt-6">
     <div class="flex items-start justify-between mb-5">
       <div>
-        <h2 class="serif text-2xl font-bold text-gray-900">&#128739;&#xFE0E; Brent Crude Oil</h2>
+        <h2 class="serif text-2xl font-bold text-gray-900">Brent Crude Oil</h2>
         <p class="text-gray-400 text-sm mt-1">Brent Crude, updated hourly</p>
       </div>
       {oil_badge_html}
