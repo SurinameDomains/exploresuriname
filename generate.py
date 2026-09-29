@@ -7243,7 +7243,7 @@ def build_services_page():
         lcp_image=_lcp, seo_title="Local Services in Paramaribo, Suriname",
         intro_text=f"Find {len(SERVICES)} service providers across Suriname: banks, insurance, beauty salons, gyms, pharmacies, schools, real estate agencies, travel agents and more. Whether you need a haircut, a mortgage, a gym membership or a doctor in Paramaribo, this directory covers the essential services that keep the city running.", faq=_FAQ_SERVICES)
 
-def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated, brent_price=None, brent_updated=None, bank_rates=None, banks_updated=""):
+def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated, brent_price=None, brent_updated=None, bank_rates=None, banks_updated="", douane_state=None):
     import json as _json
     updated_now = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
     # Converter rate sources: CME default, plus CBVS and commercial banks
@@ -7258,6 +7258,16 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
         cv_sources[_b["key"]] = {"label": _b["name"],
                                  "buy":  {"USD": _b["usd"][0], "EUR": _b["eur"][0]},
                                  "sell": {"USD": _b["usd"][1], "EUR": _b["eur"][1]}}
+    # Douanekoers (customs rate, CBvS biweekly list): one rate, so buy == sell. See douane.py.
+    douane_section = ""
+    try:
+        import douane as _douane
+        _dk_map = _douane.per_unit_map(douane_state)
+        if _dk_map:
+            cv_sources["douane"] = {"label": "Douanekoers (customs)", "buy": _dk_map, "sell": _dk_map}
+        douane_section = _douane.render_section(douane_state, html_lib.escape)
+    except Exception as _dk_err:
+        print(f"  Douanekoers section skipped: {_dk_err}")
     cv_curr = {"SRD": {"n": "Surinamese Dollar", "f": "\U0001f1f8\U0001f1f7"}}
     for _r in cbvs_rates + cme_rates:
         cv_curr.setdefault(_r["currency"], {"n": _r["name"], "f": _r["flag"]})
@@ -7505,6 +7515,7 @@ doConvert();"""
     {{"@type":"Question","name":"Can I use US dollars or euros in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"USD and EUR are accepted at hotels, some restaurants, and larger shops in Paramaribo. However, for local markets, street food, and public transport you will need Surinamese Dollars (SRD). It is advisable to exchange money upon arrival."}}}},
     {{"@type":"Question","name":"Where can I exchange money in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Money can be exchanged at licensed cambios (exchange offices) throughout Paramaribo, at major banks such as Hakrinbank and DSB Bank, and at the Johan Adolf Pengel International Airport. Cambios typically offer competitive rates. ATMs dispensing SRD are widely available in Paramaribo."}}}},
     {{"@type":"Question","name":"What is the official SRD exchange rate?","acceptedAnswer":{{"@type":"Answer","text":"The official exchange rate is set by the Central Bank of Suriname (CBVS) and published on business days. Cash market rates (CME) may differ slightly. Check the live rates on this page for the most current CBVS and cash market exchange rates."}}}},
+    {{"@type":"Question","name":"What is the douanekoers (customs exchange rate) in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The douanekoers is the exchange rate Suriname customs uses to convert the value of imported goods to SRD when calculating import duties. Under article 17 of the Wet Tarief van Invoerrechten 1996 it is the Central Bank of Suriname selling rate in force on the second working day of each two-week period, and it applies to every declaration filed in that period. This page shows the current CBVS list with the dates it applies to."}}}},
     {{"@type":"Question","name":"Can I pay by credit or debit card in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Credit and debit cards are accepted at larger hotels, supermarkets and some restaurants in Paramaribo. Visa and Mastercard are the most widely accepted. For markets, street food, minibuses and smaller shops you will need cash in SRD. It is advisable to carry local cash at all times."}}}},
     {{"@type":"Question","name":"What is the SRD to EUR exchange rate today?","acceptedAnswer":{{"@type":"Answer","text":"The current SRD to EUR exchange rate is shown in real time on this page using CBVS official rates and CME cash market rates. The CBVS rate is the central bank reference; the CME rate reflects what you will receive at cash exchange offices in Paramaribo."}}}},
     {{"@type":"Question","name":"Is tipping customary in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Tipping is not mandatory in Suriname but is appreciated for good service. A tip of 5 to 10 percent is common at restaurants that do not include a service charge. Taxi drivers do not typically expect a tip, but rounding up the fare is a common courtesy."}}}}
@@ -7516,7 +7527,7 @@ doConvert();"""
 <div class="pg-hero text-white py-16 text-center" style="background:var(--forest)">
   <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">SRD Exchange Rates</h1>
-  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">CBVS official &bull; CME cash &bull; commercial banks compared &bull; live gold &amp; Brent oil</p>
+  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">CBVS official &bull; CME cash &bull; commercial banks compared &bull; douanekoers &bull; live gold &amp; Brent oil</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-10">
@@ -7604,12 +7615,14 @@ doConvert();"""
     </div>
   </div>
 {bank_section}
+{douane_section}
   <div class="rounded-2xl border border-amber-200 p-6 mt-8 mb-0" style="background:#fffbeb">
     <p class="text-amber-900 text-sm leading-relaxed">
       <strong class="text-amber-800">&#128161; What&#8217;s the difference?</strong>
       <strong>CBVS</strong> is the Central Bank of Suriname&#8217;s official reference rate used for banking.
       <strong>CME</strong> (Central Money Exchange) shows cash rates at local exchange offices: what you actually get when exchanging banknotes.
       &ldquo;We Buy&rdquo; is what they pay when you sell foreign currency; &ldquo;We Sell&rdquo; is what you pay to buy foreign currency.
+      The <strong>douanekoers</strong> is the CBVS selling rate fixed every two weeks that customs uses to value imports; it is not a rate you can exchange at.
     </p>
   </div>
   <p class="text-center text-gray-400 text-xs mt-8 max-w-2xl mx-auto leading-relaxed px-4">
@@ -22169,6 +22182,15 @@ if __name__ == "__main__":
     sports_articles  = fetch_sports_articles()
     cme_rates,  cme_live,  cme_updated  = fetch_cme_rates()
     cbvs_rates, cbvs_live, cbvs_updated = fetch_cbvs_rates()
+    # Douanekoers: CBvS biweekly customs list (douane.py). Never blocks the build.
+    try:
+        import douane as _douane
+        _dk_ref = (next((float(r["sell"]) for r in cbvs_rates if r["currency"] == "USD"), None)
+                   if cbvs_live else None)
+        douane_state = _douane.update(ref_usd=_dk_ref)
+    except Exception as _dk_err:
+        print(f"  Douanekoers: skipped ({_dk_err})")
+        douane_state = None
     bank_rates, banks_updated           = fetch_bank_rates()
     brent_price, brent_updated          = fetch_brent_price()
     build_rail_data(cme_rates)
@@ -22201,7 +22223,7 @@ if __name__ == "__main__":
         "currency.html":    build_currency_page(cme_rates, cme_live, cme_updated,
                                                 cbvs_rates, cbvs_live, cbvs_updated,
                                                 brent_price, brent_updated,
-                                                bank_rates, banks_updated),
+                                                bank_rates, banks_updated, douane_state),
         "conditions.html":  build_conditions_page(tides_data),
         "flights.html":     build_flights_page(flights_data),
         "news.html":        build_news(articles, oil_articles, finance_articles, sports_articles),
