@@ -405,9 +405,9 @@ def render_section(state, esc):
             + '<details class="border-t border-gray-100"><summary class="px-6 py-4 text-sm font-semibold cursor-pointer" '
               f'style="color:var(--forest2)">All {len(cur["rates"])} currencies</summary>'
             + '<div class="overflow-x-auto pb-2"><table class="w-full text-sm"><thead><tr class="bg-gray-50 text-left">'
-              '<th class="py-2 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Code</th>'
-              '<th class="py-2 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Currency</th>'
-              '<th class="py-2 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Unit</th>'
-              '<th class="py-2 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">SRD</th>'
+              '<th class="py-2 px-4 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide">Code</th>'
+              '<th class="py-2 px-4 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide">Currency</th>'
+              '<th class="py-2 px-4 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide text-right">Unit</th>'
+              '<th class="py-2 px-4 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide text-right">SRD</th>'
               f'</tr></thead><tbody>{rows}</tbody></table></div></details>'
             + legal + '\n  </section>')

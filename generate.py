@@ -7313,10 +7313,10 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
     for r in cbvs_rates:
         cbvs_rows += (
             '<tr class="border-b border-gray-100 hover:bg-gray-50">'
-            f'<td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">{r["currency"]}</td>'
-            f'<td class="py-3 px-4 text-gray-500 text-sm">{html_lib.escape(r["name"])}</td>'
-            f'<td class="py-3 px-4 text-right font-mono font-bold text-gray-800">{r["buy"]}</td>'
-            f'<td class="py-3 px-4 text-right font-mono font-bold text-gray-800">{r["sell"]}</td>'
+            f'<td class="py-3 px-3 font-semibold text-gray-900 whitespace-nowrap">{r["currency"]}</td>'
+            f'<td class="py-3 px-3 text-gray-500 text-sm">{html_lib.escape(r["name"])}</td>'
+            f'<td class="py-3 px-3 text-right font-mono font-bold text-gray-800">{r["buy"]}</td>'
+            f'<td class="py-3 px-3 text-right font-mono font-bold text-gray-800">{r["sell"]}</td>'
             '</tr>'
         )
         cbvs_cards += (
@@ -7337,10 +7337,10 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
     for r in cme_rates:
         cme_rows += (
             '<tr class="border-b border-gray-100 hover:bg-gray-50">'
-            f'<td class="py-3 px-4 font-semibold text-gray-900 whitespace-nowrap">{r["currency"]}</td>'
-            f'<td class="py-3 px-4 text-gray-500 text-sm">{html_lib.escape(r["name"])}</td>'
-            f'<td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--forest2)">{r["buy"]}</td>'
-            f'<td class="py-3 px-4 text-right font-mono font-bold" style="color:var(--coral)">{r["sell"]}</td>'
+            f'<td class="py-3 px-3 font-semibold text-gray-900 whitespace-nowrap">{r["currency"]}</td>'
+            f'<td class="py-3 px-3 text-gray-500 text-sm">{html_lib.escape(r["name"])}</td>'
+            f'<td class="py-3 px-3 text-right font-mono font-bold" style="color:var(--forest2)">{r["buy"]}</td>'
+            f'<td class="py-3 px-3 text-right font-mono font-bold" style="color:var(--coral)">{r["sell"]}</td>'
             '</tr>'
         )
         cme_cards += (
@@ -7424,11 +7424,11 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
     <div class="hidden sm:block overflow-x-auto">
       <table class="w-full text-sm">
         <thead><tr class="bg-gray-50 text-left">
-          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Bank</th>
-          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">USD Buy</th>
-          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">USD Sell</th>
-          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">EUR Buy</th>
-          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">EUR Sell</th>
+          <th class="py-3 px-4 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide">Bank</th>
+          <th class="py-3 px-4 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide text-right">USD Buy</th>
+          <th class="py-3 px-4 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide text-right">USD Sell</th>
+          <th class="py-3 px-4 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide text-right">EUR Buy</th>
+          <th class="py-3 px-4 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide text-right">EUR Sell</th>
         </tr></thead>
         <tbody>{cmp_rows}</tbody>
       </table>
@@ -7578,10 +7578,10 @@ doConvert();"""
       <div class="hidden sm:block overflow-x-auto">
         <table class="w-full text-sm">
           <thead><tr class="bg-gray-50 text-left">
-            <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Code</th>
-            <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Currency</th>
-            <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Buy SRD</th>
-            <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Sell SRD</th>
+            <th class="py-3 px-3 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide">Code</th>
+            <th class="py-3 px-3 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide">Currency</th>
+            <th class="py-3 px-3 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide text-right">Buy SRD</th>
+            <th class="py-3 px-3 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide text-right">Sell SRD</th>
           </tr></thead>
           <tbody>{cbvs_rows}</tbody>
         </table>
@@ -7603,10 +7603,10 @@ doConvert();"""
       <div class="hidden sm:block overflow-x-auto">
         <table class="w-full text-sm">
           <thead><tr class="bg-gray-50 text-left">
-            <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Code</th>
-            <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Currency</th>
-            <th class="py-3 px-4 text-xs font-semibold uppercase tracking-wide text-right" style="color:var(--forest2)">We Buy</th>
-            <th class="py-3 px-4 text-xs font-semibold uppercase tracking-wide text-right" style="color:var(--coral)">We Sell</th>
+            <th class="py-3 px-3 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide">Code</th>
+            <th class="py-3 px-3 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide">Currency</th>
+            <th class="py-3 px-3 text-xs font-semibold whitespace-nowrap uppercase tracking-wide text-right" style="color:var(--forest2)">We Buy</th>
+            <th class="py-3 px-3 text-xs font-semibold whitespace-nowrap uppercase tracking-wide text-right" style="color:var(--coral)">We Sell</th>
           </tr></thead>
           <tbody>{cme_rows}</tbody>
         </table>
