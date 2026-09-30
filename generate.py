@@ -5552,7 +5552,7 @@ def nav_html(active="home", prefix=""):
 <nav class="w-full z-50" style="position:sticky;top:0;background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14)">
   <div class="site-navin max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
     <a href="{prefix or './'}" class="flex flex-col justify-center flex-shrink-0">
-      <span class="navmark"><span style="color:var(--forest)">Explore</span><span style="color:var(--coral)">Suriname</span></span>
+      <span class="navmark" translate="no"><span style="color:var(--forest)">Explore</span><span style="color:var(--coral)">Suriname</span></span>
       <span class="navtag">Kept in Paramaribo</span>
     </a>
     <div class="hidden lg:flex items-center navlinks">{desktop_nav}</div>
