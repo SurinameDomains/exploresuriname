@@ -55,12 +55,12 @@ except ImportError:
 SCRIPT_DIR = Path(__file__).parent
 IMAGES_DIR = SCRIPT_DIR / "images"
 CACHE_FILE = SCRIPT_DIR / "image_cache.json"
-# Generated language trees. build_i18n.py rebuilds nl/ and es/ from the English
+# Generated language trees. build_i18n.py rebuilds nl/, es/ and zh/ from the English
 # pages immediately after this script runs, so rewriting them here is thrown
 # away: two thirds of the files for nothing. An image URL can only reach a
 # translated page via its English source, and rewriting an English page changes
 # its hash, which makes build_i18n re-emit that page's translations.
-GENERATED_TREES = {"nl", "es"}
+GENERATED_TREES = {"nl", "es", "zh"}
 
 def _english_html():
     out = []

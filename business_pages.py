@@ -326,7 +326,7 @@ KIT_JS = r"""
     return s;
   }
   function money(c){ return E.fmt(c, L); }
-  function fmtIn(c){ return new Intl.NumberFormat(L==='en'?'en-US':'nl-NL', {minimumFractionDigits: c%100?2:0, maximumFractionDigits:2}).format(c/100); }
+  function fmtIn(c){ return new Intl.NumberFormat((L==='en'||L==='zh')?'en-US':'nl-NL', {minimumFractionDigits: c%100?2:0, maximumFractionDigits:2}).format(c/100); }
   function srd(c){ return 'SRD ' + E.fmt(c, L); }
   function amt(id){ var el = $(id); if(!el) return null; var v = el.value.trim(); if(v===''){ el.removeAttribute('aria-invalid'); return null; }
     var c = E.parseAmount(v, L); if(c===null){ el.setAttribute('aria-invalid','true'); } else el.removeAttribute('aria-invalid'); return c; }
@@ -334,9 +334,9 @@ KIT_JS = r"""
     var n = E.parseNum(v, L); if(n===null){ el.setAttribute('aria-invalid','true'); } else el.removeAttribute('aria-invalid'); return n; }
   function today(){ var d = new Date(Date.now() - 3*3600*1000); return d.toISOString().slice(0,10); } // Suriname date (UTC-3)
   function fmtDate(iso){ if(!iso) return ''; var p = iso.split('-'); var d = new Date(Date.UTC(+p[0], +p[1]-1, +p[2]));
-    return d.toLocaleDateString(L==='en'?'en-GB':(L==='es'?'es-ES':'nl-NL'), {weekday:'short', day:'numeric', month:'long', year:'numeric', timeZone:'UTC'}); }
+    return d.toLocaleDateString(L==='en'?'en-GB':(L==='es'?'es-ES':(L==='zh'?'zh-CN':'nl-NL')), {weekday:'short', day:'numeric', month:'long', year:'numeric', timeZone:'UTC'}); }
   function fmtDay(iso){ if(!iso) return ''; var p = iso.split('-'); var d = new Date(Date.UTC(+p[0], +p[1]-1, +p[2]));
-    return d.toLocaleDateString(L==='en'?'en-GB':(L==='es'?'es-ES':'nl-NL'), {day:'numeric', month:'long', year:'numeric', timeZone:'UTC'}); }
+    return d.toLocaleDateString(L==='en'?'en-GB':(L==='es'?'es-ES':(L==='zh'?'zh-CN':'nl-NL')), {day:'numeric', month:'long', year:'numeric', timeZone:'UTC'}); }
   function seg(id, cb){ var box = $(id); if(!box) return; box.addEventListener('click', function(ev){ var b = ev.target.closest('button[data-v]'); if(!b) return;
       [].forEach.call(box.querySelectorAll('button'), function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); }); if(cb) cb(b.getAttribute('data-v')); }); }
   function segVal(id){ var b = document.querySelector('#'+id+' button[aria-pressed=true]'); return b ? b.getAttribute('data-v') : null; }
@@ -366,8 +366,8 @@ KIT_JS = r"""
   [].forEach.call(document.querySelectorAll('input.bz-num[value]'), function(el){
     var v = el.value.trim(); if(!v) return;
     if(el.getAttribute('data-kind')==='m'){ var c = E.parseAmount(v); if(c===null) return;
-      el.value = new Intl.NumberFormat(L==='en'?'en-US':'nl-NL', {minimumFractionDigits: c%100?2:0, maximumFractionDigits:2}).format(c/100); }
-    else { var n = E.parseNum(v); if(n===null) return; el.value = new Intl.NumberFormat(L==='en'?'en-US':'nl-NL', {useGrouping:false, maximumFractionDigits:4}).format(n); }
+      el.value = new Intl.NumberFormat((L==='en'||L==='zh')?'en-US':'nl-NL', {minimumFractionDigits: c%100?2:0, maximumFractionDigits:2}).format(c/100); }
+    else { var n = E.parseNum(v); if(n===null) return; el.value = new Intl.NumberFormat((L==='en'||L==='zh')?'en-US':'nl-NL', {useGrouping:false, maximumFractionDigits:4}).format(n); }
   });
   // share/print buttons present on most tools
   document.addEventListener('click', function(ev){
@@ -1452,7 +1452,7 @@ def _page_workdays(X, feeds, prices):
     js = r"""
 (function(){ var B=BZ,E=B.E,$=B.$,H=B.H;
 function warn(cov){ return cov==='complete' ? '' : '<div class="bz-note">'+B.esc(B.T(cov==='incomplete'?'w_incomplete':'w_unknown'))+'</div>'; }
-function wd(iso){ var d=new Date(iso+'T12:00:00Z'); return d.toLocaleDateString(B.L==='en'?'en-GB':(B.L==='es'?'es-ES':'nl-NL'),{weekday:'long', timeZone:'UTC'}); }
+function wd(iso){ var d=new Date(iso+'T12:00:00Z'); return d.toLocaleDateString(B.L==='en'?'en-GB':(B.L==='es'?'es-ES':(B.L==='zh'?'zh-CN':'nl-NL')),{weekday:'long', timeZone:'UTC'}); }
 function one(){ var d=$('d0').value, n=Math.floor(B.num('n')); if(!d||isNaN(n)||n<0){ $('r1').textContent='–'; return; }
   var r=E.addWorkingDays(d, n, H); $('r1').textContent=B.fmtDate(r.date); $('s1').textContent=B.T('s_add',{n:n, d:B.fmtDate(d)}); $('w1').innerHTML=warn(r.coverage);
   B.shareText=function(){ return $('s1').textContent+' '+$('r1').textContent; }; }
@@ -1524,7 +1524,7 @@ def _page_deadlines(X, feeds, prices):
 (function(){ var B=BZ,E=B.E,$=B.$,H=B.H,R=B.R;
 var TOOL={btw:'btw-calculator.html',wage_tax:'salary-calculator.html',apf:'salary-calculator.html',ib_prov:'income-tax-calculator.html',ib_final:'income-tax-calculator.html',ib_inst:'income-tax-calculator.html'};
 var GRP={btw:'btw',wage_tax:'staff',apf:'staff',ib_prov:'ib',ib_final:'ib',ib_inst:'ib'};
-function per(p){ if(p.length===4) return p; var d=new Date(Date.UTC(+p.slice(0,4), +p.slice(5,7)-1, 1)); return d.toLocaleDateString(B.L==='en'?'en-GB':(B.L==='es'?'es-ES':'nl-NL'),{month:'long',year:'numeric',timeZone:'UTC'}); }
+function per(p){ if(p.length===4) return p; var d=new Date(Date.UTC(+p.slice(0,4), +p.slice(5,7)-1, 1)); return d.toLocaleDateString(B.L==='en'?'en-GB':(B.L==='es'?'es-ES':(B.L==='zh'?'zh-CN':'nl-NL')),{month:'long',year:'numeric',timeZone:'UTC'}); }
 var t=B.today(), list=[], y=+t.slice(0,4), m=+t.slice(5,7);
 var py=m===1?y-1:y, pm=m===1?12:m-1;
 for(var i=0;i<13;i++){ var yy=py+Math.floor((pm-1+i)/12), mm=(pm-1+i)%12+1; var d=E.monthlyDeadlines(yy,mm,R,H); var p=yy+'-'+E.pad2(mm);
@@ -2488,7 +2488,7 @@ def _page_register(X, feeds, prices):
 (function(){ var B=BZ,E=B.E,$=B.$;
 function all(){ return B.store('register')||[]; }
 function months(){ var m={}; all().forEach(function(x){ m[x.d.slice(0,7)]=1; }); m[B.today().slice(0,7)]=1; return Object.keys(m).sort().reverse(); }
-function mname(k){ return new Date(Date.UTC(+k.slice(0,4), +k.slice(5,7)-1, 1)).toLocaleDateString(B.L==='en'?'en-GB':(B.L==='es'?'es-ES':'nl-NL'),{month:'long',year:'numeric',timeZone:'UTC'}); }
+function mname(k){ return new Date(Date.UTC(+k.slice(0,4), +k.slice(5,7)-1, 1)).toLocaleDateString(B.L==='en'?'en-GB':(B.L==='es'?'es-ES':(B.L==='zh'?'zh-CN':'nl-NL')),{month:'long',year:'numeric',timeZone:'UTC'}); }
 function drawMonths(){ var cur=$('mon').value; $('mon').innerHTML=months().map(function(k){ return '<option value="'+k+'">'+B.esc(mname(k))+'</option>'; }).join(''); if(cur) $('mon').value=cur; if(!$('mon').value) $('mon').selectedIndex=0; }
 function draw(){ var m=$('mon').value, L=all().filter(function(x){ return x.d.slice(0,7)===m; }).sort(function(a,b){ return a.d<b.d?-1:1; });
   $('list').innerHTML=L.map(function(x){ return '<tr><td>'+B.esc(B.fmtDay(x.d))+'</td><td><span class="bz-tag">'+B.esc(B.T(x.t==='sale'?'t_sale':'t_buy'))+'</span>'+B.esc(x.desc)+'<br><small>'+(x.r==='ex'?B.esc(B.T('exempt')):x.r+'%')+'</small></td><td class="n">'+E.fmt(x.e,B.L)+'</td><td class="n">'+E.fmt(x.b,B.L)+'</td><td><button type="button" class="bz-x" data-id="'+x.id+'">&times;</button></td></tr>'; }).join('');
@@ -2561,7 +2561,7 @@ function calcFor(st){ var keep={}; IDS.forEach(function(k){ var el=$(k); keep[k]
   if(st) IDS.forEach(function(k){ var el=$(k); if(st[k]===undefined) return; if(el.type==='checkbox') el.checked=st[k]; else el.value=st[k]; });
   var g=B.amt('amt'); var inp=bzSalaryInputs(''); inp.gross=g||0; var x=E.salary(inp, B.R, iso()); var out={x:x, name:$('e_name').value, no:$('e_no').value, job:$('e_job').value};
   if(st) IDS.forEach(function(k){ var el=$(k); if(el.type==='checkbox') el.checked=keep[k]; else el.value=keep[k]; }); return out; }
-function per(){ var p=$('per').value||B.today().slice(0,7); return new Date(Date.UTC(+p.slice(0,4), +p.slice(5,7)-1, 1)).toLocaleDateString(B.L==='en'?'en-GB':(B.L==='es'?'es-ES':'nl-NL'),{month:'long',year:'numeric',timeZone:'UTC'}); }
+function per(){ var p=$('per').value||B.today().slice(0,7); return new Date(Date.UTC(+p.slice(0,4), +p.slice(5,7)-1, 1)).toLocaleDateString(B.L==='en'?'en-GB':(B.L==='es'?'es-ES':(B.L==='zh'?'zh-CN':'nl-NL')),{month:'long',year:'numeric',timeZone:'UTC'}); }
 function run(){ var g=B.amt('amt'); if(g===null){ $('big').textContent='–'; $('emp').innerHTML=''; $('er').innerHTML=''; return; }
   var r=calcFor(null), x=r.x; $('big').textContent=B.srd(x.net); $('say').textContent=B.T('say',{n:r.name||'', m:per()});
   $('emp').innerHTML=B.rows(bzSalaryRows(x)); $('er').innerHTML=B.rows(bzEmployerRows(x)); $('notes').innerHTML=bzSalaryNotes(x);
@@ -3467,7 +3467,7 @@ def _gcheck(R, key):
 
 
 _GUIDE_JS = r"""
-(function(){ var L=BZ.L, nf=new Intl.NumberFormat(L==='en'?'en-US':'nl-NL',{maximumFractionDigits:2});
+(function(){ var L=BZ.L, nf=new Intl.NumberFormat((L==='en'||L==='zh')?'en-US':'nl-NL',{maximumFractionDigits:2});
 [].forEach.call(document.querySelectorAll('.bz-gn'), function(e){ e.textContent='SRD '+nf.format(+e.getAttribute('data-n')); });
 [].forEach.call(document.querySelectorAll('.bz-gp'), function(e){ e.textContent=nf.format(+e.getAttribute('data-p'))+'%'; });
 [].forEach.call(document.querySelectorAll('.bz-date'), function(e){ var d=e.getAttribute('data-d'); if(d) e.textContent=BZ.fmtDay(d); });

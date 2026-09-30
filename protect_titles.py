@@ -12,6 +12,11 @@ ENDPOINT="https://translate.googleapis.com/translate_a/single"
 SENT="ZQXNAMEXQZ"          # survives MT untouched
 names=sorted({(b.get("name") or "").strip() for b in json.load(open(ROOT/"exploresuriname_listings.json",encoding="utf-8")) if (b.get("name") or "").strip()}, key=len, reverse=True)
 cache=json.load(open(WORK,encoding="utf-8")) if WORK.exists() else json.load(open(REPO,encoding="utf-8"))
+# never drop values added to the repo after the /tmp work copy was made (e.g. "zh")
+if WORK.exists():
+    for _k,_e in json.load(open(REPO,encoding="utf-8")).items():
+        _d=cache.setdefault(_k,{})
+        for _l,_v in _e.items(): _d.setdefault(_l,_v)
 LIMIT=int(sys.argv[sys.argv.index("--limit")+1]) if "--limit" in sys.argv else None
 lock=threading.Lock()
 

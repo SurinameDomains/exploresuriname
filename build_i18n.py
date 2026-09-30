@@ -38,8 +38,12 @@ def serialize(soup):
     return str(soup).replace("viewbox=", "viewBox=")
 
 # code -> (html lang attr, og:locale)
-LANGS   = {"en": ("en", "en_US"), "nl": ("nl", "nl_NL"), "es": ("es", "es_ES")}
-TARGETS = ["nl", "es"]                       # generated subtrees (en stays at root)
+LANGS   = {"en": ("en", "en_US"), "nl": ("nl", "nl_NL"), "es": ("es", "es_ES"),
+           "zh": ("zh-Hans", "zh_CN")}      # Simplified Chinese, published under /zh/
+TARGETS = ["nl", "es", "zh"]                 # generated subtrees (en stays at root)
+ALL_LANGS = ["en"] + TARGETS
+# hreflang / inLanguage code per tree (the URL prefix stays the short code: /zh/)
+HREFLANG = {"en": "en", "nl": "nl", "es": "es", "zh": "zh-Hans"}
 
 CACHE_FILE = ROOT / "translations.json"
 
@@ -242,11 +246,18 @@ _NOT_A_NAME = re.compile(r"\b(?:is|are|was|a|an|the|of|and|with|for|to|serves|of
 def localize_listing_title(key: str, lang: str):
     """'Name, Bakery in Paramaribo | Explore Suriname' -> NL/ES, or None."""
     m = _TITLE_RE.fullmatch(key)
-    if not m or lang not in ("nl", "es"):
+    if not m or lang not in ("nl", "es", "zh"):
         return None
     name, label, place, sfx = m.groups()
-    if not (label or sfx) or _NOT_A_NAME.search(name):
+    # zh: a known business name may contain "and"/"of" ("Tucan Resort and Spa")
+    if not (label or sfx) or (_NOT_A_NAME.search(name)
+                              and not (lang == "zh" and name in PROTECTED)):
         return None
+    if lang == "zh":
+        # "Bingo Pizza, Fast Food Restaurant in Paramaribo | Explore Suriname"
+        #   -> "Bingo Pizza - 帕拉马里博快餐店 | Explore Suriname"
+        where = (_zh_place(place) + _TYPE_ZH.get(label, label)) if label else _zh_place(place).strip()
+        return name + " - " + where + (sfx or "")
     i = 0 if lang == "nl" else 1
     out = name + (", " + _TYPE_I18N[label][i] if label else "")
     if lang == "es":
@@ -254,6 +265,50 @@ def localize_listing_title(key: str, lang: str):
     else:
         out += " in " + place
     return out + (sfx or "")
+
+
+# Chinese type labels for listing titles (same keys as _TYPE_I18N).
+_TYPE_ZH = {
+    "Asian Restaurant": "亚洲餐厅", "Auto Services": "汽车服务", "Bakery": "面包店",
+    "Bank": "银行", "Bar & Lounge": "酒吧与酒廊", "Beauty Salon": "美容院",
+    "Café": "咖啡馆", "Casino Hotel": "赌场酒店", "Cleaning Services": "清洁服务",
+    "Crafts & Souvenirs": "手工艺品与纪念品", "Eco Lodge": "生态旅舍",
+    "Electronics Store": "电子产品店", "Entertainment Venue": "娱乐场所",
+    "Events & Party": "活动与派对", "Fashion Store": "服装店", "Fast Food Restaurant": "快餐店",
+    "Furniture Store": "家具店", "Garden Centre": "园艺中心", "Guesthouse": "民宿",
+    "Gym & Wellness": "健身与养生", "Health & Beauty Store": "美妆健康店",
+    "Hospital & Clinic": "医院与诊所", "Hotel": "酒店", "Industry & Energy": "工业与能源",
+    "Insurance": "保险公司", "Italian Restaurant": "意大利餐厅",
+    "Jewellery & Optician": "珠宝与眼镜店", "Museum": "博物馆", "Nature Park": "自然公园",
+    "Pharmacy": "药店", "Professional Services": "专业服务", "Real Estate": "房地产",
+    "Resort": "度假村", "Restaurant": "餐厅", "School": "学校",
+    "Security Services": "安保服务", "Shopping Mall": "购物中心",
+    "Specialty Store": "专卖店", "Supermarket": "超市",
+    "Surinamese Restaurant": "苏里南餐厅", "Tech & Media": "科技与媒体",
+    "Telecom Provider": "电信运营商", "Tour Operator": "旅游运营商",
+    "Travel Agency": "旅行社", "Veterinary & Livestock Supplies": "兽医与畜牧用品",
+    "Veterinary Clinic": "宠物医院",
+}
+# Only the two names with a settled Chinese form are rendered in Chinese; all
+# other districts/towns stay in Latin script (that is how local Chinese readers
+# see them on signs and addresses).
+_ZH_PLACE = {"Suriname": "苏里南", "Paramaribo": "帕拉马里博"}
+
+
+def _zh_place(p: str) -> str:
+    return _ZH_PLACE.get(p, p + " ")
+
+
+def cap_meta_zh(v: str, n: int = 80) -> str:
+    """Chinese snippets: Google shows roughly 80 CJK characters."""
+    v = " ".join(v.split())
+    if len(v) <= n + 1:
+        return v
+    head = v[:n + 1]
+    dot = max(head.rfind("。"), head.rfind("！"), head.rfind("？"))
+    if dot >= 40:
+        return head[:dot + 1]
+    return head[:n].rstrip("，、；：,;: ") + "…"
 
 
 def cap_meta(v: str, n: int = 158) -> str:
@@ -301,8 +356,72 @@ def _cap(t):
     return t[:1].upper() + t[1:]
 
 
+_ZH_DS = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+_ZH_DL = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]
+
+
+def _zh_time(t):
+    """'10pm' -> '22:00', '7.30 PM' -> '19:30'; 24-hour times are kept."""
+    m = re.fullmatch(r"(\d{1,2})(?:[:.](\d{2}))?\s?([AaPp])\.?[Mm]\.?", t)
+    if not m:
+        return t
+    h = int(m[1]) % 12 + (12 if m[3] in "Pp" else 0)
+    return f"{h:02d}:{m[2] or '00'}"
+
+
+def _loc_part_zh(p):
+    """zh version of _loc_part(): '10月3日 周六', '2026年10月3日 星期六' …"""
+    ds = lambda d: _ZH_DS[_EN_DAYS_S.index(d)]
+    dl = lambda d: _ZH_DL[_EN_DAYS_L.index(d)]
+    ms = lambda m: _EN_MON_S.index(m) + 1
+    ml = lambda m: _EN_MON_L.index(m) + 1
+    m = re.fullmatch(rf"({_DS}) (\d{{1,2}}) ({_MS})", p)
+    if m: return f"{ms(m[3])}月{m[2]}日 {ds(m[1])}"
+    m = re.fullmatch(rf"({_DS}) (\d{{1,2}}) – ({_DS}) (\d{{1,2}}) ({_MS})", p)
+    if m: return f"{ms(m[5])}月{m[2]}日 {ds(m[1])} – {m[4]}日 {ds(m[3])}"
+    m = re.fullmatch(rf"({_DL}) (\d{{1,2}}) ({_ML}) (\d{{4}})", p)
+    if m: return f"{m[4]}年{ml(m[3])}月{m[2]}日 {dl(m[1])}"
+    m = re.fullmatch(rf"({_DS}) (\d{{1,2}}) to ({_DS}) (\d{{1,2}}) ({_ML}) (\d{{4}})", p)
+    if m: return f"{m[6]}年{ml(m[5])}月{m[2]}日（{ds(m[1])}）至{m[4]}日（{ds(m[3])}）"
+    m = re.fullmatch(rf"({_ML}) (\d{{4}})", p)
+    if m: return f"{m[2]}年{ml(m[1])}月"
+    m = re.fullmatch(rf"({_MS}) · ({_DS})", p)
+    if m: return f"{ms(m[1])}月 · {ds(m[2])}"
+    if re.fullmatch(_TIME, p):
+        return _zh_time(p)
+    m = re.fullmatch(r"[Ii]n (\d+) days", p)
+    if m: return f"{m[1]} 天后"
+    fixed = {"today": "今天", "tomorrow": "明天", "Today": "今天", "Tomorrow": "明天",
+             "happening now": "正在进行", "happening now, last day": "正在进行，最后一天",
+             "Happening now, last day": "正在进行，最后一天",
+             "Featured": "精选", "Daily": "每天"}
+    if p in fixed:
+        return fixed[p]
+    m = re.fullmatch(rf"happening now, until ({_DS}) (\d{{1,2}}) ({_MS})", p)
+    if m: return f"正在进行，至 {ms(m[3])}月{m[2]}日 {ds(m[1])}"
+    m = re.fullmatch(rf"Every ((?:{_DL})|(?:{_DS})(?:–(?:{_DS}))?)(?:, next on (.+))?", p)
+    if m:
+        w = m[1]
+        if "–" in w:
+            a, b = w.split("–"); wl = f"{ds(a)}至{ds(b)}"
+        elif w in _EN_DAYS_L:
+            wl = "周" + dl(w)[-1]
+        else:
+            wl = ds(w)
+        head = f"每{wl}"
+        if m[2]:
+            nxt = _loc_part_zh(m[2])
+            if nxt is None:
+                return None
+            head += f"，下一场：{nxt}"
+        return head
+    return None
+
+
 def _loc_part(p, lang):
     """One ' · '-separated piece of an event date line, or None if unknown."""
+    if lang == "zh":
+        return _loc_part_zh(p)
     L = _LOC[lang]; es = lang == "es"
     ds = lambda d: L["ds"][_EN_DAYS_S.index(d)]
     dl = lambda d: L["dl"][_EN_DAYS_L.index(d)]
@@ -362,7 +481,7 @@ def localize_event_line(key, lang):
     'Every Monday, next on Mon 28 Sep · happening now, last day · Venue'.
     At least one piece must be a date; the last piece may be a venue name,
     which is kept (or translated if the cache has it)."""
-    if lang not in _LOC:
+    if lang not in _LOC and lang != "zh":
         return None
     parts = key.split(" · ")
     out, dated = [], False
@@ -383,40 +502,46 @@ def localize_event_line(key, lang):
 
 
 _FACT_RE = [
-    (re.compile(r"Starts (.+)"),            ("Begint om {0}", "Empieza a las {0}")),
-    (re.compile(r"Starting (.+)"),          ("Vanaf {0}", "Desde las {0}")),
-    (re.compile(r"Start (.+)"),             ("Begin {0}", "Inicio {0}")),
-    (re.compile(r"Time: (.+)"),             ("Tijd: {0}", "Hora: {0}")),
-    (re.compile(r"Doors open at (.+)"),     ("Deuren open om {0}", "Puertas abiertas a las {0}")),
-    (re.compile(r"Entry (.+)"),             ("Toegang {0}", "Entrada {0}")),
-    (re.compile(r"Organised by (.+)"),      ("Georganiseerd door {0}", "Organizado por {0}")),
-    (re.compile(r"Free to attend"),         ("Gratis toegang", "Entrada gratuita")),
+    (re.compile(r"Starts (.+)"),            ("Begint om {0}", "Empieza a las {0}", "{0} 开始")),
+    (re.compile(r"Starting (.+)"),          ("Vanaf {0}", "Desde las {0}", "{0} 起")),
+    (re.compile(r"Start (.+)"),             ("Begin {0}", "Inicio {0}", "开始：{0}")),
+    (re.compile(r"Time: (.+)"),             ("Tijd: {0}", "Hora: {0}", "时间：{0}")),
+    (re.compile(r"Doors open at (.+)"),     ("Deuren open om {0}", "Puertas abiertas a las {0}", "{0} 入场")),
+    (re.compile(r"Entry (.+)"),             ("Toegang {0}", "Entrada {0}", "门票：{0}")),
+    (re.compile(r"Organised by (.+)"),      ("Georganiseerd door {0}", "Organizado por {0}", "主办方：{0}")),
+    (re.compile(r"Free to attend"),         ("Gratis toegang", "Entrada gratuita", "免费入场")),
 ]
+_FACT_IDX = {"nl": 0, "es": 1, "zh": 2}
 
 
 def localize_event_facts(key, lang):
     """'Starts 12:00. Entry SRD 450.00. Organised by X.' — every sentence must be
     one generate.py writes, otherwise None (English kept)."""
-    if lang not in _LOC or not key.endswith("."):
+    if lang not in _FACT_IDX or not key.endswith("."):
         return None
     sents = [x.strip() for x in re.split(r"(?<=\.)\s+(?=[A-Z])", key) if x.strip()]
     out = []
     for snt in sents:
         body = snt[:-1] if snt.endswith(".") else snt
-        for rx, (nl, es) in _FACT_RE:
+        for rx, tpls in _FACT_RE:
             m = rx.fullmatch(body)
             if m:
                 arg = m.group(1) if m.groups() else ""
                 if rx.pattern.startswith(("Starts", "Starting", "Start ", "Time", "Doors")) and not re.search(r"\d", arg):
                     m = None
                     break
-                out.append((es if lang == "es" else nl).format(arg) + ".")
+                if lang == "zh":
+                    if rx.pattern.startswith(("Starts", "Starting", "Start ", "Time", "Doors")):
+                        arg = _zh_time(arg)
+                    out.append(tpls[2].format(arg) + "。")
+                else:
+                    out.append(tpls[_FACT_IDX[lang]].format(arg) + ".")
                 break
         else:
             m = None
         if m is None:
             return None
-    return " ".join(out)
+    return ("" if lang == "zh" else " ").join(out)
 
 
 
@@ -441,13 +566,17 @@ def tr(text: str, lang: str) -> str:
             for n in nums:
                 out = out.replace("{#}", n, 1)
             return lead + out + trail
-    if lang in _LOC:
+    if lang in _LOC or lang == "zh":
         ev = localize_event_line(key, lang) or localize_event_facts(key, lang)
         if ev:
             return lead + ev + trail
     _lt = localize_listing_title(key, lang)
     if _lt:
         return lead + _lt + trail
+    if lang == "zh":
+        _z = _tr_zh_patterns(key)
+        if _z:
+            return lead + _z + trail
     # "<Business> in Paramaribo" (image alt text on every listing card)
     m = _IN_PLACE_RE.fullmatch(key)
     if m and lang == "es" and not re.search(
@@ -459,7 +588,7 @@ def tr(text: str, lang: str) -> str:
     # and cut the translation at the same relative point.
     if key.endswith("…") and len(key) > 40:
         pre = key[:-1].rstrip()
-        full = _prefix_key(pre)
+        full = _prefix_key(pre, lang)
         if full and cache[full].get(lang):
             t = cache[full][lang]
             cut = max(20, int(len(t) * len(pre) / max(1, len(full))))
@@ -472,11 +601,99 @@ def tr(text: str, lang: str) -> str:
     return text   # English fallback
 
 
+_ZH_AGO = {"d": "天前", "h": "小时前", "m": "分钟前"}
+_ZH_MON = {m: i + 1 for i, m in enumerate(_EN_MON_S)} | {m: i + 1 for i, m in enumerate(_EN_MON_L)}
+_ZH_WD = dict(zip(_EN_DAYS_L, _ZH_DL)) | dict(zip(_EN_DAYS_S, _ZH_DS))
+_MON_ANY = "|".join(_EN_MON_L + _EN_MON_S)
+_WD_ANY = "|".join(_EN_DAYS_L + _EN_DAYS_S)
+_ZH_DATE_RE = (rf"(?:({_WD_ANY}),? )?(\d{{1,2}}) ({_MON_ANY})(?: (\d{{4}}))?"
+               rf"(?:,? (\d{{1,2}}:\d{{2}}))?( SR)?")
+
+
+def _zh_date(m, g=1):
+    """Groups (weekday, day, month, year, time, ' SR') starting at group g."""
+    wd, d, mo, y, t, sr = (m.group(g + i) for i in range(6))
+    out = (f"{y}年" if y else "") + f"{_ZH_MON[mo]}月{int(d)}日"
+    if wd:
+        out += " " + _ZH_WD[wd]
+    if t:
+        out += " " + t
+    if sr:
+        out += "（苏里南时间）"
+    return out
+
+
+_ZH_STAMPS = [
+    # (English pattern with one date, zh template; {d} = the converted date)
+    (rf"{_ZH_DATE_RE}", "{d}"),
+    (rf"· {_ZH_DATE_RE}", "· {d}"),
+    (rf"([🕐●] )(?:(CME): )?{_ZH_DATE_RE}", None),
+    (rf"🕐 Updated: {_ZH_DATE_RE} • Refreshes every (\d+)h", "🕐 更新于 {d} • 每 {n} 小时刷新"),
+    (rf"🕐 Updated: {_ZH_DATE_RE} • Astronomical prediction", "🕐 更新于 {d} • 天文预测"),
+    (rf"per barrel · updated {_ZH_DATE_RE}", "每桶 · 更新于 {d}"),
+    (rf"Status snapshot generated {_ZH_DATE_RE}\.", "状态快照生成于 {d}。"),
+    (rf"(\d+) stories from (\d+) Surinamese outlets covering the last (\d+) days, updated {_ZH_DATE_RE}\. "
+     rf"(\d+) of the stories below were reported by more than one outlet\.", "news"),
+]
+_ZH_STAMPS = [(re.compile(p), t) for p, t in _ZH_STAMPS]
+
+
+def _zh_stamp(key: str):
+    for rx, tpl in _ZH_STAMPS:
+        m = rx.fullmatch(key)
+        if not m:
+            continue
+        if tpl == "news":
+            return (f"过去 {m[3]} 天来自 {m[2]} 家苏里南媒体的 {m[1]} 篇报道，更新于 {_zh_date(m, 4)}。"
+                    f"以下有 {m[10]} 篇报道被多家媒体同时报道。")
+        if tpl is None:           # "🕐 11 Sep 2026 16:40 SR" / "🕐 CME: …"
+            return m[1] + (m[2] + "：" if m[2] else "") + _zh_date(m, 3)
+        n = m.group(7) if rx.groups >= 7 else None
+        return tpl.format(d=_zh_date(m, 1), n=n)
+    # fixtures: "· Matchday 3 · Venue", "· Group A · Venue", "· W World Cup qualifying · Group D · Venue"
+    m = re.fullmatch(r"· (?:(W World Cup qualifying) · )?(?:Matchday (\d+)|Group ([A-Z])) · (.+)", key)
+    if m and not re.search(r"[a-z]{3,} (?:the|of|and) ", m[4]):
+        head = "女足世界杯预选赛 · " if m[1] else ""
+        head += f"第 {m[2]} 轮" if m[2] else f"{m[3]} 组"
+        return f"· {head} · {m[4]}"
+    m = re.fullmatch(r"· Concacaf Nations League, League ([A-C]), Group ([A-D])", key)
+    if m:
+        return f"· Concacaf 国家联赛 {m[1]} 级联赛 {m[2]} 组"
+    return None
+_ZH_NAME_PLACE_RE = re.compile(r"(.{2,90}?)(,| in) (" + _PLACES + r")")
+
+
+def _tr_zh_patterns(key: str):
+    """Volatile / per-business strings that have no cache entry for zh.
+
+    "12d ago" -> "12 天前"; "Bingo Pizza, Paramaribo" -> "Bingo Pizza，帕拉马里博";
+    "Bingo Pizza in Paramaribo" (image alt) -> "帕拉马里博的 Bingo Pizza".
+    Only applied when the leading part is a known business/proper name, so an
+    ordinary English phrase is never half-translated.
+    """
+    m = re.fullmatch(r"(\d+)([dhm]) ago", key)
+    if m:
+        return f"{m[1]} {_ZH_AGO[m[2]]}"
+    # Timestamps / dates stamped by generate.py on live pages (currency, flights,
+    # tides, news, fixtures). They change every build, so no cache key lasts.
+    z = _zh_stamp(key)
+    if z:
+        return z
+    m = _ZH_NAME_PLACE_RE.fullmatch(key)
+    if m and m[1] in PROTECTED:
+        place = _ZH_PLACE.get(m[3], m[3])
+        return f"{m[1]}，{place}" if m[2] == "," else f"{place}的 {m[1]}"
+    return None
+
+
 _SORTED_KEYS = None
 
 
-def _prefix_key(pre: str):
-    """Shortest cache key that starts with *pre* (and is longer than it)."""
+def _prefix_key(pre: str, lang: str = None):
+    """Shortest cache key that starts with *pre* (and is longer than it).
+
+    zh looks only at keys that have a zh value. NL/ES ignore zh-only keys, so
+    their choice is exactly what it was before /zh/ existed."""
     global _SORTED_KEYS
     import bisect
     if _SORTED_KEYS is None:
@@ -485,7 +702,9 @@ def _prefix_key(pre: str):
     best = None
     while i < len(_SORTED_KEYS) and _SORTED_KEYS[i].startswith(pre):
         k = _SORTED_KEYS[i]
-        if len(k) > len(pre) and (best is None or len(k) < len(best)):
+        e = cache[k]
+        usable = bool(e.get("zh")) if lang == "zh" else set(e) != {"zh"}
+        if usable and len(k) > len(pre) and (best is None or len(k) < len(best)):
             best = k
         i += 1
     return best
@@ -533,6 +752,10 @@ def localize_date(iso: str, lang: str, long: bool = False) -> str:
         d = _dt.date.fromisoformat(iso)
     except Exception:
         return ""
+    if lang == "zh":
+        if long:
+            return f"{d.year}年{d.month}月{d.day}日 {_ZH_DL[d.weekday()]}"
+        return f"{d.month}月{d.day}日 {_ZH_DS[d.weekday()]}"
     days, months = _DATE_WORDS.get(lang, (None, None))
     if not days:
         return ""
@@ -575,6 +798,14 @@ def localize(soup, lang: str, rel_path: str):
     for el in soup.find_all(attrs={"alt": True}):
         if translatable(el["alt"]): el["alt"] = tr(el["alt"], lang)
 
+    # zh only: input placeholders (search boxes, submit forms). NL/ES never did
+    # this, and are left exactly as they were.
+    if lang == "zh":
+        for el in soup.find_all(attrs={"placeholder": True}):
+            v = el.get("placeholder", "")
+            if translatable(v):
+                el["placeholder"] = tr(v, lang)
+
     # head meta + title
     for sel, attr in [("meta[name=description]", "content"),
                       ("meta[property='og:description']", "content"),
@@ -589,7 +820,10 @@ def localize(soup, lang: str, rel_path: str):
                 "meta[name='twitter:description']"):
         for el in soup.select(sel):
             v = el.get("content", "")
-            if len(v) > 160:
+            if lang == "zh":
+                if len(v) > 81:
+                    el["content"] = cap_meta_zh(v)
+            elif len(v) > 160:
                 el["content"] = cap_meta(v)
 
     # html lang + og:locale (+ alternates)
@@ -668,8 +902,8 @@ def inject_hreflang(soup, rel_path: str):
     def url_for(code):
         pre = "" if code == "en" else f"/{code}"
         return f"{SITE_URL}{pre}/{url_path(rel_path)}".replace("/index.html", "/")
-    for code in ["en", "nl", "es"]:
-        tag = soup.new_tag("link", rel="alternate", hreflang=code, href=url_for(code))
+    for code in ALL_LANGS:
+        tag = soup.new_tag("link", rel="alternate", hreflang=HREFLANG[code], href=url_for(code))
         head.append(tag)
     xd = soup.new_tag("link", rel="alternate", hreflang="x-default", href=url_for("en"))
     head.append(xd)
@@ -704,7 +938,7 @@ def localize_jsonld(soup, lang: str):
         return prefix + rest
     def walk(o):
         if isinstance(o, dict):
-            return {k: (lang if k == "inLanguage"
+            return {k: (HREFLANG.get(lang, lang) if k == "inLanguage"
                         else loc_url(v) if isinstance(v, str)
                         else walk(v))
                     for k, v in o.items()}
@@ -749,7 +983,7 @@ def localize_jsonld(soup, lang: str):
         sc.string = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
 
 # ── language switcher injected into nav ───────────────────────────────────────
-SWITCH_LABEL = {"en": "EN", "nl": "NL", "es": "ES"}
+SWITCH_LABEL = {"en": "EN", "nl": "NL", "es": "ES", "zh": "中文"}
 def inject_switcher(soup, lang: str, rel_path: str):
     nav = soup.find("nav")
     if not nav: return
@@ -769,8 +1003,9 @@ def inject_switcher(soup, lang: str, rel_path: str):
         return svg
 
     def links(into, active_col, idle_col):
-        for code in ["en", "nl", "es"]:
+        for code in ALL_LANGS:
             a = soup.new_tag("a", href=href(code)); a.string = SWITCH_LABEL[code]
+            if code == "zh": a["lang"] = "zh-Hans"
             a["style"] = (f"color:{active_col};text-decoration:underline" if code == lang
                           else f"color:{idle_col};text-decoration:none")
             into.append(a)
@@ -804,8 +1039,9 @@ def inject_switcher(soup, lang: str, rel_path: str):
         menu["style"] = ("display:none;position:absolute;right:0;top:100%;margin-top:6px;background:#fff;"
                          "border:1px solid #eee;border-radius:10px;box-shadow:0 8px 24px rgba(20,42,30,.12);"
                          "padding:5px;min-width:112px;z-index:60")
-        for code in ["en", "nl", "es"]:
+        for code in ALL_LANGS:
             a = soup.new_tag("a", href=href(code)); a.string = SWITCH_LABEL[code]
+            if code == "zh": a["lang"] = "zh-Hans"
             active = (code == lang)
             a["style"] = ("display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;"
                           "text-decoration:none;" + ("color:var(--forest);background:#eef4ee"
@@ -1088,7 +1324,7 @@ def _stage_new_dirs():
     if not os.environ.get("GITHUB_ACTIONS"):
         return
     import subprocess
-    for d in ("marketplace",):
+    for d in ("marketplace", "zh"):
         if (ROOT / d).is_dir():
             r = subprocess.run(["git", "add", "-A", d], cwd=ROOT, capture_output=True, text=True)
             print(f"i18n: staged {d}/ ({'ok' if r.returncode == 0 else r.stderr.strip()})")
@@ -1112,9 +1348,9 @@ def localize_sitemap():
     def path_of(u): return u[len(SITE_URL):] or "/"
     def alt_links(path):
         out = []
-        for code in ["en", "nl", "es"]:
+        for code in ALL_LANGS:
             pre = "" if code == "en" else f"/{code}"
-            out.append(f'    <xhtml:link rel="alternate" hreflang="{code}" href="{SITE_URL}{pre}{path}"/>')
+            out.append(f'    <xhtml:link rel="alternate" hreflang="{HREFLANG[code]}" href="{SITE_URL}{pre}{path}"/>')
         out.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE_URL}{path}"/>')
         return "\n".join(out)
     blocks = []
@@ -1128,7 +1364,7 @@ def localize_sitemap():
         # rewriting sitemap.xml in between, the file already contains /nl/ and
         # /es/ URLs. Re-prefixing them produced /nl/nl/… entries (a 20k-URL
         # sitemap full of 404s). Only English paths are localized.
-        if re.match(r"^/(nl|es)(/|$)", path):
+        if re.match(r"^/(nl|es|zh)(/|$)", path):
             continue
         pages += 1
         meta = ""
@@ -1136,7 +1372,7 @@ def localize_sitemap():
             _v = _tag(blk, _t)
             if _v:
                 meta += f"    <{_t}>{_v}</{_t}>\n"
-        for code in ["en", "nl", "es"]:
+        for code in ALL_LANGS:
             pre = "" if code == "en" else f"/{code}"
             blocks.append(
                 f"  <url>\n    <loc>{SITE_URL}{pre}{path}</loc>\n"
@@ -1147,7 +1383,7 @@ def localize_sitemap():
            'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
            + "\n".join(blocks) + "\n</urlset>\n")
     sm.write_text(out, encoding="utf-8")
-    print(f"i18n: sitemap localized -> {pages} pages x 3 languages (lastmod preserved)")
+    print(f"i18n: sitemap localized -> {pages} pages x {len(ALL_LANGS)} languages (lastmod preserved)")
 
 
 if __name__ == "__main__":

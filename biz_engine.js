@@ -105,7 +105,8 @@
     return isFinite(v) ? v : null;
   }
 
-  function locale(lang) { return lang === 'en' ? 'en-US' : 'nl-NL'; }
+  // Chinese uses the same 1,234.56 grouping as English; NL/ES use 1.234,56.
+  function locale(lang) { return (lang === 'en' || lang === 'zh') ? 'en-US' : 'nl-NL'; }
   function fmt(cents, lang) {
     if (cents === null || cents === undefined || isNaN(cents)) return '–';
     return new Intl.NumberFormat(locale(lang), { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(cents / 100);

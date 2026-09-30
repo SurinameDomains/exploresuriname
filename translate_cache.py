@@ -45,6 +45,14 @@ def unshield(t):
 
 segments = json.load(open(SEGMENTS, encoding="utf-8"))
 cache    = json.load(open(CACHE, encoding="utf-8")) if CACHE.exists() else (json.load(open(REPO, encoding="utf-8")) if REPO.exists() else {})
+# A leftover /tmp work cache from an older run predates values added to the repo
+# since (e.g. the hand-made "zh" translations). Merge those in so the final copy
+# back to translations.json can never drop them. Work-cache values still win.
+if CACHE.exists() and REPO.exists():
+    for _k, _e in json.load(open(REPO, encoding="utf-8")).items():
+        _dst = cache.setdefault(_k, {})
+        for _l, _v in _e.items():
+            _dst.setdefault(_l, _v)
 lock     = threading.Lock()
 
 def split_long(text):
