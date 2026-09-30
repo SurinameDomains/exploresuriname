@@ -53,6 +53,12 @@
  ],
  "bekendmakingen": [
   {
+   "title": "Bekendmaking",
+   "link": "https://gov.sr/bekendmaking/bekendmaking-62/",
+   "date": "2026-09-30",
+   "tender": false
+  },
+  {
    "title": "Herinvoering visumplicht voor reizigers van Mexico en Bolivia",
    "link": "https://gov.sr/bekendmaking/herinvoering-visumplicht-voor-reizigers-van-mexico-en-bolivia/",
    "date": "2026-09-30",
@@ -122,16 +128,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-09-30T09:44-03:00",
+   "ok": "2026-09-30T17:06-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-09-30T09:44-03:00",
+   "ok": "2026-09-30T17:06-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-09-30T09:44-03:00"
+ "updated": "2026-09-30T17:06-03:00"
 }
