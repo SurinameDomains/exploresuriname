@@ -1,11 +1,11 @@
 {
   "static:index.html": {
-    "hash": "4b4d2e455c060bacfdb824c4a437cbbd",
-    "date": "2026-09-29"
+    "hash": "802e7fd57a2c2351dbda36f3f6a87d6d",
+    "date": "2026-09-30"
   },
   "static:restaurants.html": {
-    "hash": "478365e41f3f4e808ad91cf7c1d6b55b",
-    "date": "2026-09-29"
+    "hash": "9db73bf7cab89208e1d87df3a9733f64",
+    "date": "2026-09-30"
   },
   "static:hotels.html": {
     "hash": "aa1edaad87b059998a2c5b5d33c22728",
@@ -20,15 +20,15 @@
     "date": "2026-08-02"
   },
   "static:shopping.html": {
-    "hash": "606b87f6f6534ca7d1e3ab4a6cc80c74",
-    "date": "2026-09-29"
+    "hash": "86324d769d1a240ad8be1efb497e0e66",
+    "date": "2026-09-30"
   },
   "static:services.html": {
     "hash": "fdca68ec7beea6f0aae95971220b835b",
     "date": "2026-09-29"
   },
   "static:currency.html": {
-    "hash": "e26081f4a0f0116887bf208d6898ebe2",
+    "hash": "3530feec62fe190fd0c3886425b176e7",
     "date": "2026-09-30"
   },
   "static:flights.html": {
@@ -36,7 +36,7 @@
     "date": "2026-09-29"
   },
   "static:conditions.html": {
-    "hash": "ecc061fe9c8c94b768e136a58df98b3d",
+    "hash": "643e8f32eb4b5b968ebbb6066ed5336a",
     "date": "2026-09-30"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-09-30"
   },
   "static:news.html": {
-    "hash": "dd0f1bd878a5b4a3ea07133e109ba001",
+    "hash": "0baaa91b2aa43f84d2f1dc5e0572107a",
     "date": "2026-09-30"
   },
   "static:about.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-09-29"
   },
   "static:oil-and-gas.html": {
-    "hash": "e64fc3748ac260fbe744de40dc5ff2c2",
+    "hash": "08740997599ed2150504cc945d8b1b48",
     "date": "2026-09-30"
   },
   "static:suriname-oil-blocks.html": {
@@ -6846,5 +6846,9 @@
   "static:about-suriname": {
     "hash": "ed63884cdd9998434eb0302eb40ba9f9",
     "date": "2026-09-29"
+  },
+  "borgoe-bar": {
+    "hash": "962a535a75a17d7de602b87b74ea9f07",
+    "date": "2026-09-30"
   }
 }
