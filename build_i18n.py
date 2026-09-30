@@ -181,6 +181,96 @@ def load_build_cache(key: str) -> dict:
 _NUM_RE = re.compile(r"\d+(?:[.,]\d+)*")
 _IN_PLACE_RE = re.compile(r"(.{2,90}?) in (Paramaribo|Para|Suriname|Wanica|Nickerie|Commewijne|Lelydorp|"
                           r"Saramacca|Marowijne|Brokopondo|Coronie|Sipaliwini|Moengo|Albina)")
+# Listing <title>/og:title: "Name, Bakery in Paramaribo | Explore Suriname". The
+# type label comes from generate._SEO_TYPE_LABEL; it was left English on /nl/ and
+# /es/ (the whole title was shielded as a business name). Keep in sync with that dict.
+_TYPE_I18N = {
+    "Asian Restaurant": ("Aziatisch restaurant", "restaurante asiático"),
+    "Auto Services": ("autoservice", "servicios automotrices"),
+    "Bakery": ("bakkerij", "panadería"),
+    "Bank": ("bank", "banco"),
+    "Bar & Lounge": ("bar & lounge", "bar y lounge"),
+    "Beauty Salon": ("schoonheidssalon", "salón de belleza"),
+    "Café": ("café", "cafetería"),
+    "Casino Hotel": ("casinohotel", "hotel casino"),
+    "Cleaning Services": ("schoonmaakbedrijf", "servicios de limpieza"),
+    "Crafts & Souvenirs": ("ambacht & souvenirs", "artesanía y recuerdos"),
+    "Eco Lodge": ("ecolodge", "ecolodge"),
+    "Electronics Store": ("elektronicawinkel", "tienda de electrónica"),
+    "Entertainment Venue": ("uitgaansgelegenheid", "lugar de ocio"),
+    "Events & Party": ("evenementen & feesten", "eventos y fiestas"),
+    "Fashion Store": ("kledingwinkel", "tienda de moda"),
+    "Fast Food Restaurant": ("fastfoodrestaurant", "comida rápida"),
+    "Furniture Store": ("meubelwinkel", "tienda de muebles"),
+    "Garden Centre": ("tuincentrum", "centro de jardinería"),
+    "Guesthouse": ("gastenverblijf", "casa de huéspedes"),
+    "Gym & Wellness": ("sportschool & wellness", "gimnasio y bienestar"),
+    "Health & Beauty Store": ("drogisterij", "tienda de salud y belleza"),
+    "Hospital & Clinic": ("ziekenhuis & kliniek", "hospital y clínica"),
+    "Hotel": ("hotel", "hotel"),
+    "Industry & Energy": ("industrie & energie", "industria y energía"),
+    "Insurance": ("verzekeraar", "seguros"),
+    "Italian Restaurant": ("Italiaans restaurant", "restaurante italiano"),
+    "Jewellery & Optician": ("juwelier & opticien", "joyería y óptica"),
+    "Museum": ("museum", "museo"),
+    "Nature Park": ("natuurpark", "parque natural"),
+    "Pharmacy": ("apotheek", "farmacia"),
+    "Professional Services": ("zakelijke dienstverlening", "servicios profesionales"),
+    "Real Estate": ("makelaardij", "inmobiliaria"),
+    "Resort": ("resort", "resort"),
+    "Restaurant": ("restaurant", "restaurante"),
+    "School": ("school", "escuela"),
+    "Security Services": ("beveiligingsbedrijf", "servicios de seguridad"),
+    "Shopping Mall": ("winkelcentrum", "centro comercial"),
+    "Specialty Store": ("speciaalzaak", "tienda especializada"),
+    "Supermarket": ("supermarkt", "supermercado"),
+    "Surinamese Restaurant": ("Surinaams restaurant", "restaurante surinamés"),
+    "Tech & Media": ("tech & media", "tecnología y medios"),
+    "Telecom Provider": ("telecomaanbieder", "operador de telecomunicaciones"),
+    "Tour Operator": ("touroperator", "operador turístico"),
+    "Travel Agency": ("reisbureau", "agencia de viajes"),
+    "Veterinary & Livestock Supplies": ("dierenarts- & veebenodigdheden", "suministros veterinarios y ganaderos"),
+    "Veterinary Clinic": ("dierenkliniek", "clínica veterinaria"),
+}
+_PLACES = ("Paramaribo|Para|Suriname|Wanica|Nickerie|Commewijne|Lelydorp|"
+           "Saramacca|Marowijne|Brokopondo|Coronie|Sipaliwini|Moengo|Albina")
+_TITLE_RE = re.compile(r"(.{2,90}?)(?:, (" + "|".join(re.escape(k) for k in sorted(_TYPE_I18N, key=len, reverse=True))
+                       + r"))? in (" + _PLACES + r")( \| Explore ?Suriname)?")
+_NOT_A_NAME = re.compile(r"\b(?:is|are|was|a|an|the|of|and|with|for|to|serves|offers|runs|near|from)\b")
+
+
+def localize_listing_title(key: str, lang: str):
+    """'Name, Bakery in Paramaribo | Explore Suriname' -> NL/ES, or None."""
+    m = _TITLE_RE.fullmatch(key)
+    if not m or lang not in ("nl", "es"):
+        return None
+    name, label, place, sfx = m.groups()
+    if not (label or sfx) or _NOT_A_NAME.search(name):
+        return None
+    i = 0 if lang == "nl" else 1
+    out = name + (", " + _TYPE_I18N[label][i] if label else "")
+    if lang == "es":
+        out += " en " + ("Surinam" if place == "Suriname" else place)
+    else:
+        out += " in " + place
+    return out + (sfx or "")
+
+
+def cap_meta(v: str, n: int = 158) -> str:
+    """Meta descriptions run 10-25% longer in NL/ES than the English source (and
+    inherit its '…'), so they overflowed Google's ~160-char snippet. Re-cut on a
+    sentence end when one falls late enough, otherwise on a word boundary."""
+    v = " ".join(v.split())
+    if len(v) <= n + 2:
+        return v
+    head = v[:n + 1]
+    dot = max(head.rfind(". "), head.rfind("! "), head.rfind("? "))
+    if dot >= 100:
+        return head[:dot + 1]
+    sp = head.rfind(" ")
+    cut = head[:sp] if sp > 60 else head[:n]
+    return cut.rstrip(" ,;:-–—·.…") + "…"
+
 # ── Event dates and the short fact lines generate.py writes on event cards ────
 # These change every day ("in 5 days", "Sat 3 Oct · 10pm"), so no cache key
 # ever lasts. They are built from a small, fixed vocabulary, so they are
@@ -355,6 +445,9 @@ def tr(text: str, lang: str) -> str:
         ev = localize_event_line(key, lang) or localize_event_facts(key, lang)
         if ev:
             return lead + ev + trail
+    _lt = localize_listing_title(key, lang)
+    if _lt:
+        return lead + _lt + trail
     # "<Business> in Paramaribo" (image alt text on every listing card)
     m = _IN_PLACE_RE.fullmatch(key)
     if m and lang == "es" and not re.search(
@@ -492,6 +585,12 @@ def localize(soup, lang: str, rel_path: str):
             v = el.get(attr, "")
             if v and translatable(v): el[attr] = tr(v, lang)
     # NB: <title> text is handled by the text-node loop above (don't double-process)
+    for sel in ("meta[name=description]", "meta[property='og:description']",
+                "meta[name='twitter:description']"):
+        for el in soup.select(sel):
+            v = el.get("content", "")
+            if len(v) > 160:
+                el["content"] = cap_meta(v)
 
     # html lang + og:locale (+ alternates)
     if soup.html: soup.html["lang"] = html_lang

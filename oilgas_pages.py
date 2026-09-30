@@ -391,10 +391,9 @@ def _build_hub(ctx, D):
 
     return _page(
         ctx, "oilgas",
-        "Suriname Oil and Gas: Blocks, GranMorgu, Contracts and First Oil",
-        "Everything about Suriname&#8217;s oil and gas sector in one place: the GranMorgu project, "
-        "offshore blocks and operators, production sharing contracts and fiscal terms, the Ministry of "
-        "Oil, Gas and Environment, jobs and local content, and the road to first oil in 2028.",
+        "Suriname Oil and Gas: The Road to First Oil",
+        "Suriname&#8217;s oil and gas sector in one place: GranMorgu, offshore blocks, contracts and "
+        "fiscal terms, who governs it, jobs, and first oil in 2028.",
         "oil-and-gas.html",
         "The industry reshaping Suriname",
         "Suriname Oil &amp; Gas",
@@ -500,9 +499,9 @@ def _build_blocks(ctx, D):
 
     return _page(
         ctx, "oilblocks",
-        "Suriname Offshore Blocks and Operators: Block 58, Block 52 and the Rest",
-        "Block-by-block guide to oil and gas offshore Suriname: operators, partners, water depths, "
-        "discovery wells and what is still open for licensing under the Open Door Offering.",
+        "Suriname Offshore Oil Blocks and Operators",
+        "Block-by-block guide to offshore Suriname: operators, partners, water depths, discovery "
+        "wells and what is still open under the Open Door Offering.",
         "suriname-oil-blocks.html",
         "Who holds what, and where",
         "Blocks &amp; Operators",
@@ -643,9 +642,9 @@ def _build_granmorgu(ctx, D):
 
     return _page(
         ctx, "granmorgu",
-        "GranMorgu: Suriname&#8217;s First Offshore Oil Project Explained",
-        "The GranMorgu development in Block 58: the FPSO, the 220,000 barrel a day design, who owns it, "
-        "who builds it, the construction progress so far and the road to first oil in 2028.",
+        "GranMorgu: Suriname&#8217;s Offshore Oil Project",
+        "GranMorgu in Block 58: the FPSO, the 220,000 barrel a day design, who owns and builds it, "
+        "construction progress and the road to first oil in 2028.",
         "granmorgu.html",
         "Block 58, 150 km offshore",
         "The GranMorgu Project",
@@ -749,10 +748,9 @@ def _build_timeline(ctx, D):
 
     return _page(
         ctx, "oiltimeline",
-        "Suriname Oil Timeline: From 1928 to First Oil in 2028",
-        "The full timeline of oil and gas in Suriname: the 1928 Nickerie find, Staatsolie&#8217;s founding in 1980, "
-        "onshore production from 1982, the 2020 offshore discoveries, the 2024 GranMorgu FID and the "
-        "roadmap to first oil in 2028 and first gas around 2030.",
+        "Suriname Oil Timeline: 1928 to 2028",
+        "Oil and gas in Suriname from the 1928 Nickerie find and Staatsolie&#8217;s founding in 1980 to the "
+        "2020 offshore discoveries, GranMorgu and first oil in 2028.",
         "suriname-oil-timeline.html",
         "From 1928 to first oil",
         "Timeline &amp; Roadmap",
@@ -895,10 +893,9 @@ def _build_contracts(ctx, D):
 
     return _page(
         ctx, "oilcontracts",
-        "Suriname Petroleum Contracts and Fiscal Terms: PSCs, Royalty and Bid Rounds",
-        "How Suriname licenses its oil and gas: production sharing contracts, the 6.25% royalty, cost oil "
-        "and profit oil, the 36% income tax, Staatsolie&#8217;s 20% back-in right, past bid rounds and the "
-        "Open Door Offering.",
+        "Suriname Oil Contracts and Fiscal Terms",
+        "How Suriname licenses oil and gas: production sharing contracts, the 6.25% royalty, cost and "
+        "profit oil, 36% income tax, Staatsolie&#8217;s 20% back-in and bid rounds.",
         "suriname-oil-contracts.html",
         "How one barrel gets divided",
         "Contracts &amp; Fiscal Terms",
@@ -1052,10 +1049,9 @@ def _build_government(ctx, D):
 
     return _page(
         ctx, "oilgov",
-        "Who Governs Suriname&#8217;s Oil: Ministry, Staatsolie and the Oil Fund",
-        "The institutions behind Suriname&#8217;s oil and gas sector: the Ministry of Oil, Gas and "
-        "Environment, Staatsolie, the National Environment Authority and the Savings and Stabilisation "
-        "Fund, plus what the IMF says still needs finishing before 2028.",
+        "Staatsolie and Who Governs Suriname&#8217;s Oil",
+        "Who runs Suriname&#8217;s oil and gas: the Ministry of Oil, Gas and Environment, Staatsolie, the "
+        "NMA and the Savings and Stabilisation Fund, and what is still unfinished.",
         "suriname-oil-government.html",
         "Policy, licensing and the oil fund",
         "Who Governs the Oil",
@@ -1218,10 +1214,9 @@ def _build_jobs(ctx, D):
 
     return _page(
         ctx, "oiljobs",
-        "Suriname Oil and Gas Jobs, Local Content and Supplier Registration",
-        "How Surinamese workers and companies get into the oil and gas sector: supplier registration "
-        "through the SSRP and SAP Ariba, offshore safety training, the NATIN oil and gas programme, and "
-        "where local content policy actually stands in 2026.",
+        "Suriname Oil and Gas Jobs and Local Content",
+        "How Surinamese workers and companies get into oil and gas: supplier registration via the SSRP "
+        "and SAP Ariba, offshore safety training, NATIN and local content in 2026.",
         "suriname-oil-jobs.html",
         "Work, contracts and training",
         "Jobs &amp; Local Content",

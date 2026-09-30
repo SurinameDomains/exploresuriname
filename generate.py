@@ -5551,7 +5551,7 @@ def nav_html(active="home", prefix=""):
 {util_rail_html(prefix)}
 <nav class="w-full z-50" style="position:sticky;top:0;background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14)">
   <div class="site-navin max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
-    <a href="{prefix}index.html" class="flex flex-col justify-center flex-shrink-0">
+    <a href="{prefix or './'}" class="flex flex-col justify-center flex-shrink-0">
       <span class="navmark"><span style="color:var(--forest)">Explore</span><span style="color:var(--coral)">Suriname</span></span>
       <span class="navtag">Kept in Paramaribo</span>
     </a>
@@ -6545,7 +6545,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
 <div class="cat-hero" style="--cat:{bg_color}">
   <div class="cat-hero-in">
     <nav class="cat-crumb" aria-label="Breadcrumb">
-      <a href="index.html">Home</a><span aria-hidden="true">&rsaquo;</span><span>{title}</span>
+      <a href="./">Home</a><span aria-hidden="true">&rsaquo;</span><span>{title}</span>
     </nav>
     <div class="cat-row">
       <div>
@@ -6894,7 +6894,7 @@ function esSearch(){
 }
 """
     return f"""{PAGE_HEAD}
-  <title>Suriname Travel Guide | Restaurants, Hotels, Nature &amp; Tours</title>
+  <title>Explore Suriname: Travel Guide, Restaurants, Hotels &amp; Tours</title>
   <meta name="description" content="Plan your Suriname trip: rainforest lodges, Paramaribo restaurants, local tours, shopping and live SRD exchange rates. Guide to South America's hidden gem.">
   <link rel="canonical" href="{SITE_URL}/">
   <link rel="preload" as="image" href="/images/home-sunset.webp" fetchpriority="high">
@@ -7188,7 +7188,7 @@ def build_activities_page():
         f"Browse {total} things to do in Suriname: nature parks, jungle tours, river trips, museums, birdwatching and guided expeditions. Find operators and attractions.",
         _items_ld, all_cards, bg_color=_CAT_ACCENT["Activities"], page_file="activities.html", extra_html="", filter_bar=filter_bar_a,
         og_image=_og_share_image(_first_img),
-        lcp_image=_first_img, seo_title="Things to Do in Suriname: Nature, Tours and Sights", card_count=total,
+        lcp_image=_first_img, seo_title="Things to Do in Suriname: Nature and Tours", card_count=total,
         intro_text=f"Looking for things to do in Suriname? Browse {total} nature parks, activities, tours and attractions in one place. Suriname protects more than 90% of its land as rainforest, the highest share of any country on Earth, so most trips start with the green: canoe through the interior, trek to Brownsberg and the Central Suriname Nature Reserve, or watch leatherback turtles nest at Galibi. Closer to town there are plantation walks, Maroon and Indigenous village visits, museums and the historic inner city of Paramaribo. From half-day trips to multi-day expeditions, find and book with local operators here.", faq=_FAQ_ACTIVITIES + _FAQ_NATURE)
 
 def build_restaurants_page(restaurants):
@@ -7525,7 +7525,7 @@ doConvert();"""
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("currency")}
 <div class="pg-hero text-white py-16 text-center" style="background:var(--forest)">
-  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <a href="./" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">SRD Exchange Rates</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">CBVS official &bull; CME cash &bull; commercial banks compared &bull; douanekoers &bull; live gold &amp; Brent oil</p>
 </div>
@@ -7800,21 +7800,21 @@ def build_news(articles, oil_articles, finance_articles, sports_articles=None):
     _tab_off = "background:var(--card);color:var(--ink);border-color:var(--line)"
 
     return f"""{PAGE_HEAD}
-  <title>Suriname News | Local, Sports, Oil &amp; Gas and Finance | Explore Suriname</title>
+  <title>Suriname News Today: Local, Sports &amp; Oil | Explore Suriname</title>
   <meta name="description" content="Suriname local news, oil &amp; gas updates and finance in one place: De Ware Tijd, Starnieuws, Waterkant, Staatsolie, Block 58, IMF and more.">
   <link rel="canonical" href="{SITE_URL}/news.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/news.html">
-  <meta property="og:title" content="Suriname News | Local, Sports, Oil &amp; Gas and Finance | Explore Suriname">
+  <meta property="og:title" content="Suriname News Today: Local, Sports &amp; Oil | Explore Suriname">
   <meta property="og:description" content="Suriname local news, oil &amp; gas and finance updates from De Ware Tijd, Starnieuws, Waterkant, OilNow, IMF and more.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Suriname News | Local, Sports, Oil &amp; Gas and Finance | Explore Suriname">
+  <meta name="twitter:title" content="Suriname News Today: Local, Sports &amp; Oil | Explore Suriname">
   <meta name="twitter:description" content="Suriname local news, oil &amp; gas and finance updates in one place.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"CollectionPage","name":"Suriname News | Local, Sports, Oil & Gas and Finance","url":"{SITE_URL}/news.html","description":"Suriname local news, oil & gas and finance updates from De Ware Tijd, Starnieuws, Waterkant, OilNow, IMF and more.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}},"dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}"}}
+  {{"@context":"https://schema.org","@type":"CollectionPage","name":"Suriname News Today: Local, Sports & Oil","url":"{SITE_URL}/news.html","description":"Suriname local news, oil & gas and finance updates from De Ware Tijd, Starnieuws, Waterkant, OilNow, IMF and more.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}},"dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}"}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"News","item":"{SITE_URL}/news.html"}}]}}
@@ -8077,7 +8077,7 @@ def _slug_schema_info(slug):
         return "TouristAttraction",  "activities.html",  "Adventures &amp; Sightseeing"
     if slug in svc_slugs:
         return "LocalBusiness",      "services.html",    "Services"
-    return "LocalBusiness", "index.html", "Home"
+    return "LocalBusiness", "", "Home"
 
 
 # Subcategory → (refined schema.org @type, servesCuisine or None)
@@ -8197,7 +8197,7 @@ def _crumb(cat_href, cat_label, name_e, prefix="../../"):
     """Visible breadcrumb trail for listing detail pages (mirrors the BreadcrumbList schema)."""
     return (
         '\n    <nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-1 text-white/70 text-sm mb-5">'
-        '\n      <a href="' + prefix + 'index.html' + '" class="hover:text-white transition">Home</a>'
+        '\n      <a href="' + (prefix or './') + '" class="hover:text-white transition">Home</a>'
         '\n      <span class="text-white/40">&#8250;</span>'
         '\n      <a href="' + prefix + cat_href + '" class="hover:text-white transition">' + cat_label + '</a>'
         '\n      <span class="text-white/40">&#8250;</span>'
@@ -8674,19 +8674,18 @@ def build_listing_page(slug, b):
 
     # Build PostalAddress — include addressLocality so Google can surface the business location
     _loc = location or "Paramaribo"
-    if address:
-        _postal = {
-            "@type": "PostalAddress",
-            "streetAddress": address,
-            "addressLocality": _loc,
-            "addressCountry": "SR",
-        }
-    else:
-        _postal = {
-            "@type": "PostalAddress",
-            "addressLocality": _loc,
-            "addressCountry": "SR",
-        }
+    _street = re.sub(r"[,\s]*\bSuriname\b\.?\s*$", "", (address or "").strip(), flags=re.I).strip(" ,")
+    for _tl in (_loc, "Paramaribo"):
+        if _street.lower().endswith(", " + _tl.lower()):
+            _street = _street[:-(len(_tl) + 2)].strip(" ,")
+    if _street.lower() in (_loc.lower(), "paramaribo", "suriname"):
+        _street = ""
+    _postal = {"@type": "PostalAddress"}
+    if _street:
+        _postal["streetAddress"] = _street
+    if _loc.strip().lower() != "suriname":      # country is not a locality
+        _postal["addressLocality"] = _loc
+    _postal["addressCountry"] = "SR"
 
     ld_obj = {"@context": "https://schema.org", "@type": ld_type, "name": raw_name, "url": page_url}
     if desc:      ld_obj["description"] = desc[:300]
@@ -9254,7 +9253,7 @@ def build_today_page():
 
 <!-- Hero -->
 <div class="pg-hero py-10 text-center text-white" style="background:var(--forest)">
-  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
+  <a href="./" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Daily Notices</h1>
   <p class="text-white/65 text-base">{today_str}</p>
 </div>
@@ -10745,7 +10744,7 @@ def build_events_page():
   <div class="absolute inset-0" style="background:radial-gradient(64% 116% at 14% 2%,rgba(231,174,77,.34),transparent 62%),radial-gradient(58% 112% at 90% 100%,rgba(231,111,81,.30),transparent 64%)" aria-hidden="true"></div>
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.26),rgba(13,30,22,.62))" aria-hidden="true"></div>
   <div class="relative max-w-3xl mx-auto px-4">
-    <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+    <a href="./" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
     <p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-3">What&#8217;s on in Suriname</p>
     <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Events &amp; Festivals in Suriname</h1>
     <p class="text-white/70 text-base max-w-2xl mx-auto">Parties, concerts and one-off events, the big cultural festivals, and every public holiday &#8212; the whole Surinamese year in one calendar. Listing your own event is free.</p>
@@ -10986,7 +10985,7 @@ __NAV__
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.92),rgba(13,30,22,.7))" aria-hidden="true"></div>
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-6">
-      <a href="index.html" class="hover:text-white transition">Home</a>
+      <a href="./" class="hover:text-white transition">Home</a>
       <span class="text-white/40">&#8250;</span>
       <span class="text-white/90 font-medium" aria-current="page">Switi Mini</span>
     </nav>
@@ -11309,7 +11308,7 @@ __NAV__
   <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(13,30,22,.92),rgba(13,30,22,.7))" aria-hidden="true"></div>
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-6">
-      <a href="index.html" class="hover:text-white transition">Home</a>
+      <a href="./" class="hover:text-white transition">Home</a>
       <span class="text-white/40">&#8250;</span>
       <span class="text-white/90 font-medium" aria-current="page">Sabi Suriname</span>
     </nav>
@@ -11432,7 +11431,7 @@ def build_visitor_guide_page():
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("visitor")}
 <div class="pg-hero text-white py-14 text-center" style="background:var(--forest)">
-  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <a href="./" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">The Basics</h1>
   <p class="text-white/65 text-lg max-w-xl mx-auto px-5">Visas, customs, SIM cards, money and getting around. The practical stuff, in one place.</p>
 </div>
@@ -11816,7 +11815,7 @@ def _hub_hero(kicker, h1, sub):
 <body class="bg-gray-50 overflow-x-hidden">
 {{NAV}}
 <div class="pg-hero text-white py-14 text-center" style="background:var(--forest)">
-  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <a href="./" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--coral)">{kicker}</p>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">{h1}</h1>
   <p class="text-white/65 text-lg max-w-2xl mx-auto px-5">{sub}</p>
@@ -13617,7 +13616,7 @@ __NAV__
 <div class="pg-hero relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
-      <a href="index.html" class="hover:text-white transition">Home</a>
+      <a href="./" class="hover:text-white transition">Home</a>
       <span class="text-white/40">&#8250;</span>
       <span class="text-white/90 font-medium" aria-current="page">Pe A De?</span>
     </nav>
@@ -13925,7 +13924,7 @@ __NAV__
 <div class="pg-hero relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
-      <a href="index.html" class="hover:text-white transition">Home</a>
+      <a href="./" class="hover:text-white transition">Home</a>
       <span class="text-white/40">&#8250;</span>
       <span class="text-white/90 font-medium" aria-current="page">Korjaal Run</span>
     </nav>
@@ -14400,7 +14399,7 @@ __NAV__
 <div class="pg-hero relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
-      <a href="index.html" class="hover:text-white transition">Home</a>
+      <a href="./" class="hover:text-white transition">Home</a>
       <span class="text-white/40">&#8250;</span>
       <span class="text-white/90 font-medium" aria-current="page">Aboma</span>
     </nav>
@@ -16633,7 +16632,7 @@ __NAV__
 <div class="pg-hero relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
-      <a href="index.html" class="hover:text-white transition">Home</a>
+      <a href="./" class="hover:text-white transition">Home</a>
       <span class="text-white/40">&#8250;</span>
       <span class="text-white/90 font-medium" aria-current="page">Muskieto Survivor</span>
     </nav>
@@ -16854,7 +16853,7 @@ __NAV__
   <div class="ov" aria-hidden="true"></div>
   <div class="relative max-w-3xl mx-auto px-4">
     <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-8">
-      <a href="index.html" class="hover:text-white transition">Home</a>
+      <a href="./" class="hover:text-white transition">Home</a>
       <span class="text-white/40">&#8250;</span>
       <span class="text-white/90 font-medium" aria-current="page"><span class="tl-en">History of Suriname</span><span class="tl-nl">Geschiedenis van Suriname</span></span>
     </nav>
@@ -17407,7 +17406,7 @@ def build_about_suriname_page():
     prose, then links into the deeper pages (history, dictionary, events,
     currency, oil & gas). Figures carry their source year; refresh the
     population block when the ABS publishes the 2024-25 census results."""
-    title = "About Suriname: Facts, Geography, People and Culture (2026)"
+    title = "About Suriname: Facts, People and Culture"
     desc  = ("Suriname in one page: where it is, population and peoples, languages, religions, "
              "climate, history, government, economy, nature and national symbols. Updated for 2026.")
 
@@ -17830,17 +17829,17 @@ def build_about_suriname_page():
 def build_about_page():
     """Static About page — establishes site identity for Google AdSense review."""
     return f"""{PAGE_HEAD}
-  <title>About | Explore Suriname</title>
+  <title>About Explore Suriname | Independent Local Guide</title>
   <meta name="description" content="Explore Suriname is an independent travel and lifestyle guide to Suriname, covering restaurants, hotels, nature, activities, currency rates and local news.">
   <link rel="canonical" href="{SITE_URL}/about.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/about.html">
-  <meta property="og:title" content="About | Explore Suriname">
+  <meta property="og:title" content="About Explore Suriname | Independent Local Guide">
   <meta property="og:description" content="Explore Suriname is an independent travel and lifestyle guide to Suriname.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="About | Explore Suriname">
+  <meta name="twitter:title" content="About Explore Suriname | Independent Local Guide">
   <meta name="twitter:description" content="Explore Suriname is an independent travel and lifestyle guide to Suriname, covering restaurants, hotels, nature, activities, currency rates and local news.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
@@ -17853,7 +17852,7 @@ def build_about_page():
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("about")}
 <div class="pg-hero text-white py-16 text-center" style="background:var(--forest)">
-  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <a href="./" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">About Explore Suriname</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">South America&rsquo;s best-kept secret, uncovered</p>
 </div>
@@ -17950,7 +17949,7 @@ def build_contact_page():
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("contact")}
 <div class="pg-hero text-white py-16 text-center" style="background:var(--forest)">
-  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <a href="./" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Contact Us</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">We&rsquo;d love to hear from you</p>
 </div>
@@ -18089,7 +18088,7 @@ def build_submit_page():
 <body class="bg-gray-50 overflow-x-hidden">
 __NAV__
 <div class="pg-hero text-white py-16 text-center" style="background:var(--forest)">
-  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <a href="./" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Add Your Business</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Free listing on Suriname&#8217;s local directory</p>
 </div>
@@ -18222,7 +18221,7 @@ __NAV__
     <div class="text-4xl mb-3" style="color:var(--forest)">&#10003;</div>
     <h2 class="serif text-2xl font-bold text-gray-900 mb-2">Thank you, we have it</h2>
     <p class="text-gray-600 text-sm max-w-md mx-auto mb-6">We review every submission by hand, usually within a few days. You will hear from us at the email address you gave.</p>
-    <a href="index.html" class="inline-block px-6 py-3 rounded-xl text-white font-semibold text-sm" style="background:var(--forest)">Back to the site</a>
+    <a href="./" class="inline-block px-6 py-3 rounded-xl text-white font-semibold text-sm" style="background:var(--forest)">Back to the site</a>
   </div>
 
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mt-6">
@@ -18914,7 +18913,7 @@ def build_privacy_page():
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("privacy")}
 <div class="pg-hero text-white py-12 text-center" style="background:var(--forest)">
-  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <a href="./" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-3xl sm:text-4xl font-bold mb-2">Privacy Policy</h1>
   <p class="text-white/60 text-sm">Last updated: {policy_date}</p>
 </div>
@@ -20348,7 +20347,7 @@ function loadAirQuality(lat, lon){
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("forecast")}
 <div class="pg-hero text-white py-16 text-center" style="background:var(--forest)">
-  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <a href="./" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Weather &amp; River Tides</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Live weather by district &bull; tidal forecasts for 4 rivers &bull; sunrise &amp; sunset</p>
 </div>
@@ -20892,7 +20891,7 @@ def build_flights_page(flights_data):
 <body class="bg-gray-50 overflow-x-hidden">
 {nav_html("flights")}
 <div class="pg-hero text-white py-16 text-center" style="background:var(--forest)">
-  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
+  <a href="./" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Flights Today</h1>
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Arrivals &amp; departures &bull; Johan Adolf Pengel (PBM) &bull; Eduard Alexander Gummels (EAX)</p>
 </div>
@@ -21021,7 +21020,7 @@ def build_roads_page():
 {nav_html("roads")}
 
 <div class="pg-hero text-white py-10 text-center" style="background:var(--forest)">
-  <a href="index.html" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
+  <a href="./" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
   <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Road Conditions</h1>
   <p class="text-white/65 text-lg max-w-xl mx-auto px-5">Waze drivers across Suriname report accidents, closures and hazards as they happen. Check before you go.</p>
 </div>
