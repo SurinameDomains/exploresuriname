@@ -1,6 +1,17 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD ZATERDAG 3 OKTOBER 2026",
+      "date": "3 Oktober 2026",
+      "date_iso": "2026-10-03",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1621/gepland-onderhoud-zaterdag-3-oktober-2026",
+      "meta_description": "Gepland onderhoud: Paramaribo zaterdag 3 oktober 2026 tussen 08:00-15:00 GEDEELTE WANESTRAAT TUSSEN COESEWIJNESTRAAT EN COERMOTIBOSTRAAT, GEDEELTE AWARADAM",
+      "district": "Paramaribo",
+      "time": "08:00 – 15:00",
+      "area": "GEDEELTE WANESTRAAT TUSSEN COESEWIJNESTRAAT EN COERMOTIBOSTRAAT, GEDEELTE AWARADAM"
+    },
+    {
       "title": "GEPLAND ONDERHOUD DONDERDAG 1 OKTOBER 2026",
       "date": "1 Oktober 2026",
       "date_iso": "2026-10-01",
@@ -21,6 +32,6 @@
       "district": "WANICA"
     }
   ],
-  "last_updated": "2026-10-01T11:08:31.060122+00:00",
+  "last_updated": "2026-10-01T15:08:38.581173+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
