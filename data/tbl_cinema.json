@@ -1,46 +1,41 @@
 {
-  "last_updated": "2026-09-30T16:00:34.192573+00:00",
+  "last_updated": "2026-10-01T10:00:33.624042+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "05:00 PM",
-      "title": "Spider-Man: Brand New Day",
-      "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
-    },
-    {
-      "time": "05:30 PM",
-      "title": "Minions & Monsters",
-      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
-    },
-    {
-      "time": "06:00 PM",
+      "time": "05:15 PM",
       "title": "Forgotten Island",
       "url": "https://www.tblcinemas.com/movie/RS706204767478/forgotten-island"
     },
     {
+      "time": "06:00 PM",
+      "title": "Resident Evil",
+      "url": "https://www.tblcinemas.com/movie/RS762482270455/resident-evil"
+    },
+    {
       "time": "06:30 PM",
-      "title": "Daayra",
-      "url": "https://www.tblcinemas.com/movie/RS622254283418/daayra"
+      "title": "Hanuman Ansh",
+      "url": "https://www.tblcinemas.com/movie/RS445853160138/hanuman-ansh"
     },
     {
       "time": "07:00 PM",
-      "title": "Avengers: Endgame",
-      "url": "https://www.tblcinemas.com/movie/RS178125418089/avengers-endgame"
+      "title": "Anne+: The Film",
+      "url": "https://www.tblcinemas.com/movie/RS640663814375/anne-the-film"
     },
     {
-      "time": "08:00 PM",
-      "title": "Insidious: Out of the Further",
-      "url": "https://www.tblcinemas.com/movie/RS381118155603/insidious-out-of-the-further"
+      "time": "07:30 PM",
+      "title": "Digger",
+      "url": "https://www.tblcinemas.com/movie/RS450354540519/digger"
     },
     {
-      "time": "08:30 PM",
-      "title": "Heart of the Beast",
-      "url": "https://www.tblcinemas.com/movie/RS484269798639/heart-of-the-beast"
+      "time": "08:15 PM",
+      "title": "Verity",
+      "url": "https://www.tblcinemas.com/movie/RS242492895486/verity"
     },
     {
-      "time": "09:00 PM",
-      "title": "Resident Evil",
-      "url": "https://www.tblcinemas.com/movie/RS762482270455/resident-evil"
+      "time": "08:45 PM",
+      "title": "Beware Boiúna",
+      "url": "https://www.tblcinemas.com/movie/RS31454950608/beware-boi-na"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
