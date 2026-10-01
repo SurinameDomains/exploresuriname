@@ -721,6 +721,7 @@ def collect_segments(soup) -> set:
             segs.add(str(node).strip())
     # translatable attributes
     for el in soup.find_all(attrs={"alt": True}):
+        if el.get("translate") == "no" or el.has_attr("data-l10n-alt"): continue
         if translatable(el["alt"]): segs.add(el["alt"].strip())
     for sel, attr in [("meta[name=description]", "content"),
                       ("meta[property='og:description']", "content"),
@@ -729,9 +730,85 @@ def collect_segments(soup) -> set:
                       ("meta[name='twitter:description']", "content"),
                       ("title", None)]:
         for el in soup.select(sel):
+            if el.has_attr("data-l10n-content") or el.get("translate") == "no": continue
             val = el.get_text() if attr is None else el.get(attr, "")
             if val and translatable(val): segs.add(val.strip())
     return segs
+
+
+# ── per-language values baked in by generate.py (flora_fauna_pages.py) ───────
+# Species names, Wikipedia extracts etc. already exist in every language, so
+# they must never go through translations.json / MT. generate.py writes them as:
+#   data-l10n='{"nl": "..", "es": "..", "zh": ".."}'  -> element text
+#   data-l10n-<attr>='{...}'                          -> attribute (content/alt/title/aria-label)
+#   <div data-l10n-group><div data-l10n-lang="en">..</div><div data-l10n-lang="nl" hidden>..</div></div>
+#                                                     -> keep the block for this language
+#                                                        (English when there is none)
+# Missing language = English stays. The markers are removed from every tree,
+# English included, so they never ship.
+_L10N_ATTRS = ("content", "alt", "title", "aria-label", "placeholder", "href")
+
+
+def apply_l10n(soup, lang: str):
+    def _m(v):
+        try:
+            d = json.loads(v)
+            return d if isinstance(d, dict) else {}
+        except Exception:
+            return {}
+    for el in soup.find_all(attrs={"data-l10n": True}):
+        v = _m(el["data-l10n"]).get(lang) if lang != "en" else None
+        if v:
+            el.string = v
+        del el["data-l10n"]
+        el["data-l10n-x"] = ""
+    for a in _L10N_ATTRS:
+        k = "data-l10n-" + a
+        for el in soup.find_all(attrs={k: True}):
+            v = _m(el[k]).get(lang) if lang != "en" else None
+            if v:
+                el[a] = v
+            del el[k]
+            el["data-l10n-x"] = ""
+    for grp in soup.find_all(attrs={"data-l10n-group": True}):
+        kids = grp.find_all(attrs={"data-l10n-lang": True}, recursive=False)
+        pick = (next((c for c in kids if c.get("data-l10n-lang") == lang), None)
+                or next((c for c in kids if c.get("data-l10n-lang") == "en"), None))
+        for c in kids:
+            if c is not pick:
+                c.decompose()
+        if pick is not None:
+            if pick.has_attr("hidden"):
+                del pick["hidden"]
+            if pick.get("data-l10n-lang") != lang:
+                pick["lang"] = "en"   # English fallback inside a non-English page
+            del pick["data-l10n-lang"]
+        del grp["data-l10n-group"]
+        grp["data-l10n-x"] = ""
+
+
+def page_langs(soup):
+    """Languages this page exists in. generate.py can limit a page with
+    <meta name="l10n-langs" content="en,nl"> (Flora & Fauna species pages that
+    have no official name in a language are not duplicated into that tree; the
+    English page localizes itself in the browser instead). Default: all."""
+    m = soup.select_one('meta[name="l10n-langs"]') if soup.head else None
+    if m is None:
+        return list(ALL_LANGS)
+    want = {x.strip() for x in m.get("content", "").split(",")}
+    return [l for l in ALL_LANGS if l == "en" or l in want]
+
+
+def finish_l10n(soup):
+    """After translation: the translate="no" on our own localized elements was
+    only there to keep them out of translations.json. Remove it so browser
+    translation still works for visitors in other languages."""
+    for el in soup.find_all(attrs={"data-l10n-x": True}):
+        del el["data-l10n-x"]
+        if el.get("translate") == "no":
+            del el["translate"]
+    for m in soup.select('meta[name="l10n-langs"]'):
+        m.decompose()
 
 # ── localize a parsed page into `lang` (mutates soup) ─────────────────────────
 _DATE_WORDS = {
@@ -771,8 +848,11 @@ _LONG_DAYS = {"nl": ["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "
               "es": ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]}
 
 
-def localize(soup, lang: str, rel_path: str):
+def localize(soup, lang: str, rel_path: str, langs=None):
     html_lang, og_locale = LANGS[lang]
+
+    # per-language values from generate.py first (never machine-translated)
+    apply_l10n(soup, lang)
 
     # text nodes (covers <title>; brand logo skipped)
     for node in soup.find_all(string=True):
@@ -796,6 +876,7 @@ def localize(soup, lang: str, rel_path: str):
 
     # alt attributes
     for el in soup.find_all(attrs={"alt": True}):
+        if el.get("translate") == "no": continue
         if translatable(el["alt"]): el["alt"] = tr(el["alt"], lang)
 
     # zh only: input placeholders (search boxes, submit forms). NL/ES never did
@@ -830,7 +911,7 @@ def localize(soup, lang: str, rel_path: str):
     if soup.html: soup.html["lang"] = html_lang
     for el in soup.select("meta[property='og:locale']"):
         el["content"] = og_locale
-    inject_og_alternates(soup, lang)
+    inject_og_alternates(soup, lang, langs)
 
     # JSON-LD: localize internal page URLs + inLanguage (schema text stays neutral)
     localize_jsonld(soup, lang)
@@ -869,7 +950,8 @@ def localize(soup, lang: str, rel_path: str):
     if soup.head:
         _st = soup.new_tag("style"); _st.string = "nav button,nav a{white-space:nowrap}"
         soup.head.append(_st)
-    inject_hreflang(soup, rel_path)
+    finish_l10n(soup)
+    inject_hreflang(soup, rel_path, langs)
     inject_switcher(soup, lang, rel_path)
     return soup
 
@@ -894,7 +976,7 @@ def url_path(rel_path: str) -> str:
     return rel_path
 
 
-def inject_hreflang(soup, rel_path: str):
+def inject_hreflang(soup, rel_path: str, langs=None):
     head = soup.head
     if not head: return
     for el in head.select("link[rel='alternate'][hreflang]"):
@@ -902,21 +984,21 @@ def inject_hreflang(soup, rel_path: str):
     def url_for(code):
         pre = "" if code == "en" else f"/{code}"
         return f"{SITE_URL}{pre}/{url_path(rel_path)}".replace("/index.html", "/")
-    for code in ALL_LANGS:
+    for code in (langs or ALL_LANGS):
         tag = soup.new_tag("link", rel="alternate", hreflang=HREFLANG[code], href=url_for(code))
         head.append(tag)
     xd = soup.new_tag("link", rel="alternate", hreflang="x-default", href=url_for("en"))
     head.append(xd)
 
 # ── og:locale:alternate (signal the other available locales) ──────────────────
-def inject_og_alternates(soup, lang: str):
+def inject_og_alternates(soup, lang: str, langs=None):
     head = soup.head
     if not head: return
     for el in head.select("meta[property='og:locale:alternate']"):
         el.decompose()
     anchor = soup.select_one("meta[property='og:locale']")
     for code, (_h, oglc) in LANGS.items():
-        if code == lang: continue
+        if code == lang or (langs and code not in langs): continue
         tag = soup.new_tag("meta"); tag["property"] = "og:locale:alternate"; tag["content"] = oglc
         (anchor.insert_after if anchor is not None else head.append)(tag)
 
@@ -1165,6 +1247,9 @@ def english_pages():
         yield p, p.name
     for p in (ROOT / "listing").glob("*/index.html"):
         yield p, f"listing/{p.parent.name}/index.html"
+    # Flora & Fauna section (flora_fauna_pages.py): hub, groups, species
+    for p in sorted((ROOT / "flora-fauna").rglob("index.html")):
+        yield p, p.relative_to(ROOT).as_posix()
     # Marketplace browse page + ads. The seller's own text carries
     # translate="no", so only the page furniture is localised.
     if (ROOT / "marketplace" / "index.html").exists():
@@ -1192,18 +1277,27 @@ def process_page(job):
     # never skipped: generate.py rewrites this file from scratch every run.
     en_soup = BeautifulSoup(html, "lxml")
     segs = collect_segments(en_soup)
-    inject_hreflang(en_soup, rel)
-    inject_og_alternates(en_soup, "en")
+    langs = page_langs(en_soup)
+    targets = [l for l in TARGETS if l in langs]
+    apply_l10n(en_soup, "en")
+    finish_l10n(en_soup)
+    inject_hreflang(en_soup, rel, langs)
+    inject_og_alternates(en_soup, "en", langs)
     inject_switcher(en_soup, "en", rel)
     src.write_text(serialize(en_soup), encoding="utf-8")
 
+    # a language this page no longer exists in: remove the old copy
+    for lang in TARGETS:
+        if lang not in targets and (ROOT / lang / rel).exists():
+            (ROOT / lang / rel).unlink()
+
     reuse = (old_hash is not None and old_hash == new_hash
-             and all((ROOT / lang / rel).exists() for lang in TARGETS))
+             and all((ROOT / lang / rel).exists() for lang in targets))
 
     if reuse:
         # same page body; only rail/dates/CSS version moved -> splice, don't re-render
         fresh = {}
-        for lang in TARGETS:
+        for lang in targets:
             out = ROOT / lang / rel
             upd = refresh_volatile(out.read_text(encoding="utf-8"), html, lang)
             if upd is None:
@@ -1215,18 +1309,28 @@ def process_page(job):
                 out.write_text(upd, encoding="utf-8")
 
     if not reuse:
-        for lang in TARGETS:
+        for lang in targets:
             soup = BeautifulSoup(html, "lxml")
-            localize(soup, lang, rel)
+            localize(soup, lang, rel, langs)
             out = ROOT / lang / rel
             out.parent.mkdir(parents=True, exist_ok=True)
             out.write_text(serialize(soup), encoding="utf-8")
 
-    return rel, new_hash, sorted(segs), reuse
+    return rel, new_hash, sorted(segs), reuse, (None if len(langs) == len(ALL_LANGS) else langs)
 
 
 def main():
     t0 = time.time()
+    # Shared CSS/JS (asset_extract.py): move the blocks every page repeats into
+    # /assets/ BEFORE the language trees are copied from the English pages.
+    # Skipped on --only runs (they see a subset of the site). If it fails, the
+    # pages simply keep their inline blocks.
+    if not ONLY:
+        try:
+            import asset_extract
+            print(asset_extract.run(english_pages()))
+        except Exception as _ae:
+            print(f"assets: skipped ({_ae})")
     pages = list(english_pages())
     if ONLY:
         pages = [(p, rel) for (p, rel) in pages if p.name in ONLY or rel in ONLY]
@@ -1253,10 +1357,13 @@ def main():
     stable_segments = set()   # seen on at least one page that is not a live feed
     hashes = {}
     reused = 0
+    partial_langs = {}   # url path -> languages, for pages not in every tree
 
     def absorb(result):
         nonlocal reused
-        rel, h, segs, was_reused = result
+        rel, h, segs, was_reused, plangs = result
+        if plangs:
+            partial_langs["/" + url_path(rel).replace("index.html", "")] = plangs
         hashes[rel] = h
         all_segments.update(segs)
         if rel not in LIVE_FEED_PAGES:
@@ -1280,7 +1387,10 @@ def main():
         data = json.load(open(si, encoding="utf-8"))
         for lang in TARGETS:
             out = ROOT / lang / "search-index.json"
-            loc = [{**e, "c": tr(e.get("c", ""), lang)} for e in data]
+            # entries with "ffu" (Flora & Fauna species) point at a page that only
+            # exists in English; in the other trees use their fallback URL
+            loc = [{**e, "c": tr(e.get("c", ""), lang), **({"u": e["ffu"]} if e.get("ffu") else {})}
+                   for e in data]
             out.write_text(json.dumps(loc, ensure_ascii=False, separators=(",", ":")),
                            encoding="utf-8")
 
@@ -1290,7 +1400,7 @@ def main():
     if ONLY:
         print("i18n: --only run; sitemap, i18n_segments.json and the build cache left untouched")
     else:
-        localize_sitemap()
+        localize_sitemap(partial_langs)
 
         # dump the segment inventory for translate_cache.py to consume.
         # complete even on a fully cached run: every English page is still parsed.
@@ -1324,14 +1434,15 @@ def _stage_new_dirs():
     if not os.environ.get("GITHUB_ACTIONS"):
         return
     import subprocess
-    for d in ("marketplace", "zh"):
+    for d in ("marketplace", "zh", "flora-fauna", "assets"):
         if (ROOT / d).is_dir():
             r = subprocess.run(["git", "add", "-A", d], cwd=ROOT, capture_output=True, text=True)
             print(f"i18n: staged {d}/ ({'ok' if r.returncode == 0 else r.stderr.strip()})")
 
 
 # ── multilingual sitemap (adds nl/es URLs + xhtml:link alternates) ────────────
-def localize_sitemap():
+def localize_sitemap(partial_langs=None):
+    partial_langs = partial_langs or {}
     sm = ROOT / "sitemap.xml"
     if not sm.exists() or sm.stat().st_size == 0:
         return
@@ -1348,7 +1459,7 @@ def localize_sitemap():
     def path_of(u): return u[len(SITE_URL):] or "/"
     def alt_links(path):
         out = []
-        for code in ALL_LANGS:
+        for code in partial_langs.get(path, ALL_LANGS):
             pre = "" if code == "en" else f"/{code}"
             out.append(f'    <xhtml:link rel="alternate" hreflang="{HREFLANG[code]}" href="{SITE_URL}{pre}{path}"/>')
         out.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE_URL}{path}"/>')
@@ -1372,7 +1483,7 @@ def localize_sitemap():
             _v = _tag(blk, _t)
             if _v:
                 meta += f"    <{_t}>{_v}</{_t}>\n"
-        for code in ALL_LANGS:
+        for code in partial_langs.get(path, ALL_LANGS):
             pre = "" if code == "en" else f"/{code}"
             blocks.append(
                 f"  <url>\n    <loc>{SITE_URL}{pre}{path}</loc>\n"

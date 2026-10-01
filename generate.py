@@ -3470,6 +3470,18 @@ except Exception as _biz_imp_err:  # never let the Business section break the re
         return ""
 _SI_LIST.extend(_BIZTOOLS_SEARCH)
 
+# ── Flora & Fauna (flora_fauna_pages.py, Oct 2026) ──────────────────────────
+# Own slim section shell; the global search gets the hub, groups, collections
+# and the most-observed species. The section has its own full search.
+try:
+    from flora_fauna_pages import (site_search_entries as _ff_search_entries,
+                                   sitemap_entries as _ff_sitemap_entries)
+    _SI_LIST.extend(_ff_search_entries())
+except Exception as _ff_imp_err:  # never let this section break the rest of the site
+    print(f"  ERROR flora_fauna_pages import failed, Flora & Fauna skipped: {_ff_imp_err}")
+    def _ff_sitemap_entries():
+        return []
+
 # Guide & utility pages get a keyword blob too, incl. Dutch, so locals find the
 # tools by what they call them ("wisselkoers", "apotheek dienst", "geldautomaat").
 _GUIDE_KW = {
@@ -5305,7 +5317,7 @@ def nav_html(active="home", prefix=""):
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto"}
     _OILG  = {"oilgas", "oilblocks", "granmorgu", "oiltimeline", "oilcontracts",
               "oilgov", "oiljobs"}
-    _LEARN = {"aboutsr", "history", "dictionary"} | _OILG
+    _LEARN = {"aboutsr", "history", "dictionary", "florafauna"} | _OILG
     _BIZT  = _BIZTOOLS_KEYS   # Business tools (business_pages.py)
 
     def _is_active(key):
@@ -5400,6 +5412,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}oil-and-gas.html"             {_link_cls("oilgas", _OILG)} >Oil &amp; Gas</a>'
         f'<a href="{prefix}suriname-history.html"        {_link_cls("history")}       >History Timeline</a>'
         f'<a href="{prefix}sranan-tongo-dictionary.html" {_link_cls("dictionary")}    >Sranan Dictionary</a>'
+        f'<a href="{prefix}flora-fauna/"                 {_link_cls("florafauna")}    >Flora &amp; Fauna</a>'
     )
     # Live
     live_items = (
@@ -5508,7 +5521,8 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}about-suriname",               "About Suriname",    "aboutsr")       +
         _mob_link(f"{prefix}oil-and-gas.html",             "Oil & Gas",         "oilgas", _OILG) +
         _mob_link(f"{prefix}suriname-history.html",        "History Timeline",  "history")       +
-        _mob_link(f"{prefix}sranan-tongo-dictionary.html", "Sranan Dictionary", "dictionary")
+        _mob_link(f"{prefix}sranan-tongo-dictionary.html", "Sranan Dictionary", "dictionary") +
+        _mob_link(f"{prefix}flora-fauna/",                 "Flora & Fauna",     "florafauna")
     )
     mob_live_items = (
         _mob_link(f"{prefix}currency.html",      "Market Rates",     "currency")      +
@@ -6018,6 +6032,7 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}oil-and-gas.html">Oil &amp; Gas</a>
         <a class="ftr-lnk" href="{prefix}suriname-history.html">History Timeline</a>
         <a class="ftr-lnk" href="{prefix}sranan-tongo-dictionary.html">Sranan Dictionary</a>
+        <a class="ftr-lnk" href="{prefix}flora-fauna/">Flora &amp; Fauna</a>
       </div>
     </div>
   </div>
@@ -19240,7 +19255,7 @@ def build_dictionary_page():
     for(var i=0;i<cards.length;i++){
       var c=cards[i];
       var okc=(cat==='all'||c.getAttribute('data-tag')===cat);
-      var oks=(!t|| c.getAttribute('data-s').indexOf(t)>-1);
+      var oks=(!t|| norm(c.getAttribute('data-s')).indexOf(t)>-1);
       var vis=okc&&oks;
       c.style.display=vis?'':'none';
       if(vis) shown++;
@@ -19253,6 +19268,9 @@ def build_dictionary_page():
     none.style.display=shown?'none':'';
   }
   if(q) q.addEventListener('input',function(){term=q.value;apply();});
+  /* deep link from Flora & Fauna species pages: ?q=word pre-fills the search */
+  try{var _pq=new URLSearchParams(location.search).get('q');
+    if(q&&_pq){q.value=_pq;term=_pq;apply();q.scrollIntoView({block:'center'});}}catch(e){}
   chips.forEach(function(ch){
     ch.addEventListener('click',function(){
       cat=ch.getAttribute('data-cat');
@@ -19781,7 +19799,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("submit-business.html", "0.6", "yearly"),
         ("submit-event.html",    "0.6", "monthly"),
         ("privacy.html",    "0.3", "yearly"),
-    ] + list(_BIZTOOLS_SITEMAP)
+    ] + list(_BIZTOOLS_SITEMAP) + list(_ff_sitemap_entries())
 
     urls = []
     for path_seg, priority, freq in static_pages:
@@ -19869,6 +19887,7 @@ def build_llms_txt():
 - [Is Suriname Safe?]({S}/is-suriname-safe.html): practical safety guidance for tourists.
 - [About Suriname]({S}/about-suriname): country fact file: geography, climate, population and ethnic groups, languages, religion, history, government, economy, nature, the ten districts, national symbols, public holidays and practical facts.
 - [History of Suriname]({S}/suriname-history.html): interactive timeline of Surinamese history, from the first Indigenous peoples through slavery and Keti Koti to independence and the oil era, in English and Dutch.
+- [Flora & Fauna of Suriname]({S}/flora-fauna/): every animal, plant and fungus recorded in Suriname (about 18,500 species, 4,000 profiles) with names in English, Dutch, Spanish, Chinese, Sranan Tongo and Latin, where each species has been recorded by district, photos and sources.
 - [Suriname Itinerary]({S}/suriname-itinerary.html): suggested multi-day routes combining Paramaribo and the interior.
 - [On the Road]({S}/on-the-road.html): driving, road rules, rainy-season advice and emergency numbers.
 
@@ -22327,6 +22346,34 @@ if __name__ == "__main__":
     })
     pages.update(_biz_pages)
 
+    # ── Flora & Fauna (flora_fauna_pages.py, data/flora_fauna/*.json) ───────
+    # Pure local build, no network. Pages are directories (flora-fauna/x/index.html);
+    # assets (css/js/search index/district map) are written verbatim. A failure
+    # here leaves the previous build's files in place instead of breaking the site.
+    _ff_files = {}
+    try:
+        from flora_fauna_pages import build_flora_fauna_pages
+        _ff_pages, _ff_files = build_flora_fauna_pages()
+        pages.update(_ff_pages)
+        print(f"  OK  flora & fauna: {len(_ff_pages)} pages")
+        # Profiles that disappeared after a data refresh: drop their stale pages
+        # (English and the three language trees) so they 404 instead of lingering.
+        import shutil as _ff_sh, os as _ff_os
+        _ff_keep = {_ff_os.path.dirname(k) for k in _ff_pages} | {"flora-fauna/assets"}
+        for _ff_pre in ("", "nl/", "es/", "zh/"):
+            _ff_root = Path(_ff_pre + "flora-fauna")
+            if not _ff_root.is_dir():
+                continue
+            for _ff_idx in list(_ff_root.rglob("index.html")):
+                _ff_dir = _ff_idx.parent.as_posix()[len(_ff_pre):]
+                if _ff_dir not in _ff_keep:
+                    _ff_sh.rmtree(_ff_idx.parent, ignore_errors=True)
+                    print(f"  RM  stale flora & fauna page: {_ff_pre}{_ff_dir}")
+    except Exception as _ff_err:
+        import traceback as _ff_tb
+        _ff_tb.print_exc()
+        print(f"  ERROR flora & fauna build failed, section left as is: {_ff_err}")
+
     # ── Marketplace: retired Sep 28 2026 ─────────────────────────────────────
     # Zero ads, so it came out of the nav/footer/sitemap. market.py and the
     # moderation Worker are left untouched so it can be switched back on; the
@@ -22345,9 +22392,13 @@ if __name__ == "__main__":
             _os_pages.makedirs(_d, exist_ok=True)
         with open(fname, "w", encoding="utf-8") as f:
             f.write(_wide_scale_units(html))
-        print(f"  OK  {fname}")
+        if not fname.startswith("flora-fauna/"):   # ~4,000 pages: summary line printed above
+            print(f"  OK  {fname}")
     # Non-HTML business files (calendar feed). Written verbatim: no HTML post-processing.
-    for _bfn, _bcontent in _biz_files.items():
+    for _bfn, _bcontent in list(_biz_files.items()) + list(_ff_files.items()):
+        _bd = _os_pages.path.dirname(_bfn)
+        if _bd:
+            _os_pages.makedirs(_bd, exist_ok=True)
         with open(_bfn, "w", encoding="utf-8", newline="") as _bf:
             _bf.write(_bcontent)
         print(f"  OK  {_bfn}")
