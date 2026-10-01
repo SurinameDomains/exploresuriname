@@ -1,0 +1,1816 @@
+{
+ "_about": "Hand-curated local (Surinamese) names. 'species': exact scientific name -> names. 'groups': names that Surinamers use for a whole group (genus/family/order), shown as 'general term'. lang codes: srn = Sranan Tongo, nl-SR = Surinamese Dutch. 'dict' = headword in our Sranan Tongo dictionary (data/sranan_dictionary.json), so the species page can link to it. Add a name only when the source clearly identifies the species. Never bulk-copy from copyrighted wordlists (SIL Wortubuku, Van Donselaar); use them to verify only.",
+ "species": {
+  "Alouatta macconnelli": [
+   {
+    "n": "babun",
+    "l": "srn",
+    "dict": "babun"
+   },
+   {
+    "n": "baboen",
+    "l": "nl-SR"
+   }
+  ],
+  "Ateles paniscus": [
+   {
+    "n": "kwata",
+    "l": "srn",
+    "dict": "kwata"
+   }
+  ],
+  "Saimiri sciureus": [
+   {
+    "n": "keskesi",
+    "l": "srn",
+    "dict": "keskesi"
+   },
+   {
+    "n": "monki-monki",
+    "l": "srn",
+    "dict": "monki-monki"
+   }
+  ],
+  "Chiropotes sagulatus": [
+   {
+    "n": "bisa",
+    "l": "srn",
+    "dict": "bisa"
+   }
+  ],
+  "Chiropotes chiropotes": [
+   {
+    "n": "bisa",
+    "l": "srn",
+    "dict": "bisa"
+   }
+  ],
+  "Pithecia pithecia": [
+   {
+    "n": "wanaku",
+    "l": "srn",
+    "dict": "wanaku"
+   }
+  ],
+  "Saguinus midas": [
+   {
+    "n": "saguwenke",
+    "l": "srn",
+    "dict": "saguwenke"
+   }
+  ],
+  "Dasypus novemcinctus": [
+   {
+    "n": "kapasi",
+    "l": "srn",
+    "dict": "kapasi"
+   }
+  ],
+  "Pecari tajacu": [
+   {
+    "n": "pakira",
+    "l": "srn",
+    "dict": "pakira"
+   }
+  ],
+  "Dicotyles tajacu": [
+   {
+    "n": "pakira",
+    "l": "srn",
+    "dict": "pakira"
+   }
+  ],
+  "Tayassu pecari": [
+   {
+    "n": "pingo",
+    "l": "srn",
+    "dict": "pingo"
+   }
+  ],
+  "Myrmecophaga tridactyla": [
+   {
+    "n": "tamanuwa",
+    "l": "srn",
+    "dict": "tamanuwa"
+   },
+   {
+    "n": "tamanwa",
+    "l": "srn",
+    "dict": "tamanwa"
+   }
+  ],
+  "Tamandua tetradactyla": [
+   {
+    "n": "mirafroiti",
+    "l": "srn",
+    "dict": "mirafroiti"
+   }
+  ],
+  "Cyclopes didactylus": [
+   {
+    "n": "likanu",
+    "l": "srn",
+    "dict": "likanu"
+   }
+  ],
+  "Bradypus tridactylus": [
+   {
+    "n": "sonloiri",
+    "l": "srn",
+    "dict": "sonloiri"
+   }
+  ],
+  "Choloepus didactylus": [
+   {
+    "n": "skapuloiri",
+    "l": "srn",
+    "dict": "skapuloiri"
+   }
+  ],
+  "Panthera onca": [
+   {
+    "n": "tigri",
+    "l": "srn",
+    "dict": "tigri"
+   }
+  ],
+  "Leopardus pardalis": [
+   {
+    "n": "tigrikati",
+    "l": "srn",
+    "dict": "tigrikati"
+   }
+  ],
+  "Mazama gouazoubira": [
+   {
+    "n": "kuriaku",
+    "l": "srn",
+    "dict": "kuriaku"
+   }
+  ],
+  "Subulo gouazoubira": [
+   {
+    "n": "kuriaku",
+    "l": "srn",
+    "dict": "kuriaku"
+   }
+  ],
+  "Myoprocta acouchy": [
+   {
+    "n": "mambula",
+    "l": "srn",
+    "dict": "mambula"
+   }
+  ],
+  "Coendou prehensilis": [
+   {
+    "n": "agidya",
+    "l": "srn",
+    "dict": "agidya"
+   },
+   {
+    "n": "gindyamaka",
+    "l": "srn",
+    "dict": "gindyamaka"
+   }
+  ],
+  "Sciurus aestuans": [
+   {
+    "n": "bonboni",
+    "l": "srn",
+    "dict": "bonboni"
+   },
+   {
+    "n": "letyan",
+    "l": "srn",
+    "dict": "letyan"
+   }
+  ],
+  "Guerlinguetus aestuans": [
+   {
+    "n": "bonboni",
+    "l": "srn",
+    "dict": "bonboni"
+   },
+   {
+    "n": "letyan",
+    "l": "srn",
+    "dict": "letyan"
+   }
+  ],
+  "Tapirus terrestris": [
+   {
+    "n": "bofru",
+    "l": "srn",
+    "dict": "bofru"
+   },
+   {
+    "n": "buffel",
+    "l": "nl-SR"
+   }
+  ],
+  "Sotalia guianensis": [
+   {
+    "n": "profosu",
+    "l": "srn",
+    "dict": "profosu"
+   }
+  ],
+  "Procyon cancrivorus": [
+   {
+    "n": "krabu-dagu",
+    "l": "srn",
+    "dict": "krabu-dagu"
+   },
+   {
+    "n": "krabbendagoe",
+    "l": "nl-SR"
+   }
+  ],
+  "Nasua nasua": [
+   {
+    "n": "kwasi-kwasi",
+    "l": "srn",
+    "dict": "kwasi-kwasi"
+   }
+  ],
+  "Pitangus sulphuratus": [
+   {
+    "n": "grikibi",
+    "l": "srn",
+    "dict": "grikibi"
+   },
+   {
+    "n": "grietjebie",
+    "l": "nl-SR"
+   }
+  ],
+  "Troglodytes aedon": [
+   {
+    "n": "gadofowru",
+    "l": "srn",
+    "dict": "gadofowru"
+   },
+   {
+    "n": "gadotyo",
+    "l": "srn",
+    "dict": "gadotyo"
+   }
+  ],
+  "Troglodytes musculus": [
+   {
+    "n": "gadofowru",
+    "l": "srn",
+    "dict": "gadofowru"
+   },
+   {
+    "n": "gadotyo",
+    "l": "srn",
+    "dict": "gadotyo"
+   }
+  ],
+  "Donacobius atricapilla": [
+   {
+    "n": "motyofowru",
+    "l": "srn",
+    "dict": "motyofowru"
+   }
+  ],
+  "Euphonia violacea": [
+   {
+    "n": "kanari",
+    "l": "srn",
+    "dict": "kanari"
+   }
+  ],
+  "Sporophila crassirostris": [
+   {
+    "n": "twatwa",
+    "l": "srn",
+    "dict": "twatwa"
+   }
+  ],
+  "Oryzoborus crassirostris": [
+   {
+    "n": "twatwa",
+    "l": "srn",
+    "dict": "twatwa"
+   }
+  ],
+  "Volatinia jacarina": [
+   {
+    "n": "srio",
+    "l": "srn",
+    "dict": "srio"
+   }
+  ],
+  "Thraupis episcopus": [
+   {
+    "n": "blawtyi",
+    "l": "srn",
+    "dict": "blawtyi"
+   },
+   {
+    "n": "blawforki",
+    "l": "srn",
+    "dict": "blawforki"
+   }
+  ],
+  "Porphyrio martinica": [
+   {
+    "n": "blawkepanki",
+    "l": "srn",
+    "dict": "blawkepanki"
+   }
+  ],
+  "Porphyrio martinicus": [
+   {
+    "n": "blawkepanki",
+    "l": "srn",
+    "dict": "blawkepanki"
+   }
+  ],
+  "Psarocolius viridis": [
+   {
+    "n": "busiponpon",
+    "l": "srn",
+    "dict": "busiponpon"
+   }
+  ],
+  "Dendrocygna autumnalis": [
+   {
+    "n": "skurki",
+    "l": "srn",
+    "dict": "skurki"
+   }
+  ],
+  "Cairina moschata": [
+   {
+    "n": "bus'doksi",
+    "l": "srn",
+    "dict": "bus'doksi"
+   }
+  ],
+  "Penelope marail": [
+   {
+    "n": "marai",
+    "l": "srn",
+    "dict": "marai"
+   }
+  ],
+  "Pipile cumanensis": [
+   {
+    "n": "wet'ede-marai",
+    "l": "srn",
+    "dict": "wet'ede-marai"
+   }
+  ],
+  "Micrastur ruficollis": [
+   {
+    "n": "wetbere-aka",
+    "l": "srn",
+    "dict": "wetbere-aka"
+   }
+  ],
+  "Ara chloropterus": [
+   {
+    "n": "warawrafru",
+    "l": "srn",
+    "dict": "warawrafru"
+   }
+  ],
+  "Crax alector": [
+   {
+    "n": "powisi",
+    "l": "srn",
+    "dict": "powisi"
+   }
+  ],
+  "Psophia crepitans": [
+   {
+    "n": "kami-kami",
+    "l": "srn",
+    "dict": "kami-kami"
+   }
+  ],
+  "Phoenicopterus ruber": [
+   {
+    "n": "segansi",
+    "l": "srn",
+    "dict": "segansi"
+   },
+   {
+    "n": "tikoko",
+    "l": "srn",
+    "dict": "tikoko"
+   }
+  ],
+  "Cochlearius cochlearius": [
+   {
+    "n": "arapapa",
+    "l": "srn",
+    "dict": "arapapa"
+   }
+  ],
+  "Eunectes murinus": [
+   {
+    "n": "aboma",
+    "l": "srn",
+    "dict": "aboma"
+   }
+  ],
+  "Boa constrictor": [
+   {
+    "n": "daguwesneki",
+    "l": "srn",
+    "dict": "daguwesneki"
+   }
+  ],
+  "Bothrops atrox": [
+   {
+    "n": "owrukukusneki",
+    "l": "srn",
+    "dict": "owrukukusneki"
+   },
+   {
+    "n": "rasper",
+    "l": "srn",
+    "dict": "rasper"
+   }
+  ],
+  "Corallus caninus": [
+   {
+    "n": "kadasneki",
+    "l": "srn",
+    "dict": "kadasneki"
+   }
+  ],
+  "Leptophis ahaetulla": [
+   {
+    "n": "swipi",
+    "l": "srn",
+    "dict": "swipi"
+   }
+  ],
+  "Caiman crocodilus": [
+   {
+    "n": "wetberekaiman",
+    "l": "srn",
+    "dict": "wetberekaiman"
+   },
+   {
+    "n": "kaaiman",
+    "l": "nl-SR"
+   }
+  ],
+  "Iguana iguana": [
+   {
+    "n": "legwana",
+    "l": "srn",
+    "dict": "legwana"
+   },
+   {
+    "n": "agama",
+    "l": "srn",
+    "dict": "agama"
+   }
+  ],
+  "Tupinambis teguixin": [
+   {
+    "n": "sapakara",
+    "l": "srn",
+    "dict": "sapakara"
+   }
+  ],
+  "Chelus fimbriata": [
+   {
+    "n": "raparapa",
+    "l": "srn",
+    "dict": "raparapa"
+   }
+  ],
+  "Chelus fimbriatus": [
+   {
+    "n": "raparapa",
+    "l": "srn",
+    "dict": "raparapa"
+   }
+  ],
+  "Lepidochelys olivacea": [
+   {
+    "n": "warana",
+    "l": "srn",
+    "dict": "warana"
+   }
+  ],
+  "Pipa pipa": [
+   {
+    "n": "pipa-todo",
+    "l": "srn",
+    "dict": "pipa-todo"
+   }
+  ],
+  "Rhinella marina": [
+   {
+    "n": "kras'todo",
+    "l": "srn",
+    "dict": "kras'todo"
+   }
+  ],
+  "Megalops atlanticus": [
+   {
+    "n": "trapun",
+    "l": "srn",
+    "dict": "trapun"
+   },
+   {
+    "n": "trapoen",
+    "l": "nl-SR"
+   }
+  ],
+  "Hoplosternum littorale": [
+   {
+    "n": "kwikwi",
+    "l": "srn",
+    "dict": "kwikwi"
+   },
+   {
+    "n": "kwikwi",
+    "l": "nl-SR"
+   }
+  ],
+  "Hoplias malabaricus": [
+   {
+    "n": "pataka",
+    "l": "srn",
+    "dict": "pataka"
+   },
+   {
+    "n": "pataka",
+    "l": "nl-SR"
+   }
+  ],
+  "Hoplias aimara": [
+   {
+    "n": "anyumara",
+    "l": "srn",
+    "dict": "anyumara"
+   },
+   {
+    "n": "anjoemara",
+    "l": "nl-SR"
+   }
+  ],
+  "Hoplerythrinus unitaeniatus": [
+   {
+    "n": "warapa",
+    "l": "srn",
+    "dict": "warapa"
+   },
+   {
+    "n": "walapa",
+    "l": "nl-SR"
+   }
+  ],
+  "Electrophorus electricus": [
+   {
+    "n": "prake",
+    "l": "srn",
+    "dict": "prake"
+   }
+  ],
+  "Serrasalmus rhombeus": [
+   {
+    "n": "manyapiren",
+    "l": "srn",
+    "dict": "manyapiren"
+   }
+  ],
+  "Anableps anableps": [
+   {
+    "n": "kutai",
+    "l": "srn",
+    "dict": "kutai"
+   }
+  ],
+  "Ceiba pentandra": [
+   {
+    "n": "kankantri",
+    "l": "srn",
+    "dict": "kankantri"
+   },
+   {
+    "n": "kankantrie",
+    "l": "nl-SR"
+   }
+  ],
+  "Manilkara bidentata": [
+   {
+    "n": "balata",
+    "l": "srn",
+    "dict": "balata"
+   },
+   {
+    "n": "bortri",
+    "l": "srn",
+    "dict": "bortri"
+   },
+   {
+    "n": "bolletrie",
+    "l": "nl-SR"
+   }
+  ],
+  "Carapa guianensis": [
+   {
+    "n": "krapa",
+    "l": "srn",
+    "dict": "krapa"
+   },
+   {
+    "n": "krappa",
+    "l": "nl-SR"
+   }
+  ],
+  "Licania heteromorpha": [
+   {
+    "n": "ingibarki",
+    "l": "srn",
+    "dict": "ingibarki"
+   }
+  ],
+  "Morinda citrifolia": [
+   {
+    "n": "didibri-apra",
+    "l": "srn",
+    "dict": "didibri-apra"
+   }
+  ],
+  "Calotropis gigantea": [
+   {
+    "n": "ede-atiwiwiri",
+    "l": "srn",
+    "dict": "ede-atiwiwiri"
+   }
+  ],
+  "Nepsera aquatica": [
+   {
+    "n": "ingiwiwiri",
+    "l": "srn",
+    "dict": "ingiwiwiri"
+   }
+  ],
+  "Laportea aestuans": [
+   {
+    "n": "krasiwiwiri",
+    "l": "srn",
+    "dict": "krasiwiwiri"
+   }
+  ],
+  "Ximenia americana": [
+   {
+    "n": "fransmanmope",
+    "l": "srn",
+    "dict": "fransmanmope"
+   }
+  ],
+  "Ipomoea aquatica": [
+   {
+    "n": "dagublat",
+    "l": "srn",
+    "dict": "dagublat"
+   }
+  ],
+  "Amaranthus dubius": [
+   {
+    "n": "klarun",
+    "l": "srn",
+    "dict": "klarun"
+   },
+   {
+    "n": "krarun",
+    "l": "srn",
+    "dict": "krarun"
+   }
+  ],
+  "Spondias mombin": [
+   {
+    "n": "mope",
+    "l": "srn",
+    "dict": "mope"
+   }
+  ],
+  "Momordica charantia": [
+   {
+    "n": "sopropo",
+    "l": "srn",
+    "dict": "sopropo"
+   }
+  ],
+  "Manihot esculenta": [
+   {
+    "n": "kasaba",
+    "l": "srn",
+    "dict": "kasaba"
+   },
+   {
+    "n": "cassave",
+    "l": "nl-SR"
+   }
+  ],
+  "Abelmoschus esculentus": [
+   {
+    "n": "okro",
+    "l": "srn",
+    "dict": "okro"
+   },
+   {
+    "n": "oker",
+    "l": "nl-SR"
+   }
+  ],
+  "Mangifera indica": [
+   {
+    "n": "manya",
+    "l": "srn",
+    "dict": "manya"
+   }
+  ],
+  "Cocos nucifera": [
+   {
+    "n": "kronto",
+    "l": "srn",
+    "dict": "kronto"
+   },
+   {
+    "n": "kokronoto",
+    "l": "srn",
+    "dict": "kokronoto"
+   },
+   {
+    "n": "krontobon",
+    "l": "srn",
+    "dict": "krontobon"
+   }
+  ],
+  "Solanum macrocarpon": [
+   {
+    "n": "antruwa",
+    "l": "srn",
+    "dict": "antruwa"
+   },
+   {
+    "n": "antroewa",
+    "l": "nl-SR"
+   }
+  ],
+  "Euterpe oleracea": [
+   {
+    "n": "podosiri",
+    "l": "srn",
+    "dict": "podosiri"
+   },
+   {
+    "n": "pinapalm",
+    "l": "nl-SR"
+   }
+  ],
+  "Astrocaryum vulgare": [
+   {
+    "n": "awara",
+    "l": "srn",
+    "dict": "awara"
+   }
+  ],
+  "Attalea maripa": [
+   {
+    "n": "maripa",
+    "l": "srn",
+    "dict": "maripa"
+   }
+  ],
+  "Mauritia flexuosa": [
+   {
+    "n": "morisi",
+    "l": "srn",
+    "dict": "morisi"
+   },
+   {
+    "n": "mauritiuspalm",
+    "l": "nl-SR"
+   }
+  ],
+  "Manicaria saccifera": [
+   {
+    "n": "truli",
+    "l": "srn",
+    "dict": "truli"
+   },
+   {
+    "n": "troelie",
+    "l": "nl-SR"
+   }
+  ],
+  "Oenocarpus bacaba": [
+   {
+    "n": "kumbu",
+    "l": "srn",
+    "dict": "kumbu"
+   },
+   {
+    "n": "koemboe",
+    "l": "nl-SR"
+   }
+  ],
+  "Bertholletia excelsa": [
+   {
+    "n": "paranoto",
+    "l": "srn",
+    "dict": "paranoto"
+   }
+  ],
+  "Anacardium occidentale": [
+   {
+    "n": "kasyu",
+    "l": "srn",
+    "dict": "kasyu"
+   }
+  ],
+  "Melicoccus bijugatus": [
+   {
+    "n": "knepa",
+    "l": "srn",
+    "dict": "knepa"
+   },
+   {
+    "n": "knippa",
+    "l": "nl-SR"
+   }
+  ],
+  "Averrhoa bilimbi": [
+   {
+    "n": "birambi",
+    "l": "srn",
+    "dict": "birambi"
+   },
+   {
+    "n": "birambi",
+    "l": "nl-SR"
+   }
+  ],
+  "Averrhoa carambola": [
+   {
+    "n": "fransman-birambi",
+    "l": "srn",
+    "dict": "fransman-birambi"
+   }
+  ],
+  "Annona muricata": [
+   {
+    "n": "sunsaka",
+    "l": "srn",
+    "dict": "sunsaka"
+   },
+   {
+    "n": "sursaka",
+    "l": "srn",
+    "dict": "sursaka"
+   },
+   {
+    "n": "zuurzak",
+    "l": "nl-SR"
+   }
+  ],
+  "Annona squamosa": [
+   {
+    "n": "kaner'apra",
+    "l": "srn",
+    "dict": "kaner'apra"
+   }
+  ],
+  "Eugenia uniflora": [
+   {
+    "n": "monkimonki-kersi",
+    "l": "srn",
+    "dict": "monkimonki-kersi"
+   },
+   {
+    "n": "Surinaamse kers",
+    "l": "nl-SR"
+   }
+  ],
+  "Syzygium malaccense": [
+   {
+    "n": "pomerak",
+    "l": "srn",
+    "dict": "pomerak"
+   }
+  ],
+  "Spondias dulcis": [
+   {
+    "n": "pomusteri",
+    "l": "srn",
+    "dict": "pomusteri"
+   }
+  ],
+  "Syzygium cumini": [
+   {
+    "n": "dyamu",
+    "l": "srn",
+    "dict": "dyamu"
+   },
+   {
+    "n": "jamoen",
+    "l": "nl-SR"
+   }
+  ],
+  "Chrysophyllum cainito": [
+   {
+    "n": "sterapra",
+    "l": "srn",
+    "dict": "sterapra"
+   }
+  ],
+  "Hura crepitans": [
+   {
+    "n": "posentri",
+    "l": "srn",
+    "dict": "posentri"
+   }
+  ],
+  "Jatropha curcas": [
+   {
+    "n": "sketnoto",
+    "l": "srn",
+    "dict": "sketnoto"
+   }
+  ],
+  "Tamarindus indica": [
+   {
+    "n": "tamarin",
+    "l": "srn",
+    "dict": "tamarin"
+   },
+   {
+    "n": "tamaren",
+    "l": "srn",
+    "dict": "tamaren"
+   }
+  ],
+  "Psidium guajava": [
+   {
+    "n": "guyaba",
+    "l": "srn",
+    "dict": "guyaba"
+   },
+   {
+    "n": "guave",
+    "l": "nl-SR"
+   }
+  ],
+  "Ananas comosus": [
+   {
+    "n": "nanasi",
+    "l": "srn",
+    "dict": "nanasi"
+   }
+  ],
+  "Carica papaya": [
+   {
+    "n": "papaya",
+    "l": "srn",
+    "dict": "papaya"
+   }
+  ],
+  "Crescentia cujete": [
+   {
+    "n": "krabasi",
+    "l": "srn",
+    "dict": "krabasi"
+   },
+   {
+    "n": "kalebas",
+    "l": "nl-SR"
+   }
+  ],
+  "Bixa orellana": [
+   {
+    "n": "kusuwe",
+    "l": "srn",
+    "dict": "kusuwe"
+   },
+   {
+    "n": "koesoewe",
+    "l": "nl-SR"
+   }
+  ],
+  "Ricinus communis": [
+   {
+    "n": "krapata",
+    "l": "srn",
+    "dict": "krapata"
+   }
+  ],
+  "Cymbopogon citratus": [
+   {
+    "n": "strungrasi",
+    "l": "srn",
+    "dict": "strungrasi"
+   },
+   {
+    "n": "citroengras",
+    "l": "nl-SR"
+   }
+  ],
+  "Zingiber officinale": [
+   {
+    "n": "dyindya",
+    "l": "srn",
+    "dict": "dyindya"
+   }
+  ],
+  "Coix lacryma-jobi": [
+   {
+    "n": "kanifro",
+    "l": "srn",
+    "dict": "kanifro"
+   }
+  ],
+  "Dipteryx odorata": [
+   {
+    "n": "tonka",
+    "l": "srn",
+    "dict": "tonka"
+   }
+  ],
+  "Platonia insignis": [
+   {
+    "n": "pakuli",
+    "l": "srn",
+    "dict": "pakuli"
+   },
+   {
+    "n": "pakoeli",
+    "l": "nl-SR"
+   }
+  ],
+  "Cedrela odorata": [
+   {
+    "n": "sedre",
+    "l": "srn",
+    "dict": "sedre"
+   },
+   {
+    "n": "ceder",
+    "l": "nl-SR"
+   }
+  ],
+  "Goupia glabra": [
+   {
+    "n": "kopi",
+    "l": "srn",
+    "dict": "kopi"
+   },
+   {
+    "n": "kopie",
+    "l": "nl-SR"
+   }
+  ],
+  "Montrichardia arborescens": [
+   {
+    "n": "moko-moko",
+    "l": "srn",
+    "dict": "moko-moko"
+   },
+   {
+    "n": "mokomoko",
+    "l": "nl-SR"
+   }
+  ],
+  "Renealmia alpinia": [
+   {
+    "n": "masusa",
+    "l": "srn",
+    "dict": "masusa"
+   }
+  ],
+  "Centropogon cornutus": [
+   {
+    "n": "diakrarun",
+    "l": "srn",
+    "dict": "diakrarun"
+   }
+  ],
+  "Cestrum latifolium": [
+   {
+    "n": "bitawiwiri",
+    "l": "srn",
+    "dict": "bitawiwiri"
+   }
+  ],
+  "Solanum americanum": [
+   {
+    "n": "aguma",
+    "l": "srn",
+    "dict": "aguma"
+   }
+  ],
+  "Piper arboreum": [
+   {
+    "n": "aneisiwiwiri",
+    "l": "srn",
+    "dict": "aneisiwiwiri"
+   }
+  ],
+  "Piper hispidum": [
+   {
+    "n": "aneisiwiwiri",
+    "l": "srn",
+    "dict": "aneisiwiwiri"
+   }
+  ],
+  "Piper divaricatum": [
+   {
+    "n": "aneisiwiwiri",
+    "l": "srn",
+    "dict": "aneisiwiwiri"
+   }
+  ],
+  "Phytolacca rivinoides": [
+   {
+    "n": "blakawiwiri",
+    "l": "srn",
+    "dict": "blakawiwiri"
+   },
+   {
+    "n": "gomawiwiri",
+    "l": "srn",
+    "dict": "gomawiwiri"
+   }
+  ],
+  "Justicia calycina": [
+   {
+    "n": "bruduwiwiri",
+    "l": "srn",
+    "dict": "bruduwiwiri"
+   },
+   {
+    "n": "bakruwiwiri",
+    "l": "srn",
+    "dict": "bakruwiwiri"
+   }
+  ],
+  "Aphelandra scabra": [
+   {
+    "n": "bakruwiwiri",
+    "l": "srn",
+    "dict": "bakruwiwiri"
+   }
+  ],
+  "Miconia lateriflora": [
+   {
+    "n": "busismeriwiwiri",
+    "l": "srn",
+    "dict": "busismeriwiwiri"
+   }
+  ],
+  "Peperomia rotundifolia": [
+   {
+    "n": "ditibriwiwiri",
+    "l": "srn",
+    "dict": "ditibriwiwiri"
+   }
+  ],
+  "Peperomia pellucida": [
+   {
+    "n": "konsakawiwiri",
+    "l": "srn",
+    "dict": "konsakawiwiri"
+   }
+  ],
+  "Borreria prostrata": [
+   {
+    "n": "dyatawiwiri",
+    "l": "srn",
+    "dict": "dyatawiwiri"
+   }
+  ],
+  "Monstera adansonii": [
+   {
+    "n": "feifi-olowiwiri",
+    "l": "srn",
+    "dict": "feifi-olowiwiri"
+   }
+  ],
+  "Jacaranda obtusifolia": [
+   {
+    "n": "gobogobowiwiri",
+    "l": "srn",
+    "dict": "gobogobowiwiri"
+   }
+  ],
+  "Lantana camara": [
+   {
+    "n": "korsuwiwiri",
+    "l": "srn",
+    "dict": "korsuwiwiri"
+   }
+  ],
+  "Stylosanthes viscosa": [
+   {
+    "n": "korsuwiwiri",
+    "l": "srn",
+    "dict": "korsuwiwiri"
+   }
+  ],
+  "Bidens pilosa": [
+   {
+    "n": "yampaneisitoriman",
+    "l": "srn",
+    "dict": "yampaneisitoriman"
+   }
+  ],
+  "Pityrogramma calomelanos": [
+   {
+    "n": "isriwiwiri",
+    "l": "srn",
+    "dict": "isriwiwiri"
+   }
+  ],
+  "Philodendron scandens": [
+   {
+    "n": "isriwiwiri",
+    "l": "srn",
+    "dict": "isriwiwiri"
+   }
+  ],
+  "Cordia schomburgkii": [
+   {
+    "n": "fowrulosowiwiri",
+    "l": "srn",
+    "dict": "fowrulosowiwiri"
+   }
+  ],
+  "Arrabidaea mollis": [
+   {
+    "n": "makamakawiwiri",
+    "l": "srn",
+    "dict": "makamakawiwiri"
+   }
+  ],
+  "Sesamum indicum": [
+   {
+    "n": "abongra",
+    "l": "srn",
+    "dict": "abongra"
+   }
+  ],
+  "Zea mays": [
+   {
+    "n": "karu",
+    "l": "srn",
+    "dict": "karu"
+   }
+  ],
+  "Saccharum officinarum": [
+   {
+    "n": "ken",
+    "l": "srn",
+    "dict": "ken"
+   }
+  ],
+  "Ipomoea batatas": [
+   {
+    "n": "patata",
+    "l": "srn",
+    "dict": "patata"
+   },
+   {
+    "n": "swit'patata",
+    "l": "srn",
+    "dict": "swit'patata"
+   }
+  ],
+  "Cajanus cajan": [
+   {
+    "n": "wandu",
+    "l": "srn",
+    "dict": "wandu"
+   }
+  ],
+  "Ixora coccinea": [
+   {
+    "n": "faya lobi",
+    "l": "srn"
+   }
+  ],
+  "Theobroma cacao": [
+   {
+    "n": "kakaw",
+    "l": "srn",
+    "dict": "kakaw"
+   }
+  ],
+  "Gossypium barbadense": [
+   {
+    "n": "katunbon",
+    "l": "srn",
+    "dict": "katunbon"
+   }
+  ],
+  "Allium cepa": [
+   {
+    "n": "ayun",
+    "l": "srn",
+    "dict": "ayun"
+   }
+  ],
+  "Allium sativum": [
+   {
+    "n": "konofroku",
+    "l": "srn",
+    "dict": "konofroku"
+   }
+  ],
+  "Cucurbita moschata": [
+   {
+    "n": "pampun",
+    "l": "srn",
+    "dict": "pampun"
+   }
+  ],
+  "Cucumis sativus": [
+   {
+    "n": "konkomro",
+    "l": "srn",
+    "dict": "konkomro"
+   }
+  ],
+  "Citrus aurantiifolia": [
+   {
+    "n": "lemki",
+    "l": "srn",
+    "dict": "lemki"
+   }
+  ],
+  "Citrus maxima": [
+   {
+    "n": "ponpon",
+    "l": "srn",
+    "dict": "ponpon"
+   }
+  ],
+  "Citrus aurantium": [
+   {
+    "n": "korsow-alanya",
+    "l": "srn",
+    "dict": "korsow-alanya"
+   }
+  ],
+  "Myristica fragrans": [
+   {
+    "n": "notmuskati",
+    "l": "srn",
+    "dict": "notmuskati"
+   }
+  ],
+  "Syzygium aromaticum": [
+   {
+    "n": "nagri",
+    "l": "srn",
+    "dict": "nagri"
+   }
+  ],
+  "Mentha spicata": [
+   {
+    "n": "menti",
+    "l": "srn",
+    "dict": "menti"
+   }
+  ],
+  "Petroselinum crispum": [
+   {
+    "n": "pitriseri",
+    "l": "srn",
+    "dict": "pitriseri"
+   }
+  ],
+  "Apium graveolens": [
+   {
+    "n": "sedri",
+    "l": "srn",
+    "dict": "sedri"
+   }
+  ],
+  "Solanum lycopersicum": [
+   {
+    "n": "tomati",
+    "l": "srn",
+    "dict": "tomati"
+   }
+  ],
+  "Nicotiana tabacum": [
+   {
+    "n": "tabaka",
+    "l": "srn",
+    "dict": "tabaka"
+   }
+  ],
+  "Vanilla planifolia": [
+   {
+    "n": "baniri",
+    "l": "srn",
+    "dict": "baniri"
+   }
+  ],
+  "Punica granatum": [
+   {
+    "n": "granaki",
+    "l": "srn",
+    "dict": "granaki"
+   }
+  ],
+  "Dioscorea alata": [
+   {
+    "n": "nyamsi",
+    "l": "srn",
+    "dict": "nyamsi"
+   }
+  ],
+  "Oryza sativa": [
+   {
+    "n": "aleisi",
+    "l": "srn",
+    "dict": "aleisi"
+   },
+   {
+    "n": "padi",
+    "l": "srn",
+    "dict": "padi"
+   }
+  ],
+  "Arachis hypogaea": [
+   {
+    "n": "pinda",
+    "l": "srn",
+    "dict": "pinda"
+   }
+  ],
+  "Dicorynia guianensis": [
+   {
+    "n": "basralocus",
+    "l": "nl-SR"
+   }
+  ],
+  "Tabebuia serratifolia": [
+   {
+    "n": "groenhart",
+    "l": "nl-SR"
+   }
+  ],
+  "Handroanthus serratifolius": [
+   {
+    "n": "groenhart",
+    "l": "nl-SR"
+   }
+  ],
+  "Peltogyne venosa": [
+   {
+    "n": "purperhart",
+    "l": "nl-SR"
+   }
+  ],
+  "Peltogyne paniculata": [
+   {
+    "n": "purperhart",
+    "l": "nl-SR"
+   }
+  ],
+  "Vouacapoua americana": [
+   {
+    "n": "bruinhart",
+    "l": "nl-SR"
+   }
+  ],
+  "Brosimum guianense": [
+   {
+    "n": "letterhout",
+    "l": "nl-SR"
+   }
+  ],
+  "Eperua falcata": [
+   {
+    "n": "walaba",
+    "l": "nl-SR"
+   }
+  ],
+  "Sextonia rubra": [
+   {
+    "n": "wana",
+    "l": "nl-SR"
+   }
+  ],
+  "Virola surinamensis": [
+   {
+    "n": "baboen",
+    "l": "nl-SR"
+   }
+  ],
+  "Mora excelsa": [
+   {
+    "n": "mora",
+    "l": "nl-SR"
+   }
+  ],
+  "Simarouba amara": [
+   {
+    "n": "soemaroeba",
+    "l": "nl-SR"
+   }
+  ],
+  "Hymenaea courbaril": [
+   {
+    "n": "rode lokus",
+    "l": "nl-SR"
+   }
+  ],
+  "Symphonia globulifera": [
+   {
+    "n": "mani",
+    "l": "nl-SR"
+   }
+  ],
+  "Ruizterania albiflora": [
+   {
+    "n": "gronfoeloe",
+    "l": "nl-SR"
+   }
+  ],
+  "Avicennia germinans": [
+   {
+    "n": "parwa",
+    "l": "nl-SR"
+   }
+  ],
+  "Rhizophora mangle": [
+   {
+    "n": "mangro",
+    "l": "nl-SR"
+   }
+  ],
+  "Pterocarpus officinalis": [
+   {
+    "n": "bebe",
+    "l": "nl-SR"
+   }
+  ]
+ },
+ "groups": {
+  "Psittacidae": [
+   {
+    "n": "popokai",
+    "l": "srn",
+    "dict": "popokai"
+   }
+  ],
+  "Ramphastidae": [
+   {
+    "n": "kuyake",
+    "l": "srn",
+    "dict": "kuyake"
+   }
+  ],
+  "Trochilidae": [
+   {
+    "n": "korke",
+    "l": "srn",
+    "dict": "korke"
+   },
+   {
+    "n": "lonkriki",
+    "l": "srn",
+    "dict": "lonkriki"
+   }
+  ],
+  "Cathartidae": [
+   {
+    "n": "opete",
+    "l": "srn",
+    "dict": "opete"
+   },
+   {
+    "n": "dyankro",
+    "l": "srn",
+    "dict": "dyankro"
+   }
+  ],
+  "Ardeidae": [
+   {
+    "n": "sabaku",
+    "l": "srn",
+    "dict": "sabaku"
+   }
+  ],
+  "Accipitridae": [
+   {
+    "n": "aka",
+    "l": "srn",
+    "dict": "aka"
+   }
+  ],
+  "Falconidae": [
+   {
+    "n": "pakani",
+    "l": "srn",
+    "dict": "pakani"
+   }
+  ],
+  "Columbidae": [
+   {
+    "n": "doifi",
+    "l": "srn",
+    "dict": "doifi"
+   }
+  ],
+  "Anatidae": [
+   {
+    "n": "doksi",
+    "l": "srn",
+    "dict": "doksi"
+   }
+  ],
+  "Squamata:Serpentes": [
+   {
+    "n": "sneki",
+    "l": "srn",
+    "dict": "sneki"
+   }
+  ],
+  "Anura": [
+   {
+    "n": "todo",
+    "l": "srn",
+    "dict": "todo"
+   }
+  ],
+  "Testudines": [
+   {
+    "n": "sekrepatu",
+    "l": "srn",
+    "dict": "sekrepatu"
+   }
+  ],
+  "Alligatoridae": [
+   {
+    "n": "kayman",
+    "l": "srn",
+    "dict": "kayman"
+   }
+  ],
+  "Primates": [
+   {
+    "n": "monki",
+    "l": "srn",
+    "dict": "monki"
+   }
+  ],
+  "Cervidae": [
+   {
+    "n": "dia",
+    "l": "srn",
+    "dict": "dia"
+   }
+  ],
+  "Felidae": [
+   {
+    "n": "tigri",
+    "l": "srn",
+    "dict": "tigri"
+   }
+  ],
+  "Formicidae": [
+   {
+    "n": "mira",
+    "l": "srn",
+    "dict": "mira"
+   }
+  ],
+  "Culicidae": [
+   {
+    "n": "maskita",
+    "l": "srn",
+    "dict": "maskita"
+   }
+  ],
+  "Blattodea": [
+   {
+    "n": "kakalaka",
+    "l": "srn",
+    "dict": "kakalaka"
+   }
+  ],
+  "Lepidoptera": [
+   {
+    "n": "kapelka",
+    "l": "srn",
+    "dict": "kapelka"
+   }
+  ],
+  "Mantodea": [
+   {
+    "n": "spansfrow",
+    "l": "srn",
+    "dict": "spansfrow"
+   }
+  ],
+  "Orthoptera": [
+   {
+    "n": "sprenka",
+    "l": "srn",
+    "dict": "sprenka"
+   }
+  ],
+  "Phasmida": [
+   {
+    "n": "spansifrou",
+    "l": "srn",
+    "dict": "spansifrou"
+   }
+  ],
+  "Vespidae": [
+   {
+    "n": "waswasi",
+    "l": "srn",
+    "dict": "waswasi"
+   }
+  ],
+  "Lampyridae": [
+   {
+    "n": "bodya",
+    "l": "srn",
+    "dict": "bodya"
+   }
+  ],
+  "Araneae": [
+   {
+    "n": "anansi",
+    "l": "srn",
+    "dict": "anansi"
+   }
+  ],
+  "Theraphosidae": [
+   {
+    "n": "bus'anansi",
+    "l": "srn",
+    "dict": "bus'anansi"
+   }
+  ],
+  "Ixodida": [
+   {
+    "n": "daguloso",
+    "l": "srn",
+    "dict": "daguloso"
+   }
+  ],
+  "Siluriformes": [
+   {
+    "n": "katfisi",
+    "l": "srn",
+    "dict": "katfisi"
+   }
+  ],
+  "Callichthyidae": [
+   {
+    "n": "kwikwi",
+    "l": "srn",
+    "dict": "kwikwi"
+   }
+  ],
+  "Serrasalmidae": [
+   {
+    "n": "piren",
+    "l": "nl-SR"
+   }
+  ],
+  "Arecaceae": [
+   {
+    "n": "palmbon",
+    "l": "srn",
+    "dict": "palmbon"
+   }
+  ],
+  "Decapoda": [
+   {
+    "n": "krabu",
+    "l": "srn",
+    "dict": "krabu"
+   }
+  ],
+  "Agaricomycetes": [
+   {
+    "n": "popolipo",
+    "l": "srn",
+    "dict": "popolipo"
+   }
+  ]
+ }
+}
