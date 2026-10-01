@@ -1,0 +1,28 @@
+
+    /* Category listing header. The per-category colour is demoted from a full
+       background flood to a top accent rule, so every listing page reads as the
+       same brand surface while keeping the colour coding. */
+    .cat-hero{background:var(--paper);border-bottom:1px solid rgba(35,48,40,.16);color:var(--ink)}
+    .cat-hero-in{max-width:72rem;margin:0 auto;padding:2.2rem 1.25rem 1.4rem}
+    .cat-crumb{font-size:.66rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--clay);
+               display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+    .cat-crumb a{color:var(--clay);text-decoration:none}
+    .cat-crumb a:hover{text-decoration:underline}
+    .cat-row{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:.55rem}
+    .cat-row h1{font-size:clamp(2.2rem,calc(5vw / var(--z,1)),3.75rem);font-weight:400;line-height:1;letter-spacing:-.02em;
+                color:var(--forest);margin:0}
+    .cat-sub{color:#4B564D;font-size:1.03rem;line-height:1.6;margin:.6rem 0 0;max-width:44em}
+    .h1-count{font-family:'Instrument Sans',sans-serif;font-size:1.05rem;font-weight:500;color:#656C63;
+              vertical-align:super;letter-spacing:.04em}
+    .cat-cta{display:inline-flex;align-items:center;gap:.4rem;border:0;
+             border-bottom:1.5px solid var(--cat,var(--clay));border-radius:0!important;padding:0 0 .25rem;
+             font-size:.69rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--forest);
+             text-decoration:none;white-space:nowrap;transition:color .18s,border-color .18s}
+    .cat-cta:hover{background:none;color:var(--clay)}
+    @media(max-width:640px){.cat-hero-in{padding:1.5rem 1.1rem 1.1rem}.cat-row{gap:.7rem}}
+    /* Intro prose lives below the listings: indexable, out of the way. */
+    .cat-about{border-top:1px solid var(--line,#e6ddc9);margin-top:3rem;padding-top:1.8rem}
+    .cat-about h2{font-size:1.15rem;font-weight:700;color:var(--ink,#233028);margin:0 0 .6rem}
+    .cat-about p{color:#46524A;line-height:1.75;max-width:60ch;margin:0 0 .6rem}
+    .cat-about .xlinks{font-size:.88rem;color:#6b7469}
+  

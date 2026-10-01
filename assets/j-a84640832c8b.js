@@ -1,0 +1,1 @@
+function esrShare(b){var u=b.getAttribute("data-share-url"),t=b.getAttribute("data-share-title");if(navigator.share){navigator.share({title:t,text:t,url:u}).catch(function(){});}else{window.open(b.getAttribute("data-share-wa"),"_blank","noopener");}if(window.gtag){window.gtag("event","share_click",{link_url:u});}}
