@@ -82,6 +82,97 @@
     doc.querySelectorAll(".ff-lmenu.open,.ff-mmenu.open").forEach(function (x) { x.classList.remove("open"); });
   });
 
+  /* ── a photo that no longer loads (hotlinked from iNaturalist/Wikimedia; a
+        photographer can delete or relicense it): show the same plain tile as a
+        species without a photo, never a broken-image icon ── */
+  function imgFail(img) {
+    try {
+      if (img.getAttribute("data-ff-fail")) return;
+      img.setAttribute("data-ff-fail", "1");
+      if (img.classList.contains("ff-hero-bg")) { img.parentNode.removeChild(img); return; }
+      var fig = img.closest(".ff-photo");
+      if (fig) { var cap = fig.querySelector("figcaption"); if (cap) cap.hidden = true; }
+      var sp = doc.createElement("span");
+      sp.className = "ff-noimg"; sp.setAttribute("aria-hidden", "true");
+      img.parentNode.replaceChild(sp, img);
+    } catch (err) {}
+  }
+  doc.addEventListener("error", function (e) {
+    var t = e.target;
+    if (t && t.tagName === "IMG") imgFail(t);
+  }, true);
+  Array.prototype.forEach.call(doc.images, function (im) {
+    if (im.complete && im.naturalWidth === 0 && im.getAttribute("src")) imgFail(im);
+  });
+
+  /* ── group chip bar: arrows, mouse wheel and drag on PC (touch swipes natively) ── */
+  Array.prototype.forEach.call(doc.querySelectorAll(".ff-chips-in"), function (sc) {
+    try {
+      var box = doc.createElement("div");
+      box.className = "ff-cbox";
+      sc.parentNode.insertBefore(box, sc);
+      box.appendChild(sc);
+      var CHEV = {l: "M15 18l-6-6 6-6", r: "M9 18l6-6-6-6"};
+      function mk(dir) {
+        var b = doc.createElement("button");
+        b.type = "button"; b.className = "ff-carr " + dir; b.tabIndex = -1; b.hidden = true;
+        b.setAttribute("aria-hidden", "true");
+        b.innerHTML = '<span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="' + CHEV[dir] + '"/></svg></span>';
+        b.addEventListener("click", function () {
+          var step = Math.max(200, sc.clientWidth * 0.7) * (dir === "l" ? -1 : 1);
+          if (sc.scrollBy) sc.scrollBy({left: step, behavior: "smooth"}); else sc.scrollLeft += step;
+        });
+        box.appendChild(b);
+        return b;
+      }
+      var bl = mk("l"), br = mk("r");
+      function upd() {
+        var max = sc.scrollWidth - sc.clientWidth;
+        bl.hidden = sc.scrollLeft <= 2;
+        br.hidden = max <= 2 || sc.scrollLeft >= max - 2;
+      }
+      sc.addEventListener("scroll", upd, {passive: true});
+      window.addEventListener("resize", upd);
+      // vertical mouse wheel over the bar scrolls it sideways; at either end the page scrolls as usual
+      sc.addEventListener("wheel", function (e) {
+        if (e.ctrlKey || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+        var max = sc.scrollWidth - sc.clientWidth;
+        var d = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? sc.clientWidth : 1);
+        if (max <= 0 || (d < 0 && sc.scrollLeft <= 0) || (d > 0 && sc.scrollLeft >= max - 1)) return;
+        sc.scrollLeft += d;
+        e.preventDefault();
+      }, {passive: false});
+      // click-and-drag with the mouse; a drag never opens the chip it started on
+      var down = false, moved = false, sx = 0, sl = 0;
+      sc.addEventListener("pointerdown", function (e) {
+        if (e.pointerType !== "mouse" || e.button !== 0) return;
+        down = true; moved = false; sx = e.clientX; sl = sc.scrollLeft;
+      });
+      window.addEventListener("pointermove", function (e) {
+        if (!down) return;
+        var dx = e.clientX - sx;
+        if (!moved && Math.abs(dx) > 5) { moved = true; sc.classList.add("drag"); }
+        if (moved) sc.scrollLeft = sl - dx;
+      });
+      window.addEventListener("pointerup", function () {
+        if (!down) return;
+        down = false; sc.classList.remove("drag");
+      });
+      sc.addEventListener("click", function (e) {
+        if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
+      }, true);
+      sc.addEventListener("dragstart", function (e) { e.preventDefault(); });
+      // the current group's chip starts in view
+      var on = sc.querySelector(".ff-chip.on");
+      if (on) {
+        var x = on.getBoundingClientRect().left - sc.getBoundingClientRect().left + sc.scrollLeft;
+        sc.scrollLeft = Math.max(0, x - (sc.clientWidth - on.offsetWidth) / 2);
+      }
+      upd();
+      if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(upd);
+    } catch (err) { /* the bar still scrolls by touch/trackpad without this */ }
+  });
+
   /* ── district map + month chart (drawn from data attributes) ── */
   var ORDER = ["Sipaliwini", "Brokopondo", "Marowijne", "Para", "Saramacca", "Coronie", "Nickerie", "Commewijne", "Wanica", "Paramaribo"];
   doc.querySelectorAll(".ff-map[data-d]").forEach(function (box) {
@@ -120,7 +211,7 @@
     fetch("/flora-fauna/assets/search.json", {cache: "force-cache"}).then(function (r) { return r.json(); }).then(function (rows) {
       IDX = rows.map(function (r) {
         return {u: r[0], l: r[1], n: {en: r[2], nl: r[3], es: r[4], zh: r[5]}, loc: r[6], g: r[7], p: r[8], o: r[9], s: r[10] || "",
-                h: norm([r[1], r[2], r[3], r[4], r[5], r[6]].join(" | "))};
+                syn: r[11] || "", h: norm([r[1], r[2], r[3], r[4], r[5], r[6], r[11] || ""].join(" | "))};
       });
       loading = false; cb();
     }).catch(function () { loading = false; });
@@ -149,7 +240,7 @@
     }
   });
   function score(e, q, words) {
-    var best = 0, names = [e.n[LANG], e.n.en, e.l, e.loc, e.n.nl, e.n.es, e.n.zh];
+    var best = 0, names = [e.n[LANG], e.n.en, e.l, e.loc, e.n.nl, e.n.es, e.n.zh].concat(e.syn ? e.syn.split(/ (?=[A-Z])/) : []);
     for (var i = 0; i < names.length; i++) {
       var v = norm(names[i]); if (!v) continue;
       if (v === q) best = Math.max(best, 100 - i);
