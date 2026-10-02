@@ -551,29 +551,181 @@ def stage_assemble():
             texts[sci] = tx_
         rows.append(r)
 
-    # slugs for profiles: English name when unique, else scientific name
+    rows, merged_keys = merge_duplicates(rows, gb, texts, set(sr_obs))
+
+    # slugs for profiles: the slug it already had (URLs stay stable across data
+    # refreshes), else the English name when unique, else the scientific name
     from collections import Counter
+    try:
+        prev = json.load(open(OUT / 'species.json', encoding='utf-8'))
+    except Exception:
+        prev = {}
+    prev_slug = {}
+    for x in prev.get('species', []):
+        if x.get('p'):
+            prev_slug[x['k']] = x['p']
     cands = [r for r in rows if r.pop('_cand', False)]
     c = Counter(slugify(r['n'].get('en', '')) for r in cands if r['n'].get('en'))
     used = set()
     for r in sorted(cands, key=lambda r: (-(r['o'] or 0), -(r['r'] or 0))):
-        en = r['n'].get('en')
-        s = slugify(en) if en and c[slugify(en)] == 1 else ''
-        if not s or s in RESERVED or s in used or len(s) < 3:
-            s = slugify(r['s'])
-        if s in used or s in RESERVED:
-            s = slugify(r['s']) + '-' + str(r['k'])
+        # its own old slug, or one of the entries merged into it ("x-y" beats
+        # "x-y-12345"; then its own; then the slug of the most recorded entry)
+        mine = [r['k']] + merged_keys.get(r['k'], [])
+        olds = sorted((prev_slug[k2] for k2 in mine if k2 in prev_slug),
+                      key=lambda x: (bool(re.search(r'-\d{4,}$', x)), x != prev_slug.get(r['k'])))
+        s = next((x for x in olds if x not in used and x not in RESERVED), '')
+        if not s:
+            en = r['n'].get('en')
+            s = slugify(en) if en and c[slugify(en)] == 1 else ''
+            if not s or s in RESERVED or s in used or len(s) < 3:
+                s = slugify(r['s'])
+            if s in used or s in RESERVED:
+                s = slugify(r['s']) + '-' + str(r['k'])
         used.add(s)
         r['p'] = s
+    # profile URLs that no longer exist -> where that species lives now
+    # (flora_fauna_pages.py writes a small redirect page for each)
+    new_slug = {r['k']: r['p'] for r in rows if r.get('p')}
+    for r in rows:
+        for k2 in merged_keys.get(r['k'], ()):
+            if r.get('p'):
+                new_slug[k2] = r['p']
+    moved = {o: n for o, n in (prev.get('moved') or {}).items()}
+    for k, old in prev_slug.items():
+        if old not in used and new_slug.get(k):
+            moved[old] = new_slug[k]
+    moved = {o: n for o, n in moved.items() if o not in used and n in used}
     text_out = {r['p']: texts[r['s']] for r in cands}
     rows.sort(key=lambda r: (GROUP_KEYS.index(r['g']), -(r['o'] or 0), -(r['r'] or 0), r['s']))
     today = datetime.date.today().isoformat()
-    json.dump({'updated': today, 'species': rows}, open(OUT / 'species.json', 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
+    json.dump({'updated': today, 'species': rows, **({'moved': moved} if moved else {})}, open(OUT / 'species.json', 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
     json.dump(text_out, open(OUT / 'text.json', 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
     print('species', len(rows), 'profiles', len(cands), 'with img', sum(1 for r in rows if r.get('img')),
           'profile imgs', sum(1 for r in cands if r.get('img')))
     print(Counter(r['g'] for r in rows))
     print(Counter(r['g'] for r in cands))
+
+
+VERBOSE_MERGE = bool(os.environ.get('FF_VERBOSE_MERGE'))
+
+
+def merge_duplicates(rows, gb, texts, inat_current=()):
+    """One entry per species. GBIF's backbone sometimes holds the same species
+    twice (an ACCEPTED key plus a DOUBTFUL one with another authorship), or under
+    an older name or spelling. Records were then split over two entries and the
+    species showed up twice. Two entries are the same species when they share:
+      * the scientific name (same kingdom), or
+      * the iNaturalist taxon, or the Wikidata item, or
+      * the iNaturalist photo plus the species epithet (genus moved, e.g.
+        Veniliornis sanguineus = Dryobates sanguineus), or
+      * family + epithet with a near-identical genus spelling, when one of them
+        is not known to iNaturalist or Wikidata (Hydrochoeris/Hydrochoerus).
+    The survivor carries the name iNaturalist uses today (then the entry
+    iNaturalist/Wikidata know, then ACCEPTED, then most records); the other names are kept in 'syn' and stay searchable.
+    Returns (rows, {survivor key: [merged keys]})."""
+    import difflib
+    par = list(range(len(rows)))
+
+    def find(i):
+        while par[i] != i:
+            par[i] = par[par[i]]
+            i = par[i]
+        return i
+
+    def union(a, b):
+        a, b = find(a), find(b)
+        if a != b:
+            par[b] = a
+
+    def ep(r):
+        p = r['s'].split()
+        return p[1] if len(p) > 1 else ''
+
+    seen = {}
+    for i, r in enumerate(rows):
+        keys = [('s', r['tx'][0], r['s'])]
+        kd = r['tx'][0]   # never merge across kingdoms (a plant and an animal can share a name)
+        if r.get('in'):
+            keys.append(('in', kd, r['in']))
+        if r.get('wd'):
+            keys.append(('wd', kd, r['wd']))
+        im = r.get('img') or {}
+        if im.get('s') == 'inat' and ep(r):
+            keys.append(('im', kd, im.get('u'), ep(r)))
+        for k in keys:
+            if k in seen:
+                union(seen[k], i)
+            else:
+                seen[k] = i
+    by_fe = {}
+    for i, r in enumerate(rows):
+        if ep(r) and r['tx'][4]:
+            by_fe.setdefault((r['tx'][4], ep(r)), []).append(i)
+    for lst in by_fe.values():
+        for a in lst:
+            if rows[a].get('in') or rows[a].get('wd'):
+                continue
+            for b in lst:
+                if a != b and rows[a]['s'] != rows[b]['s'] and difflib.SequenceMatcher(
+                        None, rows[a]['s'].split()[0], rows[b]['s'].split()[0]).ratio() >= 0.8:
+                    union(b, a)
+
+    groups = {}
+    for i in range(len(rows)):
+        groups.setdefault(find(i), []).append(rows[i])
+
+    def rank(r):
+        st = (gb.get(str(r['k'])) or {}).get('taxonomicStatus')
+        return (1 if r['s'] in inat_current else 0, 1 if r.get('in') else 0, 1 if r.get('wd') else 0, 1 if st == 'ACCEPTED' else 0,
+                1 if r.get('img') else 0, r.get('r') or 0, -r['k'])
+
+    out, merged = [], {}
+    for grp in groups.values():
+        if len(grp) == 1:
+            out.append(grp[0])
+            continue
+        grp.sort(key=rank, reverse=True)
+        m = grp[0]
+        rest = grp[1:]
+        merged[m['k']] = [x['k'] for x in rest]
+        syn = []
+        for x in rest:
+            if x['s'] != m['s'] and x['s'] not in syn:
+                syn.append(x['s'])
+            m['r'] = (m.get('r') or 0) + (x.get('r') or 0)
+            m['o'] = max(m.get('o') or 0, x.get('o') or 0)
+            for lg, v in (x.get('n') or {}).items():
+                if v and not m['n'].get(lg):
+                    m['n'][lg] = v
+            for f in ('iu', 'img', 'wd', 'in'):
+                if x.get(f) and not m.get(f):
+                    m[f] = x[f]
+            if x.get('f'):
+                m['f'] = ''.join(sorted(set(m.get('f', '')) | set(x['f'])))
+            if x.get('ln'):
+                have = {tuple(y[:2]) for y in m.get('ln', [])}
+                m.setdefault('ln', []).extend(y for y in x['ln'] if tuple(y[:2]) not in have)
+            if x.get('d'):
+                d = dict(m.get('d') or {})
+                for k2, n in x['d'].items():
+                    d[k2] = d.get(k2, 0) + n
+                m['d'] = d
+            if x.get('m'):
+                m['m'] = [a + b for a, b in zip(m.get('m') or [0] * 12, x['m'])]
+            if x.get('y'):
+                y = m.get('y') or x['y']
+                m['y'] = [min(y[0], x['y'][0]), max(y[1], x['y'][1])]
+            if x.get('_cand') and not m.get('_cand'):
+                m['_cand'] = True
+                if x['s'] in texts and m['s'] not in texts:
+                    texts[m['s']] = texts[x['s']]
+        if syn:
+            m['syn'] = syn
+        if VERBOSE_MERGE:
+            print('   ', m['s'], '<=', [(x['s'], x['k']) for x in rest])
+        out.append(m)
+    print('  merged duplicates:', sum(len(v) for v in merged.values()), 'entries into', len(merged), 'species')
+    return out, merged
 
 
 STAGES = {"species": stage_species, "wikidata": stage_wikidata, "inat": stage_inat, "checklists": stage_checklists,
