@@ -177,7 +177,7 @@
   var ORDER = ["Sipaliwini", "Brokopondo", "Marowijne", "Para", "Saramacca", "Coronie", "Nickerie", "Commewijne", "Wanica", "Paramaribo"];
   doc.querySelectorAll(".ff-map[data-d]").forEach(function (box) {
     var on = (box.getAttribute("data-d") || "").split(",");
-    var svg = '<svg viewBox="0 0 300 307" role="img" aria-label="' + escH(L("u.where")) + '">' + ORDER.map(function (n) {
+    var svg = '<svg viewBox="0 0 330 336" role="img" aria-label="' + escH(L("u.where")) + '">' + ORDER.map(function (n) {
       return '<use href="/flora-fauna/assets/districts.svg#d-' + n + '" class="ff-d' + (on.indexOf(n) > -1 ? " on" : "") + '"/>';
     }).join("") + "</svg>";
     box.insertAdjacentHTML("afterbegin", svg);
