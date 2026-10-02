@@ -97,6 +97,7 @@ U = {
     "family": L("Family", "Familie", "Familia", "科"),
     "names": L("Names", "Namen", "Nombres", "名称"),
     "scientific": L("Scientific name", "Wetenschappelijke naam", "Nombre científico", "学名"),
+    "synonyms": L("Also recorded as", "Ook geregistreerd als", "También registrado como", "也记录为"),
     "local_names": L("Local names", "Lokale namen", "Nombres locales", "本地名称"),
     "group_term": L("general name for the group", "algemene naam voor de groep", "nombre general del grupo", "该类群的统称"),
     "about": L("About", "Over", "Sobre", "简介"),
@@ -347,6 +348,10 @@ class Data:
         except Exception:
             self.local = {"species": {}, "groups": {}}
         self.by_slug = {s["p"]: s for s in self.species if s.get("p")}
+        # old profile URL -> current slug (duplicate entries merged, see
+        # scripts/flora_fauna_data.py merge_duplicates); each gets a redirect page
+        self.moved = {o: n for o, n in (raw.get("moved") or {}).items()
+                      if n in self.by_slug and o not in self.by_slug}
         self.by_group = {}
         self.by_sub = {}
         for s in self.species:
@@ -864,6 +869,9 @@ def build_species(data, shell, sp):
         rows.append(f'<tr><th>{tx(lab)}</th><td><span translate="no">{val}</span> <small>({tx(U["group_term"])})</small></td></tr>')
     auth = f' <span class="ff-auth" translate="no">{esc(sp.get("a") or "")}</span>' if sp.get("a") else ""
     rows.append(f'<tr><th>{tx(U["scientific"])}</th><td translate="no"><i>{esc(sci)}</i>{auth}</td></tr>')
+    if sp.get("syn"):
+        rows.append(f'<tr><th>{tx(U["synonyms"])}</th><td translate="no">'
+                    + ", ".join(f"<i>{esc(x)}</i>" for x in sp["syn"]) + '</td></tr>')
     names_tbl = f'<table class="ff-names">{"".join(rows)}</table>'
     # about (Wikipedia, per language)
     txt = data.text.get(slug, {})
@@ -1059,7 +1067,8 @@ def _search_index(data):
             target = f'{s["g"]}/{s["sg"]}/#' + s["s"].lower().replace(" ", "-")
         rows.append([target, s["s"], n.get("en") or "", n.get("nl") or "", n.get("es") or "", n.get("zh") or "",
                      " ".join(x[0] for x in s.get("ln", [])), s["g"], 1 if s.get("p") else 0, s.get("o") or 0,
-                     "".join(lg for lg in STATIC_LANGS if s.get("p") and lg in sp_langs(s))])
+                     "".join(lg for lg in STATIC_LANGS if s.get("p") and lg in sp_langs(s)),
+                     " ".join(s.get("syn", []))])
     return _json.dumps(rows, ensure_ascii=False, separators=(",", ":"))
 
 
@@ -1144,6 +1153,28 @@ def site_search_entries(top_n=400):
     return out
 
 
+RESERVED_DIRS = set(GROUP_KEYS) | {"about", "assets"} | set(COLLECTION_KEYS)
+
+
+def redirect_page(path, sp):
+    """A species page that moved (two entries for one species were merged).
+    English only (build_i18n removes old copies in the other trees), not in the
+    sitemap or search, noindex + canonical to the new URL. Keeps ?lang= and #."""
+    url = f"/{path}"
+    name = esc(cap((sp.get("n") or {}).get("en") or sp["s"]))
+    return ('<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n'
+            '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+            f'<title translate="no">{name} | Flora &amp; Fauna of Suriname</title>\n'
+            '<meta name="robots" content="noindex,follow">\n'
+            '<meta name="l10n-langs" content="en">\n'
+            f'<link rel="canonical" href="{SITE_URL}{url}">\n'
+            f'<meta http-equiv="refresh" content="0; url={url}">\n'
+            f'<script>location.replace({_json.dumps(url)}+location.search+location.hash)</script>\n'
+            '</head>\n<body>\n'
+            f'<p><a href="{url}">{name}</a></p>\n'
+            '</body>\n</html>\n')
+
+
 def build_flora_fauna_pages(ctx=None):
     """Returns ({path: html}, {path: text}) — HTML pages and verbatim asset files."""
     data = Data()
@@ -1167,6 +1198,10 @@ def build_flora_fauna_pages(ctx=None):
             pages[f"{BASE}/{k}/index.html"] = build_collection(data, shell, k)
     for s in data.profiles:
         pages[f"{BASE}/{s['p']}/index.html"] = build_species(data, shell, s)
+    for old, new in data.moved.items():
+        if old in RESERVED_DIRS:
+            continue
+        pages[f"{BASE}/{old}/index.html"] = redirect_page(f"{BASE}/{new}/", data.by_slug[new])
     files = {
         f"{BASE}/assets/ff.css": css,
         f"{BASE}/assets/ff.js": js,

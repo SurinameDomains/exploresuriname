@@ -62,11 +62,19 @@ CACHE_FILE = SCRIPT_DIR / "image_cache.json"
 # its hash, which makes build_i18n re-emit that page's translations.
 GENERATED_TREES = {"nl", "es", "zh"}
 
+# Sections whose photos are hotlinked on purpose and must never be copied into
+# images/. Flora & Fauna (Oct 2026) shows ~7,000 openly licensed photos from
+# iNaturalist's open-data bucket and Wikimedia: copying them (plus a -480
+# variant and an og/ JPEG twin each) added ~200 MB to the published site, which
+# has a hard 1 GB limit on GitHub Pages, and the first run spent 33 minutes
+# downloading. See README_flora_fauna.md ("Licences").
+HOTLINK_SECTIONS = {"flora-fauna"}
+
 def _english_html():
     out = []
     for p in SCRIPT_DIR.rglob("*.html"):
         rel = p.relative_to(SCRIPT_DIR)
-        if rel.parts and rel.parts[0] in GENERATED_TREES:
+        if rel.parts and (rel.parts[0] in GENERATED_TREES or rel.parts[0] in HOTLINK_SECTIONS):
             continue
         out.append(p)
     return out
@@ -503,6 +511,102 @@ def _build_og_jpegs():
           % (made, skipped))
 
 
+_LOCAL_REF_RE = re.compile(r"images/(?:og/)?([0-9a-f]{32})")
+_BOOKKEEPING = {"image_cache.json", "image_widths.json", "og_twins.json", "image_failures.json"}
+
+def _flora_photo_matcher():
+    """url -> True when it is a Flora & Fauna photo (built from species.json).
+
+    Photo URLs there are templates ("https://.../photos/123/{size}.jpg",
+    ".../thumb/a/ab/X.jpg/{w}px-X.jpg"); a cached URL is one of them when it
+    shares the template's text before and after the placeholder."""
+    try:
+        data = json.loads((SCRIPT_DIR / "data" / "flora_fauna" / "species.json")
+                          .read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    sp = data.get("species", data) if isinstance(data, dict) else data
+    tmpl = {}
+    for s in (sp.values() if isinstance(sp, dict) else sp):
+        u = ((s or {}).get("img") or {}).get("u") or ""
+        if "{" in u and "}" in u:
+            pre, post = u.split("{", 1)[0], u.rsplit("}", 1)[1]
+            if pre.endswith("/"):
+                tmpl.setdefault(pre, set()).add(post)
+    if not tmpl:
+        return None
+
+    def is_flora(url):
+        pre = url[:url.rfind("/") + 1]
+        return any(url.endswith(post) for post in tmpl.get(pre, ()))
+    return is_flora
+
+
+def _prune_hotlinked(cache, html_contents, failures, dry_run):
+    """Remove local copies of Flora & Fauna photos (see HOTLINK_SECTIONS).
+
+    Before Oct 2026 this script also scanned flora-fauna/ and copied ~7,000
+    section photos into images/. Those copies are removed again here, safely:
+      * only URLs that are Flora & Fauna photos (species.json) are considered;
+      * a URL that any other English page still uses is kept;
+      * a file whose name still appears anywhere in the English site (HTML,
+        JSON, JS, XML; flora pages included, in case generate.py could not
+        rebuild that section this run) is kept.
+    The section's pages are rebuilt by generate.py with the original photo
+    URLs every run, and build_i18n.py copies those into nl/es/zh afterwards.
+    Idempotent: once the copies are gone this costs one read of species.json."""
+    is_flora = _flora_photo_matcher()
+    if is_flora is None:
+        return 0
+    used_elsewhere = set()
+    for c in html_contents.values():
+        used_elsewhere.update(u for _, u in _EXT_REF_RE.findall(c))
+    cand = {u: loc for u, loc in cache.items()
+            if is_flora(u) and u not in used_elsewhere}
+    for u in [u for u in failures if is_flora(u)]:
+        failures.pop(u, None)
+    if not cand:
+        return 0
+
+    # every image name still referenced somewhere in the English site
+    referenced = set()
+    for c in html_contents.values():
+        referenced.update(_LOCAL_REF_RE.findall(c))
+    for sec in HOTLINK_SECTIONS:
+        for p in (SCRIPT_DIR / sec).rglob("*.html"):
+            try:
+                referenced.update(_LOCAL_REF_RE.findall(p.read_text(encoding="utf-8")))
+            except Exception:
+                pass
+    for pattern in ("*.json", "*.js", "*.xml", "*.webmanifest", "data/**/*.json", "data/**/*.js"):
+        for p in SCRIPT_DIR.glob(pattern):
+            if p.name in _BOOKKEEPING:
+                continue
+            try:
+                referenced.update(_LOCAL_REF_RE.findall(p.read_text(encoding="utf-8", errors="ignore")))
+            except Exception:
+                pass
+
+    removed, kept, freed = 0, 0, 0
+    for u, loc in sorted(cand.items()):
+        name = Path(loc).name
+        stem = Path(loc).stem
+        if stem in referenced or not re.fullmatch(r"[0-9a-f]{32}", stem):
+            kept += 1
+            continue
+        for f in (IMAGES_DIR / name, IMAGES_DIR / (stem + "-480.webp"),
+                  IMAGES_DIR / "og" / (stem + ".jpg")):
+            if f.exists():
+                freed += f.stat().st_size
+                if not dry_run:
+                    f.unlink()
+        cache.pop(u, None)
+        removed += 1
+    print("Hotlinked sections: removed %d local photo copies (%.1f MB)%s"
+          % (removed, freed / 1e6, ", kept %d still referenced" % kept if kept else ""))
+    return removed
+
+
 def main(dry_run=False):
     t_start = time.time()
     _laps = []
@@ -544,9 +648,13 @@ def main(dry_run=False):
         all_urls.update(_extract_img_srcs(content))
 
     print("Found %d unique external image URLs across %d HTML files "
-          "(nl/ and es/ excluded; build_i18n.py regenerates them)\n" % (
+          "(nl/, es/, zh/ excluded: build_i18n.py regenerates them; flora-fauna/ is hotlinked)\n" % (
         len(all_urls), len(HTML_GLOB)))
     lap("read html")
+
+    if _prune_hotlinked(cache, html_contents, failures, dry_run) and not dry_run:
+        _save_cache(cache)
+    lap("prune hotlinked")
 
     # Phase 1 (fast): register already-downloaded files
     registered = 0
