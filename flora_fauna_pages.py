@@ -1041,6 +1041,7 @@ def build_about(data, shell):
         ("https://www.gbif.org/dataset/e98cc325-bc7a-4489-a841-15b734ab2514", "GRIIS Checklist: Suriname"),
         ("https://www.iucnredlist.org/", "IUCN Red List"),
         ("https://www.geoboundaries.org/", "geoBoundaries (district map, OpenStreetMap contributors, ODbL)"),
+        ("https://www.naturalearthdata.com/", "Natural Earth (Tigri and Lawa-Litani areas on the district map, public domain)"),
     ]
     src_html = "".join(f'<li><a href="{u}" rel="noopener" target="_blank" translate="no">{esc(t)}</a></li>' for u, t in srcs)
     body = ('<main id="main" class="ff-wrap ff-main ff-narrow">' + bc
@@ -1078,7 +1079,7 @@ def _districts_file():
     except Exception:
         return ""
     paths = "".join(f'<path id="d-{esc(n)}" d="{v["d"]}"/>' for n, v in d["districts"].items())
-    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 307">'
+    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 336">'
             f'<!-- {esc(d.get("source", ""))} --><defs>{paths}</defs></svg>')
 
 
