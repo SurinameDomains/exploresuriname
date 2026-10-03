@@ -24,8 +24,8 @@
     "date": "2026-10-01"
   },
   "static:services.html": {
-    "hash": "2cd4b66e3a8e43fe535134658d489ca4",
-    "date": "2026-10-01"
+    "hash": "8f88feac518ee0a041e032390d1a1305",
+    "date": "2026-10-03"
   },
   "static:currency.html": {
     "hash": "e78397117df8798bb5e66788236712ef",
@@ -52,7 +52,7 @@
     "date": "2026-10-03"
   },
   "static:news.html": {
-    "hash": "7df6f4c8b91a5a8d128032b0b0ceccc5",
+    "hash": "7996955b582c751f5e156923ef193246",
     "date": "2026-10-03"
   },
   "static:about.html": {
@@ -3064,7 +3064,7 @@
     "date": "2026-10-01"
   },
   "static:atms.html": {
-    "hash": "77e1b1abfbc778cc376aee7fea8d6db7",
+    "hash": "33dc158d6163e9569aecc1562e077279",
     "date": "2026-10-03"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-01"
   },
   "static:oil-and-gas.html": {
-    "hash": "75635bcaadd55a9c48a2e733e730dbd5",
+    "hash": "c7170691e10880769b9e19b5852f7d2f",
     "date": "2026-10-03"
   },
   "static:suriname-oil-blocks.html": {
@@ -23510,5 +23510,9 @@
   "static:flora-fauna/string-of-sausage-lichen/index.html": {
     "hash": "adae1e6bdae06faed9950144a89cb583",
     "date": "2026-10-01"
+  },
+  "rbl-stroop": {
+    "hash": "c8ab394d9a2897acddd66dc7ddde098d",
+    "date": "2026-10-03"
   }
 }
