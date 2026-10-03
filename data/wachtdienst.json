@@ -1,52 +1,52 @@
 {
-  "date_range": "zaterdag 26 september tot maandag 28 september 2026",
+  "date_range": "zaterdag 03 oktober tot maandag 05 oktober 2026",
   "doctors": [
     {
-      "name": "Drs. Badal Giriradj",
-      "clinic": "Gezondheidscentrum Limesgracht",
+      "name": "Drs. Ormskerk Charleen",
+      "clinic": "Polikliniek Flustraat",
       "district": "Paramaribo",
-      "address": "Limesgracht no. 78",
-      "phone": "420506",
-      "note": "zaterdag en zondag ochtend"
-    },
-    {
-      "name": "Drs. Ori Amit",
-      "clinic": "Gezondheidscentrum Derde Rijweg",
-      "district": "Paramaribo",
-      "address": "Kwattaweg no. 620",
-      "phone": "435767",
+      "address": "Prof. Flustraat no.03",
+      "phone": "440232",
       "note": ""
     },
     {
-      "name": "Drs. Kapoerchan Rewiesha",
-      "clinic": "Polikliniek Santodorp",
+      "name": "Drs. Jethoe Devika",
+      "clinic": "Polikliniek Sophia’s Lust",
+      "district": "Paramaribo",
+      "address": "Anton Budelstraat no. 76",
+      "phone": "331401",
+      "note": ""
+    },
+    {
+      "name": "Drs. Manger- Mahangi Vina",
+      "clinic": "Polikliniek Chandisawweg",
       "district": "Wanica",
-      "address": "Hk. Corresburg Nieuw-Weergevondenweg no. 01",
-      "phone": "487067",
+      "address": "Chandisawweg (Uitkijk)",
+      "phone": "328490",
       "note": ""
     },
     {
-      "name": "Drs. Naranjo Tamayo Mauro",
-      "clinic": "Polikliniek Domburg",
+      "name": "Drs. Basulto Marrero Anisbel",
+      "clinic": "Polkliniek Domburg",
       "district": "Wanica",
       "address": "Herbertstraat perceel no. 15",
       "phone": "370044",
       "note": ""
     },
     {
-      "name": "Drs. Mahabier Madhuri",
-      "clinic": "Polikliniek Nieuwe Grond",
+      "name": "Drs. Roep- Nurmohamed Zoraida",
+      "clinic": "Gezondheidscentrum Lelydorp",
       "district": "Wanica",
-      "address": "Indira Gandhiweg no. 12",
-      "phone": "585838",
+      "address": "Indira Gandhiweg no. 42",
+      "phone": "366125",
       "note": ""
     },
     {
-      "name": "Drs. Jhanjan Cyril",
-      "clinic": "Polkliniek Bernharddorp",
+      "name": "Drs. Soemai Suraj",
+      "clinic": "Gezondheidscentrum Onverwacht",
       "district": "Para",
-      "address": "Indira Ghandiweg no. 894",
-      "phone": "352590",
+      "address": "Akrumstraat no. 09",
+      "phone": "352097",
       "note": ""
     }
   ],
@@ -62,19 +62,14 @@
       "phone": "354098"
     },
     {
-      "name": "Apotheek Limesgracht",
-      "address": "Limesgracht no. 78",
-      "phone": "420506"
+      "name": "Apotheek Domburg",
+      "address": "Herbertstraat perceel no. 15",
+      "phone": "370044"
     },
     {
-      "name": "Apotheek Derde Rijweg",
-      "address": "Kwattaweg no. 620",
-      "phone": "435767"
-    },
-    {
-      "name": "Apotheek Nieuwe Grond",
-      "address": "Indira Ghandhiweg no. 12",
-      "phone": "585838"
+      "name": "Apotheek Lelydorp",
+      "address": "Indira Gandhiweg no. 42",
+      "phone": "366125"
     },
     {
       "name": "Apotheek Wageningen",
@@ -82,23 +77,33 @@
       "phone": "233141"
     },
     {
-      "name": "Apotheek Tijgerkreek",
-      "address": "Catharina Sophiastraat no. 208",
-      "phone": "375144"
+      "name": "Apotheek Groningen",
+      "address": "Landingstraat no. 06",
+      "phone": "327169"
     },
     {
-      "name": "Apotheek Groot Henar",
-      "address": "Wooncentrum Groot- Henar no. 352",
-      "phone": "234172"
+      "name": "Apotheek Van Pettenpolder",
+      "address": "Hk. Skrifimankoti- Walther Hewittstraat",
+      "phone": "211415"
     },
     {
       "name": "Apotheek Corantijnpolder",
       "address": "Rambaran Misreweg no. 07",
       "phone": "231962"
+    },
+    {
+      "name": "Apotheek Paradise",
+      "address": "Fredericiweg no. 732",
+      "phone": "236015"
+    },
+    {
+      "name": "Apotheek Coronie",
+      "address": "Friendship no. 35",
+      "phone": "235143"
     }
   ],
-  "doctor_hours": "Spreekuren: zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
-  "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00.",
-  "last_updated": "2026-10-02T10:20:30.527361+00:00",
+  "doctor_hours": "Spreekuren: Zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
+  "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00u.",
+  "last_updated": "2026-10-03T01:35:19.973243+00:00",
   "source": "http://www.rgd.sr/nl/zorg-aanbod/wachtdienst"
 }
