@@ -1,15 +1,15 @@
 {
   "static:index.html": {
-    "hash": "7e7aaeb31687c6b039628182446b27fc",
-    "date": "2026-10-01"
+    "hash": "58cc5c2183c127c43488b5c5e1f87d5a",
+    "date": "2026-10-03"
   },
   "static:restaurants.html": {
     "hash": "a0062a34da33d1ab2bc3c31cac9b826e",
     "date": "2026-10-01"
   },
   "static:hotels.html": {
-    "hash": "a3a5c3f459bb15f880135644b349aa38",
-    "date": "2026-10-01"
+    "hash": "f3531194128988098f87e1858a70e30f",
+    "date": "2026-10-03"
   },
   "static:activities.html": {
     "hash": "d9e5cf7e1db5dd328d65d5766d0fb557",
@@ -36,7 +36,7 @@
     "date": "2026-10-03"
   },
   "static:conditions.html": {
-    "hash": "009dcee7bb7bdab1e3661a1ed681e7d7",
+    "hash": "d3c76141abfa58b7bb0dfd9443022d52",
     "date": "2026-10-03"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-03"
   },
   "static:news.html": {
-    "hash": "db68f7ec7d663435b487c81f3b770a0f",
+    "hash": "865f95c9948f6cec7acb36fb07645541",
     "date": "2026-10-03"
   },
   "static:about.html": {
@@ -3064,7 +3064,7 @@
     "date": "2026-10-01"
   },
   "static:atms.html": {
-    "hash": "869c4f601711840974955d6a20f8c54e",
+    "hash": "5a8aa14d14031b62c1493b4b60c59a74",
     "date": "2026-10-03"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-01"
   },
   "static:oil-and-gas.html": {
-    "hash": "1c5ed7e000c13de63b171e1552662511",
+    "hash": "a206b724f3b579f4b01f9422e946dfeb",
     "date": "2026-10-03"
   },
   "static:suriname-oil-blocks.html": {
@@ -23513,6 +23513,10 @@
   },
   "rbl-stroop": {
     "hash": "1c2f47cacd0a4db525c29f10be2f46c4",
+    "date": "2026-10-03"
+  },
+  "praia-branca": {
+    "hash": "8889f60f42783c604aa2250203f552f5",
     "date": "2026-10-03"
   }
 }
