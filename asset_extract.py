@@ -41,6 +41,7 @@ OUT = ROOT / "assets"
 MANIFEST = OUT / "manifest.json"
 BLOCK_RE = re.compile(r"<(style|script)>(.*?)</\1>", re.S)
 NAME_RE = re.compile(r"^[sj]-[0-9a-f]{12}\.(css|js)$")
+REF_RE = re.compile(r'/assets/([sj]-[0-9a-f]{12}\.(?:css|js))')
 REL_URL_RE = re.compile(r"""url\(\s*["']?(?!data:|https?:|/|#)[^)"'\s]""")
 MIN_PAGES = 10      # a block must repeat on at least this many pages
 MIN_BYTES = 300     # ...and be at least this big, or it stays inline
@@ -58,6 +59,9 @@ def run(pages, today=None):
     today = today or _dt.date.today().isoformat()
     texts = {}
     counts = Counter()
+    # files already linked from pages that are not rebuilt this run (unchanged
+    # Flora & Fauna pages are skipped): they must never be cleaned up
+    referenced = set()
     for p, rel in pages:
         if rel in SKIP or Path(rel).name in SKIP:
             continue
@@ -68,6 +72,7 @@ def run(pages, today=None):
         texts[p] = h
         for m in BLOCK_RE.finditer(h):
             counts[(m.group(1), m.group(2))] += 1
+        referenced.update(REF_RE.findall(h))
 
     shared = {}
     for (kind, body), c in counts.items():
@@ -79,7 +84,7 @@ def run(pages, today=None):
             continue   # never happens in valid HTML; refuse rather than guess
         shared[(kind, body)] = _name(kind, body)
 
-    if not shared:
+    if not shared and not referenced:
         return "assets: nothing to share"
 
     # 1) write the files first: a page must never point at a file that is not there
@@ -115,10 +120,13 @@ def run(pages, today=None):
         seen = {}
     for name in shared.values():
         seen[name] = today
+    for name in referenced:
+        if (OUT / name).exists():
+            seen[name] = today
     cutoff = (_dt.date.fromisoformat(today) - _dt.timedelta(days=KEEP_DAYS)).isoformat()
     removed = 0
     for f in OUT.iterdir():
-        if not NAME_RE.match(f.name) or f.name in shared.values():
+        if not NAME_RE.match(f.name) or f.name in shared.values() or f.name in referenced:
             continue
         last = seen.get(f.name)
         if last is None:

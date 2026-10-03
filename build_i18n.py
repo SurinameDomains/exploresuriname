@@ -180,7 +180,63 @@ def load_build_cache(key: str) -> dict:
         return {}
     if data.get("key") != key:
         return {}
+    global FF_META
+    FF_META = data.get("ff") or {}
     return data.get("pages") or {}
+
+# Flora & Fauna incremental build (see flora_fauna_pages.ff_mark): per finished
+# page [source md5, segments, partial languages or None], from the last build.
+# Only filled when the build cache key matches, so a change to translations.json
+# or this script rebuilds everything as before.
+FF_META = {}
+
+try:
+    from flora_fauna_pages import ff_marker, ff_mark
+except Exception:          # section missing: nothing is ever skipped
+    ff_marker = ff_mark = None
+
+
+def ff_skippable(rel, mk, known):
+    """A finished section page from the last build that nothing has changed since."""
+    if not mk or mk[0] != "built" or known.get(rel) is None:
+        return None
+    info = FF_META.get(rel)
+    if not info or info[0] != mk[1]:
+        return None
+    langs = info[2] or ALL_LANGS
+    if not all((ROOT / lg / rel).exists() for lg in TARGETS if lg in langs):
+        return None
+    return info
+
+
+def ff_restore_sources(known):
+    """Finished section pages this build cannot vouch for get their fresh source
+    back (generate.py left them alone because their source did not change)."""
+    root = ROOT / "flora-fauna"
+    if ff_marker is None or not root.is_dir():
+        return 0
+    stale = []
+    for p in root.rglob("index.html"):
+        try:
+            with open(p, encoding="utf-8") as fh:
+                mk = ff_marker(fh.read(8192))
+        except OSError:
+            continue
+        rel = p.relative_to(ROOT).as_posix()
+        if mk and mk[0] == "built" and ff_skippable(rel, mk, known) is None:
+            stale.append((p, rel))
+    if not stale:
+        return 0
+    from flora_fauna_pages import build_flora_fauna_pages
+    fresh, _files = build_flora_fauna_pages()
+    n = 0
+    for p, rel in stale:
+        html = fresh.get(rel)
+        if html is None:
+            continue           # page no longer exists; generate.py removes it
+        p.write_text(ff_mark(html)[0], encoding="utf-8")
+        n += 1
+    return n
 
 _NUM_RE = re.compile(r"\d+(?:[.,]\d+)*")
 _IN_PLACE_RE = re.compile(r"(.{2,90}?) in (Paramaribo|Para|Suriname|Wanica|Nickerie|Commewijne|Lelydorp|"
@@ -1257,6 +1313,10 @@ def english_pages():
     for p in (ROOT / "marketplace").glob("*/index.html"):
         yield p, f"marketplace/{p.parent.name}/index.html"
 
+_FF_SRC_LINE_RE = re.compile(r'<meta name="ff-src" content="[0-9a-f]{32}">\n?')
+KNOWN = {}   # build cache of the last run (set in main before the workers fork)
+
+
 def process_page(job):
     """One English page: always re-finalize EN, emit nl/es only when stale.
 
@@ -1271,6 +1331,20 @@ def process_page(job):
     # match Path.read_text()'s universal newlines so output is byte-for-byte
     # identical to the pre-incremental version on CRLF checkouts too
     html = raw.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
+
+    mk = ff_marker(html) if ff_marker else None
+    if mk and mk[0] == "built":
+        # finished last build and untouched since (generate.py saw the same source)
+        info = ff_skippable(rel, mk, KNOWN)
+        if info is not None:
+            return rel, old_hash, info[1], True, info[2], info, True
+        # Not vouched for and not restored (ff_restore_sources runs first, so this
+        # should not happen): never rebuild the language copies from a finished
+        # page (its per-language text is gone). Leave every file as it is.
+        print(f"i18n: WARNING {rel}: finished page not restored, left as is")
+        info = FF_META.get(rel)
+        return rel, old_hash or stable_hash(html), (info[1] if info else []), True, \
+            (info[2] if info else None), info, True
     new_hash = stable_hash(html)
 
     # finalize English in place (hreflang + switcher only, no translation).
@@ -1278,6 +1352,11 @@ def process_page(job):
     en_soup = BeautifulSoup(html, "lxml")
     segs = collect_segments(en_soup)
     langs = page_langs(en_soup)
+    ff_src = None
+    _m = en_soup.find("meta", attrs={"name": "ff-src"}) if mk else None
+    if _m is not None:
+        _m["name"] = "ff-built"
+        ff_src = _m.get("content")
     targets = [l for l in TARGETS if l in langs]
     apply_l10n(en_soup, "en")
     finish_l10n(en_soup)
@@ -1309,14 +1388,19 @@ def process_page(job):
                 out.write_text(upd, encoding="utf-8")
 
     if not reuse:
+        # the ff-src marker only matters on the English source; the language
+        # copies are built exactly as before it existed
+        src_html = _FF_SRC_LINE_RE.sub("", html, count=1) if ff_src else html
         for lang in targets:
-            soup = BeautifulSoup(html, "lxml")
+            soup = BeautifulSoup(src_html, "lxml")
             localize(soup, lang, rel, langs)
             out = ROOT / lang / rel
             out.parent.mkdir(parents=True, exist_ok=True)
             out.write_text(serialize(soup), encoding="utf-8")
 
-    return rel, new_hash, sorted(segs), reuse, (None if len(langs) == len(ALL_LANGS) else langs)
+    plangs = None if len(langs) == len(ALL_LANGS) else langs
+    ffinfo = [ff_src, sorted(segs), plangs] if ff_src else None
+    return rel, new_hash, sorted(segs), reuse, plangs, ffinfo, False
 
 
 def main():
@@ -1325,6 +1409,16 @@ def main():
     # /assets/ BEFORE the language trees are copied from the English pages.
     # Skipped on --only runs (they see a subset of the site). If it fails, the
     # pages simply keep their inline blocks.
+    global KNOWN
+    key   = build_key()
+    KNOWN = load_build_cache(key)
+    try:
+        _restored = ff_restore_sources(KNOWN)
+        if _restored:
+            print(f"i18n: flora & fauna: {_restored} finished pages rebuilt from source")
+    except Exception as _fe:
+        print(f"i18n: flora & fauna restore failed ({_fe})")
+        raise
     if not ONLY:
         try:
             import asset_extract
@@ -1335,8 +1429,7 @@ def main():
     if ONLY:
         pages = [(p, rel) for (p, rel) in pages if p.name in ONLY or rel in ONLY]
 
-    key   = build_key()
-    known = load_build_cache(key)
+    known = KNOWN
     jobs  = [(str(p), rel, known.get(rel)) for (p, rel) in pages]
 
     # Only fork is safe here: a spawned worker re-imports this module with a
@@ -1357,11 +1450,17 @@ def main():
     stable_segments = set()   # seen on at least one page that is not a live feed
     hashes = {}
     reused = 0
+    skipped = 0
+    ff_meta = {}
     partial_langs = {}   # url path -> languages, for pages not in every tree
 
     def absorb(result):
-        nonlocal reused
-        rel, h, segs, was_reused, plangs = result
+        nonlocal reused, skipped
+        rel, h, segs, was_reused, plangs, ffinfo, was_skipped = result
+        if ffinfo:
+            ff_meta[rel] = ffinfo
+        if was_skipped:
+            skipped += 1
         if plangs:
             partial_langs["/" + url_path(rel).replace("index.html", "")] = plangs
         hashes[rel] = h
@@ -1379,7 +1478,8 @@ def main():
         for job in jobs:
             absorb(process_page(job))
 
-    print(f"i18n: {len(jobs) - reused} pages translated, {reused} reused from cache")
+    print(f"i18n: {len(jobs) - reused} pages translated, {reused} reused from cache"
+          f" ({skipped} unchanged flora & fauna pages skipped)")
 
     # per-language search index (names/areas identical; category labels translated)
     si = ROOT / "search-index.json"
@@ -1416,7 +1516,7 @@ def main():
         if not STUB:
             BUILD_CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
             BUILD_CACHE_FILE.write_text(
-                json.dumps({"key": key, "pages": hashes}, separators=(",", ":"),
+                json.dumps({"key": key, "pages": hashes, "ff": ff_meta}, separators=(",", ":"),
                            sort_keys=True),
                 encoding="utf-8")
 

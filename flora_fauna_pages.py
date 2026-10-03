@@ -1176,6 +1176,39 @@ def redirect_page(path, sp):
             '</body>\n</html>\n')
 
 
+# ── incremental build markers (Oct 2026) ─────────────────────────────────────
+# ~4,000 section pages are identical from one 15-minute build to the next, yet
+# generate.py rewrote them all and build_i18n.py re-parsed every one (most of its
+# ~100 s). Now:
+#   generate.py   stamps each page with <meta name="ff-src" content="<md5>"> and
+#                 does not rewrite a page whose finished copy on disk carries
+#                 <meta name="ff-built" content="<same md5>">;
+#   build_i18n.py renames ff-src to ff-built when it finishes a page, and skips a
+#                 finished page when its build cache says nothing else changed.
+#                 If it cannot vouch for a finished page (translations or the
+#                 script changed, cache missing, a language copy gone), it puts
+#                 the fresh source back (ff_restore_sources) and builds it as usual.
+import re as _re
+_FF_MARK_RE = _re.compile(r'<meta\s+(?:content="([0-9a-f]{32})"\s+name="ff-(src|built)"'
+                          r'|name="ff-(src|built)"\s+content="([0-9a-f]{32})")\s*/?>')
+
+
+def ff_mark(html):
+    """(html with the ff-src marker, md5) — the md5 is of the page without it."""
+    h = _hl.md5(html.encode("utf-8")).hexdigest()
+    if "<head>\n" not in html:
+        return html, None
+    return html.replace("<head>\n", f'<head>\n<meta name="ff-src" content="{h}">\n', 1), h
+
+
+def ff_marker(text):
+    """("src"|"built", md5) from the start of a page, or None."""
+    m = _FF_MARK_RE.search(text[:8192])
+    if not m:
+        return None
+    return (m.group(2) or m.group(3)), (m.group(1) or m.group(4))
+
+
 def build_flora_fauna_pages(ctx=None):
     """Returns ({path: html}, {path: text}) — HTML pages and verbatim asset files."""
     data = Data()

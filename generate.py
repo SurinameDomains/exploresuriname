@@ -22386,14 +22386,36 @@ if __name__ == "__main__":
     _market_slugs = []
 
     import os as _os_pages
+    try:
+        from flora_fauna_pages import ff_mark as _ff_mark, ff_marker as _ff_marker
+    except Exception:
+        _ff_mark = _ff_marker = None
+    _ff_unchanged = 0
     for fname, html in pages.items():
         _d = _os_pages.path.dirname(fname)
         if _d:
             _os_pages.makedirs(_d, exist_ok=True)
+        _out = _wide_scale_units(html)
+        if fname.startswith("flora-fauna/") and _ff_mark and _out == html:
+            # Incremental (see flora_fauna_pages.ff_mark): a page whose finished
+            # copy on disk was built from exactly this source is left alone, and
+            # build_i18n.py then skips it too. Anything else gets the fresh source.
+            _out, _ff_h = _ff_mark(html)
+            if _ff_h:
+                try:
+                    with open(fname, encoding="utf-8") as _fh:
+                        _prev = _ff_marker(_fh.read(8192))
+                except OSError:
+                    _prev = None
+                if _prev == ("built", _ff_h):
+                    _ff_unchanged += 1
+                    continue
         with open(fname, "w", encoding="utf-8") as f:
-            f.write(_wide_scale_units(html))
+            f.write(_out)
         if not fname.startswith("flora-fauna/"):   # ~4,000 pages: summary line printed above
             print(f"  OK  {fname}")
+    if _ff_unchanged:
+        print(f"  OK  flora & fauna: {_ff_unchanged} unchanged pages left as built")
     # Non-HTML business files (calendar feed). Written verbatim: no HTML post-processing.
     for _bfn, _bcontent in list(_biz_files.items()) + list(_ff_files.items()):
         _bd = _os_pages.path.dirname(_bfn)
