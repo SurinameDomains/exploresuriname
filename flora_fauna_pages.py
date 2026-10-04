@@ -792,6 +792,87 @@ def _months(sp):
     return f'<div class="ff-months" data-m="{",".join(map(str, m))}"></div>'
 
 
+def _summary(sp, names):
+    """Short factual intro (all 4 languages) for a profile without a Wikipedia
+    text: rank, records, years, districts and IUCN status, from species.json."""
+    sci = esc(sp["s"])
+    fam, gen = sp["tx"][4], sp["tx"][5]
+    r, o, y = sp.get("r") or 0, sp.get("o") or 0, sp.get("y")
+    top = [n for n, _c in sorted((sp.get("d") or {}).items(), key=lambda x: -x[1])][:3]
+    iu = sp.get("iu") if sp.get("iu") in IUCN else None
+
+    def num(n, lg):
+        t = f"{n:,}"
+        return t.replace(",", ".") if lg in ("nl", "es") else t
+
+    def lst(items, lg):
+        items = [("帕拉马里博" if (lg == "zh" and x == "Paramaribo") else x) for x in items]
+        if lg == "zh":
+            return "、".join(items[:-1]) + "和" + items[-1] if len(items) > 1 else items[0]
+        conj = {"en": "and", "nl": "en", "es": "y"}[lg]
+        return ", ".join(items[:-1]) + f" {conj} " + items[-1] if len(items) > 1 else items[0]
+
+    out = {}
+    for lg in LANGS:
+        nm = esc(cap(names[lg] or names["en"]))
+        lead = f"{nm} (<i>{sci}</i>)" if names["en"] != sp["s"] or names[lg] else f"<i>{sci}</i>"
+        if lg == "zh":
+            lead = f"{nm}（<i>{sci}</i>）" if names["en"] != sp["s"] or names[lg] else f"<i>{sci}</i>"
+        rank = esc(fam or gen)
+        p = []
+        if lg == "en":
+            if names["en"] != sp["s"]:
+                lead = "The " + lead
+            p.append(f"{lead} is a species of the {'family' if fam else 'genus'} <i>{rank}</i>." if rank else f"{lead} is a species.")
+            if r:
+                t = "once" if r == 1 else f"{num(r, lg)} times"
+                yr = (f", in {y[0]}" if y[0] == y[1] else f", between {y[0]} and {y[1]}") if y else ""
+                p.append(f"It has been recorded in Suriname {t} (GBIF){yr}.")
+            if o:
+                p.append(f"iNaturalist users have shared {num(o, lg)} observation{'s' if o != 1 else ''} from Suriname.")
+            if top:
+                p.append(f"Records come mainly from {lst(top, lg)}." if len(top) > 1 else f"Records come from {lst(top, lg)}.")
+            if iu:
+                p.append(f"Its global IUCN Red List status is {IUCN[iu]['en']}.")
+        elif lg == "nl":
+            p.append(f"{lead} is een soort uit {'de familie' if fam else 'het geslacht'} <i>{rank}</i>." if rank else f"{lead} is een soort.")
+            if r:
+                t = "één keer" if r == 1 else f"{num(r, lg)} keer"
+                yr = (f", in {y[0]}" if y[0] == y[1] else f", tussen {y[0]} en {y[1]}") if y else ""
+                p.append(f"In Suriname is de soort {t} geregistreerd (GBIF){yr}.")
+            if o:
+                p.append(f"iNaturalist-gebruikers deelden {num(o, lg)} waarneming{'en' if o != 1 else ''} uit Suriname.")
+            if top:
+                p.append(f"De meeste gegevens komen uit {lst(top, lg)}." if len(top) > 1 else f"De gegevens komen uit {lst(top, lg)}.")
+            if iu:
+                p.append(f"De wereldwijde status op de Rode Lijst van de IUCN is: {IUCN[iu]['nl'].lower()}.")
+        elif lg == "es":
+            p.append(f"{lead} es una especie de la {'familia' if fam else 'género'} <i>{rank}</i>.".replace("de la género", "del género") if rank else f"{lead} es una especie.")
+            if r:
+                t = "una vez" if r == 1 else f"{num(r, lg)} veces"
+                yr = (f", en {y[0]}" if y[0] == y[1] else f", entre {y[0]} y {y[1]}") if y else ""
+                p.append(f"En Surinam se ha registrado {t} (GBIF){yr}.")
+            if o:
+                p.append(f"Los usuarios de iNaturalist han compartido {num(o, lg)} observaci{'ones' if o != 1 else 'ón'} de Surinam.")
+            if top:
+                p.append(f"La mayoría de los registros proceden de {lst(top, lg)}." if len(top) > 1 else f"Los registros proceden de {lst(top, lg)}.")
+            if iu:
+                p.append(f"Su categoría mundial en la Lista Roja de la UICN es: {IUCN[iu]['es'].lower()}.")
+        else:
+            p.append(f"{lead}是{'' if not rank else f'<i>{rank}</i>' + ('科' if fam else '属')}的一个物种。")
+            if r:
+                yr = (f"，记录于{y[0]}年" if y[0] == y[1] else f"，时间为{y[0]}年至{y[1]}年") if y else ""
+                p.append(f"在苏里南共有{num(r, lg)}条记录（GBIF）{yr}。")
+            if o:
+                p.append(f"iNaturalist用户分享了{num(o, lg)}条来自苏里南的观察记录。")
+            if top:
+                p.append(f"记录{'主要' if len(top) > 1 else ''}来自{lst(top, lg)}。")
+            if iu:
+                p.append(f"其全球IUCN红色名录等级为：{IUCN[iu]['zh']}。")
+        out[lg] = (" " if lg != "zh" else "").join(p)
+    return out
+
+
 def build_species(data, shell, sp):
     slug = sp["p"]
     path = f"{BASE}/{slug}/"
@@ -826,6 +907,8 @@ def build_species(data, shell, sp):
         photo = (f'<figure class="ff-photo"><img src="{esc(_photo(sp, "m"))}" '
                  f'srcset="{esc(_photo(sp, "m"))} 500w, {esc(_photo(sp, "l"))} 1000w" sizes="(min-width: 900px) 560px, 100vw" '
                  f'alt="{esc(names["en"])}" data-l10n-alt="{_lj(alt_l)}" translate="no" fetchpriority="high" decoding="async">'
+                 # blurred copy fills the frame so the whole photo shows (contain), never cropped
+                 f'<img class="ff-photo-bg" src="{esc(_photo(sp, "s"))}" alt="" aria-hidden="true" decoding="async">'
                  f'<figcaption translate="no"><a href="{esc(img.get("p", "#"))}" rel="nofollow noopener" target="_blank">{credit}</a></figcaption></figure>')
     else:
         photo = f'<div class="ff-photo ff-photo-none"><span class="ff-noimg ff-g-{g}"></span>{tx(U["no_photo"], cls="ff-nop")}</div>'
@@ -904,6 +987,16 @@ def build_species(data, shell, sp):
             for lg in LANGS if lg != "en" and lg not in have and lg in txt and "en" in txt)
         about = (f'<section class="ff-card-s ff-o1">{tx(U["about_species"], tag="h2", cls="ff-h2 serif")}'
                  f'<div class="ff-wtext" translate="no" data-l10n-group>{"".join(blocks)}</div>{tpls}</section>')
+    if not txt:
+        # no Wikipedia text: a short factual intro built from the data
+        sm = _summary(sp, names)
+        have = sp_langs(sp)
+        blocks = "".join(f'<div data-l10n-lang="{lg}"' + (" hidden" if lg != "en" else "") + (' lang="zh-Hans"' if lg == "zh" else "")
+                         + f'><p>{sm[lg]}</p></div>' for lg in LANGS)
+        tpls = "".join(f'<template data-wlang="{lg}" translate="no"><p>{sm[lg]}</p></template>'
+                       for lg in LANGS if lg != "en" and lg not in have)
+        about = (f'<section class="ff-card-s ff-o1">{tx(U["about_species"], tag="h2", cls="ff-h2 serif")}'
+                 f'<div class="ff-wtext" translate="no" data-l10n-group>{blocks}</div>{tpls}</section>')
     # in Suriname
     facts = []
     if sp.get("r"):
