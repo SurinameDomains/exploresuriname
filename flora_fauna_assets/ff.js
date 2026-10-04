@@ -38,7 +38,7 @@
       var en = h1.textContent; h1.textContent = cell.textContent.trim();
       doc.title = doc.title.replace(en, h1.textContent);
       var cur = doc.querySelector(".ff-bc-cur"); if (cur) cur.textContent = h1.textContent;
-      var im = doc.querySelector(".ff-photo img"); if (im) im.alt = h1.textContent;
+      var im = doc.querySelector(".ff-photo img:not(.ff-photo-bg)"); if (im) im.alt = h1.textContent;
     }
     var tpl = doc.querySelector('template[data-wlang="' + QL + '"]'), wt = doc.querySelector(".ff-wtext");
     if (tpl && wt) {
@@ -90,8 +90,10 @@
       if (img.getAttribute("data-ff-fail")) return;
       img.setAttribute("data-ff-fail", "1");
       if (img.classList.contains("ff-hero-bg")) { img.parentNode.removeChild(img); return; }
+      if (img.classList.contains("ff-photo-bg")) { img.parentNode.removeChild(img); return; }
       var fig = img.closest(".ff-photo");
-      if (fig) { var cap = fig.querySelector("figcaption"); if (cap) cap.hidden = true; }
+      if (fig) { var cap = fig.querySelector("figcaption"); if (cap) cap.hidden = true;
+        var bg = fig.querySelector(".ff-photo-bg"); if (bg && bg !== img) bg.parentNode.removeChild(bg); }
       var sp = doc.createElement("span");
       sp.className = "ff-noimg"; sp.setAttribute("aria-hidden", "true");
       img.parentNode.replaceChild(sp, img);
