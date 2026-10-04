@@ -29,6 +29,7 @@ import re
 import sys
 import time
 import unicodedata
+from collections import Counter
 import urllib.parse
 from pathlib import Path
 
@@ -367,7 +368,7 @@ def stage_assemble():
         return v
 
 
-    def pick_names(sci, w, it, gbif_vern, is_bird=False, lead_names=None):
+    def pick_names(sci, w, it, gbif_vern, is_bird=False, lead_names=None, nl_extra=()):
         lead_names = lead_names or {}
         wn = (w or {}).get('names', {})
         out = {}
@@ -388,6 +389,10 @@ def stage_assemble():
                 out[lg] = lead
             else:
                 out[lg] = v or lead or (wl[0] if wl else None)
+        if not out.get('nl'):
+            # Dutch fallbacks: GBIF (Catalogue of Life / Dutch Caribbean register),
+            # then the hand-curated Surinamese Dutch name (bruinhart, purperhart)
+            out['nl'] = next((x for x in (clean_name(y, sci, 'nl') for y in nl_extra) if x), None)
         zc = []
         for k in ('zh-hans', 'zh-cn', 'zh', 'zh-hant', 'zh-tw', 'zh-hk'):
             zc += wn.get(k, [])
@@ -476,6 +481,13 @@ def stage_assemble():
 
     loc_species = {k: [[x['n'], x['l'], x.get('dict')] for x in v] for k, v in local['species'].items() if v}
 
+    gnl = load('gbif_nl.json', {}) or {}   # stage_vernacular
+
+    def _nl_corroborated(v):
+        # GBIF's Dutch names are noisy (indigenous names tagged nld, a generic
+        # "Rijst"); keep only a name that two of its sources agree on
+        cnt = Counter(x.lower() for x in v)
+        return [x for x in v if cnt[x.lower()] >= 2][:1]
     rows = []
     texts = {}
     for k, g in gb.items():
@@ -501,7 +513,8 @@ def stage_assemble():
             if (m and len(m.group(1).split()) <= 5 and m.group(1).split()[0].lower() != sci.split()[0].lower()
                     and m.group(1).split()[-1] not in bad and not (set(m.group(1).split()) & {'es', 'is', 'een', 'una'})):
                 leads[lg] = re.split(r' (?:o|u|of|y|en) ', m.group(1).strip())[0]
-        names = pick_names(sci, w, it, g.get('vernacularName'), grp == 'birds', leads)
+        names = pick_names(sci, w, it, g.get('vernacularName'), grp == 'birds', leads,
+                           _nl_corroborated(gnl.get(str(k), [])) + [x[0] for x in loc_species.get(sci, []) if x[1] == 'nl-SR'])
         iu = None
         for q in (w or {}).get('iucn', []):
             if q in IUCN_WD:
@@ -544,7 +557,9 @@ def stage_assemble():
             ys = sorted(int(y) for y in fc.get('YEAR', {}) if y.isdigit())
             if ys:
                 r['y'] = [ys[0], ys[-1]]
-        # profile rule: a real description + (photo or a common name)
+        # profile rule: a real description + (photo or a common name), or
+        # (Oct 2026) a photo + an English common name: the page then opens with a
+        # short factual intro built from the data (flora_fauna_pages._summary)
         best_len = max([len(v['x']) for v in tx_.values()] or [0])
         if best_len >= 260 and (img or names.get('en')):
             r['_cand'] = True
@@ -552,6 +567,17 @@ def stage_assemble():
         rows.append(r)
 
     rows, merged_keys = merge_duplicates(rows, gb, texts, set(sr_obs))
+    # photo + English name (also when the merge brought them together); skip
+    # generic names that do not identify one species ("Mite", "jumping spiders")
+    from collections import Counter as _C
+    en_n = _C(r['n']['en'].lower() for r in rows if r['n'].get('en'))
+    def _generic(en):
+        n = en_n[en.lower()]
+        return n >= 3 or (n >= 2 and len(en.split()) == 1) or bool(n >= 2 and re.match(r'^[a-z][a-z -]*s$', en))
+    for r in rows:
+        en = r['n'].get('en')
+        if not r.get('_cand') and r.get('img') and en and en != r['s'] and not _generic(en):
+            r['_cand'] = True
 
     # slugs for profiles: the slug it already had (URLs stay stable across data
     # refreshes), else the English name when unique, else the scientific name
@@ -595,7 +621,7 @@ def stage_assemble():
         if old not in used and new_slug.get(k):
             moved[old] = new_slug[k]
     moved = {o: n for o, n in moved.items() if o not in used and n in used}
-    text_out = {r['p']: texts[r['s']] for r in cands}
+    text_out = {r['p']: texts[r['s']] for r in cands if r['s'] in texts}
     rows.sort(key=lambda r: (GROUP_KEYS.index(r['g']), -(r['o'] or 0), -(r['r'] or 0), r['s']))
     today = datetime.date.today().isoformat()
     json.dump({'updated': today, 'species': rows, **({'moved': moved} if moved else {})}, open(OUT / 'species.json', 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
@@ -728,8 +754,46 @@ def merge_duplicates(rows, gb, texts, inat_current=()):
     return out, merged
 
 
+# ── 8. Dutch common names from GBIF (Catalogue of Life / Dutch Caribbean Species
+#       Register), for species that iNaturalist and Wikidata give no Dutch name.
+#       Fetches for the species in the current species.json without "nl", so run
+#       it after an assemble (the default stage order does: ... assemble, vernacular, assemble).
+NL_SRC_RANK = ("Checklist Dutch Caribbean Species Register", "Nederlands Soortenregister", "Catalogue of Life")
+
+
+def stage_vernacular():
+    from concurrent.futures import ThreadPoolExecutor
+    try:
+        cur = json.load(open(OUT / 'species.json', encoding='utf-8'))['species']
+    except Exception:
+        print('  no species.json yet; run assemble first')
+        return
+    out = load('gbif_nl.json', {}) or {}
+    todo = [str(r['k']) for r in cur if not r['n'].get('nl') and str(r['k']) not in out]
+
+    def one(k):
+        d = get(f"https://api.gbif.org/v1/species/{k}/vernacularNames", dict(limit=300)) or {}
+        names = []
+        for x in d.get('results', []):
+            if x.get('language') in ('nld', 'nl', 'dut') and x.get('vernacularName'):
+                src = x.get('source') or ''
+                rank = next((i for i, s_ in enumerate(NL_SRC_RANK) if s_ in src), len(NL_SRC_RANK))
+                names.append((rank, x['vernacularName'].strip()))
+        return k, [n for _r, n in sorted(names)]
+
+    with ThreadPoolExecutor(6) as ex:
+        for i, (k, names) in enumerate(ex.map(one, todo)):
+            out[k] = names
+            if i % 500 == 0:
+                print('  ', i, '/', len(todo), flush=True)
+                save('gbif_nl.json', out)
+    save('gbif_nl.json', out)
+    print('  dutch names for', sum(1 for v in out.values() if v), 'of', len(out))
+
+
 STAGES = {"species": stage_species, "wikidata": stage_wikidata, "inat": stage_inat, "checklists": stage_checklists,
-          "facets": stage_facets, "wiki": stage_wiki, "commons": stage_commons, "assemble": stage_assemble}
+          "facets": stage_facets, "wiki": stage_wiki, "commons": stage_commons, "assemble": stage_assemble,
+          "vernacular": stage_vernacular, "assemble2": stage_assemble}
 
 if __name__ == "__main__":
     HTTP.mkdir(parents=True, exist_ok=True)
