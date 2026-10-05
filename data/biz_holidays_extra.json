@@ -3,13 +3,17 @@
   "years": {
     "2027": {
       "incomplete": true,
-      "missing_note": "Chinees Nieuwjaar, Holi Phagwa, Ied-Ul-Fitre, Ied-Ul-Adha, Javaanse Nieuwjaar en Divali 2027 zijn nog niet officieel bekendgemaakt.",
+      "missing_note": "Divali 2027 is nog niet officieel bekendgemaakt; Javaanse Nieuwjaar staat niet op de officiële lijst 2026-2027. Ied-Ul-Fitre en Ied-Ul-Adha: wijzigingen voorbehouden.",
       "public": [
         {"date": "2027-01-01", "name_nl": "Nieuwjaarsdag", "name_en": "New Year's Day", "type": "fixed"},
+        {"date": "2027-02-06", "name_nl": "Chinees Nieuwjaar", "name_en": "Chinese New Year", "type": "announced"},
+        {"date": "2027-03-10", "name_nl": "Ied-Ul-Fitre", "name_en": "Eid-ul-Fitr", "type": "announced"},
+        {"date": "2027-03-22", "name_nl": "Holi Phagwa", "name_en": "Holi Phagwa", "type": "announced"},
         {"date": "2027-03-26", "name_nl": "Goede Vrijdag", "name_en": "Good Friday", "type": "easter"},
         {"date": "2027-03-28", "name_nl": "Eerste Paasdag", "name_en": "Easter Sunday", "type": "easter"},
         {"date": "2027-03-29", "name_nl": "Tweede Paasdag", "name_en": "Easter Monday", "type": "easter"},
         {"date": "2027-05-01", "name_nl": "Dag van de Arbeid", "name_en": "Labour Day", "type": "fixed"},
+        {"date": "2027-05-17", "name_nl": "Ied-Ul-Adha", "name_en": "Eid-ul-Adha", "type": "announced"},
         {"date": "2027-07-01", "name_nl": "Dag der Vrijheden", "name_en": "Freedom Day (Keti Koti)", "type": "fixed"},
         {"date": "2027-08-09", "name_nl": "Dag der Inheemsen", "name_en": "Day of Indigenous Peoples", "type": "fixed"},
         {"date": "2027-10-10", "name_nl": "Dag der Marrons", "name_en": "Day of the Maroons", "type": "fixed"},
