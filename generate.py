@@ -9700,6 +9700,24 @@ def build_events_page():
     today = datetime.now(SR_TZ).date()
     _esc = html_lib.escape
 
+    # Organisers paste their Facebook post, line breaks and all. Keep that shape:
+    # a blank line starts a new paragraph, a single break stays a <br>. Text
+    # that arrives as one run (older submissions) renders exactly as before,
+    # so its NL/ES translation-cache keys do not move.
+    # "Bold" social-media letters (U+1D400 block, e.g. "𝗧𝗛𝗘") are folded to
+    # plain ones: screen readers spell them out and search cannot match them.
+    def _ev_paras(text, first_mt=False):
+        import unicodedata as _ud
+        t = (text or "").replace("\r\n", "\n").replace("\r", "\n")
+        t = re.sub("[\U0001D400-\U0001D7FF]+", lambda m: _ud.normalize("NFKC", m.group(0)), t)
+        out = ""
+        for _n, _pa in enumerate(x for x in re.split(r"\n[ \t]*\n+", t) if x.strip()):
+            _lines = [l.strip() for l in _pa.split("\n") if l.strip()]
+            out += ('<p class="text-gray-600 text-sm leading-relaxed'
+                    + (' mt-2' if (_n or first_mt) else '') + '">'
+                    + "<br>".join(_esc(l) for l in _lines) + '</p>')
+        return out
+
     try:
         with open("events.json", encoding="utf-8") as _f:
             _events = _json.load(_f).get("events", [])
@@ -10022,6 +10040,28 @@ def build_events_page():
     def _flyer_src(ev):
         return _localize_img(ev.get("image", "")) if ev.get("image") else ""
 
+    # Illustrative photo for events without their own flyer (national holidays,
+    # annual festivals): events.json "photo" {src, credit, license, source, pos}.
+    # A real flyer in "image" always wins. alt="" because the card title already
+    # names the event; the credit is shown in the details (CC BY / BY-SA).
+    def _photo(ev):
+        ph = ev.get("photo") or {}
+        return ph if (ph.get("src") and not ev.get("image")) else None
+
+    def _photo_img(ph, lazy=True, cls="ev-ph"):
+        src = _localize_img(ph["src"])
+        if src.startswith(SITE_URL + "/images/"):
+            src = src[len(SITE_URL):]
+        ss = ""
+        if src.startswith("/images/") and src.endswith(".webp") \
+                and os.path.exists((src[:-5] + "-480.webp").lstrip("/")):
+            ss = (' srcset="' + src[:-5] + '-480.webp 480w, ' + src + ' '
+                  + str(_IMG_WIDTHS.get(os.path.basename(src), 900)) + 'w"'
+                  ' sizes="(max-width:767px) 120px, 260px"')
+        st = (' style="object-position:' + _esc(ph["pos"]) + '"') if ph.get("pos") else ""
+        return ('<img' + ((' class="' + cls + '"') if cls else '') + ' src="' + _esc(src) + '"' + ss + st
+                + ' alt=""' + (' loading="lazy"' if lazy else '') + ' decoding="async">')
+
     def _when_short(st, en):
         if en and en > st:
             if st.month == en.month:
@@ -10050,7 +10090,9 @@ def build_events_page():
             big, sub = str(st.day), st.strftime("%b") + " · " + st.strftime("%a")
         else:
             big, sub = "?", _date(sd.year, sd.month, 1).strftime("%b %Y")
-        return ('<div class="ev-typo" aria-hidden="true">'
+        ph = _photo(ev)
+        return ((_photo_img(ph, lazy) if ph else '')
+                + '<div class="ev-typo' + (' ev-typo-ph' if ph else '') + '" aria-hidden="true">'
                 '<span class="ev-typo-c">' + _esc(ev.get("category", "") or "Event") + '</span>'
                 '<span class="ev-typo-d">' + big + '</span>'
                 '<span class="ev-typo-m">' + sub + '</span></div>')
@@ -10098,11 +10140,14 @@ def build_events_page():
         _sd, _c, _lbl, _st, _en, _ev = _spot
         _when = _in_days(_st, _en).capitalize()
         _src = _flyer_src(_ev)
+        _sph = _photo(_ev)
         _media = (('<a href="#ev-' + _esc(_ev.get("id", "")) + '" class="ev-spot-m">'
                    '<img src="' + _esc(_src) + '" alt="Flyer for ' + _esc(_ev.get("name", ""))
-                   + '" decoding="async"></a>') if _src else "")
+                   + '" decoding="async"></a>') if _src else
+                  (('<a href="#ev-' + _esc(_ev.get("id", "")) + '" class="ev-spot-m ev-spot-ph" tabindex="-1">'
+                    + _photo_img(_sph, lazy=False, cls="") + '</a>') if _sph else ""))
         spotlight = (
-            '\n  <section class="ev-spot' + (' has-m' if _src else '') + '" aria-label="Featured event">'
+            '\n  <section class="ev-spot' + (' has-m' if _media else '') + '" aria-label="Featured event">'
             + _media +
             '\n    <div class="ev-spot-b">'
             '\n      <p class="ev-kick">Featured &middot; ' + _esc(_when) + '</p>'
@@ -10255,6 +10300,17 @@ def build_events_page():
         if foot:
             foot = '<div class="ev-acts">' + foot + '</div>'
         _flyer = _ev.get("image", "")
+        _cph = _photo(_ev)
+        # Credit: linked when there is a source page (Commons), plain text when
+        # only a credit is given (own/provided photos), nothing when neither.
+        credit_html = ""
+        if _cph and (_cph.get("source") or _cph.get("credit")):
+            _who = _esc(_cph.get("credit") or "Wikimedia Commons")
+            credit_html = ('<p class="ev-cr"><span>Photo</span>: '
+                           + (('<a href="' + _esc(_cph["source"]) + '" target="_blank" rel="noopener" translate="no">'
+                               + _who + '</a>') if _cph.get("source") else ('<span translate="no">' + _who + '</span>'))
+                           + ((', <span translate="no">' + _esc(_cph["license"]) + '</span>') if _cph.get("license") else '')
+                           + '</p>')
 
         months_html += (
             '\n  <article id="ev-' + _eid + '" class="ev-card' + (' ev-row' if _compact else '') + '"'
@@ -10278,22 +10334,28 @@ def build_events_page():
             '<details class="ev-d"><summary>Details</summary><div class="ev-db">'
             '<div class="ev-db-b">' + _db_badges + '</div>'
             '<p class="ev-dl">' + _dateline + ' &middot; ' + _esc(_ev.get("location", "")) + '</p>'
-            '<p class="text-gray-600 text-sm leading-relaxed">' + _esc(_ev.get("blurb", "")) + '</p>'
-            + (('<p class="text-gray-600 text-sm leading-relaxed mt-2">' + _esc(_ev.get("more", "")) + '</p>')
-               if _ev.get("more") else "")
-            + tip_html + foot + '</div></details>'
+            + _ev_paras(_ev.get("blurb", ""))
+            + _ev_paras(_ev.get("more", ""), first_mt=True)
+            + tip_html + foot + credit_html + '</div></details>'
             '</article>'
         )
     if _open:
         months_html += '</div></section>'
 
     # ── Public holidays table ────────────────────────────────────────────────
+    # Only holidays still ahead: holidays.json spans the current school year
+    # (Oct to Aug), so last year's past dates would otherwise pad the table.
     rows_html = ""
+    _hol_years = []
     for _h in sorted(_holidays, key=lambda x: x.get("date", "")):
         try:
             hd = _p(_h["date"])
         except Exception:
             continue
+        if hd < today:
+            continue
+        if hd.year not in _hol_years:
+            _hol_years.append(hd.year)
         cls = "text-gray-400" if hd < today else "text-gray-800"
         star = " *" if _h.get("type") == "variable" else ""
         rows_html += ('<tr class="border-b border-gray-100">'
@@ -10301,6 +10363,10 @@ def build_events_page():
                       '<td class="py-2.5 pr-4 font-medium ' + cls + '"><span class="mlbl">Holiday</span>' + _esc(_h.get("name_en", "")) + star + '</td>'
                       '<td class="py-2.5 pr-4 ' + cls + '"><span class="mlbl">Dutch name</span>' + _esc(_h.get("name_nl", "")) + '</td>'
                       '<td class="py-2.5 whitespace-nowrap ' + cls + '"><span class="mlbl">Day</span>' + hd.strftime("%A") + '</td></tr>')
+
+    if _hol_years:
+        _hol_year = (str(_hol_years[0]) if len(_hol_years) == 1
+                     else str(_hol_years[0]) + "\u2013" + str(_hol_years[-1]))
 
     breaks_html = "".join(
         '<div class="flex items-center justify-between bg-white rounded-xl border border-gray-100 px-4 py-3">'
@@ -10365,6 +10431,8 @@ def build_events_page():
             _eo["url"] = _ev["website"]
         if _ev.get("image"):
             _eo["image"] = _ev["image"]
+        elif _photo(_ev):
+            _eo["image"] = _photo(_ev)["src"]
         if _ev.get("organizer"):
             _eo["organizer"] = {"@type": "Organization", "name": _ev["organizer"]}
         _ld_events.append(_eo)
@@ -10497,6 +10565,13 @@ def build_events_page():
         '.b-holiday{background:linear-gradient(160deg,#E76F51,#b9533a)}'
         '.b-other{background:linear-gradient(160deg,#55624f,#3a4436)}'
         '.ev-pos:has(.ev-img){background:var(--paper-2)}'
+        '.ev-ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}'
+        '.ev-typo-ph{background:linear-gradient(180deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,0) 32%,rgba(0,0,0,0) 45%,rgba(0,0,0,.75) 100%);'
+        'text-shadow:0 1px 3px rgba(0,0,0,.55)}'
+        '.ev-row .ev-typo-ph{background:rgba(0,0,0,.42)}'
+        '.ev-spot-ph{padding:0;position:relative;min-height:220px;background:rgba(0,0,0,.22)}'
+        '.ev-spot-ph img{position:absolute;inset:0;width:100%;height:100%;max-height:none;max-width:none;object-fit:cover;border-radius:0}'
+        '.ev-cr{font-size:.7rem;color:#9ca3af;margin:.9rem 0 0}.ev-cr a{color:inherit;text-decoration:underline}'
         '.ev-flag{position:absolute;left:10px;top:10px;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;'
         'padding:.25rem .55rem;border-radius:999px;color:#fff;background:var(--coral);box-shadow:0 2px 6px rgba(0,0,0,.2)}'
         '.ev-flag.soon{background:var(--forest)}'
@@ -10550,6 +10625,7 @@ def build_events_page():
         '.ev-grid .ev-open:hover .ev-pos{transform:none;box-shadow:none}'
         '.ev-grid .ev-typo{padding:6px;justify-content:center;align-items:center;gap:2px}'
         '.ev-grid .ev-typo-c{display:none}.ev-grid .ev-typo-d{font-size:2rem}.ev-grid .ev-typo-m{font-size:.62rem;white-space:nowrap}'
+        '.ev-grid .ev-typo-ph{background:rgba(0,0,0,.42)}'
         '.ev-grid .ev-meta{padding:0;min-width:0}'
         '.ev-grid .ev-flag{left:4px;top:4px;font-size:8px;padding:.15rem .4rem}'
         '.ev-grid .ev-save{top:50%;margin-top:-17px;right:8px;box-shadow:none;background:transparent}'
@@ -10566,6 +10642,7 @@ def build_events_page():
         '#ev-dlg-m .ev-flyer{display:block;border:0;padding:14px;background:none;cursor:zoom-in}'
         '#ev-dlg-m img{max-height:52vh;width:auto;max-width:100%;border-radius:12px;display:block}'
         '#ev-dlg-m .ev-typo{position:relative;min-height:170px;border-radius:0}'
+        '#ev-dlg-m .ev-typo-ph{min-height:260px}'
         '#ev-dlg-m .ev-pos{aspect-ratio:auto;width:100%;border-radius:0}'
         '.ev-dlg-b{padding:1.1rem 1.4rem 0}'
         '.ev-dlg-t{font-size:1.6rem;line-height:1.2;font-weight:700;color:#111827;margin:.1rem 0 .3rem}'
