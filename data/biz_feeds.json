@@ -44,11 +44,6 @@
    "title": "Technische Storing",
    "link": "https://belastingdienst.sr/technische-storing/",
    "date": "2026-08-18"
-  },
-  {
-   "title": "SPSB Gesloten",
-   "link": "https://belastingdienst.sr/spsb-gesloten/",
-   "date": "2026-08-05"
   }
  ],
  "bekendmakingen": [
@@ -134,16 +129,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-10-04T20:58-03:00",
+   "ok": "2026-10-05T02:51-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-10-04T20:59-03:00",
+   "ok": "2026-10-05T02:51-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-10-04T20:59-03:00"
+ "updated": "2026-10-05T02:51-03:00"
 }
