@@ -28,7 +28,7 @@
     "date": "2026-10-03"
   },
   "static:currency.html": {
-    "hash": "8b2c1913ba9aeedf69744ea1777450ca",
+    "hash": "969be962a6bfbc7cbd6da832ab51392c",
     "date": "2026-10-06"
   },
   "static:flights.html": {
@@ -36,7 +36,7 @@
     "date": "2026-10-06"
   },
   "static:conditions.html": {
-    "hash": "a0b9d998e266c900140b230e819e17f4",
+    "hash": "b0b591e41542b8b1570a503ff38ff87d",
     "date": "2026-10-06"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-06"
   },
   "static:news.html": {
-    "hash": "c9031dc9bdbc3bf6711fd68f2b55368a",
+    "hash": "b7131942e92bcb574a8e2cca9bbfd481",
     "date": "2026-10-06"
   },
   "static:about.html": {
@@ -3064,7 +3064,7 @@
     "date": "2026-10-01"
   },
   "static:atms.html": {
-    "hash": "3cd611507759e08f6c2f117c245dfc69",
+    "hash": "32a39560511f1247fc7566731cc7c815",
     "date": "2026-10-06"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-01"
   },
   "static:oil-and-gas.html": {
-    "hash": "01038970ced6860a49dd892b7e455515",
+    "hash": "c43e972a9fb0e7f0a2d85395553db50c",
     "date": "2026-10-06"
   },
   "static:suriname-oil-blocks.html": {
@@ -6748,11 +6748,11 @@
     "date": "2026-10-05"
   },
   "static:pricing-calculator": {
-    "hash": "c97b0da83e07b40ba1ebad8bc14b37f0",
+    "hash": "5c4322a3953f591a9c87910265477906",
     "date": "2026-10-06"
   },
   "static:import-cost-calculator": {
-    "hash": "ce0a566cfa9b96f35af34a06b107c556",
+    "hash": "b5ee2581070db9731b6504b7f71410dd",
     "date": "2026-10-06"
   },
   "static:invoice-generator": {
@@ -6776,8 +6776,8 @@
     "date": "2026-10-05"
   },
   "static:cash-counter": {
-    "hash": "17c689e3559ba8316dd94ad8861c2ff9",
-    "date": "2026-10-05"
+    "hash": "cc98f6f7cce1c44de85d77c7f886ff62",
+    "date": "2026-10-06"
   },
   "static:loan-calculator": {
     "hash": "18997d7b1c225de53b950e50fac22551",
