@@ -1,15 +1,31 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 8 OKTOBER 2026",
+      "date": "8 Oktober 2026",
+      "date_iso": "2026-10-08",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1624/gepland-onderhoud-donderdag-8-oktober-2026",
+      "meta_description": "GEPLAND ONDERHOUD DONDERDAG 8 OKTOBER 2026 TUSSEN 9:00 EN 14:00 UURGEDEELTE DS. MARTIN LUTHER KINGWEG TUSSEN BOXEL PARAWEG EN ECO",
+      "district": "GEPLAND ONDERHOUD"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD WOENSDAG 7 OKTOBER 2026",
+      "date": "7 Oktober 2026",
+      "date_iso": "2026-10-07",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1623/gepland-onderhoud-woensdag-7-oktober-2026",
+      "meta_description": "GEPLAND ONDERHOUD WOENSDAG 7 OKTOBER 2026 TUSSEN 9:00 EN 14:00 UURGEDEELTE WANICAWEG TUSSEN LEIDING 11A EN KASABAHOLOWEG EN ALLE ZIJWEGEN",
+      "district": "GEPLAND ONDERHOUD"
+    },
+    {
       "title": "GEPLAND ONDERHOUD DINSDAG 6 OKTOBER 2026",
       "date": "6 Oktober 2026",
       "date_iso": "2026-10-06",
       "type": "planned",
-      "link": "https://nvebs.com/nieuws/1622/gepland-onderhoud-dinsdag-6-oktober-2026",
-      "meta_description": "GEPLAND ONDERHOUD: PARA DINSDAG 6 OKTOBER 2026 TUSSEN 8:00 EN 14:00 UURGEHEEL DESIRE DELANO BOUTERSE HIGHWAY EN ALLE ZIJWEGEN DIE",
-      "district": "PARA"
+      "link": "https://nvebs.com/nieuws/1622/gepland-onderhoud-dinsdag-6-oktober-2026"
     }
   ],
-  "last_updated": "2026-10-06T15:07:59.858481+00:00",
+  "last_updated": "2026-10-06T18:10:21.758842+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
