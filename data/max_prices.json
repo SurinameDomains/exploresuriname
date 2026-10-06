@@ -332,6 +332,46 @@
     "retail_price": "SRD 94,10"
    },
    {
+    "product": "Soja Olie: Merk Habibi",
+    "importer": "Combe Markt",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 891,84",
+    "retail_pack": "1 L",
+    "retail_price": "SRD 92,90"
+   },
+   {
+    "product": "Soja Olie: Merk Habibi",
+    "importer": "Best food supply NV",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 1.118,88",
+    "retail_pack": "1 L",
+    "retail_price": "SRD 116,55"
+   },
+   {
+    "product": "Soja Olie: Merk Unoli",
+    "importer": "B.Bisheshar",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 773,76",
+    "retail_pack": "1 L",
+    "retail_price": "SRD 80,60"
+   },
+   {
+    "product": "Soja Olie: Merk Soya",
+    "importer": "Saf Trade NV",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 1.305,60",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 81,60"
+   },
+   {
+    "product": "Soja Olie: Merk Primor",
+    "importer": "NV Dam Import en Export",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 1.236,80",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 77,30"
+   },
+   {
     "product": "Witte Suiker",
     "importer": "Best Food Supply NV",
     "wholesale_pack": "50 kg",
@@ -364,6 +404,14 @@
     "retail_price": "SRD 20,35"
    },
    {
+    "product": "Soja Olie: Merk Unoli",
+    "importer": "B.Bisheshar",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 1.382,40",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 86,40"
+   },
+   {
     "product": "Sardien In Tomatensaus: Merk Vip",
     "importer": "NV Dam Import & Export",
     "wholesale_pack": "24 stuks",
@@ -394,6 +442,14 @@
     "wholesale_price": "SRD 574,56",
     "retail_pack": "800 ml",
     "retail_price": "SRD 59,85"
+   },
+   {
+    "product": "Soja Olie: Merk Siglo De Oro",
+    "importer": "Simpex International NV",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 1.447,20",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 90,45"
    },
    {
     "product": "Zonnebloem Olie: Allnature's",
@@ -434,6 +490,14 @@
     "wholesale_price": "SRD 685,92",
     "retail_pack": "900 ml",
     "retail_price": "SRD 71,45"
+   },
+   {
+    "product": "Soja Olie: Merk Golden Fields",
+    "importer": "Avam Agencies NV",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 443,52",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 46,20"
    },
    {
     "product": "Groene Erwten",
@@ -572,6 +636,14 @@
     "retail_price": "SRD 60,55"
    },
    {
+    "product": "Soja Olie: Merk Golden Fields",
+    "importer": "Avam Agencies NV",
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 650,88",
+    "retail_pack": "800 ml",
+    "retail_price": "SRD 67,80"
+   },
+   {
     "product": "Zonnebloem Olie: Merk Bonlife",
     "importer": "Best Food Supply NV",
     "wholesale_pack": "15 stuks",
@@ -602,6 +674,14 @@
     "wholesale_price": "SRD 785,37",
     "retail_pack": "1 L",
     "retail_price": "SRD 65,45"
+   },
+   {
+    "product": "Soja Olie: Salad Special",
+    "importer": "Nv Dam Import en Export",
+    "wholesale_pack": "20 stuks",
+    "wholesale_price": "SRD 1.237,60",
+    "retail_pack": "900 ml",
+    "retail_price": "SRD 77,35"
    },
    {
     "product": "Zonnebloem Olie: Pro-Life",
@@ -789,7 +869,7 @@
    }
   ],
   "url": "https://ez.gov.sr/product/index",
-  "checked": "2026-10-06T13:00-03:00",
+  "checked": "2026-10-06T19:41-03:00",
   "error": "",
   "fails": 0
  },
@@ -1625,9 +1705,9 @@
   ],
   "price_lines": 103,
   "fetched": "2026-09-27T11:55-03:00",
-  "checked": "2026-10-06T13:00-03:00",
+  "checked": "2026-10-06T19:41-03:00",
   "error": ""
  },
  "source_page": "https://gov.sr/ministeries/ministerie-van-economische-zaken-ondernemerschap-technologische-innovatie/richtprijzen-basis-en-strategische-goederen/",
- "checked": "2026-10-06T13:00-03:00"
+ "checked": "2026-10-06T19:41-03:00"
 }
