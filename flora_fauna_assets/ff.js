@@ -1,6 +1,6 @@
 /* Flora & Fauna of Suriname — section script (flora_fauna_pages.py).
-   window.FF_I18N (prepended at build time) holds every label in EN/NL/ES/ZH:
-     k      : {key: {en, nl, es, zh}}   (keys match data-k attributes in the page)
+   window.FF_I18N (prepended at build time) holds every label in EN/NL/ES/ZH/FR/PT:
+     k      : {key: {en, nl, es, zh, fr, pt}}   (keys match data-k attributes in the page)
      static : languages that have their own static species pages
      site   : [[path, label]] main-site links for the menu
    Jobs: ?lang= localization of English species pages, menus, search across all
@@ -9,7 +9,8 @@
   "use strict";
   var doc = document, html = doc.documentElement;
   var I18N = window.FF_I18N || {k: {}, static: [], site: []};
-  var HREFLANG = {nl: "nl", es: "es", zh: "zh-Hans"};
+  var HREFLANG = {nl: "nl", es: "es", zh: "zh-Hans", fr: "fr", pt: "pt-BR"};
+  var HTML_LANG = {zh: "zh-Hans", pt: "pt-BR"};
   var LANG = (html.getAttribute("lang") || "en").slice(0, 2);
 
   function L(k, lg) { var v = I18N.k[k] || {}; return v[lg || LANG] || v.en || ""; }
@@ -29,7 +30,7 @@
     var alt = doc.querySelector('link[rel="alternate"][hreflang="' + HREFLANG[QL] + '"]');
     if (alt) { location.replace(alt.href + location.hash); return; }
     LANG = QL;
-    html.setAttribute("lang", QL === "zh" ? "zh-Hans" : QL);
+    html.setAttribute("lang", HTML_LANG[QL] || QL);
     doc.querySelectorAll("[data-k]").forEach(function (el) {
       var v = L(el.getAttribute("data-k"), QL); if (v) el.textContent = v;
     });
@@ -43,11 +44,11 @@
     var tpl = doc.querySelector('template[data-wlang="' + QL + '"]'), wt = doc.querySelector(".ff-wtext");
     if (tpl && wt) {
       wt.innerHTML = tpl.innerHTML;
-      wt.setAttribute("lang", QL === "zh" ? "zh-Hans" : QL);
+      wt.setAttribute("lang", HTML_LANG[QL] || QL);
     }
     doc.querySelectorAll("a[href]").forEach(function (a) {
       var u; try { u = new URL(a.getAttribute("href"), location.href); } catch (e) { return; }
-      if (u.origin !== location.origin || /[?&]lang=/.test(u.search) || /^\/(nl|es|zh)(\/|$)/.test(u.pathname)) return;
+      if (u.origin !== location.origin || /[?&]lang=/.test(u.search) || /^\/(nl|es|zh|fr|pt)(\/|$)/.test(u.pathname)) return;
       if (a.closest(".ff-lmenu")) return;
       if (a.classList.contains("ff-card")) { u.search = "?lang=" + QL; }      /* another species: same treatment */
       else if (/\.(css|js|json|svg|png|jpe?g|webp)$/.test(u.pathname)) return;
