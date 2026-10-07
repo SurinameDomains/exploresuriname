@@ -8600,7 +8600,7 @@ _SEO_TYPE_LABEL = {
 }
 
 
-def _share_button(page_url, title):
+def _share_button(page_url, title, tile=False):
     """Share control for a listing page.
 
     Mobile gets the OS share sheet (WhatsApp sits at the top of it in Suriname);
@@ -8618,14 +8618,20 @@ def _share_button(page_url, title):
            '<line x1="8.6" y1="10.5" x2="15.4" y2="6.5"></line>'
            '<line x1="15.4" y1="17.5" x2="8.6" y2="13.5"></line>'
            '</svg>')
-    return (
+    attrs = (
         '<button type="button" onclick="esrShare(this)" aria-label="Share this listing"'
         ' data-share-url="' + html_lib.escape(page_url, quote=True) + '"'
         ' data-share-title="' + html_lib.escape(title, quote=True) + '"'
         ' data-share-wa="' + html_lib.escape(wa, quote=True) + '"'
-        ' class="flex items-center justify-center gap-2 w-full py-3 rounded-xl'
-        ' text-sm font-semibold border-2 hover:bg-gray-50 transition mb-3"'
-        ' style="border-color:#25D366;color:#128C4A">' + svg + '<span>Share</span></button>'
+    )
+    if tile:
+        ctrl = attrs + ' class="la-tile"><span class="la-ic">' + svg + '</span><span>Share</span></button>'
+    else:
+        ctrl = (attrs + ' class="flex items-center justify-center gap-2 w-full py-3 rounded-xl'
+                ' text-sm font-semibold border-2 hover:bg-gray-50 transition mb-3"'
+                ' style="border-color:#25D366;color:#128C4A">' + svg + '<span>Share</span></button>')
+    return (
+        ctrl +
         '\n<script>function esrShare(b){var u=b.getAttribute("data-share-url"),'
         't=b.getAttribute("data-share-title");'
         'if(navigator.share){navigator.share({title:t,text:t,url:u}).catch(function(){});}'
@@ -8658,6 +8664,109 @@ def _wa_number(phone):
     elif d.startswith("597"):
         d = d[3:]
     return ("597" + d) if (len(d) == 7 and d[0] in "678") else ""
+
+
+
+# ── Listing action buttons (Oct 2026 redesign, "Option A") ─────────────────
+# One main button (WhatsApp > website > directions), at most one slim
+# secondary button (the website when WhatsApp is the main one) and a row of
+# up to four icon tiles (Call, Directions, Facebook, Share). Styles are plain
+# CSS (tailwind.css is precompiled, new utility classes would not exist).
+_LA_SVG = {
+    "wa": ('<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">'
+           '<path d="M12 2a9.9 9.9 0 0 0-8.5 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 '
+           '1-4.2-1.2l-.3-.2-3 .8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 '
+           '1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 '
+           '1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 '
+           '1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.4-.3Z"/></svg>'),
+    "fb": ('<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">'
+           '<path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 '
+           '1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.26h3.33l-.53 '
+           '3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>'),
+}
+def _la_line(paths, size=18):
+    return ('<svg aria-hidden="true" width="' + str(size) + '" height="' + str(size) + '" viewBox="0 0 24 24" '
+            'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
+            'stroke-linejoin="round">' + paths + '</svg>')
+_LA_SVG["nav"]   = _la_line('<path d="M3 11l19-9-9 19-2-8-8-2z"/>')
+_LA_SVG["phone"] = _la_line('<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 '
+                            '19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 '
+                            '1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 '
+                            '2 0 0 1 22 16.92z"/>')
+_LA_SVG["globe"] = _la_line('<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 '
+                            '1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>')
+_LA_SVG["share"] = _la_line('<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>'
+                            '<path d="M8.6 10.5l6.8-4M15.4 17.5l-6.8-4"/>')
+_LA_SVG["out"]   = _la_line('<path d="M7 17 17 7M7 7h10v10"/>', 14)
+
+_LA_CSS = (
+    '<style>'
+    '.la-pri{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px 16px;'
+    'border-radius:14px;font-weight:600;font-size:15px;line-height:1.2;color:#fff;text-decoration:none;'
+    'transition:transform .12s,box-shadow .12s,filter .12s}'
+    '.la-pri:hover{transform:translateY(-1px);filter:brightness(1.04)}'
+    '.la-pri:active{transform:translateY(1px);box-shadow:none}'
+    '.la-wa{background:#25D366;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 6px 16px -6px rgba(37,211,102,.55)}'
+    '.la-web{background:var(--forest,#1B4332);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 6px 16px -6px rgba(27,67,50,.55)}'
+    '.la-out{opacity:.7}'
+    '.la-sec{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:8px;padding:10px 12px;'
+    'border-radius:12px;border:1px solid var(--line,#EBE0CB);background:#fff;color:var(--forest,#1B4332);'
+    'font-weight:600;font-size:14px;line-height:1.2;text-decoration:none;transition:background .15s}'
+    '.la-sec:hover{background:var(--mint,#E1F0DD)}'
+    '.la-tiles{display:grid;gap:6px;margin-top:12px}'
+    '.la-tile{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;padding:11px 2px 9px;'
+    'border-radius:14px;background:#F6F1E4;border:1px solid var(--line,#EBE0CB);color:var(--forest,#1B4332);'
+    'font-family:inherit;font-size:11.5px;font-weight:600;line-height:1.2;letter-spacing:-.01em;'
+    'text-align:center;text-decoration:none;cursor:pointer;'
+    'transition:background .15s,border-color .15s}'
+    '.la-tile:hover{background:var(--mint,#E1F0DD);border-color:#CFE4C8}'
+    '.la-ic{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#fff;'
+    'box-shadow:0 1px 2px rgba(0,0,0,.06)}'
+    '.la-fb .la-ic{color:#1877F2}'
+    '.la-one .la-tile{flex-direction:row;justify-content:center;gap:8px;padding:7px 12px;font-size:14px}'
+    '.la-one .la-ic{width:30px;height:30px}'
+    '.la-pri:focus-visible,.la-sec:focus-visible,.la-tile:focus-visible{outline:2px solid var(--forest2,#2D6A4F);outline-offset:2px}'
+    '</style>'
+)
+
+
+def _la_primary(href, icon, label, kind="wa", out=False):
+    return ('<a href="' + html_lib.escape(href) + '" target="_blank" rel="noopener" class="la-pri la-' + kind + '">'
+            + _LA_SVG[icon] + '<span>' + label + '</span>'
+            + ('<span class="la-out">' + _LA_SVG["out"] + '</span>' if out else '') + '</a>')
+
+
+def _la_secondary(href, icon, label):
+    return ('<a href="' + html_lib.escape(href) + '" target="_blank" rel="noopener" class="la-sec">'
+            + _LA_SVG[icon] + '<span>' + label + '</span><span class="la-out">' + _LA_SVG["out"] + '</span></a>')
+
+
+def _la_tile(href, icon, label, cls="", newtab=True):
+    return ('<a href="' + html_lib.escape(href) + '"' + (' target="_blank" rel="noopener"' if newtab else '')
+            + ' class="la-tile' + (' ' + cls if cls else '') + '"><span class="la-ic">' + _LA_SVG[icon]
+            + '</span><span>' + label + '</span></a>')
+
+
+def _la_tiles(tiles):
+    tiles = [t for t in tiles if t]
+    if not tiles:
+        return ""
+    # A lone tile would stretch into a big empty box: lay it out as one row instead.
+    return ('<div class="la-tiles' + (' la-one' if len(tiles) == 1 else '') + '" '
+            'style="grid-template-columns:repeat(' + str(len(tiles)) + ',minmax(0,1fr))">'
+            + "".join(tiles) + '</div>')
+
+
+def _la_call_href(phone):
+    """tel: target only when it looks like one dialable number (a field holding
+    two numbers would otherwise glue them into one bogus tel: link)."""
+    t = _tel_href(phone or "")
+    return t if re.fullmatch(r"\+\d{9,13}", t) else ""
+
+
+def _dir_link(search_link):
+    """Google Maps search URL -> directions URL (opens routing / the Maps app)."""
+    return search_link.replace("/maps/search/?api=1&query=", "/maps/dir/?api=1&destination=")
 
 
 def _branch_info(bslug):
@@ -8719,21 +8828,21 @@ def _chain_block(brand):
                   .replace("Sa", "Sat").replace("Su", "Sun").replace("; ", "<br>"))
             rows += row("🕐", _h)
 
-        btns = ('<a href="' + html_lib.escape(m["maps_link"]) + '" target="_blank" rel="noopener" '
-                'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm '
-                'font-semibold border-2 hover:bg-gray-50 transition mb-3" '
-                'style="border-color:var(--forest2);color:var(--forest2)">🗺️ Get Directions</a>')
+        _dl = _dir_link(m["maps_link"])
+        _call = _la_call_href(m["phone"])
         wa = _wa_number(m["phone"])
         if wa:
-            btns = ('<a href="https://wa.me/' + wa + '" target="_blank" rel="noopener" '
-                    'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm '
-                    'font-semibold text-white hover:opacity-90 transition mb-3" '
-                    'style="background:#25D366">💬 Chat on WhatsApp</a>') + btns
+            btns = (_la_primary("https://wa.me/" + wa, "wa", "Chat on WhatsApp", "wa")
+                    + _la_tiles([_la_tile("tel:" + _call, "phone", "Call", newtab=False) if _call else "",
+                                 _la_tile(_dl, "nav", "Directions")]))
+        else:
+            btns = (_la_primary(_dl, "nav", "Get Directions", "web")
+                    + _la_tiles([_la_tile("tel:" + _call, "phone", "Call", newtab=False) if _call else ""]))
         panels.append('<div class="branch-panel' + ('' if i == 0 else ' hidden') +
                       '" id="esr-bp-' + str(i) + '" data-map="' +
                       html_lib.escape(m["maps_embed"], quote=True) + '" data-name="' +
                       html_lib.escape(m["name"], quote=True) + '">' +
-                      rows + '<div class="mt-6">' + btns + '</div></div>')
+                      rows + '<div class="mt-6">' + _LA_CSS + btns + '</div></div>')
 
     script = ('<script>function esrBranch(i,btn){'
               'var c=document.querySelectorAll(".branch-chip");'
@@ -8965,65 +9074,36 @@ def build_listing_page(slug, b):
     if osm_price:
         rows += row("💰", html_lib.escape(osm_price))
 
-    if ext_url and "google.com/search" not in ext_url:
-        website_btn = (
-            '<a href="' + html_lib.escape(ext_url) + '" target="_blank" rel="noopener" '
-            'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
-            'text-sm font-semibold text-white hover:opacity-90 transition mb-3" '
-            'style="background:var(--forest)">🌐 Visit Website</a>'
-        )
+    # ── Action buttons (Oct 2026 redesign): see _la_primary/_la_tiles ────────
+    _has_web = bool(ext_url and "google.com/search" not in ext_url)
+    _dir_url = _dir_link(maps_link)
+    _call    = _la_call_href(phone)
+    _wa      = _wa_number(phone)
+    fb_url   = b.get("facebook") or _fb_url(_BIZ.get(slug, {}))
+
+    la_primary, la_secondary, la_tiles = "", "", []
+    if _chain:
+        # Hub: every branch panel has its own WhatsApp / Call / Directions, so
+        # the brand-level block only carries the website, Facebook and Share.
+        if _has_web:
+            la_secondary = _la_secondary(ext_url, "globe", "Visit Website")
+        if fb_url:
+            la_tiles.append(_la_tile(fb_url, "fb", "Facebook", "la-fb"))
     else:
-        # No website — link to the Google Maps listing as a useful fallback
-        website_btn = (
-            '<a href="' + html_lib.escape(maps_link) + '" target="_blank" rel="noopener" '
-            'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
-            'text-sm font-semibold text-white hover:opacity-90 transition mb-3" '
-            'style="background:var(--forest)">📍 View on Google Maps</a>'
-        )
-
-    directions_btn = (
-        '<a href="' + html_lib.escape(maps_link) + '" target="_blank" rel="noopener" '
-        'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
-        'text-sm font-semibold border-2 hover:bg-gray-50 transition mb-3" '
-        'style="border-color:var(--forest2);color:var(--forest2)">🗺️ Get Directions</a>'
-    )
-
-    # On a chain hub the "View on Google Maps" fallback would duplicate the
-    # Get Directions button that every branch panel already carries.
-    if _chain and (not ext_url or "google.com/search" in ext_url):
-        website_btn = ""
-
-    # ── WhatsApp CTA — Suriname mobiles are 7 digits starting 6/7/8 ─────────
-    # Landlines (6 digits) have no WhatsApp; foreign numbers are skipped.
-    wa_btn = ""
-    if phone:
-        _wad = re.sub(r"\D", "", phone)
-        if _wad.startswith("00597"):
-            _wad = _wad[5:]
-        elif _wad.startswith("597"):
-            _wad = _wad[3:]
-        if len(_wad) == 7 and _wad[0] in "678":
-            wa_btn = (
-                '<a href="https://wa.me/597' + _wad + '" target="_blank" rel="noopener" '
-                'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
-                'text-sm font-semibold text-white hover:opacity-90 transition mb-3" '
-                'style="background:#25D366">💬 Chat on WhatsApp</a>'
-            )
-
-    # ── Facebook CTA (Oct 2026) — the business's own page, verified by hand ──
-    fb_url = b.get("facebook") or _fb_url(_BIZ.get(slug, {}))
-    fb_btn = ""
-    if fb_url:
-        fb_btn = (
-            '<a href="' + html_lib.escape(fb_url) + '" target="_blank" rel="noopener" '
-            'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
-            'text-sm font-semibold text-white hover:opacity-90 transition mb-3" '
-            'style="background:#1877F2"><svg aria-hidden="true" width="18" height="18" '
-            'viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 '
-            '5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.79-4.69 '
-            '4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.26h3.33l-.53 '
-            '3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>Facebook</a>'
-        )
+        if _wa:
+            la_primary = _la_primary("https://wa.me/" + _wa, "wa", "Chat on WhatsApp", "wa")
+            if _has_web:
+                la_secondary = _la_secondary(ext_url, "globe", "Visit Website")
+        elif _has_web:
+            la_primary = _la_primary(ext_url, "globe", "Visit Website", "web", out=True)
+        else:
+            la_primary = _la_primary(_dir_url, "nav", "Get Directions", "web")
+        if _call:
+            la_tiles.append(_la_tile("tel:" + _call, "phone", "Call", newtab=False))
+        if _wa or _has_web:
+            la_tiles.append(_la_tile(_dir_url, "nav", "Directions"))
+        if fb_url:
+            la_tiles.append(_la_tile(fb_url, "fb", "Facebook", "la-fb"))
 
     if _chain:
         if desc and any(m.lower() in desc.lower() for m in _hub_marks):
@@ -9166,7 +9246,8 @@ def build_listing_page(slug, b):
         '\n</div>'
     )
 
-    share_btn = _share_button(page_url, raw_name)
+    share_btn = _share_button(page_url, raw_name, tile=True)
+    la_html = _LA_CSS + la_primary + la_secondary + _la_tiles(la_tiles + [share_btn])
 
     # A branch of a chain: point back at the hub that lists every address.
     # A branch page carries the same chip row as the hub, so the locations never
@@ -9188,9 +9269,7 @@ def build_listing_page(slug, b):
                       + html_lib.escape(_chain["first_name"]) + '</h2>')
         info_html = ('\n        ' + _chain["panels"] +
                      '\n        <div class="mt-6">'
-                     '\n          ' + website_btn +
-                     '\n          ' + fb_btn +
-                     '\n          ' + share_btn +
+                     '\n          ' + la_html +
                      '\n        </div>' + _chain["script"])
     else:
         left_top = ('\n      ' + desc_block + branch_note +
@@ -9203,11 +9282,7 @@ def build_listing_page(slug, b):
         info_title = '\n        <h2 class="text-base font-bold text-gray-900 mb-4">Contact &amp; Info</h2>'
         info_html = ('\n        ' + rows +
                      '\n        <div class="mt-6">'
-                     '\n          ' + wa_btn +
-                     '\n          ' + website_btn +
-                     '\n          ' + fb_btn +
-                     '\n          ' + directions_btn +
-                     '\n          ' + share_btn +
+                     '\n          ' + la_html +
                      '\n        </div>')
 
     main = (
@@ -11635,7 +11710,6 @@ __NAV__
         <button id="cw-next" style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-weight:700;color:var(--g);cursor:pointer">&#8250;</button>
       </div>
       <div class="flex items-center gap-2">
-        <div class="lang"><button id="cw-nl" class="on">NL</button><button id="cw-en">EN</button></div>
         <div class="timer" id="cw-timer">0:00</div>
       </div>
     </div>
@@ -11665,7 +11739,7 @@ __FOOTER__
 <script>
 const CWP = __DATA__;
 const CT={nl:{ah:"Horizontaal",dh:"Verticaal",check:"Check",reveal:"Toon woord",clear:"Wis",solved:"Opgelost in",lead:"Tik op een woord om de betekenis te zien.",share:"Deel resultaat",close:"Sluiten",note:"Elke dag een nieuwe Switi Mini. Alle woorden komen uit het Sranantongo of het Surinaams-Nederlands en staan in de woordenboeken. Tik op NL of EN voor de aanwijzingen.",mini:"Mini",today:"Vandaag"},en:{ah:"Across",dh:"Down",check:"Check",reveal:"Reveal word",clear:"Clear",solved:"Solved in",lead:"Tap a word to see its meaning.",share:"Share result",close:"Close",note:"A new Switi Mini every day. Every answer is a Sranan Tongo or Surinaams-Nederlands word attested in the dictionaries. Tap NL or EN for the clues.",mini:"Mini",today:"Today"}};
-let cwLang=(localStorage.getItem('cw-lang')||(document.documentElement.lang==='nl'?'nl':'en'));
+let cwLang=(document.documentElement.lang==='nl'?'nl':'en');
 const N=CWP.length;
 const EPOCH=Math.floor(Date.UTC(2026,5,22)/86400000);
 function dayNum(){return Math.floor((Date.now()-10800000)/86400000);}
@@ -11759,10 +11833,9 @@ $('cw-cprev').onclick=()=>nextClue(-1);$('cw-cnext').onclick=()=>nextClue(1);
 $('cw-prev').onclick=()=>{if(back<maxBack()){back++;show();}};$('cw-next').onclick=()=>{if(back>0){back--;show();}};
 $('cw-mclose').onclick=()=>{$('cwmodal').style.display='none';};
 $('cw-share').onclick=()=>{const s=fmt((Date.now()-t0)/1000|0);const txt='Switi Mini #'+P.no+' · '+CT[cwLang].solved+' '+s+'\\nexploresuriname.com/crossword.html';if(navigator.clipboard)navigator.clipboard.writeText(txt);$('cw-share').textContent=cwLang==='nl'?'Gekopieerd!':'Copied!';};
-function setLang(l){cwLang=l;localStorage.setItem('cw-lang',l);$('cw-nl').classList.toggle('on',l==='nl');$('cw-en').classList.toggle('on',l==='en');
+function setLang(l){cwLang=l;localStorage.setItem('cw-lang',l);
   $('cw-check').textContent=CT[l].check;$('cw-reveal').textContent=CT[l].reveal;$('cw-clear').textContent=CT[l].clear;$('cw-share').textContent=CT[l].share;$('cw-mclose').textContent=CT[l].close;
   renderClues();updateActive();$('cw-note').textContent=CT[l].note;updateLabel();}
-$('cw-nl').onclick=()=>setLang('nl');$('cw-en').onclick=()=>setLang('en');
 (function migrate(){try{if(localStorage.getItem('cw-mig2'))return;
   const kill=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);
     if(k&&k.indexOf('cw-fill-')===0&&/^cw-fill-\d+$/.test(k))kill.push(k);}
@@ -11952,7 +12025,6 @@ __NAV__
   <div id="qz">
     <div class="flex items-center justify-between gap-3">
       <div class="daylbl" id="qz-label"></div>
-      <div class="lang"><button id="qz-nl">NL</button><button id="qz-en">EN</button></div>
     </div>
     <div class="dots" id="qz-dots"><span></span><span></span><span></span><span></span><span></span></div>
     <div class="card" id="qz-card"></div>
@@ -11974,7 +12046,7 @@ const E=QZ.filter(q=>q.diff==="easy"),M=QZ.filter(q=>q.diff==="mid"),W=QZ.filter
 function dayNum(){return Math.floor((Date.now()-10800000)/86400000);}
 const D=Math.max(0,dayNum()-EPOCH),NUM=D+1;
 const Q=(E.length&&M.length&&W.length)?[E[D%E.length],M[(3*D)%M.length],M[(3*D+1)%M.length],M[(3*D+2)%M.length],W[D%W.length]]:[];
-let lang=localStorage.getItem("qz-lang")||(document.documentElement.lang==="nl"?"nl":"en");
+let lang=(document.documentElement.lang==="nl"?"nl":"en");
 let ans=[];try{ans=JSON.parse(localStorage.getItem("qz-a-"+D)||"[]");}catch(e){}
 let cur=Math.min(ans.length,4),showFb=ans.length>cur,cdTick=null;
 function $(id){return document.getElementById(id);}
@@ -12020,8 +12092,7 @@ function rView(){const L=T[lang],sc=score(),st=stats();cur=5;
  const upd=()=>{const ms=(EPOCH+D+1)*86400000+10800000-Date.now();if(ms<=0){$("qz-cd").textContent="";return;}const s=ms/1000|0;$("qz-cd").textContent=L.newin+" "+pad(s/3600|0)+":"+pad((s/60|0)%60)+":"+pad(s%60);};
  upd();cdTick=setInterval(upd,1000);dots();}
 function label(){const dd=new Date((EPOCH+D)*86400000);$("qz-label").innerHTML=T[lang].today+" &middot; #"+NUM+' <span class="text-gray-400 font-normal">'+dd.toLocaleDateString(lang==="nl"?"nl-NL":"en-GB",{day:"numeric",month:"short",timeZone:"UTC"})+"</span>";}
-function setLang(l){lang=l;localStorage.setItem("qz-lang",l);$("qz-nl").classList.toggle("on",l==="nl");$("qz-en").classList.toggle("on",l==="en");$("qz-note").textContent=T[l].note;label();if(ans.length===5&&cur===5)rView();else qView();}
-$("qz-nl").onclick=()=>setLang("nl");$("qz-en").onclick=()=>setLang("en");
+function setLang(l){lang=l;localStorage.setItem("qz-lang",l);$("qz-note").textContent=T[l].note;label();if(ans.length===5&&cur===5)rView();else qView();}
 if(ans.length===5)cur=5;
 if(Q.length){label();setLang(lang);}else{$("qz-card").innerHTML="<p>Quiz data unavailable.</p>";}
 </script>
@@ -14259,7 +14330,6 @@ __NAV__
 <main class="max-w-xl mx-auto px-4 py-8 pb-20">
   <div class="flex items-center justify-between gap-3 mb-1">
     <div class="text-sm font-bold text-gray-700" id="mg-label"></div>
-    <div class="lang"><button id="mg-nl">NL</button><button id="mg-en">EN</button></div>
   </div>
   <div class="mg-dots" id="mg-dots"><span></span><span></span><span></span><span></span><span></span></div>
   <div class="mg-card">
@@ -14306,7 +14376,7 @@ function dayNum(){return Math.floor((Date.now()-10800000)/86400000);}
 const D=Math.max(0,dayNum()-EPOCH),NUM=D+1;
 const E=MG.filter(p=>p.t==="e"),M=MG.filter(p=>p.t==="m"),H=MG.filter(p=>p.t==="h");
 const DAILY=(E.length&&M.length&&H.length)?[E[(2*D)%E.length],E[(2*D+1)%E.length],M[(2*D)%M.length],M[(2*D+1)%M.length],H[D%H.length]]:[];
-let lang=localStorage.getItem("mg-lang")||(document.documentElement.lang==="nl"?"nl":"en");
+let lang=(document.documentElement.lang==="nl"?"nl":"en");
 let practice=false,P=DAILY,cur=0,res=[],pin=null,confirmed=false,zoom=1,vb=[0,0,454,462];
 try{res=JSON.parse(localStorage.getItem("mg-r-"+D)||"[]");}catch(e){}
 cur=Math.min(res.length,4);if(res.length===5)cur=5;
@@ -14402,9 +14472,8 @@ function rView(){const L=T[lang],tot=res.reduce((a,r)=>a+r.p,0),s=stats();
    while(P.length<5){const i=Math.floor(Math.random()*pool.length);if(!used[i]){used[i]=1;P.push(pool[i]);}}
    res=[];cur=0;ask();}label();dots();};
  dots();}
-function setLang(l){lang=l;localStorage.setItem("mg-lang",l);$("mg-nl").classList.toggle("on",l==="nl");$("mg-en").classList.toggle("on",l==="en");window.ESRLB&&ESRLB.lang(l);
+function setLang(l){lang=l;localStorage.setItem("mg-lang",l);window.ESRLB&&ESRLB.lang(l);
  label();if(cur>=5)rView();else ask();}
-$("mg-nl").onclick=()=>setLang("nl");$("mg-en").onclick=()=>setLang("en");
 if(DAILY.length===5){setLang(lang);}else{$("mg-ask").innerHTML="<p class='text-sm text-gray-500'>Loading error. Refresh the page.</p>";}
 </script>
 __LBJS__
@@ -14565,9 +14634,6 @@ __NAV__
   </div>
 </div>
 <main class="max-w-xl mx-auto px-4 py-8 pb-20">
-  <div class="flex items-center justify-end gap-3 mb-3">
-    <div class="lang"><button id="kj-nl">NL</button><button id="kj-en">EN</button></div>
-  </div>
   <div id="kj-wrap"><canvas id="kj-cv" width="400" height="640" aria-label="Korjaal Run game"></canvas><button id="kj-mute" aria-label="Sound on/off">&#128266;</button></div>
   <div class="kj-hint"><span><b id="kj-h1">Tap left / right</b> to switch lane</span><span><b>&#8592; &#8594; / A D</b> keyboard</span></div>
   <div id="kj-panel" class="mt-4"></div>
@@ -14585,7 +14651,7 @@ const T={
   zones:["Boven-Suriname","Sula ahead!","Open rivier","Zonsondergang","Nachtvaart"],go:"Pari go!",boost:"SULA BOOST!",magnet:"Manja magnet!",nearmiss:"Rakelings!",smash:"Krak!"},
  nl:{score:"Score",best:"Beste",dist:"m",manja:"manja",runs:"Runs",tap:"Tik om te pagaaien",again:"Tik om opnieuw te pagaaien",over:"De rivier heeft gewonnen.",newbest:"Nieuw record!",share:"Deel op WhatsApp",copy:"Kopieer resultaat",copied:"Gekopieerd!",hint:"Tik links / rechts",note:"Wissel van baan om boomstammen, rotsen en zandbanken te ontwijken. Manja bouwt je multiplier op, de sula-boost laat je er dwars doorheen knallen, en de rivier wordt steeds sneller. Beste score blijft in deze browser. Tip: lees twee rijen vooruit, niet een.",
   zones:["Boven-Suriname","Sula ahead!","Open rivier","Zonsondergang","Nachtvaart"],go:"Pari go!",boost:"SULA BOOST!",magnet:"Manja magneet!",nearmiss:"Rakelings!",smash:"Krak!"}};
-let lang=localStorage.getItem("kj-lang")||(document.documentElement.lang==="nl"?"nl":"en");
+let lang=(document.documentElement.lang==="nl"?"nl":"en");
 let muted=localStorage.getItem("kj-muted")==="1";
 function $(i){return document.getElementById(i);}
 const CV=$("kj-cv"),CX=CV.getContext("2d");
@@ -14874,10 +14940,8 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden&&st==="run"
  else if(st==="pause"){st="run";lastT=0;raf=requestAnimationFrame(step);}});
 
 function setLang(l){lang=l;localStorage.setItem("kj-lang",l);window.ESRLB&&ESRLB.lang(l);
- $("kj-nl").classList.toggle("on",l==="nl");$("kj-en").classList.toggle("on",l==="en");
  $("kj-note").textContent=T[l].note;$("kj-h1").textContent=T[l].hint;
  if(st==="idle")idle();}
-$("kj-nl").onclick=()=>setLang("nl");$("kj-en").onclick=()=>setLang("en");
 $("kj-mute").onclick=()=>{muted=!muted;localStorage.setItem("kj-muted",muted?"1":"0");
  $("kj-mute").innerHTML=muted?"&#128263;":"&#128266;";if(!muted){ac();beep(660,0.08,"triangle",0.05);}};
 $("kj-mute").innerHTML=muted?"&#128263;":"&#128266;";
@@ -15040,9 +15104,6 @@ __NAV__
   </div>
 </div>
 <main class="max-w-xl mx-auto px-4 py-8 pb-20">
-  <div class="flex items-center justify-end gap-3 mb-3">
-    <div class="lang"><button id="ab-nl">NL</button><button id="ab-en">EN</button></div>
-  </div>
   <div id="ab-wrap"><canvas id="ab-cv" width="400" height="640" aria-label="Aboma snake game"></canvas><button id="ab-mute" aria-label="Sound on/off">&#128266;</button></div>
   <div class="ab-hint"><span><b id="ab-h1">Swipe</b> to steer</span><span><b>&#8592;&#8593;&#8595;&#8594; / WASD</b> keyboard</span></div>
   <div id="ab-panel" class="mt-4"></div>
@@ -15060,7 +15121,7 @@ const T={
   combo:"Combo x",gold:"Golden arowana!",goldgone:"It got away...",wood:"Driftwood!"},
  nl:{score:"Score",best:"Beste",len:"Lengte",fish:"Piranha",tap:"Tik om te jagen",again:"Tik om weer te jagen",over:"De aboma is klaar met jagen.",newbest:"Nieuw record!",share:"Deel op WhatsApp",copy:"Kopieer resultaat",copied:"Gekopieerd!",hint:"Swipe",note:"Swipe (of gebruik de pijltjestoetsen / WASD) om de anaconda te sturen. Piranha's maken je langer en de rivier sneller. Eet binnen een paar seconden na je vorige vangst en de combo loopt op tot x5. De gouden arowana is vijf keer zoveel waard maar ontsnapt snel, en er komt drijfhout bij zodra je goed aan het eten bent. Beste score blijft in deze browser.",
   combo:"Combo x",gold:"Gouden arowana!",goldgone:"Ontsnapt...",wood:"Drijfhout!"}};
-let lang=localStorage.getItem("ab-lang")||(document.documentElement.lang==="nl"?"nl":"en");
+let lang=(document.documentElement.lang==="nl"?"nl":"en");
 let muted=localStorage.getItem("ab-muted")==="1";
 function $(i){return document.getElementById(i);}
 const CV=$("ab-cv"),CX=CV.getContext("2d");
@@ -15382,10 +15443,8 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden&&st==="run"
  else if(st==="pause"){st="run";lastT=0;raf=requestAnimationFrame(frame);}});
 
 function setLang(l){lang=l;localStorage.setItem("ab-lang",l);window.ESRLB&&ESRLB.lang(l);
- $("ab-nl").classList.toggle("on",l==="nl");$("ab-en").classList.toggle("on",l==="en");
  $("ab-note").textContent=T[l].note;$("ab-h1").textContent=T[l].hint;
  if(st==="idle")idle();}
-$("ab-nl").onclick=()=>setLang("nl");$("ab-en").onclick=()=>setLang("en");
 $("ab-mute").onclick=()=>{muted=!muted;localStorage.setItem("ab-muted",muted?"1":"0");
  $("ab-mute").innerHTML=muted?"&#128263;":"&#128266;";if(!muted){ac();beep(660,0.08,"triangle",0.05);}};
 $("ab-mute").innerHTML=muted?"&#128263;":"&#128266;";
@@ -17499,7 +17558,6 @@ __NAV__
 <main class="max-w-2xl mx-auto px-5 pt-4 pb-20">
   <div class="flex items-center justify-between gap-3 mb-1">
     <p class="text-xs text-gray-400"><span class="tl-en">57 moments &middot; jump by era</span><span class="tl-nl">57 momenten &middot; spring per tijdperk</span></p>
-    <div class="lang"><button id="tl-nlb">NL</button><button id="tl-enb">EN</button></div>
   </div>
 __CHIPS__
 __TIMELINE__
@@ -17511,12 +17569,8 @@ __FOOTER__
 function tlJump(id){var el=document.getElementById("era-"+id);if(el)el.scrollIntoView({behavior:"smooth",block:"start"});}
 (function(){
 var langKey="tl-lang",body=document.body;
-function setLang(l){body.classList.toggle("tl-nl",l==="nl");localStorage.setItem(langKey,l);
- document.getElementById("tl-nlb").classList.toggle("on",l==="nl");
- document.getElementById("tl-enb").classList.toggle("on",l!=="nl");}
-document.getElementById("tl-nlb").onclick=function(){setLang("nl");};
-document.getElementById("tl-enb").onclick=function(){setLang("en");};
-setLang(localStorage.getItem(langKey)||(document.documentElement.lang==="nl"?"nl":"en"));
+function setLang(l){body.classList.toggle("tl-nl",l==="nl");try{localStorage.setItem(langKey,l);}catch(e){}}
+setLang((document.documentElement.lang==="nl"?"nl":"en"));
 var yr=document.getElementById("tl-year"),hideT=null;
 if("IntersectionObserver" in window){
  var io=new IntersectionObserver(function(es){es.forEach(function(en){
