@@ -55,12 +55,12 @@ except ImportError:
 SCRIPT_DIR = Path(__file__).parent
 IMAGES_DIR = SCRIPT_DIR / "images"
 CACHE_FILE = SCRIPT_DIR / "image_cache.json"
-# Generated language trees. build_i18n.py rebuilds nl/, es/ and zh/ from the English
+# Generated language trees. build_i18n.py rebuilds nl/, es/, zh/, fr/ and pt/ from the English
 # pages immediately after this script runs, so rewriting them here is thrown
 # away: two thirds of the files for nothing. An image URL can only reach a
 # translated page via its English source, and rewriting an English page changes
 # its hash, which makes build_i18n re-emit that page's translations.
-GENERATED_TREES = {"nl", "es", "zh"}
+GENERATED_TREES = {"nl", "es", "zh", "fr", "pt"}
 
 # Sections whose photos are hotlinked on purpose and must never be copied into
 # images/. Flora & Fauna (Oct 2026) shows ~7,000 openly licensed photos from
@@ -553,7 +553,7 @@ def _prune_hotlinked(cache, html_contents, failures, dry_run):
         JSON, JS, XML; flora pages included, in case generate.py could not
         rebuild that section this run) is kept.
     The section's pages are rebuilt by generate.py with the original photo
-    URLs every run, and build_i18n.py copies those into nl/es/zh afterwards.
+    URLs every run, and build_i18n.py copies those into nl/es/zh/fr/pt afterwards.
     Idempotent: once the copies are gone this costs one read of species.json."""
     is_flora = _flora_photo_matcher()
     if is_flora is None:
@@ -648,7 +648,7 @@ def main(dry_run=False):
         all_urls.update(_extract_img_srcs(content))
 
     print("Found %d unique external image URLs across %d HTML files "
-          "(nl/, es/, zh/ excluded: build_i18n.py regenerates them; flora-fauna/ is hotlinked)\n" % (
+          "(nl/, es/, zh/, fr/, pt/ excluded: build_i18n.py regenerates them; flora-fauna/ is hotlinked)\n" % (
         len(all_urls), len(HTML_GLOB)))
     lap("read html")
 

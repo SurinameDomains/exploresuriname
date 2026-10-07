@@ -2,19 +2,28 @@
 
 Shared by the offline data script (scripts/flora_fauna_build_data.py) and the
 page builder (flora_fauna_pages.py). Labels are hand-written in EN / NL / ES /
-ZH (Simplified). Chinese is never machine-filled (see README_i18n.md).
+ZH (Simplified), plus FR / PT-BR in flora_fauna_frpt.py. Chinese is never machine-filled (see README_i18n.md).
 
 A species lands in exactly one GROUP (mammals, birds, ...) and one SUBGROUP
 inside it (parrots, snakes, orchids by family, ...). Rules match on the GBIF
 backbone classification: kingdom, phylum, class, order, family.
 """
 
-# ── label helper: (en, nl, es, zh) ───────────────────────────────────────────
-LANGS = ("en", "nl", "es", "zh")
+# ── label helper: (en, nl, es, zh) + fr/pt from flora_fauna_frpt.py ──────────
+LANGS = ("en", "nl", "es", "zh", "fr", "pt")
+
+try:
+    from flora_fauna_frpt import FRPT as _FRPT
+except Exception:          # table missing: French/Portuguese show English
+    _FRPT = {}
 
 
-def L(en, nl, es, zh):
-    return {"en": en, "nl": nl, "es": es, "zh": zh}
+def L(en, nl, es, zh, fr=None, pt=None):
+    """A label in every language. French and Brazilian Portuguese come from the
+    hand-written table in flora_fauna_frpt.py (keyed by the English text) unless
+    given here; a label missing from it falls back to English."""
+    t = _FRPT.get(en) or (None, None)
+    return {"en": en, "nl": nl, "es": es, "zh": zh, "fr": fr or t[0] or en, "pt": pt or t[1] or en}
 
 
 # ── groups ───────────────────────────────────────────────────────────────────

@@ -39,11 +39,16 @@ def serialize(soup):
 
 # code -> (html lang attr, og:locale)
 LANGS   = {"en": ("en", "en_US"), "nl": ("nl", "nl_NL"), "es": ("es", "es_ES"),
-           "zh": ("zh-Hans", "zh_CN")}      # Simplified Chinese, published under /zh/
-TARGETS = ["nl", "es", "zh"]                 # generated subtrees (en stays at root)
+           "zh": ("zh-Hans", "zh_CN"),      # Simplified Chinese, published under /zh/
+           "fr": ("fr", "fr_FR"),           # French, published under /fr/
+           "pt": ("pt-BR", "pt_BR")}        # Brazilian Portuguese, published under /pt/
+TARGETS = ["nl", "es", "zh", "fr", "pt"]     # generated subtrees (en stays at root)
 ALL_LANGS = ["en"] + TARGETS
-# hreflang / inLanguage code per tree (the URL prefix stays the short code: /zh/)
-HREFLANG = {"en": "en", "nl": "nl", "es": "es", "zh": "zh-Hans"}
+# hreflang / inLanguage code per tree (the URL prefix stays the short code: /zh/, /pt/)
+HREFLANG = {"en": "en", "nl": "nl", "es": "es", "zh": "zh-Hans", "fr": "fr", "pt": "pt-BR"}
+# Hand-translated trees: never machine-filled (translate_cache.py only does nl/es).
+HAND_LANGS = ("zh", "fr", "pt")
+FP = ("fr", "pt")
 
 CACHE_FILE = ROOT / "translations.json"
 
@@ -302,13 +307,19 @@ _NOT_A_NAME = re.compile(r"\b(?:is|are|was|a|an|the|of|and|with|for|to|serves|of
 def localize_listing_title(key: str, lang: str):
     """'Name, Bakery in Paramaribo | Explore Suriname' -> NL/ES, or None."""
     m = _TITLE_RE.fullmatch(key)
-    if not m or lang not in ("nl", "es", "zh"):
+    if not m or lang not in ("nl", "es", "zh", "fr", "pt"):
         return None
     name, label, place, sfx = m.groups()
-    # zh: a known business name may contain "and"/"of" ("Tucan Resort and Spa")
+    # zh/fr/pt: a known business name may contain "and"/"of" ("Tucan Resort and Spa")
     if not (label or sfx) or (_NOT_A_NAME.search(name)
-                              and not (lang == "zh" and name in PROTECTED)):
+                              and not (lang in HAND_LANGS and name in PROTECTED)):
         return None
+    if lang in FP:
+        # "Bingo Pizza, Fast Food Restaurant in Paramaribo | Explore Suriname"
+        #   -> fr "Bingo Pizza, restauration rapide à Paramaribo | Explore Suriname"
+        #   -> pt "Bingo Pizza, lanchonete em Paramaribo | Explore Suriname"
+        out = name + (", " + _TYPE_FP[label][0 if lang == "fr" else 1] if label else "")
+        return out + " " + _fp_in(place, lang) + (sfx or "")
     if lang == "zh":
         # "Bingo Pizza, Fast Food Restaurant in Paramaribo | Explore Suriname"
         #   -> "Bingo Pizza - 帕拉马里博快餐店 | Explore Suriname"
@@ -345,6 +356,64 @@ _TYPE_ZH = {
     "Travel Agency": "旅行社", "Veterinary & Livestock Supplies": "兽医与畜牧用品",
     "Veterinary Clinic": "宠物医院",
 }
+# French / Brazilian Portuguese type labels for listing titles (same keys as _TYPE_I18N).
+_TYPE_FP = {
+    "Asian Restaurant": ("restaurant asiatique", "restaurante asiático"),
+    "Auto Services": ("services automobiles", "serviços automotivos"),
+    "Bakery": ("boulangerie", "padaria"),
+    "Bank": ("banque", "banco"),
+    "Bar & Lounge": ("bar & lounge", "bar & lounge"),
+    "Beauty Salon": ("salon de beauté", "salão de beleza"),
+    "Café": ("café", "café"),
+    "Casino Hotel": ("hôtel-casino", "hotel-cassino"),
+    "Cleaning Services": ("services de nettoyage", "serviços de limpeza"),
+    "Crafts & Souvenirs": ("artisanat & souvenirs", "artesanato & lembranças"),
+    "Eco Lodge": ("écolodge", "ecolodge"),
+    "Electronics Store": ("magasin d'électronique", "loja de eletrônicos"),
+    "Entertainment Venue": ("lieu de divertissement", "casa de entretenimento"),
+    "Events & Party": ("événements & fêtes", "eventos & festas"),
+    "Fashion Store": ("boutique de mode", "loja de moda"),
+    "Fast Food Restaurant": ("restauration rapide", "lanchonete"),
+    "Furniture Store": ("magasin de meubles", "loja de móveis"),
+    "Garden Centre": ("jardinerie", "loja de jardinagem"),
+    "Guesthouse": ("maison d'hôtes", "pousada"),
+    "Gym & Wellness": ("salle de sport & bien-être", "academia & bem-estar"),
+    "Health & Beauty Store": ("parapharmacie", "loja de saúde e beleza"),
+    "Hospital & Clinic": ("hôpital & clinique", "hospital & clínica"),
+    "Hotel": ("hôtel", "hotel"),
+    "Industry & Energy": ("industrie & énergie", "indústria & energia"),
+    "Insurance": ("assurance", "seguradora"),
+    "Italian Restaurant": ("restaurant italien", "restaurante italiano"),
+    "Jewellery & Optician": ("bijouterie & opticien", "joalheria & ótica"),
+    "Museum": ("musée", "museu"),
+    "Nature Park": ("parc naturel", "parque natural"),
+    "Pharmacy": ("pharmacie", "farmácia"),
+    "Professional Services": ("services professionnels", "serviços profissionais"),
+    "Real Estate": ("immobilier", "imobiliária"),
+    "Resort": ("resort", "resort"),
+    "Restaurant": ("restaurant", "restaurante"),
+    "School": ("école", "escola"),
+    "Security Services": ("services de sécurité", "serviços de segurança"),
+    "Shopping Mall": ("centre commercial", "shopping center"),
+    "Specialty Store": ("boutique spécialisée", "loja especializada"),
+    "Supermarket": ("supermarché", "supermercado"),
+    "Surinamese Restaurant": ("restaurant surinamais", "restaurante surinamês"),
+    "Tech & Media": ("tech & médias", "tecnologia & mídia"),
+    "Telecom Provider": ("opérateur télécom", "operadora de telecomunicações"),
+    "Tour Operator": ("voyagiste", "agência de turismo"),
+    "Travel Agency": ("agence de voyages", "agência de viagens"),
+    "Veterinary & Livestock Supplies": ("fournitures vétérinaires & d'élevage", "produtos veterinários & agropecuários"),
+    "Veterinary Clinic": ("clinique vétérinaire", "clínica veterinária"),
+}
+
+
+def _fp_in(place: str, lang: str) -> str:
+    """'in Paramaribo' -> 'à Paramaribo' / 'em Paramaribo'; the country takes an article."""
+    if place == "Suriname":
+        return "au Suriname" if lang == "fr" else "no Suriname"
+    return ("à " if lang == "fr" else "em ") + place
+
+
 # Only the two names with a settled Chinese form are rendered in Chinese; all
 # other districts/towns stay in Latin script (that is how local Chinese readers
 # see them on signs and addresses).
@@ -474,10 +543,116 @@ def _loc_part_zh(p):
     return None
 
 
+# ── French / Brazilian Portuguese event dates (hand-written rules, no MT) ─────
+_FP = {
+    "fr": {"ds": ["lun.", "mar.", "mer.", "jeu.", "ven.", "sam.", "dim."],
+           "dl": ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"],
+           "ms": ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."],
+           "ml": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août",
+                  "septembre", "octobre", "novembre", "décembre"]},
+    "pt": {"ds": ["seg.", "ter.", "qua.", "qui.", "sex.", "sáb.", "dom."],
+           "dl": ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira",
+                  "sábado", "domingo"],
+           "ms": ["jan.", "fev.", "mar.", "abr.", "mai.", "jun.", "jul.", "ago.", "set.", "out.", "nov.", "dez."],
+           "ml": ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto",
+                  "setembro", "outubro", "novembro", "dezembro"]},
+}
+_NB = "\u00a0"        # French: no-break space before ":" and inside "22 h"
+
+
+def _fp_time(t, lang):
+    """'10pm' -> '22 h' (fr) / '22h' (pt); '7.30 PM' -> '19 h 30' / '19h30'.
+    24-hour times ('20:00') are kept as they are."""
+    m = re.fullmatch(r"(\d{1,2})(?:[:.](\d{2}))?\s?([AaPp])\.?[Mm]\.?", t)
+    if not m:
+        return t
+    h = int(m[1]) % 12 + (12 if m[3] in "Pp" else 0)
+    mm = m[2] if m[2] and m[2] != "00" else ""
+    if lang == "fr":
+        return f"{h}{_NB}h" + (f"{_NB}{mm}" if mm else "")
+    return f"{h}h{mm}"
+
+
+def _fp_day(d, lang):
+    """Day of month: French writes the 1st as '1er'."""
+    return "1er" if lang == "fr" and int(d) == 1 else str(int(d))
+
+
+def _fp_short(wd, d, mon, lang):
+    """'Sat', '3', 'Oct' -> 'sam. 3 oct.' / 'sáb., 3 de out.'"""
+    if lang == "fr":
+        return f"{wd} {_fp_day(d, lang)} {mon}"
+    return f"{wd}, {int(d)} de {mon}"
+
+
+def _loc_part_fp(p, lang):
+    """fr/pt version of _loc_part()."""
+    L = _FP[lang]; fr = lang == "fr"
+    ds = lambda d: L["ds"][_EN_DAYS_S.index(d)]
+    dl = lambda d: L["dl"][_EN_DAYS_L.index(d)]
+    ms = lambda m: L["ms"][_EN_MON_S.index(m)]
+    ml = lambda m: L["ml"][_EN_MON_L.index(m)]
+    m = re.fullmatch(rf"({_DS}) (\d{{1,2}}) ({_MS})", p)
+    if m: return _fp_short(ds(m[1]), m[2], ms(m[3]), lang)
+    m = re.fullmatch(rf"({_DS}) (\d{{1,2}}) – ({_DS}) (\d{{1,2}}) ({_MS})", p)
+    if m: return (f"{ds(m[1])} {_fp_day(m[2], lang)} – {ds(m[3])} {m[4]} {ms(m[5])}" if fr
+                  else f"{ds(m[1])}, {int(m[2])} – {ds(m[3])}, {int(m[4])} de {ms(m[5])}")
+    m = re.fullmatch(rf"({_DL}) (\d{{1,2}}) ({_ML}) (\d{{4}})", p)
+    if m: return (f"{dl(m[1])} {_fp_day(m[2], lang)} {ml(m[3])} {m[4]}" if fr
+                  else f"{dl(m[1])}, {int(m[2])} de {ml(m[3])} de {m[4]}")
+    m = re.fullmatch(rf"({_DS}) (\d{{1,2}}) to ({_DS}) (\d{{1,2}}) ({_ML}) (\d{{4}})", p)
+    if m: return (f"du {ds(m[1])} {_fp_day(m[2], lang)} au {ds(m[3])} {m[4]} {ml(m[5])} {m[6]}" if fr
+                  else f"de {ds(m[1])}, {int(m[2])} a {ds(m[3])}, {int(m[4])} de {ml(m[5])} de {m[6]}")
+    m = re.fullmatch(rf"({_ML}) (\d{{4}})", p)
+    if m: return _cap(f"{ml(m[1])} {m[2]}" if fr else f"{ml(m[1])} de {m[2]}")
+    m = re.fullmatch(rf"({_MS}) · ({_DS})", p)
+    if m: return f"{ms(m[1])} · {ds(m[2])}"
+    if re.fullmatch(_TIME, p):
+        return _fp_time(p, lang)
+    m = re.fullmatch(r"([Ii])n (\d+) days?", p)
+    if m:
+        n = int(m[2])
+        t = (f"dans {n} jour{'s' if n > 1 else ''}" if fr else f"em {n} dia{'s' if n > 1 else ''}")
+        return _cap(t) if m[1] == "I" else t
+    fixed = {"today": ("aujourd'hui", "hoje"), "tomorrow": ("demain", "amanhã"),
+             "Today": ("Aujourd'hui", "Hoje"), "Tomorrow": ("Demain", "Amanhã"),
+             "happening now": ("en cours", "acontecendo agora"),
+             "happening now, last day": ("en cours, dernier jour", "acontecendo agora, último dia"),
+             "Happening now, last day": ("En cours, dernier jour", "Acontecendo agora, último dia"),
+             "Featured": ("À la une", "Destaque"), "Daily": ("Tous les jours", "Diariamente")}
+    if p in fixed:
+        return fixed[p][0 if fr else 1]
+    m = re.fullmatch(rf"happening now, until ({_DS}) (\d{{1,2}}) ({_MS})", p)
+    if m:
+        d = _fp_short(ds(m[1]), m[2], ms(m[3]), lang)
+        return f"en cours, jusqu'au {d}" if fr else f"acontecendo agora, até {d}"
+    m = re.fullmatch(rf"Every ((?:{_DL})|(?:{_DS})(?:–(?:{_DS}))?)(?:, next on (.+))?", p)
+    if m:
+        w = m[1]
+        if "–" in w:
+            a, b = w.split("–")
+            head = f"Du {ds(a)} au {ds(b)}" if fr else f"De {ds(a)} a {ds(b)}"
+        else:
+            day = L["dl"][(_EN_DAYS_L.index(w) if w in _EN_DAYS_L else _EN_DAYS_S.index(w))]
+            if fr:
+                head = f"Tous les {day}s"
+            else:
+                head = ("Todo " if day in ("sábado", "domingo") else "Toda ") + day
+        if m[2]:
+            nxt = _loc_part_fp(m[2], lang)
+            if nxt is None:
+                return None
+            head += (f", prochaine date{_NB}: {nxt}" if fr else f", próxima data: {nxt}")
+        return head
+    return None
+
+
 def _loc_part(p, lang):
     """One ' · '-separated piece of an event date line, or None if unknown."""
     if lang == "zh":
         return _loc_part_zh(p)
+    if lang in FP:
+        return _loc_part_fp(p, lang)
     L = _LOC[lang]; es = lang == "es"
     ds = lambda d: L["ds"][_EN_DAYS_S.index(d)]
     dl = lambda d: L["dl"][_EN_DAYS_L.index(d)]
@@ -537,7 +712,7 @@ def localize_event_line(key, lang):
     'Every Monday, next on Mon 28 Sep · happening now, last day · Venue'.
     At least one piece must be a date; the last piece may be a venue name,
     which is kept (or translated if the cache has it)."""
-    if lang not in _LOC and lang != "zh":
+    if lang not in _LOC and lang not in HAND_LANGS:
         return None
     parts = key.split(" · ")
     out, dated = [], False
@@ -558,16 +733,24 @@ def localize_event_line(key, lang):
 
 
 _FACT_RE = [
-    (re.compile(r"Starts (.+)"),            ("Begint om {0}", "Empieza a las {0}", "{0} 开始")),
-    (re.compile(r"Starting (.+)"),          ("Vanaf {0}", "Desde las {0}", "{0} 起")),
-    (re.compile(r"Start (.+)"),             ("Begin {0}", "Inicio {0}", "开始：{0}")),
-    (re.compile(r"Time: (.+)"),             ("Tijd: {0}", "Hora: {0}", "时间：{0}")),
-    (re.compile(r"Doors open at (.+)"),     ("Deuren open om {0}", "Puertas abiertas a las {0}", "{0} 入场")),
-    (re.compile(r"Entry (.+)"),             ("Toegang {0}", "Entrada {0}", "门票：{0}")),
-    (re.compile(r"Organised by (.+)"),      ("Georganiseerd door {0}", "Organizado por {0}", "主办方：{0}")),
-    (re.compile(r"Free to attend"),         ("Gratis toegang", "Entrada gratuita", "免费入场")),
+    (re.compile(r"Starts (.+)"),            ("Begint om {0}", "Empieza a las {0}", "{0} 开始",
+                                             "Début à {0}", "Começa às {0}")),
+    (re.compile(r"Starting (.+)"),          ("Vanaf {0}", "Desde las {0}", "{0} 起",
+                                             "À partir de {0}", "A partir das {0}")),
+    (re.compile(r"Start (.+)"),             ("Begin {0}", "Inicio {0}", "开始：{0}",
+                                             "Début\u00a0: {0}", "Início: {0}")),
+    (re.compile(r"Time: (.+)"),             ("Tijd: {0}", "Hora: {0}", "时间：{0}",
+                                             "Heure\u00a0: {0}", "Horário: {0}")),
+    (re.compile(r"Doors open at (.+)"),     ("Deuren open om {0}", "Puertas abiertas a las {0}", "{0} 入场",
+                                             "Ouverture des portes à {0}", "Abertura dos portões às {0}")),
+    (re.compile(r"Entry (.+)"),             ("Toegang {0}", "Entrada {0}", "门票：{0}",
+                                             "Entrée\u00a0: {0}", "Entrada: {0}")),
+    (re.compile(r"Organised by (.+)"),      ("Georganiseerd door {0}", "Organizado por {0}", "主办方：{0}",
+                                             "Organisé par {0}", "Organizado por {0}")),
+    (re.compile(r"Free to attend"),         ("Gratis toegang", "Entrada gratuita", "免费入场",
+                                             "Entrée gratuite", "Entrada gratuita")),
 ]
-_FACT_IDX = {"nl": 0, "es": 1, "zh": 2}
+_FACT_IDX = {"nl": 0, "es": 1, "zh": 2, "fr": 3, "pt": 4}
 
 
 def localize_event_facts(key, lang):
@@ -590,6 +773,10 @@ def localize_event_facts(key, lang):
                     if rx.pattern.startswith(("Starts", "Starting", "Start ", "Time", "Doors")):
                         arg = _zh_time(arg)
                     out.append(tpls[2].format(arg) + "。")
+                elif lang in FP:
+                    if rx.pattern.startswith(("Starts", "Starting", "Start ", "Time", "Doors")):
+                        arg = _fp_time(arg, lang)
+                    out.append(tpls[_FACT_IDX[lang]].format(arg) + ".")
                 else:
                     out.append(tpls[_FACT_IDX[lang]].format(arg) + ".")
                 break
@@ -622,7 +809,7 @@ def tr(text: str, lang: str) -> str:
             for n in nums:
                 out = out.replace("{#}", n, 1)
             return lead + out + trail
-    if lang in _LOC or lang == "zh":
+    if lang in _LOC or lang in HAND_LANGS:
         ev = localize_event_line(key, lang) or localize_event_facts(key, lang)
         if ev:
             return lead + ev + trail
@@ -631,6 +818,10 @@ def tr(text: str, lang: str) -> str:
         return lead + _lt + trail
     if lang == "zh":
         _z = _tr_zh_patterns(key)
+        if _z:
+            return lead + _z + trail
+    if lang in FP:
+        _z = _tr_fp_patterns(key, lang)
         if _z:
             return lead + _z + trail
     # "<Business> in Paramaribo" (image alt text on every listing card)
@@ -742,14 +933,110 @@ def _tr_zh_patterns(key: str):
     return None
 
 
+_FP_AGO = {"fr": {"d": "j", "h": "h", "m": "min"}, "pt": {"d": "d", "h": "h", "m": "min"}}
+
+
+def _fp_date(m, lang, g=1):
+    """Groups (weekday, day, month, year, time, ' SR') starting at group g ->
+    fr 'mercredi 7 octobre 2026, 16:40 (heure du Suriname)' /
+    pt 'quarta-feira, 7 de outubro de 2026, 16:40 (horário do Suriname)'."""
+    wd, d, mo, y, t, sr = (m.group(g + i) for i in range(6))
+    L = _FP[lang]; fr = lang == "fr"
+    mi = (_EN_MON_L.index(mo) if mo in _EN_MON_L else _EN_MON_S.index(mo))
+    long_m = mo in _EN_MON_L
+    mon = L["ml"][mi] if (long_m or y) else L["ms"][mi]
+    if fr:
+        out = f"{_fp_day(d, lang)} {mon}" + (f" {y}" if y else "")
+    else:
+        out = f"{int(d)} de {mon}" + (f" de {y}" if y else "")
+    if wd:
+        wi = (_EN_DAYS_L.index(wd) if wd in _EN_DAYS_L else _EN_DAYS_S.index(wd))
+        w = L["dl"][wi] if wd in _EN_DAYS_L else L["ds"][wi]
+        out = (f"{w} " if fr else f"{w}, ") + out
+    if t:
+        out += f", {t}"
+    if sr:
+        out += " (heure du Suriname)" if fr else " (horário do Suriname)"
+    return out
+
+
+_FP_STAMPS = [
+    # (English pattern with one date, fr template, pt template; {d} = date, {n} = number)
+    (rf"{_ZH_DATE_RE}", "{d}", "{d}"),
+    (rf"· {_ZH_DATE_RE}", "· {d}", "· {d}"),
+    (rf"([🕐●] )(?:(CME): )?{_ZH_DATE_RE}", None, None),
+    (rf"🕐 Updated: {_ZH_DATE_RE} • Refreshes every (\d+)h",
+     "🕐 Mis à jour\u00a0: {d} • Actualisé toutes les {n}\u00a0h", "🕐 Atualizado: {d} • Atualiza a cada {n}h"),
+    (rf"🕐 Updated: {_ZH_DATE_RE} • Astronomical prediction",
+     "🕐 Mis à jour\u00a0: {d} • Prévision astronomique", "🕐 Atualizado: {d} • Previsão astronômica"),
+    (rf"per barrel · updated {_ZH_DATE_RE}", "le baril · mis à jour le {d}", "por barril · atualizado em {d}"),
+    (rf"Status snapshot generated {_ZH_DATE_RE}\.", "Situation au {d}.", "Situação em {d}."),
+    (rf"(\d+) stories from (\d+) Surinamese outlets covering the last (\d+) days, updated {_ZH_DATE_RE}\. "
+     rf"(\d+) of the stories below were reported by more than one outlet\.", "news", "news"),
+]
+_FP_STAMPS = [(re.compile(p), f, t) for p, f, t in _FP_STAMPS]
+
+
+def _fp_stamp(key: str, lang: str):
+    fr = lang == "fr"
+    for rx, tf, tp in _FP_STAMPS:
+        m = rx.fullmatch(key)
+        if not m:
+            continue
+        tpl = tf if fr else tp
+        if tpl == "news":
+            d = _fp_date(m, lang, 4)
+            if fr:
+                return (f"{m[1]} articles de {m[2]} médias surinamais sur les {m[3]} derniers jours, "
+                        f"mis à jour le {d}. {m[10]} des articles ci-dessous ont été repris par plusieurs médias.")
+            return (f"{m[1]} notícias de {m[2]} veículos surinameses nos últimos {m[3]} dias, "
+                    f"atualizado em {d}. {m[10]} das notícias abaixo foram publicadas por mais de um veículo.")
+        if tpl is None:           # "🕐 11 Sep 2026 16:40 SR" / "🕐 CME: …"
+            return m[1] + (m[2] + (_NB + ": " if fr else ": ") if m[2] else "") + _fp_date(m, lang, 3)
+        n = m.group(7) if rx.groups >= 7 else None
+        return tpl.format(d=_fp_date(m, lang, 1), n=n)
+    # fixtures: "· Matchday 3 · Venue", "· Group A · Venue", "· W World Cup qualifying · Group D · Venue"
+    m = re.fullmatch(r"· (?:(W World Cup qualifying) · )?(?:Matchday (\d+)|Group ([A-Z])) · (.+)", key)
+    if m and not re.search(r"[a-z]{3,} (?:the|of|and) ", m[4]):
+        head = ""
+        if m[1]:
+            head = ("Qualifications Coupe du monde féminine · " if fr
+                    else "Eliminatórias da Copa do Mundo Feminina · ")
+        head += ((f"{m[2]}e journée" if fr else f"{m[2]}ª rodada") if m[2]
+                 else (f"Groupe {m[3]}" if fr else f"Grupo {m[3]}"))
+        return f"· {head} · {m[4]}"
+    m = re.fullmatch(r"· Concacaf Nations League, League ([A-C]), Group ([A-D])", key)
+    if m:
+        return (f"· Ligue des nations de la Concacaf, Ligue {m[1]}, groupe {m[2]}" if fr
+                else f"· Liga das Nações da Concacaf, Liga {m[1]}, Grupo {m[2]}")
+    return None
+
+
+def _tr_fp_patterns(key: str, lang: str):
+    """fr/pt counterpart of _tr_zh_patterns(): '12d ago', live-page timestamps,
+    fixtures, and '<Business> in Paramaribo' image alt text."""
+    m = re.fullmatch(r"(\d+)([dhm]) ago", key)
+    if m:
+        u = _FP_AGO[lang][m[2]]
+        return (f"il y a {m[1]}{_NB}{u}" if lang == "fr" else f"há {m[1]} {u}")
+    z = _fp_stamp(key, lang)
+    if z:
+        return z
+    m = _IN_PLACE_RE.fullmatch(key)
+    if m and (m.group(1) in PROTECTED or not _NOT_A_NAME.search(m.group(1))):
+        return m.group(1) + " " + _fp_in(m.group(2), lang)
+    return None
+
+
 _SORTED_KEYS = None
 
 
 def _prefix_key(pre: str, lang: str = None):
     """Shortest cache key that starts with *pre* (and is longer than it).
 
-    zh looks only at keys that have a zh value. NL/ES ignore zh-only keys, so
-    their choice is exactly what it was before /zh/ existed."""
+    zh/fr/pt look only at keys that have a value in that language. NL/ES ignore
+    keys that only have hand-translated values, so their choice is exactly what
+    it was before /zh/, /fr/ and /pt/ existed."""
     global _SORTED_KEYS
     import bisect
     if _SORTED_KEYS is None:
@@ -759,7 +1046,8 @@ def _prefix_key(pre: str, lang: str = None):
     while i < len(_SORTED_KEYS) and _SORTED_KEYS[i].startswith(pre):
         k = _SORTED_KEYS[i]
         e = cache[k]
-        usable = bool(e.get("zh")) if lang == "zh" else set(e) != {"zh"}
+        usable = (bool(e.get(lang)) if lang in HAND_LANGS
+                  else bool(set(e) - set(HAND_LANGS)))
         if usable and len(k) > len(pre) and (best is None or len(k) < len(best)):
             best = k
         i += 1
@@ -889,6 +1177,13 @@ def localize_date(iso: str, lang: str, long: bool = False) -> str:
         if long:
             return f"{d.year}年{d.month}月{d.day}日 {_ZH_DL[d.weekday()]}"
         return f"{d.month}月{d.day}日 {_ZH_DS[d.weekday()]}"
+    if lang in FP:
+        L = _FP[lang]
+        if long:
+            wd, mo = L["dl"][d.weekday()], L["ml"][d.month - 1]
+            return (f"{wd} {_fp_day(d.day, lang)} {mo} {d.year}" if lang == "fr"
+                    else f"{wd}, {d.day} de {mo} de {d.year}")
+        return _fp_short(L["ds"][d.weekday()], d.day, L["ms"][d.month - 1], lang)
     days, months = _DATE_WORDS.get(lang, (None, None))
     if not days:
         return ""
@@ -935,9 +1230,9 @@ def localize(soup, lang: str, rel_path: str, langs=None):
         if el.get("translate") == "no": continue
         if translatable(el["alt"]): el["alt"] = tr(el["alt"], lang)
 
-    # zh only: input placeholders (search boxes, submit forms). NL/ES never did
-    # this, and are left exactly as they were.
-    if lang == "zh":
+    # zh/fr/pt only: input placeholders (search boxes, submit forms). NL/ES never
+    # did this, and are left exactly as they were.
+    if lang in HAND_LANGS:
         for el in soup.find_all(attrs={"placeholder": True}):
             v = el.get("placeholder", "")
             if translatable(v):
@@ -1121,7 +1416,7 @@ def localize_jsonld(soup, lang: str):
         sc.string = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
 
 # ── language switcher injected into nav ───────────────────────────────────────
-SWITCH_LABEL = {"en": "EN", "nl": "NL", "es": "ES", "zh": "中文"}
+SWITCH_LABEL = {"en": "EN", "nl": "NL", "es": "ES", "zh": "中文", "fr": "FR", "pt": "PT"}
 def inject_switcher(soup, lang: str, rel_path: str):
     nav = soup.find("nav")
     if not nav: return
@@ -1204,7 +1499,9 @@ def inject_switcher(soup, lang: str, rel_path: str):
     mm = soup.find(id="mm")
     if mm is not None:
         m = soup.new_tag("div"); m["data-langswitch-mobile"] = "1"
-        m["style"] = ("display:flex;align-items:center;gap:16px;padding:10px 2px 12px;"
+        # six languages since Oct 2026: wrap (instead of overflowing a 360px phone)
+        # when the "Install app" button is shown next to them
+        m["style"] = ("display:flex;flex-wrap:wrap;row-gap:8px;align-items:center;gap:16px;padding:10px 2px 12px;"
                       "margin-bottom:4px;border-bottom:1px solid #eee;font-size:15px;font-weight:600")
         m.append(globe("#6b7280"))
         links(m, "var(--forest)", "#6b7280")
@@ -1534,7 +1831,7 @@ def _stage_new_dirs():
     if not os.environ.get("GITHUB_ACTIONS"):
         return
     import subprocess
-    for d in ("marketplace", "zh", "flora-fauna", "assets"):
+    for d in ("marketplace", "zh", "fr", "pt", "flora-fauna", "assets"):
         if (ROOT / d).is_dir():
             r = subprocess.run(["git", "add", "-A", d], cwd=ROOT, capture_output=True, text=True)
             print(f"i18n: staged {d}/ ({'ok' if r.returncode == 0 else r.stderr.strip()})")
@@ -1575,7 +1872,7 @@ def localize_sitemap(partial_langs=None):
         # rewriting sitemap.xml in between, the file already contains /nl/ and
         # /es/ URLs. Re-prefixing them produced /nl/nl/… entries (a 20k-URL
         # sitemap full of 404s). Only English paths are localized.
-        if re.match(r"^/(nl|es|zh)(/|$)", path):
+        if re.match(r"^/(nl|es|zh|fr|pt)(/|$)", path):
             continue
         pages += 1
         meta = ""

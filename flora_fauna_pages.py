@@ -15,11 +15,11 @@ Design (see flora-fauna-spec in the project folder):
   * Two layers: every species is on the checklist (subgroup pages + search);
     species with enough information (a real Wikipedia description plus a photo
     or a common name) also get their own profile page.
-  * Languages: every visible string carries its EN/NL/ES/ZH value in
+  * Languages: every visible string carries its EN/NL/ES/ZH/FR/PT value in
     data-l10n / data-l10n-group markers. build_i18n.apply_l10n() picks the right
     one per tree and strips the markers, so nothing here goes through machine
     translation and translations.json is not touched. Chinese is hand-written.
-  * All internal links are relative (the NL/ES/ZH trees are copies of the
+  * All internal links are relative (the NL/ES/ZH/FR/PT trees are copies of the
     English pages). Shared assets live at absolute /flora-fauna/assets/.
   * Informational, not commercial: no listing/tour promotion on these pages.
 """
@@ -38,16 +38,25 @@ _DATA = _ROOT / "data" / "flora_fauna"
 SITE_URL = "https://exploresuriname.com"
 BASE = "flora-fauna"
 ASSETS = "/flora-fauna/assets/"
-LANGS = ("en", "nl", "es", "zh")
-LANG_LABEL = {"en": "EN", "nl": "NL", "es": "ES", "zh": "中文"}
+LANGS = ("en", "nl", "es", "zh", "fr", "pt")
+# Languages that have species names / Wikipedia texts in the data (names table rows).
+# French and Portuguese pages show these four names (there is no fr/pt name data).
+NAME_LANGS = ("en", "nl", "es", "zh")
+LANG_LABEL = {"en": "EN", "nl": "NL", "es": "ES", "zh": "中文", "fr": "FR", "pt": "PT"}
 LANG_NAME = {"en": L("English", "Engels", "Inglés", "英语"),
              "nl": L("Dutch", "Nederlands", "Neerlandés", "荷兰语"),
              "es": L("Spanish", "Spaans", "Español", "西班牙语"),
              "zh": L("Chinese", "Chinees", "Chino", "中文")}
+_LANG_ATTR = {"zh": ' lang="zh-Hans"', "fr": ' lang="fr"', "pt": ' lang="pt-BR"'}
+
+
+def _la(lg):
+    """lang attribute for an element in another language than its page."""
+    return _LANG_ATTR.get(lg, "")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Fixed interface text (hand-written in all four languages)
+# Fixed interface text (hand-written; FR/PT come from flora_fauna_frpt.py via L())
 # ─────────────────────────────────────────────────────────────────────────────
 U = {
     "section": L("Flora & Fauna", "Flora en fauna", "Flora y fauna", "动植物"),
@@ -164,15 +173,18 @@ U = {
                                  ("Jul", "jul", "jul", "7月"), ("Aug", "aug", "ago", "8月"), ("Sep", "sep", "sep", "9月"),
                                  ("Oct", "okt", "oct", "10月"), ("Nov", "nov", "nov", "11月"), ("Dec", "dec", "dic", "12月"))],
 }
+from flora_fauna_frpt import MONTHS_FR as _MFR, MONTHS_PT as _MPT   # noqa: E402
+for _i, _m in enumerate(U["months"]):
+    _m["fr"], _m["pt"] = _MFR[_i], _MPT[_i]
 
 # Languages that get their own static copy of each species page, only when the
-# species has an official name in that language (Dutch ~1,600, Spanish ~2,500,
-# Chinese ~2,900 pages). For every other species/language pair the English page
-# opens with ?lang=xx and localizes labels, name and description in the browser.
-# Hub, group, subgroup, collection and about pages are always in all 4 languages.
-# Size: ~14 KB a page; the site has room since the shared CSS/JS moved to /assets/
-# (asset_extract.py). Set to () to fall back to English-only species pages.
-STATIC_LANGS = ("nl", "es", "zh")
+# species has an official name in that language (Dutch only, ~1,600 pages; Spanish
+# and Chinese copies were dropped in Oct 2026 to save repo space). For every other
+# species/language pair the English page opens with ?lang=xx and localizes labels,
+# name and description in the browser.
+# Hub, group, subgroup, collection and about pages are always in all 6 languages.
+# Size: ~14 KB a page. Set to () to fall back to English-only species pages.
+STATIC_LANGS = ("nl",)
 
 # main-site links for the menu (relative to site root)
 SITE_LINKS = [
@@ -287,7 +299,8 @@ def fmt_n(n):
     if n < 1000:
         return en
     dot = en.replace(",", ".")
-    return f'<span translate="no" data-l10n="{_lj({"en": en, "nl": dot, "es": dot})}">{en}</span>'
+    sp = en.replace(",", "\u00a0")       # French: no-break space between thousands
+    return f'<span translate="no" data-l10n="{_lj({"en": en, "nl": dot, "es": dot, "fr": sp, "pt": dot})}">{en}</span>'
 
 
 def _sp_names(sp):
@@ -440,7 +453,7 @@ class Shell:
         have = langs or LANGS
         lang_links = "".join(
             f'<a href="{("" if lg == "en" else "/" + lg) + "/" + path if lg in have else "/" + path + "?lang=" + lg}" '
-            f'class="ff-lang-{lg}"' + (' lang="zh-Hans"' if lg == "zh" else "") + f'>{LANG_LABEL[lg]}</a>'
+            f'class="ff-lang-{lg}"' + _la(lg) + f'>{LANG_LABEL[lg]}</a>'
             for lg in LANGS)
         chips = [f'<a href="{hub}" class="ff-chip{" on" if active == "hub" else ""}">{tx(U["all_groups"])}</a>']
         for k in GROUP_KEYS:
@@ -665,7 +678,8 @@ def build_group(data, shell, gkey):
     path = f"{BASE}/{gkey}/"
     lab = GROUP[gkey]["label"]
     intro = GROUP[gkey]["intro"]
-    title = L(f'{lab["en"]} of Suriname', f'{lab["nl"]} van Suriname', f'{lab["es"]} de Surinam', f'苏里南{lab["zh"]}')
+    title = L(f'{lab["en"]} of Suriname', f'{lab["nl"]} van Suriname', f'{lab["es"]} de Surinam', f'苏里南{lab["zh"]}',
+              f'{lab["fr"]} du Suriname', f'{lab["pt"]} do Suriname')
     lst = data.by_group.get(gkey, [])
     bc, bc_ld = crumbs(path, [(f"{BASE}/", U["section"]), (None, lab)])
     subs = []
@@ -715,12 +729,15 @@ def build_subgroup(data, shell, gkey, skey):
     glab = GROUP[gkey]["label"]
     slab = subgroup_label(gkey, skey)
     lst = data.by_sub.get((gkey, skey), [])
-    title = L(f'{slab["en"]} of Suriname', f'{slab["nl"]} van Suriname', f'{slab["es"]} de Surinam', f'苏里南{slab["zh"]}')
+    title = L(f'{slab["en"]} of Suriname', f'{slab["nl"]} van Suriname', f'{slab["es"]} de Surinam', f'苏里南{slab["zh"]}',
+              f'{slab["fr"]} du Suriname', f'{slab["pt"]} do Suriname')
     n_prof = sum(1 for s in lst if s.get("p"))
     desc = L(f'All {len(lst)} {slab["en"].lower()} recorded in Suriname, with names in English, Dutch, Spanish, Chinese, Sranan Tongo and Latin.',
              f'Alle {len(lst)} soorten ({slab["nl"].lower()}) die in Suriname zijn waargenomen, met namen in het Engels, Nederlands, Spaans, Chinees, Sranantongo en Latijn.',
              f'Las {len(lst)} especies ({slab["es"].lower()}) registradas en Surinam, con nombres en inglés, neerlandés, español, chino, sranan y latín.',
-             f'在苏里南有记录的全部 {len(lst)} 种{slab["zh"]}，附英语、荷兰语、西班牙语、中文、苏里南汤加语和拉丁学名。')
+             f'在苏里南有记录的全部 {len(lst)} 种{slab["zh"]}，附英语、荷兰语、西班牙语、中文、苏里南汤加语和拉丁学名。',
+             f'Les {len(lst)} espèces ({slab["fr"].lower()}) observées au Suriname, avec leurs noms en anglais, néerlandais, espagnol, chinois, sranan tongo et latin.',
+             f'Todas as {len(lst)} espécies ({slab["pt"].lower()}) registradas no Suriname, com nomes em inglês, neerlandês, espanhol, chinês, sranan tongo e latim.')
     bc, bc_ld = crumbs(path, [(f"{BASE}/", U["section"]), (f"{BASE}/{gkey}/", glab), (None, slab)])
     body = ('<main id="main" class="ff-wrap ff-main">' + bc
             + f'<header class="ff-ph">{tx(title, tag="h1", cls="ff-h1 serif")}'
@@ -759,7 +776,9 @@ def build_collection(data, shell, key):
     title = L(f'{lab["en"]} of Suriname' if key not in ("sranan-names", "endemic") else lab["en"],
               f'{lab["nl"]} van Suriname' if key not in ("sranan-names", "endemic") else lab["nl"],
               f'{lab["es"]} de Surinam' if key not in ("sranan-names", "endemic") else lab["es"],
-              f'苏里南{lab["zh"]}' if key not in ("sranan-names", "endemic") else lab["zh"])
+              f'苏里南{lab["zh"]}' if key not in ("sranan-names", "endemic") else lab["zh"],
+              f'{lab["fr"]} du Suriname' if key not in ("sranan-names", "endemic") else lab["fr"],
+              f'{lab["pt"]} do Suriname' if key not in ("sranan-names", "endemic") else lab["pt"])
     bc, bc_ld = crumbs(path, [(f"{BASE}/", U["section"]), (None, lab)])
     n_prof = sum(1 for s in lst if s.get("p"))
     body = ('<main id="main" class="ff-wrap ff-main">' + bc
@@ -793,7 +812,7 @@ def _months(sp):
 
 
 def _summary(sp, names):
-    """Short factual intro (all 4 languages) for a profile without a Wikipedia
+    """Short factual intro (all 6 languages) for a profile without a Wikipedia
     text: rank, records, years, districts and IUCN status, from species.json."""
     sci = esc(sp["s"])
     fam, gen = sp["tx"][4], sp["tx"][5]
@@ -803,13 +822,15 @@ def _summary(sp, names):
 
     def num(n, lg):
         t = f"{n:,}"
-        return t.replace(",", ".") if lg in ("nl", "es") else t
+        if lg == "fr":
+            return t.replace(",", "\u00a0")
+        return t.replace(",", ".") if lg in ("nl", "es", "pt") else t
 
     def lst(items, lg):
         items = [("帕拉马里博" if (lg == "zh" and x == "Paramaribo") else x) for x in items]
         if lg == "zh":
             return "、".join(items[:-1]) + "和" + items[-1] if len(items) > 1 else items[0]
-        conj = {"en": "and", "nl": "en", "es": "y"}[lg]
+        conj = {"en": "and", "nl": "en", "es": "y", "fr": "et", "pt": "e"}[lg]
         return ", ".join(items[:-1]) + f" {conj} " + items[-1] if len(items) > 1 else items[0]
 
     out = {}
@@ -858,6 +879,30 @@ def _summary(sp, names):
                 p.append(f"La mayoría de los registros proceden de {lst(top, lg)}." if len(top) > 1 else f"Los registros proceden de {lst(top, lg)}.")
             if iu:
                 p.append(f"Su categoría mundial en la Lista Roja de la UICN es: {IUCN[iu]['es'].lower()}.")
+        elif lg == "fr":
+            p.append(f"{lead} est une espèce de la {'famille' if fam else 'genre'} <i>{rank}</i>.".replace("de la genre", "du genre") if rank else f"{lead} est une espèce.")
+            if r:
+                t = "une fois" if r == 1 else f"{num(r, lg)}\u00a0fois"
+                yr = (f", en {y[0]}" if y[0] == y[1] else f", entre {y[0]} et {y[1]}") if y else ""
+                p.append(f"Elle a été signalée au Suriname {t} (GBIF){yr}.")
+            if o:
+                p.append(f"Les utilisateurs d'iNaturalist ont partagé {num(o, lg)} observation{'s' if o != 1 else ''} faite{'s' if o != 1 else ''} au Suriname.")
+            if top:
+                p.append(f"La plupart des données proviennent de {lst(top, lg)}." if len(top) > 1 else f"Les données proviennent de {lst(top, lg)}.")
+            if iu:
+                p.append(f"Son statut mondial sur la Liste rouge de l'UICN\u00a0: {IUCN[iu]['fr'].lower()}.")
+        elif lg == "pt":
+            p.append(f"{lead} é uma espécie da {'família' if fam else 'gênero'} <i>{rank}</i>.".replace("da gênero", "do gênero") if rank else f"{lead} é uma espécie.")
+            if r:
+                t = "uma vez" if r == 1 else f"{num(r, lg)} vezes"
+                yr = (f", em {y[0]}" if y[0] == y[1] else f", entre {y[0]} e {y[1]}") if y else ""
+                p.append(f"Foi registrada no Suriname {t} (GBIF){yr}.")
+            if o:
+                p.append(f"Usuários do iNaturalist compartilharam {num(o, lg)} observaç{'ões' if o != 1 else 'ão'} feita{'s' if o != 1 else ''} no Suriname.")
+            if top:
+                p.append(f"A maioria dos registros vem de {lst(top, lg)}." if len(top) > 1 else f"Os registros vêm de {lst(top, lg)}.")
+            if iu:
+                p.append(f"Sua categoria global na Lista Vermelha da IUCN é: {IUCN[iu]['pt'].lower()}.")
         else:
             p.append(f"{lead}是{'' if not rank else f'<i>{rank}</i>' + ('科' if fam else '属')}的一个物种。")
             if r:
@@ -890,12 +935,15 @@ def build_species(data, shell, sp):
     title = {lg: _t(lg) for lg in LANGS}
     srn = [x[0] for x in loc_species if x[1] == "srn"]
     srn_txt = {"en": f" Sranan: {', '.join(srn)}." if srn else "", "nl": f" Sranantongo: {', '.join(srn)}." if srn else "",
-               "es": f" Sranan: {', '.join(srn)}." if srn else "", "zh": f" 苏里南汤加语：{'、'.join(srn)}。" if srn else ""}
+               "es": f" Sranan: {', '.join(srn)}." if srn else "", "zh": f" 苏里南汤加语：{'、'.join(srn)}。" if srn else "",
+               "fr": f" Sranan\u00a0: {', '.join(srn)}." if srn else "", "pt": f" Sranan: {', '.join(srn)}." if srn else ""}
     desc = {
         "en": f"{names['en']} ({sci}) in Suriname: names in English, Dutch, Spanish, Chinese and Sranan, where it has been recorded, photos and facts.{srn_txt['en']}",
         "nl": f"{names['nl'] or names['en']} ({sci}) in Suriname: namen in het Nederlands, Engels, Spaans, Chinees en Sranantongo, waar de soort is waargenomen, foto's en feiten.{srn_txt['nl']}",
         "es": f"{names['es'] or names['en']} ({sci}) en Surinam: nombres en español, inglés, neerlandés, chino y sranan, dónde se ha registrado, fotos y datos.{srn_txt['es']}",
         "zh": f"苏里南的{names['zh'] or names['en']}（{sci}）：中文、英语、荷兰语、西班牙语和苏里南汤加语名称、记录地点、照片与资料。{srn_txt['zh']}",
+        "fr": f"{names['en']} ({sci}) au Suriname\u00a0: noms en anglais, néerlandais, espagnol, chinois et sranan, lieux d'observation, photos et faits.{srn_txt['fr']}",
+        "pt": f"{names['en']} ({sci}) no Suriname: nomes em inglês, neerlandês, espanhol, chinês e sranan, onde foi registrada, fotos e fatos.{srn_txt['pt']}",
     }
     bc, bc_ld = crumbs(path, [(f"{BASE}/", U["section"]), (f"{BASE}/{g}/", glab),
                               (f"{BASE}/{g}/{sg}/", slab), (None, {lg: names[lg] or names["en"] for lg in LANGS})])
@@ -936,9 +984,9 @@ def build_species(data, shell, sp):
             chips.append(f'<span class="ff-lchip">{inner}</span>')
     # names table
     rows = []
-    for lg in LANGS:
+    for lg in NAME_LANGS:
         v = names[lg] if (lg != "en" or names["en"] != sci) else ""
-        rows.append(f'<tr><th>{tx(LANG_NAME[lg])}</th><td translate="no" data-lang="{lg}"' + (' lang="zh-Hans"' if lg == "zh" else "")
+        rows.append(f'<tr><th>{tx(LANG_NAME[lg])}</th><td translate="no" data-lang="{lg}"' + _la(lg)
                     + f'>{esc(v) if v else "&mdash;"}</td></tr>')
     for n, lg, dk in loc_species:
         lab = LOCAL_LANG.get(lg, L(lg, lg, lg, lg))
@@ -968,7 +1016,7 @@ def build_species(data, shell, sp):
             paras = "".join(f"<p>{esc(p)}</p>" for p in w["x"].split("\n") if p.strip())
             wurl = f"https://{lg}.wikipedia.org/wiki/{esc(w['t'].replace(' ', '_'))}"
             blocks.append(
-                f'<div data-l10n-lang="{lg}"' + (" hidden" if lg != "en" else "") + (' lang="zh-Hans"' if lg == "zh" else "") + '>'
+                f'<div data-l10n-lang="{lg}"' + (" hidden" if lg != "en" else "") + _la(lg) + '>'
                 + paras
                 + f'<p class="ff-wsrc"><a href="{wurl}" rel="noopener" target="_blank">{esc(U["read_wiki"][lg])}</a>'
                 f' &middot; {esc(U["wiki_lic"][lg])}</p></div>')
@@ -991,7 +1039,7 @@ def build_species(data, shell, sp):
         # no Wikipedia text: a short factual intro built from the data
         sm = _summary(sp, names)
         have = sp_langs(sp)
-        blocks = "".join(f'<div data-l10n-lang="{lg}"' + (" hidden" if lg != "en" else "") + (' lang="zh-Hans"' if lg == "zh" else "")
+        blocks = "".join(f'<div data-l10n-lang="{lg}"' + (" hidden" if lg != "en" else "") + _la(lg)
                          + f'><p>{sm[lg]}</p></div>' for lg in LANGS)
         tpls = "".join(f'<template data-wlang="{lg}" translate="no"><p>{sm[lg]}</p></template>'
                        for lg in LANGS if lg != "en" and lg not in have)
@@ -1081,6 +1129,7 @@ def build_about(data, shell):
     bc, bc_ld = crumbs(path, [(f"{BASE}/", U["section"]), (None, U["about_page"])])
     n_all, n_prof = len(data.species), len(data.profiles)
     n_all_d, n_prof_d = f"{n_all:,}".replace(",", "."), f"{n_prof:,}".replace(",", ".")
+    n_all_fr, n_prof_fr = f"{n_all:,}".replace(",", "\u00a0"), f"{n_prof:,}".replace(",", "\u00a0")
     paras = {
         "en": [
             f"This guide lists every species of animal, plant and fungus with at least one record from Suriname in the Global Biodiversity Information Facility (GBIF): {n_all:,} species at the last update, from museum specimens collected since the 1700s to photos shared last week.",
@@ -1118,9 +1167,27 @@ def build_about(data, shell):
             "我们只使用作者允许再利用的照片（CC0、CC BY、CC BY-SA 或公有领域），每张照片都注明作者和许可协议。物种描述取自维基百科的开头段落，有您所用语言的版本时优先显示，按 CC BY-SA 4.0 署名。",
             "记录数量并不代表物种的多寡：一种有一万条观鸟记录的鸟，不一定比只有一件博物馆标本的甲虫更常见。记录中也可能存在鉴定错误；如果您发现错误，或知道我们遗漏的本地名称，请告诉我们。",
         ],
+        "fr": [
+            f"Ce guide recense toutes les espèces d'animaux, de plantes et de champignons ayant au moins une donnée au Suriname dans le Global Biodiversity Information Facility (GBIF)\u00a0: {n_all_fr} espèces lors de la dernière mise à jour, des spécimens de musée collectés depuis le XVIIIe siècle aux photos partagées la semaine dernière.",
+            f"{n_prof_fr} espèces ont une fiche complète. Une fiche exige une vraie description (un article Wikipédia dans au moins une de nos quatre langues sources\u00a0: anglais, néerlandais, espagnol ou chinois, et non une ébauche d'une ligne) ainsi qu'une photo ou un nom commun. Toutes les autres espèces figurent sur la liste de leur groupe, avec un lien vers leurs données\u00a0: rien de ce qui a été trouvé au Suriname n'est laissé de côté.",
+            "Les noms proviennent d'iNaturalist et de Wikidata, qui rassemblent les noms communs officiels de chaque langue. Ces sources ne fournissent pas encore de noms français\u00a0; nous affichons donc le nom anglais ou scientifique plutôt que d'en inventer un. Beaucoup d'espèces tropicales n'ont d'ailleurs pas encore de nom en néerlandais, en espagnol ou en chinois.",
+            "Les noms en sranan tongo et en néerlandais du Suriname sont ajoutés à la main, un par un, et seulement lorsqu'une source rattache clairement le nom à l'espèce. Ils renvoient à notre dictionnaire de sranan tongo. Certains noms locaux désignent tout un groupe (popokai désigne n'importe quel perroquet)\u00a0; ils sont signalés comme nom générique.",
+            "Le statut au Suriname provient des listes de la Collection zoologique nationale du Suriname (NZCS) et du Global Register of Introduced and Invasive Species. Le statut mondial correspond à la catégorie de la Liste rouge de l'UICN.",
+            "Nous n'utilisons que des photos dont l'auteur autorise la réutilisation (CC0, CC BY, CC BY-SA ou domaine public), et chaque photo est créditée avec sa licence. Les descriptions sont les premiers paragraphes de Wikipédia, affichés dans votre langue lorsqu'ils existent, sous licence CC BY-SA 4.0.",
+            "Les données ne disent rien de l'abondance\u00a0: une espèce comptant dix mille observations d'ornithologues n'est pas forcément plus commune qu'un coléoptère connu par un seul spécimen de musée. Il existe aussi des données mal identifiées. Si vous en repérez une, ou connaissez un nom local qui manque, dites-le-nous.",
+        ],
+        "pt": [
+            f"Este guia reúne todas as espécies de animais, plantas e fungos com pelo menos um registro do Suriname no Global Biodiversity Information Facility (GBIF): {n_all_d} espécies na última atualização, de exemplares de museu coletados desde o século XVIII a fotos compartilhadas na semana passada.",
+            f"{n_prof_d} espécies têm uma ficha completa. Para isso é preciso uma descrição de verdade (um artigo da Wikipédia em pelo menos um dos nossos quatro idiomas de origem: inglês, neerlandês, espanhol ou chinês, e não um esboço de uma linha) e uma foto ou um nome popular. Todas as outras espécies aparecem na lista do seu grupo, com link para os registros, para que nada do que já foi encontrado no Suriname fique de fora.",
+            "Os nomes vêm do iNaturalist e do Wikidata, que reúnem os nomes populares oficiais de cada idioma. Essas fontes ainda não trazem nomes em português; por isso mostramos o nome em inglês ou o nome científico em vez de inventar um. Muitas espécies tropicais também ainda não têm nome em neerlandês, espanhol ou chinês.",
+            "Os nomes em sranan tongo e em neerlandês do Suriname são acrescentados à mão, um a um, e só quando uma fonte liga claramente o nome à espécie. Eles têm link para o nosso dicionário de sranan tongo. Alguns nomes locais valem para um grupo inteiro (popokai é qualquer papagaio); esses aparecem como nome genérico.",
+            "A situação no Suriname vem das listas da Coleção Zoológica Nacional do Suriname (NZCS) e do Global Register of Introduced and Invasive Species. A situação global é a categoria da Lista Vermelha da IUCN.",
+            "Só usamos fotos cujo autor permite a reutilização (CC0, CC BY, CC BY-SA ou domínio público), e cada foto traz o crédito e a licença. As descrições são os primeiros parágrafos da Wikipédia, no seu idioma quando existem, sob a licença CC BY-SA 4.0.",
+            "Os registros não indicam abundância: uma espécie com dez mil registros de observadores de aves não é necessariamente mais comum que um besouro conhecido por um único exemplar de museu. Também há registros com identificação errada. Se você encontrar um, ou conhecer um nome local que esteja faltando, avise a gente.",
+        ],
     }
     blocks = "".join(
-        f'<div data-l10n-lang="{lg}"' + (" hidden" if lg != "en" else "") + (' lang="zh-Hans"' if lg == "zh" else "") + '>'
+        f'<div data-l10n-lang="{lg}"' + (" hidden" if lg != "en" else "") + _la(lg) + '>'
         + "".join(f"<p>{esc(p)}</p>" for p in paras[lg]) + '</div>' for lg in LANGS)
     srcs = [
         ("https://www.gbif.org/country/SR/summary", "GBIF: Suriname"),

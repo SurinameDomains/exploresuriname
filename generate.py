@@ -4802,8 +4802,10 @@ PAGE_HEAD = """\
     @media (max-width:1535px) {
       .navlinks { gap:16px; }
       .navlinks .dd-trigger, .navlinks > a { letter-spacing:.045em; }
-      html[lang="es"] .navsearch, html[lang="nl"] .navsearch { gap:0; }
-      html[lang="es"] .navsearch .nslabel, html[lang="nl"] .navsearch .nslabel { max-width:0; }
+      html[lang="es"] .navsearch, html[lang="nl"] .navsearch,
+      html[lang="fr"] .navsearch, html[lang="pt-BR"] .navsearch { gap:0; }
+      html[lang="es"] .navsearch .nslabel, html[lang="nl"] .navsearch .nslabel,
+      html[lang="fr"] .navsearch .nslabel, html[lang="pt-BR"] .navsearch .nslabel { max-width:0; }
     }
     @media (max-width:1365px) {
       .navlinks { gap:11px; }
@@ -9318,7 +9320,7 @@ def build_listing_page(slug, b):
 # data/things_to_do.json holds, per nature-/activity- slug: a longer intro,
 # "good to know" facts, the tour operators in our directory that run this trip
 # (with a deep link to their own tour page), lodges nearby, the official site,
-# Facebook page and managing organisation. Every text is stored in en/nl/es/zh
+# Facebook page and managing organisation. Every text is stored in en/nl/es/zh/fr/pt
 # and baked into the page with data-l10n markers (build_i18n.apply_l10n picks
 # the language), so none of it goes through translations.json / MT.
 try:
@@ -9336,7 +9338,7 @@ _FB_SVG = ('<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" f
 
 
 def _ttd_tx(d, tag="span", cls="", style=""):
-    """Leaf element localized by build_i18n.apply_l10n. d is a {en,nl,es,zh}
+    """Leaf element localized by build_i18n.apply_l10n. d is a {en,nl,es,zh,fr,pt}
     dict or a label key from _labels."""
     if isinstance(d, str):
         d = _TTD_LBL.get(d, {"en": d})
@@ -9362,13 +9364,14 @@ def _ttd_parts(slug, kind):
     it = t.get("intro") or {}
     if it.get("en"):
         blocks = ""
-        for lg in ("en", "nl", "es", "zh"):
+        for lg in ("en", "nl", "es", "zh", "fr", "pt"):
             if not it.get(lg):
                 continue
             paras = "".join('<p class="text-gray-700 leading-relaxed text-base mb-4">' + esc(p.strip()) + '</p>'
                             for p in it[lg].split("\n\n") if p.strip())
             blocks += ('<div data-l10n-lang="' + lg + '"' + ("" if lg == "en" else " hidden")
-                       + (' lang="zh-Hans"' if lg == "zh" else "") + '>' + paras + '</div>')
+                       + ({"zh": ' lang="zh-Hans"', "fr": ' lang="fr"', "pt": ' lang="pt-BR"'}.get(lg, ""))
+                       + '>' + paras + '</div>')
         intro = '<div class="mb-6" translate="no" data-l10n-group>' + blocks + '</div>'
 
     # Good to know
@@ -23114,7 +23117,7 @@ if __name__ == "__main__":
         # (English and the three language trees) so they 404 instead of lingering.
         import shutil as _ff_sh, os as _ff_os
         _ff_keep = {_ff_os.path.dirname(k) for k in _ff_pages} | {"flora-fauna/assets"}
-        for _ff_pre in ("", "nl/", "es/", "zh/"):
+        for _ff_pre in ("", "nl/", "es/", "zh/", "fr/", "pt/"):
             _ff_root = Path(_ff_pre + "flora-fauna")
             if not _ff_root.is_dir():
                 continue
