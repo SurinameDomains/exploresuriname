@@ -20694,11 +20694,11 @@ def build_manifest():
         "lang": "en",
         "scope": "/",
         "icons": [
-            {"src": "/icons/icon-192.png",          "sizes": "192x192",   "type": "image/png", "purpose": "any"},
-            {"src": "/icons/icon-512.png",          "sizes": "512x512",   "type": "image/png", "purpose": "any"},
-            {"src": "/icons/icon-1024.png",         "sizes": "1024x1024", "type": "image/png", "purpose": "any"},
-            {"src": "/icons/icon-maskable-192.png", "sizes": "192x192",   "type": "image/png", "purpose": "maskable"},
-            {"src": "/icons/icon-maskable-512.png", "sizes": "512x512",   "type": "image/png", "purpose": "maskable"},
+            {"src": "/icons/icon-192.png?v=a2",          "sizes": "192x192",   "type": "image/png", "purpose": "any"},
+            {"src": "/icons/icon-512.png?v=a2",          "sizes": "512x512",   "type": "image/png", "purpose": "any"},
+            {"src": "/icons/icon-1024.png?v=a2",         "sizes": "1024x1024", "type": "image/png", "purpose": "any"},
+            {"src": "/icons/icon-maskable-192.png?v=a2", "sizes": "192x192",   "type": "image/png", "purpose": "maskable"},
+            {"src": "/icons/icon-maskable-512.png?v=a2", "sizes": "512x512",   "type": "image/png", "purpose": "maskable"},
             {"src": "/favicon.svg",                 "sizes": "any",       "type": "image/svg+xml", "purpose": "any"},
         ],
         "categories": ["travel", "lifestyle", "food"],
@@ -20720,7 +20720,7 @@ def build_sw():
     """Return sw.js service worker content. _TW_V is injected so the precache
     always holds the exact versioned tailwind.css URL the pages request."""
     sw = r"""// ExploreSuriname Service Worker
-const CACHE = 'exploresr-v13';
+const CACHE = 'exploresr-v14';
 const TWV = '__TWV__';
 const PRECACHE = ['/', '/tailwind.css?v=' + TWV, '/favicon.ico', '/favicon.svg', '/offline.html',
                   '/fonts/newsreader-latin-var.woff2', '/fonts/instrument-latin-var.woff2'];
