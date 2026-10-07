@@ -4,7 +4,9 @@
   "holidays_2027_2026Q3": "2026-09-28",
   "govsr_terms_840e2f0e9abf": "2026-09-30",
   "govsr_terms_a4fb0e5b216a": "2026-10-01",
-  "holidays_2027_2026Q4": "2026-10-01"
+  "holidays_2027_2026Q4": "2026-10-01",
+  "dna_ingediend_95da12c18d91": "2026-10-07",
+  "govsr_terms_d784cb63540a": "2026-10-07"
  },
  "belastingdienst_wetten": {
   "value": [
@@ -30,7 +32,7 @@
    "https://belastingdienst.sr/wp-content/uploads/2024/10/Wet-Loonbelasting.pdf",
    "https://belastingdienst.sr/wp-content/uploads/2024/10/Wet-Loterijbelasting.pdf"
   ],
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0,
   "error": "only 0 links found (layout changed?)"
  },
@@ -39,7 +41,7 @@
    "2024",
    "2"
   ],
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0,
   "error": "Command '['pdftotext', '/tmp/tmp1t_0cxiz/x.pdf', '-']' returned non-zero exit status 1."
  },
@@ -48,7 +50,7 @@
    "2024",
    "3"
   ],
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0,
   "error": "Command '['pdftotext', '/tmp/tmpiqb_dh78/x.pdf', '-']' returned non-zero exit status 1."
  },
@@ -57,7 +59,7 @@
    "2002",
    "96"
   ],
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0,
   "error": "Command '['pdftotext', '/tmp/tmpfv1rnotz/x.pdf', '-']' returned non-zero exit status 1."
  },
@@ -66,7 +68,7 @@
    "2025",
    "8"
   ],
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0
  },
  "apf_base": {
@@ -74,24 +76,24 @@
    "500",
    "5000"
   ],
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0
  },
  "fvo_rate": {
   "value": [
    "1"
   ],
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0
  },
  "minimum_wage": {
   "value": "61,25",
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0
  },
  "cbvs_denominations": {
   "value": "SRD 5, SRD 10, SRD 20, SRD 50, SRD 100, SRD 200 en SRD 500",
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0
  },
  "dna_ingediend": {
@@ -152,10 +154,11 @@
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-opheffing-derdenbeslagen-gelden-en-geldvorderingen-openbare-dienst/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-aanpassingswet-instelling-directoraat-burgerzaken/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-wijz-wet-geldelijke-voorzieningen-president-en-vice-president-rep-sur-2025-s-b-2024-no-159/",
+   "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-goedkeuring-overeenkomst-tussen-reg-rep-sur-en-reg-vsa-inzake-bestrijding-illegale-drugshandel/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-nadere-wijz-wetboek-van-strafrecht-g-b-1911-no-1-zoals-laatstelijk-gewijz-bij-s-b-2020-no-42/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-schadefonds-gewelds-en-verkeersmisdrijven/"
   ],
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0
  },
  "dna_in_behandeling": {
@@ -233,7 +236,7 @@
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-houdende-nadere-wijziging-van-het-wetboek-van-strafvordering-ltstelijk-gewzg-s-b-2023-no-135/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-instelling-verkeersautoriteit/"
   ],
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0
  },
  "dna_goedgekeurd": {
@@ -299,7 +302,7 @@
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-houdende-goedkeuring-united-national-convention-against-corruption-uncac/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-wijz-rijwet-1971-alsmede-nadere-wijz-wet-aansprakelijkheidsverzekering-motorrijtuigen-1/"
   ],
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0
  },
  "govsr_terms": {
@@ -421,6 +424,7 @@
    "https://gov.sr/regering-voert-overleg-met-vakbeweging-voor-sociaal-akkoord/",
    "https://gov.sr/regering-werkt-aan-meer-gekwalificeerde-arbeidskrachten-en-versterking-arbeidsmarkt/",
    "https://gov.sr/regering-werkt-continu-aan-verlichten-schuldenlast/",
+   "https://gov.sr/regering-wil-begrotingstekort-terugdringen-met-beheersing-uitgaven-en-extra-inkomsten/",
    "https://gov.sr/regering-zet-in-op-financiele-discipline-en-duurzame-ontwikkeling/",
    "https://gov.sr/situatie-op-koersenfront-heeft-aandacht-regering/",
    "https://gov.sr/sozavo-wil-trainingscentrum-voor-kinderen-met-een-beperking-nieuw-leven-inblazen/",
@@ -452,7 +456,7 @@
    "https://gov.sr/wijziging-besluit-negatieve-lijst/",
    "https://gov.sr/zvf/"
   ],
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0
  },
  "belastingdienst_news": {
@@ -468,46 +472,46 @@
    "https://belastingdienst.sr/storing/",
    "https://belastingdienst.sr/technische-storing/"
   ],
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0,
   "error": "mismatched tag: line 93, column 2"
  },
- "_last_run": "2026-10-06",
+ "_last_run": "2026-10-07",
  "guide_belastingdienst_contact": {
   "fails": 0,
   "error": "page almost empty (blocked or layout changed?)",
   "value": "ok",
-  "ok": "2026-10-06"
+  "ok": "2026-10-07"
  },
  "guide_apf_contact": {
   "value": "ok",
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0
  },
  "guide_kkf_contact": {
   "value": "ok",
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0
  },
  "guide_financieringswijzer": {
   "value": "ok",
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0
  },
  "guide_nob_products": {
   "fails": 0,
   "error": "page almost empty (blocked or layout changed?)",
   "value": "ok",
-  "ok": "2026-10-06"
+  "ok": "2026-10-07"
  },
  "guide_werktijden": {
   "value": "ok",
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0
  },
  "guide_iud_negatieve_lijst": {
   "value": "ok",
-  "ok": "2026-10-06",
+  "ok": "2026-10-07",
   "fails": 0
  }
 }
