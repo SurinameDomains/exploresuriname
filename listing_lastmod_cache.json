@@ -24,11 +24,11 @@
     "date": "2026-10-01"
   },
   "static:services.html": {
-    "hash": "97f23fa1a12a7737249d4c2b4fdef451",
-    "date": "2026-10-03"
+    "hash": "61832f6291236f0ea5ac4eb1f5d68a67",
+    "date": "2026-10-07"
   },
   "static:currency.html": {
-    "hash": "e8715682b1286ac18485dd7555545aeb",
+    "hash": "55cdf1d7bc2ed33c16494889af6595bd",
     "date": "2026-10-07"
   },
   "static:flights.html": {
@@ -36,7 +36,7 @@
     "date": "2026-10-07"
   },
   "static:conditions.html": {
-    "hash": "80997661f8b4b9f51c6693f624bb6de5",
+    "hash": "5542d2400c286af2119dd4d7bda7055f",
     "date": "2026-10-07"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-07"
   },
   "static:news.html": {
-    "hash": "b80d815e3ff048179004b184b8729a5d",
+    "hash": "ebd073635710a732cdde50381e227bbd",
     "date": "2026-10-07"
   },
   "static:about.html": {
@@ -3064,7 +3064,7 @@
     "date": "2026-10-01"
   },
   "static:atms.html": {
-    "hash": "3cd611507759e08f6c2f117c245dfc69",
+    "hash": "6da70c1932a1fc86e343a5d7aa486d6e",
     "date": "2026-10-07"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-01"
   },
   "static:oil-and-gas.html": {
-    "hash": "1148f06556af41235b4a24fce0a51788",
+    "hash": "d42c10ae3473b3848c01a1a2e33aba70",
     "date": "2026-10-07"
   },
   "static:suriname-oil-blocks.html": {
@@ -6748,7 +6748,7 @@
     "date": "2026-10-05"
   },
   "static:pricing-calculator": {
-    "hash": "3b0ada3ca856f1a9a785a8185f9edcb3",
+    "hash": "b5769b71f032562e6b2a405f6bf05b69",
     "date": "2026-10-07"
   },
   "static:import-cost-calculator": {
@@ -31982,5 +31982,9 @@
   "static:flora-fauna/brome-smut-fungus/index.html": {
     "hash": "f7e237b4739c81f71a01a699c1201681",
     "date": "2026-10-03"
+  },
+  "jobpower-group-n-v": {
+    "hash": "69934b6c8a2bd0dca97e6bff614a1122",
+    "date": "2026-10-07"
   }
 }
