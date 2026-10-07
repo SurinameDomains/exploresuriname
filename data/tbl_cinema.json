@@ -1,21 +1,16 @@
 {
-  "last_updated": "2026-10-06T16:00:36.953662+00:00",
+  "last_updated": "2026-10-07T10:00:36.158643+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "05:00 PM",
+      "time": "05:15 PM",
       "title": "Forgotten Island",
       "url": "https://www.tblcinemas.com/movie/RS706204767478/forgotten-island"
     },
     {
-      "time": "05:45 PM",
-      "title": "Heart of the Beast",
-      "url": "https://www.tblcinemas.com/movie/RS484269798639/heart-of-the-beast"
-    },
-    {
       "time": "06:00 PM",
-      "title": "Digger",
-      "url": "https://www.tblcinemas.com/movie/RS450354540519/digger"
+      "title": "Resident Evil",
+      "url": "https://www.tblcinemas.com/movie/RS762482270455/resident-evil"
     },
     {
       "time": "06:30 PM",
@@ -24,23 +19,23 @@
     },
     {
       "time": "07:00 PM",
-      "title": "Avengers: Endgame (3D)",
-      "url": "https://www.tblcinemas.com/movie/RS887314415013/avengers-endgame"
+      "title": "Four Mothers",
+      "url": "https://www.tblcinemas.com/movie/RS988447514731/four-mothers"
     },
     {
-      "time": "07:45 PM",
+      "time": "07:30 PM",
+      "title": "Digger",
+      "url": "https://www.tblcinemas.com/movie/RS450354540519/digger"
+    },
+    {
+      "time": "08:15 PM",
       "title": "Verity",
       "url": "https://www.tblcinemas.com/movie/RS242492895486/verity"
     },
     {
-      "time": "08:30 PM",
+      "time": "08:45 PM",
       "title": "Beware Boiúna",
       "url": "https://www.tblcinemas.com/movie/RS31454950608/beware-boi-na"
-    },
-    {
-      "time": "09:00 PM",
-      "title": "Resident Evil",
-      "url": "https://www.tblcinemas.com/movie/RS762482270455/resident-evil"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
