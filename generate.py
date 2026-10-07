@@ -97,6 +97,12 @@ if _jd_path.exists():
             if _e.get("description", "").strip():
                 _JSON_DESCS[_slug] = _e["description"].strip()
         print(f"  Loaded {len(_BIZ)} listings from exploresuriname_listings.json")
+        # Oct 2026 cleanup: hours read off each business's own Facebook page live
+        # in the JSON "hours" field (OSM syntax). They beat the OSM cache, which
+        # enrich.yml overwrites every Sunday; an explicit _MANUAL_HOURS entry still wins.
+        for _hs, _he in _BIZ.items():
+            if (_he.get("hours") or "").strip():
+                _MANUAL_HOURS.setdefault(_hs, _he["hours"].strip())
     except Exception as _err:
         print(f"  Warning: could not load listing data — {_err}")
 
@@ -150,6 +156,20 @@ _SUB_LIST_KEY = {"restaurant": "RESTAURANTS", "hotel": "HOTELS", "shopping": "SH
 _SUB_BY_CAT: dict = {_k: [] for _k in _SUB_LIST_KEY}
 _SUB_IMGS: dict = {}      # slug -> image url, merged into _IMGS below
 _SUB_SUBCAT: dict = {}    # slug -> chip key, consulted first by _subcat()
+_SUB_FIXES = {
+    # Only fields the admin panel does not have (facebook) are set outright. A website is
+    # only dropped while it still holds the exact bad value below, so a later fix made in
+    # the admin panel always wins.
+    "borgoe-bar":         {"facebook": "https://www.facebook.com/georgiessuriname/"},
+    "elevate-our-health": {"facebook": "https://www.facebook.com/profile.php?id=61567632263036"},
+    "jobpower-group-n-v": {"facebook": "https://www.facebook.com/JobPowerGroupOfficial/"},
+    "sana-budaya":        {"facebook": "https://www.facebook.com/sanabudaya/",
+                           "drop_website": "https://www.vhji.sr"},                  # domain no longer resolves
+    "suundergrnd":        {"facebook": "https://www.facebook.com/suundergrnd/"},
+    "rbl-stroop":         {"facebook": "https://www.facebook.com/RBLStroop/",
+                           "drop_website": "https://www.facebook.com/share/14sNzZQ7WDS/"},  # share link, not a site
+    "praia-branca":       {"drop_website": "https://www.facebook.com/share/p/19KG6QA5fo/"},  # link to one post
+}
 try:
     import urllib.request as _ureq
     _sub_req = _ureq.Request(_SUB_URL, headers={"User-Agent": "ExploreSR-build/1.0"})
@@ -170,6 +190,13 @@ try:
                         "main_image": _s.get("image", ""), "submitted": True}
         if (_s.get("description") or "").strip():
             _JSON_DESCS[_sslug] = _s["description"].strip()
+        # Oct 2026 cleanup: repo-side fixes for approved submissions (Facebook pages
+        # verified, dead website dropped). The submitted text itself is left alone.
+        _fx = _SUB_FIXES.get(_sslug, {})
+        if _fx.get("facebook") and not _BIZ[_sslug].get("facebook"):
+            _BIZ[_sslug]["facebook"] = _fx["facebook"]
+        if _fx.get("drop_website") and (_BIZ[_sslug].get("website") or "").strip().rstrip("/") == _fx["drop_website"].rstrip("/"):
+            _BIZ[_sslug]["website"] = ""
         if _s.get("image"):  _SUB_IMGS[_sslug]   = _s["image"]
         if _s.get("subcat"): _SUB_SUBCAT[_sslug] = _s["subcat"]
         _SUB_BY_CAT[_scat].append(_sslug)
@@ -423,9 +450,29 @@ ACTIVITIES = [
 ]
 
 
+_SOCIAL_RE = re.compile(r'^(?:https?://)?(?:[a-z]+\.)?(?:facebook\.com|fb\.com|fb\.me|instagram\.com)/', re.I)
+
+def _fb_url(b):
+    """The business's Facebook page: the JSON "facebook" field, or a Facebook URL
+    that was stored as its website (older rows did that)."""
+    f = (b.get('facebook') or '').strip()
+    if not f:
+        w = (b.get('website') or '').strip()
+        if re.match(r'^(?:https?://)?(?:[a-z]+\.)?facebook\.com/', w, re.I):
+            f = w
+    if not f:
+        return ''
+    if not f.startswith('http'):
+        f = 'https://' + f
+    if '/search/' in f or '/share/' in f:   # search links and share links are not a page
+        return ''
+    return f
+
 def _biz_url(b):
     import re as _re
     w = b.get('website', '')
+    if w and _SOCIAL_RE.match(w.strip()):
+        w = ''   # a Facebook/Instagram page is not a website; it gets its own button
     # Stem length must stay at 1+, not 4+: short real domains (uvs.edu, da.sr,
     # vcm.sr, bbm.sr, cec.sr, atv.sr) were failing the match and silently falling
     # back to a Google search URL, which build_listing_page then swapped for a
@@ -435,6 +482,49 @@ def _biz_url(b):
     return f"https://www.google.com/search?q={urllib.parse.quote(b['name'] + ' Suriname')}"
 
 _IMGS = {
+    # Oct 7 2026 - duplicate merges: keeper takes the merged listing's photo
+    'pricos-machineshop': 'https://exploresuriname.com/images/pricos-mashineshop.webp',
+    # Oct 7 2026 listing cleanup - cover photos saved off each business's verified Facebook page
+    'coco-cafe': 'https://exploresuriname.com/images/coco-cafe.webp',
+    'alidjan-supermarkt-slijterij': 'https://exploresuriname.com/images/alidjan-supermarkt-slijterij.webp',
+    'niamat-rental': 'https://exploresuriname.com/images/niamat-rental.webp',
+    'etb-suriname': 'https://exploresuriname.com/images/etb-suriname.webp',
+    'custom-connect-powered-by-capability-bpo': 'https://exploresuriname.com/images/custom-connect-powered-by-capability-bpo.webp',
+    'diakonessenhuis': 'https://exploresuriname.com/images/diakonessenhuis.webp',
+    'dian-tong-bouwmaterial': 'https://exploresuriname.com/images/dian-tong-bouwmaterial.webp',
+    'dor-property-management-services-n-v': 'https://exploresuriname.com/images/dor-property-management-services-n-v.webp',
+    'dresscode': 'https://exploresuriname.com/images/dresscode.webp',
+    'elevate-real-estate': 'https://exploresuriname.com/images/elevate-real-estate.webp',
+    'ewalds-modehuis': 'https://exploresuriname.com/images/ewalds-modehuis.webp',
+    'fast-fresh-dijkveld': 'https://exploresuriname.com/images/fast-fresh-dijkveld.webp',
+    'godo': 'https://exploresuriname.com/images/godo.webp',
+    'hammer-nail-trading': 'https://exploresuriname.com/images/hammer-nail-trading.webp',
+    'hes-ds-2': 'https://exploresuriname.com/images/hes-ds-2.webp',
+    'hes-ds-3': 'https://exploresuriname.com/images/hes-ds-3.webp',
+    'infinity-holding': 'https://exploresuriname.com/images/infinity-holding.webp',
+    'ires-property-agency-nv': 'https://exploresuriname.com/images/ires-property-agency-nv.webp',
+    'kangoeroe-high': 'https://exploresuriname.com/images/kangoeroe-high.webp',
+    'karima-invest-nv': 'https://exploresuriname.com/images/karima-invest-nv.webp',
+    'landbouwshop-keshav': 'https://exploresuriname.com/images/landbouwshop-keshav.webp',
+    'mavis-taxi': 'https://exploresuriname.com/images/mavis-taxi.webp',
+    'mirosso': 'https://exploresuriname.com/images/mirosso.webp',
+    'newtech-zwartenhovenbrug': 'https://exploresuriname.com/images/newtech-zwartenhovenbrug.webp',
+    'oso-nanga-djari-nv': 'https://exploresuriname.com/images/oso-nanga-djari-nv.webp',
+    'paradise-city-casino': 'https://exploresuriname.com/images/paradise-city-casino.webp',
+    'professional-private-security': 'https://exploresuriname.com/images/professional-private-security.webp',
+    'renaissance-realty-nv': 'https://exploresuriname.com/images/renaissance-realty-nv.webp',
+    'secas': 'https://exploresuriname.com/images/secas.webp',
+    'stichting-upper-suriname-lodgeholders': 'https://exploresuriname.com/images/stichting-upper-suriname-lodgeholders.webp',
+    'stinasu-stichting-natuurbehoud-suriname': 'https://exploresuriname.com/images/stinasu-stichting-natuurbehoud-suriname.webp',
+    'sunrice-nv': 'https://exploresuriname.com/images/sunrice-nv.webp',
+    'suriname-hospitality-tourism-association': 'https://exploresuriname.com/images/suriname-hospitality-tourism-association.webp',
+    'tasty-sandwich-coffee-bar': 'https://exploresuriname.com/images/tasty-sandwich-coffee-bar.webp',
+    'themen-contractors-nv': 'https://exploresuriname.com/images/themen-contractors-nv.webp',
+    'tourtonnes-taxi': 'https://exploresuriname.com/images/tourtonnes-taxi.webp',
+    'tropical-breeze-apartments': 'https://exploresuriname.com/images/tropical-breeze-apartments.webp',
+    'united-aviation-services-nv': 'https://exploresuriname.com/images/united-aviation-services-nv.webp',
+    'us-polo-assn-suriname': 'https://exploresuriname.com/images/us-polo-assn-suriname.webp',
+    'village-park-33': 'https://exploresuriname.com/images/village-park-33.webp',
     # Sep 23 2026 - new restaurant listings, images saved off each business's Facebook page
     'brasa-suriname': 'https://exploresuriname.com/images/brasa-suriname.webp',
     'pot-cova': 'https://exploresuriname.com/images/pot-cova.webp',
@@ -2623,14 +2713,246 @@ _BATCH_SUBCAT = {
     'zwemschool-tukunari': 'fitness-wellness',
 }
 
+# Oct 2026 listing cleanup: chip fixes verified against each business's own Facebook page / website.
+_BATCH_SUBCAT.update({
+    # Oct 7 2026 - new listings from the Social Suriname scan (all checked on their own Facebook page)
+    "coco-cafe": "cafes-coffee",
+    "alidjan-supermarkt-slijterij": "supermarkets",
+    "suriskin-healthcare": "health-pharmacy",
+    "freshly-squeezed-juice": "food-specialty",
+    "niamat-rental": "events-party",
+    "etb-suriname": "tech-media",
+    "de-pier-torarica": "bars-lounges",
+    "101-suites": "city-hotels",
+    "4x4-rental": "construction-trades",
+    "82-trading": "building-materials",
+    "aakhri-safar-mijnzorg": "other",
+    "aatrios-management-consultancy-bv": "legal-professional",
+    "aboikonie-zwembad-bedrijf": "construction-trades",
+    "access-suriname-travel": "tours-expeditions",
+    "advanced-geodetic-solutions": "construction-trades",
+    "afzal-transport": "travel-transport",
+    "agrofix-nv": "cleaning-maintenance",
+    "airboat-tours-suriname": "tours-expeditions",
+    "alegria": "bakeries-sweets",
+    "all-suriname-tours": "tours-expeditions",
+    "amits-sport-cafe": "bars-lounges",
+    "apex-bold": "optical-jewelry",
+    "ardac-international": "crafts-souvenirs",
+    "arrex-group-nv": "industry-energy",
+    "asomena-travel-tours": "tours-expeditions",
+    "auto-style-franchepanestraat": "automotive",
+    "auto-style-johannes-mungrastraat": "automotive",
+    "auto-style-kwatta": "automotive",
+    "auto-style-tweede-rijweg": "automotive",
+    "auto-style-verlengde-gemenelandsweg": "automotive",
+    "automotive-art-suriname": "automotive",
+    "ayur-mi-beauty-wellness": "beauty-wellness",
+    "b-malhoe-sons": "building-materials",
+    "b-singh-trading": "home-furniture",
+    "bamboo-adventure-tours": "tours-expeditions",
+    "banking-network-suriname-nv": "banking",
+    "bella-italia": "bakeries-sweets",
+    "biharies-car-center-nv": "automotive",
+    "biharies-resort": "resorts",
+    "bio-with-wirjo-tours-suriname": "tours-expeditions",
+    "bistro-brwni": "restaurants",
+    "bistro-lequatorze": "restaurants",
+    "black-eagle-tours": "tours-expeditions",
+    "blue-frog-travel": "tours-expeditions",
+    "bmw-suriname": "automotive",
+    "boekhandel-kasco": "other",
+    "boekhandel-vaco": "other",
+    "boni-tours": "tours-expeditions",
+    "brilleman": "optical-jewelry",
+    "briss-it-solutions": "tech-media",
+    "budget-tours-suriname": "tours-expeditions",
+    "byd-suriname": "automotive",
+    "camex-suriname": "shipping-logistics",
+    "caribbean-chemicals-suriname": "agriculture",
+    "carolina-tours": "tours-expeditions",
+    "carvision-paramaribo": "automotive",
+    "celery-online-payroll-hrm": "tech-media",
+    "celestial-tours-suriname": "travel-transport",
+    "cemdee-international-nv": "building-materials",
+    "chm-centrum": "home-furniture",
+    "chm-commewijne": "home-furniture",
+    "chm-kernkampweg": "home-furniture",
+    "chm-nickerie": "home-furniture",
+    "chm-suriname": "home-furniture",
+    "chm-wanica": "home-furniture",
+    "chm-wilhelminastraat": "home-furniture",
+    "chotelal-sons-resort": "resorts",
+    "chuck-e-cheese": "entertainment",
+    "cinnagirl": "bakeries-sweets",
+    "ciranos": "restaurants",
+    "club-oase": "fitness-wellness",
+    "cmc-suriname": "tech-media",
+    "combe-bazaar": "local-caribbean",
+    "combe-markt": "supermarkets",
+    "conservatorium-suriname": "education",
+    "creative-q": "nursery-garden",
+    "cynsational-glam": "other",
+    "da-vinci-enterprises-nv": "electronics",
+    "de-eenheid-nv": "building-materials",
+    "de-spot": "local-caribbean",
+    "demarkt-multi-enterprise-nv": "shipping-logistics",
+    "dhl-express-service-point": "shipping-logistics",
+    "discover-suriname-tours": "tours-expeditions",
+    "divergent-body-jewelry": "optical-jewelry",
+    "dlish": "cafes-coffee",
+    "does-travel-cadushi-tours": "tours-expeditions",
+    "elan-trading-nv": "electronics",
+    "eskimo-koeltechnisch-bedrijf": "cleaning-maintenance",
+    "etembe-rainforest-restaurant": "local-caribbean",
+    "eucon": "building-materials",
+    "exsol-industrial-nv": "industry-energy",
+    "faraya-medical-center": "hospitals-clinics",
+    "fasst-itt-nv": "building-materials",
+    "fernandes-bakkery-nv": "bakeries-sweets",
+    "flora-fauna-tours": "tours-expeditions",
+    "fred-eco-tours": "tours-expeditions",
+    "garage-d-a-ashruf": "travel-transport",
+    "garage-de-paarl": "travel-transport",
+    "garden-of-eden": "asian-fusion",
+    "glam-curves": "fashion-clothing",
+    "green-tours-n-travel": "tours-expeditions",
+    "greentour": "tours-expeditions",
+    "guguplex-technologies-sac": "industry-energy",
+    "h-garden": "nursery-garden",
+    "hammer-nail-trading": "building-materials",
+    "handelmaatschappij-bsewnath-nv": "building-materials",
+    "handmade-by-farrell-nv": "health-beauty",
+    "harbour-resort-domburg": "resorts",
+    "hard-rock-cafe-suriname": "restaurants",
+    "harry-tjin": "events-party",
+    "hj-motors": "automotive",
+    "hollandia-bakkerij-north": "bakeries-sweets",
+    "hollandia-bakkerij-south": "bakeries-sweets",
+    "holy-moly": "cafes-coffee",
+    "hotel-palacio": "city-hotels",
+    "hsds-lifestyle-noord": "electronics",
+    "hsds-lifestyle-wanica": "electronics",
+    "hurricane-steel": "building-materials",
+    "hurricane-steel-ringweg": "building-materials",
+    "iamchede": "fashion-clothing",
+    "ias-wooden-and-construction-nv": "construction-trades",
+    "impressive-suriname-travel-nv": "tours-expeditions",
+    "indutec-systems-nv": "industry-energy",
+    "infinity-holding": "security",
+    "interdeco": "home-furniture",
+    "intermed-caribe": "health-pharmacy",
+    "intramar-nv": "agriculture",
+    "itee-nv": "tech-media",
+    "jack-tours-travel-service": "travel-transport",
+    "jetzza-international-nv": "building-materials",
+    "john-ziel-paints-n-v": "building-materials",
+    "julias-food": "restaurants",
+    "jungle-xperience-suriname": "tours-expeditions",
+    "kasco-customs-solutions": "shipping-logistics",
+    "kasimex-indira-ghandiweg": "building-materials",
+    "kasimex-makro": "building-materials",
+    "king-panel-suriname": "building-materials",
+    "kirans-dolfijnen-tours": "tours-expeditions",
+    "kj-skincare": "beauty-wellness",
+    "lamour-restaurant": "restaurants",
+    "lees-trading": "building-materials",
+    "leiding-1-restaurant": "asian-fusion",
+    "lobby": "local-caribbean",
+    "lucky-store": "malls-markets",
+    "lucky-twins-restaurant": "asian-fusion",
+    "luxury-sky-resort": "entertainment",
+    "mantje-bigi-pan-tours": "tours-expeditions",
+    "marina-resort-waterland": "resorts",
+    "md-defence-shooting-academy": "education",
+    "metalock-suriname-nv": "industry-energy",
+    "mets-travel-tours": "tours-expeditions",
+    "mezze-suriname": "restaurants",
+    "mickis-palace-noord": "fast-food",
+    "mickis-palace-zuid": "fast-food",
+    "miniso-gompertstraat": "other",
+    "miniso-hermitage-mall": "other",
+    "moboco-nv": "building-materials",
+    "mokisa-busidataa-osu-nv": "beauty-wellness",
+    "monarch-furnishings-and-sofa": "home-furniture",
+    "murphys-irish-pub": "bars-lounges",
+    "myrysji-tours-suriname": "tours-expeditions",
+    "no-span-eco-tours": "tours-expeditions",
+    "nr-1-spot": "guesthouses",
+    "ontime-nv": "shipping-logistics",
+    "orange-travel-nv": "tours-expeditions",
+    "outdoor-living": "home-furniture",
+    "pbs-group": "tech-media",
+    "petisco-restaurant": "restaurants",
+    "petit-bouchon": "cafes-coffee",
+    "philipson-trading": "automotive",
+    "places2go-suriname": "tours-expeditions",
+    "printwise-imprint-solutions": "tech-media",
+    "pristine-car-nv": "automotive",
+    "pristine-rainforest-tours": "tours-expeditions",
+    "protrade-international": "home-furniture",
+    "purity-tours-services": "tours-expeditions",
+    "r-durga-sons-nv": "building-materials",
+    "rcr-medical-centre": "hospitals-clinics",
+    "rezaam-car-sales": "automotive",
+    "royal-breeze-hotel-paramaribo": "city-hotels",
+    "royal-panel": "building-materials",
+    "royal-tobacco-company-nv": "other",
+    "sanousch-books": "other",
+    "sean-trading": "building-materials",
+    "secas": "security",
+    "shlx-studio": "fitness-wellness",
+    "sizzler-midnight-grill": "fast-food",
+    "sizzlers-signature": "restaurants",
+    "smart-connexxionz": "electronics",
+    "stg-de-mantel": "other",
+    "stichting-zwembad-parima": "entertainment",
+    "stukaderen-in-nederland": "education",
+    "suforyou-suriname": "tours-expeditions",
+    "sugar": "asian-fusion",
+    "suriname-hospitality-tourism-association": "other",
+    "suriname-tuk-tuk-tours": "tours-expeditions",
+    "surpost": "shipping-logistics",
+    "sweetheart-hermitage-mall": "other",
+    "sweetheart-ims": "other",
+    "taman-indah-resort": "resorts",
+    "tastelicious": "bakeries-sweets",
+    "the-suriname-tourism-foundation": "other",
+    "the-wonderlab-su": "beauty-wellness",
+    "tilburg-tours-rentals-suriname": "tours-expeditions",
+    "topsport": "other",
+    "tourbox-suriname": "tours-expeditions",
+    "tranquil-at-mamba-republiek": "guesthouses",
+    "travel-the-guianas": "tours-expeditions",
+    "tromoto-nv": "building-materials",
+    "tsw-group": "building-materials",
+    "unlock-nature-tours": "tours-expeditions",
+    "vifa-trading": "building-materials",
+    "villa-zapakara": "museums-heritage",
+    "viva-mexico": "restaurants",
+    "vortex-aviation-academy": "education",
+    "wan-bon-biri": "bars-lounges",
+    "wanica-technical-center": "building-materials",
+    "warsha-n-v": "building-materials",
+    "waterproof-tours-suriname": "tours-expeditions",
+    "wing-hung-cake-shop": "bakeries-sweets",
+    "wow-plus": "home-furniture",
+    "ying-hao-beautyshop": "health-beauty",
+    "yogh-hospitality": "city-hotels",
+    "yokohama-trading": "automotive",
+    "zin-resort": "entertainment",
+    "zwembad-energy": "entertainment",
+})
+
 def _subcat(slug, main_cat=""):
     s = slug.lower()
-    if s in _BATCH_SUBCAT:
-        return _BATCH_SUBCAT[s]
-    # Public submissions carry a chip the reviewer picked in the admin panel;
-    # it beats every keyword rule below.
+    # Public submissions carry a chip the reviewer picked in the admin panel. It is
+    # checked first so a new submission that reuses a retired slug never inherits
+    # that old listing's pinned chip.
     if s in _SUB_SUBCAT:
         return _SUB_SUBCAT[s]
+    if s in _BATCH_SUBCAT:
+        return _BATCH_SUBCAT[s]
     # ── Disambiguation guards (run first): brands whose slug collides with a
     #    greedy substring keyword below — e.g. "latour" contains "tour", mall
     #    tenants contain "mall", insurers "assuria"/"fatum", poultry "sranan-fowru".
@@ -3167,6 +3489,7 @@ def _make_biz(slug):
             "phone":       b.get("phone")       or fsq.get("phone")   or "",
             "email":       b.get("email", ""),
             "website":     b.get("website", ""),   # curated JSON / admin panel only — FSQ websites are unreliable
+            "facebook":    _fb_url(b),
             "category":    b.get("category", ""),
             "description": b.get("description", ""),
             "url": f"listing/{slug}/",
@@ -3174,17 +3497,17 @@ def _make_biz(slug):
             "image": _biz_img(slug) or _fdet.get("photo_url", ""),
             "subcat": _subcat(slug)}
 
-RESTAURANTS = [b for slug in ["a-la-john", "aaras-cafe", "ac-bar-restaurant", "ace-restaurant-lounge", "ayo-river-lounge", "baka-foto-restaurant", "bar-qle", "bar-zuid", "bella-italia", "big-tex", "bingo-pizza-coppename", "bingo-pizza-kwatta", "bistro-brwni", "bistro-don-julio", "bistro-lequatorze", "bloom-wellness-cafe", "blue-grand-cafe", "bori-tori", "boss-burgers", "burger-king-centrum", "burger-king-latour", "cafe-amsterdam", "chi-min", "chuck-e-cheese", "cinnagirl", "coffee-mama", "cookie-closet", "cupcake-fantasy", "cy-coffee", "d-mighty-view-lounge", "de-gadri", "de-spot", "de-verdieping", "dlish", "dolce-bella-cafe", "eethuis-liv", "el-patron-latin-grill", "elev8te", "elines-pizza", "etembe-rainforest-restaurant", "ettores-pizza-kitchen", "flavor-restaurant", "frygri", "garden-of-eden", "georgies-bar-chill", "goe-thai-noodle-bar", "goldenwings", "habco-delight", "habco-delight-north", "hard-rock-cafe-suriname", "holy-moly", "jadore-cafe-grill", "jage-caffe", "jage-caffe-2", "joey-ds", "joosje-roti-shop", "julias-food", "karans-indian-food", "kfc-ims", "kfc-kwatta", "kfc-lallarookh", "kfc-latour", "kfc-lelydorp", "kfc-waterkant", "kfc-wilhelminastraat", "kong-nam-snack", "krioro", "krioro-north", "kushiyaki-the-next-episode", "kwan-tai-restaurant", "kwan-tai-restaurant-2", "kyu-pho-grill", "lamour-restaurant", "las-tias", "lees-korean-grill", "leiding-1-restaurant", "lucky-twins-restaurant", "maharaja-palace", "matcha-loft", "mcdonalds-centrum", "mcdonalds-hermitage-mall", "mezze-suriname", "mickis-palace-noord", "mickis-palace-zuid", "mighty-racks", "mingle-paramaribo", "mingle-sushi", "moka-coffeebar", "moments-restaurant", "muntjes-take-out-juniors-place", "murphys-irish-pub", "naskip", "naskip-2", "naskip-3", "naskip-4", "naskip-5", "new-suriname-dream-cafe", "norrii-zushii", "nr-1-spot", "numa-cafe", "oasis-restaurant", "ogi-teppanyaki-sushi-bar", "okopipi-tropical-grill", "olive-multi-cuisine-restaurant", "overdoughsed-suriname", "padre-nostro-italian-restaurant", "pane-e-vino", "pannekoek-en-poffertjes-cafe", "passie-food-and-wines", "petisco-restaurant", "petit-bouchon", "pizza-hut-leysweg", "pizza-hut-south", "pizza-hut-wilhelminastraat", "pizza-mafia", "popeyes-centrum", "popeyes-lelydorp", "popeyes-tbl", "popeyes-wilhelminastraat", "raja-ji", "restaurant-lhermitage", "restaurant-sarinah", "restoran-bibit", "ricos-a-gladiator-foodtruck", "ritas-roti-shop", "rolines-de-waag", "roopram-roti-shop", "sakura", "samba-cafe", "saras-brunch-cafe", "sizzler-midnight-grill", "sizzlers-signature", "souposo", "south-america-hot-pot", "spice-quest", "squeezy-hot-pot-restaurant", "subway", "subway-2", "subway-3", "sugar", "sushi-ya", "sweet-tooth-pastries", "sweetie-coffee", "tapauku-terras", "tastelicious", "tasty-fresh-food-coffee-bar", "teasee", "the-bakery-house", "the-coffee-box", "the-coffee-box-north", "the-coffee-hobbyist", "the-maillard-cafe", "the-old-garage", "the-sweetest-thing", "three-little-beans", "tipsy-bar-lounge", "tirzahs-patisserie", "tori-oso", "tout-tout-petit", "twins-pizza-burgers", "u-s-bakery", "uitkijk-riverlounge-cafe", "viva-mexico", "warung-resa-centrum", "warung-soepy-ann", "wollys", "wollys-2", "wollys-3", "zeg-ijsje", "zus-zo-cafe", "guru-rotishop", "shlx-cafe", "alegria", "le-den", "lobby", "ciranos", "sun-ice", "x-avenue", "hes-ds", "hes-ds-2", "hes-ds-3", "bbq-bar-hermitage", "beelys-pastry", "chicking", "crazy-churros", "dough-re-mi", "elements-restaurant-lounge", "krispy", "livorno-snacks-broodjes-winkel", "momo-korean-fried-chicken", "raytjes-kukru", "rustique-grill", "sundae-bliss", "sweets-brews-by-nass", "tian-you-paranam", "tulip-cafeteria", "warung-blauwtjie", "warung-oetomo", "fast-fresh-centrum", "fast-fresh-beekhuizen", "fast-fresh-dijkveld", "locacion-lounge-bar", "meat-at-midnight", "dim-sum-cuisine", "warung-mbah-paidjah", "op-smaak-food-services", "anthonys-corner", "candys-bar-restaurant", "jamz-lounge", "mirosso", "my-bakery", "t-vat-sidewalk-cafe", "tasty-sandwich-coffee-bar", "the-ramada-rooftop-lounge-bar", "brasa-suriname", "pot-cova", "andjiros"] for b in [_make_biz(slug)] if b]
+RESTAURANTS = [b for slug in ["a-la-john", "aaras-cafe", "ac-bar-restaurant", "ace-restaurant-lounge", "ayo-river-lounge", "baka-foto-restaurant", "bar-qle", "bar-zuid", "bella-italia", "big-tex", "bingo-pizza-coppename", "bingo-pizza-kwatta", "bistro-brwni", "bistro-don-julio", "bistro-lequatorze", "bloom-wellness-cafe", "blue-grand-cafe", "bori-tori", "boss-burgers", "burger-king-centrum", "burger-king-latour", "cafe-amsterdam", "chi-min", "cinnagirl", "coffee-mama", "cookie-closet", "cupcake-fantasy", "cy-coffee", "d-mighty-view-lounge", "de-gadri", "de-spot", "de-verdieping", "dlish", "dolce-bella-cafe", "eethuis-liv", "el-patron-latin-grill", "elev8te", "elines-pizza", "etembe-rainforest-restaurant", "ettores-pizza-kitchen", "flavor-restaurant", "frygri", "garden-of-eden", "georgies-bar-chill", "goe-thai-noodle-bar", "goldenwings", "habco-delight", "habco-delight-north", "hard-rock-cafe-suriname", "holy-moly", "jadore-cafe-grill", "jage-caffe", "jage-caffe-2", "joey-ds", "joosje-roti-shop", "julias-food", "karans-indian-food", "kfc-ims", "kfc-kwatta", "kfc-lallarookh", "kfc-latour", "kfc-lelydorp", "kfc-waterkant", "kfc-wilhelminastraat", "kong-nam-snack", "krioro", "kushiyaki-the-next-episode", "kwan-tai-restaurant", "kwan-tai-restaurant-2", "kyu-pho-grill", "lamour-restaurant", "las-tias", "lees-korean-grill", "leiding-1-restaurant", "lucky-twins-restaurant", "maharaja-palace", "matcha-loft", "mcdonalds-centrum", "mcdonalds-hermitage-mall", "mezze-suriname", "mickis-palace-noord", "mickis-palace-zuid", "mighty-racks", "mingle-paramaribo", "mingle-sushi", "moka-coffeebar", "moments-restaurant", "muntjes-take-out-juniors-place", "murphys-irish-pub", "naskip", "naskip-2", "naskip-3", "naskip-4", "naskip-5", "new-suriname-dream-cafe", "norrii-zushii", "numa-cafe", "oasis-restaurant", "ogi-teppanyaki-sushi-bar", "okopipi-tropical-grill", "olive-multi-cuisine-restaurant", "overdoughsed-suriname", "padre-nostro-italian-restaurant", "pane-e-vino", "pannekoek-en-poffertjes-cafe", "passie-food-and-wines", "petisco-restaurant", "petit-bouchon", "pizza-hut-leysweg", "pizza-hut-south", "pizza-hut-wilhelminastraat", "pizza-mafia", "popeyes-centrum", "popeyes-lelydorp", "popeyes-tbl", "popeyes-wilhelminastraat", "raja-ji", "restaurant-lhermitage", "restaurant-sarinah", "restoran-bibit", "ricos-a-gladiator-foodtruck", "ritas-roti-shop", "rolines-de-waag", "roopram-roti-shop", "sakura", "samba-cafe", "saras-brunch-cafe", "sizzler-midnight-grill", "sizzlers-signature", "souposo", "south-america-hot-pot", "spice-quest", "squeezy-hot-pot-restaurant", "subway", "subway-2", "subway-3", "sugar", "sushi-ya", "sweet-tooth-pastries", "sweetie-coffee", "tapauku-terras", "tastelicious", "tasty-fresh-food-coffee-bar", "teasee", "the-bakery-house", "the-coffee-box", "the-coffee-box-north", "the-coffee-hobbyist", "the-maillard-cafe", "the-old-garage", "the-sweetest-thing", "three-little-beans", "tipsy-bar-lounge", "tirzahs-patisserie", "tori-oso", "tout-tout-petit", "twins-pizza-burgers", "u-s-bakery", "uitkijk-riverlounge-cafe", "viva-mexico", "warung-resa-centrum", "warung-soepy-ann", "wollys", "wollys-2", "wollys-3", "zeg-ijsje", "zus-zo-cafe", "guru-rotishop", "shlx-cafe", "alegria", "lobby", "ciranos", "sun-ice", "x-avenue", "hes-ds", "hes-ds-2", "hes-ds-3", "bbq-bar-hermitage", "beelys-pastry", "chicking", "crazy-churros", "dough-re-mi", "elements-restaurant-lounge", "krispy", "livorno-snacks-broodjes-winkel", "momo-korean-fried-chicken", "raytjes-kukru", "rustique-grill", "sundae-bliss", "sweets-brews-by-nass", "tian-you-paranam", "tulip-cafeteria", "warung-blauwtjie", "warung-oetomo", "fast-fresh-centrum", "fast-fresh-beekhuizen", "fast-fresh-dijkveld", "locacion-lounge-bar", "meat-at-midnight", "dim-sum-cuisine", "warung-mbah-paidjah", "op-smaak-food-services", "anthonys-corner", "candys-bar-restaurant", "jamz-lounge", "mirosso", "my-bakery", "t-vat-sidewalk-cafe", "the-ramada-rooftop-lounge-bar", "brasa-suriname", "pot-cova", "andjiros", "combe-bazaar", "fernandes-bakkery-nv", "wan-bon-biri", "wing-hung-cake-shop", "amits-sport-cafe", "hollandia-bakkerij-north", "hollandia-bakkerij-south", "coco-cafe", "de-pier-torarica"] for b in [_make_biz(slug)] if b]
 
-HOTELS = [b for slug in ["bronbella-villa-residence","courtyard-by-marriott","eco-resort-miano","eco-torarica","holland-lodge","hotel-palacio","hotel-peperpot","houttuyn-wellness-river-resort","jacana-amazon-wellness-resort","oxygen-resort","royal-brasil-hotel","royal-breeze-hotel-paramaribo","royal-torarica","taman-indah-resort","the-golden-truly-hotel","tiny-house-tropical-appartment","torarica-resort","villa-famiri","waterland-suites","zeelandia-suites","anaula-nature-resort","atlantis-hotel-casino","danpaati-river-lodge","greenheart-boutique-hotel","guesthouse-albergoalberga","guesthouse-albina","hotel-north-resort","kabalebo-nature-resort","kimboto","marina-resort-waterland","overbridge-river-resort","radisson-hotel","ramada-paramaribo-princess","residence-inn-nickerie","residence-inn-paramaribo","savannah-casino-hotel","tropicana-hotel-casino-suriname","tucan-resort-and-spa","villa-zapakara","villas-paramaribo", "alafasi-botopasi-lodge", "alkebuland-resort", "amazonica-bungalows", "anjuli-nature-resort", "apetina-eco-river-resort", "awarradam-jungle-lodge", "bakaaboto-nature-resort", "biharies-resort", "blanche-marie-nature-resort", "braumuller-nature-resort", "capella-nature-eco-resort", "caribo-beach-resort", "carmelitas-nature-resort", "casa-blanca-hotel", "chotelal-sons-resort", "colonial-resort-n-v", "da-kaboera-resort", "elegance-hotel-casino", "fallawatra-green-resort", "gess-hotel", "golden-west-hotel-casino", "green-village-resort", "guesthouse-amice", "gunsi-eco-resort-tei-wei", "harbour-resort-domburg", "hotel-botopassie", "hotel-cactus", "hotel-de-luifel", "hotel-en-restaurant-concorde", "hotel-paramuru", "hotel-perola", "hotel-tyche", "jadah-lauren-resort", "jungle-lodge-palumeu", "jungle-resort-pingpe-suriname", "kana-r-resort", "kekemba-resort-paramaribo", "kimberlys-vip-resort", "koina-resort", "luxury-resort-surinat", "maretraite-hotel", "marinalex-resort-waterpark", "marowijne-resort", "melilew-boutique-hotel", "menimi-eco-resort", "millies-resort", "mtc-resort", "new-babunhol-river-resort", "nirvana-business-hotel", "octopus-resort-suriname", "owos-resort", "pension-asia-inn", "q-inn-boutique-hotel-paramaribo", "queens-hotel", "recreatieoord-tropic-resort", "royal-inn-suriname-hotel-casino", "savoie-hotel-apartments", "shiritjo-lodge-tours", "silver-moon-resort", "spanhoek-boutique-hotel", "ston-eiland-resort", "sun-smile-hotel-apartments", "suriname-tulip-hotel", "sutopia-resort", "the-ark-hotel", "tran-elite-hotel-apartments", "twenty4-hostel", "urusji-lodge", "victorious-eco-resort", "village-park-33", "yasmin-luxury-resort", "zeedijk-resort-nickerie", "ingipipa-park", "101-suites", "joah-inn-appartementen", "nazubs-suites", "rachels-apartments", "sheva-hotel", "tropical-breeze-apartments", "tucan-residence"] for b in [_make_biz(slug)] if b]
+HOTELS = [b for slug in ["bronbella-villa-residence","courtyard-by-marriott","eco-resort-miano","eco-torarica","holland-lodge","hotel-palacio","hotel-peperpot","houttuyn-wellness-river-resort","jacana-amazon-wellness-resort","oxygen-resort","royal-brasil-hotel","royal-breeze-hotel-paramaribo","royal-torarica","taman-indah-resort","the-golden-truly-hotel","tiny-house-tropical-appartment","torarica-resort","villa-famiri","waterland-suites","zeelandia-suites","anaula-nature-resort","atlantis-hotel-casino","danpaati-river-lodge","greenheart-boutique-hotel","guesthouse-albergoalberga","guesthouse-albina","hotel-north-resort","kabalebo-nature-resort","kimboto","marina-resort-waterland","overbridge-river-resort","radisson-hotel","ramada-paramaribo-princess","residence-inn-nickerie","residence-inn-paramaribo","savannah-casino-hotel","tropicana-hotel-casino-suriname","tucan-resort-and-spa","villas-paramaribo", "alafasi-botopasi-lodge", "alkebuland-resort", "amazonica-bungalows", "anjuli-nature-resort", "apetina-eco-river-resort", "awarradam-jungle-lodge", "bakaaboto-nature-resort", "biharies-resort", "blanche-marie-nature-resort", "braumuller-nature-resort", "capella-nature-eco-resort", "caribo-beach-resort", "carmelitas-nature-resort", "casa-blanca-hotel", "chotelal-sons-resort", "colonial-resort-n-v", "da-kaboera-resort", "elegance-hotel-casino", "fallawatra-green-resort", "gess-hotel", "golden-west-hotel-casino", "green-village-resort", "guesthouse-amice", "gunsi-eco-resort-tei-wei", "harbour-resort-domburg", "hotel-botopassie", "hotel-cactus", "hotel-de-luifel", "hotel-en-restaurant-concorde", "hotel-paramuru", "hotel-perola", "hotel-tyche", "jadah-lauren-resort", "jungle-lodge-palumeu", "jungle-resort-pingpe-suriname", "kana-r-resort", "kekemba-resort-paramaribo", "kimberlys-vip-resort", "koina-resort", "luxury-resort-surinat", "maretraite-hotel", "marinalex-resort-waterpark", "marowijne-resort", "melilew-boutique-hotel", "menimi-eco-resort", "millies-resort", "mtc-resort", "new-babunhol-river-resort", "nirvana-business-hotel", "octopus-resort-suriname", "owos-resort", "pension-asia-inn", "q-inn-boutique-hotel-paramaribo", "queens-hotel", "recreatieoord-tropic-resort", "royal-inn-suriname-hotel-casino", "savoie-hotel-apartments", "shiritjo-lodge-tours", "silver-moon-resort", "spanhoek-boutique-hotel", "ston-eiland-resort", "sun-smile-hotel-apartments", "suriname-tulip-hotel", "sutopia-resort", "the-ark-hotel", "tran-elite-hotel-apartments", "twenty4-hostel", "urusji-lodge", "victorious-eco-resort", "village-park-33", "yasmin-luxury-resort", "zeedijk-resort-nickerie", "ingipipa-park", "101-suites", "joah-inn-appartementen", "nazubs-suites", "rachels-apartments", "sheva-hotel", "tropical-breeze-apartments", "nr-1-spot", "yogh-hospitality", "tranquil-at-mamba-republiek"] for b in [_make_biz(slug)] if b]
 
-SIGHTSEEING = [b for slug in ["cola-kreek-recreatiepark","conservatorium-suriname","fort-zeelandia","golf-club-paramaribo","het-koto-museum","joden-savanne","museum-bakkie","paramaribo-zoo","peperpot-nature-park","plantage-frederiksdorp","r-k-bisdom-paramaribo","readytex-art-gallery","stichting-surinaams-museum","tbl-cinemas","theater-thalia"] for b in [_make_biz(slug)] if b]
+SIGHTSEEING = [b for slug in ["cola-kreek-recreatiepark","fort-zeelandia","golf-club-paramaribo","het-koto-museum","joden-savanne","museum-bakkie","paramaribo-zoo","peperpot-nature-park","plantage-frederiksdorp","r-k-bisdom-paramaribo","readytex-art-gallery","stichting-surinaams-museum","tbl-cinemas","theater-thalia"] for b in [_make_biz(slug)] if b]
 
-ADVENTURES_BIZ = [b for slug in ["afobaka-resort","akira-overwater-resort","clevia-park","folo-nature-tours","free-city-walk-paramaribo","huub-explorer-tours","jack-tours-travel-service","jenny-tours","knini-paati","kodouffi-tapawatra-resort","messias-tours","mondowa-tours","no-span-eco-tours","okido-tours-travel","outdoor-living","pineapple-tours","recreatie-oord-carolina-kreek","royal-tours-suriname-guyana","sendang-redjo","suran-adventures-tours-travel","tio-boto-eco-resort","unlimited-suriname-tours","wayfinders-exclusive-n-v", "amits-sport-cafe", "cardy-adventures-bike-rental", "cola-creek", "connection-gym", "danceclub-tequila", "deans-gym", "edge-gym-n-v", "emery-fitness-suriname", "first-class-gym", "fred-eco-tours", "golden-eye-suriname", "het-geologisch-museum", "ismay-van-wilgen-sporthal", "jungle-xperience-suriname", "kombat-sports-suriname", "lalla-rookh-museum", "luxury-sky-resort", "mgr-aloysius-zichem-sportcomplex", "mi-gudu-river-cruiser", "mj-lounge-club", "neotropical-butterfly-park", "next-club-suriname", "nickerie-tennis-club", "night-club-diamond", "owru-cul-sport-complex", "pro-fitness-nickerie", "ring-sport-center", "saamaka-marron-museum", "simson-gym", "stichting-openlucht-museum-fort-nieuw-amsterdam", "stichting-zwembad-parima", "stinasu-stichting-natuurbehoud-suriname", "surinaamse-badminton-bond", "suriname-wildlife-sanctuary", "telesur-telecommunicatie-museum", "tropa-de-elite-paintball-field", "zin-resort", "zwemschool-tukunari", "vigys-camp"] for b in [_make_biz(slug)] if b]
+ADVENTURES_BIZ = [b for slug in ["afobaka-resort","akira-overwater-resort","clevia-park","folo-nature-tours","free-city-walk-paramaribo","huub-explorer-tours","jenny-tours","knini-paati","kodouffi-tapawatra-resort","messias-tours","mondowa-tours","no-span-eco-tours","okido-tours-travel","pineapple-tours","recreatie-oord-carolina-kreek","royal-tours-suriname-guyana","sendang-redjo","suran-adventures-tours-travel","tio-boto-eco-resort","unlimited-suriname-tours","wayfinders-exclusive-n-v", "cardy-adventures-bike-rental", "connection-gym", "danceclub-tequila", "deans-gym", "edge-gym-n-v", "emery-fitness-suriname", "first-class-gym", "fred-eco-tours", "golden-eye-suriname", "het-geologisch-museum", "ismay-van-wilgen-sporthal", "jungle-xperience-suriname", "kombat-sports-suriname", "lalla-rookh-museum", "luxury-sky-resort", "mgr-aloysius-zichem-sportcomplex", "mi-gudu-river-cruiser", "mj-lounge-club", "neotropical-butterfly-park", "next-club-suriname", "nickerie-tennis-club", "night-club-diamond", "owru-cul-sport-complex", "pro-fitness-nickerie", "ring-sport-center", "saamaka-marron-museum", "simson-gym", "stichting-openlucht-museum-fort-nieuw-amsterdam", "stichting-zwembad-parima", "stinasu-stichting-natuurbehoud-suriname", "surinaamse-badminton-bond", "suriname-wildlife-sanctuary", "telesur-telecommunicatie-museum", "tropa-de-elite-paintball-field", "zin-resort", "zwemschool-tukunari", "vigys-camp", "access-suriname-travel", "all-suriname-tours", "bamboo-adventure-tours", "budget-tours-suriname", "flora-fauna-tours", "green-tours-n-travel", "kirans-dolfijnen-tours", "orange-travel-nv", "places2go-suriname", "travel-the-guianas", "unlock-nature-tours", "waterproof-tours-suriname", "zwembad-energy", "bio-with-wirjo-tours-suriname", "black-eagle-tours", "carolina-tours", "chuck-e-cheese", "does-travel-cadushi-tours", "greentour", "tourbox-suriname", "impressive-suriname-travel-nv", "airboat-tours-suriname", "asomena-travel-tours", "blue-frog-travel", "boni-tours", "discover-suriname-tours", "mantje-bigi-pan-tours", "mets-travel-tours", "myrysji-tours-suriname", "pristine-rainforest-tours", "purity-tours-services", "suforyou-suriname", "suriname-tuk-tuk-tours", "tilburg-tours-rentals-suriname", "villa-zapakara"] for b in [_make_biz(slug)] if b]
 
-SHOPPING = [b for slug in ["talula", "blue-dress-boutique", "john-ziel-paints-n-v", "amada-shopping", "ashley-furniture-homestore", "auto-style-franchepanestraat", "auto-style-johannes-mungrastraat", "auto-style-kwatta", "auto-style-tweede-rijweg", "auto-style-verlengde-gemenelandsweg", "bed-bath-more-bbm", "best-mart", "beyrouth-bazaar", "boekhandel-kasco", "boekhandel-vaco", "building-depot", "chees-jewelry-watches", "chm-centrum", "chm-commewijne", "chm-kernkampweg", "chm-nickerie", "chm-wanica", "chm-wilhelminastraat", "chois-supermarkt", "chois-supermarkt-lelydorp", "chois-supermarkt-north", "combe-bazaar", "combe-markt", "computer-hardware-services", "computronics-north", "computronics-south", "crocs-ims", "da-drogisterij-coppename", "da-drogisterij-hermitage", "da-drogisterij-ims-mall", "da-drogisterij-lelydorp", "da-drogisterij-wilhelmina", "de-keurslager-interfarm", "deto-handelmaatschappij", "farmers-world", "digital-world-hermitage-mall", "digital-world-ims", "digital-world-maretraite-mall", "divergent-body-jewelry", "dj-liquor-store", "dojo-couture-hermitage-mall", "fish-finder-fishing-and-outdoors", "from-kay-with-love", "flex-phones", "footcandy-hermitage-mall", "from-me-to-me", "furniture-city-kwatta", "furniture-city-north", "galaxy", "gao-ming-trading-north", "gao-ming-trading-south", "golderom-healthy-organic-store", "h-garden", "hermitage-mall", "holiday-home-decor", "hollandia-bakkerij-north", "hollandia-bakkerij-south", "honeycare", "hurricane-steel", "hurricane-steel-ringweg", "international-mall-of-suriname", "janelles-shoes-and-bags", "kaki-supermarkt", "kirpalani", "kirpalani-domineestraat", "kirpalani-maagdenstraat", "kirpalani-super-store", "ladybug-nursery-and-garden-center", "lilis", "lins-super-market", "lucky-store", "mimi-market", "miniso-gompertstraat", "miniso-hermitage-mall", "mon-plaisir-nursery", "morevans-outlet", "ochama-amazing", "ochama-hermitage-mall", "office-world-hermitage-mall", "office-world-lelydorp", "optiek-all-vision", "optiek-all-vision-albina", "optiek-all-vision-lelydorp", "optiek-all-vision-nickerie", "optiek-marisa", "optiek-ninon", "optiek-ninon-hermitage-mall", "optiek-ninon-ims", "optiek-ninon-lelydorp", "optiek-ninon-meerzorg", "optiek-ninon-nickerie", "papillon-crafts", "randoe-meubelen", "readytex-souvenirs-and-crafts", "rogom-farm-nv", "red-century-party-shop-commewijne", "red-century-party-shop-kwatta", "red-century-party-shop-lelydorp", "red-century-party-shop-north", "red-century-party-shop-zorg-en-hoop", "ring-ring-imports", "rossignol-2go-kwattaweg", "rossignol-2go-thurkowstraat", "rossignol-coppename", "rossignol-geyersvlijt", "rossignol-linda", "rossignol-waaldijkstraat", "sanousch-books", "sash-fashion-hermitage-mall", "shlx-collection", "shoebizz-ims", "slagerij-abbas", "slagerij-asruf", "slagerij-stolk", "sleepstore-suriname", "sleeqe", "smoothieskin", "soengngie-mega-store", "soengngie-oriental-market", "sranan-fowru", "sranan-fowru-boni", "sranan-fowru-combe", "sranan-fowru-flu", "sranan-fowru-leiding", "sranan-fowru-lelydorp", "sranan-fowru-meursweg", "sranan-fowru-tabiki-fowru", "sranan-fowru-tourtonne", "sranan-fowru-zinnia", "steps-hermitage-mall", "store4u", "suraniyat", "sweetheart-hermitage-mall", "sweetheart-ims", "switi-momenti-candles-crafts", "talking-prints-concept-store", "the-old-attic", "the-perfume-spot", "the-uma-store", "the-warehouse-shop", "topslager-stolk", "toys-n-more", "tulip-supermarket", "unlocked-candles", "vcm-slagerij-centrum", "vcm-slagerij-johannes-mungrastraat", "vcm-slagerij-verl-gemenelandsweg", "vifa-trading", "vincent-supermarket", "woodwonders-suriname", "yokohama-trading", "zeepfabriek-joab", "ket-mien", "kasan-snacks", "wing-hung-cake-shop", "dojo-couture-centrum", "dojo-couture-ims", "steps-domineestraat", "steps-noord", "steps-wanica", "honeycare-north", "honeycare-south", "tomahawk-outdoor-adventures", "tomahawk-outdoor-adventures-hermitage-mall", "tomahawk-outdoor-adventures-ims", "tomahawk-outdoor-adventures-lelydorp", "cute-as-a-button", "dresscode", "eterno", "everything-sr", "flex-luxuries", "itrendzz", "pandie", "mn-international-centrum", "mn-international-kwatta", "new-choice-lalla-rookhweg", "new-choice-nickerie", "new-choice-ringweg", "wow-plus", "chique-eyewear-fashion", "instyle-optics", "galaxyliving", "grounded-botanical-studio", "kasimex-indira-ghandiweg", "kasimex-makro", "brahma-centrum", "brahma-noord", "brahma-zuid", "alis-drugstore", "one-stop-apotheek-drugstore", "maze", "max-n-co", "jjs-place-zuid", "babel-food-resort", "calvin-klein", "carline-centrum", "hugo-boss-ims", "jazmine-cosmetics", "kwatta-carfix", "leguana-park", "luni-gifts", "mn-car-center", "optiek-eyeplus", "optiek-ligeon", "revasur-zorgwinkel", "rudan-trading-co", "skechers-hermitage", "stanleys-optics", "stedin-speciaal-slagerij", "us-polo-assn-suriname", "warsha-n-v", "mobile-king", "sam-tronix-anamoestraat", "sam-tronix-wanica", "glow-and-gadget", "point-plaza-centrum", "point-plaza-noord", "point-plaza-tammenga", "optica-johannes-mungrastraat", "optica-wilhelminastraat", "optica-lalla-rookhweg", "optica-verlengde-gemenelandsweg", "19-trading", "82-trading", "a-bouwmaterialen", "abs-carhouse", "adex-nv", "akash-bouwmarkt", "aks-car-center", "amazone-international-nv", "an-shun-international-nv", "anil-store", "ans-car-imports", "apex-bold", "araxs-impex-nv", "archer", "ardac-international", "autoradar-suriname", "b-singh-trading", "bdt-import-and-export-nv", "bhaggoes-car-palace", "bhondoekhan-s-nv", "bn-car-center", "bn-trading", "briss-it-solutions", "brvehicles-nv", "car-choice", "carbiz", "carib-computers", "carifruits-nv", "cars4you", "cheungs-center", "chm-automotive", "chm-suriname", "cirkel-group-nv", "cm-japan-car-sales", "combe-car-center-parts", "community-services-nv", "compagroup-nv", "computers-repairs", "crystal-bouwmaterialen", "curvy-sense", "da-vinci-enterprises-nv", "da-zhong-trading", "datais-car-center", "datsun-suriname-nv", "de-eenheid-nv", "de-melkcentrale-n-v", "de-molen-suriname", "demesty-clothing", "demure-nv", "dian-tong-bouwmaterial", "ditra-international-nv", "djimo-nv", "drie-ankra", "edso-home-finishing", "elan-trading-nv", "empire-motors-nv", "ercon-trading-nv", "ewalds-modehuis", "exonotch-nv", "ez-motors", "fernandes-bakkery-nv", "fernandes-bottling-company-nv", "firma-r-ramai", "foton-suriname", "game-planet-xl", "golden-exotic-cars-nv", "gom-food-industries-nv", "h-j-de-vries-motors", "hammer-nail-trading", "handelmij-r-nanhoe-nv", "hem-suriname-nv", "highway-automotive-parts", "hong-wei-bouwmaterialen", "hummys-import-ace-cars-sales", "hybris-group-nv", "innovative-driven-nv", "interdeco", "ir-building-materials", "jaggernath-group-of-companies", "jai-building-civil-works-nv", "japan-motors", "jennifer-bouwmaterialen-nv", "jf-tjoe-a-long-nv", "kersten-motors-nv", "kj-skincare", "kokos-auto-parts-service", "landbouw-cooperatie-kwatta-en-omstreken", "landbouwshop-keshav", "landbouwshop-meerzorg", "laus-bouwmaterialen", "lims-bouwmaterialen-co", "lnr-imports", "luxatic-motors", "manglies-rijstbedrijf", "matesa-tegels", "maze-suriname", "metalock-suriname-nv", "michi-natural-foods-nv", "mikes-autoparts-accessories-repair", "ming-kee-autoparts-accessories", "monarch-furnishings-and-sofa", "ms-trading", "nakaso-auto-parts-sales", "ni-ke-meubel-en-interieuraccessoires", "nishika-enterprise-nv", "nv-devinas-enterprises", "nv-drukkerij-leo-victor", "nv-guimar", "nv-interfood", "nv-ronans-trading", "nv-vsh-foods", "nv-vsh-trading-canon", "nvgraniet", "office-electronics", "office-furniture", "one-autoparts-store", "pcx-computers", "perfect-cars", "platinum-quality-cars-nv", "powerful-automotive", "printwise-imprint-solutions", "prodimex-international-inc", "quality-tiles-suriname-nv", "r-durga-sons-nv", "ramasre-cars-parts", "ramcharans-car-center", "ramons-car-center", "rijstpak-nv", "rock-cars", "ronan-s-trading-nv", "royal-tobacco-company-nv", "sahara-nv", "sbt-suriname", "schols-imports", "sds-buildingmaterials", "semc-motors-nv", "sewpal-trading", "sg-trading-bouwmaterialen-home-center", "shifayerd-international-nv", "sioc-nv", "slagerij-joems", "sos-handelmij-nv", "ss-center", "sunrice-nv", "sura-handelmaatschappij-nv", "suri-juice-nv", "surinaamse-brouwerij-nv", "suriname-alcoholic-beverages", "suriname-sea-catch-nv", "susans-houtmarkt", "tcf-nv", "tegeldepot-suriname", "tohora-automotive-nv", "trade-outlet-center", "traverco-truck-tire-service-nv", "uni-stone-more", "united-slijterij", "valconx", "vrv-imports", "wan-bon-biri", "winkel-zarah", "xinli-wood-processing", "tulip-supermarket-verlengde-gemenelandsweg"] for b in [_make_biz(slug)] if b]
+SHOPPING = [b for slug in ["talula", "blue-dress-boutique", "john-ziel-paints-n-v", "amada-shopping", "ashley-furniture-homestore", "auto-style-franchepanestraat", "auto-style-johannes-mungrastraat", "auto-style-kwatta", "auto-style-tweede-rijweg", "auto-style-verlengde-gemenelandsweg", "bed-bath-more-bbm", "best-mart", "beyrouth-bazaar", "boekhandel-kasco", "boekhandel-vaco", "building-depot", "chees-jewelry-watches", "chm-centrum", "chm-commewijne", "chm-kernkampweg", "chm-nickerie", "chm-wanica", "chm-wilhelminastraat", "chois-supermarkt", "chois-supermarkt-lelydorp", "chois-supermarkt-north", "combe-markt", "computer-hardware-services", "computronics-north", "computronics-south", "crocs-ims", "da-drogisterij-coppename", "da-drogisterij-hermitage", "da-drogisterij-ims-mall", "da-drogisterij-lelydorp", "da-drogisterij-wilhelmina", "de-keurslager-interfarm", "deto-handelmaatschappij", "farmers-world", "digital-world-hermitage-mall", "digital-world-ims", "digital-world-maretraite-mall", "divergent-body-jewelry", "dj-liquor-store", "dojo-couture-hermitage-mall", "fish-finder-fishing-and-outdoors", "from-kay-with-love", "flex-phones", "footcandy-hermitage-mall", "from-me-to-me", "furniture-city-kwatta", "furniture-city-north", "galaxy", "gao-ming-trading-north", "gao-ming-trading-south", "golderom-healthy-organic-store", "h-garden", "hermitage-mall", "holiday-home-decor", "honeycare", "hurricane-steel", "hurricane-steel-ringweg", "international-mall-of-suriname", "janelles-shoes-and-bags", "kaki-supermarkt", "kirpalani", "kirpalani-domineestraat", "kirpalani-maagdenstraat", "kirpalani-super-store", "ladybug-nursery-and-garden-center", "lilis", "lins-super-market", "lucky-store", "mimi-market", "miniso-gompertstraat", "miniso-hermitage-mall", "mon-plaisir-nursery", "morevans-outlet", "ochama-amazing", "ochama-hermitage-mall", "office-world-hermitage-mall", "office-world-lelydorp", "optiek-all-vision", "optiek-all-vision-albina", "optiek-all-vision-lelydorp", "optiek-all-vision-nickerie", "optiek-marisa", "optiek-ninon", "optiek-ninon-hermitage-mall", "optiek-ninon-ims", "optiek-ninon-lelydorp", "optiek-ninon-meerzorg", "optiek-ninon-nickerie", "papillon-crafts", "randoe-meubelen", "readytex-souvenirs-and-crafts", "rogom-farm-nv", "red-century-party-shop-commewijne", "red-century-party-shop-kwatta", "red-century-party-shop-lelydorp", "red-century-party-shop-north", "red-century-party-shop-zorg-en-hoop", "ring-ring-imports", "rossignol-2go-kwattaweg", "rossignol-2go-thurkowstraat", "rossignol-coppename", "rossignol-geyersvlijt", "rossignol-linda", "rossignol-waaldijkstraat", "sanousch-books", "sash-fashion-hermitage-mall", "shlx-collection", "shoebizz-ims", "slagerij-abbas", "slagerij-asruf", "slagerij-stolk", "sleepstore-suriname", "sleeqe", "smoothieskin", "soengngie-mega-store", "soengngie-oriental-market", "sranan-fowru", "sranan-fowru-boni", "sranan-fowru-combe", "sranan-fowru-flu", "sranan-fowru-leiding", "sranan-fowru-lelydorp", "sranan-fowru-meursweg", "sranan-fowru-tabiki-fowru", "sranan-fowru-tourtonne", "sranan-fowru-zinnia", "steps-hermitage-mall", "store4u", "suraniyat", "sweetheart-hermitage-mall", "sweetheart-ims", "switi-momenti-candles-crafts", "talking-prints-concept-store", "the-old-attic", "the-perfume-spot", "the-uma-store", "the-warehouse-shop", "topslager-stolk", "toys-n-more", "tulip-supermarket", "unlocked-candles", "vcm-slagerij-centrum", "vcm-slagerij-johannes-mungrastraat", "vcm-slagerij-verl-gemenelandsweg", "vifa-trading", "vincent-supermarket", "woodwonders-suriname", "yokohama-trading", "zeepfabriek-joab", "ket-mien", "kasan-snacks", "dojo-couture-centrum", "dojo-couture-ims", "steps-domineestraat", "steps-noord", "steps-wanica", "honeycare-north", "honeycare-south", "tomahawk-outdoor-adventures", "tomahawk-outdoor-adventures-hermitage-mall", "tomahawk-outdoor-adventures-ims", "tomahawk-outdoor-adventures-lelydorp", "cute-as-a-button", "dresscode", "eterno", "everything-sr", "flex-luxuries", "itrendzz", "pandie", "mn-international-centrum", "mn-international-kwatta", "new-choice-lalla-rookhweg", "new-choice-nickerie", "new-choice-ringweg", "wow-plus", "chique-eyewear-fashion", "instyle-optics", "galaxyliving", "grounded-botanical-studio", "kasimex-indira-ghandiweg", "kasimex-makro", "brahma-centrum", "brahma-noord", "brahma-zuid", "alis-drugstore", "one-stop-apotheek-drugstore", "maze", "max-n-co", "jjs-place-zuid", "babel-food-resort", "calvin-klein", "carline-centrum", "hugo-boss-ims", "jazmine-cosmetics", "kwatta-carfix", "leguana-park", "luni-gifts", "mn-car-center", "optiek-eyeplus", "optiek-ligeon", "revasur-zorgwinkel", "rudan-trading-co", "skechers-hermitage", "stanleys-optics", "stedin-speciaal-slagerij", "us-polo-assn-suriname", "warsha-n-v", "mobile-king", "sam-tronix-anamoestraat", "sam-tronix-wanica", "glow-and-gadget", "point-plaza-centrum", "point-plaza-noord", "point-plaza-tammenga", "optica-johannes-mungrastraat", "optica-wilhelminastraat", "optica-lalla-rookhweg", "optica-verlengde-gemenelandsweg", "19-trading", "82-trading", "a-bouwmaterialen", "abs-carhouse", "adex-nv", "akash-bouwmarkt", "aks-car-center", "amazone-international-nv", "an-shun-international-nv", "anil-store", "ans-car-imports", "apex-bold", "araxs-impex-nv", "archer", "ardac-international", "autoradar-suriname", "b-singh-trading", "bdt-import-and-export-nv", "bhaggoes-car-palace", "bhondoekhan-s-nv", "bn-car-center", "bn-trading", "brvehicles-nv", "car-choice", "carbiz", "carib-computers", "carifruits-nv", "cars4you", "cheungs-center", "chm-automotive", "chm-suriname", "cirkel-group-nv", "cm-japan-car-sales", "combe-car-center-parts", "community-services-nv", "compagroup-nv", "computers-repairs", "crystal-bouwmaterialen", "curvy-sense", "da-vinci-enterprises-nv", "da-zhong-trading", "datais-car-center", "datsun-suriname-nv", "de-eenheid-nv", "de-melkcentrale-n-v", "de-molen-suriname", "demesty-clothing", "demure-nv", "dian-tong-bouwmaterial", "ditra-international-nv", "djimo-nv", "drie-ankra", "edso-home-finishing", "elan-trading-nv", "empire-motors-nv", "ercon-trading-nv", "ewalds-modehuis", "exonotch-nv", "ez-motors", "fernandes-bottling-company-nv", "firma-r-ramai", "foton-suriname", "game-planet-xl", "golden-exotic-cars-nv", "gom-food-industries-nv", "hammer-nail-trading", "handelmij-r-nanhoe-nv", "hem-suriname-nv", "highway-automotive-parts", "hong-wei-bouwmaterialen", "hummys-import-ace-cars-sales", "hybris-group-nv", "innovative-driven-nv", "interdeco", "ir-building-materials", "jaggernath-group-of-companies", "jai-building-civil-works-nv", "japan-motors", "jennifer-bouwmaterialen-nv", "jf-tjoe-a-long-nv", "kersten-motors-nv", "kokos-auto-parts-service", "landbouw-cooperatie-kwatta-en-omstreken", "landbouwshop-keshav", "landbouwshop-meerzorg", "laus-bouwmaterialen", "lims-bouwmaterialen-co", "lnr-imports", "luxatic-motors", "manglies-rijstbedrijf", "matesa-tegels", "michi-natural-foods-nv", "mikes-autoparts-accessories-repair", "ming-kee-autoparts-accessories", "monarch-furnishings-and-sofa", "ms-trading", "nakaso-auto-parts-sales", "ni-ke-meubel-en-interieuraccessoires", "nishika-enterprise-nv", "nv-devinas-enterprises", "nv-drukkerij-leo-victor", "nv-guimar", "nv-interfood", "nv-ronans-trading", "nv-vsh-foods", "nv-vsh-trading-canon", "nvgraniet", "office-electronics", "office-furniture", "one-autoparts-store", "pcx-computers", "perfect-cars", "platinum-quality-cars-nv", "powerful-automotive", "prodimex-international-inc", "quality-tiles-suriname-nv", "r-durga-sons-nv", "ramasre-cars-parts", "ramcharans-car-center", "ramons-car-center", "rijstpak-nv", "rock-cars", "ronan-s-trading-nv", "royal-tobacco-company-nv", "sahara-nv", "sbt-suriname", "schols-imports", "sds-buildingmaterials", "semc-motors-nv", "sewpal-trading", "sg-trading-bouwmaterialen-home-center", "shifayerd-international-nv", "sioc-nv", "slagerij-joems", "sos-handelmij-nv", "ss-center", "sunrice-nv", "sura-handelmaatschappij-nv", "suri-juice-nv", "surinaamse-brouwerij-nv", "suriname-alcoholic-beverages", "suriname-sea-catch-nv", "susans-houtmarkt", "tcf-nv", "tegeldepot-suriname", "tohora-automotive-nv", "trade-outlet-center", "traverco-truck-tire-service-nv", "uni-stone-more", "united-slijterij", "valconx", "vrv-imports", "winkel-zarah", "xinli-wood-processing", "tulip-supermarket-verlengde-gemenelandsweg", "automotive-art-suriname", "byd-suriname", "carvision-paramaribo", "cemdee-international-nv", "cynsational-glam", "handelmaatschappij-bsewnath-nv", "hsds-lifestyle-noord", "hsds-lifestyle-wanica", "king-panel-suriname", "protrade-international", "smart-connexxionz", "tsw-group", "wanica-technical-center", "brilleman", "eucon", "topsport", "tromoto-nv", "b-malhoe-sons", "biharies-car-center-nv", "bmw-suriname", "creative-q", "fasst-itt-nv", "handmade-by-farrell-nv", "harry-tjin", "hj-motors", "jetzza-international-nv", "lees-trading", "moboco-nv", "philipson-trading", "pristine-car-nv", "rezaam-car-sales", "royal-panel", "sean-trading", "glam-curves", "iamchede", "outdoor-living", "ying-hao-beautyshop", "alidjan-supermarkt-slijterij", "freshly-squeezed-juice"] for b in [_make_biz(slug)] if b]
 
-SERVICES = [b for slug in ["the-girl-house", "kokkie-miquisine", "101-real-estate", "ineffable", "morgaine-beauty", "4x4-rental", "abrix-cleaning-services", "access-suriname-travel", "alliance-francaise", "anton-de-kom-universiteit-van-suriname", "apotheek-joemmanbaks", "apotheek-karis", "apotheek-mac-donald-north", "apotheek-mac-donald-south", "apotheek-rafeka", "apotheek-sibilo", "apotheek-soma", "apotheek-soma-ringweg", "arthur-alex-hoogendoorn-atheneum", "assuria-hermitage-high-rise", "assuria-insurance-walk-in-city", "assuria-insurance-walk-in-commewijne", "assuria-insurance-walk-in-lelydorp", "assuria-insurance-walk-in-nickerie", "assuria-insurance-walk-in-noord", "augis-travel", "ayur-mi-beauty-wellness", "balance-studio", "balletschool-marlene", "bitdynamics", "blissful-massage-aromatherapy", "blossom-beauty-bar", "bmw-suriname", "body-enhancement-gym", "bright-cleaning", "brilleman", "brotherhood-security", "brow-bliss-lounge", "buro-workspaces", "byd-suriname", "camex-suriname", "car-rental-city", "carline-kwatta", "carline-waaldijkstraat", "carpe-diem-massagepraktijk", "carvision-paramaribo", "clarissa-vaseur-writing-wellness-services-claw", "clean-it", "club-oase", "cpr-pilates-curves", "creative-q", "curl-babes", "cynsational-glam", "da-select-en-service-apotheek", "dans-dip-and-detail", "dansclub-danzson", "dcars-rental", "de-cederboom-school", "de-nederlandse-basisschool-het-kleurenorkest", "de-spetter", "de-surinaamsche-bank-hermitage-mall", "de-surinaamsche-bank-hoofdkantoor", "de-surinaamsche-bank-lelydorp", "de-surinaamsche-bank-ma-retraite", "de-surinaamsche-bank-nickerie", "de-surinaamsche-bank-nieuwe-haven", "de-vrije-school", "delete-beauty-lounge", "dhl-express-service-point", "dierenarts-resopawiro", "dierenartspraktijk-l-m-bansse-issa", "dierenpoli-lobo", "digicel-albina", "digicel-business-center", "digicel-extacy", "digicel-hermitage", "digicel-latour", "digicel-lelydorp", "digicel-nickerie", "digicel-wilhelminastraat", "djinipi-copy-center", "djo-cleaning-service", "dli-travel-consultancy", "dor-property-management-services-n-v", "dream-clean-suriname", "eaglemedia", "ec-operations", "ekay-media", "energiebedrijven-suriname-ebs", "eucon", "faraya-medical-center", "farma-vida", "fatum", "fatum-schadeverzekering-commewijne", "fatum-schadeverzekering-hoofdkantoor", "fatum-schadeverzekering-kwatta", "fatum-schadeverzekering-nickerie", "fhr-lim-a-po-institute-for-higher-education", "finabank-centrum", "finabank-nickerie", "finabank-noord", "finabank-wanica", "finabank-zuid", "first-aid-plus", "fit-factory", "fluxo-pilates", "fly-allways", "free-flow", "gaby-april-beauty-clinic", "garage-d-a-ashruf", "gateway-fire-nv", "glam-curves", "glambox", "gossip-nails-xx", "great-wall-motor-suriname", "h-t", "hairstudio-32", "hakrinbank", "hakrinbank-flora", "hakrinbank-latour", "hakrinbank-nickerie", "hakrinbank-nieuwe-haven", "hakrinbank-tamanredjo", "hakrinbank-tourtonne", "han-palace", "handmade-by-farrell-nv", "happy-flower-services", "harry-tjin", "hertz-suriname-car-rental", "house-of-pureness", "hsds-lifestyle-noord", "hsds-lifestyle-wanica", "iamchede", "ias-wooden-and-construction-nv", "infinity-holding", "inksane-tattoos", "international-academy-of-suriname", "intervast", "invictus-brazilian-jiu-jitsu", "jamilas-dry-cleaning-north", "jamilas-dry-cleaning-south", "just-curlss", "kaizen", "kasco-customs-solutions", "keller-williams-suriname", "kempes-co", "klm-royal-dutch-airlines", "lashlift-suriname", "lioness-beauty-effects", "luxe-escape-lotus-spa-wellness-beautysalon", "marchand-notariaat", "mini-nail-shop", "mirage-casino", "miss-doll-fit", "mokisa-busidataa-osu-nv", "mokisa-wellness", "multi-travel", "nassy-brouwer-college", "nassy-brouwer-school", "north-fitness-gym", "notariaat-mannes", "notariaat-van-dijk", "nv-threefold-quality-system-support", "ondernemershuis", "orchid", "organic-skincare", "padel-x-suriname", "paramaribo-princess-casino", "percy-massage-therapy", "pinkmoon-suriname", "pitbull-fitness", "professional-private-security", "proplan-vastgoed", "protrade-international", "qsi-international-school-of-suriname", "re-max-suriname", "real-one-fitness-gym", "remy-vastgoed", "republic-bank-head-office", "republic-bank-jozef-israelstraat", "republic-bank-kernkampweg", "republic-bank-nickerie", "republic-bank-vant-hogerhuysstraat", "republic-bank-zorg-en-hoop", "resourceful-real-estate-construction", "rich-skin", "rif-cleaning-service", "rock-fitness-paramaribo", "ross-rental-cars", "royal-rose-yoni-spa", "royal-spa", "royal-wellness-lounge", "safety-first-quality-always", "satyam-holidays", "savage-den", "scene-beauty-salon", "secas", "seen-stories", "shimmery-beauty-lounge", "smart-connexxionz", "southern-commercial-bank", "squeaky-clean", "sthephany-skincare", "stichting-shiatsu-massage", "stukaderen-in-nederland", "supply-solutions-limited-suriname", "surgoed-makelaardij", "surinaamsche-waterleiding-maatschappij", "surinam-airways", "suriname-princess-casino", "telesur-centrum", "telesur-latour", "telesur-lelydorp", "telesur-nickerie", "telesur-noord", "telesur-zonnebloemstraat", "the-aerial-yoga-studio", "the-basement-barbershop", "the-beauty-bar", "the-beauty-bar-north", "the-beauty-bar-south", "the-freelance-scout", "the-house-of-beauty", "the-laundry-spot", "the-nail-house", "the-solution-property-management", "the-waxing-booth", "the-wonderlab-su", "thermen-hermitage-turkish-bath-beautycenter", "tianyou-aquafun", "timeless-barber-and-nail-shop", "topsport", "touch-of-heaven-wellness", "tranquil-at-mamba-republiek", "tranquil-massage", "triple-security-unit", "tsw-group", "typing-nomad-nv", "waldos-worldwide-travel-service", "welink-real-estate", "ying-hao-beautyshop", "yoga-peetha-happiness-centre", "yogh-hospitality", "young-engineers", "zenobia-bottling-company", "fernandes-group", "kersten-group", "vsh-united", "staatsolie", "rudisa", "baitali-group", "bruynzeel-suriname", "varossieau-suriname", "grassalco", "havenbeheer-suriname", "newmont-suriname", "gow2-energy", "sol-suriname", "centrale-bank-van-suriname", "trustbank-amanah", "surinaamse-postspaarbank", "volkscredietbank", "godo", "finatrust", "self-reliance", "academisch-ziekenhuis-paramaribo", "diakonessenhuis", "sint-vincentius-ziekenhuis", "s-lands-hospitaal", "regionale-gezondheidsdienst", "medische-zending", "bureau-openbare-gezondheidszorg", "apintie", "atv-suriname", "stvs", "rasonic", "surpost", "nationaal-vervoer-bedrijf", "gum-air", "blue-wing-airlines", "caribbean-airlines", "aboikonie-zwembad-bedrijf", "advocatenkantoor-tjong-a-sie", "airboat-tours-suriname", "asomena-travel-tours", "bamboo-adventure-tours", "beauty-haven", "blue-frog-travel", "boni-tours", "carolina-tours", "celestial-tours-suriname", "discover-suriname-tours", "does-travel-cadushi-tours", "eco-royal-garden", "eskimo-koeltechnisch-bedrijf", "genade-hairstyle", "gorgeous-beauty-nails", "green-tours-n-travel", "greentour", "hair-saloon-splendora", "hairfreak-barbershop", "hairstudio-dawson", "intertravel", "kangoeroe-community-school", "kangoeroe-high", "kimyras-beauty-and-spa", "kirans-dolfijnen-tours", "krasnapolsky-travel-tours", "lely-hills-casino", "luxe-luminous-beauty-salon", "mantje-bigi-pan-tours", "mets-travel-tours", "myrysji-tours-suriname", "naughty-angel-beauty-salon", "orange-travel-nv", "packed-ready-travel", "paradise-city-casino", "paramaribo-golden-dragon-casino", "places2go-suriname", "planet-casino", "pristine-rainforest-tours", "radiologie-kliniek-halfhide-hofwijk", "rasonic-travel", "rcr-medical-centre", "regis-hair-therapy", "rhythms-of-nature-ayurveda-wellness-center", "rudisa-worldwide-travel-n-v", "special-party-catering-and-cocktails", "stas-international", "stichting-lodgeholders-boven-suriname", "stichting-upper-suriname-lodgeholders", "suriname-hospitality-tourism-association", "suriname-hotel-association", "suriname-tuk-tuk-tours", "the-caterpillar-montessorischool", "the-suriname-tourism-foundation", "tourbox-suriname", "travel-the-guianas", "trizzles-beauty-spot", "unique-package-plan", "unlock-nature-tours", "utec-opleidingen", "waterproof-tours-suriname", "friendly-cab-suriname", "newtech-rainville", "newtech-zwartenhovenbrug", "corantijn-speedboat-service", "surshipp", "flora-fauna-tours", "telesur-hoofdkantoor", "telesur-havenlaan", "telesur-moengo", "telesur-tamanredjo", "digicel-lalla-rookhweg", "4r-gym-academia", "aabece-graphics-signs", "aakhri-safar-mijnzorg", "aatrios-management-consultancy-bv", "abc-opleiding-training-suriname-nv", "academie-voor-hoger-kunst-en-cultuuronderwijs-ahkco", "accounting-management-software-nv", "ace-designs-more-nv", "acm-financial-services", "act-contractors-nv", "actioninvest-caribbean-inc", "adept-nv", "advanced-geodetic-solutions", "afriki", "afzal-transport", "agile-allies-consultancy-nv", "agrofix-nv", "all-interior-solutions-nv", "all-suriname-tours", "alphamax-academy", "angelo-services-suriname", "ants-nv", "apptastic-nv", "argos-suriname", "arrex-group-nv", "art-sabina-design-printing-nv", "artemis-energy-suriname-nv", "atlas-fitness-center", "australian-laboratory-services-suriname-nv", "automotive-art-suriname", "b-fit-sportschool", "b-malhoe-sons", "baker-hughes", "balletschool-charlotte-sprangers", "banking-network-suriname-nv", "bb-energy", "bdo-suriname", "beauty-4-ever-schoonheidssalon", "bergh-bedrijven-nv", "beta-group", "beton-bedrijf-nathoo", "bgp-offshore", "biharies-car-center-nv", "bio-with-wirjo-tours-suriname", "biomedical-systems-nv", "bits-please-technologies", "black-eagle-tours", "blu-dots-technology", "boskalis-international-bv", "bouwbedrijf-ramlal", "branding-and-design", "bricedbiocleaning", "brnds21-brand-growth-consultancy-suriname", "brunel-suriname-nv", "budget-tours-suriname", "business-data-solutions-nv", "callfactory", "callot-training-consultancy", "caribbean-chemicals-suriname", "carmart-suriname", "ccc-group-inc", "cdwe-suriname", "cead-nv", "celery-online-payroll-hrm", "cemdee-international-nv", "centradesur-nv", "christian-liberty-academy", "city-motors", "ckc-corporate-facilities-nv", "ckc-machinehandel-surmac-nv", "cmc-suriname", "cobo-holding-nv", "codanco", "consulytic-nv", "copa-airlines", "coreone-nv", "corestats-nv", "creative-tech-hub-caribbean", "critical-care-consultancy", "custom-connect-powered-by-capability-bpo", "custom-connect-suriname", "dak-platen-fabriek-h-jadoenath-zonen", "dance-devotion-sr", "dance-school-scvu-dance-in-rhythm", "dansschool-ti22", "data-world", "datasur", "de-betongroep-nv", "demarkt-multi-enterprise-nv", "dennebos-suriname-nv", "dental-hygiene-597", "dorff-design", "ds-belcon-suriname-nv", "ds-general-contractors-nv", "duttenhofer-outsourcing-company-nv", "eas-creative-group-ltd", "efs-college-covab", "el-dorado-offshore", "elevate-real-estate", "elgawa-nv", "emerald-oilfield-services", "energy-power-works-suriname", "esuverfa-nv", "et-it-consultancy", "eucon-nv", "exprezz-global-imports", "exsol-industrial-nv", "ey", "fasst-itt-nv", "fastline-imports", "father-mother-figure", "fe-van-der-jagt-nv", "fedex", "fernandes-autohandel", "first-class-boxing", "fitness-plaza", "flex-cargo-wholesale", "gangadins-safety-solutions-consultancy", "garage-de-paarl", "gemimport", "geo-survey-nv", "geologisch-mijnbouwkundige-dienst-gmd", "gideon-advisory-services-nv", "gissat", "global-cars-nv", "godo-bank", "gpa-automotive", "gpssr", "grant-thornton-suriname", "guguplex-technologies-sac", "gym-boss-fitness-center", "h-bromet-shipping-agency-nv", "handelmaatschappij-bsewnath-nv", "handelmij-dharmsingh-nv", "haselhoef-md-solutions", "hbn-law-tax", "hcms-nv", "hdf-consulting-nv", "health-control-services", "heavy-construction-academy-suriname-nv", "hello-health-nv", "hencom-trai-nv", "hertog-taxi-airport-shuttle-service", "higher-heights-imports", "hj-de-vries-agro", "hj-motors", "hscs-suriname", "humus-recruitment-nv", "ieshaan-taxi-services", "imit-suriname", "impressive-suriname-travel-nv", "indutec-systems-nv", "info2000", "inproser-nv", "int-ext-architects-nv", "integra-marine-freight-services-nv", "integrated-computer-services-nv", "integrated-professional-services-nv", "intergeo", "intermed-caribe", "intertek-international-nv", "intramar-nv", "ires-property-agency-nv", "isotherm-suriname-nv", "itee-nv", "itis-nv", "jaconsultancy", "jd-building-civil-works", "jetzza-international-nv", "jewell-yoga", "jobcon-agency-nv", "jps-consulting", "jv-engineering", "kamtas-car-centre", "karima-invest-nv", "kdv-architects", "kepler-group", "kernel-information-technology-nv", "kersten-alginco-nv", "kersten-bem-nv", "kersten-training-academy", "keyhouse-consultancy", "kgl-tax-legal", "king-panel-suriname", "knol-bio-cleaning-solutions-nv", "krosbey-solutions-nv", "kuldipsingh-oilfield-services-nv", "kuldipsingh-total-concrete-nv", "kwatta-general-contractors-nv", "landbouw-en-veeteeltbedrijf-van-dijk-nv", "landbouwbank-nv", "laparkan-suriname", "leap-solutions", "leduc-business-academy-nv", "lees-trading", "loyals-caribbean", "lybra-training-coaching-consulting-nv", "maf-suriname", "malhoe-flooring", "marsol-nv", "mavis-taxi", "md-defence-shooting-academy", "measuresolutions", "meindertsma-suriname-nv", "mel-an-gi-hair", "meliaz-firm", "midas-aviation-services-suriname-nv", "minequip-suriname", "mines-services-suriname-nv", "misabi-testmanagement-nv", "mks-gym-suriname", "mns-notarissen", "moboco-nv", "moglow-pilates-studio", "msc-suriname-nv", "n-v-thuk", "namidi-nv", "nationale-ontwikkelingsbank-nob", "nesotec-nv", "netlink-communications-nv", "nettech-nv", "netwave-nv", "noah-tree-yoga-wellness", "nogosari", "norsou-360-corp", "notariaat-alexander", "notariaat-baidjoe", "notariaat-bishoen", "notariaat-blom-kanhai", "notariaat-calor-gangaram-panday", "notariaat-chin-a-lin-oord", "notariaat-dollart-derby", "notariaat-ferdinand", "notariaat-huang", "notariaat-jadnanansing", "notariaat-kalisingh", "notariaat-kemp", "notariaat-kitty-a-derby", "notariaat-nannan-panday", "notariaat-olff", "notariaat-pancham", "notariaat-ramautar-punwasi", "notariaat-rnd-baldew", "notariaat-sanrochman-badal", "notariaat-seetal", "notariaat-sewradj", "notariaat-soerdjbali", "notariaat-stekkel", "notary-jrk-vishnudatt", "nv-amps-engineering", "nv-chemco", "nv-consolidated-industries-corporation-cic", "nv-global-online-moderators", "nv-hashtag-it", "nv-kodent", "nv-luchthavenbeheer-airport-management-ltd", "nv-sintec", "ontime-nv", "opj-car-sales", "oso-nanga-djari-nv", "ox88-it-solutions", "palulu-financial-outsourcing-services", "pan-american-motors", "paramaribo-cargo", "paramaribo-international-cargo-office-pico", "parbode-magazine", "parcon", "parsasco", "pbs-group", "pegasus-air-services", "phenox-consultants", "philipson-trading", "preconsu-construction-and-environmental-services-nv", "pricos-machineshop", "pricos-mashineshop", "pristine-car-nv", "procallcenter-suriname", "profound-projects", "psc-contracting-group-nv", "ptc-university-of-applied-sciences", "purity-tours-services", "qualogy-caribbean-nv", "quickship-logistics", "rajhar-insurance-consultancy", "ramdat-import-agencies", "rapid-import-export-nv", "rekemo-international-suriname", "reliant-corporate-finance-and-accountancy-rcfa", "renaissance-realty-nv", "rent-sale-vastgoed", "revas-nv", "rezaam-car-sales", "richpay-online-moderators", "rima-beauty-bar", "roopcom-cargo-services-more", "royal-panel", "rpbg-nv", "rs-signs-prints", "rudisa-motors", "rudra-vastgoed-suriname-nv", "sadhna-petroleum-suriname-nv", "saima-fire-protection-nv", "saipem", "saro-shipping-nv", "saya-nv", "sbm-offshore-suriname", "scandia-gear-the-caribbean", "sean-trading", "securico-bhv-opleidingscentrum", "sewgobind-administraties-consultancy", "shapoorji-pallonji-group", "shlx-studio", "shyamnarain-associates", "sib-group-of-companies", "sib-signs-designs", "simple-it-systems-nv", "ska-solution", "slb", "smart-suriname-business-academy", "soekhoe-zonen-houtzagerij-en-houthandel-nv", "soglass", "sol-suriname-nv", "solve-it", "soundillusions", "spang-makandra-nv", "spartans-fit-club-kids-functional-fitness", "stg-de-mantel", "stichting-compuact-modulaire-opleidingen", "stichting-ict-los", "stichting-probitas", "strongbow-offshore-services", "suforyou-suriname", "super-merchandise-motors", "superior-tank-and-pipe-group-nv", "surichange-bank-nv", "surinam-plastics-manufacturing-nv", "surinam-shipping-agencies", "suriname-bush-clearing-and-mining-nv", "suriname-cloud-services", "suriname-energy-chamber", "suriname-guyana-chamber-of-commerce", "suriname-hospitality-and-tourism-training-centre-shttc", "suriname-motors-nv", "suriname-pest-control", "suritech-nv", "t-h-groep-accountants-belastingadviseurs", "technovate-nv", "teleperformance-suriname", "terraform-engineering-design-nv-ted-nv", "terzol-vastgoed-nv", "the-smile-factory", "themen-contractors-nv", "tilburg-tours-rentals-suriname", "tjong-a-hung-accountants-consultants", "tolzo-suriname", "tong-li-nv-zinkplaten-en-alluminium-glazen-fabriek", "torarica-group", "total-building-technologies-nv", "total-surveying", "totalenergies-ep-suriname-bv", "tourtonnes-taxi", "transolution-cargo-caribbean-nv", "traymore-nv-moengo-port", "tromoto-nv", "tucker-energy-services-limited", "unasat", "unibiz-tech-nv", "united-aviation-services-nv", "united-caribbean-contractors-ucc", "upgrade-business-support-nv", "vabi-nv", "van-brussel-design-build-nv", "vasilda-nv", "vereniging-oase", "vir-equipment-nv", "visan-cars", "vj-partners", "vortex-aviation-academy", "vreden-english-language-training-consultancy", "vsh-trading", "vsh-transport", "wanica-technical-center", "weblocher-nv", "wengage-suriname", "xin-li-glashandel", "xinli-glas-aluminium", "zinnia-taxi", "zwembad-energy", "zwemschool-aquafit"] for b in [_make_biz(slug)] if b]
+SERVICES = [b for slug in ["the-girl-house", "kokkie-miquisine", "101-real-estate", "ineffable", "morgaine-beauty", "4x4-rental", "abrix-cleaning-services", "alliance-francaise", "anton-de-kom-universiteit-van-suriname", "apotheek-joemmanbaks", "apotheek-karis", "apotheek-mac-donald-north", "apotheek-mac-donald-south", "apotheek-rafeka", "apotheek-sibilo", "apotheek-soma", "apotheek-soma-ringweg", "arthur-alex-hoogendoorn-atheneum", "assuria-hermitage-high-rise", "assuria-insurance-walk-in-city", "assuria-insurance-walk-in-commewijne", "assuria-insurance-walk-in-lelydorp", "assuria-insurance-walk-in-nickerie", "assuria-insurance-walk-in-noord", "augis-travel", "ayur-mi-beauty-wellness", "balance-studio", "balletschool-marlene", "bitdynamics", "blissful-massage-aromatherapy", "blossom-beauty-bar", "body-enhancement-gym", "bright-cleaning", "brotherhood-security", "brow-bliss-lounge", "buro-workspaces", "camex-suriname", "car-rental-city", "carline-kwatta", "carline-waaldijkstraat", "carpe-diem-massagepraktijk", "clarissa-vaseur-writing-wellness-services-claw", "clean-it", "club-oase", "cpr-pilates-curves", "curl-babes", "da-select-en-service-apotheek", "dans-dip-and-detail", "dansclub-danzson", "dcars-rental", "de-cederboom-school", "de-nederlandse-basisschool-het-kleurenorkest", "de-spetter", "de-surinaamsche-bank-hermitage-mall", "de-surinaamsche-bank-hoofdkantoor", "de-surinaamsche-bank-lelydorp", "de-surinaamsche-bank-ma-retraite", "de-surinaamsche-bank-nickerie", "de-surinaamsche-bank-nieuwe-haven", "de-vrije-school", "delete-beauty-lounge", "dhl-express-service-point", "dierenarts-resopawiro", "dierenartspraktijk-l-m-bansse-issa", "dierenpoli-lobo", "digicel-albina", "digicel-business-center", "digicel-extacy", "digicel-hermitage", "digicel-latour", "digicel-lelydorp", "digicel-nickerie", "digicel-wilhelminastraat", "djinipi-copy-center", "djo-cleaning-service", "dli-travel-consultancy", "dor-property-management-services-n-v", "dream-clean-suriname", "eaglemedia", "ec-operations", "ekay-media", "energiebedrijven-suriname-ebs", "faraya-medical-center", "farma-vida", "fatum", "fatum-schadeverzekering-commewijne", "fatum-schadeverzekering-kwatta", "fatum-schadeverzekering-nickerie", "fhr-lim-a-po-institute-for-higher-education", "finabank-centrum", "finabank-nickerie", "finabank-noord", "finabank-wanica", "finabank-zuid", "first-aid-plus", "fit-factory", "fly-allways", "free-flow", "gaby-april-beauty-clinic", "garage-d-a-ashruf", "gateway-fire-nv", "glambox", "gossip-nails-xx", "great-wall-motor-suriname", "hairstudio-32", "hakrinbank", "hakrinbank-flora", "hakrinbank-latour", "hakrinbank-nickerie", "hakrinbank-nieuwe-haven", "hakrinbank-tamanredjo", "hakrinbank-tourtonne", "han-palace", "happy-flower-services", "hertz-suriname-car-rental", "house-of-pureness", "ias-wooden-and-construction-nv", "infinity-holding", "inksane-tattoos", "international-academy-of-suriname", "intervast", "invictus-brazilian-jiu-jitsu", "jamilas-dry-cleaning-north", "jamilas-dry-cleaning-south", "just-curlss", "kaizen", "kasco-customs-solutions", "keller-williams-suriname", "kempes-co", "klm-royal-dutch-airlines", "lashlift-suriname", "lioness-beauty-effects", "luxe-escape-lotus-spa-wellness-beautysalon", "marchand-notariaat", "mini-nail-shop", "mirage-casino", "miss-doll-fit", "mokisa-busidataa-osu-nv", "mokisa-wellness", "multi-travel", "nassy-brouwer-college", "nassy-brouwer-school", "north-fitness-gym", "notariaat-mannes", "notariaat-van-dijk", "nv-threefold-quality-system-support", "ondernemershuis", "organic-skincare", "padel-x-suriname", "paramaribo-princess-casino", "percy-massage-therapy", "pinkmoon-suriname", "pitbull-fitness", "professional-private-security", "proplan-vastgoed", "qsi-international-school-of-suriname", "re-max-suriname", "real-one-fitness-gym", "remy-vastgoed", "republic-bank-head-office", "republic-bank-jozef-israelstraat", "republic-bank-kernkampweg", "republic-bank-nickerie", "republic-bank-vant-hogerhuysstraat", "republic-bank-zorg-en-hoop", "resourceful-real-estate-construction", "rich-skin", "rif-cleaning-service", "rock-fitness-paramaribo", "ross-rental-cars", "royal-rose-yoni-spa", "royal-spa", "royal-wellness-lounge", "safety-first-quality-always", "satyam-holidays", "savage-den", "scene-beauty-salon", "secas", "seen-stories", "shimmery-beauty-lounge", "southern-commercial-bank", "squeaky-clean", "sthephany-skincare", "stichting-shiatsu-massage", "supply-solutions-limited-suriname", "surgoed-makelaardij", "surinaamsche-waterleiding-maatschappij", "surinam-airways", "suriname-princess-casino", "telesur-centrum", "telesur-latour", "telesur-lelydorp", "telesur-nickerie", "telesur-noord", "telesur-zonnebloemstraat", "the-aerial-yoga-studio", "the-basement-barbershop", "the-beauty-bar", "the-beauty-bar-north", "the-beauty-bar-south", "the-freelance-scout", "the-house-of-beauty", "the-laundry-spot", "the-nail-house", "the-solution-property-management", "the-waxing-booth", "the-wonderlab-su", "thermen-hermitage-turkish-bath-beautycenter", "tianyou-aquafun", "timeless-barber-and-nail-shop", "touch-of-heaven-wellness", "tranquil-massage", "triple-security-unit", "typing-nomad-nv", "waldos-worldwide-travel-service", "welink-real-estate", "yoga-peetha-happiness-centre", "young-engineers", "zenobia-bottling-company", "fernandes-group", "kersten-group", "vsh-united", "staatsolie", "rudisa", "baitali-group", "varossieau-suriname", "grassalco", "havenbeheer-suriname", "newmont-suriname", "gow2-energy", "sol-suriname", "centrale-bank-van-suriname", "trustbank-amanah", "surinaamse-postspaarbank", "volkscredietbank", "finatrust", "self-reliance", "academisch-ziekenhuis-paramaribo", "diakonessenhuis", "sint-vincentius-ziekenhuis", "s-lands-hospitaal", "regionale-gezondheidsdienst", "medische-zending", "bureau-openbare-gezondheidszorg", "apintie", "atv-suriname", "stvs", "rasonic", "surpost", "nationaal-vervoer-bedrijf", "gum-air", "blue-wing-airlines", "caribbean-airlines", "aboikonie-zwembad-bedrijf", "advocatenkantoor-tjong-a-sie", "beauty-haven", "celestial-tours-suriname", "eco-royal-garden", "eskimo-koeltechnisch-bedrijf", "genade-hairstyle", "gorgeous-beauty-nails", "hair-saloon-splendora", "hairfreak-barbershop", "hairstudio-dawson", "intertravel", "kangoeroe-community-school", "kangoeroe-high", "kimyras-beauty-and-spa", "krasnapolsky-travel-tours", "luxe-luminous-beauty-salon", "naughty-angel-beauty-salon", "packed-ready-travel", "paradise-city-casino", "paramaribo-golden-dragon-casino", "planet-casino", "radiologie-kliniek-halfhide-hofwijk", "rasonic-travel", "rcr-medical-centre", "regis-hair-therapy", "rhythms-of-nature-ayurveda-wellness-center", "rudisa-worldwide-travel-n-v", "special-party-catering-and-cocktails", "stas-international", "stichting-lodgeholders-boven-suriname", "stichting-upper-suriname-lodgeholders", "suriname-hospitality-tourism-association", "suriname-hotel-association", "the-caterpillar-montessorischool", "the-suriname-tourism-foundation", "trizzles-beauty-spot", "unique-package-plan", "utec-opleidingen", "friendly-cab-suriname", "newtech-rainville", "newtech-zwartenhovenbrug", "corantijn-speedboat-service", "surshipp", "telesur-hoofdkantoor", "telesur-havenlaan", "telesur-moengo", "telesur-tamanredjo", "4r-gym-academia", "aabece-graphics-signs", "aakhri-safar-mijnzorg", "aatrios-management-consultancy-bv", "abc-opleiding-training-suriname-nv", "academie-voor-hoger-kunst-en-cultuuronderwijs-ahkco", "accounting-management-software-nv", "ace-designs-more-nv", "acm-financial-services", "act-contractors-nv", "actioninvest-caribbean-inc", "adept-nv", "advanced-geodetic-solutions", "afriki", "afzal-transport", "agile-allies-consultancy-nv", "agrofix-nv", "all-interior-solutions-nv", "alphamax-academy", "angelo-services-suriname", "ants-nv", "apptastic-nv", "argos-suriname", "arrex-group-nv", "art-sabina-design-printing-nv", "artemis-energy-suriname-nv", "atlas-fitness-center", "australian-laboratory-services-suriname-nv", "b-fit-sportschool", "baker-hughes", "balletschool-charlotte-sprangers", "banking-network-suriname-nv", "bb-energy", "bdo-suriname", "beauty-4-ever-schoonheidssalon", "bergh-bedrijven-nv", "beta-group", "beton-bedrijf-nathoo", "bgp-offshore", "biomedical-systems-nv", "bits-please-technologies", "blu-dots-technology", "boskalis-international-bv", "bouwbedrijf-ramlal", "branding-and-design", "bricedbiocleaning", "brnds21-brand-growth-consultancy-suriname", "brunel-suriname-nv", "business-data-solutions-nv", "callfactory", "callot-training-consultancy", "caribbean-chemicals-suriname", "carmart-suriname", "ccc-group-inc", "cdwe-suriname", "cead-nv", "celery-online-payroll-hrm", "centradesur-nv", "christian-liberty-academy", "city-motors", "ckc-corporate-facilities-nv", "ckc-machinehandel-surmac-nv", "cmc-suriname", "cobo-holding-nv", "codanco", "consulytic-nv", "copa-airlines", "coreone-nv", "corestats-nv", "creative-tech-hub-caribbean", "critical-care-consultancy", "custom-connect-suriname", "dak-platen-fabriek-h-jadoenath-zonen", "dance-devotion-sr", "dance-school-scvu-dance-in-rhythm", "dansschool-ti22", "data-world", "datasur", "de-betongroep-nv", "demarkt-multi-enterprise-nv", "dennebos-suriname-nv", "dental-hygiene-597", "dorff-design", "ds-belcon-suriname-nv", "ds-general-contractors-nv", "duttenhofer-outsourcing-company-nv", "eas-creative-group-ltd", "efs-college-covab", "el-dorado-offshore", "elevate-real-estate", "elgawa-nv", "emerald-oilfield-services", "energy-power-works-suriname", "esuverfa-nv", "et-it-consultancy", "eucon-nv", "exprezz-global-imports", "exsol-industrial-nv", "ey", "fastline-imports", "father-mother-figure", "fe-van-der-jagt-nv", "fedex", "fernandes-autohandel", "first-class-boxing", "fitness-plaza", "flex-cargo-wholesale", "gangadins-safety-solutions-consultancy", "garage-de-paarl", "gemimport", "geo-survey-nv", "geologisch-mijnbouwkundige-dienst-gmd", "gideon-advisory-services-nv", "gissat", "global-cars-nv", "godo-bank", "gpa-automotive", "gpssr", "grant-thornton-suriname", "guguplex-technologies-sac", "gym-boss-fitness-center", "h-bromet-shipping-agency-nv", "handelmij-dharmsingh-nv", "haselhoef-md-solutions", "hbn-law-tax", "hcms-nv", "hdf-consulting-nv", "health-control-services", "heavy-construction-academy-suriname-nv", "hello-health-nv", "hencom-trai-nv", "hertog-taxi-airport-shuttle-service", "higher-heights-imports", "hj-de-vries-agro", "hscs-suriname", "humus-recruitment-nv", "ieshaan-taxi-services", "imit-suriname", "indutec-systems-nv", "info2000", "inproser-nv", "int-ext-architects-nv", "integra-marine-freight-services-nv", "integrated-computer-services-nv", "integrated-professional-services-nv", "intergeo", "intermed-caribe", "intertek-international-nv", "intramar-nv", "ires-property-agency-nv", "isotherm-suriname-nv", "itee-nv", "itis-nv", "jaconsultancy", "jd-building-civil-works", "jewell-yoga", "jobcon-agency-nv", "jps-consulting", "jv-engineering", "kamtas-car-centre", "karima-invest-nv", "kdv-architects", "kepler-group", "kernel-information-technology-nv", "kersten-alginco-nv", "kersten-bem-nv", "kersten-training-academy", "keyhouse-consultancy", "kgl-tax-legal", "knol-bio-cleaning-solutions-nv", "krosbey-solutions-nv", "kuldipsingh-oilfield-services-nv", "kuldipsingh-total-concrete-nv", "kwatta-general-contractors-nv", "landbouw-en-veeteeltbedrijf-van-dijk-nv", "laparkan-suriname", "leap-solutions", "leduc-business-academy-nv", "loyals-caribbean", "lybra-training-coaching-consulting-nv", "maf-suriname", "malhoe-flooring", "marsol-nv", "mavis-taxi", "md-defence-shooting-academy", "measuresolutions", "meindertsma-suriname-nv", "mel-an-gi-hair", "meliaz-firm", "midas-aviation-services-suriname-nv", "minequip-suriname", "mines-services-suriname-nv", "misabi-testmanagement-nv", "mks-gym-suriname", "mns-notarissen", "moglow-pilates-studio", "msc-suriname-nv", "n-v-thuk", "namidi-nv", "nationale-ontwikkelingsbank-nob", "nesotec-nv", "netlink-communications-nv", "nettech-nv", "netwave-nv", "noah-tree-yoga-wellness", "nogosari", "norsou-360-corp", "notariaat-alexander", "notariaat-baidjoe", "notariaat-bishoen", "notariaat-blom-kanhai", "notariaat-calor-gangaram-panday", "notariaat-chin-a-lin-oord", "notariaat-dollart-derby", "notariaat-ferdinand", "notariaat-huang", "notariaat-jadnanansing", "notariaat-kalisingh", "notariaat-kemp", "notariaat-kitty-a-derby", "notariaat-nannan-panday", "notariaat-olff", "notariaat-pancham", "notariaat-ramautar-punwasi", "notariaat-rnd-baldew", "notariaat-sanrochman-badal", "notariaat-seetal", "notariaat-sewradj", "notariaat-soerdjbali", "notariaat-stekkel", "notary-jrk-vishnudatt", "nv-amps-engineering", "nv-chemco", "nv-consolidated-industries-corporation-cic", "nv-global-online-moderators", "nv-hashtag-it", "nv-kodent", "nv-luchthavenbeheer-airport-management-ltd", "nv-sintec", "ontime-nv", "opj-car-sales", "oso-nanga-djari-nv", "ox88-it-solutions", "palulu-financial-outsourcing-services", "pan-american-motors", "paramaribo-cargo", "paramaribo-international-cargo-office-pico", "parbode-magazine", "parcon", "parsasco", "pbs-group", "pegasus-air-services", "phenox-consultants", "preconsu-construction-and-environmental-services-nv", "pricos-machineshop", "procallcenter-suriname", "psc-contracting-group-nv", "ptc-university-of-applied-sciences", "qualogy-caribbean-nv", "quickship-logistics", "rajhar-insurance-consultancy", "ramdat-import-agencies", "rapid-import-export-nv", "rekemo-international-suriname", "reliant-corporate-finance-and-accountancy-rcfa", "renaissance-realty-nv", "rent-sale-vastgoed", "revas-nv", "richpay-online-moderators", "rima-beauty-bar", "roopcom-cargo-services-more", "rpbg-nv", "rs-signs-prints", "rudisa-motors", "rudra-vastgoed-suriname-nv", "sadhna-petroleum-suriname-nv", "saima-fire-protection-nv", "saipem", "saro-shipping-nv", "saya-nv", "sbm-offshore-suriname", "scandia-gear-the-caribbean", "securico-bhv-opleidingscentrum", "sewgobind-administraties-consultancy", "shapoorji-pallonji-group", "shlx-studio", "shyamnarain-associates", "sib-signs-designs", "simple-it-systems-nv", "ska-solution", "slb", "smart-suriname-business-academy", "soekhoe-zonen-houtzagerij-en-houthandel-nv", "soglass", "sol-suriname-nv", "solve-it", "soundillusions", "spang-makandra-nv", "spartans-fit-club-kids-functional-fitness", "stg-de-mantel", "stichting-compuact-modulaire-opleidingen", "stichting-ict-los", "stichting-probitas", "strongbow-offshore-services", "super-merchandise-motors", "superior-tank-and-pipe-group-nv", "surichange-bank-nv", "surinam-plastics-manufacturing-nv", "surinam-shipping-agencies", "suriname-bush-clearing-and-mining-nv", "suriname-cloud-services", "suriname-energy-chamber", "suriname-guyana-chamber-of-commerce", "suriname-hospitality-and-tourism-training-centre-shttc", "suriname-motors-nv", "suriname-pest-control", "suritech-nv", "t-h-groep-accountants-belastingadviseurs", "technovate-nv", "teleperformance-suriname", "terraform-engineering-design-nv-ted-nv", "terzol-vastgoed-nv", "the-smile-factory", "themen-contractors-nv", "tjong-a-hung-accountants-consultants", "tolzo-suriname", "tong-li-nv-zinkplaten-en-alluminium-glazen-fabriek", "torarica-group", "total-building-technologies-nv", "total-surveying", "totalenergies-ep-suriname-bv", "tourtonnes-taxi", "transolution-cargo-caribbean-nv", "traymore-nv-moengo-port", "tucker-energy-services-limited", "unasat", "unibiz-tech-nv", "united-aviation-services-nv", "united-caribbean-contractors-ucc", "upgrade-business-support-nv", "vabi-nv", "van-brussel-design-build-nv", "vasilda-nv", "vereniging-oase", "vir-equipment-nv", "visan-cars", "vj-partners", "vortex-aviation-academy", "vreden-english-language-training-consultancy", "vsh-trading", "vsh-transport", "weblocher-nv", "wengage-suriname", "xinli-glas-aluminium", "zinnia-taxi", "zwemschool-aquafit", "briss-it-solutions", "conservatorium-suriname", "printwise-imprint-solutions", "jack-tours-travel-service", "metalock-suriname-nv", "kj-skincare", "suriskin-healthcare", "niamat-rental", "etb-suriname"] for b in [_make_biz(slug)] if b]
 
 # Approved public submissions join the same category lists as repo listings,
 # so they get cards, chips, search entries and a listing page for free.
@@ -3225,7 +3548,6 @@ _CHAIN_GROUPS = {
     "Habco Delight":                 ["habco-delight", "habco-delight-north"],
     "Jage Caffe":                    ["jage-caffe", "jage-caffe-2"],
     "Kwan Tai":                      ["kwan-tai-restaurant", "kwan-tai-restaurant-2"],
-    "Krioro":                        ["krioro", "krioro-north"],
     "Micki's Palace":                ["mickis-palace-noord", "mickis-palace-zuid"],
     "The Coffee Box":                ["the-coffee-box", "the-coffee-box-north"],
     "HES DS":                        ["hes-ds", "hes-ds-2", "hes-ds-3"],
@@ -3234,9 +3556,9 @@ _CHAIN_GROUPS = {
     "Republic Bank":                 ["republic-bank-head-office", "republic-bank-jozef-israelstraat", "republic-bank-kernkampweg", "republic-bank-nickerie", "republic-bank-vant-hogerhuysstraat", "republic-bank-zorg-en-hoop"],
     "Finabank":                      ["finabank-centrum", "finabank-nickerie", "finabank-noord", "finabank-wanica", "finabank-zuid"],
     "Assuria Walk-in":               ["assuria-insurance-walk-in-city", "assuria-insurance-walk-in-commewijne", "assuria-insurance-walk-in-lelydorp", "assuria-insurance-walk-in-nickerie", "assuria-insurance-walk-in-noord"],
-    "FATUM":                         ["fatum", "fatum-schadeverzekering-hoofdkantoor", "fatum-schadeverzekering-commewijne", "fatum-schadeverzekering-kwatta", "fatum-schadeverzekering-nickerie"],
+    "FATUM":                         ["fatum", "fatum-schadeverzekering-commewijne", "fatum-schadeverzekering-kwatta", "fatum-schadeverzekering-nickerie"],
     "Telesur":                       ["telesur-centrum", "telesur-havenlaan", "telesur-hoofdkantoor", "telesur-latour", "telesur-lelydorp", "telesur-moengo", "telesur-nickerie", "telesur-noord", "telesur-tamanredjo", "telesur-zonnebloemstraat"],
-    "Digicel":                       ["digicel-albina", "digicel-business-center", "digicel-extacy", "digicel-hermitage", "digicel-lalla-rookhweg", "digicel-latour", "digicel-lelydorp", "digicel-nickerie", "digicel-wilhelminastraat"],
+    "Digicel":                       ["digicel-albina", "digicel-business-center", "digicel-extacy", "digicel-hermitage", "digicel-latour", "digicel-lelydorp", "digicel-nickerie", "digicel-wilhelminastraat"],
     "CHM":                           ["chm-centrum", "chm-commewijne", "chm-kernkampweg", "chm-nickerie", "chm-wanica", "chm-wilhelminastraat"],
     "DA Drogisterij":                ["da-drogisterij-coppename", "da-drogisterij-hermitage", "da-drogisterij-ims-mall", "da-drogisterij-lelydorp", "da-drogisterij-wilhelmina"],
     "Apotheek Mac Donald":           ["apotheek-mac-donald-north", "apotheek-mac-donald-south"],
@@ -8665,6 +8987,21 @@ def build_listing_page(slug, b):
                 'style="background:#25D366">💬 Chat on WhatsApp</a>'
             )
 
+    # ── Facebook CTA (Oct 2026) — the business's own page, verified by hand ──
+    fb_url = b.get("facebook") or _fb_url(_BIZ.get(slug, {}))
+    fb_btn = ""
+    if fb_url:
+        fb_btn = (
+            '<a href="' + html_lib.escape(fb_url) + '" target="_blank" rel="noopener" '
+            'class="flex items-center justify-center gap-2 w-full py-3 rounded-xl '
+            'text-sm font-semibold text-white hover:opacity-90 transition mb-3" '
+            'style="background:#1877F2"><svg aria-hidden="true" width="18" height="18" '
+            'viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 '
+            '5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.79-4.69 '
+            '4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.26h3.33l-.53 '
+            '3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>Facebook</a>'
+        )
+
     if _chain:
         if desc and any(m.lower() in desc.lower() for m in _hub_marks):
             desc = ""      # written about one branch, not about the brand
@@ -8708,7 +9045,8 @@ def build_listing_page(slug, b):
     if phone:     ld_obj["telephone"] = phone
     if email:     ld_obj["email"] = email
     if og_img != SITE_URL + "/og-image.jpg": ld_obj["image"] = og_img
-    if ext_url and "google.com/search" not in ext_url: ld_obj["sameAs"] = ext_url
+    _same = [u for u in (ext_url if ext_url and "google.com/search" not in ext_url else "", fb_url) if u]
+    if _same: ld_obj["sameAs"] = _same[0] if len(_same) == 1 else _same
     # OSM enrichment → structured data Google can parse for rich results
     if hours:
         # schema.org openingHours accepts OSM-style strings directly
@@ -8828,6 +9166,7 @@ def build_listing_page(slug, b):
         info_html = ('\n        ' + _chain["panels"] +
                      '\n        <div class="mt-6">'
                      '\n          ' + website_btn +
+                     '\n          ' + fb_btn +
                      '\n          ' + share_btn +
                      '\n        </div>' + _chain["script"])
     else:
@@ -8843,6 +9182,7 @@ def build_listing_page(slug, b):
                      '\n        <div class="mt-6">'
                      '\n          ' + wa_btn +
                      '\n          ' + website_btn +
+                     '\n          ' + fb_btn +
                      '\n          ' + directions_btn +
                      '\n          ' + share_btn +
                      '\n        </div>')
@@ -22557,17 +22897,45 @@ if __name__ == "__main__":
         # Verlengde Gemenelandsweg 127, listed as "4R Gym Academia".
         "atv":    "atv-suriname",
         "4r-gym": "4r-gym-academia",
+        # Oct 7 2026 listing cleanup - duplicates merged into the listing that stays
+        "godo": "godo-bank",
+        "tasty-sandwich-coffee-bar": "tasty-fresh-food-coffee-bar",
+        "cola-creek": "cola-kreek-recreatiepark",
+        "tucan-residence": "tucan-resort-and-spa",
+        "maze-suriname": "maze",
+        "h-j-de-vries-motors": "hj-motors",
+        "xin-li-glashandel": "xinli-glas-aluminium",
+        "pricos-mashineshop": "pricos-machineshop",
+        "sib-group-of-companies": "sib-signs-designs",
+        "custom-connect-powered-by-capability-bpo": "custom-connect-suriname",
+        "fatum-schadeverzekering-hoofdkantoor": "fatum",
+        "krioro-north": "krioro",
+        "digicel-lalla-rookhweg": "digicel-hermitage",
+        "landbouwbank-nv": "volkscredietbank",
+        # Oct 7 2026 - closed or not traceable as listed: retired to their section page
+        "lely-hills-casino": "/activities.html",
+        "bruynzeel-suriname": "/services.html",
+        "profound-projects": "/services.html",
+        "h-t": "/services.html",
+        "fluxo-pilates": "/services.html",
+        "orchid": "/services.html",
+        "le-den": "/restaurants.html",
+        "stukaderen-in-nederland": "/services.html",  # a YouTube channel about studying in NL, not a business
     }
     for _old_slug, _new_slug in _LEGACY_LISTING_REDIRECTS.items():
+        if _old_slug in _BIZ:
+            continue   # the slug is live again (e.g. a new submission reused it): keep its page
+        # A value starting with "/" is a full path (retired listing -> its section page)
+        _tgt = _new_slug if _new_slug.startswith("/") else f"/listing/{_new_slug}/"
         _odir = Path("listing") / _old_slug
         _odir.mkdir(parents=True, exist_ok=True)
         (_odir / "index.html").write_text(
             '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
             '<meta name="robots" content="noindex">'
-            f'<meta http-equiv="refresh" content="0;url=/listing/{_new_slug}/">'
-            f'<link rel="canonical" href="{SITE_URL}/listing/{_new_slug}/">'
+            f'<meta http-equiv="refresh" content="0;url={_tgt}">'
+            f'<link rel="canonical" href="{SITE_URL}{_tgt}">'
             '<title>Redirecting&hellip;</title></head><body>'
-            f'<p>This page has moved. <a href="/listing/{_new_slug}/">Click here</a>.</p>'
+            f'<p>This page has moved. <a href="{_tgt}">Click here</a>.</p>'
             '</body></html>', encoding="utf-8")
 
     # ── Purge stale listing directories ─────────────────────────────────────
