@@ -142,9 +142,6 @@
 </div>
 </div>
 <main class="max-w-xl mx-auto px-4 py-8 pb-20">
-<div class="flex items-center justify-end gap-3 mb-3">
-<div class="lang"><button id="ab-nl">NL</button><button id="ab-en">EN</button></div>
-</div>
 <div id="ab-wrap"><canvas aria-label="Aboma snake game" height="640" id="ab-cv" width="400"></canvas><button aria-label="Sound on/off" id="ab-mute">🔊</button></div>
 <div class="ab-hint"><span><b id="ab-h1">Swipe</b> om te sturen</span><span><b>←↑↓→ / WASD</b> toetsenbord</span></div>
 <div class="mt-4" id="ab-panel"></div>
@@ -271,7 +268,7 @@ const T={
   combo:"Combo x",gold:"Golden arowana!",goldgone:"It got away...",wood:"Driftwood!"},
  nl:{score:"Score",best:"Beste",len:"Lengte",fish:"Piranha",tap:"Tik om te jagen",again:"Tik om weer te jagen",over:"De aboma is klaar met jagen.",newbest:"Nieuw record!",share:"Deel op WhatsApp",copy:"Kopieer resultaat",copied:"Gekopieerd!",hint:"Swipe",note:"Swipe (of gebruik de pijltjestoetsen / WASD) om de anaconda te sturen. Piranha's maken je langer en de rivier sneller. Eet binnen een paar seconden na je vorige vangst en de combo loopt op tot x5. De gouden arowana is vijf keer zoveel waard maar ontsnapt snel, en er komt drijfhout bij zodra je goed aan het eten bent. Beste score blijft in deze browser.",
   combo:"Combo x",gold:"Gouden arowana!",goldgone:"Ontsnapt...",wood:"Drijfhout!"}};
-let lang=localStorage.getItem("ab-lang")||(document.documentElement.lang==="nl"?"nl":"en");
+let lang=(document.documentElement.lang==="nl"?"nl":"en");
 let muted=localStorage.getItem("ab-muted")==="1";
 function $(i){return document.getElementById(i);}
 const CV=$("ab-cv"),CX=CV.getContext("2d");
@@ -593,10 +590,8 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden&&st==="run"
  else if(st==="pause"){st="run";lastT=0;raf=requestAnimationFrame(frame);}});
 
 function setLang(l){lang=l;localStorage.setItem("ab-lang",l);window.ESRLB&&ESRLB.lang(l);
- $("ab-nl").classList.toggle("on",l==="nl");$("ab-en").classList.toggle("on",l==="en");
  $("ab-note").textContent=T[l].note;$("ab-h1").textContent=T[l].hint;
  if(st==="idle")idle();}
-$("ab-nl").onclick=()=>setLang("nl");$("ab-en").onclick=()=>setLang("en");
 $("ab-mute").onclick=()=>{muted=!muted;localStorage.setItem("ab-muted",muted?"1":"0");
  $("ab-mute").innerHTML=muted?"&#128263;":"&#128266;";if(!muted){ac();beep(660,0.08,"triangle",0.05);}};
 $("ab-mute").innerHTML=muted?"&#128263;":"&#128266;";

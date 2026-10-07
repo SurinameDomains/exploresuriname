@@ -142,9 +142,6 @@
 </div>
 </div>
 <main class="max-w-xl mx-auto px-4 py-8 pb-20">
-<div class="flex items-center justify-end gap-3 mb-3">
-<div class="lang"><button id="kj-nl">NL</button><button id="kj-en">EN</button></div>
-</div>
 <div id="kj-wrap"><canvas aria-label="Korjaal Run game" height="640" id="kj-cv" width="400"></canvas><button aria-label="Sound on/off" id="kj-mute">🔊</button></div>
 <div class="kj-hint"><span><b id="kj-h1">点按左侧/右侧</b> 切换航道</span><span><b>← → / A D</b> 键盘</span></div>
 <div class="mt-4" id="kj-panel"></div>
@@ -271,7 +268,7 @@ const T={
   zones:["Boven-Suriname","Sula ahead!","Open rivier","Zonsondergang","Nachtvaart"],go:"Pari go!",boost:"SULA BOOST!",magnet:"Manja magnet!",nearmiss:"Rakelings!",smash:"Krak!"},
  nl:{score:"Score",best:"Beste",dist:"m",manja:"manja",runs:"Runs",tap:"Tik om te pagaaien",again:"Tik om opnieuw te pagaaien",over:"De rivier heeft gewonnen.",newbest:"Nieuw record!",share:"Deel op WhatsApp",copy:"Kopieer resultaat",copied:"Gekopieerd!",hint:"Tik links / rechts",note:"Wissel van baan om boomstammen, rotsen en zandbanken te ontwijken. Manja bouwt je multiplier op, de sula-boost laat je er dwars doorheen knallen, en de rivier wordt steeds sneller. Beste score blijft in deze browser. Tip: lees twee rijen vooruit, niet een.",
   zones:["Boven-Suriname","Sula ahead!","Open rivier","Zonsondergang","Nachtvaart"],go:"Pari go!",boost:"SULA BOOST!",magnet:"Manja magneet!",nearmiss:"Rakelings!",smash:"Krak!"}};
-let lang=localStorage.getItem("kj-lang")||(document.documentElement.lang==="nl"?"nl":"en");
+let lang=(document.documentElement.lang==="nl"?"nl":"en");
 let muted=localStorage.getItem("kj-muted")==="1";
 function $(i){return document.getElementById(i);}
 const CV=$("kj-cv"),CX=CV.getContext("2d");
@@ -560,10 +557,8 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden&&st==="run"
  else if(st==="pause"){st="run";lastT=0;raf=requestAnimationFrame(step);}});
 
 function setLang(l){lang=l;localStorage.setItem("kj-lang",l);window.ESRLB&&ESRLB.lang(l);
- $("kj-nl").classList.toggle("on",l==="nl");$("kj-en").classList.toggle("on",l==="en");
  $("kj-note").textContent=T[l].note;$("kj-h1").textContent=T[l].hint;
  if(st==="idle")idle();}
-$("kj-nl").onclick=()=>setLang("nl");$("kj-en").onclick=()=>setLang("en");
 $("kj-mute").onclick=()=>{muted=!muted;localStorage.setItem("kj-muted",muted?"1":"0");
  $("kj-mute").innerHTML=muted?"&#128263;":"&#128266;";if(!muted){ac();beep(660,0.08,"triangle",0.05);}};
 $("kj-mute").innerHTML=muted?"&#128263;":"&#128266;";

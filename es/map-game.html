@@ -148,7 +148,6 @@
 <main class="max-w-xl mx-auto px-4 py-8 pb-20">
 <div class="flex items-center justify-between gap-3 mb-1">
 <div class="text-sm font-bold text-gray-700" id="mg-label"></div>
-<div class="lang"><button id="mg-nl">NL</button><button id="mg-en">EN</button></div>
 </div>
 <div class="mg-dots" id="mg-dots"><span></span><span></span><span></span><span></span><span></span></div>
 <div class="mg-card">
@@ -302,7 +301,7 @@ function dayNum(){return Math.floor((Date.now()-10800000)/86400000);}
 const D=Math.max(0,dayNum()-EPOCH),NUM=D+1;
 const E=MG.filter(p=>p.t==="e"),M=MG.filter(p=>p.t==="m"),H=MG.filter(p=>p.t==="h");
 const DAILY=(E.length&&M.length&&H.length)?[E[(2*D)%E.length],E[(2*D+1)%E.length],M[(2*D)%M.length],M[(2*D+1)%M.length],H[D%H.length]]:[];
-let lang=localStorage.getItem("mg-lang")||(document.documentElement.lang==="nl"?"nl":"en");
+let lang=(document.documentElement.lang==="nl"?"nl":"en");
 let practice=false,P=DAILY,cur=0,res=[],pin=null,confirmed=false,zoom=1,vb=[0,0,454,462];
 try{res=JSON.parse(localStorage.getItem("mg-r-"+D)||"[]");}catch(e){}
 cur=Math.min(res.length,4);if(res.length===5)cur=5;
@@ -398,9 +397,8 @@ function rView(){const L=T[lang],tot=res.reduce((a,r)=>a+r.p,0),s=stats();
    while(P.length<5){const i=Math.floor(Math.random()*pool.length);if(!used[i]){used[i]=1;P.push(pool[i]);}}
    res=[];cur=0;ask();}label();dots();};
  dots();}
-function setLang(l){lang=l;localStorage.setItem("mg-lang",l);$("mg-nl").classList.toggle("on",l==="nl");$("mg-en").classList.toggle("on",l==="en");window.ESRLB&&ESRLB.lang(l);
+function setLang(l){lang=l;localStorage.setItem("mg-lang",l);window.ESRLB&&ESRLB.lang(l);
  label();if(cur>=5)rView();else ask();}
-$("mg-nl").onclick=()=>setLang("nl");$("mg-en").onclick=()=>setLang("en");
 if(DAILY.length===5){setLang(lang);}else{$("mg-ask").innerHTML="<p class='text-sm text-gray-500'>Loading error. Refresh the page.</p>";}
 </script>
 <script>
