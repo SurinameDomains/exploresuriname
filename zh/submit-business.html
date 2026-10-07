@@ -158,9 +158,17 @@
 </div>
 <div class="two">
 <div class="fld">
-<label for="f-website">网站或社交媒体主页</label>
-<input id="f-website" maxlength="300" name="website" placeholder="www.example.sr" type="text"/>
+<label for="f-website">您的网站</label>
+<input autocomplete="url" id="f-website" maxlength="300" name="website" placeholder="www.example.sr" type="text"/>
+<div class="hint">仅填写您自己的网站。Facebook 请填在下一栏。</div>
 </div>
+<div class="fld">
+<label for="f-facebook">Facebook 主页</label>
+<input id="f-facebook" maxlength="300" name="facebook" placeholder="facebook.com/yourbusiness" type="text"/>
+<div class="hint" id="fb-hint">请在浏览器中打开您的主页并复制网址，例如 facebook.com/yourbusiness。</div>
+</div>
+</div>
+<div class="two">
 <div class="fld">
 <label for="f-email">公开邮箱</label>
 <input id="f-email" maxlength="120" name="email" type="email"/>
@@ -335,6 +343,27 @@
 
   $("f-description").addEventListener("input", function(){ $("cnt").textContent = this.value.length; });
 
+  var FB_RE = /^(?:https?:\/\/)?(?:[a-z0-9-]+\.)?(?:facebook\.com|fb\.com|fb\.me)\//i;
+  var FB_HINT = $("fb-hint").textContent;
+  function fbCheck(){
+    var v = $("f-facebook").value.trim(), h = $("fb-hint");
+    var share = FB_RE.test(v) && /\/share\//i.test(v);
+    h.textContent = share
+      ? "That is a share link, not the page itself. Open your page in a browser and copy the address from the top."
+      : FB_HINT;
+    h.style.color = share ? "#a9701f" : "";
+  }
+  $("f-facebook").addEventListener("input", fbCheck);
+  $("f-website").addEventListener("change", function(){
+    var v = this.value.trim();
+    if(FB_RE.test(v)){
+      if(!$("f-facebook").value.trim()) $("f-facebook").value = v;
+      this.value = "";
+      fbCheck();
+      say("We moved your Facebook link to the Facebook page field.");
+    }
+  });
+
   var drop = $("drop"), file = $("f-photo");
   drop.addEventListener("click", function(){ file.click() });
   drop.addEventListener("keydown", function(e){ if(e.key === "Enter" || e.key === " "){ e.preventDefault(); file.click(); } });
@@ -367,6 +396,10 @@
     if($("f-description").value.trim().length < 20) return say("Please describe the business in a sentence or two.", true);
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($("f-contact_email").value.trim()))
       return say("Please enter your email so we can reach you.", true);
+    var web = $("f-website").value.trim(), fb = $("f-facebook").value.trim();
+    if(FB_RE.test(web)){ if(!fb) $("f-facebook").value = fb = web; $("f-website").value = ""; }
+    if(fb && !FB_RE.test(fb))
+      return say("The Facebook page field only takes a facebook.com link. Leave it empty if you have none.", true);
 
     var fd = new FormData(frm);
     fd.delete("photo");
@@ -376,9 +409,11 @@
     say("Sending...");
     try{
       var r = await fetch(API + "/submit", { method: "POST", body: fd });
-      var j = await r.json();
+      var j = null;
+      try{ j = await r.json(); }catch(_e){ j = null; }
       if(j && j.ok){ frm.hidden = true; $("done").hidden = false; window.scrollTo({top: 0, behavior: "smooth"}); return; }
-      say((j && j.err) || "Something went wrong. Please try again.", true);
+      say((j && j.err) || (r.status === 413 ? "That photo is too large. Please choose one under 5 MB."
+                           : "Something went wrong. Please try again."), true);
     }catch(err){
       say("We could not reach the server. Check your connection and try again.", true);
     }
