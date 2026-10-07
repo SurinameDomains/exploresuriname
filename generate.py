@@ -9214,6 +9214,161 @@ def build_listing_page(slug, b):
     return head + hero + main + related_html + "\n" + footer_html(prefix="../../") + "\n</body>\n</html>"
 
 
+# ── Things to Do detail pages (Oct 2026) ─────────────────────────────────────
+# data/things_to_do.json holds, per nature-/activity- slug: a longer intro,
+# "good to know" facts, the tour operators in our directory that run this trip
+# (with a deep link to their own tour page), lodges nearby, the official site,
+# Facebook page and managing organisation. Every text is stored in en/nl/es/zh
+# and baked into the page with data-l10n markers (build_i18n.apply_l10n picks
+# the language), so none of it goes through translations.json / MT.
+try:
+    with open("data/things_to_do.json", encoding="utf-8") as _f:
+        _TTD = json.load(_f)
+except Exception:
+    _TTD = {}
+_TTD_LBL = _TTD.get("_labels", {})
+_TTD_FACT_LBL = _TTD.get("_fact_labels", {})
+
+_FB_SVG = ('<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">'
+           '<path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41'
+           'c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.26h3.33l-.53 '
+           '3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>')
+
+
+def _ttd_tx(d, tag="span", cls="", style=""):
+    """Leaf element localized by build_i18n.apply_l10n. d is a {en,nl,es,zh}
+    dict or a label key from _labels."""
+    if isinstance(d, str):
+        d = _TTD_LBL.get(d, {"en": d})
+    en = d.get("en", "")
+    l10n = {k: v for k, v in d.items() if k != "en" and v and v != en}
+    c = (' class="' + cls + '"') if cls else ""
+    st = (' style="' + style + '"') if style else ""
+    return ('<' + tag + c + st + ' translate="no" data-l10n="'
+            + html_lib.escape(json.dumps(l10n, ensure_ascii=False, separators=(",", ":")), quote=True)
+            + '">' + html_lib.escape(en) + '</' + tag + '>')
+
+
+def _ttd_parts(slug, kind):
+    """HTML pieces for a Things to Do detail page, or None when the slug has no
+    entry in data/things_to_do.json (the page then renders as before)."""
+    t = _TTD.get(slug)
+    if not t or slug.startswith("_"):
+        return None
+    esc = html_lib.escape
+
+    # Intro: one block per language (paragraph counts differ between languages).
+    intro = ""
+    it = t.get("intro") or {}
+    if it.get("en"):
+        blocks = ""
+        for lg in ("en", "nl", "es", "zh"):
+            if not it.get(lg):
+                continue
+            paras = "".join('<p class="text-gray-700 leading-relaxed text-base mb-4">' + esc(p.strip()) + '</p>'
+                            for p in it[lg].split("\n\n") if p.strip())
+            blocks += ('<div data-l10n-lang="' + lg + '"' + ("" if lg == "en" else " hidden")
+                       + (' lang="zh-Hans"' if lg == "zh" else "") + '>' + paras + '</div>')
+        intro = '<div class="mb-6" translate="no" data-l10n-group>' + blocks + '</div>'
+
+    # Good to know
+    rows = ""
+    for f in t.get("facts", []):
+        lab = _TTD_FACT_LBL.get(f.get("k"), "Tips")
+        rows += ('<div class="py-3 border-b border-gray-100">'
+                 + _ttd_tx(lab, "dt", "text-xs font-semibold uppercase tracking-wide mb-1", "color:var(--forest2)")
+                 + _ttd_tx(f["v"], "dd", "text-sm text-gray-700 leading-relaxed") + '</div>')
+    facts = ""
+    if rows:
+        facts = ('<section class="mb-8"><h2 class="text-lg font-bold text-gray-900 mb-3">'
+                 + _ttd_tx("Good to know") + '</h2>'
+                 '<dl class="bg-white rounded-2xl border border-gray-100 shadow-sm px-5 pb-1">' + rows + '</dl></section>')
+
+    def _card(b, sub_html, ext_url=""):
+        img = b.get("image") or ""
+        thumb = ('<img src="' + esc(img, quote=True) + '" alt="' + esc(b["name"], quote=True) + '" loading="lazy" '
+                 'width="64" height="64" class="w-16 h-16 rounded-xl object-cover shrink-0 bg-gray-100" '
+                 'onerror="this.style.display=\'none\'">') if img else ""
+        ext = ""
+        if ext_url:
+            ext = ('<a href="' + esc(ext_url, quote=True) + '" target="_blank" rel="noopener nofollow" '
+                   'class="inline-flex items-center gap-1 text-xs font-semibold mt-2 hover:underline" '
+                   'style="color:var(--coral)">' + _ttd_tx("View tour") + ' <span aria-hidden="true">&#8599;</span></a>')
+        return ('<div class="flex gap-3 items-start bg-white rounded-2xl border border-gray-100 shadow-sm p-4">'
+                + thumb + '<div class="min-w-0">'
+                '<a href="/listing/' + esc(b["slug"]) + '/" class="font-semibold text-gray-900 hover:underline block">'
+                + esc(b["name"]) + '</a>' + sub_html + ext + '</div></div>')
+
+    cards = ""
+    for o in t.get("operators", []):
+        b = _make_biz(o.get("slug", ""))
+        if not b:
+            continue        # listing removed since the data was written
+        sub = _ttd_tx(o["title"], "p", "text-sm text-gray-600 mt-1") if o.get("title") else ""
+        cards += _card(b, sub, o.get("url", ""))
+    tours = ""
+    heading = "Tours that go here" if kind == "nature" else "Operators that offer this"
+    if cards:
+        tours = ('<section id="tours" class="mb-8 scroll-mt-24"><h2 class="text-lg font-bold text-gray-900 mb-1">'
+                 + _ttd_tx(heading) + '</h2>'
+                 + _ttd_tx("Tour operators listed on Explore Suriname, with a direct link to their own tour page.",
+                           "p", "text-sm text-gray-500 mb-4")
+                 + '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">' + cards + '</div>'
+                 + _ttd_tx("Prices and dates change. Check with the operator before you book.",
+                           "p", "text-xs text-gray-400 mt-3") + '</section>')
+    elif slug == "nature-wia-wia-nature-reserve":
+        tours = ('<section class="mb-8"><h2 class="text-lg font-bold text-gray-900 mb-1">' + _ttd_tx(heading) + '</h2>'
+                 + _ttd_tx("No regular tours go to this reserve.", "p", "text-sm text-gray-500") + '</section>')
+
+    stay_cards = ""
+    for s in t.get("stay", []):
+        b = _make_biz(s)
+        if not b:
+            continue
+        area = ('<p class="text-sm text-gray-500 mt-1" translate="no">' + esc(b.get("area") or "") + '</p>') if b.get("area") else ""
+        stay_cards += _card(b, area)
+    stay = ""
+    if stay_cards:
+        stay = ('<section class="mb-8"><h2 class="text-lg font-bold text-gray-900 mb-4">' + _ttd_tx("Where to stay nearby")
+                + '</h2><div class="grid grid-cols-1 sm:grid-cols-2 gap-3">' + stay_cards + '</div></section>')
+
+    # Sidebar
+    btn = ('class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold '
+           'text-white hover:opacity-90 transition mb-3"')
+    obtn = ('class="flex items-center justify-center gap-2 w-full py-3 px-3 rounded-xl text-sm font-semibold '
+            'border-2 hover:bg-gray-50 transition mb-3 text-center"')
+    side = ""
+    if cards:
+        side += ('<a href="#tours" ' + btn + ' style="background:var(--forest)">'
+                 '<span aria-hidden="true">&#129517;</span>' + _ttd_tx("Find tour operators") + '</a>')
+    same_as = []
+    for o in t.get("official", []):
+        side += ('<a href="' + esc(o["url"], quote=True) + '" target="_blank" rel="noopener" ' + obtn
+                 + ' style="border-color:var(--forest);color:var(--forest)"><span aria-hidden="true">&#127760;</span>'
+                 + _ttd_tx(o["label"]) + '</a>')
+        same_as.append(o["url"])
+    if t.get("facebook"):
+        side += ('<a href="' + esc(t["facebook"], quote=True) + '" target="_blank" rel="noopener" ' + btn
+                 + ' style="background:#1877F2">' + _FB_SVG + _ttd_tx("Facebook page") + '</a>')
+        same_as.append(t["facebook"])
+    mb = _make_biz(t["managed_by"]) if t.get("managed_by") else None
+    if mb:
+        side += ('<p class="text-sm text-gray-600 mb-3 text-center">' + _ttd_tx("Managed by") + ': '
+                 '<a href="/listing/' + esc(mb["slug"]) + '/" class="font-semibold hover:underline" '
+                 'style="color:var(--forest)">' + esc(mb["name"]) + '</a></p>')
+    for sa in t.get("see_also", []):
+        side += ('<a href="/listing/' + esc(sa["slug"]) + '/" ' + obtn
+                 + ' style="border-color:var(--coral);color:var(--coral)">' + _ttd_tx(sa["label"]) + '</a>')
+    foot = ""
+    if t.get("wiki"):
+        foot = ('<p class="text-center mt-4"><a href="' + esc(t["wiki"], quote=True) + '" target="_blank" rel="noopener" '
+                'class="text-xs text-gray-400 hover:underline">' + _ttd_tx("Background reading on Wikipedia")
+                + ' &#8599;</a></p>')
+        same_as.append(t["wiki"])
+
+    return {"intro": intro, "body": facts + tours + stay, "side": side, "foot": foot, "same_as": same_as}
+
+
 def build_activity_listing_page(act, slug):
     """Generate an individual detail page for an ACTIVITIES entry."""
     name    = act.get("name", slug)
@@ -9255,6 +9410,12 @@ def build_activity_listing_page(act, slug):
     desc_block = ('<p class="text-gray-700 leading-relaxed text-base mb-8">'
                   + html_lib.escape(desc) + '</p>') if desc else ""
 
+    _tt = _ttd_parts(slug, "activity")
+    if _tt:
+        website_btn = _tt["side"]          # replaces the single external "Find Operators" link
+        if _tt["intro"]:
+            desc_block = _tt["intro"]
+
     import json as _json
     act_ld = {
         "@context": "https://schema.org", "@type": "TouristAttraction",
@@ -9264,7 +9425,9 @@ def build_activity_listing_page(act, slug):
         "geo": {"@type": "GeoCoordinates", "addressCountry": "SR"},
     }
     if og_img != SITE_URL + "/og-image.jpg": act_ld["image"] = og_img
-    if ext_url: act_ld["sameAs"] = ext_url
+    if _tt:
+        if _tt["same_as"]: act_ld["sameAs"] = _tt["same_as"]
+    elif ext_url: act_ld["sameAs"] = ext_url
 
     act_breadcrumb = {
         "@context": "https://schema.org", "@type": "BreadcrumbList",
@@ -9320,6 +9483,7 @@ def build_activity_listing_page(act, slug):
         '\n  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">'
         '\n    <div class="lg:col-span-2">'
         '\n      ' + desc_block +
+        '\n      ' + (_tt["body"] if _tt else "") +
         '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>'
         '\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">'
         '\n        <iframe src="' + maps_embed + '" width="100%" height="100%"'
@@ -9337,6 +9501,7 @@ def build_activity_listing_page(act, slug):
         '\n          ' + website_btn +
         '\n          ' + directions_btn +
         '\n          ' + _share_button(page_url, name) +
+        (_tt["foot"] if _tt else "") +
         '\n        </div>'
         '\n      </div>'
         '\n    </div>'
@@ -9404,6 +9569,12 @@ def build_nature_listing_page(spot, slug):
                     + html_lib.escape(desc) + '</p>') if desc else ""
     tags_section = ('<div class="flex flex-wrap gap-1 mb-8">' + tags_html + '</div>') if tags_html else ""
 
+    _tt = _ttd_parts(slug, "nature")
+    if _tt:
+        website_btn = _tt["side"]          # official site / Facebook / tours instead of a Wikipedia "Learn More"
+        if _tt["intro"]:
+            desc_block = _tt["intro"]
+
     import json as _json
     nat_ld = {
         "@context":    "https://schema.org",
@@ -9419,7 +9590,10 @@ def build_nature_listing_page(spot, slug):
         nat_ld["additionalProperty"] = {"@type": "PropertyValue", "name": "Fact", "value": fact}
     if og_img != SITE_URL + "/og-image.jpg":
         nat_ld["image"] = og_img
-    if ext_url:
+    if _tt:
+        if _tt["same_as"]:
+            nat_ld["sameAs"] = _tt["same_as"]
+    elif ext_url:
         nat_ld["sameAs"] = ext_url
 
     nat_breadcrumb = {
@@ -9484,12 +9658,14 @@ def build_nature_listing_page(spot, slug):
         + desc_block
         + '\n      ' + fact_block
         + '\n      ' + tags_section
+        + '\n      ' + (_tt["body"] if _tt else "")
         + '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">\n        <iframe src="'
         + maps_embed
         + '" width="100%" height="100%"\n          style="border:0" allowfullscreen="" loading="lazy"\n          referrerpolicy="no-referrer-when-downgrade"></iframe>\n      </div>\n      <p class="text-gray-400 text-xs text-center mb-8">\n        Map data &copy; Google. Click the map to see locations, reviews &amp; directions.\n      </p>\n    </div>\n    <div class="lg:col-span-1">\n      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">\n        <h2 class="text-base font-bold text-gray-900 mb-4">Plan Your Visit</h2>\n        <div class="mt-2">\n          '
         + website_btn
         + '\n          ' + directions_btn
         + '\n          ' + _share_button(page_url, name)
+        + (_tt["foot"] if _tt else "")
         + '\n        </div>\n      </div>\n    </div>\n  </div>\n</main>'
     )
 
