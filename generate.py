@@ -8600,7 +8600,7 @@ _SEO_TYPE_LABEL = {
 }
 
 
-def _share_button(page_url, title, tile=False):
+def _share_button(page_url, title, link=False):
     """Share control for a listing page.
 
     Mobile gets the OS share sheet (WhatsApp sits at the top of it in Suriname);
@@ -8624,8 +8624,9 @@ def _share_button(page_url, title, tile=False):
         ' data-share-title="' + html_lib.escape(title, quote=True) + '"'
         ' data-share-wa="' + html_lib.escape(wa, quote=True) + '"'
     )
-    if tile:
-        ctrl = attrs + ' class="la-tile"><span class="la-ic">' + svg + '</span><span>Share</span></button>'
+    if link:
+        ctrl = (attrs + ' class="la-share">' + svg.replace('width="18" height="18"', 'width="16" height="16"')
+                + '<span>Share this place</span></button>')
     else:
         ctrl = (attrs + ' class="flex items-center justify-center gap-2 w-full py-3 rounded-xl'
                 ' text-sm font-semibold border-2 hover:bg-gray-50 transition mb-3"'
@@ -8667,11 +8668,11 @@ def _wa_number(phone):
 
 
 
-# ── Listing action buttons (Oct 2026 redesign, "Option A") ─────────────────
-# One main button (WhatsApp > website > directions), at most one slim
-# secondary button (the website when WhatsApp is the main one) and a row of
-# up to four icon tiles (Call, Directions, Facebook, Share). Styles are plain
-# CSS (tailwind.css is precompiled, new utility classes would not exist).
+# ── Listing contact card (Oct 2026 redesign, Yelp-style action rows) ──────
+# One main button (WhatsApp, else the website), then every fact shown once as
+# a row that acts where it sits: the address row opens directions, the phone
+# row dials, the website / Facebook rows open. Monochrome line icons only.
+# Styles are plain CSS (tailwind.css is precompiled, new utilities don't exist).
 _LA_SVG = {
     "wa": ('<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">'
            '<path d="M12 2a9.9 9.9 0 0 0-8.5 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 '
@@ -8699,62 +8700,71 @@ _LA_SVG["share"] = _la_line('<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12
                             '<path d="M8.6 10.5l6.8-4M15.4 17.5l-6.8-4"/>')
 _LA_SVG["out"]   = _la_line('<path d="M7 17 17 7M7 7h10v10"/>', 14)
 
+
+_LA_SVG["pin"]   = _la_line('<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>')
+_LA_SVG["mail"]  = _la_line('<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>')
+_LA_SVG["clock"] = _la_line('<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>')
+_LA_SVG["tag"]   = _la_line('<path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 '
+                            '3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1.5"/>')
+_LA_SVG["cash"]  = _la_line('<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/>'
+                            '<path d="M6 12h.01M18 12h.01"/>')
+
 _LA_CSS = (
     '<style>'
-    '.la-pri{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px 16px;'
-    'border-radius:14px;font-weight:600;font-size:15px;line-height:1.2;color:#fff;text-decoration:none;'
-    'transition:transform .12s,box-shadow .12s,filter .12s}'
-    '.la-pri:hover{transform:translateY(-1px);filter:brightness(1.04)}'
-    '.la-pri:active{transform:translateY(1px);box-shadow:none}'
-    '.la-wa{background:#25D366;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 6px 16px -6px rgba(37,211,102,.55)}'
-    '.la-web{background:var(--forest,#1B4332);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 6px 16px -6px rgba(27,67,50,.55)}'
-    '.la-out{opacity:.7}'
-    '.la-sec{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:8px;padding:10px 12px;'
-    'border-radius:12px;border:1px solid var(--line,#EBE0CB);background:#fff;color:var(--forest,#1B4332);'
-    'font-weight:600;font-size:14px;line-height:1.2;text-decoration:none;transition:background .15s}'
-    '.la-sec:hover{background:var(--mint,#E1F0DD)}'
-    '.la-tiles{display:grid;gap:6px;margin-top:12px}'
-    '.la-tile{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;padding:11px 2px 9px;'
-    'border-radius:14px;background:#F6F1E4;border:1px solid var(--line,#EBE0CB);color:var(--forest,#1B4332);'
-    'font-family:inherit;font-size:11.5px;font-weight:600;line-height:1.2;letter-spacing:-.01em;'
-    'text-align:center;text-decoration:none;cursor:pointer;'
-    'transition:background .15s,border-color .15s}'
-    '.la-tile:hover{background:var(--mint,#E1F0DD);border-color:#CFE4C8}'
-    '.la-ic{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#fff;'
-    'box-shadow:0 1px 2px rgba(0,0,0,.06)}'
-    '.la-fb .la-ic{color:#1877F2}'
-    '.la-one .la-tile{flex-direction:row;justify-content:center;gap:8px;padding:7px 12px;font-size:14px}'
-    '.la-one .la-ic{width:30px;height:30px}'
-    '.la-pri:focus-visible,.la-sec:focus-visible,.la-tile:focus-visible{outline:2px solid var(--forest2,#2D6A4F);outline-offset:2px}'
+    '.la-cta{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:12px 14px;'
+    'border-radius:12px;font-weight:600;font-size:15px;line-height:1.2;color:#fff;text-decoration:none;'
+    'transition:filter .15s}'
+    '.la-cta:hover{filter:brightness(.95)}'
+    '.la-wa{background:#25D366}.la-web{background:var(--forest,#1B4332)}'
+    '.la-cta+.lr-list{margin-top:6px}'
+    '.lr{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #F1EBDD;'
+    'font-size:14px;color:#3a423c;text-decoration:none}'
+    '.lr-list>.lr:last-child{border-bottom:0}'
+    '.lr-i{flex:none;display:flex;color:var(--forest2,#2D6A4F)}'
+    '.lr-fb .lr-i{color:#1877F2}'
+    '.lr-v{flex:1;min-width:0;line-height:1.4;overflow-wrap:anywhere}'
+    '.lr-lk{color:var(--forest2,#2D6A4F);font-weight:600}'
+    'a.lr:hover .lr-v{text-decoration:underline}'
+    '.lr-a{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;'
+    'border:1px solid var(--line,#EBE0CB);color:var(--forest2,#2D6A4F);transition:background .15s,border-color .15s}'
+    'a.lr:hover .lr-a{background:var(--mint,#E1F0DD);border-color:#CFE4C8}'
+    '.la-foot{display:flex;justify-content:center;margin-top:10px}'
+    '.la-share{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border:0;border-radius:8px;'
+    'background:none;font-family:inherit;font-size:13.5px;font-weight:600;color:var(--forest2,#2D6A4F);cursor:pointer}'
+    '.la-share:hover{background:var(--mint,#E1F0DD)}'
+    '.la-cta:focus-visible,.lr:focus-visible,.la-share:focus-visible{outline:2px solid var(--forest2,#2D6A4F);outline-offset:2px}'
     '</style>'
 )
 
 
-def _la_primary(href, icon, label, kind="wa", out=False):
-    return ('<a href="' + html_lib.escape(href) + '" target="_blank" rel="noopener" class="la-pri la-' + kind + '">'
-            + _LA_SVG[icon] + '<span>' + label + '</span>'
-            + ('<span class="la-out">' + _LA_SVG["out"] + '</span>' if out else '') + '</a>')
+def _la_cta(href, icon, label, kind="wa"):
+    return ('<a href="' + html_lib.escape(href) + '" target="_blank" rel="noopener" class="la-cta la-' + kind + '">'
+            + _LA_SVG[icon] + '<span>' + label + '</span></a>')
 
 
-def _la_secondary(href, icon, label):
-    return ('<a href="' + html_lib.escape(href) + '" target="_blank" rel="noopener" class="la-sec">'
-            + _LA_SVG[icon] + '<span>' + label + '</span><span class="la-out">' + _LA_SVG["out"] + '</span></a>')
-
-
-def _la_tile(href, icon, label, cls="", newtab=True):
+def _lr(icon, value_html, href=None, act=None, link=False, newtab=True, aria=None, cls=""):
+    """One contact row. With href the whole row is the link; act adds the round
+    action icon on the right (decorative: the row itself carries the label)."""
+    inner = ('<span class="lr-i">' + _LA_SVG[icon] + '</span>'
+             '<span class="lr-v' + (' lr-lk' if link else '') + '">' + value_html + '</span>'
+             + ('<span class="lr-a" aria-hidden="true">' + _LA_SVG[act] + '</span>' if act else ''))
+    klass = 'lr' + (' ' + cls if cls else '')
+    if not href:
+        return '<div class="' + klass + '">' + inner + '</div>'
     return ('<a href="' + html_lib.escape(href) + '"' + (' target="_blank" rel="noopener"' if newtab else '')
-            + ' class="la-tile' + (' ' + cls if cls else '') + '"><span class="la-ic">' + _LA_SVG[icon]
-            + '</span><span>' + label + '</span></a>')
+            + (' aria-label="' + html_lib.escape(aria, quote=True) + '"' if aria else '')
+            + ' class="' + klass + '">' + inner + '</a>')
 
 
-def _la_tiles(tiles):
-    tiles = [t for t in tiles if t]
-    if not tiles:
-        return ""
-    # A lone tile would stretch into a big empty box: lay it out as one row instead.
-    return ('<div class="la-tiles' + (' la-one' if len(tiles) == 1 else '') + '" '
-            'style="grid-template-columns:repeat(' + str(len(tiles)) + ',minmax(0,1fr))">'
-            + "".join(tiles) + '</div>')
+def _la_domain(url):
+    d = re.sub(r"^https?://", "", (url or "").strip(), flags=re.I)
+    d = re.sub(r"^www\.", "", d, flags=re.I)
+    return d.split("?")[0].split("#")[0].rstrip("/")
+
+
+def _la_list(rows):
+    rows = [r for r in rows if r]
+    return '<div class="lr-list">' + "".join(rows) + '</div>' if rows else ""
 
 
 def _la_call_href(phone):
@@ -8817,32 +8827,26 @@ def _chain_block(brand):
                      (' dist-chip-active' if i == 0 else '') +
                      '" onclick="return esrBranch(' + str(i) + ',this)">' + label + '</a>')
 
-        rows = row("📍", html_lib.escape(m["address"] or (m["area"] + ", Suriname")))
+        _dl   = _dir_link(m["maps_link"])
+        _call = _la_call_href(m["phone"])
+        wa    = _wa_number(m["phone"])
+        _addr = m["address"] or (m["area"] + ", Suriname")
+        _rows = [_lr("pin", html_lib.escape(_addr), _dl, "nav", aria="Directions to " + _addr)]
         if m["phone"]:
-            rows += row("📞", '<a href="tel:' + _tel_href(m["phone"]) +
-                        '" class="hover:underline" style="color:var(--forest2)">' +
-                        html_lib.escape(m["phone"]) + '</a>')
+            _rows.append(_lr("phone", html_lib.escape(m["phone"]), ("tel:" + _call) if _call else None,
+                             "phone" if _call else None, link=True, newtab=False))
         if m["hours"]:
             _h = (html_lib.escape(m["hours"]).replace("Mo", "Mon").replace("Tu", "Tue")
                   .replace("We", "Wed").replace("Th", "Thu").replace("Fr", "Fri")
                   .replace("Sa", "Sat").replace("Su", "Sun").replace("; ", "<br>"))
-            rows += row("🕐", _h)
-
-        _dl = _dir_link(m["maps_link"])
-        _call = _la_call_href(m["phone"])
-        wa = _wa_number(m["phone"])
-        if wa:
-            btns = (_la_primary("https://wa.me/" + wa, "wa", "Chat on WhatsApp", "wa")
-                    + _la_tiles([_la_tile("tel:" + _call, "phone", "Call", newtab=False) if _call else "",
-                                 _la_tile(_dl, "nav", "Directions")]))
-        else:
-            btns = (_la_primary(_dl, "nav", "Get Directions", "web")
-                    + _la_tiles([_la_tile("tel:" + _call, "phone", "Call", newtab=False) if _call else ""]))
+            _rows.append(_lr("clock", _h))
+        btns = ((_la_cta("https://wa.me/" + wa, "wa", "Chat on WhatsApp") if wa else "")
+                + _la_list(_rows))
         panels.append('<div class="branch-panel' + ('' if i == 0 else ' hidden') +
                       '" id="esr-bp-' + str(i) + '" data-map="' +
                       html_lib.escape(m["maps_embed"], quote=True) + '" data-name="' +
                       html_lib.escape(m["name"], quote=True) + '">' +
-                      rows + '<div class="mt-6">' + _LA_CSS + btns + '</div></div>')
+                      _LA_CSS + btns + '</div>')
 
     script = ('<script>function esrBranch(i,btn){'
               'var c=document.querySelectorAll(".branch-chip");'
@@ -9051,59 +9055,48 @@ def build_listing_page(slug, b):
             '</div>'
         )
 
-    rows = ""
-    if address:
-        rows += row("📍", html_lib.escape(address))
-    if phone:
-        _tel = _tel_href(phone)  # RFC 3966: international tel: href, display stays formatted
-        rows += row("📞", '<a href="tel:' + _tel + '" class="hover:underline" '
-                    'style="color:var(--forest2)">' + html_lib.escape(phone) + '</a>')
-    # Aug 15 2026 audit: the email field sometimes holds a URL (28 listings did,
-    # two with fbclid tracking strings). Rendering those as mailto: produced a
-    # dead link, so anything without an @ and a dot is dropped rather than shown.
-    if email and re.fullmatch(r"[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}", email.strip()):
-        rows += row("✉️", '<a href="mailto:' + html_lib.escape(email) + '" class="hover:underline" '
-                    'style="color:var(--forest2)">' + html_lib.escape(email) + '</a>')
-    _cat_label = category or _SEO_TYPE_LABEL.get(_subcat(slug), "")
-    if _cat_label:
-        rows += row("🏷️", html_lib.escape(_cat_label))
-    if hours:
-        # Format hours for display: "Mo-Fr 09:00-17:00; Sa 10:00-14:00" → lines
-        hours_display = html_lib.escape(hours).replace("; ", "<br>")
-        rows += row("🕐", hours_display)
-    if osm_price:
-        rows += row("💰", html_lib.escape(osm_price))
-
-    # ── Action buttons (Oct 2026 redesign): see _la_primary/_la_tiles ────────
+    # ── Contact card (Oct 2026 redesign): one main button + action rows ──────
     _has_web = bool(ext_url and "google.com/search" not in ext_url)
     _dir_url = _dir_link(maps_link)
     _call    = _la_call_href(phone)
     _wa      = _wa_number(phone)
     fb_url   = b.get("facebook") or _fb_url(_BIZ.get(slug, {}))
 
-    la_primary, la_secondary, la_tiles = "", "", []
-    if _chain:
-        # Hub: every branch panel has its own WhatsApp / Call / Directions, so
-        # the brand-level block only carries the website, Facebook and Share.
-        if _has_web:
-            la_secondary = _la_secondary(ext_url, "globe", "Visit Website")
-        if fb_url:
-            la_tiles.append(_la_tile(fb_url, "fb", "Facebook", "la-fb"))
-    else:
+    la_cta = ""
+    if not _chain:
         if _wa:
-            la_primary = _la_primary("https://wa.me/" + _wa, "wa", "Chat on WhatsApp", "wa")
-            if _has_web:
-                la_secondary = _la_secondary(ext_url, "globe", "Visit Website")
+            la_cta = _la_cta("https://wa.me/" + _wa, "wa", "Chat on WhatsApp")
         elif _has_web:
-            la_primary = _la_primary(ext_url, "globe", "Visit Website", "web", out=True)
-        else:
-            la_primary = _la_primary(_dir_url, "nav", "Get Directions", "web")
-        if _call:
-            la_tiles.append(_la_tile("tel:" + _call, "phone", "Call", newtab=False))
-        if _wa or _has_web:
-            la_tiles.append(_la_tile(_dir_url, "nav", "Directions"))
-        if fb_url:
-            la_tiles.append(_la_tile(fb_url, "fb", "Facebook", "la-fb"))
+            la_cta = _la_cta(ext_url, "globe", "Visit Website", "web")
+
+    la_rows = []
+    if _has_web and not (la_cta and not _wa):          # not when the website IS the main button
+        la_rows.append(_lr("globe", html_lib.escape(_la_domain(ext_url)), ext_url, "out", link=True,
+                           aria="Visit website " + _la_domain(ext_url)))
+    if not _chain:
+        _addr = address or (location + ", Suriname")
+        la_rows.append(_lr("pin", html_lib.escape(_addr), _dir_url, "nav", aria="Directions to " + _addr))
+        if phone:
+            la_rows.append(_lr("phone", html_lib.escape(phone), ("tel:" + _call) if _call else None,
+                               "phone" if _call else None, link=True, newtab=False))
+        # Aug 15 2026 audit: the email field sometimes holds a URL (28 listings did,
+        # two with fbclid tracking strings). Rendering those as mailto: produced a
+        # dead link, so anything without an @ and a dot is dropped rather than shown.
+        if email and re.fullmatch(r"[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}", email.strip()):
+            la_rows.append(_lr("mail", html_lib.escape(email.strip()), "mailto:" + email.strip(),
+                               link=True, newtab=False))
+    if fb_url:
+        la_rows.append(_lr("fb", "Facebook page", fb_url, "out", link=True, cls="lr-fb",
+                           aria="Facebook page (opens Facebook)"))
+    if not _chain:
+        if hours:
+            # Format hours for display: "Mo-Fr 09:00-17:00; Sa 10:00-14:00" → lines
+            la_rows.append(_lr("clock", html_lib.escape(hours).replace("; ", "<br>")))
+        _cat_label = category or _SEO_TYPE_LABEL.get(_subcat(slug), "")
+        if _cat_label:
+            la_rows.append(_lr("tag", html_lib.escape(_cat_label)))
+        if osm_price:
+            la_rows.append(_lr("cash", html_lib.escape(osm_price)))
 
     if _chain:
         if desc and any(m.lower() in desc.lower() for m in _hub_marks):
@@ -9246,8 +9239,9 @@ def build_listing_page(slug, b):
         '\n</div>'
     )
 
-    share_btn = _share_button(page_url, raw_name, tile=True)
-    la_html = _LA_CSS + la_primary + la_secondary + _la_tiles(la_tiles + [share_btn])
+    share_btn = _share_button(page_url, raw_name, link=True)
+    la_html = (_LA_CSS + la_cta + _la_list(la_rows)
+               + '<div class="la-foot">' + share_btn + '</div>')
 
     # A branch of a chain: point back at the hub that lists every address.
     # A branch page carries the same chip row as the hub, so the locations never
@@ -9268,7 +9262,7 @@ def build_listing_page(slug, b):
         info_title = ('\n        <h2 id="esr-info-title" class="text-base font-bold text-gray-900 mb-4">'
                       + html_lib.escape(_chain["first_name"]) + '</h2>')
         info_html = ('\n        ' + _chain["panels"] +
-                     '\n        <div class="mt-6">'
+                     '\n        <div class="mt-4">'
                      '\n          ' + la_html +
                      '\n        </div>' + _chain["script"])
     else:
@@ -9280,10 +9274,7 @@ def build_listing_page(slug, b):
                     '\n          referrerpolicy="no-referrer-when-downgrade"></iframe>'
                     '\n      </div>')
         info_title = '\n        <h2 class="text-base font-bold text-gray-900 mb-4">Contact &amp; Info</h2>'
-        info_html = ('\n        ' + rows +
-                     '\n        <div class="mt-6">'
-                     '\n          ' + la_html +
-                     '\n        </div>')
+        info_html = '\n        ' + la_html
 
     main = (
         '\n<main class="max-w-5xl mx-auto px-5 py-12 pb-24">'
