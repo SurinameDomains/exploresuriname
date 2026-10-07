@@ -110,7 +110,7 @@ if _jd_path.exists():
 # Admin panel: https://esr-admin.surinamedomains.workers.dev (Cloudflare Access).
 # Overrides win over JSON; applied before anything reads _BIZ. Build never fails
 # on backend trouble — it just ships without overrides.
-_OVR_FIELDS = ("description", "website", "phone", "address")
+_OVR_FIELDS = ("description", "website", "phone", "address", "facebook")
 _OVR_URL = "https://esr-leaderboard.surinamedomains.workers.dev/overrides"
 _OVERRIDES: dict = {}
 try:
@@ -206,6 +206,17 @@ try:
           + (f" ({_sub_skipped} skipped)" if _sub_skipped else ""))
 except Exception as _err:
     print(f"  Warning: approved submissions unavailable — {_err}")
+
+# Admin-panel edits to SUBMITTED listings. The overrides pass above runs before
+# the submissions are injected, so on its own it never reached them (edits saved
+# in the Listings tab for a submitted listing were silently ignored). Same rule,
+# applied once more to submitted slugs only; repo listings were done above.
+for _sslug in [_x for _v in _SUB_BY_CAT.values() for _x in _v]:
+    _o = _OVERRIDES.get(_sslug)
+    if isinstance(_o, dict) and _sslug in _BIZ:
+        for _ok in _OVR_FIELDS:
+            if isinstance(_o.get(_ok), str):
+                _BIZ[_sslug][_ok] = _o[_ok].strip()
 
 # ── Approved public event submissions (Submit your event form) ────────────────
 # Anyone can propose an event at /submit-event.html. Nothing is published until
@@ -3895,7 +3906,7 @@ with open("data/admin_listings.json", "w", encoding="utf-8") as _al_f:
     json.dump([{"slug": _s, "name": _b.get("name", ""), "category": _b.get("category", ""),
                 "location": _b.get("location", ""), "description": _b.get("description", ""),
                 "website": _b.get("website", ""), "phone": _b.get("phone", ""),
-                "address": _b.get("address", "")}
+                "address": _b.get("address", ""), "facebook": _b.get("facebook", "")}
                for _s, _b in sorted(_BIZ.items())], _al_f, ensure_ascii=False)
 
 CME_FALLBACK = [
@@ -10738,6 +10749,52 @@ def build_events_page():
     _spot = (sorted(_spot_pool, key=_spot_score)[0] if _spot_pool
              else next((r for r in _conf if r[5].get("kind") not in ("weekly", "monthly")),
                        _conf[0] if _conf else None))
+
+    _auto_spot = _spot
+
+    # Admin pin (admin panel → Events → "Featured event"). Stored by the admin
+    # Worker as a listing_overrides row under the reserved key "_event-spotlight"
+    # ({"eid": ..., "until": "yyyy-mm-dd" or ""}), so it rides the /overrides feed
+    # the build already reads. A pin only applies while that event is on the page
+    # with a confirmed date and "until" has not passed; otherwise the automatic
+    # pick above stays. Nothing here can fail the build.
+    _pin_id, _pin_until = "", None
+    try:
+        _pin = _OVERRIDES.get("_event-spotlight") if isinstance(_OVERRIDES, dict) else None
+        if isinstance(_pin, dict):
+            _pin_id = str(_pin.get("eid") or "").strip()
+            if str(_pin.get("until") or "").strip():
+                _pin_until = _p(str(_pin["until"]).strip())
+    except Exception:
+        _pin_id, _pin_until = "", None
+    if _pin_id and (_pin_until is None or today <= _pin_until):
+        _pinned = next((r for r in _conf if r[5].get("id") == _pin_id), None)
+        if _pinned:
+            _spot = _pinned
+            print(f"  Events spotlight pinned from admin panel: {_pin_id}")
+        else:
+            print(f"  Events spotlight pin '{_pin_id}' not on the page, automatic pick used")
+
+    # Upcoming events for the admin panel's "Featured event" picker (public data,
+    # everything in it is already on events.html).
+    try:
+        _seen_ids = set()
+        _adm_ev = []
+        for _r in _conf:
+            _eid = _r[5].get("id") or ""
+            if not _eid or _eid in _seen_ids:
+                continue
+            _seen_ids.add(_eid)
+            _adm_ev.append({"id": _eid, "name": _r[5].get("name", ""),
+                            "start": _r[3].isoformat(), "end": _r[4].isoformat(),
+                            "label": _r[2], "kind": _r[5].get("kind", "fixed")})
+        with open("data/admin_events.json", "w", encoding="utf-8") as _ae_f:
+            _json.dump({"built": datetime.now(SR_TZ).isoformat(timespec="minutes"),
+                        "auto": (_auto_spot[5].get("id") if _auto_spot else ""),
+                        "current": (_spot[5].get("id") if _spot else ""),
+                        "events": _adm_ev}, _ae_f, ensure_ascii=False)
+    except Exception as _ae_err:
+        print(f"  Warning: could not write data/admin_events.json — {_ae_err}")
 
     # ── Spotlight ────────────────────────────────────────────────────────────
     spotlight = ""
@@ -18834,9 +18891,18 @@ __NAV__
 
     <div class="two">
       <div class="fld">
-        <label for="f-website">Website or social page</label>
-        <input type="text" id="f-website" name="website" maxlength="300" placeholder="www.example.sr">
+        <label for="f-website">Your website</label>
+        <input type="text" id="f-website" name="website" maxlength="300" placeholder="www.example.sr" autocomplete="url">
+        <div class="hint">Your own site only. Facebook goes in the next field.</div>
       </div>
+      <div class="fld">
+        <label for="f-facebook">Facebook page</label>
+        <input type="text" id="f-facebook" name="facebook" maxlength="300" placeholder="facebook.com/yourbusiness">
+        <div class="hint" id="fb-hint">Open your page in a browser and copy the address, for example facebook.com/yourbusiness.</div>
+      </div>
+    </div>
+
+    <div class="two">
       <div class="fld">
         <label for="f-email">Public email</label>
         <input type="email" id="f-email" name="email" maxlength="120">
@@ -18936,6 +19002,27 @@ __FOOTER__
 
   $("f-description").addEventListener("input", function(){ $("cnt").textContent = this.value.length; });
 
+  var FB_RE = /^(?:https?:\\/\\/)?(?:[a-z0-9-]+\\.)?(?:facebook\\.com|fb\\.com|fb\\.me)\\//i;
+  var FB_HINT = $("fb-hint").textContent;
+  function fbCheck(){
+    var v = $("f-facebook").value.trim(), h = $("fb-hint");
+    var share = FB_RE.test(v) && /\\/share\\//i.test(v);
+    h.textContent = share
+      ? "That is a share link, not the page itself. Open your page in a browser and copy the address from the top."
+      : FB_HINT;
+    h.style.color = share ? "#a9701f" : "";
+  }
+  $("f-facebook").addEventListener("input", fbCheck);
+  $("f-website").addEventListener("change", function(){
+    var v = this.value.trim();
+    if(FB_RE.test(v)){
+      if(!$("f-facebook").value.trim()) $("f-facebook").value = v;
+      this.value = "";
+      fbCheck();
+      say("We moved your Facebook link to the Facebook page field.");
+    }
+  });
+
   var drop = $("drop"), file = $("f-photo");
   drop.addEventListener("click", function(){ file.click() });
   drop.addEventListener("keydown", function(e){ if(e.key === "Enter" || e.key === " "){ e.preventDefault(); file.click(); } });
@@ -18968,6 +19055,10 @@ __FOOTER__
     if($("f-description").value.trim().length < 20) return say("Please describe the business in a sentence or two.", true);
     if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test($("f-contact_email").value.trim()))
       return say("Please enter your email so we can reach you.", true);
+    var web = $("f-website").value.trim(), fb = $("f-facebook").value.trim();
+    if(FB_RE.test(web)){ if(!fb) $("f-facebook").value = fb = web; $("f-website").value = ""; }
+    if(fb && !FB_RE.test(fb))
+      return say("The Facebook page field only takes a facebook.com link. Leave it empty if you have none.", true);
 
     var fd = new FormData(frm);
     fd.delete("photo");
@@ -18977,9 +19068,11 @@ __FOOTER__
     say("Sending...");
     try{
       var r = await fetch(API + "/submit", { method: "POST", body: fd });
-      var j = await r.json();
+      var j = null;
+      try{ j = await r.json(); }catch(_e){ j = null; }
       if(j && j.ok){ frm.hidden = true; $("done").hidden = false; window.scrollTo({top: 0, behavior: "smooth"}); return; }
-      say((j && j.err) || "Something went wrong. Please try again.", true);
+      say((j && j.err) || (r.status === 413 ? "That photo is too large. Please choose one under 5 MB."
+                           : "Something went wrong. Please try again."), true);
     }catch(err){
       say("We could not reach the server. Check your connection and try again.", true);
     }
