@@ -24,11 +24,11 @@
     "date": "2026-10-07"
   },
   "static:services.html": {
-    "hash": "926ac03c349eb9fdf32f2af9b8d0de56",
-    "date": "2026-10-07"
+    "hash": "e7a57953466111b4eceddcd7ab7d7824",
+    "date": "2026-10-08"
   },
   "static:currency.html": {
-    "hash": "2e3aa09f237e7fe6d61cf00fa1c8dc3c",
+    "hash": "aabf93f3ac5395124cd94e9cf3d04aa3",
     "date": "2026-10-08"
   },
   "static:flights.html": {
@@ -36,7 +36,7 @@
     "date": "2026-10-08"
   },
   "static:conditions.html": {
-    "hash": "2acb018406d788b2b108a7d92ce76fcd",
+    "hash": "f43a195425b325f296f78fc74cacb126",
     "date": "2026-10-08"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-08"
   },
   "static:news.html": {
-    "hash": "3e806fb77171c1300348e6efb7b4eab5",
+    "hash": "a5f110baf0ff6b22aa74168e7afd81ab",
     "date": "2026-10-08"
   },
   "static:about.html": {
@@ -3064,7 +3064,7 @@
     "date": "2026-10-07"
   },
   "static:atms.html": {
-    "hash": "baa7c015f2bda4de3e94ee8bad04beb4",
+    "hash": "99b67e7fdb6bb5e013c8a637615729f0",
     "date": "2026-10-08"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-07"
   },
   "static:oil-and-gas.html": {
-    "hash": "22da8334d615fedf2279a81441175927",
+    "hash": "5d5af0b661608ec5fe7631a33a2c98c2",
     "date": "2026-10-08"
   },
   "static:suriname-oil-blocks.html": {
@@ -3100,8 +3100,8 @@
     "date": "2026-10-07"
   },
   "static:submit-business.html": {
-    "hash": "97abb32f37811e553fc17152a4b45a75",
-    "date": "2026-10-07"
+    "hash": "4bd7e7c980bf9481c882bddfe543bf17",
+    "date": "2026-10-08"
   },
   "static:submit-event.html": {
     "hash": "726665c8caf0164d9420cc41041d2b27",
@@ -6748,11 +6748,11 @@
     "date": "2026-10-07"
   },
   "static:pricing-calculator": {
-    "hash": "987316cd1fa73574f1f26e131b7c9377",
+    "hash": "37b58589058cbaaa432811c9427cd749",
     "date": "2026-10-08"
   },
   "static:import-cost-calculator": {
-    "hash": "df320c2caf1ed928af210d9d3f7ccc78",
+    "hash": "27fdfc6550d3937e4e1c41134e6a4dcd",
     "date": "2026-10-08"
   },
   "static:invoice-generator": {
