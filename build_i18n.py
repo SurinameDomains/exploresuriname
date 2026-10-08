@@ -297,6 +297,35 @@ _TYPE_I18N = {
     "Veterinary & Livestock Supplies": ("dierenarts- & veebenodigdheden", "suministros veterinarios y ganaderos"),
     "Veterinary Clinic": ("dierenkliniek", "clínica veterinaria"),
 }
+# Oct 2026 grouped taxonomy (generate._SEO_TYPE_LABEL additions).
+_TYPE_I18N.update({
+    'Accountant': ('accountantskantoor', 'contable'),
+    'Airline & Aviation': ('luchtvaartmaatschappij', 'aerolínea y aviación'),
+    'Auto Parts Store': ('auto-onderdelenwinkel', 'tienda de repuestos'),
+    'Books & Office Supplies': ('boekhandel & kantoorartikelen', 'librería y papelería'),
+    'Building Materials': ('bouwmaterialen', 'materiales de construcción'),
+    'Meat & Fish Shop': ('slagerij & visboer', 'carnicería y pescadería'),
+    'Car Dealer': ('autodealer', 'concesionario de autos'),
+    'Construction Company': ('bouwbedrijf', 'empresa constructora'),
+    'Consultancy': ('adviesbureau', 'consultoría'),
+    'Dance & Music School': ('dans- & muziekschool', 'escuela de danza y música'),
+    'Design & Print': ('ontwerp & drukwerk', 'diseño e impresión'),
+    'Drinks & Liquor Store': ('drankenhandel & slijterij', 'tienda de bebidas y licores'),
+    'Garden & Pest Control': ('tuin & ongediertebestrijding', 'jardín y control de plagas'),
+    'IT Company': ('IT-bedrijf', 'empresa de TI'),
+    'Industrial Company': ('industriebedrijf', 'empresa industrial'),
+    'Media Company': ('mediabedrijf', 'empresa de medios'),
+    'Mining Company': ('mijnbouwbedrijf', 'empresa minera'),
+    'Notary & Law Firm': ('notariaat & advocatenkantoor', 'notaría y bufete'),
+    'Oil & Gas Company': ('olie- & gasbedrijf', 'empresa de petróleo y gas'),
+    'Repairs & Trades': ('reparatie & vakmensen', 'reparaciones y oficios'),
+    'Shipping & Logistics': ('verzending & logistiek', 'envíos y logística'),
+    'Sports & Outdoor Store': ('sport- & outdoorwinkel', 'tienda de deportes y aire libre'),
+    'Taxi & Car Rental': ('taxi & autoverhuur', 'taxi y alquiler de autos'),
+    'Toy & Gift Shop': ('speelgoed- & cadeauwinkel', 'juguetería y tienda de regalos'),
+    'Training Centre': ('opleidingscentrum', 'centro de formación'),
+    'Wholesaler & Importer': ('groothandel & importeur', 'mayorista e importador'),
+})
 _PLACES = ("Paramaribo|Para|Suriname|Wanica|Nickerie|Commewijne|Lelydorp|"
            "Saramacca|Marowijne|Brokopondo|Coronie|Sipaliwini|Moengo|Albina")
 _TITLE_RE = re.compile(r"(.{2,90}?)(?:, (" + "|".join(re.escape(k) for k in sorted(_TYPE_I18N, key=len, reverse=True))
@@ -356,6 +385,35 @@ _TYPE_ZH = {
     "Travel Agency": "旅行社", "Veterinary & Livestock Supplies": "兽医与畜牧用品",
     "Veterinary Clinic": "宠物医院",
 }
+# Oct 2026 grouped taxonomy (generate._SEO_TYPE_LABEL additions).
+_TYPE_ZH.update({
+    'Accountant': '会计师事务所',
+    'Airline & Aviation': '航空公司',
+    'Auto Parts Store': '汽车配件店',
+    'Books & Office Supplies': '图书与办公用品店',
+    'Building Materials': '建材',
+    'Meat & Fish Shop': '肉类与鱼类店',
+    'Car Dealer': '汽车经销商',
+    'Construction Company': '建筑公司',
+    'Consultancy': '咨询公司',
+    'Dance & Music School': '舞蹈与音乐学校',
+    'Design & Print': '设计与印刷',
+    'Drinks & Liquor Store': '饮料与酒类商店',
+    'Garden & Pest Control': '园艺与除虫',
+    'IT Company': 'IT公司',
+    'Industrial Company': '工业公司',
+    'Media Company': '媒体公司',
+    'Mining Company': '矿业公司',
+    'Notary & Law Firm': '公证与律师事务所',
+    'Oil & Gas Company': '石油天然气公司',
+    'Repairs & Trades': '维修与技工',
+    'Shipping & Logistics': '航运与物流',
+    'Sports & Outdoor Store': '运动户外用品店',
+    'Taxi & Car Rental': '出租车与租车',
+    'Toy & Gift Shop': '玩具与礼品店',
+    'Training Centre': '培训中心',
+    'Wholesaler & Importer': '批发商与进口商',
+})
 # French / Brazilian Portuguese type labels for listing titles (same keys as _TYPE_I18N).
 _TYPE_FP = {
     "Asian Restaurant": ("restaurant asiatique", "restaurante asiático"),
@@ -405,6 +463,35 @@ _TYPE_FP = {
     "Veterinary & Livestock Supplies": ("fournitures vétérinaires & d'élevage", "produtos veterinários & agropecuários"),
     "Veterinary Clinic": ("clinique vétérinaire", "clínica veterinária"),
 }
+# Oct 2026 grouped taxonomy (generate._SEO_TYPE_LABEL additions).
+_TYPE_FP.update({
+    'Accountant': ('cabinet comptable', 'escritório de contabilidade'),
+    'Airline & Aviation': ('compagnie aérienne', 'companhia aérea'),
+    'Auto Parts Store': ('magasin de pièces auto', 'loja de autopeças'),
+    'Books & Office Supplies': ('librairie et papeterie', 'livraria e papelaria'),
+    'Building Materials': ('matériaux de construction', 'materiais de construção'),
+    'Meat & Fish Shop': ('boucherie-poissonnerie', 'açougue e peixaria'),
+    'Car Dealer': ('concessionnaire automobile', 'concessionária'),
+    'Construction Company': ('entreprise de construction', 'construtora'),
+    'Consultancy': ('cabinet de conseil', 'consultoria'),
+    'Dance & Music School': ('école de danse et de musique', 'escola de dança e música'),
+    'Design & Print': ('design et impression', 'design e impressão'),
+    'Drinks & Liquor Store': ('caviste', 'loja de bebidas'),
+    'Garden & Pest Control': ('jardin et lutte antiparasitaire', 'jardim e dedetização'),
+    'IT Company': ('société informatique', 'empresa de TI'),
+    'Industrial Company': ('entreprise industrielle', 'empresa industrial'),
+    'Media Company': ('entreprise de médias', 'empresa de mídia'),
+    'Mining Company': ('société minière', 'mineradora'),
+    'Notary & Law Firm': ("notaire et cabinet d'avocats", 'cartório e escritório de advocacia'),
+    'Oil & Gas Company': ('société pétrolière et gazière', 'empresa de petróleo e gás'),
+    'Repairs & Trades': ('réparations et artisans', 'reparos e serviços técnicos'),
+    'Shipping & Logistics': ('transport et logistique', 'transporte e logística'),
+    'Sports & Outdoor Store': ('magasin de sport et plein air', 'loja de esportes e ar livre'),
+    'Taxi & Car Rental': ('taxi et location de voitures', 'táxi e aluguel de carros'),
+    'Toy & Gift Shop': ('magasin de jouets et cadeaux', 'loja de brinquedos e presentes'),
+    'Training Centre': ('centre de formation', 'centro de treinamento'),
+    'Wholesaler & Importer': ('grossiste et importateur', 'atacadista e importador'),
+})
 
 
 def _fp_in(place: str, lang: str) -> str:

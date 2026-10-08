@@ -2978,13 +2978,504 @@ _BATCH_SUBCAT.update({
     "owru-cul-sport-complex": "entertainment",   # concert/event venue, stays in Things to Do
 })
 
+# ── Grouped-taxonomy re-sort (Oct 2026) ─────────────────────────────────────
+# Every Services/Shopping listing reviewed against the new types (review CSV:
+# subcat-resort-oct2026.csv). Wins over the keyword rules below; for approved
+# submissions it only replaces a reviewer pick of "other" or a retired key.
+_RESORT_SUBCAT = {
+    # service
+    "acm-financial-services": "accounting-tax",
+    "angelo-services-suriname": "accounting-tax",
+    "bdo-suriname": "accounting-tax",
+    "ey": "accounting-tax",
+    "grant-thornton-suriname": "accounting-tax",
+    "kgl-tax-legal": "accounting-tax",
+    "palulu-financial-outsourcing-services": "accounting-tax",
+    "reliant-corporate-finance-and-accountancy-rcfa": "accounting-tax",
+    "sewgobind-administraties-consultancy": "accounting-tax",
+    "shyamnarain-associates": "accounting-tax",
+    "t-h-groep-accountants-belastingadviseurs": "accounting-tax",
+    "tjong-a-hung-accountants-consultants": "accounting-tax",
+    "vj-partners": "accounting-tax",
+    "blue-wing-airlines": "airlines-aviation",
+    "caribbean-airlines": "airlines-aviation",
+    "copa-airlines": "airlines-aviation",
+    "fly-allways": "airlines-aviation",
+    "gum-air": "airlines-aviation",
+    "klm-royal-dutch-airlines": "airlines-aviation",
+    "maf-suriname": "airlines-aviation",
+    "midas-aviation-services-suriname-nv": "airlines-aviation",
+    "nv-luchthavenbeheer-airport-management-ltd": "airlines-aviation",
+    "pegasus-air-services": "airlines-aviation",
+    "surinam-airways": "airlines-aviation",
+    "united-aviation-services-nv": "airlines-aviation",
+    "academie-voor-hoger-kunst-en-cultuuronderwijs-ahkco": "arts-dance-music",
+    "afriki": "arts-dance-music",
+    "balletschool-charlotte-sprangers": "arts-dance-music",
+    "balletschool-marlene": "arts-dance-music",
+    "codanco": "arts-dance-music",
+    "conservatorium-suriname": "arts-dance-music",
+    "dance-devotion-sr": "arts-dance-music",
+    "dance-school-scvu-dance-in-rhythm": "arts-dance-music",
+    "dansclub-danzson": "arts-dance-music",
+    "dansschool-ti22": "arts-dance-music",
+    "fe-van-der-jagt-nv": "automotive",
+    "meindertsma-suriname-nv": "automotive",
+    "vir-equipment-nv": "automotive",
+    "clarissa-vaseur-writing-wellness-services-claw": "beauty-wellness",
+    "mokisa-wellness": "beauty-wellness",
+    "touch-of-heaven-wellness": "beauty-wellness",
+    "baitali-group": "construction-trades",
+    "geo-survey-nv": "construction-trades",
+    "shapoorji-pallonji-group": "construction-trades",
+    "total-surveying": "construction-trades",
+    "aatrios-management-consultancy-bv": "consulting-hr",
+    "actioninvest-caribbean-inc": "consulting-hr",
+    "bergh-bedrijven-nv": "consulting-hr",
+    "brunel-suriname-nv": "consulting-hr",
+    "buro-workspaces": "consulting-hr",
+    "callfactory": "consulting-hr",
+    "centradesur-nv": "consulting-hr",
+    "ckc-corporate-facilities-nv": "consulting-hr",
+    "custom-connect-suriname": "consulting-hr",
+    "duttenhofer-outsourcing-company-nv": "consulting-hr",
+    "eas-creative-group-ltd": "consulting-hr",
+    "ec-operations": "consulting-hr",
+    "etb-suriname": "consulting-hr",
+    "gideon-advisory-services-nv": "consulting-hr",
+    "hcms-nv": "consulting-hr",
+    "hscs-suriname": "consulting-hr",
+    "humus-recruitment-nv": "consulting-hr",
+    "itis-nv": "consulting-hr",
+    "jaconsultancy": "consulting-hr",
+    "jobcon-agency-nv": "consulting-hr",
+    "jobpower-group-n-v": "consulting-hr",
+    "nogosari": "consulting-hr",
+    "norsou-360-corp": "consulting-hr",
+    "nv-global-online-moderators": "consulting-hr",
+    "nv-threefold-quality-system-support": "consulting-hr",
+    "ondernemershuis": "consulting-hr",
+    "phenox-consultants": "consulting-hr",
+    "procallcenter-suriname": "consulting-hr",
+    "richpay-online-moderators": "consulting-hr",
+    "strongbow-offshore-services": "consulting-hr",
+    "suriname-energy-chamber": "consulting-hr",
+    "suriname-guyana-chamber-of-commerce": "consulting-hr",
+    "teleperformance-suriname": "consulting-hr",
+    "the-freelance-scout": "consulting-hr",
+    "tolzo-suriname": "consulting-hr",
+    "upgrade-business-support-nv": "consulting-hr",
+    "wengage-suriname": "consulting-hr",
+    "aabece-graphics-signs": "design-print",
+    "ace-designs-more-nv": "design-print",
+    "art-sabina-design-printing-nv": "design-print",
+    "branding-and-design": "design-print",
+    "brnds21-brand-growth-consultancy-suriname": "design-print",
+    "cmc-suriname": "design-print",
+    "djinipi-copy-center": "design-print",
+    "dorff-design": "design-print",
+    "eaglemedia": "design-print",
+    "ekay-media": "design-print",
+    "ineffable": "design-print",
+    "loyals-caribbean": "design-print",
+    "printwise-imprint-solutions": "design-print",
+    "rs-signs-prints": "design-print",
+    "sib-signs-designs": "design-print",
+    "ska-solution": "design-print",
+    "spang-makandra-nv": "design-print",
+    "stas-international": "design-print",
+    "kaizen": "entertainment",
+    "agrofix-nv": "garden-pest",
+    "eco-royal-garden": "garden-pest",
+    "suriname-pest-control": "garden-pest",
+    "bureau-openbare-gezondheidszorg": "health-pharmacy",
+    "faraya-medical-center": "health-pharmacy",
+    "rhythms-of-nature-ayurveda-wellness-center": "health-pharmacy",
+    "eskimo-koeltechnisch-bedrijf": "home-repairs",
+    "guguplex-technologies-sac": "home-repairs",
+    "marsol-nv": "home-repairs",
+    "newtech-rainville": "home-repairs",
+    "radiologie-kliniek-halfhide-hofwijk": "hospitals-clinics",
+    "accounting-management-software-nv": "it-software",
+    "adept-nv": "it-software",
+    "agile-allies-consultancy-nv": "it-software",
+    "ants-nv": "it-software",
+    "apptastic-nv": "it-software",
+    "bitdynamics": "it-software",
+    "bits-please-technologies": "it-software",
+    "blu-dots-technology": "it-software",
+    "briss-it-solutions": "it-software",
+    "business-data-solutions-nv": "it-software",
+    "celery-online-payroll-hrm": "it-software",
+    "consulytic-nv": "it-software",
+    "corestats-nv": "it-software",
+    "data-world": "it-software",
+    "datasur": "it-software",
+    "et-it-consultancy": "it-software",
+    "gissat": "it-software",
+    "gpssr": "it-software",
+    "haselhoef-md-solutions": "it-software",
+    "hdf-consulting-nv": "it-software",
+    "info2000": "it-software",
+    "integrated-computer-services-nv": "it-software",
+    "integrated-professional-services-nv": "it-software",
+    "itee-nv": "it-software",
+    "jps-consulting": "it-software",
+    "kernel-information-technology-nv": "it-software",
+    "leap-solutions": "it-software",
+    "misabi-testmanagement-nv": "it-software",
+    "namidi-nv": "it-software",
+    "nesotec-nv": "it-software",
+    "netlink-communications-nv": "it-software",
+    "nettech-nv": "it-software",
+    "nv-hashtag-it": "it-software",
+    "ox88-it-solutions": "it-software",
+    "pbs-group": "it-software",
+    "qualogy-caribbean-nv": "it-software",
+    "rekemo-international-suriname": "it-software",
+    "rpbg-nv": "it-software",
+    "simple-it-systems-nv": "it-software",
+    "solve-it": "it-software",
+    "stichting-probitas": "it-software",
+    "suriname-cloud-services": "it-software",
+    "suritech-nv": "it-software",
+    "technovate-nv": "it-software",
+    "typing-nomad-nv": "it-software",
+    "unibiz-tech-nv": "it-software",
+    "weblocher-nv": "it-software",
+    "arrex-group-nv": "manufacturing",
+    "cobo-holding-nv": "manufacturing",
+    "dennebos-suriname-nv": "manufacturing",
+    "esuverfa-nv": "manufacturing",
+    "fernandes-group": "manufacturing",
+    "indutec-systems-nv": "manufacturing",
+    "isotherm-suriname-nv": "manufacturing",
+    "kepler-group": "manufacturing",
+    "kersten-group": "manufacturing",
+    "metalock-suriname-nv": "manufacturing",
+    "nv-chemco": "manufacturing",
+    "nv-consolidated-industries-corporation-cic": "manufacturing",
+    "pricos-machineshop": "manufacturing",
+    "rbl-stroop": "manufacturing",
+    "rudisa": "manufacturing",
+    "soekhoe-zonen-houtzagerij-en-houthandel-nv": "manufacturing",
+    "surinam-plastics-manufacturing-nv": "manufacturing",
+    "vabi-nv": "manufacturing",
+    "varossieau-suriname": "manufacturing",
+    "vsh-united": "manufacturing",
+    "zenobia-bottling-company": "manufacturing",
+    "apintie": "media-broadcast",
+    "atv-suriname": "media-broadcast",
+    "parbode-magazine": "media-broadcast",
+    "rasonic": "media-broadcast",
+    "seen-stories": "media-broadcast",
+    "stvs": "media-broadcast",
+    "australian-laboratory-services-suriname-nv": "mining",
+    "geologisch-mijnbouwkundige-dienst-gmd": "mining",
+    "grassalco": "mining",
+    "minequip-suriname": "mining",
+    "mines-services-suriname-nv": "mining",
+    "newmont-suriname": "mining",
+    "suriname-bush-clearing-and-mining-nv": "mining",
+    "advocatenkantoor-tjong-a-sie": "notaries-legal",
+    "hbn-law-tax": "notaries-legal",
+    "kempes-co": "notaries-legal",
+    "marchand-notariaat": "notaries-legal",
+    "mns-notarissen": "notaries-legal",
+    "notariaat-alexander": "notaries-legal",
+    "notariaat-baidjoe": "notaries-legal",
+    "notariaat-bishoen": "notaries-legal",
+    "notariaat-blom-kanhai": "notaries-legal",
+    "notariaat-calor-gangaram-panday": "notaries-legal",
+    "notariaat-chin-a-lin-oord": "notaries-legal",
+    "notariaat-dollart-derby": "notaries-legal",
+    "notariaat-ferdinand": "notaries-legal",
+    "notariaat-huang": "notaries-legal",
+    "notariaat-jadnanansing": "notaries-legal",
+    "notariaat-kalisingh": "notaries-legal",
+    "notariaat-kemp": "notaries-legal",
+    "notariaat-kitty-a-derby": "notaries-legal",
+    "notariaat-mannes": "notaries-legal",
+    "notariaat-nannan-panday": "notaries-legal",
+    "notariaat-olff": "notaries-legal",
+    "notariaat-pancham": "notaries-legal",
+    "notariaat-ramautar-punwasi": "notaries-legal",
+    "notariaat-rnd-baldew": "notaries-legal",
+    "notariaat-sanrochman-badal": "notaries-legal",
+    "notariaat-seetal": "notaries-legal",
+    "notariaat-sewradj": "notaries-legal",
+    "notariaat-soerdjbali": "notaries-legal",
+    "notariaat-stekkel": "notaries-legal",
+    "notariaat-van-dijk": "notaries-legal",
+    "notary-jrk-vishnudatt": "notaries-legal",
+    "artemis-energy-suriname-nv": "oil-gas",
+    "baker-hughes": "oil-gas",
+    "bb-energy": "oil-gas",
+    "bgp-offshore": "oil-gas",
+    "cdwe-suriname": "oil-gas",
+    "cead-nv": "oil-gas",
+    "el-dorado-offshore": "oil-gas",
+    "emerald-oilfield-services": "oil-gas",
+    "energy-power-works-suriname": "oil-gas",
+    "exsol-industrial-nv": "oil-gas",
+    "gow2-energy": "oil-gas",
+    "intertek-international-nv": "oil-gas",
+    "kuldipsingh-oilfield-services-nv": "oil-gas",
+    "sadhna-petroleum-suriname-nv": "oil-gas",
+    "saipem": "oil-gas",
+    "sbm-offshore-suriname": "oil-gas",
+    "slb": "oil-gas",
+    "soglass": "oil-gas",
+    "sol-suriname": "oil-gas",
+    "sol-suriname-nv": "oil-gas",
+    "staatsolie": "oil-gas",
+    "totalenergies-ep-suriname-bv": "oil-gas",
+    "tucker-energy-services-limited": "oil-gas",
+    "father-mother-figure": "other",
+    "stichting-lodgeholders-boven-suriname": "other",
+    "stichting-upper-suriname-lodgeholders": "other",
+    "alphamax-academy": "schools",
+    "anton-de-kom-universiteit-van-suriname": "schools",
+    "arthur-alex-hoogendoorn-atheneum": "schools",
+    "christian-liberty-academy": "schools",
+    "de-cederboom-school": "schools",
+    "de-nederlandse-basisschool-het-kleurenorkest": "schools",
+    "de-vrije-school": "schools",
+    "fhr-lim-a-po-institute-for-higher-education": "schools",
+    "imit-suriname": "schools",
+    "international-academy-of-suriname": "schools",
+    "kangoeroe-community-school": "schools",
+    "kangoeroe-high": "schools",
+    "nassy-brouwer-college": "schools",
+    "nassy-brouwer-school": "schools",
+    "ptc-university-of-applied-sciences": "schools",
+    "qsi-international-school-of-suriname": "schools",
+    "the-caterpillar-montessorischool": "schools",
+    "unasat": "schools",
+    "krosbey-solutions-nv": "security",
+    "havenbeheer-suriname": "shipping-logistics",
+    "ramdat-import-agencies": "shipping-logistics",
+    "supply-solutions-limited-suriname": "shipping-logistics",
+    "surshipp": "shipping-logistics",
+    "afzal-transport": "taxi-car-rental",
+    "car-rental-city": "taxi-car-rental",
+    "corantijn-speedboat-service": "taxi-car-rental",
+    "dcars-rental": "taxi-car-rental",
+    "friendly-cab-suriname": "taxi-car-rental",
+    "garage-d-a-ashruf": "taxi-car-rental",
+    "garage-de-paarl": "taxi-car-rental",
+    "hertog-taxi-airport-shuttle-service": "taxi-car-rental",
+    "hertz-suriname-car-rental": "taxi-car-rental",
+    "ieshaan-taxi-services": "taxi-car-rental",
+    "mavis-taxi": "taxi-car-rental",
+    "nationaal-vervoer-bedrijf": "taxi-car-rental",
+    "ross-rental-cars": "taxi-car-rental",
+    "tourtonnes-taxi": "taxi-car-rental",
+    "zinnia-taxi": "taxi-car-rental",
+    "netwave-nv": "telecom-utilities",
+    "abc-opleiding-training-suriname-nv": "training-courses",
+    "alliance-francaise": "training-courses",
+    "callot-training-consultancy": "training-courses",
+    "creative-tech-hub-caribbean": "training-courses",
+    "efs-college-covab": "training-courses",
+    "heavy-construction-academy-suriname-nv": "training-courses",
+    "hencom-trai-nv": "training-courses",
+    "kersten-training-academy": "training-courses",
+    "leduc-business-academy-nv": "training-courses",
+    "lybra-training-coaching-consulting-nv": "training-courses",
+    "md-defence-shooting-academy": "training-courses",
+    "smart-suriname-business-academy": "training-courses",
+    "stichting-compuact-modulaire-opleidingen": "training-courses",
+    "stichting-ict-los": "training-courses",
+    "suriname-hospitality-and-tourism-training-centre-shttc": "training-courses",
+    "utec-opleidingen": "training-courses",
+    "vortex-aviation-academy": "training-courses",
+    "vreden-english-language-training-consultancy": "training-courses",
+    "young-engineers": "training-courses",
+    "augis-travel": "travel-agencies",
+    "celestial-tours-suriname": "travel-agencies",
+    "dli-travel-consultancy": "travel-agencies",
+    "intertravel": "travel-agencies",
+    "jack-tours-travel-service": "travel-agencies",
+    "krasnapolsky-travel-tours": "travel-agencies",
+    "multi-travel": "travel-agencies",
+    "packed-ready-travel": "travel-agencies",
+    "rasonic-travel": "travel-agencies",
+    "rudisa-worldwide-travel-n-v": "travel-agencies",
+    "satyam-holidays": "travel-agencies",
+    "unique-package-plan": "travel-agencies",
+    "waldos-worldwide-travel-service": "travel-agencies",
+    # shopping
+    "an-shun-international-nv": "auto-parts",
+    "auto-style-franchepanestraat": "auto-parts",
+    "automotive-art-suriname": "auto-parts",
+    "bhondoekhan-s-nv": "auto-parts",
+    "carline-centrum": "auto-parts",
+    "ez-motors": "auto-parts",
+    "highway-automotive-parts": "auto-parts",
+    "jf-tjoe-a-long-nv": "auto-parts",
+    "kokos-auto-parts-service": "auto-parts",
+    "kwatta-carfix": "auto-parts",
+    "mikes-autoparts-accessories-repair": "auto-parts",
+    "ming-kee-autoparts-accessories": "auto-parts",
+    "one-autoparts-store": "auto-parts",
+    "philipson-trading": "auto-parts",
+    "traverco-truck-tire-service-nv": "auto-parts",
+    "boekhandel-kasco": "books-office",
+    "boekhandel-vaco": "books-office",
+    "nv-devinas-enterprises": "books-office",
+    "nv-drukkerij-leo-victor": "books-office",
+    "nv-vsh-trading-canon": "books-office",
+    "office-world-hermitage-mall": "books-office",
+    "prodimex-international-inc": "books-office",
+    "sanousch-books": "books-office",
+    "building-depot": "building-materials",
+    "community-services-nv": "building-materials",
+    "ercon-trading-nv": "building-materials",
+    "handelmij-r-nanhoe-nv": "building-materials",
+    "nv-guimar": "building-materials",
+    "ronan-s-trading-nv": "building-materials",
+    "de-keurslager-interfarm": "butchers-meat",
+    "rossignol-coppename": "butchers-meat",
+    "slagerij-abbas": "butchers-meat",
+    "slagerij-asruf": "butchers-meat",
+    "slagerij-joems": "butchers-meat",
+    "slagerij-stolk": "butchers-meat",
+    "sranan-fowru": "butchers-meat",
+    "stedin-speciaal-slagerij": "butchers-meat",
+    "suriname-sea-catch-nv": "butchers-meat",
+    "topslager-stolk": "butchers-meat",
+    "vcm-slagerij-centrum": "butchers-meat",
+    "abs-carhouse": "car-dealers",
+    "adex-nv": "car-dealers",
+    "aks-car-center": "car-dealers",
+    "ans-car-imports": "car-dealers",
+    "autoradar-suriname": "car-dealers",
+    "bhaggoes-car-palace": "car-dealers",
+    "biharies-car-center-nv": "car-dealers",
+    "bmw-suriname": "car-dealers",
+    "bn-car-center": "car-dealers",
+    "brvehicles-nv": "car-dealers",
+    "byd-suriname": "car-dealers",
+    "car-choice": "car-dealers",
+    "carbiz": "car-dealers",
+    "cars4you": "car-dealers",
+    "carvision-paramaribo": "car-dealers",
+    "chm-automotive": "car-dealers",
+    "cm-japan-car-sales": "car-dealers",
+    "combe-car-center-parts": "car-dealers",
+    "compagroup-nv": "car-dealers",
+    "datais-car-center": "car-dealers",
+    "datsun-suriname-nv": "car-dealers",
+    "empire-motors-nv": "car-dealers",
+    "foton-suriname": "car-dealers",
+    "golden-exotic-cars-nv": "car-dealers",
+    "hj-motors": "car-dealers",
+    "hummys-import-ace-cars-sales": "car-dealers",
+    "innovative-driven-nv": "car-dealers",
+    "japan-motors": "car-dealers",
+    "kersten-motors-nv": "car-dealers",
+    "lnr-imports": "car-dealers",
+    "luxatic-motors": "car-dealers",
+    "mn-car-center": "car-dealers",
+    "nakaso-auto-parts-sales": "car-dealers",
+    "nishika-enterprise-nv": "car-dealers",
+    "perfect-cars": "car-dealers",
+    "platinum-quality-cars-nv": "car-dealers",
+    "powerful-automotive": "car-dealers",
+    "pristine-car-nv": "car-dealers",
+    "ramasre-cars-parts": "car-dealers",
+    "ramcharans-car-center": "car-dealers",
+    "ramons-car-center": "car-dealers",
+    "rezaam-car-sales": "car-dealers",
+    "rock-cars": "car-dealers",
+    "sbt-suriname": "car-dealers",
+    "schols-imports": "car-dealers",
+    "semc-motors-nv": "car-dealers",
+    "tohora-automotive-nv": "car-dealers",
+    "vrv-imports": "car-dealers",
+    "yokohama-trading": "car-dealers",
+    "cynsational-glam": "crafts-souvenirs",
+    "the-uma-store": "crafts-souvenirs",
+    "carifruits-nv": "drinks-liquor",
+    "dj-liquor-store": "drinks-liquor",
+    "fernandes-bottling-company-nv": "drinks-liquor",
+    "freshly-squeezed-juice": "drinks-liquor",
+    "suri-juice-nv": "drinks-liquor",
+    "surinaamse-brouwerij-nv": "drinks-liquor",
+    "suriname-alcoholic-beverages": "drinks-liquor",
+    "united-slijterij": "drinks-liquor",
+    "ditra-international-nv": "electronics",
+    "valconx": "electronics",
+    "jaggernath-group-of-companies": "food-specialty",
+    "royal-tobacco-company-nv": "food-specialty",
+    "soengngie-oriental-market": "food-specialty",
+    "store4u": "malls-markets",
+    "fish-finder-fishing-and-outdoors": "sports-outdoors",
+    "tomahawk-outdoor-adventures": "sports-outdoors",
+    "topsport": "sports-outdoors",
+    "from-me-to-me": "toys-gifts",
+    "galaxy": "toys-gifts",
+    "luni-gifts": "toys-gifts",
+    "miniso-gompertstraat": "toys-gifts",
+    "pandie": "toys-gifts",
+    "sweetheart-hermitage-mall": "toys-gifts",
+    "the-old-attic": "toys-gifts",
+    "toys-n-more": "toys-gifts",
+    "landbouw-cooperatie-kwatta-en-omstreken": "vet-livestock",
+    "amazone-international-nv": "wholesale-import",
+    "araxs-impex-nv": "wholesale-import",
+    "bdt-import-and-export-nv": "wholesale-import",
+    "da-zhong-trading": "wholesale-import",
+    "deto-handelmaatschappij": "wholesale-import",
+    "hem-suriname-nv": "wholesale-import",
+}
+# Second review pass (8 Oct 2026): every low/medium-confidence pick re-checked
+# against the full description and, where unclear, the company's own site.
+_RESORT_SUBCAT.update({
+    # Heavy-equipment / forestry machine dealers: industrial, not car dealers
+    "ckc-machinehandel-surmac-nv": "manufacturing", "meindertsma-suriname-nv": "manufacturing",
+    "vir-equipment-nv": "manufacturing", "fe-van-der-jagt-nv": "manufacturing",
+    "energy-power-works-suriname": "manufacturing",   # industrial lubricants, like Arrex/Indutec
+    "dak-platen-fabriek-h-jadoenath-zonen": "construction-trades",   # roofing sheets, like Tong Li / XINLI
+    "kersten-group": "other",                   # diversified conglomerate (retail, health, auto...), not industrial
+    "kepler-group": "mining",                   # holding: mining, machinery, equipment rental
+    "krosbey-solutions-nv": "it-software",      # ICT security firm (krosbey.com)
+    "elgawa-nv": "home-repairs",                # installs AC, solar, generators, electrical
+    "gideon-advisory-services-nv": "accounting-tax",
+    "rhythms-of-nature-ayurveda-wellness-center": "beauty-wellness",   # like Ayur Mi / Mokisa
+    "stichting-probitas": "training-courses",
+    "clarissa-vaseur-writing-wellness-services-claw": "training-courses",
+    "intergeo": "construction-trades",          # surveyors, like Total Surveying / Geo Survey
+    "measuresolutions": "construction-trades",
+    "kaizen": "fitness-wellness",               # Kaizen Method gym (kaizenmethod.net), confirmed by AB
+})
+
+# Retired keys -> current type, for anything that still lands on one (keyword
+# rules below, an old D1 row). Category-specific retirements (Services
+# nursery-garden, Shopping automotive) are fixed per list after the lists are built.
+_LEGACY_SUBCAT = {
+    "legal-professional": "consulting-hr", "tech-media": "it-software",
+    "travel-transport": "travel-agencies", "education": "training-courses",
+    "industry-energy": "manufacturing",
+}
+
+
 def _subcat(slug, main_cat=""):
+    k = _subcat_raw(slug, main_cat)
+    return _LEGACY_SUBCAT.get(k, k)
+
+
+def _subcat_raw(slug, main_cat=""):
     s = slug.lower()
     # Public submissions carry a chip the reviewer picked in the admin panel. It is
     # checked first so a new submission that reuses a retired slug never inherits
     # that old listing's pinned chip.
-    if s in _SUB_SUBCAT:
+    if s in _SUB_SUBCAT and not (s in _RESORT_SUBCAT and
+                                 (_SUB_SUBCAT[s] == "other" or _SUB_SUBCAT[s] in _LEGACY_SUBCAT)):
         return _SUB_SUBCAT[s]
+    if s in _RESORT_SUBCAT:
+        return _RESORT_SUBCAT[s]
     if s in _BATCH_SUBCAT:
         return _BATCH_SUBCAT[s]
     # ── Disambiguation guards (run first): brands whose slug collides with a
@@ -3427,53 +3918,172 @@ SUBCATS = {
         ("eco-lodges",      "Eco & River Lodges","🌿"),
         ("other",           "Other",           "🔧"),
     ],
-    "shopping": [
-        ("all",           "All",              "🛍️"),
-        ("malls-markets", "Malls & Markets",  "🏬"),
-        ("supermarkets",  "Supermarkets",     "🛒"),
-        ("fashion-clothing","Fashion & Shoes","👗"),
-        ("electronics",   "Electronics",      "📱"),
-        ("home-furniture","Home & Furniture", "🛋️"),
-        ("food-specialty","Food & Specialty", "🥩"),
-        ("optical-jewelry","Optical & Jewelry","👓"),
-        ("automotive",    "Automotive",       "🚗"),
-        ("crafts-souvenirs","Crafts & Souvenirs","🎨"),
-        ("events-party",  "Events & Parties", "🎉"),
-        ("nursery-garden","Nursery & Garden",  "🌱"),
-        ("vet-livestock", "Veterinary & Livestock", "🐾"),
-        ("health-beauty", "Health & Beauty",    "🧴"),
-        ("building-materials","Building Materials","🧱"),
-        ("other",         "Other",             "🔧"),
-    ],
+    # Shopping + Services: built from _GROUPED_TAX below (groups -> types).
+}
+
+# ── Grouped taxonomy (Oct 2026) ─────────────────────────────────────────────
+# Services (600+) and Shopping (300+) had one flat strip of 15-25 chips. They
+# now filter in two steps: a group row, then that group's types. SUBCATS stays
+# the flat list every other consumer reads (form, labels, worker whitelists);
+# SUBCAT_GROUPS adds the grouping. Type KEYS are what the admin + submission
+# Workers validate, so a key is never renamed: retired keys stay in
+# _LEGACY_SUBCAT, which maps them to a current type.
+# Empty types and groups are hidden on the page automatically.
+_GROUPED_TAX = {
     "service": [
-        ("all",               "All",              "⚡"),
-        ("beauty-wellness",   "Beauty & Wellness","💄"),
-        ("fitness-wellness",  "Fitness",          "💪"),
-        ("health-pharmacy",   "Health & Pharmacy","💊"),
-        ("veterinary",        "Veterinary",       "🐾"),
-        ("banking",           "Banking",          "🏦"),
-        ("insurance",         "Insurance",        "🛡️"),
-        ("telecom-utilities", "Telecom & Utilities","📡"),
-        ("travel-transport",  "Travel & Transport","✈️"),
-        ("tours-expeditions",  "Tours & Expeditions","🧭"),
-        ("real-estate",       "Real Estate",      "🏠"),
-        ("education",         "Education",        "🎓"),
-        ("tech-media",        "Tech & Media",     "💻"),
-        ("cleaning-maintenance","Cleaning & Maintenance","🧹"),
-        ("automotive",        "Automotive",       "🚗"),
-        ("legal-professional","Legal & Professional","⚖️"),
-        ("events-party",      "Events & Parties", "🎉"),
-        ("entertainment",     "Entertainment",    "🎭"),
-        ("security",          "Security",         "🛡️"),
-        ("industry-energy",   "Industry & Energy","🏭"),
-        ("hospitals-clinics", "Hospitals & Clinics","🏥"),
-        ("nursery-garden",    "Nursery & Garden",  "🌱"),
-        ("construction-trades","Construction & Trades","🏗️"),
-        ("shipping-logistics","Shipping & Logistics","📦"),
-        ("agriculture",       "Agriculture",       "🌾"),
-        ("other",             "Other",             "🔧"),
+        ("g-beauty-health", "Beauty & Health", [
+            ("beauty-wellness",   "Beauty & Wellness",   "💄"),
+            ("fitness-wellness",  "Fitness & Sport",     "💪"),
+            ("health-pharmacy",   "Health & Pharmacy",   "💊"),
+            ("hospitals-clinics", "Hospitals & Clinics", "🏥"),
+            ("veterinary",        "Veterinary",          "🐾"),
+        ]),
+        ("g-home-property", "Home & Property", [
+            ("home-repairs",        "Repairs & Trades",          "🔧"),
+            ("construction-trades", "Construction & Engineering", "🏗️"),
+            ("cleaning-maintenance","Cleaning & Laundry",        "🧹"),
+            ("garden-pest",         "Garden & Pest Control",     "🌿"),
+            ("real-estate",         "Real Estate",               "🏠"),
+            ("security",            "Security & Safety",         "🛡️"),
+        ]),
+        ("g-money-legal", "Money & Legal", [
+            ("banking",            "Banking",            "🏦"),
+            ("insurance",          "Insurance",          "☂️"),
+            ("accounting-tax",     "Accounting & Tax",   "🧾"),
+            ("notaries-legal",     "Notaries & Lawyers", "⚖️"),
+            ("consulting-hr",      "Consulting & HR",    "💼"),
+            ("legal-professional", "Legal & Professional", "⚖️"),   # legacy
+        ]),
+        ("g-tech-media", "Tech & Media", [
+            ("it-software",       "IT & Software",         "💻"),
+            ("design-print",      "Design, Print & Signs", "🖨️"),
+            ("media-broadcast",   "Media & Broadcasting",  "📺"),
+            ("telecom-utilities", "Telecom & Utilities",   "📡"),
+            ("tech-media",        "Tech & Media",          "💻"),   # legacy
+        ]),
+        ("g-transport-travel", "Transport & Travel", [
+            ("airlines-aviation",  "Airlines & Aviation",  "✈️"),
+            ("travel-agencies",    "Travel Agencies",      "🧳"),
+            ("taxi-car-rental",    "Taxi, Bus & Car Rental", "🚕"),
+            ("automotive",         "Car Dealers & Garages","🚗"),
+            ("shipping-logistics", "Shipping & Logistics", "📦"),
+            ("travel-transport",   "Travel & Transport",   "✈️"),   # legacy
+        ]),
+        ("g-education", "Education", [
+            ("schools",          "Schools & Universities", "🎓"),
+            ("training-courses", "Training & Courses",     "📚"),
+            ("arts-dance-music", "Dance, Music & Arts",    "🎵"),
+            ("education",        "Education",              "🎓"),   # legacy
+        ]),
+        ("g-industry", "Industry & Energy", [
+            ("oil-gas",         "Oil & Gas",         "🛢️"),
+            ("mining",          "Mining",            "⛏️"),
+            ("manufacturing",   "Industrial & Manufacturing", "🏭"),
+            ("agriculture",     "Agriculture",       "🌾"),
+            ("industry-energy", "Industry & Energy", "🏭"),   # legacy
+        ]),
+        ("g-leisure", "Events & Leisure", [
+            ("events-party",      "Events & Parties",    "🎉"),
+            ("entertainment",     "Entertainment",       "🎭"),
+            ("tours-expeditions", "Tours & Expeditions", "🧭"),
+        ]),
+        ("g-other", "Other", [
+            ("other",          "Other",            "🔧"),
+            ("nursery-garden", "Nursery & Garden", "🌱"),   # legacy (service)
+        ]),
+    ],
+    "shopping": [
+        ("g-food-drink", "Food & Groceries", [
+            ("supermarkets",   "Supermarkets",     "🛒"),
+            ("butchers-meat",  "Meat & Fish",      "🥩"),
+            ("drinks-liquor",  "Drinks & Liquor",  "🍾"),
+            ("food-specialty", "Food & Specialty", "🧺"),
+        ]),
+        ("g-malls", "Malls & Markets", [
+            ("malls-markets", "Malls & Markets", "🏬"),
+        ]),
+        ("g-fashion-beauty", "Fashion & Beauty", [
+            ("fashion-clothing", "Fashion & Shoes",   "👗"),
+            ("optical-jewelry",  "Optical & Jewelry", "👓"),
+            ("health-beauty",    "Health & Beauty",   "🧴"),
+        ]),
+        ("g-home-building", "Home & Building", [
+            ("home-furniture",     "Home & Furniture",   "🛋️"),
+            ("building-materials", "Building Materials", "🧱"),
+            ("nursery-garden",     "Nursery & Garden",   "🌱"),
+        ]),
+        ("g-vehicles", "Cars & Vehicles", [
+            ("car-dealers", "Car Dealers",         "🚗"),
+            ("auto-parts",  "Parts & Accessories", "🔩"),
+            ("automotive",  "Automotive",          "🚗"),   # legacy (shopping)
+        ]),
+        ("g-electronics-office", "Electronics & Office", [
+            ("electronics",  "Electronics & Phones", "📱"),
+            ("books-office", "Books & Office",       "📚"),
+        ]),
+        ("g-hobby-gifts", "Gifts, Hobby & Party", [
+            ("crafts-souvenirs", "Crafts & Souvenirs", "🎨"),
+            ("toys-gifts",       "Toys & Gifts",       "🧸"),
+            ("sports-outdoors",  "Sports & Outdoors",  "🎣"),
+            ("events-party",     "Events & Parties",   "🎉"),
+        ]),
+        ("g-farm-trade", "Farm & Wholesale", [
+            ("vet-livestock",   "Farm & Animal Supplies", "🐾"),
+            ("wholesale-import","Wholesale & Import",     "📦"),
+            ("other",           "Other",                  "🔧"),
+        ]),
     ],
 }
+_GROUP_ALL_ICON = {"service": "⚡", "shopping": "🛍️"}
+# Keys marked "# legacy" above: still valid (old listings / D1 rows carry them),
+# never offered on the Add-your-business form. Being emptied by the re-sort.
+SUBCAT_LEGACY = {
+    "service":  {"legal-professional", "tech-media", "travel-transport", "education",
+                 "industry-energy", "nursery-garden"},
+    "shopping": {"automotive"},
+}
+SUBCAT_GROUPS = {}
+for _gc, _groups in _GROUPED_TAX.items():
+    SUBCATS[_gc] = [("all", "All", _GROUP_ALL_ICON[_gc])] + [t for _g in _groups for t in _g[2]]
+    SUBCAT_GROUPS[_gc] = [(_gk, _gl, [t[0] for t in _gt]) for _gk, _gl, _gt in _groups]
+    _keys = [t[0] for t in SUBCATS[_gc]]
+    assert len(_keys) == len(set(_keys)), f"duplicate type key in {_gc}"
+del _gc, _groups, _keys
+
+# Search synonyms per type (EN + NL, how locals search). Folded into the
+# search-index "k" blob so "loodgieter" or "notaris" finds the right listings.
+_SUB_KW = {
+    "home-repairs": "repair reparatie plumber loodgieter electrician elektricien airco ac koeltechniek handyman klusjesman onderhoud",
+    "garden-pest": "garden tuin gardening tuinonderhoud gras grasmaaien lawn landscaping hovenier pest ongedierte",
+    "cleaning-maintenance": "cleaning schoonmaak laundry wasserij stomerij dry cleaning",
+    "construction-trades": "construction bouw aannemer contractor engineering architect",
+    "accounting-tax": "accountant accountancy boekhouding administratie tax belasting audit",
+    "notaries-legal": "notary notaris notariaat lawyer advocaat legal juridisch",
+    "consulting-hr": "consultancy consultant advies recruitment uitzendbureau hr payroll outsourcing",
+    "it-software": "it software ict computer web app hosting network",
+    "design-print": "design print drukkerij printing signs reclame graphic",
+    "media-broadcast": "media tv radio televisie omroep magazine",
+    "airlines-aviation": "airline vliegmaatschappij aviation luchtvaart flight vlucht",
+    "travel-agencies": "travel agency reisbureau tickets holiday vakantie",
+    "taxi-car-rental": "taxi car rental autoverhuur rent a car shuttle bus speedboat airport transfer vervoer",
+    "security": "security beveiliging guard bewaking alarm camera fire brand safety veiligheid",
+    "automotive": "car auto garage dealer",
+    "schools": "school university universiteit college",
+    "training-courses": "training course cursus opleiding",
+    "arts-dance-music": "dance dans ballet music muziek art kunst",
+    "oil-gas": "oil olie gas offshore petroleum",
+    "mining": "mining mijnbouw gold goud",
+    "manufacturing": "manufacturing fabriek factory productie industrial industrie machinery machines equipment",
+    "butchers-meat": "butcher slagerij slager meat vlees fish vis seafood chicken kip",
+    "drinks-liquor": "drinks drank liquor slijterij beer bier rum juice sap",
+    "car-dealers": "car auto dealer cars autohandel",
+    "auto-parts": "auto parts onderdelen accessories tires banden",
+    "books-office": "books boeken boekhandel office kantoor stationery",
+    "toys-gifts": "toys speelgoed gifts cadeau",
+    "sports-outdoors": "sports sport outdoor fishing vissen camping",
+    "wholesale-import": "wholesale groothandel import export trading",
+}
+
 
 def _subcat_label(cat_key, sub):
     """Human label for a subcat key, as shown on that page's chip bar.
@@ -3680,6 +4290,31 @@ def _collapse_chains(lst):
 
 
 # Sort every category list alphabetically by display name
+# Grouped taxonomy (Oct 2026): chain branches follow the re-sorted type of
+# their reviewed sibling, and no Services/Shopping item may keep a key its page
+# does not offer (retired or foreign) — it would only show under "All".
+for _cmem in _CHAIN_GROUPS.values():
+    _ck = next((_RESORT_SUBCAT[_m] for _m in _cmem if _m in _RESORT_SUBCAT), None)
+    if _ck:
+        for _m in _cmem:
+            _RESORT_SUBCAT.setdefault(_m, _ck)
+_CAT_LEGACY_FIX = {"service": {"nursery-garden": "garden-pest",
+                               # chain branches filed under the other page (Carline)
+                               "auto-parts": "automotive", "car-dealers": "automotive"},
+                   "shopping": {"automotive": "car-dealers"}}
+_subfix = []
+for _lst, _gcat in ((SERVICES, "service"), (SHOPPING, "shopping")):
+    _valid = {_k for _k, _l, _i in SUBCATS[_gcat]} - SUBCAT_LEGACY[_gcat]
+    for _b in _lst:
+        _k = _subcat(_b["slug"])
+        if _k not in _valid:
+            _k = _CAT_LEGACY_FIX[_gcat].get(_k, "other")
+            _RESORT_SUBCAT[_b["slug"]] = _k
+            _subfix.append(_b["slug"])
+        _b["subcat"] = _k
+if _subfix:
+    print(f"  Subcat safety net moved {len(_subfix)} listing(s): {', '.join(_subfix[:8])}")
+
 _alpha = lambda lst: sorted(lst, key=lambda b: b["name"].lower())
 RESTAURANTS   = _alpha(_collapse_chains(RESTAURANTS))
 HOTELS        = _alpha(_collapse_chains(HOTELS))
@@ -3752,7 +4387,8 @@ def _desc_kw(b, have):
     return out
 
 def _kw(b, c=""):
-    parts = [b.get("name",""), b.get("subcat","").replace("-"," "), _CAT_KW.get(c,""), b.get("area","")]
+    parts = [b.get("name",""), b.get("subcat","").replace("-"," "), _SUB_KW.get(b.get("subcat",""), ""),
+             _CAT_KW.get(c,""), b.get("area","")]
     base = " ".join(p for p in parts if p).lower()
     have = re.findall(r"[a-z\u00e0-\u00ff]{3,}", base)
     return " ".join([base] + _desc_kw(b, have))
@@ -4989,6 +5625,15 @@ PAGE_HEAD = """\
     }
     @media(hover:none){ .dist-sel { min-height:44px; } }
     .listing-card.hidden { display:none; }
+    /* Grouped filter (Services, Shopping): second row with the group's types */
+    .fbar-types { margin-top:.1rem; border-top:1px solid #DDD4C1; }
+    .fbar-types[hidden] { display:none; }
+    .fbar-tchips .filter-chip { font-size:.84rem; padding:.45rem 0; }
+    .fbar-tchips .filter-chip[hidden] { display:none; }
+    @media(max-width:639px){
+      .fbar .fbar-tchips { column-gap:1.1rem; padding-right:1.75rem;
+        -webkit-mask-image:linear-gradient(90deg,#000 82%,transparent); mask-image:linear-gradient(90deg,#000 82%,transparent); }
+    }
     /* PWA install bar (Android prompt + iOS A2HS tip) */
     #pwa-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(130%);transition:transform .35s cubic-bezier(.22,1,.36,1);background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 28px rgba(0,0,0,.14);padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
     #pwa-bar.pwa-show{transform:translateY(0)}
@@ -6626,8 +7271,38 @@ def _filter_bar_html(items, cat_key):
 
     chips_cfg  = SUBCATS.get(cat_key, [("all","All","🔍")])
 
+    # Grouped pages (Services, Shopping): row 1 = groups, row 2 = the active
+    # group's types. Other pages keep the single strip below.
+    groups = SUBCAT_GROUPS.get(cat_key)
+    type_row = ""
+    sub_grp = {}
+    if groups:
+        _lbl = {k: l for k, l, _e in chips_cfg}
+        gchips = [f'<button onclick="filterGrp(this,\'all\')" data-grp="all" class="filter-chip chip-active">'
+                  f'All <span class="chip-count">{len(items)}</span></button>']
+        tchips = []
+        for gk, glabel, gkeys in groups:
+            live = [k for k in gkeys if sub_counts.get(k, 0) > 0]
+            if not live:
+                continue
+            for k in gkeys:
+                sub_grp[k] = gk
+            gcount = sum(sub_counts[k] for k in live)
+            single = ' data-single="1"' if len(live) == 1 else ''
+            gchips.append(f'<button onclick="filterGrp(this,\'{gk}\')" data-grp="{gk}"{single} class="filter-chip">'
+                          f'{glabel} <span class="chip-count">{gcount}</span></button>')
+            tchips.append(f'<button onclick="filterSub(this,\'all\')" data-grp="{gk}" data-sub="all" class="filter-chip type-chip" hidden>'
+                          f'All <span class="chip-count">{gcount}</span></button>')
+            for k in live:
+                tchips.append(f'<button onclick="filterSub(this,\'{k}\')" data-grp="{gk}" data-sub="{k}" class="filter-chip type-chip" hidden>'
+                              f'{_lbl.get(k, k)} <span class="chip-count">{sub_counts[k]}</span></button>')
+        # Anything whose type is in no group still shows under "All".
+        type_row = (f'<div id="typebar-{cat_key}" class="fbar-types" hidden>'
+                    f'<div class="fbar-chips fbar-tchips flex gap-5 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none">'
+                    f'{"".join(tchips)}</div></div>')
+
     chips = []
-    for key, label, emoji in chips_cfg:
+    for key, label, emoji in ([] if groups else chips_cfg):
         if key == "all":
             count = len(items)
         else:
@@ -6659,6 +7334,9 @@ def _filter_bar_html(items, cat_key):
     dist_html = (f'<select id="dist-sel" class="dist-sel" aria-label="District" onchange="filterDistrict(this, this.value)">'
                  f'{"".join(dist_opts)}</select>') if len(_dists) > 1 else ""
 
+    if groups:
+        chips = gchips
+    sub_grp_js = _json.dumps(sub_grp)
     bar_id = f"chipbar-{cat_key}"
     return f"""
 <div id="fbar-{cat_key}" class="fbar sticky top-[58px] z-40 pb-2 mb-5" style="background:var(--paper-2)">
@@ -6670,15 +7348,25 @@ def _filter_bar_html(items, cat_key):
       {dist_html}
       <button type="button" class="fbar-more" aria-expanded="false" aria-controls="{bar_id}"><span class="fm-o">More</span><span class="fm-c">Close</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
     </div>
+    {type_row}
   </div>
 </div>
 <script>
 var _activeSub  = 'all';
 var _activeDist = 'all';
+var _activeGrp  = 'all';
+var _SUB_GRP    = {sub_grp_js};
+
+/* Type filter, with the group as the fallback when no type is picked. */
+function _subOk(card) {{
+  if (_activeSub !== 'all') return card.dataset.sub === _activeSub;
+  if (_activeGrp !== 'all') return _SUB_GRP[card.dataset.sub] === _activeGrp;
+  return true;
+}}
 
 function _applyFilters() {{
   document.querySelectorAll('.listing-card').forEach(function(card) {{
-    var subOk  = _activeSub  === 'all' || card.dataset.sub      === _activeSub;
+    var subOk  = _subOk(card);
     var distOk = _activeDist === 'all' || (card.dataset.district || '').split('|').indexOf(_activeDist) >= 0;
     card.classList.toggle('hidden', !(subOk && distOk));
   }});
@@ -6692,8 +7380,7 @@ function _applyFilters() {{
   var distCounts = {{}};
   var totalVisible = 0;
   document.querySelectorAll('.listing-card').forEach(function(card) {{
-    var subOk = _activeSub === 'all' || card.dataset.sub === _activeSub;
-    if (!subOk) return;
+    if (!_subOk(card)) return;
     var ds = (card.dataset.district || 'Paramaribo').split('|');
     for (var di = 0; di < ds.length; di++) {{ distCounts[ds[di]] = (distCounts[ds[di]] || 0) + 1; }}
     totalVisible++;
@@ -6716,8 +7403,31 @@ function _applyFilters() {{
 
 function filterSub(btn, key) {{
   _activeSub = key;
-  document.querySelectorAll('.filter-chip').forEach(function(b) {{ b.classList.remove('chip-active'); }});
+  /* Only this chip's own row: on grouped pages the group stays selected. */
+  btn.parentNode.querySelectorAll('.filter-chip').forEach(function(b) {{ b.classList.remove('chip-active'); }});
   btn.classList.add('chip-active');
+  _applyFilters();
+  _fbarReveal();
+}}
+
+/* Grouped pages: pick a group, then (optionally) one of its types. */
+function filterGrp(btn, grp) {{
+  _activeGrp = grp;
+  _activeSub = 'all';
+  btn.parentNode.querySelectorAll('.filter-chip').forEach(function(b) {{ b.classList.remove('chip-active'); }});
+  btn.classList.add('chip-active');
+  var tb = document.getElementById('typebar-{cat_key}');
+  if (tb) {{
+    var show = grp !== 'all' && !btn.hasAttribute('data-single');
+    tb.hidden = !show;
+    tb.querySelectorAll('.type-chip').forEach(function(b) {{
+      var mine = b.getAttribute('data-grp') === grp;
+      b.hidden = !mine;
+      b.classList.toggle('chip-active', mine && b.getAttribute('data-sub') === 'all');
+    }});
+    var ts = tb.querySelector('.fbar-tchips');
+    if (ts) ts.scrollLeft = 0;
+  }}
   _applyFilters();
   _fbarReveal();
 }}
@@ -6765,9 +7475,20 @@ function filterDistrict(el, dist) {{
    homepage journey cards since Nature was merged into Things to Do. Silently
    ignored when the key matches no chip on this page. */
 (function() {{
-  var want = new URLSearchParams(location.search).get('sub');
-  if (!want || want === 'all') return;
+  var qs = new URLSearchParams(location.search);
+  var want = qs.get('sub'), wantGrp = qs.get('grp');
+  if ((!want || want === 'all') && !wantGrp) return;
   function apply() {{
+    /* Grouped pages: ?sub= selects the type's group first, ?grp= a group. */
+    var g = (want && _SUB_GRP[want]) || wantGrp;
+    var gb = g && document.querySelector('#{bar_id} .filter-chip[data-grp="' + g + '"]');
+    if (gb) {{
+      filterGrp(gb, g);
+      var tc = want && document.querySelector('#typebar-{cat_key} .type-chip[data-sub="' + want + '"]');
+      if (tc && !gb.hasAttribute('data-single')) filterSub(tc, want);
+      return;
+    }}
+    if (!want) return;
     var chips = document.querySelectorAll('#{bar_id} .filter-chip');
     for (var i = 0; i < chips.length; i++) {{
       var oc = chips[i].getAttribute('onclick') || '';
@@ -8507,6 +9228,38 @@ _SUBCAT_SCHEMA = {
     "health-beauty":        ("HealthAndBeautyBusiness",   None),
     "crafts-souvenirs":     ("Store",                     None),
 }
+# Oct 2026 grouped taxonomy: types that had no schema entry.
+_SUBCAT_SCHEMA.update({
+    "home-repairs":        ("HomeAndConstructionBusiness", None),
+    "construction-trades": ("GeneralContractor",           None),
+    "garden-pest":         ("HomeAndConstructionBusiness", None),
+    "accounting-tax":      ("AccountingService",           None),
+    "notaries-legal":      ("LegalService",                None),
+    "consulting-hr":       ("ProfessionalService",         None),
+    "it-software":         ("ProfessionalService",         None),
+    "design-print":        ("ProfessionalService",         None),
+    "media-broadcast":     ("Organization",                None),
+    "airlines-aviation":   ("Organization",                None),
+    "travel-agencies":     ("TravelAgency",                None),
+    "taxi-car-rental":     ("AutoRental",                  None),
+    "shipping-logistics":  ("Organization",                None),
+    "schools":             ("EducationalOrganization",     None),
+    "training-courses":    ("EducationalOrganization",     None),
+    "arts-dance-music":    ("EducationalOrganization",     None),
+    "oil-gas":             ("Organization",                None),
+    "mining":              ("Organization",                None),
+    "manufacturing":       ("Organization",                None),
+    "agriculture":         ("Organization",                None),
+    "building-materials":  ("HardwareStore",               None),
+    "butchers-meat":       ("Store",                       None),
+    "drinks-liquor":       ("LiquorStore",                 None),
+    "car-dealers":         ("AutoDealer",                  None),
+    "auto-parts":          ("AutoPartsStore",              None),
+    "books-office":        ("BookStore",                   None),
+    "toys-gifts":          ("ToyStore",                    None),
+    "sports-outdoors":     ("SportingGoodsStore",          None),
+    "wholesale-import":    ("WholesaleStore",              None),
+})
 
 def _related_listings_html(current_slug, sub, prefix="../../"):
     """Return an HTML strip of up to 4 related listings using the same
@@ -8611,6 +9364,24 @@ _SEO_TYPE_LABEL = {
     "industry-energy": "Industry & Energy",
     "hospitals-clinics": "Hospital & Clinic",
 }
+# Oct 2026 grouped taxonomy. Every label here needs an entry in build_i18n.py
+# _TYPE_I18N / _TYPE_ZH / _TYPE_FP (listing titles are localized from those).
+_SEO_TYPE_LABEL.update({
+    "home-repairs": "Repairs & Trades", "construction-trades": "Construction Company",
+    "garden-pest": "Garden & Pest Control", "accounting-tax": "Accountant",
+    "notaries-legal": "Notary & Law Firm", "consulting-hr": "Consultancy",
+    "it-software": "IT Company", "design-print": "Design & Print",
+    "media-broadcast": "Media Company", "airlines-aviation": "Airline & Aviation",
+    "travel-agencies": "Travel Agency", "taxi-car-rental": "Taxi & Car Rental",
+    "shipping-logistics": "Shipping & Logistics", "schools": "School",
+    "training-courses": "Training Centre", "arts-dance-music": "Dance & Music School",
+    "oil-gas": "Oil & Gas Company", "mining": "Mining Company",
+    "manufacturing": "Industrial Company", "building-materials": "Building Materials",
+    "butchers-meat": "Meat & Fish Shop", "drinks-liquor": "Drinks & Liquor Store",
+    "car-dealers": "Car Dealer", "auto-parts": "Auto Parts Store",
+    "books-office": "Books & Office Supplies", "toys-gifts": "Toy & Gift Shop",
+    "sports-outdoors": "Sports & Outdoor Store", "wholesale-import": "Wholesaler & Importer",
+})
 
 
 def _share_button(page_url, title, link=False):
@@ -9039,6 +9810,31 @@ def build_listing_page(slug, b):
             "shipping-logistics":  "shipping & logistics company",
             "agriculture":         "agricultural business",
             "building-materials":  "building materials supplier",
+            "home-repairs":        "repairs & trades service",
+            "garden-pest":         "garden & pest control service",
+            "accounting-tax":      "accounting & tax firm",
+            "notaries-legal":      "notary & law firm",
+            "consulting-hr":       "consultancy & HR services",
+            "it-software":         "IT & software company",
+            "design-print":        "design, print & signs company",
+            "media-broadcast":     "media & broadcasting company",
+            "airlines-aviation":   "airline & aviation company",
+            "travel-agencies":     "travel agency",
+            "taxi-car-rental":     "taxi & car rental service",
+            "schools":             "school",
+            "training-courses":    "training & course provider",
+            "arts-dance-music":    "dance, music & arts school",
+            "oil-gas":             "oil & gas company",
+            "mining":              "mining company",
+            "manufacturing":       "industrial & manufacturing company",
+            "butchers-meat":       "butcher & fish shop",
+            "drinks-liquor":       "drinks & liquor store",
+            "car-dealers":         "car dealer",
+            "auto-parts":          "auto parts & accessories store",
+            "books-office":        "bookshop & office supplies store",
+            "toys-gifts":          "toy & gift shop",
+            "sports-outdoors":     "sports & outdoor store",
+            "wholesale-import":    "wholesaler & importer",
         }
         biz_type = _SUBCAT_LABELS.get(sub, "business")
         desc_e = html_lib.escape(
@@ -18772,16 +19568,29 @@ def build_submit_page():
     # from the matching source select when the category changes.
     # Form-only labels: examples so tradespeople can find their chip. Keys and
     # the category-page chip labels stay unchanged (worker whitelists rely on keys).
+    # Grouped categories get <optgroup>s (same groups as the category page);
+    # legacy keys are never offered.
     _form_lbl = {
-        ("service", "construction-trades"): "Construction & Trades (plumber, electrician, handyman)",
-        ("service", "cleaning-maintenance"): "Cleaning & Maintenance (gardening, pest control, AC)",
+        ("service", "home-repairs"): "Repairs & Trades (plumber, electrician, AC, handyman)",
+        ("service", "garden-pest"): "Garden & Pest Control (gardening, lawn mowing)",
     }
-    _chip_src = "".join(
-        f'<select data-cat="{_c}" tabindex="-1" aria-hidden="true"><option value="">Choose one</option>'
-        + "".join(f'<option value="{_k}">{_form_lbl.get((_c, _k), _lbl)}</option>'
-                  for _k, _lbl, _ico in _rows if _k != "all")
-        + '</select>'
-        for _c, _rows in SUBCATS.items())
+    def _opts(_c, _keys):
+        _l = {k: l for k, l, _i in SUBCATS[_c]}
+        return "".join(f'<option value="{_k}">{_form_lbl.get((_c, _k), _l[_k])}</option>'
+                       for _k in _keys if _k != "all" and _k not in SUBCAT_LEGACY.get(_c, ()))
+    # optgroup labels are attributes, which build_i18n does not translate, so
+    # each group label is a text node (<b>) next to its options; the JS builds
+    # the <optgroup>s from them.
+    def _src(_c, _rows):
+        if _c in SUBCAT_GROUPS:
+            _body = "".join(
+                f'<div data-g><b>{_gl}</b><select tabindex="-1">{_opts(_c, _gk)}</select></div>'
+                for _g, _gl, _gk in SUBCAT_GROUPS[_c] if _opts(_c, _gk))
+            return (f'<div data-cat="{_c}"><select data-head tabindex="-1">'
+                    f'<option value="">Choose one</option></select>{_body}</div>')
+        return (f'<div data-cat="{_c}"><select data-head tabindex="-1">'
+                f'<option value="">Choose one</option>{_opts(_c, [k for k, _l, _i in _rows])}</select></div>')
+    _chip_src = "".join(_src(_c, _rows) for _c, _rows in SUBCATS.items())
     _chip_src = f'<div id="chip-src" hidden>{_chip_src}</div>'
     _chip_json = _json.dumps(sorted(SUBCATS.keys()))
     _cat_opts = "".join(
@@ -19013,8 +19822,14 @@ __FOOTER__
   var TYPE_EMPTY = $("f-subcat").innerHTML;
   $("f-category").addEventListener("change", function(){
     var sel = $("f-subcat"), cat = this.value;
-    var src = CHIPS.indexOf(cat) > -1 && document.querySelector('#chip-src select[data-cat="' + cat + '"]');
-    sel.innerHTML = src ? src.innerHTML : TYPE_EMPTY;
+    var src = CHIPS.indexOf(cat) > -1 && document.querySelector('#chip-src [data-cat="' + cat + '"]');
+    sel.innerHTML = src ? src.querySelector('select[data-head]').innerHTML : TYPE_EMPTY;
+    if (src) src.querySelectorAll('[data-g]').forEach(function(g){
+      var og = document.createElement('optgroup');
+      og.label = g.querySelector('b').textContent;
+      og.innerHTML = g.querySelector('select').innerHTML;
+      sel.appendChild(og);
+    });
     sel.disabled = !src;
   });
 

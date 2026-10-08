@@ -99302,5 +99302,348 @@
 "zh": "游览",
 "fr": "Excursions",
 "pt": "Passeios"
+},
+"Accounting & Tax": {
+"nl": "Boekhouding & belasting",
+"es": "Contabilidad e impuestos",
+"zh": "会计与税务",
+"fr": "Comptabilité et fiscalité",
+"pt": "Contabilidade e impostos"
+},
+"Airlines & Aviation": {
+"nl": "Luchtvaart",
+"es": "Aerolíneas y aviación",
+"zh": "航空公司与航空",
+"fr": "Compagnies aériennes et aviation",
+"pt": "Companhias aéreas e aviação"
+},
+"Beauty & Health": {
+"nl": "Beauty & gezondheid",
+"es": "Belleza y salud",
+"zh": "美容与健康",
+"fr": "Beauté et santé",
+"pt": "Beleza e saúde"
+},
+"Books & Office": {
+"nl": "Boeken & kantoor",
+"es": "Libros y oficina",
+"zh": "图书与办公用品",
+"fr": "Livres et bureau",
+"pt": "Livros e escritório"
+},
+"Butchers & Meat": {
+"nl": "Slagerijen & vlees",
+"es": "Carnicerías",
+"zh": "肉店与肉类",
+"fr": "Boucheries",
+"pt": "Açougues e carnes"
+},
+"Car Dealers": {
+"nl": "Autodealers",
+"es": "Concesionarios de autos",
+"zh": "汽车经销商",
+"fr": "Concessionnaires automobiles",
+"pt": "Concessionárias de carros"
+},
+"Car Dealers & Garages": {
+"nl": "Autodealers & garages",
+"es": "Concesionarios y talleres",
+"zh": "汽车经销与修理",
+"fr": "Concessionnaires et garages",
+"pt": "Concessionárias e oficinas"
+},
+"Cars & Vehicles": {
+"nl": "Auto's & voertuigen",
+"es": "Autos y vehículos",
+"zh": "汽车与车辆",
+"fr": "Voitures et véhicules",
+"pt": "Carros e veículos"
+},
+"Cleaning & Laundry": {
+"nl": "Schoonmaak & wasserij",
+"es": "Limpieza y lavandería",
+"zh": "清洁与洗衣",
+"fr": "Nettoyage et blanchisserie",
+"pt": "Limpeza e lavanderia"
+},
+"Construction & Engineering": {
+"nl": "Bouw & engineering",
+"es": "Construcción e ingeniería",
+"zh": "建筑与工程",
+"fr": "Construction et ingénierie",
+"pt": "Construção e engenharia"
+},
+"Consulting & HR": {
+"nl": "Advies & HR",
+"es": "Consultoría y RR. HH.",
+"zh": "咨询与人力资源",
+"fr": "Conseil et RH",
+"pt": "Consultoria e RH"
+},
+"Dance, Music & Arts": {
+"nl": "Dans, muziek & kunst",
+"es": "Danza, música y arte",
+"zh": "舞蹈、音乐与艺术",
+"fr": "Danse, musique et arts",
+"pt": "Dança, música e artes"
+},
+"Design, Print & Signs": {
+"nl": "Ontwerp, drukwerk & reclame",
+"es": "Diseño, impresión y rótulos",
+"zh": "设计、印刷与标牌",
+"fr": "Design, impression et enseignes",
+"pt": "Design, impressão e letreiros"
+},
+"Drinks & Liquor": {
+"nl": "Dranken & slijterij",
+"es": "Bebidas y licores",
+"zh": "饮料与酒类",
+"fr": "Boissons et spiritueux",
+"pt": "Bebidas e destilados"
+},
+"Electronics & Office": {
+"nl": "Elektronica & kantoor",
+"es": "Electrónica y oficina",
+"zh": "电子与办公",
+"fr": "Électronique et bureau",
+"pt": "Eletrônicos e escritório"
+},
+"Electronics & Phones": {
+"nl": "Elektronica & telefoons",
+"es": "Electrónica y teléfonos",
+"zh": "电子产品与手机",
+"fr": "Électronique et téléphones",
+"pt": "Eletrônicos e celulares"
+},
+"Events & Leisure": {
+"nl": "Evenementen & vrije tijd",
+"es": "Eventos y ocio",
+"zh": "活动与休闲",
+"fr": "Événements et loisirs",
+"pt": "Eventos e lazer"
+},
+"Farm & Animal Supplies": {
+"nl": "Landbouw- & dierbenodigdheden",
+"es": "Suministros agrícolas y para animales",
+"zh": "农牧与动物用品",
+"fr": "Fournitures agricoles et animales",
+"pt": "Produtos agropecuários e para animais"
+},
+"Farm & Wholesale": {
+"nl": "Landbouw & groothandel",
+"es": "Agro y mayoristas",
+"zh": "农业与批发",
+"fr": "Agriculture et commerce de gros",
+"pt": "Agro e atacado"
+},
+"Fashion & Beauty": {
+"nl": "Mode & beauty",
+"es": "Moda y belleza",
+"zh": "时尚与美容",
+"fr": "Mode et beauté",
+"pt": "Moda e beleza"
+},
+"Fitness & Sport": {
+"nl": "Fitness & sport",
+"es": "Fitness y deporte",
+"zh": "健身与运动",
+"fr": "Fitness et sport",
+"pt": "Fitness e esporte"
+},
+"Food & Groceries": {
+"nl": "Eten & boodschappen",
+"es": "Alimentos y supermercado",
+"zh": "食品与杂货",
+"fr": "Alimentation et épicerie",
+"pt": "Alimentos e mercado"
+},
+"Garden & Pest Control": {
+"nl": "Tuin & ongediertebestrijding",
+"es": "Jardín y control de plagas",
+"zh": "园艺与除虫",
+"fr": "Jardin et lutte antiparasitaire",
+"pt": "Jardim e dedetização"
+},
+"Garden & Pest Control (gardening, lawn mowing)": {
+"nl": "Tuin & ongediertebestrijding (tuinonderhoud, grasmaaien)",
+"es": "Jardín y control de plagas (jardinería, corte de césped)",
+"zh": "园艺与除虫（园艺、割草）",
+"fr": "Jardin et lutte antiparasitaire (jardinage, tonte de pelouse)",
+"pt": "Jardim e dedetização (jardinagem, corte de grama)"
+},
+"Gifts, Hobby & Party": {
+"nl": "Cadeaus, hobby & feest",
+"es": "Regalos, ocio y fiestas",
+"zh": "礼品、爱好与派对",
+"fr": "Cadeaux, loisirs et fêtes",
+"pt": "Presentes, hobbies e festas"
+},
+"Home & Building": {
+"nl": "Wonen & bouwen",
+"es": "Hogar y construcción",
+"zh": "家居与建材",
+"fr": "Maison et construction",
+"pt": "Casa e construção"
+},
+"Home & Property": {
+"nl": "Huis & vastgoed",
+"es": "Hogar y propiedad",
+"zh": "家居与房产",
+"fr": "Maison et immobilier",
+"pt": "Casa e imóveis"
+},
+"IT & Software": {
+"nl": "IT & software",
+"es": "TI y software",
+"zh": "IT与软件",
+"fr": "Informatique et logiciels",
+"pt": "TI e software"
+},
+"Manufacturing": {
+"nl": "Productie & fabrieken",
+"es": "Manufactura",
+"zh": "制造业",
+"fr": "Industrie manufacturière",
+"pt": "Indústria e fábricas"
+},
+"Media & Broadcasting": {
+"nl": "Media & omroep",
+"es": "Medios y radiodifusión",
+"zh": "媒体与广播",
+"fr": "Médias et audiovisuel",
+"pt": "Mídia e radiodifusão"
+},
+"Mining": {
+"nl": "Mijnbouw",
+"es": "Minería",
+"zh": "矿业",
+"fr": "Exploitation minière",
+"pt": "Mineração"
+},
+"Money & Legal": {
+"nl": "Geld & juridisch",
+"es": "Dinero y asuntos legales",
+"zh": "金融与法律",
+"fr": "Finance et juridique",
+"pt": "Finanças e jurídico"
+},
+"Notaries & Lawyers": {
+"nl": "Notarissen & advocaten",
+"es": "Notarios y abogados",
+"zh": "公证与律师",
+"fr": "Notaires et avocats",
+"pt": "Cartórios e advogados"
+},
+"Parts & Accessories": {
+"nl": "Onderdelen & accessoires",
+"es": "Repuestos y accesorios",
+"zh": "配件与零件",
+"fr": "Pièces et accessoires",
+"pt": "Peças e acessórios"
+},
+"Repairs & Trades": {
+"nl": "Reparatie & vakmensen",
+"es": "Reparaciones y oficios",
+"zh": "维修与技工",
+"fr": "Réparations et artisans",
+"pt": "Reparos e serviços técnicos"
+},
+"Repairs & Trades (plumber, electrician, AC, handyman)": {
+"nl": "Reparatie & vakmensen (loodgieter, elektricien, airco, klusjesman)",
+"es": "Reparaciones y oficios (fontanero, electricista, aire acondicionado, manitas)",
+"zh": "维修与技工（水管工、电工、空调、杂工）",
+"fr": "Réparations et artisans (plombier, électricien, climatisation, homme à tout faire)",
+"pt": "Reparos e serviços técnicos (encanador, eletricista, ar-condicionado, faz-tudo)"
+},
+"Schools & Universities": {
+"nl": "Scholen & universiteiten",
+"es": "Escuelas y universidades",
+"zh": "学校与大学",
+"fr": "Écoles et universités",
+"pt": "Escolas e universidades"
+},
+"Sports & Outdoors": {
+"nl": "Sport & outdoor",
+"es": "Deportes y aire libre",
+"zh": "运动与户外",
+"fr": "Sport et plein air",
+"pt": "Esportes e ar livre"
+},
+"Taxi & Car Rental": {
+"nl": "Taxi & autoverhuur",
+"es": "Taxi y alquiler de autos",
+"zh": "出租车与租车",
+"fr": "Taxi et location de voitures",
+"pt": "Táxi e aluguel de carros"
+},
+"Toys & Gifts": {
+"nl": "Speelgoed & cadeaus",
+"es": "Juguetes y regalos",
+"zh": "玩具与礼品",
+"fr": "Jouets et cadeaux",
+"pt": "Brinquedos e presentes"
+},
+"Training & Courses": {
+"nl": "Trainingen & cursussen",
+"es": "Formación y cursos",
+"zh": "培训与课程",
+"fr": "Formations et cours",
+"pt": "Treinamentos e cursos"
+},
+"Transport & Travel": {
+"nl": "Vervoer & reizen",
+"es": "Transporte y viajes",
+"zh": "交通与旅行",
+"fr": "Transport et voyages",
+"pt": "Transporte e viagens"
+},
+"Travel Agencies": {
+"nl": "Reisbureaus",
+"es": "Agencias de viajes",
+"zh": "旅行社",
+"fr": "Agences de voyages",
+"pt": "Agências de viagens"
+},
+"Wholesale & Import": {
+"nl": "Groothandel & import",
+"es": "Mayoristas e importación",
+"zh": "批发与进口",
+"fr": "Commerce de gros et import",
+"pt": "Atacado e importação"
+},
+"Industrial & Manufacturing": {
+"nl": "Industrie & productie",
+"es": "Industria y manufactura",
+"zh": "工业与制造",
+"fr": "Industrie et fabrication",
+"pt": "Indústria e manufatura"
+},
+"Meat & Fish": {
+"nl": "Vlees & vis",
+"es": "Carne y pescado",
+"zh": "肉类与鱼类",
+"fr": "Viande et poisson",
+"pt": "Carnes e peixes"
+},
+"Kaizen Method is a personal transformation gym at Keizerstraat 51 in Paramaribo offering coached group classes in functional strength training and conditioning, with progress tracking for body composition, fitness and lifestyle habits. New members start with a free assessment.": {
+"nl": "Kaizen Method is een personal-transformation-gym aan de Keizerstraat 51 in Paramaribo met begeleide groepslessen in functionele krachttraining en conditietraining, waarbij lichaamssamenstelling, fitheid en leefgewoonten worden bijgehouden. Nieuwe leden beginnen met een gratis intake.",
+"es": "Kaizen Method es un gimnasio de transformación personal en Keizerstraat 51, Paramaribo, que ofrece clases grupales guiadas de fuerza funcional y acondicionamiento, con seguimiento de la composición corporal, la forma física y los hábitos de vida. Los nuevos miembros empiezan con una evaluación gratuita.",
+"zh": "Kaizen Method 是位于帕拉马里博 Keizerstraat 51 的一家个人蜕变健身房，提供有教练指导的功能性力量训练和体能训练小组课程，并跟踪身体成分、体能水平和生活习惯。新会员可先进行一次免费评估。",
+"fr": "Kaizen Method est une salle de sport de transformation personnelle située Keizerstraat 51 à Paramaribo, qui propose des cours collectifs encadrés de renforcement fonctionnel et de conditionnement physique, avec un suivi de la composition corporelle, de la condition physique et des habitudes de vie. Les nouveaux membres commencent par un bilan gratuit.",
+"pt": "Kaizen Method é uma academia de transformação pessoal na Keizerstraat 51, em Paramaribo, que oferece aulas em grupo com treinador de força funcional e condicionamento, com acompanhamento da composição corporal, do condicionamento físico e dos hábitos de vida. Novos membros começam com uma avaliação gratuita."
+},
+"Taxi, Bus & Car Rental": {
+"nl": "Taxi, bus & autoverhuur",
+"es": "Taxi, autobús y alquiler de autos",
+"zh": "出租车、巴士与租车",
+"fr": "Taxi, bus et location de voitures",
+"pt": "Táxi, ônibus e aluguel de carros"
+},
+"Security & Safety": {
+"nl": "Beveiliging & veiligheid",
+"es": "Seguridad y protección",
+"zh": "安保与安全",
+"fr": "Sécurité et prévention",
+"pt": "Segurança e proteção"
 }
 }
