@@ -5625,6 +5625,58 @@ PAGE_HEAD = """\
     }
     @media(hover:none){ .dist-sel { min-height:44px; } }
     .listing-card.hidden { display:none; }
+    /* Grouped filter (Services, Shopping, Oct 2026): search + top types + "All categories" panel */
+    .gf-wrap { position:relative; }
+    .gf-searchrow { position:relative; padding-top:.75rem; }
+    .gf-sicon { position:absolute; left:.85rem; top:calc(.75rem + 14px); color:#656C63; pointer-events:none; }
+    .gf-q { width:100%; height:44px; border:1px solid #DDD4C1; border-radius:9999px; background:#fff;
+            padding:0 1rem 0 2.4rem; font-size:.95rem; color:var(--ink,#1f2a24); }
+    .gf-q:focus { outline:2px solid var(--forest2); outline-offset:1px; border-color:transparent; }
+    .gf-row { display:flex; align-items:center; gap:1rem; padding-top:.55rem; }
+    .gf-catbtn { position:relative; flex-shrink:0; display:inline-flex; align-items:center; gap:.4rem; min-height:40px;
+                 padding:0 .95rem; border:1.5px solid var(--forest); border-radius:9999px; background:#fff;
+                 color:var(--forest); font-size:.88rem; font-weight:600; cursor:pointer; touch-action:manipulation; }
+    .gf-catbtn[aria-expanded="true"] { background:var(--forest); color:#fff; }
+    .gf-catbtn[aria-expanded="true"] svg { transform:rotate(180deg); }
+    .gf-catbtn.has-dist::after { content:""; position:absolute; top:-2px; right:-2px; width:9px; height:9px; border-radius:50%; background:var(--coral); }
+    .gf-chips { flex:1 1 0%; min-width:0; }
+    .gf-activechip[hidden], .gf-top[hidden] { display:none; }
+    #gf-distslot { flex-shrink:0; }
+    .gf-panel { position:absolute; left:1.25rem; right:1.25rem; top:100%; z-index:50; margin-top:.25rem;
+                background:#FBF6EC; border:1px solid #DDD4C1; border-radius:14px; box-shadow:0 18px 40px rgba(35,48,40,.18);
+                max-height:70vh; overflow:auto; padding:1rem 1.25rem 1.25rem; }
+    .gf-panel[hidden] { display:none; }
+    .gf-phead { display:flex; align-items:center; gap:1rem; padding-bottom:.6rem; margin-bottom:.4rem; border-bottom:1px solid #DDD4C1; }
+    .gf-ptitle { font-size:1rem; color:var(--forest); flex:1; }
+    .gf-close { border:0; background:none; color:var(--forest2); font-weight:600; font-size:.85rem; cursor:pointer; min-height:40px; }
+    .gf-grid { columns:3 220px; column-gap:2rem; }
+    .gf-group { break-inside:avoid; padding:.5rem 0 .6rem; }
+    .gf-ghead, .gf-type { display:flex; width:100%; align-items:baseline; justify-content:space-between; gap:.6rem;
+                          border:0; background:none; text-align:left; cursor:pointer; border-radius:6px; padding:.3rem .4rem; }
+    .gf-ghead { font-weight:700; font-size:.95rem; color:var(--forest); }
+    .gf-type { font-size:.9rem; color:#4B564D; }
+    .gf-ghead:hover, .gf-type:hover { background:#EFE7D6; }
+    .gf-on { background:var(--forest)!important; color:#fff!important; }
+    .gf-on .chip-count { color:#fff; }
+    .gf-empty { font-size:.95rem; color:#4B564D; margin:-.25rem 0 1rem; }
+    .gf-pfoot { display:none; }
+    .fbar.gf-isopen { z-index:100!important; }
+    .gf-empty[hidden] { display:none; }
+    @media(hover:none){ .gf-ghead, .gf-type { min-height:44px; align-items:center; } }
+    @media(max-width:639px){
+      .gf-row { gap:.6rem; }
+      .gf-catbtn { padding:0 .75rem; font-size:.84rem; }
+      .gf .fbar-chips { column-gap:1.1rem; padding-right:1.5rem;
+        -webkit-mask-image:linear-gradient(90deg,#000 80%,transparent); mask-image:linear-gradient(90deg,#000 80%,transparent); }
+      #gf-distslot { display:none; }
+      .gf-panel { position:fixed; inset:0; z-index:90; margin:0; border:0; border-radius:0; max-height:none; padding:0 1rem 2rem; }
+      .gf-phead { position:sticky; top:0; z-index:1; background:#FBF6EC; padding-top:.75rem; flex-wrap:wrap; }
+      .gf-phead .dist-sel { order:3; flex:1 0 100%; max-width:none; font-size:.95rem; }
+      .gf-grid { columns:1; }
+      html.gf-lock, html.gf-lock body { overflow:hidden; }
+      .gf-pfoot { display:block; position:sticky; bottom:0; padding:.75rem 0 1rem; background:#FBF6EC; border-top:1px solid #DDD4C1; }
+      .gf-show { width:100%; min-height:48px; border:0; border-radius:9999px; background:var(--forest); color:#fff; font-weight:700; font-size:.95rem; }
+    }
     /* Grouped filter (Services, Shopping): second row with the group's types */
     .fbar-types { margin-top:.1rem; border-top:1px solid #DDD4C1; }
     .fbar-types[hidden] { display:none; }
@@ -7224,7 +7276,11 @@ def poi_card(item, badge_key="cuisine", eager=False, featured=False, cat_key=Non
         district = "|".join(_dists)
         area_lbl = ", ".join(_dists[:2]) + (f" +{len(_dists) - 2}" if len(_dists) > 2 else "")
         tail_lbl = f"{chain_n} locations"   # a single branch number would mislead on a brand card
-    _open = (f'<a href="{url}" data-sub="{item.get("subcat","other")}" data-district="{html_lib.escape(district)}" '
+    # Grouped pages (Services, Shopping) have an in-page search; data-k carries the
+    # type's EN/NL synonyms so "loodgieter" finds a listing whose card never says it.
+    _dk = (f' data-k="{html_lib.escape(_SUB_KW.get(item.get("subcat", ""), ""), quote=True)}"'
+           if cat_key in SUBCAT_GROUPS and _SUB_KW.get(item.get("subcat", "")) else "")
+    _open = (f'<a href="{url}" data-sub="{item.get("subcat","other")}" data-district="{html_lib.escape(district)}"{_dk} '
              f'class="listing-card{" listing-row" if layout == "row" else ""} group relative card-hover flex{"" if layout == "row" else " flex-col"}">')
 
     if layout == "row":
@@ -7262,6 +7318,8 @@ def poi_card(item, badge_key="cuisine", eager=False, featured=False, cat_key=Non
 
 def _filter_bar_html(items, cat_key):
     """Sticky filter chip bar with subcat + district filtering."""
+    if SUBCAT_GROUPS.get(cat_key):
+        return _grouped_filter_bar_html(items, cat_key)
     from collections import Counter
     sub_counts  = Counter(b.get("subcat","other")     for b in items)
     dist_counts = Counter()
@@ -7372,7 +7430,11 @@ function _applyFilters() {{
   }});
   var visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
   var lbl = document.getElementById('result-count');
-  if (lbl) lbl.textContent = visible + ' results' + (_activeDist !== 'all' ? ' \u00b7 ' + _activeDist : '');
+  /* The static text is already translated ("633 resultaten"); keep its wording. */
+  if (lbl) {{
+    if (!lbl.dataset.tpl) lbl.dataset.tpl = lbl.textContent.replace(/\d+/, '#');
+    lbl.textContent = lbl.dataset.tpl.replace('#', visible) + (_activeDist !== 'all' ? ' \u00b7 ' + _activeDist : '');
+  }}
   var _mb = document.querySelector('.fbar-more');
   if (_mb) _mb.classList.toggle('has-dist', _activeDist !== 'all');
 
@@ -7504,6 +7566,258 @@ function filterDistrict(el, dist) {{
   }}
 }})();
 </script>"""
+
+# ── Grouped filter bar (Services, Shopping), Oct 2026 ──────────────────────────
+# Pattern used by Google Maps / Yelp / Werkspot: search first, the biggest types
+# as direct chips, and an "All categories" panel listing every group and type
+# with counts (dropdown on desktop, full-screen sheet on phones). Nothing is
+# hidden behind sideways scrolling, and the list is never pushed down.
+_GF_SEARCH_PH = {
+    "service": ("Search a service or business (e.g. plumber, notary)", {
+        "nl": "Zoek een dienst of bedrijf (bv. loodgieter, notaris)",
+        "es": "Busca un servicio o empresa (p. ej. fontanero, notario)",
+        "zh": "搜索服务或商家（如水管工、公证）",
+        "fr": "Rechercher un service ou une entreprise (ex. plombier, notaire)",
+        "pt": "Busque um serviço ou empresa (ex.: encanador, cartório)"}),
+    "shopping": ("Search a shop or product (e.g. tiles, phone, butcher)", {
+        "nl": "Zoek een winkel of product (bv. tegels, telefoon, slager)",
+        "es": "Busca una tienda o producto (p. ej. azulejos, teléfono, carnicería)",
+        "zh": "搜索商店或商品（如瓷砖、手机、肉店）",
+        "fr": "Rechercher un magasin ou un produit (ex. carrelage, téléphone, boucherie)",
+        "pt": "Busque uma loja ou produto (ex.: azulejos, celular, açougue)"}),
+}
+_GF_TOP_N = 5   # 5 fit next to the button at 1366px; the rest are one tap away
+
+
+def _grouped_filter_bar_html(items, cat_key):
+    from collections import Counter
+    sub_counts = Counter(b.get("subcat", "other") for b in items)
+    dist_counts = Counter()
+    for _b in items:
+        for _d in (_b.get("chain_districts") or [_b.get("area", _b.get("location", "Paramaribo"))]):
+            dist_counts[_d] += 1
+    lbl = {k: l for k, l, _e in SUBCATS[cat_key]}
+    esc = html_lib.escape
+    sub_grp, groups_html = {}, []
+    for gk, glabel, gkeys in SUBCAT_GROUPS[cat_key]:
+        live = [k for k in gkeys if sub_counts.get(k, 0) > 0]
+        if not live:
+            continue
+        for k in gkeys:
+            sub_grp[k] = gk
+        gcount = sum(sub_counts[k] for k in live)
+        rows = "".join(
+            f'<button type="button" class="gf-type" data-sub="{k}"><span>{esc(lbl[k])}</span>'
+            f'<span class="chip-count">{sub_counts[k]}</span></button>' for k in live)
+        if len(live) == 1:
+            # one type only: the group heading picks that type directly
+            head = (f'<button type="button" class="gf-ghead gf-single" data-grp="{gk}" data-sub="{live[0]}">'
+                    f'<span>{esc(glabel)}</span><span class="chip-count">{gcount}</span></button>')
+            groups_html.append(f'<div class="gf-group">{head}</div>')
+        else:
+            head = (f'<button type="button" class="gf-ghead" data-grp="{gk}"><span>{esc(glabel)}</span>'
+                    f'<span class="chip-count">{gcount}</span></button>')
+            groups_html.append(f'<div class="gf-group">{head}{rows}</div>')
+    top = [k for k, _n in sorted(((k, n) for k, n in sub_counts.items() if k != "other" and k in lbl),
+                                 key=lambda x: (-x[1], lbl[x[0]]))][:_GF_TOP_N]
+    top_html = "".join(
+        f'<button type="button" class="filter-chip gf-top" data-sub="{k}">{esc(lbl[k])} '
+        f'<span class="chip-count">{sub_counts[k]}</span></button>' for k in top)
+    _DIST_ORDER = ["Paramaribo", "Wanica", "Commewijne", "Para", "Nickerie",
+                   "Marowijne", "Brokopondo", "Saramacca", "Coronie", "Sipaliwini"]
+    _dists = [d for d in _DIST_ORDER if dist_counts.get(d, 0) > 0]
+    dist_html = ""
+    if len(_dists) > 1:
+        dist_html = ('<select id="dist-sel" class="dist-sel" aria-label="District" onchange="filterDistrict(this, this.value)">'
+                     '<option value="all">All districts</option>'
+                     + "".join(f'<option value="{esc(d, quote=True)}">{esc(d)}</option>' for d in _dists)
+                     + '</select>')
+    ph_en, ph_l10n = _GF_SEARCH_PH[cat_key]
+    ph_attr = esc(_json.dumps(ph_l10n, ensure_ascii=False), quote=True)
+    chev = ('<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" '
+            'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>')
+    html = f"""
+<div id="fbar-{cat_key}" class="fbar gf sticky top-[58px] z-40 pb-2 mb-5" style="background:var(--paper-2)">
+  <div class="max-w-6xl mx-auto px-5 gf-wrap">
+    <div class="gf-searchrow">
+      <svg class="gf-sicon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="gf-q" class="gf-q" type="search" autocomplete="off" enterkeyhint="search"
+             placeholder="{esc(ph_en, quote=True)}" data-l10n-placeholder="{ph_attr}" aria-label="{esc(ph_en, quote=True)}">
+    </div>
+    <div class="gf-row">
+      <button type="button" id="gf-catbtn" class="gf-catbtn" aria-expanded="false" aria-controls="gf-panel"><span>All categories</span>{chev}</button>
+      <div id="chipbar-{cat_key}" class="fbar-chips gf-chips flex gap-5 overflow-x-auto" style="scrollbar-width:none;-ms-overflow-style:none">
+        <button type="button" id="gf-active" class="filter-chip chip-active gf-activechip" hidden><span class="gf-al"></span> <span aria-hidden="true">&#10005;</span></button>
+        {top_html}
+      </div>
+      <span id="gf-distslot">{dist_html}</span>
+    </div>
+    <div id="gf-panel" class="gf-panel" hidden>
+      <div class="gf-phead">
+        <strong class="gf-ptitle">All categories</strong>
+        <span id="gf-distslot-m"></span>
+        <button type="button" class="gf-close" aria-label="Close"><span>Close</span> &#10005;</button>
+      </div>
+      <div class="gf-grid">
+        <div class="gf-group gf-allgroup"><button type="button" class="gf-ghead" data-grp="all"><span>All</span><span class="chip-count">{len(items)}</span></button></div>
+        {"".join(groups_html)}
+      </div>
+      <div class="gf-pfoot"><button type="button" class="gf-show"><span class="gf-shown">{len(items)} results</span></button></div>
+    </div>
+    <span id="gf-empty-tpl" hidden>No matches. Try another word, or open All categories.</span>
+  </div>
+</div>
+<script>
+var _activeSub = 'all', _activeDist = 'all', _activeGrp = 'all', _gfQ = '';
+var _SUB_GRP = {_json.dumps(sub_grp)};
+""" + _GF_JS.replace("__CAT__", cat_key) + "</script>"
+    return html
+
+
+_GF_JS = r"""
+(function(){
+  var fb = document.getElementById('fbar-__CAT__');
+  var panel = document.getElementById('gf-panel'), btn = document.getElementById('gf-catbtn');
+  var q = document.getElementById('gf-q'), act = document.getElementById('gf-active');
+  var strip = document.getElementById('chipbar-__CAT__');
+  function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
+  var cards = [], hay = [];
+  function initCards(){ if (cards.length) return;
+    cards = Array.prototype.slice.call(document.querySelectorAll('.listing-card'));
+    hay = cards.map(function(c){ return norm(c.textContent + ' ' + (c.getAttribute('data-k')||'')); });
+  }
+  function subOk(c){
+    if (_activeSub !== 'all') return c.dataset.sub === _activeSub;
+    if (_activeGrp !== 'all') return _SUB_GRP[c.dataset.sub] === _activeGrp;
+    return true;
+  }
+  function distOk(c){ return _activeDist === 'all' || (c.dataset.district||'').split('|').indexOf(_activeDist) >= 0; }
+  var empty = null;
+  function apply(){
+    initCards();
+    var words = norm(_gfQ).split(/\s+/).filter(Boolean), vis = 0, dc = {};
+    for (var i = 0; i < cards.length; i++){
+      var c = cards[i], h = hay[i];
+      var qOk = words.every(function(w){ return h.indexOf(w) >= 0; });
+      var ok = subOk(c) && qOk;
+      if (ok){ var ds = (c.dataset.district||'Paramaribo').split('|'); for (var d = 0; d < ds.length; d++) dc[ds[d]] = (dc[ds[d]]||0) + 1; }
+      ok = ok && distOk(c);
+      c.classList.toggle('hidden', !ok); if (ok) vis++;
+    }
+    var lbl = document.getElementById('result-count');
+    if (lbl){
+      if (!lbl.dataset.tpl) lbl.dataset.tpl = lbl.textContent.replace(/\d+/, '#');
+      lbl.textContent = lbl.dataset.tpl.replace('#', vis) + (_activeDist !== 'all' ? ' · ' + _activeDist : '');
+      if (!empty){ empty = document.createElement('p'); empty.className = 'gf-empty';
+        empty.textContent = document.getElementById('gf-empty-tpl').textContent; lbl.parentNode.insertBefore(empty, lbl.nextSibling); }
+      empty.hidden = vis > 0;
+      var sh = panel.querySelector('.gf-shown');
+      if (sh){ if (!sh.dataset.tpl) sh.dataset.tpl = sh.textContent.replace(/\d+/, '#'); sh.textContent = sh.dataset.tpl.replace('#', vis); }
+    }
+    var sel = document.getElementById('dist-sel');
+    if (sel){
+      for (var oi = 0; oi < sel.options.length; oi++){
+        var o = sel.options[oi]; if (o.value === 'all') continue;
+        var n = dc[o.value] || 0; o.hidden = o.disabled = n === 0;
+        if (n === 0 && _activeDist === o.value){ _activeDist = 'all'; sel.value = 'all'; return apply(); }
+      }
+    }
+    btn.classList.toggle('has-dist', _activeDist !== 'all');
+  }
+  function labelOf(sub, grp){
+    var el = sub !== 'all' ? panel.querySelector('[data-sub="' + sub + '"] span')
+                           : panel.querySelector('.gf-ghead[data-grp="' + grp + '"] span');
+    return el ? el.textContent : '';
+  }
+  function syncUI(){
+    /* The active choice is always the first chip (with ✕), so it is visible even
+       on a phone where the strip only shows one or two chips; its duplicate among
+       the top chips is hidden meanwhile. */
+    var shown = false;
+    strip.querySelectorAll('.gf-top').forEach(function(b){
+      b.hidden = _activeSub !== 'all' && b.getAttribute('data-sub') === _activeSub;
+    });
+    strip.scrollLeft = 0;
+    var any = _activeSub !== 'all' || _activeGrp !== 'all';
+    act.hidden = !any;
+    if (any && !shown) act.querySelector('.gf-al').textContent = labelOf(_activeSub, _activeGrp);
+    panel.querySelectorAll('.gf-type, .gf-ghead').forEach(function(b){
+      var s = b.getAttribute('data-sub'), g = b.getAttribute('data-grp');
+      var on = s ? (s === _activeSub) : (g === _activeGrp && _activeSub === 'all');
+      b.classList.toggle('gf-on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  function toResults(){
+    var lbl = document.getElementById('result-count');
+    if (!lbl) return;
+    var top = lbl.getBoundingClientRect().top + window.pageYOffset - fb.offsetHeight - 70;
+    if (window.pageYOffset > top) window.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
+  }
+  function pick(sub, grp){
+    _activeSub = sub || 'all'; _activeGrp = grp || 'all';
+    if (_gfQ){ _gfQ = ''; q.value = ''; }
+    syncUI(); apply(); setOpen(false); toResults();
+  }
+  window.esrPick = pick;
+  function setOpen(o){
+    panel.hidden = !o; btn.setAttribute('aria-expanded', o ? 'true' : 'false');
+    fb.classList.toggle('gf-isopen', o);   /* lift the bar above the site header while the sheet is open */
+    document.documentElement.classList.toggle('gf-lock', o && mq.matches);
+    if (o){ var f = panel.querySelector('.gf-on') || panel.querySelector('button.gf-ghead'); if (f) f.focus({preventScroll: true}); }
+  }
+  btn.addEventListener('click', function(){ setOpen(panel.hidden); });
+  panel.querySelector('.gf-close').addEventListener('click', function(){ setOpen(false); btn.focus(); });
+  panel.querySelector('.gf-show').addEventListener('click', function(){ setOpen(false); toResults(); });
+  panel.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('button[data-sub], button[data-grp]');
+    if (!b || !panel.contains(b)) return;
+    var s = b.getAttribute('data-sub');
+    if (s) pick(s, _SUB_GRP[s] || 'all'); else pick('all', b.getAttribute('data-grp'));
+  });
+  strip.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('button'); if (!b) return;
+    if (b === act){ pick('all', 'all'); return; }
+    var s = b.getAttribute('data-sub'); if (!s) return;
+    if (s === _activeSub) pick('all', 'all'); else pick(s, _SUB_GRP[s] || 'all');
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !panel.hidden){ setOpen(false); btn.focus(); } });
+  document.addEventListener('click', function(e){
+    if (panel.hidden || mq.matches) return;
+    if (!panel.contains(e.target) && !btn.contains(e.target)) setOpen(false);
+  });
+  var tq = null;
+  q.addEventListener('input', function(){
+    clearTimeout(tq);
+    tq = setTimeout(function(){
+      _gfQ = q.value.trim();
+      if (_gfQ && (_activeSub !== 'all' || _activeGrp !== 'all')){ _activeSub = 'all'; _activeGrp = 'all'; syncUI(); }
+      apply();
+    }, 120);
+  });
+  q.addEventListener('keydown', function(e){ if (e.key === 'Enter'){ q.blur(); toResults(); } });
+  /* Phones: the district picker lives in the sheet, the row has no room for it. */
+  var mq = window.matchMedia('(max-width:639px)');
+  function placeDist(){
+    var sel = document.getElementById('dist-sel'); if (!sel) return;
+    var slot = document.getElementById(mq.matches ? 'gf-distslot-m' : 'gf-distslot');
+    if (sel.parentNode !== slot) slot.appendChild(sel);
+  }
+  placeDist();
+  if (mq.addEventListener) mq.addEventListener('change', placeDist); else if (mq.addListener) mq.addListener(placeDist);
+  window.filterDistrict = function(el, d){ _activeDist = d || 'all'; apply(); };
+  /* Deep links: ?sub=notaries-legal, ?grp=g-home-property, ?q=loodgieter */
+  var qs = new URLSearchParams(location.search);
+  function boot(){
+    var s = qs.get('sub'), g = qs.get('grp'), qq = qs.get('q');
+    if (s && _SUB_GRP[s]) { _activeSub = s; _activeGrp = _SUB_GRP[s]; }
+    else if (g && panel.querySelector('.gf-ghead[data-grp="' + g + '"]')) { _activeGrp = g; }
+    if (qq){ q.value = qq; _gfQ = qq; _activeSub = 'all'; _activeGrp = 'all'; }
+    syncUI(); if (s || g || qq) apply();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+"""
+
 
 def _itemlist_url(it):
     """Absolute internal URL for an ItemList entry. Business items carry a
