@@ -4082,6 +4082,23 @@ _SUB_KW = {
     "toys-gifts": "toys speelgoed gifts cadeau",
     "sports-outdoors": "sports sport outdoor fishing vissen camping",
     "wholesale-import": "wholesale groothandel import export trading",
+    # Eat & Drink / Stay / Things to Do
+    "local-caribbean": "surinamese surinaams creole creools javanese javaans warung hindustani",
+    "asian-fusion": "asian aziatisch",
+    "fast-food": "fast food snack burger fries friet chicken kip takeaway afhaal",
+    "cafes-coffee": "cafe koffie coffee breakfast ontbijt brunch lunch tea thee",
+    "bars-lounges": "bar lounge drinks cocktails nightlife uitgaan beer bier",
+    "pizza-italian": "pizza pasta italian italiaans",
+    "bakeries-sweets": "bakery bakkerij cake taart pastry gebak ice cream ijs dessert",
+    "restaurants": "restaurant dinner diner",
+    "city-hotels": "hotel city stad business",
+    "resorts": "resort",
+    "casino-hotels": "casino hotel",
+    "eco-lodges": "lodge eco jungle river rivier binnenland interior",
+    "guesthouses": "guesthouse pension villa apartment appartement b&b",
+    "nature-parks": "nature natuur park reserve reservaat wildlife birds vogels hiking",
+    "tours-expeditions": "tour excursion excursie trip boat boot guide gids",
+    "museums-heritage": "museum heritage erfgoed history geschiedenis fort plantage plantation",
 }
 
 
@@ -5660,6 +5677,10 @@ PAGE_HEAD = """\
     .gf-on .chip-count { color:#fff; }
     .gf-empty { font-size:.95rem; color:#4B564D; margin:-.25rem 0 1rem; }
     .gf-pfoot { display:none; }
+    .gf-more { display:block; margin:2rem auto 0; min-height:46px; padding:0 1.6rem; border:1.5px solid var(--forest);
+               border-radius:9999px; background:#fff; color:var(--forest); font-weight:600; font-size:.92rem; cursor:pointer; }
+    .gf-more:hover { background:var(--forest); color:#fff; }
+    .gf-more[hidden] { display:none; }
     .fbar.gf-isopen { z-index:100!important; }
     .gf-empty[hidden] { display:none; }
     @media(hover:none){ .gf-ghead, .gf-type { min-height:44px; align-items:center; } }
@@ -7278,8 +7299,12 @@ def poi_card(item, badge_key="cuisine", eager=False, featured=False, cat_key=Non
         tail_lbl = f"{chain_n} locations"   # a single branch number would mislead on a brand card
     # Grouped pages (Services, Shopping) have an in-page search; data-k carries the
     # type's EN/NL synonyms so "loodgieter" finds a listing whose card never says it.
-    _dk = (f' data-k="{html_lib.escape(_SUB_KW.get(item.get("subcat", ""), ""), quote=True)}"'
-           if cat_key in SUBCAT_GROUPS and _SUB_KW.get(item.get("subcat", "")) else "")
+    # Plus the description's keywords (the visible blurb is cut at 110 characters).
+    _dk = ""
+    if cat_key in _GF_SEARCH_PH:
+        _kw_txt = " ".join([_SUB_KW.get(item.get("subcat", ""), "")] + _desc_kw(item, [])).strip()
+        if _kw_txt:
+            _dk = f' data-k="{html_lib.escape(_kw_txt, quote=True)}"'
     _open = (f'<a href="{url}" data-sub="{item.get("subcat","other")}" data-district="{html_lib.escape(district)}"{_dk} '
              f'class="listing-card{" listing-row" if layout == "row" else ""} group relative card-hover flex{"" if layout == "row" else " flex-col"}">')
 
@@ -7318,7 +7343,7 @@ def poi_card(item, badge_key="cuisine", eager=False, featured=False, cat_key=Non
 
 def _filter_bar_html(items, cat_key):
     """Sticky filter chip bar with subcat + district filtering."""
-    if SUBCAT_GROUPS.get(cat_key):
+    if cat_key in _GF_SEARCH_PH:
         return _grouped_filter_bar_html(items, cat_key)
     from collections import Counter
     sub_counts  = Counter(b.get("subcat","other")     for b in items)
@@ -7585,6 +7610,24 @@ _GF_SEARCH_PH = {
         "zh": "搜索商店或商品（如瓷砖、手机、肉店）",
         "fr": "Rechercher un magasin ou un produit (ex. carrelage, téléphone, boucherie)",
         "pt": "Busque uma loja ou produto (ex.: azulejos, celular, açougue)"}),
+    "restaurant": ("Search a restaurant or dish (e.g. roti, sushi, pizza)", {
+        "nl": "Zoek een restaurant of gerecht (bv. roti, sushi, pizza)",
+        "es": "Busca un restaurante o plato (p. ej. roti, sushi, pizza)",
+        "zh": "搜索餐厅或菜品（如 roti、寿司、披萨）",
+        "fr": "Rechercher un restaurant ou un plat (ex. roti, sushi, pizza)",
+        "pt": "Busque um restaurante ou prato (ex.: roti, sushi, pizza)"}),
+    "hotel": ("Search a hotel or lodge (e.g. pool, river, casino)", {
+        "nl": "Zoek een hotel of lodge (bv. zwembad, rivier, casino)",
+        "es": "Busca un hotel o lodge (p. ej. piscina, río, casino)",
+        "zh": "搜索酒店或旅舍（如泳池、河边、赌场）",
+        "fr": "Rechercher un hôtel ou un lodge (ex. piscine, fleuve, casino)",
+        "pt": "Busque um hotel ou lodge (ex.: piscina, rio, cassino)"}),
+    "adventure": ("Search a place or activity (e.g. Brownsberg, turtles, boat tour)", {
+        "nl": "Zoek een plek of activiteit (bv. Brownsberg, schildpadden, boottocht)",
+        "es": "Busca un lugar o actividad (p. ej. Brownsberg, tortugas, paseo en barco)",
+        "zh": "搜索地点或活动（如 Brownsberg、海龟、乘船游）",
+        "fr": "Rechercher un lieu ou une activité (ex. Brownsberg, tortues, balade en bateau)",
+        "pt": "Busque um lugar ou atividade (ex.: Brownsberg, tartarugas, passeio de barco)"}),
 }
 _GF_TOP_N = 5   # 5 fit next to the button at 1366px; the rest are one tap away
 
@@ -7599,7 +7642,8 @@ def _grouped_filter_bar_html(items, cat_key):
     lbl = {k: l for k, l, _e in SUBCATS[cat_key]}
     esc = html_lib.escape
     sub_grp, groups_html = {}, []
-    for gk, glabel, gkeys in SUBCAT_GROUPS[cat_key]:
+    _groups = SUBCAT_GROUPS.get(cat_key) or [("g-types", None, [k for k, _l, _e in SUBCATS[cat_key] if k != "all"])]
+    for gk, glabel, gkeys in _groups:
         live = [k for k in gkeys if sub_counts.get(k, 0) > 0]
         if not live:
             continue
@@ -7609,7 +7653,10 @@ def _grouped_filter_bar_html(items, cat_key):
         rows = "".join(
             f'<button type="button" class="gf-type" data-sub="{k}"><span>{esc(lbl[k])}</span>'
             f'<span class="chip-count">{sub_counts[k]}</span></button>' for k in live)
-        if len(live) == 1:
+        if glabel is None:
+            # Pages without groups (Eat & Drink, Stay, Things to Do): plain type list
+            groups_html.append(f'<div class="gf-group gf-flat">{rows}</div>')
+        elif len(live) == 1:
             # one type only: the group heading picks that type directly
             head = (f'<button type="button" class="gf-ghead gf-single" data-grp="{gk}" data-sub="{live[0]}">'
                     f'<span>{esc(glabel)}</span><span class="chip-count">{gcount}</span></button>')
@@ -7665,6 +7712,7 @@ def _grouped_filter_bar_html(items, cat_key):
       <div class="gf-pfoot"><button type="button" class="gf-show"><span class="gf-shown">{len(items)} results</span></button></div>
     </div>
     <span id="gf-empty-tpl" hidden>No matches. Try another word, or open All categories.</span>
+    <span id="gf-more-tpl" hidden>Show 24 more</span>
   </div>
 </div>
 <script>
@@ -7684,7 +7732,7 @@ _GF_JS = r"""
   var cards = [], hay = [];
   function initCards(){ if (cards.length) return;
     cards = Array.prototype.slice.call(document.querySelectorAll('.listing-card'));
-    hay = cards.map(function(c){ return norm(c.textContent + ' ' + (c.getAttribute('data-k')||'')); });
+    hay = cards.map(function(c){ return ' ' + norm(c.textContent + ' ' + (c.getAttribute('data-k')||'')).replace(/[^a-z0-9\u4e00-\u9fff]+/g, ' '); });
   }
   function subOk(c){
     if (_activeSub !== 'all') return c.dataset.sub === _activeSub;
@@ -7692,17 +7740,40 @@ _GF_JS = r"""
     return true;
   }
   function distOk(c){ return _activeDist === 'all' || (c.dataset.district||'').split('|').indexOf(_activeDist) >= 0; }
-  var empty = null;
+  var empty = null, PAGE = 24, limit = PAGE, moreBtn = null;
+  try { if (history.state && history.state.gfN) limit = history.state.gfN; } catch (e) {}
+  function mkMore(){
+    if (moreBtn || !cards.length) return;
+    var grid = cards[0].parentNode;
+    moreBtn = document.createElement('button'); moreBtn.type = 'button'; moreBtn.className = 'gf-more';
+    moreBtn.dataset.tpl = document.getElementById('gf-more-tpl').textContent.replace(/\d+/, '#');
+    grid.parentNode.insertBefore(moreBtn, grid.nextSibling);
+    moreBtn.addEventListener('click', function(){
+      limit += PAGE;
+      try { history.replaceState(Object.assign({}, history.state || {}, {gfN: limit}), ''); } catch (e) {}
+      apply();
+    });
+  }
   function apply(){
-    initCards();
-    var words = norm(_gfQ).split(/\s+/).filter(Boolean), vis = 0, dc = {};
+    initCards(); mkMore();
+    var words = norm(_gfQ).replace(/[^a-z0-9\u4e00-\u9fff]+/g, ' ').split(' ').filter(Boolean), vis = 0, shown = 0, dc = {};
     for (var i = 0; i < cards.length; i++){
       var c = cards[i], h = hay[i];
-      var qOk = words.every(function(w){ return h.indexOf(w) >= 0; });
+      /* Short words match at a word start ("ijs" not "prijs"); longer ones anywhere,
+         so Dutch compounds work ("schildpad" finds "zeeschildpadden"). */
+      var qOk = words.every(function(w){ return (w.length >= 5 || /[\u4e00-\u9fff]/.test(w)) ? h.indexOf(w) >= 0 : h.indexOf(' ' + w) >= 0; });
       var ok = subOk(c) && qOk;
       if (ok){ var ds = (c.dataset.district||'Paramaribo').split('|'); for (var d = 0; d < ds.length; d++) dc[ds[d]] = (dc[ds[d]]||0) + 1; }
       ok = ok && distOk(c);
-      c.classList.toggle('hidden', !ok); if (ok) vis++;
+      if (ok) vis++;
+      /* "Show more" paging (Baymard: beats infinite scroll and page numbers) */
+      var show = ok && shown < limit; if (show) shown++;
+      c.classList.toggle('hidden', !show);
+    }
+    if (moreBtn){
+      var left = vis - shown;
+      moreBtn.hidden = left <= 0;
+      moreBtn.textContent = moreBtn.dataset.tpl.replace('#', Math.min(PAGE, left));
     }
     var lbl = document.getElementById('result-count');
     if (lbl){
@@ -7753,7 +7824,9 @@ _GF_JS = r"""
     var top = lbl.getBoundingClientRect().top + window.pageYOffset - fb.offsetHeight - 70;
     if (window.pageYOffset > top) window.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
   }
+  function resetPage(){ limit = PAGE; try { history.replaceState(Object.assign({}, history.state || {}, {gfN: 0}), ''); } catch (e) {} }
   function pick(sub, grp){
+    resetPage();
     _activeSub = sub || 'all'; _activeGrp = grp || 'all';
     if (_gfQ){ _gfQ = ''; q.value = ''; }
     syncUI(); apply(); setOpen(false); toResults();
@@ -7789,7 +7862,7 @@ _GF_JS = r"""
   q.addEventListener('input', function(){
     clearTimeout(tq);
     tq = setTimeout(function(){
-      _gfQ = q.value.trim();
+      _gfQ = q.value.trim(); resetPage();
       if (_gfQ && (_activeSub !== 'all' || _activeGrp !== 'all')){ _activeSub = 'all'; _activeGrp = 'all'; syncUI(); }
       apply();
     }, 120);
@@ -7804,7 +7877,7 @@ _GF_JS = r"""
   }
   placeDist();
   if (mq.addEventListener) mq.addEventListener('change', placeDist); else if (mq.addListener) mq.addListener(placeDist);
-  window.filterDistrict = function(el, d){ _activeDist = d || 'all'; apply(); };
+  window.filterDistrict = function(el, d){ _activeDist = d || 'all'; resetPage(); apply(); };
   /* Deep links: ?sub=notaries-legal, ?grp=g-home-property, ?q=loodgieter */
   var qs = new URLSearchParams(location.search);
   function boot(){
@@ -7812,7 +7885,7 @@ _GF_JS = r"""
     if (s && _SUB_GRP[s]) { _activeSub = s; _activeGrp = _SUB_GRP[s]; }
     else if (g && panel.querySelector('.gf-ghead[data-grp="' + g + '"]')) { _activeGrp = g; }
     if (qq){ q.value = qq; _gfQ = qq; _activeSub = 'all'; _activeGrp = 'all'; }
-    syncUI(); if (s || g || qq) apply();
+    syncUI(); apply();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
