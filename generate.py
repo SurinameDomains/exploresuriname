@@ -3451,6 +3451,53 @@ _RESORT_SUBCAT.update({
     "kaizen": "fitness-wellness",               # Kaizen Method gym (kaizenmethod.net), confirmed by AB
 })
 
+# Eat & Drink re-sort (8 Oct 2026): cuisine types instead of "Asian & Fusion" /
+# "Local & Caribbean", every restaurant read and placed by hand.
+_RESORT_SUBCAT.update({
+    # Chinese
+    "bbq-bar-hermitage": "chinese", "chi-min": "chinese", "dim-sum-cuisine": "chinese",
+    "kong-nam-snack": "chinese", "kwan-tai-restaurant": "chinese", "leiding-1-restaurant": "chinese",
+    "lucky-twins-restaurant": "chinese", "south-america-hot-pot": "chinese", "squeezy-hot-pot-restaurant": "chinese",
+    # Japanese & sushi
+    "kushiyaki-the-next-episode": "japanese-sushi", "mingle-sushi": "japanese-sushi", "norrii-zushii": "japanese-sushi",
+    "ogi-teppanyaki-sushi-bar": "japanese-sushi", "sakura": "japanese-sushi", "sushi-ya": "japanese-sushi",
+    # Indian
+    "karans-indian-food": "indian", "maharaja-palace": "indian", "raja-ji": "indian",
+    # Thai, Korean, Vietnamese, Asian fusion
+    "elements-restaurant-lounge": "asian-other", "elev8te": "asian-other", "garden-of-eden": "asian-other",
+    "goe-thai-noodle-bar": "asian-other", "kyu-pho-grill": "asian-other", "lees-korean-grill": "asian-other",
+    "momo-korean-fried-chicken": "asian-other", "sugar": "asian-other",
+    # Roti & Hindustani
+    "guru-rotishop": "roti-hindustani", "joosje-roti-shop": "roti-hindustani",
+    "ritas-roti-shop": "roti-hindustani", "roopram-roti-shop": "roti-hindustani",
+    # Javanese & warungs
+    "mirosso": "javanese-warung", "restaurant-sarinah": "javanese-warung", "restoran-bibit": "javanese-warung",
+    "warung-blauwtjie": "javanese-warung", "warung-mbah-paidjah": "javanese-warung", "warung-oetomo": "javanese-warung",
+    "warung-resa-centrum": "javanese-warung", "warung-soepy-ann": "javanese-warung",
+    # Creole & Surinamese (incl. mixed Surinamese kitchens and Caribbean)
+    "a-la-john": "creole-surinamese", "anthonys-corner": "creole-surinamese", "baka-foto-restaurant": "creole-surinamese",
+    "bori-tori": "creole-surinamese", "de-gadri": "creole-surinamese", "de-spot": "creole-surinamese",
+    "eethuis-liv": "creole-surinamese", "etembe-rainforest-restaurant": "creole-surinamese",
+    "flavor-restaurant": "creole-surinamese", "joey-ds": "creole-surinamese", "lobby": "creole-surinamese",
+    "oasis-restaurant": "creole-surinamese", "pot-cova": "creole-surinamese", "raytjes-kukru": "creole-surinamese",
+    "restaurant-lhermitage": "creole-surinamese", "rolines-de-waag": "creole-surinamese",
+    "souposo": "creole-surinamese", "x-avenue": "creole-surinamese",
+    # Grill & steak
+    "big-tex": "grill-steak", "brasa-suriname": "grill-steak", "meat-at-midnight": "grill-steak",
+    "mighty-racks": "grill-steak", "okopipi-tropical-grill": "grill-steak", "rustique-grill": "grill-steak",
+    "sizzlers-signature": "grill-steak", "sizzler-midnight-grill": "grill-steak",
+    # Latin American
+    "el-patron-latin-grill": "latin-american", "las-tias": "latin-american", "viva-mexico": "latin-american",
+    "petisco-restaurant": "latin-american", "candys-bar-restaurant": "latin-american",
+    "bistro-don-julio": "latin-american",
+    # International (the "restaurants" key)
+    "olive-multi-cuisine-restaurant": "restaurants", "spice-quest": "restaurants",
+    "moments-restaurant": "restaurants",
+    # moved to the type they actually are
+    "combe-bazaar": "fast-food",                 # broodjes shop, like Krioro
+    "bistro-brwni": "cafes-coffee", "julias-food": "cafes-coffee",
+})
+
 # Retired keys -> current type, for anything that still lands on one (keyword
 # rules below, an old D1 row). Category-specific retirements (Services
 # nursery-garden, Shopping automotive) are fixed per list after the lists are built.
@@ -3458,6 +3505,7 @@ _LEGACY_SUBCAT = {
     "legal-professional": "consulting-hr", "tech-media": "it-software",
     "travel-transport": "travel-agencies", "education": "training-courses",
     "industry-energy": "manufacturing",
+    "asian-fusion": "asian-other", "local-caribbean": "creole-surinamese",
 }
 
 
@@ -3992,6 +4040,35 @@ _GROUPED_TAX = {
             ("nursery-garden", "Nursery & Garden", "🌱"),   # legacy (service)
         ]),
     ],
+    "restaurant": [
+        ("g-surinamese", "Surinamese", [
+            ("roti-hindustani",   "Hindustani",          "🫓"),
+            ("javanese-warung",   "Javanese",            "🍜"),
+            ("creole-surinamese", "Creole",              "🍲"),
+            ("local-caribbean",   "Local & Caribbean",   "🌿"),   # legacy
+        ]),
+        ("g-asian", "Asian", [
+            ("chinese",        "Chinese",             "🥟"),
+            ("japanese-sushi", "Japanese",            "🍣"),
+            ("indian",         "Indian",              "🍛"),
+            ("asian-other",    "Thai, Korean & more", "🥢"),
+            ("asian-fusion",   "Asian & Fusion",      "🥢"),   # legacy
+        ]),
+        ("g-international", "International", [
+            ("grill-steak",    "Grill & steak",   "🥩"),
+            ("pizza-italian",  "Pizza & Italian", "🍕"),
+            ("latin-american", "Latin American",  "🌮"),
+            ("restaurants",    "World cuisine",   "🍴"),
+        ]),
+        ("g-quick", "Quick & casual", [
+            ("fast-food",       "Fast Food",         "🍔"),
+            ("cafes-coffee",    "Cafés & Coffee",    "☕"),
+            ("bakeries-sweets", "Bakeries & Sweets", "🍰"),
+        ]),
+        ("g-drinks", "Bars & nightlife", [
+            ("bars-lounges", "Bars & Lounges", "🍹"),
+        ]),
+    ],
     "shopping": [
         ("g-food-drink", "Food & Groceries", [
             ("supermarkets",   "Supermarkets",     "🛒"),
@@ -4034,13 +4111,14 @@ _GROUPED_TAX = {
         ]),
     ],
 }
-_GROUP_ALL_ICON = {"service": "⚡", "shopping": "🛍️"}
+_GROUP_ALL_ICON = {"service": "⚡", "shopping": "🛍️", "restaurant": "🍽️"}
 # Keys marked "# legacy" above: still valid (old listings / D1 rows carry them),
 # never offered on the Add-your-business form. Being emptied by the re-sort.
 SUBCAT_LEGACY = {
     "service":  {"legal-professional", "tech-media", "travel-transport", "education",
                  "industry-energy", "nursery-garden"},
     "shopping": {"automotive"},
+    "restaurant": {"asian-fusion", "local-caribbean"},
 }
 SUBCAT_GROUPS = {}
 for _gc, _groups in _GROUPED_TAX.items():
@@ -4083,14 +4161,21 @@ _SUB_KW = {
     "sports-outdoors": "sports sport outdoor fishing vissen camping",
     "wholesale-import": "wholesale groothandel import export trading",
     # Eat & Drink / Stay / Things to Do
-    "local-caribbean": "surinamese surinaams creole creools javanese javaans warung hindustani",
-    "asian-fusion": "asian aziatisch",
+    "roti-hindustani": "roti hindostaans hindustani curry masala surinaams",
+    "javanese-warung": "javaans javanese warung indonesisch indonesian bami nasi saoto sate satay rijsttafel surinaams",
+    "creole-surinamese": "surinaams surinamese creools creole lokaal local caribbean caribisch",
+    "chinese": "chinees chinese dim sum hot pot bami nasi aziatisch asian",
+    "japanese-sushi": "japans japanese sushi teppanyaki yakitori aziatisch asian",
+    "indian": "indiaas indian curry tandoori naan biryani",
+    "asian-other": "thai thais korean koreaans vietnamese vietnamees pho aziatisch asian fusion",
+    "grill-steak": "grill steak steakhouse barbecue bbq ribs vlees meat",
+    "latin-american": "latin latijns mexican mexicaans brazilian braziliaans colombian venezuelan tacos",
     "fast-food": "fast food snack burger fries friet chicken kip takeaway afhaal",
     "cafes-coffee": "cafe koffie coffee breakfast ontbijt brunch lunch tea thee",
     "bars-lounges": "bar lounge drinks cocktails nightlife uitgaan beer bier",
     "pizza-italian": "pizza pasta italian italiaans",
     "bakeries-sweets": "bakery bakkerij cake taart pastry gebak ice cream ijs dessert",
-    "restaurants": "restaurant dinner diner",
+    "restaurants": "restaurant international internationaal dinner diner",
     "city-hotels": "hotel city stad business",
     "resorts": "resort",
     "casino-hotels": "casino hotel",
@@ -4318,9 +4403,9 @@ for _cmem in _CHAIN_GROUPS.values():
 _CAT_LEGACY_FIX = {"service": {"nursery-garden": "garden-pest",
                                # chain branches filed under the other page (Carline)
                                "auto-parts": "automotive", "car-dealers": "automotive"},
-                   "shopping": {"automotive": "car-dealers"}}
+                   "shopping": {"automotive": "car-dealers"}, "restaurant": {}}
 _subfix = []
-for _lst, _gcat in ((SERVICES, "service"), (SHOPPING, "shopping")):
+for _lst, _gcat in ((SERVICES, "service"), (SHOPPING, "shopping"), (RESTAURANTS, "restaurant")):
     _valid = {_k for _k, _l, _i in SUBCATS[_gcat]} - SUBCAT_LEGACY[_gcat]
     for _b in _lst:
         _k = _subcat(_b["slug"])
@@ -5772,6 +5857,15 @@ PAGE_HEAD = """\
              text-decoration:none;white-space:nowrap;transition:color .18s,border-color .18s}
     .cat-cta:hover{background:none;color:var(--clay)}
     @media(max-width:640px){.cat-hero-in{padding:1.5rem 1.1rem 1.1rem}.cat-row{gap:.7rem}}
+    /* Category listing pages (Oct 2026): compact header so search, filters and the
+       first results sit higher; the listings are what people came for. */
+    .cat-hero-compact .cat-hero-in{padding:1.1rem 1.25rem .85rem}
+    .cat-hero-compact .cat-row{margin-top:.3rem;align-items:baseline}
+    .cat-hero-compact .cat-row h1{font-size:clamp(1.75rem,3.2vw,2.4rem)}
+    .cat-hero-compact .h1-count{font-size:.9rem}
+    .cat-hero-compact .cat-sub{font-size:.92rem;line-height:1.4;margin-top:.25rem}
+    @media(max-width:640px){.cat-hero-compact .cat-hero-in{padding:.8rem 1.1rem .6rem}
+      .cat-hero-compact .cat-row{gap:.35rem}}
     /* Intro prose lives below the listings: indexable, out of the way. */
     .cat-about{border-top:1px solid var(--line,#e6ddc9);margin-top:3rem;padding-top:1.8rem}
     .cat-about h2{font-size:1.15rem;font-weight:700;color:var(--ink,#233028);margin:0 0 .6rem}
@@ -7718,6 +7812,7 @@ def _grouped_filter_bar_html(items, cat_key):
 <script>
 var _activeSub = 'all', _activeDist = 'all', _activeGrp = 'all', _gfQ = '';
 var _SUB_GRP = {_json.dumps(sub_grp)};
+var _SUB_OLD = {_json.dumps({k: v for k, v in _LEGACY_SUBCAT.items() if k in sub_grp})};
 """ + _GF_JS.replace("__CAT__", cat_key) + "</script>"
     return html
 
@@ -7882,6 +7977,7 @@ _GF_JS = r"""
   var qs = new URLSearchParams(location.search);
   function boot(){
     var s = qs.get('sub'), g = qs.get('grp'), qq = qs.get('q');
+    if (s && _SUB_OLD[s]) s = _SUB_OLD[s];   /* old links to a retired type */
     if (s && _SUB_GRP[s]) { _activeSub = s; _activeGrp = _SUB_GRP[s]; }
     else if (g && panel.querySelector('.gf-ghead[data-grp="' + g + '"]')) { _activeGrp = g; }
     if (qq){ q.value = qq; _gfQ = qq; _activeSub = 'all'; _activeGrp = 'all'; }
@@ -8023,7 +8119,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
 {_lcp_preload}</head>
 <body class="bg-paper overflow-x-hidden">
 {nav_html(_page_active)}
-<div class="cat-hero" style="--cat:{bg_color}">
+<div class="cat-hero cat-hero-compact" style="--cat:{bg_color}">
   <div class="cat-hero-in">
     <nav class="cat-crumb" aria-label="Breadcrumb">
       <a href="./">Home</a><span aria-hidden="true">&rsaquo;</span><span>{title}</span>
@@ -9569,6 +9665,15 @@ _SUBCAT_SCHEMA = {
     "bars-lounges":         ("BarOrPub",                  None),
     "asian-fusion":         ("Restaurant",                "Asian, International"),
     "local-caribbean":      ("Restaurant",                "Surinamese, Caribbean"),
+    "roti-hindustani":      ("Restaurant",                "Surinamese, Hindustani, Roti"),
+    "javanese-warung":      ("Restaurant",                "Javanese, Indonesian"),
+    "creole-surinamese":    ("Restaurant",                "Surinamese, Creole"),
+    "chinese":              ("Restaurant",                "Chinese"),
+    "japanese-sushi":       ("Restaurant",                "Japanese, Sushi"),
+    "indian":               ("Restaurant",                "Indian"),
+    "asian-other":          ("Restaurant",                "Asian"),
+    "grill-steak":          ("Restaurant",                "Steakhouse, Grill"),
+    "latin-american":       ("Restaurant",                "Latin American"),
     "restaurants":          ("Restaurant",                None),
     "bakeries-sweets":      ("Bakery",                    None),
     "pizza-italian":        ("Restaurant",                "Italian, Pizza"),
@@ -9763,6 +9868,11 @@ _SEO_TYPE_LABEL.update({
     "shipping-logistics": "Shipping & Logistics", "schools": "School",
     "training-courses": "Training Centre", "arts-dance-music": "Dance & Music School",
     "oil-gas": "Oil & Gas Company", "mining": "Mining Company",
+    "roti-hindustani": "Roti Shop", "javanese-warung": "Javanese Restaurant",
+    "creole-surinamese": "Surinamese Restaurant", "chinese": "Chinese Restaurant",
+    "japanese-sushi": "Japanese Restaurant", "indian": "Indian Restaurant",
+    "asian-other": "Asian Restaurant", "grill-steak": "Grill & Steakhouse",
+    "latin-american": "Latin American Restaurant",
     "manufacturing": "Industrial Company", "building-materials": "Building Materials",
     "butchers-meat": "Meat & Fish Shop", "drinks-liquor": "Drinks & Liquor Store",
     "car-dealers": "Car Dealer", "auto-parts": "Auto Parts Store",
@@ -10149,6 +10259,15 @@ def build_listing_page(slug, b):
             "bars-lounges":        "bar & lounge",
             "asian-fusion":        "Asian restaurant",
             "local-caribbean":     "local Surinamese restaurant",
+            "roti-hindustani":     "roti shop",
+            "javanese-warung":     "Javanese restaurant & warung",
+            "creole-surinamese":   "Surinamese restaurant",
+            "chinese":             "Chinese restaurant",
+            "japanese-sushi":      "Japanese & sushi restaurant",
+            "indian":              "Indian restaurant",
+            "asian-other":         "Asian restaurant",
+            "grill-steak":         "grill & steakhouse",
+            "latin-american":      "Latin American restaurant",
             "restaurants":         "restaurant",
             "bakeries-sweets":     "bakery & pastry shop",
             "pizza-italian":       "pizza & Italian restaurant",

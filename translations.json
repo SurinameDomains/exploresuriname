@@ -90717,11 +90717,11 @@
 "pt": "Crioulos (afro-surinameses)"
 },
 "Javanese": {
-"nl": "Javanen",
-"es": "Javaneses",
-"zh": "爪哇裔",
+"nl": "Javaans",
+"es": "Javanés",
+"zh": "爪哇菜",
 "fr": "Javanais",
-"pt": "Javaneses"
+"pt": "Javanês"
 },
 "Mixed": {
 "nl": "Gemengd",
@@ -90731,11 +90731,11 @@
 "pt": "Misto"
 },
 "Chinese": {
-"nl": "Chinezen",
-"es": "Chinos",
-"zh": "华人",
+"nl": "Chinees",
+"es": "Chino",
+"zh": "中餐",
 "fr": "Chinois",
-"pt": "Chineses"
+"pt": "Chinês"
 },
 "Other and unknown": {
 "nl": "Overig en onbekend",
@@ -91188,7 +91188,7 @@
 "International": {
 "nl": "Internationaal",
 "es": "Internacional",
-"zh": "国际",
+"zh": "国际菜",
 "fr": "International",
 "pt": "Internacional"
 },
@@ -99666,5 +99666,89 @@
 "zh": "再显示 {#} 个",
 "fr": "Afficher {#} de plus",
 "pt": "Mostrar mais {#}"
+},
+"Surinamese": {
+"nl": "Surinaams",
+"es": "Surinamés",
+"zh": "苏里南菜",
+"fr": "Surinamais",
+"pt": "Surinamês"
+},
+"Asian": {
+"nl": "Aziatisch",
+"es": "Asiático",
+"zh": "亚洲菜",
+"fr": "Asiatique",
+"pt": "Asiático"
+},
+"Indian": {
+"nl": "Indiaas",
+"es": "Indio",
+"zh": "印度菜",
+"fr": "Indien",
+"pt": "Indiano"
+},
+"Thai, Korean & more": {
+"nl": "Thais, Koreaans & meer",
+"es": "Tailandés, coreano y más",
+"zh": "泰式、韩式等",
+"fr": "Thaï, coréen et plus",
+"pt": "Tailandês, coreano e mais"
+},
+"Grill & steak": {
+"nl": "Grill & steak",
+"es": "Parrilla y carnes",
+"zh": "烧烤与牛排",
+"fr": "Grill et steak",
+"pt": "Grelhados e carnes"
+},
+"Latin American": {
+"nl": "Latijns-Amerikaans",
+"es": "Latinoamericano",
+"zh": "拉美菜",
+"fr": "Latino-américain",
+"pt": "Latino-americano"
+},
+"Quick & casual": {
+"nl": "Snel & casual",
+"es": "Rápido y casual",
+"zh": "快餐与休闲",
+"fr": "Rapide et décontracté",
+"pt": "Rápido e casual"
+},
+"Bars & nightlife": {
+"nl": "Bars & uitgaan",
+"es": "Bares y vida nocturna",
+"zh": "酒吧与夜生活",
+"fr": "Bars et vie nocturne",
+"pt": "Bares e vida noturna"
+},
+"Hindustani": {
+"nl": "Hindoestaans",
+"es": "Hindostaní",
+"zh": "印度斯坦菜",
+"fr": "Hindoustani",
+"pt": "Hindustani"
+},
+"Creole": {
+"nl": "Creools",
+"es": "Criollo",
+"zh": "克里奥尔菜",
+"fr": "Créole",
+"pt": "Crioulo"
+},
+"Japanese": {
+"nl": "Japans",
+"es": "Japonés",
+"zh": "日本料理",
+"fr": "Japonais",
+"pt": "Japonês"
+},
+"World cuisine": {
+"nl": "Wereldkeuken",
+"es": "Cocina internacional",
+"zh": "世界美食",
+"fr": "Cuisine du monde",
+"pt": "Cozinha internacional"
 }
 }

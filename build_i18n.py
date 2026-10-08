@@ -298,6 +298,16 @@ _TYPE_I18N = {
     "Veterinary Clinic": ("dierenkliniek", "clínica veterinaria"),
 }
 # Oct 2026 grouped taxonomy (generate._SEO_TYPE_LABEL additions).
+# Eat & Drink cuisine types (Oct 2026)
+_TYPE_I18N.update({
+    'Roti Shop': ('rotishop', 'tienda de roti'),
+    'Javanese Restaurant': ('Javaans restaurant', 'restaurante javanés'),
+    'Chinese Restaurant': ('Chinees restaurant', 'restaurante chino'),
+    'Japanese Restaurant': ('Japans restaurant', 'restaurante japonés'),
+    'Indian Restaurant': ('Indiaas restaurant', 'restaurante indio'),
+    'Grill & Steakhouse': ('grill & steakhouse', 'parrilla y asador'),
+    'Latin American Restaurant': ('Latijns-Amerikaans restaurant', 'restaurante latinoamericano'),
+})
 _TYPE_I18N.update({
     'Accountant': ('accountantskantoor', 'contable'),
     'Airline & Aviation': ('luchtvaartmaatschappij', 'aerolínea y aviación'),
@@ -386,6 +396,16 @@ _TYPE_ZH = {
     "Veterinary Clinic": "宠物医院",
 }
 # Oct 2026 grouped taxonomy (generate._SEO_TYPE_LABEL additions).
+# Eat & Drink cuisine types (Oct 2026)
+_TYPE_ZH.update({
+    'Roti Shop': 'Roti 店',
+    'Javanese Restaurant': '爪哇餐厅',
+    'Chinese Restaurant': '中餐厅',
+    'Japanese Restaurant': '日本餐厅',
+    'Indian Restaurant': '印度餐厅',
+    'Grill & Steakhouse': '烧烤牛排馆',
+    'Latin American Restaurant': '拉美餐厅',
+})
 _TYPE_ZH.update({
     'Accountant': '会计师事务所',
     'Airline & Aviation': '航空公司',
@@ -464,6 +484,16 @@ _TYPE_FP = {
     "Veterinary Clinic": ("clinique vétérinaire", "clínica veterinária"),
 }
 # Oct 2026 grouped taxonomy (generate._SEO_TYPE_LABEL additions).
+# Eat & Drink cuisine types (Oct 2026)
+_TYPE_FP.update({
+    'Roti Shop': ('boutique de roti', 'casa de roti'),
+    'Javanese Restaurant': ('restaurant javanais', 'restaurante javanês'),
+    'Chinese Restaurant': ('restaurant chinois', 'restaurante chinês'),
+    'Japanese Restaurant': ('restaurant japonais', 'restaurante japonês'),
+    'Indian Restaurant': ('restaurant indien', 'restaurante indiano'),
+    'Grill & Steakhouse': ('grill et steakhouse', 'churrascaria e grill'),
+    'Latin American Restaurant': ('restaurant latino-américain', 'restaurante latino-americano'),
+})
 _TYPE_FP.update({
     'Accountant': ('cabinet comptable', 'escritório de contabilidade'),
     'Airline & Aviation': ('compagnie aérienne', 'companhia aérea'),
