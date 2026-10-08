@@ -20,7 +20,7 @@
 <meta content="ExploreSR" name="apple-mobile-web-app-title"/>
 <link href="/assets/s-a12c564470b8.css" rel="stylesheet"/>
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
-<link href="/assets/s-12632b0c5234.css" rel="stylesheet"/>
+<link href="/assets/s-bbf380cc3b18.css" rel="stylesheet"/>
 <link href="/assets/s-3add1bbd5c8c.css" rel="stylesheet"/>
 <script src="/assets/j-ecba2aa6bf8f.js"></script>
 <script src="/assets/j-2c515793f3e8.js"></script>
@@ -85,7 +85,7 @@
 </div>
 </div>
 <script src="/assets/j-c0e4a324b129.js"></script>
-<div class="cat-hero" style="--cat:#B85185">
+<div class="cat-hero cat-hero-compact" style="--cat:#B85185">
 <div class="cat-hero-in">
 <nav aria-label="Breadcrumb" class="cat-crumb">
 <a href="./">首页</a><span aria-hidden="true">›</span><span>购物</span>
@@ -132,6 +132,7 @@
 <script>
 var _activeSub = 'all', _activeDist = 'all', _activeGrp = 'all', _gfQ = '';
 var _SUB_GRP = {"supermarkets": "g-food-drink", "butchers-meat": "g-food-drink", "drinks-liquor": "g-food-drink", "food-specialty": "g-food-drink", "malls-markets": "g-malls", "fashion-clothing": "g-fashion-beauty", "optical-jewelry": "g-fashion-beauty", "health-beauty": "g-fashion-beauty", "home-furniture": "g-home-building", "building-materials": "g-home-building", "nursery-garden": "g-home-building", "car-dealers": "g-vehicles", "auto-parts": "g-vehicles", "automotive": "g-vehicles", "electronics": "g-electronics-office", "books-office": "g-electronics-office", "crafts-souvenirs": "g-hobby-gifts", "toys-gifts": "g-hobby-gifts", "sports-outdoors": "g-hobby-gifts", "events-party": "g-hobby-gifts", "vet-livestock": "g-farm-trade", "wholesale-import": "g-farm-trade", "other": "g-farm-trade"};
+var _SUB_OLD = {};
 
 (function(){
   var fb = document.getElementById('fbar-shopping');
@@ -292,6 +293,7 @@ var _SUB_GRP = {"supermarkets": "g-food-drink", "butchers-meat": "g-food-drink",
   var qs = new URLSearchParams(location.search);
   function boot(){
     var s = qs.get('sub'), g = qs.get('grp'), qq = qs.get('q');
+    if (s && _SUB_OLD[s]) s = _SUB_OLD[s];   /* old links to a retired type */
     if (s && _SUB_GRP[s]) { _activeSub = s; _activeGrp = _SUB_GRP[s]; }
     else if (g && panel.querySelector('.gf-ghead[data-grp="' + g + '"]')) { _activeGrp = g; }
     if (qq){ q.value = qq; _gfQ = qq; _activeSub = 'all'; _activeGrp = 'all'; }

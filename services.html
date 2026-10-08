@@ -20,7 +20,7 @@
 <meta content="ExploreSR" name="apple-mobile-web-app-title"/>
 <link href="/assets/s-a12c564470b8.css" rel="stylesheet"/>
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
-<link href="/assets/s-12632b0c5234.css" rel="stylesheet"/>
+<link href="/assets/s-bbf380cc3b18.css" rel="stylesheet"/>
 <link href="/assets/s-3add1bbd5c8c.css" rel="stylesheet"/>
 <script src="/assets/j-ecba2aa6bf8f.js"></script>
 <script src="/assets/j-2c515793f3e8.js"></script>
@@ -93,7 +93,7 @@
 </div>
 </div>
 <script src="/assets/j-c0e4a324b129.js"></script>
-<div class="cat-hero" style="--cat:#4676B9">
+<div class="cat-hero cat-hero-compact" style="--cat:#4676B9">
 <div class="cat-hero-in">
 <nav aria-label="Breadcrumb" class="cat-crumb">
 <a href="./">Home</a><span aria-hidden="true">›</span><span>Services</span>
@@ -140,6 +140,7 @@
 <script>
 var _activeSub = 'all', _activeDist = 'all', _activeGrp = 'all', _gfQ = '';
 var _SUB_GRP = {"beauty-wellness": "g-beauty-health", "fitness-wellness": "g-beauty-health", "health-pharmacy": "g-beauty-health", "hospitals-clinics": "g-beauty-health", "veterinary": "g-beauty-health", "home-repairs": "g-home-property", "construction-trades": "g-home-property", "cleaning-maintenance": "g-home-property", "garden-pest": "g-home-property", "real-estate": "g-home-property", "security": "g-home-property", "banking": "g-money-legal", "insurance": "g-money-legal", "accounting-tax": "g-money-legal", "notaries-legal": "g-money-legal", "consulting-hr": "g-money-legal", "legal-professional": "g-money-legal", "it-software": "g-tech-media", "design-print": "g-tech-media", "media-broadcast": "g-tech-media", "telecom-utilities": "g-tech-media", "tech-media": "g-tech-media", "airlines-aviation": "g-transport-travel", "travel-agencies": "g-transport-travel", "taxi-car-rental": "g-transport-travel", "automotive": "g-transport-travel", "shipping-logistics": "g-transport-travel", "travel-transport": "g-transport-travel", "schools": "g-education", "training-courses": "g-education", "arts-dance-music": "g-education", "education": "g-education", "oil-gas": "g-industry", "mining": "g-industry", "manufacturing": "g-industry", "agriculture": "g-industry", "industry-energy": "g-industry", "events-party": "g-leisure", "entertainment": "g-leisure", "tours-expeditions": "g-leisure", "other": "g-other", "nursery-garden": "g-other"};
+var _SUB_OLD = {"legal-professional": "consulting-hr", "tech-media": "it-software", "travel-transport": "travel-agencies", "education": "training-courses", "industry-energy": "manufacturing"};
 
 (function(){
   var fb = document.getElementById('fbar-service');
@@ -300,6 +301,7 @@ var _SUB_GRP = {"beauty-wellness": "g-beauty-health", "fitness-wellness": "g-bea
   var qs = new URLSearchParams(location.search);
   function boot(){
     var s = qs.get('sub'), g = qs.get('grp'), qq = qs.get('q');
+    if (s && _SUB_OLD[s]) s = _SUB_OLD[s];   /* old links to a retired type */
     if (s && _SUB_GRP[s]) { _activeSub = s; _activeGrp = _SUB_GRP[s]; }
     else if (g && panel.querySelector('.gf-ghead[data-grp="' + g + '"]')) { _activeGrp = g; }
     if (qq){ q.value = qq; _gfQ = qq; _activeSub = 'all'; _activeGrp = 'all'; }

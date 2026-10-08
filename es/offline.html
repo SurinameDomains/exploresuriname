@@ -441,6 +441,15 @@
              text-decoration:none;white-space:nowrap;transition:color .18s,border-color .18s}
     .cat-cta:hover{background:none;color:var(--clay)}
     @media(max-width:640px){.cat-hero-in{padding:1.5rem 1.1rem 1.1rem}.cat-row{gap:.7rem}}
+    /* Category listing pages (Oct 2026): compact header so search, filters and the
+       first results sit higher; the listings are what people came for. */
+    .cat-hero-compact .cat-hero-in{padding:1.1rem 1.25rem .85rem}
+    .cat-hero-compact .cat-row{margin-top:.3rem;align-items:baseline}
+    .cat-hero-compact .cat-row h1{font-size:clamp(1.75rem,3.2vw,2.4rem)}
+    .cat-hero-compact .h1-count{font-size:.9rem}
+    .cat-hero-compact .cat-sub{font-size:.92rem;line-height:1.4;margin-top:.25rem}
+    @media(max-width:640px){.cat-hero-compact .cat-hero-in{padding:.8rem 1.1rem .6rem}
+      .cat-hero-compact .cat-row{gap:.35rem}}
     /* Intro prose lives below the listings: indexable, out of the way. */
     .cat-about{border-top:1px solid var(--line,#e6ddc9);margin-top:3rem;padding-top:1.8rem}
     .cat-about h2{font-size:1.15rem;font-weight:700;color:var(--ink,#233028);margin:0 0 .6rem}
