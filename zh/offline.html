@@ -330,17 +330,22 @@
     #gf-distslot { flex-shrink:0; }
     .gf-panel { position:absolute; left:1.25rem; right:1.25rem; top:100%; z-index:50; margin-top:.25rem;
                 background:#FBF6EC; border:1px solid #DDD4C1; border-radius:14px; box-shadow:0 18px 40px rgba(35,48,40,.18);
-                max-height:70vh; overflow:auto; padding:1rem 1.25rem 1.25rem; }
+                /* sized to fit without its own scrollbar; the max-height is only a
+                   fallback for very short windows */
+                max-height:calc(100vh - 200px); overflow:auto; scrollbar-width:thin; padding:.7rem 1.25rem .9rem; }
     .gf-panel[hidden] { display:none; }
-    .gf-phead { display:flex; align-items:center; gap:1rem; padding-bottom:.6rem; margin-bottom:.4rem; border-bottom:1px solid #DDD4C1; }
+    .gf-phead { display:flex; align-items:center; gap:1rem; padding-bottom:.35rem; margin-bottom:.2rem; border-bottom:1px solid #DDD4C1; }
     .gf-ptitle { font-size:1rem; color:var(--forest); flex:1; }
-    .gf-close { border:0; background:none; color:var(--forest2); font-weight:600; font-size:.85rem; cursor:pointer; min-height:40px; }
-    .gf-grid { columns:3 220px; column-gap:2rem; }
-    .gf-group { break-inside:avoid; padding:.5rem 0 .6rem; }
+    .gf-close { border:0; background:none; color:var(--forest2); font-weight:600; font-size:.85rem; cursor:pointer; min-height:32px; }
+    .gf-grid { columns:2; column-gap:2rem; }
+    @media(min-width:900px){ .gf-grid { columns:3; } }
+    @media(min-width:1000px){ .gf-grid { columns:4; column-gap:1.75rem; } }
+    .gf-group { break-inside:avoid; padding:.3rem 0 .45rem; }
     .gf-ghead, .gf-type { display:flex; width:100%; align-items:baseline; justify-content:space-between; gap:.6rem;
-                          border:0; background:none; text-align:left; cursor:pointer; border-radius:6px; padding:.3rem .4rem; }
-    .gf-ghead { font-weight:700; font-size:.95rem; color:var(--forest); }
-    .gf-type { font-size:.9rem; color:#4B564D; }
+                          border:0; background:none; text-align:left; cursor:pointer; border-radius:6px; padding:.17rem .4rem;
+                          line-height:1.3; margin:0; }
+    .gf-ghead { font-weight:700; font-size:.92rem; color:var(--forest); }
+    .gf-type { font-size:.87rem; color:#4B564D; }
     .gf-ghead:hover, .gf-type:hover { background:#EFE7D6; }
     .gf-on { background:var(--forest)!important; color:#fff!important; }
     .gf-on .chip-count { color:#fff; }
@@ -350,9 +355,11 @@
                border-radius:9999px; background:#fff; color:var(--forest); font-weight:600; font-size:.92rem; cursor:pointer; }
     .gf-more:hover { background:var(--forest); color:#fff; }
     .gf-more[hidden] { display:none; }
-    .fbar.gf-isopen { z-index:100!important; }
+    /* only the phone sheet must cover the site header; on desktop the header's
+       own menus (language, mega menu) stay on top of the open panel */
+    @media(max-width:639px){ .fbar.gf-isopen { z-index:100!important; } }
     .gf-empty[hidden] { display:none; }
-    @media(hover:none){ .gf-ghead, .gf-type { min-height:44px; align-items:center; } }
+    @media(hover:none) and (pointer:coarse){ .gf-ghead, .gf-type { min-height:44px; align-items:center; } }
     @media(max-width:639px){
       .gf-row { gap:.6rem; }
       .gf-catbtn { padding:0 .75rem; font-size:.84rem; }
