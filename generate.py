@@ -4160,6 +4160,34 @@ _SUB_KW = {
     "toys-gifts": "toys speelgoed gifts cadeau",
     "sports-outdoors": "sports sport outdoor fishing vissen camping",
     "wholesale-import": "wholesale groothandel import export trading",
+    # Services: remaining types
+    "beauty-wellness": "beauty salon kapper kapsalon hair haar barber nails nagels manicure pedicure spa massage wellness lashes wimpers brows wenkbrauwen waxing make-up skincare huidverzorging tattoo",
+    "fitness-wellness": "gym sportschool fitness yoga pilates boxing boksen martial arts vechtsport kickboxing zwemmen swimming tennis padel sport dans",
+    "health-pharmacy": "apotheek pharmacy medicine medicijnen doctor dokter huisarts gp dentist tandarts dental lab laboratorium health gezondheid fysiotherapie physio",
+    "hospitals-clinics": "hospital ziekenhuis clinic kliniek emergency spoed eerste hulp medical medisch radiology",
+    "veterinary": "vet veterinarian dierenarts dierenkliniek pets huisdieren dog hond cat kat",
+    "real-estate": "real estate vastgoed makelaar makelaardij house huis koop rent huur apartment appartement land grond property",
+    "banking": "bank banking geld money atm pinautomaat account rekening loan lening mortgage hypotheek exchange wisselkantoor cambio",
+    "insurance": "insurance verzekering verzekeraar car autoverzekering health ziektekosten life leven funeral uitvaart",
+    "telecom-utilities": "telecom internet mobile mobiel phone telefoon sim wifi fiber glasvezel electricity stroom elektriciteit water",
+    "shipping-logistics": "shipping verzending cargo vracht courier koerier freight barrels drums customs douane inklaring package pakket post",
+    "agriculture": "agriculture landbouw farm boerderij seeds zaden fertilizer kunstmest pesticides livestock vee",
+    "events-party": "event evenement party feest wedding bruiloft catering decoration decoratie tent rental verhuur balloons ballonnen flowers bloemen",
+    "entertainment": "entertainment vermaak casino cinema bioscoop recreation recreatie park water park zwembad",
+    # Shopping: remaining types
+    "supermarkets": "supermarket supermarkt groceries boodschappen food eten minimarket chinese winkel",
+    "food-specialty": "food voedsel eten rice rijst flour meel dairy zuivel milk melk eggs eieren snacks organic biologisch sauce saus",
+    "malls-markets": "mall winkelcentrum market markt bazaar department store warenhuis",
+    "fashion-clothing": "fashion mode clothing kleding clothes shoes schoenen bags tassen boutique dress jurk sneakers kids kinderkleding",
+    "optical-jewelry": "optician opticien optiek glasses bril sunglasses zonnebril contact lenses lenzen jewelry sieraden juwelier gold goud watches horloges",
+    "health-beauty": "drugstore drogisterij cosmetics cosmetica makeup perfume parfum skincare beauty hair haar vitamins vitaminen",
+    "home-furniture": "furniture meubels home wonen sofa bank bed mattress matras kitchen keuken appliances apparaten decor decoratie",
+    "building-materials": "building materials bouwmaterialen hardware ijzerwaren tools gereedschap tiles tegels paint verf wood hout timber cement sand zand plumbing sanitair electrical roofing dakplaten",
+    "nursery-garden": "nursery kwekerij garden tuin plants planten flowers bloemen seeds zaden pots potten",
+    "electronics": "electronics elektronica phone telefoon mobile gsm laptop computer tv television tablet gaming repair reparatie",
+    "crafts-souvenirs": "souvenirs crafts handwerk ambacht art kunst gifts cadeaus handmade candles kaarsen soap zeep wood hout",
+    "vet-livestock": "farm animal dieren feed voer livestock vee veterinary veterinair pets huisdieren chicken kip",
+    "other": "",
     # Eat & Drink / Stay / Things to Do
     "roti-hindustani": "roti hindostaans hindustani curry masala surinaams",
     "javanese-warung": "javaans javanese warung indonesisch indonesian bami nasi saoto sate satay rijsttafel surinaams",
@@ -5746,17 +5774,22 @@ PAGE_HEAD = """\
     #gf-distslot { flex-shrink:0; }
     .gf-panel { position:absolute; left:1.25rem; right:1.25rem; top:100%; z-index:50; margin-top:.25rem;
                 background:#FBF6EC; border:1px solid #DDD4C1; border-radius:14px; box-shadow:0 18px 40px rgba(35,48,40,.18);
-                max-height:70vh; overflow:auto; padding:1rem 1.25rem 1.25rem; }
+                /* sized to fit without its own scrollbar; the max-height is only a
+                   fallback for very short windows */
+                max-height:calc(100vh - 200px); overflow:auto; scrollbar-width:thin; padding:.7rem 1.25rem .9rem; }
     .gf-panel[hidden] { display:none; }
-    .gf-phead { display:flex; align-items:center; gap:1rem; padding-bottom:.6rem; margin-bottom:.4rem; border-bottom:1px solid #DDD4C1; }
+    .gf-phead { display:flex; align-items:center; gap:1rem; padding-bottom:.35rem; margin-bottom:.2rem; border-bottom:1px solid #DDD4C1; }
     .gf-ptitle { font-size:1rem; color:var(--forest); flex:1; }
-    .gf-close { border:0; background:none; color:var(--forest2); font-weight:600; font-size:.85rem; cursor:pointer; min-height:40px; }
-    .gf-grid { columns:3 220px; column-gap:2rem; }
-    .gf-group { break-inside:avoid; padding:.5rem 0 .6rem; }
+    .gf-close { border:0; background:none; color:var(--forest2); font-weight:600; font-size:.85rem; cursor:pointer; min-height:32px; }
+    .gf-grid { columns:2; column-gap:2rem; }
+    @media(min-width:900px){ .gf-grid { columns:3; } }
+    @media(min-width:1000px){ .gf-grid { columns:4; column-gap:1.75rem; } }
+    .gf-group { break-inside:avoid; padding:.3rem 0 .45rem; }
     .gf-ghead, .gf-type { display:flex; width:100%; align-items:baseline; justify-content:space-between; gap:.6rem;
-                          border:0; background:none; text-align:left; cursor:pointer; border-radius:6px; padding:.3rem .4rem; }
-    .gf-ghead { font-weight:700; font-size:.95rem; color:var(--forest); }
-    .gf-type { font-size:.9rem; color:#4B564D; }
+                          border:0; background:none; text-align:left; cursor:pointer; border-radius:6px; padding:.17rem .4rem;
+                          line-height:1.3; margin:0; }
+    .gf-ghead { font-weight:700; font-size:.92rem; color:var(--forest); }
+    .gf-type { font-size:.87rem; color:#4B564D; }
     .gf-ghead:hover, .gf-type:hover { background:#EFE7D6; }
     .gf-on { background:var(--forest)!important; color:#fff!important; }
     .gf-on .chip-count { color:#fff; }
@@ -5766,9 +5799,11 @@ PAGE_HEAD = """\
                border-radius:9999px; background:#fff; color:var(--forest); font-weight:600; font-size:.92rem; cursor:pointer; }
     .gf-more:hover { background:var(--forest); color:#fff; }
     .gf-more[hidden] { display:none; }
-    .fbar.gf-isopen { z-index:100!important; }
+    /* only the phone sheet must cover the site header; on desktop the header's
+       own menus (language, mega menu) stay on top of the open panel */
+    @media(max-width:639px){ .fbar.gf-isopen { z-index:100!important; } }
     .gf-empty[hidden] { display:none; }
-    @media(hover:none){ .gf-ghead, .gf-type { min-height:44px; align-items:center; } }
+    @media(hover:none) and (pointer:coarse){ .gf-ghead, .gf-type { min-height:44px; align-items:center; } }
     @media(max-width:639px){
       .gf-row { gap:.6rem; }
       .gf-catbtn { padding:0 .75rem; font-size:.84rem; }
@@ -7396,9 +7431,10 @@ def poi_card(item, badge_key="cuisine", eager=False, featured=False, cat_key=Non
     # Plus the description's keywords (the visible blurb is cut at 110 characters).
     _dk = ""
     if cat_key in _GF_SEARCH_PH:
-        _kw_txt = " ".join([_SUB_KW.get(item.get("subcat", ""), "")] + _desc_kw(item, [])).strip()
-        if _kw_txt:
-            _dk = f' data-k="{html_lib.escape(_kw_txt, quote=True)}"'
+        # type-level synonyms live once per page in _SUB_SYN (filter bar script)
+        _d_txt = " ".join(_desc_kw(item, [])).strip()
+        if _d_txt:
+            _dk = f' data-d="{html_lib.escape(_d_txt, quote=True)}"'
     _open = (f'<a href="{url}" data-sub="{item.get("subcat","other")}" data-district="{html_lib.escape(district)}"{_dk} '
              f'class="listing-card{" listing-row" if layout == "row" else ""} group relative card-hover flex{"" if layout == "row" else " flex-col"}">')
 
@@ -7726,6 +7762,34 @@ _GF_SEARCH_PH = {
 _GF_TOP_N = 5   # 5 fit next to the button at 1366px; the rest are one tap away
 
 
+_TYPE_KW_CACHE = {}
+def _type_kw(cat_key, sub):
+    """Type + group label in every site language, so a French or Chinese visitor
+    finds listings by the category word they would type ("plombier", "公证")."""
+    k = (cat_key, sub)
+    if k in _TYPE_KW_CACHE:
+        return _TYPE_KW_CACHE[k]
+    global _TR_ALL
+    try:
+        _TR_ALL
+    except NameError:
+        try:
+            _TR_ALL = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "translations.json"), encoding="utf-8"))
+        except Exception:
+            _TR_ALL = {}
+    labels = [l for kk, l, _e in SUBCATS.get(cat_key, []) if kk == sub]
+    for _gk, _gl, _gks in SUBCAT_GROUPS.get(cat_key, []):
+        if sub in _gks:
+            labels.append(_gl)
+    words = []
+    for l in labels:
+        words.append(l)
+        words.extend(v for v in (_TR_ALL.get(l) or {}).values() if v)
+    out = " ".join(words).lower().replace("&", " ")
+    _TYPE_KW_CACHE[k] = out
+    return out
+
+
 def _grouped_filter_bar_html(items, cat_key):
     from collections import Counter
     sub_counts = Counter(b.get("subcat", "other") for b in items)
@@ -7813,6 +7877,7 @@ def _grouped_filter_bar_html(items, cat_key):
 var _activeSub = 'all', _activeDist = 'all', _activeGrp = 'all', _gfQ = '';
 var _SUB_GRP = {_json.dumps(sub_grp)};
 var _SUB_OLD = {_json.dumps({k: v for k, v in _LEGACY_SUBCAT.items() if k in sub_grp})};
+var _SUB_SYN = {_json.dumps({k: (_SUB_KW.get(k, "") + " " + _type_kw(cat_key, k)).strip() for k in sub_counts}, ensure_ascii=False)};
 """ + _GF_JS.replace("__CAT__", cat_key) + "</script>"
     return html
 
@@ -7824,11 +7889,49 @@ _GF_JS = r"""
   var q = document.getElementById('gf-q'), act = document.getElementById('gf-active');
   var strip = document.getElementById('chipbar-__CAT__');
   function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
-  var cards = [], hay = [];
+  var cards = [], hay = [], names = [], toks = [], order0 = [], txt = [], syn = [];
+  /* Bounded edit distance (insert/delete/substitute/swap), stops early above max. */
+  function lev(a, b, max){
+    var la = a.length, lb = b.length; if (Math.abs(la - lb) > max) return max + 1;
+    var prev = [], cur = [], pp = [], i, j;
+    for (j = 0; j <= lb; j++) prev[j] = j;
+    for (i = 1; i <= la; i++){
+      cur = [i]; var best = i;
+      for (j = 1; j <= lb; j++){
+        var c = a[i-1] === b[j-1] ? 0 : 1;
+        var v = Math.min(prev[j] + 1, cur[j-1] + 1, prev[j-1] + c);
+        if (i > 1 && j > 1 && a[i-1] === b[j-2] && a[i-2] === b[j-1]) v = Math.min(v, pp[j-2] + 1);
+        cur[j] = v; if (v < best) best = v;
+      }
+      if (best > max) return max + 1;
+      pp = prev; prev = cur;
+    }
+    return prev[lb];
+  }
+  /* Typos: "loodgiter", "restuarant", "notarus" still match (words of 5+ letters). */
+  function fuzzy(w, tk){
+    if (w.length < 5 || /[\u4e00-\u9fff]/.test(w)) return false;
+    var max = w.length >= 8 ? 2 : 1;
+    for (var i = 0; i < tk.length; i++){
+      var t = tk[i]; if (t.length < 4) continue;
+      if (lev(w, t, max) <= max) return true;
+      if (t.length > w.length && lev(w, t.slice(0, w.length), max) <= max) return true;
+    }
+    return false;
+  }
   function initCards(){ if (cards.length) return;
     cards = Array.prototype.slice.call(document.querySelectorAll('.listing-card'));
-    hay = cards.map(function(c){ return ' ' + norm(c.textContent + ' ' + (c.getAttribute('data-k')||'')).replace(/[^a-z0-9\u4e00-\u9fff]+/g, ' '); });
+    order0 = cards.slice();
+    var cl = function(t){ return ' ' + norm(t).replace(/[^a-z0-9\u4e00-\u9fff]+/g, ' '); };
+    names = cards.map(function(c){ var n = c.querySelector('.listing-name, h3, h4'); return cl(n ? n.textContent : ''); });
+    /* what the card says + this listing's own description words (strong) */
+    txt = cards.map(function(c){ return cl(c.textContent + ' ' + (c.getAttribute('data-d')||'')); });
+    /* type-level synonyms and the type name in every language (weak) */
+    syn = cards.map(function(c){ return cl(_SUB_SYN[c.dataset.sub] || ''); });
+    hay = cards.map(function(c, k){ return txt[k] + syn[k]; });
+    toks = hay.map(function(h){ var seen = {}, out = []; h.split(' ').forEach(function(t){ if (t && !seen[t]) { seen[t] = 1; out.push(t); } }); return out; });
   }
+  function hit(h, w){ return (w.length >= 5 || /[\u4e00-\u9fff]/.test(w)) ? h.indexOf(w) >= 0 : h.indexOf(' ' + w) >= 0; }
   function subOk(c){
     if (_activeSub !== 'all') return c.dataset.sub === _activeSub;
     if (_activeGrp !== 'all') return _SUB_GRP[c.dataset.sub] === _activeGrp;
@@ -7852,19 +7955,40 @@ _GF_JS = r"""
   function apply(){
     initCards(); mkMore();
     var words = norm(_gfQ).replace(/[^a-z0-9\u4e00-\u9fff]+/g, ' ').split(' ').filter(Boolean), vis = 0, shown = 0, dc = {};
+    /* Relevance: name hits first, then type/description hits, then typo matches.
+       Without a query the original order (featured first) is kept. */
+    var score = [], fz = arguments[0] === true;
     for (var i = 0; i < cards.length; i++){
-      var c = cards[i], h = hay[i];
+      var c = cards[i], h = hay[i], sc = 0, qOk = true;
       /* Short words match at a word start ("ijs" not "prijs"); longer ones anywhere,
          so Dutch compounds work ("schildpad" finds "zeeschildpadden"). */
-      var qOk = words.every(function(w){ return (w.length >= 5 || /[\u4e00-\u9fff]/.test(w)) ? h.indexOf(w) >= 0 : h.indexOf(' ' + w) >= 0; });
+      for (var wi = 0; wi < words.length; wi++){
+        var w = words[wi];
+        if (names[i].indexOf(' ' + w) >= 0) sc += 10;
+        else if (hit(names[i], w)) sc += 7;
+        else if (hit(txt[i], w)) sc += 4;
+        else if (hit(syn[i], w)) sc += 1;
+        /* typo pass only runs when the exact pass found nothing */
+        else if (fz && fuzzy(w, toks[i])) sc += 1;
+        else { qOk = false; break; }
+      }
+      score[i] = sc;
       var ok = subOk(c) && qOk;
       if (ok){ var ds = (c.dataset.district||'Paramaribo').split('|'); for (var d = 0; d < ds.length; d++) dc[ds[d]] = (dc[ds[d]]||0) + 1; }
       ok = ok && distOk(c);
       if (ok) vis++;
-      /* "Show more" paging (Baymard: beats infinite scroll and page numbers) */
-      var show = ok && shown < limit; if (show) shown++;
-      c.classList.toggle('hidden', !show);
+      c._gfOk = ok;
     }
+    if (words.length && vis === 0 && !fz) return apply(true);
+    var seq = order0;
+    if (words.length)
+      seq = cards.map(function(c, k){ return k; }).sort(function(x, y){ return (score[y] - score[x]) || (x - y); }).map(function(k){ return cards[k]; });
+    var grid = order0.length ? order0[0].parentNode : null;
+    var move = grid && (words.length || grid._gfSorted);
+    var frag = move ? document.createDocumentFragment() : null;
+    /* "Show more" paging (Baymard: beats infinite scroll and page numbers) */
+    seq.forEach(function(c){ var show = c._gfOk && shown < limit; if (show) shown++; c.classList.toggle('hidden', !show); if (move) frag.appendChild(c); });
+    if (move){ grid.insertBefore(frag, grid.firstChild); grid._gfSorted = !!words.length; }
     if (moreBtn){
       var left = vis - shown;
       moreBtn.hidden = left <= 0;
