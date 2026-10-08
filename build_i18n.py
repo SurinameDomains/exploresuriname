@@ -146,6 +146,79 @@ cache = {}
 if CACHE_FILE.exists():
     cache = json.load(open(CACHE_FILE, encoding="utf-8"))
 
+# Event pages (Oct 2026): /event-<id>, /events-this-weekend and the new
+# events.html title. Hand-written for every language (zh/fr/pt are never
+# machine-filled). translations.json wins wherever it has the same key.
+_EVENT_PAGE_I18N = {
+    "Events in Suriname {#}: What's On This Week | Explore Suriname": {
+        "nl": "Evenementen in Suriname {#}: wat te doen deze week | Explore Suriname",
+        "es": "Eventos en Surinam {#}: qué hacer esta semana | Explore Suriname",
+        "zh": "{#} 年苏里南活动：本周看点 | Explore Suriname",
+        "fr": "Événements au Suriname en {#}\u00a0: que faire cette semaine | Explore Suriname",
+        "pt": "Eventos no Suriname em {#}: o que fazer esta semana | Explore Suriname"},
+    "What's on in Suriname this week: parties, concerts, markets and festivals in Paramaribo and beyond, plus every public holiday in {#}. Listing your event is free.": {
+        "nl": "Wat te doen in Suriname deze week: feesten, concerten, markten en festivals in Paramaribo en daarbuiten, plus alle feestdagen in {#}. Je evenement aanmelden is gratis.",
+        "es": "Qué hacer en Surinam esta semana: fiestas, conciertos, mercados y festivales en Paramaribo y alrededores, además de todos los feriados de {#}. Publicar tu evento es gratis.",
+        "zh": "本周苏里南有什么活动：帕拉马里博及各地的派对、音乐会、集市和节庆，以及 {#} 年全部法定假日。免费发布您的活动。",
+        "fr": "Que faire au Suriname cette semaine\u00a0: soirées, concerts, marchés et festivals à Paramaribo et ailleurs, ainsi que tous les jours fériés de {#}. Inscrire votre événement est gratuit.",
+        "pt": "O que fazer no Suriname esta semana: festas, shows, feiras e festivais em Paramaribo e arredores, além de todos os feriados de {#}. Divulgar seu evento é grátis."},
+    "Event page": {"nl": "Evenementpagina", "es": "Página del evento", "zh": "活动页面",
+                   "fr": "Page de l\u2019événement", "pt": "Página do evento"},
+    "Event": {"nl": "Evenement", "es": "Evento", "zh": "活动", "fr": "Événement", "pt": "Evento"},
+    "What\u2019s on in Suriname this weekend": {
+        "nl": "Wat te doen in Suriname dit weekend", "es": "Qué hacer en Surinam este fin de semana",
+        "zh": "本周末苏里南活动", "fr": "Que faire au Suriname ce week-end",
+        "pt": "O que fazer no Suriname neste fim de semana"},
+    "What's on in Suriname this weekend | Explore Suriname": {
+        "nl": "Wat te doen in Suriname dit weekend | Explore Suriname",
+        "es": "Qué hacer en Surinam este fin de semana | Explore Suriname",
+        "zh": "本周末苏里南活动 | Explore Suriname",
+        "fr": "Que faire au Suriname ce week-end | Explore Suriname",
+        "pt": "O que fazer no Suriname neste fim de semana | Explore Suriname"},
+    "Parties, concerts, markets, runs and festivals in Suriname this weekend, updated every day. Dates, times, venues and flyers for Paramaribo and beyond.": {
+        "nl": "Feesten, concerten, markten, hardloopwedstrijden en festivals in Suriname dit weekend, elke dag bijgewerkt. Data, tijden, locaties en flyers voor Paramaribo en daarbuiten.",
+        "es": "Fiestas, conciertos, mercados, carreras y festivales en Surinam este fin de semana, actualizado cada día. Fechas, horarios, lugares y flyers de Paramaribo y alrededores.",
+        "zh": "本周末苏里南的派对、音乐会、集市、跑步活动和节庆，每日更新。帕拉马里博及各地活动的日期、时间、地点和海报。",
+        "fr": "Soirées, concerts, marchés, courses et festivals au Suriname ce week-end, mis à jour chaque jour. Dates, horaires, lieux et affiches à Paramaribo et ailleurs.",
+        "pt": "Festas, shows, feiras, corridas e festivais no Suriname neste fim de semana, atualizado todos os dias. Datas, horários, locais e flyers de Paramaribo e arredores."},
+    "This weekend in Suriname": {"nl": "Dit weekend in Suriname", "es": "Este fin de semana en Surinam",
+                                 "zh": "苏里南本周末", "fr": "Ce week-end au Suriname",
+                                 "pt": "Neste fim de semana no Suriname"},
+    "Everything listed for the weekend, from club nights and concerts to markets, runs and family days. Tap an event for the time, the venue and the flyer.": {
+        "nl": "Alles wat er dit weekend op de agenda staat, van clubavonden en concerten tot markten, hardloopwedstrijden en familiedagen. Tik op een evenement voor de tijd, de locatie en de flyer.",
+        "es": "Todo lo programado para el fin de semana, desde noches de club y conciertos hasta mercados, carreras y días en familia. Toca un evento para ver la hora, el lugar y el flyer.",
+        "zh": "本周末的全部活动，从夜店派对、音乐会到集市、跑步和亲子活动。点击活动即可查看时间、地点和海报。",
+        "fr": "Tout ce qui est prévu ce week-end, des soirées en club et concerts aux marchés, courses et journées en famille. Touchez un événement pour voir l\u2019heure, le lieu et l\u2019affiche.",
+        "pt": "Tudo o que está programado para o fim de semana, de noites de balada e shows a feiras, corridas e programas em família. Toque em um evento para ver o horário, o local e o flyer."},
+    "Nothing is listed for this weekend yet. Here is what is coming up next.": {
+        "nl": "Voor dit weekend staat nog niets op de agenda. Dit komt er hierna aan.",
+        "es": "Todavía no hay nada programado para este fin de semana. Esto es lo que viene después.",
+        "zh": "本周末暂无活动。以下是接下来的活动。",
+        "fr": "Rien n\u2019est encore prévu pour ce week-end. Voici ce qui arrive ensuite.",
+        "pt": "Ainda não há nada programado para este fim de semana. Veja o que vem a seguir."},
+    "Coming up next": {"nl": "Binnenkort", "es": "Próximamente", "zh": "即将举行",
+                       "fr": "Prochainement", "pt": "Em breve"},
+    "More events in Suriname": {"nl": "Meer evenementen in Suriname", "es": "Más eventos en Surinam",
+                                "zh": "苏里南更多活动", "fr": "Plus d\u2019événements au Suriname",
+                                "pt": "Mais eventos no Suriname"},
+    "See the full events calendar": {"nl": "Bekijk de volledige evenementenkalender",
+                                     "es": "Ver el calendario completo de eventos",
+                                     "zh": "查看完整活动日历",
+                                     "fr": "Voir tout le calendrier des événements",
+                                     "pt": "Ver a agenda completa de eventos"},
+}
+for _k, _v in _EVENT_PAGE_I18N.items():
+    _e = cache.setdefault(_k, {})
+    for _lg, _t in _v.items():
+        if not _e.get(_lg):
+            _e[_lg] = _t
+
+# Event page titles: "<name> – <date> | Events in Suriname". The date part is
+# localized like the date lines on events.html; the name uses the cache when it
+# has a translation (festival names), otherwise it stays as it is.
+_EVP_TITLE_SUFFIX = {"nl": "Evenementen in Suriname", "es": "Eventos en Surinam",
+                     "zh": "苏里南活动", "fr": "Événements au Suriname", "pt": "Eventos no Suriname"}
+
 # ── incremental build cache: {english page -> md5 of generate.py's output} ────
 # Lives in data/ on purpose: update.yml already does `git add data/`, so the
 # cache persists between CI runs without touching the workflow.
@@ -906,6 +979,31 @@ def localize_event_facts(key, lang):
 
 
 
+def localize_event_title(key, lang):
+    """'Divali (Festival of Lights) – Friday 6 November 2026 | Events in Suriname'."""
+    suf = " | Events in Suriname"
+    if lang not in _EVP_TITLE_SUFFIX or not key.endswith(suf):
+        return None
+    body = key[:-len(suf)]
+    if " \u2013 " not in body:
+        return None
+    name, when = body.rsplit(" \u2013 ", 1)
+    w = None
+    try:
+        if lang in _LOC or lang in HAND_LANGS:
+            w = _loc_part(when, lang)
+    except Exception:
+        w = None
+    if not w:
+        e = cache.get(when)
+        w = e.get(lang) if e else None
+    if not w:
+        return None
+    e = cache.get(name)
+    nm = e[lang] if (e and e.get(lang)) else name
+    return f"{nm} \u2013 {w} | {_EVP_TITLE_SUFFIX[lang]}"
+
+
 def tr(text: str, lang: str) -> str:
     """Translate a text node, preserving leading/trailing whitespace."""
     key = text.strip()
@@ -930,6 +1028,9 @@ def tr(text: str, lang: str) -> str:
         ev = localize_event_line(key, lang) or localize_event_facts(key, lang)
         if ev:
             return lead + ev + trail
+    _et = localize_event_title(key, lang)
+    if _et:
+        return lead + _et + trail
     _lt = localize_listing_title(key, lang)
     if _lt:
         return lead + _lt + trail
@@ -1397,6 +1498,9 @@ def localize(soup, lang: str, rel_path: str, langs=None):
               "marketplace/index.html": "/business",
               "post-ad.html": "/business",
               "my-ads.html": "/business"}
+    _stub_m = soup.select_one('meta[name="esr-stub"]') if soup.head else None
+    if _stub_m is not None and rel_path not in _STUBS and _stub_m.get("content", "").startswith("/"):
+        _STUBS[rel_path] = _stub_m["content"]
     if rel_path not in _STUBS:
         for el in soup.select("link[rel=canonical]"):
             el["href"] = canon
@@ -1435,6 +1539,8 @@ except Exception:
 # Non-business pages that are also published without ".html" (keep in sync with
 # the hrefs/canonical in generate.py).
 _CLEAN_FILES |= {"about-suriname.html"}
+# Event pages (generate.build_events_page, Oct 2026): /event-<id> and /events-this-weekend
+_CLEAN_FILES |= {p.name for p in ROOT.glob("event-*.html")} | {"events-this-weekend.html"}
 
 
 def url_path(rel_path: str) -> str:

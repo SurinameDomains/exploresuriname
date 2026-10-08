@@ -243,6 +243,11 @@ EVENT_CAT_FORM_LABEL = dict(EVENT_CAT_LABEL, **{
     "other": "Other",
 })
 _EVENT_SUBS: list = []
+_EVENT_SUBS_OK = False      # True only when the approved-events feed answered
+# Event pages (Oct 2026): build_events_page() fills these; main writes the files
+# with the other pages and build_sitemap() lists the slugs.
+_EVENT_PAGE_FILES: dict = {}
+_EVENT_PAGE_SLUGS: list = []
 try:
     import urllib.request as _ureq2
     _ev_req = _ureq2.Request(_EV_SUB_URL, headers={"User-Agent": "ExploreSR-build/1.0"})
@@ -251,6 +256,7 @@ try:
     for _e in (_ev_rows if isinstance(_ev_rows, list) else []):
         if isinstance(_e, dict) and (_e.get("eid") or "").strip() and (_e.get("start_date") or "").strip():
             _EVENT_SUBS.append(_e)
+    _EVENT_SUBS_OK = True
     print(f"  Added {len(_EVENT_SUBS)} approved community events")
 except Exception as _err2:
     print(f"  Warning: approved events unavailable — {_err2}")
@@ -12285,6 +12291,423 @@ def build_events_page():
             '\n    <div class="ev-rail-s" tabindex="0" aria-label="' + _rail_title + ' events, scroll sideways">' + _cards + '</div>'
             '\n  </section>')
 
+    # ── Event pages + "this weekend" page (Oct 2026, SEO) ───────────────────
+    # events.html is one URL holding every event, so it can only rank for the
+    # broad terms. Each event also gets its own page at /event-<id> (title,
+    # flyer, Event schema with url = that page) and there is a crawlable
+    # /events-this-weekend page for "events this weekend" searches.
+    # Top-level files on purpose: update.yml already stages *.html, and the
+    # clean URLs come from build_i18n._CLEAN_FILES (globs event-*.html).
+    # The look of events.html does not change: it only gains an "Event page"
+    # link inside each event's details. A failure here never breaks events.html.
+    _EVENT_PAGE_FILES.clear()
+    del _EVENT_PAGE_SLUGS[:]
+    _evp_built = set()
+
+    def _evp_slug(ev):
+        s = re.sub(r"[^a-z0-9-]+", "-", (ev.get("id") or "").lower())
+        return re.sub(r"-{2,}", "-", s).strip("-")[:90].strip("-")
+
+    def _evp_abs(u):
+        u = u or ""
+        return (SITE_URL + u) if u.startswith("/") else u
+
+    def _evp_time(ev):
+        """'19:00', '7:30 PM', '9 PM' -> 'HH:MM'; None when unclear."""
+        t = (_short_time(ev) or "").lower().replace("a.m.", "am").replace("p.m.", "pm")
+        t = t.replace(" ", "").replace(".", ":")
+        m = re.fullmatch(r"(\d{1,2})(?::(\d{2}))?(am|pm)?", t)
+        if not m or (m.group(2) is None and m.group(3) is None):
+            return None
+        h, mi, ap = int(m.group(1)), int(m.group(2) or 0), m.group(3)
+        if ap:
+            if not 1 <= h <= 12:
+                return None
+            h = (0 if h == 12 else h) + (12 if ap == "pm" else 0)
+        if not (0 <= h <= 23 and 0 <= mi <= 59):
+            return None
+        return "%02d:%02d" % (h, mi)
+
+    _EVP_DISTRICTS = ("Paramaribo", "Wanica", "Commewijne", "Saramacca", "Nickerie",
+                      "Coronie", "Marowijne", "Brokopondo", "Sipaliwini", "Para")
+    _EVP_WIDE = ("nationwide", "across ", "various", "country", " and ", "participating")
+
+    _evp_css = (
+        '<style id="evp-css">'
+        '.evp{max-width:72rem;margin:0 auto;padding:1.25rem 1rem 0}'
+        '.evp-bc{font-size:.8rem;color:#6b7280;margin:0 0 1.25rem;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}'
+        '.evp-bc a{color:var(--forest2);text-decoration:none;font-weight:600}.evp-bc a:hover{text-decoration:underline}'
+        '.evp-top{display:grid;gap:1.5rem;grid-template-columns:minmax(0,1fr)}'
+        '@media(min-width:768px){.evp-top{grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:2.5rem;align-items:start}}'
+        '.evp-fly{display:block;max-width:420px;margin:0 auto}'
+        '.evp-fly img{display:block;width:auto;max-width:100%;max-height:75vh;margin:0 auto;border-radius:16px;box-shadow:0 10px 24px -12px rgba(27,67,50,.45)}'
+        '.evp-media .ev-pos{max-width:340px;margin:0 auto}'
+        '.evp-kick{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin:0 0 .4rem}'
+        '.evp-h1{font-size:2rem;line-height:1.15;font-weight:700;color:#111827;margin:0 0 .6rem}'
+        '@media(min-width:768px){.evp-h1{font-size:2.5rem}}'
+        '.evp-dl{font-size:.95rem;font-weight:700;color:var(--forest2);margin:0 0 .25rem}'
+        '.evp-loc{font-size:.9rem;color:#4b5563;margin:0 0 .6rem}'
+        '.evp-sec{margin-top:2.5rem}'
+        '.evp-sec h2{font-size:1.5rem;font-weight:700;color:#111827;margin:0 0 .8rem}'
+        '.evp-txt{max-width:44rem}'
+        '.evp-txt p{font-size:.95rem!important}'
+        '.evp-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}'
+        '@media(min-width:768px){.evp-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px}}'
+        '@media(min-width:1100px){.evp-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}'
+        '.evp-card{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);'
+        'border-radius:14px;padding:10px;text-decoration:none;color:inherit;min-width:0}'
+        '.evp-card:hover{border-color:#d6c9ad}'
+        '.evp-card .ev-pos{flex:0 0 72px;width:72px;aspect-ratio:4/5;border-radius:10px}'
+        '.evp-card .ev-typo{padding:4px;justify-content:center;align-items:center;gap:1px}'
+        '.evp-card .ev-typo-c{display:none}.evp-card .ev-typo-d{font-size:1.7rem}.evp-card .ev-typo-m{font-size:.58rem;white-space:nowrap}'
+        '.evp-card .ev-typo-ph{background:rgba(0,0,0,.42)}'
+        '.evp-cm{min-width:0}'
+        '.evp-empty{background:var(--card);border:1px dashed var(--line);border-radius:16px;padding:1.4rem;color:#4b5563;margin:0}'
+        '.evp-cta{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.25rem}'
+        # shared with events.html (copied so these pages stand alone)
+        '.ev-pos{position:relative;aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:var(--paper-2)}'
+        '.ev-img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}'
+        '.ev-typo{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:14px;color:#fff}'
+        '.ev-typo-c{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.85}'
+        '.ev-typo-d{font-family:Georgia,serif;font-size:4.2rem;line-height:1;font-weight:700}'
+        '.ev-typo-m{font-size:.8rem;font-weight:600;opacity:.9}'
+        '.ev-ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}'
+        '.ev-typo-ph{background:linear-gradient(180deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,0) 32%,rgba(0,0,0,0) 45%,rgba(0,0,0,.75) 100%);'
+        'text-shadow:0 1px 3px rgba(0,0,0,.55)}'
+        '.b-nightlife{background:linear-gradient(160deg,#3b2352,#1f1330)}'
+        '.b-music{background:linear-gradient(160deg,#274b72,#16304d)}'
+        '.b-culture{background:linear-gradient(160deg,#2D6A4F,#1B4332)}'
+        '.b-food{background:linear-gradient(160deg,#b8733a,#9C5822)}'
+        '.b-market{background:linear-gradient(160deg,#d09a3e,#a8741f)}'
+        '.b-family{background:linear-gradient(160deg,#3f8f6b,#2D6A4F)}'
+        '.b-sports{background:linear-gradient(160deg,#2f6690,#1d4466)}'
+        '.b-business{background:linear-gradient(160deg,#4b5563,#2f3743)}'
+        '.b-holiday{background:linear-gradient(160deg,#E76F51,#b9533a)}'
+        '.b-other{background:linear-gradient(160deg,#55624f,#3a4436)}'
+        '.ev-when{font-size:.72rem;font-weight:700;letter-spacing:.02em;color:var(--coral);margin:0 0 .1rem;text-transform:uppercase}'
+        '.ev-t{font-size:.98rem;font-weight:700;line-height:1.3;color:#111827;margin:0;'
+        'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}'
+        '.ev-where{font-size:.8rem;color:#6b7280;margin:.15rem 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
+        '.ev-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin:.2rem 0 .6rem}'
+        '.ev-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:.12rem .45rem;border-radius:999px;white-space:nowrap}'
+        '.t-rec{background:#e0f2fe;color:#075985}.t-hol{background:var(--mint);color:var(--forest)}'
+        '.t-free{background:#dcfce7;color:#166534}.t-tbc{background:#fef3c7;color:#92400e}'
+        '.ev-acts{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1rem}'
+        '.ev-act{font-size:.78rem;font-weight:700;color:var(--forest2);background:var(--mint);border:0;border-radius:999px;'
+        'padding:.45rem .85rem;text-decoration:none;cursor:pointer}'
+        '.ev-act:hover{background:#cfe7c9}'
+        '.ev-btn{display:inline-block;font-size:.85rem;font-weight:600;border-radius:999px;padding:.6rem 1.2rem;'
+        'text-decoration:none;cursor:pointer;border:0;transition:opacity .15s}'
+        '.ev-btn:hover{opacity:.9}'
+        '.ev-btn-p{background:var(--coral);color:#fff}'
+        '.ev-btn-o{background:transparent;color:var(--forest2);border:1.5px solid var(--forest2)}'
+        '.ev-cr{font-size:.7rem;color:#9ca3af;margin:.9rem 0 0}.ev-cr a{color:inherit;text-decoration:underline}'
+        '</style>')
+
+    def _evp_card(r):
+        """Compact link card to an event page (weekend page, 'more events')."""
+        _sd, _c, _lbl, _st, _en, _ev = r
+        _tm = _short_time(_ev)
+        _ven = (_ev.get("location", "") or "").split(",")[0].strip()
+        return ('<a class="evp-card" href="event-' + _evp_slug(_ev) + '">'
+                '<div class="ev-pos b-' + _bk[id(_ev)] + '">' + _poster(_ev, _bk[id(_ev)], True, _st, _sd, _lbl) + '</div>'
+                '<div class="evp-cm"><p class="ev-when">' + _esc(_when_short(_st, _en))
+                + ((' &middot; ' + _esc(_tm)) if _tm else '') + '</p>'
+                '<p class="ev-t">' + _esc(_ev.get("name", "")) + '</p>'
+                + (('<p class="ev-where">' + _esc(_ven) + '</p>') if _ven else '')
+                + '</div></a>')
+
+    _evp_upcoming = [r for r in _conf if r[4] >= today]
+
+    def _evp_page(r):
+        _sd, _confd, _lbl, _st, _en, _ev = r
+        slug = _evp_slug(_ev)
+        url = SITE_URL + "/event-" + slug
+        name = _ev.get("name", "")
+        nm = _esc(name)
+        b = _bk[id(_ev)]
+        loc_full = (_ev.get("location", "") or "").strip() or "Suriname"
+        venue = loc_full.split(",")[0].strip()
+        wide = any(w in loc_full.lower() for w in _EVP_WIDE)
+
+        # Meta description: the first paragraph of the blurb, exactly as the
+        # card shows it, so the NL/ES/... translation of that text is reused.
+        _bl = (_ev.get("blurb", "") or "").replace("\r\n", "\n").replace("\r", "\n")
+        _bl = re.sub("[\U0001D400-\U0001D7FF]+",
+                     lambda m: __import__("unicodedata").normalize("NFKC", m.group(0)), _bl)
+        _p1 = next((x for x in re.split(r"\n[ \t]*\n+", _bl) if x.strip()), "")
+        meta = " ".join(_p1.split())
+        if len(meta) > 300:
+            meta = meta[:297].rsplit(" ", 1)[0] + "…"
+        if not meta:
+            meta = name + ": " + _lbl + ", " + loc_full + "."
+        title = name + " – " + _lbl + " | Events in Suriname"
+
+        flyer = _flyer_src(_ev)
+        ph = _photo(_ev)
+        og_img = (_evp_abs(flyer) if flyer else
+                  (_evp_abs(_localize_img(ph["src"])) if ph else SITE_URL + "/images/events-og.jpg"))
+
+        # media: the flyer at its own shape, else the poster/photo block
+        if flyer:
+            media = ('<a class="evp-fly" href="' + _esc(flyer) + '" target="_blank" rel="noopener">'
+                     '<img src="' + _esc(flyer) + '" alt="Flyer for ' + nm + '" decoding="async"></a>')
+        else:
+            media = ('<div class="ev-pos b-' + b + '">'
+                     + _poster(_ev, b, _confd, _st, _sd, _lbl, lazy=False) + '</div>')
+
+        tags = ""
+        if _ev.get("kind") in ("weekly", "monthly"):
+            tags += '<span class="ev-tag t-rec">' + _esc(_recur_label(_ev.get("kind"), _ev)) + '</span>'
+        if _ev.get("holiday"):
+            tags += '<span class="ev-tag t-hol">Public holiday</span>'
+        elif _ev.get("free") and _ev.get("community"):
+            tags += '<span class="ev-tag t-free">Free</span>'
+        if not _confd:
+            tags += '<span class="ev-tag t-tbc">Date to be confirmed</span>'
+
+        dateline = (_esc(_lbl) + ' &middot; ' + _in_days(_st, _en)) if _confd else _esc(_lbl)
+
+        acts = ""
+        if _confd:
+            acts += ('<a href="' + _gcal(name, _st, _en, loc_full, _ev.get("blurb", ""))
+                     + '" target="_blank" rel="noopener" class="ev-act">Add to calendar</a>')
+        if _ev.get("website"):
+            acts += ('<a href="' + _esc(_ev["website"]) + '" target="_blank" rel="noopener" class="ev-act">Official website</a>')
+        if _confd and loc_full and not wide:
+            acts += ('<a href="https://www.google.com/maps/search/?api=1&amp;query=' + _up.quote(loc_full + ", Suriname")
+                     + '" target="_blank" rel="noopener" class="ev-act">Directions</a>')
+        if _confd:
+            _wa = name + " – " + _when_short(_st, _en) + ", " + (venue or "Suriname") + ". " + url
+            acts += ('<a href="https://wa.me/?text=' + _up.quote(_wa) + '" target="_blank" rel="noopener" '
+                     'class="ev-act">Send on WhatsApp</a>')
+        _lnk = _ev.get("link")
+        if _lnk and _lnk.get("href"):
+            acts += ('<a href="' + _esc(_lnk["href"]) + '" class="ev-act">' + _esc(_lnk.get("label", "More")) + ' &#8594;</a>')
+
+        tip = _ev.get("tip", "")
+        tip_html = (('<p class="text-sm mt-3 pl-3 border-l-2" style="border-color:var(--leaf)">'
+                     '<strong style="color:var(--forest2)">Good to know:</strong> '
+                     '<span class="text-gray-600">' + _esc(tip) + '</span></p>') if tip else "")
+        credit = ""
+        if ph and (ph.get("source") or ph.get("credit")):
+            _who = _esc(ph.get("credit") or "Wikimedia Commons")
+            credit = ('<p class="ev-cr"><span>Photo</span>: '
+                      + (('<a href="' + _esc(ph["source"]) + '" target="_blank" rel="noopener" translate="no">'
+                          + _who + '</a>') if ph.get("source") else ('<span translate="no">' + _who + '</span>'))
+                      + ((', <span translate="no">' + _esc(ph["license"]) + '</span>') if ph.get("license") else '')
+                      + '</p>')
+
+        badges = ""
+        if _ev.get("community"):
+            badges += _pill("Community event", "#fdece7", "#a4462c")
+        _kick = _ev.get("category", "") or "Event"
+
+        more = [x for x in _evp_upcoming if x[5] is not _ev][:6]
+        more_html = ""
+        if more:
+            more_html = ('\n  <section class="evp-sec"><h2 class="serif">More events in Suriname</h2>'
+                         '<div class="evp-grid">' + "".join(_evp_card(x) for x in more) + '</div></section>')
+
+        # ── structured data ──
+        ld = [{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Events & Festivals", "item": SITE_URL + "/events.html"},
+            {"@type": "ListItem", "position": 3, "name": name, "item": url}]},
+            {"@context": "https://schema.org", "@type": "WebPage", "name": name, "url": url,
+             "description": meta, "dateModified": today.isoformat(),
+             "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": SITE_URL + "/"}}]
+        if _confd:
+            _t = _evp_time(_ev)
+            _addr = {"@type": "PostalAddress", "addressCountry": "SR"}
+            _dist = next((d for d in _EVP_DISTRICTS if re.search(r"\b" + d + r"\b", loc_full)), "")
+            if _dist:
+                _addr["addressLocality"] = _dist
+            if not wide:
+                _addr["streetAddress"] = loc_full
+            eo = {"@context": "https://schema.org", "@type": "Event", "name": name,
+                  "startDate": _st.isoformat() + (("T" + _t + ":00-03:00") if _t else ""),
+                  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+                  "eventStatus": "https://schema.org/EventScheduled",
+                  "location": {"@type": "Place", "name": venue or loc_full, "address": _addr},
+                  "description": " ".join(_bl.split()) or meta, "url": url}
+            # A date-only end on a one-day event with a start time reads as ending
+            # before it starts (midnight), so it is only given for multi-day events
+            # or when there is no start time.
+            if _en > _st or not _t:
+                eo["endDate"] = _en.isoformat()
+            if flyer or ph:
+                eo["image"] = [og_img]
+            if _ev.get("free"):
+                eo["isAccessibleForFree"] = True
+            if _ev.get("organizer"):
+                eo["organizer"] = {"@type": "Organization", "name": _ev["organizer"]}
+                if _ev.get("website"):
+                    eo["organizer"]["url"] = _ev["website"]
+            ld.append(eo)
+        ld_tags = "".join('\n  <script type="application/ld+json">\n  ' + _json.dumps(x, ensure_ascii=False)
+                          + '\n  </script>' for x in ld)
+
+        return f"""{PAGE_HEAD}
+  <title>{_esc(title)}</title>
+  <meta name="description" content="{_esc(meta)}">
+  <link rel="canonical" href="{url}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{url}">
+  <meta property="og:title" content="{_esc(title)}">
+  <meta property="og:description" content="{_esc(meta)}">
+  <meta property="og:image" content="{_esc(og_img)}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{_esc(title)}">
+  <meta name="twitter:description" content="{_esc(meta)}">
+  <meta name="twitter:image" content="{_esc(og_img)}">{ld_tags}
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+{nav_html("events")}
+<main class="pb-24">
+{_evp_css}
+<div class="evp">
+  <nav class="evp-bc" aria-label="Breadcrumb"><a href="./">Home</a><span aria-hidden="true">&#8250;</span><a href="events.html">Events &amp; Festivals</a><span aria-hidden="true">&#8250;</span><span>{nm}</span></nav>
+  <div class="evp-top">
+    <div class="evp-media">{media}</div>
+    <div>
+      <p class="evp-kick">{_esc(_kick)}</p>
+      <h1 class="serif evp-h1">{nm}</h1>
+      <p class="evp-dl">{dateline}</p>
+      <p class="evp-loc">{_esc(loc_full)}</p>
+      {('<div class="ev-tags">' + tags + '</div>') if tags else ''}
+      {('<div class="ev-acts">' + acts + '</div>') if acts else ''}
+      <div class="evp-sec evp-txt">
+        <div class="ev-tags">{badges}</div>
+        {_ev_paras(_ev.get("blurb", ""))}
+        {_ev_paras(_ev.get("more", ""), first_mt=True)}
+        {tip_html}
+        {credit}
+      </div>
+    </div>
+  </div>
+{more_html}
+  <div class="evp-cta">
+    <a href="events.html" class="ev-btn ev-btn-p">See the full events calendar</a>
+    <a href="events-this-weekend" class="ev-btn ev-btn-o">What&#8217;s on in Suriname this weekend</a>
+    <a href="submit-event.html" class="ev-btn ev-btn-o">Submit your event</a>
+  </div>
+</div>
+</main>
+{footer_html()}
+</body>
+</html>"""
+
+    def _evp_weekend():
+        url = SITE_URL + "/events-this-weekend"
+        wk = [r for r in _conf if r[3] <= _wk_end and r[4] >= _wk_start]
+        nxt = [r for r in _conf if _wk_end < r[3] <= _wk_end + _td(days=14)][:12]
+        title = "What's on in Suriname this weekend | Explore Suriname"
+        meta = ("Parties, concerts, markets, runs and festivals in Suriname this weekend, "
+                "updated every day. Dates, times, venues and flyers for Paramaribo and beyond.")
+        body = (('<div class="evp-grid">' + "".join(_evp_card(x) for x in wk) + '</div>') if wk else
+                '<p class="evp-empty">Nothing is listed for this weekend yet. Here is what is coming up next.</p>')
+        nxt_html = (('\n  <section class="evp-sec"><h2 class="serif">Coming up next</h2>'
+                     '<div class="evp-grid">' + "".join(_evp_card(x) for x in nxt) + '</div></section>') if nxt else "")
+        items = [{"@type": "ListItem", "position": i + 1, "url": SITE_URL + "/event-" + _evp_slug(x[5]),
+                  "name": x[5].get("name", "")} for i, x in enumerate(wk)]
+        ld = [{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Events & Festivals", "item": SITE_URL + "/events.html"},
+            {"@type": "ListItem", "position": 3, "name": "This weekend", "item": url}]},
+            {"@context": "https://schema.org", "@type": "WebPage", "name": "This weekend in Suriname",
+             "url": url, "description": meta, "dateModified": today.isoformat(),
+             "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": SITE_URL + "/"}}]
+        if items:
+            ld.append({"@context": "https://schema.org", "@type": "ItemList",
+                       "name": "Events in Suriname this weekend", "itemListElement": items})
+        ld_tags = "".join('\n  <script type="application/ld+json">\n  ' + _json.dumps(x, ensure_ascii=False)
+                          + '\n  </script>' for x in ld)
+        return f"""{PAGE_HEAD}
+  <title>{_esc(title)}</title>
+  <meta name="description" content="{_esc(meta)}">
+  <link rel="canonical" href="{url}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Suriname">
+  <meta property="og:url" content="{url}">
+  <meta property="og:title" content="{_esc(title)}">
+  <meta property="og:description" content="{_esc(meta)}">
+  <meta property="og:image" content="{SITE_URL}/images/events-og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{_esc(title)}">
+  <meta name="twitter:description" content="{_esc(meta)}">
+  <meta name="twitter:image" content="{SITE_URL}/images/events-og.jpg">{ld_tags}
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+{nav_html("events")}
+<main class="pb-24">
+{_evp_css}
+<div class="evp">
+  <nav class="evp-bc" aria-label="Breadcrumb"><a href="./">Home</a><span aria-hidden="true">&#8250;</span><a href="events.html">Events &amp; Festivals</a><span aria-hidden="true">&#8250;</span><span>This weekend</span></nav>
+  <p class="evp-kick">What&#8217;s on in Suriname</p>
+  <h1 class="serif evp-h1">This weekend in Suriname</h1>
+  <p class="evp-dl">{_esc(_when_short(_wk_start, _wk_end))}</p>
+  <p class="evp-loc" style="max-width:44rem">Everything listed for the weekend, from club nights and concerts to markets, runs and family days. Tap an event for the time, the venue and the flyer.</p>
+  <div class="evp-sec" style="margin-top:1.5rem">{body}</div>
+{nxt_html}
+  <div class="evp-cta">
+    <a href="events.html" class="ev-btn ev-btn-p">See the full events calendar</a>
+    <a href="submit-event.html" class="ev-btn ev-btn-o">Submit your event</a>
+  </div>
+</div>
+</main>
+{footer_html()}
+</body>
+</html>"""
+
+    try:
+        for _r in resolved:
+            _s = _evp_slug(_r[5])
+            if not _s or _s in _evp_built:
+                continue
+            try:
+                _EVENT_PAGE_FILES["event-" + _s + ".html"] = _evp_page(_r)
+                _evp_built.add(_s)
+            except Exception as _pe:
+                print(f"  Warning: event page for '{_s}' skipped — {_pe}")
+        _EVENT_PAGE_FILES["events-this-weekend.html"] = _evp_weekend()
+        _EVENT_PAGE_SLUGS.extend(sorted(_evp_built))
+        # Events that are over (or were withdrawn): the old page becomes a small
+        # noindex redirect to the calendar, so shared links never 404. Only when
+        # the approved-events feed answered; otherwise a feed outage would turn
+        # every live community event page into a redirect for one build.
+        if _EVENT_SUBS_OK:
+            _stub_n = 0
+            for _old in Path(".").glob("event-*.html"):
+                if _old.name[6:-5] in _evp_built:
+                    continue
+                try:
+                    with open(_old, encoding="utf-8", errors="ignore") as _fh:
+                        if 'name="esr-stub"' in _fh.read(2000):
+                            continue
+                except OSError:
+                    continue
+                _EVENT_PAGE_FILES[_old.name] = (
+                    '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
+                    '<meta name="viewport" content="width=device-width, initial-scale=1">'
+                    '<meta name="robots" content="noindex,follow">'
+                    '<meta name="esr-stub" content="/events.html">'
+                    '<meta http-equiv="refresh" content="0;url=/events.html">'
+                    f'<link rel="canonical" href="{SITE_URL}/events.html">'
+                    '<title>This event has ended | Explore Suriname</title></head><body>'
+                    '<p>This event has ended. <a href="/events.html">See what is on in Suriname now</a>.</p>'
+                    '</body></html>')
+                _stub_n += 1
+            if _stub_n:
+                print(f"  OK  {_stub_n} ended event pages turned into redirects")
+        print(f"  OK  {len(_evp_built)} event pages + events-this-weekend.html")
+    except Exception as _evp_err:
+        print(f"  Warning: event pages not built — {_evp_err}")
+        _EVENT_PAGE_FILES.clear()
+        del _EVENT_PAGE_SLUGS[:]
+        _evp_built = set()
+
     # ── Filter bar ───────────────────────────────────────────────────────────
     _present = []
     for _r in resolved:
@@ -12378,13 +12801,18 @@ def build_events_page():
         if _confd and _loc2 and not any(w in _loc2.lower() for w in ("nationwide", "across ", "various", "country", " and ")):
             foot += ('<a href="https://www.google.com/maps/search/?api=1&amp;query=' + _up.quote(_loc2 + ", Suriname")
                      + '" target="_blank" rel="noopener" class="ev-act">Directions</a>')
+        _pslug = _evp_slug(_ev)
+        _purl = (SITE_URL + "/event-" + _pslug) if _pslug in _evp_built else ""
+        if _purl:
+            foot += '<a href="event-' + _pslug + '" class="ev-act">Event page</a>'
         if _confd:
             _wa = (_ev.get("name", "") + " – " + _when_short(_st, _en) + ", " + (_venue or "Suriname")
-                   + ". " + SITE_URL + "/events.html#ev-" + _ev.get("id", ""))
+                   + ". " + (_purl or (SITE_URL + "/events.html#ev-" + _ev.get("id", ""))))
             foot += ('<a href="https://wa.me/?text=' + _up.quote(_wa) + '" target="_blank" rel="noopener" '
                      'class="ev-act">Send on WhatsApp</a>')
             foot += ('<button type="button" class="ev-share ev-act" data-name="' + _name + '" '
-                     'data-anchor="ev-' + _eid + '">Share</button>')
+                     'data-anchor="ev-' + _eid + '"' + ((' data-url="' + _purl + '"') if _purl else '')
+                     + '>Share</button>')
         _lnk = _ev.get("link")
         if _lnk and _lnk.get("href"):
             foot += ('<a href="' + _esc(_lnk["href"]) + '" class="ev-act">' + _esc(_lnk.get("label", "More")) + ' &#8594;</a>')
@@ -12518,7 +12946,9 @@ def build_events_page():
         }
         if _ev.get("free", True):
             _eo["isAccessibleForFree"] = True
-        if _ev.get("website"):
+        if _evp_slug(_ev) in _evp_built:
+            _eo["url"] = SITE_URL + "/event-" + _evp_slug(_ev)
+        elif _ev.get("website"):
             _eo["url"] = _ev["website"]
         if _ev.get("image"):
             _eo["image"] = _ev["image"]
@@ -12842,7 +13272,7 @@ def build_events_page():
         'var t=e.target&&e.target.closest?e.target:null;if(!t)return;'
         'var b=t.closest(".ev-share");'
         'if(b){'
-        'var u="' + SITE_URL + '/events.html#"+b.getAttribute("data-anchor");'
+        'var u=b.getAttribute("data-url")||"' + SITE_URL + '/events.html#"+b.getAttribute("data-anchor");'
         'var d={title:b.getAttribute("data-name")+" in Suriname",url:u};'
         'if(navigator.share){navigator.share(d).catch(function(){})}'
         'else if(navigator.clipboard){navigator.clipboard.writeText(u).then(function(){'
@@ -12893,20 +13323,20 @@ def build_events_page():
     _yr = str(today.year)
     _upd = _fmt(today)
     return f"""{PAGE_HEAD}
-  <title>Events &amp; Festivals in Suriname {_yr} | Explore Suriname</title>
-  <meta name="description" content="What's on in Suriname in {_yr}: parties, concerts and one-off events, plus the festivals \u2014 Keti Koti, Holi Phagwa, Divali, Eid, Owru Yari, Maroon Day \u2014 and every public holiday.">
+  <title>Events in Suriname {_yr}: What's On This Week | Explore Suriname</title>
+  <meta name="description" content="What's on in Suriname this week: parties, concerts, markets and festivals in Paramaribo and beyond, plus every public holiday in {_yr}. Listing your event is free.">
   <link rel="canonical" href="{SITE_URL}/events.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/events.html">
-  <meta property="og:title" content="Events &amp; Festivals in Suriname {_yr} | Explore Suriname">
+  <meta property="og:title" content="Events in Suriname {_yr}: What's On This Week | Explore Suriname">
   <meta property="og:description" content="Parties, concerts, festivals and every public holiday \u2014 the whole Surinamese year in one calendar. Free to list your own event.">
   <meta property="og:image" content="{SITE_URL}/images/events-og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="A calendar of Surinamese events and festivals from Explore Suriname">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Events &amp; Festivals in Suriname {_yr} | Explore Suriname">
+  <meta name="twitter:title" content="Events in Suriname {_yr}: What's On This Week | Explore Suriname">
   <meta name="twitter:description" content="Parties, concerts, festivals and every public holiday \u2014 the whole Surinamese year in one calendar.">
   <meta name="twitter:image" content="{SITE_URL}/images/events-og.jpg">
   <script type="application/ld+json">
@@ -12950,6 +13380,7 @@ def build_events_page():
   <div class="max-w-3xl mt-16">
     <h2 class="serif text-2xl font-bold text-gray-900 mb-2">A calendar that rarely goes quiet</h2>
     <p class="text-gray-600 leading-relaxed">Suriname celebrates more, and more diversely, than almost anywhere else. Christian, Hindu, Muslim, Javanese, Chinese, Indigenous and Maroon traditions all carry official status here, so the calendar rarely goes quiet for long. Dates on this page update automatically; lunar-calendar festivals are shown as expected until the official dates are announced.</p>
+    {('<p class="mt-3"><a href="events-this-weekend" class="text-sm font-semibold underline hover:no-underline" style="color:var(--forest2)">What&#8217;s on in Suriname this weekend</a></p>') if _EVENT_PAGE_FILES else ''}
   </div>
 
   <section class="mt-16">
@@ -22003,7 +22434,8 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("korjaal.html",     "0.8", "daily"),
         ("anaconda.html",    "0.8", "daily"),
         ("muskieto.html",    "0.8", "daily"),
-        ("events.html",     "0.8", "weekly"),
+        ("events.html",     "0.8", "daily"),
+        ("events-this-weekend", "0.8", "daily"),
         ("news.html",       "0.7", "daily"),
         ("oil-and-gas.html",             "0.9", "daily"),
         ("suriname-oil-blocks.html",     "0.8", "weekly"),
@@ -22017,7 +22449,8 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("submit-business.html", "0.6", "yearly"),
         ("submit-event.html",    "0.6", "monthly"),
         ("privacy.html",    "0.3", "yearly"),
-    ] + list(_BIZTOOLS_SITEMAP) + list(_ff_sitemap_entries())
+    ] + list(_BIZTOOLS_SITEMAP) + list(_ff_sitemap_entries()) \
+      + [("event-" + _s, "0.7", "weekly") for _s in _EVENT_PAGE_SLUGS]
 
     urls = []
     for path_seg, priority, freq in static_pages:
@@ -24609,6 +25042,7 @@ if __name__ == "__main__":
     except Exception:
         _ff_mark = _ff_marker = None
     _ff_unchanged = 0
+    pages.update(_EVENT_PAGE_FILES)   # event-<id>.html + events-this-weekend.html (build_events_page)
     for fname, html in pages.items():
         _d = _os_pages.path.dirname(fname)
         if _d:
