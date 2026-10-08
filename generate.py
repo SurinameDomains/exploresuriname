@@ -3459,7 +3459,7 @@ SUBCATS = {
         ("real-estate",       "Real Estate",      "🏠"),
         ("education",         "Education",        "🎓"),
         ("tech-media",        "Tech & Media",     "💻"),
-        ("cleaning-maintenance","Cleaning",       "🧹"),
+        ("cleaning-maintenance","Cleaning & Maintenance","🧹"),
         ("automotive",        "Automotive",       "🚗"),
         ("legal-professional","Legal & Professional","⚖️"),
         ("events-party",      "Events & Parties", "🎉"),
@@ -18767,9 +18767,23 @@ def build_submit_page():
                   "shopping": "Shop or store", "service": "Service or business",
                   "adventure": "Tour, activity or resort", "sightseeing": "Attraction or museum"}
     # Chip options mirror the category pages exactly, minus the "All" pseudo-chip.
-    _chip_json = _json.dumps(
-        {_c: [[_k, _lbl] for _k, _lbl, _ico in _rows if _k != "all"]
-         for _c, _rows in SUBCATS.items()}, ensure_ascii=False)
+    # They are written as hidden static <select>s (not a JS array) so build_i18n
+    # translates the labels like any other page text; the JS copies the options
+    # from the matching source select when the category changes.
+    # Form-only labels: examples so tradespeople can find their chip. Keys and
+    # the category-page chip labels stay unchanged (worker whitelists rely on keys).
+    _form_lbl = {
+        ("service", "construction-trades"): "Construction & Trades (plumber, electrician, handyman)",
+        ("service", "cleaning-maintenance"): "Cleaning & Maintenance (gardening, pest control, AC)",
+    }
+    _chip_src = "".join(
+        f'<select data-cat="{_c}" tabindex="-1" aria-hidden="true"><option value="">Choose one</option>'
+        + "".join(f'<option value="{_k}">{_form_lbl.get((_c, _k), _lbl)}</option>'
+                  for _k, _lbl, _ico in _rows if _k != "all")
+        + '</select>'
+        for _c, _rows in SUBCATS.items())
+    _chip_src = f'<div id="chip-src" hidden>{_chip_src}</div>'
+    _chip_json = _json.dumps(sorted(SUBCATS.keys()))
     _cat_opts = "".join(
         f'<option value="{_c}">{_l}</option>' for _c, _l in _cat_label.items())
     _dist_opts = "".join(f'<option value="{_d}">{_d}</option>' for _d in _districts)
@@ -18983,6 +18997,7 @@ __NAV__
     </div>
   </div>
 
+__CHIPSRC__
 </main>
 __FOOTER__
 <script>
@@ -18993,14 +19008,14 @@ __FOOTER__
   var frm = $("frm"), photo = null;
 
   // Type options follow the category, so a submission can only claim a chip
-  // that the category page actually renders.
+  // that the category page actually renders. Options are copied from the hidden
+  // per-category selects in #chip-src, which carry the translated labels.
+  var TYPE_EMPTY = $("f-subcat").innerHTML;
   $("f-category").addEventListener("change", function(){
-    var list = CHIPS[this.value] || [], sel = $("f-subcat");
-    sel.innerHTML = list.length
-      ? '<option value="">Choose one</option>' + list.map(function(c){
-          return '<option value="' + c[0] + '">' + c[1] + '</option>'}).join("")
-      : '<option value="">Pick a category first</option>';
-    sel.disabled = !list.length;
+    var sel = $("f-subcat"), cat = this.value;
+    var src = CHIPS.indexOf(cat) > -1 && document.querySelector('#chip-src select[data-cat="' + cat + '"]');
+    sel.innerHTML = src ? src.innerHTML : TYPE_EMPTY;
+    sel.disabled = !src;
   });
 
   $("f-description").addEventListener("input", function(){ $("cnt").textContent = this.value.length; });
@@ -19094,6 +19109,7 @@ __FOOTER__
             .replace("__DISTOPTS__", _dist_opts)
             .replace("__TURNSTILE__", _turnstile_box)
             .replace("__CHIPS__", _chip_json)
+            .replace("__CHIPSRC__", _chip_src)
             .replace("__API__", LB_API))
 
 
