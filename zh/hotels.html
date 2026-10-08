@@ -18,7 +18,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="ExploreSR" name="apple-mobile-web-app-title"/>
-<link href="/assets/s-63c36bc4a493.css" rel="stylesheet"/>
+<link href="/assets/s-6e17dce36802.css" rel="stylesheet"/>
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
 <link href="/assets/s-12632b0c5234.css" rel="stylesheet"/>
 <link href="/assets/s-3add1bbd5c8c.css" rel="stylesheet"/>
@@ -131,7 +131,11 @@ function _applyFilters() {
   });
   var visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
   var lbl = document.getElementById('result-count');
-  if (lbl) lbl.textContent = visible + ' results' + (_activeDist !== 'all' ? ' · ' + _activeDist : '');
+  /* The static text is already translated ("633 resultaten"); keep its wording. */
+  if (lbl) {
+    if (!lbl.dataset.tpl) lbl.dataset.tpl = lbl.textContent.replace(/\d+/, '#');
+    lbl.textContent = lbl.dataset.tpl.replace('#', visible) + (_activeDist !== 'all' ? ' · ' + _activeDist : '');
+  }
   var _mb = document.querySelector('.fbar-more');
   if (_mb) _mb.classList.toggle('has-dist', _activeDist !== 'all');
 

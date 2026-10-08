@@ -18,7 +18,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="ExploreSR" name="apple-mobile-web-app-title"/>
-<link href="/assets/s-63c36bc4a493.css" rel="stylesheet"/>
+<link href="/assets/s-6e17dce36802.css" rel="stylesheet"/>
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
 <link href="/assets/s-12632b0c5234.css" rel="stylesheet"/>
 <link href="/assets/s-3add1bbd5c8c.css" rel="stylesheet"/>
@@ -99,169 +99,179 @@
 </div>
 </div>
 </div>
-<div class="fbar sticky top-[58px] z-40 pb-2 mb-5" id="fbar-shopping" style="background:var(--paper-2)">
-<div class="max-w-6xl mx-auto px-5">
-<div class="fbar-row relative flex items-center gap-5 pt-3">
-<div class="fbar-chips flex gap-6 overflow-x-auto pb-1" id="chipbar-shopping" style="scrollbar-width:none;-ms-overflow-style:none">
-<button class="filter-chip chip-active" data-grp="all" onclick="filterGrp(this,'all')">Todo <span class="chip-count">337</span></button><button class="filter-chip" data-grp="g-food-drink" onclick="filterGrp(this,'g-food-drink')">Alimentos y supermercado <span class="chip-count">47</span></button><button class="filter-chip" data-grp="g-malls" data-single="1" onclick="filterGrp(this,'g-malls')">Centros comerciales y mercados <span class="chip-count">9</span></button><button class="filter-chip" data-grp="g-fashion-beauty" onclick="filterGrp(this,'g-fashion-beauty')">Moda y belleza <span class="chip-count">58</span></button><button class="filter-chip" data-grp="g-home-building" onclick="filterGrp(this,'g-home-building')">Hogar y construcción <span class="chip-count">95</span></button><button class="filter-chip" data-grp="g-vehicles" onclick="filterGrp(this,'g-vehicles')">Autos y vehículos <span class="chip-count">64</span></button><button class="filter-chip" data-grp="g-electronics-office" onclick="filterGrp(this,'g-electronics-office')">Electrónica y oficina <span class="chip-count">31</span></button><button class="filter-chip" data-grp="g-hobby-gifts" onclick="filterGrp(this,'g-hobby-gifts')">Regalos, ocio y fiestas <span class="chip-count">25</span></button><button class="filter-chip" data-grp="g-farm-trade" onclick="filterGrp(this,'g-farm-trade')">Agro y mayoristas <span class="chip-count">8</span></button>
+<div class="fbar gf sticky top-[58px] z-40 pb-2 mb-5" id="fbar-shopping" style="background:var(--paper-2)">
+<div class="max-w-6xl mx-auto px-5 gf-wrap">
+<div class="gf-searchrow">
+<svg aria-hidden="true" class="gf-sicon" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewBox="0 0 24 24" width="16"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<input aria-label="Search a shop or product (e.g. tiles, phone, butcher)" autocomplete="off" class="gf-q" enterkeyhint="search" id="gf-q" placeholder="Busca una tienda o producto (p. ej. azulejos, teléfono, carnicería)" type="search"/>
 </div>
-<select aria-label="District" class="dist-sel" id="dist-sel" onchange="filterDistrict(this, this.value)"><option value="all">Todos los distritos</option><option value="Paramaribo">Paramaribo</option><option value="Wanica">Wanica</option><option value="Commewijne">Commewijne</option><option value="Para">Para</option><option value="Nickerie">Nickerie</option></select>
-<button aria-controls="chipbar-shopping" aria-expanded="false" class="fbar-more" type="button"><span class="fm-o">Más</span><span class="fm-c">Cerrar</span><svg aria-hidden="true" fill="none" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="12"><path d="M6 9l6 6 6-6"></path></svg></button>
+<div class="gf-row">
+<button aria-controls="gf-panel" aria-expanded="false" class="gf-catbtn" id="gf-catbtn" type="button"><span>Todas las categorías</span><svg aria-hidden="true" fill="none" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="12"><path d="M6 9l6 6 6-6"></path></svg></button>
+<div class="fbar-chips gf-chips flex gap-5 overflow-x-auto" id="chipbar-shopping" style="scrollbar-width:none;-ms-overflow-style:none">
+<button class="filter-chip chip-active gf-activechip" hidden="" id="gf-active" type="button"><span class="gf-al"></span> <span aria-hidden="true">✕</span></button>
+<button class="filter-chip gf-top" data-sub="building-materials" type="button">Materiales de construcción <span class="chip-count">61</span></button><button class="filter-chip gf-top" data-sub="car-dealers" type="button">Concesionarios de autos <span class="chip-count">49</span></button><button class="filter-chip gf-top" data-sub="fashion-clothing" type="button">Moda y calzado <span class="chip-count">33</span></button><button class="filter-chip gf-top" data-sub="home-furniture" type="button">Hogar y muebles <span class="chip-count">26</span></button><button class="filter-chip gf-top" data-sub="electronics" type="button">Electrónica y teléfonos <span class="chip-count">23</span></button>
 </div>
-<div class="fbar-types" hidden="" id="typebar-shopping"><div class="fbar-chips fbar-tchips flex gap-5 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none"><button class="filter-chip type-chip" data-grp="g-food-drink" data-sub="all" hidden="" onclick="filterSub(this,'all')">Todo <span class="chip-count">47</span></button><button class="filter-chip type-chip" data-grp="g-food-drink" data-sub="supermarkets" hidden="" onclick="filterSub(this,'supermarkets')">Supermercados <span class="chip-count">10</span></button><button class="filter-chip type-chip" data-grp="g-food-drink" data-sub="butchers-meat" hidden="" onclick="filterSub(this,'butchers-meat')">Carne y pescado <span class="chip-count">11</span></button><button class="filter-chip type-chip" data-grp="g-food-drink" data-sub="drinks-liquor" hidden="" onclick="filterSub(this,'drinks-liquor')">Bebidas y licores <span class="chip-count">8</span></button><button class="filter-chip type-chip" data-grp="g-food-drink" data-sub="food-specialty" hidden="" onclick="filterSub(this,'food-specialty')">Alimentación y especialidades <span class="chip-count">18</span></button><button class="filter-chip type-chip" data-grp="g-malls" data-sub="all" hidden="" onclick="filterSub(this,'all')">Todo <span class="chip-count">9</span></button><button class="filter-chip type-chip" data-grp="g-malls" data-sub="malls-markets" hidden="" onclick="filterSub(this,'malls-markets')">Centros comerciales y mercados <span class="chip-count">9</span></button><button class="filter-chip type-chip" data-grp="g-fashion-beauty" data-sub="all" hidden="" onclick="filterSub(this,'all')">Todo <span class="chip-count">58</span></button><button class="filter-chip type-chip" data-grp="g-fashion-beauty" data-sub="fashion-clothing" hidden="" onclick="filterSub(this,'fashion-clothing')">Moda y calzado <span class="chip-count">33</span></button><button class="filter-chip type-chip" data-grp="g-fashion-beauty" data-sub="optical-jewelry" hidden="" onclick="filterSub(this,'optical-jewelry')">Óptica y joyería <span class="chip-count">13</span></button><button class="filter-chip type-chip" data-grp="g-fashion-beauty" data-sub="health-beauty" hidden="" onclick="filterSub(this,'health-beauty')">Salud y belleza <span class="chip-count">12</span></button><button class="filter-chip type-chip" data-grp="g-home-building" data-sub="all" hidden="" onclick="filterSub(this,'all')">Todo <span class="chip-count">95</span></button><button class="filter-chip type-chip" data-grp="g-home-building" data-sub="home-furniture" hidden="" onclick="filterSub(this,'home-furniture')">Hogar y muebles <span class="chip-count">26</span></button><button class="filter-chip type-chip" data-grp="g-home-building" data-sub="building-materials" hidden="" onclick="filterSub(this,'building-materials')">Materiales de construcción <span class="chip-count">61</span></button><button class="filter-chip type-chip" data-grp="g-home-building" data-sub="nursery-garden" hidden="" onclick="filterSub(this,'nursery-garden')">Vivero y jardín <span class="chip-count">8</span></button><button class="filter-chip type-chip" data-grp="g-vehicles" data-sub="all" hidden="" onclick="filterSub(this,'all')">Todo <span class="chip-count">64</span></button><button class="filter-chip type-chip" data-grp="g-vehicles" data-sub="car-dealers" hidden="" onclick="filterSub(this,'car-dealers')">Concesionarios de autos <span class="chip-count">49</span></button><button class="filter-chip type-chip" data-grp="g-vehicles" data-sub="auto-parts" hidden="" onclick="filterSub(this,'auto-parts')">Repuestos y accesorios <span class="chip-count">15</span></button><button class="filter-chip type-chip" data-grp="g-electronics-office" data-sub="all" hidden="" onclick="filterSub(this,'all')">Todo <span class="chip-count">31</span></button><button class="filter-chip type-chip" data-grp="g-electronics-office" data-sub="electronics" hidden="" onclick="filterSub(this,'electronics')">Electrónica y teléfonos <span class="chip-count">23</span></button><button class="filter-chip type-chip" data-grp="g-electronics-office" data-sub="books-office" hidden="" onclick="filterSub(this,'books-office')">Libros y oficina <span class="chip-count">8</span></button><button class="filter-chip type-chip" data-grp="g-hobby-gifts" data-sub="all" hidden="" onclick="filterSub(this,'all')">Todo <span class="chip-count">25</span></button><button class="filter-chip type-chip" data-grp="g-hobby-gifts" data-sub="crafts-souvenirs" hidden="" onclick="filterSub(this,'crafts-souvenirs')">Artesanía y recuerdos <span class="chip-count">11</span></button><button class="filter-chip type-chip" data-grp="g-hobby-gifts" data-sub="toys-gifts" hidden="" onclick="filterSub(this,'toys-gifts')">Juguetes y regalos <span class="chip-count">8</span></button><button class="filter-chip type-chip" data-grp="g-hobby-gifts" data-sub="sports-outdoors" hidden="" onclick="filterSub(this,'sports-outdoors')">Deportes y aire libre <span class="chip-count">3</span></button><button class="filter-chip type-chip" data-grp="g-hobby-gifts" data-sub="events-party" hidden="" onclick="filterSub(this,'events-party')">Eventos y fiestas <span class="chip-count">3</span></button><button class="filter-chip type-chip" data-grp="g-farm-trade" data-sub="all" hidden="" onclick="filterSub(this,'all')">Todo <span class="chip-count">8</span></button><button class="filter-chip type-chip" data-grp="g-farm-trade" data-sub="vet-livestock" hidden="" onclick="filterSub(this,'vet-livestock')">Suministros agrícolas y para animales <span class="chip-count">2</span></button><button class="filter-chip type-chip" data-grp="g-farm-trade" data-sub="wholesale-import" hidden="" onclick="filterSub(this,'wholesale-import')">Mayoristas e importación <span class="chip-count">6</span></button></div></div>
+<span id="gf-distslot"><select aria-label="District" class="dist-sel" id="dist-sel" onchange="filterDistrict(this, this.value)"><option value="all">Todos los distritos</option><option value="Paramaribo">Paramaribo</option><option value="Wanica">Wanica</option><option value="Commewijne">Commewijne</option><option value="Para">Para</option><option value="Nickerie">Nickerie</option></select></span>
+</div>
+<div class="gf-panel" hidden="" id="gf-panel">
+<div class="gf-phead">
+<strong class="gf-ptitle">Todas las categorías</strong>
+<span id="gf-distslot-m"></span>
+<button aria-label="Close" class="gf-close" type="button"><span>Cerrar</span> ✕</button>
+</div>
+<div class="gf-grid">
+<div class="gf-group gf-allgroup"><button class="gf-ghead" data-grp="all" type="button"><span>Todo</span><span class="chip-count">337</span></button></div>
+<div class="gf-group"><button class="gf-ghead" data-grp="g-food-drink" type="button"><span>Alimentos y supermercado</span><span class="chip-count">47</span></button><button class="gf-type" data-sub="supermarkets" type="button"><span>Supermercados</span><span class="chip-count">10</span></button><button class="gf-type" data-sub="butchers-meat" type="button"><span>Carne y pescado</span><span class="chip-count">11</span></button><button class="gf-type" data-sub="drinks-liquor" type="button"><span>Bebidas y licores</span><span class="chip-count">8</span></button><button class="gf-type" data-sub="food-specialty" type="button"><span>Alimentación y especialidades</span><span class="chip-count">18</span></button></div><div class="gf-group"><button class="gf-ghead gf-single" data-grp="g-malls" data-sub="malls-markets" type="button"><span>Centros comerciales y mercados</span><span class="chip-count">9</span></button></div><div class="gf-group"><button class="gf-ghead" data-grp="g-fashion-beauty" type="button"><span>Moda y belleza</span><span class="chip-count">58</span></button><button class="gf-type" data-sub="fashion-clothing" type="button"><span>Moda y calzado</span><span class="chip-count">33</span></button><button class="gf-type" data-sub="optical-jewelry" type="button"><span>Óptica y joyería</span><span class="chip-count">13</span></button><button class="gf-type" data-sub="health-beauty" type="button"><span>Salud y belleza</span><span class="chip-count">12</span></button></div><div class="gf-group"><button class="gf-ghead" data-grp="g-home-building" type="button"><span>Hogar y construcción</span><span class="chip-count">95</span></button><button class="gf-type" data-sub="home-furniture" type="button"><span>Hogar y muebles</span><span class="chip-count">26</span></button><button class="gf-type" data-sub="building-materials" type="button"><span>Materiales de construcción</span><span class="chip-count">61</span></button><button class="gf-type" data-sub="nursery-garden" type="button"><span>Vivero y jardín</span><span class="chip-count">8</span></button></div><div class="gf-group"><button class="gf-ghead" data-grp="g-vehicles" type="button"><span>Autos y vehículos</span><span class="chip-count">64</span></button><button class="gf-type" data-sub="car-dealers" type="button"><span>Concesionarios de autos</span><span class="chip-count">49</span></button><button class="gf-type" data-sub="auto-parts" type="button"><span>Repuestos y accesorios</span><span class="chip-count">15</span></button></div><div class="gf-group"><button class="gf-ghead" data-grp="g-electronics-office" type="button"><span>Electrónica y oficina</span><span class="chip-count">31</span></button><button class="gf-type" data-sub="electronics" type="button"><span>Electrónica y teléfonos</span><span class="chip-count">23</span></button><button class="gf-type" data-sub="books-office" type="button"><span>Libros y oficina</span><span class="chip-count">8</span></button></div><div class="gf-group"><button class="gf-ghead" data-grp="g-hobby-gifts" type="button"><span>Regalos, ocio y fiestas</span><span class="chip-count">25</span></button><button class="gf-type" data-sub="crafts-souvenirs" type="button"><span>Artesanía y recuerdos</span><span class="chip-count">11</span></button><button class="gf-type" data-sub="toys-gifts" type="button"><span>Juguetes y regalos</span><span class="chip-count">8</span></button><button class="gf-type" data-sub="sports-outdoors" type="button"><span>Deportes y aire libre</span><span class="chip-count">3</span></button><button class="gf-type" data-sub="events-party" type="button"><span>Eventos y fiestas</span><span class="chip-count">3</span></button></div><div class="gf-group"><button class="gf-ghead" data-grp="g-farm-trade" type="button"><span>Agro y mayoristas</span><span class="chip-count">8</span></button><button class="gf-type" data-sub="vet-livestock" type="button"><span>Suministros agrícolas y para animales</span><span class="chip-count">2</span></button><button class="gf-type" data-sub="wholesale-import" type="button"><span>Mayoristas e importación</span><span class="chip-count">6</span></button></div>
+</div>
+<div class="gf-pfoot"><button class="gf-show" type="button"><span class="gf-shown">337 resultados</span></button></div>
+</div>
+<span hidden="" id="gf-empty-tpl">Sin resultados. Prueba otra palabra o abre Todas las categorías.</span>
 </div>
 </div>
 <script>
-var _activeSub  = 'all';
-var _activeDist = 'all';
-var _activeGrp  = 'all';
-var _SUB_GRP    = {"supermarkets": "g-food-drink", "butchers-meat": "g-food-drink", "drinks-liquor": "g-food-drink", "food-specialty": "g-food-drink", "malls-markets": "g-malls", "fashion-clothing": "g-fashion-beauty", "optical-jewelry": "g-fashion-beauty", "health-beauty": "g-fashion-beauty", "home-furniture": "g-home-building", "building-materials": "g-home-building", "nursery-garden": "g-home-building", "car-dealers": "g-vehicles", "auto-parts": "g-vehicles", "automotive": "g-vehicles", "electronics": "g-electronics-office", "books-office": "g-electronics-office", "crafts-souvenirs": "g-hobby-gifts", "toys-gifts": "g-hobby-gifts", "sports-outdoors": "g-hobby-gifts", "events-party": "g-hobby-gifts", "vet-livestock": "g-farm-trade", "wholesale-import": "g-farm-trade", "other": "g-farm-trade"};
+var _activeSub = 'all', _activeDist = 'all', _activeGrp = 'all', _gfQ = '';
+var _SUB_GRP = {"supermarkets": "g-food-drink", "butchers-meat": "g-food-drink", "drinks-liquor": "g-food-drink", "food-specialty": "g-food-drink", "malls-markets": "g-malls", "fashion-clothing": "g-fashion-beauty", "optical-jewelry": "g-fashion-beauty", "health-beauty": "g-fashion-beauty", "home-furniture": "g-home-building", "building-materials": "g-home-building", "nursery-garden": "g-home-building", "car-dealers": "g-vehicles", "auto-parts": "g-vehicles", "automotive": "g-vehicles", "electronics": "g-electronics-office", "books-office": "g-electronics-office", "crafts-souvenirs": "g-hobby-gifts", "toys-gifts": "g-hobby-gifts", "sports-outdoors": "g-hobby-gifts", "events-party": "g-hobby-gifts", "vet-livestock": "g-farm-trade", "wholesale-import": "g-farm-trade", "other": "g-farm-trade"};
 
-/* Type filter, with the group as the fallback when no type is picked. */
-function _subOk(card) {
-  if (_activeSub !== 'all') return card.dataset.sub === _activeSub;
-  if (_activeGrp !== 'all') return _SUB_GRP[card.dataset.sub] === _activeGrp;
-  return true;
-}
-
-function _applyFilters() {
-  document.querySelectorAll('.listing-card').forEach(function(card) {
-    var subOk  = _subOk(card);
-    var distOk = _activeDist === 'all' || (card.dataset.district || '').split('|').indexOf(_activeDist) >= 0;
-    card.classList.toggle('hidden', !(subOk && distOk));
-  });
-  var visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
-  var lbl = document.getElementById('result-count');
-  if (lbl) lbl.textContent = visible + ' results' + (_activeDist !== 'all' ? ' · ' + _activeDist : '');
-  var _mb = document.querySelector('.fbar-more');
-  if (_mb) _mb.classList.toggle('has-dist', _activeDist !== 'all');
-
-  /* ── Update district option counts dynamically ── */
-  var distCounts = {};
-  var totalVisible = 0;
-  document.querySelectorAll('.listing-card').forEach(function(card) {
-    if (!_subOk(card)) return;
-    var ds = (card.dataset.district || 'Paramaribo').split('|');
-    for (var di = 0; di < ds.length; di++) { distCounts[ds[di]] = (distCounts[ds[di]] || 0) + 1; }
-    totalVisible++;
-  });
-  var sel = document.getElementById('dist-sel');
-  if (sel) {
-    var reset = false;
-    for (var oi = 0; oi < sel.options.length; oi++) {
-      var o = sel.options[oi], v = o.value;
-      if (v === 'all') continue;
-      var c = distCounts[v] || 0;
-      o.disabled = c === 0;
-      o.hidden = c === 0;
-      /* if active district now has 0 results, reset to all */
-      if (c === 0 && _activeDist === v) reset = true;
-    }
-    if (reset) { _activeDist = 'all'; sel.value = 'all'; _applyFilters(); return; }
-  }
-}
-
-function filterSub(btn, key) {
-  _activeSub = key;
-  /* Only this chip's own row: on grouped pages the group stays selected. */
-  btn.parentNode.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
-  btn.classList.add('chip-active');
-  _applyFilters();
-  _fbarReveal();
-}
-
-/* Grouped pages: pick a group, then (optionally) one of its types. */
-function filterGrp(btn, grp) {
-  _activeGrp = grp;
-  _activeSub = 'all';
-  btn.parentNode.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
-  btn.classList.add('chip-active');
-  var tb = document.getElementById('typebar-shopping');
-  if (tb) {
-    var show = grp !== 'all' && !btn.hasAttribute('data-single');
-    tb.hidden = !show;
-    tb.querySelectorAll('.type-chip').forEach(function(b) {
-      var mine = b.getAttribute('data-grp') === grp;
-      b.hidden = !mine;
-      b.classList.toggle('chip-active', mine && b.getAttribute('data-sub') === 'all');
-    });
-    var ts = tb.querySelector('.fbar-tchips');
-    if (ts) ts.scrollLeft = 0;
-  }
-  _applyFilters();
-  _fbarReveal();
-}
-
-/* Keep the selected chip visible in the sideways strip (after a pick in the
-   expanded "More" view, or a ?sub= deep link to a chip far down the list). */
-function _fbarReveal() {
-  var s = document.getElementById('chipbar-shopping');
-  var a = s && s.querySelector('.chip-active');
-  if (!a || s.scrollWidth <= s.clientWidth + 2) return;
-  var x = Math.max(0, a.offsetLeft - s.offsetLeft - 16);
-  try { s.scrollTo({left: x, behavior: 'smooth'}); } catch (e) { s.scrollLeft = x; }
-}
-
-/* Phones: the strip only fits ~2 chips, so "More" expands it into a wrapped
-   list of every category plus the district picker. Picking a chip collapses
-   it again. Hidden on wider screens (CSS) and when there is nothing extra. */
-(function() {
+(function(){
   var fb = document.getElementById('fbar-shopping');
-  var btn = fb && fb.querySelector('.fbar-more');
+  var panel = document.getElementById('gf-panel'), btn = document.getElementById('gf-catbtn');
+  var q = document.getElementById('gf-q'), act = document.getElementById('gf-active');
   var strip = document.getElementById('chipbar-shopping');
-  if (!btn || !strip) return;
-  function setOpen(o) {
-    fb.classList.toggle('fbar-open', o);
-    btn.setAttribute('aria-expanded', o ? 'true' : 'false');
-    if (!o) _fbarReveal();
+  function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
+  var cards = [], hay = [];
+  function initCards(){ if (cards.length) return;
+    cards = Array.prototype.slice.call(document.querySelectorAll('.listing-card'));
+    hay = cards.map(function(c){ return norm(c.textContent + ' ' + (c.getAttribute('data-k')||'')); });
   }
-  btn.addEventListener('click', function() { setOpen(!fb.classList.contains('fbar-open')); });
-  strip.addEventListener('click', function(e) {
-    if (fb.classList.contains('fbar-open') && e.target.closest && e.target.closest('.filter-chip')) setOpen(false);
+  function subOk(c){
+    if (_activeSub !== 'all') return c.dataset.sub === _activeSub;
+    if (_activeGrp !== 'all') return _SUB_GRP[c.dataset.sub] === _activeGrp;
+    return true;
+  }
+  function distOk(c){ return _activeDist === 'all' || (c.dataset.district||'').split('|').indexOf(_activeDist) >= 0; }
+  var empty = null;
+  function apply(){
+    initCards();
+    var words = norm(_gfQ).split(/\s+/).filter(Boolean), vis = 0, dc = {};
+    for (var i = 0; i < cards.length; i++){
+      var c = cards[i], h = hay[i];
+      var qOk = words.every(function(w){ return h.indexOf(w) >= 0; });
+      var ok = subOk(c) && qOk;
+      if (ok){ var ds = (c.dataset.district||'Paramaribo').split('|'); for (var d = 0; d < ds.length; d++) dc[ds[d]] = (dc[ds[d]]||0) + 1; }
+      ok = ok && distOk(c);
+      c.classList.toggle('hidden', !ok); if (ok) vis++;
+    }
+    var lbl = document.getElementById('result-count');
+    if (lbl){
+      if (!lbl.dataset.tpl) lbl.dataset.tpl = lbl.textContent.replace(/\d+/, '#');
+      lbl.textContent = lbl.dataset.tpl.replace('#', vis) + (_activeDist !== 'all' ? ' · ' + _activeDist : '');
+      if (!empty){ empty = document.createElement('p'); empty.className = 'gf-empty';
+        empty.textContent = document.getElementById('gf-empty-tpl').textContent; lbl.parentNode.insertBefore(empty, lbl.nextSibling); }
+      empty.hidden = vis > 0;
+      var sh = panel.querySelector('.gf-shown');
+      if (sh){ if (!sh.dataset.tpl) sh.dataset.tpl = sh.textContent.replace(/\d+/, '#'); sh.textContent = sh.dataset.tpl.replace('#', vis); }
+    }
+    var sel = document.getElementById('dist-sel');
+    if (sel){
+      for (var oi = 0; oi < sel.options.length; oi++){
+        var o = sel.options[oi]; if (o.value === 'all') continue;
+        var n = dc[o.value] || 0; o.hidden = o.disabled = n === 0;
+        if (n === 0 && _activeDist === o.value){ _activeDist = 'all'; sel.value = 'all'; return apply(); }
+      }
+    }
+    btn.classList.toggle('has-dist', _activeDist !== 'all');
+  }
+  function labelOf(sub, grp){
+    var el = sub !== 'all' ? panel.querySelector('[data-sub="' + sub + '"] span')
+                           : panel.querySelector('.gf-ghead[data-grp="' + grp + '"] span');
+    return el ? el.textContent : '';
+  }
+  function syncUI(){
+    /* The active choice is always the first chip (with ✕), so it is visible even
+       on a phone where the strip only shows one or two chips; its duplicate among
+       the top chips is hidden meanwhile. */
+    var shown = false;
+    strip.querySelectorAll('.gf-top').forEach(function(b){
+      b.hidden = _activeSub !== 'all' && b.getAttribute('data-sub') === _activeSub;
+    });
+    strip.scrollLeft = 0;
+    var any = _activeSub !== 'all' || _activeGrp !== 'all';
+    act.hidden = !any;
+    if (any && !shown) act.querySelector('.gf-al').textContent = labelOf(_activeSub, _activeGrp);
+    panel.querySelectorAll('.gf-type, .gf-ghead').forEach(function(b){
+      var s = b.getAttribute('data-sub'), g = b.getAttribute('data-grp');
+      var on = s ? (s === _activeSub) : (g === _activeGrp && _activeSub === 'all');
+      b.classList.toggle('gf-on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  function toResults(){
+    var lbl = document.getElementById('result-count');
+    if (!lbl) return;
+    var top = lbl.getBoundingClientRect().top + window.pageYOffset - fb.offsetHeight - 70;
+    if (window.pageYOffset > top) window.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
+  }
+  function pick(sub, grp){
+    _activeSub = sub || 'all'; _activeGrp = grp || 'all';
+    if (_gfQ){ _gfQ = ''; q.value = ''; }
+    syncUI(); apply(); setOpen(false); toResults();
+  }
+  window.esrPick = pick;
+  function setOpen(o){
+    panel.hidden = !o; btn.setAttribute('aria-expanded', o ? 'true' : 'false');
+    fb.classList.toggle('gf-isopen', o);   /* lift the bar above the site header while the sheet is open */
+    document.documentElement.classList.toggle('gf-lock', o && mq.matches);
+    if (o){ var f = panel.querySelector('.gf-on') || panel.querySelector('button.gf-ghead'); if (f) f.focus({preventScroll: true}); }
+  }
+  btn.addEventListener('click', function(){ setOpen(panel.hidden); });
+  panel.querySelector('.gf-close').addEventListener('click', function(){ setOpen(false); btn.focus(); });
+  panel.querySelector('.gf-show').addEventListener('click', function(){ setOpen(false); toResults(); });
+  panel.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('button[data-sub], button[data-grp]');
+    if (!b || !panel.contains(b)) return;
+    var s = b.getAttribute('data-sub');
+    if (s) pick(s, _SUB_GRP[s] || 'all'); else pick('all', b.getAttribute('data-grp'));
   });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && fb.classList.contains('fbar-open')) { setOpen(false); btn.focus(); }
+  strip.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('button'); if (!b) return;
+    if (b === act){ pick('all', 'all'); return; }
+    var s = b.getAttribute('data-sub'); if (!s) return;
+    if (s === _activeSub) pick('all', 'all'); else pick(s, _SUB_GRP[s] || 'all');
   });
-  if (!document.getElementById('dist-sel') && strip.querySelectorAll('.filter-chip').length < 4) btn.hidden = true;
-})();
-
-function filterDistrict(el, dist) {
-  _activeDist = dist || 'all';
-  if (el && el.tagName === 'SELECT' && el.value !== _activeDist) el.value = _activeDist;
-  _applyFilters();
-}
-
-/* Deep link: /activities.html?sub=nature-parks pre-selects a chip. Used by the
-   homepage journey cards since Nature was merged into Things to Do. Silently
-   ignored when the key matches no chip on this page. */
-(function() {
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !panel.hidden){ setOpen(false); btn.focus(); } });
+  document.addEventListener('click', function(e){
+    if (panel.hidden || mq.matches) return;
+    if (!panel.contains(e.target) && !btn.contains(e.target)) setOpen(false);
+  });
+  var tq = null;
+  q.addEventListener('input', function(){
+    clearTimeout(tq);
+    tq = setTimeout(function(){
+      _gfQ = q.value.trim();
+      if (_gfQ && (_activeSub !== 'all' || _activeGrp !== 'all')){ _activeSub = 'all'; _activeGrp = 'all'; syncUI(); }
+      apply();
+    }, 120);
+  });
+  q.addEventListener('keydown', function(e){ if (e.key === 'Enter'){ q.blur(); toResults(); } });
+  /* Phones: the district picker lives in the sheet, the row has no room for it. */
+  var mq = window.matchMedia('(max-width:639px)');
+  function placeDist(){
+    var sel = document.getElementById('dist-sel'); if (!sel) return;
+    var slot = document.getElementById(mq.matches ? 'gf-distslot-m' : 'gf-distslot');
+    if (sel.parentNode !== slot) slot.appendChild(sel);
+  }
+  placeDist();
+  if (mq.addEventListener) mq.addEventListener('change', placeDist); else if (mq.addListener) mq.addListener(placeDist);
+  window.filterDistrict = function(el, d){ _activeDist = d || 'all'; apply(); };
+  /* Deep links: ?sub=notaries-legal, ?grp=g-home-property, ?q=loodgieter */
   var qs = new URLSearchParams(location.search);
-  var want = qs.get('sub'), wantGrp = qs.get('grp');
-  if ((!want || want === 'all') && !wantGrp) return;
-  function apply() {
-    /* Grouped pages: ?sub= selects the type's group first, ?grp= a group. */
-    var g = (want && _SUB_GRP[want]) || wantGrp;
-    var gb = g && document.querySelector('#chipbar-shopping .filter-chip[data-grp="' + g + '"]');
-    if (gb) {
-      filterGrp(gb, g);
-      var tc = want && document.querySelector('#typebar-shopping .type-chip[data-sub="' + want + '"]');
-      if (tc && !gb.hasAttribute('data-single')) filterSub(tc, want);
-      return;
-    }
-    if (!want) return;
-    var chips = document.querySelectorAll('#chipbar-shopping .filter-chip');
-    for (var i = 0; i < chips.length; i++) {
-      var oc = chips[i].getAttribute('onclick') || '';
-      var m  = oc.match(/filterSub\(this,\s*'([^']+)'\)/);
-      if (m && m[1] === want) { filterSub(chips[i], want); return; }
-    }
+  function boot(){
+    var s = qs.get('sub'), g = qs.get('grp'), qq = qs.get('q');
+    if (s && _SUB_GRP[s]) { _activeSub = s; _activeGrp = _SUB_GRP[s]; }
+    else if (g && panel.querySelector('.gf-ghead[data-grp="' + g + '"]')) { _activeGrp = g; }
+    if (qq){ q.value = qq; _gfQ = qq; _activeSub = 'all'; _activeGrp = 'all'; }
+    syncUI(); if (s || g || qq) apply();
   }
-  /* The bar renders above the grid, so wait for the cards to exist. */
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', apply);
-  } else {
-    apply();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script>
 <main class="max-w-6xl mx-auto px-5 pt-2 pb-24">
@@ -291,7 +301,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">A+ Bouwmaterialen es un proveedor de materiales de construcción en Paramaribo, Surinam, que ofrece suministros de plomería...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/aks-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/aks-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="A.K.S CAR CENTER en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ce7670e303e5e6a7351d70aa572fab27.webp" srcset="/images/ce7670e303e5e6a7351d70aa572fab27-480.webp 480w, /images/ce7670e303e5e6a7351d70aa572fab27.webp 685w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">A.K.S CAR CENTER</h3>
@@ -299,7 +309,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">A.K.S CAR CENTER es una empresa automotriz en Paramaribo, Surinam, que ofrece venta, envío y…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/abs-carhouse/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/abs-carhouse/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="ABS CARHOUSE en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/a1d5ecc2aef377cc6a6a89aef6f35ac5.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">ABS CARHOUSE</h3>
@@ -307,7 +317,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">ABS Carhouse NV es un concesionario de automóviles con sala de exposición en Kwattaweg 367, Paramaribo, que vende coches nuevos…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/adex-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/adex-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="ADEX N.V. en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/447f0d7800520ea74594947ddcf4aee3.webp" srcset="/images/447f0d7800520ea74594947ddcf4aee3-480.webp 480w, /images/447f0d7800520ea74594947ddcf4aee3.webp 966w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">ADEX N.V.</h3>
@@ -347,7 +357,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Amada Shopping es un centro comercial en Paramaribo con tiendas y servicios bajo un mismo techo. Una parada práctica para…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="wholesale-import" href="listing/amazone-international-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="wholesale groothandel import export trading" data-sub="wholesale-import" href="listing/amazone-international-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Amazone International NV en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ce4aa5f2d41738bc6252ee720748dc37.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Amazone International NV</h3>
@@ -355,7 +365,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Amazone International N.V. es un mayorista y distribuidor de productos alimentarios y no alimentarios en Nieuwe Charlesburgweg…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/an-shun-international-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="auto parts onderdelen accessories tires banden" data-sub="auto-parts" href="listing/an-shun-international-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">An Shun International NV</h3>
@@ -371,7 +381,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Anil Store es un proveedor de materiales de construcción en Paramaribo, Surinam, que ofrece azulejos, artículos sanitarios y…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/ans-car-imports/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/ans-car-imports/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Ans Car Imports en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/d0b4f57b19a7801c25f3667bd155fb4b.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ans Car Imports</h3>
@@ -395,7 +405,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Una granja acuapónica en Paramaribo que vende verduras, plántulas, semillas, frutales y tilapia.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="wholesale-import" href="listing/araxs-impex-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-k="wholesale groothandel import export trading" data-sub="wholesale-import" href="listing/araxs-impex-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Araxs Impex NV en Wanica" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/f0fb1128e17a659d805d05f1eb28a97b.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Araxs Impex NV</h3>
@@ -427,7 +437,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ashley Furniture HomeStore es la franquicia de Surinam de la cadena de muebles estadounidense, que vende sofás, comedor...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="auto-parts" href="listing/auto-style-franchepanestraat/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-k="auto parts onderdelen accessories tires banden" data-sub="auto-parts" href="listing/auto-style-franchepanestraat/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Auto Style en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/54b2f1778b330f0f5a74c0f8a0959409.webp" srcset="/images/54b2f1778b330f0f5a74c0f8a0959409-480.webp 480w, /images/54b2f1778b330f0f5a74c0f8a0959409.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Auto Style</h3>
@@ -435,7 +445,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Auto Style Franchepanestraat es una tienda de accesorios para autos en Paramaribo con equipos de audio, fundas…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/automotive-art-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="auto parts onderdelen accessories tires banden" data-sub="auto-parts" href="listing/automotive-art-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Automotive Art Suriname en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/12cc219efb89545cdd51d132c0d75475.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Automotive Art Suriname</h3>
@@ -443,7 +453,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Automotive Art Suriname vende pinturas automotrices y productos para el cuidado del auto en sus tiendas de Kasabaholoweg y…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/autoradar-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/autoradar-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="AutoRadar Suriname en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/acac40859408560e8da6bd7e79556bce.webp" srcset="/images/acac40859408560e8da6bd7e79556bce-480.webp 480w, /images/acac40859408560e8da6bd7e79556bce.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">AutoRadar Suriname</h3>
@@ -475,7 +485,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Una empresa de productos alimenticios en Republiek en Pará, que vende productos Babel Food, incluso a través de una tienda en línea.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="wholesale-import" href="listing/bdt-import-and-export-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="wholesale groothandel import export trading" data-sub="wholesale-import" href="listing/bdt-import-and-export-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">BDT Import and Export n.v</h3>
@@ -507,7 +517,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Beyrouth Bazaar es una tienda de comercio general de propiedad libanesa en el centro de Paramaribo que ofrece una amplia combinación de…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/bhaggoes-car-palace/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/bhaggoes-car-palace/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Bhaggoe's Car Palace en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d8c6ca0c2c46e492e296b1421a36e420.webp" srcset="/images/d8c6ca0c2c46e492e296b1421a36e420-480.webp 480w, /images/d8c6ca0c2c46e492e296b1421a36e420.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Bhaggoe's Car Palace</h3>
@@ -515,7 +525,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Bhaggoe's Car Palace es una empresa automotriz en Paramaribo, Surinam, que ofrece venta de vehículos. Ubicado en…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/bhondoekhan-s-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="auto parts onderdelen accessories tires banden" data-sub="auto-parts" href="listing/bhondoekhan-s-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Bhondoekhan S n.v. en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2d64039b9b9784bb94e99b7384491e98.webp" srcset="/images/2d64039b9b9784bb94e99b7384491e98-480.webp 480w, /images/2d64039b9b9784bb94e99b7384491e98.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Bhondoekhan S n.v.</h3>
@@ -523,7 +533,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Bhondoekhan S N.V. es una tienda e importadora de repuestos de automóvil en Weg naar Ma-Retraite 14, Paramaribo.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/biharies-car-center-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/biharies-car-center-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Biharie's Car Center N.V</h3>
@@ -539,7 +549,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Una tienda de ropa boutique en Wilhelminastraat en Paramaribo, frente a Soeng Ngie, que vende ropa de mujer, productos de belleza...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/bmw-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/bmw-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="BMW Suriname en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a4483a9ff13905fb8e39231f0a0f1d15.webp" srcset="/images/a4483a9ff13905fb8e39231f0a0f1d15-480.webp 480w, /images/a4483a9ff13905fb8e39231f0a0f1d15.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">BMW Suriname</h3>
@@ -547,7 +557,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">BMW Suriname es el concesionario oficial de BMW en Paramaribo y ofrece turismos, SUV y…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/bn-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/bn-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="BN Car Center en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/154cb411b85d98b735927c0eb1c7899c.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">BN Car Center</h3>
@@ -563,7 +573,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">BN Trading es un minorista de muebles y hogar en Wanica, Surinam, que ofrece importación, distribución mayorista y...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/boekhandel-kasco/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="books boeken boekhandel office kantoor stationery" data-sub="books-office" href="listing/boekhandel-kasco/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Boekhandel KASCO, Compras y recuerdos en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/7ec174c8b22c9c07b8df08190e71945e.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Boekhandel KASCO</h3>
@@ -571,7 +581,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Boekhandel KASCO es una librería de larga trayectoria en Heerenstraat, en el centro de Paramaribo, que ofrece libros, material escolar...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/boekhandel-vaco/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="books boeken boekhandel office kantoor stationery" data-sub="books-office" href="listing/boekhandel-vaco/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Boekhandel Vaco en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/87ce4759dc72db8a87837f456d46f9d4.webp" srcset="/images/87ce4759dc72db8a87837f456d46f9d4-480.webp 480w, /images/87ce4759dc72db8a87837f456d46f9d4.webp 1600w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Boekhandel Vaco</h3>
@@ -603,7 +613,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Brilleman es una óptica y tienda de gafas en Heiligenweg, Paramaribo, que vende gafas y gafas de sol.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/brvehicles-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/brvehicles-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="BrVehicles NV en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/b435d965a3a6db135ecf9196918ea98d.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">BrVehicles NV</h3>
@@ -619,7 +629,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Building Depot es un importante minorista de materiales de construcción y mejoras para el hogar en Surinam, que ofrece madera...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/byd-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/byd-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="BYD Suriname en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/16ad470aed4aab9a755e0f804e666d13.webp" srcset="/images/16ad470aed4aab9a755e0f804e666d13-480.webp 480w, /images/16ad470aed4aab9a755e0f804e666d13.webp 1600w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">BYD Suriname</h3>
@@ -627,7 +637,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">BYD Suriname es el concesionario oficial de vehículos eléctricos e híbridos BYD en Surinam. Como adopción de vehículos eléctricos...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/cm-japan-car-sales/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/cm-japan-car-sales/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="C.M. japan car sales en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/5482a6cb85cef1359b9f5cee59c7f8d1.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">C.M. japan car sales</h3>
@@ -643,7 +653,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ropa y accesorios de Calvin Klein, almacenados en Hermitage Mall en Paramaribo.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/car-choice/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/car-choice/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Car Choice en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/25f911260a2f07dd426a61248d06e1b3.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Car Choice</h3>
@@ -651,7 +661,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Car Choice es una empresa automotriz en Paramaribo, Surinam, que ofrece venta de vehículos, envío y aduanas...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/carbiz/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/carbiz/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Carbiz</h3>
@@ -667,7 +677,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Carib Computers es un minorista de productos electrónicos en Paramaribo, Surinam, que ofrece hardware, reparaciones y software...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="drinks-liquor" href="listing/carifruits-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-k="drinks drank liquor slijterij beer bier rum juice sap" data-sub="drinks-liquor" href="listing/carifruits-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Carifruits N.V. en Wanica" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/a73123f93f0f16bdc06b34b60bd58c91.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Carifruits N.V.</h3>
@@ -675,7 +685,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Carifruits N.V. es una empresa procesadora de frutas en Wanica, fundada a finales de los años noventa, que elabora…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="auto-parts" href="listing/carline-centrum/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-k="auto parts onderdelen accessories tires banden" data-sub="auto-parts" href="listing/carline-centrum/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Carline en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/a461794f2b7efb3fcb0a002bc08558ee.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Carline</h3>
@@ -683,7 +693,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Una tienda de repuestos para autos en la Dr. Sophie Redmondstraat con piezas, accesorios y reparaciones.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/cars4you/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/cars4you/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Cars4you en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4d2a36a529f34b456c1827438589acdc.webp" srcset="/images/4d2a36a529f34b456c1827438589acdc-480.webp 480w, /images/4d2a36a529f34b456c1827438589acdc.webp 685w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Cars4you</h3>
@@ -691,7 +701,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Cars4you es una empresa automotriz en Paramaribo, Surinam, que ofrece venta de vehículos, envío y aduanas...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/carvision-paramaribo/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/carvision-paramaribo/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Carvision Paramaribo en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/82f890342e667df5d6a0c99cef9a2160.webp" srcset="/images/82f890342e667df5d6a0c99cef9a2160-480.webp 480w, /images/82f890342e667df5d6a0c99cef9a2160.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Carvision Paramaribo</h3>
@@ -739,7 +749,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">CHM Centrum es la sucursal del centro de Paramaribo de CHM Suriname, una cadena que vende…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/chm-automotive/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/chm-automotive/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="CHM Automotive en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/a5a40b43ea8373f756c35bc57d63904c.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">CHM Automotive</h3>
@@ -771,7 +781,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Cirkel Group N.V. es una empresa en Wilhelminastraat, Paramaribo, fundada en 1995 como distribuidora de alimentos…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/combe-car-center-parts/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/combe-car-center-parts/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Combe Car Center &amp; Parts en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/dff57e7cd9b26ef43820e53eb1cbd78a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Combe Car Center &amp; Parts</h3>
@@ -795,7 +805,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Community Services N.V., también conocida como The Tool King, importa y vende ferretería, herramientas, aires…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Commewijne" data-sub="car-dealers" href="listing/compagroup-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Commewijne" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/compagroup-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="COMPAGROUP N.V en Commewijne" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/3706ced58ab57d4ab85964476122633a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">COMPAGROUP N.V</h3>
@@ -891,7 +901,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Da Vinci Enterprises N.V., conocida como Da Vinci Group, gestiona una cadena de conceptos minoristas en Surinam que…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="wholesale-import" href="listing/da-zhong-trading/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="wholesale groothandel import export trading" data-sub="wholesale-import" href="listing/da-zhong-trading/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Da Zhong Trading</h3>
@@ -899,7 +909,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Da Zhong Trading es una empresa en Paramaribo, Surinam, que ofrece operaciones comerciales. Ubicado en Industrieweg-noord # 41.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/datais-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/datais-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Datai's Car center</h3>
@@ -907,7 +917,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Datai's Car center es una empresa automotriz en Paramaribo, Surinam, que ofrece venta e importación de vehículos...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/datsun-suriname-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/datsun-suriname-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="Datsun Suriname N.V. en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8081687744874a0107f410727d15e388.webp" srcset="/images/8081687744874a0107f410727d15e388-480.webp 480w, /images/8081687744874a0107f410727d15e388.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Datsun Suriname N.V.</h3>
@@ -923,7 +933,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Handelsonderneming De Eenheid N.V. es una empresa comercial en Lalarookhweg 47-63, Paramaribo, que vende…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/de-keurslager-interfarm/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="butcher slagerij slager meat vlees fish vis seafood chicken kip" data-sub="butchers-meat" href="listing/de-keurslager-interfarm/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="De Keurslager Interfarm en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/674e1f32d458913e52bcd723d4f19879.webp" srcset="/images/674e1f32d458913e52bcd723d4f19879-480.webp 480w, /images/674e1f32d458913e52bcd723d4f19879.webp 700w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">De Keurslager Interfarm</h3>
@@ -963,7 +973,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Demure N.V. es una boutique de ropa de mujer en Fosforstraat 10-12, en el norte de Paramaribo, que vende nuevas…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="wholesale-import" href="listing/deto-handelmaatschappij/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="wholesale groothandel import export trading" data-sub="wholesale-import" href="listing/deto-handelmaatschappij/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="Deto Handelmaatschappij en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1d8b314e15c2f8f514864289191a4f7a.webp" srcset="/images/1d8b314e15c2f8f514864289191a4f7a-480.webp 480w, /images/1d8b314e15c2f8f514864289191a4f7a.webp 690w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Deto Handelmaatschappij</h3>
@@ -1003,7 +1013,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Divergent Body Jewelry es una tienda de joyería y piercing corporal en Surinam que ofrece anillos para el cuerpo, barras...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/dj-liquor-store/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="drinks drank liquor slijterij beer bier rum juice sap" data-sub="drinks-liquor" href="listing/dj-liquor-store/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="DJ Liquor Store, Compras y recuerdos en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a9dacb08a0dc3772847946dcd83afc18.webp" srcset="/images/a9dacb08a0dc3772847946dcd83afc18-480.webp 480w, /images/a9dacb08a0dc3772847946dcd83afc18.webp 1600w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">DJ Liquor Store</h3>
@@ -1043,7 +1053,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Drie Ankra, en Nieuwe Domineestraat, Paramaribo, suministra materiales europeos para fabricar muebles de cocina…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/ez-motors/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="auto parts onderdelen accessories tires banden" data-sub="auto-parts" href="listing/ez-motors/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="E.Z. Motors en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/67f8652a802bf8375941dcfca9ce04bb.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">E.Z. Motors</h3>
@@ -1067,7 +1077,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Elan Trading N.V. es una tienda de hardware informático en Lisztstraat 9, en Paramaribo, que vende piezas y componentes…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/empire-motors-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/empire-motors-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="Empire Motors N.V. en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/62c3f331e096da0a8acbd6c468295ca2.webp" srcset="/images/62c3f331e096da0a8acbd6c468295ca2-480.webp 480w, /images/62c3f331e096da0a8acbd6c468295ca2.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Empire Motors N.V.</h3>
@@ -1131,7 +1141,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Fasst-itt N.V. vende materiales de fijación y herramientas, incluidos kits de reparación de roscas V-Coil, desde J.A. Pengelstraat…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/fernandes-bottling-company-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="drinks drank liquor slijterij beer bier rum juice sap" data-sub="drinks-liquor" href="listing/fernandes-bottling-company-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="Fernandes Bottling Company NV en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/1037bbaf1a1f0dd9ac1b8b5dae4e92ae.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Fernandes Bottling Company NV</h3>
@@ -1147,7 +1157,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Firma R. Ramai es un proveedor de materiales de construcción en Paramaribo, Surinam, que ofrece azulejos, artículos sanitarios y…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="sports-outdoors" href="listing/fish-finder-fishing-and-outdoors/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="sports sport outdoor fishing vissen camping" data-sub="sports-outdoors" href="listing/fish-finder-fishing-and-outdoors/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="Fish Finder Fishing &amp; Outdoors, en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e80cf2ffeb68f4ac5eb42ea3b09a2f55.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Fish Finder Fishing &amp; Outdoors</h3>
@@ -1179,7 +1189,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Footcandy en Hermitage Mall es un minorista de calzado en Paramaribo que ofrece marcas internacionales de calzado, zapatillas deportivas...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/foton-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/foton-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="FOTON SURINAME en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/8e286cf66d16411daf7b92e288cef0fd.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">FOTON SURINAME</h3>
@@ -1187,7 +1197,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">FOTON SURINAME vende vehículos comerciales y camionetas Foton, como la Tunland, desde Neumanpad 46…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/freshly-squeezed-juice/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="drinks drank liquor slijterij beer bier rum juice sap" data-sub="drinks-liquor" href="listing/freshly-squeezed-juice/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Freshly Squeezed Juice</h3>
@@ -1203,7 +1213,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">From Kay with Love es una marca de regalos y estilo de vida de Surinam que ofrece juegos de regalo, artículos personalizados y...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/from-me-to-me/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="toys speelgoed gifts cadeau" data-sub="toys-gifts" href="listing/from-me-to-me/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="From Me, To Me, Compras y recuerdos en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8831a380143d6643d7518ec5a4db5693.webp" srcset="/images/8831a380143d6643d7518ec5a4db5693-480.webp 480w, /images/8831a380143d6643d7518ec5a4db5693.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">From Me, To Me</h3>
@@ -1219,7 +1229,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Furniture City Kwatta es una gran tienda de muebles en la zona de Kwatta, en Paramaribo, con muebles para el hogar y…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/galaxy/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="toys speelgoed gifts cadeau" data-sub="toys-gifts" href="listing/galaxy/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Galaxy, Compras y recuerdos en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fc616d54eca59fb5444dcf7e26d405ad.webp" srcset="/images/fc616d54eca59fb5444dcf7e26d405ad-480.webp 480w, /images/fc616d54eca59fb5444dcf7e26d405ad.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Galaxy</h3>
@@ -1267,7 +1277,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Una tienda en Dr. Sophie Redmondstraat que combina cosmética con venta, accesorios y reparación de teléfonos. Dos…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/golden-exotic-cars-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/golden-exotic-cars-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Golden Exotic Cars N.V en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7eecfa3d75288a92ce9e29c46b7086c5.webp" srcset="/images/7eecfa3d75288a92ce9e29c46b7086c5-480.webp 480w, /images/7eecfa3d75288a92ce9e29c46b7086c5.webp 680w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Golden Exotic Cars N.V</h3>
@@ -1347,7 +1357,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Harry Tjin es una tienda de artículos para fiestas y embalaje en Maagdenstraat 35, en Paramaribo.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="wholesale-import" href="listing/hem-suriname-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="wholesale groothandel import export trading" data-sub="wholesale-import" href="listing/hem-suriname-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="HEM Suriname N.V. en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/11708f10c5eb5f85c4f4ec10160dfe8f.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">HEM Suriname N.V.</h3>
@@ -1363,7 +1373,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Hermitage Mall es uno de los principales centros comerciales de Paramaribo y alberga tiendas de moda, ópticas…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/highway-automotive-parts/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="auto parts onderdelen accessories tires banden" data-sub="auto-parts" href="listing/highway-automotive-parts/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Highway Automotive Parts en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/da6ede34c7119bde8599b53047216507.webp" srcset="/images/da6ede34c7119bde8599b53047216507-480.webp 480w, /images/da6ede34c7119bde8599b53047216507.webp 682w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Highway Automotive Parts</h3>
@@ -1371,7 +1381,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Highway Automotive Parts es una tienda de repuestos para autos en Martin Luther Kingweg 77, en Paramaribo, que también ofrece servicio…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/hj-motors/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/hj-motors/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="HJ Motors en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/888427b27ad23222d03aa9f9d130f5a6.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">HJ Motors</h3>
@@ -1411,7 +1421,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">HSDS Lifestyle Noord es la tienda de Home Shopping &amp; Delivery Service (HSDS) en la Ringweg-Noord de…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/hummys-import-ace-cars-sales/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/hummys-import-ace-cars-sales/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Hummy's Import - ACE CARS SALES en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/4d9c174757eb5a37d93acc89085956e3.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Hummy's Import - ACE CARS SALES</h3>
@@ -1451,7 +1461,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Iamchede es una boutique de ropa infantil en Parijsstraat 12, Paramaribo.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/innovative-driven-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/innovative-driven-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">I</span><img alt="Innovative Driven N.V. en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/350babada8e88dcc13776c0a35634557.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Innovative Driven N.V.</h3>
@@ -1491,7 +1501,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">iTrendzZ es una tienda de electrónica en Franchepanestraat, en Paramaribo, que vende teléfonos, portátiles, cámaras, televisores…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/jf-tjoe-a-long-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="auto parts onderdelen accessories tires banden" data-sub="auto-parts" href="listing/jf-tjoe-a-long-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="J.F. Tjoe A Long N.V. en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/7668aabff0f8d53c1b84411e6fc53ff0.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">J.F. Tjoe A Long N.V.</h3>
@@ -1523,7 +1533,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Janelle's Shoes &amp; Bags es una boutique de accesorios para mujeres en Paramaribo que se especializa en bolsos, tacones…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/japan-motors/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/japan-motors/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="Japan Motors en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8fd1065afe023b121f9e9b92ccb924b2.webp" srcset="/images/8fd1065afe023b121f9e9b92ccb924b2-480.webp 480w, /images/8fd1065afe023b121f9e9b92ccb924b2.webp 966w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Japan Motors</h3>
@@ -1595,7 +1605,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Kasimex en Indira Gandhiweg es una sucursal de Kasimex, la tienda surinamesa de materiales de construcción…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/kersten-motors-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/kersten-motors-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kersten Motors N.V. en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/30488a1bb3b4068c1cae34d361b6e872.webp" srcset="/images/30488a1bb3b4068c1cae34d361b6e872-480.webp 480w, /images/30488a1bb3b4068c1cae34d361b6e872.webp 950w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Kersten Motors N.V.</h3>
@@ -1627,7 +1637,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Kirpalani's N.V., una empresa activa situada en el centro de Paramaribo, se ha convertido en una conocida...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/kokos-auto-parts-service/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="auto parts onderdelen accessories tires banden" data-sub="auto-parts" href="listing/kokos-auto-parts-service/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Koko's Auto Parts &amp; Service</h3>
@@ -1635,7 +1645,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Koko's Auto Parts &amp; Service es una tienda de repuestos y taller en la Kwattaweg 494, en Paramaribo, que ofrece…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/kwatta-carfix/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="auto parts onderdelen accessories tires banden" data-sub="auto-parts" href="listing/kwatta-carfix/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kwatta Carfix en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/035fc6fd6259f7ac2952929dfd047427.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Kwatta Carfix</h3>
@@ -1715,7 +1725,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Lins Super Market es un supermercado en Surinam que ofrece productos frescos, comestibles, bebidas frías y artículos para el hogar...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/lnr-imports/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/lnr-imports/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">L</span><img alt="LnR Imports en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/8490ae38b8fe58a235aca6280c14079e.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">LnR Imports</h3>
@@ -1731,7 +1741,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Lucky Store es unos grandes almacenes en Jodenbreestraat, Paramaribo, que venden electrodomésticos, artículos de…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/luni-gifts/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="toys speelgoed gifts cadeau" data-sub="toys-gifts" href="listing/luni-gifts/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">L</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Luni Gifts</h3>
@@ -1739,7 +1749,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Una tienda de regalos y belleza en la Schietbaanweg, en Paramaribo.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/luxatic-motors/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/luxatic-motors/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">L</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Luxatic motors</h3>
@@ -1747,7 +1757,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Luxatic Motors es una empresa automotriz en Ringweg Zuid, en Paramaribo, centrada en autos de lujo asequibles.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/mn-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/mn-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">M&amp;N Car Center</h3>
@@ -1803,7 +1813,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">MICHI Natural Foods N.V. es un fabricante surinamés de alimentos en Michilaan 5, Paramaribo, que elabora alimentos y…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/mikes-autoparts-accessories-repair/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="auto parts onderdelen accessories tires banden" data-sub="auto-parts" href="listing/mikes-autoparts-accessories-repair/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Mike's Autoparts Accessories &amp; Repair en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7ed1429a3a6f5c603aa296a7cbd317da.webp" srcset="/images/7ed1429a3a6f5c603aa296a7cbd317da-480.webp 480w, /images/7ed1429a3a6f5c603aa296a7cbd317da.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Mike's Autoparts Accessories &amp; Repair</h3>
@@ -1819,7 +1829,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Mimi Market es una tienda de comestibles de barrio en Paramaribo que ofrece productos frescos, artículos básicos de despensa y...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/ming-kee-autoparts-accessories/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="auto parts onderdelen accessories tires banden" data-sub="auto-parts" href="listing/ming-kee-autoparts-accessories/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Ming Kee Autoparts &amp; Accessories en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8fa0799a7fca09faf7041446c658e097.webp" srcset="/images/8fa0799a7fca09faf7041446c658e097-480.webp 480w, /images/8fa0799a7fca09faf7041446c658e097.webp 693w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ming Kee Autoparts &amp; Accessories</h3>
@@ -1827,7 +1837,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ming Kee Autoparts &amp; Accessories es una empresa automotriz en Paramaribo, Surinam, que ofrece venta de vehículos…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/miniso-gompertstraat/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="toys speelgoed gifts cadeau" data-sub="toys-gifts" href="listing/miniso-gompertstraat/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Miniso en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a097b146a4250b963228f07969875ea2.webp" srcset="/images/a097b146a4250b963228f07969875ea2-480.webp 480w, /images/a097b146a4250b963228f07969875ea2.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Miniso</h3>
@@ -1891,7 +1901,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">N.V. 82 Trading es un especialista en láminas para techos que vende cubiertas, revestimientos de pared, madera y…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/nv-devinas-enterprises/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="books boeken boekhandel office kantoor stationery" data-sub="books-office" href="listing/nv-devinas-enterprises/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="N.V. Devina's Enterprises en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b65a234945558b09ccfac1b6d3813d72.webp" srcset="/images/b65a234945558b09ccfac1b6d3813d72-480.webp 480w, /images/b65a234945558b09ccfac1b6d3813d72.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">N.V. Devina's Enterprises</h3>
@@ -1899,7 +1909,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">N.V. Devina's Enterprises, en Gemenelandsweg 82, Paramaribo, vende artículos de oficina, tecnología de…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Suriname" data-sub="books-office" href="listing/nv-drukkerij-leo-victor/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Suriname" data-k="books boeken boekhandel office kantoor stationery" data-sub="books-office" href="listing/nv-drukkerij-leo-victor/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="N.V. Drukkerij Leo Victor en Surinam" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/3db0a38ec2d6f59bd0a546a674d8e8d2.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">N.V. Drukkerij Leo Victor</h3>
@@ -1931,7 +1941,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">N.V. VSH FOODS, antes Margarine en Vetten Fabriek y parte de VSH United, fabrica mantequilla…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/nv-vsh-trading-canon/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="books boeken boekhandel office kantoor stationery" data-sub="books-office" href="listing/nv-vsh-trading-canon/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="N.V. VSH TRADING - Canon en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/91d1f5715dad9ec37434c81086126787.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">N.V. VSH TRADING - Canon</h3>
@@ -1947,7 +1957,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">N.V. Graniet suministra materiales de construcción decorativos, especializados en productos de piedra natural como…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/nakaso-auto-parts-sales/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/nakaso-auto-parts-sales/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="Nakaso Auto &amp; Parts Sales en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ad6f08ce3c8f202dc4dca1a1f5ec4bb2.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Nakaso Auto &amp; Parts Sales</h3>
@@ -1971,7 +1981,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ni-Ké Meubel en Interieur Accessoires es el representante de BLUM en Surinam y ofrece asesoría experta…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/nishika-enterprise-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/nishika-enterprise-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="Nishika Enterprise N.V en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e955e8d8468765337959164aae2561ab.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Nishika Enterprise N.V</h3>
@@ -2011,7 +2021,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Office Furniture, en Gemenelandsweg 57, en Paramaribo, vende muebles y artículos de oficina desde 1992 y…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="books-office" href="listing/office-world-hermitage-mall/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-k="books boeken boekhandel office kantoor stationery" data-sub="books-office" href="listing/office-world-hermitage-mall/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="Office World en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/55921b518909d033d4abd063a002fdab.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Office World</h3>
@@ -2019,7 +2029,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Office World en el Hermitage Mall es una papelería y tienda de material de oficina en Paramaribo con papel…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/one-autoparts-store/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="auto parts onderdelen accessories tires banden" data-sub="auto-parts" href="listing/one-autoparts-store/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="One Autoparts Store en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9fcfdf9a81ff1f577875abb190127b13.webp" srcset="/images/9fcfdf9a81ff1f577875abb190127b13-480.webp 480w, /images/9fcfdf9a81ff1f577875abb190127b13.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">One Autoparts Store</h3>
@@ -2038,7 +2048,7 @@ function filterDistrict(el, dist) {
 <a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="optical-jewelry" href="listing/optica-johannes-mungrastraat/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span></div>
 <div class="row-body">
-<h3 class="serif listing-name">óptica</h3>
+<h3 class="serif listing-name">Optica</h3>
 <div class="row-meta"><span>Óptica y joyería</span><span>Paramaribo</span><span>4 sucursales</span></div>
 <p class="listing-blurb">Optica es una óptica con cuatro sucursales en Paramaribo, que ofrece medición de ojos, lentes recetados, monturas…</p>
 </div>
@@ -2091,7 +2101,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Outdoor Living es una tienda de muebles de jardín y exterior en la Hooge Straat de Paramaribo que vende muebles…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/pandie/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="toys speelgoed gifts cadeau" data-sub="toys-gifts" href="listing/pandie/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Pandie en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9b7502f31defbd45bf4123892dce67e9.webp" srcset="/images/9b7502f31defbd45bf4123892dce67e9-480.webp 480w, /images/9b7502f31defbd45bf4123892dce67e9.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Pandie</h3>
@@ -2115,7 +2125,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">PCX Computers es una tienda de informática en la Washingtonstraat de Paramaribo que vende computadoras, laptops y…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/perfect-cars/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/perfect-cars/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Perfect Car's</h3>
@@ -2123,7 +2133,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Perfect Car's es una empresa automotriz en Paramaribo, Surinam, que ofrece venta de vehículos, valoración de propiedades…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/philipson-trading/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="auto parts onderdelen accessories tires banden" data-sub="auto-parts" href="listing/philipson-trading/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Philipson Trading</h3>
@@ -2131,7 +2141,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Philipson Trading es una tienda en Van 't Hogerhuysstraat 35, en Paramaribo, que vende baterías de coche y motores…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/platinum-quality-cars-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/platinum-quality-cars-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Platinum Quality Cars NV en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e8bddbd8b7012c1fea3f2ceba0170999.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Platinum Quality Cars NV</h3>
@@ -2142,12 +2152,12 @@ function filterDistrict(el, dist) {
 <a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="malls-markets" href="listing/point-plaza-tammenga/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span></div>
 <div class="row-body">
-<h3 class="serif listing-name">Plaza del Punto</h3>
+<h3 class="serif listing-name">Point Plaza</h3>
 <div class="row-meta"><span>Centros comerciales y mercados</span><span>Paramaribo</span><span>3 sucursales</span></div>
 <p class="listing-blurb">La tienda Point Plaza en Leysweg en Tammenga, la más grande de las ubicaciones de la cadena en Paramaribo.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/powerful-automotive/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/powerful-automotive/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Powerful Automotive</h3>
@@ -2155,7 +2165,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Powerful Automotive es una empresa automotriz en Paramaribo, Surinam, que ofrece venta de vehículos, aduanas…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/pristine-car-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/pristine-car-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Pristine Car NV en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7a1384e039b9b49c26ef09cafd91bf78.webp" srcset="/images/7a1384e039b9b49c26ef09cafd91bf78-480.webp 480w, /images/7a1384e039b9b49c26ef09cafd91bf78.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Pristine Car NV</h3>
@@ -2163,7 +2173,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Pristine Car NV es el concesionario oficial de Hyundai en Surinam y vende modelos como el Hyundai Tucson y…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/prodimex-international-inc/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="books boeken boekhandel office kantoor stationery" data-sub="books-office" href="listing/prodimex-international-inc/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Prodimex International Inc. en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/2934914b8ad5c817c5869da873469062.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Prodimex International Inc.</h3>
@@ -2195,7 +2205,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">R. Durga &amp; Sons N.V. es una empresa maderera en la Sir Winston Churchillweg de Paramaribo que produce pisos de…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="car-dealers" href="listing/ramasre-cars-parts/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/ramasre-cars-parts/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Ramasre Cars &amp; Parts en Wanica" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/9fef168b89fe565cd32d5c697f827f22.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ramasre Cars &amp; Parts</h3>
@@ -2203,7 +2213,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ramasre Cars &amp; Parts es una empresa automotriz en Wanica, Surinam, que ofrece venta e importación de vehículos...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="car-dealers" href="listing/ramcharans-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/ramcharans-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Ramcharan’s Car Center en Wanica" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/74e24bced75a2e1453f437902859126a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ramcharan’s Car Center</h3>
@@ -2211,7 +2221,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ramcharan’s Car Center es una empresa automotriz en Wanica, Surinam, que ofrece venta, envío y…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="car-dealers" href="listing/ramons-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/ramons-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ramons Car Center</h3>
@@ -2251,7 +2261,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Una tienda de atención y movilidad en Flustraat en Paramaribo, frente a la farmacia AZ, que vende y alquila atención…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="car-dealers" href="listing/rezaam-car-sales/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/rezaam-car-sales/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Rezaam Car Sales en Wanica" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ff129c781cbf9258e94a6501c84cf427.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Rezaam Car Sales</h3>
@@ -2275,7 +2285,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ring Ring Imports es un importador de tecnología y electrónica de Surinam que ofrece una gama de dispositivos, accesorios y...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/rock-cars/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/rock-cars/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Rock Cars en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/43350a295f2d9a66f58d9875e006c69f.webp" srcset="/images/43350a295f2d9a66f58d9875e006c69f-480.webp 480w, /images/43350a295f2d9a66f58d9875e006c69f.webp 678w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Rock Cars</h3>
@@ -2299,7 +2309,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ronan 's Trading NV es una empresa en Paramaribo, Surinam, que ofrece materiales de construcción y comercio. Situado…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="butchers-meat" href="listing/rossignol-coppename/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-k="butcher slagerij slager meat vlees fish vis seafood chicken kip" data-sub="butchers-meat" href="listing/rossignol-coppename/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Rossignol en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/6180e384d7a4a65c14509ae6b6d44432.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Rossignol</h3>
@@ -2355,7 +2365,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Sam Tronix es un especialista de Samsung en Paramaribo que vende teléfonos, tabletas, dispositivos portátiles y accesorios, con…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/sanousch-books/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="books boeken boekhandel office kantoor stationery" data-sub="books-office" href="listing/sanousch-books/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Sanousch Books en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/b5d5d2313c0b3e0aa9c6ce975412c045.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Sanousch Books</h3>
@@ -2371,7 +2381,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Sash Fashion en Hermitage Mall es una boutique de ropa para mujeres que ofrece estilos, accesorios y…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/sbt-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/sbt-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="SBT Suriname en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ceb6ee1d373c700acea38227571f86d9.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">SBT Suriname</h3>
@@ -2379,7 +2389,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">SBT Suriname es la oficina en Paramaribo del exportador japonés de coches usados SBT, abierta en 2015, que vende coches…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/schols-imports/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/schols-imports/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Schols Imports en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ab2a4fc0c8a39293c9a990d573d92eed.webp" srcset="/images/ab2a4fc0c8a39293c9a990d573d92eed-480.webp 480w, /images/ab2a4fc0c8a39293c9a990d573d92eed.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Schols Imports</h3>
@@ -2403,7 +2413,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">SEAN Trading es una ferretería en Franchepanestraat 46, en Paramaribo, que vende sanitarios, artículos de…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/semc-motors-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/semc-motors-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="SEMC Motors N.V. en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cab55b3ffa26fb527e6ed26d1850deb9.webp" srcset="/images/cab55b3ffa26fb527e6ed26d1850deb9-480.webp 480w, /images/cab55b3ffa26fb527e6ed26d1850deb9.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">SEMC Motors N.V.</h3>
@@ -2467,7 +2477,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">La tienda Skechers dentro del Hermitage Mall, en la Lalla Rookhweg.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/slagerij-abbas/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="butcher slagerij slager meat vlees fish vis seafood chicken kip" data-sub="butchers-meat" href="listing/slagerij-abbas/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Slagerij Abbas en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/b85f2fee2f293281a376709e00f0c886.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Slagerij Abbas</h3>
@@ -2475,7 +2485,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Slagerij Abbas es una carnicería con certificación halal en Paramaribo que vende cortes de carne fresca de res, cordero…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/slagerij-asruf/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="butcher slagerij slager meat vlees fish vis seafood chicken kip" data-sub="butchers-meat" href="listing/slagerij-asruf/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Slagerij Asruf en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/c1e98a970fd16b5f7fc77b20f0a4de9e.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Slagerij Asruf</h3>
@@ -2483,7 +2493,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Slagerij Asruf es una carnicería de buena reputación en Paramaribo que ofrece carnes frescas de calidad, cortes especiales y…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/slagerij-joems/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="butcher slagerij slager meat vlees fish vis seafood chicken kip" data-sub="butchers-meat" href="listing/slagerij-joems/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Slagerij Joem's en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/df129a0fc0edae8f7040aa3a9f34b8d5.webp" srcset="/images/df129a0fc0edae8f7040aa3a9f34b8d5-480.webp 480w, /images/df129a0fc0edae8f7040aa3a9f34b8d5.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Slagerij Joem's</h3>
@@ -2491,7 +2501,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Slagerij Joem's es una carnicería de Paramaribo que vende carne fresca, con tiendas en Bonistraat 155…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/slagerij-stolk/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="butcher slagerij slager meat vlees fish vis seafood chicken kip" data-sub="butchers-meat" href="listing/slagerij-stolk/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Slagerij Stolk en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5c1006efd72bea856c56dd05437d459f.webp" srcset="/images/5c1006efd72bea856c56dd05437d459f-480.webp 480w, /images/5c1006efd72bea856c56dd05437d459f.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Slagerij Stolk</h3>
@@ -2555,7 +2565,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">SOS Handelmij NV es una empresa de interiorismo en New Delhistraat 26, Paramaribo, que realiza…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="butchers-meat" href="listing/sranan-fowru/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-k="butcher slagerij slager meat vlees fish vis seafood chicken kip" data-sub="butchers-meat" href="listing/sranan-fowru/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Sranan Fowru en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7fdea8d871f028a09bdd2b65fc83ff83.webp" srcset="/images/7fdea8d871f028a09bdd2b65fc83ff83-480.webp 480w, /images/7fdea8d871f028a09bdd2b65fc83ff83.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Sranan Fowru</h3>
@@ -2571,7 +2581,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Un óptico en Zwartenhovenbrugstraat en Paramaribo, que vende gafas y anteojos.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/stedin-speciaal-slagerij/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="butcher slagerij slager meat vlees fish vis seafood chicken kip" data-sub="butchers-meat" href="listing/stedin-speciaal-slagerij/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Stedin Speciaalslagerij en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f100f65654a1e608791673aaa129c475.webp" srcset="/images/f100f65654a1e608791673aaa129c475-480.webp 480w, /images/f100f65654a1e608791673aaa129c475.webp 720w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Stedin Speciaalslagerij</h3>
@@ -2619,7 +2629,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Suraniyat es una casa de moda de Surinam que produce ropa basada en técnicas artesanales tradicionales y...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/suri-juice-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="drinks drank liquor slijterij beer bier rum juice sap" data-sub="drinks-liquor" href="listing/suri-juice-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Suri Juice N.V. en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ed01d97de817519201c40e395c735c3a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Suri Juice N.V.</h3>
@@ -2627,7 +2637,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Suri Juice N.V. es un productor de jugos de fruta con sede en Kokrikilaan 44, Paramaribo.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/surinaamse-brouwerij-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="drinks drank liquor slijterij beer bier rum juice sap" data-sub="drinks-liquor" href="listing/surinaamse-brouwerij-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Surinaamse Brouwerij N.V. en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7896c77bfee086122a75271d725b9530.webp" srcset="/images/7896c77bfee086122a75271d725b9530-480.webp 480w, /images/7896c77bfee086122a75271d725b9530.webp 950w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Surinaamse Brouwerij N.V.</h3>
@@ -2635,7 +2645,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Surinaamse Brouwerij elabora Parbo, la cerveza nacional, junto con Parbo Radler y Heineken de elaboración local...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/suriname-alcoholic-beverages/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="drinks drank liquor slijterij beer bier rum juice sap" data-sub="drinks-liquor" href="listing/suriname-alcoholic-beverages/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Suriname Alcoholic Beverages en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/4eb57a5037d377d66413bf817f5ade02.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Suriname Alcoholic Beverages</h3>
@@ -2643,7 +2653,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Suriname Alcoholic Beverages N.V. (SAB) es una destilería en la Cornelis Jongbawstraat de Paramaribo que…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/suriname-sea-catch-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="butcher slagerij slager meat vlees fish vis seafood chicken kip" data-sub="butchers-meat" href="listing/suriname-sea-catch-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Suriname Sea Catch NV</h3>
@@ -2659,7 +2669,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Susan's Houtmarkt es un proveedor de madera en Johannes Mungra straat 75, Paramaribo, que vende madera con…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/sweetheart-hermitage-mall/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="toys speelgoed gifts cadeau" data-sub="toys-gifts" href="listing/sweetheart-hermitage-mall/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Sweetheart en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/bed845bedbce4d8f42ab57c3a8b82dd8.webp" srcset="/images/bed845bedbce4d8f42ab57c3a8b82dd8-480.webp 480w, /images/bed845bedbce4d8f42ab57c3a8b82dd8.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Sweetheart</h3>
@@ -2707,7 +2717,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Tegeldepot Suriname es una tienda de azulejos en la Calcuttastraat de Paramaribo que vende baldosas para pisos y paredes…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/the-old-attic/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="toys speelgoed gifts cadeau" data-sub="toys-gifts" href="listing/the-old-attic/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="The Old Attic, Compras y recuerdos en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/171274f30b37d7eb1388dc0803eed605.webp" srcset="/images/171274f30b37d7eb1388dc0803eed605-480.webp 480w, /images/171274f30b37d7eb1388dc0803eed605.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">The Old Attic</h3>
@@ -2739,7 +2749,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">The Warehouse Shop es una tienda de muebles en Dr. Ir. H.S. Adhinstraat 23, Paramaribo, que vende…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/tohora-automotive-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/tohora-automotive-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Tohora Automotive N.V.</h3>
@@ -2747,7 +2757,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Tohora Automotive N.V. es el concesionario autorizado de BMW en Surinam, ubicado en Johan Adolf Pengelstraat…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="sports-outdoors" href="listing/tomahawk-outdoor-adventures/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-k="sports sport outdoor fishing vissen camping" data-sub="sports-outdoors" href="listing/tomahawk-outdoor-adventures/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Tomahawk Outdoor Adventures en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="https://tomahawk.sr/wp-content/uploads/2024/02/tomahawk-logo.png" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Tomahawk Outdoor Adventures</h3>
@@ -2755,7 +2765,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Tomahawk es una tienda surinamesa de artículos de aire libre con equipo, material y accesorios para amantes de la naturaleza. Varias…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/topslager-stolk/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="butcher slagerij slager meat vlees fish vis seafood chicken kip" data-sub="butchers-meat" href="listing/topslager-stolk/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Topslager Stolk en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/6767d2ffaf981ae15ce4be2783dab3a6.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Topslager Stolk</h3>
@@ -2763,7 +2773,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Topslager Stolk es una carnicería premium en Surinam que ofrece carnes frescas de alta calidad, cortes especiales y...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="sports-outdoors" href="listing/topsport/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="sports sport outdoor fishing vissen camping" data-sub="sports-outdoors" href="listing/topsport/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Topsport en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8651adb62856d7bda31d82ddea532c0b.webp" srcset="/images/8651adb62856d7bda31d82ddea532c0b-480.webp 480w, /images/8651adb62856d7bda31d82ddea532c0b.webp 1600w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Topsport</h3>
@@ -2771,7 +2781,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Topsport N.V. es una tienda de artículos deportivos en la Zwartenhovenbrugstraat de Paramaribo, fundada en 1972, que…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/toys-n-more/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="toys speelgoed gifts cadeau" data-sub="toys-gifts" href="listing/toys-n-more/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Toys N More en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/282fee7ba843adfef0b5aece3e9d3388.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Toys N More</h3>
@@ -2787,7 +2797,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">TRADE Outlet Center es un proveedor de materiales de construcción en Paramaribo, Surinam, que ofrece azulejos, artículos sanitarios...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/traverco-truck-tire-service-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="auto parts onderdelen accessories tires banden" data-sub="auto-parts" href="listing/traverco-truck-tire-service-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Traverco Truck &amp; Tire Service N.V. en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/c49e34421a3ffe2d3bfd477862d97349.webp" srcset="/images/c49e34421a3ffe2d3bfd477862d97349-480.webp 480w, /images/c49e34421a3ffe2d3bfd477862d97349.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Traverco Truck &amp; Tire Service N.V.</h3>
@@ -2835,7 +2845,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Uni Stone &amp; More es un proveedor de materiales de construcción en Paramaribo, Surinam, que ofrece azulejos, artículos sanitarios y…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/united-slijterij/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="drinks drank liquor slijterij beer bier rum juice sap" data-sub="drinks-liquor" href="listing/united-slijterij/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">U</span><img alt="United slijterij en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e3e73e782e733397a15610589fdddb8f.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">United slijterij</h3>
@@ -2859,7 +2869,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Valcon•X es una empresa de telemática en Antondrachtenweg 68, Paramaribo, que ofrece dispositivos de rastreo GPS.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/vcm-slagerij-centrum/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="butcher slagerij slager meat vlees fish vis seafood chicken kip" data-sub="butchers-meat" href="listing/vcm-slagerij-centrum/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span><img alt="VCM Slagerij en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/19e4443090eaaee53e78b68378586f8a.webp" srcset="/images/19e4443090eaaee53e78b68378586f8a-480.webp 480w, /images/19e4443090eaaee53e78b68378586f8a.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">VCM Slagerij</h3>
@@ -2883,7 +2893,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Vincent Supermarket es un supermercado de barrio confiable en Surinam, que ofrece productos frescos, comestibles...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/vrv-imports/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/vrv-imports/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span><img alt="VRV Imports en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/3b7465ce5bb709a83c1fd68c27e79eda.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">VRV Imports</h3>
@@ -2947,7 +2957,7 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ying Hao Beauty Shop es un minorista de belleza y cosméticos en Paramaribo que vende cosméticos, productos para el cuidado del cabello...</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/yokohama-trading/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-k="car auto dealer cars autohandel" data-sub="car-dealers" href="listing/yokohama-trading/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Y</span><img alt="Yokohama Trading en Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8053f826cf51c43996e9f483cede91cd.webp" srcset="/images/8053f826cf51c43996e9f483cede91cd-480.webp 480w, /images/8053f826cf51c43996e9f483cede91cd.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Yokohama Trading</h3>
