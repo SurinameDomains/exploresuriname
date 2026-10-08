@@ -18,7 +18,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="ExploreSR" name="apple-mobile-web-app-title"/>
-<link href="/assets/s-293f386474cd.css" rel="stylesheet"/>
+<link href="/assets/s-63c36bc4a493.css" rel="stylesheet"/>
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
 <link href="/assets/s-12632b0c5234.css" rel="stylesheet"/>
 <link href="/assets/s-3add1bbd5c8c.css" rel="stylesheet"/>
@@ -103,20 +103,30 @@
 <div class="max-w-6xl mx-auto px-5">
 <div class="fbar-row relative flex items-center gap-5 pt-3">
 <div class="fbar-chips flex gap-6 overflow-x-auto pb-1" id="chipbar-shopping" style="scrollbar-width:none;-ms-overflow-style:none">
-<button class="filter-chip chip-active" onclick="filterSub(this,'all')">全部 <span class="chip-count">337</span></button><button class="filter-chip" onclick="filterSub(this,'malls-markets')">商场与市场 <span class="chip-count">10</span></button><button class="filter-chip" onclick="filterSub(this,'supermarkets')">超市 <span class="chip-count">10</span></button><button class="filter-chip" onclick="filterSub(this,'fashion-clothing')">时装与鞋履 <span class="chip-count">35</span></button><button class="filter-chip" onclick="filterSub(this,'electronics')">电子产品 <span class="chip-count">21</span></button><button class="filter-chip" onclick="filterSub(this,'home-furniture')">家居与家具 <span class="chip-count">29</span></button><button class="filter-chip" onclick="filterSub(this,'food-specialty')">食品与特产 <span class="chip-count">34</span></button><button class="filter-chip" onclick="filterSub(this,'optical-jewelry')">眼镜与珠宝 <span class="chip-count">13</span></button><button class="filter-chip" onclick="filterSub(this,'automotive')">汽车 <span class="chip-count">65</span></button><button class="filter-chip" onclick="filterSub(this,'crafts-souvenirs')">手工艺品与纪念品 <span class="chip-count">11</span></button><button class="filter-chip" onclick="filterSub(this,'events-party')">活动与派对 <span class="chip-count">3</span></button><button class="filter-chip" onclick="filterSub(this,'nursery-garden')">苗圃与园艺 <span class="chip-count">8</span></button><button class="filter-chip" onclick="filterSub(this,'vet-livestock')">兽医与畜牧 <span class="chip-count">1</span></button><button class="filter-chip" onclick="filterSub(this,'health-beauty')">健康与美容 <span class="chip-count">12</span></button><button class="filter-chip" onclick="filterSub(this,'building-materials')">建材 <span class="chip-count">55</span></button><button class="filter-chip" onclick="filterSub(this,'other')">其他 <span class="chip-count">30</span></button>
+<button class="filter-chip chip-active" data-grp="all" onclick="filterGrp(this,'all')">全部 <span class="chip-count">337</span></button><button class="filter-chip" data-grp="g-food-drink" onclick="filterGrp(this,'g-food-drink')">食品与杂货 <span class="chip-count">47</span></button><button class="filter-chip" data-grp="g-malls" data-single="1" onclick="filterGrp(this,'g-malls')">商场与市场 <span class="chip-count">9</span></button><button class="filter-chip" data-grp="g-fashion-beauty" onclick="filterGrp(this,'g-fashion-beauty')">时尚与美容 <span class="chip-count">58</span></button><button class="filter-chip" data-grp="g-home-building" onclick="filterGrp(this,'g-home-building')">家居与建材 <span class="chip-count">95</span></button><button class="filter-chip" data-grp="g-vehicles" onclick="filterGrp(this,'g-vehicles')">汽车与车辆 <span class="chip-count">64</span></button><button class="filter-chip" data-grp="g-electronics-office" onclick="filterGrp(this,'g-electronics-office')">电子与办公 <span class="chip-count">31</span></button><button class="filter-chip" data-grp="g-hobby-gifts" onclick="filterGrp(this,'g-hobby-gifts')">礼品、爱好与派对 <span class="chip-count">25</span></button><button class="filter-chip" data-grp="g-farm-trade" onclick="filterGrp(this,'g-farm-trade')">农业与批发 <span class="chip-count">8</span></button>
 </div>
 <select aria-label="District" class="dist-sel" id="dist-sel" onchange="filterDistrict(this, this.value)"><option value="all">所有区</option><option value="Paramaribo">Paramaribo</option><option value="Wanica">Wanica</option><option value="Commewijne">Commewijne</option><option value="Para">Para</option><option value="Nickerie">Nickerie</option></select>
 <button aria-controls="chipbar-shopping" aria-expanded="false" class="fbar-more" type="button"><span class="fm-o">更多</span><span class="fm-c">关闭</span><svg aria-hidden="true" fill="none" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="12"><path d="M6 9l6 6 6-6"></path></svg></button>
 </div>
+<div class="fbar-types" hidden="" id="typebar-shopping"><div class="fbar-chips fbar-tchips flex gap-5 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none"><button class="filter-chip type-chip" data-grp="g-food-drink" data-sub="all" hidden="" onclick="filterSub(this,'all')">全部 <span class="chip-count">47</span></button><button class="filter-chip type-chip" data-grp="g-food-drink" data-sub="supermarkets" hidden="" onclick="filterSub(this,'supermarkets')">超市 <span class="chip-count">10</span></button><button class="filter-chip type-chip" data-grp="g-food-drink" data-sub="butchers-meat" hidden="" onclick="filterSub(this,'butchers-meat')">肉类与鱼类 <span class="chip-count">11</span></button><button class="filter-chip type-chip" data-grp="g-food-drink" data-sub="drinks-liquor" hidden="" onclick="filterSub(this,'drinks-liquor')">饮料与酒类 <span class="chip-count">8</span></button><button class="filter-chip type-chip" data-grp="g-food-drink" data-sub="food-specialty" hidden="" onclick="filterSub(this,'food-specialty')">食品与特产 <span class="chip-count">18</span></button><button class="filter-chip type-chip" data-grp="g-malls" data-sub="all" hidden="" onclick="filterSub(this,'all')">全部 <span class="chip-count">9</span></button><button class="filter-chip type-chip" data-grp="g-malls" data-sub="malls-markets" hidden="" onclick="filterSub(this,'malls-markets')">商场与市场 <span class="chip-count">9</span></button><button class="filter-chip type-chip" data-grp="g-fashion-beauty" data-sub="all" hidden="" onclick="filterSub(this,'all')">全部 <span class="chip-count">58</span></button><button class="filter-chip type-chip" data-grp="g-fashion-beauty" data-sub="fashion-clothing" hidden="" onclick="filterSub(this,'fashion-clothing')">时装与鞋履 <span class="chip-count">33</span></button><button class="filter-chip type-chip" data-grp="g-fashion-beauty" data-sub="optical-jewelry" hidden="" onclick="filterSub(this,'optical-jewelry')">眼镜与珠宝 <span class="chip-count">13</span></button><button class="filter-chip type-chip" data-grp="g-fashion-beauty" data-sub="health-beauty" hidden="" onclick="filterSub(this,'health-beauty')">健康与美容 <span class="chip-count">12</span></button><button class="filter-chip type-chip" data-grp="g-home-building" data-sub="all" hidden="" onclick="filterSub(this,'all')">全部 <span class="chip-count">95</span></button><button class="filter-chip type-chip" data-grp="g-home-building" data-sub="home-furniture" hidden="" onclick="filterSub(this,'home-furniture')">家居与家具 <span class="chip-count">26</span></button><button class="filter-chip type-chip" data-grp="g-home-building" data-sub="building-materials" hidden="" onclick="filterSub(this,'building-materials')">建材 <span class="chip-count">61</span></button><button class="filter-chip type-chip" data-grp="g-home-building" data-sub="nursery-garden" hidden="" onclick="filterSub(this,'nursery-garden')">苗圃与园艺 <span class="chip-count">8</span></button><button class="filter-chip type-chip" data-grp="g-vehicles" data-sub="all" hidden="" onclick="filterSub(this,'all')">全部 <span class="chip-count">64</span></button><button class="filter-chip type-chip" data-grp="g-vehicles" data-sub="car-dealers" hidden="" onclick="filterSub(this,'car-dealers')">汽车经销商 <span class="chip-count">49</span></button><button class="filter-chip type-chip" data-grp="g-vehicles" data-sub="auto-parts" hidden="" onclick="filterSub(this,'auto-parts')">配件与零件 <span class="chip-count">15</span></button><button class="filter-chip type-chip" data-grp="g-electronics-office" data-sub="all" hidden="" onclick="filterSub(this,'all')">全部 <span class="chip-count">31</span></button><button class="filter-chip type-chip" data-grp="g-electronics-office" data-sub="electronics" hidden="" onclick="filterSub(this,'electronics')">电子产品与手机 <span class="chip-count">23</span></button><button class="filter-chip type-chip" data-grp="g-electronics-office" data-sub="books-office" hidden="" onclick="filterSub(this,'books-office')">图书与办公用品 <span class="chip-count">8</span></button><button class="filter-chip type-chip" data-grp="g-hobby-gifts" data-sub="all" hidden="" onclick="filterSub(this,'all')">全部 <span class="chip-count">25</span></button><button class="filter-chip type-chip" data-grp="g-hobby-gifts" data-sub="crafts-souvenirs" hidden="" onclick="filterSub(this,'crafts-souvenirs')">手工艺品与纪念品 <span class="chip-count">11</span></button><button class="filter-chip type-chip" data-grp="g-hobby-gifts" data-sub="toys-gifts" hidden="" onclick="filterSub(this,'toys-gifts')">玩具与礼品 <span class="chip-count">8</span></button><button class="filter-chip type-chip" data-grp="g-hobby-gifts" data-sub="sports-outdoors" hidden="" onclick="filterSub(this,'sports-outdoors')">运动与户外 <span class="chip-count">3</span></button><button class="filter-chip type-chip" data-grp="g-hobby-gifts" data-sub="events-party" hidden="" onclick="filterSub(this,'events-party')">活动与派对 <span class="chip-count">3</span></button><button class="filter-chip type-chip" data-grp="g-farm-trade" data-sub="all" hidden="" onclick="filterSub(this,'all')">全部 <span class="chip-count">8</span></button><button class="filter-chip type-chip" data-grp="g-farm-trade" data-sub="vet-livestock" hidden="" onclick="filterSub(this,'vet-livestock')">农牧与动物用品 <span class="chip-count">2</span></button><button class="filter-chip type-chip" data-grp="g-farm-trade" data-sub="wholesale-import" hidden="" onclick="filterSub(this,'wholesale-import')">批发与进口 <span class="chip-count">6</span></button></div></div>
 </div>
 </div>
 <script>
 var _activeSub  = 'all';
 var _activeDist = 'all';
+var _activeGrp  = 'all';
+var _SUB_GRP    = {"supermarkets": "g-food-drink", "butchers-meat": "g-food-drink", "drinks-liquor": "g-food-drink", "food-specialty": "g-food-drink", "malls-markets": "g-malls", "fashion-clothing": "g-fashion-beauty", "optical-jewelry": "g-fashion-beauty", "health-beauty": "g-fashion-beauty", "home-furniture": "g-home-building", "building-materials": "g-home-building", "nursery-garden": "g-home-building", "car-dealers": "g-vehicles", "auto-parts": "g-vehicles", "automotive": "g-vehicles", "electronics": "g-electronics-office", "books-office": "g-electronics-office", "crafts-souvenirs": "g-hobby-gifts", "toys-gifts": "g-hobby-gifts", "sports-outdoors": "g-hobby-gifts", "events-party": "g-hobby-gifts", "vet-livestock": "g-farm-trade", "wholesale-import": "g-farm-trade", "other": "g-farm-trade"};
+
+/* Type filter, with the group as the fallback when no type is picked. */
+function _subOk(card) {
+  if (_activeSub !== 'all') return card.dataset.sub === _activeSub;
+  if (_activeGrp !== 'all') return _SUB_GRP[card.dataset.sub] === _activeGrp;
+  return true;
+}
 
 function _applyFilters() {
   document.querySelectorAll('.listing-card').forEach(function(card) {
-    var subOk  = _activeSub  === 'all' || card.dataset.sub      === _activeSub;
+    var subOk  = _subOk(card);
     var distOk = _activeDist === 'all' || (card.dataset.district || '').split('|').indexOf(_activeDist) >= 0;
     card.classList.toggle('hidden', !(subOk && distOk));
   });
@@ -130,8 +140,7 @@ function _applyFilters() {
   var distCounts = {};
   var totalVisible = 0;
   document.querySelectorAll('.listing-card').forEach(function(card) {
-    var subOk = _activeSub === 'all' || card.dataset.sub === _activeSub;
-    if (!subOk) return;
+    if (!_subOk(card)) return;
     var ds = (card.dataset.district || 'Paramaribo').split('|');
     for (var di = 0; di < ds.length; di++) { distCounts[ds[di]] = (distCounts[ds[di]] || 0) + 1; }
     totalVisible++;
@@ -154,8 +163,31 @@ function _applyFilters() {
 
 function filterSub(btn, key) {
   _activeSub = key;
-  document.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
+  /* Only this chip's own row: on grouped pages the group stays selected. */
+  btn.parentNode.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
   btn.classList.add('chip-active');
+  _applyFilters();
+  _fbarReveal();
+}
+
+/* Grouped pages: pick a group, then (optionally) one of its types. */
+function filterGrp(btn, grp) {
+  _activeGrp = grp;
+  _activeSub = 'all';
+  btn.parentNode.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
+  btn.classList.add('chip-active');
+  var tb = document.getElementById('typebar-shopping');
+  if (tb) {
+    var show = grp !== 'all' && !btn.hasAttribute('data-single');
+    tb.hidden = !show;
+    tb.querySelectorAll('.type-chip').forEach(function(b) {
+      var mine = b.getAttribute('data-grp') === grp;
+      b.hidden = !mine;
+      b.classList.toggle('chip-active', mine && b.getAttribute('data-sub') === 'all');
+    });
+    var ts = tb.querySelector('.fbar-tchips');
+    if (ts) ts.scrollLeft = 0;
+  }
   _applyFilters();
   _fbarReveal();
 }
@@ -203,9 +235,20 @@ function filterDistrict(el, dist) {
    homepage journey cards since Nature was merged into Things to Do. Silently
    ignored when the key matches no chip on this page. */
 (function() {
-  var want = new URLSearchParams(location.search).get('sub');
-  if (!want || want === 'all') return;
+  var qs = new URLSearchParams(location.search);
+  var want = qs.get('sub'), wantGrp = qs.get('grp');
+  if ((!want || want === 'all') && !wantGrp) return;
   function apply() {
+    /* Grouped pages: ?sub= selects the type's group first, ?grp= a group. */
+    var g = (want && _SUB_GRP[want]) || wantGrp;
+    var gb = g && document.querySelector('#chipbar-shopping .filter-chip[data-grp="' + g + '"]');
+    if (gb) {
+      filterGrp(gb, g);
+      var tc = want && document.querySelector('#typebar-shopping .type-chip[data-sub="' + want + '"]');
+      if (tc && !gb.hasAttribute('data-single')) filterSub(tc, want);
+      return;
+    }
+    if (!want) return;
     var chips = document.querySelectorAll('#chipbar-shopping .filter-chip');
     for (var i = 0; i < chips.length; i++) {
       var oc = chips[i].getAttribute('onclick') || '';
@@ -228,7 +271,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="Wanica的 Farmers World" class="w-full h-full object-cover" fetchpriority="high" height="400" loading="eager" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/6de4875210c2f037616f9191727eb2c1.webp" srcset="/images/6de4875210c2f037616f9191727eb2c1-480.webp 480w, /images/6de4875210c2f037616f9191727eb2c1.webp 1120w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Farmers World<span class="row-feat">精选</span></h3>
-<div class="row-meta"><span>兽医与畜牧</span><span>Wanica</span><span>Tel: +597 368813</span></div>
+<div class="row-meta"><span>农牧与动物用品</span><span>Wanica</span><span>Tel: +597 368813</span></div>
 <p class="listing-blurb">Farmers World（以 Surbola N.V.…</p>
 </div>
 </a>
@@ -248,27 +291,27 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">A+ Bouwmaterialen 是位于苏里南帕拉马里博的一家建材供应商，提供水暖用品…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/aks-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/aks-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="帕拉马里博的 A.K.S CAR CENTER" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ce7670e303e5e6a7351d70aa572fab27.webp" srcset="/images/ce7670e303e5e6a7351d70aa572fab27-480.webp 480w, /images/ce7670e303e5e6a7351d70aa572fab27.webp 685w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">A.K.S CAR CENTER</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8899939</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 8899939</span></div>
 <p class="listing-blurb">A.K.S CAR CENTER 是位于苏里南帕拉马里博的一家汽车企业，提供车辆销售、海运及…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/abs-carhouse/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/abs-carhouse/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="帕拉马里博的 ABS CARHOUSE" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/a1d5ecc2aef377cc6a6a89aef6f35ac5.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">ABS CARHOUSE</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597  53 03 33</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597  53 03 33</span></div>
 <p class="listing-blurb">ABS Carhouse NV 是一家汽车经销商，展厅位于帕拉马里博 Kwattaweg…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/adex-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/adex-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="帕拉马里博的 ADEX N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/447f0d7800520ea74594947ddcf4aee3.webp" srcset="/images/447f0d7800520ea74594947ddcf4aee3-480.webp 480w, /images/447f0d7800520ea74594947ddcf4aee3.webp 966w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">ADEX N.V.</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 538962</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 538962</span></div>
 <p class="listing-blurb">ADEX N.V. 从事二手车的收购、销售和置换，并提供货物进出口服务，地址位于帕拉马里博…</p>
 </div>
 </a>
@@ -304,19 +347,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Amada Shopping 是帕拉马里博的一处零售中心，商店和服务集中于一处，是满足日…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/amazone-international-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="wholesale-import" href="listing/amazone-international-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="帕拉马里博的 Amazone International NV" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ce4aa5f2d41738bc6252ee720748dc37.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Amazone International NV</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span><span>Tel: +597 546460</span></div>
+<div class="row-meta"><span>批发与进口</span><span>Paramaribo</span><span>Tel: +597 546460</span></div>
 <p class="listing-blurb">Amazone International N.V. 是位于帕拉马里博 Nieuwe Charlesburgweg…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/an-shun-international-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/an-shun-international-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">An Shun International NV</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 480078</span></div>
+<div class="row-meta"><span>配件与零件</span><span>Paramaribo</span><span>Tel: +597 480078</span></div>
 <p class="listing-blurb">An Shun International NV 是位于苏里南帕拉马里博的一家汽车企业，提供轮胎和维修…</p>
 </div>
 </a>
@@ -328,11 +371,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Anil Store 是位于苏里南帕拉马里博的一家建材供应商，提供瓷砖、卫浴洁具及…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/ans-car-imports/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/ans-car-imports/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="帕拉马里博的 Ans Car Imports" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/d0b4f57b19a7801c25f3667bd155fb4b.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ans Car Imports</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8508056</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 8508056</span></div>
 <p class="listing-blurb">Ans Car Imports 是位于苏里南帕拉马里博的一家汽车企业，提供车辆销售、海运及…</p>
 </div>
 </a>
@@ -352,11 +395,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">帕拉马里博的一家鱼菜共生农场，出售蔬菜、秧苗、种子、果树和罗非鱼。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="other" href="listing/araxs-impex-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="wholesale-import" href="listing/araxs-impex-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Wanica的 Araxs Impex NV" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/f0fb1128e17a659d805d05f1eb28a97b.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Araxs Impex NV</h3>
-<div class="row-meta"><span>其他</span><span>Wanica</span></div>
+<div class="row-meta"><span>批发与进口</span><span>Wanica</span></div>
 <p class="listing-blurb">Araxs Impex NV 是位于苏里南 Wanica 区的一家企业，提供清关、进口和批发…</p>
 </div>
 </a>
@@ -364,7 +407,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="帕拉马里博的 ARCHER" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/bc16f858bcbce44c62eb537724cbcd51.webp" srcset="/images/bc16f858bcbce44c62eb537724cbcd51-480.webp 480w, /images/bc16f858bcbce44c62eb537724cbcd51.webp 656w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">ARCHER</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: +597 538333</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597 538333</span></div>
 <p class="listing-blurb">ARCHER 是苏里南帕拉马里博的一家电子产品零售商，经营电脑。地址：Wanicaweg 7。</p>
 </div>
 </a>
@@ -384,27 +427,27 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ashley Furniture HomeStore…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="automotive" href="listing/auto-style-franchepanestraat/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="auto-parts" href="listing/auto-style-franchepanestraat/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="帕拉马里博的 Auto Style" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/54b2f1778b330f0f5a74c0f8a0959409.webp" srcset="/images/54b2f1778b330f0f5a74c0f8a0959409-480.webp 480w, /images/54b2f1778b330f0f5a74c0f8a0959409.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Auto Style</h3>
-<div class="row-meta"><span>汽车</span><span>帕拉马里博、Wanica</span><span>5 个网点</span></div>
+<div class="row-meta"><span>配件与零件</span><span>帕拉马里博、Wanica</span><span>5 个网点</span></div>
 <p class="listing-blurb">Auto Style Franchepanestraat 是帕拉马里博的一家汽车配件零售店，经营音响设备、座椅…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/automotive-art-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/automotive-art-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="帕拉马里博的 Automotive Art Suriname" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/12cc219efb89545cdd51d132c0d75475.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Automotive Art Suriname</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 491059</span></div>
+<div class="row-meta"><span>配件与零件</span><span>Paramaribo</span><span>Tel: +597 491059</span></div>
 <p class="listing-blurb">Automotive Art Suriname 在帕拉马里博 Kasabaholoweg 和…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/autoradar-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/autoradar-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="帕拉马里博的 AutoRadar Suriname" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/acac40859408560e8da6bd7e79556bce.webp" srcset="/images/acac40859408560e8da6bd7e79556bce-480.webp 480w, /images/acac40859408560e8da6bd7e79556bce.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">AutoRadar Suriname</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8594463</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 8594463</span></div>
 <p class="listing-blurb">AutoRadar Suriname 是一个在线汽车交易平台，汇集了苏里南多家汽车经销商的在售车…</p>
 </div>
 </a>
@@ -432,11 +475,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">位于 Para 区 Republiek 的一家食品企业，销售 Babel Food 产品，也可通过网店购买。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/bdt-import-and-export-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="wholesale-import" href="listing/bdt-import-and-export-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">BDT Import and Export n.v</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 818-4472</span></div>
+<div class="row-meta"><span>批发与进口</span><span>Paramaribo</span><span>Tel: +597 818-4472</span></div>
 <p class="listing-blurb">BDT Import and Export n.v 是位于苏里南帕拉马里博的一家企业，提供进出口服务。地址：…</p>
 </div>
 </a>
@@ -464,27 +507,27 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Beyrouth Bazaar 是帕拉马里博市中心一家黎巴嫩人经营的综合商店，商品种…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/bhaggoes-car-palace/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/bhaggoes-car-palace/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="帕拉马里博的 Bhaggoe's Car Palace" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d8c6ca0c2c46e492e296b1421a36e420.webp" srcset="/images/d8c6ca0c2c46e492e296b1421a36e420-480.webp 480w, /images/d8c6ca0c2c46e492e296b1421a36e420.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Bhaggoe's Car Palace</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8946870</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 8946870</span></div>
 <p class="listing-blurb">Bhaggoe's Car Palace 是位于苏里南帕拉马里博的一家汽车企业，提供车辆销售。地址：…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/bhondoekhan-s-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/bhondoekhan-s-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="帕拉马里博的 Bhondoekhan S n.v." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2d64039b9b9784bb94e99b7384491e98.webp" srcset="/images/2d64039b9b9784bb94e99b7384491e98-480.webp 480w, /images/2d64039b9b9784bb94e99b7384491e98.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Bhondoekhan S n.v.</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 520500</span></div>
+<div class="row-meta"><span>配件与零件</span><span>Paramaribo</span><span>Tel: +597 520500</span></div>
 <p class="listing-blurb">Bhondoekhan S N.V. 是一家汽车零配件商店和进口中心，位于帕拉马里博 Weg naar Ma-Retraite 14。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/biharies-car-center-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/biharies-car-center-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Biharie's Car Center N.V</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8501333</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 8501333</span></div>
 <p class="listing-blurb">Biharie's Car Center N.V 是位于苏里南帕拉马里博的一家汽车企业，提供车辆销售。地址：…</p>
 </div>
 </a>
@@ -496,19 +539,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">位于帕拉马里博 Wilhelminastraat 的一家精品服装店，在 Soeng Ngie…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/bmw-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/bmw-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="帕拉马里博的 BMW Suriname" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a4483a9ff13905fb8e39231f0a0f1d15.webp" srcset="/images/a4483a9ff13905fb8e39231f0a0f1d15-480.webp 480w, /images/a4483a9ff13905fb8e39231f0a0f1d15.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">BMW Suriname</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597424919</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597424919</span></div>
 <p class="listing-blurb">BMW Suriname 是帕拉马里博的 BMW 官方经销商，销售全新 BMW…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/bn-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/bn-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="帕拉马里博的 BN Car Center" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/154cb411b85d98b735927c0eb1c7899c.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">BN Car Center</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8520700</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 8520700</span></div>
 <p class="listing-blurb">BN Car Center 是位于苏里南帕拉马里博的一家汽车企业，提供车辆销售、海运和清关…</p>
 </div>
 </a>
@@ -520,19 +563,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">BN Trading 是位于苏里南 Wanica 区的一家家居与家具零售商，提供进口、批发分销及…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/boekhandel-kasco/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/boekhandel-kasco/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Boekhandel KASCO，帕拉马里博购物与纪念品" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/7ec174c8b22c9c07b8df08190e71945e.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Boekhandel KASCO</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 476-127</span></div>
+<div class="row-meta"><span>图书与办公用品</span><span>Paramaribo</span><span>Tel: +597 476-127</span></div>
 <p class="listing-blurb">Boekhandel KASCO 是位于帕拉马里博市中心 Heerenstraat…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/boekhandel-vaco/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/boekhandel-vaco/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="帕拉马里博的 Boekhandel Vaco" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/87ce4759dc72db8a87837f456d46f9d4.webp" srcset="/images/87ce4759dc72db8a87837f456d46f9d4-480.webp 480w, /images/87ce4759dc72db8a87837f456d46f9d4.webp 1600w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Boekhandel Vaco</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 472-545</span></div>
+<div class="row-meta"><span>图书与办公用品</span><span>Paramaribo</span><span>Tel: +597 472-545</span></div>
 <p class="listing-blurb">Boekhandel Vaco 是苏里南历史最悠久、最受推崇的书店之一，提供…</p>
 </div>
 </a>
@@ -560,35 +603,35 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Brilleman 是一家位于帕拉马里博 Heiligenweg 的眼镜店兼验光店，销售眼镜和太阳镜。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/brvehicles-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/brvehicles-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="帕拉马里博的 BrVehicles NV" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/b435d965a3a6db135ecf9196918ea98d.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">BrVehicles NV</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 44 24 70</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 44 24 70</span></div>
 <p class="listing-blurb">BrVehicles NV 是一家汽车经销商，位于帕拉马里博 Ringweg-Noord…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="home-furniture" href="listing/building-depot/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="building-materials" href="listing/building-depot/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="帕拉马里博的 Building Depot" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="https://media.evendo.com/locations-resized/ShoppingImages/1920x466/b347d2d1-574a-4c21-8c75-afa6e4aedda9" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Building Depot</h3>
-<div class="row-meta"><span>家居与家具</span><span>Paramaribo</span><span>Tel: +597546450</span></div>
+<div class="row-meta"><span>建材</span><span>Paramaribo</span><span>Tel: +597546450</span></div>
 <p class="listing-blurb">Building Depot 是苏里南的一家大型建材和家装零售商，提…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/byd-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/byd-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="帕拉马里博的 BYD Suriname" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/16ad470aed4aab9a755e0f804e666d13.webp" srcset="/images/16ad470aed4aab9a755e0f804e666d13-480.webp 480w, /images/16ad470aed4aab9a755e0f804e666d13.webp 1600w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">BYD Suriname</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597407000</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597407000</span></div>
 <p class="listing-blurb">BYD Suriname 是 BYD（比亚迪）电动和混合动力汽车在苏里南的官方经销商。随着电动车…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/cm-japan-car-sales/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/cm-japan-car-sales/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="帕拉马里博的 C.M. japan car sales" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/5482a6cb85cef1359b9f5cee59c7f8d1.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">C.M. japan car sales</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8883482</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 8883482</span></div>
 <p class="listing-blurb">C.M. japan car sales 是位于苏里南帕拉马里博的一家汽车企业，提供车辆销售和进口…</p>
 </div>
 </a>
@@ -600,19 +643,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Calvin Klein 服装及配饰，在帕拉马里博的 Hermitage Mall 有售。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/car-choice/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/car-choice/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="帕拉马里博的 Car Choice" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/25f911260a2f07dd426a61248d06e1b3.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Car Choice</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 7149999</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 7149999</span></div>
 <p class="listing-blurb">Car Choice 是位于苏里南帕拉马里博的一家汽车企业，提供车辆销售、海运和清关…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/carbiz/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/carbiz/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Carbiz</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +59  54 64 88</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +59  54 64 88</span></div>
 <p class="listing-blurb">Carbiz 是苏里南帕拉马里博的一家汽车企业。地址：Ringweg-Noord 190。</p>
 </div>
 </a>
@@ -620,39 +663,39 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="帕拉马里博的 Carib Computers" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/6a7a485df45511401f378e7ec289928a.webp" srcset="/images/6a7a485df45511401f378e7ec289928a-480.webp 480w, /images/6a7a485df45511401f378e7ec289928a.webp 590w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Carib Computers</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: +597 433932</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597 433932</span></div>
 <p class="listing-blurb">Carib Computers 是苏里南帕拉马里博的一家电子产品零售商，提供硬件、维修和软件…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="food-specialty" href="listing/carifruits-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="drinks-liquor" href="listing/carifruits-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Wanica的 Carifruits N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/a73123f93f0f16bdc06b34b60bd58c91.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Carifruits N.V.</h3>
-<div class="row-meta"><span>食品与特产</span><span>Wanica</span><span>Tel: +597 338-292</span></div>
+<div class="row-meta"><span>饮料与酒类</span><span>Wanica</span><span>Tel: +597 338-292</span></div>
 <p class="listing-blurb">Carifruits N.V. 是位于 Wanica 的水果加工企业，成立于 1990…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="automotive" href="listing/carline-centrum/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="auto-parts" href="listing/carline-centrum/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="帕拉马里博的 Carline" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/a461794f2b7efb3fcb0a002bc08558ee.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Carline</h3>
-<div class="row-meta"><span>汽车</span><span>帕拉马里博、Wanica</span><span>3 个网点</span></div>
+<div class="row-meta"><span>配件与零件</span><span>帕拉马里博、Wanica</span><span>3 个网点</span></div>
 <p class="listing-blurb">位于 Dr. Sophie Redmondstraat 的汽车配件店，提供汽车零件、配饰和维修服务。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/cars4you/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/cars4you/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="帕拉马里博的 Cars4you" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4d2a36a529f34b456c1827438589acdc.webp" srcset="/images/4d2a36a529f34b456c1827438589acdc-480.webp 480w, /images/4d2a36a529f34b456c1827438589acdc.webp 685w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Cars4you</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8889283</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 8889283</span></div>
 <p class="listing-blurb">Cars4you 是苏里南帕拉马里博的一家汽车企业，提供车辆销售、海运和清关…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/carvision-paramaribo/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/carvision-paramaribo/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="帕拉马里博的 Carvision Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/82f890342e667df5d6a0c99cef9a2160.webp" srcset="/images/82f890342e667df5d6a0c99cef9a2160-480.webp 480w, /images/82f890342e667df5d6a0c99cef9a2160.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Carvision Paramaribo</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 546464</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 546464</span></div>
 <p class="listing-blurb">CarVision Paramaribo 是苏里南的一家汽车经销商，提供多款新车…</p>
 </div>
 </a>
@@ -676,7 +719,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Cheung's Center</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: +597 476732</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597 476732</span></div>
 <p class="listing-blurb">Cheung's Center 是帕拉马里博北部的一家电子和娱乐产品商店，销售电视机、天线和乐器，在…</p>
 </div>
 </a>
@@ -696,11 +739,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">CHM Centrum 是 CHM Suriname…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/chm-automotive/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/chm-automotive/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="帕拉马里博的 CHM Automotive" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/a5a40b43ea8373f756c35bc57d63904c.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">CHM Automotive</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8784058</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 8784058</span></div>
 <p class="listing-blurb">CHM Automotive 是位于苏里南帕拉马里博的一家汽车企业，提供车辆销售、海运及…</p>
 </div>
 </a>
@@ -728,11 +771,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Cirkel Group N.V. 是位于帕拉马里博 Wilhelminastraat…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/combe-car-center-parts/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/combe-car-center-parts/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="帕拉马里博的 Combe Car Center &amp; Parts" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/dff57e7cd9b26ef43820e53eb1cbd78a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Combe Car Center &amp; Parts</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 52 03 85</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 52 03 85</span></div>
 <p class="listing-blurb">Combe Car Center &amp; Parts 是苏里南帕拉马里博的一家汽车企业，提供车辆销售、汽车…</p>
 </div>
 </a>
@@ -744,19 +787,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Combe Markt 是位于帕拉马里博 Grote Combeweg 121 的超市，也通过网店销售。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/community-services-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="building-materials" href="listing/community-services-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="帕拉马里博的 Community Services N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/0f15284fd3361b9e6f78199cd9750f38.webp" srcset="/images/0f15284fd3361b9e6f78199cd9750f38-480.webp 480w, /images/0f15284fd3361b9e6f78199cd9750f38.webp 615w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Community Services N.V.</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 550950</span></div>
+<div class="row-meta"><span>建材</span><span>Paramaribo</span><span>Tel: +597 550950</span></div>
 <p class="listing-blurb">Community Services N.V.（又名 The Tool…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Commewijne" data-sub="automotive" href="listing/compagroup-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Commewijne" data-sub="car-dealers" href="listing/compagroup-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Commewijne的 COMPAGROUP N.V" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/3706ced58ab57d4ab85964476122633a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">COMPAGROUP N.V</h3>
-<div class="row-meta"><span>汽车</span><span>Commewijne</span><span>Tel: +597 35 43 40</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Commewijne</span><span>Tel: +597 35 43 40</span></div>
 <p class="listing-blurb">COMPAGROUP N.V 是位于苏里南 Commewijne 区的一家汽车企业，提供车辆销售、汽车租赁及…</p>
 </div>
 </a>
@@ -764,7 +807,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="帕拉马里博的 Computer Hardware Services" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/6698e3a793819a31e249a36d64d5c81f.webp" srcset="/images/6698e3a793819a31e249a36d64d5c81f-480.webp 480w, /images/6698e3a793819a31e249a36d64d5c81f.webp 623w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Computer Hardware Services</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: +597 490066</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597 490066</span></div>
 <p class="listing-blurb">Computer Hardware Services 是帕拉马里博的 IT…</p>
 </div>
 </a>
@@ -772,7 +815,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="帕拉马里博的 Computers &amp; Repairs" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7bc164a90cd18be93499544fa67a99ca.webp" srcset="/images/7bc164a90cd18be93499544fa67a99ca-480.webp 480w, /images/7bc164a90cd18be93499544fa67a99ca.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Computers &amp; Repairs</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: +597 458985</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597 458985</span></div>
 <p class="listing-blurb">Computers &amp; Repairs 是苏里南帕拉马里博的一家电子产品零售商，提供维修、保养和…</p>
 </div>
 </a>
@@ -780,7 +823,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="帕拉马里博的 Computronics" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a673a7d76b3653fff341ff84b8438874.webp" srcset="/images/a673a7d76b3653fff341ff84b8438874-480.webp 480w, /images/a673a7d76b3653fff341ff84b8438874.webp 583w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Computronics</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>2 个网点</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>2 个网点</span></div>
 <p class="listing-blurb">Computronics North 是帕拉马里博北部的科技零售与服务门店…</p>
 </div>
 </a>
@@ -824,11 +867,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Cute as a Button 是帕拉马里博的一家童装和配饰精品店…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/cynsational-glam/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/cynsational-glam/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="帕拉马里博的 Cynsational Glam" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7898699249f78061364db30b3b38ed81.webp" srcset="/images/7898699249f78061364db30b3b38ed81-480.webp 480w, /images/7898699249f78061364db30b3b38ed81.webp 960w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Cynsational Glam</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>手工艺品与纪念品</span><span>Paramaribo</span></div>
 <p class="listing-blurb">Cynsational Glam 是位于帕拉马里博 Henck Arronstraat…</p>
 </div>
 </a>
@@ -844,31 +887,31 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="帕拉马里博的 Da Vinci Enterprises N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1f9dc612c73e997477d3da90f5db892d.webp" srcset="/images/1f9dc612c73e997477d3da90f5db892d-480.webp 480w, /images/1f9dc612c73e997477d3da90f5db892d.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Da Vinci Enterprises N.V.</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: + 597 465130</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: + 597 465130</span></div>
 <p class="listing-blurb">Da Vinci Enterprises N.V.（又称 Da Vinci…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/da-zhong-trading/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="wholesale-import" href="listing/da-zhong-trading/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Da Zhong Trading</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 404868</span></div>
+<div class="row-meta"><span>批发与进口</span><span>Paramaribo</span><span>Tel: +597 404868</span></div>
 <p class="listing-blurb">Da Zhong Trading 是苏里南帕拉马里博的一家企业，业务涵盖贸易。地址：Industrieweg-noord # 41。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/datais-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/datais-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Datai's Car center</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 46 22 62</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 46 22 62</span></div>
 <p class="listing-blurb">Datai's Car center 是苏里南帕拉马里博的一家汽车企业，提供车辆销售和进口…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/datsun-suriname-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/datsun-suriname-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="帕拉马里博的 Datsun Suriname N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8081687744874a0107f410727d15e388.webp" srcset="/images/8081687744874a0107f410727d15e388-480.webp 480w, /images/8081687744874a0107f410727d15e388.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Datsun Suriname N.V.</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 477811</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 477811</span></div>
 <p class="listing-blurb">Datsun Suriname N.V. 是苏里南的日产（Nissan）和雅马哈（Yamaha）官方经销商，位于帕拉马里博…</p>
 </div>
 </a>
@@ -880,11 +923,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Handelsonderneming De Eenheid N.V. 是位于帕拉马里博 Lalarookhweg 47-63…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/de-keurslager-interfarm/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/de-keurslager-interfarm/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="帕拉马里博的 De Keurslager Interfarm" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/674e1f32d458913e52bcd723d4f19879.webp" srcset="/images/674e1f32d458913e52bcd723d4f19879-480.webp 480w, /images/674e1f32d458913e52bcd723d4f19879.webp 700w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">De Keurslager Interfarm</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span><span>Tel: +597 867-0809</span></div>
+<div class="row-meta"><span>肉类与鱼类</span><span>Paramaribo</span><span>Tel: +597 867-0809</span></div>
 <p class="listing-blurb">De Keurslager Interfarm…</p>
 </div>
 </a>
@@ -920,11 +963,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Demure N.V. 是位于帕拉马里博北部 Fosforstraat 10-12…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="malls-markets" href="listing/deto-handelmaatschappij/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="wholesale-import" href="listing/deto-handelmaatschappij/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="帕拉马里博的 Deto Handelmaatschappij" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1d8b314e15c2f8f514864289191a4f7a.webp" srcset="/images/1d8b314e15c2f8f514864289191a4f7a-480.webp 480w, /images/1d8b314e15c2f8f514864289191a4f7a.webp 690w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Deto Handelmaatschappij</h3>
-<div class="row-meta"><span>商场与市场</span><span>Paramaribo</span><span>Tel: +597 438-090</span></div>
+<div class="row-meta"><span>批发与进口</span><span>Paramaribo</span><span>Tel: +597 438-090</span></div>
 <p class="listing-blurb">Deto Handelmaatschappij…</p>
 </div>
 </a>
@@ -940,15 +983,15 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="帕拉马里博的 Digital World" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a231baed978c7a22bb1784b64bc6d9ec.webp" srcset="/images/a231baed978c7a22bb1784b64bc6d9ec-480.webp 480w, /images/a231baed978c7a22bb1784b64bc6d9ec.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Digital World</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>3 个网点</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>3 个网点</span></div>
 <p class="listing-blurb">位于 Hermitage Mall 的 Digital World 是苏里南的一家电子产品零售商，销售智能手机、笔记本电脑…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/ditra-international-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="electronics" href="listing/ditra-international-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="帕拉马里博的 Ditra International N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/d9dcbd47afa04796e323dff0541c5932.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ditra International N.V.</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 472304</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597 472304</span></div>
 <p class="listing-blurb">Ditra International N.V. 是位于帕拉马里博 Johan Adolf…</p>
 </div>
 </a>
@@ -960,11 +1003,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Divergent Body Jewelry…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/dj-liquor-store/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/dj-liquor-store/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="DJ Liquor Store，帕拉马里博购物与纪念品" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a9dacb08a0dc3772847946dcd83afc18.webp" srcset="/images/a9dacb08a0dc3772847946dcd83afc18-480.webp 480w, /images/a9dacb08a0dc3772847946dcd83afc18.webp 1600w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">DJ Liquor Store</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span><span>Tel: +597 472-226</span></div>
+<div class="row-meta"><span>饮料与酒类</span><span>Paramaribo</span><span>Tel: +597 472-226</span></div>
 <p class="listing-blurb">DJ Liquor Store 是帕拉马里博的酒水零售店，出售葡萄酒、威士忌、朗…</p>
 </div>
 </a>
@@ -1000,11 +1043,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Drie Ankra 位于帕拉马里博 Nieuwe…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/ez-motors/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/ez-motors/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="帕拉马里博的 E.Z. Motors" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/67f8652a802bf8375941dcfca9ce04bb.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">E.Z. Motors</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8518841</span></div>
+<div class="row-meta"><span>配件与零件</span><span>Paramaribo</span><span>Tel: +597 8518841</span></div>
 <p class="listing-blurb">E.Z. Motors（又名 EZ autoparts &amp; bodyshop）是位于帕拉马里博 Riekelaan 14…</p>
 </div>
 </a>
@@ -1020,23 +1063,23 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="帕拉马里博的 Elan Trading N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f142b9a8a7c49c6684b4411600fbdd21.webp" srcset="/images/f142b9a8a7c49c6684b4411600fbdd21-480.webp 480w, /images/f142b9a8a7c49c6684b4411600fbdd21.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Elan Trading N.V.</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: +597 8409191</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597 8409191</span></div>
 <p class="listing-blurb">Elan Trading N.V. 是位于帕拉马里博 Lisztstraat 9…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/empire-motors-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/empire-motors-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="帕拉马里博的 Empire Motors N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/62c3f331e096da0a8acbd6c468295ca2.webp" srcset="/images/62c3f331e096da0a8acbd6c468295ca2-480.webp 480w, /images/62c3f331e096da0a8acbd6c468295ca2.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Empire Motors N.V.</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 431-313</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 431-313</span></div>
 <p class="listing-blurb">Empire Motors N.V. 是位于帕拉马里博 Tweede Rijweg 37 的汽车经销商。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/ercon-trading-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="building-materials" href="listing/ercon-trading-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="帕拉马里博的 Ercon Trading NV" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/effb07f2c9e6cf2085580888d45ce86a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ercon Trading NV</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 52 06 82</span></div>
+<div class="row-meta"><span>建材</span><span>Paramaribo</span><span>Tel: +597 52 06 82</span></div>
 <p class="listing-blurb">Ercon Trading N.V. 位于帕拉马里博 Prinsenstraat…</p>
 </div>
 </a>
@@ -1088,11 +1131,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Fasst-itt N.V. 在帕拉马里博 J.A. Pengelstraat 105 销售紧固件和工具，包括 V-Coil…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/fernandes-bottling-company-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/fernandes-bottling-company-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="帕拉马里博的 Fernandes Bottling Company NV" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/1037bbaf1a1f0dd9ac1b8b5dae4e92ae.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Fernandes Bottling Company NV</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span><span>Tel: +597 482121</span></div>
+<div class="row-meta"><span>饮料与酒类</span><span>Paramaribo</span><span>Tel: +597 482121</span></div>
 <p class="listing-blurb">Fernandes Bottling Company N.V. 是苏里南软饮料生产商，位于帕拉马里博 Indira…</p>
 </div>
 </a>
@@ -1104,11 +1147,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Firma R. Ramai 是苏里南帕拉马里博的一家建材供应商，经营瓷砖、卫浴洁具和…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/fish-finder-fishing-and-outdoors/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="sports-outdoors" href="listing/fish-finder-fishing-and-outdoors/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="帕拉马里博的 Fish Finder Fishing &amp; Outdoors" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e80cf2ffeb68f4ac5eb42ea3b09a2f55.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Fish Finder Fishing &amp; Outdoors</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>运动与户外</span><span>Paramaribo</span></div>
 <p class="listing-blurb">Fish Finder Fishing &amp; Outdoors…</p>
 </div>
 </a>
@@ -1124,7 +1167,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="帕拉马里博的 Flex Phones" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/77b7aada0247b20ca3623a8e3781160c.webp" srcset="/images/77b7aada0247b20ca3623a8e3781160c-480.webp 480w, /images/77b7aada0247b20ca3623a8e3781160c.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Flex Phones</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: +597 497-992</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597 497-992</span></div>
 <p class="listing-blurb">Flex Phones 是帕拉马里博的一家手机零售店，提供智能手机、SIM…</p>
 </div>
 </a>
@@ -1136,19 +1179,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Hermitage Mall 的 Footcandy…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/foton-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/foton-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="帕拉马里博的 FOTON SURINAME" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/8e286cf66d16411daf7b92e288cef0fd.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">FOTON SURINAME</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 42 64 55</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 42 64 55</span></div>
 <p class="listing-blurb">FOTON SURINAME 在帕拉马里博 Neumanpad 46 销售福田（Foton）商用车和皮卡，例如…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/freshly-squeezed-juice/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/freshly-squeezed-juice/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Freshly Squeezed Juice</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>饮料与酒类</span><span>Paramaribo</span></div>
 <p class="listing-blurb">Freshly Squeezed 是一家年轻的苏里南企业，用本地水果制作鲜榨果汁，以瓶装和加仑…</p>
 </div>
 </a>
@@ -1160,11 +1203,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">From Kay with Love 是苏里南的礼品与生活方式品牌，为特殊场合提…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/from-me-to-me/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/from-me-to-me/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="From Me, To Me，帕拉马里博购物与纪念品" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8831a380143d6643d7518ec5a4db5693.webp" srcset="/images/8831a380143d6643d7518ec5a4db5693-480.webp 480w, /images/8831a380143d6643d7518ec5a4db5693.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">From Me, To Me</h3>
-<div class="row-meta"><span>时装与鞋履</span><span>Paramaribo</span><span>Tel: +597 869-5727</span></div>
+<div class="row-meta"><span>玩具与礼品</span><span>Paramaribo</span><span>Tel: +597 869-5727</span></div>
 <p class="listing-blurb">From Me, To Me 是帕拉马里博的一家礼品与配饰店，出售珠宝、时尚配…</p>
 </div>
 </a>
@@ -1176,11 +1219,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Furniture City Kwatta 是帕拉马里博 Kwatta 地区的一家大型家具卖场，销售家居和…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="home-furniture" href="listing/galaxy/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/galaxy/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Galaxy，帕拉马里博购物与纪念品" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fc616d54eca59fb5444dcf7e26d405ad.webp" srcset="/images/fc616d54eca59fb5444dcf7e26d405ad-480.webp 480w, /images/fc616d54eca59fb5444dcf7e26d405ad.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Galaxy</h3>
-<div class="row-meta"><span>家居与家具</span><span>Paramaribo</span><span>Tel: +597 473-580</span></div>
+<div class="row-meta"><span>玩具与礼品</span><span>Paramaribo</span><span>Tel: +597 473-580</span></div>
 <p class="listing-blurb">Galaxy 是帕拉马里博的一家礼品与生活方式商店，由 Noldie Healy 和 Guido Robles…</p>
 </div>
 </a>
@@ -1196,7 +1239,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="帕拉马里博的 Game Planet XL" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2ab95bd4ebeea2ee90da6da1bafa122c.webp" srcset="/images/2ab95bd4ebeea2ee90da6da1bafa122c-480.webp 480w, /images/2ab95bd4ebeea2ee90da6da1bafa122c.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Game Planet XL</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: +597 450150</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597 450150</span></div>
 <p class="listing-blurb">位于 Gompertstraat 的 Game Planet XL 销售电子游戏和游戏机，提供游戏机维修，并经营游戏…</p>
 </div>
 </a>
@@ -1220,15 +1263,15 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Glow and Gadget</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: +5978889880</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +5978889880</span></div>
 <p class="listing-blurb">位于 Dr. Sophie Redmondstraat 的一家店铺，兼营化妆品与手机销售、配件和维修。两…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/golden-exotic-cars-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/golden-exotic-cars-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="帕拉马里博的 Golden Exotic Cars N.V" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7eecfa3d75288a92ce9e29c46b7086c5.webp" srcset="/images/7eecfa3d75288a92ce9e29c46b7086c5-480.webp 480w, /images/7eecfa3d75288a92ce9e29c46b7086c5.webp 680w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Golden Exotic Cars N.V</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 520095</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 520095</span></div>
 <p class="listing-blurb">Golden Exotic Cars N.V. 是位于帕拉马里博 Keizerstraat 34A…</p>
 </div>
 </a>
@@ -1280,11 +1323,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Handelmaatschappij B.Sewnath N.V. 是位于帕拉马里博 Jozef…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/handelmij-r-nanhoe-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="building-materials" href="listing/handelmij-r-nanhoe-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="帕拉马里博的 Handelmij R Nanhoe N.V" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e808914a09077aa29b19f51e5690516a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Handelmij R Nanhoe N.V</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 440160</span></div>
+<div class="row-meta"><span>建材</span><span>Paramaribo</span><span>Tel: +597 440160</span></div>
 <p class="listing-blurb">Handelmij R Nanhoe N.V 是苏里南帕拉马里博的一家企业，经营建材和贸易…</p>
 </div>
 </a>
@@ -1304,11 +1347,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Harry Tjin 是位于帕拉马里博 Maagdenstraat 35 的派对用品和包装用品商店。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/hem-suriname-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="wholesale-import" href="listing/hem-suriname-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="帕拉马里博的 HEM Suriname N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/11708f10c5eb5f85c4f4ec10160dfe8f.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">HEM Suriname N.V.</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 472351</span></div>
+<div class="row-meta"><span>批发与进口</span><span>Paramaribo</span><span>Tel: +597 472351</span></div>
 <p class="listing-blurb">HEM Suriname N.V. 是位于帕拉马里博 Hendrikstraat 281…</p>
 </div>
 </a>
@@ -1320,19 +1363,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Hermitage Mall 是帕拉马里博主要的购物中心之一，汇集了服装店、…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/highway-automotive-parts/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/highway-automotive-parts/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="帕拉马里博的 Highway Automotive Parts" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/da6ede34c7119bde8599b53047216507.webp" srcset="/images/da6ede34c7119bde8599b53047216507-480.webp 480w, /images/da6ede34c7119bde8599b53047216507.webp 682w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Highway Automotive Parts</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 874 05 69</span></div>
+<div class="row-meta"><span>配件与零件</span><span>Paramaribo</span><span>Tel: +597 874 05 69</span></div>
 <p class="listing-blurb">Highway Automotive Parts 是位于帕拉马里博 Martin Luther Kingweg 77…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/hj-motors/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/hj-motors/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="帕拉马里博的 HJ Motors" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/888427b27ad23222d03aa9f9d130f5a6.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">HJ Motors</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 401-535</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 401-535</span></div>
 <p class="listing-blurb">HJ Motors 是马自达和铃木汽车、铃木船外机及零部件在苏里南的官方进口商和经销…</p>
 </div>
 </a>
@@ -1364,15 +1407,15 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="帕拉马里博的 Hsds Lifestyle" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cd224f1772ddbf5587314b89428beb2a.webp" srcset="/images/cd224f1772ddbf5587314b89428beb2a-480.webp 480w, /images/cd224f1772ddbf5587314b89428beb2a.webp 820w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Hsds Lifestyle</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>2 个网点</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>2 个网点</span></div>
 <p class="listing-blurb">HSDS Lifestyle Noord 是 Home Shopping &amp; Delivery Service (HSDS)…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/hummys-import-ace-cars-sales/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/hummys-import-ace-cars-sales/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="帕拉马里博的 Hummy's Import - ACE CARS SALES" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/4d9c174757eb5a37d93acc89085956e3.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Hummy's Import - ACE CARS SALES</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 85 91 308</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 85 91 308</span></div>
 <p class="listing-blurb">Hummy's Import - ACE CARS SALES 是位于帕拉马里博 Indira…</p>
 </div>
 </a>
@@ -1408,11 +1451,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Iamchede 是一家童装精品店，位于帕拉马里博 Parijsstraat 12。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/innovative-driven-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/innovative-driven-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">I</span><img alt="帕拉马里博的 Innovative Driven N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/350babada8e88dcc13776c0a35634557.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Innovative Driven N.V.</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8814346</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 8814346</span></div>
 <p class="listing-blurb">Innovative Driven Suriname 是位于帕拉马里博 Zinniastraat 的电动汽车经销商。</p>
 </div>
 </a>
@@ -1444,23 +1487,23 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">I</span><img alt="帕拉马里博的 Itrendzz" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cadc4951f423405dce40afb553bdcfc5.webp" srcset="/images/cadc4951f423405dce40afb553bdcfc5-480.webp 480w, /images/cadc4951f423405dce40afb553bdcfc5.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Itrendzz</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: +597499020</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597499020</span></div>
 <p class="listing-blurb">iTrendzZ 是位于帕拉马里博 Franchepanestraat…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/jf-tjoe-a-long-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/jf-tjoe-a-long-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="帕拉马里博的 J.F. Tjoe A Long N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/7668aabff0f8d53c1b84411e6fc53ff0.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">J.F. Tjoe A Long N.V.</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 473481</span></div>
+<div class="row-meta"><span>配件与零件</span><span>Paramaribo</span><span>Tel: +597 473481</span></div>
 <p class="listing-blurb">J.F. Tjoe A Long N.V. 是位于帕拉马里博 Dr. Sophie Redmondstraat 的汽车零配件商店。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Nickerie" data-sub="other" href="listing/jaggernath-group-of-companies/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Nickerie" data-sub="food-specialty" href="listing/jaggernath-group-of-companies/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="Nickerie的 Jaggernath Group of Companies" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/6e847c1df60d62b3558941fbdd0ae490.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Jaggernath Group of Companies</h3>
-<div class="row-meta"><span>其他</span><span>Nickerie</span><span>Tel: +597 234677</span></div>
+<div class="row-meta"><span>食品与特产</span><span>Nickerie</span><span>Tel: +597 234677</span></div>
 <p class="listing-blurb">Jaggernath Group of Companies 以 Jagger Rice 品牌闻名，在 Nickerie 的…</p>
 </div>
 </a>
@@ -1480,11 +1523,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Janelle's Shoes &amp; Bags…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/japan-motors/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/japan-motors/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="帕拉马里博的 Japan Motors" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8fd1065afe023b121f9e9b92ccb924b2.webp" srcset="/images/8fd1065afe023b121f9e9b92ccb924b2-480.webp 480w, /images/8fd1065afe023b121f9e9b92ccb924b2.webp 966w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Japan Motors</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 857 9405</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 857 9405</span></div>
 <p class="listing-blurb">Japan Motors 是位于帕拉马里博 Tweekinderenweg 与…</p>
 </div>
 </a>
@@ -1552,11 +1595,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Kasimex Indira Gandhiweg 分店是苏里南零售商 Kasimex…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/kersten-motors-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/kersten-motors-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="帕拉马里博的 Kersten Motors N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/30488a1bb3b4068c1cae34d361b6e872.webp" srcset="/images/30488a1bb3b4068c1cae34d361b6e872-480.webp 480w, /images/30488a1bb3b4068c1cae34d361b6e872.webp 950w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Kersten Motors N.V.</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 402833</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 402833</span></div>
 <p class="listing-blurb">Kersten Motors N.V. 隶属 Kersten Group of Companies，是…</p>
 </div>
 </a>
@@ -1584,19 +1627,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Kirpalani’s N.V. 是一家位于帕拉马里博市中心、充满活力的企业，现…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/kokos-auto-parts-service/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/kokos-auto-parts-service/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Koko's Auto Parts &amp; Service</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 435257</span></div>
+<div class="row-meta"><span>配件与零件</span><span>Paramaribo</span><span>Tel: +597 435257</span></div>
 <p class="listing-blurb">Koko's Auto Parts &amp; Service 是位于帕拉马里博 Kwattaweg 494…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/kwatta-carfix/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/kwatta-carfix/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="帕拉马里博的 Kwatta Carfix" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/035fc6fd6259f7ac2952929dfd047427.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Kwatta Carfix</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>配件与零件</span><span>Paramaribo</span></div>
 <p class="listing-blurb">位于帕拉马里博 Kwatta 的轮胎经销商，以 banden supermarket（轮胎超市）的名义经营。</p>
 </div>
 </a>
@@ -1608,11 +1651,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ladybug Nursery &amp; Garden Center…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/landbouw-cooperatie-kwatta-en-omstreken/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="vet-livestock" href="listing/landbouw-cooperatie-kwatta-en-omstreken/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">L</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Landbouw Cooperatie Kwatta en Omstreken</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 436844</span></div>
+<div class="row-meta"><span>农牧与动物用品</span><span>Paramaribo</span><span>Tel: +597 436844</span></div>
 <p class="listing-blurb">Landbouw Cooperatie Kwatta en Omstreken 是苏里南帕拉马里博的一家企业，经营农资用品…</p>
 </div>
 </a>
@@ -1672,11 +1715,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Lins Super Market 是苏里南一家超市，经营生鲜农产品、食品杂…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/lnr-imports/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/lnr-imports/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">L</span><img alt="帕拉马里博的 LnR Imports" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/8490ae38b8fe58a235aca6280c14079e.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">LnR Imports</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 850 25 95</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 850 25 95</span></div>
 <p class="listing-blurb">LnR Imports 是苏里南帕拉马里博的一家汽车企业，提供车辆销售和进口。地址：…</p>
 </div>
 </a>
@@ -1688,27 +1731,27 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Lucky Store 是位于帕拉马里博 Jodenbreestraat…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/luni-gifts/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/luni-gifts/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">L</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Luni Gifts</h3>
-<div class="row-meta"><span>手工艺品与纪念品</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>玩具与礼品</span><span>Paramaribo</span></div>
 <p class="listing-blurb">帕拉马里博 Schietbaanweg 上的一家礼品和美妆店。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/luxatic-motors/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/luxatic-motors/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">L</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Luxatic motors</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8732002</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 8732002</span></div>
 <p class="listing-blurb">Luxatic Motors 是位于帕拉马里博 Ringweg Zuid 的汽车企业，专注于价格亲民的豪华汽车。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/mn-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/mn-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">M&amp;N Car Center</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span></div>
 <p class="listing-blurb">一家位于帕拉马里博 Belladonnastraat 的汽车经销商，买家评价良好。</p>
 </div>
 </a>
@@ -1760,11 +1803,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">MICHI Natural Foods N.V. 是位于帕拉马里博 Michilaan 5…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/mikes-autoparts-accessories-repair/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/mikes-autoparts-accessories-repair/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="帕拉马里博的 Mike's Autoparts Accessories &amp; Repair" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7ed1429a3a6f5c603aa296a7cbd317da.webp" srcset="/images/7ed1429a3a6f5c603aa296a7cbd317da-480.webp 480w, /images/7ed1429a3a6f5c603aa296a7cbd317da.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Mike's Autoparts Accessories &amp; Repair</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8522420</span></div>
+<div class="row-meta"><span>配件与零件</span><span>Paramaribo</span><span>Tel: +597 8522420</span></div>
 <p class="listing-blurb">Mike's Autoparts Accessories &amp; Repair 是苏里南帕拉马里博的一家汽车企业，提供车辆…</p>
 </div>
 </a>
@@ -1776,19 +1819,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Mimi Market 是帕拉马里博的一家社区杂货店，以实惠的价格提供新鲜食品…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/ming-kee-autoparts-accessories/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/ming-kee-autoparts-accessories/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="帕拉马里博的 Ming Kee Autoparts &amp; Accessories" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8fa0799a7fca09faf7041446c658e097.webp" srcset="/images/8fa0799a7fca09faf7041446c658e097-480.webp 480w, /images/8fa0799a7fca09faf7041446c658e097.webp 693w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ming Kee Autoparts &amp; Accessories</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 411713</span></div>
+<div class="row-meta"><span>配件与零件</span><span>Paramaribo</span><span>Tel: +597 411713</span></div>
 <p class="listing-blurb">Ming Kee Autoparts &amp; Accessories 是苏里南帕拉马里博的一家汽车企业，提供车辆销售…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/miniso-gompertstraat/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/miniso-gompertstraat/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="帕拉马里博的 Miniso" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a097b146a4250b963228f07969875ea2.webp" srcset="/images/a097b146a4250b963228f07969875ea2-480.webp 480w, /images/a097b146a4250b963228f07969875ea2.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Miniso</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>2 个网点</span></div>
+<div class="row-meta"><span>玩具与礼品</span><span>Paramaribo</span><span>2 个网点</span></div>
 <p class="listing-blurb">位于 Gompertstraat 的 Miniso 是这一人气日本生活方式品牌的分店，提供价格实惠、注重设计的…</p>
 </div>
 </a>
@@ -1804,7 +1847,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Mobile King</h3>
-<div class="row-meta"><span>电子产品</span><span>Commewijne</span><span>Tel: +597355055</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Commewijne</span><span>Tel: +597355055</span></div>
 <p class="listing-blurb">位于 Meerzorg 的 Oost-West Verbinding 路边的一家手机店，出售手机及配件，并提供维修…</p>
 </div>
 </a>
@@ -1848,27 +1891,27 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">N.V. 82 Trading 是一家屋面板专营商，销售屋面材料、墙面覆板、木材及其他建筑材…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="home-furniture" href="listing/nv-devinas-enterprises/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/nv-devinas-enterprises/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="帕拉马里博的 N.V. Devina's Enterprises" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b65a234945558b09ccfac1b6d3813d72.webp" srcset="/images/b65a234945558b09ccfac1b6d3813d72-480.webp 480w, /images/b65a234945558b09ccfac1b6d3813d72.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">N.V. Devina's Enterprises</h3>
-<div class="row-meta"><span>家居与家具</span><span>Paramaribo</span><span>Tel: +597 477509</span></div>
+<div class="row-meta"><span>图书与办公用品</span><span>Paramaribo</span><span>Tel: +597 477509</span></div>
 <p class="listing-blurb">N.V. Devina's Enterprises 位于帕拉马里博 Gemenelandsweg…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Suriname" data-sub="other" href="listing/nv-drukkerij-leo-victor/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Suriname" data-sub="books-office" href="listing/nv-drukkerij-leo-victor/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="苏里南的 N.V. Drukkerij Leo Victor" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/3db0a38ec2d6f59bd0a546a674d8e8d2.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">N.V. Drukkerij Leo Victor</h3>
-<div class="row-meta"><span>其他</span><span>Tel: +597 410122</span></div>
+<div class="row-meta"><span>图书与办公用品</span><span>Tel: +597 410122</span></div>
 <p class="listing-blurb">N.V. Drukkerij Leo Victor…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/nv-guimar/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="building-materials" href="listing/nv-guimar/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="帕拉马里博的 N.V. Guimar" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/3d604f076829c8e02dcfc6b1dbf1a038.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">N.V. Guimar</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 420119</span></div>
+<div class="row-meta"><span>建材</span><span>Paramaribo</span><span>Tel: +597 420119</span></div>
 <p class="listing-blurb">N.V. Guimar 是位于帕拉马里博 Nieuwe Charlesburgweg 的 PVC 产品供应商，已获 ISO 9001 认证。</p>
 </div>
 </a>
@@ -1888,11 +1931,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">N.V. VSH FOODS 原名 Margarine en Vetten Fabriek，隶属 VSH…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/nv-vsh-trading-canon/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/nv-vsh-trading-canon/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="帕拉马里博的 N.V. VSH TRADING - Canon" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/91d1f5715dad9ec37434c81086126787.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">N.V. VSH TRADING - Canon</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 403277</span></div>
+<div class="row-meta"><span>图书与办公用品</span><span>Paramaribo</span><span>Tel: +597 403277</span></div>
 <p class="listing-blurb">VSH Trading 隶属 VSH United，自 1978…</p>
 </div>
 </a>
@@ -1904,11 +1947,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">N.V. Graniet 供应装饰性建筑材料，专营瓷砖等天然石材产品，展厅位于帕…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/nakaso-auto-parts-sales/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/nakaso-auto-parts-sales/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="帕拉马里博的 Nakaso Auto &amp; Parts Sales" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ad6f08ce3c8f202dc4dca1a1f5ec4bb2.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Nakaso Auto &amp; Parts Sales</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 897 75 35</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 897 75 35</span></div>
 <p class="listing-blurb">Nakaso Auto &amp; Parts Sales 是一家汽车经销商，位于帕拉马里博 Washingtonstraat 与 New…</p>
 </div>
 </a>
@@ -1928,11 +1971,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ni-Ké Meubel en Interieur Accessoires 是 BLUM…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/nishika-enterprise-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/nishika-enterprise-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="帕拉马里博的 Nishika Enterprise N.V" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e955e8d8468765337959164aae2561ab.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Nishika Enterprise N.V</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8793945</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 8793945</span></div>
 <p class="listing-blurb">Nishika Enterprise N.V 是苏里南帕拉马里博的一家汽车企业，提供车辆销售和进口…</p>
 </div>
 </a>
@@ -1956,7 +1999,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="帕拉马里博的 Office Electronics" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/931f0487f4381a2bc6318705d72998fe.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Office Electronics</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: +597 420643</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597 420643</span></div>
 <p class="listing-blurb">Office Electronics 是苏里南帕拉马里博的一家电子产品零售商。地址：Malebatrum Street 6。</p>
 </div>
 </a>
@@ -1968,19 +2011,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Office Furniture 位于帕拉马里博的 Gemenelandsweg…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="other" href="listing/office-world-hermitage-mall/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="books-office" href="listing/office-world-hermitage-mall/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="帕拉马里博的 Office World" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/55921b518909d033d4abd063a002fdab.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Office World</h3>
-<div class="row-meta"><span>其他</span><span>帕拉马里博、Wanica</span><span>2 个网点</span></div>
+<div class="row-meta"><span>图书与办公用品</span><span>帕拉马里博、Wanica</span><span>2 个网点</span></div>
 <p class="listing-blurb">位于 Hermitage Mall 的 Office World 是帕拉马里博的一家文具及办公用品零售商，经营纸张…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/one-autoparts-store/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/one-autoparts-store/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="帕拉马里博的 One Autoparts Store" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9fcfdf9a81ff1f577875abb190127b13.webp" srcset="/images/9fcfdf9a81ff1f577875abb190127b13-480.webp 480w, /images/9fcfdf9a81ff1f577875abb190127b13.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">One Autoparts Store</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 433967</span></div>
+<div class="row-meta"><span>配件与零件</span><span>Paramaribo</span><span>Tel: +597 433967</span></div>
 <p class="listing-blurb">One Autoparts Store 是苏里南帕拉马里博的一家汽车企业，提供车辆销售、零配件…</p>
 </div>
 </a>
@@ -2048,11 +2091,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Outdoor Living 是位于帕拉马里博 Hooge Straat…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/pandie/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/pandie/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="帕拉马里博的 Pandie" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9b7502f31defbd45bf4123892dce67e9.webp" srcset="/images/9b7502f31defbd45bf4123892dce67e9-480.webp 480w, /images/9b7502f31defbd45bf4123892dce67e9.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Pandie</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>玩具与礼品</span><span>Paramaribo</span></div>
 <p class="listing-blurb">Pandie 是帕拉马里博的一家儿童玩具及益智游戏商店。店铺口号为“Samen spelen, leren &amp;…</p>
 </div>
 </a>
@@ -2068,31 +2111,31 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="帕拉马里博的 PCX Computers" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4d5433dcc05205ae2c19c6450fe3a21f.webp" srcset="/images/4d5433dcc05205ae2c19c6450fe3a21f-480.webp 480w, /images/4d5433dcc05205ae2c19c6450fe3a21f.webp 966w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">PCX Computers</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: +597 441563</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597 441563</span></div>
 <p class="listing-blurb">PCX Computers 是位于帕拉马里博 Washingtonstraat…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/perfect-cars/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/perfect-cars/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Perfect Car's</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8777477</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 8777477</span></div>
 <p class="listing-blurb">Perfect Car's 是苏里南帕拉马里博的一家汽车企业，提供车辆销售、房产估价…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/philipson-trading/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/philipson-trading/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Philipson Trading</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 40 22 98</span></div>
+<div class="row-meta"><span>配件与零件</span><span>Paramaribo</span><span>Tel: +597 40 22 98</span></div>
 <p class="listing-blurb">Philipson Trading 是位于帕拉马里博 Van 't Hogerhuysstraat 35…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/platinum-quality-cars-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/platinum-quality-cars-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="帕拉马里博的 Platinum Quality Cars NV" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e8bddbd8b7012c1fea3f2ceba0170999.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Platinum Quality Cars NV</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 897 10 52</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 897 10 52</span></div>
 <p class="listing-blurb">Platinum Quality Cars NV 是位于帕拉马里博 Toevluchtweg 63…</p>
 </div>
 </a>
@@ -2104,27 +2147,27 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Point Plaza 门店位于 Tammenga 的 Leysweg，是该连锁店在帕拉马里博规模最大的门店。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/powerful-automotive/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/powerful-automotive/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Powerful Automotive</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 49 23 18</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 49 23 18</span></div>
 <p class="listing-blurb">Powerful Automotive 是苏里南帕拉马里博的一家汽车企业，提供车辆销售、清关…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/pristine-car-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/pristine-car-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="帕拉马里博的 Pristine Car NV" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7a1384e039b9b49c26ef09cafd91bf78.webp" srcset="/images/7a1384e039b9b49c26ef09cafd91bf78-480.webp 480w, /images/7a1384e039b9b49c26ef09cafd91bf78.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Pristine Car NV</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8557951</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 8557951</span></div>
 <p class="listing-blurb">Pristine Car NV 是现代（Hyundai）在苏里南的官方经销商，在帕拉马里博 Van 't…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/prodimex-international-inc/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/prodimex-international-inc/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="帕拉马里博的 Prodimex International Inc." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/2934914b8ad5c817c5869da873469062.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Prodimex International Inc.</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 402727</span></div>
+<div class="row-meta"><span>图书与办公用品</span><span>Paramaribo</span><span>Tel: +597 402727</span></div>
 <p class="listing-blurb">Prodimex International 成立于 1973 年，是位于帕拉马里博 J.A.…</p>
 </div>
 </a>
@@ -2152,27 +2195,27 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">R. Durga &amp; Sons N.V. 是位于帕拉马里博 Sir Winston…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="automotive" href="listing/ramasre-cars-parts/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="car-dealers" href="listing/ramasre-cars-parts/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Wanica的 Ramasre Cars &amp; Parts" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/9fef168b89fe565cd32d5c697f827f22.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ramasre Cars &amp; Parts</h3>
-<div class="row-meta"><span>汽车</span><span>Wanica</span><span>Tel: +597 7221071</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Wanica</span><span>Tel: +597 7221071</span></div>
 <p class="listing-blurb">Ramasre Cars &amp; Parts 是苏里南 Wanica 区的一家汽车企业，提供车辆销售和进口…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="automotive" href="listing/ramcharans-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="car-dealers" href="listing/ramcharans-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Wanica的 Ramcharan’s Car Center" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/74e24bced75a2e1453f437902859126a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ramcharan’s Car Center</h3>
-<div class="row-meta"><span>汽车</span><span>Wanica</span><span>Tel: +597 852 69 48</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Wanica</span><span>Tel: +597 852 69 48</span></div>
 <p class="listing-blurb">Ramcharan’s Car Center 是苏里南 Wanica 区的一家汽车企业，提供车辆销售、海运和…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="automotive" href="listing/ramons-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="car-dealers" href="listing/ramons-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ramons Car Center</h3>
-<div class="row-meta"><span>汽车</span><span>Wanica</span><span>Tel: +597 58 01 65</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Wanica</span><span>Tel: +597 58 01 65</span></div>
 <p class="listing-blurb">Ramon's Car Center 位于 Wanica 区 Lelydorp 的 Indira Gandhiweg 192，销售车况 A1…</p>
 </div>
 </a>
@@ -2208,11 +2251,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">位于帕拉马里博 Flustraat 的一家护理与助行用品店，就在 AZ 药房对面，出售和出租护理…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="automotive" href="listing/rezaam-car-sales/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="car-dealers" href="listing/rezaam-car-sales/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Wanica的 Rezaam Car Sales" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ff129c781cbf9258e94a6501c84cf427.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Rezaam Car Sales</h3>
-<div class="row-meta"><span>汽车</span><span>Wanica</span><span>Tel: +597 8513792</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Wanica</span><span>Tel: +597 8513792</span></div>
 <p class="listing-blurb">Rezaam Car Sales 是位于苏里南 Wanica 区的一家汽车企业，提供车辆销售、清关及…</p>
 </div>
 </a>
@@ -2228,15 +2271,15 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="帕拉马里博的 Ring Ring Imports" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/628701b8ad23da378bb73551c21d5288.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ring Ring Imports</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: +597 896-1969</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597 896-1969</span></div>
 <p class="listing-blurb">Ring Ring Imports 是苏里南的一家科技及电子产品进口商，以有竞争力的…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/rock-cars/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/rock-cars/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="帕拉马里博的 Rock Cars" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/43350a295f2d9a66f58d9875e006c69f.webp" srcset="/images/43350a295f2d9a66f58d9875e006c69f-480.webp 480w, /images/43350a295f2d9a66f58d9875e006c69f.webp 678w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Rock Cars</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 8888770</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 8888770</span></div>
 <p class="listing-blurb">Rock Cars 是苏里南帕拉马里博的一家汽车企业，提供车辆销售和进口。地址：…</p>
 </div>
 </a>
@@ -2248,19 +2291,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Rogom Farm N.V. 是苏里南的一家蛋鸡养殖场，生产新鲜鸡…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/ronan-s-trading-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="building-materials" href="listing/ronan-s-trading-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="帕拉马里博的 Ronan 's Trading NV" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/344676ed153c4447a3d40748313a642d.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ronan 's Trading NV</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 451070</span></div>
+<div class="row-meta"><span>建材</span><span>Paramaribo</span><span>Tel: +597 451070</span></div>
 <p class="listing-blurb">Ronan 's Trading NV 是苏里南帕拉马里博的一家企业，经营建材和贸易。位于…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="food-specialty" href="listing/rossignol-coppename/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="butchers-meat" href="listing/rossignol-coppename/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="帕拉马里博的 Rossignol" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/6180e384d7a4a65c14509ae6b6d44432.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Rossignol</h3>
-<div class="row-meta"><span>食品与特产</span><span>帕拉马里博、Wanica</span><span>6 个网点</span></div>
+<div class="row-meta"><span>肉类与鱼类</span><span>帕拉马里博、Wanica</span><span>6 个网点</span></div>
 <p class="listing-blurb">Rossignol Coppename 是苏里南肉店连锁 Rossignol…</p>
 </div>
 </a>
@@ -2272,11 +2315,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Royal Panel 在帕拉马里博 Welgelegen 的…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/royal-tobacco-company-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/royal-tobacco-company-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="帕拉马里博的 Royal Tobacco Company N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e66d91dff864cc4194071d02ac1003bc.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Royal Tobacco Company N.V.</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span></div>
 <p class="listing-blurb">Royal Tobacco Company N.V. 是一家烟草公司，在帕拉马里博设有卷烟厂，隶属于…</p>
 </div>
 </a>
@@ -2308,15 +2351,15 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Sam Tronix</h3>
-<div class="row-meta"><span>电子产品</span><span>帕拉马里博、Wanica</span><span>2 个网点</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>帕拉马里博、Wanica</span><span>2 个网点</span></div>
 <p class="listing-blurb">Sam Tronix 是帕拉马里博的一家三星专营店，经营手机、平板电脑、可穿戴设备和配件，并…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/sanousch-books/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/sanousch-books/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Sanousch Books" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/b5d5d2313c0b3e0aa9c6ce975412c045.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Sanousch Books</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 478 697</span></div>
+<div class="row-meta"><span>图书与办公用品</span><span>Paramaribo</span><span>Tel: +597 478 697</span></div>
 <p class="listing-blurb">Sanousch Books 是帕拉马里博的一家书店，出售图书、文具和教育用品，…</p>
 </div>
 </a>
@@ -2328,19 +2371,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Hermitage Mall 的 Sash Fashion…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/sbt-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/sbt-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 SBT Suriname" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ceb6ee1d373c700acea38227571f86d9.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">SBT Suriname</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 45 47 16</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 45 47 16</span></div>
 <p class="listing-blurb">SBT Suriname 是日本二手车出口商 SBT 于 2015 年在帕拉马里博开设的办事处，在 Boni…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/schols-imports/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/schols-imports/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Schols Imports" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ab2a4fc0c8a39293c9a990d573d92eed.webp" srcset="/images/ab2a4fc0c8a39293c9a990d573d92eed-480.webp 480w, /images/ab2a4fc0c8a39293c9a990d573d92eed.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Schols Imports</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 86 25 246</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 86 25 246</span></div>
 <p class="listing-blurb">Schols Imports 是苏里南帕拉马里博的一家汽车企业，提供车辆销售、海运和…</p>
 </div>
 </a>
@@ -2360,11 +2403,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">SEAN Trading 是位于帕拉马里博 Franchepanestraat 46…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/semc-motors-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/semc-motors-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 SEMC Motors N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cab55b3ffa26fb527e6ed26d1850deb9.webp" srcset="/images/cab55b3ffa26fb527e6ed26d1850deb9-480.webp 480w, /images/cab55b3ffa26fb527e6ed26d1850deb9.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">SEMC Motors N.V.</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 433377</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 433377</span></div>
 <p class="listing-blurb">SEMC Motors N.V. 是 Ford 在苏里南的官方经销商，位于帕拉马里博 Kernkampweg，同时经营 Land…</p>
 </div>
 </a>
@@ -2412,7 +2455,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 SIOC N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b0db975a251e014e2e1615e93809a972.webp" srcset="/images/b0db975a251e014e2e1615e93809a972-480.webp 480w, /images/b0db975a251e014e2e1615e93809a972.webp 660w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">SIOC N.V.</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: +597 438029</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597 438029</span></div>
 <p class="listing-blurb">SIOC N.V.（Suriname Information &amp; Organization…</p>
 </div>
 </a>
@@ -2424,35 +2467,35 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">位于 Lalla Rookhweg 的 Hermitage Mall 商场内的 Skechers 门店。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/slagerij-abbas/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/slagerij-abbas/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Slagerij Abbas" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/b85f2fee2f293281a376709e00f0c886.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Slagerij Abbas</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span><span>Tel: 432-233</span></div>
+<div class="row-meta"><span>肉类与鱼类</span><span>Paramaribo</span><span>Tel: 432-233</span></div>
 <p class="listing-blurb">Slagerij Abbas 是帕拉马里博一家经清真认证的肉铺，出售牛肉、羊羔肉、…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/slagerij-asruf/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/slagerij-asruf/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Slagerij Asruf" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/c1e98a970fd16b5f7fc77b20f0a4de9e.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Slagerij Asruf</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>肉类与鱼类</span><span>Paramaribo</span></div>
 <p class="listing-blurb">Slagerij Asruf 是帕拉马里博一家口碑良好的肉铺，为家庭和餐厅提供优质…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/slagerij-joems/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/slagerij-joems/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Slagerij Joem's" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/df129a0fc0edae8f7040aa3a9f34b8d5.webp" srcset="/images/df129a0fc0edae8f7040aa3a9f34b8d5-480.webp 480w, /images/df129a0fc0edae8f7040aa3a9f34b8d5.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Slagerij Joem's</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span><span>Tel: +597 459525</span></div>
+<div class="row-meta"><span>肉类与鱼类</span><span>Paramaribo</span><span>Tel: +597 459525</span></div>
 <p class="listing-blurb">Slagerij Joem's 是帕拉马里博的一家肉店，出售新鲜肉类，门店位于 Geyersvlijt 的 Bonistraat 155 和…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/slagerij-stolk/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/slagerij-stolk/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Slagerij Stolk" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5c1006efd72bea856c56dd05437d459f.webp" srcset="/images/5c1006efd72bea856c56dd05437d459f-480.webp 480w, /images/5c1006efd72bea856c56dd05437d459f.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Slagerij Stolk</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span><span>Tel: +597551133</span></div>
+<div class="row-meta"><span>肉类与鱼类</span><span>Paramaribo</span><span>Tel: +597551133</span></div>
 <p class="listing-blurb">Slagerij Stolk 是一家历史悠久的苏里南肉铺，以优质鲜肉、冷…</p>
 </div>
 </a>
@@ -2476,7 +2519,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Smart Connexxionz" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3a65cb3b2492a500ee8e81b454b77f0e.webp" srcset="/images/3a65cb3b2492a500ee8e81b454b77f0e-480.webp 480w, /images/3a65cb3b2492a500ee8e81b454b77f0e.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Smart Connexxionz</h3>
-<div class="row-meta"><span>电子产品</span><span>Paramaribo</span><span>Tel: +597355404</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597355404</span></div>
 <p class="listing-blurb">Smart ConneXXionZ N.V. 是位于帕拉马里博 Leysweg…</p>
 </div>
 </a>
@@ -2496,11 +2539,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Soengngie Mega Store 是苏里南一家大型综合零售店，供应从食品、…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="malls-markets" href="listing/soengngie-oriental-market/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/soengngie-oriental-market/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Soengngie Oriental Market" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/b98e1a17a741b72e54b9de883c67d583.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Soengngie Oriental Market</h3>
-<div class="row-meta"><span>商场与市场</span><span>Paramaribo</span><span>Tel: +597 550140</span></div>
+<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span><span>Tel: +597 550140</span></div>
 <p class="listing-blurb">Soengngie Oriental Market…</p>
 </div>
 </a>
@@ -2512,11 +2555,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">SOS Handelmij NV 是位于帕拉马里博 New…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="food-specialty" href="listing/sranan-fowru/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="butchers-meat" href="listing/sranan-fowru/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Sranan Fowru" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7fdea8d871f028a09bdd2b65fc83ff83.webp" srcset="/images/7fdea8d871f028a09bdd2b65fc83ff83-480.webp 480w, /images/7fdea8d871f028a09bdd2b65fc83ff83.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Sranan Fowru</h3>
-<div class="row-meta"><span>食品与特产</span><span>帕拉马里博、Wanica</span><span>10 个网点</span></div>
+<div class="row-meta"><span>肉类与鱼类</span><span>帕拉马里博、Wanica</span><span>10 个网点</span></div>
 <p class="listing-blurb">Sranan Fowru 是苏里南最大的鲜鸡批发商兼零售肉铺，直接供…</p>
 </div>
 </a>
@@ -2528,11 +2571,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">位于帕拉马里博 Zwartenhovenbrugstraat 的一家眼镜店，出售眼镜及各类眼镜产品。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/stedin-speciaal-slagerij/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/stedin-speciaal-slagerij/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Stedin Speciaalslagerij" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f100f65654a1e608791673aaa129c475.webp" srcset="/images/f100f65654a1e608791673aaa129c475-480.webp 480w, /images/f100f65654a1e608791673aaa129c475.webp 720w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Stedin Speciaalslagerij</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span><span>Tel: +597 431-161</span></div>
+<div class="row-meta"><span>肉类与鱼类</span><span>Paramaribo</span><span>Tel: +597 431-161</span></div>
 <p class="listing-blurb">位于帕拉马里博 Franchepanestraat 的一家专业肉铺，出售鲜肉和加工肉制品。</p>
 </div>
 </a>
@@ -2544,11 +2587,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Steps Domineestraat 将这一热门鞋履品牌带到帕拉马里博市中心的…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/store4u/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="malls-markets" href="listing/store4u/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Store4u" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ce4db3a1b5b42e887496a7706caaf2ac.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Store4u</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 718-2232</span></div>
+<div class="row-meta"><span>商场与市场</span><span>Paramaribo</span><span>Tel: +597 718-2232</span></div>
 <p class="listing-blurb">Store4U 是帕拉马里博一家综合零售店，出售服装、电子产品、…</p>
 </div>
 </a>
@@ -2576,35 +2619,35 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Suraniyat 是苏里南一家时装品牌，其服装植根于传统手工…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/suri-juice-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/suri-juice-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Suri Juice N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ed01d97de817519201c40e395c735c3a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Suri Juice N.V.</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span><span>Tel: +597 372-210</span></div>
+<div class="row-meta"><span>饮料与酒类</span><span>Paramaribo</span><span>Tel: +597 372-210</span></div>
 <p class="listing-blurb">Suri Juice N.V. 是一家果汁生产商，位于帕拉马里博 Kokrikilaan 44。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/surinaamse-brouwerij-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/surinaamse-brouwerij-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Surinaamse Brouwerij N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7896c77bfee086122a75271d725b9530.webp" srcset="/images/7896c77bfee086122a75271d725b9530-480.webp 480w, /images/7896c77bfee086122a75271d725b9530.webp 950w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Surinaamse Brouwerij N.V.</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span><span>Tel: +597 402255</span></div>
+<div class="row-meta"><span>饮料与酒类</span><span>Paramaribo</span><span>Tel: +597 402255</span></div>
 <p class="listing-blurb">Surinaamse Brouwerij 酿造苏里南的国民啤酒 Parbo，同时还生产 Parbo Radler 以及在本地酿造的 Heineken…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/suriname-alcoholic-beverages/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/suriname-alcoholic-beverages/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Suriname Alcoholic Beverages" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/4eb57a5037d377d66413bf817f5ade02.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Suriname Alcoholic Beverages</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span><span>Tel: (597) 473344</span></div>
+<div class="row-meta"><span>饮料与酒类</span><span>Paramaribo</span><span>Tel: (597) 473344</span></div>
 <p class="listing-blurb">Suriname Alcoholic Beverages N.V.（SAB）是位于帕拉马里博 Cornelis…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/suriname-sea-catch-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/suriname-sea-catch-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Suriname Sea Catch NV</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597 486868</span></div>
+<div class="row-meta"><span>肉类与鱼类</span><span>Paramaribo</span><span>Tel: +597 486868</span></div>
 <p class="listing-blurb">Suriname Sea Catch N.V.…</p>
 </div>
 </a>
@@ -2616,11 +2659,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Susan's Houtmarkt 是位于帕拉马里博 Johannes Mungra straat 75…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/sweetheart-hermitage-mall/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/sweetheart-hermitage-mall/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Sweetheart" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/bed845bedbce4d8f42ab57c3a8b82dd8.webp" srcset="/images/bed845bedbce4d8f42ab57c3a8b82dd8-480.webp 480w, /images/bed845bedbce4d8f42ab57c3a8b82dd8.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Sweetheart</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>2 个网点</span></div>
+<div class="row-meta"><span>玩具与礼品</span><span>Paramaribo</span><span>2 个网点</span></div>
 <p class="listing-blurb">Sweetheart 是帕拉马里博的一家玩具和糖果店，本分店位于 Lalla Rookhweg 的 Hermitage Mall。</p>
 </div>
 </a>
@@ -2664,11 +2707,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Tegeldepot Suriname 是位于帕拉马里博 Calcuttastraat…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/the-old-attic/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/the-old-attic/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="The Old Attic，帕拉马里博购物与纪念品" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/171274f30b37d7eb1388dc0803eed605.webp" srcset="/images/171274f30b37d7eb1388dc0803eed605-480.webp 480w, /images/171274f30b37d7eb1388dc0803eed605.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">The Old Attic</h3>
-<div class="row-meta"><span>手工艺品与纪念品</span><span>Paramaribo</span><span>Tel: +597 846-8841</span></div>
+<div class="row-meta"><span>玩具与礼品</span><span>Paramaribo</span><span>Tel: +597 846-8841</span></div>
 <p class="listing-blurb">The Old Attic 是帕拉马里博一家礼品与收藏品店，出售配…</p>
 </div>
 </a>
@@ -2680,11 +2723,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">The Perfume Spot 是帕拉马里博一家香水精品店，出售本地和国际品牌的香…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/the-uma-store/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/the-uma-store/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="The Uma Store，帕拉马里博购物与纪念品" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5c1f83d9b57160fa4a54c39f90ee0f12.webp" srcset="/images/5c1f83d9b57160fa4a54c39f90ee0f12-480.webp 480w, /images/5c1f83d9b57160fa4a54c39f90ee0f12.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">The Uma Store</h3>
-<div class="row-meta"><span>时装与鞋履</span><span>Paramaribo</span><span>Tel: +597 861-0540</span></div>
+<div class="row-meta"><span>手工艺品与纪念品</span><span>Paramaribo</span><span>Tel: +597 861-0540</span></div>
 <p class="listing-blurb">The Uma Store 是苏里南一家零售店，出售体现苏里南多元文化的…</p>
 </div>
 </a>
@@ -2696,43 +2739,43 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">The Warehouse Shop 是位于帕拉马里博 Dr. Ir. H.S. Adhinstraat…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/tohora-automotive-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/tohora-automotive-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Tohora Automotive N.V.</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 424-919</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 424-919</span></div>
 <p class="listing-blurb">Tohora Automotive N.V. 是 BMW 在苏里南的授权经销商，位于帕拉马里博 Johan Adolf…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="other" href="listing/tomahawk-outdoor-adventures/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="sports-outdoors" href="listing/tomahawk-outdoor-adventures/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="帕拉马里博的 Tomahawk Outdoor Adventures" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="https://tomahawk.sr/wp-content/uploads/2024/02/tomahawk-logo.png" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Tomahawk Outdoor Adventures</h3>
-<div class="row-meta"><span>其他</span><span>帕拉马里博、Wanica</span><span>4 个网点</span></div>
+<div class="row-meta"><span>运动与户外</span><span>帕拉马里博、Wanica</span><span>4 个网点</span></div>
 <p class="listing-blurb">Tomahawk 是苏里南的一家户外用品店，为户外爱好者提供装备、器材和配件，在帕拉…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/topslager-stolk/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/topslager-stolk/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="帕拉马里博的 Topslager Stolk" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/6767d2ffaf981ae15ce4be2783dab3a6.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Topslager Stolk</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span><span>Tel: +597 442 619</span></div>
+<div class="row-meta"><span>肉类与鱼类</span><span>Paramaribo</span><span>Tel: +597 442 619</span></div>
 <p class="listing-blurb">Topslager Stolk 是苏里南一家高端肉铺，提供优质鲜肉、特色分…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/topsport/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="sports-outdoors" href="listing/topsport/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="帕拉马里博的 Topsport" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8651adb62856d7bda31d82ddea532c0b.webp" srcset="/images/8651adb62856d7bda31d82ddea532c0b-480.webp 480w, /images/8651adb62856d7bda31d82ddea532c0b.webp 1600w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Topsport</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597477633</span></div>
+<div class="row-meta"><span>运动与户外</span><span>Paramaribo</span><span>Tel: +597477633</span></div>
 <p class="listing-blurb">Topsport N.V. 是位于帕拉马里博 Zwartenhovenbrugstraat…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/toys-n-more/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/toys-n-more/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="帕拉马里博的 Toys N More" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/282fee7ba843adfef0b5aece3e9d3388.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Toys N More</h3>
-<div class="row-meta"><span>其他</span><span>Paramaribo</span><span>Tel: +597456379</span></div>
+<div class="row-meta"><span>玩具与礼品</span><span>Paramaribo</span><span>Tel: +597456379</span></div>
 <p class="listing-blurb">Toys N More 是苏里南一家玩具与游戏店，出售可动人偶、桌游、…</p>
 </div>
 </a>
@@ -2744,11 +2787,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">TRADE Outlet Center 是苏里南帕拉马里博的一家建材供应商，经营瓷砖、卫浴洁具…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/traverco-truck-tire-service-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/traverco-truck-tire-service-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="帕拉马里博的 Traverco Truck &amp; Tire Service N.V." class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/c49e34421a3ffe2d3bfd477862d97349.webp" srcset="/images/c49e34421a3ffe2d3bfd477862d97349-480.webp 480w, /images/c49e34421a3ffe2d3bfd477862d97349.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Traverco Truck &amp; Tire Service N.V.</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 404060</span></div>
+<div class="row-meta"><span>配件与零件</span><span>Paramaribo</span><span>Tel: +597 404060</span></div>
 <p class="listing-blurb">Traverco Truck &amp; Tire Service N.V.…</p>
 </div>
 </a>
@@ -2792,11 +2835,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Uni Stone &amp; More 是苏里南帕拉马里博的一家建材供应商，经营瓷砖、卫浴洁具和…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/united-slijterij/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/united-slijterij/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">U</span><img alt="帕拉马里博的 United slijterij" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e3e73e782e733397a15610589fdddb8f.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">United slijterij</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span><span>Tel: +597 862-2522</span></div>
+<div class="row-meta"><span>饮料与酒类</span><span>Paramaribo</span><span>Tel: +597 862-2522</span></div>
 <p class="listing-blurb">位于 Gemenelandsweg 与 Matawarilaan 交叉路口的 United Slijterij 经营啤酒、葡萄酒和烈酒，适合派对…</p>
 </div>
 </a>
@@ -2808,19 +2851,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Unlocked Candles 是帕拉马里博本地的手工蜡烛品牌，出品高端香薰蜡烛。每…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/valconx/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="electronics" href="listing/valconx/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span><img alt="帕拉马里博的 Valcon•X" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/12c443a971d5955115301a8ca88b4640.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Valcon•X</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 865-4864</span></div>
+<div class="row-meta"><span>电子产品与手机</span><span>Paramaribo</span><span>Tel: +597 865-4864</span></div>
 <p class="listing-blurb">Valcon•X 是位于帕拉马里博 Antondrachtenweg 68 的车联网（远程信息处理）公司，提供 GPS 定位跟踪设备。</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/vcm-slagerij-centrum/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/vcm-slagerij-centrum/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span><img alt="帕拉马里博的 VCM Slagerij" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/19e4443090eaaee53e78b68378586f8a.webp" srcset="/images/19e4443090eaaee53e78b68378586f8a-480.webp 480w, /images/19e4443090eaaee53e78b68378586f8a.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">VCM Slagerij</h3>
-<div class="row-meta"><span>食品与特产</span><span>Paramaribo</span><span>3 个网点</span></div>
+<div class="row-meta"><span>肉类与鱼类</span><span>Paramaribo</span><span>3 个网点</span></div>
 <p class="listing-blurb">VCM Slagerij Centrum 是帕拉马里博市中心的一家肉铺，提供优质鲜肉…</p>
 </div>
 </a>
@@ -2840,11 +2883,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Vincent Supermarket 是苏里南一家值得信赖的社区超市，为当地居民提…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/vrv-imports/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/vrv-imports/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span><img alt="帕拉马里博的 VRV Imports" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/3b7465ce5bb709a83c1fd68c27e79eda.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">VRV Imports</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597 855 17 76</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597 855 17 76</span></div>
 <p class="listing-blurb">VRV Imports 是苏里南帕拉马里博的一家汽车企业，提供车辆销售、海运和清关…</p>
 </div>
 </a>
@@ -2904,11 +2947,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ying Hao Beauty Shop 是帕拉马里博一家美妆店，出售化妆品、…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/yokohama-trading/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/yokohama-trading/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Y</span><img alt="帕拉马里博的 Yokohama Trading" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8053f826cf51c43996e9f483cede91cd.webp" srcset="/images/8053f826cf51c43996e9f483cede91cd-480.webp 480w, /images/8053f826cf51c43996e9f483cede91cd.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Yokohama Trading</h3>
-<div class="row-meta"><span>汽车</span><span>Paramaribo</span><span>Tel: +597426842</span></div>
+<div class="row-meta"><span>汽车经销商</span><span>Paramaribo</span><span>Tel: +597426842</span></div>
 <p class="listing-blurb">Yokohama Trading N.V.…</p>
 </div>
 </a>

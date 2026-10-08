@@ -18,7 +18,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="ExploreSR" name="apple-mobile-web-app-title"/>
-<link href="/assets/s-293f386474cd.css" rel="stylesheet"/>
+<link href="/assets/s-63c36bc4a493.css" rel="stylesheet"/>
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
 <link href="/assets/s-12632b0c5234.css" rel="stylesheet"/>
 <link href="/assets/s-3add1bbd5c8c.css" rel="stylesheet"/>
@@ -111,20 +111,30 @@
 <div class="max-w-6xl mx-auto px-5">
 <div class="fbar-row relative flex items-center gap-5 pt-3">
 <div class="fbar-chips flex gap-6 overflow-x-auto pb-1" id="chipbar-shopping" style="scrollbar-width:none;-ms-overflow-style:none">
-<button class="filter-chip chip-active" onclick="filterSub(this,'all')">All <span class="chip-count">337</span></button><button class="filter-chip" onclick="filterSub(this,'malls-markets')">Malls &amp; Markets <span class="chip-count">10</span></button><button class="filter-chip" onclick="filterSub(this,'supermarkets')">Supermarkets <span class="chip-count">10</span></button><button class="filter-chip" onclick="filterSub(this,'fashion-clothing')">Fashion &amp; Shoes <span class="chip-count">35</span></button><button class="filter-chip" onclick="filterSub(this,'electronics')">Electronics <span class="chip-count">21</span></button><button class="filter-chip" onclick="filterSub(this,'home-furniture')">Home &amp; Furniture <span class="chip-count">29</span></button><button class="filter-chip" onclick="filterSub(this,'food-specialty')">Food &amp; Specialty <span class="chip-count">34</span></button><button class="filter-chip" onclick="filterSub(this,'optical-jewelry')">Optical &amp; Jewelry <span class="chip-count">13</span></button><button class="filter-chip" onclick="filterSub(this,'automotive')">Automotive <span class="chip-count">65</span></button><button class="filter-chip" onclick="filterSub(this,'crafts-souvenirs')">Crafts &amp; Souvenirs <span class="chip-count">11</span></button><button class="filter-chip" onclick="filterSub(this,'events-party')">Events &amp; Parties <span class="chip-count">3</span></button><button class="filter-chip" onclick="filterSub(this,'nursery-garden')">Nursery &amp; Garden <span class="chip-count">8</span></button><button class="filter-chip" onclick="filterSub(this,'vet-livestock')">Veterinary &amp; Livestock <span class="chip-count">1</span></button><button class="filter-chip" onclick="filterSub(this,'health-beauty')">Health &amp; Beauty <span class="chip-count">12</span></button><button class="filter-chip" onclick="filterSub(this,'building-materials')">Building Materials <span class="chip-count">55</span></button><button class="filter-chip" onclick="filterSub(this,'other')">Other <span class="chip-count">30</span></button>
+<button class="filter-chip chip-active" data-grp="all" onclick="filterGrp(this,'all')">All <span class="chip-count">337</span></button><button class="filter-chip" data-grp="g-food-drink" onclick="filterGrp(this,'g-food-drink')">Food &amp; Groceries <span class="chip-count">47</span></button><button class="filter-chip" data-grp="g-malls" data-single="1" onclick="filterGrp(this,'g-malls')">Malls &amp; Markets <span class="chip-count">9</span></button><button class="filter-chip" data-grp="g-fashion-beauty" onclick="filterGrp(this,'g-fashion-beauty')">Fashion &amp; Beauty <span class="chip-count">58</span></button><button class="filter-chip" data-grp="g-home-building" onclick="filterGrp(this,'g-home-building')">Home &amp; Building <span class="chip-count">95</span></button><button class="filter-chip" data-grp="g-vehicles" onclick="filterGrp(this,'g-vehicles')">Cars &amp; Vehicles <span class="chip-count">64</span></button><button class="filter-chip" data-grp="g-electronics-office" onclick="filterGrp(this,'g-electronics-office')">Electronics &amp; Office <span class="chip-count">31</span></button><button class="filter-chip" data-grp="g-hobby-gifts" onclick="filterGrp(this,'g-hobby-gifts')">Gifts, Hobby &amp; Party <span class="chip-count">25</span></button><button class="filter-chip" data-grp="g-farm-trade" onclick="filterGrp(this,'g-farm-trade')">Farm &amp; Wholesale <span class="chip-count">8</span></button>
 </div>
 <select aria-label="District" class="dist-sel" id="dist-sel" onchange="filterDistrict(this, this.value)"><option value="all">All districts</option><option value="Paramaribo">Paramaribo</option><option value="Wanica">Wanica</option><option value="Commewijne">Commewijne</option><option value="Para">Para</option><option value="Nickerie">Nickerie</option></select>
 <button aria-controls="chipbar-shopping" aria-expanded="false" class="fbar-more" type="button"><span class="fm-o">More</span><span class="fm-c">Close</span><svg aria-hidden="true" fill="none" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="12"><path d="M6 9l6 6 6-6"></path></svg></button>
 </div>
+<div class="fbar-types" hidden="" id="typebar-shopping"><div class="fbar-chips fbar-tchips flex gap-5 overflow-x-auto pb-1" style="scrollbar-width:none;-ms-overflow-style:none"><button class="filter-chip type-chip" data-grp="g-food-drink" data-sub="all" hidden="" onclick="filterSub(this,'all')">All <span class="chip-count">47</span></button><button class="filter-chip type-chip" data-grp="g-food-drink" data-sub="supermarkets" hidden="" onclick="filterSub(this,'supermarkets')">Supermarkets <span class="chip-count">10</span></button><button class="filter-chip type-chip" data-grp="g-food-drink" data-sub="butchers-meat" hidden="" onclick="filterSub(this,'butchers-meat')">Meat &amp; Fish <span class="chip-count">11</span></button><button class="filter-chip type-chip" data-grp="g-food-drink" data-sub="drinks-liquor" hidden="" onclick="filterSub(this,'drinks-liquor')">Drinks &amp; Liquor <span class="chip-count">8</span></button><button class="filter-chip type-chip" data-grp="g-food-drink" data-sub="food-specialty" hidden="" onclick="filterSub(this,'food-specialty')">Food &amp; Specialty <span class="chip-count">18</span></button><button class="filter-chip type-chip" data-grp="g-malls" data-sub="all" hidden="" onclick="filterSub(this,'all')">All <span class="chip-count">9</span></button><button class="filter-chip type-chip" data-grp="g-malls" data-sub="malls-markets" hidden="" onclick="filterSub(this,'malls-markets')">Malls &amp; Markets <span class="chip-count">9</span></button><button class="filter-chip type-chip" data-grp="g-fashion-beauty" data-sub="all" hidden="" onclick="filterSub(this,'all')">All <span class="chip-count">58</span></button><button class="filter-chip type-chip" data-grp="g-fashion-beauty" data-sub="fashion-clothing" hidden="" onclick="filterSub(this,'fashion-clothing')">Fashion &amp; Shoes <span class="chip-count">33</span></button><button class="filter-chip type-chip" data-grp="g-fashion-beauty" data-sub="optical-jewelry" hidden="" onclick="filterSub(this,'optical-jewelry')">Optical &amp; Jewelry <span class="chip-count">13</span></button><button class="filter-chip type-chip" data-grp="g-fashion-beauty" data-sub="health-beauty" hidden="" onclick="filterSub(this,'health-beauty')">Health &amp; Beauty <span class="chip-count">12</span></button><button class="filter-chip type-chip" data-grp="g-home-building" data-sub="all" hidden="" onclick="filterSub(this,'all')">All <span class="chip-count">95</span></button><button class="filter-chip type-chip" data-grp="g-home-building" data-sub="home-furniture" hidden="" onclick="filterSub(this,'home-furniture')">Home &amp; Furniture <span class="chip-count">26</span></button><button class="filter-chip type-chip" data-grp="g-home-building" data-sub="building-materials" hidden="" onclick="filterSub(this,'building-materials')">Building Materials <span class="chip-count">61</span></button><button class="filter-chip type-chip" data-grp="g-home-building" data-sub="nursery-garden" hidden="" onclick="filterSub(this,'nursery-garden')">Nursery &amp; Garden <span class="chip-count">8</span></button><button class="filter-chip type-chip" data-grp="g-vehicles" data-sub="all" hidden="" onclick="filterSub(this,'all')">All <span class="chip-count">64</span></button><button class="filter-chip type-chip" data-grp="g-vehicles" data-sub="car-dealers" hidden="" onclick="filterSub(this,'car-dealers')">Car Dealers <span class="chip-count">49</span></button><button class="filter-chip type-chip" data-grp="g-vehicles" data-sub="auto-parts" hidden="" onclick="filterSub(this,'auto-parts')">Parts &amp; Accessories <span class="chip-count">15</span></button><button class="filter-chip type-chip" data-grp="g-electronics-office" data-sub="all" hidden="" onclick="filterSub(this,'all')">All <span class="chip-count">31</span></button><button class="filter-chip type-chip" data-grp="g-electronics-office" data-sub="electronics" hidden="" onclick="filterSub(this,'electronics')">Electronics &amp; Phones <span class="chip-count">23</span></button><button class="filter-chip type-chip" data-grp="g-electronics-office" data-sub="books-office" hidden="" onclick="filterSub(this,'books-office')">Books &amp; Office <span class="chip-count">8</span></button><button class="filter-chip type-chip" data-grp="g-hobby-gifts" data-sub="all" hidden="" onclick="filterSub(this,'all')">All <span class="chip-count">25</span></button><button class="filter-chip type-chip" data-grp="g-hobby-gifts" data-sub="crafts-souvenirs" hidden="" onclick="filterSub(this,'crafts-souvenirs')">Crafts &amp; Souvenirs <span class="chip-count">11</span></button><button class="filter-chip type-chip" data-grp="g-hobby-gifts" data-sub="toys-gifts" hidden="" onclick="filterSub(this,'toys-gifts')">Toys &amp; Gifts <span class="chip-count">8</span></button><button class="filter-chip type-chip" data-grp="g-hobby-gifts" data-sub="sports-outdoors" hidden="" onclick="filterSub(this,'sports-outdoors')">Sports &amp; Outdoors <span class="chip-count">3</span></button><button class="filter-chip type-chip" data-grp="g-hobby-gifts" data-sub="events-party" hidden="" onclick="filterSub(this,'events-party')">Events &amp; Parties <span class="chip-count">3</span></button><button class="filter-chip type-chip" data-grp="g-farm-trade" data-sub="all" hidden="" onclick="filterSub(this,'all')">All <span class="chip-count">8</span></button><button class="filter-chip type-chip" data-grp="g-farm-trade" data-sub="vet-livestock" hidden="" onclick="filterSub(this,'vet-livestock')">Farm &amp; Animal Supplies <span class="chip-count">2</span></button><button class="filter-chip type-chip" data-grp="g-farm-trade" data-sub="wholesale-import" hidden="" onclick="filterSub(this,'wholesale-import')">Wholesale &amp; Import <span class="chip-count">6</span></button></div></div>
 </div>
 </div>
 <script>
 var _activeSub  = 'all';
 var _activeDist = 'all';
+var _activeGrp  = 'all';
+var _SUB_GRP    = {"supermarkets": "g-food-drink", "butchers-meat": "g-food-drink", "drinks-liquor": "g-food-drink", "food-specialty": "g-food-drink", "malls-markets": "g-malls", "fashion-clothing": "g-fashion-beauty", "optical-jewelry": "g-fashion-beauty", "health-beauty": "g-fashion-beauty", "home-furniture": "g-home-building", "building-materials": "g-home-building", "nursery-garden": "g-home-building", "car-dealers": "g-vehicles", "auto-parts": "g-vehicles", "automotive": "g-vehicles", "electronics": "g-electronics-office", "books-office": "g-electronics-office", "crafts-souvenirs": "g-hobby-gifts", "toys-gifts": "g-hobby-gifts", "sports-outdoors": "g-hobby-gifts", "events-party": "g-hobby-gifts", "vet-livestock": "g-farm-trade", "wholesale-import": "g-farm-trade", "other": "g-farm-trade"};
+
+/* Type filter, with the group as the fallback when no type is picked. */
+function _subOk(card) {
+  if (_activeSub !== 'all') return card.dataset.sub === _activeSub;
+  if (_activeGrp !== 'all') return _SUB_GRP[card.dataset.sub] === _activeGrp;
+  return true;
+}
 
 function _applyFilters() {
   document.querySelectorAll('.listing-card').forEach(function(card) {
-    var subOk  = _activeSub  === 'all' || card.dataset.sub      === _activeSub;
+    var subOk  = _subOk(card);
     var distOk = _activeDist === 'all' || (card.dataset.district || '').split('|').indexOf(_activeDist) >= 0;
     card.classList.toggle('hidden', !(subOk && distOk));
   });
@@ -138,8 +148,7 @@ function _applyFilters() {
   var distCounts = {};
   var totalVisible = 0;
   document.querySelectorAll('.listing-card').forEach(function(card) {
-    var subOk = _activeSub === 'all' || card.dataset.sub === _activeSub;
-    if (!subOk) return;
+    if (!_subOk(card)) return;
     var ds = (card.dataset.district || 'Paramaribo').split('|');
     for (var di = 0; di < ds.length; di++) { distCounts[ds[di]] = (distCounts[ds[di]] || 0) + 1; }
     totalVisible++;
@@ -162,8 +171,31 @@ function _applyFilters() {
 
 function filterSub(btn, key) {
   _activeSub = key;
-  document.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
+  /* Only this chip's own row: on grouped pages the group stays selected. */
+  btn.parentNode.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
   btn.classList.add('chip-active');
+  _applyFilters();
+  _fbarReveal();
+}
+
+/* Grouped pages: pick a group, then (optionally) one of its types. */
+function filterGrp(btn, grp) {
+  _activeGrp = grp;
+  _activeSub = 'all';
+  btn.parentNode.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
+  btn.classList.add('chip-active');
+  var tb = document.getElementById('typebar-shopping');
+  if (tb) {
+    var show = grp !== 'all' && !btn.hasAttribute('data-single');
+    tb.hidden = !show;
+    tb.querySelectorAll('.type-chip').forEach(function(b) {
+      var mine = b.getAttribute('data-grp') === grp;
+      b.hidden = !mine;
+      b.classList.toggle('chip-active', mine && b.getAttribute('data-sub') === 'all');
+    });
+    var ts = tb.querySelector('.fbar-tchips');
+    if (ts) ts.scrollLeft = 0;
+  }
   _applyFilters();
   _fbarReveal();
 }
@@ -211,9 +243,20 @@ function filterDistrict(el, dist) {
    homepage journey cards since Nature was merged into Things to Do. Silently
    ignored when the key matches no chip on this page. */
 (function() {
-  var want = new URLSearchParams(location.search).get('sub');
-  if (!want || want === 'all') return;
+  var qs = new URLSearchParams(location.search);
+  var want = qs.get('sub'), wantGrp = qs.get('grp');
+  if ((!want || want === 'all') && !wantGrp) return;
   function apply() {
+    /* Grouped pages: ?sub= selects the type's group first, ?grp= a group. */
+    var g = (want && _SUB_GRP[want]) || wantGrp;
+    var gb = g && document.querySelector('#chipbar-shopping .filter-chip[data-grp="' + g + '"]');
+    if (gb) {
+      filterGrp(gb, g);
+      var tc = want && document.querySelector('#typebar-shopping .type-chip[data-sub="' + want + '"]');
+      if (tc && !gb.hasAttribute('data-single')) filterSub(tc, want);
+      return;
+    }
+    if (!want) return;
     var chips = document.querySelectorAll('#chipbar-shopping .filter-chip');
     for (var i = 0; i < chips.length; i++) {
       var oc = chips[i].getAttribute('onclick') || '';
@@ -236,7 +279,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="Farmers World in Wanica" class="w-full h-full object-cover" fetchpriority="high" height="400" loading="eager" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/6de4875210c2f037616f9191727eb2c1.webp" srcset="/images/6de4875210c2f037616f9191727eb2c1-480.webp 480w, /images/6de4875210c2f037616f9191727eb2c1.webp 1120w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Farmers World<span class="row-feat">Featured</span></h3>
-<div class="row-meta"><span>Veterinary &amp; Livestock</span><span>Wanica</span><span>Tel: +597 368813</span></div>
+<div class="row-meta"><span>Farm &amp; Animal Supplies</span><span>Wanica</span><span>Tel: +597 368813</span></div>
 <p class="listing-blurb">Farmers World, trading as Surbola N.V., is Suriname's best known supplier of veterinary medicine and…</p>
 </div>
 </a>
@@ -256,27 +299,27 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">A+ Bouwmaterialen is a building materials supplier in Paramaribo, Suriname, offering plumbing supplies…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/aks-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/aks-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="A.K.S CAR CENTER in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ce7670e303e5e6a7351d70aa572fab27.webp" srcset="/images/ce7670e303e5e6a7351d70aa572fab27-480.webp 480w, /images/ce7670e303e5e6a7351d70aa572fab27.webp 685w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">A.K.S CAR CENTER</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8899939</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 8899939</span></div>
 <p class="listing-blurb">A.K.S CAR CENTER is an automotive business in Paramaribo, Suriname, offering vehicle sales, shipping and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/abs-carhouse/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/abs-carhouse/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="ABS CARHOUSE in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/a1d5ecc2aef377cc6a6a89aef6f35ac5.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">ABS CARHOUSE</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597  53 03 33</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597  53 03 33</span></div>
 <p class="listing-blurb">ABS Carhouse NV is a car dealer with a showroom at Kwattaweg 367 in Paramaribo, selling new cars from brands…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/adex-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/adex-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="ADEX N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/447f0d7800520ea74594947ddcf4aee3.webp" srcset="/images/447f0d7800520ea74594947ddcf4aee3-480.webp 480w, /images/447f0d7800520ea74594947ddcf4aee3.webp 966w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">ADEX N.V.</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 538962</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 538962</span></div>
 <p class="listing-blurb">ADEX N.V. buys, sells and trades in used vehicles and handles the import and export of goods, based at…</p>
 </div>
 </a>
@@ -312,19 +355,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Amada Shopping is a retail centre in Paramaribo with shops and services under one roof. A practical stop for…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/amazone-international-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="wholesale-import" href="listing/amazone-international-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Amazone International NV in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ce4aa5f2d41738bc6252ee720748dc37.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Amazone International NV</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span><span>Tel: +597 546460</span></div>
+<div class="row-meta"><span>Wholesale &amp; Import</span><span>Paramaribo</span><span>Tel: +597 546460</span></div>
 <p class="listing-blurb">Amazone International N.V. is a food and non-food wholesaler and distributor on Nieuwe Charlesburgweg 132 in…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/an-shun-international-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/an-shun-international-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">An Shun International NV</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 480078</span></div>
+<div class="row-meta"><span>Parts &amp; Accessories</span><span>Paramaribo</span><span>Tel: +597 480078</span></div>
 <p class="listing-blurb">An Shun International NV is an automotive business in Paramaribo, Suriname, offering tyres and repairs…</p>
 </div>
 </a>
@@ -336,11 +379,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Anil Store is a building materials supplier in Paramaribo, Suriname, offering tiles, sanitary ware and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/ans-car-imports/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/ans-car-imports/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Ans Car Imports in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/d0b4f57b19a7801c25f3667bd155fb4b.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ans Car Imports</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8508056</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 8508056</span></div>
 <p class="listing-blurb">Ans Car Imports is an automotive business in Paramaribo, Suriname, offering vehicle sales, shipping and…</p>
 </div>
 </a>
@@ -360,11 +403,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">An aquaponics farm in Paramaribo selling vegetables, seedlings, seeds, fruit trees and tilapia.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="other" href="listing/araxs-impex-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="wholesale-import" href="listing/araxs-impex-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Araxs Impex NV in Wanica" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/f0fb1128e17a659d805d05f1eb28a97b.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Araxs Impex NV</h3>
-<div class="row-meta"><span>Other</span><span>Wanica</span></div>
+<div class="row-meta"><span>Wholesale &amp; Import</span><span>Wanica</span></div>
 <p class="listing-blurb">Araxs Impex NV is a business in Wanica, Suriname, offering customs clearance, import and wholesale…</p>
 </div>
 </a>
@@ -372,7 +415,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="ARCHER in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/bc16f858bcbce44c62eb537724cbcd51.webp" srcset="/images/bc16f858bcbce44c62eb537724cbcd51-480.webp 480w, /images/bc16f858bcbce44c62eb537724cbcd51.webp 656w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">ARCHER</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: +597 538333</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597 538333</span></div>
 <p class="listing-blurb">ARCHER is an electronics retailer in Paramaribo, Suriname, offering computers. Located at Wanicaweg 7.</p>
 </div>
 </a>
@@ -392,27 +435,27 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ashley Furniture HomeStore is the Suriname franchise of the American furniture chain, carrying sofas, dining…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="automotive" href="listing/auto-style-franchepanestraat/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="auto-parts" href="listing/auto-style-franchepanestraat/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Auto Style in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/54b2f1778b330f0f5a74c0f8a0959409.webp" srcset="/images/54b2f1778b330f0f5a74c0f8a0959409-480.webp 480w, /images/54b2f1778b330f0f5a74c0f8a0959409.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Auto Style</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo, Wanica</span><span>5 locations</span></div>
+<div class="row-meta"><span>Parts &amp; Accessories</span><span>Paramaribo, Wanica</span><span>5 locations</span></div>
 <p class="listing-blurb">Auto Style Franchepanestraat is a car accessories retailer in Paramaribo carrying audio equipment, seat…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/automotive-art-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/automotive-art-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Automotive Art Suriname in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/12cc219efb89545cdd51d132c0d75475.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Automotive Art Suriname</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 491059</span></div>
+<div class="row-meta"><span>Parts &amp; Accessories</span><span>Paramaribo</span><span>Tel: +597 491059</span></div>
 <p class="listing-blurb">Automotive Art Suriname sells automotive paints and car care products from its stores on Kasabaholoweg and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/autoradar-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/autoradar-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="AutoRadar Suriname in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/acac40859408560e8da6bd7e79556bce.webp" srcset="/images/acac40859408560e8da6bd7e79556bce-480.webp 480w, /images/acac40859408560e8da6bd7e79556bce.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">AutoRadar Suriname</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8594463</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 8594463</span></div>
 <p class="listing-blurb">AutoRadar Suriname is an online car marketplace that brings together vehicles for sale from various car…</p>
 </div>
 </a>
@@ -440,11 +483,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">A food products business at Republiek in Para, selling Babel Food products including through an online shop.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/bdt-import-and-export-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="wholesale-import" href="listing/bdt-import-and-export-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">BDT Import and Export n.v</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 818-4472</span></div>
+<div class="row-meta"><span>Wholesale &amp; Import</span><span>Paramaribo</span><span>Tel: +597 818-4472</span></div>
 <p class="listing-blurb">BDT Import and Export n.v is a business in Paramaribo, Suriname, offering import and export. Located at…</p>
 </div>
 </a>
@@ -472,27 +515,27 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Beyrouth Bazaar is a Lebanese-owned general trading store in central Paramaribo carrying a broad mix of…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/bhaggoes-car-palace/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/bhaggoes-car-palace/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Bhaggoe's Car Palace in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d8c6ca0c2c46e492e296b1421a36e420.webp" srcset="/images/d8c6ca0c2c46e492e296b1421a36e420-480.webp 480w, /images/d8c6ca0c2c46e492e296b1421a36e420.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Bhaggoe's Car Palace</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8946870</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 8946870</span></div>
 <p class="listing-blurb">Bhaggoe's Car Palace is an automotive business in Paramaribo, Suriname, offering vehicle sales. Located at…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/bhondoekhan-s-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/bhondoekhan-s-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Bhondoekhan S n.v. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2d64039b9b9784bb94e99b7384491e98.webp" srcset="/images/2d64039b9b9784bb94e99b7384491e98-480.webp 480w, /images/2d64039b9b9784bb94e99b7384491e98.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Bhondoekhan S n.v.</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 520500</span></div>
+<div class="row-meta"><span>Parts &amp; Accessories</span><span>Paramaribo</span><span>Tel: +597 520500</span></div>
 <p class="listing-blurb">Bhondoekhan S N.V. is an auto parts store and import centre at Weg naar Ma-Retraite 14 in Paramaribo.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/biharies-car-center-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/biharies-car-center-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Biharie's Car Center N.V</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8501333</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 8501333</span></div>
 <p class="listing-blurb">Biharie's Car Center N.V is an automotive business in Paramaribo, Suriname, offering vehicle sales. Located…</p>
 </div>
 </a>
@@ -504,19 +547,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">A boutique clothing store on Wilhelminastraat in Paramaribo, opposite Soeng Ngie, selling womenswear, beauty…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/bmw-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/bmw-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="BMW Suriname in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a4483a9ff13905fb8e39231f0a0f1d15.webp" srcset="/images/a4483a9ff13905fb8e39231f0a0f1d15-480.webp 480w, /images/a4483a9ff13905fb8e39231f0a0f1d15.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">BMW Suriname</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597424919</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597424919</span></div>
 <p class="listing-blurb">BMW Suriname is the official BMW dealership in Paramaribo, offering new BMW passenger cars, SUVs and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/bn-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/bn-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="BN Car Center in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/154cb411b85d98b735927c0eb1c7899c.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">BN Car Center</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8520700</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 8520700</span></div>
 <p class="listing-blurb">BN Car Center is an automotive business in Paramaribo, Suriname, offering vehicle sales, shipping and customs…</p>
 </div>
 </a>
@@ -528,19 +571,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">BN Trading is a home and furniture retailer in Wanica, Suriname, offering import, wholesale distribution and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/boekhandel-kasco/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/boekhandel-kasco/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Boekhandel KASCO, Shopping And Souvenirs in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/7ec174c8b22c9c07b8df08190e71945e.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Boekhandel KASCO</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 476-127</span></div>
+<div class="row-meta"><span>Books &amp; Office</span><span>Paramaribo</span><span>Tel: +597 476-127</span></div>
 <p class="listing-blurb">Boekhandel KASCO is a long-established bookshop on Heerenstraat in central Paramaribo, stocking books, school…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/boekhandel-vaco/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/boekhandel-vaco/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Boekhandel Vaco in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/87ce4759dc72db8a87837f456d46f9d4.webp" srcset="/images/87ce4759dc72db8a87837f456d46f9d4-480.webp 480w, /images/87ce4759dc72db8a87837f456d46f9d4.webp 1600w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Boekhandel Vaco</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 472-545</span></div>
+<div class="row-meta"><span>Books &amp; Office</span><span>Paramaribo</span><span>Tel: +597 472-545</span></div>
 <p class="listing-blurb">Boekhandel Vaco is one of Suriname's oldest and most respected bookstores, offering a broad selection of…</p>
 </div>
 </a>
@@ -568,35 +611,35 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Brilleman is an optician and eyewear store on Heiligenweg in Paramaribo, selling glasses and sunglasses.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/brvehicles-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/brvehicles-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="BrVehicles NV in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/b435d965a3a6db135ecf9196918ea98d.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">BrVehicles NV</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 44 24 70</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 44 24 70</span></div>
 <p class="listing-blurb">BrVehicles NV is a car dealership at Ringweg-Noord 147, on the corner of Helouisestraat in Paramaribo…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="home-furniture" href="listing/building-depot/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="building-materials" href="listing/building-depot/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Building Depot in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="https://media.evendo.com/locations-resized/ShoppingImages/1920x466/b347d2d1-574a-4c21-8c75-afa6e4aedda9" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Building Depot</h3>
-<div class="row-meta"><span>Home &amp; Furniture</span><span>Paramaribo</span><span>Tel: +597546450</span></div>
+<div class="row-meta"><span>Building Materials</span><span>Paramaribo</span><span>Tel: +597546450</span></div>
 <p class="listing-blurb">Building Depot is a major building materials and home improvement retailer in Suriname, offering timber…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/byd-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/byd-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="BYD Suriname in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/16ad470aed4aab9a755e0f804e666d13.webp" srcset="/images/16ad470aed4aab9a755e0f804e666d13-480.webp 480w, /images/16ad470aed4aab9a755e0f804e666d13.webp 1600w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">BYD Suriname</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597407000</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597407000</span></div>
 <p class="listing-blurb">BYD Suriname is the official dealership for BYD electric and hybrid vehicles in Suriname. As EV adoption…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/cm-japan-car-sales/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/cm-japan-car-sales/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="C.M. japan car sales in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/5482a6cb85cef1359b9f5cee59c7f8d1.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">C.M. japan car sales</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8883482</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 8883482</span></div>
 <p class="listing-blurb">C.M. japan car sales is an automotive business in Paramaribo, Suriname, offering vehicle sales and import…</p>
 </div>
 </a>
@@ -608,19 +651,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Calvin Klein clothing and accessories, stocked at Hermitage Mall in Paramaribo.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/car-choice/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/car-choice/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Car Choice in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/25f911260a2f07dd426a61248d06e1b3.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Car Choice</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 7149999</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 7149999</span></div>
 <p class="listing-blurb">Car Choice is an automotive business in Paramaribo, Suriname, offering vehicle sales, shipping and customs…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/carbiz/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/carbiz/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Carbiz</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +59  54 64 88</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +59  54 64 88</span></div>
 <p class="listing-blurb">Carbiz is an automotive business based in Paramaribo, Suriname. Located at Ringweg-Noord 190.</p>
 </div>
 </a>
@@ -628,39 +671,39 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Carib Computers in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/6a7a485df45511401f378e7ec289928a.webp" srcset="/images/6a7a485df45511401f378e7ec289928a-480.webp 480w, /images/6a7a485df45511401f378e7ec289928a.webp 590w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Carib Computers</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: +597 433932</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597 433932</span></div>
 <p class="listing-blurb">Carib Computers is an electronics retailer in Paramaribo, Suriname, offering hardware, repairs and software…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="food-specialty" href="listing/carifruits-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="drinks-liquor" href="listing/carifruits-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Carifruits N.V. in Wanica" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/a73123f93f0f16bdc06b34b60bd58c91.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Carifruits N.V.</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Wanica</span><span>Tel: +597 338-292</span></div>
+<div class="row-meta"><span>Drinks &amp; Liquor</span><span>Wanica</span><span>Tel: +597 338-292</span></div>
 <p class="listing-blurb">Carifruits N.V. is a fruit processing company in Wanica, founded in the late 1990s, that produces fruit-based…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="automotive" href="listing/carline-centrum/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="auto-parts" href="listing/carline-centrum/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Carline in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/a461794f2b7efb3fcb0a002bc08558ee.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Carline</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo, Wanica</span><span>3 locations</span></div>
+<div class="row-meta"><span>Parts &amp; Accessories</span><span>Paramaribo, Wanica</span><span>3 locations</span></div>
 <p class="listing-blurb">An automotive parts store on Dr. Sophie Redmondstraat supplying car parts, accessories and repairs.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/cars4you/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/cars4you/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Cars4you in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4d2a36a529f34b456c1827438589acdc.webp" srcset="/images/4d2a36a529f34b456c1827438589acdc-480.webp 480w, /images/4d2a36a529f34b456c1827438589acdc.webp 685w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Cars4you</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8889283</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 8889283</span></div>
 <p class="listing-blurb">Cars4you is an automotive business in Paramaribo, Suriname, offering vehicle sales, shipping and customs…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/carvision-paramaribo/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/carvision-paramaribo/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Carvision Paramaribo in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/82f890342e667df5d6a0c99cef9a2160.webp" srcset="/images/82f890342e667df5d6a0c99cef9a2160-480.webp 480w, /images/82f890342e667df5d6a0c99cef9a2160.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Carvision Paramaribo</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 546464</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 546464</span></div>
 <p class="listing-blurb">CarVision Paramaribo is a Surinamese car dealership offering a selection of new and used vehicles. Known for…</p>
 </div>
 </a>
@@ -684,7 +727,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Cheung's Center</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: +597 476732</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597 476732</span></div>
 <p class="listing-blurb">Cheung's Center is an electronics and entertainment store in Paramaribo North selling televisions, antennas…</p>
 </div>
 </a>
@@ -704,11 +747,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">CHM Centrum is the central Paramaribo branch of CHM Suriname, a retail chain selling household appliances…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/chm-automotive/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/chm-automotive/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="CHM Automotive in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/a5a40b43ea8373f756c35bc57d63904c.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">CHM Automotive</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8784058</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 8784058</span></div>
 <p class="listing-blurb">CHM Automotive is an automotive business in Paramaribo, Suriname, offering vehicle sales, shipping and…</p>
 </div>
 </a>
@@ -736,11 +779,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Cirkel Group N.V. is a company on Wilhelminastraat in Paramaribo, founded in 1995 as a food distributor, that…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/combe-car-center-parts/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/combe-car-center-parts/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Combe Car Center &amp; Parts in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/dff57e7cd9b26ef43820e53eb1cbd78a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Combe Car Center &amp; Parts</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 52 03 85</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 52 03 85</span></div>
 <p class="listing-blurb">Combe Car Center &amp; Parts is an automotive business in Paramaribo, Suriname, offering vehicle sales, car…</p>
 </div>
 </a>
@@ -752,19 +795,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Combe Markt is a supermarket at Grote Combeweg 121 in Paramaribo that also sells through its webshop.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/community-services-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="building-materials" href="listing/community-services-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Community Services N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/0f15284fd3361b9e6f78199cd9750f38.webp" srcset="/images/0f15284fd3361b9e6f78199cd9750f38-480.webp 480w, /images/0f15284fd3361b9e6f78199cd9750f38.webp 615w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Community Services N.V.</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 550950</span></div>
+<div class="row-meta"><span>Building Materials</span><span>Paramaribo</span><span>Tel: +597 550950</span></div>
 <p class="listing-blurb">Community Services N.V., also known as The Tool King, imports and sells hardware, tools, air conditioners and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Commewijne" data-sub="automotive" href="listing/compagroup-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Commewijne" data-sub="car-dealers" href="listing/compagroup-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="COMPAGROUP N.V in Commewijne" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/3706ced58ab57d4ab85964476122633a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">COMPAGROUP N.V</h3>
-<div class="row-meta"><span>Automotive</span><span>Commewijne</span><span>Tel: +597 35 43 40</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Commewijne</span><span>Tel: +597 35 43 40</span></div>
 <p class="listing-blurb">COMPAGROUP N.V is an automotive business in Commewijne, Suriname, offering vehicle sales, car rental and…</p>
 </div>
 </a>
@@ -772,7 +815,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Computer Hardware Services in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/6698e3a793819a31e249a36d64d5c81f.webp" srcset="/images/6698e3a793819a31e249a36d64d5c81f-480.webp 480w, /images/6698e3a793819a31e249a36d64d5c81f.webp 623w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Computer Hardware Services</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: +597 490066</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597 490066</span></div>
 <p class="listing-blurb">Computer Hardware Services is a Paramaribo IT supplier offering desktop and laptop computers, components…</p>
 </div>
 </a>
@@ -780,7 +823,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Computers &amp; Repairs in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7bc164a90cd18be93499544fa67a99ca.webp" srcset="/images/7bc164a90cd18be93499544fa67a99ca-480.webp 480w, /images/7bc164a90cd18be93499544fa67a99ca.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Computers &amp; Repairs</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: +597 458985</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597 458985</span></div>
 <p class="listing-blurb">Computers &amp; Repairs is an electronics retailer in Paramaribo, Suriname, offering repairs, maintenance and…</p>
 </div>
 </a>
@@ -788,7 +831,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Computronics in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a673a7d76b3653fff341ff84b8438874.webp" srcset="/images/a673a7d76b3653fff341ff84b8438874-480.webp 480w, /images/a673a7d76b3653fff341ff84b8438874.webp 583w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Computronics</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>2 locations</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>2 locations</span></div>
 <p class="listing-blurb">Computronics North is a tech retail and services outlet in northern Paramaribo, offering computers…</p>
 </div>
 </a>
@@ -832,11 +875,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Cute as a Button is a children's clothing and accessories boutique in Paramaribo offering adorable outfits…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/cynsational-glam/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/cynsational-glam/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Cynsational Glam in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7898699249f78061364db30b3b38ed81.webp" srcset="/images/7898699249f78061364db30b3b38ed81-480.webp 480w, /images/7898699249f78061364db30b3b38ed81.webp 960w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Cynsational Glam</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>Crafts &amp; Souvenirs</span><span>Paramaribo</span></div>
 <p class="listing-blurb">Cynsational Glam is a shop on Henck Arronstraat in Paramaribo that calls itself a home of local vendors…</p>
 </div>
 </a>
@@ -852,31 +895,31 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="Da Vinci Enterprises N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1f9dc612c73e997477d3da90f5db892d.webp" srcset="/images/1f9dc612c73e997477d3da90f5db892d-480.webp 480w, /images/1f9dc612c73e997477d3da90f5db892d.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Da Vinci Enterprises N.V.</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: + 597 465130</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: + 597 465130</span></div>
 <p class="listing-blurb">Da Vinci Enterprises N.V., known as Da Vinci Group, runs a chain of retail concepts in Suriname that began in…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/da-zhong-trading/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="wholesale-import" href="listing/da-zhong-trading/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Da Zhong Trading</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 404868</span></div>
+<div class="row-meta"><span>Wholesale &amp; Import</span><span>Paramaribo</span><span>Tel: +597 404868</span></div>
 <p class="listing-blurb">Da Zhong Trading is a business in Paramaribo, Suriname, offering trading. Located at Industrieweg-noord # 41.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/datais-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/datais-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Datai's Car center</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 46 22 62</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 46 22 62</span></div>
 <p class="listing-blurb">Datai's Car center is an automotive business in Paramaribo, Suriname, offering vehicle sales and import…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/datsun-suriname-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/datsun-suriname-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="Datsun Suriname N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8081687744874a0107f410727d15e388.webp" srcset="/images/8081687744874a0107f410727d15e388-480.webp 480w, /images/8081687744874a0107f410727d15e388.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Datsun Suriname N.V.</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 477811</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 477811</span></div>
 <p class="listing-blurb">Datsun Suriname N.V. is the official Nissan and Yamaha dealer of Suriname, located at Wagenwegstraat 53 in…</p>
 </div>
 </a>
@@ -888,11 +931,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Handelsonderneming De Eenheid N.V. is a trading company on Lalarookhweg 47-63 in Paramaribo selling hardware…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/de-keurslager-interfarm/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/de-keurslager-interfarm/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="De Keurslager Interfarm in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/674e1f32d458913e52bcd723d4f19879.webp" srcset="/images/674e1f32d458913e52bcd723d4f19879-480.webp 480w, /images/674e1f32d458913e52bcd723d4f19879.webp 700w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">De Keurslager Interfarm</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span><span>Tel: +597 867-0809</span></div>
+<div class="row-meta"><span>Meat &amp; Fish</span><span>Paramaribo</span><span>Tel: +597 867-0809</span></div>
 <p class="listing-blurb">De Keurslager Interfarm is a premium butcher and meat supplier in Suriname carrying fresh and processed meats…</p>
 </div>
 </a>
@@ -928,11 +971,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Demure N.V. is a women's clothing boutique on Fosforstraat 10-12 in Paramaribo North, selling new fashion…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="malls-markets" href="listing/deto-handelmaatschappij/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="wholesale-import" href="listing/deto-handelmaatschappij/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="Deto Handelmaatschappij in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1d8b314e15c2f8f514864289191a4f7a.webp" srcset="/images/1d8b314e15c2f8f514864289191a4f7a-480.webp 480w, /images/1d8b314e15c2f8f514864289191a4f7a.webp 690w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Deto Handelmaatschappij</h3>
-<div class="row-meta"><span>Malls &amp; Markets</span><span>Paramaribo</span><span>Tel: +597 438-090</span></div>
+<div class="row-meta"><span>Wholesale &amp; Import</span><span>Paramaribo</span><span>Tel: +597 438-090</span></div>
 <p class="listing-blurb">Deto Handelmaatschappij is a Surinamese trading and retail company supplying goods across multiple product…</p>
 </div>
 </a>
@@ -948,15 +991,15 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="Digital World in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a231baed978c7a22bb1784b64bc6d9ec.webp" srcset="/images/a231baed978c7a22bb1784b64bc6d9ec-480.webp 480w, /images/a231baed978c7a22bb1784b64bc6d9ec.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Digital World</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>3 locations</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>3 locations</span></div>
 <p class="listing-blurb">Digital World at Hermitage Mall is an electronics retailer in Suriname stocking smartphones, laptops…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/ditra-international-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="electronics" href="listing/ditra-international-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="Ditra International N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/d9dcbd47afa04796e323dff0541c5932.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ditra International N.V.</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 472304</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597 472304</span></div>
 <p class="listing-blurb">Ditra International N.V. is an electrical and air-conditioning business at Johan Adolf Pengelstraat 18 in…</p>
 </div>
 </a>
@@ -968,11 +1011,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Divergent Body Jewelry is a body piercing and jewellery shop in Suriname stocking body rings, barbells…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/dj-liquor-store/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/dj-liquor-store/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="DJ Liquor Store, Shopping And Souvenirs in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a9dacb08a0dc3772847946dcd83afc18.webp" srcset="/images/a9dacb08a0dc3772847946dcd83afc18-480.webp 480w, /images/a9dacb08a0dc3772847946dcd83afc18.webp 1600w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">DJ Liquor Store</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span><span>Tel: +597 472-226</span></div>
+<div class="row-meta"><span>Drinks &amp; Liquor</span><span>Paramaribo</span><span>Tel: +597 472-226</span></div>
 <p class="listing-blurb">DJ Liquor Store is a drinks retailer in Paramaribo stocking wine, whisky, rum, beer, gin and non-alcoholic…</p>
 </div>
 </a>
@@ -1008,11 +1051,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Drie Ankra on Nieuwe Domineestraat in Paramaribo supplies European materials for making kitchen, bathroom and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/ez-motors/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/ez-motors/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="E.Z. Motors in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/67f8652a802bf8375941dcfca9ce04bb.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">E.Z. Motors</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8518841</span></div>
+<div class="row-meta"><span>Parts &amp; Accessories</span><span>Paramaribo</span><span>Tel: +597 8518841</span></div>
 <p class="listing-blurb">E.Z. Motors, also known as EZ autoparts &amp; bodyshop, is an auto parts and body shop business at Riekelaan 14…</p>
 </div>
 </a>
@@ -1028,23 +1071,23 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="Elan Trading N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f142b9a8a7c49c6684b4411600fbdd21.webp" srcset="/images/f142b9a8a7c49c6684b4411600fbdd21-480.webp 480w, /images/f142b9a8a7c49c6684b4411600fbdd21.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Elan Trading N.V.</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: +597 8409191</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597 8409191</span></div>
 <p class="listing-blurb">Elan Trading N.V. is a computer hardware store at Lisztstraat 9 in Paramaribo, selling computer parts and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/empire-motors-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/empire-motors-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="Empire Motors N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/62c3f331e096da0a8acbd6c468295ca2.webp" srcset="/images/62c3f331e096da0a8acbd6c468295ca2-480.webp 480w, /images/62c3f331e096da0a8acbd6c468295ca2.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Empire Motors N.V.</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 431-313</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 431-313</span></div>
 <p class="listing-blurb">Empire Motors N.V. is a car dealership at Tweede Rijweg 37 in Paramaribo.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/ercon-trading-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="building-materials" href="listing/ercon-trading-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="Ercon Trading NV in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/effb07f2c9e6cf2085580888d45ce86a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ercon Trading NV</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 52 06 82</span></div>
+<div class="row-meta"><span>Building Materials</span><span>Paramaribo</span><span>Tel: +597 52 06 82</span></div>
 <p class="listing-blurb">Ercon Trading N.V. on Prinsenstraat 35 in Paramaribo sells and supplies technical materials and tools, from…</p>
 </div>
 </a>
@@ -1096,11 +1139,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Fasst-itt N.V. sells fasteners and tools, including V-Coil thread repair kits, from J.A. Pengelstraat 105 in…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/fernandes-bottling-company-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/fernandes-bottling-company-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="Fernandes Bottling Company NV in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/1037bbaf1a1f0dd9ac1b8b5dae4e92ae.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Fernandes Bottling Company NV</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span><span>Tel: +597 482121</span></div>
+<div class="row-meta"><span>Drinks &amp; Liquor</span><span>Paramaribo</span><span>Tel: +597 482121</span></div>
 <p class="listing-blurb">Fernandes Bottling Company N.V. is a Surinamese soft drink producer at Indira Gandhiweg 12 in Paramaribo…</p>
 </div>
 </a>
@@ -1112,11 +1155,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Firma R. Ramai is a building materials supplier in Paramaribo, Suriname, offering tiles, sanitary ware and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/fish-finder-fishing-and-outdoors/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="sports-outdoors" href="listing/fish-finder-fishing-and-outdoors/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="Fish Finder Fishing &amp; Outdoors in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e80cf2ffeb68f4ac5eb42ea3b09a2f55.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Fish Finder Fishing &amp; Outdoors</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>Sports &amp; Outdoors</span><span>Paramaribo</span></div>
 <p class="listing-blurb">Fish Finder Fishing &amp; Outdoors is a specialist tackle and outdoor equipment retailer in Suriname, stocking…</p>
 </div>
 </a>
@@ -1132,7 +1175,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="Flex Phones in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/77b7aada0247b20ca3623a8e3781160c.webp" srcset="/images/77b7aada0247b20ca3623a8e3781160c-480.webp 480w, /images/77b7aada0247b20ca3623a8e3781160c.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Flex Phones</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: +597 497-992</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597 497-992</span></div>
 <p class="listing-blurb">Flex Phones is a mobile phone retailer in Paramaribo offering smartphones, SIM cards, accessories and repair…</p>
 </div>
 </a>
@@ -1144,19 +1187,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Footcandy at Hermitage Mall is a footwear retailer in Paramaribo carrying international shoe brands, sneakers…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/foton-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/foton-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="FOTON SURINAME in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/8e286cf66d16411daf7b92e288cef0fd.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">FOTON SURINAME</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 42 64 55</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 42 64 55</span></div>
 <p class="listing-blurb">FOTON SURINAME sells Foton commercial vehicles and pickups, such as the Tunland, from Neumanpad 46 in…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/freshly-squeezed-juice/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/freshly-squeezed-juice/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Freshly Squeezed Juice</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>Drinks &amp; Liquor</span><span>Paramaribo</span></div>
 <p class="listing-blurb">Freshly Squeezed is a young Surinamese company producing fresh juices from local fruit, sold in bottles and…</p>
 </div>
 </a>
@@ -1168,11 +1211,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">From Kay with Love is a Surinamese gift and lifestyle brand offering gift sets, personalised items and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/from-me-to-me/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/from-me-to-me/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="From Me, To Me, Shopping And Souvenirs in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8831a380143d6643d7518ec5a4db5693.webp" srcset="/images/8831a380143d6643d7518ec5a4db5693-480.webp 480w, /images/8831a380143d6643d7518ec5a4db5693.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">From Me, To Me</h3>
-<div class="row-meta"><span>Fashion &amp; Shoes</span><span>Paramaribo</span><span>Tel: +597 869-5727</span></div>
+<div class="row-meta"><span>Toys &amp; Gifts</span><span>Paramaribo</span><span>Tel: +597 869-5727</span></div>
 <p class="listing-blurb">From Me, To Me is a gift and accessories shop in Paramaribo selling jewellery, fashion accessories, travel…</p>
 </div>
 </a>
@@ -1184,11 +1227,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Furniture City Kwatta is a large-format furniture retailer in Paramaribo's Kwatta area, selling home and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="home-furniture" href="listing/galaxy/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/galaxy/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Galaxy, Shopping And Souvenirs in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fc616d54eca59fb5444dcf7e26d405ad.webp" srcset="/images/fc616d54eca59fb5444dcf7e26d405ad-480.webp 480w, /images/fc616d54eca59fb5444dcf7e26d405ad.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Galaxy</h3>
-<div class="row-meta"><span>Home &amp; Furniture</span><span>Paramaribo</span><span>Tel: +597 473-580</span></div>
+<div class="row-meta"><span>Toys &amp; Gifts</span><span>Paramaribo</span><span>Tel: +597 473-580</span></div>
 <p class="listing-blurb">Galaxy is a gift and lifestyle shop in Paramaribo established in 1989 by Noldie Healy and Guido Robles. The…</p>
 </div>
 </a>
@@ -1204,7 +1247,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Game Planet XL in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2ab95bd4ebeea2ee90da6da1bafa122c.webp" srcset="/images/2ab95bd4ebeea2ee90da6da1bafa122c-480.webp 480w, /images/2ab95bd4ebeea2ee90da6da1bafa122c.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Game Planet XL</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: +597 450150</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597 450150</span></div>
 <p class="listing-blurb">Game Planet XL on Gompertstraat sells video games and consoles, handles console repairs and carries gaming…</p>
 </div>
 </a>
@@ -1228,15 +1271,15 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Glow and Gadget</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: +5978889880</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +5978889880</span></div>
 <p class="listing-blurb">A shop on the Dr. Sophie Redmondstraat combining cosmetics with phone sales, accessories and repairs. Two…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/golden-exotic-cars-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/golden-exotic-cars-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Golden Exotic Cars N.V in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7eecfa3d75288a92ce9e29c46b7086c5.webp" srcset="/images/7eecfa3d75288a92ce9e29c46b7086c5-480.webp 480w, /images/7eecfa3d75288a92ce9e29c46b7086c5.webp 680w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Golden Exotic Cars N.V</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 520095</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 520095</span></div>
 <p class="listing-blurb">Golden Exotic Cars N.V. is a car dealership at Keizerstraat 34A in Paramaribo selling new and pre-owned…</p>
 </div>
 </a>
@@ -1288,11 +1331,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Handelmaatschappij B.Sewnath N.V. is a building materials store on Jozef Israelstraat in Paramaribo, selling…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/handelmij-r-nanhoe-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="building-materials" href="listing/handelmij-r-nanhoe-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Handelmij R Nanhoe N.V in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e808914a09077aa29b19f51e5690516a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Handelmij R Nanhoe N.V</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 440160</span></div>
+<div class="row-meta"><span>Building Materials</span><span>Paramaribo</span><span>Tel: +597 440160</span></div>
 <p class="listing-blurb">Handelmij R Nanhoe N.V is a business in Paramaribo, Suriname, offering building materials and trading…</p>
 </div>
 </a>
@@ -1312,11 +1355,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Harry Tjin is a party and packaging supplies shop at Maagdenstraat 35 in Paramaribo.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/hem-suriname-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="wholesale-import" href="listing/hem-suriname-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="HEM Suriname N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/11708f10c5eb5f85c4f4ec10160dfe8f.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">HEM Suriname N.V.</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 472351</span></div>
+<div class="row-meta"><span>Wholesale &amp; Import</span><span>Paramaribo</span><span>Tel: +597 472351</span></div>
 <p class="listing-blurb">HEM Suriname N.V. is an import and distribution company at Hendrikstraat 281 in Paramaribo, supplying a wide…</p>
 </div>
 </a>
@@ -1328,19 +1371,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Hermitage Mall is one of Paramaribo's main shopping centres, housing fashion retailers, opticians…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/highway-automotive-parts/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/highway-automotive-parts/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Highway Automotive Parts in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/da6ede34c7119bde8599b53047216507.webp" srcset="/images/da6ede34c7119bde8599b53047216507-480.webp 480w, /images/da6ede34c7119bde8599b53047216507.webp 682w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Highway Automotive Parts</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 874 05 69</span></div>
+<div class="row-meta"><span>Parts &amp; Accessories</span><span>Paramaribo</span><span>Tel: +597 874 05 69</span></div>
 <p class="listing-blurb">Highway Automotive Parts is a car parts store at Martin Luther Kingweg 77 in Paramaribo that also offers car…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/hj-motors/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/hj-motors/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="HJ Motors in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/888427b27ad23222d03aa9f9d130f5a6.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">HJ Motors</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 401-535</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 401-535</span></div>
 <p class="listing-blurb">HJ Motors is the official importer and distributor of Mazda and Suzuki vehicles, Suzuki Marine outboard…</p>
 </div>
 </a>
@@ -1372,15 +1415,15 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Hsds Lifestyle in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cd224f1772ddbf5587314b89428beb2a.webp" srcset="/images/cd224f1772ddbf5587314b89428beb2a-480.webp 480w, /images/cd224f1772ddbf5587314b89428beb2a.webp 820w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Hsds Lifestyle</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>2 locations</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>2 locations</span></div>
 <p class="listing-blurb">HSDS Lifestyle Noord is the Ringweg-Noord store of Home Shopping &amp; Delivery Service (HSDS) in Paramaribo…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/hummys-import-ace-cars-sales/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/hummys-import-ace-cars-sales/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Hummy's Import - ACE CARS SALES in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/4d9c174757eb5a37d93acc89085956e3.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Hummy's Import - ACE CARS SALES</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 85 91 308</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 85 91 308</span></div>
 <p class="listing-blurb">Hummy's Import - ACE CARS SALES is a car dealership on Indira Gandhiweg in Paramaribo, offering a wide…</p>
 </div>
 </a>
@@ -1416,11 +1459,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Iamchede is a children's clothing boutique at Parijsstraat 12 in Paramaribo.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/innovative-driven-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/innovative-driven-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">I</span><img alt="Innovative Driven N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/350babada8e88dcc13776c0a35634557.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Innovative Driven N.V.</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8814346</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 8814346</span></div>
 <p class="listing-blurb">Innovative Driven Suriname is an electric vehicle dealership on Zinniastraat in Paramaribo.</p>
 </div>
 </a>
@@ -1452,23 +1495,23 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">I</span><img alt="Itrendzz in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cadc4951f423405dce40afb553bdcfc5.webp" srcset="/images/cadc4951f423405dce40afb553bdcfc5-480.webp 480w, /images/cadc4951f423405dce40afb553bdcfc5.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Itrendzz</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: +597499020</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597499020</span></div>
 <p class="listing-blurb">iTrendzZ is an electronics store on Franchepanestraat in Paramaribo selling phones, laptops, cameras, TVs and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/jf-tjoe-a-long-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/jf-tjoe-a-long-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="J.F. Tjoe A Long N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/7668aabff0f8d53c1b84411e6fc53ff0.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">J.F. Tjoe A Long N.V.</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 473481</span></div>
+<div class="row-meta"><span>Parts &amp; Accessories</span><span>Paramaribo</span><span>Tel: +597 473481</span></div>
 <p class="listing-blurb">J.F. Tjoe A Long N.V. is an automotive parts store on Dr. Sophie Redmondstraat in Paramaribo.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Nickerie" data-sub="other" href="listing/jaggernath-group-of-companies/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Nickerie" data-sub="food-specialty" href="listing/jaggernath-group-of-companies/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="Jaggernath Group of Companies in Nickerie" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/6e847c1df60d62b3558941fbdd0ae490.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Jaggernath Group of Companies</h3>
-<div class="row-meta"><span>Other</span><span>Nickerie</span><span>Tel: +597 234677</span></div>
+<div class="row-meta"><span>Food &amp; Specialty</span><span>Nickerie</span><span>Tel: +597 234677</span></div>
 <p class="listing-blurb">Jaggernath Group of Companies, known for its Jagger Rice brand, produces and exports rice from…</p>
 </div>
 </a>
@@ -1488,11 +1531,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Janelle's Shoes &amp; Bags is a women's accessories boutique in Paramaribo specialising in handbags, heels…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/japan-motors/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/japan-motors/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="Japan Motors in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8fd1065afe023b121f9e9b92ccb924b2.webp" srcset="/images/8fd1065afe023b121f9e9b92ccb924b2-480.webp 480w, /images/8fd1065afe023b121f9e9b92ccb924b2.webp 966w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Japan Motors</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 857 9405</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 857 9405</span></div>
 <p class="listing-blurb">Japan Motors is a car dealership at Tweekinderenweg and Voltastraat in Paramaribo selling Japanese vehicles…</p>
 </div>
 </a>
@@ -1560,11 +1603,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Kasimex on Indira Gandhiweg is a branch of Kasimex, the Surinamese retailer of building materials, tiles…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/kersten-motors-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/kersten-motors-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kersten Motors N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/30488a1bb3b4068c1cae34d361b6e872.webp" srcset="/images/30488a1bb3b4068c1cae34d361b6e872-480.webp 480w, /images/30488a1bb3b4068c1cae34d361b6e872.webp 950w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Kersten Motors N.V.</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 402833</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 402833</span></div>
 <p class="listing-blurb">Kersten Motors N.V., part of the Kersten Group of Companies, is the official license holder of Toyota…</p>
 </div>
 </a>
@@ -1592,19 +1635,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Kirpalani’s N.V., an active enterprise situated in the center of Paramaribo, has evolved into a well-known…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/kokos-auto-parts-service/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/kokos-auto-parts-service/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Koko's Auto Parts &amp; Service</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 435257</span></div>
+<div class="row-meta"><span>Parts &amp; Accessories</span><span>Paramaribo</span><span>Tel: +597 435257</span></div>
 <p class="listing-blurb">Koko's Auto Parts &amp; Service is an auto parts and repair shop at Kwattaweg 494 in Paramaribo, offering wheel…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/kwatta-carfix/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/kwatta-carfix/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kwatta Carfix in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/035fc6fd6259f7ac2952929dfd047427.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Kwatta Carfix</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>Parts &amp; Accessories</span><span>Paramaribo</span></div>
 <p class="listing-blurb">A tyre dealer at Kwatta in Paramaribo, trading as the banden supermarket.</p>
 </div>
 </a>
@@ -1616,11 +1659,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ladybug Nursery &amp; Garden Center is a plant shop and garden supply store in Paramaribo stocking ornamental…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/landbouw-cooperatie-kwatta-en-omstreken/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="vet-livestock" href="listing/landbouw-cooperatie-kwatta-en-omstreken/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">L</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Landbouw Cooperatie Kwatta en Omstreken</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 436844</span></div>
+<div class="row-meta"><span>Farm &amp; Animal Supplies</span><span>Paramaribo</span><span>Tel: +597 436844</span></div>
 <p class="listing-blurb">Landbouw Cooperatie Kwatta en Omstreken is a business in Paramaribo, Suriname, offering agricultural supplies…</p>
 </div>
 </a>
@@ -1680,11 +1723,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Lins Super Market is a supermarket in Suriname stocking fresh produce, groceries, cold drinks and household…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/lnr-imports/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/lnr-imports/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">L</span><img alt="LnR Imports in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/8490ae38b8fe58a235aca6280c14079e.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">LnR Imports</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 850 25 95</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 850 25 95</span></div>
 <p class="listing-blurb">LnR Imports is an automotive business in Paramaribo, Suriname, offering vehicle sales and import. Located at…</p>
 </div>
 </a>
@@ -1696,27 +1739,27 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Lucky Store is a department store on Jodenbreestraat in Paramaribo selling household appliances, kitchenware…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/luni-gifts/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/luni-gifts/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">L</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Luni Gifts</h3>
-<div class="row-meta"><span>Crafts &amp; Souvenirs</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>Toys &amp; Gifts</span><span>Paramaribo</span></div>
 <p class="listing-blurb">A gift and beauty shop on Schietbaanweg in Paramaribo.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/luxatic-motors/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/luxatic-motors/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">L</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Luxatic motors</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8732002</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 8732002</span></div>
 <p class="listing-blurb">Luxatic Motors is an automotive business on Ringweg Zuid in Paramaribo that focuses on affordable luxury cars.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/mn-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/mn-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">M&amp;N Car Center</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span></div>
 <p class="listing-blurb">A car dealership on Belladonnastraat in Paramaribo, well rated by buyers.</p>
 </div>
 </a>
@@ -1768,11 +1811,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">MICHI Natural Foods N.V. is a Surinamese food manufacturer at Michilaan 5 in Paramaribo, making natural food…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/mikes-autoparts-accessories-repair/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/mikes-autoparts-accessories-repair/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Mike's Autoparts Accessories &amp; Repair in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7ed1429a3a6f5c603aa296a7cbd317da.webp" srcset="/images/7ed1429a3a6f5c603aa296a7cbd317da-480.webp 480w, /images/7ed1429a3a6f5c603aa296a7cbd317da.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Mike's Autoparts Accessories &amp; Repair</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8522420</span></div>
+<div class="row-meta"><span>Parts &amp; Accessories</span><span>Paramaribo</span><span>Tel: +597 8522420</span></div>
 <p class="listing-blurb">Mike's Autoparts Accessories &amp; Repair is an automotive business in Paramaribo, Suriname, offering vehicle…</p>
 </div>
 </a>
@@ -1784,19 +1827,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Mimi Market is a neighbourhood grocery store in Paramaribo offering fresh products, pantry essentials and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/ming-kee-autoparts-accessories/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/ming-kee-autoparts-accessories/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Ming Kee Autoparts &amp; Accessories in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8fa0799a7fca09faf7041446c658e097.webp" srcset="/images/8fa0799a7fca09faf7041446c658e097-480.webp 480w, /images/8fa0799a7fca09faf7041446c658e097.webp 693w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ming Kee Autoparts &amp; Accessories</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 411713</span></div>
+<div class="row-meta"><span>Parts &amp; Accessories</span><span>Paramaribo</span><span>Tel: +597 411713</span></div>
 <p class="listing-blurb">Ming Kee Autoparts &amp; Accessories is an automotive business in Paramaribo, Suriname, offering vehicle sales…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/miniso-gompertstraat/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/miniso-gompertstraat/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Miniso in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a097b146a4250b963228f07969875ea2.webp" srcset="/images/a097b146a4250b963228f07969875ea2-480.webp 480w, /images/a097b146a4250b963228f07969875ea2.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Miniso</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>2 locations</span></div>
+<div class="row-meta"><span>Toys &amp; Gifts</span><span>Paramaribo</span><span>2 locations</span></div>
 <p class="listing-blurb">Miniso on Gompertstraat is a branch of the popular Japanese lifestyle brand, offering affordable design-led…</p>
 </div>
 </a>
@@ -1812,7 +1855,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Mobile King</h3>
-<div class="row-meta"><span>Electronics</span><span>Commewijne</span><span>Tel: +597355055</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Commewijne</span><span>Tel: +597355055</span></div>
 <p class="listing-blurb">A phone shop at Meerzorg on the Oost-West Verbinding, selling handsets and accessories and handling repairs…</p>
 </div>
 </a>
@@ -1856,27 +1899,27 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">N.V. 82 Trading is a roofing sheet specialist selling roofing, wall cladding, timber and other building…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="home-furniture" href="listing/nv-devinas-enterprises/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/nv-devinas-enterprises/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="N.V. Devina's Enterprises in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b65a234945558b09ccfac1b6d3813d72.webp" srcset="/images/b65a234945558b09ccfac1b6d3813d72-480.webp 480w, /images/b65a234945558b09ccfac1b6d3813d72.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">N.V. Devina's Enterprises</h3>
-<div class="row-meta"><span>Home &amp; Furniture</span><span>Paramaribo</span><span>Tel: +597 477509</span></div>
+<div class="row-meta"><span>Books &amp; Office</span><span>Paramaribo</span><span>Tel: +597 477509</span></div>
 <p class="listing-blurb">N.V. Devina's Enterprises at Gemenelandsweg 82 in Paramaribo sells office supplies, office technology and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Suriname" data-sub="other" href="listing/nv-drukkerij-leo-victor/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Suriname" data-sub="books-office" href="listing/nv-drukkerij-leo-victor/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="N.V. Drukkerij Leo Victor in Suriname" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/3db0a38ec2d6f59bd0a546a674d8e8d2.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">N.V. Drukkerij Leo Victor</h3>
-<div class="row-meta"><span>Other</span><span>Tel: +597 410122</span></div>
+<div class="row-meta"><span>Books &amp; Office</span><span>Tel: +597 410122</span></div>
 <p class="listing-blurb">N.V. Drukkerij Leo Victor is one of the oldest and largest printing companies in Suriname, in business for…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/nv-guimar/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="building-materials" href="listing/nv-guimar/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="N.V. Guimar in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/3d604f076829c8e02dcfc6b1dbf1a038.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">N.V. Guimar</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 420119</span></div>
+<div class="row-meta"><span>Building Materials</span><span>Paramaribo</span><span>Tel: +597 420119</span></div>
 <p class="listing-blurb">N.V. Guimar is an ISO 9001 certified supplier of PVC products on Nieuwe Charlesburgweg in Paramaribo.</p>
 </div>
 </a>
@@ -1896,11 +1939,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">N.V. VSH FOODS, formerly the Margarine en Vetten Fabriek and part of VSH United, manufactures butter…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/nv-vsh-trading-canon/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/nv-vsh-trading-canon/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="N.V. VSH TRADING - Canon in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/91d1f5715dad9ec37434c81086126787.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">N.V. VSH TRADING - Canon</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 403277</span></div>
+<div class="row-meta"><span>Books &amp; Office</span><span>Paramaribo</span><span>Tel: +597 403277</span></div>
 <p class="listing-blurb">VSH Trading, part of VSH United and active since 1978, is the authorized distributor of Canon printers…</p>
 </div>
 </a>
@@ -1912,11 +1955,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">N.V. Graniet supplies decorative building materials, specialising in natural stone products such as tiles…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/nakaso-auto-parts-sales/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/nakaso-auto-parts-sales/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="Nakaso Auto &amp; Parts Sales in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ad6f08ce3c8f202dc4dca1a1f5ec4bb2.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Nakaso Auto &amp; Parts Sales</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 897 75 35</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 897 75 35</span></div>
 <p class="listing-blurb">Nakaso Auto &amp; Parts Sales is a car dealership selling vehicles and parts at the corner of Washingtonstraat…</p>
 </div>
 </a>
@@ -1936,11 +1979,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ni-Ké Meubel en Interieur Accessoires is the BLUM representative in Suriname, giving expert advice on…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/nishika-enterprise-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/nishika-enterprise-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="Nishika Enterprise N.V in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e955e8d8468765337959164aae2561ab.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Nishika Enterprise N.V</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8793945</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 8793945</span></div>
 <p class="listing-blurb">Nishika Enterprise N.V is an automotive business in Paramaribo, Suriname, offering vehicle sales and import…</p>
 </div>
 </a>
@@ -1964,7 +2007,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="Office Electronics in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/931f0487f4381a2bc6318705d72998fe.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Office Electronics</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: +597 420643</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597 420643</span></div>
 <p class="listing-blurb">Office Electronics is an electronics retailer based in Paramaribo, Suriname. Located at Malebatrum Street 6.</p>
 </div>
 </a>
@@ -1976,19 +2019,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Office Furniture, at Gemenelandsweg 57 in Paramaribo, has sold office furniture and office supplies since…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="other" href="listing/office-world-hermitage-mall/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="books-office" href="listing/office-world-hermitage-mall/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="Office World in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/55921b518909d033d4abd063a002fdab.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Office World</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo, Wanica</span><span>2 locations</span></div>
+<div class="row-meta"><span>Books &amp; Office</span><span>Paramaribo, Wanica</span><span>2 locations</span></div>
 <p class="listing-blurb">Office World at Hermitage Mall is a stationery and office supplies retailer in Paramaribo carrying paper…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/one-autoparts-store/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/one-autoparts-store/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="One Autoparts Store in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9fcfdf9a81ff1f577875abb190127b13.webp" srcset="/images/9fcfdf9a81ff1f577875abb190127b13-480.webp 480w, /images/9fcfdf9a81ff1f577875abb190127b13.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">One Autoparts Store</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 433967</span></div>
+<div class="row-meta"><span>Parts &amp; Accessories</span><span>Paramaribo</span><span>Tel: +597 433967</span></div>
 <p class="listing-blurb">One Autoparts Store is an automotive business in Paramaribo, Suriname, offering vehicle sales, spare parts…</p>
 </div>
 </a>
@@ -2056,11 +2099,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Outdoor Living is a garden and outdoor furniture store on Hooge Straat in Paramaribo, selling rattan, wooden…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/pandie/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/pandie/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Pandie in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9b7502f31defbd45bf4123892dce67e9.webp" srcset="/images/9b7502f31defbd45bf4123892dce67e9-480.webp 480w, /images/9b7502f31defbd45bf4123892dce67e9.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Pandie</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>Toys &amp; Gifts</span><span>Paramaribo</span></div>
 <p class="listing-blurb">Pandie is a children's toy and educational play store in Paramaribo. With the tagline 'Samen spelen, leren &amp;…</p>
 </div>
 </a>
@@ -2076,31 +2119,31 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="PCX Computers in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4d5433dcc05205ae2c19c6450fe3a21f.webp" srcset="/images/4d5433dcc05205ae2c19c6450fe3a21f-480.webp 480w, /images/4d5433dcc05205ae2c19c6450fe3a21f.webp 966w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">PCX Computers</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: +597 441563</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597 441563</span></div>
 <p class="listing-blurb">PCX Computers is a computer store on Washingtonstraat in Paramaribo selling computers, laptops and parts…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/perfect-cars/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/perfect-cars/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Perfect Car's</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8777477</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 8777477</span></div>
 <p class="listing-blurb">Perfect Car's is an automotive business in Paramaribo, Suriname, offering vehicle sales, property valuation…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/philipson-trading/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/philipson-trading/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Philipson Trading</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 40 22 98</span></div>
+<div class="row-meta"><span>Parts &amp; Accessories</span><span>Paramaribo</span><span>Tel: +597 40 22 98</span></div>
 <p class="listing-blurb">Philipson Trading is a store at Van 't Hogerhuysstraat 35 in Paramaribo selling car batteries and outboard…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/platinum-quality-cars-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/platinum-quality-cars-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Platinum Quality Cars NV in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e8bddbd8b7012c1fea3f2ceba0170999.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Platinum Quality Cars NV</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 897 10 52</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 897 10 52</span></div>
 <p class="listing-blurb">Platinum Quality Cars NV is a car dealership at Toevluchtweg 63 in Paramaribo that buys and sells new and…</p>
 </div>
 </a>
@@ -2112,27 +2155,27 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">The Point Plaza store on the Leysweg at Tammenga, the largest of the chain's Paramaribo locations.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/powerful-automotive/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/powerful-automotive/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Powerful Automotive</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 49 23 18</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 49 23 18</span></div>
 <p class="listing-blurb">Powerful Automotive is an automotive business in Paramaribo, Suriname, offering vehicle sales, customs…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/pristine-car-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/pristine-car-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Pristine Car NV in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7a1384e039b9b49c26ef09cafd91bf78.webp" srcset="/images/7a1384e039b9b49c26ef09cafd91bf78-480.webp 480w, /images/7a1384e039b9b49c26ef09cafd91bf78.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Pristine Car NV</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8557951</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 8557951</span></div>
 <p class="listing-blurb">Pristine Car NV is the official Hyundai dealer in Suriname, selling models such as the Hyundai Tucson and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/prodimex-international-inc/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/prodimex-international-inc/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Prodimex International Inc. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/2934914b8ad5c817c5869da873469062.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Prodimex International Inc.</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 402727</span></div>
+<div class="row-meta"><span>Books &amp; Office</span><span>Paramaribo</span><span>Tel: +597 402727</span></div>
 <p class="listing-blurb">Prodimex International, founded in 1973, is an office supplies wholesaler and retailer at J.A. Pengelstraat…</p>
 </div>
 </a>
@@ -2160,27 +2203,27 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">R. Durga &amp; Sons N.V. is a woodworking company on Sir Winston Churchillweg in Paramaribo producing Ipé…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="automotive" href="listing/ramasre-cars-parts/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="car-dealers" href="listing/ramasre-cars-parts/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Ramasre Cars &amp; Parts in Wanica" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/9fef168b89fe565cd32d5c697f827f22.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ramasre Cars &amp; Parts</h3>
-<div class="row-meta"><span>Automotive</span><span>Wanica</span><span>Tel: +597 7221071</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Wanica</span><span>Tel: +597 7221071</span></div>
 <p class="listing-blurb">Ramasre Cars &amp; Parts is an automotive business in Wanica, Suriname, offering vehicle sales and import…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="automotive" href="listing/ramcharans-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="car-dealers" href="listing/ramcharans-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Ramcharan’s Car Center in Wanica" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/74e24bced75a2e1453f437902859126a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ramcharan’s Car Center</h3>
-<div class="row-meta"><span>Automotive</span><span>Wanica</span><span>Tel: +597 852 69 48</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Wanica</span><span>Tel: +597 852 69 48</span></div>
 <p class="listing-blurb">Ramcharan’s Car Center is an automotive business in Wanica, Suriname, offering vehicle sales, shipping and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="automotive" href="listing/ramons-car-center/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="car-dealers" href="listing/ramons-car-center/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ramons Car Center</h3>
-<div class="row-meta"><span>Automotive</span><span>Wanica</span><span>Tel: +597 58 01 65</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Wanica</span><span>Tel: +597 58 01 65</span></div>
 <p class="listing-blurb">Ramon's Car Center in Lelydorp sells used cars, buses and mopeds in A1 condition from Indira Gandhiweg 192…</p>
 </div>
 </a>
@@ -2216,11 +2259,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">A care and mobility shop on Flustraat in Paramaribo, opposite the AZ pharmacy, selling and renting care…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="automotive" href="listing/rezaam-car-sales/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Wanica" data-sub="car-dealers" href="listing/rezaam-car-sales/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Rezaam Car Sales in Wanica" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ff129c781cbf9258e94a6501c84cf427.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Rezaam Car Sales</h3>
-<div class="row-meta"><span>Automotive</span><span>Wanica</span><span>Tel: +597 8513792</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Wanica</span><span>Tel: +597 8513792</span></div>
 <p class="listing-blurb">Rezaam Car Sales is an automotive business in Wanica, Suriname, offering vehicle sales, customs clearance and…</p>
 </div>
 </a>
@@ -2236,15 +2279,15 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Ring Ring Imports in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/628701b8ad23da378bb73551c21d5288.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ring Ring Imports</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: +597 896-1969</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597 896-1969</span></div>
 <p class="listing-blurb">Ring Ring Imports is a Surinamese tech and electronics importer offering a range of devices, accessories and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/rock-cars/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/rock-cars/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Rock Cars in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/43350a295f2d9a66f58d9875e006c69f.webp" srcset="/images/43350a295f2d9a66f58d9875e006c69f-480.webp 480w, /images/43350a295f2d9a66f58d9875e006c69f.webp 678w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Rock Cars</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 8888770</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 8888770</span></div>
 <p class="listing-blurb">Rock Cars is an automotive business in Paramaribo, Suriname, offering vehicle sales and import. Located at…</p>
 </div>
 </a>
@@ -2256,19 +2299,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Rogom Farm N.V. is an agricultural layer hen operation in Suriname producing fresh eggs and egg-based…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/ronan-s-trading-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="building-materials" href="listing/ronan-s-trading-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Ronan 's Trading NV in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/344676ed153c4447a3d40748313a642d.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Ronan 's Trading NV</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 451070</span></div>
+<div class="row-meta"><span>Building Materials</span><span>Paramaribo</span><span>Tel: +597 451070</span></div>
 <p class="listing-blurb">Ronan 's Trading NV is a business in Paramaribo, Suriname, offering building materials and trading. Located…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="food-specialty" href="listing/rossignol-coppename/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="butchers-meat" href="listing/rossignol-coppename/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Rossignol in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/6180e384d7a4a65c14509ae6b6d44432.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Rossignol</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo, Wanica</span><span>6 locations</span></div>
+<div class="row-meta"><span>Meat &amp; Fish</span><span>Paramaribo, Wanica</span><span>6 locations</span></div>
 <p class="listing-blurb">Rossignol Coppename is a Paramaribo branch of Rossignol, a Surinamese butcher chain selling quality local…</p>
 </div>
 </a>
@@ -2280,11 +2323,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Royal Panel sells PVC wall panelling and decorative mouldings from its store at Trombonestraat 135 in…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/royal-tobacco-company-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/royal-tobacco-company-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Royal Tobacco Company N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e66d91dff864cc4194071d02ac1003bc.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Royal Tobacco Company N.V.</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span></div>
 <p class="listing-blurb">Royal Tobacco Company N.V. is a tobacco company with a cigarette factory in Paramaribo, linked to Royal…</p>
 </div>
 </a>
@@ -2316,15 +2359,15 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Sam Tronix</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo, Wanica</span><span>2 locations</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo, Wanica</span><span>2 locations</span></div>
 <p class="listing-blurb">Sam Tronix is a Samsung specialist in Paramaribo carrying phones, tablets, wearables and accessories, with…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/sanousch-books/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="books-office" href="listing/sanousch-books/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Sanousch Books in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/b5d5d2313c0b3e0aa9c6ce975412c045.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Sanousch Books</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 478 697</span></div>
+<div class="row-meta"><span>Books &amp; Office</span><span>Paramaribo</span><span>Tel: +597 478 697</span></div>
 <p class="listing-blurb">Sanousch Books is a bookstore in Paramaribo stocking books, stationery and educational materials. One of the…</p>
 </div>
 </a>
@@ -2336,19 +2379,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Sash Fashion at Hermitage Mall is a women's clothing boutique offering current styles, accessories and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/sbt-suriname/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/sbt-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="SBT Suriname in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ceb6ee1d373c700acea38227571f86d9.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">SBT Suriname</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 45 47 16</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 45 47 16</span></div>
 <p class="listing-blurb">SBT Suriname is the Paramaribo office of Japanese used-car exporter SBT, opened in 2015, selling Japanese…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/schols-imports/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/schols-imports/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Schols Imports in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ab2a4fc0c8a39293c9a990d573d92eed.webp" srcset="/images/ab2a4fc0c8a39293c9a990d573d92eed-480.webp 480w, /images/ab2a4fc0c8a39293c9a990d573d92eed.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Schols Imports</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 86 25 246</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 86 25 246</span></div>
 <p class="listing-blurb">Schols Imports is an automotive business in Paramaribo, Suriname, offering vehicle sales, shipping and…</p>
 </div>
 </a>
@@ -2368,11 +2411,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">SEAN Trading is a hardware store at Franchepanestraat 46 in Paramaribo selling sanitary ware, plumbing and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/semc-motors-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/semc-motors-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="SEMC Motors N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cab55b3ffa26fb527e6ed26d1850deb9.webp" srcset="/images/cab55b3ffa26fb527e6ed26d1850deb9-480.webp 480w, /images/cab55b3ffa26fb527e6ed26d1850deb9.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">SEMC Motors N.V.</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 433377</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 433377</span></div>
 <p class="listing-blurb">SEMC Motors N.V. is the official Ford dealer in Suriname, on Kernkampweg in Paramaribo, also handling Land…</p>
 </div>
 </a>
@@ -2420,7 +2463,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="SIOC N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b0db975a251e014e2e1615e93809a972.webp" srcset="/images/b0db975a251e014e2e1615e93809a972-480.webp 480w, /images/b0db975a251e014e2e1615e93809a972.webp 660w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">SIOC N.V.</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: +597 438029</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597 438029</span></div>
 <p class="listing-blurb">SIOC N.V. (Suriname Information &amp; Organization Consultancy) is an IT company on Veldhuizenlaan in Paramaribo…</p>
 </div>
 </a>
@@ -2432,35 +2475,35 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">The Skechers store inside Hermitage Mall on Lalla Rookhweg.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/slagerij-abbas/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/slagerij-abbas/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Slagerij Abbas in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/b85f2fee2f293281a376709e00f0c886.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Slagerij Abbas</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span><span>Tel: 432-233</span></div>
+<div class="row-meta"><span>Meat &amp; Fish</span><span>Paramaribo</span><span>Tel: 432-233</span></div>
 <p class="listing-blurb">Slagerij Abbas is a halal-certified butcher shop in Paramaribo carrying fresh meat cuts across beef, lamb…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/slagerij-asruf/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/slagerij-asruf/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Slagerij Asruf in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/c1e98a970fd16b5f7fc77b20f0a4de9e.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Slagerij Asruf</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span></div>
+<div class="row-meta"><span>Meat &amp; Fish</span><span>Paramaribo</span></div>
 <p class="listing-blurb">Slagerij Asruf is a reputable butcher shop in Paramaribo providing quality fresh meats, speciality cuts and a…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/slagerij-joems/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/slagerij-joems/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Slagerij Joem's in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/df129a0fc0edae8f7040aa3a9f34b8d5.webp" srcset="/images/df129a0fc0edae8f7040aa3a9f34b8d5-480.webp 480w, /images/df129a0fc0edae8f7040aa3a9f34b8d5.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Slagerij Joem's</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span><span>Tel: +597 459525</span></div>
+<div class="row-meta"><span>Meat &amp; Fish</span><span>Paramaribo</span><span>Tel: +597 459525</span></div>
 <p class="listing-blurb">Slagerij Joem's is a butcher in Paramaribo selling fresh meat, with shops on Bonistraat 155 in Geyersvlijt…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/slagerij-stolk/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/slagerij-stolk/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Slagerij Stolk in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5c1006efd72bea856c56dd05437d459f.webp" srcset="/images/5c1006efd72bea856c56dd05437d459f-480.webp 480w, /images/5c1006efd72bea856c56dd05437d459f.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Slagerij Stolk</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span><span>Tel: +597551133</span></div>
+<div class="row-meta"><span>Meat &amp; Fish</span><span>Paramaribo</span><span>Tel: +597551133</span></div>
 <p class="listing-blurb">Slagerij Stolk is a well-established Surinamese butcher known for quality fresh meats, cold cuts and…</p>
 </div>
 </a>
@@ -2484,7 +2527,7 @@ function filterDistrict(el, dist) {
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Smart Connexxionz in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3a65cb3b2492a500ee8e81b454b77f0e.webp" srcset="/images/3a65cb3b2492a500ee8e81b454b77f0e-480.webp 480w, /images/3a65cb3b2492a500ee8e81b454b77f0e.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Smart Connexxionz</h3>
-<div class="row-meta"><span>Electronics</span><span>Paramaribo</span><span>Tel: +597355404</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597355404</span></div>
 <p class="listing-blurb">Smart ConneXXionZ N.V. is an electronics retailer on Leysweg in Paramaribo selling smartphones, laptops, TVs…</p>
 </div>
 </a>
@@ -2504,11 +2547,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Soengngie Mega Store is a large-format retailer in Suriname offering a broad range of goods from food and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="malls-markets" href="listing/soengngie-oriental-market/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/soengngie-oriental-market/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Soengngie Oriental Market in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/b98e1a17a741b72e54b9de883c67d583.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Soengngie Oriental Market</h3>
-<div class="row-meta"><span>Malls &amp; Markets</span><span>Paramaribo</span><span>Tel: +597 550140</span></div>
+<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span><span>Tel: +597 550140</span></div>
 <p class="listing-blurb">Soengngie Oriental Market is an Asian specialty food shop in Suriname stocking Chinese, Indonesian and…</p>
 </div>
 </a>
@@ -2520,11 +2563,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">SOS Handelmij NV is an interior furnishing company on New Delhistraat 26 in Paramaribo that handles…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="food-specialty" href="listing/sranan-fowru/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="butchers-meat" href="listing/sranan-fowru/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Sranan Fowru in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7fdea8d871f028a09bdd2b65fc83ff83.webp" srcset="/images/7fdea8d871f028a09bdd2b65fc83ff83-480.webp 480w, /images/7fdea8d871f028a09bdd2b65fc83ff83.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Sranan Fowru</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo, Wanica</span><span>10 locations</span></div>
+<div class="row-meta"><span>Meat &amp; Fish</span><span>Paramaribo, Wanica</span><span>10 locations</span></div>
 <p class="listing-blurb">Sranan Fowru is Suriname's largest fresh chicken wholesaler and retail butcher, supplying whole chickens…</p>
 </div>
 </a>
@@ -2536,11 +2579,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">An optician on Zwartenhovenbrugstraat in Paramaribo, selling glasses and eyewear.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/stedin-speciaal-slagerij/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/stedin-speciaal-slagerij/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Stedin Speciaalslagerij in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f100f65654a1e608791673aaa129c475.webp" srcset="/images/f100f65654a1e608791673aaa129c475-480.webp 480w, /images/f100f65654a1e608791673aaa129c475.webp 720w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Stedin Speciaalslagerij</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span><span>Tel: +597 431-161</span></div>
+<div class="row-meta"><span>Meat &amp; Fish</span><span>Paramaribo</span><span>Tel: +597 431-161</span></div>
 <p class="listing-blurb">A specialist butcher on Franchepanestraat in Paramaribo, selling fresh and prepared meats.</p>
 </div>
 </a>
@@ -2552,11 +2595,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Steps Domineestraat brings the popular footwear brand to central Paramaribo's shopping street, offering…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/store4u/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="malls-markets" href="listing/store4u/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Store4u in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ce4db3a1b5b42e887496a7706caaf2ac.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Store4u</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 718-2232</span></div>
+<div class="row-meta"><span>Malls &amp; Markets</span><span>Paramaribo</span><span>Tel: +597 718-2232</span></div>
 <p class="listing-blurb">Store4U is a multi-category retail shop in Paramaribo selling clothing, electronics, household goods and…</p>
 </div>
 </a>
@@ -2584,35 +2627,35 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Suraniyat is a Surinamese fashion house producing clothing rooted in traditional craft techniques and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/suri-juice-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/suri-juice-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Suri Juice N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/ed01d97de817519201c40e395c735c3a.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Suri Juice N.V.</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span><span>Tel: +597 372-210</span></div>
+<div class="row-meta"><span>Drinks &amp; Liquor</span><span>Paramaribo</span><span>Tel: +597 372-210</span></div>
 <p class="listing-blurb">Suri Juice N.V. is a fruit juice producer based at Kokrikilaan 44 in Paramaribo.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/surinaamse-brouwerij-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/surinaamse-brouwerij-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Surinaamse Brouwerij N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7896c77bfee086122a75271d725b9530.webp" srcset="/images/7896c77bfee086122a75271d725b9530-480.webp 480w, /images/7896c77bfee086122a75271d725b9530.webp 950w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Surinaamse Brouwerij N.V.</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span><span>Tel: +597 402255</span></div>
+<div class="row-meta"><span>Drinks &amp; Liquor</span><span>Paramaribo</span><span>Tel: +597 402255</span></div>
 <p class="listing-blurb">Surinaamse Brouwerij brews Parbo — the national beer — along with Parbo Radler and locally brewed Heineken…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/suriname-alcoholic-beverages/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/suriname-alcoholic-beverages/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Suriname Alcoholic Beverages in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/4eb57a5037d377d66413bf817f5ade02.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Suriname Alcoholic Beverages</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span><span>Tel: (597) 473344</span></div>
+<div class="row-meta"><span>Drinks &amp; Liquor</span><span>Paramaribo</span><span>Tel: (597) 473344</span></div>
 <p class="listing-blurb">Suriname Alcoholic Beverages N.V. (SAB) is a distillery on Cornelis Jongbawstraat in Paramaribo producing…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/suriname-sea-catch-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/suriname-sea-catch-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Suriname Sea Catch NV</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597 486868</span></div>
+<div class="row-meta"><span>Meat &amp; Fish</span><span>Paramaribo</span><span>Tel: +597 486868</span></div>
 <p class="listing-blurb">Suriname Sea Catch N.V. is a Paramaribo seafood company that supplies fresh and frozen fish and exports fish…</p>
 </div>
 </a>
@@ -2624,11 +2667,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Susan's Houtmarkt is a timber supplier on Johannes Mungra straat 75 in Paramaribo, selling wood with a range…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/sweetheart-hermitage-mall/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/sweetheart-hermitage-mall/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Sweetheart in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/bed845bedbce4d8f42ab57c3a8b82dd8.webp" srcset="/images/bed845bedbce4d8f42ab57c3a8b82dd8-480.webp 480w, /images/bed845bedbce4d8f42ab57c3a8b82dd8.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Sweetheart</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>2 locations</span></div>
+<div class="row-meta"><span>Toys &amp; Gifts</span><span>Paramaribo</span><span>2 locations</span></div>
 <p class="listing-blurb">Sweetheart is a toy and candy store in Paramaribo; this branch is in Hermitage Mall on Lalla Rookhweg.</p>
 </div>
 </a>
@@ -2672,11 +2715,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Tegeldepot Suriname is a tile retailer on Calcuttastraat in Paramaribo selling floor and wall tiles, sanitary…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/the-old-attic/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/the-old-attic/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="The Old Attic, Shopping And Souvenirs in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/171274f30b37d7eb1388dc0803eed605.webp" srcset="/images/171274f30b37d7eb1388dc0803eed605-480.webp 480w, /images/171274f30b37d7eb1388dc0803eed605.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">The Old Attic</h3>
-<div class="row-meta"><span>Crafts &amp; Souvenirs</span><span>Paramaribo</span><span>Tel: +597 846-8841</span></div>
+<div class="row-meta"><span>Toys &amp; Gifts</span><span>Paramaribo</span><span>Tel: +597 846-8841</span></div>
 <p class="listing-blurb">The Old Attic is a gift and collectibles shop in Paramaribo carrying accessories, jewellery, anime…</p>
 </div>
 </a>
@@ -2688,11 +2731,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">The Perfume Spot is a fragrance boutique in Paramaribo stocking perfumes, colognes and body mists from local…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="fashion-clothing" href="listing/the-uma-store/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="crafts-souvenirs" href="listing/the-uma-store/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="The Uma Store, Shopping And Souvenirs in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5c1f83d9b57160fa4a54c39f90ee0f12.webp" srcset="/images/5c1f83d9b57160fa4a54c39f90ee0f12-480.webp 480w, /images/5c1f83d9b57160fa4a54c39f90ee0f12.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">The Uma Store</h3>
-<div class="row-meta"><span>Fashion &amp; Shoes</span><span>Paramaribo</span><span>Tel: +597 861-0540</span></div>
+<div class="row-meta"><span>Crafts &amp; Souvenirs</span><span>Paramaribo</span><span>Tel: +597 861-0540</span></div>
 <p class="listing-blurb">The Uma Store is a retail space in Suriname selling artisan goods, local food specialties and handmade…</p>
 </div>
 </a>
@@ -2704,43 +2747,43 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">The Warehouse Shop is a furniture store on Dr. Ir. H.S. Adhinstraat 23 in Paramaribo, selling affordable…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/tohora-automotive-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/tohora-automotive-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span></div>
 <div class="row-body">
 <h3 class="serif listing-name">Tohora Automotive N.V.</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 424-919</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 424-919</span></div>
 <p class="listing-blurb">Tohora Automotive N.V. is the authorised BMW dealer in Suriname, located at Johan Adolf Pengelstraat 143-145…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="other" href="listing/tomahawk-outdoor-adventures/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo|Wanica" data-sub="sports-outdoors" href="listing/tomahawk-outdoor-adventures/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Tomahawk Outdoor Adventures in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="https://tomahawk.sr/wp-content/uploads/2024/02/tomahawk-logo.png" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Tomahawk Outdoor Adventures</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo, Wanica</span><span>4 locations</span></div>
+<div class="row-meta"><span>Sports &amp; Outdoors</span><span>Paramaribo, Wanica</span><span>4 locations</span></div>
 <p class="listing-blurb">Tomahawk is a Suriname outdoor shop selling gear, equipment and accessories for outdoor enthusiasts. Multiple…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/topslager-stolk/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/topslager-stolk/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Topslager Stolk in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/6767d2ffaf981ae15ce4be2783dab3a6.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Topslager Stolk</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span><span>Tel: +597 442 619</span></div>
+<div class="row-meta"><span>Meat &amp; Fish</span><span>Paramaribo</span><span>Tel: +597 442 619</span></div>
 <p class="listing-blurb">Topslager Stolk is a premium butcher shop in Suriname offering high-quality fresh meats, speciality cuts and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/topsport/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="sports-outdoors" href="listing/topsport/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Topsport in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8651adb62856d7bda31d82ddea532c0b.webp" srcset="/images/8651adb62856d7bda31d82ddea532c0b-480.webp 480w, /images/8651adb62856d7bda31d82ddea532c0b.webp 1600w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Topsport</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597477633</span></div>
+<div class="row-meta"><span>Sports &amp; Outdoors</span><span>Paramaribo</span><span>Tel: +597477633</span></div>
 <p class="listing-blurb">Topsport N.V. is a sporting goods store on Zwartenhovenbrugstraat in Paramaribo, founded in 1972, selling…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="other" href="listing/toys-n-more/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="toys-gifts" href="listing/toys-n-more/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Toys N More in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/282fee7ba843adfef0b5aece3e9d3388.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Toys N More</h3>
-<div class="row-meta"><span>Other</span><span>Paramaribo</span><span>Tel: +597456379</span></div>
+<div class="row-meta"><span>Toys &amp; Gifts</span><span>Paramaribo</span><span>Tel: +597456379</span></div>
 <p class="listing-blurb">Toys N More is a toy and games shop in Suriname stocking action figures, board games, educational sets…</p>
 </div>
 </a>
@@ -2752,11 +2795,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">TRADE Outlet Center is a building materials supplier in Paramaribo, Suriname, offering tiles, sanitary ware…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/traverco-truck-tire-service-nv/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="auto-parts" href="listing/traverco-truck-tire-service-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Traverco Truck &amp; Tire Service N.V. in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/c49e34421a3ffe2d3bfd477862d97349.webp" srcset="/images/c49e34421a3ffe2d3bfd477862d97349-480.webp 480w, /images/c49e34421a3ffe2d3bfd477862d97349.webp 681w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Traverco Truck &amp; Tire Service N.V.</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 404060</span></div>
+<div class="row-meta"><span>Parts &amp; Accessories</span><span>Paramaribo</span><span>Tel: +597 404060</span></div>
 <p class="listing-blurb">Traverco Truck &amp; Tire Service N.V. sells and repairs tyres for cars, pick-ups, trucks, tractors and heavy…</p>
 </div>
 </a>
@@ -2800,11 +2843,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Uni Stone &amp; More is a building materials supplier in Paramaribo, Suriname, offering tiles, sanitary ware and…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/united-slijterij/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="drinks-liquor" href="listing/united-slijterij/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">U</span><img alt="United slijterij in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/e3e73e782e733397a15610589fdddb8f.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">United slijterij</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span><span>Tel: +597 862-2522</span></div>
+<div class="row-meta"><span>Drinks &amp; Liquor</span><span>Paramaribo</span><span>Tel: +597 862-2522</span></div>
 <p class="listing-blurb">United Slijterij on the corner of Gemenelandsweg and Matawarilaan stocks beer, wine and spirits for parties…</p>
 </div>
 </a>
@@ -2816,19 +2859,19 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Unlocked Candles is a Paramaribo-based artisan candle brand crafting premium scented candles. Each candle is…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/valconx/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="electronics" href="listing/valconx/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span><img alt="Valcon•X in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/12c443a971d5955115301a8ca88b4640.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Valcon•X</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 865-4864</span></div>
+<div class="row-meta"><span>Electronics &amp; Phones</span><span>Paramaribo</span><span>Tel: +597 865-4864</span></div>
 <p class="listing-blurb">Valcon•X is a telematics company at Antondrachtenweg 68 in Paramaribo that provides GPS tracking devices.</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="food-specialty" href="listing/vcm-slagerij-centrum/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="butchers-meat" href="listing/vcm-slagerij-centrum/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span><img alt="VCM Slagerij in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/19e4443090eaaee53e78b68378586f8a.webp" srcset="/images/19e4443090eaaee53e78b68378586f8a-480.webp 480w, /images/19e4443090eaaee53e78b68378586f8a.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">VCM Slagerij</h3>
-<div class="row-meta"><span>Food &amp; Specialty</span><span>Paramaribo</span><span>3 locations</span></div>
+<div class="row-meta"><span>Meat &amp; Fish</span><span>Paramaribo</span><span>3 locations</span></div>
 <p class="listing-blurb">VCM Slagerij Centrum is a central Paramaribo butcher offering quality fresh meats and cold cuts in central…</p>
 </div>
 </a>
@@ -2848,11 +2891,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Vincent Supermarket is a trusted neighbourhood supermarket in Suriname, providing fresh produce, groceries…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/vrv-imports/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/vrv-imports/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span><img alt="VRV Imports in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" src="/images/3b7465ce5bb709a83c1fd68c27e79eda.webp" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">VRV Imports</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597 855 17 76</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597 855 17 76</span></div>
 <p class="listing-blurb">VRV Imports is an automotive business in Paramaribo, Suriname, offering vehicle sales, shipping and customs…</p>
 </div>
 </a>
@@ -2912,11 +2955,11 @@ function filterDistrict(el, dist) {
 <p class="listing-blurb">Ying Hao Beauty Shop is a beauty and cosmetics retailer in Paramaribo carrying cosmetics, hair-care products…</p>
 </div>
 </a>
-<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="automotive" href="listing/yokohama-trading/">
+<a class="listing-card listing-row group relative card-hover flex" data-district="Paramaribo" data-sub="car-dealers" href="listing/yokohama-trading/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Y</span><img alt="Yokohama Trading in Paramaribo" class="w-full h-full object-cover" height="400" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8053f826cf51c43996e9f483cede91cd.webp" srcset="/images/8053f826cf51c43996e9f483cede91cd-480.webp 480w, /images/8053f826cf51c43996e9f483cede91cd.webp 900w" width="400"/></div>
 <div class="row-body">
 <h3 class="serif listing-name">Yokohama Trading</h3>
-<div class="row-meta"><span>Automotive</span><span>Paramaribo</span><span>Tel: +597426842</span></div>
+<div class="row-meta"><span>Car Dealers</span><span>Paramaribo</span><span>Tel: +597426842</span></div>
 <p class="listing-blurb">Yokohama Trading N.V. is a car dealership in Paramaribo with over 25 years of experience, selling new and…</p>
 </div>
 </a>

@@ -18,7 +18,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="ExploreSR" name="apple-mobile-web-app-title"/>
-<link href="/assets/s-293f386474cd.css" rel="stylesheet"/>
+<link href="/assets/s-63c36bc4a493.css" rel="stylesheet"/>
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
 <link href="/assets/s-12632b0c5234.css" rel="stylesheet"/>
 <link href="/assets/s-3add1bbd5c8c.css" rel="stylesheet"/>
@@ -121,10 +121,19 @@
 <script>
 var _activeSub  = 'all';
 var _activeDist = 'all';
+var _activeGrp  = 'all';
+var _SUB_GRP    = {};
+
+/* Type filter, with the group as the fallback when no type is picked. */
+function _subOk(card) {
+  if (_activeSub !== 'all') return card.dataset.sub === _activeSub;
+  if (_activeGrp !== 'all') return _SUB_GRP[card.dataset.sub] === _activeGrp;
+  return true;
+}
 
 function _applyFilters() {
   document.querySelectorAll('.listing-card').forEach(function(card) {
-    var subOk  = _activeSub  === 'all' || card.dataset.sub      === _activeSub;
+    var subOk  = _subOk(card);
     var distOk = _activeDist === 'all' || (card.dataset.district || '').split('|').indexOf(_activeDist) >= 0;
     card.classList.toggle('hidden', !(subOk && distOk));
   });
@@ -138,8 +147,7 @@ function _applyFilters() {
   var distCounts = {};
   var totalVisible = 0;
   document.querySelectorAll('.listing-card').forEach(function(card) {
-    var subOk = _activeSub === 'all' || card.dataset.sub === _activeSub;
-    if (!subOk) return;
+    if (!_subOk(card)) return;
     var ds = (card.dataset.district || 'Paramaribo').split('|');
     for (var di = 0; di < ds.length; di++) { distCounts[ds[di]] = (distCounts[ds[di]] || 0) + 1; }
     totalVisible++;
@@ -162,8 +170,31 @@ function _applyFilters() {
 
 function filterSub(btn, key) {
   _activeSub = key;
-  document.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
+  /* Only this chip's own row: on grouped pages the group stays selected. */
+  btn.parentNode.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
   btn.classList.add('chip-active');
+  _applyFilters();
+  _fbarReveal();
+}
+
+/* Grouped pages: pick a group, then (optionally) one of its types. */
+function filterGrp(btn, grp) {
+  _activeGrp = grp;
+  _activeSub = 'all';
+  btn.parentNode.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
+  btn.classList.add('chip-active');
+  var tb = document.getElementById('typebar-restaurant');
+  if (tb) {
+    var show = grp !== 'all' && !btn.hasAttribute('data-single');
+    tb.hidden = !show;
+    tb.querySelectorAll('.type-chip').forEach(function(b) {
+      var mine = b.getAttribute('data-grp') === grp;
+      b.hidden = !mine;
+      b.classList.toggle('chip-active', mine && b.getAttribute('data-sub') === 'all');
+    });
+    var ts = tb.querySelector('.fbar-tchips');
+    if (ts) ts.scrollLeft = 0;
+  }
   _applyFilters();
   _fbarReveal();
 }
@@ -211,9 +242,20 @@ function filterDistrict(el, dist) {
    homepage journey cards since Nature was merged into Things to Do. Silently
    ignored when the key matches no chip on this page. */
 (function() {
-  var want = new URLSearchParams(location.search).get('sub');
-  if (!want || want === 'all') return;
+  var qs = new URLSearchParams(location.search);
+  var want = qs.get('sub'), wantGrp = qs.get('grp');
+  if ((!want || want === 'all') && !wantGrp) return;
   function apply() {
+    /* Grouped pages: ?sub= selects the type's group first, ?grp= a group. */
+    var g = (want && _SUB_GRP[want]) || wantGrp;
+    var gb = g && document.querySelector('#chipbar-restaurant .filter-chip[data-grp="' + g + '"]');
+    if (gb) {
+      filterGrp(gb, g);
+      var tc = want && document.querySelector('#typebar-restaurant .type-chip[data-sub="' + want + '"]');
+      if (tc && !gb.hasAttribute('data-single')) filterSub(tc, want);
+      return;
+    }
+    if (!want) return;
     var chips = document.querySelectorAll('#chipbar-restaurant .filter-chip');
     for (var i = 0; i < chips.length; i++) {
       var oc = chips[i].getAttribute('onclick') || '';

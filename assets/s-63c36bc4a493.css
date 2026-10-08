@@ -1,0 +1,319 @@
+
+    :root { --forest:#1B4332; --forest2:#2D6A4F; --leaf:#52B788; --mint:#E1F0DD; --coral:#E76F51; --gold:#E7AE4D; --clay:#9C5822; --paper:#FBF5E9; --paper-2:#F4ECDA; --card:#FFFDF6; --ink:#233028; --ink-soft:#5C6657; --line:#EBE0CB; }
+    body   { font-family: 'Instrument Sans', system-ui, sans-serif; font-feature-settings:"tnum" 0; }
+    .serif { font-family: 'Newsreader', Georgia, serif; }
+    /* ===== Warm theme roll-over: homepage redesign palette, applied site-wide ===== */
+    html, body { background: var(--paper); }
+    body { color: var(--ink); }
+    .bg-white   { background-color: var(--card) !important; }
+    .bg-gray-50 { background-color: var(--paper-2) !important; }
+    .bg-gray-100{ background-color: #EFE6D2 !important; }
+    .text-gray-900, .text-gray-800 { color: var(--ink) !important; }
+    .text-gray-700, .text-gray-600 { color: #46524A !important; }
+    .text-gray-500, .text-gray-400 { color: var(--ink-soft) !important; }
+    .border-gray-100 { border-color: var(--line) !important; }
+    .border-gray-200 { border-color: #E2D8C2 !important; }
+    ::selection { background: var(--gold); color: var(--forest); }
+    .ftr-h{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .ftr-col{display:flex;flex-direction:column;gap:11px;font-size:14px}
+    .ftr-lnk{color:#B9C2B2;transition:color .15s}
+    .ftr-lnk:hover{color:#FCF7EC}
+    .ftr-lnk2{color:#9BAA97;transition:color .15s}
+    .ftr-lnk2:hover{color:#B9C2B2}
+    .ftr-cta{display:inline-block;border:1px solid var(--coral);color:#FCF7EC;border-radius:9999px;padding:.5rem 1.1rem;
+             font-size:13px;font-weight:700;text-decoration:none;transition:background .18s,color .18s}
+    .ftr-cta:hover{background:var(--coral);color:#fff}
+    .ftr-bar{max-width:1140px;margin:0 auto;padding:18px clamp(20px,calc(5vw / var(--z,1)),48px);display:flex;justify-content:space-between;
+             align-items:center;gap:12px 20px;flex-wrap:wrap;font-size:13px;color:#8B978A}
+    .ftr-bar-links{display:flex;gap:18px;flex-wrap:wrap}
+    @media(max-width:900px){footer>div:first-child{grid-template-columns:1fr 1fr!important;gap:32px!important}}
+    @media(max-width:560px){footer>div:first-child{grid-template-columns:1fr!important}.ftr-bar{justify-content:flex-start}}
+    .hero-bg { background-size:cover; background-position:center; }
+    .nws-card { position: relative; }
+    .nws-card .nws-t::after { content:""; position:absolute; inset:0; z-index:1; }
+    .nws-also { position: relative; z-index: 2; }
+    .card-hover { transition: filter .15s ease, border-color .15s ease; }
+    .card-hover:hover { filter: brightness(1.03); }
+    .card-hover:hover h3 { text-decoration: underline; text-decoration-color: var(--clay); text-underline-offset: 3px; }
+    a { text-decoration: none; }
+    nav a, nav button { white-space: nowrap; }   /* keep nav labels on one line (EN; NL/ES get this via build_i18n) */
+    .vh { position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+    /* Nav search: a small pill with a visible label. On tighter viewports it
+       collapses to just the magnifying glass so the nav labels and the language
+       switcher keep their room in NL and ES. Widths verified at 1024/1280/1440. */
+    .navsearch { display:flex; align-items:center; gap:7px; padding:0 0 3px;
+                 border:0; border-radius:0; background:none; border-bottom:1px solid #CFC7B6;
+                 color:var(--ink-soft); cursor:pointer;
+                 transition:gap .18s ease, border-color .18s ease, color .18s ease; }
+    .navsearch .nslabel { max-width:7rem; overflow:hidden; white-space:nowrap; font-size:.875rem;
+                          transition:max-width .22s ease; }
+    .navsearch:hover, .navsearch:focus-visible { border-bottom-color:var(--forest); color:var(--forest); }
+    /* Top-level items, kept generously spaced (tiers below),
+       and the search label collapses earlier on the NL/ES trees because those
+       nav labels run longer (build_i18n sets html[lang]). Verified at
+       1024/1152/1280/1440/1920 in all three languages. */
+    .navlinks { gap:22px; }
+    .navmark{font-family:'Newsreader',Georgia,serif;font-size:27px;font-weight:600;line-height:1;letter-spacing:-.01em}
+    .navtag{font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);
+            line-height:1;margin-top:5px}
+    .navlinks .dd-trigger, .navlinks > a { font-size:12.5px; letter-spacing:.06em; text-transform:uppercase;
+                                           font-weight:500; }
+    .navlinks .nav-active { border-bottom:1.5px solid var(--clay); }
+    /* Utility rail: a 34px strip of live numbers above the nav. It is in normal
+       flow on purpose, so it scrolls away and every nav offset stays at 58px. */
+    .util-rail{background:#142A1E;height:34px;font-size:.66rem;font-weight:500;letter-spacing:.14em;
+               text-transform:uppercase}
+    .util-in{max-width:80rem;margin:0 auto;padding:0 1.25rem;height:34px;display:flex;align-items:center;
+             justify-content:space-between;gap:1rem}
+    .util-l,.util-r{display:flex;gap:1.4rem;align-items:center;overflow:hidden;white-space:nowrap}
+    .util-l a,.util-r a,.util-r span{color:#9FAC9C;transition:color .15s}
+    .util-l a:hover,.util-r a:hover{color:#FCF7EC}
+    .util-l a strong{color:var(--gold);font-weight:600}
+    @media(max-width:640px){.util-in{padding:0 1rem;gap:.9rem}.util-l{gap:.9rem}
+      .util-l a:nth-child(3){display:none}.util-r{display:none}}
+    /* Seven top-level items since the Sep 2026 restructure (was eight with
+       the Business menu; tiers were measured for eight, so seven has slack). Tiers measured,
+       not guessed: no overflow and one row at 1024/1100/1152/1200/1220/1280/
+       1366/1440/1536/1920 in EN, NL and ES. NL/ES labels run longer, so their
+       search label collapses first. */
+    @media (max-width:1535px) {
+      .navlinks { gap:16px; }
+      .navlinks .dd-trigger, .navlinks > a { letter-spacing:.045em; }
+      html[lang="es"] .navsearch, html[lang="nl"] .navsearch,
+      html[lang="fr"] .navsearch, html[lang="pt-BR"] .navsearch { gap:0; }
+      html[lang="es"] .navsearch .nslabel, html[lang="nl"] .navsearch .nslabel,
+      html[lang="fr"] .navsearch .nslabel, html[lang="pt-BR"] .navsearch .nslabel { max-width:0; }
+    }
+    @media (max-width:1365px) {
+      .navlinks { gap:11px; }
+      .navlinks .dd-trigger, .navlinks > a { font-size:11.5px; letter-spacing:.03em; }
+      .navsearch { gap:0; }
+      .navsearch .nslabel { max-width:0; }
+    }
+    @media (max-width:1219px) {
+      .navlinks { gap:8px; }
+      .navlinks .dd-trigger, .navlinks > a { font-size:11px; letter-spacing:.02em; }
+      .navtag { display:none; }
+    }
+    @media (max-width:1099px) {
+      .navlinks { gap:6px; }
+      .navlinks .dd-trigger, .navlinks > a { font-size:10.5px; letter-spacing:.01em; }
+      .navlinks .dd-chevron { width:.7rem; height:.7rem; }
+    }
+    /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
+    .dd-menu { transform-origin: top center; }
+    /* Dropdowns float over content, so they keep a soft shadow despite the flat
+       surface reset (which strips .shadow-xl). Mega menus carry it on .megacard,
+       not on the .megap wrapper, whose transparent padding would show it. */
+    .dd-menu:not(.megap) { box-shadow:0 12px 24px -8px rgba(35,48,40,.18) !important; }
+    /* Mega menus (Explore, Business). Explore anchors under its trigger;
+       Business is .megap-wide, anchored to the sticky <nav> (its wrapper is
+       static) and starts 14px up with transparent padding so hover survives
+       the move from the trigger down into the panel. */
+    .megap { position:absolute; z-index:50; }
+    .megap-2 { top:100%; left:50%; transform:translateX(-50%); padding-top:4px; }
+    .megap-wide { left:0; right:0; margin:0 auto; width:min(980px, calc(100% - 2rem));
+                  top:calc(100% - 14px); padding-top:14px; }
+    /* Same surface as the simple dropdowns (.bg-white/.border-gray-100 under the surface reset) */
+    .megacard { background:var(--card); border:1px solid rgba(35,48,40,.16); border-radius:0;
+                box-shadow:0 12px 24px -8px rgba(35,48,40,.18); padding:.75rem; }
+    .megagrid-2 { display:grid; grid-template-columns:repeat(2, minmax(170px, auto)); gap:.25rem 1rem; }
+    .megagrid-wide { column-count:4; column-gap:1.25rem; }
+    .megagrid-wide .megacol { break-inside:avoid; padding-bottom:.5rem; }
+    .megah { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+             color:var(--clay); padding:.5rem .75rem .25rem; }
+    .megap a { white-space:normal; }
+    .megafoot { border-top:1px solid rgba(35,48,40,.16); margin-top:.25rem; padding:.6rem .75rem .15rem; }
+    /* Phone tables (Sep 2026): .mstack turns a wide table into one block per
+       row below 640px instead of scrolling sideways. Each cell carries a
+       .mlbl span with its column name (a text node, so NL/ES translate it);
+       hidden on wider screens where the normal header row shows. */
+    .mlbl { display:none; }
+    @media (max-width:639px) {
+      table.mstack { min-width:0!important; }
+      table.mstack, .mstack tbody { display:block; }
+      .mstack thead { display:none; }
+      .mstack tr { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:.15rem .9rem; padding:.75rem 0; }
+      .mstack.mstack-3 tr { grid-template-columns:repeat(3, minmax(0,1fr)); }
+      .mstack td { display:block; padding:.2rem 0!important; text-align:left!important; white-space:normal!important; min-width:0; overflow-wrap:anywhere; }
+      .mstack td:first-child { grid-column:1/-1; }
+      .mstack td.mspan2 { grid-column:span 2; }
+      /* holidays: date and weekday share the first line */
+      .mstack.mstack-hol td:first-child { grid-column:1; }
+      .mstack.mstack-hol td:last-child { grid-row:1; grid-column:2; text-align:right!important; }
+      .mstack.mstack-hol td:last-child .mlbl { display:none!important; }
+      .mstack .mlbl { display:block; font-size:.65rem; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:#9ca3af; margin-bottom:.1rem; }
+    }
+    .dd-sub { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+              color:var(--clay); padding:.6rem 1rem .2rem; }
+    .mob-sub { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+               color:var(--clay); padding:.75rem .75rem .25rem; }
+    .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
+    @keyframes ddFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    #search-results a {
+      display:flex;align-items:center;gap:10px;padding:10px 18px;text-decoration:none;color:#111;transition:background .1s;
+    }
+    #search-results a:hover, #search-results a.sr-active { background:#f5f5f5; }
+    .sr-badge {
+      font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;flex-shrink:0;
+    }
+    .sr-name { font-size:.9rem;font-weight:600;flex:1;min-width:0; }
+    .sr-area { font-size:.78rem;color:var(--ink-soft);white-space:nowrap; }
+    mark { background:#fef08a;border-radius:2px;padding:0 1px; }
+    .filter-chip {
+      display:inline-flex;align-items:center;gap:5px;padding:.55rem 0;border:0;background:none;
+      border-radius:0!important;border-bottom:1.5px solid transparent;
+      font-size:.9rem;font-weight:400;color:#4B564D;cursor:pointer;white-space:nowrap;flex-shrink:0;
+      touch-action:manipulation;transition:color .15s,border-color .15s;
+    }
+    .filter-chip:hover { color:var(--forest);border-bottom-color:#DDD4C1; }
+    .filter-chip.chip-active { background:none;color:var(--forest);border-bottom-color:var(--forest); }
+    .dist-chip {
+      display:inline-flex;align-items:center;gap:4px;padding:.35rem 0;border:0;background:none;
+      border-radius:0!important;border-bottom:1.5px solid transparent;
+      font-size:.78rem;color:#646A78;cursor:pointer;white-space:nowrap;flex-shrink:0;
+      transition:color .15s,border-color .15s;
+    }
+    .dist-chip:hover { color:var(--forest2);border-bottom-color:#DDD4C1; }
+    .dist-chip.dist-chip-active { background:none;color:var(--forest2);border-bottom-color:var(--forest2); }
+    .chip-count { font-size:.66rem;color:#706958;vertical-align:super;font-weight:500;opacity:1; }
+    .filter-chip.chip-active .chip-count { color:#656C63; }
+    /* Text chips are only 40px/30px tall, so touch devices get a proper target
+       without loosening the desktop rhythm. */
+    @media(hover:none){ .filter-chip, .dist-chip { min-height:44px; } }
+    .dict-chiprow{scrollbar-width:none;-ms-overflow-style:none}
+    .dict-chiprow::-webkit-scrollbar{display:none}
+    /* Category grids (Sep 2026 redesign): 4 landscape cards per row on desktop
+       instead of 3 portrait ones, so ~8 listings show above the fold, not 3.
+       Services/Shopping use .listing-rows (compact thumbnail rows): people
+       pick a salon or hardware store on category and area, not on a photo. */
+    .listing-grid { display:grid; grid-template-columns:minmax(0,1fr); gap:2rem 1.25rem; }
+    @media(min-width:640px){ .listing-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media(min-width:900px){ .listing-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+    @media(min-width:1100px){ .listing-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+    .listing-card { transition:opacity .2s; content-visibility:auto; contain-intrinsic-size:330px; contain-intrinsic-size:auto 330px; }
+    .listing-ph { position:relative; aspect-ratio:4/3; overflow:hidden; background:#DFD7C2; }
+    .listing-ph > img { position:absolute; inset:0; background:#DFD7C2; }
+    /* Shown when a listing has no photo, or its photo fails to load (the img
+       hides itself onerror and this sits underneath). */
+    .ph-fb { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+             font-family:inherit; font-size:3rem; line-height:1; color:rgba(35,48,40,.28); user-select:none; }
+    .listing-name { font-size:1.25rem; line-height:1.2; font-weight:400; color:var(--forest); }
+    .listing-blurb { font-size:.86rem; line-height:1.5; color:var(--ink-soft); margin:.2rem 0 0;
+                     display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .listing-meta { display:flex; justify-content:space-between; gap:.75rem; margin-top:auto;
+                    border-top:1px solid #DDD4C1; padding-top:.55rem;
+                    font-size:.66rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+                    color:#656C63; }
+    .listing-meta span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .listing-meta span:last-child:not(:first-child) { flex-shrink:0; max-width:50%; }
+    /* Phones: one column, a slightly flatter 3:2 photo keeps ~2 cards per screen. */
+    @media(max-width:639px){
+      .listing-ph { aspect-ratio:3/2; }
+      .listing-card { contain-intrinsic-size:340px; contain-intrinsic-size:auto 340px; }
+      .listing-name { font-size:1.35rem; }
+    }
+    /* Compact rows (Services, Shopping) */
+    .listing-rows { display:grid; grid-template-columns:minmax(0,1fr); column-gap:2.5rem; border-top:1px solid #DDD4C1; }
+    @media(min-width:900px){ .listing-rows { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    .listing-row { display:flex; flex-direction:row; align-items:center; gap:1rem; padding:.85rem 0;
+                   border-bottom:1px solid #DDD4C1; contain-intrinsic-size:108px; contain-intrinsic-size:auto 108px; }
+    .listing-row .listing-ph { flex:0 0 5.25rem; width:5.25rem; aspect-ratio:1/1; }
+    .listing-row .ph-fb { font-size:1.9rem; }
+    .row-body { min-width:0; flex:1; display:flex; flex-direction:column; gap:.15rem; }
+    .listing-row .listing-name { font-size:1.12rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .listing-row .listing-blurb { -webkit-line-clamp:1; line-clamp:1; font-size:.84rem; margin:0; }
+    .row-meta { display:flex; flex-wrap:nowrap; overflow:hidden; column-gap:.5rem; font-size:.66rem; font-weight:600; letter-spacing:.12em;
+                text-transform:uppercase; color:#656C63; }
+    .row-meta span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+    .row-meta span:first-child { flex-shrink:0; max-width:60%; }
+    .row-meta span + span::before { content:"·"; margin-right:.5rem; color:#A39B88; }
+    .row-feat { display:inline-block; vertical-align:middle; margin-left:.4rem; font-family:system-ui,sans-serif;
+                font-size:.62rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+                padding:.15rem .45rem; border-radius:9999px; background:#E76F51; color:#fff; }
+    @media(max-width:639px){ .listing-row { contain-intrinsic-size:100px; contain-intrinsic-size:auto 100px; }
+                             .listing-row .listing-ph { flex-basis:4.5rem; width:4.5rem; }
+                             .dist-sel { max-width:8.5rem; font-size:.8rem; } }
+    /* District picker (replaces the second chip row, saves ~45px of sticky bar) */
+    .dist-sel { flex-shrink:0; appearance:none; -webkit-appearance:none; border:0; border-bottom:1.5px solid #DDD4C1;
+                border-radius:0!important; background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23656C63' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right .1rem center;
+                padding:.45rem 1.1rem .45rem 0; font-size:.85rem; color:var(--forest2); cursor:pointer; max-width:11rem; }
+    .dist-sel:focus-visible { outline:2px solid var(--forest2); outline-offset:2px; }
+    /* Listing filter bar on phones: full-width chip strip with an edge fade,
+       district picker tucked behind "More", which also expands the strip into
+       a wrapped list of every category (Services has 25). */
+    .fbar-more { display:none; }
+    .fbar-more[hidden] { display:none!important; }
+    @media(max-width:639px){
+      .fbar-row { flex-wrap:wrap; column-gap:.6rem; row-gap:.35rem; }
+      .fbar-row > div { flex:1 1 0%; min-width:0; }
+      .fbar .fbar-chips { column-gap:1.25rem; padding-right:1.75rem;
+        -webkit-mask-image:linear-gradient(90deg,#000 82%,transparent); mask-image:linear-gradient(90deg,#000 82%,transparent); }
+      .fbar-more { display:inline-flex; order:1; align-items:center; gap:.3rem; flex-shrink:0; position:relative;
+        min-height:44px; padding:0 .1rem 0 .4rem; border:0; background:none; cursor:pointer;
+        font-size:.85rem; font-weight:600; color:var(--forest2); touch-action:manipulation; }
+      .fbar-more svg { transition:transform .2s; }
+      .fbar-more .fm-c, .fbar-more[aria-expanded="true"] .fm-o { display:none; }
+      .fbar-more[aria-expanded="true"] .fm-c { display:inline; }
+      .fbar-more[aria-expanded="true"] svg { transform:rotate(180deg); }
+      .fbar-more.has-dist::after { content:""; position:absolute; top:10px; left:-2px; width:7px; height:7px;
+        border-radius:50%; background:var(--coral); }
+      .fbar-row > .dist-sel { display:none; order:2; }
+      .fbar.fbar-open .fbar-row { align-items:flex-start; }
+      .fbar.fbar-open .fbar-row > .dist-sel { display:block; flex:1 0 100%; max-width:none; font-size:.9rem; }
+      .fbar.fbar-open .fbar-chips { flex-wrap:wrap; row-gap:0; overflow-y:auto; max-height:calc(55vh / var(--z,1)); padding-right:0;
+        -webkit-mask-image:none; mask-image:none; }
+    }
+    @media(hover:none){ .dist-sel { min-height:44px; } }
+    .listing-card.hidden { display:none; }
+    /* Grouped filter (Services, Shopping): second row with the group's types */
+    .fbar-types { margin-top:.1rem; border-top:1px solid #DDD4C1; }
+    .fbar-types[hidden] { display:none; }
+    .fbar-tchips .filter-chip { font-size:.84rem; padding:.45rem 0; }
+    .fbar-tchips .filter-chip[hidden] { display:none; }
+    @media(max-width:639px){
+      .fbar .fbar-tchips { column-gap:1.1rem; padding-right:1.75rem;
+        -webkit-mask-image:linear-gradient(90deg,#000 82%,transparent); mask-image:linear-gradient(90deg,#000 82%,transparent); }
+    }
+    /* PWA install bar (Android prompt + iOS A2HS tip) */
+    #pwa-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;transform:translateY(130%);transition:transform .35s cubic-bezier(.22,1,.36,1);background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 28px rgba(0,0,0,.14);padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
+    #pwa-bar.pwa-show{transform:translateY(0)}
+    #pwa-bar .pwa-ic{width:42px;height:42px;border-radius:10px;flex:0 0 auto}
+    #pwa-bar .pwa-tx{flex:1 1 auto;min-width:0}
+    #pwa-bar .pwa-tt{font-weight:700;font-size:14px;color:var(--forest);line-height:1.2}
+    #pwa-bar .pwa-sb{font-size:12px;color:#4b5563;line-height:1.3;margin-top:2px}
+    #pwa-bar .pwa-go{flex:0 0 auto;background:var(--forest);color:#fff;border:0;border-radius:10px;font-weight:700;font-size:14px;padding:10px 16px;cursor:pointer;white-space:nowrap;touch-action:manipulation}
+    #pwa-bar .pwa-go:hover{background:var(--forest2)}
+    #pwa-bar .pwa-x{flex:0 0 auto;background:transparent;border:0;color:#9ca3af;font-size:24px;line-height:1;cursor:pointer;padding:2px 6px;touch-action:manipulation}
+    @media(min-width:640px){#pwa-bar{left:auto;right:18px;bottom:18px;max-width:430px;border-radius:16px;border:1px solid rgba(0,0,0,.08)}}
+    /* ===== Surface reset: hairlines and ratios instead of radius and shadow. ===== */
+    .rounded-3xl, .rounded-2xl, .rounded-xl, .rounded-lg, .rounded-t-2xl { border-radius: 0 !important; }
+    .shadow-sm, .shadow, .shadow-md, .shadow-lg, .shadow-xl { box-shadow: none !important; }
+    .border-gray-100, .border-gray-200 { border-color: rgba(35,48,40,.16) !important; }
+    input, textarea, select { border-radius: 2px; }
+    /* Pills survive only where they are a genuine control. */
+    .ftr-cta, .btn-gold, .btn-ghost { border-radius: 9999px !important; }
+    .bg-paper { background-color: var(--paper) !important; }
+    .group:hover [class~="group-hover:scale-105"], [class~="group-hover:scale-105"]:hover { transform: none !important; }
+    /* ===== Interior page header =====
+       Browse surfaces (home, category pages) sit on paper. Content and utility
+       pages keep a dark header, restyled into the same type system so the two read
+       as a deliberate pair rather than one finished and one left behind. The dark
+       matches the utility rail so a page never shows two different greens. Photo
+       heroes keep their image and scrim; only the type and accents change. */
+    .pg-hero { background:#142A1E !important; border-bottom:1px solid rgba(252,247,236,.13); }
+    .pg-hero h1 { font-weight:400 !important; letter-spacing:-.02em; line-height:1.05; }
+    .pg-hero p[style*="color:var("] { color:var(--gold) !important; font-size:.66rem !important;
+                                      font-weight:600 !important; letter-spacing:.22em; }
+    .pg-hero a.inline-flex,
+    .pg-hero nav[aria-label="Breadcrumb"] { font-size:.66rem !important; font-weight:600;
+                                            letter-spacing:.2em; text-transform:uppercase; }
+    .pg-hero a.inline-flex,
+    .pg-hero nav[aria-label="Breadcrumb"] a { color:#9FAC9C !important; }
+    .pg-hero a.inline-flex:hover,
+    .pg-hero nav[aria-label="Breadcrumb"] a:hover { color:#FCF7EC !important; }
+    /* .cat-cta was built for the paper hero (forest text). Inside a dark header
+       it vanished, e.g. "Submit your event" on events.html. */
+    .pg-hero .cat-cta { color:#FCF7EC; border-bottom-color:var(--gold); }
+    .pg-hero .cat-cta:hover { color:var(--gold); }
+  
