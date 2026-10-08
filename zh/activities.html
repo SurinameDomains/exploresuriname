@@ -18,7 +18,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="ExploreSR" name="apple-mobile-web-app-title"/>
-<link href="/assets/s-6e17dce36802.css" rel="stylesheet"/>
+<link href="/assets/s-a12c564470b8.css" rel="stylesheet"/>
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
 <link href="/assets/s-12632b0c5234.css" rel="stylesheet"/>
 <link href="/assets/s-3add1bbd5c8c.css" rel="stylesheet"/>
@@ -99,178 +99,211 @@
 </div>
 </div>
 </div>
-<div class="fbar sticky top-[58px] z-40 pb-2 mb-5" id="fbar-adventure" style="background:var(--paper-2)">
-<div class="max-w-6xl mx-auto px-5">
-<div class="fbar-row relative flex items-center gap-5 pt-3">
-<div class="fbar-chips flex gap-6 overflow-x-auto pb-1" id="chipbar-adventure" style="scrollbar-width:none;-ms-overflow-style:none">
-<button class="filter-chip chip-active" onclick="filterSub(this,'all')">全部 <span class="chip-count">126</span></button><button class="filter-chip" onclick="filterSub(this,'nature-parks')">自然与公园 <span class="chip-count">23</span></button><button class="filter-chip" onclick="filterSub(this,'tours-expeditions')">旅游团与探险 <span class="chip-count">65</span></button><button class="filter-chip" onclick="filterSub(this,'eco-lodges')">生态与河畔旅舍 <span class="chip-count">5</span></button><button class="filter-chip" onclick="filterSub(this,'museums-heritage')">博物馆与遗产 <span class="chip-count">15</span></button><button class="filter-chip" onclick="filterSub(this,'entertainment')">娱乐 <span class="chip-count">14</span></button><button class="filter-chip" onclick="filterSub(this,'bars-lounges')">夜生活 <span class="chip-count">4</span></button>
+<div class="fbar gf sticky top-[58px] z-40 pb-2 mb-5" id="fbar-adventure" style="background:var(--paper-2)">
+<div class="max-w-6xl mx-auto px-5 gf-wrap">
+<div class="gf-searchrow">
+<svg aria-hidden="true" class="gf-sicon" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewBox="0 0 24 24" width="16"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<input aria-label="Search a place or activity (e.g. Brownsberg, turtles, boat tour)" autocomplete="off" class="gf-q" enterkeyhint="search" id="gf-q" placeholder="搜索地点或活动（如 Brownsberg、海龟、乘船游）" type="search"/>
 </div>
-<select aria-label="District" class="dist-sel" id="dist-sel" onchange="filterDistrict(this, this.value)"><option value="all">所有区</option><option value="Paramaribo">Paramaribo</option><option value="Wanica">Wanica</option><option value="Commewijne">Commewijne</option><option value="Para">Para</option><option value="Nickerie">Nickerie</option><option value="Brokopondo">Brokopondo</option><option value="Sipaliwini">Sipaliwini</option></select>
-<button aria-controls="chipbar-adventure" aria-expanded="false" class="fbar-more" type="button"><span class="fm-o">更多</span><span class="fm-c">关闭</span><svg aria-hidden="true" fill="none" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="12"><path d="M6 9l6 6 6-6"></path></svg></button>
+<div class="gf-row">
+<button aria-controls="gf-panel" aria-expanded="false" class="gf-catbtn" id="gf-catbtn" type="button"><span>全部类别</span><svg aria-hidden="true" fill="none" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="12"><path d="M6 9l6 6 6-6"></path></svg></button>
+<div class="fbar-chips gf-chips flex gap-5 overflow-x-auto" id="chipbar-adventure" style="scrollbar-width:none;-ms-overflow-style:none">
+<button class="filter-chip chip-active gf-activechip" hidden="" id="gf-active" type="button"><span class="gf-al"></span> <span aria-hidden="true">✕</span></button>
+<button class="filter-chip gf-top" data-sub="tours-expeditions" type="button">旅游团与探险 <span class="chip-count">65</span></button><button class="filter-chip gf-top" data-sub="nature-parks" type="button">自然与公园 <span class="chip-count">23</span></button><button class="filter-chip gf-top" data-sub="museums-heritage" type="button">博物馆与遗产 <span class="chip-count">15</span></button><button class="filter-chip gf-top" data-sub="entertainment" type="button">娱乐 <span class="chip-count">14</span></button><button class="filter-chip gf-top" data-sub="eco-lodges" type="button">生态与河畔旅舍 <span class="chip-count">5</span></button>
 </div>
+<span id="gf-distslot"><select aria-label="District" class="dist-sel" id="dist-sel" onchange="filterDistrict(this, this.value)"><option value="all">所有区</option><option value="Paramaribo">Paramaribo</option><option value="Wanica">Wanica</option><option value="Commewijne">Commewijne</option><option value="Para">Para</option><option value="Nickerie">Nickerie</option><option value="Brokopondo">Brokopondo</option><option value="Sipaliwini">Sipaliwini</option></select></span>
+</div>
+<div class="gf-panel" hidden="" id="gf-panel">
+<div class="gf-phead">
+<strong class="gf-ptitle">全部类别</strong>
+<span id="gf-distslot-m"></span>
+<button aria-label="Close" class="gf-close" type="button"><span>关闭</span> ✕</button>
+</div>
+<div class="gf-grid">
+<div class="gf-group gf-allgroup"><button class="gf-ghead" data-grp="all" type="button"><span>全部</span><span class="chip-count">126</span></button></div>
+<div class="gf-group gf-flat"><button class="gf-type" data-sub="nature-parks" type="button"><span>自然与公园</span><span class="chip-count">23</span></button><button class="gf-type" data-sub="tours-expeditions" type="button"><span>旅游团与探险</span><span class="chip-count">65</span></button><button class="gf-type" data-sub="eco-lodges" type="button"><span>生态与河畔旅舍</span><span class="chip-count">5</span></button><button class="gf-type" data-sub="museums-heritage" type="button"><span>博物馆与遗产</span><span class="chip-count">15</span></button><button class="gf-type" data-sub="entertainment" type="button"><span>娱乐</span><span class="chip-count">14</span></button><button class="gf-type" data-sub="bars-lounges" type="button"><span>夜生活</span><span class="chip-count">4</span></button></div>
+</div>
+<div class="gf-pfoot"><button class="gf-show" type="button"><span class="gf-shown">126 条结果</span></button></div>
+</div>
+<span hidden="" id="gf-empty-tpl">没有匹配结果。请换个词，或打开“全部类别”。</span>
+<span hidden="" id="gf-more-tpl">再显示 24 个</span>
 </div>
 </div>
 <script>
-var _activeSub  = 'all';
-var _activeDist = 'all';
-var _activeGrp  = 'all';
-var _SUB_GRP    = {};
+var _activeSub = 'all', _activeDist = 'all', _activeGrp = 'all', _gfQ = '';
+var _SUB_GRP = {"nature-parks": "g-types", "tours-expeditions": "g-types", "eco-lodges": "g-types", "museums-heritage": "g-types", "entertainment": "g-types", "fitness-wellness": "g-types", "bars-lounges": "g-types", "other": "g-types"};
 
-/* Type filter, with the group as the fallback when no type is picked. */
-function _subOk(card) {
-  if (_activeSub !== 'all') return card.dataset.sub === _activeSub;
-  if (_activeGrp !== 'all') return _SUB_GRP[card.dataset.sub] === _activeGrp;
-  return true;
-}
-
-function _applyFilters() {
-  document.querySelectorAll('.listing-card').forEach(function(card) {
-    var subOk  = _subOk(card);
-    var distOk = _activeDist === 'all' || (card.dataset.district || '').split('|').indexOf(_activeDist) >= 0;
-    card.classList.toggle('hidden', !(subOk && distOk));
-  });
-  var visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
-  var lbl = document.getElementById('result-count');
-  /* The static text is already translated ("633 resultaten"); keep its wording. */
-  if (lbl) {
-    if (!lbl.dataset.tpl) lbl.dataset.tpl = lbl.textContent.replace(/\d+/, '#');
-    lbl.textContent = lbl.dataset.tpl.replace('#', visible) + (_activeDist !== 'all' ? ' · ' + _activeDist : '');
-  }
-  var _mb = document.querySelector('.fbar-more');
-  if (_mb) _mb.classList.toggle('has-dist', _activeDist !== 'all');
-
-  /* ── Update district option counts dynamically ── */
-  var distCounts = {};
-  var totalVisible = 0;
-  document.querySelectorAll('.listing-card').forEach(function(card) {
-    if (!_subOk(card)) return;
-    var ds = (card.dataset.district || 'Paramaribo').split('|');
-    for (var di = 0; di < ds.length; di++) { distCounts[ds[di]] = (distCounts[ds[di]] || 0) + 1; }
-    totalVisible++;
-  });
-  var sel = document.getElementById('dist-sel');
-  if (sel) {
-    var reset = false;
-    for (var oi = 0; oi < sel.options.length; oi++) {
-      var o = sel.options[oi], v = o.value;
-      if (v === 'all') continue;
-      var c = distCounts[v] || 0;
-      o.disabled = c === 0;
-      o.hidden = c === 0;
-      /* if active district now has 0 results, reset to all */
-      if (c === 0 && _activeDist === v) reset = true;
-    }
-    if (reset) { _activeDist = 'all'; sel.value = 'all'; _applyFilters(); return; }
-  }
-}
-
-function filterSub(btn, key) {
-  _activeSub = key;
-  /* Only this chip's own row: on grouped pages the group stays selected. */
-  btn.parentNode.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
-  btn.classList.add('chip-active');
-  _applyFilters();
-  _fbarReveal();
-}
-
-/* Grouped pages: pick a group, then (optionally) one of its types. */
-function filterGrp(btn, grp) {
-  _activeGrp = grp;
-  _activeSub = 'all';
-  btn.parentNode.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
-  btn.classList.add('chip-active');
-  var tb = document.getElementById('typebar-adventure');
-  if (tb) {
-    var show = grp !== 'all' && !btn.hasAttribute('data-single');
-    tb.hidden = !show;
-    tb.querySelectorAll('.type-chip').forEach(function(b) {
-      var mine = b.getAttribute('data-grp') === grp;
-      b.hidden = !mine;
-      b.classList.toggle('chip-active', mine && b.getAttribute('data-sub') === 'all');
-    });
-    var ts = tb.querySelector('.fbar-tchips');
-    if (ts) ts.scrollLeft = 0;
-  }
-  _applyFilters();
-  _fbarReveal();
-}
-
-/* Keep the selected chip visible in the sideways strip (after a pick in the
-   expanded "More" view, or a ?sub= deep link to a chip far down the list). */
-function _fbarReveal() {
-  var s = document.getElementById('chipbar-adventure');
-  var a = s && s.querySelector('.chip-active');
-  if (!a || s.scrollWidth <= s.clientWidth + 2) return;
-  var x = Math.max(0, a.offsetLeft - s.offsetLeft - 16);
-  try { s.scrollTo({left: x, behavior: 'smooth'}); } catch (e) { s.scrollLeft = x; }
-}
-
-/* Phones: the strip only fits ~2 chips, so "More" expands it into a wrapped
-   list of every category plus the district picker. Picking a chip collapses
-   it again. Hidden on wider screens (CSS) and when there is nothing extra. */
-(function() {
+(function(){
   var fb = document.getElementById('fbar-adventure');
-  var btn = fb && fb.querySelector('.fbar-more');
+  var panel = document.getElementById('gf-panel'), btn = document.getElementById('gf-catbtn');
+  var q = document.getElementById('gf-q'), act = document.getElementById('gf-active');
   var strip = document.getElementById('chipbar-adventure');
-  if (!btn || !strip) return;
-  function setOpen(o) {
-    fb.classList.toggle('fbar-open', o);
-    btn.setAttribute('aria-expanded', o ? 'true' : 'false');
-    if (!o) _fbarReveal();
+  function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
+  var cards = [], hay = [];
+  function initCards(){ if (cards.length) return;
+    cards = Array.prototype.slice.call(document.querySelectorAll('.listing-card'));
+    hay = cards.map(function(c){ return ' ' + norm(c.textContent + ' ' + (c.getAttribute('data-k')||'')).replace(/[^a-z0-9\u4e00-\u9fff]+/g, ' '); });
   }
-  btn.addEventListener('click', function() { setOpen(!fb.classList.contains('fbar-open')); });
-  strip.addEventListener('click', function(e) {
-    if (fb.classList.contains('fbar-open') && e.target.closest && e.target.closest('.filter-chip')) setOpen(false);
+  function subOk(c){
+    if (_activeSub !== 'all') return c.dataset.sub === _activeSub;
+    if (_activeGrp !== 'all') return _SUB_GRP[c.dataset.sub] === _activeGrp;
+    return true;
+  }
+  function distOk(c){ return _activeDist === 'all' || (c.dataset.district||'').split('|').indexOf(_activeDist) >= 0; }
+  var empty = null, PAGE = 24, limit = PAGE, moreBtn = null;
+  try { if (history.state && history.state.gfN) limit = history.state.gfN; } catch (e) {}
+  function mkMore(){
+    if (moreBtn || !cards.length) return;
+    var grid = cards[0].parentNode;
+    moreBtn = document.createElement('button'); moreBtn.type = 'button'; moreBtn.className = 'gf-more';
+    moreBtn.dataset.tpl = document.getElementById('gf-more-tpl').textContent.replace(/\d+/, '#');
+    grid.parentNode.insertBefore(moreBtn, grid.nextSibling);
+    moreBtn.addEventListener('click', function(){
+      limit += PAGE;
+      try { history.replaceState(Object.assign({}, history.state || {}, {gfN: limit}), ''); } catch (e) {}
+      apply();
+    });
+  }
+  function apply(){
+    initCards(); mkMore();
+    var words = norm(_gfQ).replace(/[^a-z0-9\u4e00-\u9fff]+/g, ' ').split(' ').filter(Boolean), vis = 0, shown = 0, dc = {};
+    for (var i = 0; i < cards.length; i++){
+      var c = cards[i], h = hay[i];
+      /* Short words match at a word start ("ijs" not "prijs"); longer ones anywhere,
+         so Dutch compounds work ("schildpad" finds "zeeschildpadden"). */
+      var qOk = words.every(function(w){ return (w.length >= 5 || /[\u4e00-\u9fff]/.test(w)) ? h.indexOf(w) >= 0 : h.indexOf(' ' + w) >= 0; });
+      var ok = subOk(c) && qOk;
+      if (ok){ var ds = (c.dataset.district||'Paramaribo').split('|'); for (var d = 0; d < ds.length; d++) dc[ds[d]] = (dc[ds[d]]||0) + 1; }
+      ok = ok && distOk(c);
+      if (ok) vis++;
+      /* "Show more" paging (Baymard: beats infinite scroll and page numbers) */
+      var show = ok && shown < limit; if (show) shown++;
+      c.classList.toggle('hidden', !show);
+    }
+    if (moreBtn){
+      var left = vis - shown;
+      moreBtn.hidden = left <= 0;
+      moreBtn.textContent = moreBtn.dataset.tpl.replace('#', Math.min(PAGE, left));
+    }
+    var lbl = document.getElementById('result-count');
+    if (lbl){
+      if (!lbl.dataset.tpl) lbl.dataset.tpl = lbl.textContent.replace(/\d+/, '#');
+      lbl.textContent = lbl.dataset.tpl.replace('#', vis) + (_activeDist !== 'all' ? ' · ' + _activeDist : '');
+      if (!empty){ empty = document.createElement('p'); empty.className = 'gf-empty';
+        empty.textContent = document.getElementById('gf-empty-tpl').textContent; lbl.parentNode.insertBefore(empty, lbl.nextSibling); }
+      empty.hidden = vis > 0;
+      var sh = panel.querySelector('.gf-shown');
+      if (sh){ if (!sh.dataset.tpl) sh.dataset.tpl = sh.textContent.replace(/\d+/, '#'); sh.textContent = sh.dataset.tpl.replace('#', vis); }
+    }
+    var sel = document.getElementById('dist-sel');
+    if (sel){
+      for (var oi = 0; oi < sel.options.length; oi++){
+        var o = sel.options[oi]; if (o.value === 'all') continue;
+        var n = dc[o.value] || 0; o.hidden = o.disabled = n === 0;
+        if (n === 0 && _activeDist === o.value){ _activeDist = 'all'; sel.value = 'all'; return apply(); }
+      }
+    }
+    btn.classList.toggle('has-dist', _activeDist !== 'all');
+  }
+  function labelOf(sub, grp){
+    var el = sub !== 'all' ? panel.querySelector('[data-sub="' + sub + '"] span')
+                           : panel.querySelector('.gf-ghead[data-grp="' + grp + '"] span');
+    return el ? el.textContent : '';
+  }
+  function syncUI(){
+    /* The active choice is always the first chip (with ✕), so it is visible even
+       on a phone where the strip only shows one or two chips; its duplicate among
+       the top chips is hidden meanwhile. */
+    var shown = false;
+    strip.querySelectorAll('.gf-top').forEach(function(b){
+      b.hidden = _activeSub !== 'all' && b.getAttribute('data-sub') === _activeSub;
+    });
+    strip.scrollLeft = 0;
+    var any = _activeSub !== 'all' || _activeGrp !== 'all';
+    act.hidden = !any;
+    if (any && !shown) act.querySelector('.gf-al').textContent = labelOf(_activeSub, _activeGrp);
+    panel.querySelectorAll('.gf-type, .gf-ghead').forEach(function(b){
+      var s = b.getAttribute('data-sub'), g = b.getAttribute('data-grp');
+      var on = s ? (s === _activeSub) : (g === _activeGrp && _activeSub === 'all');
+      b.classList.toggle('gf-on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  function toResults(){
+    var lbl = document.getElementById('result-count');
+    if (!lbl) return;
+    var top = lbl.getBoundingClientRect().top + window.pageYOffset - fb.offsetHeight - 70;
+    if (window.pageYOffset > top) window.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
+  }
+  function resetPage(){ limit = PAGE; try { history.replaceState(Object.assign({}, history.state || {}, {gfN: 0}), ''); } catch (e) {} }
+  function pick(sub, grp){
+    resetPage();
+    _activeSub = sub || 'all'; _activeGrp = grp || 'all';
+    if (_gfQ){ _gfQ = ''; q.value = ''; }
+    syncUI(); apply(); setOpen(false); toResults();
+  }
+  window.esrPick = pick;
+  function setOpen(o){
+    panel.hidden = !o; btn.setAttribute('aria-expanded', o ? 'true' : 'false');
+    fb.classList.toggle('gf-isopen', o);   /* lift the bar above the site header while the sheet is open */
+    document.documentElement.classList.toggle('gf-lock', o && mq.matches);
+    if (o){ var f = panel.querySelector('.gf-on') || panel.querySelector('button.gf-ghead'); if (f) f.focus({preventScroll: true}); }
+  }
+  btn.addEventListener('click', function(){ setOpen(panel.hidden); });
+  panel.querySelector('.gf-close').addEventListener('click', function(){ setOpen(false); btn.focus(); });
+  panel.querySelector('.gf-show').addEventListener('click', function(){ setOpen(false); toResults(); });
+  panel.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('button[data-sub], button[data-grp]');
+    if (!b || !panel.contains(b)) return;
+    var s = b.getAttribute('data-sub');
+    if (s) pick(s, _SUB_GRP[s] || 'all'); else pick('all', b.getAttribute('data-grp'));
   });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && fb.classList.contains('fbar-open')) { setOpen(false); btn.focus(); }
+  strip.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('button'); if (!b) return;
+    if (b === act){ pick('all', 'all'); return; }
+    var s = b.getAttribute('data-sub'); if (!s) return;
+    if (s === _activeSub) pick('all', 'all'); else pick(s, _SUB_GRP[s] || 'all');
   });
-  if (!document.getElementById('dist-sel') && strip.querySelectorAll('.filter-chip').length < 4) btn.hidden = true;
-})();
-
-function filterDistrict(el, dist) {
-  _activeDist = dist || 'all';
-  if (el && el.tagName === 'SELECT' && el.value !== _activeDist) el.value = _activeDist;
-  _applyFilters();
-}
-
-/* Deep link: /activities.html?sub=nature-parks pre-selects a chip. Used by the
-   homepage journey cards since Nature was merged into Things to Do. Silently
-   ignored when the key matches no chip on this page. */
-(function() {
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !panel.hidden){ setOpen(false); btn.focus(); } });
+  document.addEventListener('click', function(e){
+    if (panel.hidden || mq.matches) return;
+    if (!panel.contains(e.target) && !btn.contains(e.target)) setOpen(false);
+  });
+  var tq = null;
+  q.addEventListener('input', function(){
+    clearTimeout(tq);
+    tq = setTimeout(function(){
+      _gfQ = q.value.trim(); resetPage();
+      if (_gfQ && (_activeSub !== 'all' || _activeGrp !== 'all')){ _activeSub = 'all'; _activeGrp = 'all'; syncUI(); }
+      apply();
+    }, 120);
+  });
+  q.addEventListener('keydown', function(e){ if (e.key === 'Enter'){ q.blur(); toResults(); } });
+  /* Phones: the district picker lives in the sheet, the row has no room for it. */
+  var mq = window.matchMedia('(max-width:639px)');
+  function placeDist(){
+    var sel = document.getElementById('dist-sel'); if (!sel) return;
+    var slot = document.getElementById(mq.matches ? 'gf-distslot-m' : 'gf-distslot');
+    if (sel.parentNode !== slot) slot.appendChild(sel);
+  }
+  placeDist();
+  if (mq.addEventListener) mq.addEventListener('change', placeDist); else if (mq.addListener) mq.addListener(placeDist);
+  window.filterDistrict = function(el, d){ _activeDist = d || 'all'; resetPage(); apply(); };
+  /* Deep links: ?sub=notaries-legal, ?grp=g-home-property, ?q=loodgieter */
   var qs = new URLSearchParams(location.search);
-  var want = qs.get('sub'), wantGrp = qs.get('grp');
-  if ((!want || want === 'all') && !wantGrp) return;
-  function apply() {
-    /* Grouped pages: ?sub= selects the type's group first, ?grp= a group. */
-    var g = (want && _SUB_GRP[want]) || wantGrp;
-    var gb = g && document.querySelector('#chipbar-adventure .filter-chip[data-grp="' + g + '"]');
-    if (gb) {
-      filterGrp(gb, g);
-      var tc = want && document.querySelector('#typebar-adventure .type-chip[data-sub="' + want + '"]');
-      if (tc && !gb.hasAttribute('data-single')) filterSub(tc, want);
-      return;
-    }
-    if (!want) return;
-    var chips = document.querySelectorAll('#chipbar-adventure .filter-chip');
-    for (var i = 0; i < chips.length; i++) {
-      var oc = chips[i].getAttribute('onclick') || '';
-      var m  = oc.match(/filterSub\(this,\s*'([^']+)'\)/);
-      if (m && m[1] === want) { filterSub(chips[i], want); return; }
-    }
+  function boot(){
+    var s = qs.get('sub'), g = qs.get('grp'), qq = qs.get('q');
+    if (s && _SUB_GRP[s]) { _activeSub = s; _activeGrp = _SUB_GRP[s]; }
+    else if (g && panel.querySelector('.gf-ghead[data-grp="' + g + '"]')) { _activeGrp = g; }
+    if (qq){ q.value = qq; _gfQ = qq; _activeSub = 'all'; _activeGrp = 'all'; }
+    syncUI(); apply();
   }
-  /* The bar renders above the grid, so wait for the cards to exist. */
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', apply);
-  } else {
-    apply();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script>
 <main class="max-w-6xl mx-auto px-5 pt-2 pb-24">
 <div class="text-sm text-gray-400 mb-4 font-medium" id="result-count">126 条结果</div>
 <div class="listing-grid">
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/access-suriname-travel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids access suriname travel paramaribo agency tour operator guided tours hotel bookings visa assistance packages visitors exploring" data-sub="tours-expeditions" href="listing/access-suriname-travel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="帕拉马里博的 Access Suriname Travel" class="w-full h-full object-cover" fetchpriority="high" height="300" loading="eager" onerror="this.style.display='none'" src="/images/6bdd7d2ea85b546f855372b8e5fc22a8.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Access Suriname Travel</h3>
@@ -280,7 +313,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Brokopondo" data-sub="eco-lodges" href="listing/afobaka-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Brokopondo" data-k="lodge eco jungle river rivier binnenland interior afobaka resort nature brokopondo beyond dam suriname river reservoir overnight stays private lodges day passes" data-sub="eco-lodges" href="listing/afobaka-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Afobaka Resort，Brokopondo 住宿" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ca42b1842bee14eb01e4bb7dee62b292.webp" srcset="/images/ca42b1842bee14eb01e4bb7dee62b292-480.webp 480w, /images/ca42b1842bee14eb01e4bb7dee62b292.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Afobaka Resort</h3>
@@ -290,7 +323,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/airboat-tours-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids eco tour agency paramaribo running boat based trips" data-sub="tours-expeditions" href="listing/airboat-tours-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="帕拉马里博的 Airboat Tours Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/52cab93e2887d48a77c80ed6c2c2ee3e.webp" srcset="/images/52cab93e2887d48a77c80ed6c2c2ee3e-480.webp 480w, /images/52cab93e2887d48a77c80ed6c2c2ee3e.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Airboat Tours Suriname</h3>
@@ -300,7 +333,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-sub="eco-lodges" href="listing/akira-overwater-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-k="lodge eco jungle river rivier binnenland interior akira overwater resort detached lodges bigi pan nature reserve one suriname largest wetland areas built directly water spacious balconies overlooking lake significant wildlife birdwatching area provides boat access accessible road paramaribo" data-sub="eco-lodges" href="listing/akira-overwater-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Akira Overwater Resort，Nickerie 住宿" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7c939ca772fe312d139fde4ba900edec.webp" srcset="/images/7c939ca772fe312d139fde4ba900edec-480.webp 480w, /images/7c939ca772fe312d139fde4ba900edec.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Akira Overwater Resort</h3>
@@ -310,7 +343,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/all-suriname-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids all suriname tours paramaribo tour operator running jungle trips wildlife spotting multi day round across interior own booking site allsurinametours com" data-sub="tours-expeditions" href="listing/all-suriname-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="帕拉马里博的 All Suriname Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/13ea4be25686127720ad3bcdc7cd4fc9.webp" srcset="/images/13ea4be25686127720ad3bcdc7cd4fc9-480.webp 480w, /images/13ea4be25686127720ad3bcdc7cd4fc9.webp 681w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">All Suriname Tours</h3>
@@ -320,7 +353,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/asomena-travel-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids tour agency running interior trips suriname built creeks birdlife landscapes rock formations" data-sub="tours-expeditions" href="listing/asomena-travel-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="帕拉马里博的 Asomena Travel &amp; Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1abc0a37d95dbf782bc371cf648a99f5.webp" srcset="/images/1abc0a37d95dbf782bc371cf648a99f5-480.webp 480w, /images/1abc0a37d95dbf782bc371cf648a99f5.webp 720w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Asomena Travel &amp; Tours</h3>
@@ -343,7 +376,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/bamboo-adventure-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids travel organisation maureenlaan paramaribo running broad tour programme across suriname" data-sub="tours-expeditions" href="listing/bamboo-adventure-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="帕拉马里博的 Bamboo Adventure Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/83221e8e04213038105d0af703423c4e.webp" srcset="/images/83221e8e04213038105d0af703423c4e-480.webp 480w, /images/83221e8e04213038105d0af703423c4e.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Bamboo Adventure Tours</h3>
@@ -366,7 +399,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/bio-with-wirjo-tours-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids bio wirjo tours runs nature wildlife suriname biological educational slant" data-sub="tours-expeditions" href="listing/bio-with-wirjo-tours-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="帕拉马里博的 Bio with Wirjo Tours Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/791bb8b9597c3b1fe81a74491e902642.webp" srcset="/images/791bb8b9597c3b1fe81a74491e902642-480.webp 480w, /images/791bb8b9597c3b1fe81a74491e902642.webp 681w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Bio with Wirjo Tours Suriname</h3>
@@ -389,7 +422,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/black-eagle-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids black eagle tours run tailor made adventure trips suriname since focused rainforest interior indigenous maroon communities" data-sub="tours-expeditions" href="listing/black-eagle-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="帕拉马里博的 Black Eagle Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8e3bb7d0afa954717a0c852f8819c59f.webp" srcset="/images/8e3bb7d0afa954717a0c852f8819c59f-480.webp 480w, /images/8e3bb7d0afa954717a0c852f8819c59f.webp 767w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Black Eagle Tours</h3>
@@ -399,7 +432,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/blue-frog-travel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids tour agency mirandastraat running everything day trips nine jungle expeditions placing people internships volunteer work" data-sub="tours-expeditions" href="listing/blue-frog-travel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="帕拉马里博的 Blue Frog Travel Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a3b16f003af296d8eb678050c0e7d75b.webp" srcset="/images/a3b16f003af296d8eb678050c0e7d75b-480.webp 480w, /images/a3b16f003af296d8eb678050c0e7d75b.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Blue Frog Travel Suriname</h3>
@@ -409,7 +442,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/boni-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids tour agency working waaggebouw waterkant paramaribo" data-sub="tours-expeditions" href="listing/boni-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="帕拉马里博的 Boni Tours Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/275ec3b11dd969acd1fbbbb05fd02aca.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Boni Tours Suriname</h3>
@@ -432,7 +465,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/budget-tours-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids budget tours suriname arranges lower cost guided trips excursions paramaribo interior" data-sub="tours-expeditions" href="listing/budget-tours-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="帕拉马里博的 Budget tours Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/cb1990afd56982c8d964f2c48a28b8b5.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Budget tours Suriname</h3>
@@ -442,7 +475,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/cardy-adventures-bike-rental/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids operating since cornelis jongbawstraat short walk torarica historic centre cardy hires out bicycles runs guided city birdwatching dolphin cycling tours longer expeditions roosevelt peaks kasikasima lets air conditioned apartments kitchenettes" data-sub="tours-expeditions" href="listing/cardy-adventures-bike-rental/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Cardy Adventures &amp; Bike Rental</h3>
@@ -452,7 +485,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="" data-sub="tours-expeditions" href="listing/carolina-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="" data-k="tour excursion excursie trip boat boot guide gids eco tour agency carolinakreek zanderij running four day interior trips guests staying own apartments" data-sub="tours-expeditions" href="listing/carolina-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Carolina Tours " class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/c57df5ebad126cb2e20cc6db60471328.webp" srcset="/images/c57df5ebad126cb2e20cc6db60471328-480.webp 480w, /images/c57df5ebad126cb2e20cc6db60471328.webp 720w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Carolina Tours</h3>
@@ -475,7 +508,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/chuck-e-cheese/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="chuck cheese suriname popular family entertainment centre arcade games rides pizza birthday party packages beloved destination children celebrations" data-sub="entertainment" href="listing/chuck-e-cheese/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="帕拉马里博的 Chuck E Cheese" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a682bc0196b7365b1e81d02dd7ca4380.webp" srcset="/images/a682bc0196b7365b1e81d02dd7ca4380-480.webp 480w, /images/a682bc0196b7365b1e81d02dd7ca4380.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Chuck E Cheese</h3>
@@ -485,7 +518,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/clevia-park/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="clevia park outdoor recreation entertainment paramaribo leisure activities events popular destination family outings group gatherings" data-sub="entertainment" href="listing/clevia-park/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="帕拉马里博的 Clevia Park" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2ac2b8e505f0f31589e516ac17285ae5.webp" srcset="/images/2ac2b8e505f0f31589e516ac17285ae5-480.webp 480w, /images/2ac2b8e505f0f31589e516ac17285ae5.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Clevia Park</h3>
@@ -495,7 +528,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="nature-parks" href="listing/cola-kreek-recreatiepark/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="nature natuur park reserve reservaat wildlife birds vogels hiking colakreek recreation park day trip destination paramaribo built natural creek visitors swim picnic cool off forest about capital gets busy weekends families groups arrive early best spots" data-sub="nature-parks" href="listing/cola-kreek-recreatiepark/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Cola Kreek Recreatiepark，Para 探险" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/753690f5e1d4c63e15a7ebdff0b5b69b.webp" srcset="/images/753690f5e1d4c63e15a7ebdff0b5b69b-480.webp 480w, /images/753690f5e1d4c63e15a7ebdff0b5b69b.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Cola Kreek Recreatiepark</h3>
@@ -544,7 +577,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="bars-lounges" href="listing/danceclub-tequila/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="bar lounge drinks cocktails nightlife uitgaan beer bier nightclub kleine dwarsstraat paramaribo" data-sub="bars-lounges" href="listing/danceclub-tequila/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="帕拉马里博的 Danceclub Tequila" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f018d4ea8b7adc6125abe5a4ff0c4eca.webp" srcset="/images/f018d4ea8b7adc6125abe5a4ff0c4eca-480.webp 480w, /images/f018d4ea8b7adc6125abe5a4ff0c4eca.webp 576w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Danceclub Tequila</h3>
@@ -554,7 +587,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/discover-suriname-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids tour operator kleine waterstraat running jeep tours fishing trips expeditions treks across suriname" data-sub="tours-expeditions" href="listing/discover-suriname-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="帕拉马里博的 Discover Suriname Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fa5ddcffb52805229a2022d5aeb4351a.webp" srcset="/images/fa5ddcffb52805229a2022d5aeb4351a-480.webp 480w, /images/fa5ddcffb52805229a2022d5aeb4351a.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Discover Suriname Tours</h3>
@@ -564,7 +597,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/does-travel-cadushi-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids one longest established travel specialists suriname sixty years trading tours include tuk runs wooden city paramaribo taking fort zeelandia independence square central market hermitage mall" data-sub="tours-expeditions" href="listing/does-travel-cadushi-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="帕拉马里博的 Does Travel &amp; Cadushi Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/977c3510ecb7d314ff6dbb87a22bb1f3.webp" srcset="/images/977c3510ecb7d314ff6dbb87a22bb1f3-480.webp 480w, /images/977c3510ecb7d314ff6dbb87a22bb1f3.webp 851w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Does Travel &amp; Cadushi Tours</h3>
@@ -574,7 +607,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/flora-fauna-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids paramaribo tour operator running trips interior river tours wildlife excursions alongside day capital based rietbergplein" data-sub="tours-expeditions" href="listing/flora-fauna-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Flora &amp; Fauna Tours Suriname</h3>
@@ -584,7 +617,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/folo-nature-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids folo nature tours surinamese eco tourism operator guided birding walks wildlife watching experiences suriname diverse habitats" data-sub="tours-expeditions" href="listing/folo-nature-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="帕拉马里博的 Folo Nature Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/95a7414b45fa9ffd922dfceaa79d87ec.webp" srcset="/images/95a7414b45fa9ffd922dfceaa79d87ec-480.webp 480w, /images/95a7414b45fa9ffd922dfceaa79d87ec.webp 1280w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Folo Nature Tours</h3>
@@ -607,7 +640,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/fort-zeelandia/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="museum heritage erfgoed history geschiedenis fort plantage plantation fort zeelandia paramaribo iconic century banks suriname river now housing surinaams museum explore colonial history through artefacts exhibits remarkable architecture" data-sub="museums-heritage" href="listing/fort-zeelandia/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="泽兰迪亚要塞（Fort Zeelandia），帕拉马里博观光" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5dd63a457e914609d53d5de5e729143b.webp" srcset="/images/5dd63a457e914609d53d5de5e729143b-480.webp 480w, /images/5dd63a457e914609d53d5de5e729143b.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Fort Zeelandia</h3>
@@ -617,7 +650,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/fred-eco-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids tour operator run brothers grew island apiapaati surrounding villages guides drawn interior trips focus wildlife spotting time river communities signature route climbs fredberg overnight summit" data-sub="tours-expeditions" href="listing/fred-eco-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="帕拉马里博的 Fred Eco Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/38e7d8c1d7228646145a9e7ac5b755cd.webp" srcset="/images/38e7d8c1d7228646145a9e7ac5b755cd-480.webp 480w, /images/38e7d8c1d7228646145a9e7ac5b755cd.webp 851w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Fred Eco Tours</h3>
@@ -627,7 +660,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/free-city-walk-paramaribo/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids free city walk paramaribo runs guided walking tours unesco world heritage listed historic inner led knowledgeable local guides walks cover colonial architecture cultural landmarks stories behind capital significant streets buildings" data-sub="tours-expeditions" href="listing/free-city-walk-paramaribo/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="帕拉马里博的 Free City Walk Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/1a6aec34a606a31dcba1d070cb23b7b7.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Free City Walk Paramaribo</h3>
@@ -650,7 +683,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/golf-club-paramaribo/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="golf club paramaribo suriname premier facility hole course tropical setting outside capital open members visitors provides quality golfing experience caribbean region" data-sub="entertainment" href="listing/golf-club-paramaribo/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="帕拉马里博的 Golf Club Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d4d8e378c5d45e8faf18e84042c5e309.webp" srcset="/images/d4d8e378c5d45e8faf18e84042c5e309-480.webp 480w, /images/d4d8e378c5d45e8faf18e84042c5e309.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Golf Club Paramaribo</h3>
@@ -660,7 +693,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/green-tours-n-travel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids travel company running interior trips suriname own guides" data-sub="tours-expeditions" href="listing/green-tours-n-travel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="帕拉马里博的 Green Tours N Travel Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9b7ae9a2b5980608bc72a4a4ea8b5108.webp" srcset="/images/9b7ae9a2b5980608bc72a4a4ea8b5108-480.webp 480w, /images/9b7ae9a2b5980608bc72a4a4ea8b5108.webp 801w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Green Tours N Travel Suriname</h3>
@@ -670,7 +703,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/greentour/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids tour agency running jungle tours expeditions surinamese interior" data-sub="tours-expeditions" href="listing/greentour/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="帕拉马里博的 Greentour Jungletours &amp; Expeditions" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f9114a3d277ce9bc14adcfd3b4367140.webp" srcset="/images/f9114a3d277ce9bc14adcfd3b4367140-480.webp 480w, /images/f9114a3d277ce9bc14adcfd3b4367140.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Greentour Jungletours &amp; Expeditions</h3>
@@ -680,7 +713,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/het-geologisch-museum/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="museum heritage erfgoed history geschiedenis fort plantage plantation museum geology mining history suriname housed geologisch mijnbouwkundige dienst building jaggernath lachmonstraat" data-sub="museums-heritage" href="listing/het-geologisch-museum/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Het Geologisch Museum</h3>
@@ -690,7 +723,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/het-koto-museum/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="museum heritage erfgoed history geschiedenis fort plantage plantation koto museum paramaribo documents traditional dress surinamese creole women through exhibition historical garments photographs cultural context small focused anyone interested suriname heritage textile traditions" data-sub="museums-heritage" href="listing/het-koto-museum/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Het Koto Museum，帕拉马里博观光" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/eaeae3a95ce7e062136ca4ec6b427fa5.webp" srcset="/images/eaeae3a95ce7e062136ca4ec6b427fa5-480.webp 480w, /images/eaeae3a95ce7e062136ca4ec6b427fa5.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Het Koto Museum</h3>
@@ -700,7 +733,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/huub-explorer-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids huub explorer tours paramaribo based tour operator personalised jungle treks river off beaten track adventures suriname interior" data-sub="tours-expeditions" href="listing/huub-explorer-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Huub Explorer Tours，帕拉马里博探险" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/caa6b456056c0deea91d17193df20da5.webp" srcset="/images/caa6b456056c0deea91d17193df20da5-480.webp 480w, /images/caa6b456056c0deea91d17193df20da5.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Huub Explorer Tours</h3>
@@ -710,7 +743,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/impressive-suriname-travel-nv/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids impressive suriname travel operated since running tours across border french guiana guyana focus local experiences" data-sub="tours-expeditions" href="listing/impressive-suriname-travel-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">I</span><img alt="帕拉马里博的 Impressive Suriname Travel N.V." class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/57d9ba2d5bc3e6dac41437e014c618e4.webp" srcset="/images/57d9ba2d5bc3e6dac41437e014c618e4-480.webp 480w, /images/57d9ba2d5bc3e6dac41437e014c618e4.webp 681w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Impressive Suriname Travel N.V.</h3>
@@ -733,7 +766,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/jenny-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids jenny tours surinamese tour operator specialising guided nature cultural personalised experiences including jungle treks river historical site visits" data-sub="tours-expeditions" href="listing/jenny-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="帕拉马里博的 Jenny Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/de3f3f7a598d59b4315eff0ab3eb498c.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Jenny Tours</h3>
@@ -743,7 +776,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="museums-heritage" href="listing/joden-savanne/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="museum heritage erfgoed history geschiedenis fort plantage plantation joden savanne archaeological remains one oldest jewish settlements americas suriname para district accessible boat significant heritage destination historic cemetery ruins nature" data-sub="museums-heritage" href="listing/joden-savanne/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="Joden Savanne，Para 探险" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f5242c4dcb68c6ec348c618da87711db.webp" srcset="/images/f5242c4dcb68c6ec348c618da87711db-480.webp 480w, /images/f5242c4dcb68c6ec348c618da87711db.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Joden Savanne</h3>
@@ -778,7 +811,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/jungle-xperience-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids eco tour agency running interior rainforest trips suriname" data-sub="tours-expeditions" href="listing/jungle-xperience-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="帕拉马里博的 Jungle Xperience Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b03a04d2b1685236c9f7e3f07be75421.webp" srcset="/images/b03a04d2b1685236c9f7e3f07be75421-480.webp 480w, /images/b03a04d2b1685236c9f7e3f07be75421.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Jungle Xperience Suriname</h3>
@@ -801,7 +834,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/kirans-dolfijnen-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids boat tour operator running dolphin trips sunset night caiman spotting coastal birdwatching plantation visits sea turtle during nesting season longer runs out brownsberg ston eiland warrappa creek bigi pan soft drinks snacks included" data-sub="tours-expeditions" href="listing/kirans-dolfijnen-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="帕拉马里博的 Kiran's Dolfijnen Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fbbdf24be8a2da741acdbbeaf5d25c3d.webp" srcset="/images/fbbdf24be8a2da741acdbbeaf5d25c3d-480.webp 480w, /images/fbbdf24be8a2da741acdbbeaf5d25c3d.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Kiran's Dolfijnen Tours</h3>
@@ -811,7 +844,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/knini-paati/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior knini paati river resort sipaliwini district roughly paramaribo reached three hour drive short boat ride sits two part island ferulasi sula community founded descendants escaped slaves guests experience maroon culture life surrounding interior forest" data-sub="eco-lodges" href="listing/knini-paati/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Knini Paati，Sipaliwini 住宿" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e5bc2d77c05b6ecab0ac76a7a3db1c7e.webp" srcset="/images/e5bc2d77c05b6ecab0ac76a7a3db1c7e-480.webp 480w, /images/e5bc2d77c05b6ecab0ac76a7a3db1c7e.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Knini Paati</h3>
@@ -821,7 +854,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/kodouffi-tapawatra-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior kodouffi tapawatra resort sits confluence pikienrio granrio rivers surinamese interior directly adjacent falls waterfall exceeding metres visible property throughout stay reached river paramaribo remote destination travellers exploring" data-sub="eco-lodges" href="listing/kodouffi-tapawatra-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kodouffi Tapawatra Resort，Sipaliwini 住宿" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/315266ed486cbd378ad0e279bd329943.webp" srcset="/images/315266ed486cbd378ad0e279bd329943-480.webp 480w, /images/315266ed486cbd378ad0e279bd329943.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Kodouffi Tapawatra Resort</h3>
@@ -831,7 +864,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/lalla-rookh-museum/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="museum heritage erfgoed history geschiedenis fort plantage plantation museum indo surinamese history culture opened june vice president ashwin adhin mark years since first indentured labourers arrived suriname" data-sub="museums-heritage" href="listing/lalla-rookh-museum/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">L</span><img alt="帕拉马里博的 Lalla Rookh Museum" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/6ac25c310e7dc8076169b758436be90e.webp" srcset="/images/6ac25c310e7dc8076169b758436be90e-480.webp 480w, /images/6ac25c310e7dc8076169b758436be90e.webp 720w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Lalla Rookh Museum</h3>
@@ -841,7 +874,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/luxury-sky-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="public swimming pool restaurant paramaribo opened second luxury sky residence open non residents" data-sub="entertainment" href="listing/luxury-sky-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">L</span><img alt="帕拉马里博的 Luxury Sky Resort" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d25d2acc595641f61a1de4bb27159ce3.webp" srcset="/images/d25d2acc595641f61a1de4bb27159ce3-480.webp 480w, /images/d25d2acc595641f61a1de4bb27159ce3.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Luxury Sky Resort</h3>
@@ -851,7 +884,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-sub="tours-expeditions" href="listing/mantje-bigi-pan-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-k="tour excursion excursie trip boat boot guide gids day trips overnight stays bigi pan based mantje lodge" data-sub="tours-expeditions" href="listing/mantje-bigi-pan-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Nickerie的 Mantje Bigi Pan Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/59e9b6c22ddd45ea88f931c562751e8c.webp" srcset="/images/59e9b6c22ddd45ea88f931c562751e8c-480.webp 480w, /images/59e9b6c22ddd45ea88f931c562751e8c.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Mantje Bigi Pan Tours</h3>
@@ -887,7 +920,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/messias-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids messias tours surinamese tour operator guided excursions including jungle adventures river trips cultural professional guiding customised itineraries" data-sub="tours-expeditions" href="listing/messias-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="帕拉马里博的 Messias Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/3d850e229672706c3c84514f3ee28830.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Messias Tours</h3>
@@ -897,7 +930,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/mets-travel-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids suriname longest running tour operator founded focused sustainable travel mets runs own jungle lodges palumeu awarradam cola creek recreation resort savannah belt alongside tailor made trips sales office nassylaan centre" data-sub="tours-expeditions" href="listing/mets-travel-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="帕拉马里博的 METS Travel &amp; Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7fbd4eb2fc64c4454ba877b8cf0aa4ca.webp" srcset="/images/7fbd4eb2fc64c4454ba877b8cf0aa4ca-480.webp 480w, /images/7fbd4eb2fc64c4454ba877b8cf0aa4ca.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">METS Travel &amp; Tours</h3>
@@ -907,7 +940,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/mi-gudu-river-cruiser/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids river cruise operator suriname running prinsessestraat paramaribo" data-sub="tours-expeditions" href="listing/mi-gudu-river-cruiser/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="帕拉马里博的 Mi Gudu River Cruiser" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/944c796d9e7df268a02fade2651e1572.webp" srcset="/images/944c796d9e7df268a02fade2651e1572-480.webp 480w, /images/944c796d9e7df268a02fade2651e1572.webp 820w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Mi Gudu River Cruiser</h3>
@@ -917,7 +950,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="bars-lounges" href="listing/mj-lounge-club/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="bar lounge drinks cocktails nightlife uitgaan beer bier nightclub lounge hofstraat centre paramaribo open weekends" data-sub="bars-lounges" href="listing/mj-lounge-club/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="帕拉马里博的 MJ Lounge &amp; Club" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/da1b661583695ee98b181ababe962f34.webp" srcset="/images/da1b661583695ee98b181ababe962f34-480.webp 480w, /images/da1b661583695ee98b181ababe962f34.webp 720w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">MJ Lounge &amp; Club</h3>
@@ -927,7 +960,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/mondowa-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids mondowa tours reputable surinamese tour operator eco jungle expeditions cultural experiences specialising sustainable tourism suriname pristine interior" data-sub="tours-expeditions" href="listing/mondowa-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="帕拉马里博的 Mondowa Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/6345b80b3d685d755587a7c177c85415.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Mondowa Tours</h3>
@@ -937,7 +970,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="museums-heritage" href="listing/museum-bakkie/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-k="museum heritage erfgoed history geschiedenis fort plantage plantation museum bakkie unique plantation heritage former coffee reynsdorp commewijne set beautifully restored colonial building intimate exhibits life surinamese history" data-sub="museums-heritage" href="listing/museum-bakkie/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Museum Bakkie，Commewijne 探险" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/22677dd3782ef148ddb6b50f76577359.webp" srcset="/images/22677dd3782ef148ddb6b50f76577359-480.webp 480w, /images/22677dd3782ef148ddb6b50f76577359.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Museum Bakkie</h3>
@@ -947,7 +980,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/myrysji-tours-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids travel company running trips galibi interior city across french guiana kourou" data-sub="tours-expeditions" href="listing/myrysji-tours-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="帕拉马里博的 Myrysji Tours Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/6d857763f71913bc71d81238295c1986.webp" srcset="/images/6d857763f71913bc71d81238295c1986-480.webp 480w, /images/6d857763f71913bc71d81238295c1986.webp 810w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Myrysji Tours Suriname</h3>
@@ -970,7 +1003,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="nature-parks" href="listing/neotropical-butterfly-park/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-k="nature natuur park reserve reservaat wildlife birds vogels hiking butterfly park lelydorp minutes paramaribo holding species breeding operation started ewout amira eriks opened visitors tours follow full cycle egg through larva cocoon site gallery native flora fauna hand painted degree panorama surinamese landscapes upstairs small cafe cold drinks local snacks" data-sub="nature-parks" href="listing/neotropical-butterfly-park/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="Wanica的 Neotropical Butterfly Park" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/852dfee40d3278e867957e149fbad33e.webp" srcset="/images/852dfee40d3278e867957e149fbad33e-480.webp 480w, /images/852dfee40d3278e867957e149fbad33e.webp 595w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Neotropical Butterfly Park</h3>
@@ -980,7 +1013,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="bars-lounges" href="listing/next-club-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="bar lounge drinks cocktails nightlife uitgaan beer bier nightclub ramada paramaribo princess hotel kleine waterstraat" data-sub="bars-lounges" href="listing/next-club-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Next Club Suriname</h3>
@@ -990,7 +1023,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="bars-lounges" href="listing/night-club-diamond/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="bar lounge drinks cocktails nightlife uitgaan beer bier nightclub anton dragtenweg resident djs live performances drawing young crowd bar restaurant attached" data-sub="bars-lounges" href="listing/night-club-diamond/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Night Club Diamond</h3>
@@ -1000,7 +1033,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/no-span-eco-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids span eco tours surinamese tour company responsible nature tourism including jungle treks birdwatching river excursions suriname protected rainforests" data-sub="tours-expeditions" href="listing/no-span-eco-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="帕拉马里博的 No Span Eco Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/02254e51fddfc0cdca237dc549658530.webp" srcset="/images/02254e51fddfc0cdca237dc549658530-480.webp 480w, /images/02254e51fddfc0cdca237dc549658530.webp 865w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">No Span Eco Tours</h3>
@@ -1010,7 +1043,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/okido-tours-travel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids okido tours travel surinamese tour operator agency guided day multi expeditions services throughout suriname" data-sub="tours-expeditions" href="listing/okido-tours-travel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="帕拉马里博的 Okido Tours &amp; Travel" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/f09f9fc5cabda3e75c7c4efc4fdbd717.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Okido Tours &amp; Travel</h3>
@@ -1020,7 +1053,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="museums-heritage" href="listing/stichting-openlucht-museum-fort-nieuw-amsterdam/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-k="museum heritage erfgoed history geschiedenis fort plantage plantation open air museum inside walls fort nieuw amsterdam point suriname commewijne rivers meet built between opened permanent exhibition anton kom made dutch march" data-sub="museums-heritage" href="listing/stichting-openlucht-museum-fort-nieuw-amsterdam/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="Commewijne的 Openluchtmuseum Fort Nieuw-Amsterdam" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/9199652ccbb4928e8b86cdc1dd2c2ac0.webp" srcset="/images/9199652ccbb4928e8b86cdc1dd2c2ac0-480.webp 480w, /images/9199652ccbb4928e8b86cdc1dd2c2ac0.webp 590w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Openluchtmuseum Fort Nieuw-Amsterdam</h3>
@@ -1030,7 +1063,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/orange-travel-nv/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids inbound tour operator destination management company running small group cultural nature active tours paramaribo city walks peperpot park trips multi week round jungle treks" data-sub="tours-expeditions" href="listing/orange-travel-nv/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="帕拉马里博的 Orange Travel Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/de34a028397ce73568b12ee319e4725c.webp" srcset="/images/de34a028397ce73568b12ee319e4725c-480.webp 480w, /images/de34a028397ce73568b12ee319e4725c.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Orange Travel Suriname</h3>
@@ -1040,7 +1073,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/owru-cul-sport-complex/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="sports complex concert venue letitia vriesdelaan paramaribo used events sport" data-sub="entertainment" href="listing/owru-cul-sport-complex/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="帕拉马里博的 Owru Cul Sport Complex" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/814ecead350cfc91919ac2aa28af88d1.webp" srcset="/images/814ecead350cfc91919ac2aa28af88d1-480.webp 480w, /images/814ecead350cfc91919ac2aa28af88d1.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Owru Cul Sport Complex</h3>
@@ -1089,7 +1122,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/paramaribo-zoo/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="paramaribo zoo suriname national home diverse collection south american surinamese animals including jaguars tapirs anacondas exotic birds popular family destination capital" data-sub="entertainment" href="listing/paramaribo-zoo/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="帕拉马里博的 Paramaribo Zoo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/48d29ee57648e6abd195cc58ea7fe408.webp" srcset="/images/48d29ee57648e6abd195cc58ea7fe408-480.webp 480w, /images/48d29ee57648e6abd195cc58ea7fe408.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Paramaribo Zoo</h3>
@@ -1112,7 +1145,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="nature-parks" href="listing/peperpot-nature-park/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-k="nature natuur park reserve reservaat wildlife birds vogels hiking peperpot nature park commewijne former plantation transformed birding paradise minutes paramaribo ferry species recorded accessible natural sanctuary" data-sub="nature-parks" href="listing/peperpot-nature-park/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Peperpot 自然公园，Commewijne 探险" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7dd9affea5a6a4d8a85cf5f1413f0f7f.webp" srcset="/images/7dd9affea5a6a4d8a85cf5f1413f0f7f-480.webp 480w, /images/7dd9affea5a6a4d8a85cf5f1413f0f7f.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Peperpot Nature Park</h3>
@@ -1122,7 +1155,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/pineapple-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids pineapple tours paramaribo based tour operator range surinamese experiences city plantation visits jungle river adventures" data-sub="tours-expeditions" href="listing/pineapple-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="帕拉马里博的 Pineapple Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a02bc8b8c1dee686801eb8b2062d53e8.webp" srcset="/images/a02bc8b8c1dee686801eb8b2062d53e8-480.webp 480w, /images/a02bc8b8c1dee686801eb8b2062d53e8.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Pineapple Tours</h3>
@@ -1132,7 +1165,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/places2go-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids tour agency paramaribo focused community based tourism running trips built surinamese nature culture" data-sub="tours-expeditions" href="listing/places2go-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="帕拉马里博的 Places2Go Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8ae603b6ae48fc3b52756b9a91c93f18.webp" srcset="/images/8ae603b6ae48fc3b52756b9a91c93f18-480.webp 480w, /images/8ae603b6ae48fc3b52756b9a91c93f18.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Places2Go Suriname</h3>
@@ -1142,7 +1175,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="museums-heritage" href="listing/plantage-frederiksdorp/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-k="museum heritage erfgoed history geschiedenis fort plantage plantation plantage frederiksdorp plantation resort commewijne river combining small museum slavery heritage trail riverfront accommodation reached boat paramaribo site one best preserved estates suriname worth trip anyone interested country colonial history" data-sub="museums-heritage" href="listing/plantage-frederiksdorp/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Plantage Frederiksdorp，Commewijne 探险" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/97fcf36bdc7575d6df090e5ac34b621d.webp" srcset="/images/97fcf36bdc7575d6df090e5ac34b621d-480.webp 480w, /images/97fcf36bdc7575d6df090e5ac34b621d.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Plantage Frederiksdorp</h3>
@@ -1152,7 +1185,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/pristine-rainforest-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids travel agency building trips suriname rainforest interior jungle walks hikes river boating wildlife bird spotting mountain climbing swimming rapids kayaking runs multi country itineraries across three guianas" data-sub="tours-expeditions" href="listing/pristine-rainforest-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="帕拉马里博的 Pristine Rainforest Tours" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4fa0d7245bfcf71f68a40a267025ae70.webp" srcset="/images/4fa0d7245bfcf71f68a40a267025ae70-480.webp 480w, /images/4fa0d7245bfcf71f68a40a267025ae70.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Pristine Rainforest Tours</h3>
@@ -1162,7 +1195,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/purity-tours-services/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids purity tours services shata member tour operator heerenstraat guided excursions qualified guides car bicycle rental" data-sub="tours-expeditions" href="listing/purity-tours-services/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="帕拉马里博的 Purity Tours &amp; Services" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f09a2ec963fad277f77e3ecbd1a272f7.webp" srcset="/images/f09a2ec963fad277f77e3ecbd1a272f7-480.webp 480w, /images/f09a2ec963fad277f77e3ecbd1a272f7.webp 681w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Purity Tours &amp; Services</h3>
@@ -1172,7 +1205,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/r-k-bisdom-paramaribo/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="museum heritage erfgoed history geschiedenis fort plantage plantation bisdom paramaribo roman catholic diocese central institution church suriname providing pastoral educational social services" data-sub="museums-heritage" href="listing/r-k-bisdom-paramaribo/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="帕拉马里博的 R K Bisdom Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/1fb5343bc5613f418a85b51f99d3cd99.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">R K Bisdom Paramaribo</h3>
@@ -1182,7 +1215,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/readytex-art-gallery/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="museum heritage erfgoed history geschiedenis fort plantage plantation readytex art gallery suriname leading contemporary representing local caribbean artists paramaribo showcases paintings sculpture mixed media works reflect diverse cultural heritage" data-sub="museums-heritage" href="listing/readytex-art-gallery/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="帕拉马里博的 Readytex Art Gallery" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7b86c8e066c871f4eb672b791a8fb720.webp" srcset="/images/7b86c8e066c871f4eb672b791a8fb720-480.webp 480w, /images/7b86c8e066c871f4eb672b791a8fb720.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Readytex Art Gallery</h3>
@@ -1192,7 +1225,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="nature-parks" href="listing/recreatie-oord-carolina-kreek/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="nature natuur park reserve reservaat wildlife birds vogels hiking recreatie oord carolina kreek nature recreation area outside paramaribo built natural creek site swimming picnic areas access surrounding forest quiet setting away city popular day trip destination families groups" data-sub="nature-parks" href="listing/recreatie-oord-carolina-kreek/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Recreatie Oord Carolina Kreek，Para 探险" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ba09a405a8d378f61a0f1f8d88d53fd5.webp" srcset="/images/ba09a405a8d378f61a0f1f8d88d53fd5-480.webp 480w, /images/ba09a405a8d378f61a0f1f8d88d53fd5.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Recreatie Oord Carolina Kreek</h3>
@@ -1228,7 +1261,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/royal-tours-suriname-guyana/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids royal tours suriname guyana travel tour company guided within cross border experiences neighbouring" data-sub="tours-expeditions" href="listing/royal-tours-suriname-guyana/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="帕拉马里博的 Royal Tours Suriname Guyana" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/3722b8c4c2332d9b371632ddc349c814.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Royal Tours Suriname Guyana</h3>
@@ -1238,7 +1271,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="museums-heritage" href="listing/saamaka-marron-museum/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="museum heritage erfgoed history geschiedenis fort plantage plantation museum saamaka art cultural history village pikin slee upper suriname river collection gathered villages along many years strong wood carving same tradition used decorate saramaccan house facades" data-sub="museums-heritage" href="listing/saamaka-marron-museum/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Saamaka Marron Museum</h3>
@@ -1248,7 +1281,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/sana-budaya/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="museum heritage erfgoed history geschiedenis fort plantage plantation sana budaya cultural community centre vereniging herdenking javaanse immigratie vhji suriname dedicated preservation promotion transmission javanese surinamese heritage provides range educational activities including events performances exhibitions workshops meetings other public facilities fairs markets sports gatherings premises soeki irodikromo volksacademie kunst cultuur vakc supports arts education" data-sub="museums-heritage" href="listing/sana-budaya/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Sana Budaya in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/f0f00eae8a826fad8724305daec6e511.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Sana Budaya</h3>
@@ -1258,7 +1291,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="nature-parks" href="listing/sendang-redjo/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-k="nature natuur park reserve reservaat wildlife birds vogels hiking sendang redjo eco retreat tamanredjo commewijne built former plantation private lake kilometres man made creeks about minutes paramaribo visits stays reservation only" data-sub="nature-parks" href="listing/sendang-redjo/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Commewijne的 Sendang Redjo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f3bc20217250f6afbd021d9729cb7ad2.webp" srcset="/images/f3bc20217250f6afbd021d9729cb7ad2-480.webp 480w, /images/f3bc20217250f6afbd021d9729cb7ad2.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Sendang Redjo</h3>
@@ -1294,7 +1327,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/stichting-surinaams-museum/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="museum heritage erfgoed history geschiedenis fort plantage plantation stichting surinaams museum manages fort zeelandia suriname national collection preserving presenting country rich colonial multicultural heritage through exhibitions programmes" data-sub="museums-heritage" href="listing/stichting-surinaams-museum/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Stichting Surinaams Museum" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d2818c08116731f5e604859e5f2bd101.webp" srcset="/images/d2818c08116731f5e604859e5f2bd101-480.webp 480w, /images/d2818c08116731f5e604859e5f2bd101.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Stichting Surinaams Museum</h3>
@@ -1304,7 +1337,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="nature-parks" href="listing/stinasu-stichting-natuurbehoud-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="nature natuur park reserve reservaat wildlife birds vogels hiking foundation nature conservation suriname set handle education visitor access protected areas books accommodation brownsberg raleighvallen" data-sub="nature-parks" href="listing/stinasu-stichting-natuurbehoud-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 STINASU - Stichting Natuurbehoud Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/116125f73007a8828003abcc5c07447d.webp" srcset="/images/116125f73007a8828003abcc5c07447d-480.webp 480w, /images/116125f73007a8828003abcc5c07447d.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">STINASU - Stichting Natuurbehoud Suriname</h3>
@@ -1314,7 +1347,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/suforyou-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids suforyou tour operator henck arronstraat paramaribo selling day excursions multi trips interior round through suriname" data-sub="tours-expeditions" href="listing/suforyou-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 SUforYou Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/51c5b97897bb4d590c9e38e65578814b.webp" srcset="/images/51c5b97897bb4d590c9e38e65578814b-480.webp 480w, /images/51c5b97897bb4d590c9e38e65578814b.webp 681w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">SUforYou Suriname</h3>
@@ -1324,7 +1357,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/suran-adventures-tours-travel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids suran adventures tours travel surinamese adventure tour operator jungle treks river expeditions cultural agency services across suriname" data-sub="tours-expeditions" href="listing/suran-adventures-tours-travel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="帕拉马里博的 Suran Adventures Tours &amp; Travel" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/3fa54f6483087f636af40e56c75f56fc.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Suran Adventures Tours &amp; Travel</h3>
@@ -1334,7 +1367,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/suriname-tuk-tuk-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids guided tuk tours paramaribo surroundings covering historic quarter running out former peperpot plantation" data-sub="tours-expeditions" href="listing/suriname-tuk-tuk-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Suriname Tuk Tuk Tours</h3>
@@ -1344,7 +1377,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="nature-parks" href="listing/suriname-wildlife-sanctuary/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="nature natuur park reserve reservaat wildlife birds vogels hiking rescue rehabilitation centre native wildlife founded matthijs valeska kuijpers moved suriname unlike shelters takes wide range species capuchin monkeys parrots boas sloths injured orphaned confiscated animals get medical care possible release back wild site covers hectares forest creeks running through eco volunteers stays one week" data-sub="nature-parks" href="listing/suriname-wildlife-sanctuary/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Para的 Suriname Wildlife Sanctuary" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ce315b90d8b478c2a4813e8d0df9f76d.webp" srcset="/images/ce315b90d8b478c2a4813e8d0df9f76d-480.webp 480w, /images/ce315b90d8b478c2a4813e8d0df9f76d.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Suriname Wildlife Sanctuary</h3>
@@ -1367,7 +1400,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/suundergrnd/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="suundergrnd new movement celebrates beauty humanity nature every gathering strangers became friends creating kind festival everyone participates making time beautiful than other welcome suriname dance brilliant talented techno house next exotic location heart amazon" data-sub="entertainment" href="listing/suundergrnd/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="SuUndergrnd in Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/65be281f969cac3efefe433741dfbfef.webp" srcset="/images/65be281f969cac3efefe433741dfbfef-480.webp 480w, /images/65be281f969cac3efefe433741dfbfef.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">SuUndergrnd</h3>
@@ -1390,7 +1423,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/tbl-cinemas/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tbl cinemas cinema lalla rookhweg paramaribo five screens including reald dolby showing hollywood bollywood other international films" data-sub="entertainment" href="listing/tbl-cinemas/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="帕拉马里博的 TBL Cinemas" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ca152e0d3e8d10da2f42b21d8d204b9f.webp" srcset="/images/ca152e0d3e8d10da2f42b21d8d204b9f-480.webp 480w, /images/ca152e0d3e8d10da2f42b21d8d204b9f.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">TBL Cinemas</h3>
@@ -1400,7 +1433,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/telesur-telecommunicatie-museum/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="museum heritage erfgoed history geschiedenis fort plantage plantation telecommunications museum run telesur covering history network suriname" data-sub="museums-heritage" href="listing/telesur-telecommunicatie-museum/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Telesur Telecommunicatie Museum</h3>
@@ -1410,7 +1443,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/golden-eye-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="new observation attraction development suriname promoted landmark viewpoint" data-sub="entertainment" href="listing/golden-eye-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="帕拉马里博的 The Golden Eye of Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7c73f726b48ba2705fa39cd94ed80dd3.webp" srcset="/images/7c73f726b48ba2705fa39cd94ed80dd3-480.webp 480w, /images/7c73f726b48ba2705fa39cd94ed80dd3.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">The Golden Eye of Suriname</h3>
@@ -1420,7 +1453,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/theater-thalia/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="theater thalia paramaribo main performing arts venue staging theatre productions live music dance performances comedy shows year round beautifully preserved colonial building home local visiting international acts check schedule before" data-sub="entertainment" href="listing/theater-thalia/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="帕拉马里博的 Theater Thalia" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/55bdfd4276dc4db790f0b0c9986aa20f.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Theater Thalia</h3>
@@ -1430,7 +1463,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/tilburg-tours-rentals-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids tilburg tours rentals combines guided airport transfers small car rental fleet run office jessurunstraat paramaribo" data-sub="tours-expeditions" href="listing/tilburg-tours-rentals-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="帕拉马里博的 Tilburg Tours &amp; Rentals Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/87ea0cad1dd408613d6e0aadb30606fb.webp" srcset="/images/87ea0cad1dd408613d6e0aadb30606fb-480.webp 480w, /images/87ea0cad1dd408613d6e0aadb30606fb.webp 681w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tilburg Tours &amp; Rentals Suriname</h3>
@@ -1440,7 +1473,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/tio-boto-eco-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior tio boto eco resort riverside lodge suriname interior built managed local maroon community guests enjoy guided jungle treks river swimming traditional crafts authentic surinamese hospitality" data-sub="eco-lodges" href="listing/tio-boto-eco-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Tio Boto Eco Resort，Sipaliwini 探险" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8af62e22915bf8acea87f6859d5801d0.webp" srcset="/images/8af62e22915bf8acea87f6859d5801d0-480.webp 480w, /images/8af62e22915bf8acea87f6859d5801d0.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tio Boto Eco Resort</h3>
@@ -1450,7 +1483,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/tourbox-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids tour operator working out kleine waterstraat bus square vat plantation history trips dolphin caiman spotting canoe mountain bike tours jungle overnights longer runs interior boat light aircraft" data-sub="tours-expeditions" href="listing/tourbox-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="帕拉马里博的 Tourbox Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/855e0976214636af76479178aa4dc14f.webp" srcset="/images/855e0976214636af76479178aa4dc14f-480.webp 480w, /images/855e0976214636af76479178aa4dc14f.webp 590w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tourbox Suriname</h3>
@@ -1460,7 +1493,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/travel-the-guianas/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids tour agency parijsstraat paramaribo specialising trips across all three guianas suriname guyana french guiana" data-sub="tours-expeditions" href="listing/travel-the-guianas/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="帕拉马里博的 Travel The Guianas" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cf13c01a612a534268a849d43921df1a.webp" srcset="/images/cf13c01a612a534268a849d43921df1a-480.webp 480w, /images/cf13c01a612a534268a849d43921df1a.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Travel The Guianas</h3>
@@ -1470,7 +1503,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/tropa-de-elite-paintball-field/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="paintball venue suriname run alongside tropa elite team one few places country set sport" data-sub="entertainment" href="listing/tropa-de-elite-paintball-field/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="帕拉马里博的 Tropa de Elite Paintball" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b85c16ffcb73bb2ed684833443085ce4.webp" srcset="/images/b85c16ffcb73bb2ed684833443085ce4-480.webp 480w, /images/b85c16ffcb73bb2ed684833443085ce4.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tropa de Elite Paintball</h3>
@@ -1493,7 +1526,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/unlimited-suriname-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids unlimited suriname tours runs guided interior covering rainforest river indigenous village experiences based paramaribo company handles logistics multi day jungle trips excursions groups individual travellers" data-sub="tours-expeditions" href="listing/unlimited-suriname-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">U</span><img alt="Unlimited Suriname Tours，帕拉马里博探险" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8d069d1ea08fc540d47b7d4158f4e58b.webp" srcset="/images/8d069d1ea08fc540d47b7d4158f4e58b-480.webp 480w, /images/8d069d1ea08fc540d47b7d4158f4e58b.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Unlimited Suriname Tours</h3>
@@ -1503,7 +1536,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/unlock-nature-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids eco tour agency paramaribo running jungle tours wilderness expeditions" data-sub="tours-expeditions" href="listing/unlock-nature-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">U</span><img alt="帕拉马里博的 Unlock Nature" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/6d70940d4a8107d889810394fa681917.webp" srcset="/images/6d70940d4a8107d889810394fa681917-480.webp 480w, /images/6d70940d4a8107d889810394fa681917.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Unlock Nature</h3>
@@ -1526,7 +1559,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Brokopondo" data-sub="nature-parks" href="listing/vigys-camp/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Brokopondo" data-k="nature natuur park reserve reservaat wildlife birds vogels hiking recreation spot avobakaweg rama brokopondo set day visits swimming barbecues forest setting" data-sub="nature-parks" href="listing/vigys-camp/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Vigy's Camp</h3>
@@ -1536,7 +1569,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="museums-heritage" href="listing/villa-zapakara/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="museum heritage erfgoed history geschiedenis fort plantage plantation villa zapakara interactive children museum paramaribo parents learn about surinamese culture including javanese kampong section" data-sub="museums-heritage" href="listing/villa-zapakara/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span><img alt="帕拉马里博的 Villa Zapakara" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/460d45e3de2002e1d080dad78c14ccd1.webp" srcset="/images/460d45e3de2002e1d080dad78c14ccd1-480.webp 480w, /images/460d45e3de2002e1d080dad78c14ccd1.webp 1541w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Villa Zapakara</h3>
@@ -1559,7 +1592,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/waterproof-tours-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids tour operator best sunset dolphins boat trip suriname river three hour late afternoon cruise stops former plantation snack before turning back waterproof runs sea turtle trips cultural tours moengo" data-sub="tours-expeditions" href="listing/waterproof-tours-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">W</span><img alt="帕拉马里博的 Waterproof Tours Suriname" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/90c0f2bcc6493bacc589a67c109ec6ff.webp" srcset="/images/90c0f2bcc6493bacc589a67c109ec6ff-480.webp 480w, /images/90c0f2bcc6493bacc589a67c109ec6ff.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Waterproof Tours Suriname</h3>
@@ -1569,7 +1602,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="tours-expeditions" href="listing/wayfinders-exclusive-n-v/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="tour excursion excursie trip boat boot guide gids wayfinders exclusive car rental atv tour operator suriname vehicle hire independent travel alongside guided off road tours interior practical choice travellers want explore beyond paramaribo own pace" data-sub="tours-expeditions" href="listing/wayfinders-exclusive-n-v/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">W</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Wayfinders Exclusive N.V.</h3>
@@ -1592,7 +1625,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/zin-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="public swimming pool guesthouse bar roseveltkade paramaribo about centre open day visitors" data-sub="entertainment" href="listing/zin-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Z</span><img alt="帕拉马里博的 Zin Resort" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3396986ca07450a52a4896956a4c23df.webp" srcset="/images/3396986ca07450a52a4896956a4c23df-480.webp 480w, /images/3396986ca07450a52a4896956a4c23df.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Zin Resort</h3>
@@ -1602,7 +1635,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/zwembad-energy/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="zwembad energy public swimming pool young old hermitageweg paramaribo recreational lessons" data-sub="entertainment" href="listing/zwembad-energy/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Z</span><img alt="帕拉马里博的 Zwembad Energy" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/abe97747774b7cf07491397cf0956726.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Zwembad Energy</h3>
@@ -1612,7 +1645,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="entertainment" href="listing/stichting-zwembad-parima/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="public swimming pool paramaribo open all ages morning afternoon sessions" data-sub="entertainment" href="listing/stichting-zwembad-parima/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Z</span><img alt="帕拉马里博的 Zwembad Parima" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/e7c231a0f6ca0bc065ccc4557333520a.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Zwembad Parima</h3>

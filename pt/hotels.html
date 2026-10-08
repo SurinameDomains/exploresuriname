@@ -18,7 +18,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="ExploreSR" name="apple-mobile-web-app-title"/>
-<link href="/assets/s-6e17dce36802.css" rel="stylesheet"/>
+<link href="/assets/s-a12c564470b8.css" rel="stylesheet"/>
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
 <link href="/assets/s-12632b0c5234.css" rel="stylesheet"/>
 <link href="/assets/s-3add1bbd5c8c.css" rel="stylesheet"/>
@@ -99,178 +99,211 @@
 </div>
 </div>
 </div>
-<div class="fbar sticky top-[58px] z-40 pb-2 mb-5" id="fbar-hotel" style="background:var(--paper-2)">
-<div class="max-w-6xl mx-auto px-5">
-<div class="fbar-row relative flex items-center gap-5 pt-3">
-<div class="fbar-chips flex gap-6 overflow-x-auto pb-1" id="chipbar-hotel" style="scrollbar-width:none;-ms-overflow-style:none">
-<button class="filter-chip chip-active" onclick="filterSub(this,'all')">Todos <span class="chip-count">121</span></button><button class="filter-chip" onclick="filterSub(this,'city-hotels')">Hotéis urbanos <span class="chip-count">32</span></button><button class="filter-chip" onclick="filterSub(this,'resorts')">Resorts <span class="chip-count">20</span></button><button class="filter-chip" onclick="filterSub(this,'casino-hotels')">Hotéis-cassino <span class="chip-count">7</span></button><button class="filter-chip" onclick="filterSub(this,'eco-lodges')">Ecolodges e lodges à beira-rio <span class="chip-count">33</span></button><button class="filter-chip" onclick="filterSub(this,'guesthouses')">Pousadas e casas <span class="chip-count">29</span></button>
+<div class="fbar gf sticky top-[58px] z-40 pb-2 mb-5" id="fbar-hotel" style="background:var(--paper-2)">
+<div class="max-w-6xl mx-auto px-5 gf-wrap">
+<div class="gf-searchrow">
+<svg aria-hidden="true" class="gf-sicon" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewBox="0 0 24 24" width="16"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<input aria-label="Search a hotel or lodge (e.g. pool, river, casino)" autocomplete="off" class="gf-q" enterkeyhint="search" id="gf-q" placeholder="Busque um hotel ou lodge (ex.: piscina, rio, cassino)" type="search"/>
 </div>
-<select aria-label="District" class="dist-sel" id="dist-sel" onchange="filterDistrict(this, this.value)"><option value="all">Todos os distritos</option><option value="Paramaribo">Paramaribo</option><option value="Wanica">Wanica</option><option value="Commewijne">Commewijne</option><option value="Para">Para</option><option value="Nickerie">Nickerie</option><option value="Marowijne">Marowijne</option><option value="Brokopondo">Brokopondo</option><option value="Saramacca">Saramacca</option><option value="Sipaliwini">Sipaliwini</option></select>
-<button aria-controls="chipbar-hotel" aria-expanded="false" class="fbar-more" type="button"><span class="fm-o">Mais</span><span class="fm-c">Fechar</span><svg aria-hidden="true" fill="none" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="12"><path d="M6 9l6 6 6-6"></path></svg></button>
+<div class="gf-row">
+<button aria-controls="gf-panel" aria-expanded="false" class="gf-catbtn" id="gf-catbtn" type="button"><span>Todas as categorias</span><svg aria-hidden="true" fill="none" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="12"><path d="M6 9l6 6 6-6"></path></svg></button>
+<div class="fbar-chips gf-chips flex gap-5 overflow-x-auto" id="chipbar-hotel" style="scrollbar-width:none;-ms-overflow-style:none">
+<button class="filter-chip chip-active gf-activechip" hidden="" id="gf-active" type="button"><span class="gf-al"></span> <span aria-hidden="true">✕</span></button>
+<button class="filter-chip gf-top" data-sub="eco-lodges" type="button">Ecolodges e lodges à beira-rio <span class="chip-count">33</span></button><button class="filter-chip gf-top" data-sub="city-hotels" type="button">Hotéis urbanos <span class="chip-count">32</span></button><button class="filter-chip gf-top" data-sub="guesthouses" type="button">Pousadas e casas <span class="chip-count">29</span></button><button class="filter-chip gf-top" data-sub="resorts" type="button">Resorts <span class="chip-count">20</span></button><button class="filter-chip gf-top" data-sub="casino-hotels" type="button">Hotéis-cassino <span class="chip-count">7</span></button>
 </div>
+<span id="gf-distslot"><select aria-label="District" class="dist-sel" id="dist-sel" onchange="filterDistrict(this, this.value)"><option value="all">Todos os distritos</option><option value="Paramaribo">Paramaribo</option><option value="Wanica">Wanica</option><option value="Commewijne">Commewijne</option><option value="Para">Para</option><option value="Nickerie">Nickerie</option><option value="Marowijne">Marowijne</option><option value="Brokopondo">Brokopondo</option><option value="Saramacca">Saramacca</option><option value="Sipaliwini">Sipaliwini</option></select></span>
+</div>
+<div class="gf-panel" hidden="" id="gf-panel">
+<div class="gf-phead">
+<strong class="gf-ptitle">Todas as categorias</strong>
+<span id="gf-distslot-m"></span>
+<button aria-label="Close" class="gf-close" type="button"><span>Fechar</span> ✕</button>
+</div>
+<div class="gf-grid">
+<div class="gf-group gf-allgroup"><button class="gf-ghead" data-grp="all" type="button"><span>Todos</span><span class="chip-count">121</span></button></div>
+<div class="gf-group gf-flat"><button class="gf-type" data-sub="city-hotels" type="button"><span>Hotéis urbanos</span><span class="chip-count">32</span></button><button class="gf-type" data-sub="resorts" type="button"><span>Resorts</span><span class="chip-count">20</span></button><button class="gf-type" data-sub="casino-hotels" type="button"><span>Hotéis-cassino</span><span class="chip-count">7</span></button><button class="gf-type" data-sub="eco-lodges" type="button"><span>Ecolodges e lodges à beira-rio</span><span class="chip-count">33</span></button><button class="gf-type" data-sub="guesthouses" type="button"><span>Pousadas e casas</span><span class="chip-count">29</span></button></div>
+</div>
+<div class="gf-pfoot"><button class="gf-show" type="button"><span class="gf-shown">121 resultados</span></button></div>
+</div>
+<span hidden="" id="gf-empty-tpl">Nenhum resultado. Tente outra palavra ou abra Todas as categorias.</span>
+<span hidden="" id="gf-more-tpl">Mostrar mais 24</span>
 </div>
 </div>
 <script>
-var _activeSub  = 'all';
-var _activeDist = 'all';
-var _activeGrp  = 'all';
-var _SUB_GRP    = {};
+var _activeSub = 'all', _activeDist = 'all', _activeGrp = 'all', _gfQ = '';
+var _SUB_GRP = {"city-hotels": "g-types", "resorts": "g-types", "casino-hotels": "g-types", "eco-lodges": "g-types", "guesthouses": "g-types"};
 
-/* Type filter, with the group as the fallback when no type is picked. */
-function _subOk(card) {
-  if (_activeSub !== 'all') return card.dataset.sub === _activeSub;
-  if (_activeGrp !== 'all') return _SUB_GRP[card.dataset.sub] === _activeGrp;
-  return true;
-}
-
-function _applyFilters() {
-  document.querySelectorAll('.listing-card').forEach(function(card) {
-    var subOk  = _subOk(card);
-    var distOk = _activeDist === 'all' || (card.dataset.district || '').split('|').indexOf(_activeDist) >= 0;
-    card.classList.toggle('hidden', !(subOk && distOk));
-  });
-  var visible = document.querySelectorAll('.listing-card:not(.hidden)').length;
-  var lbl = document.getElementById('result-count');
-  /* The static text is already translated ("633 resultaten"); keep its wording. */
-  if (lbl) {
-    if (!lbl.dataset.tpl) lbl.dataset.tpl = lbl.textContent.replace(/\d+/, '#');
-    lbl.textContent = lbl.dataset.tpl.replace('#', visible) + (_activeDist !== 'all' ? ' · ' + _activeDist : '');
-  }
-  var _mb = document.querySelector('.fbar-more');
-  if (_mb) _mb.classList.toggle('has-dist', _activeDist !== 'all');
-
-  /* ── Update district option counts dynamically ── */
-  var distCounts = {};
-  var totalVisible = 0;
-  document.querySelectorAll('.listing-card').forEach(function(card) {
-    if (!_subOk(card)) return;
-    var ds = (card.dataset.district || 'Paramaribo').split('|');
-    for (var di = 0; di < ds.length; di++) { distCounts[ds[di]] = (distCounts[ds[di]] || 0) + 1; }
-    totalVisible++;
-  });
-  var sel = document.getElementById('dist-sel');
-  if (sel) {
-    var reset = false;
-    for (var oi = 0; oi < sel.options.length; oi++) {
-      var o = sel.options[oi], v = o.value;
-      if (v === 'all') continue;
-      var c = distCounts[v] || 0;
-      o.disabled = c === 0;
-      o.hidden = c === 0;
-      /* if active district now has 0 results, reset to all */
-      if (c === 0 && _activeDist === v) reset = true;
-    }
-    if (reset) { _activeDist = 'all'; sel.value = 'all'; _applyFilters(); return; }
-  }
-}
-
-function filterSub(btn, key) {
-  _activeSub = key;
-  /* Only this chip's own row: on grouped pages the group stays selected. */
-  btn.parentNode.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
-  btn.classList.add('chip-active');
-  _applyFilters();
-  _fbarReveal();
-}
-
-/* Grouped pages: pick a group, then (optionally) one of its types. */
-function filterGrp(btn, grp) {
-  _activeGrp = grp;
-  _activeSub = 'all';
-  btn.parentNode.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('chip-active'); });
-  btn.classList.add('chip-active');
-  var tb = document.getElementById('typebar-hotel');
-  if (tb) {
-    var show = grp !== 'all' && !btn.hasAttribute('data-single');
-    tb.hidden = !show;
-    tb.querySelectorAll('.type-chip').forEach(function(b) {
-      var mine = b.getAttribute('data-grp') === grp;
-      b.hidden = !mine;
-      b.classList.toggle('chip-active', mine && b.getAttribute('data-sub') === 'all');
-    });
-    var ts = tb.querySelector('.fbar-tchips');
-    if (ts) ts.scrollLeft = 0;
-  }
-  _applyFilters();
-  _fbarReveal();
-}
-
-/* Keep the selected chip visible in the sideways strip (after a pick in the
-   expanded "More" view, or a ?sub= deep link to a chip far down the list). */
-function _fbarReveal() {
-  var s = document.getElementById('chipbar-hotel');
-  var a = s && s.querySelector('.chip-active');
-  if (!a || s.scrollWidth <= s.clientWidth + 2) return;
-  var x = Math.max(0, a.offsetLeft - s.offsetLeft - 16);
-  try { s.scrollTo({left: x, behavior: 'smooth'}); } catch (e) { s.scrollLeft = x; }
-}
-
-/* Phones: the strip only fits ~2 chips, so "More" expands it into a wrapped
-   list of every category plus the district picker. Picking a chip collapses
-   it again. Hidden on wider screens (CSS) and when there is nothing extra. */
-(function() {
+(function(){
   var fb = document.getElementById('fbar-hotel');
-  var btn = fb && fb.querySelector('.fbar-more');
+  var panel = document.getElementById('gf-panel'), btn = document.getElementById('gf-catbtn');
+  var q = document.getElementById('gf-q'), act = document.getElementById('gf-active');
   var strip = document.getElementById('chipbar-hotel');
-  if (!btn || !strip) return;
-  function setOpen(o) {
-    fb.classList.toggle('fbar-open', o);
-    btn.setAttribute('aria-expanded', o ? 'true' : 'false');
-    if (!o) _fbarReveal();
+  function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
+  var cards = [], hay = [];
+  function initCards(){ if (cards.length) return;
+    cards = Array.prototype.slice.call(document.querySelectorAll('.listing-card'));
+    hay = cards.map(function(c){ return ' ' + norm(c.textContent + ' ' + (c.getAttribute('data-k')||'')).replace(/[^a-z0-9\u4e00-\u9fff]+/g, ' '); });
   }
-  btn.addEventListener('click', function() { setOpen(!fb.classList.contains('fbar-open')); });
-  strip.addEventListener('click', function(e) {
-    if (fb.classList.contains('fbar-open') && e.target.closest && e.target.closest('.filter-chip')) setOpen(false);
+  function subOk(c){
+    if (_activeSub !== 'all') return c.dataset.sub === _activeSub;
+    if (_activeGrp !== 'all') return _SUB_GRP[c.dataset.sub] === _activeGrp;
+    return true;
+  }
+  function distOk(c){ return _activeDist === 'all' || (c.dataset.district||'').split('|').indexOf(_activeDist) >= 0; }
+  var empty = null, PAGE = 24, limit = PAGE, moreBtn = null;
+  try { if (history.state && history.state.gfN) limit = history.state.gfN; } catch (e) {}
+  function mkMore(){
+    if (moreBtn || !cards.length) return;
+    var grid = cards[0].parentNode;
+    moreBtn = document.createElement('button'); moreBtn.type = 'button'; moreBtn.className = 'gf-more';
+    moreBtn.dataset.tpl = document.getElementById('gf-more-tpl').textContent.replace(/\d+/, '#');
+    grid.parentNode.insertBefore(moreBtn, grid.nextSibling);
+    moreBtn.addEventListener('click', function(){
+      limit += PAGE;
+      try { history.replaceState(Object.assign({}, history.state || {}, {gfN: limit}), ''); } catch (e) {}
+      apply();
+    });
+  }
+  function apply(){
+    initCards(); mkMore();
+    var words = norm(_gfQ).replace(/[^a-z0-9\u4e00-\u9fff]+/g, ' ').split(' ').filter(Boolean), vis = 0, shown = 0, dc = {};
+    for (var i = 0; i < cards.length; i++){
+      var c = cards[i], h = hay[i];
+      /* Short words match at a word start ("ijs" not "prijs"); longer ones anywhere,
+         so Dutch compounds work ("schildpad" finds "zeeschildpadden"). */
+      var qOk = words.every(function(w){ return (w.length >= 5 || /[\u4e00-\u9fff]/.test(w)) ? h.indexOf(w) >= 0 : h.indexOf(' ' + w) >= 0; });
+      var ok = subOk(c) && qOk;
+      if (ok){ var ds = (c.dataset.district||'Paramaribo').split('|'); for (var d = 0; d < ds.length; d++) dc[ds[d]] = (dc[ds[d]]||0) + 1; }
+      ok = ok && distOk(c);
+      if (ok) vis++;
+      /* "Show more" paging (Baymard: beats infinite scroll and page numbers) */
+      var show = ok && shown < limit; if (show) shown++;
+      c.classList.toggle('hidden', !show);
+    }
+    if (moreBtn){
+      var left = vis - shown;
+      moreBtn.hidden = left <= 0;
+      moreBtn.textContent = moreBtn.dataset.tpl.replace('#', Math.min(PAGE, left));
+    }
+    var lbl = document.getElementById('result-count');
+    if (lbl){
+      if (!lbl.dataset.tpl) lbl.dataset.tpl = lbl.textContent.replace(/\d+/, '#');
+      lbl.textContent = lbl.dataset.tpl.replace('#', vis) + (_activeDist !== 'all' ? ' · ' + _activeDist : '');
+      if (!empty){ empty = document.createElement('p'); empty.className = 'gf-empty';
+        empty.textContent = document.getElementById('gf-empty-tpl').textContent; lbl.parentNode.insertBefore(empty, lbl.nextSibling); }
+      empty.hidden = vis > 0;
+      var sh = panel.querySelector('.gf-shown');
+      if (sh){ if (!sh.dataset.tpl) sh.dataset.tpl = sh.textContent.replace(/\d+/, '#'); sh.textContent = sh.dataset.tpl.replace('#', vis); }
+    }
+    var sel = document.getElementById('dist-sel');
+    if (sel){
+      for (var oi = 0; oi < sel.options.length; oi++){
+        var o = sel.options[oi]; if (o.value === 'all') continue;
+        var n = dc[o.value] || 0; o.hidden = o.disabled = n === 0;
+        if (n === 0 && _activeDist === o.value){ _activeDist = 'all'; sel.value = 'all'; return apply(); }
+      }
+    }
+    btn.classList.toggle('has-dist', _activeDist !== 'all');
+  }
+  function labelOf(sub, grp){
+    var el = sub !== 'all' ? panel.querySelector('[data-sub="' + sub + '"] span')
+                           : panel.querySelector('.gf-ghead[data-grp="' + grp + '"] span');
+    return el ? el.textContent : '';
+  }
+  function syncUI(){
+    /* The active choice is always the first chip (with ✕), so it is visible even
+       on a phone where the strip only shows one or two chips; its duplicate among
+       the top chips is hidden meanwhile. */
+    var shown = false;
+    strip.querySelectorAll('.gf-top').forEach(function(b){
+      b.hidden = _activeSub !== 'all' && b.getAttribute('data-sub') === _activeSub;
+    });
+    strip.scrollLeft = 0;
+    var any = _activeSub !== 'all' || _activeGrp !== 'all';
+    act.hidden = !any;
+    if (any && !shown) act.querySelector('.gf-al').textContent = labelOf(_activeSub, _activeGrp);
+    panel.querySelectorAll('.gf-type, .gf-ghead').forEach(function(b){
+      var s = b.getAttribute('data-sub'), g = b.getAttribute('data-grp');
+      var on = s ? (s === _activeSub) : (g === _activeGrp && _activeSub === 'all');
+      b.classList.toggle('gf-on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  function toResults(){
+    var lbl = document.getElementById('result-count');
+    if (!lbl) return;
+    var top = lbl.getBoundingClientRect().top + window.pageYOffset - fb.offsetHeight - 70;
+    if (window.pageYOffset > top) window.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
+  }
+  function resetPage(){ limit = PAGE; try { history.replaceState(Object.assign({}, history.state || {}, {gfN: 0}), ''); } catch (e) {} }
+  function pick(sub, grp){
+    resetPage();
+    _activeSub = sub || 'all'; _activeGrp = grp || 'all';
+    if (_gfQ){ _gfQ = ''; q.value = ''; }
+    syncUI(); apply(); setOpen(false); toResults();
+  }
+  window.esrPick = pick;
+  function setOpen(o){
+    panel.hidden = !o; btn.setAttribute('aria-expanded', o ? 'true' : 'false');
+    fb.classList.toggle('gf-isopen', o);   /* lift the bar above the site header while the sheet is open */
+    document.documentElement.classList.toggle('gf-lock', o && mq.matches);
+    if (o){ var f = panel.querySelector('.gf-on') || panel.querySelector('button.gf-ghead'); if (f) f.focus({preventScroll: true}); }
+  }
+  btn.addEventListener('click', function(){ setOpen(panel.hidden); });
+  panel.querySelector('.gf-close').addEventListener('click', function(){ setOpen(false); btn.focus(); });
+  panel.querySelector('.gf-show').addEventListener('click', function(){ setOpen(false); toResults(); });
+  panel.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('button[data-sub], button[data-grp]');
+    if (!b || !panel.contains(b)) return;
+    var s = b.getAttribute('data-sub');
+    if (s) pick(s, _SUB_GRP[s] || 'all'); else pick('all', b.getAttribute('data-grp'));
   });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && fb.classList.contains('fbar-open')) { setOpen(false); btn.focus(); }
+  strip.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('button'); if (!b) return;
+    if (b === act){ pick('all', 'all'); return; }
+    var s = b.getAttribute('data-sub'); if (!s) return;
+    if (s === _activeSub) pick('all', 'all'); else pick(s, _SUB_GRP[s] || 'all');
   });
-  if (!document.getElementById('dist-sel') && strip.querySelectorAll('.filter-chip').length < 4) btn.hidden = true;
-})();
-
-function filterDistrict(el, dist) {
-  _activeDist = dist || 'all';
-  if (el && el.tagName === 'SELECT' && el.value !== _activeDist) el.value = _activeDist;
-  _applyFilters();
-}
-
-/* Deep link: /activities.html?sub=nature-parks pre-selects a chip. Used by the
-   homepage journey cards since Nature was merged into Things to Do. Silently
-   ignored when the key matches no chip on this page. */
-(function() {
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !panel.hidden){ setOpen(false); btn.focus(); } });
+  document.addEventListener('click', function(e){
+    if (panel.hidden || mq.matches) return;
+    if (!panel.contains(e.target) && !btn.contains(e.target)) setOpen(false);
+  });
+  var tq = null;
+  q.addEventListener('input', function(){
+    clearTimeout(tq);
+    tq = setTimeout(function(){
+      _gfQ = q.value.trim(); resetPage();
+      if (_gfQ && (_activeSub !== 'all' || _activeGrp !== 'all')){ _activeSub = 'all'; _activeGrp = 'all'; syncUI(); }
+      apply();
+    }, 120);
+  });
+  q.addEventListener('keydown', function(e){ if (e.key === 'Enter'){ q.blur(); toResults(); } });
+  /* Phones: the district picker lives in the sheet, the row has no room for it. */
+  var mq = window.matchMedia('(max-width:639px)');
+  function placeDist(){
+    var sel = document.getElementById('dist-sel'); if (!sel) return;
+    var slot = document.getElementById(mq.matches ? 'gf-distslot-m' : 'gf-distslot');
+    if (sel.parentNode !== slot) slot.appendChild(sel);
+  }
+  placeDist();
+  if (mq.addEventListener) mq.addEventListener('change', placeDist); else if (mq.addListener) mq.addListener(placeDist);
+  window.filterDistrict = function(el, d){ _activeDist = d || 'all'; resetPage(); apply(); };
+  /* Deep links: ?sub=notaries-legal, ?grp=g-home-property, ?q=loodgieter */
   var qs = new URLSearchParams(location.search);
-  var want = qs.get('sub'), wantGrp = qs.get('grp');
-  if ((!want || want === 'all') && !wantGrp) return;
-  function apply() {
-    /* Grouped pages: ?sub= selects the type's group first, ?grp= a group. */
-    var g = (want && _SUB_GRP[want]) || wantGrp;
-    var gb = g && document.querySelector('#chipbar-hotel .filter-chip[data-grp="' + g + '"]');
-    if (gb) {
-      filterGrp(gb, g);
-      var tc = want && document.querySelector('#typebar-hotel .type-chip[data-sub="' + want + '"]');
-      if (tc && !gb.hasAttribute('data-single')) filterSub(tc, want);
-      return;
-    }
-    if (!want) return;
-    var chips = document.querySelectorAll('#chipbar-hotel .filter-chip');
-    for (var i = 0; i < chips.length; i++) {
-      var oc = chips[i].getAttribute('onclick') || '';
-      var m  = oc.match(/filterSub\(this,\s*'([^']+)'\)/);
-      if (m && m[1] === want) { filterSub(chips[i], want); return; }
-    }
+  function boot(){
+    var s = qs.get('sub'), g = qs.get('grp'), qq = qs.get('q');
+    if (s && _SUB_GRP[s]) { _activeSub = s; _activeGrp = _SUB_GRP[s]; }
+    else if (g && panel.querySelector('.gf-ghead[data-grp="' + g + '"]')) { _activeGrp = g; }
+    if (qq){ q.value = qq; _gfQ = qq; _activeSub = 'all'; _activeGrp = 'all'; }
+    syncUI(); apply();
   }
-  /* The bar renders above the grid, so wait for the cards to exist. */
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', apply);
-  } else {
-    apply();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script>
 <main class="max-w-6xl mx-auto px-5 pt-2 pb-24">
 <div class="text-sm text-gray-400 mb-4 font-medium" id="result-count">121 resultados</div>
 <div class="listing-grid">
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/101-suites/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business suites small business hotel keizerstraat centre paramaribo within walking distance waterkant shops domineestraat historic inner city" data-sub="city-hotels" href="listing/101-suites/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">1</span><img alt="101 Suites em Paramaribo" class="w-full h-full object-cover" fetchpriority="high" height="300" loading="eager" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1d36ba6006605f2152acb3c9c63a2da3.webp" srcset="/images/1d36ba6006605f2152acb3c9c63a2da3-480.webp 480w, /images/1d36ba6006605f2152acb3c9c63a2da3.webp 681w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">101 Suites</h3>
@@ -280,7 +313,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/alafasi-botopasi-lodge/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior nature lodge botopasi upper suriname river sold mainly three four day packages include bus transfer atjoni boat onward meals activities programme takes maroon museum village visit tapawatra rapids natural jacuzzi climb ananasberg water swimming pool site" data-sub="eco-lodges" href="listing/alafasi-botopasi-lodge/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Alafasi Botopasi Lodge em Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a3d80628db4394661492904bd0325443.webp" srcset="/images/a3d80628db4394661492904bd0325443-480.webp 480w, /images/a3d80628db4394661492904bd0325443.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Alafasi Botopasi Lodge</h3>
@@ -290,7 +323,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/alkebuland-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="resort day resort arubaweg para close enough paramaribo short drive out city" data-sub="resorts" href="listing/alkebuland-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Alkebuland Resort em Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/43cf8244e0cef8e99f0fb81eee7e57a0.webp" srcset="/images/43cf8244e0cef8e99f0fb81eee7e57a0-480.webp 480w, /images/43cf8244e0cef8e99f0fb81eee7e57a0.webp 720w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Alkebuland Resort</h3>
@@ -300,7 +333,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="guesthouses" href="listing/amazonica-bungalows/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-k="guesthouse pension villa apartment appartement b&amp;b six bungalows somaiweg wanica open since three bedrooms living room two bathrooms balcony hammocks terrace grounds infinity pool garden bar restaurant free shuttle service security site clock" data-sub="guesthouses" href="listing/amazonica-bungalows/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Amazonica Bungalows em Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/200dd9d38a9b37d981ec309ac5431a4f.webp" srcset="/images/200dd9d38a9b37d981ec309ac5431a4f-480.webp 480w, /images/200dd9d38a9b37d981ec309ac5431a4f.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Amazonica Bungalows</h3>
@@ -310,7 +343,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/anaula-nature-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior anaula nature resort riverside eco lodge surinamese interior jungle cabins wildlife watching guided treks authentic maroon cultural experiences banks suriname river" data-sub="eco-lodges" href="listing/anaula-nature-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Anaula Nature Resort em Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8b288627df64785af0e590f4617a0c3f.webp" srcset="/images/8b288627df64785af0e590f4617a0c3f-480.webp 480w, /images/8b288627df64785af0e590f4617a0c3f.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Anaula Nature Resort</h3>
@@ -320,7 +353,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="eco-lodges" href="listing/anjuli-nature-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-k="lodge eco jungle river rivier binnenland interior private resort libanonweg lelydorp roughly paramaribo rented out whole quiet stays trades anjuli exotic" data-sub="eco-lodges" href="listing/anjuli-nature-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Anjuli Nature Resort em Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d5e514deda659ddc5c15b0dbf2352b3c.webp" srcset="/images/d5e514deda659ddc5c15b0dbf2352b3c-480.webp 480w, /images/d5e514deda659ddc5c15b0dbf2352b3c.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Anjuli Nature Resort</h3>
@@ -330,7 +363,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/apetina-eco-river-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior jungle lodge apetina puleowime tapanahony river south east suriname village roughly people largely wayana trio aparai reached only light aircraft paramaribo four five hour boat trip godo olo resort twin rooms polished timber walls private bathrooms runs forest hikes birdwatching cultural programmes" data-sub="eco-lodges" href="listing/apetina-eco-river-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Apetina Eco River Resort em Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a26a85d1184e1b683f250c3ae60df4ee.webp" srcset="/images/a26a85d1184e1b683f250c3ae60df4ee-480.webp 480w, /images/a26a85d1184e1b683f250c3ae60df4ee.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Apetina Eco River Resort</h3>
@@ -340,7 +373,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="casino-hotels" href="listing/atlantis-hotel-casino/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="casino hotel atlantis hotel casino gaming destination paramaribo rooms alongside entertainment dining event facilities central city location" data-sub="casino-hotels" href="listing/atlantis-hotel-casino/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span><img alt="Atlantis Hotel Casino em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/28d72f01709b41ff47c3088caf706bf1.webp" srcset="/images/28d72f01709b41ff47c3088caf706bf1-480.webp 480w, /images/28d72f01709b41ff47c3088caf706bf1.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Atlantis Hotel Casino</h3>
@@ -350,7 +383,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/awarradam-jungle-lodge/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior mets jungle lodge gran rio upper suriname area set among rapids rainforest" data-sub="eco-lodges" href="listing/awarradam-jungle-lodge/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">A</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Awarradam Jungle Lodge</h3>
@@ -360,7 +393,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/bakaaboto-nature-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior back basics nature resort foot bakaaboto rapids upper suriname river south brokopondo reservoir about paramaribo cabins available without private bathrooms day guests rent tents cooking gear dugout canoe trips run saamaka villages duwata bekyookndé" data-sub="eco-lodges" href="listing/bakaaboto-nature-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Bakaaboto Nature Resort</h3>
@@ -370,7 +403,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="resorts" href="listing/biharies-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-k="resort resort welgedacht wanica about fifteen minutes paramaribo twenty five johan adolf pengel airport fully furnished two bedroom houses take short long stays air conditioned full kitchen site swimming pool restaurant breakfast poolside drinks lessons camera security backup generator" data-sub="resorts" href="listing/biharies-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Biharie's Resort em Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2eb3905c367db656ef12e885767f9c22.webp" srcset="/images/2eb3905c367db656ef12e885767f9c22-480.webp 480w, /images/2eb3905c367db656ef12e885767f9c22.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Biharie's Resort</h3>
@@ -380,7 +413,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/blanche-marie-nature-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior basic lodge hammock accommodation blanche marie falls nickerie river foot bakhuis mountains west suriname run roughly metres wide surrounding forest birdlife all eight monkey species" data-sub="eco-lodges" href="listing/blanche-marie-nature-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Blanche Marie Nature Resort em Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7aee35c423c66d83da6f7b72e1102120.webp" srcset="/images/7aee35c423c66d83da6f7b72e1102120-480.webp 480w, /images/7aee35c423c66d83da6f7b72e1102120.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Blanche Marie Nature Resort</h3>
@@ -390,7 +423,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="eco-lodges" href="listing/braumuller-nature-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-k="lodge eco jungle river rivier binnenland interior recreation centre event venue tout lui fautkanaalweg wanica hired out functions" data-sub="eco-lodges" href="listing/braumuller-nature-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Braumuller Nature Resort em Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/a464b7fbd79ef05693f8f885d06e97ea.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Braumuller Nature Resort</h3>
@@ -400,7 +433,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/bronbella-villa-residence/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b bronbella villa residence boutique holiday complex suriname set tropical grounds private pool access self contained accommodation positioned guests wanting privacy outdoor space rather than hotel services" data-sub="guesthouses" href="listing/bronbella-villa-residence/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">B</span><img alt="Bronbella Villa Residence, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/813cd9898eeef45b3279e978f14dc2b0.webp" srcset="/images/813cd9898eeef45b3279e978f14dc2b0-480.webp 480w, /images/813cd9898eeef45b3279e978f14dc2b0.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Bronbella Villa Residence</h3>
@@ -410,7 +443,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="eco-lodges" href="listing/capella-nature-eco-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="lodge eco jungle river rivier binnenland interior nature resort nieuw copieweg onverwacht para taking day visitors group bookings" data-sub="eco-lodges" href="listing/capella-nature-eco-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Capella Nature &amp; Eco Resort</h3>
@@ -420,7 +453,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/caribo-beach-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="resort riverside resort paranam about minutes central paramaribo old road domburg reachable boat any landing suriname river caribo hotel rooms apartments hammock camping sandy beach three pools covered event hall roughly square metres used weddings concerts parties" data-sub="resorts" href="listing/caribo-beach-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Caribo Beach Resort em Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/157619ca02a84922fab0e76d574e48ac.webp" srcset="/images/157619ca02a84922fab0e76d574e48ac-480.webp 480w, /images/157619ca02a84922fab0e76d574e48ac.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Caribo Beach Resort</h3>
@@ -430,7 +463,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="eco-lodges" href="listing/carmelitas-nature-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-k="lodge eco jungle river rivier binnenland interior recreation resort carmalita malonaweg lelydorp built swimming day out city popular locally large following" data-sub="eco-lodges" href="listing/carmelitas-nature-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Carmelita's Nature Resort em Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ec50b49182da2a87618e79ee0feb8a0d.webp" srcset="/images/ec50b49182da2a87618e79ee0feb8a0d-480.webp 480w, /images/ec50b49182da2a87618e79ee0feb8a0d.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Carmelita's Nature Resort</h3>
@@ -440,7 +473,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/casa-blanca-hotel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business small hotel wilhelminastraat few kilometres out centre paramaribo rooms air conditioned flat screen tvs full breakfast served daily bar free wifi private parking reception staffed clock airport transfers offered staff speak dutch english spanish portuguese cash only" data-sub="city-hotels" href="listing/casa-blanca-hotel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Casa Blanca Hotel em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/0b17df2a15d22f16367de6b8b06092d8.webp" srcset="/images/0b17df2a15d22f16367de6b8b06092d8-480.webp 480w, /images/0b17df2a15d22f16367de6b8b06092d8.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Casa Blanca Hotel</h3>
@@ -450,7 +483,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Saramacca" data-sub="resorts" href="listing/chotelal-sons-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Saramacca" data-k="resort resort damboentong groningen saramacca taking overnight guests hosting parties group bookings" data-sub="resorts" href="listing/chotelal-sons-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Chotelal &amp; Sons Resort em Saramacca" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2dc761f0e3082bfc28c25c975e52b8a2.webp" srcset="/images/2dc761f0e3082bfc28c25c975e52b8a2-480.webp 480w, /images/2dc761f0e3082bfc28c25c975e52b8a2.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Chotelal &amp; Sons Resort</h3>
@@ -460,7 +493,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/colonial-resort-n-v/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business riverside property anton dragtenweg about kilometre centre paramaribo along suriname river" data-sub="city-hotels" href="listing/colonial-resort-n-v/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Colonial Resort N.V. em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d779dc13784fcbf20b13c5bbba958f53.webp" srcset="/images/d779dc13784fcbf20b13c5bbba958f53-480.webp 480w, /images/d779dc13784fcbf20b13c5bbba958f53.webp 851w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Colonial Resort N.V.</h3>
@@ -470,7 +503,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/courtyard-by-marriott/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business courtyard marriott paramaribo international hotel overlooking suriname river downtown rooms come complimentary channels ergonomic workspaces suites include whirlpool tubs views close historic inner city suits business leisure travellers" data-sub="city-hotels" href="listing/courtyard-by-marriott/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">C</span><img alt="Courtyard by Marriott, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4dbb88b526794f2394659f96f323209e.webp" srcset="/images/4dbb88b526794f2394659f96f323209e-480.webp 480w, /images/4dbb88b526794f2394659f96f323209e.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Courtyard by Marriott</h3>
@@ -480,7 +513,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/da-kaboera-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="resort creek bathing resort village powakka para built swimming cold natural water kaboera takes day visitors covered camps cabanas overnight stays restaurant site visits reservation arranged whatsapp" data-sub="resorts" href="listing/da-kaboera-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="Da Kaboera Resort em Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/78cac345931dd8c566f2f1bdbe36b7a5.webp" srcset="/images/78cac345931dd8c566f2f1bdbe36b7a5-480.webp 480w, /images/78cac345931dd8c566f2f1bdbe36b7a5.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Da Kaboera Resort</h3>
@@ -490,7 +523,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/danpaati-river-lodge/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior danpaati river lodge highly acclaimed boutique eco upper suriname open air riverside bungalows excellent cuisine expert jungle guiding consistently ranks among best lodges south america" data-sub="eco-lodges" href="listing/danpaati-river-lodge/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">D</span><img alt="Danpaati River Lodge em Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1fb3d31877cdfd3b224c2f1ed1a02732.webp" srcset="/images/1fb3d31877cdfd3b224c2f1ed1a02732-480.webp 480w, /images/1fb3d31877cdfd3b224c2f1ed1a02732.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Danpaati River Lodge</h3>
@@ -500,7 +533,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="eco-lodges" href="listing/eco-torarica/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="lodge eco jungle river rivier binnenland interior eco torarica boutique lodging option paramaribo combining comfort focus sustainable tourism close city historic inner district suriname river works base exploring urban surrounding natural environment" data-sub="eco-lodges" href="listing/eco-torarica/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="Eco Torarica, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/fd15a338dc5a1c6dbf69986aa24a1cd5.webp" srcset="/images/fd15a338dc5a1c6dbf69986aa24a1cd5-480.webp 480w, /images/fd15a338dc5a1c6dbf69986aa24a1cd5.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Eco Torarica</h3>
@@ -510,7 +543,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="eco-lodges" href="listing/eco-resort-miano/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="lodge eco jungle river rivier binnenland interior eco resort miano lodge redi doti surinamese interior close historic jodensavanne site centred culture caraib lokono indigenous communities gives guests direct exposure village life surrounding forest low infrastructure retreat visitors seeking away urban paramaribo" data-sub="eco-lodges" href="listing/eco-resort-miano/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="Eco-Resort Miano, hospedagem em Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d2fef266b68a0975cee75f25a7759bea.webp" srcset="/images/d2fef266b68a0975cee75f25a7759bea-480.webp 480w, /images/d2fef266b68a0975cee75f25a7759bea.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Eco-Resort Miano</h3>
@@ -520,7 +553,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="casino-hotels" href="listing/elegance-hotel-casino/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="casino hotel four star hotel casino frederik derbystraat paramaribo rooms air conditioned desk coffee machine fridge safe flat screen private bathroom outdoor pool fitness room karaoke shared lounge terrace bar restaurant floor carries slot machines" data-sub="casino-hotels" href="listing/elegance-hotel-casino/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">E</span><img alt="Elegance Hotel &amp; Casino em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cbd20987c7dff354e60e55c7e60dc5f6.webp" srcset="/images/cbd20987c7dff354e60e55c7e60dc5f6-480.webp 480w, /images/cbd20987c7dff354e60e55c7e60dc5f6.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Elegance Hotel &amp; Casino</h3>
@@ -530,7 +563,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/fallawatra-green-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior jungle resort kabalebo area west suriname set tropical park creek running through rainforest" data-sub="eco-lodges" href="listing/fallawatra-green-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">F</span><img alt="Fallawatra Green Resort em Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/08c34bab0bac9d706e96888bb022ef6a.webp" srcset="/images/08c34bab0bac9d706e96888bb022ef6a-480.webp 480w, /images/08c34bab0bac9d706e96888bb022ef6a.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Fallawatra Green Resort</h3>
@@ -540,7 +573,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/gess-hotel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business hotel sophie redmondstraat centre paramaribo rooms casino lounge restaurant american local dishes" data-sub="city-hotels" href="listing/gess-hotel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Gess Hotel em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/0a6588e9347601135ec9f1985492c54e.webp" srcset="/images/0a6588e9347601135ec9f1985492c54e-480.webp 480w, /images/0a6588e9347601135ec9f1985492c54e.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Gess Hotel</h3>
@@ -550,7 +583,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-sub="casino-hotels" href="listing/golden-west-hotel-casino/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-k="casino hotel hotel casino restaurant bar travel agency hendrikstraat nieuw nickerie rooms air conditioning flat screen tvs wifi breakfast included grill room handles evening trade regency floor runs modern slot machines alongside roulette poker blackjack bingo" data-sub="casino-hotels" href="listing/golden-west-hotel-casino/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Golden West Hotel &amp; Casino</h3>
@@ -560,7 +593,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/green-village-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b apartments quiet green setting livornoweg south paramaribo units fully equipped kitchens private bathrooms air conditioning balconies garden year round outdoor pool terrace free parking zorg hoop airport about five kilometres away" data-sub="guesthouses" href="listing/green-village-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Green Village Resort em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a32580f487ebb71d7f3b1e70e575029d.webp" srcset="/images/a32580f487ebb71d7f3b1e70e575029d-480.webp 480w, /images/a32580f487ebb71d7f3b1e70e575029d.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Green Village Resort</h3>
@@ -570,7 +603,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/greenheart-boutique-hotel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business greenheart boutique hotel design forward eco conscious paramaribo using sustainable materials local craftsmanship stylish rooms garden terrace personalised stay celebrates surinamese natural heritage" data-sub="city-hotels" href="listing/greenheart-boutique-hotel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Greenheart Boutique Hotel em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/45fe27c09f485d47dc7e7df89aa1353e.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Greenheart Boutique Hotel</h3>
@@ -580,7 +613,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/guesthouse-albergoalberga/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b albergo alberga intimate guesthouse paramaribo set restored historic building characterful rooms warm service convenient city centre location favourite among culturally curious travellers" data-sub="guesthouses" href="listing/guesthouse-albergoalberga/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Guesthouse Albergo Alberga em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/195e52ceefa3deb2d3b447724839d27f.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Guesthouse Albergo Alberga</h3>
@@ -590,7 +623,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Marowijne" data-sub="guesthouses" href="listing/guesthouse-albina/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Marowijne" data-k="guesthouse pension villa apartment appartement b&amp;b guesthouse albina provides clean affordable accommodation suriname border town french guiana practical base travellers crossing exploring marowijne region" data-sub="guesthouses" href="listing/guesthouse-albina/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Guesthouse Albina em Marowijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/b3a10ab931b369cb274e03896d13f16d.webp" srcset="/images/b3a10ab931b369cb274e03896d13f16d-480.webp 480w, /images/b3a10ab931b369cb274e03896d13f16d.webp 861w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Guesthouse Albina</h3>
@@ -600,7 +633,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/guesthouse-amice/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b room guesthouse gravenberchstraat paramaribo rooms air conditioned non smoking property outdoor pool kept garden bar bicycle hire parking space small conferences" data-sub="guesthouses" href="listing/guesthouse-amice/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Guesthouse Amice em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/dc3707206c32d24f61dc3b1c6073594e.webp" srcset="/images/dc3707206c32d24f61dc3b1c6073594e-480.webp 480w, /images/dc3707206c32d24f61dc3b1c6073594e.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Guesthouse Amice</h3>
@@ -610,7 +643,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/gunsi-eco-resort-tei-wei/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior hillside eco resort island village gunsi upper suriname river about hour half canoe atjoni tei wei runs three four day packages covering transport meals walks guides footpaths lead through laduani tjaikonde nieuw aurora swimming wwf nature trail running kilometres forest" data-sub="eco-lodges" href="listing/gunsi-eco-resort-tei-wei/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">G</span><img alt="Gunsi Eco Resort Tei Wei em Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/48c0aec49544b79389c03e5a78268ec6.webp" srcset="/images/48c0aec49544b79389c03e5a78268ec6-480.webp 480w, /images/48c0aec49544b79389c03e5a78268ec6.webp 720w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Gunsi Eco Resort Tei Wei</h3>
@@ -620,7 +653,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/holland-lodge/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business holland lodge small family run boutique hotel mahonylaan paramaribo short distance sights city centre guests explore bike" data-sub="city-hotels" href="listing/holland-lodge/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Holland Lodge, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e8453e080049f589b426dfbf66cd2843.webp" srcset="/images/e8453e080049f589b426dfbf66cd2843-480.webp 480w, /images/e8453e080049f589b426dfbf66cd2843.webp 768w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Holland Lodge</h3>
@@ -630,7 +663,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/hotel-botopassie/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior simple riverside bungalows suriname river reached bus saramaccastraat paramaribo then boat basic inexpensive journey upriver much appeal" data-sub="eco-lodges" href="listing/hotel-botopassie/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel Botopassie</h3>
@@ -640,7 +673,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/hotel-cactus/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business small hotel daniel ijveraarstraat paramaribo" data-sub="city-hotels" href="listing/hotel-cactus/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel Cactus II</h3>
@@ -650,7 +683,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/hotel-de-luifel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business hotel gondastraat central paramaribo close independence square presidential palace rooms air conditioning minibar property pool lounge" data-sub="city-hotels" href="listing/hotel-de-luifel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel De Luifel</h3>
@@ -660,7 +693,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-sub="city-hotels" href="listing/hotel-en-restaurant-concorde/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-k="hotel city stad business hotel javanese restaurant wilhelminastraat nieuw nickerie rooms air conditioning wifi private bathrooms ground floor nasi bami saoto soup loempia bakabana parking front across street" data-sub="city-hotels" href="listing/hotel-en-restaurant-concorde/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Hotel en Restaurant Concorde em Nickerie" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3a765550de08ae4361d7be946fcbc88b.webp" srcset="/images/3a765550de08ae4361d7be946fcbc88b-480.webp 480w, /images/3a765550de08ae4361d7be946fcbc88b.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel en Restaurant Concorde</h3>
@@ -670,7 +703,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/hotel-north-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business hotel north resort comfortable northern paramaribo rooms pool meeting facilities convenient business travellers families provides reliable amenities competitive price point" data-sub="city-hotels" href="listing/hotel-north-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Hotel North Resort em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/c301e10fee519eca9abc07664b822140.webp" srcset="/images/c301e10fee519eca9abc07664b822140-480.webp 480w, /images/c301e10fee519eca9abc07664b822140.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel North Resort</h3>
@@ -680,7 +713,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/hotel-palacio/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business hotel palacio centrally historic heart paramaribo housed beautifully restored colonial building comfortable rooms character making excellent base exploring unesco world heritage inner city" data-sub="city-hotels" href="listing/hotel-palacio/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Hotel Palacio, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f5b109cef663d94999a0dd22f67134d7.webp" srcset="/images/f5b109cef663d94999a0dd22f67134d7-480.webp 480w, /images/f5b109cef663d94999a0dd22f67134d7.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel Palacio</h3>
@@ -690,7 +723,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/hotel-paramuru/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business centrally placed hotel waaldijkstraat rooms penthouse furnished traditional surinamese air conditioned balcony terrace private bathroom hour front desk bar free parking central market metres away waterkant kilometre" data-sub="city-hotels" href="listing/hotel-paramuru/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Hotel Paramuru em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/25d8afae339a27c2e27e11a755a1d0c6.webp" srcset="/images/25d8afae339a27c2e27e11a755a1d0c6-480.webp 480w, /images/25d8afae339a27c2e27e11a755a1d0c6.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel Paramuru</h3>
@@ -700,7 +733,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="eco-lodges" href="listing/hotel-peperpot/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-k="lodge eco jungle river rivier binnenland interior hotel peperpot unique nature retreat former plantation estate commewijne across river paramaribo guests stay restored buildings surrounded rainforest easy access park dolphin tours" data-sub="eco-lodges" href="listing/hotel-peperpot/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Hotel Peperpot, hospedagem em Commewijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3b59af42734727bbf1b65ac72eb6d55d.webp" srcset="/images/3b59af42734727bbf1b65ac72eb6d55d-480.webp 480w, /images/3b59af42734727bbf1b65ac72eb6d55d.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel Peperpot</h3>
@@ -710,7 +743,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/hotel-perola/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business budget hotel prinsessestraat three kilometres central market rooms satellite work desk private bathroom bar restaurant hour terrace shared lounge laundry luggage storage free parking wifi common areas" data-sub="city-hotels" href="listing/hotel-perola/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel Perola</h3>
@@ -720,7 +753,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-sub="city-hotels" href="listing/hotel-tyche/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-k="hotel city stad business hotel idsingaweg nieuw nickerie formerly trading royal rooms come free wifi continental breakfast property bar coffee shop terrace nightclub parking site" data-sub="city-hotels" href="listing/hotel-tyche/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Hotel Tyche</h3>
@@ -730,7 +763,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="resorts" href="listing/houttuyn-wellness-river-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="resort houttuyn wellness river resort suriname set tropical garden grounds along water villa accommodation pool spa services restaurant about minutes paramaribo popular weekend escape city residents visiting guests" data-sub="resorts" href="listing/houttuyn-wellness-river-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">H</span><img alt="Houttuyn Wellness River Resort, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/a22425cfbd26dabaa05d5bedeabf7732.webp" srcset="/images/a22425cfbd26dabaa05d5bedeabf7732-480.webp 480w, /images/a22425cfbd26dabaa05d5bedeabf7732.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Houttuyn Wellness River Resort</h3>
@@ -740,7 +773,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="eco-lodges" href="listing/ingipipa-park/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="lodge eco jungle river rivier binnenland interior small eco park nature retreat edge paramaribo mango trees still water cabins overnight stays quiet enough feel far city without leaving" data-sub="eco-lodges" href="listing/ingipipa-park/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">I</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Ingipipa Park</h3>
@@ -750,7 +783,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="eco-lodges" href="listing/jacana-amazon-wellness-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="lodge eco jungle river rivier binnenland interior inspired natural beauty pristine rainforest rich native culture unique heritage jacana hotel suriname first authentic amazon wellness resort capital city paramaribo themed after lush tropical interior retreat outdoor ambiance" data-sub="eco-lodges" href="listing/jacana-amazon-wellness-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="Jacana Amazon Wellness Resort, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/626226628b2765619cbb0ce9f6d0a1c6.webp" srcset="/images/626226628b2765619cbb0ce9f6d0a1c6-480.webp 480w, /images/626226628b2765619cbb0ce9f6d0a1c6.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Jacana Amazon Wellness Resort</h3>
@@ -760,7 +793,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/jadah-lauren-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="resort resort zanderij built blakka watra blackwater creek forest walks fishing alongside swimming" data-sub="resorts" href="listing/jadah-lauren-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="Jadah-Lauren Resort em Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/13c38429036e5d0009dc511ddd17d9af.webp" srcset="/images/13c38429036e5d0009dc511ddd17d9af-480.webp 480w, /images/13c38429036e5d0009dc511ddd17d9af.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Jadah-Lauren Resort</h3>
@@ -770,7 +803,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/joah-inn-appartementen/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b joah inn studios larger apartments central paramaribo swimming pool jacuzzi site bar restaurant middle ground between hotel self catering" data-sub="guesthouses" href="listing/joah-inn-appartementen/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Joah Inn Appartementen</h3>
@@ -780,7 +813,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/jungle-lodge-palumeu/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior jungle lodge palumeu river beside village same name run mets trio wayana staff management programmes combine rainforest walks including medicinal plant tours local guides time reached light aircraft paramaribo" data-sub="eco-lodges" href="listing/jungle-lodge-palumeu/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Jungle Lodge Palumeu</h3>
@@ -790,7 +823,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/jungle-resort-pingpe-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior small riverside resort upper suriname river across water saramaccan village pingpe cabins mosquito nets shower veranda facing built local guide kenpris siesa guests reach about three hours boat travel atjoni air djumu" data-sub="eco-lodges" href="listing/jungle-resort-pingpe-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">J</span><img alt="Jungle Resort Pingpe em Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/e6b8c1102be360ad77ff0252cffdbff8.webp" srcset="/images/e6b8c1102be360ad77ff0252cffdbff8-480.webp 480w, /images/e6b8c1102be360ad77ff0252cffdbff8.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Jungle Resort Pingpe</h3>
@@ -800,7 +833,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/kabalebo-nature-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior kabalebo nature resort remote wilderness lodge western suriname accessible only small aircraft set deep primary rainforest river sport fishing birding access untouched amazon jungle" data-sub="eco-lodges" href="listing/kabalebo-nature-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kabalebo Nature Resort em Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/0a18ff391fd0af4ca34c84713066b186.webp" srcset="/images/0a18ff391fd0af4ca34c84713066b186-480.webp 480w, /images/0a18ff391fd0af4ca34c84713066b186.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Kabalebo Nature Resort</h3>
@@ -810,7 +843,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="resorts" href="listing/kana-r-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-k="resort creek side resort suricompark reeberg road towards maroon village santigron wanica stays reservation only" data-sub="resorts" href="listing/kana-r-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kana R Resort em Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/163b0e1903387ab5d6e40d1f57719686.webp" srcset="/images/163b0e1903387ab5d6e40d1f57719686-480.webp 480w, /images/163b0e1903387ab5d6e40d1f57719686.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Kana R Resort</h3>
@@ -820,7 +853,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/kekemba-resort-paramaribo/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b small scale holiday complex mangolaan about centre paramaribo kekemba six apartment units kitchens air conditioning set outdoor pool garden private parking airport transfers request" data-sub="guesthouses" href="listing/kekemba-resort-paramaribo/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kekemba Resort Paramaribo em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/53d9c95d6292801e7dce7d50d603bb5e.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Kekemba Resort Paramaribo</h3>
@@ -830,7 +863,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Brokopondo" data-sub="resorts" href="listing/kimberlys-vip-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Brokopondo" data-k="resort recreation park resort afobakaweg opposite mast previously trading kimberly pretpark visits reservation" data-sub="resorts" href="listing/kimberlys-vip-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kimberly's VIP Resort em Brokopondo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5d6a49296a1d184b8d85eb134ce1c7ae.webp" srcset="/images/5d6a49296a1d184b8d85eb134ce1c7ae-480.webp 480w, /images/5d6a49296a1d184b8d85eb134ce1c7ae.webp 720w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Kimberly's VIP Resort</h3>
@@ -840,7 +873,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/kimboto/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior kimboto intimate eco lodge suriname river bungalow accommodation excursions cultural activities positioned between paramaribo maroon heartland provides memorable introduction interior" data-sub="eco-lodges" href="listing/kimboto/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Kimboto Lodge em Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="https://i0.wp.com/sairahtujeehut.com/wp-content/uploads/2022/02/kimboto-cover-website.png?fit=1200%2C676&amp;ssl=1" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Kimboto Lodge</h3>
@@ -850,7 +883,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Brokopondo" data-sub="eco-lodges" href="listing/koina-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Brokopondo" data-k="lodge eco jungle river rivier binnenland interior resort afobakaweg rama kilometre road brokopondo sports recreation facilities alongside accommodation" data-sub="eco-lodges" href="listing/koina-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">K</span><img alt="Koina Resort em Brokopondo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/733c2dc4166c2d6351e7acd24b75693a.webp" srcset="/images/733c2dc4166c2d6351e7acd24b75693a-480.webp 480w, /images/733c2dc4166c2d6351e7acd24b75693a.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Koina Resort</h3>
@@ -860,7 +893,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/maretraite-hotel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business room hotel haydnstraat maretraite blauwgrond about four kilometres central market close mall balcony desk flat screen private bathroom safe mini fridge tea coffee making free wifi parking pets" data-sub="city-hotels" href="listing/maretraite-hotel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Maretraite Hotel</h3>
@@ -870,7 +903,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="resorts" href="listing/marina-resort-waterland/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="resort marina resort waterland riverside paramaribo boat docking comfortable accommodation waterfront dining popular boating enthusiasts families combines facilities amenities" data-sub="resorts" href="listing/marina-resort-waterland/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Marina Resort Waterland em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/cfd823a106909594cf96e0f588cd9638.webp" srcset="/images/cfd823a106909594cf96e0f588cd9638-480.webp 480w, /images/cfd823a106909594cf96e0f588cd9638.webp 813w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Marina Resort Waterland</h3>
@@ -880,7 +913,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/marinalex-resort-waterpark/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="resort creek side resort waterpark kennedy highway zanderij marinalex bungalows two person rooms pina huts group accommodation large event hall tall water slides making common choice family days out parties" data-sub="resorts" href="listing/marinalex-resort-waterpark/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Marinalex Resort &amp; Waterpark</h3>
@@ -890,7 +923,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Marowijne" data-sub="eco-lodges" href="listing/marowijne-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Marowijne" data-k="lodge eco jungle river rivier binnenland interior hotel resort juliana weyneweg moengo marowijne" data-sub="eco-lodges" href="listing/marowijne-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Marowijne Resort em Marowijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8a0c24672fc03cdad2ecade96bb39fb3.webp" srcset="/images/8a0c24672fc03cdad2ecade96bb39fb3-480.webp 480w, /images/8a0c24672fc03cdad2ecade96bb39fb3.webp 720w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Marowijne Resort</h3>
@@ -900,7 +933,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/melilew-boutique-hotel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business bed breakfast middle paramaribo henck arronstraat five minutes foot saints peter paul cathedral independence square rooms range doubles family quads studio suites all air conditioned free wifi outdoor pool separate children parking hour desk" data-sub="city-hotels" href="listing/melilew-boutique-hotel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Melilew Boutique Hotel</h3>
@@ -910,7 +943,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-sub="eco-lodges" href="listing/menimi-eco-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Sipaliwini" data-k="lodge eco jungle river rivier binnenland interior family run eco resort island djemongo rapids upper suriname river about hour upstream boat atjoni waterfront cottages designed built saramaccan owner activities include village tours guyaba new aurora night trips spot caiman visits felulasi menimi means remember" data-sub="eco-lodges" href="listing/menimi-eco-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Menimi Eco Resort em Sipaliwini" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3d3dcd40a12ddea8581029471e2238df.webp" srcset="/images/3d3dcd40a12ddea8581029471e2238df-480.webp 480w, /images/3d3dcd40a12ddea8581029471e2238df.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Menimi Eco Resort</h3>
@@ -920,7 +953,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/millies-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="resort family recreation resort former plantage vierkinderen republiek set along tawayakoera creek para" data-sub="resorts" href="listing/millies-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="Millie's Resort em Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/4839d116319952e77f688f8277abd1d9.webp" srcset="/images/4839d116319952e77f688f8277abd1d9-480.webp 480w, /images/4839d116319952e77f688f8277abd1d9.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Millie's Resort</h3>
@@ -930,7 +963,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/mtc-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="resort sports recreation resort grankreekweg rijsdijk para about forty kilometres south paramaribo established metre pool children obstacle course beach volleyball court motocross track fifteen shooting bays used ipsc clay pigeon" data-sub="resorts" href="listing/mtc-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">M</span><img alt="MTC Resort em Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/88410d5592ce74bfa600909292d20c22.webp" srcset="/images/88410d5592ce74bfa600909292d20c22-480.webp 480w, /images/88410d5592ce74bfa600909292d20c22.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">MTC Resort</h3>
@@ -940,7 +973,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/nazubs-suites/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b nazubs suites rents self catering apartments leysweg southern paramaribo full kitchens quiet residential surroundings make fit families longer stays" data-sub="guesthouses" href="listing/nazubs-suites/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="Nazubs Suites em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/52c0d5cf6bf14297149ac6eadb83a2e4.webp" srcset="/images/52c0d5cf6bf14297149ac6eadb83a2e4-480.webp 480w, /images/52c0d5cf6bf14297149ac6eadb83a2e4.webp 680w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Nazubs Suites</h3>
@@ -950,7 +983,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="eco-lodges" href="listing/new-babunhol-river-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="lodge eco jungle river rivier binnenland interior river resort booking office industrieweg zuid paramaribo" data-sub="eco-lodges" href="listing/new-babunhol-river-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="New Babunhol River Resort em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/426a58514480b36ff4a7156d07157b14.webp" srcset="/images/426a58514480b36ff4a7156d07157b14-480.webp 480w, /images/426a58514480b36ff4a7156d07157b14.webp 816w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">New Babunhol River Resort</h3>
@@ -960,7 +993,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/nirvana-business-hotel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business room business hotel keizerstraat off princess casino kilometre centre rooms seating area writing desk microwave kettle kitchenware free wifi throughout private parking central market waterkant close" data-sub="city-hotels" href="listing/nirvana-business-hotel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="Nirvana Business Hotel em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/2a6f4baf0f7ac43f87dbc6daf3fb2783.webp" srcset="/images/2a6f4baf0f7ac43f87dbc6daf3fb2783-480.webp 480w, /images/2a6f4baf0f7ac43f87dbc6daf3fb2783.webp 828w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Nirvana Business Hotel</h3>
@@ -970,7 +1003,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/nr-1-spot/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b spot guesthouse sommelsdijckstraat central paramaribo air conditioned rooms tour desk selling trips suriname bike rental" data-sub="guesthouses" href="listing/nr-1-spot/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">N</span><img alt="Nr 1 Spot em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ddd94de7e90a345a44fd5f79e7038466.webp" srcset="/images/ddd94de7e90a345a44fd5f79e7038466-480.webp 480w, /images/ddd94de7e90a345a44fd5f79e7038466.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Nr 1 Spot</h3>
@@ -980,7 +1013,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="resorts" href="listing/octopus-resort-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-k="resort day resort sumatraweg lelydorp cabanas apartments pool bar restaurant open mid morning until late evening draws mainly family groups" data-sub="resorts" href="listing/octopus-resort-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="Octopus Resort Suriname em Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/24280d8d26453b0ff0c0fbad4c812f2e.webp" srcset="/images/24280d8d26453b0ff0c0fbad4c812f2e-480.webp 480w, /images/24280d8d26453b0ff0c0fbad4c812f2e.webp 779w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Octopus Resort Suriname</h3>
@@ -990,7 +1023,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="eco-lodges" href="listing/overbridge-river-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="lodge eco jungle river rivier binnenland interior overbridge river resort riverside cabin accommodation water based activities tranquil surinamese jungle setting accessible paramaribo works weekend getaway combining relaxation nature" data-sub="eco-lodges" href="listing/overbridge-river-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="Overbridge River Resort em Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/7b84a9ad7e7b490f3803f74c401c149a.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Overbridge River Resort</h3>
@@ -1000,7 +1033,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/owos-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="resort relaxation resort greenery powakka para beside creek guests swim fish take hammock cabins camping pitches site trades owos ontspanningsoord" data-sub="resorts" href="listing/owos-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Owos Resort</h3>
@@ -1010,7 +1043,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/oxygen-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business oxygen resort paramaribo provides comfortable affordable accommodation calm residential setting guests enjoy spacious rooms garden pool homey atmosphere making popular choice short stays extended visits" data-sub="city-hotels" href="listing/oxygen-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">O</span><img alt="Oxygen Resort, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/857c1243a16d4e5cdb31109b7f91804e.webp" srcset="/images/857c1243a16d4e5cdb31109b7f91804e-480.webp 480w, /images/857c1243a16d4e5cdb31109b7f91804e.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Oxygen Resort</h3>
@@ -1020,7 +1053,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/pension-asia-inn/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b small pension geerlingstraat paramaribo air conditioned rooms hot water television free wifi private garages" data-sub="guesthouses" href="listing/pension-asia-inn/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Pension Asia Inn em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/38ae79e2a9b0b5962da5a1fea2798950.webp" srcset="/images/38ae79e2a9b0b5962da5a1fea2798950-480.webp 480w, /images/38ae79e2a9b0b5962da5a1fea2798950.webp 851w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Pension Asia Inn</h3>
@@ -1030,7 +1063,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="eco-lodges" href="listing/praia-branca/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="lodge eco jungle river rivier binnenland interior prachtig privéterrein buiten stad ideale rustgevende plek heerlijk ontspannen woning kreek beschikt kamers airconditioning badkamer warm koud water kookgelegenheid comfortabele slaapgelegenheid maximaal personen" data-sub="eco-lodges" href="listing/praia-branca/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Praia Branca em Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/01bda58b110afb75f99466b4e079281c.webp" srcset="/images/01bda58b110afb75f99466b4e079281c-480.webp 480w, /images/01bda58b110afb75f99466b4e079281c.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Praia Branca</h3>
@@ -1040,7 +1073,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="eco-lodges" href="listing/victorious-eco-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="lodge eco jungle river rivier binnenland interior private resort republiek para bank coropina creek roughly minutes zanderij airport whole complex hired one house four bedrooms large kitchen hot cold water wifi throughout" data-sub="eco-lodges" href="listing/victorious-eco-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">P</span><img alt="Private Eco Resort Victorious em Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1de3679c9590d54e71818effdd1fea7f.webp" srcset="/images/1de3679c9590d54e71818effdd1fea7f-480.webp 480w, /images/1de3679c9590d54e71818effdd1fea7f.webp 851w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Private Eco Resort Victorious</h3>
@@ -1050,7 +1083,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/q-inn-boutique-hotel-paramaribo/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business boutique hotel costerstraat two kilometres central market about kilometre saints peter paul cathedral rooms flat screen tvs private bathrooms laptop safe hairdryer bar terrace buffet breakfast free wifi parking bike car hire site" data-sub="city-hotels" href="listing/q-inn-boutique-hotel-paramaribo/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Q</span><img alt="Q-Inn Boutique Hotel Paramaribo em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ced1c4864c4d07bec05021e8ab1c68df.webp" srcset="/images/ced1c4864c4d07bec05021e8ab1c68df-480.webp 480w, /images/ced1c4864c4d07bec05021e8ab1c68df.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Q-Inn Boutique Hotel Paramaribo</h3>
@@ -1060,7 +1093,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/queens-hotel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business hotel kleine waterstraat middle paramaribo entertainment district within walking distance historic centre queens held iso quality certification since" data-sub="city-hotels" href="listing/queens-hotel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Q</span><img alt="Queens Hotel em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d484e4b66f9fc4cdd6e35a230b30dd42.webp" srcset="/images/d484e4b66f9fc4cdd6e35a230b30dd42-480.webp 480w, /images/d484e4b66f9fc4cdd6e35a230b30dd42.webp 851w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Queens Hotel</h3>
@@ -1070,7 +1103,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/rachels-apartments/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b rachel apartments provides serviced sipaliwinilaan paramaribo long established option visitors want space than hotel room" data-sub="guesthouses" href="listing/rachels-apartments/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Rachel's Apartments</h3>
@@ -1080,7 +1113,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/radisson-hotel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business radisson hotel paramaribo city flagship international luxury spacious rooms rooftop pool river views multiple dining outlets spa extensive meeting facilities preferred choice business travellers executives visiting suriname" data-sub="city-hotels" href="listing/radisson-hotel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Radisson Hotel Paramaribo em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7.webp" srcset="/images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7-480.webp 480w, /images/35b6cf29bf18c0ba2aeb55dbd2dc8ab7.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Radisson Hotel Paramaribo</h3>
@@ -1090,7 +1123,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="casino-hotels" href="listing/ramada-paramaribo-princess/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="casino hotel ramada wyndham paramaribo princess upscale city hotel appointed rooms rooftop pool casino restaurant business centre part international portfolio delivers standards" data-sub="casino-hotels" href="listing/ramada-paramaribo-princess/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Ramada Paramaribo Princess em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/63e0eeb7a9980acc0a7f00cdd4d69796.webp" srcset="/images/63e0eeb7a9980acc0a7f00cdd4d69796-480.webp 480w, /images/63e0eeb7a9980acc0a7f00cdd4d69796.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Ramada Paramaribo Princess</h3>
@@ -1100,7 +1133,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="resorts" href="listing/recreatieoord-tropic-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-k="resort private recreation ground palisadeweg lelydorp about paramaribo hired out one group time gatherings day use" data-sub="resorts" href="listing/recreatieoord-tropic-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Recreatieoord Tropic Resort</h3>
@@ -1110,7 +1143,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie|Paramaribo" data-sub="guesthouses" href="listing/residence-inn-nickerie/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie|Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b residence inn nickerie provides comfortable accommodation suriname western district border guyana practical base travellers business visitors country agricultural heartland" data-sub="guesthouses" href="listing/residence-inn-nickerie/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Residence Inn em Nickerie" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/dcb3b342ef8be87da103833275e3f0ad.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Residence Inn</h3>
@@ -1120,7 +1153,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="resorts" href="listing/harbour-resort-domburg/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-k="resort marina resort suriname river domburg about upstream paramaribo harbour combines yacht floating dock free wifi water taxi riverside camping pitches overlanders pool breeze restaurant bar seafood surinamese dishes" data-sub="resorts" href="listing/harbour-resort-domburg/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="River Breeze Domburg / Marina Suriname em Wanica" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f7dbd2ea7b048560d254ec345be906c5.webp" srcset="/images/f7dbd2ea7b048560d254ec345be906c5-480.webp 480w, /images/f7dbd2ea7b048560d254ec345be906c5.webp 1200w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">River Breeze Domburg / Marina Suriname</h3>
@@ -1130,7 +1163,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/royal-brasil-hotel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business royal brasil hotel luxurious accommodation accessible price paramaribo appointed rooms attentive service convenient city centre location consistently earns top reviews one suriname best value upscale hotels" data-sub="city-hotels" href="listing/royal-brasil-hotel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Royal Brasil Hotel, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/3a8c7a0006b54c0797dbdf4f9189fe00.webp" srcset="/images/3a8c7a0006b54c0797dbdf4f9189fe00-480.webp 480w, /images/3a8c7a0006b54c0797dbdf4f9189fe00.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Royal Brasil Hotel</h3>
@@ -1140,7 +1173,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/royal-breeze-hotel-paramaribo/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business royal breeze hotel paramaribo city centre within walking distance historic waterfront suriname river standard rooms suites usual business amenities positioned exploring central foot" data-sub="city-hotels" href="listing/royal-breeze-hotel-paramaribo/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Royal Breeze Hotel Paramaribo, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f09d5577a459334245aad54944e4eb8b.webp" srcset="/images/f09d5577a459334245aad54944e4eb8b-480.webp 480w, /images/f09d5577a459334245aad54944e4eb8b.webp 762w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Royal Breeze Hotel Paramaribo</h3>
@@ -1150,7 +1183,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="casino-hotels" href="listing/royal-inn-suriname-hotel-casino/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="casino hotel hotel casino steenbakkerijstraat central paramaribo floor runs roughly square metres slot machines dedicated poker room texas hold other variants open clock valet parking request" data-sub="casino-hotels" href="listing/royal-inn-suriname-hotel-casino/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Royal Inn Suriname Hotel &amp; Casino</h3>
@@ -1160,7 +1193,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/royal-torarica/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business royal torarica paramaribo upmarket hotel set landscaped riverside property pool casino multiple restaurants conference facilities benchmark luxury accommodation suriname frequently used government business events" data-sub="city-hotels" href="listing/royal-torarica/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">R</span><img alt="Royal Torarica, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8620d384f93b82969bf15c5b3cbd3af1.webp" srcset="/images/8620d384f93b82969bf15c5b3cbd3af1-480.webp 480w, /images/8620d384f93b82969bf15c5b3cbd3af1.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Royal Torarica</h3>
@@ -1170,7 +1203,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="casino-hotels" href="listing/savannah-casino-hotel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="casino hotel savannah casino hotel paramaribo combining accommodation full floor rooms restaurant gaming entertainment attracts leisure travellers seeking social lively experience" data-sub="casino-hotels" href="listing/savannah-casino-hotel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Savannah Casino Hotel em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ee9346e2cb9d5f46ebbf92e18959ac66.webp" srcset="/images/ee9346e2cb9d5f46ebbf92e18959ac66-480.webp 480w, /images/ee9346e2cb9d5f46ebbf92e18959ac66.webp 640w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Savannah Casino Hotel</h3>
@@ -1180,7 +1213,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/savoie-hotel-apartments/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b hotel apartment block johannes mungrastraat about central market rooms air conditioned free wifi kettle some kitchen microwave fridge breakfast served daily continental american halal options one bedroom furnished apartments let separately utilities included" data-sub="guesthouses" href="listing/savoie-hotel-apartments/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Savoie Hotel &amp; Apartments</h3>
@@ -1190,7 +1223,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/sheva-hotel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business sheva hotel room hofstedecrull laan paramaribo own bar restaurant rooms suites aimed business travellers longer stays" data-sub="city-hotels" href="listing/sheva-hotel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Sheva Hotel em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/88e7d0de575da1a81e6828b0dc43e692.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Sheva Hotel</h3>
@@ -1200,7 +1233,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Marowijne" data-sub="eco-lodges" href="listing/shiritjo-lodge-tours/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Marowijne" data-k="lodge eco jungle river rivier binnenland interior family run lodge tour operator galibi combining accommodation trips across french guiana guests come mainly sea turtle nesting beaches kalina village culture" data-sub="eco-lodges" href="listing/shiritjo-lodge-tours/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Shiritjo Lodge &amp; Tours em Marowijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/d9530280896aae8f29caa1adc7d7ce0d.webp" srcset="/images/d9530280896aae8f29caa1adc7d7ce0d-480.webp 480w, /images/d9530280896aae8f29caa1adc7d7ce0d.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Shiritjo Lodge &amp; Tours</h3>
@@ -1210,7 +1243,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/silver-moon-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b small guesthouse property jessurunstraat about centre paramaribo five units run doubles quads apartments air conditioning kitchenette fridge flat screen safe garden restaurant hour reception airport shuttle pets allowed" data-sub="guesthouses" href="listing/silver-moon-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Silver Moon Resort em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ac1b246973bfc5a3c30039880e1b356b.webp" srcset="/images/ac1b246973bfc5a3c30039880e1b356b-480.webp 480w, /images/ac1b246973bfc5a3c30039880e1b356b.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Silver Moon Resort</h3>
@@ -1220,7 +1253,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/spanhoek-boutique-hotel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business room hotel domineestraat centre paramaribo keizerstraat mosque saints peter paul cathedral rooms individually decorated suites kitchenettes living areas some cases private balcony gym spa massage outdoor terrace house restaurant spanato breakfast through dinner" data-sub="city-hotels" href="listing/spanhoek-boutique-hotel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Spanhoek Boutique Hotel</h3>
@@ -1230,7 +1263,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Brokopondo" data-sub="eco-lodges" href="listing/ston-eiland-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Brokopondo" data-k="lodge eco jungle river rivier binnenland interior resort peninsula brokopondo reservoir foot brownsberg reached dirt road brownsweg roughly south paramaribo cabins beds fans restaurant boat dock trips onto lake drowned tree trunks still break surface swimming fishing canoeing main draws" data-sub="eco-lodges" href="listing/ston-eiland-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Ston Eiland Resort em Brokopondo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/c863560bdadbb121862978e6788ef9fb.webp" srcset="/images/c863560bdadbb121862978e6788ef9fb-480.webp 480w, /images/c863560bdadbb121862978e6788ef9fb.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Ston Eiland Resort</h3>
@@ -1240,7 +1273,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/sun-smile-hotel-apartments/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b hotel apartment property jacabastraat about central market surinaams museum hour front desk terrace free wifi some rooms balconies breakfast served morning either continental carte" data-sub="guesthouses" href="listing/sun-smile-hotel-apartments/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Sun Smile Hotel &amp; Apartments em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/443cb17b82e0bf5a5b1ee9705bd8b8eb.webp" srcset="/images/443cb17b82e0bf5a5b1ee9705bd8b8eb-480.webp 480w, /images/443cb17b82e0bf5a5b1ee9705bd8b8eb.webp 677w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Sun Smile Hotel &amp; Apartments</h3>
@@ -1250,7 +1283,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/suriname-tulip-hotel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business budget hotel waterkant about metres central market within walking distance fort zeelandia neveh shalom synagogue saints peter paul cathedral rooms air conditioned private bathroom restaurant shuttle service light continental breakfast" data-sub="city-hotels" href="listing/suriname-tulip-hotel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Suriname Tulip Hotel em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ed04e548751db6c3725ce13eeaa316ff.webp" srcset="/images/ed04e548751db6c3725ce13eeaa316ff-480.webp 480w, /images/ed04e548751db6c3725ce13eeaa316ff.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Suriname Tulip Hotel</h3>
@@ -1260,7 +1293,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="guesthouses" href="listing/luxury-resort-surinat/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-k="guesthouse pension villa apartment appartement b&amp;b four bungalows grounds old rencontre plantation village domburg about thirty minutes central paramaribo resort outdoor pool jacuzzi wellness centre restaurant wifi free bicycles shuttle zanderij airport" data-sub="guesthouses" href="listing/luxury-resort-surinat/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Surinat Luxury Resort</h3>
@@ -1270,7 +1303,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="guesthouses" href="listing/sutopia-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-k="guesthouse pension villa apartment appartement b&amp;b small aparthotel weg peperpot meerzorg set suriname river among native planting eight individually decorated rooms kitchenettes private patios outdoor pool garden bar nature park jodensavanne within about fifteen minutes drive" data-sub="guesthouses" href="listing/sutopia-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">S</span><img alt="Sutopia Resort em Commewijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/27a7b5af8e07a9aa2f171fe2a9bfb410.webp" srcset="/images/27a7b5af8e07a9aa2f171fe2a9bfb410-480.webp 480w, /images/27a7b5af8e07a9aa2f171fe2a9bfb410.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Sutopia Resort</h3>
@@ -1280,7 +1313,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-sub="resorts" href="listing/taman-indah-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Commewijne" data-k="resort taman indah resort peaceful paramaribo lush gardens pool comfortable bungalows property draws indonesian inspired design relaxed atmosphere ideal families couples" data-sub="resorts" href="listing/taman-indah-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Taman Indah Resort, hospedagem em Commewijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/481142f7bf9e4e168cf5ca2c93f99c84.webp" srcset="/images/481142f7bf9e4e168cf5ca2c93f99c84-480.webp 480w, /images/481142f7bf9e4e168cf5ca2c93f99c84.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Taman Indah Resort</h3>
@@ -1290,7 +1323,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/the-ark-hotel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business small hotel anton dragtenweg paramaribo rooms air conditioned non smoking room service wifi restaurant regional european dishes bar breakfast brought request airport shuttle transfers available extra cost" data-sub="city-hotels" href="listing/the-ark-hotel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">The Ark Hotel</h3>
@@ -1300,7 +1333,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/the-golden-truly-hotel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business golden truly hotel casino centrally paramaribo rooms bar meeting facilities positioned business travellers visitors want city centre access site entertainment" data-sub="city-hotels" href="listing/the-golden-truly-hotel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="The Golden Truly Hotel, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" src="/images/a2274436f25643033261b3ab2f7a49b5.webp" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">The Golden Truly Hotel</h3>
@@ -1310,7 +1343,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-sub="guesthouses" href="listing/tiny-house-tropical-appartment/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Wanica" data-k="guesthouse pension villa apartment appartement b&amp;b tiny house tropical apartment compact stylishly designed holiday paramaribo ideal solo travellers couples property combines modern amenities character affordable nightly rate" data-sub="guesthouses" href="listing/tiny-house-tropical-appartment/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tiny House Tropical Appartment</h3>
@@ -1320,7 +1353,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/torarica-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business torarica resort large riverfront complex paramaribo pools casino multiple dining outlets sports facilities spa one longest established properties suriname popular weekend stays events leisure base business travellers" data-sub="city-hotels" href="listing/torarica-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Torarica Resort, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f1025ab87358145331e18ffca5705cea.webp" srcset="/images/f1025ab87358145331e18ffca5705cea-480.webp 480w, /images/f1025ab87358145331e18ffca5705cea.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Torarica Resort</h3>
@@ -1330,7 +1363,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/tran-elite-hotel-apartments/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b hotel apartment property jacques gompertstraat paramaribo noord couple minutes maretraite mall about palmentuin hour front desk laundry dry cleaning free self parking airport shuttle extra cost" data-sub="guesthouses" href="listing/tran-elite-hotel-apartments/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Tran Elite Hotel Apartments em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/dae3911ddc2ca2d41f1b0fcfe1fc3b70.webp" srcset="/images/dae3911ddc2ca2d41f1b0fcfe1fc3b70-480.webp 480w, /images/dae3911ddc2ca2d41f1b0fcfe1fc3b70.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tran Elite Hotel Apartments</h3>
@@ -1340,7 +1373,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/tranquil-at-mamba-republiek/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b tranquil guesthouse mamba republiek outskirts paramaribo secluded stay nature lovers" data-sub="guesthouses" href="listing/tranquil-at-mamba-republiek/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Tranquil At Mamba Republiek em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/dee87213cee823e7a29e5487a929ac88.webp" srcset="/images/dee87213cee823e7a29e5487a929ac88-480.webp 480w, /images/dee87213cee823e7a29e5487a929ac88.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tranquil At Mamba Republiek</h3>
@@ -1350,7 +1383,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/tropical-breeze-apartments/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b tropical breeze apartments two bedroom self catering lalla rookhweg full kitchen living room suited families small groups" data-sub="guesthouses" href="listing/tropical-breeze-apartments/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Tropical Breeze Apartments em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/c4da8d2978ca7e42db8c0141b0ac35ac.webp" srcset="/images/c4da8d2978ca7e42db8c0141b0ac35ac-480.webp 480w, /images/c4da8d2978ca7e42db8c0141b0ac35ac.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tropical Breeze Apartments</h3>
@@ -1360,7 +1393,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="casino-hotels" href="listing/tropicana-hotel-casino-suriname/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="casino hotel tropicana hotel casino full service entertainment complex paramaribo rooms restaurant bar lively option guests seeking accommodation nightlife" data-sub="casino-hotels" href="listing/tropicana-hotel-casino-suriname/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Tropicana Hotel Casino em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/50b2cabfd05e7d0fc9c8bfc4d261b88f.webp" srcset="/images/50b2cabfd05e7d0fc9c8bfc4d261b88f-480.webp 480w, /images/50b2cabfd05e7d0fc9c8bfc4d261b88f.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tropicana Hotel Casino</h3>
@@ -1370,7 +1403,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="resorts" href="listing/tucan-resort-and-spa/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="resort tucan resort spa wellness focused paramaribo treatments pool comfortable bungalow lodging lush tranquil setting suited relaxation short retreats" data-sub="resorts" href="listing/tucan-resort-and-spa/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Tucan Resort and Spa em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/ed7c77b7f2042b092dc2d315744234ac.webp" srcset="/images/ed7c77b7f2042b092dc2d315744234ac-480.webp 480w, /images/ed7c77b7f2042b092dc2d315744234ac.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Tucan Resort and Spa</h3>
@@ -1380,7 +1413,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/twenty4-hostel/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b paramaribo first only hostel jessurunstraat aimed backpackers independent travellers private rooms shared dorms air conditioning fans kitchen garden sun terrace lounge hour desk shuttle service bike hire adults central market cathedral waterkant all close" data-sub="guesthouses" href="listing/twenty4-hostel/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">T</span><img alt="Twenty4 Hostel em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/59cb614e23c7cd20994e289203bfc26b.webp" srcset="/images/59cb614e23c7cd20994e289203bfc26b-480.webp 480w, /images/59cb614e23c7cd20994e289203bfc26b.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Twenty4 Hostel</h3>
@@ -1390,7 +1423,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Marowijne" data-sub="eco-lodges" href="listing/urusji-lodge/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Marowijne" data-k="lodge eco jungle river rivier binnenland interior small family run lodge galibi marowijne estuary four rooms three beds shared bathrooms self catering sits close nature reserve main draw green leatherback turtle nesting season alongside birdwatching fishing visits kalina villages" data-sub="eco-lodges" href="listing/urusji-lodge/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">U</span><img alt="Urusji Lodge em Marowijne" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/7d255e1b222cc0a4f55b7dde2c198095.webp" srcset="/images/7d255e1b222cc0a4f55b7dde2c198095-480.webp 480w, /images/7d255e1b222cc0a4f55b7dde2c198095.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Urusji Lodge</h3>
@@ -1400,7 +1433,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/villa-famiri/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b villa famiri boutique hotel paramaribo warm family atmosphere centrally cosy rooms garden personalised service favourite among independent travellers repeat visitors suriname" data-sub="guesthouses" href="listing/villa-famiri/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span><img alt="Villa Famiri, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/81f294c1d05902035b683eec9d321d2c.webp" srcset="/images/81f294c1d05902035b683eec9d321d2c-480.webp 480w, /images/81f294c1d05902035b683eec9d321d2c.webp 605w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Villa Famiri</h3>
@@ -1410,7 +1443,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-sub="resorts" href="listing/village-park-33/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Para" data-k="resort private beach resort cabendadorp para hired out venue" data-sub="resorts" href="listing/village-park-33/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span><img alt="Village Park 33 em Para" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/25001f13c4bd7e24f68068d1849e0e50.webp" srcset="/images/25001f13c4bd7e24f68068d1849e0e50-480.webp 480w, /images/25001f13c4bd7e24f68068d1849e0e50.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Village Park 33</h3>
@@ -1420,7 +1453,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/villas-paramaribo/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b villas paramaribo collection self catering apartments short long term stays suriname capital full facilities residential feel property appeals families extended stay business travellers" data-sub="guesthouses" href="listing/villas-paramaribo/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">V</span><img alt="Villas Paramaribo em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/507eed3893204901fb41d3dfac74e78a.webp" srcset="/images/507eed3893204901fb41d3dfac74e78a-480.webp 480w, /images/507eed3893204901fb41d3dfac74e78a.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Villas Paramaribo</h3>
@@ -1430,7 +1463,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/waterland-suites/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b waterland suites small hotel zorg hoop neighbourhood paramaribo two four person rooms self contained residences property suits short stays longer visits caters business travellers tourists prefer quieter base outside city centre" data-sub="guesthouses" href="listing/waterland-suites/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">W</span><img alt="Waterland Suites, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/5aa18f12ac52a6995969bfcd3ff7275e.webp" srcset="/images/5aa18f12ac52a6995969bfcd3ff7275e-480.webp 480w, /images/5aa18f12ac52a6995969bfcd3ff7275e.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Waterland Suites</h3>
@@ -1440,7 +1473,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/yasmin-luxury-resort/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b family oriented resort verlengde jacques gompertstraat paramaribo rooms air conditioned kitchenettes balconies private bathrooms free wifi facilities include indoor pool hot tub fitness room sun terrace garden outdoor play area restaurant halal breakfast alongside brunch lunch dinner" data-sub="guesthouses" href="listing/yasmin-luxury-resort/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Y</span><img alt="Yasmin Luxury Resort em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8d37ebbbd1b038432d326617a1d8e724.webp" srcset="/images/8d37ebbbd1b038432d326617a1d8e724-480.webp 480w, /images/8d37ebbbd1b038432d326617a1d8e724.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Yasmin Luxury Resort</h3>
@@ -1450,7 +1483,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="city-hotels" href="listing/yogh-hospitality/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="hotel city stad business yogh hospitality luxury hotel domineestraat central paramaribo restaurant spa rooftop pool hosts business lunches corporate events" data-sub="city-hotels" href="listing/yogh-hospitality/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Y</span><img alt="Yogh Hospitality em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/1b3051a4b4863fd85b18e1d046bc15c4.webp" srcset="/images/1b3051a4b4863fd85b18e1d046bc15c4-480.webp 480w, /images/1b3051a4b4863fd85b18e1d046bc15c4.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Yogh Hospitality</h3>
@@ -1460,7 +1493,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-sub="guesthouses" href="listing/zeedijk-resort-nickerie/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Nickerie" data-k="guesthouse pension villa apartment appartement b&amp;b guesthouse idsingaweg nieuw nickerie roughly town centre facing sea dike rooms air conditioned kitchenettes private bathrooms property garden terraces views free parking bicycles guests" data-sub="guesthouses" href="listing/zeedijk-resort-nickerie/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Z</span><img alt="Zeedijk Resort Nickerie em Nickerie" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/f4f5930eedb42f1b9b2f971313fc3989.webp" srcset="/images/f4f5930eedb42f1b9b2f971313fc3989-480.webp 480w, /images/f4f5930eedb42f1b9b2f971313fc3989.webp 960w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Zeedijk Resort Nickerie</h3>
@@ -1470,7 +1503,7 @@ function filterDistrict(el, dist) {
 </div>
 </div>
 </a>
-<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-sub="guesthouses" href="listing/zeelandia-suites/">
+<a class="listing-card group relative card-hover flex flex-col" data-district="Paramaribo" data-k="guesthouse pension villa apartment appartement b&amp;b zeelandia suites hotel paramaribo established march city commercial centre accommodation self contained bedroom living room bathroom balcony terrace restaurants cafes museums other amenities within walking distance" data-sub="guesthouses" href="listing/zeelandia-suites/">
 <div class="listing-ph"><span aria-hidden="true" class="ph-fb serif">Z</span><img alt="Zeelandia Suites, hospedagem em Paramaribo" class="w-full h-full object-cover" height="300" loading="lazy" onerror="this.style.display='none'" sizes="(max-width:639px) 92vw, 400px" src="/images/8d6854bc62280e46930831674a2881ff.webp" srcset="/images/8d6854bc62280e46930831674a2881ff-480.webp 480w, /images/8d6854bc62280e46930831674a2881ff.webp 900w" width="400"/></div>
 <div class="pt-3 flex flex-col gap-1 flex-1">
 <h3 class="serif listing-name">Zeelandia Suites</h3>
