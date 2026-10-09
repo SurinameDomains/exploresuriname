@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Nav class compaction (Oct 2026): the long utility strings that nav_html()
+   repeated on every link now live here once. Same utilities, same output.
+   Tokens other CSS overrides (text-gray-*, rounded-*, shadow-xl, bg-white,
+   border-gray-100), JS hooks (dd-*, mob-*) and toggled state (hidden,
+   rotate-180) stay in the HTML. Names are literals in generate.py, so
+   Tailwind's content scan keeps them. */
+@layer components {
+  .nva { @apply block px-4 py-2.5 text-sm hover:bg-gray-50 hover:text-green-800 transition; }
+  .nvt { @apply flex items-center gap-1 text-sm hover:text-green-800 transition py-1; }
+  .nvc { @apply w-3.5 h-3.5 transition-transform duration-200; }
+  .nvd { @apply absolute top-full left-1/2 -translate-x-1/2 mt-1 border py-2 min-w-[190px] z-50; }
+  .nvm { @apply block px-3 py-1.5 text-sm hover:bg-gray-50 hover:text-green-800 transition; }
+  .nvb { @apply flex items-center gap-2 py-2.5 px-3 text-sm hover:text-green-800; }
+  .nvg { @apply flex items-center justify-between w-full py-3 px-1 text-sm font-semibold border-b; }
+  .nvh { @apply w-4 h-4 transition-transform duration-200; }
+  .nvi { @apply pl-2 pb-1; }
+}

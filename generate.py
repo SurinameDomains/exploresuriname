@@ -6540,19 +6540,19 @@ def nav_html(active="home", prefix=""):
     def _link_cls(key, keys=None):
         if _is_active(key) or (keys is not None and active in keys):
             return 'class="block px-4 py-2.5 text-sm font-semibold rounded-lg" style="color:var(--forest);background:var(--mint)"'
-        return 'class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-green-800 rounded-lg transition"'
+        return 'class="nva text-gray-700 rounded-lg"'
 
     def _top_btn_style(group_keys):
         if _group_active(group_keys):
             return 'class="dd-trigger nav-active flex items-center gap-1 text-sm font-semibold transition py-1" style="color:var(--forest)"'
-        return 'class="dd-trigger flex items-center gap-1 text-sm text-gray-700 hover:text-green-800 transition py-1"'
+        return 'class="dd-trigger nvt text-gray-700"'
 
     def _top_single_style(key):
         if _is_active(key):
             return 'class="nav-active text-sm font-semibold py-1" style="color:var(--forest)"'
         return 'class="text-sm text-gray-700 hover:text-green-800 transition py-1"'
 
-    _chevron = '<svg class="dd-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>'
+    _chevron = '<svg class="dd-chevron nvc" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>'
 
     # ── Desktop dropdowns ───────────────────────────────────────────────────
     def _desktop_dd(dd_id, label, items_html, group_keys):
@@ -6561,7 +6561,7 @@ def nav_html(active="home", prefix=""):
             f'<div class="relative" id="{dd_id}" onmouseenter="openDd(\'{dd_id}\')" onmouseleave="closeDd(\'{dd_id}\')">'
             f'<button onclick="toggleDd(\'{dd_id}\')" {_top_btn_style(group_keys)}>'
             f'{label}{dot}{_chevron}</button>'
-            f'<div id="{dd_id}-menu" class="dd-menu hidden absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 min-w-[190px] z-50">'
+            f'<div id="{dd_id}-menu" class="dd-menu hidden nvd bg-white rounded-2xl shadow-xl border-gray-100">'
             f'{items_html}'
             f'</div></div>'
         )
@@ -6595,8 +6595,7 @@ def nav_html(active="home", prefix=""):
         if _is_active(key) or (keys is not None and active in keys):
             return (f'<a href="{href}" class="block px-3 py-1.5 text-sm font-semibold rounded-lg" '
                     f'style="color:var(--forest);background:var(--mint)">{label}</a>')
-        return (f'<a href="{href}" class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50 '
-                f'hover:text-green-800 rounded-lg transition">{label}</a>')
+        return (f'<a href="{href}" class="nvm text-gray-700 rounded-lg">{label}</a>')
 
     # Explore (mega): Explore | Eat & Stay
     expl_cols = (
@@ -6689,7 +6688,7 @@ def nav_html(active="home", prefix=""):
     def _mob_link(href, label, key, keys=None):
         if _is_active(key) or (keys is not None and active in keys):
             return f'<a href="{href}" class="flex items-center gap-2 py-2.5 px-3 text-sm font-semibold rounded-lg" style="color:var(--forest);background:var(--mint)">{label}</a>'
-        return f'<a href="{href}" class="flex items-center gap-2 py-2.5 px-3 text-sm text-gray-600 hover:text-green-800 rounded-lg">{label}</a>'
+        return f'<a href="{href}" class="nvb text-gray-600 rounded-lg">{label}</a>'
 
     def _mob_group(mg_id, label, items_html, group_keys):
         open_cls  = "" if _group_active(group_keys) else " hidden"
@@ -6697,11 +6696,11 @@ def nav_html(active="home", prefix=""):
         return (
             f'<div class="mob-group">'
             f'<button onclick="toggleMobGroup(\'{mg_id}\')" '
-            f'class="mob-group-btn flex items-center justify-between w-full py-3 px-1 text-sm font-semibold text-gray-800 border-b border-gray-100" {hdr_style}>'
+            f'class="mob-group-btn nvg text-gray-800 border-gray-100" {hdr_style}>'
             f'<span>{label}</span>'
-            f'<svg class="mob-chevron w-4 h-4 transition-transform duration-200{" rotate-180" if _group_active(group_keys) else ""}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>'
+            f'<svg class="mob-chevron nvh{" rotate-180" if _group_active(group_keys) else ""}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>'
             f'</button>'
-            f'<div id="{mg_id}" class="mob-group-body pl-2 pb-1{open_cls}">{items_html}</div>'
+            f'<div id="{mg_id}" class="mob-group-body nvi{open_cls}">{items_html}</div>'
             f'</div>'
         )
 
