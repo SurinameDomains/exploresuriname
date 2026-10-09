@@ -1,5 +1,15 @@
 {
-  "outages": [],
-  "last_updated": "2026-10-09T11:07:48.352353+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD ZATERDAG 10 OKTOBER 2026",
+      "date": "10 Oktober 2026",
+      "date_iso": "2026-10-10",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1626/gepland-onderhoud-zaterdag-10-oktober-2026",
+      "meta_description": "GEPLAND ONDERHOUD: PARBO ZATERDAG 10 OKTOBER 2026 TUSSEN 8:00 EN 15:00 UURKWASSIESTRAAT, MARGARETHALAAN, VAN ESVELDSTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN",
+      "district": "PARBO"
+    }
+  ],
+  "last_updated": "2026-10-09T15:07:53.505918+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
