@@ -1,6 +1,15 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD ZONDAG 11 OKTOBER 2026",
+      "date": "11 Oktober 2026",
+      "date_iso": "2026-10-11",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1627/gepland-onderhoud-zondag-11-oktober-2026",
+      "meta_description": "GEPLAND ONDERHOUD ZONDAG 11 OKTOBER 2026 TUSSEN 8:00 EN 15:00 UURGEDEELTE HEERENSTRAAT TUSSEN KLIPSTENENSTRAAT EN GROTE KERKSTRAAT, GEDEELTE WAGENWEGSTRAAT",
+      "district": "GEPLAND ONDERHOUD"
+    },
+    {
       "title": "GEPLAND ONDERHOUD ZATERDAG 10 OKTOBER 2026",
       "date": "10 Oktober 2026",
       "date_iso": "2026-10-10",
@@ -10,6 +19,6 @@
       "district": "PARBO"
     }
   ],
-  "last_updated": "2026-10-09T15:09:02.864660+00:00",
+  "last_updated": "2026-10-09T19:07:49.927889+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
