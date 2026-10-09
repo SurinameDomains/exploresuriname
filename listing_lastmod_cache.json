@@ -28,7 +28,7 @@
     "date": "2026-10-09"
   },
   "static:currency.html": {
-    "hash": "a302dae1e71b12d465fcf6509654d589",
+    "hash": "b15e67c2e8b4702bc8e7b83ffddcb1b5",
     "date": "2026-10-09"
   },
   "static:flights.html": {
@@ -36,7 +36,7 @@
     "date": "2026-10-09"
   },
   "static:conditions.html": {
-    "hash": "1cea969309d0f4d240cb52bb645ee919",
+    "hash": "c4b79f26367a6e6543563c7bdfcbafab",
     "date": "2026-10-09"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-09"
   },
   "static:news.html": {
-    "hash": "c6bfd8cc5187593f3e7e9d8f721b08e5",
+    "hash": "cd29544a2efe4a76cd10fc6f3ca3f510",
     "date": "2026-10-09"
   },
   "static:about.html": {
@@ -3016,7 +3016,7 @@
     "date": "2026-06-12"
   },
   "static:events.html": {
-    "hash": "57e59f4cd1f6e3db00d174dedefb5bb0",
+    "hash": "cc10d6cd883bc30045f4213dda282bcb",
     "date": "2026-10-09"
   },
   "fort-zeelandia": {
@@ -3064,7 +3064,7 @@
     "date": "2026-10-09"
   },
   "static:atms.html": {
-    "hash": "6660cb4070568d1755aad54de3bf2964",
+    "hash": "a196780b9a4acb541e48bc883a7317a7",
     "date": "2026-10-09"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-09"
   },
   "static:oil-and-gas.html": {
-    "hash": "3348dea19c150d831b52c568352eb000",
+    "hash": "9805df9cf3b4a86e7b1e845ac2df700b",
     "date": "2026-10-09"
   },
   "static:suriname-oil-blocks.html": {
@@ -6748,7 +6748,7 @@
     "date": "2026-10-09"
   },
   "static:pricing-calculator": {
-    "hash": "688ebfeadb9182b736f1c0b1a18fc4e1",
+    "hash": "661b7cc2ef6773eaaa34426492a9bba4",
     "date": "2026-10-09"
   },
   "static:import-cost-calculator": {
@@ -32016,7 +32016,7 @@
     "date": "2026-10-09"
   },
   "static:events-this-weekend": {
-    "hash": "2d675d80c09ec65186adae62f852775c",
+    "hash": "fd8fa0709cc2d87e7d503c8579c9a2dc",
     "date": "2026-10-09"
   },
   "static:event-12th-salsuri-congress-gala-event-20261024": {
@@ -32257,6 +32257,10 @@
   },
   "static:event-sranan-nyan-pasi": {
     "hash": "d24278f5708dae360cc9107b5e4d0af1",
+    "date": "2026-10-09"
+  },
+  "static:event-maroons-day-20261010": {
+    "hash": "6e2454e509ee540ae477d16be4e5f235",
     "date": "2026-10-09"
   }
 }
