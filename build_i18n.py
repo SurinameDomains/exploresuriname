@@ -1012,6 +1012,13 @@ def tr(text: str, lang: str) -> str:
     entry = cache.get(key)
     if entry and entry.get(lang):
         return lead + entry[lang] + trail
+    # Listing meta descriptions are the description minus its final "."
+    # (generate.py _meta_trunc), while the cache key is the full sentence from
+    # the page body: retry with the "." and drop it from the translation too.
+    if key and key[-1] not in ".!?\u2026\u3002":
+        _dot = cache.get(key + ".")
+        if _dot and _dot.get(lang):
+            return lead + _dot[lang].rstrip().rstrip(".\u3002") + trail
     # Strings with a count or date in them ("Browse 185 restaurants…",
     # "109 of 109 products shown") change whenever the number does, so an exact
     # key never lasts. A cache key written with {#} for each number matches any
@@ -1851,6 +1858,12 @@ def process_page(job):
     # match Path.read_text()'s universal newlines so output is byte-for-byte
     # identical to the pre-incremental version on CRLF checkouts too
     html = raw.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
+    # A page kept from the previous build (e.g. business pages when their engine
+    # tests fail) still has its menu in /assets/n-*.js: put it back inline so it
+    # is translated like any fresh page (nav_extract.py moves it out again).
+    if 'data-nf=""' in html:
+        import nav_extract
+        html = nav_extract.inline(html, rel)
 
     mk = ff_marker(html) if ff_marker else None
     if mk and mk[0] == "built":
@@ -2039,6 +2052,14 @@ def main():
                 json.dumps({"key": key, "pages": hashes, "ff": ff_meta}, separators=(",", ":"),
                            sort_keys=True),
                 encoding="utf-8")
+
+    # Shared menu contents (nav_extract.py): runs after every language tree is
+    # written. If it fails, pages simply keep their inline menu.
+    try:
+        import nav_extract
+        print(nav_extract.run(cleanup=not ONLY))
+    except Exception as _ne:
+        print(f"nav: skipped ({_ne})")
 
     print(f"i18n: done in {time.time() - t0:.1f}s")
     _stage_new_dirs()
