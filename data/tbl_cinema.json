@@ -1,31 +1,56 @@
 {
-  "last_updated": "2026-10-09T16:00:42.180627+00:00",
+  "last_updated": "2026-10-10T10:00:30.875306+00:00",
   "date_label": "Today",
   "showings": [
+    {
+      "time": "02:00 PM",
+      "title": "Avengers: Endgame (3D)",
+      "url": "https://www.tblcinemas.com/movie/RS887314415013/avengers-endgame"
+    },
+    {
+      "time": "02:30 PM",
+      "title": "Minions & Monsters",
+      "url": "https://www.tblcinemas.com/movie/MI16057/minions-monsters"
+    },
+    {
+      "time": "03:00 PM",
+      "title": "Spider-Man: Brand New Day",
+      "url": "https://www.tblcinemas.com/movie/RS779482139068/spider-man-brand-new-day"
+    },
+    {
+      "time": "03:45 PM",
+      "title": "Hanuman Ansh",
+      "url": "https://www.tblcinemas.com/movie/RS445853160138/hanuman-ansh"
+    },
+    {
+      "time": "04:45 PM",
+      "title": "Cars",
+      "url": "https://www.tblcinemas.com/movie/RS678416384175/cars"
+    },
     {
       "time": "05:15 PM",
       "title": "Forgotten Island",
       "url": "https://www.tblcinemas.com/movie/RS706204767478/forgotten-island"
     },
     {
-      "time": "05:45 PM",
-      "title": "Cars",
-      "url": "https://www.tblcinemas.com/movie/RS678416384175/cars"
+      "time": "06:00 PM",
+      "title": "Heart of the Beast",
+      "url": "https://www.tblcinemas.com/movie/RS484269798639/heart-of-the-beast"
     },
     {
-      "time": "06:15 PM",
-      "title": "Verity",
-      "url": "https://www.tblcinemas.com/movie/RS242492895486/verity"
-    },
-    {
-      "time": "06:45 PM",
-      "title": "Hanuman Ansh",
-      "url": "https://www.tblcinemas.com/movie/RS445853160138/hanuman-ansh"
+      "time": "06:30 PM",
+      "title": "Resident Evil",
+      "url": "https://www.tblcinemas.com/movie/RS762482270455/resident-evil"
     },
     {
       "time": "07:15 PM",
       "title": "Avengers: Endgame",
       "url": "https://www.tblcinemas.com/movie/RS178125418089/avengers-endgame"
+    },
+    {
+      "time": "07:45 PM",
+      "title": "The Beast",
+      "url": "https://www.tblcinemas.com/movie/RS339100936931/the-beast"
     },
     {
       "time": "08:15 PM",
@@ -39,8 +64,8 @@
     },
     {
       "time": "09:15 PM",
-      "title": "The Beast",
-      "url": "https://www.tblcinemas.com/movie/RS339100936931/the-beast"
+      "title": "Verity",
+      "url": "https://www.tblcinemas.com/movie/RS242492895486/verity"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
