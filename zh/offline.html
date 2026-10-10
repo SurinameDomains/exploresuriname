@@ -999,10 +999,10 @@ function runSearch(q) {
   box.innerHTML = hits.map((h, i) => {
     const hi = _sMark(h.n, toks);
     const col = _CAT_C[h.c] || '#6b7280';
-    return '<a href="' + depth + h.u + '" class="' + (i===0?'sr-active':'') + '">'
-      + '<span class="sr-badge" style="background:' + col + '">' + h.c + '</span>'
+    return '<a href="' + depth + _sEsc(h.u) + '" class="' + (i===0?'sr-active':'') + '">'
+      + '<span class="sr-badge" style="background:' + col + '">' + _sEsc(h.c) + '</span>'
       + '<span class="sr-name">' + hi + '</span>'
-      + (h.a ? '<span class="sr-area">' + h.a + '</span>' : '')
+      + (h.a ? '<span class="sr-area">' + _sEsc(h.a) + '</span>' : '')
       + '</a>';
   }).join('');
   _sel = 0;
