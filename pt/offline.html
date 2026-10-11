@@ -50,6 +50,10 @@
     /* ===== Warm theme roll-over: homepage redesign palette, applied site-wide ===== */
     html, body { background: var(--paper); }
     body { color: var(--ink); }
+    /* Mobile overflow guards (Oct 2026): long words wrap instead of pushing cards
+       past the screen edge; file inputs never wider than their box. */
+    body { overflow-wrap: break-word; }
+    input[type=file] { max-width: 100%; }
     .bg-white   { background-color: var(--card) !important; }
     .bg-gray-50 { background-color: var(--paper-2) !important; }
     .bg-gray-100{ background-color: #EFE6D2 !important; }

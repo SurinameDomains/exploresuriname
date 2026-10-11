@@ -18,7 +18,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="ExploreSR" name="apple-mobile-web-app-title"/>
-<link href="/assets/s-3e552c063aa6.css" rel="stylesheet"/>
+<link href="/assets/s-38797f453d2f.css" rel="stylesheet"/>
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
 <link href="/assets/s-bbf380cc3b18.css" rel="stylesheet"/>
 <link href="/assets/s-3add1bbd5c8c.css" rel="stylesheet"/>
@@ -74,7 +74,7 @@
     .hero-lead{font-size:clamp(16px,calc(1.2vw / var(--z,1)),19px);line-height:1.65;color:#4B564D;max-width:31rem;margin:24px 0 0}
     .hero-search{margin-top:34px;display:flex;align-items:flex-end;gap:14px;max-width:34rem;
                  border-bottom:1.5px solid #CFC7B6;padding-bottom:.5rem}
-    .hero-search input{flex:1;border:0;outline:none;background:transparent;padding:2px 0;
+    .hero-search input{flex:1;width:0;border:0;outline:none;background:transparent;padding:2px 0;
                        font-family:inherit;font-size:17px;color:#233028;min-width:0}
     .hero-search input::placeholder{color:#8A9187}
     .hero-search button{border:0;background:none;color:var(--forest);padding:0;display:flex;align-items:center;
@@ -95,7 +95,7 @@
     .hero-dots span{height:6px;width:7px;border-radius:999px;background:rgba(252,247,236,.45);transition:width .45s ease,background .45s ease;cursor:pointer}
     .hero-dots span.on{width:26px;background:var(--gold)}
     @media (max-width:899px){
-      #hero{grid-template-columns:1fr;min-height:0}
+      #hero{grid-template-columns:minmax(0,1fr);min-height:0}
       .hero-photo{order:-1;height:270px}
       .hero-inner{padding:32px clamp(20px,calc(5vw / var(--z,1)),40px) 44px}
       #hero .scrollcue{display:none}
