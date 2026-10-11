@@ -16906,7 +16906,9 @@ function step(ts){
  render();
  raf=requestAnimationFrame(step);
 }
-function render(){CX.save();if(shake>0||boostT>0){const s=shake>0?shake:1.4;CX.translate(R(-s,s),R(-s,s));}
+function ta(){const v=st==="run"?"none":"pan-y";if(CV.style.touchAction!==v)CV.style.touchAction=v;}
+function fitView(){try{const r=CV.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)CV.scrollIntoView({block:"center",behavior:"smooth"});}catch(e){}}
+function render(){ta();CX.save();if(shake>0||boostT>0){const s=shake>0?shake:1.4;CX.translate(R(-s,s),R(-s,s));}
  drawBg();drawSunset();drawBestFlag();manjas.forEach(m=>{if(!m.high)drawManja(m);});
  obs.forEach(o=>{if(o.t!=="branch")drawObs(o);});pups.forEach(drawPup);drawWake();drawBoat();
  manjas.forEach(m=>{if(m.high)drawManja(m);});obs.forEach(o=>{if(o.t==="branch")drawObs(o);});
@@ -16963,7 +16965,7 @@ function panel(sc,best,isNew){const L=T[lang];
   +'<button class="cpbtn" id="kj-cp">'+L.copy+'</button></div>';
  $("kj-cp").onclick=()=>{try{navigator.clipboard.writeText(shareTxt(sc));}catch(e){}$("kj-cp").textContent=L.copied;};}
 
-function start(){reset();resetRunMissions();st="run";$("kj-panel").innerHTML="";lastT=0;
+function start(){reset();resetRunMissions();st="run";$("kj-panel").innerHTML="";lastT=0;fitView();
  window.ESRLB&&ESRLB.played();
  say(T[lang].go,"#fde047");
  ac();cancelAnimationFrame(raf);raf=requestAnimationFrame(step);}
@@ -17082,8 +17084,8 @@ def build_korjaal_page():
     ]}, ensure_ascii=False))
 
     _CSS = """  <style>
-    #kj-wrap{position:relative;max-width:420px;margin:0 auto}
-    #kj-cv{display:block;width:100%;border-radius:16px;background:#0d2a20;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+    #kj-wrap{position:relative;max-width:420px;max-width:min(420px,calc((100vh - 24px)*.625));max-width:min(420px,calc((100dvh - 24px)*.625));margin:0 auto}
+    #kj-cv{display:block;width:100%;border-radius:16px;background:#0d2a20;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
     #kj-mute{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:9999px;border:none;background:rgba(0,0,0,.38);color:#fff;font-size:15px;line-height:34px;text-align:center;cursor:pointer;z-index:3}
     .lang button{padding:.3rem .8rem;border:1px solid #d1d5db;background:#fff;font-size:.78rem;font-weight:700;color:#6b7280}
     .lang button:first-child{border-radius:9999px 0 0 9999px}.lang button:last-child{border-radius:0 9999px 9999px 0;margin-left:-1px}
@@ -17552,7 +17554,10 @@ function hud(){const L=T[lang];
 }
 function drawParts(){for(const p of parts){CX.fillStyle=p.col.replace("A",String(Math.max(0,p.a)));
  CX.beginPath();CX.arc(p.x,p.y,2.4,0,7);CX.fill();}}
+function ta(){const v=(st==="run"||st==="ready"||st==="clear")?"none":"pan-y";if(CV.style.touchAction!==v)CV.style.touchAction=v;}
+function fitView(){try{const r=CV.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)CV.scrollIntoView({block:"center",behavior:"smooth"});}catch(e){}}
 function render(t){
+ ta();
  CX.save();
  if(shake>0){CX.translate(R(-shake,shake),R(-shake,shake));}
  drawBg();drawWalls();drawExit();
@@ -17577,7 +17582,7 @@ function frame(ts){
  raf=requestAnimationFrame(frame);
 }
 function go(){if(st!=="ready")return;st="run";lastT=0;acc=0;cancelAnimationFrame(raf);raf=requestAnimationFrame(frame);}
-function start(){newRun();st="ready";$("ab-panel").innerHTML="";
+function start(){newRun();st="ready";$("ab-panel").innerHTML="";fitView();
  window.ESRLB&&ESRLB.played();ac();go();}
 function idle(){st="idle";newRun();render(1);const L=T[lang];
  CX.fillStyle="rgba(8,22,16,.64)";CX.fillRect(0,0,W,HT);
@@ -17692,8 +17697,8 @@ def build_anaconda_page():
     ]}, ensure_ascii=False))
 
     _CSS = """  <style>
-    #ab-wrap{position:relative;max-width:420px;margin:0 auto}
-    #ab-cv{display:block;width:100%;border-radius:16px;background:#0d2a20;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+    #ab-wrap{position:relative;max-width:420px;max-width:min(420px,calc((100vh - 24px)*.625));max-width:min(420px,calc((100dvh - 24px)*.625));margin:0 auto}
+    #ab-cv{display:block;width:100%;border-radius:16px;background:#0d2a20;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
     #ab-mute{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:9999px;border:none;background:rgba(0,0,0,.38);color:#fff;font-size:15px;line-height:34px;text-align:center;cursor:pointer;z-index:3}
     .lang button{padding:.3rem .8rem;border:1px solid #d1d5db;background:#fff;font-size:.78rem;font-weight:700;color:#6b7280}
     .lang button:first-child{border-radius:9999px 0 0 9999px}.lang button:last-child{border-radius:0 9999px 9999px 0;margin-left:-1px}
@@ -18231,22 +18236,28 @@ function scalePos(cxp,cyp){
 cv.addEventListener('click', e => { ensureAudio(); const p = scalePos(e.clientX,e.clientY); tapAction(p.x,p.y); });
 
 let joy = null;
+function liveRun(){ return state==='playing'||state==='levelup'; }
 cv.addEventListener('touchstart', e => {
-  e.preventDefault(); ensureAudio();
+  if(liveRun()) e.preventDefault();
+  ensureAudio();
   const p = scalePos(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
   joy = {ox:p.x, oy:p.y, dx:0, dy:0, moved:false, st:performance.now()};
 },{passive:false});
 cv.addEventListener('touchmove', e => {
-  e.preventDefault(); if(!joy) return;
+  if(liveRun()) e.preventDefault();
+  if(!joy) return;
   const p = scalePos(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
   joy.dx = p.x-joy.ox; joy.dy = p.y-joy.oy;
   if(Math.hypot(joy.dx,joy.dy) > 12) joy.moved = true;
 },{passive:false});
 cv.addEventListener('touchend', e => {
-  e.preventDefault();
-  if(joy && !joy.moved && performance.now()-joy.st < 250) tapAction(joy.ox,joy.oy);
+  const tap = joy && !joy.moved && performance.now()-joy.st < 250;
+  /* cancel the follow-up click only when we handled the tap ourselves (or a run owns the touch) */
+  if(tap || liveRun()) e.preventDefault();
+  if(tap) tapAction(joy.ox,joy.oy);
   joy = null;
 },{passive:false});
+cv.addEventListener('touchcancel', () => { joy = null; });
 
 function tapAction(x,y){
   if(state==='playing'){
@@ -19078,6 +19089,7 @@ function drawOrbitals(){
   }
 }
 function draw(){
+  syncCv();
   cx.save();
   if(shake>0){ cx.translate((Math.random()-0.5)*shake*1.6,(Math.random()-0.5)*shake*1.6); shake--; }
   cx.drawImage(floorCv,0,0);
@@ -19412,7 +19424,16 @@ function drawCoinsPill(){
   cx.fillStyle='#ffd166'; cx.font='bold 14px system-ui,sans-serif'; cx.textAlign='left';
   cx.fillText(txt, x0+26, 33);
 }
+/* touch-action follows the game: page scrolls over the canvas in menus, joystick owns it in a run.
+   --mq-ar lets the CSS cap the width so the whole arena fits the window height. */
+function syncCv(){
+  const v = (state==='playing'||state==='levelup') ? 'none' : 'pan-y';
+  if(cv.style.touchAction!==v) cv.style.touchAction = v;
+  const w = document.getElementById('mq-wrap');
+  if(w) w.style.setProperty('--mq-ar', (W/H).toFixed(4));
+}
 function renderShell(){
+  syncCv();
   cx.setTransform(1,0,0,1,0,0);
   cx.drawImage(floorCv,0,0);
   cx.fillStyle='rgba(8,12,8,0.62)'; cx.fillRect(0,0,W,H);
@@ -19738,7 +19759,9 @@ function frame(ts){
   if(state==='playing') rafId=requestAnimationFrame(frame);
 }
 function resume(){ state='playing'; choices=null; last=0; if(!rafId) rafId=requestAnimationFrame(frame); }
-function startRun(){ ensureAudio(); reset(); last=0; if(!rafId) rafId=requestAnimationFrame(frame); }
+function startRun(){ ensureAudio(); reset(); last=0; syncCv();
+  try{ const r=cv.getBoundingClientRect(); if(r.top<0||r.bottom>innerHeight) cv.scrollIntoView({block:"center",behavior:"smooth"}); }catch(e){}
+  if(!rafId) rafId=requestAnimationFrame(frame); }
 
 function applyMode(){
   PORTRAIT = calcPortrait();
@@ -19841,8 +19864,8 @@ def build_muskieto_page():
     ]}, ensure_ascii=False))
 
     _CSS = """  <style>
-    #mq-wrap{position:relative;max-width:800px;margin:0 auto}
-    #mq-cv{display:block;width:100%;height:auto;border-radius:14px;background:#b4afa4;box-shadow:0 10px 30px rgba(0,0,0,.25);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;cursor:crosshair}
+    #mq-wrap{position:relative;max-width:800px;max-width:min(800px,calc((100vh - 24px)*var(--mq-ar,1.3333)));max-width:min(800px,calc((100dvh - 24px)*var(--mq-ar,1.3333)));margin:0 auto}
+    #mq-cv{display:block;width:100%;height:auto;border-radius:14px;background:#b4afa4;box-shadow:0 10px 30px rgba(0,0,0,.25);touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;cursor:crosshair}
     #mq-mute{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:9999px;border:none;background:rgba(0,0,0,.38);color:#fff;font-size:15px;line-height:34px;text-align:center;cursor:pointer;z-index:4}
     .mq-hint{display:flex;gap:1.1rem;justify-content:center;flex-wrap:wrap;margin-top:.7rem;font-size:.72rem;color:#9ca3af}
     .mq-hint b{color:#6b7280;font-weight:700}
