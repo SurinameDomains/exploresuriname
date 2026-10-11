@@ -46,8 +46,8 @@
   {"@context": "https://schema.org", "@graph": [{"@type": "WebPage", "@id": "https://exploresuriname.com/muskieto.html#webpage", "url": "https://exploresuriname.com/muskieto.html", "name": "Muskieto Survivor: the Suriname terras survival game", "description": "Survive five minutes on a Suriname terras against swarms of muskietos. Mepper, Mama's slipper, Madame Jeanette, a stroom weg finale. Free browser game.", "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": "https://exploresuriname.com/"}, "primaryImageOfPage": "https://exploresuriname.com/og-image.jpg", "breadcrumb": {"@id": "https://exploresuriname.com/muskieto.html#breadcrumb"}, "mainEntity": {"@id": "https://exploresuriname.com/muskieto.html#game"}, "datePublished": "2026-07-20", "dateModified": "2026-10-11", "isAccessibleForFree": true}, {"@type": "BreadcrumbList", "@id": "https://exploresuriname.com/muskieto.html#breadcrumb", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://exploresuriname.com/"}, {"@type": "ListItem", "position": 2, "name": "Muskieto Survivor", "item": "https://exploresuriname.com/muskieto.html"}]}, {"@type": "VideoGame", "@id": "https://exploresuriname.com/muskieto.html#game", "name": "Muskieto Survivor", "url": "https://exploresuriname.com/muskieto.html", "description": "Survive five minutes of muskieto swarms on a Suriname terras: auto-firing meppers, wierook smoke, Mama's slipper, Madame Jeanette peppers, kakalaka and waswasi bosses, a stroom weg blackout and an Owru Yari pagara finale. Earn SRD coins for permanent upgrades, unlockable characters, Hyper Mode and the Palmentuin night stage.", "genre": "Arcade", "gamePlatform": "Web browser", "inLanguage": ["en"], "isAccessibleForFree": true, "image": "https://exploresuriname.com/og-image.jpg", "publisher": {"@type": "Organization", "name": "Explore Suriname", "url": "https://exploresuriname.com/"}}, {"@type": "FAQPage", "@id": "https://exploresuriname.com/muskieto.html#faq", "mainEntity": [{"@type": "Question", "name": "What is Muskieto Survivor?", "acceptedAnswer": {"@type": "Answer", "text": "A survival game in the Vampire Survivors style, set where every Surinamese has fought this war: the terras at dusk. You only steer. Your weapons fire automatically. Muskietos swarm in from the first second for five minutes, and your job is to be alive when the clock runs out."}}, {"@type": "Question", "name": "How do I play?", "acceptedAnswer": {"@type": "Answer", "text": "Move with WASD or the arrow keys, or drag anywhere on the screen on a phone. That is the only control: every weapon fires by itself. Dead bugs drop blood; walk over it to level up, and every level offers three upgrades. You carry four weapons and three passives: the electric mepper (chains between bugs), wierook coil, insect repellent, sling shot, Mama's slipper (a boomerang) and Madame Jeanette peppers that leave burning puddles, plus the Cold Djogo, slippers, bakabana and sambal. At level five an item evolves. On a phone, tap fullscreen and play portrait."}}, {"@type": "Question", "name": "What is the timeline?", "acceptedAnswer": {"@type": "Answer", "text": "Muskietos from the first second, striped dengue muskietos from 0:30, a kakalaka run across the floor at 1:15 and the Bigi Kakalaka boss at 1:45. From 2:30 the freifrei storm, at 3:30 the waswasi queen with her wasps, at 4:15 the stroom goes and at 4:35 it is Owru Yari: grab the pagara for screen-clearing bangs. Bosses drop an Eksi Koekoe chest with free upgrades. Watch for the Lobi magnet (pulls in all blood) and telo snacks (health)."}}, {"@type": "Question", "name": "Does my progress save?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every run pays out SRD coins based on the blood you collected and how long you lasted. Coins buy permanent upgrades in the shop, from Thick Skin to an Extra Life, plus new characters like Oom Tjin, Tante Anita and Pinto. Survive one full run and you unlock Hyper Mode, a run at double pace, and the second stage: Palmentuin bij Nacht, a moonlit park with swooping vleermuis and glowing glimworms that burst with bonus XP. Everything saves automatically on your device, and the Sync progress button in the menu carries your profile to another phone or PC. No account needed."}}, {"@type": "Question", "name": "Is it free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Muskieto Survivor is free, runs in your browser, and needs no app or account."}}]}]}
   </script>
 <script async="" src="https://accounts.google.com/gsi/client"></script> <style>
-    #mq-wrap{position:relative;max-width:800px;margin:0 auto}
-    #mq-cv{display:block;width:100%;height:auto;border-radius:14px;background:#b4afa4;box-shadow:0 10px 30px rgba(0,0,0,.25);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;cursor:crosshair}
+    #mq-wrap{position:relative;max-width:800px;max-width:min(800px,calc((calc(100vh / var(--z,1)) - 24px)*var(--mq-ar,1.3333)));max-width:min(800px,calc((calc(100dvh / var(--z,1)) - 24px)*var(--mq-ar,1.3333)));margin:0 auto}
+    #mq-cv{display:block;width:100%;height:auto;border-radius:14px;background:#b4afa4;box-shadow:0 10px 30px rgba(0,0,0,.25);touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;cursor:crosshair}
     #mq-mute{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:9999px;border:none;background:rgba(0,0,0,.38);color:#fff;font-size:15px;line-height:34px;text-align:center;cursor:pointer;z-index:4}
     .mq-hint{display:flex;gap:1.1rem;justify-content:center;flex-wrap:wrap;margin-top:.7rem;font-size:.72rem;color:#9ca3af}
     .mq-hint b{color:#6b7280;font-weight:700}
@@ -710,22 +710,28 @@ function scalePos(cxp,cyp){
 cv.addEventListener('click', e => { ensureAudio(); const p = scalePos(e.clientX,e.clientY); tapAction(p.x,p.y); });
 
 let joy = null;
+function liveRun(){ return state==='playing'||state==='levelup'; }
 cv.addEventListener('touchstart', e => {
-  e.preventDefault(); ensureAudio();
+  if(liveRun()) e.preventDefault();
+  ensureAudio();
   const p = scalePos(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
   joy = {ox:p.x, oy:p.y, dx:0, dy:0, moved:false, st:performance.now()};
 },{passive:false});
 cv.addEventListener('touchmove', e => {
-  e.preventDefault(); if(!joy) return;
+  if(liveRun()) e.preventDefault();
+  if(!joy) return;
   const p = scalePos(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
   joy.dx = p.x-joy.ox; joy.dy = p.y-joy.oy;
   if(Math.hypot(joy.dx,joy.dy) > 12) joy.moved = true;
 },{passive:false});
 cv.addEventListener('touchend', e => {
-  e.preventDefault();
-  if(joy && !joy.moved && performance.now()-joy.st < 250) tapAction(joy.ox,joy.oy);
+  const tap = joy && !joy.moved && performance.now()-joy.st < 250;
+  /* cancel the follow-up click only when we handled the tap ourselves (or a run owns the touch) */
+  if(tap || liveRun()) e.preventDefault();
+  if(tap) tapAction(joy.ox,joy.oy);
   joy = null;
 },{passive:false});
+cv.addEventListener('touchcancel', () => { joy = null; });
 
 function tapAction(x,y){
   if(state==='playing'){
@@ -1557,6 +1563,7 @@ function drawOrbitals(){
   }
 }
 function draw(){
+  syncCv();
   cx.save();
   if(shake>0){ cx.translate((Math.random()-0.5)*shake*1.6,(Math.random()-0.5)*shake*1.6); shake--; }
   cx.drawImage(floorCv,0,0);
@@ -1891,7 +1898,16 @@ function drawCoinsPill(){
   cx.fillStyle='#ffd166'; cx.font='bold 14px system-ui,sans-serif'; cx.textAlign='left';
   cx.fillText(txt, x0+26, 33);
 }
+/* touch-action follows the game: page scrolls over the canvas in menus, joystick owns it in a run.
+   --mq-ar lets the CSS cap the width so the whole arena fits the window height. */
+function syncCv(){
+  const v = (state==='playing'||state==='levelup') ? 'none' : 'pan-y';
+  if(cv.style.touchAction!==v) cv.style.touchAction = v;
+  const w = document.getElementById('mq-wrap');
+  if(w) w.style.setProperty('--mq-ar', (W/H).toFixed(4));
+}
 function renderShell(){
+  syncCv();
   cx.setTransform(1,0,0,1,0,0);
   cx.drawImage(floorCv,0,0);
   cx.fillStyle='rgba(8,12,8,0.62)'; cx.fillRect(0,0,W,H);
@@ -2217,7 +2233,9 @@ function frame(ts){
   if(state==='playing') rafId=requestAnimationFrame(frame);
 }
 function resume(){ state='playing'; choices=null; last=0; if(!rafId) rafId=requestAnimationFrame(frame); }
-function startRun(){ ensureAudio(); reset(); last=0; if(!rafId) rafId=requestAnimationFrame(frame); }
+function startRun(){ ensureAudio(); reset(); last=0; syncCv();
+  try{ const r=cv.getBoundingClientRect(); if(r.top<0||r.bottom>innerHeight) cv.scrollIntoView({block:"center",behavior:"smooth"}); }catch(e){}
+  if(!rafId) rafId=requestAnimationFrame(frame); }
 
 function applyMode(){
   PORTRAIT = calcPortrait();

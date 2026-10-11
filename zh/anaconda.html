@@ -44,8 +44,8 @@
 <meta content="从 Bigi Pan 到 Nickerie 圩田：吃掉 pirai，追捕 kwikwi，躲开 kaaiman。你的 aboma 能猎食多远？" name="twitter:description"/>
 <meta content="https://exploresuriname.com/og-image.jpg" name="twitter:image"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://exploresuriname.com/zh/anaconda.html#webpage","url":"https://exploresuriname.com/zh/anaconda.html","name":"Aboma: the Suriname anaconda snake game","description":"Hunt from Bigi Pan to the Nickerie polders as a hungry anaconda. Eat pirai and kwikwi, catch the anjoemara, dodge kaaimannen. Free browser game.","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/zh/"},"primaryImageOfPage":"https://exploresuriname.com/og-image.jpg","breadcrumb":{"@id":"https://exploresuriname.com/zh/anaconda.html#breadcrumb"},"mainEntity":{"@id":"https://exploresuriname.com/zh/anaconda.html#game"},"datePublished":"2026-07-15","dateModified":"2026-10-11","isAccessibleForFree":true},{"@type":"BreadcrumbList","@id":"https://exploresuriname.com/zh/anaconda.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://exploresuriname.com/zh/"},{"@type":"ListItem","position":2,"name":"Aboma","item":"https://exploresuriname.com/zh/anaconda.html"}]},{"@type":"VideoGame","@id":"https://exploresuriname.com/zh/anaconda.html#game","name":"Aboma","url":"https://exploresuriname.com/zh/anaconda.html","description":"Snake, Suriname style, in stages: hunt as an anaconda from Bigi Pan through Commewijne, the Brokopondo stuwmeer, the Coppename and the Sipaliwini savanna to the Nickerie polders. Eat pirai and kwikwi, catch the golden anjoemara, dodge patrolling kaaimannen, three lives per run.","genre":"Arcade","gamePlatform":"Web browser","inLanguage":"zh-Hans","isAccessibleForFree":true,"image":"https://exploresuriname.com/og-image.jpg","publisher":{"@type":"Organization","name":"Explore Suriname","url":"https://exploresuriname.com/zh/"}},{"@type":"FAQPage","@id":"https://exploresuriname.com/zh/anaconda.html#faq","mainEntity":[{"@type":"Question","name":"aboma 是什么？","acceptedAnswer":{"@type":"Answer","text":"Aboma 是 Sranan Tongo 语中对绿森蚺（Eunectes murinus）的称呼。它是世界上最重的蛇，真实生活在苏里南的河流、沼泽和水淹林中。它潜伏在水中伏击猎物，而这个游戏正是把您放在了那里。"}},{"@type":"Question","name":"Aboma 怎么玩？","acceptedAnswer":{"@type":"Answer","text":"在水面上滑动来控制方向（方向键或 WASD 也可以），或点击左半屏 / 右半屏向左 / 向右转。每一关都有吃鱼数量要求：吃够之后，游进发光的 kreek 即可过关。撞上墙壁、kaaiman 或自己的身体，就会失去三条命中的一条。"}},{"@type":"Question","name":"有哪些关卡？","acceptedAnswer":{"@type":"Answer","text":"你将一路猎食穿越苏里南：Bigi Pan 开阔的潟湖、Commewijne 的红树林根系、Brokopondo 水库被淹没的森林、Coppename 河的沙洲、Sipaliwini 草原上狭窄的小溪，以及 Nickerie 圩田的稻田堤坝。后面的关卡有 kaaiman 巡逻。过了 Nickerie，循环重新开始，速度更快。"}},{"@type":"Question","name":"如何计分？","acceptedAnswer":{"@type":"Answer","text":"pirai（食人鱼）能快速得分。kwikwi（甲鲶）分值翻倍，但会游开躲你。金色的 anjoemara 每隔几次捕获出现一次，几秒后就会逃走。吃得越快，狂热倍数最高升到 x5，每通过一关还有奖励。撞上东西之前，你还有一次免费的反应机会。"}},{"@type":"Question","name":"免费吗？","acceptedAnswer":{"@type":"Answer","text":"是的。Aboma 完全免费，无需下载应用或注册账号，您的最高分只保存在您的浏览器中。"}}]}]}</script> <style>
-    #ab-wrap{position:relative;max-width:420px;margin:0 auto}
-    #ab-cv{display:block;width:100%;border-radius:16px;background:#0d2a20;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+    #ab-wrap{position:relative;max-width:420px;max-width:min(420px,calc((calc(100vh / var(--z,1)) - 24px)*.625));max-width:min(420px,calc((calc(100dvh / var(--z,1)) - 24px)*.625));margin:0 auto}
+    #ab-cv{display:block;width:100%;border-radius:16px;background:#0d2a20;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
     #ab-mute{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:9999px;border:none;background:rgba(0,0,0,.38);color:#fff;font-size:15px;line-height:34px;text-align:center;cursor:pointer;z-index:3}
     .lang button{padding:.3rem .8rem;border:1px solid #d1d5db;background:#fff;font-size:.78rem;font-weight:700;color:#6b7280}
     .lang button:first-child{border-radius:9999px 0 0 9999px}.lang button:last-child{border-radius:0 9999px 9999px 0;margin-left:-1px}
@@ -613,7 +613,10 @@ function hud(){const L=T[lang];
 }
 function drawParts(){for(const p of parts){CX.fillStyle=p.col.replace("A",String(Math.max(0,p.a)));
  CX.beginPath();CX.arc(p.x,p.y,2.4,0,7);CX.fill();}}
+function ta(){const v=(st==="run"||st==="ready"||st==="clear")?"none":"pan-y";if(CV.style.touchAction!==v)CV.style.touchAction=v;}
+function fitView(){try{const r=CV.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)CV.scrollIntoView({block:"center",behavior:"smooth"});}catch(e){}}
 function render(t){
+ ta();
  CX.save();
  if(shake>0){CX.translate(R(-shake,shake),R(-shake,shake));}
  drawBg();drawWalls();drawExit();
@@ -638,7 +641,7 @@ function frame(ts){
  raf=requestAnimationFrame(frame);
 }
 function go(){if(st!=="ready")return;st="run";lastT=0;acc=0;cancelAnimationFrame(raf);raf=requestAnimationFrame(frame);}
-function start(){newRun();st="ready";$("ab-panel").innerHTML="";
+function start(){newRun();st="ready";$("ab-panel").innerHTML="";fitView();
  window.ESRLB&&ESRLB.played();ac();go();}
 function idle(){st="idle";newRun();render(1);const L=T[lang];
  CX.fillStyle="rgba(8,22,16,.64)";CX.fillRect(0,0,W,HT);
