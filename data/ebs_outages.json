@@ -1,13 +1,5 @@
 {
-  "outages": [
-    {
-      "title": "GEPLAND ONDERHOUD ZONDAG 11 OKTOBER 2026",
-      "date": "11 Oktober 2026",
-      "date_iso": "2026-10-11",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1627/gepland-onderhoud-zondag-11-oktober-2026"
-    }
-  ],
-  "last_updated": "2026-10-11T20:05:37.313408+00:00",
+  "outages": [],
+  "last_updated": "2026-10-11T23:07:53.441482+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
