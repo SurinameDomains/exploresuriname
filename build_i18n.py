@@ -1545,7 +1545,7 @@ except Exception:
     _CLEAN_FILES = set()
 # Non-business pages that are also published without ".html" (keep in sync with
 # the hrefs/canonical in generate.py).
-_CLEAN_FILES |= {"about-suriname.html"}
+_CLEAN_FILES |= {"about-suriname.html", "heiligenweg-jam.html"}
 # Event pages (generate.build_events_page, Oct 2026): /event-<id> and /events-this-weekend
 _CLEAN_FILES |= {p.name for p in ROOT.glob("event-*.html")} | {"events-this-weekend.html"}
 

@@ -4559,6 +4559,7 @@ _SI_LIST = [
     {"n": "Pe A De? Daily Suriname Map Game", "u": "map-game.html", "c": "Guides", "a": "Suriname"},
     {"n": "Korjaal Run: Suriname River Game", "u": "korjaal.html", "c": "Guides", "a": "Suriname"},
     {"n": "Aboma: Anaconda Snake Game", "u": "anaconda.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Heiligenweg Jam: Suriname Bus Puzzle Game", "u": "heiligenweg-jam", "c": "Guides", "a": "Suriname"},
     {"n": "Daily Notices: Pharmacies, Outages, Cinema", "u": "daily-notices.html", "c": "Guides", "a": "Suriname"},
     {"n": "Flights: PBM Arrivals and Departures", "u": "flights.html", "c": "Guides", "a": "Suriname"},
     {"n": "ATM Finder: Live Status & Which Cards Work", "u": "atms.html", "c": "Guides", "a": "Suriname"},
@@ -4637,6 +4638,7 @@ _GUIDE_KW = {
  "map-game.html":           "map game geography districts kaart spel aardrijkskunde",
  "korjaal.html":            "game river boat spel korjaal",
  "anaconda.html":           "game snake anaconda aboma spel slang",
+ "heiligenweg-jam":         "game puzzle bus jam lijnbus parking spel puzzel bussen heiligenweg",
  "daily-notices.html":      "pharmacy pharmacies on call outage water power cinema movies apotheek dienstdoende stroomstoring waterstoring bioscoop films",
  "flights.html":            "flights arrivals departures airport pbm zanderij vluchten aankomst vertrek vliegveld",
  "atms.html":               "atm atms cash machine withdraw card geldautomaat pinautomaat pinnen geld opnemen bank",
@@ -6546,7 +6548,7 @@ def nav_html(active="home", prefix=""):
     _EXPLORE = _EXPL | _EAT
     _PLAN  = {"visitor", "itinerary", "safety", "roads", "flights"}
     _LIVE  = {"currency", "forecast", "daily-notices", "atms", "matches", "surtime"}
-    _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto"}
+    _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto", "busjam"}
     _OILG  = {"oilgas", "oilblocks", "granmorgu", "oiltimeline", "oilcontracts",
               "oilgov", "oiljobs"}
     _LEARN = {"aboutsr", "history", "dictionary", "florafauna"} | _OILG
@@ -6692,6 +6694,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}korjaal.html"   {_link_cls("korjaal")}   >Korjaal Run</a>'
         f'<a href="{prefix}anaconda.html"  {_link_cls("anaconda")}  >Aboma Snake Game</a>'
         f'<a href="{prefix}muskieto.html"  {_link_cls("muskieto")}  >Muskieto Survivor</a>'
+        f'<a href="{prefix}heiligenweg-jam" {_link_cls("busjam")}   >Heiligenweg Jam</a>'
     )
 
 
@@ -6771,7 +6774,8 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}map-game.html",  "Pe A De? Map Game",    "mapgame") +
         _mob_link(f"{prefix}korjaal.html",   "Korjaal Run",          "korjaal") +
         _mob_link(f"{prefix}anaconda.html",  "Aboma Snake Game",     "anaconda") +
-        _mob_link(f"{prefix}muskieto.html",  "Muskieto Survivor",    "muskieto")
+        _mob_link(f"{prefix}muskieto.html",  "Muskieto Survivor",    "muskieto") +
+        _mob_link(f"{prefix}heiligenweg-jam", "Heiligenweg Jam",     "busjam")
     )
 
 
@@ -7244,6 +7248,7 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}korjaal.html">Korjaal Run</a>
         <a class="ftr-lnk" href="{prefix}anaconda.html">Aboma Snake Game</a>
         <a class="ftr-lnk" href="{prefix}muskieto.html">Muskieto Survivor</a>
+        <a class="ftr-lnk" href="{prefix}heiligenweg-jam">Heiligenweg Jam</a>
       </div>
     </div>
     <div>
@@ -20032,6 +20037,707 @@ __FSJS__
     return head + body
 
 
+# ── Heiligenweg Jam: bus station puzzle (Oct 2026) ───────────────────────────
+# Game code: _BUSJAM_JS. Clean URL /heiligenweg-jam (file heiligenweg-jam.html,
+# listed in build_i18n._CLEAN_FILES). Leaderboard key "busjam" = highest level cleared.
+_BUSJAM_JS = r"""(function(){
+"use strict";
+/* ============ Heiligenweg Jam (Oct 2026) ============
+   Bus-jam puzzle at a Paramaribo bus station. Tap a lijnbus in the jammed
+   lot: if its road is clear it drives out to a free halte (bay); passengers
+   board the bus going to their destination. Full buses leave. All bays full
+   and nobody can board = stuck. Endless seeded levels, every level solvable
+   (built backwards from a valid exit order and checked by simulation).
+   Chapters of 20 levels named after stops on the road out of the city.
+   Leaderboard ("busjam"): highest level cleared. */
+if(window.CanvasRenderingContext2D&&!CanvasRenderingContext2D.prototype.roundRect){
+ CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){r=Math.min(+r||0,w/2,h/2);this.moveTo(x+r,y);this.arcTo(x+w,y,x+w,y+h,r);this.arcTo(x+w,y+h,x,y+h,r);this.arcTo(x,y+h,x,y,r);this.arcTo(x,y,x+w,y,r);this.closePath();};}
+const SCORE_CAP=99999;
+const DEST=[
+ {k:"LLD",n:"Lelydorp",c:"#e63946"},{k:"NIC",n:"Nickerie",c:"#3a86ff"},{k:"ALB",n:"Albina",c:"#2a9d8f"},
+ {k:"CMW",n:"Commewijne",c:"#f2b705"},{k:"BRK",n:"Brokopondo",c:"#8338ec"},{k:"COR",n:"Coronie",c:"#fb8500"},
+ {k:"SAR",n:"Saramacca",c:"#ff5d8f"},{k:"WAN",n:"Wanica",c:"#5c8a3a"}];
+const BUSNAMES=["Switi Sranan","Mi Gudu","No Spanning","Lobi Lobi","Kon Na Oso","Fya Fya","Wan Pipel","Gado Sabi","Moi Moi","Bun Bun","Tide Na Tide","Lanti Bus","Pikin Tori","Mi Mama Lobi","Sranan Pride","Boto Kon"];
+const CHAPTERS=["Heiligenweg","Waterkant","Saramaccastraat","Kwatta","Lelydorp","Zanderij","Meerzorg","Tamanredjo","Groningen","Totness","Nieuw-Nickerie","Moengo","Albina","Brokopondo","Atjoni"];
+const PER_CH=20;
+const T={
+ en:{level:"Level",play:"Play",next:"Next level",retry:"Try again",replay:"Replay",menu:"Menu",daily:"Daily ride",dailyDone:"Done today",
+  chapter:"Chapter",stars:"stars",won:"All aboard!",lost:"Halte vol!",lostSub:"Every bay is full and nobody can board.",
+  full:"Halte vol! Wait for a bus to leave",bump:"Toet toet!",extra:"+1 halte",extraUsed:"Extra halte open",useExtra:"Use +1 halte",
+  leaves:"leaves for",tut1:"Tap a bus whose road is clear",tut2:"Passengers board the bus to their destination",
+  hidden:"? buses show their route when their road is clear",taxi:"Taxis: small, quick, 2 seats",nextStop:"Next stop",
+  hint:"Tap a bus",note:"Tap a lijnbus to drive it out of the jam. It only moves if the road in front of it is clear, otherwise it bumps and costs you a star. Buses park at the haltes up top and passengers board the bus going to their destination. When a bus is full it leaves. If every halte is full and the first passenger in line cannot board, you are stuck, so pick your buses in the right order. Each level gives you one free extra halte. Progress is saved in this browser.",
+  dailyNote:"A new tough ride every day",total:"Total",tapStart:"Tap to start",share:"Share on WhatsApp",copy:"Copy result",copied:"Copied!"},
+ nl:{level:"Level",play:"Spelen",next:"Volgende level",retry:"Opnieuw",replay:"Nog eens",menu:"Menu",daily:"Dagrit",dailyDone:"Vandaag gedaan",
+  chapter:"Hoofdstuk",stars:"sterren",won:"Iedereen aan boord!",lost:"Halte vol!",lostSub:"Alle haltes zijn vol en niemand kan instappen.",
+  full:"Halte vol! Wacht tot er een bus vertrekt",bump:"Toet toet!",extra:"+1 halte",extraUsed:"Extra halte open",useExtra:"Gebruik +1 halte",
+  leaves:"vertrekt naar",tut1:"Tik op een bus met een vrije weg",tut2:"Passagiers stappen in de bus naar hun bestemming",
+  hidden:"?-bussen tonen hun route zodra hun weg vrij is",taxi:"Taxi's: klein, snel, 2 plaatsen",nextStop:"Volgende halte",
+  hint:"Tik op een bus",note:"Tik op een lijnbus om hem uit de file te rijden. Hij rijdt alleen als de weg voor hem vrij is, anders botst hij en kost dat een ster. Bussen parkeren bij de haltes bovenin en passagiers stappen in de bus naar hun bestemming. Een volle bus vertrekt. Zijn alle haltes vol en kan de eerste passagier in de rij niet instappen, dan zit je vast, dus kies je bussen in de goede volgorde. Elk level krijg je een gratis extra halte. Je voortgang blijft in deze browser.",
+  dailyNote:"Elke dag een nieuwe pittige rit",total:"Totaal",tapStart:"Tik om te starten",share:"Deel op WhatsApp",copy:"Kopieer resultaat",copied:"Gekopieerd!"}};
+let lang="en";
+try{lang=localStorage.getItem("hj-lang")||(document.documentElement.lang==="nl"?"nl":"en");}catch(e){}
+if(!T[lang])lang="en";
+function LG(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function LSV(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+let muted=LG("hj-muted")==="1";
+function $(i){return document.getElementById(i);}
+const CV=$("hj-cv"),CX=CV.getContext("2d");
+const W=400,HT=640;
+const DPR=Math.min(2,window.devicePixelRatio||1);
+CV.width=W*DPR;CV.height=HT*DPR;CX.scale(DPR,DPR);
+
+/* ---- sound ---- */
+let AC=null;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){AC=null;}}
+ if(AC&&AC.state==="suspended"){try{AC.resume();}catch(e){}}return AC;}
+function beep(f,d,type,vol,slideTo,delay){if(muted)return;const c=ac();if(!c)return;const o=c.createOscillator(),g=c.createGain();
+ const t0=c.currentTime+(delay||0);o.type=type||"sine";o.frequency.setValueAtTime(f,t0);
+ if(slideTo)o.frequency.exponentialRampToValueAtTime(slideTo,t0+d);
+ g.gain.setValueAtTime(vol||0.08,t0);g.gain.exponentialRampToValueAtTime(0.0001,t0+d);
+ o.connect(g);g.connect(c.destination);o.start(t0);o.stop(t0+d+0.02);}
+function sfxGo(){beep(300,0.18,"triangle",0.06,620);}
+function sfxHorn(){beep(392,0.12,"square",0.06,392);beep(392,0.14,"square",0.06,392,0.16);}
+function sfxBoard(i){const f=520+(i%6)*60;beep(f,0.05,"sine",0.035,f*1.2);}
+function sfxLeave(){beep(240,0.3,"sawtooth",0.04,520);}
+function sfxWin(){[523,659,784,1046,1318].forEach((f,i)=>beep(f,0.18,"square",0.05,f,i*0.09));}
+function sfxLose(){beep(300,0.4,"sawtooth",0.07,90);}
+function sfxStar(i){beep(880+i*220,0.15,"triangle",0.06,1320+i*220);}
+
+/* ---- seeded rng ---- */
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const DIRS=[[0,-1],[1,0],[0,1],[-1,0]];   /* up right down left */
+
+/* ---- level generator ----
+   Vehicles are placed in REVERSE exit order: each new vehicle needs a clear road
+   to the edge past the ones already placed, so exiting newest-first always works.
+   The passenger line follows that exit order, mixed within small windows, and the
+   whole level is replayed by a simulator before it is accepted. */
+function params(n){
+ /* difficulty d (0..1): grows over the first 60 levels, with a 5-level sawtooth so a
+    hard "spits" level is always followed by an easier one. */
+ const p={};
+ const k=(n-1)%PER_CH;
+ const base=Math.min(1,n/60),local=(k%5)/4;
+ p.spike=n>=10&&k%5===4;
+ let d=Math.min(1,base*0.75+local*0.25+(p.spike?0.15:0));
+ if(n<=3)d=0;
+ p.cols=4+Math.round(d*2);p.rows=4+Math.round(d*3);
+ p.nV=Math.round(3+d*11)+(n<=3?n-1:0);
+ p.nC=Math.min(6,2+Math.round(d*4));
+ /* slack: proven solvable with simBays haltes; the player has 5 (+1 booster) */
+ p.simBays=n<=8?2:(p.spike?4:3);
+ p.win=n<=3?1:Math.max(1,Math.min(p.simBays-1,1+Math.round(d*2)));
+ p.hard=0.2+d*0.5;
+ p.taxi=n>=9?0.18:0;p.big=n>=5?0.3:0;
+ p.hidden=n>=16?0.06+d*0.12:0;
+ p.bays=5;
+ return p;}
+function cap(len){return len===1?2:len===2?4:6;}
+function generate(n,seed){
+ /* build candidates and keep one a "sensible but unplanned" player can still win
+    reasonably often (fewer for spits levels), so no level is a brick wall */
+ const p=params(n);
+ const need=n<=8?10:p.spike?2:4;
+ let best=null,bestS=-1;
+ for(let attempt=0;attempt<40;attempt++){
+  const r=mulberry(seed*7919+attempt*104729+13);
+  const lv=tryBuild(p,r,attempt>30);
+  if(!lv)continue;
+  const s=playouts(lv,p.bays,12,mulberry(seed+attempt*31));
+  if(s>=need)return lv;
+  if(s>bestS){bestS=s;best=lv;}
+ }
+ return best||tryBuild(Object.assign(params(1),{nV:3}),mulberry(seed),true);
+}
+/* k random playouts by a player who only taps buses needed soon (or what blocks them) */
+function playouts(lv,bays,k,rnd){
+ let wins=0;
+ const cellsV=v=>{const o=[];for(let i=0;i<v.L;i++)o.push([v.x-DIRS[v.d][0]*i,v.y-DIRS[v.d][1]*i]);return o;};
+ for(let t=0;t<k;t++){
+  const vs=lv.vs.map(v=>({x:v.x,y:v.y,d:v.d,L:v.L,c:v.c,cap:v.cap,hid:v.hid,gone:false}));
+  vs.forEach(v=>v.cs=cellsV(v));
+  const grid=new Map();vs.forEach(v=>v.cs.forEach(c=>grid.set(c[0]+","+c[1],v)));
+  const blk=v=>{let x=v.x+DIRS[v.d][0],y=v.y+DIRS[v.d][1];while(x>=0&&y>=0&&x<lv.cols&&y<lv.rows){const o=grid.get(x+","+y);if(o&&!o.gone&&o!==v)return o;x+=DIRS[v.d][0];y+=DIRS[v.d][1];}return null;};
+  const q=lv.q.slice();const bay=[];let ok=true,g=0;
+  while(q.length&&g++<500){
+   let b;while(q.length&&(b=bay.find(x=>x.c===q[0]&&x.left>0))){b.left--;q.shift();}
+   for(let i=bay.length-1;i>=0;i--)if(!bay[i].left)bay.splice(i,1);
+   if(!q.length)break;
+   if(bay.length>=bays){ok=false;break;}
+   const seats={};bay.forEach(x=>seats[x.c]=(seats[x.c]||0)+x.left);
+   const needC=[];for(const c of q.slice(0,24)){if(seats[c]>0){seats[c]--;continue;}if(needC.indexOf(c)<0)needC.push(c);if(needC.length>=3)break;}
+   const cand=[];
+   for(const c of needC)for(const v of vs){if(v.gone||v.c!==c||v.hid&&blk(v))continue;
+    let o=v,guard=0;while(guard++<30){const nb=blk(o);if(!nb)break;o=nb;}
+    if(!blk(o)&&cand.indexOf(o)<0)cand.push(o);}
+   let pick=cand.length?cand[Math.floor(rnd()*cand.length)]:null;
+   if(!pick){const fr=vs.filter(v=>!v.gone&&!blk(v));if(!fr.length){ok=false;break;}pick=fr[Math.floor(rnd()*fr.length)];}
+   pick.gone=true;bay.push({c:pick.c,left:pick.cap});
+  }
+  if(ok&&!q.length)wins++;
+ }
+ return wins;
+}
+function tryBuild(p,r,easier){
+ const C=p.cols,Rw=p.rows;const occ=[];for(let i=0;i<C*Rw;i++)occ.push(-1);
+ const vs=[];
+ function cellsOf(x,y,d,L){const out=[];for(let i=0;i<L;i++)out.push([x-DIRS[d][0]*i,y-DIRS[d][1]*i]);return out;}
+ function inb(x,y){return x>=0&&y>=0&&x<C&&y<Rw;}
+ function pathOf(x,y,d){const out=[];let cx=x+DIRS[d][0],cy=y+DIRS[d][1];while(inb(cx,cy)){out.push([cx,cy]);cx+=DIRS[d][0];cy+=DIRS[d][1];}return out;}
+ for(let k=0;k<p.nV;k++){
+  const cands=[];
+  for(let a=0;a<260&&cands.length<26;a++){
+   const rr=r();const L=rr<p.taxi?1:rr<p.taxi+p.big?3:2;
+   const d=Math.floor(r()*4),x=Math.floor(r()*C),y=Math.floor(r()*Rw);
+   const cs=cellsOf(x,y,d,L);
+   if(!cs.every(c=>inb(c[0],c[1])&&occ[c[1]*C+c[0]]<0))continue;
+   const pth=pathOf(x,y,d);
+   if(!pth.every(c=>occ[c[1]*C+c[0]]<0))continue;
+   /* how many already-placed vehicles would this one block? */
+   let blk=0;const key=new Set(cs.map(c=>c[0]+","+c[1]));
+   for(const v of vs){if(v.path.some(c=>key.has(c[0]+","+c[1])))blk++;}
+   cands.push({x,y,d,L,cs,pth,blk});
+  }
+  if(!cands.length)break;
+  let pick;
+  if(!easier&&r()<p.hard){cands.sort((a,b)=>b.blk-a.blk);pick=cands[0];}
+  else pick=cands[Math.floor(r()*cands.length)];
+  const v={x:pick.x,y:pick.y,d:pick.d,L:pick.L,cells:pick.cs,path:pick.pth,id:vs.length};
+  for(const c of pick.cs)occ[c[1]*C+c[0]]=v.id;
+  vs.push(v);
+ }
+ if(vs.length<Math.min(3,p.nV))return null;
+ const order=vs.slice().reverse();            /* exit order */
+ /* colours: use the palette, every colour at least once when possible */
+ const nC=Math.min(p.nC,order.length);
+ const cols=[];for(let i=0;i<order.length;i++)cols.push(i<nC?i:Math.floor(r()*nC));
+ for(let i=cols.length-1;i>0;i--){const j=Math.floor(r()*(i+1));const t=cols[i];cols[i]=cols[j];cols[j]=t;}
+ order.forEach((v,i)=>{v.c=cols[i];v.cap=cap(v.L);v.hid=r()<p.hidden;});
+ /* passenger line */
+ let w=easier?1:p.win;
+ for(;w>=1;w--){
+  const q=[];
+  for(let i=0;i<order.length;i+=w){
+   const groups=[];
+   for(let j=i;j<Math.min(order.length,i+w);j++){let left=order[j].cap;
+    while(left>0){const g=Math.min(left,1+Math.floor(r()*3));groups.push([order[j].c,g]);left-=g;}}
+   for(let a=groups.length-1;a>0;a--){const b=Math.floor(r()*(a+1));const t=groups[a];groups[a]=groups[b];groups[b]=t;}
+   for(const g of groups)for(let k=0;k<g[1];k++)q.push(g[0]);
+  }
+  if(simulate(order,q,p.simBays)){
+   return{spike:p.spike,cols:C,rows:Rw,vs:vs.map(v=>({x:v.x,y:v.y,d:v.d,L:v.L,c:v.c,cap:v.cap,hid:v.hid})),q:q,bays:p.bays,nC:nC};
+  }
+ }
+ return null;
+}
+/* replay the intended exit order with the bay limit */
+function simulate(order,q,bays){
+ const qq=q.slice();const bay=[];let next=0,guard=0;
+ while((qq.length||next<order.length||bay.length)&&guard++<5000){
+  let prog=false;
+  while(bay.length<bays&&next<order.length){bay.push({c:order[next].c,left:order[next].cap});next++;prog=true;}
+  while(qq.length){const b=bay.find(x=>x.c===qq[0]&&x.left>0);if(!b)break;b.left--;qq.shift();prog=true;}
+  for(let i=bay.length-1;i>=0;i--)if(bay[i].left===0){bay.splice(i,1);prog=true;}
+  if(!prog)return false;
+ }
+ return !qq.length&&next>=order.length&&!bay.length;
+}
+
+/* ---- progress ---- */
+let prog={lvl:1,st:{}};
+try{const p=JSON.parse(LG("hj-prog"));if(p&&typeof p==="object"){prog.lvl=Math.max(1,Math.floor(+p.lvl||1));if(p.st&&typeof p.st==="object")prog.st=p.st;}}catch(e){}
+function saveProg(){LSV("hj-prog",JSON.stringify(prog));}
+function totalStars(){let s=0;for(const k in prog.st)s+=Math.min(3,+prog.st[k]||0);return s;}
+function srDay(){return new Date(Date.now()-108e5).toISOString().slice(0,10);}
+function dailyState(){const v=(LG("hj-daily")||"").split(":");return v[0]===srDay()?+v[1]:0;}
+function chapterOf(n){return Math.floor((n-1)/PER_CH);}
+function chName(n){return CHAPTERS[chapterOf(n)%CHAPTERS.length];}
+
+/* ---- layout ---- */
+const QY=74,BAYY=106,BAYH=70,LOT_Y=196,LOT_H=432;
+let lv,cell,ox,oy,vehicles,queue,bayN,bays,state,bumps,extraUsed,levelN,isDaily,toast,toastT,parts,boardT,loseT,winT,shake,tut,boarded,leaveCount,uiBtns,starsWon,revealSeen,tStart;
+function bayRect(i){const n=6,w=60,g=5,x0=(W-(n*w+(n-1)*g))/2;return{x:x0+i*(w+g),y:BAYY,w:w,h:BAYH};}
+function loadLevel(n,daily){
+ levelN=n;isDaily=!!daily;
+ const seed=daily?parseInt(srDay().replace(/-/g,""),10):n*2654435761%2147483647;
+ const nn=daily?Math.min(140,Math.max(prog.lvl,12)+10):n;
+ lv=generate(nn,seed);
+ cell=Math.floor(Math.min((W-24)/lv.cols,(LOT_H-8)/lv.rows));
+ ox=Math.floor((W-cell*lv.cols)/2);oy=LOT_Y+Math.floor((LOT_H-cell*lv.rows)/2);
+ vehicles=lv.vs.map((v,i)=>Object.assign({},v,{id:i,st:"park",fill:0,name:BUSNAMES[(i*7+n)%BUSNAMES.length],ax:0,ay:0,bt:0,rot:0,bay:-1,seen:!v.hid}));
+ vehicles.forEach(v=>{const p=restPos(v);v.px=p.x;v.py=p.y;v.rot=v.d*Math.PI/2;});
+ queue=lv.q.map(c=>({c:c,x:0,y:QY,j:0}));layoutQueue(true);
+ bayN=lv.bays;bays=[-1,-1,-1,-1,-1,-1];
+ state="play";bumps=0;extraUsed=false;toast=null;toastT=0;parts=[];boardT=0;loseT=0;winT=0;shake=0;boarded=0;leaveCount=0;starsWon=0;tStart=performance.now();
+ tut=(!daily&&n===1)?1:0;
+ revealSeen=false;
+ const nTaxi=vehicles.some(v=>v.L===1),nHid=vehicles.some(v=>v.hid);
+ if(!daily&&nHid&&!LG("hj-tip-hid")){say(T[lang].hidden,"#fde68a",3);LSV("hj-tip-hid","1");}
+ else if(!daily&&nTaxi&&!LG("hj-tip-taxi")){say(T[lang].taxi,"#fde68a",2.6);LSV("hj-tip-taxi","1");}
+ window.ESRLB&&ESRLB.played();
+}
+function restPos(v){/* centre of the vehicle's cells */
+ let sx=0,sy=0;for(let i=0;i<v.L;i++){sx+=v.x-DIRS[v.d][0]*i;sy+=v.y-DIRS[v.d][1]*i;}
+ return{x:ox+(sx/v.L+0.5)*cell,y:oy+(sy/v.L+0.5)*cell};}
+function cellsOf(v){const out=[];for(let i=0;i<v.L;i++)out.push([v.x-DIRS[v.d][0]*i,v.y-DIRS[v.d][1]*i]);return out;}
+function occAt(x,y,except){for(const v of vehicles){if(v===except||v.st!=="park")continue;for(const c of cellsOf(v))if(c[0]===x&&c[1]===y)return v;}return null;}
+function firstBlock(v){let x=v.x+DIRS[v.d][0],y=v.y+DIRS[v.d][1],steps=0;
+ while(x>=0&&y>=0&&x<lv.cols&&y<lv.rows){const o=occAt(x,y,v);if(o)return{o:o,steps:steps};x+=DIRS[v.d][0];y+=DIRS[v.d][1];steps++;}
+ return null;}
+function layoutQueue(snap){queue.forEach((p,i)=>{const tx=22+i*15,ty=QY;p.tx=tx;p.ty=ty;if(snap){p.x=tx;p.y=ty;}});}
+function say(t,c,d){toast=t;toastC=c||"#fff";toastT=d||1.4;}
+let toastC="#fff";
+function burst(x,y,col,n){for(let i=0;i<n;i++){const a=Math.random()*6.28,s=1+Math.random()*3.5;parts.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1.5,a:1,c:col,r:2+Math.random()*3});}}
+
+/* ---- actions ---- */
+function tapVehicle(v){
+ if(state!=="play"||v.st!=="park")return;
+ if(tut===1)tut=2;
+ const b=firstBlock(v);
+ if(b){ /* bump: roll up to the blocker and back */
+  v.st="bump";v.bt=0;v.bumpDist=(b.steps+0.35)*cell;bumps++;sfxHorn();say(T[lang].bump,"#fca5a5",0.9);
+  b.o.wob=0.35;return;}
+ let bi=-1;for(let i=0;i<bayN;i++)if(bays[i]<0){bi=i;break;}
+ if(bi<0){say(T[lang].full,"#fca5a5",1.4);sfxHorn();v.wob=0.3;return;}
+ bays[bi]=v.id;v.bay=bi;v.seen=true;
+ /* drive out of the lot along its heading, then to the bay */
+ const p0={x:v.px,y:v.py};
+ const far=Math.max(lv.cols,lv.rows)+v.L;
+ let ex=v.x,ey=v.y;while(ex>=0&&ey>=0&&ex<lv.cols&&ey<lv.rows){ex+=DIRS[v.d][0];ey+=DIRS[v.d][1];}
+ const p1={x:ox+(ex+0.5)*cell+DIRS[v.d][0]*cell*(v.L*0.5),y:oy+(ey+0.5)*cell+DIRS[v.d][1]*cell*(v.L*0.5)};
+ const br=bayRect(bi);const p2={x:br.x+br.w/2,y:br.y+br.h/2-6};
+ v.path=[p0,p1,p2];v.st="out";v.bt=0;v.seg=0;
+ v.len1=Math.hypot(p1.x-p0.x,p1.y-p0.y);v.len2=Math.hypot(p2.x-p1.x,p2.y-p1.y);
+ sfxGo();
+}
+function useExtra(){if(extraUsed||state!=="play"&&state!=="stuck")return;extraUsed=true;bayN=6;say(T[lang].extraUsed,"#7dd3fc",1.4);beep(660,0.15,"triangle",0.06,990);
+ if(state==="stuck"){state="play";loseT=0;}}
+
+/* ---- update ---- */
+function update(dt){
+ if(toastT>0)toastT-=dt;if(shake>0)shake-=dt;
+ for(const v of vehicles){
+  if(v.wob>0)v.wob-=dt;
+  if(v.st==="park"&&!v.seen&&!firstBlock(v)){v.seen=true;burst(v.px,v.py,"rgba(255,255,255,A)",8);beep(900,0.08,"sine",0.04,1200);}
+  if(v.st==="bump"){v.bt+=dt;const T1=0.16,T2=0.34;const k=v.bt<T1?v.bt/T1:v.bt<T2?1-(v.bt-T1)/(T2-T1):0;
+   const rp=restPos(v);v.px=rp.x+DIRS[v.d][0]*v.bumpDist*k*0.9;v.py=rp.y+DIRS[v.d][1]*v.bumpDist*k*0.9;
+   if(v.bt>=T2){v.st="park";v.px=rp.x;v.py=rp.y;}}
+  else if(v.st==="out"){const sp=1100;v.bt+=dt*sp;
+   if(v.seg===0){const f=Math.min(1,v.bt/v.len1);v.px=v.path[0].x+(v.path[1].x-v.path[0].x)*f;v.py=v.path[0].y+(v.path[1].y-v.path[0].y)*f;
+    if(f>=1){v.seg=1;v.bt=0;}}
+   else{const f=Math.min(1,v.bt/Math.max(1,v.len2*0.9));const e=f<0.5?2*f*f:1-Math.pow(-2*f+2,2)/2;
+    v.px=v.path[1].x+(v.path[2].x-v.path[1].x)*e;v.py=v.path[1].y+(v.path[2].y-v.path[1].y)*e;
+    if(f>=1){v.st="bay";v.rot=Math.PI/2;burst(v.px,v.py+20,"rgba(255,255,255,A)",6);}}}
+  else if(v.st==="leave"){v.bt+=dt;v.px+=dt*(260+v.bt*900);if(v.px>W+80){v.st="gone";}}
+ }
+ /* boarding: one passenger at a time */
+ boardT-=dt;
+ if(boardT<=0&&queue.length&&state==="play"){
+  const c=queue[0].c;
+  const v=vehicles.find(x=>x.st==="bay"&&x.c===c&&x.fill<x.cap);
+  if(v){queue.shift();v.fill++;boarded++;sfxBoard(boarded);layoutQueue(false);boardT=0.075;
+   if(tut===2){tut=3;}
+   if(v.fill>=v.cap){v.st="leaving";v.bt=0;}}
+ }
+ for(const v of vehicles){if(v.st==="leaving"){v.bt+=dt;if(v.bt>0.28){v.st="leave";v.bt=0;bays[v.bay]=-1;leaveCount++;sfxLeave();
+  burst(v.px,v.py,"rgba(255,255,255,A)",10);
+  if(leaveCount<=3||Math.random()<0.35)say("“"+v.name+"” "+T[lang].leaves+" "+DEST[v.c].n,DEST[v.c].c,1.3);}}}
+ queue.forEach(p=>{p.x+=(p.tx-p.x)*Math.min(1,dt*14);p.j+=dt*8;});
+ parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=0.12;p.a-=dt*1.4;});parts=parts.filter(p=>p.a>0);
+ /* win / stuck */
+ if(state==="play"){
+  const alive=vehicles.some(v=>v.st!=="gone");
+  if(!queue.length&&!alive){state="won";winT=0;onWin();}
+  else if(queue.length){
+   let full=true;for(let i=0;i<bayN;i++){const id=bays[i];if(id<0||vehicles[id].st!=="bay"){full=false;break;}}
+   const can=vehicles.some(v=>v.st==="bay"&&v.c===queue[0].c&&v.fill<v.cap);
+   if(full&&!can){loseT+=dt;if(loseT>0.7){state="stuck";sfxLose();shake=0.4;}}else loseT=0;
+  }
+ }
+ if(state==="won")winT+=dt;
+}
+function onWin(){
+ starsWon=bumps===0?3:bumps<=2?2:1;
+ sfxWin();for(let i=0;i<4;i++)burst(60+Math.random()*280,200+Math.random()*200,["rgba(230,57,70,A)","rgba(58,134,255,A)","rgba(242,183,5,A)","rgba(42,157,143,A)"][i],18);
+ if(isDaily){const old=dailyState();if(starsWon>old)LSV("hj-daily",srDay()+":"+starsWon);}
+ else{
+  const k=String(levelN);if(starsWon>(+prog.st[k]||0))prog.st[k]=starsWon;
+  if(levelN>=prog.lvl)prog.lvl=levelN+1;saveProg();
+  window.ESRLB&&ESRLB.over(Math.min(SCORE_CAP,prog.lvl-1));
+ }
+ panel();
+}
+
+/* ---- drawing ---- */
+function drawBus(v,x,y,rot,scale,small){
+ const L=v.L,w=cell*0.74*scale,h=(cell*L-cell*0.22)*scale;
+ CX.save();CX.translate(x,y);CX.rotate(rot);
+ if(v.wob>0)CX.rotate(Math.sin(v.wob*60)*0.06);
+ const hid=!v.seen;const col=hid?"#7c8794":DEST[v.c].c;
+ CX.fillStyle="rgba(0,0,0,.25)";CX.beginPath();CX.roundRect(-w/2+2,-h/2+4,w,h,w*0.28);CX.fill();
+ CX.fillStyle=col;CX.beginPath();CX.roundRect(-w/2,-h/2,w,h,w*0.28);CX.fill();
+ /* roof stripe + windscreen at the front (-y is front) */
+ CX.fillStyle="rgba(255,255,255,.22)";CX.beginPath();CX.roundRect(-w*0.32,-h/2+w*0.42,w*0.64,h-w*0.7,w*0.18);CX.fill();
+ CX.fillStyle="rgba(20,30,40,.78)";CX.beginPath();CX.roundRect(-w*0.38,-h/2+w*0.08,w*0.76,w*0.26,w*0.1);CX.fill();
+ if(L===1){CX.fillStyle="#fde047";CX.beginPath();CX.roundRect(-w*0.2,-h*0.02,w*0.4,w*0.16,2);CX.fill();}  /* taxi roof light */
+ /* windows down the sides */
+ if(L>1){CX.fillStyle="rgba(20,30,40,.35)";for(let i=0;i<L*2-1;i++){const yy=-h/2+w*0.48+i*(h-w*0.7)/(L*2-1);CX.fillRect(-w/2+2,yy,w*0.1,(h-w*0.7)/(L*2-1)*0.7);CX.fillRect(w/2-2-w*0.1,yy,w*0.1,(h-w*0.7)/(L*2-1)*0.7);}}
+ /* heading chevron */
+ CX.fillStyle="rgba(255,255,255,.9)";CX.beginPath();CX.moveTo(0,-h/2+w*0.42);CX.lineTo(w*0.18,-h/2+w*0.6);CX.lineTo(-w*0.18,-h/2+w*0.6);CX.closePath();CX.fill();
+ /* route sign */
+ if(L>1&&!small){CX.save();CX.rotate(-rot);CX.fillStyle="rgba(0,0,0,.35)";const tw=w*0.95;CX.beginPath();CX.roundRect(-tw/2,-8,tw,16,4);CX.fill();
+  CX.fillStyle="#fff";CX.font="900 "+Math.max(8,Math.round(cell*0.2))+"px system-ui";CX.textAlign="center";CX.fillText(hid?"?":DEST[v.c].k,0,4);CX.restore();}
+ else if(!small){CX.save();CX.rotate(-rot);CX.fillStyle="#fff";CX.font="900 "+Math.max(8,Math.round(cell*0.17))+"px system-ui";CX.textAlign="center";
+  CX.fillText(hid?"?":DEST[v.c].k,0,h*0.42);CX.restore();}
+ CX.restore();
+}
+function drawPerson(x,y,c,j,big){const s=big?1.25:1,b=Math.abs(Math.sin(j))*1.2;
+ CX.fillStyle="rgba(0,0,0,.2)";CX.beginPath();CX.ellipse(x,y+9*s,5*s,2*s,0,0,7);CX.fill();
+ CX.fillStyle=c;CX.beginPath();CX.roundRect(x-4.5*s,y-2*s-b,9*s,11*s,3*s);CX.fill();
+ CX.fillStyle="#8d5a3b";CX.beginPath();CX.arc(x,y-6*s-b,3.6*s,0,7);CX.fill();}
+function drawStation(){
+ /* sky + building */
+ const g=CX.createLinearGradient(0,0,0,LOT_Y);g.addColorStop(0,"#fef3c7");g.addColorStop(1,"#fde68a");
+ CX.fillStyle=g;CX.fillRect(0,0,W,LOT_Y);
+ CX.fillStyle="#e7d3a6";CX.fillRect(0,QY-20,W,34);   /* sidewalk */
+ CX.fillStyle="#b45309";CX.fillRect(0,QY-24,W,4);
+ /* bays on the road */
+ CX.fillStyle="#4b5563";CX.fillRect(0,BAYY-6,W,BAYH+16);
+ for(let i=0;i<6;i++){const r=bayRect(i);const locked=i>=bayN;
+  CX.strokeStyle=locked?"rgba(255,255,255,.25)":"rgba(255,255,255,.75)";CX.lineWidth=2;CX.setLineDash(locked?[4,4]:[]);
+  CX.beginPath();CX.roundRect(r.x,r.y,r.w,r.h,6);CX.stroke();CX.setLineDash([]);
+  if(locked){CX.fillStyle=extraUsed?"rgba(255,255,255,.2)":"#7dd3fc";CX.font="900 13px system-ui";CX.textAlign="center";
+   CX.fillText(extraUsed?"–":"+1",r.x+r.w/2,r.y+r.h/2);CX.font="700 9px system-ui";CX.fillText(extraUsed?"":"HALTE",r.x+r.w/2,r.y+r.h/2+13);}
+  else{CX.fillStyle="rgba(255,255,255,.35)";CX.font="800 9px system-ui";CX.textAlign="center";CX.fillText("HALTE "+(i+1),r.x+r.w/2,r.y+r.h-4);}
+ }
+ /* queue */
+ const vis=Math.min(queue.length,24);
+ for(let i=vis-1;i>=0;i--){const p=queue[i];drawPerson(p.x,p.y,DEST[p.c].c,p.j+i,i===0);}
+ if(queue.length>24){CX.fillStyle="#78350f";CX.font="800 11px system-ui";CX.textAlign="right";CX.fillText("+"+(queue.length-24),W-6,QY+4);}
+ if(queue.length){const p=queue[0];CX.fillStyle="#78350f";CX.font="800 9px system-ui";CX.textAlign="left";CX.fillText("\u2192 "+DEST[p.c].n.toUpperCase(),10,QY+22);}
+}
+function drawLot(){
+ CX.fillStyle="#374151";CX.fillRect(0,LOT_Y-8,W,HT-LOT_Y+8);
+ CX.fillStyle="#2f3742";CX.beginPath();CX.roundRect(ox-6,oy-6,cell*lv.cols+12,cell*lv.rows+12,10);CX.fill();
+ CX.strokeStyle="rgba(255,255,255,.07)";CX.lineWidth=1;
+ for(let x=0;x<=lv.cols;x++){CX.beginPath();CX.moveTo(ox+x*cell,oy);CX.lineTo(ox+x*cell,oy+lv.rows*cell);CX.stroke();}
+ for(let y=0;y<=lv.rows;y++){CX.beginPath();CX.moveTo(ox,oy+y*cell);CX.lineTo(ox+lv.cols*cell,oy+y*cell);CX.stroke();}
+}
+function pill(x,y,w,h,r){CX.beginPath();CX.roundRect(x,y,w,h,r||h/2);CX.fill();}
+function hud(){const L=T[lang];
+ CX.fillStyle="rgba(120,53,15,.92)";CX.font="900 15px system-ui";CX.textAlign="left";
+ CX.fillText(isDaily?L.daily:L.level+" "+levelN,12,22);
+ CX.font="700 10px system-ui";CX.fillStyle="rgba(120,53,15,.7)";
+ CX.fillText(isDaily?srDay():chName(levelN).toUpperCase(),12,35);
+ /* stars preview: bumps */
+ const s=bumps===0?3:bumps<=2?2:1;
+ CX.font="900 14px system-ui";CX.textAlign="left";
+ for(let i=0;i<3;i++){CX.fillStyle=i<s?"#f59e0b":"rgba(120,53,15,.2)";CX.fillText("★",150+i*15,24);}
+ /* restart */
+ uiBtns=[];
+ btn(192,9,46,26,"↻",function(){loadLevel(levelN,isDaily);},"#fff","#92400e",15);
+}
+function btn(x,y,w,h,label,fn,fg,bg,fs){CX.fillStyle=bg||"#16a34a";pill(x,y,w,h,Math.min(14,h/2));
+ CX.fillStyle=fg||"#fff";CX.font="900 "+(fs||15)+"px system-ui";CX.textAlign="center";CX.fillText(label,x+w/2,y+h/2+(fs||15)*0.36);
+ uiBtns.push({x,y,w,h,fn});}
+function render(){
+ CX.save();if(shake>0)CX.translate((Math.random()-0.5)*8,(Math.random()-0.5)*8);
+ drawStation();drawLot();hud();
+ /* the 5th bay is a button while the booster is unused */
+ if(!extraUsed&&(state==="play"||state==="stuck")){const r=bayRect(5);uiBtns.push({x:r.x,y:r.y,w:r.w,h:r.h,fn:useExtra});}
+ for(const v of vehicles){if(v.st==="park"||v.st==="bump")drawBus(v,v.px,v.py,v.d*Math.PI/2,1,false);}
+ for(const v of vehicles){
+  if(v.st==="out"){const r=v.seg===0?v.d*Math.PI/2:Math.atan2(v.path[2].y-v.path[1].y,v.path[2].x-v.path[1].x)+Math.PI/2;
+   const sc=v.seg===0?1:Math.max(0.55,1-(v.bt/Math.max(1,v.len2))*0.45);drawBus(v,v.px,v.py,r,sc*Math.min(1,46/cell),true);}
+  else if(v.st==="bay"||v.st==="leaving"||v.st==="leave"){drawBayBus(v);}
+ }
+ parts.forEach(p=>{CX.fillStyle=p.c.replace("A",Math.max(0,p.a).toFixed(2));CX.beginPath();CX.arc(p.x,p.y,p.r,0,7);CX.fill();});
+ if(tut===1){const v=vehicles.find(x=>x.st==="park"&&!firstBlock(x));if(v){const k=Math.sin(performance.now()/180)*6;
+  CX.fillStyle="rgba(255,255,255,.95)";CX.beginPath();CX.arc(v.px,v.py,cell*0.42+k*0.5,0,7);CX.lineWidth=3;CX.strokeStyle="#fde047";CX.stroke();
+  CX.font="28px system-ui";CX.textAlign="center";CX.fillText("👆",v.px+14,v.py+cell*0.55+k);
+  tipBox(T[lang].tut1);}}
+ else if(tut===2||tut===3&&queue.length>lv.q.length-6)tipBox(T[lang].tut2);
+ if(toastT>0&&toast){CX.globalAlpha=Math.min(1,toastT*2);CX.fillStyle="rgba(17,24,39,.82)";CX.font="800 13px system-ui";
+  const tw=Math.min(W-24,CX.measureText(toast).width+28);pill(W/2-tw/2,LOT_Y+6,tw,28,14);
+  CX.fillStyle=toastC;CX.textAlign="center";CX.fillText(toast,W/2,LOT_Y+25);CX.globalAlpha=1;}
+ CX.restore();
+ if(state==="stuck")drawStuck();
+ if(state==="won"&&winT>0.5)drawWin();
+}
+function tipBox(t){CX.fillStyle="rgba(17,24,39,.85)";CX.font="800 13px system-ui";const tw=Math.min(W-24,CX.measureText(t).width+28);
+ pill(W/2-tw/2,HT-44,tw,30,15);CX.fillStyle="#fde047";CX.textAlign="center";CX.fillText(t,W/2,HT-24);}
+function drawBayBus(v){
+ const w=54,h=28;const x=v.px,y=v.py;
+ CX.save();CX.translate(x,y);
+ CX.fillStyle="rgba(0,0,0,.25)";CX.beginPath();CX.roundRect(-w/2+2,-h/2+3,w,h,9);CX.fill();
+ CX.fillStyle=DEST[v.c].c;CX.beginPath();CX.roundRect(-w/2,-h/2,w,h,9);CX.fill();
+ CX.fillStyle="rgba(20,30,40,.7)";CX.beginPath();CX.roundRect(w/2-12,-h/2+4,8,h-8,3);CX.fill();
+ CX.fillStyle="rgba(255,255,255,.95)";CX.font="900 10px system-ui";CX.textAlign="center";CX.fillText(DEST[v.c].k,-3,4);
+ /* seats */
+ const n=v.cap;for(let i=0;i<n;i++){const sx=-((n-1)*8)/2+i*8;CX.fillStyle=i<v.fill?"#fff":"rgba(255,255,255,.28)";CX.beginPath();CX.arc(sx,h/2+9,3.3,0,7);CX.fill();}
+ CX.restore();}
+function overlay(){CX.fillStyle="rgba(17,24,39,.72)";CX.fillRect(0,0,W,HT);}
+function drawStuck(){const L=T[lang];overlay();uiBtns=[];
+ CX.textAlign="center";CX.fillStyle="#fca5a5";CX.font="900 30px system-ui";CX.fillText(L.lost,W/2,HT*0.33);
+ CX.fillStyle="rgba(255,255,255,.8)";CX.font="700 14px system-ui";CX.fillText(L.lostSub,W/2,HT*0.33+28);
+ let y=HT*0.45;
+ if(!extraUsed){btn(W/2-110,y,220,48,L.useExtra,useExtra,"#0c4a6e","#7dd3fc",17);y+=62;}
+ btn(W/2-110,y,220,48,L.retry,function(){loadLevel(levelN,isDaily);},"#fff","#16a34a",17);y+=62;
+ btn(W/2-110,y,220,40,L.menu,toMenu,"#fff","rgba(255,255,255,.18)",15);}
+function drawWin(){const L=T[lang];overlay();uiBtns=[];
+ CX.textAlign="center";CX.fillStyle="#fde047";CX.font="900 30px system-ui";CX.fillText(L.won,W/2,HT*0.27);
+ CX.fillStyle="rgba(255,255,255,.75)";CX.font="700 14px system-ui";
+ CX.fillText(isDaily?L.daily+" · "+srDay():L.level+" "+levelN+" · "+chName(levelN),W/2,HT*0.27+26);
+ for(let i=0;i<3;i++){const t=Math.min(1,Math.max(0,(winT-0.6-i*0.25)*4));const on=i<starsWon;
+  CX.save();CX.translate(W/2-56+i*56,HT*0.4);CX.scale(0.6+t*0.4,0.6+t*0.4);CX.fillStyle=on&&t>0?"#fbbf24":"rgba(255,255,255,.18)";
+  CX.font="900 50px system-ui";CX.fillText("★",0,16);CX.restore();
+  if(on&&t>0&&!drawWin["s"+i+levelN]){drawWin["s"+i+levelN]=1;sfxStar(i);}}
+ let y=HT*0.5;
+ if(!isDaily&&(levelN%PER_CH===0)){CX.fillStyle="#7dd3fc";CX.font="800 14px system-ui";CX.fillText(L.nextStop+": "+chName(levelN+1)+"!",W/2,y+4);y+=20;}
+ if(!isDaily){btn(W/2-110,y,220,52,L.next+" →",function(){loadLevel(prog.lvl,false);},"#fff","#16a34a",18);y+=64;}
+ btn(W/2-110,y,105,40,L.replay,function(){loadLevel(levelN,isDaily);},"#fff","rgba(255,255,255,.18)",14);
+ btn(W/2+5,y,105,40,L.menu,toMenu,"#fff","rgba(255,255,255,.18)",14);}
+
+/* ---- menu ---- */
+function toMenu(){state="menu";$("hj-panel").innerHTML="";drawMenu();}
+function drawMenu(){const L=T[lang];uiBtns=[];
+ const g=CX.createLinearGradient(0,0,0,HT);g.addColorStop(0,"#fde68a");g.addColorStop(0.45,"#f59e0b");g.addColorStop(1,"#374151");
+ CX.fillStyle=g;CX.fillRect(0,0,W,HT);
+ /* decorative buses */
+ const t=performance.now()/1000;
+ for(let i=0;i<6;i++){const v={L:2+(i%2),c:i%8,seen:true,wob:0};const x=((t*40*(i%2?1:-1)+i*90)%(W+120)+W+120)%(W+120)-60;
+  cell=44;drawBus(v,x,HT*0.78+(i%3)*34,Math.PI/2*(i%2?1:3),0.8,false);}
+ CX.textAlign="center";CX.fillStyle="#78350f";CX.font="900 15px system-ui";CX.fillText("PARAMARIBO",W/2,HT*0.1);
+ CX.fillStyle="#fff";CX.font="900 40px system-ui";CX.fillText("Heiligenweg",W/2,HT*0.18);CX.fillText("Jam",W/2,HT*0.18+42);
+ const n=prog.lvl;
+ CX.fillStyle="rgba(120,53,15,.9)";CX.font="800 13px system-ui";
+ CX.fillText(L.chapter+" "+(chapterOf(n)+1)+": "+chName(n)+"  ·  "+(((n-1)%PER_CH)+1)+"/"+PER_CH,W/2,HT*0.31);
+ CX.fillStyle="rgba(120,53,15,.25)";pill(W/2-110,HT*0.325,220,8,4);CX.fillStyle="#78350f";pill(W/2-110,HT*0.325,220*(((n-1)%PER_CH))/PER_CH+0.01,8,4);
+ btn(W/2-120,HT*0.37,240,64,L.play+" · "+L.level+" "+n,function(){loadLevel(prog.lvl,false);},"#fff","#16a34a",20);
+ const ds=dailyState();
+ btn(W/2-120,HT*0.37+78,240,46,L.daily+(ds?"  "+"★".repeat(ds):""),function(){loadLevel(0,true);},ds?"#fde68a":"#78350f",ds?"rgba(120,53,15,.55)":"#fde68a",16);
+ CX.fillStyle="rgba(255,255,255,.85)";CX.font="700 11px system-ui";CX.fillText(ds?L.dailyDone:L.dailyNote,W/2,HT*0.37+140);
+ CX.fillStyle="#fff";CX.font="800 13px system-ui";CX.fillText("★ "+totalStars()+" "+L.stars,W/2,HT*0.37+164);
+}
+
+/* ---- loop ---- */
+let lastT=0,raf=0;
+function frame(ts){
+ const dt=Math.min(0.05,lastT?(ts-lastT)/1000:0.016);lastT=ts;
+ if(state==="menu")drawMenu();
+ else{if(state==="play"||state==="won")update(dt);else if(state==="stuck"){parts.forEach(p=>{p.a-=dt;});if(shake>0)shake-=dt;}render();}
+ raf=requestAnimationFrame(frame);
+}
+function panel(){const L=T[lang];if(isDaily){$("hj-panel").innerHTML="";return;}
+ const txt="Heiligenweg Jam: "+L.level+" "+levelN+" "+"★".repeat(starsWon)+" ("+chName(levelN)+")\nhttps://exploresuriname.com/heiligenweg-jam";
+ $("hj-panel").innerHTML='<div class="grid grid-cols-3 gap-2 mb-3">'
+  +'<div class="hj-stat"><b>'+levelN+'</b><span>'+L.level+'</span></div>'
+  +'<div class="hj-stat"><b>'+"★".repeat(starsWon)+'</b><span>'+L.stars+'</span></div>'
+  +'<div class="hj-stat"><b>'+totalStars()+'</b><span>'+L.total+'</span></div></div>'
+  +'<div><a class="wabtn" href="https://wa.me/?text='+encodeURIComponent(txt)+'" target="_blank" rel="noopener">'+L.share+'</a>'
+  +'<button class="cpbtn" id="hj-cp">'+L.copy+'</button></div>';
+ $("hj-cp").onclick=function(){try{navigator.clipboard.writeText(txt);}catch(e){}$("hj-cp").textContent=L.copied;};}
+
+/* ---- input: taps only, so the page can always scroll over the canvas ---- */
+let pd=null;
+function toCanvas(ev){const r=CV.getBoundingClientRect();return{x:(ev.clientX-r.left)*W/r.width,y:(ev.clientY-r.top)*HT/r.height};}
+CV.addEventListener("pointerdown",ev=>{ac();pd={x:ev.clientX,y:ev.clientY};});
+CV.addEventListener("pointercancel",()=>{pd=null;});
+CV.addEventListener("pointerup",ev=>{
+ if(!pd)return;const moved=Math.hypot(ev.clientX-pd.x,ev.clientY-pd.y)>14;pd=null;if(moved)return;
+ const p=toCanvas(ev);
+ for(const b of (uiBtns||[]))if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h){b.fn();return;}
+ if(state!=="play")return;
+ if(p.y<LOT_Y)return;
+ const cx=Math.floor((p.x-ox)/cell),cy=Math.floor((p.y-oy)/cell);
+ let v=occAt(cx,cy,null);
+ if(!v){/* forgiving taps: nearest parked bus within half a cell */
+  let bd=cell*0.75;for(const x of vehicles){if(x.st!=="park")continue;const d=Math.hypot(x.px-p.x,x.py-p.y)-(x.L-1)*cell*0.5;if(d<bd){bd=d;v=x;}}}
+ if(v)tapVehicle(v);
+});
+document.addEventListener("keydown",ev=>{
+ if(ev.target&&(ev.target.tagName==="INPUT"||ev.target.tagName==="TEXTAREA"))return;
+ const r=CV.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
+ if(ev.key==="Enter"||ev.key===" "){
+  if(state==="menu"){loadLevel(prog.lvl,false);ev.preventDefault();}
+  else if(state==="won"&&winT>0.6){if(isDaily)toMenu();else loadLevel(prog.lvl,false);ev.preventDefault();}
+  else if(state==="stuck"){loadLevel(levelN,isDaily);ev.preventDefault();}}
+ else if((ev.key==="r"||ev.key==="R")&&(state==="play"||state==="stuck"))loadLevel(levelN,isDaily);});
+
+function setLang(l){lang=T[l]?l:"en";LSV("hj-lang",lang);window.ESRLB&&ESRLB.lang(lang);
+ const n=$("hj-note");if(n)n.textContent=T[lang].note;const h=$("hj-h1");if(h)h.textContent=T[lang].hint;}
+$("hj-mute").onclick=()=>{muted=!muted;LSV("hj-muted",muted?"1":"0");$("hj-mute").innerHTML=muted?"&#128263;":"&#128266;";if(!muted){ac();beep(660,0.08,"triangle",0.05);}};
+$("hj-mute").innerHTML=muted?"&#128263;":"&#128266;";
+setLang(lang);
+state="menu";raf=requestAnimationFrame(frame);
+})();
+"""
+
+
+def build_busjam_page():
+    """heiligenweg-jam.html: Heiligenweg Jam. Bus-jam puzzle at Paramaribo's bus station:
+    tap lijnbussen out of a jammed lot to the haltes, passengers board by destination.
+    Endless seeded levels (all solvable), chapters of 20, stars, daily ride."""
+    import json as _json
+    today = datetime.now(SR_TZ).date()
+    _url = SITE_URL + "/heiligenweg-jam"
+    _title = "Heiligenweg Jam: the Suriname bus puzzle game"
+    _desc = ("Clear the jam at Heiligenweg: tap lijnbussen out of the lot so every passenger "
+             "catches the bus home. Endless levels, free puzzle game.")
+    _ogdesc = "Tap the right lijnbus, fill it with passengers, send it off. How many levels can you clear?"
+    _ogimg = SITE_URL + "/og-image.jpg"
+    _faq = [
+        ("How do I play Heiligenweg Jam?",
+         "Tap a lijnbus in the jammed lot. If the road in front of it is clear it drives out to a free "
+         "halte at the top, otherwise it bumps into the bus in its way. Passengers wait in one line and "
+         "board the bus going to their destination, and a full bus leaves. If every halte is taken and "
+         "the first passenger in line cannot board any of the waiting buses, you are stuck, so send out "
+         "the buses in the right order."),
+        ("How many levels are there?",
+         "As many as you can play. Every level is built from its own number, so level 37 is the same "
+         "puzzle for everyone, and every one of them can be solved. Levels come in chapters of 20 named "
+         "after stops on the road out of the city, from Heiligenweg and the Waterkant to Lelydorp, "
+         "Nickerie, Albina and Atjoni. Every fifth level is a tougher spits level."),
+        ("How do stars work?",
+         "Clear a level without a single bump and you get three stars. One or two bumps cost you a star, "
+         "more than that leaves you with one. Each level also gives you one free extra halte for when "
+         "things get tight."),
+        ("What is the daily ride?",
+         "One extra, tougher level that changes every day and is the same for every player. It does not "
+         "affect your level progress, so you can always try it."),
+        ("Is it free?",
+         "Yes. Heiligenweg Jam is free, needs no app or account, and your progress is saved in your browser."),
+    ]
+    _graph = _ld_safe(_json.dumps({"@context": "https://schema.org", "@graph": [
+        {"@type": "WebPage", "@id": _url + "#webpage", "url": _url, "name": _title, "description": _desc,
+         "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": SITE_URL + "/"},
+         "primaryImageOfPage": _ogimg,
+         "breadcrumb": {"@id": _url + "#breadcrumb"}, "mainEntity": {"@id": _url + "#game"},
+         "datePublished": "2026-10-11", "dateModified": today.isoformat(), "isAccessibleForFree": True},
+        {"@type": "BreadcrumbList", "@id": _url + "#breadcrumb",
+         "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Heiligenweg Jam", "item": _url}]},
+        {"@type": "VideoGame", "@id": _url + "#game", "name": "Heiligenweg Jam", "url": _url,
+         "description": "A bus-jam puzzle set at Paramaribo's Heiligenweg bus station: tap lijnbussen out of a jammed lot so passengers board the bus to their destination. Endless solvable levels in chapters named after Surinamese stops, three-star scoring and a daily ride.",
+         "genre": "Puzzle", "gamePlatform": "Web browser",
+         "inLanguage": ["nl", "en"], "isAccessibleForFree": True, "image": _ogimg,
+         "publisher": {"@type": "Organization", "name": "Explore Suriname", "url": SITE_URL + "/"}},
+        {"@type": "FAQPage", "@id": _url + "#faq",
+         "mainEntity": [{"@type": "Question", "name": q,
+                         "acceptedAnswer": {"@type": "Answer", "text": ans}} for q, ans in _faq]},
+    ]}, ensure_ascii=False))
+
+    _CSS = """  <style>
+    #hj-wrap{position:relative;max-width:420px;max-width:min(420px,calc((100vh - 24px)*.625));max-width:min(420px,calc((100dvh - 24px)*.625));margin:0 auto}
+    #hj-cv{display:block;width:100%;border-radius:16px;background:#374151;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+    #hj-mute{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:9999px;border:none;background:rgba(0,0,0,.38);color:#fff;font-size:15px;line-height:34px;text-align:center;cursor:pointer;z-index:3}
+    .hj-stat{background:#f9fafb;border:1px solid #eef0f2;border-radius:12px;padding:.6rem .4rem;text-align:center}
+    .hj-stat b{display:block;font-size:1.2rem;color:#111827}
+    .hj-stat span{font-size:.64rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em}
+    .wabtn{display:inline-block;background:#25d366;color:#fff;font-weight:700;border-radius:9999px;padding:.65rem 1.3rem;font-size:.9rem}
+    .cpbtn{display:inline-block;background:#fff;border:1px solid #d1d5db;color:#374151;font-weight:700;border-radius:9999px;padding:.65rem 1.3rem;font-size:.9rem;margin-left:.5rem}
+    .hj-hint{display:flex;gap:1.1rem;justify-content:center;flex-wrap:wrap;margin-top:.7rem;font-size:.72rem;color:#9ca3af}
+    .hj-hint b{color:#6b7280;font-weight:700}
+  </style>"""
+
+    head = (PAGE_HEAD
+        + '\n  <title>Heiligenweg Jam | Suriname Bus Puzzle Game | Explore Suriname</title>'
+        + '\n  <meta name="description" content="' + _desc + '">'
+        + '\n  <link rel="canonical" href="' + _url + '">'
+        + '\n  <meta property="og:type" content="website">'
+        + '\n  <meta property="og:site_name" content="Explore Suriname">'
+        + '\n  <meta property="og:url" content="' + _url + '">'
+        + '\n  <meta property="og:title" content="' + _title + '">'
+        + '\n  <meta property="og:description" content="' + _ogdesc + '">'
+        + '\n  <meta property="og:image" content="' + _ogimg + '">'
+        + '\n  <meta property="og:locale" content="nl_NL">'
+        + '\n  <meta property="og:locale:alternate" content="en_US">'
+        + '\n  <meta name="twitter:card" content="summary_large_image">'
+        + '\n  <meta name="twitter:title" content="' + _title + '">'
+        + '\n  <meta name="twitter:description" content="' + _ogdesc + '">'
+        + '\n  <meta name="twitter:image" content="' + _ogimg + '">'
+        + '\n  <script type="application/ld+json">\n  ' + _graph + '\n  </script>'
+        + _CSS + _lb_css() + _fs_css() + '\n</head>')
+
+    _about = """
+<section class="max-w-2xl mx-auto px-4 mt-14">
+  <h2 class="serif text-2xl font-bold text-gray-900 mb-3">About Heiligenweg Jam</h2>
+  <p class="text-gray-700 text-sm leading-relaxed mb-3">Heiligenweg is where Paramaribo's lijnbussen gather: buses
+  with names painted on the side, music playing inside, and a line of people who all need to be somewhere else. In this
+  game the lot is jammed solid. Every bus points one way and can only drive out if nothing stands in front of it,
+  and only a handful of haltes are free at a time.</p>
+  <p class="text-gray-700 text-sm leading-relaxed mb-3">Each passenger is going home: to Lelydorp, Nickerie,
+  Albina, Commewijne, Brokopondo, Coronie, Saramacca or Wanica. Send out the right bus at the right time and the
+  line melts away. Send out the wrong one and the haltes fill up with buses nobody in front of the line wants.
+  Later chapters add taxis with two seats and mystery buses that only show their route once their road is
+  clear.</p>
+  <p class="text-gray-700 text-sm leading-relaxed">The levels never run out. When you need a break from the
+  jam, try <a href="korjaal.html" class="font-semibold hover:underline" style="color:var(--forest2)">Korjaal Run</a>,
+  <a href="anaconda.html" class="font-semibold hover:underline" style="color:var(--forest2)">Aboma</a>,
+  <a href="muskieto.html" class="font-semibold hover:underline" style="color:var(--forest2)">Muskieto Survivor</a> or the
+  <a href="quiz.html" class="font-semibold hover:underline" style="color:var(--forest2)">Sabi Suriname quiz</a>.</p>
+</section>"""
+
+    _faq_html = ('<section class="max-w-2xl mx-auto px-4 mt-10 mb-4">'
+                 '<h2 class="serif text-2xl font-bold text-gray-900 mb-4">Common questions</h2>'
+                 + "".join('<details class="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2">'
+                           '<summary class="font-bold text-gray-900 text-sm cursor-pointer">' + q + '</summary>'
+                           '<p class="text-gray-700 text-sm leading-relaxed mt-2">' + ans + '</p></details>'
+                           for q, ans in _faq)
+                 + '</section>')
+
+    _noscript = ('<noscript><section class="max-w-2xl mx-auto px-4 mt-6"><p class="text-sm text-gray-600">'
+                 'Heiligenweg Jam is a browser game and needs JavaScript. Enable JavaScript to clear the jam.'
+                 '</p></section></noscript>')
+
+    body = """
+<body class="bg-gray-50 overflow-x-hidden">
+__NAV__
+<div class="pg-hero relative text-white py-12 text-center overflow-hidden" style="background:var(--forest)">
+  <div class="relative max-w-3xl mx-auto px-4">
+    <nav aria-label="Breadcrumb" class="flex flex-wrap items-center justify-center gap-1 text-white/60 text-sm mb-5">
+      <a href="./" class="hover:text-white transition">Home</a>
+      <span class="text-white/40">&#8250;</span>
+      <span class="text-white/90 font-medium" aria-current="page">Heiligenweg Jam</span>
+    </nav>
+    <p class="text-white/50 text-xs font-bold uppercase tracking-widest mb-2">Suriname bus puzzle</p>
+    <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Heiligenweg Jam</h1>
+    <p class="text-white/70 text-base max-w-xl mx-auto">The bus station is jammed and everybody wants to go home. Tap the right lijnbus, fill it up and send it off before the haltes run out.</p>
+  </div>
+</div>
+<main class="max-w-xl mx-auto px-4 py-8 pb-20">
+  <div id="hj-wrap"><canvas id="hj-cv" width="400" height="640" aria-label="Heiligenweg Jam bus puzzle"></canvas><button id="hj-mute" aria-label="Sound on/off">&#128266;</button></div>
+  <div class="hj-hint"><span><b id="hj-h1">Tap a bus</b> to drive it out</span><span><b>R</b> restart</span></div>
+  <div id="hj-panel" class="mt-4"></div>
+__LBSEC__
+  <p id="hj-note" class="text-xs text-gray-400 mt-6 leading-relaxed"></p>
+</main>
+__NOSCRIPT__
+__ABOUT__
+__FAQ__
+__FOOTER__
+<script>
+__GAMEJS__
+</script>
+__LBJS__
+__FSJS__
+</body>
+</html>"""
+
+    body = (body.replace("__GAMEJS__", _BUSJAM_JS)
+                .replace("__LBSEC__", _lb_sec())
+                .replace("__LBJS__", _lb_js("busjam", "hj-lang", "heiligenweg-jam", "Heiligenweg Jam"))
+                .replace("__FSJS__", _fs_js("hj-wrap"))
+                .replace("__NAV__", nav_html("busjam"))
+                .replace("__NOSCRIPT__", _noscript)
+                .replace("__ABOUT__", _about)
+                .replace("__FAQ__", _faq_html)
+                .replace("__FOOTER__", footer_html()))
+    return head + body
+
+
 def build_history_page():
     """suriname-history.html: Tori fu Sranan - cinematic scrollytelling timeline of
     Suriname. 57 events in 8 chapter eras, each era a full-width colour band with
@@ -23164,6 +23870,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("korjaal.html",     "0.8", "daily"),
         ("anaconda.html",    "0.8", "daily"),
         ("muskieto.html",    "0.8", "daily"),
+        ("heiligenweg-jam",  "0.8", "daily"),
         ("events.html",     "0.8", "daily"),
         ("events-this-weekend", "0.8", "daily"),
         ("news.html",       "0.7", "daily"),
@@ -23297,6 +24004,7 @@ def build_llms_txt():
 - [Korjaal Run]({S}/korjaal.html): arcade river runner from Atjoni upriver; switch lanes, jump logs and kaaimannen, duck branches, finish missions.
 - [Aboma]({S}/anaconda.html): snake game in stages from Bigi Pan to the Nickerie polders; eat pirai and kwikwi, dodge kaaimannen.
 - [Muskieto Survivor]({S}/muskieto.html): five-minute terras survival game; auto-firing mepper, Mama's slipper and Madame Jeanette against muskieto swarms.
+- [Heiligenweg Jam]({S}/heiligenweg-jam): bus-jam puzzle at Paramaribo's bus station; tap lijnbussen out of the lot so passengers board the bus home. Endless levels.
 
 {_biztools_llms(S)}
 ## About
@@ -25644,6 +26352,7 @@ if __name__ == "__main__":
         "korjaal.html":       build_korjaal_page(),
         "anaconda.html":      build_anaconda_page(),
         "muskieto.html":      build_muskieto_page(),
+        "heiligenweg-jam.html": build_busjam_page(),
         "on-the-road.html":   build_roads_page(),
         "suriname-itinerary.html": build_itinerary_page(),
         "is-suriname-safe.html":   build_safety_page(),
