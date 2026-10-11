@@ -20074,20 +20074,20 @@ const BUSNAMES=["Switi Sranan","Mi Gudu","No Spanning","Lobi Lobi","Kon Na Oso",
 const CHAPTERS=["Heiligenweg","Waterkant","Saramaccastraat","Kwatta","Lelydorp","Zanderij","Meerzorg","Tamanredjo","Groningen","Totness","Nieuw-Nickerie","Moengo","Albina","Brokopondo","Atjoni"];
 const PER_CH=20;
 const T={
- en:{level:"Level",play:"Play",next:"Next level",retry:"Try again",replay:"Replay",menu:"Menu",daily:"Daily ride",dailyDone:"Done today",
-  chapter:"Chapter",stars:"stars",won:"All aboard!",lost:"Halte vol!",lostSub:"Every halte is taken and nobody on the loop can board.",
+ en:{level:"Level",play:"Play",next:"Next level",retry:"Prei baka · Try again",replay:"Replay",menu:"Menu",daily:"Daily ride",dailyDone:"Done today",
+  chapter:"Chapter",stars:"stars",won:"All aboard!",lost:"A fasi!",lostSub:"Stuck: every halte is taken and nobody can board.",
   full:"Halte vol!",bump:"Toet toet!",extra:"+1 halte",extraUsed:"Extra halte open",useExtra:"Use +1 halte",
-  leaves:"leaves for",tut1:"Tap a bus whose road is clear",tut2:"Passengers leave the loop at the gates for their bus",
+  leaves:"leaves for",tut1:"Tap a bus whose road is clear",tut2:"Passengers leave the loop at the gate for their bus",
   hidden:"Grey ? buses show their route once their road is clear",taxi:"Taxis are small: only 2 seats",nextStop:"Next stop",
-  hint:"Tap a bus",note:"Tap a lijnbus to drive it out of the jam. It only moves if the road in front of it is clear, otherwise it bumps and costs you a star. Buses drive round to the haltes, and the passengers walking the loop above step out through the two gates to board any bus going their way. A full bus drives off. If every halte is taken and nobody on the loop can board, you are stuck, so send out buses for the people you see. Each level gives you one free extra halte. Progress is saved in this browser.",
-  dailyNote:"A new tough ride every day",total:"Total",tapStart:"Tap to start",share:"Share on WhatsApp",copy:"Copy result",copied:"Copied!"},
- nl:{level:"Level",play:"Spelen",next:"Volgende level",retry:"Opnieuw",replay:"Nog eens",menu:"Menu",daily:"Dagrit",dailyDone:"Vandaag gedaan",
-  chapter:"Hoofdstuk",stars:"sterren",won:"Iedereen aan boord!",lost:"Halte vol!",lostSub:"Alle haltes zijn bezet en niemand in de ring kan instappen.",
+  hint:"Tap a bus",note:"Tap a lijnbus to drive it out of the jam. It only moves if the road in front of it is clear, otherwise it bumps and costs you a star. Buses drive round to the haltes, and the passengers walking round the bus island step out through the gate to board any bus going their way. A full bus drives off. If every halte is taken and nobody on the loop can board, you are stuck. Hari pulls any bus out of the jam, Kari calls the people for the waiting buses forward, and every level gives you one free extra halte. Play the daily ride every day to keep your streak. Progress is saved in this browser.",
+  dailyNote:"Ala dei wan nyun waka · a new ride every day",total:"Total",tapStart:"Tap to start",share:"Share on WhatsApp",copy:"Copy result",copied:"Copied!"},
+ nl:{level:"Level",play:"Spelen",next:"Volgende level",retry:"Prei baka · Opnieuw",replay:"Nog eens",menu:"Menu",daily:"Dagrit",dailyDone:"Vandaag gedaan",
+  chapter:"Hoofdstuk",stars:"sterren",won:"Iedereen aan boord!",lost:"A fasi!",lostSub:"Vast: alle haltes bezet en niemand kan instappen.",
   full:"Halte vol!",bump:"Toet toet!",extra:"+1 halte",extraUsed:"Extra halte open",useExtra:"Gebruik +1 halte",
-  leaves:"vertrekt naar",tut1:"Tik op een bus met een vrije weg",tut2:"Passagiers verlaten de ring bij de poortjes voor hun bus",
+  leaves:"vertrekt naar",tut1:"Tik op een bus met een vrije weg",tut2:"Passagiers verlaten de ring bij het poortje voor hun bus",
   hidden:"Grijze ?-bussen tonen hun route zodra hun weg vrij is",taxi:"Taxi's zijn klein: maar 2 plaatsen",nextStop:"Volgende halte",
-  hint:"Tik op een bus",note:"Tik op een lijnbus om hem uit de file te rijden. Hij rijdt alleen als de weg voor hem vrij is, anders botst hij en kost dat een ster. Bussen rijden om naar de haltes en de passagiers die bovenin rondlopen gaan via de twee poortjes naar elke bus die hun kant op gaat. Een volle bus rijdt weg. Zijn alle haltes bezet en kan niemand in de ring instappen, dan zit je vast, dus stuur bussen voor de mensen die je ziet. Elk level krijg je een gratis extra halte. Je voortgang blijft in deze browser.",
-  dailyNote:"Elke dag een nieuwe pittige rit",total:"Totaal",tapStart:"Tik om te starten",share:"Deel op WhatsApp",copy:"Kopieer resultaat",copied:"Gekopieerd!"}};
+  hint:"Tik op een bus",note:"Tik op een lijnbus om hem uit de file te rijden. Hij rijdt alleen als de weg voor hem vrij is, anders botst hij en kost dat een ster. Bussen rijden om naar de haltes en de passagiers die rond het buseiland lopen gaan via het poortje naar elke bus die hun kant op gaat. Een volle bus rijdt weg. Zijn alle haltes bezet en kan niemand in de ring instappen, dan zit je vast. Hari trekt elke bus uit de file, Kari roept de mensen voor de wachtende bussen naar voren en elk level krijg je een gratis extra halte. Speel elke dag de dagrit voor je reeks. Je voortgang blijft in deze browser.",
+  dailyNote:"Ala dei wan nyun waka · elke dag een nieuwe rit",total:"Totaal",tapStart:"Tik om te starten",share:"Deel op WhatsApp",copy:"Kopieer resultaat",copied:"Gekopieerd!"}};
 let lang="en";
 try{lang=localStorage.getItem("hj-lang")||(document.documentElement.lang==="nl"?"nl":"en");}catch(e){}
 if(!T[lang])lang="en";
@@ -20096,7 +20096,7 @@ function LSV(k,v){try{localStorage.setItem(k,v);}catch(e){}}
 let muted=LG("hj-muted")==="1";
 function $(i){return document.getElementById(i);}
 const CV=$("hj-cv"),CX=CV.getContext("2d");
-const W=400,HT=720;
+const W=400,HT=768;
 const DPR=Math.min(2,window.devicePixelRatio||1);
 CV.width=W*DPR;CV.height=HT*DPR;CX.scale(DPR,DPR);
 
@@ -20200,7 +20200,7 @@ function params(n){
     loop shows fewer people at once, so it is harder to plan. */
  const p={};
  const k=(n-1)%PER_CH;
- const base=Math.min(1,(n-1)/40),local=(k%5)/4;
+ const base=Math.min(1,Math.pow((n-1)/34,0.85)),local=(k%5)/4;
  p.spike=n>=8&&k%5===4;
  let d=Math.min(1,base*0.8+local*0.2+(p.spike?0.12:0));
  p.d=d;
@@ -20213,7 +20213,7 @@ function params(n){
     spaces of the genre */
  p.simBays=n<=3?2:3;
  p.win=n<=2?1:Math.max(1,Math.min(6,1+Math.round(d*5)));
- p.ring=n<=3?12:Math.round(16-d*6-(p.spike?1:0));
+ p.ring=n<=3?12:Math.round(15-d*6-(p.spike?1:0));
  p.hard=0.35+d*0.55;
  p.taxi=n>=6?0.16:0;p.big=n>=3?0.32:0;
  p.hidden=n>=14?0.06+d*0.12:0;
@@ -20225,8 +20225,8 @@ function generate(n,seed){
  /* build candidates and keep one a "sensible but unplanned" player can win often enough
     (less often on spits levels), and not too often either once the tutorial is over */
  const p=params(n);
- const need=n<=3?10:n<=10?6:p.spike?3:4;
- const cap2=n<=5?12:p.spike?9:11;
+ const need=n<=3?10:n<=6?7:p.spike?3:4;
+ const cap2=n<=3?12:n<=6?11:p.spike?8:10;
  let best=null,bestS=-1;
  for(let attempt=0;attempt<40;attempt++){
   const r=mulberry(seed*7919+attempt*104729+13);
@@ -20355,24 +20355,50 @@ function dailyState(){const v=(LG("hj-daily")||"").split(":");return v[0]===srDa
 function chapterOf(n){return Math.floor((n-1)/PER_CH);}
 function chName(n){return CHAPTERS[chapterOf(n)%CHAPTERS.length];}
 
-/* ================= presentation (v4, Oct 2026) =================
-   Layout from the top: Paramaribo houses, the plaza where passengers walk a loop,
-   two gates (the chokepoints) down to the perron, the haltes, the station road,
-   and the jammed lot with a ring road around it. Buses drive out of the lot along
+/* ================= presentation (v4, Oct 2026; v7 layout) =================
+   Layout from the top: Paramaribo houses, a street, the Heiligenweg bus island (a long
+   covered halte between two streets) with passengers walking round it, ONE gate (the
+   chokepoint) down to the perron, the haltes, the station road, and the jammed lot with a
+   ring road around it. Bottom bar: the two boosters (Hari, Kari). Buses drive out of the lot along
    the ring road to their halte and, once full, back out and drive off the map.
    Nothing on screen talks: feedback is sound, motion and the HUD stars. */
-Object.assign(T.en,{to:"to",tip:"TIP"});Object.assign(T.nl,{to:"naar",tip:"TIP"});
+/* v7 strings. Sranan Tongo lines, each word checked against a Sranan dictionary (kaikki.org /
+   Wiktionary): bun = good, wroko = work, alamala = everyone, gwe = go away, a kba = it's done,
+   a fasi = it's stuck, prei baka = play again, ala dei = every day, nyun waka = new journey,
+   kon prei = come play, fa waka = how's it going, hari = to pull (out), kari = to call. */
+Object.assign(T.en,{to:"to",tip:"TIP",hari:"Hari",kari:"Kari",hariSub:"pull a bus out",kariSub:"call them forward",
+ hariTip:"Hari: tap any bus, even a stuck one",winSub:["Done!","Everybody's gone!","Good work!"],share:"Share",earned:"You earned",
+ newRide:"New daily ride tomorrow",dayStreak:"days in a row",day1:"day in a row",kicker:"FA WAKA? · LIJNBUS PUZZEL",time:"time"});
+Object.assign(T.nl,{to:"naar",tip:"TIP",hari:"Hari",kari:"Kari",hariSub:"trek een bus eruit",kariSub:"roep ze naar voren",
+ hariTip:"Hari: tik op elke bus, ook als hij vastzit",winSub:["Klaar!","Iedereen is weg!","Goed gedaan!"],share:"Delen",earned:"Verdiend",
+ newRide:"Morgen een nieuwe dagrit",dayStreak:"dagen op rij",day1:"dag op rij",kicker:"FA WAKA? · LIJNBUS PUZZEL",time:"tijd"});
+const WIN_SR=["A kba!","Alamala gwe!","Bun wroko!"];
 const FUI="'Instrument Sans',system-ui,-apple-system,sans-serif",FD="'Newsreader',Georgia,serif";
 const FLAG=["#377e3f","#ffffff","#b40a2d","#ecc81d"];
 /* loop (ellipse) + gates */
-const RCX=200,RCY=97,RA=134,RB=37,GATES=[138,262],ENTRY_X=88,RSPEED=120;
+const RCX=200,RCY=102,RA=136,RB=34,GATES=[200],ENTRY_X=86,RSPEED=175,RSPEED_FF=320,BAR_Y=722;
 /* perron, haltes, station road, ring road, lot */
 const WALK_Y=154,BAY_Y=164,BAY_H=70,NB=5,KERB_Y=234;
 const ROAD_Y0=238,Y_OUT=248,Y_IN=262,ROAD_Y1=272,X_L=13,X_R=387,Y_B=706;
 const LOT_X0=28,LOT_X1=372,LOT_Y0=276,LOT_Y1=690;
-const BUS_SPD=880,REV_SPD=240,WALK_SPD=270;
+const BUS_SPD=920,REV_SPD=330,WALK_SPD=340;
+let rsp=150;
+/* phone buzz on Android (follows the sound toggle) and GA4 funnel events when the site has gtag */
+function buzz(ms){if(muted)return;try{navigator.vibrate&&navigator.vibrate(ms);}catch(e){}}
+function ev(n,o){try{window.gtag&&window.gtag("event",n,o||{});}catch(e){}}
 let lv,cell,ox,oy,vehicles,queue,slots,phase,walkers,bayN,bays,state,bumps,extraUsed,levelN,isDaily,parts,loseT,winT,shake,tut,boarded,leaveCount,uiBtns=[],starsWon,tStart,bg=null,bgKey="";
-let tipT=0,tipText="",fullT=0,starLossT=0;
+let winSecs=0,tipT=0,tipText="",fullT=0,starLossT=0,hariAim=false,boostT=0,reward=null,lifts=0;
+/* ---- boosters, kept in this browser: Hari (pull any bus out of the jam) and Kari (call the
+   passengers for the buses at the haltes to the front). You start with 2 of each and earn more:
+   +1 for a first three-star clear, +1 of each for the daily ride, +2 of each per finished chapter. */
+let boost={hari:2,kari:2};
+try{const b=JSON.parse(LG("hj-boost"));if(b&&typeof b==="object"){boost.hari=Math.max(0,Math.min(99,+b.hari|0));boost.kari=Math.max(0,Math.min(99,+b.kari|0));}}catch(e){}
+function saveBoost(){LSV("hj-boost",JSON.stringify(boost));}
+/* ---- daily streak: days in a row with a cleared daily ride ---- */
+function dayStr(off){return new Date(Date.now()-108e5+(off||0)*864e5).toISOString().slice(0,10);}
+function streak(){try{const s=JSON.parse(LG("hj-streak"));if(s&&(s.last===dayStr(0)||s.last===dayStr(-1)))return Math.max(0,s.n|0);}catch(e){}return 0;}
+function bumpStreak(){let s={last:"",n:0};try{const o=JSON.parse(LG("hj-streak"));if(o)s=o;}catch(e){}
+ if(s.last===dayStr(0))return s.n;s.n=s.last===dayStr(-1)?(s.n|0)+1:1;s.last=dayStr(0);LSV("hj-streak",JSON.stringify(s));return s.n;}
 function bayRect(i){const w=66,g=8,x0=(W-(NB*w+(NB-1)*g))/2;return{x:x0+i*(w+g),y:BAY_Y,w:w,h:BAY_H};}
 function bayCenter(i){const r=bayRect(i);return{x:r.x+r.w/2,y:r.y+r.h/2+1};}
 function shade(hex,f){const n=parseInt(hex.slice(1),16);let r=n>>16,g=(n>>8)&255,b=n&255;
@@ -20395,7 +20421,7 @@ function ringS(x,bottom){/* arc position of the loop point with this x on the bo
 /* the line steps in just after the left gate, so seats freed at the gates refill quickly */
 const GATE_S=GATES.map(x=>ringS(x,true)),ENTRY_S=ringS(ENTRY_X,true);
 const GATE_PT=GATES.map(x=>ringAt(ringS(x,true)));
-const FEED=[];for(let i=0;i<7;i++)FEED.push({x:i%2?22:34,y:138-i*14.5});
+const FEED=[];for(let i=0;i<7;i++)FEED.push({x:i%2?20:31,y:144-i*13.5});
 
 /* ---- level setup ---- */
 const SKIN=["#5a3a22","#7b4b2a","#a0663b","#c68642","#e0ac69","#f1c27d","#8d5524","#3d2615"];
@@ -20422,13 +20448,14 @@ function loadLevel(n,daily){
  layoutFeed(true);
  walkers=[];bayN=lv.bays;bays=[];for(let i=0;i<NB;i++)bays.push(-1);
  state="play";bumps=0;extraUsed=false;parts=[];loseT=0;winT=0;shake=0;boarded=0;leaveCount=0;starsWon=0;tStart=performance.now();
- tipT=0;fullT=0;starLossT=0;
+ tipT=0;fullT=0;starLossT=0;hariAim=false;boostT=0;reward=null;lifts=0;
  tut=(!daily&&n===1)?1:0;
  const nTaxi=vehicles.some(v=>v.L===1),nHid=vehicles.some(v=>v.hid);
  if(!daily&&nHid&&!LG("hj-tip-hid")){tip(T[lang].hidden,4);LSV("hj-tip-hid","1");}
  else if(!daily&&nTaxi&&!LG("hj-tip-taxi")){tip(T[lang].taxi,3.5);LSV("hj-tip-taxi","1");}
  bgKey="";$("hj-panel").innerHTML="";
  window.ESRLB&&ESRLB.played();
+ ev(daily?"hj_daily_start":"hj_level_start",{level:nn});
 }
 function tip(t,d){tipText=t;tipT=d;}
 function restPos(v){let sx=0,sy=0;for(let i=0;i<v.L;i++){sx+=v.x-DIRS[v.d][0]*i;sy+=v.y-DIRS[v.d][1]*i;}
@@ -20478,9 +20505,10 @@ function routeAway(v){const bc=bayCenter(v.bay);const ex=bc.x<W/2?-70:W+70;
 /* ---- actions ---- */
 function tapVehicle(v){
  if(state!=="play"||v.st!=="park")return;
+ if(hariAim){liftVehicle(v);return;}
  if(tut===1)tut=2;
  const b=firstBlock(v);
- if(b){v.st="bump";v.bt=0;v.bumpDist=(b.steps+0.3)*cell;bumps++;starLossT=0.9;sfxBump();b.o.wob=0.35;
+ if(b){v.st="bump";v.bt=0;v.bumpDist=(b.steps+0.3)*cell;bumps++;starLossT=0.9;sfxBump();buzz(35);b.o.wob=0.35;
   const bp=b.o;burst((v.px+bp.px)/2,(v.py+bp.py)/2,["rgba(255,255,255,.9)","#f2c200"],6);return;}
  let bi=-1;for(let i=0;i<bayN;i++)if(bays[i]<0){bi=i;break;}
  if(bi<0){fullT=0.8;sfxHorn();v.wob=0.3;return;}
@@ -20488,7 +20516,32 @@ function tapVehicle(v){
  v.legs=routeToBay(v,bi);v.li=0;v.ld=0;v.lt=0;v.st="out";v.left=1e9;
  sfxGo();
 }
-function useExtra(){if(extraUsed||(state!=="play"&&state!=="stuck"))return;extraUsed=true;bayN=NB;sfxExtra();
+function freeBay(){for(let i=0;i<bayN;i++)if(bays[i]<0)return i;return -1;}
+/* Hari: a hook lifts the chosen bus straight out of the jam onto a free halte */
+function useHari(){if(state!=="play")return;
+ if(hariAim){hariAim=false;tipT=0;return;}
+ if(boost.hari<=0){boostT=0.5;sfxHorn();return;}
+ if(freeBay()<0){fullT=0.8;sfxHorn();return;}
+ hariAim=true;tip(T[lang].hariTip,30);sfxTap();}
+function liftVehicle(v){const bi=freeBay();hariAim=false;tipT=0;
+ if(bi<0){fullT=0.8;sfxHorn();return;}
+ boost.hari--;saveBoost();lifts++;ev("hj_booster",{type:"hari",level:levelN});
+ bays[bi]=v.id;v.bay=bi;v.seen=true;v.st="lift";v.lf=0;v.l0={x:v.px,y:v.py,rot:v.d*Math.PI/2,w:v.sw,h:v.sh};
+ sfxExtra();buzz(20);burst(v.px,v.py,["#ffffff","#f2c200"],10);}
+/* Kari: people in the waiting line whose bus is already at a halte are called forward */
+function useKari(){if(state!=="play"&&state!=="stuck")return false;
+ if(boost.kari<=0){boostT=0.5;sfxHorn();return false;}
+ let n=0;
+ for(const v of vehicles){if(v.st!=="bay")continue;let free=v.cap-v.fill;
+  for(let i=0;i<queue.length&&free>0;i++){if(queue[i].c!==v.c)continue;const p=queue.splice(i,1)[0];i--;free--;v.fill++;boarded++;n++;
+   const bc=bayCenter(v.bay),dx=bc.x+6,dy=BAY_Y+(BAY_H-baySize(v).h)/2+6,sx=p.hid?FEED[FEED.length-1].x:p.x,sy=p.hid?FEED[FEED.length-1].y:p.y;
+   walkers.push({c:p.c,look:p.look,j:p.j,v:v.id,legs:[leg([{x:sx,y:sy},{x:sx+6,y:WALK_Y},{x:dx,y:WALK_Y},{x:dx,y:dy}],false,WALK_SPD*(0.85+Math.random()*0.3))],li:0,ld:0,lt:1,px:sx,py:sy,rot:0});}}
+ if(!n){boostT=0.5;sfxHorn();return false;}
+ boost.kari--;saveBoost();ev("hj_booster",{type:"kari",level:levelN});layoutFeed(false);
+ hornBlast(0,0.08,true);hornBlast(0.12,0.08,true);buzz(20);
+ if(state==="stuck"){state="play";loseT=0;}
+ return true;}
+function useExtra(){if(extraUsed||(state!=="play"&&state!=="stuck"))return;extraUsed=true;bayN=NB;sfxExtra();ev("hj_extra_halte",{level:levelN});
  const c=bayCenter(NB-1);burst(c.x,c.y,["#7dd3fc","#ffffff"],16);if(state==="stuck"){state="play";loseT=0;}}
 
 /* ---- update ---- */
@@ -20496,7 +20549,7 @@ function busFor(c){let best=null;for(const v of vehicles){if(v.st==="bay"&&v.c==
 function crossed(a,b,s){/* did arc position move from a to b (forward) past s? */
  const per=RING.per;const d=((b-a)%per+per)%per;const ds=((s-a)%per+per)%per;return ds>0&&ds<=d;}
 function update(dt){
- if(shake>0)shake-=dt;if(tipT>0)tipT-=dt;if(fullT>0)fullT-=dt;if(starLossT>0)starLossT-=dt;
+ if(shake>0)shake-=dt;if(tipT>0)tipT-=dt;if(boostT>0)boostT-=dt;if(fullT>0)fullT-=dt;if(starLossT>0)starLossT-=dt;
  for(const v of vehicles){
   if(v.wob>0)v.wob-=dt;
   if(v.bounce>0)v.bounce-=dt;
@@ -20507,19 +20560,26 @@ function update(dt){
   else if(v.st==="out"){
    const tg=v.left<46?baySize(v):roadSize(v);v.sw+=(tg.w-v.sw)*Math.min(1,dt*9);v.sh+=(tg.h-v.sh)*Math.min(1,dt*9);
    if(follow(v,dt)){v.st="bay";v.rot=0;v.land=0.25;const s=baySize(v);v.sw=s.w;v.sh=s.h;sfxArrive();burst(v.px,v.py+v.sh/2,"rgba(255,255,255,A)",6);}}
+  else if(v.st==="lift"){v.lf=Math.min(1,v.lf+dt/0.75);const f=v.lf,e=f<0.5?2*f*f:1-Math.pow(-2*f+2,2)/2,bc=bayCenter(v.bay),bs=baySize(v);
+   v.px=v.l0.x+(bc.x-v.l0.x)*e;v.py=v.l0.y+(bc.y-v.l0.y)*e;v.rot=v.l0.rot+((((0-v.l0.rot)%(Math.PI*2))+Math.PI*3)%(Math.PI*2)-Math.PI)*e;
+   v.sw=v.l0.w+(bs.w-v.l0.w)*e;v.sh=v.l0.h+(bs.h-v.l0.h)*e;
+   if(f>=1){v.st="bay";v.rot=0;v.land=0.25;v.sw=bs.w;v.sh=bs.h;sfxArrive();burst(v.px,v.py+v.sh/2,"rgba(255,255,255,A)",6);}}
   else if(v.st==="bay"&&v.land>0)v.land-=dt;
-  else if(v.st==="leaving"){v.bt+=dt;if(v.bt>0.4){v.st="leave";bays[v.bay]=-1;leaveCount++;sfxLeave();
+  else if(v.st==="leaving"){v.bt+=dt;if(v.bt>0.25){v.st="leave";bays[v.bay]=-1;leaveCount++;sfxLeave();
    v.legs=routeAway(v);v.li=0;v.ld=0;v.lt=0;burst(v.px,v.py+v.sh/2,["rgba(120,120,120,.6)","rgba(180,180,180,.6)"],6);}}
   else if(v.st==="leave"){const tg=v.li===0?baySize(v):roadSize(v);v.sw+=(tg.w-v.sw)*Math.min(1,dt*6);v.sh+=(tg.h-v.sh)*Math.min(1,dt*6);
    if(follow(v,dt))v.st="gone";}
  }
  /* the loop turns; at the gates people step out for a bus going their way, at the entry the line steps in */
  if(state==="play"||state==="won"){
-  const old=phase;phase+=RSPEED*dt;const sp=RING.per/slots.length;
+  /* when every halte is taken the player can only watch: the loop walks faster so there is no dead time */
+  let blocked=true;for(let i=0;i<bayN;i++)if(bays[i]<0){blocked=false;break;}
+  rsp+=((blocked?RSPEED_FF:RSPEED)-rsp)*Math.min(1,dt*3);
+  const old=phase;phase+=rsp*dt;const sp=RING.per/slots.length;
   for(let i=0;i<slots.length;i++){const sl=slots[i];const a=old+i*sp,b=phase+i*sp;
    if(sl.p){
     if(sl.p.e<1){sl.p.e=Math.min(1,sl.p.e+dt*3.2);}
-    for(let g=0;g<2;g++){if(!sl.p||sl.p.e<1||!crossed(a,b,GATE_S[g]))continue;
+    for(let g=0;g<GATES.length;g++){if(!sl.p||sl.p.e<1||!crossed(a,b,GATE_S[g]))continue;
      const v=busFor(sl.p.c);if(!v)continue;
      const p=sl.p;sl.p=null;v.fill++;boarded++;
      const bc=bayCenter(v.bay),dx=bc.x+6,dy=BAY_Y+(BAY_H-baySize(v).h)/2+6;
@@ -20531,7 +20591,7 @@ function update(dt){
  }
  for(let i=walkers.length-1;i>=0;i--){const w=walkers[i];w.j+=dt*22;
   if(follow(w,dt)){const v=vehicles[w.v];v.looks.push(w.look);v.seated++;v.bounce=0.14;sfxBoard(v.seated,v.cap);walkers.splice(i,1);
-   if(v.seated>=v.cap&&v.fill>=v.cap&&v.st==="bay"){v.st="leaving";v.bt=0;sfxFull();burst(v.px,v.py-10,["#ffffff",DEST[v.c].c,"#f2c200"],12);}}}
+   if(v.seated>=v.cap&&v.fill>=v.cap&&v.st==="bay"){v.st="leaving";v.bt=0;sfxFull();buzz(12);burst(v.px,v.py-10,["#ffffff",DEST[v.c].c,"#f2c200"],12);}}}
  queue.forEach(p=>{const dx=p.tx-p.x,dy=p.ty-p.y;p.x+=dx*Math.min(1,dt*9);p.y+=dy*Math.min(1,dt*9);p.mv=Math.abs(dx)+Math.abs(dy)>1;if(p.mv)p.j+=dt*16;});
  for(const s of slots)if(s.p)s.p.j+=dt*15;
  parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=0.1;p.a-=dt*1.1;p.rot+=0.2;});parts=parts.filter(p=>p.a>0);
@@ -20543,18 +20603,25 @@ function update(dt){
    let full=true;for(let i=0;i<bayN;i++){const id=bays[i];if(id<0||vehicles[id].st!=="bay"){full=false;break;}}
    const can=slots.some(s=>s.p&&busFor(s.p.c));
    const closed=onLoop>=slots.length||!queue.length;
-   if(full&&!can&&closed){loseT+=dt;if(loseT>0.8){state="stuck";sfxLose();shake=0.35;}}else loseT=0;
+   if(full&&!can&&closed){loseT+=dt;if(loseT>0.8){state="stuck";sfxLose();shake=0.35;buzz(80);ev("hj_stuck",{level:levelN,daily:isDaily?1:0});}}else loseT=0;
   }
  }
  if(state==="won")winT+=dt;
 }
 function onWin(){
  starsWon=bumps===0?3:bumps<=2?2:1;
+ ev(isDaily?"hj_daily_win":"hj_level_win",{level:levelN,stars:starsWon,secs:Math.round((performance.now()-tStart)/1000)});
+ winSecs=Math.round((performance.now()-tStart)/1000);
  sfxWin();for(let i=0;i<5;i++)burst(40+Math.random()*320,150+Math.random()*250,FLAG,22);
- if(isDaily){const old=dailyState();if(starsWon>old)LSV("hj-daily",srDay()+":"+starsWon);}
- else{const k=String(levelN);if(starsWon>(+prog.st[k]||0))prog.st[k]=starsWon;
+ reward={hari:0,kari:0,streak:0};
+ if(isDaily){const old=dailyState();if(!old){reward.hari++;reward.kari++;}reward.streak=bumpStreak();if(starsWon>old)LSV("hj-daily",srDay()+":"+starsWon);}
+ else{const k=String(levelN),prev=+prog.st[k]||0;
+  if(starsWon===3&&prev<3){if(levelN%2)reward.hari++;else reward.kari++;}
+  if(levelN%PER_CH===0&&levelN>=prog.lvl){reward.hari+=2;reward.kari+=2;}
+  if(starsWon>prev)prog.st[k]=starsWon;
   if(levelN>=prog.lvl)prog.lvl=levelN+1;saveProg();
   window.ESRLB&&ESRLB.over(Math.min(SCORE_CAP,prog.lvl-1));}
+ boost.hari=Math.min(99,boost.hari+reward.hari);boost.kari=Math.min(99,boost.kari+reward.kari);saveBoost();
  panel();
 }
 
@@ -20603,25 +20670,37 @@ function buildBG(){
     passengers and the buses, so they are what the eye finds */
  const key=lv.cols+"x"+lv.rows+":"+levelN+":"+cell;if(bg&&bgKey===key)return;bgKey=key;
  if(!bg){bg=document.createElement("canvas");}bg.width=W*DPR;bg.height=HT*DPR;const c=bg.getContext("2d");c.setTransform(DPR,0,0,DPR,0,0);
- /* sky + a soft row of Paramaribo wooden houses */
- let g=c.createLinearGradient(0,0,0,46);g.addColorStop(0,"#ffe2b3");g.addColorStop(1,"#fff4e0");c.fillStyle=g;c.fillRect(0,0,W,46);
+ /* sky + a soft row of Paramaribo wooden houses, then the street on the far side of the island */
+ let g=c.createLinearGradient(0,0,0,32);g.addColorStop(0,"#ffe2b3");g.addColorStop(1,"#fff4e0");c.fillStyle=g;c.fillRect(0,0,W,32);
  const r=mulberry(7);let x=-10;
- while(x<W){const w=30+r()*24,h=16+r()*10;house(c,x,42,w,h,0,r()<0.6?"#c76a5f":"#a3adb6","#fbf8f0");if(r()<0.25)palm(c,x+w+4,42,22+r()*8,"#6aa86c");x+=w+6+r()*6;}
- c.fillStyle="rgba(255,244,224,.45)";c.fillRect(0,0,W,46);
- /* plaza: plain warm stone */
- c.fillStyle="#f3ede1";c.fillRect(0,40,W,BAY_Y-40);
- c.fillStyle="rgba(0,0,0,.06)";c.fillRect(0,40,W,2);
- /* the loop: a light walkway with a soft rim, a plain lawn in the middle */
- c.strokeStyle="#e2d9c6";c.lineWidth=34;c.beginPath();c.ellipse(RCX,RCY,RA,RB,0,0,7);c.stroke();
+ while(x<W){const w=30+r()*24,h=13+r()*8;house(c,x,30,w,h,0,r()<0.6?"#c76a5f":"#a3adb6","#fbf8f0");if(r()<0.25)palm(c,x+w+4,30,18+r()*6,"#6aa86c");x+=w+6+r()*6;}
+ c.fillStyle="rgba(255,244,224,.45)";c.fillRect(0,0,W,32);
+ c.fillStyle="#a9b1ba";c.fillRect(0,30,W,18);
+ c.strokeStyle="rgba(255,255,255,.7)";c.lineWidth=1.2;c.setLineDash([8,8]);c.beginPath();c.moveTo(0,39);c.lineTo(W,39);c.stroke();c.setLineDash([]);
+ /* two muted cars parked along the far street */
+ for(const cx of [262,330]){c.fillStyle="rgba(0,0,0,.12)";rr2(c,cx-13,34,28,11,4);c.fillStyle=cx>300?"#e9edf0":"#c9d0d6";rr2(c,cx-14,32,28,11,4);c.fillStyle="rgba(40,50,60,.35)";rr2(c,cx-4,34,9,7,2);}
+ /* the bus island between the two streets: kerb, pavement */
+ c.fillStyle="#d8cfbd";c.fillRect(0,48,W,BAY_Y-48);
+ c.fillStyle="#f3ede1";rr2(c,4,51,W-8,BAY_Y-55,10);
+ /* the walkway round the halte and its rim */
+ c.strokeStyle="#e4dbc8";c.lineWidth=34;c.beginPath();c.ellipse(RCX,RCY,RA,RB,0,0,7);c.stroke();
  c.strokeStyle="#d3c8b1";c.lineWidth=1.5;for(const k of [-1,1]){c.beginPath();c.ellipse(RCX,RCY,RA+k*17,RB+k*17,0,0,7);c.stroke();}
- c.fillStyle="#cfe4c4";c.beginPath();c.ellipse(RCX,RCY,RA-17,RB-17,0,0,7);c.fill();
- c.fillStyle="rgba(60,110,70,.28)";c.font="800 9px "+FUI;c.textAlign="center";c.fillText("H E I L I G E N W E G",RCX,RCY+3);
- /* the two gates: a gap in the rim, two small posts, a soft chevron down to the haltes */
- for(let gi=0;gi<2;gi++){const gp=GATE_PT[gi],gx=GATES[gi];
-  c.fillStyle="#e2d9c6";c.fillRect(gx-12,gp.y+10,24,WALK_Y-gp.y-4);
-  for(const s of [-1,1]){c.fillStyle="#7d8791";rr2(c,gx+s*14-2.5,gp.y+8,5,10,2);}
-  c.strokeStyle="rgba(90,100,110,.45)";c.lineWidth=2.2;c.lineJoin="round";c.lineCap="round";
-  const yy=gp.y+22;c.beginPath();c.moveTo(gx-5,yy);c.lineTo(gx,yy+4);c.lineTo(gx+5,yy);c.stroke();}
+ /* the halte in the middle: a long covered shelter (green roof), benches along both sides */
+ c.fillStyle="#ece5d6";c.beginPath();c.ellipse(RCX,RCY,RA-17,RB-17,0,0,7);c.fill();
+ const sw=176,sh=22,sx=RCX-sw/2,sy=RCY-sh/2;
+ c.fillStyle="rgba(0,0,0,.10)";rr2(c,sx+2,sy+3,sw,sh,5);
+ c.fillStyle="#b08b62";c.fillRect(sx+10,sy-2,sw-20,2);c.fillRect(sx+10,sy+sh,sw-20,2);
+ c.fillStyle="#7fae8c";rr2(c,sx,sy,sw,sh,5);
+ c.fillStyle="#93bf9f";rr2(c,sx+2,sy+2,sw-4,sh/2-2,4);
+ c.strokeStyle="rgba(255,255,255,.18)";c.lineWidth=1;for(let xx=sx+8;xx<sx+sw-4;xx+=8){c.beginPath();c.moveTo(xx,sy+2);c.lineTo(xx,sy+sh-2);c.stroke();}
+ c.fillStyle="rgba(255,255,255,.85)";c.font="800 8.5px "+FUI;c.textAlign="center";c.fillText("H E I L I G E N W E G",RCX,RCY+3);
+ for(const tx of [sx-14,sx+sw+14]){c.fillStyle="#9cbf8f";c.beginPath();c.arc(tx,RCY,7,0,7);c.fill();c.fillStyle="rgba(255,255,255,.18)";c.beginPath();c.arc(tx-2,RCY-2,3,0,7);c.fill();}
+ /* the gate: a gap in the rim, two small posts, a chevron down to the haltes */
+ for(let gi=0;gi<GATES.length;gi++){const gp=GATE_PT[gi],gx=GATES[gi];
+  c.fillStyle="#e4dbc8";c.fillRect(gx-13,gp.y+10,26,WALK_Y-gp.y-2);
+  for(const s2 of [-1,1]){c.fillStyle="#7d8791";rr2(c,gx+s2*15-2.5,gp.y+8,5,10,2);c.fillStyle="#f2c200";rr2(c,gx+s2*15-2.5,gp.y+8,5,3,1);}
+  c.strokeStyle="rgba(90,100,110,.5)";c.lineWidth=2.2;c.lineJoin="round";c.lineCap="round";
+  const yy=gp.y+21;c.beginPath();c.moveTo(gx-5,yy);c.lineTo(gx,yy+4);c.lineTo(gx+5,yy);c.stroke();}
  /* perron edge and the haltes */
  c.fillStyle="#d8cfbd";c.fillRect(0,BAY_Y-4,W,4);
  c.fillStyle="#9aa3ad";c.fillRect(0,BAY_Y,W,KERB_Y-BAY_Y);
@@ -20631,7 +20710,9 @@ function buildBG(){
   if(!last){c.fillStyle="rgba(255,255,255,.55)";c.font="800 8px "+FUI;c.textAlign="center";c.fillText("HALTE "+(i+1),b.x+b.w/2,b.y+b.h-7);}}
  /* station road, ring road and the lot */
  c.fillStyle="#e7e2d6";c.fillRect(0,KERB_Y,W,4);
- c.fillStyle="#8c959f";c.fillRect(0,ROAD_Y0,W,HT-ROAD_Y0);
+ c.fillStyle="#8c959f";c.fillRect(0,ROAD_Y0,W,BAR_Y-ROAD_Y0);
+ /* booster bar */
+ c.fillStyle="#f3ede1";c.fillRect(0,BAR_Y,W,HT-BAR_Y);c.fillStyle="rgba(0,0,0,.08)";c.fillRect(0,BAR_Y,W,2);
  c.strokeStyle="rgba(255,255,255,.6)";c.lineWidth=1.6;c.setLineDash([10,9]);
  c.beginPath();c.moveTo(0,(Y_OUT+Y_IN)/2);c.lineTo(W,(Y_OUT+Y_IN)/2);c.stroke();c.setLineDash([]);
  c.fillStyle="rgba(0,0,0,.10)";c.beginPath();c.roundRect(LOT_X0,LOT_Y0+3,LOT_X1-LOT_X0,LOT_Y1-LOT_Y0,14);c.fill();
@@ -20750,15 +20831,24 @@ function render(){
  } else if(!extraUsed||bayN<NB){CX.fillStyle="rgba(0,0,0,.25)";pill(b5.x+5,b5.y+10,b5.w-10,b5.h-20,12);}
  /* lot */
  for(const v of vehicles)if(v.st==="park"||v.st==="bump")drawBus(v,v.px,v.py,v.d*Math.PI/2,cell*0.72,cell*v.L-cell*0.2,"lot");
+ /* Hari aiming: every bus in the lot glows, tap one */
+ if(hariAim){const k=0.5+0.5*Math.sin(now*8);CX.strokeStyle="rgba(242,194,0,"+(0.5+k*0.4).toFixed(2)+")";CX.lineWidth=3;
+  for(const v of vehicles)if(v.st==="park"){const w=cell*0.72+6,h=cell*v.L-cell*0.2+6;CX.save();CX.translate(v.px,v.py);CX.rotate(v.d*Math.PI/2);rr(-w/2,-h/2,w,h,9);CX.stroke();CX.restore();}}
  /* on the road */
  for(const v of vehicles)if(v.st==="out"||v.st==="leave")drawBus(v,v.px,v.py,v.rot,v.sw,v.sh,v.st==="leave"&&v.li===0?"bay":"road");
  /* at the haltes */
  for(const v of vehicles)if(v.st==="bay"||v.st==="leaving")drawBus(v,v.px,v.py,0,v.sw,v.sh,"bay");
+ /* Hari: the bus hangs from a hook and swings up to its halte */
+ for(const v of vehicles)if(v.st==="lift"){const up=Math.sin(v.lf*Math.PI)*26,sc=1+Math.sin(v.lf*Math.PI)*0.22;
+  CX.fillStyle="rgba(30,40,55,.18)";CX.beginPath();CX.ellipse(v.px+6,v.py+8,v.sw*0.6,v.sh*0.45,0,0,7);CX.fill();
+  CX.strokeStyle="#3d4650";CX.lineWidth=2;CX.beginPath();CX.moveTo(v.px,-4);CX.lineTo(v.px,v.py-up);CX.stroke();
+  CX.fillStyle="#f2c200";CX.beginPath();CX.arc(v.px,v.py-up,4,0,7);CX.fill();
+  drawBus(v,v.px,v.py-up,v.rot,v.sw*sc,v.sh*sc,"lot");}
  /* the line waiting to step onto the loop, then the loop itself (back to front) */
  const ready={};for(const v of vehicles)if((v.st==="bay"||v.st==="out")&&v.fill<v.cap)ready[v.c]=1;
  for(let i=Math.min(queue.length,FEED.length)-1;i>=0;i--){const p=queue[i];drawPerson(p,p.x,p.y,1.3,p.mv?1:0,now);}
  if(queue.length>FEED.length){CX.fillStyle="rgba(27,67,50,.85)";const t="+"+(queue.length-FEED.length);CX.font="800 10px "+FUI;const tw=CX.measureText(t).width+10;
-  pill(2,36,tw,14,7);CX.fillStyle="#fff";CX.textAlign="center";CX.fillText(t,2+tw/2,46.5);}
+  pill(40,52,tw,14,7);CX.fillStyle="#fff";CX.textAlign="center";CX.fillText(t,40+tw/2,62.5);}
  const sp=RING.per/slots.length,list=[];
  for(let i=0;i<slots.length;i++){const pos=ringAt(phase+i*sp);const sl=slots[i];
   if(!sl.p){CX.fillStyle="rgba(0,0,0,.07)";CX.beginPath();CX.ellipse(pos.x,pos.y+8,5,2,0,0,7);CX.fill();continue;}
@@ -20772,19 +20862,37 @@ function render(){
  parts.forEach(p=>{CX.globalAlpha=Math.max(0,Math.min(1,p.a));CX.fillStyle=p.c.indexOf("A)")>0?p.c.replace("A",Math.max(0,p.a).toFixed(2)):p.c;
   if(p.sq){CX.save();CX.translate(p.x,p.y);CX.rotate(p.rot);CX.fillRect(-p.r,-p.r*0.5,p.r*2,p.r);CX.restore();}else{CX.beginPath();CX.arc(p.x,p.y,p.r,0,7);CX.fill();}});
  CX.globalAlpha=1;
- hud();
+ hud();boostBar(now);
  if(tut===1){const fr=vehicles.filter(x=>x.st==="park"&&!firstBlock(x));
   const want={};for(const s of slots)if(s.p)want[s.p.c]=1;const v=fr.find(x=>want[x.c])||fr[0];
   if(v){const k=Math.sin(performance.now()/180)*5;
   CX.strokeStyle="#fde047";CX.lineWidth=3;CX.beginPath();CX.arc(v.px,v.py,cell*0.5+k*0.4,0,7);CX.stroke();
   CX.font="30px system-ui";CX.textAlign="center";CX.fillText("👆",v.px+12,v.py+cell*0.62+k);tipBox(T[lang].tut1);}}
  else if(tut===2||(tut===3&&boarded<8))tipBox(T[lang].tut2);
- else if(tipT>0)tipBox(tipText,Math.min(1,tipT*2));
+ else if(tipT>0&&state==="play")tipBox(tipText,Math.min(1,tipT*2));
  CX.restore();
  if(state==="stuck")drawStuck();
  if(state==="won"&&winT>0.45)drawWin();
 }
 /* tutorial / tip card at the bottom: clearly a hint for the player, not something said in the scene */
+/* booster bar under the lot: Hari and Kari with how many you have */
+function boostBar(now){const L=T[lang];if(state!=="play"&&state!=="stuck")return;
+ const items=[{k:"hari",fn:useHari,ic:"hook"},{k:"kari",fn:function(){useKari();},ic:"horn"}];
+ items.forEach(function(it,i){const x=W/2-170+i*176,y=BAR_Y+6,w=164,h=36,n=boost[it.k];const on=it.k==="hari"&&hariAim;
+  const jig=(boostT>0&&n<=0)?Math.sin(boostT*60)*2:0;
+  CX.fillStyle="rgba(0,0,0,.12)";pill(x+jig,y+3,w,h,18);CX.fillStyle=on?"#f2c200":n>0?"#ffffff":"#ece6da";pill(x+jig,y,w,h,18);
+  CX.strokeStyle=on?"#b07d00":"rgba(27,67,50,.15)";CX.lineWidth=1.5;rr(x+jig,y,w,h,18);CX.stroke();
+  /* icon */
+  const cx=x+jig+20,cy=y+h/2;CX.fillStyle=n>0||on?"#1b4332":"#a39b8b";CX.strokeStyle=CX.fillStyle;CX.lineWidth=2.2;CX.lineCap="round";
+  if(it.ic==="hook"){CX.beginPath();CX.moveTo(cx,cy-10);CX.lineTo(cx,cy+1);CX.arc(cx-4,cy+1,4,0,Math.PI*0.9);CX.stroke();CX.fillRect(cx-4,cy-12,8,3);}
+  else{CX.beginPath();CX.moveTo(cx-8,cy-3);CX.lineTo(cx-3,cy-3);CX.lineTo(cx+6,cy-9);CX.lineTo(cx+6,cy+9);CX.lineTo(cx-3,cy+3);CX.lineTo(cx-8,cy+3);CX.closePath();CX.fill();
+   CX.beginPath();CX.arc(cx+7,cy,7,-0.6,0.6);CX.stroke();}
+  CX.textAlign="left";CX.fillStyle=n>0||on?"#1b4332":"#a39b8b";CX.font="900 14px "+FUI;CX.fillText(L[it.k],x+jig+40,y+16);
+  CX.font="700 9.5px "+FUI;CX.fillStyle=n>0||on?"#5b6b60":"#b3ab9b";CX.fillText(L[it.k+"Sub"],x+jig+40,y+28);
+  CX.fillStyle=n>0?"#b40a2d":"#a39b8b";CX.beginPath();CX.arc(x+jig+w-18,y+h/2,11,0,7);CX.fill();
+  CX.fillStyle="#fff";CX.font="900 12px "+FUI;CX.textAlign="center";CX.fillText(String(n),x+jig+w-18,y+h/2+4.5);
+  uiBtns.push({x:x,y:y,w:w,h:h,fn:it.fn});});
+}
 function tipBox(t,alpha){CX.globalAlpha=alpha===undefined?1:alpha;
  /* sits on the station road, so it never hides a bus in the lot; text shrinks to fit */
  let fs=13;CX.font="800 "+fs+"px "+FUI;while(fs>9&&CX.measureText(t).width+60>W-16){fs-=0.5;CX.font="800 "+fs+"px "+FUI;}
@@ -20797,31 +20905,52 @@ function card(y,h,keepTop){/* when stuck, keep the loop and the haltes visible s
  CX.fillStyle="rgba(20,35,28,.55)";CX.fillRect(0,keepTop?KERB_Y+4:0,W,HT);
  CX.fillStyle="rgba(0,0,0,.25)";pill(24,y+6,W-48,h,22);CX.fillStyle="#fffaf0";pill(24,y,W-48,h,22);
  for(let i=0;i<4;i++){CX.fillStyle=FLAG[i===1?0:i];CX.fillRect(24+22+i*((W-92)/4),y,(W-92)/4,4);}}
-function drawStuck(){const L=T[lang];uiBtns=[];const y=300,h=extraUsed?250:310;card(y,h,true);
- CX.textAlign="center";CX.fillStyle="#b40a2d";CX.font="700 italic 34px "+FD;CX.fillText(L.lost,W/2,y+58);
+function kariCan(){for(const v of vehicles){if(v.st!=="bay"||v.fill>=v.cap)continue;if(queue.some(p=>p.c===v.c))return true;}return false;}
+function drawStuck(){const L=T[lang];uiBtns=[];const ok=boost.kari>0&&kariCan();const h=218+(extraUsed?0:62)+(ok?62:0),y=Math.min(280,HT-h-60);card(y,h,true);
+ CX.textAlign="center";CX.fillStyle="#b40a2d";CX.font="700 italic 38px "+FD;CX.fillText(L.lost,W/2,y+58);
  CX.fillStyle="#46524a";CX.font="600 13px "+FUI;CX.fillText(L.lostSub,W/2,y+84);
- let by=y+110;
+ let by=y+106;
  if(!extraUsed){btn(W/2-120,by,240,50,L.useExtra,useExtra,{bg:"#0284c7",fs:17});by+=62;}
- btn(W/2-120,by,240,50,L.retry,function(){loadLevel(levelN,isDaily);},{bg:"#1f8a4c",fs:17});by+=62;
- btn(W/2-120,by,240,40,L.menu,toMenu,{bg:"#e9e1cf",fg:"#1b4332",fs:15});}
-function drawWin(){const L=T[lang];uiBtns=[];const y=150,h=isDaily?250:304;card(y,h);
- CX.textAlign="center";CX.fillStyle="#1b4332";CX.font="700 italic 36px "+FD;CX.fillText(L.won,W/2,y+60);
+ if(ok){btn(W/2-120,by,240,50,"Kari  ·  "+L.kariSub+"  ("+boost.kari+")",function(){useKari();},{bg:"#b40a2d",fs:15});by+=62;}
+ btn(W/2-120,by,240,50,L.retry,function(){loadLevel(levelN,isDaily);},{bg:"#1f8a4c",fs:17});by+=60;
+ btn(W/2-120,by,240,34,L.menu,toMenu,{bg:"#e9e1cf",fg:"#1b4332",fs:14});}
+function mmss(t){return Math.floor(t/60)+":"+String(t%60).padStart(2,"0");}
+function shareText(){const L=T[lang];const st="⭐".repeat(starsWon),url="https://exploresuriname.com/heiligenweg-jam";
+ const sr=WIN_SR[Math.max(0,starsWon-1)];
+ if(isDaily)return"Heiligenweg Jam 🚌 "+L.daily+" "+srDay()+"\n"+st+" · ⏱ "+mmss(winSecs)+(reward&&reward.streak>0?" · 🔥 "+reward.streak+" dei":"")+"\n"+sr+" Kon prei! 👉 "+url;
+ return"Heiligenweg Jam 🚌 "+L.level+" "+levelN+" ("+chName(levelN)+") "+st+" · ⏱ "+mmss(winSecs)+"\n"+sr+" Kon prei! 👉 "+url;}
+function doShare(){const t=shareText();ev("hj_share",{daily:isDaily?1:0,level:levelN});
+ if(navigator.share){navigator.share({text:t}).catch(function(){});return;}
+ window.open("https://wa.me/?text="+encodeURIComponent(t),"_blank","noopener");}
+function drawWin(){const L=T[lang];uiBtns=[];const rw=reward||{hari:0,kari:0,streak:0};
+ const ch=!isDaily&&levelN%PER_CH===0;
+ const h=194+(isDaily&&rw.streak>0?40:0)+(rw.hari||rw.kari?22:0)+(ch?18:0)+(isDaily?0:62)+52+(isDaily?10:34);
+ const y=Math.max(70,Math.round(330-h/2));card(y,h);
+ const k=Math.max(0,starsWon-1);
+ CX.textAlign="center";CX.fillStyle="#1b4332";CX.font="700 italic 38px "+FD;CX.fillText(WIN_SR[k],W/2,y+56);
+ CX.fillStyle="#46524a";CX.font="600 13px "+FUI;CX.fillText(L.winSub[k],W/2,y+77);
  CX.fillStyle="#7a6a4f";CX.font="700 12px "+FUI;
- CX.fillText((isDaily?L.daily+" · "+srDay():L.level+" "+levelN+" · "+chName(levelN)).toUpperCase(),W/2,y+84);
+ CX.fillText((isDaily?L.daily+" · "+srDay():L.level+" "+levelN+" · "+chName(levelN)).toUpperCase()+"  ·  ⏱ "+mmss(winSecs),W/2,y+99);
  for(let i=0;i<3;i++){const t=Math.min(1,Math.max(0,(winT-0.7-i*0.22)*4));const on=i<starsWon;
-  CX.save();CX.translate(W/2-62+i*62,y+136);const sc=0.55+t*0.45+(t>0&&t<1?Math.sin(t*Math.PI)*0.2:0);CX.scale(sc,sc);
+  CX.save();CX.translate(W/2-62+i*62,y+146);const sc=0.55+t*0.45+(t>0&&t<1?Math.sin(t*Math.PI)*0.2:0);CX.scale(sc,sc);
   CX.fillStyle=on&&t>0?"#f2a900":"#e6dcc6";CX.font="900 58px "+FUI;CX.fillText("★",0,20);CX.restore();
   if(on&&t>0&&!drawWin["s"+i+levelN+(isDaily?"d":"")]){drawWin["s"+i+levelN+(isDaily?"d":"")]=1;sfxStar(i);}}
- let by=y+178;
- if(!isDaily&&(levelN%PER_CH===0)){CX.fillStyle="#0369a1";CX.font="800 14px "+FUI;CX.fillText(L.nextStop+": "+chName(levelN+1)+"!",W/2,by);by+=18;}
- if(!isDaily){btn(W/2-120,by,240,54,L.next+"  →",function(){loadLevel(prog.lvl,false);},{bg:"#1f8a4c",fs:19});by+=66;}
- btn(W/2-120,by,114,42,L.replay,function(){loadLevel(levelN,isDaily);},{bg:"#e9e1cf",fg:"#1b4332",fs:14});
- btn(W/2+6,by,114,42,L.menu,toMenu,{bg:"#e9e1cf",fg:"#1b4332",fs:14});}
+ let by=y+190;
+ if(isDaily&&rw.streak>0){CX.fillStyle="#c2410c";CX.font="900 18px "+FUI;CX.fillText("🔥 "+rw.streak+" "+(rw.streak===1?L.day1:L.dayStreak),W/2,by);by+=22;
+  CX.fillStyle="#7a6a4f";CX.font="700 11px "+FUI;CX.fillText(L.newRide,W/2,by);by+=18;}
+ if(rw.hari||rw.kari){CX.fillStyle="#0369a1";CX.font="800 13px "+FUI;
+  CX.fillText(L.earned+":  "+(rw.hari?"+"+rw.hari+" Hari  ":"")+(rw.kari?"+"+rw.kari+" Kari":""),W/2,by);by+=22;}
+ if(ch){CX.fillStyle="#0369a1";CX.font="800 14px "+FUI;CX.fillText(L.nextStop+": "+chName(levelN+1)+"!",W/2,by);by+=18;}
+ by+=4;
+ if(!isDaily){btn(W/2-120,by,240,52,L.next+"  →",function(){loadLevel(prog.lvl,false);},{bg:"#1f8a4c",fs:19});by+=62;}
+ btn(W/2-120,by,114,42,L.share,doShare,{bg:"#25d366",fs:15});
+ btn(W/2+6,by,114,42,isDaily?L.menu:L.replay,isDaily?toMenu:function(){loadLevel(levelN,isDaily);},{bg:"#e9e1cf",fg:"#1b4332",fs:14});by+=52;
+ if(!isDaily){CX.fillStyle="#7a6a4f";CX.font="700 12px "+FUI;CX.textAlign="center";CX.fillText(L.menu,W/2,by+12);uiBtns.push({x:W/2-60,y:by-4,w:120,h:26,fn:toMenu});}}
 
 /* ---- menu: a street in Paramaribo ---- */
 let menuBuses=null;
 function toMenu(){state="menu";$("hj-panel").innerHTML="";}
-function drawMenu(){const L=T[lang];uiBtns=[];const t=performance.now()/1000;const Y=56;
+function drawMenu(){const L=T[lang];uiBtns=[];const t=performance.now()/1000;const Y=104;
  let g=CX.createLinearGradient(0,0,0,HT);g.addColorStop(0,"#ffcf8a");g.addColorStop(0.55,"#fff1d6");g.addColorStop(1,"#fff1d6");CX.fillStyle=g;CX.fillRect(0,0,W,HT);
  CX.fillStyle="rgba(255,255,255,.6)";CX.beginPath();CX.arc(318,96,30,0,7);CX.fill();CX.fillStyle="rgba(255,240,200,.5)";CX.beginPath();CX.arc(318,96,46,0,7);CX.fill();
  const r=mulberry(21);let x=-14;
@@ -20834,7 +20963,7 @@ function drawMenu(){const L=T[lang];uiBtns=[];const t=performance.now()/1000;con
   if(!b.looks.length)for(let i=0;i<6;i++)b.looks.push(makeLook(mulberry(i*31+b.c)));
   drawBus(b,b.x,(b.dir>0?540:494)+Y,b.dir>0?Math.PI/2:-Math.PI/2,36,74,"bay");}
  for(let i=0;i<9;i++){const p={c:i%8,look:makeLook(mulberry(i*7+3)),j:i*1.7};drawPerson(p,30+i*40,606+Y,1.6,i%3===0?2:0,t);}
- CX.textAlign="center";CX.fillStyle="#9c5822";CX.font="800 12px "+FUI;CX.fillText("PARAMARIBO · LIJNBUS PUZZEL",W/2,58);
+ CX.textAlign="center";CX.fillStyle="#9c5822";CX.font="800 12px "+FUI;CX.fillText(L.kicker,W/2,58);
  CX.fillStyle="#1b4332";CX.font="700 italic 50px "+FD;CX.fillText("Heiligenweg",W/2,108);
  CX.save();CX.translate(W/2,142);CX.rotate(-0.05);CX.fillStyle="rgba(0,0,0,.2)";pill(-58,-20,116,44,10);CX.fillStyle="#f2c200";pill(-58,-24,116,44,10);
  CX.fillStyle="#b40a2d";CX.font="900 30px "+FUI;CX.fillText("JAM",0,9);CX.restore();
@@ -20843,9 +20972,10 @@ function drawMenu(){const L=T[lang];uiBtns=[];const t=performance.now()/1000;con
  CX.fillStyle="rgba(27,67,50,.15)";pill(W/2-110,206,220,7,4);CX.fillStyle="#1f8a4c";pill(W/2-110,206,Math.max(7,220*(((n-1)%PER_CH))/PER_CH),7,4);
  btn(W/2-125,226,250,62,L.play+"  ·  "+L.level+" "+n,function(){loadLevel(prog.lvl,false);},{bg:"#1f8a4c",fs:21,r:18});
  const ds=dailyState();
- btn(W/2-125,300,250,46,L.daily+(ds?"  "+"★".repeat(ds):""),function(){loadLevel(0,true);},{bg:ds?"#e9e1cf":"#f2c200",fg:"#1b4332",fs:16,r:16});
+ const sk=streak();
+ btn(W/2-125,300,250,46,L.daily+(ds?"  "+"★".repeat(ds):"")+(sk?"   🔥 "+sk:""),function(){loadLevel(0,true);},{bg:ds?"#e9e1cf":"#f2c200",fg:"#1b4332",fs:16,r:16});
  CX.fillStyle="#7a6a4f";CX.font="700 11px "+FUI;CX.textAlign="center";CX.fillText(ds?L.dailyDone:L.dailyNote,W/2,362);
- CX.fillStyle="#1b4332";CX.font="800 13px "+FUI;CX.fillText("★ "+totalStars()+" "+L.stars,W/2,384);
+ CX.fillStyle="#1b4332";CX.font="800 13px "+FUI;CX.fillText("★ "+totalStars()+" "+L.stars+"   ·   Hari "+boost.hari+"   ·   Kari "+boost.kari,W/2,384);
 }
 
 /* ---- loop ---- */
@@ -20856,13 +20986,12 @@ function frame(ts){
  else{if(state==="play"||state==="won")update(dt);else if(state==="stuck"){parts.forEach(p=>{p.a-=dt;});if(shake>0)shake-=dt;}render();}
  raf=requestAnimationFrame(frame);
 }
-function panel(){const L=T[lang];if(isDaily){$("hj-panel").innerHTML="";return;}
- const txt="Heiligenweg Jam: "+L.level+" "+levelN+" "+"★".repeat(starsWon)+" ("+chName(levelN)+")\nhttps://exploresuriname.com/heiligenweg-jam";
+function panel(){const L=T[lang];const txt=shareText();
  $("hj-panel").innerHTML='<div class="grid grid-cols-3 gap-2 mb-3">'
-  +'<div class="hj-stat"><b>'+levelN+'</b><span>'+L.level+'</span></div>'
+  +'<div class="hj-stat"><b>'+(isDaily?"🔥 "+((reward&&reward.streak)||streak()):levelN)+'</b><span>'+(isDaily?L.dayStreak:L.level)+'</span></div>'
   +'<div class="hj-stat"><b>'+"★".repeat(starsWon)+'</b><span>'+L.stars+'</span></div>'
   +'<div class="hj-stat"><b>'+totalStars()+'</b><span>'+L.total+'</span></div></div>'
-  +'<div><a class="wabtn" href="https://wa.me/?text='+encodeURIComponent(txt)+'" target="_blank" rel="noopener">'+L.share+'</a>'
+  +'<div><a class="wabtn" href="https://wa.me/?text='+encodeURIComponent(txt)+'" target="_blank" rel="noopener">WhatsApp</a>'
   +'<button class="cpbtn" id="hj-cp">'+L.copy+'</button></div>';
  $("hj-cp").onclick=function(){try{navigator.clipboard.writeText(txt);}catch(e){}$("hj-cp").textContent=L.copied;};}
 
@@ -20919,7 +21048,7 @@ def build_busjam_page():
         ("How do I play Heiligenweg Jam?",
          "Tap a lijnbus in the jammed lot. If the road in front of it is clear it drives round to a free "
          "halte, otherwise it bumps into the bus in its way. Passengers walk a loop above the haltes and "
-         "step out through two gates for any bus going their way, and a full bus drives off. If every "
+         "step out through the gate for any bus going their way, and a full bus drives off. If every "
          "halte is taken and nobody on the loop can board, you are stuck, so send out buses for the "
          "people you see."),
         ("How many levels are there?",
@@ -20930,10 +21059,13 @@ def build_busjam_page():
         ("How do stars work?",
          "Clear a level without a single bump and you get three stars. One or two bumps cost you a star, "
          "more than that leaves you with one. Each level also gives you one free extra halte for when "
-         "things get tight."),
+         "things get tight. Stuck? Hari pulls any bus out of the jam and Kari calls the people for the "
+         "waiting buses to the front. You earn more of both by clearing a level with three stars for the "
+         "first time, by finishing the daily ride and with every finished chapter."),
         ("What is the daily ride?",
          "One extra, tougher level that changes every day and is the same for every player. It does not "
-         "affect your level progress, so you can always try it."),
+         "affect your level progress, so you can always try it. Clear it every day to build your streak "
+         "and share your time on WhatsApp."),
         ("Is it free?",
          "Yes. Heiligenweg Jam is free, needs no app or account, and your progress is saved in your browser."),
     ]
@@ -20958,7 +21090,7 @@ def build_busjam_page():
     ]}, ensure_ascii=False))
 
     _CSS = """  <style>
-    #hj-wrap{position:relative;max-width:420px;max-width:min(420px,calc((100vh - 24px)*.5556));max-width:min(420px,calc((100dvh - 24px)*.5556));margin:0 auto}
+    #hj-wrap{position:relative;max-width:420px;max-width:min(420px,calc((100vh - 24px)*.5208));max-width:min(420px,calc((100dvh - 24px)*.5208));margin:0 auto}
     #hj-cv{display:block;width:100%;border-radius:16px;background:#374151;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
     #hj-mute{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:9999px;border:none;background:rgba(0,0,0,.38);color:#fff;font-size:15px;line-height:34px;text-align:center;cursor:pointer;z-index:3}
     .hj-stat{background:#f9fafb;border:1px solid #eef0f2;border-radius:12px;padding:.6rem .4rem;text-align:center}
@@ -20998,10 +21130,10 @@ def build_busjam_page():
   and only a handful of haltes are free at a time.</p>
   <p class="text-gray-700 text-sm leading-relaxed mb-3">Every passenger rides a real route: the city lines PL to
   Lelydorp, PK to Kwatta, PSB to Santo Boma and L2 to the Hernhutterstraat, or the long-distance buses to Albina,
-  Nickerie, Atjoni and Moengo. The crowd walks a loop on the plaza and steps out through two gates for any bus
-  going their way, so several buses fill up at once. Send out buses for the people you see and the crowd melts
-  away. Send out the wrong ones and the haltes fill up with buses nobody wants. Later chapters add taxis with
-  two seats and mystery buses that only show their route once their road is clear.</p>
+  Nickerie, Atjoni and Moengo. The crowd walks round the covered halte on the bus island and steps out through
+  the gate for any bus going their way, so several buses fill up at once. Send out buses for the people you see
+  and the crowd melts away. Send out the wrong ones and the haltes fill up with buses nobody wants. Later chapters
+  add taxis with two seats and mystery buses that only show their route once their road is clear.</p>
   <p class="text-gray-700 text-sm leading-relaxed">The levels never run out. When you need a break from the
   jam, try <a href="korjaal.html" class="font-semibold hover:underline" style="color:var(--forest2)">Korjaal Run</a>,
   <a href="anaconda.html" class="font-semibold hover:underline" style="color:var(--forest2)">Aboma</a>,
@@ -21037,7 +21169,7 @@ __NAV__
   </div>
 </div>
 <main class="max-w-xl mx-auto px-4 py-8 pb-20">
-  <div id="hj-wrap"><canvas id="hj-cv" width="400" height="720" aria-label="Heiligenweg Jam bus puzzle"></canvas><button id="hj-mute" aria-label="Sound on/off">&#128266;</button></div>
+  <div id="hj-wrap"><canvas id="hj-cv" width="400" height="768" aria-label="Heiligenweg Jam bus puzzle"></canvas><button id="hj-mute" aria-label="Sound on/off">&#128266;</button></div>
   <div class="hj-hint"><span><b id="hj-h1">Tap a bus</b> to drive it out</span><span><b>R</b> restart</span></div>
   <div id="hj-panel" class="mt-4"></div>
 __LBSEC__
