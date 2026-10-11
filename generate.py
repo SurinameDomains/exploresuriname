@@ -20057,15 +20057,15 @@ _BUSJAM_JS = r"""(function(){
 if(window.CanvasRenderingContext2D&&!CanvasRenderingContext2D.prototype.roundRect){
  CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){r=Math.min(+r||0,w/2,h/2);this.moveTo(x+r,y);this.arcTo(x+w,y,x+w,y+h,r);this.arcTo(x+w,y+h,x,y+h,r);this.arcTo(x,y+h,x,y,r);this.arcTo(x,y,x+w,y,r);this.closePath();};}
 const SCORE_CAP=99999;
-/* Destinations: colour + an icon for the district (no letter codes on the buses).
-   Lelydorp = town house, Nickerie = rice, Albina = korjaal on the Marowijne,
-   Commewijne = Fort Nieuw Amsterdam, Brokopondo = the stuwmeer, Coronie = coconut palm,
-   Saramacca = fish, Zanderij = the airport. */
+/* Destinations (v3): real bus routes. City lines of Paramaribo's P.L.O. network carry their
+   line code on the windscreen (PL Lelydorp, PK Kwatta, PSB Santo Boma, L2 Hernhutterstraat);
+   long-distance buses show the district: Albina (Marowijne river), Nickerie (rice),
+   Atjoni (korjaal landing upriver), Moengo (bauxite town). */
 const DEST=[
- {n:"Lelydorp",c:"#e63946",d:"#a4161a",i:"house"},{n:"Nickerie",c:"#2f7fe8",d:"#1d4f9e",i:"rice"},
- {n:"Albina",c:"#1aa38f",d:"#0f6b5d",i:"boat"},{n:"Commewijne",c:"#f2b705",d:"#a87b00",i:"fort"},
- {n:"Brokopondo",c:"#7b3fe4",d:"#4c2196",i:"wave"},{n:"Coronie",c:"#f77f00",d:"#a85300",i:"palm"},
- {n:"Saramacca",c:"#ec4f8c",d:"#a3265a",i:"fish"},{n:"Zanderij",c:"#4c9a2a",d:"#2d6316",i:"plane"}];
+ {n:"Lelydorp",code:"PL",c:"#e63946",d:"#a4161a",i:"code"},{n:"Kwatta",code:"PK",c:"#2f7fe8",d:"#1d4f9e",i:"code"},
+ {n:"Santo Boma",code:"PSB",c:"#1aa38f",d:"#0f6b5d",i:"code"},{n:"Hernhutterstraat",code:"L2",c:"#f2b705",d:"#a87b00",i:"code"},
+ {n:"Albina",code:"ALB",c:"#7b3fe4",d:"#4c2196",i:"wave"},{n:"Nickerie",code:"NIC",c:"#f77f00",d:"#a85300",i:"rice"},
+ {n:"Atjoni",code:"ATJ",c:"#ec4f8c",d:"#a3265a",i:"boat"},{n:"Moengo",code:"MOE",c:"#4c9a2a",d:"#2d6316",i:"hill"}];
 const BUSNAMES=["Switi Sranan","Mi Gudu","No Spanning","Lobi Lobi","Kon Na Oso","Fya Fya","Wan Pipel","Gado Sabi","Moi Moi","Bun Bun","Tide Na Tide","Lanti Bus","Pikin Tori","Mi Mama Lobi","Sranan Pride","Boto Kon"];
 const CHAPTERS=["Heiligenweg","Waterkant","Saramaccastraat","Kwatta","Lelydorp","Zanderij","Meerzorg","Tamanredjo","Groningen","Totness","Nieuw-Nickerie","Moengo","Albina","Brokopondo","Atjoni"];
 const PER_CH=20;
@@ -20096,22 +20096,90 @@ const W=400,HT=640;
 const DPR=Math.min(2,window.devicePixelRatio||1);
 CV.width=W*DPR;CV.height=HT*DPR;CX.scale(DPR,DPR);
 
-/* ---- sound ---- */
-let AC=null;
-function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){AC=null;}}
- if(AC&&AC.state==="suspended"){try{AC.resume();}catch(e){}}return AC;}
-function beep(f,d,type,vol,slideTo,delay){if(muted)return;const c=ac();if(!c)return;const o=c.createOscillator(),g=c.createGain();
- const t0=c.currentTime+(delay||0);o.type=type||"sine";o.frequency.setValueAtTime(f,t0);
- if(slideTo)o.frequency.exponentialRampToValueAtTime(slideTo,t0+d);
- g.gain.setValueAtTime(vol||0.08,t0);g.gain.exponentialRampToValueAtTime(0.0001,t0+d);
- o.connect(g);g.connect(c.destination);o.start(t0);o.stop(t0+d+0.02);}
-function sfxGo(){beep(300,0.18,"triangle",0.06,620);}
-function sfxHorn(){beep(392,0.12,"square",0.06,392);beep(392,0.14,"square",0.06,392,0.16);}
-function sfxBoard(i){const f=520+(i%6)*60;beep(f,0.05,"sine",0.035,f*1.2);}
-function sfxLeave(){beep(240,0.3,"sawtooth",0.04,520);}
-function sfxWin(){[523,659,784,1046,1318].forEach((f,i)=>beep(f,0.18,"square",0.05,f,i*0.09));}
-function sfxLose(){beep(300,0.4,"sawtooth",0.07,90);}
-function sfxStar(i){beep(880+i*220,0.15,"triangle",0.06,1320+i*220);}
+/* ---- sound (v3): small synth kit, WebAudio only, no files ----
+   Master bus -> soft compressor -> speakers, plus a short generated room reverb.
+   Engine = detuned saws through a moving low-pass, horn = two squares a third apart
+   through a band-pass (the classic "toet toet"), air brake = filtered noise burst,
+   boarding = marimba notes climbing a pentatonic scale as the bus fills,
+   win = steelpan melody over a little kaseko-style beat. */
+let AC=null,MASTER=null,REVSEND=null,NOISE=null;
+function ac(){
+ if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){AC=null;return null;}
+  const comp=AC.createDynamicsCompressor();comp.threshold.value=-16;comp.ratio.value=4;comp.attack.value=0.004;comp.release.value=0.2;
+  MASTER=AC.createGain();MASTER.gain.value=2.2;MASTER.connect(comp);comp.connect(AC.destination);
+  /* room: 0.9s decaying stereo noise impulse */
+  try{const len=Math.floor(AC.sampleRate*0.9),ir=AC.createBuffer(2,len,AC.sampleRate);
+   for(let ch=0;ch<2;ch++){const d=ir.getChannelData(ch);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3.2);}
+   const conv=AC.createConvolver();conv.buffer=ir;REVSEND=AC.createGain();REVSEND.gain.value=0.16;REVSEND.connect(conv);conv.connect(MASTER);}catch(e){REVSEND=null;}
+  const nb=AC.createBuffer(1,AC.sampleRate,AC.sampleRate),nd=nb.getChannelData(0);for(let i=0;i<nd.length;i++)nd[i]=Math.random()*2-1;NOISE=nb;}
+ if(AC.state==="suspended"){try{const pr=AC.resume();if(pr&&pr.catch)pr.catch(function(){});}catch(e){}}
+ return AC;}
+function out(node,wet){node.connect(MASTER);if(REVSEND&&wet)node.connect(REVSEND);}
+/* oscillator voice with an attack/decay envelope and optional pitch glide + filter */
+function osc(o){if(muted)return;const c=ac();if(!c)return;const t=c.currentTime+(o.at||0);
+ const v=c.createOscillator(),g=c.createGain();v.type=o.type||"sine";v.frequency.setValueAtTime(o.f,t);
+ if(o.f2)v.frequency.exponentialRampToValueAtTime(o.f2,t+(o.glide||o.dur));
+ if(o.det)v.detune.value=o.det;
+ const a=o.att||0.005,peak=o.vol||0.1;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+a);
+ if(o.hold)g.gain.setValueAtTime(peak,t+a+o.hold);
+ g.gain.exponentialRampToValueAtTime(0.0001,t+a+(o.hold||0)+o.dur);
+ let n=v;if(o.lp||o.bp){const fl=c.createBiquadFilter();fl.type=o.bp?"bandpass":"lowpass";fl.frequency.setValueAtTime(o.bp||o.lp,t);
+  if(o.lp2)fl.frequency.exponentialRampToValueAtTime(o.lp2,t+o.dur);fl.Q.value=o.q||0.8;v.connect(fl);n=fl;}
+ n.connect(g);out(g,o.wet);v.start(t);v.stop(t+a+(o.hold||0)+o.dur+0.05);}
+function noise(o){if(muted)return;const c=ac();if(!c||!NOISE)return;const t=c.currentTime+(o.at||0);
+ const s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();s.buffer=NOISE;
+ f.type=o.ft||"bandpass";f.frequency.setValueAtTime(o.f||1000,t);if(o.f2)f.frequency.exponentialRampToValueAtTime(o.f2,t+o.dur);f.Q.value=o.q||1;
+ g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(o.vol||0.1,t+(o.att||0.004));g.gain.exponentialRampToValueAtTime(0.0001,t+(o.att||0.004)+o.dur);
+ s.connect(f);f.connect(g);out(g,o.wet);s.start(t,Math.random()*0.5);s.stop(t+o.dur+0.05);}
+/* instruments */
+function marimba(f,at,vol){osc({f:f,at:at,dur:0.32,vol:vol||0.11,wet:1});osc({f:f*4,at:at,dur:0.07,vol:(vol||0.11)*0.35});osc({f:f*2,at:at,dur:0.12,vol:(vol||0.11)*0.2,type:"triangle"});}
+function pan(f,at,vol,len){const v=vol||0.09,d=len||0.55;osc({f:f,at:at,dur:d,vol:v,wet:1});osc({f:f*2.01,at:at,dur:d*0.6,vol:v*0.45,wet:1});
+ osc({f:f*3.02,at:at,dur:d*0.25,vol:v*0.22});osc({f:f*0.5,at:at,dur:d*0.4,vol:v*0.18,type:"triangle"});}
+function kick(at){osc({f:150,f2:42,dur:0.18,vol:0.2,at:at,glide:0.12});}
+function snare(at,v){noise({at:at,dur:0.12,vol:v||0.12,f:1900,q:0.7});osc({f:220,f2:160,dur:0.06,vol:0.05,at:at});}
+function shaker(at,v){noise({at:at,dur:0.035,vol:v||0.035,ft:"highpass",f:6500});}
+function hornBlast(at,len,hi){const a=hi?523:415,b=hi?659:523;
+ osc({type:"square",f:a,at:at,dur:0.04,hold:len,vol:0.07,bp:900,q:1.4});osc({type:"square",f:b,at:at,dur:0.04,hold:len,vol:0.06,bp:1100,q:1.4});
+ osc({type:"sawtooth",f:a/2,at:at,dur:0.04,hold:len,vol:0.03,lp:700});}
+/* game sounds */
+const PENTA=[523.25,587.33,659.25,783.99,880,1046.5,1174.66,1318.51,1567.98];
+function sfxTap(){osc({f:880,f2:620,dur:0.05,vol:0.07});noise({dur:0.02,vol:0.08,f:3200,q:2});}
+function sfxGo(){ /* engine rev + pull away */
+ osc({type:"sawtooth",f:58,f2:120,dur:0.5,vol:0.16,lp:260,lp2:1100,att:0.03,glide:0.4});
+ osc({type:"sawtooth",f:59.5,f2:124,dur:0.5,vol:0.12,lp:260,lp2:1000,att:0.03,glide:0.4,det:8});
+ noise({dur:0.45,vol:0.06,ft:"lowpass",f:400,f2:1400,att:0.04});
+ noise({at:0.02,dur:0.12,vol:0.05,f:2600,q:3});}
+function sfxArrive(){ /* air brake pssht + body settle */
+ noise({dur:0.32,vol:0.12,ft:"highpass",f:2200,att:0.01});noise({dur:0.18,vol:0.05,f:5000,q:1.5,at:0.02});
+ osc({f:95,f2:60,dur:0.12,vol:0.12});}
+function sfxBump(){ /* thud + angry double horn */
+ osc({f:130,f2:45,dur:0.16,vol:0.32});noise({dur:0.06,vol:0.12,f:900,q:0.9});
+ hornBlast(0.04,0.09,false);hornBlast(0.21,0.13,false);}
+function sfxHorn(){hornBlast(0,0.1,false);hornBlast(0.17,0.12,false);}
+function sfxBoard(seat,cap){ /* a hop + a marimba note that climbs as the bus fills */
+ const f=PENTA[Math.min(PENTA.length-1,Math.round(seat*(PENTA.length-1)/Math.max(1,cap)))];
+ marimba(f,0,0.13);noise({dur:0.03,vol:0.05,f:2400,q:2});}
+function sfxFull(){ /* ding-ding + happy toot */
+ pan(1568,0,0.06,0.5);pan(1568,0.14,0.06,0.6);hornBlast(0.3,0.08,true);}
+function sfxLeave(){ /* rev up and away (pitch rises, then fades) */
+ osc({type:"sawtooth",f:70,f2:190,dur:0.9,vol:0.14,lp:300,lp2:1500,att:0.05,glide:0.7});
+ osc({type:"sawtooth",f:71,f2:195,dur:0.9,vol:0.1,lp:300,lp2:1400,att:0.05,glide:0.7,det:10});
+ noise({dur:0.8,vol:0.04,ft:"lowpass",f:600,f2:200,att:0.08});}
+function sfxReveal(){marimba(1318.5,0,0.06);marimba(1568,0.07,0.06);marimba(2093,0.14,0.05);}
+function sfxExtra(){noise({dur:0.35,vol:0.08,f:500,f2:4000,q:2,att:0.05});pan(1046.5,0.18,0.07);pan(1568,0.28,0.07);}
+function sfxWin(){ /* two bars: steelpan tune over kick / snare / shaker, 132 bpm */
+ const b=60/132/2;const mel=[[0,523.25],[1,659.25],[2,783.99],[3,1046.5],[5,880],[6,783.99],[7,659.25],[8,783.99],[10,1046.5],[12,1318.5]];
+ for(const m of mel)pan(m[1],m[0]*b,0.06,m[0]>=10?0.9:0.45);
+ for(let i=0;i<14;i++){shaker(i*b,i%2?0.025:0.04);if(i%4===0)kick(i*b);if(i%4===2)snare(i*b);}
+ pan(261.6,0,0.05,1.2);pan(392,12*b,0.05,1.0);}
+function sfxStar(i){pan([1046.5,1318.5,1568][i]||1568,0,0.08,0.5);marimba(([1046.5,1318.5,1568][i]||1568)*2,0.03,0.03);}
+function sfxLose(){ /* sad trombone */
+ const notes=[[392,0,0.28],[370,0.3,0.28],[349,0.6,0.28],[330,0.9,0.9]];
+ for(const n of notes){osc({type:"sawtooth",f:n[0],dur:n[2],vol:0.09,lp:1100,at:n[1],att:0.03,wet:1});
+  osc({type:"sawtooth",f:n[0]*1.005,dur:n[2],vol:0.06,lp:900,at:n[1],att:0.03});}
+ hornBlast(1.9,0.06,false);}
+/* compatibility for old call sites */
+function beep(f,d,type,vol,slideTo,delay){osc({f:f,f2:slideTo,dur:d,type:type,vol:vol,at:delay});}
 
 /* ---- seeded rng ---- */
 function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
@@ -20123,31 +20191,33 @@ const DIRS=[[0,-1],[1,0],[0,1],[-1,0]];   /* up right down left */
    The passenger line follows that exit order, mixed within small windows, and the
    whole level is replayed by a simulator before it is accepted. */
 function params(n){
- /* difficulty d (0..1): grows over the first 60 levels, with a 5-level sawtooth so a
-    hard "spits" level is always followed by an easier one. */
+ /* v3 ramp: level 1 teaches, from level 2 the lot fills up fast. d (0..1) grows over the first
+    ~45 levels with a 5-level sawtooth; every 5th level of a chapter is a tougher "spits" level. */
  const p={};
  const k=(n-1)%PER_CH;
- const base=Math.min(1,n/60),local=(k%5)/4;
- p.spike=n>=10&&k%5===4;
- let d=Math.min(1,base*0.75+local*0.25+(p.spike?0.15:0));
- if(n<=3)d=0;
- p.cols=4+Math.round(d*2);p.rows=4+Math.round(d*3);
- p.nV=Math.round(3+d*11)+(n<=3?n-1:0);
- p.nC=Math.min(6,2+Math.round(d*4));
- /* slack: proven solvable with simBays haltes; the player has 5 (+1 booster) */
- p.simBays=n<=8?2:(p.spike?4:3);
- p.win=n<=3?1:Math.max(1,Math.min(p.simBays-1,1+Math.round(d*2)));
- p.hard=0.2+d*0.5;
- p.taxi=n>=9?0.18:0;p.big=n>=5?0.3:0;
- p.hidden=n>=16?0.06+d*0.12:0;
- p.bays=5;
+ const base=Math.min(1,(n-1)/45),local=(k%5)/4;
+ p.spike=n>=8&&k%5===4;
+ let d=Math.min(1,base*0.8+local*0.2+(p.spike?0.12:0));
+ if(n===1){p.cols=4;p.rows=4;p.nV=3;p.nC=2;}
+ else if(n===2){p.cols=5;p.rows=5;p.nV=6;p.nC=3;}
+ else if(n===3){p.cols=5;p.rows=6;p.nV=8;p.nC=3;}
+ else{p.cols=5+Math.round(d*2);p.rows=6+Math.round(d*3);
+  p.nV=Math.round(9+d*19);p.nC=Math.min(n>60?8:7,3+Math.round(d*5));}
+ /* slack: proven solvable with simBays haltes; the player has 6 (+1 booster) */
+ p.simBays=n<=3?2:(p.spike?5:(n<=12?3:4));
+ p.win=n<=2?1:Math.max(1,Math.min(p.simBays-1,1+Math.round(d*2)));
+ p.hard=0.22+d*0.4;
+ p.taxi=n>=6?0.16:0;p.big=n>=3?0.32:0;
+ p.hidden=n>=14?0.06+d*0.12:0;
+ p.nV=Math.min(p.nV,Math.floor(p.cols*p.rows/2.3));
+ p.bays=6;
  return p;}
 function cap(len){return len===1?2:len===2?4:6;}
 function generate(n,seed){
  /* build candidates and keep one a "sensible but unplanned" player can still win
     reasonably often (fewer for spits levels), so no level is a brick wall */
  const p=params(n);
- const need=n<=8?10:p.spike?2:4;
+ const need=n<=3?10:n<=10?6:p.spike?2:4;
  let best=null,bestS=-1;
  for(let attempt=0;attempt<40;attempt++){
   const r=mulberry(seed*7919+attempt*104729+13);
@@ -20270,10 +20340,10 @@ function chName(n){return CHAPTERS[chapterOf(n)%CHAPTERS.length];}
 Object.assign(T.en,{to:"to",front:"First in line"});Object.assign(T.nl,{to:"naar",front:"Eerste in de rij"});
 const FUI="'Instrument Sans',system-ui,-apple-system,sans-serif",FD="'Newsreader',Georgia,serif";
 const FLAG=["#377e3f","#ffffff","#b40a2d","#ecc81d"];
-const HUD_H=36,BAY_Y=56,BAY_H=60,KERB_Y=118,PLAT_Y=124,LOT_Y=206,LOT_H=428;
-const QROWS=[146,168,190],QX0=24,QSTEP=13.6,QPER=26;
+const HUD_H=36,BAY_Y=56,BAY_H=60,KERB_Y=118,PLAT_Y=124,LOT_Y=212,LOT_H=422,BUS_S=0.84,NB=7;
+const QROWS=[148,171,194],QX0=20,QSTEP=18,QPER=21;
 let lv,cell,ox,oy,vehicles,queue,walkers,bayN,bays,state,bumps,extraUsed,levelN,isDaily,toast,toastT,parts,boardT,loseT,winT,shake,tut,boarded,leaveCount,uiBtns=[],starsWon,tStart,bg=null,bgKey="",looks;
-function bayRect(i){const n=6,w=60,g=5,x0=(W-(n*w+(n-1)*g))/2;return{x:x0+i*(w+g),y:BAY_Y,w:w,h:BAY_H};}
+function bayRect(i){const n=NB,w=52,g=4,x0=(W-(n*w+(n-1)*g))/2;return{x:x0+i*(w+g),y:BAY_Y,w:w,h:BAY_H};}
 function bayCenter(i){const r=bayRect(i);return{x:r.x+r.w/2,y:r.y+r.h-22};}
 function shade(hex,f){const n=parseInt(hex.slice(1),16);let r=n>>16,g=(n>>8)&255,b=n&255;
  if(f<0){r*=1+f;g*=1+f;b*=1+f;}else{r+=(255-r)*f;g+=(255-g)*f;b+=(255-b)*f;}return"rgb("+(r|0)+","+(g|0)+","+(b|0)+")";}
@@ -20294,9 +20364,9 @@ function loadLevel(n,daily){
  const lr=mulberry(seed+99);
  vehicles=lv.vs.map((v,i)=>Object.assign({},v,{id:i,st:"park",fill:0,seated:0,name:BUSNAMES[(i*7+n)%BUSNAMES.length],bt:0,bay:-1,seen:!v.hid,
   stripe:Math.floor(lr()*3),bags:[lr(),lr(),lr()]}));
- vehicles.forEach(v=>{const p=restPos(v);v.px=p.x;v.py=p.y;});
+ vehicles.forEach(v=>{const p=restPos(v);v.px=p.x;v.py=p.y;v.bounce=0;});
  queue=lv.q.map(c=>({c:c,x:0,y:0,j:lr()*6,look:makeLook(lr)}));layoutQueue(true);
- walkers=[];bayN=lv.bays;bays=[-1,-1,-1,-1,-1,-1];
+ walkers=[];bayN=lv.bays;bays=[-1,-1,-1,-1,-1,-1,-1];
  state="play";bumps=0;extraUsed=false;toast=null;toastT=0;parts=[];boardT=0.4;loseT=0;winT=0;shake=0;boarded=0;leaveCount=0;starsWon=0;tStart=performance.now();
  tut=(!daily&&n===1)?1:0;
  const nTaxi=vehicles.some(v=>v.L===1),nHid=vehicles.some(v=>v.hid);
@@ -20326,7 +20396,7 @@ function tapVehicle(v){
  if(state!=="play"||v.st!=="park")return;
  if(tut===1)tut=2;
  const b=firstBlock(v);
- if(b){v.st="bump";v.bt=0;v.bumpDist=(b.steps+0.3)*cell;bumps++;sfxHorn();say(T[lang].bump,"#fecaca",0.9);b.o.wob=0.35;return;}
+ if(b){v.st="bump";v.bt=0;v.bumpDist=(b.steps+0.3)*cell;bumps++;sfxBump();say(T[lang].bump,"#fecaca",0.9);b.o.wob=0.35;return;}
  let bi=-1;for(let i=0;i<bayN;i++)if(bays[i]<0){bi=i;break;}
  if(bi<0){say(T[lang].full,"#fecaca",1.4);sfxHorn();v.wob=0.3;return;}
  bays[bi]=v.id;v.bay=bi;v.seen=true;
@@ -20339,15 +20409,15 @@ function tapVehicle(v){
  v.len1=Math.max(1,Math.hypot(p1.x-p0.x,p1.y-p0.y));v.len2=Math.max(1,Math.hypot(p2.x-p1.x,p2.y-p1.y));
  sfxGo();
 }
-function useExtra(){if(extraUsed||(state!=="play"&&state!=="stuck"))return;extraUsed=true;bayN=6;say(T[lang].extraUsed,"#bae6fd",1.4);beep(660,0.15,"triangle",0.06,990);
- burst(bayCenter(5).x,bayCenter(5).y,["#7dd3fc","#ffffff"],14);if(state==="stuck"){state="play";loseT=0;}}
+function useExtra(){if(extraUsed||(state!=="play"&&state!=="stuck"))return;extraUsed=true;bayN=NB;say(T[lang].extraUsed,"#bae6fd",1.4);sfxExtra();
+ burst(bayCenter(NB-1).x,bayCenter(NB-1).y,["#7dd3fc","#ffffff"],14);if(state==="stuck"){state="play";loseT=0;}}
 
 /* ---- update ---- */
 function update(dt){
  if(toastT>0)toastT-=dt;if(shake>0)shake-=dt;
  for(const v of vehicles){
   if(v.wob>0)v.wob-=dt;
-  if(v.st==="park"&&!v.seen&&!firstBlock(v)){v.seen=true;burst(v.px,v.py,["#ffffff",DEST[v.c].c],10);beep(900,0.08,"sine",0.04,1200);}
+  if(v.st==="park"&&!v.seen&&!firstBlock(v)){v.seen=true;burst(v.px,v.py,["#ffffff",DEST[v.c].c],10);sfxReveal();}
   if(v.st==="bump"){v.bt+=dt;const T1=0.15,T2=0.34;const k=v.bt<T1?v.bt/T1:v.bt<T2?1-(v.bt-T1)/(T2-T1):0;
    const rp=restPos(v);v.px=rp.x+DIRS[v.d][0]*v.bumpDist*k*0.9;v.py=rp.y+DIRS[v.d][1]*v.bumpDist*k*0.9;
    if(v.bt>=T2){v.st="park";v.px=rp.x;v.py=rp.y;}}
@@ -20357,8 +20427,9 @@ function update(dt){
    else{const f=Math.min(1,v.bt/0.42);const e=f<0.5?2*f*f:1-Math.pow(-2*f+2,2)/2;
     /* arc up past the queue to the halte */
     v.px=v.path[1].x+(v.path[2].x-v.path[1].x)*e;v.py=v.path[1].y+(v.path[2].y-v.path[1].y)*e-Math.sin(f*Math.PI)*18;
-    v.fly=f;if(f>=1){v.st="bay";v.land=0.25;burst(v.px,v.py+14,"rgba(255,255,255,A)",6);}}}
+    v.fly=f;if(f>=1){v.st="bay";v.land=0.25;sfxArrive();burst(v.px,v.py+14,"rgba(255,255,255,A)",6);}}}
   else if(v.st==="bay"&&v.land>0)v.land-=dt;
+  if(v.bounce>0)v.bounce-=dt;
   else if(v.st==="leave"){v.bt+=dt;v.px+=dt*(240+v.bt*900);if(v.px>W+90)v.st="gone";}
  }
  /* boarding: the first passenger walks to a bus going their way */
@@ -20366,16 +20437,16 @@ function update(dt){
  if(boardT<=0&&queue.length&&state==="play"){
   const c=queue[0].c;
   const v=vehicles.find(x=>x.st==="bay"&&x.c===c&&x.fill<x.cap);
-  if(v){const p=queue.shift();v.fill++;boarded++;sfxBoard(boarded);layoutQueue(false);boardT=0.09;
+  if(v){const p=queue.shift();v.fill++;boarded++;layoutQueue(false);boardT=0.065;
    const bc=bayCenter(v.bay);
-   walkers.push({x:p.x,y:p.y,sx:p.x,sy:p.y,tx:bc.x-6+((v.fill%3)-1)*4,ty:bc.y+12,t:0,dur:0.32,c:p.c,look:p.look,v:v.id,j:p.j});
+   walkers.push({x:p.x,y:p.y,sx:p.x,sy:p.y,tx:bc.x+8*BUS_S+((v.fill%3)-1)*3,ty:bc.y+6,t:0,dur:0.26+Math.min(0.12,Math.hypot(bc.x-p.x,bc.y-p.y)/1600),c:p.c,look:p.look,v:v.id,j:p.j});
    if(tut===2)tut=3;}
  }
  for(let i=walkers.length-1;i>=0;i--){const w=walkers[i];w.t+=dt;const f=Math.min(1,w.t/w.dur);
-  w.x=w.sx+(w.tx-w.sx)*f;w.y=w.sy+(w.ty-w.sy)*f-Math.sin(f*Math.PI)*6;w.j+=dt*18;
-  if(f>=1){const v=vehicles[w.v];(v.looks=v.looks||[]).push(w.look);v.seated++;walkers.splice(i,1);
-   if(v.seated>=v.cap&&v.fill>=v.cap&&v.st==="bay"){v.st="leaving";v.bt=0;}}}
- for(const v of vehicles){if(v.st==="leaving"){v.bt+=dt;if(v.bt>0.3){v.st="leave";v.bt=0;bays[v.bay]=-1;leaveCount++;sfxLeave();
+  w.x=w.sx+(w.tx-w.sx)*f;w.y=w.sy+(w.ty-w.sy)*f-Math.sin(f*Math.PI)*16;w.j+=dt*22;w.f=f;
+  if(f>=1){const v=vehicles[w.v];(v.looks=v.looks||[]).push(w.look);v.seated++;v.bounce=0.14;sfxBoard(v.seated,v.cap);walkers.splice(i,1);
+   if(v.seated>=v.cap&&v.fill>=v.cap&&v.st==="bay"){v.st="leaving";v.bt=0;sfxFull();burst(v.px,v.py-10,["#ffffff",DEST[v.c].c,"#f2c200"],12);}}}
+ for(const v of vehicles){if(v.st==="leaving"){v.bt+=dt;if(v.bt>0.45){v.st="leave";v.bt=0;bays[v.bay]=-1;leaveCount++;sfxLeave();
   burst(v.px-26,v.py+8,["rgba(120,120,120,.6)","rgba(180,180,180,.6)"],6);
   if(leaveCount<=2||Math.random()<0.3)say("“"+v.name+"” → "+DEST[v.c].n,"#fff",1.3);}}}
  queue.forEach(p=>{const dx=p.tx-p.x,dy=p.ty-p.y;p.x+=dx*Math.min(1,dt*9);p.y+=dy*Math.min(1,dt*9);p.mv=Math.abs(dx)+Math.abs(dy)>1;if(p.mv)p.j+=dt*16;});
@@ -20420,10 +20491,14 @@ function icon(k,x,y,s,col){CX.save();CX.translate(x,y);CX.scale(s/8,s/8);CX.fill
  else if(k==="plane"){CX.beginPath();CX.moveTo(-7,0.8);CX.lineTo(5,0.8);CX.quadraticCurveTo(8,0,5,-0.8);CX.lineTo(-7,-0.8);CX.closePath();CX.fill();
   CX.beginPath();CX.moveTo(1,0);CX.lineTo(-3,-6);CX.lineTo(-1,-6);CX.lineTo(4,0);CX.lineTo(-1,6);CX.lineTo(-3,6);CX.closePath();CX.fill();
   CX.beginPath();CX.moveTo(-6,0);CX.lineTo(-8,-3);CX.lineTo(-7,-3);CX.lineTo(-4,0);CX.lineTo(-7,3);CX.lineTo(-8,3);CX.closePath();CX.fill();}
+ else if(k==="hill"){CX.beginPath();CX.moveTo(-7,6);CX.lineTo(-2,-3);CX.lineTo(1,1);CX.lineTo(4,-4);CX.lineTo(8,6);CX.closePath();CX.fill();
+  CX.fillStyle="#fff";CX.fillRect(-4,2.5,9,1.2);CX.beginPath();CX.arc(-4.5,-5,1.8,0,7);CX.fillStyle=col;CX.fill();}
  else if(k==="?"){CX.font="900 13px "+FUI;CX.textAlign="center";CX.textBaseline="middle";CX.fillText("?",0,1);CX.textBaseline="alphabetic";}
  CX.restore();}
-function badge(k,x,y,r,col){CX.fillStyle="rgba(0,0,0,.18)";CX.beginPath();CX.arc(x,y+1,r,0,7);CX.fill();
- CX.fillStyle="#fffdf6";CX.beginPath();CX.arc(x,y,r,0,7);CX.fill();CX.strokeStyle=col;CX.lineWidth=1.4;CX.stroke();icon(k,x,y,r*0.62,col);}
+function badge(k,x,y,r,col,code){CX.fillStyle="rgba(0,0,0,.18)";CX.beginPath();CX.arc(x,y+1,r,0,7);CX.fill();
+ CX.fillStyle="#fffdf6";CX.beginPath();CX.arc(x,y,r,0,7);CX.fill();CX.strokeStyle=col;CX.lineWidth=1.4;CX.stroke();
+ if(k==="code"){const t=code||"";CX.fillStyle=col;CX.font="900 "+(r*(t.length>2?0.78:1.0)).toFixed(1)+"px "+FUI;CX.textAlign="center";CX.textBaseline="middle";CX.fillText(t,x,y+r*0.06);CX.textBaseline="alphabetic";}
+ else icon(k,x,y,r*0.62,col);}
 
 /* ---- static scenery (cached per level) ---- */
 function house(c,x,base,w,h,r,roofCol,wall){
@@ -20454,11 +20529,11 @@ function buildBG(){
  /* bay floor */
  c.fillStyle="#4a5058";c.fillRect(0,54,W,KERB_Y-54);
  c.fillStyle="rgba(0,0,0,.18)";c.fillRect(0,54,W,5);
- for(let i=0;i<6;i++){const b=bayRect(i);
-  c.strokeStyle=i<5?"rgba(255,255,255,.7)":"rgba(125,211,252,.6)";c.lineWidth=2;c.setLineDash(i<5?[]:[4,4]);
+ for(let i=0;i<NB;i++){const b=bayRect(i);
+  c.strokeStyle=i<NB-1?"rgba(255,255,255,.7)":"rgba(125,211,252,.6)";c.lineWidth=2;c.setLineDash(i<NB-1?[]:[4,4]);
   c.beginPath();c.moveTo(b.x-2.5,b.y+6);c.lineTo(b.x-2.5,b.y+b.h);c.moveTo(b.x+b.w+2.5,b.y+6);c.lineTo(b.x+b.w+2.5,b.y+b.h);c.stroke();c.setLineDash([]);
   c.fillStyle="#1f4d38";c.fillRect(b.x+b.w+1.5,46,2,KERB_Y-46);  /* posts */
-  if(i<5){c.fillStyle="rgba(255,255,255,.22)";c.font="800 8px "+FUI;c.textAlign="center";c.fillText("HALTE "+(i+1),b.x+b.w/2,b.y+b.h-1);}
+  if(i<NB-1){c.fillStyle="rgba(255,255,255,.22)";c.font="800 7.5px "+FUI;c.textAlign="center";c.fillText("HALTE "+(i+1),b.x+b.w/2,b.y+b.h-1);}
  }
  /* kerb (yellow / black) */
  for(let i=0;i<W;i+=16){c.fillStyle=(i/16)%2?"#1f2328":"#f2c200";c.fillRect(i,KERB_Y,16,6);}
@@ -20515,21 +20590,25 @@ function drawLotBus(v,x,y,rot,scale){
  if(L>=2&&!hid){const bl=Math.min(3,L);for(let i=0;i<bl;i++){const by=ry0+(ry1-ry0)*(0.15+i*0.3);if(i===1&&L===2)continue;
   CX.fillStyle=["#8b5e34","#d0a35c","#3d6b8c","#9e2a2b","#6b8f3a"][Math.floor(v.bags[i%3]*5)];rr(-w*0.2,by,w*0.4,w*0.26,2);CX.fill();
   CX.strokeStyle="rgba(0,0,0,.25)";CX.lineWidth=1;CX.stroke();}}
- /* heading arrow just behind the windscreen */
- CX.fillStyle="rgba(255,255,255,.95)";CX.beginPath();CX.moveTo(0,-h/2+w*0.44);CX.lineTo(w*0.13,-h/2+w*0.6);CX.lineTo(-w*0.13,-h/2+w*0.6);CX.closePath();CX.fill();
+ /* big heading chevron on the bonnet, white with a dark edge so it reads on every colour */
+ const cy0=-h/2+w*0.4,aw=w*0.34,ah=w*0.24;
+ CX.lineJoin="round";CX.beginPath();CX.moveTo(-aw,cy0+ah);CX.lineTo(0,cy0);CX.lineTo(aw,cy0+ah);
+ CX.strokeStyle="rgba(0,0,0,.45)";CX.lineWidth=Math.max(5,w*0.17);CX.stroke();
+ CX.strokeStyle="#ffffff";CX.lineWidth=Math.max(3,w*0.1);CX.stroke();
  if(L===1){CX.fillStyle="#f2c200";rr(-w*0.2,-h*0.2,w*0.4,w*0.16,2);CX.fill();CX.strokeStyle="rgba(0,0,0,.3)";CX.lineWidth=1;CX.stroke();}
  CX.restore();
  /* district badge, upright */
  const br=Math.max(7,Math.min(11,cell*0.17))*scale;
  const off=(L===1?cell*0.1:(L===2?cell*0.2:cell*0.45))*scale;     /* sit it behind the luggage on the roof's rear half */
  const bx=x-Math.sin(rot)*off,by=y+Math.cos(rot)*off;
- badge(hid?"?":DEST[v.c].i,bx,by,br,hid?"#5d656d":DEST[v.c].d);
+ badge(hid?"?":DEST[v.c].i,bx,by,br,hid?"#5d656d":DEST[v.c].d,hid?"":DEST[v.c].code);
 }
 /* side view at the halte: front is +x. Passengers' heads show in the windows as they sit down. */
 function drawBayBus(v,x,y,s){
  const col=DEST[v.c].c,dark=DEST[v.c].d,n=v.cap;
  CX.save();CX.translate(x,y);CX.scale(s,s);
  if(v.land>0)CX.translate(0,-Math.sin(v.land/0.25*Math.PI)*3);
+ if(v.bounce>0)CX.translate(0,Math.sin(v.bounce/0.14*Math.PI)*1.6);
  CX.fillStyle="rgba(0,0,0,.28)";CX.beginPath();CX.ellipse(0,15,29,4,0,0,7);CX.fill();
  const len=n<=2?40:56,hx=len/2;
  CX.fillStyle=dark;rr(-hx,-17,len,29,7);CX.fill();
@@ -20555,28 +20634,41 @@ function drawBayBus(v,x,y,s){
  for(const wxp of [-hx+10,hx-11]){CX.fillStyle="#17191c";CX.beginPath();CX.arc(wxp,12,5,0,7);CX.fill();CX.fillStyle="#c9ced3";CX.beginPath();CX.arc(wxp,12,2.2,0,7);CX.fill();}
  CX.restore();
  /* destination badge above the roof */
- badge(DEST[v.c].i,x+(hx-6)*s,y-21*s,8*s,dark);
+ badge(DEST[v.c].i,x+(hx-6)*s,y-21*s,8.5*s,dark,DEST[v.c].code);
 }
 
 /* ---- people ---- */
-function drawPerson(p,x,y,s,walk){
- const L=p.look,col=DEST[p.c].c,kid=L.t==="kid";const k=s*(kid?0.78:1);
- const step=walk?Math.sin(p.j)*2:0;
+function drawPerson(p,x,y,s,mode,now){
+ /* mode: 0 idle (breathing, little sway), 1 walking/running, 2 excited (their bus is here: hop + arms up) */
+ const L=p.look,col=DEST[p.c].c,kid=L.t==="kid";const k=s*(kid?0.8:1);
+ const ph=p.j||0,tt=now||0;
+ let bob=0,armL=0.35,armR=-0.35,step=0,lean=0;
+ if(mode===1){step=Math.sin(ph)*2.4;bob=-Math.abs(Math.sin(ph))*1.6;armL=0.35+Math.sin(ph)*0.8;armR=-0.35+Math.sin(ph)*0.8;lean=0.08;}
+ else if(mode===2){const hp=Math.abs(Math.sin(tt*9+ph));bob=-hp*4;armL=2.6+Math.sin(tt*14+ph)*0.3;armR=-2.6-Math.sin(tt*14+ph)*0.3;}
+ else{bob=Math.sin(tt*2.2+ph)*0.6;const fan=(Math.sin(tt*0.7+ph*3)>0.85);if(fan){armR=-1.9+Math.sin(tt*16)*0.35;}}
  CX.save();CX.translate(x,y);CX.scale(k,k);
- CX.fillStyle="rgba(0,0,0,.18)";CX.beginPath();CX.ellipse(0,9,5,1.8,0,0,7);CX.fill();
- CX.strokeStyle=L.pants;CX.lineWidth=2.4;CX.lineCap="round";
- CX.beginPath();CX.moveTo(-1.6,4);CX.lineTo(-1.6-step*0.5,8.5);CX.moveTo(1.6,4);CX.lineTo(1.6+step*0.5,8.5);CX.stroke();
- if(L.bag){CX.fillStyle="#6b4f2a";rr(3.2,-1,3.4,5,1);CX.fill();}
- CX.fillStyle=col;rr(-4.2,-4,8.4,9,3);CX.fill();
- CX.fillStyle="rgba(255,255,255,.22)";CX.fillRect(-3.6,-3.4,2.2,7.5);
- CX.fillStyle=L.skin;CX.beginPath();CX.arc(0,-7.6,3.5,0,7);CX.fill();
- if(L.t==="wrap"){CX.fillStyle=L.acc;CX.beginPath();CX.arc(0,-9,3.8,Math.PI*0.95,Math.PI*2.05);CX.fill();
-  CX.beginPath();CX.moveTo(1.5,-12);CX.lineTo(4.8,-14.6);CX.lineTo(3.4,-11);CX.closePath();CX.fill();
-  CX.fillStyle="rgba(255,255,255,.55)";CX.fillRect(-2.5,-10.4,5,1);}
- else if(L.t==="cap"){CX.fillStyle=L.acc;CX.beginPath();CX.arc(0,-8.6,3.6,Math.PI,0);CX.fill();CX.fillRect(0,-9,5.2,1.6);}
- else if(L.t==="long"){CX.fillStyle="#1b1411";CX.beginPath();CX.arc(0,-8.4,3.8,Math.PI*0.9,Math.PI*2.1);CX.fill();CX.fillRect(-3.8,-8.4,1.6,5.5);CX.fillRect(2.2,-8.4,1.6,5.5);}
- else if(L.t==="hat"){CX.fillStyle="#e9d8a6";CX.beginPath();CX.ellipse(0,-9.6,5.8,1.5,0,0,7);CX.fill();rr(-2.6,-12.4,5.2,3,1.5);CX.fill();}
- else{CX.fillStyle="#1b1411";CX.beginPath();CX.arc(0,-8.6,3.6,Math.PI*1.05,Math.PI*1.95);CX.fill();}
+ CX.fillStyle="rgba(0,0,0,.2)";CX.beginPath();CX.ellipse(0,9,5.2-bob*0.3,1.8,0,0,7);CX.fill();
+ CX.translate(0,bob);CX.rotate(lean);
+ CX.strokeStyle=L.pants;CX.lineWidth=2.6;CX.lineCap="round";
+ CX.beginPath();CX.moveTo(-1.7,4);CX.lineTo(-1.7-step*0.5,8.6);CX.moveTo(1.7,4);CX.lineTo(1.7+step*0.5,8.6);CX.stroke();
+ if(L.bag){CX.fillStyle="#6b4f2a";rr(3.4,-1.5,3.6,5.2,1.2);CX.fill();}
+ /* arms (behind the body on the far side would be overkill: draw both in front) */
+ CX.strokeStyle=L.skin;CX.lineWidth=1.9;
+ CX.beginPath();CX.moveTo(-3.6,-2.6);CX.lineTo(-3.6+Math.sin(armL)*-5,-2.6+Math.cos(armL)*5);CX.stroke();
+ CX.beginPath();CX.moveTo(3.6,-2.6);CX.lineTo(3.6+Math.sin(armR)*-5,-2.6+Math.cos(armR)*5);CX.stroke();
+ CX.fillStyle=col;rr(-4.3,-4.2,8.6,9.2,3);CX.fill();
+ CX.fillStyle="rgba(255,255,255,.25)";CX.fillRect(-3.7,-3.6,2.2,7.6);
+ CX.fillStyle="rgba(0,0,0,.12)";CX.fillRect(-4.3,3.2,8.6,1.8);
+ CX.fillStyle=L.skin;CX.beginPath();CX.arc(0,-7.8,3.6,0,7);CX.fill();
+ /* eyes: tiny, look toward the haltes */
+ CX.fillStyle="rgba(0,0,0,.65)";CX.fillRect(-1.6,-8.6,0.9,1.1);CX.fillRect(0.9,-8.6,0.9,1.1);
+ if(L.t==="wrap"){CX.fillStyle=L.acc;CX.beginPath();CX.arc(0,-9.2,3.9,Math.PI*0.95,Math.PI*2.05);CX.fill();
+  CX.beginPath();CX.moveTo(1.5,-12.2);CX.lineTo(5,-14.8);CX.lineTo(3.5,-11.2);CX.closePath();CX.fill();
+  CX.fillStyle="rgba(255,255,255,.55)";CX.fillRect(-2.6,-10.6,5.2,1);}
+ else if(L.t==="cap"){CX.fillStyle=L.acc;CX.beginPath();CX.arc(0,-8.8,3.7,Math.PI,0);CX.fill();CX.fillRect(0,-9.2,5.4,1.6);}
+ else if(L.t==="long"){CX.fillStyle="#1b1411";CX.beginPath();CX.arc(0,-8.6,3.9,Math.PI*0.9,Math.PI*2.1);CX.fill();CX.fillRect(-3.9,-8.6,1.6,5.6);CX.fillRect(2.3,-8.6,1.6,5.6);}
+ else if(L.t==="hat"){CX.fillStyle="#e9d8a6";CX.beginPath();CX.ellipse(0,-9.8,6,1.6,0,0,7);CX.fill();rr(-2.7,-12.6,5.4,3.1,1.5);CX.fill();CX.fillStyle="#b40a2d";CX.fillRect(-2.7,-10.6,5.4,0.9);}
+ else{CX.fillStyle="#1b1411";CX.beginPath();CX.arc(0,-8.8,3.7,Math.PI*1.05,Math.PI*1.95);CX.fill();}
  CX.restore();
 }
 
@@ -20605,41 +20697,46 @@ function render(){
  CX.save();if(shake>0)CX.translate((Math.random()-0.5)*7,(Math.random()-0.5)*7);
  CX.drawImage(bg,0,0,W,HT);
  /* +1 halte booster in the 6th bay */
- const b5=bayRect(5);
+ const b5=bayRect(NB-1);
  if(!extraUsed&&(state==="play"||state==="stuck")){
   const pulse=0.5+0.5*Math.sin(performance.now()/300);
   CX.fillStyle="rgba(125,211,252,"+(0.18+pulse*0.12)+")";pill(b5.x+4,b5.y+14,b5.w-8,b5.h-20,10);
   CX.fillStyle="#e0f2fe";CX.font="900 15px "+FUI;CX.textAlign="center";CX.fillText("+1",b5.x+b5.w/2,b5.y+36);
   CX.font="800 8px "+FUI;CX.fillText("HALTE",b5.x+b5.w/2,b5.y+47);
   uiBtns.push({x:b5.x,y:b5.y,w:b5.w,h:b5.h,fn:useExtra});
- } else if(!extraUsed||bayN<6){CX.fillStyle="rgba(0,0,0,.25)";pill(b5.x+4,b5.y+14,b5.w-8,b5.h-20,10);}
+ } else if(!extraUsed||bayN<NB){CX.fillStyle="rgba(0,0,0,.25)";pill(b5.x+4,b5.y+14,b5.w-8,b5.h-20,10);}
  /* lot buses */
  for(const v of vehicles)if(v.st==="park"||v.st==="bump")drawLotBus(v,v.px,v.py,v.d*Math.PI/2,1);
- /* queue (back to front so the front person is drawn on top) */
- for(let i=Math.min(queue.length,QPER*3)-1;i>=0;i--){const p=queue[i];if(p.hid)continue;drawPerson(p,p.x,p.y,1,p.mv);}
+ /* queue (back to front so the front person is drawn on top). People whose bus is waiting at a
+    halte with free seats get excited: they hop and wave. */
+ const now=performance.now()/1000;const ready={};
+ for(const v of vehicles)if((v.st==="bay"||v.st==="out")&&v.fill<v.cap)ready[v.c]=1;
+ for(let i=Math.min(queue.length,QPER*3)-1;i>=0;i--){const p=queue[i];if(p.hid)continue;
+  drawPerson(p,p.x,p.y,1.3,p.mv?1:(ready[p.c]&&i<14?2:0),now);}
  if(queue.length>QPER*3){CX.fillStyle="#1b4332";CX.font="800 11px "+FUI;CX.textAlign="right";CX.fillText("+"+(queue.length-QPER*3),W-6,QROWS[2]+4);}
  /* buses at the haltes + leaving */
- for(const v of vehicles){if(v.st==="bay"||v.st==="leaving"||v.st==="leave"){if(!v.looks)v.looks=[];drawBayBus(v,v.px,v.py,1);}}
+ for(const v of vehicles){if(v.st==="bay"||v.st==="leaving"||v.st==="leave"){if(!v.looks)v.looks=[];drawBayBus(v,v.px,v.py,BUS_S);}}
  /* walkers on their way to the bus */
- for(const w of walkers){const v=vehicles[w.v];if(!v.looks)v.looks=[];drawPerson(w,w.x,w.y,1,true);}
+ for(const w of walkers){drawPerson(w,w.x,w.y,1.3*(1-0.25*(w.f||0)),1,now);}
  /* buses flying from the lot to a halte */
  for(const v of vehicles){if(v.st==="out"){
   if(v.seg===0)drawLotBus(v,v.px,v.py,v.d*Math.PI/2,1);
   else{const f=v.fly||0;const sc=1-f*0.4;const a=Math.atan2(v.path[2].y-v.path[1].y,v.path[2].x-v.path[1].x)+Math.PI/2;
    const rot=v.d*Math.PI/2+(((a-v.d*Math.PI/2)+Math.PI*3)%(Math.PI*2)-Math.PI)*Math.min(1,f*2.5);
-   if(f<0.75)drawLotBus(v,v.px,v.py,rot,sc*Math.min(1,52/cell));else{CX.globalAlpha=1;drawBayBus(v,v.px,v.py,0.7+0.3*(f-0.75)/0.25);}}}}
+   if(f<0.75)drawLotBus(v,v.px,v.py,rot,sc*Math.min(1,52/cell));else{CX.globalAlpha=1;drawBayBus(v,v.px,v.py,BUS_S*(0.75+0.25*(f-0.75)/0.25));}}}}
  /* speech bubble over the first passenger */
- if(queue.length&&state==="play"){const p=queue[0],d=DEST[p.c];const t=d.n;CX.font="800 10px "+FUI;const tw=CX.measureText(t).width+28;
-  const bx=Math.max(4,Math.min(W-tw-4,p.x-12)),by=p.y-36;
+ if(queue.length&&state==="play"){const p=queue[0],d=DEST[p.c];const t=(d.i==="code"?d.code+" · ":"")+d.n;CX.font="800 10px "+FUI;const tw=CX.measureText(t).width+28;
+  const bx=Math.max(4,Math.min(W-tw-4,p.x-12)),by=p.y-40;
   CX.fillStyle="rgba(0,0,0,.18)";pill(bx+1,by+2,tw,18,9);CX.fillStyle="#fffdf6";pill(bx,by,tw,18,9);
   CX.strokeStyle=d.c;CX.lineWidth=1.5;rr(bx,by,tw,18,9);CX.stroke();
   CX.fillStyle="#fffdf6";CX.beginPath();CX.moveTo(p.x-3,by+17);CX.lineTo(p.x+3,by+17);CX.lineTo(p.x,by+22);CX.closePath();CX.fill();
-  icon(d.i,bx+11,by+9,5.5,d.d);CX.fillStyle="#1b4332";CX.textAlign="left";CX.fillText(t,bx+20,by+13);}
+  if(d.i==="code"){CX.fillStyle=d.c;CX.beginPath();CX.arc(bx+11,by+9,5,0,7);CX.fill();}else icon(d.i,bx+11,by+9,5.5,d.d);
+  CX.fillStyle="#1b4332";CX.textAlign="left";CX.fillText(t,bx+20,by+13);}
  parts.forEach(p=>{CX.globalAlpha=Math.max(0,Math.min(1,p.a));CX.fillStyle=p.c.indexOf("A)")>0?p.c.replace("A",Math.max(0,p.a).toFixed(2)):p.c;
   if(p.sq){CX.save();CX.translate(p.x,p.y);CX.rotate(p.rot);CX.fillRect(-p.r,-p.r*0.5,p.r*2,p.r);CX.restore();}else{CX.beginPath();CX.arc(p.x,p.y,p.r,0,7);CX.fill();}});
  CX.globalAlpha=1;
  hud();
- if(tut===1){const v=vehicles.find(x=>x.st==="park"&&!firstBlock(x));if(v){const k=Math.sin(performance.now()/180)*5;
+ if(tut===1){const fr=vehicles.filter(x=>x.st==="park"&&!firstBlock(x)),v=(queue.length&&fr.find(x=>x.c===queue[0].c))||fr[0];if(v){const k=Math.sin(performance.now()/180)*5;
   CX.strokeStyle="#fde047";CX.lineWidth=3;CX.beginPath();CX.arc(v.px,v.py,cell*0.5+k*0.4,0,7);CX.stroke();
   CX.font="30px system-ui";CX.textAlign="center";CX.fillText("👆",v.px+12,v.py+cell*0.62+k);tipBox(T[lang].tut1);}}
  else if(tut===2||(tut===3&&queue.length>lv.q.length-6))tipBox(T[lang].tut2);
@@ -20695,7 +20792,7 @@ function drawMenu(){const L=T[lang];uiBtns=[];const t=performance.now()/1000;
   CX.save();CX.translate(b.x,b.dir>0?540:500);if(b.dir<0)CX.scale(-1,1);drawBayBus(b,0,0,1.5);CX.restore();
   if(b.dir>0){CX.font="italic 700 11px "+FD;CX.fillStyle="#fff";CX.textAlign="center";CX.fillText(b.name,b.x-6,553);}}
  /* people waiting on the perron at the bottom */
- for(let i=0;i<9;i++){const p={c:i%8,look:makeLook(mulberry(i*7+3)),j:t*3+i};drawPerson(p,30+i*40,608,1.5,false);}
+ for(let i=0;i<9;i++){const p={c:i%8,look:makeLook(mulberry(i*7+3)),j:i*1.7};drawPerson(p,30+i*40,606,1.6,i%3===0?2:0,t);}
  /* title */
  CX.textAlign="center";CX.fillStyle="#9c5822";CX.font="800 12px "+FUI;CX.fillText("PARAMARIBO · LIJNBUS PUZZEL",W/2,58);
  CX.fillStyle="#1b4332";CX.font="700 italic 50px "+FD;CX.fillText("Heiligenweg",W/2,108);
@@ -20737,7 +20834,7 @@ CV.addEventListener("pointercancel",()=>{pd=null;});
 CV.addEventListener("pointerup",ev=>{
  if(!pd)return;const moved=Math.hypot(ev.clientX-pd.x,ev.clientY-pd.y)>14;pd=null;if(moved)return;
  const p=toCanvas(ev);
- for(let i=uiBtns.length-1;i>=0;i--){const b=uiBtns[i];if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h){b.fn();return;}}
+ for(let i=uiBtns.length-1;i>=0;i--){const b=uiBtns[i];if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h){sfxTap();b.fn();return;}}
  if(state!=="play"||p.y<LOT_Y-6)return;
  const cx=Math.floor((p.x-ox)/cell),cy=Math.floor((p.y-oy)/cell);
  let v=occAt(cx,cy,null);
@@ -20858,11 +20955,11 @@ def build_busjam_page():
   with names painted on the side, music playing inside, and a line of people who all need to be somewhere else. In this
   game the lot is jammed solid. Every bus points one way and can only drive out if nothing stands in front of it,
   and only a handful of haltes are free at a time.</p>
-  <p class="text-gray-700 text-sm leading-relaxed mb-3">Each passenger is going home: to Lelydorp, Nickerie,
-  Albina, Commewijne, Brokopondo, Coronie, Saramacca or Wanica. Send out the right bus at the right time and the
-  line melts away. Send out the wrong one and the haltes fill up with buses nobody in front of the line wants.
-  Later chapters add taxis with two seats and mystery buses that only show their route once their road is
-  clear.</p>
+  <p class="text-gray-700 text-sm leading-relaxed mb-3">Every passenger rides a real route: the city lines PL to
+  Lelydorp, PK to Kwatta, PSB to Santo Boma and L2 to the Hernhutterstraat, or the long-distance buses to Albina,
+  Nickerie, Atjoni and Moengo. Send out the right bus at the right time and the line melts away. Send out the
+  wrong one and the haltes fill up with buses nobody in front of the line wants. Later chapters add taxis with
+  two seats and mystery buses that only show their route once their road is clear.</p>
   <p class="text-gray-700 text-sm leading-relaxed">The levels never run out. When you need a break from the
   jam, try <a href="korjaal.html" class="font-semibold hover:underline" style="color:var(--forest2)">Korjaal Run</a>,
   <a href="anaconda.html" class="font-semibold hover:underline" style="color:var(--forest2)">Aboma</a>,
