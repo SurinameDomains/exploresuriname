@@ -5523,6 +5523,10 @@ PAGE_HEAD = """\
     /* ===== Warm theme roll-over: homepage redesign palette, applied site-wide ===== */
     html, body { background: var(--paper); }
     body { color: var(--ink); }
+    /* Mobile overflow guards (Oct 2026): long words wrap instead of pushing cards
+       past the screen edge; file inputs never wider than their box. */
+    body { overflow-wrap: break-word; }
+    input[type=file] { max-width: 100%; }
     .bg-white   { background-color: var(--card) !important; }
     .bg-gray-50 { background-color: var(--paper-2) !important; }
     .bg-gray-100{ background-color: #EFE6D2 !important; }
@@ -8450,7 +8454,7 @@ def build_index(restaurants, hotels, cme_rates=None):
     .hero-lead{font-size:clamp(16px,1.2vw,19px);line-height:1.65;color:#4B564D;max-width:31rem;margin:24px 0 0}
     .hero-search{margin-top:34px;display:flex;align-items:flex-end;gap:14px;max-width:34rem;
                  border-bottom:1.5px solid #CFC7B6;padding-bottom:.5rem}
-    .hero-search input{flex:1;border:0;outline:none;background:transparent;padding:2px 0;
+    .hero-search input{flex:1;width:0;border:0;outline:none;background:transparent;padding:2px 0;
                        font-family:inherit;font-size:17px;color:#233028;min-width:0}
     .hero-search input::placeholder{color:#8A9187}
     .hero-search button{border:0;background:none;color:var(--forest);padding:0;display:flex;align-items:center;
@@ -8471,7 +8475,7 @@ def build_index(restaurants, hotels, cme_rates=None):
     .hero-dots span{height:6px;width:7px;border-radius:999px;background:rgba(252,247,236,.45);transition:width .45s ease,background .45s ease;cursor:pointer}
     .hero-dots span.on{width:26px;background:var(--gold)}
     @media (max-width:899px){
-      #hero{grid-template-columns:1fr;min-height:0}
+      #hero{grid-template-columns:minmax(0,1fr);min-height:0}
       .hero-photo{order:-1;height:270px}
       .hero-inner{padding:32px clamp(20px,5vw,40px) 44px}
       #hero .scrollcue{display:none}
@@ -9042,7 +9046,7 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
         <p class="text-2xl font-bold font-mono text-gray-900">{brent_srd_str}</p>
       </div>
     </div>'''
-        oil_badge_html = f'<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">&#9679; {brent_updated}</span>'
+        oil_badge_html = f'<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800" style="max-width:100%">&#9679; {brent_updated}</span>'
     else:
         brent_grid_html = '<p class="text-gray-400 text-sm">Price unavailable. Will update on next rebuild.</p>'
         oil_badge_html = '<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0">Unavailable</span>'
@@ -9402,7 +9406,7 @@ doConvert();"""
   </div>
   <!-- Oil price ──────────────────────────────────────────────────────────── -->
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mt-6">
-    <div class="flex items-start justify-between mb-5">
+    <div class="flex items-start justify-between mb-5" style="flex-wrap:wrap;gap:.5rem">
       <div>
         <h2 class="serif text-2xl font-bold text-gray-900">Brent Crude Oil</h2>
         <p class="text-gray-400 text-sm mt-1">Brent Crude, updated hourly</p>
@@ -20436,7 +20440,7 @@ function hud(){const L=T[lang];
  for(let i=0;i<3;i++){CX.fillStyle=i<s?"#f59e0b":"rgba(120,53,15,.2)";CX.fillText("★",150+i*15,24);}
  /* restart */
  uiBtns=[];
- btn(192,9,46,26,"↻",function(){loadLevel(levelN,isDaily);},"#fff","#92400e",15);
+ btn(206,9,46,26,"↻",function(){loadLevel(levelN,isDaily);},"#fff","#92400e",15);
 }
 function btn(x,y,w,h,label,fn,fg,bg,fs){CX.fillStyle=bg||"#16a34a";pill(x,y,w,h,Math.min(14,h/2));
  CX.fillStyle=fg||"#fff";CX.font="900 "+(fs||15)+"px system-ui";CX.textAlign="center";CX.fillText(label,x+w/2,y+h/2+(fs||15)*0.36);
@@ -22096,6 +22100,8 @@ def build_submit_page():
     _turnstile_head = ('<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>'
                        if TURNSTILE_SITEKEY else "")
     _turnstile_box = (f'<div class="cf-turnstile mt-5" data-sitekey="{TURNSTILE_SITEKEY}" data-theme="light"></div>'
+                      '<script>(function(){var s=document.currentScript,e=s&&s.previousElementSibling;'
+                      'if(e&&e.clientWidth&&e.clientWidth<300)e.setAttribute("data-size","compact");})();</script>'
                       if TURNSTILE_SITEKEY else "")
 
     head = f"""{PAGE_HEAD}
@@ -22441,6 +22447,8 @@ def build_submit_event_page():
     _turnstile_head = ('<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>'
                        if TURNSTILE_SITEKEY else "")
     _turnstile_box = (f'<div class="cf-turnstile mt-5" data-sitekey="{TURNSTILE_SITEKEY}" data-theme="light"></div>'
+                      '<script>(function(){var s=document.currentScript,e=s&&s.previousElementSibling;'
+                      'if(e&&e.clientWidth&&e.clientWidth<300)e.setAttribute("data-size","compact");})();</script>'
                       if TURNSTILE_SITEKEY else "")
 
     head = f"""{PAGE_HEAD}
