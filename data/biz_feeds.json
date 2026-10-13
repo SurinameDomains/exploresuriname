@@ -54,6 +54,12 @@
    "tender": false
   },
   {
+   "title": "BEKENDMAKING: Openbare aanbesteding voor het leveren van 8 (acht) A1 voertuigen ten behoeve van het Ministerie van Defensie",
+   "link": "https://gov.sr/bekendmaking/bekendmaking-openbare-aanbesteding-voor-het-leveren-van-8-acht-a1-voertuigen-ten-behoeve-van-het-ministerie-van-defensie/",
+   "date": "2026-10-09",
+   "tender": true
+  },
+  {
    "title": "BEKENDMAKING VOEDSELPAKKETTEN",
    "link": "https://gov.sr/bekendmaking/bekendmaking-voedselpakketten/",
    "date": "2026-10-08",
@@ -153,16 +159,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-10-13T14:00-03:00",
+   "ok": "2026-10-13T19:52-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-10-13T14:00-03:00",
+   "ok": "2026-10-13T19:52-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-10-13T14:00-03:00"
+ "updated": "2026-10-13T19:52-03:00"
 }
