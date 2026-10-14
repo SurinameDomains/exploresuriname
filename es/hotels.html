@@ -191,19 +191,32 @@ var _SUB_SYN = {"city-hotels": "hotel city stad business city hotels stadshotels
     return true;
   }
   function distOk(c){ return _activeDist === 'all' || (c.dataset.district||'').split('|').indexOf(_activeDist) >= 0; }
-  var empty = null, PAGE = 24, limit = PAGE, moreBtn = null;
+  /* Paging (14 Oct 2026): 48 cards on a wide screen / 24 on a phone, then the next 24 load
+     by themselves as you approach the end of the list (IntersectionObserver on the button,
+     600px early). The button stays as the fallback and for keyboard users. All cards are
+     in the HTML regardless, only the "hidden" class moves, so this is cheap and SEO-safe. */
+  var empty = null, PAGE = 24, limit = (window.innerWidth >= 900 ? 48 : 24), moreBtn = null, autoIO = null;
   try { if (history.state && history.state.gfN) limit = history.state.gfN; } catch (e) {}
+  function loadMore(){
+    limit += PAGE;
+    try { history.replaceState(Object.assign({}, history.state || {}, {gfN: limit}), ''); } catch (e) {}
+    apply();
+    /* re-arm: if the button is still on screen after this batch, the observer fires again */
+    if (autoIO && moreBtn){ autoIO.unobserve(moreBtn); autoIO.observe(moreBtn); }
+  }
   function mkMore(){
     if (moreBtn || !cards.length) return;
     var grid = cards[0].parentNode;
     moreBtn = document.createElement('button'); moreBtn.type = 'button'; moreBtn.className = 'gf-more';
     moreBtn.dataset.tpl = document.getElementById('gf-more-tpl').textContent.replace(/\d+/, '#');
     grid.parentNode.insertBefore(moreBtn, grid.nextSibling);
-    moreBtn.addEventListener('click', function(){
-      limit += PAGE;
-      try { history.replaceState(Object.assign({}, history.state || {}, {gfN: limit}), ''); } catch (e) {}
-      apply();
-    });
+    moreBtn.addEventListener('click', loadMore);
+    if ('IntersectionObserver' in window){
+      autoIO = new IntersectionObserver(function(en){
+        if (en[0].isIntersecting && !moreBtn.hidden) loadMore();
+      }, {rootMargin: '0px 0px 600px 0px'});
+      autoIO.observe(moreBtn);
+    }
   }
   function apply(){
     initCards(); mkMore();
