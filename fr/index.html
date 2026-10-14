@@ -11,7 +11,7 @@
 <link as="font" crossorigin="" href="/fonts/newsreader-latin-var.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="/fonts/instrument-latin-var.woff2" rel="preload" type="font/woff2"/>
 <link href="/assets/s-63b67768c422.css" rel="stylesheet"/>
-<link href="/tailwind.css?v=de254dbb" rel="stylesheet"/>
+<link href="/tailwind.css?v=e7858edf" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -45,6 +45,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Explore Suriname","alternateName":"ExploreSuriname.com","url":"https://exploresuriname.com/fr/","logo":{"@type":"ImageObject","url":"https://exploresuriname.com/og-image.jpg","width":1200,"height":630},"description":"Your complete travel and lifestyle guide to Suriname: hotels, restaurants, nature, activities and live SRD exchange rates.","areaServed":{"@type":"Country","name":"Suriname","sameAs":"https://en.wikipedia.org/wiki/Suriname"},"knowsAbout":["Suriname","Paramaribo","Travel","Restaurants","Hotels","Tourism"],"email":"contact@exploresuriname.com","telephone":"+5978333888","contactPoint":{"@type":"ContactPoint","contactType":"customer support","telephone":"+5978333888","email":"contact@exploresuriname.com","areaServed":"SR"},"sameAs":["https://www.facebook.com/exploresurinamecom","https://www.instagram.com/exploresurinamecom/","https://www.tiktok.com/@exploresuriname.com"]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Explore Suriname","alternateName":"ExploreSuriname.com","url":"https://exploresuriname.com/fr/","description":"Your complete travel and lifestyle guide to Suriname: hotels, restaurants, nature, activities and live SRD exchange rates.","inLanguage":"fr","about":{"@type":"Place","name":"Suriname","sameAs":"https://en.wikipedia.org/wiki/Suriname"},"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://exploresuriname.com/fr/?s={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Explore Suriname | South America's Hidden Gem","url":"https://exploresuriname.com/fr/","dateModified":"2026-10-14","about":{"@type":"Place","name":"Suriname","addressCountry":"SR"},"isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/fr/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","name":"Upcoming events in Suriname","itemListElement":[{"@type":"ListItem","position":1,"url":"https://exploresuriname.com/fr/event-bon-vibes-20261017","name":"BON VIBES"},{"@type":"ListItem","position":2,"url":"https://exploresuriname.com/fr/event-sadie-s-choice-20261014","name":"Sadie's Choice"},{"@type":"ListItem","position":3,"url":"https://exploresuriname.com/fr/event-mijn-dorp-mijn-grond-kleurwedstrijd-20261011","name":"\"Mijn dorp, mijn grond\" kleurwedstrijd"},{"@type":"ListItem","position":4,"url":"https://exploresuriname.com/fr/event-all-you-can-eat-baby-back-ribs","name":"All You Can Eat Baby Back Ribs"}]}</script>
 <style>
     /* ===== HERO ===== */
     /* Split hero: words on paper in the left column, photograph in the right.
@@ -173,6 +174,111 @@
     .btn-ghost-light:hover{background:rgba(35,48,40,.06)}
     .btn-gold{box-shadow:none}
     .btn-gold:hover{transform:none;background:#D89E3C}
+    /* live bits (Phase 2) */
+    .hero-kept{font-size:13px;color:#6E7A6B;margin-top:14px}
+    .hero-kept .hl-upd{color:#4B564D}
+    .hc-up{color:#2E7D4F}
+    .hc-dn{color:#B4452B}
+    .today-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+    .today-upd{font-size:13px;color:#6E7A6B}
+    .today-upd .cd{display:inline-block;width:7px;height:7px;border-radius:50%;background:#2E7D4F;margin-right:7px;vertical-align:1px;box-shadow:0 0 0 0 rgba(46,125,79,.45)}
+    @media (prefers-reduced-motion: no-preference){.today-upd .cd{animation:tcpulse 2.4s ease-out infinite}}
+    @keyframes tcpulse{0%{box-shadow:0 0 0 0 rgba(46,125,79,.45)}70%{box-shadow:0 0 0 8px rgba(46,125,79,0)}100%{box-shadow:0 0 0 0 rgba(46,125,79,0)}}
+    .today-upd.stale .cd{background:#B4452B;animation:none}
+    /* the dashboard grid */
+    .tgrid{display:grid;grid-template-columns:1fr;gap:14px;grid-auto-flow:dense}
+    .tc [hidden]{display:none!important}
+    @media(min-width:560px){.tgrid{grid-template-columns:repeat(2,1fr)}.tc-wide{grid-column:span 2}}
+    @media(min-width:1024px){.tgrid{grid-template-columns:repeat(4,1fr);gap:18px}}
+    .tc{display:flex;flex-direction:column;background:var(--card);border:1px solid rgba(35,48,40,.10);border-radius:4px;padding:18px 20px 16px;color:var(--ink);
+        box-shadow:0 1px 0 rgba(35,48,40,.03),0 14px 34px -24px rgba(35,48,40,.35);transition:transform .25s ease,box-shadow .25s ease;min-height:178px;position:relative;overflow:hidden}
+    .tc:hover{transform:translateY(-3px);box-shadow:0 1px 0 rgba(35,48,40,.03),0 22px 40px -22px rgba(35,48,40,.4)}
+    .tc .dl,.tc .dg{display:flex;flex-direction:column;flex:1}
+    .tc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+    .tc .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--clay)}
+    .tc-ic{width:20px;height:20px;color:#8A9187}
+    .tc-ic svg{width:20px;height:20px;display:block}
+    .tc-hero{display:flex;align-items:baseline;flex-wrap:wrap;gap:0 10px;margin-bottom:10px;line-height:1}
+    .tc-big{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:44px;letter-spacing:-.02em;color:var(--forest);line-height:1}
+    .tc-big-s{font-size:30px}
+    .tc-hero-txt{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:26px;color:var(--forest);line-height:1.1}
+    .tc-unit{font-size:12.5px;color:#6E7A6B;align-self:baseline}
+    .tc-chg{font-size:13px;font-weight:700;align-self:baseline}
+    .tc-chg:empty{display:none}
+    .tc .d{font-size:13.5px;color:#4B564D;line-height:1.5;margin-top:auto}
+    .tc .d strong{color:var(--forest);font-weight:600}
+    .ess-sub{display:block;font-size:12px;color:#8A9187;margin-top:3px}
+    .tc-foot{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(35,48,40,.08)}
+    .tc-link{font-size:13px;font-weight:700;color:var(--forest);transition:color .2s}
+    .tc:hover .tc-link{color:var(--clay)}
+    .ess-asof{font-size:11px;color:#9AA197;letter-spacing:.02em;white-space:nowrap}
+    /* money */
+    .tc-spark{width:100%;height:30px;margin-top:10px;flex-basis:100%}
+    .tc-spark polyline{fill:none;stroke:var(--forest2);stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round;opacity:.75}
+    /* weather */
+    .tc-weather .tc-hero{align-items:center;flex-wrap:nowrap;gap:18px}
+    .wx-left{display:flex;align-items:center;gap:12px;flex-wrap:wrap;flex:0 0 auto}
+    .wx-left .tc-unit{flex-basis:100%}
+    .wx-glyph{width:38px;height:38px;color:var(--gold);align-self:center}
+    .wx-glyph svg{width:38px;height:38px;display:block}
+    .wx-arc{position:relative;flex:1 1 auto;max-width:260px;margin-left:auto;min-width:120px}
+    @media(max-width:559px){.tc-weather .tc-hero{flex-wrap:wrap}.wx-arc{margin-left:0;flex-basis:100%}}
+    .sun-arc{width:100%;height:auto;display:block}
+    .sa-track{fill:none;stroke:rgba(35,48,40,.18);stroke-width:1.2;stroke-dasharray:3 4}
+    .sa-sun{fill:var(--gold);stroke:#fff;stroke-width:1.5}
+    .sa-lbl{display:flex;justify-content:space-between;font-size:11px;color:#8A9187;margin-top:-4px;padding:0 2px}
+    .tc-dawn{background:linear-gradient(135deg,#FFFDF6 0%,#FBEBD2 100%)}
+    .tc-day{background:linear-gradient(135deg,#FFFDF6 0%,#EEF3EA 100%)}
+    .tc-dusk{background:linear-gradient(135deg,#FFFDF6 0%,#F6D9B4 100%)}
+    .tc-night{background:linear-gradient(135deg,#1B3A2C 0%,#122519 100%);color:#F2E9D4;border-color:rgba(252,247,236,.12)}
+    .tc-night .tc-big,.tc-night .tc-hero-txt,.tc-night .tc-link,.tc-night .d strong{color:#FCF7EC}
+    .tc-night .d,.tc-night .tc-unit{color:#C9D2C6}
+    .tc-night .ess-sub,.tc-night .ess-asof,.tc-night .sa-lbl,.tc-night .tc-ic{color:#9AA197}
+    .tc-night .k{color:var(--gold)}
+    .tc-night .sa-track{stroke:rgba(252,247,236,.25)}
+    .tc-night .tc-foot{border-top-color:rgba(252,247,236,.12)}
+    .tc-night .wx-glyph{color:#E7D7A8}
+    /* notices */
+    .tc-dot{display:inline-block;width:12px;height:12px;border-radius:50%;align-self:center;margin-right:2px}
+    .ob-clear.ob-dot{background:#2E7D4F;box-shadow:0 0 0 4px rgba(46,125,79,.15)}
+    .ob-plan.ob-dot{background:var(--gold);box-shadow:0 0 0 4px rgba(231,174,77,.2)}
+    .ob-n.ob-dot{background:#B4452B;box-shadow:0 0 0 4px rgba(180,69,43,.18)}
+    /* news */
+    .ess-news{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+    @media(min-width:560px){.tc-news .ess-news{grid-template-columns:repeat(3,1fr);gap:14px}}
+    .ess-news li{display:flex;gap:10px;align-items:flex-start;line-height:1.35;min-width:0}
+    @media(min-width:560px){.tc-news .ess-news li{flex-direction:column;gap:8px}}
+    .nw-th{flex:0 0 56px;width:56px;height:56px;border-radius:3px;overflow:hidden;background:#EAE3D2}
+    @media(min-width:560px){.tc-news .nw-th{width:100%;flex-basis:auto;height:auto;aspect-ratio:16/9}}
+    .nw-th img{width:100%;height:100%;object-fit:cover;display:block}
+    .nw-b{min-width:0}
+    .ess-news-t{display:block;color:#3A463C;font-weight:500;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .ess-news-s{display:block;font-size:11px;color:#8A9187;margin-top:2px}
+    .tc-news .d{margin-top:0}
+    @media(max-width:559px){.tc{min-height:0}.tc-big{font-size:38px}}
+    /* what's on */    /* what's on */
+    .wogrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 14px}
+    @media(min-width:700px){.wogrid{gap:22px}}
+    @media(min-width:1024px){.wogrid{grid-template-columns:repeat(4,1fr)}}
+    @media(max-width:479px){.wo-t{font-size:15px}.wo-when{font-size:10.5px}}
+    .wo-card{display:block;border-top:1px solid rgba(35,48,40,.16);padding-top:16px;color:var(--ink)}
+    .wo-art{aspect-ratio:4/5;overflow:hidden;background:#EAE3D2;position:relative}
+    .wo-art img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+    .wo-card:hover .wo-art img{transform:scale(1.03)}
+    .wo-typo{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--forest)}
+    .wo-typo .wo-d{font-family:'Newsreader',Georgia,serif;font-size:72px;line-height:1;font-weight:500}
+    .wo-typo .wo-m{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);margin-top:8px}
+    .wo-body{padding:14px 0 0}
+    .wo-when{font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--clay)}
+    .wo-cd{color:#2E7D4F}
+    .wo-t{font-size:17px;font-weight:700;color:var(--forest);margin-top:8px;line-height:1.25}
+    .wo-card:hover .wo-t{color:var(--clay)}
+    .wo-loc{font-size:13px;color:#6E7A6B;margin-top:5px}
+    .wo-links{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;font-weight:700}
+    .wo-links a{color:var(--forest);border-bottom:1px solid #D8CFBC;padding-bottom:2px}
+    .wo-links a:hover{color:var(--clay);border-bottom-color:var(--clay)}
+    /* hero: shorter, the live band sits one scroll away */
+    #hero{min-height:calc(calc(74vh / var(--z,1)) - 92px);min-height:calc(calc(74svh / var(--z,1)) - 92px)}
     /* scroll reveal (safe: visible by default; JS opts in, never gates content) */
     .rv-on [data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
     .rv-on [data-reveal].rv-in{opacity:1;transform:none}
@@ -222,20 +328,17 @@
 <section data-sec="hero" id="hero">
 <div class="hero-inner">
 <div style="max-width:40rem">
-<div class="hero-eyebrow"><span class="rule"></span><span class="txt">Explore Suriname</span></div>
+<div class="hero-eyebrow"><span class="rule"></span><span class="txt"><span data-srdate="2026-10-14" translate="no">mer. 14 oct.</span> <span class="dot">·</span> <span translate="no">29°</span> <span>Paramaribo</span> <span class="dot">·</span> <span>coucher du soleil</span> <span translate="no">18:26</span></span></div>
 <h1 class="dsp hero-h1">Certains pays, on les visite.<br/><span class="it">Le nôtre, on en fait partie.</span></h1>
 <p class="hero-lead">Quatre-vingt-treize pour cent de forêt tropicale. Une dizaine de cultures autour d'une même table. Un accueil si chaleureux que vous oublierez avoir frappé à la porte. Entrez, nous vous avons gardé une place.</p>
+<p class="hero-kept"><span>Tenu à jour par des gens qui vivent ici</span> <span class="dot">·</span> <span class="hl-upd" data-built="2026-10-14T16:57-03:00"><span>mis à jour</span> <span translate="no">16:57</span></span></p>
 <div class="hero-search">
 <input aria-label="Search all listings" autocomplete="off" id="hero-q" onkeydown="if(event.key==='Enter')esSearch()" placeholder="Cherchez parmi plus de 700 adresses où manger, dormir et explorer" type="text"/>
 <button aria-label="Search" onclick="esSearch()" type="button"><svg fill="none" height="17" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg><span>Rechercher</span></button>
 </div>
 <div class="hero-chips">
 <span class="lbl">Les plus consultés</span>
-<a href="restaurants.html">Où manger</a>
-<a href="events.html">Événements et festivals</a>
-<a href="currency.html">Taux du marché</a>
-<a href="daily-notices.html">Avis du jour</a>
-<a href="business">Outils pour les entreprises</a>
+<a href="restaurants.html">Où manger</a><a href="events-this-weekend">Ce week-end : <strong>12</strong> événements</a><a href="currency.html">USD <strong>37.80</strong></a><a href="daily-notices.html">Coupure prévue <span data-srdate="2026-10-17" translate="no">sam. 17 oct.</span></a><a href="business">Outils pour les entreprises</a>
 </div>
 </div>
 </div>
@@ -255,17 +358,32 @@
 </div>
 <div class="scrollcue"><span class="k">Fa waka · comment ça va</span><span aria-hidden="true" class="ch"><svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="18"><path d="m6 9 6 6 6-6"></path></svg></span></div>
 </section>
-<!-- ===== WELCOME BAND ===== -->
-<section class="sec" data-sec="welcome" style="background:var(--paper)">
-<div style="max-width:1000px;margin:0 auto">
-<div class="greet-pill" data-reveal=""><span class="gd"></span><span class="sr dsp" id="greet-sr">Fa waka ?</span><span class="en" id="greet-en">· comment allez-vous</span></div>
-<h2 class="dsp" data-reveal="" style="font-weight:400;font-size:clamp(30px,calc(4.6vw / var(--z,1)),58px);line-height:1.06;letter-spacing:-.01em;margin:0;max-width:16em;color:var(--forest)">Ce n'est pas un annuaire. C'est <span style="font-style:italic;color:var(--clay)">un foyer,</span> par écrit.</h2>
-<p class="dsp-off" data-reveal="" style="font-size:clamp(16px,calc(1.5vw / var(--z,1)),19px);line-height:1.7;color:#505C50;max-width:38em;margin:28px 0 0">Nous ne sommes pas un guide écrit depuis l'autre bout du monde. Nous vivons ici. Nous mangeons à ces tables, nous nageons sous ces cascades et nous regardons le même soleil plonger dans le fleuve chaque soir. Tout ce que vous trouverez ici est tenu à jour par des gens qui ont fait du Suriname leur chez-soi, en attendant le jour où vous aurez envie, vous aussi, d'y être chez vous.</p>
-<div class="statgrid" data-reveal="" style="margin-top:clamp(44px,calc(5vw / var(--z,1)),64px);border-top:1px solid rgba(35,48,40,.16);padding-top:clamp(36px,calc(4vw / var(--z,1)),48px)">
-<div><div class="stat-n dsp">93<span class="u">%</span></div><div class="stat-c">de forêt tropicale encore debout, plus que tout autre pays au monde.</div></div>
-<div><div class="stat-n dsp">7<span class="u">+</span></div><div class="stat-c">cultures qui partagent une même table, une même rue, un même calendrier de fêtes.</div></div>
-<div><div class="stat-n dsp">28<span class="u">°</span></div><div class="stat-c">et doré, tous les jours de l'année. Emportez moins que vous ne le pensez.</div></div>
+<!-- ===== TODAY IN SURINAME (live) ===== -->
+<section class="sec" data-sec="today" style="background:var(--paper-2);padding-top:clamp(48px,calc(6vw / var(--z,1)),80px)">
+<div class="wrap">
+<div class="today-head" data-reveal="">
+<div>
+<div class="eyebrow" style="margin-bottom:12px">Avant de partir · sur place</div>
+<h2 class="dsp" style="font-weight:500;font-size:clamp(30px,calc(4.2vw / var(--z,1)),52px);line-height:1;margin:0;letter-spacing:-.01em;color:var(--forest)">Aujourd’hui au Suriname.</h2>
 </div>
+<div class="today-upd" id="today-upd"><span aria-hidden="true" class="cd"></span><span class="hl-upd" data-built="2026-10-14T16:57-03:00"><span>mis à jour</span> <span translate="no">16:57</span></span></div>
+</div>
+<div class="tgrid" id="today-grid">
+<a class="tc tc-weather tc-wide tc-day" data-live="weather" data-reveal="" data-wxcode="1" href="conditions.html"><div class="tc-top"><span class="k">Ciel</span><span aria-hidden="true" class="tc-ic"></span></div><div class="dl"><div class="tc-hero"><span class="wx-left"><span class="tc-big"><span data-v="temp" translate="no">29°</span></span><span aria-hidden="true" class="wx-glyph"><span class="wx-g wx-sun"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"></path></svg></span><span class="wx-g wx-moon" hidden=""><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></span><span class="wx-g wx-psun" hidden=""><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 24 24"><path d="M7 5.5V3.5M3.5 9H1.5M4.2 6.2 2.8 4.8M9.8 6.2l1.4-1.4"></path><circle cx="7" cy="9" r="2.6"></circle><path d="M8 20h9a3.5 3.5 0 0 0 .4-7A5 5 0 0 0 8 13.5 3.3 3.3 0 0 0 8 20z"></path></svg></span><span class="wx-g wx-cloud" hidden=""><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 24 24"><path d="M7 19h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 12.5 3.5 3.5 0 0 0 7 19z"></path></svg></span><span class="wx-g wx-fog" hidden=""><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6" viewBox="0 0 24 24"><path d="M4 9h16M3 13h18M5 17h14"></path></svg></span><span class="wx-g wx-rain" hidden=""><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 24 24"><path d="M7 15h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 8.5 3.5 3.5 0 0 0 7 15z"></path><path d="M8 18l-1 2.5M12 18l-1 2.5M16 18l-1 2.5"></path></svg></span><span class="wx-g wx-storm" hidden=""><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 24 24"><path d="M7 14h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 7.5 3.5 3.5 0 0 0 7 14z"></path><path d="M12.5 14 10 18h3l-1.5 4"></path></svg></span></span><span class="tc-unit wxf"><span>ressenti</span> <span data-v="feels" translate="no">32°</span></span></span><div class="wx-arc"><svg aria-hidden="true" class="sun-arc" data-sunrise="06:26" data-sunset="18:26" viewBox="0 0 120 48"><path class="sa-track" d="M10 42 A50 36 0 0 1 110 42"></path><circle class="sa-sun" cx="106.3" cy="28.4" data-v="sun" r="4.5"></circle></svg><span class="sa-lbl"><span data-v="sunrise" translate="no">06:26</span><span data-v="sunsetb" translate="no">18:26</span></span></div></div><div class="d"><span>pluie</span> <strong data-v="rain" translate="no">16%</strong> <span class="dot">·</span> <span>UV</span> <strong data-v="uv" translate="no">8</strong> <span class="dot">·</span> <span>coucher du soleil</span> <strong data-v="sunset" translate="no">18:26</strong><span class="ess-sub">Paramaribo, en ce moment</span></div></div><div class="dg" hidden=""><div class="tc-hero tc-hero-txt">Météo et marées</div><div class="d">Prévisions à sept jours, lever et coucher du soleil, et marées du fleuve.</div></div><div class="tc-foot"><span class="tc-link">Météo et marées <span aria-hidden="true">→</span></span><span class="ess-asof"><span>à</span> <span data-asof="2026-10-14T16:45-03:00" translate="no">16:45</span></span></div></a><a class="tc tc-rates" data-live="rates" data-reveal="" href="currency.html"><div class="tc-top"><span class="k">Argent</span><span aria-hidden="true" class="tc-ic"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 24 24"><rect height="12" rx="2" width="18" x="3" y="6"></rect><circle cx="12" cy="12" r="2.6"></circle><path d="M7 12h.01M17 12h.01"></path></svg></span></div><div class="dl"><div class="tc-hero"><span class="tc-big"><span data-v="usd" translate="no">37.80</span></span><span class="tc-unit"><span>SRD par USD</span></span><span class="tc-chg hc-dn" data-v="usdchg" translate="no"></span><svg aria-hidden="true" class="tc-spark" hidden="" viewBox="0 0 120 32"><polyline data-v="spark" points=""></polyline></svg></div><div class="d"><span>nous achetons</span> <strong data-v="usdbuy" translate="no">37.50</strong> <span class="dot">·</span> <span>EUR</span> <strong data-v="eur" translate="no">41.35 / 42.00</strong><span class="ess-sub">CME espèces, nous achetons / nous vendons</span></div></div><div class="dg" hidden=""><div class="tc-hero tc-hero-txt">Taux de change</div><div class="d">Le SRD du jour face au dollar et à l'euro, ainsi que le cours de l'or.</div></div><div class="tc-foot"><span class="tc-link">Taux de change <span aria-hidden="true">→</span></span><span class="ess-asof"><span>à</span> <span data-asof="2026-10-14T16:57-03:00" translate="no">16:57</span></span></div></a><a class="tc tc-flights" data-live="flights" data-reveal="" href="flights.html"><div class="tc-top"><span class="k">Voyage</span><span aria-hidden="true" class="tc-ic"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 24 24"><path d="M10.5 13.5 4 11l1.2-1.2 7 1.2 4.3-4.3a1.8 1.8 0 0 1 2.5 2.5L14.7 13.5l1.2 7-1.2 1.2-2.5-6.5-3.2 3.2V21l-1-1-1-3-3-1-1-1h2.5z"></path></svg></span></div><div class="dl"><div class="tc-hero"><span class="tc-big tc-big-s"><span data-v="dep" translate="no">KL714</span></span><span class="tc-unit"><span class="fl-lbl-dep">Prochain départ</span> <span data-v="depx" translate="no">AMS 16:55</span></span></div><div class="d"><span class="fl-arr"><span>Prochaine arrivée</span> <strong data-v="arr" translate="no">PY9914 BEL 22:55</strong></span><span class="ess-sub">Johan Adolf Pengel (PBM)</span></div></div><div class="dg" hidden=""><div class="tc-hero tc-hero-txt">Vols</div><div class="d">Arrivées et départs en temps réel dans les deux aéroports du Suriname.</div></div><div class="tc-foot"><span class="tc-link">Vols <span aria-hidden="true">→</span></span><span class="ess-asof"><span>à</span> <span data-asof="2026-10-14T11:01-03:00" translate="no">11:01</span></span></div></a><a class="tc tc-outages" data-live="outages" data-reveal="" href="daily-notices.html"><div class="tc-top"><span class="k">Attention</span><span aria-hidden="true" class="tc-ic"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"></path></svg></span></div><div class="dl"><div class="tc-hero"><span aria-hidden="true" class="tc-dot ob-dot ob-plan" data-v="obdot"></span><span class="tc-big tc-big-s ob ob-clear" hidden="">Tout va bien</span><span class="tc-big tc-big-s ob ob-n" hidden=""><span data-v="outn" translate="no"></span> <span>avis</span></span><span class="tc-big tc-big-s ob ob-plan">Prévue</span></div><div class="d"><span class="ob-l ob-l-clear"><span>Aucune coupure aujourd’hui</span></span><span class="ob-l ob-l-n" hidden=""><span>Avis de coupure aujourd'hui</span></span><span class="ob-l ob-l-plan"> <span class="dot">·</span> <span>prévue</span> <strong><span data-srdate="2026-10-17" translate="no">sam. 17 oct.</span></strong></span><span class="ess-sub">Électricité et eau, par district</span></div></div><div class="dg" hidden=""><div class="tc-hero tc-hero-txt">Avis du jour</div><div class="d">Les coupures d'électricité et d'eau, avant qu'elles ne vous prennent au dépourvu.</div></div><div class="tc-foot"><span class="tc-link">Avis du jour <span aria-hidden="true">→</span></span><span class="ess-asof"><span>à</span> <span data-asof="2026-10-14T16:07-03:00" translate="no">16:07</span></span></div></a><a class="tc tc-news tc-wide" data-live="news" data-reveal="" href="news.html"><div class="tc-top"><span class="k">Les dernières nouvelles</span><span aria-hidden="true" class="tc-ic"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 24 24"><path d="M4 5h13v14H6a2 2 0 0 1-2-2zM17 9h3v8a2 2 0 0 1-2 2"></path><path d="M7 9h7M7 12h7M7 15h4"></path></svg></span></div><div class="dl"><div class="d"><ul class="ess-news" data-v="newslist"><li><span class="nw-b"><span class="ess-news-t">BAASARON BEGINT OP TE VALLEN ALS TECHNOCRAAT IN HET POLITIEKE SPECTRUM</span><span class="ess-news-s" translate="no">United News</span></span></li><li><span class="nw-b"><span class="ess-news-t">HOOR EN WEDERHOOR, BELANGEN-VERSTRENGELING EN DOCUMENTINZAGE | KERNWAARDEN VOOR BETROUWBARE JOURNALISTIEK</span><span class="ess-news-s" translate="no">United News</span></span></li><li><span class="nw-b"><span class="ess-news-t">Simons: olie en gas alleen maken Suriname niet welvarend</span><span class="ess-news-s" translate="no">Suriname Herald</span></span></li></ul></div></div><div class="dg" hidden=""><div class="tc-hero tc-hero-txt">Actualités du Suriname</div><div class="d">L’actualité locale et les sujets dont tout le monde parle vraiment.</div></div><div class="tc-foot"><span class="tc-link">Actualités du Suriname <span aria-hidden="true">→</span></span><span class="ess-asof"><span>à</span> <span data-asof="2026-10-14T16:43-03:00" translate="no">16:43</span></span></div></a><a class="tc tc-guide" data-live="guide" data-reveal="" href="visitor-guide.html"><div class="tc-top"><span class="k">Première visite</span><span aria-hidden="true" class="tc-ic"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"></path><path d="M4 20.5V5.5M8 7h8M8 10.5h5"></path></svg></span></div><div class="dl" hidden=""></div><div class="dg"><div class="tc-hero tc-hero-txt">Guide du visiteur</div><div class="d">Visas, cartes SIM, argent et déplacements, en termes simples.</div></div><div class="tc-foot"><span class="tc-link">Guide du visiteur <span aria-hidden="true">→</span></span></div></a>
+</div>
+</div>
+</section>
+<!-- ===== WHAT'S ON ===== -->
+<section class="sec" data-sec="whatson" style="background:var(--paper)">
+<div class="wrap">
+<div class="lead-head" data-reveal="" style="margin-bottom:36px">
+<div>
+<div class="eyebrow" style="margin-bottom:14px">À l’affiche</div>
+<h2 class="dsp" style="font-weight:500;font-size:clamp(32px,calc(4.6vw / var(--z,1)),58px);line-height:1;margin:0;letter-spacing:-.01em;color:var(--forest)">Prochainement au Suriname.</h2>
+</div>
+<div class="wo-links"><a href="events-this-weekend"><span>Ce week-end</span> <span translate="no">· 12</span></a><a href="events.html">Tous les événements et jours fériés →</a></div>
+</div>
+<div class="wogrid"><a class="wo-card" data-reveal="" href="event-bon-vibes-20261017"><div class="wo-art"><img alt="" decoding="async" loading="lazy" src="/images/5a134887fe45d5d38b1a2eb40531be1e.webp"/></div><div class="wo-body"><div class="wo-when"><span data-srdate="2026-10-17" translate="no">sam. 17 oct.</span> · <span class="wo-cd">Dans 3 jours</span></div><div class="wo-t">BON VIBES</div><div class="wo-loc" translate="no">Rolines De Waag, Paramaribo</div></div></a><a class="wo-card" data-reveal="" href="event-sadie-s-choice-20261014"><div class="wo-art"><img alt="" decoding="async" loading="lazy" src="/images/43b062ac25b7f0475e76d034490a59c5.webp"/></div><div class="wo-body"><div class="wo-when"><span data-srdate="2026-10-14" translate="no">mer. 14 oct.</span> · <span class="wo-cd">Aujourd'hui</span></div><div class="wo-t">Sadie's Choice</div><div class="wo-loc" translate="no">Bistro Don Julio, Paramaribo</div></div></a><a class="wo-card" data-reveal="" href="event-mijn-dorp-mijn-grond-kleurwedstrijd-20261011"><div class="wo-art"><img alt="" decoding="async" loading="lazy" src="/images/559743d648f62caed7846342c9d9ff96.webp"/></div><div class="wo-body"><div class="wo-when"><span data-srdate="2026-10-11" translate="no">dim. 11 oct.</span> · <span class="wo-cd">En cours</span></div><div class="wo-t">"Mijn dorp, mijn grond" kleurwedstrijd</div><div class="wo-loc" translate="no">Clevia Park, Paramaribo</div></div></a><a class="wo-card" data-reveal="" href="event-all-you-can-eat-baby-back-ribs"><div class="wo-art"><img alt="" decoding="async" loading="lazy" src="/images/030a4b8e818d9429c302066874e3ba6a.webp"/></div><div class="wo-body"><div class="wo-when"><span data-srdate="2026-10-15" translate="no">jeu. 15 oct.</span> · <span class="wo-cd">Demain</span></div><div class="wo-t">All You Can Eat Baby Back Ribs</div><div class="wo-loc" translate="no">Hard Rock Cafe Suriname, Paramaribo</div></div></a></div>
 </div>
 </section>
 <!-- ===== JOURNEYS ===== -->
@@ -289,15 +407,15 @@
 <div class="ov"></div><div class="jidx dsp">02</div>
 <div class="meta"><div class="kick">96 expériences</div><div class="ttl dsp">Sur l'eau</div><div class="jsub">Pirogues, plages de tortues, matinées sur le fleuve.</div></div>
 </a>
-<a class="jc" data-reveal="" href="restaurants.html">
-<img alt="Étals de produits frais dans le marché couvert de Paramaribo" height="2187" loading="lazy" src="/images/home-market.webp" width="1600"/>
+<a class="jc" data-reveal="" href="activities.html?sub=museums-heritage">
+<img alt="Une mosquée et une synagogue côte à côte dans la Keizerstraat, à Paramaribo" height="799" loading="lazy" src="/images/home-faiths.webp" width="1200"/>
 <div class="ov"></div><div class="jidx dsp">03</div>
-<div class="meta"><div class="kick">190 cuisines</div><div class="ttl dsp">Les saveurs</div><div class="jsub">Roti, pom, bami. Cinq cuisines, une seule table joyeuse.</div></div>
+<div class="meta"><div class="kick">15 lieux</div><div class="ttl dsp">Culture et patrimoine</div><div class="jsub">Forts, temples, musées et la ville en bois.</div></div>
 </a>
-<a class="jc" data-reveal="" href="hotels.html">
-<img alt="Vue aérienne sur les toits de Paramaribo" height="2187" loading="lazy" sizes="(max-width:767px) 100vw, 25vw" src="/images/hero-paramaribo.webp" srcset="/images/hero-paramaribo-m.webp 900w, /images/hero-paramaribo.webp 1600w" width="1600"/>
+<a class="jc" data-reveal="" href="shopping.html">
+<img alt="Étals de produits frais dans le marché couvert de Paramaribo" height="2187" loading="lazy" src="/images/home-market.webp" width="1600"/>
 <div class="ov"></div><div class="jidx dsp">04</div>
-<div class="meta"><div class="kick">121 hébergements</div><div class="ttl dsp">Hébergement</div><div class="jsub">Des chambres au bord de l'eau, ou un hamac accessible uniquement en bateau.</div></div>
+<div class="meta"><div class="kick">970 commerces</div><div class="ttl dsp">Shopping et services</div><div class="jsub">Marchés, centres commerciaux, salons et les gens qui réparent tout.</div></div>
 </a>
 </div>
 </div>
@@ -308,6 +426,7 @@
 <div style="position:absolute;inset:0;background:linear-gradient(105deg,rgba(18,38,27,.94) 0%,rgba(18,38,27,.72) 46%,rgba(18,38,27,.30) 100%)"></div>
 <div class="wrap" style="position:relative;padding:clamp(72px,calc(9vw / var(--z,1)),128px) clamp(20px,calc(5vw / var(--z,1)),52px)">
 <div data-reveal="" style="max-width:38rem;color:#FCF7EC">
+<div class="greet-pill" style="border-bottom-color:rgba(252,247,236,.3)"><span class="gd"></span><span class="sr dsp" id="greet-sr" style="color:var(--gold)">Fa waka ?</span><span class="en" id="greet-en" style="color:#DCE4DA">· comment allez-vous</span></div>
 <div class="eyebrow eyebrow-gold" style="margin-bottom:18px">Un peuple, plusieurs mondes</div>
 <h2 class="dsp" style="font-weight:500;font-size:clamp(32px,calc(5vw / var(--z,1)),64px);line-height:1.02;letter-spacing:-.01em;margin:0 0 22px">Installez-vous. <span style="font-style:italic;color:var(--gold)">Il y a toujours de la place.</span></h2>
 <p style="font-size:clamp(16px,calc(1.5vw / var(--z,1)),19px);line-height:1.72;color:#E2DBCB;margin:0 0 18px">Sur la Keizerstraat, l'une des plus grandes mosquées des Caraïbes côtoie depuis près d'un siècle l'une des plus anciennes synagogues des Amériques. Clôture contre clôture, voisins dans l'âme.</p>
@@ -316,6 +435,11 @@
 <a class="btn-gold" href="restaurants.html">Goûtez au mélange</a>
 <a class="btn-ghost" href="activities.html?sub=museums-heritage">Découvrir le patrimoine</a>
 </div>
+</div>
+<div class="statgrid" data-reveal="" style="margin-top:clamp(44px,calc(5vw / var(--z,1)),64px);border-top:1px solid rgba(252,247,236,.18);padding-top:clamp(32px,calc(4vw / var(--z,1)),44px);max-width:60rem">
+<div><div class="stat-n dsp" style="color:#FCF7EC">93<span class="u">%</span></div><div class="stat-c" style="color:#C9D2C6">de forêt tropicale encore debout, plus que tout autre pays au monde.</div></div>
+<div><div class="stat-n dsp" style="color:#FCF7EC">7<span class="u">+</span></div><div class="stat-c" style="color:#C9D2C6">cultures qui partagent une même table, une même rue, un même calendrier de fêtes.</div></div>
+<div><div class="stat-n dsp" style="color:#FCF7EC">29<span class="u">°</span></div><div class="stat-c" style="color:#C9D2C6">en ce moment à Paramaribo, et à peu près pareil tous les jours de l’année. Emportez moins que vous ne le pensez.</div></div>
 </div>
 </div>
 </section>
@@ -348,30 +472,10 @@
 </div>
 </div>
 </section>
-<!-- ===== ESSENTIALS ===== -->
-<section class="sec" data-sec="essentials" style="background:var(--paper-2)">
-<div class="wrap">
-<div class="lead-head" data-reveal="" style="margin-bottom:40px">
-<div>
-<div class="eyebrow" style="margin-bottom:14px">Avant de partir · sur place</div>
-<h2 class="dsp" style="font-weight:500;font-size:clamp(32px,calc(4.6vw / var(--z,1)),58px);line-height:1;margin:0;letter-spacing:-.01em;color:var(--forest)">Le quotidien, réglé.</h2>
-</div>
-<p style="font-size:16px;color:#5C6657;max-width:25em;margin:0;line-height:1.6">Les pages que les Surinamais gardent ouvertes : taux de change, vols, météo et les avis qui comptent vraiment. Mises à jour chaque jour.</p>
-</div>
-<div class="essgrid">
-<a class="ess-card" data-reveal="" href="currency.html"><div class="k">Argent</div><div class="t">Taux de change</div><div class="d">Le SRD du jour face au dollar et à l'euro, ainsi que le cours de l'or.</div></a>
-<a class="ess-card" data-reveal="" href="conditions.html"><div class="k">Ciel</div><div class="t">Météo et marées</div><div class="d">Prévisions à sept jours, lever et coucher du soleil, et marées du fleuve.</div></a>
-<a class="ess-card" data-reveal="" href="flights.html"><div class="k">Voyage</div><div class="t">Vols</div><div class="d">Arrivées et départs en temps réel dans les deux aéroports du Suriname.</div></a>
-<a class="ess-card" data-reveal="" href="daily-notices.html"><div class="k">Attention</div><div class="t">Avis du jour</div><div class="d">Les coupures d'électricité et d'eau, avant qu'elles ne vous prennent au dépourvu.</div></a>
-<a class="ess-card" data-reveal="" href="news.html"><div class="k">Les dernières nouvelles</div><div class="t">Actualités du Suriname</div><div class="d">L’actualité locale et les sujets dont tout le monde parle vraiment.</div></a>
-<a class="ess-card" data-reveal="" href="visitor-guide.html"><div class="k">Première visite</div><div class="t">Guide du visiteur</div><div class="d">Visas, cartes SIM, argent et déplacements, en termes simples.</div></a>
-</div>
-</div>
-</section>
 <!-- ===== CLOSING INVITATION ===== -->
 <section data-sec="closing" style="background:var(--paper);border-top:2px solid var(--gold)">
 <div class="wrap" data-reveal="" style="position:relative;max-width:900px;margin:0 auto;padding:clamp(64px,calc(8vw / var(--z,1)),112px) clamp(20px,calc(5vw / var(--z,1)),52px);color:var(--ink)">
-<div class="eyebrow" style="margin-bottom:20px">Mis à jour chaque jour, depuis Paramaribo</div>
+<div class="eyebrow" style="margin-bottom:20px"><span>Depuis Paramaribo</span> <span class="dot">·</span> <span>site mis à jour</span> <span class="hl-upd" data-built="2026-10-14T16:57-03:00" translate="no">16:57</span> <span translate="no">SRT</span></div>
 <h2 class="dsp" style="font-weight:400;font-size:clamp(34px,calc(5.6vw / var(--z,1)),72px);line-height:1.02;margin:0;max-width:13em;letter-spacing:-.02em;color:var(--forest)">Revenez demain. Le <span style="font-style:italic;color:var(--clay)">du coucher de soleil</span> toujours gratuit.</h2>
 <p style="font-size:clamp(16px,calc(1.5vw / var(--z,1)),19px);color:#4B564D;max-width:34em;margin:26px 0 34px;line-height:1.65">Les taux bougent, les avions atterrissent, les fêtes reviennent. Ajoutez-nous à vos favoris, ou repassez simplement quand la chaleur vous manque. On vous garde une place.</p>
 <div style="display:flex;gap:13px;flex-wrap:wrap">
@@ -557,6 +661,161 @@ function esSearch(){
   }
   try{ hsEv('hero','search:'+q.slice(0,40)); }catch(e){}
 }
+/* ---- Live band (Phase 2, 14 Oct 2026). The page is rendered from the same
+   data/home_live.json at build time; the browser refreshes the numbers every
+   5 minutes and keeps the "updated N min ago" text honest. A tile whose data
+   is older than its stale_after_h falls back to its evergreen text. ---- */
+(function(){
+  var LANG=(document.documentElement.lang||'en').slice(0,2);
+  var rtf=null; try{ rtf=new Intl.RelativeTimeFormat(LANG,{numeric:'auto'}); }catch(e){}
+  function rel(iso){
+    var t=Date.parse(iso); if(!t) return '';
+    var m=Math.round((Date.now()-t)/60000);
+    if(!rtf) return m<1?'just now':(m<60?m+' min ago':Math.round(m/60)+' h ago');
+    if(m<1) return rtf.format(0,'minute');
+    if(m<60) return rtf.format(-m,'minute');
+    if(m<48*60) return rtf.format(-Math.round(m/60),'hour');
+    return rtf.format(-Math.round(m/1440),'day');
+  }
+  function ticks(){
+    var els=document.querySelectorAll('.hl-upd[data-built]');
+    for(var i=0;i<els.length;i++){ var r=rel(els[i].getAttribute('data-built')); if(r) els[i].textContent=r; }
+    var tu=document.getElementById('today-upd');
+    if(tu){ var b=tu.querySelector('[data-built]'); var age=b?(Date.now()-Date.parse(b.getAttribute('data-built')))/60000:0; tu.className='today-upd'+(age>120?' stale':''); }
+  }
+  function fmt2(n){ return (Math.round(n*100)/100).toFixed(2); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function fresh(it){
+    if(!it||!it.ok||!it.as_of) return false;
+    var t=Date.parse(it.as_of); if(!t) return false;
+    return (Date.now()-t)/3600000 <= (it.stale_after_h||0);
+  }
+  function setv(tile,slot,html){ var el=tile.querySelector('[data-v="'+slot+'"]'); if(el) el.innerHTML=html; return !!el; }
+  var MON={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+  function past(f){ var m=/^(\d{1,2}) (\w{3}) (\d{2}):(\d{2})$/.exec(f.time||''); if(!m||!(m[2] in MON)) return false;
+    var y=new Date().getFullYear(); var t=Date.UTC(y,MON[m[2]],+m[1],+m[3]+3,+m[4]); return t < Date.now()-600000; }
+  function pick(L){ for(var i=0;i<(L||[]).length;i++){ var f=L[i], st=(f.status||'').toLowerCase();
+    if(/landed|departed|cancel|arrived/.test(st)||past(f)) continue; return f; } return null; }
+  function srNow(){ var d=new Date(Date.now()-3*3600000); return d.getUTCHours()*60+d.getUTCMinutes(); }
+  function mins(s){ var m=/^(\d{1,2}):(\d{2})/.exec(s||''); return m?(+m[1])*60+(+m[2]):null; }
+  function glyphFor(code,night){ code=+code; if(!(code>=0)) return 'sun'; if(code<=1) return night?'moon':'sun'; if(code===2) return 'psun'; if(code===3) return 'cloud'; if(code===45||code===48) return 'fog'; if(code>=95) return 'storm'; return 'rain'; }
+  /* sun position + time-of-day tint, from the sunrise/sunset the card carries */
+  function sunTick(){
+    var tile=document.querySelector('.tc-weather'); if(!tile) return;
+    var arc=tile.querySelector('.sun-arc'); var sr=arc?mins(arc.getAttribute('data-sunrise')):null, ss=arc?mins(arc.getAttribute('data-sunset')):null;
+    var n=srNow(), ph='day';
+    if(sr!=null&&ss!=null){
+      if(n>=sr-45&&n<sr+45) ph='dawn'; else if(n>=ss-60&&n<ss+25) ph='dusk'; else if(n>=sr+45&&n<ss-60) ph='day'; else ph='night';
+      var sun=tile.querySelector('.sa-sun');
+      if(sun){ if(ph==='night'){ sun.style.display='none'; } else { var f=Math.max(0,Math.min(1,(n-sr)/(ss-sr))), a=Math.PI*(1-f);
+        sun.style.display=''; sun.setAttribute('cx',(60+50*Math.cos(a)).toFixed(1)); sun.setAttribute('cy',(42-36*Math.sin(a)).toFixed(1)); } }
+    }
+    ['tc-dawn','tc-day','tc-dusk','tc-night'].forEach(function(c){ tile.classList.remove(c); }); tile.classList.add('tc-'+ph);
+    var code=tile.getAttribute('data-wxcode'); if(code!=null){ var g=glyphFor(code,ph==='night'); var gs=tile.querySelectorAll('.wx-g'); for(var i=0;i<gs.length;i++) gs[i].hidden=!gs[i].classList.contains('wx-'+g); }
+  }
+  function spark(tile,hist){
+    var pl=tile.querySelector('[data-v="spark"]'); if(!pl) return; var svg=pl.parentNode;
+    var pts=(hist||[]).map(function(h){ return +h[1]; }).filter(function(v){ return !isNaN(v); });
+    if(pts.length<3){ svg.hidden=true; return; }
+    var lo=Math.min.apply(null,pts), hi=Math.max.apply(null,pts), r=(hi-lo)||0.01, n=pts.length;
+    pl.setAttribute('points',pts.map(function(v,i){ return (i*120/(n-1)).toFixed(1)+','+(28-(v-lo)/r*24).toFixed(1); }).join(' ')); svg.hidden=false;
+  }
+  /* returns true when the live content was refreshed, false when it must fall back */
+  function update(tile,key,it){
+    if(!fresh(it)) return false;
+    if(key==='rates'){
+      if(!it.usd) return false;
+      setv(tile,'usd',fmt2(it.usd[1])); setv(tile,'usdbuy',fmt2(it.usd[0]));
+      var d=(it.usd_prev&&it.usd_prev.length===2)?Math.round((it.usd[1]-it.usd_prev[1])*100)/100:0;
+      var c=tile.querySelector('[data-v="usdchg"]'); if(c){ c.className='tc-chg '+(d>0?'hc-up':'hc-dn'); c.textContent=d?((d>0?'+':'')+fmt2(d)):''; }
+      if(it.eur) setv(tile,'eur',fmt2(it.eur[0])+' / '+fmt2(it.eur[1]));
+      spark(tile,it.hist);
+      return true;
+    }
+    if(key==='weather'){
+      if(it.temp==null) return false;
+      setv(tile,'temp',it.temp+'&deg;');
+      var wf=tile.querySelector('.wxf'); if(wf){ var show=(it.feels!=null&&it.feels!==it.temp); wf.hidden=!show; if(show) setv(tile,'feels',it.feels+'&deg;'); }
+      setv(tile,'rain',it.rain_prob!=null?Math.round(it.rain_prob)+'%':'&ndash;');
+      setv(tile,'uv',it.uv!=null?String(Math.round(it.uv)):'&ndash;');
+      setv(tile,'sunset',it.sunset?esc(it.sunset):'&ndash;'); setv(tile,'sunsetb',it.sunset?esc(it.sunset):''); setv(tile,'sunrise',it.sunrise?esc(it.sunrise):'');
+      var arc=tile.querySelector('.sun-arc'); if(arc&&it.sunrise&&it.sunset){ arc.setAttribute('data-sunrise',it.sunrise); arc.setAttribute('data-sunset',it.sunset); }
+      if(it.code!=null) tile.setAttribute('data-wxcode',String(it.code));
+      sunTick();
+      return true;
+    }
+    if(key==='flights'){
+      var dep=pick(it.departures), arr=pick(it.arrivals);
+      if(!dep&&!arr) return false;
+      /* the figure keeps the role it was built with (departure or arrival); values refresh in place */
+      var lead=tile.querySelector('[data-v="dep"]')&&tile.querySelector('.fl-lbl-dep')?'dep':'arr';
+      var L=lead==='dep'?dep:arr, O=lead==='dep'?arr:dep, os=lead==='dep'?'arr':'dep';
+      if(!L) return false;
+      setv(tile,lead,esc(L.flight)); setv(tile,lead+'x',esc(L.iata||'')+' '+esc((L.time||'').slice(-5)));
+      var so=tile.querySelector('.fl-'+os); if(so){ so.hidden=!O; if(O) setv(tile,os,esc(O.flight)+' '+esc(O.iata||'')+' '+esc((O.time||'').slice(-5))); }
+      return true;
+    }
+    if(key==='outages'){
+      var n=it.today||0, state=n?'n':(it.next_planned?'plan':'clear');
+      if(state==='plan'&&!tile.querySelector('.ob-l-plan')) state='clear';   /* no planned date rendered at build: wait for the next build */
+      var dot=tile.querySelector('.ob-dot'); if(dot) dot.className='tc-dot ob-dot ob-'+state;
+      ['clear','n','plan'].forEach(function(s2){ var a=tile.querySelector('.ob-'+s2+':not(.ob-dot)'); if(a) a.hidden=(s2!==state);
+        var l=tile.querySelector('.ob-l-'+s2); if(l) l.hidden=(s2==='n')?(state!=='n'):(s2==='plan'?(state!=='plan'):(state==='n')); });
+      if(n) setv(tile,'outn',String(n));
+      return true;
+    }
+    if(key==='news'){
+      if(!(it.items&&it.items.length)) return false;
+      var ul=tile.querySelector('[data-v="newslist"]'); if(!ul) return true;
+      ul.innerHTML=it.items.slice(0,3).map(function(a){ return '<li>'+(a.image?'<span class="nw-th"><img src="'+esc(a.image)+'" alt="" loading="lazy" decoding="async" onerror="this.parentNode.style.display=\'none\'"></span>':'')+'<span class="nw-b"><span class="ess-news-t">'+esc(a.title)+'</span>'+(a.source?'<span class="ess-news-s" translate="no">'+esc(a.source)+'</span>':'')+'</span></li>'; }).join('');
+      return true;
+    }
+    return true;
+  }
+  function apply(data){
+    if(!data||!data.items) return;
+    var tiles=document.querySelectorAll('#today-grid [data-live]');
+    for(var i=0;i<tiles.length;i++){
+      var key=tiles[i].getAttribute('data-live'), it=data.items[key];
+      var dl=tiles[i].querySelector('.dl'), dg=tiles[i].querySelector('.dg'), asof=tiles[i].querySelector('.ess-asof');
+      if(!dl||!dg||dl.hidden&&!dl.innerHTML.trim()) continue;              /* generic card: the next build fills it */
+      if(!dl.innerHTML.trim()) continue;
+      var ok=update(tiles[i],key,it);
+      dl.hidden=!ok; dg.hidden=ok; if(asof) asof.hidden=!ok;
+      if(ok&&asof&&it.as_of){ var m=asof.querySelector('[data-asof]'); if(m){ m.setAttribute('data-asof',it.as_of); m.textContent=it.as_of.slice(11,16); } }
+    }
+    if(data.built){ var els=document.querySelectorAll('.hl-upd[data-built]'); for(var k=0;k<els.length;k++) els[k].setAttribute('data-built',data.built); }
+    ticks();
+  }
+  /* count-up on first reveal (numbers only; respects reduced motion) */
+  (function(){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window)) return;
+    var done=false;
+    var grid=document.getElementById('today-grid'); if(!grid) return;
+    var io=new IntersectionObserver(function(en){
+      if(done||!en[0].isIntersecting) return; done=true; io.disconnect();
+      var els=grid.querySelectorAll('.tc-big [data-v="usd"], .tc-big [data-v="temp"]');
+      for(var i=0;i<els.length;i++)(function(el){
+        var txt=el.textContent, m=/^(\d+(?:\.\d+)?)(.*)$/.exec(txt); if(!m) return;
+        var target=+m[1], dec=(m[1].split('.')[1]||'').length, suf=m[2], t0=null;
+        function step(ts){ if(!t0) t0=ts; var p=Math.min(1,(ts-t0)/700), e=1-Math.pow(1-p,3);
+          el.textContent=(target*e).toFixed(dec)+suf; if(p<1) requestAnimationFrame(step); else el.textContent=txt; }
+        requestAnimationFrame(step);
+      })(els[i]);
+    },{threshold:0.3});
+    io.observe(grid);
+  })();
+  sunTick(); setInterval(sunTick,60000);
+  function refresh(){
+    if(document.hidden) return;
+    try{
+      fetch('/data/home_live.json?t='+Math.floor(Date.now()/300000),{cache:'no-store'}).then(function(r){ return r.ok?r.json():null; }).then(apply).catch(function(){});
+    }catch(e){}
+  }
+  ticks(); setInterval(ticks,60000);
+  setTimeout(refresh,20000); setInterval(refresh,300000);
+  document.addEventListener('visibilitychange',function(){ if(!document.hidden) ticks(); });
+})();
 /* ---- GA4 baseline (14 Oct 2026): which homepage section earns each click.
    One event, home_sec_click {section,item,link_url}; sections carry data-sec.
    Same dataLayer stub as the global click tracker, so clicks before gtag.js
