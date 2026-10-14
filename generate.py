@@ -254,6 +254,10 @@ _EVENT_SUBS_OK = False      # True only when the approved-events feed answered
 # Event pages (Oct 2026): build_events_page() fills these; main writes the files
 # with the other pages and build_sitemap() lists the slugs.
 _EVENT_PAGE_FILES: dict = {}
+# Homepage live data (Phase 1, 14 Oct 2026): build_events_page() fills this with the
+# resolved upcoming events / weekend window / spotlight so write_home_live() and the
+# homepage can use them without resolving events twice.
+_HOME_EVENTS: dict = {}
 _EVENT_PAGE_SLUGS: list = []
 try:
     import urllib.request as _ureq2
@@ -6441,19 +6445,53 @@ _CAT_ACCENT = {
 # rail costs the visitor nothing: no client-side fetch on every page.
 _RAIL: dict = {}
 
-def fetch_paramaribo_temp():
-    """Current Paramaribo temperature from Open-Meteo. Returns int or None."""
+_PBM_WEATHER: dict = {}
+
+def _fetch_paramaribo_weather():
+    """One Open-Meteo call for Paramaribo (current + today), cached per build.
+
+    Returns {} on failure. Keys: temp, feels, code, rain_mm, rain_prob (today max),
+    uv (today max), tmax, tmin, sunrise, sunset (HH:MM SR), as_of (ISO, API time).
+    Feeds the utility rail (temp) and data/home_live.json (homepage weather tile)."""
+    if _PBM_WEATHER:
+        return _PBM_WEATHER
     try:
         url = ("https://api.open-meteo.com/v1/forecast?latitude=5.8520&longitude=-55.2038"
-               "&current=temperature_2m&timezone=America%2FParamaribo")
+               "&current=temperature_2m,apparent_temperature,weather_code,precipitation"
+               "&daily=temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max,sunrise,sunset"
+               "&forecast_days=1&timezone=America%2FParamaribo")
         req = urllib.request.Request(url, headers={"User-Agent": "ExploreSuriname/1.0"})
         with urllib.request.urlopen(req, timeout=12) as r:
             d = json.loads(r.read().decode("utf-8"))
-        t = d.get("current", {}).get("temperature_2m")
-        return round(float(t)) if t is not None else None
+        cur, day = d.get("current") or {}, d.get("daily") or {}
+        def _f(v):
+            try:
+                return None if v is None else float(v)
+            except Exception:
+                return None
+        def _d0(k):
+            v = day.get(k) or []
+            return v[0] if v else None
+        t = _f(cur.get("temperature_2m"))
+        if t is None:
+            raise ValueError("no temperature_2m in response")
+        _PBM_WEATHER.update({
+            "temp": round(t), "feels": (round(_f(cur.get("apparent_temperature"))) if _f(cur.get("apparent_temperature")) is not None else None),
+            "code": cur.get("weather_code"), "rain_mm": _f(cur.get("precipitation")),
+            "rain_prob": _d0("precipitation_probability_max"), "uv": _f(_d0("uv_index_max")),
+            "tmax": (round(_f(_d0("temperature_2m_max"))) if _f(_d0("temperature_2m_max")) is not None else None),
+            "tmin": (round(_f(_d0("temperature_2m_min"))) if _f(_d0("temperature_2m_min")) is not None else None),
+            "sunrise": (str(_d0("sunrise") or "")[11:16] or None), "sunset": (str(_d0("sunset") or "")[11:16] or None),
+            "as_of": ((str(cur.get("time") or "")[:16] + "-03:00") if cur.get("time") else None),
+        })
     except Exception as e:
-        print(f"  !! Open-Meteo temp failed: {e}")
-        return None
+        print(f"  !! Open-Meteo weather failed: {e}")
+    return _PBM_WEATHER
+
+def fetch_paramaribo_temp():
+    """Current Paramaribo temperature from Open-Meteo. Returns int or None."""
+    w = _fetch_paramaribo_weather()
+    return w.get("temp") if w else None
 
 _OUTAGE_STALE_H = 10   # update_outages.yml runs every 4 h; one missed run + slack
 
@@ -6557,6 +6595,112 @@ def record_rate_history(cme_rates, cme_live, cbvs_rates, cbvs_live):
         print(f"  OK  rate history: {today} recorded ({len(keep)} days kept)")
     except Exception as e:
         print(f"  !! rate history skipped: {e}")
+
+_HOME_LIVE_PATH = "data/home_live.json"
+
+def write_home_live(cme_rates, cme_live, cbvs_rates, cbvs_live, articles, flights_data):
+    """data/home_live.json: everything the homepage shows live, in one small file.
+
+    Phase 1 of the homepage freshness programme (14 Oct 2026). Every item carries
+    "as_of" (the time the DATA is from, not the build), "ok" (the source answered)
+    and "stale_after_h" (after which the homepage must hide it rather than show
+    it). The build writes it; the browser re-reads it every few minutes (sw.js
+    serves /data/ network-first). Never raises."""
+    try:
+        now = datetime.now(SR_TZ)
+        now_iso = now.isoformat(timespec="minutes")
+        items = {}
+
+        # Rates: CME cash (rail/homepage), CBvS official alongside; change vs previous day
+        def _pair(rates, cur):
+            for r in (rates or []):
+                if r.get("currency") == cur:
+                    try:
+                        return [round(float(r["buy"]), 3), round(float(r["sell"]), 3)]
+                    except Exception:
+                        return None
+            return None
+        prev = {}
+        try:
+            with open(_RATE_HISTORY_PATH, encoding="utf-8") as f:
+                _days = (json.load(f).get("days") or {})
+            _today = now.strftime("%Y-%m-%d")
+            for _d in sorted(_days, reverse=True):
+                if _d < _today and (_days[_d].get("cme") or {}).get("USD"):
+                    prev = {"date": _d, **_days[_d]["cme"]}
+                    break
+        except Exception:
+            prev = {}
+        items["rates"] = {
+            "ok": bool(cme_live), "as_of": now_iso if cme_live else None,
+            "stale_after_h": 74 if now.weekday() >= 4 else 26, "source": "CME",
+            "usd": _pair(cme_rates, "USD"), "eur": _pair(cme_rates, "EUR"),
+            "prev_date": prev.get("date"), "usd_prev": prev.get("USD"), "eur_prev": prev.get("EUR"),
+            "cbvs_ok": bool(cbvs_live), "cbvs_usd": _pair(cbvs_rates, "USD") if cbvs_live else None,
+            "cbvs_eur": _pair(cbvs_rates, "EUR") if cbvs_live else None,
+        }
+
+        # Weather: the same Open-Meteo call the rail uses
+        w = dict(_PBM_WEATHER)
+        items["weather"] = {"ok": bool(w), "as_of": w.pop("as_of", None), "stale_after_h": 2, **w}
+
+        # Outages: the rail's own numbers plus the feeds' timestamps
+        _ages = []
+        for _fn in ("data/ebs_outages.json", "data/swm_outages.json"):
+            try:
+                with open(_fn, encoding="utf-8") as f:
+                    _ages.append(_outage_feed_age_h(json.load(f)))
+            except Exception:
+                _ages.append(None)
+        _age = max([a for a in _ages if a is not None], default=None)
+        items["outages"] = {
+            "ok": bool(_RAIL.get("notices_fresh")), "stale_after_h": _OUTAGE_STALE_H,
+            "as_of": ((now - timedelta(hours=_age)).isoformat(timespec="minutes") if _age is not None else None),
+            "today": _RAIL.get("notices"), "next_planned": _RAIL.get("next_planned") or None,
+        }
+
+        # Events: resolved by build_events_page() this build
+        _he = dict(_HOME_EVENTS)
+        items["events"] = {"ok": bool(_he), "as_of": now_iso if _he else None, "stale_after_h": 24,
+                           "spotlight": _he.get("spotlight", ""), "weekend": _he.get("weekend"),
+                           "next_holiday": _he.get("next_holiday"), "upcoming": (_he.get("upcoming") or [])[:6]}
+
+        # Flights: PBM only on the homepage; the cache carries its own fetch time
+        _fl = (flights_data or {}).get("SMJP") or (None, None, None)
+        _arr, _dep, _upd = (list(_fl) + [None, None, None])[:3]
+        _fetched = None
+        try:
+            with open("flights_cache.json", encoding="utf-8") as f:
+                _fetched = (json.load(f) or {}).get("fetched")
+        except Exception:
+            pass
+        _slim = lambda L: [{k: x.get(k) for k in ("flight", "airline", "iata", "airport", "time", "status")} for x in (L or [])[:4]]
+        items["flights"] = {
+            "ok": bool(_arr or _dep),
+            "as_of": (datetime.fromtimestamp(float(_fetched), SR_TZ).isoformat(timespec="minutes") if _fetched else None),
+            "stale_after_h": 8, "updated": _upd, "page": "/flights.html",
+            "arrivals": _slim(_arr), "departures": _slim(_dep),
+        }
+
+        # News: newest first, as_of = newest article
+        _news = []
+        for a in (articles or [])[:4]:
+            _dt = a.get("date")
+            _news.append({"title": a.get("title", ""), "link": a.get("link", ""), "source": a.get("source", ""),
+                          "date": (_dt.astimezone(SR_TZ).isoformat(timespec="minutes") if hasattr(_dt, "astimezone") else None)})
+        items["news"] = {"ok": bool(_news), "as_of": (_news[0]["date"] if _news else None), "stale_after_h": 24,
+                         "page": "/news.html", "items": _news}
+
+        out = {"built": now_iso, "built_epoch": int(now.timestamp()), "tz": "America/Paramaribo",
+               "note": "Homepage live feed. as_of = time of the data; hide an item once older than stale_after_h.",
+               "items": items}
+        os.makedirs("data", exist_ok=True)
+        with open(_HOME_LIVE_PATH, "w", encoding="utf-8") as f:
+            json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
+        _bad = [k for k, v in items.items() if not v.get("ok")]
+        print(f"  OK  home_live.json written ({len(items)} items" + (f", not ok: {', '.join(_bad)}" if _bad else "") + ")")
+    except Exception as e:
+        print(f"  !! home_live.json skipped: {e}")
 
 def build_rail_data(cme_rates):
     """Populate _RAIL before any page is built. Missing items are simply omitted."""
@@ -12878,6 +13022,36 @@ def build_events_page():
         _EVENT_PAGE_FILES.clear()
         del _EVENT_PAGE_SLUGS[:]
         _evp_built = set()
+
+    # ── Homepage feed (Phase 1): upcoming events, weekend window, spotlight ──
+    try:
+        _HOME_EVENTS.clear()
+        _he_up = []
+        for _r in sorted((r for r in _conf if r[4] >= today), key=lambda r: (r[3], r[5].get("name", ""))):
+            _sd, _confd, _lbl, _st, _en, _ev = _r
+            _slug = _evp_slug(_ev)
+            _he_up.append({
+                "id": _ev.get("id") or "", "name": _ev.get("name", ""),
+                "start": _st.isoformat(), "end": _en.isoformat(), "label": _lbl,
+                "holiday": bool(_ev.get("holiday")), "bucket": _bk.get(id(_ev), ""),
+                "category": _ev.get("category", ""), "location": _ev.get("location", "") or "",
+                "free": bool(_ev.get("free")), "flyer": _flyer_src(_ev) or "",
+                "page": ("/event-" + _slug) if _slug in _evp_built else "/events.html",
+            })
+            if len(_he_up) >= 12:
+                break
+        _HOME_EVENTS.update({
+            "today": today.isoformat(),
+            "spotlight": (_spot[5].get("id") if _spot else ""),
+            "weekend": {"start": _wk_start.isoformat(), "end": _wk_end.isoformat(),
+                        "count": len(_wknd_evs), "page": "/events-this-weekend" if _EVENT_PAGE_FILES else "/events.html"},
+            "next_holiday": next(({"name": r[5].get("name", ""), "start": r[3].isoformat(), "end": r[4].isoformat()}
+                                  for r in sorted(_conf, key=lambda r: r[3]) if r[5].get("holiday") and r[4] >= today), None),
+            "upcoming": _he_up,
+        })
+    except Exception as _he_err:
+        print(f"  Warning: homepage event feed not built — {_he_err}")
+        _HOME_EVENTS.clear()
 
     # ── Filter bar ───────────────────────────────────────────────────────────
     _present = []
@@ -27186,6 +27360,7 @@ if __name__ == "__main__":
     except Exception:
         _ff_mark = _ff_marker = None
     _ff_unchanged = 0
+    write_home_live(cme_rates, cme_live, cbvs_rates, cbvs_live, articles, flights_data)
     pages.update(_EVENT_PAGE_FILES)   # event-<id>.html + events-this-weekend.html (build_events_page)
     for fname, html in pages.items():
         _d = _os_pages.path.dirname(fname)
