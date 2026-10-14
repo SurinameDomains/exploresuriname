@@ -37468,7 +37468,10 @@
 },
 "No outages today": {
 "nl": "Vandaag geen onderbrekingen",
-"es": "Hoy sin cortes"
+"es": "Hoy sin cortes",
+"zh": "今日无停电停水",
+"fr": "Aucune coupure aujourd’hui",
+"pt": "Sem interrupções hoje"
 },
 "Aboma Snake Game": {
 "nl": "Aboma slangenspel",
@@ -101822,5 +101825,12 @@
 "zh": "每天更换一次的额外高难度关卡，所有玩家都一样。它不影响你的关卡进度，随时都可以挑战。每天完成它来保持连胜，并在 WhatsApp 上分享你的用时。",
 "fr": "Un niveau supplémentaire, plus difficile, qui change chaque jour et qui est le même pour tous les joueurs. Il n’affecte pas votre progression, vous pouvez donc toujours le tenter. Terminez-le chaque jour pour garder votre série et partagez votre temps sur WhatsApp.",
 "pt": "Um nível extra, mais difícil, que muda todo dia e é igual para todos os jogadores. Ele não afeta seu progresso de níveis, então você sempre pode tentar. Termine todo dia para manter sua sequência e compartilhe seu tempo no WhatsApp."
+},
+"Planned outage": {
+"nl": "Geplande onderbreking",
+"es": "Corte programado",
+"zh": "计划停电",
+"fr": "Coupure prévue",
+"pt": "Interrupção programada"
 }
 }

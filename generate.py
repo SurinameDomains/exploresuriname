@@ -6455,21 +6455,108 @@ def fetch_paramaribo_temp():
         print(f"  !! Open-Meteo temp failed: {e}")
         return None
 
+_OUTAGE_STALE_H = 10   # update_outages.yml runs every 4 h; one missed run + slack
+
+def _outage_feed_age_h(d):
+    """Hours since a scraper wrote its cache, or None when it never said."""
+    try:
+        ts = d.get("last_updated") or ""
+        t = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+        if t.tzinfo is None:
+            t = t.replace(tzinfo=timezone.utc)
+        return (datetime.now(timezone.utc) - t).total_seconds() / 3600
+    except Exception:
+        return None
+
 def _rail_notice_count():
-    """How many utility outage notices apply to today, from the scraped caches."""
-    today = datetime.now(SR_TZ).strftime("%Y-%m-%d")
-    n = 0
+    """Utility outage notices for today, from the scraped caches.
+
+    Returns (count, fresh, next_planned_iso):
+      count            notices that apply to today, from FRESH feeds only
+      fresh            True only when BOTH feeds were scraped recently, so the
+                       rail may claim "No outages today"; a dead scraper must
+                       never turn into a reassurance
+      next_planned_iso nearest EBS planned outage in the next 7 days (or "")
+    """
+    today_d = datetime.now(SR_TZ).date()
+    today = today_d.strftime("%Y-%m-%d")
+    n, fresh, nxt = 0, True, ""
     try:
         with open("data/ebs_outages.json", encoding="utf-8") as f:
-            n += sum(1 for o in json.load(f).get("outages", []) if o.get("date_iso") == today)
+            d = json.load(f)
+        age = _outage_feed_age_h(d)
+        if age is None or age > _OUTAGE_STALE_H:
+            fresh = False
+        else:
+            for o in d.get("outages", []):
+                di = o.get("date_iso") or ""
+                if di == today:
+                    n += 1
+                elif di > today:
+                    try:
+                        if (datetime.strptime(di, "%Y-%m-%d").date() - today_d).days <= 7 and (not nxt or di < nxt):
+                            nxt = di
+                    except Exception:
+                        pass
     except Exception:
-        pass
+        fresh = False
     try:
         with open("data/swm_outages.json", encoding="utf-8") as f:
-            n += len(json.load(f).get("active", []))
+            d = json.load(f)
+        age = _outage_feed_age_h(d)
+        if age is None or age > _OUTAGE_STALE_H:
+            fresh = False
+        else:
+            n += len(d.get("active", []))
     except Exception:
-        pass
-    return n
+        fresh = False
+    return n, fresh, nxt
+
+_RATE_HISTORY_PATH = "data/rate_history.json"
+_RATE_HISTORY_DAYS = 400
+
+def record_rate_history(cme_rates, cme_live, cbvs_rates, cbvs_live):
+    """One USD/EUR snapshot per Suriname calendar day (added 14 Oct 2026).
+
+    Feeds the homepage "change since yesterday" arrow. Only LIVE fetches are
+    recorded (fallback tables would write fiction); the last build of a day
+    wins; older than _RATE_HISTORY_DAYS is pruned. Never raises: history is
+    a nice-to-have, the build is not."""
+    try:
+        try:
+            with open(_RATE_HISTORY_PATH, encoding="utf-8") as f:
+                hist = json.load(f)
+        except Exception:
+            hist = {}
+        days = hist.get("days") if isinstance(hist.get("days"), dict) else {}
+        today = datetime.now(SR_TZ).strftime("%Y-%m-%d")
+        entry = dict(days.get(today) or {})
+        changed = False
+        for src, rates, live in (("cme", cme_rates, cme_live), ("cbvs", cbvs_rates, cbvs_live)):
+            if not live:
+                continue
+            snap = {}
+            for r in (rates or []):
+                if r.get("currency") in ("USD", "EUR"):
+                    try:
+                        snap[r["currency"]] = [round(float(r["buy"]), 3), round(float(r["sell"]), 3)]
+                    except Exception:
+                        pass
+            if snap and entry.get(src) != snap:
+                entry[src] = snap
+                changed = True
+        if not changed:
+            return
+        days[today] = entry
+        keep = sorted(days)[-_RATE_HISTORY_DAYS:]
+        hist = {"days": {d: days[d] for d in keep},
+                "note": "USD/EUR [buy, sell] per Suriname day; cme = CME cash, cbvs = CBvS official."}
+        os.makedirs("data", exist_ok=True)
+        with open(_RATE_HISTORY_PATH, "w", encoding="utf-8") as f:
+            json.dump(hist, f, ensure_ascii=False, indent=1)
+        print(f"  OK  rate history: {today} recorded ({len(keep)} days kept)")
+    except Exception as e:
+        print(f"  !! rate history skipped: {e}")
 
 def build_rail_data(cme_rates):
     """Populate _RAIL before any page is built. Missing items are simply omitted."""
@@ -6485,10 +6572,11 @@ def build_rail_data(cme_rates):
     _RAIL["usd_buy"]  = buy
     _RAIL["usd_sell"] = sell
     _RAIL["temp"]    = fetch_paramaribo_temp()
-    _RAIL["notices"] = _rail_notice_count()
+    _RAIL["notices"], _RAIL["notices_fresh"], _RAIL["next_planned"] = _rail_notice_count()
     _RAIL["date"]    = datetime.now(SR_TZ).strftime("%a %-d %B")
     _RAIL["iso"]     = datetime.now(SR_TZ).strftime("%Y-%m-%d")
-    print(f"  OK  utility rail: USD {buy or 'n/a'}/{sell or 'n/a'}, {_RAIL['temp']}C, {_RAIL['notices']} outage notices")
+    print(f"  OK  utility rail: USD {buy or 'n/a'}/{sell or 'n/a'}, {_RAIL['temp']}C, "
+          f"{_RAIL['notices']} outage notices (feeds fresh: {_RAIL['notices_fresh']}, next planned: {_RAIL['next_planned'] or '-'})")
 
 def util_rail_html(prefix=""):
     """The 34px strip above the nav. Scrolls away with the page by design."""
@@ -6505,12 +6593,28 @@ def util_rail_html(prefix=""):
         left.append(f'<a href="{prefix}conditions.html">{_RAIL["temp"]}&deg; Paramaribo</a>')
     # Two fixed strings, count kept outside them, so build_i18n only ever has two
     # segments to carry no matter what the number is on the day.
+    # "No outages today" is a promise: it is only made when both scrapers ran
+    # recently. A stale feed drops the item instead of reassuring anyone. An
+    # upcoming planned outage (next 7 days) is shown instead of "No outages",
+    # date through data-srdate so build_i18n localizes it like the rail date.
     _n = _RAIL.get("notices")
+    _np = _RAIL.get("next_planned") or ""
     if _n:
         left.append(f'<a href="{prefix}daily-notices.html">'
                     f'<strong>{_n}</strong> Outage notices today</a>')
-    elif _n == 0:
-        left.append(f'<a href="{prefix}daily-notices.html">No outages today</a>')
+    elif _n == 0 and _RAIL.get("notices_fresh"):
+        if _np:
+            try:
+                _npd = datetime.strptime(_np, "%Y-%m-%d").strftime("%a %-d %B")
+            except Exception:
+                _npd = ""
+            if _npd:
+                left.append(f'<a href="{prefix}daily-notices.html">Planned outage'
+                            f' <span data-srdate="{_np}">{_npd}</span></a>')
+            else:
+                left.append(f'<a href="{prefix}daily-notices.html">No outages today</a>')
+        else:
+            left.append(f'<a href="{prefix}daily-notices.html">No outages today</a>')
     if not left:
         return ""
     # data-srdate lets build_i18n write the date in Dutch / Spanish.
@@ -8639,7 +8743,28 @@ function esSearch(){
       if(mi){ mi.value=q; if(typeof runSearch==='function') runSearch(q); }
     }
   }
+  try{ hsEv('hero','search:'+q.slice(0,40)); }catch(e){}
 }
+/* ---- GA4 baseline (14 Oct 2026): which homepage section earns each click.
+   One event, home_sec_click {section,item,link_url}; sections carry data-sec.
+   Same dataLayer stub as the global click tracker, so clicks before gtag.js
+   loads are queued, not lost. ---- */
+function hsEv(sec,item,url){
+  var p={section:sec,item:String(item||'').replace(/\s+/g,' ').trim().slice(0,60)};
+  if(url) p.link_url=String(url).slice(0,100);
+  window.dataLayer=window.dataLayer||[];
+  if(!window.gtag){ window.gtag=function(){ window.dataLayer.push(arguments); }; }
+  window.gtag('event','home_sec_click',p);
+}
+window.addEventListener('click',function(ev){
+  try{
+    var a=ev.target&&ev.target.closest?ev.target.closest('a[href]'):null;
+    if(!a) return;
+    var sec=a.closest('[data-sec]'); if(!sec) return;
+    var item=a.getAttribute('data-item')||a.getAttribute('aria-label')||a.textContent||a.getAttribute('href');
+    hsEv(sec.getAttribute('data-sec'),item,a.getAttribute('href'));
+  }catch(e){}
+},{passive:true});
 """
     return f"""{PAGE_HEAD}
   <title>Explore Suriname: Travel Guide, Restaurants, Hotels &amp; Tours</title>
@@ -8725,7 +8850,7 @@ function esSearch(){
 {nav_html("home")}
 
 <!-- ===== HERO ===== -->
-<section id="hero">
+<section id="hero" data-sec="hero">
   <div class="hero-inner">
     <div style="max-width:40rem">
       <div class="hero-eyebrow"><span class="rule"></span><span class="txt">Explore Suriname</span></div>
@@ -8763,7 +8888,7 @@ function esSearch(){
 </section>
 
 <!-- ===== WELCOME BAND ===== -->
-<section class="sec" style="background:var(--paper)">
+<section class="sec" style="background:var(--paper)" data-sec="welcome">
   <div style="max-width:1000px;margin:0 auto">
     <div class="greet-pill" data-reveal><span class="gd"></span><span class="sr dsp" id="greet-sr">Fa waka?</span><span class="en" id="greet-en">&middot; how are you</span></div>
     <h2 class="dsp" data-reveal style="font-weight:400;font-size:clamp(30px,4.6vw,58px);line-height:1.06;letter-spacing:-.01em;margin:0;max-width:16em;color:var(--forest)">This isn&#8217;t a directory. It&#8217;s <span style="font-style:italic;color:var(--clay)">home,</span> written down.</h2>
@@ -8777,7 +8902,7 @@ function esSearch(){
 </section>
 
 <!-- ===== JOURNEYS ===== -->
-<section id="journeys" class="sec" style="background:var(--paper-2)">
+<section id="journeys" class="sec" style="background:var(--paper-2)" data-sec="journeys">
   <div class="wrap">
     <div class="lead-head" data-reveal style="margin-bottom:44px">
       <div>
@@ -8812,7 +8937,7 @@ function esSearch(){
 </section>
 
 <!-- ===== THE TABLE ===== -->
-<section class="darksec" style="background:#142A1E">
+<section class="darksec" style="background:#142A1E" data-sec="culture">
   <img class="dbg" loading="lazy" src="/images/home-faiths.webp" alt="A mosque and a synagogue standing side by side on Keizerstraat, Paramaribo" width="1200" height="800">
   <div style="position:absolute;inset:0;background:linear-gradient(105deg,rgba(18,38,27,.94) 0%,rgba(18,38,27,.72) 46%,rgba(18,38,27,.30) 100%)"></div>
   <div class="wrap" style="position:relative;padding:clamp(72px,9vw,128px) clamp(20px,5vw,52px)">
@@ -8830,7 +8955,7 @@ function esSearch(){
 </section>
 
 <!-- ===== EAT & STAY ===== -->
-<section class="sec" style="background:var(--paper)">
+<section class="sec" style="background:var(--paper)" data-sec="eatstay">
   <div class="wrap">
     <div data-reveal style="text-align:center;max-width:34em;margin:0 auto clamp(40px,5vw,56px)">
       <div class="eyebrow" style="margin-bottom:14px">Eat &amp; stay like a local</div>
@@ -8860,7 +8985,7 @@ function esSearch(){
 </section>
 
 <!-- ===== ESSENTIALS ===== -->
-<section class="sec" style="background:var(--paper-2)">
+<section class="sec" style="background:var(--paper-2)" data-sec="essentials">
   <div class="wrap">
     <div class="lead-head" data-reveal style="margin-bottom:40px">
       <div>
@@ -8881,7 +9006,7 @@ function esSearch(){
 </section>
 
 <!-- ===== CLOSING INVITATION ===== -->
-<section style="background:var(--paper);border-top:2px solid var(--gold)">
+<section style="background:var(--paper);border-top:2px solid var(--gold)" data-sec="closing">
   <div class="wrap" data-reveal style="position:relative;max-width:900px;margin:0 auto;padding:clamp(64px,8vw,112px) clamp(20px,5vw,52px);color:var(--ink)">
     <div class="eyebrow" style="margin-bottom:20px">Updated daily, from Paramaribo</div>
     <h2 class="dsp" style="font-weight:400;font-size:clamp(34px,5.6vw,72px);line-height:1.02;margin:0;max-width:13em;letter-spacing:-.02em;color:var(--forest)">Come back tomorrow. The <span style="font-style:italic;color:var(--clay)">sunset&#8217;s</span> still free.</h2>
@@ -24366,9 +24491,18 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
             h = _hl.md5(_norm.encode("utf-8")).hexdigest()
         except Exception:
             return today
-        if _lastmod_cache.get(slug, {}).get("hash") == h:
-            return _lastmod_cache[slug]["date"]
-        _lastmod_cache[slug] = {"hash": h, "date": today}
+        _prev = _lastmod_cache.get(slug) or {}
+        if _prev.get("hash") == h:
+            return _prev["date"]
+        _entry = {"hash": h, "date": today}
+        # first_seen: the build date a slug first entered this cache (added
+        # 14 Oct 2026 for the homepage "new listings" rail). Entries older
+        # than that carry no first_seen on purpose: "unknown" beats "today".
+        if _prev.get("first_seen"):
+            _entry["first_seen"] = _prev["first_seen"]
+        elif not _prev:
+            _entry["first_seen"] = today
+        _lastmod_cache[slug] = _entry
         return today
 
     def _flush_lastmod():
@@ -26872,6 +27006,7 @@ if __name__ == "__main__":
         douane_state = None
     bank_rates, banks_updated           = fetch_bank_rates()
     brent_price, brent_updated          = fetch_brent_price()
+    record_rate_history(cme_rates, cme_live, cbvs_rates, cbvs_live)
     build_rail_data(cme_rates)
     tides_data    = fetch_tides_data()
     flights_data  = fetch_aerodatabox_flights()
