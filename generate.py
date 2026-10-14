@@ -6638,7 +6638,7 @@ def write_home_live(cme_rates, cme_live, cbvs_rates, cbvs_live, articles, flight
             for _d in sorted(_days)[-14:]:
                 _u = (_days[_d].get("cme") or {}).get("USD")
                 if _u and len(_u) == 2:
-                    _hist.append([_d, _u[1]])
+                    _hist.append([_d, _u[0]])
         except Exception:
             _hist = []
         items["rates"] = {
@@ -8750,10 +8750,10 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
         arrow = ''
         p = _rates.get("usd_prev")
         if p and len(p) == 2:
-            d = round(u[1] - p[1], 2)
+            d = round(u[0] - p[0], 2)
             arrow = (' <span class="hc-up" aria-label="up since yesterday">&#9650;</span>' if d > 0 else
                      ' <span class="hc-dn" aria-label="down since yesterday">&#9660;</span>' if d < 0 else '')
-        return ('currency.html', 'USD <strong>' + f"{u[1]:.2f}" + '</strong>' + arrow)
+        return ('currency.html', 'USD <strong>' + f"{u[0]:.2f}" + '</strong>' + arrow)
     def _ev_chip():
         wk = _evs.get("weekend") or {}
         if wk.get("count"):
@@ -8872,11 +8872,11 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
         if not u:
             return '', ''
         p = _rates.get("usd_prev")
-        d = round(u[1] - p[1], 2) if (p and len(p) == 2) else 0
+        d = round(u[0] - p[0], 2) if (p and len(p) == 2) else 0
         chg = _v("usdchg", (('+' if d > 0 else '') + f"{d:.2f}") if d else '', ('tc-chg hc-up' if d > 0 else 'tc-chg hc-dn'), tag="span")
-        hero = ('<span class="tc-big">' + _v("usd", f"{u[1]:.2f}", tag="span") + '</span>'
+        hero = ('<span class="tc-big">' + _v("usd", f"{u[0]:.2f}", tag="span") + '</span>'
                 '<span class="tc-unit"><span>SRD per USD</span>' + chg + '</span>')
-        sec = ('<span>we buy</span> ' + _v("usdbuy", f"{u[0]:.2f}")
+        sec = ('<span>we sell</span> ' + _v("usdsell", f"{u[1]:.2f}")
                + ((_DOT + '<span>EUR</span> ' + _v("eur", f"{e[0]:.2f} / {e[1]:.2f}")) if e else ''))
         return hero + _spark(_rates.get("hist")), sec
 
@@ -8957,12 +8957,14 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
         if not items:
             return ''
         rows = []
+        any_img = any(a.get("image") for a in items)
         for a in items:
             img = a.get("image") or ""
             rows.append('<li>' + (('<span class="nw-th"><img src="' + _esc(img) + '" alt="" loading="lazy" decoding="async" onerror="this.parentNode.style.display=\'none\'"></span>') if img else '')
                         + '<span class="nw-b"><span class="ess-news-t">' + _esc(a.get("title", "")) + '</span>'
-                        + (('<span class="ess-news-s" translate="no">' + _esc(a.get("source", "")) + '</span>') if a.get("source") else '') + '</span></li>')
-        return '<ul class="ess-news" data-v="newslist">' + ''.join(rows) + '</ul>'
+                        + '<span class="ess-news-s"><span translate="no">' + _esc(a.get("source", "")) + '</span>'
+                        + (('<span class="nw-ago" translate="no" data-ts="' + _esc(a.get("date") or "") + '"></span>') if a.get("date") else '') + '</span></span></li>')
+        return '<ul class="ess-news' + ('' if any_img else ' ess-news-txt') + '" data-v="newslist">' + ''.join(rows) + '</ul>'
 
     _mh, _ms = _money(); _wh, _ws = _weather(); _fh, _fs = _flights(); _oh, _os = _notices()
     today_tiles = ''.join([
@@ -9291,7 +9293,14 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
     .nw-b{min-width:0}
     .ess-news-t{color:#2A3630;font-weight:600;font-size:14.5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
     .ess-news-s{display:block;font-size:11px;color:#8A9187;margin-top:3px}
-    .tc-news .d{margin-top:0}
+    .tc-news .d{margin-top:0;flex:1;display:flex}
+    .tc-news .ess-news{flex:1}
+    .ess-news-txt{display:flex!important;flex-direction:column;gap:0!important;counter-reset:nw}
+    .ess-news-txt li{flex:1;flex-direction:row!important;align-items:center;gap:16px!important;padding:10px 0;border-top:1px solid rgba(35,48,40,.08)}
+    .ess-news-txt li:first-child{border-top:0;padding-top:0}
+    .ess-news-txt li::before{counter-increment:nw;content:"0" counter(nw);font-family:'Newsreader',Georgia,serif;font-size:26px;color:var(--clay);opacity:.75;line-height:1;min-width:34px}
+    .ess-news-txt .ess-news-t{font-size:16px;-webkit-line-clamp:2}
+    @media(max-width:559px){.ess-news-txt li::before{font-size:20px;min-width:26px}.ess-news-txt .ess-news-t{font-size:14.5px}}
     @media(max-width:559px){.tc{min-height:0}.tc-big{font-size:50px}.tc-weather .tc-big{font-size:58px}.tc-bgic{width:110px;height:110px}}
         /* what's on */
     .wogrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 14px}
@@ -9423,6 +9432,8 @@ function esSearch(){
   function ticks(){
     var els=document.querySelectorAll('.hl-upd[data-built]');
     for(var i=0;i<els.length;i++){ var r=rel(els[i].getAttribute('data-built')); if(r) els[i].textContent=r; }
+    var ag=document.querySelectorAll('.nw-ago[data-ts]');
+    for(var j=0;j<ag.length;j++){ var r2=rel(ag[j].getAttribute('data-ts')); ag[j].textContent=r2?(' \u00b7 '+r2):''; }
     var tu=document.getElementById('today-upd');
     if(tu){ var b=tu.querySelector('[data-built]'); var age=b?(Date.now()-Date.parse(b.getAttribute('data-built')))/60000:0; tu.className='today-upd'+(age>120?' stale':''); }
   }
@@ -9469,8 +9480,8 @@ function esSearch(){
     if(!fresh(it)) return false;
     if(key==='rates'){
       if(!it.usd) return false;
-      setv(tile,'usd',fmt2(it.usd[1])); setv(tile,'usdbuy',fmt2(it.usd[0]));
-      var d=(it.usd_prev&&it.usd_prev.length===2)?Math.round((it.usd[1]-it.usd_prev[1])*100)/100:0;
+      setv(tile,'usd',fmt2(it.usd[0])); setv(tile,'usdsell',fmt2(it.usd[1]));
+      var d=(it.usd_prev&&it.usd_prev.length===2)?Math.round((it.usd[0]-it.usd_prev[0])*100)/100:0;
       var c=tile.querySelector('[data-v="usdchg"]'); if(c){ c.className='tc-chg '+(d>0?'hc-up':'hc-dn'); c.textContent=d?((d>0?'+':'')+fmt2(d)):''; }
       if(it.eur) setv(tile,'eur',fmt2(it.eur[0])+' / '+fmt2(it.eur[1]));
       spark(tile,it.hist);
@@ -9512,7 +9523,9 @@ function esSearch(){
     if(key==='news'){
       if(!(it.items&&it.items.length)) return false;
       var ul=tile.querySelector('[data-v="newslist"]'); if(!ul) return true;
-      ul.innerHTML=it.items.slice(0,3).map(function(a){ return '<li>'+(a.image?'<span class="nw-th"><img src="'+esc(a.image)+'" alt="" loading="lazy" decoding="async" onerror="this.parentNode.style.display=\'none\'"></span>':'')+'<span class="nw-b"><span class="ess-news-t">'+esc(a.title)+'</span>'+(a.source?'<span class="ess-news-s" translate="no">'+esc(a.source)+'</span>':'')+'</span></li>'; }).join('');
+      var its=it.items.slice(0,3), anyImg=its.some(function(a){ return !!a.image; });
+      ul.className='ess-news'+(anyImg?'':' ess-news-txt');
+      ul.innerHTML=its.map(function(a){ return '<li>'+(a.image?'<span class="nw-th"><img src="'+esc(a.image)+'" alt="" loading="lazy" decoding="async" onerror="this.parentNode.style.display=\'none\'"></span>':'')+'<span class="nw-b"><span class="ess-news-t">'+esc(a.title)+'</span><span class="ess-news-s"><span translate="no">'+esc(a.source||'')+'</span>'+(a.date?'<span class="nw-ago" translate="no" data-ts="'+esc(a.date)+'"></span>':'')+'</span></span></li>'; }).join('');
       return true;
     }
     return true;
