@@ -8837,32 +8837,36 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
     if _sr_min is not None and _ss_min is not None and _ss_min > _sr_min:
         _sun_f = max(0.0, min(1.0, (_now_min - _sr_min) / float(_ss_min - _sr_min)))
 
-    def _card(key, href, k, icon, hero, live_sec, generic, title, asof, extra_cls=""):
+    def _card(key, href, k, icon, hero, live_sec, generic, title, asof, extra_cls="", bg=""):
         """One dashboard card. hero/live_sec are live markup (may be ''): when empty
         the card shows its evergreen text instead. Words and values stay in
-        separate nodes (i18n rule), the JS only ever writes into data-v slots."""
+        separate nodes (i18n rule), the JS only ever writes into data-v slots.
+        bg: optional background markup (photo / big faint icon) behind the content."""
         has_live = bool(hero or live_sec)
         body = ('<div class="dl"' + ('' if has_live else ' hidden') + '>'
                 + ('<div class="tc-hero">' + hero + '</div>' if hero else '')
                 + ('<div class="d">' + live_sec + '</div>' if live_sec else '') + '</div>'
                 '<div class="dg"' + (' hidden' if has_live else '') + '><div class="tc-hero tc-hero-txt">' + title + '</div><div class="d">' + generic + '</div></div>')
-        foot = ('<div class="tc-foot"><span class="tc-link">' + title + ' <span aria-hidden="true">&rarr;</span></span>'
+        foot = ('<div class="tc-foot"><span class="tc-link">' + title + ' <span class="tc-arrow" aria-hidden="true">&rarr;</span></span>'
                 + (('<span class="ess-asof"><span>as of</span> <span translate="no" data-asof="' + _esc(asof or "") + '">' + _hhmm(asof) + '</span></span>') if (has_live and asof) else '')
                 + '</div>')
         return ('<a class="tc tc-' + key + (' ' + extra_cls if extra_cls else '') + '" data-reveal data-live="' + key + '" href="' + href + '">'
-                '<div class="tc-top"><span class="k">' + k + '</span><span class="tc-ic" aria-hidden="true">' + _IC.get(icon, "") + '</span></div>'
-                + body + foot + '</a>')
+                + bg +
+                '<div class="tc-in"><div class="tc-top"><span class="k">' + k + '</span><span class="tc-ic" aria-hidden="true">' + _IC.get(icon, "") + '</span></div>'
+                + body + foot + '</div></a>')
 
     # Money: big "we sell" figure, change badge, buy + EUR line, 14-day sparkline
     def _spark(hist):
         pts = [float(v) for _, v in (hist or []) if v is not None]
         if len(pts) < 3:
-            return '<svg class="tc-spark" viewBox="0 0 120 32" aria-hidden="true" hidden><polyline data-v="spark" points=""/></svg>'
+            return ('<svg class="tc-spark" viewBox="0 0 200 48" preserveAspectRatio="none" aria-hidden="true" hidden>'
+                    '<polygon data-v="sparkfill" points=""/><polyline data-v="spark" points=""/></svg>')
         lo, hi = min(pts), max(pts)
         rng = (hi - lo) or 0.01
         n = len(pts)
-        coords = ' '.join(f"{(i * 120.0 / (n - 1)):.1f},{(28 - (v - lo) / rng * 24):.1f}" for i, v in enumerate(pts))
-        return '<svg class="tc-spark" viewBox="0 0 120 32" aria-hidden="true"><polyline data-v="spark" points="' + coords + '"/></svg>'
+        line = ' '.join(f"{(i * 200.0 / (n - 1)):.1f},{(42 - (v - lo) / rng * 30):.1f}" for i, v in enumerate(pts))
+        return ('<svg class="tc-spark" viewBox="0 0 200 48" preserveAspectRatio="none" aria-hidden="true">'
+                '<polygon data-v="sparkfill" points="0,48 ' + line + ' 200,48"/><polyline data-v="spark" points="' + line + '"/></svg>')
     def _money():
         u, e = _rates.get("usd"), _rates.get("eur")
         if not u:
@@ -8871,11 +8875,10 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
         d = round(u[1] - p[1], 2) if (p and len(p) == 2) else 0
         chg = _v("usdchg", (('+' if d > 0 else '') + f"{d:.2f}") if d else '', ('tc-chg hc-up' if d > 0 else 'tc-chg hc-dn'), tag="span")
         hero = ('<span class="tc-big">' + _v("usd", f"{u[1]:.2f}", tag="span") + '</span>'
-                '<span class="tc-unit"><span>SRD per USD</span></span>' + chg + _spark(_rates.get("hist")))
+                '<span class="tc-unit"><span>SRD per USD</span>' + chg + '</span>')
         sec = ('<span>we buy</span> ' + _v("usdbuy", f"{u[0]:.2f}")
-               + ((_DOT + '<span>EUR</span> ' + _v("eur", f"{e[0]:.2f} / {e[1]:.2f}")) if e else '')
-               + '<span class="ess-sub">CME cash, we buy / we sell</span>')
-        return hero, sec
+               + ((_DOT + '<span>EUR</span> ' + _v("eur", f"{e[0]:.2f} / {e[1]:.2f}")) if e else ''))
+        return hero + _spark(_rates.get("hist")), sec
 
     # Weather: big temperature + condition glyph, sun arc, rain/UV/sunset
     def _weather():
@@ -8899,8 +8902,7 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
                    '<span class="sa-lbl"><span translate="no" data-v="sunrise">' + _esc(_wx["sunrise"]) + '</span><span translate="no" data-v="sunsetb">' + _esc(_wx["sunset"]) + '</span></span>')
         sec = ('<span>rain</span> ' + _v("rain", (str(int(_wx["rain_prob"])) + '%') if _wx.get("rain_prob") is not None else '&ndash;')
                + _DOT + '<span>UV</span> ' + _v("uv", str(int(round(float(_wx["uv"])))) if _wx.get("uv") is not None else '&ndash;')
-               + _DOT + '<span>sunset</span> ' + _v("sunset", _esc(_wx["sunset"]) if _wx.get("sunset") else '&ndash;')
-               + '<span class="ess-sub">Paramaribo, right now</span>')
+               + _DOT + '<span>sunset</span> ' + _v("sunset", _esc(_wx["sunset"]) if _wx.get("sunset") else '&ndash;'))
         return hero + (('<div class="wx-arc">' + arc + '</div>') if arc else ''), sec
 
     # Flights: the next departure as the figure, next arrival below
@@ -8923,10 +8925,10 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
             return '', ''
         lead, other, lead_lbl, other_lbl, lead_slot, other_slot = (dep, arr, 'Next departure', 'Next arrival', 'dep', 'arr') if dep else (arr, None, 'Next arrival', 'Next departure', 'arr', 'dep')
         hero = ('<span class="tc-big tc-big-s">' + _v(lead_slot, _esc(lead.get("flight", "")), tag="span") + '</span>'
-                '<span class="tc-unit"><span class="fl-lbl-' + lead_slot + '">' + lead_lbl + '</span> ' + _v(lead_slot + "x", _esc(lead.get("iata") or "") + ' ' + _esc((lead.get("time") or "")[-5:]), tag="span") + '</span>')
+                '<span class="tc-unit fl-route"><span class="fl-lbl-' + lead_slot + '">' + lead_lbl + '</span><br>'
+                '<span class="fl-rt" translate="no">' + ('PBM &rarr; ' if lead_slot == 'dep' else '') + _v(lead_slot + "x", _esc(lead.get("iata") or "") + ' &middot; ' + _esc((lead.get("time") or "")[-5:]), tag="span") + (' &rarr; PBM' if lead_slot == 'arr' else '') + '</span></span>')
         sec = ('<span class="fl-' + other_slot + '"' + ('' if other else ' hidden') + '><span>' + other_lbl + '</span> '
-               + _v(other_slot, (_esc(other.get("flight", "")) + ' ' + _esc(other.get("iata") or "") + ' ' + _esc((other.get("time") or "")[-5:])) if other else '') + '</span>'
-               '<span class="ess-sub">Johan Adolf Pengel (PBM)</span>')
+               + _v(other_slot, (_esc(other.get("flight", "")) + ' ' + _esc(other.get("iata") or "") + ' ' + _esc((other.get("time") or "")[-5:])) if other else '') + '</span>')
         return hero, sec
 
     # Notices: a status word with a coloured dot (three pre-rendered states, JS toggles)
@@ -8946,8 +8948,7 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
                 '<span class="tc-big tc-big-s ob ob-plan"' + ('' if state == "plan" else ' hidden') + '>Planned</span>')
         sec = ('<span class="ob-l ob-l-clear"' + ('' if state != "n" else ' hidden') + '><span>No outages today</span></span>'
                '<span class="ob-l ob-l-n"' + ('' if state == "n" else ' hidden') + '><span>Outage notices today</span></span>'
-               + (('<span class="ob-l ob-l-plan"' + ('' if state == "plan" else ' hidden') + '>' + _DOT + '<span>planned</span> <strong><span data-srdate="' + npd + '" translate="no">' + npd_txt + '</span></strong></span>') if npd_txt else '')
-               + '<span class="ess-sub">Power and water, by district</span>')
+               + (('<span class="ob-l ob-l-plan"' + ('' if state == "plan" else ' hidden') + '>' + _DOT + '<span>planned</span> <strong><span data-srdate="' + npd + '" translate="no">' + npd_txt + '</span></strong></span>') if npd_txt else ''))
         return hero, sec
 
     # News: three stories with thumbnails
@@ -8966,11 +8967,15 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
     _mh, _ms = _money(); _wh, _ws = _weather(); _fh, _fs = _flights(); _oh, _os = _notices()
     today_tiles = ''.join([
         _card('weather', 'conditions.html', 'Sky', '', _wh, _ws, 'Seven-day forecasts, sunrise, sunset and the river tides.', 'Weather &amp; tides', _wx.get("as_of"), 'tc-wide tc-' + _ph).replace('class="tc tc-weather', 'data-wxcode="' + _esc(str(_wx.get("code") if _wx.get("code") is not None else "")) + '" class="tc tc-weather', 1),
-        _card('rates', 'currency.html', 'Money', 'money', _mh, _ms, 'Today&#8217;s SRD against the dollar and the euro, plus the gold price.', 'Exchange rates', _rates.get("as_of")),
-        _card('flights', 'flights.html', 'Travel', 'plane', _fh, _fs, 'Live arrivals and departures at both Suriname airports.', 'Flights', _fl.get("as_of")),
-        _card('outages', 'daily-notices.html', 'Heads-up', 'bolt', _oh, _os, 'Power and water interruptions, before they catch you out.', 'Daily notices', _out.get("as_of")),
+        _card('rates', 'currency.html', 'Money', 'money', _mh, _ms, 'Today&#8217;s SRD against the dollar and the euro, plus the gold price.', 'Exchange rates', _rates.get("as_of"), 'tc-dark'),
+        _card('flights', 'flights.html', 'Travel', 'plane', _fh, _fs, 'Live arrivals and departures at both Suriname airports.', 'Flights', _fl.get("as_of"), '',
+              '<span class="tc-bgic" aria-hidden="true">' + _IC["plane"] + '</span>'),
+        _card('outages', 'daily-notices.html', 'Heads-up', 'bolt', _oh, _os, 'Power and water interruptions, before they catch you out.', 'Daily notices', _out.get("as_of"),
+              'tc-ob-' + ("n" if (_out.get("today") or 0) else ("plan" if _out.get("next_planned") else ("clear" if _out else ""))),
+              '<span class="tc-bgic" aria-hidden="true">' + _IC["bolt"] + '</span>'),
         _card('news', 'news.html', 'The latest', 'news', '', _news_rows(), 'Local headlines and the stories people are actually talking about.', 'Suriname news', _news.get("as_of"), 'tc-wide'),
-        _card('guide', 'visitor-guide.html', 'First-timer', 'guide', '', '', 'Visas, SIM cards, money and getting around, in plain language.', 'Visitor guide', None),
+        _card('guide', 'visitor-guide.html', 'First-timer', 'guide', '', '', 'Visas, SIM cards, money and getting around, in plain language.', 'Visitor guide', None, 'tc-photo',
+              '<img class="tc-ph" loading="lazy" decoding="async" src="/images/hero-paramaribo-m.webp" alt="" width="900" height="506"><span class="tc-ph-ov" aria-hidden="true"></span>'),
     ])
 
     # What's on: spotlight first, then the nearest upcoming events (hidden under 2)
@@ -9173,73 +9178,122 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
     .tc [hidden]{display:none!important}
     @media(min-width:560px){.tgrid{grid-template-columns:repeat(2,1fr)}.tc-wide{grid-column:span 2}}
     @media(min-width:1024px){.tgrid{grid-template-columns:repeat(4,1fr);gap:18px}}
-    .tc{display:flex;flex-direction:column;background:var(--card);border:1px solid rgba(35,48,40,.10);border-radius:4px;padding:18px 20px 16px;color:var(--ink);
-        box-shadow:0 1px 0 rgba(35,48,40,.03),0 14px 34px -24px rgba(35,48,40,.35);transition:transform .25s ease,box-shadow .25s ease;min-height:178px;position:relative;overflow:hidden}
-    .tc:hover{transform:translateY(-3px);box-shadow:0 1px 0 rgba(35,48,40,.03),0 22px 40px -22px rgba(35,48,40,.4)}
+    .tc{display:block;position:relative;overflow:hidden;background:var(--card);border:1px solid rgba(35,48,40,.10);border-radius:6px;color:var(--ink);
+        box-shadow:0 1px 0 rgba(35,48,40,.03),0 18px 40px -28px rgba(35,48,40,.45);transition:transform .25s ease,box-shadow .25s ease;min-height:232px}
+    .tc:hover{transform:translateY(-3px);box-shadow:0 1px 0 rgba(35,48,40,.03),0 26px 44px -24px rgba(35,48,40,.5)}
+    .tc-in{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;min-height:inherit;padding:18px 20px 14px}
     .tc .dl,.tc .dg{display:flex;flex-direction:column;flex:1}
-    .tc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-    .tc .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--clay)}
-    .tc-ic{width:20px;height:20px;color:#8A9187}
+    .tc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .tc .k{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--clay)}
+    .tc-ic{width:20px;height:20px;color:#9AA197}
     .tc-ic svg{width:20px;height:20px;display:block}
-    .tc-hero{display:flex;align-items:baseline;flex-wrap:wrap;gap:0 10px;margin-bottom:10px;line-height:1}
-    .tc-big{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:44px;letter-spacing:-.02em;color:var(--forest);line-height:1}
-    .tc-big-s{font-size:30px}
-    .tc-hero-txt{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:26px;color:var(--forest);line-height:1.1}
-    .tc-unit{font-size:12.5px;color:#6E7A6B;align-self:baseline}
-    .tc-chg{font-size:13px;font-weight:700;align-self:baseline}
+    .tc-hero{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin:6px 0 12px;line-height:1}
+    .tc-big{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:62px;letter-spacing:-.03em;color:var(--forest);line-height:.95}
+    .tc-big-s{font-size:40px}
+    .tc-hero-txt{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:30px;color:var(--forest);line-height:1.08}
+    .tc-unit{font-size:12.5px;color:#6E7A6B;align-self:baseline;line-height:1.4}
+    .tc-chg{font-size:13px;font-weight:700;margin-left:8px}
     .tc-chg:empty{display:none}
-    .tc .d{font-size:13.5px;color:#4B564D;line-height:1.5;margin-top:auto}
+    .tc .d{font-size:14px;color:#4B564D;line-height:1.5;margin-top:auto}
     .tc .d strong{color:var(--forest);font-weight:600}
-    .ess-sub{display:block;font-size:12px;color:#8A9187;margin-top:3px}
-    .tc-foot{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(35,48,40,.08)}
+    .tc-foot{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-top:14px;padding-top:10px;border-top:1px solid rgba(35,48,40,.08)}
     .tc-link{font-size:13px;font-weight:700;color:var(--forest);transition:color .2s}
+    .tc-arrow{display:inline-block;transition:transform .25s ease}
+    .tc:hover .tc-arrow{transform:translateX(4px)}
     .tc:hover .tc-link{color:var(--clay)}
     .ess-asof{font-size:11px;color:#9AA197;letter-spacing:.02em;white-space:nowrap}
-    /* money */
-    .tc-spark{width:100%;height:30px;margin-top:10px;flex-basis:100%}
-    .tc-spark polyline{fill:none;stroke:var(--forest2);stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round;opacity:.75}
-    /* weather */
-    .tc-weather .tc-hero{align-items:center;flex-wrap:nowrap;gap:18px}
-    .wx-left{display:flex;align-items:center;gap:12px;flex-wrap:wrap;flex:0 0 auto}
+    /* big faint icon as texture (flights, notices) */
+    .tc-bgic{position:absolute;right:-18px;bottom:-14px;width:150px;height:150px;color:var(--forest);opacity:.06;pointer-events:none;transform:rotate(-8deg)}
+    .tc-bgic svg{width:100%;height:100%}
+    /* money: dark forest card, gold figure, area sparkline along the bottom */
+    .tc-dark{background:linear-gradient(160deg,#1E4A36 0%,#142A1E 100%);border-color:rgba(252,247,236,.1);color:#F2E9D4}
+    .tc-dark .k{color:var(--gold)}
+    .tc-dark .tc-ic{color:rgba(252,247,236,.5)}
+    .tc-dark .tc-big,.tc-dark .tc-hero-txt,.tc-dark .tc-link{color:#FCF7EC}
+    .tc-dark .tc-big{color:var(--gold)}
+    .tc-dark .tc-unit{color:#C9D2C6}
+    .tc-dark .d{color:#DCE4DA}
+    .tc-dark .d strong{color:#FCF7EC}
+    .tc-dark .ess-asof{color:rgba(252,247,236,.5)}
+    .tc-dark .tc-foot{border-top-color:rgba(252,247,236,.12)}
+    .tc-dark:hover .tc-link{color:var(--gold)}
+    .tc-dark .hc-up{color:#8FD4A8}
+    .tc-dark .hc-dn{color:#F0A08A}
+    .tc-spark{position:absolute;left:0;right:0;bottom:48px;width:100%;height:56px;pointer-events:none;z-index:0}
+    .tc-spark polygon{fill:rgba(231,174,77,.14)}
+    .tc-spark polyline{fill:none;stroke:var(--gold);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round;opacity:.9;vector-effect:non-scaling-stroke}
+    .tc-rates .tc-hero{position:static}
+    .tc-rates .tc-big,.tc-rates .tc-unit,.tc-rates .d{position:relative;z-index:1}
+    /* weather: sky card, the arc is the illustration */
+    .tc-weather{color:var(--ink)}
+    .tc-weather .tc-hero{align-items:center;flex-wrap:nowrap;gap:18px;position:relative;z-index:1}
+    .wx-left{display:flex;align-items:center;gap:14px;flex-wrap:wrap;flex:0 0 auto}
     .wx-left .tc-unit{flex-basis:100%}
-    .wx-glyph{width:38px;height:38px;color:var(--gold);align-self:center}
-    .wx-glyph svg{width:38px;height:38px;display:block}
-    .wx-arc{position:relative;flex:1 1 auto;max-width:260px;margin-left:auto;min-width:120px}
-    @media(max-width:559px){.tc-weather .tc-hero{flex-wrap:wrap}.wx-arc{margin-left:0;flex-basis:100%}}
+    .tc-weather .tc-big{font-size:72px}
+    .wx-glyph{width:52px;height:52px;color:var(--gold);align-self:center;filter:drop-shadow(0 2px 6px rgba(231,174,77,.35))}
+    .wx-glyph svg{width:52px;height:52px;display:block}
+    .wx-arc{position:absolute;right:18px;top:34px;width:min(46%,300px);pointer-events:none;z-index:0}
     .sun-arc{width:100%;height:auto;display:block}
-    .sa-track{fill:none;stroke:rgba(35,48,40,.18);stroke-width:1.2;stroke-dasharray:3 4}
-    .sa-sun{fill:var(--gold);stroke:#fff;stroke-width:1.5}
-    .sa-lbl{display:flex;justify-content:space-between;font-size:11px;color:#8A9187;margin-top:-4px;padding:0 2px}
-    .tc-dawn{background:linear-gradient(135deg,#FFFDF6 0%,#FBEBD2 100%)}
-    .tc-day{background:linear-gradient(135deg,#FFFDF6 0%,#EEF3EA 100%)}
-    .tc-dusk{background:linear-gradient(135deg,#FFFDF6 0%,#F6D9B4 100%)}
-    .tc-night{background:linear-gradient(135deg,#1B3A2C 0%,#122519 100%);color:#F2E9D4;border-color:rgba(252,247,236,.12)}
+    .sa-track{fill:none;stroke:rgba(35,48,40,.22);stroke-width:1.2;stroke-dasharray:3 4}
+    .sa-sun{fill:var(--gold);stroke:rgba(255,255,255,.9);stroke-width:1.5;filter:drop-shadow(0 0 6px rgba(231,174,77,.9))}
+    .sa-lbl{display:flex;justify-content:space-between;font-size:11px;color:#6E7A6B;margin-top:-4px;padding:0 2px}
+    @media(max-width:559px){.wx-arc{position:relative;right:auto;top:auto;width:100%;max-width:260px;margin:4px 0 6px}.tc-weather .tc-hero{flex-wrap:wrap}}
+    .tc-dawn{background:linear-gradient(160deg,#FBE3C4 0%,#F6C9A0 55%,#EBB5A6 100%)}
+    .tc-day{background:linear-gradient(160deg,#D9EAF2 0%,#EAF1EA 55%,#F6EFDC 100%)}
+    .tc-dusk{background:linear-gradient(160deg,#F7D6A8 0%,#EDAE85 55%,#D28E92 100%)}
+    .tc-dusk .k,.tc-dusk .tc-big,.tc-dusk .tc-link,.tc-dusk .tc-hero-txt,.tc-dusk .d strong{color:#3B2518}
+    .tc-dusk .d,.tc-dusk .tc-unit{color:#4A2E20}
+    .tc-dusk .ess-asof,.tc-dusk .sa-lbl,.tc-dusk .tc-ic{color:#6B4A3A}
+    .tc-dusk .sa-track{stroke:rgba(60,30,20,.3)}
+    .tc-dusk .tc-foot{border-top-color:rgba(60,30,20,.15)}
+    .tc-dusk .wx-glyph{color:#FFF3DA;filter:drop-shadow(0 2px 6px rgba(120,60,20,.35))}
+    .tc-dusk:hover .tc-link{color:#6B3A1E}
+    .tc-dawn .k,.tc-dawn .tc-link{color:#7A4A1E}
+    .tc-night{background:radial-gradient(120% 90% at 80% 10%,#20405A 0%,#132A3B 45%,#0E1F2B 100%);color:#F2E9D4;border-color:rgba(252,247,236,.12)}
     .tc-night .tc-big,.tc-night .tc-hero-txt,.tc-night .tc-link,.tc-night .d strong{color:#FCF7EC}
     .tc-night .d,.tc-night .tc-unit{color:#C9D2C6}
-    .tc-night .ess-sub,.tc-night .ess-asof,.tc-night .sa-lbl,.tc-night .tc-ic{color:#9AA197}
+    .tc-night .ess-asof,.tc-night .sa-lbl,.tc-night .tc-ic{color:#9AA197}
     .tc-night .k{color:var(--gold)}
     .tc-night .sa-track{stroke:rgba(252,247,236,.25)}
     .tc-night .tc-foot{border-top-color:rgba(252,247,236,.12)}
     .tc-night .wx-glyph{color:#E7D7A8}
-    /* notices */
-    .tc-dot{display:inline-block;width:12px;height:12px;border-radius:50%;align-self:center;margin-right:2px}
+    /* notices: a status bar on the left edge */
+    .tc-outages::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:#2E7D4F}
+    .tc-ob-plan::before{background:var(--gold)}
+    .tc-ob-n::before{background:#B4452B}
+    .tc-ob-n{background:linear-gradient(160deg,#FFF4EF 0%,#FFFDF6 100%)}
+    .tc-ob-plan{background:linear-gradient(160deg,#FFF6E3 0%,#FFFDF6 100%)}
+    .tc-dot{display:inline-block;width:13px;height:13px;border-radius:50%;align-self:center;margin-right:2px}
     .ob-clear.ob-dot{background:#2E7D4F;box-shadow:0 0 0 4px rgba(46,125,79,.15)}
-    .ob-plan.ob-dot{background:var(--gold);box-shadow:0 0 0 4px rgba(231,174,77,.2)}
+    .ob-plan.ob-dot{background:var(--gold);box-shadow:0 0 0 4px rgba(231,174,77,.22)}
     .ob-n.ob-dot{background:#B4452B;box-shadow:0 0 0 4px rgba(180,69,43,.18)}
+    .fl-route{line-height:1.5}
+    .fl-rt{font-size:15px;font-weight:600;color:var(--forest)}
+    /* visitor guide: a photo card */
+    .tc-photo{color:#FCF7EC;border-color:rgba(252,247,236,.12)}
+    .tc-ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 60%;z-index:0;transition:transform .6s ease}
+    .tc-photo:hover .tc-ph{transform:scale(1.04)}
+    .tc-ph-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,40,28,.62) 0%,rgba(18,40,28,.45) 40%,rgba(18,40,28,.92) 100%);z-index:0}
+    .tc-photo .k{color:var(--gold)}
+    .tc-photo .tc-ic{color:rgba(252,247,236,.6)}
+    .tc-photo .tc-hero-txt,.tc-photo .tc-link{color:#FCF7EC}
+    .tc-photo .d{color:#E2DBCB}
+    .tc-photo .tc-foot{border-top-color:rgba(252,247,236,.18)}
+    .tc-photo:hover .tc-link{color:var(--gold)}
     /* news */
     .ess-news{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-    @media(min-width:560px){.tc-news .ess-news{grid-template-columns:repeat(3,1fr);gap:14px}}
+    @media(min-width:560px){.tc-news .ess-news{grid-template-columns:repeat(3,1fr);gap:16px}}
     .ess-news li{display:flex;gap:10px;align-items:flex-start;line-height:1.35;min-width:0}
     @media(min-width:560px){.tc-news .ess-news li{flex-direction:column;gap:8px}}
-    .nw-th{flex:0 0 56px;width:56px;height:56px;border-radius:3px;overflow:hidden;background:#EAE3D2}
+    .nw-th{flex:0 0 56px;width:56px;height:56px;border-radius:4px;overflow:hidden;background:#EAE3D2}
     @media(min-width:560px){.tc-news .nw-th{width:100%;flex-basis:auto;height:auto;aspect-ratio:16/9}}
     .nw-th img{width:100%;height:100%;object-fit:cover;display:block}
     .nw-b{min-width:0}
-    .ess-news-t{display:block;color:#3A463C;font-weight:500;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-    .ess-news-s{display:block;font-size:11px;color:#8A9187;margin-top:2px}
+    .ess-news-t{color:#2A3630;font-weight:600;font-size:14.5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .ess-news-s{display:block;font-size:11px;color:#8A9187;margin-top:3px}
     .tc-news .d{margin-top:0}
-    @media(max-width:559px){.tc{min-height:0}.tc-big{font-size:38px}}
-    /* what's on */    /* what's on */
+    @media(max-width:559px){.tc{min-height:0}.tc-big{font-size:50px}.tc-weather .tc-big{font-size:58px}.tc-bgic{width:110px;height:110px}}
+        /* what's on */
     .wogrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 14px}
     @media(min-width:700px){.wogrid{gap:22px}}
     @media(min-width:1024px){.wogrid{grid-template-columns:repeat(4,1fr)}}
@@ -9407,7 +9461,8 @@ function esSearch(){
     var pts=(hist||[]).map(function(h){ return +h[1]; }).filter(function(v){ return !isNaN(v); });
     if(pts.length<3){ svg.hidden=true; return; }
     var lo=Math.min.apply(null,pts), hi=Math.max.apply(null,pts), r=(hi-lo)||0.01, n=pts.length;
-    pl.setAttribute('points',pts.map(function(v,i){ return (i*120/(n-1)).toFixed(1)+','+(28-(v-lo)/r*24).toFixed(1); }).join(' ')); svg.hidden=false;
+    var line=pts.map(function(v,i){ return (i*200/(n-1)).toFixed(1)+','+(42-(v-lo)/r*30).toFixed(1); }).join(' ');
+    pl.setAttribute('points',line); var pg=svg.querySelector('[data-v="sparkfill"]'); if(pg) pg.setAttribute('points','0,48 '+line+' 200,48'); svg.hidden=false;
   }
   /* returns true when the live content was refreshed, false when it must fall back */
   function update(tile,key,it){
@@ -9440,7 +9495,7 @@ function esSearch(){
       var lead=tile.querySelector('[data-v="dep"]')&&tile.querySelector('.fl-lbl-dep')?'dep':'arr';
       var L=lead==='dep'?dep:arr, O=lead==='dep'?arr:dep, os=lead==='dep'?'arr':'dep';
       if(!L) return false;
-      setv(tile,lead,esc(L.flight)); setv(tile,lead+'x',esc(L.iata||'')+' '+esc((L.time||'').slice(-5)));
+      setv(tile,lead,esc(L.flight)); setv(tile,lead+'x',esc(L.iata||'')+' &middot; '+esc((L.time||'').slice(-5)));
       var so=tile.querySelector('.fl-'+os); if(so){ so.hidden=!O; if(O) setv(tile,os,esc(O.flight)+' '+esc(O.iata||'')+' '+esc((O.time||'').slice(-5))); }
       return true;
     }
@@ -9448,6 +9503,7 @@ function esSearch(){
       var n=it.today||0, state=n?'n':(it.next_planned?'plan':'clear');
       if(state==='plan'&&!tile.querySelector('.ob-l-plan')) state='clear';   /* no planned date rendered at build: wait for the next build */
       var dot=tile.querySelector('.ob-dot'); if(dot) dot.className='tc-dot ob-dot ob-'+state;
+      ['tc-ob-clear','tc-ob-plan','tc-ob-n'].forEach(function(c){ tile.classList.remove(c); }); tile.classList.add('tc-ob-'+state);
       ['clear','n','plan'].forEach(function(s2){ var a=tile.querySelector('.ob-'+s2+':not(.ob-dot)'); if(a) a.hidden=(s2!==state);
         var l=tile.querySelector('.ob-l-'+s2); if(l) l.hidden=(s2==='n')?(state!=='n'):(s2==='plan'?(state!=='plan'):(state==='n')); });
       if(n) setv(tile,'outn',String(n));
