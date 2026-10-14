@@ -6631,7 +6631,18 @@ def write_home_live(cme_rates, cme_live, cbvs_rates, cbvs_live, articles, flight
                     break
         except Exception:
             prev = {}
+        _hist = []
+        try:
+            with open(_RATE_HISTORY_PATH, encoding="utf-8") as f:
+                _days = (json.load(f).get("days") or {})
+            for _d in sorted(_days)[-14:]:
+                _u = (_days[_d].get("cme") or {}).get("USD")
+                if _u and len(_u) == 2:
+                    _hist.append([_d, _u[1]])
+        except Exception:
+            _hist = []
         items["rates"] = {
+            "hist": _hist,
             "ok": bool(cme_live), "as_of": now_iso if cme_live else None,
             "stale_after_h": 74 if now.weekday() >= 4 else 26, "source": "CME",
             "usd": _pair(cme_rates, "USD"), "eur": _pair(cme_rates, "EUR"),
@@ -6661,9 +6672,16 @@ def write_home_live(cme_rates, cme_live, cbvs_rates, cbvs_live, articles, flight
 
         # Events: resolved by build_events_page() this build
         _he = dict(_HOME_EVENTS)
+        _all_up = list(_he.get("upcoming") or [])
+        _upc = _all_up[:6]
+        _spid = _he.get("spotlight") or ""
+        if _spid and not any(u.get("id") == _spid for u in _upc):
+            _m = [u for u in _all_up if u.get("id") == _spid]
+            if _m:
+                _upc = [_m[0]] + _upc[:5]
         items["events"] = {"ok": bool(_he), "as_of": now_iso if _he else None, "stale_after_h": 24,
                            "spotlight": _he.get("spotlight", ""), "weekend": _he.get("weekend"),
-                           "next_holiday": _he.get("next_holiday"), "upcoming": (_he.get("upcoming") or [])[:6]}
+                           "next_holiday": _he.get("next_holiday"), "upcoming": _upc}
 
         # Flights: PBM only on the homepage; the cache carries its own fetch time
         _fl = (flights_data or {}).get("SMJP") or (None, None, None)
@@ -6687,6 +6705,7 @@ def write_home_live(cme_rates, cme_live, cbvs_rates, cbvs_live, articles, flight
         for a in (articles or [])[:4]:
             _dt = a.get("date")
             _news.append({"title": a.get("title", ""), "link": a.get("link", ""), "source": a.get("source", ""),
+                          "image": _feed_url(a.get("image", ""), img=True),
                           "date": (_dt.astimezone(SR_TZ).isoformat(timespec="minutes") if hasattr(_dt, "astimezone") else None)})
         items["news"] = {"ok": bool(_news), "as_of": (_news[0]["date"] if _news else None), "stale_after_h": 24,
                          "page": "/news.html", "items": _news}
@@ -6699,8 +6718,10 @@ def write_home_live(cme_rates, cme_live, cbvs_rates, cbvs_live, articles, flight
             json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
         _bad = [k for k, v in items.items() if not v.get("ok")]
         print(f"  OK  home_live.json written ({len(items)} items" + (f", not ok: {', '.join(_bad)}" if _bad else "") + ")")
+        return out
     except Exception as e:
         print(f"  !! home_live.json skipped: {e}")
+        return {}
 
 def build_rail_data(cme_rates):
     """Populate _RAIL before any page is built. Missing items are simply omitted."""
@@ -8665,14 +8686,349 @@ def _render_faq(faq):
     return head, body
 
 
-def build_index(restaurants, hotels, cme_rates=None):
-    # New warm "pull up a chair" homepage (Jun 2026 redesign).
-    # cme_rates kept in the signature for the caller; the live strip was retired
-    # in this design (rates remain reachable via the Essentials cards + nav).
+def build_index(restaurants, hotels, cme_rates=None, live=None):
+    # Warm "pull up a chair" homepage (Jun 2026 redesign) + the homepage freshness
+    # programme (Phase 2, 14 Oct 2026): a live "Today in Suriname" band, "What's on"
+    # events, live hero chips and a visible build time. `live` is the dict that
+    # write_home_live() also saves as data/home_live.json; the page is rendered
+    # from it at build time and the browser re-reads the JSON every few minutes.
+    # Rule: proof, not claims. A live number is only printed when its source
+    # answered and the data is younger than its stale_after_h; otherwise the tile
+    # keeps its evergreen text. Nothing here may raise: every live bit degrades to
+    # the static page.
     n_nature = len(NATURE_SPOTS) + len(SIGHTSEEING)
     n_act    = len(ACTIVITIES) + len(ADVENTURES_BIZ)
     n_rest   = len(RESTAURANTS)
     n_hotel  = len(HOTELS)
+    n_herit  = len(SIGHTSEEING)
+    n_shop   = len(SHOPPING) + len(SERVICES)
+    _esc = html_lib.escape
+    _now = datetime.now(SR_TZ)
+    _today = _now.date()
+    _L = (live or {}) if isinstance(live, dict) else {}
+    _IT = _L.get("items") or {}
+    _built = _L.get("built") or _now.isoformat(timespec="minutes")
+
+    def _age_h(iso):
+        try:
+            t = datetime.fromisoformat(iso)
+            if t.tzinfo is None:
+                t = t.replace(tzinfo=SR_TZ)
+            return (_now - t).total_seconds() / 3600
+        except Exception:
+            return None
+
+    def _live(key):
+        """The item dict when its source answered and it is not stale, else {}."""
+        it = _IT.get(key) or {}
+        if not it.get("ok"):
+            return {}
+        a = _age_h(it.get("as_of") or "")
+        if a is None or a > float(it.get("stale_after_h") or 0):
+            return {}
+        return it
+
+    def _hhmm(iso):
+        return (iso or "")[11:16]
+
+    _rates, _wx, _out, _evs, _fl, _news = (_live(k) for k in ("rates", "weather", "outages", "events", "flights", "news"))
+
+    # Hero eyebrow: date · temperature · sunset (each part only when known)
+    _NV = '<span translate="no">'
+    _eb = ['<span data-srdate="' + _today.isoformat() + '" translate="no">' + _now.strftime("%A %-d %B") + '</span>']
+    if _wx.get("temp") is not None:
+        _eb.append(_NV + str(_wx["temp"]) + '&deg;</span> <span>Paramaribo</span>')
+    if _wx.get("sunset"):
+        _eb.append('<span>sunset</span> ' + _NV + _esc(_wx["sunset"]) + '</span>')
+    hero_eyebrow = ' <span class="dot">&middot;</span> '.join(_eb)
+
+    # Hero chips: the five most-visited destinations, each carrying its live number
+    def _usd_chip():
+        u = _rates.get("usd")
+        if not u:
+            return ('currency.html', 'Market rates')
+        arrow = ''
+        p = _rates.get("usd_prev")
+        if p and len(p) == 2:
+            d = round(u[1] - p[1], 2)
+            arrow = (' <span class="hc-up" aria-label="up since yesterday">&#9650;</span>' if d > 0 else
+                     ' <span class="hc-dn" aria-label="down since yesterday">&#9660;</span>' if d < 0 else '')
+        return ('currency.html', 'USD <strong>' + f"{u[1]:.2f}" + '</strong>' + arrow)
+    def _ev_chip():
+        wk = _evs.get("weekend") or {}
+        if wk.get("count"):
+            return (wk.get("page", "/events.html").lstrip("/"), 'This weekend: <strong>' + str(wk["count"]) + '</strong> events')
+        return ('events.html', 'Events &amp; Festivals')
+    def _out_chip():
+        n = _out.get("today")
+        if _out and n:
+            return ('daily-notices.html', '<strong>' + str(n) + '</strong> Outage notices today')
+        npd = _out.get("next_planned")
+        if _out and npd:
+            try:
+                d = datetime.strptime(npd, "%Y-%m-%d")
+                return ('daily-notices.html', 'Planned outage <span data-srdate="' + npd + '" translate="no">' + d.strftime("%a %-d %B") + '</span>')
+            except Exception:
+                pass
+        return ('daily-notices.html', 'Daily notices')
+    _chips = [('restaurants.html', 'Where to Eat'), _ev_chip(), _usd_chip(), _out_chip(), ('business', 'Business tools')]
+    hero_chips = ''.join('<a href="' + h + '">' + t + '</a>' for h, t in _chips)
+
+    # "Today in Suriname" tiles: evergreen text, live line only when fresh
+    def _v(slot, val, cls="", tag="strong"):
+        return '<' + tag + ' translate="no" data-v="' + slot + '"' + ((' class="' + cls + '"') if cls else '') + '>' + val + '</' + tag + '>'
+    _DOT = ' <span class="dot">&middot;</span> '
+
+    # Small line icons (stroke = currentColor). Kept tiny on purpose.
+    _IC = {
+        "money": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M7 12h.01M17 12h.01"/></svg>',
+        "plane": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 13.5 4 11l1.2-1.2 7 1.2 4.3-4.3a1.8 1.8 0 0 1 2.5 2.5L14.7 13.5l1.2 7-1.2 1.2-2.5-6.5-3.2 3.2V21l-1-1-1-3-3-1-1-1h2.5z"/></svg>',
+        "bolt": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
+        "news": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13v14H6a2 2 0 0 1-2-2zM17 9h3v8a2 2 0 0 1-2 2"/><path d="M7 9h7M7 12h7M7 15h4"/></svg>',
+        "guide": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5V5.5M8 7h8M8 10.5h5"/></svg>',
+        "sun": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>',
+        "moon": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>',
+        "psun": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5.5V3.5M3.5 9H1.5M4.2 6.2 2.8 4.8M9.8 6.2l1.4-1.4"/><circle cx="7" cy="9" r="2.6"/><path d="M8 20h9a3.5 3.5 0 0 0 .4-7A5 5 0 0 0 8 13.5 3.3 3.3 0 0 0 8 20z"/></svg>',
+        "cloud": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 19h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 12.5 3.5 3.5 0 0 0 7 19z"/></svg>',
+        "fog": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 9h16M3 13h18M5 17h14"/></svg>',
+        "rain": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 8.5 3.5 3.5 0 0 0 7 15z"/><path d="M8 18l-1 2.5M12 18l-1 2.5M16 18l-1 2.5"/></svg>',
+        "storm": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 7.5 3.5 3.5 0 0 0 7 14z"/><path d="M12.5 14 10 18h3l-1.5 4"/></svg>',
+    }
+    _WX_GLYPHS = ("sun", "moon", "psun", "cloud", "fog", "rain", "storm")
+
+    def _wx_glyph(code, night=False):
+        try:
+            c = int(code)
+        except Exception:
+            return "sun"
+        if c <= 1:
+            return "moon" if night else "sun"
+        if c == 2:
+            return "psun"
+        if c == 3:
+            return "cloud"
+        if c in (45, 48):
+            return "fog"
+        if c >= 95:
+            return "storm"
+        return "rain"
+
+    def _mins(hhmm):
+        try:
+            h, m = hhmm.split(":")
+            return int(h) * 60 + int(m)
+        except Exception:
+            return None
+
+    _now_min = _now.hour * 60 + _now.minute
+    _sr_min, _ss_min = _mins(_wx.get("sunrise") or ""), _mins(_wx.get("sunset") or "")
+    def _phase():
+        if _sr_min is None or _ss_min is None:
+            return "day"
+        if _sr_min - 45 <= _now_min < _sr_min + 45:
+            return "dawn"
+        if _ss_min - 60 <= _now_min < _ss_min + 25:
+            return "dusk"
+        if _sr_min + 45 <= _now_min < _ss_min - 60:
+            return "day"
+        return "night"
+    _ph = _phase()
+    _sun_f = None
+    if _sr_min is not None and _ss_min is not None and _ss_min > _sr_min:
+        _sun_f = max(0.0, min(1.0, (_now_min - _sr_min) / float(_ss_min - _sr_min)))
+
+    def _card(key, href, k, icon, hero, live_sec, generic, title, asof, extra_cls=""):
+        """One dashboard card. hero/live_sec are live markup (may be ''): when empty
+        the card shows its evergreen text instead. Words and values stay in
+        separate nodes (i18n rule), the JS only ever writes into data-v slots."""
+        has_live = bool(hero or live_sec)
+        body = ('<div class="dl"' + ('' if has_live else ' hidden') + '>'
+                + ('<div class="tc-hero">' + hero + '</div>' if hero else '')
+                + ('<div class="d">' + live_sec + '</div>' if live_sec else '') + '</div>'
+                '<div class="dg"' + (' hidden' if has_live else '') + '><div class="tc-hero tc-hero-txt">' + title + '</div><div class="d">' + generic + '</div></div>')
+        foot = ('<div class="tc-foot"><span class="tc-link">' + title + ' <span aria-hidden="true">&rarr;</span></span>'
+                + (('<span class="ess-asof"><span>as of</span> <span translate="no" data-asof="' + _esc(asof or "") + '">' + _hhmm(asof) + '</span></span>') if (has_live and asof) else '')
+                + '</div>')
+        return ('<a class="tc tc-' + key + (' ' + extra_cls if extra_cls else '') + '" data-reveal data-live="' + key + '" href="' + href + '">'
+                '<div class="tc-top"><span class="k">' + k + '</span><span class="tc-ic" aria-hidden="true">' + _IC.get(icon, "") + '</span></div>'
+                + body + foot + '</a>')
+
+    # Money: big "we sell" figure, change badge, buy + EUR line, 14-day sparkline
+    def _spark(hist):
+        pts = [float(v) for _, v in (hist or []) if v is not None]
+        if len(pts) < 3:
+            return '<svg class="tc-spark" viewBox="0 0 120 32" aria-hidden="true" hidden><polyline data-v="spark" points=""/></svg>'
+        lo, hi = min(pts), max(pts)
+        rng = (hi - lo) or 0.01
+        n = len(pts)
+        coords = ' '.join(f"{(i * 120.0 / (n - 1)):.1f},{(28 - (v - lo) / rng * 24):.1f}" for i, v in enumerate(pts))
+        return '<svg class="tc-spark" viewBox="0 0 120 32" aria-hidden="true"><polyline data-v="spark" points="' + coords + '"/></svg>'
+    def _money():
+        u, e = _rates.get("usd"), _rates.get("eur")
+        if not u:
+            return '', ''
+        p = _rates.get("usd_prev")
+        d = round(u[1] - p[1], 2) if (p and len(p) == 2) else 0
+        chg = _v("usdchg", (('+' if d > 0 else '') + f"{d:.2f}") if d else '', ('tc-chg hc-up' if d > 0 else 'tc-chg hc-dn'), tag="span")
+        hero = ('<span class="tc-big">' + _v("usd", f"{u[1]:.2f}", tag="span") + '</span>'
+                '<span class="tc-unit"><span>SRD per USD</span></span>' + chg + _spark(_rates.get("hist")))
+        sec = ('<span>we buy</span> ' + _v("usdbuy", f"{u[0]:.2f}")
+               + ((_DOT + '<span>EUR</span> ' + _v("eur", f"{e[0]:.2f} / {e[1]:.2f}")) if e else '')
+               + '<span class="ess-sub">CME cash, we buy / we sell</span>')
+        return hero, sec
+
+    # Weather: big temperature + condition glyph, sun arc, rain/UV/sunset
+    def _weather():
+        if _wx.get("temp") is None:
+            return '', ''
+        g = _wx_glyph(_wx.get("code"), night=(_ph == "night"))
+        glyphs = ''.join('<span class="wx-g wx-' + k + '"' + ('' if k == g else ' hidden') + '>' + _IC[k] + '</span>' for k in _WX_GLYPHS)
+        feels = _wx.get("feels")
+        hero = ('<span class="wx-left"><span class="tc-big">' + _v("temp", str(_wx["temp"]) + '&deg;', tag="span") + '</span>'
+                '<span class="wx-glyph" aria-hidden="true">' + glyphs + '</span>'
+                '<span class="tc-unit wxf"' + ('' if (feels is not None and feels != _wx["temp"]) else ' hidden') + '><span>feels</span> '
+                + _v("feels", (str(feels) + '&deg;') if feels is not None else '', tag="span") + '</span></span>')
+        arc = ''
+        if _sun_f is not None:
+            import math as _m
+            ang = _m.pi * (1 - _sun_f)
+            cx, cy = 60 + 50 * _m.cos(ang), 42 - 36 * _m.sin(ang)
+            arc = ('<svg class="sun-arc" viewBox="0 0 120 48" aria-hidden="true" data-sunrise="' + _esc(_wx["sunrise"]) + '" data-sunset="' + _esc(_wx["sunset"]) + '">'
+                   '<path class="sa-track" d="M10 42 A50 36 0 0 1 110 42"/>'
+                   '<circle class="sa-sun" data-v="sun" cx="' + f"{cx:.1f}" + '" cy="' + f"{cy:.1f}" + '" r="4.5"' + (' style="display:none"' if _ph == "night" else '') + '/></svg>'
+                   '<span class="sa-lbl"><span translate="no" data-v="sunrise">' + _esc(_wx["sunrise"]) + '</span><span translate="no" data-v="sunsetb">' + _esc(_wx["sunset"]) + '</span></span>')
+        sec = ('<span>rain</span> ' + _v("rain", (str(int(_wx["rain_prob"])) + '%') if _wx.get("rain_prob") is not None else '&ndash;')
+               + _DOT + '<span>UV</span> ' + _v("uv", str(int(round(float(_wx["uv"])))) if _wx.get("uv") is not None else '&ndash;')
+               + _DOT + '<span>sunset</span> ' + _v("sunset", _esc(_wx["sunset"]) if _wx.get("sunset") else '&ndash;')
+               + '<span class="ess-sub">Paramaribo, right now</span>')
+        return hero + (('<div class="wx-arc">' + arc + '</div>') if arc else ''), sec
+
+    # Flights: the next departure as the figure, next arrival below
+    def _flights():
+        def _past(f):
+            try:
+                t = datetime.strptime(str(f.get("time") or "") + " " + str(_now.year), "%d %b %H:%M %Y").replace(tzinfo=SR_TZ)
+                return t < _now - timedelta(minutes=10)
+            except Exception:
+                return False
+        def _pick(L):
+            for f in (L or []):
+                st = (f.get("status") or "").lower()
+                if any(w in st for w in ("landed", "departed", "cancel", "arrived")) or _past(f):
+                    continue
+                return f
+            return None
+        dep, arr = _pick(_fl.get("departures")), _pick(_fl.get("arrivals"))
+        if not (dep or arr):
+            return '', ''
+        lead, other, lead_lbl, other_lbl, lead_slot, other_slot = (dep, arr, 'Next departure', 'Next arrival', 'dep', 'arr') if dep else (arr, None, 'Next arrival', 'Next departure', 'arr', 'dep')
+        hero = ('<span class="tc-big tc-big-s">' + _v(lead_slot, _esc(lead.get("flight", "")), tag="span") + '</span>'
+                '<span class="tc-unit"><span class="fl-lbl-' + lead_slot + '">' + lead_lbl + '</span> ' + _v(lead_slot + "x", _esc(lead.get("iata") or "") + ' ' + _esc((lead.get("time") or "")[-5:]), tag="span") + '</span>')
+        sec = ('<span class="fl-' + other_slot + '"' + ('' if other else ' hidden') + '><span>' + other_lbl + '</span> '
+               + _v(other_slot, (_esc(other.get("flight", "")) + ' ' + _esc(other.get("iata") or "") + ' ' + _esc((other.get("time") or "")[-5:])) if other else '') + '</span>'
+               '<span class="ess-sub">Johan Adolf Pengel (PBM)</span>')
+        return hero, sec
+
+    # Notices: a status word with a coloured dot (three pre-rendered states, JS toggles)
+    def _notices():
+        if not _out:
+            return '', ''
+        n = _out.get("today") or 0
+        npd = _out.get("next_planned") or ""
+        state = "n" if n else ("plan" if npd else "clear")
+        try:
+            npd_txt = datetime.strptime(npd, "%Y-%m-%d").strftime("%a %-d %B") if npd else ""
+        except Exception:
+            npd_txt = ""
+        hero = ('<span class="tc-dot ob-dot ob-' + state + '" data-v="obdot" aria-hidden="true"></span>'
+                '<span class="tc-big tc-big-s ob ob-clear"' + ('' if state == "clear" else ' hidden') + '>All clear</span>'
+                '<span class="tc-big tc-big-s ob ob-n"' + ('' if state == "n" else ' hidden') + '>' + _v("outn", str(n or ""), tag="span") + ' <span>notices</span></span>'
+                '<span class="tc-big tc-big-s ob ob-plan"' + ('' if state == "plan" else ' hidden') + '>Planned</span>')
+        sec = ('<span class="ob-l ob-l-clear"' + ('' if state != "n" else ' hidden') + '><span>No outages today</span></span>'
+               '<span class="ob-l ob-l-n"' + ('' if state == "n" else ' hidden') + '><span>Outage notices today</span></span>'
+               + (('<span class="ob-l ob-l-plan"' + ('' if state == "plan" else ' hidden') + '>' + _DOT + '<span>planned</span> <strong><span data-srdate="' + npd + '" translate="no">' + npd_txt + '</span></strong></span>') if npd_txt else '')
+               + '<span class="ess-sub">Power and water, by district</span>')
+        return hero, sec
+
+    # News: three stories with thumbnails
+    def _news_rows():
+        items = (_news.get("items") or [])[:3]
+        if not items:
+            return ''
+        rows = []
+        for a in items:
+            img = a.get("image") or ""
+            rows.append('<li>' + (('<span class="nw-th"><img src="' + _esc(img) + '" alt="" loading="lazy" decoding="async" onerror="this.parentNode.style.display=\'none\'"></span>') if img else '')
+                        + '<span class="nw-b"><span class="ess-news-t">' + _esc(a.get("title", "")) + '</span>'
+                        + (('<span class="ess-news-s" translate="no">' + _esc(a.get("source", "")) + '</span>') if a.get("source") else '') + '</span></li>')
+        return '<ul class="ess-news" data-v="newslist">' + ''.join(rows) + '</ul>'
+
+    _mh, _ms = _money(); _wh, _ws = _weather(); _fh, _fs = _flights(); _oh, _os = _notices()
+    today_tiles = ''.join([
+        _card('weather', 'conditions.html', 'Sky', '', _wh, _ws, 'Seven-day forecasts, sunrise, sunset and the river tides.', 'Weather &amp; tides', _wx.get("as_of"), 'tc-wide tc-' + _ph).replace('class="tc tc-weather', 'data-wxcode="' + _esc(str(_wx.get("code") if _wx.get("code") is not None else "")) + '" class="tc tc-weather', 1),
+        _card('rates', 'currency.html', 'Money', 'money', _mh, _ms, 'Today&#8217;s SRD against the dollar and the euro, plus the gold price.', 'Exchange rates', _rates.get("as_of")),
+        _card('flights', 'flights.html', 'Travel', 'plane', _fh, _fs, 'Live arrivals and departures at both Suriname airports.', 'Flights', _fl.get("as_of")),
+        _card('outages', 'daily-notices.html', 'Heads-up', 'bolt', _oh, _os, 'Power and water interruptions, before they catch you out.', 'Daily notices', _out.get("as_of")),
+        _card('news', 'news.html', 'The latest', 'news', '', _news_rows(), 'Local headlines and the stories people are actually talking about.', 'Suriname news', _news.get("as_of"), 'tc-wide'),
+        _card('guide', 'visitor-guide.html', 'First-timer', 'guide', '', '', 'Visas, SIM cards, money and getting around, in plain language.', 'Visitor guide', None),
+    ])
+
+    # What's on: spotlight first, then the nearest upcoming events (hidden under 2)
+    def _countdown(st, en):
+        try:
+            sd, ed = datetime.strptime(st, "%Y-%m-%d").date(), datetime.strptime(en, "%Y-%m-%d").date()
+        except Exception:
+            return ''
+        if sd <= _today <= ed:
+            return 'Happening now' if ed > sd else 'Today'
+        n = (sd - _today).days
+        if n == 1:
+            return 'Tomorrow'
+        if n < 0:
+            return ''
+        return 'In ' + str(n) + ' days'
+    _up = [e for e in (_evs.get("upcoming") or []) if e.get("name")]
+    _spot_id = _evs.get("spotlight") or ""
+    _tiso = _today.isoformat()
+    _up.sort(key=lambda e: (0 if (e.get("id") == _spot_id) else 1, max(e.get("start", ""), _tiso),
+                            1 if e.get("start", "") < _tiso else 0, e.get("start", "")))
+    _ev_cards, _ev_ld = [], []
+    for e in _up[:4]:
+        try:
+            sd = datetime.strptime(e["start"], "%Y-%m-%d")
+        except Exception:
+            continue
+        href = e.get("page") or "events.html"
+        if href.startswith("/"):
+            href = href[1:]
+        art = (('<img loading="lazy" decoding="async" src="' + _esc(e["flyer"]) + '" alt="">') if e.get("flyer") else
+               ('<div class="wo-typo" aria-hidden="true"><span class="wo-d">' + str(sd.day) + '</span><span class="wo-m">' + sd.strftime("%b") + '</span></div>'))
+        cd = _countdown(e.get("start", ""), e.get("end", ""))
+        when = '<span data-srdate="' + e["start"] + '" translate="no">' + sd.strftime("%a %-d %B") + '</span>'
+        _ev_cards.append(
+            '<a class="wo-card" data-reveal href="' + _esc(href) + '">'
+            '<div class="wo-art">' + art + '</div>'
+            '<div class="wo-body"><div class="wo-when">' + when + ((' &middot; <span class="wo-cd">' + cd + '</span>') if cd else '') + '</div>'
+            '<div class="wo-t">' + _esc(e["name"]) + '</div>'
+            + (('<div class="wo-loc" translate="no">' + _esc(e["location"]) + '</div>') if e.get("location") else '') + '</div></a>')
+        _ev_ld.append({"@type": "ListItem", "position": len(_ev_ld) + 1, "url": SITE_URL + "/" + href, "name": e["name"]})
+    _wk = _evs.get("weekend") or {}
+    whats_on = ''
+    if len(_ev_cards) >= 2:
+        whats_on = ('<!-- ===== WHAT\'S ON ===== -->\n<section class="sec" style="background:var(--paper)" data-sec="whatson">\n  <div class="wrap">\n'
+                    '    <div class="lead-head" data-reveal style="margin-bottom:36px">\n      <div>\n'
+                    '        <div class="eyebrow" style="margin-bottom:14px">What&#8217;s on</div>\n'
+                    '        <h2 class="dsp" style="font-weight:500;font-size:clamp(32px,4.6vw,58px);line-height:1;margin:0;letter-spacing:-.01em;color:var(--forest)">Coming up in Suriname.</h2>\n      </div>\n'
+                    '      <div class="wo-links">' + (('<a href="' + _esc((_wk.get("page") or "/events.html").lstrip("/")) + '"><span>This weekend</span> <span translate="no">&middot; ' + str(_wk["count"]) + '</span></a>') if _wk.get("count") else '')
+                    + '<a href="events.html">All events &amp; holidays &rarr;</a></div>\n    </div>\n'
+                    '    <div class="wogrid">' + ''.join(_ev_cards) + '</div>\n  </div>\n</section>\n')
+    events_ld = ('<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@type": "ItemList",
+                 "name": "Upcoming events in Suriname", "itemListElement": _ev_ld}, ensure_ascii=False) + '</script>') if _ev_ld else ''
+
+    # dateModified: the newest data on the page (honest: the page really changes daily)
+    _mods = [it.get("as_of") for it in _IT.values() if isinstance(it, dict) and it.get("ok") and it.get("as_of")]
+    date_modified = (max(_mods)[:10] if _mods else _now.strftime("%Y-%m-%d"))
+    temp_stat = (str(_wx["temp"]) if _wx.get("temp") is not None else "28")
     _home_css = r"""
     /* ===== HERO ===== */
     /* Split hero: words on paper in the left column, photograph in the right.
@@ -8801,6 +9157,111 @@ def build_index(restaurants, hotels, cme_rates=None):
     .btn-ghost-light:hover{background:rgba(35,48,40,.06)}
     .btn-gold{box-shadow:none}
     .btn-gold:hover{transform:none;background:#D89E3C}
+    /* live bits (Phase 2) */
+    .hero-kept{font-size:13px;color:#6E7A6B;margin-top:14px}
+    .hero-kept .hl-upd{color:#4B564D}
+    .hc-up{color:#2E7D4F}
+    .hc-dn{color:#B4452B}
+    .today-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+    .today-upd{font-size:13px;color:#6E7A6B}
+    .today-upd .cd{display:inline-block;width:7px;height:7px;border-radius:50%;background:#2E7D4F;margin-right:7px;vertical-align:1px;box-shadow:0 0 0 0 rgba(46,125,79,.45)}
+    @media (prefers-reduced-motion: no-preference){.today-upd .cd{animation:tcpulse 2.4s ease-out infinite}}
+    @keyframes tcpulse{0%{box-shadow:0 0 0 0 rgba(46,125,79,.45)}70%{box-shadow:0 0 0 8px rgba(46,125,79,0)}100%{box-shadow:0 0 0 0 rgba(46,125,79,0)}}
+    .today-upd.stale .cd{background:#B4452B;animation:none}
+    /* the dashboard grid */
+    .tgrid{display:grid;grid-template-columns:1fr;gap:14px;grid-auto-flow:dense}
+    .tc [hidden]{display:none!important}
+    @media(min-width:560px){.tgrid{grid-template-columns:repeat(2,1fr)}.tc-wide{grid-column:span 2}}
+    @media(min-width:1024px){.tgrid{grid-template-columns:repeat(4,1fr);gap:18px}}
+    .tc{display:flex;flex-direction:column;background:var(--card);border:1px solid rgba(35,48,40,.10);border-radius:4px;padding:18px 20px 16px;color:var(--ink);
+        box-shadow:0 1px 0 rgba(35,48,40,.03),0 14px 34px -24px rgba(35,48,40,.35);transition:transform .25s ease,box-shadow .25s ease;min-height:178px;position:relative;overflow:hidden}
+    .tc:hover{transform:translateY(-3px);box-shadow:0 1px 0 rgba(35,48,40,.03),0 22px 40px -22px rgba(35,48,40,.4)}
+    .tc .dl,.tc .dg{display:flex;flex-direction:column;flex:1}
+    .tc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+    .tc .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--clay)}
+    .tc-ic{width:20px;height:20px;color:#8A9187}
+    .tc-ic svg{width:20px;height:20px;display:block}
+    .tc-hero{display:flex;align-items:baseline;flex-wrap:wrap;gap:0 10px;margin-bottom:10px;line-height:1}
+    .tc-big{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:44px;letter-spacing:-.02em;color:var(--forest);line-height:1}
+    .tc-big-s{font-size:30px}
+    .tc-hero-txt{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:26px;color:var(--forest);line-height:1.1}
+    .tc-unit{font-size:12.5px;color:#6E7A6B;align-self:baseline}
+    .tc-chg{font-size:13px;font-weight:700;align-self:baseline}
+    .tc-chg:empty{display:none}
+    .tc .d{font-size:13.5px;color:#4B564D;line-height:1.5;margin-top:auto}
+    .tc .d strong{color:var(--forest);font-weight:600}
+    .ess-sub{display:block;font-size:12px;color:#8A9187;margin-top:3px}
+    .tc-foot{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(35,48,40,.08)}
+    .tc-link{font-size:13px;font-weight:700;color:var(--forest);transition:color .2s}
+    .tc:hover .tc-link{color:var(--clay)}
+    .ess-asof{font-size:11px;color:#9AA197;letter-spacing:.02em;white-space:nowrap}
+    /* money */
+    .tc-spark{width:100%;height:30px;margin-top:10px;flex-basis:100%}
+    .tc-spark polyline{fill:none;stroke:var(--forest2);stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round;opacity:.75}
+    /* weather */
+    .tc-weather .tc-hero{align-items:center;flex-wrap:nowrap;gap:18px}
+    .wx-left{display:flex;align-items:center;gap:12px;flex-wrap:wrap;flex:0 0 auto}
+    .wx-left .tc-unit{flex-basis:100%}
+    .wx-glyph{width:38px;height:38px;color:var(--gold);align-self:center}
+    .wx-glyph svg{width:38px;height:38px;display:block}
+    .wx-arc{position:relative;flex:1 1 auto;max-width:260px;margin-left:auto;min-width:120px}
+    @media(max-width:559px){.tc-weather .tc-hero{flex-wrap:wrap}.wx-arc{margin-left:0;flex-basis:100%}}
+    .sun-arc{width:100%;height:auto;display:block}
+    .sa-track{fill:none;stroke:rgba(35,48,40,.18);stroke-width:1.2;stroke-dasharray:3 4}
+    .sa-sun{fill:var(--gold);stroke:#fff;stroke-width:1.5}
+    .sa-lbl{display:flex;justify-content:space-between;font-size:11px;color:#8A9187;margin-top:-4px;padding:0 2px}
+    .tc-dawn{background:linear-gradient(135deg,#FFFDF6 0%,#FBEBD2 100%)}
+    .tc-day{background:linear-gradient(135deg,#FFFDF6 0%,#EEF3EA 100%)}
+    .tc-dusk{background:linear-gradient(135deg,#FFFDF6 0%,#F6D9B4 100%)}
+    .tc-night{background:linear-gradient(135deg,#1B3A2C 0%,#122519 100%);color:#F2E9D4;border-color:rgba(252,247,236,.12)}
+    .tc-night .tc-big,.tc-night .tc-hero-txt,.tc-night .tc-link,.tc-night .d strong{color:#FCF7EC}
+    .tc-night .d,.tc-night .tc-unit{color:#C9D2C6}
+    .tc-night .ess-sub,.tc-night .ess-asof,.tc-night .sa-lbl,.tc-night .tc-ic{color:#9AA197}
+    .tc-night .k{color:var(--gold)}
+    .tc-night .sa-track{stroke:rgba(252,247,236,.25)}
+    .tc-night .tc-foot{border-top-color:rgba(252,247,236,.12)}
+    .tc-night .wx-glyph{color:#E7D7A8}
+    /* notices */
+    .tc-dot{display:inline-block;width:12px;height:12px;border-radius:50%;align-self:center;margin-right:2px}
+    .ob-clear.ob-dot{background:#2E7D4F;box-shadow:0 0 0 4px rgba(46,125,79,.15)}
+    .ob-plan.ob-dot{background:var(--gold);box-shadow:0 0 0 4px rgba(231,174,77,.2)}
+    .ob-n.ob-dot{background:#B4452B;box-shadow:0 0 0 4px rgba(180,69,43,.18)}
+    /* news */
+    .ess-news{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+    @media(min-width:560px){.tc-news .ess-news{grid-template-columns:repeat(3,1fr);gap:14px}}
+    .ess-news li{display:flex;gap:10px;align-items:flex-start;line-height:1.35;min-width:0}
+    @media(min-width:560px){.tc-news .ess-news li{flex-direction:column;gap:8px}}
+    .nw-th{flex:0 0 56px;width:56px;height:56px;border-radius:3px;overflow:hidden;background:#EAE3D2}
+    @media(min-width:560px){.tc-news .nw-th{width:100%;flex-basis:auto;height:auto;aspect-ratio:16/9}}
+    .nw-th img{width:100%;height:100%;object-fit:cover;display:block}
+    .nw-b{min-width:0}
+    .ess-news-t{display:block;color:#3A463C;font-weight:500;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .ess-news-s{display:block;font-size:11px;color:#8A9187;margin-top:2px}
+    .tc-news .d{margin-top:0}
+    @media(max-width:559px){.tc{min-height:0}.tc-big{font-size:38px}}
+    /* what's on */    /* what's on */
+    .wogrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 14px}
+    @media(min-width:700px){.wogrid{gap:22px}}
+    @media(min-width:1024px){.wogrid{grid-template-columns:repeat(4,1fr)}}
+    @media(max-width:479px){.wo-t{font-size:15px}.wo-when{font-size:10.5px}}
+    .wo-card{display:block;border-top:1px solid rgba(35,48,40,.16);padding-top:16px;color:var(--ink)}
+    .wo-art{aspect-ratio:4/5;overflow:hidden;background:#EAE3D2;position:relative}
+    .wo-art img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+    .wo-card:hover .wo-art img{transform:scale(1.03)}
+    .wo-typo{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--forest)}
+    .wo-typo .wo-d{font-family:'Newsreader',Georgia,serif;font-size:72px;line-height:1;font-weight:500}
+    .wo-typo .wo-m{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);margin-top:8px}
+    .wo-body{padding:14px 0 0}
+    .wo-when{font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--clay)}
+    .wo-cd{color:#2E7D4F}
+    .wo-t{font-size:17px;font-weight:700;color:var(--forest);margin-top:8px;line-height:1.25}
+    .wo-card:hover .wo-t{color:var(--clay)}
+    .wo-loc{font-size:13px;color:#6E7A6B;margin-top:5px}
+    .wo-links{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;font-weight:700}
+    .wo-links a{color:var(--forest);border-bottom:1px solid #D8CFBC;padding-bottom:2px}
+    .wo-links a:hover{color:var(--clay);border-bottom-color:var(--clay)}
+    /* hero: shorter, the live band sits one scroll away */
+    #hero{min-height:calc(74vh - 92px);min-height:calc(74svh - 92px)}
     /* scroll reveal (safe: visible by default; JS opts in, never gates content) */
     .rv-on [data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
     .rv-on [data-reveal].rv-in{opacity:1;transform:none}
@@ -8889,6 +9350,161 @@ function esSearch(){
   }
   try{ hsEv('hero','search:'+q.slice(0,40)); }catch(e){}
 }
+/* ---- Live band (Phase 2, 14 Oct 2026). The page is rendered from the same
+   data/home_live.json at build time; the browser refreshes the numbers every
+   5 minutes and keeps the "updated N min ago" text honest. A tile whose data
+   is older than its stale_after_h falls back to its evergreen text. ---- */
+(function(){
+  var LANG=(document.documentElement.lang||'en').slice(0,2);
+  var rtf=null; try{ rtf=new Intl.RelativeTimeFormat(LANG,{numeric:'auto'}); }catch(e){}
+  function rel(iso){
+    var t=Date.parse(iso); if(!t) return '';
+    var m=Math.round((Date.now()-t)/60000);
+    if(!rtf) return m<1?'just now':(m<60?m+' min ago':Math.round(m/60)+' h ago');
+    if(m<1) return rtf.format(0,'minute');
+    if(m<60) return rtf.format(-m,'minute');
+    if(m<48*60) return rtf.format(-Math.round(m/60),'hour');
+    return rtf.format(-Math.round(m/1440),'day');
+  }
+  function ticks(){
+    var els=document.querySelectorAll('.hl-upd[data-built]');
+    for(var i=0;i<els.length;i++){ var r=rel(els[i].getAttribute('data-built')); if(r) els[i].textContent=r; }
+    var tu=document.getElementById('today-upd');
+    if(tu){ var b=tu.querySelector('[data-built]'); var age=b?(Date.now()-Date.parse(b.getAttribute('data-built')))/60000:0; tu.className='today-upd'+(age>120?' stale':''); }
+  }
+  function fmt2(n){ return (Math.round(n*100)/100).toFixed(2); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function fresh(it){
+    if(!it||!it.ok||!it.as_of) return false;
+    var t=Date.parse(it.as_of); if(!t) return false;
+    return (Date.now()-t)/3600000 <= (it.stale_after_h||0);
+  }
+  function setv(tile,slot,html){ var el=tile.querySelector('[data-v="'+slot+'"]'); if(el) el.innerHTML=html; return !!el; }
+  var MON={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+  function past(f){ var m=/^(\d{1,2}) (\w{3}) (\d{2}):(\d{2})$/.exec(f.time||''); if(!m||!(m[2] in MON)) return false;
+    var y=new Date().getFullYear(); var t=Date.UTC(y,MON[m[2]],+m[1],+m[3]+3,+m[4]); return t < Date.now()-600000; }
+  function pick(L){ for(var i=0;i<(L||[]).length;i++){ var f=L[i], st=(f.status||'').toLowerCase();
+    if(/landed|departed|cancel|arrived/.test(st)||past(f)) continue; return f; } return null; }
+  function srNow(){ var d=new Date(Date.now()-3*3600000); return d.getUTCHours()*60+d.getUTCMinutes(); }
+  function mins(s){ var m=/^(\d{1,2}):(\d{2})/.exec(s||''); return m?(+m[1])*60+(+m[2]):null; }
+  function glyphFor(code,night){ code=+code; if(!(code>=0)) return 'sun'; if(code<=1) return night?'moon':'sun'; if(code===2) return 'psun'; if(code===3) return 'cloud'; if(code===45||code===48) return 'fog'; if(code>=95) return 'storm'; return 'rain'; }
+  /* sun position + time-of-day tint, from the sunrise/sunset the card carries */
+  function sunTick(){
+    var tile=document.querySelector('.tc-weather'); if(!tile) return;
+    var arc=tile.querySelector('.sun-arc'); var sr=arc?mins(arc.getAttribute('data-sunrise')):null, ss=arc?mins(arc.getAttribute('data-sunset')):null;
+    var n=srNow(), ph='day';
+    if(sr!=null&&ss!=null){
+      if(n>=sr-45&&n<sr+45) ph='dawn'; else if(n>=ss-60&&n<ss+25) ph='dusk'; else if(n>=sr+45&&n<ss-60) ph='day'; else ph='night';
+      var sun=tile.querySelector('.sa-sun');
+      if(sun){ if(ph==='night'){ sun.style.display='none'; } else { var f=Math.max(0,Math.min(1,(n-sr)/(ss-sr))), a=Math.PI*(1-f);
+        sun.style.display=''; sun.setAttribute('cx',(60+50*Math.cos(a)).toFixed(1)); sun.setAttribute('cy',(42-36*Math.sin(a)).toFixed(1)); } }
+    }
+    ['tc-dawn','tc-day','tc-dusk','tc-night'].forEach(function(c){ tile.classList.remove(c); }); tile.classList.add('tc-'+ph);
+    var code=tile.getAttribute('data-wxcode'); if(code!=null){ var g=glyphFor(code,ph==='night'); var gs=tile.querySelectorAll('.wx-g'); for(var i=0;i<gs.length;i++) gs[i].hidden=!gs[i].classList.contains('wx-'+g); }
+  }
+  function spark(tile,hist){
+    var pl=tile.querySelector('[data-v="spark"]'); if(!pl) return; var svg=pl.parentNode;
+    var pts=(hist||[]).map(function(h){ return +h[1]; }).filter(function(v){ return !isNaN(v); });
+    if(pts.length<3){ svg.hidden=true; return; }
+    var lo=Math.min.apply(null,pts), hi=Math.max.apply(null,pts), r=(hi-lo)||0.01, n=pts.length;
+    pl.setAttribute('points',pts.map(function(v,i){ return (i*120/(n-1)).toFixed(1)+','+(28-(v-lo)/r*24).toFixed(1); }).join(' ')); svg.hidden=false;
+  }
+  /* returns true when the live content was refreshed, false when it must fall back */
+  function update(tile,key,it){
+    if(!fresh(it)) return false;
+    if(key==='rates'){
+      if(!it.usd) return false;
+      setv(tile,'usd',fmt2(it.usd[1])); setv(tile,'usdbuy',fmt2(it.usd[0]));
+      var d=(it.usd_prev&&it.usd_prev.length===2)?Math.round((it.usd[1]-it.usd_prev[1])*100)/100:0;
+      var c=tile.querySelector('[data-v="usdchg"]'); if(c){ c.className='tc-chg '+(d>0?'hc-up':'hc-dn'); c.textContent=d?((d>0?'+':'')+fmt2(d)):''; }
+      if(it.eur) setv(tile,'eur',fmt2(it.eur[0])+' / '+fmt2(it.eur[1]));
+      spark(tile,it.hist);
+      return true;
+    }
+    if(key==='weather'){
+      if(it.temp==null) return false;
+      setv(tile,'temp',it.temp+'&deg;');
+      var wf=tile.querySelector('.wxf'); if(wf){ var show=(it.feels!=null&&it.feels!==it.temp); wf.hidden=!show; if(show) setv(tile,'feels',it.feels+'&deg;'); }
+      setv(tile,'rain',it.rain_prob!=null?Math.round(it.rain_prob)+'%':'&ndash;');
+      setv(tile,'uv',it.uv!=null?String(Math.round(it.uv)):'&ndash;');
+      setv(tile,'sunset',it.sunset?esc(it.sunset):'&ndash;'); setv(tile,'sunsetb',it.sunset?esc(it.sunset):''); setv(tile,'sunrise',it.sunrise?esc(it.sunrise):'');
+      var arc=tile.querySelector('.sun-arc'); if(arc&&it.sunrise&&it.sunset){ arc.setAttribute('data-sunrise',it.sunrise); arc.setAttribute('data-sunset',it.sunset); }
+      if(it.code!=null) tile.setAttribute('data-wxcode',String(it.code));
+      sunTick();
+      return true;
+    }
+    if(key==='flights'){
+      var dep=pick(it.departures), arr=pick(it.arrivals);
+      if(!dep&&!arr) return false;
+      /* the figure keeps the role it was built with (departure or arrival); values refresh in place */
+      var lead=tile.querySelector('[data-v="dep"]')&&tile.querySelector('.fl-lbl-dep')?'dep':'arr';
+      var L=lead==='dep'?dep:arr, O=lead==='dep'?arr:dep, os=lead==='dep'?'arr':'dep';
+      if(!L) return false;
+      setv(tile,lead,esc(L.flight)); setv(tile,lead+'x',esc(L.iata||'')+' '+esc((L.time||'').slice(-5)));
+      var so=tile.querySelector('.fl-'+os); if(so){ so.hidden=!O; if(O) setv(tile,os,esc(O.flight)+' '+esc(O.iata||'')+' '+esc((O.time||'').slice(-5))); }
+      return true;
+    }
+    if(key==='outages'){
+      var n=it.today||0, state=n?'n':(it.next_planned?'plan':'clear');
+      if(state==='plan'&&!tile.querySelector('.ob-l-plan')) state='clear';   /* no planned date rendered at build: wait for the next build */
+      var dot=tile.querySelector('.ob-dot'); if(dot) dot.className='tc-dot ob-dot ob-'+state;
+      ['clear','n','plan'].forEach(function(s2){ var a=tile.querySelector('.ob-'+s2+':not(.ob-dot)'); if(a) a.hidden=(s2!==state);
+        var l=tile.querySelector('.ob-l-'+s2); if(l) l.hidden=(s2==='n')?(state!=='n'):(s2==='plan'?(state!=='plan'):(state==='n')); });
+      if(n) setv(tile,'outn',String(n));
+      return true;
+    }
+    if(key==='news'){
+      if(!(it.items&&it.items.length)) return false;
+      var ul=tile.querySelector('[data-v="newslist"]'); if(!ul) return true;
+      ul.innerHTML=it.items.slice(0,3).map(function(a){ return '<li>'+(a.image?'<span class="nw-th"><img src="'+esc(a.image)+'" alt="" loading="lazy" decoding="async" onerror="this.parentNode.style.display=\'none\'"></span>':'')+'<span class="nw-b"><span class="ess-news-t">'+esc(a.title)+'</span>'+(a.source?'<span class="ess-news-s" translate="no">'+esc(a.source)+'</span>':'')+'</span></li>'; }).join('');
+      return true;
+    }
+    return true;
+  }
+  function apply(data){
+    if(!data||!data.items) return;
+    var tiles=document.querySelectorAll('#today-grid [data-live]');
+    for(var i=0;i<tiles.length;i++){
+      var key=tiles[i].getAttribute('data-live'), it=data.items[key];
+      var dl=tiles[i].querySelector('.dl'), dg=tiles[i].querySelector('.dg'), asof=tiles[i].querySelector('.ess-asof');
+      if(!dl||!dg||dl.hidden&&!dl.innerHTML.trim()) continue;              /* generic card: the next build fills it */
+      if(!dl.innerHTML.trim()) continue;
+      var ok=update(tiles[i],key,it);
+      dl.hidden=!ok; dg.hidden=ok; if(asof) asof.hidden=!ok;
+      if(ok&&asof&&it.as_of){ var m=asof.querySelector('[data-asof]'); if(m){ m.setAttribute('data-asof',it.as_of); m.textContent=it.as_of.slice(11,16); } }
+    }
+    if(data.built){ var els=document.querySelectorAll('.hl-upd[data-built]'); for(var k=0;k<els.length;k++) els[k].setAttribute('data-built',data.built); }
+    ticks();
+  }
+  /* count-up on first reveal (numbers only; respects reduced motion) */
+  (function(){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window)) return;
+    var done=false;
+    var grid=document.getElementById('today-grid'); if(!grid) return;
+    var io=new IntersectionObserver(function(en){
+      if(done||!en[0].isIntersecting) return; done=true; io.disconnect();
+      var els=grid.querySelectorAll('.tc-big [data-v="usd"], .tc-big [data-v="temp"]');
+      for(var i=0;i<els.length;i++)(function(el){
+        var txt=el.textContent, m=/^(\d+(?:\.\d+)?)(.*)$/.exec(txt); if(!m) return;
+        var target=+m[1], dec=(m[1].split('.')[1]||'').length, suf=m[2], t0=null;
+        function step(ts){ if(!t0) t0=ts; var p=Math.min(1,(ts-t0)/700), e=1-Math.pow(1-p,3);
+          el.textContent=(target*e).toFixed(dec)+suf; if(p<1) requestAnimationFrame(step); else el.textContent=txt; }
+        requestAnimationFrame(step);
+      })(els[i]);
+    },{threshold:0.3});
+    io.observe(grid);
+  })();
+  sunTick(); setInterval(sunTick,60000);
+  function refresh(){
+    if(document.hidden) return;
+    try{
+      fetch('/data/home_live.json?t='+Math.floor(Date.now()/300000),{cache:'no-store'}).then(function(r){ return r.ok?r.json():null; }).then(apply).catch(function(){});
+    }catch(e){}
+  }
+  ticks(); setInterval(ticks,60000);
+  setTimeout(refresh,20000); setInterval(refresh,300000);
+  document.addEventListener('visibilitychange',function(){ if(!document.hidden) ticks(); });
+})();
 /* ---- GA4 baseline (14 Oct 2026): which homepage section earns each click.
    One event, home_sec_click {section,item,link_url}; sections carry data-sec.
    Same dataLayer stub as the global click tracker, so clicks before gtag.js
@@ -8986,8 +9602,9 @@ window.addEventListener('click',function(ev){
   }}
   </script>
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Explore Suriname | South America's Hidden Gem","url":"{SITE_URL}/","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Explore Suriname | South America's Hidden Gem","url":"{SITE_URL}/","dateModified":"{date_modified}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
+  {events_ld}
   <style>{_home_css}</style>
 </head>
 <body class="overflow-x-hidden" style="background:var(--paper);color:var(--ink)">
@@ -8997,20 +9614,17 @@ window.addEventListener('click',function(ev){
 <section id="hero" data-sec="hero">
   <div class="hero-inner">
     <div style="max-width:40rem">
-      <div class="hero-eyebrow"><span class="rule"></span><span class="txt">Explore Suriname</span></div>
+      <div class="hero-eyebrow"><span class="rule"></span><span class="txt">{hero_eyebrow}</span></div>
       <h1 class="dsp hero-h1">Some countries you visit.<br><span class="it">Ours, you belong to.</span></h1>
       <p class="hero-lead">Ninety-three percent rainforest. A dozen cultures around one table. A welcome so warm you&#8217;ll forget you ever knocked. Come in, we saved you a seat.</p>
+      <p class="hero-kept"><span>Kept by people who live here</span> <span class="dot">&middot;</span> <span class="hl-upd" data-built="{_built}"><span>updated</span> <span translate="no">{_hhmm(_built)}</span></span></p>
       <div class="hero-search">
         <input id="hero-q" type="text" placeholder="Search 700+ places to eat, stay and explore" onkeydown="if(event.key==='Enter')esSearch()" autocomplete="off" aria-label="Search all listings">
         <button type="button" onclick="esSearch()" aria-label="Search"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg><span>Search</span></button>
       </div>
       <div class="hero-chips">
         <span class="lbl">Most visited</span>
-        <a href="restaurants.html">Where to Eat</a>
-        <a href="events.html">Events &amp; Festivals</a>
-        <a href="currency.html">Market rates</a>
-        <a href="daily-notices.html">Daily notices</a>
-        <a href="business">Business tools</a>
+        {hero_chips}
       </div>
     </div>
   </div>
@@ -9031,20 +9645,23 @@ window.addEventListener('click',function(ev){
   <div class="scrollcue"><span class="k">Fa waka &middot; how&#8217;s it going</span><span class="ch" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span></div>
 </section>
 
-<!-- ===== WELCOME BAND ===== -->
-<section class="sec" style="background:var(--paper)" data-sec="welcome">
-  <div style="max-width:1000px;margin:0 auto">
-    <div class="greet-pill" data-reveal><span class="gd"></span><span class="sr dsp" id="greet-sr">Fa waka?</span><span class="en" id="greet-en">&middot; how are you</span></div>
-    <h2 class="dsp" data-reveal style="font-weight:400;font-size:clamp(30px,4.6vw,58px);line-height:1.06;letter-spacing:-.01em;margin:0;max-width:16em;color:var(--forest)">This isn&#8217;t a directory. It&#8217;s <span style="font-style:italic;color:var(--clay)">home,</span> written down.</h2>
-    <p class="dsp-off" data-reveal style="font-size:clamp(16px,1.5vw,19px);line-height:1.7;color:#505C50;max-width:38em;margin:28px 0 0">We&#8217;re not a guidebook written from somewhere far away. We live here. We eat at these tables, swim under these waterfalls, and watch the same sun sink into the river every evening. Everything you&#8217;ll find is kept by people who call Suriname home, ready for the day you&#8217;ll want to call it home too.</p>
-    <div data-reveal class="statgrid" style="margin-top:clamp(44px,5vw,64px);border-top:1px solid rgba(35,48,40,.16);padding-top:clamp(36px,4vw,48px)">
-      <div><div class="stat-n dsp">93<span class="u">%</span></div><div class="stat-c">rainforest still standing, more than any country on Earth.</div></div>
-      <div><div class="stat-n dsp">7<span class="u">+</span></div><div class="stat-c">cultures sharing one table, one street, one set of holidays.</div></div>
-      <div><div class="stat-n dsp">28<span class="u">&deg;</span></div><div class="stat-c">and golden, every day of the year. Bring less than you think.</div></div>
+<!-- ===== TODAY IN SURINAME (live) ===== -->
+<section class="sec" style="background:var(--paper-2);padding-top:clamp(48px,6vw,80px)" data-sec="today">
+  <div class="wrap">
+    <div class="today-head" data-reveal>
+      <div>
+        <div class="eyebrow" style="margin-bottom:12px">Before you go &middot; while you&#8217;re here</div>
+        <h2 class="dsp" style="font-weight:500;font-size:clamp(30px,4.2vw,52px);line-height:1;margin:0;letter-spacing:-.01em;color:var(--forest)">Today in Suriname.</h2>
+      </div>
+      <div class="today-upd" id="today-upd"><span class="cd" aria-hidden="true"></span><span class="hl-upd" data-built="{_built}"><span>updated</span> <span translate="no">{_hhmm(_built)}</span></span></div>
+    </div>
+    <div class="tgrid" id="today-grid">
+      {today_tiles}
     </div>
   </div>
 </section>
 
+{whats_on}
 <!-- ===== JOURNEYS ===== -->
 <section id="journeys" class="sec" style="background:var(--paper-2)" data-sec="journeys">
   <div class="wrap">
@@ -9066,15 +9683,15 @@ window.addEventListener('click',function(ev){
         <div class="ov"></div><div class="jidx dsp">02</div>
         <div class="meta"><div class="kick">{n_act} experiences</div><div class="ttl dsp">On the Water</div><div class="jsub">Dugout canoes, turtle beaches, mornings on the river.</div></div>
       </a>
-      <a class="jc" data-reveal href="restaurants.html">
-        <img loading="lazy" src="/images/home-market.webp" alt="Fresh produce stalls inside the covered market of Paramaribo" width="1600" height="2187">
+      <a class="jc" data-reveal href="activities.html?sub=museums-heritage">
+        <img loading="lazy" src="/images/home-faiths.webp" alt="A mosque and a synagogue standing side by side on Keizerstraat, Paramaribo" width="1200" height="799">
         <div class="ov"></div><div class="jidx dsp">03</div>
-        <div class="meta"><div class="kick">{n_rest} kitchens</div><div class="ttl dsp">The Flavors</div><div class="jsub">Roti, pom, bami. Five kitchens, one happy table.</div></div>
+        <div class="meta"><div class="kick">{n_herit} places</div><div class="ttl dsp">Culture &amp; Heritage</div><div class="jsub">Forts, temples, museums and the wooden city.</div></div>
       </a>
-      <a class="jc" data-reveal href="hotels.html">
-        <img loading="lazy" src="/images/hero-paramaribo.webp" srcset="/images/hero-paramaribo-m.webp 900w, /images/hero-paramaribo.webp 1600w" sizes="(max-width:767px) 100vw, 25vw" alt="Aerial view over the rooftops of Paramaribo" width="1600" height="2187">
+      <a class="jc" data-reveal href="shopping.html">
+        <img loading="lazy" src="/images/home-market.webp" alt="Fresh produce stalls inside the covered market of Paramaribo" width="1600" height="2187">
         <div class="ov"></div><div class="jidx dsp">04</div>
-        <div class="meta"><div class="kick">{n_hotel} stays</div><div class="ttl dsp">The Stay</div><div class="jsub">Riverside rooms, or a hammock reached only by boat.</div></div>
+        <div class="meta"><div class="kick">{n_shop} businesses</div><div class="ttl dsp">Shopping &amp; Services</div><div class="jsub">Markets, malls, salons and the people who fix things.</div></div>
       </a>
     </div>
   </div>
@@ -9086,6 +9703,7 @@ window.addEventListener('click',function(ev){
   <div style="position:absolute;inset:0;background:linear-gradient(105deg,rgba(18,38,27,.94) 0%,rgba(18,38,27,.72) 46%,rgba(18,38,27,.30) 100%)"></div>
   <div class="wrap" style="position:relative;padding:clamp(72px,9vw,128px) clamp(20px,5vw,52px)">
     <div data-reveal style="max-width:38rem;color:#FCF7EC">
+      <div class="greet-pill" style="border-bottom-color:rgba(252,247,236,.3)"><span class="gd"></span><span class="sr dsp" id="greet-sr" style="color:var(--gold)">Fa waka?</span><span class="en" id="greet-en" style="color:#DCE4DA">&middot; how are you</span></div>
       <div class="eyebrow eyebrow-gold" style="margin-bottom:18px">One people, many worlds</div>
       <h2 class="dsp" style="font-weight:500;font-size:clamp(32px,5vw,64px);line-height:1.02;letter-spacing:-.01em;margin:0 0 22px">Pull up a chair. <span style="font-style:italic;color:var(--gold)">There&#8217;s always room.</span></h2>
       <p style="font-size:clamp(16px,1.5vw,19px);line-height:1.72;color:#E2DBCB;margin:0 0 18px">On Keizerstraat, one of the Caribbean&#8217;s largest mosques has stood shoulder to shoulder with one of the oldest synagogues in the Americas for nearly a century. Fence to fence, neighbours to the bone.</p>
@@ -9094,6 +9712,11 @@ window.addEventListener('click',function(ev){
         <a class="btn-gold" href="restaurants.html">Taste the mix</a>
         <a class="btn-ghost" href="activities.html?sub=museums-heritage">See the heritage</a>
       </div>
+    </div>
+    <div data-reveal class="statgrid" style="margin-top:clamp(44px,5vw,64px);border-top:1px solid rgba(252,247,236,.18);padding-top:clamp(32px,4vw,44px);max-width:60rem">
+      <div><div class="stat-n dsp" style="color:#FCF7EC">93<span class="u">%</span></div><div class="stat-c" style="color:#C9D2C6">rainforest still standing, more than any country on Earth.</div></div>
+      <div><div class="stat-n dsp" style="color:#FCF7EC">7<span class="u">+</span></div><div class="stat-c" style="color:#C9D2C6">cultures sharing one table, one street, one set of holidays.</div></div>
+      <div><div class="stat-n dsp" style="color:#FCF7EC">{temp_stat}<span class="u">&deg;</span></div><div class="stat-c" style="color:#C9D2C6">right now in Paramaribo, and about that every day of the year. Bring less than you think.</div></div>
     </div>
   </div>
 </section>
@@ -9128,31 +9751,10 @@ window.addEventListener('click',function(ev){
   </div>
 </section>
 
-<!-- ===== ESSENTIALS ===== -->
-<section class="sec" style="background:var(--paper-2)" data-sec="essentials">
-  <div class="wrap">
-    <div class="lead-head" data-reveal style="margin-bottom:40px">
-      <div>
-        <div class="eyebrow" style="margin-bottom:14px">Before you go &middot; while you&#8217;re here</div>
-        <h2 class="dsp" style="font-weight:500;font-size:clamp(32px,4.6vw,58px);line-height:1;margin:0;letter-spacing:-.01em;color:var(--forest)">The everyday stuff, sorted.</h2>
-      </div>
-      <p style="font-size:16px;color:#5C6657;max-width:25em;margin:0;line-height:1.6">The pages Surinamers keep open: rates, flights, weather and the notices that actually matter. Refreshed every day.</p>
-    </div>
-    <div class="essgrid">
-      <a class="ess-card" data-reveal href="currency.html"><div class="k">Money</div><div class="t">Exchange rates</div><div class="d">Today&#8217;s SRD against the dollar and the euro, plus the gold price.</div></a>
-      <a class="ess-card" data-reveal href="conditions.html"><div class="k">Sky</div><div class="t">Weather &amp; tides</div><div class="d">Seven-day forecasts, sunrise, sunset and the river tides.</div></a>
-      <a class="ess-card" data-reveal href="flights.html"><div class="k">Travel</div><div class="t">Flights</div><div class="d">Live arrivals and departures at both Suriname airports.</div></a>
-      <a class="ess-card" data-reveal href="daily-notices.html"><div class="k">Heads-up</div><div class="t">Daily notices</div><div class="d">Power and water interruptions, before they catch you out.</div></a>
-      <a class="ess-card" data-reveal href="news.html"><div class="k">The latest</div><div class="t">Suriname news</div><div class="d">Local headlines and the stories people are actually talking about.</div></a>
-      <a class="ess-card" data-reveal href="visitor-guide.html"><div class="k">First-timer</div><div class="t">Visitor guide</div><div class="d">Visas, SIM cards, money and getting around, in plain language.</div></a>
-    </div>
-  </div>
-</section>
-
 <!-- ===== CLOSING INVITATION ===== -->
 <section style="background:var(--paper);border-top:2px solid var(--gold)" data-sec="closing">
   <div class="wrap" data-reveal style="position:relative;max-width:900px;margin:0 auto;padding:clamp(64px,8vw,112px) clamp(20px,5vw,52px);color:var(--ink)">
-    <div class="eyebrow" style="margin-bottom:20px">Updated daily, from Paramaribo</div>
+    <div class="eyebrow" style="margin-bottom:20px"><span>From Paramaribo</span> <span class="dot">&middot;</span> <span>site updated</span> <span class="hl-upd" data-built="{_built}" translate="no">{_hhmm(_built)}</span> <span translate="no">SRT</span></div>
     <h2 class="dsp" style="font-weight:400;font-size:clamp(34px,5.6vw,72px);line-height:1.02;margin:0;max-width:13em;letter-spacing:-.02em;color:var(--forest)">Come back tomorrow. The <span style="font-style:italic;color:var(--clay)">sunset&#8217;s</span> still free.</h2>
     <p style="font-size:clamp(16px,1.5vw,19px);color:#4B564D;max-width:34em;margin:26px 0 34px;line-height:1.65">Rates move, flights land, festivals come around. Bookmark us, or just drop by again whenever you&#8217;re missing the warm. We&#8217;ll keep a seat for you.</p>
     <div style="display:flex;gap:13px;flex-wrap:wrap">
@@ -13038,7 +13640,7 @@ def build_events_page():
                 "free": bool(_ev.get("free")), "flyer": _flyer_src(_ev) or "",
                 "page": ("/event-" + _slug) if _slug in _evp_built else "/events.html",
             })
-            if len(_he_up) >= 12:
+            if len(_he_up) >= 12 and (not _spot or any(u["id"] == (_spot[5].get("id") or "") for u in _he_up)):
                 break
         _HOME_EVENTS.update({
             "today": today.isoformat(),
@@ -27188,8 +27790,13 @@ if __name__ == "__main__":
     atm_list, atm_meta = fetch_atms()
     atm_ref            = _atm_geocode_reference()
 
+    # Events first: the homepage (Phase 2) shows upcoming events from _HOME_EVENTS,
+    # which build_events_page() fills, and the live feed packs them with the rest.
+    _events_html = build_events_page()
+    _home_live   = write_home_live(cme_rates, cme_live, cbvs_rates, cbvs_live, articles, flights_data)
+
     pages = {
-        "index.html":       build_index(RESTAURANTS, HOTELS, cme_rates),
+        "index.html":       build_index(RESTAURANTS, HOTELS, cme_rates, live=_home_live),
         "activities.html":  build_activities_page(),
         # Real estate became the Marketplace (Sep 2026), which was retired on
         # Sep 28 2026 (no ads). Point straight at /business, no redirect chain.
@@ -27223,7 +27830,7 @@ if __name__ == "__main__":
         "today.html":          '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=/daily-notices.html"><link rel="canonical" href="https://exploresuriname.com/daily-notices.html"><title>Redirecting to Daily Notices…</title></head><body><p>This page has moved. <a href="/daily-notices.html">Click here</a>.</p></body></html>',
         "daily-notices.html": build_today_page(),
         "visitor-guide.html": build_visitor_guide_page(),
-        "events.html":        build_events_page(),
+        "events.html":        _events_html,
         "crossword.html":     build_crossword_page(),
         "quiz.html":          build_quiz_page(),
         "map-game.html":      build_mapgame_page(),
@@ -27360,7 +27967,6 @@ if __name__ == "__main__":
     except Exception:
         _ff_mark = _ff_marker = None
     _ff_unchanged = 0
-    write_home_live(cme_rates, cme_live, cbvs_rates, cbvs_live, articles, flights_data)
     pages.update(_EVENT_PAGE_FILES)   # event-<id>.html + events-this-weekend.html (build_events_page)
     for fname, html in pages.items():
         _d = _os_pages.path.dirname(fname)

@@ -13225,7 +13225,10 @@
 },
 "Shopping & Services": {
 "nl": "Winkelen en diensten",
-"es": "Compras y servicios"
+"es": "Compras y servicios",
+"zh": "购物与服务",
+"fr": "Shopping et services",
+"pt": "Compras e serviços"
 },
 "Shoebizz IMS, Fashion Store in Paramaribo | ExploreSuriname": {
 "nl": "Shoebizz IMS, kledingwinkel in Paramaribo | ExploreSuriname",
@@ -101832,5 +101835,222 @@
 "zh": "计划停电",
 "fr": "Coupure prévue",
 "pt": "Interrupção programada"
+},
+"{#} businesses": {
+"nl": "{#} bedrijven",
+"es": "{#} negocios",
+"zh": "{#} 家商户",
+"fr": "{#} commerces",
+"pt": "{#} negócios"
+},
+"All events & holidays →": {
+"nl": "Alle evenementen & feestdagen →",
+"es": "Todos los eventos y feriados →",
+"zh": "全部活动与节假日 →",
+"fr": "Tous les événements et jours fériés →",
+"pt": "Todos os eventos e feriados →"
+},
+"CME cash, we buy / we sell": {
+"nl": "CME contant, wij kopen / wij verkopen",
+"es": "CME efectivo, compramos / vendemos",
+"zh": "CME 现钞，买入 / 卖出",
+"fr": "CME espèces, nous achetons / nous vendons",
+"pt": "CME em espécie, compramos / vendemos"
+},
+"Coming up in Suriname.": {
+"nl": "Binnenkort in Suriname.",
+"es": "Próximamente en Surinam.",
+"zh": "苏里南近期活动。",
+"fr": "Prochainement au Suriname.",
+"pt": "Em breve no Suriname."
+},
+"Culture & Heritage": {
+"nl": "Cultuur & Erfgoed",
+"es": "Cultura y patrimonio",
+"zh": "文化与遗产",
+"fr": "Culture et patrimoine",
+"pt": "Cultura e patrimônio"
+},
+"Forts, temples, museums and the wooden city.": {
+"nl": "Forten, tempels, musea en de houten stad.",
+"es": "Fuertes, templos, museos y la ciudad de madera.",
+"zh": "堡垒、寺庙、博物馆与木造之城。",
+"fr": "Forts, temples, musées et la ville en bois.",
+"pt": "Fortes, templos, museus e a cidade de madeira."
+},
+"From Paramaribo": {
+"nl": "Vanuit Paramaribo",
+"es": "Desde Paramaribo",
+"zh": "来自帕拉马里博",
+"fr": "Depuis Paramaribo",
+"pt": "De Paramaribo"
+},
+"Happening now": {
+"nl": "Nu bezig",
+"es": "En curso",
+"zh": "正在进行",
+"fr": "En cours",
+"pt": "Acontecendo agora"
+},
+"Kept by people who live here": {
+"nl": "Bijgehouden door mensen die hier wonen",
+"es": "Mantenido por gente que vive aquí",
+"zh": "由生活在这里的人维护",
+"fr": "Tenu à jour par des gens qui vivent ici",
+"pt": "Mantido por quem mora aqui"
+},
+"Markets, malls, salons and the people who fix things.": {
+"nl": "Markten, malls, salons en de mensen die dingen repareren.",
+"es": "Mercados, centros comerciales, salones y la gente que arregla cosas.",
+"zh": "市场、商场、沙龙，以及修理各种东西的人。",
+"fr": "Marchés, centres commerciaux, salons et les gens qui réparent tout.",
+"pt": "Mercados, shoppings, salões e as pessoas que consertam as coisas."
+},
+"Next arrival": {
+"nl": "Volgende aankomst",
+"es": "Próxima llegada",
+"zh": "下一班到达",
+"fr": "Prochaine arrivée",
+"pt": "Próxima chegada"
+},
+"Next departure": {
+"nl": "Volgend vertrek",
+"es": "Próxima salida",
+"zh": "下一班出发",
+"fr": "Prochain départ",
+"pt": "Próxima partida"
+},
+"Paramaribo, right now": {
+"nl": "Paramaribo, nu",
+"es": "Paramaribo, ahora mismo",
+"zh": "帕拉马里博，此刻",
+"fr": "Paramaribo, en ce moment",
+"pt": "Paramaribo, agora"
+},
+"Power and water, by district": {
+"nl": "Stroom en water, per district",
+"es": "Luz y agua, por distrito",
+"zh": "电力与供水，按区",
+"fr": "Électricité et eau, par district",
+"pt": "Energia e água, por distrito"
+},
+"This weekend:": {
+"nl": "Dit weekend:",
+"es": "Este fin de semana:",
+"zh": "本周末：",
+"fr": "Ce week-end :",
+"pt": "Neste fim de semana:"
+},
+"Today in Suriname.": {
+"nl": "Vandaag in Suriname.",
+"es": "Hoy en Surinam.",
+"zh": "苏里南今日。",
+"fr": "Aujourd’hui au Suriname.",
+"pt": "Hoje no Suriname."
+},
+"What’s on": {
+"nl": "Wat is er te doen",
+"es": "Qué hay",
+"zh": "近期活动",
+"fr": "À l’affiche",
+"pt": "O que está rolando"
+},
+"as of": {
+"nl": "per",
+"es": "a las",
+"zh": "更新于",
+"fr": "à",
+"pt": "às"
+},
+"events": {
+"nl": "evenementen",
+"es": "eventos",
+"zh": "场活动",
+"fr": "événements",
+"pt": "eventos"
+},
+"feels": {
+"nl": "voelt als",
+"es": "sensación",
+"zh": "体感",
+"fr": "ressenti",
+"pt": "sensação"
+},
+"planned": {
+"nl": "gepland",
+"es": "programado",
+"zh": "计划",
+"fr": "prévue",
+"pt": "programada"
+},
+"rain": {
+"nl": "regen",
+"es": "lluvia",
+"zh": "降雨",
+"fr": "pluie",
+"pt": "chuva"
+},
+"sunset": {
+"nl": "zonsondergang",
+"es": "atardecer",
+"zh": "日落",
+"fr": "coucher du soleil",
+"pt": "pôr do sol"
+},
+"updated": {
+"nl": "bijgewerkt",
+"es": "actualizado",
+"zh": "更新于",
+"fr": "mis à jour",
+"pt": "atualizado"
+},
+"site updated": {
+"nl": "site bijgewerkt",
+"es": "sitio actualizado",
+"zh": "网站更新于",
+"fr": "site mis à jour",
+"pt": "site atualizado"
+},
+"right now in Paramaribo, and about that every day of the year. Bring less than you think.": {
+"nl": "nu in Paramaribo, en ongeveer zo elke dag van het jaar. Neem minder mee dan je denkt.",
+"es": "ahora mismo en Paramaribo, y más o menos así todos los días del año. Trae menos de lo que crees.",
+"zh": "此刻的帕拉马里博，一年到头差不多都是如此。行李比你想的少带一些。",
+"fr": "en ce moment à Paramaribo, et à peu près pareil tous les jours de l’année. Emportez moins que vous ne le pensez.",
+"pt": "agora em Paramaribo, e mais ou menos assim todos os dias do ano. Leve menos do que imagina."
+},
+"SRD per USD": {
+"nl": "SRD per USD",
+"es": "SRD por USD",
+"zh": "SRD/美元",
+"fr": "SRD par USD",
+"pt": "SRD por USD"
+},
+"we buy": {
+"nl": "wij kopen",
+"es": "compramos",
+"zh": "买入",
+"fr": "nous achetons",
+"pt": "compramos"
+},
+"All clear": {
+"nl": "Alles in orde",
+"es": "Todo en orden",
+"zh": "一切正常",
+"fr": "Tout va bien",
+"pt": "Tudo em ordem"
+},
+"notices": {
+"nl": "berichten",
+"es": "avisos",
+"zh": "条通知",
+"fr": "avis",
+"pt": "avisos"
+},
+"Planned": {
+"nl": "Gepland",
+"es": "Programado",
+"zh": "已计划",
+"fr": "Prévue",
+"pt": "Programada"
 }
 }
