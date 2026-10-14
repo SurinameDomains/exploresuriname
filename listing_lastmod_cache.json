@@ -28,7 +28,7 @@
     "date": "2026-10-11"
   },
   "static:currency.html": {
-    "hash": "a27bd820503c0b43b6268b47ed53c893",
+    "hash": "f0a4899d13d4df8de349a39f46f980bc",
     "date": "2026-10-14"
   },
   "static:flights.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-14"
   },
   "static:news.html": {
-    "hash": "70bca6fc7f5a1e920312b439431ccf4c",
+    "hash": "ffc6777d475abd79cef8d25e2566f257",
     "date": "2026-10-14"
   },
   "static:about.html": {
@@ -3016,7 +3016,7 @@
     "date": "2026-06-12"
   },
   "static:events.html": {
-    "hash": "7196b5f2c93082f7db0815536dd288a9",
+    "hash": "151b93b116c451df42037861a742877d",
     "date": "2026-10-14"
   },
   "fort-zeelandia": {
@@ -3064,7 +3064,7 @@
     "date": "2026-10-11"
   },
   "static:atms.html": {
-    "hash": "83f9a81a6698930a72fdb22203833858",
+    "hash": "65dbb08a2e2f612898d6252e7409fd90",
     "date": "2026-10-14"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-11"
   },
   "static:oil-and-gas.html": {
-    "hash": "b3db8b54f9af01f629aefe8ebca1d060",
+    "hash": "7e89a61db058938cdb109277769231ab",
     "date": "2026-10-14"
   },
   "static:suriname-oil-blocks.html": {
@@ -32016,7 +32016,7 @@
     "date": "2026-10-11"
   },
   "static:events-this-weekend": {
-    "hash": "57c619f17229a795e1265ff7bb3ddae0",
+    "hash": "924866944c1a4a416f85fbfc6620e7f3",
     "date": "2026-10-14"
   },
   "static:event-12th-salsuri-congress-gala-event-20261024": {
@@ -32301,6 +32301,10 @@
   },
   "static:event-latin-fever-20261016": {
     "hash": "077eeb1d4970a31f00fe49adaa9c0366",
+    "date": "2026-10-14"
+  },
+  "static:event-bon-vibes-20261017": {
+    "hash": "cc9f9a3ff430a707df96d87f4beea6b0",
     "date": "2026-10-14"
   }
 }
