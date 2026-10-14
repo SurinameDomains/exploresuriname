@@ -1,7 +1,7 @@
 {
   "static:index.html": {
-    "hash": "cf49bc4d100e839074e1b643f6dfcb15",
-    "date": "2026-10-11"
+    "hash": "de744b05d9333e66de7c9cc2b695c89d",
+    "date": "2026-10-14"
   },
   "static:restaurants.html": {
     "hash": "555f9ab69444fdc386cb89622d88e235",
@@ -28,7 +28,7 @@
     "date": "2026-10-11"
   },
   "static:currency.html": {
-    "hash": "f0a4899d13d4df8de349a39f46f980bc",
+    "hash": "5f3d235dcac43698fae7f87d02d2042d",
     "date": "2026-10-14"
   },
   "static:flights.html": {
@@ -36,7 +36,7 @@
     "date": "2026-10-14"
   },
   "static:conditions.html": {
-    "hash": "99a4ee5a108907a0bcfeac8c0b292d1b",
+    "hash": "3e87ee3d1c90990e57ab9a00f8dfca33",
     "date": "2026-10-14"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-14"
   },
   "static:news.html": {
-    "hash": "ffc6777d475abd79cef8d25e2566f257",
+    "hash": "a15e85688766b9d4051c322011613936",
     "date": "2026-10-14"
   },
   "static:about.html": {
@@ -3016,7 +3016,7 @@
     "date": "2026-06-12"
   },
   "static:events.html": {
-    "hash": "151b93b116c451df42037861a742877d",
+    "hash": "999faee66e0082ce6840ad3493036f7c",
     "date": "2026-10-14"
   },
   "fort-zeelandia": {
@@ -3040,7 +3040,7 @@
     "date": "2026-10-11"
   },
   "static:matches.html": {
-    "hash": "4ecfc2af8b392b28243802a818288ad8",
+    "hash": "11779546886439efe26a989640d0dc01",
     "date": "2026-10-14"
   },
   "static:suriname-time.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-11"
   },
   "static:oil-and-gas.html": {
-    "hash": "7e89a61db058938cdb109277769231ab",
+    "hash": "6ce4d0b9f781a8b218484b6914b3211a",
     "date": "2026-10-14"
   },
   "static:suriname-oil-blocks.html": {
@@ -32016,7 +32016,7 @@
     "date": "2026-10-11"
   },
   "static:events-this-weekend": {
-    "hash": "924866944c1a4a416f85fbfc6620e7f3",
+    "hash": "c867e0a8ac8ea95e962112c434ad7184",
     "date": "2026-10-14"
   },
   "static:event-12th-salsuri-congress-gala-event-20261024": {
@@ -32304,7 +32304,7 @@
     "date": "2026-10-14"
   },
   "static:event-bon-vibes-20261017": {
-    "hash": "cc9f9a3ff430a707df96d87f4beea6b0",
+    "hash": "16f1faa7267852efcd5cdb4efa94a0c3",
     "date": "2026-10-14"
   }
 }
