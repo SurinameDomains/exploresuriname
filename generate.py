@@ -12760,22 +12760,90 @@ def build_events_page():
         _b = _bk[id(_r[5])]
         if _b not in _present:
             _present.append(_b)
-    _type_chips = "".join(
-        '<button type="button" class="ev-chip" data-cat="' + k + '" aria-pressed="false">' + _esc(lab) + '</button>'
+    _EVF_JS = r"""
+function isD(w){return /^\d{4}-\d{2}-\d{2}$/.test(w||"")}
+var LG=D.documentElement.lang||"en",ED={},EM=T.slice(0,7),cm=EM;
+cards.forEach(function(c){var s=c.getAttribute("data-s"),e=c.getAttribute("data-e")||s;if(!s||e<T)return;
+var d=s<T?T:s,i=0;while(d<=e&&i<400){ED[d]=1;if(d.slice(0,7)>EM)EM=d.slice(0,7);d=add(d,1);i++}});
+[].forEach.call(D.querySelectorAll(".ev-ddl"),function(l){l.setAttribute("data-def",l.textContent)});
+function fmtD(s,o){try{return new Intl.DateTimeFormat(LG,o||{weekday:"short",day:"numeric",month:"short",timeZone:"UTC"}).format(new Date(s+"T12:00:00Z"))}catch(e){return s}}
+function txt(el){var n=el.firstChild;return n&&n.nodeType===3?n.nodeValue:el.textContent}
+function lbls(){var bw=D.getElementById("ev-ddb-when"),bc=D.getElementById("ev-ddb-type");
+if(bw){var l=bw.querySelector(".ev-ddl"),v="";if(st.when!=="all"&&st.when!=="weekend"){
+var o=D.querySelector('.ev-opt[data-when="'+st.when+'"]');if(o)v=txt(o);else if(isD(st.when))v=fmtD(st.when)}
+l.textContent=v||l.getAttribute("data-def");bw.classList.toggle("on",!!v)}
+if(bc){var l2=bc.querySelector(".ev-ddl"),o2=st.cat?D.querySelector('.ev-opt[data-cat="'+st.cat+'"]'):null,v2=o2?txt(o2):"";
+l2.textContent=v2||l2.getAttribute("data-def");bc.classList.toggle("on",!!v2)}fit()}
+function fit(){var b=D.querySelector(".ev-bar-s"),f=b&&b.firstElementChild;if(!f)return;b.classList.remove("ev-tight");
+if(b.offsetHeight>f.offsetHeight+8)b.classList.add("ev-tight")}
+window.addEventListener("resize",fit);try{D.fonts.ready.then(fit)}catch(e){}
+function tcount(){[].forEach.call(D.querySelectorAll(".ev-opt[data-cat]"),function(o){var k=o.getAttribute("data-cat"),
+n=cards.filter(function(c){return hit(c,st.when)&&(!k||c.getAttribute("data-c")===k)&&(!st.free||c.getAttribute("data-f")==="1")
+&&(!st.saved||saved.indexOf(c.id.slice(3))>-1)}).length,s=o.querySelector(".ev-n");if(s)s.textContent=n||"";o.classList.toggle("ev-zero",!n)})}
+function closeP(){[].forEach.call(D.querySelectorAll(".ev-pn"),function(p){p.hidden=true});
+[].forEach.call(D.querySelectorAll(".ev-ddb"),function(b){b.setAttribute("aria-expanded","false")})}
+function addM(m,n){var y=+m.slice(0,4),k=+m.slice(5,7)-1+n;y+=Math.floor(k/12);k=((k%12)+12)%12;return y+"-"+(k<9?"0":"")+(k+1)}
+function calR(){var el=D.getElementById("ev-cal");if(!el||el.hidden)return;var m0=T.slice(0,7);
+if(cm<m0)cm=m0;if(cm>EM)cm=EM;
+var y=+cm.slice(0,4),m=+cm.slice(5,7),nd=new Date(Date.UTC(y,m,0,12)).getUTCDate(),off=(new Date(Date.UTC(y,m-1,1,12)).getUTCDay()+6)%7,h="",i,d;
+el.querySelector(".ev-cal-t").textContent=fmtD(cm+"-01",{month:"long",year:"numeric",timeZone:"UTC"});
+el.querySelector('[data-dir="-1"]').disabled=cm<=m0;el.querySelector('[data-dir="1"]').disabled=cm>=EM;
+for(i=0;i<7;i++)h+='<span class="ev-cal-w" aria-hidden="true">'+fmtD("2024-01-0"+(i+1),{weekday:"narrow",timeZone:"UTC"})+'</span>';
+for(i=0;i<off;i++)h+='<span></span>';
+for(d=1;d<=nd;d++){var ds=cm+"-"+(d<10?"0":"")+d,ok=ED[ds]&&ds>=T;
+h+='<button type="button" class="ev-cal-d'+(ok?" has":"")+(ds===T?" tdy":"")+'" data-d="'+ds+'" aria-label="'+fmtD(ds,{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"})+'" aria-pressed="'+(st.when===ds)+'"'+(ok?"":" disabled")+'>'+d+'</button>'}
+el.querySelector(".ev-cal-g").innerHTML=h}
+D.addEventListener("keydown",function(e){if(e.key==="Escape"){var o=D.querySelector('.ev-ddb[aria-expanded="true"]');if(o){closeP();o.focus()}}});
+""".replace("\n", "")
+    _EVF_CLICK = r"""
+var bt=t.closest(".ev-ddb");
+if(bt){var p=D.getElementById(bt.getAttribute("aria-controls")),op=p.hidden;closeP();if(op){p.hidden=false;bt.setAttribute("aria-expanded","true");calR()}return}
+if(t.closest(".ev-pk")){var cl=D.getElementById("ev-cal");cl.hidden=!cl.hidden;if(!cl.hidden){cm=isD(st.when)?st.when.slice(0,7):T.slice(0,7);calR()}return}
+var cn=t.closest(".ev-cal-n");if(cn){cm=addM(cm,+cn.getAttribute("data-dir"));calR();return}
+var cd=t.closest(".ev-cal-d");if(cd){st.when=cd.getAttribute("data-d");closeP();apply();return}
+var o=t.closest(".ev-opt");
+if(o){if(o.hasAttribute("data-when"))st.when=o.getAttribute("data-when");else if(o.hasAttribute("data-cat"))st.cat=o.getAttribute("data-cat");closeP();apply();return}
+""".replace("\n", "")
+    # Oct 2026: one row instead of a 15-chip scroller (Meetup/Eventbrite pattern):
+    # Date menu (presets + pick-a-date calendar), Type menu, This weekend, Saved, Free.
+    _type_opts = "".join(
+        '<button type="button" class="ev-opt" data-cat="' + k + '" aria-pressed="false">' + _esc(lab) + '<span class="ev-n"></span></button>'
         for k, lab in _BUCKETS if k in _present)
     _any_free = any(r[5].get("free") and not r[5].get("holiday") for r in resolved)
+    _CARET = ('<svg class="ev-car" viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><path d="M5 7.5l5 5 5-5" '
+              'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>')
+    _CALI = ('<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" '
+             'fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" '
+             'stroke-width="2" stroke-linecap="round"/></svg>')
     filter_html = (
         '\n  <div class="ev-bar" role="toolbar" aria-label="Filter events">'
-        '<div class="ev-bar-s overflow-x-auto">'
-        '<button type="button" class="ev-chip" data-when="all" aria-pressed="true">All upcoming</button>'
-        '<button type="button" class="ev-chip" data-when="today" aria-pressed="false">Today<span class="ev-n"></span></button>'
+        '<div class="ev-bar-s">'
+        '<div class="ev-dd"><button type="button" class="ev-chip ev-ddb" id="ev-ddb-when" aria-haspopup="true" aria-expanded="false" '
+        'aria-controls="ev-pn-when">' + _CALI + '<span class="ev-ddl">Date</span>' + _CARET + '</button>'
+        '<div class="ev-pn" id="ev-pn-when" hidden>'
+        '<button type="button" class="ev-opt" data-when="all" aria-pressed="true">All upcoming</button>'
+        '<button type="button" class="ev-opt" data-when="today" aria-pressed="false">Today<span class="ev-n"></span></button>'
+        '<button type="button" class="ev-opt" data-when="tomorrow" aria-pressed="false">Tomorrow<span class="ev-n"></span></button>'
+        '<button type="button" class="ev-opt" data-when="weekend" aria-pressed="false">This weekend<span class="ev-n"></span></button>'
+        '<button type="button" class="ev-opt" data-when="week" aria-pressed="false">Next 7 days<span class="ev-n"></span></button>'
+        '<button type="button" class="ev-opt" data-when="month" aria-pressed="false">This month<span class="ev-n"></span></button>'
+        '<div class="ev-pick"><button type="button" class="ev-opt ev-pk" aria-controls="ev-cal">Pick a date&#8230;</button>'
+        '<div class="ev-cal" id="ev-cal" hidden><div class="ev-cal-h">'
+        '<button type="button" class="ev-cal-n" data-dir="-1" aria-label="Previous month" data-l10n-aria-label="{&quot;nl&quot;: &quot;Vorige maand&quot;, &quot;es&quot;: &quot;Mes anterior&quot;, &quot;zh&quot;: &quot;上个月&quot;, &quot;fr&quot;: &quot;Mois précédent&quot;, &quot;pt&quot;: &quot;Mês anterior&quot;}">&#8249;</button>'
+        '<span class="ev-cal-t" aria-live="polite"></span>'
+        '<button type="button" class="ev-cal-n" data-dir="1" aria-label="Next month" data-l10n-aria-label="{&quot;nl&quot;: &quot;Volgende maand&quot;, &quot;es&quot;: &quot;Mes siguiente&quot;, &quot;zh&quot;: &quot;下个月&quot;, &quot;fr&quot;: &quot;Mois suivant&quot;, &quot;pt&quot;: &quot;Próximo mês&quot;}">&#8250;</button>'
+        '</div><div class="ev-cal-g"></div></div></div>'
+        '</div></div>'
+        '<div class="ev-dd"><button type="button" class="ev-chip ev-ddb" id="ev-ddb-type" aria-haspopup="true" aria-expanded="false" '
+        'aria-controls="ev-pn-type"><span class="ev-ddl">Type</span>' + _CARET + '</button>'
+        '<div class="ev-pn" id="ev-pn-type" hidden>'
+        '<button type="button" class="ev-opt" data-cat="" aria-pressed="true">All types<span class="ev-n"></span></button>'
+        + _type_opts
+        + '</div></div>'
         '<button type="button" class="ev-chip" data-when="weekend" aria-pressed="false">This weekend<span class="ev-n"></span></button>'
-        '<button type="button" class="ev-chip" data-when="week" aria-pressed="false">Next 7 days<span class="ev-n"></span></button>'
         '<button type="button" class="ev-chip ev-chip-sv" data-saved="1" aria-pressed="false" hidden>'
         + _HEART + ' Saved<span class="ev-n"></span></button>'
-        '<span class="ev-sep" aria-hidden="true"></span>'
-        + _type_chips
-        + ('<button type="button" class="ev-chip" data-free="1" aria-pressed="false">Free entry</button>' if _any_free else '')
+        + ('<button type="button" class="ev-chip" data-free="1" aria-pressed="false">Free</button>' if _any_free else '')
         + '</div></div>'
         '\n  <div id="ev-empty" class="ev-empty" hidden><p>No events match these filters yet.</p>'
         '<button type="button" class="ev-btn ev-btn-p" data-clear="1">Show all events</button>'
@@ -13091,9 +13159,41 @@ def build_events_page():
         '.ev-js .ev-bar{display:block;position:sticky;top:57px;z-index:30;margin:0 -1rem 1rem;padding:.55rem 1rem;'
         'background:rgba(244,236,218,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);'
         'border-bottom:1px solid var(--line)}'
-        '.ev-bar-s{display:flex;gap:.45rem;overflow-x:auto;scrollbar-width:none;align-items:center;'
-        '-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent);padding-right:24px}'
-        '.ev-bar-s::-webkit-scrollbar{display:none}'
+        '.ev-bar-s{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;position:relative}'
+        '.ev-dd{position:relative}'
+        '.ev-ddb svg{flex:0 0 auto}.ev-car{opacity:.6;transition:transform .15s}'
+        '.ev-ddb[aria-expanded="true"] .ev-car{transform:rotate(180deg)}'
+        '.ev-ddb.on{background:var(--forest);border-color:var(--forest);color:#fff}'
+        '.ev-ddl{max-width:11rem;overflow:hidden;text-overflow:ellipsis}'
+        '.ev-pn{position:absolute;top:calc(100% + 6px);left:0;z-index:40;min-width:240px;max-height:calc(100vh - 150px);'
+        'max-height:calc(100dvh - 150px);overflow:auto;overscroll-behavior:contain;background:#fff;border:1px solid #e5dccb;'
+        'border-radius:16px;box-shadow:0 12px 32px rgba(17,24,39,.16);padding:.35rem}'
+        '.ev-pn[hidden]{display:none}'
+        '@media(max-width:639px){.ev-dd{position:static}.ev-pn{left:0;right:0;min-width:0}}'
+        '@media(max-width:440px){.ev-bar-s{gap:.35rem}.ev-bar .ev-chip{padding:.42rem .62rem}}'
+        '@media(max-width:380px){.ev-ddb svg:first-child{display:none}}'
+        '.ev-opt{display:flex;width:100%;align-items:center;gap:.3rem;padding:.6rem .75rem;border:0;border-radius:10px;background:none;'
+        'font:inherit;font-size:.86rem;font-weight:600;color:#374151;text-align:left;cursor:pointer}'
+        '.ev-opt:hover,.ev-opt:focus-visible{background:#f4ecda}'
+        '.ev-opt[hidden]{display:none}'
+        '.ev-opt[aria-pressed="true"]{color:var(--forest)}'
+        '.ev-opt[aria-pressed="true"]::after{content:"\\2713";margin-left:auto;font-weight:700}'
+        '.ev-opt.ev-zero{opacity:.45}'
+        '.ev-pick{border-top:1px solid #efe7d6;margin-top:.25rem;padding-top:.25rem}'
+        '.ev-cal{padding:.25rem .4rem .5rem}.ev-cal[hidden]{display:none}'
+        '.ev-cal-h{display:flex;align-items:center;justify-content:space-between;margin:.2rem 0 .4rem;font-weight:700;font-size:.9rem;color:#111827}'
+        '.ev-cal-n{width:32px;height:32px;border-radius:999px;border:1px solid #e5dccb;background:#fff;cursor:pointer;font-size:1.1rem;line-height:1;color:#374151}'
+        '.ev-cal-n:disabled{opacity:.35;cursor:default}'
+        '.ev-cal-g{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;text-align:center}'
+        '.ev-cal-w{font-size:.68rem;font-weight:700;color:#9ca3af;padding:.2rem 0;text-transform:uppercase}'
+        '.ev-cal-d{position:relative;height:36px;border:0;border-radius:10px;background:none;font:inherit;font-size:.82rem;font-weight:600;color:#111827;cursor:pointer}'
+        '.ev-cal-d:disabled{color:#c4c9d0;cursor:default}'
+        '.ev-cal-d.has::after{content:"";position:absolute;left:50%;bottom:4px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--coral)}'
+        '.ev-cal-d.has:hover{background:#f4ecda}'
+        '.ev-cal-d.tdy{box-shadow:inset 0 0 0 1px #9ca3af}'
+        '.ev-cal-d[aria-pressed="true"]{background:var(--forest);color:#fff}.ev-cal-d[aria-pressed="true"]::after{background:#fff}'
+        '.ev-tight .ev-ddb svg:first-child,.ev-tight .ev-chip[data-when] .ev-n{display:none}'
+        '.ev-tight .ev-chip{padding-left:.55rem;padding-right:.55rem}'
         '.ev-chip{flex:0 0 auto;display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;font-weight:600;white-space:nowrap;'
         'padding:.42rem .85rem;border-radius:999px;border:1px solid #e5dccb;background:#fff;color:#4b5563;cursor:pointer}'
         '.ev-chip:hover{border-color:#9ca3af}'
@@ -13102,7 +13202,6 @@ def build_events_page():
         '.ev-chip-sv svg{color:var(--coral)}.ev-chip-sv[aria-pressed="true"] svg{color:#fff}'
         '.ev-n:not(:empty){font-size:.7rem;font-weight:700;opacity:.7;margin-left:.1rem}'
         '.ev-n:not(:empty)::before{content:"\\00b7\\00a0"}'
-        '.ev-sep{flex:0 0 1px;height:20px;background:#e5dccb;margin:0 .15rem}'
         '.ev-empty{text-align:center;padding:2.5rem 1rem;background:var(--card);border:1px dashed var(--line);border-radius:20px;margin:1rem 0}'
         '.ev-empty p{color:#4b5563;margin:0 0 1rem}'
         # grid + cards
@@ -13265,10 +13364,11 @@ def build_events_page():
         'function add(s,n){var d=new Date(s+"T12:00:00Z");d.setUTCDate(d.getUTCDate()+n);return iso(d)}'
         'var T=srToday(),wd=(new Date(T+"T12:00:00Z").getUTCDay()+6)%7,'
         'W0=wd>=4?T:add(T,4-wd),W1=wd>=4?add(T,6-wd):add(T,6-wd),'
-        'R={all:null,today:[T,T],weekend:[W0,W1],week:[T,add(T,6)]};'
+        'R={all:null,today:[T,T],tomorrow:[add(T,1),add(T,1)],weekend:[W0,W1],week:[T,add(T,6)],'
+        'month:[T,iso(new Date(Date.UTC(+T.slice(0,4),+T.slice(5,7),0,12)))]};'
         'var st={when:"all",cat:"",free:false,saved:false};'
         'function hit(c,w){var s=c.getAttribute("data-s"),e=c.getAttribute("data-e");'
-        'if(s&&e<T)return false;var r=R[w];if(!r)return true;return !!s&&s<=r[1]&&e>=r[0]}'
+        'if(s&&e<T)return false;var r=R.hasOwnProperty(w)?R[w]:(isD(w)?[w,w]:null);if(!r)return true;return !!s&&s<=r[1]&&e>=r[0]}'
         'function apply(){var n=0;'
         'cards.forEach(function(c){var ok=hit(c,st.when)&&(!st.cat||c.getAttribute("data-c")===st.cat)'
         '&&(!st.free||c.getAttribute("data-f")==="1")&&(!st.saved||saved.indexOf(c.id.slice(3))>-1);'
@@ -13278,18 +13378,20 @@ def build_events_page():
         'var busy=st.when!=="all"||st.cat||st.free||st.saved,b=D.getElementById("ev-browse");'
         'if(b)b.classList.toggle("ev-hide",!!busy);'
         'var em=D.getElementById("ev-empty");if(em)em.hidden=n>0;'
-        '[].forEach.call(D.querySelectorAll(".ev-chip"),function(x){var on=false;'
+        '[].forEach.call(D.querySelectorAll(".ev-chip:not(.ev-ddb),.ev-opt:not(.ev-pk)"),function(x){var on=false;'
         'if(x.hasAttribute("data-when"))on=x.getAttribute("data-when")===st.when;'
         'else if(x.hasAttribute("data-cat"))on=x.getAttribute("data-cat")===st.cat;'
         'else if(x.hasAttribute("data-free"))on=st.free;else if(x.hasAttribute("data-saved"))on=st.saved;'
-        'x.setAttribute("aria-pressed",on?"true":"false")});'
+        'x.setAttribute("aria-pressed",on?"true":"false")});lbls();tcount();calR();'
         'try{var q=new URLSearchParams(location.search);'
         '["when","type"].forEach(function(k){q.delete(k)});'
         'if(st.when!=="all")q.set("when",st.when);if(st.cat)q.set("type",st.cat);'
         'var qs=q.toString();history.replaceState(null,"",location.pathname+(qs?"?"+qs:"")+location.hash)}catch(e){}}'
         # chip counts for the date filters
-        '["today","weekend","week"].forEach(function(w){var n=cards.filter(function(c){return hit(c,w)}).length,'
-        'x=D.querySelector(\'.ev-chip[data-when="\'+w+\'"]\');if(x){x.querySelector(".ev-n").textContent=n||"";if(!n)x.hidden=true}});'
+        '["today","tomorrow","weekend","week","month"].forEach(function(w){var n=cards.filter(function(c){return hit(c,w)}).length;'
+        '[].forEach.call(D.querySelectorAll(\'.ev-chip[data-when="\'+w+\'"],.ev-opt[data-when="\'+w+\'"]\'),function(x){'
+        'var k=x.querySelector(".ev-n");if(k)k.textContent=n||"";if(!n)x.hidden=true})});'
+        + _EVF_JS +
         # detail dialog
         'function openCard(c,push){if(!dl||!dl.showModal)return false;cur=c;'
         'var m=D.getElementById("ev-dlg-m");m.innerHTML="";'
@@ -13316,6 +13418,7 @@ def build_events_page():
         'function shut(){if(lb&&lb.open)lb.close()}'
         'D.addEventListener("click",function(e){'
         'var t=e.target&&e.target.closest?e.target:null;if(!t)return;'
+        'if(!t.closest(".ev-dd"))closeP();'
         'var b=t.closest(".ev-share");'
         'if(b){'
         'var u=b.getAttribute("data-url")||"' + SITE_URL + '/events.html#"+b.getAttribute("data-anchor");'
@@ -13336,8 +13439,9 @@ def build_events_page():
         'if(s){e.preventDefault();var id=s.getAttribute("data-id"),k=saved.indexOf(id);'
         'if(k>-1)saved.splice(k,1);else saved.push(id);wr(saved);syncSave();'
         's.classList.add("pop");setTimeout(function(){s.classList.remove("pop")},180);if(st.saved)apply();return}'
+        + _EVF_CLICK +
         'var ch=t.closest(".ev-chip");'
-        'if(ch){if(ch.hasAttribute("data-when"))st.when=ch.getAttribute("data-when");'
+        'if(ch){if(ch.hasAttribute("data-when")){var w1=ch.getAttribute("data-when");st.when=st.when===w1?"all":w1}'
         'else if(ch.hasAttribute("data-cat")){var v=ch.getAttribute("data-cat");st.cat=st.cat===v?"":v}'
         'else if(ch.hasAttribute("data-free"))st.free=!st.free;'
         'else if(ch.hasAttribute("data-saved"))st.saved=!st.saved;apply();return}'
@@ -13356,8 +13460,8 @@ def build_events_page():
         'if(!(dl&&dl.open))D.documentElement.style.overflow="";im.removeAttribute("src");cp.textContent=""})}'
         # initial state from ?when= / ?type= and #ev-<id>
         'try{var q0=new URLSearchParams(location.search),w0=q0.get("when"),t0=q0.get("type");'
-        'if(w0&&R.hasOwnProperty(w0))st.when=w0;'
-        'if(t0&&D.querySelector(\'.ev-chip[data-cat="\'+t0+\'"]\'))st.cat=t0}catch(e){}'
+        'if(w0&&(R.hasOwnProperty(w0)||isD(w0)))st.when=w0;'
+        'if(t0&&D.querySelector(\'.ev-opt[data-cat="\'+t0+\'"]\'))st.cat=t0}catch(e){}'
         'syncSave();apply();'
         'function fromHash(){var h=location.hash;if(!/^#ev-/.test(h))return;'
         'var c=D.getElementById(h.slice(1));if(!c||!c.classList.contains("ev-card"))return;'
