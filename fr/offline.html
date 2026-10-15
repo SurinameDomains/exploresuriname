@@ -424,6 +424,9 @@
     .listing-rows .listing-row { background:var(--card); border:1px solid var(--bd-card); border-radius:var(--r-card);
                                  box-shadow:var(--sh-card); padding:.6rem .9rem .6rem .6rem; overflow:hidden; }
     .listing-rows .listing-row .listing-ph { border-radius:4px; }
+    /* Table headers: no paper-coloured band inside a card (it read as a hole); hairline instead. */
+    thead tr.bg-gray-50, thead.bg-gray-50 { background:transparent !important; }
+    thead tr.bg-gray-50 > th, thead.bg-gray-50 th { border-bottom:1px solid var(--line); }
     @media (hover:hover) {
       .card-hover, a.bg-white.border:is(.rounded-3xl,.rounded-2xl), .evp-card, .ev-row .ev-open, .ev-grid .ev-open, .bz-tool
         { transition: transform .25s ease, box-shadow .25s ease, border-color .15s ease, filter .15s ease, opacity .2s; }

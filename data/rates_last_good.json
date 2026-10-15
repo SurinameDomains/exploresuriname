@@ -81,5 +81,25 @@
   ],
   "updated": "CBVS: 15 oktober - 10:00u",
   "fetched_at": "2026-10-15T11:26:41-0300"
+ },
+ "cme": {
+  "rates": [
+   {
+    "currency": "USD",
+    "name": "US Dollar",
+    "flag": "🇺🇸",
+    "buy": "37.50",
+    "sell": "37.80"
+   },
+   {
+    "currency": "EUR",
+    "name": "Euro",
+    "flag": "🇪🇺",
+    "buy": "41.35",
+    "sell": "42.00"
+   }
+  ],
+  "updated": "CME: 15 Oct 2026 11:57 SR",
+  "fetched_at": "2026-10-15T11:57:21-0300"
  }
 }
