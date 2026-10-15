@@ -1,6 +1,6 @@
 {
   "static:index.html": {
-    "hash": "d7d809aba78936b7d3f429fcc203dea8",
+    "hash": "4650198cc3e72bdb47f0a9d525d69341",
     "date": "2026-10-15"
   },
   "static:restaurants.html": {
@@ -28,7 +28,7 @@
     "date": "2026-10-15"
   },
   "static:currency.html": {
-    "hash": "fc44f755fd7583d32c20e6e95a162c1f",
+    "hash": "c183833c38a4f781709be6d61d924ddb",
     "date": "2026-10-15"
   },
   "static:flights.html": {
@@ -36,7 +36,7 @@
     "date": "2026-10-15"
   },
   "static:conditions.html": {
-    "hash": "dde062bac82037f4c9b8941052c0f7bb",
+    "hash": "f69a9b6a1e19ec236d73b4d643ebee1f",
     "date": "2026-10-15"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-15"
   },
   "static:news.html": {
-    "hash": "57a860d64fac7b57f939b94b0b92ccc8",
+    "hash": "a5f1ecb7cf119c0457204a183c3c0ddd",
     "date": "2026-10-15"
   },
   "static:about.html": {
@@ -3016,7 +3016,7 @@
     "date": "2026-06-12"
   },
   "static:events.html": {
-    "hash": "55efc424dac7469713ea4966ecb7ce21",
+    "hash": "236502a15d70d6247fabd7b2d304ece7",
     "date": "2026-10-15"
   },
   "fort-zeelandia": {
@@ -3040,7 +3040,7 @@
     "date": "2026-10-15"
   },
   "static:matches.html": {
-    "hash": "13aa79c7dbaa3cbee04d0d9e5aeae00f",
+    "hash": "275cd0add38168cb3224f650f1adae6c",
     "date": "2026-10-15"
   },
   "static:suriname-time.html": {
@@ -3064,7 +3064,7 @@
     "date": "2026-10-15"
   },
   "static:atms.html": {
-    "hash": "d8e3c82751f14ba63c990f558dcbe7b5",
+    "hash": "ca42ca85d3353537ae3b8bd48e28b3f8",
     "date": "2026-10-15"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-15"
   },
   "static:oil-and-gas.html": {
-    "hash": "95dc726f9959482c842a66e90adf6535",
+    "hash": "26b1fee4f5c8f548db75af82064e6d77",
     "date": "2026-10-15"
   },
   "static:suriname-oil-blocks.html": {
@@ -6748,7 +6748,7 @@
     "date": "2026-10-15"
   },
   "static:pricing-calculator": {
-    "hash": "54fdc78dd4a7243d0d95a6b0f0f37218",
+    "hash": "25fe1a86588eca10c28d83b01445af93",
     "date": "2026-10-15"
   },
   "static:import-cost-calculator": {
@@ -32338,6 +32338,10 @@
   },
   "static:event-raven-heaven-after-dark-20261205": {
     "hash": "2bc4b001df7e0e385a53795c483a5840",
+    "date": "2026-10-15"
+  },
+  "static:event-soca-to-the-bone-neon-edition-20261124": {
+    "hash": "e1bf373af777cc756b19bf3f9460c42d",
     "date": "2026-10-15"
   }
 }
