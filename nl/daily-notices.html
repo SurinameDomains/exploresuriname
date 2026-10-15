@@ -11,14 +11,14 @@
 <link as="font" crossorigin="" href="/fonts/newsreader-latin-var.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="/fonts/instrument-latin-var.woff2" rel="preload" type="font/woff2"/>
 <link href="/assets/s-63b67768c422.css" rel="stylesheet"/>
-<link href="/tailwind.css?v=a6463b46" rel="stylesheet"/>
+<link href="/tailwind.css?v=9094a3d8" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="ExploreSR" name="apple-mobile-web-app-title"/>
-<link href="/assets/s-0143b93ba41d.css" rel="stylesheet"/>
+<link href="/assets/s-63ffef0c36f4.css" rel="stylesheet"/>
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
 <link href="/assets/s-bbf380cc3b18.css" rel="stylesheet"/>
 <link href="/assets/s-3add1bbd5c8c.css" rel="stylesheet"/>
@@ -72,6 +72,14 @@
     .src-link { font-size:.72rem; color:#9ca3af; text-decoration:underline; }
     .src-link:hover { color:#6b7280; }
     .error-note { font-size:.8rem; color:#6b7280; text-align:center; padding:1.5rem 0; }
+    /* Flat reference lists (15 Oct 2026) */
+    .sec-flat .widget-head { align-items:flex-end; }
+    .sec-flat .widget-sub { font-size:.85rem; margin-top:.25rem; }
+    .sec-flat .widget-body { padding:.35rem 0 0; }
+    .sec-flat .pharmacy-row { border-color:#E7DCC6; }
+    main .text-gray-300, .sec-flat .src-link { color:#8B8676 !important; }
+    .dn-grp { font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--clay);
+               margin:1.4rem 0 .1rem; padding-bottom:.45rem; border-bottom:1px solid #DDD4C1; }
   </style>
 <style>nav button,nav a{white-space:nowrap}</style><link href="https://exploresuriname.com/daily-notices.html" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/daily-notices.html" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/daily-notices.html" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/zh/daily-notices.html" hreflang="zh-Hans" rel="alternate"/><link href="https://exploresuriname.com/fr/daily-notices.html" hreflang="fr" rel="alternate"/><link href="https://exploresuriname.com/pt/daily-notices.html" hreflang="pt-BR" rel="alternate"/><link href="https://exploresuriname.com/daily-notices.html" hreflang="x-default" rel="alternate"/></head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -156,9 +164,12 @@
 <div class="skeleton" style="width:65%"></div>
 </div>
 </div>
+</div><!-- /status grid -->
+<!-- Reference lists: flat on the paper (15 Oct 2026) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-14 sec-gap items-start">
 <!-- ── TBL CINEMAS ────────────────── -->
-<div class="widget-card">
-<div class="widget-head">
+<div class="widget-card sec-flat">
+<div class="widget-head sec-hd">
 <div class="flex items-center">
 <div>
 <div class="widget-title">Nu in de bioscoop</div>
@@ -170,8 +181,8 @@
 <div class="widget-body" id="tbl-body"><p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Vandaag</p><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">05:15 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS706204767478/forgotten-island" rel="noopener" style="text-decoration:none" target="_blank">Forgotten Island</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">06:30 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS762482270455/resident-evil" rel="noopener" style="text-decoration:none" target="_blank">Resident Evil</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">07:00 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS339100936931/the-beast" rel="noopener" style="text-decoration:none" target="_blank">The Beast</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">07:45 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS756444881544/street-fighter" rel="noopener" style="text-decoration:none" target="_blank">Street Fighter</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">08:15 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS987342453993/whalefall" rel="noopener" style="text-decoration:none" target="_blank">Whalefall</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">09:00 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS990149882856/other-mommy" rel="noopener" style="text-decoration:none" target="_blank">Other Mommy</a></div><p class="text-xs text-gray-300 mt-2">Bron: <a class="src-link" href="https://www.tblcinemas.com/films/dagschema" rel="noopener" target="_blank">tblcinemas.com</a> • Kassa open vanaf 16:00 (weekend 13:00)</p></div>
 </div>
 <!-- ── ON-CALL SERVICE ────────────────── -->
-<div class="widget-card">
-<div class="widget-head">
+<div class="widget-card sec-flat">
+<div class="widget-head sec-hd">
 <div class="flex items-center">
 <div>
 <div class="widget-title">Dienstdoende zorg</div>
@@ -180,8 +191,8 @@
 </div>
 <span class="upd-badge" id="wacht-upd"></span>
 </div>
-<div style="padding:.5rem 1rem 0">
-<select id="wacht-district" onchange="wachtFilter()" style="font-size:.75rem;padding:.25rem .5rem;border-radius:.375rem;border:1px solid #e5e7eb;background:#f9fafb;color:#374151;width:100%;max-width:220px">
+<div style="padding:1rem 0 0">
+<select id="wacht-district" onchange="wachtFilter()" style="font-size:.8rem;padding:.4rem .6rem;border-radius:.375rem;border:1px solid #DDD4C1;background:var(--card);color:#374151;width:100%;max-width:240px">
 <option value="all">Alle districten</option>
 </select>
 </div>
@@ -362,9 +373,7 @@ function wachtFilter() {
 
   // Doctors section
   if (docs.length > 0) {
-    html += '<div style="margin:.75rem -.25rem .5rem;padding:.45rem .75rem;background:var(--mint);border-radius:.5rem">'
-          + '<p class="text-xs font-semibold uppercase tracking-wide" style="color:var(--forest)">Doctors on call</p>'
-          + '</div>';
+    html += '<p class="dn-grp">Doctors on call</p>';
     docs.forEach(function(dr) {
       html += '<div class="pharmacy-row">'
             + '<div class="pharmacy-name">' + escHtml(dr.name)
@@ -382,9 +391,7 @@ function wachtFilter() {
 
   // Pharmacies section
   if (pharmas.length > 0) {
-    html += '<div style="margin:.75rem -.25rem .5rem;padding:.45rem .75rem;background:var(--mint);border-radius:.5rem">'
-          + '<p class="text-xs font-semibold uppercase tracking-wide" style="color:var(--forest)">Pharmacies on call</p>'
-          + '</div>';
+    html += '<p class="dn-grp">Pharmacies on call</p>';
     pharmas.forEach(function(p) {
       html += '<div class="pharmacy-row">'
             + '<div class="pharmacy-name">' + escHtml(p.name) + '</div>'
