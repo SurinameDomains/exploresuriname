@@ -1153,7 +1153,7 @@ _IMGS = {
     'da-drogisterij-lelydorp': 'https://ims.sr/wp-content/uploads/2024/01/DA_logo.png',
     'da-drogisterij-wilhelmina': 'https://ims.sr/wp-content/uploads/2024/01/DA_logo.png',
     'danpaati-river-lodge': 'https://www.orangesuriname.com/wp-content/uploads/2023/12/Danpaati-orange-suriname-lodge-view-1.png',
-    'dansclub-danzson': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/305396192_515570687237514_7145934113557809101_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=107&ccb=1-7&_nc_sid=f907e8&_nc_ohc=TXqhO6BYgv8Q7kNvwF4glZ4&_nc_oc=AdpkVAzrp-G5tAcZe49MByALkof1NZ2t65JIHwG3fRM2SduzfJdLHQ2eddnXVSaJ_2M&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=tZA_2fp2KQSRUbGdFdOrGw&oh=00_Af42QmvcdyvKIcCs2chCg1_56_rJ3lFOQiDGAI7oHUiIdA&oe=6A1C376D',
+    'dansclub-danzson': 'https://exploresuriname.com/images/dansclub-danzson.webp',  # owner's own photo (submission #17, 15 Oct 2026)
     'dcars-rental': 'https://www.dcarsrental.com/app/web/upload/medium/dcars-straat-in-paramaribo-2966-1775905846.png',
     'de-gadri': 'https://exploresuriname.com/images/gadri.webp',
     'de-keurslager-interfarm': 'https://www.interfarmnv.com/img2/interfarm_logo.png',
