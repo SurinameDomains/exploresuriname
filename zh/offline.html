@@ -36,7 +36,7 @@
     .util-rail .util-in, nav .site-navin{max-width:none;padding-left:clamp(20px,4vw,64px);padding-right:clamp(20px,4vw,64px)}
   }
   </style>
-<link href="/tailwind.css?v=9094a3d8" rel="stylesheet"/>
+<link href="/tailwind.css?v=3e319a9b" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -427,23 +427,22 @@
     /* Table headers: no paper-coloured band inside a card (it read as a hole); hairline instead. */
     thead tr.bg-gray-50, thead.bg-gray-50 { background:transparent !important; }
     thead tr.bg-gray-50 > th, thead.bg-gray-50 th { border-bottom:1px solid var(--line); }
-    /* ===== Raised vs flat (15 Oct 2026) =====
-       Raised cards are for what you DO or GLANCE at: tools, status, key figures, clickable cards.
-       Reference content (tables, lists, explainers) sits flat on the paper: serif title, hairline,
-       content. When everything is raised nothing stands out; the contrast is what gives depth. */
-    .sec-flat { background:transparent !important; border:0 !important; box-shadow:none !important;
-                border-radius:0 !important; overflow:visible !important; }
-    .sec-flat > .sec-hd { padding:0 0 .85rem !important; border-bottom:1px solid #DDD4C1 !important; }
-    .sec-title, .sec-flat .widget-title { font-family:'Newsreader',Georgia,serif; font-weight:400; font-size:1.65rem;
+    /* ===== Section cards (15 Oct 2026) =====
+       Data sections (rate tables, flight boards) are cards with a serif title, one status line
+       under it (no pills next to titles) and the table inside. */
+    .sec-card { background:var(--card); border:1px solid var(--bd-card); border-radius:var(--r-card);
+                box-shadow:var(--sh-card); padding:1.35rem 1.5rem 1.2rem; }
+    @media(max-width:639px){ .sec-card { padding:1.1rem 1.1rem 1rem; } }
+    .sec-card > .sec-hd { padding:0 0 .85rem; border-bottom:1px solid var(--line); }
+    .sec-title { font-family:'Newsreader',Georgia,serif; font-weight:400; font-size:1.4rem;
                  line-height:1.15; letter-spacing:-.01em; color:var(--forest); }
     .sec-sub { font-size:.85rem; line-height:1.45; color:var(--ink-soft); margin-top:.25rem; }
-    .sec-flat table th:first-child, .sec-flat table td:first-child { padding-left:0 !important; }
-    .sec-flat table th:last-child, .sec-flat table td:last-child:not([style*="background"]) { padding-right:0 !important; }
-    .sec-flat .sec-list .px-4, .sec-flat .sec-x0 { padding-left:0 !important; padding-right:0 !important; }
-    .sec-flat tbody tr, .sec-flat .border-gray-100 { border-color:#E7DCC6 !important; }
-    .sec-flat details > summary { list-style-position:inside; }
+    .sec-card table th:first-child, .sec-card table td:first-child { padding-left:0 !important; }
+    .sec-card table th:last-child, .sec-card table td:last-child:not([style*="background"]) { padding-right:0 !important; }
+    .sec-card .sec-list .px-4, .sec-card .sec-x0 { padding-left:0 !important; padding-right:0 !important; }
+    .sec-card details > summary { list-style-position:inside; }
     .sec-foot { font-size:.75rem; line-height:1.55; color:var(--ink-soft); padding-top:.85rem; }
-    .sec-gap { margin-top:3.5rem; }
+    .sec-gap { margin-top:1.5rem; }
     .sec-note { border-top:1px solid #DDD4C1; padding-top:1rem; font-size:.85rem; line-height:1.6; color:var(--ink-soft); }
     .sec-note strong { color:var(--ink); font-weight:600; }
     .sec-note p + p { margin-top:.6rem; }
@@ -465,21 +464,9 @@
              color:var(--forest); font-variant-numeric:tabular-nums; }
     .fig-s { font-size:.8rem; color:var(--ink-soft); margin-top:.3rem; }
     .fig-s strong { color:var(--ink); font-weight:600; }
-    /* Glance card: a page's key figures, in the homepage Money-card language (raised, dark). */
-    .glance { background:linear-gradient(160deg,#1E4A36 0%,#142A1E 100%); color:#F2E9D4; border-radius:var(--r-card);
-              box-shadow:var(--sh-card); padding:1.35rem 1.5rem 1rem; }
-    .glance-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.3rem 1.5rem; }
-    @media(min-width:768px){ .glance-grid { grid-template-columns:repeat(var(--n,4),minmax(0,1fr)); } }
-    .glance-k { font-size:.66rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); }
-    .glance-v { font-family:'Newsreader',Georgia,serif; font-size:2.05rem; line-height:1.05; margin-top:.35rem;
-                color:#FCF7EC; font-variant-numeric:tabular-nums; }
-    .glance-v.lead { color:var(--gold); font-size:2.55rem; }
-    .glance-s { font-size:.78rem; line-height:1.4; color:#B9C2B2; margin-top:.3rem; }
-    .glance-s strong { color:#FCF7EC; font-weight:600; }
-    .glance-ft { margin-top:1.1rem; padding-top:.7rem; border-top:1px solid rgba(252,247,236,.14); font-size:.72rem;
-                 color:#9BAA97; display:flex; flex-wrap:wrap; column-gap:.45rem; }
-    @media(max-width:639px){ .fig-v { font-size:2rem; } }
-    @media(max-width:380px){ .fig-v { font-size:1.75rem; } .glance { padding:1.2rem 1.15rem .9rem; } .glance-v { font-size:1.8rem; } .glance-v.lead { font-size:2.2rem; } }
+    .fig-v { white-space:nowrap; }
+    @media(max-width:639px){ .fig-v { font-size:1.65rem; } }
+    @media(max-width:380px){ .fig-v { font-size:1.45rem; } }
     @media (hover:hover) {
       .card-hover, a.bg-white.border:is(.rounded-3xl,.rounded-2xl), .evp-card, .ev-row .ev-open, .ev-grid .ev-open, .bz-tool
         { transition: transform .25s ease, box-shadow .25s ease, border-color .15s ease, filter .15s ease, opacity .2s; }
