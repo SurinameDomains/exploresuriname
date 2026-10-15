@@ -5960,6 +5960,59 @@ PAGE_HEAD = """\
     /* Table headers: no paper-coloured band inside a card (it read as a hole); hairline instead. */
     thead tr.bg-gray-50, thead.bg-gray-50 { background:transparent !important; }
     thead tr.bg-gray-50 > th, thead.bg-gray-50 th { border-bottom:1px solid var(--line); }
+    /* ===== Raised vs flat (15 Oct 2026) =====
+       Raised cards are for what you DO or GLANCE at: tools, status, key figures, clickable cards.
+       Reference content (tables, lists, explainers) sits flat on the paper: serif title, hairline,
+       content. When everything is raised nothing stands out; the contrast is what gives depth. */
+    .sec-flat { background:transparent !important; border:0 !important; box-shadow:none !important;
+                border-radius:0 !important; overflow:visible !important; }
+    .sec-flat > .sec-hd { padding:0 0 .85rem !important; border-bottom:1px solid #DDD4C1 !important; }
+    .sec-title, .sec-flat .widget-title { font-family:'Newsreader',Georgia,serif; font-weight:400; font-size:1.65rem;
+                 line-height:1.15; letter-spacing:-.01em; color:var(--forest); }
+    .sec-sub { font-size:.85rem; line-height:1.45; color:var(--ink-soft); margin-top:.25rem; }
+    .sec-flat table th:first-child, .sec-flat table td:first-child { padding-left:0 !important; }
+    .sec-flat table th:last-child, .sec-flat table td:last-child:not([style*="background"]) { padding-right:0 !important; }
+    .sec-flat .sec-list .px-4, .sec-flat .sec-x0 { padding-left:0 !important; padding-right:0 !important; }
+    .sec-flat tbody tr, .sec-flat .border-gray-100 { border-color:#E7DCC6 !important; }
+    .sec-flat details > summary { list-style-position:inside; }
+    .sec-foot { font-size:.75rem; line-height:1.55; color:var(--ink-soft); padding-top:.85rem; }
+    .sec-gap { margin-top:3.5rem; }
+    .sec-note { border-top:1px solid #DDD4C1; padding-top:1rem; font-size:.85rem; line-height:1.6; color:var(--ink-soft); }
+    .sec-note strong { color:var(--ink); font-weight:600; }
+    .sec-note p + p { margin-top:.6rem; }
+    .sec-note .sec-foot { padding-top:.4rem; }
+    /* One status line per section (replaces status pills): dot + word + source time. */
+    .st-line { display:flex; flex-wrap:wrap; align-items:center; column-gap:.4rem; row-gap:.1rem;
+               font-size:.75rem; line-height:1.45; color:var(--ink-soft); margin-top:.45rem; }
+    .st-line .st-dot { width:7px; height:7px; border-radius:50%; background:#A39B88; flex:0 0 auto; }
+    .st-line .st-w { font-weight:600; color:var(--ink); white-space:nowrap; }
+    .st-line .st-sep { color:#A39B88; }
+    .st-line a { color:var(--forest2); }
+    .st-live .st-dot { background:#2E7D4F; } .st-live .st-w { color:#2E7D4F; }
+    .st-est .st-dot  { background:var(--gold); } .st-est .st-w { color:#9C5822; }
+    .st-off .st-dot  { background:#B4452B; } .st-off .st-w { color:#B4452B; }
+    .st-line [hidden] { display:none !important; }
+    /* Figures on the paper (flat sections) */
+    .fig-k { font-size:.68rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--clay); }
+    .fig-v { font-family:'Newsreader',Georgia,serif; font-size:2.4rem; line-height:1.05; margin-top:.3rem;
+             color:var(--forest); font-variant-numeric:tabular-nums; }
+    .fig-s { font-size:.8rem; color:var(--ink-soft); margin-top:.3rem; }
+    .fig-s strong { color:var(--ink); font-weight:600; }
+    /* Glance card: a page's key figures, in the homepage Money-card language (raised, dark). */
+    .glance { background:linear-gradient(160deg,#1E4A36 0%,#142A1E 100%); color:#F2E9D4; border-radius:var(--r-card);
+              box-shadow:var(--sh-card); padding:1.35rem 1.5rem 1rem; }
+    .glance-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.3rem 1.5rem; }
+    @media(min-width:768px){ .glance-grid { grid-template-columns:repeat(var(--n,4),minmax(0,1fr)); } }
+    .glance-k { font-size:.66rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); }
+    .glance-v { font-family:'Newsreader',Georgia,serif; font-size:2.05rem; line-height:1.05; margin-top:.35rem;
+                color:#FCF7EC; font-variant-numeric:tabular-nums; }
+    .glance-v.lead { color:var(--gold); font-size:2.55rem; }
+    .glance-s { font-size:.78rem; line-height:1.4; color:#B9C2B2; margin-top:.3rem; }
+    .glance-s strong { color:#FCF7EC; font-weight:600; }
+    .glance-ft { margin-top:1.1rem; padding-top:.7rem; border-top:1px solid rgba(252,247,236,.14); font-size:.72rem;
+                 color:#9BAA97; display:flex; flex-wrap:wrap; column-gap:.45rem; }
+    @media(max-width:639px){ .fig-v { font-size:2rem; } }
+    @media(max-width:380px){ .fig-v { font-size:1.75rem; } .glance { padding:1.2rem 1.15rem .9rem; } .glance-v { font-size:1.8rem; } .glance-v.lead { font-size:2.2rem; } }
     @media (hover:hover) {
       .card-hover, a.bg-white.border:is(.rounded-3xl,.rounded-2xl), .evp-card, .ev-row .ev-open, .ev-grid .ev-open, .bz-tool
         { transition: transform .25s ease, box-shadow .25s ease, border-color .15s ease, filter .15s ease, opacity .2s; }
@@ -10078,42 +10131,76 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
     usd_buy_srd = next((float(r["buy"]) for r in cme_rates if r["currency"] == "USD"), 37.5)
 
     # Brent crude baked values
+    # Brent: one figure on the paper (15 Oct 2026; was two tinted tiles in a card)
     if brent_price is not None:
         brent_usd_str = f"${brent_price:,.2f}"
         brent_srd_str = f"{brent_price * usd_buy_srd:,.0f} SRD"
-        brent_grid_html = f'''<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div class="rounded-xl p-4" style="background:var(--mint)">
-        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">USD / barrel</p>
-        <p class="text-2xl font-bold font-mono text-gray-900">{brent_usd_str}</p>
-      </div>
-      <div class="rounded-xl p-4 bg-gray-50">
-        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">SRD / barrel</p>
-        <p class="text-2xl font-bold font-mono text-gray-900">{brent_srd_str}</p>
-      </div>
-    </div>'''
-        oil_badge_html = f'<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800" style="max-width:100%">&#9679; {brent_updated}</span>'
+        brent_fig_html = (f'<p class="fig-v" translate="no">{brent_usd_str}</p>'
+                          f'<p class="fig-s"><strong translate="no">{brent_srd_str}</strong> <span>per barrel</span></p>'
+                          '<p class="st-line st-live"><span class="st-dot"></span><span class="st-w">Live</span>'
+                          f'<span class="st-sep">&#183;</span><span translate="no">{html_lib.escape(brent_updated or "")}</span></p>')
     else:
-        brent_grid_html = '<p class="text-gray-400 text-sm">Price unavailable. Will update on next rebuild.</p>'
-        oil_badge_html = '<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0">Unavailable</span>'
+        brent_fig_html = ('<p class="fig-v">&#8212;</p>'
+                          '<p class="st-line st-off"><span class="st-dot"></span><span class="st-w">Unavailable</span>'
+                          '<span>Will update on next rebuild.</span></p>')
 
-    def badge(is_live, upd=""):
+    def status_line(is_live, upd):
+        """One status line per section: dot + word + source time (15 Oct 2026, replaces the
+        pill next to the title, which wrapped mid-pill on phones). Words and values sit in
+        separate nodes so the words stay stable i18n keys."""
+        upd = upd or ""
         if is_live:
-            return '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Live</span>'
-        if upd.startswith(LAST_KNOWN_PREFIX):
-            return '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">&#9675; Last known</span>'
-        return '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">&#9675; Estimated</span>'
+            kind, word, note = "st-live", "Live", ""
+            ts = re.sub(r"^(CME|CBVS):\s*", "", upd)
+        elif upd.startswith(LAST_KNOWN_PREFIX):
+            kind, word, note = "", "Last known", "(source not responding, we retry every 15 minutes)"
+            ts = upd[len(LAST_KNOWN_PREFIX):]
+        else:
+            kind, word, note, ts = "st-est", "Estimated", "(live fetch unavailable)", ""
+        h = f'<p class="st-line {kind}"><span class="st-dot"></span><span class="st-w">{word}</span>'
+        if ts:
+            h += f'<span class="st-sep">&#183;</span><span translate="no">{html_lib.escape(ts)}</span>'
+        if note:
+            h += f'<span>{note}</span>'
+        return h + "</p>"
 
-    def upd_line(upd):
-        # Words and values in separate nodes: the words are a stable i18n key,
-        # the source timestamp is translate="no".
-        if upd.startswith(LAST_KNOWN_PREFIX):
-            ts = html_lib.escape(upd[len(LAST_KNOWN_PREFIX):])
-            return ('<span>Last published:</span> <span translate="no">' + ts + '</span> '
-                    '<span>(source not responding, we retry every 15 minutes)</span>')
-        return '<span>Updated:</span> ' + html_lib.escape(upd)
+    # ── At a glance: the four USD figures people come for (raised, dark) ──
+    def _usd_of(rates):
+        return next((x for x in rates if x["currency"] == "USD"), None)
+    _g = []
+    _cu, _bu = _usd_of(cme_rates), _usd_of(cbvs_rates)
+    if _cu:
+        _g.append(("CME cash", _cu["buy"],
+                   f'<span>we buy</span> &#183; <span>we sell</span> <strong translate="no">{_cu["sell"]}</strong>'
+                   + ("" if cme_live else ' &#183; <span>last known</span>'), True))
+    if _bu:
+        _g.append(("CBVS official", _bu["buy"],
+                   f'<span>buy</span> &#183; <span>sell</span> <strong translate="no">{_bu["sell"]}</strong>'
+                   + ("" if cbvs_live else (' &#183; <span>last known</span>' if (cbvs_updated or "").startswith(LAST_KNOWN_PREFIX)
+                                             else ' &#183; <span>estimated</span>')), False))
+    if bank_rates:
+        _bb = max(b["usd"][0] for b in bank_rates)
+        _bn = " &#183; ".join(html_lib.escape(b["name"]) for b in bank_rates if b["usd"][0] >= _bb)
+        _g.append(("Best bank rate", f"{_bb:.2f}", f'<span translate="no">{_bn}</span>', False))
+    try:
+        if douane_state and not douane_state.get("stale"):
+            _dk = next(r for r in douane_state["current"]["rates"] if r["code"] == "USD")
+            _g.append(("Douanekoers", f'{_dk["rate"]:,.2f}',
+                       f'<span>customs rate until</span> {_douane._ds(douane_state["period_end"])}', False))
+    except Exception:
+        pass
+    glance_html = ""
+    if _g:
+        _cells = "".join(
+            f'<div><p class="glance-k">{k}</p><p class="glance-v{" lead" if lead else ""}" translate="no">{v}</p>'
+            f'<p class="glance-s">{sub}</p></div>' for k, v, sub, lead in _g)
+        glance_html = (f'<section class="glance mb-6" aria-label="USD at a glance"><div class="glance-grid" style="--n:{len(_g)}">{_cells}</div>'
+                       '<p class="glance-ft"><span>SRD per 1 USD</span><span>&#183;</span><span>page updated</span>'
+                       f'<span translate="no">{datetime.now(SR_TZ).strftime("%H:%M")} SR</span></p></section>')
 
     cbvs_rows = ""
     cbvs_cards = ""
+    _cbvs_card_list = []
     for r in cbvs_rates:
         cbvs_rows += (
             '<tr class="border-b border-gray-100 hover:bg-gray-50">'
@@ -10123,8 +10210,8 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
             f'<td class="py-3 px-3 text-right font-mono font-bold text-gray-800">{r["sell"]}</td>'
             '</tr>'
         )
-        cbvs_cards += (
-            '<div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 px-4">'
+        _cbvs_card_list.append(
+            '<div class="flex items-center justify-between py-3 border-b border-gray-100 px-4">'
             '<div>'
             f'<p class="font-semibold text-gray-900 text-sm">{r["currency"]}</p>'
             f'<p class="text-gray-500 text-xs mt-0.5">{html_lib.escape(r["name"])}</p>'
@@ -10135,6 +10222,11 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
             '</div>'
             '</div>'
         )
+    cbvs_cards = "".join(_cbvs_card_list[:2])
+    if len(_cbvs_card_list) > 2:
+        cbvs_cards += ('<details><summary class="py-3 text-sm font-semibold cursor-pointer" style="color:var(--forest2)">'
+                       f'<span>All currencies</span> <span translate="no">({len(_cbvs_card_list)})</span></summary>'
+                       + "".join(_cbvs_card_list[2:]) + '</details>')
 
     cme_rows = ""
     cme_cards = ""
@@ -10188,7 +10280,7 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
         cmp_cards = ""
         for r in cmp_src:
             dot = ('<span class="text-green-500 text-xs" title="Live">&#9679;</span>' if r["live"]
-                   else '<span class="text-amber-500 text-xs" title="Estimated">&#9675;</span>')
+                   else '<span class="text-gray-400 text-xs" title="Last known">&#9675;</span>')
             cmp_rows += (
                 '<tr class="border-b border-gray-100 hover:bg-gray-50">'
                 '<td class="py-3 px-4 whitespace-nowrap">'
@@ -10219,11 +10311,11 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
             )
 
         bank_section = f'''
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mt-6">
-    <div class="px-6 py-5 border-b border-gray-100">
-      <p class="font-bold text-gray-900 text-base">Bank Rates Compared</p>
-      <p class="text-gray-400 text-xs mt-0.5">USD and EUR at Suriname&#8217;s commercial banks, side by side. Buy is what you receive when selling foreign currency; sell is what you pay to get it.</p>
-      <p class="text-gray-400 text-xs mt-2"><span>Updated:</span> {html_lib.escape(banks_updated)}</p>
+  <section class="sec-flat sec-gap">
+    <div class="sec-hd">
+      <h2 class="sec-title">Bank Rates Compared</h2>
+      <p class="sec-sub">USD and EUR at Suriname&#8217;s commercial banks, side by side. Buy is what you receive when selling foreign currency; sell is what you pay to get it.</p>
+      <p class="st-line st-live"><span class="st-dot"></span><span class="st-w">Updated:</span><span translate="no">{html_lib.escape(banks_updated)}</span></p>
     </div>
     <div class="hidden sm:block overflow-x-auto">
       <table class="w-full text-sm">
@@ -10237,9 +10329,9 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
         <tbody>{cmp_rows}</tbody>
       </table>
     </div>
-    <div class="sm:hidden py-1">{cmp_cards}</div>
-    <p class="text-gray-400 text-xs px-6 py-4 border-t border-gray-100">Highlighted values are the best rate in each column. Bank rates are giral (account) rates; for cash rates see the CME table above. Rates are indicative. Always confirm with your bank before transacting.</p>
-  </div>'''
+    <div class="sm:hidden py-1 sec-list">{cmp_cards}</div>
+    <p class="sec-foot">Highlighted values are the best rate in each column. Bank rates are giral (account) rates; for cash rates see the CME table above. Rates are indicative. Always confirm with your bank before transacting.</p>
+  </section>'''
 
 
     from_opts = ""
@@ -10334,7 +10426,8 @@ doConvert();"""
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">CBVS official &bull; CME cash &bull; commercial banks compared &bull; douanekoers &bull; live gold &amp; Brent oil</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-10">
+  {glance_html}
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
     <h2 class="serif text-2xl font-bold text-gray-900 mb-1">Currency Converter</h2>
     <p class="text-gray-400 text-sm mb-4">Pick a rate source below. CME cash is what exchange offices typically offer; bank rates are giral (account) rates.</p>
     <div class="flex flex-wrap gap-2 mb-6">{cv_pills}</div>
@@ -10366,18 +10459,16 @@ doConvert();"""
     </div>
     <p class="text-gray-400 text-xs text-center mt-3">Rates are indicative only. Confirm with your exchange office before transacting.</p>
   </div>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden order-2 lg:order-1">
-      <div class="px-6 py-5 border-b border-gray-100">
-        <div class="flex items-start justify-between gap-2">
-          <div>
-            <p class="font-bold text-gray-900 text-base">CBVS Official Rates {badge(cbvs_live, cbvs_updated)}</p>
-            <p class="text-gray-400 text-xs mt-0.5">Central Bank of Suriname reference rate</p>
-          </div>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-14 sec-gap">
+    <section class="sec-flat order-2 lg:order-1">
+      <div class="sec-hd">
+        <div class="flex items-baseline justify-between gap-3">
+          <h2 class="sec-title">CBVS Official Rates</h2>
           <a href="https://www.cbvs.sr" target="_blank" rel="noopener noreferrer"
              class="text-xs font-semibold shrink-0 hover:underline" style="color:var(--forest2)">cbvs.sr &#8599;</a>
         </div>
-        <p class="text-gray-400 text-xs mt-2">{upd_line(cbvs_updated)}</p>
+        <p class="sec-sub">Central Bank of Suriname reference rate</p>
+        {status_line(cbvs_live, cbvs_updated)}
       </div>
       <div class="hidden sm:block overflow-x-auto">
         <table class="w-full text-sm">
@@ -10390,19 +10481,17 @@ doConvert();"""
           <tbody>{cbvs_rows}</tbody>
         </table>
       </div>
-      <div class="sm:hidden py-1">{cbvs_cards}</div>
-    </div>
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden order-1 lg:order-2">
-      <div class="px-6 py-5 border-b border-gray-100">
-        <div class="flex items-start justify-between gap-2">
-          <div>
-            <p class="font-bold text-gray-900 text-base">CME Cash Rates {badge(cme_live, cme_updated)}</p>
-            <p class="text-gray-400 text-xs mt-0.5">Central Money Exchange (local market rate)</p>
-          </div>
+      <div class="sm:hidden sec-list">{cbvs_cards}</div>
+    </section>
+    <section class="sec-flat order-1 lg:order-2">
+      <div class="sec-hd">
+        <div class="flex items-baseline justify-between gap-3">
+          <h2 class="sec-title">CME Cash Rates</h2>
           <a href="https://www.cme.sr" target="_blank" rel="noopener noreferrer"
              class="text-xs font-semibold shrink-0 hover:underline" style="color:var(--forest2)">cme.sr &#8599;</a>
         </div>
-        <p class="text-gray-400 text-xs mt-2">{upd_line(cme_updated)}</p>
+        <p class="sec-sub">Central Money Exchange (local market rate)</p>
+        {status_line(cme_live, cme_updated)}
       </div>
       <div class="hidden sm:block overflow-x-auto">
         <table class="w-full text-sm">
@@ -10415,62 +10504,44 @@ doConvert();"""
           <tbody>{cme_rows}</tbody>
         </table>
       </div>
-      <div class="sm:hidden py-1">{cme_cards}</div>
-    </div>
+      <div class="sm:hidden sec-list">{cme_cards}</div>
+    </section>
   </div>
 {bank_section}
 {douane_section}
-  <div class="rounded-2xl border border-amber-200 p-6 mt-8 mb-0" style="background:#fffbeb">
-    <p class="text-amber-900 text-sm leading-relaxed">
-      <strong class="text-amber-800">What&#8217;s the difference?</strong>
+  <!-- Gold & oil: one flat section, two figures (15 Oct 2026; were two cards with tinted tiles) -->
+  <section class="sec-flat sec-gap">
+    <div class="sec-hd">
+      <h2 class="sec-title">Gold &amp; Oil</h2>
+      <p class="sec-sub">World prices in USD, with the SRD equivalent at today&#8217;s CME USD buy rate.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-8 pt-6">
+      <div>
+        <p class="fig-k"><span>Gold Price</span> &#183; <span>per troy oz</span></p>
+        <p id="gold-usd" class="fig-v" translate="no">&#8230;</p>
+        <p class="fig-s"><strong id="gold-srd" translate="no">&#8230;</strong> &#183; <strong id="gold-usdg" translate="no">&#8230;</strong> <span>per gram</span></p>
+        <p id="gold-st" class="st-line"><span class="st-dot"></span><span class="st-w" data-s="wait">Loading…</span><span class="st-w" data-s="live" hidden>Live</span><span class="st-w" data-s="off" hidden>Unavailable</span><span class="st-sep">&#183;</span><a href="https://gold-api.com" target="_blank" rel="noopener" class="hover:underline" translate="no">gold-api.com</a></p>
+      </div>
+      <div>
+        <p class="fig-k"><span>Brent Crude Oil</span> &#183; <span>per barrel</span></p>
+        {brent_fig_html}
+      </div>
+    </div>
+    <p class="sec-foot">Suriname is one of the world&#8217;s leading gold producers per capita. Brent Crude is the global benchmark used for most international oil contracts; Suriname&#8217;s offshore production (Block 58) is priced against this index. Gold updates on each page load, Brent on each site rebuild.</p>
+  </section>
+  <div class="sec-note sec-gap">
+    <p>
+      <strong>What&#8217;s the difference?</strong>
       <strong>CBVS</strong> is the Central Bank of Suriname&#8217;s official reference rate used for banking.
       <strong>CME</strong> (Central Money Exchange) shows cash rates at local exchange offices: what you actually get when exchanging banknotes.
       &ldquo;We Buy&rdquo; is what they pay when you sell foreign currency; &ldquo;We Sell&rdquo; is what you pay to buy foreign currency.
     </p>
-    <p class="text-amber-900 text-sm leading-relaxed mt-2">
-      <strong class="text-amber-800">Douanekoers:</strong> the CBVS selling rate fixed every two weeks that customs uses to value imports; it is not a rate you can exchange at.
+    <p>
+      <strong>Douanekoers:</strong> the CBVS selling rate fixed every two weeks that customs uses to value imports; it is not a rate you can exchange at.
     </p>
-  </div>
-  <p class="text-center text-gray-400 text-xs mt-8 max-w-2xl mx-auto leading-relaxed px-4">
+    <p class="sec-foot">
     Rates are for informational purposes only. Always confirm the current rate before transacting. Page updates daily.
   </p>
-
-  <!-- Gold price ─────────────────────────────────────────────────────────── -->
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mt-8">
-    <div class="flex items-start justify-between mb-5">
-      <div>
-        <h2 class="serif text-2xl font-bold text-gray-900">Gold Price</h2>
-        <p class="text-gray-400 text-sm mt-1">XAU spot price, live from markets via <a href="https://gold-api.com" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">gold-api.com</a></p>
-      </div>
-      <span id="gold-badge" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0">Loading…</span>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div class="rounded-xl p-4" style="background:var(--mint)">
-        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">USD / troy oz</p>
-        <p id="gold-usd" class="text-2xl font-bold font-mono text-gray-900">…</p>
-      </div>
-      <div class="rounded-xl p-4 bg-gray-50">
-        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">SRD / troy oz</p>
-        <p id="gold-srd" class="text-2xl font-bold font-mono text-gray-900">…</p>
-      </div>
-      <div class="rounded-xl p-4 bg-gray-50">
-        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">USD / gram</p>
-        <p id="gold-usdg" class="text-xl font-bold font-mono text-gray-900">…</p>
-      </div>
-    </div>
-    <p class="text-gray-400 text-xs mt-4">Suriname is one of the world&#8217;s leading gold producers per capita. SRD equivalent uses today&#8217;s CME USD buy rate ({usd_buy_srd:.2f}). Price updates on each page load.</p>
-  </div>
-  <!-- Oil price ──────────────────────────────────────────────────────────── -->
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mt-6">
-    <div class="flex items-start justify-between mb-5" style="flex-wrap:wrap;gap:.5rem">
-      <div>
-        <h2 class="serif text-2xl font-bold text-gray-900">Brent Crude Oil</h2>
-        <p class="text-gray-400 text-sm mt-1">Brent Crude, updated hourly</p>
-      </div>
-      {oil_badge_html}
-    </div>
-    {brent_grid_html}
-    <p class="text-gray-400 text-xs mt-4">Brent Crude is the global benchmark used for most international oil contracts. Suriname&#8217;s offshore production (Block 58) is priced against this index. SRD equivalent uses today&#8217;s CME USD buy rate ({usd_buy_srd:.2f}). Fetched fresh on each site rebuild.</p>
   </div>
 
 
@@ -10486,15 +10557,14 @@ doConvert();"""
       document.getElementById('gold-usd').textContent  = '$' + price.toLocaleString('en-US',{{minimumFractionDigits:2,maximumFractionDigits:2}});
       document.getElementById('gold-srd').textContent  = (price * USD_SRD).toLocaleString('en-US',{{minimumFractionDigits:0,maximumFractionDigits:0}}) + ' SRD';
       document.getElementById('gold-usdg').textContent = '$' + (price / 31.1035).toLocaleString('en-US',{{minimumFractionDigits:2,maximumFractionDigits:2}});
-      var badge = document.getElementById('gold-badge');
-      badge.textContent = '● Live';
-      badge.className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0';
+      goldSt('live');
     }})
-    .catch(function(){{
-      var badge = document.getElementById('gold-badge');
-      badge.textContent = 'Unavailable';
-      badge.className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-500 shrink-0';
-    }});
+    .catch(function(){{ goldSt('off'); }});
+  function goldSt(k){{
+    var st = document.getElementById('gold-st'); if (!st) return;
+    st.className = 'st-line ' + (k === 'live' ? 'st-live' : 'st-off');
+    st.querySelectorAll('[data-s]').forEach(function(e){{ e.hidden = e.getAttribute('data-s') !== k; }});
+  }}
 }})();
 
 
@@ -12414,6 +12484,14 @@ def build_today_page():
     .src-link {{ font-size:.72rem; color:#9ca3af; text-decoration:underline; }}
     .src-link:hover {{ color:#6b7280; }}
     .error-note {{ font-size:.8rem; color:#6b7280; text-align:center; padding:1.5rem 0; }}
+    /* Flat reference lists (15 Oct 2026) */
+    .sec-flat .widget-head {{ align-items:flex-end; }}
+    .sec-flat .widget-sub {{ font-size:.85rem; margin-top:.25rem; }}
+    .sec-flat .widget-body {{ padding:.35rem 0 0; }}
+    .sec-flat .pharmacy-row {{ border-color:#E7DCC6; }}
+    main .text-gray-300, .sec-flat .src-link {{ color:#8B8676 !important; }}
+    .dn-grp {{ font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--clay);
+               margin:1.4rem 0 .1rem; padding-bottom:.45rem; border-bottom:1px solid #DDD4C1; }}
   </style>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -12467,9 +12545,14 @@ def build_today_page():
       </div>
     </div>
 
+  </div><!-- /status grid -->
+
+  <!-- Reference lists: flat on the paper (15 Oct 2026) -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-14 sec-gap items-start">
+
     <!-- ── TBL CINEMAS ────────────────── -->
-    <div class="widget-card">
-      <div class="widget-head">
+    <div class="widget-card sec-flat">
+      <div class="widget-head sec-hd">
         <div class="flex items-center">
           <div>
             <div class="widget-title">Now Showing</div>
@@ -12482,8 +12565,8 @@ def build_today_page():
     </div>
 
     <!-- ── ON-CALL SERVICE ────────────────── -->
-    <div class="widget-card">
-      <div class="widget-head">
+    <div class="widget-card sec-flat">
+      <div class="widget-head sec-hd">
         <div class="flex items-center">
           <div>
             <div class="widget-title">On-Call Service</div>
@@ -12492,8 +12575,8 @@ def build_today_page():
         </div>
         <span id="wacht-upd" class="upd-badge"></span>
       </div>
-      <div style="padding:.5rem 1rem 0">
-        <select id="wacht-district" onchange="wachtFilter()" style="font-size:.75rem;padding:.25rem .5rem;border-radius:.375rem;border:1px solid #e5e7eb;background:#f9fafb;color:#374151;width:100%;max-width:220px">
+      <div style="padding:1rem 0 0">
+        <select id="wacht-district" onchange="wachtFilter()" style="font-size:.8rem;padding:.4rem .6rem;border-radius:.375rem;border:1px solid #DDD4C1;background:var(--card);color:#374151;width:100%;max-width:240px">
           <option value="all">All districts</option>
         </select>
       </div>
@@ -12589,9 +12672,7 @@ function wachtFilter() {{
 
   // Doctors section
   if (docs.length > 0) {{
-    html += '<div style="margin:.75rem -.25rem .5rem;padding:.45rem .75rem;background:var(--mint);border-radius:.5rem">'
-          + '<p class="text-xs font-semibold uppercase tracking-wide" style="color:var(--forest)">Doctors on call</p>'
-          + '</div>';
+    html += '<p class="dn-grp">Doctors on call</p>';
     docs.forEach(function(dr) {{
       html += '<div class="pharmacy-row">'
             + '<div class="pharmacy-name">' + escHtml(dr.name)
@@ -12609,9 +12690,7 @@ function wachtFilter() {{
 
   // Pharmacies section
   if (pharmas.length > 0) {{
-    html += '<div style="margin:.75rem -.25rem .5rem;padding:.45rem .75rem;background:var(--mint);border-radius:.5rem">'
-          + '<p class="text-xs font-semibold uppercase tracking-wide" style="color:var(--forest)">Pharmacies on call</p>'
-          + '</div>';
+    html += '<p class="dn-grp">Pharmacies on call</p>';
     pharmas.forEach(function(p) {{
       html += '<div class="pharmacy-row">'
             + '<div class="pharmacy-name">' + escHtml(p.name) + '</div>'
@@ -26560,8 +26639,8 @@ def build_flights_page(flights_data):
         return cards
 
     def count_badge(n):
-        return (f'<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full '
-                f'bg-green-100 text-green-800">{n} flights</span>') if n else ""
+        return (f'<span class="ml-1 whitespace-nowrap" style="font-family:inherit;font-size:.8rem;color:var(--ink-soft)">'
+                f'&#183; <span translate="no">{n}</span> <span>flights</span></span>') if n else ""
 
     # Build per-airport panel HTML
     panels_html = ""
@@ -26584,11 +26663,11 @@ def build_flights_page(flights_data):
         )
         panels_html += f"""
 <div id="panel-{icao}" class="airport-panel{panel_hidden}">
-  <p class="text-gray-400 text-xs mb-4">&#128336; Updated: {html_lib.escape(updated)} &bull; {cache_note}</p>
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
-    <div class="px-6 py-5 border-b border-gray-100">
-      <p class="font-bold text-gray-900 text-base">&#9650; Arrivals &bull; {html_lib.escape(ap["label"])} {count_badge(len(arrivals))}</p>
-      <p class="text-gray-400 text-xs mt-0.5">Scheduled arrivals today</p>
+  <p class="st-line st-live" style="margin:0 0 2rem"><span class="st-dot"></span><span class="st-w">Updated:</span><span translate="no">{html_lib.escape(updated)}</span><span class="st-sep">&#183;</span><span>{cache_note}</span></p>
+  <section class="sec-flat">
+    <div class="sec-hd">
+      <h2 class="sec-title">&#9650; Arrivals {count_badge(len(arrivals))}</h2>
+      <p class="sec-sub"><span>Scheduled arrivals today</span> &#183; <span translate="no">{html_lib.escape(ap["label"])}</span></p>
     </div>
     <div class="hidden sm:block overflow-x-auto">
       <table class="w-full text-sm">
@@ -26601,12 +26680,12 @@ def build_flights_page(flights_data):
         <tbody>{arr_rows}</tbody>
       </table>
     </div>
-    <div class="sm:hidden py-1">{arr_cards}</div>
-  </div>
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
-    <div class="px-6 py-5 border-b border-gray-100">
-      <p class="font-bold text-gray-900 text-base">&#9660; Departures &bull; {html_lib.escape(ap["label"])} {count_badge(len(departures))}</p>
-      <p class="text-gray-400 text-xs mt-0.5">Scheduled departures today</p>
+    <div class="sm:hidden sec-list">{arr_cards}</div>
+  </section>
+  <section class="sec-flat sec-gap">
+    <div class="sec-hd">
+      <h2 class="sec-title">&#9660; Departures {count_badge(len(departures))}</h2>
+      <p class="sec-sub"><span>Scheduled departures today</span> &#183; <span translate="no">{html_lib.escape(ap["label"])}</span></p>
     </div>
     <div class="hidden sm:block overflow-x-auto">
       <table class="w-full text-sm">
@@ -26619,8 +26698,8 @@ def build_flights_page(flights_data):
         <tbody>{dep_rows}</tbody>
       </table>
     </div>
-    <div class="sm:hidden py-1">{dep_cards}</div>
-  </div>
+    <div class="sm:hidden sec-list">{dep_cards}</div>
+  </section>
 </div>"""
 
     return f"""{PAGE_HEAD}
@@ -26669,18 +26748,16 @@ def build_flights_page(flights_data):
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Arrivals &amp; departures &bull; Johan Adolf Pengel (PBM) &bull; Eduard Alexander Gummels (EAX)</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
-    <div class="flex overflow-x-auto border-b border-gray-100" style="scrollbar-width:none">
-      {tab_buttons_html}
-    </div>
+  <div class="flex overflow-x-auto mb-4" style="scrollbar-width:none;border-bottom:1px solid #DDD4C1">
+    {tab_buttons_html}
   </div>
   {panels_html}
-  <!-- Flight Resources -->
-  <div class="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-    <div class="px-5 py-4 border-b border-gray-100">
-      <p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Flight Resources</p>
+  <!-- Flight Resources: flat reference section (15 Oct 2026) -->
+  <section class="sec-flat sec-gap">
+    <div class="sec-hd">
+      <h2 class="sec-title">Flight Resources</h2>
     </div>
-    <div class="p-5">
+    <div class="pt-5">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
         <div>
           <p class="font-bold text-gray-900 text-sm mb-1">Johan Adolf Pengel &bull; PBM</p>
@@ -26697,9 +26774,9 @@ def build_flights_page(flights_data):
           Real-time Flight Tracking &rarr;
         </a>
       </div>
-      <p class="text-gray-400 text-xs mt-4 leading-relaxed">Data from FlightRadar24. Scheduled times only, not for operational use. PBM updates every 6h; EAX every 12h.</p>
+      <p class="sec-foot mt-2">Data from FlightRadar24. Scheduled times only, not for operational use. PBM updates every 6h; EAX every 12h.</p>
     </div>
-  </div>
+  </section>
 </main>
 <script>
 function showAirport(icao) {{

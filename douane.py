@@ -331,19 +331,18 @@ def _d(d):
 def render_section(state, esc):
     """Card HTML for currency.html. esc = html.escape."""
     head = '''
-  <section id="douanekoers" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mt-8">
-    <div class="px-6 py-5 border-b border-gray-100">
-      <div class="flex items-start justify-between gap-2">
-        <div>
-          <h2 class="font-bold text-gray-900 text-base">Douanekoers (Customs Exchange Rate) {badge}</h2>
-          <p class="text-gray-400 text-xs mt-0.5">Official rate for converting import values to SRD for customs duties</p>
-        </div>
+  <section id="douanekoers" class="sec-flat sec-gap">
+    <div class="sec-hd">
+      <div class="flex items-baseline justify-between gap-3">
+        <h2 class="sec-title">Douanekoers (Customs Exchange Rate)</h2>
         <a href="{src}" target="_blank" rel="noopener noreferrer"
            class="text-xs font-semibold shrink-0 hover:underline" style="color:var(--forest2)">CBvS PDF &#8599;</a>
       </div>
+      <p class="sec-sub">Official rate for converting import values to SRD for customs duties</p>
+      {badge}
       {meta}
     </div>'''
-    legal = ('<p class="text-gray-400 text-xs px-6 py-4 border-t border-gray-100 leading-relaxed">'
+    legal = ('<p class="sec-foot">'
              'Source: Centrale Bank van Suriname, &#8220;Uitgebreid wisselkoersenoverzicht&#8221; (selling rates, '
              'drafts, cheques and transfers). Legal basis: art. 17 Wet Tarief van Invoerrechten 1996: a declaration '
              'uses the CBvS selling rate in force on the second working day of the two-week period in which it is filed. '
@@ -351,9 +350,9 @@ def render_section(state, esc):
              'Informational only; the rate in the customs system (ASYCUDA) is decisive.</p>')
 
     if not state or state.get("stale"):
-        return (head.format(badge='<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">Unavailable</span>',
+        return (head.format(badge='<p class="st-line st-off"><span class="st-dot"></span><span class="st-w">Unavailable</span></p>',
                             src="https://www.cbvs.sr/", meta="")
-                + '<p class="text-gray-500 text-sm px-6 py-5">The current customs rate list could not be retrieved. '
+                + '<p class="text-gray-500 text-sm py-5">The current customs rate list could not be retrieved. '
                   'Please check the Central Bank of Suriname&#8217;s website.</p>' + legal + '</section>')
 
     cur, prev = state["current"], state.get("previous") or {}
@@ -362,16 +361,16 @@ def render_section(state, esc):
     vf = dt.date.fromisoformat(cur["valid_from"])
 
     if state["pending"]:
-        badge = '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">&#9675; New list due</span>'
-        notice = ('<div class="mx-6 mt-5 rounded-xl border border-amber-200 p-4 text-amber-900 text-sm leading-relaxed" style="background:#fffbeb">'
+        badge = '<p class="st-line st-est"><span class="st-dot"></span><span class="st-w">New list due</span></p>'
+        notice = ('<div class="mt-5 rounded-xl border border-amber-200 p-4 text-amber-900 text-sm leading-relaxed" style="background:#fffbeb">'
                   f'<strong><span>New period started</span> {_ds(state["next_period_start"])}.</strong> '
                   f'<span>CBvS publishes its list on the second working day. Expected:</span> {_ds(state["next_expected"])}. '
                   f'<span>By law that list applies to the whole period, including declarations filed before it appears. Shown below: the list for</span> '
                   f'{_ds(state["period_start"])} &#8211; {_ds(state["period_end"])}.</div>')
     else:
-        badge = '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Current</span>'
+        badge = '<p class="st-line st-live"><span class="st-dot"></span><span class="st-w">Current</span></p>'
         notice = ""
-    meta = (f'<p class="text-gray-500 text-xs mt-2"><span>In force from</span> <strong>{_ds(vf)}</strong> &#183; '
+    meta = (f'<p class="text-gray-500 text-xs mt-1"><span>In force from</span> <strong>{_ds(vf)}</strong> &#183; '
             f'<span>Applies to declarations filed</span> {_ds(state["period_start"])} &#8211; {_ds(state["period_end"])} &#183; '
             f'<span>Next list expected</span> {_ds(state["next_expected"])}</p>')
 
@@ -387,9 +386,8 @@ def render_section(state, esc):
                        f'{"&#9650;" if up else "&#9660;"} {abs(diff):.2f} vs previous list ({_fmt(pby[code]["rate"])})</p>')
             else:
                 chg = '<p class="text-xs text-gray-400 mt-1">Unchanged vs previous list</p>'
-        tiles += (f'<div class="rounded-xl p-4" style="background:var(--mint)">'
-                  f'<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">1 {code}</p>'
-                  f'<p class="text-2xl font-bold font-mono text-gray-900">SRD {_fmt(r["rate"])}</p>{chg}</div>')
+        tiles += (f'<div><p class="fig-k">1 {code}</p>'
+                  f'<p class="fig-v">SRD {_fmt(r["rate"])}</p>{chg}</div>')
 
     rows = ""
     for r in cur["rates"]:
@@ -401,8 +399,8 @@ def render_section(state, esc):
                  f'<td class="py-2 px-4 text-right font-mono font-bold text-gray-800 whitespace-nowrap">{_fmt(r["rate"])}</td></tr>')
 
     return (head.format(badge=badge, src=esc(cur["url"]), meta=meta) + notice
-            + f'<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 px-6 py-5">{tiles}</div>'
-            + '<details class="border-t border-gray-100"><summary class="px-6 py-4 text-sm font-semibold cursor-pointer" '
+            + f'<div class="grid grid-cols-2 gap-x-6 sm:gap-x-10 gap-y-6 pt-6 pb-5">{tiles}</div>'
+            + '<details class="border-t border-gray-100"><summary class="py-4 text-sm font-semibold cursor-pointer" '
               f'style="color:var(--forest2)">All {len(cur["rates"])} currencies</summary>'
             + '<div class="overflow-x-auto pb-2"><table class="w-full text-sm"><thead><tr class="bg-gray-50 text-left">'
               '<th class="py-2 px-4 text-xs font-semibold whitespace-nowrap text-gray-400 uppercase tracking-wide">Code</th>'

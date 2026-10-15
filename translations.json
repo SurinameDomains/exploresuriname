@@ -102060,25 +102060,137 @@
 "fr": "nous vendons",
 "pt": "vendemos"
 },
-"○ Last known": {
-"nl": "○ Laatst bekend",
-"es": "○ Último conocido",
-"zh": "○ 最近一次数据",
-"fr": "○ Dernier connu",
-"pt": "○ Último conhecido"
-},
-"Last published:": {
-"nl": "Laatst gepubliceerd:",
-"es": "Última publicación:",
-"zh": "最近发布：",
-"fr": "Dernière publication :",
-"pt": "Última publicação:"
-},
 "(source not responding, we retry every 15 minutes)": {
 "nl": "(bron reageert niet, we proberen het elke 15 minuten opnieuw)",
 "es": "(la fuente no responde, lo intentamos de nuevo cada 15 minutos)",
 "zh": "（数据源暂无响应，我们每 15 分钟重试一次）",
 "fr": "(la source ne répond pas, nous réessayons toutes les 15 minutes)",
 "pt": "(a fonte não está respondendo, tentamos de novo a cada 15 minutos)"
+},
+"Gold & Oil": {
+"nl": "Goud & olie",
+"es": "Oro y petróleo",
+"zh": "黄金与原油",
+"fr": "Or et pétrole",
+"pt": "Ouro e petróleo"
+},
+"Last known": {
+"nl": "Laatst bekend",
+"es": "Último conocido",
+"zh": "最近一次数据",
+"fr": "Dernier connu",
+"pt": "Último conhecido"
+},
+"last known": {
+"nl": "laatst bekend",
+"es": "último conocido",
+"zh": "最近一次数据",
+"fr": "dernier connu",
+"pt": "último conhecido"
+},
+"estimated": {
+"nl": "geschat",
+"es": "estimado",
+"zh": "估算",
+"fr": "estimé",
+"pt": "estimado"
+},
+"SRD per 1 USD": {
+"nl": "SRD per 1 USD",
+"es": "SRD por 1 USD",
+"zh": "每 1 美元兑 SRD",
+"fr": "SRD pour 1 USD",
+"pt": "SRD por 1 USD"
+},
+"page updated": {
+"nl": "pagina bijgewerkt",
+"es": "página actualizada",
+"zh": "页面更新于",
+"fr": "page mise à jour",
+"pt": "página atualizada"
+},
+"buy": {
+"nl": "aankoop",
+"es": "compra",
+"zh": "买入",
+"fr": "achat",
+"pt": "compra"
+},
+"sell": {
+"nl": "verkoop",
+"es": "venta",
+"zh": "卖出",
+"fr": "vente",
+"pt": "venda"
+},
+"customs rate until": {
+"nl": "douanekoers tot",
+"es": "tipo aduanero hasta",
+"zh": "海关汇率有效至",
+"fr": "taux douanier jusqu’au",
+"pt": "taxa aduaneira até"
+},
+"per troy oz": {
+"nl": "per troy ounce",
+"es": "por onza troy",
+"zh": "每金衡盎司",
+"fr": "par once troy",
+"pt": "por onça troy"
+},
+"per gram": {
+"nl": "per gram",
+"es": "por gramo",
+"zh": "每克",
+"fr": "par gramme",
+"pt": "por grama"
+},
+"per barrel": {
+"nl": "per vat",
+"es": "por barril",
+"zh": "每桶",
+"fr": "par baril",
+"pt": "por barril"
+},
+"Will update on next rebuild.": {
+"nl": "Wordt bij de volgende update bijgewerkt.",
+"es": "Se actualizará en la próxima reconstrucción.",
+"zh": "将在下次更新时刷新。",
+"fr": "Mise à jour lors de la prochaine reconstruction.",
+"pt": "Será atualizado na próxima reconstrução."
+},
+"World prices in USD, with the SRD equivalent at today’s CME USD buy rate.": {
+"nl": "Wereldprijzen in USD, met de SRD-waarde tegen de CME USD-aankoopkoers van vandaag.",
+"es": "Precios mundiales en USD, con el equivalente en SRD al tipo de compra USD de CME de hoy.",
+"zh": "以美元计的国际价格，并按今日 CME 美元买入价折算为 SRD。",
+"fr": "Cours mondiaux en USD, avec l’équivalent en SRD au taux d’achat USD de la CME du jour.",
+"pt": "Preços mundiais em USD, com o equivalente em SRD pela taxa de compra do dólar da CME de hoje."
+},
+"Suriname is one of the world’s leading gold producers per capita. Brent Crude is the global benchmark used for most international oil contracts; Suriname’s offshore production (Block 58) is priced against this index. Gold updates on each page load, Brent on each site rebuild.": {
+"nl": "Suriname is per hoofd van de bevolking een van de grootste goudproducenten ter wereld. Brent Crude is de wereldwijde maatstaf voor de meeste internationale oliecontracten; de offshoreproductie van Suriname (Blok 58) wordt op deze index geprijsd. Goud wordt bij elk paginabezoek bijgewerkt, Brent bij elke update van de site.",
+"es": "Surinam es uno de los mayores productores de oro del mundo per cápita. El Brent es la referencia mundial para la mayoría de los contratos petroleros internacionales; la producción costa afuera de Surinam (Bloque 58) se cotiza según este índice. El oro se actualiza en cada carga de página y el Brent en cada reconstrucción del sitio.",
+"zh": "按人均计算，苏里南是全球主要黄金生产国之一。布伦特原油是大多数国际石油合同的全球基准；苏里南的海上产量（58 区块）以该指数定价。黄金价格在每次打开页面时更新，布伦特价格在每次网站更新时刷新。",
+"fr": "Le Suriname est l’un des premiers producteurs d’or au monde par habitant. Le Brent est la référence mondiale de la plupart des contrats pétroliers internationaux ; la production offshore du Suriname (bloc 58) est indexée sur ce cours. L’or se met à jour à chaque chargement de page, le Brent à chaque reconstruction du site.",
+"pt": "O Suriname é um dos maiores produtores de ouro do mundo per capita. O Brent é a referência mundial para a maioria dos contratos internacionais de petróleo; a produção offshore do Suriname (Bloco 58) é precificada por esse índice. O ouro é atualizado a cada carregamento da página e o Brent a cada reconstrução do site."
+},
+"▲ Arrivals": {
+"nl": "▲ Aankomsten",
+"es": "▲ Llegadas",
+"zh": "▲ 到达航班",
+"fr": "▲ Arrivées",
+"pt": "▲ Chegadas"
+},
+"▼ Departures": {
+"nl": "▼ Vertrekken",
+"es": "▼ Salidas",
+"zh": "▼ 出发航班",
+"fr": "▼ Départs",
+"pt": "▼ Partidas"
+},
+"flights": {
+"nl": "vluchten",
+"es": "vuelos",
+"zh": "个航班",
+"fr": "vols",
+"pt": "voos"
 }
 }
