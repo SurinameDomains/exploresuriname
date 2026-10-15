@@ -4696,24 +4696,25 @@ with open("data/admin_listings.json", "w", encoding="utf-8") as _al_f:
 
 CME_FALLBACK = [
     # CME.sr only publishes SRD, USD, and EUR — no other currencies
-    {"currency": "USD", "name": "US Dollar", "buy": "37.50", "sell": "37.65", "flag": "🇺🇸"},
-    {"currency": "EUR", "name": "Euro",      "buy": "43.00", "sell": "44.00", "flag": "🇪🇺"},
+    # Only used when data/rates_last_good.json is missing. Refreshed 15 Oct 2026.
+    {"currency": "USD", "name": "US Dollar", "buy": "37.50", "sell": "37.80", "flag": "🇺🇸"},
+    {"currency": "EUR", "name": "Euro",      "buy": "41.35", "sell": "42.00", "flag": "🇪🇺"},
 ]
 
 CBVS_FALLBACK = [
     # Giraal (transfer) rates from CBVS weighted-average table.
-    # Updated from cbvs.sr front page (24 Apr 2026, 15:00 SR time).
-    {"currency": "USD", "name": "US Dollar",           "buy": "37.365", "sell": "37.679", "flag": "🇺🇸"},
-    {"currency": "EUR", "name": "Euro",                "buy": "43.345", "sell": "44.151", "flag": "🇪🇺"},
-    {"currency": "GBP", "name": "British Pound",       "buy": "50.415", "sell": "51.403", "flag": "🇬🇧"},
-    {"currency": "XCG", "name": "Curaçao Guilder",     "buy": "20.530", "sell": "20.933", "flag": "🇨🇼"},
-    {"currency": "AWG", "name": "Aruban Florin",       "buy": "20.758", "sell": "21.165", "flag": "🇦🇼"},
-    {"currency": "BRL", "name": "Brazilian Real",      "buy": "7.472",  "sell": "7.619",  "flag": "🇧🇷"},
-    {"currency": "TTD", "name": "T&T Dollar",          "buy": "5.496",  "sell": "5.603",  "flag": "🇹🇹"},
-    {"currency": "BBD", "name": "Barbados Dollar",     "buy": "18.419", "sell": "18.780", "flag": "🇧🇧"},
-    {"currency": "XCD", "name": "E. Caribbean Dollar", "buy": "13.839", "sell": "14.110", "flag": "🏝️"},
-    {"currency": "GYD", "name": "Guyana Dollar",       "buy": "0.17755","sell": "0.18103","flag": "🇬🇾"},  # CBVS quotes per 100 GYD; stored per unit
-    {"currency": "CNY", "name": "Chinese Yuan",        "buy": "5.466",  "sell": "5.573",  "flag": "🇨🇳"},
+    # Only used when data/rates_last_good.json is missing. Refreshed 15 Oct 2026 (cbvs.sr, 15 oktober 10:00u).
+    {"currency": "USD", "name": "US Dollar", "buy": "37.363", "sell": "37.920", "flag": "🇺🇸"},
+    {"currency": "EUR", "name": "Euro", "buy": "41.765", "sell": "42.487", "flag": "🇪🇺"},
+    {"currency": "GBP", "name": "British Pound", "buy": "49.567", "sell": "50.539", "flag": "🇬🇧"},
+    {"currency": "XCG", "name": "Curaçao Guilder", "buy": "20.529", "sell": "20.931", "flag": "🇨🇼"},
+    {"currency": "AWG", "name": "Aruban Florin", "buy": "20.757", "sell": "21.164", "flag": "🇦🇼"},
+    {"currency": "BRL", "name": "Brazilian Real", "buy": "7.437", "sell": "7.582", "flag": "🇧🇷"},
+    {"currency": "TTD", "name": "T&T Dollar", "buy": "5.529", "sell": "5.638", "flag": "🇹🇹"},
+    {"currency": "BBD", "name": "Barbados Dollar", "buy": "18.418", "sell": "18.779", "flag": "🇧🇧"},
+    {"currency": "XCD", "name": "E. Caribbean Dollar", "buy": "13.838", "sell": "14.109", "flag": "🏝️"},
+    {"currency": "GYD", "name": "Guyana Dollar", "buy": "0.17754", "sell": "0.18102", "flag": "🇬🇾"},  # CBVS quotes per 100 GYD; stored per unit
+    {"currency": "CNY", "name": "Chinese Yuan", "buy": "5.583", "sell": "5.692", "flag": "🇨🇳"},
 ]
 
 # -- Helpers ------------------------------------------------------------------
@@ -5212,6 +5213,54 @@ def fetch_sports_articles():
     articles.sort(key=lambda a: a["date"], reverse=True)
     return articles
 
+# Last known good rates (15 Oct 2026). Every live CME/CBvS fetch is saved here; when a
+# source is down the page shows these (badge "Last known", with the source's own
+# timestamp) instead of the hardcoded *_FALLBACK tables, which are months old.
+# The hardcoded tables are only used when this file does not exist yet.
+# Committed by update.yml (git add data/). live stays False for cached rates, so
+# rate history, home_live and the douanekoers check never treat them as fresh.
+_RATES_LAST_GOOD_PATH = "data/rates_last_good.json"
+LAST_KNOWN_PREFIX = "Last known|"
+
+def _rates_last_good_load(src):
+    try:
+        with open(_RATES_LAST_GOOD_PATH, encoding="utf-8") as f:
+            d = json.load(f).get(src) or {}
+        rates = d.get("rates")
+        if isinstance(rates, list) and len(rates) >= 2 and all(
+                isinstance(r, dict) and r.get("currency") and r.get("buy") and r.get("sell") for r in rates):
+            return rates, str(d.get("updated") or "")
+    except Exception:
+        pass
+    return None, ""
+
+def _rates_last_good_save(src, rates, updated):
+    try:
+        try:
+            with open(_RATES_LAST_GOOD_PATH, encoding="utf-8") as f:
+                d = json.load(f)
+            if not isinstance(d, dict):
+                d = {}
+        except Exception:
+            d = {}
+        entry = {"rates": rates, "updated": updated,
+                 "fetched_at": datetime.now(SR_TZ).strftime("%Y-%m-%dT%H:%M:%S%z")}
+        if (d.get(src) or {}).get("rates") == rates and (d.get(src) or {}).get("updated") == updated:
+            return
+        d[src] = entry
+        os.makedirs("data", exist_ok=True)
+        with open(_RATES_LAST_GOOD_PATH, "w", encoding="utf-8") as f:
+            json.dump(d, f, ensure_ascii=False, indent=1)
+    except Exception as e:
+        print(f"  !! last-good rates ({src}) not saved: {e}")
+
+def _rates_fallback(src, hardcoded, est_label):
+    rates, updated = _rates_last_good_load(src)
+    if rates:
+        print(f"  {src.upper()}: using last known good rates ({updated})")
+        return rates, False, LAST_KNOWN_PREFIX + updated
+    return hardcoded, False, est_label
+
 def fetch_cme_rates():
     """
     CME.sr rates via their internal JSON API.
@@ -5250,11 +5299,12 @@ def fetch_cme_rates():
         ]
         ts = datetime.now(SR_TZ).strftime("%d %b %Y %H:%M SR")
         print(f"  CME: rates live via API ({ts})")
+        _rates_last_good_save("cme", rates, f"CME: {ts}")
         return rates, True, f"CME: {ts}"
 
     except Exception as e:
         print(f"  CME API error: {e}")
-        return CME_FALLBACK, False, "Estimated rates (API unavailable)"
+        return _rates_fallback("cme", CME_FALLBACK, "Estimated rates (API unavailable)")
 
 
 def fetch_brent_price():
@@ -5289,7 +5339,12 @@ def fetch_cbvs_rates():
     fb_map = {r["currency"]: r for r in CBVS_FALLBACK}
     SKIP = {"THE", "FOR", "AND", "SRD", "VAR", "CSS", "DIV", "IMG", "NAV", "GEM", "PER"}
 
-    for url in ["https://www.cbvs.sr/", "https://www.cbvs.sr/statistieken/financiele-markten-statistieken/dagelijkse-publicaties"]:
+    # cbvs.sr's origin is flaky (Cloudflare 521/523 that often clears within seconds), so the
+    # homepage gets one more try at the end before we fall back to the last known rates.
+    for _n, url in enumerate(["https://www.cbvs.sr/", "https://www.cbvs.sr/statistieken/financiele-markten-statistieken/dagelijkse-publicaties",
+                              "https://www.cbvs.sr/"]):
+        if _n == 2:
+            __import__("time").sleep(4)
         try:
             req = urllib.request.Request(url, headers={
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -5337,13 +5392,14 @@ def fetch_cbvs_rates():
 
             if len(rates) >= 2:
                 print(f"  CBVS: {len(rates)} rates live from {url} ({cbvs_ts})")
+                _rates_last_good_save("cbvs", rates, f"CBVS: {cbvs_ts}")
                 return rates, True, f"CBVS: {cbvs_ts}"
 
         except Exception as e:
             print(f"  CBVS {url}: {e}")
 
     print("  CBVS: all URLs failed, using fallback")
-    return CBVS_FALLBACK, False, "Estimated rates (live fetch unavailable)"
+    return _rates_fallback("cbvs", CBVS_FALLBACK, "Estimated rates (live fetch unavailable)")
 
 # ── Commercial bank rates (Finabank, Hakrinbank, DSB, Republic Bank) ─────────
 # Fetched at build time from each bank's own published rate page or endpoint.
@@ -5901,6 +5957,9 @@ PAGE_HEAD = """\
     .listing-rows .listing-row { background:var(--card); border:1px solid var(--bd-card); border-radius:var(--r-card);
                                  box-shadow:var(--sh-card); padding:.6rem .9rem .6rem .6rem; overflow:hidden; }
     .listing-rows .listing-row .listing-ph { border-radius:4px; }
+    /* Table headers: no paper-coloured band inside a card (it read as a hole); hairline instead. */
+    thead tr.bg-gray-50, thead.bg-gray-50 { background:transparent !important; }
+    thead tr.bg-gray-50 > th, thead.bg-gray-50 th { border-bottom:1px solid var(--line); }
     @media (hover:hover) {
       .card-hover, a.bg-white.border:is(.rounded-3xl,.rounded-2xl), .evp-card, .ev-row .ev-open, .ev-grid .ev-open, .bz-tool
         { transition: transform .25s ease, box-shadow .25s ease, border-color .15s ease, filter .15s ease, opacity .2s; }
@@ -10037,10 +10096,21 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
         brent_grid_html = '<p class="text-gray-400 text-sm">Price unavailable. Will update on next rebuild.</p>'
         oil_badge_html = '<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0">Unavailable</span>'
 
-    def badge(is_live):
+    def badge(is_live, upd=""):
         if is_live:
             return '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Live</span>'
+        if upd.startswith(LAST_KNOWN_PREFIX):
+            return '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">&#9675; Last known</span>'
         return '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">&#9675; Estimated</span>'
+
+    def upd_line(upd):
+        # Words and values in separate nodes: the words are a stable i18n key,
+        # the source timestamp is translate="no".
+        if upd.startswith(LAST_KNOWN_PREFIX):
+            ts = html_lib.escape(upd[len(LAST_KNOWN_PREFIX):])
+            return ('<span>Last published:</span> <span translate="no">' + ts + '</span> '
+                    '<span>(source not responding, we retry every 15 minutes)</span>')
+        return '<span>Updated:</span> ' + html_lib.escape(upd)
 
     cbvs_rows = ""
     cbvs_cards = ""
@@ -10301,13 +10371,13 @@ doConvert();"""
       <div class="px-6 py-5 border-b border-gray-100">
         <div class="flex items-start justify-between gap-2">
           <div>
-            <p class="font-bold text-gray-900 text-base">CBVS Official Rates {badge(cbvs_live)}</p>
+            <p class="font-bold text-gray-900 text-base">CBVS Official Rates {badge(cbvs_live, cbvs_updated)}</p>
             <p class="text-gray-400 text-xs mt-0.5">Central Bank of Suriname reference rate</p>
           </div>
           <a href="https://www.cbvs.sr" target="_blank" rel="noopener noreferrer"
              class="text-xs font-semibold shrink-0 hover:underline" style="color:var(--forest2)">cbvs.sr &#8599;</a>
         </div>
-        <p class="text-gray-400 text-xs mt-2"><span>Updated:</span> {html_lib.escape(cbvs_updated)}</p>
+        <p class="text-gray-400 text-xs mt-2">{upd_line(cbvs_updated)}</p>
       </div>
       <div class="hidden sm:block overflow-x-auto">
         <table class="w-full text-sm">
@@ -10326,13 +10396,13 @@ doConvert();"""
       <div class="px-6 py-5 border-b border-gray-100">
         <div class="flex items-start justify-between gap-2">
           <div>
-            <p class="font-bold text-gray-900 text-base">CME Cash Rates {badge(cme_live)}</p>
+            <p class="font-bold text-gray-900 text-base">CME Cash Rates {badge(cme_live, cme_updated)}</p>
             <p class="text-gray-400 text-xs mt-0.5">Central Money Exchange (local market rate)</p>
           </div>
           <a href="https://www.cme.sr" target="_blank" rel="noopener noreferrer"
              class="text-xs font-semibold shrink-0 hover:underline" style="color:var(--forest2)">cme.sr &#8599;</a>
         </div>
-        <p class="text-gray-400 text-xs mt-2"><span>Updated:</span> {html_lib.escape(cme_updated)}</p>
+        <p class="text-gray-400 text-xs mt-2">{upd_line(cme_updated)}</p>
       </div>
       <div class="hidden sm:block overflow-x-auto">
         <table class="w-full text-sm">

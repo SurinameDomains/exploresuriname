@@ -102059,5 +102059,26 @@
 "zh": "卖出",
 "fr": "nous vendons",
 "pt": "vendemos"
+},
+"○ Last known": {
+"nl": "○ Laatst bekend",
+"es": "○ Último conocido",
+"zh": "○ 最近一次数据",
+"fr": "○ Dernier connu",
+"pt": "○ Último conhecido"
+},
+"Last published:": {
+"nl": "Laatst gepubliceerd:",
+"es": "Última publicación:",
+"zh": "最近发布：",
+"fr": "Dernière publication :",
+"pt": "Última publicação:"
+},
+"(source not responding, we retry every 15 minutes)": {
+"nl": "(bron reageert niet, we proberen het elke 15 minuten opnieuw)",
+"es": "(la fuente no responde, lo intentamos de nuevo cada 15 minutos)",
+"zh": "（数据源暂无响应，我们每 15 分钟重试一次）",
+"fr": "(la source ne répond pas, nous réessayons toutes les 15 minutes)",
+"pt": "(a fonte não está respondendo, tentamos de novo a cada 15 minutos)"
 }
 }
