@@ -1,6 +1,6 @@
 {
   "static:index.html": {
-    "hash": "255f4f0321f951ffbb488efbbdbe0a36",
+    "hash": "2ed7177f0eac2276d7a74c69897ec859",
     "date": "2026-10-15"
   },
   "static:restaurants.html": {
@@ -28,7 +28,7 @@
     "date": "2026-10-15"
   },
   "static:currency.html": {
-    "hash": "1af4a7d83fadf982a260e8e96e74ac19",
+    "hash": "4b50bb462147141071a3d78854a64338",
     "date": "2026-10-15"
   },
   "static:flights.html": {
@@ -36,7 +36,7 @@
     "date": "2026-10-15"
   },
   "static:conditions.html": {
-    "hash": "be3eefa40cfc780bc3e6317461203a80",
+    "hash": "03270b6c4c28cf9e7e7fe64f29232496",
     "date": "2026-10-15"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-15"
   },
   "static:news.html": {
-    "hash": "f85a6c94137ec0ffcbcf09972997a70d",
+    "hash": "11d0b6fb25d46599a64db2d8a50a51ab",
     "date": "2026-10-15"
   },
   "static:about.html": {
@@ -3016,7 +3016,7 @@
     "date": "2026-06-12"
   },
   "static:events.html": {
-    "hash": "a8d5da9743520fd721806bbe1d0bf166",
+    "hash": "39b6b692d2da498545f8d67f06955a22",
     "date": "2026-10-15"
   },
   "fort-zeelandia": {
@@ -3064,7 +3064,7 @@
     "date": "2026-10-15"
   },
   "static:atms.html": {
-    "hash": "8b99cfd1d436030af75d9336f2ea187b",
+    "hash": "f2d44686cc8591ced0d4c2facf6381f2",
     "date": "2026-10-15"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-15"
   },
   "static:oil-and-gas.html": {
-    "hash": "9f4734f24d12845d62ce53b1eff6d999",
+    "hash": "130407df0dd0dd994bb5fe027a71024c",
     "date": "2026-10-15"
   },
   "static:suriname-oil-blocks.html": {
@@ -32311,5 +32311,9 @@
     "hash": "b70bdfbb55c638358af838a902a074f8",
     "date": "2026-10-15",
     "first_seen": "2026-10-15"
+  },
+  "static:event-owru-skoro-20261124": {
+    "hash": "52dabba79c3c60e417b26759ee7e8ca5",
+    "date": "2026-10-15"
   }
 }
