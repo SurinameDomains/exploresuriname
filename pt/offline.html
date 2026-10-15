@@ -36,7 +36,7 @@
     .util-rail .util-in, nav .site-navin{max-width:none;padding-left:clamp(20px,4vw,64px);padding-right:clamp(20px,4vw,64px)}
   }
   </style>
-<link href="/tailwind.css?v=e7858edf" rel="stylesheet"/>
+<link href="/tailwind.css?v=a6463b46" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -398,9 +398,42 @@
     #pwa-bar .pwa-go:hover{background:var(--forest2)}
     #pwa-bar .pwa-x{flex:0 0 auto;background:transparent;border:0;color:#9ca3af;font-size:24px;line-height:1;cursor:pointer;padding:2px 6px;touch-action:manipulation}
     @media(min-width:640px){#pwa-bar{left:auto;right:18px;bottom:18px;max-width:430px;border-radius:16px;border:1px solid rgba(0,0,0,.08)}}
-    /* ===== Surface reset: hairlines and ratios instead of radius and shadow. ===== */
-    .rounded-3xl, .rounded-2xl, .rounded-xl, .rounded-lg, .rounded-t-2xl { border-radius: 0 !important; }
-    .shadow-sm, .shadow, .shadow-md, .shadow-lg, .shadow-xl { box-shadow: none !important; }
+    /* ===== Surface depth (15 Oct 2026) =====
+       The homepage Today band's card language, site-wide: cards sit on the paper with a
+       hairline border, a 6px radius and a soft long shadow; clickable cards lift on hover.
+       Replaces the flat "surface reset" (radius 0, no shadow). Change the look via these tokens. */
+    :root { --r-card:6px; --bd-card:rgba(35,48,40,.10);
+            --sh-card:0 1px 0 rgba(35,48,40,.03),0 18px 40px -28px rgba(35,48,40,.45);
+            --sh-lift:0 1px 0 rgba(35,48,40,.03),0 26px 44px -24px rgba(35,48,40,.5);
+            --sh-pop:0 12px 24px -8px rgba(35,48,40,.18); }
+    .rounded-3xl, .rounded-2xl, .rounded-xl, .rounded-lg { border-radius: var(--r-card) !important; }
+    .rounded-t-2xl { border-radius: var(--r-card) var(--r-card) 0 0 !important; }
+    .shadow-sm, .shadow, .shadow-md { box-shadow: var(--sh-card) !important; }
+    .shadow-lg, .shadow-xl { box-shadow: var(--sh-pop) !important; }
+    /* Card surfaces: Tailwind white cards + the named components (their own CSS comes later, hence !important). */
+    :is(div,a,article,section,li,aside).bg-white.border:is(.rounded-3xl,.rounded-2xl):not(.dd-menu),
+    .widget-card, .atm-card, .mg-card, .tl-card, #qz .card, .evp-card, .ev-row .ev-open, .ev-grid .ev-open,
+    .bz-card, .bz-tool, .bz-index
+      { border-color: var(--bd-card) !important; box-shadow: var(--sh-card) !important; border-radius: var(--r-card) !important; }
+    /* Listing cards (category pages): were photo + text straight on the paper. */
+    .listing-grid { row-gap:1.5rem; }
+    .listing-grid .listing-card { background:var(--card); border:1px solid var(--bd-card); border-radius:var(--r-card);
+                                  overflow:hidden; box-shadow:var(--sh-card); }
+    .listing-grid .listing-card > .pt-3 { padding:.8rem 1rem .9rem; }
+    .listing-rows { border-top:0; row-gap:.6rem; column-gap:1rem; }
+    .listing-rows .listing-row { background:var(--card); border:1px solid var(--bd-card); border-radius:var(--r-card);
+                                 box-shadow:var(--sh-card); padding:.6rem .9rem .6rem .6rem; overflow:hidden; }
+    .listing-rows .listing-row .listing-ph { border-radius:4px; }
+    @media (hover:hover) {
+      .card-hover, a.bg-white.border:is(.rounded-3xl,.rounded-2xl), .evp-card, .ev-row .ev-open, .ev-grid .ev-open, .bz-tool
+        { transition: transform .25s ease, box-shadow .25s ease, border-color .15s ease, filter .15s ease, opacity .2s; }
+      .card-hover:hover, a.bg-white.border:is(.rounded-3xl,.rounded-2xl):hover, .evp-card:hover, .ev-row .ev-open:hover,
+      .ev-grid .ev-open:hover, .bz-tool:hover
+        { transform: translateY(-3px); box-shadow: var(--sh-lift) !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .card-hover:hover, a.bg-white.border:hover, .evp-card:hover, .ev-open:hover, .bz-tool:hover { transform: none !important; }
+    }
     .border-gray-100, .border-gray-200 { border-color: rgba(35,48,40,.16) !important; }
     input, textarea, select { border-radius: 2px; }
     /* Pills survive only where they are a genuine control. */
