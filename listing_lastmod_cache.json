@@ -1,6 +1,6 @@
 {
   "static:index.html": {
-    "hash": "9a5267726e63fcf96c52c22a09e90c02",
+    "hash": "9aada9489379602db8dda16b6881b77e",
     "date": "2026-10-15"
   },
   "static:restaurants.html": {
@@ -28,7 +28,7 @@
     "date": "2026-10-15"
   },
   "static:currency.html": {
-    "hash": "e63a4a7f23c2cf4375e441d7c9f7aa95",
+    "hash": "e9448e727b185253ededa5ec74f40a35",
     "date": "2026-10-15"
   },
   "static:flights.html": {
@@ -36,7 +36,7 @@
     "date": "2026-10-15"
   },
   "static:conditions.html": {
-    "hash": "a8ee4f956a84843a9cfc3afd1ee9e0a6",
+    "hash": "bdfff130c6b54b6fc6750337f7563a06",
     "date": "2026-10-15"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-15"
   },
   "static:news.html": {
-    "hash": "01b312cfd17ca240e8e919da2f5425c4",
+    "hash": "83927c65e8e08d3768fbbb491cb8501b",
     "date": "2026-10-15"
   },
   "static:about.html": {
@@ -3016,7 +3016,7 @@
     "date": "2026-06-12"
   },
   "static:events.html": {
-    "hash": "e02629a96937c4ab24bce97e21e16704",
+    "hash": "fff7f23845627fe83d8a708c61b8a5e7",
     "date": "2026-10-15"
   },
   "fort-zeelandia": {
@@ -3064,7 +3064,7 @@
     "date": "2026-10-15"
   },
   "static:atms.html": {
-    "hash": "c3e5419b298efedf458e701f646a58f9",
+    "hash": "352446747368dc918fff93050048ff57",
     "date": "2026-10-15"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-15"
   },
   "static:oil-and-gas.html": {
-    "hash": "e487ed1263cbf83a502c5eb5d4944060",
+    "hash": "5dec1bf4487517c6244deddf35df59a6",
     "date": "2026-10-15"
   },
   "static:suriname-oil-blocks.html": {
@@ -32016,7 +32016,7 @@
     "date": "2026-10-15"
   },
   "static:events-this-weekend": {
-    "hash": "86bf87754a5d47be6eef0a6281b1d180",
+    "hash": "3f5b4555e1dd81d9d558e366aa60ea6a",
     "date": "2026-10-15"
   },
   "static:event-12th-salsuri-congress-gala-event-20261024": {
@@ -32028,7 +32028,7 @@
     "date": "2026-10-15"
   },
   "static:event-all-you-can-eat-baby-back-ribs": {
-    "hash": "fe16bb1e66793ac335f753fca9da4d78",
+    "hash": "6c0422c47ae546a57b46540fbfd27924",
     "date": "2026-10-15"
   },
   "static:event-alter-ego-the-white-islands-20261121": {
@@ -32132,7 +32132,7 @@
     "date": "2026-10-15"
   },
   "static:event-kraka-poku-tori-2026-gebruik-wat-je-hebt-20261016": {
-    "hash": "caa6d193442570a2aa19d281669525ce",
+    "hash": "c6c715fa70216d4adc4a7e237c98bff2",
     "date": "2026-10-15"
   },
   "static:event-kraka-un-man-20261115": {
@@ -32256,7 +32256,7 @@
     "date": "2026-10-10"
   },
   "static:event-sranan-nyan-pasi": {
-    "hash": "003d1e50a1e6778cea0cecb42c5f486a",
+    "hash": "ab4f11ecd890f136159272bccf31cbe1",
     "date": "2026-10-15"
   },
   "static:event-maroons-day-20261010": {
@@ -32268,7 +32268,7 @@
     "date": "2026-10-15"
   },
   "static:event-mijn-dorp-mijn-grond-kleurwedstrijd-20261011": {
-    "hash": "8cde91e1a1a4ce3ec34a2983eed5d3e9",
+    "hash": "5b2f255ccfc8a95076b6d29055b74359",
     "date": "2026-10-15"
   },
   "bordeaux-hills": {
@@ -32296,11 +32296,11 @@
     "date": "2026-10-15"
   },
   "static:event-karaoke-night-20261015": {
-    "hash": "4225bb1eb01ea832a8dfee1e9920af7a",
+    "hash": "cc76f0145dd0ebfd478c8f326a754c66",
     "date": "2026-10-15"
   },
   "static:event-latin-fever-20261016": {
-    "hash": "9bf49243618c8ddca7812bb40bfe8862",
+    "hash": "0b5c2c4c3e6a2133c1526cc3fba02784",
     "date": "2026-10-15"
   },
   "static:event-bon-vibes-20261017": {
@@ -32314,6 +32314,22 @@
   },
   "static:event-owru-skoro-20261124": {
     "hash": "39a942940aa882b18a8e18e04ad3a311",
+    "date": "2026-10-15"
+  },
+  "static:event-house-of-horrors-20261031": {
+    "hash": "8dedee0465ce3e27d0262d4cd10de44b",
+    "date": "2026-10-15"
+  },
+  "static:event-next-club-party-20261017": {
+    "hash": "7b1d26eaf3aedaf1232c2faf72b646da",
+    "date": "2026-10-15"
+  },
+  "static:event-sunset-escape-20261018": {
+    "hash": "35e709471c846f8e744609b8a20dd702",
+    "date": "2026-10-15"
+  },
+  "static:event-viva-la-noche-20261016": {
+    "hash": "301ee81592303af841e731e22cca0e4a",
     "date": "2026-10-15"
   }
 }
