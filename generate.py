@@ -5945,7 +5945,7 @@ PAGE_HEAD = """\
     .shadow-lg, .shadow-xl { box-shadow: var(--sh-pop) !important; }
     /* Card surfaces: Tailwind white cards + the named components (their own CSS comes later, hence !important). */
     :is(div,a,article,section,li,aside).bg-white.border:is(.rounded-3xl,.rounded-2xl):not(.dd-menu),
-    .widget-card, .atm-card, .mg-card, .tl-card, #qz .card, .evp-card, .ev-row .ev-open, .ev-grid .ev-open,
+    .widget-card, .atm-card, .mg-card, .tl-card, #qz .card,
     .bz-card, .bz-tool, .bz-index
       { border-color: var(--bd-card) !important; box-shadow: var(--sh-card) !important; border-radius: var(--r-card) !important; }
     /* Listing cards (category pages): were photo + text straight on the paper. */
@@ -5974,6 +5974,12 @@ PAGE_HEAD = """\
     .sec-card table th:last-child, .sec-card table td:last-child:not([style*="background"]) { padding-right:0 !important; }
     .sec-card .sec-list .px-4, .sec-card .sec-x0 { padding-left:0 !important; padding-right:0 !important; }
     .sec-card details > summary { list-style-position:inside; }
+    [data-cbx][hidden] { display:none !important; }
+    .cbx-btn { display:inline-flex; align-items:center; gap:.4rem; margin-top:.8rem; padding:.2rem 0; background:none; border:0;
+               font-size:.875rem; font-weight:600; color:var(--forest2); cursor:pointer; }
+    .cbx-btn:hover { text-decoration:underline; }
+    .cbx-ar { display:inline-block; font-size:.8rem; transition:transform .15s; }
+    .cbx-btn[aria-expanded="true"] .cbx-ar { transform:rotate(90deg); }
     .sec-foot { font-size:.75rem; line-height:1.55; color:var(--ink-soft); padding-top:.85rem; }
     .sec-gap { margin-top:1.5rem; }
     .sec-note { border-top:1px solid #DDD4C1; padding-top:1rem; font-size:.85rem; line-height:1.6; color:var(--ink-soft); }
@@ -6001,14 +6007,13 @@ PAGE_HEAD = """\
     @media(max-width:639px){ .fig-v { font-size:1.65rem; } }
     @media(max-width:380px){ .fig-v { font-size:1.45rem; } }
     @media (hover:hover) {
-      .card-hover, a.bg-white.border:is(.rounded-3xl,.rounded-2xl), .evp-card, .ev-row .ev-open, .ev-grid .ev-open, .bz-tool
+      .card-hover, a.bg-white.border:is(.rounded-3xl,.rounded-2xl), .bz-tool
         { transition: transform .25s ease, box-shadow .25s ease, border-color .15s ease, filter .15s ease, opacity .2s; }
-      .card-hover:hover, a.bg-white.border:is(.rounded-3xl,.rounded-2xl):hover, .evp-card:hover, .ev-row .ev-open:hover,
-      .ev-grid .ev-open:hover, .bz-tool:hover
+      .card-hover:hover, a.bg-white.border:is(.rounded-3xl,.rounded-2xl):hover, .bz-tool:hover
         { transform: translateY(-3px); box-shadow: var(--sh-lift) !important; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .card-hover:hover, a.bg-white.border:hover, .evp-card:hover, .ev-open:hover, .bz-tool:hover { transform: none !important; }
+      .card-hover:hover, a.bg-white.border:hover, .bz-tool:hover { transform: none !important; }
     }
     .border-gray-100, .border-gray-200 { border-color: rgba(35,48,40,.16) !important; }
     input, textarea, select { border-radius: 2px; }
@@ -10140,7 +10145,7 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
             kind, word, note = "st-live", "Live", ""
             ts = re.sub(r"^(CME|CBVS):\s*", "", upd)
         elif upd.startswith(LAST_KNOWN_PREFIX):
-            kind, word, note = "", "Last known", "(source not responding, we retry every 15 minutes)"
+            kind, word, note = "", "Last known", ""
             ts = upd[len(LAST_KNOWN_PREFIX):]
         else:
             kind, word, note, ts = "st-est", "Estimated", "(live fetch unavailable)", ""
@@ -10154,9 +10159,12 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
     cbvs_rows = ""
     cbvs_cards = ""
     _cbvs_card_list = []
-    for r in cbvs_rates:
+    # USD and EUR first; the other currencies sit behind "All currencies" (15 Oct 2026)
+    cbvs_rates = sorted(cbvs_rates, key=lambda x: {"USD": 0, "EUR": 1}.get(x["currency"], 2))
+    for _i, r in enumerate(cbvs_rates):
+        _x = ' data-cbx hidden' if _i >= 2 else ''
         cbvs_rows += (
-            '<tr class="border-b border-gray-100 hover:bg-gray-50">'
+            f'<tr class="border-b border-gray-100 hover:bg-gray-50"{_x}>'
             f'<td class="py-3 px-3 font-semibold text-gray-900 whitespace-nowrap">{r["currency"]}</td>'
             f'<td class="py-3 px-3 text-gray-500 text-sm">{html_lib.escape(r["name"])}</td>'
             f'<td class="py-3 px-3 text-right font-mono font-bold text-gray-800">{r["buy"]}</td>'
@@ -10164,7 +10172,7 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
             '</tr>'
         )
         _cbvs_card_list.append(
-            '<div class="flex items-center justify-between py-3 border-b border-gray-100 px-4">'
+            f'<div class="flex items-center justify-between py-3 border-b border-gray-100 px-4"{_x}>'
             '<div>'
             f'<p class="font-semibold text-gray-900 text-sm">{r["currency"]}</p>'
             f'<p class="text-gray-500 text-xs mt-0.5">{html_lib.escape(r["name"])}</p>'
@@ -10175,11 +10183,14 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
             '</div>'
             '</div>'
         )
-    cbvs_cards = "".join(_cbvs_card_list[:2])
+    cbvs_cards = "".join(_cbvs_card_list)
+    cbvs_more = ""
     if len(_cbvs_card_list) > 2:
-        cbvs_cards += ('<details><summary class="py-3 text-sm font-semibold cursor-pointer" style="color:var(--forest2)">'
-                       f'<span>All currencies</span> <span translate="no">({len(_cbvs_card_list)})</span></summary>'
-                       + "".join(_cbvs_card_list[2:]) + '</details>')
+        cbvs_more = ('<button type="button" class="cbx-btn" aria-expanded="false" '
+                     'onclick="var o=this.getAttribute(\'aria-expanded\')!==\'true\';this.setAttribute(\'aria-expanded\',o);'
+                     'this.closest(\'section\').querySelectorAll(\'[data-cbx]\').forEach(e=>e.hidden=!o)">'
+                     f'<span class="cbx-ar" aria-hidden="true">&#9656;</span><span>All currencies</span> '
+                     f'<span translate="no">({len(_cbvs_card_list)})</span></button>')
 
     cme_rows = ""
     cme_cards = ""
@@ -10434,6 +10445,7 @@ doConvert();"""
         </table>
       </div>
       <div class="sm:hidden sec-list">{cbvs_cards}</div>
+      {cbvs_more}
     </section>
     <section class="sec-card order-1 lg:order-2">
       <div class="sec-hd">
