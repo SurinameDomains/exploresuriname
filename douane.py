@@ -331,7 +331,7 @@ def _d(d):
 def render_section(state, esc):
     """Card HTML for currency.html. esc = html.escape."""
     head = '''
-  <section id="douanekoers" class="sec-flat sec-gap">
+  <section id="douanekoers" class="sec-card sec-gap">
     <div class="sec-hd">
       <div class="flex items-baseline justify-between gap-3">
         <h2 class="sec-title">Douanekoers (Customs Exchange Rate)</h2>

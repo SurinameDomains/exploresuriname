@@ -5960,23 +5960,22 @@ PAGE_HEAD = """\
     /* Table headers: no paper-coloured band inside a card (it read as a hole); hairline instead. */
     thead tr.bg-gray-50, thead.bg-gray-50 { background:transparent !important; }
     thead tr.bg-gray-50 > th, thead.bg-gray-50 th { border-bottom:1px solid var(--line); }
-    /* ===== Raised vs flat (15 Oct 2026) =====
-       Raised cards are for what you DO or GLANCE at: tools, status, key figures, clickable cards.
-       Reference content (tables, lists, explainers) sits flat on the paper: serif title, hairline,
-       content. When everything is raised nothing stands out; the contrast is what gives depth. */
-    .sec-flat { background:transparent !important; border:0 !important; box-shadow:none !important;
-                border-radius:0 !important; overflow:visible !important; }
-    .sec-flat > .sec-hd { padding:0 0 .85rem !important; border-bottom:1px solid #DDD4C1 !important; }
-    .sec-title, .sec-flat .widget-title { font-family:'Newsreader',Georgia,serif; font-weight:400; font-size:1.65rem;
+    /* ===== Section cards (15 Oct 2026) =====
+       Data sections (rate tables, flight boards) are cards with a serif title, one status line
+       under it (no pills next to titles) and the table inside. */
+    .sec-card { background:var(--card); border:1px solid var(--bd-card); border-radius:var(--r-card);
+                box-shadow:var(--sh-card); padding:1.35rem 1.5rem 1.2rem; }
+    @media(max-width:639px){ .sec-card { padding:1.1rem 1.1rem 1rem; } }
+    .sec-card > .sec-hd { padding:0 0 .85rem; border-bottom:1px solid var(--line); }
+    .sec-title { font-family:'Newsreader',Georgia,serif; font-weight:400; font-size:1.4rem;
                  line-height:1.15; letter-spacing:-.01em; color:var(--forest); }
     .sec-sub { font-size:.85rem; line-height:1.45; color:var(--ink-soft); margin-top:.25rem; }
-    .sec-flat table th:first-child, .sec-flat table td:first-child { padding-left:0 !important; }
-    .sec-flat table th:last-child, .sec-flat table td:last-child:not([style*="background"]) { padding-right:0 !important; }
-    .sec-flat .sec-list .px-4, .sec-flat .sec-x0 { padding-left:0 !important; padding-right:0 !important; }
-    .sec-flat tbody tr, .sec-flat .border-gray-100 { border-color:#E7DCC6 !important; }
-    .sec-flat details > summary { list-style-position:inside; }
+    .sec-card table th:first-child, .sec-card table td:first-child { padding-left:0 !important; }
+    .sec-card table th:last-child, .sec-card table td:last-child:not([style*="background"]) { padding-right:0 !important; }
+    .sec-card .sec-list .px-4, .sec-card .sec-x0 { padding-left:0 !important; padding-right:0 !important; }
+    .sec-card details > summary { list-style-position:inside; }
     .sec-foot { font-size:.75rem; line-height:1.55; color:var(--ink-soft); padding-top:.85rem; }
-    .sec-gap { margin-top:3.5rem; }
+    .sec-gap { margin-top:1.5rem; }
     .sec-note { border-top:1px solid #DDD4C1; padding-top:1rem; font-size:.85rem; line-height:1.6; color:var(--ink-soft); }
     .sec-note strong { color:var(--ink); font-weight:600; }
     .sec-note p + p { margin-top:.6rem; }
@@ -5998,21 +5997,9 @@ PAGE_HEAD = """\
              color:var(--forest); font-variant-numeric:tabular-nums; }
     .fig-s { font-size:.8rem; color:var(--ink-soft); margin-top:.3rem; }
     .fig-s strong { color:var(--ink); font-weight:600; }
-    /* Glance card: a page's key figures, in the homepage Money-card language (raised, dark). */
-    .glance { background:linear-gradient(160deg,#1E4A36 0%,#142A1E 100%); color:#F2E9D4; border-radius:var(--r-card);
-              box-shadow:var(--sh-card); padding:1.35rem 1.5rem 1rem; }
-    .glance-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.3rem 1.5rem; }
-    @media(min-width:768px){ .glance-grid { grid-template-columns:repeat(var(--n,4),minmax(0,1fr)); } }
-    .glance-k { font-size:.66rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); }
-    .glance-v { font-family:'Newsreader',Georgia,serif; font-size:2.05rem; line-height:1.05; margin-top:.35rem;
-                color:#FCF7EC; font-variant-numeric:tabular-nums; }
-    .glance-v.lead { color:var(--gold); font-size:2.55rem; }
-    .glance-s { font-size:.78rem; line-height:1.4; color:#B9C2B2; margin-top:.3rem; }
-    .glance-s strong { color:#FCF7EC; font-weight:600; }
-    .glance-ft { margin-top:1.1rem; padding-top:.7rem; border-top:1px solid rgba(252,247,236,.14); font-size:.72rem;
-                 color:#9BAA97; display:flex; flex-wrap:wrap; column-gap:.45rem; }
-    @media(max-width:639px){ .fig-v { font-size:2rem; } }
-    @media(max-width:380px){ .fig-v { font-size:1.75rem; } .glance { padding:1.2rem 1.15rem .9rem; } .glance-v { font-size:1.8rem; } .glance-v.lead { font-size:2.2rem; } }
+    .fig-v { white-space:nowrap; }
+    @media(max-width:639px){ .fig-v { font-size:1.65rem; } }
+    @media(max-width:380px){ .fig-v { font-size:1.45rem; } }
     @media (hover:hover) {
       .card-hover, a.bg-white.border:is(.rounded-3xl,.rounded-2xl), .evp-card, .ev-row .ev-open, .ev-grid .ev-open, .bz-tool
         { transition: transform .25s ease, box-shadow .25s ease, border-color .15s ease, filter .15s ease, opacity .2s; }
@@ -10164,40 +10151,6 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
             h += f'<span>{note}</span>'
         return h + "</p>"
 
-    # ── At a glance: the four USD figures people come for (raised, dark) ──
-    def _usd_of(rates):
-        return next((x for x in rates if x["currency"] == "USD"), None)
-    _g = []
-    _cu, _bu = _usd_of(cme_rates), _usd_of(cbvs_rates)
-    if _cu:
-        _g.append(("CME cash", _cu["buy"],
-                   f'<span>we buy</span> &#183; <span>we sell</span> <strong translate="no">{_cu["sell"]}</strong>'
-                   + ("" if cme_live else ' &#183; <span>last known</span>'), True))
-    if _bu:
-        _g.append(("CBVS official", _bu["buy"],
-                   f'<span>buy</span> &#183; <span>sell</span> <strong translate="no">{_bu["sell"]}</strong>'
-                   + ("" if cbvs_live else (' &#183; <span>last known</span>' if (cbvs_updated or "").startswith(LAST_KNOWN_PREFIX)
-                                             else ' &#183; <span>estimated</span>')), False))
-    if bank_rates:
-        _bb = max(b["usd"][0] for b in bank_rates)
-        _bn = " &#183; ".join(html_lib.escape(b["name"]) for b in bank_rates if b["usd"][0] >= _bb)
-        _g.append(("Best bank rate", f"{_bb:.2f}", f'<span translate="no">{_bn}</span>', False))
-    try:
-        if douane_state and not douane_state.get("stale"):
-            _dk = next(r for r in douane_state["current"]["rates"] if r["code"] == "USD")
-            _g.append(("Douanekoers", f'{_dk["rate"]:,.2f}',
-                       f'<span>customs rate until</span> {_douane._ds(douane_state["period_end"])}', False))
-    except Exception:
-        pass
-    glance_html = ""
-    if _g:
-        _cells = "".join(
-            f'<div><p class="glance-k">{k}</p><p class="glance-v{" lead" if lead else ""}" translate="no">{v}</p>'
-            f'<p class="glance-s">{sub}</p></div>' for k, v, sub, lead in _g)
-        glance_html = (f'<section class="glance mb-6" aria-label="USD at a glance"><div class="glance-grid" style="--n:{len(_g)}">{_cells}</div>'
-                       '<p class="glance-ft"><span>SRD per 1 USD</span><span>&#183;</span><span>page updated</span>'
-                       f'<span translate="no">{datetime.now(SR_TZ).strftime("%H:%M")} SR</span></p></section>')
-
     cbvs_rows = ""
     cbvs_cards = ""
     _cbvs_card_list = []
@@ -10311,7 +10264,7 @@ def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live,
             )
 
         bank_section = f'''
-  <section class="sec-flat sec-gap">
+  <section class="sec-card sec-gap">
     <div class="sec-hd">
       <h2 class="sec-title">Bank Rates Compared</h2>
       <p class="sec-sub">USD and EUR at Suriname&#8217;s commercial banks, side by side. Buy is what you receive when selling foreign currency; sell is what you pay to get it.</p>
@@ -10426,7 +10379,6 @@ doConvert();"""
   <p class="text-white/60 text-lg max-w-xl mx-auto px-4">CBVS official &bull; CME cash &bull; commercial banks compared &bull; douanekoers &bull; live gold &amp; Brent oil</p>
 </div>
 <main class="max-w-5xl mx-auto px-5 py-10 pb-24">
-  {glance_html}
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
     <h2 class="serif text-2xl font-bold text-gray-900 mb-1">Currency Converter</h2>
     <p class="text-gray-400 text-sm mb-4">Pick a rate source below. CME cash is what exchange offices typically offer; bank rates are giral (account) rates.</p>
@@ -10459,8 +10411,8 @@ doConvert();"""
     </div>
     <p class="text-gray-400 text-xs text-center mt-3">Rates are indicative only. Confirm with your exchange office before transacting.</p>
   </div>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-14 sec-gap">
-    <section class="sec-flat order-2 lg:order-1">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sec-gap items-start">
+    <section class="sec-card order-2 lg:order-1">
       <div class="sec-hd">
         <div class="flex items-baseline justify-between gap-3">
           <h2 class="sec-title">CBVS Official Rates</h2>
@@ -10483,7 +10435,7 @@ doConvert();"""
       </div>
       <div class="sm:hidden sec-list">{cbvs_cards}</div>
     </section>
-    <section class="sec-flat order-1 lg:order-2">
+    <section class="sec-card order-1 lg:order-2">
       <div class="sec-hd">
         <div class="flex items-baseline justify-between gap-3">
           <h2 class="sec-title">CME Cash Rates</h2>
@@ -10510,7 +10462,7 @@ doConvert();"""
 {bank_section}
 {douane_section}
   <!-- Gold & oil: one flat section, two figures (15 Oct 2026; were two cards with tinted tiles) -->
-  <section class="sec-flat sec-gap">
+  <section class="sec-card sec-gap">
     <div class="sec-hd">
       <h2 class="sec-title">Gold &amp; Oil</h2>
       <p class="sec-sub">World prices in USD, with the SRD equivalent at today&#8217;s CME USD buy rate.</p>
@@ -12485,11 +12437,11 @@ def build_today_page():
     .src-link:hover {{ color:#6b7280; }}
     .error-note {{ font-size:.8rem; color:#6b7280; text-align:center; padding:1.5rem 0; }}
     /* Flat reference lists (15 Oct 2026) */
-    .sec-flat .widget-head {{ align-items:flex-end; }}
-    .sec-flat .widget-sub {{ font-size:.85rem; margin-top:.25rem; }}
-    .sec-flat .widget-body {{ padding:.35rem 0 0; }}
-    .sec-flat .pharmacy-row {{ border-color:#E7DCC6; }}
-    main .text-gray-300, .sec-flat .src-link {{ color:#8B8676 !important; }}
+    .sec-card .widget-head {{ align-items:flex-end; }}
+    .sec-card .widget-sub {{ font-size:.85rem; margin-top:.25rem; }}
+    .sec-card .widget-body {{ padding:.35rem 0 0; }}
+    .sec-card .pharmacy-row {{ border-color:#E7DCC6; }}
+    main .text-gray-300, .sec-card .src-link {{ color:#8B8676 !important; }}
     .dn-grp {{ font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--clay);
                margin:1.4rem 0 .1rem; padding-bottom:.45rem; border-bottom:1px solid #DDD4C1; }}
   </style>
@@ -12548,11 +12500,11 @@ def build_today_page():
   </div><!-- /status grid -->
 
   <!-- Reference lists: flat on the paper (15 Oct 2026) -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-14 sec-gap items-start">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 items-start">
 
     <!-- ── TBL CINEMAS ────────────────── -->
-    <div class="widget-card sec-flat">
-      <div class="widget-head sec-hd">
+    <div class="widget-card">
+      <div class="widget-head">
         <div class="flex items-center">
           <div>
             <div class="widget-title">Now Showing</div>
@@ -12565,8 +12517,8 @@ def build_today_page():
     </div>
 
     <!-- ── ON-CALL SERVICE ────────────────── -->
-    <div class="widget-card sec-flat">
-      <div class="widget-head sec-hd">
+    <div class="widget-card">
+      <div class="widget-head">
         <div class="flex items-center">
           <div>
             <div class="widget-title">On-Call Service</div>
@@ -12575,7 +12527,7 @@ def build_today_page():
         </div>
         <span id="wacht-upd" class="upd-badge"></span>
       </div>
-      <div style="padding:1rem 0 0">
+      <div style="padding:1rem 1.5rem 0">
         <select id="wacht-district" onchange="wachtFilter()" style="font-size:.8rem;padding:.4rem .6rem;border-radius:.375rem;border:1px solid #DDD4C1;background:var(--card);color:#374151;width:100%;max-width:240px">
           <option value="all">All districts</option>
         </select>
@@ -26664,7 +26616,7 @@ def build_flights_page(flights_data):
         panels_html += f"""
 <div id="panel-{icao}" class="airport-panel{panel_hidden}">
   <p class="st-line st-live" style="margin:0 0 2rem"><span class="st-dot"></span><span class="st-w">Updated:</span><span translate="no">{html_lib.escape(updated)}</span><span class="st-sep">&#183;</span><span>{cache_note}</span></p>
-  <section class="sec-flat">
+  <section class="sec-card">
     <div class="sec-hd">
       <h2 class="sec-title">&#9650; Arrivals {count_badge(len(arrivals))}</h2>
       <p class="sec-sub"><span>Scheduled arrivals today</span> &#183; <span translate="no">{html_lib.escape(ap["label"])}</span></p>
@@ -26682,7 +26634,7 @@ def build_flights_page(flights_data):
     </div>
     <div class="sm:hidden sec-list">{arr_cards}</div>
   </section>
-  <section class="sec-flat sec-gap">
+  <section class="sec-card sec-gap">
     <div class="sec-hd">
       <h2 class="sec-title">&#9660; Departures {count_badge(len(departures))}</h2>
       <p class="sec-sub"><span>Scheduled departures today</span> &#183; <span translate="no">{html_lib.escape(ap["label"])}</span></p>
@@ -26753,7 +26705,7 @@ def build_flights_page(flights_data):
   </div>
   {panels_html}
   <!-- Flight Resources: flat reference section (15 Oct 2026) -->
-  <section class="sec-flat sec-gap">
+  <section class="sec-card sec-gap">
     <div class="sec-hd">
       <h2 class="sec-title">Flight Resources</h2>
     </div>
