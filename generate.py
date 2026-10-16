@@ -13413,6 +13413,7 @@ def build_events_page():
     if len(_rail_items) < 2:
         _rail_items = [r for r in _conf if r[3] <= today + _td(days=14)]
         _rail_title, _rail_when = "Coming up", "all"
+    _rail_total = len(_rail_items)   # badge shows the real total, the rail only the first 12
     _rail_items = _rail_items[:12]
     rail_html = ""
     if len(_rail_items) >= 2:
@@ -13429,7 +13430,7 @@ def build_events_page():
         rail_html = (
             '\n  <section class="ev-rail" aria-labelledby="ev-rail-h">'
             '\n    <div class="ev-rail-h"><h2 id="ev-rail-h" class="serif">' + _rail_title
-            + ' <span class="ev-rail-n">' + str(len(_rail_items)) + '</span></h2>'
+            + ' <span class="ev-rail-n" data-w="' + _rail_when + '">' + str(_rail_total) + '</span></h2>'
             '<div class="ev-rail-nav"><button type="button" class="ev-arr" data-dir="-1" aria-label="Scroll back">&#8249;</button>'
             '<button type="button" class="ev-arr" data-dir="1" aria-label="Scroll forward">&#8250;</button>'
             '<button type="button" class="ev-seeall" data-go-when="' + _rail_when + '">See all &#8594;</button></div></div>'
@@ -14519,7 +14520,8 @@ if(o){if(o.hasAttribute("data-when"))st.when=o.getAttribute("data-when");else if
         # chip counts for the date filters
         '["today","tomorrow","weekend","week","month"].forEach(function(w){var n=cards.filter(function(c){return hit(c,w)}).length;'
         '[].forEach.call(D.querySelectorAll(\'.ev-chip[data-when="\'+w+\'"],.ev-opt[data-when="\'+w+\'"]\'),function(x){'
-        'var k=x.querySelector(".ev-n");if(k)k.textContent=n||"";if(!n)x.hidden=true})});'
+        'var k=x.querySelector(".ev-n");if(k)k.textContent=n||"";if(!n)x.hidden=true});'
+        '[].forEach.call(D.querySelectorAll(\'.ev-rail-n[data-w="\'+w+\'"]\'),function(x){if(n)x.textContent=n})});'
         + _EVF_JS +
         # detail dialog
         'function openCard(c,push){if(!dl||!dl.showModal)return false;cur=c;'
