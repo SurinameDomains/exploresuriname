@@ -174,7 +174,8 @@ _SUB_FIXES = {
                            "drop_website": "https://www.vhji.sr"},                  # domain no longer resolves
     "suundergrnd":        {"facebook": "https://www.facebook.com/suundergrnd/"},
     "rbl-stroop":         {"facebook": "https://www.facebook.com/RBLStroop/",
-                           "drop_website": "https://www.facebook.com/share/14sNzZQ7WDS/"},  # share link, not a site
+                           "drop_website": "https://www.facebook.com/share/14sNzZQ7WDS/",  # share link, not a site
+                           "category": "shopping"},  # owner asked 16 Oct 2026: sells a product (syrup), not a service
     "praia-branca":       {"drop_website": "https://www.facebook.com/share/p/19KG6QA5fo/"},  # link to one post
 }
 try:
@@ -188,6 +189,8 @@ try:
         _scat  = _s.get("category") or ""
         if _scat == "adventure" and _s.get("subcat") == "fitness-wellness":
             _scat = "service"     # gyms/sports clubs are listed under Local Services > Fitness
+        if _SUB_FIXES.get(_sslug, {}).get("category") in _SUB_LIST_KEY:
+            _scat = _SUB_FIXES[_sslug]["category"]   # repo-side category correction
         if not _sslug or _sslug in _BIZ or _scat not in _SUB_LIST_KEY:
             _sub_skipped += 1
             continue
@@ -3173,7 +3176,7 @@ _RESORT_SUBCAT = {
     "nv-chemco": "manufacturing",
     "nv-consolidated-industries-corporation-cic": "manufacturing",
     "pricos-machineshop": "manufacturing",
-    "rbl-stroop": "manufacturing",
+    "rbl-stroop": "drinks-liquor",
     "rudisa": "manufacturing",
     "soekhoe-zonen-houtzagerij-en-houthandel-nv": "manufacturing",
     "surinam-plastics-manufacturing-nv": "manufacturing",
