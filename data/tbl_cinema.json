@@ -1,36 +1,46 @@
 {
-  "last_updated": "2026-10-15T16:00:36.037163+00:00",
+  "last_updated": "2026-10-16T10:00:35.112827+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "05:15 PM",
+      "time": "05:00 PM",
       "title": "Forgotten Island",
       "url": "https://www.tblcinemas.com/movie/RS706204767478/forgotten-island"
     },
     {
-      "time": "06:30 PM",
-      "title": "Resident Evil",
-      "url": "https://www.tblcinemas.com/movie/RS762482270455/resident-evil"
-    },
-    {
-      "time": "07:00 PM",
-      "title": "The Beast",
-      "url": "https://www.tblcinemas.com/movie/RS339100936931/the-beast"
-    },
-    {
-      "time": "07:45 PM",
+      "time": "05:45 PM",
       "title": "Street Fighter",
       "url": "https://www.tblcinemas.com/movie/RS756444881544/street-fighter"
     },
     {
-      "time": "08:15 PM",
-      "title": "Whalefall",
-      "url": "https://www.tblcinemas.com/movie/RS987342453993/whalefall"
+      "time": "06:15 PM",
+      "title": "Beware Boiúna",
+      "url": "https://www.tblcinemas.com/movie/RS31454950608/beware-boi-na"
     },
     {
-      "time": "09:00 PM",
+      "time": "06:45 PM",
+      "title": "Nayyi Navelli",
+      "url": "https://www.tblcinemas.com/movie/RS229778423121/nayyi-navelli"
+    },
+    {
+      "time": "07:15 PM",
+      "title": "The Beast",
+      "url": "https://www.tblcinemas.com/movie/RS339100936931/the-beast"
+    },
+    {
+      "time": "08:00 PM",
+      "title": "Street Fighter",
+      "url": "https://www.tblcinemas.com/movie/RS756444881544/street-fighter"
+    },
+    {
+      "time": "08:45 PM",
       "title": "Other Mommy",
       "url": "https://www.tblcinemas.com/movie/RS990149882856/other-mommy"
+    },
+    {
+      "time": "09:15 PM",
+      "title": "Whalefall",
+      "url": "https://www.tblcinemas.com/movie/RS987342453993/whalefall"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
