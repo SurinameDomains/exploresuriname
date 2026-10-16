@@ -1,6 +1,17 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD MAANDAG 19 OKTOBER 2026",
+      "date": "19 Oktober 2026",
+      "date_iso": "2026-10-19",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1633/gepland-onderhoud-maandag-19-oktober-2026",
+      "meta_description": "Gepland onderhoud: Wanica maandag 19 oktober 2026 tussen 08:30-12:00 TISRIWEG, COLETTELAAN EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED. Kaart",
+      "district": "Wanica",
+      "time": "08:30 – 12:00",
+      "area": "TISRIWEG, COLETTELAAN EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED. Kaart"
+    },
+    {
       "title": "GEPLAND ONDERHOUD ZATERDAG 17 OKTOBER 2026",
       "date": "17 Oktober 2026",
       "date_iso": "2026-10-17",
@@ -42,6 +53,6 @@
       "meta_description": "De N.V. Energiebedrijven Suriname (N.V. EBS) maakt bekend dat in verband met  de werkzaamheden voor het slopen en verwijderen van"
     }
   ],
-  "last_updated": "2026-10-16T15:07:53.669485+00:00",
+  "last_updated": "2026-10-16T16:24:22.767863+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
