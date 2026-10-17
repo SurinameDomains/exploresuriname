@@ -1,6 +1,6 @@
 {
   "static:index.html": {
-    "hash": "8289e44f57252bd1c071f0a7ddea5e07",
+    "hash": "4e5e75bf9445ad22dffdaf80247cbc24",
     "date": "2026-10-17"
   },
   "static:restaurants.html": {
@@ -36,7 +36,7 @@
     "date": "2026-10-17"
   },
   "static:conditions.html": {
-    "hash": "c659d879ae34a4a2ed995e4dc573ce93",
+    "hash": "87f474afcea42eca6d094b8263a77c46",
     "date": "2026-10-17"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-17"
   },
   "static:news.html": {
-    "hash": "671f976d541372649f0b3ca06a20a022",
+    "hash": "e1137b54dfe80a8266bb47804882e75c",
     "date": "2026-10-17"
   },
   "static:about.html": {
@@ -3016,7 +3016,7 @@
     "date": "2026-06-12"
   },
   "static:events.html": {
-    "hash": "6bd5b92e7d4d51d43b663d62404454a7",
+    "hash": "9722731e3ce0cbef2aafc3ccc7c899f3",
     "date": "2026-10-17"
   },
   "fort-zeelandia": {
@@ -3040,7 +3040,7 @@
     "date": "2026-10-15"
   },
   "static:matches.html": {
-    "hash": "323333ae13fbef24fa2adac8d1c5cb29",
+    "hash": "659ac6cfe7e65dfde4b6a0a7637ac2f7",
     "date": "2026-10-17"
   },
   "static:suriname-time.html": {
@@ -32016,7 +32016,7 @@
     "date": "2026-10-15"
   },
   "static:events-this-weekend": {
-    "hash": "c46a648de2103df7064736b12a76d375",
+    "hash": "8ab14267224184e325201d779bfcb0df",
     "date": "2026-10-17"
   },
   "static:event-12th-salsuri-congress-gala-event-20261024": {
@@ -32347,5 +32347,9 @@
   "static:event-deja-vu-20261016": {
     "hash": "53fa750b32c2bae71f0729f348c1b1a5",
     "date": "2026-10-16"
+  },
+  "static:event-creative-prayer-board-workshop-20261031": {
+    "hash": "816e31d43cf2228986ce89839f106bb9",
+    "date": "2026-10-17"
   }
 }
