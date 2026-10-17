@@ -15799,6 +15799,12 @@ _NATIO_SCANS = {
 # U-20, U-23 or women's feeds in eight years, while Concacaf has Suriname U-20
 # qualifying, U-15, Women's U-17 and W Qualifiers. competitionId -> chip.
 _CONCACAF_NATIO = {
+    # senior men (added Oct 2026): ESPN kept the 2026 Nations League games as
+    # 'TBD' placeholders with no scores, Concacaf had every result and kickoff.
+    "8f4d0567b7104de7ad50b23af41ee9d8": ("natio", "Concacaf Nations League"),
+    "d3c53a0820314073929214e3ef5f0d93": ("natio", "World Cup qualifying"),
+    "f673bf33253e4a3b84b90b6cc397996a": ("natio", "Gold Cup qualifying"),
+    "f87088fdc8934ca0b5b42a935de73ecc": ("natio", "Concacaf Gold Cup"),
     # senior women
     "e3cc06302bcd406592b485c5570f2f5b": ("natiow", "Concacaf W Championship"),
     "934c2697ee0c4fcd9cf25b1639b53348": ("natiow", "W World Cup qualifying"),
@@ -16399,9 +16405,13 @@ def fetch_concacaf_natio(cache):
                     sx = "post"
                 hs, aw = m.get("providerHomeScore"), m.get("providerAwayScore")
                 _rd = m.get("roundName") or m.get("groupName") or ""
+                def _flag(t):
+                    # National sides: a flag from flagcdn.com by ISO country code.
+                    cc = (t.get("countryCode") or "").lower()
+                    return f"https://flagcdn.com/w80/{cc}.png" if (len(cc) == 2 and t.get("teamType") == "national") else ""
                 found.append({"d": m.get("matchDateUtc", ""),
-                              "h": {"n": hn, "l": "", "s": "" if hs is None else str(hs)},
-                              "a": {"n": an, "l": "", "s": "" if aw is None else str(aw)},
+                              "h": {"n": hn, "l": _flag(h), "s": "" if hs is None else str(hs)},
+                              "a": {"n": an, "l": _flag(a), "s": "" if aw is None else str(aw)},
                               "v": ", ".join(x for x in (m.get("stadiumName") or "",
                                                          m.get("cityName") or "") if x),
                               "g": (note + " \u00b7 " + _rd) if _rd else note,
@@ -16476,6 +16486,47 @@ def _espn_events(sport, code, d0, d1, limit, timeout=15):
     return evs
 
 
+def _espn_team(t):
+    """One side of an ESPN competition as the compact dict the page renders.
+    'id' is ESPN's team id (follow-a-team + live refresh key)."""
+    team = t.get("team", {}) or {}
+    return {"n": team.get("shortDisplayName") or team.get("displayName", ""),
+            "l": team.get("logo", ""), "s": t.get("score", ""),
+            "id": str(team.get("id", "") or "")}
+
+
+def _espn_keyev(c):
+    """Goals and red cards from a scoreboard competition's 'details' block, as
+    [minute, kind, player, side] with kind g (goal) / p (penalty) / o (own
+    goal) / r (red card) and side h / a. Shoot-out kicks are left out."""
+    sides = {}
+    for t in c.get("competitors", []) or []:
+        sides[str((t.get("team") or {}).get("id", ""))] = "h" if t.get("homeAway") == "home" else "a"
+    out = []
+    for d in c.get("details") or []:
+        if d.get("shootout"):
+            continue
+        if d.get("scoringPlay"):
+            k = "o" if d.get("ownGoal") else ("p" if d.get("penaltyKick") else "g")
+        elif d.get("redCard"):
+            k = "r"
+        else:
+            continue
+        ath = (d.get("athletesInvolved") or [{}])[0] or {}
+        out.append([(d.get("clock") or {}).get("displayValue", ""), k,
+                    ath.get("shortName") or ath.get("displayName") or "",
+                    sides.get(str((d.get("team") or {}).get("id", "")), "")])
+    return out
+
+
+def _espn_logo(u, w=48):
+    """ESPN's 500px team logos through their resizing combiner (~2 KB instead of ~30 KB)."""
+    if u and u.startswith("https://a.espncdn.com/i/"):
+        return ("https://a.espncdn.com/combiner/i?img=" + u[len("https://a.espncdn.com"):]
+                + "&w=" + str(w) + "&h=" + str(w))
+    return u or ""
+
+
 def _safe(fn, *a):
     try:
         return fn(*a)
@@ -16528,19 +16579,23 @@ def fetch_matches_data():
                 c = comps[0]
                 home = away = None
                 for t in c.get("competitors", []):
-                    team = t.get("team", {})
-                    o = {"n": team.get("shortDisplayName") or team.get("displayName", ""),
-                         "l": team.get("logo", ""), "s": t.get("score", "")}
+                    o = _espn_team(t)
                     if t.get("homeAway") == "home":
                         home = o
                     else:
                         away = o
                 st = c.get("status", {}).get("type", {})
                 note = (c.get("altGameNote") or "")
-                evs.append({"d": e.get("date", ""), "h": home, "a": away,
-                            "v": c.get("venue", {}).get("fullName", ""),
-                            "g": note.replace("FIFA World Cup, ", "").replace("FIFA World Cup", ""),
-                            "st": st.get("shortDetail", ""), "sx": st.get("state", "pre")})
+                _ev = {"d": e.get("date", ""), "h": home, "a": away,
+                       "v": c.get("venue", {}).get("fullName", ""),
+                       "g": note.replace("FIFA World Cup, ", "").replace("FIFA World Cup", ""),
+                       "st": st.get("shortDetail", ""), "sx": st.get("state", "pre"),
+                       "id": str(e.get("id", "")), "lc": code, "sp": sport}
+                if sport == "soccer":
+                    _k = _espn_keyev(c)
+                    if _k:
+                        _ev["k"] = _k
+                evs.append(_ev)
             out[key] = {"label": label, "events": evs}
             cache[key] = out[key]
             print(f"  matches: {label}: {len(evs)} fixtures")
@@ -16577,9 +16632,7 @@ def fetch_matches_data():
             c = comps[0]
             home = away = None
             for t in c.get("competitors", []):
-                team = t.get("team", {})
-                o = {"n": team.get("shortDisplayName") or team.get("displayName", ""),
-                     "l": team.get("logo", ""), "s": t.get("score", "")}
+                o = _espn_team(t)
                 if t.get("homeAway") == "home":
                     home = o
                 else:
@@ -16590,10 +16643,15 @@ def fetch_matches_data():
             # Competition name as the row note, so "Natio Youth" rows say which
             # tournament it is (U-17 World Cup, Olympic qualifying, ...).
             note = (c.get("altGameNote") or "") or _ESPN_LG_NAMES.get(code, "")
-            found.append({"d": e.get("date", ""), "h": home, "a": away,
-                          "v": c.get("venue", {}).get("fullName", ""),
-                          "g": note,
-                          "st": st.get("shortDetail", ""), "sx": st.get("state", "pre")})
+            _ev = {"d": e.get("date", ""), "h": home, "a": away,
+                   "v": c.get("venue", {}).get("fullName", ""),
+                   "g": note,
+                   "st": st.get("shortDetail", ""), "sx": st.get("state", "pre"),
+                   "id": str(e.get("id", "")), "lc": code, "sp": "soccer"}
+            _k = _espn_keyev(c)
+            if _k:
+                _ev["k"] = _k
+            found.append(_ev)
         return found
 
     _concacaf = fetch_concacaf_natio(cache)
@@ -16618,17 +16676,26 @@ def fetch_matches_data():
                         or _is_suriname((_ev.get("a") or {}).get("n")))
                 (chip_evs if _hit else _keep).append(_ev)
             _blob["events"] = _keep
+        # Concacaf first: it is the federation's own data and wins a duplicate
+        # (ESPN often keeps Concacaf games as 'TBD' placeholders without scores).
+        chip_evs = list(_concacaf.get(_chip, [])) + chip_evs
         for _code in _codes:
             chip_evs.extend(_scanned.get(_code, []))
-        chip_evs.extend(_concacaf.get(_chip, []))
-        # Dedupe: the same fixture can sit in two feeds (e.g. a friendly that is
-        # also listed under a qualifying playoff). Key on kickoff + both sides.
+        # Dedupe: the same fixture can sit in two feeds with slightly different
+        # kickoff times. Key on both sides + calendar day, tolerating one day.
+        def _nk(n):
+            return re.sub(r"[^a-z0-9]", "", (n or "").lower().replace("&", "and"))
         _seen, _uniq = set(), []
         for _ev in chip_evs:
-            _k = (_ev.get("d", ""), (_ev.get("h") or {}).get("n", ""), (_ev.get("a") or {}).get("n", ""))
-            if _k in _seen:
+            _hn, _an = _nk((_ev.get("h") or {}).get("n")), _nk((_ev.get("a") or {}).get("n"))
+            try:
+                _day = datetime.strptime((_ev.get("d") or "")[:10], "%Y-%m-%d").date()
+            except ValueError:
+                _day = None
+            _ks = [(_hn, _an, _day + timedelta(days=_o)) for _o in (-1, 0, 1)] if _day else [(_hn, _an, _ev.get("d"))]
+            if any(_k in _seen for _k in _ks):
                 continue
-            _seen.add(_k)
+            _seen.add(_ks[1] if _day else _ks[0])
             _uniq.append(_ev)
         _uniq.sort(key=lambda ev: ev.get("d", ""))
         if _uniq:
@@ -16643,6 +16710,7 @@ def fetch_matches_data():
     out["carib"] = fetch_caribbean(cache)
     # Not a fixture list: no "events" key, so the schedule loop skips it.
     out["_sml_table"] = fetch_sml_table(cache)
+    out["_tables"] = fetch_league_tables(cache)
     out["_svb_notices"] = {"notices": fetch_svb_notices(cache)}
 
     # Hand-maintained fixtures (Glory, boxing, SVB, local sport events) - no API exists for these.
@@ -16688,6 +16756,84 @@ def fetch_matches_data():
     return out
 
 
+# League tables shown on the Tables tab of matches.html (ESPN standings API,
+# CORS-open, same source as the fixtures). (key, sport, ESPN code, label).
+_TABLE_LEAGUES = [
+    ("ere", "soccer", "ned.1", "Eredivisie"),
+    ("epl", "soccer", "eng.1", "Premier League"),
+    ("lal", "soccer", "esp.1", "La Liga"),
+    ("sea", "soccer", "ita.1", "Serie A"),
+    ("bun", "soccer", "ger.1", "Bundesliga"),
+    ("li1", "soccer", "fra.1", "Ligue 1"),
+    ("mls", "soccer", "usa.1", "MLS"),
+    ("nba", "basketball", "nba", "NBA"),
+]
+
+
+def _standings_rows(entries, sport):
+    rows = []
+    for en in entries or []:
+        t = en.get("team") or {}
+        st = {x.get("name"): x for x in en.get("stats") or []}
+
+        def _v(k, default=""):
+            x = st.get(k) or {}
+            return x.get("displayValue", default) if x else default
+        logo = ((t.get("logos") or [{}])[0] or {}).get("href", "")
+        r = {"n": t.get("shortDisplayName") or t.get("displayName", ""), "id": str(t.get("id", "")),
+             "l": logo}
+        if sport == "soccer":
+            r.update({"r": int((st.get("rank") or {}).get("value") or 0), "p": _v("gamesPlayed", "0"),
+                      "w": _v("wins", "0"), "d": _v("ties", "0"), "lo": _v("losses", "0"),
+                      "gd": _v("pointDifferential", "0"), "pts": _v("points", "0")})
+            note = en.get("note") or {}
+            if note.get("color"):
+                r["z"] = [note.get("color"), note.get("description", "")]
+        else:
+            r.update({"r": int((st.get("playoffSeed") or {}).get("value") or 0), "w": _v("wins", "0"),
+                      "lo": _v("losses", "0"), "pct": _v("winPercent", ""), "gb": _v("gamesBehind", "-"),
+                      "strk": _v("streak", "")})
+        rows.append(r)
+    rows.sort(key=lambda r: (r["r"] or 999))
+    return rows
+
+
+def fetch_league_tables(cache):
+    """Standings for the leagues in _TABLE_LEAGUES, fetched concurrently.
+    Per-league fallback to cache['tables'] so a hiccup never blanks a table."""
+    old = cache.get("tables") or {}
+
+    def _one(item):
+        key, sport, code, label = item
+        url = f"https://site.api.espn.com/apis/v2/sports/{sport}/{code}/standings"
+        with urllib.request.urlopen(url, timeout=15) as r:
+            d = json.loads(r.read().decode("utf-8"))
+        groups = []
+        kids = d.get("children") or ([d] if d.get("standings") else [])
+        for ch in kids:
+            rows = _standings_rows((ch.get("standings") or {}).get("entries"), sport)
+            if rows:
+                groups.append({"name": ch.get("name", "") if len(kids) > 1 else "", "rows": rows})
+        if not groups:
+            raise ValueError("empty standings")
+        season = ((d.get("children") or [{}])[0].get("name") or d.get("name") or "") if len(kids) == 1 else ""
+        return {"label": label, "sport": sport, "lc": code, "season": season, "groups": groups}
+
+    out = {}
+    with cf.ThreadPoolExecutor(max_workers=4) as ex:
+        res = list(ex.map(lambda it: (it, _safe(_one, it)), _TABLE_LEAGUES))
+    for it, val in res:
+        if val:
+            out[it[0]] = val
+        elif it[0] in old:
+            out[it[0]] = old[it[0]]
+            print(f"  ! table {it[3]} failed; using cached")
+    if out:
+        cache["tables"] = out
+        print(f"  matches: tables: {len(out)} leagues")
+    return out
+
+
 def _match_dt(s):
     """Parse an ESPN UTC timestamp ('2026-06-11T19:00Z') into SR time. Bare
     dates ('2026-09-05', manual entries with no confirmed time) land at midday
@@ -16703,108 +16849,792 @@ def _match_dt(s):
         return None
 
 
+_MT2_CSS = """  <style>
+    .mt2 .mt-intro{font-size:.85rem;color:var(--ink-soft);margin:.2rem 0 1rem}
+    /* spotlight */
+    .sp{background:linear-gradient(135deg,#123526,#1B4332 55%,#2D6A4F);color:#fff;border-radius:var(--r-card);padding:1.1rem 1.1rem 1rem;box-shadow:var(--sh-card);margin-bottom:1.1rem;position:relative;overflow:hidden}
+    .sp:after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(231,174,77,.28),transparent 70%)}
+    .sp-k{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--gold);margin:0 0 .5rem}
+    .sp-vs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:.6rem;position:relative;z-index:1}
+    .sp-t{display:flex;flex-direction:column;align-items:center;gap:.4rem;text-align:center;min-width:0}
+    .sp-t img,.sp-ph{width:56px;height:56px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.25))}
+    .sp-ph{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.14);font-weight:800}
+    .sp-t b{font-size:.95rem;line-height:1.2;overflow-wrap:break-word;max-width:100%}
+    .sp-c{display:flex;flex-direction:column;align-items:center;gap:.15rem}
+    .sp-time{font-family:Newsreader,Georgia,serif;font-size:2.4rem;line-height:1;color:var(--gold)}
+    .sp-d{font-size:.78rem;opacity:.85}
+    .sp-cd{font-size:.72rem;font-weight:700;background:rgba(255,255,255,.12);border-radius:999px;padding:.15rem .55rem;margin-top:.25rem;font-variant-numeric:tabular-nums}
+    .sp-cd:empty{display:none}
+    .sp-m{font-size:.75rem;opacity:.8;text-align:center;margin:.7rem 0 0;position:relative;z-index:1}
+    .sp-day{font-family:Newsreader,Georgia,serif;font-size:1.35rem;margin:0 0 .5rem;position:relative;z-index:1}
+    .sp-list{display:flex;flex-direction:column;gap:.35rem;position:relative;z-index:1}
+    .sp-row{display:grid;grid-template-columns:3rem minmax(0,1fr) auto;gap:.6rem;align-items:center;background:rgba(255,255,255,.08);border-radius:6px;padding:.5rem .7rem;cursor:pointer;font-size:.88rem}
+    .sp-rteams{display:flex;flex-direction:column;gap:.2rem;min-width:0}
+    .sp-rvn{font-size:.68rem;opacity:.65;text-align:right;max-width:7.5rem;line-height:1.25}
+    @media (max-width:380px){.sp-rvn{display:none}}
+    .sp-row:hover{background:rgba(255,255,255,.14)}
+    .sp-rt{font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+    .sp-rn{display:flex;align-items:center;gap:.4rem;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:600}
+    .sp-rn img,.sp-rn .sp-ph{width:22px!important;height:22px!important;flex:none;filter:none;font-size:.7rem}
+    .sp-last{font-size:.78rem;opacity:.85;margin:.8rem 0 0;position:relative;z-index:1}
+    /* my teams */
+    .my{margin:0 0 1.1rem}
+    .my-hd{display:flex;align-items:baseline;justify-content:space-between}
+    .my-hd h2{font-size:1.1rem;font-weight:700;color:var(--ink);margin:0 0 .35rem}
+    .my-ed{font-size:.78rem;font-weight:700;color:var(--forest2);background:none;border:0;cursor:pointer;padding:.2rem 0}
+    .my-cards{display:flex;gap:.6rem;overflow-x:auto;scrollbar-width:none;padding:2px 2px 6px;margin:0 -2px}
+    .my-cards::-webkit-scrollbar{display:none}
+    .my-c{flex:0 0 auto;width:15.5rem;background:var(--card);border:1px solid var(--bd-card);border-radius:var(--r-card);box-shadow:var(--sh-card);padding:.7rem .8rem;font-size:.82rem;position:relative}
+    .my-c h3{display:flex;align-items:center;gap:.45rem;font-weight:800;font-size:.92rem;margin:0 0 .45rem;color:var(--ink)}
+    .my-c h3 img{width:22px;height:22px;object-fit:contain}
+    .my-x{position:absolute;top:.45rem;right:.5rem;border:0;background:#f3f4f6;border-radius:999px;width:1.5rem;height:1.5rem;color:#6b7280;font-weight:800;cursor:pointer;display:none}
+    .my.edit .my-x{display:block}
+    .my-ln{display:flex;gap:.45rem;align-items:baseline;padding:.25rem 0;border-top:1px dashed var(--line);cursor:pointer}
+    .my-ln small{flex:none;width:2.6rem;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#9ca3af}
+    .my-ln span{min-width:0;line-height:1.35}
+    .my-ln em{display:block;font-style:normal;font-size:.72rem;color:#8a8f86}
+    .my-ln b{font-variant-numeric:tabular-nums}
+    .my-r{display:inline-block;min-width:1.15rem;text-align:center;border-radius:4px;color:#fff;font-size:.66rem;font-weight:800;padding:0 .2rem;margin-right:.2rem}
+    .my-r.W{background:#16a34a}.my-r.D{background:#9ca3af}.my-r.L{background:#dc2626}
+    .my-sugg p{font-size:.8rem;color:var(--ink-soft);margin:0 0 .45rem}
+    .my-picks{display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;margin:0 -1.25rem;padding:2px 1.25rem 4px}
+    .my-picks::-webkit-scrollbar{display:none}
+    .my-pick{flex:none;border:1px solid var(--bd-card);background:var(--card);border-radius:999px;padding:.32rem .75rem;font-size:.8rem;font-weight:700;color:var(--ink);cursor:pointer}
+    .my-pick:before{content:"\\2606  ";color:var(--gold)}
+    .my-pick.on{background:var(--forest);color:#fff;border-color:var(--forest)}
+    .my-pick.on:before{content:"\\2605  "}
+    /* views */
+    .mt-views{display:flex;background:#ebe3cf;border-radius:999px;padding:3px;margin:0 0 .8rem;width:max-content}
+    .mt-vb{border:0;background:none;border-radius:999px;padding:.4rem 1.1rem;font-weight:700;font-size:.88rem;color:var(--ink-soft);cursor:pointer}
+    .mt-vb.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+    /* sport chips + toolbar */
+    .mt-sports{display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;padding:2px 0 6px;margin:0 -1.25rem;padding-left:1.25rem;padding-right:1.25rem}
+    .mt-sports::-webkit-scrollbar{display:none}
+    .mt-g{flex:none;border:1px solid var(--bd-card);background:var(--card);border-radius:999px;padding:.38rem .9rem;font-size:.84rem;font-weight:700;color:var(--ink);cursor:pointer}
+    .mt-g.on{background:var(--forest);border-color:var(--forest);color:#fff}
+    .mt-bar{position:sticky;top:58px;z-index:30;display:flex;gap:.4rem;align-items:center;padding:.5rem 1.25rem;margin:0 -1.25rem;background:linear-gradient(var(--paper-2) 82%,rgba(244,236,218,0))}
+    .mt-tb{flex:none;display:inline-flex;align-items:center;gap:.35rem;border:1px solid var(--bd-card);background:var(--card);border-radius:8px;padding:.38rem .65rem;font-size:.8rem;font-weight:700;color:var(--ink);cursor:pointer;white-space:nowrap}
+    .mt-tb[hidden]{display:none}
+    .mt-tb.on{background:var(--forest);border-color:var(--forest);color:#fff}
+    #mt-live.on{background:#dc2626;border-color:#dc2626}
+    #mt-live b{font-variant-numeric:tabular-nums}
+    .mt-dot{width:7px;height:7px;border-radius:50%;background:#dc2626;animation:mtpulse 1.2s ease-in-out infinite}
+    #mt-live.on .mt-dot{background:#fff}
+    #mt-my svg{color:var(--gold)}
+    .mt-cw{position:relative;min-width:0;flex:0 1 auto}
+    #mt-comp{max-width:100%}
+    #mt-comp-l{overflow:hidden;text-overflow:ellipsis;max-width:11rem}
+    .mt-jump{margin-left:auto}
+    .mt-cm{position:absolute;left:0;top:calc(100% + 6px);z-index:40;background:var(--card);border:1px solid var(--bd-card);border-radius:10px;box-shadow:var(--sh-pop);padding:.35rem;width:17rem;max-height:62vh;overflow:auto}
+    .mt-ci{display:flex;align-items:center;gap:.55rem;width:100%;border:0;background:none;border-radius:6px;padding:.5rem .55rem;font-size:.86rem;color:var(--ink);cursor:pointer;text-align:left}
+    .mt-ci:hover{background:#f3efe4}
+    .mt-ci.on{background:#e3efe6;font-weight:800}
+    .mt-ci i{width:.6rem;height:.6rem;border-radius:2px;flex:none}
+    .mt-ci span{flex:1}
+    .mt-ci small{color:#9ca3af;font-size:.72rem}
+    .mt-ci[hidden]{display:none}
+    @media (max-width:640px){
+      .mt-cm{position:fixed;left:0;right:0;bottom:0;top:auto;width:auto;max-height:70vh;border-radius:16px 16px 0 0;padding:.6rem .6rem calc(.8rem + env(safe-area-inset-bottom))}
+      .mt-jump{display:none}
+    }
+    /* day + rows */
+    .mt-dh{font-size:1.2rem;font-weight:700;color:var(--ink);margin:1.4rem 0 .5rem;scroll-margin-top:120px}
+    .mt-dh small{font-family:inherit;color:#9ca3af;font-weight:400;font-size:.95rem}
+    .mt-list{background:var(--card);border:1px solid var(--bd-card);border-radius:var(--r-card);box-shadow:var(--sh-card);overflow:hidden}
+    .mr{display:flex;align-items:center;gap:.75rem;padding:.6rem .7rem .6rem .5rem;border-top:1px solid #efe8d8;cursor:pointer;position:relative;outline:none}
+    .mr:first-child{border-top:0}
+    .mr:hover,.mr:focus-visible{background:#faf6ec}
+    .mr[hidden]{display:none}
+    .mr-st{flex:none;width:3.4rem;text-align:center;display:flex;flex-direction:column;align-items:center;line-height:1.1}
+    .mr-st b{font-size:.9rem;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+    .mr-st small{font-size:.58rem;letter-spacing:.08em;color:#9ca3af;font-weight:700}
+    .mr.ft .mr-st b{color:#9ca3af;font-size:.74rem;letter-spacing:.04em}
+    .mr.live .mr-st b{color:#dc2626;font-size:.84rem}
+    .mr.live .mr-st:before{content:"";width:7px;height:7px;border-radius:50%;background:#dc2626;margin-bottom:3px;animation:mtpulse 1.2s ease-in-out infinite}
+    .mr.live{box-shadow:inset 3px 0 0 #dc2626}
+    .mr.natio{box-shadow:inset 3px 0 0 #16a34a}
+    .mr.fav{background:linear-gradient(90deg,rgba(231,174,77,.13),transparent 60%)}
+    @keyframes mtpulse{0%,100%{opacity:1}50%{opacity:.25}}
+    .mr-m{flex:1;min-width:0}
+    .mr-tm{display:flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:600;color:var(--ink);line-height:1.5}
+    .mr-tm img,.mr-nl{width:20px;height:20px;object-fit:contain;flex:none}
+    .mr-nl{border-radius:50%;background:#efe8d8;display:inline-block}
+    .mr-tm span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .mr-s{flex:none;min-width:1.3rem;text-align:right;font-weight:800;font-variant-numeric:tabular-nums}
+    .mr-tm.l{color:#8a8f86;font-weight:500}
+    .mr-tm.w .mr-s{color:var(--forest)}
+    .mr-tm .fv{color:var(--gold);font-size:.75rem;margin-left:.25rem}
+    .mr-ti{font-size:.9rem;font-weight:700;color:var(--ink);line-height:1.35}
+    .mr-k{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;font-size:.72rem;color:#6b7280;margin:.15rem 0 .1rem 1.75rem;line-height:1.35}
+    .mr-k span:empty{visibility:hidden}
+    .mr-k span:not(:empty):before{content:"\\26BD\\FE0E  ";font-size:.68rem;opacity:.7}
+    .mr-meta{display:flex;align-items:center;gap:.35rem;font-size:.7rem;color:#8a8f86;margin-top:.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .mr-meta i{width:.5rem;height:.5rem;border-radius:2px;flex:none}
+    .mr-meta span{overflow:hidden;text-overflow:ellipsis}
+    .mr-nt{float:right;font-style:normal;font-size:.56rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:#16a34a;border-radius:3px;padding:.1rem .35rem;margin:.2rem 0 0 .4rem}
+    .mr:after{content:"";flex:none;width:7px;height:7px;border-right:2px solid #cbd5d0;border-top:2px solid #cbd5d0;transform:rotate(45deg);margin:0 .35rem 0 .1rem}
+    .mt-earlier{display:flex;align-items:center;gap:.4rem;font-size:.84rem;font-weight:700;color:var(--ink-soft);background:none;border:0;cursor:pointer;margin:.6rem 0 0}
+    .mt-earlier svg{transition:transform .2s}
+    .mt-earlier.open svg{transform:rotate(180deg)}
+    .mt-emptybox{background:var(--card);border:1px dashed var(--line);border-radius:var(--r-card);padding:1.6rem;text-align:center;color:var(--ink-soft);margin-top:1rem}
+    .mt-flash{animation:mtflash 1.6s ease-out}
+    @keyframes mtflash{0%{background:#fde68a}100%{background:transparent}}
+    /* tables */
+    .tb-pills{display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;margin:0 -1.25rem .6rem;padding:2px 1.25rem 6px}
+    .tb-pills::-webkit-scrollbar{display:none}
+    .tb-p{flex:none;border:1px solid var(--bd-card);background:var(--card);border-radius:999px;padding:.36rem .85rem;font-size:.82rem;font-weight:700;color:var(--ink);cursor:pointer}
+    .tb-p.on{background:var(--forest);border-color:var(--forest);color:#fff}
+    .tb-card{background:var(--card);border:1px solid var(--bd-card);border-radius:var(--r-card);box-shadow:var(--sh-card);padding:1rem .9rem}
+    .tb-h2{font-size:1.3rem;font-weight:700;color:var(--ink);margin:0 0 .3rem}
+    .tb-h3{font-size:1.05rem;font-weight:700;color:var(--ink);margin:1.1rem 0 .4rem}
+    .tb-note{font-size:.8rem;color:var(--ink-soft);margin:0 0 .6rem}
+    .tb-wrap{overflow-x:auto;margin:0 -.9rem}
+    .tb{width:100%;border-collapse:collapse;font-size:.85rem}
+    .tb th{font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:#9ca3af;font-weight:800;padding:.45rem .4rem;border-bottom:1px solid #efe8d8;background:transparent}
+    .tb td{padding:.45rem .4rem;border-bottom:1px solid #f4efe3;color:#4b5563;font-variant-numeric:tabular-nums}
+    .tb tr:last-child td{border-bottom:0}
+    .tb .n{text-align:center;width:2.2rem}
+    .tb th.c,.tb td.c{text-align:left}
+    .tb td.c span{display:flex;align-items:center;gap:.5rem;font-weight:600;color:var(--ink)}
+    .tb td.c img{width:20px;height:20px;object-fit:contain;flex:none}
+    .tb .b{font-weight:800;color:var(--ink)}
+    .tb th:first-child,.tb td:first-child{padding-left:.9rem}
+    .tb th:last-child,.tb td:last-child{padding-right:.9rem}
+    .tb tr.fav td{background:rgba(231,174,77,.14)}
+    .tb tr.hl td{background:#e3efe6;font-weight:700}
+    .tb-mut{color:#9ca3af}
+    .tb-zones{display:flex;flex-wrap:wrap;gap:.3rem .9rem;font-size:.7rem;color:var(--ink-soft);margin:.6rem 0 0}
+    .tb-zones i{display:inline-block;width:.55rem;height:.55rem;border-radius:2px;margin-right:.3rem;vertical-align:-1px}
+    .tb-src{font-size:.7rem;color:#9ca3af;margin:.7rem 0 0}
+    .tb-src a{text-decoration:underline}
+    @media (max-width:420px){.tb .hs{display:none}}
+    /* SVB */
+    .svb-l{display:flex;flex-direction:column}
+    .svb-a{display:flex;gap:.7rem;align-items:flex-start;padding:.6rem 0;border-top:1px solid #f1ebdc}
+    .svb-a:first-child{border-top:0}
+    .svb-c{flex:none;font-size:.6rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;background:#ecfccb;color:#3f6212;border-radius:999px;padding:.25rem .55rem;margin-top:.1rem}
+    .svb-t{display:block;font-weight:600;color:var(--ink);font-size:.86rem;line-height:1.35}
+    .svb-d{display:block;font-size:.72rem;color:#9ca3af;margin-top:.1rem}
+    .mt-foot{font-size:.72rem;color:#9ca3af;margin-top:2rem}
+    /* match sheet */
+    .ms{position:fixed;inset:0;z-index:100}
+    .ms[hidden]{display:none}
+    .ms-bg{position:absolute;inset:0;background:rgba(15,23,20,.5);animation:msfade .2s ease-out}
+    .ms-p{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(640px,calc(100vw - 2rem));max-height:88vh;background:var(--paper);border-radius:14px;box-shadow:0 30px 80px -20px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden;animation:mspop .22s ease-out}
+    .ms-grip{display:none}
+    @media (max-width:640px){
+      .ms-p{left:0;right:0;bottom:0;top:auto;transform:none;width:auto;max-height:92vh;border-radius:16px 16px 0 0;animation:msup .25s ease-out}
+      .ms-grip{display:block;width:40px;height:5px;border-radius:9px;background:rgba(255,255,255,.55);position:absolute;top:7px;left:50%;margin-left:-20px;z-index:3}
+    }
+    @keyframes msfade{from{opacity:0}}
+    @keyframes mspop{from{opacity:0;transform:translate(-50%,-46%)}}
+    @keyframes msup{from{transform:translateY(40%)}}
+    #ms-body{display:flex;flex-direction:column;min-height:0;flex:1}
+    .ms-hd{position:relative;color:#fff;padding:1.4rem 1rem .9rem;background:linear-gradient(120deg,var(--c1,#1B4332) 0%,#111 50%,var(--c2,#2D6A4F) 100%)}
+    .ms-hd:before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.25)}
+    .ms-hd>*{position:relative}
+    .ms-x{position:absolute;top:.6rem;right:.6rem;width:2rem;height:2rem;border-radius:999px;border:0;background:rgba(255,255,255,.18);color:#fff;font-size:1.2rem;line-height:1;cursor:pointer;z-index:2}
+    .ms-lg{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;font-weight:800;opacity:.85;text-align:center;margin:0 2rem .7rem}
+    .ms-vs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:.5rem;align-items:start}
+    .ms-t{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.35rem;min-width:0}
+    .ms-t img,.ms-t .sp-ph{width:58px;height:58px;object-fit:contain;filter:drop-shadow(0 3px 8px rgba(0,0,0,.35))}
+    .ms-t b{font-size:.92rem;line-height:1.2;overflow-wrap:break-word;hyphens:auto;max-width:100%}
+    .ms-fv{border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.08);color:#fff;border-radius:999px;font-size:.68rem;font-weight:700;padding:.18rem .55rem;cursor:pointer}
+    .ms-fv.on{background:var(--gold);border-color:var(--gold);color:#1f2a22}
+    .ms-sc{display:flex;flex-direction:column;align-items:center;padding-top:.6rem}
+    .ms-sc b{font-family:Newsreader,Georgia,serif;font-size:2.6rem;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
+    .ms-sc small{font-size:.74rem;font-weight:700;opacity:.9;margin-top:.35rem;text-align:center}
+    .ms-sc small.lv{color:#fecaca}
+    .ms-sc small.lv:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#f87171;margin-right:5px;animation:mtpulse 1.2s infinite}
+    .ms-ttl{font-family:Newsreader,Georgia,serif;font-size:1.4rem;text-align:center;margin:.2rem 1.5rem .4rem;line-height:1.2}
+    .ms-tabs{display:flex;gap:.2rem;overflow-x:auto;scrollbar-width:none;background:var(--card);border-bottom:1px solid var(--bd-card);padding:0 .5rem;flex:none}
+    .ms-tabs::-webkit-scrollbar{display:none}
+    .ms-tab{flex:none;border:0;background:none;padding:.7rem .7rem .6rem;font-size:.84rem;font-weight:700;color:var(--ink-soft);cursor:pointer;border-bottom:2px solid transparent}
+    .ms-tab.on{color:var(--forest);border-color:var(--forest)}
+    .ms-c{overflow:auto;padding:1rem;flex:1;min-height:0;overscroll-behavior:contain}
+    .ms-ft{display:flex;gap:.5rem;padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));border-top:1px solid var(--bd-card);background:var(--card);flex:none}
+    .ms-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.4rem;border:1px solid var(--bd-card);background:#fff;border-radius:8px;padding:.55rem;font-size:.82rem;font-weight:700;color:var(--ink);cursor:pointer;text-decoration:none}
+    .ms-btn.pri{background:var(--forest);border-color:var(--forest);color:#fff}
+    .ms-ld{color:var(--ink-soft);font-size:.85rem;text-align:center;padding:1.5rem 0}
+    .ms-ld:before{content:"";display:block;width:22px;height:22px;margin:0 auto .6rem;border-radius:50%;border:3px solid #d7e5da;border-top-color:var(--forest);animation:msspin .8s linear infinite}
+    @keyframes msspin{to{transform:rotate(360deg)}}
+    .ms-info{display:grid;grid-template-columns:auto 1fr;gap:.45rem 1rem;font-size:.86rem}
+    .ms-info dt{color:#9ca3af;font-weight:700;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;padding-top:.1rem}
+    .ms-info dd{margin:0;color:var(--ink)}
+    .tl{list-style:none;margin:0;padding:0;position:relative}
+    .tl:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:#e8e0cd;margin-left:-1px}
+    .tl li{display:grid;grid-template-columns:1fr 2.6rem 1fr;align-items:center;gap:.4rem;padding:.3rem 0;font-size:.84rem;position:relative}
+    .tl .m{justify-self:center;background:var(--paper);border:2px solid #e8e0cd;border-radius:999px;font-size:.7rem;font-weight:800;padding:.1rem .35rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;z-index:1;min-width:2.3rem;text-align:center}
+    .tl .h{text-align:right}
+    .tl .x{color:var(--ink);line-height:1.3}
+    .tl .x small{display:block;color:#9ca3af;font-size:.7rem}
+    .tl li.g .m{background:var(--forest);border-color:var(--forest);color:#fff}
+    .tl li.sep{grid-template-columns:1fr;text-align:center}
+    .tl li.sep span{justify-self:center;background:#ebe3cf;color:var(--ink-soft);font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:.15rem .6rem;z-index:1}
+    .ci{display:inline-block;width:.6rem;height:.82rem;border-radius:2px;vertical-align:-2px;margin-right:.3rem}
+    .ci.y{background:#facc15}.ci.r{background:#dc2626}
+    .st-r{margin:0 0 .85rem}
+    .st-l{display:flex;justify-content:space-between;font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:.25rem;font-variant-numeric:tabular-nums}
+    .st-l span{color:var(--ink-soft);font-weight:600}
+    .st-b{display:flex;gap:4px;height:7px}
+    .st-b i{display:block;border-radius:9px;background:#d6dcd8}
+    .st-b i.w{background:var(--forest)}
+    .st-b i.w2{background:var(--coral)}
+    .lu-h{display:flex;align-items:center;gap:.5rem;font-weight:800;font-size:.95rem;margin:.2rem 0 .5rem;color:var(--ink)}
+    .lu-h img{width:22px;height:22px;object-fit:contain}
+    .lu-h small{margin-left:auto;font-weight:700;color:var(--ink-soft);font-size:.78rem}
+    .lu{list-style:none;padding:0;margin:0 0 1rem;columns:2;column-gap:1rem;font-size:.84rem}
+    .lu li{break-inside:avoid;padding:.18rem 0;display:flex;gap:.45rem;color:var(--ink)}
+    .lu li b{flex:none;width:1.4rem;text-align:right;color:#9ca3af;font-variant-numeric:tabular-nums}
+    .lu li em{font-style:normal;color:#9ca3af;font-size:.72rem;margin-left:auto}
+    .lu-sub{font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#9ca3af;margin:.2rem 0 .3rem}
+    .lu li .in{color:#16a34a;font-size:.72rem}
+    .lu li .out{color:#dc2626;font-size:.72rem}
+    @media (max-width:420px){.lu{columns:1}}
+    .fm{display:flex;flex-direction:column;gap:.25rem;margin-bottom:1rem}
+    .fm-r{display:flex;gap:.5rem;align-items:center;font-size:.82rem}
+    .fm-r span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+    .fm-r small{color:#9ca3af;font-size:.72rem}
+    .ld{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.6rem}
+    .ld div{background:var(--card);border:1px solid var(--bd-card);border-radius:8px;padding:.6rem;display:flex;gap:.55rem;align-items:center}
+    .ld img{width:40px;height:40px;border-radius:50%;object-fit:cover;background:#efe8d8;flex:none}
+    .ld b{display:block;font-size:1.25rem;font-family:Newsreader,Georgia,serif;line-height:1}
+    .ld small{display:block;font-size:.7rem;color:var(--ink-soft);line-height:1.25}
+    .qs{width:100%;border-collapse:collapse;font-size:.85rem;margin-bottom:1rem}
+    .qs th,.qs td{text-align:center;padding:.35rem .3rem;border-bottom:1px solid #efe8d8;font-variant-numeric:tabular-nums}
+    .qs th{font-size:.66rem;color:#9ca3af;letter-spacing:.06em}
+    .qs td:first-child,.qs th:first-child{text-align:left}
+    .qs td:last-child{font-weight:800}
+    .ms-h4{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9ca3af;margin:0 0 .5rem}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media (prefers-reduced-motion:reduce){.mr.live .mr-st:before,.ms-sc small.lv:before{animation:none}.ms-p,.ms-bg{animation:none}}
+  </style>"""
+
+
+_MT2_I18N = {
+ "en": {"earlier":"View earlier results","hideEarlier":"Hide earlier results","done":"Done","edit":"Edit","rW":"W","rD":"D","rL":"L","live":"Live","unfollow":"Unfollow","last":"Last","next":"Next","nomatch":"No match scheduled in the coming weeks","following":"Following","follow":"Follow","tbc":"Time to be confirmed","sr":"SR time","ft":"Full time","close":"Close","cal":"Add to calendar","share":"Share","kick":"Kick-off","comp":"Competition","venue":"Venue","att":"Attendance","ref":"Referee","noev":"No goals or cards yet.","ht":"Half-time","og":"own goal","pen":"penalty","ast":"Assist:","for_":"for","poss":"Possession","shots":"Shots","sot":"Shots on target","corners":"Corners","fouls":"Fouls","offs":"Offsides","saves":"Saves","yc":"Yellow cards","rc":"Red cards","fgp":"Field goal %","tpp":"3-point %","ftp":"Free throw %","reb":"Rebounds","ast2":"Assists","stl":"Steals","blk":"Blocks","to":"Turnovers","subs":"Substitutes","byq":"Score by quarter","points":"Points","assists":"Assists","rebounds":"Rebounds","summary":"Summary","stats":"Stats","lineups":"Line-ups","form":"Form","table":"Table","info":"Info","loading":"Loading match details…","kicked":"Kick-off!","starts":"Starts in","d":"d","h":"h","m":"m"},
+ "nl": {"earlier":"Eerdere uitslagen bekijken","hideEarlier":"Eerdere uitslagen verbergen","done":"Klaar","edit":"Wijzig","rW":"W","rD":"G","rL":"V","live":"Live","unfollow":"Niet meer volgen","last":"Vorige","next":"Volgende","nomatch":"Geen wedstrijd gepland in de komende weken","following":"Volgend","follow":"Volgen","tbc":"Tijd nog niet bevestigd","sr":"SR-tijd","ft":"Afgelopen","close":"Sluiten","cal":"Zet in agenda","share":"Delen","kick":"Aftrap","comp":"Competitie","venue":"Stadion","att":"Toeschouwers","ref":"Scheidsrechter","noev":"Nog geen goals of kaarten.","ht":"Rust","og":"eigen doelpunt","pen":"strafschop","ast":"Assist:","for_":"voor","poss":"Balbezit","shots":"Schoten","sot":"Schoten op doel","corners":"Hoekschoppen","fouls":"Overtredingen","offs":"Buitenspel","saves":"Reddingen","yc":"Gele kaarten","rc":"Rode kaarten","fgp":"Velddoelpunt %","tpp":"Driepunter %","ftp":"Vrije worp %","reb":"Rebounds","ast2":"Assists","stl":"Steals","blk":"Blocks","to":"Balverlies","subs":"Wissels","byq":"Score per kwart","points":"Punten","assists":"Assists","rebounds":"Rebounds","summary":"Verloop","stats":"Statistieken","lineups":"Opstellingen","form":"Vorm","table":"Stand","info":"Info","loading":"Wedstrijddetails laden…","kicked":"Afgetrapt!","starts":"Begint over","d":"d","h":"u","m":"m"},
+ "es": {"earlier":"Ver resultados anteriores","hideEarlier":"Ocultar resultados anteriores","done":"Listo","edit":"Editar","rW":"G","rD":"E","rL":"P","live":"En vivo","unfollow":"Dejar de seguir","last":"Último","next":"Próximo","nomatch":"Sin partido programado en las próximas semanas","following":"Siguiendo","follow":"Seguir","tbc":"Hora por confirmar","sr":"hora SR","ft":"Final","close":"Cerrar","cal":"Añadir al calendario","share":"Compartir","kick":"Inicio","comp":"Competición","venue":"Estadio","att":"Asistencia","ref":"Árbitro","noev":"Todavía sin goles ni tarjetas.","ht":"Descanso","og":"en propia puerta","pen":"penalti","ast":"Asistencia:","for_":"por","poss":"Posesión","shots":"Tiros","sot":"Tiros a puerta","corners":"Córneres","fouls":"Faltas","offs":"Fueras de juego","saves":"Paradas","yc":"Tarjetas amarillas","rc":"Tarjetas rojas","fgp":"% tiros de campo","tpp":"% triples","ftp":"% tiros libres","reb":"Rebotes","ast2":"Asistencias","stl":"Robos","blk":"Tapones","to":"Pérdidas","subs":"Suplentes","byq":"Marcador por cuarto","points":"Puntos","assists":"Asistencias","rebounds":"Rebotes","summary":"Resumen","stats":"Estadísticas","lineups":"Alineaciones","form":"Forma","table":"Clasificación","info":"Info","loading":"Cargando detalles del partido…","kicked":"¡Comenzó!","starts":"Empieza en","d":"d","h":"h","m":"min"},
+ "zh": {"earlier":"查看更早的结果","hideEarlier":"隐藏更早的结果","done":"完成","edit":"编辑","rW":"胜","rD":"平","rL":"负","live":"直播","unfollow":"取消关注","last":"上一场","next":"下一场","nomatch":"未来几周没有比赛安排","following":"已关注","follow":"关注","tbc":"时间待定","sr":"苏里南时间","ft":"全场结束","close":"关闭","cal":"添加到日历","share":"分享","kick":"开球","comp":"赛事","venue":"球场","att":"观众人数","ref":"裁判","noev":"暂无进球或红黄牌。","ht":"中场休息","og":"乌龙球","pen":"点球","ast":"助攻：","for_":"换下","poss":"控球率","shots":"射门","sot":"射正","corners":"角球","fouls":"犯规","offs":"越位","saves":"扑救","yc":"黄牌","rc":"红牌","fgp":"投篮命中率","tpp":"三分命中率","ftp":"罚球命中率","reb":"篮板","ast2":"助攻","stl":"抢断","blk":"盖帽","to":"失误","subs":"替补","byq":"各节比分","points":"得分","assists":"助攻","rebounds":"篮板","summary":"概况","stats":"技术统计","lineups":"阵容","form":"近期战绩","table":"积分榜","info":"信息","loading":"正在加载比赛详情…","kicked":"比赛已开始！","starts":"距开赛","d":"天","h":"时","m":"分"},
+ "fr": {"earlier":"Voir les résultats précédents","hideEarlier":"Masquer les résultats précédents","done":"Terminé","edit":"Modifier","rW":"V","rD":"N","rL":"D","live":"En direct","unfollow":"Ne plus suivre","last":"Dernier","next":"Prochain","nomatch":"Aucun match prévu dans les semaines à venir","following":"Suivi","follow":"Suivre","tbc":"Heure à confirmer","sr":"heure SR","ft":"Terminé","close":"Fermer","cal":"Ajouter au calendrier","share":"Partager","kick":"Coup d’envoi","comp":"Compétition","venue":"Stade","att":"Affluence","ref":"Arbitre","noev":"Pas encore de but ni de carton.","ht":"Mi-temps","og":"contre son camp","pen":"penalty","ast":"Passe décisive :","for_":"pour","poss":"Possession","shots":"Tirs","sot":"Tirs cadrés","corners":"Corners","fouls":"Fautes","offs":"Hors-jeu","saves":"Arrêts","yc":"Cartons jaunes","rc":"Cartons rouges","fgp":"% aux tirs","tpp":"% à 3 points","ftp":"% aux lancers francs","reb":"Rebonds","ast2":"Passes décisives","stl":"Interceptions","blk":"Contres","to":"Balles perdues","subs":"Remplaçants","byq":"Score par quart-temps","points":"Points","assists":"Passes décisives","rebounds":"Rebonds","summary":"Résumé","stats":"Statistiques","lineups":"Compositions","form":"Forme","table":"Classement","info":"Infos","loading":"Chargement du match…","kicked":"C’est parti !","starts":"Début dans","d":" j","h":" h","m":" min"},
+ "pt": {"earlier":"Ver resultados anteriores","hideEarlier":"Ocultar resultados anteriores","done":"Pronto","edit":"Editar","rW":"V","rD":"E","rL":"D","live":"Ao vivo","unfollow":"Deixar de seguir","last":"Último","next":"Próximo","nomatch":"Nenhum jogo marcado nas próximas semanas","following":"Seguindo","follow":"Seguir","tbc":"Horário a confirmar","sr":"horário SR","ft":"Encerrado","close":"Fechar","cal":"Adicionar à agenda","share":"Compartilhar","kick":"Início","comp":"Competição","venue":"Estádio","att":"Público","ref":"Árbitro","noev":"Ainda sem gols ou cartões.","ht":"Intervalo","og":"gol contra","pen":"pênalti","ast":"Assistência:","for_":"no lugar de","poss":"Posse de bola","shots":"Finalizações","sot":"Chutes no gol","corners":"Escanteios","fouls":"Faltas","offs":"Impedimentos","saves":"Defesas","yc":"Cartões amarelos","rc":"Cartões vermelhos","fgp":"% arremessos","tpp":"% de 3 pontos","ftp":"% lances livres","reb":"Rebotes","ast2":"Assistências","stl":"Roubos de bola","blk":"Tocos","to":"Desperdícios","subs":"Reservas","byq":"Placar por quarto","points":"Pontos","assists":"Assistências","rebounds":"Rebotes","summary":"Resumo","stats":"Estatísticas","lineups":"Escalações","form":"Retrospecto","table":"Classificação","info":"Info","loading":"Carregando detalhes do jogo…","kicked":"Começou!","starts":"Começa em","d":"d","h":"h","m":"min"},
+}
+
+
+_MT2_JS = r"""<script>
+(function(){
+var D=document,W=window,TZ='America/Paramaribo';
+var LANG=(D.documentElement.lang||'en').slice(0,2).toLowerCase();
+var LGM=W.MT2_LG||{},I=(W.MT2_I18N||{}),T=Object.assign({},I.en||{},I[LANG]||{});
+var LOC={en:'en-GB',nl:'nl-NL',es:'es-ES',zh:'zh-CN',fr:'fr-FR',pt:'pt-BR'}[LANG]||'en-GB';
+function $(s,r){return (r||D).querySelector(s);}
+function $$(s,r){return Array.prototype.slice.call((r||D).querySelectorAll(s));}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function logo(u,w){if(!u)return '';if(u.indexOf('https://a.espncdn.com/i/')===0)return 'https://a.espncdn.com/combiner/i?img='+u.slice(22)+'&w='+(w||96)+'&h='+(w||96);return u;}
+function fmtT(ts){return new Intl.DateTimeFormat(LOC,{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:TZ}).format(new Date(ts*1000));}
+function fmtD(ts,o){return new Intl.DateTimeFormat(LOC,Object.assign({weekday:'long',day:'numeric',month:'long',timeZone:TZ},o||{})).format(new Date(ts*1000));}
+function gtag2(n,p){try{if(W.gtag)W.gtag('event',n,p||{});}catch(e){}}
+
+/* ---------- favourites ---------- */
+function favs(){try{return JSON.parse(localStorage.getItem('mt-fav')||'[]');}catch(e){return [];}}
+function setFavs(a){try{localStorage.setItem('mt-fav',JSON.stringify(a));}catch(e){}}
+function fkey(n,grp){return String(n||'').trim().toLowerCase()+'|'+(grp||'foot');}
+function isFav(k){return favs().indexOf(k)>-1;}
+function toggleFav(k){var a=favs(),i=a.indexOf(k);if(i>-1)a.splice(i,1);else a.push(k);setFavs(a);gtag2('mt_follow',{team:k,on:i<0});paintFavs();return i<0;}
+
+/* ---------- filters ---------- */
+var st={grp:'all',lg:'all',live:false,my:false};
+var rows=$$('.mr');
+function rfk(r){if(r.__fk)return r.__fk;var g=r.getAttribute('data-grp')==='bball'?'bball':r.getAttribute('data-grp');var h=r.getAttribute('data-h');r.__fk=h==null?[]:[fkey(h,g),fkey(r.getAttribute('data-a'),g)];return r.__fk;}
+function rowFav(r){var fk=rfk(r),f=favs();return fk.some(function(k){return k&&f.indexOf(k)>-1;});}
+function apply(){
+  var f=favs(),shown=0,inEarlier=0;
+  rows.forEach(function(r){
+    var ok=(st.grp==='all'||r.getAttribute('data-grp')===st.grp)&&(st.lg==='all'||r.getAttribute('data-lg')===st.lg)
+      &&(!st.live||r.getAttribute('data-sx')==='in')&&(!st.my||rowFav(r));
+    r.hidden=!ok; if(ok){shown++; if(r.closest('#mt-earlier'))inEarlier++;}
+  });
+  $$('.mt-day').forEach(function(s){s.hidden=!s.querySelector('.mr:not([hidden])');});
+  var ea=$('#mt-earlier');
+  if(ea&&ea.hidden&&inEarlier>0&&inEarlier===shown)toggleEarlier(true);
+  var em=$('#mt-empty');if(em){em.hidden=shown>0;var mh=$('#mt-empty-my');if(mh)mh.hidden=!st.my;}
+  $$('.mt-ci').forEach(function(b){var k=b.getAttribute('data-mtf');if(k==='all')return;b.hidden=!(st.grp==='all'||b.getAttribute('data-grp')===st.grp);});
+  $$('.mt-g').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-mtg')===st.grp);});
+  $$('.mt-ci').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-mtf')===st.lg);});
+  var cb=$('.mt-ci.on span'),cl=$('#mt-comp-l');if(cl&&cb)cl.textContent=cb.textContent;
+  var cbtn=$('#mt-comp');if(cbtn)cbtn.classList.toggle('on',st.lg!=='all');
+  var lv=$('#mt-live');if(lv)lv.classList.toggle('on',st.live);
+  var my=$('#mt-my');if(my)my.classList.toggle('on',st.my);
+}
+function toggleEarlier(force){var ea=$('#mt-earlier'),b=$('#mt-earlier-btn');if(!ea)return;var open=force===true?true:ea.hidden;ea.hidden=!open;if(b){b.classList.toggle('open',open);var l=$('#mt-earlier-lbl');if(l)l.textContent=open?T.hideEarlier:T.earlier;}}
+D.addEventListener('click',function(ev){
+  var t=ev.target;
+  var g=t.closest('.mt-g');if(g){st.grp=g.getAttribute('data-mtg');if(st.lg!=='all'){var cb=$('.mt-ci[data-mtf="'+st.lg+'"]');if(cb&&st.grp!=='all'&&cb.getAttribute('data-grp')!==st.grp)st.lg='all';}apply();return;}
+  var c=t.closest('.mt-ci');if(c){st.lg=c.getAttribute('data-mtf');closeMenu();apply();gtag2('mt_filter',{lg:st.lg});return;}
+  if(t.closest('#mt-comp')){var m=$('#mt-cm');m.hidden=!m.hidden;$('#mt-comp').setAttribute('aria-expanded',String(!m.hidden));return;}
+  if(!t.closest('#mt-cm'))closeMenu();
+  if(t.closest('#mt-live')){st.live=!st.live;apply();return;}
+  if(t.closest('#mt-my')){st.my=!st.my;apply();if(st.my&&!favs().length){var mt=$('#mt-myteams');if(mt)mt.scrollIntoView({behavior:'smooth',block:'center'});}return;}
+  if(t.closest('#mt-jump')){var td=$('#mt-today');if(td)td.scrollIntoView({behavior:'smooth'});return;}
+  if(t.closest('#mt-earlier-btn')){toggleEarlier();return;}
+  var vb=t.closest('.mt-vb');if(vb){view(vb.getAttribute('data-view'));return;}
+  var tp=t.closest('.tb-p');if(tp){tbShow(tp.getAttribute('data-tb'));return;}
+  var pk=t.closest('.my-pick');if(pk){toggleFav(pk.getAttribute('data-fav'));return;}
+  var mx=t.closest('.my-x');if(mx){toggleFav(mx.getAttribute('data-fav'));return;}
+  if(t.closest('#my-edit')){var s=$('#mt-myteams');s.classList.toggle('edit');$('#my-edit').textContent=s.classList.contains('edit')?T.done:T.edit;return;}
+  var ml=t.closest('.my-ln[data-ts]');if(ml){var rr=findRow(ml.getAttribute('data-ts'),ml.getAttribute('data-h'));if(rr)openSheet(rr);return;}
+  var sr=t.closest('.sp-row');if(sr){var p=sr.getAttribute('data-jump').split('|'),r2=findRow(p[0],p[1]);if(r2)openSheet(r2);return;}
+  var r=t.closest('.mr');if(r){openSheet(r);return;}
+  if(t.closest('[data-close]')||t.closest('.ms-x')){closeSheet();return;}
+  var tb=t.closest('.ms-tab');if(tb){msTab(tb.getAttribute('data-t'));return;}
+  var fv=t.closest('.ms-fv');if(fv){var on=toggleFav(fv.getAttribute('data-fav'));fv.classList.toggle('on',on);fv.textContent=on?'★ '+T.following:'☆ '+T.follow;return;}
+  if(t.closest('.ms-share')){share();return;}
+});
+D.addEventListener('keydown',function(ev){
+  if(ev.key==='Escape'){closeMenu();closeSheet();}
+  if((ev.key==='Enter'||ev.key===' ')&&ev.target.classList&&ev.target.classList.contains('mr')){ev.preventDefault();openSheet(ev.target);}
+});
+function closeMenu(){var m=$('#mt-cm');if(m&&!m.hidden){m.hidden=true;$('#mt-comp').setAttribute('aria-expanded','false');}}
+function findRow(ts,h){return rows.filter(function(r){return r.getAttribute('data-ts')===String(ts)&&(!h||r.getAttribute('data-h')===h);})[0];}
+
+/* ---------- views + tables ---------- */
+function view(v){
+  $$('.mt-vb').forEach(function(b){var on=b.getAttribute('data-view')===v;b.classList.toggle('on',on);b.setAttribute('aria-selected',String(on));});
+  $('#mt-v-sched').hidden=v!=='sched';$('#mt-v-tables').hidden=v!=='tables';
+  try{history.replaceState(null,'',v==='tables'?'#tables':location.pathname+location.search);}catch(e){}
+}
+function tbShow(k){$$('.tb-p').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-tb')===k);});$$('.tb-card').forEach(function(c){c.hidden=c.getAttribute('data-tbk')!==k;});}
+
+/* ---------- my teams strip ---------- */
+function paintFavs(){
+  var f=favs(),sec=$('#mt-myteams');
+  rows.forEach(function(r){var on=rowFav(r);r.classList.toggle('fav',on);});
+  $$('.tb tr[data-fk]').forEach(function(tr){tr.classList.toggle('fav',f.indexOf(tr.getAttribute('data-fk'))>-1);});
+  $$('.my-pick').forEach(function(b){b.classList.toggle('on',f.indexOf(b.getAttribute('data-fav'))>-1);});
+  if(!sec)return; sec.hidden=false;
+  var cards=$('#my-cards'),sug=$('#my-sugg'),ed=$('#my-edit');
+  ed.hidden=!f.length; if(!f.length)sec.classList.remove('edit');
+  var now=Date.now()/1000,html='';
+  f.forEach(function(k){
+    var mine=rows.filter(function(r){return rfk(r).indexOf(k)>-1;});
+    var name=k.split('|')[0],img='',dispName=name;
+    mine.some(function(r){var fk=rfk(r),side=fk[0]===k?0:1;var tm=$$('.mr-tm',r)[side];if(tm){dispName=$('span',tm).textContent;var im=$('img',tm);if(im)img=im.getAttribute('src');return true;}return false;});
+    var nxt=mine.filter(function(r){return r.getAttribute('data-sx')!=='post';})[0];
+    var lst=mine.filter(function(r){return r.getAttribute('data-sx')==='post';}).pop();
+    function ln(r,lbl){
+      if(!r)return '';
+      var h=r.getAttribute('data-h'),a=r.getAttribute('data-a'),ts=+r.getAttribute('data-ts'),sx=r.getAttribute('data-sx');
+      var sc=$$('.mr-s',r).map(function(x){return x.textContent;});
+      var mid;
+      if(sx==='pre'){mid=esc(h)+' – '+esc(a)+'<em>'+fmtD(ts,{weekday:'short',month:'short'})+' · '+fmtT(ts)+'</em>';}
+      else{
+        var meH=rfk(r)[0]===k,my=+sc[meH?0:1],op=+sc[meH?1:0];
+        var res=sx==='in'?'':(my>op?'W':(my<op?'L':'D'));
+        mid=(res?'<i class="my-r '+res+'">'+T['r'+res]+'</i>':'<i class="my-r" style="background:#dc2626">'+T.live+'</i>')+esc(h)+' <b>'+esc(sc[0])+'-'+esc(sc[1])+'</b> '+esc(a)+'<em>'+fmtD(ts,{weekday:'short',month:'short'})+'</em>';
+      }
+      return '<div class="my-ln" data-ts="'+ts+'" data-h="'+esc(h)+'"><small>'+lbl+'</small><span>'+mid+'</span></div>';
+    }
+    html+='<div class="my-c"><button type="button" class="my-x" data-fav="'+esc(k)+'" aria-label="'+esc(T.unfollow)+'">×</button><h3>'+(img?'<img src="'+esc(img)+'" alt="">':'')+'<span translate="no">'+esc(dispName)+'</span></h3>'
+      +(ln(lst,T.last)+ln(nxt,T.next)||'<div class="my-ln"><span style="color:#9ca3af">'+esc(T.nomatch)+'</span></div>')+'</div>';
+  });
+  cards.innerHTML=html; cards.hidden=!f.length;
+  sug.hidden=f.length>=3&&!sec.classList.contains('edit');
+  if(st.my)apply();
+}
+
+/* ---------- live refresh ---------- */
+function ymd(ts){var p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(ts*1000));return p.replace(/-/g,'');}
+function keyev(c){
+  var sides={};(c.competitors||[]).forEach(function(t){sides[String((t.team||{}).id)]=t.homeAway==='home'?'h':'a';});
+  var out=[];(c.details||[]).forEach(function(d){if(d.shootout)return;var k=d.scoringPlay?(d.ownGoal?'o':(d.penaltyKick?'p':'g')):(d.redCard?'r':null);if(!k)return;var a=(d.athletesInvolved||[{}])[0]||{};out.push([(d.clock||{}).displayValue||'',k,a.shortName||a.displayName||'',sides[String((d.team||{}).id)]||'']);});
+  return out;
+}
+function klist(ks,side){var o=[],by={};ks.forEach(function(x){if(x[3]!==side)return;var k=x[2]+'|'+(x[1]==='r'?1:0);if(!by[k]){by[k]=[];o.push(k);}by[k].push(esc(x[0])+(x[1]==='p'?' pen':(x[1]==='o'?' OG':'')));});return o.map(function(k){var p=k.split('|');return (p[1]==='1'?'🟥 ':'')+esc(p[0])+' '+by[k].join(' ');}).join(', ');}
+function updRow(r,ev){
+  var c=(ev.competitions||[])[0];if(!c)return;
+  var sx=((c.status||{}).type||{}).state||'pre',sd=((c.status||{}).type||{}).shortDetail||'';
+  var prev=r.getAttribute('data-sx'),home,away;
+  (c.competitors||[]).forEach(function(t){if(t.homeAway==='home')home=t;else away=t;});
+  if(!home||!away)return;
+  var sc=$$('.mr-s',r),old=sc.map(function(x){return x.textContent;}).join('-');
+  r.setAttribute('data-sx',sx);
+  r.classList.toggle('live',sx==='in');r.classList.toggle('ft',sx==='post');
+  var stEl=$('.mr-st',r);
+  if(sx==='pre'){/* keep server time */}
+  else if(sx==='in'){stEl.innerHTML='<b translate="no">'+esc(sd&&sd.length<=9?sd:'LIVE')+'</b>';}
+  else{stEl.innerHTML='<b translate="no">'+(/OT/.test(sd)?'OT':(/Pen/.test(sd)?'Pens':(sd==='AET'?'AET':'FT')))+'</b>';}
+  if(sx!=='pre'&&sc.length===2){
+    sc[0].textContent=home.score||'0';sc[1].textContent=away.score||'0';
+    var tms=$$('.mr-tm',r);tms.forEach(function(x){x.classList.remove('w','l');});
+    if(sx==='post'){var hs=+home.score,as=+away.score;if(hs!==as){tms[hs>as?0:1].classList.add('w');tms[hs>as?1:0].classList.add('l');}}
+    if(old!==sc.map(function(x){return x.textContent;}).join('-')&&prev!=='pre'){r.classList.remove('mt-flash');void r.offsetWidth;r.classList.add('mt-flash');}
+  }
+  if(r.getAttribute('data-sp')==='soccer'&&sx!=='pre'){
+    var ks=keyev(c),k=$('.mr-k',r);
+    if(ks.length){if(!k){k=D.createElement('div');k.className='mr-k';k.setAttribute('translate','no');var tms2=$$('.mr-tm',r);tms2[1].after(k);}k.innerHTML='<span>'+klist(ks,'h')+'</span><span>'+klist(ks,'a')+'</span>';}
+  }
+}
+var busy=false;
+function liveTick(){
+  if(busy||D.hidden)return;
+  var now=Date.now()/1000,want={};
+  rows.forEach(function(r){
+    if(!r.getAttribute('data-eid'))return;
+    var sx=r.getAttribute('data-sx'),ts=+r.getAttribute('data-ts');
+    if(sx==='in'||(sx==='pre'&&ts-now<600&&now-ts<4*3600)||(sx==='post'&&now-ts<3*3600&&now-ts>0&&r.__recent)){
+      var k=r.getAttribute('data-sp')+'/'+r.getAttribute('data-lc')+'|'+ymd(ts);want[k]=1;
+    }
+  });
+  var ks=Object.keys(want);if(!ks.length){countLive();return;}
+  busy=true;
+  Promise.all(ks.map(function(k){var p=k.split('|');return fetch('https://site.api.espn.com/apis/site/v2/sports/'+p[0]+'/scoreboard?dates='+p[1]).then(function(x){return x.json();}).catch(function(){return null;});}))
+  .then(function(res){
+    var byId={};res.forEach(function(j){((j&&j.events)||[]).forEach(function(e){byId[e.id]=e;});});
+    rows.forEach(function(r){var e=byId[r.getAttribute('data-eid')];if(e){if(r.getAttribute('data-sx')==='in')r.__recent=1;updRow(r,e);}});
+    countLive();paintFavs();
+  }).finally(function(){busy=false;});
+}
+function countLive(){var n=rows.filter(function(r){return r.getAttribute('data-sx')==='in';}).length,b=$('#mt-live');if(b){b.hidden=!n&&!st.live;$('#mt-live-n').textContent=n;}}
+
+/* ---------- match sheet ---------- */
+var cur=null,curData=null,curTab=null,userTab=false,sheetTimer=null;
+function sheetBase(r){
+  var h=r.getAttribute('data-h'),a=r.getAttribute('data-a'),t=r.getAttribute('data-t');
+  var imgs=$$('.mr-tm',r).map(function(t){var i=$('img',t);return i?i.getAttribute('src'):'';});
+  var sc=$$('.mr-s',r).map(function(x){return x.textContent;});
+  return {h:h,a:a,t:t,hl:imgs[0]||'',al:imgs[1]||'',hs:sc[0]||'',as:sc[1]||'',sx:r.getAttribute('data-sx'),
+    ts:+r.getAttribute('data-ts'),lg:(LGM[r.getAttribute('data-lg')]||[''])[0],col:(LGM[r.getAttribute('data-lg')]||['',''])[1],grp:r.getAttribute('data-grp'),
+    v:r.getAttribute('data-v')||'',g:r.getAttribute('data-g')||'',tbc:r.getAttribute('data-tbc'),
+    st:$('.mr-st b',r)?$('.mr-st b',r).textContent:''};
+}
+function favBtn(name,grp){var k=fkey(name,grp),on=isFav(k);return '<button type="button" class="ms-fv'+(on?' on':'')+'" data-fav="'+esc(k)+'">'+(on?'★ '+esc(T.following):'☆ '+esc(T.follow))+'</button>';}
+function teamBlock(n,l,grp){return '<div class="ms-t">'+(l?'<img src="'+esc(l)+'" alt="">':'<span class="sp-ph">'+esc((n||'?').charAt(0))+'</span>')+'<b translate="no">'+esc(n)+'</b>'+favBtn(n,grp)+'</div>';}
+function statusTxt(b){
+  if(b.sx==='pre')return b.tbc?T.tbc:(fmtD(b.ts,{weekday:'short',month:'short'})+' · '+fmtT(b.ts)+' '+T.sr);
+  if(b.sx==='in')return b.st||T.live;
+  return T.ft;
+}
+function header(b,live){
+  var lgline='<p class="ms-lg">'+esc(b.lg)+(b.g&&b.g!==b.lg?' · '+esc(b.g):'')+'</p>';
+  if(b.t)return '<div class="ms-hd" style="--c1:'+esc(b.col||'#1B4332')+'"><button type="button" class="ms-x" aria-label="'+esc(T.close)+'">×</button>'+lgline+'<h2 id="ms-ttl" class="ms-ttl" translate="no">'+esc(b.t)+'</h2><div class="ms-sc"><small'+(b.sx==='in'?' class="lv"':'')+'>'+esc(statusTxt(b))+'</small></div></div>';
+  var mid=b.sx==='pre'?'<b>'+(b.tbc?'–':fmtT(b.ts))+'</b><small>'+esc(b.tbc?T.tbc:fmtD(b.ts,{weekday:'short',month:'short'}))+'</small>'
+    :'<b>'+esc(b.hs)+' - '+esc(b.as)+'</b><small'+(b.sx==='in'?' class="lv"':'')+'>'+esc(b.sx==='in'?(b.st||T.live):T.ft)+'</small>';
+  return '<div class="ms-hd" style="--c1:'+esc(b.c1||b.col||'#1B4332')+';--c2:'+esc(b.c2||'#2D6A4F')+'"><button type="button" class="ms-x" aria-label="'+esc(T.close)+'">×</button>'+lgline
+    +'<h2 id="ms-ttl" class="sr-only">'+esc(b.h)+' – '+esc(b.a)+'</h2><div class="ms-vs">'+teamBlock(b.h,b.hl,b.grp)+'<div class="ms-sc">'+mid+'</div>'+teamBlock(b.a,b.al,b.grp)+'</div></div>';
+}
+function calUrl(b){
+  if(b.sx!=='pre'||b.tbc)return '';
+  var s=new Date(b.ts*1000),e=new Date((b.ts+(b.grp==='fight'||b.grp==='race'?3:2)*3600)*1000);
+  function f(d){return d.toISOString().replace(/[-:]/g,'').replace(/\.\d+/,'');}
+  var txt=b.t||(b.h+' vs '+b.a);
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(txt)+'&dates='+f(s)+'/'+f(e)+'&details='+encodeURIComponent(b.lg+' · Explore Suriname')+'&location='+encodeURIComponent(b.v||'');
+}
+function footer(b){
+  var cu=calUrl(b);
+  return '<div class="ms-ft">'+(cu?'<a class="ms-btn pri" href="'+esc(cu)+'" target="_blank" rel="noopener">'+esc(T.cal)+'</a>':'')
+    +'<button type="button" class="ms-btn ms-share">'+esc(T.share)+'</button></div>';
+}
+function infoTab(b,sum){
+  var gi=(sum&&sum.gameInfo)||{},v=(gi.venue||{}),city=((v.address||{}).city||'');
+  var rowsI=[[T.kick,b.tbc?T.tbc:(fmtD(b.ts)+', '+fmtT(b.ts)+' '+T.sr)],[T.comp,b.lg+(b.g&&b.g!==b.lg?' · '+b.g:'')]];
+  var vn=v.fullName||b.v;if(vn)rowsI.push([T.venue,vn+(city?', '+city:'')]);
+  if(gi.attendance)rowsI.push([T.att,Number(gi.attendance).toLocaleString(LOC)]);
+  var off=(gi.officials||[])[0];if(off&&(off.displayName||off.fullName))rowsI.push([T.ref,off.displayName||off.fullName]);
+  return '<dl class="ms-info">'+rowsI.map(function(x){return '<dt>'+esc(x[0])+'</dt><dd translate="no">'+esc(x[1])+'</dd>';}).join('')+'</dl>';
+}
+function sideOf(sum,teamId){var c=((((sum||{}).header||{}).competitions||[])[0]||{}).competitors||[];for(var i=0;i<c.length;i++){if(String(c[i].id||(c[i].team||{}).id)===String(teamId))return c[i].homeAway==='home'?'h':'a';}return '';}
+function tlTab(sum){
+  var ev=(sum.keyEvents||[]).filter(function(e){var ty=((e.type||{}).type||'')+' '+((e.type||{}).text||'');return e.scoringPlay||/card|substitution|halftime|half-time|end-regular|Halftime/i.test(ty);});
+  if(!ev.length)return '<p class="ms-ld" style="padding:1rem 0">'+esc(T.noev)+'</p>';
+  var h='<ul class="tl">';
+  ev.forEach(function(e){
+    var ty=((e.type||{}).type||''),tx=((e.type||{}).text||'');
+    if(/halftime|Halftime/i.test(ty+tx)){h+='<li class="sep"><span>'+esc(T.ht)+'</span></li>';return;}
+    if(/end-regular/i.test(ty))return;
+    var side=sideOf(sum,(e.team||{}).id),p=(e.participants||[]),nm=((p[0]||{}).athlete||{}).displayName||'';
+    var ic='',sub='';
+    if(e.scoringPlay){ic='⚽ ';sub=/own/i.test(tx)?T.og:(/penalty/i.test(tx)?T.pen:(p[1]&&p[1].athlete?T.ast+' '+p[1].athlete.displayName:''));}
+    else if(/yellow/i.test(ty+tx))ic='<i class="ci y"></i>';
+    else if(/red/i.test(ty+tx))ic='<i class="ci r"></i>';
+    else if(/substitution/i.test(ty)){ic='⇄ ';var o=((p[1]||{}).athlete||{}).displayName;if(o)sub=T.for_+' '+o;}
+    var x='<div class="x">'+ic+'<span translate="no">'+esc(nm||tx)+'</span>'+(sub?'<small translate="no">'+esc(sub)+'</small>':'')+'</div>';
+    h+='<li class="'+(e.scoringPlay?'g':'')+'">'+(side==='h'?x:'<div></div>').replace('class="x"','class="x h"')+'<span class="m">'+esc((e.clock||{}).displayValue||'')+'</span>'+(side==='a'?x:'<div></div>')+'</li>';
+  });
+  return h+'</ul>';
+}
+var SOC_ST=[['possessionPct','poss','%'],['totalShots','shots',''],['shotsOnTarget','sot',''],['wonCorners','corners',''],['foulsCommitted','fouls',''],['offsides','offs',''],['saves','saves',''],['yellowCards','yc',''],['redCards','rc','']];
+var NBA_ST=[['fieldGoalPct','fgp','%'],['threePointFieldGoalPct','tpp','%'],['freeThrowPct','ftp','%'],['totalRebounds','reb',''],['assists','ast2',''],['steals','stl',''],['blocks','blk',''],['turnovers','to','']];
+function statsTab(sum,soc){
+  var tm=((sum.boxscore||{}).teams)||[];if(tm.length<2)return '';
+  var hi=tm[0].homeAway==='home'||sideOf(sum,(tm[0].team||{}).id)==='h'?0:1;var H=tm[hi],A=tm[1-hi];
+  function val(t,n){var s=(t.statistics||[]).filter(function(x){return x.name===n;})[0];return s?s.displayValue:null;}
+  var out='';
+  (soc?SOC_ST:NBA_ST).forEach(function(d){
+    var a=val(H,d[0]),b=val(A,d[0]);if(a==null||b==null)return;
+    var x=parseFloat(a)||0,y=parseFloat(b)||0,tot=x+y||1;
+    out+='<div class="st-r"><div class="st-l"><b>'+esc(a)+d[2]+'</b><span>'+esc(T[d[1]]||d[0])+'</span><b>'+esc(b)+d[2]+'</b></div><div class="st-b"><i class="'+(x>=y?'w':'')+'" style="flex:'+(x||0.0001)+'"></i><i class="'+(y>x?'w2':'')+'" style="flex:'+(y||0.0001)+'"></i></div></div>';
+  });
+  return out;
+}
+function luTab(sum){
+  var rs=sum.rosters||[];if(!rs.length||!(rs[0].roster||[]).length)return '';
+  rs=rs.slice().sort(function(x,y){return x.homeAway==='home'?-1:1;});
+  return rs.map(function(r){
+    var t=r.team||{},lg=logo(((t.logos||[])[0]||{}).href||t.logo,48);
+    var pl=r.roster||[],st=pl.filter(function(p){return p.starter;}),sb=pl.filter(function(p){return !p.starter;});
+    function li(p){var a=p.athlete||{},pos=(p.position||{}).abbreviation||'';var mk=(p.subbedOut?' <span class="out">↓</span>':'')+(p.subbedIn?' <span class="in">↑</span>':'');return '<li><b>'+esc(p.jersey||'')+'</b><span translate="no">'+esc(a.displayName||'')+mk+'</span><em>'+esc(pos)+'</em></li>';}
+    return '<div class="lu-h">'+(lg?'<img src="'+esc(lg)+'" alt="">':'')+'<span translate="no">'+esc(t.displayName||'')+'</span><small>'+esc(r.formation||'')+'</small></div>'
+      +'<ul class="lu">'+st.map(li).join('')+'</ul>'+(sb.length?'<p class="lu-sub">'+esc(T.subs)+'</p><ul class="lu">'+sb.map(li).join('')+'</ul>':'');
+  }).join('');
+}
+function tableTab(sum,b){
+  var gs=((sum.standings||{}).groups)||[];if(!gs.length)return '';
+  var ids={};(((sum.header||{}).competitions||[])[0]||{competitors:[]}).competitors.forEach(function(c){ids[String(c.id||(c.team||{}).id)]=1;});
+  var soc=(b.grp!=='bball');
+  return gs.map(function(g){
+    var en=((g.standings||{}).entries)||[];if(!en.length)return '';
+    var hd=soc?['#','','P','GD','Pts']:['#','','W','L','GB'];
+    var body=en.map(function(e,i){
+      var s={};(e.stats||[]).forEach(function(x){s[x.name]=x.displayValue;});
+      var c=soc?[s.gamesPlayed,s.pointDifferential,s.points]:[s.wins,s.losses,s.gamesBehind];
+      return '<tr class="'+(ids[String(e.id)]?'hl':'')+'"><td class="n">'+(i+1)+'</td><td class="c"><span translate="no">'+esc(e.team||'')+'</span></td>'+c.map(function(v,j){return '<td class="n'+(j===c.length-1?' b':'')+'">'+esc(v==null?'':v)+'</td>';}).join('')+'</tr>';
+    }).join('');
+    return (g.header?'<p class="ms-h4">'+esc(g.header)+'</p>':'')+'<div class="tb-wrap" style="margin:0"><table class="tb"><thead><tr>'+hd.map(function(x,i){return '<th class="'+(i===1?'c':'n')+'">'+esc(x)+'</th>';}).join('')+'</tr></thead><tbody>'+body+'</tbody></table></div>';
+  }).join('');
+}
+function formTab(sum){
+  var l=sum.lastFiveGames||[];if(!l.length)return '';
+  return l.map(function(t){
+    var tm=t.team||{},ev=(t.events||[]).slice(0,5);if(!ev.length)return '';
+    return '<p class="ms-h4" translate="no">'+esc(tm.displayName||'')+'</p><div class="fm">'+ev.map(function(e){
+      var r=e.gameResult||'',o=(e.opponent||{}).displayName||'';
+      return '<div class="fm-r"><i class="my-r '+esc(r)+'">'+esc(T['r'+r]||r)+'</i><span translate="no">'+esc(e.atVs==='@'?'@ ':'vs ')+esc(o)+'</span><b>'+esc(e.score||'')+'</b><small>'+(e.gameDate?new Intl.DateTimeFormat(LOC,{day:'numeric',month:'short',timeZone:TZ}).format(new Date(e.gameDate)):'')+'</small></div>';
+    }).join('')+'</div>';
+  }).join('');
+}
+function nbaSummary(sum){
+  var c=((((sum.header||{}).competitions)||[])[0]||{}).competitors||[];c=c.slice().sort(function(x){return x.homeAway==='away'?-1:1;});
+  var out='';
+  var ls=c.filter(function(x){return (x.linescores||[]).length;});
+  if(ls.length===2){
+    var n=ls[0].linescores.length,hd='<tr><th></th>';for(var i=0;i<n;i++)hd+='<th>'+(i<4?'Q'+(i+1):'OT'+(i-3>1?i-3:''))+'</th>';hd+='<th>T</th></tr>';
+    out+='<p class="ms-h4">'+esc(T.byq)+'</p><table class="qs"><thead>'+hd+'</thead><tbody>'+ls.map(function(x){return '<tr><td translate="no">'+esc((x.team||{}).abbreviation||'')+'</td>'+x.linescores.map(function(q){return '<td>'+esc(q.displayValue)+'</td>';}).join('')+'<td>'+esc(x.score||'')+'</td></tr>';}).join('')+'</tbody></table>';
+  }
+  var L=sum.leaders||[];
+  L.forEach(function(t){
+    var tm=t.team||{},ld=(t.leaders||[]);if(!ld.length)return;
+    out+='<p class="ms-h4" translate="no">'+esc(tm.displayName||'')+'</p><div class="ld" style="margin-bottom:1rem">'+ld.slice(0,3).map(function(x){var p=(x.leaders||[])[0];if(!p)return '';var a=p.athlete||{};var hs=(a.headshot||{}).href;return '<div>'+(hs?'<img src="'+esc(logo(hs,96))+'" alt="" loading="lazy">':'<img alt="">')+'<span><b>'+esc(p.displayValue)+'</b><small>'+esc(T[x.name]||x.displayName||'')+'</small><small translate="no">'+esc(a.displayName||'')+'</small></span></div>';}).join('')+'</div>';
+  });
+  return out;
+}
+function renderSheet(b,sum){
+  var soc=b.grp!=='bball',tabs=[];
+  if(sum){
+    var hc=((((sum.header||{}).competitions)||[])[0]||{}).competitors||[];
+    hc.forEach(function(c){var t=c.team||{};if(c.homeAway==='home'){b.c1='#'+(t.color||'1B4332');if(!b.hl)b.hl=logo(((t.logos||[])[0]||{}).href,96);}else{b.c2='#'+(t.color||'2D6A4F');if(!b.al)b.al=logo(((t.logos||[])[0]||{}).href,96);}if(c.score!=null&&b.sx!=='pre'){if(c.homeAway==='home')b.hs=c.score;else b.as=c.score;}});
+    var stt=((((sum.header||{}).competitions||[])[0]||{}).status||{}).type||{};
+    if(stt.state){b.sx=stt.state;if(stt.state==='in')b.st=stt.shortDetail||b.st;}
+    if(b.hl)b.hl=b.hl.replace(/&w=\d+&h=\d+/,'&w=96&h=96');if(b.al)b.al=b.al.replace(/&w=\d+&h=\d+/,'&w=96&h=96');
+    if(soc){
+      if(b.sx!=='pre')tabs.push(['sum',T.summary,tlTab(sum)]);
+      var s1=statsTab(sum,true);if(s1&&b.sx!=='pre')tabs.push(['stats',T.stats,s1]);
+      var l1=luTab(sum);if(l1)tabs.push(['lu',T.lineups,l1]);
+      var f1=formTab(sum);if(f1)tabs.push(['form',T.form,f1]);
+    }else{
+      var ns=nbaSummary(sum);if(ns&&b.sx!=='pre')tabs.push(['sum',T.summary,ns]);
+      var s2=statsTab(sum,false);if(s2&&b.sx!=='pre')tabs.push(['stats',T.stats,s2]);
+    }
+    var t1=tableTab(sum,b);if(t1)tabs.push(['tbl',T.table,t1]);
+  }
+  tabs.push(['info',T.info,infoTab(b,sum)]);
+  if(!sum&&cur&&cur.getAttribute('data-eid'))tabs[0][2]+='';
+  var keep=userTab&&curTab&&tabs.some(function(t){return t[0]===curTab;})?curTab:tabs[0][0];
+  var h=header(b)+(tabs.length>1?'<div class="ms-tabs" role="tablist">'+tabs.map(function(t){return '<button type="button" class="ms-tab'+(t[0]===keep?' on':'')+'" data-t="'+t[0]+'">'+esc(t[1])+'</button>';}).join('')+'</div>':'')
+    +'<div class="ms-c">'+tabs.map(function(t){return '<div class="ms-pane" data-p="'+t[0]+'"'+(t[0]===keep?'':' hidden')+'>'+t[2]+'</div>';}).join('')+'</div>'+footer(b);
+  var sc=$('.ms-c'),top=sc?sc.scrollTop:0;
+  $('#ms-body').innerHTML=h;curTab=keep;
+  if(top){var sc2=$('.ms-c');if(sc2)sc2.scrollTop=top;}
+}
+function msTab(k){curTab=k;userTab=true;$$('.ms-tab').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-t')===k);});$$('.ms-pane').forEach(function(p){p.hidden=p.getAttribute('data-p')!==k;});var c=$('.ms-c');if(c)c.scrollTop=0;}
+function load(r,b){
+  var eid=r.getAttribute('data-eid');if(!eid)return;
+  var url='https://site.api.espn.com/apis/site/v2/sports/'+r.getAttribute('data-sp')+'/'+r.getAttribute('data-lc')+'/summary?event='+eid;
+  fetch(url).then(function(x){return x.json();}).then(function(j){if(cur!==r)return;curData=j;renderSheet(sheetBase(r),j);
+    clearTimeout(sheetTimer);var stt=((((j.header||{}).competitions||[])[0]||{}).status||{}).type||{};if(stt.state==='in')sheetTimer=setTimeout(function(){if(cur===r)load(r);},30000);})
+  .catch(function(){if(cur===r){renderSheet(b,null);}});
+}
+var lastFocus=null;
+function openSheet(r){
+  cur=r;curData=null;curTab=null;userTab=false;lastFocus=D.activeElement;
+  var b=sheetBase(r),ms=$('#ms');
+  renderSheet(b,null);
+  if(r.getAttribute('data-eid')){var c=$('.ms-c');c.insertAdjacentHTML('afterbegin','<p class="ms-ld">'+esc(T.loading)+'</p>');$$('.ms-pane',c).forEach(function(p){p.hidden=true;});$$('.ms-tab').forEach(function(t){t.hidden=true;});}
+  ms.hidden=false;D.documentElement.style.overflow='hidden';
+  var x=$('.ms-x');if(x)x.focus({preventScroll:true});
+  load(r,b);
+  var id=r.getAttribute('data-eid');
+  try{if(id)history.replaceState(null,'','#m='+id);}catch(e){}
+  gtag2('mt_open',{lg:r.getAttribute('data-lg')});
+}
+function closeSheet(){var ms=$('#ms');if(!ms||ms.hidden)return;ms.hidden=true;cur=null;clearTimeout(sheetTimer);D.documentElement.style.overflow='';try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}if(lastFocus&&lastFocus.focus)lastFocus.focus({preventScroll:true});}
+function share(){
+  if(!cur)return;var b=sheetBase(cur);
+  var txt=(b.t||(b.h+' – '+b.a))+(b.sx==='pre'?' · '+fmtD(b.ts,{weekday:'short',month:'short'})+' '+fmtT(b.ts)+' '+T.sr:(b.sx!=='pre'&&!b.t?' '+b.hs+'-'+b.as:''));
+  var url=location.origin+location.pathname+(cur.getAttribute('data-eid')?'#m='+cur.getAttribute('data-eid'):'');
+  gtag2('mt_share',{lg:cur.getAttribute('data-lg')});
+  if(navigator.share){navigator.share({title:txt,text:txt,url:url}).catch(function(){});}
+  else W.open('https://wa.me/?text='+encodeURIComponent(txt+' '+url),'_blank','noopener');
+}
+// swipe down to close (phones)
+(function(){var y0=null,p=null;D.addEventListener('touchstart',function(e){var hd=e.target.closest('.ms-hd,.ms-grip');if(hd){y0=e.touches[0].clientY;p=$('.ms-p');}},{passive:true});
+D.addEventListener('touchmove',function(e){if(y0==null||!p)return;var dy=e.touches[0].clientY-y0;if(dy>0)p.style.transform='translateY('+dy+'px)';},{passive:true});
+D.addEventListener('touchend',function(e){if(y0==null||!p)return;var dy=(e.changedTouches[0].clientY-y0);p.style.transform='';if(dy>90)closeSheet();y0=null;p=null;});})();
+
+/* ---------- spotlight countdown ---------- */
+function cd(){$$('.sp-cd[data-cd]').forEach(function(el){var s=+el.getAttribute('data-cd')-Date.now()/1000;if(s<=0){el.textContent=T.kicked;return;}var d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);el.textContent=T.starts+' '+(d?d+T.d+' ':'')+h+T.h+' '+m+T.m;});}
+
+/* ---------- init ---------- */
+function localize(){
+  var map={'#mt-earlier-lbl':'earlier'};
+  // localized "Today" day labels already come from build_i18n; only JS-made text uses T.
+}
+if(location.hash==='#tables')view('tables');
+apply();paintFavs();countLive();cd();setInterval(cd,30000);
+var m=/^#m=(\d+)/.exec(location.hash);if(m){var rr=rows.filter(function(r){return r.getAttribute('data-eid')===m[1];})[0];if(rr){if(rr.closest('#mt-earlier'))toggleEarlier(true);setTimeout(function(){rr.scrollIntoView({block:'center'});openSheet(rr);},50);}}
+liveTick();setInterval(liveTick,60000);
+D.addEventListener('visibilitychange',function(){if(!D.hidden)liveTick();});
+})();
+</script>"""
+
+
 def build_matches_page(matches):
-    """matches.html: upcoming sport (football, NBA, fight nights) in Suriname
-    time. Server-rendered day-by-day schedule (crawlable, works without JS)
-    + tiny client-side league filter."""
+    """matches.html v2 (Oct 2026): Suriname-first sports centre in Suriname time.
+
+    Server side (crawlable, works without JS): day-by-day match list with team
+    logos, scores and goal scorers, a Suriname spotlight card and league tables.
+    Client side (_MT2_JS): sport/competition/live/my-teams filters, a match
+    sheet (tap any ESPN match: summary timeline, stats, line-ups, table, form,
+    NBA leaders), 60-second live score refresh straight from ESPN's CORS-open
+    scoreboard, follow-a-team (localStorage 'mt-fav'), #m=<id> deep links.
+    UI strings for the JS live in _MT2_I18N (en/nl/es/zh/fr/pt, hand-written)."""
     now = datetime.now(SR_TZ)
     today = now.date()
     lg_meta = {key: (label, col, grp) for _s, _c, label, key, col, grp in _MATCH_LEAGUES}
     lg_meta.update({k: (l, c, g) for k, (l, c, g) in _MANUAL_LEAGUES.items()})
     lg_meta.update(_EXTRA_LEAGUES)
+    esc = html_lib.escape
 
     # ── Flatten, parse, filter, sort ─────────────────────────────────────────
     rows = []
     for key, blob in (matches or {}).items():
+        if not isinstance(blob, dict) or "events" not in blob:
+            continue
         label, col, grp = lg_meta.get(key, (blob.get("label", key), "#374151", "foot"))
         for e in blob.get("events", []):
             dt = _match_dt(e.get("d", ""))
             if dt is None:
                 continue
-            horizon = 66 if grp in ("fight", "race", "tennis") else 36
+            # Three weekends ahead for the big feeds (a 36-day window put 800+
+            # rows and 12k DOM nodes on the page, mostly NBA nobody scrolls to).
+            horizon = 66 if grp in ("fight", "race", "tennis") else 21
             if key in ("natio", "natiow", "natioy", "sml", "carib", "svb"):
-                horizon = 75   # Suriname fixtures surface as far out as we have them
+                horizon = 75
             if key == "sr":
-                horizon = 300  # local sport events are announced a season ahead
-            # Youth and women's campaigns run in short windows once or twice a
-            # year, so a one-day look-back would leave those chips empty for
-            # months. Keep a season of Natio history: it lands in the collapsed
-            # "earlier results" block, not in the upcoming list.
+                horizon = 300
             lookback = 400 if key in ("natio", "natiow", "natioy") else 1
             if dt.date() < today - timedelta(days=lookback) or dt.date() > today + timedelta(days=horizon):
+                continue
+            # A fixture still 'scheduled' more than a day after kickoff is a stale
+            # placeholder (ESPN 'TBD' rows, SML games the league never closed):
+            # showing it as upcoming would be wrong, showing a score would be a guess.
+            if e.get("sx", "pre") == "pre" and dt.date() < today - timedelta(days=0) and (now - dt) > timedelta(hours=30):
                 continue
             rows.append((dt, key, label, col, e))
     rows.sort(key=lambda r: r[0])
 
-    # ── Day-grouped list ─────────────────────────────────────────────────────
+    def _norm_fav(n, grp):
+        return (n or "").strip().lower() + "|" + ("bball" if grp == "bball" else grp)
+
+    # ── One match row ────────────────────────────────────────────────────────
     def _row_html(dt, key, label, col, e):
         grp = lg_meta.get(key, ("", "", "foot"))[2]
         h, a = e.get("h") or {}, e.get("a") or {}
-        hn, an = html_lib.escape(h.get("n", "")), html_lib.escape(a.get("n", ""))
         sx = e.get("sx", "pre")
-        if sx == "pre" and e.get("tbc"):
-            left = ('<p class="font-bold text-gray-900 leading-tight">TBC</p>'
-                    '<p class="text-[10px] text-gray-400 uppercase tracking-wide">time</p>')
-        elif sx == "pre":
-            left = ('<p class="font-bold text-gray-900 leading-tight">' + dt.strftime("%H:%M") + '</p>'
-                    '<p class="text-[10px] text-gray-400 uppercase tracking-wide">SR time</p>')
-        elif e.get("t"):
-            live = '<span class="mt-live"></span>' if sx == "in" else ''
-            tag = 'LIVE' if sx == "in" else 'ENDED'
-            left = ('<p class="text-[11px] uppercase tracking-wide font-bold ' + ("text-red-600" if sx == "in" else "text-gray-400")
-                    + '">' + live + tag + '</p>')
-        else:
-            live = '<span class="mt-live"></span>' if sx == "in" else ''
-            tag = 'LIVE' if sx == "in" else 'FT'
-            left = ('<p class="font-bold text-lg leading-tight text-gray-900">' + html_lib.escape(h.get("s", "") or "0")
-                    + '<span class="text-gray-300 px-1">-</span>' + html_lib.escape(a.get("s", "") or "0") + '</p>'
-                    '<p class="text-[10px] uppercase tracking-wide ' + ("text-red-600 font-bold" if sx == "in" else "text-gray-400")
-                    + '">' + live + tag + '</p>')
-        meta_bits = [f'<span class="font-semibold" style="color:{col}">{label}</span>']
-        if e.get("g"):
-            meta_bits.append(html_lib.escape(e["g"]))
-        if e.get("v"):
-            meta_bits.append(html_lib.escape(e["v"]))
+        st_raw = (e.get("st") or "").strip()
+        title = e.get("t")
         is_natio = _is_suriname(h.get("n")) or _is_suriname(a.get("n"))
-        if sx == "in":
-            row_border = ' style="border-color:#fecaca;box-shadow:0 0 0 1px #fecaca"'
-        elif is_natio and sx == "pre":
-            row_border = ' style="border-color:#bbf7d0;box-shadow:0 0 0 1px #16a34a"'
+        # status column
+        if sx == "pre":
+            if e.get("tbc"):
+                stc = '<b>TBC</b>'
+            else:
+                stc = '<b>' + dt.strftime("%H:%M") + '</b><small>SR</small>'
+        elif sx == "in":
+            _lv = st_raw if (st_raw and len(st_raw) <= 9 and not title) else "LIVE"
+            stc = '<b>' + esc(_lv) + '</b>'
         else:
-            row_border = ''
-        natio_tag = ('<span class="align-middle text-[9px] font-bold uppercase tracking-wide text-white '
-                     'px-1.5 py-0.5 rounded mr-1.5" style="background:#16a34a">Natio</span>') if is_natio else ''
-        if e.get("t"):  # whole fight card (UFC, Glory, boxing) or a Grand Prix: title, not home vs away
-            main = '<p class="font-semibold text-gray-900 text-sm leading-snug">' + natio_tag + html_lib.escape(e["t"]) + '</p>'
+            _ft = "FT"
+            if st_raw in ("AET", "FT-Pens", "Final/OT", "Final/2OT", "Pens"):
+                _ft = {"Final/OT": "OT", "Final/2OT": "2OT", "FT-Pens": "Pens"}.get(st_raw, st_raw)
+            stc = '<b>' + ("ENDED" if title else _ft) + '</b>'
+        cls = "mr" + (" live" if sx == "in" else "") + (" ft" if sx == "post" else "") + (" natio" if is_natio else "")
+        attrs = f' data-lg="{key}" data-grp="{grp}" data-ts="{int(dt.timestamp())}" data-sx="{sx}"'
+        if e.get("id") and e.get("lc"):
+            attrs += f' data-eid="{esc(e["id"])}" data-lc="{esc(e["lc"])}" data-sp="{esc(e.get("sp", "soccer"))}"'
+        if e.get("v"):
+            attrs += f' data-v="{esc(e["v"])}"'
+        if e.get("g"):
+            attrs += f' data-g="{esc(e["g"])}"'
+        if e.get("tbc"):
+            attrs += ' data-tbc="1"'
+        if title:
+            attrs += f' data-t="{esc(title)}"'
+            body = '<div class="mr-ti" translate="no">' + esc(title) + '</div>'
         else:
-            main = f'<p class="font-semibold text-gray-900 text-sm leading-snug">{natio_tag}{hn} <span class="text-gray-400 font-normal">vs</span> {an}</p>'
-        # Subtle add-to-calendar link (upcoming, confirmed-time fixtures only)
-        cal = ''
-        if sx == "pre" and not e.get("tbc"):
-            _st = dt.astimezone(timezone.utc)
-            _en = _st + timedelta(hours=3 if grp in ("fight", "race") else 2)
-            _ctext = e.get("t") or (h.get("n", "") + " vs " + a.get("n", ""))
-            _cal_q = urllib.parse.urlencode({
-                "action": "TEMPLATE",
-                "text": _ctext + " (Suriname time)",
-                "dates": _st.strftime("%Y%m%dT%H%M%SZ") + "/" + _en.strftime("%Y%m%dT%H%M%SZ"),
-                "details": label + " kickoff, shown in Suriname time. Via Explore Suriname.",
-                "location": e.get("v", "") or "",
-            })
-            _cal_url = "https://calendar.google.com/calendar/render?" + _cal_q
-            cal = ('<a href="' + _cal_url + '" target="_blank" rel="noopener" title="Add to Google Calendar" '
-                   'aria-label="Add to calendar" class="mt-cal shrink-0 self-center text-gray-300 hover:text-forest transition p-1 -mr-1">'
-                   '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
-                   'stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/>'
-                   '<path d="M16 2v4M8 2v4M3 10h18M12 14v4M10 16h4"/></svg></a>')
-        return (f'<div class="mt-row flex items-center gap-4 bg-white rounded-xl border border-gray-200 px-4 py-3 mb-2" data-lg="{key}" data-grp="{grp}"{row_border}>'
-                '<div class="w-14 shrink-0 text-center">' + left + '</div>'
-                '<div class="flex-1 min-w-0">' + main +
-                '<p class="text-[11px] text-gray-500 mt-0.5 truncate">' + " &middot; ".join(meta_bits) + '</p>'
-                '</div>' + cal + '</div>')
+            attrs += f' data-h="{esc(h.get("n", ""))}" data-a="{esc(a.get("n", ""))}"'
+            win = ""
+            if sx == "post":
+                try:
+                    hs, as_ = float(h.get("s") or 0), float(a.get("s") or 0)
+                    win = "h" if hs > as_ else ("a" if as_ > hs else "")
+                except ValueError:
+                    win = ""
 
-    # Day-by-day sections. Past days (before today) go into a collapsed
-    # "earlier" block so today's fixtures lead the page on load.
+            def _side(t, side):
+                lg = _espn_logo(t.get("l", ""), 40)
+                img = (f'<img src="{esc(lg)}" alt="" width="20" height="20" loading="lazy" decoding="async">'
+                       if lg else '<i class="mr-nl" aria-hidden="true"></i>')
+                sc = esc(t.get("s", "") or "0") if sx != "pre" else ""
+                wcls = " w" if win == side else (" l" if win and win != side else "")
+                return (f'<div class="mr-tm{wcls}" translate="no">{img}<span>{esc(t.get("n", ""))}</span>'
+                        f'<b class="mr-s">{sc}</b></div>')
+            body = _side(h, "h") + _side(a, "a")
+            ks = e.get("k") or []
+            if ks and sx != "pre":
+                def _klist(side):
+                    order, by = [], {}
+                    for mi, kd, nm, sd in ks:
+                        if sd != side:
+                            continue
+                        key = (nm, kd == "r")
+                        if key not in by:
+                            by[key] = []
+                            order.append(key)
+                        by[key].append(esc(mi) + {"p": " pen", "o": " OG"}.get(kd, ""))
+                    return ", ".join(("\U0001F7E5 " if red else "") + esc(nm) + " " + " ".join(by[(nm, red)])
+                                     for nm, red in order)
+                body += ('<div class="mr-k" translate="no"><span>' + _klist("h") + '</span><span>'
+                         + _klist("a") + '</span></div>')
+        meta = [f'<i style="background:{col}"></i><span>{esc(label)}</span>']
+        _gn, _ln = re.sub(r"[^a-z0-9]", "", (e.get("g") or "").lower()), re.sub(r"[^a-z0-9]", "", label.lower())
+        if _gn and not (_gn in _ln or _ln in _gn):
+            meta.append('<span translate="no">' + esc(e["g"]) + '</span>')
+        tag = '<em class="mr-nt">Natio</em>' if is_natio else ''
+        return (f'<div class="{cls}"{attrs} tabindex="0" role="button">'
+                f'<div class="mr-st" translate="no">{stc}</div>'
+                f'<div class="mr-m">{tag}{body}<div class="mr-meta">{" &middot; ".join(meta)}</div></div></div>')
+
+    # ── Day sections ─────────────────────────────────────────────────────────
     _sections, cur_day, cur_date, sec = [], None, None, ""
     for dt, key, label, col, e in rows:
         dkey = dt.strftime("%Y-%m-%d")
@@ -16813,17 +17643,17 @@ def build_matches_page(matches):
                 sec += '</div></section>'
                 _sections.append((cur_date, sec))
             cur_day, cur_date = dkey, dt.date()
+            _dl = '<span data-srdate="' + dkey + '" translate="no">' + dt.strftime("%A %d %B") + '</span>'
             if dt.date() == today:
-                daylab = 'Today <span class="text-gray-400 font-normal text-base">&middot; ' + dt.strftime("%A %d %B") + '</span>'
+                daylab = 'Today <small>&middot; ' + _dl + '</small>'
             elif dt.date() == today + timedelta(days=1):
-                daylab = 'Tomorrow <span class="text-gray-400 font-normal text-base">&middot; ' + dt.strftime("%A %d %B") + '</span>'
+                daylab = 'Tomorrow <small>&middot; ' + _dl + '</small>'
             elif dt.date() == today - timedelta(days=1):
-                daylab = 'Yesterday <span class="text-gray-400 font-normal text-base">&middot; ' + dt.strftime("%A %d %B") + '</span>'
+                daylab = 'Yesterday <small>&middot; ' + _dl + '</small>'
             else:
-                daylab = dt.strftime("%A %d %B")
+                daylab = _dl
             anchor = ' id="mt-today"' if dt.date() == today else ''
-            sec = (f'<section class="mt-day"{anchor}>'
-                   f'<h2 class="serif text-xl font-bold text-gray-900 mt-7 mb-3">{daylab}</h2><div>')
+            sec = f'<section class="mt-day"{anchor}><h2 class="mt-dh serif">{daylab}</h2><div class="mt-list">'
         sec += _row_html(dt, key, label, col, e)
     if cur_day is not None:
         sec += '</div></section>'
@@ -16832,211 +17662,267 @@ def build_matches_page(matches):
     main_html = "".join(h for d, h in _sections if d >= today)
     list_html = ""
     if past_html:
-        list_html = ('<button onclick="mtEarlier()" class="mt-earlier-btn flex items-center gap-1.5 text-sm '
-                     'font-semibold text-gray-500 hover:text-gray-800 transition mt-3 mb-1">'
+        list_html = ('<button type="button" id="mt-earlier-btn" class="mt-earlier">'
                      '<svg id="mt-earlier-ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
-                     'stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .2s">'
-                     '<path d="M6 9l6 6 6-6"/></svg><span id="mt-earlier-lbl">View earlier results</span></button>'
-                     '<div id="mt-earlier" style="display:none">' + past_html + '</div>')
+                     'stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>'
+                     '<span id="mt-earlier-lbl">View earlier results</span></button>'
+                     '<div id="mt-earlier" hidden>' + past_html + '</div>')
     list_html += main_html
+    list_html += ('<div id="mt-empty" class="mt-emptybox" hidden><p class="font-semibold">No matches for this filter.</p>'
+                  '<p id="mt-empty-my" class="text-sm" hidden>Open any match and tap the star next to a team to follow it.</p></div>')
     if not rows:
-        list_html = ('<div class="bg-white rounded-2xl border border-gray-200 p-8 text-center mt-6">'
-                     '<p class="font-semibold text-gray-800 mb-1">Between rounds right now.</p>'
-                     '<p class="text-gray-500 text-sm">New fixtures appear here automatically as soon as they are scheduled. Check back soon.</p></div>')
+        list_html = ('<div class="mt-emptybox"><p class="font-semibold">Between rounds right now.</p>'
+                     '<p class="text-sm">New fixtures appear here automatically as soon as they are scheduled.</p></div>')
 
-    # ── Sport-type pills (Football / Basketball / Fight Sports / Motorsport) ──
-    _grp_of = {k: lg_meta.get(k, ("", "", "foot"))[2] for _dt, k, _l, _c, _e in rows}
-    _present_grps = set(_grp_of.values())
-    _GRP_LABELS = [("foot", "Football"), ("bball", "Basketball"), ("fight", "Fight Sports"), ("race", "Motorsport"), ("tennis", "Tennis"), ("srs", "Suriname Events")]
-    sport_chips = ('<div class="mt-sports flex gap-2 overflow-x-auto pt-1 pb-1 -mx-5 px-5">'
-                   '<button data-mtg="all" onclick="mtGroup(\'all\')" class="mt-gchip shrink-0 px-4 py-1.5 rounded-full text-sm font-bold text-white" style="background:var(--forest)">All sports</button>')
-    for _g, _glabel in _GRP_LABELS:
-        if _g not in _present_grps:
-            continue
-        sport_chips += (f'<button data-mtg="{_g}" onclick="mtGroup(\'{_g}\')" '
-                        'class="mt-gchip shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition">'
-                        + _glabel + '</button>')
+    # ── Filters: sport chips + toolbar (Live / My teams / Competition) ───────
+    present = {}
+    for _dt, k, _l, _c, _e in rows:
+        present[k] = present.get(k, 0) + 1
+    _grp_present = {lg_meta.get(k, ("", "", "foot"))[2] for k in present}
+    _GRP_LABELS = [("foot", "Football"), ("bball", "Basketball"), ("fight", "Fight Sports"),
+                   ("race", "Motorsport"), ("tennis", "Tennis"), ("srs", "Suriname Events")]
+    sport_chips = '<div class="mt-sports" role="tablist"><button type="button" data-mtg="all" class="mt-g on">All sports</button>'
+    for _g, _gl in _GRP_LABELS:
+        if _g in _grp_present:
+            sport_chips += f'<button type="button" data-mtg="{_g}" class="mt-g">{_gl}</button>'
     sport_chips += '</div>'
-
-    # ── League filter chips ──────────────────────────────────────────────────
-    chips = ('<div class="mt-chips flex gap-2 overflow-x-auto py-2.5 -mx-5 px-5">'
-             '<button data-mtf="all" onclick="mtFilter(\'all\')" class="mt-chip shrink-0 px-4 py-1.5 rounded-full text-xs font-bold text-white" style="background:var(--forest)">All</button>')
     _all_lgs = [(lb, k) for k, (lb, _cl, _g) in _EXTRA_LEAGUES.items()] + \
                [(lb, k) for _s, _c, lb, k, _cl, _g in _MATCH_LEAGUES] + \
                [(lb, k) for k, (lb, _cl, _g) in _MANUAL_LEAGUES.items()]
-    for label, key in _all_lgs:
-        if not any(r[1] == key for r in rows):
+    comp_items = '<button type="button" data-mtf="all" class="mt-ci on"><span>All competitions</span></button>'
+    for lb, k in _all_lgs:
+        if k not in present:
             continue
-        chips += (f'<button data-mtf="{key}" onclick="mtFilter(\'{key}\')" '
-                  'class="mt-chip shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition">'
-                  + label + '</button>')
-    chips += '</div>'
+        _cl, _gp = lg_meta[k][1], lg_meta[k][2]
+        comp_items += (f'<button type="button" data-mtf="{k}" data-grp="{_gp}" class="mt-ci">'
+                       f'<i style="background:{_cl}"></i><span>{esc(lb)}</span><small translate="no">{present[k]}</small></button>')
+    n_live = sum(1 for r in rows if r[4].get("sx") == "in")
+    toolbar = ('<div class="mt-bar">'
+               '<button type="button" id="mt-live" class="mt-tb"' + ('' if n_live else ' hidden') + '>'
+               '<span class="mt-dot"></span><span>Live</span> <b id="mt-live-n" translate="no">' + str(n_live) + '</b></button>'
+               '<button type="button" id="mt-my" class="mt-tb"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'
+               '<path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><span>My teams</span></button>'
+               '<div class="mt-cw"><button type="button" id="mt-comp" class="mt-tb" aria-haspopup="true" aria-expanded="false">'
+               '<span id="mt-comp-l">All competitions</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" '
+               'stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>'
+               '<div id="mt-cm" class="mt-cm" hidden>' + comp_items + '</div></div>'
+               '<button type="button" id="mt-jump" class="mt-tb mt-jump">Today</button>'
+               '</div>')
 
-    # ── Suriname Major League table + honours ────────────────────────────────
-    # Server-rendered (crawlable, no JS). The table is empty between seasons -
-    # in that case only the honours roll shows, so the section never looks broken.
+    # ── Suriname spotlight ───────────────────────────────────────────────────
+    def _logo_img(t, w=56):
+        lg = _espn_logo((t or {}).get("l", ""), 96)
+        return (f'<img src="{esc(lg)}" alt="" width="{w}" height="{w}" loading="lazy">' if lg
+                else f'<span class="sp-ph" style="width:{w}px;height:{w}px">{esc(((t or {}).get("n") or "?")[:1])}</span>')
+    spot = ""
+    _nat_next = [r for r in rows if r[1] == "natio" and r[4].get("sx") in ("pre", "in")]
+    _nat_last = [r for r in rows if r[1] in ("natio", "natiow", "natioy") and r[4].get("sx") == "post"]
+    _sml_next = [r for r in rows if r[1] == "sml" and r[4].get("sx") in ("pre", "in")]
+    if _nat_next and (_nat_next[0][0].date() - today).days <= 45:
+        dt, k, lb, _c, e = _nat_next[0]
+        h, a = e.get("h") or {}, e.get("a") or {}
+        spot = ('<section class="sp" data-sec="spot"><p class="sp-k">Natio &middot; next match</p>'
+                '<div class="sp-vs"><div class="sp-t">' + _logo_img(h) + '<b translate="no">' + esc(h.get("n", "")) + '</b></div>'
+                '<div class="sp-c"><b class="sp-time" translate="no">' + dt.strftime("%H:%M") + '</b>'
+                '<span class="sp-d"><span data-srdate="' + dt.strftime("%Y-%m-%d") + '" translate="no">' + dt.strftime("%a %d %b") + '</span></span>'
+                '<span class="sp-cd" data-cd="' + str(int(dt.timestamp())) + '"></span></div>'
+                '<div class="sp-t">' + _logo_img(a) + '<b translate="no">' + esc(a.get("n", "")) + '</b></div></div>'
+                '<p class="sp-m" translate="no">' + esc(e.get("g") or lb) + ((' &middot; ' + esc(e["v"])) if e.get("v") else '') + '</p>')
+    elif _sml_next:
+        day0 = _sml_next[0][0].date()
+        todays = [r for r in _sml_next if r[0].date() == day0][:4]
+        _dl = '<span data-srdate="' + day0.isoformat() + '" translate="no">' + todays[0][0].strftime("%A %d %B") + '</span>'
+        spot = ('<section class="sp" data-sec="spot"><p class="sp-k">Suriname Major League &middot; ' + (
+                'Today' if day0 == today else ('Tomorrow' if day0 == today + timedelta(days=1) else 'next matchday')) + '</p>'
+                '<p class="sp-day">' + _dl + '</p><div class="sp-list">')
+        for dt, k, lb, _c, e in todays:
+            h, a = e.get("h") or {}, e.get("a") or {}
+            _eid = ' data-jump="' + str(int(dt.timestamp())) + '|' + esc(h.get("n", "")) + '"'
+            spot += ('<div class="sp-row"' + _eid + ' role="button" tabindex="0"><span class="sp-rt" translate="no">' + dt.strftime("%H:%M") + '</span>'
+                     '<span class="sp-rteams" translate="no"><span class="sp-rn">' + _logo_img(h, 22) + esc(h.get("n", "")) + '</span>'
+                     '<span class="sp-rn">' + _logo_img(a, 22) + esc(a.get("n", "")) + '</span></span>'
+                     + (('<span class="sp-rvn" translate="no">' + esc(e["v"].split(",")[0]) + '</span>') if e.get("v") else '') + '</div>')
+        spot += '</div>'
+    if spot:
+        if _nat_last:
+            dt, k, lb, _c, e = _nat_last[-1]
+            h, a = e.get("h") or {}, e.get("a") or {}
+            spot += ('<p class="sp-last">Last Natio result: <b translate="no">' + esc(h.get("n", "")) + ' '
+                     + esc(h.get("s", "")) + '-' + esc(a.get("s", "")) + ' ' + esc(a.get("n", "")) + '</b> '
+                     '<span translate="no">(' + esc(lb) + ', <span data-srdate="' + dt.strftime("%Y-%m-%d") + '">'
+                     + dt.strftime("%d %b") + '</span>)</span></p>')
+        spot += '</section>'
+
+    # Popular follow suggestions: only names that really occur in the feeds.
+    _names = {}
+    for dt, k, lb, _c, e in rows:
+        g = lg_meta.get(k, ("", "", "foot"))[2]
+        for side in ("h", "a"):
+            n = (e.get(side) or {}).get("n")
+            if n:
+                _names.setdefault(_norm_fav(n, g), n)
+    _POP = ["Suriname|foot", "Robinhood|foot", "SV Transvaal|foot", "Intermoengo Tapoe|foot", "SV Leo Victor|foot",
+            "Ajax|foot", "Feyenoord|foot", "PSV|foot", "Real Madrid|foot", "Barcelona|foot", "Liverpool|foot",
+            "Man United|foot", "Arsenal|foot", "Lakers|bball", "Warriors|bball"]
+    pop = [(p.lower(), _names[p.lower()]) for p in _POP if p.lower() in _names][:10]
+    pop_html = "".join(f'<button type="button" class="my-pick" data-fav="{esc(k)}" translate="no">{esc(n)}</button>' for k, n in pop)
+    my_html = ('<section id="mt-myteams" class="my" hidden><div class="my-hd"><h2 class="serif">My teams</h2>'
+               '<button type="button" id="my-edit" class="my-ed">Edit</button></div>'
+               '<div id="my-cards" class="my-cards"></div>'
+               '<div id="my-sugg" class="my-sugg"><p>Follow your teams and they stay on top, with their next match and last result.</p>'
+               '<div class="my-picks">' + pop_html + '</div></div></section>')
+
+    # ── League tables (Tables tab) ───────────────────────────────────────────
     _tbl = (matches or {}).get("_sml_table") or {}
-    sml_html = ""
     _trows = _tbl.get("rows") or []
     _hon = _tbl.get("honours") or []
-    if _trows or _hon:
-        sml_html = ('<section class="mt-12"><h2 class="text-2xl font-bold text-gray-900 mb-1">'
-                    'Suriname Major League</h2>')
-        if _trows:
-            sml_html += ('<p class="text-gray-500 text-sm mb-4">Season ' + html_lib.escape(_tbl.get("season", ""))
-                         + ', after ' + str(_tbl.get("played", 0)) + ' matches. Updated with every rebuild.</p>'
-                         '<div class="overflow-x-auto bg-white rounded-2xl border border-gray-200">'
-                         '<table class="w-full text-sm"><thead>'
-                         '<tr class="text-left text-[11px] uppercase tracking-wide text-gray-400 border-b border-gray-100">'
-                         '<th class="py-2.5 pl-4 pr-2 font-bold">#</th>'
-                         '<th class="py-2.5 pr-2 font-bold">Club</th>'
-                         '<th class="py-2.5 px-2 font-bold text-center">P</th>'
-                         '<th class="py-2.5 px-2 font-bold text-center">W</th>'
-                         '<th class="py-2.5 px-2 font-bold text-center">D</th>'
-                         '<th class="py-2.5 px-2 font-bold text-center">L</th>'
-                         '<th class="py-2.5 px-2 font-bold text-center">GD</th>'
-                         '<th class="py-2.5 pr-4 pl-2 font-bold text-center">Pts</th></tr></thead><tbody>')
-            for _i, _r in enumerate(_trows, 1):
-                _badge = ('<img src="' + html_lib.escape(_r.get("b", "")) + '" alt="" width="20" height="20" '
-                          'loading="lazy" class="w-5 h-5 object-contain shrink-0">') if _r.get("b") else ''
-                _gd = _r.get("gd", 0)
-                sml_html += ('<tr class="border-b border-gray-50 last:border-0">'
-                             '<td class="py-2.5 pl-4 pr-2 text-gray-400 font-semibold">' + str(_i) + '</td>'
-                             '<td class="py-2.5 pr-2"><span class="flex items-center gap-2 font-semibold text-gray-900">'
-                             + _badge + '<span>' + html_lib.escape(_r.get("n", "")) + '</span></span></td>'
-                             '<td class="py-2.5 px-2 text-center text-gray-600">' + str(_r.get("p", 0)) + '</td>'
-                             '<td class="py-2.5 px-2 text-center text-gray-600">' + str(_r.get("w", 0)) + '</td>'
-                             '<td class="py-2.5 px-2 text-center text-gray-600">' + str(_r.get("d", 0)) + '</td>'
-                             '<td class="py-2.5 px-2 text-center text-gray-600">' + str(_r.get("l", 0)) + '</td>'
-                             '<td class="py-2.5 px-2 text-center text-gray-600">' + (("+" + str(_gd)) if _gd > 0 else str(_gd)) + '</td>'
-                             '<td class="py-2.5 pr-4 pl-2 text-center font-bold text-gray-900">' + str(_r.get("pts", 0)) + '</td></tr>')
-            sml_html += '</tbody></table></div>'
-        else:
-            sml_html += ('<p class="text-gray-500 text-sm mb-4">The ' + html_lib.escape(_tbl.get("season", ""))
-                         + ' table appears here once the first matchday has been played.</p>')
-        if _hon:
-            sml_html += ('<h3 class="text-lg font-bold text-gray-900 mt-8 mb-3">Past champions</h3>'
-                         '<div class="overflow-x-auto bg-white rounded-2xl border border-gray-200">'
-                         '<table class="w-full text-sm"><thead>'
-                         '<tr class="text-left text-[11px] uppercase tracking-wide text-gray-400 border-b border-gray-100">'
-                         '<th class="py-2.5 pl-4 pr-2 font-bold">Season</th>'
-                         '<th class="py-2.5 px-2 font-bold">Champion</th>'
-                         '<th class="py-2.5 px-2 font-bold">Runner-up</th>'
-                         '<th class="py-2.5 pr-4 pl-2 font-bold">Top scorer</th></tr></thead><tbody>')
-            for _h in _hon:
-                _ts = html_lib.escape(_h.get("t") or "")
-                if _ts and _h.get("tg"):
-                    _ts += ' <span class="text-gray-400">(' + str(_h["tg"]) + ')</span>'
-                sml_html += ('<tr class="border-b border-gray-50 last:border-0">'
-                             '<td class="py-2.5 pl-4 pr-2 text-gray-500">' + html_lib.escape(_h.get("s", "")) + '</td>'
-                             '<td class="py-2.5 px-2 font-semibold text-gray-900">' + html_lib.escape(_h.get("c", "")) + '</td>'
-                             '<td class="py-2.5 px-2 text-gray-600">' + (html_lib.escape(_h.get("r") or "") or '<span class="text-gray-300">-</span>') + '</td>'
-                             '<td class="py-2.5 pr-4 pl-2 text-gray-600">' + (_ts or '<span class="text-gray-300">-</span>') + '</td></tr>')
-            sml_html += '</tbody></table></div>'
-        sml_html += ('<p class="text-gray-400 text-xs mt-3">Table computed from finished SML results '
-                     '(3 points a win). Source: the league\'s own feed at '
-                     '<a href="https://sml.sr" rel="noopener" class="underline hover:text-gray-600">sml.sr</a>.</p>'
-                     '</section>')
+    tables = (matches or {}).get("_tables") or {}
+    tb_pills, tb_cards = [], []
 
-    # ── SVB domestic competitions (below the top flight) ─────────────────────
-    # No fixture feed exists for these, so we link the federation's own
-    # bulletins with their publication date rather than guess at kickoff times.
+    def _th(cols):
+        return '<thead><tr>' + "".join(f'<th class="{c}">{t}</th>' for t, c in cols) + '</tr></thead>'
+    # SML first: it is ours.
+    sml_card = '<p class="tb-note">The ' + esc(_tbl.get("season", "") or "new") + ' table appears here once the league publishes the first results.</p>'
+    if _trows:
+        sml_card = ('<p class="tb-note">Season ' + esc(_tbl.get("season", "")) + ', after ' + str(_tbl.get("played", 0))
+                    + ' matches. Computed from finished SML results (3 points a win).</p>'
+                    '<div class="tb-wrap"><table class="tb">' + _th([("#", "n"), ("Club", "c"), ("P", "n"), ("W", "n hs"), ("D", "n hs"), ("L", "n hs"), ("GD", "n"), ("Pts", "n b")]) + '<tbody>')
+        for i, r in enumerate(_trows, 1):
+            _b = (f'<img src="{esc(r.get("b", ""))}" alt="" width="20" height="20" loading="lazy">' if r.get("b") else '')
+            gd = r.get("gd", 0)
+            sml_card += (f'<tr data-fk="{esc(_norm_fav(r.get("n"), "foot"))}"><td class="n">{i}</td><td class="c"><span>{_b}<span translate="no">{esc(r.get("n", ""))}</span></span></td>'
+                         f'<td class="n">{r.get("p", 0)}</td><td class="n hs">{r.get("w", 0)}</td><td class="n hs">{r.get("d", 0)}</td>'
+                         f'<td class="n hs">{r.get("l", 0)}</td><td class="n">{("+" + str(gd)) if gd > 0 else gd}</td><td class="n b">{r.get("pts", 0)}</td></tr>')
+        sml_card += '</tbody></table></div>'
+    if _hon:
+        sml_card += ('<h3 class="tb-h3 serif">Past champions</h3><div class="tb-wrap"><table class="tb">'
+                     + _th([("Season", "c"), ("Champion", "c"), ("Runner-up", "c hs"), ("Top scorer", "c")]) + '<tbody>')
+        for hn in _hon:
+            ts = esc(hn.get("t") or "")
+            if ts and hn.get("tg"):
+                ts += ' <span class="tb-mut">(' + str(hn["tg"]) + ')</span>'
+            sml_card += ('<tr><td class="c tb-mut">' + esc(hn.get("s", "")) + '</td><td class="c b" translate="no">' + esc(hn.get("c", ""))
+                         + '</td><td class="c hs" translate="no">' + (esc(hn.get("r") or "") or '-') + '</td><td class="c" translate="no">' + (ts or '-') + '</td></tr>')
+        sml_card += '</tbody></table></div>'
+    sml_card += ('<p class="tb-src">Source: the league\'s own feed at <a href="https://sml.sr" rel="noopener">sml.sr</a>.</p>')
+    tb_pills.append(('sml', 'Suriname Major League'))
+    tb_cards.append(('sml', 'Suriname Major League', sml_card))
+    for key, sp, code, label in _TABLE_LEAGUES:
+        t = tables.get(key)
+        if not t:
+            continue
+        card = ''
+        for g in t.get("groups") or []:
+            if g.get("name"):
+                card += '<h3 class="tb-h3 serif" translate="no">' + esc(g["name"]) + '</h3>'
+            if sp == "soccer":
+                card += '<div class="tb-wrap"><table class="tb">' + _th([("#", "n"), ("Club", "c"), ("P", "n"), ("W", "n hs"), ("D", "n hs"), ("L", "n hs"), ("GD", "n"), ("Pts", "n b")]) + '<tbody>'
+                zones = {}
+                for r in g["rows"]:
+                    z = r.get("z")
+                    zst = (f' style="box-shadow:inset 3px 0 0 {esc(z[0])}"' if z else '')
+                    if z:
+                        zones[z[0]] = z[1]
+                    lg = _espn_logo(r.get("l", ""), 40)
+                    _im = ('<img src="' + esc(lg) + '" alt="" width="20" height="20" loading="lazy">') if lg else ''
+                    card += (f'<tr data-fk="{esc(_norm_fav(r["n"], "foot"))}"><td class="n"{zst}>{r.get("r") or ""}</td>'
+                             f'<td class="c"><span>{_im}'
+                             f'<span translate="no">{esc(r["n"])}</span></span></td><td class="n">{esc(r["p"])}</td>'
+                             f'<td class="n hs">{esc(r["w"])}</td><td class="n hs">{esc(r["d"])}</td><td class="n hs">{esc(r["lo"])}</td>'
+                             f'<td class="n">{esc(r["gd"])}</td><td class="n b">{esc(r["pts"])}</td></tr>')
+                card += '</tbody></table></div>'
+                if zones:
+                    card += '<p class="tb-zones" translate="no">' + "".join(
+                        f'<span><i style="background:{esc(c)}"></i>{esc(d)}</span>' for c, d in zones.items() if d) + '</p>'
+            else:
+                card += '<div class="tb-wrap"><table class="tb">' + _th([("#", "n"), ("Team", "c"), ("W", "n"), ("L", "n"), ("Pct", "n hs"), ("GB", "n"), ("Strk", "n hs")]) + '<tbody>'
+                for r in g["rows"]:
+                    lg = _espn_logo(r.get("l", ""), 40)
+                    _im = ('<img src="' + esc(lg) + '" alt="" width="20" height="20" loading="lazy">') if lg else ''
+                    card += (f'<tr data-fk="{esc(_norm_fav(r["n"], "bball"))}"><td class="n">{r.get("r") or ""}</td>'
+                             f'<td class="c"><span>{_im}'
+                             f'<span translate="no">{esc(r["n"])}</span></span></td><td class="n b">{esc(r["w"])}</td><td class="n">{esc(r["lo"])}</td>'
+                             f'<td class="n hs">{esc(r["pct"])}</td><td class="n">{esc(r["gb"])}</td><td class="n hs" translate="no">{esc(r["strk"])}</td></tr>')
+                card += '</tbody></table></div>'
+        card += '<p class="tb-src">Standings via ESPN, refreshed with every site rebuild.</p>'
+        tb_pills.append((key, label))
+        tb_cards.append((key, label, card))
+    tables_html = '<div class="tb-pills">' + "".join(
+        f'<button type="button" data-tb="{k}" class="tb-p{" on" if i == 0 else ""}">{esc(l)}</button>' for i, (k, l) in enumerate(tb_pills)) + '</div>'
+    for i, (k, l, c) in enumerate(tb_cards):
+        tables_html += (f'<section class="tb-card" data-tbk="{k}"{"" if i == 0 else " hidden"}>'
+                        f'<h2 class="tb-h2 serif">{esc(l)}</h2>{c}</section>')
+
+    # ── SVB domestic competitions (unchanged content, card styling) ─────────
     _svb = ((matches or {}).get("_svb_notices") or {}).get("notices") or []
     svb_html = ""
     if _svb:
         _cut = (now - timedelta(days=550)).date().isoformat()
         _svb = [n for n in _svb if (n.get("d") or "") >= _cut]
     if _svb:
-        # One bulletin per competition (the newest), so a busy youth section
-        # cannot crowd out Tweede Divisie or the women's league.
         _by = {}
         for _n in _svb:
             _by.setdefault(_n["c"], []).append(_n)
         _svb = sorted((v[0] for v in _by.values()), key=lambda n: n.get("d", ""), reverse=True)
-        svb_html = ('<section class="mt-12"><h2 class="text-2xl font-bold text-gray-900 mb-1">'
-                    'SVB competitions</h2>'
-                    '<p class="text-gray-500 text-sm mb-4">Eerste Divisie, Tweede Divisie, the women\'s '
-                    'league, the youth competitions and the Lidbondentoernooi are run by the Surinaamse '
-                    'Voetbal Bond, which publishes schedules, standings and results as bulletins rather '
-                    'than as a live fixture feed. The latest from each competition, newest first:</p>'
-                    '<div class="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-100">')
+        svb_html = ('<section class="sec-card mt-12"><div class="sec-hd"><h2 class="sec-title serif">SVB competitions</h2>'
+                    '<p class="sec-sub">Eerste Divisie, Tweede Divisie, the women\'s league, the youth competitions and the '
+                    'Lidbondentoernooi publish schedules and results as bulletins, not as a live feed. The latest from each:</p></div>'
+                    '<div class="svb-l">')
         for _n in _svb[:8]:
             try:
                 _dl = datetime.strptime(_n["d"], "%Y-%m-%d").strftime("%-d %b %Y")
             except Exception:
                 _dl = _n.get("d", "")
-            svb_html += ('<a href="' + html_lib.escape(_n["u"]) + '" rel="noopener nofollow" '
-                         'class="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition">'
-                         '<span class="shrink-0 mt-0.5 text-[10px] font-bold uppercase tracking-wide '
-                         'px-2 py-1 rounded-full bg-lime-50 text-lime-800">' + html_lib.escape(_n["c"]) + '</span>'
-                         '<span class="min-w-0"><span class="block font-semibold text-gray-900 text-sm leading-snug">'
-                         + html_lib.escape(_n["t"]) + '</span>'
-                         '<span class="block text-xs text-gray-400 mt-0.5">' + _dl + ' &middot; svb.sr</span></span></a>')
-        svb_html += ('</div><p class="text-gray-400 text-xs mt-3">Published by the '
-                     '<a href="https://svb.sr" rel="noopener nofollow" class="underline hover:text-gray-600">'
-                     'Surinaamse Voetbal Bond</a>. Confirmed kickoff times for these competitions are added '
-                     'to the schedule above once the SVB publishes them.</p></section>')
+            svb_html += ('<a href="' + esc(_n["u"]) + '" rel="noopener nofollow" class="svb-a">'
+                         '<span class="svb-c">' + esc(_n["c"]) + '</span>'
+                         '<span class="min-w-0"><span class="svb-t" translate="no">' + esc(_n["t"]) + '</span>'
+                         '<span class="svb-d" translate="no">' + _dl + ' &middot; svb.sr</span></span></a>')
+        svb_html += '</div></section>'
 
-    # ── Head / hero / cards ──────────────────────────────────────────────────
+    # ── Head / hero / FAQ ────────────────────────────────────────────────────
     title = "Football & Sports Schedule in Suriname Time"
-    desc = ("Every kickoff in Suriname time (UTC-3): Natio men, women and youth, the Suriname "
-            "Major League table, SVB competitions, Caribbean Cup, Champions League, the big "
-            "European leagues, MLS, NBA and UFC.")
+    desc = ("Live scores, goal scorers, line-ups and league tables in Suriname time (UTC-3): Natio, the "
+            "Suriname Major League, Champions League, Eredivisie, Premier League, NBA, UFC and more.")
     faq = [
         ("What time zone are the kickoff times on this page?",
-         "Everything is shown in Suriname time (UTC-3, no daylight saving). No mental math needed: "
-         "the time you see is the time the match starts on your clock in Suriname."),
+         "Everything is shown in Suriname time (UTC-3, no daylight saving). The time you see is the time "
+         "the match starts on your clock in Suriname."),
+        ("Are the scores live?",
+         "Yes. While a match is being played the score, the match minute and the goal scorers refresh in "
+         "your browser about every minute, straight from the data provider. Open a match for its live "
+         "timeline, statistics and line-ups."),
+        ("Can I follow my own teams?",
+         "Yes. Open any match and tap the star next to a team, or pick one of the suggestions under My "
+         "teams. Followed teams stay at the top of the page with their next match and last result, and the "
+         "My teams button filters the schedule to just them. It is stored in your browser only; no account "
+         "needed."),
         ("Which competitions are covered?",
-         "Suriname first: every Natio international for the men's, women's and youth sides (Nations "
-         "League, World Cup qualifying, friendlies and the Concacaf youth and women's tournaments), the "
-         "full Suriname Major League season with its live table and past champions, the SVB competitions "
-         "below the top flight, local running events and the Concacaf Caribbean Cup. "
-         "World football: the Champions League, Europa League, Conference League, Eredivisie, "
-         "Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Copa Libertadores, Copa Sudamericana, "
-         "Concacaf Champions Cup, Gold Cup, Leagues Cup, MLS, and the World Cup and its qualifiers while "
-         "they run. Basketball: every NBA game. Fight nights: full UFC cards, Glory Kickboxing events and "
-         "the big boxing cards. Competitions with nothing scheduled in the coming weeks hide automatically."),
-        ("Are the women's and youth national teams included?",
-         "Yes, with their own Natio Women and Natio Youth chips. These come from Concacaf's own match "
-         "data rather than the international feeds, because that is where Suriname actually appears: the "
-         "W Championship and Women's World Cup qualifying for the senior women, and the Concacaf U-20, "
-         "U-17, U-15, Women's U-20 and Women's U-17 tournaments and their qualifying rounds for the "
-         "youth sides. Those campaigns run in short windows once or twice a year, so both chips keep the "
-         "last season of results under \u2018View earlier results\u2019 instead of sitting empty between "
-         "tournaments."),
+         "Suriname first: every Natio international for the men's, women's and youth sides, the full "
+         "Suriname Major League season with its table and past champions, the SVB competitions below the "
+         "top flight, local running events and the Concacaf Caribbean Cup. World football: the Champions "
+         "League, Europa League, Conference League, Eredivisie, Premier League, La Liga, Serie A, "
+         "Bundesliga, Ligue 1, Copa Libertadores, Copa Sudamericana, Concacaf competitions and MLS. "
+         "Basketball: every NBA game. Fight nights: UFC, Glory and the big boxing cards. Plus Formula 1 and "
+         "ATP/WTA tennis."),
+        ("Are there league tables?",
+         "Yes, under Tables: the Suriname Major League (computed from the league's own results) with its "
+         "roll of champions, plus the Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, MLS "
+         "and the NBA conferences. Each match also shows the table of its competition."),
         ("Where can I find Eerste Divisie, Tweede Divisie, women's or youth league fixtures?",
-         "In the SVB competitions section further down the page. The Surinaamse Voetbal Bond runs those "
-         "leagues and publishes schedules, standings and results as bulletins on svb.sr rather than as a "
-         "live fixture feed, so we link the newest bulletin for each competition with its date instead of "
-         "guessing at kickoff times. Once the SVB publishes confirmed times they go into the schedule above."),
-        ("Is there a Suriname Major League table?",
-         "Yes, directly under the schedule. It is computed from the finished SML results, three points a "
-         "win, sorted on points then goal difference then goals scored, and it refreshes with every "
-         "rebuild. Below it is the roll of past champions, runners-up and top scorers."),
+         "In the SVB competitions section. The Surinaamse Voetbal Bond publishes those schedules and "
+         "results as bulletins on svb.sr rather than as a live feed, so we link the newest bulletin for each "
+         "competition instead of guessing at kickoff times."),
+        ("Why are there no goal scorers for Suriname Major League matches?",
+         "The league's own feed currently publishes kickoff times and venues but not goal scorers or "
+         "match events. As soon as sml.sr publishes them they can be shown here, like the other "
+         "competitions."),
         ("When does Natio play next?",
-         "Every confirmed Natio fixture appears here automatically, whatever the competition, with a green "
-         "Natio tag. Nations League and World Cup qualifying rounds are announced by Concacaf per match "
-         "window; the moment a fixture is official it shows up on this page with its Suriname kickoff time."),
-        ("Why is there no NBA game listed right now?",
-         "The NBA is seasonal: roughly October through the Finals in June. During the off-season the "
-         "section hides itself and comes back automatically when the new season tips off."),
-        ("Are local Suriname matches covered?",
-         "Yes. Suriname Major League fixtures, kickoff times and scores come straight from the league "
-         "at sml.sr and refresh with every rebuild, so Robinhood, SV Broki, Leo Victor and the rest of "
-         "the SML are always current. The Concacaf Caribbean Cup, where Suriname's champion represents "
-         "the country, is tracked the same way. Local running events, such as the Tigri Savanne Run and "
-         "the TotalEnergies Para Marathon, come from the Run Suriname registration platform and appear "
-         "under Suriname Sport Events. Other local fixtures are added by hand once organisers confirm dates."),
-        ("How up to date are the scores?",
-         "The page rebuilds itself roughly every 15 minutes, so results and in-play scores are near-live "
-         "rather than second-by-second. Kickoff times and fixtures update automatically as soon as they are announced."),
+         "Every confirmed Natio fixture appears here automatically with a green Natio tag, and the next one "
+         "gets the spotlight card at the top with a countdown in Suriname time."),
         ("Why the Eredivisie?",
          "Suriname and Dutch football are family. Generations of Eredivisie stars have Surinamese roots, "
-         "from Ruud Gullit and Frank Rijkaard to Virgil van Dijk, and much of the Surinamese diaspora lives in the Netherlands."),
+         "from Ruud Gullit and Frank Rijkaard to Virgil van Dijk."),
     ]
-    # Plain ListItem names only — no nested SportsEvent. Google's Event rich
-    # results require location+address (meant for attendable local events);
-    # typed fixtures here just generate GSC "Missing field" errors.
     next_up = [(dt, l, e) for dt, k, l, _c, e in rows if e.get("sx") == "pre"][:10]
     extra_ld = None
     if next_up:
@@ -17048,122 +17934,46 @@ def build_matches_page(matches):
                                  + " (" + l + ", " + dt.strftime("%d %b %H:%M") + " SR time)"}
                         for i, (dt, l, e) in enumerate(next_up)]}
 
-    _MT_CSS = """  <style>
-    .mt-live{display:inline-block;width:7px;height:7px;border-radius:9999px;background:#dc2626;margin-right:4px;animation:mtpulse 1.2s ease-in-out infinite}
-    @keyframes mtpulse{0%,100%{opacity:1}50%{opacity:.3}}
-    .mt-chips{position:sticky;top:58px;z-index:30;background:linear-gradient(var(--paper-2) 85%,rgba(244,236,218,0));scrollbar-width:none;-ms-overflow-style:none}
-    .mt-chips::-webkit-scrollbar{display:none}
-    .mt-sports{scrollbar-width:none;-ms-overflow-style:none}
-    .mt-sports::-webkit-scrollbar{display:none}
-    .mt-day h2{scroll-margin-top:118px}
-  </style>"""
     head = _hub_head(title, desc, "matches.html", faq=faq, extra_ld=extra_ld)
-    head = head.replace("</head>", _MT_CSS + "\n</head>")
-
-    hero = _hub_hero("Every kickoff, tip-off and fight night converted",
+    head = head.replace("</head>", _MT2_CSS + "\n</head>")
+    hero = _hub_hero("Live scores, line-ups and tables",
                      "Sports in Suriname Time",
-                     "Natio, the Suriname Major League, world football, NBA and fight nights, "
-                     "with every start time in Suriname time.").replace("{NAV}", nav_html("matches"))
-
-    intro = ('<p class="text-gray-500 text-sm mt-2 mb-1">All start times are Suriname time (UTC-3). '
-             'Fixtures and scores refresh automatically about every 15 minutes. Match data: ESPN, '
-             'sml.sr and Concacaf. Glory, boxing and other local fixtures are added by hand once confirmed.</p>')
+                     "Natio, the Suriname Major League, world football, NBA and fight nights. "
+                     "Every start time in Suriname time, every score live.").replace("{NAV}", nav_html("matches"))
 
     about_body = (
         '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
-        'Broadcasters list kickoffs, tip-offs and fight cards in European or North American time, and '
-        'converting to Suriname time goes wrong just often enough to ruin an evening. This page does the '
-        'conversion once, for every match and every card, and keeps itself current: fixtures appear as soon '
-        'as they are scheduled, time changes flow through automatically, and finished matches show the final score.</p>'
+        'Broadcasters list kickoffs in European or North American time, and converting to Suriname time goes '
+        'wrong just often enough to ruin an evening. This page does the conversion for every match, follows '
+        'live games minute by minute and keeps the tables current.</p>'
         '<p class="text-gray-700 text-sm leading-relaxed">'
-        'Planning to watch somewhere with a screen and a cold Parbo? Browse ' + _ilink("restaurants.html", "where to eat")
+        'Watching with friends? Browse ' + _ilink("restaurants.html", "where to eat")
         + '. Waiting for kickoff? Try the ' + _ilink("quiz.html", "daily Suriname quiz") + ' or the '
         + _ilink("crossword.html", "Switi Mini crossword") + '.</p>')
 
-    _MT_JS = """
-<script>
-var mtLg = 'all', mtGrp = 'all';
-function mtApply(){
-  document.querySelectorAll('.mt-row').forEach(function(r){
-    var okLg = (mtLg === 'all' || r.getAttribute('data-lg') === mtLg);
-    var okGrp = (mtGrp === 'all' || r.getAttribute('data-grp') === mtGrp);
-    r.style.display = (okLg && okGrp) ? '' : 'none';
-  });
-  document.querySelectorAll('.mt-day').forEach(function(s){
-    var any = false;
-    s.querySelectorAll('.mt-row').forEach(function(r){ if (r.style.display !== 'none') any = true; });
-    s.style.display = any ? '' : 'none';
-  });
-  // A filter can match only finished games (youth and women's campaigns run in
-  // short windows). Without this the page would look empty while the matching
-  // results sat inside the collapsed "earlier results" block, so open it.
-  var earlier = document.getElementById('mt-earlier');
-  if (earlier){
-    var vis = function(root){
-      var n = 0;
-      root.querySelectorAll('.mt-row').forEach(function(r){ if (r.style.display !== 'none') n++; });
-      return n;
-    };
-    var inEarlier = vis(earlier);
-    var total = vis(document);
-    if (inEarlier > 0 && total === inEarlier && earlier.style.display === 'none') mtEarlier();
-  }
-  // league chips: hide those with no row in the current sport group
-  document.querySelectorAll('.mt-chip').forEach(function(b){
-    var k = b.getAttribute('data-mtf');
-    if (k === 'all') return;
-    var vis = false;
-    document.querySelectorAll('.mt-row[data-lg="' + k + '"]').forEach(function(r){
-      if (mtGrp === 'all' || r.getAttribute('data-grp') === mtGrp) vis = true;
-    });
-    b.style.display = vis ? '' : 'none';
-  });
-}
-function mtFilter(k){
-  mtLg = k;
-  document.querySelectorAll('.mt-chip').forEach(function(b){
-    var on = b.getAttribute('data-mtf') === k;
-    b.className = 'mt-chip shrink-0 px-' + (on ? '4' : '3.5') + ' py-1.5 rounded-full text-xs ' +
-      (on ? 'font-bold text-white' : 'font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition');
-    b.style.background = on ? 'var(--forest)' : '';
-  });
-  mtApply();
-}
-function mtGroup(g){
-  mtGrp = g;
-  if (mtLg !== 'all'){ mtLg = 'all'; document.querySelectorAll('.mt-chip').forEach(function(b){
-    var on = b.getAttribute('data-mtf') === 'all';
-    b.className = 'mt-chip shrink-0 px-' + (on ? '4' : '3.5') + ' py-1.5 rounded-full text-xs ' +
-      (on ? 'font-bold text-white' : 'font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition');
-    b.style.background = on ? 'var(--forest)' : '';
-  }); }
-  document.querySelectorAll('.mt-gchip').forEach(function(b){
-    var on = b.getAttribute('data-mtg') === g;
-    b.className = 'mt-gchip shrink-0 px-4 py-1.5 rounded-full text-sm ' +
-      (on ? 'font-bold text-white' : 'font-semibold bg-white border border-gray-200 text-gray-700 hover:border-gray-400 transition');
-    b.style.background = on ? 'var(--forest)' : '';
-  });
-  mtApply();
-}
-function mtEarlier(){
-  var el = document.getElementById('mt-earlier');
-  var lbl = document.getElementById('mt-earlier-lbl');
-  var ic = document.getElementById('mt-earlier-ic');
-  if (el.style.display === 'none'){ el.style.display = ''; if(lbl) lbl.textContent = 'Hide earlier results'; if(ic) ic.style.transform = 'rotate(180deg)'; }
-  else { el.style.display = 'none'; if(lbl) lbl.textContent = 'View earlier results'; if(ic) ic.style.transform = ''; }
-}
-</script>"""
+    views = ('<div class="mt-views" role="tablist">'
+             '<button type="button" class="mt-vb on" data-view="sched" role="tab" aria-selected="true">Schedule</button>'
+             '<button type="button" class="mt-vb" data-view="tables" role="tab" aria-selected="false">Tables</button></div>')
+    sheet = ('<div id="ms" class="ms" hidden><div class="ms-bg" data-close="1"></div>'
+             '<div class="ms-p" role="dialog" aria-modal="true" aria-labelledby="ms-ttl">'
+             '<div class="ms-grip" data-close="1"></div><div id="ms-body"></div></div></div>')
+    _lgmap = {k: [v[0], v[1]] for k, v in lg_meta.items()}
+    i18n_js = ('<script>window.MT2_I18N=' + json.dumps(_MT2_I18N, ensure_ascii=False, separators=(",", ":"))
+               + ';window.MT2_LG=' + json.dumps(_lgmap, ensure_ascii=False, separators=(",", ":")) + ';</script>')
 
-    main = ('<main class="max-w-3xl mx-auto px-5 py-8 pb-24">'
-            + intro + sport_chips + chips + list_html
-            + sml_html + svb_html
+    main = ('<main class="mt2 max-w-3xl mx-auto px-5 py-6 pb-24">'
+            + '<p class="mt-intro">All times are Suriname time (UTC-3). Live scores update every minute. '
+              'Tap a match for scorers, stats and line-ups.</p>'
+            + spot + my_html + views
+            + '<div id="mt-v-sched" class="mt-view">' + sport_chips + toolbar + list_html + svb_html + '</div>'
+            + '<div id="mt-v-tables" class="mt-view" hidden>' + tables_html + '</div>'
             + '<div class="mt-10"></div>'
             + _hub_card("About this page", "One Page, Every Start Time, Suriname Time", about_body)
             + _hub_faq_html(faq)
-            + '<p class="text-gray-400 text-xs mt-8">Match data via ESPN. Fixtures, kickoff times and '
-              'scores refresh automatically with every site rebuild.</p></main>')
+            + '<p class="mt-foot">Match data: ESPN, sml.sr and Concacaf. Glory, boxing and other local fixtures are '
+              'added by hand once confirmed. Schedules rebuild every 15 minutes; live scores refresh in your browser.</p></main>')
 
-    return head + hero + main + _MT_JS + "\n" + footer_html() + "\n</body>\n</html>"
+    return head + hero + main + sheet + i18n_js + _MT2_JS + "\n" + footer_html() + "\n</body>\n</html>"
 
 
 # ── Game leaderboards (client for the Cloudflare Worker API) ─────────────────
@@ -25098,11 +25908,376 @@ def build_dictionary_page():
     return head + hero + main + js + "\n" + footer_html() + "\n</body>\n</html>"
 
 
+_TM2_CSS = """  <style>
+    .tm2 .serif{font-family:Newsreader,Georgia,serif}
+    .tm-k{font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin:0;opacity:.8}
+    .tm-clock{display:flex;justify-content:space-between;gap:1rem;align-items:flex-end;flex-wrap:wrap;background:linear-gradient(135deg,#123526,#1B4332 60%,#2D6A4F);color:#fff;border-radius:var(--r-card);padding:1.1rem 1.2rem;box-shadow:var(--sh-card);margin-bottom:1rem}
+    .tm-clock .tm-k{color:var(--gold);opacity:1}
+    .tc-time{display:block;font-family:Newsreader,Georgia,serif;font-size:3.6rem;font-weight:500;line-height:1.05;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+    .tc-date{margin:.1rem 0 0;opacity:.8;font-size:.9rem}
+    .tc-r{display:flex;flex-direction:column;align-items:flex-end;gap:.6rem}
+    .tc-fmt{display:inline-flex;border:1px solid rgba(255,255,255,.3);border-radius:999px;overflow:hidden}
+    .tc-fmt button{background:none;border:0;color:#fff;font-size:.78rem;font-weight:700;padding:.3rem .8rem;cursor:pointer}
+    .tc-fmt button.on{background:#fff;color:var(--forest)}
+    .tc-q{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end}
+    .tc-q span{background:rgba(255,255,255,.1);border-radius:8px;padding:.35rem .6rem;font-size:.78rem;line-height:1.25;text-align:right}
+    .tc-q b{display:block;font-size:1rem;font-variant-numeric:tabular-nums}
+    @media (max-width:520px){.tc-time{font-size:2.9rem}.tc-r{align-items:flex-start;width:100%}.tc-q{justify-content:flex-start}.tc-q span{text-align:left}}
+    .tm-dst{background:#fff4e0;border:1px solid #f2d39b;color:#6b4407;border-radius:var(--r-card);padding:.75rem .9rem;font-size:.88rem;line-height:1.45;margin-bottom:1rem}
+    .tm-dst[hidden]{display:none}
+    .tm-dst p{margin:0}
+    .tm-dst p+p{margin-top:.35rem}
+    .tm-card{background:var(--card);border:1px solid var(--bd-card);border-radius:var(--r-card);box-shadow:var(--sh-card);padding:1rem 1rem 1.1rem;margin-bottom:1rem}
+    .tm-hd h2{font-size:1.3rem;font-weight:700;color:var(--ink);margin:0 0 .7rem}
+    .tm-note{font-size:.86rem;color:var(--ink-soft);margin:0}
+    .tm-src{font-size:.72rem;color:#9ca3af;margin:.7rem 0 0}
+    .tm-src a,.cv-foot a{text-decoration:underline}
+    .tm-btn{border:0;background:var(--mint);color:var(--forest);font-weight:700;font-size:.82rem;border-radius:999px;padding:.45rem .85rem;cursor:pointer;white-space:nowrap}
+    /* holidays */
+    .hl-top{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start}
+    .hl .tm-k{color:var(--clay)}
+    .hl-name{font-size:1.6rem;font-weight:700;color:var(--ink);margin:.15rem 0 .1rem;line-height:1.15}
+    .hl-when{margin:0;color:var(--ink-soft);font-size:.9rem}
+    .hl-big{text-align:center;background:var(--forest);color:#fff;border-radius:10px;padding:.5rem .8rem;min-width:4.6rem}
+    .hl-big b{display:block;font-family:Newsreader,Georgia,serif;font-size:2.2rem;line-height:1}
+    .hl-big small{font-size:.7rem;opacity:.85}
+    .hl-today{background:#e3efe6;color:var(--forest);font-weight:700;border-radius:8px;padding:.5rem .7rem;font-size:.88rem;margin:.8rem 0 0}
+    .hl-today[hidden]{display:none}
+    .hl-list{list-style:none;margin:.9rem 0 0;padding:0}
+    .hl-list li{display:flex;align-items:center;gap:.7rem;padding:.5rem 0;border-top:1px solid #f1ebdc}
+    .hl-d{flex:none;width:2.6rem;text-align:center;line-height:1}
+    .hl-d b{display:block;font-size:1.15rem;color:var(--ink)}
+    .hl-d small{font-size:.66rem;text-transform:uppercase;letter-spacing:.06em;color:#9ca3af}
+    .hl-n{flex:1;min-width:0}
+    .hl-n b{display:block;font-size:.9rem;color:var(--ink)}
+    .hl-n small{font-size:.74rem;color:#8a8f86}
+    .hl-tag{flex:none;font-size:.62rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:.18rem .5rem}
+    .hl-tag.lw{background:#e3efe6;color:var(--forest)}
+    .hl-tag.br{background:#fff4e0;color:#8a5a0c}
+    .hl-tag.we{background:#f1f1ef;color:#8a8f86}
+    .hl-c{flex:none;font-size:.72rem;color:#9ca3af;white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+    .hl-n .hl-tag{margin-left:.45rem;vertical-align:1px}
+    /* converter */
+    .cv-tabs{display:flex;gap:.25rem;background:#ebe3cf;border-radius:999px;padding:3px;margin:0 0 1rem;overflow-x:auto;scrollbar-width:none}
+    .cv-t{flex:1 0 auto;border:0;background:none;border-radius:999px;padding:.42rem .8rem;font-size:.84rem;font-weight:700;color:var(--ink-soft);cursor:pointer;white-space:nowrap}
+    .cv-t.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+    .cv-p[hidden]{display:none}
+    .cv-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem;align-items:stretch}
+    @media (max-width:600px){.cv-grid{grid-template-columns:1fr}}
+    .tm2 label{display:block;font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#8a8f86;margin:.6rem 0 .25rem}
+    .tm2 label:first-child{margin-top:0}
+    .tm2 select,.tm2 input[type=date],.tm2 input[type=number]{width:100%;border:1px solid #ddd5c2;border-radius:8px;background:#fff;padding:.5rem .6rem;font-size:.95rem;color:var(--ink);min-width:0}
+    .cv-row{display:flex;gap:.4rem;align-items:center}
+    .cv-row select,.cv-row input{flex:1}
+    .cv-row #conv-hour,.cv-row #conv-min,.cv-row #conv-ap{flex:0 0 auto;width:auto}
+    .cv-sep{color:#9ca3af}
+    .cv-swap{margin-top:.7rem}
+    .cv-res{background:var(--forest);color:#fff;border-radius:10px;padding:1rem;display:flex;flex-direction:column;justify-content:center;text-align:center;min-height:9rem}
+    .cv-res p{margin:0 0 .3rem;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+    .cv-res b{font-family:Newsreader,Georgia,serif;font-size:2.6rem;line-height:1.1;font-weight:500;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+    .cv-res span{font-size:.9rem;opacity:.85;margin-top:.2rem}
+    .cv-res small{font-size:.76rem;opacity:.7;margin-top:.5rem}
+    .cv-res .alt{display:block;font-size:1.05rem;font-family:inherit;opacity:.9;margin-top:.35rem}
+    .cv-hint{font-size:.74rem;color:#9ca3af;margin:.4rem 0 0}
+    .cv-foot{font-size:.74rem;color:#8a8f86;margin:.8rem 0 0}
+    .un-cats{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.9rem}
+    .un-c{border:1px solid var(--bd-card);background:#fff;border-radius:999px;padding:.3rem .75rem;font-size:.8rem;font-weight:700;color:var(--ink);cursor:pointer}
+    .un-c.on{background:var(--forest);border-color:var(--forest);color:#fff}
+    .un-io{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:.6rem;align-items:center}
+    .un-io input{font-size:1.15rem!important;font-weight:700}
+    .un-eq{font-family:Newsreader,Georgia,serif;font-size:1.6rem;color:#9ca3af}
+    @media (max-width:600px){.un-io{grid-template-columns:1fr}.un-eq{text-align:center;line-height:1}}
+    .un-ref{font-size:.8rem;color:var(--ink-soft);margin:.8rem 0 0}
+    /* call planner */
+    .ov-bar{display:flex;gap:1px;border-radius:8px;overflow:hidden;height:44px;margin-top:.7rem}
+    .ov-bar div{flex:1}
+    .ov-ax{display:flex;justify-content:space-between;font-size:.62rem;color:#9ca3af;margin-top:.25rem}
+    .ov-leg{display:flex;flex-wrap:wrap;gap:.4rem 1rem;font-size:.74rem;color:var(--ink-soft);margin-top:.7rem}
+    .ov-leg i{display:inline-block;width:.75rem;height:.75rem;border-radius:3px;margin-right:.35rem;vertical-align:-1px}
+    /* world clocks */
+    .wc{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.5rem}
+    .wc div{border:1px solid #efe8d8;border-radius:8px;padding:.55rem .6rem;background:#fff}
+    .wc div.home{background:var(--forest);border-color:var(--forest);color:#fff}
+    .wc p{margin:0;font-size:.78rem;font-weight:700}
+    .wc small{display:block;font-size:.66rem;color:#9ca3af}
+    .wc .home small{color:rgba(255,255,255,.6)}
+    .wc b{display:block;font-size:1.25rem;font-variant-numeric:tabular-nums;margin-top:.15rem}
+    .wc em{font-style:normal;font-size:.66rem;color:#9ca3af}
+    .tm-tbl{width:100%;border-collapse:collapse;font-size:.86rem}
+    .tm-tbl th{font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:#9ca3af;font-weight:800;text-align:left;padding:.4rem;border-bottom:1px solid #efe8d8;background:transparent}
+    .tm-tbl td{padding:.5rem .4rem;border-bottom:1px solid #f4efe3;color:var(--ink);vertical-align:top}
+    .tm-tbl small{display:block;color:#9ca3af;font-size:.72rem}
+    .tb-wrap{overflow-x:auto}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>"""
+
+
+_TM2_I18N = {
+ "en": {"utc": "Coordinated", "hu": "h", "mu": "m", "diffSame": "{a} has the same time as {b}", "diffAhead": "{a} is {s} ahead of {b}", "diffBehind": "{a} is {s} behind {b}", "dstBack": "On {d}, clocks in {c} go back one hour. From then {c} is {n} hours {dir} Suriname (now {m}).", "dstFwd": "On {d}, clocks in {c} go forward one hour. From then {c} is {n} hours {dir} Suriname (now {m}).", "ahead": "ahead of", "behind": "behind", "today": "Today", "tomorrow": "Tomorrow", "inD": "in {n} days", "day": "day", "days": "days", "holToday": "Today is a public holiday: {n}.", "yourTz": "Your time zone", "cities": "Cities", "mnNa": "Rates are not available right now.", "mnSrc": "CME cambio rate · {t}", "mnPay": "You pay about", "mnGet": "You get about", "mnSellAt": "Cambio sells USD at {u} and EUR at {e}", "mnBuyIt": "To buy it costs", "mnBuyAt": "Cambio buys {c} at {b}, sells at {s}", "plusCal": "+{n} calendar days", "plusWork": "+{n} working days", "holSkip": "Skips {n} public holiday(s): {l}", "between": "Between the dates", "weeks": "{w} weeks and {d} days", "workDays": "working days", "beyond": "Public holiday dates after {d} are not known yet: after that only weekends are skipped.", "relSame": "on the same time as Suriname", "relAhead": "{n} {h} ahead of Suriname", "relBehind": "{n} {h} behind Suriname", "ovNote": "Right now {c} is {d}. Green blocks are good times to call, when it is daytime in both places.", "diffNow": "Right now: the Netherlands is {nl} hours ahead of Suriname, and New York is {ny}.", "nySame": "on the same time", "nyAhead": "{n} {h} ahead", "nyBehind": "{n} {h} behind", "hr1": "hour", "hrN": "hours"},
+ "nl": {"utc": "Gecoördineerd", "hu": "u", "mu": "m", "diffSame": "{a} heeft dezelfde tijd als {b}", "diffAhead": "{a} loopt {s} voor op {b}", "diffBehind": "{a} loopt {s} achter op {b}", "dstBack": "Op {d} gaat in {c} de klok een uur terug. Vanaf dan is het in {c} {n} uur {dir} Suriname (nu {m}).", "dstFwd": "Op {d} gaat in {c} de klok een uur vooruit. Vanaf dan is het in {c} {n} uur {dir} Suriname (nu {m}).", "ahead": "later dan in", "behind": "vroeger dan in", "today": "Vandaag", "tomorrow": "Morgen", "inD": "over {n} dagen", "day": "dag", "days": "dagen", "holToday": "Vandaag is een nationale feestdag: {n}.", "yourTz": "Jouw tijdzone", "cities": "Steden", "mnNa": "Koersen zijn nu niet beschikbaar.", "mnSrc": "CME-cambiokoers · {t}", "mnPay": "Je betaalt ongeveer", "mnGet": "Je krijgt ongeveer", "mnSellAt": "Cambio verkoopt USD voor {u} en EUR voor {e}", "mnBuyIt": "Kopen kost", "mnBuyAt": "Cambio koopt {c} voor {b}, verkoopt voor {s}", "plusCal": "+{n} kalenderdagen", "plusWork": "+{n} werkdagen", "holSkip": "Slaat {n} feestdag(en) over: {l}", "between": "Tussen de datums", "weeks": "{w} weken en {d} dagen", "workDays": "werkdagen", "beyond": "Feestdagen na {d} zijn nog niet bekend: daarna worden alleen weekenden overgeslagen.", "relSame": "op dezelfde tijd als Suriname", "relAhead": "{n} {h} later dan Suriname", "relBehind": "{n} {h} vroeger dan Suriname", "ovNote": "Op dit moment is het in {c} {d}. Groene blokken zijn goede tijden om te bellen, als het op beide plekken dag is.", "diffNow": "Nu: in Nederland is het {nl} uur later dan in Suriname, en in New York {ny}.", "nySame": "dezelfde tijd", "nyAhead": "{n} {h} later", "nyBehind": "{n} {h} vroeger", "hr1": "uur", "hrN": "uur"},
+ "es": {"utc": "Coordinado", "hu": "h", "mu": "min", "diffSame": "{a} tiene la misma hora que {b}", "diffAhead": "{a} va {s} por delante de {b}", "diffBehind": "{a} va {s} por detrás de {b}", "dstBack": "El {d}, en {c} se atrasan los relojes una hora. Desde entonces {c} estará {n} horas {dir} Surinam (ahora {m}).", "dstFwd": "El {d}, en {c} se adelantan los relojes una hora. Desde entonces {c} estará {n} horas {dir} Surinam (ahora {m}).", "ahead": "por delante de", "behind": "por detrás de", "today": "Hoy", "tomorrow": "Mañana", "inD": "en {n} días", "day": "día", "days": "días", "holToday": "Hoy es feriado nacional: {n}.", "yourTz": "Tu zona horaria", "cities": "Ciudades", "mnNa": "Las tasas no están disponibles ahora.", "mnSrc": "Tasa de cambio CME · {t}", "mnPay": "Pagas aprox.", "mnGet": "Recibes aprox.", "mnSellAt": "La casa de cambio vende USD a {u} y EUR a {e}", "mnBuyIt": "Comprarlo cuesta", "mnBuyAt": "La casa de cambio compra {c} a {b}, vende a {s}", "plusCal": "+{n} días naturales", "plusWork": "+{n} días hábiles", "holSkip": "Omite {n} feriado(s): {l}", "between": "Entre las fechas", "weeks": "{w} semanas y {d} días", "workDays": "días hábiles", "beyond": "Los feriados después del {d} aún no se conocen: a partir de ahí solo se omiten fines de semana.", "relSame": "a la misma hora que Surinam", "relAhead": "{n} {h} por delante de Surinam", "relBehind": "{n} {h} por detrás de Surinam", "ovNote": "Ahora mismo {c} va {d}. Los bloques verdes son buenos momentos para llamar, cuando es de día en ambos lugares.", "diffNow": "Ahora: Países Bajos va {nl} horas por delante de Surinam y Nueva York {ny}.", "nySame": "tiene la misma hora", "nyAhead": "va {n} {h} por delante", "nyBehind": "va {n} {h} por detrás", "hr1": "hora", "hrN": "horas"},
+ "zh": {"utc": "协调世界时", "hu": "小时", "mu": "分", "diffSame": "{a}与{b}时间相同", "diffAhead": "{a}比{b}快{s}", "diffBehind": "{a}比{b}慢{s}", "dstBack": "{d}，{c}的时钟将拨回一小时。届时{c}比苏里南{dir}{n}小时（目前{m}小时）。", "dstFwd": "{d}，{c}的时钟将拨快一小时。届时{c}比苏里南{dir}{n}小时（目前{m}小时）。", "ahead": "快", "behind": "慢", "today": "今天", "tomorrow": "明天", "inD": "{n}天后", "day": "天", "days": "天", "holToday": "今天是公共假日：{n}。", "yourTz": "你的时区", "cities": "城市", "mnNa": "暂时无法获取汇率。", "mnSrc": "CME兑换所汇率 · {t}", "mnPay": "约需支付", "mnGet": "约可得到", "mnSellAt": "兑换所卖出美元价 {u}，欧元价 {e}", "mnBuyIt": "买入需要", "mnBuyAt": "兑换所买入{c}价 {b}，卖出价 {s}", "plusCal": "+{n}个日历日", "plusWork": "+{n}个工作日", "holSkip": "跳过{n}个公共假日：{l}", "between": "两日期之间", "weeks": "{w}周{d}天", "workDays": "个工作日", "beyond": "{d}之后的公共假日尚未公布：之后只跳过周末。", "relSame": "与苏里南时间相同", "relAhead": "比苏里南快{n}{h}", "relBehind": "比苏里南慢{n}{h}", "ovNote": "现在{c}{d}。绿色时段是两地都在白天、适合打电话的时间。", "diffNow": "现在：荷兰比苏里南快{nl}小时，纽约{ny}。", "nySame": "时间相同", "nyAhead": "快{n}{h}", "nyBehind": "慢{n}{h}", "hr1": "小时", "hrN": "小时"},
+ "fr": {"utc": "Temps universel", "hu": " h", "mu": " min", "diffSame": "{a} a la même heure que {b}", "diffAhead": "{a} a {s} d’avance sur {b}", "diffBehind": "{a} a {s} de retard sur {b}", "dstBack": "Le {d}, à {c}, on recule les horloges d’une heure. Ensuite, {c} aura {n} heures {dir} le Suriname (actuellement {m}).", "dstFwd": "Le {d}, à {c}, on avance les horloges d’une heure. Ensuite, {c} aura {n} heures {dir} le Suriname (actuellement {m}).", "ahead": "d’avance sur", "behind": "de retard sur", "today": "Aujourd’hui", "tomorrow": "Demain", "inD": "dans {n} jours", "day": "jour", "days": "jours", "holToday": "Aujourd’hui est un jour férié : {n}.", "yourTz": "Votre fuseau horaire", "cities": "Villes", "mnNa": "Les taux ne sont pas disponibles pour le moment.", "mnSrc": "Taux de change CME · {t}", "mnPay": "Vous payez environ", "mnGet": "Vous recevez environ", "mnSellAt": "Le bureau de change vend l’USD à {u} et l’EUR à {e}", "mnBuyIt": "L’acheter coûte", "mnBuyAt": "Le bureau de change achète l’{c} à {b} et le vend à {s}", "plusCal": "+{n} jours calendaires", "plusWork": "+{n} jours ouvrés", "holSkip": "Saute {n} jour(s) férié(s) : {l}", "between": "Entre les dates", "weeks": "{w} semaines et {d} jours", "workDays": "jours ouvrés", "beyond": "Les jours fériés après le {d} ne sont pas encore connus : ensuite, seuls les week-ends sont exclus.", "relSame": "à la même heure que le Suriname", "relAhead": "{n} {h} d’avance sur le Suriname", "relBehind": "{n} {h} de retard sur le Suriname", "ovNote": "En ce moment, {c} a {d}. Les blocs verts sont de bons moments pour appeler, quand il fait jour aux deux endroits.", "diffNow": "En ce moment : les Pays-Bas ont {nl} heures d’avance sur le Suriname, et New York {ny}.", "nySame": "a la même heure", "nyAhead": "a {n} {h} d’avance", "nyBehind": "a {n} {h} de retard", "hr1": "heure", "hrN": "heures"},
+ "pt": {"utc": "Coordenado", "hu": "h", "mu": "min", "diffSame": "{a} tem o mesmo horário que {b}", "diffAhead": "{a} está {s} à frente de {b}", "diffBehind": "{a} está {s} atrás de {b}", "dstBack": "Em {d}, os relógios de {c} atrasam uma hora. A partir daí {c} fica {n} horas {dir} Suriname (agora {m}).", "dstFwd": "Em {d}, os relógios de {c} adiantam uma hora. A partir daí {c} fica {n} horas {dir} Suriname (agora {m}).", "ahead": "à frente do", "behind": "atrás do", "today": "Hoje", "tomorrow": "Amanhã", "inD": "em {n} dias", "day": "dia", "days": "dias", "holToday": "Hoje é feriado nacional: {n}.", "yourTz": "Seu fuso horário", "cities": "Cidades", "mnNa": "As cotações não estão disponíveis agora.", "mnSrc": "Cotação de câmbio CME · {t}", "mnPay": "Você paga cerca de", "mnGet": "Você recebe cerca de", "mnSellAt": "A casa de câmbio vende USD a {u} e EUR a {e}", "mnBuyIt": "Comprar custa", "mnBuyAt": "A casa de câmbio compra {c} a {b} e vende a {s}", "plusCal": "+{n} dias corridos", "plusWork": "+{n} dias úteis", "holSkip": "Pula {n} feriado(s): {l}", "between": "Entre as datas", "weeks": "{w} semanas e {d} dias", "workDays": "dias úteis", "beyond": "Os feriados depois de {d} ainda não são conhecidos: a partir daí só os fins de semana são pulados.", "relSame": "no mesmo horário que o Suriname", "relAhead": "{n} {h} à frente do Suriname", "relBehind": "{n} {h} atrás do Suriname", "ovNote": "Agora {c} está {d}. Os blocos verdes são bons horários para ligar, quando é dia nos dois lugares.", "diffNow": "Agora: a Holanda está {nl} horas à frente do Suriname, e Nova York {ny}.", "nySame": "tem o mesmo horário", "nyAhead": "está {n} {h} à frente", "nyBehind": "está {n} {h} atrás", "hr1": "hora", "hrN": "horas"},
+}
+
+
+_TM2_JS = r'''<script>
+(function(){
+  var D=document,W=window,SR='America/Paramaribo',NL='Europe/Amsterdam';
+  var LANG=(D.documentElement.lang||'en').slice(0,2).toLowerCase();
+  var I=W.TM2_I18N||{},T=Object.assign({},I.en||{},I[LANG]||{}),X=W.TM2||{hol:[]};
+  var LOC={en:'en-GB',nl:'nl-NL',es:'es-ES',zh:'zh-CN',fr:'fr-FR',pt:'pt-BR'}[LANG]||'en-GB';
+  function $(i){return D.getElementById(i);}
+  function $$(s){return Array.prototype.slice.call(D.querySelectorAll(s));}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function pad(n){return (n<10?'0':'')+n;}
+  function tr(s,o){return String(s).replace(/\{(\w+)\}/g,function(m,k){return o[k]!=null?o[k]:m;});}
+  var REG=null;try{REG=new Intl.DisplayNames([LOC],{type:'region'});}catch(e){}
+  function reg(c,fb){try{return REG?REG.of(c):fb;}catch(e){return fb;}}
+  var use12=false;try{use12=(localStorage.getItem('esr_time_fmt')==='12');}catch(e){}
+  var CITIES=[
+    {tz:'America/Paramaribo',label:'Paramaribo',r:'SR',home:true},
+    {tz:'UTC',label:'UTC / GMT',sub:T.utc||'Coordinated'},
+    {tz:'Europe/Amsterdam',label:'Amsterdam',r:'NL'},
+    {tz:'Europe/Paris',label:'Paris',r:'FR'},
+    {tz:'Europe/London',label:'London',r:'GB'},
+    {tz:'America/New_York',label:'New York',r:'US'},
+    {tz:'America/Chicago',label:'Chicago',r:'US'},
+    {tz:'America/Sao_Paulo',label:'São Paulo',r:'BR'},
+    {tz:'America/Guyana',label:'Georgetown',r:'GY'},
+    {tz:'America/Cayenne',label:'Cayenne',r:'GF'},
+    {tz:'America/Curacao',label:'Willemstad',r:'CW'},
+    {tz:'Asia/Kolkata',label:'Mumbai',r:'IN'},
+    {tz:'Asia/Shanghai',label:'Beijing',r:'CN'},
+    {tz:'Asia/Jakarta',label:'Jakarta',r:'ID'}
+  ];
+  CITIES.forEach(function(c){if(c.r)c.sub=reg(c.r,c.r);});
+  var OFFSETS=(function(){var a=[];for(var z=-12;z<=14;z++){if(z===0)continue;var tz=z>0?('Etc/GMT-'+z):('Etc/GMT+'+(-z));a.push({tz:tz,label:'UTC'+(z<0?'-':'+')+pad(Math.abs(z))+':00',sub:'offset'});}return a;})();
+  var ZONES=CITIES.concat(OFFSETS);
+  function offMin(tz,date){
+    var dtf=new Intl.DateTimeFormat('en-US',{timeZone:tz,hour12:false,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    var p={};dtf.formatToParts(date).forEach(function(x){p[x.type]=x.value;});
+    var h=(p.hour==='24')?0:parseInt(p.hour,10);
+    return Math.round((Date.UTC(+p.year,+p.month-1,+p.day,h,+p.minute,+p.second)-date.getTime())/60000);
+  }
+  function fmt(tz,date,opts){opts=opts||{};opts.timeZone=tz;return new Intl.DateTimeFormat(LOC,opts).format(date);}
+  function tOpts(sec){var o=use12?{hour:'numeric',minute:'2-digit',hour12:true}:{hour:'2-digit',minute:'2-digit',hour12:false};if(sec)o.second='2-digit';return o;}
+  function wallToUTC(y,mo,d,h,mi,tz){var g=Date.UTC(y,mo-1,d,h,mi),o=offMin(tz,new Date(g));o=offMin(tz,new Date(g-o*60000));return g-o*60000;}
+  function zLabel(tz){for(var i=0;i<ZONES.length;i++){if(ZONES[i].tz===tz)return ZONES[i];}return null;}
+  function labelFor(tz){var c=zLabel(tz);return c?(c.sub==='offset'?c.label:c.label+', '+c.sub):tz.split('/').pop().replace(/_/g,' ');}
+  function shortLabel(tz){var c=zLabel(tz);return c?c.label:tz.split('/').pop().replace(/_/g,' ');}
+  function hm(mins){var x=Math.abs(mins),h=Math.floor(x/60),m=x%60;return h+T.hu+(m?(' '+m+T.mu):'');}
+  function diffText(mins,a,b){if(mins===0)return tr(T.diffSame,{a:a,b:b});return tr(mins>0?T.diffAhead:T.diffBehind,{a:a,b:b,s:hm(mins)});}
+  function partsIn(tz,date){var f=new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour12:false,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});var p={};f.formatToParts(date).forEach(function(x){p[x.type]=x.value;});return {y:p.year,mo:p.month,d:p.day,h:(p.hour==='24'?'00':p.hour),mi:p.minute};}
+  function srToday(){var p=partsIn(SR,new Date());return p.y+'-'+p.mo+'-'+p.d;}
+
+  /* ---------- clock + quick chips ---------- */
+  function tick(){
+    var now=new Date();
+    $('sr-clock').textContent=fmt(SR,now,tOpts(true));
+    $('sr-date').textContent=fmt(SR,now,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    var q=[['NL',NL],['US','America/New_York']].map(function(x){var d=Math.round((offMin(x[1],now)-offMin(SR,now))/60);return '<span>'+esc(reg(x[0],x[0]))+'<b translate="no">'+fmt(x[1],now,tOpts(false))+'</b><small translate="no">'+(d>0?'+':'')+d+T.hu+'</small></span>';});
+    $('tc-q').innerHTML=q.join('');
+    $$('[data-clock]').forEach(function(el){var tz=el.getAttribute('data-clock');el.textContent=fmt(tz,now,tOpts(false));var dd=el.parentNode.querySelector('em');if(dd){var od=fmt(tz,now,{weekday:'short'}),here=fmt(SR,now,{weekday:'short'});dd.textContent=(od===here)?'':od;}});
+  }
+  function paintFmt(){$('fmt-24').classList.toggle('on',!use12);$('fmt-12').classList.toggle('on',use12);}
+  function setFmt(v){var cur=(hSel&&hSel.options.length)?get24():null;use12=v;try{localStorage.setItem('esr_time_fmt',v?'12':'24');}catch(e){}paintFmt();fillHM();if(cur)set24(cur[0],cur[1]);tick();compute();}
+
+  /* ---------- clock-change banner (next 70 days) ---------- */
+  function dst(){
+    var out=[],now=Date.now();
+    [['Amsterdam',NL],['New York','America/New_York']].forEach(function(x){
+      var prev=offMin(x[1],new Date(now));
+      for(var d=1;d<=70;d++){var t=new Date(now+d*864e5),o=offMin(x[1],t);if(o!==prev){
+        var lo=now+(d-1)*864e5,hi=t.getTime();while(hi-lo>3600e3){var mid=(lo+hi)/2;if(offMin(x[1],new Date(mid))===prev)lo=mid;else hi=mid;}
+        var ch=new Date(hi),nowD=Math.round((prev-offMin(SR,new Date(now)))/60),newD=Math.round((o-offMin(SR,ch))/60);
+        out.push(tr(o<prev?T.dstBack:T.dstFwd,{d:fmt(x[1],ch,{weekday:'long',day:'numeric',month:'long'}),c:x[0],n:Math.abs(newD),m:Math.abs(nowD),dir:newD>=0?T.ahead:T.behind}));break;}}
+    });
+    var b=$('tm-dst');if(out.length){b.innerHTML=out.map(function(s){return '<p>'+esc(s)+'</p>';}).join('');b.hidden=false;}
+  }
+
+  /* ---------- holidays ---------- */
+  function holName(h){return LANG==='nl'?h[2]:h[1];}
+  function holidays(){
+    var t=srToday(),today=new Date(t+'T12:00:00Z');
+    $$('[data-cd]').forEach(function(el){var d=new Date(el.getAttribute('data-cd')+'T12:00:00Z'),n=Math.round((d-today)/864e5);el.textContent=n===0?T.today:(n===1?T.tomorrow:tr(T.inD,{n:n}));});
+    var nx=(X.hol||[]).filter(function(h){return h[0]>=t;})[0];
+    if(nx&&$('hl-n')){var n=Math.round((new Date(nx[0]+'T12:00:00Z')-today)/864e5);$('hl-n').textContent=n;$('hl-u').textContent=n===1?T.day:T.days;
+      if(n===0){var ht=$('hl-today');ht.textContent=tr(T.holToday,{n:holName(nx)});ht.hidden=false;}}
+    $$('.hl-list li').forEach(function(li){if(li.getAttribute('data-d')<t)li.hidden=true;});
+    $$('[data-mo]').forEach(function(el){el.textContent=new Intl.DateTimeFormat(LOC,{month:'short',timeZone:'UTC'}).format(new Date(el.getAttribute('data-mo')+'T12:00:00Z')).replace('.','');});
+  }
+
+  /* ---------- converter tabs ---------- */
+  D.addEventListener('click',function(ev){
+    var b=ev.target.closest('.cv-t');if(b){var k=b.getAttribute('data-cvt');$$('.cv-t').forEach(function(x){x.classList.toggle('on',x===b);});$$('.cv-p').forEach(function(p){p.hidden=p.getAttribute('data-cv')!==k;});if(k==='money')money();if(k==='dates')dates();try{localStorage.setItem('tm-cv',k);}catch(e){}return;}
+    var u=ev.target.closest('.un-c');if(u){$$('.un-c').forEach(function(x){x.classList.toggle('on',x===u);});unitsCat(u.getAttribute('data-u'));return;}
+  });
+
+  /* time zones */
+  var cFrom=$('conv-from'),cTo=$('conv-to'),hSel=$('conv-hour'),mSel=$('conv-min'),apSel=$('conv-ap'),cDate=$('conv-date');
+  function fillSel(sel,def,extra){
+    var o='';
+    if(extra&&!zLabel(extra))o+='<option value="'+extra+'">'+esc(T.yourTz)+' ('+extra.split('/').pop().replace(/_/g,' ')+')</option>';
+    o+='<optgroup label="'+esc(T.cities)+'">'+CITIES.map(function(c){return '<option value="'+c.tz+'">'+esc(c.label)+(c.sub?' ('+esc(c.sub)+')':'')+'</option>';}).join('')+'</optgroup>';
+    o+='<optgroup label="UTC / GMT">'+OFFSETS.map(function(c){return '<option value="'+c.tz+'">'+c.label+'</option>';}).join('')+'</optgroup>';
+    sel.innerHTML=o;sel.value=def;
+  }
+  function fillHM(){var oh='';if(use12){for(var i=1;i<=12;i++)oh+='<option value="'+i+'">'+i+'</option>';}else{for(var k=0;k<24;k++)oh+='<option value="'+k+'">'+pad(k)+'</option>';}hSel.innerHTML=oh;var om='';for(var j=0;j<60;j++)om+='<option value="'+j+'">'+pad(j)+'</option>';mSel.innerHTML=om;apSel.style.display=use12?'':'none';}
+  function get24(){if(use12){var hh=(+hSel.value)%12;if(apSel.value==='PM')hh+=12;return [hh,+mSel.value];}return [+hSel.value,+mSel.value];}
+  function set24(h,mi){if(use12){apSel.value=h>=12?'PM':'AM';var hh=h%12;hSel.value=String(hh===0?12:hh);}else hSel.value=String(h);mSel.value=String(mi);}
+  function setNow(){var q=partsIn(cFrom.value,new Date());set24(+q.h,+q.mi);cDate.value=q.y+'-'+q.mo+'-'+q.d;compute();}
+  function compute(){
+    var d=(cDate.value||'').split('-');if(d.length!==3){var p=partsIn(cFrom.value,new Date());d=[p.y,p.mo,p.d];}
+    var t=get24(),obj=new Date(wallToUTC(+d[0],+d[1],+d[2],t[0],t[1],cFrom.value));
+    $('conv-result-time').textContent=fmt(cTo.value,obj,tOpts(false));
+    $('conv-result-date').textContent=fmt(cTo.value,obj,{weekday:'long',day:'numeric',month:'long'});
+    $('conv-result-label').textContent=labelFor(cTo.value);
+    $('conv-diff').textContent=diffText(offMin(cTo.value,obj)-offMin(cFrom.value,obj),shortLabel(cTo.value),shortLabel(cFrom.value));
+  }
+
+  /* money (CME rate from the homepage live feed) */
+  var RATES=null,rTried=false;
+  function money(){
+    if(!RATES&&!rTried){rTried=true;fetch('/data/home_live.json',{cache:'no-cache'}).then(function(r){return r.json();}).then(function(j){var r=(j.items||{}).rates||{};if(r.ok&&r.usd&&r.eur)RATES=r;money();}).catch(function(){money();});return;}
+    var res=$('mn-res'),src=$('mn-src');
+    if(!RATES){res.innerHTML='<p>&nbsp;</p><b style="font-size:1.1rem">'+esc(T.mnNa)+'</b>';src.textContent='';return;}
+    var a=parseFloat($('mn-amt').value),c=$('mn-cur').value;if(!(a>=0)){res.innerHTML='<p>&nbsp;</p><b>–</b>';return;}
+    function f2(v){return v.toLocaleString(LOC,{minimumFractionDigits:2,maximumFractionDigits:2});}
+    var asOf=RATES.as_of?new Date(RATES.as_of):null;
+    src.textContent=tr(T.mnSrc,{t:asOf?fmt(SR,asOf,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',hour12:false}):''});
+    if(c==='SRD'){
+      res.innerHTML='<p>'+esc(T.mnPay)+'</p><b translate="no">USD '+f2(a/RATES.usd[1])+'</b><span class="alt" translate="no">EUR '+f2(a/RATES.eur[1])+'</span><small>'+esc(tr(T.mnSellAt,{u:f2(RATES.usd[1]),e:f2(RATES.eur[1])}))+'</small>';
+    }else{
+      var r=c==='USD'?RATES.usd:RATES.eur;
+      res.innerHTML='<p>'+esc(T.mnGet)+'</p><b translate="no">SRD '+f2(a*r[0])+'</b><span class="alt" translate="no">'+esc(T.mnBuyIt)+' SRD '+f2(a*r[1])+'</span><small>'+esc(tr(T.mnBuyAt,{c:c,b:f2(r[0]),s:f2(r[1])}))+'</small>';
+    }
+  }
+  ['mn-amt','mn-cur'].forEach(function(i){$(i).addEventListener('input',money);$(i).addEventListener('change',money);});
+
+  /* units */
+  var U={weight:[['kg',1],['g',0.001],['lb',0.45359237],['oz',0.028349523125],['t',1000]],
+    length:[['m',1],['km',1000],['cm',0.01],['mm',0.001],['mi',1609.344],['ft',0.3048],['in',0.0254],['yd',0.9144]],
+    volume:[['L',1],['mL',0.001],['gal (US)',3.785411784],['fl oz (US)',0.0295735295625],['m³',1000]],
+    temp:[['°C','c'],['°F','f']],
+    area:[['m²',1],['ha',10000],['km²',1e6],['ft²',0.09290304],['acre',4046.8564224]],
+    speed:[['km/h',1],['mph',1.609344],['kn',1.852],['m/s',3.6]]};
+  var DEF={weight:['kg','lb'],length:['km','mi'],volume:['L','gal (US)'],temp:['°C','°F'],area:['m²','ft²'],speed:['km/h','mph']};
+  var ucat='weight';
+  function uf(cat,u){var r=U[cat].filter(function(x){return x[0]===u;})[0];return r?r[1]:1;}
+  function conv(v,from,to){if(ucat==='temp'){if(from===to)return v;return from==='°C'?v*9/5+32:(v-32)*5/9;}return v*uf(ucat,from)/uf(ucat,to);}
+  function nice(v){if(!isFinite(v))return '';var a=Math.abs(v);return String(+v.toFixed(a>=100?2:a>=1?4:6));}
+  function unitsCat(cat){ucat=cat;var o=U[cat].map(function(x){return '<option>'+x[0]+'</option>';}).join('');$('un-ua').innerHTML=o;$('un-ub').innerHTML=o;$('un-ua').value=DEF[cat][0];$('un-ub').value=DEF[cat][1];if(cat==='temp')$('un-a').value='30';else $('un-a').value='1';uA();}
+  function uA(){$('un-b').value=nice(conv(parseFloat($('un-a').value),$('un-ua').value,$('un-ub').value));ref();}
+  function uB(){$('un-a').value=nice(conv(parseFloat($('un-b').value),$('un-ub').value,$('un-ua').value));ref();}
+  function ref(){var a=$('un-ua').value,b=$('un-ub').value;$('un-ref').textContent=ucat==='temp'?'30 °C = 86 °F · 0 °C = 32 °F · 37 °C = 98.6 °F':('1 '+a+' = '+nice(conv(1,a,b))+' '+b+' · 1 '+b+' = '+nice(conv(1,b,a))+' '+a);}
+  $('un-a').addEventListener('input',uA);$('un-b').addEventListener('input',uB);$('un-ua').addEventListener('change',uA);$('un-ub').addEventListener('change',uA);
+
+  /* dates (calendar + working days, SR public holidays) */
+  var HOL={};(X.hol||[]).forEach(function(h){HOL[h[0]]=h;});
+  function iso(d){return d.toISOString().slice(0,10);}
+  function isWork(d){var w=d.getUTCDay();return w!==0&&w!==6&&!HOL[iso(d)];}
+  function dates(){
+    var a=$('dt-a').value,b=$('dt-b').value,n=parseInt($('dt-n').value,10),k=$('dt-k').value,res=$('dt-res');
+    if(!a){res.innerHTML='<p>&nbsp;</p><b>–</b>';return;}
+    var A=new Date(a+'T12:00:00Z'),beyond=X.until&&((b&&b>X.until)||(!isNaN(n)&&n>0)),html='';
+    if(!isNaN(n)&&$('dt-n').value!==''){
+      var d=new Date(A),i=0,skipped=[];
+      if(k==='cal'){d=new Date(A.getTime()+n*864e5);}
+      else{var step=n<0?-1:1;while(i<Math.abs(n)){d=new Date(d.getTime()+step*864e5);if(isWork(d))i++;else if(HOL[iso(d)]&&d.getUTCDay()%6)skipped.push(holName(HOL[iso(d)]));}}
+      html='<p>'+esc(tr(k==='cal'?T.plusCal:T.plusWork,{n:n}))+'</p><b>'+esc(fmt('UTC',d,{day:'numeric',month:'long',year:'numeric'}))+'</b><span>'+esc(fmt('UTC',d,{weekday:'long'}))+'</span>'
+        +(skipped.length?'<small>'+esc(tr(T.holSkip,{n:skipped.length,l:skipped.join(', ')}))+'</small>':'');
+      beyond=X.until&&iso(d)>X.until;
+    }else if(b){
+      var B=new Date(b+'T12:00:00Z'),days=Math.round((B-A)/864e5),s=days<0?-1:1,wd=0,hs=[];
+      for(var t=new Date(A.getTime()+s*864e5);s>0?t<=B:t>=B;t=new Date(t.getTime()+s*864e5)){if(isWork(t))wd++;else if(HOL[iso(t)]&&t.getUTCDay()%6)hs.push(holName(HOL[iso(t)]));}
+      var w=Math.floor(Math.abs(days)/7),r=Math.abs(days)%7;
+      html='<p>'+esc(T.between)+'</p><b>'+Math.abs(days)+' '+esc(Math.abs(days)===1?T.day:T.days)+'</b><span>'+esc(tr(T.weeks,{w:w,d:r}))+'</span><span class="alt">'+wd+' '+esc(T.workDays)+'</span>'
+        +(hs.length?'<small>'+esc(tr(T.holSkip,{n:hs.length,l:hs.join(', ')}))+'</small>':'');
+    }else{html='<p>&nbsp;</p><b>–</b>';}
+    if(beyond)html+='<small>'+esc(tr(T.beyond,{d:fmt('UTC',new Date(X.until+'T12:00:00Z'),{day:'numeric',month:'short',year:'numeric'})}))+'</small>';
+    res.innerHTML=html;
+  }
+  ['dt-a','dt-b','dt-n','dt-k'].forEach(function(i){$(i).addEventListener('input',dates);$(i).addEventListener('change',dates);});
+
+  /* ---------- call planner ---------- */
+  function relDiff(d){var a=Math.abs(d);return d===0?T.relSame:tr(d>0?T.relAhead:T.relBehind,{n:a,h:a===1?T.hr1:T.hrN});}
+  function renderOverlap(){
+    var now=new Date(),tz=$('overlap-city').value||NL,c=zLabel(tz)||{label:tz,sub:''};
+    var diff=Math.round((offMin(tz,now)-offMin(SR,now))/60),srHour=+partsIn(SR,now).h;
+    $('overlap-note').innerHTML=tr(esc(T.ovNote),{c:'<strong>'+esc(c.label)+'</strong>',d:'<strong>'+esc(relDiff(diff))+'</strong>'});
+    var b='';for(var hh=0;hh<24;hh++){var oh=((hh+diff)%24+24)%24,col='#E5E7EB',srDay=hh>=7&&hh<=22,ocDay=oh>=7&&oh<=22;if(hh>=9&&hh<=17&&oh>=9&&oh<=17)col='var(--forest)';else if(srDay&&ocDay)col='var(--leaf)';
+      b+='<div style="background:'+col+(hh===srHour?';box-shadow:inset 0 0 0 2px var(--coral)':'')+'" title="Suriname '+pad(hh)+':00 = '+esc(c.label)+' '+pad(oh)+':00"></div>';}
+    $('overlap-bar').innerHTML=b;
+    var nl=Math.round((offMin(NL,now)-offMin(SR,now))/60),ny=Math.round((offMin('America/New_York',now)-offMin(SR,now))/60);
+    $('diff-now').textContent=tr(T.diffNow,{nl:nl,ny:ny===0?T.nySame:tr(ny>0?T.nyAhead:T.nyBehind,{n:Math.abs(ny),h:Math.abs(ny)===1?T.hr1:T.hrN})});
+  }
+  $('overlap-bar').addEventListener('click',function(ev){var d=ev.target.closest('#overlap-bar>div');if(d)$('overlap-note').textContent=d.title;});
+
+  /* ---------- init ---------- */
+  $('worldclock').innerHTML=CITIES.map(function(c){return '<div'+(c.home?' class="home"':'')+'><p translate="no">'+esc(c.label)+'</p><small>'+esc(c.sub||'')+'</small><b data-clock="'+c.tz+'" translate="no">00:00</b><em></em></div>';}).join('');
+  var userTz='UTC';try{userTz=Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC';}catch(e){}
+  fillSel(cFrom,userTz===SR?NL:userTz,userTz);fillSel(cTo,SR,userTz);fillHM();setNow();
+  [cFrom,cTo,hSel,mSel,apSel,cDate].forEach(function(el){el.addEventListener('change',compute);});
+  $('conv-swap').addEventListener('click',function(){var a=cFrom.value;cFrom.value=cTo.value;cTo.value=a;compute();});
+  $('conv-now').addEventListener('click',setNow);
+  $('fmt-24').addEventListener('click',function(){setFmt(false);});$('fmt-12').addEventListener('click',function(){setFmt(true);});
+  var oc=$('overlap-city');oc.innerHTML=CITIES.filter(function(c){return !c.home&&c.tz!=='UTC';}).map(function(c){return '<option value="'+c.tz+'"'+(c.tz===NL?' selected':'')+'>'+esc(c.label)+' ('+esc(c.sub)+')</option>';}).join('');
+  oc.addEventListener('change',renderOverlap);
+  $('dt-a').value=srToday();
+  unitsCat('weight');paintFmt();tick();renderOverlap();dst();holidays();
+  try{var lastCv=localStorage.getItem('tm-cv');if(lastCv&&lastCv!=='tz'){var tb=D.querySelector('.cv-t[data-cvt="'+lastCv+'"]');if(tb)tb.click();}}catch(e){}
+  if(location.hash==='#money'||location.hash==='#units'||location.hash==='#dates'){var hb=D.querySelector('.cv-t[data-cvt="'+location.hash.slice(1)+'"]');if(hb)hb.click();}
+  setInterval(tick,1000);setInterval(function(){renderOverlap();holidays();},60000);
+})();
+</script>'''
+
+
+def _time_holidays():
+    """Public holidays from data/holidays.json + data/biz_holidays_extra.json,
+    deduped by date, sorted. Returns (list of {d, en, nl}, covered_until_iso,
+    incomplete_years). Same sources as the Business working-day tools."""
+    out, seen, incomplete = [], set(), []
+    try:
+        with open("data/holidays.json", encoding="utf-8") as f:
+            base = json.load(f)
+    except Exception:
+        base = {"public": []}
+    try:
+        with open("data/biz_holidays_extra.json", encoding="utf-8") as f:
+            extra = json.load(f)
+    except Exception:
+        extra = {"years": {}}
+    rows = list(base.get("public", []))
+    for y, v in (extra.get("years") or {}).items():
+        rows += v.get("public", [])
+        if v.get("incomplete"):
+            incomplete.append(y)
+    for h in rows:
+        d = h.get("date")
+        if not d or d in seen:
+            continue
+        seen.add(d)
+        out.append({"d": d, "en": h.get("name_en", ""), "nl": h.get("name_nl", "")})
+    out.sort(key=lambda h: h["d"])
+    until = out[-1]["d"] if out else ""
+    return out, until, incomplete
+
+
 def build_time_page():
-    """Time in Suriname: live time strip, converter, world clocks, call-overlap, difference table."""
-    title = "Time in Suriname: Local Time &amp; Converter"
-    desc  = ("What time is it in Suriname right now? Live Paramaribo time, a time-zone converter "
-             "and the difference to the Netherlands, the US and Brazil (UTC&minus;3).")
+    """suriname-time.html v2 (Oct 2026): time, dates and everyday converters.
+
+    Live Suriname clock + automatic clock-change banner (NL / US, from the
+    browser's time-zone data), public-holiday card with countdown and long
+    weekends, converter hub (time zones, money at the live CME rate from
+    /data/home_live.json, units, dates incl. working days), call planner,
+    world clocks, difference table and FAQ. JS strings in _TM2_I18N."""
+    esc = html_lib.escape
+    today = datetime.now(SR_TZ).date()
+    title = "Time in Suriname: Local Time, Holidays &amp; Converter"
+    desc = ("What time is it in Suriname? Live Paramaribo time, the next public holiday and long weekend, "
+            "a time-zone converter, SRD money and unit converters, and the difference to the Netherlands and the US.")
     faq = [
         ("Does Suriname use daylight saving time?",
          "No. Suriname stays on UTC&minus;3 all year and never changes its clocks. Countries that do observe "
@@ -25110,109 +26285,132 @@ def build_time_page():
          "twice a year, so the difference to Suriname changes with their seasons, not ours."),
         ("What is the time difference between Suriname and the Netherlands?",
          "The Netherlands is 4 hours ahead of Suriname in its winter (late October to late March) and 5 hours "
-         "ahead in its summer. Suriname itself never moves; the gap changes only because the Netherlands puts "
-         "its clocks forward for summer time."),
+         "ahead in its summer. The banner at the top of this page tells you when the next switch happens."),
         ("What time zone is Suriname in?",
          "Suriname Time (SRT), UTC&minus;3. It shares this offset with French Guiana, Argentina and the eastern "
          "coast of Brazil. The whole country uses a single time zone."),
-        ("Is Suriname the same time as its neighbours?",
-         "French Guiana (Cayenne) is on the same time as Suriname, UTC&minus;3. Guyana (Georgetown) is one hour "
-         "behind, on UTC&minus;4. Eastern Brazil, including S&atilde;o Paulo, matches Suriname."),
+        ("When is the next public holiday in Suriname?",
+         "The holiday card on this page counts down to the next official public holiday and shows which ones "
+         "make a long weekend. Dates of Hindu, Islamic, Chinese and Javanese holidays follow their own calendars "
+         "and are added once the government announces them."),
+        ("How do I count working days in Suriname?",
+         "Use the Dates tab of the converter: it skips Saturdays, Sundays and Surinamese public holidays. For "
+         "deadlines and payment terms there is also the full working days calculator in the Business tools."),
+        ("Which exchange rate does the money converter use?",
+         "The latest cambio rate published by the Central Market Exchange (CME), the same rate shown on the "
+         "Market Rates page. Changing dollars or euros into SRD uses the buying rate, buying dollars or euros "
+         "uses the selling rate. Banks and cambios can differ slightly."),
         ("When do the clocks change in Europe?",
          "In the EU and the UK, clocks go forward on the last Sunday of March and back on the last Sunday of "
          "October. On those two days the difference between Suriname and the Netherlands switches between 4 and "
          "5 hours."),
     ]
     head = _hub_head(title, desc, "suriname-time.html", faq=faq)
-    hero = _hub_hero("Time in Suriname", "What Time Is It in Suriname?",
-                     "Convert any time to Suriname time, see live world clocks and find the difference to the "
-                     "places that matter. Suriname is UTC&minus;3, all year, no daylight saving."
-                     ).replace("{NAV}", nav_html("surtime"))
+    head = head.replace("</head>", _TM2_CSS + "\n</head>")
+    hero = _hub_hero("Time, dates and converters", "What Time Is It in Suriname?",
+                     "Live Suriname time, the next holiday, and converters for time zones, money and units. "
+                     "Suriname is UTC&minus;3, all year, no daylight saving.").replace("{NAV}", nav_html("surtime"))
 
-    def _lab(t, fid=""):
-        f = (' for="'+fid+'"') if fid else ""
-        return ('<label'+f+' class="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">'
-                + t + '</label>')
+    hols, until, incomplete = _time_holidays()
+    upcoming = [h for h in hols if h["d"] >= today.isoformat()][:8]
+    WD = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
-    body = ''
-    # ── Live time strip + format toggle ─────────────────────────────────────
-    body += ('<div class="flex flex-wrap items-center justify-between gap-3 bg-white rounded-2xl shadow-sm border border-gray-100 px-5 py-4 mb-6">'
-        '<div class="text-gray-700"><span class="text-sm text-gray-500">In Suriname it is now</span> '
-        '<span id="sr-clock" class="font-mono text-2xl font-bold tabular-nums text-gray-900 ml-1">00:00:00</span> '
-        '<span id="sr-date" class="text-sm text-gray-500 ml-1"></span>'
-        '<span class="text-sm text-gray-400 ml-1">, UTC&minus;3, no daylight saving</span></div>'
-        '<div class="inline-flex rounded-full border border-gray-200 overflow-hidden text-sm shrink-0" role="group" aria-label="Clock format">'
-          '<button type="button" id="fmt-24" class="px-4 py-1.5 font-semibold">24h</button>'
-          '<button type="button" id="fmt-12" class="px-4 py-1.5 font-semibold">12h</button>'
-        '</div></div>')
+    def _hol_tag(d):
+        wd = d.weekday()
+        if wd in (0, 4):
+            return '<span class="hl-tag lw">Long weekend</span>'
+        if wd in (1, 3):
+            return '<span class="hl-tag br">Bridge day possible</span>'
+        if wd in (5, 6):
+            return '<span class="hl-tag we">On a weekend</span>'
+        return ''
+    hol_rows = ""
+    for h in upcoming:
+        d = datetime.strptime(h["d"], "%Y-%m-%d").date()
+        hol_rows += ('<li data-d="' + h["d"] + '"><span class="hl-d"><b translate="no">' + str(d.day) + '</b>'
+                     '<small translate="no" data-mo="' + h["d"] + '">' + d.strftime("%b") + '</small></span>'
+                     '<span class="hl-n"><b>' + esc(h["en"]) + '</b><small>' + WD[d.weekday()] + '</small>'
+                     + _hol_tag(d) + '</span><span class="hl-c" data-cd="' + h["d"] + '"></span></li>')
+    nxt = upcoming[0] if upcoming else None
+    hol_card = ""
+    if nxt:
+        nd = datetime.strptime(nxt["d"], "%Y-%m-%d").date()
+        hol_card = ('<section class="tm-card hl" id="holidays" data-sec="holidays">'
+                    '<div class="hl-top"><div><p class="tm-k" id="hl-k">Next public holiday</p>'
+                    '<h2 class="serif hl-name">' + esc(nxt["en"]) + '</h2>'
+                    '<p class="hl-when"><span translate="no" data-srdate="' + nxt["d"] + '">' + WD[nd.weekday()] + ' ' + nd.strftime("%d %B") + '</span></p></div>'
+                    '<div class="hl-big"><b id="hl-n" translate="no">' + str((nd - today).days) + '</b><small id="hl-u">days</small></div></div>'
+                    '<p class="hl-today" id="hl-today" hidden></p>'
+                    '<ul class="hl-list">' + hol_rows + '</ul>'
+                    '<p class="tm-src">Official public holidays (Ministry of Education list). Lunar-calendar dates are added once announced. '
+                    'See all festivals on <a href="/events.html">Events &amp; Festivals</a>.</p></section>')
 
-    # ── Converter (first tool) ──────────────────────────────────────────────
-    body += '<h2 class="serif text-2xl font-bold text-gray-900 mb-4">Time converter</h2>'
-    body += ('<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-12">'
-        '<p class="text-gray-600 text-sm mb-6">Pick a time, then choose the zones. You can pick a city or a plain '
-        'UTC / GMT offset such as UTC-05:00. Press Swap to reverse the direction.</p>'
-        '<div class="grid sm:grid-cols-2 gap-6 items-stretch">'
-          '<div>'
-            + _lab('Time', 'conv-hour') +
-            '<div class="flex flex-wrap items-center gap-2 mb-4">'
-              '<div class="flex items-center gap-2">'
-                '<select id="conv-hour" aria-label="Hour" class="rounded-xl border border-gray-200 px-3 py-2 bg-white"></select>'
-                '<span class="font-bold text-gray-400">:</span>'
-                '<select id="conv-min" aria-label="Minute" class="rounded-xl border border-gray-200 px-3 py-2 bg-white"></select>'
-                '<select id="conv-ap" aria-label="AM or PM" class="rounded-xl border border-gray-200 px-3 py-2 bg-white" style="display:none"><option value="AM">AM</option><option value="PM">PM</option></select>'
-              '</div>'
-              '<button id="conv-now" type="button" class="text-sm font-semibold px-3 py-2 rounded-full whitespace-nowrap" style="background:var(--mint);color:var(--forest)">Now</button>'
-            '</div>'
-            + _lab('Date', 'conv-date') +
-            '<input type="date" id="conv-date" class="w-full rounded-xl border border-gray-200 px-3 py-2 mb-4">'
-            + _lab('From', 'conv-from') +
-            '<select id="conv-from" class="w-full rounded-xl border border-gray-200 px-3 py-2 bg-white"></select>'
-            '<button id="conv-swap" type="button" class="mt-4 text-sm font-semibold px-4 py-2 rounded-full" '
-            'style="background:var(--mint);color:var(--forest)">&#8645; Swap From / To</button>'
-          '</div>'
-          '<div class="flex flex-col">'
-            + _lab('To', 'conv-to') +
-            '<select id="conv-to" class="w-full rounded-xl border border-gray-200 px-3 py-2 bg-white mb-4"></select>'
-            '<div class="rounded-xl p-6 text-center flex-1 flex flex-col justify-center" style="background:var(--forest)">'
-              '<div class="text-white/60 text-xs uppercase tracking-widest mb-2" id="conv-result-label">Result</div>'
-              '<div class="font-mono text-4xl font-bold text-white tabular-nums" id="conv-result-time">00:00</div>'
-              '<div class="text-white/70 text-sm mt-2" id="conv-result-date"></div>'
-              '<div class="text-white/60 text-xs mt-3" id="conv-diff"></div>'
-            '</div>'
-          '</div>'
-        '</div></div>')
+    # Converter hub
+    conv_time = ('<div class="cv-p" data-cv="tz">'
+                 '<div class="cv-grid"><div><label for="conv-hour">Time</label><div class="cv-row">'
+                 '<select id="conv-hour" aria-label="Hour"></select><b class="cv-sep">:</b>'
+                 '<select id="conv-min" aria-label="Minute"></select>'
+                 '<select id="conv-ap" aria-label="AM or PM" style="display:none"><option value="AM">AM</option><option value="PM">PM</option></select>'
+                 '<button id="conv-now" type="button" class="tm-btn">Now</button></div>'
+                 '<label for="conv-date">Date</label><input type="date" id="conv-date">'
+                 '<label for="conv-from">From</label><select id="conv-from"></select>'
+                 '<button id="conv-swap" type="button" class="tm-btn cv-swap">&#8645; Swap</button>'
+                 '<label for="conv-to">To</label><select id="conv-to"></select></div>'
+                 '<div class="cv-res"><p id="conv-result-label">Result</p><b id="conv-result-time" translate="no">00:00</b>'
+                 '<span id="conv-result-date"></span><small id="conv-diff"></small></div></div></div>')
+    conv_money = ('<div class="cv-p" data-cv="money" hidden>'
+                  '<div class="cv-grid"><div><label for="mn-amt">Amount</label>'
+                  '<div class="cv-row"><input id="mn-amt" type="number" inputmode="decimal" min="0" step="any" value="100">'
+                  '<select id="mn-cur" aria-label="Currency"><option value="USD">USD</option><option value="EUR">EUR</option><option value="SRD">SRD</option></select></div>'
+                  '<p class="cv-hint" id="mn-src">&nbsp;</p></div>'
+                  '<div class="cv-res" id="mn-res"><p>&nbsp;</p><b>&ndash;</b></div></div>'
+                  '<p class="cv-foot">Cambio rates from the Central Market Exchange. All banks and the official CBvS rate: '
+                  '<a href="/currency.html">Market Rates</a>.</p></div>')
+    UNITS_CATS = [("weight", "Weight"), ("length", "Length"), ("volume", "Volume &amp; fuel"),
+                  ("temp", "Temperature"), ("area", "Area &amp; land"), ("speed", "Speed")]
+    conv_units = ('<div class="cv-p" data-cv="units" hidden><div class="un-cats">'
+                  + "".join(f'<button type="button" class="un-c{" on" if i == 0 else ""}" data-u="{k}">{l}</button>'
+                            for i, (k, l) in enumerate(UNITS_CATS))
+                  + '</div><div class="un-io"><div class="cv-row"><input id="un-a" type="number" inputmode="decimal" step="any" value="1" aria-label="Value">'
+                  '<select id="un-ua" aria-label="Unit"></select></div><span class="un-eq">=</span>'
+                  '<div class="cv-row"><input id="un-b" type="number" inputmode="decimal" step="any" aria-label="Result">'
+                  '<select id="un-ub" aria-label="Unit"></select></div></div><p class="un-ref" id="un-ref"></p></div>')
+    conv_dates = ('<div class="cv-p" data-cv="dates" hidden><div class="cv-grid"><div>'
+                  '<label for="dt-a">From</label><input type="date" id="dt-a">'
+                  '<label for="dt-b">To</label><input type="date" id="dt-b">'
+                  '<label for="dt-n">Or add days to the first date</label>'
+                  '<div class="cv-row"><input id="dt-n" type="number" inputmode="numeric" step="1" placeholder="e.g. 30">'
+                  '<select id="dt-k" aria-label="Kind of days"><option value="cal">calendar days</option><option value="work">working days</option></select></div></div>'
+                  '<div class="cv-res" id="dt-res"><p>&nbsp;</p><b>&ndash;</b></div></div>'
+                  '<p class="cv-foot">Working days skip Saturdays, Sundays and Surinamese public holidays. For deadlines and payment terms: '
+                  '<a href="/working-days-calculator">Working days calculator</a>.</p></div>')
+    conv = ('<section class="tm-card" id="converter" data-sec="converter"><div class="tm-hd"><h2 class="serif">Converter</h2></div>'
+            '<div class="cv-tabs" role="tablist">'
+            '<button type="button" class="cv-t on" data-cvt="tz">Time zones</button>'
+            '<button type="button" class="cv-t" data-cvt="money">Money</button>'
+            '<button type="button" class="cv-t" data-cvt="units">Units</button>'
+            '<button type="button" class="cv-t" data-cvt="dates">Dates</button></div>'
+            + conv_time + conv_money + conv_units + conv_dates + '</section>')
 
-    # ── World clocks ────────────────────────────────────────────────────────
-    body += '<h2 class="serif text-2xl font-bold text-gray-900 mb-4">Suriname vs the world, right now</h2>'
-    body += '<div id="worldclock" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-12"></div>'
+    clock = ('<section class="tm-clock" data-sec="clock"><div class="tc-l"><p class="tm-k">Suriname &middot; UTC&minus;3</p>'
+             '<b id="sr-clock" class="tc-time" translate="no">00:00:00</b><p id="sr-date" class="tc-date"></p></div>'
+             '<div class="tc-r"><div class="tc-fmt" role="group" aria-label="Clock format">'
+             '<button type="button" id="fmt-24">24h</button><button type="button" id="fmt-12">12h</button></div>'
+             '<div class="tc-q" id="tc-q"></div></div></section>'
+             '<div class="tm-dst" id="tm-dst" hidden></div>')
 
-    # ── Best time to call abroad ────────────────────────────────────────────
-    body += '<h2 class="serif text-2xl font-bold text-gray-900 mb-3">Best time to call abroad</h2>'
-    body += ('<div class="flex flex-wrap items-center gap-2 mb-4">'
-        '<label for="overlap-city" class="text-sm text-gray-600">Compare Suriname with</label>'
-        '<select id="overlap-city" class="rounded-xl border border-gray-200 px-3 py-2 text-sm bg-white"></select></div>')
-    body += '<p id="overlap-note" class="text-gray-600 text-sm mb-4">&nbsp;</p>'
-    body += ('<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-3">'
-        '<div id="overlap-bar" class="flex gap-px rounded-lg overflow-hidden h-12"></div>'
-        '<div class="flex justify-between text-[10px] text-gray-400 mt-1 px-0.5">'
-        '<span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>'
-        '<p class="text-[11px] text-gray-400 mt-2">Hours shown are Suriname local time. Hover a block to see the '
-        'matching time abroad.</p></div>')
-    body += ('<div class="flex flex-wrap gap-4 text-xs text-gray-600 mb-12">'
-        '<span class="inline-flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-sm" style="background:var(--forest)"></span>Business hours in both</span>'
-        '<span class="inline-flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-sm" style="background:var(--leaf)"></span>Awake in both, fine to call</span>'
-        '<span class="inline-flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-sm" style="background:#E5E7EB"></span>Night somewhere, avoid</span>'
-        '<span class="inline-flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-sm ring-2" style="background:var(--coral);--tw-ring-color:var(--coral)"></span>Now in Suriname</span>'
-        '</div>')
+    call = ('<section class="tm-card" id="call"><div class="tm-hd"><h2 class="serif">Best time to call abroad</h2></div>'
+            '<div class="cv-row" style="margin-bottom:.6rem"><label for="overlap-city" class="sr-only">Compare Suriname with</label>'
+            '<select id="overlap-city"></select></div>'
+            '<p id="overlap-note" class="tm-note">&nbsp;</p>'
+            '<div id="overlap-bar" class="ov-bar"></div>'
+            '<div class="ov-ax" translate="no"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>'
+            '<div class="ov-leg"><span><i style="background:var(--forest)"></i>Business hours in both</span>'
+            '<span><i style="background:var(--leaf)"></i>Awake in both, fine to call</span>'
+            '<span><i style="background:#E5E7EB"></i>Night somewhere, avoid</span>'
+            '<span><i style="background:#fff;box-shadow:inset 0 0 0 2px var(--coral)"></i>Now in Suriname</span></div>'
+            '<p class="tm-src">Hours are Suriname time. Tap or hover a block to see the time abroad.</p></section>')
 
-    # ── Difference table ────────────────────────────────────────────────────
-    body += ('<p class="text-gray-700 leading-relaxed mb-6 max-w-2xl">'
-        'Suriname runs on one time zone, Suriname Time (SRT), 3 hours behind UTC, and never changes its clocks '
-        'for daylight saving. Because countries such as the Netherlands and the United States do change theirs, '
-        'the difference to Suriname shifts by an hour twice a year. Every tool on this page uses live time-zone '
-        'data, so it stays correct through those changes.</p>')
-    body += '<h2 class="serif text-2xl font-bold text-gray-900 mb-3">Time difference from Suriname</h2>'
-    body += '<p id="diff-now" class="text-gray-600 text-sm mb-4">&nbsp;</p>'
     rows = [
         ("Netherlands", "Amsterdam", "4 hours ahead in winter, 5 in summer", "Yes"),
         ("United Kingdom", "London", "3 hours ahead in winter, 4 in summer", "Yes"),
@@ -25223,252 +26421,25 @@ def build_time_page():
         ("Guyana", "Georgetown", "1 hour behind", "No"),
         ("India", "Mumbai", "8 hours 30 minutes ahead", "No"),
         ("China", "Beijing", "11 hours ahead", "No"),
-        ("Malaysia", "Kuala Lumpur", "11 hours ahead", "No"),
+        ("Indonesia (Java)", "Jakarta", "10 hours ahead", "No"),
     ]
-    trs = ""
-    for place, city, diff, dst in rows:
-        trs += ('<tr class="border-b border-gray-100">'
-            f'<td class="py-3 pr-4 font-semibold text-gray-900 align-top">{place}<span class="block text-xs font-normal text-gray-400">{city}</span></td>'
-            f'<td class="py-3 pr-4 text-gray-700 align-top">{diff}</td>'
-            f'<td class="py-3 text-gray-700 align-top">{dst}</td></tr>')
-    body += ('<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-12 overflow-x-auto">'
-        '<table class="w-full text-sm"><thead><tr class="border-b-2 border-gray-200 text-left">'
-        '<th class="py-2 pr-4 font-semibold text-gray-900">Place</th>'
-        '<th class="py-2 pr-4 font-semibold text-gray-900">Difference from Suriname</th>'
-        '<th class="py-2 font-semibold text-gray-900">Daylight saving?</th></tr></thead>'
-        '<tbody>' + trs + '</tbody></table></div>')
+    trs = "".join(f'<tr><td><b>{p}</b><small>{c}</small></td><td>{d}</td><td>{s}</td></tr>' for p, c, d, s in rows)
+    table = ('<section class="tm-card"><div class="tm-hd"><h2 class="serif">Time difference from Suriname</h2></div>'
+             '<p id="diff-now" class="tm-note">&nbsp;</p>'
+             '<div class="tb-wrap"><table class="tm-tbl"><thead><tr><th>Place</th><th>Difference from Suriname</th><th>Daylight saving?</th></tr></thead>'
+             '<tbody>' + trs + '</tbody></table></div>'
+             '<p class="tm-note" style="margin-top:.8rem">Suriname runs on one time zone, Suriname Time (SRT), 3 hours behind UTC, and never '
+             'changes its clocks. Because the Netherlands and the United States do change theirs, the difference shifts by an hour twice '
+             'a year. Every tool on this page uses live time-zone data, so it stays correct through those changes.</p></section>')
+    world = ('<section class="tm-card"><div class="tm-hd"><h2 class="serif">Suriname vs the world, right now</h2></div>'
+             '<div id="worldclock" class="wc"></div></section>')
 
-    body += _hub_faq_html(faq)
-
-    js = r'''<script>
-(function(){
-  var SR='America/Paramaribo', NL='Europe/Amsterdam';
-  var use12=false; try{ use12=(localStorage.getItem('esr_time_fmt')==='12'); }catch(e){}
-  function pad(n){ return (n<10?'0':'')+n; }
-  var CITIES=[
-    {tz:'America/Paramaribo', label:'Paramaribo', sub:'Suriname', home:true},
-    {tz:'UTC',                label:'UTC / GMT',  sub:'Coordinated'},
-    {tz:'Europe/Amsterdam',   label:'Amsterdam',  sub:'Netherlands'},
-    {tz:'Europe/Paris',       label:'Paris',      sub:'France'},
-    {tz:'Europe/London',      label:'London',     sub:'United Kingdom'},
-    {tz:'America/New_York',   label:'New York',   sub:'US East'},
-    {tz:'America/Chicago',    label:'Chicago',    sub:'US Central'},
-    {tz:'America/Sao_Paulo',  label:'São Paulo', sub:'Brazil'},
-    {tz:'America/Guyana',     label:'Georgetown', sub:'Guyana'},
-    {tz:'America/Cayenne',    label:'Cayenne',    sub:'French Guiana'},
-    {tz:'Asia/Kolkata',       label:'Mumbai',     sub:'India'},
-    {tz:'Asia/Shanghai',      label:'Beijing',    sub:'China'},
-    {tz:'Asia/Kuala_Lumpur',  label:'Kuala Lumpur', sub:'Malaysia'}
-  ];
-  var OFFSETS=(function(){ var a=[]; for(var z=-12; z<=14; z++){ if(z===0) continue; var tz=z>0?('Etc/GMT-'+z):('Etc/GMT+'+(-z)); a.push({tz:tz, label:'UTC'+(z<0?'-':'+')+pad(Math.abs(z))+':00', sub:'Fixed offset'}); } return a; })();
-  var ZONES=CITIES.concat(OFFSETS);
-
-  function offMin(tz, date){
-    var dtf=new Intl.DateTimeFormat('en-US',{timeZone:tz,hour12:false,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    var p={}; dtf.formatToParts(date).forEach(function(x){ p[x.type]=x.value; });
-    var h=(p.hour==='24')?0:parseInt(p.hour,10);
-    var asUTC=Date.UTC(+p.year, +p.month-1, +p.day, h, +p.minute, +p.second);
-    return Math.round((asUTC-date.getTime())/60000);
-  }
-  function fmt(tz, date, opts){ opts=opts||{}; opts.timeZone=tz; return new Intl.DateTimeFormat('en-GB', opts).format(date); }
-  function tOpts(sec){
-    var o = use12 ? {hour:'numeric',minute:'2-digit',hour12:true} : {hour:'2-digit',minute:'2-digit',hour12:false};
-    if(sec) o.second='2-digit';
-    return o;
-  }
-  function wallToUTC(y, mo, d, h, mi, tz){
-    var guess=Date.UTC(y, mo-1, d, h, mi);
-    var o=offMin(tz, new Date(guess));
-    var utc=guess-o*60000;
-    o=offMin(tz, new Date(utc));
-    return guess-o*60000;
-  }
-  function zLabel(tz){ for(var i=0;i<ZONES.length;i++){ if(ZONES[i].tz===tz) return ZONES[i]; } return null; }
-  function labelFor(tz){ var c=zLabel(tz); return c?(c.sub==='Fixed offset'?c.label:c.label+', '+c.sub):tz.split('/').pop().replace(/_/g,' '); }
-  function shortLabel(tz){ var c=zLabel(tz); return c?c.label:tz.split('/').pop().replace(/_/g,' '); }
-  function diffText(mins, a, b){
-    if(mins===0) return a+' is on the same time as '+b;
-    var x=Math.abs(mins), h=Math.floor(x/60), m=x%60, s=h+'h'+(m?(' '+m+'m'):'');
-    return a+' is '+s+' '+(mins>0?'ahead of':'behind')+' '+b;
-  }
-  function partsIn(tz, date){
-    var f=new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour12:false,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
-    var p={}; f.formatToParts(date).forEach(function(x){ p[x.type]=x.value; });
-    return {y:p.year, mo:p.month, d:p.day, h:(p.hour==='24'?'00':p.hour), mi:p.minute};
-  }
-  function fillHM(){
-    if(!hSel) return;
-    var oh='';
-    if(use12){ for(var i=1;i<=12;i++){ oh+='<option value="'+i+'">'+i+'</option>'; } }
-    else { for(var k=0;k<24;k++){ oh+='<option value="'+k+'">'+pad(k)+'</option>'; } }
-    hSel.innerHTML=oh;
-    var om=''; for(var j=0;j<60;j++){ om+='<option value="'+j+'">'+pad(j)+'</option>'; } mSel.innerHTML=om;
-    if(apSel) apSel.style.display=use12?'':'none';
-  }
-  function get24(){
-    if(use12){ var hh=(+hSel.value)%12; if(apSel.value==='PM') hh+=12; return [hh, +mSel.value]; }
-    return [+hSel.value, +mSel.value];
-  }
-  function set24(h, mi){
-    if(use12){ var ap=h>=12?'PM':'AM', hh=h%12; if(hh===0) hh=12; hSel.value=String(hh); apSel.value=ap; }
-    else { hSel.value=String(h); }
-    mSel.value=String(mi);
-  }
-  function setNow(){
-    if(!cFrom) return;
-    var q=partsIn(cFrom.value, new Date());
-    set24(+q.h, +q.mi);
-    cDate.value=q.y+'-'+q.mo+'-'+q.d;
-    compute();
-  }
-  function paintFmt(){
-    var b24=document.getElementById('fmt-24'), b12=document.getElementById('fmt-12');
-    if(!b24) return;
-    b24.style.background=use12?'#fff':'var(--forest)'; b24.style.color=use12?'var(--forest)':'#fff';
-    b12.style.background=use12?'var(--forest)':'#fff'; b12.style.color=use12?'#fff':'var(--forest)';
-  }
-  function setFmt(v){
-    var cur = (hSel && hSel.options.length) ? get24() : null;
-    use12=v;
-    try{ localStorage.setItem('esr_time_fmt', v?'12':'24'); }catch(e){}
-    paintFmt();
-    if(hSel){ fillHM(); if(cur) set24(cur[0], cur[1]); }
-    tick(); compute();
-  }
-
-  // ── World clock band ──
-  var wc=document.getElementById('worldclock');
-  if(wc){
-    var wh='';
-    for(var i=0;i<CITIES.length;i++){
-      var c=CITIES[i];
-      var cls=c.home?'rounded-xl p-3 text-center':'rounded-xl border border-gray-100 bg-white p-3 text-center';
-      var sty=c.home?'style="background:var(--forest)"':'';
-      var lc=c.home?'text-white':'text-gray-900';
-      var sc=c.home?'text-white/60':'text-gray-400';
-      wh+='<div class="'+cls+'" '+sty+'>'
-        +'<div class="text-xs '+ (c.home?'text-white/80':'text-gray-500') +'">'+c.label+'</div>'
-        +'<div class="text-[11px] '+sc+' -mt-0.5">'+c.sub+'</div>'
-        +'<div class="font-mono text-xl font-bold tabular-nums mt-1 '+lc+'" data-clock="'+c.tz+'">00:00</div>'
-        +'<div class="text-[10px] '+sc+'" data-cd="'+c.tz+'"></div></div>';
-    }
-    wc.innerHTML=wh;
-  }
-
-  // ── Converter ──
-  var cFrom=document.getElementById('conv-from'), cTo=document.getElementById('conv-to');
-  var hSel=document.getElementById('conv-hour'), mSel=document.getElementById('conv-min'), apSel=document.getElementById('conv-ap'), cDate=document.getElementById('conv-date');
-  var rTime=document.getElementById('conv-result-time'), rDate=document.getElementById('conv-result-date'), rLab=document.getElementById('conv-result-label');
-  function fillSel(sel, def, extra){
-    var o='';
-    if(extra && !zLabel(extra)){ o+='<option value="'+extra+'">Your time zone ('+extra.split('/').pop().replace(/_/g,' ')+')</option>'; }
-    o+='<optgroup label="Cities">';
-    for(var i=0;i<CITIES.length;i++){ o+='<option value="'+CITIES[i].tz+'">'+CITIES[i].label+' ('+CITIES[i].sub+')</option>'; }
-    o+='</optgroup><optgroup label="UTC / GMT offset">';
-    for(var j=0;j<OFFSETS.length;j++){ o+='<option value="'+OFFSETS[j].tz+'">'+OFFSETS[j].label+'</option>'; }
-    o+='</optgroup>';
-    sel.innerHTML=o; sel.value=def;
-  }
-  function compute(){
-    if(!cFrom) return;
-    var d=(cDate.value||'').split('-');
-    if(d.length!==3){ var n=new Date(); d=[n.getFullYear(), n.getMonth()+1, n.getDate()]; }
-    var t=get24();
-    var utc=wallToUTC(+d[0], +d[1], +d[2], t[0], t[1], cFrom.value);
-    var obj=new Date(utc);
-    rTime.textContent=fmt(cTo.value, obj, tOpts(false));
-    rDate.textContent=fmt(cTo.value, obj, {weekday:'long',day:'numeric',month:'long'});
-    rLab.textContent=labelFor(cTo.value);
-    var cd=document.getElementById('conv-diff');
-    if(cd) cd.textContent=diffText(offMin(cTo.value,obj)-offMin(cFrom.value,obj), shortLabel(cTo.value), shortLabel(cFrom.value));
-  }
-  if(cFrom){
-    var userTz='UTC'; try{ userTz=Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC'; }catch(e){}
-    fillSel(cFrom, userTz, userTz); fillSel(cTo, SR, userTz);
-    fillHM();
-    setNow();
-    [cFrom,cTo,hSel,mSel,apSel,cDate].forEach(function(el){ el.addEventListener('change', compute); });
-    document.getElementById('conv-swap').addEventListener('click', function(){
-      var a=cFrom.value; cFrom.value=cTo.value; cTo.value=a; compute();
-    });
-    document.getElementById('conv-now').addEventListener('click', setNow);
-  }
-
-  // ── Overlap bar + live diffs ──
-  function relDiff(d){ var a=Math.abs(d), u=(a===1?'hour':'hours'); return d===0?'on the same time as Suriname':(d>0? d+' '+u+' ahead of Suriname':a+' '+u+' behind Suriname'); }
-  function renderOverlap(){
-    var now=new Date();
-    var oc=document.getElementById('overlap-city');
-    var tz=(oc && oc.value)?oc.value:NL;
-    var cityLabel='Amsterdam', countryLabel='the Netherlands';
-    for(var i=0;i<CITIES.length;i++){ if(CITIES[i].tz===tz){ cityLabel=CITIES[i].label; countryLabel=CITIES[i].sub; } }
-    var diff=Math.round((offMin(tz,now)-offMin(SR,now))/60);
-    var srHour=parseInt(fmt(SR, now, {hour:'2-digit',hour12:false}),10)%24;
-    var note=document.getElementById('overlap-note');
-    if(note) note.innerHTML='Right now '+countryLabel+' is <strong>'+relDiff(diff)+'</strong>. Green blocks are good times to call, when it is daytime in both places.';
-    var bar=document.getElementById('overlap-bar');
-    if(bar){
-      var b='';
-      for(var hh=0; hh<24; hh++){
-        var oh=((hh+diff)%24+24)%24;
-        var col='#E5E7EB';
-        var srDay=(hh>=7 && hh<=22), ocDay=(oh>=7 && oh<=22);
-        var srBiz=(hh>=9 && hh<=17), ocBiz=(oh>=9 && oh<=17);
-        if(srBiz && ocBiz) col='var(--forest)';
-        else if(srDay && ocDay) col='var(--leaf)';
-        var ring=(hh===srHour)?';box-shadow:inset 0 0 0 2px var(--coral)':'';
-        b+='<div class="flex-1" style="background:'+col+ring+'" title="Suriname '+pad(hh)+':00 = '+cityLabel+' '+pad(oh)+':00"></div>';
-      }
-      bar.innerHTML=b;
-    }
-    var dn=document.getElementById('diff-now');
-    if(dn){
-      var nl2=Math.round((offMin(NL,now)-offMin(SR,now))/60);
-      var ny=Math.round((offMin('America/New_York',now)-offMin(SR,now))/60);
-      dn.innerHTML='Right now: the Netherlands is '+nl2+' hours ahead of Suriname, and New York is '
-        +(ny===0?'on the same time.':(ny>0? ny+' hours ahead.':Math.abs(ny)+' hours behind.'));
-    }
-  }
-
-  // ── Ticker ──
-  function tick(){
-    var now=new Date();
-    var sc=document.getElementById('sr-clock');
-    if(sc) sc.textContent=fmt(SR, now, tOpts(true));
-    var sd=document.getElementById('sr-date');
-    if(sd) sd.textContent=fmt(SR, now, {weekday:'long',day:'numeric',month:'long',year:'numeric'});
-    var clocks=document.querySelectorAll('[data-clock]');
-    for(var i=0;i<clocks.length;i++){
-      var tz=clocks[i].getAttribute('data-clock');
-      clocks[i].textContent=fmt(tz, now, tOpts(false));
-      var day=document.querySelector('[data-cd="'+tz+'"]');
-      if(day){
-        var od=fmt(tz, now, {weekday:'short'});
-        var here=fmt(SR, now, {weekday:'short'});
-        day.textContent=(od===here)?'':od;
-      }
-    }
-  }
-
-  // ── Init ──
-  var b24=document.getElementById('fmt-24'), b12=document.getElementById('fmt-12');
-  if(b24){ b24.addEventListener('click', function(){ setFmt(false); }); b12.addEventListener('click', function(){ setFmt(true); }); }
-  paintFmt();
-  var ocSel=document.getElementById('overlap-city');
-  if(ocSel){
-    var oo='';
-    for(var oi=0; oi<CITIES.length; oi++){ if(CITIES[oi].home||CITIES[oi].tz==='UTC') continue; oo+='<option value="'+CITIES[oi].tz+'"'+(CITIES[oi].tz===NL?' selected':'')+'>'+CITIES[oi].label+' ('+CITIES[oi].sub+')</option>'; }
-    ocSel.innerHTML=oo;
-    ocSel.addEventListener('change', renderOverlap);
-  }
-  tick(); renderOverlap();
-  setInterval(tick, 1000);
-  setInterval(renderOverlap, 60000);
-})();
-</script>'''
-
-    main = '<main class="max-w-5xl mx-auto px-5 py-12 pb-24">' + body + '</main>'
-    return head + hero + main + js + "\n" + footer_html() + "\n</body>\n</html>"
+    main = ('<main class="tm2 max-w-3xl mx-auto px-5 py-6 pb-24">' + clock + hol_card + conv + call + world + table
+            + _hub_faq_html(faq) + '</main>')
+    data = {"hol": [[h["d"], h["en"], h["nl"]] for h in hols], "until": until, "inc": incomplete}
+    data_js = ('<script>window.TM2=' + json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+               + ';window.TM2_I18N=' + json.dumps(_TM2_I18N, ensure_ascii=False, separators=(",", ":")) + ';</script>')
+    return head + hero + main + data_js + _TM2_JS + "\n" + footer_html() + "\n</body>\n</html>"
 
 
 def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
@@ -25942,620 +26913,729 @@ def _generate_pwa_icons():
         print(f"  OK  icons/icon-{size}.png (Pillow fallback)")
 
 
+_WX2_CSS = """  <style>
+    .wx2 .serif{font-family:Newsreader,Georgia,serif}
+    .wx-ds{display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;margin:0 -1.25rem .9rem;padding:2px 1.25rem 6px}
+    .wx-ds::-webkit-scrollbar{display:none}
+    .wx-d{flex:none;display:inline-flex;align-items:center;gap:.3rem;border:1px solid var(--bd-card);background:var(--card);border-radius:999px;padding:.38rem .85rem;font-size:.82rem;font-weight:700;color:var(--ink);cursor:pointer}
+    .wx-d svg{width:14px;height:14px}
+    .wx-d.on{background:var(--forest);border-color:var(--forest);color:#fff}
+    .wx-me{color:var(--forest2)}
+    .wx-err{background:#fdecea;color:#9b2c1d;border-radius:8px;padding:.6rem .8rem;font-size:.85rem;margin:0 0 .8rem}
+    .wx-err[hidden]{display:none}
+    /* now card: sky tinted by time of day */
+    .wx-now{border-radius:var(--r-card);padding:1.1rem 1.1rem 1rem;color:#16324a;box-shadow:var(--sh-card);margin-bottom:1rem;position:relative;overflow:hidden;background:linear-gradient(160deg,#d8ecfb,#eef6fd 60%,#fbf5e9)}
+    .wx-now.tc-dawn{background:linear-gradient(160deg,#fbd9b5,#fde9d3 55%,#fbf5e9);color:#5a3412}
+    .wx-now.tc-dusk{background:linear-gradient(160deg,#f2a76b,#f7cfa2 55%,#fbe8d2);color:#4a2410}
+    .wx-now.tc-night{background:linear-gradient(160deg,#0f1f3a,#1d3357 65%,#27406a);color:#e6eefb}
+    .wx-now.rainy{background:linear-gradient(160deg,#9fb3c4,#cad6e0 60%,#e9eef2);color:#1f2f3c}
+    .wx-now.tc-night.rainy{background:linear-gradient(160deg,#1b2633,#2c3a4a 65%,#36485c);color:#e6eefb}
+    .wx-now-top{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start}
+    .wx-place{font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin:0;opacity:.85}
+    .wx-upd{font-weight:600;letter-spacing:0;text-transform:none;opacity:.7}
+    .wx-temp{display:flex;align-items:center;gap:.6rem;margin:.1rem 0 0}
+    .wx-temp b{font-family:Newsreader,Georgia,serif;font-size:4.2rem;line-height:1;font-weight:500;font-variant-numeric:tabular-nums}
+    .wx-g svg{width:58px;height:58px}
+    .wx-desc{font-weight:700;font-size:1rem;margin:.2rem 0 0}
+    .wx-facts{display:grid;grid-template-columns:auto auto;gap:.35rem 1rem;font-size:.82rem;margin:.2rem 0 0;text-align:right}
+    .wx-facts p{margin:0}
+    .wx-facts small{display:block;font-size:.64rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.65}
+    .wx-facts b{font-variant-numeric:tabular-nums}
+    .wx-head{font-family:Newsreader,Georgia,serif;font-size:1.2rem;line-height:1.35;margin:.9rem 0 .2rem}
+    .wx-head:empty{display:none}
+    .wx-sun svg{display:block;width:100%;max-width:440px;height:auto;margin:.4rem auto 0}
+    @media (min-width:640px){.wx-ds{flex-wrap:wrap;overflow:visible}}
+    @media (max-width:420px){.wx-temp b{font-size:3.4rem}.wx-g svg{width:46px;height:46px}.wx-facts{grid-template-columns:auto}}
+    /* cards */
+    .wx-card{background:var(--card);border:1px solid var(--bd-card);border-radius:var(--r-card);box-shadow:var(--sh-card);padding:1rem;margin-bottom:1rem}
+    .wx-hd{display:flex;gap:.7rem;align-items:flex-start;margin-bottom:.8rem}
+    .wx-hd h2,.wx-hd2 h2{font-size:1.3rem;font-weight:700;color:var(--ink);margin:0;line-height:1.2}
+    .wx-hd2{display:flex;align-items:baseline;justify-content:space-between;gap:.6rem;margin-bottom:.7rem}
+    .wx-ic{flex:none;width:38px;height:38px;border-radius:10px;background:#e3efe6;color:var(--forest);display:flex;align-items:center;justify-content:center}
+    .wx-ic svg{width:22px;height:22px}
+    .wx-sub{font-size:.8rem;color:var(--ink-soft);margin:.15rem 0 0}
+    .wx-sm{font-size:.86rem;color:var(--ink)}
+    /* commute periods */
+    .wx-per{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5rem}
+    @media (max-width:560px){.wx-per{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    .pr{border-radius:10px;padding:.7rem .7rem .6rem;background:#f4f7f2;border:1px solid transparent;position:relative}
+    .pr.past{opacity:.45}
+    .pr.wet{background:#e6eefb;border-color:#c9d9f4}
+    .pr.maybe{background:#f6f1e1;border-color:#eadfbf}
+    .pr h3{font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0}
+    .pr .tm{font-size:.7rem;color:#8a8f86;margin:0 0 .35rem}
+    .pr .pc{font-family:Newsreader,Georgia,serif;font-size:1.9rem;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+    .pr .pc small{font-size:.9rem}
+    .pr .vd{display:flex;align-items:center;gap:.3rem;font-size:.78rem;font-weight:800;margin:.35rem 0 .3rem}
+    .pr .vd svg{width:16px;height:16px}
+    .pr.wet .vd{color:#1d4ed8}.pr.maybe .vd{color:#a16207}.pr.dry .vd{color:#15803d}
+    .pr .ag{display:flex;gap:3px}
+    .pr .ag i{width:9px;height:9px;border-radius:50%;background:#d6dcd8}
+    .pr .ag i.y{background:#2563eb}
+    .pr .mm{font-size:.68rem;color:#8a8f86;margin-left:auto}
+    .pr .agl{display:flex;align-items:center;gap:.35rem}
+    .wx-dry{font-size:.88rem;font-weight:700;color:var(--forest);margin:.8rem 0 0}
+    .wx-dry:empty,.wx-legend:empty{display:none}
+    .wx-legend{font-size:.72rem;color:#8a8f86;margin:.45rem 0 0;display:flex;align-items:baseline;gap:.4rem}
+    .wx-legend i{flex:none}
+    .wx-legend i{width:8px;height:8px;border-radius:50%;background:#2563eb;display:inline-block}
+    /* nowcast */
+    .wx-nc-s{font-size:.85rem;color:#2563eb}
+    .wx-nc-bars{display:flex;align-items:flex-end;gap:3px;height:46px}
+    .wx-nc-bars i{flex:1;border-radius:3px 3px 0 0;background:#c7d7f0;min-height:3px}
+    .wx-nc-t{display:flex;gap:3px;margin-top:.3rem}
+    .wx-nc-t span{flex:1;text-align:center;font-size:.66rem;color:#9ca3af;font-variant-numeric:tabular-nums}
+    /* hourly */
+    .wx-hr{overflow-x:auto;scrollbar-width:thin;margin:0 -1rem;padding:0 1rem}
+    .wx-hr svg{display:block}
+    .wx-hr text{font-family:inherit}
+    /* 7 day */
+    .wx-7{display:flex;flex-direction:column}
+    .d7{display:grid;grid-template-columns:4.6rem 30px 3rem minmax(0,1fr);align-items:center;gap:.6rem;padding:.55rem .2rem;border-top:1px solid #f1ebdc;cursor:pointer;border-radius:6px}
+    .d7:first-child{border-top:0}
+    .d7:hover,.d7.on{background:#faf6ec}
+    .d7 b{font-size:.9rem;color:var(--ink)}
+    .d7 svg{width:26px;height:26px;color:#5b6b78}
+    .d7 .rp{font-size:.78rem;font-weight:700;color:#2563eb;text-align:right;font-variant-numeric:tabular-nums}
+    .d7 .rp.n{color:transparent}
+    .tr{display:flex;align-items:center;gap:.45rem;font-size:.84rem;font-variant-numeric:tabular-nums}
+    .tr .lo{color:#8a8f86;width:2rem;text-align:right}
+    .tr .hi{font-weight:800;color:var(--ink);width:2rem}
+    .tr .bar{flex:1;height:6px;border-radius:9px;background:#efe8d8;position:relative}
+    .tr .bar i{position:absolute;top:0;bottom:0;border-radius:9px;background:linear-gradient(90deg,#f6c453,#e76f51)}
+    .d7x{grid-column:1/-1;cursor:default}
+    .d7x[hidden]{display:none}
+    .wx-2col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .wx-2col .wx-card{margin-bottom:1rem}
+    @media (max-width:640px){.wx-2col{grid-template-columns:1fr;gap:0}}
+    .aq-big{display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem}
+    .aq-big b{font-family:Newsreader,Georgia,serif;font-size:2rem;line-height:1}
+    .aq-pill{font-size:.72rem;font-weight:800;color:#fff;border-radius:999px;padding:.2rem .6rem}
+    .aq-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin:.5rem 0}
+    .aq-grid p{margin:0;background:#f4f7f2;border-radius:8px;padding:.4rem .5rem;font-size:.72rem;color:var(--ink-soft)}
+    .aq-grid b{display:block;font-size:.95rem;color:var(--ink);font-variant-numeric:tabular-nums}
+    .wx-note{font-size:.76rem;color:var(--ink-soft);margin:.4rem 0 0}
+    /* tides */
+    .td-tabs{display:flex;gap:.35rem;overflow-x:auto;scrollbar-width:none;margin:0 0 .7rem}
+    .td-tab{flex:none;border:1px solid var(--bd-card);background:#fff;border-radius:999px;padding:.32rem .8rem;font-size:.8rem;font-weight:700;color:var(--ink);cursor:pointer}
+    .td-tab.on{background:#0f4c75;border-color:#0f4c75;color:#fff}
+    .td-panel[hidden]{display:none}
+    .td-now{display:flex;flex-wrap:wrap;align-items:baseline;gap:.3rem 1rem;margin-bottom:.4rem}
+    .td-now b{font-family:Newsreader,Georgia,serif;font-size:1.6rem;color:#0f4c75;line-height:1.1}
+    .td-now span{font-size:.86rem;color:var(--ink)}
+    .td-now em{font-style:normal;font-size:.8rem;color:var(--ink-soft)}
+    .td-chart svg{display:block;width:100%;height:auto}
+    .td-spring{background:#fff4e0;border:1px solid #f2d39b;color:#6b4407;border-radius:8px;padding:.6rem .75rem;font-size:.84rem;margin:.6rem 0;line-height:1.45}
+    .td-spring.now{background:#fde7e2;border-color:#f4b9ab;color:#7d2412}
+    .td-note{font-size:.76rem;color:var(--ink-soft);margin:.4rem 0}
+    .tb-wrap{overflow-x:auto}
+    .td-tbl{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:.6rem}
+    .td-tbl th{font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:#9ca3af;font-weight:800;text-align:left;padding:.4rem .4rem;border-bottom:1px solid #efe8d8;background:transparent}
+    .td-tbl td{padding:.45rem .4rem;border-bottom:1px solid #f4efe3;color:var(--ink)}
+    .td-tbl .n{text-align:right;font-variant-numeric:tabular-nums}
+    .td-tbl .d{color:#8a8f86;font-size:.78rem;white-space:nowrap}
+    .td-tbl tr.hi td{font-weight:700}
+    .td-ar{font-style:normal;font-size:.62rem;margin-right:.35rem;color:#0f4c75}
+    .td-tbl tr.lo .td-ar{color:#8a8f86}
+    .td-src,.wx-src{font-size:.72rem;color:#9ca3af;margin:.7rem 0 0}
+    .wx-src a,.td-src a{text-decoration:underline}
+    .wx-skel{color:#9ca3af}
+  </style>"""
+
+
+_WX2_I18N = {
+ "en": {"dirs":"N,NE,E,SE,S,SW,W,NW","uvLow":"low","uvMod":"moderate","uvHigh":"high","uvVHigh":"very high","uvExt":"extreme",
+  "c0":"Clear sky","c1":"Mostly clear","c2":"Partly cloudy","c3":"Cloudy","c45":"Fog","c51":"Drizzle","c61":"Light rain","c63":"Rain","c65":"Heavy rain","c80":"Showers","c81":"Heavy showers","c82":"Violent showers","c95":"Thunderstorm","c96":"Thunderstorm with hail",
+  "daylight":"Daylight","hu":"h","mu":"m","today":"Today","tomorrow":"Tomorrow","umbSub":"rain chance per part of the day, four weather models compared",
+  "vWet":"Take an umbrella","vMaybe":"Keep one handy","vDry":"Dry","p_morning":"Morning commute","p_midday":"Midday","p_afternoon":"Afternoon commute","p_evening":"Evening",
+  "dryWin":"Driest stretch:","noDry":"No long dry stretch expected.","legend":"Blue dot: that model expects rain",
+  "hdDryToday":"A dry day: no rain expected for the rest of today.","hdDryTom":"Tomorrow looks dry.","hdWet":"Rain likely {p}.","hdMaybe":"A shower is possible {p}.",
+  "in_morning":"during the morning commute","in_midday":"around midday","in_afternoon":"during the afternoon commute","in_evening":"in the evening","and":" and ",
+  "hdDry2":"Dry from {a} to {b}.","hdUv":"Up to {t}° with very strong sun around midday.",
+  "ncDry":"Dry for the next 2 hours","ncNow":"Raining now","ncAt":"Rain from about {t}","hourly":"Hourly forecast","now":"Now","rainTotal":"Rain total","na":"Not available right now",
+  "aqGood":"Good","aqMod":"Moderate","aqUsg":"Unhealthy for sensitive groups","aqUnh":"Unhealthy","aqVunh":"Very unhealthy",
+  "aqA0":"No precautions needed.","aqA1":"Unusually sensitive people may want to limit long, intense time outdoors.","aqA2":"Children, older people and people with heart or lung conditions should limit long exertion outdoors.","aqA3":"Everyone may feel effects; sensitive groups should stay out of long exertion outdoors.","aqA4":"Health alert: everyone should avoid long exertion outdoors.",
+  "dustHigh":"Saharan dust is elevated over this district.","dustLater":"Saharan dust expected to rise later today.","dustLow":"Saharan dust low.","dust":"Dust",
+  "seaCalm":"Calm","seaSlight":"Slight","seaMod":"Moderate","seaRough":"Rough","seaOff":"Wave height off the {p} mouth.","seaMax":"Max 24 h","seaAt":"Highest at","seaPer":"Wave period",
+  "mNew":"New moon","mWxC":"Waxing crescent","mFq":"First quarter","mWxG":"Waxing gibbous","mFull":"Full moon","mWnG":"Waning gibbous","mLq":"Last quarter","mWnC":"Waning crescent","mNext":"{m} in {d} days",
+  "tideChart":"Tide curve for the next two days","rising":"rising","falling":"falling","highAt":"high tide {t}","lowAt":"low tide {t}","nearMe":"Near me"},
+ "nl": {"dirs":"N,NO,O,ZO,Z,ZW,W,NW","uvLow":"laag","uvMod":"matig","uvHigh":"hoog","uvVHigh":"zeer hoog","uvExt":"extreem",
+  "c0":"Onbewolkt","c1":"Vrijwel onbewolkt","c2":"Half bewolkt","c3":"Bewolkt","c45":"Mist","c51":"Motregen","c61":"Lichte regen","c63":"Regen","c65":"Zware regen","c80":"Buien","c81":"Zware buien","c82":"Zeer zware buien","c95":"Onweer","c96":"Onweer met hagel",
+  "daylight":"Daglicht","hu":"u","mu":"m","today":"Vandaag","tomorrow":"Morgen","umbSub":"regenkans per dagdeel, vier weermodellen vergeleken",
+  "vWet":"Neem een paraplu mee","vMaybe":"Hou er een bij de hand","vDry":"Droog","p_morning":"Ochtendspits","p_midday":"Middag","p_afternoon":"Middagspits","p_evening":"Avond",
+  "dryWin":"Droogste periode:","noDry":"Geen lange droge periode verwacht.","legend":"Blauwe stip: dat model verwacht regen",
+  "hdDryToday":"Een droge dag: de rest van vandaag geen regen verwacht.","hdDryTom":"Morgen ziet er droog uit.","hdWet":"Regen waarschijnlijk {p}.","hdMaybe":"Een bui is mogelijk {p}.",
+  "in_morning":"tijdens de ochtendspits","in_midday":"rond het middaguur","in_afternoon":"tijdens de middagspits","in_evening":"in de avond","and":" en ",
+  "hdDry2":"Droog van {a} tot {b}.","hdUv":"Tot {t}° met zeer felle zon rond het middaguur.",
+  "ncDry":"Droog de komende 2 uur","ncNow":"Het regent nu","ncAt":"Regen vanaf ongeveer {t}","hourly":"Verwachting per uur","now":"Nu","rainTotal":"Totale regen","na":"Nu niet beschikbaar",
+  "aqGood":"Goed","aqMod":"Matig","aqUsg":"Ongezond voor gevoelige groepen","aqUnh":"Ongezond","aqVunh":"Zeer ongezond",
+  "aqA0":"Geen voorzorg nodig.","aqA1":"Zeer gevoelige mensen kunnen lange, zware inspanning buiten beperken.","aqA2":"Kinderen, ouderen en mensen met hart- of longklachten beperken lange inspanning buiten.","aqA3":"Iedereen kan klachten krijgen; gevoelige groepen vermijden lange inspanning buiten.","aqA4":"Gezondheidswaarschuwing: vermijd lange inspanning buiten.",
+  "dustHigh":"Verhoogd Saharastof boven dit district.","dustLater":"Saharastof neemt later vandaag toe.","dustLow":"Weinig Saharastof.","dust":"Stof",
+  "seaCalm":"Kalm","seaSlight":"Licht","seaMod":"Matig","seaRough":"Ruw","seaOff":"Golfhoogte voor de monding van de {p}.","seaMax":"Max 24 u","seaAt":"Hoogst om","seaPer":"Golfperiode",
+  "mNew":"Nieuwe maan","mWxC":"Wassende sikkel","mFq":"Eerste kwartier","mWxG":"Wassende maan","mFull":"Volle maan","mWnG":"Afnemende maan","mLq":"Laatste kwartier","mWnC":"Afnemende sikkel","mNext":"{m} over {d} dagen",
+  "tideChart":"Getijdencurve voor de komende twee dagen","rising":"opkomend","falling":"afgaand","highAt":"hoogwater {t}","lowAt":"laagwater {t}","nearMe":"Bij mij"},
+ "es": {"dirs":"N,NE,E,SE,S,SO,O,NO","uvLow":"bajo","uvMod":"moderado","uvHigh":"alto","uvVHigh":"muy alto","uvExt":"extremo",
+  "c0":"Despejado","c1":"Mayormente despejado","c2":"Parcialmente nublado","c3":"Nublado","c45":"Niebla","c51":"Llovizna","c61":"Lluvia ligera","c63":"Lluvia","c65":"Lluvia fuerte","c80":"Chubascos","c81":"Chubascos fuertes","c82":"Chubascos muy fuertes","c95":"Tormenta","c96":"Tormenta con granizo",
+  "daylight":"Luz del día","hu":"h","mu":"min","today":"Hoy","tomorrow":"Mañana","umbSub":"probabilidad de lluvia por franja, cuatro modelos comparados",
+  "vWet":"Lleva paraguas","vMaybe":"Tenlo a mano","vDry":"Seco","p_morning":"Hora punta mañana","p_midday":"Mediodía","p_afternoon":"Hora punta tarde","p_evening":"Noche",
+  "dryWin":"Tramo más seco:","noDry":"No se espera un tramo seco largo.","legend":"Punto azul: ese modelo prevé lluvia",
+  "hdDryToday":"Día seco: no se espera lluvia el resto de hoy.","hdDryTom":"Mañana se ve seco.","hdWet":"Lluvia probable {p}.","hdMaybe":"Posible chubasco {p}.",
+  "in_morning":"en la hora punta de la mañana","in_midday":"hacia el mediodía","in_afternoon":"en la hora punta de la tarde","in_evening":"por la noche","and":" y ",
+  "hdDry2":"Seco de {a} a {b}.","hdUv":"Hasta {t}° con sol muy fuerte al mediodía.",
+  "ncDry":"Seco las próximas 2 horas","ncNow":"Está lloviendo","ncAt":"Lluvia desde aprox. las {t}","hourly":"Pronóstico por horas","now":"Ahora","rainTotal":"Lluvia total","na":"No disponible ahora",
+  "aqGood":"Buena","aqMod":"Moderada","aqUsg":"Dañina para grupos sensibles","aqUnh":"Dañina","aqVunh":"Muy dañina",
+  "aqA0":"No hace falta tomar precauciones.","aqA1":"Las personas muy sensibles pueden limitar el esfuerzo largo al aire libre.","aqA2":"Niños, mayores y personas con problemas cardíacos o pulmonares deben limitar el esfuerzo largo al aire libre.","aqA3":"Todos pueden notar efectos; los grupos sensibles deben evitar el esfuerzo largo al aire libre.","aqA4":"Alerta sanitaria: evita el esfuerzo largo al aire libre.",
+  "dustHigh":"Polvo del Sahara elevado sobre este distrito.","dustLater":"Se espera más polvo del Sahara hoy.","dustLow":"Poco polvo del Sahara.","dust":"Polvo",
+  "seaCalm":"En calma","seaSlight":"Marejadilla","seaMod":"Marejada","seaRough":"Fuerte marejada","seaOff":"Altura de ola frente a la desembocadura del {p}.","seaMax":"Máx. 24 h","seaAt":"Máximo a las","seaPer":"Período",
+  "mNew":"Luna nueva","mWxC":"Luna creciente","mFq":"Cuarto creciente","mWxG":"Gibosa creciente","mFull":"Luna llena","mWnG":"Gibosa menguante","mLq":"Cuarto menguante","mWnC":"Luna menguante","mNext":"{m} en {d} días",
+  "tideChart":"Curva de marea de los próximos dos días","rising":"subiendo","falling":"bajando","highAt":"pleamar {t}","lowAt":"bajamar {t}","nearMe":"Cerca de mí"},
+ "zh": {"dirs":"北,东北,东,东南,南,西南,西,西北","uvLow":"低","uvMod":"中等","uvHigh":"高","uvVHigh":"很高","uvExt":"极高",
+  "c0":"晴","c1":"大致晴朗","c2":"局部多云","c3":"多云","c45":"雾","c51":"毛毛雨","c61":"小雨","c63":"雨","c65":"大雨","c80":"阵雨","c81":"强阵雨","c82":"暴雨","c95":"雷暴","c96":"雷暴伴冰雹",
+  "daylight":"日照","hu":"小时","mu":"分","today":"今天","tomorrow":"明天","umbSub":"各时段降雨概率，比较四个天气模型",
+  "vWet":"带伞","vMaybe":"备一把伞","vDry":"无雨","p_morning":"早高峰","p_midday":"中午","p_afternoon":"晚高峰","p_evening":"晚上",
+  "dryWin":"最干燥时段：","noDry":"预计没有较长的无雨时段。","legend":"蓝点：该模型预计有雨",
+  "hdDryToday":"今天余下时间预计无雨。","hdDryTom":"明天看起来无雨。","hdWet":"{p}可能下雨。","hdMaybe":"{p}可能有阵雨。",
+  "in_morning":"早高峰","in_midday":"中午前后","in_afternoon":"晚高峰","in_evening":"晚上","and":"和",
+  "hdDry2":"{a}至{b}无雨。","hdUv":"最高{t}°，中午阳光非常强烈。",
+  "ncDry":"未来2小时无雨","ncNow":"正在下雨","ncAt":"约{t}起下雨","hourly":"逐小时预报","now":"现在","rainTotal":"总降雨量","na":"暂时无法获取",
+  "aqGood":"良好","aqMod":"中等","aqUsg":"对敏感人群不健康","aqUnh":"不健康","aqVunh":"非常不健康",
+  "aqA0":"无需采取防护措施。","aqA1":"特别敏感的人可减少长时间剧烈户外活动。","aqA2":"儿童、老人及心肺疾病患者应减少长时间户外活动。","aqA3":"所有人都可能受到影响，敏感人群应避免长时间户外活动。","aqA4":"健康警报：所有人应避免长时间户外活动。",
+  "dustHigh":"该地区撒哈拉沙尘浓度偏高。","dustLater":"今天晚些时候撒哈拉沙尘将增加。","dustLow":"撒哈拉沙尘较少。","dust":"沙尘",
+  "seaCalm":"平静","seaSlight":"小浪","seaMod":"中浪","seaRough":"大浪","seaOff":"{p}河口外的浪高。","seaMax":"24小时最高","seaAt":"最高时间","seaPer":"波浪周期",
+  "mNew":"新月","mWxC":"蛾眉月","mFq":"上弦月","mWxG":"盈凸月","mFull":"满月","mWnG":"亏凸月","mLq":"下弦月","mWnC":"残月","mNext":"{d}天后{m}",
+  "tideChart":"未来两天的潮汐曲线","rising":"涨潮中","falling":"落潮中","highAt":"高潮 {t}","lowAt":"低潮 {t}","nearMe":"我的位置"},
+ "fr": {"dirs":"N,NE,E,SE,S,SO,O,NO","uvLow":"faible","uvMod":"modéré","uvHigh":"élevé","uvVHigh":"très élevé","uvExt":"extrême",
+  "c0":"Ciel dégagé","c1":"Plutôt dégagé","c2":"Partiellement nuageux","c3":"Nuageux","c45":"Brouillard","c51":"Bruine","c61":"Pluie faible","c63":"Pluie","c65":"Forte pluie","c80":"Averses","c81":"Fortes averses","c82":"Averses violentes","c95":"Orage","c96":"Orage avec grêle",
+  "daylight":"Durée du jour","hu":" h","mu":" min","today":"Aujourd’hui","tomorrow":"Demain","umbSub":"risque de pluie par moment de la journée, quatre modèles comparés",
+  "vWet":"Prenez un parapluie","vMaybe":"Gardez-en un à portée","vDry":"Sec","p_morning":"Trajet du matin","p_midday":"Midi","p_afternoon":"Trajet du soir","p_evening":"Soirée",
+  "dryWin":"Période la plus sèche :","noDry":"Pas de longue période sèche prévue.","legend":"Point bleu : ce modèle prévoit de la pluie",
+  "hdDryToday":"Journée sèche : pas de pluie prévue pour le reste de la journée.","hdDryTom":"Demain s’annonce sec.","hdWet":"Pluie probable {p}.","hdMaybe":"Une averse est possible {p}.",
+  "in_morning":"pendant le trajet du matin","in_midday":"vers midi","in_afternoon":"pendant le trajet du soir","in_evening":"en soirée","and":" et ",
+  "hdDry2":"Sec de {a} à {b}.","hdUv":"Jusqu’à {t}° avec un soleil très fort vers midi.",
+  "ncDry":"Sec pendant les 2 prochaines heures","ncNow":"Il pleut","ncAt":"Pluie vers {t}","hourly":"Prévisions heure par heure","now":"Maint.","rainTotal":"Cumul de pluie","na":"Indisponible pour le moment",
+  "aqGood":"Bonne","aqMod":"Moyenne","aqUsg":"Mauvaise pour les personnes sensibles","aqUnh":"Mauvaise","aqVunh":"Très mauvaise",
+  "aqA0":"Aucune précaution nécessaire.","aqA1":"Les personnes très sensibles peuvent limiter les efforts longs et intenses en plein air.","aqA2":"Enfants, personnes âgées et personnes souffrant du cœur ou des poumons : limitez les efforts prolongés en plein air.","aqA3":"Chacun peut ressentir des effets ; les personnes sensibles évitent les efforts prolongés en plein air.","aqA4":"Alerte santé : évitez les efforts prolongés en plein air.",
+  "dustHigh":"Poussières du Sahara élevées sur ce district.","dustLater":"Hausse des poussières du Sahara attendue plus tard.","dustLow":"Peu de poussières du Sahara.","dust":"Poussières",
+  "seaCalm":"Calme","seaSlight":"Peu agitée","seaMod":"Agitée","seaRough":"Forte","seaOff":"Hauteur des vagues au large de l’embouchure du {p}.","seaMax":"Max 24 h","seaAt":"Pic à","seaPer":"Période",
+  "mNew":"Nouvelle lune","mWxC":"Premier croissant","mFq":"Premier quartier","mWxG":"Gibbeuse croissante","mFull":"Pleine lune","mWnG":"Gibbeuse décroissante","mLq":"Dernier quartier","mWnC":"Dernier croissant","mNext":"{m} dans {d} jours",
+  "tideChart":"Courbe de marée des deux prochains jours","rising":"montante","falling":"descendante","highAt":"pleine mer {t}","lowAt":"basse mer {t}","nearMe":"Autour de moi"},
+ "pt": {"dirs":"N,NE,L,SE,S,SO,O,NO","uvLow":"baixo","uvMod":"moderado","uvHigh":"alto","uvVHigh":"muito alto","uvExt":"extremo",
+  "c0":"Céu limpo","c1":"Predominantemente limpo","c2":"Parcialmente nublado","c3":"Nublado","c45":"Nevoeiro","c51":"Garoa","c61":"Chuva fraca","c63":"Chuva","c65":"Chuva forte","c80":"Pancadas de chuva","c81":"Pancadas fortes","c82":"Temporal","c95":"Tempestade","c96":"Tempestade com granizo",
+  "daylight":"Luz do dia","hu":"h","mu":"min","today":"Hoje","tomorrow":"Amanhã","umbSub":"chance de chuva por período, quatro modelos comparados",
+  "vWet":"Leve guarda-chuva","vMaybe":"Tenha um por perto","vDry":"Seco","p_morning":"Ida ao trabalho","p_midday":"Meio-dia","p_afternoon":"Volta do trabalho","p_evening":"Noite",
+  "dryWin":"Período mais seco:","noDry":"Nenhum período seco longo previsto.","legend":"Ponto azul: esse modelo prevê chuva",
+  "hdDryToday":"Dia seco: sem chuva prevista pelo resto do dia.","hdDryTom":"Amanhã deve ser seco.","hdWet":"Chuva provável {p}.","hdMaybe":"Pode cair uma pancada {p}.",
+  "in_morning":"na ida ao trabalho","in_midday":"por volta do meio-dia","in_afternoon":"na volta do trabalho","in_evening":"à noite","and":" e ",
+  "hdDry2":"Seco das {a} às {b}.","hdUv":"Até {t}° com sol muito forte ao meio-dia.",
+  "ncDry":"Seco nas próximas 2 horas","ncNow":"Chovendo agora","ncAt":"Chuva a partir das {t}","hourly":"Previsão por hora","now":"Agora","rainTotal":"Chuva total","na":"Indisponível no momento",
+  "aqGood":"Boa","aqMod":"Moderada","aqUsg":"Ruim para grupos sensíveis","aqUnh":"Ruim","aqVunh":"Muito ruim",
+  "aqA0":"Nenhuma precaução necessária.","aqA1":"Pessoas muito sensíveis podem limitar esforço longo e intenso ao ar livre.","aqA2":"Crianças, idosos e pessoas com problemas cardíacos ou pulmonares devem limitar esforço longo ao ar livre.","aqA3":"Todos podem sentir efeitos; grupos sensíveis devem evitar esforço longo ao ar livre.","aqA4":"Alerta de saúde: evite esforço longo ao ar livre.",
+  "dustHigh":"Poeira do Saara elevada sobre este distrito.","dustLater":"Poeira do Saara deve aumentar mais tarde.","dustLow":"Pouca poeira do Saara.","dust":"Poeira",
+  "seaCalm":"Calmo","seaSlight":"Pouco agitado","seaMod":"Agitado","seaRough":"Muito agitado","seaOff":"Altura das ondas na foz do {p}.","seaMax":"Máx. 24 h","seaAt":"Pico às","seaPer":"Período",
+  "mNew":"Lua nova","mWxC":"Lua crescente","mFq":"Quarto crescente","mWxG":"Crescente gibosa","mFull":"Lua cheia","mWnG":"Minguante gibosa","mLq":"Quarto minguante","mWnC":"Lua minguante","mNext":"{m} em {d} dias",
+  "tideChart":"Curva de maré dos próximos dois dias","rising":"subindo","falling":"descendo","highAt":"maré alta {t}","lowAt":"maré baixa {t}","nearMe":"Perto de mim"},
+}
+
+
+_WX2_JS = r"""<script>
+(function(){
+var D=document,W=window,TZ='America/Paramaribo',X=W.WX2||{};
+var LANG=(D.documentElement.lang||'en').slice(0,2).toLowerCase();
+var I=W.WX2_I18N||{},T=Object.assign({},I.en||{},I[LANG]||{});
+var LOC={en:'en-GB',nl:'nl-NL',es:'es-ES',zh:'zh-CN',fr:'fr-FR',pt:'pt-BR'}[LANG]||'en-GB';
+function $(s,r){return (r||D).querySelector(s);}
+function $$(s,r){return Array.prototype.slice.call((r||D).querySelectorAll(s));}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function G(k){var t=$('template[data-g="'+k+'"]');return t?t.innerHTML:'';}
+function r0(x){return Math.round(x);}
+function fmtH(d){return new Intl.DateTimeFormat(LOC,{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:TZ}).format(d);}
+function fmtDay(d,o){return new Intl.DateTimeFormat(LOC,Object.assign({weekday:'short',timeZone:TZ},o||{})).format(d);}
+// Open-Meteo times come back in local (SR) time without offset: parse as SR.
+function srd(s){return new Date(s+(s.length===16?':00':'')+'-03:00');}
+function srNow(){var n=new Date();return new Date(n.getTime()-3*3600e3);} // UTC fields = SR wall clock
+function hrOf(d){var x=new Date(d.getTime()-3*3600e3);return x.getUTCHours()+x.getUTCMinutes()/60;}
+function dayKey(d){var x=new Date(d.getTime()-3*3600e3);return x.toISOString().slice(0,10);}
+function gtag2(n,p){try{if(W.gtag)W.gtag('event',n,p||{});}catch(e){}}
+function glyph(code,night){code=+code;if(!(code>=0))return 'psun';if(code<=1)return night?'moon':'sun';if(code===2)return night?'moon':'psun';if(code===3)return 'cloud';if(code===45||code===48)return 'fog';if(code>=95)return 'storm';return 'rain';}
+function wmo(code){code=+code;var k=code<=0?'c0':code===1?'c1':code===2?'c2':code===3?'c3':(code===45||code===48)?'c45':code<=55?'c51':code===61?'c61':code===63?'c63':code<=67?'c65':code===80?'c80':code===81?'c81':code===82?'c82':code===95?'c95':code>=96?'c96':'c3';return T[k]||'';}
+function uvl(v){return v<=2?[T.uvLow,'#16a34a']:v<=5?[T.uvMod,'#ca8a04']:v<=7?[T.uvHigh,'#ea580c']:v<=10?[T.uvVHigh,'#dc2626']:[T.uvExt,'#7c3aed'];}
+function windDir(deg){var d=(T.dirs||'N,NE,E,SE,S,SW,W,NW').split(',');return d[Math.round(deg/45)%8];}
+
+var MODELS=['ecmwf_ifs025','gfs_seamless','icon_seamless','ukmo_seamless'];
+var MNAME={ecmwf_ifs025:'ECMWF',gfs_seamless:'GFS',icon_seamless:'ICON',ukmo_seamless:'UKMO'};
+var cur={lat:5.852,lon:-55.203,label:'Paramaribo'},F=null,M=null,openDay=null;
+
+function fetchJ(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);return r.json();});}
+function load(){
+  var la=cur.lat,lo=cur.lon,q='latitude='+la+'&longitude='+lo;
+  $('#wx-pl').textContent=cur.label;$('#wx-err').hidden=true;
+  var A=fetchJ('https://api.open-meteo.com/v1/forecast?'+q+'&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,uv_index,is_day'
+    +'&minutely_15=precipitation&hourly=temperature_2m,weather_code,precipitation_probability,precipitation,uv_index,is_day'
+    +'&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,sunrise,sunset,uv_index_max'
+    +'&wind_speed_unit=kmh&timezone=America%2FParamaribo&forecast_days=7');
+  var B=fetchJ('https://api.open-meteo.com/v1/forecast?'+q+'&hourly=precipitation,precipitation_probability&models='+MODELS.join(',')+'&timezone=America%2FParamaribo&forecast_days=2').catch(function(){return null;});
+  Promise.all([A,B]).then(function(r){F=r[0];M=r[1];render();}).catch(function(){$('#wx-err').hidden=false;});
+  loadAQ(la,lo);
+}
+
+/* ---------- now card ---------- */
+function phase(){
+  var d=F.daily,now=new Date(),sr=srd(d.sunrise[0]),ss=srd(d.sunset[0]);
+  var h=(now-sr)/3600e3,h2=(ss-now)/3600e3;
+  if(now<sr-1800e3||now>ss+1800e3)return 'tc-night';
+  if(h<1.2)return 'tc-dawn';if(h2<1.2)return 'tc-dusk';return 'tc-day';
+}
+function sunArc(){
+  var d=F.daily,sr=srd(d.sunrise[0]),ss=srd(d.sunset[0]),now=new Date();
+  var f=Math.max(0,Math.min(1,(now-sr)/(ss-sr))),up=now>sr&&now<ss;
+  var w=300,h=58,x=20+f*(w-40),y=h-6-Math.sin(Math.PI*f)*(h-14);
+  var dl=(ss-sr)/3600e3;
+  return '<svg viewBox="0 0 '+w+' '+(h+16)+'" aria-hidden="true"><path d="M20 '+(h-6)+' Q '+(w/2)+' '+(-h+22)+' '+(w-20)+' '+(h-6)+'" fill="none" stroke="currentColor" stroke-opacity=".28" stroke-dasharray="3 4"/>'
+    +'<line x1="8" y1="'+(h-6)+'" x2="'+(w-8)+'" y2="'+(h-6)+'" stroke="currentColor" stroke-opacity=".2"/>'
+    +(up?'<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="7" fill="#f6b73c" stroke="#fff" stroke-width="2"/>':'')
+    +'<text x="20" y="'+(h+12)+'" font-size="10" fill="currentColor" fill-opacity=".75">↑ '+fmtH(sr)+'</text>'
+    +'<text x="'+(w/2)+'" y="'+(h+12)+'" font-size="10" text-anchor="middle" fill="currentColor" fill-opacity=".6">'+esc(T.daylight)+' '+Math.floor(dl)+T.hu+' '+r0((dl%1)*60)+T.mu+'</text>'
+    +'<text x="'+(w-20)+'" y="'+(h+12)+'" font-size="10" text-anchor="end" fill="currentColor" fill-opacity=".75">↓ '+fmtH(ss)+'</text></svg>';
+}
+function renderNow(){
+  var c=F.current,ph=phase(),night=!c.is_day;
+  var card=$('#wx-now');card.className='wx-now '+ph+(c.weather_code>=51?' rainy':'');
+  $('#wx-t').textContent=r0(c.temperature_2m)+'°';
+  $('#wx-g').innerHTML=G(glyph(c.weather_code,night));
+  $('#wx-desc').textContent=wmo(c.weather_code);
+  $('#wx-fl').textContent=r0(c.apparent_temperature)+'°';
+  $('#wx-h').textContent=c.relative_humidity_2m+'%';
+  $('#wx-w').textContent=r0(c.wind_speed_10m)+' km/h '+windDir(c.wind_direction_10m);
+  var uv=r0(c.uv_index||0),ul=uvl(uv);$('#wx-uv').textContent=uv+' · '+ul[0];
+  $('#wx-upd').textContent='· '+fmtH(new Date());
+  $('#wx-sun').innerHTML=sunArc();
+}
+
+/* ---------- rain consensus ---------- */
+function hIdx(times,day,h){for(var i=0;i<times.length;i++){if(times[i].slice(0,10)===day&&+times[i].slice(11,13)===h)return i;}return -1;}
+function modelProb(i){ // average ensemble rain chance across the 4 models, and per-model values
+  var vals=[],per={};
+  if(M&&M.hourly){MODELS.forEach(function(m){var p=(M.hourly['precipitation_probability_'+m]||[])[i],mm=(M.hourly['precipitation_'+m]||[])[i];per[m]={p:p,mm:mm};if(p!=null)vals.push(p);});}
+  var avg=vals.length?vals.reduce(function(a,b){return a+b;},0)/vals.length:null;
+  return {avg:avg,per:per};
+}
+var PER=[['morning',6,9,'6:30–9:00'],['midday',11,14,'11:00–14:00'],['afternoon',15,18,'15:30–18:00'],['evening',18,22,'18:00–22:00']];
+function periodsFor(day,isToday){
+  var ht=F.hourly.time,mt=M&&M.hourly?M.hourly.time:null,nowH=hrOf(new Date()),out=[];
+  PER.forEach(function(p){
+    var maxAvg=0,mm=0,yes={},hrs=0;
+    for(var h=p[1];h<p[2];h++){
+      var i=hIdx(ht,day,h);if(i<0)continue;hrs++;
+      mm+=F.hourly.precipitation[i]||0;
+      var bp=F.hourly.precipitation_probability[i]||0,mp=mt?modelProb(hIdx(mt,day,h)):{avg:null,per:{}};
+      var a=mp.avg!=null?mp.avg:bp;if(a>maxAvg)maxAvg=a;
+      MODELS.forEach(function(m){var v=mp.per[m];if(v&&((v.p!=null&&v.p>=50)||(v.mm!=null&&v.mm>=0.5)))yes[m]=1;});
+    }
+    if(!hrs)return;
+    var n=Object.keys(yes).length,nm=mt?MODELS.filter(function(m){return (M.hourly['precipitation_probability_'+m]||[]).some(function(x){return x!=null;});}).length:0;
+    var v=(maxAvg>=60||n>=3)?'wet':((maxAvg>=30||n>=1)?'maybe':'dry');
+    out.push({k:p[0],tm:p[3],p:r0(maxAvg),mm:mm,yes:yes,n:n,nm:nm,v:v,past:isToday&&nowH>=p[2]});
+  });
+  return out;
+}
+function dryWindow(day,isToday){
+  var ht=F.hourly.time,mt=M&&M.hourly?M.hourly.time:null,start=isToday?Math.ceil(hrOf(new Date())):6,best=[0,0],run=null;
+  for(var h=Math.max(6,start);h<=22;h++){
+    var i=hIdx(ht,day,h),p=i<0?100:(mt?(modelProb(hIdx(mt,day,h)).avg):null);
+    if(p==null)p=i<0?100:(F.hourly.precipitation_probability[i]||0);
+    if(p<25&&h<22){if(run==null)run=h;}else{if(run!=null&&h-run>best[1]-best[0])best=[run,h];run=null;}
+  }
+  return best[1]-best[0]>=2?best:null;
+}
+function pad(h){return (h<10?'0':'')+h+':00';}
+function renderUmb(){
+  var now=new Date(),nowH=hrOf(now),today=dayKey(now),tom=dayKey(new Date(now.getTime()+864e5));
+  var isToday=nowH<18,day=isToday?today:tom;
+  var ps=periodsFor(day,isToday);
+  $('#wx-umb-sub').textContent=(isToday?T.today:T.tomorrow)+' · '+T.umbSub;
+  var VD={wet:[T.vWet,'umb'],maybe:[T.vMaybe,'psun'],dry:[T.vDry,'sun']};
+  $('#wx-per').innerHTML=ps.map(function(p){
+    var dots=MODELS.slice(0,p.nm||0).map(function(m){return '<i class="'+(p.yes[m]?'y':'')+'" title="'+MNAME[m]+'"></i>';}).join('');
+    return '<div class="pr '+p.v+(p.past?' past':'')+'"><h3>'+esc(T['p_'+p.k])+'</h3><p class="tm" translate="no">'+p.tm+'</p>'
+      +'<div class="pc" translate="no">'+p.p+'<small>%</small></div><div class="vd">'+G(VD[p.v][1])+esc(VD[p.v][0])+'</div>'
+      +'<div class="agl"><span class="ag">'+dots+'</span>'+(p.nm?'<span class="mm">'+p.n+'/'+p.nm+'</span>':'')+'</div></div>';
+  }).join('');
+  var dw=dryWindow(day,isToday);
+  $('#wx-dry').textContent=dw?(T.dryWin+' '+pad(dw[0])+'–'+pad(dw[1])):(ps.every(function(p){return p.v==='dry';})?'':T.noDry);
+  $('#wx-leg').innerHTML=(M&&M.hourly)?'<i></i><span>'+esc(T.legend)+' ('+MODELS.map(function(m){return MNAME[m];}).join(', ')+')</span>':'';
+  // headline
+  var live=ps.filter(function(p){return !p.past;}),wet=live.filter(function(p){return p.v==='wet';}),may=live.filter(function(p){return p.v==='maybe';});
+  var hd;
+  if(!live.length)hd='';
+  else if(!wet.length&&!may.length)hd=(isToday?T.hdDryToday:T.hdDryTom);
+  else if(wet.length)hd=T.hdWet.replace('{p}',wet.map(function(p){return T['in_'+p.k];}).join(T.and));
+  else hd=T.hdMaybe.replace('{p}',may.map(function(p){return T['in_'+p.k];}).join(T.and));
+  if(hd&&dw)hd+=' '+T.hdDry2.replace('{a}',pad(dw[0])).replace('{b}',pad(dw[1]));
+  var mx=F.daily.temperature_2m_max[isToday?0:1],uvx=F.daily.uv_index_max[isToday?0:1];
+  if(hd&&uvx>=8)hd+=' '+T.hdUv.replace('{t}',r0(mx));
+  $('#wx-head').textContent=hd;
+}
+
+/* ---------- 2-hour nowcast ---------- */
+function renderNc(){
+  var m=F.minutely_15;if(!m||!m.time)return;
+  var now=new Date(),s=0;for(var k=0;k<m.time.length;k++){if(srd(m.time[k])>=new Date(now-900e3)){s=k;break;}}
+  var n=Math.min(8,m.time.length-s),mx=0.6,bars='',ts='',first=null,any=false;
+  for(var k=s;k<s+n;k++){mx=Math.max(mx,m.precipitation[k]||0);}
+  for(var k=s;k<s+n;k++){var p=m.precipitation[k]||0,h=Math.max(3,r0(p/mx*44)),col=p<0.05?'#dbe5f3':p<0.3?'#93c5fd':p<1.5?'#3b82f6':'#1e3a8a';
+    bars+='<i style="height:'+h+'px;background:'+col+'" title="'+p.toFixed(1)+' mm"></i>';
+    ts+='<span>'+((k-s)%2===0?fmtH(srd(m.time[k])):'')+'</span>';
+    if(p>=0.1&&first==null){first=k;any=true;}}
+  $('#wx-nc-b').innerHTML=bars;$('#wx-nc-t').innerHTML=ts;
+  var el=$('#wx-nc-s');
+  if(!any){el.textContent=T.ncDry;el.style.color='#15803d';}
+  else if(first===s){el.textContent=T.ncNow;el.style.color='#1d4ed8';}
+  else{el.textContent=T.ncAt.replace('{t}',fmtH(srd(m.time[first])));el.style.color='#1d4ed8';}
+}
+
+/* ---------- hourly chart (svg) ---------- */
+function hourChart(i0,n){
+  var hr=F.hourly,cw=46,w=cw*n,h=186,top=72,bot=118;
+  var temps=[],mn=99,mx=-99;for(var i=i0;i<i0+n&&i<hr.time.length;i++){temps.push(hr.temperature_2m[i]);mn=Math.min(mn,hr.temperature_2m[i]);mx=Math.max(mx,hr.temperature_2m[i]);}
+  n=temps.length;if(!n)return '';if(mx-mn<4){mn-=2;mx+=2;}
+  function ty(t){return top+(mx-t)/(mx-mn)*(bot-top);}
+  var pts=temps.map(function(t,j){return [(j+.5)*cw,ty(t)];});
+  var path='M'+pts.map(function(p){return p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' L');
+  var s='<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" role="img" aria-label="'+esc(T.hourly)+'">'
+    +'<defs><linearGradient id="tg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#e76f51" stop-opacity=".22"/><stop offset="1" stop-color="#e76f51" stop-opacity="0"/></linearGradient></defs>'
+    +'<path d="'+path+' L'+((n-.5)*cw)+' '+(bot+8)+' L'+(.5*cw)+' '+(bot+8)+'Z" fill="url(#tg)"/><path d="'+path+'" fill="none" stroke="#e76f51" stroke-width="2"/>';
+  for(var j=0;j<n;j++){
+    var i=i0+j,t=srd(hr.time[i]),night=!hr.is_day[i],x=j*cw,p=hr.precipitation_probability[i]||0;
+    if(j>0&&+hr.time[i].slice(11,13)===0)s+='<line x1="'+x+'" x2="'+x+'" y1="0" y2="'+h+'" stroke="#e8e0cd" stroke-dasharray="2 3"/><text x="'+(x+3)+'" y="10" font-size="9" fill="#9ca3af">'+esc(fmtDay(t))+'</text>';
+    s+='<text x="'+(x+cw/2)+'" y="'+(j===0&&i0===nowIdx()?22:22)+'" font-size="10" text-anchor="middle" fill="#6b7280" font-weight="700">'+(j===0&&i0===nowIdx()?esc(T.now):fmtH(t))+'</text>';
+    s+=G(glyph(hr.weather_code[i],night)).replace('<svg ','<svg x="'+(x+cw/2-11)+'" y="28" width="22" height="22" style="color:'+(night?'#4b5f86':'#5b6b78')+'" ');
+    s+='<circle cx="'+pts[j][0]+'" cy="'+pts[j][1]+'" r="2.6" fill="#e76f51"/><text x="'+pts[j][0]+'" y="'+(pts[j][1]-6)+'" font-size="11" font-weight="800" text-anchor="middle" fill="#233028">'+r0(temps[j])+'°</text>';
+    var bh=p/100*34;s+='<rect x="'+(x+9)+'" y="'+(h-18-bh)+'" width="'+(cw-18)+'" height="'+Math.max(1.5,bh)+'" rx="2" fill="'+(p>=60?'#2563eb':p>=30?'#93c5fd':'#dbe5f3')+'"/>';
+    s+='<text x="'+(x+cw/2)+'" y="'+(h-5)+'" font-size="9.5" text-anchor="middle" fill="'+(p>=30?'#1d4ed8':'#9ca3af')+'" font-weight="700">'+r0(p)+'%</text>';
+  }
+  return s+'</svg>';
+}
+function nowIdx(){var hr=F.hourly.time,n=new Date();for(var i=0;i<hr.length;i++){if(srd(hr[i])>new Date(n-3600e3))return i;}return 0;}
+function renderHourly(){$('#wx-hr').innerHTML=hourChart(nowIdx(),24);}
+
+/* ---------- 7 days ---------- */
+function render7(){
+  var d=F.daily,lo=Math.min.apply(null,d.temperature_2m_min),hi=Math.max.apply(null,d.temperature_2m_max),rng=Math.max(1,hi-lo),h='';
+  for(var i=0;i<d.time.length;i++){
+    var t=srd(d.time[i]+'T12:00'),p=d.precipitation_probability_max[i]||0;
+    var a=(d.temperature_2m_min[i]-lo)/rng*100,b=(d.temperature_2m_max[i]-lo)/rng*100;
+    h+='<div class="d7'+(openDay===i?' on':'')+'" data-i="'+i+'" role="button" tabindex="0"><b>'+(i===0?esc(T.today):esc(fmtDay(t)))+' <small style="color:#9ca3af;font-weight:500">'+t.getUTCDate()+'</small></b>'+G(glyph(d.weather_code[i],false))
+      +'<span class="rp'+(p<20?' n':'')+'">'+p+'%</span><span class="tr"><span class="lo">'+r0(d.temperature_2m_min[i])+'°</span><span class="bar"><i style="left:'+a.toFixed(0)+'%;right:'+(100-b).toFixed(0)+'%"></i></span><span class="hi">'+r0(d.temperature_2m_max[i])+'°</span></span></div>'
+      +'<div class="d7x" data-x="'+i+'"'+(openDay===i?'':' hidden')+'>'+(openDay===i?dayDetail(i):'')+'</div>';
+  }
+  $('#wx-7').innerHTML=h;
+}
+function dayDetail(i){
+  var d=F.daily,ix=hIdx(F.hourly.time,d.time[i],0);if(ix<0)return '';
+  var mm=d.precipitation_sum[i]||0,uv=r0(d.uv_index_max[i]||0);
+  return '<div class="wx-hr" style="margin:0 -.2rem">'+hourChart(ix,24)+'</div><p class="wx-note">'+esc(wmo(d.weather_code[i]))+' · '+esc(T.rainTotal)+' '+mm.toFixed(1)+' mm · UV '+uv+' ('+esc(uvl(uv)[0])+')</p>';
+}
+
+/* ---------- air quality ---------- */
+function loadAQ(la,lo){
+  var box=$('#wx-aq-b');
+  fetchJ('https://air-quality-api.open-meteo.com/v1/air-quality?latitude='+la+'&longitude='+lo+'&current=us_aqi,pm10,pm2_5,dust&hourly=dust&timezone=America%2FParamaribo&forecast_days=1')
+  .then(function(j){
+    var c=j.current||{},aqi=r0(c.us_aqi);if(isNaN(aqi)){box.textContent=T.na;return;}
+    var dust=r0(c.dust||0),hrs=(j.hourly&&j.hourly.dust)||[],mx=0;for(var i=0;i<Math.min(24,hrs.length);i++)mx=Math.max(mx,hrs[i]||0);
+    var b=aqi<=50?[T.aqGood,'#2E7D32','aqA0']:aqi<=100?[T.aqMod,'#C18A00','aqA1']:aqi<=150?[T.aqUsg,'#E76F51','aqA2']:aqi<=200?[T.aqUnh,'#C62828','aqA3']:[T.aqVunh,'#7B1FA2','aqA4'];
+    var dusty=dust>=20,later=dust<20&&mx>=25;
+    box.innerHTML='<div class="aq-big"><b translate="no">'+aqi+'</b><span class="aq-pill" style="background:'+b[1]+'">'+esc(b[0])+'</span><small style="color:#8a8f86">US AQI</small></div>'
+      +'<p class="wx-note" style="margin:0">'+esc(dusty?T.dustHigh:(later?T.dustLater:T.dustLow))+'</p>'
+      +'<div class="aq-grid"><p>PM2.5<b translate="no">'+r0(c.pm2_5||0)+'</b></p><p>PM10<b translate="no">'+r0(c.pm10||0)+'</b></p><p>'+esc(T.dust)+'<b translate="no">'+dust+'</b></p></div>'
+      +'<p class="wx-note">'+esc(T[b[2]])+' <span style="color:#9ca3af">µg/m³ · CAMS</span></p>';
+  }).catch(function(){box.textContent=T.na;});
+}
+/* ---------- sea ---------- */
+var seaKey=null;
+function loadSea(loc){
+  var p=(X.sea||{})[loc];if(!p)return;var k=p.join(',');if(k===seaKey)return;seaKey=k;var box=$('#wx-sea-b');
+  fetchJ('https://marine-api.open-meteo.com/v1/marine?latitude='+p[0]+'&longitude='+p[1]+'&hourly=wave_height,wave_period&timezone=America%2FParamaribo&forecast_days=2')
+  .then(function(j){
+    var hh=j.hourly||{},t=hh.time||[],now=new Date(),i0=0;for(var i=0;i<t.length;i++){if(srd(t[i])>new Date(now-3600e3)){i0=i;break;}}
+    var wh=hh.wave_height||[],wp=hh.wave_period||[],cur=wh[i0],mx=0,mxi=i0;for(var i=i0;i<Math.min(i0+24,wh.length);i++){if((wh[i]||0)>mx){mx=wh[i];mxi=i;}}
+    if(cur==null){box.textContent=T.na;return;}
+    function st(v){return v<0.5?T.seaCalm:v<1.25?T.seaSlight:v<2.5?T.seaMod:T.seaRough;}
+    box.innerHTML='<div class="aq-big"><b translate="no">'+cur.toFixed(1)+' m</b><span class="aq-pill" style="background:'+(cur<1.25?'#0f766e':cur<2.5?'#c2410c':'#b91c1c')+'">'+esc(st(cur))+'</span></div>'
+      +'<p class="wx-note" style="margin:0">'+esc(T.seaOff.replace('{p}',X.loc[loc]||''))+'</p>'
+      +'<div class="aq-grid"><p>'+esc(T.seaMax)+'<b translate="no">'+mx.toFixed(1)+' m</b></p><p>'+esc(T.seaAt)+'<b translate="no">'+fmtH(srd(t[mxi]))+'</b></p><p>'+esc(T.seaPer)+'<b translate="no">'+r0(wp[i0]||0)+' s</b></p></div>';
+  }).catch(function(){box.textContent=T.na;});
+}
+
+/* ---------- tides (harmonic model in the browser) ---------- */
+var EPOCH=Date.UTC(2000,0,1);
+function tideH(m,ms){var t=(ms-EPOCH)/3600e3,h=m.z;for(var i=0;i<m.c.length;i++){var c=m.c[i];h+=c[1]*Math.cos(c[0]*Math.PI/180*t-c[2]*Math.PI/180);}return h;}
+function moon(){var syn=29.530588853,ref=Date.UTC(2000,0,6,18,14),age=(((Date.now()-ref)/864e5)%syn+syn)%syn;
+  var toFull=(14.765-age+syn)%syn,toNew=(syn-age)%syn,name;
+  if(age<1.85||age>27.7)name=T.mNew;else if(age<5.5)name=T.mWxC;else if(age<9.2)name=T.mFq;else if(age<12.9)name=T.mWxG;else if(age<16.6)name=T.mFull;else if(age<20.3)name=T.mWnG;else if(age<24)name=T.mLq;else name=T.mWnC;
+  var nxt=toFull<toNew?[T.mFull,toFull]:[T.mNew,toNew];
+  return name+(nxt[1]>1.5?' · '+T.mNext.replace('{m}',nxt[0].toLowerCase()).replace('{d}',r0(nxt[1])):'');}
+function renderTide(loc){
+  var m=(X.tide||{})[loc],p=$('.td-panel[data-tdp="'+loc+'"]');if(!m||!p)return;
+  var now=Date.now(),t0=now-6*3600e3,t1=now+42*3600e3,step=6*60e3,pts=[],ex=[];
+  for(var t=t0;t<=t1;t+=step)pts.push([t,tideH(m,t)]);
+  for(var i=1;i<pts.length-1;i++){if(pts[i][1]>pts[i-1][1]&&pts[i][1]>=pts[i+1][1])ex.push([pts[i][0],pts[i][1],'H']);else if(pts[i][1]<pts[i-1][1]&&pts[i][1]<=pts[i+1][1])ex.push([pts[i][0],pts[i][1],'L']);}
+  var hn=tideH(m,now),rising=tideH(m,now+600e3)>hn,next=ex.filter(function(e){return e[0]>now;})[0];
+  var W=Math.max(300,Math.min(760,($('.td-chart',p).clientWidth||640))),H=180,pl=6,pr=6,top=26,bot=H-26,mn=99,mx=-99;pts.forEach(function(q){mn=Math.min(mn,q[1]);mx=Math.max(mx,q[1]);});mn=Math.min(0,mn);mx=Math.max(mx,mn+1);
+  function X1(t){return pl+(t-t0)/(t1-t0)*(W-pl-pr);}function Y1(h){return top+(mx-h)/(mx-mn)*(bot-top);}
+  var d='M'+pts.map(function(q){return X1(q[0]).toFixed(1)+' '+Y1(q[1]).toFixed(1);}).join(' L');
+  var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(T.tideChart)+'"><defs><linearGradient id="tdg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2b7bb9" stop-opacity=".45"/><stop offset="1" stop-color="#2b7bb9" stop-opacity=".05"/></linearGradient></defs>';
+  // night shading + day ticks
+  for(var k=-1;k<3;k++){var mid=new Date(srNow().toISOString().slice(0,10)+'T00:00:00-03:00').getTime()+k*864e5;var a=X1(mid+18.5*3600e3),b=X1(mid+(24+6.3)*3600e3);if(b>pl&&a<W){s+='<rect x="'+Math.max(pl,a)+'" y="0" width="'+(Math.min(W-pr,b)-Math.max(pl,a))+'" height="'+(H-14)+'" fill="#1d4e89" fill-opacity=".06"/>';}
+    var dx=X1(mid+864e5);if(dx>pl&&dx<W-pr)s+='<text x="'+(dx+3)+'" y="'+(H-2)+'" font-size="10" fill="#9ca3af">'+esc(fmtDay(new Date(mid+864e5+12*3600e3),{weekday:'short',day:'numeric'}))+'</text>';}
+  s+='<path d="'+d+' L'+X1(t1)+' '+bot+' L'+X1(t0)+' '+bot+'Z" fill="url(#tdg)"/><path d="'+d+'" fill="none" stroke="#0f4c75" stroke-width="2"/>';
+  ex.forEach(function(e){var x=X1(e[0]),y=Y1(e[1]),hi=e[2]==='H';s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3" fill="'+(hi?'#0f4c75':'#fff')+'" stroke="#0f4c75" stroke-width="1.5"/>'
+    +'<text x="'+Math.max(16,Math.min(W-16,x)).toFixed(1)+'" y="'+(hi?y-8:y+15).toFixed(1)+'" font-size="10" font-weight="700" text-anchor="middle" fill="#0f4c75">'+fmtH(new Date(e[0]))+'</text>';});
+  var nx=X1(now),ny=Y1(hn);
+  s+='<line x1="'+nx+'" x2="'+nx+'" y1="'+(top-14)+'" y2="'+bot+'" stroke="#e76f51" stroke-width="1.5" stroke-dasharray="3 3"/><circle cx="'+nx+'" cy="'+ny+'" r="5.5" fill="#e76f51" stroke="#fff" stroke-width="2"/>'
+    +'<text x="'+(nx+6)+'" y="'+(top-6)+'" font-size="10" font-weight="800" fill="#e76f51">'+esc(T.now)+'</text></svg>';
+  $('.td-chart',p).innerHTML=s;
+  $('.td-now',p).innerHTML='<b translate="no">'+hn.toFixed(2)+' m</b><span>'+(rising?'↗ '+esc(T.rising):'↘ '+esc(T.falling))+(next?' · '+esc(next[2]==='H'?T.highAt:T.lowAt).replace('{t}',fmtH(new Date(next[0])))+' ('+next[1].toFixed(2)+' m)':'')+'</span><em>'+esc(moon())+'</em>';
+  // spring-tide box: emphasise when it is on now or within 2 days
+  var sp=$('.td-spring',p);if(sp){var f=sp.getAttribute('data-from'),to=sp.getAttribute('data-to'),today=dayKey(new Date()),soon=dayKey(new Date(now+2*864e5));sp.classList.toggle('now',f<=soon&&to>=today);}
+  loadSea(loc);
+}
+
+/* ---------- events ---------- */
+function render(){try{renderNow();}catch(e){}try{renderUmb();}catch(e){}try{renderNc();}catch(e){}try{renderHourly();}catch(e){}try{render7();}catch(e){}}
+D.addEventListener('click',function(ev){
+  var t=ev.target,d=t.closest('.wx-d');
+  if(d&&!d.classList.contains('wx-me')){$$('.wx-d').forEach(function(b){b.classList.toggle('on',b===d);});cur={lat:+d.getAttribute('data-lat'),lon:+d.getAttribute('data-lon'),label:d.textContent};try{localStorage.setItem('wx-d',d.textContent);}catch(e){}openDay=null;load();gtag2('wx_district',{d:cur.label});return;}
+  if(t.closest('#wx-me')){if(!navigator.geolocation)return;var b=$('#wx-me');b.classList.add('on');navigator.geolocation.getCurrentPosition(function(pos){$$('.wx-d').forEach(function(x){x.classList.toggle('on',x===b);});cur={lat:+pos.coords.latitude.toFixed(3),lon:+pos.coords.longitude.toFixed(3),label:T.nearMe};openDay=null;load();gtag2('wx_nearme');},function(){b.classList.remove('on');},{timeout:10000,maximumAge:600000});return;}
+  var r=t.closest('.d7');if(r&&F){var i=+r.getAttribute('data-i');openDay=openDay===i?null:i;render7();return;}
+  var tb=t.closest('.td-tab');if(tb){var k=tb.getAttribute('data-td');$$('.td-tab').forEach(function(x){x.classList.toggle('on',x===tb);});$$('.td-panel').forEach(function(x){x.hidden=x.getAttribute('data-tdp')!==k;});renderTide(k);return;}
+});
+D.addEventListener('keydown',function(ev){if((ev.key==='Enter'||ev.key===' ')&&ev.target.classList&&ev.target.classList.contains('d7')){ev.preventDefault();ev.target.click();}});
+// restore last district
+try{var last=localStorage.getItem('wx-d');if(last){var lb=$$('.wx-d').filter(function(b){return b.textContent===last;})[0];if(lb){$$('.wx-d').forEach(function(b){b.classList.toggle('on',b===lb);});cur={lat:+lb.getAttribute('data-lat'),lon:+lb.getAttribute('data-lon'),label:last};}}}catch(e){}
+load();renderTide('suriname');
+setInterval(function(){if(!D.hidden&&F){load();var on=$('.td-tab.on');if(on)renderTide(on.getAttribute('data-td'));}},15*60e3);
+setInterval(function(){var on=$('.td-tab.on');if(on&&!D.hidden)renderTide(on.getAttribute('data-td'));},60e3);
+})();
+</script>"""
+
+
+_WX_SVG = {
+    "sun": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>',
+    "moon": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>',
+    "psun": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5.5V3.5M3.5 9H1.5M4.2 6.2 2.8 4.8M9.8 6.2l1.4-1.4"/><circle cx="7" cy="9" r="2.6"/><path d="M8 20h9a3.5 3.5 0 0 0 .4-7A5 5 0 0 0 8 13.5 3.3 3.3 0 0 0 8 20z"/></svg>',
+    "cloud": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 19h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 12.5 3.5 3.5 0 0 0 7 19z"/></svg>',
+    "fog": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 9h16M3 13h18M5 17h14"/></svg>',
+    "rain": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 8.5 3.5 3.5 0 0 0 7 15z"/><path d="M8 18l-1 2.5M12 18l-1 2.5M16 18l-1 2.5"/></svg>',
+    "storm": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 7.5 3.5 3.5 0 0 0 7 14z"/><path d="M12.5 14 10 18h3l-1.5 4"/></svg>',
+    "umb": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 1 9 9H3a9 9 0 0 1 9-9z"/><path d="M12 12v7a2 2 0 0 0 4 0"/></svg>',
+    "pin": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+    "wave": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2M2 15c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"/></svg>',
+}
+
+
+def _tide_outlook(days=30):
+    """Spring-tide outlook per river from the harmonic model: the daily highest
+    high water for the next `days` days, flagged when it is among the top 10%
+    of the coming year (p90 of 365 daily maxima). Pure astronomy, no network.
+    Returns {loc_id: {"p90": m, "days": [[iso, height, spring_bool], ...]}}."""
+    from tide_harmonics import TIDE_MODELS, _extremes, _SR_TZ as _TZ
+    now = datetime.now(timezone.utc)
+    out = {}
+    for loc in TIDE_MODELS:
+        if loc == "commewijne":
+            continue
+        ex = _extremes(TIDE_MODELS[loc], now - timedelta(hours=3), days=365, step_min=6)
+        by = {}
+        for e in ex:
+            if e["type"] != "High":
+                continue
+            d = datetime.fromtimestamp(e["dt"], _TZ).date()
+            by[d] = max(by.get(d, 0.0), e["height"])
+        vals = sorted(by.values())
+        if not vals:
+            continue
+        p90 = vals[int(len(vals) * 0.9)]
+        seq = sorted(by.items())[:days]
+        out[loc] = {"p90": round(p90, 2),
+                    "days": [[d.isoformat(), round(h, 2), h >= p90] for d, h in seq]}
+    out["commewijne"] = out.get("suriname")
+    return out
+
+
+def _tide_js_models():
+    """Nodal-corrected constituents for today, so the browser can draw the tide
+    curve for any moment (same maths as tide_harmonics._height)."""
+    from tide_harmonics import TIDE_MODELS, _adjust
+    now = datetime.now(timezone.utc)
+    res = {}
+    for loc, m in TIDE_MODELS.items():
+        z0, cons = _adjust(m, now)
+        res[loc] = {"z": round(z0, 4), "c": [[round(sp, 7), round(H, 4), round(g, 2)] for sp, H, g in cons]}
+    return res
+
+
 def build_conditions_page(tides_data):
-    """
-    tides_data: dict keyed by TIDES_LOCATIONS id → (extremes, is_live, updated_str)
-    """
-    updated_now = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
+    """conditions.html v2 (Oct 2026): a daily weather page for people who live here.
 
-    def _tide_panel(loc, extremes, is_live, updated):
-        """Build HTML for one tide location panel."""
-        if not extremes:
-            return f"""
-<div id="tpanel-{loc['id']}" class="tide-panel hidden">
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
-    <p class="text-4xl mb-3">&#127754;</p>
-    <p class="text-gray-500 text-sm">No tide data available for {html_lib.escape(loc['label'])}.</p>
-  </div>
-</div>"""
+    Server side: hero, place picker, the tide section (crawlable extremes table
+    per river, spring-tide outlook from the harmonic model), FAQ.
+    Client side (_WX2_JS, strings in _WX2_I18N): Open-Meteo forecast (current,
+    15-min rain nowcast, hourly, 7-day), a 4-model rain consensus (ECMWF, GFS,
+    ICON, UKMO ensembles) for the commute card, air quality / Saharan dust,
+    marine wave height, and a live tide curve computed from the same harmonic
+    constituents as the build (no tide API). 'Near me' uses the browser's location."""
+    esc = html_lib.escape
+    now = datetime.now(SR_TZ)
+    outlook = _tide_outlook()
+    models = _tide_js_models()
 
-        from collections import defaultdict
-        by_day = defaultdict(list)
-        for ex in extremes:
-            dt  = datetime.fromtimestamp(ex["dt"], tz=SR_TZ)
-            day = dt.strftime("%A, %d %b")
-            by_day[day].append({
-                "type":   ex["type"],
-                "time":   dt.strftime("%H:%M SR"),
-                "height": f"{ex['height']:.2f} m",
-                "icon":   "\U0001f53c" if ex["type"] == "High" else "\U0001f53d",
-            })
-
-        rows = ""
-        tide_cards = ""
-        for day, events in list(by_day.items())[:3]:
-            for ev in events:
-                rows += (
-                    '<tr class="border-b border-gray-100">'
-                    f'<td class="py-3 px-4 text-gray-500 text-sm">{day}</td>'
-                    f'<td class="py-3 px-4 font-semibold">{ev["icon"]} {ev["type"]} Tide</td>'
-                    f'<td class="py-3 px-4 font-mono font-bold">{ev["time"]}</td>'
-                    f'<td class="py-3 px-4 text-right font-mono text-gray-700">{ev["height"]}</td>'
-                    '</tr>'
-                )
-                tide_cards += (
-                    '<div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 px-4">'
-                    '<div>'
-                    f'<p class="font-semibold text-gray-900 text-sm">{ev["icon"]} {ev["type"]} Tide</p>'
-                    f'<p class="text-gray-500 text-xs mt-0.5">{day}</p>'
-                    '</div>'
-                    '<div class="text-right">'
-                    f'<p class="font-mono font-bold text-gray-900 text-sm">{ev["time"]}</p>'
-                    f'<p class="font-mono text-gray-500 text-xs mt-0.5">{ev["height"]}</p>'
-                    '</div>'
-                    '</div>'
-                )
-
-        badge = ('<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">&#9679; Forecast</span>'
-                 if is_live else
-                 '<span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">&#9675; Unavailable</span>')
-        note = loc.get("note", "")
-        note_html = (f'<p class="text-gray-400 text-xs mt-1">{html_lib.escape(note)}</p>' if note else "")
-
-        return f"""
-<div id="tpanel-{loc['id']}" class="tide-panel hidden">
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-    <div class="px-6 py-5 border-b border-gray-100">
-      <p class="font-bold text-gray-900 text-base">&#127754; {html_lib.escape(loc['label'])} &bull; {html_lib.escape(loc['district'])} {badge}</p>
-      <p class="text-gray-400 text-xs mt-1">&#128336; Updated: {html_lib.escape(updated)} &bull; Astronomical prediction</p>
-      {note_html}
-    </div>
-    <div class="hidden sm:block overflow-x-auto">
-      <table class="w-full text-sm">
-        <thead><tr class="bg-gray-50 text-left">
-          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Date</th>
-          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Tide</th>
-          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Time (SR)</th>
-          <th class="py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide text-right">Height</th>
-        </tr></thead>
-        <tbody>{rows}</tbody>
-      </table>
-    </div>
-    <div class="sm:hidden py-1">{tide_cards}</div>
-  </div>
-</div>"""
-
-    # Build tide panels + tab buttons
-    tide_tabs_html   = ""
-    tide_panels_html = ""
-    has_any_tides    = False
-
+    # ── Tide section (server-rendered, crawlable) ────────────────────────────
+    tabs, panels = "", ""
     for idx, loc in enumerate(TIDES_LOCATIONS):
         extremes, is_live, updated = tides_data.get(loc["id"], ([], False, "No data"))
-        if extremes:
-            has_any_tides = True
-        active_cls   = "tide-tab border-b-2 font-bold text-gray-900 px-4 py-3 text-sm whitespace-nowrap" if idx == 0 else "tide-tab text-gray-500 hover:text-gray-700 px-4 py-3 text-sm whitespace-nowrap"
-        active_style = 'style="border-color:var(--forest2)"' if idx == 0 else ""
-        tide_tabs_html += (
-            f'<button onclick="showTide(\'{loc["id"]}\')" id="ttab-{loc["id"]}" '
-            f'class="{active_cls} transition" {active_style}>'
-            f'{html_lib.escape(loc["label"])}</button>\n'
-        )
-        panel = _tide_panel(loc, extremes, is_live, updated)
-        # First panel not hidden
-        if idx == 0:
-            panel = panel.replace(' class="tide-panel hidden"', ' class="tide-panel"')
-        tide_panels_html += panel
+        tabs += (f'<button type="button" class="td-tab{" on" if idx == 0 else ""}" data-td="{loc["id"]}">'
+                 f'{esc(loc["label"].replace(" River", ""))}</button>')
+        rows = ""
+        last_day = None
+        for ex in (extremes or [])[:12]:
+            dt = datetime.fromtimestamp(ex["dt"], tz=SR_TZ)
+            if (dt.date() - now.date()).days > 2:
+                break
+            day = dt.strftime("%Y-%m-%d")
+            dcell = ('<span data-srdate="' + day + '" translate="no">' + dt.strftime("%a %d %b") + '</span>') if day != last_day else ''
+            last_day = day
+            hi = ex["type"] == "High"
+            rows += (f'<tr class="{"hi" if hi else "lo"}"><td class="d">{dcell}</td>'
+                     f'<td><i class="td-ar">{"&#9650;" if hi else "&#9660;"}</i>{"High tide" if hi else "Low tide"}</td>'
+                     f'<td class="n" translate="no">{dt.strftime("%H:%M")}</td>'
+                     f'<td class="n" translate="no">{ex["height"]:.2f} m</td></tr>')
+        ol = outlook.get(loc["id"]) or {}
+        spring = [d for d in (ol.get("days") or [])[:14] if d[2]]
+        sp_html = ""
+        if spring:
+            d0 = datetime.strptime(spring[0][0], "%Y-%m-%d")
+            d1 = datetime.strptime(spring[-1][0], "%Y-%m-%d")
+            mx = max(d[1] for d in spring)
+            sp_html = ('<div class="td-spring" data-from="' + spring[0][0] + '" data-to="' + spring[-1][0] + '">'
+                       '<b>Spring tide</b> <span translate="no"><span data-srdate="' + spring[0][0] + '">' + d0.strftime("%d %b")
+                       + '</span> &ndash; <span data-srdate="' + spring[-1][0] + '">' + d1.strftime("%d %b") + '</span>, up to '
+                       + f'{mx:.2f} m</span>. '
+                       '<span>Among the highest tides of the year. Low-lying streets near the river can flood when heavy rain falls around high tide.</span></div>')
+        note = loc.get("note", "")
+        panels += (f'<div class="td-panel" data-tdp="{loc["id"]}"{"" if idx == 0 else " hidden"}>'
+                   '<div class="td-now" aria-live="polite"></div>'
+                   '<div class="td-chart"></div>' + sp_html
+                   + ('<p class="td-note">' + esc(note) + '</p>' if note else '')
+                   + ('<div class="tb-wrap"><table class="td-tbl"><thead><tr><th>Day</th><th>Tide</th><th class="n">Time (SR)</th>'
+                      '<th class="n">Height</th></tr></thead><tbody>' + rows + '</tbody></table></div>' if rows else
+                      '<p class="td-note">No tide data available right now.</p>')
+                   + '</div>')
 
-    if not has_any_tides:
-        tides_section = """
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
-  <p class="text-5xl mb-4">&#127754;</p>
-  <h3 class="font-bold text-gray-900 mb-2">Tide Predictions</h3>
-  <p class="text-gray-500 text-sm max-w-md mx-auto">Tide predictions are temporarily unavailable.</p>
-</div>"""
-    else:
-        tides_section = f"""
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-4">
-  <div class="flex overflow-x-auto border-b border-gray-100" style="scrollbar-width:none">
-    {tide_tabs_html}
-  </div>
-</div>
-{tide_panels_html}"""
-
-    # District weather coords for JS (open-meteo, free/unlimited)
-    wx_districts = [
-        {"label": "Paramaribo",  "lat": 5.852,  "lon": -55.203},
-        {"label": "Wanica",      "lat": 5.730,  "lon": -55.250},
-        {"label": "Nickerie",    "lat": 5.940,  "lon": -56.978},
-        {"label": "Commewijne",  "lat": 5.893,  "lon": -55.087},
-        {"label": "Marowijne",   "lat": 5.491,  "lon": -54.057},
-        {"label": "Brokopondo",  "lat": 4.762,  "lon": -55.027},
-        {"label": "Para",        "lat": 5.490,  "lon": -55.226},
-        {"label": "Saramacca",   "lat": 5.793,  "lon": -55.467},
+    # ── Districts (Open-Meteo points) ────────────────────────────────────────
+    districts = [
+        ("Paramaribo", 5.852, -55.203), ("Wanica", 5.730, -55.250), ("Commewijne", 5.893, -55.087),
+        ("Para", 5.490, -55.226), ("Saramacca", 5.793, -55.467), ("Nickerie", 5.940, -56.978),
+        ("Coronie", 5.870, -56.300), ("Marowijne", 5.491, -54.057), ("Brokopondo", 4.762, -55.027),
+        ("Sipaliwini", 3.900, -56.000),
     ]
-    import json as _json
-    wx_districts_js = _json.dumps(wx_districts)
+    dchips = "".join(
+        f'<button type="button" class="wx-d{" on" if i == 0 else ""}" data-lat="{la}" data-lon="{lo}" translate="no">{n}</button>'
+        for i, (n, la, lo) in enumerate(districts))
+    dchips = ('<button type="button" class="wx-d wx-me" id="wx-me">' + _WX_SVG["pin"] + '<span>Near me</span></button>' + dchips)
 
-    aq_js = """
-function loadAirQuality(lat, lon){
-  var box = document.getElementById('wx-aq'); if(!box) return;
-  function tile(k, v){
-    return '<div class="rounded-lg p-2" style="background:#f6f8f6"><p class="text-xs text-gray-500">' + k +
-      '</p><p class="text-base font-bold font-mono text-gray-900">' + v +
-      ' <span class="text-xs font-normal text-gray-400">&micro;g/m&sup3;</span></p></div>';
-  }
-  var ADV = {
-    'Good':'No precautions needed.',
-    'Moderate':'Unusually sensitive people may want to limit long, intense time outdoors.',
-    'Unhealthy for sensitive groups':'Children, the elderly and people with heart or lung conditions should limit prolonged outdoor exertion.',
-    'Unhealthy':'Everyone may begin to feel effects; sensitive groups should avoid prolonged outdoor exertion.',
-    'Very unhealthy':'Health alert: everyone should avoid prolonged outdoor exertion.',
-    'Hazardous':'Emergency conditions: stay indoors and keep windows closed.'
-  };
-  var url = 'https://air-quality-api.open-meteo.com/v1/air-quality?latitude=' + lat + '&longitude=' + lon +
-    '&current=us_aqi,pm10,pm2_5,dust&hourly=dust&timezone=America%2FParamaribo&forecast_days=1';
-  fetch(url).then(function(r){ return r.json(); }).then(function(j){
-    var c = j.current || {};
-    var aqi = Math.round(c.us_aqi);
-    if (isNaN(aqi)) { box.innerHTML = ''; return; }
-    var pm25 = c.pm2_5, pm10 = c.pm10, dust = (c.dust || 0);
-    var hrs = (j.hourly && j.hourly.dust) || [], mx = 0;
-    for (var i = 0; i < Math.min(24, hrs.length); i++) { if (hrs[i] > mx) mx = hrs[i]; }
-    var watch = (dust < 20 && mx >= 25);
-    var b = aqi<=50 ? ['Good','#2E7D32'] : aqi<=100 ? ['Moderate','#C18A00'] :
-            aqi<=150 ? ['Unhealthy for sensitive groups','#E76F51'] : aqi<=200 ? ['Unhealthy','#C62828'] :
-            aqi<=300 ? ['Very unhealthy','#7B1FA2'] : ['Hazardous','#5D4037'];
-    var dusty = dust >= 20;
-    if (aqi <= 50 && !dusty) {
-      box.innerHTML = '<div class="rounded-xl p-3 flex items-center gap-2" style="background:var(--mint)">' +
-        '<span style="width:9px;height:9px;border-radius:50%;background:#2E7D32;flex:0 0 auto"></span>' +
-        '<span class="text-xs font-semibold text-gray-700">Air quality <b>Good</b> &middot; US AQI ' + aqi +
-        ' &middot; Saharan dust low' + (watch ? ' &middot; <span style="color:#9a5b00">dust expected later</span>' : '') +
-        '</span></div>';
-      return;
-    }
-    var title = dusty ? ('Saharan dust &middot; ' + b[0]) : b[0];
-    var head = dusty ? ('Saharan dust is elevated over this district (' + dust + ' &micro;g/m&sup3;).')
-                     : ('Air quality is ' + b[0].toLowerCase() + ' in this district.');
-    box.innerHTML = '<div class="rounded-xl overflow-hidden" style="border:1px solid #e5e7eb">' +
-      '<div class="p-4" style="background:' + b[1] + ';color:#fff">' +
-        '<p class="text-sm font-bold">&#127787;&#65039; ' + title + ' &middot; AQI ' + aqi + '</p>' +
-        '<p class="text-xs mt-1" style="opacity:.95">' + head + '</p>' +
-      '</div>' +
-      '<div class="p-4 bg-white">' +
-        '<div class="grid grid-cols-3 gap-2 mb-3">' + tile('PM2.5', pm25) + tile('PM10', pm10) + tile('Dust', dust) + '</div>' +
-        '<p class="text-xs text-gray-600">' + (ADV[b[0]] || '') + '</p>' +
-        (watch ? '<p class="text-xs font-semibold mt-2" style="color:#9a5b00">Saharan dust forecast to rise later today.</p>' : '') +
-        '<p class="text-xs text-gray-400 mt-2">Air quality via Open-Meteo / CAMS &middot; updates with selected district</p>' +
-      '</div></div>';
-  }).catch(function(){ box.innerHTML = ''; });
-}
-"""
+    title = "Suriname Weather Today & River Tides"
+    desc = ("Will it rain on your way to work? Rain chances for the morning and afternoon commute from four "
+            "weather models, the 2-hour rain radar line, 7-day forecast by district, UV, Saharan dust, "
+            "sea state and live river tides for Paramaribo, Nickerie and Albina.")
+    faq = [
+        ("How accurate is the rain forecast for Suriname?",
+         "Tropical showers are hard to pin down, so instead of trusting one model we compare four: the "
+         "European ECMWF, the American GFS, the German ICON and the British UKMO ensembles. When they agree, "
+         "the forecast is reliable; when they disagree you see it, and an umbrella is the safe bet. The 2-hour "
+         "rain line uses 15-minute data and is the most precise part of the forecast."),
+        ("When is the rainy season in Suriname?",
+         "Suriname has two rainy and two dry seasons: the long rainy season from about mid-April to "
+         "mid-August, the long dry season from mid-August to early December, a short rainy season from "
+         "December to early February and a short dry season from February to April."),
+        ("What is a spring tide (springtij) and why does it matter?",
+         "Around new and full moon the sun and moon pull together and the tides run higher and lower than "
+         "usual. On the Suriname River the highest of these lift the water more than 2.3 m above low water, "
+         "and if heavy rain falls around high tide the drains cannot empty, so low-lying streets near the "
+         "river can flood. This page flags the spring tides that are among the highest of the year."),
+        ("How are the tide times calculated?",
+         "From a harmonic model fitted to the published tide tables for Paramaribo, Nieuw Nickerie and the "
+         "Marowijne mouth, with the 18.6-year lunar cycle built in. Times are typically within about 10 "
+         "minutes and heights within a few centimetres of the official tables. Wind, river discharge and "
+         "heavy rain can shift the real water level, so always check with local authorities before heading out."),
+        ("How high is the UV index in Suriname?",
+         "Very high most of the year: UV 11 or more around midday is common because Suriname lies close to "
+         "the equator. Sunscreen, a hat and shade between about 10:00 and 15:00 are a good idea even when it "
+         "is cloudy."),
+        ("What is Saharan dust?",
+         "Between roughly May and September, winds carry fine dust from the Sahara across the Atlantic. It "
+         "makes the sky hazy and can bother people with asthma or other lung conditions. The air quality card "
+         "warns when dust levels over your district rise."),
+        ("Does Suriname get hurricanes?",
+         "Suriname lies south of the Atlantic hurricane belt and is very rarely hit directly. Heavy tropical "
+         "showers and thunderstorms are the main weather risk."),
+    ]
+    head = _hub_head(title, desc, "conditions.html", faq=faq)
+    head = head.replace("</head>", _WX2_CSS + "\n</head>")
+    hero = _hub_hero("Weather, rain and tides for the day ahead", "Weather Today in Suriname",
+                     "Will it rain on your way to work? Four weather models, the next two hours of rain and the "
+                     "river tides, for your district.").replace("{NAV}", nav_html("forecast"))
+    glyphs = "".join(f'<template data-g="{k}">{v}</template>' for k, v in _WX_SVG.items())
 
-    return f"""{PAGE_HEAD}
-  <title>Suriname Weather &amp; River Tides | Live Forecast | Explore Suriname</title>
-  <meta name="description" content="Tidal predictions for Suriname's rivers, 7-day weather forecasts by district, sunrise/sunset times and UV index. Updated continuously.">
-  <link rel="canonical" href="{SITE_URL}/conditions.html">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Explore Suriname">
-  <meta property="og:url" content="{SITE_URL}/conditions.html">
-  <meta property="og:title" content="Suriname Weather &amp; River Tides | Live Forecast | Explore Suriname">
-  <meta property="og:description" content="Tidal predictions for Suriname's rivers, 7-day district forecasts and sunrise/sunset times. Updated continuously.">
-  <meta property="og:image" content="{SITE_URL}/og-image.jpg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Suriname Weather &amp; River Tides | Live Forecast | Explore Suriname">
-  <meta name="twitter:description" content="Tidal predictions for Suriname's rivers, 7-day district forecasts and sunrise/sunset times. Updated continuously.">
-  <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
-  <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Weather & River Tides | Live Forecast","url":"{SITE_URL}/conditions.html","description":"Tidal predictions for the Suriname, Commewijne, Nickerie and Marowijne rivers, plus 7-day weather forecasts by district. Updated continuously.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
-  </script>
-  <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-    {{"@type":"Question","name":"What is the best time to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname has two dry seasons: the short dry season from February to April, and the long dry season from August to November. These are generally the best periods to visit, with less rainfall and easier travel conditions in the interior. August to October is considered the peak season for nature and rainforest tours."}}}},
-    {{"@type":"Question","name":"Does Suriname have a rainy season?","acceptedAnswer":{{"@type":"Answer","text":"Yes, Suriname has two rainy seasons: the long rainy season from mid-April to mid-August, and the short rainy season from mid-November to mid-February. During these periods rainfall is frequent, though it typically comes in short, intense showers rather than all-day rain."}}}},
-    {{"@type":"Question","name":"How hot is it in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname has a tropical climate with temperatures ranging from 26°C to 32°C (79°F to 90°F) year-round. Humidity is high throughout the year. Paramaribo on the coast is slightly cooler than the interior rainforest."}}}},
-    {{"@type":"Question","name":"What is the weather like in Paramaribo?","acceptedAnswer":{{"@type":"Answer","text":"Paramaribo has a tropical climate with hot, humid conditions year-round. Average temperatures stay between 26°C and 31°C. The city receives rainfall across all months, with heavier periods during the two rainy seasons. Sea breezes from the Atlantic can provide some relief in coastal areas."}}}},
-    {{"@type":"Question","name":"How high is the UV index in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname sits near the equator and UV levels are consistently very high, often reaching UV index 11 or above during midday. Sun protection is strongly recommended year-round. Wear high-SPF sunscreen, a hat and protective clothing, especially during outdoor activities between 10:00 and 16:00."}}}},
-    {{"@type":"Question","name":"What are the tides like in Suriname's rivers?","acceptedAnswer":{{"@type":"Answer","text":"The Suriname, Commewijne, Nickerie and Marowijne rivers all experience semi-diurnal tides (two high tides and two low tides per day) driven by Atlantic tidal patterns. Tidal range varies by location and season. The tide forecasts on this page are updated daily for all four rivers."}}}},
-    {{"@type":"Question","name":"Does Suriname get hurricanes?","acceptedAnswer":{{"@type":"Answer","text":"Suriname lies south of the main Atlantic hurricane belt and is rarely affected by direct hurricane strikes. Tropical disturbances can occasionally bring heavy rainfall, but major hurricane impacts are uncommon. Suriname does experience frequent short but intense rain showers, particularly during the two rainy seasons."}}}}
-  ]}}
-  </script>
-  <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"Weather & Tides","item":"{SITE_URL}/conditions.html"}}]}}
-  </script>
-</head>
-<body class="bg-gray-50 overflow-x-hidden">
-{nav_html("forecast")}
-<div class="pg-hero text-white py-16 text-center" style="background:var(--forest)">
-  <a href="./" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-8 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Weather &amp; River Tides</h1>
-  <p class="text-white/60 text-lg max-w-xl mx-auto px-4">Live weather by district &bull; tidal forecasts for 4 rivers &bull; sunrise &amp; sunset</p>
-</div>
-<main class="max-w-5xl mx-auto px-5 py-10 pb-24">
+    main = ('<main class="wx2 max-w-3xl mx-auto px-5 py-6 pb-24">'
+            '<div class="wx-ds" role="tablist" aria-label="District">' + dchips + '</div>'
+            '<p class="wx-err" id="wx-err" hidden>The weather service is not responding right now. Try again in a minute.</p>'
+            # now card
+            '<section class="wx-now tc-day" id="wx-now" data-sec="now">'
+            '<div class="wx-now-top"><div><p class="wx-place"><span id="wx-pl" translate="no">Paramaribo</span> <span class="wx-upd" id="wx-upd"></span></p>'
+            '<p class="wx-temp"><b id="wx-t" translate="no">&ndash;</b><span class="wx-g" id="wx-g"></span></p>'
+            '<p class="wx-desc" id="wx-desc"></p></div>'
+            '<div class="wx-facts"><p><small>Feels like</small><b id="wx-fl" translate="no">&ndash;</b></p>'
+            '<p><small>Humidity</small><b id="wx-h" translate="no">&ndash;</b></p>'
+            '<p><small>Wind</small><b id="wx-w" translate="no">&ndash;</b></p>'
+            '<p><small>UV</small><b id="wx-uv" translate="no">&ndash;</b></p></div></div>'
+            '<p class="wx-head" id="wx-head"></p>'
+            '<div class="wx-sun" id="wx-sun"></div></section>'
+            # commute card
+            '<section class="wx-card" id="wx-umb" data-sec="umbrella"><div class="wx-hd"><span class="wx-ic">' + _WX_SVG["umb"] + '</span>'
+            '<div><h2 class="serif">Do I need an umbrella?</h2><p class="wx-sub" id="wx-umb-sub">Rain chance per part of the day, four weather models compared.</p></div></div>'
+            '<div class="wx-per" id="wx-per"></div><p class="wx-dry" id="wx-dry"></p>'
+            '<p class="wx-legend" id="wx-leg"></p></section>'
+            # nowcast
+            '<section class="wx-card" id="wx-nc"><div class="wx-hd2"><h2 class="serif">Next 2 hours</h2><b id="wx-nc-s" class="wx-nc-s"></b></div>'
+            '<div class="wx-nc-bars" id="wx-nc-b"></div><div class="wx-nc-t" id="wx-nc-t"></div></section>'
+            # hourly
+            '<section class="wx-card"><div class="wx-hd2"><h2 class="serif" id="wx-hr-h">Next 24 hours</h2></div>'
+            '<div class="wx-hr" id="wx-hr"></div></section>'
+            # 7 day
+            '<section class="wx-card"><div class="wx-hd2"><h2 class="serif">7 days</h2><span class="wx-sub">Tap a day for its hours</span></div>'
+            '<div class="wx-7" id="wx-7"></div></section>'
+            # air + sea
+            '<div class="wx-2col"><section class="wx-card" id="wx-aq"><div class="wx-hd2"><h2 class="serif">Air &amp; dust</h2></div><div id="wx-aq-b" class="wx-sm">&ndash;</div></section>'
+            '<section class="wx-card" id="wx-sea"><div class="wx-hd2"><h2 class="serif">At sea</h2></div><div id="wx-sea-b" class="wx-sm">&ndash;</div></section></div>'
+            # tides
+            '<section class="wx-card wx-tides" id="tides" data-sec="tides"><div class="wx-hd"><span class="wx-ic">' + _WX_SVG["wave"] + '</span>'
+            '<div><h2 class="serif">River tides</h2><p class="wx-sub">For fishers, boat trips and the waterfront. Times in Suriname time, heights above low water.</p></div></div>'
+            '<div class="td-tabs">' + tabs + '</div>' + panels
+            + '<p class="td-src">Astronomical prediction from a harmonic model fitted to the published tide tables. '
+              'Wind, river discharge and heavy rain can change the real water level. Always check with local authorities before heading out.</p></section>'
+            + '<p class="wx-src">Weather: <a href="https://open-meteo.com" rel="noopener">Open-Meteo</a> (ECMWF, GFS, ICON, UKMO, M&eacute;t&eacute;o-France models), air quality: CAMS. '
+              'Official weather warnings come from the Meteorologische Dienst Suriname; official tide tables from the '
+              '<a href="https://mas.sr" rel="noopener">Maritieme Autoriteit Suriname</a>.</p>'
+            + _hub_faq_html(faq)
+            + '</main>')
+    data_js = ('<script>window.WX2=' + json.dumps({
+        "tide": models, "outlook": outlook,
+        "loc": {l["id"]: l["label"] for l in TIDES_LOCATIONS},
+        "sea": {"suriname": [6.05, -55.17], "commewijne": [6.05, -55.17], "nickerie": [6.05, -57.0], "marowijne": [5.85, -53.95]},
+    }, separators=(",", ":")) + ';window.WX2_I18N=' + json.dumps(_WX2_I18N, ensure_ascii=False, separators=(",", ":")) + ';</script>')
+    return head + hero + main + glyphs + data_js + _WX2_JS + "\n" + footer_html() + "\n</body>\n</html>"
 
-  <!-- Weather: district selector -->
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mb-6">
-    <div class="flex items-start justify-between mb-4">
-      <div>
-        <h2 class="serif text-2xl font-bold text-gray-900">&#127777;&#65039; Weather</h2>
-        <p class="text-gray-400 text-sm mt-1">Live via <a href="https://open-meteo.com" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">Open-Meteo</a></p>
-      </div>
-      <span id="wx-badge" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0 ml-4">Loading&hellip;</span>
-    </div>
-    <!-- District selector -->
-    <div class="flex gap-2 flex-wrap mb-5">
-      <p class="text-xs font-semibold text-gray-500 self-center mr-1">District:</p>
-      <div id="wx-district-tabs" class="flex gap-1 flex-wrap"></div>
-    </div>
-    <!-- Air quality / Saharan-dust alert (district-aware) -->
-    <div id="wx-aq" class="mb-5"></div>
-    <!-- Current conditions: 5 tiles -->
-    <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-5">
-      <div class="col-span-2 sm:col-span-1 rounded-xl p-4" style="background:var(--mint)">
-        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Temperature</p>
-        <p id="wx-temp" class="text-3xl font-bold font-mono text-gray-900">&mdash;</p>
-        <p id="wx-feels" class="text-xs text-gray-400 mt-1">Feels like &mdash;</p>
-      </div>
-      <div class="rounded-xl p-4 bg-gray-50">
-        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Condition</p>
-        <p id="wx-icon" class="text-3xl mb-1">&#127780;</p>
-        <p id="wx-desc" class="text-xs text-gray-600 font-medium">&mdash;</p>
-      </div>
-      <div class="rounded-xl p-4 bg-gray-50">
-        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Humidity</p>
-        <p id="wx-hum" class="text-3xl font-bold font-mono text-gray-900">&mdash;</p>
-        <p class="text-xs text-gray-400 mt-1">Relative</p>
-      </div>
-      <div class="rounded-xl p-4 bg-gray-50">
-        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Wind</p>
-        <p id="wx-wind" class="text-3xl font-bold font-mono text-gray-900">&mdash;</p>
-        <p id="wx-wdir" class="text-xs text-gray-400 mt-1">&mdash;</p>
-      </div>
-      <div class="rounded-xl p-4 bg-gray-50">
-        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">UV Index</p>
-        <p id="wx-uv" class="text-3xl font-bold font-mono text-gray-900">&mdash;</p>
-        <p id="wx-uv-label" class="text-xs mt-1 font-semibold">&mdash;</p>
-      </div>
-    </div>
-    <!-- Rain next 2 hours (minutely_15) -->
-    <div class="rounded-xl p-4 mb-5" style="background:#eff6ff">
-      <div class="flex items-center justify-between mb-2">
-        <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide">&#127783; Rain next 2 hours</p>
-        <p id="wx-rain-summary" class="text-xs font-semibold text-blue-600">&mdash;</p>
-      </div>
-      <div class="flex items-end gap-px h-10" id="wx-rain-bars"></div>
-      <div class="flex gap-px mt-1.5" id="wx-rain-times"></div>
-    </div>
-    <!-- 24-hour strip -->
-    <div class="mb-5">
-      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3">Next 24 hours</h3>
-      <div class="overflow-x-auto -mx-2 px-2 pb-1" style="scrollbar-width:none">
-        <div id="wx-hourly" class="flex gap-1.5"></div>
-      </div>
-    </div>
-    <!-- 7-day forecast (clickable) -->
-    <div>
-      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3">7-day &bull; <span class="normal-case font-normal text-gray-400">tap a day for detail</span></h3>
-      <div class="overflow-x-auto -mx-2 px-2 pb-1" style="scrollbar-width:none">
-        <div id="wx-forecast" class="flex gap-2 sm:grid sm:grid-cols-7"></div>
-      </div>
-      <div id="wx-day-detail" class="hidden mt-3 rounded-xl overflow-hidden" style="border:1px solid #bfdbfe">
-        <div class="px-4 py-2.5 flex items-center justify-between" style="background:#eff6ff">
-          <p id="wx-day-detail-title" class="text-xs font-semibold text-gray-700 uppercase tracking-wide">&mdash;</p>
-          <button onclick="document.getElementById('wx-day-detail').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 text-xl leading-none font-light">&times;</button>
-        </div>
-        <div class="overflow-x-auto px-3 py-3 bg-white" style="scrollbar-width:none">
-          <div id="wx-day-detail-hours" class="flex gap-1.5"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Sunrise & Sunset -->
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
-    <h2 class="serif text-2xl font-bold text-gray-900 mb-6">&#9728;&#65039; Sunrise &amp; Sunset</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div class="rounded-xl p-5 text-center" style="background:#fff8e1">
-        <p class="text-4xl mb-2">&#127749;</p>
-        <p class="text-xs font-semibold text-amber-700 uppercase tracking-wide mb-1">Sunrise</p>
-        <p id="ss-rise" class="text-2xl font-bold font-mono text-gray-900">&mdash;</p>
-        <p class="text-xs text-gray-400 mt-1">Suriname time</p>
-      </div>
-      <div class="rounded-xl p-5 text-center" style="background:var(--mint)">
-        <p class="text-4xl mb-2">&#9203;</p>
-        <p class="text-xs font-semibold uppercase tracking-wide mb-1" style="color:var(--forest2)">Day Length</p>
-        <p id="ss-len" class="text-2xl font-bold font-mono text-gray-900">&mdash;</p>
-        <p class="text-xs text-gray-400 mt-1">Hours of daylight</p>
-      </div>
-      <div class="rounded-xl p-5 text-center" style="background:#e8f4fd">
-        <p class="text-4xl mb-2">&#127751;</p>
-        <p class="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-1">Sunset</p>
-        <p id="ss-set" class="text-2xl font-bold font-mono text-gray-900">&mdash;</p>
-        <p class="text-xs text-gray-400 mt-1">Suriname time</p>
-      </div>
-    </div>
-    <p class="text-gray-400 text-xs text-center mt-4">Data from <a href="https://sunrise-sunset.org" target="_blank" rel="noopener" class="hover:underline" style="color:var(--forest2)">sunrise-sunset.org</a>. Updates with selected district.</p>
-  </div>
-
-  <!-- Fishermen's Corner: Tides by river -->
-  <div class="mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <h2 class="serif text-2xl font-bold text-gray-900">&#9973;&#65039; Fishermen&#8217;s Corner</h2>
-      <span class="text-xs font-semibold px-2 py-0.5 rounded-full text-white" style="background:var(--forest2)">For mariners &amp; fishers</span>
-    </div>
-    {tides_section}
-    <p class="text-gray-400 text-xs mt-3">Tide heights are relative to Mean Lower Low Water (MLLW), a low-water datum. Always verify with local authorities before heading out.</p>
-  </div>
-
-</main>
-
-<script>
-{aq_js}
-var WMO = {{
-  0:['&#9728;&#65039;','Clear sky'], 1:['&#127780;','Mainly clear'], 2:['&#9925;','Partly cloudy'],
-  3:['&#9729;','Overcast'], 45:['&#127787;','Fog'], 48:['&#127787;','Freezing fog'],
-  51:['&#127782;','Light drizzle'], 53:['&#127782;','Drizzle'], 55:['&#127783;','Heavy drizzle'],
-  61:['&#127783;','Light rain'], 63:['&#127783;','Rain'], 65:['&#127783;','Heavy rain'],
-  80:['&#127782;','Showers'], 81:['&#127783;','Heavy showers'], 82:['&#9928;','Violent showers'],
-  95:['&#9928;','Thunderstorm'], 96:['&#9928;','Storm + hail'], 99:['&#9928;','Heavy storm']
-}};
-var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-var WX_DISTRICTS = {wx_districts_js};
-var _curDistrict = 0;
-var _wxHourly = null;
-
-function uvLabel(v) {{
-  if (v <= 2) return ['Low','#16a34a'];
-  if (v <= 5) return ['Moderate','#ca8a04'];
-  if (v <= 7) return ['High','#ea580c'];
-  if (v <= 10) return ['Very High','#dc2626'];
-  return ['Extreme','#7c3aed'];
-}}
-
-// Build district tabs
-(function(){{
-  var container = document.getElementById('wx-district-tabs');
-  WX_DISTRICTS.forEach(function(d, i) {{
-    var btn = document.createElement('button');
-    btn.textContent = d.label;
-    btn.dataset.idx = i;
-    btn.className = 'wx-dtab text-xs font-semibold px-3 py-1.5 rounded-full border transition';
-    if (i === 0) {{
-      btn.style.background = 'var(--forest)'; btn.style.borderColor = 'var(--forest)'; btn.style.color = '#fff';
-    }} else {{
-      btn.style.borderColor = '#e5e7eb'; btn.style.color = '#374151'; btn.style.background = '#fff';
-    }}
-    btn.onclick = function() {{
-      _curDistrict = i;
-      document.querySelectorAll('.wx-dtab').forEach(function(b) {{
-        b.style.background = '#fff'; b.style.borderColor = '#e5e7eb'; b.style.color = '#374151';
-      }});
-      btn.style.background = 'var(--forest)'; btn.style.borderColor = 'var(--forest)'; btn.style.color = '#fff';
-      document.getElementById('wx-day-detail').classList.add('hidden');
-      loadWeather(d.lat, d.lon);
-      loadSunrise(d.lat, d.lon);
-      loadAirQuality(d.lat, d.lon);
-    }};
-    container.appendChild(btn);
-  }});
-}})();
-
-function loadWeather(lat, lon) {{
-  document.getElementById('wx-badge').innerHTML = 'Loading&hellip;';
-  document.getElementById('wx-badge').className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0 ml-4';
-  var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon
-    + '&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,uv_index'
-    + '&minutely_15=precipitation,weather_code'
-    + '&hourly=temperature_2m,weather_code,precipitation_probability,precipitation,wind_speed_10m'
-    + '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max'
-    + '&wind_speed_unit=kmh&timezone=America%2FParamaribo&forecast_days=7';
-  fetch(url).then(function(r){{return r.json();}}).then(function(d){{
-
-    // --- Current conditions ---
-    var c = d.current;
-    var wmo = WMO[c.weather_code] || ['&#127777;','Unknown'];
-    document.getElementById('wx-temp').textContent  = Math.round(c.temperature_2m) + '°C';
-    document.getElementById('wx-feels').textContent = 'Feels like ' + Math.round(c.apparent_temperature) + '°C';
-    document.getElementById('wx-icon').innerHTML    = wmo[0];
-    document.getElementById('wx-desc').textContent  = wmo[1];
-    document.getElementById('wx-hum').textContent   = c.relative_humidity_2m + '%';
-    document.getElementById('wx-wind').textContent  = Math.round(c.wind_speed_10m) + ' km/h';
-    var dirs = ['N','NE','E','SE','S','SW','W','NW'];
-    var deg  = c.wind_direction_10m;
-    document.getElementById('wx-wdir').textContent  = dirs[Math.round(deg/45)%8] + ' · ' + Math.round(deg) + '°';
-    var uvVal  = Math.round(c.uv_index || 0);
-    var uvInfo = uvLabel(uvVal);
-    document.getElementById('wx-uv').textContent       = uvVal;
-    document.getElementById('wx-uv').style.color       = uvInfo[1];
-    document.getElementById('wx-uv-label').textContent = uvInfo[0];
-    document.getElementById('wx-uv-label').style.color = uvInfo[1];
-    var badge = document.getElementById('wx-badge');
-    badge.innerHTML = '&#9679; Live';
-    badge.className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0 ml-4';
-
-    // --- Rain next 2 hours (minutely_15) ---
-    var m15 = d.minutely_15;
-    if (m15 && m15.time && m15.precipitation) {{
-      var now = new Date();
-      var bars = document.getElementById('wx-rain-bars');
-      var timesEl = document.getElementById('wx-rain-times');
-      bars.innerHTML = ''; timesEl.innerHTML = '';
-      var startIdx = 0;
-      for (var k = 0; k < m15.time.length; k++) {{
-        if (new Date(m15.time[k]) >= now) {{ startIdx = k; break; }}
-      }}
-      var slots = Math.min(8, m15.time.length - startIdx);
-      var maxP = 0;
-      for (var k = startIdx; k < startIdx + slots; k++) {{ maxP = Math.max(maxP, m15.precipitation[k] || 0); }}
-      var anyRain = false, firstRainTime = null;
-      for (var k = startIdx; k < startIdx + slots; k++) {{
-        var p  = m15.precipitation[k] || 0;
-        var t  = new Date(m15.time[k]);
-        var hh = ('0'+t.getHours()).slice(-2);
-        var mm = ('0'+t.getMinutes()).slice(-2);
-        var h  = maxP > 0 ? Math.max(4, Math.round((p / maxP) * 38)) : 4;
-        var col = p < 0.05 ? '#bfdbfe' : p < 0.3 ? '#60a5fa' : p < 1.5 ? '#2563eb' : '#1e3a8a';
-        bars.innerHTML += '<div style="flex:1;height:' + h + 'px;background:' + col + ';border-radius:3px 3px 0 0;min-width:0" title="' + p.toFixed(1) + 'mm"></div>';
-        var showLabel = (k === startIdx || (k - startIdx) % 2 === 0);
-        timesEl.innerHTML += '<div style="flex:1;text-align:center;font-size:9px;color:#9ca3af;min-width:0">' + (showLabel ? hh+':'+mm : '') + '</div>';
-        if (p >= 0.05 && !anyRain) {{ anyRain = true; firstRainTime = hh + ':' + mm; }}
-      }}
-      var sumEl = document.getElementById('wx-rain-summary');
-      if (!anyRain) {{
-        sumEl.textContent = 'Dry for now ✔'; sumEl.style.color = '#16a34a';
-      }} else {{
-        var t0 = new Date(m15.time[startIdx]);
-        var isNow = (new Date(m15.time[startIdx]).getTime() === new Date(m15.time[startIdx]).getTime()) && p >= 0.05;
-        var firstSlotRaining = (m15.precipitation[startIdx] || 0) >= 0.05;
-        sumEl.textContent = firstSlotRaining ? 'Raining now' : ('Rain ~' + firstRainTime);
-        sumEl.style.color = '#2563eb';
-      }}
-    }}
-
-    // --- 24-hour strip ---
-    var hr = d.hourly;
-    _wxHourly = hr;
-    if (hr && hr.time) {{
-      var nowMs = Date.now();
-      var strip = document.getElementById('wx-hourly');
-      strip.innerHTML = '';
-      var count = 0;
-      for (var i = 0; i < hr.time.length && count < 24; i++) {{
-        var t = new Date(hr.time[i]);
-        if (t.getTime() < nowMs - 1800000) continue;
-        var w  = WMO[hr.weather_code[i]] || ['&#127777;',''];
-        var rp = hr.precipitation_probability[i] || 0;
-        var isNow = count === 0;
-        var bg = isNow ? 'var(--forest)' : '#f8fafc';
-        var tc = isNow ? '#fff' : '#111827';
-        var sc = isNow ? 'rgba(255,255,255,0.65)' : '#9ca3af';
-        var rc = isNow ? '#93c5fd' : '#3b82f6';
-        var hh = ('0'+t.getHours()).slice(-2) + ':00';
-        strip.innerHTML += '<div class="flex flex-col items-center text-center rounded-xl p-2 shrink-0" style="background:' + bg + ';min-width:54px">'
-          + '<p style="font-size:10px;font-weight:600;color:' + sc + '">' + (isNow ? 'Now' : hh) + '</p>'
-          + '<p style="font-size:20px;margin:3px 0">' + w[0] + '</p>'
-          + '<p style="font-size:11px;font-weight:700;color:' + tc + '">' + Math.round(hr.temperature_2m[i]) + '°</p>'
-          + (rp > 15 ? '<p style="font-size:9px;color:' + rc + ';margin-top:2px">&#128167;' + rp + '%</p>' : '<p style="font-size:9px;margin-top:2px;color:transparent">.</p>')
-          + '</div>';
-        count++;
-      }}
-    }}
-
-    // --- 7-day forecast ---
-    var fc = d.daily, fbox = document.getElementById('wx-forecast');
-    fbox.innerHTML = '';
-    for (var i = 0; i < 7; i++) {{
-      var dt = new Date(fc.time[i] + 'T12:00:00');
-      var dn = i === 0 ? 'Today' : DAYS[dt.getDay()];
-      var w  = WMO[fc.weather_code[i]] || ['&#127777;',''];
-      var rn = fc.precipitation_probability_max[i] || 0;
-      var card = document.createElement('div');
-      card.className = 'wx-day-card flex flex-col items-center text-center rounded-xl p-2 shrink-0 cursor-pointer transition-all';
-      card.style.cssText = 'background:#f8fafc;min-width:68px;border:2px solid transparent';
-      card.dataset.dayIdx = i;
-      card.innerHTML = '<p style="font-size:10px;font-weight:600;color:#6b7280">' + dn + '</p>'
-        + '<p style="font-size:22px;margin:4px 0">' + w[0] + '</p>'
-        + '<p style="font-size:12px;font-weight:700;color:#111827">' + Math.round(fc.temperature_2m_max[i]) + '°</p>'
-        + '<p style="font-size:10px;color:#9ca3af">' + Math.round(fc.temperature_2m_min[i]) + '°</p>'
-        + (rn > 15 ? '<p style="font-size:9px;color:#3b82f6;margin-top:2px">&#128167;' + rn + '%</p>' : '<p style="font-size:9px;margin-top:2px;color:transparent">.</p>');
-      card.onclick = (function(idx, el) {{
-        return function() {{
-          document.querySelectorAll('.wx-day-card').forEach(function(c) {{
-            c.style.background = '#f8fafc'; c.style.borderColor = 'transparent';
-          }});
-          el.style.background = '#eff6ff'; el.style.borderColor = '#3b82f6';
-          showDayDetail(idx);
-        }};
-      }})(i, card);
-      fbox.appendChild(card);
-    }}
-
-  }}).catch(function() {{
-    document.getElementById('wx-badge').textContent = 'Unavailable';
-    document.getElementById('wx-badge').className = 'text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-500 shrink-0 ml-4';
-  }});
-}}
-
-function showDayDetail(dayIdx) {{
-  var detail  = document.getElementById('wx-day-detail');
-  var title   = document.getElementById('wx-day-detail-title');
-  var hourBox = document.getElementById('wx-day-detail-hours');
-  if (!_wxHourly) {{ detail.classList.add('hidden'); return; }}
-  var hr = _wxHourly;
-  var dayDate = new Date(hr.time[dayIdx * 24] + (hr.time[dayIdx * 24].length === 16 ? ':00' : ''));
-  title.textContent = (dayIdx === 0 ? 'Today' : DAYS[new Date(hr.time[dayIdx*24]).getDay()]) + ', ' + new Date(hr.time[dayIdx*24]).getDate() + ' ' + MONTHS[new Date(hr.time[dayIdx*24]).getMonth()];
-  hourBox.innerHTML = '';
-  var startH = dayIdx * 24;
-  for (var i = startH; i < startH + 24 && i < hr.time.length; i++) {{
-    var t  = new Date(hr.time[i]);
-    var w  = WMO[hr.weather_code[i]] || ['&#127777;',''];
-    var rp = hr.precipitation_probability[i] || 0;
-    var p  = hr.precipitation[i] || 0;
-    var hh = ('0'+t.getHours()).slice(-2) + ':00';
-    var rainBit = p >= 0.1
-      ? '<p style="font-size:9px;color:#2563eb;margin-top:2px;font-weight:600">' + p.toFixed(1) + 'mm</p>'
-      : rp > 20
-        ? '<p style="font-size:9px;color:#60a5fa;margin-top:2px">&#128167;' + rp + '%</p>'
-        : '<p style="font-size:9px;margin-top:2px;color:transparent">.</p>';
-    hourBox.innerHTML += '<div class="flex flex-col items-center text-center rounded-xl p-2 shrink-0" style="background:#f8fafc;border:1px solid #e5e7eb;min-width:54px">'
-      + '<p style="font-size:10px;font-weight:600;color:#6b7280">' + hh + '</p>'
-      + '<p style="font-size:20px;margin:3px 0">' + w[0] + '</p>'
-      + '<p style="font-size:11px;font-weight:700;color:#111827">' + Math.round(hr.temperature_2m[i]) + '°</p>'
-      + rainBit
-      + '</div>';
-  }}
-  detail.classList.remove('hidden');
-  setTimeout(function() {{ detail.scrollIntoView({{behavior:'smooth',block:'nearest'}}); }}, 50);
-}}
-
-// Initial load: Paramaribo
-loadWeather(WX_DISTRICTS[0].lat, WX_DISTRICTS[0].lon);
-loadAirQuality(WX_DISTRICTS[0].lat, WX_DISTRICTS[0].lon);
-
-function loadSunrise(lat, lon) {{
-  fetch('https://api.sunrise-sunset.org/json?lat=' + lat + '&lng=' + lon + '&formatted=0')
-    .then(function(r){{return r.json();}})
-    .then(function(d){{
-      var res = d.results;
-      function toSR(iso){{
-        var dt = new Date(iso);
-        var sr = new Date(dt.getTime() - 3*3600000);
-        return ('0'+sr.getUTCHours()).slice(-2)+':'+('0'+sr.getUTCMinutes()).slice(-2);
-      }}
-      document.getElementById('ss-rise').textContent = toSR(res.sunrise);
-      document.getElementById('ss-set').textContent  = toSR(res.sunset);
-      var s = res.day_length;
-      document.getElementById('ss-len').textContent  = Math.floor(s/3600)+'h '+Math.floor((s%3600)/60)+'m';
-    }})
-    .catch(function(){{
-      ['ss-rise','ss-set','ss-len'].forEach(function(id){{document.getElementById(id).textContent='Unavailable';}});
-    }});
-}}
-loadSunrise(WX_DISTRICTS[0].lat, WX_DISTRICTS[0].lon);
-
-// Tide tab switching
-function showTide(id) {{
-  document.querySelectorAll('.tide-panel').forEach(function(p){{p.classList.add('hidden');}});
-  document.querySelectorAll('.tide-tab').forEach(function(t){{
-    t.classList.remove('border-b-2','font-bold','text-gray-900');
-    t.classList.add('text-gray-500');
-    t.removeAttribute('style');
-  }});
-  var panel = document.getElementById('tpanel-' + id);
-  var tab   = document.getElementById('ttab-'   + id);
-  if (panel) panel.classList.remove('hidden');
-  if (tab) {{
-    tab.classList.add('border-b-2','font-bold','text-gray-900');
-    tab.classList.remove('text-gray-500');
-    tab.style.borderColor = 'var(--forest2)';
-  }}
-}}
-</script>
-{footer_html()}
-</body>
-</html>"""
 
 
 # ── Flights page (OpenSky — arrivals/departures at PBM) ─────────────────────
@@ -27321,11 +28401,12 @@ def _atm_render_card(a):
         f'<h3 class="font-bold text-gray-900 leading-snug">{name}</h3>'
         f'<p class="text-sm text-gray-500 mb-3">{line}{m_txt}<span class="atm-dist"></span></p>'
         f'<div class="flex flex-wrap gap-1.5 mb-3">{_atm_card_pills(a["cards"])}</div>'
-        f'<a href="{gmap}" target="_blank" rel="noopener" class="atm-dir">'
+        f'<div class="atm-links"><a href="{gmap}" target="_blank" rel="noopener" class="atm-dir">'
         f'<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">'
         f'<path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>'
         f'Directions</a>'
-        f'</div>'
+        + (f'<a href="https://waze.com/ul?ll={lat_a},{lng_a}&amp;navigate=yes" target="_blank" rel="noopener" class="atm-dir atm-waze" translate="no">Waze</a>' if has_co else '')
+        + '</div></div>'
     )
 
 def _atm_ref_table(rows, mapped_names):
@@ -27362,11 +28443,12 @@ def _atm_ref_card(a, net, net_col, cards):
         f'<h3 class="font-bold text-gray-900 leading-snug">{name}</h3>'
         f'<p class="text-sm text-gray-500 mb-3">{addr} &middot; {dist or "Suriname"}</p>'
         f'<div class="flex flex-wrap gap-1.5 mb-3">{_atm_card_pills(cards)}</div>'
-        f'<a href="{gmap}" target="_blank" rel="noopener" class="atm-dir">'
+        f'<div class="atm-links"><a href="{gmap}" target="_blank" rel="noopener" class="atm-dir">'
         '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">'
         '<path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>'
         'Directions</a>'
-        '</div>'
+        + (f'<a href="https://waze.com/ul?ll={a["lat"]},{a["lng"]}&amp;navigate=yes" target="_blank" rel="noopener" class="atm-dir atm-waze" translate="no">Waze</a>' if a["lat"] is not None else '')
+        + '</div></div>'
     )
 
 def _atm_ref_cards(entries, net, net_col, cards):
@@ -27517,6 +28599,7 @@ def build_atms_page(atms, meta, ref=None):
     body += (
         '<div class="flex items-center justify-between mb-3">'
         '<p id="atm-count" class="text-sm text-gray-500"></p></div>'
+        '<div id="atm-nearest" aria-live="polite" hidden></div>'
         f'<div id="atm-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">{cards_html}</div>'
         '<p id="atm-empty" class="text-center text-gray-400 py-10 hidden">No ATMs match those filters.</p>'
     )
@@ -27647,7 +28730,17 @@ def build_atms_page(atms, meta, ref=None):
 .atm-card{background:var(--card);border:1px solid var(--line);border-radius:1rem;padding:16px;display:flex;flex-direction:column}
 .atm-untracked{font-size:.72rem;font-weight:600;color:#4B5563;background:#f3f4f6;border-radius:999px;padding:3px 9px;white-space:nowrap}
 .atm-card-pill{font-size:.66rem;font-weight:600;color:var(--pc);border:1px solid var(--pc);border-radius:999px;padding:2px 8px;opacity:.9}
-.atm-dir{margin-top:auto;display:inline-flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;color:var(--forest2)}
+.atm-links{margin-top:auto;display:flex;gap:1rem;align-items:center}
+.atm-dir{display:inline-flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;color:var(--forest2)}
+.atm-waze{color:#0b7fb5}
+#atm-nearest{background:var(--forest);color:#fff;border-radius:var(--r-card,6px);padding:.9rem 1rem;margin:0 0 .9rem;box-shadow:var(--sh-card)}
+#atm-nearest[hidden]{display:none}
+#atm-nearest .k{font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+#atm-nearest h3{font-family:Newsreader,Georgia,serif;font-size:1.35rem;margin:.15rem 0 .1rem}
+#atm-nearest p{margin:0;font-size:.85rem;opacity:.85}
+#atm-nearest .bt{display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap}
+#atm-nearest .bt a{background:#fff;color:var(--forest);font-weight:700;font-size:.82rem;border-radius:999px;padding:.45rem .9rem}
+#atm-nearest .bt a.wz{background:#33ccff;color:#06283d}
 .atm-dir:hover{text-decoration:underline}
 .atm-dist{font-size:.72rem;font-weight:700;color:var(--forest2);margin-left:6px}
 .atm-mx{text-align:center;padding:12px 6px;vertical-align:middle}
@@ -27704,6 +28797,7 @@ def build_atms_page(atms, meta, ref=None):
       if(ok) shown++;
     }
     if(countEl) countEl.textContent = shown+" of "+cards.length+" ATMs"+(userLL?", nearest first":"");
+    renderNearest();
     if(emptyEl) emptyEl.classList.toggle('hidden', shown!==0);
     if(window._atmMap) drawMarkers();
   }
@@ -27750,6 +28844,25 @@ def build_atms_page(atms, meta, ref=None):
     });
     cards.sort(function(a,b){return a._dist-b._dist;});
     cards.forEach(function(c){ listEl.appendChild(c); });
+    renderNearest();
+  }
+  // Nearest WORKING machine (live status online), with one-tap directions.
+  // Re-run from apply() so a live status refresh after locating is reflected.
+  function renderNearest(){
+    if(!userLL) return;
+    var nb=document.getElementById('atm-nearest'), best=null;
+    cards.forEach(function(c){ if(!best && isFinite(c._dist) && c.getAttribute('data-status')==='online') best=c; });
+    if(nb && best){
+      var L={en:['Nearest working ATM','away','Directions'],nl:['Dichtstbijzijnde werkende ATM','verderop','Route'],es:['Cajero operativo más cercano','de distancia','Cómo llegar'],
+             zh:['最近的可用ATM','','路线'],fr:['DAB en service le plus proche','de vous','Itinéraire'],pt:['Caixa eletrônico funcionando mais próximo','de distância','Rotas']}[(document.documentElement.lang||'en').slice(0,2)]||['Nearest working ATM','away','Directions'];
+      var d=best._dist, la=best.getAttribute('data-lat'), ln=best.getAttribute('data-lng');
+      var nm=(best.querySelector('h3')||{}).textContent||'', net=best.getAttribute('data-net');
+      nb.innerHTML='<span class="k">'+L[0]+'</span><h3 translate="no">'+nm.replace(/[<&]/g,'')+'</h3>'
+        +'<p><span translate="no">'+net+'</span> &middot; '+(d<1?Math.round(d*1000)+' m':d.toFixed(1)+' km')+' '+L[1]+'</p>'
+        +'<div class="bt"><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+la+','+ln+'">'+L[2]+'</a>'
+        +'<a class="wz" target="_blank" rel="noopener" translate="no" href="https://waze.com/ul?ll='+la+','+ln+'&navigate=yes">Waze</a></div>';
+      nb.hidden=false;
+    }
   }
   if(nearBtn) nearBtn.addEventListener('click', function(){
     if(!navigator.geolocation){ nearLbl.textContent='Not supported'; return; }
@@ -27771,6 +28884,9 @@ def build_atms_page(atms, meta, ref=None):
       setTimeout(function(){ nearLbl.textContent='Nearest to me'; }, 2500);
     }, {enableHighAccuracy:true, timeout:8000, maximumAge:60000});
   });
+
+  // Visitors who already allowed location get the nearest-first list straight away.
+  try{ if(navigator.permissions&&nearBtn) navigator.permissions.query({name:'geolocation'}).then(function(p){ if(p.state==='granted') nearBtn.click(); }).catch(function(){}); }catch(e){}
 
   // ── Lazy Leaflet map ──
   var mapEl=document.getElementById('atm-map');

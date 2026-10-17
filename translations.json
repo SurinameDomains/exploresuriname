@@ -102229,5 +102229,831 @@
 "Dansclub DanzSon in Paramaribo": {
 "nl": "Dansclub DanzSon in Paramaribo",
 "es": "Dansclub DanzSon en Paramaribo"
+},
+"Are the scores live?": {
+"nl": "Zijn de scores live?",
+"es": "¿Los marcadores son en vivo?",
+"zh": "比分是实时的吗？",
+"fr": "Les scores sont-ils en direct ?",
+"pt": "Os placares são ao vivo?"
+},
+"Live scores, line-ups and tables": {
+"nl": "Live scores, opstellingen en standen",
+"es": "Marcadores en vivo, alineaciones y clasificaciones",
+"zh": "实时比分、阵容和积分榜",
+"fr": "Scores en direct, compositions et classements",
+"pt": "Placares ao vivo, escalações e classificações"
+},
+"All competitions": {
+"nl": "Alle competities",
+"es": "Todas las competiciones",
+"zh": "所有赛事",
+"fr": "Toutes les compétitions",
+"pt": "Todas as competições"
+},
+"Natio, the Suriname Major League, world football, NBA and fight nights. Every start time in Suriname time, every score live.": {
+"nl": "Natio, de Suriname Major League, wereldvoetbal, NBA en vechtsportavonden. Elke aanvangstijd in Surinaamse tijd, elke score live.",
+"es": "Natio, la Suriname Major League, el fútbol mundial, la NBA y las veladas de combate. Cada hora de inicio en hora de Surinam, cada marcador en vivo.",
+"zh": "苏里南国家队、苏里南超级联赛、世界足球、NBA和格斗之夜。每场比赛的开始时间均为苏里南时间，每个比分实时更新。",
+"fr": "Natio, la Suriname Major League, le football mondial, la NBA et les soirées de combat. Chaque coup d’envoi à l’heure du Suriname, chaque score en direct.",
+"pt": "Natio, a Suriname Major League, o futebol mundial, a NBA e as noites de luta. Todos os horários no fuso do Suriname, todos os placares ao vivo."
+},
+"My teams": {
+"nl": "Mijn teams",
+"es": "Mis equipos",
+"zh": "我的球队",
+"fr": "Mes équipes",
+"pt": "Meus times"
+},
+"Edit": {
+"nl": "Wijzig",
+"es": "Editar",
+"zh": "编辑",
+"fr": "Modifier",
+"pt": "Editar"
+},
+"All times are Suriname time (UTC-3). Live scores update every minute. Tap a match for scorers, stats and line-ups.": {
+"nl": "Alle tijden zijn Surinaamse tijd (UTC-3). Live scores worden elke minuut bijgewerkt. Tik op een wedstrijd voor doelpuntenmakers, statistieken en opstellingen.",
+"es": "Todas las horas son de Surinam (UTC-3). Los marcadores en vivo se actualizan cada minuto. Toca un partido para ver goleadores, estadísticas y alineaciones.",
+"zh": "所有时间均为苏里南时间（UTC-3）。实时比分每分钟更新。点击比赛可查看进球者、统计数据和阵容。",
+"fr": "Toutes les heures sont à l’heure du Suriname (UTC-3). Les scores en direct se mettent à jour chaque minute. Touchez un match pour voir les buteurs, les statistiques et les compositions.",
+"pt": "Todos os horários são do Suriname (UTC-3). Os placares ao vivo são atualizados a cada minuto. Toque em um jogo para ver artilheiros, estatísticas e escalações."
+},
+"Suriname Major League · Today": {
+"nl": "Suriname Major League · Vandaag",
+"es": "Suriname Major League · Hoy",
+"zh": "苏里南超级联赛 · 今天",
+"fr": "Suriname Major League · Aujourd’hui",
+"pt": "Suriname Major League · Hoje"
+},
+"Suriname Major League · Tomorrow": {
+"nl": "Suriname Major League · Morgen",
+"es": "Suriname Major League · Mañana",
+"zh": "苏里南超级联赛 · 明天",
+"fr": "Suriname Major League · Demain",
+"pt": "Suriname Major League · Amanhã"
+},
+"Suriname Major League · next matchday": {
+"nl": "Suriname Major League · volgende speelronde",
+"es": "Suriname Major League · próxima jornada",
+"zh": "苏里南超级联赛 · 下一轮",
+"fr": "Suriname Major League · prochaine journée",
+"pt": "Suriname Major League · próxima rodada"
+},
+"Natio · next match": {
+"nl": "Natio · volgende wedstrijd",
+"es": "Natio · próximo partido",
+"zh": "苏里南国家队 · 下一场比赛",
+"fr": "Natio · prochain match",
+"pt": "Natio · próximo jogo"
+},
+"Match data: ESPN, sml.sr and Concacaf. Glory, boxing and other local fixtures are added by hand once confirmed. Schedules rebuild every 15 minutes; live scores refresh in your browser.": {
+"nl": "Wedstrijddata: ESPN, sml.sr en Concacaf. Glory, boksen en andere lokale wedstrijden worden met de hand toegevoegd zodra ze bevestigd zijn. Het programma wordt elke 15 minuten bijgewerkt; live scores verversen in je browser.",
+"es": "Datos de partidos: ESPN, sml.sr y Concacaf. Glory, boxeo y otros eventos locales se añaden a mano una vez confirmados. El calendario se actualiza cada 15 minutos; los marcadores en vivo se refrescan en tu navegador.",
+"zh": "比赛数据：ESPN、sml.sr和Concacaf。Glory、拳击及其他本地赛事确认后人工添加。赛程每15分钟更新一次；实时比分在您的浏览器中刷新。",
+"fr": "Données des matchs : ESPN, sml.sr et Concacaf. Glory, la boxe et les autres rencontres locales sont ajoutés à la main une fois confirmés. Le programme se met à jour toutes les 15 minutes ; les scores en direct se rafraîchissent dans votre navigateur.",
+"pt": "Dados dos jogos: ESPN, sml.sr e Concacaf. Glory, boxe e outros eventos locais são adicionados manualmente após confirmação. A programação é atualizada a cada 15 minutos; os placares ao vivo são atualizados no seu navegador."
+},
+"Suriname first: every Natio international for the men's, women's and youth sides, the full Suriname Major League season with its table and past champions, the SVB competitions below the top flight, local running events and the Concacaf Caribbean Cup. World football: the Champions League, Europa League, Conference League, Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Copa Libertadores, Copa Sudamericana, Concacaf competitions and MLS. Basketball: every NBA game. Fight nights: UFC, Glory and the big boxing cards. Plus Formula 1 and ATP/WTA tennis.": {
+"nl": "Suriname eerst: elke interland van Natio bij de mannen, vrouwen en jeugd, het volledige seizoen van de Suriname Major League met stand en kampioenen, de SVB-competities onder de hoogste klasse, lokale hardloopevenementen en de Concacaf Caribbean Cup. Wereldvoetbal: Champions League, Europa League, Conference League, Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Copa Libertadores, Copa Sudamericana, Concacaf-toernooien en MLS. Basketbal: elke NBA-wedstrijd. Vechtsport: UFC, Glory en de grote bokskaarten. Plus Formule 1 en ATP/WTA-tennis.",
+"es": "Surinam primero: cada partido internacional de Natio masculino, femenino y juvenil, la temporada completa de la Suriname Major League con su clasificación y campeones, las competiciones de la SVB por debajo de la primera división, carreras locales y la Concacaf Caribbean Cup. Fútbol mundial: Champions League, Europa League, Conference League, Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Copa Libertadores, Copa Sudamericana, torneos de Concacaf y MLS. Baloncesto: todos los partidos de la NBA. Combates: UFC, Glory y las grandes veladas de boxeo. Además, Fórmula 1 y tenis ATP/WTA.",
+"zh": "苏里南优先：苏里南国家队男足、女足和青年队的每场国际比赛，苏里南超级联赛全赛季（含积分榜和历届冠军），顶级联赛以下的SVB赛事，本地跑步赛事以及Concacaf加勒比杯。世界足球：欧冠、欧联、欧会杯、荷甲、英超、西甲、意甲、德甲、法甲、南美解放者杯、南美杯、Concacaf赛事和美职联。篮球：每场NBA比赛。格斗：UFC、Glory和重要拳击赛。另有一级方程式和ATP/WTA网球。",
+"fr": "Le Suriname d’abord : chaque match international de Natio chez les hommes, les femmes et les jeunes, toute la saison de la Suriname Major League avec son classement et ses champions, les compétitions de la SVB sous l’élite, les courses locales et la Concacaf Caribbean Cup. Football mondial : Ligue des champions, Ligue Europa, Ligue Conférence, Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Copa Libertadores, Copa Sudamericana, compétitions de la Concacaf et MLS. Basket : tous les matchs NBA. Combats : UFC, Glory et les grandes soirées de boxe. Plus la Formule 1 et le tennis ATP/WTA.",
+"pt": "Suriname em primeiro lugar: todos os jogos internacionais da Natio masculina, feminina e de base, a temporada completa da Suriname Major League com classificação e campeões, as competições da SVB abaixo da primeira divisão, corridas locais e a Concacaf Caribbean Cup. Futebol mundial: Champions League, Europa League, Conference League, Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Copa Libertadores, Copa Sul-Americana, torneios da Concacaf e MLS. Basquete: todos os jogos da NBA. Lutas: UFC, Glory e os grandes eventos de boxe. Além de Fórmula 1 e tênis ATP/WTA."
+},
+"Follow your teams and they stay on top, with their next match and last result.": {
+"nl": "Volg je teams en ze staan bovenaan, met hun volgende wedstrijd en laatste uitslag.",
+"es": "Sigue a tus equipos y aparecerán arriba, con su próximo partido y su último resultado.",
+"zh": "关注您的球队，它们会显示在顶部，并附上下一场比赛和最近结果。",
+"fr": "Suivez vos équipes : elles restent en haut, avec leur prochain match et leur dernier résultat.",
+"pt": "Siga seus times e eles ficam no topo, com o próximo jogo e o último resultado."
+},
+"Are there league tables?": {
+"nl": "Zijn er standen?",
+"es": "¿Hay clasificaciones?",
+"zh": "有联赛积分榜吗？",
+"fr": "Y a-t-il des classements ?",
+"pt": "Há tabelas de classificação?"
+},
+"Team": {
+"nl": "Team",
+"es": "Equipo",
+"zh": "球队",
+"fr": "Équipe",
+"pt": "Time"
+},
+"Club": {
+"nl": "Club",
+"es": "Club",
+"zh": "俱乐部",
+"fr": "Club",
+"pt": "Clube"
+},
+"Pts": {
+"nl": "Ptn",
+"es": "Pts",
+"zh": "积分",
+"fr": "Pts",
+"pt": "Pts"
+},
+"Pct": {
+"nl": "%",
+"es": "%",
+"zh": "胜率",
+"fr": "%",
+"pt": "%"
+},
+"Strk": {
+"nl": "Reeks",
+"es": "Racha",
+"zh": "连胜/负",
+"fr": "Série",
+"pt": "Seq."
+},
+"Basketball": {
+"nl": "Basketbal",
+"es": "Baloncesto",
+"zh": "篮球",
+"fr": "Basket",
+"pt": "Basquete"
+},
+"Can I follow my own teams?": {
+"nl": "Kan ik mijn eigen teams volgen?",
+"es": "¿Puedo seguir a mis equipos?",
+"zh": "我可以关注自己的球队吗？",
+"fr": "Puis-je suivre mes équipes ?",
+"pt": "Posso seguir meus próprios times?"
+},
+"Yes. Open any match and tap the star next to a team, or pick one of the suggestions under My teams. Followed teams stay at the top of the page with their next match and last result, and the My teams button filters the schedule to just them. It is stored in your browser only; no account needed.": {
+"nl": "Ja. Open een wedstrijd en tik op de ster naast een team, of kies een van de suggesties onder Mijn teams. Gevolgde teams staan bovenaan met hun volgende wedstrijd en laatste uitslag, en de knop Mijn teams filtert het programma op alleen die teams. Dit wordt alleen in je browser opgeslagen; je hebt geen account nodig.",
+"es": "Sí. Abre cualquier partido y toca la estrella junto a un equipo, o elige una de las sugerencias en Mis equipos. Los equipos que sigues aparecen arriba con su próximo partido y último resultado, y el botón Mis equipos filtra el calendario solo a ellos. Se guarda solo en tu navegador; no hace falta cuenta.",
+"zh": "可以。打开任意比赛并点击球队旁的星标，或在“我的球队”中选择推荐球队。关注的球队会显示在页面顶部，附上下一场比赛和最近结果，“我的球队”按钮可只显示这些球队的赛程。数据仅保存在您的浏览器中，无需注册账户。",
+"fr": "Oui. Ouvrez un match et touchez l’étoile à côté d’une équipe, ou choisissez une des suggestions sous Mes équipes. Les équipes suivies restent en haut de la page avec leur prochain match et leur dernier résultat, et le bouton Mes équipes filtre le programme sur elles seules. Tout est enregistré dans votre navigateur uniquement ; aucun compte n’est nécessaire.",
+"pt": "Sim. Abra qualquer jogo e toque na estrela ao lado de um time, ou escolha uma das sugestões em Meus times. Os times seguidos ficam no topo da página com o próximo jogo e o último resultado, e o botão Meus times filtra a programação só para eles. Fica salvo apenas no seu navegador; não precisa de conta."
+},
+"Yes, under Tables: the Suriname Major League (computed from the league's own results) with its roll of champions, plus the Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, MLS and the NBA conferences. Each match also shows the table of its competition.": {
+"nl": "Ja, onder Standen: de Suriname Major League (berekend uit de eigen uitslagen van de competitie) met de lijst van kampioenen, plus de Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, MLS en de NBA-conferences. Bij elke wedstrijd staat ook de stand van die competitie.",
+"es": "Sí, en Clasificaciones: la Suriname Major League (calculada con los resultados de la propia liga) con su lista de campeones, además de la Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, MLS y las conferencias de la NBA. Cada partido muestra también la clasificación de su competición.",
+"zh": "有，在“积分榜”中：苏里南超级联赛（根据联赛自身的结果计算）及历届冠军名单，以及荷甲、英超、西甲、意甲、德甲、法甲、美职联和NBA东西部。每场比赛也会显示所属赛事的积分榜。",
+"fr": "Oui, sous Classements : la Suriname Major League (calculée à partir des résultats de la ligue) avec son palmarès, plus l’Eredivisie, la Premier League, la Liga, la Serie A, la Bundesliga, la Ligue 1, la MLS et les conférences NBA. Chaque match affiche aussi le classement de sa compétition.",
+"pt": "Sim, em Tabelas: a Suriname Major League (calculada com os resultados da própria liga) com a lista de campeões, além da Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, MLS e as conferências da NBA. Cada jogo também mostra a tabela da sua competição."
+},
+"The league's own feed currently publishes kickoff times and venues but not goal scorers or match events. As soon as sml.sr publishes them they can be shown here, like the other competitions.": {
+"nl": "De eigen feed van de competitie publiceert nu aanvangstijden en stadions, maar geen doelpuntenmakers of wedstrijdgebeurtenissen. Zodra sml.sr die publiceert, kunnen ze hier getoond worden, net als bij de andere competities.",
+"es": "El propio feed de la liga publica ahora horarios y estadios, pero no goleadores ni incidencias. En cuanto sml.sr los publique se podrán mostrar aquí, como en las demás competiciones.",
+"zh": "联赛自身的数据目前只公布开球时间和场地，不包括进球者或比赛事件。一旦sml.sr公布，这里就能像其他赛事一样显示。",
+"fr": "Le flux de la ligue publie pour l’instant les horaires et les stades, mais pas les buteurs ni les faits de match. Dès que sml.sr les publiera, ils pourront s’afficher ici comme pour les autres compétitions.",
+"pt": "O feed da própria liga publica por enquanto horários e estádios, mas não artilheiros nem lances. Assim que o sml.sr publicar, poderão aparecer aqui, como nas outras competições."
+},
+"The 2026/27 table appears here once the league publishes the first results.": {
+"nl": "De stand van 2026/27 verschijnt hier zodra de competitie de eerste uitslagen publiceert.",
+"es": "La clasificación 2026/27 aparecerá aquí cuando la liga publique los primeros resultados.",
+"zh": "联赛公布首批结果后，2026/27赛季积分榜将显示在这里。",
+"fr": "Le classement 2026/27 apparaîtra ici dès que la ligue publiera les premiers résultats.",
+"pt": "A tabela 2026/27 aparece aqui assim que a liga publicar os primeiros resultados."
+},
+"Everything is shown in Suriname time (UTC-3, no daylight saving). The time you see is the time the match starts on your clock in Suriname.": {
+"nl": "Alles staat in Surinaamse tijd (UTC-3, geen zomertijd). De tijd die je ziet is de tijd waarop de wedstrijd begint op jouw klok in Suriname.",
+"es": "Todo se muestra en hora de Surinam (UTC-3, sin horario de verano). La hora que ves es la hora a la que empieza el partido en tu reloj en Surinam.",
+"zh": "所有时间均为苏里南时间（UTC-3，无夏令时）。您看到的时间就是比赛在苏里南当地开始的时间。",
+"fr": "Tout est affiché à l’heure du Suriname (UTC-3, sans heure d’été). L’heure que vous voyez est celle du coup d’envoi sur votre montre au Suriname.",
+"pt": "Tudo é mostrado no horário do Suriname (UTC-3, sem horário de verão). O horário que você vê é o horário em que o jogo começa no seu relógio no Suriname."
+},
+"Schedule": {
+"nl": "Programma",
+"es": "Calendario",
+"zh": "赛程",
+"fr": "Programme",
+"pt": "Programação"
+},
+"Tables": {
+"nl": "Standen",
+"es": "Clasificaciones",
+"zh": "积分榜",
+"fr": "Classements",
+"pt": "Tabelas"
+},
+"Standings via ESPN, refreshed with every site rebuild.": {
+"nl": "Standen via ESPN, bijgewerkt bij elke update van de site.",
+"es": "Clasificaciones vía ESPN, actualizadas con cada actualización del sitio.",
+"zh": "积分榜数据来自ESPN，随网站每次更新而刷新。",
+"fr": "Classements via ESPN, mis à jour à chaque actualisation du site.",
+"pt": "Classificação via ESPN, atualizada a cada atualização do site."
+},
+"Yes. While a match is being played the score, the match minute and the goal scorers refresh in your browser about every minute, straight from the data provider. Open a match for its live timeline, statistics and line-ups.": {
+"nl": "Ja. Tijdens een wedstrijd worden de score, de speelminuut en de doelpuntenmakers ongeveer elke minuut in je browser ververst, rechtstreeks van de dataleverancier. Open een wedstrijd voor het live verloop, statistieken en opstellingen.",
+"es": "Sí. Mientras se juega un partido, el marcador, el minuto y los goleadores se actualizan en tu navegador aproximadamente cada minuto, directamente del proveedor de datos. Abre un partido para ver su desarrollo en vivo, estadísticas y alineaciones.",
+"zh": "是的。比赛进行时，比分、比赛分钟和进球者大约每分钟在您的浏览器中直接从数据提供商刷新一次。打开比赛可查看实时进程、统计数据和阵容。",
+"fr": "Oui. Pendant un match, le score, la minute de jeu et les buteurs se rafraîchissent dans votre navigateur environ chaque minute, directement depuis le fournisseur de données. Ouvrez un match pour son déroulé en direct, ses statistiques et ses compositions.",
+"pt": "Sim. Durante o jogo, o placar, o minuto e os artilheiros são atualizados no seu navegador mais ou menos a cada minuto, direto do provedor de dados. Abra um jogo para ver o lance a lance, estatísticas e escalações."
+},
+"In the SVB competitions section. The Surinaamse Voetbal Bond publishes those schedules and results as bulletins on svb.sr rather than as a live feed, so we link the newest bulletin for each competition instead of guessing at kickoff times.": {
+"nl": "In het onderdeel SVB-competities. De Surinaamse Voetbal Bond publiceert die programma’s en uitslagen als bulletins op svb.sr en niet als live feed, dus we linken naar het nieuwste bulletin per competitie in plaats van aanvangstijden te gokken.",
+"es": "En la sección de competiciones de la SVB. La Surinaamse Voetbal Bond publica esos calendarios y resultados como boletines en svb.sr y no como un feed en vivo, así que enlazamos el boletín más reciente de cada competición en lugar de adivinar horarios.",
+"zh": "在SVB赛事部分。苏里南足协在svb.sr以公告形式发布这些赛程和结果，而不是实时数据，因此我们链接每项赛事的最新公告，而不是猜测开球时间。",
+"fr": "Dans la section Compétitions SVB. La Surinaamse Voetbal Bond publie ces programmes et résultats sous forme de bulletins sur svb.sr, et non en flux direct ; nous renvoyons donc au bulletin le plus récent de chaque compétition plutôt que de deviner les horaires.",
+"pt": "Na seção Competições da SVB. A Surinaamse Voetbal Bond publica essas tabelas e resultados como boletins no svb.sr, e não como feed ao vivo, então indicamos o boletim mais recente de cada competição em vez de adivinhar horários."
+},
+"Eerste Divisie, Tweede Divisie, the women's league, the youth competitions and the Lidbondentoernooi publish schedules and results as bulletins, not as a live feed. The latest from each:": {
+"nl": "De Eerste Divisie, Tweede Divisie, de vrouwencompetitie, de jeugdcompetities en het Lidbondentoernooi publiceren programma’s en uitslagen als bulletins, niet als live feed. Het nieuwste per competitie:",
+"es": "La Eerste Divisie, la Tweede Divisie, la liga femenina, las competiciones juveniles y el Lidbondentoernooi publican calendarios y resultados como boletines, no como un feed en vivo. Lo más reciente de cada una:",
+"zh": "Eerste Divisie、Tweede Divisie、女子联赛、青年赛事和Lidbondentoernooi以公告形式发布赛程和结果，而非实时数据。各赛事最新公告：",
+"fr": "L’Eerste Divisie, la Tweede Divisie, la ligue féminine, les compétitions de jeunes et le Lidbondentoernooi publient programmes et résultats sous forme de bulletins, pas en direct. Le plus récent de chacune :",
+"pt": "A Eerste Divisie, a Tweede Divisie, a liga feminina, as competições de base e o Lidbondentoernooi publicam tabelas e resultados como boletins, não como feed ao vivo. O mais recente de cada uma:"
+},
+"Every confirmed Natio fixture appears here automatically with a green Natio tag, and the next one gets the spotlight card at the top with a countdown in Suriname time.": {
+"nl": "Elke bevestigde wedstrijd van Natio verschijnt hier automatisch met een groen Natio-label, en de eerstvolgende krijgt de uitgelichte kaart bovenaan met een aftelling in Surinaamse tijd.",
+"es": "Cada partido confirmado de Natio aparece aquí automáticamente con una etiqueta verde de Natio, y el próximo ocupa la tarjeta destacada arriba con una cuenta atrás en hora de Surinam.",
+"zh": "每场已确认的苏里南国家队比赛都会自动显示在这里，并带有绿色Natio标签；下一场比赛会显示在顶部的焦点卡片中，并以苏里南时间倒计时。",
+"fr": "Chaque match confirmé de Natio apparaît ici automatiquement avec une étiquette verte Natio, et le prochain figure dans la carte mise en avant en haut, avec un compte à rebours à l’heure du Suriname.",
+"pt": "Cada jogo confirmado da Natio aparece aqui automaticamente com uma etiqueta verde Natio, e o próximo ganha o cartão de destaque no topo com contagem regressiva no horário do Suriname."
+},
+"Open any match and tap the star next to a team to follow it.": {
+"nl": "Open een wedstrijd en tik op de ster naast een team om het te volgen.",
+"es": "Abre cualquier partido y toca la estrella junto a un equipo para seguirlo.",
+"zh": "打开任意比赛并点击球队旁的星标即可关注。",
+"fr": "Ouvrez un match et touchez l’étoile à côté d’une équipe pour la suivre.",
+"pt": "Abra qualquer jogo e toque na estrela ao lado de um time para segui-lo."
+},
+"Source: the league's own feed at": {
+"nl": "Bron: de eigen feed van de competitie op",
+"es": "Fuente: el feed de la propia liga en",
+"zh": "来源：联赛官方数据",
+"fr": "Source : le flux de la ligue sur",
+"pt": "Fonte: o feed da própria liga em"
+},
+"Watching with friends? Browse": {
+"nl": "Kijk je samen met vrienden? Bekijk",
+"es": "¿Lo ves con amigos? Mira",
+"zh": "和朋友一起看比赛？浏览",
+"fr": "Vous regardez entre amis ? Parcourez",
+"pt": "Vai assistir com amigos? Veja"
+},
+"Live scores, goal scorers, line-ups and league tables in Suriname time (UTC-3): Natio, the Suriname Major League, Champions League, Eredivisie, Premier League, NBA, UFC and more.": {
+"nl": "Live scores, doelpuntenmakers, opstellingen en standen in Surinaamse tijd (UTC-3): Natio, de Suriname Major League, Champions League, Eredivisie, Premier League, NBA, UFC en meer.",
+"es": "Marcadores en vivo, goleadores, alineaciones y clasificaciones en hora de Surinam (UTC-3): Natio, la Suriname Major League, Champions League, Eredivisie, Premier League, NBA, UFC y más.",
+"zh": "苏里南时间（UTC-3）的实时比分、进球者、阵容和积分榜：苏里南国家队、苏里南超级联赛、欧冠、荷甲、英超、NBA、UFC等。",
+"fr": "Scores en direct, buteurs, compositions et classements à l’heure du Suriname (UTC-3) : Natio, la Suriname Major League, la Ligue des champions, l’Eredivisie, la Premier League, la NBA, l’UFC et plus.",
+"pt": "Placares ao vivo, artilheiros, escalações e classificações no horário do Suriname (UTC-3): Natio, Suriname Major League, Champions League, Eredivisie, Premier League, NBA, UFC e mais."
+},
+"Last Natio result:": {
+"nl": "Laatste uitslag van Natio:",
+"es": "Último resultado de Natio:",
+"zh": "苏里南国家队最近结果：",
+"fr": "Dernier résultat de Natio :",
+"pt": "Último resultado da Natio:"
+},
+"No matches for this filter.": {
+"nl": "Geen wedstrijden voor dit filter.",
+"es": "No hay partidos para este filtro.",
+"zh": "此筛选条件下没有比赛。",
+"fr": "Aucun match pour ce filtre.",
+"pt": "Nenhum jogo para este filtro."
+},
+"Why are there no goal scorers for Suriname Major League matches?": {
+"nl": "Waarom staan er geen doelpuntenmakers bij wedstrijden van de Suriname Major League?",
+"es": "¿Por qué no hay goleadores en los partidos de la Suriname Major League?",
+"zh": "为什么苏里南超级联赛的比赛没有进球者信息？",
+"fr": "Pourquoi n’y a-t-il pas de buteurs pour les matchs de la Suriname Major League ?",
+"pt": "Por que não há artilheiros nos jogos da Suriname Major League?"
+},
+"Suriname and Dutch football are family. Generations of Eredivisie stars have Surinamese roots, from Ruud Gullit and Frank Rijkaard to Virgil van Dijk.": {
+"nl": "Surinaams en Nederlands voetbal zijn familie. Generaties Eredivisie-sterren hebben Surinaamse roots, van Ruud Gullit en Frank Rijkaard tot Virgil van Dijk.",
+"es": "El fútbol surinamés y el neerlandés son familia. Generaciones de estrellas de la Eredivisie tienen raíces surinamesas, de Ruud Gullit y Frank Rijkaard a Virgil van Dijk.",
+"zh": "苏里南足球和荷兰足球是一家人。一代又一代荷甲球星有苏里南血统，从路德·古利特、弗兰克·里杰卡尔德到维吉尔·范戴克。",
+"fr": "Le football surinamais et le football néerlandais sont de la même famille. Des générations de stars de l’Eredivisie ont des racines surinamaises, de Ruud Gullit et Frank Rijkaard à Virgil van Dijk.",
+"pt": "O futebol surinamês e o holandês são família. Gerações de estrelas da Eredivisie têm raízes surinamesas, de Ruud Gullit e Frank Rijkaard a Virgil van Dijk."
+},
+"Broadcasters list kickoffs in European or North American time, and converting to Suriname time goes wrong just often enough to ruin an evening. This page does the conversion for every match, follows live games minute by minute and keeps the tables current.": {
+"nl": "Zenders geven aanvangstijden in Europese of Noord-Amerikaanse tijd, en omrekenen naar Surinaamse tijd gaat net vaak genoeg mis om een avond te verpesten. Deze pagina rekent elke wedstrijd om, volgt live wedstrijden minuut voor minuut en houdt de standen actueel.",
+"es": "Las cadenas dan los horarios en hora europea o norteamericana, y convertirlos a hora de Surinam falla lo bastante a menudo como para arruinar una noche. Esta página convierte cada partido, sigue los partidos en vivo minuto a minuto y mantiene las clasificaciones al día.",
+"zh": "转播方列出的是欧洲或北美时间，换算成苏里南时间时偶尔出错就足以毁掉一个晚上。本页面为每场比赛换算时间，逐分钟跟踪直播比赛，并保持积分榜最新。",
+"fr": "Les diffuseurs annoncent les coups d’envoi à l’heure européenne ou nord-américaine, et la conversion vers l’heure du Suriname se trompe juste assez souvent pour gâcher une soirée. Cette page convertit chaque match, suit les matchs en direct minute par minute et tient les classements à jour.",
+"pt": "As emissoras divulgam os horários no fuso europeu ou norte-americano, e converter para o horário do Suriname dá errado com frequência suficiente para estragar uma noite. Esta página converte cada jogo, acompanha as partidas ao vivo minuto a minuto e mantém as tabelas atualizadas."
+},
+"Weather, rain and tides for the day ahead": {
+"nl": "Weer, regen en getijden voor vandaag",
+"es": "Tiempo, lluvia y mareas para el día",
+"zh": "今日天气、降雨和潮汐",
+"fr": "Météo, pluie et marées pour la journée",
+"pt": "Tempo, chuva e marés para o dia"
+},
+"Astronomical prediction from a harmonic model fitted to the published tide tables. Wind, river discharge and heavy rain can change the real water level. Always check with local authorities before heading out.": {
+"nl": "Astronomische voorspelling uit een harmonisch model dat is afgestemd op de gepubliceerde getijdentafels. Wind, rivierafvoer en zware regen kunnen de werkelijke waterstand veranderen. Check altijd bij de lokale autoriteiten voordat je vertrekt.",
+"es": "Predicción astronómica de un modelo armónico ajustado a las tablas de mareas publicadas. El viento, el caudal del río y la lluvia fuerte pueden cambiar el nivel real del agua. Consulta siempre a las autoridades locales antes de salir.",
+"zh": "基于已公布潮汐表拟合的调和模型所做的天文预测。风、河流流量和大雨可能改变实际水位。出行前请务必向当地主管部门核实。",
+"fr": "Prévision astronomique issue d’un modèle harmonique ajusté aux tables de marée publiées. Le vent, le débit du fleuve et les fortes pluies peuvent modifier le niveau réel de l’eau. Vérifiez toujours auprès des autorités locales avant de partir.",
+"pt": "Previsão astronômica de um modelo harmônico ajustado às tábuas de maré publicadas. Vento, vazão do rio e chuva forte podem mudar o nível real da água. Sempre consulte as autoridades locais antes de sair."
+},
+"High tide": {
+"nl": "Hoogwater",
+"es": "Pleamar",
+"zh": "高潮",
+"fr": "Pleine mer",
+"pt": "Maré alta"
+},
+"Low tide": {
+"nl": "Laagwater",
+"es": "Bajamar",
+"zh": "低潮",
+"fr": "Basse mer",
+"pt": "Maré baixa"
+},
+"Rain chance per part of the day, four weather models compared.": {
+"nl": "Regenkans per dagdeel, vier weermodellen vergeleken.",
+"es": "Probabilidad de lluvia por franja del día, cuatro modelos comparados.",
+"zh": "各时段降雨概率，比较四个天气模型。",
+"fr": "Risque de pluie par moment de la journée, quatre modèles comparés.",
+"pt": "Chance de chuva por período do dia, quatro modelos comparados."
+},
+"Air & dust": {
+"nl": "Lucht & stof",
+"es": "Aire y polvo",
+"zh": "空气与沙尘",
+"fr": "Air et poussières",
+"pt": "Ar e poeira"
+},
+"Weather:": {
+"nl": "Weer:",
+"es": "Tiempo:",
+"zh": "天气：",
+"fr": "Météo :",
+"pt": "Tempo:"
+},
+"(ECMWF, GFS, ICON, UKMO, Météo-France models), air quality: CAMS. Official weather warnings come from the Meteorologische Dienst Suriname; official tide tables from the": {
+"nl": "(modellen ECMWF, GFS, ICON, UKMO, Météo-France), luchtkwaliteit: CAMS. Officiële weerwaarschuwingen komen van de Meteorologische Dienst Suriname; officiële getijdentafels van de",
+"es": "(modelos ECMWF, GFS, ICON, UKMO, Météo-France), calidad del aire: CAMS. Los avisos meteorológicos oficiales los emite el Meteorologische Dienst Suriname; las tablas de mareas oficiales, la",
+"zh": "（ECMWF、GFS、ICON、UKMO、Météo-France模型），空气质量：CAMS。官方天气预警由苏里南气象局（Meteorologische Dienst Suriname）发布；官方潮汐表由以下机构发布：",
+"fr": "(modèles ECMWF, GFS, ICON, UKMO, Météo-France), qualité de l’air : CAMS. Les alertes météo officielles viennent du Meteorologische Dienst Suriname ; les tables de marée officielles de la",
+"pt": "(modelos ECMWF, GFS, ICON, UKMO, Météo-France), qualidade do ar: CAMS. Os alertas meteorológicos oficiais vêm do Meteorologische Dienst Suriname; as tábuas de maré oficiais, da"
+},
+"How are the tide times calculated?": {
+"nl": "Hoe worden de getijdentijden berekend?",
+"es": "¿Cómo se calculan las horas de marea?",
+"zh": "潮汐时间是如何计算的？",
+"fr": "Comment les heures de marée sont-elles calculées ?",
+"pt": "Como os horários de maré são calculados?"
+},
+"The weather service is not responding right now. Try again in a minute.": {
+"nl": "De weerdienst reageert nu niet. Probeer het over een minuut opnieuw.",
+"es": "El servicio meteorológico no responde ahora. Inténtalo de nuevo en un minuto.",
+"zh": "天气服务暂时无响应，请一分钟后重试。",
+"fr": "Le service météo ne répond pas pour le moment. Réessayez dans une minute.",
+"pt": "O serviço meteorológico não está respondendo agora. Tente novamente em um minuto."
+},
+"Suriname Weather Today & River Tides | Explore Suriname": {
+"nl": "Weer in Suriname vandaag & rivierengetijden | Explore Suriname",
+"es": "El tiempo hoy en Surinam y mareas de los ríos | Explore Suriname",
+"zh": "苏里南今日天气与河流潮汐 | Explore Suriname",
+"fr": "Météo du jour au Suriname et marées des fleuves | Explore Suriname",
+"pt": "Tempo hoje no Suriname e marés dos rios | Explore Suriname"
+},
+"Between roughly May and September, winds carry fine dust from the Sahara across the Atlantic. It makes the sky hazy and can bother people with asthma or other lung conditions. The air quality card warns when dust levels over your district rise.": {
+"nl": "Grofweg tussen mei en september voeren winden fijn stof uit de Sahara over de Atlantische Oceaan mee. Daardoor wordt de lucht heiig en kunnen mensen met astma of andere longklachten er last van hebben. De kaart luchtkwaliteit waarschuwt als het stof boven jouw district toeneemt.",
+"es": "Aproximadamente entre mayo y septiembre, los vientos arrastran polvo fino del Sahara a través del Atlántico. El cielo se vuelve brumoso y puede molestar a personas con asma u otros problemas pulmonares. La tarjeta de calidad del aire avisa cuando sube el polvo sobre tu distrito.",
+"zh": "大约在5月至9月间，风会把撒哈拉的细沙尘吹过大西洋。天空因此变得朦胧，哮喘或其他肺部疾病患者可能感到不适。当您所在地区的沙尘浓度上升时，空气质量卡片会发出提醒。",
+"fr": "Environ de mai à septembre, les vents transportent de fines poussières du Sahara à travers l’Atlantique. Le ciel devient brumeux et cela peut gêner les personnes asthmatiques ou souffrant d’autres problèmes pulmonaires. La carte qualité de l’air vous avertit quand les poussières augmentent sur votre district.",
+"pt": "Mais ou menos entre maio e setembro, os ventos trazem poeira fina do Saara através do Atlântico. O céu fica enevoado e pode incomodar pessoas com asma ou outros problemas pulmonares. O cartão de qualidade do ar avisa quando a poeira aumenta sobre o seu distrito."
+},
+"Near me": {
+"nl": "Bij mij",
+"es": "Cerca de mí",
+"zh": "我的位置",
+"fr": "Autour de moi",
+"pt": "Perto de mim"
+},
+"Will it rain on your way to work? Four weather models, the next two hours of rain and the river tides, for your district.": {
+"nl": "Gaat het regenen op weg naar je werk? Vier weermodellen, de regen voor de komende twee uur en de rivierengetijden, voor jouw district.",
+"es": "¿Lloverá de camino al trabajo? Cuatro modelos meteorológicos, la lluvia de las próximas dos horas y las mareas de los ríos, para tu distrito.",
+"zh": "上班路上会下雨吗？四个天气模型、未来两小时降雨和河流潮汐，按您所在的地区显示。",
+"fr": "Va-t-il pleuvoir sur le chemin du travail ? Quatre modèles météo, la pluie des deux prochaines heures et les marées des fleuves, pour votre district.",
+"pt": "Vai chover no caminho para o trabalho? Quatro modelos meteorológicos, a chuva das próximas duas horas e as marés dos rios, para o seu distrito."
+},
+"Suriname lies south of the Atlantic hurricane belt and is very rarely hit directly. Heavy tropical showers and thunderstorms are the main weather risk.": {
+"nl": "Suriname ligt ten zuiden van de Atlantische orkaangordel en wordt zelden direct getroffen. Zware tropische buien en onweer zijn het grootste weerrisico.",
+"es": "Surinam está al sur del cinturón de huracanes del Atlántico y muy rara vez recibe un impacto directo. Los chubascos tropicales fuertes y las tormentas son el principal riesgo.",
+"zh": "苏里南位于大西洋飓风带以南，极少受到直接袭击。强热带阵雨和雷暴是主要的天气风险。",
+"fr": "Le Suriname se trouve au sud de la ceinture des ouragans de l’Atlantique et n’est que très rarement touché directement. Les fortes averses tropicales et les orages sont le principal risque météo.",
+"pt": "O Suriname fica ao sul do cinturão de furacões do Atlântico e muito raramente é atingido diretamente. Pancadas tropicais fortes e tempestades são o principal risco."
+},
+"Weather Today in Suriname": {
+"nl": "Het weer vandaag in Suriname",
+"es": "El tiempo hoy en Surinam",
+"zh": "苏里南今日天气",
+"fr": "La météo du jour au Suriname",
+"pt": "O tempo hoje no Suriname"
+},
+"Around new and full moon the sun and moon pull together and the tides run higher and lower than usual. On the Suriname River the highest of these lift the water more than 2.3 m above low water, and if heavy rain falls around high tide the drains cannot empty, so low-lying streets near the river can flood. This page flags the spring tides that are among the highest of the year.": {
+"nl": "Rond nieuwe en volle maan trekken zon en maan samen en worden de getijden hoger en lager dan normaal. Op de Surinamerivier tillen de hoogste daarvan het water meer dan 2,3 m boven laagwater, en als er rond hoogwater zware regen valt kunnen de goten niet leeglopen, waardoor laaggelegen straten bij de rivier kunnen onderlopen. Deze pagina markeert het springtij dat tot het hoogste van het jaar hoort.",
+"es": "Alrededor de la luna nueva y la llena, el sol y la luna tiran juntos y las mareas suben y bajan más de lo habitual. En el río Surinam las más altas elevan el agua más de 2,3 m sobre la bajamar, y si llueve fuerte cerca de la pleamar los desagües no pueden vaciarse, así que las calles bajas junto al río pueden inundarse. Esta página señala las mareas vivas que están entre las más altas del año.",
+"zh": "新月和满月前后，太阳和月亮的引力叠加，潮水比平时涨得更高、落得更低。在苏里南河，最高的大潮会使水位比低潮高出2.3米以上；若在高潮前后下大雨，排水沟无法排空，河边低洼街道可能被淹。本页会标出全年最高的那些大潮。",
+"fr": "Autour de la nouvelle et de la pleine lune, le soleil et la lune tirent ensemble et les marées montent et descendent plus que d’habitude. Sur le fleuve Suriname, les plus fortes élèvent l’eau de plus de 2,3 m au-dessus de la basse mer, et si de fortes pluies tombent autour de la pleine mer, les égouts ne peuvent pas se vider : les rues basses près du fleuve peuvent être inondées. Cette page signale les vives-eaux parmi les plus fortes de l’année.",
+"pt": "Perto da lua nova e da lua cheia, o sol e a lua puxam juntos e as marés sobem e descem mais do que o normal. No rio Suriname, as mais altas elevam a água mais de 2,3 m acima da maré baixa, e se cair chuva forte perto da maré alta os bueiros não conseguem escoar, então ruas baixas perto do rio podem alagar. Esta página destaca as marés de sizígia que estão entre as mais altas do ano."
+},
+"For fishers, boat trips and the waterfront. Times in Suriname time, heights above low water.": {
+"nl": "Voor vissers, boottochten en de Waterkant. Tijden in Surinaamse tijd, hoogtes boven laagwater.",
+"es": "Para pescadores, paseos en barco y el malecón. Horas de Surinam, alturas sobre la bajamar.",
+"zh": "适用于渔民、乘船出游和滨水区。时间为苏里南时间，高度为低潮面以上。",
+"fr": "Pour les pêcheurs, les sorties en bateau et le front de fleuve. Heures du Suriname, hauteurs au-dessus de la basse mer.",
+"pt": "Para pescadores, passeios de barco e a orla. Horários do Suriname, alturas acima da maré baixa."
+},
+"Do I need an umbrella?": {
+"nl": "Heb ik een paraplu nodig?",
+"es": "¿Necesito paraguas?",
+"zh": "需要带伞吗？",
+"fr": "Faut-il un parapluie ?",
+"pt": "Preciso de guarda-chuva?"
+},
+"How high is the UV index in Suriname?": {
+"nl": "Hoe hoog is de UV-index in Suriname?",
+"es": "¿Qué tan alto es el índice UV en Surinam?",
+"zh": "苏里南的紫外线指数有多高？",
+"fr": "Quel est le niveau de l’indice UV au Suriname ?",
+"pt": "Qual é o índice UV no Suriname?"
+},
+"Among the highest tides of the year. Low-lying streets near the river can flood when heavy rain falls around high tide.": {
+"nl": "Een van de hoogste getijden van het jaar. Laaggelegen straten bij de rivier kunnen onderlopen als er rond hoogwater zware regen valt.",
+"es": "Entre las mareas más altas del año. Las calles bajas junto al río pueden inundarse si llueve fuerte cerca de la pleamar.",
+"zh": "属于全年最高的潮汐之一。若在高潮前后下大雨，河边低洼街道可能被淹。",
+"fr": "Parmi les plus fortes marées de l’année. Les rues basses près du fleuve peuvent être inondées en cas de fortes pluies autour de la pleine mer.",
+"pt": "Entre as marés mais altas do ano. Ruas baixas perto do rio podem alagar se cair chuva forte perto da maré alta."
+},
+"Spring tide": {
+"nl": "Springtij",
+"es": "Marea viva",
+"zh": "大潮",
+"fr": "Vives-eaux",
+"pt": "Maré de sizígia"
+},
+"At sea": {
+"nl": "Op zee",
+"es": "En el mar",
+"zh": "海况",
+"fr": "En mer",
+"pt": "No mar"
+},
+"Next 2 hours": {
+"nl": "Komende 2 uur",
+"es": "Próximas 2 horas",
+"zh": "未来2小时",
+"fr": "2 prochaines heures",
+"pt": "Próximas 2 horas"
+},
+"Tap a day for its hours": {
+"nl": "Tik op een dag voor de uren",
+"es": "Toca un día para ver sus horas",
+"zh": "点击某天查看逐小时",
+"fr": "Touchez un jour pour ses heures",
+"pt": "Toque em um dia para ver as horas"
+},
+"How accurate is the rain forecast for Suriname?": {
+"nl": "Hoe nauwkeurig is de regenverwachting voor Suriname?",
+"es": "¿Qué tan precisa es la previsión de lluvia para Surinam?",
+"zh": "苏里南的降雨预报有多准确？",
+"fr": "Quelle est la précision des prévisions de pluie au Suriname ?",
+"pt": "Quão precisa é a previsão de chuva para o Suriname?"
+},
+"Will it rain on your way to work? Rain chances for the morning and afternoon commute from four weather models, the 2-hour rain radar line, 7-day forecast by district, UV, Saharan dust, sea state and live river tides for Paramaribo, Nickerie and Albina.": {
+"nl": "Gaat het regenen op weg naar je werk? Regenkans voor de ochtend- en middagspits uit vier weermodellen, de regenlijn voor 2 uur, 7-daagse verwachting per district, UV, Saharastof, zeegang en live rivierengetijden voor Paramaribo, Nickerie en Albina.",
+"es": "¿Lloverá de camino al trabajo? Probabilidad de lluvia en las horas punta de mañana y tarde según cuatro modelos, la línea de lluvia de 2 horas, pronóstico de 7 días por distrito, UV, polvo del Sahara, estado del mar y mareas en vivo para Paramaribo, Nickerie y Albina.",
+"zh": "上班路上会下雨吗？四个天气模型给出的早晚高峰降雨概率、未来2小时降雨、按地区的7天预报、紫外线、撒哈拉沙尘、海况以及帕拉马里博、Nickerie和Albina的实时河流潮汐。",
+"fr": "Va-t-il pleuvoir sur le chemin du travail ? Risque de pluie pour les trajets du matin et du soir selon quatre modèles, la pluie des 2 prochaines heures, prévisions à 7 jours par district, UV, poussières du Sahara, état de la mer et marées en direct pour Paramaribo, Nickerie et Albina.",
+"pt": "Vai chover no caminho para o trabalho? Chance de chuva na ida e na volta segundo quatro modelos, a chuva das próximas 2 horas, previsão de 7 dias por distrito, UV, poeira do Saara, estado do mar e marés ao vivo para Paramaribo, Nickerie e Albina."
+},
+"What is Saharan dust?": {
+"nl": "Wat is Saharastof?",
+"es": "¿Qué es el polvo del Sahara?",
+"zh": "什么是撒哈拉沙尘？",
+"fr": "Qu’est-ce que la poussière du Sahara ?",
+"pt": "O que é a poeira do Saara?"
+},
+"Very high most of the year: UV 11 or more around midday is common because Suriname lies close to the equator. Sunscreen, a hat and shade between about 10:00 and 15:00 are a good idea even when it is cloudy.": {
+"nl": "Het grootste deel van het jaar zeer hoog: UV 11 of meer rond het middaguur is gewoon omdat Suriname dicht bij de evenaar ligt. Zonnebrand, een hoed en schaduw tussen ongeveer 10:00 en 15:00 zijn verstandig, ook als het bewolkt is.",
+"es": "Muy alto casi todo el año: un UV de 11 o más al mediodía es habitual porque Surinam está cerca del ecuador. Protector solar, sombrero y sombra entre las 10:00 y las 15:00 son buena idea incluso con nubes.",
+"zh": "全年大部分时间都很高：由于苏里南靠近赤道，中午紫外线指数达到11或以上很常见。即使多云，大约10:00至15:00之间也建议涂防晒霜、戴帽子并待在阴凉处。",
+"fr": "Très élevé la majeure partie de l’année : un UV de 11 ou plus vers midi est courant, car le Suriname est proche de l’équateur. Crème solaire, chapeau et ombre entre 10 h et 15 h environ sont recommandés, même par temps nuageux.",
+"pt": "Muito alto na maior parte do ano: UV 11 ou mais por volta do meio-dia é comum porque o Suriname fica perto da linha do equador. Protetor solar, chapéu e sombra entre 10h e 15h são uma boa ideia mesmo com tempo nublado."
+},
+"From a harmonic model fitted to the published tide tables for Paramaribo, Nieuw Nickerie and the Marowijne mouth, with the 18.6-year lunar cycle built in. Times are typically within about 10 minutes and heights within a few centimetres of the official tables. Wind, river discharge and heavy rain can shift the real water level, so always check with local authorities before heading out.": {
+"nl": "Met een harmonisch model dat is afgestemd op de gepubliceerde getijdentafels voor Paramaribo, Nieuw Nickerie en de monding van de Marowijne, inclusief de maancyclus van 18,6 jaar. Tijden wijken meestal hooguit zo’n 10 minuten af en hoogtes een paar centimeter van de officiële tafels. Wind, rivierafvoer en zware regen kunnen de werkelijke waterstand verschuiven, dus check altijd bij de lokale autoriteiten voordat je vertrekt.",
+"es": "Con un modelo armónico ajustado a las tablas de mareas publicadas para Paramaribo, Nieuw Nickerie y la desembocadura del Marowijne, con el ciclo lunar de 18,6 años incorporado. Las horas suelen coincidir con las tablas oficiales con unos 10 minutos de margen y las alturas con pocos centímetros. El viento, el caudal y la lluvia fuerte pueden cambiar el nivel real, así que consulta siempre a las autoridades locales antes de salir.",
+"zh": "采用根据帕拉马里博、Nieuw Nickerie和马罗韦讷河口已公布潮汐表拟合的调和模型，并考虑了18.6年的月球周期。时间通常与官方潮汐表相差约10分钟以内，高度相差几厘米。风、河流流量和大雨可能改变实际水位，出行前请务必向当地主管部门核实。",
+"fr": "À partir d’un modèle harmonique ajusté aux tables de marée publiées pour Paramaribo, Nieuw Nickerie et l’embouchure du Maroni, intégrant le cycle lunaire de 18,6 ans. Les heures sont en général à une dizaine de minutes près et les hauteurs à quelques centimètres des tables officielles. Le vent, le débit du fleuve et les fortes pluies peuvent modifier le niveau réel : vérifiez toujours auprès des autorités locales avant de partir.",
+"pt": "Com um modelo harmônico ajustado às tábuas de maré publicadas para Paramaribo, Nieuw Nickerie e a foz do Marowijne, com o ciclo lunar de 18,6 anos incluído. Os horários costumam ficar a cerca de 10 minutos e as alturas a poucos centímetros das tábuas oficiais. Vento, vazão do rio e chuva forte podem mudar o nível real da água, então sempre consulte as autoridades locais antes de sair."
+},
+"Tropical showers are hard to pin down, so instead of trusting one model we compare four: the European ECMWF, the American GFS, the German ICON and the British UKMO ensembles. When they agree, the forecast is reliable; when they disagree you see it, and an umbrella is the safe bet. The 2-hour rain line uses 15-minute data and is the most precise part of the forecast.": {
+"nl": "Tropische buien zijn lastig te voorspellen, dus in plaats van één model te vertrouwen vergelijken we er vier: het Europese ECMWF, het Amerikaanse GFS, het Duitse ICON en het Britse UKMO. Als ze het eens zijn, is de verwachting betrouwbaar; als ze verschillen zie je dat, en is een paraplu de veilige keuze. De regenlijn voor 2 uur gebruikt kwartierdata en is het nauwkeurigste deel van de verwachting.",
+"es": "Los chubascos tropicales son difíciles de prever, así que en lugar de fiarnos de un modelo comparamos cuatro: el europeo ECMWF, el estadounidense GFS, el alemán ICON y el británico UKMO. Cuando coinciden, el pronóstico es fiable; cuando no, lo verás, y el paraguas es la opción segura. La línea de lluvia de 2 horas usa datos cada 15 minutos y es la parte más precisa del pronóstico.",
+"zh": "热带阵雨很难准确预测，所以我们不依赖单一模型，而是比较四个：欧洲ECMWF、美国GFS、德国ICON和英国UKMO集合预报。它们一致时预报可靠；不一致时您会看到，带伞最稳妥。未来2小时降雨使用每15分钟的数据，是预报中最精确的部分。",
+"fr": "Les averses tropicales sont difficiles à prévoir : au lieu de nous fier à un seul modèle, nous en comparons quatre, l’européen ECMWF, l’américain GFS, l’allemand ICON et le britannique UKMO. Quand ils concordent, la prévision est fiable ; quand ils divergent, vous le voyez, et le parapluie reste le choix prudent. La pluie des 2 prochaines heures utilise des données au quart d’heure : c’est la partie la plus précise.",
+"pt": "Pancadas tropicais são difíceis de prever, então em vez de confiar em um só modelo comparamos quatro: o europeu ECMWF, o americano GFS, o alemão ICON e o britânico UKMO. Quando concordam, a previsão é confiável; quando discordam, você vê, e o guarda-chuva é a escolha segura. A chuva das próximas 2 horas usa dados de 15 em 15 minutos e é a parte mais precisa da previsão."
+},
+"What is a spring tide (springtij) and why does it matter?": {
+"nl": "Wat is springtij en waarom is het belangrijk?",
+"es": "¿Qué es una marea viva (springtij) y por qué importa?",
+"zh": "什么是大潮（springtij），为什么重要？",
+"fr": "Qu’est-ce que les vives-eaux (springtij) et pourquoi est-ce important ?",
+"pt": "O que é maré de sizígia (springtij) e por que importa?"
+},
+"Suriname has two rainy and two dry seasons: the long rainy season from about mid-April to mid-August, the long dry season from mid-August to early December, a short rainy season from December to early February and a short dry season from February to April.": {
+"nl": "Suriname heeft twee regen- en twee droge tijden: de grote regentijd van ongeveer half april tot half augustus, de grote droge tijd van half augustus tot begin december, de kleine regentijd van december tot begin februari en de kleine droge tijd van februari tot april.",
+"es": "Surinam tiene dos estaciones lluviosas y dos secas: la larga lluviosa de mediados de abril a mediados de agosto, la larga seca de mediados de agosto a principios de diciembre, una corta lluviosa de diciembre a principios de febrero y una corta seca de febrero a abril.",
+"zh": "苏里南有两个雨季和两个旱季：大雨季约从4月中旬到8月中旬，大旱季从8月中旬到12月初，小雨季从12月到2月初，小旱季从2月到4月。",
+"fr": "Le Suriname connaît deux saisons des pluies et deux saisons sèches : la grande saison des pluies de mi-avril à mi-août environ, la grande saison sèche de mi-août à début décembre, une petite saison des pluies de décembre à début février et une petite saison sèche de février à avril.",
+"pt": "O Suriname tem duas estações chuvosas e duas secas: a longa estação chuvosa de meados de abril a meados de agosto, a longa estação seca de meados de agosto ao início de dezembro, uma curta estação chuvosa de dezembro ao início de fevereiro e uma curta estação seca de fevereiro a abril."
+},
+"When is the rainy season in Suriname?": {
+"nl": "Wanneer is de regentijd in Suriname?",
+"es": "¿Cuándo es la temporada de lluvias en Surinam?",
+"zh": "苏里南的雨季是什么时候？",
+"fr": "Quand est la saison des pluies au Suriname ?",
+"pt": "Quando é a estação chuvosa no Suriname?"
+},
+"Feels like": {
+"nl": "Voelt als",
+"es": "Sensación",
+"zh": "体感",
+"fr": "Ressenti",
+"pt": "Sensação"
+},
+"Does Suriname get hurricanes?": {
+"nl": "Krijgt Suriname orkanen?",
+"es": "¿Llegan huracanes a Surinam?",
+"zh": "苏里南会遭遇飓风吗？",
+"fr": "Le Suriname connaît-il des ouragans ?",
+"pt": "O Suriname tem furacões?"
+},
+"River tides": {
+"nl": "Rivierengetijden",
+"es": "Mareas de los ríos",
+"zh": "河流潮汐",
+"fr": "Marées des fleuves",
+"pt": "Marés dos rios"
+},
+"Suriname · UTC−3": {
+"nl": "Suriname · UTC−3",
+"es": "Surinam · UTC−3",
+"zh": "苏里南 · UTC−3",
+"fr": "Suriname · UTC−3",
+"pt": "Suriname · UTC−3"
+},
+"Converter": {
+"nl": "Omrekenen",
+"es": "Conversor",
+"zh": "换算工具",
+"fr": "Convertisseur",
+"pt": "Conversor"
+},
+"Time in Suriname: Local Time, Holidays & Converter | Explore Suriname": {
+"nl": "Tijd in Suriname: lokale tijd, feestdagen & omrekenen | Explore Suriname",
+"es": "Hora en Surinam: hora local, feriados y conversor | Explore Suriname",
+"zh": "苏里南时间：当地时间、节假日与换算 | Explore Suriname",
+"fr": "Heure au Suriname : heure locale, jours fériés et convertisseur | Explore Suriname",
+"pt": "Horário no Suriname: hora local, feriados e conversor | Explore Suriname"
+},
+"Time, dates and converters": {
+"nl": "Tijd, datums en omrekenen",
+"es": "Hora, fechas y conversores",
+"zh": "时间、日期与换算",
+"fr": "Heure, dates et convertisseurs",
+"pt": "Hora, datas e conversores"
+},
+"⇅ Swap": {
+"nl": "⇅ Omdraaien",
+"es": "⇅ Invertir",
+"zh": "⇅ 互换",
+"fr": "⇅ Inverser",
+"pt": "⇅ Inverter"
+},
+"Cambio rates from the Central Market Exchange. All banks and the official CBvS rate:": {
+"nl": "Cambiokoersen van de Central Market Exchange. Alle banken en de officiële CBvS-koers:",
+"es": "Tasas de cambio de la Central Market Exchange. Todos los bancos y la tasa oficial del CBvS:",
+"zh": "汇率来自Central Market Exchange兑换所。所有银行及苏里南央行（CBvS）官方汇率：",
+"fr": "Taux des bureaux de change de la Central Market Exchange. Toutes les banques et le taux officiel de la CBvS :",
+"pt": "Cotações de câmbio da Central Market Exchange. Todos os bancos e a taxa oficial do CBvS:"
+},
+"The latest cambio rate published by the Central Market Exchange (CME), the same rate shown on the Market Rates page. Changing dollars or euros into SRD uses the buying rate, buying dollars or euros uses the selling rate. Banks and cambios can differ slightly.": {
+"nl": "De laatste cambiokoers van de Central Market Exchange (CME), dezelfde koers als op de pagina Marktkoersen. Dollars of euro’s wisselen naar SRD gaat tegen de aankoopkoers, dollars of euro’s kopen tegen de verkoopkoers. Banken en cambio’s kunnen iets afwijken.",
+"es": "La última tasa publicada por la Central Market Exchange (CME), la misma de la página de tasas del mercado. Cambiar dólares o euros a SRD usa la tasa de compra; comprar dólares o euros, la de venta. Bancos y casas de cambio pueden variar un poco.",
+"zh": "Central Market Exchange（CME）公布的最新兑换所汇率，与“市场汇率”页面相同。把美元或欧元换成SRD按买入价计算，买入美元或欧元按卖出价计算。银行和兑换所之间可能略有差异。",
+"fr": "Le dernier taux publié par la Central Market Exchange (CME), le même que sur la page Taux du marché. Changer des dollars ou des euros en SRD se fait au taux d’achat ; acheter des dollars ou des euros, au taux de vente. Les banques et bureaux de change peuvent légèrement différer.",
+"pt": "A última cotação publicada pela Central Market Exchange (CME), a mesma da página de cotações. Trocar dólares ou euros por SRD usa a taxa de compra; comprar dólares ou euros usa a taxa de venda. Bancos e casas de câmbio podem variar um pouco."
+},
+"Volume & fuel": {
+"nl": "Inhoud & brandstof",
+"es": "Volumen y combustible",
+"zh": "体积与燃油",
+"fr": "Volume et carburant",
+"pt": "Volume e combustível"
+},
+"Suriname runs on one time zone, Suriname Time (SRT), 3 hours behind UTC, and never changes its clocks. Because the Netherlands and the United States do change theirs, the difference shifts by an hour twice a year. Every tool on this page uses live time-zone data, so it stays correct through those changes.": {
+"nl": "Suriname heeft één tijdzone, Surinaamse tijd (SRT), 3 uur achter op UTC, en verzet de klok nooit. Omdat Nederland en de Verenigde Staten dat wel doen, verschuift het verschil twee keer per jaar een uur. Alle tools op deze pagina gebruiken actuele tijdzonedata, dus ze kloppen ook na die wissels.",
+"es": "Surinam tiene una sola zona horaria, la hora de Surinam (SRT), 3 horas por detrás de UTC, y nunca cambia la hora. Como Países Bajos y Estados Unidos sí lo hacen, la diferencia cambia una hora dos veces al año. Todas las herramientas de esta página usan datos de zona horaria en vivo, así que siguen siendo correctas.",
+"zh": "苏里南只有一个时区，即苏里南时间（SRT），比UTC晚3小时，从不调整时钟。由于荷兰和美国会调整，两地时差每年变化两次。本页所有工具都使用实时时区数据，因此在调整后仍然准确。",
+"fr": "Le Suriname a un seul fuseau horaire, l’heure du Suriname (SRT), 3 heures de retard sur UTC, et ne change jamais d’heure. Comme les Pays-Bas et les États-Unis le font, l’écart varie d’une heure deux fois par an. Tous les outils de cette page utilisent des données de fuseau à jour et restent donc exacts.",
+"pt": "O Suriname tem um só fuso horário, o horário do Suriname (SRT), 3 horas atrás do UTC, e nunca muda os relógios. Como a Holanda e os Estados Unidos mudam, a diferença varia uma hora duas vezes por ano. Todas as ferramentas desta página usam dados de fuso atualizados, então continuam corretas."
+},
+"Time zones": {
+"nl": "Tijdzones",
+"es": "Zonas horarias",
+"zh": "时区",
+"fr": "Fuseaux horaires",
+"pt": "Fusos horários"
+},
+"Live Suriname time, the next holiday, and converters for time zones, money and units. Suriname is UTC−3, all year, no daylight saving.": {
+"nl": "Live Surinaamse tijd, de volgende feestdag, en omrekenen van tijdzones, geld en eenheden. Suriname is het hele jaar UTC−3, zonder zomertijd.",
+"es": "Hora de Surinam en vivo, el próximo feriado y conversores de zonas horarias, dinero y unidades. Surinam es UTC−3 todo el año, sin horario de verano.",
+"zh": "实时苏里南时间、下一个节假日，以及时区、货币和单位换算。苏里南全年为UTC−3，没有夏令时。",
+"fr": "L’heure du Suriname en direct, le prochain jour férié et des convertisseurs de fuseaux, de devises et d’unités. Le Suriname est à UTC−3 toute l’année, sans heure d’été.",
+"pt": "Horário do Suriname ao vivo, o próximo feriado e conversores de fusos, dinheiro e unidades. O Suriname é UTC−3 o ano todo, sem horário de verão."
+},
+"Eid-ul-Fitr": {
+"nl": "Ied-Ul-Fitre",
+"es": "Eid al-Fitr",
+"zh": "开斋节",
+"fr": "Aïd el-Fitr",
+"pt": "Eid al-Fitr"
+},
+"Working days calculator": {
+"nl": "Werkdagencalculator",
+"es": "Calculadora de días hábiles",
+"zh": "工作日计算器",
+"fr": "Calculateur de jours ouvrés",
+"pt": "Calculadora de dias úteis"
+},
+"days": {
+"nl": "dagen",
+"es": "días",
+"zh": "天",
+"fr": "jours",
+"pt": "dias"
+},
+"The Netherlands is 4 hours ahead of Suriname in its winter (late October to late March) and 5 hours ahead in its summer. The banner at the top of this page tells you when the next switch happens.": {
+"nl": "In de Nederlandse winter (eind oktober tot eind maart) is het in Nederland 4 uur later dan in Suriname, in de zomer 5 uur. De melding bovenaan deze pagina vertelt wanneer de volgende wissel is.",
+"es": "Países Bajos va 4 horas por delante de Surinam en su invierno (finales de octubre a finales de marzo) y 5 en su verano. El aviso de arriba te dice cuándo es el próximo cambio.",
+"zh": "荷兰冬季（10月底至3月底）比苏里南快4小时，夏季快5小时。本页顶部的提示会告诉您下一次切换的时间。",
+"fr": "Les Pays-Bas ont 4 heures d’avance sur le Suriname en hiver (fin octobre à fin mars) et 5 heures en été. Le bandeau en haut de cette page indique la date du prochain changement.",
+"pt": "A Holanda fica 4 horas à frente do Suriname no inverno (fim de outubro a fim de março) e 5 horas no verão. O aviso no topo desta página mostra quando será a próxima mudança."
+},
+"Use the Dates tab of the converter: it skips Saturdays, Sundays and Surinamese public holidays. For deadlines and payment terms there is also the full working days calculator in the Business tools.": {
+"nl": "Gebruik het tabblad Datums van de omrekentool: dat slaat zaterdagen, zondagen en Surinaamse feestdagen over. Voor deadlines en betalingstermijnen is er ook de volledige werkdagencalculator bij de Business tools.",
+"es": "Usa la pestaña Fechas del conversor: omite sábados, domingos y feriados de Surinam. Para plazos y condiciones de pago también está la calculadora completa de días hábiles en las herramientas para empresas.",
+"zh": "使用换算工具中的“日期”标签：它会跳过周六、周日和苏里南公共假日。如需计算截止日期和付款期限，商业工具中还有完整的工作日计算器。",
+"fr": "Utilisez l’onglet Dates du convertisseur : il exclut les samedis, dimanches et jours fériés du Suriname. Pour les échéances et délais de paiement, il existe aussi le calculateur complet de jours ouvrés dans les outils Business.",
+"pt": "Use a aba Datas do conversor: ela pula sábados, domingos e feriados do Suriname. Para prazos e condições de pagamento, há também a calculadora completa de dias úteis nas ferramentas para empresas."
+},
+"Weight": {
+"nl": "Gewicht",
+"es": "Peso",
+"zh": "重量",
+"fr": "Poids",
+"pt": "Peso"
+},
+"10 hours ahead": {
+"nl": "10 uur later",
+"es": "10 horas por delante",
+"zh": "快10小时",
+"fr": "10 heures d’avance",
+"pt": "10 horas à frente"
+},
+"Official public holidays (Ministry of Education list). Lunar-calendar dates are added once announced. See all festivals on": {
+"nl": "Officiële nationale feestdagen (lijst van het ministerie van Onderwijs). Data volgens de maankalender worden toegevoegd zodra ze bekend zijn. Alle festivals op",
+"es": "Feriados nacionales oficiales (lista del Ministerio de Educación). Las fechas del calendario lunar se añaden cuando se anuncian. Todos los festivales en",
+"zh": "官方公共假日（教育部名单）。农历/阴历节日在公布后添加。查看所有节庆：",
+"fr": "Jours fériés officiels (liste du ministère de l’Éducation). Les dates du calendrier lunaire sont ajoutées dès leur annonce. Toutes les fêtes sur",
+"pt": "Feriados oficiais (lista do Ministério da Educação). Datas do calendário lunar são adicionadas quando anunciadas. Todos os festivais em"
+},
+"When is the next public holiday in Suriname?": {
+"nl": "Wanneer is de volgende nationale feestdag in Suriname?",
+"es": "¿Cuándo es el próximo feriado en Surinam?",
+"zh": "苏里南下一个公共假日是什么时候？",
+"fr": "Quand est le prochain jour férié au Suriname ?",
+"pt": "Quando é o próximo feriado no Suriname?"
+},
+"Hours are Suriname time. Tap or hover a block to see the time abroad.": {
+"nl": "Uren in Surinaamse tijd. Tik of beweeg over een blok om de tijd in het buitenland te zien.",
+"es": "Horas de Surinam. Toca o pasa el cursor por un bloque para ver la hora en el extranjero.",
+"zh": "时间为苏里南时间。点击或悬停在色块上可查看对方当地时间。",
+"fr": "Heures du Suriname. Touchez ou survolez un bloc pour voir l’heure à l’étranger.",
+"pt": "Horários do Suriname. Toque ou passe o mouse em um bloco para ver o horário no exterior."
+},
+"calendar days": {
+"nl": "kalenderdagen",
+"es": "días naturales",
+"zh": "日历日",
+"fr": "jours calendaires",
+"pt": "dias corridos"
+},
+"working days": {
+"nl": "werkdagen",
+"es": "días hábiles",
+"zh": "工作日",
+"fr": "jours ouvrés",
+"pt": "dias úteis"
+},
+"Area & land": {
+"nl": "Oppervlakte & grond",
+"es": "Superficie y terreno",
+"zh": "面积与土地",
+"fr": "Surface et terrain",
+"pt": "Área e terreno"
+},
+"Working days skip Saturdays, Sundays and Surinamese public holidays. For deadlines and payment terms:": {
+"nl": "Werkdagen slaan zaterdagen, zondagen en Surinaamse feestdagen over. Voor deadlines en betalingstermijnen:",
+"es": "Los días hábiles omiten sábados, domingos y feriados de Surinam. Para plazos y condiciones de pago:",
+"zh": "工作日不含周六、周日和苏里南公共假日。截止日期和付款期限请用：",
+"fr": "Les jours ouvrés excluent samedis, dimanches et jours fériés du Suriname. Pour les échéances et délais de paiement :",
+"pt": "Dias úteis pulam sábados, domingos e feriados do Suriname. Para prazos e condições de pagamento:"
+},
+"What time is it in Suriname? Live Paramaribo time, the next public holiday and long weekend, a time-zone converter, SRD money and unit converters, and the difference to the Netherlands and the US.": {
+"nl": "Hoe laat is het in Suriname? Live tijd in Paramaribo, de volgende feestdag en het volgende lange weekend, een tijdzone-omrekenaar, SRD- en eenhedenomrekenaars, en het tijdsverschil met Nederland en de VS.",
+"es": "¿Qué hora es en Surinam? Hora de Paramaribo en vivo, el próximo feriado y fin de semana largo, un conversor de zonas horarias, conversores de SRD y unidades, y la diferencia con Países Bajos y EE. UU.",
+"zh": "苏里南现在几点？帕拉马里博实时时间、下一个公共假日和长周末、时区换算、SRD货币和单位换算，以及与荷兰和美国的时差。",
+"fr": "Quelle heure est-il au Suriname ? L’heure de Paramaribo en direct, le prochain jour férié et long week-end, un convertisseur de fuseaux, des convertisseurs SRD et d’unités, et l’écart avec les Pays-Bas et les États-Unis.",
+"pt": "Que horas são no Suriname? Horário de Paramaribo ao vivo, o próximo feriado e fim de semana prolongado, conversor de fusos, conversores de SRD e unidades, e a diferença para a Holanda e os EUA."
+},
+"On a weekend": {
+"nl": "Valt in het weekend",
+"es": "Cae en fin de semana",
+"zh": "适逢周末",
+"fr": "Tombe un week-end",
+"pt": "Cai no fim de semana"
+},
+"Long weekend": {
+"nl": "Lang weekend",
+"es": "Fin de semana largo",
+"zh": "长周末",
+"fr": "Long week-end",
+"pt": "Feriado prolongado"
+},
+"Bridge day possible": {
+"nl": "Brugdag mogelijk",
+"es": "Puente posible",
+"zh": "可能拼假",
+"fr": "Pont possible",
+"pt": "Possível emenda"
+},
+"The holiday card on this page counts down to the next official public holiday and shows which ones make a long weekend. Dates of Hindu, Islamic, Chinese and Javanese holidays follow their own calendars and are added once the government announces them.": {
+"nl": "De feestdagenkaart op deze pagina telt af naar de volgende officiële feestdag en laat zien welke een lang weekend opleveren. Hindoestaanse, islamitische, Chinese en Javaanse feestdagen volgen hun eigen kalender en worden toegevoegd zodra de overheid ze bekendmaakt.",
+"es": "La tarjeta de feriados de esta página cuenta los días hasta el próximo feriado oficial y muestra cuáles forman un fin de semana largo. Las fechas de feriados hindúes, islámicos, chinos y javaneses siguen sus propios calendarios y se añaden cuando el gobierno las anuncia.",
+"zh": "本页的节假日卡片会倒计时到下一个官方公共假日，并显示哪些假日能凑成长周末。印度教、伊斯兰教、中国和爪哇节日按各自历法确定，政府公布后即添加。",
+"fr": "La carte des jours fériés de cette page fait le compte à rebours jusqu’au prochain jour férié officiel et indique ceux qui donnent un long week-end. Les fêtes hindoues, islamiques, chinoises et javanaises suivent leur propre calendrier et sont ajoutées dès que le gouvernement les annonce.",
+"pt": "O cartão de feriados desta página faz a contagem regressiva até o próximo feriado oficial e mostra quais rendem um fim de semana prolongado. Feriados hindus, islâmicos, chineses e javaneses seguem seus próprios calendários e são adicionados quando o governo os anuncia."
+},
+"Units": {
+"nl": "Eenheden",
+"es": "Unidades",
+"zh": "单位",
+"fr": "Unités",
+"pt": "Unidades"
+},
+"Length": {
+"nl": "Lengte",
+"es": "Longitud",
+"zh": "长度",
+"fr": "Longueur",
+"pt": "Comprimento"
+},
+"Or add days to the first date": {
+"nl": "Of tel dagen op bij de eerste datum",
+"es": "O suma días a la primera fecha",
+"zh": "或在第一个日期上加天数",
+"fr": "Ou ajoutez des jours à la première date",
+"pt": "Ou some dias à primeira data"
+},
+"Indonesia (Java)": {
+"nl": "Indonesië (Java)",
+"es": "Indonesia (Java)",
+"zh": "印度尼西亚（爪哇）",
+"fr": "Indonésie (Java)",
+"pt": "Indonésia (Java)"
+},
+"Next public holiday": {
+"nl": "Volgende nationale feestdag",
+"es": "Próximo feriado",
+"zh": "下一个公共假日",
+"fr": "Prochain jour férié",
+"pt": "Próximo feriado"
+},
+"Speed": {
+"nl": "Snelheid",
+"es": "Velocidad",
+"zh": "速度",
+"fr": "Vitesse",
+"pt": "Velocidade"
+},
+"How do I count working days in Suriname?": {
+"nl": "Hoe tel ik werkdagen in Suriname?",
+"es": "¿Cómo cuento los días hábiles en Surinam?",
+"zh": "如何计算苏里南的工作日？",
+"fr": "Comment compter les jours ouvrés au Suriname ?",
+"pt": "Como contar dias úteis no Suriname?"
+},
+"Which exchange rate does the money converter use?": {
+"nl": "Welke koers gebruikt de geldomrekenaar?",
+"es": "¿Qué tasa usa el conversor de dinero?",
+"zh": "货币换算使用哪个汇率？",
+"fr": "Quel taux le convertisseur de devises utilise-t-il ?",
+"pt": "Qual cotação o conversor de dinheiro usa?"
 }
 }
