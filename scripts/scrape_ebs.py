@@ -108,17 +108,39 @@ def parse_meta_description(desc):
 
 def fetch_detail(url):
     """Fetch a detail page and extract meta description + parsed fields."""
+    return fetch_detail_full(url)[0]
+
+
+def fetch_detail_full(url):
+    """(meta_description, full body text, map link) from a notice page.
+
+    The meta description is cut at ~160 characters, so long street lists were
+    truncated on the site. The full notice sits in section.section >
+    div.column.is-half (checked Oct 2026); the "Kaart openen" link points to
+    EBS's GIS map of the affected area. Any part that is missing stays None."""
     try:
         from bs4 import BeautifulSoup
         html = fetch_html(url)
         soup = BeautifulSoup(html, "html.parser")
         meta = (soup.find("meta", {"name": "description"}) or
                 soup.find("meta", {"property": "og:description"}))
-        if meta and meta.get("content"):
-            return meta["content"]
+        desc = meta["content"] if meta and meta.get("content") else None
+        body, map_link = None, None
+        for col in soup.select("section.section div.column.is-half"):
+            for a in col.find_all("a", href=True):
+                if "gisenterprise" in a["href"] or "kaart" in a.get_text(" ").lower():
+                    map_link = map_link or a["href"]
+            lines = [clean(t) for t in col.get_text("\n").split("\n") if clean(t)]
+            lines = [l for l in lines if not re.match(r"^kaart( openen)?:?$", l, re.I)]
+            if len(" ".join(lines)) > 40 and body is None:
+                # drop the repeated headline (first line in capitals)
+                if lines and lines[0].upper() == lines[0] and re.search(r"\d{4}", lines[0]):
+                    lines = lines[1:]
+                body = " ".join(lines)
+        return desc, body, map_link
     except Exception as e:
         print(f"    [detail fetch error] {e}")
-    return None
+    return None, None, None
 
 
 def parse_main_page(html):
@@ -185,7 +207,15 @@ def main():
     for entry in outages:
         if entry.get("link"):
             print(f"  Fetching detail: {entry['link']}")
-            meta_desc = fetch_detail(entry["link"])
+            meta_desc, body, map_link = fetch_detail_full(entry["link"])
+            if body:
+                entry["body"] = body
+                # full street list: everything after the "tussen HH:MM-HH:MM" window
+                full = parse_meta_description(body)
+                if full.get("area") and len(full["area"]) > len(entry.get("area", "")):
+                    entry["area_full"] = full["area"]
+            if map_link:
+                entry["map"] = map_link
             if meta_desc:
                 parsed = parse_meta_description(meta_desc)
                 entry["meta_description"] = meta_desc
