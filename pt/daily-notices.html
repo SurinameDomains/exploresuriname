@@ -78,6 +78,37 @@
     .sec-card .widget-body { padding:.35rem 0 0; }
     .sec-card .pharmacy-row { border-color:#E7DCC6; }
     main .text-gray-300, .sec-card .src-link { color:#8B8676 !important; }
+    .dn-glance { background:var(--card); border:1px solid var(--bd-card); border-radius:var(--r-card); box-shadow:var(--sh-card); padding:.9rem 1rem .4rem; margin-bottom:1.25rem; }
+    .dn-gh { font-size:1.2rem; font-weight:700; color:var(--ink); margin:0 0 .3rem; }
+    .dn-gr { display:flex; align-items:center; gap:.75rem; padding:.65rem 0; border-top:1px solid #efe8d8; color:var(--ink); text-decoration:none; }
+    .dn-gh + .dn-gr { border-top:0; }
+    .dn-gi { flex:none; width:2.3rem; height:2.3rem; border-radius:10px; background:#f1f5ef; display:flex; align-items:center; justify-content:center; font-size:1.15rem; }
+    .dn-gr.bad .dn-gi { background:#fde2e0; } .dn-gr.warn .dn-gi { background:#fff1d6; }
+    .dn-gt { flex:1; min-width:0; line-height:1.3; }
+    .dn-gt small { display:block; font-size:.62rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#8a8f86; }
+    .dn-gt b { display:block; font-size:.92rem; }
+    .dn-gr.bad .dn-gt b { color:#b42318; }
+    .dn-gt em { display:block; font-style:normal; font-size:.78rem; color:var(--ink-soft); }
+    .dn-gt em.dn-stale { color:#a15c07; }
+    .dn-ga { flex:none; color:#c3cbc5; font-size:1.3rem; }
+    .widget-card { scroll-margin-top:80px; }
+    .dn-day { font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#8a8f86; margin:.9rem 0 .1rem; }
+    .dn-day:first-child { margin-top:0; }
+    .dn-day.now { color:#b42318; }
+    .dn-oh { display:flex; flex-wrap:wrap; align-items:center; gap:.4rem .6rem; }
+    .dn-dist { font-weight:700; font-size:.9rem; color:#111; }
+    .dn-time { font-weight:700; font-size:.82rem; color:var(--forest2); font-variant-numeric:tabular-nums; }
+    .dn-bar { height:5px; border-radius:9px; background:#fde2e0; margin:.45rem 0 .15rem; overflow:hidden; }
+    .dn-bar i { display:block; height:100%; background:#d92d20; }
+    .dn-bart { font-size:.7rem; color:#b42318; font-weight:700; margin:0; }
+    .dn-clip { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+    .dn-more { background:none; border:0; padding:0; font-size:.74rem; font-weight:700; color:var(--forest2); cursor:pointer; margin-top:.2rem; }
+    .dn-show { display:flex; gap:.7rem; align-items:baseline; }
+    .dn-show.past { opacity:.4; }
+    .dn-st { font-weight:700; font-size:.85rem; color:var(--forest2); min-width:3rem; font-variant-numeric:tabular-nums; }
+    .dn-sold { font-weight:700; font-size:.7rem; color:#b91c1c; min-width:3rem; text-transform:uppercase; }
+    .dn-acts { display:flex; gap:1rem; }
+    .dn-map { color:#0b7fb5 !important; }
     .dn-grp { font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--clay);
                margin:1.4rem 0 .1rem; padding-bottom:.45rem; border-bottom:1px solid #DDD4C1; }
   </style>
@@ -128,10 +159,11 @@
 <p class="text-white/65 text-base">sábado, 17 de outubro de 2026</p>
 </div>
 <main class="max-w-4xl mx-auto px-4 py-10 pb-24">
-<!-- intro note -->
+<!-- Today at a glance (filled by _DN_JS from the four feeds) -->
+<section aria-live="polite" class="dn-glance" hidden="" id="dn-glance"></section>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 <!-- ── EBS POWER ─────────────────── -->
-<div class="widget-card">
+<div class="widget-card" id="ebs">
 <div class="widget-head">
 <div class="flex items-center">
 <div>
@@ -148,7 +180,7 @@
 </div>
 </div>
 <!-- ── SWM WATER ─────────────────── -->
-<div class="widget-card">
+<div class="widget-card" id="swm">
 <div class="widget-head">
 <div class="flex items-center">
 <div>
@@ -168,7 +200,7 @@
 <!-- Reference lists: flat on the paper (15 Oct 2026) -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 items-start">
 <!-- ── TBL CINEMAS ────────────────── -->
-<div class="widget-card">
+<div class="widget-card" id="tbl">
 <div class="widget-head">
 <div class="flex items-center">
 <div>
@@ -178,10 +210,10 @@
 </div>
 <span class="upd-badge" id="tbl-upd"></span>
 </div>
-<div class="widget-body" id="tbl-body"><p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Hoje</p><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">02:00 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS445853160138/hanuman-ansh" rel="noopener" style="text-decoration:none" target="_blank">Hanuman Ansh</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">02:45 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS229778423121/nayyi-navelli" rel="noopener" style="text-decoration:none" target="_blank">Nayyi Navelli</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">03:15 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS484269798639/heart-of-the-beast" rel="noopener" style="text-decoration:none" target="_blank">Heart of the Beast</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">04:00 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS706204767478/forgotten-island" rel="noopener" style="text-decoration:none" target="_blank">Forgotten Island</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">04:45 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS756444881544/street-fighter" rel="noopener" style="text-decoration:none" target="_blank">Street Fighter</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">18:00</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS762482270455/resident-evil" rel="noopener" style="text-decoration:none" target="_blank">Resident Evil</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">06:30 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS242492895486/verity" rel="noopener" style="text-decoration:none" target="_blank">Verity</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">07:00 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS229778423121/nayyi-navelli" rel="noopener" style="text-decoration:none" target="_blank">Nayyi Navelli</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">20:00</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS756444881544/street-fighter" rel="noopener" style="text-decoration:none" target="_blank">Street Fighter</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">08:30 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS987342453993/whalefall" rel="noopener" style="text-decoration:none" target="_blank">Whalefall</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">09:00 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS31454950608/beware-boi-na" rel="noopener" style="text-decoration:none" target="_blank">Beware Boiúna</a></div><div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline"><span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">09:30 PM</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS990149882856/other-mommy" rel="noopener" style="text-decoration:none" target="_blank">Other Mommy</a></div><p class="text-xs text-gray-300 mt-2">Fonte: <a class="src-link" href="https://www.tblcinemas.com/films/dagschema" rel="noopener" target="_blank">tblcinemas.com</a> • Bilheteria a partir das 16:00 (fim de semana 13:00)</p></div>
+<div class="widget-body" id="tbl-body"><p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Hoje</p><div class="pharmacy-row dn-show"><span class="dn-st" translate="no">14:00</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS445853160138/hanuman-ansh" rel="noopener" style="text-decoration:none" target="_blank" translate="no">Hanuman Ansh</a></div><div class="pharmacy-row dn-show"><span class="dn-st" translate="no">14:45</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS229778423121/nayyi-navelli" rel="noopener" style="text-decoration:none" target="_blank" translate="no">Nayyi Navelli</a></div><div class="pharmacy-row dn-show"><span class="dn-st" translate="no">15:15</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS484269798639/heart-of-the-beast" rel="noopener" style="text-decoration:none" target="_blank" translate="no">Heart of the Beast</a></div><div class="pharmacy-row dn-show"><span class="dn-st" translate="no">16:00</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS706204767478/forgotten-island" rel="noopener" style="text-decoration:none" target="_blank" translate="no">Forgotten Island</a></div><div class="pharmacy-row dn-show"><span class="dn-st" translate="no">16:45</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS756444881544/street-fighter" rel="noopener" style="text-decoration:none" target="_blank" translate="no">Street Fighter</a></div><div class="pharmacy-row dn-show"><span class="dn-st" translate="no">18:00</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS762482270455/resident-evil" rel="noopener" style="text-decoration:none" target="_blank" translate="no">Resident Evil</a></div><div class="pharmacy-row dn-show"><span class="dn-st" translate="no">18:30</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS242492895486/verity" rel="noopener" style="text-decoration:none" target="_blank" translate="no">Verity</a></div><div class="pharmacy-row dn-show"><span class="dn-st" translate="no">19:00</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS229778423121/nayyi-navelli" rel="noopener" style="text-decoration:none" target="_blank" translate="no">Nayyi Navelli</a></div><div class="pharmacy-row dn-show"><span class="dn-st" translate="no">20:00</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS756444881544/street-fighter" rel="noopener" style="text-decoration:none" target="_blank" translate="no">Street Fighter</a></div><div class="pharmacy-row dn-show"><span class="dn-st" translate="no">20:30</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS987342453993/whalefall" rel="noopener" style="text-decoration:none" target="_blank" translate="no">Whalefall</a></div><div class="pharmacy-row dn-show"><span class="dn-st" translate="no">21:00</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS31454950608/beware-boi-na" rel="noopener" style="text-decoration:none" target="_blank" translate="no">Beware Boiúna</a></div><div class="pharmacy-row dn-show"><span class="dn-st" translate="no">21:30</span><a class="pharmacy-name" href="https://www.tblcinemas.com/movie/RS990149882856/other-mommy" rel="noopener" style="text-decoration:none" target="_blank" translate="no">Other Mommy</a></div><p class="text-xs text-gray-300 mt-2">Fonte: <a class="src-link" href="https://www.tblcinemas.com/films/dagschema" rel="noopener" target="_blank">tblcinemas.com</a> • Bilheteria a partir das 16:00 (fim de semana 13:00)</p></div>
 </div>
 <!-- ── ON-CALL SERVICE ────────────────── -->
-<div class="widget-card">
+<div class="widget-card" id="wacht">
 <div class="widget-head">
 <div class="flex items-center">
 <div>
@@ -304,296 +336,149 @@
 </div>
 </div>
 </footer>
+<script>window.DN_I18N={"en":{"glance":"Today at a glance","power":"Power","water":"Water","oncall":"On call","cinema":"Cinema","outNow":"Outage now in {d}, until {t}","outNowN":"{n} outages now","noNow":"No outage right now","nextOut":"Next: {d}, {when}","noPlanned":"Nothing planned","waterNone":"No outages reported","waterN":"{n} notice(s)","docPh":"{a} doctors, {b} pharmacies","openNow":"open now until {t}","opensAt":"opens {t}","closedToday":"see hours","nextShow":"Next show {t}: {m}","moreShows":"{n} more today","noShows":"No more shows today","stale":"Last update {h}","today":"Today","tomorrow":"Tomorrow","now":"Now","later":"Later","road":"Road closure","notice":"Notice","planned":"Planned","active":"Outage now","noOut":"No outages","noPlannedLong":"No planned outages.","map":"Map","details":"Full notice on nvebs.com","more":"Show more","less":"Show less","doctors":"Doctors on call","pharmacies":"Pharmacies on call","noAddr":"No address in the RGD list","noSched":"No schedule found for this district.","allD":"All districts","unav":"Data temporarily unavailable.","check":"Check the source directly","emergency":"Emergency","ago_now":"just now","ago_m":"{n} min ago","ago_h":"{n} h ago","ago_d":"{n} d ago","shows":"shows","until":"until {t}","started":"started {t}","waterAll":"No outages or maintenance reported.","noShowsToday":"No showings listed today.","boxOffice":"Box office from 16:00 (weekends 13:00)"},"nl":{"glance":"Vandaag in één oogopslag","power":"Stroom","water":"Water","oncall":"Wachtdienst","cinema":"Bioscoop","outNow":"Nu stroomonderbreking in {d}, tot {t}","outNowN":"{n} onderbrekingen nu","noNow":"Nu geen onderbreking","nextOut":"Volgende: {d}, {when}","noPlanned":"Niets gepland","waterNone":"Geen storingen gemeld","waterN":"{n} melding(en)","docPh":"{a} artsen, {b} apotheken","openNow":"nu open tot {t}","opensAt":"open om {t}","closedToday":"zie openingstijden","nextShow":"Volgende film {t}: {m}","moreShows":"nog {n} vandaag","noShows":"Vandaag geen voorstellingen meer","stale":"Laatste update {h}","today":"Vandaag","tomorrow":"Morgen","now":"Nu","later":"Later","road":"Wegafsluiting","notice":"Bekendmaking","planned":"Gepland","active":"Nu onderbroken","noOut":"Geen storingen","noPlannedLong":"Geen geplande onderbrekingen.","map":"Kaart","details":"Volledig bericht op nvebs.com","more":"Meer tonen","less":"Minder tonen","doctors":"Artsen van dienst","pharmacies":"Apotheken van dienst","noAddr":"Geen adres in de RGD-lijst","noSched":"Geen rooster gevonden voor dit district.","allD":"Alle districten","unav":"Gegevens tijdelijk niet beschikbaar.","check":"Bekijk de bron direct","emergency":"Noodnummer","ago_now":"zojuist","ago_m":"{n} min geleden","ago_h":"{n} u geleden","ago_d":"{n} d geleden","shows":"voorstellingen","until":"tot {t}","started":"begonnen {t}","waterAll":"Geen storingen of onderhoud gemeld.","noShowsToday":"Vandaag geen voorstellingen.","boxOffice":"Kassa open vanaf 16:00 (weekend 13:00)"},"es":{"glance":"Hoy de un vistazo","power":"Electricidad","water":"Agua","oncall":"De guardia","cinema":"Cine","outNow":"Corte ahora en {d}, hasta las {t}","outNowN":"{n} cortes ahora","noNow":"Sin cortes ahora","nextOut":"Próximo: {d}, {when}","noPlanned":"Nada programado","waterNone":"Sin cortes reportados","waterN":"{n} aviso(s)","docPh":"{a} médicos, {b} farmacias","openNow":"abierto ahora hasta las {t}","opensAt":"abre a las {t}","closedToday":"ver horario","nextShow":"Próxima función {t}: {m}","moreShows":"{n} más hoy","noShows":"No hay más funciones hoy","stale":"Última actualización {h}","today":"Hoy","tomorrow":"Mañana","now":"Ahora","later":"Más adelante","road":"Cierre de vía","notice":"Aviso","planned":"Programado","active":"Corte ahora","noOut":"Sin cortes","noPlannedLong":"No hay cortes programados.","map":"Mapa","details":"Aviso completo en nvebs.com","more":"Ver más","less":"Ver menos","doctors":"Médicos de guardia","pharmacies":"Farmacias de guardia","noAddr":"Sin dirección en la lista del RGD","noSched":"No hay horario para este distrito.","allD":"Todos los distritos","unav":"Datos no disponibles temporalmente.","check":"Consulta la fuente directamente","emergency":"Emergencias","ago_now":"ahora mismo","ago_m":"hace {n} min","ago_h":"hace {n} h","ago_d":"hace {n} d","shows":"funciones","until":"hasta las {t}","started":"empezó {t}","waterAll":"No se reportan cortes ni mantenimiento.","noShowsToday":"No hay funciones hoy.","boxOffice":"Taquilla desde las 16:00 (fines de semana 13:00)"},"zh":{"glance":"今日概览","power":"电力","water":"供水","oncall":"值班医疗","cinema":"电影院","outNow":"{d}正在停电，至{t}","outNowN":"当前{n}处停电","noNow":"目前没有停电","nextOut":"下一次：{d}，{when}","noPlanned":"无计划停电","waterNone":"未报告停水","waterN":"{n}条通知","docPh":"{a}名医生，{b}家药房","openNow":"现在营业，至{t}","opensAt":"{t}开门","closedToday":"查看营业时间","nextShow":"下一场 {t}：{m}","moreShows":"今天还有{n}场","noShows":"今天已无场次","stale":"最后更新：{h}","today":"今天","tomorrow":"明天","now":"现在","later":"之后","road":"道路封闭","notice":"公告","planned":"计划停电","active":"正在停电","noOut":"无停电","noPlannedLong":"没有计划停电。","map":"地图","details":"在nvebs.com查看完整公告","more":"展开","less":"收起","doctors":"值班医生","pharmacies":"值班药房","noAddr":"RGD名单中无地址","noSched":"该地区没有值班表。","allD":"所有地区","unav":"数据暂时无法获取。","check":"请直接查看来源","emergency":"急救电话","ago_now":"刚刚","ago_m":"{n}分钟前","ago_h":"{n}小时前","ago_d":"{n}天前","shows":"场","until":"至{t}","started":"{t}开始","waterAll":"未报告停水或维护。","noShowsToday":"今天没有场次。","boxOffice":"售票处16:00开门（周末13:00）"},"fr":{"glance":"Aujourd’hui en un coup d’œil","power":"Électricité","water":"Eau","oncall":"De garde","cinema":"Cinéma","outNow":"Coupure en cours à {d}, jusqu’à {t}","outNowN":"{n} coupures en cours","noNow":"Aucune coupure en ce moment","nextOut":"Prochaine : {d}, {when}","noPlanned":"Rien de prévu","waterNone":"Aucune coupure signalée","waterN":"{n} avis","docPh":"{a} médecins, {b} pharmacies","openNow":"ouvert jusqu’à {t}","opensAt":"ouvre à {t}","closedToday":"voir les horaires","nextShow":"Prochaine séance {t} : {m}","moreShows":"{n} autres aujourd’hui","noShows":"Plus de séances aujourd’hui","stale":"Dernière mise à jour {h}","today":"Aujourd’hui","tomorrow":"Demain","now":"En cours","later":"Plus tard","road":"Route fermée","notice":"Avis","planned":"Prévue","active":"Coupure en cours","noOut":"Aucune coupure","noPlannedLong":"Aucune coupure prévue.","map":"Carte","details":"Avis complet sur nvebs.com","more":"Voir plus","less":"Voir moins","doctors":"Médecins de garde","pharmacies":"Pharmacies de garde","noAddr":"Pas d’adresse dans la liste du RGD","noSched":"Aucun planning pour ce district.","allD":"Tous les districts","unav":"Données temporairement indisponibles.","check":"Consultez la source directement","emergency":"Urgences","ago_now":"à l’instant","ago_m":"il y a {n} min","ago_h":"il y a {n} h","ago_d":"il y a {n} j","shows":"séances","until":"jusqu’à {t}","started":"commencée à {t}","waterAll":"Aucune coupure ni maintenance signalée.","noShowsToday":"Aucune séance aujourd’hui.","boxOffice":"Caisse ouverte dès 16:00 (week-end 13:00)"},"pt":{"glance":"Hoje num relance","power":"Energia","water":"Água","oncall":"De plantão","cinema":"Cinema","outNow":"Falta de energia agora em {d}, até {t}","outNowN":"{n} interrupções agora","noNow":"Sem interrupção agora","nextOut":"Próxima: {d}, {when}","noPlanned":"Nada programado","waterNone":"Nenhuma falta de água informada","waterN":"{n} aviso(s)","docPh":"{a} médicos, {b} farmácias","openNow":"aberto agora até {t}","opensAt":"abre às {t}","closedToday":"veja o horário","nextShow":"Próxima sessão {t}: {m}","moreShows":"mais {n} hoje","noShows":"Sem mais sessões hoje","stale":"Última atualização {h}","today":"Hoje","tomorrow":"Amanhã","now":"Agora","later":"Depois","road":"Interdição de via","notice":"Aviso","planned":"Programada","active":"Interrupção agora","noOut":"Sem interrupções","noPlannedLong":"Nenhuma interrupção programada.","map":"Mapa","details":"Aviso completo em nvebs.com","more":"Ver mais","less":"Ver menos","doctors":"Médicos de plantão","pharmacies":"Farmácias de plantão","noAddr":"Sem endereço na lista do RGD","noSched":"Nenhuma escala para este distrito.","allD":"Todos os distritos","unav":"Dados temporariamente indisponíveis.","check":"Consulte a fonte diretamente","emergency":"Emergência","ago_now":"agora mesmo","ago_m":"há {n} min","ago_h":"há {n} h","ago_d":"há {n} d","shows":"sessões","until":"até {t}","started":"começou {t}","waterAll":"Nenhuma falta ou manutenção informada.","noShowsToday":"Nenhuma sessão hoje.","boxOffice":"Bilheteria a partir das 16:00 (fins de semana 13:00)"}};</script>
 <script>
-/* ── helpers ─────────────────────────────────────────────────────────────── */
-function relTime(iso) {
-  if (!iso) return '';
-  var d = new Date(iso), now = Date.now(), diff = Math.round((now - d) / 60000);
-  if (diff < 2)  return 'just now';
-  if (diff < 60) return diff + 'm ago';
-  var h = Math.round(diff / 60);
-  if (h < 24)   return h + 'h ago';
-  return Math.round(h / 24) + 'd ago';
+(function(){
+var D=document,W=window,LANG=(D.documentElement.lang||'en').slice(0,2).toLowerCase();
+var I=W.DN_I18N||{},T=Object.assign({},I.en||{},I[LANG]||{});
+var LOC={en:'en-GB',nl:'nl-NL',es:'es-ES',zh:'zh-CN',fr:'fr-FR',pt:'pt-BR'}[LANG]||'en-GB';
+function $(i){return D.getElementById(i);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function tr(s,o){return String(s).replace(/\{(\w+)\}/g,function(m,k){return o[k]!=null?o[k]:m;});}
+function srNow(){return new Date(Date.now()-3*3600e3);}           // UTC fields = Suriname wall clock
+function todayISO(){return srNow().toISOString().slice(0,10);}
+function nowMin(){var n=srNow();return n.getUTCHours()*60+n.getUTCMinutes();}
+function hhmm(m){return ('0'+Math.floor(m/60)).slice(-2)+':'+('0'+(m%60)).slice(-2);}
+function relTime(iso){if(!iso)return '';var diff=Math.round((Date.now()-new Date(iso))/60000);if(diff<2)return T.ago_now;if(diff<60)return tr(T.ago_m,{n:diff});var h=Math.round(diff/60);if(h<24)return tr(T.ago_h,{n:h});return tr(T.ago_d,{n:Math.round(h/24)});}
+function ageH(iso){return iso?(Date.now()-new Date(iso))/3600e3:1e9;}
+function dayLabel(iso){var t=todayISO(),tm=new Date(Date.parse(t+'T12:00:00Z')+864e5).toISOString().slice(0,10);
+  if(iso===t)return T.today;if(iso===tm)return T.tomorrow;
+  try{return new Intl.DateTimeFormat(LOC,{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'}).format(new Date(iso+'T12:00:00Z'));}catch(e){return iso;}}
+function pill(cls,txt){return '<span class="status-pill '+cls+'">'+esc(txt)+'</span>';}
+function telHref(p){var d=String(p||'').replace(/[^0-9+]/g,'');if(d.charAt(0)==='+')return d;if(/^597\d{6,7}$/.test(d))return '+'+d;if(/^\d{6,7}$/.test(d))return '+597'+d;return d;}
+function t24(s){var m=/(\d{1,2}):(\d{2})\s*([AP]M)?/i.exec(s||'');if(!m)return s||'';var h=+m[1];if(m[3]){var pm=m[3].toUpperCase()==='PM';if(h===12)h=pm?12:0;else if(pm)h+=12;}return ('0'+h).slice(-2)+':'+m[2];}
+function minsOf(s){var m=/(\d{1,2}):(\d{2})/.exec(t24(s));return m?(+m[1])*60+(+m[2]):null;}
+// EBS writes streets in CAPITALS: Title Case the names, keep Dutch linking words lower case.
+var SMALL={tussen:1,en:1,van:1,de:1,het:1,'der':1,alle:1,die:1,in:1,dit:1,naar:1,op:1,met:1,bij:1,gedeelte:1,zijwegen:1,voorkomen:1,gebied:1,hoek:1,nabij:1,tot:1,te:1,'t':1,ter:1,hoogte:1,vanaf:1,omgeving:1,deel:1,een:1,aan:1,'of':1,zijweg:1,wijk:1,straten:1,gebieden:1};
+function nice(s){s=String(s||'').replace(/\s*Kaart(\s*openen:?)?\s*$/i,'').trim();if(s!==s.toUpperCase())return s;
+  var first=true;return s.toLowerCase().replace(/[\wÀ-ÿ’']+/g,function(w){var o=(!first&&SMALL[w])?w:w.charAt(0).toUpperCase()+w.slice(1);first=false;return o;}).replace(/^./,function(c){return c.toUpperCase();});}
+function load(u){return fetch(u,{cache:'no-cache'}).then(function(r){return r.ok?r.json():Promise.reject(r.status);});}
+var S={};                              // data per feed for the glance card
+function glance(){
+  var g=$('dn-glance');if(!g)return;
+  var rows=[],now=nowMin(),t=todayISO();
+  // power
+  if(S.ebs){var o=(S.ebs.outages||[]).filter(isOutage).sort(function(x,y){return (x.date_iso||'').localeCompare(y.date_iso||'')||((rng(x)||[0])[0]-(rng(y)||[0])[0]);}),act=o.filter(isActive),fut=o.filter(function(x){return !isActive(x)&&(x.date_iso>t||(x.date_iso===t&&rng(x)&&rng(x)[0]>now));});
+    var main,sub='',lvl='ok';
+    if(act.length===1){var r=rng(act[0]);main=tr(T.outNow,{d:act[0].district||'',t:r?hhmm(r[1]):''});lvl='bad';}
+    else if(act.length>1){main=tr(T.outNowN,{n:act.length});lvl='bad';}
+    else main=T.noNow;
+    if(fut.length){var f=fut[0],fr=rng(f);var dl=dayLabel(f.date_iso);if(dl===T.today||dl===T.tomorrow)dl=dl.toLowerCase();sub=tr(T.nextOut,{d:f.district||'',when:dl+(fr?' '+hhmm(fr[0])+'–'+hhmm(fr[1]):'')});if(lvl==='ok')lvl='warn';}
+    else if(!act.length)sub=T.noPlanned;
+    rows.push(['ebs','⚡',T.power,main,sub,lvl,S.ebs.last_updated,12]);}
+  // water
+  if(S.swm){var n=(S.swm.active||[]).length,p=(S.swm.planned||[]).length;rows.push(['swm','💧',T.water,n+p?tr(T.waterN,{n:n+p}):T.waterNone,'',n?'bad':(p?'warn':'ok'),S.swm.last_updated,12]);}
+  // on call
+  if(S.wacht){var d=S.wacht,win=hoursWin(d.pharmacy_hours),txt='';
+    if(win.length){var open=win.filter(function(w){return now>=w[0]&&now<w[1];})[0],next=win.filter(function(w){return w[0]>now;})[0];
+      txt=open?tr(T.openNow,{t:hhmm(open[1])}):(next?tr(T.opensAt,{t:hhmm(next[0])}):T.closedToday);}
+    rows.push(['wacht','💊',T.oncall,tr(T.docPh,{a:(d.doctors||[]).length,b:(d.pharmacies||[]).length}),txt,win.length&&txt===T.closedToday?'':'ok',d.last_updated,24*8]);}
+  // cinema
+  if(S.tbl){var sh=(S.tbl.showings||[]).filter(function(s){var m=minsOf(s.time);return m!=null&&m>=now-5&&!s.sold_out;});
+    rows.push(['tbl','🎬',T.cinema,sh.length?tr(T.nextShow,{t:t24(sh[0].time),m:sh[0].title}):T.noShows,sh.length>1?tr(T.moreShows,{n:sh.length-1}):'','',S.tbl.last_updated,30]);}
+  if(!rows.length)return;
+  g.innerHTML='<h2 class="dn-gh serif">'+esc(T.glance)+'</h2>'+rows.map(function(r){
+    var stale=ageH(r[6])>r[7];
+    return '<a class="dn-gr '+(r[5]||'')+'" href="#'+r[0]+'"><span class="dn-gi" aria-hidden="true">'+r[1]+'</span><span class="dn-gt"><small>'+esc(r[2])+'</small><b>'+esc(r[3])+'</b>'
+      +(r[4]?'<em>'+esc(r[4])+'</em>':'')+(stale?'<em class="dn-stale">'+esc(tr(T.stale,{h:relTime(r[6])}))+'</em>':'')+'</span><span class="dn-ga">›</span></a>';}).join('');
+  g.hidden=false;
+}
+function hoursWin(s){var out=[],re=/(\d{1,2}):(\d{2})\s*u?\s*[-–]\s*(\d{1,2}):(\d{2})/g,m;while((m=re.exec(s||''))){out.push([(+m[1])*60+(+m[2]),(+m[3])*60+(+m[4])]);}return out;}
+
+/* ---------- EBS ---------- */
+function kind(o){var t=(o.title||'').toUpperCase();if(/WEGAFSLUIT/.test(t))return 'road';if(/ONDERHOUD|ONDERBREK|STORING/.test(t)||o.time)return 'out';return 'notice';}
+function isOutage(o){return kind(o)==='out';}
+function rng(o){var p=(o.time||'').split(/[–\-]/),a=minsOf(p[0]),b=minsOf(p[1]);return a==null?null:[a,b==null?1440:b];}
+function isActive(o){if(!isOutage(o)||o.date_iso!==todayISO())return false;var r=rng(o);if(!r)return true;var n=nowMin();return n>=r[0]&&n<=r[1];}
+function ebsRow(o){
+  var k=kind(o),r=rng(o),link=o.link||'https://nvebs.com/elektriciteit/stroom-onderbrekingen';
+  var body=nice(o.area_full||o.area||''),bodyTxt=k==='out'?body:(o.body||o.meta_description||'');
+  var long=bodyTxt.length>170,id='x'+Math.random().toString(36).slice(2,8);
+  var head='<div class="dn-oh">'+(k==='road'?pill('pill-blue',T.road):k==='notice'?pill('pill-blue',T.notice):'')
+    +(o.district?'<span class="dn-dist" translate="no">'+esc(o.district)+'</span>':'')
+    +(r?'<span class="dn-time" translate="no">'+hhmm(r[0])+' – '+hhmm(r[1])+'</span>':'')+'</div>';
+  var bar='';if(isActive(o)&&r){var pct=Math.max(0,Math.min(100,(nowMin()-r[0])/(r[1]-r[0])*100));bar='<div class="dn-bar"><i style="width:'+pct.toFixed(0)+'%"></i></div><p class="dn-bart">'+esc(tr(T.until,{t:hhmm(r[1])}))+'</p>';}
+  return '<div class="outage-row">'+head+bar
+    +(bodyTxt?'<p class="outage-desc'+(long?' dn-clip':'')+'" id="'+id+'">'+esc(bodyTxt)+'</p>'+(long?'<button type="button" class="dn-more" data-t="'+id+'">'+esc(T.more)+'</button>':''):'')
+    +'<div class="outage-date"><a href="'+esc(link)+'" target="_blank" rel="noopener" class="src-link">'+esc(T.details)+'</a>'+(o.map?' · <a href="'+esc(o.map)+'" target="_blank" rel="noopener" class="src-link">'+esc(T.map)+'</a>':'')+'</div></div>';
+}
+function renderEbs(d){
+  var body=$('ebs-body');if(!body)return;var upd=$('ebs-upd');if(upd)upd.textContent=relTime(d.last_updated);
+  var t=todayISO(),all=(d.outages||[]).filter(function(o){return !o.date_iso||o.date_iso>=t;});
+  if(!all.length){body.innerHTML='<div style="text-align:center;padding:1rem 0">'+pill('pill-green','● '+T.noOut)+'<p class="text-xs text-gray-400 mt-2">'+esc(T.noPlannedLong)+'</p></div>';return;}
+  all.sort(function(a,b){return (a.date_iso||'').localeCompare(b.date_iso||'')||((rng(a)||[0])[0]-(rng(b)||[0])[0]);});
+  var groups={},order=[];all.forEach(function(o){var g=isActive(o)?'now':(o.date_iso||'later');if(!groups[g]){groups[g]=[];order.push(g);}groups[g].push(o);});
+  order.sort(function(a,b){return a==='now'?-1:b==='now'?1:a.localeCompare(b);});
+  var h='';order.forEach(function(g){h+='<p class="dn-day'+(g==='now'?' now':'')+'">'+(g==='now'?'● '+esc(T.active):esc(dayLabel(g)))+'</p>'+groups[g].map(ebsRow).join('');});
+  h+='<p class="text-xs text-gray-300 mt-3">Source: <a href="https://nvebs.com/elektriciteit/stroom-onderbrekingen" target="_blank" rel="noopener" class="src-link">nvebs.com</a></p>';
+  body.innerHTML=h;
+}
+D.addEventListener('click',function(ev){var b=ev.target.closest('.dn-more');if(!b)return;var p=$(b.getAttribute('data-t'));var open=p.classList.toggle('dn-clip');b.textContent=open?T.more:T.less;});
+
+/* ---------- SWM ---------- */
+function renderSwm(d){
+  var upd=$('swm-upd');if(upd)upd.textContent=relTime(d.last_updated);var body=$('swm-body');if(!body)return;
+  var a=d.active||[],p=d.planned||[];
+  if(!a.length&&!p.length){body.innerHTML='<div style="text-align:center;padding:1rem 0">'+pill('pill-green','● '+T.noOut)+'<p class="text-xs text-gray-400 mt-2">'+esc(T.waterAll)+'</p></div>';return;}
+  function row(o,pl){return '<div class="outage-row"><div class="outage-area">'+esc(nice(o.area))+'</div><div class="outage-desc">'+esc(o.description)+'</div><div class="outage-date" translate="no">'+esc(pl?(o.start||o.date)+(o.end&&o.end!==o.start?' → '+o.end:''):o.date)+'</div></div>';}
+  var h='';if(a.length)h+='<p class="dn-day now">● '+esc(T.active)+'</p>'+a.map(function(o){return row(o,0);}).join('');
+  if(p.length)h+='<p class="dn-day">'+esc(T.planned)+'</p>'+p.map(function(o){return row(o,1);}).join('');
+  body.innerHTML=h;
 }
 
-function pill(type) {
-  if (type === 'clear')   return '<span class="status-pill pill-green">&#9679; No outages</span>';
-  if (type === 'active')  return '<span class="status-pill pill-red">&#9679; Active outage</span>';
-  if (type === 'planned') return '<span class="status-pill pill-yellow">&#9675; Planned</span>';
-  if (type === 'info')    return '<span class="status-pill pill-blue">&#9432; Info</span>';
-  return '';
+/* ---------- Cinema ---------- */
+function renderTbl(d){
+  var upd=$('tbl-upd');if(upd)upd.textContent=relTime(d.last_updated);var body=$('tbl-body');if(!body)return;
+  var sh=d.showings||[];if(!sh.length){body.innerHTML='<p class="error-note">'+esc(T.noShowsToday)+'</p>';return;}
+  var now=nowMin(),h='';
+  sh.forEach(function(s){var m=minsOf(s.time),past=m!=null&&m<now-5;
+    var nm=s.url?'<a href="'+esc(s.url)+'" target="_blank" rel="noopener" class="pharmacy-name" style="text-decoration:none" translate="no">'+esc(s.title)+'</a>':'<span class="pharmacy-name" translate="no">'+esc(s.title)+'</span>';
+    var tc=(s.sold_out||!s.time)?'<span class="dn-sold">Sold out</span>':'<span class="dn-st" translate="no">'+esc(t24(s.time))+'</span>';
+    h+='<div class="pharmacy-row dn-show'+(past?' past':'')+'">'+tc+nm+'</div>';});
+  h+='<p class="text-xs text-gray-300 mt-2">Source: <a href="https://www.tblcinemas.com/films/dagschema" target="_blank" rel="noopener" class="src-link">tblcinemas.com</a> &bull; '+esc(T.boxOffice)+'</p>';
+  body.innerHTML=h;
 }
 
-function escHtml(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+/* ---------- On call ---------- */
+var W8=null;
+function nlToEn(s){if(!s||LANG==='nl')return s;var days={maandag:'Monday',dinsdag:'Tuesday',woensdag:'Wednesday',donderdag:'Thursday',vrijdag:'Friday',zaterdag:'Saturday',zondag:'Sunday'},months={januari:'January',februari:'February',maart:'March',april:'April',mei:'May',juni:'June',juli:'July',augustus:'August',september:'September',oktober:'October',november:'November',december:'December'};
+  return s.replace(/\b(maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag)\b/gi,function(m){return days[m.toLowerCase()]||m;}).replace(/\b(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)\b/gi,function(m){return months[m.toLowerCase()]||m;}).replace(/\btot\b/g,'to');}
+function wachtFilter(){
+  if(!W8)return;var d=W8,sel=$('wacht-district'),dist=sel?sel.value:'all',body=$('wacht-body');if(!body)return;
+  var docs=(d.doctors||[]).filter(function(x){return dist==='all'||(x.district||'').toLowerCase()===dist.toLowerCase();}),ph=d.pharmacies||[];
+  if(!docs.length&&!ph.length){body.innerHTML='<p class="error-note">'+esc(T.noSched)+'</p>';return;}
+  var h=d.date_range?'<p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">'+esc(nlToEn(d.date_range))+'</p>':'';
+  function tel(p){return p?'<a href="tel:'+telHref(p)+'" class="pharmacy-phone" translate="no">☎ '+esc(p)+'</a>':'';}
+  function mapl(n,a){return a?' <a class="pharmacy-phone dn-map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(n+', '+a+', Suriname')+'">'+esc(T.map)+'</a>':'';}
+  if(docs.length){h+='<p class="dn-grp">'+esc(T.doctors)+'</p>';docs.forEach(function(x){h+='<div class="pharmacy-row"><div class="pharmacy-name" translate="no">'+esc(x.name)+(x.clinic?' <span style="font-weight:400;color:#6b7280">'+esc(x.clinic)+'</span>':'')+'</div>'+(x.address?'<div class="pharmacy-addr" translate="no">'+esc(x.address)+'</div>':'')+'<div class="dn-acts">'+tel(x.phone)+mapl(x.clinic||x.name,x.address)+'</div>'+(x.note?'<div style="font-size:.7rem;color:#9ca3af;margin-top:.15rem">'+esc(x.note)+'</div>':'')+'</div>';});
+    if(d.doctor_hours)h+='<p class="text-xs text-gray-400 mt-2">'+esc(d.doctor_hours)+'</p>';}
+  if(ph.length){h+='<p class="dn-grp">'+esc(T.pharmacies)+'</p>';ph.forEach(function(p){h+='<div class="pharmacy-row"><div class="pharmacy-name" translate="no">'+esc(p.name)+'</div><div class="pharmacy-addr"'+(p.address?' translate="no">'+esc(p.address):'>'+esc(T.noAddr))+'</div><div class="dn-acts">'+tel(p.phone)+mapl(p.name,p.address)+'</div></div>';});
+    if(d.pharmacy_hours)h+='<p class="text-xs text-gray-400 mt-2">'+esc(d.pharmacy_hours)+'</p>';}
+  h+='<p class="text-xs text-gray-300 mt-2">Source: <a href="http://www.rgd.sr/nl/zorg-aanbod/wachtdienst" target="_blank" rel="noopener" class="src-link">rgd.sr</a> &bull; '+esc(T.emergency)+': <strong style="color:var(--forest)">147</strong></p>';
+  body.innerHTML=h;
 }
-/* RGD lists local numbers ("420506"): dial them as +597 so the link also
-   works from a foreign phone. */
-function telHref(p) {
-  var d = String(p || '').replace(/[^0-9+]/g, '');
-  if (d.charAt(0) === '+') return d;
-  if (/^597\d{6,7}$/.test(d)) return '+' + d;
-  if (/^\d{6,7}$/.test(d)) return '+597' + d;
-  return d;
-}
+W.wachtFilter=wachtFilter;
 
-/* ── wachtdienst ─────────────────────────────────────────────────────────── */
-function nlToEn(s) {
-  if (!s) return s;
-  var days   = {maandag:'Monday',dinsdag:'Tuesday',woensdag:'Wednesday',donderdag:'Thursday',vrijdag:'Friday',zaterdag:'Saturday',zondag:'Sunday'};
-  var months = {januari:'January',februari:'February',maart:'March',april:'April',mei:'May',juni:'June',juli:'July',augustus:'August',september:'September',oktober:'October',november:'November',december:'December'};
-  return s.replace(/(maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag)/gi, function(m) { return days[m.toLowerCase()] || m; })
-          .replace(/(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)/gi, function(m) { return months[m.toLowerCase()] || m; })
-          .replace(/tot/g, 'to');
-}
-
-var _wachtData = null;
-function wachtFilter() {
-  if (!_wachtData) return;
-  var d = _wachtData;
-  var sel = document.getElementById('wacht-district');
-  var district = sel ? sel.value : 'all';
-  var body = document.getElementById('wacht-body');
-  if (!body) return;
-
-  var docs = (d.doctors || []).filter(function(dr) {
-    return district === 'all' || (dr.district || '').toLowerCase() === district.toLowerCase();
-  });
-  var pharmas = d.pharmacies || [];
-
-  if (docs.length === 0 && pharmas.length === 0) {
-    body.innerHTML = '<p class="error-note">No schedule found for this district.</p>';
-    return;
-  }
-
-  var html = '';
-  if (d.date_range) {
-    html += '<p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">' + escHtml(nlToEn(d.date_range)) + '</p>';
-  }
-
-  // Doctors section
-  if (docs.length > 0) {
-    html += '<p class="dn-grp">Doctors on call</p>';
-    docs.forEach(function(dr) {
-      html += '<div class="pharmacy-row">'
-            + '<div class="pharmacy-name">' + escHtml(dr.name)
-            + (dr.clinic ? ' <span style="font-weight:400;color:#6b7280">' + escHtml(dr.clinic) + '</span>' : '')
-            + '</div>';
-      if (dr.address) html += '<div class="pharmacy-addr">' + escHtml(dr.address) + '</div>';
-      if (dr.phone)   html += '<a href="tel:' + telHref(dr.phone) + '" class="pharmacy-phone">Tel: ' + escHtml(dr.phone) + '</a>';
-      if (dr.note)    html += '<div style="font-size:.7rem;color:#9ca3af;margin-top:.15rem">' + escHtml(dr.note) + '</div>';
-      html += '</div>';
-    });
-    if (d.doctor_hours) {
-      html += '<p class="text-xs text-gray-400 mt-2">' + escHtml(d.doctor_hours) + '</p>';
-    }
-  }
-
-  // Pharmacies section
-  if (pharmas.length > 0) {
-    html += '<p class="dn-grp">Pharmacies on call</p>';
-    pharmas.forEach(function(p) {
-      html += '<div class="pharmacy-row">'
-            + '<div class="pharmacy-name">' + escHtml(p.name) + '</div>'
-            + '<div class="pharmacy-addr">' + escHtml(p.address) + '</div>'
-            + (p.phone ? '<a href="tel:' + telHref(p.phone) + '" class="pharmacy-phone">Tel: ' + escHtml(p.phone) + '</a>' : '')
-            + '</div>';
-    });
-    if (d.pharmacy_hours) {
-      html += '<p class="text-xs text-gray-400 mt-2">' + escHtml(d.pharmacy_hours) + '</p>';
-    }
-  }
-
-  html += '<p class="text-xs text-gray-300 mt-2">Source: <a href="http://www.rgd.sr/nl/zorg-aanbod/wachtdienst" target="_blank" rel="noopener" class="src-link">rgd.sr</a> &bull; Emergency: <strong style="color:var(--forest)">147</strong></p>';
-  body.innerHTML = html;
-}
-
-fetch('/data/wachtdienst.json')
-  .then(r => r.ok ? r.json() : Promise.reject(r.status))
-  .then(d => {
-    _wachtData = d;
-    var upd = document.getElementById('wacht-upd');
-    if (upd && d.last_updated) upd.textContent = relTime(d.last_updated);
-
-    // Populate district selector
-    var sel = document.getElementById('wacht-district');
-    if (sel && d.doctors) {
-      var districts = [];
-      d.doctors.forEach(function(dr) {
-        if (dr.district && districts.indexOf(dr.district) < 0) districts.push(dr.district);
-      });
-      districts.forEach(function(dist) {
-        var opt = document.createElement('option');
-        opt.value = dist;
-        opt.textContent = dist;
-        sel.appendChild(opt);
-      });
-    }
-
-    wachtFilter();
-  })
-  .catch(function() {
-    var body = document.getElementById('wacht-body');
-    if (body) body.innerHTML = '<p class="error-note">Data temporarily unavailable.<br>' +
-      '<a href="http://www.rgd.sr/nl/zorg-aanbod/wachtdienst" target="_blank" rel="noopener" class="src-link">Check rgd.sr directly</a> or call <strong>147</strong>.</p>';
-  });
-
-/* ── SWM water outages ───────────────────────────────────────────────────── */
-fetch('/data/swm_outages.json')
-  .then(r => r.ok ? r.json() : Promise.reject(r.status))
-  .then(d => {
-    var upd = document.getElementById('swm-upd');
-    if (upd && d.last_updated) upd.textContent = relTime(d.last_updated);
-    var body = document.getElementById('swm-body');
-    if (!body) return;
-
-    var active  = d.active  || [];
-    var planned = d.planned || [];
-
-    if (active.length === 0 && planned.length === 0) {
-      body.innerHTML = '<div style="text-align:center;padding:1rem 0">' + pill('clear') + '<p class="text-xs text-gray-400 mt-2">No outages or maintenance reported.</p></div>';
-      return;
-    }
-
-    var html = '';
-    if (active.length > 0) {
-      html += '<div class="mb-3">' + pill('active') + '</div>';
-      active.forEach(function(o) {
-        html += '<div class="outage-row">'
-              + '<div class="outage-area">' + escHtml(o.area) + '</div>'
-              + '<div class="outage-desc">' + escHtml(o.description) + '</div>'
-              + '<div class="outage-date">' + escHtml(o.date) + '</div>'
-              + '</div>';
-      });
-    }
-    if (planned.length > 0) {
-      html += '<div class="' + (active.length ? 'mt-4 ' : '') + 'mb-3">' + pill('planned') + '</div>';
-      planned.forEach(function(o) {
-        html += '<div class="outage-row">'
-              + '<div class="outage-area">' + escHtml(o.area) + '</div>'
-              + '<div class="outage-desc">' + escHtml(o.description) + '</div>'
-              + '<div class="outage-date">' + escHtml(o.start || o.date) + (o.end && o.end !== o.start ? ' &rarr; ' + escHtml(o.end) : '') + '</div>'
-              + '</div>';
-      });
-    }
-    body.innerHTML = html;
-  })
-  .catch(function() {
-    var body = document.getElementById('swm-body');
-    if (body) body.innerHTML = '<p class="error-note">Data temporarily unavailable.<br>' +
-      '<a href="https://swm.sr/storing-onderhoud/" target="_blank" rel="noopener" class="src-link">Check swm.sr directly</a></p>';
-  });
-
-/* ── EBS power outages ───────────────────────────────────────────────────── */
-fetch('/data/ebs_outages.json')
-  .then(r => r.ok ? r.json() : Promise.reject(r.status))
-  .then(d => {
-    var upd = document.getElementById('ebs-upd');
-    if (upd && d.last_updated) upd.textContent = relTime(d.last_updated);
-    var body = document.getElementById('ebs-body');
-    if (!body) return;
-
-    var outages = d.outages || [];
-    if (outages.length === 0) {
-      body.innerHTML = '<div style="text-align:center;padding:1rem 0">' + pill('clear') + '<p class="text-xs text-gray-400 mt-2">No planned outages.</p></div>';
-      return;
-    }
-
-    // Suriname is UTC-3; determine current local time for active detection
-    var nowSR = new Date(Date.now() - 3 * 60 * 60 * 1000);
-    var todayISO = nowSR.toISOString().slice(0, 10);
-    var nowMins = nowSR.getUTCHours() * 60 + nowSR.getUTCMinutes();
-
-    function parseHHMM(s) {
-      var m = s && s.match(/(\d{1,2}):(\d{2})/);
-      return m ? parseInt(m[1], 10) * 60 + parseInt(m[2], 10) : null;
-    }
-    function isActiveNow(o) {
-      if (o.date_iso !== todayISO) return false;
-      if (!o.time) return true;
-      var parts = o.time.split(/[–\-]/);
-      var start = parseHHMM(parts[0]);
-      var end   = parseHHMM(parts[1]);
-      if (start === null) return false;
-      return nowMins >= start && (end === null || nowMins <= end);
-    }
-
-    var activeOut  = outages.filter(function(o) { return isActiveNow(o); });
-    var plannedOut = outages.filter(function(o) { return !isActiveNow(o); });
-
-    function renderRows(list) {
-      var h = '';
-      list.forEach(function(o) {
-        var header = o.district ? escHtml(o.district) + ': ' + escHtml(o.date) : escHtml(o.date);
-        var timeStr = o.time ? escHtml(o.time) : '';
-        var areaRaw = o.area || '';
-        var area = areaRaw.replace(/(\w)(\w*)/g, function(_, a, b){ return a + b.toLowerCase(); });
-        var truncated = areaRaw.length > 0 && !areaRaw.match(/[.!?]$/);
-        var link = o.link || 'https://nvebs.com/elektriciteit/stroom-onderbrekingen';
-        h += '<div class="outage-row">'
-           + '<div class="outage-area">' + header + '</div>'
-           + (timeStr ? '<div class="outage-desc" style="color:#374151">' + timeStr + '</div>' : '')
-           + (area    ? '<div class="outage-desc">' + area + (truncated ? '…' : '') + '</div>' : '')
-           + '<div class="outage-date"><a href="' + escHtml(link) + '" target="_blank" rel="noopener" class="src-link">Full details on nvebs.com</a></div>'
-           + '</div>';
-      });
-      return h;
-    }
-
-    var html = '';
-    if (activeOut.length > 0) {
-      html += '<div class="mb-3">' + pill('active') + '</div>';
-      html += renderRows(activeOut);
-    }
-    if (plannedOut.length > 0) {
-      html += '<div class="' + (activeOut.length ? 'mt-4 ' : '') + 'mb-3">' + pill('planned') + '</div>';
-      html += renderRows(plannedOut);
-    }
-
-    html += '<p class="text-xs text-gray-300 mt-3">Source: <a href="https://nvebs.com/elektriciteit/stroom-onderbrekingen" target="_blank" rel="noopener" class="src-link">nvebs.com</a></p>';
-    body.innerHTML = html;
-  })
-  .catch(function() {
-    var body = document.getElementById('ebs-body');
-    if (body) body.innerHTML = '<p class="error-note">Data temporarily unavailable.<br>' +
-      '<a href="https://nvebs.com/elektriciteit/stroom-onderbrekingen" target="_blank" rel="noopener" class="src-link">Check nvebs.com directly</a></p>';
-  });
-
-/* ── TBL Cinemas (today's showings) ────────────────── */
-fetch('/data/tbl_cinema.json')
-  .then(r => r.ok ? r.json() : Promise.reject(r.status))
-  .then(d => {
-    var upd = document.getElementById('tbl-upd');
-    if (upd && d.last_updated) upd.textContent = relTime(d.last_updated);
-    var body = document.getElementById('tbl-body');
-    if (!body) return;
-    var shows = d.showings || [];
-    if (shows.length === 0) {
-      body.innerHTML = '<div style="text-align:center;padding:1rem 0">' + pill('info') + '<p class="text-xs text-gray-400 mt-2">No showings listed today.</p></div>';
-      return;
-    }
-    var html = '';
-    if (d.date_label) {
-      html += '<p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">' + escHtml(d.date_label) + '</p>';
-    }
-    shows.forEach(function(s) {
-      var name = s.url
-        ? '<a href="' + escHtml(s.url) + '" target="_blank" rel="noopener" class="pharmacy-name" style="text-decoration:none">' + escHtml(s.title) + '</a>'
-        : '<span class="pharmacy-name">' + escHtml(s.title) + '</span>';
-      var tcell = (s.sold_out || !s.time)
-        ? '<span style="font-weight:700;font-size:.7rem;color:#b91c1c;white-space:nowrap;min-width:70px;text-transform:uppercase;letter-spacing:.03em">Sold out</span>'
-        : '<span style="font-weight:700;font-size:.8rem;color:var(--forest2);white-space:nowrap;min-width:70px;font-variant-numeric:tabular-nums">' + escHtml(s.time) + '</span>';
-      html += '<div class="pharmacy-row" style="display:flex;gap:.6rem;align-items:baseline">'
-            + tcell + name + '</div>';
-    });
-    html += '<p class="text-xs text-gray-300 mt-2">Source: <a href="https://www.tblcinemas.com/films/dagschema" target="_blank" rel="noopener" class="src-link">tblcinemas.com</a> &bull; Box office from 16:00 (wknd 13:00)</p>';
-    body.innerHTML = html;
-  })
-  .catch(function() {
-    var body = document.getElementById('tbl-body');
-    if (body) body.innerHTML = '<p class="error-note">Showtimes temporarily unavailable.<br>' +
-      '<a href="https://www.tblcinemas.com/films/dagschema" target="_blank" rel="noopener" class="src-link">Check tblcinemas.com directly</a></p>';
-  });
+function fail(id,url){var b=$(id);if(b)b.innerHTML='<p class="error-note">'+esc(T.unav)+'<br><a href="'+url+'" target="_blank" rel="noopener" class="src-link">'+esc(T.check)+'</a></p>';}
+load('/data/ebs_outages.json').then(function(d){S.ebs=d;renderEbs(d);glance();}).catch(function(){fail('ebs-body','https://nvebs.com/elektriciteit/stroom-onderbrekingen');});
+load('/data/swm_outages.json').then(function(d){S.swm=d;renderSwm(d);glance();}).catch(function(){fail('swm-body','https://swm.sr/storing-onderhoud/');});
+load('/data/tbl_cinema.json').then(function(d){S.tbl=d;renderTbl(d);glance();}).catch(function(){fail('tbl-body','https://www.tblcinemas.com/films/dagschema');});
+load('/data/wachtdienst.json').then(function(d){W8=d;S.wacht=d;var upd=$('wacht-upd');if(upd)upd.textContent=relTime(d.last_updated);
+  var sel=$('wacht-district');if(sel){sel.options[0].textContent=T.allD;var ds=[];(d.doctors||[]).forEach(function(x){if(x.district&&ds.indexOf(x.district)<0)ds.push(x.district);});ds.forEach(function(x){var o=D.createElement('option');o.value=x;o.textContent=x;sel.appendChild(o);});}
+  wachtFilter();glance();}).catch(function(){fail('wacht-body','http://www.rgd.sr/nl/zorg-aanbod/wachtdienst');});
+// keep "now" states honest while the page stays open
+setInterval(function(){if(D.hidden)return;if(S.ebs)renderEbs(S.ebs);if(S.tbl)renderTbl(S.tbl);glance();},60000);
+})();
 </script>
 <script id="langswitch-js">document.addEventListener('click',function(){document.querySelectorAll('[data-langmenu]').forEach(function(x){x.style.display='none';var b=x.previousElementSibling;if(b)b.setAttribute('aria-expanded','false');});});</script></body>
 </html>
