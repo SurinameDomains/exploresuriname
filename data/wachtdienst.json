@@ -1,69 +1,53 @@
 {
-  "date_range": "zaterdag 10 oktober tot maandag 12 oktober 2026",
+  "date_range": "zaterdag 17 oktober tot maandag 19 oktober 2026",
   "doctors": [
     {
-      "name": "Drs. Lahera Diaz Yamilia",
-      "clinic": "Gezondheidscentrum Geyersvlijt",
+      "name": "Drs. Asmodikromo Gracia",
+      "clinic": "Gezondheidscentrum Limesgracht",
       "district": "Paramaribo",
-      "address": "Wongsoredjostraat no. 02",
-      "phone": "451860",
-      "note": "zaterdag ochtend"
-    },
-    {
-      "name": "Drs. Moennoe Sharaisha",
-      "clinic": "Gezondheidscentrum Geyersvlijt",
-      "district": "Paramaribo",
-      "address": "Wongsoredjostraat no. 02",
-      "phone": "451860",
-      "note": "zaterdag middag en zondag ochtend"
-    },
-    {
-      "name": "Drs. Baal Antoine",
-      "clinic": "Gezondheidscentrum Geyersvlijt",
-      "district": "Paramaribo",
-      "address": "Wongsoredjostraat no. 02",
-      "phone": "451860",
-      "note": "zondag middag"
-    },
-    {
-      "name": "Drs. Jagnarain Arti",
-      "clinic": "Polikliniek Flora",
-      "district": "Paramaribo",
-      "address": "Floralaan no.23-25",
-      "phone": "464904",
-      "note": "zaterdag"
-    },
-    {
-      "name": "Drs. Oemar Umair",
-      "clinic": "Polikliniek Santodorp",
-      "district": "Wanica",
-      "address": "Hk. Corresburg- Nieuw weergevondenweg no.01 Telefoon: 487067/ woning: 8904842",
-      "phone": "",
+      "address": "Limesgracht no. 78",
+      "phone": "420506",
       "note": ""
     },
     {
-      "name": "Drs. Harderwijk- Lienga Silvana",
-      "clinic": "La Vigilantia",
-      "district": "Wanica",
-      "address": "Verlengde Laterietweg",
-      "phone": "323253",
+      "name": "Drs. Koendan Shobhna",
+      "clinic": "Polikliniek Welgelegen",
+      "district": "Paramaribo",
+      "address": "Patatastraat no. 17",
+      "phone": "436975",
       "note": ""
     },
     {
-      "name": "Drs. Mahabier Madhuri",
-      "clinic": "Polikliniek Nieuwe Grond",
+      "name": "Drs. Bholasing Sunayana",
+      "clinic": "Gezondheidscentrum Koewarasan",
       "district": "Wanica",
-      "address": "Indira Gandhiweg no. 14",
-      "phone": "585838",
+      "address": "Bomapolder serie 2 no. 02",
+      "phone": "350018",
       "note": ""
     },
     {
-      "name": "Drs. Jhanjan Cyril",
-      "clinic": "Polikliniek Bernharddorp",
+      "name": "Drs. Ghoerai Zarish",
+      "clinic": "Polikliniek Houttuin",
+      "district": "Wanica",
+      "address": "Mirahoedoelaan no. 02",
+      "phone": "372090",
+      "note": ""
+    },
+    {
+      "name": "Drs. Bhagirath Ruchika",
+      "clinic": "Gezondheidscentrum Lelydorp",
+      "district": "Wanica",
+      "address": "Indira Gandhiweg no. 42",
+      "phone": "366125",
+      "note": ""
+    },
+    {
+      "name": "Drs. Vrede Merlien",
+      "clinic": "Gezondheidscentrum Onverwacht",
       "district": "Para",
-      "address": "Indira Gandhiweg no. 894",
-      "phone": "352590",
-      "note": "alleen zaterdag en zondag ochtend"
+      "address": "Akrumstraat no. 09",
+      "phone": "352097",
+      "note": ""
     }
   ],
   "pharmacies": [
@@ -73,43 +57,53 @@
       "phone": "481479"
     },
     {
-      "name": "Apotheek Nieuwe Grond",
-      "address": "Indira Gandhiweg no. 14 Telefoon: 585838",
-      "phone": ""
-    },
-    {
-      "name": "Apotheek La Vigilantia",
-      "address": "Verlengde Laterietweg",
-      "phone": "323253"
-    },
-    {
       "name": "Apotheek Meerzorg",
       "address": "Weg naar Peperpot br. 01",
       "phone": "354098"
     },
     {
-      "name": "Apotheek Kampong Baroe",
-      "address": "Saramaccaweg",
-      "phone": "327272"
+      "name": "Apotheek Limesgracht",
+      "address": "Limesgracht no. 78",
+      "phone": "420506"
+    },
+    {
+      "name": "Apotheek Houttuin",
+      "address": "",
+      "phone": ""
+    },
+    {
+      "name": "Apotheek Lelydorp",
+      "address": "Indira Gandhiweg no. 42",
+      "phone": "366125"
     },
     {
       "name": "Apotheek Wageningen",
-      "address": "Molenweg no.01",
+      "address": "Molenweg no. 01",
       "phone": "233141"
+    },
+    {
+      "name": "Apotheek Tijgerkreek",
+      "address": "Catharina Sophiastraat no. 208",
+      "phone": "375144"
+    },
+    {
+      "name": "Apotheek Paradise",
+      "address": "Fredericiweg no. 732",
+      "phone": "236015"
+    },
+    {
+      "name": "Apotheek Corantijnpolder",
+      "address": "Rambaran Misreweg no. 07",
+      "phone": "231962"
     },
     {
       "name": "Apotheek Coronie",
       "address": "Friendship no. 35",
       "phone": "235143"
-    },
-    {
-      "name": "Apotheek Groot Henar",
-      "address": "Wooncentrum Groot Henar no 352",
-      "phone": "234172"
     }
   ],
-  "doctor_hours": "Spreekuren: Zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
-  "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00u.",
-  "last_updated": "2026-10-16T10:20:30.825333+00:00",
+  "doctor_hours": "Spreekuren: zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
+  "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00.",
+  "last_updated": "2026-10-17T00:55:09.100748+00:00",
   "source": "http://www.rgd.sr/nl/zorg-aanbod/wachtdienst"
 }
