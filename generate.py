@@ -11601,7 +11601,7 @@ _NW_CSS = r"""<style>
 .nw-empty{text-align:center;padding:2.5rem 1rem;color:#656C63;font-size:.9rem}
 .nw-clear{margin-top:.6rem;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:.4rem 1rem;font-weight:600;cursor:pointer}
 /* sidebar */
-.nw-side{display:flex;flex-direction:column;gap:1rem;position:sticky;top:120px;align-self:start;max-height:calc(100vh - 132px);max-height:calc(100dvh - 132px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:#d6d2c4 transparent;padding:2px 8px 16px;margin:-2px -8px 0}
+.nw-side{display:flex;flex-direction:column;gap:1rem;position:sticky;top:120px;align-self:start}
 .nw-card{background:var(--card);border:1px solid var(--bd-card);border-radius:var(--r-card);box-shadow:var(--sh-card);padding:1rem 1.05rem}
 .nw-side-k{font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--clay);margin:0 0 .55rem}
 .nw-side-p{font-size:.86rem;line-height:1.45;color:#4B564D;margin:0 0 .75rem}
@@ -11735,6 +11735,17 @@ _NW_I18N = {
 
 
 _NW_JS = r"""<script>
+/* Sidebar taller than the window: it scrolls along with the page until its
+   bottom is in view, then sticks; scrolling up brings its top back. One page
+   scrollbar, no inner scroll (18 Oct 2026). */
+(function(){var a=document.querySelector('.nw-side');if(!a)return;var T0=120,B=16,top=T0,last=window.scrollY,raf=0;
+function upd(){raf=0;var y=window.scrollY,d=y-last;last=y;if(getComputedStyle(a).display==='none')return;
+var min=window.innerHeight-a.offsetHeight-B;top=min>=T0?T0:Math.max(min,Math.min(T0,top-d));a.style.top=top+'px';}
+function q(){if(!raf)raf=requestAnimationFrame(upd);}
+window.addEventListener('scroll',q,{passive:true});window.addEventListener('resize',q);
+if(window.ResizeObserver)new ResizeObserver(q).observe(a);upd();})();
+</script>
+<script>
 (function(){
 var D=document,W=window,LANG=(D.documentElement.lang||'en').slice(0,2).toLowerCase();
 var I=W.NW_I18N||{},T=Object.assign({},I.en||{},I[LANG]||{});
