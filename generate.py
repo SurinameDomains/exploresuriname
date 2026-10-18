@@ -297,17 +297,24 @@ except Exception as _err2:
     print(f"  Warning: approved events unavailable — {_err2}")
 
 FEEDS = [
-    {"name": "De Ware Tijd",     "url": "https://www.dwtonline.com/feed/",               "color": "#2D6A4F"},
-    {"name": "Starnieuws",       "url": "https://www.starnieuws.com/rss/starnieuws.rss", "color": "#B40A2D"},
-    {"name": "Waterkant",        "url": "https://www.waterkant.net/feed/",               "color": "#1a56db"},
-    {"name": "Suriname Herald",  "url": "https://www.srherald.com/feed/",                "color": "#7c2d12"},
-    {"name": "United News",      "url": "https://unitednews.sr/feed/",                   "color": "#4338ca"},
-    {"name": "GFC Nieuws",       "url": "https://www.gfcnieuws.com/feed/",               "color": "#0e7490"},
-    {"name": "Dagblad Suriname", "url": "https://www.dbsuriname.com/feed/",              "color": "#9d174d"},
-    {"name": "ABC Online",       "url": "https://www.abcsuriname.com/feed/",             "color": "#a16207"},
-    {"name": "Parbode",          "url": "https://parbode.com/feed/",                     "color": "#6d28d9"},
-    {"name": "Overheid (gov.sr)","url": "https://www.gov.sr/feed/",                      "color": "#1f2937"},
+    {"name": "De Ware Tijd",     "url": "https://www.dwtonline.com/feed/",               "color": "#2D6A4F", "wp": "https://www.dwtonline.com"},
+    {"name": "Starnieuws",       "url": "https://www.starnieuws.com/rss/starnieuws.rss", "color": "#B40A2D", "og": True},
+    {"name": "Waterkant",        "url": "https://www.waterkant.net/feed/",               "color": "#1a56db", "wp": "https://www.waterkant.net"},
+    {"name": "Suriname Herald",  "url": "https://www.srherald.com/feed/",                "color": "#7c2d12", "wp": "https://www.srherald.com"},
+    {"name": "United News",      "url": "https://unitednews.sr/feed/",                   "color": "#4338ca", "wp": "https://unitednews.sr"},
+    {"name": "GFC Nieuws",       "url": "https://www.gfcnieuws.com/feed/",               "color": "#0e7490", "wp": "https://www.gfcnieuws.com"},
+    {"name": "Dagblad Suriname", "url": "https://www.dbsuriname.com/feed/",              "color": "#9d174d", "wp": "https://www.dbsuriname.com"},
+    {"name": "ABC Online",       "url": "https://www.abcsuriname.com/feed/",             "color": "#a16207", "wp": "https://www.abcsuriname.com"},
+    {"name": "Parbode",          "url": "https://parbode.com/feed/",                     "color": "#6d28d9", "wp": "https://parbode.com"},
+    {"name": "Overheid (gov.sr)","url": "https://www.gov.sr/feed/",                      "color": "#1f2937", "wp": "https://www.gov.sr"},
 ]
+# Images (Oct 2026): the outlets' RSS feeds carry no pictures. "wp" outlets are
+# WordPress: one REST call per build returns the featured image of the latest
+# posts (matched to the RSS items by link). "og" outlets (Starnieuws) get the
+# og:image of the article page, fetched once per NEW story only (the archive
+# keeps it). Both are best effort: a failure just leaves the story without a
+# picture, the article list itself still comes from RSS.
+NEWS_OG_MAX_PER_BUILD = 24
 
 # Local news archive — RSS feeds only expose the newest 8-20 items, which on a
 # busy day is barely 6 hours of news. The site rebuilds every ~15 min, so each
@@ -324,7 +331,7 @@ LOCAL_PAGE_SIZE   = 40     # cards visible before "Show more"
 # Offshore Energy: use the Suriname tag feed (already filtered, no kw check needed).
 OIL_FEEDS = [
     {"name": "OilNow",         "url": "https://news.google.com/rss/search?q=site:oilnow.gy+Suriname&hl=en&gl=US&ceid=US:en",                                                                                                       "color": "#92400e", "filter": False},
-    {"name": "Offshore Energy", "url": "https://www.offshore-energy.biz/tag/suriname/feed/",                                                                                                                                         "color": "#1e40af", "filter": False},
+    {"name": "Offshore Energy", "url": "https://news.google.com/rss/search?q=site:offshore-energy.biz+Suriname&hl=en&gl=US&ceid=US:en",                                                                                         "color": "#1e40af", "filter": False},  # tag feed died Oct 2026 (returns HTML)
     {"name": "Rigzone",        "url": "https://www.rigzone.com/news/rss/rigzone_news.aspx",                                                                                                                                          "color": "#374151", "filter": True},
     {"name": "Google News",    "url": "https://news.google.com/rss/search?q=Staatsolie+OR+%22Block+58%22+OR+%22Block+52%22+OR+%22GranMorgu%22+OR+%22Sapakara%22+OR+%22Krabdagu%22+OR+%22TotalEnergies+Suriname%22+OR+%22APA+Suriname%22+OR+%22PETRONAS+Suriname%22+OR+%22offshore+Suriname%22+OR+%22Suriname+oil%22+OR+%22Suriname+gas%22+OR+%22Suriname+energy%22&hl=en&gl=US&ceid=US:en", "color": "#be185d", "filter": False},
 ]
@@ -4776,9 +4783,14 @@ def get_image(entry):
         for enc in entry.enclosures:
             if enc.get("type", "").startswith("image"):
                 return enc.get("url", "")
-    raw = getattr(entry, "summary", "") or ""
-    m = re.search(r'<img[^>]+src=["\']([^"\']+)["\']>', raw)
-    if m: return m.group(1)
+    raw = (getattr(entry, "summary", "") or "") + " ".join(
+        (c.get("value") or "") for c in (getattr(entry, "content", None) or []))
+    for m in re.finditer(r'<img[^>]+?src=["\']([^"\']+)["\']', raw):
+        u = m.group(1)
+        # skip emoji sprites, tracking pixels and avatars
+        if re.search(r"s\.w\.org/images/core/emoji|gravatar\.com|feeds\.feedburner|pixel|1x1|\.gif(?:\?|$)", u, re.I):
+            continue
+        return u
     return ""
 
 def parse_date(entry):
@@ -4871,7 +4883,132 @@ def fetch_articles():
         except Exception as e:
             print(f"  ERR {src['name']}: {e}")
     articles.sort(key=lambda a: a["date"], reverse=True)
+    try:
+        _news_enrich_images(articles)
+    except Exception as e:          # images are a nice-to-have, never fatal
+        print(f"  News images: skipped ({e})")
     return _news_archive_merge(articles)
+
+
+def _news_link_key(u):
+    """Normalise an article URL so RSS and WP REST links compare equal."""
+    try:
+        p = urllib.parse.urlsplit(urllib.parse.unquote((u or "").strip()))
+        host = p.netloc.lower()
+        host = host[4:] if host.startswith("www.") else host
+        return host + p.path.rstrip("/").lower()
+    except Exception:
+        return (u or "").strip().lower()
+
+
+def _news_wp_pick(media):
+    """(image ~768px, thumb ~300px) from a WP featured-media object."""
+    media = media or {}
+    sizes = (media.get("media_details") or {}).get("sizes") or {}
+    def _u(keys):
+        for k in keys:
+            v = (sizes.get(k) or {}).get("source_url")
+            if v:
+                return v
+        return ""
+    full = media.get("source_url") or ""
+    img = _u(("medium_large", "large", "1536x1536")) or full
+    thumb = _u(("medium", "medium_large")) or img
+    return img, thumb
+
+
+def _news_enrich_images(articles):
+    """Fill "image"/"thumb" on local stories (see FEEDS note). In place."""
+    from concurrent.futures import ThreadPoolExecutor
+    _UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    feeds = {f["name"]: f for f in FEEDS}
+
+    # Images already known from earlier builds (no refetch for og: outlets)
+    known = {}
+    try:
+        for r in json.loads(NEWS_ARCHIVE_PATH.read_text(encoding="utf-8")):
+            if r.get("image"):
+                known[r.get("link")] = (r["image"], r.get("thumb") or r["image"])
+    except Exception:
+        pass
+
+    def _wp(f):
+        url = (f["wp"] + "/wp-json/wp/v2/posts?per_page=40&_embed=wp:featuredmedia"
+               "&_fields=id,link,_links,_embedded")
+        req = urllib.request.Request(url, headers={"User-Agent": _UA, "Accept": "application/json"})
+        with urllib.request.urlopen(req, timeout=20) as r:
+            posts = json.loads(r.read().decode("utf-8"))
+        out = {}
+        for p in posts if isinstance(posts, list) else []:
+            media = ((p.get("_embedded") or {}).get("wp:featuredmedia") or [{}])[0]
+            img, thumb = _news_wp_pick(media)
+            if img and _feed_url(img, img=True):
+                out[_news_link_key(p.get("link"))] = (img, thumb)
+                if p.get("id"):
+                    out["id:" + str(p["id"])] = (img, thumb)
+        return f["name"], out
+
+    wp_maps = {}
+    with ThreadPoolExecutor(max_workers=6) as ex:
+        for fut in [ex.submit(_wp, f) for f in FEEDS if f.get("wp")]:
+            try:
+                name, m = fut.result()
+                wp_maps[name] = m
+            except Exception as e:
+                print(f"  News images: WP API failed ({e})")
+
+    _og_re = re.compile(r'<meta[^>]+(?:property|name)=["\']og:image["\'][^>]*content=["\']([^"\']+)', re.I)
+    _og_re2 = re.compile(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]*(?:property|name)=["\']og:image["\']', re.I)
+    def _og(link):
+        req = urllib.request.Request(link, headers={"User-Agent": _UA})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            page = r.read(400_000).decode("utf-8", "replace")
+        m = _og_re.search(page) or _og_re2.search(page)
+        u = html_lib.unescape(m.group(1)).strip() if m else ""
+        if u.startswith("//"):
+            u = "https:" + u
+        # an outlet logo is not a story picture
+        if not u or re.search(r"logo|default|placeholder", u, re.I) or not _feed_url(u, img=True):
+            return link, ""
+        return link, u
+
+    wp_hit = og_hit = 0
+    og_todo = []
+    for a in articles:
+        if a.get("image"):
+            a.setdefault("thumb", a["image"])
+            continue
+        link = a.get("link") or ""
+        if link in known:
+            a["image"], a["thumb"] = known[link]
+            continue
+        f = feeds.get(a.get("source")) or {}
+        m = wp_maps.get(a.get("source"))
+        if m:
+            hit = m.get(_news_link_key(link))
+            if not hit:
+                pid = re.search(r"[?&]p=(\d+)", link)
+                hit = m.get("id:" + pid.group(1)) if pid else None
+            if hit:
+                a["image"], a["thumb"] = hit
+                wp_hit += 1
+                continue
+        if f.get("og") and link.startswith("http"):
+            og_todo.append(a)
+    og_todo = og_todo[:NEWS_OG_MAX_PER_BUILD]
+    if og_todo:
+        by_link = {a["link"]: a for a in og_todo}
+        with ThreadPoolExecutor(max_workers=6) as ex:
+            for fut in [ex.submit(_og, a["link"]) for a in og_todo]:
+                try:
+                    link, u = fut.result()
+                except Exception:
+                    continue
+                if u:
+                    by_link[link]["image"] = by_link[link]["thumb"] = u
+                    og_hit += 1
+    have = sum(1 for a in articles if a.get("image"))
+    print(f"  News images: {have}/{len(articles)} live stories ({wp_hit} via WP API, {og_hit} via og:image)")
 
 
 def _news_archive_merge(live):
@@ -4896,6 +5033,10 @@ def _news_archive_merge(live):
         row = dict(row)
         row["date"]  = dt
         row["color"] = colors.get(row.get("source"), row.get("color", "#374151"))
+        old = merged.get(link)
+        if old and old.get("image") and not row.get("image"):
+            row["image"] = old["image"]
+            row["thumb"] = old.get("thumb") or old["image"]
         merged[link] = row
 
     try:
@@ -5071,6 +5212,7 @@ def cluster_articles(articles, window_hours=72):
             for m in members:
                 if m.get("image"):
                     rep["image"] = m["image"]
+                    rep["thumb"] = m.get("thumb") or m["image"]
                     break
         # Longest summary across the cluster is usually the most informative
         best_summary = max((m.get("summary") or "" for m in members), key=len)
@@ -5081,7 +5223,8 @@ def cluster_articles(articles, window_hours=72):
             if m["source"] in seen_src:
                 continue
             seen_src.add(m["source"])
-            also.append({"source": m["source"], "link": m["link"], "color": m["color"]})
+            also.append({"source": m["source"], "link": m["link"], "color": m["color"],
+                         "title": m.get("title", ""), "date": m.get("date")})
         rep["also"] = also
         rep["sources"] = [rep["source"]] + [x["source"] for x in also]
         out.append(rep)
@@ -5094,15 +5237,30 @@ def cluster_articles(articles, window_hours=72):
 # Oil & Gas and Finance feeds (Google News queries, OilNOW) return evergreen
 # pages and tag/archive pages next to news: keep real, recent stories only.
 NEWS_TOPIC_MAX_DAYS = 90
-_NEWS_JUNK_TITLE_RE = re.compile(r"^(?:tag|category|archives?)\s*:|^\d{4}\s*[\u2013-]\s*oilnow$", re.I)
+_NEWS_JUNK_TITLE_RE = re.compile(r"^(?:tag|category|archives?)\s*:|^\d{4}\s*[\u2013-]\s*oilnow$|^suriname(?:\s*[\u2013-]\s*offshore energy)?$", re.I)
 
 def _news_recent(articles, days=NEWS_TOPIC_MAX_DAYS):
     cutoff = datetime.now(timezone.utc) - timedelta(days=days)
     out = [a for a in articles
-           if a["date"] >= cutoff and not _NEWS_JUNK_TITLE_RE.search(a.get("title") or "")]
+           if a["date"] >= cutoff and not _NEWS_JUNK_TITLE_RE.search(a.get("title") or "")
+           and len((a.get("title") or "").split()) >= 3]      # "All", "Suriname": index pages
     if len(out) != len(articles):
         print(f"  News: dropped {len(articles) - len(out)} item(s) older than {days}d or tag pages")
     return out
+
+
+def _gn_title_pub(entry, title):
+    """Google News titles end in " - Publisher". Return (clean title, publisher)."""
+    pub = ""
+    try:
+        pub = (getattr(entry, "source", None) or {}).get("title", "") or ""
+    except Exception:
+        pub = ""
+    if pub and title.endswith(" - " + pub):
+        title = title[: -len(pub) - 3].rstrip()
+    elif not pub and " - " in title and "news.google." in (getattr(entry, "link", "") or ""):
+        title, pub = title.rsplit(" - ", 1)
+    return title.strip(), pub.strip()
 
 
 def fetch_oil_articles():
@@ -5120,7 +5278,10 @@ def fetch_oil_articles():
             count = 0
             for entry in feed.entries[:30]:
                 title   = strip_tags(getattr(entry, "title", "")).strip()
+                title, _pub = _gn_title_pub(entry, title)
                 summary = clean_summary(strip_tags(getattr(entry, "summary", "")))
+                if "news.google." in src_feed["url"] and (summary.startswith(title) or len(summary) < 40):
+                    summary = ""      # Google News "summary" just repeats the title
                 # Filter broad feeds to Suriname-relevant articles only
                 if src_feed.get("filter"):
                     combined = (title + " " + summary).lower()
@@ -5138,6 +5299,8 @@ def fetch_oil_articles():
                     "ago":     time_ago(pub),
                     "source":  src_feed["name"],
                     "color":   src_feed["color"],
+                    "pub":     _pub or src_feed["name"],
+                    "kind":    "oil",
                 })
                 count += 1
             print(f"  OK  {src_feed['name']} (oil): {count}")
@@ -5157,7 +5320,10 @@ def fetch_finance_articles():
             count = 0
             for entry in feed.entries[:20]:
                 title   = strip_tags(getattr(entry, "title", "")).strip()
+                title, _pub = _gn_title_pub(entry, title)
                 summary = clean_summary(strip_tags(getattr(entry, "summary", "")))
+                if summary.startswith(title) or len(summary) < 40:
+                    summary = ""      # Google News "summary" just repeats the title
                 link    = getattr(entry, "link", "#")
                 # deduplicate by normalised title
                 key = title.lower()[:60]
@@ -5175,6 +5341,8 @@ def fetch_finance_articles():
                     "ago":     time_ago(pub),
                     "source":  src_feed["name"],
                     "color":   src_feed["color"],
+                    "pub":     _pub or src_feed["name"],
+                    "kind":    "finance",
                 })
                 count += 1
             print(f"  OK  {src_feed['name']} (finance): {count}")
@@ -6872,7 +7040,7 @@ def write_home_live(cme_rates, cme_live, cbvs_rates, cbvs_live, articles, flight
         for a in (articles or [])[:4]:
             _dt = a.get("date")
             _news.append({"title": a.get("title", ""), "link": a.get("link", ""), "source": a.get("source", ""),
-                          "image": _feed_url(a.get("image", ""), img=True),
+                          "image": "",   # homepage news card stays text-only (17 Oct 2026)
                           "date": (_dt.astimezone(SR_TZ).isoformat(timespec="minutes") if hasattr(_dt, "astimezone") else None)})
         items["news"] = {"ok": bool(_news), "as_of": (_news[0]["date"] if _news else None), "stale_after_h": 24,
                          "page": "/news.html", "items": _news}
@@ -10883,107 +11051,318 @@ doConvert();"""
 </body>
 </html>"""
 
+# ── News page v2 (17 Oct 2026) ──────────────────────────────────────────────
+# Front page of the news page: lead story (the story most outlets covered,
+# recent), four top stories, then "Latest" as a compact list grouped by day.
+# Filters (topic chips, outlet menu, search) work on the list; while a filter
+# is active the front block hides and the list shows every match.
+# All words the JS writes live in _NW_I18N (hand-written, 6 languages). Static
+# headings go through translations.json. Headlines keep the old behaviour.
+# Context links point a story at a live tool on the site (outages, rates, ...).
+# data/news_live.json (newest links) feeds the "N new stories" pill.
+
+_NW_TOPICS = [
+    ("politics", "Politics",
+     r"president|vicepresident|minister|regering|kabinet|dna\b|de assemblee|assembleeleden|parlement|partij|vhp\b|ndp\b|abop\b|nps\b|bep\b|coalitie|oppositie|verkiezing|simons\b|santokhi|wetsvoorstel|begroting|ambassad|diplomat|staatsraad|ressortraad|districtscommissaris"),
+    ("justice", "Police & Justice",
+     r"politie|verdacht|aangehouden|arrestat|rechter|rechtbank|kantonrechter|openbaar ministerie|om eist|officier van justitie|gevangen|cel\b|celstraf|jaar cel|diefstal|gestolen|overval|moord|doodgeschoten|schietpartij|steekpartij|gestoken|drugs|marihuana|cocaïne|cocaine|justitie|kpa\b|inbraak|ingebroken|beroofd|roof|fraude|corruptie|mishandel|krijgsraad|brandstichting|ongeval|aanrijding|verkeersongeval|om het leven"),
+    ("economy", "Economy",
+     r"economi|imf\b|centrale bank|cbvs\b|wisselkoers|dollarkoers|inflatie|banken|bankensector|investering|investeerder|handelsbalans|export|import|ondernemer|bedrijfsleven|belasting|btw\b|srd\b|staatsolie|olie-|olieproductie|offshore|goudsector|goudprijs|mijnbouw|toerisme|prijzen|salaris|loonsverhoging|minimumloon|werkgelegenheid|landbouw|rijst|visserij|kamer van koophandel|vsb\b"),
+    ("health", "Health",
+     r"ziekenhuis|azp\b|gezondheid|patiënt|patient|artsen|huisarts|dokter|medisch|medicijn|geneesmiddel|vaccin|dengue|malaria|chikungunya|covid|ziekte|gezondheidszorg|szf\b|bog\b|rgd\b|psychiatr|apothe|zorgverzeker|kanker|diabetes|hiv\b|voedsel|gezonde voeding"),
+    ("infra", "Infrastructure",
+     r"wegen\b|wegdek|weggedeelte|wegwerkzaamheden|brug\b|bruggen|asfalt|ebs\b|stroomonderbreking|stroomstoring|stroomvoorziening|elektriciteit|swm\b|drinkwater|waterleiding|watervoorziening|riolering|haven\b|luchthaven|verkeer\b|zwaar vrachtverkeer|bussen|openbaar vervoer|infrastructuur|telesur|internet\b|ontwatering|lozingen|wijdenboschbrug|bouwproject|woningbouw|woningen"),
+    ("education", "Education",
+     r"onderwijs|school|scholen|leerling|leerkracht|leraar|leraren|docent|student|universiteit|adek\b|examen|minowc|opleiding|studiefinanciering|schooljaar|lyceum|mulo\b"),
+    ("world", "World",
+     r"nederland|nederlandse|guyana|brazili|frans-guyana|venezuela|verenigde staten|amerikaanse|vs\b|china|chinese|india|indiase|caricom|verenigde naties|vn\b|europese unie|eu\b|buitenland|diaspora|spanje|vietnam|cuba|trinidad|japan|indonesi"),
+]
+_NW_TOPIC_RE = [(k, lbl, re.compile(r"\b(?:" + rx + r")", re.I)) for k, lbl, rx in _NW_TOPICS]
+
+_NW_CTX = [
+    ("outage",  "/daily-notices.html",     r"ebs\b|loadshedding|load shedding|stroomonderbreking|stroomstoring|stroomuitval|black-?out|swm\b|wateronderbreking|waterstoring|zonder water|zonder stroom"),
+    ("rates",   "/currency.html",          r"wisselkoers|dollarkoers|koersen\b|cambio|valutamarkt|wisselkantoor|koers van de"),
+    ("flights", "/flights.html",           r"luchthaven|zanderij|japi\b|klm\b|slm\b|surinam airways|vlucht\b|vluchten\b|zorg en hoop"),
+    ("weather", "/conditions.html",        r"regenval|hevige regen|onweer|meteorologische|droogte|wateroverlast|hittegolf|weersverwachting|noodweer|regenseizoen|droge tijd"),
+    ("prices",  "/max-prices-basic-goods", r"maximumprijs|maximumprijzen|basisgoederen|brandstofprijs|benzineprijs|dieselprijs|pompprijs"),
+    ("wage",    "/minimum-wage-suriname",  r"minimumloon|minimum uurloon"),
+]
+_NW_CTX_RE = [(k, href, re.compile(r"\b(?:" + rx + r")", re.I)) for k, href, rx in _NW_CTX]
+_NW_LIVE_PATH = Path("data/news_live.json")
+
+
+def _nw_topics(a):
+    """Up to two topic keys for a story (title hits count double)."""
+    title = a.get("title") or ""
+    summ = a.get("summary") or ""
+    scores = []
+    for k, _lbl, rx in _NW_TOPIC_RE:
+        sc = 2 * len(rx.findall(title)) + len(rx.findall(summ))
+        if sc >= 2:
+            scores.append((sc, k))
+    scores.sort(reverse=True)
+    return [k for _sc, k in scores[:2]]
+
+
+def _nw_ctx(a):
+    txt = (a.get("title") or "") + " " + (a.get("summary") or "")
+    for k, href, rx in _NW_CTX_RE:
+        if rx.search(txt):
+            return k, href
+    return None, None
+
+
+def _nw_score(a, now):
+    """Lead-story score: outlets covering it, freshness, a photo."""
+    n = len(a.get("sources") or [a.get("source")])
+    age_h = max(0.0, (now - a["date"]).total_seconds() / 3600)
+    if age_h > 30:
+        return 0.0
+    w = 0.7 if "justice" in (a.get("topics") or []) else 1.0   # mugshots make a poor lead
+    return (n ** 1.4) * math.exp(-age_h / 16) * (1.25 if a.get("image") else 1.0) * w
+
+
+def _nw_esc(s):
+    return html_lib.escape(s or "", quote=True)
+
+
+def _nw_sr(dt):
+    return dt.astimezone(SR_TZ)
+
+
+def _nw_ph(a):
+    """Typographic placeholder shown when a story has no (working) photo."""
+    return (f'<span class="nw-ph" style="--c:{_nw_esc(a.get("color") or "#233028")}" aria-hidden="true">'
+            f'<span translate="no">{_nw_esc(a.get("pub") or a.get("source"))}</span></span>')
+
+
+def _nw_img(a, size="image", eager=False, w=768, h=480):
+    u = _feed_url(a.get(size) or a.get("image") or "", img=True)
+    if not u:
+        return _nw_ph(a)
+    _ld = 'eager" fetchpriority="high' if eager else "lazy"
+    return (_nw_ph(a) + f'<img src="{_nw_esc(u)}" alt="" loading="{_ld}" decoding="async" width="{w}" height="{h}" '
+            f'referrerpolicy="no-referrer" onerror="this.remove()">')
+
+
+def _nw_attrs(a, i, front=False):
+    srcs = a.get("sources") or [a.get("source")]
+    tps = a.get("topics") or []
+    return (f' data-i="{i}" data-ts="{_nw_sr(a["date"]).isoformat(timespec="minutes")}"'
+            f' data-src="|{_nw_esc("|".join(srcs))}|" data-tp="{" ".join(tps)}"'
+            f' data-link="{_nw_esc(_feed_url(a.get("link")))}"'
+            + (' data-front="1"' if front else ''))
+
+
+def _nw_actions(a, ctx=True):
+    link = _feed_url(a.get("link"))
+    out = []
+    if link.startswith("http"):
+        out.append('<a class="nw-act nw-tr" data-t="tr" translate="no">Read in English</a>')   # href set by JS
+    out.append('<button type="button" class="nw-act nw-share"><span data-t="share" translate="no">Share</span></button>')
+    if ctx:
+        k, href = _nw_ctx(a)
+        if k:
+            out.append(f'<a class="nw-ctx" href="{href}" data-t="ctx_{k}" data-ctx="{k}" translate="no">{k}</a>')
+    return '<div class="nw-acts">' + "".join(out) + '</div>'
+
+
+def _nw_timeline(a):
+    """Every outlet's version of a clustered story, oldest first."""
+    also = a.get("also") or []
+    if not also:
+        return ""
+    items = [{"source": a.get("source"), "link": a.get("link"), "color": a.get("color"),
+              "title": a.get("title"), "date": a.get("date")}] + list(also)
+    items = [x for x in items if hasattr(x.get("date"), "astimezone")]
+    items.sort(key=lambda x: x["date"])
+    lis = []
+    for x in items:
+        lis.append(f'<li><span class="nw-tl-t" translate="no">{_nw_sr(x["date"]).strftime("%H:%M")}</span>'
+                   f'<span class="nw-dot" style="background:{_nw_esc(x.get("color"))}"></span>'
+                   f'<a href="{_nw_esc(_feed_url(x.get("link")))}" target="_blank" rel="noopener noreferrer">'
+                   f'<b translate="no">{_nw_esc(x.get("source"))}</b> {_nw_esc(x.get("title"))}</a></li>')
+    return '<ol class="nw-tl" hidden>' + "".join(lis) + '</ol>'
+
+
+def _nw_more_btn(a):
+    n = len(a.get("also") or [])
+    if not n:
+        return ""
+    return (f'<button type="button" class="nw-more-src" data-n="{n}" aria-expanded="false" translate="no">'
+            f'+{n} outlet{"s" if n > 1 else ""}</button>')
+
+
+def _nw_meta(a, ago=True):
+    dt = _nw_sr(a["date"])
+    return (f'<div class="nw-meta"><span class="nw-dot" style="background:{_nw_esc(a.get("color"))}"></span>'
+            f'<span class="nw-src" translate="no">{_nw_esc(a.get("pub") or a.get("source"))}</span>'
+            f'<span class="nw-time" translate="no" data-ago="{dt.isoformat(timespec="minutes")}">{dt.strftime("%H:%M")}</span>'
+            f'{_nw_more_btn(a)}</div>')
+
+
+def _nw_lead_html(a, i):
+    n = len(a.get("sources") or [a.get("source")])
+    kick = (f'<p class="nw-kick"><span data-t="top" translate="no">Top story</span>'
+            + (f'<span class="nw-rep" data-n="{n}" translate="no">Reported by {n} outlets</span>' if n > 1 else '')
+            + '</p>')
+    link = _nw_esc(_feed_url(a.get("link")))
+    return (f'<article class="nw-lead nw-story"{_nw_attrs(a, i, True)}>'
+            f'<a class="nw-media" href="{link}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">{_nw_img(a, "image", True, 960, 600)}</a>'
+            f'<div class="nw-lead-b">{kick}'
+            f'<h2 class="nw-lead-t serif"><a href="{link}" target="_blank" rel="noopener noreferrer">{_nw_esc(a.get("title"))}</a></h2>'
+            f'<p class="nw-sum">{_nw_esc(clean_summary(a.get("summary")))}</p>'
+            f'{_nw_meta(a)}{_nw_actions(a)}{_nw_timeline(a)}</div></article>')
+
+
+def _nw_top_html(a, i):
+    link = _nw_esc(_feed_url(a.get("link")))
+    return (f'<article class="nw-tcard nw-story"{_nw_attrs(a, i, True)}>'
+            f'<a class="nw-media" href="{link}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">{_nw_img(a, "image", False, 600, 375)}</a>'
+            f'<div class="nw-tcard-b">{_nw_meta(a)}'
+            f'<h3 class="nw-tcard-t serif"><a href="{link}" target="_blank" rel="noopener noreferrer">{_nw_esc(a.get("title"))}</a></h3>'
+            f'{_nw_actions(a, ctx=False)}{_nw_timeline(a)}</div></article>')
+
+
+def _nw_row_html(a, i, front=False, thumbs=True):
+    link = _nw_esc(_feed_url(a.get("link")))
+    th = ""
+    if thumbs and _feed_url(a.get("thumb") or a.get("image") or "", img=True):
+        th = (f'<a class="nw-th" href="{link}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">'
+              f'{_nw_img(a, "thumb", False, 300, 200)}</a>')
+    summ = clean_summary(a.get("summary"))
+    return (f'<article class="nw-row nw-story"{_nw_attrs(a, i, front)}'
+            + (f' data-k="{_nw_esc(a.get("kind"))}"' if a.get("kind") else '') + '>'
+            f'<div class="nw-row-b">{_nw_meta(a)}'
+            f'<h3 class="nw-row-t"><a href="{link}" target="_blank" rel="noopener noreferrer">{_nw_esc(a.get("title"))}</a></h3>'
+            + (f'<p class="nw-sum">{_nw_esc(summ)}</p>' if summ else '')
+            + f'{_nw_actions(a)}{_nw_timeline(a)}</div>{th}</article>')
+
+
+def _nw_day_html(d):
+    return (f'<h3 class="nw-day" data-day="{d.isoformat()}" translate="no">'
+            f'{d.strftime("%A")} {d.day} {d.strftime("%B")}</h3>')
+
+
+def _nw_list_html(stories, front_ids, thumbs=True):
+    out, last = [], None
+    for i, a in stories:
+        d = _nw_sr(a["date"]).date()
+        if d != last:
+            out.append(_nw_day_html(d))
+            last = d
+        out.append(_nw_row_html(a, i, i in front_ids, thumbs))
+    return "".join(out)
+
+
+def _nw_write_live(stories, built):
+    """Small feed for the "new stories" pill. Rewritten only when it changes."""
+    try:
+        payload = json.dumps({"built": built,
+                              "links": [s.get("link") for s in stories[:80] if s.get("link")]},
+                             ensure_ascii=False, separators=(",", ":"))
+        try:
+            old = json.loads(_NW_LIVE_PATH.read_text(encoding="utf-8"))
+            if old.get("links") == json.loads(payload)["links"]:
+                return
+        except Exception:
+            pass
+        _NW_LIVE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        _NW_LIVE_PATH.write_text(payload, encoding="utf-8")
+    except Exception as e:
+        print(f"  news_live.json write failed: {e}")
+
+
 def build_news(articles, oil_articles, finance_articles, sports_articles=None):
     sports_articles = sports_articles or []
-    updated   = datetime.now(SR_TZ).strftime("%d %b %Y, %H:%M SR")
+    now = datetime.now(timezone.utc)
+    now_sr = now.astimezone(SR_TZ)
 
-    # ── Local news section ──────────────────────────────────────────────────
-    # Ten outlets cover the same events, so collapse duplicates into one card
-    _raw_local = len(articles)
-    stories    = cluster_articles(articles)[:LOCAL_RENDER_MAX]
-    _cards = []
-    for idx, a in enumerate(stories):
-        _c = news_card_html(a, eager=(idx == 0))
-        if idx >= LOCAL_PAGE_SIZE:      # revealed by showMore(), not re-fetched
-            _c = _c.replace('<div class="nws-card', '<div style="display:none" class="nws-card', 1)
-        _cards.append(_c)
-    local_cards_html = "\n".join(_cards)
-    _more_style = "" if len(stories) > LOCAL_PAGE_SIZE else ' style="display:none"'
-    _multi = sum(1 for s in stories if s.get("also"))
-    # Window actually on the page, for the counter line under the filters
-    _span_h = int((datetime.now(timezone.utc) - stories[-1]["date"]).total_seconds() // 3600) if stories else 0
-    _span_txt = (f"the last {_span_h} hours" if _span_h < 48
-                 else f"the last {_span_h // 24} days")
-    local_filter_html = (
-        '<button onclick="filterSection(\'local\',\'all\')" id="lf-all" '
-        'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
-        'style="background:#142A1E;border-color:#142A1E;color:#fff">All</button>\n'
-    )
-    for _feed in FEEDS:
-        _fn  = _feed["name"]
-        _fid = _fn.replace(" ", "_")
-        local_filter_html += (
-            f'<button onclick="filterSection(\'local\',\'{html_lib.escape(_fn)}\')" id="lf-{_fid}" '
-            f'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
-            f'style="border-color:#DDD4C1;color:var(--ink);background:var(--card)">'
-            f'{html_lib.escape(_fn)}</button>\n'
-        )
+    # ── Local: cluster, tag, rank ───────────────────────────────────────────
+    stories = cluster_articles(articles)[:LOCAL_RENDER_MAX]
+    for a in stories:
+        a["topics"] = _nw_topics(a)
+    ranked = sorted(range(len(stories)), key=lambda i: _nw_score(stories[i], now), reverse=True)
+    ranked = [i for i in ranked if _nw_score(stories[i], now) > 0]
+    lead_i = ranked[0] if ranked else (0 if stories else None)
+    top_ids = []
+    for i in ranked[1:]:
+        if len(top_ids) >= 4:
+            break
+        top_ids.append(i)
+    if len(top_ids) < 4:      # quiet day: fill with the newest stories that have a photo
+        for i in range(len(stories)):
+            if len(top_ids) >= 4:
+                break
+            if i != lead_i and i not in top_ids and stories[i].get("image"):
+                top_ids.append(i)
+    front_ids = set(top_ids) | ({lead_i} if lead_i is not None else set())
 
-    # ── Oil & Gas section ───────────────────────────────────────────────────
-    oil_cards_html = "\n".join(news_card_html(a, eager=False) for a in oil_articles[:30]) if oil_articles else (
-        '<div class="col-span-full text-center py-16 text-gray-400">'
-        '<p class="text-4xl mb-3">⛽</p>'
-        '<p class="text-sm">No Oil &amp; Gas articles available right now. Check back soon.</p>'
-        '</div>'
-    )
-    oil_filter_html = (
-        '<button onclick="filterSection(\'oil\',\'all\')" id="of-all" '
-        'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
-        'style="background:var(--clay);border-color:var(--clay);color:#fff">All</button>\n'
-    )
-    for _feed in OIL_FEEDS:
-        _fn  = _feed["name"]
-        _fid = _fn.replace(" ", "_")
-        oil_filter_html += (
-            f'<button onclick="filterSection(\'oil\',\'{html_lib.escape(_fn)}\')" id="of-{_fid}" '
-            f'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
-            f'style="border-color:#DDD4C1;color:var(--ink);background:var(--card)">'
-            f'{html_lib.escape(_fn)}</button>\n'
-        )
+    lead_html = _nw_lead_html(stories[lead_i], lead_i) if lead_i is not None else ""
+    top_html = "".join(_nw_top_html(stories[i], i) for i in top_ids)
+    list_html = _nw_list_html(list(enumerate(stories)), front_ids)
 
-    local_count   = len(stories)
-    oil_count     = len(oil_articles)
+    # topic + outlet counts (chips hide when empty)
+    tcount = {k: 0 for k, _l, _r in _NW_TOPIC_RE}
+    for a in stories:
+        for k in a["topics"]:
+            tcount[k] += 1
+    chips = ['<button type="button" class="nw-chip on" data-topic="" aria-pressed="true">All</button>']
+    for k, lbl, _r in _NW_TOPIC_RE:
+        if tcount[k]:
+            chips.append(f'<button type="button" class="nw-chip" data-topic="{k}" aria-pressed="false">'
+                         f'{html_lib.escape(lbl)}<span class="nw-cnt" translate="no">{tcount[k]}</span></button>')
+    scount = {}
+    for a in stories:
+        for s in (a.get("sources") or [a.get("source")]):
+            scount[s] = scount.get(s, 0) + 1
+    opts = ['<option value="">All outlets</option>']
+    for f in FEEDS:
+        if scount.get(f["name"]):
+            opts.append(f'<option value="{_nw_esc(f["name"])}" translate="no">{_nw_esc(f["name"])} ({scount[f["name"]]})</option>')
+    side_outlets = "".join(
+        f'<li><button type="button" class="nw-side-src" data-src="{_nw_esc(f["name"])}">'
+        f'<span class="nw-dot" style="background:{f["color"]}"></span><span translate="no">{_nw_esc(f["name"])}</span>'
+        f'<span class="nw-cnt" translate="no">{scount[f["name"]]}</span></button></li>'
+        for f in sorted(FEEDS, key=lambda f: -scount.get(f["name"], 0)) if scount.get(f["name"]))
+    n_outlets = len([f for f in FEEDS if scount.get(f["name"])])
+    multi = sum(1 for s in stories if s.get("also"))
+    newest_iso = _nw_sr(stories[0]["date"]).isoformat(timespec="minutes") if stories else ""
 
-    # ── Finance section ────────────────────────────────────────────────────
-    finance_cards_html = "\n".join(news_card_html(a, eager=False) for a in finance_articles[:30]) if finance_articles else (
-        '<div class="col-span-full text-center py-16 text-gray-400">'
-        '<p class="text-4xl mb-3">&#x1F4CA;</p>'
-        '<p class="text-sm">No finance articles available right now. Check back soon.</p>'
-        '</div>'
-    )
-    finance_filter_html = (
-        '<button onclick="filterSection(\'finance\',\'all\')" id="ff-all" '
-        'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
-        'style="background:var(--forest2);border-color:var(--forest2);color:#fff">All</button>\n'
-    )
-    for _feed in FINANCE_FEEDS:
-        _fn  = _feed["name"]
-        _fid = _fn.replace(" ", "_")
-        finance_filter_html += (
-            f'<button onclick="filterSection(\'finance\',\'{html_lib.escape(_fn)}\')" id="ff-{_fid}" '
-            f'class="sec-filt text-xs font-semibold px-3 py-1.5 rounded-full border transition" '
-            f'style="border-color:#DDD4C1;color:var(--ink);background:var(--card)">'
-            f'{html_lib.escape(_fn)}</button>\n'
-        )
-    finance_count = len(finance_articles)
+    # brief: lead + top stories, in page order
+    brief = [{"t": stories[i]["title"], "s": stories[i]["source"], "u": _feed_url(stories[i]["link"])}
+             for i in ([lead_i] if lead_i is not None else []) + top_ids]
+    brief_js = json.dumps(brief, ensure_ascii=False).replace("</", "<\\/")
+    _nw_write_live(stories, now_sr.isoformat(timespec="minutes"))
 
-    # ── Sports section ─────────────────────────────────────────────────────
+    # ── Economy & Energy: oil + finance in one list ──────────────────────────
+    econ = sorted(list(oil_articles or []) + list(finance_articles or []), key=lambda a: a["date"], reverse=True)
+    seen, econ2 = set(), []
+    for a in econ:
+        key = re.sub(r"\W+", " ", (a.get("title") or "").lower())[:70]
+        if key in seen:
+            continue
+        seen.add(key)
+        econ2.append(a)
+    econ = econ2[:60]
+    econ_html = _nw_list_html([(1000 + j, a) for j, a in enumerate(econ)], set()) if econ else (
+        '<p class="nw-empty">No economy or energy stories right now. Check back soon.</p>')
+    n_oil = sum(1 for a in econ if a.get("kind") == "oil")
+    n_fin = sum(1 for a in econ if a.get("kind") == "finance")
+
+    # ── Sports (unchanged cards; they always had photos) ────────────────────
     sports_cards_html = "\n".join(news_card_html(a, eager=False) for a in sports_articles[:30]) if sports_articles else (
-        '<div class="col-span-full text-center py-16 text-gray-400">'
-        '<p class="text-4xl mb-3">&#x26BD;</p>'
-        '<p class="text-sm">No sports articles available right now. Check back soon.</p>'
-        '</div>'
-    )
+        '<p class="nw-empty">No sports articles available right now. Check back soon.</p>')
     sports_count = min(len(sports_articles), 30)
 
-    # Tab bar: inactive tabs are card-coloured on the paper-2 bar (same surface
-    # as the category filter bars on listing pages) — not white on white.
-    _tab_cls = ("tab-btn flex-1 sm:flex-none flex items-center justify-center gap-2 "
-                "px-2 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold "
-                "whitespace-nowrap border transition-all")
-    _tab_off = "background:var(--card);color:var(--ink);border-color:var(--line)"
+    # Structured data: the front stories as an ItemList (outbound links)
+    _il = [{"@type": "ListItem", "position": p + 1, "url": _feed_url(stories[i]["link"]),
+            "name": stories[i]["title"]}
+           for p, i in enumerate(([lead_i] if lead_i is not None else []) + top_ids)]
+    _il_js = json.dumps({"@context": "https://schema.org", "@type": "ItemList", "name": "Top Suriname news stories",
+                         "itemListElement": _il}, ensure_ascii=False).replace("</", "<\\/")
 
-    return f"""{PAGE_HEAD}
+    head = PAGE_HEAD + f"""
   <title>Suriname News Today: Local, Sports &amp; Oil | Explore Suriname</title>
   <meta name="description" content="Suriname local news, oil &amp; gas updates and finance in one place: De Ware Tijd, Starnieuws, Waterkant, Staatsolie, Block 58, IMF and more.">
   <link rel="canonical" href="{SITE_URL}/news.html">
@@ -10998,212 +11377,515 @@ def build_news(articles, oil_articles, finance_articles, sports_articles=None):
   <meta name="twitter:description" content="Suriname local news, oil &amp; gas and finance updates in one place.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"CollectionPage","name":"Suriname News Today: Local, Sports & Oil","url":"{SITE_URL}/news.html","description":"Suriname local news, oil & gas and finance updates from De Ware Tijd, Starnieuws, Waterkant, OilNow, IMF and more.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}},"dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}"}}
+  {{"@context":"https://schema.org","@type":"CollectionPage","name":"Suriname News Today: Local, Sports & Oil","url":"{SITE_URL}/news.html","description":"Suriname local news, oil & gas and finance updates from De Ware Tijd, Starnieuws, Waterkant, OilNow, IMF and more.","isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}},"dateModified":"{now_sr.strftime('%Y-%m-%d')}"}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"News","item":"{SITE_URL}/news.html"}}]}}
   </script>
-</head>
-<body class="bg-gray-50 overflow-x-hidden">
+  <script type="application/ld+json">{_il_js}</script>
+{_NW_CSS}
+</head>"""
+
+    _tab = ('<button id="tab-{k}" role="tab" aria-selected="{sel}" aria-controls="section-{k}" '
+            'class="nw-tab{on}" data-tab="{k}">{lbl}<span class="nw-cnt" translate="no">{n}</span></button>')
+    tabs = (_tab.format(k="local", sel="true", on=" on", lbl="Local News", n=len(stories))
+            + _tab.format(k="sports", sel="false", on="", lbl="Sports", n=sports_count)
+            + _tab.format(k="economy", sel="false", on="", lbl="Economy &amp; Energy", n=len(econ)))
+
+    body = f"""
+<body class="overflow-x-hidden nw-page">
 {nav_html("news")}
 
-<!-- ── Hero ─────────────────────────────────────────────────────────────── -->
-<div class="pg-hero text-white text-center py-14" style="background:var(--forest)">
-  <p class="text-xs font-semibold tracking-widest uppercase mb-3" style="color:var(--leaf)">Suriname News</p>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-2">Stay Informed</h1>
-</div>
-
-<!-- ── Tab switcher ──────────────────────────────────────────────────────── -->
-<div class="sticky top-[58px] z-40 border-b" style="background:var(--paper-2);border-color:var(--line)">
-  <div class="max-w-5xl mx-auto px-5">
-    <div class="flex gap-1.5 sm:gap-2 py-2.5 overflow-x-auto" role="tablist" style="scrollbar-width:none">
-      <button id="tab-local" role="tab" aria-selected="true" aria-controls="section-local"
-        onclick="switchTab('local')" class="{_tab_cls}" style="background:#142A1E;color:#fff;border-color:#142A1E">
-        <svg class="w-4 h-4 flex-shrink-0 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 12h6m-6-4h2"/></svg>
-        <span><span class="sm:hidden">Local</span><span class="hidden sm:inline">Local News</span></span>
-        <span class="hidden sm:inline text-xs font-normal opacity-70">({local_count} stories)</span>
-      </button>
-      <button id="tab-sports" role="tab" aria-selected="false" aria-controls="section-sports"
-        onclick="switchTab('sports')" class="{_tab_cls}" style="{_tab_off}">
-        <svg class="w-4 h-4 flex-shrink-0 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 21h8m-4-4v4m-5-17h10v5a5 5 0 01-10 0V4zm10 2h3v1a3 3 0 01-3 3M7 6H4v1a3 3 0 003 3"/></svg>
-        <span>Sports</span>
-        <span class="hidden sm:inline text-xs font-normal opacity-70">({sports_count} stories)</span>
-      </button>
-      <button id="tab-oil" role="tab" aria-selected="false" aria-controls="section-oil"
-        onclick="switchTab('oil')" class="{_tab_cls}" style="{_tab_off}">
-        <svg class="w-4 h-4 flex-shrink-0 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-        <span>Oil &amp; Gas</span>
-        <span class="hidden sm:inline text-xs font-normal opacity-70">({oil_count} stories)</span>
-      </button>
-      <button id="tab-finance" role="tab" aria-selected="false" aria-controls="section-finance"
-        onclick="switchTab('finance')" class="{_tab_cls}" style="{_tab_off}">
-        <svg class="w-4 h-4 flex-shrink-0 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-        <span>Finance</span>
-        <span class="hidden sm:inline text-xs font-normal opacity-70">({finance_count} stories)</span>
-      </button>
+<header class="cat-hero cat-hero-compact nw-hero">
+  <div class="cat-hero-in">
+    <div class="cat-crumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>News</span></div>
+    <div class="cat-row">
+      <h1 class="serif">Suriname News Today</h1>
+      <p class="nw-live" translate="no"><span class="nw-pulse" aria-hidden="true"></span><span data-t="live">Live</span> <span class="nw-upd" data-ago="{now_sr.isoformat(timespec='minutes')}" data-agofmt="updated">updated {now_sr.strftime('%H:%M')}</span></p>
     </div>
+    <p class="cat-sub">Every story from ten Surinamese newsrooms in one place, the biggest first.</p>
   </div>
+</header>
+
+<div class="nw-tabbar">
+  <div class="nw-wrap"><div class="nw-tabs" role="tablist">{tabs}</div></div>
 </div>
 
-<main class="max-w-5xl mx-auto px-5 py-8 pb-20">
-  {ad_slot("Top Banner Ad — Replace with Google AdSense code")}
+<main class="nw-wrap nw-main">
+  {ad_slot("Top Banner Ad")}
 
-  <!-- ── Local News ─────────────────────────────────────────────────────── -->
+  <!-- ── Local ─────────────────────────────────────────────────────────── -->
   <div id="section-local" role="tabpanel" aria-labelledby="tab-local">
-    <div class="rounded-2xl border border-amber-100 px-5 py-3 mb-5" style="background:#fffbeb">
-      <p class="text-amber-800 text-sm leading-relaxed">
-        <strong>Note:</strong> Articles are published in Dutch, the national language of Suriname. Readers outside Suriname may wish to use browser translation.
-      </p>
-    </div>
-    <div class="flex gap-2 flex-wrap mb-3" id="local-filters">
-      {local_filter_html}
-    </div>
-    <p class="text-xs text-gray-400 mb-6">{local_count} stories from {len(FEEDS)} Surinamese outlets covering {_span_txt}, updated {updated}. {_multi} of the stories below were reported by more than one outlet.</p>
-    <div id="local-feed" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{local_cards_html}</div>
-    <div class="text-center mt-8" id="local-more-wrap"{_more_style}>
-      <button id="local-more" onclick="showMore('local')" type="button"
-              class="text-sm font-semibold px-6 py-2.5 rounded-full border transition"
-              style="border-color:var(--forest);color:var(--forest);background:#fff">Show older stories</button>
+    <p class="nw-note" id="nw-note" hidden translate="no"><span data-t="note">Stories are in Dutch. Tap “Read in English” on any story.</span><button type="button" class="nw-note-x" data-t-aria="dismiss" aria-label="Dismiss">&times;</button></p>
+
+    <section class="nw-front" id="nw-front" aria-labelledby="nw-top-h">
+      <div class="nw-sec-hd">
+        <h2 class="nw-h2 serif" id="nw-top-h">Top stories</h2>
+        <button type="button" class="nw-brief-btn" id="nw-brief" translate="no"><span data-t="brief">Share today’s top stories</span></button>
+      </div>
+      {lead_html}
+      <div class="nw-top">{top_html}</div>
+    </section>
+
+    <div class="nw-grid">
+      <div class="nw-col">
+        <div class="nw-tools" id="nw-tools">
+          <div class="nw-search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input id="nw-q" type="search" autocomplete="off" data-t-ph="search" placeholder="Search the news" aria-label="Search the news">
+          </div>
+          <select id="nw-src" class="nw-select" aria-label="Outlet">{''.join(opts)}</select>
+          <div class="nw-chips" id="nw-chips" role="group" aria-label="Topics">{''.join(chips)}</div>
+        </div>
+        <div class="nw-sec-hd nw-sec-hd2">
+          <h2 class="nw-h2 serif" id="nw-latest-h">Latest</h2>
+          <p class="nw-count" translate="no"><span id="nw-count" data-n="{len(stories)}" data-o="{n_outlets}" data-m="{multi}">{len(stories)} stories from {n_outlets} outlets</span><button type="button" class="nw-reset" id="nw-reset" hidden data-t="clear">Clear filters</button></p>
+        </div>
+        <p class="nw-newsince" id="nw-newsince" hidden translate="no"></p>
+        <div class="nw-list" id="nw-list" data-newest="{newest_iso}">{list_html}</div>
+        <div class="nw-empty" id="nw-empty" hidden translate="no"><p data-t="noRes">No stories match. Try another word or topic.</p><button type="button" class="nw-clear" data-t="clear">Clear filters</button></div>
+        <div class="nw-more-wrap"><button type="button" class="nw-more" id="nw-more" translate="no">Show more stories</button></div>
+      </div>
+      <aside class="nw-side" aria-label="News tools">
+        <div class="nw-card nw-brief-card">
+          <p class="nw-side-k" translate="no" data-t="briefK">The brief</p>
+          <p class="nw-side-p" translate="no" data-t="briefP">Today’s top stories in one WhatsApp message.</p>
+          <button type="button" class="nw-brief-btn nw-brief-btn2" translate="no"><span data-t="brief">Share today’s top stories</span></button>
+        </div>
+        <div class="nw-card">
+          <p class="nw-side-k">Outlets</p>
+          <ul class="nw-side-list">{side_outlets}</ul>
+        </div>
+        <div class="nw-card">
+          <p class="nw-side-k" translate="no" data-t="useful">Useful today</p>
+          <ul class="nw-side-links" translate="no">
+            <li><a href="/daily-notices.html" data-t="ctx_outage">Power and water outages</a></li>
+            <li><a href="/currency.html" data-t="ctx_rates">Today’s exchange rates</a></li>
+            <li><a href="/conditions.html" data-t="ctx_weather">Weather today</a></li>
+            <li><a href="/flights.html" data-t="ctx_flights">Live flights</a></li>
+          </ul>
+        </div>
+      </aside>
     </div>
   </div>
 
   <!-- ── Sports ─────────────────────────────────────────────────────────── -->
-  <div id="section-sports" role="tabpanel" aria-labelledby="tab-sports" style="display:none">
-    <div class="rounded-2xl border px-5 py-3 mb-5" style="background:#fff7ed;border-color:#fed7aa">
-      <p class="text-sm leading-relaxed" style="color:#7c2d12">
-        <strong>Suriname Sports:</strong> Natio, SVB Eerste Divisie, athletics, chess and other Surinamese sport news from De Sport Wekker (in Dutch).
-      </p>
-    </div>
+  <div id="section-sports" role="tabpanel" aria-labelledby="tab-sports" hidden>
+    <p class="nw-intro"><strong>Suriname Sports:</strong> Natio, SVB Eerste Divisie, athletics, chess and other Surinamese sport news from De Sport Wekker (in Dutch).</p>
     <div id="sports-feed" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{sports_cards_html}</div>
   </div>
 
-  <!-- ── Oil & Gas ──────────────────────────────────────────────────────── -->
-  <div id="section-oil" role="tabpanel" aria-labelledby="tab-oil" style="display:none">
-    <div class="rounded-2xl border border-blue-100 px-5 py-3 mb-5" style="background:#eff6ff">
-      <p class="text-blue-800 text-sm leading-relaxed">
-        <strong>Suriname Oil &amp; Gas:</strong> Covering Staatsolie, Block 58 (TotalEnergies), Block 52 (APA / PETRONAS), GranMorgu, Sapakara and Krabdagu developments.
-      </p>
+  <!-- ── Economy & Energy ───────────────────────────────────────────────── -->
+  <div id="section-economy" role="tabpanel" aria-labelledby="tab-economy" hidden>
+    <p class="nw-intro">Oil, gas, banking, the IMF and the wider Surinamese economy, from international sources (in English).</p>
+    <div class="nw-chips nw-chips-econ" id="nw-econ-chips" role="group" aria-label="Topics">
+      <button type="button" class="nw-chip on" data-kind="" aria-pressed="true">All<span class="nw-cnt" translate="no">{len(econ)}</span></button>
+      <button type="button" class="nw-chip" data-kind="oil" aria-pressed="false">Oil &amp; Gas<span class="nw-cnt" translate="no">{n_oil}</span></button>
+      <button type="button" class="nw-chip" data-kind="finance" aria-pressed="false">Finance<span class="nw-cnt" translate="no">{n_fin}</span></button>
     </div>
-    <div class="flex gap-2 flex-wrap mb-6" id="oil-filters">
-      {oil_filter_html}
-    </div>
-    <div id="oil-feed" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{oil_cards_html}</div>
-  </div>
-
-  <!-- ── Finance ────────────────────────────────────────────────────────── -->
-  <div id="section-finance" role="tabpanel" aria-labelledby="tab-finance" style="display:none">
-    <div class="rounded-2xl border px-5 py-3 mb-5" style="background:#f0fdfa;border-color:#99f6e4">
-      <p class="text-sm leading-relaxed" style="color:#134e4a">
-        <strong>Suriname Finance &amp; Economy:</strong> Investment, banking, IMF programmes, fiscal policy, GDP and economic developments.
-      </p>
-    </div>
-    <div class="flex gap-2 flex-wrap mb-6" id="finance-filters">
-      {finance_filter_html}
-    </div>
-    <div id="finance-feed" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{finance_cards_html}</div>
+    <div class="nw-list nw-list-econ" id="nw-econ">{econ_html}</div>
   </div>
 </main>
 
-<script>
-/* ── Tab switching ──────────────────────────────────────────────────────── */
-function switchTab(tab) {{
-  var tabs     = ['local','sports','oil','finance'];
-  var colors   = {{'local':'#142A1E','sports':'#c2410c','oil':'var(--clay)','finance':'var(--forest2)'}};
-  tabs.forEach(function(t) {{
-    var btn = document.getElementById('tab-' + t);
-    var sec = document.getElementById('section-' + t);
-    var active = (t === tab);
-    btn.style.background  = active ? colors[t] : 'var(--card)';
-    btn.style.color       = active ? '#fff' : 'var(--ink)';
-    btn.style.borderColor = active ? colors[t] : 'var(--line)';
-    btn.setAttribute('aria-selected', active ? 'true' : 'false');
-    sec.style.display    = active ? '' : 'none';
-    if (active && btn.scrollIntoView && window.innerWidth < 640) btn.scrollIntoView({{block:'nearest',inline:'nearest'}});
-  }});
-}}
+<div class="nw-pill" id="nw-pill" hidden translate="no"><button type="button" id="nw-pill-b"></button></div>
 
-/* ── Source filter ──────────────────────────────────────────────────────── */
-function filterSection(section, source) {{
-  var feedMap   = {{'local':'local-feed','oil':'oil-feed','finance':'finance-feed'}};
-  var filterMap = {{'local':'local-filters','oil':'oil-filters','finance':'finance-filters'}};
-  var colorMap  = {{'local':'#142A1E','oil':'var(--clay)','finance':'var(--forest2)'}};
-  var prefMap   = {{'local':'lf-','oil':'of-','finance':'ff-'}};
-  var feedId    = feedMap[section]   || 'local-feed';
-  var filterId  = filterMap[section] || 'local-filters';
-  var activeColor = colorMap[section] || '#142A1E';
-  var allBtnId  = prefMap[section] + 'all';
-
-  document.querySelectorAll('#' + filterId + ' .sec-filt').forEach(function(b) {{
-    b.style.background   = 'var(--card)';
-    b.style.borderColor  = '#DDD4C1';
-    b.style.color        = 'var(--ink)';
-  }});
-
-  var activeId  = source === 'all'
-    ? allBtnId
-    : prefMap[section] + source.replace(/ /g, '_');
-  var activeBtn = document.getElementById(activeId);
-  if (activeBtn) {{
-    activeBtn.style.background  = activeColor;
-    activeBtn.style.borderColor = activeColor;
-    activeBtn.style.color       = '#fff';
-  }}
-
-  SEC_SOURCE[section] = source;
-  SEC_LIMIT[section]  = SEC_BASE[section] || 0;   // a new filter starts at page 1
-  applySection(section);
-}}
-
-/* ── Paging ─────────────────────────────────────────────────────────────────
-   Every story is already in the HTML; "Show older stories" only raises the
-   visible count, so there is no second request and no layout jump.          */
-var SEC_SOURCE = {{'local':'all','sports':'all','oil':'all','finance':'all'}};
-var SEC_BASE   = {{'local':{LOCAL_PAGE_SIZE},'oil':0,'finance':0}};   // 0 = no limit
-var SEC_LIMIT  = {{'local':{LOCAL_PAGE_SIZE},'oil':0,'finance':0}};
-
-function applySection(section) {{
-  var feedMap = {{'local':'local-feed','oil':'oil-feed','finance':'finance-feed'}};
-  var feed    = document.getElementById(feedMap[section] || 'local-feed');
-  if (!feed) return;
-  var source  = SEC_SOURCE[section] || 'all';
-  var limit   = SEC_LIMIT[section]  || 0;
-  var shown = 0, matched = 0;
-
-  Array.prototype.forEach.call(feed.children, function(card) {{
-    var srcs  = card.dataset.sources || ('|' + (card.dataset.source || '') + '|');
-    var match = source === 'all' || srcs.indexOf('|' + source + '|') !== -1;
-    if (match) matched++;
-    var visible = match && (!limit || shown < limit);
-    if (visible) shown++;
-    card.style.display = visible ? '' : 'none';
-  }});
-
-  var wrap = document.getElementById(section + '-more-wrap');
-  var btn  = document.getElementById(section + '-more');
-  if (wrap && btn) {{
-    var left = matched - shown;
-    wrap.style.display = left > 0 ? '' : 'none';
-    btn.textContent = 'Show older stories (' + left + ')';
-  }}
-}}
-
-function showMore(section) {{
-  SEC_LIMIT[section] = (SEC_LIMIT[section] || 0) + (SEC_BASE[section] || 40);
-  applySection(section);
-}}
-
-/* ── Hash routing (optional deep-link) ─────────────────────────────────── */
-(function() {{
-  applySection('local');            // sets the remaining-count on the button
-  var h = window.location.hash;
-  if (h === '#oil') switchTab('oil');
-  else if (h === '#finance') switchTab('finance');
-  else if (h === '#sports') switchTab('sports');
-}})();
-</script>
+<script>window.NW_I18N={json.dumps(_NW_I18N, ensure_ascii=False, separators=(",", ":"))};window.NW_BRIEF={brief_js};window.NW_PAGE={LOCAL_PAGE_SIZE};</script>
+{_NW_JS}
 {footer_html()}
 </body>
 </html>"""
+    return head + body
+
+
+_NW_CSS = r"""<style>
+.nw-page{background:var(--paper)}
+.nw-wrap{max-width:72rem;margin:0 auto;padding:0 1.25rem}
+.nw-hero .cat-row h1{margin:0}
+.nw-live{display:flex;align-items:center;gap:.45rem;font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);margin:0}
+.nw-live .nw-upd{letter-spacing:.04em;text-transform:none;font-weight:500;color:#656C63}
+.nw-pulse{width:8px;height:8px;border-radius:50%;background:#16a34a;box-shadow:0 0 0 0 rgba(22,163,74,.5);animation:nwp 2s infinite}
+@keyframes nwp{0%{box-shadow:0 0 0 0 rgba(22,163,74,.45)}70%{box-shadow:0 0 0 8px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
+.nw-tabbar{position:sticky;top:58px;z-index:40;background:var(--paper-2);border-bottom:1px solid var(--line)}
+.nw-tabs{display:flex;gap:.4rem;padding:.55rem 0;overflow-x:auto;scrollbar-width:none}
+.nw-tabs::-webkit-scrollbar{display:none}
+.nw-tab{display:inline-flex;align-items:center;gap:.45rem;white-space:nowrap;padding:.5rem .95rem;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:.86rem;font-weight:600;cursor:pointer;transition:background .15s,color .15s}
+.nw-tab .nw-cnt{font-weight:500;opacity:.6;font-size:.75rem}
+.nw-tab.on{background:#142A1E;border-color:#142A1E;color:#fff}
+.nw-main{padding-top:1.25rem;padding-bottom:4rem}
+.nw-note{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin:0 0 1rem;padding:.55rem .9rem;border-radius:var(--r-card);background:#fff8e6;border:1px solid #f3dfae;color:#7a4b06;font-size:.84rem;line-height:1.4}
+.nw-note[hidden]{display:none}
+.nw-note-x{border:0;background:none;color:inherit;font-size:1.3rem;line-height:1;cursor:pointer;padding:0 .2rem}
+.nw-sec-hd{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin:0 0 .85rem}
+.nw-sec-hd2{margin-top:1.4rem}
+.nw-h2{font-size:1.65rem;font-weight:400;letter-spacing:-.01em;color:var(--forest);margin:0}
+.nw-count{font-size:.78rem;color:#656C63;margin:0;text-align:right}
+.nw-brief-btn{display:inline-flex;align-items:center;gap:.4rem;border:1px solid #25D366;background:#fff;color:#128C4A;font-weight:600;font-size:.8rem;padding:.4rem .85rem;border-radius:999px;cursor:pointer;white-space:nowrap}
+.nw-brief-btn::before{content:"";width:14px;height:14px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2s.2-1.1.1-1.2l-.4-.2z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2s.2-1.1.1-1.2l-.4-.2z'/%3E%3C/svg%3E") center/contain no-repeat}
+.nw-brief-btn:hover{background:#25D366;color:#fff}
+.nw-brief-btn2{white-space:normal;text-align:left;line-height:1.3}
+/* media + placeholder */
+.nw-media,.nw-th{position:relative;display:block;overflow:hidden;background:var(--paper-2)}
+.nw-media img,.nw-th img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;transition:transform .5s}
+.nw-ph{position:absolute;inset:0;display:flex;align-items:flex-end;padding:.8rem;background:var(--c);background:linear-gradient(135deg,var(--c),color-mix(in srgb,var(--c) 55%,#000));color:rgba(255,255,255,.92);font-family:'Newsreader',Georgia,serif;font-size:1.15rem;line-height:1.1}
+.nw-th .nw-ph{font-size:.72rem;padding:.4rem}
+/* lead */
+.nw-lead{display:grid;grid-template-columns:1.25fr 1fr;background:var(--card);border:1px solid var(--bd-card);border-radius:var(--r-card);box-shadow:var(--sh-card);overflow:hidden}
+.nw-lead .nw-media{min-height:100%;aspect-ratio:16/10}
+.nw-lead:hover .nw-media img,.nw-tcard:hover .nw-media img{transform:scale(1.03)}
+.nw-lead-b{padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:.6rem}
+.nw-kick{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:0;font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--clay)}
+.nw-rep{letter-spacing:.04em;text-transform:none;font-weight:600;color:#fff;background:var(--forest);padding:.12rem .5rem;border-radius:999px;font-size:.72rem}
+.nw-lead-t{font-size:clamp(1.45rem,2.6vw,2.15rem);line-height:1.12;font-weight:500;letter-spacing:-.01em;margin:0;color:var(--ink)}
+.nw-lead-t a:hover,.nw-tcard-t a:hover,.nw-row-t a:hover{color:var(--forest2)}
+.nw-lead .nw-sum{font-size:.95rem;color:#4B564D;line-height:1.55;margin:0;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+/* top */
+.nw-top{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;margin-top:1rem}
+.nw-tcard{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--bd-card);border-radius:var(--r-card);box-shadow:var(--sh-card);overflow:hidden}
+.nw-tcard .nw-media{aspect-ratio:16/10}
+.nw-tcard-b{padding:.8rem .9rem .9rem;display:flex;flex-direction:column;gap:.45rem;flex:1}
+.nw-tcard-t{font-size:1.06rem;line-height:1.22;font-weight:500;margin:0;color:var(--ink);flex:1}
+/* meta, actions */
+.nw-meta{display:flex;align-items:center;flex-wrap:wrap;gap:.4rem;font-size:.75rem;color:#656C63}
+.nw-dot{width:8px;height:8px;border-radius:50%;flex:none;display:inline-block}
+.nw-src{font-weight:600;color:var(--ink)}
+.nw-time::before{content:"·";margin-right:.4rem;color:#a3a69f}
+.nw-more-src{border:1px solid var(--line);background:var(--paper);color:var(--forest);font-size:.7rem;font-weight:600;padding:.08rem .5rem;border-radius:999px;cursor:pointer}
+.nw-more-src[aria-expanded=true]{background:var(--forest);color:#fff;border-color:var(--forest)}
+.nw-acts{display:flex;align-items:center;flex-wrap:wrap;gap:.35rem .9rem;font-size:.76rem}
+.nw-act{display:inline-flex;align-items:center;gap:.3rem;border:0;background:none;padding:.15rem 0;color:#656C63;font-weight:600;cursor:pointer;text-decoration:none}
+.nw-act:hover{color:var(--forest)}
+.nw-act svg{width:15px;height:15px}
+.nw-tr::before{content:"";width:13px;height:13px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M4 5h8M8 3v2m3 0c-1 4-4 7-7 8m2-5c1 2 3 4 6 5M13 21l4-9 4 9m-7-2h6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M4 5h8M8 3v2m3 0c-1 4-4 7-7 8m2-5c1 2 3 4 6 5M13 21l4-9 4 9m-7-2h6'/%3E%3C/svg%3E") center/contain no-repeat}
+.nw-share::before{content:"";width:14px;height:14px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2s.2-1.1.1-1.2l-.4-.2z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2s.2-1.1.1-1.2l-.4-.2z'/%3E%3C/svg%3E") center/contain no-repeat}
+.nw-share:hover{color:#128C4A}
+.nw-ctx{display:inline-flex;align-items:center;gap:.3rem;color:var(--forest);background:var(--mint);border-radius:999px;padding:.12rem .6rem;font-weight:600;text-decoration:none}
+.nw-ctx::after{content:"→"}
+.nw-ctx:hover{background:var(--forest);color:#fff}
+.nw-tcard .nw-acts{margin-top:auto}
+/* timeline */
+.nw-tl{list-style:none;margin:.3rem 0 0;padding:.6rem 0 0 .2rem;border-top:1px dashed var(--line);display:flex;flex-direction:column;gap:.45rem}
+.nw-tl[hidden]{display:none}
+.nw-tl li{display:grid;grid-template-columns:2.6rem 10px 1fr;align-items:baseline;gap:.45rem;font-size:.8rem;line-height:1.35;position:relative}
+.nw-tl-t{color:#656C63;font-variant-numeric:tabular-nums}
+.nw-tl a{color:var(--ink)}
+.nw-tl a:hover{color:var(--forest2);text-decoration:underline}
+.nw-tl b{font-weight:600;color:var(--forest)}
+/* layout below the front */
+.nw-grid{display:grid;grid-template-columns:minmax(0,1fr) 17rem;gap:2rem;margin-top:1.8rem}
+.nw-tools{position:sticky;top:112px;z-index:30;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;padding:.6rem 0;background:var(--paper);border-bottom:1px solid var(--line)}
+.nw-search{position:relative;flex:1 1 14rem;min-width:0}
+.nw-search svg{position:absolute;left:.7rem;top:50%;width:16px;height:16px;transform:translateY(-50%);color:#8a8f86}
+.nw-search input{width:100%;min-width:0;padding:.55rem .8rem .55rem 2.1rem;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:.88rem;color:var(--ink)}
+.nw-search input:focus,.nw-select:focus{outline:2px solid var(--leaf);outline-offset:1px}
+.nw-select{flex:0 0 auto;max-width:12rem;padding:.55rem 2rem .55rem .85rem;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:.84rem;color:var(--ink)}
+.nw-chips{display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;flex:1 1 100%;padding-bottom:.1rem}
+.nw-chips::-webkit-scrollbar{display:none}
+.nw-chip{display:inline-flex;align-items:center;gap:.35rem;white-space:nowrap;border:1px solid #DDD4C1;background:var(--card);color:var(--ink);font-size:.78rem;font-weight:600;padding:.32rem .75rem;border-radius:999px;cursor:pointer}
+.nw-chip .nw-cnt{font-weight:500;opacity:.55;font-size:.7rem}
+.nw-chip.on{background:#142A1E;border-color:#142A1E;color:#fff}
+.nw-chip[hidden]{display:none}
+.nw-reset{margin-left:.6rem;border:0;background:none;padding:0;color:var(--forest);font-weight:700;text-decoration:underline;cursor:pointer;font-size:inherit}
+.nw-reset[hidden]{display:none}
+.nw-newsince{margin:0 0 .6rem;font-size:.8rem;font-weight:600;color:var(--clay)}
+.nw-day{position:relative;font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--clay);margin:1.4rem 0 .2rem;padding-bottom:.4rem;border-bottom:1px solid var(--line)}
+.nw-day:first-child{margin-top:.3rem}
+.nw-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line)}
+.nw-row-b{display:flex;flex-direction:column;gap:.35rem;min-width:0}
+.nw-row-t{font-size:1.04rem;line-height:1.3;font-weight:600;margin:0;color:var(--ink)}
+.nw-row .nw-sum{font-size:.86rem;line-height:1.5;color:#5C6657;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nw-th{width:9.5rem;aspect-ratio:3/2;border-radius:4px;align-self:start;margin-top:.15rem}
+.nw-new .nw-meta::after{content:attr(data-new);order:-1;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--coral);padding:.05rem .4rem;border-radius:3px}
+.nw-more-wrap{text-align:center;margin-top:1.4rem}
+.nw-more{border:1px solid var(--forest);color:var(--forest);background:var(--card);font-weight:600;font-size:.86rem;padding:.6rem 1.4rem;border-radius:999px;cursor:pointer}
+.nw-more[hidden]{display:none}
+.nw-empty{text-align:center;padding:2.5rem 1rem;color:#656C63;font-size:.9rem}
+.nw-clear{margin-top:.6rem;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:.4rem 1rem;font-weight:600;cursor:pointer}
+/* sidebar */
+.nw-side{display:flex;flex-direction:column;gap:1rem;position:sticky;top:120px;align-self:start}
+.nw-card{background:var(--card);border:1px solid var(--bd-card);border-radius:var(--r-card);box-shadow:var(--sh-card);padding:1rem 1.05rem}
+.nw-side-k{font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--clay);margin:0 0 .55rem}
+.nw-side-p{font-size:.86rem;line-height:1.45;color:#4B564D;margin:0 0 .75rem}
+.nw-side-list,.nw-side-links{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.1rem}
+.nw-side-src{display:flex;align-items:center;gap:.5rem;width:100%;border:0;background:none;padding:.32rem .25rem;border-radius:4px;font-size:.84rem;color:var(--ink);cursor:pointer;text-align:left}
+.nw-side-src:hover,.nw-side-src.on{background:var(--paper-2)}
+.nw-side-src .nw-cnt{margin-left:auto;font-size:.74rem;color:#8a8f86}
+.nw-side-links a{display:block;padding:.32rem .25rem;font-size:.86rem;color:var(--forest);font-weight:600}
+.nw-side-links a::after{content:" →"}
+.nw-side-links a:hover{text-decoration:underline}
+/* other tabs */
+.nw-intro{margin:0 0 1rem;font-size:.9rem;line-height:1.5;color:#4B564D;max-width:46rem}
+.nw-chips-econ{margin-bottom:.6rem}
+.nw-list-econ{max-width:48rem}
+/* new-stories pill */
+.nw-pill{position:fixed;left:50%;bottom:1.25rem;transform:translateX(-50%);z-index:60;max-width:calc(100% - 2rem)}
+.nw-pill button{border:0;background:var(--forest);color:#fff;font-weight:600;font-size:.84rem;padding:.55rem 1.1rem;border-radius:999px;box-shadow:0 10px 30px -10px rgba(0,0,0,.45);cursor:pointer}
+.nw-pill button::before{content:"↑ "}
+[data-nw-hide]{display:none!important}
+@media (max-width:1023px){
+  .nw-grid{grid-template-columns:minmax(0,1fr)}
+  .nw-side{display:none}
+  .nw-top{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:760px){
+  .nw-lead{grid-template-columns:minmax(0,1fr)}
+  .nw-lead .nw-media{aspect-ratio:16/9;min-height:0}
+  .nw-lead-b{padding:1rem 1rem 1.1rem}
+  .nw-top{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:.75rem;margin:1rem -1.25rem 0;padding:0 1.25rem .4rem;scrollbar-width:none}
+  .nw-top::-webkit-scrollbar{display:none}
+  .nw-tcard{flex:0 0 78%;scroll-snap-align:start}
+  .nw-th{width:6.2rem}
+  .nw-row{gap:.8rem}
+  .nw-row-t{font-size:.98rem}
+  .nw-tools{position:static;border-bottom:0;padding-top:0}
+  .nw-search{flex:1 1 0}
+  .nw-select{max-width:42%;padding-right:1.6rem}
+  .nw-hero .cat-sub{display:none}
+  .nw-tab{padding:.45rem .8rem;font-size:.82rem}
+  .nw-tab .nw-cnt{display:none}
+  .nw-sec-hd{flex-wrap:wrap;gap:.5rem}
+  .nw-h2{font-size:1.4rem}
+  .nw-wrap{padding:0 1rem}
+  .nw-top{margin-left:-1rem;margin-right:-1rem;padding-left:1rem;padding-right:1rem}
+}
+@media (max-width:420px){.nw-row .nw-sum{display:none}.nw-select{font-size:.8rem}}
+@media (prefers-reduced-motion:reduce){.nw-pulse{animation:none}.nw-media img{transition:none}}
+</style>"""
+
+
+_NW_I18N = {
+ "en": {"tr": "Read in English", "share": "Share", "shareWa": "Share on WhatsApp", "top": "Top story",
+        "rep": "Reported by {n} outlets", "outlets": "+{n} outlets", "outlets1": "+1 outlet",
+        "brief": "Share today’s top stories", "briefK": "The brief", "briefP": "Today’s top stories in one WhatsApp message.",
+        "briefHead": "Suriname news: top stories, {d}", "briefMore": "All the news", "new": "New",
+        "newSince": "{n} new since your last visit", "newSince1": "1 new story since your last visit",
+        "pill": "{n} new stories: tap to refresh", "pill1": "1 new story: tap to refresh",
+        "count": "{n} stories from {o} outlets", "countF": "{n} of {t} stories", "updated": "updated {ago}",
+        "live": "Live", "today": "Today", "yesterday": "Yesterday", "search": "Search the news",
+        "noRes": "No stories match. Try another word or topic.", "clear": "Clear filters",
+        "more": "Show more stories ({n})", "note": "Stories are in Dutch. Tap “{tr}” on any story.",
+        "dismiss": "Dismiss", "useful": "Useful today",
+        "ctx_outage": "Power and water outages", "ctx_rates": "Today’s exchange rates", "ctx_flights": "Live flights",
+        "ctx_weather": "Weather today", "ctx_prices": "Maximum prices", "ctx_wage": "Minimum wage"},
+ "nl": {"tr": "", "share": "Delen", "shareWa": "Delen via WhatsApp", "top": "Hoofdnieuws",
+        "rep": "Gemeld door {n} media", "outlets": "+{n} media", "outlets1": "+1 medium",
+        "brief": "Deel het hoofdnieuws van vandaag", "briefK": "Kort overzicht", "briefP": "Het hoofdnieuws van vandaag in één WhatsApp-bericht.",
+        "briefHead": "Nieuws uit Suriname: hoofdnieuws, {d}", "briefMore": "Al het nieuws", "new": "Nieuw",
+        "newSince": "{n} nieuw sinds je laatste bezoek", "newSince1": "1 nieuw bericht sinds je laatste bezoek",
+        "pill": "{n} nieuwe berichten: tik om te vernieuwen", "pill1": "1 nieuw bericht: tik om te vernieuwen",
+        "count": "{n} berichten van {o} media", "countF": "{n} van {t} berichten", "updated": "bijgewerkt {ago}",
+        "live": "Live", "today": "Vandaag", "yesterday": "Gisteren", "search": "Zoek in het nieuws",
+        "noRes": "Geen berichten gevonden. Probeer een ander woord of onderwerp.", "clear": "Filters wissen",
+        "more": "Meer berichten tonen ({n})", "note": "",
+        "dismiss": "Sluiten", "useful": "Handig vandaag",
+        "ctx_outage": "Stroom- en wateronderbrekingen", "ctx_rates": "Wisselkoersen vandaag", "ctx_flights": "Vluchten live",
+        "ctx_weather": "Het weer vandaag", "ctx_prices": "Maximumprijzen", "ctx_wage": "Minimumloon"},
+ "es": {"tr": "Leer en español", "share": "Compartir", "shareWa": "Compartir por WhatsApp", "top": "Noticia principal",
+        "rep": "Publicada por {n} medios", "outlets": "+{n} medios", "outlets1": "+1 medio",
+        "brief": "Comparte las noticias principales de hoy", "briefK": "El resumen", "briefP": "Las noticias principales de hoy en un solo mensaje de WhatsApp.",
+        "briefHead": "Noticias de Surinam: lo más importante, {d}", "briefMore": "Todas las noticias", "new": "Nuevo",
+        "newSince": "{n} nuevas desde tu última visita", "newSince1": "1 noticia nueva desde tu última visita",
+        "pill": "{n} noticias nuevas: toca para actualizar", "pill1": "1 noticia nueva: toca para actualizar",
+        "count": "{n} noticias de {o} medios", "countF": "{n} de {t} noticias", "updated": "actualizado {ago}",
+        "live": "En vivo", "today": "Hoy", "yesterday": "Ayer", "search": "Buscar noticias",
+        "noRes": "Ninguna noticia coincide. Prueba otra palabra o tema.", "clear": "Quitar filtros",
+        "more": "Ver más noticias ({n})", "note": "Las noticias están en neerlandés. Toca «{tr}» en cualquier noticia.",
+        "dismiss": "Cerrar", "useful": "Útil hoy",
+        "ctx_outage": "Cortes de luz y agua", "ctx_rates": "Tipos de cambio de hoy", "ctx_flights": "Vuelos en vivo",
+        "ctx_weather": "El tiempo hoy", "ctx_prices": "Precios máximos", "ctx_wage": "Salario mínimo"},
+ "zh": {"tr": "用中文阅读", "share": "分享", "shareWa": "通过 WhatsApp 分享", "top": "头条",
+        "rep": "{n} 家媒体报道", "outlets": "另有 {n} 家媒体", "outlets1": "另有 1 家媒体",
+        "brief": "分享今日头条", "briefK": "今日简报", "briefP": "用一条 WhatsApp 消息分享今日头条。",
+        "briefHead": "苏里南新闻：今日头条，{d}", "briefMore": "全部新闻", "new": "新",
+        "newSince": "自上次访问以来有 {n} 条新闻", "newSince1": "自上次访问以来有 1 条新闻",
+        "pill": "{n} 条新新闻：点击刷新", "pill1": "1 条新新闻：点击刷新",
+        "count": "来自 {o} 家媒体的 {n} 条新闻", "countF": "{t} 条中的 {n} 条", "updated": "更新于{ago}",
+        "live": "实时", "today": "今天", "yesterday": "昨天", "search": "搜索新闻",
+        "noRes": "没有符合的新闻。请换个关键词或主题。", "clear": "清除筛选",
+        "more": "显示更多新闻（{n}）", "note": "新闻原文为荷兰语。点击任意新闻下的“{tr}”。",
+        "dismiss": "关闭", "useful": "今日实用",
+        "ctx_outage": "停电和停水", "ctx_rates": "今日汇率", "ctx_flights": "实时航班",
+        "ctx_weather": "今日天气", "ctx_prices": "最高限价", "ctx_wage": "最低工资"},
+ "fr": {"tr": "Lire en français", "share": "Partager", "shareWa": "Partager sur WhatsApp", "top": "À la une",
+        "rep": "Repris par {n} médias", "outlets": "+{n} médias", "outlets1": "+1 média",
+        "brief": "Partager l’essentiel du jour", "briefK": "L’essentiel", "briefP": "Les grands titres du jour en un seul message WhatsApp.",
+        "briefHead": "Actualités du Suriname : l’essentiel du {d}", "briefMore": "Toute l’actualité", "new": "Nouveau",
+        "newSince": "{n} nouveaux articles depuis votre dernière visite", "newSince1": "1 nouvel article depuis votre dernière visite",
+        "pill": "{n} nouveaux articles : touchez pour actualiser", "pill1": "1 nouvel article : touchez pour actualiser",
+        "count": "{n} articles de {o} médias", "countF": "{n} sur {t} articles", "updated": "mis à jour {ago}",
+        "live": "En direct", "today": "Aujourd’hui", "yesterday": "Hier", "search": "Rechercher",
+        "noRes": "Aucun article ne correspond. Essayez un autre mot ou un autre thème.", "clear": "Effacer les filtres",
+        "more": "Voir plus d’articles ({n})", "note": "Les articles sont en néerlandais. Touchez « {tr} » sous un article.",
+        "dismiss": "Fermer", "useful": "Utile aujourd’hui",
+        "ctx_outage": "Coupures d’eau et d’électricité", "ctx_rates": "Taux de change du jour", "ctx_flights": "Vols en direct",
+        "ctx_weather": "La météo du jour", "ctx_prices": "Prix maximums", "ctx_wage": "Salaire minimum"},
+ "pt": {"tr": "Ler em português", "share": "Compartilhar", "shareWa": "Compartilhar no WhatsApp", "top": "Destaque",
+        "rep": "Publicada por {n} veículos", "outlets": "+{n} veículos", "outlets1": "+1 veículo",
+        "brief": "Compartilhe os destaques de hoje", "briefK": "O resumo", "briefP": "Os destaques de hoje em uma única mensagem de WhatsApp.",
+        "briefHead": "Notícias do Suriname: destaques, {d}", "briefMore": "Todas as notícias", "new": "Novo",
+        "newSince": "{n} novas desde a sua última visita", "newSince1": "1 notícia nova desde a sua última visita",
+        "pill": "{n} notícias novas: toque para atualizar", "pill1": "1 notícia nova: toque para atualizar",
+        "count": "{n} notícias de {o} veículos", "countF": "{n} de {t} notícias", "updated": "atualizado {ago}",
+        "live": "Ao vivo", "today": "Hoje", "yesterday": "Ontem", "search": "Buscar notícias",
+        "noRes": "Nenhuma notícia encontrada. Tente outra palavra ou tema.", "clear": "Limpar filtros",
+        "more": "Ver mais notícias ({n})", "note": "As notícias estão em holandês. Toque em “{tr}” em qualquer notícia.",
+        "dismiss": "Fechar", "useful": "Útil hoje",
+        "ctx_outage": "Faltas de luz e água", "ctx_rates": "Câmbio de hoje", "ctx_flights": "Voos ao vivo",
+        "ctx_weather": "O tempo hoje", "ctx_prices": "Preços máximos", "ctx_wage": "Salário mínimo"},
+}
+
+
+_NW_JS = r"""<script>
+(function(){
+var D=document,W=window,LANG=(D.documentElement.lang||'en').slice(0,2).toLowerCase();
+var I=W.NW_I18N||{},T=Object.assign({},I.en||{},I[LANG]||{});
+function t(k,o){var s=T[k]!=null?T[k]:k;if(o)for(var x in o)s=s.split('{'+x+'}').join(o[x]);return s;}
+function $(s,r){return (r||D).querySelector(s);} function $$(s,r){return Array.prototype.slice.call((r||D).querySelectorAll(s));}
+function ga(n,p){try{if(typeof W.gtag==='function')W.gtag('event',n,p||{});}catch(e){}}
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
+var TL={en:'en',es:'es',fr:'fr',pt:'pt',zh:'zh-CN'}[LANG]||'';
+
+/* words */
+$$('[data-t]').forEach(function(el){var k=el.getAttribute('data-t');if(T[k])el.textContent=T[k];});
+$$('[data-t-aria]').forEach(function(el){var v=T[el.getAttribute('data-t-aria')];if(v)el.setAttribute('aria-label',v);});
+$$('[data-t-ph]').forEach(function(el){var v=T[el.getAttribute('data-t-ph')];if(v){el.placeholder=v;el.setAttribute('aria-label',v);}});
+$$('.nw-share').forEach(function(b){b.setAttribute('aria-label',t('shareWa'));});
+$$('.nw-more-src').forEach(function(b){var n=+b.getAttribute('data-n');b.textContent=n===1?t('outlets1'):t('outlets',{n:n});});
+$$('.nw-rep').forEach(function(b){b.textContent=t('rep',{n:b.getAttribute('data-n')});});
+$$('.nw-tr').forEach(function(a){
+  var st=a.closest('.nw-story'),u=st&&st.getAttribute('data-link');
+  if(!TL||!u||st.getAttribute('data-k')){a.remove();return;}   /* nl readers / English sources */
+  a.href='https://translate.google.com/translate?sl=nl&tl='+TL+'&hl='+TL+'&u='+encodeURIComponent(u);
+  a.target='_blank';a.rel='noopener noreferrer';
+  a.addEventListener('click',function(){ga('nw_translate',{lang:LANG});});
+});
+
+/* times */
+var RTF=null;try{RTF=new Intl.RelativeTimeFormat(LANG==='zh'?'zh-CN':LANG,{numeric:'auto'});}catch(e){}
+function ago(iso){var d=new Date(iso),s=(Date.now()-d)/1000;if(!RTF||isNaN(s))return '';
+  if(s<60)return RTF.format(0,'second');if(s<3600)return RTF.format(-Math.round(s/60),'minute');
+  if(s<86400)return RTF.format(-Math.round(s/3600),'hour');return RTF.format(-Math.round(s/86400),'day');}
+var srDay=function(d){return new Date(d.getTime()-3*3600e3).toISOString().slice(0,10);};
+function ticks(){
+  $$('[data-ago]').forEach(function(el){var iso=el.getAttribute('data-ago'),a=ago(iso);if(!a)return;
+    if(el.getAttribute('data-agofmt')){el.textContent=t('updated',{ago:a});return;}
+    var d=new Date(iso),h=(Date.now()-d)/36e5;
+    el.textContent=h<12?a:iso.slice(11,16);});
+}
+ticks();setInterval(ticks,60000);
+(function(){var today=srDay(new Date()),yest=srDay(new Date(Date.now()-864e5)),fmt=null;
+  try{fmt=new Intl.DateTimeFormat(LANG==='zh'?'zh-CN':LANG,{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'});}catch(e){}
+  $$('.nw-day').forEach(function(h){var d=h.getAttribute('data-day'),lbl=fmt?fmt.format(new Date(d+'T12:00:00Z')):h.textContent;
+    h.textContent=d===today?t('today')+' · '+lbl:(d===yest?t('yesterday')+' · '+lbl:lbl);});
+})();
+
+/* Dutch note */
+var note=$('#nw-note');
+if(note&&T.note&&TL&&ls('nw-note')!=='0'){$('[data-t=note]',note).textContent=t('note',{tr:T.tr});note.hidden=false;
+  $('.nw-note-x',note).addEventListener('click',function(){note.hidden=true;ls('nw-note','0');});}
+
+/* tabs */
+var TABS=['local','sports','economy'];
+function tab(k,push){TABS.forEach(function(x){var b=$('#tab-'+x),s=$('#section-'+x),on=x===k;
+  b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false');s.hidden=!on;});
+  if(push){try{history.replaceState(null,'',k==='local'?location.pathname+location.search:'#'+k);}catch(e){}}
+  ga('nw_tab',{tab:k});}
+$$('.nw-tab').forEach(function(b){b.addEventListener('click',function(){tab(b.getAttribute('data-tab'),true);});});
+
+/* expanders + share */
+D.addEventListener('click',function(e){
+  var m=e.target.closest('.nw-more-src');
+  if(m){var st=m.closest('.nw-story'),tl=st&&$('.nw-tl',st);if(tl){tl.hidden=!tl.hidden;m.setAttribute('aria-expanded',tl.hidden?'false':'true');ga('nw_timeline',{});}return;}
+  var sh=e.target.closest('.nw-share');
+  if(sh){var s=sh.closest('.nw-story'),a=s&&$('h2 a,h3 a',s);if(!a)return;
+    var txt=a.textContent.trim()+'\n'+s.getAttribute('data-link')+'\n\nvia exploresuriname.com/news';
+    share(txt,a.textContent.trim(),s.getAttribute('data-link'));ga('nw_share',{kind:'story'});return;}
+  if(e.target.closest('.nw-brief-btn')){brief();return;}
+  var c=e.target.closest('.nw-ctx');if(c){ga('nw_ctx',{to:c.getAttribute('data-ctx')});return;}
+  var ln=e.target.closest('.nw-story a[target=_blank]');
+  if(ln&&!ln.classList.contains('nw-tr')){var st2=ln.closest('.nw-story');
+    ga('nw_click',{area:st2.classList.contains('nw-lead')?'lead':(st2.classList.contains('nw-tcard')?'top':'list'),source:(($('.nw-src',st2)||{}).textContent||'')});}
+});
+function share(txt,title,url){
+  if(navigator.share&&/Android|iPhone|iPad/i.test(navigator.userAgent)){navigator.share({title:title,text:txt}).catch(function(){});return;}
+  W.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank','noopener');
+}
+function brief(){var B=W.NW_BRIEF||[];if(!B.length)return;var d='';
+  try{d=new Intl.DateTimeFormat(LANG==='zh'?'zh-CN':LANG,{weekday:'long',day:'numeric',month:'long',timeZone:'America/Paramaribo'}).format(new Date());}catch(e){}
+  var lines=[t('briefHead',{d:d}),''];
+  B.forEach(function(x,i){lines.push((i+1)+'. '+x.t+' ('+x.s+')');lines.push(x.u);lines.push('');});
+  lines.push(t('briefMore')+': https://exploresuriname.com/news');
+  share(lines.join('\n'),t('briefHead',{d:d}),'https://exploresuriname.com/news');ga('nw_share',{kind:'brief'});}
+
+/* filters + paging (local list) */
+var list=$('#nw-list'),front=$('#nw-front'),q=$('#nw-q'),sel=$('#nw-src'),more=$('#nw-more'),empty=$('#nw-empty'),cnt=$('#nw-count');
+var PAGE=W.NW_PAGE||40,limit=PAGE,topic='',src='',query='';
+var rows=$$('.nw-row',list),days=$$('.nw-day',list);
+var norm=function(s){return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');};
+rows.forEach(function(r){r._k=norm(r.textContent);});
+function filtered(){return !!(topic||src||query);}
+function apply(){
+  var f=filtered(),shown=0,matched=0;
+  front.hidden=f;
+  rows.forEach(function(r){
+    var ok=(!topic||(' '+r.getAttribute('data-tp')+' ').indexOf(' '+topic+' ')>=0)&&(!src||r.getAttribute('data-src').indexOf('|'+src+'|')>=0);
+    if(ok&&query){ok=query.split(/\s+/).every(function(w){return r._k.indexOf(w)>=0;});}
+    if(ok&&!f&&r.getAttribute('data-front'))ok=false;   /* already shown above */
+    if(ok)matched++;
+    var vis=ok&&shown<limit;if(vis)shown++;
+    if(vis)r.removeAttribute('data-nw-hide');else r.setAttribute('data-nw-hide','');
+  });
+  days.forEach(function(h){var n=h.nextElementSibling,any=false;
+    while(n&&!n.classList.contains('nw-day')){if(!n.hasAttribute('data-nw-hide')){any=true;break;}n=n.nextElementSibling;}
+    if(any)h.removeAttribute('data-nw-hide');else h.setAttribute('data-nw-hide','');});
+  var left=matched-shown;more.hidden=left<=0;more.textContent=t('more',{n:left});
+  empty.hidden=matched>0;$('#nw-reset').hidden=!f;
+  var tot=+cnt.getAttribute('data-n');
+  cnt.textContent=f?t('countF',{n:matched,t:tot}):t('count',{n:tot,o:cnt.getAttribute('data-o')});
+}
+function setTopic(k){topic=k;limit=PAGE;$$('#nw-chips .nw-chip').forEach(function(c){var on=c.getAttribute('data-topic')===k;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on?'true':'false');});apply();}
+function setSrc(v){src=v;limit=PAGE;sel.value=v;$$('.nw-side-src').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-src')===v);});apply();}
+$$('#nw-chips .nw-chip').forEach(function(c){c.addEventListener('click',function(){setTopic(c.getAttribute('data-topic'));ga('nw_filter',{topic:topic||'all'});});});
+sel.addEventListener('change',function(){setSrc(sel.value);ga('nw_filter',{source:sel.value||'all'});});
+$$('.nw-side-src').forEach(function(b){b.addEventListener('click',function(){var v=b.getAttribute('data-src');setSrc(src===v?'':v);
+  var tl=$('#nw-tools');if(tl)W.scrollTo({top:tl.getBoundingClientRect().top+W.pageYOffset-120,behavior:'smooth'});});});
+var qT=null;q.addEventListener('input',function(){clearTimeout(qT);qT=setTimeout(function(){query=norm(q.value.trim());limit=PAGE;apply();},120);});
+q.addEventListener('change',function(){if(query)ga('nw_search',{q:query.slice(0,40)});});
+$$('.nw-clear,#nw-reset').forEach(function(b){b.addEventListener('click',function(){q.value='';query='';setSrc('');setTopic('');});});
+more.addEventListener('click',function(){limit+=30;apply();});
+if('IntersectionObserver' in W){new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!more.hidden){limit+=30;apply();}});},{rootMargin:'600px 0px'}).observe(more);}
+
+/* new since last visit */
+var prev=ls('nw-seen'),newest=list.getAttribute('data-newest');
+if(prev){var n=0;rows.forEach(function(r){if(r.getAttribute('data-ts')>prev){n++;r.classList.add('nw-new');var m=$('.nw-meta',r);if(m)m.setAttribute('data-new',t('new'));}});
+  $$('.nw-lead,.nw-tcard').forEach(function(r){if(r.getAttribute('data-ts')>prev){r.classList.add('nw-new');var m=$('.nw-meta',r);if(m)m.setAttribute('data-new',t('new'));}});
+  if(n){var ns=$('#nw-newsince');ns.textContent=n===1?t('newSince1'):t('newSince',{n:n});ns.hidden=false;}}
+if(newest)setTimeout(function(){if(!prev||newest>prev)ls('nw-seen',newest);},4000);
+
+/* econ tab */
+var econ=$('#nw-econ');
+$$('#nw-econ-chips .nw-chip').forEach(function(c){c.addEventListener('click',function(){var k=c.getAttribute('data-kind');
+  $$('#nw-econ-chips .nw-chip').forEach(function(x){var on=x===c;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on?'true':'false');});
+  $$('.nw-row',econ).forEach(function(r){if(!k||r.getAttribute('data-k')===k)r.removeAttribute('data-nw-hide');else r.setAttribute('data-nw-hide','');});
+  $$('.nw-day',econ).forEach(function(h){var n=h.nextElementSibling,any=false;
+    while(n&&!n.classList.contains('nw-day')){if(!n.hasAttribute('data-nw-hide')){any=true;break;}n=n.nextElementSibling;}
+    if(any)h.removeAttribute('data-nw-hide');else h.setAttribute('data-nw-hide','');});});});
+
+/* deep links: #sports #economy #oil #finance */
+var h=location.hash.replace('#','');
+if(h==='sports'||h==='economy')tab(h);
+else if(h==='oil'||h==='finance'){tab('economy');var c=$('#nw-econ-chips [data-kind='+h+']');if(c)c.click();}
+apply();
+
+/* live: new stories since this page was built */
+var pill=$('#nw-pill'),onPage={};rows.forEach(function(r){onPage[r.getAttribute('data-link')]=1;});
+function poll(){if(D.hidden)return;
+  fetch('/data/news_live.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(j){
+    if(!j||!j.links)return;var n=j.links.filter(function(u){return u&&!onPage[u];}).length;if(!n)return;
+    var b=$('#nw-pill-b');b.textContent=n===1?t('pill1'):t('pill',{n:n});pill.hidden=false;
+    b.onclick=function(){ga('nw_refresh',{n:n});location.reload();};}).catch(function(){});}
+setInterval(poll,300000);D.addEventListener('visibilitychange',function(){if(!D.hidden)poll();});
+})();
+</script>"""
 
 
 # -- Listing detail pages -----------------------------------------------------
