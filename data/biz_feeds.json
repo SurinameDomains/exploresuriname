@@ -39,11 +39,6 @@
    "title": "Geen Boete",
    "link": "https://belastingdienst.sr/geen-boete/",
    "date": "2026-08-24"
-  },
-  {
-   "title": "Technische Storing",
-   "link": "https://belastingdienst.sr/technische-storing/",
-   "date": "2026-08-18"
   }
  ],
  "bekendmakingen": [
@@ -171,16 +166,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-10-17T20:11-03:00",
+   "ok": "2026-10-18T01:43-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-10-17T20:11-03:00",
+   "ok": "2026-10-18T01:43-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-10-17T20:11-03:00"
+ "updated": "2026-10-18T01:43-03:00"
 }
