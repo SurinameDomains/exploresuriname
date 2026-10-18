@@ -11601,7 +11601,7 @@ _NW_CSS = r"""<style>
 .nw-empty{text-align:center;padding:2.5rem 1rem;color:#656C63;font-size:.9rem}
 .nw-clear{margin-top:.6rem;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:.4rem 1rem;font-weight:600;cursor:pointer}
 /* sidebar */
-.nw-side{display:flex;flex-direction:column;gap:1rem;position:sticky;top:120px;align-self:start}
+.nw-side{display:flex;flex-direction:column;gap:1rem;position:sticky;top:120px;align-self:start;max-height:calc(100vh - 132px);max-height:calc(100dvh - 132px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:#d6d2c4 transparent;padding:2px 8px 16px;margin:-2px -8px 0}
 .nw-card{background:var(--card);border:1px solid var(--bd-card);border-radius:var(--r-card);box-shadow:var(--sh-card);padding:1rem 1.05rem}
 .nw-side-k{font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--clay);margin:0 0 .55rem}
 .nw-side-p{font-size:.86rem;line-height:1.45;color:#4B564D;margin:0 0 .75rem}
@@ -27676,7 +27676,8 @@ const CACHE = 'exploresr-v14';
 const TWV = '__TWV__';
 const PRECACHE = ['/', '/tailwind.css?v=' + TWV, '/favicon.ico', '/favicon.svg', '/offline.html',
                   '/fonts/newsreader-latin-var.woff2', '/fonts/instrument-latin-var.woff2'];
-const LIVE_PAGES = new Set(['/currency.html', '/flights.html', '/conditions.html', '/news.html', '/daily-notices.html', '/events.html']);
+const LIVE_PAGES = new Set(['/currency', '/flights', '/conditions', '/news', '/daily-notices', '/events',
+                            '/currency.html', '/flights.html', '/conditions.html', '/news.html', '/daily-notices.html', '/events.html']);
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE)));

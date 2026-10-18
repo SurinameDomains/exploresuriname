@@ -1532,6 +1532,7 @@ def localize(soup, lang: str, rel_path: str, langs=None):
     finish_l10n(soup)
     inject_hreflang(soup, rel_path, langs)
     inject_switcher(soup, lang, rel_path)
+    clean_page_links(soup)
     return soup
 
 # ── per-page hreflang/x-default (identical set on every tree) ─────────────────
@@ -1548,6 +1549,70 @@ except Exception:
 _CLEAN_FILES |= {"about-suriname.html", "heiligenweg-jam.html"}
 # Event pages (generate.build_events_page, Oct 2026): /event-<id> and /events-this-weekend
 _CLEAN_FILES |= {p.name for p in ROOT.glob("event-*.html")} | {"events-this-weekend.html"}
+# Clean URLs everywhere (18 Oct 2026): every other top-level page is published
+# without ".html" too. generate.py and the other builders still write
+# "x.html" hrefs; clean_page_links() below rewrites them on every tree, so no
+# template needs to change. Kept with ".html": the homepage, the GitHub Pages
+# 404, the service worker's offline page, verification files, and any name
+# that has a folder of the same name (/x would serve the folder).
+_KEEP_HTML = {"index.html", "404.html", "offline.html"}
+for _p in ROOT.glob("*.html"):
+    _n = _p.name
+    if _n in _KEEP_HTML or _n.startswith(("google", "yandex_", "pinterest-")):
+        continue
+    if (ROOT / _p.stem).exists():
+        continue
+    _CLEAN_FILES.add(_n)
+
+_HREF_HTML_RE = re.compile(
+    r'^(?P<pre>(?:https?://(?:www\.)?exploresuriname\.com)?/?(?:\.\.?/)*(?:(?:nl|es|zh|fr|pt)/)?)'
+    r'(?P<name>[A-Za-z0-9_-]+)\.html(?P<rest>[?#].*)?$')
+_ABS_HTML_RE = re.compile(
+    r'(https://exploresuriname\.com/(?:(?:nl|es|zh|fr|pt)/)?)([A-Za-z0-9_-]+)\.html(?=["?#\s<]|$)')
+_REFRESH_RE = re.compile(r'(url=)([^\s;"\']+)', re.I)
+
+
+def clean_url(u: str) -> str:
+    """'news.html?x#y' -> 'news?x#y' for clean top-level pages; anything else unchanged.
+    Only the '.html' is dropped, so a relative link still resolves to the same page."""
+    if not u or ".html" not in u:
+        return u
+    m = _HREF_HTML_RE.match(u.strip())
+    if not m or (m.group("name") + ".html") not in _CLEAN_FILES:
+        return u
+    return m.group("pre") + m.group("name") + (m.group("rest") or "")
+
+
+def _clean_abs(text: str) -> str:
+    return _ABS_HTML_RE.sub(
+        lambda m: m.group(1) + m.group(2) if (m.group(2) + ".html") in _CLEAN_FILES else m.group(0),
+        text)
+
+
+def clean_page_links(soup):
+    """Point every internal link, canonical, og:url, redirect and JSON-LD URL at
+    the clean (no '.html') address. Idempotent."""
+    for tag, attr in (("a", "href"), ("link", "href"), ("area", "href"), ("form", "action")):
+        for el in soup.find_all(tag, attrs={attr: True}):
+            v = el.get(attr)
+            if isinstance(v, str) and ".html" in v:
+                nv = clean_url(v)
+                if nv != v:
+                    el[attr] = nv
+    for el in soup.find_all("meta", attrs={"content": True}):
+        v = el.get("content", "")
+        if ".html" not in v:
+            continue
+        if el.get("property") in ("og:url",) or el.get("name") in ("twitter:url",):
+            el["content"] = clean_url(v)
+        elif (el.get("http-equiv") or "").lower() == "refresh":
+            el["content"] = _REFRESH_RE.sub(lambda m: m.group(1) + clean_url(m.group(2)), v)
+    for sc in soup.find_all("script", attrs={"type": "application/ld+json"}):
+        raw = sc.string
+        if raw and ".html" in raw:
+            new = _clean_abs(raw)
+            if new != raw:
+                sc.string = new
 
 
 def url_path(rel_path: str) -> str:
@@ -1788,6 +1853,7 @@ def _localize_rail(frag: str, lang: str) -> str:
         _d = localize_date(el.get("data-srdate-long", ""), lang, long=True)
         if _d:
             el.string = _d
+    clean_page_links(rail)
     return serialize(rail)
 
 def refresh_volatile(cached: str, en_html: str, lang: str):
@@ -1896,6 +1962,7 @@ def process_page(job):
     inject_hreflang(en_soup, rel, langs)
     inject_og_alternates(en_soup, "en", langs)
     inject_switcher(en_soup, "en", rel)
+    clean_page_links(en_soup)
     src.write_text(serialize(en_soup), encoding="utf-8")
 
     # a language this page no longer exists in: remove the old copy
@@ -2018,12 +2085,24 @@ def main():
     si = ROOT / "search-index.json"
     if si.exists():
         data = json.load(open(si, encoding="utf-8"))
+        # clean URLs (see clean_page_links): English index rewritten in place
+        _si_dirty = False
+        for e in data:
+            if isinstance(e.get("u"), str):
+                _cu = clean_url(e["u"])
+                if _cu != e["u"]:
+                    e["u"] = _cu; _si_dirty = True
+        if _si_dirty and not ONLY:
+            si.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
         for lang in TARGETS:
             out = ROOT / lang / "search-index.json"
             # entries with "ffu" (Flora & Fauna species) point at a page that only
             # exists in English; in the other trees use their fallback URL
             loc = [{**e, "c": tr(e.get("c", ""), lang), **({"u": e["ffu"]} if e.get("ffu") else {})}
                    for e in data]
+            for e in loc:
+                if isinstance(e.get("u"), str):
+                    e["u"] = clean_url(e["u"])
             out.write_text(json.dumps(loc, ensure_ascii=False, separators=(",", ":")),
                            encoding="utf-8")
 
@@ -2112,6 +2191,8 @@ def localize_sitemap(partial_langs=None):
         if not loc:
             continue
         path = path_of(loc)
+        if re.match(r"^/[A-Za-z0-9_-]+\.html$", path) and path[1:] in _CLEAN_FILES:
+            path = path[:-5]   # clean URL (see clean_page_links)
         # Idempotency guard: if this function runs twice without generate.py
         # rewriting sitemap.xml in between, the file already contains /nl/ and
         # /es/ URLs. Re-prefixing them produced /nl/nl/… entries (a 20k-URL
