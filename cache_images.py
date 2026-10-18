@@ -607,6 +607,60 @@ def _prune_hotlinked(cache, html_contents, failures, dry_run):
     return removed
 
 
+# News page (Oct 2026): story photos from the news outlets change every day and
+# belong to the outlets. Images that appear ONLY on news.html are hotlinked, never
+# copied into images/ (that added ~100 files per day to the repo). Copies made
+# before this rule are removed here with the same safety checks as above.
+NEWS_PAGES = ("news.html",)
+
+def _prune_news_only(cache, html_contents, failures, dry_run):
+    """Return the external image URLs used only on the news page; drop their
+    cache entries and local copies (when nothing else references the file)."""
+    news_urls, other_urls = set(), set()
+    for p, c in html_contents.items():
+        urls = {u for _, u in _EXT_REF_RE.findall(c)}
+        if p.name in NEWS_PAGES and len(p.relative_to(SCRIPT_DIR).parts) == 1:
+            news_urls |= urls
+        else:
+            other_urls |= urls
+    only = news_urls - other_urls
+    for u in only:
+        failures.pop(u, None)
+    cand = {u: cache[u] for u in only if u in cache}
+    if not cand:
+        return only
+    referenced = set()
+    for p, c in html_contents.items():
+        if p.name in NEWS_PAGES and len(p.relative_to(SCRIPT_DIR).parts) == 1:
+            continue
+        referenced.update(_LOCAL_REF_RE.findall(c))
+    for pattern in ("*.json", "*.js", "*.xml", "*.webmanifest", "data/**/*.json", "data/**/*.js"):
+        for p in SCRIPT_DIR.glob(pattern):
+            if p.name in _BOOKKEEPING:
+                continue
+            try:
+                referenced.update(_LOCAL_REF_RE.findall(p.read_text(encoding="utf-8", errors="ignore")))
+            except Exception:
+                pass
+    removed, kept, freed = 0, 0, 0
+    for u, loc in sorted(cand.items()):
+        name, stem = Path(loc).name, Path(loc).stem
+        cache.pop(u, None)          # news.html keeps the outlet's URL either way
+        if stem in referenced or not re.fullmatch(r"[0-9a-f]{32}", stem):
+            kept += 1
+            continue
+        for f in (IMAGES_DIR / name, IMAGES_DIR / (stem + "-480.webp"),
+                  IMAGES_DIR / "og" / (stem + ".jpg")):
+            if f.exists():
+                freed += f.stat().st_size
+                if not dry_run:
+                    f.unlink()
+        removed += 1
+    print("News page: %d photos hotlinked, removed %d old local copies (%.1f MB)%s"
+          % (len(only), removed, freed / 1e6, ", kept %d still referenced" % kept if kept else ""))
+    return only
+
+
 def main(dry_run=False):
     t_start = time.time()
     _laps = []
@@ -653,6 +707,10 @@ def main(dry_run=False):
     lap("read html")
 
     if _prune_hotlinked(cache, html_contents, failures, dry_run) and not dry_run:
+        _save_cache(cache)
+    _news_only = _prune_news_only(cache, html_contents, failures, dry_run)
+    all_urls -= _news_only
+    if _news_only and not dry_run:
         _save_cache(cache)
     lap("prune hotlinked")
 
