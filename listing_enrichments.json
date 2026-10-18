@@ -2833,13 +2833,6 @@
     "lat": 5.803913,
     "lon": -55.174741
   },
-  "leguana-park": {
-    "slug": "leguana-park",
-    "found": true,
-    "osm_name": "Ark",
-    "lat": 4.9487968,
-    "lon": -55.1807796
-  },
   "lins-super-market": {
     "slug": "lins-super-market",
     "found": true,
@@ -3260,14 +3253,6 @@
     "address": "21, Madeliefjestraat, Paramaribo",
     "lat": 5.8196345,
     "lon": -55.1823617
-  },
-  "new-babunhol-river-resort": {
-    "slug": "new-babunhol-river-resort",
-    "found": true,
-    "osm_name": "Babunhol River Resort",
-    "website": "http://www.babunhol.com/",
-    "lat": 5.2276587,
-    "lon": -55.0596586
   },
   "new-choice-lalla-rookhweg": {
     "slug": "new-choice-lalla-rookhweg",
@@ -4802,14 +4787,6 @@
     "lat": 5.839133,
     "lon": -55.1403836
   },
-  "stichting-upper-suriname-lodgeholders": {
-    "slug": "stichting-upper-suriname-lodgeholders",
-    "found": true,
-    "osm_name": "DA",
-    "address": "93, Sewbarath Misserstraat, Paramaribo",
-    "lat": 5.839133,
-    "lon": -55.1403836
-  },
   "stichting-zwembad-parima": {
     "slug": "stichting-zwembad-parima",
     "found": true,
@@ -4938,14 +4915,6 @@
     "address": "246, Tourtonnelaan, Paramaribo",
     "lat": 5.8437878,
     "lon": -55.1487724
-  },
-  "suriname-tulip-hotel": {
-    "slug": "suriname-tulip-hotel",
-    "found": true,
-    "osm_name": "Tulip",
-    "address": "118, Verlengde Gemeenelandsweg, Paramaribo",
-    "lat": 5.8278548,
-    "lon": -55.1877939
   },
   "surpost": {
     "slug": "surpost",
@@ -5705,6 +5674,22 @@
     "osm_name": "Torarica",
     "lat": 5.317361,
     "lon": -55.5221716
+  },
+  "thorax-centrum-paramaribo": {
+    "slug": "thorax-centrum-paramaribo",
+    "found": true,
+    "osm_name": "Paramaribo",
+    "address": "Dr. Sophie Redmondstraat",
+    "lat": 5.8266324,
+    "lon": -55.1660748
+  },
+  "bordeaux-hills": {
+    "slug": "bordeaux-hills",
+    "found": true,
+    "osm_name": "Bordeaux",
+    "address": "Van Rosenveltkade, Paramaribo",
+    "lat": 5.8290964,
+    "lon": -55.1495549
   },
   "sana-budaya": {
     "slug": "sana-budaya",
