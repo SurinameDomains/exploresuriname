@@ -11456,15 +11456,6 @@ def build_news(articles, oil_articles, finance_articles, sports_articles=None):
           <p class="nw-side-k">Outlets</p>
           <ul class="nw-side-list">{side_outlets}</ul>
         </div>
-        <div class="nw-card">
-          <p class="nw-side-k" translate="no" data-t="useful">Useful today</p>
-          <ul class="nw-side-links" translate="no">
-            <li><a href="/daily-notices.html" data-t="ctx_outage">Power and water outages</a></li>
-            <li><a href="/currency.html" data-t="ctx_rates">Today’s exchange rates</a></li>
-            <li><a href="/conditions.html" data-t="ctx_weather">Weather today</a></li>
-            <li><a href="/flights.html" data-t="ctx_flights">Live flights</a></li>
-          </ul>
-        </div>
       </aside>
     </div>
   </div>
