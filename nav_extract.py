@@ -48,8 +48,10 @@ SKIP = {"offline.html", "404.html"}
 SKIP_DIRS = {".git", "node_modules", "assets", "vendor", "fonts", "icons", "images",
              "data", "__pycache__", ".github", "scripts", "tests"}
 
+# dd-biz-menu / mg-biz removed 18 Oct 2026 (Business menu gone, tools moved to
+# surinamebusiness.com): a page must have every container listed here exactly once.
 IDS = ("dd-expl-menu", "dd-plan-menu", "dd-live-menu", "dd-learn-menu", "dd-games-menu",
-       "dd-biz-menu", "mg-expl", "mg-plan", "mg-live", "mg-learn", "mg-games", "mg-biz")
+       "mg-expl", "mg-plan", "mg-live", "mg-learn", "mg-games")
 # the class every NOT-highlighted link in that container has (generate.py nav_html)
 INACTIVE = {"dd-expl-menu": "nvm text-gray-700 rounded-lg"}
 for _i in IDS:

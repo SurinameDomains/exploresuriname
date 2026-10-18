@@ -1500,11 +1500,11 @@ def localize(soup, lang: str, rel_path: str, langs=None):
               "worldcup-2026.html": "/matches.html",
               "seogs-2026.html": "/events.html",
               "nature.html": "/activities.html",
-              "real-estate.html": "/business",
+              "real-estate.html": "/doing-business-in-suriname",
               # Marketplace retired Sep 28 2026 (generate._retired_stub)
-              "marketplace/index.html": "/business",
-              "post-ad.html": "/business",
-              "my-ads.html": "/business"}
+              "marketplace/index.html": "/doing-business-in-suriname",
+              "post-ad.html": "/doing-business-in-suriname",
+              "my-ads.html": "/doing-business-in-suriname"}
     _stub_m = soup.select_one('meta[name="esr-stub"]') if soup.head else None
     if _stub_m is not None and rel_path not in _STUBS and _stub_m.get("content", "").startswith("/"):
         _STUBS[rel_path] = _stub_m["content"]
@@ -1908,6 +1908,9 @@ def english_pages():
 
 _FF_SRC_LINE_RE = re.compile(r'<meta name="ff-src" content="[0-9a-f]{32}">\n?')
 KNOWN = {}   # build cache of the last run (set in main before the workers fork)
+# Pages moved to surinamebusiness.com (generate._moved_stub, 18 Oct 2026).
+# content = "<English URL>|<Dutch URL>" on the sister site.
+_MOVED_RE = re.compile(r'<meta name="esr-moved" content="([^"|]+)\|([^"]+)">')
 
 
 def process_page(job):
@@ -1930,6 +1933,21 @@ def process_page(job):
     if 'data-nf=""' in html:
         import nav_extract
         html = nav_extract.inline(html, rel)
+
+    # Redirect stub to surinamebusiness.com: copied as-is (no hreflang, switcher
+    # or translation; it only forwards). /nl/ forwards to the Dutch page there,
+    # every other tree to the English page. The English file is left untouched.
+    _mv = _MOVED_RE.search(html)
+    if _mv:
+        en_t, nl_t = _mv.group(1), _mv.group(2)
+        for lang in TARGETS:
+            t = nl_t if lang == "nl" else en_t
+            out = ROOT / lang / rel
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_text(html.replace(en_t + '"', t + '"')
+                               .replace('<html lang="en">', f'<html lang="{lang}">', 1),
+                           encoding="utf-8")
+        return rel, stable_hash(html), [], False, None, None, False
 
     mk = ff_marker(html) if ff_marker else None
     if mk and mk[0] == "built":

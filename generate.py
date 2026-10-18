@@ -4645,7 +4645,14 @@ except Exception as _biz_imp_err:  # never let the Business section break the re
         return []
     def _biztools_llms(_u):
         return ""
-_SI_LIST.extend(_BIZTOOLS_SEARCH)
+# Business tools moved to surinamebusiness.com (18 Oct 2026): their old URLs are
+# redirect stubs, so they left the search index. The Learn page "Doing Business
+# in Suriname" carries the business keywords and links on to the sister site.
+_SI_LIST.append({"n": "Doing Business in Suriname", "u": "doing-business-in-suriname", "c": "Guides",
+                 "a": "Suriname",
+                 "k": "doing business in suriname zakendoen ondernemer ondernemen bedrijf starten kkf btw vat "
+                      "salaris salary netto minimumloon minimum wage factuur invoice kwitantie loonstrook "
+                      "aanbestedingen tenders vacatures jobs belasting tax tools rekenhulp surinamebusiness"})
 
 # ── Flora & Fauna (flora_fauna_pages.py, Oct 2026) ──────────────────────────
 # Own slim section shell; the global search gets the hub, groups, collections
@@ -7134,7 +7141,69 @@ def _retired_stub(target):
             f'<meta http-equiv="refresh" content="0;url={target}">'
             f'<link rel="canonical" href="{SITE_URL}{target}">'
             '<title>Redirecting&hellip;</title></head><body>'
-            f'<p>This page has moved to <a href="{target}">Business Tools for Suriname</a>.</p>'
+            f'<p>This page has moved: <a href="{target}">continue here</a>.</p>'
+            '</body></html>')
+
+
+# ── Business tools moved to surinamebusiness.com (18 Oct 2026) ─────────────
+# Every old business URL on Explore becomes an instant redirect stub to the
+# same tool on the sister site. Value = (English path, Dutch path) there; the
+# English tree and es/zh/fr/pt go to the English page, /nl/ to the Dutch page
+# (build_i18n.process_page reads the esr-moved meta). Old file names stay the
+# keys, so links people saved keep working.
+_SB = "https://surinamebusiness.com"
+_SB_MOVED = {
+    "business.html":                     ("/en/tools",                       "/tools"),
+    "btw-calculator.html":               ("/en/vat-calculator",              "/btw-berekenen"),
+    "salary-calculator.html":            ("/en/net-salary-calculator",       "/netto-salaris-berekenen"),
+    "minimum-wage-suriname.html":        ("/en/minimum-wage",                "/minimumloon"),
+    "timesheet.html":                    ("/en/timesheet-calculator",        "/urenregistratie"),
+    "vacation-calculator.html":          ("/en/annual-leave-calculator",     "/vakantiedagen-berekenen"),
+    "payslip-generator.html":            ("/en/payslip-generator",           "/loonstrook-maken"),
+    "income-tax-calculator.html":        ("/en/income-tax-return-suriname",  "/inkomstenbelasting-suriname"),
+    "tax-deadlines.html":                ("/en/tax-deadlines",               "/belasting-deadlines"),
+    "working-days-calculator.html":      ("/en/working-days-calculator",     "/werkdagen-berekenen"),
+    "pricing-calculator.html":           ("/en/price-markup-calculator",     "/verkoopprijs-berekenen"),
+    "import-cost-calculator.html":       ("/en/import-cost-calculator",      "/invoerkosten-berekenen"),
+    "invoice-generator.html":            ("/en/invoice-generator",           "/factuur-maken"),
+    "receipt-generator.html":            ("/en/receipt-maker",               "/kwitantie-maken"),
+    "payment-reminder.html":             ("/en/payment-reminder",            "/betalingsherinnering"),
+    "btw-register.html":                 ("/en/vat-register-cashbook",       "/btw-register-kasboek"),
+    "amount-in-words.html":              ("/en/amount-in-words",             "/bedrag-in-woorden"),
+    "cash-counter.html":                 ("/en/cash-counter",                "/kas-tellen"),
+    "loan-calculator.html":              ("/en/loan-calculator",             "/lening-berekenen"),
+    "break-even-calculator.html":        ("/en/break-even-calculator",       "/break-even-berekenen"),
+    "qr-code-generator.html":            ("/en/qr-code-generator",           "/qr-code-maken"),
+    "barcode-generator.html":            ("/en/barcode-generator",           "/barcode-maken"),
+    "pdf-tools.html":                    ("/en/pdf-tools",                   "/pdf-samenvoegen"),
+    "image-tools.html":                  ("/en/image-resizer",               "/foto-verkleinen"),
+    "business-card-maker.html":          ("/en/business-card-maker",         "/visitekaartje-maken"),
+    "government-tenders.html":           ("/en/tenders",                     "/aanbestedingen"),
+    "max-prices-basic-goods.html":       ("/en/maximum-prices-basic-goods",  "/maximumprijzen-basisgoederen"),
+    "start-business-suriname.html":      ("/en/start-a-business",            "/bedrijf-starten"),
+    "btw-guide-suriname.html":           ("/en/vat-in-suriname",             "/btw-suriname"),
+    "hiring-staff-suriname.html":        ("/en/hiring-staff",                "/personeel-aannemen"),
+    "import-export-suriname.html":       ("/en/importing-into-suriname",     "/importeren-suriname"),
+    "business-financing-suriname.html":  ("/en/guides",                      "/gidsen"),
+    "government-contacts-suriname.html": ("/en/government-offices",          "/overheidsinstanties"),
+}
+
+
+def _moved_stub(fname):
+    """Instant redirect to the page's new home on surinamebusiness.com. No
+    noindex: canonical + 0-second refresh is what lets Google move the ranking
+    across domains. build_i18n writes the language copies from this one."""
+    en, nl = _SB_MOVED[fname]
+    tgt = _SB + en
+    return ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
+            '<meta name="viewport" content="width=device-width, initial-scale=1">'
+            f'<meta name="esr-moved" content="{tgt}|{_SB}{nl}">'
+            f'<meta http-equiv="refresh" content="0;url={tgt}">'
+            f'<link rel="canonical" href="{tgt}">'
+            '<title>Moved to SurinameBusiness.com</title>'
+            f'<script>location.replace("{tgt}"+location.hash)</script>'
+            '</head><body>'
+            f'<p>This page has moved to <a href="{tgt}">SurinameBusiness.com</a>.</p>'
             '</body></html>')
 
 
@@ -7159,8 +7228,7 @@ def nav_html(active="home", prefix=""):
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto", "busjam"}
     _OILG  = {"oilgas", "oilblocks", "granmorgu", "oiltimeline", "oilcontracts",
               "oilgov", "oiljobs"}
-    _LEARN = {"aboutsr", "history", "dictionary", "florafauna"} | _OILG
-    _BIZT  = _BIZTOOLS_KEYS   # Business tools (business_pages.py)
+    _LEARN = {"aboutsr", "bizinfo", "history", "dictionary", "florafauna"} | _OILG
 
     def _is_active(key):
         return active == key
@@ -7250,6 +7318,7 @@ def nav_html(active="home", prefix=""):
     # Learn
     learn_items = (
         f'<a href="{prefix}about-suriname"               {_link_cls("aboutsr")}       >About Suriname</a>'
+        f'<a href="{prefix}doing-business-in-suriname"   {_link_cls("bizinfo")}       >Doing Business</a>'
         f'<a href="{prefix}oil-and-gas.html"             {_link_cls("oilgas", _OILG)} >Oil &amp; Gas</a>'
         f'<a href="{prefix}suriname-history.html"        {_link_cls("history")}       >History Timeline</a>'
         f'<a href="{prefix}sranan-tongo-dictionary.html" {_link_cls("dictionary")}    >Sranan Dictionary</a>'
@@ -7265,34 +7334,8 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}suriname-time.html"  {_link_cls("surtime")}       >Time &amp; Converter</a>'
     )
 
-    # Business: a plain dropdown (Sep 28 2026). The old mega menu listed all
-    # 32 tools; the hub (/business) is now the compact index of everything and
-    # the menu only carries the hub, the popular tools, live info and guides.
-    # Built from business_pages.NAV_MENU so the registry stays the one source.
-    def _esc_nav(t):
-        return html_lib.escape(t, quote=False)
-    _biz_groups = _biztools_nav_groups()
-    _biz_labels = {_k: _l for _g, _i in _biz_groups for _u, _l, _k in _i}
-    _biz_urls   = {_k: _u for _g, _i in _biz_groups for _u, _l, _k in _i}
-    _biz_listed = {k for _h, _ks, _x in _BIZTOOLS_NAV_MENU for k in _ks}
-
-    def _biz_menu(link_fn, sub_fn):
-        out = link_fn(f"{prefix}business", "All Business Tools", "biz")
-        for _h, _ks, _extra in _BIZTOOLS_NAV_MENU:
-            _ks = [k for k in _ks if k in _biz_urls]
-            if not _ks:
-                continue
-            out += sub_fn(_esc_nav(_h))
-            out += "".join(link_fn(f"{prefix}{_biz_urls[k]}", _esc_nav(_biz_labels[k]), k) for k in _ks)
-            if _extra:   # (url, label, group keys): e.g. All Guides -> business#g-guide
-                _eu, _el, _ek = _extra
-                out += link_fn(f"{prefix}{_eu}", _esc_nav(_el), "", set(_ek) - _biz_listed)
-        return out
-
-    def _dd_link(href, label, key, keys=None):
-        return f'<a href="{href}" {_link_cls(key, keys)}>{label}</a>'
-
-    biz_items = _biz_menu(_dd_link, lambda h: f'<p class="dd-sub">{h}</p>')
+    # Business menu removed 18 Oct 2026: the tools moved to surinamebusiness.com.
+    # Learn > Doing Business (doing-business-in-suriname) links there.
 
     # Games
     games_items = (
@@ -7312,7 +7355,6 @@ def nav_html(active="home", prefix=""):
         _desktop_dd("dd-live", "Live",           live_items, _LIVE)         +
         _desktop_dd("dd-learn","Learn",          learn_items, _LEARN)       +
         _desktop_dd("dd-games","Games",          games_items,_GAMES)        +
-        _desktop_dd("dd-biz", "Business",      biz_items, _BIZT)          +
         f'<a href="{prefix}news.html" {_top_single_style("news")}>News</a>'
     )
 
@@ -7361,6 +7403,7 @@ def nav_html(active="home", prefix=""):
     )
     mob_learn_items = (
         _mob_link(f"{prefix}about-suriname",               "About Suriname",    "aboutsr")       +
+        _mob_link(f"{prefix}doing-business-in-suriname",   "Doing Business",    "bizinfo")       +
         _mob_link(f"{prefix}oil-and-gas.html",             "Oil & Gas",         "oilgas", _OILG) +
         _mob_link(f"{prefix}suriname-history.html",        "History Timeline",  "history")       +
         _mob_link(f"{prefix}sranan-tongo-dictionary.html", "Sranan Dictionary", "dictionary") +
@@ -7374,8 +7417,6 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}matches.html",       "Sports Schedule",  "matches")       +
         _mob_link(f"{prefix}suriname-time.html", "Time & Converter", "surtime")
     )
-    # Business on mobile: same short menu as desktop, subheads via .mob-sub.
-    mob_biz_items = _biz_menu(_mob_link, _mob_sub)
     mob_games_items = (
         _mob_link(f"{prefix}quiz.html",      "Sabi Suriname Quiz",   "quiz") +
         _mob_link(f"{prefix}crossword.html", "Switi Mini Crossword", "crossword") +
@@ -7400,7 +7441,6 @@ def nav_html(active="home", prefix=""):
         _mob_group("mg-live", "Live",        mob_live_items,  _LIVE)   +
         _mob_group("mg-learn","Learn",       mob_learn_items, _LEARN)  +
         _mob_group("mg-games","Games",       mob_games_items, _GAMES)  +
-        _mob_group("mg-biz",  "Business",    mob_biz_items,   _BIZT)   +
         _news_link
     )
 
@@ -7832,11 +7872,10 @@ def footer_html(prefix=""):
       </div>
       <div class="ftr-h" style="margin-top:26px">Business</div>
       <div class="ftr-col">
-        <a class="ftr-lnk" href="{prefix}business">All Business Tools</a>
-        <a class="ftr-lnk" href="{prefix}btw-calculator">BTW Calculator</a>
-        <a class="ftr-lnk" href="{prefix}salary-calculator">Salary Calculator</a>
-        <a class="ftr-lnk" href="{prefix}invoice-generator">Invoice Maker</a>
-        <a class="ftr-lnk" href="{prefix}government-tenders">Government Tenders</a>
+        <a class="ftr-lnk" href="{prefix}doing-business-in-suriname">Doing Business</a>
+        <a class="ftr-lnk" href="https://surinamebusiness.com/en/tools" data-l10n-href='{{"nl": "https://surinamebusiness.com/tools"}}'>Business tools</a>
+        <a class="ftr-lnk" href="https://surinamebusiness.com/en/tenders" data-l10n-href='{{"nl": "https://surinamebusiness.com/aanbestedingen"}}'>Government Tenders</a>
+        <a class="ftr-lnk" href="https://surinamebusiness.com/en/jobs" data-l10n-href='{{"nl": "https://surinamebusiness.com/vacatures"}}'>Job vacancies</a>
       </div>
     </div>
     <div>
@@ -9435,7 +9474,7 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
             except Exception:
                 pass
         return ('daily-notices.html', 'Daily notices')
-    _chips = [('restaurants.html', 'Where to Eat'), _ev_chip(), _usd_chip(), _out_chip(), ('business', 'Business tools')]
+    _chips = [('restaurants.html', 'Where to Eat'), _ev_chip(), _usd_chip(), _out_chip(), ('doing-business-in-suriname', 'Doing Business')]
     hero_chips = ''.join('<a href="' + h + '">' + t + '</a>' for h, t in _chips)
 
     # "Today in Suriname" tiles: evergreen text, live line only when fresh
@@ -11084,10 +11123,13 @@ _NW_CTX = [
     ("rates",   "/currency.html",          r"wisselkoers|dollarkoers|koersen\b|cambio|valutamarkt|wisselkantoor|koers van de"),
     ("flights", "/flights.html",           r"luchthaven|zanderij|japi\b|klm\b|slm\b|surinam airways|vlucht\b|vluchten\b|zorg en hoop"),
     ("weather", "/conditions.html",        r"regenval|hevige regen|onweer|meteorologische|droogte|wateroverlast|hittegolf|weersverwachting|noodweer|regenseizoen|droge tijd"),
-    ("prices",  "/max-prices-basic-goods", r"maximumprijs|maximumprijzen|basisgoederen|brandstofprijs|benzineprijs|dieselprijs|pompprijs"),
-    ("wage",    "/minimum-wage-suriname",  r"minimumloon|minimum uurloon"),
+    ("prices",  "https://surinamebusiness.com/en/maximum-prices-basic-goods", r"maximumprijs|maximumprijzen|basisgoederen|brandstofprijs|benzineprijs|dieselprijs|pompprijs"),
+    ("wage",    "https://surinamebusiness.com/en/minimum-wage",  r"minimumloon|minimum uurloon"),
 ]
 _NW_CTX_RE = [(k, href, re.compile(r"\b(?:" + rx + r")", re.I)) for k, href, rx in _NW_CTX]
+# Chips that point at surinamebusiness.com: the /nl/ tree gets the Dutch page there.
+_NW_CTX_NL = {"prices": "https://surinamebusiness.com/maximumprijzen-basisgoederen",
+              "wage":   "https://surinamebusiness.com/minimumloon"}
 _NW_LIVE_PATH = Path("data/news_live.json")
 
 
@@ -11163,7 +11205,9 @@ def _nw_actions(a, ctx=True):
     if ctx:
         k, href = _nw_ctx(a)
         if k:
-            out.append(f'<a class="nw-ctx" href="{href}" data-t="ctx_{k}" data-ctx="{k}" translate="no">{k}</a>')
+            _nl = _NW_CTX_NL.get(k)
+            _l10n = f' data-l10n-href=\'{{"nl": "{_nl}"}}\'' if _nl else ""
+            out.append(f'<a class="nw-ctx" href="{href}"{_l10n} data-t="ctx_{k}" data-ctx="{k}" translate="no">{k}</a>')
     return '<div class="nw-acts">' + "".join(out) + '</div>'
 
 
@@ -16662,6 +16706,182 @@ def _hub_card(kicker, heading, body_html):
         f'<h2 class="serif text-xl font-bold text-gray-900 mb-4">{heading}</h2>'
         + body_html + '</div>'
     )
+
+
+def build_doing_business_page():
+    """doing-business-in-suriname.html: Learn > Doing Business (18 Oct 2026).
+    The business tools moved to the sister site surinamebusiness.com; this page
+    keeps a short orientation on Explore (currency, business language, company
+    registration, BTW, minimum wage, sectors) and sends business users there.
+    BTW and minimum-wage figures come from data/business_rules.json (dated,
+    verified entries), so they follow the same source the old tools used.
+    Values sit in their own translate="no" nodes so the words around them are
+    stable translations.json keys. Links to the sister site carry
+    data-l10n-href so the /nl/ tree points at the Dutch pages there."""
+    import json as _j
+    try:
+        _R = _j.loads(Path("data/business_rules.json").read_text(encoding="utf-8"))
+    except Exception:
+        _R = {}
+    _today = datetime.now(SR_TZ).strftime("%Y-%m-%d")
+
+    def _cur(k):
+        v = _R.get(k)
+        if not isinstance(v, list):
+            return {}
+        ok = [e for e in v if isinstance(e, dict) and str(e.get("from", "")) <= _today]
+        return max(ok, key=lambda e: str(e.get("from", ""))) if ok else {}
+
+    _btw, _mw = _cur("btw"), _cur("minimum_wage_hourly")
+    _std = _btw.get("standard", 10)
+    _oth = [r for r in (_btw.get("rates") or [0, 5, 10, 25]) if r != _std]
+    _thr = _btw.get("threshold_year", 1000000)
+    _mwv = _mw.get("value")
+
+    def _pct(x):
+        return f"{x:g}%"
+
+    def _srd(x):
+        return "SRD " + (f"{x:,.2f}" if float(x) % 1 else f"{x:,.0f}")
+
+    def _sb(en, nl, inner, cls, extra=""):
+        return (f'<a href="{_SB}{en}" data-l10n-href=\'{{"nl": "{_SB}{nl}"}}\' class="{cls}"{extra}>'
+                f'{inner}</a>')
+
+    def _sbl(en, nl, label):   # inline text link to the sister site
+        return _sb(en, nl, label, "font-semibold hover:underline", ' style="color:var(--forest2)"')
+
+    def _card(t, d):
+        return f'<span class="db-t">{t}</span><span class="db-s">{d}</span>'
+
+    title = "Doing Business in Suriname"
+    desc = ("Currency, business language, company registration, BTW and minimum wage in Suriname at a glance, "
+            "with links to business tools, tenders and jobs on SurinameBusiness.com.")
+    faq = [
+        ("Where did the business tools on Explore Suriname go?",
+         "They moved to SurinameBusiness.com, our sister site for Surinamese businesses. Old links forward "
+         "to the same tool there automatically."),
+        ("How do I start a business in Suriname?",
+         "Register the business with the Chamber of Commerce and Industry (KKF), get a tax number from the "
+         "Belastingdienst and, once your turnover passes the threshold, register for BTW. SurinameBusiness.com "
+         "has a step-by-step guide with the documents you need."),
+        ("Does Explore Suriname still list businesses?",
+         "Yes. Shops, restaurants, hotels, services and tour operators stay listed on Explore Suriname, and "
+         "adding yours is free."),
+    ]
+    head = _hub_head(title, desc, "doing-business-in-suriname", faq=faq)
+    hero = _hub_hero("Business Guide", "Doing Business in Suriname",
+                     "The essentials for visitors, investors and new residents. Our business tools, tenders "
+                     "and jobs now live on our sister site, SurinameBusiness.com."
+                     ).replace("{NAV}", nav_html("bizinfo"))
+
+    css = ('<style>'
+           '.db-grid{display:grid;gap:.75rem;grid-template-columns:minmax(0,1fr)}'
+           '@media(min-width:640px){.db-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}'
+           '@media(min-width:1024px){.db-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}'
+           '.db-lk{display:flex;flex-direction:column;gap:.25rem;min-width:0;padding:1rem 1.1rem;'
+           'background:#fff;border:1px solid #e5e7eb;border-radius:var(--r-card,6px);text-decoration:none;'
+           'transition:border-color .15s}'
+           '.db-lk:hover{border-color:var(--forest2)}'
+           '.db-t{font-weight:700;color:#111827}'
+           '.db-t::after{content:" \\2192";color:var(--forest2)}'
+           '.db-x .db-t::after{content:" \\2197"}'
+           '.db-s{font-size:.85rem;line-height:1.45;color:#4b5563}'
+           '.db-btn{display:inline-flex;align-items:center;margin-top:1.1rem;padding:.75rem 1.3rem;'
+           'border-radius:999px;background:var(--forest);color:#fff;font-weight:700;text-decoration:none}'
+           '.db-btn::after{content:" \\2197";margin-left:.35rem}'
+           '.db-btn:hover{background:var(--forest2)}'
+           '.db-v{white-space:nowrap;color:#111827}'
+           '.db-more{display:block;margin-top:.35rem}'
+           '</style>')
+
+    P = '<p class="text-gray-700 text-sm leading-relaxed mb-4">'
+
+    # ── Moved: the sister site ─────────────────────────────────────────────
+    moved = (P + "Every calculator, document maker and business guide that used to be on Explore Suriname is "
+             "now on SurinameBusiness.com, in Dutch and English. Old links forward automatically.</p>"
+             '<div class="db-grid">'
+             + _sb("/en/tools", "/tools", _card("Business tools",
+                   "BTW, salary, invoices, receipts, payslips and more"), "db-lk db-x")
+             + _sb("/en/tenders", "/aanbestedingen", _card("Government Tenders",
+                   "Open tenders from the government and major buyers"), "db-lk db-x")
+             + _sb("/en/jobs", "/vacatures", _card("Job vacancies",
+                   "Vacancies in Suriname, and post your own"), "db-lk db-x")
+             + _sb("/en/guides", "/gidsen", _card("Business guides",
+                   "Starting a business, work permits, BTW, hiring staff, importing"), "db-lk db-x")
+             + _sb("/en/business-news", "/zakennieuws", _card("Business news",
+                   "The day&#8217;s economy and business headlines"), "db-lk db-x")
+             + '</div>'
+             + _sb("/en/", "/", "Go to SurinameBusiness.com", "db-btn"))
+    body = _hub_card("SurinameBusiness.com", "Tools, tenders and jobs have moved", moved)
+
+    # ── At a glance ────────────────────────────────────────────────────────
+    rows = [
+        ("Local currency",
+         "<span>Surinamese dollar (SRD). Cars, property and imported goods are often priced in US dollars "
+         "or euros.</span>"
+         '<span class="db-more">' + _ilink("currency.html", "Today&#8217;s rates") + "</span>"),
+        ("Business language",
+         "<span>Dutch is the language of law, contracts and government. English is widely understood in "
+         "trade.</span>"),
+        ("Time zone",
+         "<span>UTC-3 all year, no daylight saving.</span>"
+         '<span class="db-more">' + _ilink("suriname-time.html", "Time &amp; Converter") + "</span>"),
+        ("Registering a company",
+         "<span>With the Chamber of Commerce and Industry (KKF) in Paramaribo, followed by a tax number from "
+         "the Belastingdienst.</span>"
+         '<span class="db-more">' + _sbl("/en/start-a-business", "/bedrijf-starten", "Step-by-step guide")
+         + "</span>"),
+        ("BTW (VAT)",
+         f'<strong translate="no" class="db-v">{_pct(_std)}</strong> <span>standard rate</span><br>'
+         + (f'<span>Other rates:</span> <strong translate="no" class="db-v">'
+            f'{", ".join(_pct(r) for r in _oth)}</strong><br>' if _oth else "")
+         + f'<span>Registration required above an annual turnover of</span> '
+           f'<strong translate="no" class="db-v">{_srd(_thr)}</strong>'
+         + '<span class="db-more">' + _sbl("/en/vat-calculator", "/btw-berekenen", "BTW calculator") + "</span>"),
+    ]
+    if _mwv:
+        rows.append(("Minimum wage",
+                     f'<strong translate="no" class="db-v">{_srd(_mwv)}</strong> <span>gross per hour</span>'
+                     '<span class="db-more">' + _sbl("/en/minimum-wage", "/minimumloon",
+                                                    "Minimum wage and overtime") + "</span>"))
+    rows += [
+        ("Main sectors",
+         "<span>Gold mining, oil and gas, agriculture and trade. Offshore oil production is expected from "
+         "2028.</span>"
+         '<span class="db-more">' + _ilink("oil-and-gas.html", "Oil &amp; Gas") + "</span>"),
+        ("Public holidays",
+         "<span>Banks and government offices close on official holidays.</span>"
+         '<span class="db-more">' + _ilink("events.html", "Events &amp; holidays") + "</span>"),
+    ]
+    tbl = '<div class="overflow-x-auto"><table class="w-full text-sm"><tbody>'
+    for i, (k, v) in enumerate(rows):
+        border = ' class="border-b border-gray-100"' if i < len(rows) - 1 else ''
+        tbl += (f'<tr{border}><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">{k}</th>'
+                f'<td class="py-3 text-gray-700 align-top">{v}</td></tr>')
+    tbl += ('</tbody></table></div>'
+            '<p class="text-gray-500 text-xs leading-relaxed mt-4">Figures are checked against official sources. '
+            'Always confirm current rules on SurinameBusiness.com before you act on them.</p>')
+    body += _hub_card("At a glance", "Business in Suriname: the basics", tbl)
+
+    # ── Handy on Explore ───────────────────────────────────────────────────
+    def _ex(href, t, d):
+        return f'<a href="{href}" class="db-lk">' + _card(t, d) + '</a>'
+    explore = ('<div class="db-grid">'
+               + _ex("currency.html", "Market Rates", "Cambio and central bank rates for USD and EUR")
+               + _ex("suriname-time.html", "Time &amp; Converter", "Suriname time, time zones and a call planner")
+               + _ex("atms.html", "ATM Finder", "Which ATMs work and which cards they take")
+               + _ex("flights.html", "Flights", "Arrivals and departures at PBM and EAX")
+               + _ex("daily-notices.html", "Daily Notices", "Power and water outages, on-call pharmacies")
+               + _ex("oil-and-gas.html", "Oil &amp; Gas", "Blocks, the GranMorgu project and supplier routes")
+               + _ex("submit-business.html", "Add your business", "Free listing in the Explore Suriname directory")
+               + '</div>')
+    body += _hub_card("On Explore Suriname", "Handy for business visitors", explore)
+
+    body += '<div id="faq" style="scroll-margin-top:90px"></div>' + _hub_faq_html(faq)
+
+    main = '<main class="max-w-5xl mx-auto px-5 py-12 pb-24">' + css + body + '</main>'
+    return head + hero + main + "\n" + footer_html() + "\n</body>\n</html>"
 
 
 def _hub_faq_html(faq):
@@ -27321,7 +27541,9 @@ def build_time_page():
                   '<select id="dt-k" aria-label="Kind of days"><option value="cal">calendar days</option><option value="work">working days</option></select></div></div>'
                   '<div class="cv-res" id="dt-res"><p>&nbsp;</p><b>&ndash;</b></div></div>'
                   '<p class="cv-foot">Working days skip Saturdays, Sundays and Surinamese public holidays. For deadlines and payment terms: '
-                  '<a href="/working-days-calculator">Working days calculator</a>.</p></div>')
+                  '<a href="https://surinamebusiness.com/en/working-days-calculator" '
+                  'data-l10n-href=\'{"nl": "https://surinamebusiness.com/werkdagen-berekenen"}\'>'
+                  'Working days calculator</a>.</p></div>')
     conv = ('<section class="tm-card" id="converter" data-sec="converter"><div class="tm-hd"><h2 class="serif">Converter</h2></div>'
             '<div class="cv-tabs" role="tablist">'
             '<button type="button" class="cv-t on" data-cvt="tz">Time zones</button>'
@@ -27507,7 +27729,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("submit-business.html", "0.6", "yearly"),
         ("submit-event.html",    "0.6", "monthly"),
         ("privacy.html",    "0.3", "yearly"),
-    ] + list(_BIZTOOLS_SITEMAP) + list(_ff_sitemap_entries()) \
+    ] + [("doing-business-in-suriname", "0.7", "monthly")] + list(_ff_sitemap_entries()) \
       + [("event-" + _s, "0.7", "weekly") for _s in _EVENT_PAGE_SLUGS]
 
     urls = []
@@ -27627,7 +27849,10 @@ def build_llms_txt():
 - [Muskieto Survivor]({S}/muskieto.html): five-minute terras survival game; auto-firing mepper, Mama's slipper and Madame Jeanette against muskieto swarms.
 - [Heiligenweg Jam]({S}/heiligenweg-jam): bus-jam puzzle at Paramaribo's bus station; tap lijnbussen out of the lot so passengers board the bus home. Endless levels.
 
-{_biztools_llms(S)}
+## Business
+- [Doing Business in Suriname]({S}/doing-business-in-suriname): short orientation for business visitors and investors: currency, business language, time zone, company registration (KKF), BTW, minimum wage and main sectors.
+- Business calculators, invoice and document makers, government tenders, job vacancies and business guides are on the sister site [SurinameBusiness.com](https://surinamebusiness.com/en/) (Dutch version at https://surinamebusiness.com/).
+
 ## About
 - [About this site]({S}/about.html): what Explore Suriname is and who maintains it.
 - [Contact]({S}/contact.html): partnership and listing enquiries.
@@ -30086,7 +30311,7 @@ if __name__ == "__main__":
         "activities.html":  build_activities_page(),
         # Real estate became the Marketplace (Sep 2026), which was retired on
         # Sep 28 2026 (no ads). Point straight at /business, no redirect chain.
-        "real-estate.html":        _retired_stub("/business"),
+        "real-estate.html":        _retired_stub("/doing-business-in-suriname"),
         # Folded into activities.html (Aug 2026). Kept as a stub so existing
         # links and indexed URLs consolidate instead of 404ing.
         "nature.html":             ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
@@ -30128,6 +30353,7 @@ if __name__ == "__main__":
         "suriname-itinerary.html": build_itinerary_page(),
         "is-suriname-safe.html":   build_safety_page(),
         "about-suriname.html":     build_about_suriname_page(),
+        "doing-business-in-suriname.html": build_doing_business_page(),
         "suriname-history.html":   build_history_page(),
         "seogs-2026.html":         ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
             '<meta name="robots" content="noindex">'
@@ -30206,7 +30432,19 @@ if __name__ == "__main__":
         "cbvs_live":     cbvs_live,
         "cbvs_updated":  cbvs_updated,
     })
-    pages.update(_biz_pages)
+    # Moved 18 Oct 2026: the business tools live on surinamebusiness.com now.
+    # Every old URL becomes an instant redirect stub to its counterpart there
+    # (_moved_stub; build_i18n writes /nl/ stubs to the Dutch URL). The engine
+    # above still runs for the tax-deadline calendar feed (_biz_files), so
+    # existing calendar subscriptions keep updating; its pages are discarded.
+    pages.update({_f: _moved_stub(_f) for _f in _SB_MOVED})
+    try:
+        from business_pages import BIZ_FILES as _BF_CHECK
+        _unmapped = [_f for _f in _BF_CHECK if _f not in _SB_MOVED]
+        if _unmapped:
+            print("  WARN business pages without a surinamebusiness.com target:", ", ".join(_unmapped))
+    except Exception:
+        pass
 
     # ── Flora & Fauna (flora_fauna_pages.py, data/flora_fauna/*.json) ───────
     # Pure local build, no network. Pages are directories (flora-fauna/x/index.html);
@@ -30241,9 +30479,9 @@ if __name__ == "__main__":
     # moderation Worker are left untouched so it can be switched back on; the
     # old URLs become noindex redirect stubs to /business.
     pages.update({
-        "marketplace/index.html": _retired_stub("/business"),
-        "post-ad.html":           _retired_stub("/business"),
-        "my-ads.html":            _retired_stub("/business"),
+        "marketplace/index.html": _retired_stub("/doing-business-in-suriname"),
+        "post-ad.html":           _retired_stub("/doing-business-in-suriname"),
+        "my-ads.html":            _retired_stub("/doing-business-in-suriname"),
     })
     _market_slugs = []
 
