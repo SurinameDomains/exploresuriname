@@ -1,6 +1,6 @@
 {
   "static:index.html": {
-    "hash": "4a3565f23cfc135de9577183562b820f",
+    "hash": "466cb3ee9292f5b0e0470f4e5362ad3a",
     "date": "2026-10-19"
   },
   "static:restaurants.html": {
@@ -28,7 +28,7 @@
     "date": "2026-10-19"
   },
   "static:currency.html": {
-    "hash": "44876841d87b211780c6fd7f085274ae",
+    "hash": "bc4da202219745413976f949132ce30e",
     "date": "2026-10-19"
   },
   "static:flights.html": {
@@ -36,7 +36,7 @@
     "date": "2026-10-19"
   },
   "static:conditions.html": {
-    "hash": "48feaf4e7088279ec4480593cd10aba5",
+    "hash": "636f8389651b77e59f6ce652886a7b46",
     "date": "2026-10-19"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-19"
   },
   "static:news.html": {
-    "hash": "898e43a94f466991632dc04fc2972931",
+    "hash": "c85e6bad2d80b87dc85dc90e15321efa",
     "date": "2026-10-19"
   },
   "static:about.html": {
@@ -3016,7 +3016,7 @@
     "date": "2026-06-12"
   },
   "static:events.html": {
-    "hash": "892eb700fb450856e43249533dab3f9c",
+    "hash": "45d51014e6cb8f803bf3a7396d868f52",
     "date": "2026-10-19"
   },
   "fort-zeelandia": {
@@ -3064,7 +3064,7 @@
     "date": "2026-10-19"
   },
   "static:atms.html": {
-    "hash": "eb43effdb7594b1d3fdf5ab8fd9afeb2",
+    "hash": "c7b7654ae30fcd1721158753e53bb305",
     "date": "2026-10-19"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-19"
   },
   "static:oil-and-gas.html": {
-    "hash": "2e9d83d3452d95bf0b487e01041ffcb7",
+    "hash": "b6063f4d459e6ba86897e58b8f5de69f",
     "date": "2026-10-19"
   },
   "static:suriname-oil-blocks.html": {
@@ -32369,6 +32369,10 @@
   },
   "static:doing-business-in-suriname": {
     "hash": "de42d60e2f12e93817dd9a7ac6d9df58",
+    "date": "2026-10-19"
+  },
+  "static:event-savanne-rally-2026-20261112": {
+    "hash": "383100ec1942f19a9c453f802915c6df",
     "date": "2026-10-19"
   }
 }
