@@ -13354,19 +13354,23 @@ def build_activity_listing_page(act, slug):
         + "\n  <script type=\"application/ld+json\">\n  " + _ld_safe(_json.dumps(act_breadcrumb, ensure_ascii=False)) + "\n  </script>"
     )
 
+    # Title (SEO audit 19 Oct 2026): "<Activity> in Suriname: Guide & Tips". /nl/ and /es/ kept the
+    # English title before; build_i18n.localize_ttd_title() localizes this grammar.
+    _act_base = name_e + " in Suriname: Guide &amp; Tips"
+    _act_title = _act_base + (" | Explore Suriname" if len(html_lib.unescape(_act_base)) + 19 <= 62 else "")
     head = (
         PAGE_HEAD +
-        "\n  <title>" + name_e + " in Suriname | Explore Suriname</title>"
+        "\n  <title>" + _act_title + "</title>"
         "\n  <meta name=\"description\" content=\"" + desc_e + "\">"
         "\n  <link rel=\"canonical\" href=\"" + page_url + "\">"
         "\n  <meta property=\"og:type\" content=\"website\">"
         "\n  <meta property=\"og:site_name\" content=\"Explore Suriname\">"
         "\n  <meta property=\"og:url\" content=\"" + page_url + "\">"
-        "\n  <meta property=\"og:title\" content=\"" + name_e + " in Suriname | Explore Suriname\">"
+        "\n  <meta property=\"og:title\" content=\"" + _act_title + "\">"
         "\n  <meta property=\"og:description\" content=\"" + desc_e + "\">"
         "\n  <meta property=\"og:image\" content=\"" + og_img + "\">"
         "\n  <meta name=\"twitter:card\" content=\"summary_large_image\">"
-        "\n  <meta name=\"twitter:title\" content=\"" + name_e + " | Explore Suriname\">"
+        "\n  <meta name=\"twitter:title\" content=\"" + _act_title + "\">"
         "\n  <meta name=\"twitter:description\" content=\"" + desc_e + "\">"
         "\n  <meta name=\"twitter:image\" content=\"" + og_img + "\">"
         + act_ld_scripts +
@@ -13527,12 +13531,12 @@ def build_nature_listing_page(spot, slug):
         + '\n  </script>'
     )
 
-    # Title: keep the type label and brand only while it fits ~60 chars.
-    _nat_base = name_e + ', Nature Park in Suriname'
-    if len(html_lib.unescape(_nat_base)) + 19 <= 62:
-        _nat_title = _nat_base + ' | Explore Suriname'
-    else:
-        _nat_title = name_e + ' | Nature Park in Suriname'
+    # Title (SEO audit 19 Oct 2026): "<Name>, Suriname: Visitor Guide". The old "Nature Park in
+    # Suriname" label was wrong for the inner city, Fort Nieuw Amsterdam, Palumeu and the rivers, and
+    # the /nl/ and /es/ titles stayed English. build_i18n.localize_ttd_title() localizes this
+    # grammar (name from translations.json); keep the two in sync.
+    _nat_base = name_e + (': Visitor Guide' if 'Suriname' in name else ', Suriname: Visitor Guide')
+    _nat_title = _nat_base + (' | Explore Suriname' if len(html_lib.unescape(_nat_base)) + 19 <= 62 else '')
 
     head = (
         PAGE_HEAD

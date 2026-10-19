@@ -1057,9 +1057,54 @@ def localize_listing_title_v2(key: str, lang: str):
     return None
 
 
+# Things to Do detail pages (SEO audit 19 Oct 2026): generate.py writes
+#   activity: "<Name> in Suriname: Guide & Tips | Explore Suriname"
+#   nature:   "<Name>, Suriname: Visitor Guide | Explore Suriname" (no ", Suriname" when the name has it)
+# The name is taken from translations.json (the same entry the page's H1 uses), the rest is
+# hand-written here, so /nl/ and /es/ no longer keep the English title.
+_TTD_ACT_RE = re.compile(r"(?P<name>.+) in Suriname: Guide & Tips(?P<sfx> \| Explore Suriname)?")
+_TTD_NAT_RE = re.compile(r"(?P<name>.+?)(?P<sr>, Suriname)?: Visitor Guide(?P<sfx> \| Explore Suriname)?")
+_TTD_ACT = {"nl": "{n} in Suriname: gids & tips", "es": "{n} en Surinam: guía y consejos",
+            "fr": "{n} au Suriname\u00a0: guide et conseils", "pt": "{n} no Suriname: guia e dicas",
+            "zh": "苏里南{n}：指南与贴士"}
+_TTD_NAT = {"nl": ("{n}, Suriname: bezoekersgids", "{n}: bezoekersgids"),
+            "es": ("{n}, Surinam: guía para visitantes", "{n}: guía para visitantes"),
+            "fr": ("{n}, Suriname\u00a0: guide de visite", "{n}\u00a0: guide de visite"),
+            "pt": ("{n}, Suriname: guia do visitante", "{n}: guia do visitante"),
+            "zh": ("{n}（苏里南）：游览指南", "{n}：游览指南")}
+
+
+def localize_ttd_title(key: str, lang: str):
+    if lang not in _TTD_ACT:
+        return None
+    m = _TTD_ACT_RE.fullmatch(key)
+    if m:
+        n = (cache.get(m.group("name")) or {}).get(lang) or m.group("name")
+        if lang == "zh" and "苏里南" in n:
+            base = n + "：指南与贴士"  # no "苏里南苏里南…"
+        else:
+            base = _TTD_ACT[lang].format(n=n)
+        return _ttd_sfx(base, m.group("sfx"))
+    m = _TTD_NAT_RE.fullmatch(key)
+    if m:
+        n = (cache.get(m.group("name")) or {}).get(lang) or m.group("name")
+        sr = m.group("sr") and not (lang == "zh" and "苏里南" in n)
+        return _ttd_sfx(_TTD_NAT[lang][0 if sr else 1].format(n=n), m.group("sfx"))
+    return None
+
+
+def _ttd_sfx(base: str, sfx):
+    # same rule as generate.py: keep " | Explore Suriname" only while the title stays <= 62 chars,
+    # so a longer translation does not push the page name out of the search result
+    if sfx and len(base) + len(sfx) <= 62:
+        return base + sfx
+    return base
+
+
 def is_listing_title_v2(text: str) -> bool:
     t = (text or "").strip()
-    return bool(_LT2_RE.fullmatch(t) or _LT2_CHAIN_RE.fullmatch(t))
+    return bool(_LT2_RE.fullmatch(t) or _LT2_CHAIN_RE.fullmatch(t)
+                or _TTD_ACT_RE.fullmatch(t) or _TTD_NAT_RE.fullmatch(t))
 
 
 def tr(text: str, lang: str) -> str:
@@ -1067,7 +1112,7 @@ def tr(text: str, lang: str) -> str:
     key = text.strip()
     lead = text[:len(text) - len(text.lstrip())]
     trail = text[len(text.rstrip()):]
-    _lt2 = localize_listing_title_v2(key, lang)
+    _lt2 = localize_listing_title_v2(key, lang) or localize_ttd_title(key, lang)
     if _lt2:
         return lead + _lt2 + trail
     entry = cache.get(key)

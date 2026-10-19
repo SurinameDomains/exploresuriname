@@ -734,6 +734,13 @@ def build_subgroup(data, shell, gkey, skey):
     lst = data.by_sub.get((gkey, skey), [])
     title = L(f'{slab["en"]} of Suriname', f'{slab["nl"]} van Suriname', f'{slab["es"]} de Surinam', f'苏里南{slab["zh"]}',
               f'{slab["fr"]} du Suriname', f'{slab["pt"]} do Suriname')
+    if slab["en"] == glab["en"]:
+        # The only subgroup of a group ("orchids-all") had the group page's exact title
+        # (SEO audit 19 Oct 2026): name it for what it is, the full list.
+        title = L(f'{slab["en"]} of Suriname: Full Species List', f'{slab["nl"]} van Suriname: volledige soortenlijst',
+                  f'{slab["es"]} de Surinam: lista completa de especies', f'苏里南{slab["zh"]}：完整物种名录',
+                  f'{slab["fr"]} du Suriname\u00a0: liste complète des espèces',
+                  f'{slab["pt"]} do Suriname: lista completa de espécies')
     n_prof = sum(1 for s in lst if s.get("p"))
     desc = L(f'All {len(lst)} {slab["en"].lower()} recorded in Suriname, with names in English, Dutch, Spanish, Chinese, Sranan Tongo and Latin.',
              f'Alle {len(lst)} soorten ({slab["nl"].lower()}) die in Suriname zijn waargenomen, met namen in het Engels, Nederlands, Spaans, Chinees, Sranantongo en Latijn.',
