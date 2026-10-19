@@ -46,6 +46,12 @@ jobs:
       - name: Cache external images
         run: python cache_images.py
 
+      # Without this step the commit below published English pages without
+      # hreflang / clean links and an English-only sitemap until the next
+      # update.yml run (SEO audit 19 Oct 2026). Same step as update.yml.
+      - name: Build language trees (reads committed translations.json)
+        run: python build_i18n.py
+
       - name: Commit and push
         run: |
           git config user.name  "github-actions[bot]"
@@ -54,7 +60,8 @@ jobs:
           git add *.html
           git add data/ || true
           git add listing/ .last_run sitemap.xml robots.txt tailwind.css search-index.json listing_lastmod_cache.json || true
-          git add images/ image_cache.json || true
+          git add nl/ es/ sitemaps/ || true
+          git add images/ image_cache.json image_widths.json || true
           git add flights_cache.json flights_cache_smeg.json || true
           git add manifest.webmanifest sw.js offline.html icons/ || true
           git add 34e092d0-1f92-4a82-9ecf-b442b53d80a0.txt || true
