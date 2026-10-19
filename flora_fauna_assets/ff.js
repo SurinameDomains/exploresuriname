@@ -24,11 +24,23 @@
      Species pages exist as static pages only in some languages. For the others the
      English page is opened with ?lang=xx: go to the static page when there is one
      (hreflang link), otherwise localize the labels and the name in place. */
+  /* #lang=xx since 19 Oct 2026 (a fragment is not a separate URL for crawlers);
+     ?lang=xx from older links and bookmarks keeps working. */
   var QL = null;
   try { QL = new URLSearchParams(location.search).get("lang"); } catch (e) {}
+  var HL = (/^#lang=([a-z]{2})$/.exec(location.hash) || [])[1];
+  if (HL) QL = HL;
+  if (LANG === "en") {
+    /* the language menu on a species page links to this same page with #lang=xx:
+       a same-document hop does not reload, so reload to re-run the localization */
+    window.addEventListener("hashchange", function () {
+      var h = (/^#lang=([a-z]{2})$/.exec(location.hash) || [])[1];
+      if (h && h !== QL && HREFLANG[h]) location.reload();
+    });
+  }
   if (LANG === "en" && QL && HREFLANG[QL]) {
     var alt = doc.querySelector('link[rel="alternate"][hreflang="' + HREFLANG[QL] + '"]');
-    if (alt) { location.replace(alt.href + location.hash); return; }
+    if (alt) { location.replace(alt.href + (HL ? "" : location.hash)); return; }
     LANG = QL;
     html.setAttribute("lang", HTML_LANG[QL] || QL);
     doc.querySelectorAll("[data-k]").forEach(function (el) {
@@ -48,9 +60,9 @@
     }
     doc.querySelectorAll("a[href]").forEach(function (a) {
       var u; try { u = new URL(a.getAttribute("href"), location.href); } catch (e) { return; }
-      if (u.origin !== location.origin || /[?&]lang=/.test(u.search) || /^\/(nl|es|zh|fr|pt)(\/|$)/.test(u.pathname)) return;
+      if (u.origin !== location.origin || /[?&]lang=/.test(u.search) || /^#lang=/.test(u.hash) || /^\/(nl|es|zh|fr|pt)(\/|$)/.test(u.pathname)) return;
       if (a.closest(".ff-lmenu")) return;
-      if (a.classList.contains("ff-card")) { u.search = "?lang=" + QL; }      /* another species: same treatment */
+      if (a.classList.contains("ff-card")) { u.hash = "lang=" + QL; }        /* another species: same treatment */
       else if (/\.(css|js|json|svg|png|jpe?g|webp)$/.test(u.pathname)) return;
       else { u.pathname = "/" + QL + u.pathname; }                          /* hub, groups, site pages exist in every tree */
       a.setAttribute("href", u.pathname + u.search + u.hash);
@@ -260,7 +272,7 @@
     /* species page in this language? otherwise the English page localizes itself */
     if (LANG === "en") return "/flora-fauna/" + e.u;
     if (!e.p || e.s.indexOf(LANG) > -1) return PREFIX + "/flora-fauna/" + e.u;
-    return "/flora-fauna/" + e.u + "?lang=" + LANG;
+    return "/flora-fauna/" + e.u + "#lang=" + LANG;
   }
   function run() {
     if (!IDX) return;
