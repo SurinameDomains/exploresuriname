@@ -1,6 +1,17 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD WOENSDAG 21 OKTOBER 2026",
+      "date": "21 Oktober 2026",
+      "date_iso": "2026-10-21",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1634/gepland-onderhoud-woensdag-21-oktober-2026",
+      "body": "GEPLAND ONDERHOUD: PARBO WOENSDAG 21 OKTOBER 2026 TUSSEN 9:00 EN 14:00 UUR GEDEELTE AQUARIUSSTRAAT TUSSEN SOEKHANSTRAAT EN PEU ET CONTENTSTRAAT, GEDEELTE RINGWEG – NOORD TUSSEN CURITIBASTRAAT EN SIPER JANUSSTRAAT, NOORDWIJKWEG, MARTINUSSTRAAT, HELOUISESTRAAT, CURITIBASTRAAT, RIO NEGROSTRAAT, BOMBAYSTRAAT, MONTEVIDEOSTRAAT, SANTIAGOSTRAAT, LIMASTRAAT, ASUNCIONSTRAAT, BOGOTASTRAAT, GUMMELSWEG, PEU ET CONTENTSTRAAT, HAFLINGERSTRAAT, LAAN VAN LOUSISEHOF, BELLADONNASTRAAT, RICANAUSTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED. GEPLAND ONDERHOUD: PARBO WOENSDAG 21 OKTOBER 2026 TUSSEN 8:00 EN 14:00 UUR GEDEELTE MORGENSTONDSTRAAT TUSSEN PAPAJAFOWROESTRAAT EN SABAKOESTRAAT, ROWTISTRAAT, BASJAFOWROESTRAAT, PAPAJAFOWROESTRAAT, BAGA BAGA STRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
+      "map": " https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=8990f11c394f4a71b6a68c70068cadb5",
+      "meta_description": "GEPLAND ONDERHOUD: PARBO WOENSDAG 21 OKTOBER 2026 TUSSEN 9:00 EN 14:00 UURGEDEELTE AQUARIUSSTRAAT TUSSEN SOEKHANSTRAAT EN PEU ET CONTENTSTRAAT, GEDEELTE",
+      "district": "PARBO"
+    },
+    {
       "title": "GEPLAND ONDERHOUD MAANDAG 19 OKTOBER 2026",
       "date": "19 Oktober 2026",
       "date_iso": "2026-10-19",
@@ -13,8 +24,22 @@
       "district": "Wanica",
       "time": "08:30 – 12:00",
       "area": "TISRIWEG, COLETTELAAN EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED. Kaart"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 22 OKTOBER 2026",
+      "date": "22 Oktober 2026",
+      "date_iso": "2026-10-22",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1631/gepland-onderhoud-donderdag-22-oktober-2026",
+      "body": "Gepland onderhoud: Wanica donderdag 22 oktober 2026 tussen 09:00-14:00 GEHEEL LEIDING 10 EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
+      "area_full": "GEHEEL LEIDING 10 EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=298c24ac89514eb5828ae4351ed43b35",
+      "meta_description": "Gepland onderhoud: Wanica donderdag 22 oktober 2026 tussen 09:00-14:00 GEHEEL LEIDING 10 EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
+      "district": "Wanica",
+      "time": "09:00 – 14:00",
+      "area": "GEHEEL LEIDING 10 EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED"
     }
   ],
-  "last_updated": "2026-10-19T15:25:20.880083+00:00",
+  "last_updated": "2026-10-19T19:07:57.612972+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
