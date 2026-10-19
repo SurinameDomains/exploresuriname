@@ -213,6 +213,96 @@ for _k, _v in _EVENT_PAGE_I18N.items():
         if not _e.get(_lg):
             _e[_lg] = _t
 
+
+# ── per-page translation dependencies (19 Oct 2026) ───────────────────────────
+# translations.json used to be part of the build cache key, so every upload of it
+# rebuilt all ~8,000 pages in 5 languages (8.5 min in CI instead of ~1 min).
+# Now, while a page is localized, every cache key it looks up is recorded (hits
+# AND misses, so a key added later counts too; "\x00P<prefix>" stands for a
+# prefix scan in _prefix_key). The build cache keeps a fingerprint of those
+# entries per page, and a page is rebuilt only when that fingerprint moves.
+class _DepCache(dict):
+    __slots__ = ()
+
+    def get(self, k, d=None):
+        if _DEPS is not None:
+            _DEPS.add(k)
+        return dict.get(self, k, d)
+
+    def __getitem__(self, k):
+        if _DEPS is not None:
+            _DEPS.add(k)
+        return dict.__getitem__(self, k)
+
+    def __contains__(self, k):
+        if _DEPS is not None:
+            _DEPS.add(k)
+        return dict.__contains__(self, k)
+
+
+_DEPS = None                 # set while a page is being localized, else None
+_PREFIX_DEP = "\x00P"
+cache = _DepCache(cache)
+_ENTRY_MD5 = {}
+
+
+def _entry_md5(k: str) -> str:
+    v = _ENTRY_MD5.get(k)
+    if v is None:
+        if k.startswith(_PREFIX_DEP):
+            import bisect
+            global _SORTED_KEYS
+            if _SORTED_KEYS is None:
+                _SORTED_KEYS = sorted(dict.keys(cache))
+            pre = k[len(_PREFIX_DEP):]
+            i = bisect.bisect_left(_SORTED_KEYS, pre)
+            hit = []
+            while i < len(_SORTED_KEYS) and _SORTED_KEYS[i].startswith(pre):
+                hit.append([_SORTED_KEYS[i], dict.get(cache, _SORTED_KEYS[i])])
+                i += 1
+            val = hit
+        else:
+            val = dict.get(cache, k)
+        v = hashlib.md5(json.dumps(val, sort_keys=True, ensure_ascii=False)
+                        .encode("utf-8", "surrogatepass")).hexdigest()[:16]
+        _ENTRY_MD5[k] = v
+    return v
+
+
+_DEP_NUM_RE = re.compile(r"\d+(?:[.,]\d+)*")      # same as _NUM_RE (defined further down)
+
+
+def dep_closure(keys) -> set:
+    """keys plus the variants tr() derives from them (trailing ".", {#} number
+    template). Those need not be stored per page: they are recomputed here."""
+    out = set(keys)
+    todo = list(out)
+    while todo:
+        k = todo.pop()
+        if k.startswith(_PREFIX_DEP):
+            continue
+        new = []
+        if k and k[-1] not in ".!?\u2026\u3002":
+            new.append(k + ".")
+        if _DEP_NUM_RE.search(k):
+            new.append(_DEP_NUM_RE.sub("{#}", k))
+        for n in new:
+            if n not in out:
+                out.add(n)
+                todo.append(n)
+    return out
+
+
+def dep_digest(keys) -> str:
+    """Fingerprint of the translations.json entries behind these keys."""
+    h = hashlib.md5()
+    for k in sorted(keys):
+        h.update(k.encode("utf-8", "surrogatepass"))
+        h.update(b"\x01")
+        h.update(_entry_md5(k).encode())
+        h.update(b"\x02")
+    return h.hexdigest()
+
 # Event page titles: "<name> – <date> | Events in Suriname". The date part is
 # localized like the date lines on events.html; the name uses the cache when it
 # has a translation (festival names), otherwise it stays as it is.
@@ -233,16 +323,19 @@ def _file_md5(path: Path) -> str:
 def build_key() -> str:
     """Hash of everything that changes NL/ES output for an UNCHANGED English page.
 
-    translations.json  -> the translations themselves
     build_i18n.py      -> switcher markup, hreflang, JSON-LD rules, this logic
     listings json      -> PROTECTED (business names/addresses never translated)
+
+    translations.json is NOT in the key (19 Oct 2026): each page carries a
+    fingerprint of the entries it looked up (dep_digest), so an upload rebuilds
+    only the pages it changes.
 
     If any of these moves, every page is rebuilt. That is the intended blunt
     instrument: a nav or template change also changes every English page, so the
     per-page hashes would all miss anyway.
     """
     h = hashlib.md5()
-    for name in ("translations.json", "build_i18n.py", "exploresuriname_listings.json"):
+    for name in ("build_i18n.py", "exploresuriname_listings.json"):
         h.update(name.encode())
         h.update(_file_md5(ROOT / name).encode())
     h.update("|".join(sorted(TARGETS)).encode())
@@ -264,8 +357,9 @@ def load_build_cache(key: str) -> dict:
 
 # Flora & Fauna incremental build (see flora_fauna_pages.ff_mark): per finished
 # page [source md5, segments, partial languages or None], from the last build.
-# Only filled when the build cache key matches, so a change to translations.json
-# or this script rebuilds everything as before.
+# Only filled when the build cache key matches, so a change to this script
+# rebuilds everything. A finished page is also rebuilt when the translations it
+# looked up last time changed (dep_digest in its build cache entry).
 FF_META = {}
 
 try:
@@ -281,6 +375,10 @@ def ff_skippable(rel, mk, known):
     info = FF_META.get(rel)
     if not info or info[0] != mk[1]:
         return None
+    entry = known.get(rel)
+    if not (isinstance(entry, list) and len(entry) == 3
+            and entry[1] == dep_digest(dep_closure(set(info[1]) | set(entry[2])))):
+        return None          # translations it looked up changed
     langs = info[2] or ALL_LANGS
     if not all((ROOT / lg / rel).exists() for lg in TARGETS if lg in langs):
         return None
@@ -1370,8 +1468,10 @@ def _prefix_key(pre: str, lang: str = None):
     it was before /zh/, /fr/ and /pt/ existed."""
     global _SORTED_KEYS
     import bisect
+    if _DEPS is not None:
+        _DEPS.add(_PREFIX_DEP + pre)
     if _SORTED_KEYS is None:
-        _SORTED_KEYS = sorted(cache)
+        _SORTED_KEYS = sorted(dict.keys(cache))
     i = bisect.bisect_left(_SORTED_KEYS, pre)
     best = None
     while i < len(_SORTED_KEYS) and _SORTED_KEYS[i].startswith(pre):
@@ -2026,8 +2126,11 @@ def process_page(job):
     PROTECTED) is read-only and inherited by fork, so there is nothing to pickle
     beyond the small job tuple and the returned segment list.
     """
+    global _DEPS
     src_str, rel, old_hash = job
     src = Path(src_str)
+    # build cache entry: [English page hash, dep_digest, keys looked up beyond segs]
+    old = old_hash if isinstance(old_hash, list) and len(old_hash) == 3 else None
 
     raw = src.read_bytes()
     # match Path.read_text()'s universal newlines so output is byte-for-byte
@@ -2094,8 +2197,11 @@ def process_page(job):
         if lang not in targets and (ROOT / lang / rel).exists():
             (ROOT / lang / rel).unlink()
 
-    reuse = (old_hash is not None and old_hash == new_hash
+    seg_set = set(segs)
+    reuse = (old is not None and old[0] == new_hash
+             and old[1] == dep_digest(dep_closure(seg_set | set(old[2])))
              and all((ROOT / lang / rel).exists() for lang in targets))
+    entry = old
 
     if reuse:
         # same page body; only rail/dates/CSS version moved -> splice, don't re-render
@@ -2115,16 +2221,23 @@ def process_page(job):
         # the ff-src marker only matters on the English source; the language
         # copies are built exactly as before it existed
         src_html = _FF_SRC_LINE_RE.sub("", html, count=1) if ff_src else html
-        for lang in targets:
-            soup = BeautifulSoup(src_html, "lxml")
-            localize(soup, lang, rel, langs)
-            out = ROOT / lang / rel
-            out.parent.mkdir(parents=True, exist_ok=True)
-            out.write_text(serialize(soup), encoding="utf-8")
+        _DEPS = set()
+        try:
+            for lang in targets:
+                soup = BeautifulSoup(src_html, "lxml")
+                localize(soup, lang, rel, langs)
+                out = ROOT / lang / rel
+                out.parent.mkdir(parents=True, exist_ok=True)
+                out.write_text(serialize(soup), encoding="utf-8")
+            deps = _DEPS
+        finally:
+            _DEPS = None
+        extra = sorted(deps - dep_closure(seg_set))
+        entry = [new_hash, dep_digest(dep_closure(seg_set | set(extra))), extra]
 
     plangs = None if len(langs) == len(ALL_LANGS) else langs
     ffinfo = [ff_src, sorted(segs), plangs] if ff_src else None
-    return rel, new_hash, sorted(segs), reuse, plangs, ffinfo, False
+    return rel, entry, sorted(segs), reuse, plangs, ffinfo, False
 
 
 def main():
