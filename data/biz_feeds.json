@@ -43,6 +43,12 @@
  ],
  "bekendmakingen": [
   {
+   "title": "BEKENDMAKING AANBESTEDING GOUDENSPELDEN",
+   "link": "https://gov.sr/bekendmaking/bekendmaking-aanbesteding-goudenspelden/",
+   "date": "2026-10-19",
+   "tender": true
+  },
+  {
    "title": "Landmeterslijst 2026",
    "link": "https://gov.sr/bekendmaking/landmeterslijst-2026/",
    "date": "2026-10-16",
@@ -166,16 +172,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-10-19T10:32-03:00",
+   "ok": "2026-10-19T17:38-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-10-19T10:32-03:00",
+   "ok": "2026-10-19T17:38-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-10-19T10:32-03:00"
+ "updated": "2026-10-19T17:38-03:00"
 }
