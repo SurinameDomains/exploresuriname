@@ -14,6 +14,8 @@ generate.py already computes a hash-based <lastmod> (listing_lastmod_cache.json)
 that only advances when page content really changes, so the sitemap itself is a
 reliable change feed. We persist the last-submitted url -> lastmod map in
 indexnow_state.json (committed by the workflow) and diff against it.
+State format v2 (19 Oct 2026): {"v": 2, "urls": {...}, "missing_since": {...}};
+the old flat {url: lastmod} file is still read.
 
 Zero effect on page load speed; does not touch Google at all.
 """
@@ -23,6 +25,7 @@ import sys
 import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
+from datetime import datetime, timezone
 from pathlib import Path
 
 SITE_HOST = "exploresuriname.com"
@@ -34,20 +37,49 @@ SITEMAP    = "sitemap.xml"
 STATE      = Path("indexnow_state.json")
 BATCH_SIZE = 10_000   # IndexNow hard max per request
 
-# Safety valve: if a broken build drops most of the sitemap, do not spam the
-# API with thousands of "deleted" URLs. Skip the removal notices instead.
-MAX_REMOVED_FRACTION = 0.10
+# Safety valves (rewritten 19 Oct 2026).
+# Old rule: if >10% of the URLs vanished, skip removal notices AND freeze the
+# state. A legitimate big removal (7 Oct 2026: es/zh species copies dropped,
+# 18 Oct: .html -> clean URLs) tripped it, the state never advanced again and
+# EVERY build resubmitted the whole sitemap (~19k URLs x ~95 builds/day =
+# ~1.8M submissions/day, visible in Bing Webmaster Tools > IndexNow).
+# New rules:
+#  - The baseline for URLs that ARE in the sitemap always advances after a
+#    successful submission, so an unchanged URL is never resubmitted.
+#  - A URL that disappears is remembered (missing_since) and only reported as
+#    removed once it has stayed out of the sitemap for REMOVAL_GRACE_H hours.
+#    A single bad/truncated build is repaired 15 minutes later, long before.
+#    No size-ratio valve any more: a stuck ratio check is exactly what froze
+#    the state; the grace window covers a truncated sitemap on its own.
+REMOVAL_GRACE_H = 24
 
 
 def load_sitemap(sitemap_path: str) -> dict[str, str]:
-    """Return {url: lastmod}. lastmod may be '' if the sitemap omits it."""
+    """Return {url: lastmod}. lastmod may be '' if the sitemap omits it.
+    Since 19 Oct 2026 sitemap.xml is a sitemap index whose parts live in
+    sitemaps/*.xml on disk; those are read from the local build output."""
+    ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
     try:
         tree = ET.parse(sitemap_path)
     except (FileNotFoundError, ET.ParseError) as exc:
         print(f"[IndexNow] Could not parse {sitemap_path}: {exc}", file=sys.stderr)
         return {}
-    ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+    root = tree.getroot()
     out: dict[str, str] = {}
+    if root.tag.endswith("sitemapindex"):
+        for sm in root.findall("sm:sitemap", ns):
+            loc = sm.find("sm:loc", ns)
+            if loc is None or not loc.text or not loc.text.strip().startswith(SITE_URL + "/"):
+                continue
+            part = loc.text.strip()[len(SITE_URL) + 1:]
+            got = load_sitemap(part)
+            if not got:
+                # an unreadable part would look like thousands of removed URLs
+                print(f"[IndexNow] Sitemap part {part} unreadable or empty — skipping this run.",
+                      file=sys.stderr)
+                return {}
+            out.update(got)
+        return out
     for url in tree.findall(".//sm:url", ns):
         loc = url.find("sm:loc", ns)
         if loc is None or not loc.text:
@@ -57,21 +89,29 @@ def load_sitemap(sitemap_path: str) -> dict[str, str]:
     return out
 
 
-def load_state() -> dict[str, str]:
+def load_state() -> tuple[dict[str, str], dict[str, str]]:
+    """Return (urls {url: lastmod}, missing_since {url: ISO time}).
+    Reads both the v2 format and the old flat {url: lastmod} file."""
     if not STATE.exists():
-        return {}
+        return {}, {}
     try:
         data = json.loads(STATE.read_text(encoding="utf-8"))
-        return data if isinstance(data, dict) else {}
     except Exception as exc:
         print(f"[IndexNow] State unreadable ({exc}) — treating as first run.", file=sys.stderr)
-        return {}
+        return {}, {}
+    if not isinstance(data, dict):
+        return {}, {}
+    if data.get("v") == 2 and isinstance(data.get("urls"), dict):
+        ms = data.get("missing_since")
+        return data["urls"], (ms if isinstance(ms, dict) else {})
+    return data, {}     # old flat format
 
 
-def save_state(state: dict[str, str]) -> None:
+def save_state(urls: dict[str, str], missing_since: dict[str, str]) -> None:
     try:
         STATE.write_text(
-            json.dumps(state, ensure_ascii=False, indent=0, sort_keys=True),
+            json.dumps({"v": 2, "urls": urls, "missing_since": missing_since},
+                       ensure_ascii=False, indent=0, sort_keys=True),
             encoding="utf-8",
         )
     except Exception as exc:
@@ -122,42 +162,56 @@ def submit(urls: list[str]) -> bool:
     return ok
 
 
-def main() -> None:
+def main(now: datetime | None = None) -> None:
+    now = now or datetime.now(timezone.utc)
     current = load_sitemap(SITEMAP)
     if not current:
         print("[IndexNow] No URLs found — skipping.", file=sys.stderr)
         return
     print(f"[IndexNow] Sitemap holds {len(current)} URLs")
 
-    previous = load_state()
+    previous, missing_since = load_state()
 
     # First run: seed state without submitting. IndexNow is for changes made
     # *after* setup; the sitemap's lastmod values cover the historical backlog.
     if not previous:
-        save_state(current)
+        save_state(dict(current), {})
         print(f"[IndexNow] First run — seeded state with {len(current)} URLs, nothing submitted.")
         return
 
     changed = sorted(u for u, lm in current.items() if previous.get(u) != lm)
 
-    removed = sorted(u for u in previous if u not in current)
+    # URLs missing from this sitemap: start (or keep) their clock.
+    new_missing = {}
+    for u in set(previous) | set(missing_since):
+        if u in current:
+            continue                      # back in the sitemap: forget the clock
+        new_missing[u] = missing_since.get(u) or now.isoformat(timespec="seconds")
 
-    # A build that drops most of the sitemap is almost certainly broken, not a
-    # mass deletion. Skip the removal notices AND refuse to persist state from
-    # this run — otherwise the truncated sitemap becomes the new baseline and
-    # the next healthy build resubmits the whole site as "changed".
-    suspicious = bool(removed) and len(removed) > len(previous) * MAX_REMOVED_FRACTION
-    if suspicious:
-        print(
-            f"[IndexNow] {len(removed)} URLs vanished from the sitemap "
-            f"(>{MAX_REMOVED_FRACTION:.0%}) — looks like a bad build, not deletions. "
-            "Skipping removal notices and leaving state untouched.",
-            file=sys.stderr,
-        )
-        removed = []
+    def _age_h(ts: str) -> float:
+        try:
+            return (now - datetime.fromisoformat(ts)).total_seconds() / 3600
+        except Exception:
+            return 0.0
+
+    removed = sorted(u for u, ts in new_missing.items() if _age_h(ts) >= REMOVAL_GRACE_H)
+    waiting = len(new_missing) - len(removed)
+    if waiting:
+        print(f"[IndexNow] {waiting} URLs missing for < {REMOVAL_GRACE_H} h — "
+              "not reported yet (could be a bad build).")
+
+    # Next state: every URL in the sitemap with its lastmod; URLs still inside
+    # the grace window keep their old entry so a quick return is not "changed".
+    next_urls = dict(current)
+    for u in new_missing:
+        if u not in removed and u in previous:
+            next_urls[u] = previous[u]
+    next_missing = {u: ts for u, ts in new_missing.items() if u not in removed}
 
     to_submit = changed + removed
     if not to_submit:
+        if next_missing != missing_since or next_urls != previous:
+            save_state(next_urls, next_missing)
         print("[IndexNow] Nothing changed since last run — no submission.")
         return
 
@@ -168,11 +222,8 @@ def main() -> None:
         print(f"[IndexNow]   ... and {len(to_submit) - 10} more")
 
     if submit(to_submit):
-        if suspicious:
-            print("[IndexNow] Sitemap looked truncated — state deliberately not updated.")
-        else:
-            save_state(current)
-            print("[IndexNow] State updated.")
+        save_state(next_urls, next_missing)
+        print("[IndexNow] State updated.")
     else:
         print("[IndexNow] Submission incomplete — state NOT updated, will retry next run.",
               file=sys.stderr)

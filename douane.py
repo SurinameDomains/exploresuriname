@@ -34,6 +34,7 @@ FAIL-SAFE
 import datetime as dt
 import json
 import re
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -109,6 +110,29 @@ class _NoRedirect(urllib.request.HTTPRedirectHandler):
 _OPENER = urllib.request.build_opener(_NoRedirect)
 
 
+# cbvs.sr challenges traffic from outside Suriname since ~15 Oct 2026 (GitHub Actions included). When the
+# direct fetch is challenged, the PDF is asked from Explore's own relay (Cloudflare Worker esr-cbvs, source in
+# ExploreSR/cbvs-worker/), which keeps the copy it fetched while running in Paramaribo. Same URL, same checks.
+CBVS_RELAY = "https://esr-cbvs.surinamedomains.workers.dev/"
+
+
+def _relay_pdf(url, timeout=20):
+    path = url.split("cbvs.sr", 1)[1] if "cbvs.sr" in url else ""
+    if not path:
+        return None
+    try:
+        import urllib.parse
+        req = urllib.request.Request(CBVS_RELAY + "?" + urllib.parse.urlencode({"path": path}),
+                                     headers={"User-Agent": "exploresuriname-build"})
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            if r.status != 200:
+                return None
+            body = r.read(2_000_000)
+    except Exception:
+        return None
+    return body if body[:5] == b"%PDF-" else None
+
+
 def fetch_pdf(url, timeout=10):
     """PDF bytes, or None for anything that is not a real PDF (302s, HTML error pages)."""
     try:
@@ -117,6 +141,9 @@ def fetch_pdf(url, timeout=10):
             if r.status != 200:
                 return None
             body = r.read(2_000_000)
+    except urllib.error.HTTPError as e:
+        # 403/503 = Cloudflare challenge (not "no such list"): try the relay copy
+        return _relay_pdf(url) if e.code in (403, 503) else None
     except Exception:
         return None
     return body if body[:5] == b"%PDF-" else None

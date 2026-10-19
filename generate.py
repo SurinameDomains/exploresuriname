@@ -5532,6 +5532,33 @@ def fetch_brent_price():
         print(f"  Brent fetch error: {e}")
         return None, None
 
+# cbvs.sr challenges traffic from outside Suriname since ~15 Oct 2026 (Cloudflare managed challenge,
+# GitHub Actions included). Explore's own relay (Cloudflare Worker esr-cbvs on the Explore account, source
+# in ExploreSR/cbvs-worker/) keeps a copy that is refreshed whenever a visitor in Suriname opens a page (the /warm
+# ping in PAGE_HEAD), because the Worker then runs in Paramaribo where cbvs.sr answers.
+CBVS_RELAY = "https://esr-cbvs.surinamedomains.workers.dev/"
+CBVS_RELAY_LIVE_H = 6     # a relay copy younger than this counts as live
+
+
+def _cbvs_relay_get(path, timeout=25):
+    """(bytes, copy datetime or None) from the esr-cbvs relay, or (None, None)."""
+    try:
+        req = urllib.request.Request(CBVS_RELAY + "?" + urllib.parse.urlencode({"path": path}),
+                                     headers={"User-Agent": "exploresuriname-build"})
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            data, at = r.read(), r.headers.get("x-relay-fetched-at")
+        when = None
+        if at:
+            try:
+                when = datetime.fromisoformat(at.replace("Z", "+00:00"))
+            except Exception:
+                when = None
+        return data, when
+    except Exception as e:
+        print(f"  CBVS relay {path}: {e}")
+        return None, None
+
+
 def fetch_cbvs_rates():
     """
     Scrape the Gewogen Gemiddelde Wisselkoersen from cbvs.sr.
@@ -5546,18 +5573,34 @@ def fetch_cbvs_rates():
 
     # cbvs.sr's origin is flaky (Cloudflare 521/523 that often clears within seconds), so the
     # homepage gets one more try at the end before we fall back to the last known rates.
+    _blocked = False
     for _n, url in enumerate(["https://www.cbvs.sr/", "https://www.cbvs.sr/statistieken/financiele-markten-statistieken/dagelijkse-publicaties",
-                              "https://www.cbvs.sr/"]):
+                              "https://www.cbvs.sr/", "relay:/"]):
         if _n == 2:
+            if _blocked:
+                continue          # a challenge does not clear in 4 seconds; go to the relay
             __import__("time").sleep(4)
+        _copy_at = None
         try:
-            req = urllib.request.Request(url, headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-                "Accept": "text/html,application/xhtml+xml,*/*;q=0.8",
-                "Accept-Language": "nl,en;q=0.9",
-            })
-            with urllib.request.urlopen(req, timeout=20) as r:
-                raw = r.read().decode("utf-8", errors="replace")
+            if url.startswith("relay:"):
+                _data, _copy_at = _cbvs_relay_get(url[6:])
+                if not _data:
+                    continue
+                raw = _data.decode("utf-8", errors="replace")
+                url = "esr-cbvs relay" + (f" (copy of {_copy_at:%Y-%m-%d %H:%M} UTC)" if _copy_at else "")
+            else:
+                req = urllib.request.Request(url, headers={
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                    "Accept": "text/html,application/xhtml+xml,*/*;q=0.8",
+                    "Accept-Language": "nl,en;q=0.9",
+                })
+                try:
+                    with urllib.request.urlopen(req, timeout=20) as r:
+                        raw = r.read().decode("utf-8", errors="replace")
+                except urllib.error.HTTPError as _he:
+                    if _he.code in (403, 503):
+                        _blocked = True
+                    raise
 
             # Extract only the Gewogen Gemiddelde exchange-table block — skip all other tables
             tbl_m = re.search(r'<table[^>]+class="exchange-table"[^>]*>(.*?)</table>', raw, re.DOTALL | re.IGNORECASE)
@@ -5596,8 +5639,13 @@ def fetch_cbvs_rates():
                     seen.add(code)
 
             if len(rates) >= 2:
-                print(f"  CBVS: {len(rates)} rates live from {url} ({cbvs_ts})")
                 _rates_last_good_save("cbvs", rates, f"CBVS: {cbvs_ts}")
+                if _copy_at is not None:
+                    _age_h = (datetime.now(timezone.utc) - _copy_at).total_seconds() / 3600
+                    if _age_h > CBVS_RELAY_LIVE_H:
+                        print(f"  CBVS: relay copy is {_age_h:.0f} h old ({cbvs_ts}), shown as last known")
+                        return rates, False, LAST_KNOWN_PREFIX + f"CBVS: {cbvs_ts}"
+                print(f"  CBVS: {len(rates)} rates live from {url} ({cbvs_ts})")
                 return rates, True, f"CBVS: {cbvs_ts}"
 
         except Exception as e:
@@ -6445,7 +6493,11 @@ PAGE_HEAD = """\
   <!-- Google tag (gtag.js) -->
   <script>(function(){var d=false;function l(){if(d)return;d=true;var s=document.createElement("script");s.async=1;s.src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments);};gtag("js",new Date());gtag("config","G-6LTYHZYNSF");}["scroll","click","touchstart","keydown"].forEach(function(e){window.addEventListener(e,l,{once:true,passive:true})});window.addEventListener("load",function(){setTimeout(l,4000)});})();</script>
   <!-- GA4 interaction events: WhatsApp / phone / email / directions / outbound clicks -->
-  <script>window.addEventListener("click",function(ev){var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;var h=a.getAttribute("href")||"",n="",p={};if(h.indexOf("https://wa.me/")===0){n="whatsapp_click"}else if(h.indexOf("tel:")===0){n="phone_click"}else if(h.indexOf("mailto:")===0){n="email_click"}else if(h.indexOf("google.com/maps")!==-1){n="directions_click"}else if(/^https?:\/\//.test(h)&&h.indexOf("exploresuriname.com")===-1){n="outbound_click";try{p.link_domain=new URL(h).hostname}catch(e){}}if(!n)return;p.link_url=h.slice(0,100);window.dataLayer=window.dataLayer||[];if(!window.gtag){window.gtag=function(){window.dataLayer.push(arguments)}}window.gtag("event",n,p)});</script>"""
+  <script>window.addEventListener("click",function(ev){var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;var h=a.getAttribute("href")||"",n="",p={};if(h.indexOf("https://wa.me/")===0){n="whatsapp_click"}else if(h.indexOf("tel:")===0){n="phone_click"}else if(h.indexOf("mailto:")===0){n="email_click"}else if(h.indexOf("google.com/maps")!==-1){n="directions_click"}else if(/^https?:\/\//.test(h)&&h.indexOf("exploresuriname.com")===-1){n="outbound_click";try{p.link_domain=new URL(h).hostname}catch(e){}}if(!n)return;p.link_url=h.slice(0,100);window.dataLayer=window.dataLayer||[];if(!window.gtag){window.gtag=function(){window.dataLayer.push(arguments)}}window.gtag("event",n,p)});</script>
+  <script>/* Keeps Explore's copy of the CBvS rates current: cbvs.sr only answers visitors in Suriname, so a browser
+     here nudges the esr-cbvs relay at most every 15 minutes. Sends nothing about the visitor; the relay ignores
+     other countries (see ExploreSR/cbvs-worker/). */
+  (function(){try{var k="esr_cbvs_warm",t=Date.now(),l=+localStorage.getItem(k)||0;if(t-l<9e5)return;localStorage.setItem(k,t)}catch(e){}setTimeout(function(){try{fetch("https://esr-cbvs.surinamedomains.workers.dev/warm",{mode:"no-cors",credentials:"omit",keepalive:true}).catch(function(){})}catch(e){}},3000)})();</script>"""
 try:
     import hashlib as _hashlib
     _TW_V = _hashlib.md5(open("tailwind.css", "rb").read()).hexdigest()[:8]
@@ -10352,14 +10404,6 @@ window.addEventListener('click',function(ev){
       "@type": "Place",
       "name": "Suriname",
       "sameAs": "https://en.wikipedia.org/wiki/Suriname"
-    }},
-    "potentialAction": {{
-      "@type": "SearchAction",
-      "target": {{
-        "@type": "EntryPoint",
-        "urlTemplate": "{SITE_URL}/?s={{search_term_string}}"
-      }},
-      "query-input": "required name=search_term_string"
     }}
   }}
   </script>
@@ -12499,6 +12543,129 @@ def _chain_block(brand):
             "first_name": mem[0]["name"], "areas": sorted({m["area"] for m in mem})}
 
 
+# ── Listing opening hours + intent titles (SEO audit, 19 Oct 2026) ──────────
+# People search a business by name plus what they want to know: "combe markt
+# openingstijden", "kfc latour menu", "telesur telefoon". Listing titles now say
+# what the page answers (hours / phone / address) and the hours are shown as a
+# readable, localized table instead of the raw OSM string. Every label is baked
+# in with data-l10n markers (build_i18n.apply_l10n), so nothing new goes
+# through translations.json; the title is localized by pattern in build_i18n
+# (localize_listing_title_v2). Keep the intent phrases in sync with it.
+_LT_INTENT_HOURS = "Opening Hours & Contact"
+_LT_INTENT_PHONE = "Address & Phone"
+_LT_INTENT_ADDR  = "Address & Directions"
+_LT_CHAIN_HOURS  = "Locations & Opening Hours"
+_LT_CHAIN_PLAIN  = "Locations & Contact"
+
+_HT_DAYS = [
+    {"en": "Monday",    "nl": "maandag",   "es": "lunes",     "zh": "星期一", "fr": "lundi",    "pt": "segunda-feira"},
+    {"en": "Tuesday",   "nl": "dinsdag",   "es": "martes",    "zh": "星期二", "fr": "mardi",    "pt": "terça-feira"},
+    {"en": "Wednesday", "nl": "woensdag",  "es": "miércoles", "zh": "星期三", "fr": "mercredi", "pt": "quarta-feira"},
+    {"en": "Thursday",  "nl": "donderdag", "es": "jueves",    "zh": "星期四", "fr": "jeudi",    "pt": "quinta-feira"},
+    {"en": "Friday",    "nl": "vrijdag",   "es": "viernes",   "zh": "星期五", "fr": "vendredi", "pt": "sexta-feira"},
+    {"en": "Saturday",  "nl": "zaterdag",  "es": "sábado",    "zh": "星期六", "fr": "samedi",   "pt": "sábado"},
+    {"en": "Sunday",    "nl": "zondag",    "es": "domingo",   "zh": "星期日", "fr": "dimanche", "pt": "domingo"},
+]
+_HT_LBL = {
+    "title":   {"en": "Opening hours", "nl": "Openingstijden", "es": "Horario", "zh": "营业时间",
+                "fr": "Horaires d\u2019ouverture", "pt": "Horário de funcionamento"},
+    "closed":  {"en": "Closed", "nl": "Gesloten", "es": "Cerrado", "zh": "休息", "fr": "Fermé", "pt": "Fechado"},
+    "24h":     {"en": "Open 24 hours", "nl": "24 uur open", "es": "Abierto 24 horas", "zh": "24 小时营业",
+                "fr": "Ouvert 24 h/24", "pt": "Aberto 24 horas"},
+    "holiday": {"en": "Hours can differ on public holidays.",
+                "nl": "Op feestdagen kunnen de tijden afwijken.",
+                "es": "En días festivos el horario puede variar.",
+                "zh": "公共假日营业时间可能不同。",
+                "fr": "Les horaires peuvent varier les jours fériés.",
+                "pt": "O horário pode mudar em feriados."},
+    "see":     {"en": "See opening hours", "nl": "Bekijk de openingstijden", "es": "Ver horario",
+                "zh": "查看营业时间", "fr": "Voir les horaires", "pt": "Ver horário"},
+}
+
+
+def _l10n_span(d, cls=""):
+    """Leaf span localized by build_i18n.apply_l10n ({en, nl, es, zh, fr, pt})."""
+    en = d.get("en", "")
+    l10n = {k: v for k, v in d.items() if k != "en" and v and v != en}
+    return ('<span' + (' class="' + cls + '"' if cls else '') + ' translate="no" data-l10n="'
+            + html_lib.escape(json.dumps(l10n, ensure_ascii=False, separators=(",", ":")), quote=True)
+            + '">' + html_lib.escape(en) + '</span>')
+
+
+def _hours_by_day(h):
+    """OSM opening_hours (the subset _hours_week reads) -> 7 lists (Mon..Sun) of
+    (start, end) minutes. A later rule that names a day replaces that day, as in
+    OSM. None when the string cannot be read (the caller shows it as written)."""
+    if _hours_week(h) is None:
+        return None
+    h = (h or "").strip()
+    if h in ("24/7", "Mo-Su 00:00-24:00"):
+        return [[(0, 1440)] for _ in range(7)]
+    h = re.sub(r",\s+(?=(?:Mo|Tu|We|Th|Fr|Sa|Su)\b)", "; ", h)
+    days = [[] for _ in range(7)]
+    for rule in [r.strip() for r in h.split(";") if r.strip()]:
+        if rule in ("PH off", "PH closed"):
+            continue
+        m = re.fullmatch(r"((?:Mo|Tu|We|Th|Fr|Sa|Su)(?:[-,](?:Mo|Tu|We|Th|Fr|Sa|Su))*)\s+(\d\d:\d\d-\d\d:\d\d(?:,\d\d:\d\d-\d\d:\d\d)*)", rule)
+        if not m:
+            return None
+        ds = _oh_days(m.group(1))
+        if ds is None:
+            return None
+        spans = []
+        for tr in m.group(2).split(","):
+            a, b = tr.split("-")
+            am = int(a[:2]) * 60 + int(a[3:]); bm = int(b[:2]) * 60 + int(b[3:])
+            if bm <= am:
+                bm += 1440
+            spans.append((am, bm))
+        for d in ds:
+            days[d] = list(spans)
+    return days
+
+
+def _hours_table_html(hours):
+    """Readable, localized opening-hours table for a listing page ('' when the
+    string cannot be read)."""
+    days = _hours_by_day(hours)
+    if not days or not any(days):
+        return ""
+    def _t(m):
+        m = m % 1440 if m != 1440 else 1440
+        return "%02d:%02d" % (m // 60, m % 60)
+    rows = ""
+    for i, spans in enumerate(days):
+        if not spans:
+            val = _l10n_span(_HT_LBL["closed"], "text-gray-400")
+        elif any(a == 0 and b >= 1440 for a, b in spans):
+            val = _l10n_span(_HT_LBL["24h"])
+        else:
+            val = ('<span translate="no">'
+                   + ", ".join(_t(a) + "\u2013" + _t(b) for a, b in sorted(spans)) + '</span>')
+        rows += ('<tr class="border-b border-gray-100 last:border-0" data-d="' + str(i) + '">'
+                 '<th scope="row" class="py-2 pr-4 text-left font-medium text-gray-700">'
+                 + _l10n_span(_HT_DAYS[i]) + '</th>'
+                 '<td class="py-2 text-gray-700">' + val + '</td></tr>')
+    return ('\n      <section id="hours" class="mb-8 scroll-mt-24">'
+            '<h2 class="text-lg font-bold text-gray-900 mb-3">' + _l10n_span(_HT_LBL["title"]) + '</h2>'
+            '<div class="bg-white rounded-2xl border border-gray-100 shadow-sm px-5 py-1">'
+            '<table class="w-full text-sm"><tbody>' + rows + '</tbody></table></div>'
+            '<p class="text-xs text-gray-400 mt-2">' + _l10n_span(_HT_LBL["holiday"]) + '</p>'
+            '</section>')
+
+
+def _listing_title(raw_name, place, hours, phone):
+    """'<Name>, <Place>: Opening Hours & Contact' (plain text). The phrase only
+    promises what the page shows."""
+    if hours and _hours_week(hours):
+        intent = _LT_INTENT_HOURS
+    elif phone:
+        intent = _LT_INTENT_PHONE
+    else:
+        intent = _LT_INTENT_ADDR
+    return raw_name + ", " + place + ": " + intent
+
+
 def build_listing_page(slug, b):
     raw_name = b.get("name", slug)
     desc     = b.get("description", "")
@@ -12741,8 +12908,13 @@ def build_listing_page(slug, b):
         if hours:
             # Format hours for display: "Mo-Fr 09:00-17:00; Sa 10:00-14:00" → lines
             _hw = _hours_week(hours)
-            la_rows.append(_lr("clock", html_lib.escape(hours).replace("; ", "<br>")
-                               + ('<span class="oh-live" data-h="' + ",".join(f"{a}-{b}" for a, b in _hw) + '"></span>' if _hw else "")))
+            _oh_live = ('<span class="oh-live" data-h="' + ",".join(f"{a}-{b}" for a, b in _hw) + '"></span>' if _hw else "")
+            if _hours_by_day(hours):
+                # the readable table is in the main column (#hours)
+                la_rows.append(_lr("clock", '<a href="#hours" class="hover:underline">'
+                                   + _l10n_span(_HT_LBL["see"]) + '</a>' + _oh_live))
+            else:
+                la_rows.append(_lr("clock", html_lib.escape(hours).replace("; ", "<br>") + _oh_live))
         _cat_label = category or _SEO_TYPE_LABEL.get(_subcat(slug), "")
         if _cat_label:
             la_rows.append(_lr("tag", html_lib.escape(_cat_label)))
@@ -12825,16 +12997,11 @@ def build_listing_page(slug, b):
         + "\n  <script type=\"application/ld+json\">\n  " + _ld_safe(_json.dumps(breadcrumb_obj, ensure_ascii=False)) + "\n  </script>"
     )
 
-    # SEO-optimised <title>: "Name, Type in Location | Explore Suriname"
-    _seo_biz_type = _SEO_TYPE_LABEL.get(_sub, "")
-    # Title: no ', Suriname' suffix — ExploreSuriname implies country.
-    # Include type label only when the full title still fits within 60 chars.
+    # SEO <title> (19 Oct 2026): "Name, Place: Opening Hours & Contact". The old
+    # "Name, Type in Place" did not match how people search a business (name +
+    # openingstijden / menu / telefoon). See _listing_title().
     _seo_loc = _loc if _loc.lower() not in ("suriname", "") else "Paramaribo"
-    _candidate_with_type = (raw_name + ", " + _seo_biz_type + " in " + _seo_loc + " | Explore Suriname") if _seo_biz_type else ""
-    if _seo_biz_type and len(_candidate_with_type) <= 60:
-        seo_page_title = name_e + html_lib.escape(", " + _seo_biz_type + " in " + _seo_loc)
-    else:
-        seo_page_title = name_e + html_lib.escape(" in " + _seo_loc)
+    seo_page_title = html_lib.escape(_listing_title(raw_name, _seo_loc, hours, phone))
     # Brand suffix only when the title still fits Google's ~60-char display; long
     # business names were pushing titles to 70-78 chars and getting truncated.
     _brand_sfx = " | Explore Suriname"
@@ -12845,7 +13012,9 @@ def build_listing_page(slug, b):
 
     if _chain:
         _n = _chain["count"]
-        seo_page_title = html_lib.escape(f"{_brand}: {_n} locations in Suriname")
+        _chain_hours = any(_hours_week(_hours_of(_m)) for _m in _CHAIN_GROUPS.get(_brand, []))
+        _br = _brand if _brand.lower().endswith("suriname") else _brand + " Suriname"
+        seo_page_title = html_lib.escape(f"{_br}: {_n} " + (_LT_CHAIN_HOURS if _chain_hours else _LT_CHAIN_PLAIN))
         seo_title_tag  = seo_page_title + (_brand_sfx if len(html_lib.unescape(seo_page_title)) + len(_brand_sfx) <= 62 else "")
         desc_e = html_lib.escape(_meta_trunc(
             f"All {_n} {_brand} locations in Suriname in one place: "
@@ -12917,7 +13086,7 @@ def build_listing_page(slug, b):
                      '\n          ' + la_html +
                      '\n        </div>' + _chain["script"])
     else:
-        left_top = ('\n      ' + desc_block + branch_note +
+        left_top = ('\n      ' + desc_block + branch_note + (_hours_table_html(hours) if hours else "") +
                     '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>')
         map_html = ('\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">'
                     '\n        <iframe src="' + maps_embed + '" width="100%" height="100%"'
@@ -30608,6 +30777,9 @@ if __name__ == "__main__":
         "orchid": "/services.html",
         "le-den": "/restaurants.html",
         "stukaderen-in-nederland": "/services.html",  # a YouTube channel about studying in NL, not a business
+        # Oct 19 2026 SEO audit - old slugs Google still crawls (GSC "Not found (404)")
+        "courtyard-marriott": "courtyard-by-marriott",
+        "savante-casino-hotel": "savannah-casino-hotel",   # typo: the casino hotel is Savannah
     }
     for _old_slug, _new_slug in _LEGACY_LISTING_REDIRECTS.items():
         if _old_slug in _BIZ:

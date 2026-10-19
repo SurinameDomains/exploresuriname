@@ -324,9 +324,12 @@ def sp_langs(sp):
 def sp_href(sp, path):
     """href attributes for a link to a species page from `path` (relative), plus a
     data-l10n-href for the trees where that page does not exist (-> English page
-    with ?lang=xx, which localizes itself)."""
+    with #lang=xx, which localizes itself). A fragment, not ?lang=: crawlers
+    ignore fragments, so these links point straight at the one canonical page
+    instead of ~28k ?lang= duplicates (SEO audit 19 Oct 2026). ff.js still
+    reads ?lang= for old links."""
     have = sp_langs(sp)
-    miss = {lg: f"/{BASE}/{sp['p']}/?lang={lg}" for lg in LANGS if lg != "en" and lg not in have}
+    miss = {lg: f"/{BASE}/{sp['p']}/#lang={lg}" for lg in LANGS if lg != "en" and lg not in have}
     target = f"{BASE}/{sp['p']}/"
     h = f'href="{rel(path, target)}"'
     if miss:
@@ -452,7 +455,7 @@ class Shell:
         # highlighted by CSS from <html lang>.
         have = langs or LANGS
         lang_links = "".join(
-            f'<a href="{("" if lg == "en" else "/" + lg) + "/" + path if lg in have else "/" + path + "?lang=" + lg}" '
+            f'<a href="{("" if lg == "en" else "/" + lg) + "/" + path if lg in have else "/" + path + "#lang=" + lg}" '
             f'class="ff-lang-{lg}"' + _la(lg) + f'>{LANG_LABEL[lg]}</a>'
             for lg in LANGS)
         chips = [f'<a href="{hub}" class="ff-chip{" on" if active == "hub" else ""}">{tx(U["all_groups"])}</a>']

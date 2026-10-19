@@ -1004,11 +1004,72 @@ def localize_event_title(key, lang):
     return f"{nm} \u2013 {w} | {_EVP_TITLE_SUFFIX[lang]}"
 
 
+# ── Listing titles v2 (SEO audit, 19 Oct 2026) ───────────────────────────────
+# generate._listing_title(): "Name, Place: Opening Hours & Contact | Explore Suriname"
+# and chain hubs "Brand Suriname: 3 Locations & Opening Hours | Explore Suriname".
+# Localized by pattern BEFORE the translations cache is consulted, so a later
+# machine translation of the same string can never replace these hand-written
+# phrases, and the business name always stays verbatim. Keep in sync with the
+# _LT_* constants in generate.py.
+_LT2_INTENTS = {
+    "Opening Hours & Contact": {"nl": "openingstijden & contact", "es": "horario y contacto",
+                                "zh": "营业时间与联系方式", "fr": "horaires et contact", "pt": "horário e contato"},
+    "Address & Phone":         {"nl": "adres & telefoon", "es": "dirección y teléfono",
+                                "zh": "地址与电话", "fr": "adresse et téléphone", "pt": "endereço e telefone"},
+    "Address & Directions":    {"nl": "adres & route", "es": "dirección y cómo llegar",
+                                "zh": "地址与路线", "fr": "adresse et itinéraire", "pt": "endereço e como chegar"},
+}
+_LT2_CHAIN = {
+    "Locations & Opening Hours": {"nl": "vestigingen & openingstijden", "es": "sucursales y horario",
+                                  "zh": "个网点及营业时间", "fr": "adresses et horaires", "pt": "unidades e horários"},
+    "Locations & Contact":       {"nl": "vestigingen & contact", "es": "sucursales y contacto",
+                                  "zh": "个网点及联系方式", "fr": "adresses et contact", "pt": "unidades e contato"},
+}
+_LT2_RE = re.compile(r"(?P<name>.+), (?P<place>[^,:|]+): (?P<intent>"
+                     + "|".join(re.escape(k) for k in _LT2_INTENTS) + r")(?P<sfx> \| Explore Suriname)?")
+_LT2_CHAIN_RE = re.compile(r"(?P<name>.+?): (?P<n>\d+) (?P<intent>"
+                           + "|".join(re.escape(k) for k in _LT2_CHAIN) + r")(?P<sfx> \| Explore Suriname)?")
+
+
+def localize_listing_title_v2(key: str, lang: str):
+    """New-style listing / chain-hub title -> nl/es/zh/fr/pt, or None."""
+    if lang not in ("nl", "es", "zh", "fr", "pt"):
+        return None
+    m = _LT2_RE.fullmatch(key)
+    if m:
+        name, place, sfx = m.group("name"), m.group("place"), m.group("sfx") or ""
+        it = _LT2_INTENTS[m.group("intent")][lang]
+        if lang == "zh":
+            return name + " - " + _ZH_PLACE.get(place, place) + "：" + it + sfx
+        if lang == "es" and place == "Suriname":
+            place = "Surinam"
+        sep = " : " if lang == "fr" else ": "
+        return name + ", " + place + sep + it + sfx
+    m = _LT2_CHAIN_RE.fullmatch(key)
+    if m:
+        name, n, sfx = m.group("name"), m.group("n"), m.group("sfx") or ""
+        it = _LT2_CHAIN[m.group("intent")][lang]
+        # the brand part ("KFC Suriname") stays verbatim: it may be the real name
+        if lang == "zh":
+            return name + "：" + n + " " + it + sfx
+        sep = " : " if lang == "fr" else ": "
+        return name + sep + n + " " + it + sfx
+    return None
+
+
+def is_listing_title_v2(text: str) -> bool:
+    t = (text or "").strip()
+    return bool(_LT2_RE.fullmatch(t) or _LT2_CHAIN_RE.fullmatch(t))
+
+
 def tr(text: str, lang: str) -> str:
     """Translate a text node, preserving leading/trailing whitespace."""
     key = text.strip()
     lead = text[:len(text) - len(text.lstrip())]
     trail = text[len(text.rstrip()):]
+    _lt2 = localize_listing_title_v2(key, lang)
+    if _lt2:
+        return lead + _lt2 + trail
     entry = cache.get(key)
     if entry and entry.get(lang):
         return lead + entry[lang] + trail
@@ -1286,7 +1347,7 @@ def collect_segments(soup) -> set:
         if node.parent and node.parent.name in SKIP_PARENTS: continue
         if in_brand(node):                            continue
         if no_translate(node):                        continue
-        if translatable(str(node)):
+        if translatable(str(node)) and not is_listing_title_v2(str(node)):
             segs.add(str(node).strip())
     # translatable attributes
     for el in soup.find_all(attrs={"alt": True}):
@@ -1301,7 +1362,7 @@ def collect_segments(soup) -> set:
         for el in soup.select(sel):
             if el.has_attr("data-l10n-content") or el.get("translate") == "no": continue
             val = el.get_text() if attr is None else el.get(attr, "")
-            if val and translatable(val): segs.add(val.strip())
+            if val and translatable(val) and not is_listing_title_v2(val): segs.add(val.strip())
     return segs
 
 
@@ -2130,6 +2191,7 @@ def main():
     if ONLY:
         print("i18n: --only run; sitemap, i18n_segments.json and the build cache left untouched")
     else:
+        purge_orphan_listings()
         localize_sitemap(partial_langs)
 
         # dump the segment inventory for translate_cache.py to consume.
@@ -2172,10 +2234,37 @@ def _stage_new_dirs():
     if not os.environ.get("GITHUB_ACTIONS"):
         return
     import subprocess
-    for d in ("marketplace", "zh", "fr", "pt", "flora-fauna", "assets"):
+    for d in ("marketplace", "zh", "fr", "pt", "flora-fauna", "assets", "sitemaps"):
         if (ROOT / d).is_dir():
             r = subprocess.run(["git", "add", "-A", d], cwd=ROOT, capture_output=True, text=True)
             print(f"i18n: staged {d}/ ({'ok' if r.returncode == 0 else r.stderr.strip()})")
+
+
+# ── orphaned listing copies (SEO audit 19 Oct 2026) ─────────────────────────
+# generate.py purges listing/<slug>/ when a listing is removed, but the copies in
+# the language trees were only ever removed page by page while the English page
+# still existed. Removed listings (e.g. 597-savri, the-rose-manor) kept serving
+# 200 under /nl/ and /es/ while the English URL was a 404.
+def purge_orphan_listings():
+    en_root = ROOT / "listing"
+    if not en_root.is_dir():
+        return
+    en = {d.name for d in en_root.iterdir() if (d / "index.html").exists()}
+    if len(en) < 500:          # a broken or partial build: never mass-delete
+        print(f"i18n: only {len(en)} English listings found - orphan purge skipped")
+        return
+    n = 0
+    for lang in TARGETS:
+        lr = ROOT / lang / "listing"
+        if not lr.is_dir():
+            continue
+        for d in lr.iterdir():
+            if d.is_dir() and d.name not in en:
+                shutil.rmtree(d, ignore_errors=True)
+                n += 1
+                print(f"i18n: removed orphaned {lang}/listing/{d.name}/")
+    if n:
+        print(f"i18n: {n} orphaned listing copies removed")
 
 
 # ── multilingual sitemap (adds nl/es URLs + xhtml:link alternates) ────────────
@@ -2186,6 +2275,11 @@ def localize_sitemap(partial_langs=None):
         return
     import re as _re
     txt = sm.read_text(encoding="utf-8")
+    if "<sitemapindex" in txt[:400]:
+        # Already localized and split (build_i18n ran twice without generate.py
+        # rewriting sitemap.xml in between): leave the index and its parts alone.
+        print("i18n: sitemap.xml is already a sitemap index - left untouched")
+        return
     # Parse each <url> block so the English lastmod/changefreq/priority survive
     # into the localized sitemap. generate.py computes a hash-based lastmod
     # (only advances when content changes); without this it was being dropped.
@@ -2202,6 +2296,26 @@ def localize_sitemap(partial_langs=None):
             out.append(f'    <xhtml:link rel="alternate" hreflang="{HREFLANG[code]}" href="{SITE_URL}{pre}{path}"/>')
         out.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE_URL}{path}"/>')
         return "\n".join(out)
+    # Split by section and language (SEO audit 19 Oct 2026): sitemap.xml becomes
+    # a sitemap index and Search Console / Bing report indexation per part
+    # (e.g. "listings-fr", "species-en"), which the Flora & Fauna pruning
+    # decision needs. indexnow_ping.py follows the index.
+    try:
+        _sp = json.load(open(ROOT / "data" / "flora_fauna" / "species.json", encoding="utf-8"))
+        _species = {x["p"] for x in _sp.get("species", []) if x.get("p")}
+    except Exception:
+        _species = set()
+    def _bucket(path):
+        if path.startswith("/listing/"):
+            return "listings"
+        if path.startswith("/event-") or path.startswith("/events"):
+            return "events"
+        if path.startswith("/flora-fauna/"):
+            parts = [x for x in path.split("/") if x]
+            return "species" if (len(parts) == 2 and parts[1] in _species) else "flora-fauna"
+        return "pages"
+    parts = {}          # "listings-nl" -> [url blocks]
+    part_lastmod = {}
     blocks = []
     pages = 0
     for blk in url_blocks:
@@ -2223,18 +2337,48 @@ def localize_sitemap(partial_langs=None):
             _v = _tag(blk, _t)
             if _v:
                 meta += f"    <{_t}>{_v}</{_t}>\n"
+        _lm = _tag(blk, "lastmod") or ""
+        _bk = _bucket(path)
         for code in partial_langs.get(path, ALL_LANGS):
             pre = "" if code == "en" else f"/{code}"
-            blocks.append(
+            _name = f"{_bk}-{code}"
+            parts.setdefault(_name, []).append(
                 f"  <url>\n    <loc>{SITE_URL}{pre}{path}</loc>\n"
                 f"{meta}{alt_links(path)}\n  </url>"
             )
-    out = ('<?xml version="1.0" encoding="UTF-8"?>\n'
-           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
-           'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
-           + "\n".join(blocks) + "\n</urlset>\n")
-    sm.write_text(out, encoding="utf-8")
-    print(f"i18n: sitemap localized -> {pages} pages x {len(ALL_LANGS)} languages (lastmod preserved)")
+            if _lm > part_lastmod.get(_name, ""):
+                part_lastmod[_name] = _lm
+            blocks.append(_name)
+    if not parts:
+        print("i18n: sitemap had no URLs - left untouched", file=sys.stderr)
+        return
+    sm_dir = ROOT / "sitemaps"
+    sm_dir.mkdir(exist_ok=True)
+    order = ["pages", "listings", "events", "flora-fauna", "species"]
+    names = sorted(parts, key=lambda n: (order.index(n.rsplit("-", 1)[0]) if n.rsplit("-", 1)[0] in order else 99,
+                                         ([*ALL_LANGS].index(n.rsplit("-", 1)[1]) if n.rsplit("-", 1)[1] in ALL_LANGS else 99)))
+    idx = []
+    for name in names:
+        (sm_dir / f"{name}.xml").write_text(
+            '<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+            'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+            + "\n".join(parts[name]) + "\n</urlset>\n", encoding="utf-8")
+        idx.append(f"  <sitemap>\n    <loc>{SITE_URL}/sitemaps/{name}.xml</loc>\n"
+                   + (f"    <lastmod>{part_lastmod[name]}</lastmod>\n" if part_lastmod.get(name) else "")
+                   + "  </sitemap>")
+    # parts that no longer have URLs (a section removed) must not linger
+    for old in sm_dir.glob("*.xml"):
+        if old.stem not in parts:
+            try:
+                old.unlink()
+            except Exception:
+                pass
+    sm.write_text('<?xml version="1.0" encoding="UTF-8"?>\n'
+                  '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+                  + "\n".join(idx) + "\n</sitemapindex>\n", encoding="utf-8")
+    print(f"i18n: sitemap localized -> {pages} pages x {len(ALL_LANGS)} languages, "
+          f"{len(blocks)} URLs in {len(parts)} parts (sitemap.xml = index; lastmod preserved)")
 
 
 if __name__ == "__main__":
