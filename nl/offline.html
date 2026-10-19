@@ -120,34 +120,24 @@
     .util-l a strong{color:var(--gold);font-weight:600}
     @media(max-width:640px){.util-in{padding:0 1rem;gap:.9rem}.util-l{gap:.9rem}
       .util-l a:nth-child(3){display:none}.util-r{display:none}}
-    /* Seven top-level items since the Sep 2026 restructure (was eight with
-       the Business menu; tiers were measured for eight, so seven has slack). Tiers measured,
-       not guessed: no overflow and one row at 1024/1100/1152/1200/1220/1280/
-       1366/1440/1536/1920 in EN, NL and ES. NL/ES labels run longer, so their
-       search label collapses first. */
-    @media (max-width:1535px) {
+    /* Six top-level items since the Business menu moved to surinamebusiness.com
+       (18 Oct 2026; tiers below re-measured 19 Oct for six, one step looser than
+       the eight-item tiers). Measured, not guessed: one row, no overflow and at
+       least ~100px free on each side of the links at 1024/1060/1100/1152/1220/
+       1280/1366/1440/1536 in EN, NL, ES, ZH, FR and PT (FR is the widest). */
+    @media (max-width:1365px) {
       .navlinks { gap:16px; }
       .navlinks .dd-trigger, .navlinks > a { letter-spacing:.045em; }
-      html[lang="es"] .navsearch, html[lang="nl"] .navsearch,
-      html[lang="fr"] .navsearch, html[lang="pt-BR"] .navsearch { gap:0; }
-      html[lang="es"] .navsearch .nslabel, html[lang="nl"] .navsearch .nslabel,
-      html[lang="fr"] .navsearch .nslabel, html[lang="pt-BR"] .navsearch .nslabel { max-width:0; }
-    }
-    @media (max-width:1365px) {
-      .navlinks { gap:11px; }
-      .navlinks .dd-trigger, .navlinks > a { font-size:11.5px; letter-spacing:.03em; }
       .navsearch { gap:0; }
       .navsearch .nslabel { max-width:0; }
     }
     @media (max-width:1219px) {
-      .navlinks { gap:8px; }
-      .navlinks .dd-trigger, .navlinks > a { font-size:11px; letter-spacing:.02em; }
-      .navtag { display:none; }
+      .navlinks { gap:11px; }
+      .navlinks .dd-trigger, .navlinks > a { font-size:11.5px; letter-spacing:.03em; }
     }
     @media (max-width:1099px) {
-      .navlinks { gap:6px; }
-      .navlinks .dd-trigger, .navlinks > a { font-size:10.5px; letter-spacing:.01em; }
-      .navlinks .dd-chevron { width:.7rem; height:.7rem; }
+      .navlinks { gap:8px; }
+      .navlinks .dd-trigger, .navlinks > a { font-size:11px; letter-spacing:.02em; }
     }
     /* component styles relocated from <body> to <head> for valid HTML (Nu: style not allowed in body) */
     .dd-menu { transform-origin: top center; }
@@ -155,8 +145,8 @@
        surface reset (which strips .shadow-xl). Mega menus carry it on .megacard,
        not on the .megap wrapper, whose transparent padding would show it. */
     .dd-menu:not(.megap) { box-shadow:0 12px 24px -8px rgba(35,48,40,.18) !important; }
-    /* Mega menus (Explore, Business). Explore anchors under its trigger;
-       Business is .megap-wide, anchored to the sticky <nav> (its wrapper is
+    /* Mega menus. Explore anchors under its trigger; a wide one (.megap-wide,
+       unused since the Business menu moved) is anchored to the sticky <nav> (its wrapper is
        static) and starts 14px up with transparent padding so hover survives
        the move from the trigger down into the panel. */
     .megap { position:absolute; z-index:50; }
