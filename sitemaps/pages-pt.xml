@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://exploresuriname.com/pt/</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/restaurants</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/restaurants"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/restaurants"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/restaurants"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/restaurants"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/restaurants"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/restaurants"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/restaurants"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/hotels</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/hotels"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/hotels"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/hotels"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/hotels"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/hotels"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/hotels"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/hotels"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/activities</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/activities"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/activities"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/activities"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/activities"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/activities"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/activities"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/activities"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/shopping</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/shopping"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/shopping"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/shopping"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/shopping"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/shopping"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/shopping"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/shopping"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/services</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/services"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/services"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/services"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/services"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/services"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/services"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/services"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/currency</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/currency"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/currency"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/currency"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/currency"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/currency"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/currency"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/currency"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/flights</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/flights"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/flights"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/flights"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/flights"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/flights"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/flights"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/flights"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/atms</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/atms"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/atms"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/atms"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/atms"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/atms"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/atms"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/atms"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/conditions</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/conditions"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/conditions"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/conditions"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/conditions"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/conditions"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/conditions"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/conditions"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/visitor-guide</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/visitor-guide"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/visitor-guide"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/visitor-guide"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/visitor-guide"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/visitor-guide"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/visitor-guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/visitor-guide"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/on-the-road</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/on-the-road"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/on-the-road"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/on-the-road"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/on-the-road"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/on-the-road"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/on-the-road"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/on-the-road"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/suriname-itinerary</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/suriname-itinerary"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/suriname-itinerary"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/suriname-itinerary"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/suriname-itinerary"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/suriname-itinerary"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/suriname-itinerary"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/suriname-itinerary"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/is-suriname-safe</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/is-suriname-safe"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/is-suriname-safe"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/is-suriname-safe"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/is-suriname-safe"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/is-suriname-safe"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/is-suriname-safe"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/is-suriname-safe"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/about-suriname</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/about-suriname"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/about-suriname"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/about-suriname"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/about-suriname"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/about-suriname"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/about-suriname"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/about-suriname"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/suriname-history</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/suriname-history"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/suriname-history"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/suriname-history"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/suriname-history"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/suriname-history"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/suriname-history"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/suriname-history"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/matches</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/matches"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/matches"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/matches"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/matches"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/matches"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/matches"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/matches"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/suriname-time</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/suriname-time"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/suriname-time"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/suriname-time"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/suriname-time"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/suriname-time"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/suriname-time"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/suriname-time"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/sranan-tongo-dictionary</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/sranan-tongo-dictionary"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/sranan-tongo-dictionary"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/sranan-tongo-dictionary"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/sranan-tongo-dictionary"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/sranan-tongo-dictionary"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/sranan-tongo-dictionary"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/sranan-tongo-dictionary"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/daily-notices</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/daily-notices"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/daily-notices"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/daily-notices"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/daily-notices"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/daily-notices"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/daily-notices"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/daily-notices"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/crossword</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/crossword"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/crossword"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/crossword"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/crossword"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/crossword"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/crossword"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/crossword"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/quiz</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/quiz"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/quiz"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/quiz"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/quiz"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/quiz"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/quiz"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/quiz"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/map-game</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/map-game"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/map-game"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/map-game"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/map-game"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/map-game"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/map-game"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/map-game"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/korjaal</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/korjaal"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/korjaal"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/korjaal"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/korjaal"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/korjaal"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/korjaal"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/korjaal"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/anaconda</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/anaconda"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/anaconda"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/anaconda"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/anaconda"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/anaconda"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/anaconda"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/anaconda"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/muskieto</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/muskieto"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/muskieto"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/muskieto"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/muskieto"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/muskieto"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/muskieto"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/muskieto"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/heiligenweg-jam</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/heiligenweg-jam"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/heiligenweg-jam"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/heiligenweg-jam"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/heiligenweg-jam"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/heiligenweg-jam"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/heiligenweg-jam"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/heiligenweg-jam"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/news</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/news"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/news"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/news"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/news"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/news"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/news"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/news"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/oil-and-gas</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/oil-and-gas"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/oil-and-gas"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/oil-and-gas"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/oil-and-gas"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/oil-and-gas"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/oil-and-gas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/oil-and-gas"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/suriname-oil-blocks</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/suriname-oil-blocks"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/suriname-oil-blocks"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/suriname-oil-blocks"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/suriname-oil-blocks"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/suriname-oil-blocks"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/suriname-oil-blocks"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/suriname-oil-blocks"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/granmorgu</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/granmorgu"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/granmorgu"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/granmorgu"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/granmorgu"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/granmorgu"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/granmorgu"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/granmorgu"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/suriname-oil-timeline</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/suriname-oil-timeline"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/suriname-oil-timeline"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/suriname-oil-timeline"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/suriname-oil-timeline"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/suriname-oil-timeline"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/suriname-oil-timeline"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/suriname-oil-timeline"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/suriname-oil-contracts</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/suriname-oil-contracts"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/suriname-oil-contracts"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/suriname-oil-contracts"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/suriname-oil-contracts"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/suriname-oil-contracts"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/suriname-oil-contracts"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/suriname-oil-contracts"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/suriname-oil-government</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/suriname-oil-government"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/suriname-oil-government"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/suriname-oil-government"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/suriname-oil-government"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/suriname-oil-government"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/suriname-oil-government"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/suriname-oil-government"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/suriname-oil-jobs</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/suriname-oil-jobs"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/suriname-oil-jobs"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/suriname-oil-jobs"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/suriname-oil-jobs"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/suriname-oil-jobs"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/suriname-oil-jobs"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/suriname-oil-jobs"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/about</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/about"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/about"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/about"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/about"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/about"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/about"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/about"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/contact</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/contact"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/contact"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/contact"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/contact"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/contact"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/contact"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/submit-business</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/submit-business"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/submit-business"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/submit-business"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/submit-business"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/submit-business"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/submit-business"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/submit-business"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/submit-event</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/submit-event"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/submit-event"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/submit-event"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/submit-event"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/submit-event"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/submit-event"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/submit-event"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/privacy</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/privacy"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/privacy"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/privacy"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/privacy"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/privacy"/>
+  </url>
+  <url>
+    <loc>https://exploresuriname.com/pt/doing-business-in-suriname</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/doing-business-in-suriname"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/doing-business-in-suriname"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/doing-business-in-suriname"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/doing-business-in-suriname"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/doing-business-in-suriname"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/doing-business-in-suriname"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/doing-business-in-suriname"/>
+  </url>
+</urlset>
