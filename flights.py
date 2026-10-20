@@ -361,6 +361,18 @@ def parse_fr24(item, our_iata, now=None):
     }
     if diverted:
         rec["dv"] = diverted
+    # extras FR24 sends for some flights: actual time at the OTHER end, gate, baggage belt
+    other_key = "departure" if direction == "A" else "arrival"
+    ao = _num(_g(t, "real", other_key))
+    if ao:
+        rec["ao"] = ao
+    ours = dst if direction == "A" else ori
+    gate = _g(ours, "info", "gate")
+    belt = _g(ours, "info", "baggage")
+    if gate and direction == "D":
+        rec["gate"] = str(gate)[:6]
+    if belt and direction == "A":
+        rec["belt"] = str(belt)[:6]
     rec["known"] = bool(info.get("name"))
     return rec
 
@@ -688,7 +700,34 @@ def afkl_apply(boards, afkl, now):
             if r["st"] == "delayed" and not o.get("e") and r.get("e"):
                 r["dl"] = int(round((r["e"] - r["s"]) / 60))
             r["src"] = "airline"
+            o["_used"] = 1
             n += 1
+    # legs the airline has but FR24 does not list (e.g. Surinam Airways PY993 on a
+    # wet-leased aircraft): add them, unless a row with the same direction, other
+    # airport and time exists (then it is the same flight under another number)
+    pbm = boards.setdefault("PBM", [])
+    for o in legs:
+        used = o.pop("_used", None)
+        if used or not (now - 12 * 3600 <= o["s"] <= now + 48 * 3600):
+            continue
+        twin = next((r for r in pbm if r["d"] == o["d"] and r.get("oi") == o["oi"]
+                     and abs(r["s"] - o["s"]) <= 20 * 60), None)
+        if twin:
+            if o["fn"] != twin["fn"] and o["fn"] not in (twin.get("cs") or []):
+                twin["cs"] = sorted(set((twin.get("cs") or []) + [o["fn"]]))
+            continue
+        ai = o["fn"][:2]
+        info = airline_info(ai, "", "")
+        r = {"fn": o["fn"], "al": info.get("name") or ai, "ai": ai, "d": o["d"], "ap": "PBM",
+             "oi": o["oi"], "on": city_of(o["oi"]), "s": o["s"], "sd": o.get("sd"), "sa": o.get("sa"),
+             "ac": o.get("ac") or "", "rg": o.get("rg") or "", "cg": 0, "src": "airline"}
+        for k in ("a", "e", "gate", "why", "brd", "chk"):
+            if o.get(k):
+                r[k] = o[k]
+        r["st"], r["dl"] = _afkl_state(o, now)
+        pbm.append(r)
+        n += 1
+    pbm.sort(key=lambda r: r["s"])
     return n
 
 
@@ -766,7 +805,7 @@ def afkl_refresh(afkl, boards, hist, now, key, log=print):
 
 
 # ── history + stats ───────────────────────────────────────────────────────────
-_HKEEP = ("fn", "al", "ai", "d", "ap", "oi", "on", "occ", "oz", "s", "sd", "sa", "e", "a", "st", "dl", "ac", "rg", "cg", "cs", "via", "vfirst", "src", "why")
+_HKEEP = ("fn", "al", "ai", "d", "ap", "oi", "on", "occ", "oz", "s", "sd", "sa", "e", "a", "st", "dl", "ac", "rg", "cg", "cs", "via", "vfirst", "src", "why", "ao")
 
 
 def history_update(hist, recs, now=None):
@@ -975,7 +1014,7 @@ def collect(log=print, now=None, network=True):
     return out
 
 
-_LIVE_KEYS = ("fn", "al", "ai", "d", "ap", "oi", "on", "oz", "s", "sd", "sa", "e", "a", "st", "dl", "ac", "rg", "cg", "cs", "via", "vfirst", "dv", "gate", "src", "why", "brd", "chk")
+_LIVE_KEYS = ("fn", "al", "ai", "d", "ap", "oi", "on", "oz", "s", "sd", "sa", "e", "a", "st", "dl", "ac", "rg", "cg", "cs", "via", "vfirst", "dv", "gate", "src", "why", "brd", "chk", "ao", "belt")
 
 
 def live_rows(boards, now, back_h=12, ahead_h=48):

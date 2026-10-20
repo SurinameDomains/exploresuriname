@@ -7283,8 +7283,9 @@ def nav_html(active="home", prefix=""):
     _EXPL  = {"activities", "events", "shopping", "services"}
     _EAT   = {"restaurants", "hotels"}
     _EXPLORE = _EXPL | _EAT
-    _PLAN  = {"visitor", "itinerary", "safety", "roads", "flights"}
-    _LIVE  = {"currency", "forecast", "daily-notices", "atms", "matches", "surtime"}
+    _PLAN  = {"visitor", "itinerary", "safety", "roads"}
+    # Flights moved Plan -> Live on 20 Oct 2026 (live board, flights.py)
+    _LIVE  = {"currency", "flights", "forecast", "daily-notices", "atms", "matches", "surtime"}
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto", "busjam"}
     _OILG  = {"oilgas", "oilblocks", "granmorgu", "oiltimeline", "oilcontracts",
               "oilgov", "oiljobs"}
@@ -7373,7 +7374,6 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}suriname-itinerary.html"  {_link_cls("itinerary")}  >Trip Itineraries</a>'
         f'<a href="{prefix}is-suriname-safe.html"    {_link_cls("safety")}     >Is Suriname Safe?</a>'
         f'<a href="{prefix}on-the-road.html"         {_link_cls("roads")}      >On the Road</a>'
-        f'<a href="{prefix}flights.html"             {_link_cls("flights")}    >Flights</a>'
     )
     # Learn
     learn_items = (
@@ -7387,6 +7387,7 @@ def nav_html(active="home", prefix=""):
     # Live
     live_items = (
         f'<a href="{prefix}currency.html"       {_link_cls("currency")}      >Market Rates</a>'
+        f'<a href="{prefix}flights.html"        {_link_cls("flights")}       >Flights</a>'
         f'<a href="{prefix}conditions.html"     {_link_cls("forecast")}      >Weather &amp; Tides</a>'
         f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")} >Daily Notices</a>'
         f'<a href="{prefix}atms.html"           {_link_cls("atms")}          >ATM Finder</a>'
@@ -7458,8 +7459,7 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}visitor-guide.html",      "The Basics",        "visitor")   +
         _mob_link(f"{prefix}suriname-itinerary.html", "Trip Itineraries",  "itinerary") +
         _mob_link(f"{prefix}is-suriname-safe.html",   "Is Suriname Safe?", "safety")    +
-        _mob_link(f"{prefix}on-the-road.html",        "On the Road",       "roads")     +
-        _mob_link(f"{prefix}flights.html",            "Flights",           "flights")
+        _mob_link(f"{prefix}on-the-road.html",        "On the Road",       "roads")
     )
     mob_learn_items = (
         _mob_link(f"{prefix}about-suriname",               "About Suriname",    "aboutsr")       +
@@ -7471,6 +7471,7 @@ def nav_html(active="home", prefix=""):
     )
     mob_live_items = (
         _mob_link(f"{prefix}currency.html",      "Market Rates",     "currency")      +
+        _mob_link(f"{prefix}flights.html",       "Flights",          "flights")       +
         _mob_link(f"{prefix}conditions.html",    "Weather & Tides",  "forecast")      +
         _mob_link(f"{prefix}daily-notices.html", "Daily Notices",    "daily-notices") +
         _mob_link(f"{prefix}atms.html",          "ATM Finder",       "atms")          +

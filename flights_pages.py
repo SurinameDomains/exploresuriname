@@ -215,7 +215,7 @@ FL_CSS = r"""<style>
 @media(max-width:639px){.fl-next{grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem}.fl-nc{padding:.75rem .8rem}.fl-nc .r{font-size:.8rem}.fl-nc .c .pill{font-size:.7rem}.fl-nc .c{font-size:.72rem}}
 .fl-bar{display:flex;flex-wrap:wrap;gap:.5rem .6rem;align-items:center;margin:0 0 .75rem;position:sticky;top:58px;z-index:30;background:linear-gradient(var(--paper) 88%,rgba(251,245,233,0));padding:.55rem 0 .7rem}
 @media(max-width:379px){.fl-main .fl-sec{padding:.95rem .7rem}.fl-main{padding-left:.75rem;padding-right:.75rem}.fl-tbl .wdx{display:none}.fl-tbl td,.fl-tbl th{padding:.5rem .3rem}.fl-tbl th{font-size:.6rem;letter-spacing:.03em}.fl-tbl .pill{font-size:.68rem;padding:.2rem .4rem}}
-@media(max-width:639px){.fl-seg[data-seg="ap"] .n{display:none}.fl-seg button{padding:.4rem .7rem}.fl-tbl .hs{display:none}.fl-tbl{font-size:.84rem}}
+@media(max-width:639px){.fl-seg[data-seg="ap"] .n{display:none}.fl-seg button{padding:.4rem .7rem}.fl-tbl .hs{display:none}.fl-tbl{font-size:.84rem}.fl-tbl th{font-size:.62rem;letter-spacing:.02em;overflow-wrap:anywhere}.fl-tbl td,.fl-tbl th{padding:.55rem .35rem}}
 .fl-seg{display:inline-flex;background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:3px}
 .fl-seg button{border:0;background:transparent;font:inherit;font-size:.86rem;font-weight:600;color:var(--ink-soft);padding:.42rem .85rem;border-radius:999px;cursor:pointer;white-space:nowrap}
 .fl-seg button[aria-pressed="true"]{background:var(--forest);color:#fff}
@@ -278,6 +278,8 @@ FL_CSS = r"""<style>
 .fl-h2{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:1.45rem;line-height:1.15;color:var(--forest);margin:0}
 .fl-h2s{font-size:.85rem;color:var(--ink-soft);margin:.3rem 0 0;line-height:1.5}
 .fl-tbl{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:.85rem}
+.fl-tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.fl-tbl th{white-space:normal;hyphens:auto}
 .fl-tbl th{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);text-align:left;padding:.5rem .5rem;border-bottom:1px solid var(--line)}
 .fl-tbl td{padding:.6rem .5rem;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;vertical-align:top}
 .fl-tbl tr:last-child td{border-bottom:0}
@@ -608,6 +610,12 @@ for _lg, _d in _DRIVE_I18N.items():
 _AFKL_I18N = {'en': {'boarding': 'Boarding', 'boardingL': 'Boarding', 'checkin': 'Check-in', 'reason': 'Reason', 'cs_open': 'Open', 'cs_notopen': 'Not open yet', 'cs_closed': 'Closed', 'cs_finalised': 'Closed'}, 'nl': {'boarding': 'Boarding', 'boardingL': 'Boarding', 'checkin': 'Inchecken', 'reason': 'Reden', 'cs_open': 'Open', 'cs_notopen': 'Nog niet open', 'cs_closed': 'Gesloten', 'cs_finalised': 'Gesloten'}, 'es': {'boarding': 'Embarcando', 'boardingL': 'Embarque', 'checkin': 'Facturación', 'reason': 'Motivo', 'cs_open': 'Abierto', 'cs_notopen': 'Aún no abierto', 'cs_closed': 'Cerrado', 'cs_finalised': 'Cerrado'}, 'zh': {'boarding': '正在登机', 'boardingL': '登机', 'checkin': '值机', 'reason': '原因', 'cs_open': '已开放', 'cs_notopen': '尚未开放', 'cs_closed': '已关闭', 'cs_finalised': '已关闭'}, 'fr': {'boarding': 'Embarquement', 'boardingL': 'Embarquement', 'checkin': 'Enregistrement', 'reason': 'Motif', 'cs_open': 'Ouvert', 'cs_notopen': 'Pas encore ouvert', 'cs_closed': 'Fermé', 'cs_finalised': 'Fermé'}, 'pt': {'boarding': 'Embarcando', 'boardingL': 'Embarque', 'checkin': 'Check-in', 'reason': 'Motivo', 'cs_open': 'Aberto', 'cs_notopen': 'Ainda não aberto', 'cs_closed': 'Encerrado', 'cs_finalised': 'Encerrado'}}
 for _lg, _v in _AFKL_I18N.items():
     FL_I18N[_lg].update(_v)
+_ONE_I18N = {'en': 'Show 1 earlier flight', 'nl': 'Toon 1 eerdere vlucht', 'es': 'Ver 1 vuelo anterior', 'zh': '显示较早的 1 个航班', 'fr': 'Voir 1 vol précédent', 'pt': 'Ver 1 voo anterior'}
+for _lg, _v in _ONE_I18N.items():
+    FL_I18N[_lg]['earlier1'] = _v
+_EXTRA_I18N = {'en': {'belt': 'Baggage belt', 'tookoff': 'Took off', 'landedAt2': 'Landed'}, 'nl': {'belt': 'Bagageband', 'tookoff': 'Opgestegen', 'landedAt2': 'Geland'}, 'es': {'belt': 'Cinta de equipaje', 'tookoff': 'Despegó', 'landedAt2': 'Aterrizó'}, 'zh': {'belt': '行李转盘', 'tookoff': '起飞', 'landedAt2': '降落'}, 'fr': {'belt': 'Tapis bagages', 'tookoff': 'A décollé', 'landedAt2': 'A atterri'}, 'pt': {'belt': 'Esteira de bagagem', 'tookoff': 'Decolou', 'landedAt2': 'Pousou'}}
+for _lg, _v in _EXTRA_I18N.items():
+    FL_I18N[_lg].update(_v)
 _DOWN_I18N = {'en': 'Flight data is not available right now. It usually returns within half an hour.', 'nl': 'Vluchtgegevens zijn nu niet beschikbaar. Meestal zijn ze binnen een half uur terug.', 'es': 'Los datos de vuelos no están disponibles ahora. Suelen volver en media hora.', 'zh': '航班数据暂时无法获取，通常半小时内恢复。', 'fr': 'Les données de vol ne sont pas disponibles pour le moment. Elles reviennent en général dans la demi-heure.', 'pt': 'Os dados dos voos não estão disponíveis agora. Costumam voltar em meia hora.'}
 for _lg, _v in _DOWN_I18N.items():
     FL_I18N[_lg]['down'] = _v
@@ -677,8 +685,10 @@ function detHtml(r,n){var me=r.ap, oth=r.oi;
   if(r.e&&!r.a&&Math.abs(r.e-r.s)>=60)g+=fact('exp',esc(hm(r.e)));
   if(r.a)g+=fact('act',esc(hm(r.a)));
   if(r.sd&&r.sa&&r.sa>r.sd)g+=fact('dur',esc(dur(r.sa-r.sd)));
-  if(r.d==='A'&&r.sd)g+=fact('dep',esc(oth+' '+hmz(r.sd,r.oz))+' <small>'+esc(r.oz!=null?tr('local'):'SR')+'</small>');
-  if(r.d==='D'&&r.sa)g+=fact('arr',esc(oth+' '+hmz(r.sa,r.oz))+' <small>'+esc(r.oz!=null?tr('local'):'SR')+'</small>');
+  if(r.belt&&r.d==='A')g+=fact('belt',esc(r.belt));
+  if(r.ao)g+=fact(r.d==='A'?'tookoff':'landedAt2',esc(oth+' '+hmz(r.ao,r.oz))+' <small>'+esc(r.oz!=null?tr('local'):'SR')+'</small>');
+  else if(r.d==='A'&&r.sd)g+=fact('dep',esc(oth+' '+hmz(r.sd,r.oz))+' <small>'+esc(r.oz!=null?tr('local'):'SR')+'</small>');
+  else if(r.d==='D'&&r.sa)g+=fact('arr',esc(oth+' '+hmz(r.sa,r.oz))+' <small>'+esc(r.oz!=null?tr('local'):'SR')+'</small>');
   g+=fact('aircraft',esc(r.ac||''));g+=fact('reg',esc(r.rg||''));
   if(r.gate)g+=fact('gate',esc(r.gate));
   if(r.d==='D'&&r.chk&&!isFinal(r))g+=fact('checkin',esc(tr('cs_'+r.chk.toLowerCase().replace(/\s+/g,''))));
@@ -746,7 +756,7 @@ function renderBoard(){var box=D.getElementById('fl-board');if(!box)return;var n
   var early=L.filter(function(r){return (isFinal(r)||shown(r,n)==='unknown')&&tval(r)<n-1800&&r.k!==state.open;});
   var rest=L.filter(function(r){return early.indexOf(r)<0;});
   var h='';
-  if(early.length){h+='<button class="fl-more" type="button" data-act="earlier">'+esc(state.earlier?tr('hideEarlier'):tr('earlier',{n:early.length}))+'</button>';
+  if(early.length){h+='<button class="fl-more" type="button" data-act="earlier">'+esc(state.earlier?tr('hideEarlier'):(early.length===1?tr('earlier1'):tr('earlier',{n:early.length})))+'</button>';
     if(state.earlier)h+=group(early,n);}
   h+=group(rest,n);
   if(!L.length){var apo=(DATA.airports||{})[state.ap]||{};h='<p class="fl-empty">'+esc(state.q?tr('none'):(apo.ok===false&&!rows().some(function(r){return r.ap===state.ap;})?tr('down'):tr('noneDay')))+'</p>';}
@@ -968,7 +978,7 @@ def build_board(ctx, c):
     faq_ld = {"@context": "https://schema.org", "@type": "FAQPage",
               "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}
     title = "Suriname Flights Today: Live Arrivals &amp; Departures"
-    desc = "Live arrivals and departures at PBM and Zorg en Hoop (EAX): delays, landing times, a pickup helper, check-in times and each airline&#8217;s on-time record."
+    desc = "Live arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX): delays, landing times, pickup help and on-time records."
     ld = [{"@context": "https://schema.org", "@type": "WebPage", "name": "Suriname Flights Today: Live Arrivals & Departures",
            "url": f"{SITE}/flights", "description": html.unescape(desc),
            "dateModified": F._sr(now).strftime("%Y-%m-%d"),
@@ -978,12 +988,12 @@ def build_board(ctx, c):
     head = _head(ctx, html.unescape(title), desc, "flights.html", ld)
 
     hero = _hero("Flights", "Suriname Flights Today",
-                 "Live arrivals and departures at Johan Adolf Pengel (PBM) and Zorg en Hoop (EAX), with delays, pickup times and on-time records.")
+                 "Live arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX), with delays, pickup times and on-time records.")
 
     bar = ('<div class="fl-bar">'
            '<div class="fl-seg" data-seg="ap" role="group" aria-label="Airport">'
-           '<button type="button" data-v="PBM" aria-pressed="true"><span translate="no">PBM</span> <span class="n" translate="no">Zanderij</span></button>'
-           '<button type="button" data-v="EAX" aria-pressed="false"><span translate="no">EAX</span> <span class="n" translate="no">Zorg en Hoop</span></button></div>'
+           '<button type="button" data-v="PBM" aria-pressed="true"><span translate="no">PBM</span> <span class="n" translate="no">J.A. Pengel</span></button>'
+           '<button type="button" data-v="EAX" aria-pressed="false"><span translate="no">EAX</span> <span class="n" translate="no">E.A. Gummels</span></button></div>'
            '<div class="fl-seg" data-seg="d" role="group" aria-label="Direction">'
            '<button type="button" data-v="A" aria-pressed="true"><span>Arrivals</span><span class="n" translate="no"></span></button>'
            '<button type="button" data-v="D" aria-pressed="false"><span>Departures</span><span class="n" translate="no"></span></button></div>'
@@ -1007,8 +1017,8 @@ def build_board(ctx, c):
                     f'<td class="num" translate="no">{round(a["dl"] / a["n"])} min</td><td class="num hs" translate="no">{a["canc"]}</td></tr>')
     since_txt = F._sr(hist_since).strftime("%Y-%m-%d")
     if rows:
-        ot = ('<table class="fl-tbl"><thead><tr><th>Airline</th><th class="hs">Airport</th><th class="num">Flights</th><th class="num">On time</th>'
-              '<th class="num">Avg delay</th><th class="num hs">Cancelled</th></tr></thead><tbody>' + "".join(rows) + '</tbody></table>'
+        ot = ('<div class="fl-tw"><table class="fl-tbl"><thead><tr><th>Airline</th><th class="hs">Airport</th><th class="num">Flights</th><th class="num">On time</th>'
+              '<th class="num">Avg delay</th><th class="num hs">Cancelled</th></tr></thead><tbody>' + "".join(rows) + '</tbody></table></div>'
               '<p class="fl-src">Last 30 days, passenger flights with a recorded take-off or landing time. On time means within 15 minutes of '
               'the schedule (departures by take-off time, arrivals by landing time). Average delay counts early flights as zero.</p>')
     else:
@@ -1056,7 +1066,7 @@ def build_board(ctx, c):
              'Reserve through Commercial Affairs, NV Luchthavenbeheer: <span translate="no">+597 325113</span>.</p></div>'
              '<div><h3>Airline phone numbers</h3><ul>' + "".join(phones) + '</ul>'
              '<p>As listed by the airport. For bookings and rebooking, contact the airline.</p></div>'
-             '<div><h3 translate="no">Zorg en Hoop (EAX)</h3><p>Paramaribo&#8217;s city airport for domestic flights, interior charters and short hops to '
+             '<div><h3 translate="no">Eduard Alexander Gummels (EAX)</h3><p>Paramaribo&#8217;s city airport at Zorg en Hoop, for domestic flights, interior charters and short hops to '
              'Georgetown (Ogle) with Gum Air and Trans Guyana Airways.</p></div>'
              '</div></section>')
 
