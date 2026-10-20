@@ -1,6 +1,6 @@
 {
   "static:index.html": {
-    "hash": "2414f16e83ced6e53e373ae06a605920",
+    "hash": "72e3a7cdbed33de4678b668c41e755c2",
     "date": "2026-10-20"
   },
   "static:restaurants.html": {
@@ -28,15 +28,15 @@
     "date": "2026-10-20"
   },
   "static:currency.html": {
-    "hash": "410126ad1b840dda8a1d7730299c40d6",
+    "hash": "de88b440c1889a58b4dce0e95a17b3d1",
     "date": "2026-10-20"
   },
   "static:flights.html": {
-    "hash": "6140e9caf42719f980d9d77bb49cafc2",
+    "hash": "d8a356ee4db1793bb28fb075162ae14a",
     "date": "2026-10-20"
   },
   "static:conditions.html": {
-    "hash": "a02cc4a12159ceb7eb8afd3b202f5809",
+    "hash": "a0d7778c34f43ce5ec061656ebd39a73",
     "date": "2026-10-20"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-20"
   },
   "static:news.html": {
-    "hash": "4010913f223892269fe8d020fd7aface",
+    "hash": "f837734635dd549940585f4cfcaee551",
     "date": "2026-10-20"
   },
   "static:about.html": {
@@ -3016,7 +3016,7 @@
     "date": "2026-06-12"
   },
   "static:events.html": {
-    "hash": "800221aae99dabe18f431860570e78c8",
+    "hash": "5b8d7bd869cfe76b464d486d7506011c",
     "date": "2026-10-20"
   },
   "fort-zeelandia": {
@@ -3040,7 +3040,7 @@
     "date": "2026-10-19"
   },
   "static:matches.html": {
-    "hash": "f87effdf0fd0f9c7983378ad2ebdf025",
+    "hash": "8583bf9f5a9ff6dc559e49d1a0403495",
     "date": "2026-10-20"
   },
   "static:suriname-time.html": {
@@ -3064,7 +3064,7 @@
     "date": "2026-10-19"
   },
   "static:atms.html": {
-    "hash": "77adbc6ff561067882a82b706b66098c",
+    "hash": "76a86736cc7160e1c43e87bfef7cff29",
     "date": "2026-10-20"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-19"
   },
   "static:oil-and-gas.html": {
-    "hash": "109ce85ca6517655d3b6226dc94e9d97",
+    "hash": "1d54a7d7990373cb451b38e42af8aedb",
     "date": "2026-10-20"
   },
   "static:suriname-oil-blocks.html": {
@@ -32016,7 +32016,7 @@
     "date": "2026-10-19"
   },
   "static:events-this-weekend": {
-    "hash": "cd32a7eec913ae38876f87b139fcca94",
+    "hash": "d2282af2dda0d446b9016df7db63d1ce",
     "date": "2026-10-20"
   },
   "static:event-12th-salsuri-congress-gala-event-20261024": {
@@ -32390,6 +32390,62 @@
   },
   "static:event-bubu-exclusive-20261024": {
     "hash": "561657737cd53f7494eb0d2045ce00e2",
+    "date": "2026-10-20"
+  },
+  "static:event-halloween-horror-town-20261030": {
+    "hash": "1569e2f4d713d49e35754bf46b0ab031",
+    "date": "2026-10-20"
+  },
+  "static:flight-cm318": {
+    "hash": "fba58271f5dc23bf984c3f596124af15",
+    "date": "2026-10-20"
+  },
+  "static:flight-cm319": {
+    "hash": "d6c8cafc5631b9d23a70a71f2f2d5afb",
+    "date": "2026-10-20"
+  },
+  "static:flight-g37472": {
+    "hash": "ad1e766f65ed13c3b708c63fde53dd9f",
+    "date": "2026-10-20"
+  },
+  "static:flight-g37473": {
+    "hash": "253d6fb2bc793905ea0ed719958339e6",
+    "date": "2026-10-20"
+  },
+  "static:flight-gum41": {
+    "hash": "86ec57493474359265251ecae604243a",
+    "date": "2026-10-20"
+  },
+  "static:flight-gum42": {
+    "hash": "0e89b4530a875ae7e9651aecb00eda62",
+    "date": "2026-10-20"
+  },
+  "static:flight-gum43": {
+    "hash": "6b1a95c042a57eac5459d8929a240c32",
+    "date": "2026-10-20"
+  },
+  "static:flight-gum44": {
+    "hash": "457477c6cee6f54ff27b16d828257035",
+    "date": "2026-10-20"
+  },
+  "static:flight-kl713": {
+    "hash": "94a158ef1bc7c4054ba4f1c5dc11bdc5",
+    "date": "2026-10-20"
+  },
+  "static:flight-kl714": {
+    "hash": "a6a133278d48c855a8da8c9ff3a71564",
+    "date": "2026-10-20"
+  },
+  "static:flight-py431": {
+    "hash": "aa61a7d8d932421e6dd99b7595b5ae07",
+    "date": "2026-10-20"
+  },
+  "static:flight-tgy431": {
+    "hash": "554cdbf6b4a92768f3dbc19e2ed9899d",
+    "date": "2026-10-20"
+  },
+  "static:flight-tgy441": {
+    "hash": "7f183567fb52ef4cee85226c7230d2ed",
     "date": "2026-10-20"
   }
 }

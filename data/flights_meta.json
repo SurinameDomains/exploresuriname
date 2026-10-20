@@ -1,0 +1,31 @@
+{
+ "sources": {
+  "fr24_PBM": {
+   "ok": true,
+   "fetched": 1792520171
+  },
+  "fr24_EAX": {
+   "ok": true,
+   "fetched": 1792520171
+  },
+  "bw": {
+   "ok": true,
+   "fetched": 1792520171
+  },
+  "afkl": {
+   "ok": true,
+   "fetched": 1792520171,
+   "calls_today": 2,
+   "err": ""
+  },
+  "fr24_hist": {
+   "ok": true,
+   "fetched": 1792520171
+  }
+ },
+ "fl_hist": {
+  "PY431": 1792520171,
+  "8W629": 1792520171,
+  "KL713": 1792520171
+ }
+}
