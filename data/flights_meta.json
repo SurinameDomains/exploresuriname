@@ -2,25 +2,25 @@
  "sources": {
   "fr24_PBM": {
    "ok": true,
-   "fetched": 1792521106
+   "fetched": 1792521976
   },
   "fr24_EAX": {
    "ok": true,
-   "fetched": 1792521106
+   "fetched": 1792521976
   },
   "bw": {
    "ok": true,
-   "fetched": 1792521106
+   "fetched": 1792521976
   },
   "afkl": {
    "ok": true,
-   "fetched": 1792520171,
-   "calls_today": 2,
+   "fetched": 1792521976,
+   "calls_today": 4,
    "err": ""
   },
   "fr24_hist": {
    "ok": true,
-   "fetched": 1792521106
+   "fetched": 1792521976
   }
  },
  "fl_hist": {
@@ -32,6 +32,9 @@
   "KL714": 1792520809,
   "PY421": 1792521106,
   "CM318": 1792521106,
-  "CM319": 1792521106
+  "CM319": 1792521106,
+  "8W630": 1792521976,
+  "PY422": 1792521976,
+  "BW883": 1792521976
  }
 }
