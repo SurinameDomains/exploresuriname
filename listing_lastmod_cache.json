@@ -1,6 +1,6 @@
 {
   "static:index.html": {
-    "hash": "5236372e3492bd07bda943eae9098d3a",
+    "hash": "1ac1d6aeb8288e0db6d7c26d00ff8357",
     "date": "2026-10-20"
   },
   "static:restaurants.html": {
@@ -28,7 +28,7 @@
     "date": "2026-10-20"
   },
   "static:currency.html": {
-    "hash": "613c8a893810910765dacf05483e5924",
+    "hash": "7597d551347048c341e1ee2500a848b4",
     "date": "2026-10-20"
   },
   "static:flights.html": {
@@ -36,7 +36,7 @@
     "date": "2026-10-20"
   },
   "static:conditions.html": {
-    "hash": "f1ec1bc6dc51ec341c0ae4448f0f8b34",
+    "hash": "5fcbe1d96e5a24e9f13fcee8865cf55e",
     "date": "2026-10-20"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-20"
   },
   "static:news.html": {
-    "hash": "3d234e539477824342747a3eb984b35f",
+    "hash": "8071e0807d764569a9484eb2bcbe3e9f",
     "date": "2026-10-20"
   },
   "static:about.html": {
@@ -3016,7 +3016,7 @@
     "date": "2026-06-12"
   },
   "static:events.html": {
-    "hash": "93167357bcba6b332dc034cf1a3d9d65",
+    "hash": "c89377e947b7af6e8c6439cb01a62f8d",
     "date": "2026-10-20"
   },
   "fort-zeelandia": {
@@ -3064,7 +3064,7 @@
     "date": "2026-10-19"
   },
   "static:atms.html": {
-    "hash": "24c996ec4f76e00a29e7e1674008ed3d",
+    "hash": "f4135960b5585e6bdefa21982de8527d",
     "date": "2026-10-20"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-19"
   },
   "static:oil-and-gas.html": {
-    "hash": "cd0d6ed339f8a252ade865774878647d",
+    "hash": "b93894b55f256a1e3970989ee8fe521a",
     "date": "2026-10-20"
   },
   "static:suriname-oil-blocks.html": {
@@ -32016,7 +32016,7 @@
     "date": "2026-10-19"
   },
   "static:events-this-weekend": {
-    "hash": "4e11b82ef48c1ab0cc580e87ef0b599d",
+    "hash": "4e1205f131d163dbc16d6f355e7a0589",
     "date": "2026-10-20"
   },
   "static:event-12th-salsuri-congress-gala-event-20261024": {
@@ -32387,5 +32387,9 @@
     "hash": "f08e4eb0565435eb5aaf31760c997ce8",
     "date": "2026-10-20",
     "first_seen": "2026-10-20"
+  },
+  "static:event-bubu-exclusive-20261024": {
+    "hash": "e8e8173b32fa8571747dc43af79eb347",
+    "date": "2026-10-20"
   }
 }
