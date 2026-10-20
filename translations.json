@@ -110323,5 +110323,26 @@
 "zh": "帕拉马里博位于 Zorg en Hoop 的市区机场，运营国内航班、内陆包机，以及由 Gum Air 和 Trans Guyana Airways 执飞的前往 Georgetown (Ogle) 的短途航班。",
 "fr": "L’aéroport urbain de Paramaribo, à Zorg en Hoop, pour les vols intérieurs, les charters vers l’intérieur du pays et les petits vols vers Georgetown (Ogle) avec Gum Air et Trans Guyana Airways.",
 "pt": "O aeroporto urbano de Paramaribo, em Zorg en Hoop, para voos domésticos, fretados para o interior e voos curtos para Georgetown (Ogle) com a Gum Air e a Trans Guyana Airways."
+},
+"Landing": {
+"nl": "Landt nu",
+"es": "Aterrizando",
+"zh": "正在降落",
+"fr": "Atterrissage",
+"pt": "Pousando"
+},
+"Departing": {
+"nl": "Vertrekt nu",
+"es": "Saliendo",
+"zh": "正在出发",
+"fr": "Départ en cours",
+"pt": "Partindo"
+},
+"Arriving": {
+"nl": "Arriveert",
+"es": "Llegando",
+"zh": "即将到达",
+"fr": "Arrivée en cours",
+"pt": "Chegando"
 }
 }

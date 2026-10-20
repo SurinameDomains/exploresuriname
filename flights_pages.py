@@ -248,6 +248,7 @@ FL_CSS = r"""<style>
 .pill.p-cancelled,.pill.p-diverted{background:#F8E1DA;color:#A23A22}
 .pill.p-unknown{background:#EFEADF;color:#7A7466}
 .pill.p-boarding{background:#E2ECF7;color:#1C5D99}
+.pill.p-landing,.pill.p-departing{background:#E2ECF7;color:#1C5D99}
 .fd-why{margin:.2rem 0 .5rem;font-size:.84rem;color:var(--ink);line-height:1.45}
 .fr-sub{display:block;font-size:.74rem;color:var(--ink-soft);margin-top:.2rem;white-space:nowrap}
 .fr.past .fr-main{opacity:.62}
@@ -340,18 +341,26 @@ IC_SEARCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-w
 # ── server-side row rendering (same markup as the JS) ────────────────────────
 STATE_EN = {"scheduled": "Scheduled", "ontime": "On time", "delayed": "Delayed", "enroute": "En route",
             "landed": "Landed", "departed": "Departed", "cancelled": "Cancelled", "diverted": "Diverted",
-            "unknown": "No update", "boarding": "Boarding"}
+            "unknown": "No update", "boarding": "Boarding", "landing": "Arriving", "departing": "Departing"}
 
 
 def _shown_state(r, now):
+    """What the pill says. Same rules as shown() in FL_JS: the data can be ~25 min
+    old (build cycle + publish), so once the expected time has passed without a
+    confirmed landing/take-off the board says Arriving (up to 45 min) / Departing
+    (up to 30 min), then No update. No guessed words like "probably"."""
     st = r.get("st") or "scheduled"
+    if st in ("cancelled", "diverted", "landed", "departed"):
+        return st
+    t = r.get("e") or r["s"]
+    if r.get("d") == "A" and now >= t - 300:
+        return "landing" if now <= t + 2700 else "unknown"
+    if r.get("d") == "D" and now >= t:
+        return "departing" if now <= t + 1800 else "unknown"
     if r.get("d") == "D" and r.get("brd") == "Open" and st in ("scheduled", "delayed"):
         return "boarding"
     if st == "scheduled" and r.get("e"):
         return "ontime"
-    t = r.get("a") or r.get("e") or r["s"]
-    if st == "scheduled" and t < now - 20 * 60:
-        return "unknown"
     return st
 
 
@@ -616,6 +625,13 @@ for _lg, _v in _ONE_I18N.items():
 _EXTRA_I18N = {'en': {'belt': 'Baggage belt', 'tookoff': 'Took off', 'landedAt2': 'Landed'}, 'nl': {'belt': 'Bagageband', 'tookoff': 'Opgestegen', 'landedAt2': 'Geland'}, 'es': {'belt': 'Cinta de equipaje', 'tookoff': 'Despegó', 'landedAt2': 'Aterrizó'}, 'zh': {'belt': '行李转盘', 'tookoff': '起飞', 'landedAt2': '降落'}, 'fr': {'belt': 'Tapis bagages', 'tookoff': 'A décollé', 'landedAt2': 'A atterri'}, 'pt': {'belt': 'Esteira de bagagem', 'tookoff': 'Decolou', 'landedAt2': 'Pousou'}}
 for _lg, _v in _EXTRA_I18N.items():
     FL_I18N[_lg].update(_v)
+_NOW_I18N = {'en': {'landing': 'Landing', 'departing': 'Departing'}, 'nl': {'landing': 'Landt nu', 'departing': 'Vertrekt nu'}, 'es': {'landing': 'Aterrizando', 'departing': 'Saliendo'}, 'zh': {'landing': '正在降落', 'departing': '正在出发'}, 'fr': {'landing': 'Atterrissage', 'departing': 'Départ en cours'}, 'pt': {'landing': 'Pousando', 'departing': 'Partindo'}}
+for _lg, _v in _NOW_I18N.items():
+    FL_I18N[_lg].update(_v)
+_ARR_I18N = {'en': 'Arriving', 'nl': 'Arriveert', 'es': 'Llegando', 'zh': '即将到达', 'fr': 'Arrivée en cours', 'pt': 'Chegando'}
+for _lg, _v in _ARR_I18N.items():
+    FL_I18N[_lg]['landing'] = _v
+    FL_I18N[_lg].pop('likely', None)
 _DOWN_I18N = {'en': 'Flight data is not available right now. It usually returns within half an hour.', 'nl': 'Vluchtgegevens zijn nu niet beschikbaar. Meestal zijn ze binnen een half uur terug.', 'es': 'Los datos de vuelos no están disponibles ahora. Suelen volver en media hora.', 'zh': '航班数据暂时无法获取，通常半小时内恢复。', 'fr': 'Les données de vol ne sont pas disponibles pour le moment. Elles reviennent en général dans la demi-heure.', 'pt': 'Os dados dos voos não estão disponíveis agora. Costumam voltar em meia hora.'}
 for _lg, _v in _DOWN_I18N.items():
     FL_I18N[_lg]['down'] = _v
@@ -646,7 +662,7 @@ function srDay(ts){return Math.floor((ts-10800)/86400);}
 function lsGet(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}}
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 function tval(r){return r.a||r.e||r.s;}
-function shown(r,n){var st=r.st||'scheduled';if(r.d==='D'&&r.brd==='Open'&&(st==='scheduled'||st==='delayed'))return'boarding';if(st==='scheduled'&&r.e)return'ontime';if(st==='scheduled'&&tval(r)<n-1200)return'unknown';return st;}
+function shown(r,n){var st=r.st||'scheduled';if(st==='cancelled'||st==='diverted'||st==='landed'||st==='departed')return st;var t=r.e||r.s;if(r.d==='A'&&n>=t-300){return n<=t+2700?'landing':'unknown';}if(r.d==='D'&&n>=t){return n<=t+1800?'departing':'unknown';}if(r.d==='D'&&r.brd==='Open'&&(st==='scheduled'||st==='delayed'))return'boarding';if(st==='scheduled'&&r.e)return'ontime';return st;}
 function dur(sec){sec=Math.abs(sec);var h=Math.floor(sec/3600),m=Math.round((sec%3600)/60);if(m===60){h++;m=0;}
   if(h&&m)return h+tr('h')+' '+m+' '+tr('m');if(h)return h+tr('h');return Math.max(1,m)+' '+tr('m');}
 function relT(ts,n){var d=ts-n;if(Math.abs(d)<60)return tr('now');return d>0?tr('in',{t:dur(d)}):tr('ago',{t:dur(d)});}
@@ -753,7 +769,7 @@ function filtered(){var n=now(),q=state.q.trim().toLowerCase();
     if(q){var hay=(r.fn+' '+(r.al||'')+' '+(r.on||'')+' '+(r.oi||'')+' '+(r.cs||[]).join(' ')+' '+(r.via||[]).join(' ')).toLowerCase();if(hay.indexOf(q)<0)return false;}
     return tval(r)>=n-12*3600;}).sort(function(a,b){return tval(a)-tval(b);});}
 function renderBoard(){var box=D.getElementById('fl-board');if(!box)return;var n=now(),L=filtered();
-  var early=L.filter(function(r){return (isFinal(r)||shown(r,n)==='unknown')&&tval(r)<n-1800&&r.k!==state.open;});
+  var early=L.filter(function(r){var sh=shown(r,n);return (isFinal(r)||sh==='unknown')&&tval(r)<n-1800&&r.k!==state.open;});
   var rest=L.filter(function(r){return early.indexOf(r)<0;});
   var h='';
   if(early.length){h+='<button class="fl-more" type="button" data-act="earlier">'+esc(state.earlier?tr('hideEarlier'):(early.length===1?tr('earlier1'):tr('earlier',{n:early.length})))+'</button>';
@@ -768,13 +784,13 @@ function counts(){var n=now();['A','D'].forEach(function(d){var c=rows().filter(
   var el=D.querySelector('[data-v="'+d+'"] .n');if(el)el.textContent=c?String(c):'';});}
 function renderNext(){var box=D.getElementById('fl-next');if(!box)return;var n=now(),h='';
   tracked.forEach(function(k){var r=byKey(k);if(r&&tval(r)>=n-6*3600)h+=card(r,n,tr('yours'),true);});
-  if(CFG.mode!=='flight'){['A','D'].forEach(function(d){var c=rows().filter(function(r){return r.ap===state.ap&&r.d===d&&!r.cg&&r.st!=='cancelled'&&!isFinal(r)&&tval(r)>=n-600&&!isTracked(r.k);}).sort(function(a,b){return tval(a)-tval(b);})[0];
+  if(CFG.mode!=='flight'){['A','D'].forEach(function(d){var c=rows().filter(function(r){return r.ap===state.ap&&r.d===d&&!r.cg&&r.st!=='cancelled'&&!isFinal(r)&&(tval(r)>=n-600||shown(r,n)==='landing'||shown(r,n)==='departing')&&!isTracked(r.k);}).sort(function(a,b){return tval(a)-tval(b);})[0];
     if(c)h+=card(c,n,tr(d==='A'?'nextArr':'nextDep'),false);});}
   box.innerHTML=h;box.hidden=!h;}
 function card(r,n,label,trk){var t=tval(r);return '<button class="fl-card fl-nc'+(trk?' trk':'')+'" type="button" data-open="'+esc(r.k)+'"><span class="l">'+esc(label)+'</span>'+
   '<span class="big" translate="no">'+hm(t)+(Math.abs(t-r.s)>=300?'<small><s>'+hm(r.s)+'</s></small>':'')+'</span>'+
   '<span class="r" translate="no">'+esc(r.fn+' · '+(r.d==='A'?(r.on+' → '+r.ap):(r.ap+' → '+r.on)))+'</span>'+
-  '<span class="c"><span class="pill p-'+shown(r,n)+'">'+esc(pillTxt(r,n))+'</span> '+esc(isFinal(r)?'':(Math.abs(t-n)>12*3600?dayLabel(t,n):relT(t,n)))+'</span></button>';}
+  '<span class="c"><span class="pill p-'+shown(r,n)+'">'+esc(pillTxt(r,n))+'</span> '+esc((isFinal(r)||shown(r,n)==='landing'||shown(r,n)==='departing')?'':(Math.abs(t-n)>12*3600?dayLabel(t,n):relT(t,n)))+'</span></button>';}
 function openRow(k){var r=byKey(k);if(!r)return;if(CFG.mode==='flight'){var el=D.getElementById('fp-status');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});return;}
   state.ap=r.ap;state.d=r.d;state.open=k;state.earlier=true;renderAll();var li=D.querySelector('li[data-k="'+CSS.escape(k)+'"]');if(li)li.scrollIntoView({behavior:'smooth',block:'center'});}
 
