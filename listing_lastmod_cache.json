@@ -1,6 +1,6 @@
 {
   "static:index.html": {
-    "hash": "6533f13378b1b20e9de675ad61f6caec",
+    "hash": "f5ac7ed55fa56e999a7a1bd56fea53a7",
     "date": "2026-10-20"
   },
   "static:restaurants.html": {
@@ -24,11 +24,11 @@
     "date": "2026-10-19"
   },
   "static:services.html": {
-    "hash": "1e60bdde4834bbe4655a614b36e2b348",
+    "hash": "fcfeea0a239fdb6a88ad683cefdeeedb",
     "date": "2026-10-20"
   },
   "static:currency.html": {
-    "hash": "c441e289c6a3f15d2de500cb91f97622",
+    "hash": "b99ab65007018302e2a71040440cc69e",
     "date": "2026-10-20"
   },
   "static:flights.html": {
@@ -36,7 +36,7 @@
     "date": "2026-10-20"
   },
   "static:conditions.html": {
-    "hash": "ffb456458b37226afc31efd614fc27e9",
+    "hash": "9b684d450231f9617fe32bc8c8c0f57d",
     "date": "2026-10-20"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-20"
   },
   "static:news.html": {
-    "hash": "7c0a2d397d55d1ab5baf202c82150486",
+    "hash": "e98b61e7b2fe6f8c0632bb359fdb25fb",
     "date": "2026-10-20"
   },
   "static:about.html": {
@@ -172,7 +172,7 @@
     "date": "2026-10-19"
   },
   "fatum": {
-    "hash": "2c0251f0a72adb47b65270c72d18a6b9",
+    "hash": "dda57a0ff4cf955afc599f992faa9795",
     "date": "2026-10-20"
   },
   "fly-allways": {
@@ -1520,31 +1520,31 @@
     "date": "2026-10-19"
   },
   "assuria-hermitage-high-rise": {
-    "hash": "ee5b652a2da050e55d1a07a1406fac70",
+    "hash": "9713aeeaa7ddce5d9cee075f5f9ce5b0",
     "date": "2026-10-20"
   },
   "assuria-insurance-walk-in-city": {
-    "hash": "ddd35fbbd35e7c59c0ba8568fad44a6e",
+    "hash": "bd7967433f7424ddade3297a869f850d",
     "date": "2026-10-20"
   },
   "assuria-insurance-walk-in-commewijne": {
-    "hash": "32fa7d63e0c163d01370f9d8c030957b",
+    "hash": "aa4e519598ec23aea4489dcd8757deaf",
     "date": "2026-10-20"
   },
   "assuria-insurance-walk-in-lelydorp": {
-    "hash": "4978f2df9ff35a5d70893c3c5de02b1d",
+    "hash": "d5ffe1da1703d34e8ca39b6708353017",
     "date": "2026-10-20"
   },
   "assuria-insurance-walk-in-nickerie": {
-    "hash": "1fa69c6ff57790a2eb342db2aadce1f9",
+    "hash": "7cc8bb40315bff8a7d787765385e8338",
     "date": "2026-10-20"
   },
   "assuria-insurance-walk-in-noord": {
-    "hash": "71ea6005a638967a17f165e78ac06b77",
+    "hash": "284d2012c0ecf2186884a0376dbf8b19",
     "date": "2026-10-20"
   },
   "fatum-schadeverzekering-commewijne": {
-    "hash": "0ef64cc5537eaf8e28a3c85cd13b3e38",
+    "hash": "17ee4717542e2980399c01c3275f9e3a",
     "date": "2026-10-20"
   },
   "fatum-schadeverzekering-hoofdkantoor": {
@@ -1552,11 +1552,11 @@
     "date": "2026-10-01"
   },
   "fatum-schadeverzekering-kwatta": {
-    "hash": "1e2d11514bfa3876bac18b4ab8a45478",
+    "hash": "64f6e49795b905a4dac63bd2f5fd4600",
     "date": "2026-10-20"
   },
   "fatum-schadeverzekering-nickerie": {
-    "hash": "72244b43e580482ce6354e7db68eb692",
+    "hash": "d2a9ba7593015cf8db146206167fd558",
     "date": "2026-10-20"
   },
   "digicel-albina": {
@@ -3016,7 +3016,7 @@
     "date": "2026-06-12"
   },
   "static:events.html": {
-    "hash": "edec6794af86953d794559e7efd2868e",
+    "hash": "93167357bcba6b332dc034cf1a3d9d65",
     "date": "2026-10-20"
   },
   "fort-zeelandia": {
@@ -3064,7 +3064,7 @@
     "date": "2026-10-19"
   },
   "static:atms.html": {
-    "hash": "58ff55c0e8a27b70a54878dbb59ddbaa",
+    "hash": "fed995a903b7adafdfc14a3233d57e1c",
     "date": "2026-10-20"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-19"
   },
   "static:oil-and-gas.html": {
-    "hash": "d8baddfc02acfcaf79b642d37c97cb34",
+    "hash": "789ad253d0433cb709e561406f03f618",
     "date": "2026-10-20"
   },
   "static:suriname-oil-blocks.html": {
@@ -3752,7 +3752,7 @@
     "date": "2026-10-19"
   },
   "self-reliance": {
-    "hash": "83351326e8ff0f36202608bfa557d97d",
+    "hash": "d23ffccfbad0c47d6770e0356dab2c45",
     "date": "2026-10-20"
   },
   "shiritjo-lodge-tours": {
@@ -5852,7 +5852,7 @@
     "date": "2026-10-19"
   },
   "parsasco": {
-    "hash": "cb14ea43fb00842673b4250972f2c9dc",
+    "hash": "ad87222adf9f6a52bc4db5f504a9c930",
     "date": "2026-10-20"
   },
   "pbs-group": {
@@ -5952,7 +5952,7 @@
     "date": "2026-10-19"
   },
   "rajhar-insurance-consultancy": {
-    "hash": "7289e63b54d201176b3597dd05d0fc79",
+    "hash": "7a07d6dd3dfc9bc8336341870f60891c",
     "date": "2026-10-20"
   },
   "ramasre-cars-parts": {
@@ -32016,7 +32016,7 @@
     "date": "2026-10-19"
   },
   "static:events-this-weekend": {
-    "hash": "f1904f51c4b5539690c8647569f1fd87",
+    "hash": "4e11b82ef48c1ab0cc580e87ef0b599d",
     "date": "2026-10-20"
   },
   "static:event-12th-salsuri-congress-gala-event-20261024": {
@@ -32380,11 +32380,11 @@
     "date": "2026-10-20"
   },
   "static:event-social-media-conference-suriname-ai-summit-20261026": {
-    "hash": "561d25a8f413254ad18beb277835f54d",
+    "hash": "e92bae75e4f10bb1525bd32343b0ca6e",
     "date": "2026-10-20"
   },
   "dhirnesh-consultancy": {
-    "hash": "93e33d9f8bb9adb7ae6db41c004fc66d",
+    "hash": "f08e4eb0565435eb5aaf31760c997ce8",
     "date": "2026-10-20",
     "first_seen": "2026-10-20"
   }
