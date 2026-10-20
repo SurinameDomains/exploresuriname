@@ -43,6 +43,12 @@
  ],
  "bekendmakingen": [
   {
+   "title": "Publicatielijst Basis goederen voor de periode 17 oktober – 30 oktober 2026",
+   "link": "https://gov.sr/bekendmaking/publicatielijst-basis-goederen-voor-de-periode-17-oktober-30-oktober-2026/",
+   "date": "2026-10-20",
+   "tender": false
+  },
+  {
    "title": "BEKENDMAKING AANBESTEDING GOUDENSPELDEN",
    "link": "https://gov.sr/bekendmaking/bekendmaking-aanbesteding-goudenspelden/",
    "date": "2026-10-19",
@@ -172,16 +178,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-10-20T11:21-03:00",
+   "ok": "2026-10-20T16:21-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-10-20T11:21-03:00",
+   "ok": "2026-10-20T16:21-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-10-20T11:21-03:00"
+ "updated": "2026-10-20T16:21-03:00"
 }
