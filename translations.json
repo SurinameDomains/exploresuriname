@@ -30909,7 +30909,10 @@
 },
 "per week": {
 "nl": "per week",
-"es": "por semana"
+"es": "por semana",
+"zh": "每周",
+"fr": "par semaine",
+"pt": "por semana"
 },
 "optional": {
 "nl": "optioneel",
@@ -109704,5 +109707,600 @@
 "zh": "现行",
 "fr": "En vigueur",
 "pt": "Em vigor"
+},
+"Suriname Flights Today: Live Arrivals & Departures | Explore Suriname": {
+"nl": "Vluchten Suriname vandaag: live aankomst en vertrek | Explore Suriname",
+"es": "Vuelos en Surinam hoy: llegadas y salidas en vivo | Explore Suriname",
+"zh": "今日苏里南航班：实时到达与出发 | Explore Suriname",
+"fr": "Vols au Suriname aujourd’hui : arrivées et départs en direct | Explore Suriname",
+"pt": "Voos no Suriname hoje: chegadas e partidas ao vivo | Explore Suriname"
+},
+"Live arrivals and departures at Johan Adolf Pengel (PBM) and Zorg en Hoop (EAX), with delays, pickup times and on-time records.": {
+"nl": "Live aankomst en vertrek op Johan Adolf Pengel (PBM) en Zorg en Hoop (EAX), met vertragingen, ophaaltijden en stiptheid.",
+"es": "Llegadas y salidas en vivo en Johan Adolf Pengel (PBM) y Zorg en Hoop (EAX), con retrasos, horas para recoger y puntualidad.",
+"zh": "约翰·阿道夫·彭格尔机场（PBM）和 Zorg en Hoop 机场（EAX）的实时到达与出发，含延误、接机时间和准点记录。",
+"fr": "Arrivées et départs en direct à Johan Adolf Pengel (PBM) et Zorg en Hoop (EAX), avec retards, heures de prise en charge et ponctualité.",
+"pt": "Chegadas e partidas ao vivo em Johan Adolf Pengel (PBM) e Zorg en Hoop (EAX), com atrasos, horários para buscar e pontualidade."
+},
+"Arrivals": {
+"nl": "Aankomst",
+"es": "Llegadas",
+"zh": "到达",
+"fr": "Arrivées",
+"pt": "Chegadas"
+},
+"Departures": {
+"nl": "Vertrek",
+"es": "Salidas",
+"zh": "出发",
+"fr": "Départs",
+"pt": "Partidas"
+},
+"Cargo": {
+"nl": "Vracht",
+"es": "Carga",
+"zh": "货运",
+"fr": "Fret",
+"pt": "Carga"
+},
+"Scheduled": {
+"nl": "Gepland",
+"es": "Programado",
+"zh": "计划",
+"fr": "Prévu",
+"pt": "Previsto"
+},
+"On time": {
+"nl": "Op tijd",
+"es": "A tiempo",
+"zh": "准点",
+"fr": "À l’heure",
+"pt": "No horário"
+},
+"Delayed": {
+"nl": "Vertraagd",
+"es": "Retrasado",
+"zh": "延误",
+"fr": "Retardé",
+"pt": "Atrasado"
+},
+"Landed": {
+"nl": "Geland",
+"es": "Aterrizó",
+"zh": "已降落",
+"fr": "Atterri",
+"pt": "Pousou"
+},
+"Departed": {
+"nl": "Vertrokken",
+"es": "Despegó",
+"zh": "已起飞",
+"fr": "Décollé",
+"pt": "Decolou"
+},
+"Cancelled": {
+"nl": "Geannuleerd",
+"es": "Cancelado",
+"zh": "已取消",
+"fr": "Annulé",
+"pt": "Cancelado"
+},
+"No update": {
+"nl": "Geen update",
+"es": "Sin novedades",
+"zh": "暂无更新",
+"fr": "Pas de mise à jour",
+"pt": "Sem atualização"
+},
+"Also from": {
+"nl": "Ook uit",
+"es": "También desde",
+"zh": "也来自",
+"fr": "Également de",
+"pt": "Também de"
+},
+"Continues to": {
+"nl": "Vliegt door naar",
+"es": "Continúa a",
+"zh": "继续飞往",
+"fr": "Continue vers",
+"pt": "Continua para"
+},
+"Track planes on Flightradar24": {
+"nl": "Volg vliegtuigen op Flightradar24",
+"es": "Siga los aviones en Flightradar24",
+"zh": "在 Flightradar24 上追踪飞机",
+"fr": "Suivre les avions sur Flightradar24",
+"pt": "Acompanhe os aviões no Flightradar24"
+},
+"On-time record": {
+"nl": "Stiptheid",
+"es": "Puntualidad",
+"zh": "准点记录",
+"fr": "Ponctualité",
+"pt": "Pontualidade"
+},
+"How punctual each airline has been at Suriname’s airports.": {
+"nl": "Hoe stipt elke maatschappij was op de luchthavens van Suriname.",
+"es": "Qué tan puntual ha sido cada aerolínea en los aeropuertos de Surinam.",
+"zh": "各航空公司在苏里南机场的准点表现。",
+"fr": "La ponctualité de chaque compagnie dans les aéroports du Suriname.",
+"pt": "Como tem sido a pontualidade de cada companhia nos aeroportos do Suriname."
+},
+"Airport": {
+"nl": "Luchthaven",
+"es": "Aeropuerto",
+"zh": "机场",
+"fr": "Aéroport",
+"pt": "Aeroporto"
+},
+"Avg delay": {
+"nl": "Gem. vertraging",
+"es": "Retraso medio",
+"zh": "平均延误",
+"fr": "Retard moyen",
+"pt": "Atraso médio"
+},
+"Last 30 days, passenger flights with a recorded take-off or landing time. On time means within 15 minutes of the schedule (departures by take-off time, arrivals by landing time). Average delay counts early flights as zero.": {
+"nl": "Laatste 30 dagen, passagiersvluchten met een geregistreerde start- of landingstijd. Op tijd betekent binnen 15 minuten na de geplande tijd (vertrek op starttijd, aankomst op landingstijd). Bij de gemiddelde vertraging tellen vroege vluchten als nul.",
+"es": "Últimos 30 días, vuelos de pasajeros con hora de despegue o aterrizaje registrada. A tiempo significa dentro de los 15 minutos de lo previsto (salidas por hora de despegue, llegadas por hora de aterrizaje). En el retraso medio, los vuelos adelantados cuentan como cero.",
+"zh": "过去 30 天、有起飞或降落时间记录的客运航班。准点指在计划时间 15 分钟内（出发按起飞时间，到达按降落时间）。计算平均延误时，提前的航班按零计。",
+"fr": "30 derniers jours, vols de passagers avec une heure de décollage ou d’atterrissage enregistrée. À l’heure signifie à moins de 15 minutes de l’horaire (départs selon l’heure de décollage, arrivées selon l’heure d’atterrissage). Dans le retard moyen, les vols en avance comptent pour zéro.",
+"pt": "Últimos 30 dias, voos de passageiros com horário de decolagem ou pouso registrado. No horário significa em até 15 minutos do previsto (partidas pela decolagem, chegadas pelo pouso). No atraso médio, voos adiantados contam como zero."
+},
+"Where you can fly direct": {
+"nl": "Waar u direct naartoe vliegt",
+"es": "Adónde volar directo",
+"zh": "可直飞的目的地",
+"fr": "Où aller en vol direct",
+"pt": "Para onde voar direto"
+},
+"Passenger routes from Johan Adolf Pengel seen in the last four weeks.": {
+"nl": "Passagiersroutes vanaf Johan Adolf Pengel in de afgelopen vier weken.",
+"es": "Rutas de pasajeros desde Johan Adolf Pengel en las últimas cuatro semanas.",
+"zh": "过去四周从约翰·阿道夫·彭格尔机场出发的客运航线。",
+"fr": "Lignes passagers au départ de Johan Adolf Pengel ces quatre dernières semaines.",
+"pt": "Rotas de passageiros a partir de Johan Adolf Pengel nas últimas quatro semanas."
+},
+"Airport guide": {
+"nl": "Luchthavengids",
+"es": "Guía del aeropuerto",
+"zh": "机场指南",
+"fr": "Guide de l’aéroport",
+"pt": "Guia do aeroporto"
+},
+"The practical bits for flying in and out of Suriname.": {
+"nl": "Het praktische voor vliegen van en naar Suriname.",
+"es": "Lo práctico para volar desde y hacia Surinam.",
+"zh": "进出苏里南乘机的实用信息。",
+"fr": "L’essentiel pratique pour prendre l’avion vers et depuis le Suriname.",
+"pt": "O lado prático de voar para dentro e para fora do Suriname."
+},
+"Check-in at PBM": {
+"nl": "Inchecken op PBM",
+"es": "Facturación en PBM",
+"zh": "在 PBM 值机",
+"fr": "Enregistrement à PBM",
+"pt": "Check-in em PBM"
+},
+"Flights to Amsterdam: check-in opens 5 hours and closes 2 hours before departure. All regional flights: opens 3 hours and closes 2 hours before departure. Source: Johan Adolf Pengel Airport.": {
+"nl": "Vluchten naar Amsterdam: inchecken opent 5 uur en sluit 2 uur voor vertrek. Alle regionale vluchten: opent 3 uur en sluit 2 uur voor vertrek. Bron: Johan Adolf Pengel Airport.",
+"es": "Vuelos a Ámsterdam: la facturación abre 5 horas y cierra 2 horas antes de la salida. Todos los vuelos regionales: abre 3 horas y cierra 2 horas antes. Fuente: aeropuerto Johan Adolf Pengel.",
+"zh": "飞往阿姆斯特丹的航班：起飞前 5 小时开始值机，前 2 小时截止。所有地区航班：起飞前 3 小时开始，前 2 小时截止。来源：约翰·阿道夫·彭格尔机场。",
+"fr": "Vols vers Amsterdam : l’enregistrement ouvre 5 heures et ferme 2 heures avant le départ. Tous les vols régionaux : ouverture 3 heures et fermeture 2 heures avant le départ. Source : aéroport Johan Adolf Pengel.",
+"pt": "Voos para Amsterdã: o check-in abre 5 horas e fecha 2 horas antes da partida. Todos os voos regionais: abre 3 horas e fecha 2 horas antes. Fonte: aeroporto Johan Adolf Pengel."
+},
+"Getting to the airport": {
+"nl": "Naar de luchthaven",
+"es": "Cómo llegar al aeropuerto",
+"zh": "前往机场",
+"fr": "Se rendre à l’aéroport",
+"pt": "Como chegar ao aeroporto"
+},
+"Johan Adolf Pengel is about 45 km south of Paramaribo, usually a 45 to 60 minute drive. Ride-hailing apps do not operate at the airport: book a taxi or shuttle, or rent a car.": {
+"nl": "Johan Adolf Pengel ligt ongeveer 45 km ten zuiden van Paramaribo, meestal 45 tot 60 minuten rijden. Ride-hailing-apps werken niet op de luchthaven: boek een taxi of shuttle, of huur een auto.",
+"es": "Johan Adolf Pengel está a unos 45 km al sur de Paramaribo, normalmente de 45 a 60 minutos en coche. Las apps de transporte no operan en el aeropuerto: reserve un taxi o traslado, o alquile un coche.",
+"zh": "约翰·阿道夫·彭格尔机场位于帕拉马里博以南约 45 公里，车程通常 45 至 60 分钟。网约车应用在机场不提供服务：请预订出租车或接驳车，或租车。",
+"fr": "Johan Adolf Pengel se trouve à environ 45 km au sud de Paramaribo, en général 45 à 60 minutes de route. Les applications de VTC ne fonctionnent pas à l’aéroport : réservez un taxi ou une navette, ou louez une voiture.",
+"pt": "Johan Adolf Pengel fica a cerca de 45 km ao sul de Paramaribo, em geral de 45 a 60 minutos de carro. Aplicativos de transporte não operam no aeroporto: reserve um táxi ou traslado, ou alugue um carro."
+},
+"Taxis, shuttles and transport": {
+"nl": "Taxi's, shuttles en vervoer",
+"es": "Taxis, traslados y transporte",
+"zh": "出租车、接驳车和交通",
+"fr": "Taxis, navettes et transport",
+"pt": "Táxis, traslados e transporte"
+},
+"Arriving in Suriname": {
+"nl": "Aankomen in Suriname",
+"es": "Llegar a Surinam",
+"zh": "抵达苏里南",
+"fr": "Arriver au Suriname",
+"pt": "Chegando ao Suriname"
+},
+"Most visitors arrange an e-visa or tourist card and pay the entry fee online before they fly.": {
+"nl": "De meeste bezoekers regelen een e-visum of toeristenkaart en betalen de entry fee online voordat ze vliegen.",
+"es": "La mayoría de los visitantes tramita una e-visa o tarjeta de turista y paga la tasa de entrada en línea antes de volar.",
+"zh": "大多数旅客在出发前在线办理电子签证或旅游卡并缴纳入境费。",
+"fr": "La plupart des visiteurs obtiennent un e-visa ou une carte de touriste et paient les frais d’entrée en ligne avant de partir.",
+"pt": "A maioria dos visitantes providencia um e-visto ou cartão de turista e paga a taxa de entrada on-line antes de viajar."
+},
+"Arrival, visa and money tips": {
+"nl": "Tips voor aankomst, visum en geld",
+"es": "Consejos de llegada, visado y dinero",
+"zh": "入境、签证和货币提示",
+"fr": "Conseils arrivée, visa et argent",
+"pt": "Dicas de chegada, visto e dinheiro"
+},
+"ATMs": {
+"nl": "Geldautomaten",
+"es": "Cajeros",
+"zh": "自动取款机",
+"fr": "Distributeurs",
+"pt": "Caixas eletrônicos"
+},
+"Parking at PBM": {
+"nl": "Parkeren op PBM",
+"es": "Estacionamiento en PBM",
+"zh": "PBM 停车",
+"fr": "Stationnement à PBM",
+"pt": "Estacionamento em PBM"
+},
+"The airport offers overnight Park & Fly in covered garage boxes and a secured area. Reserve through Commercial Affairs, NV Luchthavenbeheer:": {
+"nl": "De luchthaven biedt Park & Fly voor langere tijd in overdekte garageboxen en op een beveiligd terrein. Reserveren via Commerciële Zaken, NV Luchthavenbeheer:",
+"es": "El aeropuerto ofrece Park & Fly con pernocta en boxes cubiertos y en una zona vigilada. Reserve con Commercial Affairs, NV Luchthavenbeheer:",
+"zh": "机场提供 Park & Fly 过夜停车，有带顶车库和安保停车区。请联系 NV Luchthavenbeheer 商务部预订：",
+"fr": "L’aéroport propose le Park & Fly de longue durée dans des boxes couverts et une zone sécurisée. Réservation auprès de Commercial Affairs, NV Luchthavenbeheer :",
+"pt": "O aeroporto oferece Park & Fly com pernoite em boxes cobertos e em área vigiada. Reserve com o Commercial Affairs, NV Luchthavenbeheer:"
+},
+"Airline phone numbers": {
+"nl": "Telefoonnummers maatschappijen",
+"es": "Teléfonos de las aerolíneas",
+"zh": "航空公司电话",
+"fr": "Numéros des compagnies",
+"pt": "Telefones das companhias"
+},
+"As listed by the airport. For bookings and rebooking, contact the airline.": {
+"nl": "Zoals vermeld door de luchthaven. Voor boekingen en omboeken neemt u contact op met de maatschappij.",
+"es": "Según la lista del aeropuerto. Para reservas y cambios, contacte con la aerolínea.",
+"zh": "以机场公布为准。预订和改签请联系航空公司。",
+"fr": "Selon la liste de l’aéroport. Pour réserver ou modifier, contactez la compagnie.",
+"pt": "Conforme a lista do aeroporto. Para reservas e remarcações, fale com a companhia."
+},
+"Paramaribo’s city airport for domestic flights, interior charters and short hops to Georgetown (Ogle) with Gum Air and Trans Guyana Airways.": {
+"nl": "Het stadsvliegveld van Paramaribo voor binnenlandse vluchten, charters naar het binnenland en korte vluchten naar Georgetown (Ogle) met Gum Air en Trans Guyana Airways.",
+"es": "El aeropuerto urbano de Paramaribo para vuelos nacionales, chárteres al interior y vuelos cortos a Georgetown (Ogle) con Gum Air y Trans Guyana Airways.",
+"zh": "帕拉马里博的市区机场，运营国内航班、内陆包机，以及由 Gum Air 和 Trans Guyana Airways 执飞的前往 Georgetown (Ogle) 的短途航班。",
+"fr": "L’aéroport urbain de Paramaribo pour les vols intérieurs, les charters vers l’intérieur du pays et les petits vols vers Georgetown (Ogle) avec Gum Air et Trans Guyana Airways.",
+"pt": "O aeroporto urbano de Paramaribo para voos domésticos, fretados para o interior e voos curtos para Georgetown (Ogle) com a Gum Air e a Trans Guyana Airways."
+},
+"Which airlines fly to Suriname?": {
+"nl": "Welke maatschappijen vliegen op Suriname?",
+"es": "¿Qué aerolíneas vuelan a Surinam?",
+"zh": "哪些航空公司飞往苏里南？",
+"fr": "Quelles compagnies desservent le Suriname ?",
+"pt": "Quais companhias voam para o Suriname?"
+},
+"Where can I fly direct from Suriname?": {
+"nl": "Waar kan ik direct naartoe vliegen vanuit Suriname?",
+"es": "¿Adónde puedo volar directo desde Surinam?",
+"zh": "从苏里南可以直飞哪些地方？",
+"fr": "Où peut-on aller en vol direct depuis le Suriname ?",
+"pt": "Para onde posso voar direto a partir do Suriname?"
+},
+"How do I know if a flight to Suriname is delayed?": {
+"nl": "Hoe weet ik of een vlucht naar Suriname vertraagd is?",
+"es": "¿Cómo sé si un vuelo a Surinam viene retrasado?",
+"zh": "如何知道飞往苏里南的航班是否延误？",
+"fr": "Comment savoir si un vol vers le Suriname est retardé ?",
+"pt": "Como sei se um voo para o Suriname está atrasado?"
+},
+"The board on this page refreshes by itself every two minutes. A delayed flight shows its expected time, the original time crossed out and the number of minutes late. Tap a flight to track it; it then stays at the top of the page and your browser can alert you when its status changes while the page is open.": {
+"nl": "Het bord op deze pagina ververst zichzelf elke twee minuten. Een vertraagde vlucht toont de verwachte tijd, de oorspronkelijke tijd doorgestreept en het aantal minuten vertraging. Tik op een vlucht om hem te volgen; hij blijft dan bovenaan de pagina en uw browser kan u waarschuwen als de status verandert zolang de pagina open is.",
+"es": "El panel de esta página se actualiza solo cada dos minutos. Un vuelo retrasado muestra la hora estimada, la hora original tachada y los minutos de retraso. Toque un vuelo para seguirlo: queda arriba en la página y su navegador puede avisarle cuando cambie su estado mientras la página esté abierta.",
+"zh": "本页航班表每两分钟自动刷新。延误航班会显示预计时间、划掉的原定时间以及延误分钟数。点按航班即可关注，它会固定在页面顶部；页面打开期间，状态变化时浏览器可以提醒您。",
+"fr": "Le tableau de cette page se met à jour tout seul toutes les deux minutes. Un vol retardé affiche l’heure estimée, l’heure initiale barrée et le nombre de minutes de retard. Touchez un vol pour le suivre{N}; il reste alors en haut de la page et votre navigateur peut vous alerter quand son statut change tant que la page est ouverte.",
+"pt": "O painel desta página se atualiza sozinho a cada dois minutos. Um voo atrasado mostra o horário estimado, o horário original riscado e quantos minutos está atrasado. Toque em um voo para acompanhá-lo; ele fica no topo da página e o navegador pode avisar quando o status mudar enquanto a página estiver aberta."
+},
+"What time should I leave to pick someone up at Johan Adolf Pengel airport?": {
+"nl": "Hoe laat moet ik vertrekken om iemand op te halen op Johan Adolf Pengel?",
+"es": "¿A qué hora debo salir para recoger a alguien en el aeropuerto Johan Adolf Pengel?",
+"zh": "去约翰·阿道夫·彭格尔机场接人应该几点出发？",
+"fr": "À quelle heure partir pour aller chercher quelqu’un à l’aéroport Johan Adolf Pengel ?",
+"pt": "A que horas devo sair para buscar alguém no aeroporto Johan Adolf Pengel?"
+},
+"Open the arriving flight on this page and choose where you leave from. The pickup helper adds the usual time it takes to get through immigration and baggage claim and the typical drive to the airport, and tells you when to leave. Check Waze for the live traffic picture before you go.": {
+"nl": "Open de aankomende vlucht op deze pagina en kies waar u vandaan vertrekt. De ophaalhulp telt de gebruikelijke tijd voor immigratie en bagage op bij de gemiddelde rijtijd naar de luchthaven en vertelt u wanneer u moet vertrekken. Kijk op Waze voor het actuele verkeer voordat u gaat.",
+"es": "Abra el vuelo que llega en esta página y elija desde dónde sale. La ayuda para recoger suma el tiempo habitual de inmigración y equipaje y el trayecto típico al aeropuerto, y le dice cuándo salir. Consulte Waze para ver el tráfico en vivo antes de ir.",
+"zh": "在本页打开到达航班并选择您的出发地。接机助手会计算通关和取行李的常规时间以及前往机场的一般车程，并告诉您何时出发。出发前请在 Waze 查看实时路况。",
+"fr": "Ouvrez le vol qui arrive sur cette page et choisissez votre point de départ. L’aide calcule le temps habituel de l’immigration et des bagages ainsi que le trajet type jusqu’à l’aéroport, et vous indique quand partir. Consultez Waze pour le trafic en direct avant de partir.",
+"pt": "Abra o voo que chega nesta página e escolha de onde você sai. A ajuda soma o tempo habitual de imigração e bagagem e o trajeto típico até o aeroporto, e diz quando sair. Confira o trânsito ao vivo no Waze antes de ir."
+},
+"When does check-in open at Johan Adolf Pengel airport?": {
+"nl": "Wanneer opent het inchecken op Johan Adolf Pengel?",
+"es": "¿Cuándo abre la facturación en el aeropuerto Johan Adolf Pengel?",
+"zh": "约翰·阿道夫·彭格尔机场何时开始值机？",
+"fr": "Quand l’enregistrement ouvre-t-il à l’aéroport Johan Adolf Pengel ?",
+"pt": "Quando abre o check-in no aeroporto Johan Adolf Pengel?"
+},
+"According to the airport, check-in for flights to Amsterdam opens five hours and closes two hours before departure. For all regional flights it opens three hours and closes two hours before departure. Your airline has the final word.": {
+"nl": "Volgens de luchthaven opent het inchecken voor vluchten naar Amsterdam vijf uur en sluit het twee uur voor vertrek. Voor alle regionale vluchten opent het drie uur en sluit het twee uur voor vertrek. Uw maatschappij beslist.",
+"es": "Según el aeropuerto, la facturación de los vuelos a Ámsterdam abre cinco horas y cierra dos horas antes de la salida. Para todos los vuelos regionales abre tres horas y cierra dos horas antes. Su aerolínea tiene la última palabra.",
+"zh": "据机场公布，飞往阿姆斯特丹的航班在起飞前五小时开始值机、两小时截止；所有地区航班在起飞前三小时开始、两小时截止。最终以航空公司为准。",
+"fr": "Selon l’aéroport, l’enregistrement des vols vers Amsterdam ouvre cinq heures et ferme deux heures avant le départ. Pour tous les vols régionaux, il ouvre trois heures et ferme deux heures avant. Votre compagnie a le dernier mot.",
+"pt": "Segundo o aeroporto, o check-in dos voos para Amsterdã abre cinco horas e fecha duas horas antes da partida. Para todos os voos regionais abre três horas e fecha duas horas antes. A companhia aérea tem a palavra final."
+},
+"What is the main airport in Suriname?": {
+"nl": "Wat is de belangrijkste luchthaven van Suriname?",
+"es": "¿Cuál es el principal aeropuerto de Surinam?",
+"zh": "苏里南的主要机场是哪个？",
+"fr": "Quel est le principal aéroport du Suriname ?",
+"pt": "Qual é o principal aeroporto do Suriname?"
+},
+"Johan Adolf Pengel International Airport (PBM), also called Zanderij, about 45 km south of Paramaribo. Eduard Alexander Gummels Airport (EAX) at Zorg en Hoop in Paramaribo handles domestic flights, interior charters and short regional flights to Guyana.": {
+"nl": "Johan Adolf Pengel International Airport (PBM), ook Zanderij genoemd, ongeveer 45 km ten zuiden van Paramaribo. Eduard Alexander Gummels Airport (EAX) op Zorg en Hoop in Paramaribo verzorgt binnenlandse vluchten, charters naar het binnenland en korte regionale vluchten naar Guyana.",
+"es": "El aeropuerto internacional Johan Adolf Pengel (PBM), también llamado Zanderij, a unos 45 km al sur de Paramaribo. El aeropuerto Eduard Alexander Gummels (EAX), en Zorg en Hoop (Paramaribo), atiende vuelos nacionales, chárteres al interior y vuelos regionales cortos a Guyana.",
+"zh": "约翰·阿道夫·彭格尔国际机场（PBM），又称 Zanderij，位于帕拉马里博以南约 45 公里。位于帕拉马里博 Zorg en Hoop 的 Eduard Alexander Gummels 机场（EAX）运营国内航班、内陆包机和飞往圭亚那的短途地区航班。",
+"fr": "L’aéroport international Johan Adolf Pengel (PBM), aussi appelé Zanderij, à environ 45 km au sud de Paramaribo. L’aéroport Eduard Alexander Gummels (EAX), à Zorg en Hoop (Paramaribo), accueille les vols intérieurs, les charters vers l’intérieur et de courts vols régionaux vers le Guyana.",
+"pt": "O Aeroporto Internacional Johan Adolf Pengel (PBM), também chamado Zanderij, a cerca de 45 km ao sul de Paramaribo. O aeroporto Eduard Alexander Gummels (EAX), em Zorg en Hoop (Paramaribo), atende voos domésticos, fretados para o interior e voos regionais curtos para a Guiana."
+},
+"How far is Johan Adolf Pengel Airport from Paramaribo?": {
+"nl": "Hoe ver ligt Johan Adolf Pengel Airport van Paramaribo?",
+"es": "¿A qué distancia está el aeropuerto Johan Adolf Pengel de Paramaribo?",
+"zh": "约翰·阿道夫·彭格尔机场距离帕拉马里博多远？",
+"fr": "À quelle distance de Paramaribo se trouve l’aéroport Johan Adolf Pengel ?",
+"pt": "A que distância fica o aeroporto Johan Adolf Pengel de Paramaribo?"
+},
+"About 45 km. The drive from central Paramaribo usually takes 45 to 60 minutes depending on traffic.": {
+"nl": "Ongeveer 45 km. De rit vanuit het centrum van Paramaribo duurt meestal 45 tot 60 minuten, afhankelijk van het verkeer.",
+"es": "Unos 45 km. El trayecto desde el centro de Paramaribo suele durar de 45 a 60 minutos según el tráfico.",
+"zh": "约 45 公里。从帕拉马里博市中心出发，视交通情况通常需要 45 至 60 分钟。",
+"fr": "Environ 45 km. Le trajet depuis le centre de Paramaribo prend en général 45 à 60 minutes selon la circulation.",
+"pt": "Cerca de 45 km. O trajeto a partir do centro de Paramaribo costuma levar de 45 a 60 minutos, dependendo do trânsito."
+},
+"How long is a flight from Amsterdam to Suriname?": {
+"nl": "Hoe lang duurt een vlucht van Amsterdam naar Suriname?",
+"es": "¿Cuánto dura un vuelo de Ámsterdam a Surinam?",
+"zh": "从阿姆斯特丹飞往苏里南需要多久？",
+"fr": "Combien de temps dure un vol d’Amsterdam au Suriname ?",
+"pt": "Quanto tempo dura um voo de Amsterdã para o Suriname?"
+},
+"A direct flight from Amsterdam Schiphol to Johan Adolf Pengel takes about 9 to 10 hours.": {
+"nl": "Een directe vlucht van Amsterdam Schiphol naar Johan Adolf Pengel duurt ongeveer 9 tot 10 uur.",
+"es": "Un vuelo directo de Ámsterdam Schiphol a Johan Adolf Pengel dura unas 9 a 10 horas.",
+"zh": "从阿姆斯特丹史基浦机场直飞约翰·阿道夫·彭格尔机场约需 9 至 10 小时。",
+"fr": "Un vol direct d’Amsterdam Schiphol à Johan Adolf Pengel dure environ 9 à 10 heures.",
+"pt": "Um voo direto de Amsterdã Schiphol para Johan Adolf Pengel leva cerca de 9 a 10 horas."
+},
+"All flights": {
+"nl": "Alle vluchten",
+"es": "Todos los vuelos",
+"zh": "所有航班",
+"fr": "Tous les vols",
+"pt": "Todos os voos"
+},
+"Flight status": {
+"nl": "Vluchtstatus",
+"es": "Estado del vuelo",
+"zh": "航班动态",
+"fr": "Statut du vol",
+"pt": "Status do voo"
+},
+"Departs": {
+"nl": "Vertrekt",
+"es": "Sale",
+"zh": "出发",
+"fr": "Départ",
+"pt": "Parte"
+},
+"Arrives": {
+"nl": "Komt aan",
+"es": "Llega",
+"zh": "到达",
+"fr": "Arrivée",
+"pt": "Chega"
+},
+"local time": {
+"nl": "lokale tijd",
+"es": "hora local",
+"zh": "当地时间",
+"fr": "heure locale",
+"pt": "hora local"
+},
+"Flight time": {
+"nl": "Vliegtijd",
+"es": "Duración",
+"zh": "飞行时间",
+"fr": "Durée du vol",
+"pt": "Tempo de voo"
+},
+"Aircraft": {
+"nl": "Vliegtuig",
+"es": "Avión",
+"zh": "机型",
+"fr": "Avion",
+"pt": "Aeronave"
+},
+"Flights per week": {
+"nl": "Vluchten per week",
+"es": "Vuelos por semana",
+"zh": "每周航班数",
+"fr": "Vols par semaine",
+"pt": "Voos por semana"
+},
+"on time": {
+"nl": "op tijd",
+"es": "a tiempo",
+"zh": "准点",
+"fr": "à l’heure",
+"pt": "no horário"
+},
+"Average delay": {
+"nl": "Gemiddelde vertraging",
+"es": "Retraso medio",
+"zh": "平均延误",
+"fr": "Retard moyen",
+"pt": "Atraso médio"
+},
+"Worst delay": {
+"nl": "Grootste vertraging",
+"es": "Mayor retraso",
+"zh": "最长延误",
+"fr": "Plus gros retard",
+"pt": "Maior atraso"
+},
+"Not enough recorded flights yet. The record fills in automatically as this flight operates.": {
+"nl": "Nog niet genoeg geregistreerde vluchten. Het overzicht vult zich vanzelf zodra deze vlucht vliegt.",
+"es": "Todavía no hay suficientes vuelos registrados. El historial se completa solo a medida que opera este vuelo.",
+"zh": "已记录的航班尚不足。随着该航班执飞，记录会自动补充。",
+"fr": "Pas encore assez de vols enregistrés. L’historique se remplit automatiquement au fil des vols.",
+"pt": "Ainda não há voos registrados suficientes. O histórico se completa sozinho à medida que este voo opera."
+},
+"Recent flights": {
+"nl": "Recente vluchten",
+"es": "Vuelos recientes",
+"zh": "近期航班",
+"fr": "Vols récents",
+"pt": "Voos recentes"
+},
+"Actual": {
+"nl": "Werkelijk",
+"es": "Real",
+"zh": "实际",
+"fr": "Réel",
+"pt": "Real"
+},
+"Status": {
+"nl": "Status",
+"es": "Estado",
+"zh": "状态",
+"fr": "Statut",
+"pt": "Status"
+},
+"Departures by take-off time, arrivals by landing time. On time means within 15 minutes of schedule.": {
+"nl": "Vertrek op starttijd, aankomst op landingstijd. Op tijd betekent binnen 15 minuten na de geplande tijd.",
+"es": "Salidas por hora de despegue, llegadas por hora de aterrizaje. A tiempo significa dentro de los 15 minutos de lo previsto.",
+"zh": "出发按起飞时间，到达按降落时间。准点指在计划时间 15 分钟内。",
+"fr": "Départs selon l’heure de décollage, arrivées selon l’heure d’atterrissage. À l’heure signifie à moins de 15 minutes de l’horaire.",
+"pt": "Partidas pela decolagem, chegadas pelo pouso. No horário significa em até 15 minutos do previsto."
+},
+"No completed flights recorded yet.": {
+"nl": "Nog geen afgeronde vluchten geregistreerd.",
+"es": "Todavía no hay vuelos completados registrados.",
+"zh": "尚未记录已完成的航班。",
+"fr": "Aucun vol terminé enregistré pour l’instant.",
+"pt": "Ainda não há voos concluídos registrados."
+},
+"Related flights": {
+"nl": "Gerelateerde vluchten",
+"es": "Vuelos relacionados",
+"zh": "相关航班",
+"fr": "Vols associés",
+"pt": "Voos relacionados"
+},
+"on Explore Suriname": {
+"nl": "op Explore Suriname",
+"es": "en Explore Suriname",
+"zh": "在 Explore Suriname",
+"fr": "sur Explore Suriname",
+"pt": "no Explore Suriname"
+},
+"Airline website": {
+"nl": "Website maatschappij",
+"es": "Web de la aerolínea",
+"zh": "航空公司网站",
+"fr": "Site de la compagnie",
+"pt": "Site da companhia"
+},
+"For check-in, baggage, gates and rebooking, the airline is the official source.": {
+"nl": "Voor inchecken, bagage, gates en omboeken is de maatschappij de officiële bron.",
+"es": "Para facturación, equipaje, puertas y cambios, la aerolínea es la fuente oficial.",
+"zh": "值机、行李、登机口和改签信息请以航空公司官方为准。",
+"fr": "Pour l’enregistrement, les bagages, les portes et les changements, la compagnie est la source officielle.",
+"pt": "Para check-in, bagagem, portões e remarcação, a companhia aérea é a fonte oficial."
+},
+"All arrivals and departures in Suriname": {
+"nl": "Alle aankomsten en vertrekken in Suriname",
+"es": "Todas las llegadas y salidas en Surinam",
+"zh": "苏里南全部到达与出发航班",
+"fr": "Toutes les arrivées et départs au Suriname",
+"pt": "Todas as chegadas e partidas no Suriname"
+},
+"Flight, airline or city": {
+"nl": "Vlucht, maatschappij of stad",
+"es": "Vuelo, aerolínea o ciudad",
+"zh": "航班、航空公司或城市",
+"fr": "Vol, compagnie ou ville",
+"pt": "Voo, companhia ou cidade"
+},
+"Search flights": {
+"nl": "Vluchten zoeken",
+"es": "Buscar vuelos",
+"zh": "搜索航班",
+"fr": "Rechercher un vol",
+"pt": "Buscar voos"
+},
+"No flights listed for the next two days.": {
+"nl": "Geen vluchten voor de komende twee dagen.",
+"es": "No hay vuelos en los próximos dos días.",
+"zh": "未来两天没有航班。",
+"fr": "Aucun vol prévu pour les deux prochains jours.",
+"pt": "Nenhum voo nos próximos dois dias."
+},
+"En route": {
+"nl": "Onderweg",
+"es": "En vuelo",
+"zh": "飞行中",
+"fr": "En vol",
+"pt": "Em voo"
+},
+"Diverted": {
+"nl": "Uitgeweken",
+"es": "Desviado",
+"zh": "备降",
+"fr": "Dérouté",
+"pt": "Desviado"
+},
+"We record every flight at PBM and EAX since": {
+"nl": "We registreren elke vlucht op PBM en EAX sinds",
+"es": "Registramos cada vuelo en PBM y EAX desde el",
+"zh": "我们记录 PBM 和 EAX 的每个航班，起始日期为",
+"fr": "Nous enregistrons chaque vol à PBM et EAX depuis le",
+"pt": "Registramos cada voo em PBM e EAX desde"
+},
+". The on-time table appears here once each airline has at least five recorded flights.": {
+"nl": ". De stiptheidstabel verschijnt hier zodra elke maatschappij minstens vijf geregistreerde vluchten heeft.",
+"es": ". La tabla de puntualidad aparecerá aquí cuando cada aerolínea tenga al menos cinco vuelos registrados.",
+"zh": "。当每家航空公司至少有五个已记录航班时，准点表将显示在这里。",
+"fr": ". Le tableau de ponctualité apparaîtra ici dès que chaque compagnie comptera au moins cinq vols enregistrés.",
+"pt": ". A tabela de pontualidade aparece aqui quando cada companhia tiver pelo menos cinco voos registrados."
+},
+"Live arrivals and departures at PBM and Zorg en Hoop (EAX): delays, landing times, a pickup helper, check-in times and each airline’s on-time record.": {
+"nl": "Live aankomst en vertrek op PBM en Zorg en Hoop (EAX): vertragingen, landingstijden, ophaalhulp, incheck-tijden en stiptheid per maatschappij.",
+"es": "Llegadas y salidas en vivo en PBM y Zorg en Hoop (EAX): retrasos, aterrizajes, ayuda para recoger, facturación y puntualidad de cada aerolínea.",
+"zh": "PBM 和 Zorg en Hoop（EAX）实时到达与出发：延误、降落时间、接机助手、值机时间及各航空公司准点记录。",
+"fr": "Arrivées et départs en direct à PBM et Zorg en Hoop (EAX) : retards, atterrissages, aide à l’accueil, enregistrement et ponctualité des compagnies.",
+"pt": "Chegadas e partidas ao vivo em PBM e Zorg en Hoop (EAX): atrasos, pousos, ajuda para buscar alguém, check-in e pontualidade de cada companhia."
+},
+"From the flights we recorded in the last four weeks. Times in Suriname time unless marked local time.": {
+"nl": "Op basis van de vluchten die we de afgelopen vier weken registreerden. Tijden in Surinaamse tijd, tenzij lokale tijd vermeld staat.",
+"es": "Según los vuelos que registramos en las últimas cuatro semanas. Horas de Surinam salvo que se indique hora local.",
+"zh": "根据我们过去四周记录的航班。除标注当地时间外，均为苏里南时间。",
+"fr": "D’après les vols enregistrés ces quatre dernières semaines. Heures du Suriname, sauf mention heure locale.",
+"pt": "Com base nos voos que registramos nas últimas quatro semanas. Horários do Suriname, salvo quando indicado hora local."
+},
+"All times are Suriname time (UTC−3). Flight data: Flightradar24 schedules, plus the airlines’ own data where available: Air France-KLM Open Data for KLM, Copa and Surinam Airways flights, and Caribbean Airlines for its flights. The board refreshes every two minutes. For information only: always confirm with your airline.": {
+"nl": "Alle tijden zijn Surinaamse tijd (UTC−3). Vluchtgegevens: dienstregelingen van Flightradar24, plus eigen gegevens van de maatschappijen waar beschikbaar: Air France-KLM Open Data voor vluchten van KLM, Copa en Surinam Airways, en Caribbean Airlines voor haar vluchten. Het bord ververst elke twee minuten. Alleen ter informatie: controleer altijd bij uw maatschappij.",
+"es": "Todas las horas son hora de Surinam (UTC−3). Datos de vuelos: horarios de Flightradar24, más los datos propios de las aerolíneas cuando existen: Air France-KLM Open Data para los vuelos de KLM, Copa y Surinam Airways, y Caribbean Airlines para los suyos. El panel se actualiza cada dos minutos. Solo informativo: confirme siempre con su aerolínea.",
+"zh": "所有时间均为苏里南时间（UTC−3）。航班数据：Flightradar24 航班时刻，并在可用时采用航空公司自有数据：KLM、Copa 和苏里南航空的航班来自 Air France-KLM Open Data，加勒比航空的航班来自其自有数据。航班表每两分钟刷新一次。仅供参考，请务必向航空公司确认。",
+"fr": "Toutes les heures sont à l’heure du Suriname (UTC−3). Données des vols : horaires Flightradar24, plus les données propres des compagnies quand elles existent : Air France-KLM Open Data pour les vols KLM, Copa et Surinam Airways, et Caribbean Airlines pour ses vols. Le tableau se met à jour toutes les deux minutes. À titre indicatif : vérifiez toujours auprès de votre compagnie.",
+"pt": "Todos os horários são do Suriname (UTC−3). Dados dos voos: horários do Flightradar24, mais os dados próprios das companhias quando existem: Air France-KLM Open Data para os voos da KLM, Copa e Surinam Airways, e a Caribbean Airlines para os voos dela. O painel se atualiza a cada dois minutos. Apenas informativo: confirme sempre com a sua companhia aérea."
+},
+"Boarding": {
+"nl": "Boarding",
+"es": "Embarcando",
+"zh": "正在登机",
+"fr": "Embarquement",
+"pt": "Embarcando"
 }
 }

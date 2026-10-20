@@ -4688,7 +4688,7 @@ _GUIDE_KW = {
  "anaconda.html":           "game snake anaconda aboma spel slang",
  "heiligenweg-jam":         "game puzzle bus jam lijnbus parking spel puzzel bussen heiligenweg",
  "daily-notices.html":      "pharmacy pharmacies on call outage water power cinema movies apotheek dienstdoende stroomstoring waterstoring bioscoop films",
- "flights.html":            "flights arrivals departures airport pbm zanderij vluchten aankomst vertrek vliegveld",
+ "flights.html":            "flights arrivals departures airport pbm eax zanderij zorg en hoop flight status delay delayed landed klm slm copa gol pickup check-in vluchten aankomst vertrek vliegveld vertraging vertraagd geland ophalen inchecken",
  "atms.html":               "atm atms cash machine withdraw card geldautomaat pinautomaat pinnen geld opnemen bank",
  "conditions.html":         "weather forecast rain tides temperature uv weer regen getijden temperatuur",
  "news.html":               "news oil gas finance headlines nieuws olie",
@@ -4715,6 +4715,24 @@ _GUIDE_KW = {
  "shopping.html":           "shopping shops stores malls winkels winkelen mall",
  "services.html":           "services business local diensten bedrijven",
 }
+# Flight pages (flights_pages.py, 20 Oct 2026): taken from the previous build's
+# data/flights_live.json (the index is written at import, before this build's
+# flight data exists), so a new flight page becomes searchable one build later.
+try:
+    with open("data/flights_live.json", encoding="utf-8") as _flf:
+        _fl_live = json.load(_flf)
+    _fl_seen = set()
+    for _r in sorted(_fl_live.get("flights") or [], key=lambda x: (x.get("d") != "D", x.get("s") or 0)):
+        _sl = _r.get("sl")
+        if not _sl or _sl in _fl_seen or _sl not in set(_fl_live.get("pages") or []):
+            continue
+        _fl_seen.add(_sl)
+        _rt = ("Paramaribo to " + (_r.get("on") or "")) if _r.get("d") == "D" else ((_r.get("on") or "") + " to Paramaribo")
+        _SI_LIST.append({"n": f'{_r["fn"]} {_rt}: Flight Status', "u": _sl, "c": "Guides", "a": _r.get("al") or "Flights",
+                         "k": f'{_r["fn"]} {_r.get("al") or ""} {_rt} {_r.get("oi") or ""} flight status vlucht'.lower()})
+except Exception:
+    pass
+
 for _e in _SI_LIST:
     if _e["u"] in _GUIDE_KW and not _e.get("k"):
         _e["k"] = (_e["n"] + " " + _GUIDE_KW[_e["u"]]).lower()
@@ -27765,6 +27783,15 @@ def build_time_page():
     return head + hero + main + data_js + _TM2_JS + "\n" + footer_html() + "\n</body>\n</html>"
 
 
+def _flight_page_slugs():
+    """flight-<number> pages built this run (flights.PAGE_SLUGS), [] if none."""
+    try:
+        import flights as _FLm
+        return set(_FLm.PAGE_SLUGS)
+    except Exception:
+        return set()
+
+
 def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
     """Generate sitemap.xml covering all pages and listing URLs."""
     today = datetime.now(SR_TZ).strftime("%Y-%m-%d")
@@ -27893,7 +27920,8 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("submit-event.html",    "0.6", "monthly"),
         ("privacy.html",    "0.3", "yearly"),
     ] + [("doing-business-in-suriname", "0.7", "monthly")] + list(_ff_sitemap_entries()) \
-      + [("event-" + _s, "0.7", "weekly") for _s in _EVENT_PAGE_SLUGS]
+      + [("event-" + _s, "0.7", "weekly") for _s in _EVENT_PAGE_SLUGS] \
+      + [(_s, "0.6", "daily") for _s in sorted(_flight_page_slugs())]
 
     urls = []
     for path_seg, priority, freq in static_pages:
@@ -30459,7 +30487,20 @@ if __name__ == "__main__":
     record_rate_history(cme_rates, cme_live, cbvs_rates, cbvs_live)
     build_rail_data(cme_rates)
     tides_data    = fetch_tides_data()
-    flights_data  = fetch_aerodatabox_flights()
+    # Flights v2 (20 Oct 2026): flights.py runs every source (FR24 board +
+    # per-flight history, Caribbean Airlines ops feed, AF-KLM when the
+    # AFKL_API_KEY secret exists), keeps data/flight_history.json and writes
+    # data/flights_live.json. flights_data keeps the old {icao: (arr, dep, upd)}
+    # shape for the homepage tile. Never fatal: falls back to the old fetch.
+    _flc = None
+    try:
+        import flights as _FL
+        _flc = _FL.collect()
+        flights_data = {_ap["icao"]: _FL.legacy_lists(_flc, _ap["iata"]) for _ap in _FL.AIRPORTS}
+    except Exception as _fl_err:
+        print(f"  !! flights v2 failed, old board used: {_fl_err}")
+        _flc = None
+        flights_data = fetch_aerodatabox_flights()
     matches_data  = fetch_matches_data()
     atm_list, atm_meta = fetch_atms()
     atm_ref            = _atm_geocode_reference()
@@ -30494,7 +30535,6 @@ if __name__ == "__main__":
                                                 brent_price, brent_updated,
                                                 bank_rates, banks_updated, douane_state),
         "conditions.html":  build_conditions_page(tides_data),
-        "flights.html":     build_flights_page(flights_data),
         "news.html":        build_news(articles, oil_articles, finance_articles, sports_articles),
         "about.html":       build_about_page(),
         "contact.html":     build_contact_page(),
@@ -30655,6 +30695,20 @@ if __name__ == "__main__":
         _ff_mark = _ff_marker = None
     _ff_unchanged = 0
     pages.update(_EVENT_PAGE_FILES)   # event-<id>.html + events-this-weekend.html (build_events_page)
+    # Flights board + one page per recurring flight (flights_pages.py). Flight
+    # pages whose flight is gone become noindex redirect stubs to /flights.
+    try:
+        if _flc is None:
+            raise RuntimeError("no flights data")
+        from flights_pages import build_flight_pages
+        _fl_existing = [p.name for p in Path(".").glob("flight-*.html")]
+        _fl_pages = build_flight_pages({"PAGE_HEAD": PAGE_HEAD, "nav_html": nav_html, "footer_html": footer_html,
+                                        "SITE_URL": SITE_URL, "_ld_safe": _ld_safe}, _flc, _fl_existing)
+        pages.update(_fl_pages)
+        print(f"  OK  flights board + {len(_FL.PAGE_SLUGS)} flight pages")
+    except Exception as _flp_err:
+        print(f"  !! flight pages skipped, old board used: {_flp_err}")
+        pages["flights.html"] = build_flights_page(flights_data)
     for fname, html in pages.items():
         _d = _os_pages.path.dirname(fname)
         if _d:
