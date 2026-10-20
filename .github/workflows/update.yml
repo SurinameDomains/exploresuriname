@@ -51,6 +51,7 @@ jobs:
       - name: Generate all pages
         env:
           AERODATABOX_KEY:   ${{ secrets.AERODATABOX_KEY }}
+          AFKL_API_KEY:      ${{ secrets.AFKL_API_KEY }}
         run: python generate.py
 
       - name: Cache external images locally
