@@ -5924,11 +5924,25 @@ PAGE_HEAD = """\
     .util-l a strong{color:var(--gold);font-weight:600}
     @media(max-width:640px){.util-in{padding:0 1rem;gap:.9rem}.util-l{gap:.9rem}
       .util-l a:nth-child(3){display:none}.util-r{display:none}}
-    /* Six top-level items since the Business menu moved to surinamebusiness.com
-       (18 Oct 2026; tiers below re-measured 19 Oct for six, one step looser than
-       the eight-item tiers). Measured, not guessed: one row, no overflow and at
-       least ~100px free on each side of the links at 1024/1060/1100/1152/1220/
-       1280/1366/1440/1536 in EN, NL, ES, ZH, FR and PT (FR is the widest). */
+    /* Phone menu shortcut row (Oct 2026, nav "B"): five fixed tiles at the top of the
+       hamburger panel for the most used destinations (GA4 Sep-Oct 2026: Events far
+       ahead, then Rates, News, Notices, Flights). Static and duplicated on purpose:
+       every item also stays in its own group (split-menu research). Links carry
+       class "nvq"; the current page gets the shared highlight (nav_extract.py). */
+    .mq{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:10px 0 12px;
+        margin-bottom:2px;border-bottom:1px solid #eee}
+    .mq a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:62px;
+          padding:9px 2px 8px;border:1px solid var(--bd-card,rgba(35,48,40,.10));border-radius:var(--r-card,6px);
+          background:var(--card);color:var(--ink);font-size:11.5px;font-weight:500;line-height:1.15;
+          text-align:center;overflow-wrap:anywhere;-webkit-tap-highlight-color:transparent}
+    .mq a svg{width:21px;height:21px;color:var(--forest);flex-shrink:0}
+    .mq a.font-semibold{border-color:transparent}
+    @media(max-width:350px){.mq{gap:4px}.mq a{font-size:10.5px;padding:8px 1px 7px;min-height:58px}}
+    /* Seven top-level items since 21 Oct 2026 (Events got its own link; six after the
+       Business menu moved to surinamebusiness.com on 18 Oct). Tiers below set 19 Oct
+       for six, re-measured 21 Oct for seven: one row, no overflow and at least 66px
+       free on each side of the links at 1024-1920 in EN, NL, ES, ZH, FR and PT
+       (FR at 1024 is the tightest; ~90-160px in the other languages). */
     @media (max-width:1365px) {
       .navlinks { gap:16px; }
       .navlinks .dd-trigger, .navlinks > a { letter-spacing:.045em; }
@@ -7267,6 +7281,17 @@ def _moved_stub(fname):
             '</body></html>')
 
 
+# Line icons for the phone menu shortcut tiles: the same drawings the homepage
+# "Today in Suriname" cards use (build_index _IC), plus a calendar for Events.
+_NAVQ_IC = {
+    "cal":   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17M8 14h3"/></svg>',
+    "money": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M7 12h.01M17 12h.01"/></svg>',
+    "bolt":  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
+    "plane": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 13.5 4 11l1.2-1.2 7 1.2 4.3-4.3a1.8 1.8 0 0 1 2.5 2.5L14.7 13.5l1.2 7-1.2 1.2-2.5-6.5-3.2 3.2V21l-1-1-1-3-3-1-1-1h2.5z"/></svg>',
+    "news":  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h13v14H6a2 2 0 0 1-2-2zM17 9h3v8a2 2 0 0 1-2 2"/><path d="M7 9h7M7 12h7M7 15h4"/></svg>',
+}
+
+
 def nav_html(active="home", prefix=""):
     # ── Group / active-state helpers ────────────────────────────────────────
     # Seven top-level items (Sep 2026 restructure, was eight):
@@ -7282,7 +7307,9 @@ def nav_html(active="home", prefix=""):
     #   News     = single link
     _EXPL  = {"activities", "events", "shopping", "services"}
     _EAT   = {"restaurants", "hotels"}
-    _EXPLORE = _EXPL | _EAT
+    # Events has its own top-level link since 21 Oct 2026 (nav "B"), so it no
+    # longer lights up / opens the Explore group (it is still listed inside it).
+    _EXPLORE = (_EXPL | _EAT) - {"events"}
     _PLAN  = {"visitor", "itinerary", "safety", "roads"}
     # Flights moved Plan -> Live on 20 Oct 2026 (live board, flights.py)
     _LIVE  = {"currency", "flights", "forecast", "daily-notices", "atms", "matches", "surtime"}
@@ -7410,10 +7437,17 @@ def nav_html(active="home", prefix=""):
     )
 
 
+    # Order (21 Oct 2026, nav "B", decided on GA4 Sep-Oct 2026): Events is the most
+    # visited section by far, so it is a top-level link (still inside Explore too);
+    # Live (daily use) comes before Plan (least used menu, visitors only).
+    # Seven items fit one row at 1024px in all six languages (measured, FR widest).
+    _ev_l10n = ('data-l10n=\'{"nl": "Evenementen", "es": "Eventos", "zh": "活动", '
+                '"fr": "Événements", "pt": "Eventos"}\'')
     desktop_nav = (
         _mega_dd("dd-expl", "Explore", expl_cols, _EXPLORE)                 +
-        _desktop_dd("dd-plan", "Plan",           plan_items, _PLAN)         +
+        f'<a href="{prefix}events.html" {_top_single_style("events")} {_ev_l10n}>Events</a>' +
         _desktop_dd("dd-live", "Live",           live_items, _LIVE)         +
+        _desktop_dd("dd-plan", "Plan",           plan_items, _PLAN)         +
         _desktop_dd("dd-learn","Learn",          learn_items, _LEARN)       +
         _desktop_dd("dd-games","Games",          games_items,_GAMES)        +
         f'<a href="{prefix}news.html" {_top_single_style("news")}>News</a>'
@@ -7425,14 +7459,14 @@ def nav_html(active="home", prefix=""):
             return f'<a href="{href}" class="flex items-center gap-2 py-2.5 px-3 text-sm font-semibold rounded-lg" style="color:var(--forest);background:var(--mint)">{label}</a>'
         return f'<a href="{href}" class="nvb text-gray-600 rounded-lg">{label}</a>'
 
-    def _mob_group(mg_id, label, items_html, group_keys):
+    def _mob_group(mg_id, label, items_html, group_keys, l10n=""):
         open_cls  = "" if _group_active(group_keys) else " hidden"
         hdr_style = 'style="color:var(--forest)"' if _group_active(group_keys) else ""
         return (
             f'<div class="mob-group">'
             f'<button onclick="toggleMobGroup(\'{mg_id}\')" '
             f'class="mob-group-btn nvg text-gray-800 border-gray-100" {hdr_style}>'
-            f'<span>{label}</span>'
+            f'<span{(" " + l10n) if l10n else ""}>{label}</span>'
             f'<svg class="mob-chevron nvh{" rotate-180" if _group_active(group_keys) else ""}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>'
             f'</button>'
             f'<div id="{mg_id}" class="mob-group-body nvi{open_cls}">{items_html}</div>'
@@ -7496,10 +7530,38 @@ def nav_html(active="home", prefix=""):
     # Used by the search modal JS
     cat_colors = dict(_CAT_ACCENT, **{"Sightseeing": _CAT_ACCENT["Nature"]})
 
+    # Shortcut tiles (21 Oct 2026, nav "B"): fixed, in GA4 order, each item also in
+    # its own group. The #mg-quick div is one of nav_extract.IDS, so its contents live
+    # in the shared /assets/n-*.js like the other menu bodies. Short labels per
+    # language via data-l10n (Dutch/Spanish/French/Portuguese "Agenda" is the
+    # usual word for an events listing and fits a 60px tile).
+    def _q_tile(href, key, icon, label, l10n):
+        if _is_active(key):
+            a = f'<a href="{href}" class="nvq font-semibold" style="color:var(--forest);background:var(--mint)">'
+        else:
+            a = f'<a href="{href}" class="nvq">'
+        return (a + _NAVQ_IC[icon] + f'<span data-l10n=\'{l10n}\'>{label}</span></a>')
+    mob_quick = (
+        '<div id="mg-quick" class="mq">' +
+        _q_tile(f"{prefix}events.html", "events", "cal", "Events",
+                '{"nl": "Agenda", "es": "Agenda", "zh": "活动", "fr": "Agenda", "pt": "Agenda"}') +
+        _q_tile(f"{prefix}currency.html", "currency", "money", "Rates",
+                '{"nl": "Koersen", "es": "Cambio", "zh": "汇率", "fr": "Taux", "pt": "Câmbio"}') +
+        _q_tile(f"{prefix}daily-notices.html", "daily-notices", "bolt", "Notices",
+                '{"nl": "Meldingen", "es": "Avisos", "zh": "公告", "fr": "Avis", "pt": "Avisos"}') +
+        _q_tile(f"{prefix}flights.html", "flights", "plane", "Flights",
+                '{"nl": "Vluchten", "es": "Vuelos", "zh": "航班", "fr": "Vols", "pt": "Voos"}') +
+        _q_tile(f"{prefix}news.html", "news", "news", "News",
+                '{"nl": "Nieuws", "es": "Noticias", "zh": "新闻", "fr": "Infos", "pt": "Notícias"}') +
+        '</div>'
+    )
+    _plan_l10n = ('data-l10n=\'{"nl": "Je reis plannen", "es": "Planifica tu viaje", "zh": "行程规划", '
+                  '"fr": "Préparer votre voyage", "pt": "Planeje sua viagem"}\'')
     mobile_menu = (
+        mob_quick +
         _mob_group("mg-expl", "Explore",     mob_expl_items + mob_eat_items, _EXPLORE) +
-        _mob_group("mg-plan", "Plan",        mob_plan_items,  _PLAN)   +
         _mob_group("mg-live", "Live",        mob_live_items,  _LIVE)   +
+        _mob_group("mg-plan", "Plan your trip", mob_plan_items, _PLAN, _plan_l10n) +
         _mob_group("mg-learn","Learn",       mob_learn_items, _LEARN)  +
         _mob_group("mg-games","Games",       mob_games_items, _GAMES)  +
         _news_link
@@ -7597,6 +7659,25 @@ function toggleMobGroup(id) {{
   body.classList.toggle('hidden', isOpen);
   if (chev) chev.style.transform = isOpen ? '' : 'rotate(180deg)';
 }}
+/* GA4 nav_click (21 Oct 2026): where a menu click came from (tile = phone shortcut
+   row, mob_menu, desk_top, desk_menu, rail) and where it went (path without
+   language prefix or .html), so the menu order can be checked against use.
+   Window/bubble like the outbound-click handler, i.e. after the gtag loader. */
+window.addEventListener('click', function(e) {{
+  try {{
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+    var l = a.closest('#mg-quick') ? 'tile' : a.closest('#mm') ? 'mob_menu' :
+            a.closest('.util-rail') ? 'rail' : a.closest('.dd-menu') ? 'desk_menu' :
+            a.closest('.navlinks') ? 'desk_top' : '';
+    if (!l) return;
+    var p = new URL(a.href, location.href).pathname
+              .replace(/^[/](nl|es|zh|fr|pt)[/]/, '/').replace(/[.]html$/, '').replace(/[/]index$/, '/');
+    window.dataLayer = window.dataLayer || [];
+    if (!window.gtag) {{ window.gtag = function() {{ window.dataLayer.push(arguments); }}; }}
+    window.gtag('event', 'nav_click', {{nav_loc: l, nav_item: p.slice(0, 60)}});
+  }} catch (x) {{}}
+}});
 </script>
 <!-- ── Global Search Modal ───────────────────────────────────────────── -->
 <div id="search-modal" onclick="if(event.target===this)closeSearch()"
@@ -7898,8 +7979,9 @@ document.addEventListener('keydown', e => {{
 
 def footer_html(prefix=""):
     """Site footer. Brand column plus three link columns that mirror the top nav
-    (Explore + Eat & Stay + Business | Plan + Games | Live + Learn). Utility
-    links sit in the bottom bar rather than padding out a fifth column."""
+    (Explore + Eat & Stay + Business links to surinamebusiness.com | Plan + Games |
+    Live (with Flights since 20 Oct, News) + Learn). Utility links sit in the
+    bottom bar rather than padding out a fifth column."""
     return f"""
 <footer style="background:#142A1E;color:#B9C2B2">
   <div style="max-width:1140px;margin:0 auto;padding:clamp(48px,5.5vw,64px) clamp(20px,5vw,48px) 32px;display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:40px">
@@ -7946,7 +8028,6 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}suriname-itinerary.html">Trip Itineraries</a>
         <a class="ftr-lnk" href="{prefix}is-suriname-safe.html">Is Suriname Safe?</a>
         <a class="ftr-lnk" href="{prefix}on-the-road.html">On the Road</a>
-        <a class="ftr-lnk" href="{prefix}flights.html">Flights</a>
       </div>
       <div class="ftr-h" style="margin-top:26px">Games</div>
       <div class="ftr-col">
@@ -7963,6 +8044,7 @@ def footer_html(prefix=""):
       <div class="ftr-h">Live</div>
       <div class="ftr-col">
         <a class="ftr-lnk" href="{prefix}currency.html">Market Rates</a>
+        <a class="ftr-lnk" href="{prefix}flights.html">Flights</a>
         <a class="ftr-lnk" href="{prefix}conditions.html">Weather &amp; Tides</a>
         <a class="ftr-lnk" href="{prefix}daily-notices.html">Daily Notices</a>
         <a class="ftr-lnk" href="{prefix}atms.html">ATM Finder</a>

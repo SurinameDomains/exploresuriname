@@ -50,10 +50,11 @@ SKIP_DIRS = {".git", "node_modules", "assets", "vendor", "fonts", "icons", "imag
 
 # dd-biz-menu / mg-biz removed 18 Oct 2026 (Business menu gone, tools moved to
 # surinamebusiness.com): a page must have every container listed here exactly once.
+# mg-quick (21 Oct 2026): the phone menu shortcut tiles (generate.py nav_html).
 IDS = ("dd-expl-menu", "dd-plan-menu", "dd-live-menu", "dd-learn-menu", "dd-games-menu",
-       "mg-expl", "mg-plan", "mg-live", "mg-learn", "mg-games")
+       "mg-quick", "mg-expl", "mg-plan", "mg-live", "mg-learn", "mg-games")
 # the class every NOT-highlighted link in that container has (generate.py nav_html)
-INACTIVE = {"dd-expl-menu": "nvm text-gray-700 rounded-lg"}
+INACTIVE = {"dd-expl-menu": "nvm text-gray-700 rounded-lg", "mg-quick": "nvq"}
 for _i in IDS:
     INACTIVE.setdefault(_i, "nvb text-gray-600 rounded-lg" if _i.startswith("mg-")
                         else "nva text-gray-700 rounded-lg")
@@ -209,7 +210,9 @@ def inline(h, rel):
     base = _page_url(rel)
     for cid in IDS:
         om = re.search(r'<div\b[^>]*\bid="' + re.escape(cid) + r'"[^>]*>', h)
-        if not om or 'data-nf=""' not in om.group(0):
+        if cid not in frag and not om:
+            continue    # page and menu file predate this container (e.g. mg-quick)
+        if not om or 'data-nf=""' not in om.group(0) or cid not in frag:
             raise RuntimeError("container missing: " + cid)
         tag = om.group(0)
         acts = []
