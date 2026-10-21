@@ -1,8 +1,8 @@
 {
  "sources": {
   "fr24_PBM": {
-   "ok": false,
-   "fetched": 1792548992
+   "ok": true,
+   "fetched": 1792551670
   },
   "fr24_EAX": {
    "ok": true,
@@ -10,7 +10,7 @@
   },
   "bw": {
    "ok": true,
-   "fetched": 1792550765
+   "fetched": 1792551670
   },
   "afkl": {
    "ok": true,
