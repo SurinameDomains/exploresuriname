@@ -9,6 +9,11 @@
   "error": "WebP conversion failed",
   "last": "2026-10-16T17:02:29+00:00"
  },
+ "https://esr-leaderboard.surinamedomains.workers.dev/img/live/ev-sunset-beats-20261025.jpg": {
+  "count": 1,
+  "error": "The read operation timed out",
+  "last": "2026-10-21T19:03:04+00:00"
+ },
  "https://exploresuriname.com/images/dansclub-danzson.webp": {
   "count": 1,
   "error": "HTTP Error 404: Not Found",
