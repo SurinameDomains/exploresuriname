@@ -43,6 +43,12 @@
  ],
  "bekendmakingen": [
   {
+   "title": "Taskforce Corruptiebestrijding en Preventie opgericht: ‘Van woorden naar daden in de strijd tegen corruptie’21 oktober 2026",
+   "link": "https://gov.sr/bekendmaking/taskforce-corruptiebestrijding-en-preventie-opgericht-van-woorden-naar-daden-in-de-strijd-tegen-corruptie21-oktober-2026/",
+   "date": "2026-10-22",
+   "tender": false
+  },
+  {
    "title": "Publicatielijst Basis goederen voor de periode 17 oktober – 30 oktober 2026",
    "link": "https://gov.sr/bekendmaking/publicatielijst-basis-goederen-voor-de-periode-17-oktober-30-oktober-2026/",
    "date": "2026-10-20",
@@ -179,15 +185,15 @@
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
    "ok": "2026-10-22T09:02-03:00",
-   "fails": 0,
-   "error": ""
+   "fails": 1,
+   "error": "mismatched tag: line 93, column 2"
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-10-22T02:00-03:00",
-   "fails": 1,
-   "error": "https://gov.sr/feed/?post_type=bekendmaking: HTTP Error 500: Internal Server Error"
+   "ok": "2026-10-22T14:17-03:00",
+   "fails": 0,
+   "error": ""
   }
  },
- "updated": "2026-10-22T09:03-03:00"
+ "updated": "2026-10-22T14:17-03:00"
 }
