@@ -2,7 +2,7 @@
  "sources": {
   "fr24_PBM": {
    "ok": true,
-   "fetched": 1792706476
+   "fetched": 1792707370
   },
   "fr24_EAX": {
    "ok": true,
@@ -14,13 +14,13 @@
   },
   "afkl": {
    "ok": true,
-   "fetched": 1792705559,
-   "calls_today": 48,
+   "fetched": 1792707370,
+   "calls_today": 49,
    "err": ""
   },
   "fr24_hist": {
    "ok": true,
-   "fetched": 1792671393
+   "fetched": 1792707370
   }
  },
  "fl_hist": {
@@ -48,6 +48,6 @@
   "GUM43": 1792671393,
   "GUM44": 1792671393,
   "DO649": 1792647069,
-  "8W725": 1792634485
+  "8W725": 1792707370
  }
 }
