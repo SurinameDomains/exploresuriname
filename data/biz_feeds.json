@@ -43,6 +43,12 @@
  ],
  "bekendmakingen": [
   {
+   "title": "Volledige studiebeurs beschikbaar voor de Master of Arts in Public Innovative ICT Management (PIIM) aan de Ajou Universiteit in Zuid-Korea",
+   "link": "https://gov.sr/bekendmaking/volledige-studiebeurs-beschikbaar-voor-de-master-of-arts-in-public-innovative-ict-management-piim-aan-de-ajou-universiteit-in-zuid-korea/",
+   "date": "2026-10-22",
+   "tender": false
+  },
+  {
    "title": "Taskforce Corruptiebestrijding en Preventie opgericht: ‘Van woorden naar daden in de strijd tegen corruptie’21 oktober 2026",
    "link": "https://gov.sr/bekendmaking/taskforce-corruptiebestrijding-en-preventie-opgericht-van-woorden-naar-daden-in-de-strijd-tegen-corruptie21-oktober-2026/",
    "date": "2026-10-22",
@@ -184,16 +190,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-10-22T09:02-03:00",
-   "fails": 1,
-   "error": "mismatched tag: line 93, column 2"
+   "ok": "2026-10-22T18:44-03:00",
+   "fails": 0,
+   "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-10-22T14:17-03:00",
+   "ok": "2026-10-22T18:44-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-10-22T14:17-03:00"
+ "updated": "2026-10-22T18:44-03:00"
 }
