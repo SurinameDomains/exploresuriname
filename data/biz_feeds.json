@@ -178,16 +178,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-10-22T02:00-03:00",
+   "ok": "2026-10-22T09:02-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
    "ok": "2026-10-22T02:00-03:00",
-   "fails": 0,
-   "error": ""
+   "fails": 1,
+   "error": "https://gov.sr/feed/?post_type=bekendmaking: HTTP Error 500: Internal Server Error"
   }
  },
- "updated": "2026-10-22T02:00-03:00"
+ "updated": "2026-10-22T09:03-03:00"
 }
