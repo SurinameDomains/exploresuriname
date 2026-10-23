@@ -459,14 +459,64 @@
   function take(f){
     if(!/^image\/(jpeg|png|webp)$/.test(f.type)){ say("The flyer must be a JPG, PNG or WebP file.", true); return; }
     if(f.size > 5 * 1024 * 1024){ say("The flyer must be under 5 MB.", true); return; }
-    photo = f;
-    var img = $("prev");
-    img.src = URL.createObjectURL(f);
-    img.hidden = false;
-    $("dropmsg").innerHTML = "<strong>" + f.name.replace(/[<>]/g, "") + "</strong><br>Click to choose a different image";
-    say("");
-    readFlyer(f);
+    keep(f).then(function(c){
+      if(!c){ photo = null; say(T("noread"), true); return; }
+      photo = c;
+      var img = $("prev");
+      img.src = URL.createObjectURL(c);
+      img.hidden = false;
+      $("dropmsg").innerHTML = "<strong>" + c.name.replace(/[<>]/g, "") + "</strong><br>Click to choose a different image";
+      say("");
+      readFlyer(c);
+    });
   }
+
+  // Copy the picked image into memory right away (23 Oct 2026). Phone photo
+  // pickers can revoke a picked file after the first read, and a page reload
+  // drops it while the browser refills the text fields; either way the image
+  // silently went missing at Send. Resolves to null if it cannot be read.
+  function keep(f){
+    return new Promise(function(done){
+      try{
+        var rd = new FileReader();
+        rd.onload = function(){
+          var buf = rd.result;
+          if(!buf || !buf.byteLength) return done(null);
+          var nm = f.name || ("upload." + String(f.type).split("/")[1]);
+          var c;
+          try{ c = new File([buf], nm, {type: f.type}); }
+          catch(e){ c = new Blob([buf], {type: f.type}); c.name = nm; }
+          done(c);
+        };
+        rd.onerror = function(){ done(null) };
+        rd.readAsArrayBuffer(f);
+      }catch(e){ done(null) }
+    });
+  }
+
+  // Messages for the flyer check, in the page's language.
+  var LANG = String(document.documentElement.lang || "en").slice(0, 2).toLowerCase();
+  var TX = {
+    noread: {en: "We could not open that image. Please choose it again.",
+             nl: "We konden die afbeelding niet openen. Kies hem opnieuw.",
+             es: "No pudimos abrir esa imagen. Elígela de nuevo.",
+             zh: "无法打开这张图片，请重新选择。",
+             fr: "Nous n’avons pas pu ouvrir cette image. Choisissez-la à nouveau.",
+             pt: "Não conseguimos abrir essa imagem. Escolha-a novamente."},
+    nofly:  {en: "No flyer is attached. Events with a flyer get far more attention. Send without a flyer anyway?",
+             nl: "Er is geen flyer toegevoegd. Evenementen met een flyer vallen veel meer op. Toch versturen zonder flyer?",
+             es: "No hay ningún flyer adjunto. Los eventos con flyer llaman mucho más la atención. ¿Enviar de todos modos sin flyer?",
+             zh: "尚未添加海报。带海报的活动会获得更多关注。仍然不带海报提交吗？",
+             fr: "Aucune affiche n’est jointe. Les événements avec une affiche attirent bien plus l’attention. Envoyer quand même sans affiche ?",
+             pt: "Nenhum flyer foi anexado. Eventos com flyer chamam muito mais atenção. Enviar mesmo assim sem flyer?"},
+    addit:  {en: "Add the flyer at the top of the form, then press the button again.",
+             nl: "Voeg de flyer bovenaan het formulier toe en druk dan opnieuw op de knop.",
+             es: "Añade el flyer arriba del formulario y vuelve a pulsar el botón.",
+             zh: "请在表单顶部添加海报，然后再次点击按钮。",
+             fr: "Ajoutez l’affiche en haut du formulaire, puis appuyez de nouveau sur le bouton.",
+             pt: "Adicione o flyer no topo do formulário e toque no botão novamente."}
+  };
+  function T(k){ return (TX[k] && (TX[k][LANG] || TX[k].en)) || ""; }
 
   // ── reading the flyer ─────────────────────────────────────────────────
   // The poster is resized to 1280px before it is sent: the model reads it just
@@ -628,6 +678,16 @@
     if($("f-blurb").value.trim().length < 20) return say("Please describe the event in a sentence or two.", true);
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($("f-contact_email").value.trim()))
       return say("Please enter your email so we can reach you.", true);
+
+    // No flyer at Send: never added, or lost (page reloaded, phone revoked the
+    // file). Ask before sending without one instead of dropping it silently.
+    if(!photo || !photo.size){
+      if(!window.confirm(T("nofly"))){
+        drop.scrollIntoView({behavior: "smooth", block: "center"});
+        drop.focus();
+        return say(T("addit"), true);
+      }
+    }
 
     $("go").disabled = true;
     say("Sending...");

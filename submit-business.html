@@ -393,12 +393,38 @@
   function take(f){
     if(!/^image\/(jpeg|png|webp)$/.test(f.type)){ say("Photo must be a JPG, PNG or WebP file.", true); return; }
     if(f.size > 5 * 1024 * 1024){ say("Photo must be under 5 MB.", true); return; }
-    photo = f;
-    var img = $("prev");
-    img.src = URL.createObjectURL(f);
-    img.hidden = false;
-    $("dropmsg").innerHTML = "<strong>" + f.name.replace(/[<>]/g, "") + "</strong><br>Click to choose a different photo";
-    say("");
+    keep(f).then(function(c){
+      if(!c){ photo = null; say("We could not open that photo. Please choose it again.", true); return; }
+      photo = c;
+      var img = $("prev");
+      img.src = URL.createObjectURL(c);
+      img.hidden = false;
+      $("dropmsg").innerHTML = "<strong>" + c.name.replace(/[<>]/g, "") + "</strong><br>Click to choose a different photo";
+      say("");
+    });
+  }
+
+  // Copy the picked image into memory right away (23 Oct 2026). Phone photo
+  // pickers can revoke a picked file after the first read, and a page reload
+  // drops it while the browser refills the text fields; either way the image
+  // silently went missing at Send. Resolves to null if it cannot be read.
+  function keep(f){
+    return new Promise(function(done){
+      try{
+        var rd = new FileReader();
+        rd.onload = function(){
+          var buf = rd.result;
+          if(!buf || !buf.byteLength) return done(null);
+          var nm = f.name || ("upload." + String(f.type).split("/")[1]);
+          var c;
+          try{ c = new File([buf], nm, {type: f.type}); }
+          catch(e){ c = new Blob([buf], {type: f.type}); c.name = nm; }
+          done(c);
+        };
+        rd.onerror = function(){ done(null) };
+        rd.readAsArrayBuffer(f);
+      }catch(e){ done(null) }
+    });
   }
 
   function say(t, bad){
