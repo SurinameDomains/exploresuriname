@@ -139,6 +139,54 @@ if _jd_path.exists():
 # Overrides win over JSON; applied before anything reads _BIZ. Build never fails
 # on backend trouble — it just ships without overrides.
 _OVR_FIELDS = ("description", "website", "phone", "address", "facebook")
+# 23 Oct 2026: the Listings tab also edits name, email, district, opening hours and
+# map pin. Each value is checked again here, so a bad row is skipped instead of
+# reaching a page; a blank name/district/hours/pin means "no override".
+_OVR_DISTRICTS = ("Paramaribo", "Wanica", "Commewijne", "Nickerie", "Sipaliwini", "Para",
+                  "Marowijne", "Brokopondo", "Saramacca", "Coronie", "Suriname")
+_OVR_DAY = r"(?:Mo|Tu|We|Th|Fr|Sa|Su)"
+_OVR_TR = r"(?:[01]\d|2[0-3]):[0-5]\d-(?:(?:[01]\d|2[0-3]):[0-5]\d|24:00)"
+_OVR_HOURS_RE = re.compile(_OVR_DAY + r"(?:[-,]" + _OVR_DAY + r")*\s+" + _OVR_TR + r"(?:," + _OVR_TR + r")*")
+
+
+def _ovr_hours_ok(v):
+    if v == "24/7":
+        return True
+    rules = [r.strip() for r in v.split(";")]
+    return all(r in ("PH off", "PH closed") or _OVR_HOURS_RE.fullmatch(r) for r in rules) and \
+        any(r not in ("PH off", "PH closed") for r in rules)
+
+
+def _ovr_apply(slug, o):
+    """Apply one admin-panel override row to _BIZ[slug] (and the hours map)."""
+    b = _BIZ[slug]
+    for _ok in _OVR_FIELDS:
+        if isinstance(o.get(_ok), str):
+            b[_ok] = o[_ok].strip()
+    _v = o.get("name")
+    if isinstance(_v, str) and _v.strip() and len(_v.strip()) <= 120 and not re.search(r"[<>]", _v):
+        b["name"] = _v.strip()
+    _v = o.get("email")
+    if isinstance(_v, str) and (not _v.strip() or
+                                re.fullmatch(r"[^@\s<>\"']+@[^@\s<>\"']+\.[A-Za-z]{2,}", _v.strip())):
+        b["email"] = _v.strip()
+    _v = o.get("location")
+    if isinstance(_v, str) and _v.strip() in _OVR_DISTRICTS:
+        b["location"] = _v.strip()
+    _v = o.get("hours")
+    if isinstance(_v, str) and _v.strip() and len(_v) <= 300 and _ovr_hours_ok(_v.strip()):
+        b["hours"] = _v.strip()
+        _MANUAL_HOURS[slug] = _v.strip()      # admin beats JSON, OSM and the hand-set entries
+    _v = o.get("geo")
+    if isinstance(_v, str) and _v.strip():
+        try:
+            _la, _lo = (float(x) for x in _v.split(","))
+            if 1.5 <= _la <= 6.5 and -58.5 <= _lo <= -53.5:
+                b["geo"] = f"{_la:.5f},{_lo:.5f}"
+        except Exception:
+            pass
+
+
 _OVR_URL = "https://esr-leaderboard.surinamedomains.workers.dev/overrides"
 _OVERRIDES: dict = {}
 try:
@@ -149,9 +197,7 @@ try:
     _ovr_applied = 0
     for _oslug, _o in _OVERRIDES.items():
         if _oslug in _BIZ and isinstance(_o, dict):
-            for _ok in _OVR_FIELDS:
-                if isinstance(_o.get(_ok), str):
-                    _BIZ[_oslug][_ok] = _o[_ok].strip()
+            _ovr_apply(_oslug, _o)
             _ovr_applied += 1
     print(f"  Applied {_ovr_applied} listing overrides from admin panel")
 except Exception as _err:
@@ -245,9 +291,7 @@ except Exception as _err:
 for _sslug in [_x for _v in _SUB_BY_CAT.values() for _x in _v]:
     _o = _OVERRIDES.get(_sslug)
     if isinstance(_o, dict) and _sslug in _BIZ:
-        for _ok in _OVR_FIELDS:
-            if isinstance(_o.get(_ok), str):
-                _BIZ[_sslug][_ok] = _o[_ok].strip()
+        _ovr_apply(_sslug, _o)
 
 # ── Approved public event submissions (Submit your event form) ────────────────
 # Anyone can propose an event at /submit-event.html. Nothing is published until
@@ -4749,11 +4793,28 @@ with open("search-index.json", "w", encoding="utf-8") as _si_f:
     _si_f.write(_SEARCH_INDEX)
 
 # ── Admin panel data file — editable snapshot of every listing (public data) ───
+def _admin_extra(slug, b):
+    """Hours and map pin as the site currently shows them, so the editor starts
+    from the live values. hours_src/geo_src: "" = listing data, "osm" = OpenStreetMap."""
+    _h = _MANUAL_HOURS.get(slug) or ""
+    _hs = ""
+    if not _h:
+        _h = (_ENRICHMENTS.get(slug) or {}).get("opening_hours") or ""
+        _hs = "osm" if _h else ""
+    _g, _gs = (b.get("geo") or "").strip(), ""
+    if not _g:
+        _e = _ENRICHMENTS.get(slug) or {}
+        if _e.get("lat") is not None and _e.get("lon") is not None:
+            _g, _gs = f'{float(_e["lat"]):.5f},{float(_e["lon"]):.5f}', "osm"
+    return {"hours": _h, "hours_src": _hs, "geo": _g, "geo_src": _gs}
+
+
 with open("data/admin_listings.json", "w", encoding="utf-8") as _al_f:
     json.dump([{"slug": _s, "name": _b.get("name", ""), "category": _b.get("category", ""),
                 "location": _b.get("location", ""), "description": _b.get("description", ""),
                 "website": _b.get("website", ""), "phone": _b.get("phone", ""),
-                "address": _b.get("address", ""), "facebook": _b.get("facebook", "")}
+                "address": _b.get("address", ""), "facebook": _b.get("facebook", ""),
+                "email": _b.get("email", ""), **_admin_extra(_s, _b)}
                for _s, _b in sorted(_BIZ.items())], _al_f, ensure_ascii=False)
 
 CME_FALLBACK = [
