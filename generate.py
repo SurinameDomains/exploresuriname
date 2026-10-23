@@ -187,13 +187,49 @@ def _ovr_apply(slug, o):
             pass
 
 
+# Backend feeds keep a last good copy (23 Oct 2026). One timeout on all three feeds
+# (12:35 SR build) shipped the site for one build without community events, submitted
+# listings and admin edits. Each feed is now tried twice; every good answer is saved in
+# data/feed_cache/ (committed with data/), and that copy is used when the backend does
+# not answer. Returns (data, live). Raises only when there is no answer and no copy.
+_FEED_CACHE_DIR = Path(__file__).parent / "data" / "feed_cache"
+
+
+def _feed_get(url, name):
+    import urllib.request as _fq
+    import time as _ft
+    _last = None
+    for _i, _t in enumerate((15, 20)):
+        try:
+            _rq = _fq.Request(url, headers={"User-Agent": "ExploreSR-build/1.0"})
+            with _fq.urlopen(_rq, timeout=_t) as _rs:
+                _raw = _rs.read()
+            _data = json.loads(_raw.decode("utf-8"))
+            try:
+                _FEED_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+                _cp = _FEED_CACHE_DIR / (name + ".json")
+                if not _cp.exists() or _cp.read_bytes() != _raw:
+                    _cp.write_bytes(_raw)
+            except Exception as _ce:
+                print(f"  Warning: could not save the {name} feed copy — {_ce}")
+            return _data, True
+        except Exception as _fe:
+            _last = _fe
+            if _i == 0:
+                _ft.sleep(3)
+    _cp = _FEED_CACHE_DIR / (name + ".json")
+    if _cp.exists():
+        _data = json.loads(_cp.read_text(encoding="utf-8"))
+        _age = datetime.fromtimestamp(_cp.stat().st_mtime, timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        print(f"  Warning: {name} feed unavailable ({_last}); using the last good copy ({_age})")
+        return _data, False
+    raise _last
+
+
 _OVR_URL = "https://esr-leaderboard.surinamedomains.workers.dev/overrides"
 _OVERRIDES: dict = {}
 try:
-    import urllib.request as _ureq
-    _ovr_req = _ureq.Request(_OVR_URL, headers={"User-Agent": "ExploreSR-build/1.0"})
-    with _ureq.urlopen(_ovr_req, timeout=15) as _ovr_r:
-        _OVERRIDES = json.loads(_ovr_r.read().decode("utf-8"))
+    _OVERRIDES, _ = _feed_get(_OVR_URL, "overrides")
     _ovr_applied = 0
     for _oslug, _o in _OVERRIDES.items():
         if _oslug in _BIZ and isinstance(_o, dict):
@@ -247,9 +283,7 @@ _SUB_FIXES = {
 }
 try:
     import urllib.request as _ureq
-    _sub_req = _ureq.Request(_SUB_URL, headers={"User-Agent": "ExploreSR-build/1.0"})
-    with _ureq.urlopen(_sub_req, timeout=15) as _sub_r:
-        _sub_rows = json.loads(_sub_r.read().decode("utf-8"))
+    _sub_rows, _ = _feed_get(_SUB_URL, "listings_approved")
     _sub_skipped = 0
     for _s in (_sub_rows if isinstance(_sub_rows, list) else []):
         _sslug = (_s.get("slug") or "").strip()
@@ -328,15 +362,13 @@ _EVENT_PAGE_FILES: dict = {}
 _HOME_EVENTS: dict = {}
 _EVENT_PAGE_SLUGS: list = []
 try:
-    import urllib.request as _ureq2
-    _ev_req = _ureq2.Request(_EV_SUB_URL, headers={"User-Agent": "ExploreSR-build/1.0"})
-    with _ureq2.urlopen(_ev_req, timeout=15) as _ev_r:
-        _ev_rows = json.loads(_ev_r.read().decode("utf-8"))
+    _ev_rows, _ev_live = _feed_get(_EV_SUB_URL, "events_approved")
     for _e in (_ev_rows if isinstance(_ev_rows, list) else []):
         if isinstance(_e, dict) and (_e.get("eid") or "").strip() and (_e.get("start_date") or "").strip():
             _EVENT_SUBS.append(_e)
-    _EVENT_SUBS_OK = True
-    print(f"  Added {len(_EVENT_SUBS)} approved community events")
+    # Stubs for ended events are only written from a live answer, never from the copy.
+    _EVENT_SUBS_OK = _ev_live
+    print(f"  Added {len(_EVENT_SUBS)} approved community events" + ("" if _ev_live else " (last good copy)"))
 except Exception as _err2:
     print(f"  Warning: approved events unavailable — {_err2}")
 
