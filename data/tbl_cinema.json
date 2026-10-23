@@ -1,36 +1,36 @@
 {
-  "last_updated": "2026-10-22T16:00:33.028646+00:00",
+  "last_updated": "2026-10-23T10:00:45.278734+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "05:15 PM",
+      "time": "05:00 PM",
       "title": "Forgotten Island",
       "url": "https://www.tblcinemas.com/movie/RS706204767478/forgotten-island"
     },
     {
-      "time": "06:00 PM",
-      "title": "Other Mommy",
-      "url": "https://www.tblcinemas.com/movie/RS990149882856/other-mommy"
+      "time": "07:00 PM",
+      "title": "Udta Teer",
+      "url": "https://www.tblcinemas.com/movie/RS923055367737/udta-teer"
     },
     {
-      "time": "06:30 PM",
+      "time": "07:30 PM",
       "title": "Nayyi Navelli",
       "url": "https://www.tblcinemas.com/movie/RS229778423121/nayyi-navelli"
     },
     {
-      "time": "07:45 PM",
+      "time": "08:00 PM",
       "title": "Street Fighter",
       "url": "https://www.tblcinemas.com/movie/RS756444881544/street-fighter"
-    },
-    {
-      "time": "08:15 PM",
-      "title": "The Social Reckoning",
-      "url": "https://www.tblcinemas.com/movie/RS337981556049/the-social-reckoning"
     },
     {
       "time": "08:45 PM",
       "title": "Clayface",
       "url": "https://www.tblcinemas.com/movie/RS818180383796/clayface"
+    },
+    {
+      "time": "09:30 PM",
+      "title": "Other Mommy",
+      "url": "https://www.tblcinemas.com/movie/RS990149882856/other-mommy"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
