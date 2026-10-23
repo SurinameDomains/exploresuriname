@@ -43,6 +43,18 @@
  ],
  "bekendmakingen": [
   {
+   "title": "AANBESTEDING VOOR HET LEVEREN VAN DIVERSE VOERTUIGEN IN A1 CONDITIE",
+   "link": "https://gov.sr/bekendmaking/aanbesteding-voor-het-leveren-van-diverse-voertuigen-in-a1-conditie/",
+   "date": "2026-10-23",
+   "tender": true
+  },
+  {
+   "title": "Uitnodiging voor Publieke Consulatie: “Project Uitvoering en de Relatie met U”",
+   "link": "https://gov.sr/bekendmaking/uitnodiging-voor-publieke-consulatie-project-uitvoering-en-de-relatie-met-u/",
+   "date": "2026-10-23",
+   "tender": false
+  },
+  {
    "title": "Volledige studiebeurs beschikbaar voor de Master of Arts in Public Innovative ICT Management (PIIM) aan de Ajou Universiteit in Zuid-Korea",
    "link": "https://gov.sr/bekendmaking/volledige-studiebeurs-beschikbaar-voor-de-master-of-arts-in-public-innovative-ict-management-piim-aan-de-ajou-universiteit-in-zuid-korea/",
    "date": "2026-10-22",
@@ -190,16 +202,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-10-23T08:48-03:00",
+   "ok": "2026-10-23T14:16-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-10-23T08:48-03:00",
+   "ok": "2026-10-23T14:16-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-10-23T08:48-03:00"
+ "updated": "2026-10-23T14:16-03:00"
 }
