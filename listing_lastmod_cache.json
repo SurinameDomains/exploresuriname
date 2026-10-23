@@ -1,6 +1,6 @@
 {
   "static:index.html": {
-    "hash": "b0dd1d387fdaa089adc4a2a0c7666f01",
+    "hash": "0660785e0ef2071971d618588e1e267a",
     "date": "2026-10-23"
   },
   "static:restaurants.html": {
@@ -28,15 +28,15 @@
     "date": "2026-10-23"
   },
   "static:currency.html": {
-    "hash": "39e84c5cd9d0e6a5b3ae65feccb93548",
+    "hash": "49300a059f9523a4873fb9a16b4f1a7a",
     "date": "2026-10-23"
   },
   "static:flights.html": {
-    "hash": "52e86e42b4bee3dcaceb3fd97348fbc4",
+    "hash": "9a9ff9a63f7d1a47137019922b9099c1",
     "date": "2026-10-23"
   },
   "static:conditions.html": {
-    "hash": "ce5adf3915d4584a1552e5a65148a219",
+    "hash": "ce89294cbf8ec9ff8c26460742c15ba1",
     "date": "2026-10-23"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-23"
   },
   "static:news.html": {
-    "hash": "8c0159c08b9942e6e35fd8c39461c340",
+    "hash": "2c0f5f8bebbfdbb50c68969e41c5da78",
     "date": "2026-10-23"
   },
   "static:about.html": {
@@ -3040,7 +3040,7 @@
     "date": "2026-10-21"
   },
   "static:matches.html": {
-    "hash": "7a841dc93dfb61a580d3cf8e75495941",
+    "hash": "a05830fba0a621a21d7c8b0645ef1eaa",
     "date": "2026-10-23"
   },
   "static:suriname-time.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-21"
   },
   "static:oil-and-gas.html": {
-    "hash": "6b0603b61abd353c1e77c6e5d8ea1469",
+    "hash": "e8dd0aa78ceebefd5bd9e3c9ba1bc6c6",
     "date": "2026-10-23"
   },
   "static:suriname-oil-blocks.html": {
@@ -32397,91 +32397,91 @@
     "date": "2026-10-23"
   },
   "static:flight-cm318": {
-    "hash": "01ace222d4f631910dec59bd61be365f",
+    "hash": "aff4be5c1b5f0087235d379fb781c5de",
     "date": "2026-10-23"
   },
   "static:flight-cm319": {
-    "hash": "55af19375f9ae7faa1b10a87f777b36c",
+    "hash": "4ca9087fa376bfaf9364d706051c3bea",
     "date": "2026-10-23"
   },
   "static:flight-g37472": {
-    "hash": "8774c455eac3587f6d1d2babbf100ef0",
+    "hash": "b819d2d03b74fb1de28bba0656383082",
     "date": "2026-10-23"
   },
   "static:flight-g37473": {
-    "hash": "cb61c0eb922346e38149c816059cd5d1",
+    "hash": "2fcc94f8dfd4f2109073664fc1712939",
     "date": "2026-10-23"
   },
   "static:flight-gum41": {
-    "hash": "088aa404aba1a74baea6e357577ada8b",
+    "hash": "e7c50acb1da99c2e1daeb81be806a771",
     "date": "2026-10-23"
   },
   "static:flight-gum42": {
-    "hash": "27ad3ef4e0f3b1d3da1fb3e5e20d6712",
+    "hash": "22521edb3c29701b89a2bdfc73d27143",
     "date": "2026-10-23"
   },
   "static:flight-gum43": {
-    "hash": "a430200e52c45d1a9826958df1c07e06",
+    "hash": "7c848cbe1b02b0a11f07206c6fc89f00",
     "date": "2026-10-23"
   },
   "static:flight-gum44": {
-    "hash": "57eaa71dcc1ba024b080f6d380575c2e",
+    "hash": "dbcab198375661613dd24571b7514c90",
     "date": "2026-10-23"
   },
   "static:flight-kl713": {
-    "hash": "cdd023e77a21101b0e17249e4b9f85ae",
+    "hash": "cf72577aefe40df1085e59a2b8e87384",
     "date": "2026-10-23"
   },
   "static:flight-kl714": {
-    "hash": "da324db32ff3506ce65b98808d0cc8b1",
+    "hash": "d9f1dfe6e3f28437616add5246d69219",
     "date": "2026-10-23"
   },
   "static:flight-py431": {
-    "hash": "f553b4b1005bbaf2fe225cb387bf5f30",
+    "hash": "99ffa1758a467a1790f7acb3c09953ad",
     "date": "2026-10-23"
   },
   "static:flight-tgy431": {
-    "hash": "ea14dfce634f7e3b4e0a5883a3e99cae",
+    "hash": "4ff7448f7a826f9faa88315f66c2bd3a",
     "date": "2026-10-23"
   },
   "static:flight-tgy441": {
-    "hash": "81f68954bd8488784aa98f65dc139b28",
+    "hash": "104f46b1cad68012452d62dc5f712a38",
     "date": "2026-10-23"
   },
   "static:flight-py421": {
-    "hash": "cc957f7627b25ed189b9baf00f8562e9",
+    "hash": "52000750f13f81bc394d14f4beb8cfbd",
     "date": "2026-10-23"
   },
   "static:flight-bw883": {
-    "hash": "72abbb6415974809da6b112deb74e664",
+    "hash": "81bfe918aed149933b01ca11ca304e0c",
     "date": "2026-10-23"
   },
   "static:flight-py422": {
-    "hash": "1af8502e124511c130d8ee2600c9a99b",
+    "hash": "340d61a16da18ff9f941f2a8bff3670c",
     "date": "2026-10-23"
   },
   "static:flight-bw884": {
-    "hash": "ee517f2315f8106902a45a7e51033d34",
+    "hash": "55277dfb81e2d023fcc16b34f855095e",
     "date": "2026-10-23"
   },
   "static:flight-py9913": {
-    "hash": "17b1e9aa2a0bb480119bccabe58bf11d",
+    "hash": "51a10f6e84619442ed56e47303f98105",
     "date": "2026-10-23"
   },
   "static:flight-py9914": {
-    "hash": "db38ca9783f9fb40a5cc674beddfd7fd",
+    "hash": "5b6de5987f6dfdda690de4d69f22c52e",
     "date": "2026-10-23"
   },
   "static:flight-py993": {
-    "hash": "eeddf060f212011132c69acf577c0f34",
+    "hash": "fc441bb91f27169670fa7fec2a751fbb",
     "date": "2026-10-23"
   },
   "static:flight-py994": {
-    "hash": "e3ac8983f94a596d002d1ce7823bc6b7",
+    "hash": "6b16a3c8a60a13ea28c4dde80edc9865",
     "date": "2026-10-23"
   },
   "static:flight-do649": {
-    "hash": "20d5bfed229077cd1bde7bfa3bec6118",
+    "hash": "83fc1376bba5dda82609dcd562267d64",
     "date": "2026-10-23"
   },
   "royalry-s-beauty-boutique": {
@@ -32510,7 +32510,7 @@
     "date": "2026-10-23"
   },
   "static:flight-8w725": {
-    "hash": "e1c0b32d5ec58564eb995c644797cbf3",
+    "hash": "69c04193a20b87515ead50d232bb0774",
     "date": "2026-10-23"
   },
   "static:event-club-vibes-20261024": {
@@ -32518,11 +32518,11 @@
     "date": "2026-10-23"
   },
   "static:flight-8w726": {
-    "hash": "eb097d7321636c5873ba46d14f127083",
+    "hash": "8bb27901622d2248a91d4633931fb3e7",
     "date": "2026-10-23"
   },
   "static:flight-8w629": {
-    "hash": "c5b57ac70af828c151a279eebc3997a7",
+    "hash": "6b697d1ec843e0ad3fa6c2df9b27fb97",
     "date": "2026-10-23"
   },
   "static:event-full-sranang-pokoe-halloween-editionsranang-20261023": {
@@ -32534,11 +32534,11 @@
     "date": "2026-10-23"
   },
   "static:flight-py9916": {
-    "hash": "56ab11a2ee4d4320ad2eabed532e59b4",
+    "hash": "42c5e3130aa31cae922d4de0899afe12",
     "date": "2026-10-23"
   },
   "static:flight-py9915": {
-    "hash": "02ab6c7bc6cd61509be1706ab03c282b",
+    "hash": "a78dd962df99e47c7dc10d0cae78a2bd",
     "date": "2026-10-23"
   }
 }
