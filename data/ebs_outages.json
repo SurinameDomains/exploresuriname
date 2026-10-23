@@ -1,6 +1,20 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD DINSDAG 27 OKTOBER 2026",
+      "date": "27 Oktober 2026",
+      "date_iso": "2026-10-27",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1636/gepland-onderhoud-dinsdag-27-oktober-2026",
+      "body": "Gepland onderhoud: Wanica dinsdag 27 oktober 2026 tussen 09:00-13:00 GEHEEL LIBANONWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
+      "area_full": "GEHEEL LIBANONWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=85bdacf9c8e64f99aa2ca9f05a83fd69",
+      "meta_description": "Gepland onderhoud: Wanica dinsdag 27 oktober 2026 tussen 09:00-13:00 GEHEEL LIBANONWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED. Kaart",
+      "district": "Wanica",
+      "time": "09:00 – 13:00",
+      "area": "GEHEEL LIBANONWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED. Kaart"
+    },
+    {
       "title": "GEPLAND ONDERHOUD ZONDAG 25 OKTOBER 2026",
       "date": "25 Oktober 2026",
       "date_iso": "2026-10-25",
@@ -12,6 +26,6 @@
       "district": "PARBO"
     }
   ],
-  "last_updated": "2026-10-23T15:15:45.996303+00:00",
+  "last_updated": "2026-10-23T19:13:56.372891+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
