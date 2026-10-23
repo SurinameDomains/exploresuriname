@@ -2,11 +2,11 @@
  "sources": {
   "fr24_PBM": {
    "ok": true,
-   "fetched": 1792758699
+   "fetched": 1792759664
   },
   "fr24_EAX": {
    "ok": true,
-   "fetched": 1792758699
+   "fetched": 1792759664
   },
   "bw": {
    "ok": true,
@@ -19,8 +19,9 @@
    "err": ""
   },
   "fr24_hist": {
-   "ok": true,
-   "fetched": 1792755144
+   "ok": false,
+   "fetched": 1792759664,
+   "err": "The read operation timed out"
   }
  },
  "fl_hist": {
@@ -49,6 +50,7 @@
   "GUM44": 1792744264,
   "DO649": 1792719072,
   "8W725": 1792707370,
-  "8W726": 1792746986
+  "8W726": 1792746986,
+  "PY9915": 1792709264
  }
 }
