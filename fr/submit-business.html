@@ -59,6 +59,19 @@
     #prev{max-height:190px;border-radius:12px;margin:0 auto .6rem;display:block}
     .two{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem}
     @media(max-width:640px){.two{grid-template-columns:1fr}}
+    #hrs{border:1px solid #d3d8d3;border-radius:12px;padding:.2rem .85rem;background:#fff}
+    #hrs [hidden]{display:none!important}
+    .hrw{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .75rem;padding:.55rem 0;border-bottom:1px dashed #e1e5e1;font-size:.9rem;color:#1a201c}
+    .hrw:last-child{border-bottom:0}
+    .hrw.bad{background:#fdf1ef;margin:0 -.85rem;padding-left:.85rem;padding-right:.85rem}
+    .hd{display:flex!important;align-items:center;gap:.5rem;width:8.2rem;margin:0!important;font-size:.9rem!important;font-weight:600!important;letter-spacing:0!important;text-transform:none!important;color:#1a201c!important;cursor:pointer}
+    .hd span:first-letter{text-transform:uppercase}
+    .hd input{width:1.05rem;height:1.05rem;accent-color:var(--forest)}
+    .ht{display:inline-flex;flex-wrap:wrap;align-items:center;gap:.35rem}
+    .ht input[type=time]{border:1px solid #d3d8d3;border-radius:9px;padding:.35rem .45rem;font:inherit;background:#fff;color:#1a201c;min-width:0}
+    .h2{display:inline-flex;flex-wrap:wrap;align-items:center;gap:.35rem}
+    .hadd,#h-copy{border:0;background:none;padding:.2rem 0;font:inherit;font-size:.8rem;font-weight:600;color:var(--forest);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+    .hx{color:#7a827b}
   </style>
 <style>nav button,nav a{white-space:nowrap}</style><link href="https://exploresuriname.com/submit-business" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/submit-business" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/submit-business" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/zh/submit-business" hreflang="zh-Hans" rel="alternate"/><link href="https://exploresuriname.com/fr/submit-business" hreflang="fr" rel="alternate"/><link href="https://exploresuriname.com/pt/submit-business" hreflang="pt-BR" rel="alternate"/><link href="https://exploresuriname.com/submit-business" hreflang="x-default" rel="alternate"/></head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -179,7 +192,7 @@
 </div>
 <div class="fld">
 <label for="f-description">Décrivez l'entreprise <span class="req">*</span></label>
-<textarea id="f-description" maxlength="2000" name="description" placeholder="Ce que vous proposez, ce qui vaut le déplacement, les horaires d'ouverture s'ils sont fixes. Deux ou trois phrases suffisent." required=""></textarea>
+<textarea id="f-description" maxlength="2000" name="description" placeholder="Ce que vous proposez et ce qui vaut le déplacement. Deux ou trois phrases suffisent." required=""></textarea>
 <div class="hint"><span id="cnt">0</span> sur 2000 caractères. Minimum 20.</div>
 </div>
 <div class="fld">
@@ -190,6 +203,15 @@
 </div>
 <input accept="image/jpeg,image/png,image/webp" hidden="" id="f-photo" name="photo" type="file"/>
 <div class="hint">Une belle photo d'ensemble du lieu, des plats ou du produit. Utilisez une photo dont vous détenez les droits.</div>
+</div>
+<div class="fld">
+<label>Horaires d'ouverture</label>
+<div class="hint" style="margin:0 0 .5rem">Cochez les jours où vous êtes ouvert. Laissez tout vide si vos horaires varient ou si vous travaillez sur rendez-vous.</div>
+<div id="hrs"><div class="hrw" data-d="0"><label class="hd"><input id="ho-0" type="checkbox"/> <span id="hn-0">Lundi</span></label><span class="ht" hidden=""><input aria-labelledby="hn-0" id="hf-0-0" type="time" value="08:00"/> <span>–</span> <input aria-labelledby="hn-0" id="ht-0-0" type="time" value="17:00"/><span class="h2" hidden=""> <span>et</span> <input aria-labelledby="hn-0" id="hf-0-1" type="time"/> <span>–</span> <input aria-labelledby="hn-0" id="ht-0-1" type="time"/></span><button class="hadd" data-d="0" type="button"><span class="a1">+ <span>Ajouter une pause</span></span><span class="a2" hidden="">Supprimer la pause</span></button></span><span class="hx">Fermé</span></div><div class="hrw" data-d="1"><label class="hd"><input id="ho-1" type="checkbox"/> <span id="hn-1">Mardi</span></label><span class="ht" hidden=""><input aria-labelledby="hn-1" id="hf-1-0" type="time" value="08:00"/> <span>–</span> <input aria-labelledby="hn-1" id="ht-1-0" type="time" value="17:00"/><span class="h2" hidden=""> <span>et</span> <input aria-labelledby="hn-1" id="hf-1-1" type="time"/> <span>–</span> <input aria-labelledby="hn-1" id="ht-1-1" type="time"/></span><button class="hadd" data-d="1" type="button"><span class="a1">+ <span>Ajouter une pause</span></span><span class="a2" hidden="">Supprimer la pause</span></button></span><span class="hx">Fermé</span></div><div class="hrw" data-d="2"><label class="hd"><input id="ho-2" type="checkbox"/> <span id="hn-2">Mercredi</span></label><span class="ht" hidden=""><input aria-labelledby="hn-2" id="hf-2-0" type="time" value="08:00"/> <span>–</span> <input aria-labelledby="hn-2" id="ht-2-0" type="time" value="17:00"/><span class="h2" hidden=""> <span>et</span> <input aria-labelledby="hn-2" id="hf-2-1" type="time"/> <span>–</span> <input aria-labelledby="hn-2" id="ht-2-1" type="time"/></span><button class="hadd" data-d="2" type="button"><span class="a1">+ <span>Ajouter une pause</span></span><span class="a2" hidden="">Supprimer la pause</span></button></span><span class="hx">Fermé</span></div><div class="hrw" data-d="3"><label class="hd"><input id="ho-3" type="checkbox"/> <span id="hn-3">Jeudi</span></label><span class="ht" hidden=""><input aria-labelledby="hn-3" id="hf-3-0" type="time" value="08:00"/> <span>–</span> <input aria-labelledby="hn-3" id="ht-3-0" type="time" value="17:00"/><span class="h2" hidden=""> <span>et</span> <input aria-labelledby="hn-3" id="hf-3-1" type="time"/> <span>–</span> <input aria-labelledby="hn-3" id="ht-3-1" type="time"/></span><button class="hadd" data-d="3" type="button"><span class="a1">+ <span>Ajouter une pause</span></span><span class="a2" hidden="">Supprimer la pause</span></button></span><span class="hx">Fermé</span></div><div class="hrw" data-d="4"><label class="hd"><input id="ho-4" type="checkbox"/> <span id="hn-4">vendredi</span></label><span class="ht" hidden=""><input aria-labelledby="hn-4" id="hf-4-0" type="time" value="08:00"/> <span>–</span> <input aria-labelledby="hn-4" id="ht-4-0" type="time" value="17:00"/><span class="h2" hidden=""> <span>et</span> <input aria-labelledby="hn-4" id="hf-4-1" type="time"/> <span>–</span> <input aria-labelledby="hn-4" id="ht-4-1" type="time"/></span><button class="hadd" data-d="4" type="button"><span class="a1">+ <span>Ajouter une pause</span></span><span class="a2" hidden="">Supprimer la pause</span></button></span><span class="hx">Fermé</span></div><div class="hrw" data-d="5"><label class="hd"><input id="ho-5" type="checkbox"/> <span id="hn-5">Samedi</span></label><span class="ht" hidden=""><input aria-labelledby="hn-5" id="hf-5-0" type="time" value="08:00"/> <span>–</span> <input aria-labelledby="hn-5" id="ht-5-0" type="time" value="17:00"/><span class="h2" hidden=""> <span>et</span> <input aria-labelledby="hn-5" id="hf-5-1" type="time"/> <span>–</span> <input aria-labelledby="hn-5" id="ht-5-1" type="time"/></span><button class="hadd" data-d="5" type="button"><span class="a1">+ <span>Ajouter une pause</span></span><span class="a2" hidden="">Supprimer la pause</span></button></span><span class="hx">Fermé</span></div><div class="hrw" data-d="6"><label class="hd"><input id="ho-6" type="checkbox"/> <span id="hn-6">Dimanche</span></label><span class="ht" hidden=""><input aria-labelledby="hn-6" id="hf-6-0" type="time" value="08:00"/> <span>–</span> <input aria-labelledby="hn-6" id="ht-6-0" type="time" value="17:00"/><span class="h2" hidden=""> <span>et</span> <input aria-labelledby="hn-6" id="hf-6-1" type="time"/> <span>–</span> <input aria-labelledby="hn-6" id="ht-6-1" type="time"/></span><button class="hadd" data-d="6" type="button"><span class="a1">+ <span>Ajouter une pause</span></span><span class="a2" hidden="">Supprimer la pause</span></button></span><span class="hx">Fermé</span></div></div>
+<button hidden="" id="h-copy" type="button">Mêmes horaires pour tous les jours d'ouverture</button>
+<div class="hint">Ouvert après minuit ? Indiquez simplement l'heure de fermeture, par exemple 22:00 à 02:00. Ouvert 24 h sur 24 : 00:00 à 00:00.</div>
+<input id="f-hours" name="hours" type="hidden" value=""/>
+<span hidden="" id="h-err">Horaires : vérifiez les heures de chaque jour d'ouverture. Les deux heures sont nécessaires et ne peuvent pas être identiques.</span>
 </div>
 <h2 class="serif text-xl font-bold text-gray-900 mt-9 mb-5">Vous</h2>
 <p class="text-sm text-gray-600 mb-5">Non publié. Nous l'utilisons uniquement pour vous contacter au sujet de la fiche.</p>
@@ -417,6 +439,102 @@
     });
   }
 
+  // Opening hours grid -> OSM string (same rules as the admin panel's day grid:
+  // equal days are grouped, "00:00" as a closing time means midnight = 24:00).
+  var HD = ["Mo","Tu","We","Th","Fr","Sa","Su"];
+  function hRow(d){ return document.querySelector('#hrs [data-d="' + d + '"]'); }
+  function hOn(d){ return $("ho-" + d).checked; }
+  function hTwo(d){ return !hRow(d).querySelector(".h2").hidden; }
+  function hShowTwo(d, on){
+    var r = hRow(d);
+    r.querySelector(".h2").hidden = !on;
+    r.querySelector(".a1").hidden = on;
+    r.querySelector(".a2").hidden = !on;
+    if(!on){ $("hf-" + d + "-1").value = ""; $("ht-" + d + "-1").value = ""; }
+  }
+  function hSync(){
+    var any = false;
+    for(var d = 0; d < 7; d++){
+      var r = hRow(d), on = hOn(d);
+      r.querySelector(".ht").hidden = !on;
+      r.querySelector(".hx").hidden = on;
+      if(!on) r.classList.remove("bad");
+      if(on) any = true;
+    }
+    $("h-copy").hidden = !any;
+  }
+  function hCopy(to, from){
+    $("hf-" + to + "-0").value = $("hf-" + from + "-0").value;
+    $("ht-" + to + "-0").value = $("ht-" + from + "-0").value;
+    var two = hTwo(from);
+    hShowTwo(to, two);
+    if(two){
+      $("hf-" + to + "-1").value = $("hf-" + from + "-1").value;
+      $("ht-" + to + "-1").value = $("ht-" + from + "-1").value;
+    }
+    hRow(to).classList.remove("bad");
+  }
+  for(var hd = 0; hd < 7; hd++) (function(d){
+    $("ho-" + d).addEventListener("change", function(){
+      // a newly ticked day starts with the hours of the nearest open day above it
+      if(this.checked){
+        for(var k = 1; k < 7; k++){ var e = (d - k + 7) % 7; if(hOn(e)){ hCopy(d, e); break; } }
+      }
+      hSync();
+    });
+    hRow(d).querySelector(".hadd").addEventListener("click", function(){
+      var two = !hTwo(d);
+      hShowTwo(d, two);
+      if(two){
+        var f = $("hf-" + d + "-0").value, t = $("ht-" + d + "-0").value;
+        if(f && t && f < "12:00" && t > "13:00"){
+          $("ht-" + d + "-0").value = "12:00"; $("hf-" + d + "-1").value = "13:00"; $("ht-" + d + "-1").value = t;
+        }
+      }
+      hRow(d).classList.remove("bad");
+    });
+  })(hd);
+  $("h-copy").addEventListener("click", function(){
+    var first = -1;
+    for(var d = 0; d < 7; d++) if(hOn(d)){ first = d; break; }
+    if(first < 0) return;
+    for(var e = 0; e < 7; e++) if(e !== first && hOn(e)) hCopy(e, first);
+  });
+  hSync();   // checkboxes the browser restored after a reload
+  // {v: "Mo-Fr 08:00-17:00; Sa 09:00-13:00"} ("" = no hours) or {err: day}
+  function hRead(){
+    var TM = /^\d\d:\d\d$/, keys = [];
+    for(var d = 0; d < 7; d++){
+      var trs = [];
+      if(hOn(d)){
+        for(var k = 0; k < 2; k++){
+          if(k === 1 && !hTwo(d)) continue;
+          var f = $("hf-" + d + "-" + k).value, t = $("ht-" + d + "-" + k).value;
+          if(!TM.test(f) || !TM.test(t) || (f === t && f !== "00:00")) return {err: d};
+          trs.push(f + "-" + (t === "00:00" ? "24:00" : t));
+        }
+      }
+      keys.push(trs.join(","));
+    }
+    var out = [], done = {};
+    for(var a = 0; a < 7; a++){
+      var key = keys[a];
+      if(!key || done[key]) continue;
+      done[key] = 1;
+      var ds = [];
+      for(var b = 0; b < 7; b++) if(keys[b] === key) ds.push(b);
+      var parts = [], i = 0;
+      while(i < ds.length){
+        var j = i;
+        while(j + 1 < ds.length && ds[j + 1] === ds[j] + 1) j++;
+        parts.push(j > i ? HD[ds[i]] + "-" + HD[ds[j]] : HD[ds[i]]);
+        i = j + 1;
+      }
+      out.push(parts.join(",") + " " + key);
+    }
+    return {v: out.join("; ")};
+  }
+
   function say(t, bad){
     var m = $("msg");
     m.textContent = t || "";
@@ -435,6 +553,13 @@
     if(FB_RE.test(web)){ if(!fb) $("f-facebook").value = fb = web; $("f-website").value = ""; }
     if(fb && !FB_RE.test(fb))
       return say("The Facebook page field only takes a facebook.com link. Leave it empty if you have none.", true);
+    var hr = hRead();
+    if(hr.err !== undefined){
+      hRow(hr.err).classList.add("bad");
+      hRow(hr.err).scrollIntoView({block: "center", behavior: "smooth"});
+      return say($("h-err").textContent, true);
+    }
+    $("f-hours").value = hr.v;
 
     var fd = new FormData(frm);
     fd.delete("photo");
