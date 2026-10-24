@@ -34,11 +34,6 @@
    "title": "Storing",
    "link": "https://belastingdienst.sr/storing/",
    "date": "2026-08-25"
-  },
-  {
-   "title": "Geen Boete",
-   "link": "https://belastingdienst.sr/geen-boete/",
-   "date": "2026-08-24"
   }
  ],
  "bekendmakingen": [
@@ -202,16 +197,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-10-23T18:29-03:00",
-   "fails": 1,
-   "error": "mismatched tag: line 93, column 2"
+   "ok": "2026-10-24T08:13-03:00",
+   "fails": 0,
+   "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-10-24T01:46-03:00",
+   "ok": "2026-10-24T08:13-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-10-24T01:46-03:00"
+ "updated": "2026-10-24T08:13-03:00"
 }
