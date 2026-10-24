@@ -20196,10 +20196,11 @@ def build_matches_page(matches):
          "Everything is shown in Suriname time (UTC-3, no daylight saving). The time you see is the time "
          "the match starts on your clock in Suriname."),
         ("Are the scores live?",
-         "Yes. While a match is on, the score and the match minute refresh in your browser about every "
-         "minute. International football, the NBA and the big European leagues come from ESPN, with goal "
-         "scorers, statistics and line-ups when you open a match. Suriname Major League scores come from "
-         "FIFA's match centre."),
+         "Yes for international football, the NBA and the big leagues: while a match is on, the score and "
+         "the match minute refresh in your browser about every minute, and you can open a match for goal "
+         "scorers, statistics and line-ups (data from ESPN). Suriname Major League results come from FIFA's "
+         "match centre, which records them after the final whistle, so SML games show the final score "
+         "rather than a live one."),
         ("Can I follow my own teams?",
          "Yes. Open any match and tap the star next to a team, or pick one of the suggestions under My "
          "teams. Followed teams stay at the top of the page with their next match and last result, and the "
@@ -20224,10 +20225,10 @@ def build_matches_page(matches):
          "feed. Whenever the SVB posts a new schedule or results, the latest bulletin for each competition "
          "appears on this page."),
         ("Where do the Suriname Major League results come from?",
-         "From FIFA's match centre, which records every SML result and keeps the official table. Fixtures, "
-         "venues and club badges come from the league's own site, sml.sr, and a match opens the league's "
-         "highlight video when there is one. FIFA does not publish goal scorers for the SML, so SML matches "
-         "show the score only."),
+         "From FIFA's match centre, which records every SML result after the match and keeps the official "
+         "table. Fixtures, venues and club badges come from the league's own site, sml.sr, and a match opens "
+         "the league's highlight video when there is one. FIFA does not publish goal scorers for the SML, so "
+         "SML matches show the final score only."),
         ("When does Natio play next?",
          "Every confirmed Natio fixture appears here automatically with a green Natio tag, and the next one "
          "gets the spotlight card at the top with a countdown in Suriname time."),
