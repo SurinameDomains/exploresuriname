@@ -18486,6 +18486,33 @@ _CRIC_TEAMS = {"india", "west indies"}
 _CRIC_LEAGUES = ("indian premier league", "caribbean premier league")
 
 
+# "India won by 4 wkts" in the five other languages (team names stay as ESPN
+# writes them). Anything else (innings wins, live summaries) stays English.
+_CRIC_L10N = {
+    "nl": ("{t} wint met {n} {u}", {"r": ("run", "runs"), "w": ("wicket", "wickets")}, "Gelijkspel", "Geen uitslag"),
+    "es": ("{t} gana por {n} {u}", {"r": ("carrera", "carreras"), "w": ("wicket", "wickets")}, "Empate", "Sin resultado"),
+    "zh": ("{t}以{n}{u}获胜", {"r": ("分", "分"), "w": ("个柱门之差", "个柱门之差")}, "平局", "无结果"),
+    "fr": ("{t} gagne de {n} {u}", {"r": ("run", "runs"), "w": ("guichet", "guichets")}, "Match nul", "Sans résultat"),
+    "pt": ("{t} vence por {n} {u}", {"r": ("corrida", "corridas"), "w": ("wicket", "wickets")}, "Empate", "Sem resultado"),
+}
+
+
+def _cric_l10n(summ):
+    s = re.sub(r"\s*\(.*?\)\s*$", "", summ or "").strip()
+    m = re.match(r"^(.+?) won by (\d+) (runs?|wkts?|wickets?)$", s)
+    out = {}
+    for lang, (tpl, units, drawn, nores) in _CRIC_L10N.items():
+        if m:
+            n = int(m.group(2))
+            u = units["r" if m.group(3).startswith("run") else "w"][0 if n == 1 else 1]
+            out[lang] = tpl.format(t=m.group(1), n=n, u=u)
+        elif s.lower() in ("match drawn", "draw"):
+            out[lang] = drawn
+        elif s.lower() == "no result":
+            out[lang] = nores
+    return out
+
+
 def _cric_rows(d):
     """Matches worth a row from one ESPN cricket header answer: India and West
     Indies men's internationals (exact team names, so India A / Women / U19 stay
@@ -18510,8 +18537,10 @@ def _cric_rows(d):
                 summ = (fs.get("summary") or "").strip()
                 title = (e.get("title") or "").strip()
                 note = summ if sx in ("post", "in") and summ else title
+                gl = _cric_l10n(summ) if sx == "post" and summ else {}
                 if is_lg and lname:
                     note = lname.split(",")[0] + (" · " + note if note else "")
+                    gl = {k: lname.split(",")[0] + " · " + v for k, v in gl.items()}
                 link = e.get("link") or ""
                 dd = e.get("date") or ""
 
@@ -18522,7 +18551,7 @@ def _cric_rows(d):
                     "d": (dd[:19] + "Z") if len(dd) >= 19 else dd,
                     "h": {"n": h.get("displayName", ""), "l": h.get("logo", ""), "s": _sc(h)},
                     "a": {"n": a.get("displayName", ""), "l": a.get("logo", ""), "s": _sc(a)},
-                    "v": e.get("location", "") or "", "g": note,
+                    "v": e.get("location", "") or "", "g": note, "gl": gl,
                     "st": "" if sx == "pre" else ("Live" if sx == "in" else "Result"),
                     "sx": sx, "tbc": not e.get("timeValid", True),
                     "win": ("h" if h.get("winner") else ("a" if a.get("winner") else "")) if sx == "post" else "",
@@ -19832,7 +19861,9 @@ def build_matches_page(matches):
         meta = []
         _gn, _ln = re.sub(r"[^a-z0-9]", "", (e.get("g") or "").lower()), re.sub(r"[^a-z0-9]", "", label.lower())
         if _gn and not (_gn in _ln or _ln in _gn):
-            meta.append('<span translate="no">' + esc(e["g"]) + '</span>')
+            _gl = e.get("gl") or (_cric_l10n(e.get("g")) if key == "cric" and sx == "post" else {})
+            _l10 = (' data-l10n="' + esc(json.dumps(_gl, ensure_ascii=False)) + '"') if _gl else ''
+            meta.append('<span translate="no"' + _l10 + '>' + esc(e["g"]) + '</span>')
         if e.get("gx"):
             meta.append('<span>' + esc(e["gx"]) + '</span>')
         _vv = e.get("v") or ""
