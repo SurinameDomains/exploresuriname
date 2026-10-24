@@ -16996,7 +16996,7 @@ def build_visitor_guide_page():
 #  TOURISM HUB PAGES — added Jun 2026 (SEO growth plan Sprint A/C)
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _hub_head(title, desc, fname, faq=None, extra_ld=None):
+def _hub_head(title, desc, fname, faq=None, extra_ld=None, brand=True):
     """Shared <head> for the tourism hub pages: meta + WebPage/FAQ/Breadcrumb JSON-LD."""
     import json as _json
     url = f"{SITE_URL}/{fname}"
@@ -17027,17 +17027,17 @@ def _hub_head(title, desc, fname, faq=None, extra_ld=None):
         '\n  <script type="application/ld+json">\n  ' + b + '\n  </script>' for b in ld_blocks)
     return (
         PAGE_HEAD
-        + '\n  <title>' + title + ' | Explore Suriname</title>'
+        + '\n  <title>' + title + (' | Explore Suriname' if brand else '') + '</title>'
         + '\n  <meta name="description" content="' + desc + '">'
         + '\n  <link rel="canonical" href="' + url + '">'
         + '\n  <meta property="og:type" content="website">'
         + '\n  <meta property="og:site_name" content="Explore Suriname">'
         + '\n  <meta property="og:url" content="' + url + '">'
-        + '\n  <meta property="og:title" content="' + title + ' | Explore Suriname">'
+        + '\n  <meta property="og:title" content="' + title + (' | Explore Suriname' if brand else '') + '">'
         + '\n  <meta property="og:description" content="' + desc + '">'
         + '\n  <meta property="og:image" content="' + SITE_URL + '/og-image.jpg">'
         + '\n  <meta name="twitter:card" content="summary_large_image">'
-        + '\n  <meta name="twitter:title" content="' + title + ' | Explore Suriname">'
+        + '\n  <meta name="twitter:title" content="' + title + (' | Explore Suriname' if brand else '') + '">'
         + '\n  <meta name="twitter:description" content="' + desc + '">'
         + '\n  <meta name="twitter:image" content="' + SITE_URL + '/og-image.jpg">'
         + scripts + '\n</head>'
@@ -19018,7 +19018,7 @@ _MT2_CSS = """  <style>
     .sp-row{display:grid;grid-template-columns:3rem minmax(0,1fr) auto;gap:.6rem;align-items:center;background:rgba(255,255,255,.08);border-radius:6px;padding:.5rem .7rem;cursor:pointer;font-size:.88rem}
     .sp-rteams{display:flex;flex-direction:column;gap:.2rem;min-width:0}
     .sp-rvn{font-size:.68rem;opacity:.65;text-align:right;max-width:7.5rem;line-height:1.25}
-    @media (max-width:380px){.sp-rvn{display:none}}
+    @media (max-width:420px){.sp-rvn{display:none}}
     .sp-row:hover{background:rgba(255,255,255,.14)}
     .sp-rt{font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
     .sp-rn{display:flex;align-items:center;gap:.4rem;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:600}
@@ -19127,6 +19127,8 @@ _MT2_CSS = """  <style>
     .mt-flash{animation:mtflash 1.6s ease-out}
     /* competition groups inside a day (Oct 2026) */
     .mt-cg[hidden]{display:none}
+    .mt-chh{margin:0;font-size:inherit;font-weight:inherit;line-height:inherit}
+    h3.mt-ch{margin:0;line-height:1.3}
     .mt-cg+.mt-cg{border-top:1px solid #e6dcc6}
     .mt-ch{display:flex;align-items:center;gap:.45rem;width:100%;padding:.5rem .75rem .4rem;font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);background:#f8f3e6;border:0;text-align:left;font-family:inherit}
     .mt-ch i{width:.55rem;height:.55rem;border-radius:2px;flex:none}
@@ -19839,7 +19841,7 @@ def build_matches_page(matches):
             meta.append('<span translate="no">' + esc(_vv.split(",")[0].replace("Dr. Ir. ", "")) + '</span>')
         if sx == "pend":
             meta.append('<span class="pn">Result pending</span>')
-        tag = '<em class="mr-nt">Natio</em>' if is_natio else ''
+        tag = '<em class="mr-nt">Natio</em>' if (is_natio and key not in ("natio", "natiow", "natioy")) else ''
         _meta = ('<div class="mr-meta">' + " &middot; ".join(meta) + '</div>') if meta else ''
         return (f'<div class="{cls}"{attrs} tabindex="0" role="button">'
                 f'<div class="mr-st" translate="no">{stc}</div>'
@@ -19883,13 +19885,13 @@ def build_matches_page(matches):
             _fold = _k in _FOLD and len(_gr) > 3
             _hd = (f'<i style="background:{_gr[0][3]}"></i><span>{esc(_gr[0][2])}</span>'
                    f'<small translate="no">{len(_gr)}</small>')
-            _hd = (f'<button type="button" class="mt-ch mt-fold" aria-expanded="false">{_hd}{_chev}</button>'
-                   if _fold else f'<div class="mt-ch">{_hd}</div>')
+            _hd = (f'<h3 class="mt-chh"><button type="button" class="mt-ch mt-fold" aria-expanded="false">{_hd}{_chev}</button></h3>'
+                   if _fold else f'<h3 class="mt-ch">{_hd}</h3>')
             sec += (f'<div class="mt-cg{" fold" if _fold else ""}" data-lg="{_k}">{_hd}'
                     + "".join(_row_html(*_g) for _g in _gr) + '</div>')
         sec += '</div></section>'
         _sections.append((_day, sec))
-    past_html = "".join(h for d, h in _sections if d < today)
+    past_html = "".join(h for d, h in reversed(_sections) if d < today)   # newest first
     main_html = "".join(h for d, h in _sections if d >= today)
     list_html = ""
     if past_html:
@@ -20156,9 +20158,8 @@ def build_matches_page(matches):
     # Natio and "today" (GSC: "wanneer speelt suriname", "voetbal vandaag
     # suriname", "natio wedstrijden"); nobody searches "sports schedule".
     title = "Live Scores Today: Natio, SML & Football in Suriname Time"
-    desc = ("Live scores and fixtures in Suriname time (UTC-3): Natio, the Suriname Major League with "
-            "results and table, Oranje, the Champions League, Eredivisie, Premier League, NBA, cricket, "
-            "Formula 1 and UFC.")
+    desc = ("Live scores and fixtures in Suriname time: Natio, the SML with results and table, Oranje, "
+            "Champions League, Eredivisie, Premier League, NBA, cricket and F1.")
     faq = [
         ("What time zone are the kickoff times on this page?",
          "Everything is shown in Suriname time (UTC-3, no daylight saving). The time you see is the time "
@@ -20203,7 +20204,8 @@ def build_matches_page(matches):
          "Suriname and Dutch football are family. Generations of Eredivisie stars have Surinamese roots, "
          "from Ruud Gullit and Frank Rijkaard to Virgil van Dijk."),
     ]
-    next_up = [(dt, l, e) for dt, k, l, _c, e in rows if e.get("sx") == "pre"][:10]
+    next_up = [(dt, l, e) for dt, k, l, _c, e in
+               sorted((r for r in rows if r[4].get("sx") == "pre"), key=lambda r: (_prio.get(r[1], 50) > 6, r[0]))][:10]
     extra_ld = None
     if next_up:
         extra_ld = {"@context": "https://schema.org", "@type": "ItemList",
@@ -20211,13 +20213,16 @@ def build_matches_page(matches):
                     "itemListElement": [
                         {"@type": "ListItem", "position": i + 1,
                          "name": (e.get("t") or ((e.get("h", {}) or {}).get("n", "") + " vs " + (e.get("a", {}) or {}).get("n", "")))
-                                 + " (" + l + ", " + dt.strftime("%d %b %H:%M") + " SR time)"}
+                                 + " (" + l + ", " + (dt.strftime("%d %b") if e.get("tbc") else dt.strftime("%d %b %H:%M") + " SR time") + ")"}
                         for i, (dt, l, e) in enumerate(next_up)]}
 
-    head = _hub_head(title, desc, "matches.html", faq=faq, extra_ld=extra_ld)
+    # 57 characters: with " | Explore Suriname" Google would cut the title (site rule:
+    # the brand suffix only while the whole title stays within 62).
+    head = _hub_head(title, desc, "matches.html", faq=faq, extra_ld=extra_ld,
+                     brand=len(title) + 19 <= 62)
     head = head.replace("</head>", _MT2_CSS + "\n</head>")
-    hero = _hub_hero("Every start time in Suriname time",
-                     "Live Scores &amp; Fixtures",
+    hero = _hub_hero("Suriname first, then the world",
+                     "Live Scores &amp; Fixtures in Suriname Time",
                      "Natio, the Suriname Major League, Oranje, world football, the NBA, cricket and fight "
                      "nights. Scores update while the matches are on.").replace("{NAV}", nav_html("matches"))
 
