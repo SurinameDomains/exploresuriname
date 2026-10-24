@@ -203,15 +203,15 @@
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
    "ok": "2026-10-23T18:29-03:00",
-   "fails": 0,
-   "error": ""
+   "fails": 1,
+   "error": "mismatched tag: line 93, column 2"
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-10-23T18:29-03:00",
+   "ok": "2026-10-24T01:46-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-10-23T18:29-03:00"
+ "updated": "2026-10-24T01:46-03:00"
 }
