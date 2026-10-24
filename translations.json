@@ -110590,5 +110590,61 @@
 "zh": "苏里南优先，再看世界",
 "fr": "Le Suriname d’abord, puis le monde",
 "pt": "Primeiro o Suriname, depois o mundo"
+},
+"Tick the days you are open. Leave them all empty if your hours vary or you work by appointment.": {
+"nl": "Vink de dagen aan waarop je open bent. Laat alles leeg als je tijden wisselen of als je op afspraak werkt.",
+"es": "Marca los días en que abres. Déjalos todos vacíos si tu horario varía o si trabajas con cita previa.",
+"zh": "勾选营业的日子。如果营业时间不固定或仅接受预约，请全部留空。",
+"fr": "Cochez les jours où vous êtes ouvert. Laissez tout vide si vos horaires varient ou si vous travaillez sur rendez-vous.",
+"pt": "Marque os dias em que você abre. Deixe tudo em branco se o seu horário varia ou se você atende com hora marcada."
+},
+"Add a break": {
+"nl": "Pauze toevoegen",
+"es": "Añadir una pausa",
+"zh": "添加休息时段",
+"fr": "Ajouter une pause",
+"pt": "Adicionar intervalo"
+},
+"Remove the break": {
+"nl": "Pauze verwijderen",
+"es": "Quitar la pausa",
+"zh": "删除休息时段",
+"fr": "Supprimer la pause",
+"pt": "Remover intervalo"
+},
+"Closed": {
+"nl": "Gesloten",
+"es": "Cerrado",
+"zh": "休息",
+"fr": "Fermé",
+"pt": "Fechado"
+},
+"Same hours on all open days": {
+"nl": "Dezelfde tijden voor alle open dagen",
+"es": "El mismo horario todos los días que abres",
+"zh": "所有营业日使用相同时间",
+"fr": "Mêmes horaires pour tous les jours d'ouverture",
+"pt": "Mesmo horário em todos os dias abertos"
+},
+"Open past midnight? Enter the closing time as usual, for example 22:00 to 02:00. Open around the clock: 00:00 to 00:00.": {
+"nl": "Open tot na middernacht? Vul gewoon de sluitingstijd in, bijvoorbeeld 22:00 tot 02:00. Dag en nacht open: 00:00 tot 00:00.",
+"es": "¿Abres pasada la medianoche? Pon la hora de cierre como siempre, por ejemplo de 22:00 a 02:00. Abierto las 24 horas: de 00:00 a 00:00.",
+"zh": "营业到午夜以后？照常填写关门时间即可，例如 22:00 至 02:00。全天 24 小时营业：00:00 至 00:00。",
+"fr": "Ouvert après minuit ? Indiquez simplement l'heure de fermeture, par exemple 22:00 à 02:00. Ouvert 24 h sur 24 : 00:00 à 00:00.",
+"pt": "Funciona depois da meia-noite? Informe o horário de fechamento normalmente, por exemplo 22:00 às 02:00. Aberto 24 horas: 00:00 às 00:00."
+},
+"Opening hours: check the times of each open day. Both times are needed, and they cannot be the same.": {
+"nl": "Openingstijden: controleer de tijden van elke open dag. Beide tijden zijn nodig en ze mogen niet gelijk zijn.",
+"es": "Horario: revisa las horas de cada día que abres. Hacen falta las dos horas y no pueden ser iguales.",
+"zh": "营业时间：请检查每个营业日的时间。开门和关门时间都必须填写，且不能相同。",
+"fr": "Horaires : vérifiez les heures de chaque jour d'ouverture. Les deux heures sont nécessaires et ne peuvent pas être identiques.",
+"pt": "Horário: confira os horários de cada dia aberto. Os dois horários são necessários e não podem ser iguais."
+},
+"What you offer and what makes you worth the trip. Two or three sentences is plenty.": {
+"nl": "Wat je aanbiedt en waarom het de moeite waard is. Twee of drie zinnen is genoeg.",
+"es": "Qué ofreces y por qué vale la pena la visita. Con dos o tres frases basta.",
+"zh": "您提供什么、为什么值得专程前来。两三句话就够了。",
+"fr": "Ce que vous proposez et ce qui vaut le déplacement. Deux ou trois phrases suffisent.",
+"pt": "O que você oferece e o que faz valer a visita. Duas ou três frases bastam."
 }
 }

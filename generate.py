@@ -26919,6 +26919,24 @@ def build_submit_page():
     _cat_opts = "".join(
         f'<option value="{_c}">{_l}</option>' for _c, _l in _cat_label.items())
     _dist_opts = "".join(f'<option value="{_d}">{_d}</option>' for _d in _districts)
+    # Opening hours (24 Oct 2026): one row per day. Every word is a static text
+    # node so build_i18n translates it; the JS only shows/hides and reads times.
+    # Sent as an OSM string in the hidden "hours" field, the same format as the
+    # admin panel's day grid; on approval it becomes the listing's hours override.
+    _hrs_rows = "".join(
+        f'<div class="hrw" data-d="{_i}">'
+        f'<label class="hd"><input type="checkbox" id="ho-{_i}"> <span id="hn-{_i}">{_dn}</span></label>'
+        f'<span class="ht" hidden>'
+        f'<input type="time" id="hf-{_i}-0" value="08:00" aria-labelledby="hn-{_i}"> <span>–</span> '
+        f'<input type="time" id="ht-{_i}-0" value="17:00" aria-labelledby="hn-{_i}">'
+        f'<span class="h2" hidden> <span>and</span> '
+        f'<input type="time" id="hf-{_i}-1" aria-labelledby="hn-{_i}"> <span>–</span> '
+        f'<input type="time" id="ht-{_i}-1" aria-labelledby="hn-{_i}"></span>'
+        f'<button type="button" class="hadd" data-d="{_i}"><span class="a1">+ <span>Add a break</span></span>'
+        f'<span class="a2" hidden>Remove the break</span></button></span>'
+        f'<span class="hx">Closed</span></div>'
+        for _i, _dn in enumerate(["Monday", "Tuesday", "Wednesday", "Thursday",
+                                  "Friday", "Saturday", "Sunday"]))
     _turnstile_head = ('<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>'
                        if TURNSTILE_SITEKEY else "")
     _turnstile_box = (f'<div class="cf-turnstile mt-5" data-sitekey="{TURNSTILE_SITEKEY}" data-theme="light"></div>'
@@ -26967,6 +26985,19 @@ def build_submit_page():
     #prev{{max-height:190px;border-radius:12px;margin:0 auto .6rem;display:block}}
     .two{{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem}}
     @media(max-width:640px){{.two{{grid-template-columns:1fr}}}}
+    #hrs{{border:1px solid #d3d8d3;border-radius:12px;padding:.2rem .85rem;background:#fff}}
+    #hrs [hidden]{{display:none!important}}
+    .hrw{{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .75rem;padding:.55rem 0;border-bottom:1px dashed #e1e5e1;font-size:.9rem;color:#1a201c}}
+    .hrw:last-child{{border-bottom:0}}
+    .hrw.bad{{background:#fdf1ef;margin:0 -.85rem;padding-left:.85rem;padding-right:.85rem}}
+    .hd{{display:flex!important;align-items:center;gap:.5rem;width:8.2rem;margin:0!important;font-size:.9rem!important;font-weight:600!important;letter-spacing:0!important;text-transform:none!important;color:#1a201c!important;cursor:pointer}}
+    .hd span:first-letter{{text-transform:uppercase}}
+    .hd input{{width:1.05rem;height:1.05rem;accent-color:var(--forest)}}
+    .ht{{display:inline-flex;flex-wrap:wrap;align-items:center;gap:.35rem}}
+    .ht input[type=time]{{border:1px solid #d3d8d3;border-radius:9px;padding:.35rem .45rem;font:inherit;background:#fff;color:#1a201c;min-width:0}}
+    .h2{{display:inline-flex;flex-wrap:wrap;align-items:center;gap:.35rem}}
+    .hadd,#h-copy{{border:0;background:none;padding:.2rem 0;font:inherit;font-size:.8rem;font-weight:600;color:var(--forest);cursor:pointer;text-decoration:underline;text-underline-offset:2px}}
+    .hx{{color:#7a827b}}
   </style>
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
@@ -27064,7 +27095,7 @@ __NAV__
     <div class="fld">
       <label for="f-description">Describe the business <span class="req">*</span></label>
       <textarea id="f-description" name="description" maxlength="2000" required
-        placeholder="What you offer, what makes you worth the trip, opening hours if they are fixed. Two or three sentences is plenty."></textarea>
+        placeholder="What you offer and what makes you worth the trip. Two or three sentences is plenty."></textarea>
       <div class="hint"><span id="cnt">0</span> of 2000 characters. Minimum 20.</div>
     </div>
 
@@ -27076,6 +27107,16 @@ __NAV__
       </div>
       <input type="file" id="f-photo" name="photo" accept="image/jpeg,image/png,image/webp" hidden>
       <div class="hint">One good wide shot of the place, the food or the product. Use a photo you own the rights to.</div>
+    </div>
+
+    <div class="fld">
+      <label>Opening hours</label>
+      <div class="hint" style="margin:0 0 .5rem">Tick the days you are open. Leave them all empty if your hours vary or you work by appointment.</div>
+      <div id="hrs">__HOURS__</div>
+      <button type="button" id="h-copy" hidden>Same hours on all open days</button>
+      <div class="hint">Open past midnight? Enter the closing time as usual, for example 22:00 to 02:00. Open around the clock: 00:00 to 00:00.</div>
+      <input type="hidden" name="hours" id="f-hours" value="">
+      <span id="h-err" hidden>Opening hours: check the times of each open day. Both times are needed, and they cannot be the same.</span>
     </div>
 
     <h2 class="serif text-xl font-bold text-gray-900 mt-9 mb-5">You</h2>
@@ -27225,6 +27266,102 @@ __FOOTER__
     });
   }
 
+  // Opening hours grid -> OSM string (same rules as the admin panel's day grid:
+  // equal days are grouped, "00:00" as a closing time means midnight = 24:00).
+  var HD = ["Mo","Tu","We","Th","Fr","Sa","Su"];
+  function hRow(d){ return document.querySelector('#hrs [data-d="' + d + '"]'); }
+  function hOn(d){ return $("ho-" + d).checked; }
+  function hTwo(d){ return !hRow(d).querySelector(".h2").hidden; }
+  function hShowTwo(d, on){
+    var r = hRow(d);
+    r.querySelector(".h2").hidden = !on;
+    r.querySelector(".a1").hidden = on;
+    r.querySelector(".a2").hidden = !on;
+    if(!on){ $("hf-" + d + "-1").value = ""; $("ht-" + d + "-1").value = ""; }
+  }
+  function hSync(){
+    var any = false;
+    for(var d = 0; d < 7; d++){
+      var r = hRow(d), on = hOn(d);
+      r.querySelector(".ht").hidden = !on;
+      r.querySelector(".hx").hidden = on;
+      if(!on) r.classList.remove("bad");
+      if(on) any = true;
+    }
+    $("h-copy").hidden = !any;
+  }
+  function hCopy(to, from){
+    $("hf-" + to + "-0").value = $("hf-" + from + "-0").value;
+    $("ht-" + to + "-0").value = $("ht-" + from + "-0").value;
+    var two = hTwo(from);
+    hShowTwo(to, two);
+    if(two){
+      $("hf-" + to + "-1").value = $("hf-" + from + "-1").value;
+      $("ht-" + to + "-1").value = $("ht-" + from + "-1").value;
+    }
+    hRow(to).classList.remove("bad");
+  }
+  for(var hd = 0; hd < 7; hd++) (function(d){
+    $("ho-" + d).addEventListener("change", function(){
+      // a newly ticked day starts with the hours of the nearest open day above it
+      if(this.checked){
+        for(var k = 1; k < 7; k++){ var e = (d - k + 7) % 7; if(hOn(e)){ hCopy(d, e); break; } }
+      }
+      hSync();
+    });
+    hRow(d).querySelector(".hadd").addEventListener("click", function(){
+      var two = !hTwo(d);
+      hShowTwo(d, two);
+      if(two){
+        var f = $("hf-" + d + "-0").value, t = $("ht-" + d + "-0").value;
+        if(f && t && f < "12:00" && t > "13:00"){
+          $("ht-" + d + "-0").value = "12:00"; $("hf-" + d + "-1").value = "13:00"; $("ht-" + d + "-1").value = t;
+        }
+      }
+      hRow(d).classList.remove("bad");
+    });
+  })(hd);
+  $("h-copy").addEventListener("click", function(){
+    var first = -1;
+    for(var d = 0; d < 7; d++) if(hOn(d)){ first = d; break; }
+    if(first < 0) return;
+    for(var e = 0; e < 7; e++) if(e !== first && hOn(e)) hCopy(e, first);
+  });
+  hSync();   // checkboxes the browser restored after a reload
+  // {v: "Mo-Fr 08:00-17:00; Sa 09:00-13:00"} ("" = no hours) or {err: day}
+  function hRead(){
+    var TM = /^\d\d:\d\d$/, keys = [];
+    for(var d = 0; d < 7; d++){
+      var trs = [];
+      if(hOn(d)){
+        for(var k = 0; k < 2; k++){
+          if(k === 1 && !hTwo(d)) continue;
+          var f = $("hf-" + d + "-" + k).value, t = $("ht-" + d + "-" + k).value;
+          if(!TM.test(f) || !TM.test(t) || (f === t && f !== "00:00")) return {err: d};
+          trs.push(f + "-" + (t === "00:00" ? "24:00" : t));
+        }
+      }
+      keys.push(trs.join(","));
+    }
+    var out = [], done = {};
+    for(var a = 0; a < 7; a++){
+      var key = keys[a];
+      if(!key || done[key]) continue;
+      done[key] = 1;
+      var ds = [];
+      for(var b = 0; b < 7; b++) if(keys[b] === key) ds.push(b);
+      var parts = [], i = 0;
+      while(i < ds.length){
+        var j = i;
+        while(j + 1 < ds.length && ds[j + 1] === ds[j] + 1) j++;
+        parts.push(j > i ? HD[ds[i]] + "-" + HD[ds[j]] : HD[ds[i]]);
+        i = j + 1;
+      }
+      out.push(parts.join(",") + " " + key);
+    }
+    return {v: out.join("; ")};
+  }
+
   function say(t, bad){
     var m = $("msg");
     m.textContent = t || "";
@@ -27243,6 +27380,13 @@ __FOOTER__
     if(FB_RE.test(web)){ if(!fb) $("f-facebook").value = fb = web; $("f-website").value = ""; }
     if(fb && !FB_RE.test(fb))
       return say("The Facebook page field only takes a facebook.com link. Leave it empty if you have none.", true);
+    var hr = hRead();
+    if(hr.err !== undefined){
+      hRow(hr.err).classList.add("bad");
+      hRow(hr.err).scrollIntoView({block: "center", behavior: "smooth"});
+      return say($("h-err").textContent, true);
+    }
+    $("f-hours").value = hr.v;
 
     var fd = new FormData(frm);
     fd.delete("photo");
@@ -27276,6 +27420,7 @@ __FOOTER__
             .replace("__TURNSTILE__", _turnstile_box)
             .replace("__CHIPS__", _chip_json)
             .replace("__CHIPSRC__", _chip_src)
+            .replace("__HOURS__", _hrs_rows)
             .replace("__API__", LB_API))
 
 
