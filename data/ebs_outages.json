@@ -1,6 +1,20 @@
 {
   "outages": [
     {
+      "title": "GEPLAND ONDERHOUD WOENSDAG 28 OKTOBER 2026",
+      "date": "28 Oktober 2026",
+      "date_iso": "2026-10-28",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1637/gepland-onderhoud-woensdag-28-oktober-2026",
+      "body": "Gepland onderhoud: Saramacca woensdag 28 oktober 2026 tussen 08:30-14:00 GEDEELTE JARIKABAWEG TUSSEN PADIWEG EN LAKATANWEG, ABDOELRAHMANWEG, LAKATANWEG, GROS MICHELWEG, JOGI SEWSANKARWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
+      "area_full": "GEDEELTE JARIKABAWEG TUSSEN PADIWEG EN LAKATANWEG, ABDOELRAHMANWEG, LAKATANWEG, GROS MICHELWEG, JOGI SEWSANKARWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=c3ee9d7280b6426d80876d9816cf3ecb",
+      "meta_description": "Gepland onderhoud: Saramacca woensdag 28 oktober 2026 tussen 08:30-14:00 GEDEELTE JARIKABAWEG TUSSEN PADIWEG EN LAKATANWEG, ABDOELRAHMANWEG, LAKATANWEG, GRO",
+      "district": "Saramacca",
+      "time": "08:30 – 14:00",
+      "area": "GEDEELTE JARIKABAWEG TUSSEN PADIWEG EN LAKATANWEG, ABDOELRAHMANWEG, LAKATANWEG, GRO"
+    },
+    {
       "title": "GEPLAND ONDERHOUD DINSDAG 27 OKTOBER 2026",
       "date": "27 Oktober 2026",
       "date_iso": "2026-10-27",
@@ -26,6 +40,6 @@
       "district": "PARBO"
     }
   ],
-  "last_updated": "2026-10-24T12:32:14.375149+00:00",
+  "last_updated": "2026-10-24T15:07:41.839582+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
