@@ -33737,8 +33737,8 @@
 "pt": "Suriname Major League"
 },
 "Suriname Sport Events": {
-"nl": "Suriname Sport Events",
-"es": "Suriname Sport Events",
+"nl": "Sportevenementen in Suriname",
+"es": "Eventos deportivos en Surinam",
 "zh": "苏里南体育赛事",
 "fr": "Événements sportifs au Suriname",
 "pt": "Eventos esportivos no Suriname"
@@ -110373,5 +110373,201 @@
 "Andjiro's Restaurant, Paramaribo": {
 "nl": "Andjiro's Restaurant, Paramaribo",
 "es": "Andjiro's Restaurant, Paramaribo"
+},
+"Live Scores": {
+"nl": "Live uitslagen",
+"es": "Resultados en vivo",
+"zh": "实时比分",
+"fr": "Scores en direct",
+"pt": "Placar ao vivo"
+},
+"Live Scores & Fixtures": {
+"nl": "Live uitslagen en programma",
+"es": "Resultados en vivo y calendario",
+"zh": "实时比分与赛程",
+"fr": "Scores en direct et programme",
+"pt": "Placar ao vivo e programação"
+},
+"Live Scores Today: Natio, SML & Football in Suriname Time": {
+"nl": "Voetbal vandaag: Natio, SML & live uitslagen in Surinaamse tijd",
+"es": "Resultados en vivo hoy: Natio, SML y fútbol en hora de Surinam",
+"zh": "今日实时比分：Natio、SML 与足球（苏里南时间）",
+"fr": "Scores en direct aujourd’hui : Natio, SML et football à l’heure du Suriname",
+"pt": "Placar ao vivo hoje: Natio, SML e futebol no horário do Suriname"
+},
+"Live Scores Today: Natio, SML & Football in Suriname Time | Explore Suriname": {
+"nl": "Voetbal vandaag: Natio, SML & live uitslagen in Surinaamse tijd | Explore Suriname",
+"es": "Resultados en vivo hoy: Natio, SML y fútbol en hora de Surinam | Explore Suriname",
+"zh": "今日实时比分：Natio、SML 与足球（苏里南时间） | Explore Suriname",
+"fr": "Scores en direct aujourd’hui : Natio, SML et football à l’heure du Suriname | Explore Suriname",
+"pt": "Placar ao vivo hoje: Natio, SML e futebol no horário do Suriname | Explore Suriname"
+},
+"Live scores and fixtures in Suriname time (UTC-3): Natio, the Suriname Major League with results and table, Oranje, the Champions League, Eredivisie, Premier League, NBA, cricket, Formula 1 and UFC.": {
+"nl": "Live uitslagen en programma in Surinaamse tijd (UTC-3): Natio, de Suriname Major League met uitslagen en stand, Oranje, de Champions League, Eredivisie, Premier League, NBA, cricket, Formule 1 en UFC.",
+"es": "Resultados en vivo y calendario en hora de Surinam (UTC-3): Natio, la Suriname Major League con resultados y clasificación, Oranje, la Champions League, la Eredivisie, la Premier League, la NBA, críquet, Fórmula 1 y UFC.",
+"zh": "苏里南时间（UTC-3）的实时比分与赛程：Natio、苏里南超级联赛（含赛果与积分榜）、荷兰队、欧冠、荷甲、英超、NBA、板球、F1 和 UFC。",
+"fr": "Scores en direct et programme à l’heure du Suriname (UTC-3) : Natio, la Suriname Major League avec résultats et classement, les Oranje, la Ligue des champions, l’Eredivisie, la Premier League, la NBA, le cricket, la Formule 1 et l’UFC.",
+"pt": "Placar ao vivo e programação no horário do Suriname (UTC-3): Natio, a Suriname Major League com resultados e classificação, a Holanda, a Champions League, a Eredivisie, a Premier League, a NBA, críquete, Fórmula 1 e UFC."
+},
+"Every start time in Suriname time": {
+"nl": "Elke aanvangstijd in Surinaamse tijd",
+"es": "Cada hora de inicio en hora de Surinam",
+"zh": "所有开赛时间均为苏里南时间",
+"fr": "Tous les horaires à l’heure du Suriname",
+"pt": "Todos os horários no horário do Suriname"
+},
+"Natio, the Suriname Major League, Oranje, world football, the NBA, cricket and fight nights. Scores update while the matches are on.": {
+"nl": "Natio, de Suriname Major League, Oranje, wereldvoetbal, de NBA, cricket en vechtavonden. De scores lopen live mee tijdens de wedstrijden.",
+"es": "Natio, la Suriname Major League, Oranje, el fútbol mundial, la NBA, el críquet y las veladas de combate. Los marcadores se actualizan durante los partidos.",
+"zh": "Natio、苏里南超级联赛、荷兰队、世界足球、NBA、板球和格斗之夜。比赛进行时比分实时更新。",
+"fr": "Natio, la Suriname Major League, les Oranje, le football mondial, la NBA, le cricket et les soirées de combat. Les scores se mettent à jour pendant les matchs.",
+"pt": "Natio, a Suriname Major League, a Holanda, o futebol mundial, a NBA, o críquete e as noites de luta. O placar é atualizado durante os jogos."
+},
+"Yes. While a match is on, the score and the match minute refresh in your browser about every minute. International football, the NBA and the big European leagues come from ESPN, with goal scorers, statistics and line-ups when you open a match. Suriname Major League scores come from FIFA's match centre.": {
+"nl": "Ja. Tijdens een wedstrijd worden de stand en de speelminuut ongeveer elke minuut in je browser bijgewerkt. Internationaal voetbal, de NBA en de grote Europese competities komen van ESPN, met doelpuntenmakers, statistieken en opstellingen als je een wedstrijd opent. De uitslagen van de Suriname Major League komen uit het wedstrijdcentrum van de FIFA.",
+"es": "Sí. Mientras se juega un partido, el marcador y el minuto se actualizan en tu navegador aproximadamente cada minuto. El fútbol internacional, la NBA y las grandes ligas europeas vienen de ESPN, con goleadores, estadísticas y alineaciones al abrir un partido. Los resultados de la Suriname Major League vienen del centro de partidos de la FIFA.",
+"zh": "是的。比赛进行时，比分和比赛分钟大约每分钟在浏览器中刷新一次。国际足球、NBA 和欧洲主要联赛的数据来自 ESPN，打开比赛即可查看进球者、技术统计和阵容。苏里南超级联赛的比分来自国际足联（FIFA）比赛中心。",
+"fr": "Oui. Pendant un match, le score et la minute de jeu se mettent à jour dans votre navigateur environ toutes les minutes. Le football international, la NBA et les grands championnats européens viennent d’ESPN, avec les buteurs, les statistiques et les compositions quand vous ouvrez un match. Les scores de la Suriname Major League viennent du centre de matchs de la FIFA.",
+"pt": "Sim. Durante um jogo, o placar e o minuto são atualizados no seu navegador mais ou menos a cada minuto. O futebol internacional, a NBA e as grandes ligas europeias vêm da ESPN, com autores dos gols, estatísticas e escalações quando você abre um jogo. Os placares da Suriname Major League vêm da central de partidas da FIFA."
+},
+"Suriname first: every Natio international for the men's, women's and youth sides (the FIFA U-15 Festival included), the full Suriname Major League season with results, the official table and past champions, the Concacaf Caribbean Cup and local running events. Oranje and Brazil. World football: the Champions League, Europa League, Conference League, Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Copa Libertadores, Copa Sudamericana, Concacaf competitions and MLS. Basketball: every NBA game. Cricket: India and West Indies internationals, the IPL and the CPL. Fight nights: UFC, Glory and the big boxing cards. Plus Formula 1 qualifying and races, and the ATP and WTA finals.": {
+"nl": "Suriname eerst: elke interland van Natio bij de mannen, de vrouwen en de jeugd (het FIFA U-15 Festival inbegrepen), het volledige seizoen van de Suriname Major League met uitslagen, de officiële stand en eerdere kampioenen, de Concacaf Caribbean Cup en lokale hardloopevenementen. Oranje en Brazilië. Wereldvoetbal: de Champions League, Europa League, Conference League, Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Copa Libertadores, Copa Sudamericana, Concacaf-toernooien en MLS. Basketbal: elke NBA-wedstrijd. Cricket: interlands van India en West-Indië, de IPL en de CPL. Vechtsport: UFC, Glory en de grote bokswedstrijden. Plus de kwalificatie en races van de Formule 1, en de finales van de ATP en WTA.",
+"es": "Surinam primero: cada partido internacional de Natio en categoría masculina, femenina y juvenil (incluido el Festival Sub-15 de la FIFA), la temporada completa de la Suriname Major League con resultados, la clasificación oficial y los campeones anteriores, la Copa del Caribe de Concacaf y carreras locales. Oranje y Brasil. Fútbol mundial: Champions League, Europa League, Conference League, Eredivisie, Premier League, LaLiga, Serie A, Bundesliga, Ligue 1, Copa Libertadores, Copa Sudamericana, torneos de Concacaf y MLS. Baloncesto: todos los partidos de la NBA. Críquet: partidos internacionales de India y las Indias Occidentales, la IPL y la CPL. Combates: UFC, Glory y las grandes veladas de boxeo. Además, la clasificación y las carreras de Fórmula 1, y las finales de la ATP y la WTA.",
+"zh": "苏里南优先：Natio 男足、女足和青年队的每一场国际比赛（包括国际足联 U-15 节），苏里南超级联赛整个赛季的赛果、官方积分榜和历届冠军，中北美加勒比杯和本地跑步赛事。荷兰队和巴西队。世界足球：欧冠、欧联、欧协联、荷甲、英超、西甲、意甲、德甲、法甲、南美解放者杯、南美俱乐部杯、中北美赛事和美职联。篮球：每一场 NBA 比赛。板球：印度和西印度群岛的国际比赛、IPL 和 CPL。格斗之夜：UFC、Glory 和重大拳击赛。另有 F1 排位赛和正赛，以及 ATP 和 WTA 决赛。",
+"fr": "Le Suriname d’abord : chaque match international de Natio chez les hommes, les femmes et les jeunes (Festival U-15 de la FIFA compris), toute la saison de la Suriname Major League avec les résultats, le classement officiel et les anciens champions, la Coupe caribéenne de la Concacaf et les courses à pied locales. Les Oranje et le Brésil. Football mondial : Ligue des champions, Ligue Europa, Ligue Conférence, Eredivisie, Premier League, Liga, Serie A, Bundesliga, Ligue 1, Copa Libertadores, Copa Sudamericana, compétitions de la Concacaf et MLS. Basket : tous les matchs de la NBA. Cricket : les matchs internationaux de l’Inde et des Indes occidentales, l’IPL et la CPL. Soirées de combat : UFC, Glory et les grands galas de boxe. Et aussi les qualifications et courses de Formule 1, et les finales ATP et WTA.",
+"pt": "O Suriname em primeiro lugar: todos os jogos internacionais da Natio no masculino, no feminino e na base (incluindo o Festival Sub-15 da FIFA), a temporada completa da Suriname Major League com resultados, a classificação oficial e os campeões anteriores, a Copa do Caribe da Concacaf e corridas locais. Holanda e Brasil. Futebol mundial: Champions League, Liga Europa, Conference League, Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Copa Libertadores, Copa Sul-Americana, torneios da Concacaf e MLS. Basquete: todos os jogos da NBA. Críquete: jogos internacionais da Índia e das Índias Ocidentais, a IPL e a CPL. Noites de luta: UFC, Glory e as grandes lutas de boxe. Além disso, os treinos classificatórios e as corridas da Fórmula 1, e as finais da ATP e da WTA."
+},
+"Yes, under Tables: the Suriname Major League (the official table from FIFA's match centre) with its roll of champions, Natio's group tables, plus the Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, MLS and the NBA conferences. Each match also shows the table of its competition.": {
+"nl": "Ja, onder Standen: de Suriname Major League (de officiële stand uit het wedstrijdcentrum van de FIFA) met de erelijst, de groepsstanden van Natio, plus de Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, MLS en de NBA-conferences. Elke wedstrijd toont ook de stand van zijn competitie.",
+"es": "Sí, en Clasificaciones: la Suriname Major League (la clasificación oficial del centro de partidos de la FIFA) con su palmarés, las tablas de grupo de Natio y además la Eredivisie, la Premier League, LaLiga, la Serie A, la Bundesliga, la Ligue 1, la MLS y las conferencias de la NBA. Cada partido muestra también la clasificación de su competición.",
+"zh": "有，在“积分榜”中：苏里南超级联赛（来自国际足联比赛中心的官方积分榜）及历届冠军、Natio 的小组积分榜，以及荷甲、英超、西甲、意甲、德甲、法甲、美职联和 NBA 东西部排名。每场比赛也会显示其所属赛事的积分榜。",
+"fr": "Oui, dans Classements : la Suriname Major League (le classement officiel du centre de matchs de la FIFA) avec son palmarès, les classements de groupe de Natio, ainsi que l’Eredivisie, la Premier League, la Liga, la Serie A, la Bundesliga, la Ligue 1, la MLS et les conférences NBA. Chaque match affiche aussi le classement de sa compétition.",
+"pt": "Sim, em Tabelas: a Suriname Major League (a classificação oficial da central de partidas da FIFA) com a lista de campeões, as tabelas de grupo da Natio, além da Eredivisie, Premier League, La Liga, Serie A, Bundesliga, Ligue 1, MLS e as conferências da NBA. Cada jogo mostra também a classificação da sua competição."
+},
+"The Surinaamse Voetbal Bond publishes those competitions as bulletins on svb.sr, not as a live feed. Whenever the SVB posts a new schedule or results, the latest bulletin for each competition appears on this page.": {
+"nl": "De Surinaamse Voetbal Bond publiceert die competities als berichten op svb.sr, niet als live feed. Zodra de SVB een nieuw schema of nieuwe uitslagen plaatst, verschijnt het laatste bericht per competitie op deze pagina.",
+"es": "La Surinaamse Voetbal Bond publica esas competiciones como boletines en svb.sr, no como datos en vivo. Cada vez que la SVB publica un nuevo calendario o resultados, el último boletín de cada competición aparece en esta página.",
+"zh": "苏里南足协（SVB）在 svb.sr 上以公告形式发布这些赛事，而不是实时数据。每当足协发布新的赛程或赛果，各项赛事的最新公告就会出现在本页。",
+"fr": "La Surinaamse Voetbal Bond publie ces compétitions sous forme de bulletins sur svb.sr, et non en flux direct. Dès que la SVB publie un nouveau calendrier ou des résultats, le dernier bulletin de chaque compétition apparaît sur cette page.",
+"pt": "A Surinaamse Voetbal Bond publica essas competições como boletins no svb.sr, não como dados ao vivo. Sempre que a SVB publica uma nova tabela de jogos ou resultados, o boletim mais recente de cada competição aparece nesta página."
+},
+"Where do the Suriname Major League results come from?": {
+"nl": "Waar komen de uitslagen van de Suriname Major League vandaan?",
+"es": "¿De dónde vienen los resultados de la Suriname Major League?",
+"zh": "苏里南超级联赛的赛果来自哪里？",
+"fr": "D’où viennent les résultats de la Suriname Major League ?",
+"pt": "De onde vêm os resultados da Suriname Major League?"
+},
+"From FIFA's match centre, which records every SML result and keeps the official table. Fixtures, venues and club badges come from the league's own site, sml.sr, and a match opens the league's highlight video when there is one. FIFA does not publish goal scorers for the SML, so SML matches show the score only.": {
+"nl": "Uit het wedstrijdcentrum van de FIFA, dat elke SML-uitslag vastlegt en de officiële stand bijhoudt. Het programma, de stadions en de clublogo's komen van de eigen site van de competitie, sml.sr, en een wedstrijd opent de samenvatting van de competitie als die er is. De FIFA publiceert geen doelpuntenmakers voor de SML, dus bij SML-wedstrijden zie je alleen de uitslag.",
+"es": "Del centro de partidos de la FIFA, que registra cada resultado de la SML y mantiene la clasificación oficial. El calendario, los estadios y los escudos vienen del sitio de la propia liga, sml.sr, y un partido abre el vídeo resumen de la liga cuando lo hay. La FIFA no publica los goleadores de la SML, así que los partidos de la SML muestran solo el marcador.",
+"zh": "来自国际足联比赛中心，它记录每一场 SML 比赛的结果并维护官方积分榜。赛程、球场和球队队徽来自联赛官网 sml.sr；如果联赛发布了集锦视频，打开比赛即可观看。国际足联不公布 SML 的进球者，因此 SML 比赛只显示比分。",
+"fr": "Du centre de matchs de la FIFA, qui enregistre chaque résultat de la SML et tient le classement officiel. Le calendrier, les stades et les écussons des clubs viennent du site de la ligue, sml.sr, et un match ouvre la vidéo de résumé de la ligue quand elle existe. La FIFA ne publie pas les buteurs de la SML : les matchs de la SML n’affichent donc que le score.",
+"pt": "Da central de partidas da FIFA, que registra todos os resultados da SML e mantém a classificação oficial. A tabela, os estádios e os escudos vêm do site da própria liga, sml.sr, e um jogo abre o vídeo de melhores momentos da liga quando existe. A FIFA não publica os autores dos gols da SML, por isso os jogos da SML mostram apenas o placar."
+},
+"Match data: ESPN, FIFA’s match centre, Concacaf and sml.sr; Glory, boxing and running events from the organisers’ own sites. Schedules rebuild every 15 minutes; live scores refresh in your browser.": {
+"nl": "Wedstrijddata: ESPN, het wedstrijdcentrum van de FIFA, Concacaf en sml.sr; Glory, boksen en hardloopevenementen van de eigen sites van de organisatoren. Het programma wordt elke 15 minuten bijgewerkt; live scores worden in je browser ververst.",
+"es": "Datos de partidos: ESPN, el centro de partidos de la FIFA, Concacaf y sml.sr; Glory, boxeo y carreras desde los sitios de los propios organizadores. El calendario se actualiza cada 15 minutos; los marcadores en vivo se actualizan en tu navegador.",
+"zh": "比赛数据：ESPN、国际足联比赛中心、中北美足联和 sml.sr；Glory、拳击和跑步赛事来自主办方官网。赛程每 15 分钟更新一次；实时比分在您的浏览器中刷新。",
+"fr": "Données des matchs : ESPN, le centre de matchs de la FIFA, la Concacaf et sml.sr ; Glory, la boxe et les courses viennent des sites des organisateurs. Le programme se met à jour toutes les 15 minutes ; les scores en direct s’actualisent dans votre navigateur.",
+"pt": "Dados das partidas: ESPN, a central de partidas da FIFA, Concacaf e sml.sr; Glory, boxe e corridas vêm dos sites dos próprios organizadores. A programação é atualizada a cada 15 minutos; os placares ao vivo são atualizados no seu navegador."
+},
+"Computed from Concacaf’s own results (3 points a win).": {
+"nl": "Berekend uit de eigen uitslagen van Concacaf (3 punten per overwinning).",
+"es": "Calculado a partir de los resultados de la propia Concacaf (3 puntos por victoria).",
+"zh": "根据中北美足联官方赛果计算（胜一场得 3 分）。",
+"fr": "Calculé à partir des résultats de la Concacaf (3 points par victoire).",
+"pt": "Calculado com base nos resultados da própria Concacaf (3 pontos por vitória)."
+},
+"Computed from finished SML results (3 points a win).": {
+"nl": "Berekend uit de gespeelde SML-wedstrijden (3 punten per overwinning).",
+"es": "Calculado a partir de los partidos jugados de la SML (3 puntos por victoria).",
+"zh": "根据已结束的 SML 比赛计算（胜一场得 3 分）。",
+"fr": "Calculé à partir des matchs joués de la SML (3 points par victoire).",
+"pt": "Calculado com base nos jogos disputados da SML (3 pontos por vitória)."
+},
+"The official table, as published in FIFA’s match centre.": {
+"nl": "De officiële stand, zoals gepubliceerd in het wedstrijdcentrum van de FIFA.",
+"es": "La clasificación oficial, tal como la publica el centro de partidos de la FIFA.",
+"zh": "官方积分榜，以国际足联比赛中心公布的为准。",
+"fr": "Le classement officiel, tel que publié par le centre de matchs de la FIFA.",
+"pt": "A classificação oficial, como publicada na central de partidas da FIFA."
+},
+"The table appears here after the first round of the season.": {
+"nl": "De stand verschijnt hier na de eerste speelronde van het seizoen.",
+"es": "La clasificación aparece aquí tras la primera jornada de la temporada.",
+"zh": "赛季第一轮结束后，积分榜将显示在这里。",
+"fr": "Le classement apparaît ici après la première journée de la saison.",
+"pt": "A classificação aparece aqui depois da primeira rodada da temporada."
+},
+"Results and table from FIFA’s match centre; fixtures and past champions from the league’s own site, sml.sr.": {
+"nl": "Uitslagen en stand uit het wedstrijdcentrum van de FIFA; programma en eerdere kampioenen van de eigen site van de competitie, sml.sr.",
+"es": "Resultados y clasificación del centro de partidos de la FIFA; calendario y campeones anteriores del sitio de la propia liga, sml.sr.",
+"zh": "赛果和积分榜来自国际足联比赛中心；赛程和历届冠军来自联赛官网 sml.sr。",
+"fr": "Résultats et classement : centre de matchs de la FIFA ; calendrier et anciens champions : site de la ligue, sml.sr.",
+"pt": "Resultados e classificação da central de partidas da FIFA; tabela de jogos e campeões anteriores do site da própria liga, sml.sr."
+},
+"Result pending": {
+"nl": "Uitslag volgt nog",
+"es": "Resultado pendiente",
+"zh": "比分待公布",
+"fr": "Résultat en attente",
+"pt": "Resultado pendente"
+},
+"Race": {
+"nl": "Race",
+"es": "Carrera",
+"zh": "正赛",
+"fr": "Course",
+"pt": "Corrida"
+},
+"Qualifying": {
+"nl": "Kwalificatie",
+"es": "Clasificación",
+"zh": "排位赛",
+"fr": "Qualifications",
+"pt": "Classificação"
+},
+"Sprint": {
+"nl": "Sprint",
+"es": "Sprint",
+"zh": "冲刺赛",
+"fr": "Sprint",
+"pt": "Sprint"
+},
+"Sprint qualifying": {
+"nl": "Sprintkwalificatie",
+"es": "Clasificación al sprint",
+"zh": "冲刺排位赛",
+"fr": "Qualifications sprint",
+"pt": "Classificação para o sprint"
+},
+"Final": {
+"nl": "Finale",
+"es": "Final",
+"zh": "决赛",
+"fr": "Finale",
+"pt": "Final"
+},
+"Cricket": {
+"nl": "Cricket",
+"es": "Críquet",
+"zh": "板球",
+"fr": "Cricket",
+"pt": "Críquete"
+},
+"Brazil": {
+"nl": "Brazilië",
+"es": "Brasil",
+"zh": "巴西",
+"fr": "Brésil",
+"pt": "Brasil"
+},
+"Oranje": {
+"nl": "Oranje",
+"es": "Oranje (Países Bajos)",
+"zh": "荷兰队",
+"fr": "Oranje (Pays-Bas)",
+"pt": "Holanda (Oranje)"
 }
 }
