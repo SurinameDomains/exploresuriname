@@ -29,11 +29,6 @@
    "title": "Storing 27 Aug 2026",
    "link": "https://belastingdienst.sr/storing-27-aug-2026/",
    "date": "2026-08-27"
-  },
-  {
-   "title": "Storing",
-   "link": "https://belastingdienst.sr/storing/",
-   "date": "2026-08-25"
   }
  ],
  "bekendmakingen": [
@@ -197,16 +192,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-10-24T20:22-03:00",
+   "ok": "2026-10-25T01:53-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-10-24T20:22-03:00",
+   "ok": "2026-10-25T01:53-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-10-24T20:22-03:00"
+ "updated": "2026-10-25T01:53-03:00"
 }
