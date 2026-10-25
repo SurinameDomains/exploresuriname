@@ -4747,7 +4747,7 @@ except Exception as _ff_imp_err:  # never let this section break the rest of the
 _GUIDE_KW = {
  "suriname-itinerary.html": "itinerary trip plan route days week guide reisschema rondreis",
  "is-suriname-safe.html":   "safe safety crime security veilig veiligheid",
- "visitor-guide.html":      "visa sim card money currency simkaart geld visum airport arrival tips basics",
+ "visitor-guide.html":      "visa sim card money currency simkaart geld visum airport arrival tips basics tourist card toeristenkaart e-visa entry fee inreizen",
  "events.html":             "events festivals calendar agenda evenementen festival holidays feestdagen owru yari",
  "currency.html":           "exchange rate rates srd usd euro dollar cambio wisselkoers koers valuta money bank rates",
  "matches.html":            "live scores livescore uitslagen vandaag sports football soccer natio sml nba fight schedule "
@@ -4813,6 +4813,48 @@ except Exception:
 for _e in _SI_LIST:
     if _e["u"] in _GUIDE_KW and not _e.get("k"):
         _e["k"] = (_e["n"] + " " + _GUIDE_KW[_e["u"]]).lower()
+
+# ── Search v2 (25 Oct 2026) ─────────────────────────────────────────────────
+# People search by need ("aircoman paramaribo", "taart bestellen"), not by name.
+# search_vocab.py is the need vocabulary: every listing gets the concepts it
+# really offers ("t"), its address ("s") and a keyword blob with the English AND
+# Dutch description words. The vocabulary itself goes to data/search-vocab.json
+# (data/ is committed by update.yml). The browser side is search_engine.js +
+# search_ui.js, inlined into every page below (_SV2_JS). A failure here leaves
+# the v1-style index, which the v2 engine still searches word by word.
+try:
+    import search_vocab as _sv
+    _sv_src = {}
+    for _c3, _L3 in (("Eat & Drink", RESTAURANTS), ("Stay", HOTELS), ("Nature", SIGHTSEEING),
+                     ("Activities", ADVENTURES_BIZ), ("Shopping", SHOPPING), ("Services", SERVICES)):
+        for _b3 in _L3:
+            _sv_src.setdefault(_b3["url"], (_b3, _c3))
+    for _c3, _b3 in _CHAIN_SEARCH:
+        _sv_src.setdefault(_b3["url"], (_b3, _c3))
+    for _s3 in NATURE_SPOTS:
+        _sv_src.setdefault("listing/nature-" + re.sub(r'[^a-z0-9]+', '-', _s3["name"].lower()).strip('-') + "/", (_s3, "Nature"))
+    for _a3 in ACTIVITIES:
+        _sv_src.setdefault("listing/activity-" + re.sub(r'[^a-z0-9]+', '-', _a3["name"].lower()).strip('-') + "/", (_a3, "Activities"))
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "translations.json"), encoding="utf-8") as _svf:
+        _sv_tr = json.load(_svf)
+    _sv_n = _sv.enrich_index(_SI_LIST, _sv_src, lambda d: ((_sv_tr.get(d) or {}).get("nl") or "") if d else "")
+    del _sv_tr
+    os.makedirs("data", exist_ok=True)
+    with open("data/search-vocab.json", "w", encoding="utf-8") as _svf:
+        _svf.write(_json.dumps(_sv.vocab_json(), ensure_ascii=False, separators=(",", ":")))
+    print(f"  Search v2: {_sv_n} listings tagged with {len(_sv.CONCEPTS)} need concepts")
+except Exception as _sv_err:
+    print(f"  ERROR search v2 enrichment skipped: {_sv_err}")
+
+# Browser side of the search (engine + modal UI). Both files ship with
+# generate.py; a missing file fails the build on purpose, so the live site keeps
+# its previous working search instead of losing it.
+_SV_DIR = os.path.dirname(os.path.abspath(__file__))
+with open(os.path.join(_SV_DIR, "search_engine.js"), encoding="utf-8") as _svf:
+    _SV2_JS = _svf.read()
+with open(os.path.join(_SV_DIR, "search_ui.js"), encoding="utf-8") as _svf:
+    _SV2_JS += "\n" + _svf.read()
+assert "</script" not in _SV2_JS.lower(), "search JS must not contain a closing script tag"
 
 for _e in _SI_LIST:
     _alias = _CHAIN_HUB_ALIAS.get(_e["u"])
@@ -6101,10 +6143,38 @@ PAGE_HEAD = """\
                color:var(--clay); padding:.75rem .75rem .25rem; }
     .dd-menu.open { display:block!important; animation: ddFadeIn .15s ease; }
     @keyframes ddFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
-    #search-results a {
+    #search-results a.sr-it {
       display:flex;align-items:center;gap:10px;padding:10px 18px;text-decoration:none;color:#111;transition:background .1s;
     }
-    #search-results a:hover, #search-results a.sr-active { background:#f5f5f5; }
+    #search-results a.sr-it:hover, #search-results a.sr-it.sr-active, #search-results .sr-sug.sr-active { background:#f5f5f5; }
+    /* search v2 (25 Oct 2026): suggestions, headers, "not listed yet" card */
+    .sr-sugs { padding:4px 0 6px;border-bottom:1px solid #f0f0f0;margin-bottom:4px; }
+    .sr-sug { display:flex;align-items:center;gap:10px;width:100%;padding:8px 18px;border:0;background:none;
+              font:inherit;font-size:.9rem;color:#111;text-align:left;cursor:pointer; }
+    .sr-sug:hover { background:#f5f5f5; }
+    .sr-ic { width:16px;height:16px;color:#9ca3af;flex-shrink:0; }
+    .sr-sug span:first-of-type { flex:1;min-width:0;font-weight:600; }
+    .sr-cnt { font-size:.75rem;color:var(--ink-soft);font-variant-numeric:tabular-nums; }
+    .sr-head { display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:8px 18px 4px;
+               font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--clay); }
+    .sr-head span { font-weight:500;letter-spacing:0;text-transform:none;color:var(--ink-soft); }
+    .sr-rel { margin-top:6px;border-top:1px solid #f0f0f0;padding-top:10px; }
+    .sr-note { margin:2px 18px 6px;font-size:.8rem;color:var(--ink-soft); }
+    .sr-empty { text-align:center;color:var(--ink-soft);font-size:.85rem;padding:22px 18px 14px; }
+    .sr-empty p { margin:0 0 10px; }
+    .sr-try { font-size:.78rem;margin-bottom:6px!important; }
+    .sr-chips { display:flex;flex-wrap:wrap;justify-content:center;gap:6px; }
+    .sr-chip { border:1px solid #e5e7eb;background:#fff;border-radius:999px;padding:5px 12px;font:inherit;
+               font-size:.8rem;color:#111;cursor:pointer; }
+    .sr-chip:hover { border-color:var(--forest);color:var(--forest); }
+    .sr-gap { margin:6px 14px 8px;padding:14px 16px;border:1px dashed var(--coral,#E07A5F);border-radius:10px;background:#fffaf6; }
+    .sr-gap1 { margin:0 0 4px;font-weight:700;font-size:.92rem;color:#111; }
+    .sr-gap2 { margin:0 0 10px;font-size:.84rem;color:var(--ink-soft); }
+    .sr-gapbtn { display:inline-block;background:var(--forest,#1F4D3A);color:#fff!important;font-weight:700;font-size:.85rem;
+                 padding:8px 14px;border-radius:999px;text-decoration:none; }
+    .sr-add { display:block;padding:10px 18px;font-size:.82rem;font-weight:600;color:var(--forest)!important;text-decoration:none; }
+    .sr-more { display:block;width:calc(100% - 36px);margin:6px 18px 4px;padding:8px;border:1px solid #e5e7eb;border-radius:8px;
+               background:#fff;font:inherit;font-size:.82rem;font-weight:600;color:#111;cursor:pointer; }
     .sr-badge {
       font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;flex-shrink:0;
     }
@@ -7791,284 +7861,8 @@ window.addEventListener('click', function(e) {{
   </div>
 </div>
 <script>
-const _CAT_C = {_json.dumps(cat_colors)};
-/* The hint is read from the page, so the Dutch and Spanish trees reuse their
-   translated text when the box is cleared (build_i18n does not touch JS). */
-const _HINT0 = (document.getElementById('search-hint') || {{}}).textContent || 'Start typing to search listings\u2026';
-let _SI = null;
-let _SI_loading = false;
-let _sel = -1;
-
-function _loadSI(cb) {{
-  if (_SI) {{ cb(); return; }}
-  if (_SI_loading) {{ setTimeout(() => _loadSI(cb), 50); return; }}
-  _SI_loading = true;
-  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
-  fetch(depth + 'search-index.json')
-    .then(r => r.json())
-    .then(data => {{ _SI = data; cb(); }})
-    .catch(() => {{ _SI = []; cb(); }});
-}}
-function openSearch() {{
-  document.getElementById('search-modal').style.display = 'block';
-  setTimeout(() => document.getElementById('search-input').focus(), 50);
-  _loadSI(() => {{}});
-}}
-function closeSearch() {{
-  document.getElementById('search-modal').style.display = 'none';
-  document.getElementById('search-input').value = '';
-  document.getElementById('search-results').innerHTML = '<p id="search-hint" style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0"></p>';
-  document.getElementById('search-hint').textContent = _HINT0;
-  _sel = -1;
-}}
-/* ── Search matching ─────────────────────────────────────────────────────
-   Tokenised AND matching over name + keyword blob (which now includes the
-   listing description), with diacritic folding, EN/NL + cuisine synonyms and
-   relevance ranking. Replaces the old single-substring filter, which missed
-   "sushi" for Norrii Zushii and broke on any multi-word query. */
-const _SYN = {{
-  sushi:['sushi','zushi','sashimi','japanese','japans'],
-  japanese:['japanese','japans','sushi','zushi','teppanyaki','ramen'],
-  thai:['thai','thais','thaise'],
-  chinese:['chinese','chinees','chinees','dimsum'],
-  indian:['indian','indiaas','indiase','tandoori','curry'],
-  roti:['roti','indian','indiaas'],
-  javanese:['javanese','javaans','javaanse','warung','saoto','bami'],
-  creole:['creole','creoolse','creools','surinamese','surinaamse'],
-  surinamese:['surinamese','surinaamse','creole','creoolse','local'],
-  pizza:['pizza','pizzas','italian','italiaans','italiaanse'],
-  italian:['italian','italiaans','italiaanse','pizza','pasta'],
-  burger:['burger','burgers','hamburger'],
-  bbq:['bbq','barbecue','grill','grilled'],
-  coffee:['coffee','koffie','cafe','espresso','cappuccino','barista'],
-  cafe:['cafe','coffee','koffie','lunchroom'],
-  bakery:['bakery','bakkerij','patisserie','pastry','pastries','bread','brood'],
-  cake:['cake','cakes','taart','patisserie','pastry'],
-  icecream:['icecream','ice','ijs','gelato'],
-  vegan:['vegan','vegetarian','vegetarisch','plantbased'],
-  vegetarian:['vegetarian','vegetarisch','vegan'],
-  seafood:['seafood','fish','vis','shrimp'],
-  bar:['bar','lounge','pub','drinks','cocktails','borrel'],
-  restaurant:['restaurant','restaurants','eten','dining','eetcafe','food'],
-  eten:['eten','food','restaurant','dining'],
-  hotel:['hotel','hotels','accommodation','verblijf','overnachten','slapen','guesthouse'],
-  lodge:['lodge','lodges','resort','ecolodge','jungle'],
-  resort:['resort','resorts','lodge','vakantie'],
-  pharmacy:['pharmacy','apotheek','drogisterij','drugstore'],
-  apotheek:['apotheek','pharmacy','drogisterij','drugstore'],
-  salon:['salon','kapper','barber','hairdresser','hair','beauty','nails'],
-  kapper:['kapper','barber','salon','hair','hairstudio'],
-  barber:['barber','kapper','barbershop','salon'],
-  gym:['gym','fitness','sportschool','workout','crossfit'],
-  fitness:['fitness','gym','sportschool','pilates','yoga'],
-  spa:['spa','massage','wellness','sauna'],
-  massage:['massage','spa','wellness','masseur'],
-  bank:['bank','banking','banken','geldzaken'],
-  atm:['atm','geldautomaat','pinautomaat','pinnen','cash','bank'],
-  supermarket:['supermarket','supermarkt','grocery','groceries','boodschappen','market'],
-  supermarkt:['supermarkt','supermarket','grocery','boodschappen'],
-  butcher:['butcher','slagerij','slager','meat','vlees'],
-  laundry:['laundry','wasserij','drycleaning','stomerij'],
-  carrental:['carrental','rental','huurauto','autoverhuur','rentacar'],
-  rental:['rental','rentals','huur','verhuur','huurauto'],
-  garage:['garage','automotive','autobedrijf','monteur','repair'],
-  insurance:['insurance','verzekering','verzekeringen','assurantie'],
-  notary:['notary','notaris','notariaat'],
-  school:['school','scholen','education','onderwijs','academy'],
-  vet:['vet','veterinary','dierenarts','dierenkliniek'],
-  livestock:['livestock','vee','veevoer','pluimvee','poultry','landbouw','farm','boer'],
-  landbouw:['landbouw','agriculture','farming','farm','livestock','vee','boer'],
-  dierenarts:['dierenarts','veterinary','vet','dierenkliniek'],
-  telecom:['telecom','internet','mobile','simcard','simkaart','prepaid'],
-  realestate:['realestate','vastgoed','makelaar','makelaardij','property','huis'],
-  vastgoed:['vastgoed','realestate','makelaar','makelaardij','property'],
-  tour:['tour','tours','excursie','excursies','trip','uitstapje','guide'],
-  tours:['tours','tour','excursies','trips','reizen'],
-  beach:['beach','strand','coast','kust'],
-  river:['river','rivier','kreek','creek','water'],
-  jungle:['jungle','rainforest','oerwous','oerwoud','forest','bos','regenwoud'],
-  nature:['nature','natuur','park','reserve','wildlife'],
-  wifi:['wifi','internet','telecom'],
-  casino:['casino','gambling','gokken','slots'],
-  museum:['museum','musea','history','geschiedenis','gallery'],
-  tattoo:['tattoo','tattoos','tatoeage','piercing'],
-  security:['security','beveiliging','bewaking'],
-  cleaning:['cleaning','schoonmaak','cleaningservice','poetsen'],
-  parking:['parking','parkeren'],
-  wedding:['wedding','bruiloft','trouwen','events','feest'],
-  party:['party','feest','events','evenementen'],
-  kids:['kids','children','kinderen','family','familie'],
-  halal:['halal'],
-  delivery:['delivery','bezorging','takeaway','afhalen','bezorgen'],
-  north:['north','noord','noordelijk','geyersvlijt','kwatta'],
-  south:['south','zuid','zuidelijk','latour'],
-  centre:['centre','center','centrum','city','downtown'],
-  paramaribo:['paramaribo','pbm','city']
-}};
-/* The table above is written one-way; mirror it so "koffie" finds the "coffee"
-   row and vice versa. One hop only, no transitive chains. */
-const _SYN_X = (function () {{
-  const m = {{}};
-  const add = (a, b) => {{ (m[a] = m[a] || []).push(b); }};
-  for (const key in _SYN) {{
-    const row = _SYN[key];
-    for (let i = 0; i < row.length; i++) {{
-      for (let j = 0; j < row.length; j++) if (i !== j) add(row[i], row[j]);
-      if (row[i] !== key) {{ add(row[i], key); add(key, row[i]); }}
-    }}
-  }}
-  for (const k in m) m[k] = m[k].filter((v, i, a) => v !== k && a.indexOf(v) === i);
-  return m;
-}})();
-function _sFold(x) {{
-  return (x || '').normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').toLowerCase();
-}}
-/* Filler words are dropped from the query, otherwise strict AND matching kills
-   natural-language searches like "where to eat roti in Paramaribo" (which the
-   hero placeholder actively invites people to type). */
-const _QSTOP = new Set(['the','and','for','with','from','into','that','this','all','any','some',
- 'where','what','when','how','who','why','best','top','good','cheap','near','nearby','around',
- 'are','was','you','your','can','have','has','its','but','out','let','get','place','places',
- 'in','on','at','to','of','is','it','my','me','we','us','or','an','as','by','be','do','if',
- 'de','het','een','van','voor','met','naar','aan','bij','over','waar','hoe','wat','welke',
- 'beste','goede','dichtbij','zijn','ook','deze','dat','die','dit','niet','uit','ligt','plek',
- 'kan','ik','wil','zoek','zoeken','vind','vinden','ben','hebben','doen','gaan','iets',
- 'find','need','want','looking','show','give','there','here','something','anything']);
-function _sTokens(q) {{
-  /* Keep single characters: the first keystroke of every search is one letter,
-     and it must still be a valid prefix query. */
-  const raw = _sFold(q).split(/[^a-z0-9]+/).filter(t => t.length > 0);
-  const kept = raw.filter(t => !_QSTOP.has(t));
-  return kept.length ? kept : raw;          /* never return an empty query */
-}}
-function _sEsc(x) {{
-  return (x || '').replace(/[&<>"]/g, c => ({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}}[c]));
-}}
-function _sRxEsc(x) {{
-  return x.replace(/[.*+?^${{}}()|[\]\\\\]/g, '\\\\$&');
-}}
-/* A token matches itself, its singular form, or a known synonym. Synonym and
-   plural hits score lower so exact wording always ranks first. */
-function _sTerms(tok) {{
-  /* [term, weight, wholeWordOnly]. What the user actually typed may match as a
-     prefix (so "restau" finds restaurants); short synonyms must match a whole
-     word, otherwise "maki" hits "making" and drags junk into a sushi search. */
-  const out = [[tok, 1, false]];
-  if (tok.length > 4 && tok.slice(-1) === 's') out.push([tok.slice(0, -1), 0.9, false]);
-  const syn = _SYN_X[tok];
-  if (syn) for (let i = 0; i < syn.length; i++) out.push([syn[i], 0.5, syn[i].length < 5]);
-  return out;
-}}
-function _sScore(rec, toks, loose) {{
-  if (!rec._n) {{
-    rec._n = _sFold(rec.n);
-    rec._k = _sFold([rec.n, rec.k || '', rec.a || '', rec.c || ''].join(' '));
-  }}
-  const n = rec._n, k = rec._k;
-  let total = 0, matched = 0, strongest = 0;
-  for (let i = 0; i < toks.length; i++) {{
-    const terms = _sTerms(toks[i]);
-    let best = 0;
-    for (let j = 0; j < terms.length; j++) {{
-      const t = terms[j][0], w = terms[j][1];
-      const wb = new RegExp('\\\\b' + _sRxEsc(t) + (terms[j][2] ? '\\\\b' : ''));
-      let s = 0;
-      if (n === t)             s = 1000;
-      else if (n.indexOf(t) === 0) s = 600;
-      else if (wb.test(n))     s = 420;
-      else if (wb.test(k))     s = 130;
-      /* Mid-word hits only for the literal token, and cheap: they are what made
-         "hot pot" rank Hotel Peperpot above the actual hot pot restaurants. */
-      else if (w === 1 && t.length > 3 && n.indexOf(t) >= 0) s = 90;
-      s = s * w;
-      if (s > best) best = s;
-    }}
-    if (best) {{ total += best; matched++; if (best > strongest) strongest = best; }}
-    else if (!loose) return 0;    /* strict pass: every token must match */
-  }}
-  if (!matched) return 0;
-  if (total > 0 && rec.p) total += 250;   /* category browse pages outrank a
-                                             single listing on generic queries */
-  /* Loose pass ranks by how many query words matched, then by score, and needs
-     at least one solid hit so leftover words can't drag in noise. */
-  if (loose) {{
-    if (strongest < 130 || matched < Math.min(2, toks.length)) return 0;
-    return matched * 100000 + Math.min(Math.round(total), 99999);
-  }}
-  return total;
-}}
-/* Highlight each matching token (and its matching synonym) in the name. */
-function _sMark(name, toks) {{
-  const pats = [];
-  const nf = _sFold(name);
-  for (let i = 0; i < toks.length; i++) {{
-    const terms = _sTerms(toks[i]);
-    for (let j = 0; j < terms.length; j++) {{
-      if (nf.indexOf(terms[j][0]) >= 0) {{ pats.push(_sRxEsc(terms[j][0])); break; }}
-    }}
-  }}
-  let out = _sEsc(name);
-  if (!pats.length) return out;
-  return out.replace(new RegExp('(' + pats.join('|') + ')', 'gi'), '<mark>$1</mark>');
-}}
-function _sHint(box, msg) {{
-  box.innerHTML = '<p id="search-hint" style="text-align:center;color:var(--ink-soft);'
-    + 'font-size:.85rem;padding:32px 0">' + msg + '</p>';
-}}
-function runSearch(q) {{
-  const box = document.getElementById('search-results');
-  q = q.trim();
-  if (!q) {{ _sHint(box, _HINT0); _sel = -1; return; }}
-  if (!_SI) {{
-    _loadSI(() => runSearch(q));
-    box.innerHTML = '<p style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">Loading…</p>';
-    return;
-  }}
-  const toks = _sTokens(q);
-  if (!toks.length) {{ _sHint(box, _HINT0); _sel = -1; return; }}
-  let scored = [];
-  for (let pass = 0; pass < 2; pass++) {{
-    const loose = pass === 1;
-    for (let i = 0; i < _SI.length; i++) {{
-      const sc = _sScore(_SI[i], toks, loose);
-      if (sc > 0) scored.push([sc, _SI[i]]);
-    }}
-    if (scored.length || toks.length < 2) break;   /* only fall back if AND found nothing */
-  }}
-  scored.sort((a, b) => b[0] - a[0] || a[1].n.length - b[1].n.length);
-  if (scored.length) {{
-    const floor = scored[0][0] * 0.2;
-    scored = scored.filter(p => p[0] >= floor);
-  }}
-  const hits = scored.slice(0, 12).map(p => p[1]);
-  if (!hits.length) {{ box.innerHTML = '<p style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">No results for "' + _sEsc(q) + '"</p>'; return; }}
-  const depth = window.location.pathname.split('/').length > 3 ? '../../' : '';
-  box.innerHTML = hits.map((h, i) => {{
-    const hi = _sMark(h.n, toks);
-    const col = _CAT_C[h.c] || '#6b7280';
-    return '<a href="' + depth + _sEsc(h.u) + '" class="' + (i===0?'sr-active':'') + '">'
-      + '<span class="sr-badge" style="background:' + col + '">' + _sEsc(h.c) + '</span>'
-      + '<span class="sr-name">' + hi + '</span>'
-      + (h.a ? '<span class="sr-area">' + _sEsc(h.a) + '</span>' : '')
-      + '</a>';
-  }}).join('');
-  _sel = 0;
-}}
-function searchKey(e) {{
-  const items = document.querySelectorAll('#search-results a');
-  if (e.key === 'Escape') {{ closeSearch(); return; }}
-  if (e.key === 'ArrowDown') {{ e.preventDefault(); _sel = Math.min(_sel+1, items.length-1); }}
-  else if (e.key === 'ArrowUp') {{ e.preventDefault(); _sel = Math.max(_sel-1, 0); }}
-  else if (e.key === 'Enter') {{ if(items[_sel]) window.location = items[_sel].href; return; }}
-  else return;
-  items.forEach((el,i) => el.classList.toggle('sr-active', i===_sel));
-  if(items[_sel]) items[_sel].scrollIntoView({{block:'nearest'}});
-}}
-document.addEventListener('keydown', e => {{
-  if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {{
-    e.preventDefault(); openSearch();
-  }}
-}});
+window._CAT_C = {_json.dumps(cat_colors)};
+{_SV2_JS}
 </script>"""
 
 def footer_html(prefix=""):
@@ -29062,6 +28856,10 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         _re.compile(r'was last updated on (?:<span data-srdate-long="[\d-]+">)?[A-Za-z]+ \d{1,2} [A-Za-z]+ \d{4}'),
         _re.compile(r'\d{1,2}\s+[A-Za-z]{3,9}\s+\d{4}(?:,?\s*\d{1,2}:\d{2})?\s*SR'),
         _re.compile(r'(?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day,\s+\d{1,2}\s+[A-Za-z]+\s+\d{4}'),
+        # site search code + its CSS (search v2, 25 Oct 2026): site chrome, not
+        # page content, so a search tweak no longer moves every lastmod
+        _re.compile(r'<!-- ── Global Search Modal.*?window\._CAT_C.*?</script>', _re.S),
+        _re.compile(r'#search-results a(?:\.sr-it)? \{.*?(?=mark \{)', _re.S),
     ]
     def _static_lastmod(seg):
         # Lastmod for a static/category page. Hash the page with volatile date tokens
