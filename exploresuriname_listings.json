@@ -6425,7 +6425,8 @@
     "phone": "+597 425-871",
     "website": "https://www.surinaamsmuseum.net/",
     "email": "museum@cq-link.sr",
-    "main_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Fort_Zeelandia.jpg/1280px-Fort_Zeelandia.jpg"
+    "main_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Fort_Zeelandia.jpg/1280px-Fort_Zeelandia.jpg",
+    "hours": "Tu-Fr 09:00-14:00; Su 10:00-14:00"
   },
   {
     "slug": "foton-suriname",
@@ -9166,11 +9167,11 @@
   },
   {
     "slug": "joden-savanne",
-    "name": "Joden Savanne",
-    "description": "Joden Savanne is the archaeological remains of one of the oldest Jewish settlements in the Americas, located in Suriname's Para district. Accessible by boat, it is a significant heritage destination with historic cemetery, ruins and nature.",
+    "name": "Jodensavanne",
+    "description": "Jodensavanne is the site of one of the oldest Jewish settlements in the Americas, on the Suriname River in the Para district. A UNESCO World Heritage site since 2023, it has the foundations of the 1685 synagogue Beracha ve Shalom and historic cemeteries, about 1.5 to 2 hours by road from Paramaribo.",
     "category": "Adventures",
     "location": "Para",
-    "address": "Joden Savanne, Para, Suriname",
+    "address": "Jodensavanne, Para, Suriname",
     "phone": "+597 479-272",
     "website": "https://www.jodensavanne.org/",
     "email": "info.jodensavanne@gmail.com",
@@ -11783,7 +11784,7 @@
     "location": "Paramaribo",
     "address": "Paramaribo, Suriname",
     "phone": "+597 855-2326",
-    "website": "http://www.galibi-tours.com/",
+    "website": "",
     "email": "",
     "main_image": "",
     "facebook": "https://www.facebook.com/zeeschildpadden/"

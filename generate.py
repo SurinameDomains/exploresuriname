@@ -4752,7 +4752,7 @@ except Exception as _ff_imp_err:  # never let this section break the rest of the
 _GUIDE_KW = {
  "suriname-itinerary.html": "itinerary trip plan route days week guide reisschema rondreis",
  "is-suriname-safe.html":   "safe safety crime security veilig veiligheid",
- "visitor-guide.html":      "visa sim card money currency simkaart geld visum airport arrival tips basics tourist card toeristenkaart e-visa entry fee inreizen",
+ "visitor-guide.html":      "visa sim card esim money currency simkaart geld visum airport arrival tips basics tourist card toeristenkaart e-visa entry fee inreizen",
  "events.html":             "events festivals calendar agenda evenementen festival holidays feestdagen owru yari",
  "currency.html":           "exchange rate rates srd usd euro dollar cambio wisselkoers koers valuta money bank rates",
  "matches.html":            "live scores livescore uitslagen vandaag sports football soccer natio sml nba fight schedule "
@@ -12949,6 +12949,13 @@ def build_listing_page(slug, b):
     desc_block = ('<p class="text-gray-700 leading-relaxed text-base mb-8">'
                   + html_lib.escape(desc) + '</p>') if desc else ""
 
+    # Heritage sites that are listings (Oct 2026): a listing slug with its own entry
+    # in data/things_to_do.json (joden-savanne, fort-zeelandia) gets the same
+    # localized intro, "Good to know" facts and tour cards as the Things to Do pages.
+    _tt = None if _chain else _ttd_parts(slug, "nature")
+    if _tt and _tt["intro"]:
+        desc_block = _tt["intro"]
+
     # JSON-LD LocalBusiness/subtype schema
     import json as _json
     ld_type, cat_page, cat_label = _slug_schema_info(slug)
@@ -13105,6 +13112,7 @@ def build_listing_page(slug, b):
                      '\n        </div>' + _chain["script"])
     else:
         left_top = ('\n      ' + desc_block + branch_note + (_hours_table_html(hours) if hours else "") +
+                    ((_tt["body"] + _tt["foot"]) if _tt else "") +
                     '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>')
         map_html = ('\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">'
                     '\n        <iframe src="' + maps_embed + '" width="100%" height="100%"'
@@ -13113,6 +13121,8 @@ def build_listing_page(slug, b):
                     '\n      </div>')
         info_title = '\n        <h2 class="text-base font-bold text-gray-900 mb-4">Contact &amp; Info</h2>'
         info_html = '\n        ' + la_html
+        if _tt and _tt["side"]:
+            info_html += '\n        <div class="mt-4">' + _tt["side"] + '</div>'
 
     main = (
         '\n<main class="max-w-5xl mx-auto px-5 py-12 pb-24">'
@@ -16654,14 +16664,22 @@ def build_visitor_guide_page():
         as registration is mandatory. Coverage is solid across Paramaribo and the coastal belt;
         the interior is a different story on either network.
       </p>
+      <p class="text-gray-700 text-sm leading-relaxed mb-5">
+        <strong>Prefer an eSIM?</strong> Digicel sells 30-day tourist eSIM data plans of 5, 10 or 15 GB,
+        from SRD 400 plus tax, which you set up in the MyDigicel app. Telesur sells prepaid eSIMs at its
+        branches for the same price as a physical SIM. International travel eSIMs also work in Suriname,
+        but they cost more and usually come without a local number. Check first that your phone is
+        unlocked and supports eSIM.
+      </p>
       <div class="flex flex-col gap-2">
-        <a href="https://www.telesur.sr" target="_blank" rel="noopener"
+        <a href="https://www.telesur.sr/sim-kaarten/" target="_blank" rel="noopener"
            class="flex items-center justify-between px-4 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-800 hover:border-gray-400 transition">
           Telesur <span style="color:var(--forest2)">&#8599;</span>
         </a>
-        <div class="flex items-center justify-between px-4 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-500">
-          Digicel Suriname <span class="text-xs font-normal text-gray-400">available in-store</span>
-        </div>
+        <a href="https://www.digicelgroup.com/sr/en/mobile/tourist_sim" target="_blank" rel="noopener"
+           class="flex items-center justify-between px-4 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-800 hover:border-gray-400 transition">
+          Digicel Suriname <span style="color:var(--forest2)">&#8599;</span>
+        </a>
       </div>
     </div>
 
@@ -25623,313 +25641,6 @@ if("IntersectionObserver" in window){
                 .replace("__FOOTER__", footer_html())
                 .replace("__NEV__", str(len(_events))))
     return head + body
-
-
-def build_worldcup_page():
-    """FIFA World Cup 2026 hub: full schedule in Suriname time, live scores (ESPN, client-side
-    polling + build-time snapshot) and where to watch in Suriname (STVS / ATV / Telesur+)."""
-    _ESPN_WC = ("https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard"
-                "?dates=20260611-20260719&limit=200")
-
-    # ── Build-time snapshot: instant first paint + works while JS loads ─────
-    snapshot = []
-    try:
-        req = urllib.request.Request(_ESPN_WC, headers={"User-Agent": "ExploreSuriname/1.0"})
-        with urllib.request.urlopen(req, timeout=15) as r:
-            raw = json.loads(r.read().decode("utf-8"))
-        for e in raw.get("events", []):
-            c = e["competitions"][0]
-            home = away = None
-            for t in c.get("competitors", []):
-                team = t.get("team", {})
-                o = {"n": team.get("shortDisplayName") or team.get("displayName", ""),
-                     "a": team.get("abbreviation", ""),
-                     "l": team.get("logo", ""),
-                     "s": t.get("score", ""),
-                     "p": t.get("shootoutScore") if t.get("shootoutScore") not in ("", None) else None}
-                if t.get("homeAway") == "home":
-                    home = o
-                else:
-                    away = o
-            st  = c.get("status", {}).get("type", {})
-            ven = c.get("venue", {})
-            snapshot.append({
-                "i": e.get("id", ""), "d": e.get("date", ""),
-                "g": (c.get("altGameNote") or "").replace("FIFA World Cup, ", "").replace("FIFA World Cup", ""),
-                "v": ven.get("fullName", ""),
-                "c": ven.get("address", {}).get("city", ""),
-                "h": home, "a": away,
-                "st": st.get("shortDetail", ""), "sx": st.get("state", "pre")})
-    except Exception as exc:
-        print(f"  ! World Cup snapshot fetch failed ({exc}); page falls back to client-side fetch")
-    wc_json = json.dumps(snapshot, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
-
-    title = "World Cup 2026: Live Scores, Schedule and Where to Watch"
-    desc  = ("Every 2026 FIFA World Cup match in Suriname time with live scores, "
-             "plus how to watch in Suriname on STVS, ATV and the Telesur+ app.")
-    faq = [
-        ("Where can I watch the 2026 World Cup in Suriname?",
-         "STVS holds the exclusive broadcast rights for Suriname and shows matches free-to-air on national TV. "
-         "STVS has sublicensed coverage to ATV via Telesur channels 12.1, 12.2 and 12.3, and to SRS for radio "
-         "commentary. You can also stream matches on the Telesur+ app, the official streaming partner, with a subscription."),
-        ("What time are World Cup matches in Suriname?",
-         "Suriname time is UTC-3 with no daylight saving. Host cities span four North American time zones, so kickoffs "
-         "fall roughly between early afternoon and late evening Suriname time. This page lists every kickoff in Suriname time."),
-        ("When and where is the World Cup 2026 final?",
-         "The final is on Sunday 19 July 2026 at MetLife Stadium in New Jersey, United States. "
-         "The third-place match is on Saturday 18 July."),
-        ("How does the new 48-team format work?",
-         "The 2026 World Cup has 48 teams in 12 groups of four. The top two of each group plus the eight best "
-         "third-placed teams advance to a new round of 32, followed by the usual knockout rounds. "
-         "There are 104 matches in total, from 11 June to 19 July."),
-    ]
-    event_ld = {
-        "@context": "https://schema.org", "@type": "SportsEvent",
-        "name": "FIFA World Cup 2026",
-        "startDate": "2026-06-11", "endDate": "2026-07-19",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": [{"@type": "Country", "name": "United States"},
-                     {"@type": "Country", "name": "Canada"},
-                     {"@type": "Country", "name": "Mexico"}],
-        "organizer": {"@type": "Organization", "name": "FIFA", "url": "https://www.fifa.com/"},
-    }
-
-    _WC_CSS = """  <style>
-    .wc-live{display:inline-block;width:8px;height:8px;border-radius:9999px;background:#dc2626;margin-right:5px;animation:wcpulse 1.2s ease-in-out infinite}
-    @keyframes wcpulse{0%,100%{opacity:1}50%{opacity:.3}}
-    .wc-rowlive{border-color:#fecaca;box-shadow:0 0 0 1px #fecaca}
-    #wc-list h2,#wc-list div[id^="d-"]{scroll-margin-top:118px}
-  </style>"""
-    head = _hub_head(title, desc, "worldcup-2026.html", faq=faq, extra_ld=event_ld)
-    head = head.replace("</head>", _WC_CSS + "\n</head>")
-
-    hero = _hub_hero("Finals week &middot; the last matches, 14&ndash;19 July",
-                     "World Cup 2026 Live",
-                     "Down to the last matches. Every kickoff in Suriname time, live scores "
-                     "that update by themselves, and where to watch from Suriname.").replace("{NAV}", nav_html("worldcup"))
-
-    # ── Where to watch in Suriname ───────────────────────────────────────────
-    _watch_opts = [
-        ("STVS", "National TV &middot; free-to-air",
-         "Exclusive rights holder for Suriname. Matches plus studio shows, analysis and highlights."),
-        ("ATV (Telesur 12.1, 12.2, 12.3)", "National TV &middot; free-to-air",
-         "Sublicensed by STVS so matches reach every district, including via the Telesur TV channels."),
-        ("Telesur+", "Streaming app &middot; subscription",
-         "Official streaming partner. Watch live on your phone, tablet or laptop with a Telesur+ subscription."),
-        ("SRS", "Radio",
-         "Live radio commentary nationwide, sublicensed by STVS."),
-    ]
-    watch_body = (
-        '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">'
-        + "".join(
-            '<div class="rounded-xl border border-gray-200 p-4">'
-            f'<p class="font-bold text-gray-900 text-sm">{n}</p>'
-            f'<p class="text-[11px] uppercase tracking-wide font-semibold mt-0.5 mb-1.5" style="color:var(--forest2)">{k}</p>'
-            f'<p class="text-gray-600 text-sm leading-relaxed">{t}</p></div>'
-            for n, k, t in _watch_opts)
-        + '</div>'
-        '<p class="text-gray-500 text-xs leading-relaxed">Broadcast arrangements as announced by STVS in May 2026. '
-        'Match-by-match channel listings are published by the broadcasters; see '
-        '<a href="https://stvs.sr/" target="_blank" rel="noopener" class="font-semibold hover:underline" style="color:var(--forest2)">stvs.sr</a> '
-        'and Telesur for programming details.</p>')
-
-
-    schedule_html = (
-        '<h2 class="serif text-2xl font-bold text-gray-900 mb-1 mt-2">Schedule &amp; Live Scores</h2>'
-        '<p class="text-gray-500 text-sm mb-3">All kickoff times are Suriname time (UTC-3). '
-        'Live scores refresh automatically every minute. Match data: ESPN.</p>'
-        '<div id="wc-list"><p class="text-gray-500 text-sm py-6">Loading the match schedule&hellip; '
-        'If nothing appears, refresh the page.</p></div>'
-        '<noscript><p class="text-gray-600 text-sm py-4">Enable JavaScript to see the schedule and live scores.</p></noscript>')
-
-    format_body = (
-        '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
-        'The 2026 edition is the first with 48 teams: 12 groups of four, played across 16 host cities in the '
-        'United States, Canada and Mexico. The top two of each group and the eight best third-placed teams go '
-        'through to a new round of 32, then the bracket runs as usual down to the final at MetLife Stadium, '
-        'New Jersey on 19 July.</p>'
-        '<p class="text-gray-700 text-sm leading-relaxed">'
-        'Watching from a bar or planning your evening around a match? Kickoffs land between roughly midday and '
-        'late evening Suriname time. Check ' + _ilink("restaurants.html", "where to eat") + ' for spots with '
-        'screens, and our ' + _ilink("events.html", "events calendar") + ' for everything else happening this season.</p>')
-
-    keep_watching = (
-        '<div class="rounded-2xl border px-5 py-4 mt-6 mb-2" '
-        'style="background:var(--card);border-color:var(--line)">'
-        '<p class="text-xs font-bold uppercase tracking-widest mb-1" style="color:var(--coral)">'
-        'After the final whistle</p>'
-        '<p class="text-sm text-gray-700 leading-relaxed">'
-        'The World Cup ends 19 July, but the football does not stop. Our '
-        + _ilink("matches.html", "Sports Schedule")
-        + ' keeps every kickoff and tip-off in Suriname time all year: Champions League, '
-        'Premier League, Eredivisie, NBA and fight nights (UFC, Glory, boxing). '
-        'Bookmark it now so you never miss the next one.</p></div>')
-
-    body = (keep_watching
-            + schedule_html
-            + '<div class="mt-10"></div>'
-            + _hub_card("Watch in Suriname", "STVS, ATV, Telesur+ and SRS", watch_body)
-            + _hub_card("The Tournament", "48 Teams, 104 Matches, Three Hosts", format_body)
-            + _hub_faq_html(faq))
-
-    _WC_JS = """
-<script>
-var WC = __WC_DATA__;
-var WC_API = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
-var WC_TZ  = 'America/Paramaribo';
-var _dayFmt  = new Intl.DateTimeFormat('en-CA', {timeZone: WC_TZ});
-var _timeFmt = new Intl.DateTimeFormat('en-GB', {timeZone: WC_TZ, hour: '2-digit', minute: '2-digit'});
-var _lblFmt  = new Intl.DateTimeFormat('en-GB', {timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long'});
-function srDay(x){ return _dayFmt.format(new Date(x)); }
-function srTime(x){ return _timeFmt.format(new Date(x)); }
-function dayLabel(k){ return _lblFmt.format(new Date(k + 'T12:00:00Z')); }
-function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function stageOf(m){
-  if (m.g && m.g.indexOf('Group') === 0) return 'Group Stage';
-  var d = m.d;
-  if (d < '2026-06-28T07') return 'Group Stage';
-  if (d < '2026-07-04T07') return 'Round of 32';
-  if (d < '2026-07-09T07') return 'Round of 16';
-  if (d < '2026-07-14T07') return 'Quarter-finals';
-  if (d < '2026-07-18T07') return 'Semi-finals';
-  if (d < '2026-07-19T07') return 'Third Place';
-  return 'Final';
-}
-function stageId(s){ return 'st-' + s.toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
-function flag(t){
-  if (!t || !t.l) return '<span class="inline-block w-6 h-6 rounded-full bg-gray-200 shrink-0"></span>';
-  var p = t.l.replace('https://a.espncdn.com', '');
-  return '<img src="https://a.espncdn.com/combiner/i?img=' + p + '&w=48&h=48" width="24" height="24" loading="lazy" decoding="async" alt="" class="shrink-0 rounded-full">';
-}
-function wcRow(m){
-  var live = m.sx === 'in', post = m.sx === 'post';
-  var mid;
-  if (m.sx === 'pre') {
-    mid = '<p class="font-bold text-gray-900 leading-tight">' + srTime(m.d) + '</p><p class="text-[10px] text-gray-400 uppercase tracking-wide">SR time</p>';
-  } else {
-    mid = '<p class="font-bold text-lg leading-tight text-gray-900">' + esc(m.h && m.h.s || '0') + '<span class="text-gray-300 px-1.5">-</span>' + esc(m.a && m.a.s || '0') + '</p>';
-  }
-  var meta = [];
-  if (live) meta.push('<span class="wc-live"></span><span class="font-semibold text-red-600">LIVE ' + esc(m.st) + '</span>');
-  else if (post) meta.push(esc(m.st || 'FT'));
-  if (m.h && m.a && m.h.p != null && m.a.p != null) meta.push('Pens ' + esc(m.h.p) + '-' + esc(m.a.p));
-  if (m.g) meta.push(esc(m.g));
-  var city = (m.c || '').split(',')[0];
-  if (m.v) meta.push(esc(m.v) + (city ? ', ' + esc(city) : ''));
-  return '<div class="bg-white rounded-xl border border-gray-100 shadow-sm px-4 py-3 mb-2' + (live ? ' wc-rowlive' : '') + '">'
-    + '<div class="flex items-center gap-3">'
-    + '<div class="flex-1 flex items-center justify-end gap-2 min-w-0"><span class="font-semibold text-gray-900 text-sm truncate">' + esc(m.h && m.h.n) + '</span>' + flag(m.h) + '</div>'
-    + '<div class="w-20 text-center shrink-0">' + mid + '</div>'
-    + '<div class="flex-1 flex items-center gap-2 min-w-0">' + flag(m.a) + '<span class="font-semibold text-gray-900 text-sm truncate">' + esc(m.a && m.a.n) + '</span></div>'
-    + '</div>'
-    + '<p class="text-center text-[11px] text-gray-400 mt-1">' + meta.join(' &middot; ') + '</p>'
-    + '</div>';
-}
-function wcRender(){
-  var box = document.getElementById('wc-list');
-  if (!WC.length) return;
-  var wasOpen = !!(document.getElementById('wc-past') && document.getElementById('wc-past').open);
-  var all = WC.slice().sort(function(a, b){ return a.d < b.d ? -1 : 1; });
-  var remaining = all.filter(function(m){ return m.sx !== 'post'; });
-  var past = all.filter(function(m){ return m.sx === 'post'; });
-  var today = srDay(new Date());
-  var html = '';
-  if (remaining.length) {
-    html += '<div class="rounded-2xl border p-5 sm:p-6 mb-6" style="background:var(--card);border-color:var(--line)">'
-      + '<p class="text-xs font-bold uppercase tracking-widest mb-1" style="color:var(--coral)">'
-      + (remaining.length === 1 ? 'One match to go' : remaining.length + ' matches to go') + '</p>'
-      + '<h2 class="serif text-2xl font-bold text-gray-900 mb-3">The Road to the Final</h2>';
-    var lastDay = '';
-    remaining.forEach(function(m){
-      var k = srDay(m.d);
-      if (k !== lastDay) {
-        var isToday = k === today;
-        html += '<h3 class="text-xs font-bold uppercase tracking-widest mt-4 mb-2 ' + (isToday ? '' : 'text-gray-500') + '"'
-          + (isToday ? ' style="color:var(--forest)"' : '') + '>' + stageOf(m) + ' &middot; ' + dayLabel(k) + (isToday ? ' &middot; Today' : '') + '</h3>';
-        lastDay = k;
-      }
-      html += wcRow(m);
-    });
-    html += '</div>';
-  } else if (past.length) {
-    var fin = past[past.length - 1];
-    html += '<h2 class="serif text-2xl font-bold text-gray-900 mb-3 mt-2">The Final</h2>' + wcRow(fin);
-  }
-  if (past.length) {
-    html += '<details id="wc-past"' + (wasOpen ? ' open' : '') + '>'
-      + '<summary class="cursor-pointer font-bold text-gray-900 py-2 select-none">Earlier results &middot; ' + past.length + ' matches</summary><div class="mt-1">';
-    var lastStage = '', lastDay2 = '';
-    past.forEach(function(m){
-      var stage = stageOf(m);
-      if (stage !== lastStage) {
-        html += '<h2 class="serif text-xl font-bold text-gray-900 mt-6 mb-2">' + stage + '</h2>';
-        lastStage = stage; lastDay2 = '';
-      }
-      var k = srDay(m.d);
-      if (k !== lastDay2) {
-        html += '<h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-3 mb-2">' + dayLabel(k) + '</h3>';
-        lastDay2 = k;
-      }
-      html += wcRow(m);
-    });
-    html += '</div></details>';
-  }
-  box.innerHTML = html;
-}
-function wcSlim(e){
-  var c = e.competitions[0], h = null, a = null;
-  (c.competitors || []).forEach(function(t){
-    var tm = t.team || {};
-    var o = {n: tm.shortDisplayName || tm.displayName || '', a: tm.abbreviation || '', l: tm.logo || '',
-             s: t.score || '', p: (t.shootoutScore === '' || t.shootoutScore == null) ? null : t.shootoutScore};
-    if (t.homeAway === 'home') h = o; else a = o;
-  });
-  var st = (c.status && c.status.type) || {};
-  var ven = c.venue || {}, ad = ven.address || {};
-  return {i: e.id, d: e.date, g: (c.altGameNote || '').replace('FIFA World Cup, ', '').replace('FIFA World Cup', ''),
-          v: ven.fullName || '', c: ad.city || '', h: h, a: a,
-          st: st.shortDetail || '', sx: st.state || 'pre'};
-}
-function wcApply(events){
-  if (!events || !events.length) return;
-  var idx = {};
-  WC.forEach(function(m, i){ idx[m.i] = i; });
-  events.forEach(function(e){
-    var s = wcSlim(e);
-    if (idx[s.i] != null) WC[idx[s.i]] = s; else WC.push(s);
-  });
-  wcRender();
-}
-function wcFetch(url){
-  fetch(url).then(function(r){ return r.json(); }).then(function(d){ wcApply(d.events || []); }).catch(function(){});
-}
-function wcPoll(){
-  if (document.hidden) return;
-  var now = Date.now();
-  var active = WC.some(function(m){
-    if (m.sx === 'in') return true;
-    if (m.sx === 'pre') {
-      var t = new Date(m.d).getTime();
-      return (t - now) < 7200000 && (now - t) < 14400000;
-    }
-    return false;
-  });
-  if (!active) return;
-  function f(ms){ return new Date(ms).toISOString().slice(0, 10).replace(/-/g, ''); }
-  wcFetch(WC_API + '?dates=' + f(now - 86400000) + '-' + f(now + 86400000) + '&limit=50');
-}
-wcRender();
-wcFetch(WC_API + '?dates=20260611-20260719&limit=200');
-setInterval(wcPoll, 60000);
-document.addEventListener('visibilitychange', function(){ if (!document.hidden) wcPoll(); });
-</script>"""
-    js = _WC_JS.replace("__WC_DATA__", wc_json)
-
-    main = ('<main class="max-w-3xl mx-auto px-5 py-12 pb-24">' + body
-            + '<p class="text-gray-400 text-xs mt-8">Match data via ESPN; broadcast information from STVS '
-              'announcements, May 2026. Page updated June 2026.</p></main>')
-    return head + hero + main + js + "\n" + footer_html() + "\n</body>\n</html>"
 
 
 def build_itinerary_page():
