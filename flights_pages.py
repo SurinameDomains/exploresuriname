@@ -495,8 +495,8 @@ FL_I18N = {
         "track": "Track", "tracking": "Tracking", "notify": "Alert me", "notifyOn": "Alerts on", "share": "Share",
         "cal": "Calendar", "page": "Flight page", "airline": "Airline website",
         "pkH": "Picking someone up?", "pkFrom": "Leaving from", "pkLeave": "Leave by", "pkLeaveNow": "Leave now",
-        "pkLands": "Lands", "pkOut": "Usually out of the arrivals hall", "pkNote": "Drive times are typical, not live. Check Waze before you go.",
-        "pkWaze": "Open in Waze", "pkHere": "At the airport", "pkWait": "Usually out", "pkLanded": "Landed",
+        "pkLands": "Lands", "pkOut": "Usually out of the arrivals hall", "pkNote": "Drive times are typical, not live. Check Google Maps before you go.",
+        "pkWaze": "Open in Google Maps", "pkHere": "At the airport", "pkWait": "Usually out", "pkLanded": "Landed",
         "ciH": "Flying out?", "ciWin": "Check-in", "ciBe": "Be at the airport by", "ciNote": "Check-in times as published by the airport. Your airline has the final word.",
         "liveOk": "Live", "liveOld": "Last known", "upd": "updated {t}", "alertTitle": "{fn} update", "landedAt": "Landed {t}",
         "departedAt": "Departed {t}", "early": "{n} min early", "late": "{n} min late", "ontimeWord": "on time",
@@ -515,8 +515,8 @@ FL_I18N = {
         "track": "Volgen", "tracking": "Gevolgd", "notify": "Meldingen", "notifyOn": "Meldingen aan", "share": "Delen",
         "cal": "Agenda", "page": "Vluchtpagina", "airline": "Website maatschappij",
         "pkH": "Iemand ophalen?", "pkFrom": "Vertrek vanaf", "pkLeave": "Vertrek om", "pkLeaveNow": "Vertrek nu",
-        "pkLands": "Landt", "pkOut": "Meestal uit de aankomsthal", "pkNote": "Rijtijden zijn gemiddeld, niet live. Kijk op Waze voordat u gaat.",
-        "pkWaze": "Open in Waze", "pkHere": "Op de luchthaven", "pkWait": "Meestal buiten", "pkLanded": "Geland",
+        "pkLands": "Landt", "pkOut": "Meestal uit de aankomsthal", "pkNote": "Rijtijden zijn gemiddeld, niet live. Kijk op Google Maps voordat u gaat.",
+        "pkWaze": "Open in Google Maps", "pkHere": "Op de luchthaven", "pkWait": "Meestal buiten", "pkLanded": "Geland",
         "ciH": "Gaat u vliegen?", "ciWin": "Inchecken", "ciBe": "Wees op de luchthaven om", "ciNote": "Incheck-tijden zoals gepubliceerd door de luchthaven. Uw maatschappij beslist.",
         "liveOk": "Live", "liveOld": "Laatst bekend", "upd": "bijgewerkt {t}", "alertTitle": "Update {fn}", "landedAt": "Geland {t}",
         "departedAt": "Vertrokken {t}", "early": "{n} min te vroeg", "late": "{n} min te laat", "ontimeWord": "op tijd",
@@ -535,8 +535,8 @@ FL_I18N = {
         "track": "Seguir", "tracking": "Siguiendo", "notify": "Avisarme", "notifyOn": "Avisos activos", "share": "Compartir",
         "cal": "Calendario", "page": "Página del vuelo", "airline": "Web de la aerolínea",
         "pkH": "¿Va a recoger a alguien?", "pkFrom": "Sale desde", "pkLeave": "Salga a las", "pkLeaveNow": "Salga ya",
-        "pkLands": "Aterriza", "pkOut": "Suelen salir de llegadas", "pkNote": "Tiempos de viaje típicos, no en vivo. Consulte Waze antes de salir.",
-        "pkWaze": "Abrir en Waze", "pkHere": "En el aeropuerto", "pkWait": "Suelen salir", "pkLanded": "Aterrizó",
+        "pkLands": "Aterriza", "pkOut": "Suelen salir de llegadas", "pkNote": "Tiempos de viaje típicos, no en vivo. Consulte Google Maps antes de salir.",
+        "pkWaze": "Abrir en Google Maps", "pkHere": "En el aeropuerto", "pkWait": "Suelen salir", "pkLanded": "Aterrizó",
         "ciH": "¿Va a volar?", "ciWin": "Facturación", "ciBe": "Esté en el aeropuerto a las", "ciNote": "Horarios de facturación publicados por el aeropuerto. Su aerolínea tiene la última palabra.",
         "liveOk": "En vivo", "liveOld": "Último dato", "upd": "actualizado {t}", "alertTitle": "Novedad {fn}", "landedAt": "Aterrizó {t}",
         "departedAt": "Despegó {t}", "early": "{n} min antes", "late": "{n} min tarde", "ontimeWord": "a tiempo",
@@ -555,8 +555,8 @@ FL_I18N = {
         "track": "关注", "tracking": "已关注", "notify": "提醒我", "notifyOn": "提醒已开启", "share": "分享",
         "cal": "日历", "page": "航班页面", "airline": "航空公司网站",
         "pkH": "要去接机吗？", "pkFrom": "出发地", "pkLeave": "建议出发", "pkLeaveNow": "现在出发",
-        "pkLands": "降落", "pkOut": "旅客通常走出到达大厅", "pkNote": "车程为常规估计，非实时。出发前请查看 Waze。",
-        "pkWaze": "在 Waze 中打开", "pkHere": "已在机场", "pkWait": "通常出来", "pkLanded": "已降落",
+        "pkLands": "降落", "pkOut": "旅客通常走出到达大厅", "pkNote": "车程为常规估计，非实时。出发前请查看 Google Maps。",
+        "pkWaze": "在 Google Maps 中打开", "pkHere": "已在机场", "pkWait": "通常出来", "pkLanded": "已降落",
         "ciH": "要乘机出发？", "ciWin": "值机", "ciBe": "建议到达机场", "ciNote": "值机时间以机场公布为准，最终以航空公司为准。",
         "liveOk": "实时", "liveOld": "最近数据", "upd": "更新于{t}", "alertTitle": "{fn} 动态", "landedAt": "{t} 已降落",
         "departedAt": "{t} 已起飞", "early": "提前 {n} 分钟", "late": "晚 {n} 分钟", "ontimeWord": "准点",
@@ -575,8 +575,8 @@ FL_I18N = {
         "track": "Suivre", "tracking": "Suivi", "notify": "M’alerter", "notifyOn": "Alertes activées", "share": "Partager",
         "cal": "Agenda", "page": "Page du vol", "airline": "Site de la compagnie",
         "pkH": "Vous venez chercher quelqu’un ?", "pkFrom": "Départ de", "pkLeave": "Partez à", "pkLeaveNow": "Partez maintenant",
-        "pkLands": "Atterrit", "pkOut": "Sortie du hall d’arrivée en général", "pkNote": "Temps de trajet habituels, pas en direct. Consultez Waze avant de partir.",
-        "pkWaze": "Ouvrir dans Waze", "pkHere": "À l’aéroport", "pkWait": "Sortie en général", "pkLanded": "Atterri",
+        "pkLands": "Atterrit", "pkOut": "Sortie du hall d’arrivée en général", "pkNote": "Temps de trajet habituels, pas en direct. Consultez Google Maps avant de partir.",
+        "pkWaze": "Ouvrir dans Google Maps", "pkHere": "À l’aéroport", "pkWait": "Sortie en général", "pkLanded": "Atterri",
         "ciH": "Vous partez ?", "ciWin": "Enregistrement", "ciBe": "Soyez à l’aéroport à", "ciNote": "Horaires d’enregistrement publiés par l’aéroport. Votre compagnie a le dernier mot.",
         "liveOk": "En direct", "liveOld": "Dernières données", "upd": "mis à jour {t}", "alertTitle": "Mise à jour {fn}", "landedAt": "Atterri à {t}",
         "departedAt": "Décollé à {t}", "early": "{n} min d’avance", "late": "{n} min de retard", "ontimeWord": "à l’heure",
@@ -595,8 +595,8 @@ FL_I18N = {
         "track": "Acompanhar", "tracking": "Acompanhando", "notify": "Avisar", "notifyOn": "Avisos ligados", "share": "Compartilhar",
         "cal": "Agenda", "page": "Página do voo", "airline": "Site da companhia",
         "pkH": "Vai buscar alguém?", "pkFrom": "Saindo de", "pkLeave": "Saia às", "pkLeaveNow": "Saia agora",
-        "pkLands": "Pousa", "pkOut": "Costumam sair do desembarque", "pkNote": "Tempos de viagem típicos, não ao vivo. Confira o Waze antes de sair.",
-        "pkWaze": "Abrir no Waze", "pkHere": "No aeroporto", "pkWait": "Costumam sair", "pkLanded": "Pousou",
+        "pkLands": "Pousa", "pkOut": "Costumam sair do desembarque", "pkNote": "Tempos de viagem típicos, não ao vivo. Confira o Google Maps antes de sair.",
+        "pkWaze": "Abrir no Google Maps", "pkHere": "No aeroporto", "pkWait": "Costumam sair", "pkLanded": "Pousou",
         "ciH": "Vai embarcar?", "ciWin": "Check-in", "ciBe": "Esteja no aeroporto às", "ciNote": "Horários de check-in publicados pelo aeroporto. A companhia aérea tem a palavra final.",
         "liveOk": "Ao vivo", "liveOld": "Último dado", "upd": "atualizado {t}", "alertTitle": "Atualização {fn}", "landedAt": "Pousou às {t}",
         "departedAt": "Decolou às {t}", "early": "{n} min adiantado", "late": "{n} min atrasado", "ontimeWord": "no horário",
@@ -729,7 +729,7 @@ function driveMin(ap,id){var L=driveList(ap);for(var i=0;i<L.length;i++)if(L[i][
 function exitWin(r){var big=r.oi==='AMS'||/777|787|A330|A350|747|767|A340/.test(r.ac||'');if(r.ap==='EAX')return[10,25];return big?[30,60]:[20,40];}
 function pickupHtml(r,n){if(r.st==='cancelled')return'';var L=driveList(r.ap);if(!L.length)return'';
   return '<div class="pk" data-pk="1"><h4>'+esc(tr('pkH'))+'</h4><label>'+esc(tr('pkFrom'))+' '+placeSel(r.ap,'pk-from')+'</label><p class="res" aria-live="polite">'+pickupRes(r,n)+'</p>'+
-   '<p class="note">'+esc(tr('pkNote'))+'</p><p style="margin:.5rem 0 0"><a class="fbtn" target="_blank" rel="noopener" href="https://waze.com/ul?ll='+(CFG.coords||{})[r.ap]+'&navigate=yes">'+esc(tr('pkWaze'))+' ↗</a></p></div>';}
+   '<p class="note">'+esc(tr('pkNote'))+'</p><p style="margin:.5rem 0 0"><a class="fbtn" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+(CFG.coords||{})[r.ap]+'">'+esc(tr('pkWaze'))+' ↗</a></p></div>';}
 function pickupRes(r,n,from){var cur=from||lsGet('fl-from-'+r.ap,(driveList(r.ap)[0]||[''])[0]);var land=r.a||r.e||r.s,w=exitWin(r),dm=driveMin(r.ap,cur);
   var outA=land+w[0]*60,outB=land+w[1]*60,leave=outA-dm*60;
   var s='<span>'+esc(r.a?tr('pkLanded'):tr('pkLands'))+'</span> <b translate="no">'+hm(land)+'</b> · <span>'+esc(tr('pkOut'))+'</span> <b translate="no">'+hm(outA)+'–'+hm(outB)+'</b>';
@@ -978,7 +978,7 @@ def build_board(ctx, c):
         ("What time should I leave to pick someone up at Johan Adolf Pengel airport?",
          "Open the arriving flight on this page and choose where you leave from. The pickup helper adds the usual time it takes "
          "to get through immigration and baggage claim and the typical drive to the airport, and tells you when to leave. "
-         "Check Waze for the live traffic picture before you go."),
+         "Check Google Maps for live traffic before you go."),
         ("When does check-in open at Johan Adolf Pengel airport?",
          "According to the airport, check-in for flights to Amsterdam opens five hours and closes two hours before departure. "
          "For all regional flights it opens three hours and closes two hours before departure. Your airline has the final word."),

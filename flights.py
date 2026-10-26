@@ -119,7 +119,7 @@ CITY = {
 }
 
 # Typical drive times TO the airports (minutes, normal traffic). Rough by
-# design: the page always says "about" and links Waze for the live figure.
+# design: the page always says "about" and links Google Maps for the live figure.
 DRIVE = {
     "PBM": [("pmb", "Paramaribo centre", 55), ("noord", "Paramaribo Noord", 60),
             ("lely", "Lelydorp", 25), ("meer", "Meerzorg / Commewijne", 65), ("here", "At the airport", 0)],

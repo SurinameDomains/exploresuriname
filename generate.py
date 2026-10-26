@@ -31076,11 +31076,10 @@ def _atm_render_card(a):
         f'<h3 class="font-bold text-gray-900 leading-snug">{name}</h3>'
         f'<p class="text-sm text-gray-500 mb-3">{line}{m_txt}<span class="atm-dist"></span></p>'
         f'<div class="flex flex-wrap gap-1.5 mb-3">{_atm_card_pills(a["cards"])}</div>'
-        f'<div class="atm-links"><a href="{gmap}" target="_blank" rel="noopener" class="atm-dir">'
+        f'<div class="atm-links"><a href="{gmap}" target="_blank" rel="noopener" class="atm-dir" translate="no">'
         f'<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">'
         f'<path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>'
-        f'Directions</a>'
-        + (f'<a href="https://waze.com/ul?ll={lat_a},{lng_a}&amp;navigate=yes" target="_blank" rel="noopener" class="atm-dir atm-waze" translate="no">Waze</a>' if has_co else '')
+        f'Google Maps</a>'
         + '</div></div>'
     )
 
@@ -31118,11 +31117,10 @@ def _atm_ref_card(a, net, net_col, cards):
         f'<h3 class="font-bold text-gray-900 leading-snug">{name}</h3>'
         f'<p class="text-sm text-gray-500 mb-3">{addr} &middot; {dist or "Suriname"}</p>'
         f'<div class="flex flex-wrap gap-1.5 mb-3">{_atm_card_pills(cards)}</div>'
-        f'<div class="atm-links"><a href="{gmap}" target="_blank" rel="noopener" class="atm-dir">'
+        f'<div class="atm-links"><a href="{gmap}" target="_blank" rel="noopener" class="atm-dir" translate="no">'
         '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">'
         '<path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>'
-        'Directions</a>'
-        + (f'<a href="https://waze.com/ul?ll={a["lat"]},{a["lng"]}&amp;navigate=yes" target="_blank" rel="noopener" class="atm-dir atm-waze" translate="no">Waze</a>' if a["lat"] is not None else '')
+        'Google Maps</a>'
         + '</div></div>'
     )
 
@@ -31407,7 +31405,6 @@ def build_atms_page(atms, meta, ref=None):
 .atm-card-pill{font-size:.66rem;font-weight:600;color:var(--pc);border:1px solid var(--pc);border-radius:999px;padding:2px 8px;opacity:.9}
 .atm-links{margin-top:auto;display:flex;gap:1rem;align-items:center}
 .atm-dir{display:inline-flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;color:var(--forest2)}
-.atm-waze{color:#0b7fb5}
 #atm-nearest{background:var(--forest);color:#fff;border-radius:var(--r-card,6px);padding:.9rem 1rem;margin:0 0 .9rem;box-shadow:var(--sh-card)}
 #atm-nearest[hidden]{display:none}
 #atm-nearest .k{font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
@@ -31415,7 +31412,6 @@ def build_atms_page(atms, meta, ref=None):
 #atm-nearest p{margin:0;font-size:.85rem;opacity:.85}
 #atm-nearest .bt{display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap}
 #atm-nearest .bt a{background:#fff;color:var(--forest);font-weight:700;font-size:.82rem;border-radius:999px;padding:.45rem .9rem}
-#atm-nearest .bt a.wz{background:#33ccff;color:#06283d}
 .atm-dir:hover{text-decoration:underline}
 .atm-dist{font-size:.72rem;font-weight:700;color:var(--forest2);margin-left:6px}
 .atm-mx{text-align:center;padding:12px 6px;vertical-align:middle}
@@ -31534,8 +31530,7 @@ def build_atms_page(atms, meta, ref=None):
       var nm=(best.querySelector('h3')||{}).textContent||'', net=best.getAttribute('data-net');
       nb.innerHTML='<span class="k">'+L[0]+'</span><h3 translate="no">'+nm.replace(/[<&]/g,'')+'</h3>'
         +'<p><span translate="no">'+net+'</span> &middot; '+(d<1?Math.round(d*1000)+' m':d.toFixed(1)+' km')+' '+L[1]+'</p>'
-        +'<div class="bt"><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+la+','+ln+'">'+L[2]+'</a>'
-        +'<a class="wz" target="_blank" rel="noopener" translate="no" href="https://waze.com/ul?ll='+la+','+ln+'&navigate=yes">Waze</a></div>';
+        +'<div class="bt"><a target="_blank" rel="noopener" translate="no" href="https://www.google.com/maps/dir/?api=1&destination='+la+','+ln+'">Google Maps</a></div>';
       nb.hidden=false;
     }
   }
@@ -31583,7 +31578,7 @@ def build_atms_page(atms, meta, ref=None):
         +'<div style="font-weight:700;margin:5px 0 2px">'+a.name+'</div>'
         +'<div style="font-size:.75rem;color:#6b7280;margin-bottom:5px">'+(a.district||'')
         +' &middot; '+(a.status==="online"?"Open":"Out of order")+'</div>'
-        +'<a class="atm-pop-dir" target="_blank" rel="noopener" href="'+g+'">Directions &rarr;</a>');
+        +'<a class="atm-pop-dir" target="_blank" rel="noopener" translate="no" href="'+g+'">Google Maps &rarr;</a>');
       m.addTo(window._atmMap); markers.push(m);
     });
     // reference (other-bank) markers only when no specific live network is chosen
@@ -31595,13 +31590,13 @@ def build_atms_page(atms, meta, ref=None):
         m.bindPopup('<span class="atm-pop-net" style="background:'+({"Republic Bank":"#1D4ED8","Hakrinbank":"#0e7490","Finabank":"#b45309","SPSB":"#7c3aed","VCB Bank":"#0f766e","GODO":"#a16207"}[a.net]||"#6b7280")+'">'+a.net+'</span>'
           +'<div style="font-weight:700;margin:5px 0 2px">'+a.name+'</div>'
           +'<div style="font-size:.72rem;color:#6b7280;margin-bottom:5px">'+a.address+' &middot; approximate, no live status</div>'
-          +'<a class="atm-pop-dir" target="_blank" rel="noopener" href="'+g+'">Directions &rarr;</a>');
+          +'<a class="atm-pop-dir" target="_blank" rel="noopener" translate="no" href="'+g+'">Google Maps &rarr;</a>');
         m.addTo(window._atmMap); markers.push(m);
       });
     }
   }
   function initMap(){
-    if(window._atmMap||!mapEl) return;
+    if(window._atmMap||window._atmMapLoading||!mapEl) return; window._atmMapLoading=true;
     var css=document.createElement('link'); css.rel="stylesheet";
     css.href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
     document.head.appendChild(css);
