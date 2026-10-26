@@ -118,6 +118,19 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/atms"/>
   </url>
   <url>
+    <loc>https://exploresuriname.com/gas-cylinders</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://exploresuriname.com/gas-cylinders"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://exploresuriname.com/nl/gas-cylinders"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://exploresuriname.com/es/gas-cylinders"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://exploresuriname.com/zh/gas-cylinders"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://exploresuriname.com/fr/gas-cylinders"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://exploresuriname.com/pt/gas-cylinders"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://exploresuriname.com/gas-cylinders"/>
+  </url>
+  <url>
     <loc>https://exploresuriname.com/conditions</loc>
     <lastmod>2026-10-26</lastmod>
     <changefreq>daily</changefreq>
