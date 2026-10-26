@@ -32201,7 +32201,6 @@ _GAS_CSS = r'''
 #gas-nearest p{margin:0;font-size:.85rem;opacity:.85}
 #gas-nearest .bt{display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap}
 #gas-nearest .bt a{background:#fff;color:var(--forest);font-weight:700;font-size:.82rem;border-radius:999px;padding:.45rem .9rem}
-#gas-nearest .bt a.wz{background:#33ccff;color:#06283d}
 .gas-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:.6rem}
 @media(min-width:640px){.gas-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(min-width:1000px){.gas-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
@@ -32213,7 +32212,6 @@ _GAS_CSS = r'''
 .gas-pt .dk{font-size:.72rem;font-weight:700;color:var(--forest2);margin-left:.35rem;white-space:nowrap}
 .gas-ln{display:flex;flex-wrap:wrap;gap:.35rem 1rem;margin-top:auto;padding-top:.55rem;font-size:.8rem;font-weight:600}
 .gas-ln a{color:var(--forest2)}
-.gas-ln a.wz{color:#0b7fb5}
 .gas-ln a:hover{text-decoration:underline}
 .gas-tel{color:var(--forest2);font-weight:600}
 .gas-ph{display:inline-flex;align-items:center;gap:.35rem;white-space:nowrap}
@@ -32311,8 +32309,7 @@ _GAS_JS = r'''
     var nm=(b.querySelector('h3')||{}).textContent||'', ad=(b.querySelector('.ad .ax')||{}).textContent||'';
     var tel=b.getAttribute('data-t');
     nb.innerHTML='<span class="k">'+T.k+'</span><h3 translate="no"></h3><p><span translate="no" class="a"></span> · '+km(b._d)+(T.away?' '+T.away:'')+'</p>'
-      +'<div class="bt"><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+la+','+ln+'">'+T.dir+'</a>'
-      +'<a class="wz" target="_blank" rel="noopener" translate="no" href="https://waze.com/ul?ll='+la+','+ln+'&navigate=yes">Waze</a>'
+      +'<div class="bt"><a target="_blank" rel="noopener" translate="no" href="https://www.google.com/maps/dir/?api=1&destination='+la+','+ln+'">Google Maps</a>'
       +(tel?'<a translate="no" href="tel:+597'+tel+'">'+tel.slice(0,3)+'-'+tel.slice(3)+'</a>':'')+'</div>';
     nb.querySelector('h3').textContent=nm; nb.querySelector('.a').textContent=ad;
     nb.hidden=false;
@@ -32351,7 +32348,7 @@ _GAS_JS = r'''
       var m=window.L.circleMarker([p[2],p[3]],{radius:6,color:'#fff',weight:1.5,fillColor:'#C0392B',fillOpacity:.95});
       m.bindPopup('<div translate="no" style="font-weight:700;margin-bottom:2px">'+esc(p[0])+'</div>'
         +'<div translate="no" style="font-size:.75rem;color:#6b7280;margin-bottom:5px">'+esc(p[1])+'</div>'
-        +'<a class="gas-pop-dir" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+p[2]+','+p[3]+'">'+T.dir+' &rarr;</a>');
+        +'<a class="gas-pop-dir" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+p[2]+','+p[3]+'" translate="no">Google Maps &rarr;</a>');
       layer.addLayer(m);});
     layer.addTo(map);
   }
@@ -32459,7 +32456,6 @@ def build_gas_page(points_data, info):
         s = unicodedata.normalize("NFD", s.lower())
         s = "".join(ch for ch in s if unicodedata.category(ch) != "Mn")
         g = f"https://www.google.com/maps/dir/?api=1&amp;destination={p['lat']},{p['lng']}"
-        w = f"https://waze.com/ul?ll={p['lat']},{p['lng']}&amp;navigate=yes"
         items += (
             f'<li class="gas-pt" data-i="{i}" data-d="{esc(p["d"])}" data-s="{esc(s)}" '
             f'data-lat="{p["lat"]}" data-lng="{p["lng"]}" data-t="{p["t"]}"{" hidden" if i >= 12 else ""}>'
@@ -32468,8 +32464,7 @@ def build_gas_page(points_data, info):
             f'<span class="dk" translate="no"></span></p>'
             + (f'<p class="hn" translate="no">{esc(p["h"])}</p>' if p["h"] else "")
             + '<div class="gas-ln">'
-            f'<a href="{g}" target="_blank" rel="noopener">Directions</a>'
-            f'<a class="wz" href="{w}" target="_blank" rel="noopener" translate="no">Waze</a>'
+            f'<a href="{g}" target="_blank" rel="noopener" translate="no">Google Maps</a>'
             + (_gas_phone_html(p["t"]) if p["t"] else "")
             + '</div></li>')
     np_html = ""
