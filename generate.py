@@ -4680,6 +4680,7 @@ _SI_LIST = [
     {"n": "Daily Notices: Pharmacies, Outages, Cinema", "u": "daily-notices.html", "c": "Guides", "a": "Suriname"},
     {"n": "Flights: PBM Arrivals and Departures", "u": "flights.html", "c": "Guides", "a": "Suriname"},
     {"n": "ATM Finder: Live Status & Which Cards Work", "u": "atms.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Gas Cylinder Finder: Refill Points & Prices", "u": "gas-cylinders.html", "c": "Guides", "a": "Suriname"},
     {"n": "Weather and Tides: 7-Day Forecast", "u": "conditions.html", "c": "Guides", "a": "Suriname"},
     {"n": "Suriname News: Oil, Gas and Finance", "u": "news.html", "c": "Guides", "a": "Suriname"},
     {"n": "Suriname Oil & Gas: Overview", "u": "oil-and-gas.html", "c": "Guides", "a": "Suriname"},
@@ -4772,6 +4773,9 @@ _GUIDE_KW = {
  "daily-notices.html":      "pharmacy pharmacies on call outage water power cinema movies apotheek dienstdoende stroomstoring waterstoring bioscoop films",
  "flights.html":            "flights arrivals departures airport pbm eax zanderij zorg en hoop flight status delay delayed landed klm slm copa gol pickup check-in vluchten aankomst vertrek vliegveld vertraging vertraagd geland ophalen inchecken",
  "atms.html":               "atm atms cash machine withdraw card geldautomaat pinautomaat pinnen geld opnemen bank",
+ "gas-cylinders.html":      "gas cylinder cylinders cooking gas lpg propane refill bottle bottles gasbom gasbommen gasfles gasflessen "
+                            "gascilinder gascilinders gas cilinder kookgas ogane ebs gas hervullen gas bestellen gasprijs "
+                            "gasprijzen gas prijs 20 lbs 28 lbs 40 lbs 100 lbs composiet verkooppunten",
  "conditions.html":         "weather forecast rain tides temperature uv weer regen getijden temperatuur",
  "news.html":               "news oil gas finance headlines nieuws olie",
  "oil-and-gas.html":        "oil gas petroleum offshore staatsolie granmorgu block 58 first oil 2028 energy "
@@ -7491,7 +7495,7 @@ def nav_html(active="home", prefix=""):
     _EXPLORE = (_EXPL | _EAT) - {"events"}
     _PLAN  = {"visitor", "itinerary", "safety", "roads", "entry", "customs", "health", "getaround", "besttime"}
     # Flights moved Plan -> Live on 20 Oct 2026 (live board, flights.py)
-    _LIVE  = {"currency", "flights", "forecast", "daily-notices", "atms", "matches", "surtime"}
+    _LIVE  = {"currency", "flights", "forecast", "daily-notices", "atms", "gas", "matches", "surtime"}
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto", "busjam"}
     _OILG  = {"oilgas", "oilblocks", "granmorgu", "oiltimeline", "oilcontracts",
               "oilgov", "oiljobs"}
@@ -7604,6 +7608,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}conditions.html"     {_link_cls("forecast")}      >Weather &amp; Tides</a>'
         f'<a href="{prefix}daily-notices.html"  {_link_cls("daily-notices")} >Daily Notices</a>'
         f'<a href="{prefix}atms.html"           {_link_cls("atms")}          >ATM Finder</a>'
+        f'<a href="{prefix}gas-cylinders.html"  {_link_cls("gas")}           >Gas Cylinders</a>'
         f'<a href="{prefix}matches.html"        {_link_cls("matches")}       >Live Scores</a>'
         f'<a href="{prefix}suriname-time.html"  {_link_cls("surtime")}       >Time &amp; Converter</a>'
     )
@@ -7700,6 +7705,7 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}conditions.html",    "Weather & Tides",  "forecast")      +
         _mob_link(f"{prefix}daily-notices.html", "Daily Notices",    "daily-notices") +
         _mob_link(f"{prefix}atms.html",          "ATM Finder",       "atms")          +
+        _mob_link(f"{prefix}gas-cylinders.html", "Gas Cylinders",    "gas")           +
         _mob_link(f"{prefix}matches.html",       "Live Scores",      "matches")       +
         _mob_link(f"{prefix}suriname-time.html", "Time & Converter", "surtime")
     )
@@ -7965,6 +7971,7 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}conditions.html">Weather &amp; Tides</a>
         <a class="ftr-lnk" href="{prefix}daily-notices.html">Daily Notices</a>
         <a class="ftr-lnk" href="{prefix}atms.html">ATM Finder</a>
+        <a class="ftr-lnk" href="{prefix}gas-cylinders.html">Gas Cylinders</a>
         <a class="ftr-lnk" href="{prefix}matches.html">Live Scores</a>
         <a class="ftr-lnk" href="{prefix}suriname-time.html">Time &amp; Converter</a>
         <a class="ftr-lnk" href="{prefix}news.html">News</a>
@@ -14017,6 +14024,16 @@ def build_today_page():
     </div>
 
   </div><!-- /grid -->
+
+  <!-- Gas Cylinder Finder link (26 Oct 2026) -->
+  <a href="gas-cylinders.html" class="dn-gas">
+    <span class="dn-gas-t">Cooking gas</span>
+    <span class="dn-gas-s">Nearest sale point for 20 and 28 lbs cylinders, refill prices and Ogane delivery days</span>
+    <span class="dn-gas-a" aria-hidden="true">&rarr;</span>
+  </a>
+  <style>.dn-gas{{display:grid;grid-template-columns:1fr auto;column-gap:1rem;align-items:center;margin-top:1.25rem;padding:1rem 1.15rem;background:var(--card);border:1px solid var(--bd-card);border-radius:var(--r-card);box-shadow:var(--sh-card);color:var(--ink)}}
+  .dn-gas:hover{{border-color:var(--forest2)}}.dn-gas-t{{font-weight:700;color:var(--forest)}}.dn-gas-s{{grid-column:1;font-size:.85rem;color:var(--ink-soft)}}
+  .dn-gas-a{{grid-column:2;grid-row:1/3;font-size:1.2rem;color:var(--forest2)}}</style>
 
   <!-- source attribution -->
   <p class="text-center text-gray-300 text-xs mt-10">
@@ -29176,6 +29193,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("currency.html",   "0.9", "daily"),
         ("flights.html",    "0.8", "daily"),
         ("atms.html",       "0.8", "daily"),
+        ("gas-cylinders.html", "0.7", "weekly"),
         ("conditions.html", "0.8", "daily"),
         ("visitor-guide.html","0.8", "monthly"),
         ("on-the-road.html", "0.7", "monthly"),
@@ -29318,6 +29336,7 @@ def build_llms_txt():
 - [Flights]({S}/flights.html): arrivals and departures for Johan Adolf Pengel International (PBM) and Eduard Alexander Gummels (EAX) airports.
 - [Weather and Tides]({S}/conditions.html): seven-day district forecasts, river tidal predictions and sunrise and sunset times.
 - [Daily Notices]({S}/daily-notices.html): on-call pharmacies, power and water outage notices, and cinema showtimes.
+- [Gas Cylinder Finder]({S}/gas-cylinders): the nearest Ogane sale points to swap a 20 or 28 lbs cooking gas cylinder (map and nearest-to-me), the official refill prices, and how to order 40 and 100 lbs cylinders with delivery days per neighbourhood.
 - [ATM Finder]({S}/atms.html): every ATM in Suriname on a map with live up/down status where the bank publishes it, plus which cards each machine accepts (BNETS, Mastercard, Visa, foreign cards).
 - [Live Scores]({S}/matches.html): live scores and fixtures in Suriname time (UTC-3): Natio Suriname internationals (men, women, youth), the Suriname Major League with results and the official table, the Concacaf Caribbean Cup, Oranje and Brazil, world football (Champions League, Premier League, Eredivisie, World Cup when it runs and more), NBA games, India and West Indies cricket, Formula 1 and fight nights (UFC, Glory Kickboxing, boxing), plus recent results.
 - [Suriname Time and World Clock]({S}/suriname-time.html): current Suriname time (UTC-3, no daylight saving), a live world-clock band and a two-way time-zone converter with a Netherlands call-overlap helper.
@@ -31765,6 +31784,851 @@ def _atm_geocode_reference():
     return out
 
 
+# ── Gas Cylinder Finder (26 Oct 2026) ────────────────────────────────────────
+# /gas-cylinders: where to swap a 20/28 lbs cooking-gas cylinder (Ogane, the gas
+# arm of EBS), the official refill prices and how 40/100 lbs cylinders are
+# ordered and delivered. Live menu, next to the ATM Finder.
+#   Sale points: EBS's ArcGIS feature layer behind its "Gas verkooppunten" map
+#                (public, ~250 points with coordinates).
+#   Prices:      the "Tarieven voor hervullen" table on nvebs.com/gas/gas-hervullen.
+# Both are refreshed at most every _GAS_REFRESH_H hours and kept as last-good
+# copies in data/gas_points.json and data/gas_info.json (committed with data/).
+# A failed or implausible fetch never empties the page: the copy (or, for the
+# prices, the baked _GAS_PRICE_DEFAULT) is used instead. Never fatal.
+# Delivery days and weekend depots are hand-copied from the same EBS page
+# (checked 26 Oct 2026): re-check them when EBS changes the page.
+GAS_LAYER = ("https://services1.arcgis.com/dDudzGKePBka4Y2c/arcgis/rest/services/"
+             "Ogane_Verkoop_Locaties_090516/FeatureServer/0")
+GAS_EBS_PAGE = "https://nvebs.com/gas/gas-hervullen"
+GAS_EBS_MAP = ("https://ebs-suriname.maps.arcgis.com/apps/webappviewer/index.html"
+               "?id=661068be274e45d1a42fc2906c53fce4")
+_GAS_REFRESH_H = 12
+# key, label, weight; prices as published 1 Sep 2026 (incl. 5% VAT)
+_GAS_SIZES = [("20", "20 lbs", "9.1 kg"), ("28", "28 lbs", "12.7 kg"), ("40", "40 lbs", "18.1 kg"),
+              ("100", "100 lbs", "45.4 kg"), ("c10", "Composite 10 kg", "10 kg"),
+              ("c14", "Composite 14 kg", "14 kg"), ("c22", "Composite 22 kg", "22 kg")]
+_GAS_PRICE_DEFAULT = {"as_of": "2026-09-01",
+                      "prices": {"20": 387.70, "28": 535.00, "40": 735.00, "100": 1847.43,
+                                 "c10": 420.00, "c14": 556.50, "c22": 924.00}}
+_GAS_DISTRICTS = ["Paramaribo", "Wanica", "Commewijne", "Para", "Saramacca", "Marowijne",
+                  "Brokopondo", "Coronie", "Nickerie", "Sipaliwini"]
+# EBS's printed list (PDF on the same page) has three sale points in Coronie that
+# the map lacks. Shown without a pin, only while the map has none in Coronie.
+_GAS_NO_PIN = [("Tjon A Loi", "Voorstraat 4", "Coronie"),
+               ("Dipopawiro", "Belladrum", "Coronie"),
+               ("Riedewald/Blackson", "Ingikondre", "Coronie")]
+# Ogane delivery days for 40/100 lbs cylinders (EBS page, 26 Oct 2026). Place
+# names stay Dutch (translate="no"); 1 = Monday.
+_GAS_DELIVERY = [
+    (1, "Monday", "Combe en omgeving; Rainville en omgeving; Kwatta omgeving Rens, Beniespark 1 en A.Z.; "
+                  "Brokopondolaan en omgeving; Land van Dijk; Dijkveld en omgeving"),
+    (2, "Tuesday", "Magentaweg en omgeving t/m Comm. Weytingweg; J.A. Pengelstraat; H. Arronstraat; Kerkplein; "
+                   "Anton Drachtenweg; Blauwgrond t/m Leonsberg; Beniespark 2; Munder; De Boerbuiten; Stolkbuiten; "
+                   "omgeving Memre Boekoe Kazerne; Uitvlugt; 2e Rijweg en Abrabrokie"),
+    (3, "Wednesday", "Centrum, Spanhoek tot Saramaccastraat; Flamingopark; Mon Plaisir; Charlesburg; "
+                     "Oude Bloemendaal; Zorg en Hoop; Joh. Mungrastraat en omgeving; Beekhuizen; Saron; "
+                     "Indira Gandhiweg t/m Welgedacht A"),
+    (4, "Thursday", "Nw. Weergevondenweg; Boma; Koewarasan; Molenpad t/m Burenstraat; Maretraite 2-3-4; "
+                    "Tourtonne 1-2-3; Anniestraat; Gonggrijpstraat; Corantijnstraat; Marowijne Project; Duisburg; "
+                    "Kasabaholo; Doekhie-Project; Martin Luther Kingweg links \u2013 Houttuin"),
+    (5, "Friday", "Van Idsingastraat; J.A. Pengelstraat; Tourtonne 4-5-6; Maretraite 1; Floraproject; "
+                  "Via Bellalaan; Kwatta \u2013 Welgelegen; Martin Luther Kingweg rechts; Latour; Leidingen; "
+                  "Kwattaweg vanaf Weg naar Zee tot Garnizoenspad; Mattonshoop"),
+]
+# Weekend 100 lbs sale: depot holder, phones, area (EBS page, 26 Oct 2026)
+_GAS_WEEKEND = [("Geerlings", ["7120804", "8772961"], "Uitvlugt"),
+                ("Sadloe", ["8514177", "8916887"], "Centrum en Noord"),
+                ("Dihal", ["8628105"], "Kwatta: Garnizoenspad \u2013 Weg naar Zee"),
+                ("Rasoelbaks", ["8800150", "0339475"], "Leidingen en Nieuw Weergevondenweg")]
+_GAS_ORDER_WA = "8576093"
+_GAS_NL_MON = {"januari": 1, "februari": 2, "maart": 3, "april": 4, "mei": 5, "juni": 6, "juli": 7,
+               "augustus": 8, "september": 9, "oktober": 10, "november": 11, "december": 12}
+
+
+def _gas_num(s):
+    """'1,847.43' / '1.847,43' / '735.00' / '387,70' / '387,7' / '1.847' -> float."""
+    s = (s or "").strip().rstrip(".,-")
+    if "," in s and "." in s:
+        s = s.replace(",", "") if s.rfind(".") > s.rfind(",") else s.replace(".", "").replace(",", ".")
+    elif "," in s:
+        # one or two digits after the comma = decimals, three = thousands
+        s = s.replace(",", ".") if len(s.split(",")[-1]) in (1, 2) else s.replace(",", "")
+    elif s.count(".") == 1 and len(s.split(".")[-1]) == 3:
+        s = s.replace(".", "")          # "1.847" = 1847 (Dutch thousands), never 1.847
+    return float(s)
+
+
+def _gas_read(path):
+    try:
+        d = json.loads(Path(path).read_text(encoding="utf-8"))
+        return d if isinstance(d, dict) else None
+    except Exception:
+        return None
+
+
+def _gas_write(path, obj, **kw):
+    """Atomic write: a killed run never leaves a half-written cache."""
+    try:
+        tmp = Path(str(path) + ".tmp")
+        tmp.write_text(json.dumps(obj, ensure_ascii=False, **kw), encoding="utf-8")
+        os.replace(tmp, path)
+    except Exception as e:
+        print(f"  gas cache write error {path}: {e}")
+
+
+def _gas_fresh(d):
+    try:
+        t = datetime.fromisoformat(str(d["checked"]).replace("Z", "+00:00"))
+        age = (datetime.now(timezone.utc) - t).total_seconds()
+        return 0 <= age < _GAS_REFRESH_H * 3600
+    except Exception:
+        return False
+
+
+def _gas_backoff(path, good):
+    """After a failed refresh, try again in about an hour instead of every 15-minute build."""
+    if good:
+        good = dict(good)
+        good["checked"] = (datetime.now(timezone.utc) - timedelta(hours=_GAS_REFRESH_H - 1)
+                           ).isoformat(timespec="seconds")
+        _gas_write(path, good, **({"indent": 1} if "prices" in good else {"separators": (",", ":")}))
+
+
+def _gas_prices_ok(p):
+    """A price dict the page can render: all sizes, numbers, sensible and ordered."""
+    try:
+        v = {k: float(p[k]) for k, _, _ in _GAS_SIZES}
+    except Exception:
+        return None
+    if not all(50 <= x <= 20000 for x in v.values()):
+        return None
+    if not (v["20"] < v["28"] < v["40"] < v["100"] and v["c10"] < v["c14"] < v["c22"]):
+        return None
+    return v
+
+
+def _gas_parse_prices(raw):
+    """EBS gas page -> {"as_of": "YYYY-MM-DD" or "", "prices": {...}} or raise.
+    Reads only the "Tarieven voor hervullen" block (up to the next heading), one SRD
+    amount per size; a repeated size or a second amount in a row is a format change."""
+    t = html_lib.unescape(re.sub(r"<[^>]+>", " ", re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", raw)))
+    t = re.sub(r"\s+", " ", t)
+    i = t.find("Tarieven voor hervullen", max(t.find("Weekendverkoop"), 0))
+    if i < 0:
+        raise ValueError("price table not found")
+    end = t.find("Gas Verkooppunten", i)
+    seg = t[i:end if end > i else i + 1200]
+    rows = list(re.finditer(r"(?:(\d+)\s*lbs|COMPOSIET)\s*\(\s*([\d.,]+)\s*kg\s*\)", seg, re.I))
+    out = {}
+    for j, m in enumerate(rows):
+        key = m.group(1) if m.group(1) else "c" + str(int(round(_gas_num(m.group(2)))))
+        cell = seg[m.end():rows[j + 1].start() if j + 1 < len(rows) else len(seg)]
+        amounts = re.findall(r"SRD\s*([\d.,]+\d)", cell)
+        if len(amounts) != 1:
+            raise ValueError(f"{key}: expected one price, found {len(amounts)}")
+        if key in out:
+            raise ValueError(f"size {key} listed twice")
+        out[key] = _gas_num(amounts[0])
+    v = _gas_prices_ok(out)
+    if not v:
+        raise ValueError(f"incomplete or implausible table {out}")
+    as_of = ""
+    m = re.search(r"Gasprijzen (?:per|vanaf|m\.?\s?i\.?\s?v\.?|ingaande|geldig vanaf) (\d{1,2}) ([A-Za-z]+) (\d{4})",
+                  seg, re.I)
+    if m and m.group(2).lower() in _GAS_NL_MON and 1 <= int(m.group(1)) <= 31:
+        as_of = f"{int(m.group(3)):04d}-{_GAS_NL_MON[m.group(2).lower()]:02d}-{int(m.group(1)):02d}"
+    return {"as_of": as_of, "prices": v}
+
+
+def fetch_gas_info():
+    """Refill prices: last good copy, refreshed from nvebs.com every _GAS_REFRESH_H h."""
+    path = Path("data/gas_info.json")
+    cached = _gas_read(path)
+    good = None
+    if cached and _gas_prices_ok(cached.get("prices")):
+        good = {"as_of": str(cached.get("as_of") or ""), "prices": _gas_prices_ok(cached["prices"]),
+                "checked": cached.get("checked", "")}
+    if good and _gas_fresh(good):
+        return good
+    try:
+        new = _gas_parse_prices(_bank_http_get(GAS_EBS_PAGE, timeout=20))
+        base = (good or _GAS_PRICE_DEFAULT)["prices"]
+        # a jump of more than x2 either way is a parse error, not a price change
+        for k, v in new["prices"].items():
+            if not (0.5 <= v / float(base[k]) <= 2.0):
+                raise ValueError(f"implausible change for {k}: {base[k]} -> {v}")
+        if not new["as_of"]:
+            # no date on the page: keep the old date only while the prices are the same
+            same = all(abs(new["prices"][k] - float(base[k])) < 0.005 for k in new["prices"])
+            new["as_of"] = (good or _GAS_PRICE_DEFAULT)["as_of"] if same else ""
+        new["checked"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        _gas_write(path, new, indent=1)
+        print(f"  Gas prices: live ({new['as_of'] or 'no date'})")
+        return new
+    except Exception as e:
+        print(f"  Gas prices: using last known ({e})")
+        _gas_backoff(path, good)
+        return good or {"as_of": _GAS_PRICE_DEFAULT["as_of"], "prices": dict(_GAS_PRICE_DEFAULT["prices"])}
+
+
+_GAS_LINKW = {"en", "van", "de", "der", "den", "het", "naar", "tot", "t/m", "op", "aan", "bij", "in", "et",
+              "langs", "t", "'t", "’t"}
+_GAS_UPPER = {"hk", "nv", "n.v."}
+# EBS labels a few interior points with the wrong district (checked on the map, Oct 2026):
+# (pattern on name/address/hint, only below this latitude or None, district)
+_GAS_DIST_FIX = [(re.compile(r"\bpowakka\b", re.I), None, "Para"),
+                 (re.compile(r"\b(atjoni|pokigron)\b", re.I), 4.7, "Sipaliwini")]
+
+
+def _gas_tc(s, place=False):
+    """Title-case EBS's ALL-CAPS names/addresses; keep initials (V.S., O.R)."""
+    s = (s or "").replace("#", " ").replace("_", " ")
+    s = re.sub(r"\s+", " ", s).strip(" ,;")
+    s = re.sub(r"\s*,\s*", ", ", s).strip(" ,")
+    s = re.sub(r"\s*/\s*", "/", s)
+    s = re.sub(r"\s+\)", ")", s)
+    s = re.sub(r"\(\s+", "(", s)
+    s = re.sub(r"(\w)\(", r"\1 (", s)
+    out = []
+    for i, w in enumerate(s.split(" ")):
+        lw = w.lower().rstrip(",")
+        if re.fullmatch(r"(?:[A-Za-z]\.){1,4}[A-Za-z]?\.?,?", w) and len(w) <= 6:
+            out.append(w.upper())
+        elif lw in _GAS_UPPER:
+            out.append(w.upper())
+        elif place and i > 0 and lw in _GAS_LINKW:
+            out.append(w.lower())
+        elif w.isupper() or w.islower():
+            # capital after every non-letter except an apostrophe or a digit: Oost-West,
+            # Store/Bhageloe, N.Peperpot, but Sophia's and 1ste stay as they are
+            out.append(re.sub(r"(?<![A-Za-z0-9'’])[a-z]", lambda m: m.group(0).upper(), w.lower()))
+        else:
+            w = w[:1].upper() + w[1:]
+            out.append(re.sub(r"(?<=[./-])[a-z]", lambda m: m.group(0).upper(), w))
+    s = " ".join(out)
+    return re.sub(r"\s+['’]([sS])\b", lambda m: "'s", s)
+
+
+def _gas_clean(features):
+    pts = []
+    for f in features:
+        if not isinstance(f, dict):
+            continue
+        a = f.get("attributes") or {}
+        g = f.get("geometry") or {}
+        try:
+            lat, lng = round(float(g["y"]), 6), round(float(g["x"]), 6)
+        except (KeyError, TypeError, ValueError):
+            continue
+        if not (1.5 <= lat <= 6.2 and -58.2 <= lng <= -53.8):   # Suriname bbox
+            continue
+        name = _gas_tc(str(a.get("Verkoop_Locatie") or ""))
+        if not name:
+            continue
+        addr = _gas_tc(str(a.get("Adres") or ""), place=True)
+        dist = re.sub(r"\s+", " ", str(a.get("Distrikt") or "")).strip().title()
+        if dist == "Albina":
+            dist = "Marowijne"
+        if dist not in _GAS_DISTRICTS:
+            dist = ""
+        hints = []
+        for k in ("Nadere_Aanduiding", "Opmerking"):
+            h = _gas_tc(str(a.get(k) or ""), place=True)
+            if (h and h.lower() not in ("no", "nee", "-", "straat komt niet voor op kaart")
+                    and h.lower() not in addr.lower() and h.lower() not in [x.lower() for x in hints]):
+                hints.append(h)
+        tel = re.sub(r"\D", "", str(a.get("Tel_Nummer") or ""))
+        if tel.startswith("597") and len(tel) in (9, 10):
+            tel = tel[3:]
+        if len(tel) not in (6, 7) or tel[0] == "0":
+            tel = ""
+        p = {"n": name, "a": addr, "d": dist, "h": "; ".join(hints), "t": tel, "lat": lat, "lng": lng}
+        txt = " ".join((name, addr, p["h"]))
+        for rx, max_lat, d in _GAS_DIST_FIX:
+            if rx.search(txt) and (max_lat is None or lat < max_lat):
+                p["d"] = d
+        pts.append(p)
+    # blank district -> district of the nearest point that has one
+    known = [p for p in pts if p["d"]]
+    for p in pts:
+        if not p["d"] and known:
+            p["d"] = min(known, key=lambda q: (q["lat"] - p["lat"]) ** 2 + (q["lng"] - p["lng"]) ** 2)["d"]
+    seen, out = set(), []
+    for p in pts:
+        k = (p["n"].lower(), round(p["lat"], 4), round(p["lng"], 4))
+        if k not in seen:
+            seen.add(k)
+            out.append(p)
+    return out
+
+
+def _gas_points_ok(pts):
+    """Keep only well-formed points (a hand-edited or truncated cache must not crash the page)."""
+    ok = []
+    for p in pts if isinstance(pts, list) else []:
+        try:
+            q = {k: str(p.get(k) or "") for k in ("n", "a", "d", "h", "t")}
+            q["lat"], q["lng"] = float(p["lat"]), float(p["lng"])
+        except Exception:
+            continue
+        if q["n"] and 1.5 <= q["lat"] <= 6.2 and -58.2 <= q["lng"] <= -53.8:
+            if not re.fullmatch(r"\d{6,7}", q["t"]):
+                q["t"] = ""
+            ok.append(q)
+    return ok
+
+
+def fetch_gas_points():
+    """Ogane sale points: last good copy, refreshed from EBS's ArcGIS layer every _GAS_REFRESH_H h."""
+    path = Path("data/gas_points.json")
+    cached = _gas_read(path)
+    good = None
+    if cached and _gas_points_ok(cached.get("points")):
+        good = {"checked": cached.get("checked", ""), "edited": str(cached.get("edited") or ""),
+                "points": _gas_points_ok(cached["points"])}
+    if good and _gas_fresh(good):
+        return good
+    try:
+        meta = json.loads(_bank_http_get(GAS_LAYER + "?f=json", timeout=20))
+        feats, offset = [], 0
+        for _page in range(5):          # the layer serves at most 1000 records per request
+            q = (GAS_LAYER + "/query?where=1%3D1&outFields=Verkoop_Locatie,Adres,Distrikt,Nadere_Aanduiding,"
+                 f"Opmerking,Tel_Nummer&outSR=4326&orderByFields=OBJECTID&resultOffset={offset}"
+                 "&resultRecordCount=1000&f=json")
+            d = json.loads(_bank_http_get(q, timeout=20))
+            if not isinstance(d, dict) or d.get("error"):
+                raise ValueError((d or {}).get("error") if isinstance(d, dict) else "bad answer")
+            feats += d.get("features") or []
+            if not d.get("exceededTransferLimit"):
+                break
+            offset += len(d.get("features") or [])
+        else:
+            raise ValueError("more than 5000 records")
+        pts = _gas_clean(feats)
+        if len(pts) < 100 or (good and len(pts) < 0.6 * len(good["points"])):
+            raise ValueError(f"only {len(pts)} points")
+        ed = (meta.get("editingInfo") or {}).get("dataLastEditDate") if isinstance(meta, dict) else None
+        edited = (datetime.fromtimestamp(ed / 1000, SR_TZ).strftime("%Y-%m-%d") if isinstance(ed, (int, float))
+                  else (good or {}).get("edited", ""))
+        new = {"checked": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+               "edited": edited, "points": pts}
+        _gas_write(path, new, separators=(",", ":"))
+        print(f"  Gas sale points: live ({len(pts)}, EBS edited {edited})")
+        return new
+    except Exception as e:
+        print(f"  Gas sale points: using last known ({e})")
+        _gas_backoff(path, good)
+        return good or {"checked": "", "edited": "", "points": []}
+
+
+def _gas_srd(v):
+    return f"SRD {float(v):,.2f}"
+
+
+def _gas_date_long(iso):
+    try:
+        y, m, d = (int(x) for x in str(iso).split("-"))
+        if not (1 <= m <= 12 and 1 <= d <= 31):
+            return ""
+        return (f'<span data-srdate-long="{iso}" translate="no">{d} '
+                f'{_SINCE_MON["en"][m - 1]} {y}</span>')
+    except Exception:
+        return ""
+
+
+def _gas_phone_html(tel):
+    """'8563322' -> tel link (+ WhatsApp for 7-digit mobile numbers, 6/7/8 prefix).
+    A number EBS publishes in a form that cannot be dialled (e.g. a leading 0) is shown as text."""
+    tel = re.sub(r"\D", "", tel or "")
+    if len(tel) == 7 and tel[0] != "0":
+        disp = f"{tel[:3]}-{tel[3:]}"
+    elif len(tel) == 6:
+        disp = f"{tel[:3]}-{tel[3:]}"
+    else:
+        return f'<span class="gas-ph"><span translate="no">{html_lib.escape(tel)}</span></span>'
+    h = f'<a class="gas-tel" href="tel:+597{tel}" translate="no">{disp}</a>'
+    if len(tel) == 7 and tel[0] in "678":
+        h += (f'<a class="gas-wa" href="https://wa.me/597{tel}" target="_blank" rel="noopener" '
+              f'translate="no">WhatsApp</a>')
+    return f'<span class="gas-ph">{h}</span>'
+
+_GAS_I18N = {
+    "en": {"of": "{s} of {n} sale points", "near": "nearest first", "k": "Nearest sale point",
+           "away": "away", "dir": "Directions", "loc": "Locating…", "btn": "Nearest to me",
+           "deny": "Location blocked", "na": "Location unavailable", "you": "You are here",
+           "all": "Show all {n}", "more": "Show {n} more", "far": "You seem to be outside Suriname"},
+    "nl": {"of": "{s} van {n} verkooppunten", "near": "dichtstbijzijnde eerst", "k": "Dichtstbijzijnde verkooppunt",
+           "away": "hiervandaan", "dir": "Route", "loc": "Locatie zoeken…", "btn": "Dichtst bij mij",
+           "deny": "Locatie geblokkeerd", "na": "Locatie niet beschikbaar", "you": "Je bent hier",
+           "all": "Toon alle {n}", "more": "Toon {n} meer", "far": "Je lijkt buiten Suriname te zijn"},
+    "es": {"of": "{s} de {n} puntos de venta", "near": "más cercanos primero", "k": "Punto de venta más cercano",
+           "away": "de distancia", "dir": "Cómo llegar", "loc": "Buscando ubicación…", "btn": "Más cerca de mí",
+           "deny": "Ubicación bloqueada", "na": "Ubicación no disponible", "you": "Usted está aquí",
+           "all": "Ver los {n}", "more": "Ver {n} más", "far": "Parece que estás fuera de Surinam"},
+    "zh": {"of": "共 {n} 个销售点，显示 {s} 个", "near": "按距离排序", "k": "最近的销售点",
+           "away": "", "dir": "路线", "loc": "正在定位…", "btn": "离我最近",
+           "deny": "定位被阻止", "na": "无法获取位置", "you": "您在这里",
+           "all": "显示全部 {n} 个", "more": "再显示 {n} 个", "far": "您似乎不在苏里南"},
+    "fr": {"of": "{s} sur {n} points de vente", "near": "les plus proches d’abord", "k": "Point de vente le plus proche",
+           "away": "de vous", "dir": "Itinéraire", "loc": "Localisation…", "btn": "Les plus proches",
+           "deny": "Localisation bloquée", "na": "Localisation indisponible", "you": "Vous êtes ici",
+           "all": "Afficher les {n}", "more": "Afficher {n} de plus", "far": "Vous semblez être hors du Suriname"},
+    "pt": {"of": "{s} de {n} pontos de venda", "near": "mais próximos primeiro", "k": "Ponto de venda mais próximo",
+           "away": "de distância", "dir": "Como chegar", "loc": "Localizando…", "btn": "Mais perto de mim",
+           "deny": "Localização bloqueada", "na": "Localização indisponível", "you": "Você está aqui",
+           "all": "Mostrar todos os {n}", "more": "Mostrar mais {n}", "far": "Parece que você está fora do Suriname"},
+}
+# Placeholders: NL/ES pages never translate placeholder attributes, so they carry their own values.
+_GAS_PH_Q = '{"nl": "Straat, wijk of naam van de winkel", "es": "Calle, zona o nombre de la tienda", "zh": "街道、地区或店名", "fr": "Rue, quartier ou nom du commerce", "pt": "Rua, bairro ou nome da loja"}'
+_GAS_PH_DQ = '{"nl": "Zoek je wijk", "es": "Busca tu barrio", "zh": "查找你的街区", "fr": "Cherchez votre quartier", "pt": "Procure seu bairro"}'
+
+_GAS_CSS = r'''
+<style>
+.gas-tools{display:flex;flex-direction:column;gap:.5rem;margin:1rem 0 .4rem}
+@media(min-width:640px){.gas-tools{flex-direction:row}}
+.gas-q{position:relative;flex:1;min-width:0}
+.gas-q svg{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#9ca3af}
+.gas-q input{width:100%;padding:.65rem .8rem .65rem 2.25rem;border:1px solid var(--line);border-radius:.75rem;background:#fff;font-size:.9rem}
+.gas-near{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;padding:.65rem 1rem;border:0;
+  border-radius:.75rem;background:var(--forest2);color:#fff;font-weight:600;font-size:.9rem;cursor:pointer;flex-shrink:0}
+.gas-near svg{width:16px;height:16px}
+.gas-chips{display:flex;flex-wrap:wrap;column-gap:1rem;row-gap:0;margin-bottom:.6rem}
+.gas-count{font-size:.8rem;color:var(--ink-soft);margin:.2rem 0 .7rem}
+#gas-nearest{background:var(--forest);color:#fff;border-radius:var(--r-card,6px);padding:.95rem 1.05rem;margin:0 0 .9rem;box-shadow:var(--sh-card)}
+#gas-nearest[hidden]{display:none}
+#gas-nearest .k{font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+#gas-nearest h3{font-family:Newsreader,Georgia,serif;font-size:1.35rem;margin:.15rem 0 .1rem;overflow-wrap:anywhere}
+#gas-nearest p{margin:0;font-size:.85rem;opacity:.85}
+#gas-nearest .bt{display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap}
+#gas-nearest .bt a{background:#fff;color:var(--forest);font-weight:700;font-size:.82rem;border-radius:999px;padding:.45rem .9rem}
+#gas-nearest .bt a.wz{background:#33ccff;color:#06283d}
+.gas-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:.6rem}
+@media(min-width:640px){.gas-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1000px){.gas-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.gas-pt{border:1px solid var(--line);border-radius:var(--r-card,6px);padding:.75rem .85rem;background:#fff;display:flex;flex-direction:column;min-width:0}
+.gas-pt[hidden]{display:none}
+.gas-pt h3{font-weight:700;font-size:.95rem;color:var(--ink);line-height:1.3;overflow-wrap:anywhere}
+.gas-pt .ad{font-size:.82rem;color:#4b5563;margin-top:.15rem;overflow-wrap:anywhere}
+.gas-pt .hn{font-size:.75rem;color:var(--ink-soft);margin-top:.15rem;overflow-wrap:anywhere}
+.gas-pt .dk{font-size:.72rem;font-weight:700;color:var(--forest2);margin-left:.35rem;white-space:nowrap}
+.gas-ln{display:flex;flex-wrap:wrap;gap:.35rem 1rem;margin-top:auto;padding-top:.55rem;font-size:.8rem;font-weight:600}
+.gas-ln a{color:var(--forest2)}
+.gas-ln a.wz{color:#0b7fb5}
+.gas-ln a:hover{text-decoration:underline}
+.gas-tel{color:var(--forest2);font-weight:600}
+.gas-ph{display:inline-flex;align-items:center;gap:.35rem;white-space:nowrap}
+.gas-phs{display:flex;flex-wrap:wrap;gap:.3rem 1rem}
+.gas-wa{font-size:.68rem;font-weight:700;color:#128C4A;border:1px solid #25D366;border-radius:999px;padding:0 .45rem;line-height:1.5}
+.gas-more{display:block;margin:.9rem auto 0;padding:.55rem 1.2rem;border:1px solid var(--forest2);border-radius:999px;
+  background:#fff;color:var(--forest2);font-weight:600;font-size:.85rem;cursor:pointer}
+.gas-more[hidden]{display:none}
+.gas-empty{text-align:center;color:#9ca3af;padding:1.5rem 0;font-size:.9rem}
+#gas-map{height:360px;border-radius:var(--r-card,6px);overflow:hidden;background:#e8eef0;border:1px solid var(--line);margin-top:1.1rem}
+.gas-np{margin-top:1rem;font-size:.82rem;color:#4b5563}
+.gas-np h3{font-size:.8rem;font-weight:700;color:var(--ink);margin-bottom:.25rem}
+.gas-price{width:100%;border-collapse:collapse;font-size:.92rem;margin-top:.6rem}
+.gas-price th{text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);font-weight:600;padding:.45rem 0;border-bottom:1px solid var(--line)}
+.gas-price td{padding:.6rem 0;border-bottom:1px solid var(--line);vertical-align:top}
+.gas-price td.w{color:var(--ink-soft);font-size:.82rem}
+.gas-price td.p{text-align:right;font-weight:700;color:var(--forest);white-space:nowrap}
+.gas-price th.p{text-align:right}
+.gas-price tr.cmp td{font-size:.86rem}
+.gas-steps{list-style:decimal;padding-left:1.2rem;font-size:.9rem;line-height:1.6;color:#374151}
+.gas-steps li+li{margin-top:.45rem}
+.gas-ul{list-style:disc;padding-left:1.2rem;font-size:.9rem;line-height:1.6;color:#374151}
+.gas-ul li+li{margin-top:.35rem}
+.gas-wa-btn{display:inline-flex;align-items:center;gap:.5rem;margin-top:.9rem;padding:.6rem 1.1rem;border-radius:999px;
+  background:#25D366;color:#06381b;font-weight:700;font-size:.9rem}
+.gas-h3{font-weight:700;color:var(--ink);font-size:.95rem;margin:1.1rem 0 .4rem}
+.gas-dl{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:.6rem}
+.gas-dl td{padding:.65rem 0;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.55}
+.gas-dl td.d{width:7.5rem;font-weight:700;color:var(--ink);padding-right:.8rem}
+@media(max-width:520px){.gas-dl td{display:block;width:auto;border-bottom:0;padding:.15rem 0}.gas-dl tr{display:block;padding:.55rem 0;border-bottom:1px solid var(--line)}}
+.gas-dl td.d{white-space:nowrap}
+.gas-dl tr.on{background:var(--mint);box-shadow:inset 3px 0 0 var(--forest2)}
+.gas-dl tr.on td{padding-left:.7rem;padding-right:.5rem}
+.sec-card .gas-dl tr.on td:first-child{padding-left:.7rem !important}
+.gas-dl tr.hit td.n{color:var(--ink)}
+.gas-dl tr.miss{display:none}
+.gas-dl mark{background:#fef08a;padding:0 1px;border-radius:2px}
+.gas-today{display:inline-block;margin-left:.4rem;font-size:.66rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  color:#fff;background:var(--forest2);border-radius:999px;padding:1px 7px;vertical-align:middle}
+.gas-today[hidden],.gas-open[hidden]{display:none}
+.gas-open{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:700;color:#2E7D4F;margin-top:.45rem}
+.gas-open:before{content:"";width:7px;height:7px;border-radius:50%;background:#2E7D4F}
+.gas-dlf{position:relative;max-width:22rem;margin-top:.8rem}
+.gas-dlf input{width:100%;padding:.55rem .8rem;border:1px solid var(--line);border-radius:.6rem;font-size:.88rem;background:#fff}
+.gas-wk{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:.6rem}
+.gas-wk th{text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);font-weight:600;padding:.45rem .6rem .45rem 0;border-bottom:1px solid var(--line)}
+.gas-wk td{padding:.6rem .6rem .6rem 0;border-bottom:1px solid var(--line);vertical-align:top}
+@media(max-width:520px){.gas-wk thead{display:none}.gas-wk td{display:block;border-bottom:0;padding:.1rem 0}.gas-wk tr{display:block;padding:.55rem 0;border-bottom:1px solid var(--line)}.gas-wk td.nm{font-weight:700}}
+.leaflet-popup-content{font-family:'Instrument Sans',sans-serif;margin:11px 13px}
+.gas-pop-dir{color:var(--forest2);font-weight:600;font-size:.78rem}
+</style>
+'''
+
+_GAS_JS = r'''
+<script>
+(function(){
+  var L10=__GAS_I18N__, lang=(document.documentElement.lang||'en').slice(0,2), T=L10[lang]||L10.en;
+  var PTS=__GAS_PTS__, STEP=12;
+  var listEl=document.getElementById('gas-list'); if(!listEl) return;
+  var cards=Array.prototype.slice.call(listEl.children);
+  var countEl=document.getElementById('gas-count'), emptyEl=document.getElementById('gas-empty'),
+      moreBtn=document.getElementById('gas-more'), qEl=document.getElementById('gas-q');
+  var st={d:'all',q:'',lim:STEP}, userLL=null, map=null, layer=null, me=null;
+  function fold(s){return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');}
+  function hav(a,b,c,d){var R=6371,x=(c-a)*Math.PI/180,y=(d-b)*Math.PI/180,
+    s=Math.sin(x/2)*Math.sin(x/2)+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(y/2)*Math.sin(y/2);
+    return 2*R*Math.asin(Math.sqrt(s));}
+  function km(d){return d<1?Math.round(d*1000)+' m':(d<10?d.toFixed(1):Math.round(d))+' km';}
+  function ok(c){
+    if(st.d!=='all'&&c.getAttribute('data-d')!==st.d) return false;
+    if(st.q){var s=c.getAttribute('data-s'),w=st.q.split(/\s+/);
+      for(var i=0;i<w.length;i++){if(w[i]&&s.indexOf(w[i])<0) return false;}}
+    return true;}
+  function apply(){
+    var m=0,shown=0,limited=!(st.q||st.d!=='all');
+    cards.forEach(function(c){var y=ok(c); if(y){m++;} var v=y&&(!limited||m<=st.lim); c.hidden=!v; if(v) shown++;});
+    if(countEl) countEl.textContent=T.of.replace('{s}',shown).replace('{n}',m)+(userLL?' · '+T.near:'');
+    if(emptyEl) emptyEl.hidden=m!==0;
+    if(moreBtn){var rest=m-shown; moreBtn.hidden=rest<=0;
+      moreBtn.textContent=rest>STEP?T.more.replace('{n}',STEP):T.all.replace('{n}',m);}
+    if(map) draw();
+  }
+  if(moreBtn) moreBtn.addEventListener('click',function(){st.lim+=STEP; apply();});
+  document.querySelectorAll('[data-gd]').forEach(function(b,_,all){b.addEventListener('click',function(){
+    document.querySelectorAll('[data-gd]').forEach(function(x){x.classList.remove('dist-chip-active');x.setAttribute('aria-pressed','false');});
+    b.classList.add('dist-chip-active'); b.setAttribute('aria-pressed','true'); st.d=b.getAttribute('data-gd'); st.lim=STEP; apply();
+    try{if(window.gtag) gtag('event','gas_filter',{district:st.d});}catch(e){}
+  });});
+  var qt; if(qEl) qEl.addEventListener('input',function(){st.q=fold(qEl.value.trim()); st.lim=STEP; apply();
+    clearTimeout(qt); qt=setTimeout(function(){try{if(window.gtag&&st.q.length>2) gtag('event','gas_search',{search_term:st.q});}catch(e){}},1500);});
+  function nearest(){
+    var nb=document.getElementById('gas-nearest'); if(!nb||!userLL) return;
+    var b=cards[0]; if(!b||!isFinite(b._d)) return;
+    var la=b.getAttribute('data-lat'),ln=b.getAttribute('data-lng');
+    var nm=(b.querySelector('h3')||{}).textContent||'', ad=(b.querySelector('.ad .ax')||{}).textContent||'';
+    var tel=b.getAttribute('data-t');
+    nb.innerHTML='<span class="k">'+T.k+'</span><h3 translate="no"></h3><p><span translate="no" class="a"></span> · '+km(b._d)+(T.away?' '+T.away:'')+'</p>'
+      +'<div class="bt"><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+la+','+ln+'">'+T.dir+'</a>'
+      +'<a class="wz" target="_blank" rel="noopener" translate="no" href="https://waze.com/ul?ll='+la+','+ln+'&navigate=yes">Waze</a>'
+      +(tel?'<a translate="no" href="tel:+597'+tel+'">'+tel.slice(0,3)+'-'+tel.slice(3)+'</a>':'')+'</div>';
+    nb.querySelector('h3').textContent=nm; nb.querySelector('.a').textContent=ad;
+    nb.hidden=false;
+  }
+  function sortNear(){
+    cards.forEach(function(c){var la=parseFloat(c.getAttribute('data-lat')),ln=parseFloat(c.getAttribute('data-lng'));
+      var dk=c.querySelector('.dk');
+      if(isNaN(la)){c._d=Infinity; if(dk) dk.textContent=''; return;}
+      c._d=hav(userLL[0],userLL[1],la,ln); if(dk) dk.textContent=km(c._d);});
+    cards.sort(function(a,b){return a._d-b._d;}); cards.forEach(function(c){listEl.appendChild(c);});
+  }
+  var nBtn=document.getElementById('gas-near'), nLbl=document.getElementById('gas-near-lbl');
+  function located(pos){
+    var ll=[pos.coords.latitude,pos.coords.longitude];
+    if(hav(ll[0],ll[1],4.5,-55.9)>700){ nLbl.textContent=T.far; setTimeout(function(){nLbl.textContent=T.btn;},3500); return; }
+    userLL=ll; nLbl.textContent=T.btn;
+    sortNear(); st.lim=STEP; apply(); nearest();
+    if(!map) initMap(); else placeMe();
+  }
+  if(nBtn) nBtn.addEventListener('click',function(ev){
+    if(!navigator.geolocation){nLbl.textContent=T.na; return;}
+    nLbl.textContent=T.loc;
+    navigator.geolocation.getCurrentPosition(located,function(err){
+      nLbl.textContent=err.code===1?T.deny:T.na; setTimeout(function(){nLbl.textContent=T.btn;},2500);
+    },{enableHighAccuracy:true,timeout:9000,maximumAge:60000});
+    try{if(window.gtag&&ev&&ev.isTrusted) gtag('event','gas_near');}catch(e){}
+  });
+  try{if(navigator.permissions&&nBtn) navigator.permissions.query({name:'geolocation'}).then(function(p){if(p.state==='granted') nBtn.click();}).catch(function(){});}catch(e){}
+  // ── lazy Leaflet map ──
+  var mapEl=document.getElementById('gas-map');
+  function esc(s){return String(s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function draw(){
+    if(!map||!window.L) return; if(layer) map.removeLayer(layer); layer=window.L.layerGroup();
+    var vis={}; cards.forEach(function(c){if(ok(c)) vis[c.getAttribute('data-i')]=1;});
+    PTS.forEach(function(p,i){ if(!vis[i]) return;
+      var m=window.L.circleMarker([p[2],p[3]],{radius:6,color:'#fff',weight:1.5,fillColor:'#C0392B',fillOpacity:.95});
+      m.bindPopup('<div translate="no" style="font-weight:700;margin-bottom:2px">'+esc(p[0])+'</div>'
+        +'<div translate="no" style="font-size:.75rem;color:#6b7280;margin-bottom:5px">'+esc(p[1])+'</div>'
+        +'<a class="gas-pop-dir" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+p[2]+','+p[3]+'">'+T.dir+' &rarr;</a>');
+      layer.addLayer(m);});
+    layer.addTo(map);
+  }
+  function placeMe(){ if(!map||!userLL||!window.L) return;
+    if(me) map.removeLayer(me);
+    me=window.L.circleMarker(userLL,{radius:8,color:'#fff',weight:2,fillColor:'#2563eb',fillOpacity:1}).addTo(map).bindPopup(T.you);
+    map.setView(userLL,13);}
+  var mapLoading=false;
+  function initMap(){
+    if(map||mapLoading||!mapEl) return; mapLoading=true;
+    var css=document.createElement('link'); css.rel='stylesheet'; css.href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'; document.head.appendChild(css);
+    var s=document.createElement('script'); s.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+    s.onload=function(){ map=window.L.map(mapEl,{scrollWheelZoom:false}).setView([5.8,-55.15],10);
+      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
+      draw(); placeMe();};
+    document.head.appendChild(s);
+  }
+  if('IntersectionObserver' in window&&mapEl){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){initMap();io.disconnect();}});},{rootMargin:'200px'}); io.observe(mapEl);}
+  else initMap();
+  // ── Suriname time (UTC-3): today's Ogane delivery row + weekend sale window ──
+  var sr=new Date(Date.now()-3*3600*1000), wd=sr.getUTCDay(), hr=sr.getUTCHours();
+  var row=document.querySelector('.gas-dl tr[data-wd="'+wd+'"]');
+  if(row){row.classList.add('on'); var tb=row.querySelector('.gas-today'); if(tb) tb.hidden=false;}
+  var wkOpen=(wd===5&&hr>=15)||wd===6||wd===0||(wd===1&&hr<5);
+  var wo=document.getElementById('gas-wk-open'); if(wo) wo.hidden=!wkOpen;
+  // neighbourhood finder in the delivery table
+  var dq=document.getElementById('gas-dq');
+  if(dq) dq.addEventListener('input',function(){
+    var q=fold(dq.value.trim());
+    document.querySelectorAll('.gas-dl tr').forEach(function(r){
+      var cell=r.querySelector('td.n'); if(!cell) return;
+      if(!cell._o) cell._o=cell.textContent;
+      if(!q){r.classList.remove('hit','miss'); cell.textContent=cell._o; return;}
+      var parts=cell._o.split('; '), hit=false, h='';
+      parts.forEach(function(p,i){var f=fold(p); var y=f.indexOf(q)>=0; if(y) hit=true;
+        h+=(i?'; ':'')+(y?'<mark>'+esc(p)+'</mark>':esc(p));});
+      r.classList.toggle('hit',hit); r.classList.toggle('miss',!hit); cell.innerHTML=h;
+    });
+  });
+  apply();
+})();
+</script>
+'''
+
+
+def build_gas_page(points_data, info):
+    """gas-cylinders.html: Gas Cylinder Finder (Live menu)."""
+    import json as _j
+    import unicodedata
+    P = _gas_prices_ok((info or {}).get("prices"))
+    if P:
+        as_of = str((info or {}).get("as_of") or "")      # "" = new prices without a date on EBS's page
+    else:
+        P, as_of = dict(_GAS_PRICE_DEFAULT["prices"]), _GAS_PRICE_DEFAULT["as_of"]
+    pts = _gas_points_ok((points_data or {}).get("points"))
+    _ord = {d: i for i, d in enumerate(_GAS_DISTRICTS)}
+    pts.sort(key=lambda p: (_ord.get(p["d"], 99), p["n"].lower()))
+    n_pts = len(pts)
+    edited = (points_data or {}).get("edited", "")
+    no_pin = [x for x in _GAS_NO_PIN if not any(p["d"] == x[2] for p in pts)]
+    esc = lambda s: html_lib.escape(s or "", quote=True)
+
+    title = "Gas Cylinder Refill Points &amp; Prices in Suriname"
+    desc = ("Find the nearest shop to swap a 20 or 28 lbs cooking gas cylinder in Suriname, the official "
+            "refill prices, and how to order 40 or 100 lbs from Ogane.")
+    faq = [
+        ("How much does a gas cylinder refill cost in Suriname?",
+         f"The official prices, including 5% VAT, are {_gas_srd(P['20'])} for 20 lbs, {_gas_srd(P['28'])} for "
+         f"28 lbs, {_gas_srd(P['40'])} for 40 lbs and {_gas_srd(P['100'])} for 100 lbs. Composite cylinders cost "
+         f"{_gas_srd(P['c10'])} (10 kg), {_gas_srd(P['c14'])} (14 kg) and {_gas_srd(P['c22'])} (22 kg)."),
+        ("Where can I refill a 20 or 28 lbs gas cylinder?",
+         "At one of the Ogane sale points, mostly small shops. You hand in your empty cylinder and take a full "
+         "one. Use Nearest to me on this page or pick your district to find one."),
+        ("How do I order a 40 or 100 lbs gas cylinder?",
+         "Send a WhatsApp message to 857-6093 with your gas customer number and the number of cylinders, or "
+         "order at an EBS office. Ogane delivers on the fixed day for your neighbourhood. Your gas customer "
+         "number is not the same as your electricity customer number."),
+        ("Can I buy a 100 lbs gas cylinder at the weekend?",
+         "Yes. From Friday 15:00 to Monday 05:00 a few main depot holders sell 100 lbs cylinders, with "
+         "SRD 50 extra for transport and installation. Their numbers are on this page."),
+        ("Why did cooking gas get more expensive?",
+         "The government is phasing out the old subsidy on cooking gas, in steps that started after a "
+         "ministerial decision of 31 August 2023. The last steps, for the 28 lbs and the 14 kg composite "
+         "cylinder, took effect on 1 September 2026."),
+    ]
+    head = _hub_head(title, desc, "gas-cylinders", faq=faq, brand=False)
+    hero = _hub_hero("Cooking Gas", "Gas Cylinder Finder",
+                     "Where to swap a 20 or 28 lbs gas cylinder, the official refill prices, and how to get a "
+                     "40 or 100 lbs cylinder delivered.").replace("{NAV}", nav_html("gas"))
+
+    body = ""
+    # ── Finder ──────────────────────────────────────────────────────────────
+    cnt = {}
+    for p in pts:
+        cnt[p["d"]] = cnt.get(p["d"], 0) + 1
+    chips = ('<button type="button" class="dist-chip dist-chip-active" data-gd="all" aria-pressed="true">'
+             f'All districts <span class="chip-count" translate="no">{n_pts}</span></button>')
+    for d in _GAS_DISTRICTS:
+        if cnt.get(d):
+            chips += (f'<button type="button" class="dist-chip" data-gd="{esc(d)}" aria-pressed="false">'
+                      f'<span translate="no">{d}</span> <span class="chip-count" translate="no">{cnt[d]}</span></button>')
+    items = ""
+    for i, p in enumerate(pts):
+        s = " ".join([p["n"], p["a"], p["h"], p["d"]])
+        s = unicodedata.normalize("NFD", s.lower())
+        s = "".join(ch for ch in s if unicodedata.category(ch) != "Mn")
+        g = f"https://www.google.com/maps/dir/?api=1&amp;destination={p['lat']},{p['lng']}"
+        w = f"https://waze.com/ul?ll={p['lat']},{p['lng']}&amp;navigate=yes"
+        items += (
+            f'<li class="gas-pt" data-i="{i}" data-d="{esc(p["d"])}" data-s="{esc(s)}" '
+            f'data-lat="{p["lat"]}" data-lng="{p["lng"]}" data-t="{p["t"]}"{" hidden" if i >= 12 else ""}>'
+            f'<h3 translate="no">{esc(p["n"])}</h3>'
+            f'<p class="ad"><span class="ax" translate="no">{esc(p["a"]) + ", " if p["a"] else ""}{esc(p["d"])}</span>'
+            f'<span class="dk" translate="no"></span></p>'
+            + (f'<p class="hn" translate="no">{esc(p["h"])}</p>' if p["h"] else "")
+            + '<div class="gas-ln">'
+            f'<a href="{g}" target="_blank" rel="noopener">Directions</a>'
+            f'<a class="wz" href="{w}" target="_blank" rel="noopener" translate="no">Waze</a>'
+            + (_gas_phone_html(p["t"]) if p["t"] else "")
+            + '</div></li>')
+    np_html = ""
+    if no_pin:
+        np_html = ('<div class="gas-np"><h3>Also on EBS&#8217;s printed list, without a map location</h3><ul>'
+                   + "".join(f'<li translate="no">{esc(n)}, {esc(a)} ({esc(d)})</li>' for n, a, d in no_pin)
+                   + '</ul></div>')
+    upd = (f'<p class="st-line"><span class="st-dot"></span><span class="st-w">EBS list last updated</span>'
+           f'<span class="st-sep">&middot;</span>{_gas_date_long(edited)}</p>') if edited else ""
+    body += (
+        '<section class="sec-card" id="find">'
+        '<div class="sec-hd"><h2 class="sec-title">Find a sale point near you</h2>'
+        '<p class="sec-sub">Shops that swap your empty 20 or 28 lbs cylinder for a full one.</p>'
+        f'{upd}</div>'
+        '<div class="gas-tools"><label class="gas-q"><span class="sr-only">Search</span>'
+        '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">'
+        '<circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>'
+        '<input id="gas-q" type="search" placeholder="Street, area or shop name" '
+        f"data-l10n-placeholder='{_GAS_PH_Q}' autocomplete=\"off\"></label>"
+        '<button id="gas-near" type="button" class="gas-near">'
+        '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">'
+        '<path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>'
+        '<circle cx="12" cy="11" r="3"/></svg><span id="gas-near-lbl">Nearest to me</span></button></div>'
+        f'<div class="gas-chips">{chips}</div>'
+        '<p id="gas-count" class="gas-count" aria-live="polite"></p>'
+        '<div id="gas-nearest" aria-live="polite" hidden></div>'
+        f'<ol id="gas-list" class="gas-list">{items}</ol>'
+        '<p id="gas-empty" class="gas-empty" hidden>No sale points match your search.</p>'
+        + ('' if n_pts else
+           '<p class="gas-empty">The list of sale points is not available right now. '
+           f'<a class="underline" href="{GAS_EBS_MAP}" target="_blank" rel="noopener">See the EBS map</a>.</p>') +
+        f'<button id="gas-more" type="button" class="gas-more">Show all</button>'
+        + np_html +
+        '<div id="gas-map"></div>'
+        '<p class="sec-foot">Locations from EBS (Ogane). Stock can run out, so if a shop lists a phone number, '
+        'call before you go. Map tiles &copy; OpenStreetMap contributors.</p>'
+        '</section>'
+    )
+
+    # ── Prices ──────────────────────────────────────────────────────────────
+    prow = ""
+    for k, label, wt in _GAS_SIZES:
+        cmp = k.startswith("c")
+        tr_cls = ' class="cmp"' if cmp else ""
+        prow += (f'<tr{tr_cls}><td>{label}</td>'
+                 f'<td class="w" translate="no">{"" if cmp else wt}</td>'
+                 f'<td class="p" translate="no">{_gas_srd(P[k])}</td></tr>')
+    body += (
+        '<section class="sec-card sec-gap" id="prices">'
+        '<div class="sec-hd"><h2 class="sec-title">Refill prices</h2>'
+        '<p class="sec-sub">Official prices including 5% VAT, the same at every sale point.</p>'
+        + (f'<p class="st-line"><span class="st-dot"></span><span class="st-w">Valid from</span>'
+           f'<span class="st-sep">&middot;</span>{_gas_date_long(as_of)}</p>' if _gas_date_long(as_of) else '')
+        + '</div>'
+        '<table class="gas-price"><thead><tr><th>Cylinder</th><th>Weight</th><th class="p">Price</th></tr></thead>'
+        f'<tbody>{prow}</tbody></table>'
+        '<p class="sec-foot">Prices are set by the government. The deposit on the cylinder itself is separate. '
+        'Charged more than this? Report it to the Price Control department of the Ministry of Economic Affairs.</p>'
+        '</section>'
+    )
+
+    # ── 40 and 100 lbs: order + delivery days ───────────────────────────────
+    _days = {1: ("Maandag", "Lunes", "星期一", "Lundi", "Segunda-feira"),
+             2: ("Dinsdag", "Martes", "星期二", "Mardi", "Terça-feira"),
+             3: ("Woensdag", "Miércoles", "星期三", "Mercredi", "Quarta-feira"),
+             4: ("Donderdag", "Jueves", "星期四", "Jeudi", "Quinta-feira"),
+             5: ("Vrijdag", "Viernes", "星期五", "Vendredi", "Sexta-feira")}
+    dl_rows = ""
+    for wd, day, areas in _GAS_DELIVERY:
+        l10n = _j.dumps(dict(zip(("nl", "es", "zh", "fr", "pt"), _days[wd])), ensure_ascii=False)
+        dl_rows += (f'<tr data-wd="{wd}"><td class="d"><span translate="no" data-l10n=\'{l10n}\'>{day}</span>'
+                    f'<span class="gas-today" hidden>Today</span></td>'
+                    f'<td class="n" translate="no">{esc(areas)}</td></tr>')
+    body += (
+        '<section class="sec-card sec-gap" id="order">'
+        '<div class="sec-hd"><h2 class="sec-title">40 and 100 lbs: order by WhatsApp</h2>'
+        '<p class="sec-sub">Ogane, the gas company of EBS, brings these cylinders to your home.</p></div>'
+        '<ol class="gas-steps" style="margin-top:1rem">'
+        '<li>Send a WhatsApp message to 857-6093 with your gas customer number and the number of cylinders. '
+        'You can also order at an EBS office.</li>'
+        '<li>Your gas customer number is not the same as the customer number on your electricity bill.</li>'
+        '<li>Ogane delivers on the fixed day for your neighbourhood (see below).</li></ol>'
+        f'<a class="gas-wa-btn" href="https://wa.me/597{_GAS_ORDER_WA}" target="_blank" rel="noopener">'
+        'Order on WhatsApp</a>'
+        '<p class="sec-foot">857-6093 takes WhatsApp messages about 40 and 100 lbs orders only. Calls and text '
+        'messages to this number are not answered.</p>'
+        '<h3 class="gas-h3">How to pay</h3>'
+        '<ul class="gas-ul">'
+        '<li>Cash at the door when the cylinder is delivered. Card payment is not possible at the door, so have '
+        'the exact amount ready if you can.</li>'
+        '<li>By bank transfer: send the proof of payment to 857-6093 on WhatsApp or by email to ogane@ebs.sr, '
+        'with your customer number and the number of cylinders.</li>'
+        '<li>At an EBS payment office, in cash or by card.</li></ul>'
+        '<h3 class="gas-h3" id="delivery">Delivery day by neighbourhood</h3>'
+        '<div class="gas-dlf"><input id="gas-dq" type="search" placeholder="Find your neighbourhood" '
+        f"data-l10n-placeholder='{_GAS_PH_DQ}' autocomplete=\"off\"></div>"
+        f'<table class="gas-dl"><tbody>{dl_rows}</tbody></table>'
+        '<p class="sec-foot">Neighbourhood list as published by EBS. Not sure about your day? Ask when you order.</p>'
+        '</section>'
+    )
+
+    # ── Weekend 100 lbs ─────────────────────────────────────────────────────
+    wk = ""
+    for name, phones, area in _GAS_WEEKEND:
+        wk += (f'<tr><td class="nm" translate="no">{esc(name)}</td><td translate="no">{esc(area)}</td>'
+               f'<td><span class="gas-phs">{"".join(_gas_phone_html(t) for t in phones)}</span></td></tr>')
+    body += (
+        '<section class="sec-card sec-gap" id="weekend">'
+        '<div class="sec-hd"><h2 class="sec-title">100 lbs at the weekend</h2>'
+        '<p class="sec-sub">From Friday 15:00 to Monday 05:00, these main depot holders sell 100 lbs cylinders. '
+        'They charge SRD 50 extra for transport and installation.</p>'
+        '<p id="gas-wk-open" class="gas-open" hidden>Weekend sale is on now</p></div>'
+        '<table class="gas-wk"><thead><tr><th>Depot holder</th><th>Area served</th><th>Phone</th></tr></thead>'
+        f'<tbody>{wk}</tbody></table>'
+        '</section>'
+    )
+
+    # ── Good to know ────────────────────────────────────────────────────────
+    body += (
+        '<section class="sec-card sec-gap mb-10">'
+        '<div class="sec-hd"><h2 class="sec-title">Good to know</h2></div>'
+        '<ul class="gas-ul" style="margin-top:1rem">'
+        '<li>At a sale point you swap your empty cylinder for a full one and pay the refill price.</li>'
+        '<li>In 2026 people have reported that 28 lbs cylinders were hard to find at some shops. If your usual '
+        'shop has none, try another sale point nearby.</li>'
+        '<li>Keep the cylinder upright, outdoors or in a well-ventilated spot.</li>'
+        '<li>Smell gas? Close the valve on the cylinder, open doors and windows, and do not use a flame or a '
+        'light switch until the smell is gone.</li></ul>'
+        '</section>'
+    )
+
+    body += _hub_faq_html(faq)
+    body += (
+        '<div class="mt-10 pt-6 border-t border-gray-200 text-xs text-gray-400">'
+        '<p class="mb-1"><strong class="text-gray-500">Sources</strong></p>'
+        f'<p><a class="underline" href="{GAS_EBS_PAGE}" target="_blank" rel="noopener">EBS: gas refills, prices and delivery</a>'
+        f' &middot; <a class="underline" href="{GAS_EBS_MAP}" target="_blank" rel="noopener">EBS gas sale points map</a></p>'
+        '<p class="mt-2">Prices and sale points are checked against EBS twice a day.</p>'
+        '</div>'
+    )
+
+    js = (_GAS_JS.replace("__GAS_I18N__", _j.dumps(_GAS_I18N, ensure_ascii=False))
+                 .replace("__GAS_PTS__", _j.dumps([[p["n"], (p["a"] + ", " if p["a"] else "") + p["d"],
+                                                    p["lat"], p["lng"]] for p in pts], ensure_ascii=False)
+                          .replace("<", "\\u003c")))
+    main = '<main class="max-w-5xl mx-auto px-5 py-12 pb-24">' + body + '</main>'
+    return head.replace("</head>", _GAS_CSS + "\n</head>") + hero + main + js + "\n" + footer_html() + "\n</body>\n</html>"
+
+
+
+def _gas_page_safe(points_data, info):
+    """The gas page must never fail the site build: on any error, build it from the baked defaults."""
+    try:
+        return build_gas_page(points_data, info)
+    except Exception as e:
+        print(f"  !! gas page failed ({e}); built without live data")
+        return build_gas_page({"points": []}, None)
+
+
 if __name__ == "__main__":
     print("ExploreSuriname generator starting...")
 
@@ -31805,6 +32669,16 @@ if __name__ == "__main__":
     matches_data  = fetch_matches_data()
     atm_list, atm_meta = fetch_atms()
     atm_ref            = _atm_geocode_reference()
+    try:
+        gas_points = fetch_gas_points()
+    except Exception as _gas_err:
+        print(f"  !! gas points failed: {_gas_err}")
+        gas_points = {"points": []}
+    try:
+        gas_info = fetch_gas_info()
+    except Exception as _gas_err:
+        print(f"  !! gas prices failed: {_gas_err}")
+        gas_info = None
 
     # Events first: the homepage (Phase 2) shows upcoming events from _HOME_EVENTS,
     # which build_events_page() fills, and the live feed packs them with the rest.
@@ -31881,6 +32755,7 @@ if __name__ == "__main__":
         "matches.html":            build_matches_page(matches_data),
         "suriname-time.html":      build_time_page(),
         "atms.html":               build_atms_page(atm_list, atm_meta, atm_ref),
+        "gas-cylinders.html":      _gas_page_safe(gas_points, gas_info),
         "sranan-tongo-dictionary.html": build_dictionary_page(),
         "404.html": ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'

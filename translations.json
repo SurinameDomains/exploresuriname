@@ -30866,7 +30866,10 @@
 },
 "Price": {
 "nl": "Prijs",
-"es": "Precio"
+"es": "Precio",
+"zh": "价格",
+"fr": "Prix",
+"pt": "Preço"
 },
 "Title": {
 "nl": "Titel",
@@ -114352,5 +114355,425 @@
 "zh": "Jodensavanne，Para",
 "fr": "Jodensavanne, Para",
 "pt": "Jodensavanne, Para"
+},
+"Gas Cylinders": {
+"nl": "Gascilinders",
+"es": "Bombonas de gas",
+"zh": "煤气罐",
+"fr": "Bouteilles de gaz",
+"pt": "Botijões de gás"
+},
+"Gas Cylinder Finder": {
+"nl": "Gas hervullen",
+"es": "Buscador de bombonas de gas",
+"zh": "煤气罐查找",
+"fr": "Trouver une bouteille de gaz",
+"pt": "Onde trocar o botijão de gás"
+},
+"Gas Cylinder Finder: Refill Points & Prices": {
+"nl": "Gas hervullen: verkooppunten & prijzen",
+"es": "Bombonas de gas: puntos de recarga y precios",
+"zh": "煤气罐：换气点与价格",
+"fr": "Bouteilles de gaz : points de recharge et prix",
+"pt": "Botijões de gás: pontos de recarga e preços"
+},
+"Cooking Gas": {
+"nl": "Kookgas",
+"es": "Gas de cocina",
+"zh": "煤气",
+"fr": "Gaz de cuisine",
+"pt": "Gás de cozinha"
+},
+"Cooking gas": {
+"nl": "Kookgas",
+"es": "Gas de cocina",
+"zh": "煤气",
+"fr": "Gaz de cuisine",
+"pt": "Gás de cozinha"
+},
+"Gas Cylinder Refill Points & Prices in Suriname": {
+"nl": "Gas hervullen in Suriname: verkooppunten gasbom & prijzen",
+"es": "Recarga de bombonas de gas en Surinam: puntos y precios",
+"zh": "苏里南煤气罐换气点与价格",
+"fr": "Recharge de bouteilles de gaz au Suriname : points et prix",
+"pt": "Recarga de botijão de gás no Suriname: pontos e preços"
+},
+"Find the nearest shop to swap a 20 or 28 lbs cooking gas cylinder in Suriname, the official refill prices, and how to order 40 or 100 lbs from Ogane.": {
+"nl": "Vind het dichtstbijzijnde verkooppunt om je gasbom van 20 of 28 lbs om te ruilen, de officiële gasprijzen en hoe je 40 of 100 lbs bij Ogane bestelt.",
+"es": "Encuentra dónde cambiar una bombona de gas de 20 o 28 lbs en Surinam, los precios oficiales de recarga y cómo pedir 40 o 100 lbs a Ogane.",
+"zh": "查找苏里南离你最近的 20 或 28 磅煤气罐换气点、官方充气价格，以及如何向 Ogane 订购 40 或 100 磅煤气罐。",
+"fr": "Trouvez où échanger une bouteille de gaz de 20 ou 28 lbs au Suriname, les prix officiels de recharge et comment commander 40 ou 100 lbs chez Ogane.",
+"pt": "Encontre onde trocar um botijão de gás de 20 ou 28 lbs no Suriname, os preços oficiais de recarga e como pedir 40 ou 100 lbs à Ogane."
+},
+"Where to swap a 20 or 28 lbs gas cylinder, the official refill prices, and how to get a 40 or 100 lbs cylinder delivered.": {
+"nl": "Waar je een gasbom van 20 of 28 lbs omruilt, de officiële gasprijzen en hoe je een gascilinder van 40 of 100 lbs thuisbezorgd krijgt.",
+"es": "Dónde cambiar una bombona de gas de 20 o 28 lbs, los precios oficiales de recarga y cómo recibir en casa una de 40 o 100 lbs.",
+"zh": "在哪里更换 20 或 28 磅煤气罐、官方充气价格，以及如何让 40 或 100 磅煤气罐送货上门。",
+"fr": "Où échanger une bouteille de gaz de 20 ou 28 lbs, les prix officiels de recharge et comment se faire livrer une bouteille de 40 ou 100 lbs.",
+"pt": "Onde trocar um botijão de gás de 20 ou 28 lbs, os preços oficiais de recarga e como receber em casa um botijão de 40 ou 100 lbs."
+},
+"Find a sale point near you": {
+"nl": "Vind een verkooppunt bij jou in de buurt",
+"es": "Encuentra un punto de venta cerca de ti",
+"zh": "查找附近的销售点",
+"fr": "Trouvez un point de vente près de chez vous",
+"pt": "Encontre um ponto de venda perto de você"
+},
+"Shops that swap your empty 20 or 28 lbs cylinder for a full one.": {
+"nl": "Winkels die je lege gasbom van 20 of 28 lbs omruilen voor een volle.",
+"es": "Tiendas que cambian tu bombona vacía de 20 o 28 lbs por una llena.",
+"zh": "可用空的 20 或 28 磅煤气罐换取满罐的商店。",
+"fr": "Des commerces qui échangent votre bouteille vide de 20 ou 28 lbs contre une pleine.",
+"pt": "Lojas que trocam seu botijão vazio de 20 ou 28 lbs por um cheio."
+},
+"EBS list last updated": {
+"nl": "EBS-lijst laatst bijgewerkt",
+"es": "Lista de EBS actualizada el",
+"zh": "EBS 名单最后更新",
+"fr": "Liste EBS mise à jour le",
+"pt": "Lista da EBS atualizada em"
+},
+"No sale points match your search.": {
+"nl": "Geen verkooppunten gevonden voor je zoekopdracht.",
+"es": "Ningún punto de venta coincide con tu búsqueda.",
+"zh": "没有符合搜索条件的销售点。",
+"fr": "Aucun point de vente ne correspond à votre recherche.",
+"pt": "Nenhum ponto de venda corresponde à sua busca."
+},
+"Show all": {
+"nl": "Toon alle",
+"es": "Ver todos",
+"zh": "显示全部",
+"fr": "Tout afficher",
+"pt": "Mostrar todos"
+},
+"Also on EBS’s printed list, without a map location": {
+"nl": "Ook op de gedrukte lijst van EBS, zonder locatie op de kaart",
+"es": "También en la lista impresa de EBS, sin ubicación en el mapa",
+"zh": "EBS 纸质名单上另有以下销售点（地图上无位置）",
+"fr": "Figurent aussi sur la liste imprimée d’EBS, sans emplacement sur la carte",
+"pt": "Também na lista impressa da EBS, sem localização no mapa"
+},
+"Locations from EBS (Ogane). Stock can run out, so if a shop lists a phone number, call before you go. Map tiles © OpenStreetMap contributors.": {
+"nl": "Locaties van EBS (Ogane). De voorraad kan op raken: staat er een telefoonnummer bij, bel dan eerst. Kaarttegels © OpenStreetMap-bijdragers.",
+"es": "Ubicaciones de EBS (Ogane). Las existencias pueden agotarse: si la tienda tiene teléfono, llama antes de ir. Mapa © colaboradores de OpenStreetMap.",
+"zh": "位置来自 EBS（Ogane）。库存可能售罄，如商店留有电话，请先致电。地图 © OpenStreetMap 贡献者。",
+"fr": "Emplacements fournis par EBS (Ogane). Le stock peut s’épuiser : si un commerce indique un numéro, appelez avant de vous déplacer. Fond de carte © contributeurs d’OpenStreetMap.",
+"pt": "Locais fornecidos pela EBS (Ogane). O estoque pode acabar: se a loja tiver telefone, ligue antes de ir. Mapa © colaboradores do OpenStreetMap."
+},
+"Refill prices": {
+"nl": "Gasprijzen",
+"es": "Precios de recarga",
+"zh": "充气价格",
+"fr": "Prix de recharge",
+"pt": "Preços de recarga"
+},
+"Official prices including 5% VAT, the same at every sale point.": {
+"nl": "Officiële prijzen inclusief 5% btw, bij elk verkooppunt hetzelfde.",
+"es": "Precios oficiales con 5% de IVA incluido, iguales en todos los puntos de venta.",
+"zh": "官方价格，含 5% 增值税，各销售点统一。",
+"fr": "Prix officiels TVA de 5 % comprise, identiques dans tous les points de vente.",
+"pt": "Preços oficiais com 5% de IVA incluído, iguais em todos os pontos de venda."
+},
+"Valid from": {
+"nl": "Geldig vanaf",
+"es": "Vigentes desde",
+"zh": "生效日期",
+"fr": "En vigueur depuis le",
+"pt": "Válidos desde"
+},
+"Cylinder": {
+"nl": "Gascilinder",
+"es": "Bombona",
+"zh": "气罐",
+"fr": "Bouteille",
+"pt": "Botijão"
+},
+"{#} lbs": {
+"nl": "{#} lbs",
+"es": "{#} lbs",
+"zh": "{#} 磅",
+"fr": "{#} lbs",
+"pt": "{#} lbs"
+},
+"Composite {#} kg": {
+"nl": "Composiet {#} kg",
+"es": "Compuesta {#} kg",
+"zh": "复合材料气罐 {#} 公斤",
+"fr": "Composite {#} kg",
+"pt": "Compósito {#} kg"
+},
+"Prices are set by the government. The deposit on the cylinder itself is separate. Charged more than this? Report it to the Price Control department of the Ministry of Economic Affairs.": {
+"nl": "De prijzen worden door de overheid vastgesteld. Het statiegeld op de cilinder zelf komt er apart bij. Meer betaald dan dit? Meld het bij de afdeling Prijscontrole van het ministerie van Economische Zaken.",
+"es": "Los precios los fija el gobierno. El depósito de la bombona va aparte. ¿Te cobraron más? Denúncialo ante el departamento de Control de Precios del Ministerio de Asuntos Económicos.",
+"zh": "价格由政府制定。气罐押金另计。如被多收费，请向经济事务部价格管控部门举报。",
+"fr": "Les prix sont fixés par l’État. La consigne de la bouteille est en sus. On vous a fait payer plus ? Signalez-le au service du contrôle des prix du ministère des Affaires économiques.",
+"pt": "Os preços são definidos pelo governo. O depósito do botijão é cobrado à parte. Cobraram mais? Denuncie ao departamento de Controle de Preços do Ministério de Assuntos Econômicos."
+},
+"40 and 100 lbs: order by WhatsApp": {
+"nl": "40 en 100 lbs: bestellen via WhatsApp",
+"es": "40 y 100 lbs: pide por WhatsApp",
+"zh": "40 和 100 磅：通过 WhatsApp 订购",
+"fr": "40 et 100 lbs : commande par WhatsApp",
+"pt": "40 e 100 lbs: peça pelo WhatsApp"
+},
+"Ogane, the gas company of EBS, brings these cylinders to your home.": {
+"nl": "Ogane, het gasbedrijf van EBS, brengt deze cilinders bij je thuis.",
+"es": "Ogane, la empresa de gas de EBS, te lleva estas bombonas a casa.",
+"zh": "EBS 旗下燃气公司 Ogane 将这些气罐送货上门。",
+"fr": "Ogane, la société gazière d’EBS, livre ces bouteilles à domicile.",
+"pt": "A Ogane, empresa de gás da EBS, entrega esses botijões na sua casa."
+},
+"Send a WhatsApp message to 857-6093 with your gas customer number and the number of cylinders. You can also order at an EBS office.": {
+"nl": "Stuur een WhatsApp-bericht naar 857-6093 met je klantnummer voor gas en het aantal cilinders. Bestellen kan ook bij een kantoor van EBS.",
+"es": "Envía un WhatsApp al 857-6093 con tu número de cliente de gas y la cantidad de bombonas. También puedes pedir en una oficina de EBS.",
+"zh": "发送 WhatsApp 消息至 857-6093，注明你的燃气客户编号和所需气罐数量。也可以在 EBS 营业厅订购。",
+"fr": "Envoyez un message WhatsApp au 857-6093 avec votre numéro client gaz et le nombre de bouteilles. Vous pouvez aussi commander dans une agence EBS.",
+"pt": "Envie uma mensagem de WhatsApp para 857-6093 com seu número de cliente de gás e a quantidade de botijões. Também é possível pedir em um escritório da EBS."
+},
+"Your gas customer number is not the same as the customer number on your electricity bill.": {
+"nl": "Je klantnummer voor gas is niet hetzelfde als het klantnummer op je stroomrekening.",
+"es": "Tu número de cliente de gas no es el mismo que el de tu factura de electricidad.",
+"zh": "你的燃气客户编号与电费账单上的客户编号不同。",
+"fr": "Votre numéro client gaz n’est pas celui qui figure sur votre facture d’électricité.",
+"pt": "Seu número de cliente de gás não é o mesmo da sua conta de luz."
+},
+"Ogane delivers on the fixed day for your neighbourhood (see below).": {
+"nl": "Ogane levert op de vaste dag voor jouw wijk (zie hieronder).",
+"es": "Ogane entrega el día fijo que corresponde a tu barrio (ver abajo).",
+"zh": "Ogane 会在你所在街区的固定日期送货（见下文）。",
+"fr": "Ogane livre le jour fixé pour votre quartier (voir ci-dessous).",
+"pt": "A Ogane entrega no dia fixo do seu bairro (veja abaixo)."
+},
+"Order on WhatsApp": {
+"nl": "Bestel via WhatsApp",
+"es": "Pedir por WhatsApp",
+"zh": "通过 WhatsApp 订购",
+"fr": "Commander sur WhatsApp",
+"pt": "Pedir pelo WhatsApp"
+},
+"857-6093 takes WhatsApp messages about 40 and 100 lbs orders only. Calls and text messages to this number are not answered.": {
+"nl": "Op 857-6093 kun je alleen WhatsAppen over bestellingen van 40 en 100 lbs. Bellen of sms’en naar dit nummer kan niet.",
+"es": "El 857-6093 solo atiende mensajes de WhatsApp sobre pedidos de 40 y 100 lbs. No se responden llamadas ni SMS a este número.",
+"zh": "857-6093 仅接收有关 40 和 100 磅订单的 WhatsApp 消息，不接听电话，也不回复短信。",
+"fr": "Le 857-6093 ne traite que les messages WhatsApp concernant les commandes de 40 et 100 lbs. Les appels et SMS à ce numéro restent sans réponse.",
+"pt": "O 857-6093 atende apenas mensagens de WhatsApp sobre pedidos de 40 e 100 lbs. Ligações e SMS para esse número não são respondidos."
+},
+"How to pay": {
+"nl": "Betalen",
+"es": "Cómo pagar",
+"zh": "付款方式",
+"fr": "Comment payer",
+"pt": "Como pagar"
+},
+"Cash at the door when the cylinder is delivered. Card payment is not possible at the door, so have the exact amount ready if you can.": {
+"nl": "Contant aan de deur bij levering. Pinnen aan de deur kan niet, dus zorg zo mogelijk voor gepast geld.",
+"es": "En efectivo en la puerta al recibir la bombona. No se puede pagar con tarjeta en la puerta, así que ten el importe exacto si puedes.",
+"zh": "送货时上门付现金。上门时不能刷卡，请尽量备好零钱。",
+"fr": "En espèces à la livraison. Le paiement par carte n’est pas possible à la porte : prévoyez si possible l’appoint.",
+"pt": "Em dinheiro na porta, na entrega. Não é possível pagar com cartão na porta, então tenha o valor exato se puder."
+},
+"By bank transfer: send the proof of payment to 857-6093 on WhatsApp or by email to ogane@ebs.sr, with your customer number and the number of cylinders.": {
+"nl": "Per bankoverschrijving: stuur het betalingsbewijs via WhatsApp naar 857-6093 of per e-mail naar ogane@ebs.sr, met je klantnummer en het aantal cilinders.",
+"es": "Por transferencia bancaria: envía el comprobante al 857-6093 por WhatsApp o por correo a ogane@ebs.sr, con tu número de cliente y la cantidad de bombonas.",
+"zh": "银行转账：通过 WhatsApp 将付款凭证发送至 857-6093，或发邮件至 ogane@ebs.sr，并注明客户编号和气罐数量。",
+"fr": "Par virement : envoyez la preuve de paiement au 857-6093 sur WhatsApp ou par e-mail à ogane@ebs.sr, avec votre numéro client et le nombre de bouteilles.",
+"pt": "Por transferência bancária: envie o comprovante para 857-6093 pelo WhatsApp ou por e-mail para ogane@ebs.sr, com seu número de cliente e a quantidade de botijões."
+},
+"At an EBS payment office, in cash or by card.": {
+"nl": "Bij een betaalkantoor van EBS, contant of met de pinpas.",
+"es": "En una oficina de pago de EBS, en efectivo o con tarjeta.",
+"zh": "在 EBS 缴费点用现金或刷卡支付。",
+"fr": "Dans une agence de paiement EBS, en espèces ou par carte.",
+"pt": "Em um posto de pagamento da EBS, em dinheiro ou cartão."
+},
+"Delivery day by neighbourhood": {
+"nl": "Leverdag per wijk",
+"es": "Día de entrega por barrio",
+"zh": "各街区送货日",
+"fr": "Jour de livraison par quartier",
+"pt": "Dia de entrega por bairro"
+},
+"Neighbourhood list as published by EBS. Not sure about your day? Ask when you order.": {
+"nl": "Wijkenlijst zoals gepubliceerd door EBS. Twijfel je over je dag? Vraag het bij je bestelling.",
+"es": "Lista de barrios publicada por EBS. ¿No sabes cuál es tu día? Pregúntalo al hacer el pedido.",
+"zh": "街区列表以 EBS 公布为准。不确定送货日？下单时询问即可。",
+"fr": "Liste des quartiers publiée par EBS. Vous ne connaissez pas votre jour ? Demandez-le en commandant.",
+"pt": "Lista de bairros publicada pela EBS. Não sabe qual é o seu dia? Pergunte ao fazer o pedido."
+},
+"100 lbs at the weekend": {
+"nl": "100 lbs in het weekend",
+"es": "100 lbs el fin de semana",
+"zh": "周末购买 100 磅气罐",
+"fr": "100 lbs le week-end",
+"pt": "100 lbs no fim de semana"
+},
+"From Friday 15:00 to Monday 05:00, these main depot holders sell 100 lbs cylinders. They charge SRD 50 extra for transport and installation.": {
+"nl": "Van vrijdag 15:00 tot maandag 05:00 verkopen deze hoofddepothouders cilinders van 100 lbs. Zij rekenen SRD 50 extra voor transport en montage.",
+"es": "De viernes 15:00 a lunes 05:00, estos depósitos principales venden bombonas de 100 lbs. Cobran SRD 50 extra por transporte e instalación.",
+"zh": "周五 15:00 至周一 05:00，以下主要经销点出售 100 磅气罐，另收 SRD 50 运输和安装费。",
+"fr": "Du vendredi 15:00 au lundi 05:00, ces dépositaires principaux vendent des bouteilles de 100 lbs. Ils facturent SRD 50 de plus pour le transport et l’installation.",
+"pt": "De sexta 15:00 a segunda 05:00, estes depósitos principais vendem botijões de 100 lbs. Eles cobram SRD 50 a mais pelo transporte e instalação."
+},
+"Weekend sale is on now": {
+"nl": "Weekendverkoop is nu bezig",
+"es": "La venta de fin de semana está abierta ahora",
+"zh": "周末销售进行中",
+"fr": "Vente du week-end en cours",
+"pt": "Venda de fim de semana aberta agora"
+},
+"Depot holder": {
+"nl": "Depothouder",
+"es": "Depósito",
+"zh": "经销点",
+"fr": "Dépositaire",
+"pt": "Depósito"
+},
+"Area served": {
+"nl": "Regio",
+"es": "Zona",
+"zh": "服务区域",
+"fr": "Secteur",
+"pt": "Região"
+},
+"At a sale point you swap your empty cylinder for a full one and pay the refill price.": {
+"nl": "Bij een verkooppunt ruil je je lege cilinder om voor een volle en betaal je de vulprijs.",
+"es": "En un punto de venta cambias tu bombona vacía por una llena y pagas el precio de la recarga.",
+"zh": "在销售点用空罐换满罐，只需支付充气价格。",
+"fr": "Dans un point de vente, vous échangez votre bouteille vide contre une pleine et payez le prix de la recharge.",
+"pt": "No ponto de venda você troca o botijão vazio por um cheio e paga o preço da recarga."
+},
+"In 2026 people have reported that 28 lbs cylinders were hard to find at some shops. If your usual shop has none, try another sale point nearby.": {
+"nl": "In 2026 meldden mensen dat gasbommen van 28 lbs bij sommige winkels moeilijk te krijgen waren. Heeft je vaste winkel er geen, probeer dan een ander verkooppunt in de buurt.",
+"es": "En 2026 hubo quejas de que las bombonas de 28 lbs escaseaban en algunas tiendas. Si tu tienda habitual no tiene, prueba otro punto de venta cercano.",
+"zh": "2026 年有人反映部分商店难以买到 28 磅气罐。如果常去的商店缺货，请试试附近的其他销售点。",
+"fr": "En 2026, des clients ont signalé que les bouteilles de 28 lbs étaient difficiles à trouver dans certains commerces. Si votre commerce habituel n’en a pas, essayez un autre point de vente à proximité.",
+"pt": "Em 2026 houve relatos de que os botijões de 28 lbs estavam difíceis de encontrar em algumas lojas. Se a sua loja de costume não tiver, tente outro ponto de venda próximo."
+},
+"The list of sale points is not available right now.": {
+"nl": "De lijst met verkooppunten is nu niet beschikbaar.",
+"es": "La lista de puntos de venta no está disponible en este momento.",
+"zh": "销售点列表暂时无法显示。",
+"fr": "La liste des points de vente n’est pas disponible pour le moment.",
+"pt": "A lista de pontos de venda não está disponível no momento."
+},
+"See the EBS map": {
+"nl": "Bekijk de kaart van EBS",
+"es": "Ver el mapa de EBS",
+"zh": "查看 EBS 地图",
+"fr": "Voir la carte d’EBS",
+"pt": "Veja o mapa da EBS"
+},
+"Keep the cylinder upright, outdoors or in a well-ventilated spot.": {
+"nl": "Zet de cilinder rechtop, buiten of op een goed geventileerde plek.",
+"es": "Mantén la bombona de pie, al aire libre o en un lugar bien ventilado.",
+"zh": "气罐应直立放置在室外或通风良好的地方。",
+"fr": "Gardez la bouteille debout, à l’extérieur ou dans un endroit bien aéré.",
+"pt": "Mantenha o botijão em pé, ao ar livre ou em local bem ventilado."
+},
+"Smell gas? Close the valve on the cylinder, open doors and windows, and do not use a flame or a light switch until the smell is gone.": {
+"nl": "Ruik je gas? Draai de kraan van de cilinder dicht, zet deuren en ramen open en gebruik geen vuur of lichtschakelaar tot de lucht weg is.",
+"es": "¿Huele a gas? Cierra la válvula de la bombona, abre puertas y ventanas y no uses fuego ni interruptores hasta que desaparezca el olor.",
+"zh": "闻到煤气味？关闭气罐阀门，打开门窗，在气味散尽前不要使用明火或开关电灯。",
+"fr": "Une odeur de gaz ? Fermez le robinet de la bouteille, ouvrez portes et fenêtres et n’utilisez ni flamme ni interrupteur tant que l’odeur persiste.",
+"pt": "Sentiu cheiro de gás? Feche o registro do botijão, abra portas e janelas e não use fogo nem interruptores até o cheiro sumir."
+},
+"How much does a gas cylinder refill cost in Suriname?": {
+"nl": "Wat kost gas hervullen in Suriname?",
+"es": "¿Cuánto cuesta recargar una bombona de gas en Surinam?",
+"zh": "在苏里南给煤气罐充气要多少钱？",
+"fr": "Combien coûte la recharge d’une bouteille de gaz au Suriname ?",
+"pt": "Quanto custa recarregar um botijão de gás no Suriname?"
+},
+"The official prices, including {#}% VAT, are SRD {#} for {#} lbs, SRD {#} for {#} lbs, SRD {#} for {#} lbs and SRD {#} for {#} lbs. Composite cylinders cost SRD {#} ({#} kg), SRD {#} ({#} kg) and SRD {#} ({#} kg).": {
+"nl": "De officiële prijzen, inclusief {#}% btw, zijn SRD {#} voor {#} lbs, SRD {#} voor {#} lbs, SRD {#} voor {#} lbs en SRD {#} voor {#} lbs. Composietcilinders kosten SRD {#} ({#} kg), SRD {#} ({#} kg) en SRD {#} ({#} kg).",
+"es": "Los precios oficiales, con {#}% de IVA incluido, son SRD {#} por {#} lbs, SRD {#} por {#} lbs, SRD {#} por {#} lbs y SRD {#} por {#} lbs. Las bombonas compuestas cuestan SRD {#} ({#} kg), SRD {#} ({#} kg) y SRD {#} ({#} kg).",
+"zh": "官方价格（含 {#}% 增值税）为：SRD {#}（{#} 磅）、SRD {#}（{#} 磅）、SRD {#}（{#} 磅）和 SRD {#}（{#} 磅）。复合材料气罐：SRD {#}（{#} 公斤）、SRD {#}（{#} 公斤）和 SRD {#}（{#} 公斤）。",
+"fr": "Les prix officiels, TVA de {#} % comprise, sont de SRD {#} pour {#} lbs, SRD {#} pour {#} lbs, SRD {#} pour {#} lbs et SRD {#} pour {#} lbs. Les bouteilles composites coûtent SRD {#} ({#} kg), SRD {#} ({#} kg) et SRD {#} ({#} kg).",
+"pt": "Os preços oficiais, com {#}% de IVA incluído, são SRD {#} por {#} lbs, SRD {#} por {#} lbs, SRD {#} por {#} lbs e SRD {#} por {#} lbs. Os botijões de compósito custam SRD {#} ({#} kg), SRD {#} ({#} kg) e SRD {#} ({#} kg)."
+},
+"Where can I refill a 20 or 28 lbs gas cylinder?": {
+"nl": "Waar kan ik een gasbom van 20 of 28 lbs hervullen?",
+"es": "¿Dónde puedo recargar una bombona de gas de 20 o 28 lbs?",
+"zh": "在哪里可以给 20 或 28 磅煤气罐充气？",
+"fr": "Où recharger une bouteille de gaz de 20 ou 28 lbs ?",
+"pt": "Onde posso recarregar um botijão de gás de 20 ou 28 lbs?"
+},
+"At one of the Ogane sale points, mostly small shops. You hand in your empty cylinder and take a full one. Use Nearest to me on this page or pick your district to find one.": {
+"nl": "Bij een van de verkooppunten van Ogane, meestal kleine winkels. Je levert je lege cilinder in en neemt een volle mee. Gebruik ‘Dichtst bij mij’ op deze pagina of kies je district.",
+"es": "En uno de los puntos de venta de Ogane, casi siempre pequeñas tiendas. Entregas la bombona vacía y te llevas una llena. Usa «Más cerca de mí» en esta página o elige tu distrito.",
+"zh": "在 Ogane 的销售点，多为小商店。交回空罐，换取满罐。可使用本页的“离我最近”或选择你所在的区来查找。",
+"fr": "Dans l’un des points de vente Ogane, le plus souvent de petits commerces. Vous rendez la bouteille vide et repartez avec une pleine. Utilisez « Les plus proches » sur cette page ou choisissez votre district.",
+"pt": "Em um dos pontos de venda da Ogane, em geral pequenas lojas. Você entrega o botijão vazio e leva um cheio. Use “Mais perto de mim” nesta página ou escolha seu distrito."
+},
+"How do I order a 40 or 100 lbs gas cylinder?": {
+"nl": "Hoe bestel ik een gascilinder van 40 of 100 lbs?",
+"es": "¿Cómo pido una bombona de gas de 40 o 100 lbs?",
+"zh": "如何订购 40 或 100 磅煤气罐？",
+"fr": "Comment commander une bouteille de gaz de 40 ou 100 lbs ?",
+"pt": "Como peço um botijão de gás de 40 ou 100 lbs?"
+},
+"Send a WhatsApp message to 857-6093 with your gas customer number and the number of cylinders, or order at an EBS office. Ogane delivers on the fixed day for your neighbourhood. Your gas customer number is not the same as your electricity customer number.": {
+"nl": "Stuur een WhatsApp-bericht naar 857-6093 met je klantnummer voor gas en het aantal cilinders, of bestel bij een kantoor van EBS. Ogane levert op de vaste dag voor jouw wijk. Je klantnummer voor gas is niet hetzelfde als je klantnummer voor stroom.",
+"es": "Envía un WhatsApp al 857-6093 con tu número de cliente de gas y la cantidad de bombonas, o pide en una oficina de EBS. Ogane entrega el día fijo de tu barrio. Tu número de cliente de gas no es el mismo que el de electricidad.",
+"zh": "发送 WhatsApp 消息至 857-6093，注明燃气客户编号和气罐数量，或到 EBS 营业厅订购。Ogane 会在你所在街区的固定日期送货。燃气客户编号与电力客户编号不同。",
+"fr": "Envoyez un message WhatsApp au 857-6093 avec votre numéro client gaz et le nombre de bouteilles, ou commandez dans une agence EBS. Ogane livre le jour fixé pour votre quartier. Votre numéro client gaz n’est pas le même que votre numéro client électricité.",
+"pt": "Envie uma mensagem de WhatsApp para 857-6093 com seu número de cliente de gás e a quantidade de botijões, ou peça em um escritório da EBS. A Ogane entrega no dia fixo do seu bairro. Seu número de cliente de gás não é o mesmo da conta de luz."
+},
+"Can I buy a 100 lbs gas cylinder at the weekend?": {
+"nl": "Kan ik in het weekend een gascilinder van 100 lbs kopen?",
+"es": "¿Puedo comprar una bombona de gas de 100 lbs el fin de semana?",
+"zh": "周末可以买 100 磅煤气罐吗？",
+"fr": "Peut-on acheter une bouteille de gaz de 100 lbs le week-end ?",
+"pt": "Posso comprar um botijão de gás de 100 lbs no fim de semana?"
+},
+"Yes. From Friday 15:00 to Monday 05:00 a few main depot holders sell 100 lbs cylinders, with SRD 50 extra for transport and installation. Their numbers are on this page.": {
+"nl": "Ja. Van vrijdag 15:00 tot maandag 05:00 verkopen enkele hoofddepothouders cilinders van 100 lbs, met SRD 50 extra voor transport en montage. Hun nummers staan op deze pagina.",
+"es": "Sí. De viernes 15:00 a lunes 05:00 algunos depósitos principales venden bombonas de 100 lbs, con SRD 50 extra por transporte e instalación. Sus números están en esta página.",
+"zh": "可以。周五 15:00 至周一 05:00，几家主要经销点出售 100 磅气罐，另收 SRD 50 运输和安装费。联系电话见本页。",
+"fr": "Oui. Du vendredi 15:00 au lundi 05:00, quelques dépositaires principaux vendent des bouteilles de 100 lbs, avec SRD 50 de plus pour le transport et l’installation. Leurs numéros figurent sur cette page.",
+"pt": "Sim. De sexta 15:00 a segunda 05:00 alguns depósitos principais vendem botijões de 100 lbs, com SRD 50 a mais pelo transporte e instalação. Os números estão nesta página."
+},
+"Why did cooking gas get more expensive?": {
+"nl": "Waarom is kookgas duurder geworden?",
+"es": "¿Por qué subió el precio del gas de cocina?",
+"zh": "为什么煤气涨价了？",
+"fr": "Pourquoi le gaz de cuisine a-t-il augmenté ?",
+"pt": "Por que o gás de cozinha ficou mais caro?"
+},
+"The government is phasing out the old subsidy on cooking gas, in steps that started after a ministerial decision of 31 August 2023. The last steps, for the 28 lbs and the 14 kg composite cylinder, took effect on 1 September 2026.": {
+"nl": "De overheid bouwt de oude subsidie op kookgas stap voor stap af, na een ministeriële beschikking van 31 augustus 2023. De laatste stappen, voor de 28 lbs en de composietcilinder van 14 kg, gingen in op 1 september 2026.",
+"es": "El gobierno está eliminando por etapas el antiguo subsidio al gas de cocina, a raíz de una resolución ministerial del 31 de agosto de 2023. Los últimos ajustes, para la bombona de 28 lbs y la compuesta de 14 kg, entraron en vigor el 1 de septiembre de 2026.",
+"zh": "政府正逐步取消原有的煤气补贴，依据是 2023 年 8 月 31 日的部长令。最后一轮调整（28 磅和 14 公斤复合材料气罐）于 2026 年 9 月 1 日生效。",
+"fr": "Le gouvernement supprime progressivement l’ancienne subvention sur le gaz de cuisine, à la suite d’un arrêté ministériel du 31 août 2023. Les dernières étapes, pour la bouteille de 28 lbs et la bouteille composite de 14 kg, sont entrées en vigueur le 1er septembre 2026.",
+"pt": "O governo está eliminando aos poucos o antigo subsídio ao gás de cozinha, com base em uma decisão ministerial de 31 de agosto de 2023. Os últimos ajustes, para o botijão de 28 lbs e o de compósito de 14 kg, entraram em vigor em 1º de setembro de 2026."
+},
+"EBS: gas refills, prices and delivery": {
+"nl": "EBS: gas hervullen, prijzen en levering",
+"es": "EBS: recarga de gas, precios y entrega",
+"zh": "EBS：煤气充气、价格与送货",
+"fr": "EBS : recharge de gaz, prix et livraison",
+"pt": "EBS: recarga de gás, preços e entrega"
+},
+"EBS gas sale points map": {
+"nl": "Kaart van EBS met gasverkooppunten",
+"es": "Mapa de puntos de venta de gas de EBS",
+"zh": "EBS 煤气销售点地图",
+"fr": "Carte des points de vente de gaz d’EBS",
+"pt": "Mapa dos pontos de venda de gás da EBS"
+},
+"Prices and sale points are checked against EBS twice a day.": {
+"nl": "Prijzen en verkooppunten worden twee keer per dag met EBS vergeleken.",
+"es": "Los precios y puntos de venta se comprueban con EBS dos veces al día.",
+"zh": "价格和销售点每天与 EBS 核对两次。",
+"fr": "Les prix et les points de vente sont vérifiés auprès d’EBS deux fois par jour.",
+"pt": "Preços e pontos de venda são conferidos com a EBS duas vezes por dia."
+},
+"Nearest sale point for 20 and 28 lbs cylinders, refill prices and Ogane delivery days": {
+"nl": "Dichtstbijzijnde verkooppunt voor gasbommen van 20 en 28 lbs, gasprijzen en leverdagen van Ogane",
+"es": "Punto de venta más cercano para bombonas de 20 y 28 lbs, precios de recarga y días de entrega de Ogane",
+"zh": "最近的 20 和 28 磅煤气罐销售点、充气价格及 Ogane 送货日",
+"fr": "Point de vente le plus proche pour les bouteilles de 20 et 28 lbs, prix de recharge et jours de livraison Ogane",
+"pt": "Ponto de venda mais próximo para botijões de 20 e 28 lbs, preços de recarga e dias de entrega da Ogane"
 }
 }

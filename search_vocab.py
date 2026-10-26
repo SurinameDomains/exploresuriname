@@ -663,7 +663,9 @@ C("pets", "Pets, animal feed & farm", "Dieren, voer & landbouw", "Mascotas y agr
   scope="HV", r="vet gardening")
 C("gas-cylinders", "Cooking gas", "Kookgas & gasflessen", "Gas de cocina", "煤气罐", "Gaz de cuisine", "Gás de cozinha",
   "kookgas, gas, gasfles, gasflessen, gascilinder, gascilinders, gas cilinder, cilinder, gas hervullen, gas bijvullen, "
-  "gas bestellen, gas cylinder, gas cylinders, cooking gas, lpg, propane, propaan, 28 lbs",
+  "gas bestellen, gas cylinder, gas cylinders, cooking gas, lpg, propane, propaan, 28 lbs, "
+  "gasbom, gasbommen, gas bom, gas bommen, gastank, ogane, gasprijs, gasprijzen, gas prijs, 20 lbs, 40 lbs, 100 lbs, "
+  "gas refill, gas bottle, gas bottles",
   rx=r"cooking gas|kookgas|gas ?cylind|gascilind|\blpg\b|propan", scope="HV", r="hardware")
 C("water-delivery", "Drinking water & ice", "Drinkwater & ijs", "Agua potable y hielo", "饮用水与冰块", "Eau potable & glace", "Água potável e gelo",
   "drinkwater, drink water, water bezorgen, water bestellen, waterflessen, flessenwater, bronwater, gallon, gallons, "
