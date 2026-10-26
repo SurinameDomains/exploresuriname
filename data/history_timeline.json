@@ -221,8 +221,8 @@
    "d": "",
    "t_en": "British interlude",
    "t_nl": "Brits tussenbestuur",
-   "x_en": "During the Napoleonic wars Britain governs Suriname. In 1816 it is returned to the new Kingdom of the Netherlands.",
-   "x_nl": "Tijdens de napoleontische oorlogen bestuurt Groot-Brittannië Suriname. In 1816 wordt het teruggegeven aan het nieuwe Koninkrijk der Nederlanden."
+   "x_en": "During the Napoleonic wars Britain governs Suriname, from 1799 to 1802 and again from 1804. In 1816 it is returned to the new Kingdom of the Netherlands.",
+   "x_nl": "Tijdens de napoleontische oorlogen bestuurt Groot-Brittannië Suriname, van 1799 tot 1802 en opnieuw vanaf 1804. In 1816 wordt het teruggegeven aan het nieuwe Koninkrijk der Nederlanden."
   },
   {
    "era": "slavernij",
@@ -273,11 +273,11 @@
   {
    "era": "kontraki",
    "y": "1902",
-   "d": "",
+   "d": "30 July",
    "t_en": "Blood at Mariënburg",
    "t_nl": "Bloed bij Mariënburg",
-   "x_en": "Javanese and Hindustani workers strike against starvation wages at the Mariënburg sugar factory. Soldiers open fire; many workers are killed and buried in an unmarked grave. The strike becomes a symbol of contract-era injustice.",
-   "x_nl": "Javaanse en Hindostaanse arbeiders staken tegen hongerlonen bij suikerfabriek Mariënburg. Militairen openen het vuur; veel arbeiders worden gedood en anoniem begraven. De staking wordt hét symbool van het onrecht van de contracttijd."
+   "x_en": "Hindustani contract workers at the Mariënburg sugar estate rise up against starvation wages and harsh treatment, and the estate's director is killed. Soldiers open fire; many workers die and are buried in an unmarked grave. Mariënburg becomes a symbol of contract-era injustice.",
+   "x_nl": "Hindostaanse contractarbeiders op suikerplantage Mariënburg komen in opstand tegen hongerlonen en harde behandeling, en de directeur van de plantage wordt gedood. Militairen openen het vuur; veel arbeiders sterven en worden anoniem begraven. Mariënburg wordt hét symbool van het onrecht van de contracttijd."
   },
   {
    "era": "kontraki",
@@ -587,6 +587,51 @@
    "t_nl": "Mevrouw de president",
    "x_en": "After the May elections, parliament chooses Jennifer Geerlings-Simons as Suriname's first female president, sworn in on 16 July on the eve of the oil era, fifty years after independence.",
    "x_nl": "Na de meiverkiezingen kiest het parlement Jennifer Geerlings-Simons tot eerste vrouwelijke president van Suriname, beëdigd op 16 juli, aan de vooravond van het olietijdperk, vijftig jaar na de onafhankelijkheid."
+  },
+  {
+   "era": "nieuw",
+   "y": "2025",
+   "d": "28 September",
+   "t_en": "A promise to the forest",
+   "t_nl": "Een belofte aan het bos",
+   "x_en": "Suriname pledges to protect 90 percent of its rainforest permanently. The country already absorbs more carbon than it emits, and now promises to keep it that way as the oil era begins.",
+   "x_nl": "Suriname belooft 90 procent van zijn regenwoud blijvend te beschermen. Het land neemt nu al meer koolstof op dan het uitstoot, en belooft dat zo te houden nu het olietijdperk begint."
+  },
+  {
+   "era": "nieuw",
+   "y": "2025",
+   "d": "25 November",
+   "t_en": "Fifty years of Srefidensi",
+   "t_nl": "Vijftig jaar Srefidensi",
+   "x_en": "Suriname marks half a century of independence, with celebrations across the country and in the diaspora.",
+   "x_nl": "Suriname viert een halve eeuw onafhankelijkheid, met festiviteiten in het hele land en in de diaspora."
+  },
+  {
+   "era": "nieuw",
+   "y": "2026",
+   "d": "26 March",
+   "t_en": "So close to a first World Cup",
+   "t_nl": "Zo dicht bij een eerste WK",
+   "x_en": "Natio reaches the intercontinental play-off for the 2026 World Cup and leads through Liam van Gelderen, but loses 2-1 to Bolivia in Guadalupe, Mexico. The dream of a first World Cup has to wait.",
+   "x_nl": "Natio haalt de intercontinentale play-off voor het WK 2026 en komt via Liam van Gelderen op voorsprong, maar verliest in Guadalupe (Mexico) met 2-1 van Bolivia. De droom van een eerste WK moet wachten."
+  },
+  {
+   "era": "nieuw",
+   "y": "2026",
+   "d": "30 March",
+   "t_en": "Santokhi dies",
+   "t_nl": "Santokhi overlijdt",
+   "x_en": "Former president Chan Santokhi (2020-2025) dies suddenly at 67. As police commissioner he led the investigation into the December murders that made the trial possible.",
+   "x_nl": "Oud-president Chan Santokhi (2020-2025) overlijdt plotseling op 67-jarige leeftijd. Als korpschef leidde hij het onderzoek naar de Decembermoorden dat het proces mogelijk maakte."
+  },
+  {
+   "era": "nieuw",
+   "y": "2026",
+   "d": "23 July",
+   "t_en": "Heritage in danger",
+   "t_nl": "Erfgoed in gevaar",
+   "x_en": "UNESCO places Paramaribo's historic inner city on its List of World Heritage in Danger. The committee judges that the new National Assembly building and a parking garage detract from the historic townscape of the wooden city.",
+   "x_nl": "UNESCO plaatst de historische binnenstad van Paramaribo op de Lijst van Werelderfgoed in Gevaar. Volgens het comité tasten het nieuwe gebouw van De Nationale Assemblee en een parkeergarage het historische stadsbeeld van de houten stad aan."
   },
   {
    "era": "nieuw",

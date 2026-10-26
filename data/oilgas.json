@@ -1,6 +1,6 @@
 {
  "meta": {
-  "updated": "2026-08-02",
+  "updated": "2026-10-26",
   "note": "Reference data for the Explore Suriname oil & gas section. Every figure below is sourced from operator, government or trade-press statements. Update the 'updated' field whenever rows change.",
   "sources": [
    {
@@ -30,12 +30,24 @@
    {
     "label": "SEOGS: Suriname Energy, Oil & Gas Summit",
     "url": "https://suriname-energy.com/"
+   },
+   {
+    "label": "Halliburton: GranMorgu drilling and completions contract (Jul 2026)",
+    "url": "https://www.halliburton.com/en/about-us/press-release/halliburton-wins-integrated-drilling-completions-contract-granmorgu-suriname-total-energies"
+   },
+   {
+    "label": "OE Digital: GranMorgu on track for mid-2028 first oil (Sep 2026)",
+    "url": "https://www.oedigital.com/news/543114-totalenergies-granmorgu-project-on-track-for-mid-2028-first-oil"
+   },
+   {
+    "label": "Staatsolie Annual Report 2025",
+    "url": "https://www.staatsolie.com/media/jyijfnix/staatsolie-annual-report-2025-web.pdf"
    }
   ]
  },
  "keynumbers": [
   {
-   "v": "2028",
+   "v": "Mid-2028",
    "l": "Target year for first offshore oil",
    "s": "TotalEnergies / Staatsolie"
   },
@@ -46,8 +58,8 @@
   },
   {
    "v": "US$10.5bn",
-   "l": "GranMorgu investment approved at FID",
-   "s": "TotalEnergies, Oct 2024"
+   "l": "GranMorgu investment approved at FID (about US$12bn now)",
+   "s": "TotalEnergies, Oct 2024 / Sep 2026"
   },
   {
    "v": "750m+",
@@ -70,9 +82,9 @@
    "s": "Staatsolie"
   },
   {
-   "v": "~55%",
-   "l": "Projected GDP growth in the first full oil year",
-   "s": "IMF projection for 2028"
+   "v": "~30%",
+   "l": "Projected GDP growth in 2028, the first oil year",
+   "s": "IMF, 2025 Article IV (Feb 2026)"
   }
  ],
  "blocks": [
@@ -82,7 +94,7 @@
    "operator": "TotalEnergies (40%)",
    "partners": "APA Corporation 40%, Staatsolie 20%",
    "status": "Development",
-   "note": "Home of the GranMorgu development (Sapakara South and Krabdagu fields), about 150 km offshore. FID October 2024. First oil targeted 2028."
+   "note": "Home of the GranMorgu development (Sapakara South and Krabdagu fields), about 150 km offshore. FID October 2024. First oil targeted mid-2028. TotalEnergies plans four new exploration wells here in 2027-2028."
   },
   {
    "block": "Block 52",
@@ -90,7 +102,7 @@
    "operator": "PETRONAS (80%)",
    "partners": "Staatsolie 20%",
    "status": "Pre-FID",
-   "note": "4,749 km2. Sloanea gas field declared commercial in late 2025; a floating LNG development is the leading concept with FID targeted in the second half of 2026 and first gas around 2030. Roystonea and Fusaea oil finds still under evaluation."
+   "note": "4,749 km2. Sloanea gas field declared commercial in November 2025; a floating LNG development is the leading concept, first gas around 2030, but the investment decision targeted for 2026 had not been taken by late October. The Roystonea and Fusaea oil finds and the more recent Caiman-1 and SAC-1 finds are under evaluation."
   },
   {
    "block": "Block 53",
@@ -103,8 +115,8 @@
   {
    "block": "Block 5",
    "water": "Shallow offshore",
-   "operator": "Chevron",
-   "partners": "Paradise Oil Company (Staatsolie), QatarEnergy; Shell took a stake via farm-out",
+   "operator": "Chevron (40%)",
+   "partners": "Paradise Oil Company (Staatsolie) 40%, QatarEnergy 20%",
    "status": "Exploration",
    "note": "Korikori-1 was drilled here in the 2025 campaign."
   },
@@ -149,12 +161,20 @@
    "note": "Also awarded out of the Demerara Bid Round (2022-2023)."
   },
   {
+   "block": "Block 66",
+   "water": "Deepwater",
+   "operator": "PETRONAS (80%)",
+   "partners": "Staatsolie 20%",
+   "status": "Exploration",
+   "note": "About 3,390 km2 next to Block 52. Production sharing contract signed in June 2025."
+  },
+  {
    "block": "Blocks 9 and 10",
    "water": "Shallow offshore",
-   "operator": "PETRONAS and Chevron",
-   "partners": "Staatsolie back-in right",
+   "operator": "Block 9: PETRONAS (30%). Block 10: Chevron (30%)",
+   "partners": "Block 9: Paradise Oil Company 30%, QatarEnergy 20%, Chevron 20%. Block 10: PETRONAS 30%, QatarEnergy 30%, Paradise Oil Company 10%",
    "status": "Exploration",
-   "note": "Production sharing contracts signed as the shallow offshore acreage was opened up."
+   "note": "Production sharing contracts signed in late 2025, in water up to 50 m deep."
   },
   {
    "block": "Onshore: Tambaredjo, Tambaredjo North-West, Calcutta",
@@ -192,7 +212,7 @@
    "block": "52",
    "year": "2020",
    "operator": "PETRONAS",
-   "result": "Gas. Declared commercial in late 2025; anchor for a possible FLNG project."
+   "result": "Gas. Declared commercial in November 2025; anchor for a possible FLNG project."
   },
   {
    "name": "Sapakara South-1",
@@ -239,9 +259,9 @@
   {
    "name": "Caiman-1",
    "block": "52",
-   "year": "2025",
+   "year": "2026",
    "operator": "PETRONAS",
-   "result": "Deepwater exploration well."
+   "result": "Oil discovery in about 90 m of water, announced July 2026."
   },
   {
    "name": "Araku Deep-1",
@@ -261,7 +281,7 @@
   },
   {
    "n": "TotalEnergies",
-   "r": "Operator, Block 58 and Block 64",
+   "r": "Operator, Blocks 58, 64, 6 and 8",
    "c": "France",
    "u": "https://totalenergies.com/totalenergies-suriname",
    "d": "Operator of GranMorgu, Suriname's first offshore development, and a partner or operator across several other blocks."
@@ -275,17 +295,17 @@
   },
   {
    "n": "PETRONAS",
-   "r": "Operator, Block 52",
+   "r": "Operator, Blocks 52, 63, 66 and 9",
    "c": "Malaysia",
    "u": "https://www.petronas.com/",
-   "d": "Holds the gas story: Sloanea, Roystonea and Fusaea in Block 52, plus positions in Blocks 53, 63, 64 and shallow-offshore acreage."
+   "d": "Holds the gas story: Sloanea, Roystonea and Fusaea in Block 52, plus positions in Blocks 53, 63, 64, 66 and shallow-offshore Blocks 9 and 10."
   },
   {
    "n": "Shell",
    "r": "Operator, Block 65",
    "c": "United Kingdom / Netherlands",
    "u": "https://www.shell.com/",
-   "d": "Entered through the Demerara round and a farm-out from Chevron, targeting deeper plays."
+   "d": "Entered through the Demerara bid round, targeting deeper plays in Block 65."
   },
   {
    "n": "Chevron",
@@ -399,9 +419,9 @@
    "k": "past"
   },
   {
-   "y": "Nov 2025",
-   "t": "Open Door Offering launched",
-   "d": "Staatsolie opens roughly 60% of offshore acreage, more than 70,000 km2, to nomination by companies at any time instead of waiting for a bid round.",
+   "y": "Jun 2025",
+   "t": "Block 66 signed",
+   "d": "PETRONAS (80%) and Staatsolie (20%) sign a production sharing contract for deepwater Block 66, next to Block 52.",
    "k": "past"
   },
   {
@@ -411,27 +431,51 @@
    "k": "past"
   },
   {
+   "y": "Nov 2025",
+   "t": "Open Door Offering launched",
+   "d": "Staatsolie opens roughly 60% of offshore acreage, more than 70,000 km2, to nomination by companies at any time instead of waiting for a bid round.",
+   "k": "past"
+  },
+  {
+   "y": "Late 2025",
+   "t": "Blocks 9 and 10 signed",
+   "d": "Production sharing contracts for shallow-offshore Blocks 9 and 10 bring in PETRONAS, Chevron, QatarEnergy and Paradise Oil Company.",
+   "k": "past"
+  },
+  {
    "y": "H1 2026",
    "t": "From blueprint to buildout",
-   "d": "The FPSO hull enters dry dock in China, the first subsea equipment lands at the Dr. Jules Sedney Terminal in Paramaribo, and subsea trees roll off the line in Malaysia.",
+   "d": "The FPSO hull enters dry dock in Nantong, China, the first subsea equipment lands at the Dr. Jules Sedney Terminal in Paramaribo, and subsea trees roll off the line in Malaysia.",
+   "k": "past"
+  },
+  {
+   "y": "Jul 2026",
+   "t": "Driller chosen",
+   "d": "Halliburton wins the integrated drilling and completions contract for the GranMorgu development wells.",
+   "k": "past"
+  },
+  {
+   "y": "Sep 2026",
+   "t": "Halfway there",
+   "d": "The first major subsea production equipment arrives in Paramaribo. TotalEnergies says about half of the investment, now around US$12 billion, has been spent, with first oil targeted for mid-2028.",
    "k": "past"
   },
   {
    "y": "2026",
-   "t": "Sovereign fund becomes real",
-   "d": "All mineral revenue is supposed to flow into the Savings and Stabilisation Fund. The IMF notes the fund still needs a board, procedures and an investment framework.",
+   "t": "The oil fund still has to be set up",
+   "d": "Mineral revenue is meant to flow into the Savings and Stabilisation Fund. In September 2026 the President said it is not yet operational and its law must be amended again; the aim is to have it running before first oil revenue.",
    "k": "now"
   },
   {
-   "y": "Late 2026 - Q1 2027",
-   "t": "Development drilling starts",
-   "d": "Up to 32 producer and injector wells are planned for GranMorgu.",
+   "y": "Late 2026 or later",
+   "t": "Sloanea gas decision expected",
+   "d": "PETRONAS targeted an FID on a floating LNG development in Block 52 for 2026; by late October 2026 it had not been announced.",
    "k": "future"
   },
   {
-   "y": "H2 2026",
-   "t": "Sloanea gas decision expected",
-   "d": "PETRONAS targets an FID on a floating LNG development in Block 52.",
+   "y": "Early 2027",
+   "t": "Development drilling starts",
+   "d": "Halliburton is contracted to drill up to 32 producer and injector wells for GranMorgu, alongside offshore installation.",
    "k": "future"
   },
   {
@@ -441,9 +485,9 @@
    "k": "future"
   },
   {
-   "y": "2028",
+   "y": "Mid-2028",
    "t": "First oil",
-   "d": "GranMorgu is targeted to start producing, ramping toward 220,000 barrels a day. The IMF projects GDP growth around 55% in the first full year.",
+   "d": "GranMorgu is targeted to start producing, ramping toward 220,000 barrels a day. The IMF expects offshore oil to push GDP growth to around 30% in 2028.",
    "k": "future"
   },
   {
