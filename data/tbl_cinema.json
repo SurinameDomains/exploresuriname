@@ -1,66 +1,41 @@
 {
-  "last_updated": "2026-10-25T16:00:35.567415+00:00",
+  "last_updated": "2026-10-26T10:00:38.155577+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "02:00 PM",
-      "title": "Udta Teer",
-      "url": "https://www.tblcinemas.com/movie/RS923055367737/udta-teer"
-    },
-    {
-      "time": "02:30 PM",
-      "title": "Resident Evil",
-      "url": "https://www.tblcinemas.com/movie/RS762482270455/resident-evil"
-    },
-    {
-      "time": "03:15 PM",
-      "title": "Clayface",
-      "url": "https://www.tblcinemas.com/movie/RS818180383796/clayface"
-    },
-    {
-      "time": "04:00 PM",
+      "time": "05:15 PM",
       "title": "Forgotten Island",
       "url": "https://www.tblcinemas.com/movie/RS706204767478/forgotten-island"
     },
     {
-      "time": "04:30 PM",
-      "title": "Whalefall",
-      "url": "https://www.tblcinemas.com/movie/RS987342453993/whalefall"
+      "time": "06:00 PM",
+      "title": "Other Mommy",
+      "url": "https://www.tblcinemas.com/movie/RS990149882856/other-mommy"
     },
     {
-      "time": "05:00 PM",
-      "title": "Street Fighter",
-      "url": "https://www.tblcinemas.com/movie/RS756444881544/street-fighter"
-    },
-    {
-      "time": "05:30 PM",
-      "title": "Nayyi Navelli",
-      "url": "https://www.tblcinemas.com/movie/RS229778423121/nayyi-navelli"
-    },
-    {
-      "time": "06:15 PM",
+      "time": "06:45 PM",
       "title": "Udta Teer",
       "url": "https://www.tblcinemas.com/movie/RS923055367737/udta-teer"
     },
     {
-      "time": "07:00 PM",
-      "title": "The Social Reckoning",
-      "url": "https://www.tblcinemas.com/movie/RS337981556049/the-social-reckoning"
+      "time": "07:15 PM",
+      "title": "Nayyi Navelli",
+      "url": "https://www.tblcinemas.com/movie/RS229778423121/nayyi-navelli"
     },
     {
-      "time": "07:30 PM",
+      "time": "07:45 PM",
       "title": "Street Fighter",
       "url": "https://www.tblcinemas.com/movie/RS756444881544/street-fighter"
     },
     {
-      "time": "08:00 PM",
-      "title": "Clayface",
-      "url": "https://www.tblcinemas.com/movie/RS818180383796/clayface"
+      "time": "08:15 PM",
+      "title": "Whalefall",
+      "url": "https://www.tblcinemas.com/movie/RS987342453993/whalefall"
     },
     {
       "time": "08:45 PM",
-      "title": "Other Mommy",
-      "url": "https://www.tblcinemas.com/movie/RS990149882856/other-mommy"
+      "title": "Clayface",
+      "url": "https://www.tblcinemas.com/movie/RS818180383796/clayface"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
