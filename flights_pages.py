@@ -984,8 +984,8 @@ def build_board(ctx, c):
          "For all regional flights it opens three hours and closes two hours before departure. Your airline has the final word."),
         ("What is the main airport in Suriname?",
          "Johan Adolf Pengel International Airport (PBM), also called Zanderij, about 45 km south of Paramaribo. Eduard Alexander "
-         "Gummels Airport (EAX) at Zorg en Hoop in Paramaribo handles domestic flights, interior charters and short regional "
-         "flights to Guyana."),
+         "Gummels Airport (EAX), a private airport in the north of Paramaribo, handles short regional flights to Guyana. "
+         "Domestic flights to the interior mostly leave from Zorg en Hoop airport, which this page does not cover."),
         ("How far is Johan Adolf Pengel Airport from Paramaribo?",
          "About 45 km. The drive from central Paramaribo usually takes 45 to 60 minutes depending on traffic."),
         ("How long is a flight from Amsterdam to Suriname?",
@@ -1075,15 +1075,16 @@ def build_board(ctx, c):
              '<div><h3>Getting to the airport</h3><p>Johan Adolf Pengel is about 45 km south of Paramaribo, usually a 45 to 60 minute drive. '
              'Ride-hailing apps do not operate at the airport: book a taxi or shuttle, or rent a car. '
              '<a href="/services?sub=travel-transport">Taxis, shuttles and transport</a>.</p></div>'
-             '<div><h3>Arriving in Suriname</h3><p>Most visitors arrange an e-visa or tourist card and pay the entry fee online before they fly. '
-             '<a href="/visitor-resources">Arrival, visa and money tips</a> &#183; <a href="/currency">Exchange rates</a> &#183; '
+             '<div><h3>Arriving in Suriname</h3><p>Most visitors pay the Entry Fee online before they fly, and some nationalities need an e-visa. '
+             '<a href="/suriname-entry-requirements">Entry requirements</a> &#183; <a href="/visitor-guide">Arrival and money tips</a> &#183; <a href="/currency">Exchange rates</a> &#183; '
              '<a href="/atms">ATMs</a>.</p></div>'
              '<div><h3>Parking at PBM</h3><p>The airport offers overnight Park &amp; Fly in covered garage boxes and a secured area. '
              'Reserve through Commercial Affairs, NV Luchthavenbeheer: <span translate="no">+597 325113</span>.</p></div>'
              '<div><h3>Airline phone numbers</h3><ul>' + "".join(phones) + '</ul>'
              '<p>As listed by the airport. For bookings and rebooking, contact the airline.</p></div>'
-             '<div><h3 translate="no">Eduard Alexander Gummels (EAX)</h3><p>Paramaribo&#8217;s city airport at Zorg en Hoop, for domestic flights, interior charters and short hops to '
-             'Georgetown (Ogle) with Gum Air and Trans Guyana Airways.</p></div>'
+             '<div><h3 translate="no">Eduard Alexander Gummels (EAX)</h3><p>A private airport in the north of Paramaribo, international since March 2025, for short hops to '
+             'Georgetown (Ogle) with Gum Air and Trans Guyana Airways. Domestic flights to the interior mostly leave '
+             'from Zorg en Hoop airport, which this board does not cover.</p></div>'
              '</div></section>')
 
     faq_html = ('<section class="fl-card fl-sec fl-faq" id="faq"><h2 class="fl-h2">Questions</h2>'

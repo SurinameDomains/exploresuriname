@@ -222,11 +222,11 @@ def _build_hub(ctx, D):
          "Staatsolie manages the acreage on behalf of Suriname and can take up to a 20% share in any "
          "development."),
         ("Will oil make Suriname rich?",
-         "It will make the state considerably richer. The IMF projects GDP growth of roughly 55% in the "
-         "first full year of production, and Staatsolie has pointed to government oil revenue in the "
+         "It will make the state considerably richer. The IMF expects offshore oil to push GDP growth to "
+         "around 30% in 2028, and Staatsolie has pointed to government oil revenue in the "
          "range of US$1.5 to 2 billion a year at peak. Whether that translates into broad prosperity "
          "depends on the Savings and Stabilisation Fund, spending discipline and local content, all of "
-         "which the IMF has flagged as unfinished work."),
+         "which are still unfinished work."),
         ("Will petrol get cheaper in Suriname?",
          "There is no automatic link. Crude from GranMorgu is sold on the world market at Brent-linked "
          "prices, and Suriname's pump prices depend on refining, import costs, the exchange rate and "
@@ -245,7 +245,7 @@ def _build_hub(ctx, D):
         "Staatsolie committed about US$10.5 billion to build GranMorgu, a floating production vessel "
         "150 km offshore that will handle 220,000 barrels a day.</p>"
         "<p>Nothing offshore is producing yet. The FPSO is under construction in Asia, subsea equipment "
-        "is arriving in Paramaribo, and first oil is targeted for 2028. Everything else on this page is "
+        "is arriving in Paramaribo, and first oil is targeted for mid-2028. Everything else on this page is "
         "about what that means, who controls it and what is still unresolved.</p>", tone="oil")
 
     body += ('<h2 class="serif text-2xl font-bold text-gray-900 mb-5">Suriname oil and gas by the numbers</h2>'
@@ -274,40 +274,41 @@ def _build_hub(ctx, D):
         '<p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Countdown</p>'
         '<h3 class="font-bold text-gray-900 mb-3">To the start of 2028</h3>'
         f'<p class="serif text-3xl font-bold" style="color:{_OIL}" id="oil-countdown">&mdash;</p>'
-        '<p class="text-gray-500 text-xs mt-3 leading-relaxed">First oil is targeted for 2028, without a '
-        'published date. This counts down to 1 January 2028, the start of the target year, and will move '
+        '<p class="text-gray-500 text-xs mt-3 leading-relaxed">First oil is targeted for mid-2028, without '
+        'an exact date. This counts down to 1 January 2028, the start of the target year, and will move '
         'if the schedule does.</p></div></div>')
 
     body += card("At a glance", "The whole picture in one table",
         _table(["", f"Where things stand as of {_asof(meta)}"], [
             ["Producing today", "Onshore only. Around 17,000 barrels a day of heavy Saramacca Crude from "
              "Tambaredjo, Tambaredjo North-West and Calcutta, refined at Tout Lui Faut."],
-            ["First offshore oil", "Targeted 2028, from GranMorgu in Block 58."],
+            ["First offshore oil", "Targeted for mid-2028, from GranMorgu in Block 58."],
             ["Flagship project", "GranMorgu. Two fields, Sapakara South and Krabdagu, 150 km offshore, "
              "developed with subsea wells feeding one FPSO rated at 220,000 barrels a day."],
             ["Who runs it", "TotalEnergies operates with 40%. APA Corporation holds 40%, Staatsolie 20%."],
             ["The gas story", "PETRONAS declared the Sloanea field in Block 52 commercial in late 2025. "
-             "A floating LNG development is the leading concept, FID targeted in the second half of 2026, "
-             "first gas around 2030."],
+             "A floating LNG development is the leading concept; the investment decision, targeted for "
+             "2026, had not been taken by late October. First gas around 2030."],
             ["Who governs it", "Ministry of Oil, Gas and Environment for policy, Staatsolie for the "
              "acreage and contracts, the National Environment Authority for permits."],
             ["Where the money goes", "Royalty, profit oil, 36% income tax and Staatsolie dividends, "
-             "channelled into the Savings and Stabilisation Fund from 2026."],
-            ["The open questions", "No local content law yet, an oil fund without a board or investment "
-             "framework, and an economy the IMF says is not yet ready for the inflow."],
+             "meant to flow into the Savings and Stabilisation Fund, which is not yet operational."],
+            ["The open questions", "No local content law yet (a bill is planned for 2027), an oil fund "
+             "that still has to be set up, and an economy the IMF says is not yet ready for the inflow."],
         ]))
 
     body += card("What is actually happening", "Construction, not drilling headlines",
         '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
         'The exploration phase that produced the headlines is largely over for Block 58. What is happening '
         'now is heavy industrial construction spread across three continents. The FPSO hull entered dry '
-        'dock in China in April 2026 for topsides integration. Subsea trees are being assembled and '
+        'dock in Nantong, China, in April 2026, ahead of topsides integration, and by September about half '
+        'the investment had been spent. Subsea trees are being assembled and '
         'tested in Malaysia. The first subsea equipment, part of the acoustic positioning system used to '
         'place hardware precisely on the seabed, landed at the Dr. Jules Sedney Terminal in Paramaribo at '
         'the end of March 2026.</p>'
         '<p class="text-gray-700 text-sm leading-relaxed">'
-        'Development drilling, up to 32 producer and injector wells, is scheduled to start in late 2026 or '
-        'early 2027. That is the phase Surinamers will actually see: supply boats, helicopters, a bigger '
+        'Development drilling, up to 32 producer and injector wells by Halliburton, is scheduled to start '
+        'in early 2027. That is the phase Surinamers will actually see: supply boats, helicopters, a bigger '
         'expat presence and a lot more procurement. The '
         + ilink("granmorgu.html", "GranMorgu project page") + ' tracks it in detail.</p>')
 
@@ -325,7 +326,7 @@ def _build_hub(ctx, D):
 
     body += card("What it means at home", "Revenue, jobs and the part nobody has finished",
         '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
-        'The fiscal side is genuinely large for a country of roughly 600,000 people. A 6.25% royalty, a '
+        'The fiscal side is genuinely large for a country of roughly 635,000 people. A 6.25% royalty, a '
         '36% income tax fixed for the life of each contract, a share of profit oil and Staatsolie&#8217;s '
         '20% stake give the state something in the order of 60 to 70% of project value after costs. '
         'Staatsolie has pointed to US$1.5 to 2 billion a year at peak.</p>'
@@ -336,10 +337,10 @@ def _build_hub(ctx, D):
         'catering, inspection, waste handling. See '
         + ilink("suriname-oil-jobs.html", "jobs and local content") + '.</p>'
         '<p class="text-gray-700 text-sm leading-relaxed">'
-        'The unfinished part is institutional. As of 2026 there is still no local content law, only policy. '
-        'The Savings and Stabilisation Fund exists on paper and is meant to receive all mineral revenue '
-        'from 2026, but the IMF noted it has no board, no operating procedures and no investment '
-        'framework. That gap, not the geology, is what decides whether this goes well.</p>')
+        'The unfinished part is institutional. There is still no local content law, only policy; the '
+        'government plans to send one to parliament in 2027. The Savings and Stabilisation Fund exists in '
+        'law, but in September 2026 President Simons said it still has to be made operational before the '
+        'first oil revenue arrives. That gap, not the geology, is what decides whether this goes well.</p>')
 
     body += card("The other side", "Risks worth stating plainly",
         '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
@@ -353,7 +354,7 @@ def _build_hub(ctx, D):
         'IMF has used the phrase resource curse in its Suriname commentary and tied the outcome to '
         'completing the fiscal framework before the money arrives.</p>'
         '<p class="text-gray-700 text-sm leading-relaxed">'
-        'Third, timing. First oil in 2028 is a target under a fixed-price global supply chain. FPSO '
+        'Third, timing. First oil in mid-2028 is a target under a fixed-price global supply chain. FPSO '
         'projects slip. So do gas FIDs. Treat every forward date on this site as an operator target.</p>')
 
     # Live news
@@ -526,9 +527,9 @@ def _build_granmorgu(ctx, D):
          "<a href='sranan-tongo-dictionary.html' style='color:var(--forest2)' class='font-semibold'>"
          "Sranan Tongo dictionary</a> has more of the language."),
         ("When will GranMorgu produce first oil?",
-         "The target is 2028. As of mid-2026 the project is in construction: the FPSO hull is in dry dock "
-         "in China, subsea trees are being built in Malaysia and development drilling is scheduled to "
-         "start in late 2026 or the first quarter of 2027."),
+         "The target is mid-2028. As of October 2026 the project is about half complete: the FPSO hull "
+         "is being finished in China, the first subsea production equipment has arrived in Paramaribo, "
+         "and development drilling and offshore installation are scheduled to start in early 2027."),
         ("How much oil will GranMorgu produce?",
          "The FPSO is designed for 220,000 barrels a day, with gas processing capacity of 500 million "
          "cubic feet a day. The development holds more than 750 million barrels of oil, and "
@@ -594,12 +595,12 @@ def _build_granmorgu(ctx, D):
     body += card("Who builds what", "The contractor map",
         _table(["Scope", "Company", "Detail"], [
             ["FPSO", "SBM Offshore with Technip Energies",
-             "Fast4Ward-style hull, all-electric drive. Hull entered dry dock at the COSCO yard in China in April 2026 for topsides integration."],
+             "Fast4Ward-style hull, all-electric drive. Hull entered dry dock at the CMHI yard in Nantong, China, in April 2026; topsides integration follows at COSCO."],
             ["Subsea installation", "Saipem", "Approximately US$1.9 billion scope covering flowlines, risers and installation."],
             ["Subsea production systems", "TechnipFMC",
              "Christmas trees and related hardware, assembled and system-integration tested in Malaysia."],
-            ["Drilling", "Contracted by TotalEnergies",
-             "TotalEnergies has signalled a more integrated well-construction contracting model for Suriname."],
+            ["Drilling", "Halliburton",
+             "Integrated drilling and completions contract for the development wells, awarded in July 2026."],
             ["Workforce pipeline", "STS joint venture",
              "SBM Offshore, Technip Energies and Suriname run a 19-month graduate programme; the first Surinamese cohort trained in Kuala Lumpur."],
         ]))
@@ -609,11 +610,13 @@ def _build_granmorgu(ctx, D):
         ["February 2026", "TotalEnergies signals a more integrated contracting model for the Suriname wells."],
         ["March 2026", "Rystad Energy details the 50,000-tonne topside and 500 mmcf/d gas processing. Subsea trees 1 to 4 complete, 5 to 7 in assembly."],
         ["Late March 2026", "First subsea equipment lands in Suriname: components of the long baseline acoustic positioning system arrive at the Dr. Jules Sedney Terminal, Paramaribo."],
-        ["April 2026", "The FPSO hull enters dry dock in China ahead of topsides integration."],
+        ["April 2026", "The FPSO hull enters dry dock at the CMHI yard in Nantong, China, ahead of topsides integration."],
         ["May 2026", "TechnipFMC and TotalEnergies complete stack-up and system integration testing of a production tree in Malaysia. Six Surinamese graduates on the STS programme meet SBM Offshore leadership in Kuala Lumpur."],
-        ["Late 2026 to Q1 2027", "Development drilling scheduled to begin. Offshore installation activity ramps up."],
+        ["July 2026", "Halliburton wins the integrated drilling and completions contract for the GranMorgu wells."],
+        ["September 2026", "The first major subsea production equipment arrives in Paramaribo. TotalEnergies says about half of the planned investment, now around US$12 billion, has been spent."],
+        ["Early 2027", "Development drilling and offshore installation scheduled to begin."],
         ["2027", "FPSO sail-away, mooring, hook-up and commissioning offshore Suriname."],
-        ["2028", "Target for first oil and ramp-up toward 220,000 barrels a day."],
+        ["Mid-2028", "Target for first oil and ramp-up toward 220,000 barrels a day."],
     ]
     body += card("Progress log", "What has actually happened, and what is next",
         _table(["When", "Milestone"], tl_rows))
@@ -712,7 +715,7 @@ def _build_timeline(ctx, D):
              "Topsides integration in China, then commissioning. This is the long pole: the vessel has to "
              "be complete enough to sail before anything else matters."),
             ("Drill the wells",
-             "Up to 32 development wells starting late 2026 or early 2027. Each one takes weeks, and the "
+             "Up to 32 development wells starting in early 2027. Each one takes weeks, and the "
              "campaign runs in parallel with vessel construction."),
             ("Install subsea infrastructure",
              "Trees, flowlines, risers and umbilicals placed and tested on the seabed. Saipem's scope."),
@@ -727,14 +730,14 @@ def _build_timeline(ctx, D):
         _table(["Risk", "Effect"], [
             ["Yard or commissioning delay", "The single most common cause of FPSO slippage. Pushes first oil directly."],
             ["Development drilling pace", "Fewer wells ready at start-up means a slower ramp rather than a later start."],
-            ["Sloanea FID timing", "If the Block 52 gas decision slips past 2026, first gas moves out from around 2030."],
+            ["Sloanea FID timing", "The Block 52 gas decision, targeted for 2026, had not been taken by late October; further slippage moves first gas out from around 2030."],
             ["Oil price", "A sustained fall changes appetite for the next final investment decision, not GranMorgu itself, which is already sanctioned."],
             ["Institutional readiness", "Does not delay production, but the IMF has argued it determines whether the revenue is handled well."],
         ]))
 
     body += card("After first oil", "What the forecasts assume",
         '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
-        'The IMF projects roughly 55% GDP growth in the first full year of production and sees crude '
+        'The IMF expects offshore oil to push GDP growth to around 30% in 2028 and sees crude '
         'output peaking near 73 million barrels in 2030 and 2031 before declining. Staatsolie has pointed '
         'to government oil revenue of US$1.5 to 2 billion a year at peak, with something in the order of '
         'US$7 billion across the first five production years.</p>'
@@ -838,7 +841,7 @@ def _build_contracts(ctx, D):
             ["Demerara Bid Round", "November 2022 to May 2023",
              "Blocks 63, 64 and 65. PETRONAS on 63; TotalEnergies, QatarEnergy and PETRONAS on 64; Shell&#8217;s BG International with QatarEnergy on 65."],
             ["Shallow Offshore Round 2", "Following the Demerara round",
-             "Eleven further shallow-water blocks offered; blocks 9 and 10 went to PETRONAS and Chevron."],
+             "Further shallow-water blocks offered. Production sharing contracts for blocks 9 and 10 were signed in late 2025: Block 9 with PETRONAS (operator, 30%), Paradise Oil Company (30%), QatarEnergy and Chevron (20% each); Block 10 with Chevron (operator, 30%), PETRONAS and QatarEnergy (30% each) and Paradise Oil Company (10%)."],
             ["Open Door Offering", "From November 2025",
              "Roughly 60% of offshore acreage, over 70,000 km2, open to nomination at any time. Promoted internationally including a Houston roadshow in May 2026."],
         ]))
@@ -876,12 +879,14 @@ def _build_contracts(ctx, D):
              "Establishes the National Environment Authority (NMA) and the permitting regime that "
              "offshore operations sit under."),
             ("Savings and Stabilisation Fund law",
-             "Directs mineral revenue into a sovereign fund. From 2026 all mineral revenue is meant to be "
-             "deposited there and managed independently."),
+             "Directs mineral revenue into a sovereign fund, managed independently of the budget. A 2024 "
+             "amendment set aside part of the Block 58 royalties for bondholders through a Value Recovery "
+             "Instrument (VRI); the current government has removed the VRI from the future oil revenue, so the "
+             "law is being amended again, and the fund is not yet operational."),
             ("Local content: policy, not yet law",
              "Preference for local suppliers and workers is written into the petroleum law and the PSCs, "
              "but Suriname has no dedicated local content act. A national local content programme began "
-             "in 2026 and legislation has been promised. See "
+             "in 2026, and the government plans to send a Local Content Act to parliament in 2027. See "
              "<a href='suriname-oil-jobs.html' class='font-semibold' style='color:var(--forest2)'>jobs and "
              "local content</a>."),
         ]))
@@ -923,17 +928,17 @@ def _build_government(ctx, D):
          "Environment Authority handles environmental permitting. The Ministry of Finance and Planning "
          "and the Savings and Stabilisation Fund handle the revenue."),
         ("What is the Savings and Stabilisation Fund?",
-         "Suriname&#8217;s sovereign wealth fund, the Spaar- en Stabilisatiefonds Suriname. From 2026 all "
-         "mineral revenue is meant to be deposited into it and managed independently, to smooth price "
-         "swings and save for future generations. The IMF noted in early 2026 that the fund still lacked "
-         "a board, operating procedures and an investment framework."),
+         "Suriname&#8217;s sovereign wealth fund, the Spaar- en Stabilisatiefonds Suriname. Mineral "
+         "revenue is meant to be deposited into it and managed independently, to smooth price swings and "
+         "save for future generations. In September 2026 President Simons said the fund still has to be "
+         "made operational, and its law amended, before the first oil revenue arrives."),
         ("Is Staatsolie both regulator and player?",
          "Effectively yes, and it is the structural question people raise. Staatsolie markets the "
          "acreage, negotiates the contracts and takes an equity stake in the projects it licensed. The "
          "creation of a separate oil and gas ministry in 2025 was partly a move toward splitting policy "
          "from commercial operations."),
         ("What has the IMF said about Suriname and oil?",
-         "In its 2025 Article IV consultation, concluded in February 2026, the IMF described 2026 and "
+         "In its 2025 Article IV consultation, published in early 2026, the IMF described 2026 and "
          "2027 as a transition period in which Suriname must finish regulations and strengthen "
          "institutions before production starts, warned about the risk of a resource curse without "
          "urgent policy measures, and called for meaningful fiscal adjustment in 2026."),
@@ -960,7 +965,7 @@ def _build_government(ctx, D):
              "Operational, and still building capacity for offshore-scale oversight."],
             ["Savings and Stabilisation Fund (SSFS)",
              "Receives and invests mineral revenue; smooths price swings; saves for future generations",
-             "Legally established. As of early 2026 the IMF reported no board, no operating procedures and no investment framework."],
+             "Legally established, not yet operational (President Simons, September 2026). The law is being amended again after the VRI was removed."],
             ["Ministry of Finance and Planning",
              "Budget, fiscal framework, debt",
              "Under IMF pressure for fiscal adjustment ahead of the revenue inflow."],
@@ -999,9 +1004,9 @@ def _build_government(ctx, D):
         'contracts that right out to international companies. It is simultaneously an operating business: '
         'onshore fields, the Tout Lui Faut refinery, power generation and a gold royalty stream.</p>'
         '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
-        'Recent scale: Staatsolie anticipated total revenue of about US$802 million for 2025 with pre-tax '
-        'profit near US$418 million, and contributions to the treasury of roughly US$387 million through '
-        'taxes, dividends and royalties. It raised more than US$2 billion in 2025 to fund its GranMorgu '
+        'Recent scale: in 2025 Staatsolie reported revenue of US$832 million and a pre-tax profit of '
+        'US$445 million, and paid the state about US$400 million in taxes, dividends and royalties. It is '
+        'weighing an international bond or a share listing. It raised more than US$2 billion in 2025 to fund its GranMorgu '
         'share, through a US$516 million bond and a US$1.6 billion syndicated loan from 18 lenders.</p>'
         '<p class="text-gray-700 text-sm leading-relaxed">'
         'The structural criticism is straightforward: the entity that markets the acreage and negotiates '
@@ -1012,15 +1017,14 @@ def _build_government(ctx, D):
     body += card("The oil fund", "Where the money is supposed to go",
         '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
         'The Spaar- en Stabilisatiefonds Suriname exists to do two jobs: absorb the swings when oil prices '
-        'move, and save part of a finite resource for people who are not born yet. From 2026 all mineral '
-        'revenue is supposed to be deposited directly into it and managed independently of the annual '
-        'budget.</p>'
+        'move, and save part of a finite resource for people who are not born yet. Mineral revenue is '
+        'supposed to be deposited directly into it and managed independently of the annual budget.</p>'
         '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
-        'That is the design. The IMF&#8217;s 2025 Article IV consultation, concluded in February 2026, '
-        'reported that the fund had no board, no operating procedures and no investment framework, and '
-        'that implementation was held back by institutional weakness, poor coordination and a shortage of '
-        'skilled staff. It framed 2026 and 2027 as a transition window in which the rules have to be '
-        'finished before the money arrives.</p>'
+        'That is the design. In early 2026 the IMF urged full and timely implementation of the fund law. '
+        'In her annual address of 30 September 2026, President Simons said the fund is not yet '
+        'operational: the organisation still has to be set up, and because her government removed the '
+        'Value Recovery Instrument from the future oil revenue, the law has to be amended again. The aim '
+        'is to have it running before the first oil money arrives.</p>'
         '<p class="text-gray-700 text-sm leading-relaxed">'
         'This is the single most consequential unresolved item in the sector. The oil will be produced '
         'whether or not the fund works. What the fund decides is who benefits and for how long.</p>')
@@ -1087,8 +1091,9 @@ def _build_jobs(ctx, D):
         ("Does Suriname have a local content law?",
          "No. As of 2026 preference for local suppliers and workers is written into the petroleum law and "
          "into production sharing contracts, and a national local content programme started in 2026, but "
-         "there is no dedicated local content act with mandatory targets and enforcement. This is the "
-         "sector&#8217;s most-argued gap, particularly compared with Guyana."),
+         "there is no dedicated local content act with mandatory targets and enforcement yet. The Local "
+         "Content Board has drafted a preliminary bill, and the government plans to send it to parliament "
+         "in 2027. This is the sector&#8217;s most-argued gap, particularly compared with Guyana."),
         ("What is the NATIN Oil and Gas programme?",
          "A technical education track at the Natuur Technisch Instituut Suriname, created with Staatsolie, "
          "the Ministry of Education and international operators. The first cohort ran from October 2022 to "
@@ -1179,9 +1184,10 @@ def _build_jobs(ctx, D):
         'materially bigger roles by 2029, and its 2026 budget carries a line for developing the policy.</p>'
         '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
         'What does not exist is a local content act: binding percentage targets, a dedicated enforcement '
-        'office and penalties. The policy framework calls for both, and neither has been legislated. '
-        'Suriname reaches first oil without the instrument Guyana used, which is the criticism most often '
-        'made by local business organisations.</p>'
+        'office and penalties. The Local Content Board has written a preliminary bill and will advise on a '
+        'Local Content Authority; the government plans to send the act to parliament in 2027, before first '
+        'oil. Until then Suriname works without the instrument Guyana used, which is the criticism most '
+        'often made by local business organisations.</p>'
         '<p class="text-gray-700 text-sm leading-relaxed">'
         'Practically, that means a Surinamese company cannot rely on a quota. It has to be genuinely '
         'competitive on safety, certification and delivery, and it has to be registered before the tender '

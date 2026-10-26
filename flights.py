@@ -50,8 +50,8 @@ AIRPORTS = [
      "short": "Johan Adolf Pengel", "place": "Zanderij", "cache": "flights_cache.json",
      "lat": 5.4528, "lon": -55.1878},
     {"icao": "SMEG", "iata": "EAX", "name": "Eduard Alexander Gummels Airport",
-     "short": "Eduard Alexander Gummels", "place": "Zorg en Hoop, Paramaribo",
-     "cache": "flights_cache_smeg.json", "lat": 5.8108, "lon": -55.1908},
+     "short": "Eduard Alexander Gummels", "place": "Paramaribo",
+     "cache": "flights_cache_smeg.json", "lat": 5.8635, "lon": -55.1895},
 ]
 AP_BY_IATA = {a["iata"]: a for a in AIRPORTS}
 
@@ -112,7 +112,7 @@ CITY = {
     "GEO": "Georgetown", "OGL": "Georgetown (Ogle)", "CAY": "Cayenne", "MIA": "Miami",
     "FLL": "Fort Lauderdale", "JFK": "New York", "HAV": "Havana", "SCU": "Santiago de Cuba",
     "CMW": "Camagüey", "SDQ": "Santo Domingo", "MAO": "Manaus", "BVB": "Boa Vista",
-    "GRU": "São Paulo", "MCP": "Macapá", "PBM": "Paramaribo", "EAX": "Paramaribo (Zorg en Hoop)",
+    "GRU": "São Paulo", "MCP": "Macapá", "PBM": "Paramaribo", "EAX": "Paramaribo (E.A. Gummels)",
     "ORG": "Paramaribo (Zorg en Hoop)", "BRU": "Brussels", "CDG": "Paris", "ORY": "Paris",
     "LIS": "Lisbon", "MAD": "Madrid", "PTP": "Guadeloupe", "FDF": "Martinique",
     "ANU": "Antigua", "SJU": "San Juan", "KTO": "Kato", "ICK": "Nieuw Nickerie",

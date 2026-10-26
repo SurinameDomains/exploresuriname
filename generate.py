@@ -4689,7 +4689,12 @@ _SI_LIST = [
     {"n": "Suriname Petroleum Contracts and Fiscal Terms", "u": "suriname-oil-contracts.html", "c": "Guides", "a": "Suriname"},
     {"n": "Who Governs Suriname's Oil: Ministry, Staatsolie, Oil Fund", "u": "suriname-oil-government.html", "c": "Guides", "a": "Suriname"},
     {"n": "Suriname Oil & Gas Jobs, Local Content and Suppliers", "u": "suriname-oil-jobs.html", "c": "Guides", "a": "Suriname"},
-    {"n": "On the Road: Driving in Suriname", "u": "on-the-road.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Driving in Suriname: Road Rules & Traffic", "u": "on-the-road.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Suriname Entry Requirements: Entry Fee, Visa & ICF", "u": "suriname-entry-requirements.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Suriname Customs: What You Can Bring", "u": "suriname-customs.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Health in Suriname: Vaccines, Mosquitoes & Water", "u": "suriname-health.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Getting Around Suriname: Buses, Taxis, Boats & Flights", "u": "getting-around-suriname.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Best Time to Visit Suriname: Weather & Seasons by Month", "u": "best-time-to-visit-suriname.html", "c": "Guides", "a": "Suriname"},
     *[{"n": b["name"], "u": b["url"], "c": "Eat & Drink",  "a": b.get("area",""), "k": _kw(b, "Eat & Drink")} for b in RESTAURANTS],
     *[{"n": b["name"], "u": b["url"], "c": "Stay",         "a": b.get("area",""), "k": _kw(b, "Stay")} for b in HOTELS],
     *[{"n": b["name"], "u": b["url"], "c": "Nature",       "a": b.get("area",""), "k": _kw(b, "Nature")} for b in SIGHTSEEING],
@@ -4783,7 +4788,17 @@ _GUIDE_KW = {
                             "spaar stabilisatiefonds imf ministerie olie gas milieu regelgeving",
  "suriname-oil-jobs.html":  "jobs work vacancies local content supplier registration ssrp training natin bosiet "
                             "banen werk vacatures leveranciers opleiding training offshore",
- "on-the-road.html":        "driving car road rules traffic rijden auto verkeer wegen",
+ "on-the-road.html":        "driving car road rules traffic rijden auto verkeer wegen rijbewijs speed limit snelheid",
+ "suriname-entry-requirements.html": "entry fee visa visum e-visa evisa icf form formulier entreegeld toeristenkaart "
+                            "tourist card vfs passport paspoort psa kaart inreisvoorwaarden entry requirements",
+ "suriname-customs.html":   "customs douane bring meenemen allowance alcohol cigarettes sigaretten cash contant geld "
+                            "10000 gold goud medicines medicijnen pets huisdier drone",
+ "suriname-health.html":    "health gezondheid vaccination vaccinatie yellow fever gele koorts malaria dengue "
+                            "chikungunya zika tap water kraanwater hospital ziekenhuis",
+ "getting-around-suriname.html": "getting around transport vervoer bus minibus taxi uber app car rental autohuur "
+                            "boat boot ferry flights binnenland vliegen fuel benzine",
+ "best-time-to-visit-suriname.html": "best time weather seasons rainy dry season regentijd droge tijd when to go "
+                            "wanneer klimaat climate month maand turtles schildpadden",
  "restaurants.html":        "restaurants eat food dining takeaway eten restaurant eetgelegenheden uit eten",
  "hotels.html":             "hotels stay sleep accommodation lodge resort guesthouse slapen verblijf overnachten hotel",
  "activities.html":         "activities things to do tours excursions adventure activiteiten uitstapjes tours "
@@ -7474,7 +7489,7 @@ def nav_html(active="home", prefix=""):
     # Events has its own top-level link since 21 Oct 2026 (nav "B"), so it no
     # longer lights up / opens the Explore group (it is still listed inside it).
     _EXPLORE = (_EXPL | _EAT) - {"events"}
-    _PLAN  = {"visitor", "itinerary", "safety", "roads"}
+    _PLAN  = {"visitor", "itinerary", "safety", "roads", "entry", "customs", "health", "getaround", "besttime"}
     # Flights moved Plan -> Live on 20 Oct 2026 (live board, flights.py)
     _LIVE  = {"currency", "flights", "forecast", "daily-notices", "atms", "matches", "surtime"}
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto", "busjam"}
@@ -7560,11 +7575,18 @@ def nav_html(active="home", prefix=""):
                   _mega_link(f"{prefix}hotels.html",      "Where to Stay", "hotels"))
     )
     # Plan
+    # Plan (26 Oct 2026): before you go (entry, health, customs, timing), then while
+    # you are here (basics, transport, driving, safety), then ideas (itineraries).
     plan_items = (
-        f'<a href="{prefix}visitor-guide.html"       {_link_cls("visitor")}    >The Basics</a>'
-        f'<a href="{prefix}suriname-itinerary.html"  {_link_cls("itinerary")}  >Trip Itineraries</a>'
-        f'<a href="{prefix}is-suriname-safe.html"    {_link_cls("safety")}     >Is Suriname Safe?</a>'
-        f'<a href="{prefix}on-the-road.html"         {_link_cls("roads")}      >On the Road</a>'
+        f'<a href="{prefix}suriname-entry-requirements.html" {_link_cls("entry")}   >Entry Requirements</a>'
+        f'<a href="{prefix}suriname-health.html"         {_link_cls("health")}     >Health &amp; Vaccines</a>'
+        f'<a href="{prefix}suriname-customs.html"        {_link_cls("customs")}    >What You Can Bring</a>'
+        f'<a href="{prefix}best-time-to-visit-suriname.html" {_link_cls("besttime")} >Best Time to Visit</a>'
+        f'<a href="{prefix}visitor-guide.html"           {_link_cls("visitor")}    >The Basics</a>'
+        f'<a href="{prefix}getting-around-suriname.html" {_link_cls("getaround")}  >Getting Around</a>'
+        f'<a href="{prefix}on-the-road.html"             {_link_cls("roads")}      >Driving &amp; Traffic</a>'
+        f'<a href="{prefix}is-suriname-safe.html"        {_link_cls("safety")}     >Is Suriname Safe?</a>'
+        f'<a href="{prefix}suriname-itinerary.html"      {_link_cls("itinerary")}  >Trip Itineraries</a>'
     )
     # Learn
     learn_items = (
@@ -7654,10 +7676,15 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}hotels.html",      "Where to Stay", "hotels")
     )
     mob_plan_items = (
-        _mob_link(f"{prefix}visitor-guide.html",      "The Basics",        "visitor")   +
-        _mob_link(f"{prefix}suriname-itinerary.html", "Trip Itineraries",  "itinerary") +
-        _mob_link(f"{prefix}is-suriname-safe.html",   "Is Suriname Safe?", "safety")    +
-        _mob_link(f"{prefix}on-the-road.html",        "On the Road",       "roads")
+        _mob_link(f"{prefix}suriname-entry-requirements.html", "Entry Requirements", "entry")    +
+        _mob_link(f"{prefix}suriname-health.html",          "Health & Vaccines",  "health")    +
+        _mob_link(f"{prefix}suriname-customs.html",         "What You Can Bring", "customs")   +
+        _mob_link(f"{prefix}best-time-to-visit-suriname.html", "Best Time to Visit", "besttime") +
+        _mob_link(f"{prefix}visitor-guide.html",            "The Basics",         "visitor")   +
+        _mob_link(f"{prefix}getting-around-suriname.html",  "Getting Around",     "getaround") +
+        _mob_link(f"{prefix}on-the-road.html",              "Driving & Traffic",  "roads")     +
+        _mob_link(f"{prefix}is-suriname-safe.html",         "Is Suriname Safe?",  "safety")    +
+        _mob_link(f"{prefix}suriname-itinerary.html",       "Trip Itineraries",   "itinerary")
     )
     mob_learn_items = (
         _mob_link(f"{prefix}about-suriname",               "About Suriname",    "aboutsr")       +
@@ -7912,10 +7939,12 @@ def footer_html(prefix=""):
     <div>
       <div class="ftr-h">Plan</div>
       <div class="ftr-col">
+        <a class="ftr-lnk" href="{prefix}suriname-entry-requirements.html">Entry Requirements</a>
         <a class="ftr-lnk" href="{prefix}visitor-guide.html">The Basics</a>
+        <a class="ftr-lnk" href="{prefix}getting-around-suriname.html">Getting Around</a>
         <a class="ftr-lnk" href="{prefix}suriname-itinerary.html">Trip Itineraries</a>
         <a class="ftr-lnk" href="{prefix}is-suriname-safe.html">Is Suriname Safe?</a>
-        <a class="ftr-lnk" href="{prefix}on-the-road.html">On the Road</a>
+        <a class="ftr-lnk" href="{prefix}on-the-road.html">Driving &amp; Traffic</a>
       </div>
       <div class="ftr-h" style="margin-top:26px">Games</div>
       <div class="ftr-col">
@@ -16447,10 +16476,10 @@ def build_visitor_guide_page():
   <meta name="twitter:description" content="Visa requirements, customs, SIM cards, best ATMs, taxi apps and tips for getting around Suriname.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"The Basics: Suriname Travel Tips","url":"{SITE_URL}/visitor-guide.html","description":"Practical guide for first-time visitors to Suriname: visa and entry requirements, customs declaration, SIM cards, ATMs, tipping, taxi apps, food delivery and mobile payments.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"The Basics: Suriname Travel Tips","url":"{SITE_URL}/visitor-guide.html","description":"Practical guide for first-time visitors to Suriname: entry fee and visa, the ICF form, health, SIM cards, ATMs, tipping, taxi apps, food delivery and mobile payments.","dateModified":"2026-10-26","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{"@type":"Question","name":"Do I need a visa to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Most nationalities need a tourist visa or tourist card for Suriname, arranged through the official VFS Global e-Visa portal at suriname.vfsevisa.com before departure, which is also where the Entry Fee is paid. Some nationalities may be exempt. Check the official Suriname immigration requirements for your passport."}}}},{{"@type":"Question","name":"What currency is used in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The Surinamese Dollar (SRD) is the official currency. USD and EUR are accepted at some hotels and shops, but SRD is needed for most local transactions. ATMs dispensing SRD are widely available in Paramaribo."}}}},{{"@type":"Question","name":"Which SIM card should I buy in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Telesur and Digicel are the two main mobile operators. Telesur has broader 4G coverage across the country. Both sell prepaid SIM cards at the airport and shops in Paramaribo."}}}},{{"@type":"Question","name":"What taxi apps work in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"In Paramaribo you can book a taxi through an app such as Tourtonne Taxi 1690, which shows the price before you confirm. Street and airport taxis do not use meters, so agree on the fare before you get in."}}}},{{"@type":"Question","name":"What is the best way to get money in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"ATMs are the most convenient way to get SRD. Hakrinbank and DSB Bank ATMs are reliable and widely available in Paramaribo. Inform your bank before travelling to avoid card blocks."}}}},{{"@type":"Question","name":"Do I need vaccinations to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"A yellow fever vaccination certificate is required if you are arriving from a yellow fever risk country. Hepatitis A and B, typhoid and routine vaccines are generally recommended. Malaria prophylaxis is advised if you plan to travel into the interior rainforest. Consult a travel health clinic well before departure."}}}},{{"@type":"Question","name":"Is Suriname safe for tourists?","acceptedAnswer":{{"@type":"Answer","text":"Paramaribo is generally safe for tourists who take standard precautions. Petty theft can occur in busy areas. Avoid displaying valuables in public, use registered taxis or ride-hailing apps, and stay aware of your surroundings at night. The interior rainforest is best explored with a licensed guide."}}}},{{"@type":"Question","name":"What is the tipping culture in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Tipping is not mandatory but is welcomed for good service. At restaurants a tip of 5 to 10 percent is appropriate if no service charge is included. Taxi drivers do not generally expect a tip, though rounding up the fare is a common courtesy. Tour guides often appreciate a gratuity at the end of a tour."}}}},{{"@type":"Question","name":"Can I enter Suriname overland from Guyana or French Guiana?","acceptedAnswer":{{"@type":"Answer","text":"Yes. From Guyana, the Canawaima ferry crosses the Corentyne River from Moleson Creek to South Drain once a day, departing around 10:30. From French Guiana, a vehicle ferry and river taxis cross the Marowijne River between Saint-Laurent-du-Maroni and Albina throughout the day. The same visa, tourist card and ICF requirements apply as arriving by air."}}}},{{"@type":"Question","name":"How do I get from Georgetown to Paramaribo overland?","acceptedAnswer":{{"@type":"Answer","text":"Take a minibus or taxi from Georgetown to Moleson Creek, cross on the daily 10:30 Canawaima ferry to South Drain, then continue by shared minibus via Nickerie to Paramaribo, about 3 to 4 hours. Arrive at Moleson Creek by 08:00 for tickets and immigration. The ferry is occasionally suspended for maintenance, so confirm sailings before travelling."}}}}]}}
+  {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{"@type":"Question","name":"Do I need a visa to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Most visitors, including Dutch, Belgian, British and German passport holders, pay an Entry Fee of USD or EUR 50 plus an 8 USD/EUR service fee for each entry. Some nationalities need an e-visa instead, and CARICOM nationals are exempt. Both are arranged only through the official VFS Global portal at suriname.vfsevisa.com before departure; the fee cannot be bought on arrival. Every traveller also fills in the free online ICF form at icf.sr before arriving and before leaving."}}}},{{"@type":"Question","name":"What currency is used in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The Surinamese Dollar (SRD) is the official currency. USD and EUR are accepted at some hotels and shops, but SRD is needed for most local transactions. ATMs dispensing SRD are widely available in Paramaribo."}}}},{{"@type":"Question","name":"Which SIM card should I buy in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Telesur and Digicel are the two mobile operators. Both sell prepaid SIM cards at the airport and in shops in Paramaribo; bring your passport, because registration is mandatory. Coverage is good in Paramaribo and along the coast and patchy in the interior on both networks."}}}},{{"@type":"Question","name":"What taxi apps work in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"In Paramaribo you can book a taxi through an app such as Tourtonne Taxi 1690, which shows the price before you confirm. Street and airport taxis do not use meters, so agree on the fare before you get in."}}}},{{"@type":"Question","name":"What is the best way to get money in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"ATMs are the most convenient way to get SRD. With a foreign Visa or Mastercard, Republic Bank and DSB Bank machines are the most reliable; many other ATMs only take Surinamese cards. Inform your bank before travelling to avoid card blocks."}}}},{{"@type":"Question","name":"Do I need vaccinations to visit Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Yellow fever vaccination is recommended for all travellers aged 9 months and over, and a certificate is required if you arrive from a yellow fever risk country. Hepatitis A, typhoid and routine vaccines are generally recommended. Suriname was certified malaria-free by the WHO in June 2025, so malaria tablets are no longer needed, but dengue and chikungunya are spread by mosquitoes: use repellent day and night. Consult a travel health clinic well before departure."}}}},{{"@type":"Question","name":"Is Suriname safe for tourists?","acceptedAnswer":{{"@type":"Answer","text":"Paramaribo is generally safe for tourists who take standard precautions. Petty theft can occur in busy areas. Avoid displaying valuables in public, use registered taxis or ride-hailing apps, and stay aware of your surroundings at night. The interior rainforest is best explored with a licensed guide."}}}},{{"@type":"Question","name":"What is the tipping culture in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Tipping is not mandatory but is welcomed for good service. At restaurants a tip of 5 to 10 percent is usual if no service charge is included. Taxi drivers do not generally expect a tip, though rounding up the fare is a common courtesy. Tour guides often appreciate a gratuity at the end of a tour."}}}},{{"@type":"Question","name":"Can I enter Suriname overland from Guyana or French Guiana?","acceptedAnswer":{{"@type":"Answer","text":"Yes. From Guyana, the Canawaima ferry crosses the Corentyne River from Moleson Creek to South Drain once a day, departing around 10:30. From French Guiana, a vehicle ferry and river taxis cross the Marowijne River between Saint-Laurent-du-Maroni and Albina throughout the day. The same Entry Fee, visa and ICF requirements apply as arriving by air."}}}},{{"@type":"Question","name":"How do I get from Georgetown to Paramaribo overland?","acceptedAnswer":{{"@type":"Answer","text":"Take a minibus or taxi from Georgetown to Moleson Creek, cross on the daily 10:30 Canawaima ferry to South Drain, then continue by shared minibus via Nickerie to Paramaribo, about 3 to 4 hours. Arrive at Moleson Creek by 08:00 for tickets and immigration. The ferry is occasionally suspended for maintenance, so confirm sailings before travelling."}}}}]}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"The Basics","item":"{SITE_URL}/visitor-guide.html"}}]}}
@@ -16472,8 +16501,8 @@ def build_visitor_guide_page():
     <h2 class="serif text-xl font-bold text-gray-900 mb-3">Suriname travel facts</h2>
     <p class="text-gray-700 text-sm leading-relaxed mb-5">
       Suriname is a tropical country on the northeast coast of South America. The capital is Paramaribo, the
-      currency is the Surinamese Dollar (SRD) and the official language is Dutch. Most visitors need a tourist
-      visa or tourist card arranged before arrival. The quick reference below covers the essentials.
+      currency is the Surinamese Dollar (SRD) and the official language is Dutch. Most visitors pay an Entry
+      Fee online before arrival, and some nationalities need an e-visa. The quick reference below covers the essentials.
     </p>
     <div class="overflow-x-auto">
       <table class="w-full text-sm">
@@ -16481,20 +16510,20 @@ def build_visitor_guide_page():
           <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Capital</th><td class="py-3 text-gray-700 align-top">Paramaribo</td></tr>
           <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Currency</th><td class="py-3 text-gray-700 align-top">Surinamese Dollar (SRD). USD and EUR are taken at some hotels and larger shops, but SRD is needed for everyday spending.</td></tr>
           <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Official language</th><td class="py-3 text-gray-700 align-top">Dutch. Sranan Tongo is the common lingua franca, and English is widely understood in Paramaribo.</td></tr>
-          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Population</th><td class="py-3 text-gray-700 align-top">About 620,000, most living in and around the capital.</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Population</th><td class="py-3 text-gray-700 align-top">About 630,000 to 640,000 (estimate), most living in and around the capital.</td></tr>
           <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Time zone</th><td class="py-3 text-gray-700 align-top">Atlantic Standard Time (UTC -3), no daylight saving.</td></tr>
           <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Calling code</th><td class="py-3 text-gray-700 align-top">+597</td></tr>
           <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Power</th><td class="py-3 text-gray-700 align-top">Mostly European two-pin plugs (types C and F); some buildings also have US-style outlets (types A and B). 127 V, 60 Hz.</td></tr>
-          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Visa</th><td class="py-3 text-gray-700 align-top">Most nationalities need a tourist visa or tourist card, arranged through the official VFS Global e-Visa portal (suriname.vfsevisa.com) before departure. The Entry Fee is paid on the same portal.</td></tr>
-          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Health</th><td class="py-3 text-gray-700 align-top">A yellow fever certificate is required if arriving from a risk country. Malaria precautions are advised for the interior rainforest.</td></tr>
-          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Land borders</th><td class="py-3 text-gray-700 align-top">Daily Canawaima ferry from Guyana (South Drain) and river taxis from French Guiana (Albina). The same visa and ICF rules apply as arriving by air.</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Visa</th><td class="py-3 text-gray-700 align-top">Most visitors pay an Entry Fee of USD or EUR 50 (plus an 8 USD/EUR service fee) for each entry; some nationalities need an e-visa. Both are arranged before departure on the official VFS Global portal (suriname.vfsevisa.com). CARICOM nationals are exempt.</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Health</th><td class="py-3 text-gray-700 align-top">Yellow fever vaccination is recommended for everyone from 9 months, and a certificate is required if you arrive from a risk country. Suriname has been malaria-free since 2025; use repellent against dengue and chikungunya.</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Land borders</th><td class="py-3 text-gray-700 align-top">Daily Canawaima ferry from Guyana (South Drain) and the ferry and river taxis from French Guiana (Albina). The same entry fee, visa and ICF rules apply as arriving by air.</td></tr>
           <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Best time to visit</th><td class="py-3 text-gray-700 align-top">The drier seasons, roughly February to April and August to November.</td></tr>
-          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Getting around</th><td class="py-3 text-gray-700 align-top">Registered taxis and taxi apps such as Tourtonne Taxi 1690 in Paramaribo. A licensed guide is needed for interior travel.</td></tr>
+          <tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Getting around</th><td class="py-3 text-gray-700 align-top">Taxis (agree the fare first), taxi apps such as Tourtonne Taxi 1690 in Paramaribo, minibuses and boats. A licensed guide is needed for interior travel.</td></tr>
           <tr><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Safety</th><td class="py-3 text-gray-700 align-top">Paramaribo is generally safe with standard precautions. Explore the interior rainforest with a licensed guide.</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="text-gray-400 text-xs mt-4">Sources: Central Bank of Suriname, VFS Global and the Explore Suriname guides. Always confirm visa and health requirements for your nationality before travel.</p>
+    <p class="text-gray-400 text-xs mt-4">Sources: VFS Global, ICF Suriname, WHO and the Dutch and US travel advice, checked October 2026. Always confirm visa and health requirements for your nationality before travel.</p>
   </div>
 
   <!-- VISA + CUSTOMS side by side -->
@@ -16504,11 +16533,12 @@ def build_visitor_guide_page():
       <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Before You Board</p>
       <h2 class="serif text-xl font-bold text-gray-900 mb-4">Arrival &amp; Visa</h2>
       <p class="text-gray-700 text-sm leading-relaxed mb-5">
-        Check the entry requirements for your passport before you book. Most nationalities need a
-        tourist visa or tourist card arranged in advance through the official VFS Global e-Visa
-        portal, which is also where the Entry Fee is paid. Some travellers go through their nearest
-        Surinamese embassy instead. Either way, sort it before departure. Since 10 August 2026
-        suriname.vfsevisa.com is the only valid portal; the older VFS Global page is no longer active.
+        Most visitors pay an Entry Fee before they travel: USD or EUR 50 plus an 8 USD/EUR service
+        fee, for each entry. Some nationalities need an e-visa instead, and CARICOM nationals pay
+        nothing. Both are arranged only through the official VFS Global portal; since 10 August 2026
+        suriname.vfsevisa.com is the only valid address, and the fee cannot be bought on arrival.
+        Your passport must be valid for at least six months.
+        <a href="suriname-entry-requirements.html" class="underline">Entry requirements by nationality</a>.
       </p>
       <a href="https://suriname.vfsevisa.com" target="_blank" rel="noopener"
          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition mb-5"
@@ -16518,8 +16548,9 @@ def build_visitor_guide_page():
       <div class="rounded-xl p-4 border-l-4" style="background:#fff8f0;border-color:var(--coral)">
         <p class="text-sm font-semibold text-gray-800 mb-1">Yellow Fever Certificate</p>
         <p class="text-sm text-gray-600 leading-relaxed">
-          Arriving from sub-Saharan Africa or parts of South America? A valid vaccination
-          certificate is checked at the border. Get vaccinated at least 10 days before departure.
+          Vaccination is recommended for everyone aged 9 months and over. Arriving from a yellow
+          fever risk country, such as parts of Africa or South America? Then a valid certificate
+          is checked at the border. Get vaccinated at least 10 days before departure.
           No certificate, no entry.
         </p>
       </div>
@@ -16527,12 +16558,13 @@ def build_visitor_guide_page():
 
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
       <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">At the Border</p>
-      <h2 class="serif text-xl font-bold text-gray-900 mb-4">Customs Declaration</h2>
+      <h2 class="serif text-xl font-bold text-gray-900 mb-4">ICF Form &amp; Customs</h2>
       <p class="text-gray-700 text-sm leading-relaxed mb-5">
-        Every visitor fills out a customs and immigration declaration form from the ICF before
-        clearing the border. It covers what you are bringing into the country. Cash over
-        US&#8239;$10,000 must be declared. The form is handed out on the plane or available
-        at the airport, and you can also fill it in through the ICF portal before you travel.
+        Every traveller fills in the free online ICF form before arriving and again before leaving
+        Suriname. It opens seven days before travel and gives you a QR code that the airline checks
+        at boarding. The form also covers what you bring into the country. Do not carry
+        US&#8239;$10,000 or more in cash, or the equivalent: larger amounts are not allowed across
+        the border. <a href="suriname-customs.html" class="underline">What you may bring</a>.
       </p>
       <a href="https://www.icf.sr" target="_blank" rel="noopener"
          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition"
@@ -16572,7 +16604,7 @@ def build_visitor_guide_page():
     <p class="text-gray-700 text-sm leading-relaxed mb-6">
       Suriname has two overland gateways: the ferry from Guyana in the west and the Marowijne
       River crossing from French Guiana in the east. The same entry rules apply as flying in,
-      so arrange your visa or tourist card and the ICF form before you reach the border.
+      so arrange your entry fee or visa and the ICF form before you reach the border.
     </p>
     <div class="md:grid md:grid-cols-2 md:gap-8">
       <div class="mb-6 md:mb-0">
@@ -16581,7 +16613,7 @@ def build_visitor_guide_page():
           The Canawaima ferry crosses the Corentyne River from <strong>Moleson Creek</strong> (Guyana)
           to <strong>South Drain</strong> (Suriname) once a day, departing around <strong>10:30</strong>.
           Be at the terminal by 08:00 for tickets and immigration. The crossing takes about 45 minutes
-          and costs roughly US&#8239;$20 return, cash only. From South Drain, shared minibuses run to
+          and costs roughly US&#8239;$20 per person, cash only. From South Drain, shared minibuses run to
           Paramaribo via Nickerie, another 3 to 4 hours.
         </p>
         <div class="rounded-xl p-4 border-l-4" style="background:#fff8f0;border-color:var(--coral)">
@@ -16596,9 +16628,10 @@ def build_visitor_guide_page():
         <h3 class="serif text-base font-bold text-gray-900 mb-2">From French Guiana: the Albina crossing</h3>
         <p class="text-gray-700 text-sm leading-relaxed mb-3">
           <strong>Saint-Laurent-du-Maroni</strong> and <strong>Albina</strong> sit 15 minutes apart
-          across the Marowijne River. A vehicle ferry runs a few times a day and river taxis cross
-          all day for a few euros. Get stamped out and in at the immigration posts on both banks,
-          which keep daytime hours. Minibuses cover Albina to Paramaribo in about 2.5 to 3 hours.
+          across the Marowijne River. The La Gabrielle vehicle ferry runs a few times a day, with
+          occasional closures for maintenance, and river taxis cross during the day for a few euros.
+          River traffic is banned between 20:00 and 05:00. Get stamped out and in at the immigration
+          posts on both banks, which keep daytime hours. Minibuses cover Albina to Paramaribo in about 2.5 to 3 hours.
         </p>
         <p class="text-gray-700 text-sm leading-relaxed">
           Heading east instead? French Guiana is EU territory, so Schengen entry rules apply
@@ -16606,7 +16639,7 @@ def build_visitor_guide_page():
         </p>
       </div>
     </div>
-    <p class="text-gray-400 text-xs mt-5">The Canawaima ferry is occasionally suspended for maintenance. Confirm sailings with Canawaima Management (+592&#8239;339-2744) or your hotel before travelling.</p>
+    <p class="text-gray-400 text-xs mt-5">The Canawaima ferry is occasionally suspended for maintenance, most recently from 22 to 28 August 2026, and is due for drydock, when a replacement vessel should sail. Confirm sailings on +592&#8239;654-1104 or +592&#8239;339-2744, or with your hotel, before travelling.</p>
   </div>
 
   <!-- SIM + MONEY -->
@@ -16636,18 +16669,17 @@ def build_visitor_guide_page():
       <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Money</p>
       <h2 class="serif text-xl font-bold text-gray-900 mb-4">Cash &amp; ATMs</h2>
       <p class="text-gray-700 text-sm leading-relaxed mb-4">
-        The currency is the <strong>Surinamese Dollar (SRD)</strong>. For ATM withdrawals,
-        <strong>DSB Bank</strong> and <strong>Republic Bank</strong> are the most reliable
-        with international Visa and Mastercard. For card payments at shops and restaurants,
-        <strong>Southern Commercial Bank (SCom Bank)</strong> leads card acceptance across
-        Paramaribo. Outside the city centre, most smaller vendors still work in cash.
-        Since 1 August 2026 each ATM withdrawal carries an SRD 17.60 network fee and a balance
-        check costs SRD 1.10, so take out larger amounts less often. See the
+        The currency is the <strong>Surinamese Dollar (SRD)</strong>. For ATM withdrawals with a
+        foreign Visa or Mastercard, <strong>Republic Bank</strong> and <strong>DSB Bank</strong>
+        machines are the most reliable. Cards are accepted at most supermarkets, malls and larger
+        restaurants in Paramaribo; outside the city centre, most smaller vendors still work in cash.
+        A foreign card pays the ATM owner's fee plus your own bank's charges, so take out larger
+        amounts less often. See the
         <a href="atms.html" class="underline">ATM finder</a> for live machine status and which cards work.
       </p>
       <div class="rounded-xl p-4 text-sm" style="background:var(--mint)">
         <span class="font-semibold" style="color:var(--forest)">Tipping:</span>
-        <span class="text-gray-700"> 10% is standard at restaurants. Some places add a service charge automatically, so check your bill before adding more.</span>
+        <span class="text-gray-700"> 5 to 10% is usual at restaurants. Some places add a service charge automatically, so check your bill before adding more.</span>
       </div>
     </div>
   </div>
@@ -16660,13 +16692,14 @@ def build_visitor_guide_page():
       <div>
         <p class="text-gray-700 text-sm leading-relaxed mb-4">
           Johan Adolf Pengel airport is about 45&nbsp;km south of Paramaribo, a 45 to 60 minute
-          ride depending on traffic. Taxis at the airport do not use meters, so agree on a price
-          before you get in. Suriname drives on the <strong>left</strong>.
+          ride depending on traffic. Airport taxis do not use meters, so agree on a price before
+          you get in, or arrange a pickup through your hotel. Suriname drives on the <strong>left</strong>.
         </p>
         <p class="text-gray-700 text-sm leading-relaxed">
-          A widely used taxi app in Paramaribo is <strong>Tourtonne Taxi 1690</strong>. Prices are shown
-          upfront before you confirm, which takes the guesswork out of getting around. Download
-          it before you land.
+          Once you are in town, a widely used taxi app is <strong>Tourtonne Taxi 1690</strong>. Prices
+          are shown upfront before you confirm, which takes the guesswork out of getting around.
+          Buses, boats and domestic flights are on our
+          <a href="getting-around-suriname.html" class="underline">getting around page</a>.
         </p>
       </div>
       <div class="mt-5 md:mt-0">
@@ -16752,7 +16785,7 @@ def build_visitor_guide_page():
       </div>
       <div class="pl-4 border-l-2" style="border-color:var(--leaf)">
         <p class="font-semibold text-gray-900 text-sm mb-1">Drinking Water</p>
-        <p class="text-gray-600 text-sm leading-relaxed">Stick to bottled water throughout your stay. Tap water quality varies by area and most locals do the same. Bottles are cheap and available everywhere.</p>
+        <p class="text-gray-600 text-sm leading-relaxed">Treated tap water in central Paramaribo is generally safe to drink and many residents drink it. Outside the capital and in the interior, stick to bottled or filtered water, which is cheap and sold everywhere.</p>
       </div>
       <div class="pl-4 border-l-2" style="border-color:var(--leaf)">
         <p class="font-semibold text-gray-900 text-sm mb-1">Emergency Numbers</p>
@@ -16858,6 +16891,38 @@ def _hub_card(kicker, heading, body_html):
         f'<h2 class="serif text-xl font-bold text-gray-900 mb-4">{heading}</h2>'
         + body_html + '</div>'
     )
+
+
+_SINCE_MON = {
+    "en": ["January", "February", "March", "April", "May", "June", "July", "August",
+           "September", "October", "November", "December"],
+    "nl": ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus",
+           "september", "oktober", "november", "december"],
+    "es": ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto",
+           "septiembre", "octubre", "noviembre", "diciembre"],
+    "fr": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août",
+           "septembre", "octobre", "novembre", "décembre"],
+    "pt": ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto",
+           "setembro", "outubro", "novembro", "dezembro"],
+}
+
+
+def _since_l10n(iso):
+    """'(since 1 July 2026)' in all six languages via data-l10n (no translations.json key)."""
+    try:
+        y, m, d = (int(x) for x in iso.split("-"))
+    except Exception:
+        return ""
+    def _f(lang):
+        mo = _SINCE_MON[lang][m - 1]
+        day = "1er" if (lang == "fr" and d == 1) else str(d)
+        return {"en": f"(since {d} {mo} {y})", "nl": f"(sinds {d} {mo} {y})",
+                "es": f"(desde el {d} de {mo} de {y})", "fr": f"(depuis le {day} {mo} {y})",
+                "pt": f"(desde {d} de {mo} de {y})"}[lang]
+    l10n = {k: _f(k) for k in ("nl", "es", "fr", "pt")}
+    l10n["zh"] = f"（自{y}年{m}月{d}日起）"
+    return (f'<span translate="no" data-l10n=\'{json.dumps(l10n, ensure_ascii=False)}\'>'
+            f'{_f("en")}</span>')
 
 
 def build_doing_business_page():
@@ -16995,12 +17060,13 @@ def build_doing_business_page():
     if _mwv:
         rows.append(("Minimum wage",
                      f'<strong translate="no" class="db-v">{_srd(_mwv)}</strong> <span>gross per hour</span>'
-                     '<span class="db-more">' + _sbl("/en/minimum-wage", "/minimumloon",
+                     + (" " + _since_l10n(str(_mw.get("from", ""))) if _mw.get("from") else "")
+                     + '<span class="db-more">' + _sbl("/en/minimum-wage", "/minimumloon",
                                                     "Minimum wage and overtime") + "</span>"))
     rows += [
         ("Main sectors",
          "<span>Gold mining, oil and gas, agriculture and trade. Offshore oil production is expected from "
-         "2028.</span>"
+         "mid-2028.</span>"
          '<span class="db-more">' + _ilink("oil-and-gas.html", "Oil &amp; Gas") + "</span>"),
         ("Public holidays",
          "<span>Banks and government offices close on official holidays.</span>"
@@ -25361,7 +25427,7 @@ __FSJS__
 
 def build_history_page():
     """suriname-history.html: Tori fu Sranan - cinematic scrollytelling timeline of
-    Suriname. 57 events in 8 chapter eras, each era a full-width colour band with
+    Suriname. 62 events (Oct 2026) in 8 chapter eras, each era a full-width colour band with
     its own intro and a colour-matched timeline spine. Bilingual EN/NL (both
     server-rendered, CSS-toggled), photo hero, scroll reveal, floating year badge.
     Data: data/history_timeline.json."""
@@ -25376,7 +25442,7 @@ def build_history_page():
 
     _title = "The Story of Suriname: Interactive History Timeline"
     _desc = ("Tori fu Sranan: the history of Suriname from the first Indigenous peoples and the "
-             "Maroon wars to Keti Koti, Srefidensi and the oil era. 57 moments.")
+             f"Maroon wars to Keti Koti, Srefidensi and the oil era. {len(_events)} moments.")
     _ogimg = SITE_URL + "/og-image.jpg"
     _graph = _ld_safe(_json.dumps({"@context": "https://schema.org", "@graph": [
         {"@type": "WebPage", "@id": SITE_URL + "/suriname-history.html#webpage",
@@ -25514,15 +25580,15 @@ __NAV__
     </nav>
     <p class="text-xs font-bold uppercase tracking-widest mb-3" style="color:var(--coral)">Tori fu Sranan</p>
     <h1 class="serif text-4xl sm:text-6xl font-bold mb-4"><span class="tl-en">The Story of Suriname</span><span class="tl-nl">Het verhaal van Suriname</span></h1>
-    <p class="text-white/80 text-base sm:text-lg max-w-2xl mx-auto"><span class="tl-en">Five centuries and more in 57 moments: the first peoples, the plantations and the resistance, Keti Koti, Srefidensi, the hard years and the new dawn.</span>
-    <span class="tl-nl">Meer dan vijf eeuwen in 57 momenten: de eerste volken, de plantages en het verzet, Keti Koti, Srefidensi, de zware jaren en de nieuwe dageraad.</span></p>
+    <p class="text-white/80 text-base sm:text-lg max-w-2xl mx-auto"><span class="tl-en">Five centuries and more in __NEV__ moments: the first peoples, the plantations and the resistance, Keti Koti, Srefidensi, the hard years and the new dawn.</span>
+    <span class="tl-nl">Meer dan vijf eeuwen in __NEV__ momenten: de eerste volken, de plantages en het verzet, Keti Koti, Srefidensi, de zware jaren en de nieuwe dageraad.</span></p>
     <p class="mt-8 text-white/70 text-sm font-semibold"><span class="tl-en">Scroll to begin</span><span class="tl-nl">Scroll om te beginnen</span><br>
     <span class="tl-cue text-xl" aria-hidden="true">&#8595;</span></p>
   </div>
 </div>
 <main class="max-w-2xl mx-auto px-5 pt-4 pb-20">
   <div class="flex items-center justify-between gap-3 mb-1">
-    <p class="text-xs text-gray-400"><span class="tl-en">57 moments &middot; jump by era</span><span class="tl-nl">57 momenten &middot; spring per tijdperk</span></p>
+    <p class="text-xs text-gray-400"><span class="tl-en">__NEV__ moments &middot; jump by era</span><span class="tl-nl">__NEV__ momenten &middot; spring per tijdperk</span></p>
   </div>
 __CHIPS__
 __TIMELINE__
@@ -25554,7 +25620,8 @@ if("IntersectionObserver" in window){
                 .replace("__CHIPS__", chips)
                 .replace("__TIMELINE__", tl)
                 .replace("__OUTRO__", outro)
-                .replace("__FOOTER__", footer_html()))
+                .replace("__FOOTER__", footer_html())
+                .replace("__NEV__", str(len(_events))))
     return head + body
 
 
@@ -25907,7 +25974,8 @@ def build_itinerary_page():
 
     body += day(1, "Paramaribo&#8217;s Historic Centre",
         'Walk the ' + _ilink("listing/nature-paramaribo-historic-inner-city/", "UNESCO World Heritage inner city")
-        + ': the wooden cathedral, Fort Zeelandia and the Waterkant riverfront. Lunch at a roti shop such as '
+        + ', on UNESCO&#8217;s In Danger list since July 2026: the wooden cathedral, Fort Zeelandia and the '
+        'Waterkant riverfront. Lunch at a roti shop such as '
         + _ilink("listing/roopram-roti-shop/", "Roopram") + ', dinner at '
         + _ilink("listing/souposo/", "Souposo") + ' or ' + _ilink("listing/baka-foto-restaurant/", "Baka Foto")
         + ' inside the fort walls.')
@@ -25926,14 +25994,15 @@ def build_itinerary_page():
         + _ilink("listing/tori-oso/", "Tori Oso") + '.')
     body += day(5, "Colakreek or Jodensavanne, Then Shopping",
         'Swim in the tea-coloured creeks at ' + _ilink("listing/nature-colakreek/", "Colakreek") + ', or visit the '
-        'Jodensavanne ruins. Last-minute gifts: see our ' + _ilink("shopping.html", "shopping guide") + '.')
+        'Jodensavanne ruins, a UNESCO World Heritage site since 2023. Last-minute gifts: see our ' + _ilink("shopping.html", "shopping guide") + '.')
 
     body += ('<h2 class="serif text-2xl font-bold text-gray-900 mb-5 mt-8">With 7 Days</h2>'
              '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6">'
              '<p class="text-gray-700 text-sm leading-relaxed">Add two days on the coast. From February to '
-             'August, the giant leatherback turtles nest at '
+             'August, sea turtles nest on the beaches of '
              + _ilink("listing/nature-galibi-nature-reserve/", "Galibi Nature Reserve")
-             + ', reached by boat from Albina. Outside turtle season, go west instead: the lagoons of '
+             + ', reached by boat from Albina. Giant leatherback numbers have fallen sharply since the early '
+             '2000s, so sightings are likely but not guaranteed. Outside turtle season, go west instead: the lagoons of '
              + _ilink("listing/nature-bigi-pan-nature-reserve/", "Bigi Pan") + ' near Nickerie are one of the best '
              'birdwatching sites in South America, scarlet ibis included.</p></div>')
 
@@ -25989,7 +26058,7 @@ def build_safety_page():
             'theft in busy city areas, road conditions after dark and the usual tropical health planning. '
             'None of them should stop you coming; all of them are manageable with the advice below.</p></div>')
 
-    body += '<!-- IS SURINAME SAFE: at-a-glance summary (high-extraction for search and AI answers) --><div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6"><p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Safety at a Glance</p><h2 class="serif text-xl font-bold text-gray-900 mb-3">Is Suriname safe? Quick summary</h2><p class="text-gray-700 text-sm leading-relaxed mb-5">Yes, with normal precautions. Suriname is one of the quieter parts of South America and most visits are trouble free. The table below summarises the practical points covered on this page.</p><div class="overflow-x-auto"><table class="w-full text-sm"><tbody><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Overall</th><td class="py-3 text-gray-700 align-top">Generally safe. One of the quieter parts of South America, and most visits are trouble free.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Main risk</th><td class="py-3 text-gray-700 align-top">Petty theft (pickpocketing and bag snatching) in busy city spots such as the Central Market and bus stops.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Paramaribo at night</th><td class="py-3 text-gray-700 align-top">Busy hotel and restaurant strips are fine. Use a registered taxi or ride-hailing app rather than walking quiet, unlit streets.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Solo female travellers</th><td class="py-3 text-gray-700 align-top">Many travel without problems. Arrange airport pickup, prefer registered taxis at night and book interior trips with licensed operators.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Driving</th><td class="py-3 text-gray-700 align-top">Suriname drives on the left. Roads outside the city are unlit, so drive long routes such as Albina or Nickerie in daylight.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">The interior</th><td class="py-3 text-gray-700 align-top">Remote rather than dangerous. Phone coverage is patchy, so travel with licensed local operators.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Tap water</th><td class="py-3 text-gray-700 align-top">Generally drinkable in central Paramaribo. Use bottled or purified water elsewhere and in the interior.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Health</th><td class="py-3 text-gray-700 align-top">Yellow fever certificate required if arriving from a risk country. Malaria precautions for deep interior travel. Repellent at dawn and dusk.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Money</th><td class="py-3 text-gray-700 align-top">Cash based. Exchange at licensed cambios or banks, and use ATMs in daylight, preferably inside bank branches.</td></tr><tr><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Emergencies</th><td class="py-3 text-gray-700 align-top">Police 115, Ambulance 113, Fire 110.</td></tr></tbody></table></div></div>'
+    body += '<!-- IS SURINAME SAFE: at-a-glance summary (high-extraction for search and AI answers) --><div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 mb-6"><p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Safety at a Glance</p><h2 class="serif text-xl font-bold text-gray-900 mb-3">Is Suriname safe? Quick summary</h2><p class="text-gray-700 text-sm leading-relaxed mb-5">Yes, with normal precautions. Suriname is one of the quieter parts of South America and most visits are trouble free. The table below summarises the practical points covered on this page.</p><div class="overflow-x-auto"><table class="w-full text-sm"><tbody><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Overall</th><td class="py-3 text-gray-700 align-top">Generally safe. One of the quieter parts of South America, and most visits are trouble free.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Main risk</th><td class="py-3 text-gray-700 align-top">Petty theft (pickpocketing and bag snatching) in busy city spots such as the Central Market and bus stops.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Paramaribo at night</th><td class="py-3 text-gray-700 align-top">Busy hotel and restaurant strips are fine. Use a registered taxi or ride-hailing app rather than walking quiet, unlit streets.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Solo female travellers</th><td class="py-3 text-gray-700 align-top">Many travel without problems. Arrange airport pickup, prefer registered taxis at night and book interior trips with licensed operators.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Driving</th><td class="py-3 text-gray-700 align-top">Suriname drives on the left. Roads outside the city are unlit, so drive long routes such as Albina or Nickerie in daylight.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">The interior</th><td class="py-3 text-gray-700 align-top">Remote rather than dangerous. Phone coverage is patchy, so travel with licensed local operators.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Tap water</th><td class="py-3 text-gray-700 align-top">Generally drinkable in central Paramaribo. Use bottled or purified water elsewhere and in the interior.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Health</th><td class="py-3 text-gray-700 align-top">Yellow fever vaccination recommended, and a certificate required if arriving from a risk country. Malaria-free since 2025, but dengue and chikungunya circulate: use repellent day and night.</td></tr><tr class="border-b border-gray-100"><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Money</th><td class="py-3 text-gray-700 align-top">Cash based. Exchange at licensed cambios or banks, and use ATMs in daylight, preferably inside bank branches.</td></tr><tr><th class="py-3 pr-4 text-left font-semibold text-gray-900 align-top w-2/5">Emergencies</th><td class="py-3 text-gray-700 align-top">Police 115, Ambulance 113, Fire 110.</td></tr></tbody></table></div></div>'
 
     body += _hub_card("In the City", "Paramaribo by Day and Night",
         '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
@@ -26003,12 +26072,25 @@ def build_safety_page():
 
     body += _hub_card("On the Move", "Taxis, Buses and Driving",
         '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
-        'Registered taxis and ride apps are inexpensive and the default for visitors. If you rent a car, '
+        'Registered taxis and taxi apps are inexpensive and the default for visitors. If you rent a car, '
         'note that Suriname drives on the left and that roads outside the city are unlit at night. Plan '
         'long drives, such as Albina or Nickerie, for daylight hours.</p>'
         '<p class="text-gray-700 text-sm leading-relaxed">'
-        'Live road notices, fuel prices and route conditions are on our '
+        'Road rules, a live traffic map and what to do after an accident are on our '
         + _ilink("on-the-road.html", "On the Road page") + '.</p>')
+
+    body += _hub_card("Know Before You Go", "Where to Take Extra Care",
+        '<p class="text-gray-700 text-sm leading-relaxed mb-3">'
+        'The official advisories stay calm about Suriname: the US rates it Level 1 (exercise normal '
+        'precautions) and the Netherlands gives it code yellow. They do name a few things worth knowing. '
+        'Police presence is thin outside Paramaribo, and robberies are reported around Albina, Moengo and '
+        'Brokopondo and along the East-West and Afobaka roads, so travel those in daylight.</p>'
+        '<p class="text-gray-700 text-sm leading-relaxed">'
+        'Ambulances are unreliable outside Paramaribo and Nickerie, and hospitals usually ask for payment '
+        'upfront, so take travel insurance that covers hospital care and repatriation. Oversight of tour '
+        'operators is limited: choose established companies with good reviews. Read the full advice from '
+        '<a href="https://www.nederlandwereldwijd.nl/reisadvies/suriname" target="_blank" rel="noopener" class="underline">the Netherlands</a> '
+        'or <a href="https://travel.state.gov/en/international-travel/travel-advisories/suriname.html" target="_blank" rel="noopener" class="underline">the United States</a>.</p>')
 
     body += _hub_card("The Interior", "Rainforest Trips",
         '<p class="text-gray-700 text-sm leading-relaxed">'
@@ -26019,10 +26101,11 @@ def build_safety_page():
 
     body += _hub_card("Health", "Vaccinations, Mosquitoes and Water",
         '<p class="text-gray-700 text-sm leading-relaxed">'
-        'A yellow fever certificate is required if you arrive from a risk country, and malaria prophylaxis '
-        'is advised for deep interior travel. Use repellent at dawn and dusk everywhere. Tap water is '
-        'generally drinkable in central Paramaribo; use bottled or purified water elsewhere. Full health '
-        'and visa details are in ' + _ilink("visitor-guide.html", "The Basics") + '.</p>')
+        'Yellow fever vaccination is recommended for everyone from 9 months, and a certificate is required '
+        'if you arrive from a risk country. Suriname was certified malaria-free by the WHO in 2025, but '
+        'dengue and chikungunya are spread by day-biting mosquitoes, so use repellent day and night. Tap '
+        'water is generally drinkable in central Paramaribo; use bottled or purified water elsewhere. Full '
+        'details are on our ' + _ilink("suriname-health.html", "health page") + '.</p>')
 
     body += _hub_card("Money", "Cash Without the Stress",
         '<p class="text-gray-700 text-sm leading-relaxed">'
@@ -26044,8 +26127,497 @@ def build_safety_page():
     body += _hub_faq_html(faq)
     main = ('<main class="max-w-5xl mx-auto px-5 py-12 pb-24">' + body
             + '<p class="text-gray-400 text-xs mt-8">Conditions can change. Check your government&#8217;s '
-              'official travel advisory before departure. Page updated June 2026.</p></main>')
+              'official travel advisory before departure. Page updated October 2026.</p></main>')
     return head + hero + main + "\n" + footer_html() + "\n</body>\n</html>"
+
+
+# ── Plan pages added 26 Oct 2026 (static content audit) ─────────────────────
+# Entry requirements, customs, health, getting around and best time to visit.
+# Facts checked against official sources on 26 Oct 2026 (VFS Global portal,
+# icf.sr, WHO/PAHO, TravelHealthPro, NederlandWereldwijd, US State Dept, ANWB).
+# Every page ends with a "checked" line: re-verify fees, ferry and health
+# advice at least every three months.
+
+def _pl_p(t, mb=True):
+    return f'<p class="text-gray-700 text-sm leading-relaxed{" mb-3" if mb else ""}">{t}</p>'
+
+
+def _pl_ul(items):
+    return ('<ul class="list-disc pl-5 space-y-1.5 text-gray-700 text-sm leading-relaxed mb-3">'
+            + "".join(f"<li>{i}</li>" for i in items) + "</ul>")
+
+
+def _pl_ol(items):
+    return ('<ol class="list-decimal pl-5 space-y-1.5 text-gray-700 text-sm leading-relaxed mb-3">'
+            + "".join(f"<li>{i}</li>" for i in items) + "</ol>")
+
+
+def _pl_table(head, rows):
+    th = "".join(f'<th class="py-2.5 pr-4 text-left font-semibold text-gray-900 align-top">{h}</th>' for h in head)
+    body = "".join(
+        '<tr class="border-t border-gray-100">'
+        + "".join(f'<td class="py-2.5 pr-4 text-gray-700 align-top">{c}</td>' for c in r) + "</tr>"
+        for r in rows)
+    return ('<div class="overflow-x-auto mb-3"><table class="w-full text-sm">'
+            f'<thead><tr>{th}</tr></thead><tbody>{body}</tbody></table></div>')
+
+
+def _pl_short(t):
+    return ('<div class="rounded-2xl p-6 border-l-4 mb-8" style="background:#f0f9f4;border-color:var(--forest2)">'
+            f'<p class="text-gray-800 text-sm leading-relaxed"><strong>The short answer.</strong> {t}</p></div>')
+
+
+def _pl_x(href, label):
+    return (f'<a href="{href}" target="_blank" rel="noopener" class="font-semibold hover:underline" '
+            f'style="color:var(--forest2)">{label}</a>')
+
+
+def _pl_page(title, desc, fname, key, kicker, h1, sub, body, faq, checked):
+    head = _hub_head(title, desc, fname, faq=faq, brand=len(title) <= 43)
+    hero = _hub_hero(kicker, h1, sub).replace("{NAV}", nav_html(key))
+    main = ('<main class="max-w-5xl mx-auto px-5 py-12 pb-24">' + body + _hub_faq_html(faq)
+            + f'<p class="text-gray-400 text-xs mt-8">{checked}</p></main>')
+    return head + hero + main + "\n" + footer_html() + "\n</body>\n</html>"
+
+
+def build_entry_requirements_page():
+    faq = [
+        ("How much is the Suriname entry fee?",
+         "The Entry Fee is USD 50 or EUR 50 per entry, plus a USD/EUR 8 service fee, paid online at "
+         "suriname.vfsevisa.com before you travel. A Multiple Entry Fee for up to five entries within three "
+         "months costs USD/EUR 75 plus the service fee."),
+        ("Do Dutch citizens need a visa for Suriname?",
+         "No visa, but Dutch passport holders pay the Entry Fee online before departure and fill in the ICF "
+         "form. A Dutch ID card is not accepted: you need a passport valid for at least six months."),
+        ("Can I pay the entry fee on arrival?",
+         "No. Buy the Entry Fee or e-visa online before you fly. Airlines check your voucher at check-in, and "
+         "the ICF form says vouchers cannot be bought on arrival."),
+        ("Do children need an entry fee and ICF form?",
+         "Check on the portal when you book: the official sources we checked list no age exemption, so "
+         "assume each child needs an Entry Fee. The ICF site asks for a separate form for every passenger, "
+         "so fill one in for each child too."),
+        ("Is the ICF form mandatory?",
+         "Yes, for arriving and for leaving Suriname. It is free at icf.sr, opens seven days before travel "
+         "and gives you a QR code that the airline and immigration check."),
+    ]
+    body = _pl_short(
+        "Most visitors pay an Entry Fee of USD or EUR 50 online before they travel and fill in the free ICF "
+        "form. A few nationalities need an e-visa, and CARICOM nationals pay nothing. Everything is done "
+        "online, before you board.")
+    body += _hub_card("Before You Go", "Entry Fee, e-Visa or Nothing?",
+        _pl_p("Which one you need depends on your passport. The official portal sorts nationalities into "
+              "four lists: Entry Fee, e-Visa, eTourist Card and CARICOM. Fees as listed by VFS Global in "
+              "October 2026:")
+        + _pl_table(["What", "Who", "Cost"], [
+            ["Entry Fee (single entry)",
+             "Most visitors, including passport holders from the Netherlands, Belgium, Germany, France, the "
+             "United Kingdom, Brazil and China",
+             "USD/EUR 50 + 8 service fee, per entry"],
+            ["Multiple Entry Fee", "The same nationalities, for up to 5 entries within 3 months (tourism)",
+             "USD/EUR 75 + 8 service fee"],
+            ["e-Visa (tourist)", "Nationalities on the e-visa list, such as India, Nigeria, Ghana, Pakistan "
+             "and South Africa", "3 months: USD 60 / EUR 50; 1 year: USD 210 / EUR 175; plus service fee"],
+            ["eTourist Card", "Cuba, the Dominican Republic and Venezuela", "USD 40 / EUR 35 + service fee"],
+            ["No fee or visa", "CARICOM nationals (including Guyana, Trinidad and Tobago and Jamaica), PSA card "
+             "holders, Suriname residents and holders of a valid visa",
+             "Free; ICF form still required"],
+        ])
+        + _pl_p("Lists change. Check your own nationality on the portal before you book.", mb=False))
+    body += _hub_card("Step by Step", "How to Apply",
+        _pl_ol([
+            "Go to " + _pl_x("https://suriname.vfsevisa.com", "suriname.vfsevisa.com") + ", the only valid "
+            "portal since 10 August 2026. Look-alike sites charge extra.",
+            "Choose Entry Fee or e-Visa for your nationality and pay by card.",
+            "Save the voucher on your phone or print it. You show it at check-in and on arrival.",
+            "Within seven days before arrival, fill in the free ICF form at "
+            + _pl_x("https://icf.sr", "icf.sr") + " and save the QR code.",
+            "Before you fly home, fill in the departure ICF form as well.",
+        ])
+        + _pl_p("Apply a few days ahead: no official processing time is published, and e-visas can take up "
+                "to about three days.", mb=False))
+    body += _hub_card("Mandatory", "The ICF Form",
+        _pl_p("The ICF form is mandatory for every "
+              "trip into and out of Suriname, free of charge, and opens seven days before you travel. It asks "
+              "for your passport details, where you will stay and what you are bringing in, and gives you a QR "
+              "code. Without it, airlines will not board you.")
+        + _pl_p("The Dutch government says the form is for travellers aged 18 and over; the ICF site asks for "
+                "a form per passenger. Filling one in for everyone in your group avoids problems at the desk.",
+                mb=False))
+    body += _hub_card("Documents", "Passport and Length of Stay",
+        _pl_ul([
+            "Your passport must be valid for at least six months after arrival. A Dutch ID card is not accepted.",
+            "Airlines may ask for a return or onward ticket.",
+            "The Entry Fee covers short stays of up to 90 days. Immigration can stamp a shorter period; "
+            "extensions up to 90 days in total are handled by the Vreemdelingendienst (Aliens Department) in "
+            "Paramaribo.",
+            "For longer stays, work or study you need an MKV (authorisation for temporary stay), arranged "
+            "before you travel.",
+        ]))
+    body += _hub_card("Diaspora", "People of Surinamese Origin: the PSA Card",
+        _pl_p("People born in Suriname, or with a Surinamese parent or grandparent, can apply for a PSA "
+              "(Persons of Surinamese Origin) card from the Ministry of Foreign Affairs. Holders need no visa "
+              "or Entry Fee and no work permit, and the card is valid for five years. It is now issued "
+              "digitally, with a QR code you can keep in your phone wallet. Fees were changed in 2025 and "
+              "2026, so check the current amount with the ministry before you apply.", mb=False))
+    body += _hub_card("Overland and Sea", "Arriving by Land or Boat",
+        _pl_p("The same rules apply at every border. The ICF form has options for the Albina crossing from "
+              "French Guiana, the South Drain ferry from Guyana and the cruise terminals in Paramaribo. Ferry "
+              "times and tips are in " + _ilink("visitor-guide.html", "The Basics") + ", and what you may "
+              "carry is on the " + _ilink("suriname-customs.html", "customs page") + ".", mb=False))
+    return _pl_page(
+        "Suriname Entry Requirements: Entry Fee, Visa & ICF",
+        "Do you need a visa for Suriname? The USD/EUR 50 Entry Fee, e-visas, the mandatory ICF form, "
+        "passport rules, exemptions and how to apply.",
+        "suriname-entry-requirements.html", "entry", "Before You Go", "Entry Requirements",
+        "Entry fee or visa, the ICF form and your passport: what to sort out before you fly.",
+        body, faq,
+        "Sources: VFS Global Suriname portal, icf.sr, NederlandWereldwijd, ANWB and the Government of Suriname. "
+        "Checked 26 October 2026. Rules change often: confirm on the official portal before you travel.")
+
+
+def build_customs_page():
+    faq = [
+        ("How much cash can I bring into Suriname?",
+         "Less than US$10,000 or the equivalent. Carrying US$10,000 or more across the border is not allowed, "
+         "on the way in and on the way out, and the ICF form asks about it."),
+        ("Can I bring cheese or meat from the Netherlands?",
+         "Declare it on the ICF form. Small amounts for personal use are often accepted, but customs and the "
+         "Ministry of Agriculture (LVV) can refuse fresh meat, fruit and plants."),
+        ("Can I take gold out of Suriname?",
+         "Not raw gold: taking it out without permits leads to seizure and arrest. Keep the receipt for any "
+         "gold jewellery you buy."),
+        ("Can I take a twa-twa or other bird home?",
+         "No. Songbirds such as the twa-twa and picolet, and other protected wildlife, may not be exported, "
+         "and smuggling them is punished with fines and jail."),
+    ]
+    body = _pl_short(
+        "Declare everything on the ICF form, carry less than US$10,000 in cash, bring medicines with a "
+        "prescription, and do not take raw gold or wildlife out of the country.")
+    body += _hub_card("Money", "Cash Limit",
+        _pl_p("Carrying US$10,000 or more, or the same value in other currencies, across the border is not "
+              "allowed under a decision of the Foreign Exchange Commission. The limit applies when you arrive "
+              "and when you leave, and amounts over it can be seized and referred to the police.", mb=False))
+    body += _hub_card("Allowances", "Alcohol, Tobacco and Gifts",
+        _pl_p("The official ICF form lists these duty-free amounts for residents aged 18 or over:")
+        + _pl_table(["Item", "Duty-free amount"], [
+            ["Spirits, wine, beer", "1 litre of spirits, 4 litres of wine, 8 litres of beer"],
+            ["Tobacco", "200 cigarettes, or 20 cigars, or 200 cigarillos, or 500 g of tobacco"],
+            ["Perfume", "250 ml of perfume and 250 ml of eau de toilette"],
+            ["Other goods", "USD 500 a year in personal and household goods"],
+        ])
+        + _pl_p("For visitors the form simply asks you to declare all dutiable items, so these amounts are a "
+                "useful guide. Your own luggage for the trip is not taxed, but declare new goods you bring as "
+                "gifts or to sell.", mb=False))
+    body += _hub_card("Food and Plants", "Fruit, Meat, Plants and Animals",
+        _pl_p("Declare all fruit, plants, meat, honey, soil and animals on the ICF form. Plants and flowers "
+              "may be brought in but must be inspected by the Ministry of Agriculture (LVV), and fresh meat, "
+              "fruit and plants can be refused at the border.", mb=False))
+    body += _hub_card("Health", "Medicines",
+        _pl_p("Carry medicines in your hand luggage with the prescription. If you travel from the "
+              "Netherlands, medicines covered by the Dutch Opium Act, such as strong painkillers and ADHD "
+              "medication, need an English medical statement certified through the CAK.", mb=False))
+    body += _hub_card("Restricted", "Weapons, Fireworks, Drugs and Drones",
+        _pl_ul([
+            "Firearms and ammunition, even a spent casing, are illegal without prior authorisation and can lead "
+            "to arrest.",
+            "Fireworks, chemicals, pesticides and medicines in commercial amounts need an import licence.",
+            "Drugs are prohibited and carry long prison sentences.",
+            "Drones: flying is banned over the presidential palace, ministries, military grounds and the "
+            "Central Bank, and filming around Independence Square needs permission. Check with the Civil "
+            "Aviation Safety Authority (CASAS) before you bring one.",
+        ]))
+    body += _hub_card("Pets", "Bringing a Pet",
+        _pl_p("You need an import permit from the Veterinary Service (LVV), a health certificate issued within "
+              "seven days before travel, deworming and parasite treatment, and proof of rabies protection. "
+              "Cats from countries that are not rabies-free need a rabies antibody test taken 3 to 12 months "
+              "before travel and two weeks of isolation after arrival, and the Veterinary Service must be told "
+              "48 hours ahead. Ask the Veterinary Service for the current conditions well before you fly.",
+              mb=False))
+    body += _hub_card("Leaving", "What You May Not Take Out",
+        _pl_ul([
+            "Raw gold: taking it out without permits leads to seizure and arrest under the foreign exchange and "
+            "anti-smuggling laws. Keep receipts for gold jewellery.",
+            "Songbirds such as the twa-twa and picolet, and other protected animals: export is prohibited.",
+            "Cash of US$10,000 or more.",
+        ])
+        + _pl_p("Remember the departure ICF form too. Entry fee and form details are on the "
+                + _ilink("suriname-entry-requirements.html", "entry requirements page") + ".", mb=False))
+    return _pl_page(
+        "Suriname Customs: What You Can Bring",
+        "Cash limits, alcohol and tobacco, food, plants, medicines, pets and what you may not take out of "
+        "Suriname, with official sources.",
+        "suriname-customs.html", "customs", "Before You Go", "What You Can Bring",
+        "Cash, alcohol, food, medicines and pets: the customs rules for Suriname in plain language.",
+        body, faq,
+        "Sources: icf.sr (ICF form and FAQ), US State Department, NederlandWereldwijd, Government of Suriname "
+        "veterinary conditions (August 2026) and the Suriname Forest Service. Checked 26 October 2026.")
+
+
+def build_health_page():
+    faq = [
+        ("Is there malaria in Suriname?",
+         "No. The World Health Organization certified Suriname malaria-free on 30 June 2025, the first country "
+         "in the Amazon region to reach that status. Malaria tablets are no longer needed."),
+        ("Do I need a yellow fever vaccination for Suriname?",
+         "It is recommended for all travellers aged 9 months and over. A certificate is required if you arrive "
+         "from a country with yellow fever risk, including a transit of more than 12 hours there."),
+        ("Is there chikungunya in Suriname?",
+         "Yes. An outbreak began in January 2026 and passed its epidemic peak by August, but the virus still "
+         "circulates. Use repellent day and night; ask a travel clinic about the chikungunya vaccine."),
+        ("Is the tap water safe to drink in Suriname?",
+         "Treated tap water in Paramaribo is generally considered safe. Outside the capital and in the "
+         "interior, drink bottled or filtered water."),
+    ]
+    body = _pl_short(
+        "Suriname has been malaria-free since 2025. Get the yellow fever vaccine, protect yourself against "
+        "day-biting mosquitoes that carry dengue and chikungunya, and take travel insurance that covers "
+        "hospital care and repatriation.")
+    body += _hub_card("Before You Go", "Vaccinations",
+        _pl_table(["Vaccine", "Advice"], [
+            ["Yellow fever", "Recommended for everyone from 9 months. A certificate is required if you arrive "
+             "from a risk country (or spent more than 12 hours in transit there). Get it at least 10 days "
+             "before travel; certificates are valid for life."],
+            ["Hepatitis A, typhoid, tetanus", "Recommended for most travellers, along with routine vaccines."],
+            ["Hepatitis B, rabies", "For some travellers: longer stays, work with animals or remote trips."],
+            ["Chikungunya", "Worth considering because of the 2026 outbreak; the Dutch RIVM advised it for "
+             "travellers aged 12 to 64. Your travel clinic can say which vaccine suits you."],
+            ["Dengue", "The vaccine is only advised for people who have had dengue before."],
+        ])
+        + _pl_p("Book a travel clinic appointment six to eight weeks before you leave.", mb=False))
+    body += _hub_card("Mosquitoes", "Dengue, Chikungunya and Zika",
+        _pl_p("The Aedes mosquitoes that spread dengue, chikungunya and Zika bite during the day, in the city "
+              "as well as the countryside. Use a repellent with DEET or icaridin, wear light long sleeves "
+              "at dusk, and sleep under a net or with air conditioning or screens.")
+        + _pl_p("Chikungunya returned in January 2026 and spread to most districts; health officials said in "
+                "August that the epidemic phase was over, with low-level circulation continuing. Zika is a "
+                "risk in pregnancy: pregnant women should discuss the trip with their doctor.")
+        + _pl_p("Malaria is no longer a risk: the WHO certified Suriname malaria-free on 30 June 2025.",
+                mb=False))
+    body += _hub_card("Food and Water", "Water, Food and Swimming",
+        _pl_ul([
+            "Treated tap water in Paramaribo is generally safe to drink. In the districts and the interior, "
+            "stick to bottled or filtered water.",
+            "Street food and roti shops are part of the experience; choose busy places where food is cooked fresh.",
+            "Schistosomiasis is present at very low levels. Organised swims in fast-flowing creeks and rivers are "
+            "common, but avoid wading in still fresh water such as ditches and ponds.",
+        ]))
+    body += _hub_card("Sun and Heat", "Sun, Heat and Humidity",
+        _pl_p("Suriname lies just north of the equator: the UV index often reaches 11 or more around midday, "
+              "and daytime temperatures sit around 29 to 32 &#176;C all year. Use sunscreen, wear a hat, "
+              "drink plenty of water and plan walks for the morning. Today&#8217;s UV and rain forecast are on "
+              "our " + _ilink("conditions.html", "weather page") + ".", mb=False))
+    body += _hub_card("If You Get Ill", "Hospitals, Pharmacies and Insurance",
+        _pl_p("The main hospitals with an emergency department in Paramaribo are the Academisch Ziekenhuis "
+              "Paramaribo (AZP), the Diakonessenhuis and the St. Vincentius Hospital. Emergency rooms are busy: "
+              "for problems that are not life-threatening, use a GP out-of-hours post (huisartsenpost) instead.")
+        + _pl_p("Pharmacies (apotheken) are easy to find in Paramaribo. Today&#8217;s on-call pharmacies are on "
+                "our " + _ilink("daily-notices.html", "Daily Notices page") + ".")
+        + _pl_p("Hospitals usually ask for payment upfront, and serious cases are sometimes flown abroad. Take "
+                "travel insurance that covers hospital care and repatriation. In an emergency call "
+                "<strong>115</strong> (police) or <strong>113</strong> (ambulance).", mb=False))
+    return _pl_page(
+        "Health in Suriname: Vaccines, Mosquitoes & Water",
+        "Yellow fever, malaria-free status, dengue and chikungunya, tap water, hospitals and emergency "
+        "numbers: health advice for visitors to Suriname.",
+        "suriname-health.html", "health", "Before You Go", "Health &amp; Vaccinations",
+        "What to get before you go and how to stay well once you are here.",
+        body, faq,
+        "Sources: WHO and PAHO, TravelHealthPro (UK), RIVM, NederlandWereldwijd, the Belgian travel advice and "
+        "the Suriname Bureau of Public Health. Checked 26 October 2026. This page is general information, not "
+        "medical advice: see a travel clinic before you go.")
+
+
+def build_getting_around_page():
+    faq = [
+        ("Is there Uber in Suriname?",
+         "No. Uber and Bolt do not operate in Suriname. Use a taxi app such as Tourtonne Taxi 1690 in "
+         "Paramaribo, a taxi your hotel calls, or agree the fare with a driver before you get in."),
+        ("How much is a bus in Paramaribo?",
+         "City buses charge a fixed fare of SRD 14.50 (October 2026). There is no timetable: buses leave when "
+         "they are full."),
+        ("Can I drive in Suriname with my own licence?",
+         "For a short visit, yes: a Dutch licence is valid for 14 days. For longer stays you need an "
+         "International Driving Permit as well. Suriname drives on the left."),
+        ("How do I get to the interior?",
+         "By road to the end of the asphalt and then by boat, or by small plane from Zorg en Hoop airport in "
+         "Paramaribo. Most visitors book a package with a lodge or tour operator that includes all transport."),
+    ]
+    dist = [
+        ["Johan Adolf Pengel airport (Zanderij)", "45 km", "45 to 60 minutes"],
+        ["Moengo", "about 100 km", "about 1 hour 40 minutes"],
+        ["Albina (border with French Guiana)", "about 140 km", "about 2.5 hours"],
+        ["Brownsberg Nature Park", "about 130 km", "about 2 to 2.5 hours"],
+        ["Atjoni (Upper Suriname River)", "about 190 km", "about 3 to 3.5 hours"],
+        ["Nieuw Nickerie", "about 240 km", "about 3.5 to 4 hours"],
+    ]
+    body = _pl_short(
+        "In Paramaribo, use taxis and taxi apps; minibuses are cheap but run without timetables. For the "
+        "districts you can rent a car (driving on the left) or take a bus, and the interior is reached by "
+        "boat or small plane, usually as part of a package.")
+    body += _hub_card("Arrival", "From the Airport",
+        _pl_p("Johan Adolf Pengel airport is 45 km south of Paramaribo, a 45 to 60 minute drive. Airport taxis "
+              "do not use meters, so agree the fare before you get in, or arrange a pickup through your hotel. "
+              "A public bus runs from the main road near the terminal to the city centre; it is cheap but not "
+              "practical with heavy luggage. Live arrivals and a pickup planner are on our "
+              + _ilink("flights.html", "flights page") + ".", mb=False))
+    body += _hub_card("In Town", "Taxis and Taxi Apps",
+        _pl_p("Taxis have no meters, so always agree the price first, or ask your hotel to call a driver it "
+              "trusts. Uber and Bolt do not operate in Suriname, but local apps do: "
+              "<strong>Tourtonne Taxi 1690</strong> shows the price before you confirm. Links to the app are in "
+              + _ilink("visitor-guide.html", "The Basics") + ".", mb=False))
+    body += _hub_card("Public Transport", "Buses and Minibuses",
+        _pl_p("Buses are privately run minibuses with a line code on the front, such as PL for Lelydorp. City "
+              "lines charge a fixed fare of SRD 14.50 (October 2026), paid to the driver in cash. There is no "
+              "timetable: buses leave the terminal when they are full and stop on request.")
+        + _pl_p("The main city terminals are in the centre, around the Heiligenweg and the Waterkant. "
+                "Long-distance buses run to Nickerie, Albina and Moengo, and converted trucks and buses leave "
+                "in the morning for Brownsweg and Atjoni. Ask locally for the departure point, as it can change.",
+                mb=False))
+    body += _hub_card("Driving", "Renting a Car",
+        _pl_ul([
+            "Rental companies usually require drivers aged 21 or over (some 25), a credit card for the deposit "
+            "and, for longer stays, an International Driving Permit.",
+            "Suriname drives on the left. Roads outside the city are unlit, so drive long routes in daylight.",
+            "Fuel prices are capped by the government: in October 2026 petrol cost about SRD 48 and diesel "
+            "about SRD 53 per litre.",
+            "A 4x4 helps on unpaved roads such as the climb to Brownsberg, especially in the rainy season.",
+        ])
+        + _pl_p("Road rules, speed limits and what to do after an accident are on our "
+                + _ilink("on-the-road.html", "driving page") + ".", mb=False))
+    body += _hub_card("On the Water", "Boats and Ferries",
+        _pl_p("Commewijne, across the Suriname River, is reached by road over the Jules Wijdenbosch bridge. "
+              "Small boat taxis also cross from the waterfront in Paramaribo to Meerzorg, and from Leonsberg "
+              "boats run on demand to Nieuw Amsterdam and the turtle beach at Braamspunt.")
+        + _pl_p("In the interior, rivers are the roads. Atjoni is the end of the road on the Suriname River; "
+                "from there motorised dugout canoes (korjalen) take you to the villages and lodges upriver.",
+                mb=False))
+    body += _hub_card("In the Air", "Flights to the Interior",
+        _pl_p("Small planes fly from Zorg en Hoop airport in Paramaribo to airstrips across the interior, such "
+              "as Kabalebo, Palumeu, Kwamalasamutu, Raleighvallen and Tafelberg. Gum Air and Blue Wing "
+              "Airlines run scheduled and charter flights; lodges usually book them for you as part of a "
+              "package. Since June 2025 all airlines from Suriname are on the EU Air Safety List, which bans them "
+              "from flying in EU airspace.", mb=False))
+    body += _hub_card("On Foot", "Walking and Cycling",
+        _pl_p("The historic centre of Paramaribo is compact and easy to explore on foot, ideally in the "
+              "morning before the heat. Some hotels rent bicycles, and guided bike tours run in the city and "
+              "in Commewijne. Traffic is busy and pavements are uneven, so take care, especially after dark.",
+              mb=False))
+    body += _hub_card("Distances", "How Far Is It?",
+        _pl_table(["From Paramaribo to", "Distance", "By road"], dist)
+        + _pl_p("Times are typical for a car in daylight; buses take longer.", mb=False))
+    return _pl_page(
+        "Getting Around Suriname: Buses, Taxis, Boats & Flights",
+        "How to get around Suriname: airport taxis, taxi apps, minibuses and fares, car rental and fuel, "
+        "boats across the river and flights to the interior.",
+        "getting-around-suriname.html", "getaround", "While You&#8217;re Here", "Getting Around",
+        "Taxis, minibuses, rental cars, boats and small planes: how to get from A to B in Suriname.",
+        body, faq,
+        "Sources: Rio Times (bus fares and fuel, October 2026), ANWB, NederlandWereldwijd, Gum Air, EU Air "
+        "Safety List and local operators. Checked 26 October 2026. Fares and fuel prices change; ask locally.")
+
+
+def build_best_time_page():
+    # Holidays come from the same data as the events page, for the next 12 months.
+    import json as _json
+    from datetime import date as _date
+    today = datetime.now(SR_TZ).date()
+    hol = []
+    try:
+        _rows = _time_holidays()[0]   # holidays.json + biz_holidays_extra.json, deduped
+    except Exception:
+        _rows = []
+    for h in _rows:
+        try:
+            dt = _date.fromisoformat(h["d"])
+        except Exception:
+            continue
+        if today.replace(day=1) <= dt and (dt - today).days <= 365 and h.get("en"):
+            hol.append((dt, h["en"]))
+    by_month = {}
+    for dt, name in sorted(set(hol)):
+        if name in ("Easter Sunday",):
+            continue
+        by_month.setdefault(dt.month, [])
+        if name not in by_month[dt.month]:
+            by_month[dt.month].append(name)
+    MON = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+           "October", "November", "December"]
+    SEASON = {1: "Short rainy season", 2: "Short dry season", 3: "Short dry season",
+              4: "Rains return", 5: "Long rainy season", 6: "Long rainy season", 7: "Long rainy season",
+              8: "Long dry season from mid-August", 9: "Long dry season", 10: "Long dry season",
+              11: "Long dry season", 12: "Short rainy season"}
+    NATURE = {1: "Green landscapes, full rivers",
+              2: "Sea turtle nesting begins", 3: "Sea turtles; good hiking weather",
+              4: "Most leatherbacks nest from April to July", 5: "Turtle season; high rivers for boat trips",
+              6: "Wettest month; peak turtle season", 7: "Last leatherbacks; hatchlings start to emerge",
+              8: "Interior access improves", 9: "Dry trails, good for jungle trips",
+              10: "Hottest time of year; rivers at their lowest", 11: "Dry and hot; good for the interior",
+              12: "Rains return mid-month"}
+    cards = []
+    for i in range(12):
+        m = (today.month - 1 + i) % 12 + 1
+        ev = by_month.get(m, [])
+        cards.append(
+            '<div class="rounded-xl border border-gray-100 p-4">'
+            f'<p class="font-bold text-gray-900 text-sm" style="text-transform:capitalize">{MON[m - 1]}</p>'
+            f'<p class="text-xs font-semibold mt-0.5 mb-2" style="color:var(--forest2)">{SEASON[m]}</p>'
+            f'<p class="text-gray-700 text-sm leading-relaxed">{NATURE[m]}</p>'
+            + (f'<p class="text-gray-500 text-xs leading-relaxed mt-2"><span>Public holidays:</span> '
+               + ", ".join(f"<span>{n}</span>" for n in ev) + '</p>' if ev else "")
+            + '</div>')
+    faq = [
+        ("When is the best time to visit Suriname?",
+         "The long dry season from mid-August to early December and the short dry season from February to "
+         "April are the most comfortable. September to November is best for interior trips."),
+        ("When is the rainy season in Suriname?",
+         "The long rainy season runs from about mid-April to mid-August, and a short rainy season from "
+         "December to early February. Showers are usually heavy but short."),
+        ("When can you see sea turtles in Suriname?",
+         "Turtles nest from about February to August, with the most leatherbacks from April to July."),
+        ("Does Suriname get hurricanes?",
+         "Suriname lies south of the Atlantic hurricane belt and is very rarely hit directly."),
+    ]
+    body = _pl_short(
+        "Come in the long dry season, mid-August to early December, or the short dry season, February to "
+        "April. Come in April to July for turtles, and around Holi, Keti Koti, Divali or Owru Yari for the "
+        "biggest celebrations.")
+    body += _hub_card("Seasons", "Two Dry Seasons, Two Rainy Seasons",
+        _pl_p("Suriname is hot and humid all year: daytime highs of 29 to 32 &#176;C and nights rarely below "
+              "22 &#176;C. Instead of summer and winter there are four seasons of rain and sun.")
+        + _pl_table(["Season", "When", "What to expect"], [
+            ["Short dry season", "February to April", "Sunny spells, pleasant for city walks and hikes"],
+            ["Long rainy season", "Mid-April to mid-August", "Daily heavy showers, wettest in May and June; "
+             "rivers high, landscapes green"],
+            ["Long dry season", "Mid-August to early December", "Hottest and driest; the best time for the "
+             "interior"],
+            ["Short rainy season", "December to early February", "Showers return, often in the afternoon"],
+        ])
+        + _pl_p("Rain usually comes in short, heavy bursts, so even the wet months have plenty of dry hours. "
+                "The country lies south of the hurricane belt.", mb=False))
+    body += _hub_card("Month by Month", "What Each Month Brings",
+        '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-3">' + "".join(cards) + '</div>'
+        + _pl_p("Holiday dates come from the official government list. Hindu, Islamic and Chinese holidays "
+                "move every year. All festivals and parties are on our "
+                + _ilink("events.html", "events calendar") + ".", mb=False))
+    body += _hub_card("Plan Around", "Seasons for Wildlife and Festivals",
+        _pl_ul([
+            "Sea turtles: nesting from about February to August, most leatherbacks from April to July. See "
+            + _ilink("listing/activity-turtle-watching/", "turtle watching") + ".",
+            "Birdwatching is good all year; go at first light.",
+            "Interior lodges and river trips are easiest in the long dry season, when trails are dry; some "
+            "rapids and sulas are only exposed when rivers are low.",
+            "Big celebrations: Holi Phagwa (February or March), Keti Koti on 1 July, Divali (October or "
+            "November), Independence Day on 25 November and Owru Yari on 31 December.",
+        ]))
+    return _pl_page(
+        "Best Time to Visit Suriname: Weather & Seasons by Month",
+        "When to visit Suriname: the two dry and two rainy seasons, month by month, turtle and birding "
+        "seasons, and the big festivals and holidays.",
+        "best-time-to-visit-suriname.html", "besttime", "Plan Your Trip", "Best Time to Visit",
+        "Dry seasons, rainy seasons, turtles and festivals: when to come to Suriname.",
+        body, faq,
+        "Sources: the climate data on our weather page, the Ministry of Education holiday list and local tour "
+        "operators. Checked 26 October 2026.")
 
 
 def build_about_suriname_page():
@@ -26080,7 +26652,7 @@ def build_about_suriname_page():
          "Paramaribo, on the Suriname River about 15 km from the sea. Roughly half the population lives "
          "in and around the city, and its wooden colonial centre is a UNESCO World Heritage site."),
         ("How many people live in Suriname?",
-         "About 620,000 (current estimates). The last census with published results, in 2012, counted "
+         "About 630,000 to 640,000 (current estimates). The last census with published results, in 2012, counted "
          "541,638 people. Results of the 2024-2025 census are expected from the General Bureau of "
          "Statistics (ABS)."),
         ("What currency does Suriname use?",
@@ -26165,7 +26737,7 @@ def build_about_suriname_page():
     body += ('<div class="rounded-2xl p-6 border-l-4 mb-8" style="background:#f0f9f4;border-color:var(--forest2)">'
              '<p class="text-gray-800 text-sm leading-relaxed"><strong>Suriname in one paragraph.</strong> '
              'Suriname is a small republic on the north-east shoulder of South America, the only Dutch-speaking '
-             'country on the continent. Around 620,000 people live here, most of them along a narrow coastal strip, '
+             'country on the continent. Around 635,000 people live here, most of them along a narrow coastal strip, '
              'while more than 90% of the land is tropical rainforest. Its population descends from Indigenous '
              'peoples, enslaved Africans and the Maroons who freed themselves, and contract workers from India, '
              'Java and China, which makes it one of the most diverse societies on earth. Independent since 1975, '
@@ -26183,7 +26755,7 @@ def build_about_suriname_page():
                  ("Location", "North-east South America, on the Atlantic Ocean"),
                  ("Neighbours", "Guyana (west), French Guiana (east), Brazil (south)"),
                  ("Area", "About 163,820 km&#178; (63,250 sq mi), roughly four times the Netherlands"),
-                 ("Population", "About 620,000 (estimate); 541,638 at the 2012 census"),
+                 ("Population", "About 630,000 to 640,000 (estimate); 541,638 at the 2012 census"),
                  ("Official language", "Dutch; Sranan Tongo is the everyday lingua franca"),
                  ("Independence", "25 November 1975, from the Kingdom of the Netherlands"),
                  ("Government", "Presidential republic; President Jennifer Geerlings-Simons since July 2025"),
@@ -26193,7 +26765,7 @@ def build_about_suriname_page():
                  ("Driving side", "Left"),
                  ("Highest point", "Julianatop, about 1,280 m (4,200 ft)"),
                  ("Forest cover", "About 93% of the land, one of the highest shares in the world"),
-                 ("UNESCO sites", "3: Central Suriname Nature Reserve, Paramaribo&#8217;s historic inner city, Jodensavanne"),
+                 ("UNESCO sites", "3: Central Suriname Nature Reserve, Paramaribo&#8217;s historic inner city (on the In Danger list since 2026), Jodensavanne"),
              ]) + '</div>')
 
     def _sec(anchor, kicker, heading, html):
@@ -26306,7 +26878,8 @@ def build_about_suriname_page():
             ("1980-1992", "Military coup, the December murders of 1982 and the Interior War"),
             ("1987 onward", "Return to civilian government under a new constitution"),
             ("2020s", "Economic crisis and recovery; major offshore oil discoveries in Block 58"),
-            ("2025", "Jennifer Geerlings-Simons becomes the first woman president"),
+            ("2025", "Jennifer Geerlings-Simons becomes the first woman president; 50 years of independence on 25 November"),
+            ("2026", "UNESCO puts Paramaribo&#8217;s historic inner city on the World Heritage in Danger list"),
         ])
         + '<p class="text-gray-700 text-sm leading-relaxed mt-3">Scroll through more than 50 moments, in English '
         'and Dutch, in our ' + _ilink("suriname-history.html", "History of Suriname timeline") + '.</p>')
@@ -26321,6 +26894,8 @@ def build_about_suriname_page():
         + _table([
             ("President", "Jennifer Geerlings-Simons (NDP), since 16 July 2025, the first woman in the office"),
             ("Vice President", "Gregory Rusland (NPS)"),
+            ("Speaker of the Assembly", "Ashwin Adhin (NDP), since 28 June 2025"),
+            ("Current Assembly", "Elected 25 May 2025: NDP 18, VHP 17, ABOP 6, NPS 6, PL 2, BEP 1, A20 1. The NDP-led coalition holds 34 seats; the VHP is the opposition"),
             ("Constitution", "1987 (amended 1992)"),
             ("Parliament", "National Assembly, 51 seats, elected for five years"),
             ("International", "UN, OAS, CARICOM (since 1995), Organisation of Islamic Cooperation, Dutch Language Union (associate)"),
@@ -26331,12 +26906,13 @@ def build_about_suriname_page():
         P + 'Suriname&#8217;s economy rests on natural resources. Gold is the largest export, '
         'from large mines such as Merian and Rosebel and from thousands of small-scale miners in the interior. '
         'Oil is produced onshore by the state company Staatsolie. Offshore, the GranMorgu project in Block 58, '
-        'led by TotalEnergies, is scheduled to start production in 2028 at around 220,000 barrels a day, which '
-        'could transform public finances. Bauxite, the backbone of the economy for nearly 100 years, ended with '
-        'the closure of the Suralco refinery in 2015.</p>'
+        'led by TotalEnergies, is scheduled to start production in mid-2028 at around 220,000 barrels a day, which '
+        'could transform public finances. Bauxite, the backbone of the economy for nearly 100 years, ended when '
+        'Suralco halted its refinery in 2015 and closed it for good in 2017.</p>'
         + P + 'Agriculture and fisheries matter too: rice from Nickerie, bananas, shrimp and fish, vegetables and '
         'timber. The government is the largest employer, and trade and services dominate the private sector. '
-        'After a debt crisis and high inflation in 2020-2022, the economy stabilised under an IMF-supported reform programme. '
+        'After a debt crisis and high inflation in 2020-2022, the economy stabilised under an IMF-supported reform programme, '
+        'which ended in March 2025. Inflation rose again during 2025, to 13% by the end of the year. '
         'Nominal GDP is roughly US$4.5 billion.</p>'
         + PL + 'Follow the SRD exchange rate on our ' + _ilink("currency.html", "Market Rates page")
         + ', the oil sector on the ' + _ilink("oil-and-gas.html", "Oil &amp; Gas hub")
@@ -26430,7 +27006,7 @@ def build_about_suriname_page():
     body += _sec("practical", "For Visitors", "Practical Facts",
         _table([
             ("Main airport", "Johan Adolf Pengel International (PBM) at Zanderij, about 45 km south of Paramaribo"),
-            ("Entry", "Most visitors need an e-visa or tourist card and pay an entry fee online before travel"),
+            ("Entry", "Most visitors pay an Entry Fee online before travel; some nationalities need an e-visa"),
             ("Money", "SRD cash is king; cards work in larger hotels, restaurants and supermarkets"),
             ("Electricity", "127 V, 60 Hz; plug types C and F (some A and B)"),
             ("Time", "UTC&#8722;3: 1 to 2 hours ahead of New York, 4 to 5 hours behind the Netherlands"),
@@ -26469,7 +27045,7 @@ def build_about_suriname_page():
              'General Bureau of Statistics Suriname (ABS), 2012 census; UNESCO World Heritage Centre; '
              'Central Bank of Suriname (CBvS); Staatsolie and TotalEnergies project releases; Ministry of Education '
              'holiday schedule; Government of Suriname. Population figures are estimates until the 2024-2025 '
-             'census results are published. Last reviewed September 2026. Spotted an error? '
+             'census results are published. Last reviewed October 2026. Spotted an error? '
              + _ilink("contact.html", "Let us know") + '.</p></div>')
 
     main = '<main class="max-w-5xl mx-auto px-5 py-12 pb-24">' + body + '</main>'
@@ -26521,8 +27097,9 @@ def build_about_page():
       up-to-date information for visitors and locals alike.
     </p>
     <p class="text-gray-700 leading-relaxed">
-      The directory currently covers more than 700 businesses and attractions across Paramaribo and beyond,
-      and is updated continuously. If you have a listing to add or a correction to suggest, please
+      The directory currently covers more than 1,500 businesses and attractions across Paramaribo and beyond,
+      and is updated continuously. The site is available in English, Dutch, Spanish, Chinese, French and
+      Portuguese. If you have a listing to add or a correction to suggest, please
       <a href="contact.html" style="color:var(--forest2)">get in touch</a>.
     </p>
   </div>
@@ -26548,11 +27125,19 @@ def build_about_page():
       </div>
       <div class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
-        <span><strong>Market Rates</strong>: SRD exchange rates updated three times daily (business days) from CBVS and CME</span>
+        <span><strong>Market Rates</strong>: SRD exchange rates from CBVS and CME, refreshed throughout the day, plus gold and Brent oil</span>
       </div>
       <div class="flex items-start gap-3">
         <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
         <span><strong>Flights, Weather &amp; News:</strong> real-time data to help you plan your stay in Suriname</span>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span><strong>Events &amp; Live Scores:</strong> festivals, parties and public holidays, plus Natio, SML and world football in Suriname time</span>
+      </div>
+      <div class="flex items-start gap-3">
+        <span class="mt-0.5 text-green-700 font-bold shrink-0">&#10003;</span>
+        <span><strong>Learn &amp; Play:</strong> Suriname&#8217;s history, a Sranan Tongo dictionary, flora and fauna, oil and gas, and games like Heiligenweg Jam</span>
       </div>
     </div>
   </div>
@@ -27853,10 +28438,10 @@ __FOOTER__
 def build_privacy_page():
     """Privacy Policy page — required for Google AdSense compliance.
     Discloses cookie use, third-party advertising, and how to opt out."""
-    policy_date = "1 May 2025"
+    policy_date = "26 October 2026"
     return f"""{PAGE_HEAD}
   <title>Privacy Policy | Explore Suriname</title>
-  <meta name="description" content="Privacy Policy for ExploreSuriname.com. Learn how we use cookies, what data we collect, and how Google advertising works on this site.">
+  <meta name="description" content="Privacy Policy for ExploreSuriname.com. What data we collect, what stays on your device, and how analytics and Google advertising work on this site.">
   <link rel="canonical" href="{SITE_URL}/privacy.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
@@ -27878,115 +28463,101 @@ def build_privacy_page():
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
     <h2 class="serif text-xl font-bold text-gray-900 mb-3">1. Who we are</h2>
     <p class="text-gray-700 text-sm leading-relaxed">
-      This Privacy Policy applies to <strong>ExploreSuriname.com</strong> (&ldquo;the Site&rdquo;), an
-      independent travel and lifestyle guide to Suriname. For questions about this policy, contact us at
-      <a href="mailto:{CONTACT_EMAIL}" style="color:var(--forest2)">{CONTACT_EMAIL}</a>.
+      This Privacy Policy applies to <strong>ExploreSuriname.com</strong> (&ldquo;the Site&rdquo;), an independent travel and lifestyle guide to Suriname, and to its app. For questions about this policy, contact us at <a href="mailto:{CONTACT_EMAIL}" style="color:var(--forest2)">{CONTACT_EMAIL}</a>.
     </p>
   </div>
 
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-    <h2 class="serif text-xl font-bold text-gray-900 mb-3">2. Information we collect</h2>
-    <p class="text-gray-700 text-sm leading-relaxed mb-3">
-      We do not require registration and do not collect your name, email address or any personally
-      identifiable information unless you contact us directly. When you visit the Site, standard web
-      server logs may record your IP address, browser type, referring page, and pages visited. This
-      information is used only for site administration and is never sold or shared with third parties
-      except as described below.
-    </p>
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">2. What you can use without giving us anything</h2>
     <p class="text-gray-700 text-sm leading-relaxed">
-      If you send us an email, we retain your message and email address only to respond to your
-      enquiry and for no other purpose.
+      You do not need an account. Reading the Site, searching listings, using the converters and checking rates, flights, weather and events works without telling us who you are. The Site is hosted on GitHub Pages; like any web host, GitHub processes your IP address and browser details to deliver the pages and protect its service.
     </p>
   </div>
 
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-    <h2 class="serif text-xl font-bold text-gray-900 mb-3">3. Cookies</h2>
-    <p class="text-gray-700 text-sm leading-relaxed mb-4">
-      Cookies are small text files stored on your device by your browser. We use cookies for the
-      following purposes:
-    </p>
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">3. Information you give us</h2>
     <div class="space-y-4 text-sm text-gray-700">
       <div>
-        <p class="font-semibold text-gray-900 mb-1">Functional cookies</p>
-        <p class="leading-relaxed">Used to remember your preferences (such as filter or sort selections) during your visit. These cookies are session-based and expire when you close your browser.</p>
+        <p class="font-semibold text-gray-900 mb-1">Add your business and Submit an event</p>
+        <p class="leading-relaxed">When you send a listing or an event, we receive what you type in the form: business or event details, photos or a flyer, and your name, email address and phone number. Your contact details are used only to check the submission and to reach you about it; they are never published. Submissions are stored on our own backend, which runs on Cloudflare.</p>
       </div>
       <div>
-        <p class="font-semibold text-gray-900 mb-1">Analytics cookies</p>
-        <p class="leading-relaxed">We may use analytics tools to understand how visitors use the Site in aggregate. No individual user profiles are built.</p>
+        <p class="font-semibold text-gray-900 mb-1">Game leaderboards</p>
+        <p class="leading-relaxed">If you put a score on a leaderboard, we store the nickname you choose and your score. Do not use your real name if you prefer not to.</p>
       </div>
       <div>
-        <p class="font-semibold text-gray-900 mb-1">Advertising cookies (Google AdSense)</p>
-        <p class="leading-relaxed">
-          This Site uses <strong>Google AdSense</strong>, a third-party advertising service provided by Google LLC.
-          Google AdSense places cookies on your device to serve personalised advertisements based on your browsing
-          history across websites. Google&rsquo;s advertising cookies include the <strong>DoubleClick cookie</strong>
-          and similar technologies that allow Google and its partners to serve ads based on your interests.
-        </p>
-        <p class="leading-relaxed mt-2">
-          You may opt out of personalised advertising by visiting
-          <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener" style="color:var(--forest2)">Google Ads Settings</a>
-          or <a href="https://www.aboutads.info" target="_blank" rel="noopener" style="color:var(--forest2)">www.aboutads.info</a>.
-          You can also opt out of Google Analytics by installing the
-          <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener" style="color:var(--forest2)">Google Analytics opt-out browser add-on</a>.
-        </p>
+        <p class="font-semibold text-gray-900 mb-1">Email and WhatsApp</p>
+        <p class="leading-relaxed">If you contact us, we keep your message and contact details only to answer you.</p>
+      </div>
+    </div>
+    <p class="text-gray-700 text-sm leading-relaxed mt-4">The forms use Cloudflare Turnstile to block spam; Cloudflare processes technical data from your browser for that check.</p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">4. Stored on your own device</h2>
+    <p class="text-gray-700 text-sm leading-relaxed mb-3">
+      Some features remember things in your browser&rsquo;s local storage, on your device only: your game progress and best scores, events you saved, flights you track, your favourite teams, which news you have already seen and similar settings. We cannot see this data, except a game score you choose to post. Clearing your browser data removes it.
+    </p>
+    <p class="text-gray-700 text-sm leading-relaxed mb-3">
+      <strong>Location.</strong> &ldquo;Near me&rdquo; on the listing pages and &ldquo;Nearest working ATM&rdquo; ask for your location only when you tap them. Distances are worked out in your browser and your location is not sent to us.
+    </p>
+    <p class="text-gray-700 text-sm leading-relaxed">
+      <strong>Notifications.</strong> If you track a flight and allow notifications, your browser shows an alert when its status changes while the page is open. You can turn this off in your browser settings.
+    </p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">5. Analytics and advertising</h2>
+    <div class="space-y-4 text-sm text-gray-700">
+      <div>
+        <p class="font-semibold text-gray-900 mb-1">Google Analytics</p>
+        <p class="leading-relaxed">We use Google Analytics 4 to count page views and clicks on parts of the Site, so we can see what is useful. It sets cookies, and Google processes your IP address and device data. We do not use it to identify you. You can block it with the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener" style="color:var(--forest2)">Google Analytics opt-out browser add-on</a>.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-gray-900 mb-1">Google AdSense</p>
+        <p class="leading-relaxed">Some pages show ads from Google AdSense, a service of Google LLC. Google and its partners use cookies, including the DoubleClick cookie, to show ads based on your visits to this and other websites. You can opt out of personalised advertising in <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener" style="color:var(--forest2)">Google Ads Settings</a> or at <a href="https://www.aboutads.info" target="_blank" rel="noopener" style="color:var(--forest2)">www.aboutads.info</a>. We have no access to or control over Google&rsquo;s cookies; see <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener" style="color:var(--forest2)">how Google uses data</a>.</p>
       </div>
     </div>
   </div>
 
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-    <h2 class="serif text-xl font-bold text-gray-900 mb-3">4. Third-party advertising</h2>
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">6. Services your browser contacts</h2>
     <p class="text-gray-700 text-sm leading-relaxed mb-3">
-      We use <strong>Google AdSense</strong> to display advertisements on this Site. Google AdSense is
-      operated by Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA.
+      To show live information, some pages load data directly from other services, which then see your IP address: Open-Meteo for weather and tides, ESPN, FIFA and Concacaf for scores and fixtures, flag and logo images from their own servers, and photos hosted by Wikimedia Commons and iNaturalist. Our own small services on Cloudflare Workers supply exchange rates, ATM status and the leaderboards.
     </p>
+    <p class="text-gray-700 text-sm leading-relaxed">
+      Buttons such as &ldquo;Read in your language&rdquo; (Google Translate), WhatsApp share, Google Calendar and Google Maps or Waze directions open those services only when you tap them; their own privacy policies then apply.
+    </p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">7. External links</h2>
+    <p class="text-gray-700 text-sm leading-relaxed">
+      The Site links to news outlets, business websites, booking pages and map services. We are not responsible for the privacy practices or content of those sites.
+    </p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">8. How long we keep data</h2>
+    <p class="text-gray-700 text-sm leading-relaxed">
+      We keep submissions and the contact details that come with them as long as needed to review them, publish the listing or event and contact you about it, and email for as long as needed to answer you. You can ask us to delete them at any time. We take reasonable steps to protect information but cannot guarantee the security of data sent over the internet.
+    </p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">9. Your rights</h2>
     <p class="text-gray-700 text-sm leading-relaxed mb-3">
-      Third-party vendors, including Google, use cookies to serve ads based on a user&rsquo;s prior
-      visits to this website or other websites. Google&rsquo;s use of advertising cookies enables
-      it and its partners to serve ads based on your visit to this Site and/or other sites on the internet.
+      You may ask for access to, correction of or deletion of any personal data we hold about you by contacting us at <a href="mailto:{CONTACT_EMAIL}" style="color:var(--forest2)">{CONTACT_EMAIL}</a>.
     </p>
     <p class="text-gray-700 text-sm leading-relaxed">
-      We have no access to or control over the cookies used by Google or other third-party advertisers.
-      For more information on how Google uses data when you visit sites that use Google services,
-      see <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener" style="color:var(--forest2)">Google&rsquo;s privacy policy</a>.
+      To manage or disable cookies and local storage, use your browser settings. Disabling them may stop some features, such as saved events or game progress, from working.
     </p>
   </div>
 
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-    <h2 class="serif text-xl font-bold text-gray-900 mb-3">5. External links</h2>
+    <h2 class="serif text-xl font-bold text-gray-900 mb-3">10. Changes to this policy</h2>
     <p class="text-gray-700 text-sm leading-relaxed">
-      The Site contains links to external websites and sources (news outlets, business websites, map
-      services, etc.). We are not responsible for the privacy practices or content of those sites.
-      We encourage you to read the privacy policies of any external sites you visit.
-    </p>
-  </div>
-
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-    <h2 class="serif text-xl font-bold text-gray-900 mb-3">6. Data retention &amp; security</h2>
-    <p class="text-gray-700 text-sm leading-relaxed">
-      We retain email correspondence for as long as necessary to resolve your enquiry. Server log
-      files are retained for a maximum of 90 days. We take reasonable steps to protect information
-      but cannot guarantee the security of data transmitted over the internet.
-    </p>
-  </div>
-
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-    <h2 class="serif text-xl font-bold text-gray-900 mb-3">7. Your rights</h2>
-    <p class="text-gray-700 text-sm leading-relaxed mb-3">
-      You may request access to, correction of, or deletion of any personal data we hold about you
-      by contacting us at <a href="mailto:{CONTACT_EMAIL}" style="color:var(--forest2)">{CONTACT_EMAIL}</a>.
-    </p>
-    <p class="text-gray-700 text-sm leading-relaxed">
-      To manage or disable cookies, adjust your browser settings. Note that disabling cookies may
-      affect the functionality of this Site and other websites.
-    </p>
-  </div>
-
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-    <h2 class="serif text-xl font-bold text-gray-900 mb-3">8. Changes to this policy</h2>
-    <p class="text-gray-700 text-sm leading-relaxed">
-      We may update this Privacy Policy from time to time. Changes will be posted on this page
-      with an updated &ldquo;Last updated&rdquo; date. Continued use of the Site after any changes
-      constitutes acceptance of the updated policy.
+      We may update this Privacy Policy from time to time. Changes are posted on this page with a new &ldquo;Last updated&rdquo; date.
     </p>
   </div>
 
@@ -28638,7 +29209,7 @@ def build_time_page():
          "and are added once the government announces them."),
         ("How do I count working days in Suriname?",
          "Use the Dates tab of the converter: it skips Saturdays, Sundays and Surinamese public holidays. For "
-         "deadlines and payment terms there is also the full working days calculator in the Business tools."),
+         "deadlines and payment terms there is also the full working days calculator on SurinameBusiness.com."),
         ("Which exchange rate does the money converter use?",
          "The latest cambio rate published by the Central Market Exchange (CME), the same rate shown on the "
          "Market Rates page. Changing dollars or euros into SRD uses the buying rate, buying dollars or euros "
@@ -28899,6 +29470,11 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("on-the-road.html", "0.7", "monthly"),
         ("suriname-itinerary.html", "0.8", "monthly"),
         ("is-suriname-safe.html",   "0.7", "monthly"),
+        ("suriname-entry-requirements.html", "0.8", "monthly"),
+        ("suriname-customs.html",            "0.7", "monthly"),
+        ("suriname-health.html",             "0.7", "monthly"),
+        ("getting-around-suriname.html",     "0.7", "monthly"),
+        ("best-time-to-visit-suriname.html", "0.7", "monthly"),
         ("about-suriname",         "0.8", "monthly"),
         ("suriname-history.html",  "0.8", "monthly"),
         ("matches.html",            "0.8", "daily"),
@@ -29015,11 +29591,16 @@ def build_llms_txt():
 ## Travel guides
 - [The Basics]({S}/visitor-guide.html): visas, customs, SIM cards, money, ATMs and getting around for first-time visitors.
 - [Is Suriname Safe?]({S}/is-suriname-safe.html): practical safety guidance for tourists.
+- [Entry Requirements]({S}/suriname-entry-requirements): the Entry Fee, e-visas, the mandatory ICF form, passport rules and exemptions.
+- [Customs]({S}/suriname-customs): cash limit, duty-free allowances, food, medicines, pets and what may not be taken out.
+- [Health]({S}/suriname-health): vaccinations, malaria-free status, dengue and chikungunya, tap water and hospitals.
+- [Getting Around]({S}/getting-around-suriname): taxis, minibuses, car rental, boats and flights to the interior.
+- [Best Time to Visit]({S}/best-time-to-visit-suriname): dry and rainy seasons month by month, turtles and festivals.
 - [About Suriname]({S}/about-suriname): country fact file: geography, climate, population and ethnic groups, languages, religion, history, government, economy, nature, the ten districts, national symbols, public holidays and practical facts.
 - [History of Suriname]({S}/suriname-history.html): interactive timeline of Surinamese history, from the first Indigenous peoples through slavery and Keti Koti to independence and the oil era, in English and Dutch.
 - [Flora & Fauna of Suriname]({S}/flora-fauna/): every animal, plant and fungus recorded in Suriname (about 18,500 species, 4,000 profiles) with names in English, Dutch, Spanish, Chinese, Sranan Tongo and Latin, where each species has been recorded by district, photos and sources.
 - [Suriname Itinerary]({S}/suriname-itinerary.html): suggested multi-day routes combining Paramaribo and the interior.
-- [On the Road]({S}/on-the-road.html): driving, road rules, rainy-season advice and emergency numbers.
+- [Driving and Traffic]({S}/on-the-road.html): driving, road rules, a live traffic map and emergency numbers.
 
 ## Live data
 - [SRD Exchange Rates]({S}/currency.html): Surinamese Dollar rates from CBVS (the central bank, official reference) and CME (the cash market). The cash rate is what travellers actually receive at exchange offices in Paramaribo, not the mid-market rate shown by global currency converters.
@@ -30136,7 +30717,7 @@ def build_flights_page(flights_data):
     {{"@type":"Question","name":"Which airlines fly to Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Airlines serving Suriname include KLM (Amsterdam), Copa Airlines (Panama City), Caribbean Airlines (Trinidad), and Surinam Airways on regional routes. KLM operates direct flights from Amsterdam to Johan Adolf Pengel International Airport (PBM), making it the primary route for European travelers."}}}},
     {{"@type":"Question","name":"What is the main airport in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Johan Adolf Pengel International Airport (IATA: PBM), also known as Zanderij Airport, is Suriname\'s main international airport. It is located approximately 45 km south of Paramaribo. Eduard Alexander Gummels Airport (EAX) in Paramaribo handles some domestic and regional flights."}}}},
     {{"@type":"Question","name":"How long is a flight from Amsterdam to Suriname?","acceptedAnswer":{{"@type":"Answer","text":"A direct flight from Amsterdam Schiphol (AMS) to Johan Adolf Pengel International Airport (PBM) takes approximately 9 to 10 hours. KLM operates this route several times per week."}}}},
-    {{"@type":"Question","name":"Do I need a visa to fly to Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Most nationalities require a tourist visa or tourist card to enter Suriname. These are arranged through the official VFS Global e-Visa portal at suriname.vfsevisa.com before departure, which is also where the Entry Fee is paid. Some Caribbean and South American nationalities may be exempt. Always check the latest Suriname immigration requirements for your passport before booking flights."}}}},
+    {{"@type":"Question","name":"Do I need a visa to fly to Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Most visitors pay an Entry Fee online before departure, and some nationalities need an e-visa. Both are arranged through the official VFS Global portal at suriname.vfsevisa.com. CARICOM nationals are exempt. Always check the latest Suriname immigration requirements for your passport before booking flights."}}}},
     {{"@type":"Question","name":"How far is Johan Adolf Pengel Airport from Paramaribo?","acceptedAnswer":{{"@type":"Answer","text":"Johan Adolf Pengel International Airport (PBM) is located approximately 45 km south of Paramaribo city centre. The drive typically takes 40 to 60 minutes depending on traffic conditions."}}}},
     {{"@type":"Question","name":"How do I get from Suriname airport to Paramaribo?","acceptedAnswer":{{"@type":"Answer","text":"The most common options are licensed airport taxis with a fixed fare agreed before boarding, or private transfer services booked in advance. Ride-hailing apps do not currently operate at Johan Adolf Pengel Airport. The journey to central Paramaribo takes approximately 45 to 60 minutes."}}}},
     {{"@type":"Question","name":"Does KLM fly direct to Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Yes. KLM operates direct flights between Amsterdam Schiphol (AMS) and Johan Adolf Pengel International Airport (PBM) several times per week. The flight takes approximately 9 to 10 hours. KLM is the primary airline connecting Europe to Suriname."}}}}
@@ -30266,15 +30847,15 @@ def build_roads_page():
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
     {{"@type":"Question","name":"What side of the road do you drive on in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"In Suriname, traffic drives on the left side of the road."}}}},
-    {{"@type":"Question","name":"What are the speed limits in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Speed limits in Suriname are 40 km/h in urban areas, 80 km/h on rural roads and 100 km/h on motorways."}}}},
-    {{"@type":"Question","name":"What is the blood alcohol limit for drivers in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The legal blood alcohol limit for drivers in Suriname is 0.05%."}}}},
-    {{"@type":"Question","name":"Do I need an International Driving Permit to drive in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Yes. Foreign visitors need an International Driving Permit (IDP) alongside their valid national licence. If you arrive without one, you can apply for a local driving permit at the Bureau Nieuwe Haven in Paramaribo."}}}},
+    {{"@type":"Question","name":"What are the speed limits in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"On paved roads the limit is 40 km/h inside built-up areas and 80 km/h outside them. On unpaved roads it is 40 km/h everywhere."}}}},
+    {{"@type":"Question","name":"What is the blood alcohol limit for drivers in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"The limit is 0.5 per mille (0.05%) blood alcohol, and 0.3 per mille for drivers who have held their licence for less than two years. Since 1 December 2024 drivers caught drunk, or driving 50 km/h or more over the limit, can lose their licence on the spot."}}}},
+    {{"@type":"Question","name":"Do I need an International Driving Permit to drive in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"For short visits your national licence is enough: a Dutch licence, for example, is valid for 14 days after arrival. For longer stays you need an International Driving Permit (IDP) alongside your national licence, which together are valid for up to one year. Rental companies sometimes ask for an IDP even on short trips, so it is worth bringing one."}}}},
     {{"@type":"Question","name":"What are the emergency numbers in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"In Suriname, call 115 for the police, 113 for the ambulance and 110 for the fire department."}}}},
     {{"@type":"Question","name":"What should I do after a car accident in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Stay at the scene and call 115 if anyone is injured. Fill in the SURVAM Aanrijdingsformulier (collision form) together with the other driver. Photograph the damage and the other driver's driving licence and insurance certificate, then notify your insurer as soon as possible."}}}},
     {{"@type":"Question","name":"When must I call the police after an accident in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Call the police on 115 if someone is seriously injured, a serious traffic violation was involved such as running a red light or driving under the influence, the other driver disputes the facts, the other driver left the scene without providing their details, or the damage is due to theft or vandalism."}}}},
     {{"@type":"Question","name":"What can I report on Waze in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Waze lets drivers report accidents, police checks, road closures, hazards and traffic jams in real time. Every report improves the live map for other drivers in Suriname."}}}},
-    {{"@type":"Question","name":"Are there toll roads in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname does not have a toll road system. Roads are generally free to use. Some ferry crossings, such as across the Suriname River between Paramaribo and the Commewijne district, charge a small fee."}}}},
-    {{"@type":"Question","name":"What should I know about driving to Suriname's interior?","acceptedAnswer":{{"@type":"Answer","text":"The road from Paramaribo to the interior transitions from paved highway to unpaved dirt tracks. A high-clearance vehicle or 4WD is strongly recommended beyond Atjoni. Road conditions deteriorate significantly during the rainy season. Inform someone of your route and estimated return time before venturing into the interior, and carry sufficient fuel, water and emergency supplies."}}}}
+    {{"@type":"Question","name":"Are there toll roads in Suriname?","acceptedAnswer":{{"@type":"Answer","text":"Suriname does not have a toll road system. Roads, including the Jules Wijdenbosch bridge across the Suriname River to Commewijne, are free to use."}}}},
+    {{"@type":"Question","name":"What should I know about driving to Suriname's interior?","acceptedAnswer":{{"@type":"Answer","text":"The road from Paramaribo to the interior transitions from paved highway to unpaved dirt tracks. A high-clearance vehicle or 4WD is strongly recommended on unpaved roads such as the climb to Brownsberg; Atjoni is the end of the road, and only boats continue upriver. Road conditions deteriorate significantly during the rainy season. Inform someone of your route and estimated return time before venturing into the interior, and carry sufficient fuel, water and emergency supplies."}}}}
   ]}}
   </script>
 </head>
@@ -30380,36 +30961,37 @@ def build_roads_page():
       <table class="w-full text-sm">
         <tbody class="divide-y divide-gray-100">
           <tr><td class="py-2.5 text-gray-500 pr-4 w-1/2">Traffic side</td><td class="py-2.5 font-semibold text-gray-800">Left-hand traffic</td></tr>
-          <tr><td class="py-2.5 text-gray-500 pr-4">Urban speed limit</td><td class="py-2.5 font-semibold text-gray-800">40 km/h</td></tr>
-          <tr><td class="py-2.5 text-gray-500 pr-4">Rural roads</td><td class="py-2.5 font-semibold text-gray-800">80 km/h</td></tr>
-          <tr><td class="py-2.5 text-gray-500 pr-4">Motorways</td><td class="py-2.5 font-semibold text-gray-800">100 km/h</td></tr>
-          <tr><td class="py-2.5 text-gray-500 pr-4">Blood alcohol limit</td><td class="py-2.5 font-semibold text-gray-800">0.05%</td></tr>
+          <tr><td class="py-2.5 text-gray-500 pr-4">Built-up areas</td><td class="py-2.5 font-semibold text-gray-800">40 km/h</td></tr>
+          <tr><td class="py-2.5 text-gray-500 pr-4">Outside built-up areas</td><td class="py-2.5 font-semibold text-gray-800">80 km/h</td></tr>
+          <tr><td class="py-2.5 text-gray-500 pr-4">Unpaved roads</td><td class="py-2.5 font-semibold text-gray-800">40 km/h</td></tr>
+          <tr><td class="py-2.5 text-gray-500 pr-4">Blood alcohol limit</td><td class="py-2.5 font-semibold text-gray-800">0.5&#8240; (0.3&#8240; in the first 2 years)</td></tr>
           <tr><td class="py-2.5 text-gray-500 pr-4">Seatbelts</td><td class="py-2.5 font-semibold text-gray-800">Mandatory</td></tr>
-          <tr><td class="py-2.5 text-gray-500 pr-4">Child seats</td><td class="py-2.5 font-semibold text-gray-800">Required by law</td></tr>
+          <tr><td class="py-2.5 text-gray-500 pr-4">Child seats</td><td class="py-2.5 font-semibold text-gray-800">Required under 10 years</td></tr>
           <tr><td class="py-2.5 text-gray-500 pr-4">Mobile phone use</td><td class="py-2.5 font-semibold text-gray-800">Hands-free only</td></tr>
           <tr><td class="py-2.5 text-gray-500 pr-4">Motorcycle helmets</td><td class="py-2.5 font-semibold text-gray-800">Mandatory</td></tr>
           <tr><td class="py-2.5 text-gray-500 pr-4">Minimum driving age</td><td class="py-2.5 font-semibold text-gray-800">18 years</td></tr>
         </tbody>
       </table>
+      <p class="text-gray-500 text-xs leading-relaxed mt-4">Since 1 December 2024 police can seize your licence for drunk driving or for driving 50&nbsp;km/h or more over the limit.</p>
     </div>
 
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
       <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--forest2)">Visitors</p>
       <h2 class="serif text-xl font-bold text-gray-900 mb-4">Foreign Driving Licence</h2>
       <p class="text-gray-700 text-sm leading-relaxed mb-4">
-        To drive in Suriname on a foreign licence, you need an
-        <strong>International Driving Permit (IDP)</strong> alongside your valid national licence.
-        Get the IDP from your home country's motoring association before you travel.
+        For a short visit your national licence is enough: a Dutch licence, for example, is valid
+        for 14 days after arrival. For a longer stay you need an
+        <strong>International Driving Permit (IDP)</strong> alongside your national licence; together
+        they let you drive for up to one year.
       </p>
       <p class="text-gray-700 text-sm leading-relaxed mb-4">
-        If you arrive without one, you can apply for a local driving permit at the
-        <strong>Bureau Nieuwe Haven</strong> in Paramaribo using your foreign licence.
-        Permits are issued for up to one year and can be renewed.
+        Get the IDP from your home country's motoring association before you travel. Rental companies
+        sometimes ask for one even on short trips, so it is worth bringing.
       </p>
       <div class="rounded-xl p-4 border-l-4" style="background:#f0fdf4;border-color:var(--forest2)">
         <p class="text-sm text-gray-700 leading-relaxed">
-          Car rental companies require drivers to be <strong>at least 21 years old</strong>
-          and to have held their licence for at least one year.
+          Car rental companies usually require drivers to be <strong>at least 21 years old</strong>
+          (some 25), often with a young-driver surcharge, plus a credit card for the deposit.
         </p>
       </div>
     </div>
@@ -31563,6 +32145,11 @@ if __name__ == "__main__":
         "on-the-road.html":   build_roads_page(),
         "suriname-itinerary.html": build_itinerary_page(),
         "is-suriname-safe.html":   build_safety_page(),
+        "suriname-entry-requirements.html": build_entry_requirements_page(),
+        "suriname-customs.html":            build_customs_page(),
+        "suriname-health.html":             build_health_page(),
+        "getting-around-suriname.html":     build_getting_around_page(),
+        "best-time-to-visit-suriname.html": build_best_time_page(),
         "about-suriname.html":     build_about_suriname_page(),
         "doing-business-in-suriname.html": build_doing_business_page(),
         "suriname-history.html":   build_history_page(),
@@ -31577,9 +32164,9 @@ if __name__ == "__main__":
             '<meta name="robots" content="noindex,follow">'
             '<meta http-equiv="refresh" content="0;url=/matches.html">'
             '<link rel="canonical" href="https://exploresuriname.com/matches.html">'
-            '<title>Redirecting to the Sports Schedule&hellip;</title></head><body>'
+            '<title>Redirecting to Live Scores&hellip;</title></head><body>'
             '<p>The 2026 World Cup is over. Every other kickoff, tip-off and fight night is on our '
-            '<a href="/matches.html">Sports Schedule</a>, in Suriname time.</p></body></html>'),
+            '<a href="/matches.html">Live Scores</a> page, in Suriname time.</p></body></html>'),
         "matches.html":            build_matches_page(matches_data),
         "suriname-time.html":      build_time_page(),
         "atms.html":               build_atms_page(atm_list, atm_meta, atm_ref),
