@@ -2119,6 +2119,77 @@ def _og_share_image(img):
     return fallback
 
 
+# ── Share cards (26 Oct 2026) ─────────────────────────────────────────────────
+# Pages without a photo of their own used to share the old aerial "Explore
+# Suriname" card (og-image.jpg). Each now gets a designed 1200x630 card from
+# images/og-pages/ (same look as images/events-og.jpg; source and render kit in
+# ../_scratch_og/). Listings without a photo get the card of their category group
+# (Health & Care, Bars & Nightlife, ...). Only the og:image and twitter:image meta
+# tags change: JSON-LD keeps the real photo or none. A missing card file keeps the
+# default, so a lost file can never break a link preview.
+_OG_DEFAULT = SITE_URL + "/og-image.jpg"
+_OG_PAGE_CARDS = {
+    "index.html": "home", "currency.html": "currency", "flights.html": "flights", "atms.html": "atms",
+    "gas-cylinders.html": "gas-cylinders", "conditions.html": "conditions", "daily-notices.html": "daily-notices",
+    "matches.html": "matches", "news.html": "news", "suriname-time.html": "suriname-time",
+    "visitor-guide.html": "visitor-guide", "suriname-entry-requirements.html": "suriname-entry-requirements",
+    "suriname-customs.html": "suriname-customs", "suriname-health.html": "suriname-health",
+    "getting-around-suriname.html": "getting-around-suriname",
+    "best-time-to-visit-suriname.html": "best-time-to-visit-suriname", "suriname-itinerary.html": "suriname-itinerary",
+    "is-suriname-safe.html": "is-suriname-safe", "on-the-road.html": "on-the-road",
+    "about-suriname.html": "about-suriname", "suriname-history.html": "suriname-history",
+    "sranan-tongo-dictionary.html": "sranan-tongo-dictionary", "doing-business-in-suriname.html": "doing-business-in-suriname",
+    "oil-and-gas.html": "oil-and-gas", "granmorgu.html": "granmorgu", "suriname-oil-blocks.html": "suriname-oil-blocks",
+    "suriname-oil-timeline.html": "suriname-oil-timeline", "suriname-oil-contracts.html": "suriname-oil-contracts",
+    "suriname-oil-government.html": "suriname-oil-government", "suriname-oil-jobs.html": "suriname-oil-jobs",
+    "korjaal.html": "korjaal", "heiligenweg-jam.html": "heiligenweg-jam", "anaconda.html": "anaconda",
+    "muskieto.html": "muskieto", "quiz.html": "quiz", "map-game.html": "map-game",
+    "about.html": "about", "contact.html": "contact", "privacy.html": "privacy",
+    "submit-business.html": "submit-business", "activities.html": "activities",
+}
+_OG_SECTION_CAT = {"services.html": "service", "shopping.html": "shopping", "restaurants.html": "restaurant"}
+_OG_META_RE = re.compile(r'(<meta (?:property="og:image"|name="twitter:image") content=")'
+                         + re.escape(_OG_DEFAULT) + r'(")')
+
+def _og_card(key):
+    """Absolute URL of images/og-pages/<key>.jpg, or "" when the file is not there."""
+    if key and os.path.exists(os.path.join("images", "og-pages", key + ".jpg")):
+        return SITE_URL + "/images/og-pages/" + key + ".jpg"
+    return ""
+
+def _og_page_card_key(fname):
+    if fname.startswith("flight-") and fname.endswith(".html"):
+        return "flights"
+    return _OG_PAGE_CARDS.get(fname, "")
+
+def _og_listing_card_key(slug):
+    """Card for a listing page: its category group (services/shopping/eat & drink),
+    or the Stay / Things to do card. "" = keep the default."""
+    try:
+        _bf = _slug_schema_info(slug)[1]
+        if _bf == "hotels.html":
+            return "cat-hotel"
+        if _bf == "activities.html":
+            return "cat-activity"
+        _cat = _OG_SECTION_CAT.get(_bf)
+        if not _cat:
+            return ""
+        _sub = _subcat(slug)
+        for _gk, _gl, _keys in SUBCAT_GROUPS.get(_cat, []):
+            if _sub in _keys:
+                return "cat-" + _cat + "-" + _gk[2:]
+        return "cat-service-other" if _cat == "service" else ""
+    except Exception:
+        return ""
+
+def _og_swap(html, key):
+    """Swap the default og:image/twitter:image for the card (only when the page uses the default)."""
+    _url = _og_card(key)
+    if not _url or _OG_DEFAULT not in html:
+        return html
+    return _OG_META_RE.sub(lambda m: m.group(1) + _url + m.group(2), html)
+
+
 # ── Subcategory assignment ────────────────────────────────────────────────────
 
 # Explicit chip assignments for the Aug 2026 batch. Keyword rules below match on slug
@@ -32959,6 +33030,8 @@ if __name__ == "__main__":
         if _d:
             _os_pages.makedirs(_d, exist_ok=True)
         _out = _wide_scale_units(html)
+        if "/" not in fname:
+            _out = _og_swap(_out, _og_page_card_key(fname))   # share card (26 Oct 2026)
         if fname.startswith("flora-fauna/") and _ff_mark and _out == html:
             # Incremental (see flora_fauna_pages.ff_mark): a page whose finished
             # copy on disk was built from exactly this source is left alone, and
@@ -32996,7 +33069,7 @@ if __name__ == "__main__":
         b = _make_biz(slug)
         if not b:
             continue
-        html    = _wide_scale_units(build_listing_page(slug, b))
+        html    = _og_swap(_wide_scale_units(build_listing_page(slug, b)), _og_listing_card_key(slug))
         out_dir = Path("listing") / slug
         out_dir.mkdir(parents=True, exist_ok=True)
         (out_dir / "index.html").write_text(html, encoding="utf-8")
@@ -33006,7 +33079,7 @@ if __name__ == "__main__":
     for spot in NATURE_SPOTS:
         slug    = _nature_slug(spot["name"])
         nat_slugs.append(slug)
-        html    = _wide_scale_units(build_nature_listing_page(spot, slug))
+        html    = _og_swap(_wide_scale_units(build_nature_listing_page(spot, slug)), "cat-nature")
         out_dir = Path("listing") / slug
         out_dir.mkdir(parents=True, exist_ok=True)
         (out_dir / "index.html").write_text(html, encoding="utf-8")
@@ -33016,7 +33089,7 @@ if __name__ == "__main__":
     for act in ACTIVITIES:
         _aslug = _act_slug(act["name"])
         act_inline_slugs.append(_aslug)
-        _ahtml = _wide_scale_units(build_activity_listing_page(act, _aslug))
+        _ahtml = _og_swap(_wide_scale_units(build_activity_listing_page(act, _aslug)), "cat-activity")
         _adir = Path("listing") / _aslug
         _adir.mkdir(parents=True, exist_ok=True)
         (_adir / "index.html").write_text(_ahtml, encoding="utf-8")
