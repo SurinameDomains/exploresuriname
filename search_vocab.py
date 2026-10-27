@@ -104,11 +104,18 @@ C("construction", "Builders & contractors", "Aannemers & bouw", "Constructoras",
   "aannemer, aannemers, aanemer, anemer, bouwbedrijf, bouwbedrijven, bouw, bouwen, laten bouwen, nieuwbouw, renovatie, "
   "renoveren, verbouwing, verbouwen, aanbouw, metselaar, metselaars, metselwerk, ruwbouw, beton, betonwerk, fundering, "
   "sleutelklaar, contractor, contractors, builder, builders, construction, construction company, renovation, architect, "
-  "architecten, architectenbureau, bouwtekening, bouwtekeningen, bouwvergunning, landmeter, landmeten, surveying, "
+  "architecten, architectenbureau, bouwtekening, bouwtekeningen, bouwvergunning, "
   "plafond, plafonds, zwembad bouwen, pool builder",
   sub="construction-trades",
   rx=r"construct|contractor|aannemer|bouwbedrijf|renovat|architect|concrete|\bbeton|survey|landmeet|design and build|design & build",
   scope="V", r="hardware", neg=r"soft drink|beverage|cleaning compan")
+C("surveyor", "Land surveyors", "Landmeters", "Agrimensores", "土地测量师", "Géomètres", "Agrimensores",
+  "landmeter, landmeters, landmeten, landmeetkundige, landmeetkundig bureau, landmeetbureau, beedigd landmeter, "
+  "beëdigd landmeter, beëdigde landmeter, perceel opmeten, perceel laten opmeten, perceel uitmeten, uitmeten, opmeting, "
+  "opmetingen, uitmeting, grensbepaling, grenspalen, kaart perceel, situatietekening, surveyor, surveyors, land surveyor, "
+  "land surveying, surveying, geodetic, topographic survey, agrimensor, geometre",
+  rx=r"land survey|surveying (firm|office|company)|landmeet|landmeter|geodetic|geodetisch", scope="V",
+  r="construction real-estate", neg=r"seismic|offshore")
 C("roofing", "Roofing", "Daken & zink", "Techos", "屋顶", "Toitures", "Telhados",
   "dakdekker, dakdekkers, dak, daken, dakwerk, dakwerken, dakbedekking, dakplaten, blikslager, blikslagers, zink, zinkplaat, "
   "zinkplaten, golfplaten, dakgoot, goot, goten, roof, roofs, roofing, roofer, roofing sheets, zinc sheets, gutter, gutters",
