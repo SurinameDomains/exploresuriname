@@ -619,7 +619,13 @@ C("pharmacy", "Pharmacies & drugstores", "Apotheken & drogisterijen", "Farmacias
   "apotheek, apotheken, apoteek, apotheke, apotheker, apteiki, apteki, apteyk, drogist, drogisterij, drogisterijen, pharmacy, "
   "pharmacies, chemist, drugstore, drug store, medicijnen, medicijn, medicine, medicines, dresi, recept, prescription, "
   "dienstdoende apotheek, apotheek dienst, wachtdienst apotheek, vitaminen, vitamins",
-  rx=r"pharmac|apothe|drogist|drugstore|drug store|chemist", scope="HV", neg=r"resellers only|wederverkopers|wholesaler of", r="doctor")
+  sub="health-pharmacy", rx=r"pharmac|apothe|drogist|drugstore|drug store|chemist", scope="HV", neg=r"resellers only|wederverkopers|wholesaler of", r="doctor medical-supplies")
+C("medical-supplies", "Medical supplies", "Medische benodigdheden", "Suministros médicos", "医疗用品", "Fournitures médicales", "Suprimentos médicos",
+  "medische benodigdheden, medische artikelen, medische hulpmiddelen, hulpmiddelen, medical supplies, medical supply, "
+  "medical equipment, medische apparatuur, medical devices, verbandmiddelen, ehbo, ehbo doos, ehbo-doos, first aid, "
+  "first aid kit, rolstoel, rolstoelen, wheelchair, krukken, rollator, zorgwinkel, thuiszorg artikelen",
+  rx=r"medical (supplies|supply|devices|equipment)|medische (artikelen|apparatuur|benodigdheden|hulpmiddelen)|first aid|zorgwinkel|wheelchair|rolstoel",
+  scope="HV", r="pharmacy lab")
 C("cosmetics", "Cosmetics & beauty products", "Cosmetica & verzorging", "Cosméticos", "化妆品", "Cosmétiques", "Cosméticos",
   "cosmetica, cosmetics, parfum, parfums, perfume, perfumes, verzorgingsproducten, huidverzorging producten, skincare products, "
   "body lotion, bodylotion, lotion, haarproducten, hair products, beauty products, beauty supply, beauty shop, nagellak, "
@@ -807,9 +813,9 @@ C("martial-arts", "Martial arts & boxing", "Vechtsport & boksen", "Artes marcial
 C("doctor", "Doctors & clinics", "Huisartsen & klinieken", "Médicos y clínicas", "医生与诊所", "Médecins & cliniques", "Médicos e clínicas",
   "dokter, dokters, huisarts, huisartsen, huisartsenpraktijk, arts, artsen, specialist, specialisten, kliniek, klinieken, "
   "poli, polikliniek, medisch centrum, medical center, medical centre, doctor, doctors, gp, general practitioner, clinic, "
-  "clinics, datra, gynaecoloog, gynecologist, kinderarts, pediatrician, dermatoloog, dermatologist, cardioloog, psycholoog, "
-  "psychologist, therapeut, therapist, keuring, medische keuring, check up, checkup",
-  sub="hospitals-clinics", rx=r"\bdoctors?\b|huisarts|general practi|medical (cent|practice|clinic)|medisch centrum|polikliniek|gyna?ecolog|pediatric|kinderarts|dermatolog|psycholog|cardiolog|\bclinic\b",
+  "clinics, datra, gynaecoloog, gynecologist, kinderarts, pediatrician, dermatoloog, dermatologist, cardioloog, "
+  "bedrijfsarts, company doctor, occupational health, keuring, medische keuring, check up, checkup",
+  sub="doctors hospitals-clinics", rx=r"\bdoctors?\b|huisarts|general practi|medical (cent|practice|clinic)|medisch centrum|polikliniek|gyna?ecolog|pediatric|kinderarts|dermatolog|cardiolog|occupational health|\bclinic\b",
   scope="V", neg=r"beauty|aesthetic|esthetic|wellness|dental|dierenarts|veterin|animal|pets?\b|laser", r="hospital pharmacy")
 C("hospital", "Hospitals & emergency", "Ziekenhuizen & spoed", "Hospitales y urgencias", "医院与急诊", "Hôpitaux & urgences", "Hospitais e emergência",
   "ziekenhuis, ziekenhuizen, hospitaal, hospital, hospitals, spoed, spoedeisende hulp, seh, eerste hulp, emergency, "
@@ -819,11 +825,18 @@ C("dentist", "Dentists", "Tandartsen", "Dentistas", "牙医", "Dentistes", "Dent
   "tandarts, tandartsen, tandartspraktijk, tandart, tandarts praktijk, tanden, tand, kies, kiezen, dentist, dentists, dental, "
   "dental clinic, orthodontist, orthodontie, beugel, braces, tandtechnicus, tandtechniek, mondhygiënist, mondhygiene, "
   "dental hygiene, teeth whitening, tanden bleken",
-  rx=r"dentist|dental|tandarts|tandtechn|orthodont|teeth|mondhygi", scope="V", neg=r"dental lab|tandtechni|insur|verzeker", r="doctor")
+  sub="dentists", rx=r"dentist|dental|tandarts|tandtechn|orthodont|teeth|mondhygi", scope="V", neg=r"dental lab|tandtechni|insur|verzeker", r="doctor")
 C("physio", "Physiotherapy", "Fysiotherapie", "Fisioterapia", "理疗", "Kinésithérapie", "Fisioterapia",
   "fysio, fysiotherapie, fysiotherapeut, fysiotherapeuten, physio, physiotherapy, physiotherapist, physical therapy, "
   "chiropractor, chiropractie, revalidatie, rehabilitation, sportmassage, sports massage, manuele therapie",
-  rx=r"physio|fysio|chiropract|physical therap|revalidatiecentrum|rehabilitation (centre|center|clinic)", scope="V", r="doctor spa")
+  sub="physiotherapy", rx=r"physio|fysio|chiropract|physical therap|revalidatiecentrum|rehabilitation (centre|center|clinic)", scope="V", r="doctor psychologist spa")
+C("psychologist", "Psychologists & therapy", "Psychologen & therapie", "Psicólogos y terapia", "心理咨询与治疗", "Psychologues & thérapie", "Psicólogos e terapia",
+  "psycholoog, psychologen, psychologe, psychologenpraktijk, psychologist, psychologists, psychiater, psychiatrist, "
+  "psychotherapeut, psychotherapie, psychotherapy, counseling, counselling, counselor, counsellor, "
+  "relatietherapie, gezinstherapie, rouwverwerking, rouwtherapie, mental health, "
+  "geestelijke gezondheid, ggz, burn-out, burnout, depressie, angst",
+  sub="mental-health", rx=r"psycholog|psychiat|psychotherap|counsel+ing|mental health|geestelijke gezondheid", scope="V",
+  r="doctor physio")
 C("lab", "Medical labs", "Laboratoria", "Laboratorios", "医学检验", "Laboratoires", "Laboratórios",
   "lab, labs, laboratorium, laboratoria, laboratory, bloed prikken, bloedonderzoek, bloedtest, blood test, bloedafname, "
   "test, testen, covid test, pcr, röntgen, rontgen, x-ray, xray, echo, ultrasound, mri, ct scan, radiologie, radiology",

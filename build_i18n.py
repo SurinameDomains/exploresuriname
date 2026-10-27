@@ -506,6 +506,12 @@ _TYPE_I18N.update({
     'Toy & Gift Shop': ('speelgoed- & cadeauwinkel', 'juguetería y tienda de regalos'),
     'Training Centre': ('opleidingscentrum', 'centro de formación'),
     'Wholesaler & Importer': ('groothandel & importeur', 'mayorista e importador'),
+    # Health split (26 Oct 2026)
+    'Doctor': ('arts', 'médico'),
+    'Dentist': ('tandarts', 'dentista'),
+    'Psychologist & Therapist': ('psycholoog & therapeut', 'psicólogo y terapeuta'),
+    'Physiotherapist': ('fysiotherapeut', 'fisioterapeuta'),
+    'Medical Supplies & Lab': ('medische benodigdheden & lab', 'suministros médicos y laboratorio'),
 })
 _PLACES = ("Paramaribo|Para|Suriname|Wanica|Nickerie|Commewijne|Lelydorp|"
            "Saramacca|Marowijne|Brokopondo|Coronie|Sipaliwini|Moengo|Albina")
@@ -604,6 +610,11 @@ _TYPE_ZH.update({
     'Toy & Gift Shop': '玩具与礼品店',
     'Training Centre': '培训中心',
     'Wholesaler & Importer': '批发商与进口商',
+    'Doctor': '医生',
+    'Dentist': '牙医',
+    'Psychologist & Therapist': '心理咨询师与治疗师',
+    'Physiotherapist': '物理治疗师',
+    'Medical Supplies & Lab': '医疗用品与实验室',
 })
 # French / Brazilian Portuguese type labels for listing titles (same keys as _TYPE_I18N).
 _TYPE_FP = {
@@ -692,6 +703,11 @@ _TYPE_FP.update({
     'Toy & Gift Shop': ('magasin de jouets et cadeaux', 'loja de brinquedos e presentes'),
     'Training Centre': ('centre de formation', 'centro de treinamento'),
     'Wholesaler & Importer': ('grossiste et importateur', 'atacadista e importador'),
+    'Doctor': ('médecin', 'médico'),
+    'Dentist': ('dentiste', 'dentista'),
+    'Psychologist & Therapist': ('psychologue & thérapeute', 'psicólogo & terapeuta'),
+    'Physiotherapist': ('kinésithérapeute', 'fisioterapeuta'),
+    'Medical Supplies & Lab': ('fournitures médicales & laboratoire', 'suprimentos médicos & laboratório'),
 })
 
 
