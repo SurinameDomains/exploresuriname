@@ -28,6 +28,7 @@ import hashlib as _hl
 import html as _html
 import json as _json
 import posixpath as _pp
+import urllib.parse as _up
 from pathlib import Path as _Path
 
 from flora_fauna_taxa import (GROUPS, GROUP, GROUP_KEYS, REALMS, SUBGROUPS, COLLECTIONS,
@@ -166,6 +167,44 @@ U = {
                      "Een gratis gids van Explore Suriname. Namen, waarnemingen en foto's komen uit open biodiversiteitsdata; elke bron staat vermeld op de pagina waar die wordt gebruikt.",
                      "Una guía gratuita de Explore Suriname. Los nombres, registros y fotos provienen de datos abiertos de biodiversidad; cada fuente se cita en la página donde se usa.",
                      "Explore Suriname 提供的免费指南。名称、记录和照片均来自开放的生物多样性数据，每个来源都在使用它的页面上注明。"),
+    # evidence (Oct 2026): how we know a species occurs in Suriname
+    "stat_conf": L("confirmed species", "bevestigde soorten", "especies confirmadas", "个已确认物种",
+                   "espèces confirmées", "espécies confirmadas"),
+    "unconfirmed_n": L("unconfirmed", "onbevestigd", "sin confirmar", "个未经证实", "non confirmées", "não confirmadas"),
+    "evb_S": L("Backed by museum specimens", "Onderbouwd met museumexemplaren", "Respaldada por ejemplares de museo",
+               "有博物馆标本佐证", "Attestée par des spécimens de musée", "Comprovada por exemplares de museu"),
+    "evb_V": L("Backed by reviewed sightings", "Onderbouwd met gecontroleerde waarnemingen", "Respaldada por observaciones revisadas",
+               "有经审核的观察记录佐证", "Attestée par des observations validées", "Comprovada por observações revisadas"),
+    "evb_P": L("Backed by published records", "Onderbouwd met gepubliceerde gegevens", "Respaldada por registros publicados",
+               "有已发表的记录佐证", "Attestée par des données publiées", "Comprovada por registros publicados"),
+    "evb_C": L("iNaturalist records only", "Alleen iNaturalist-waarnemingen", "Solo registros de iNaturalist",
+               "仅有 iNaturalist 记录", "Observations iNaturalist uniquement", "Só registros do iNaturalist"),
+    "ev_title": L("How we know it occurs here", "Hoe we weten dat de soort hier voorkomt", "Cómo sabemos que vive aquí",
+                  "我们如何确认它在这里出现", "Comment nous savons qu'elle est présente ici", "Como sabemos que ela ocorre aqui"),
+    "ev_s": L("Museum specimens and literature", "Museumexemplaren en literatuur", "Ejemplares de museo y literatura",
+              "博物馆标本与文献", "Spécimens de musée et publications", "Exemplares de museu e literatura"),
+    "ev_v": L("Reviewed sightings (Observation.org, eBird)", "Gecontroleerde waarnemingen (Observation.org, eBird)",
+              "Observaciones revisadas (Observation.org, eBird)", "经审核的观察记录（Observation.org、eBird）",
+              "Observations validées (Observation.org, eBird)", "Observações revisadas (Observation.org, eBird)"),
+    "ev_y": L("Surveys, camera traps and other studies", "Inventarisaties, cameravallen en ander onderzoek",
+              "Inventarios, cámaras trampa y otros estudios", "调查、红外相机及其他研究",
+              "Inventaires, pièges photographiques et autres études", "Levantamentos, armadilhas fotográficas e outros estudos"),
+    "ev_c": L("iNaturalist (identified by users)", "iNaturalist (gedetermineerd door gebruikers)", "iNaturalist (identificado por usuarios)",
+              "iNaturalist（用户鉴定）", "iNaturalist (identifié par les utilisateurs)", "iNaturalist (identificado por usuários)"),
+    "ev_d": L("DNA sequences", "DNA-sequenties", "Secuencias de ADN", "DNA 序列", "Séquences d'ADN", "Sequências de DNA"),
+    "report_error": L("Report an error", "Fout melden", "Informar de un error", "报告错误", "Signaler une erreur", "Informar um erro"),
+    "obs_add": L("Seen it? Share your sighting on Observation.org", "Gezien? Deel uw waarneming op Observation.org",
+                 "¿La has visto? Comparte tu observación en Observation.org", "见过它？在 Observation.org 上分享您的观察记录",
+                 "Vous l'avez vue\u00a0? Partagez votre observation sur Observation.org",
+                 "Viu esta espécie? Compartilhe sua observação no Observation.org"),
+    "unconf_h": L("Unconfirmed records", "Onbevestigde waarnemingen", "Registros sin confirmar", "未经证实的记录",
+                  "Données non confirmées", "Registros não confirmados"),
+    "unconf_sub": L("Each of these rests only on one or two iNaturalist records or on a DNA sequence, with no museum specimen or reviewed sighting. They may be misidentified, so they are not counted in our totals.",
+                    "Deze soorten berusten alleen op één of twee iNaturalist-waarnemingen of op een DNA-sequentie, zonder museumexemplaar of gecontroleerde waarneming. Ze kunnen verkeerd gedetermineerd zijn, daarom tellen we ze niet mee in de totalen.",
+                    "Cada una se basa solo en uno o dos registros de iNaturalist o en una secuencia de ADN, sin ejemplar de museo ni observación revisada. Pueden estar mal identificadas, por eso no las contamos en los totales.",
+                    "这些物种仅有一两条 iNaturalist 记录或一条 DNA 序列，没有博物馆标本或经审核的观察记录，可能存在鉴定错误，因此不计入总数。",
+                    "Chacune ne repose que sur une ou deux observations iNaturalist ou sur une séquence d'ADN, sans spécimen de musée ni observation validée. Elles peuvent être mal identifiées\u00a0; nous ne les comptons donc pas dans les totaux.",
+                    "Cada uma se baseia apenas em um ou dois registros do iNaturalist ou em uma sequência de DNA, sem exemplar de museu nem observação revisada. Podem estar identificadas errado, por isso não entram nos totais."),
     "skip": L("Skip to content", "Naar de inhoud", "Ir al contenido", "跳到正文"),
     "back_site": L("Explore Suriname", "Explore Suriname", "Explore Suriname", "Explore Suriname"),
     "months": [L(*m) for m in (("Jan", "jan", "ene", "1月"), ("Feb", "feb", "feb", "2月"), ("Mar", "mrt", "mar", "3月"),
@@ -347,6 +386,48 @@ def _photo(sp, size):
     return u.replace("{w}", {"s": "330", "m": "500", "l": "960"}[size])
 
 
+# Evidence (Oct 2026), see scripts/flora_fauna_data.py ev_level():
+# sp["ev"] = [specimens+literature, reviewed sightings, other published, iNaturalist, DNA]
+EV_MIN_INAT = 3
+GBIF_INAT = "50c9509d-22c7-4a22-a47d-8c48425ef4a7"
+GBIF_REVIEWED = ("8a863029-f435-446a-821e-275f4f641165", "4fa7b334-ce0d-4e88-aaae-2e0c138d049e")
+CONTACT_EMAIL = "contact@exploresuriname.com"
+
+
+def ev_level(sp):
+    """'S' specimen, 'V' reviewed sighting, 'P' published record, 'C' iNaturalist
+    only (3+), 'U' unconfirmed, '' no evidence data (treated as confirmed)."""
+    e = sp.get("ev")
+    if not e:
+        return ""
+    if e[0]:
+        return "S"
+    if e[1]:
+        return "V"
+    if e[2]:
+        return "P"
+    if e[3] >= EV_MIN_INAT:
+        return "C"
+    return "U"
+
+
+def unconfirmed(sp):
+    return ev_level(sp) == "U"
+
+
+def n_confirmed(lst):
+    return sum(1 for s in lst if not unconfirmed(s))
+
+
+def count_line(lst):
+    """'1,234 species · 56 profiles · 7 unconfirmed' (the species count leaves the
+    unconfirmed out)."""
+    nu = len(lst) - n_confirmed(lst)
+    return (f'<p class="ff-count"><b>{fmt_n(len(lst) - nu)}</b> {tx(U["species_n"])} &middot; '
+            f'<b>{fmt_n(sum(1 for s in lst if s.get("p")))}</b> {tx(U["profiles_n"])}'
+            + (f' &middot; <b>{fmt_n(nu)}</b> {tx(U["unconfirmed_n"])}' if nu else "") + '</p>')
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Data
 # ─────────────────────────────────────────────────────────────────────────────
@@ -368,6 +449,11 @@ class Data:
         # scripts/flora_fauna_data.py merge_duplicates); each gets a redirect page
         self.moved = {o: n for o, n in (raw.get("moved") or {}).items()
                       if n in self.by_slug and o not in self.by_slug}
+        # profile URLs of species that are now unconfirmed -> their checklist row
+        self.demoted = {o: v for o, v in (raw.get("demoted") or {}).items()
+                        if o not in self.by_slug and v.get("to")}
+        self.by_key = {s["k"]: s for s in self.species}
+        self.ev_date = raw.get("evidence", "")
         self.by_group = {}
         self.by_sub = {}
         for s in self.species:
@@ -539,7 +625,10 @@ def checklist_row(sp, path):
     nm = {lg: names[lg] for lg in LANGS if names[lg]} if names["en"] != sp["s"] else None
     name_html = tx(nm, cls="ff-rn") if nm else ""
     loc = "".join(f'<span class="ff-loc" translate="no">{esc(x[0])}</span>' for x in sp.get("ln", [])[:2])
-    return (f'<li class="ff-row" id="{esc(anchor)}" data-o="{sp.get("o") or 0}" data-r="{sp.get("r") or 0}">'
+    lv = ev_level(sp)
+    if lv == "U":
+        lv = "UD" if not (sp.get("ev") or [0] * 5)[3] else "UI"
+    return (f'<li class="ff-row{" e" + lv if lv else ""}" id="{esc(anchor)}" data-o="{sp.get("o") or 0}" data-r="{sp.get("r") or 0}">'
             f'<span class="ff-rlft"><i class="ff-rl" translate="no">{esc(sp["s"])}</i>{name_html}{loc}</span>'
             f'<span class="ff-rf" translate="no">{esc(sp["tx"][4] or "")}</span>'
             f'<a class="ff-rg" href="https://www.gbif.org/species/{sp["k"]}" rel="nofollow">{fmt_n(sp.get("r") or 0)}</a></li>')
@@ -613,7 +702,7 @@ def build_hub(data, shell):
               "Flora y fauna de Surinam: animales, plantas y sus nombres",
               "苏里南动植物：动物、植物及其名称")
     desc = U["hub_lead"]
-    n_all = len(data.species)
+    n_all = n_confirmed(data.species)   # unconfirmed species are not counted (Oct 2026)
     n_prof = len(data.profiles)
     n_srn = sum(1 for s in data.species if any(x[1] == "srn" for x in s.get("ln", [])))
     _pref = ["Rupicola rupicola", "Ara macao", "Ara ararauna", "Eudocimus ruber", "Panthera onca"]
@@ -629,7 +718,7 @@ def build_hub(data, shell):
             lst = data.by_group.get(k, [])
             if not lst:
                 continue
-            out.append(_group_tile(data, path, k, GROUP[k]["label"], _best_photo(lst), len(lst),
+            out.append(_group_tile(data, path, k, GROUP[k]["label"], _best_photo(lst), n_confirmed(lst),
                                    sum(1 for s in lst if s.get("p"))))
         return "".join(out)
 
@@ -637,7 +726,7 @@ def build_hub(data, shell):
     for k, lab, _intro in COLLECTIONS:
         lst = collection_members(data, k)
         if lst:
-            coll.append(_group_tile(data, path, k, lab, _best_photo(lst), len(lst), 0))
+            coll.append(_group_tile(data, path, k, lab, _best_photo(lst), n_confirmed(lst), 0))
     top = sorted([s for s in data.profiles if s.get("img")], key=lambda s: -(s.get("o") or 0))[:18]
     srn = sorted([s for s in data.profiles if any(x[1] == "srn" for x in s.get("ln", [])) and s.get("img")],
                  key=lambda s: -(s.get("o") or 0))[:12]
@@ -652,7 +741,7 @@ def build_hub(data, shell):
         '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>'
         f'{tx(U["search_ph"])}</button>'
         '<div class="ff-stats">'
-        f'<div><b>{fmt_n(n_all)}</b>{tx(U["stat_species"])}</div>'
+        f'<div><b>{fmt_n(n_all)}</b>{tx(U["stat_conf"])}</div>'
         f'<div><b>{fmt_n(n_prof)}</b>{tx(U["stat_profiles"])}</div>'
         f'<div><b>{fmt_n(n_srn)}</b>{tx(U["stat_sranan"])}</div>'
         '</div></div></header>'
@@ -690,15 +779,13 @@ def build_group(data, shell, gkey):
         sl = data.by_sub.get((gkey, skey), [])
         if not sl:
             continue
-        subs.append(_group_tile(data, path, f"{gkey}/{skey}", slab, _best_photo(sl), len(sl), 0))
+        subs.append(_group_tile(data, path, f"{gkey}/{skey}", slab, _best_photo(sl), n_confirmed(sl), 0))
     one_sub = len([1 for skey, _l, _r in SUBGROUPS[gkey] if data.by_sub.get((gkey, skey))]) == 1
     top = [s for s in lst if s.get("p")][:48]
-    n_prof = sum(1 for s in lst if s.get("p"))
     body = (
         '<main id="main" class="ff-wrap ff-main">' + bc
         + f'<header class="ff-ph">{tx(title, tag="h1", cls="ff-h1 serif")}{tx(intro, tag="p", cls="ff-lead")}'
-        f'<p class="ff-count"><b>{fmt_n(len(lst))}</b> {tx(U["species_n"])} &middot; '
-        f'<b>{fmt_n(n_prof)}</b> {tx(U["profiles_n"])}</p></header>'
+        + count_line(lst) + '</header>'
     )
     if one_sub:
         body += _list_block(data, path, lst)
@@ -714,7 +801,8 @@ def build_group(data, shell, gkey):
 
 def _list_block(data, path, lst):
     prof = [s for s in lst if s.get("p")]
-    rest = [s for s in lst if not s.get("p")]
+    rest = [s for s in lst if not s.get("p") and not unconfirmed(s)]
+    unc = [s for s in lst if unconfirmed(s)]
     out = toolbar()
     if prof:
         out += f'<div class="ff-grid ff-list">{"".join(card(s, path, listed=True) for s in prof)}</div>'
@@ -723,6 +811,12 @@ def _list_block(data, path, lst):
                 f'{tx(U["on_checklist_sub"], tag="p", cls="ff-sub")}'
                 f'<div class="ff-rhead"><span>{tx(U["scientific"])}</span><span>{tx(U["family"])}</span><span>{tx(U["records"])}</span></div>'
                 f'<ul class="ff-rows ff-list">{"".join(checklist_row(s, path) for s in rest)}</ul></section>')
+    if unc:
+        out += (f'<section class="ff-sec-b ff-check ff-unconf">{tx(U["unconf_h"], tag="h2", cls="ff-h2 serif")}'
+                f'{tx(U["unconf_sub"], tag="p", cls="ff-sub")}'
+                f'<p class="ff-sub"><a href="{rel(path, "contact.html")}">{tx(U["correction"])}</a></p>'
+                f'<div class="ff-rhead"><span>{tx(U["scientific"])}</span><span>{tx(U["family"])}</span><span>{tx(U["records"])}</span></div>'
+                f'<ul class="ff-rows ff-list">{"".join(checklist_row(s, path) for s in unc)}</ul></section>')
     out += f'<p class="ff-none" hidden>{tx(U["no_results"])}</p>'
     return out
 
@@ -741,18 +835,17 @@ def build_subgroup(data, shell, gkey, skey):
                   f'{slab["es"]} de Surinam: lista completa de especies', f'苏里南{slab["zh"]}：完整物种名录',
                   f'{slab["fr"]} du Suriname\u00a0: liste complète des espèces',
                   f'{slab["pt"]} do Suriname: lista completa de espécies')
-    n_prof = sum(1 for s in lst if s.get("p"))
-    desc = L(f'All {len(lst)} {slab["en"].lower()} recorded in Suriname, with names in English, Dutch, Spanish, Chinese, Sranan Tongo and Latin.',
-             f'Alle {len(lst)} soorten ({slab["nl"].lower()}) die in Suriname zijn waargenomen, met namen in het Engels, Nederlands, Spaans, Chinees, Sranantongo en Latijn.',
-             f'Las {len(lst)} especies ({slab["es"].lower()}) registradas en Surinam, con nombres en inglés, neerlandés, español, chino, sranan y latín.',
-             f'在苏里南有记录的全部 {len(lst)} 种{slab["zh"]}，附英语、荷兰语、西班牙语、中文、苏里南汤加语和拉丁学名。',
-             f'Les {len(lst)} espèces ({slab["fr"].lower()}) observées au Suriname, avec leurs noms en anglais, néerlandais, espagnol, chinois, sranan tongo et latin.',
-             f'Todas as {len(lst)} espécies ({slab["pt"].lower()}) registradas no Suriname, com nomes em inglês, neerlandês, espanhol, chinês, sranan tongo e latim.')
+    n_c = n_confirmed(lst)
+    desc = L(f'All {n_c} {slab["en"].lower()} recorded in Suriname, with names in English, Dutch, Spanish, Chinese, Sranan Tongo and Latin.',
+             f'Alle {n_c} soorten ({slab["nl"].lower()}) die in Suriname zijn waargenomen, met namen in het Engels, Nederlands, Spaans, Chinees, Sranantongo en Latijn.',
+             f'Las {n_c} especies ({slab["es"].lower()}) registradas en Surinam, con nombres en inglés, neerlandés, español, chino, sranan y latín.',
+             f'在苏里南有记录的全部 {n_c} 种{slab["zh"]}，附英语、荷兰语、西班牙语、中文、苏里南汤加语和拉丁学名。',
+             f'Les {n_c} espèces ({slab["fr"].lower()}) observées au Suriname, avec leurs noms en anglais, néerlandais, espagnol, chinois, sranan tongo et latin.',
+             f'Todas as {n_c} espécies ({slab["pt"].lower()}) registradas no Suriname, com nomes em inglês, neerlandês, espanhol, chinês, sranan tongo e latim.')
     bc, bc_ld = crumbs(path, [(f"{BASE}/", U["section"]), (f"{BASE}/{gkey}/", glab), (None, slab)])
     body = ('<main id="main" class="ff-wrap ff-main">' + bc
             + f'<header class="ff-ph">{tx(title, tag="h1", cls="ff-h1 serif")}'
-            f'<p class="ff-count"><b>{fmt_n(len(lst))}</b> {tx(U["species_n"])} &middot; '
-            f'<b>{fmt_n(n_prof)}</b> {tx(U["profiles_n"])}</p></header>'
+            + count_line(lst) + '</header>'
             + _list_block(data, path, lst) + '</main>')
     ld = _ld(_webpage_ld(path, title, desc, {"@type": "CollectionPage"}), bc_ld)
     og = _photo(_best_photo(lst), "l") if _best_photo(lst) else None
@@ -790,11 +883,9 @@ def build_collection(data, shell, key):
               f'{lab["fr"]} du Suriname' if key not in ("sranan-names", "endemic") else lab["fr"],
               f'{lab["pt"]} do Suriname' if key not in ("sranan-names", "endemic") else lab["pt"])
     bc, bc_ld = crumbs(path, [(f"{BASE}/", U["section"]), (None, lab)])
-    n_prof = sum(1 for s in lst if s.get("p"))
     body = ('<main id="main" class="ff-wrap ff-main">' + bc
             + f'<header class="ff-ph">{tx(title, tag="h1", cls="ff-h1 serif")}{tx(intro, tag="p", cls="ff-lead")}'
-            f'<p class="ff-count"><b>{fmt_n(len(lst))}</b> {tx(U["species_n"])} &middot; '
-            f'<b>{fmt_n(n_prof)}</b> {tx(U["profiles_n"])}</p></header>'
+            + count_line(lst) + '</header>'
             + _list_block(data, path, lst) + '</main>')
     ld = _ld(_webpage_ld(path, title, intro, {"@type": "CollectionPage"}), bc_ld)
     og = _photo(_best_photo(lst), "l") if _best_photo(lst) else None
@@ -972,6 +1063,9 @@ def build_species(data, shell, sp):
         photo = f'<div class="ff-photo ff-photo-none"><span class="ff-noimg ff-g-{g}"></span>{tx(U["no_photo"], cls="ff-nop")}</div>'
     # badges
     badges = []
+    lv = ev_level(sp)
+    if lv in ("S", "V", "P", "C"):
+        badges.append(f'<a class="ff-badge ff-evb ff-evb-{lv}" href="#evidence">{tx(U["evb_" + lv])}</a>')
     iu = sp.get("iu")
     if iu and iu in IUCN:
         badges.append(f'<span class="ff-badge ff-iu-{iu}"><b>{iu}</b> {tx(IUCN[iu])}</span>')
@@ -1068,8 +1162,19 @@ def build_species(data, shell, sp):
             facts.append(f'<div class="ff-fact"><b>{y[1]}</b>{tx(U["last_record"])}</div>')
     where = _districts_svg(sp)
     when = _months(sp)
+    # how we know it occurs here (Oct 2026): records per kind of evidence, each
+    # linked to exactly those records on GBIF
+    evidence = ""
+    e = sp.get("ev")
+    if e:
+        # plain counts (the GBIF link under Sources has every record); the method is
+        # explained once on the About page, linked from the heading
+        li = "".join(f'<li class="ff-evk-{k[3:]}">{tx(U[k])}<b>{fmt_n(n)}</b></li>'
+                     for n, k in zip(e, ("ev_s", "ev_v", "ev_y", "ev_c", "ev_d")) if n)
+        evidence = (f'<h3 class="ff-h3" id="evidence"><a href="{rel(path, f"{BASE}/about/")}">{tx(U["ev_title"])}</a></h3>'
+                    f'<ul class="ff-evl">{li}</ul>')
     insr = (f'<section class="ff-card-s ff-o2">{tx(U["in_sr"], tag="h2", cls="ff-h2 serif")}'
-            f'<div class="ff-facts">{"".join(facts)}</div>'
+            f'<div class="ff-facts">{"".join(facts)}</div>' + evidence
             + (f'<h3 class="ff-h3">{tx(U["where"])}</h3>{where}{tx(U["where_note"], tag="p", cls="ff-note")}' if where else "")
             + (f'<h3 class="ff-h3">{tx(U["when"])}</h3>{when}{tx(U["when_note"], tag="p", cls="ff-note")}' if when else "")
             + '</section>')
@@ -1098,8 +1203,12 @@ def build_species(data, shell, sp):
         src.append(f'<li><a href="https://www.gbif.org/publisher/search?q=NZCS" rel="noopener nofollow" target="_blank">{tx(U["src_nzcs"])}</a></li>')
     if img:
         src.append(f'<li>{tx(U["photo"])}: <a href="{esc(img.get("p", "#"))}" rel="noopener nofollow" target="_blank" translate="no">{esc(img.get("c", ""))}</a></li>')
+    mail = f"mailto:{CONTACT_EMAIL}?subject=" + _up.quote(f"Flora & Fauna: {sci}")
+    obs = "https://observation.org/species/search/?q=" + _up.quote_plus(sci)
     sources = (f'<section class="ff-card-s ff-srcs ff-o4">{tx(U["sources"], tag="h2", cls="ff-h2 serif")}<ul>{"".join(src)}</ul>'
-               f'<p class="ff-note"><a href="{rel(path, "contact.html")}">{tx(U["correction"])}</a></p></section>')
+               f'<div class="ff-acts"><a class="ff-act" href="{esc(mail)}">{tx(U["report_error"])}</a>'
+               f'<a class="ff-act ff-act-obs" href="{esc(obs)}" rel="noopener nofollow" target="_blank">{tx(U["obs_add"])}</a></div>'
+               '</section>')
     # hero
     h1 = tx({lg: names[lg] for lg in LANGS if names[lg]}, tag="h1", cls="ff-h1 serif")
     latin_line = f'<p class="ff-latin" translate="no"><i>{esc(sci)}</i>{auth}</p>' if names["en"] != sci else ""
@@ -1140,6 +1249,22 @@ def build_about(data, shell):
     n_all, n_prof = len(data.species), len(data.profiles)
     n_all_d, n_prof_d = f"{n_all:,}".replace(",", "."), f"{n_prof:,}".replace(",", ".")
     n_all_fr, n_prof_fr = f"{n_all:,}".replace(",", "\u00a0"), f"{n_prof:,}".replace(",", "\u00a0")
+    # evidence paragraph (Oct 2026)
+    n_c = n_confirmed(data.species)
+    n_s = sum(1 for x in data.species if ev_level(x) == "S")
+    n_u = n_all - n_c
+
+    def nf(n, lg):
+        t = f"{n:,}"
+        return t.replace(",", "\u00a0") if lg == "fr" else (t.replace(",", ".") if lg in ("nl", "es", "pt") else t)
+    ev_p = {
+        "en": f"Not every record is equally strong, so every species shows how we know it occurs here. {nf(n_c, 'en')} species are confirmed: most of them ({nf(n_s, 'en')}) by a museum or herbarium specimen, the rest by a reviewed sighting on Observation.org or eBird, a published survey or camera-trap study, or at least three iNaturalist records (those are marked \u201ciNaturalist records only\u201d). {nf(n_u, 'en')} species rest only on one or two iNaturalist records or on a DNA sequence. They stay on the checklist, marked as unconfirmed, but get no profile page and are not counted in our totals.",
+        "nl": f"Niet elke waarneming is even sterk, daarom ziet u bij elke soort hoe we weten dat ze hier voorkomt. {nf(n_c, 'nl')} soorten zijn bevestigd: de meeste ({nf(n_s, 'nl')}) met een museum- of herbariumexemplaar, de rest met een gecontroleerde waarneming op Observation.org of eBird, een gepubliceerde inventarisatie of cameravalstudie, of minstens drie iNaturalist-waarnemingen (die staan gemarkeerd als \u201calleen iNaturalist-waarnemingen\u201d). {nf(n_u, 'nl')} soorten berusten alleen op één of twee iNaturalist-waarnemingen of op een DNA-sequentie. Ze blijven op de soortenlijst, gemarkeerd als onbevestigd, maar krijgen geen profiel en tellen niet mee in onze totalen.",
+        "es": f"No todos los registros tienen el mismo peso, por eso cada especie muestra cómo sabemos que vive aquí. {nf(n_c, 'es')} especies están confirmadas: la mayoría ({nf(n_s, 'es')}) por un ejemplar de museo o herbario, el resto por una observación revisada en Observation.org o eBird, un inventario publicado o un estudio con cámaras trampa, o al menos tres registros de iNaturalist (marcadas como \u201csolo registros de iNaturalist\u201d). {nf(n_u, 'es')} especies se basan solo en uno o dos registros de iNaturalist o en una secuencia de ADN. Siguen en la lista, marcadas como sin confirmar, pero no tienen ficha y no cuentan en nuestros totales.",
+        "zh": f"并非每条记录都同样可靠，因此每个物种都会说明我们如何确认它在这里出现。共有 {nf(n_c, 'zh')} 个物种已得到确认：其中大多数（{nf(n_s, 'zh')} 个）有博物馆或植物标本馆的标本，其余则有 Observation.org 或 eBird 上经审核的观察记录、已发表的调查或红外相机研究，或至少三条 iNaturalist 记录（这类物种标注为\u201c仅有 iNaturalist 记录\u201d）。另有 {nf(n_u, 'zh')} 个物种仅有一两条 iNaturalist 记录或一条 DNA 序列。它们仍列在名录中并标注为未经证实，但没有简介页面，也不计入总数。",
+        "fr": f"Toutes les données n'ont pas la même valeur\u00a0: chaque espèce indique donc comment nous savons qu'elle est présente ici. {nf(n_c, 'fr')} espèces sont confirmées\u00a0: la plupart ({nf(n_s, 'fr')}) par un spécimen de musée ou d'herbier, les autres par une observation validée sur Observation.org ou eBird, un inventaire publié ou une étude par pièges photographiques, ou au moins trois observations iNaturalist (signalées par la mention «\u00a0Observations iNaturalist uniquement\u00a0»). {nf(n_u, 'fr')} espèces ne reposent que sur une ou deux observations iNaturalist ou sur une séquence d'ADN. Elles restent sur la liste, signalées comme non confirmées, mais n'ont pas de fiche et ne sont pas comptées dans nos totaux.",
+        "pt": f"Nem todo registro tem o mesmo peso, por isso cada espécie mostra como sabemos que ela ocorre aqui. {nf(n_c, 'pt')} espécies estão confirmadas: a maioria ({nf(n_s, 'pt')}) por um exemplar de museu ou herbário, as demais por uma observação revisada no Observation.org ou no eBird, um levantamento publicado ou estudo com armadilhas fotográficas, ou pelo menos três registros do iNaturalist (marcadas como \u201cSó registros do iNaturalist\u201d). {nf(n_u, 'pt')} espécies se baseiam apenas em um ou dois registros do iNaturalist ou em uma sequência de DNA. Elas continuam na lista, marcadas como não confirmadas, mas não têm ficha e não entram nos nossos totais.",
+    }
     paras = {
         "en": [
             f"This guide lists every species of animal, plant and fungus with at least one record from Suriname in the Global Biodiversity Information Facility (GBIF): {n_all:,} species at the last update, from museum specimens collected since the 1700s to photos shared last week.",
@@ -1196,12 +1321,16 @@ def build_about(data, shell):
             "Os registros não indicam abundância: uma espécie com dez mil registros de observadores de aves não é necessariamente mais comum que um besouro conhecido por um único exemplar de museu. Também há registros com identificação errada. Se você encontrar um, ou conhecer um nome local que esteja faltando, avise a gente.",
         ],
     }
+    for lg in LANGS:
+        paras[lg].insert(1, ev_p[lg])
     blocks = "".join(
         f'<div data-l10n-lang="{lg}"' + (" hidden" if lg != "en" else "") + _la(lg) + '>'
         + "".join(f"<p>{esc(p)}</p>" for p in paras[lg]) + '</div>' for lg in LANGS)
     srcs = [
         ("https://www.gbif.org/country/SR/summary", "GBIF: Suriname"),
         ("https://www.inaturalist.org/places/suriname", "iNaturalist: Suriname"),
+        ("https://www.gbif.org/dataset/8a863029-f435-446a-821e-275f4f641165", "Observation.org (via GBIF)"),
+        ("https://www.gbif.org/dataset/4fa7b334-ce0d-4e88-aaae-2e0c138d049e", "eBird Observation Dataset (via GBIF)"),
         ("https://www.wikidata.org/", "Wikidata"),
         ("https://www.wikipedia.org/", "Wikipedia"),
         ("https://commons.wikimedia.org/", "Wikimedia Commons"),
@@ -1332,15 +1461,19 @@ def redirect_page(path, sp):
     English only (build_i18n removes old copies in the other trees), not in the
     sitemap or search, noindex + canonical to the new URL. Keeps ?lang= and #."""
     url = f"/{path}"
+    canon = url.split("#")[0]
     name = esc(cap((sp.get("n") or {}).get("en") or sp["s"]))
+    # a target with an #anchor (checklist row) keeps that anchor; ?lang= is dropped there
+    go = (f'location.replace({_json.dumps(url)})' if "#" in url
+          else f'location.replace({_json.dumps(url)}+location.search+location.hash)')
     return ('<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             f'<title translate="no">{name} | Flora &amp; Fauna of Suriname</title>\n'
             '<meta name="robots" content="noindex,follow">\n'
             '<meta name="l10n-langs" content="en">\n'
-            f'<link rel="canonical" href="{SITE_URL}{url}">\n'
+            f'<link rel="canonical" href="{SITE_URL}{canon}">\n'
             f'<meta http-equiv="refresh" content="0; url={url}">\n'
-            f'<script>location.replace({_json.dumps(url)}+location.search+location.hash)</script>\n'
+            f'<script>{go}</script>\n'
             '</head>\n<body>\n'
             f'<p><a href="{url}">{name}</a></p>\n'
             '</body>\n</html>\n')
@@ -1406,6 +1539,12 @@ def build_flora_fauna_pages(ctx=None):
         if old in RESERVED_DIRS:
             continue
         pages[f"{BASE}/{old}/index.html"] = redirect_page(f"{BASE}/{new}/", data.by_slug[new])
+    # unconfirmed species (Oct 2026): their old profile URL goes to the checklist row
+    for old, v in data.demoted.items():
+        sp = data.by_key.get(v.get("k"))
+        if old in RESERVED_DIRS or not sp or f"{BASE}/{old}/index.html" in pages:
+            continue
+        pages[f"{BASE}/{old}/index.html"] = redirect_page(f"{BASE}/{v['to']}", sp)
     files = {
         f"{BASE}/assets/ff.css": css,
         f"{BASE}/assets/ff.js": js,
