@@ -590,6 +590,13 @@ def stage_assemble():
     for x in prev.get('species', []):
         if x.get('p'):
             prev_slug[x['k']] = x['p']
+    # evidence (Oct 2026): unconfirmed species stay on the checklist only
+    attach_evidence(rows, merged_keys)
+    for r in rows:
+        if ev_level(r.get('ev')) == 'U':
+            r.pop('_cand', None)
+    for slug_, v_ in (prev.get('demoted') or {}).items():
+        prev_slug.setdefault(v_['k'], slug_)   # a re-promoted species gets its old URL back
     cands = [r for r in rows if r.pop('_cand', False)]
     c = Counter(slugify(r['n'].get('en', '')) for r in cands if r['n'].get('en'))
     used = set()
@@ -621,10 +628,15 @@ def stage_assemble():
         if old not in used and new_slug.get(k):
             moved[old] = new_slug[k]
     moved = {o: n for o, n in moved.items() if o not in used and n in used}
+    demoted = demoted_map(rows, prev, prev_slug, merged_keys, used)
+    moved = {o: n for o, n in moved.items() if o not in demoted}
     text_out = {r['p']: texts[r['s']] for r in cands if r['s'] in texts}
     rows.sort(key=lambda r: (GROUP_KEYS.index(r['g']), -(r['o'] or 0), -(r['r'] or 0), r['s']))
     today = datetime.date.today().isoformat()
-    json.dump({'updated': today, 'species': rows, **({'moved': moved} if moved else {})}, open(OUT / 'species.json', 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
+    ev_date = (load('evidence.json', {}) or {}).get('date')
+    json.dump({'updated': today, **({'evidence': ev_date} if ev_date else {}), 'species': rows,
+               **({'moved': moved} if moved else {}), **({'demoted': demoted} if demoted else {})},
+              open(OUT / 'species.json', 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
     json.dump(text_out, open(OUT / 'text.json', 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
     print('species', len(rows), 'profiles', len(cands), 'with img', sum(1 for r in rows if r.get('img')),
           'profile imgs', sum(1 for r in cands if r.get('img')))
@@ -791,13 +803,188 @@ def stage_vernacular():
     print('  dutch names for', sum(1 for v in out.values() if v), 'of', len(out))
 
 
+# ── 9. Evidence per species (Oct 2026) ───────────────────────────────────────
+# Why: GBIF mixes museum specimens with community photos. Most of the Suriname
+# list rests on specimens (Naturalis, Smithsonian, Kew, ...), but some species
+# are known only from one or two iNaturalist photos or from a DNA sequence, and
+# those are where misidentifications sit (e.g. a Peruvian Warbling-Antbird).
+# Per GBIF species key we count records by kind of evidence:
+#   s  museum/herbarium specimens + literature citations (basisOfRecord)
+#   v  reviewed sightings: Observation.org (validated, by experts or automated
+#      rules) and eBird (regional reviewers)
+#   y  other published records: surveys, camera traps, checklists in papers
+#   c  iNaturalist research-grade records
+#   d  DNA-only records (barcodes, eDNA, sequence databases)
+# A species is UNCONFIRMED when it has no s/v/y and fewer than 3 iNaturalist
+# records: it stays on the checklist (marked), gets no profile page and is left
+# out of the headline counts. See ev_level() and flora_fauna_pages.py.
+EV_INAT = "50c9509d-22c7-4a22-a47d-8c48425ef4a7"      # iNaturalist Research-grade Observations
+EV_REVIEWED = {"8a863029-f435-446a-821e-275f4f641165",  # Observation.org
+               "4fa7b334-ce0d-4e88-aaae-2e0c138d049e"}  # EOD - eBird Observation Dataset
+EV_DNA_WORDS = ("GUYASOILeDNA", "INSDC", "EUKARYOME", "Barcode of Life", "BOLD Systems", "UNITE ")
+EV_MIN_INAT = 3
+
+
+def ev_level(e):
+    """'S' specimen, 'V' reviewed sighting, 'P' other published record,
+    'C' iNaturalist only (3+ records), 'U' unconfirmed, '' no evidence data."""
+    if not e:
+        return ""
+    s_, v, y, c, d = e
+    if s_:
+        return "S"
+    if v:
+        return "V"
+    if y:
+        return "P"
+    if c >= EV_MIN_INAT:
+        return "C"
+    return "U"
+
+
+def _ev_facet(params):
+    r = get("https://api.gbif.org/v1/occurrence/search",
+            dict(country="SR", kingdomKey=[1, 6, 5], limit=0, facet="speciesKey", facetLimit=100000,
+                 occurrenceStatus="PRESENT", **params))
+    f = (r or {}).get("facets") or []
+    return {c["name"]: c["count"] for c in f[0]["counts"]} if f else {}
+
+
+def stage_evidence_fetch():
+    """Counts per species key and evidence kind -> cache evidence.json."""
+    from concurrent.futures import ThreadPoolExecutor
+    r = get("https://api.gbif.org/v1/occurrence/search", dict(country="SR", limit=0, facet="datasetKey", facetLimit=5000))
+    dsets = [c["name"] for c in r["facets"][0]["counts"]]
+    titles = {}
+    with ThreadPoolExecutor(6) as ex:
+        for k, m in zip(dsets, ex.map(lambda k: get(f"https://api.gbif.org/v1/dataset/{k}") or {}, dsets)):
+            titles[k] = m.get("title") or ""
+    dna = {k for k, t in titles.items() if any(w in t for w in EV_DNA_WORDS)}
+    total = _ev_facet(dict(basisOfRecord=BOR))
+    spec = Counter()
+    for b in ("PRESERVED_SPECIMEN", "MATERIAL_CITATION"):
+        spec.update(_ev_facet(dict(basisOfRecord=[b])))
+    rev, inat, dnac = Counter(), Counter(), Counter()
+    for k in EV_REVIEWED:
+        rev.update(_ev_facet(dict(basisOfRecord=BOR, datasetKey=k)))
+    inat.update(_ev_facet(dict(basisOfRecord=BOR, datasetKey=EV_INAT)))
+    with ThreadPoolExecutor(6) as ex:
+        for res in ex.map(lambda k: _ev_facet(dict(basisOfRecord=BOR, datasetKey=k)), sorted(dna)):
+            dnac.update(res)
+    out = {}
+    for k, n in total.items():
+        s_, v, c, d = spec.get(k, 0), rev.get(k, 0), inat.get(k, 0), dnac.get(k, 0)
+        y = max(0, n - s_ - v - c - d)
+        out[k] = [s_, v, y, c, d]
+    save("evidence.json", {"date": datetime.date.today().isoformat(), "dna_datasets": sorted(dna), "species": out})
+    print("  evidence for", len(out), "species;", Counter(ev_level(e) for e in out.values()))
+
+
+def _ev_sum(keys, ev):
+    tot, hit = [0, 0, 0, 0, 0], False
+    for k in keys:
+        e = ev.get(str(k))
+        if e:
+            hit = True
+            tot = [a + b for a, b in zip(tot, e)]
+    return tot if hit else None
+
+
+def _anchor(r):
+    return f'{r["g"]}/{r["sg"]}/#' + r["s"].lower().replace(" ", "-")
+
+
+def attach_evidence(rows, merged_keys):
+    """Adds "ev" = [s, v, y, c, d] to every row (summed over merged/synonym keys).
+    merged_keys: {main key: [other keys]}. Without evidence.json nothing changes."""
+    try:
+        ev = json.load(open(C / "evidence.json"))["species"]
+    except Exception:
+        print("  no evidence.json: run the evidence stage first; evidence skipped")
+        return False
+    match = load("ev_namematch.json", {}) or {}
+    for r in rows:
+        keys = [r["k"]] + list(merged_keys.get(r["k"], []))
+        # synonyms always; the own name only when its key has no records any more
+        # (GBIF keys can change between backbone releases)
+        for n in ([] if str(r["k"]) in ev else [r["s"]]) + list(r.get("syn", [])):
+            if n not in match:
+                m = get("https://api.gbif.org/v1/species/match", dict(name=n, strict="true", kingdom=r["tx"][0])) or {}
+                match[n] = m.get("speciesKey") if m.get("matchType") == "EXACT" else None
+            if match[n] and match[n] not in keys:
+                keys.append(match[n])
+        e = _ev_sum(keys, ev)
+        if e:
+            r["ev"] = e
+        else:
+            r.pop("ev", None)
+    save("ev_namematch.json", match)
+    print("  evidence:", Counter(ev_level(r.get("ev")) or "-" for r in rows))
+    return True
+
+
+def demoted_map(rows, prev, prev_slug, merged_keys, used):
+    """Old profile URLs of species that are now checklist-only (unconfirmed) ->
+    {"k": key, "to": "group/subgroup/#anchor"}; flora_fauna_pages writes a redirect."""
+    by_k = {}
+    for r in rows:
+        by_k[r["k"]] = r
+        for k2 in merged_keys.get(r["k"], ()):
+            by_k[k2] = r
+    out = {}
+    cand = dict(prev.get("demoted") or {})
+    for k, slug in prev_slug.items():
+        cand.setdefault(slug, {"k": k})
+    for o, n in (prev.get("moved") or {}).items():   # old redirects into a now-demoted page
+        if n in cand and o not in cand:
+            cand[o] = {"k": cand[n]["k"]}
+    for slug, v in cand.items():
+        r = by_k.get(v["k"])
+        if slug in used or not r or r.get("p"):
+            continue
+        if ev_level(r.get("ev")) == "U":
+            out[slug] = {"k": r["k"], "to": _anchor(r)}
+    return out
+
+
+def stage_evidence():
+    """Fetch evidence and apply it to the CURRENT species.json/text.json in place
+    (no other stage needed). The full pipeline applies it in assemble too."""
+    stage_evidence_fetch()
+    raw = json.load(open(OUT / "species.json", encoding="utf-8"))
+    texts = json.load(open(OUT / "text.json", encoding="utf-8"))
+    rows = raw["species"]
+    # merged keys are not stored in species.json; synonyms ("syn") are matched by name
+    if not attach_evidence(rows, {}):
+        return
+    prev_slug = {r["k"]: r["p"] for r in rows if r.get("p")}
+    for r in rows:
+        if r.get("p") and ev_level(r.get("ev")) == "U":
+            texts.pop(r["p"], None)
+            r.pop("p")
+    used = {r["p"] for r in rows if r.get("p")}
+    demoted = demoted_map(rows, raw, prev_slug, {}, used)
+    moved = {o: n for o, n in (raw.get("moved") or {}).items() if n in used and o not in demoted}
+    raw.pop("moved", None)
+    raw.pop("demoted", None)
+    if moved:
+        raw["moved"] = moved
+    if demoted:
+        raw["demoted"] = demoted
+    raw["evidence"] = json.load(open(C / "evidence.json"))["date"]
+    print("  profiles", len(used), "| demoted", len(demoted), "| moved", len(moved))
+    json.dump(raw, open(OUT / "species.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+    json.dump(texts, open(OUT / "text.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+
 STAGES = {"species": stage_species, "wikidata": stage_wikidata, "inat": stage_inat, "checklists": stage_checklists,
           "facets": stage_facets, "wiki": stage_wiki, "commons": stage_commons, "assemble": stage_assemble,
-          "vernacular": stage_vernacular, "assemble2": stage_assemble}
+          "vernacular": stage_vernacular, "evidence": stage_evidence_fetch, "assemble2": stage_assemble}
+# "evidence-apply" = fetch evidence + patch the current species.json (no other stages)
+STAGES_EXTRA = {"evidence-apply": stage_evidence}
 
 if __name__ == "__main__":
     HTTP.mkdir(parents=True, exist_ok=True)
     todo = sys.argv[1:] or list(STAGES)
     for s in todo:
         print("stage", s, flush=True)
-        STAGES[s]()
+        (STAGES.get(s) or STAGES_EXTRA[s])()
