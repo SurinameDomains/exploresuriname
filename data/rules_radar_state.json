@@ -13,7 +13,10 @@
   "govsr_terms_e6169e9362e4": "2026-10-16",
   "govsr_terms_ed76306fc08b": "2026-10-18",
   "govsr_terms_5096ee5f933c": "2026-10-19",
-  "govsr_terms_3f037ffe1ef6": "2026-10-27"
+  "govsr_terms_3f037ffe1ef6": "2026-10-27",
+  "dna_ingediend_1ba9adb94d0f": "2026-10-28",
+  "dna_in_behandeling_b3db91fef17e": "2026-10-28",
+  "dna_goedgekeurd_03a93fab2b3a": "2026-10-28"
  },
  "belastingdienst_wetten": {
   "value": [
@@ -39,7 +42,7 @@
    "https://belastingdienst.sr/wp-content/uploads/2024/10/Wet-Loonbelasting.pdf",
    "https://belastingdienst.sr/wp-content/uploads/2024/10/Wet-Loterijbelasting.pdf"
   ],
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0,
   "error": "only 0 links found (layout changed?)"
  },
@@ -48,7 +51,7 @@
    "2024",
    "2"
   ],
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0,
   "error": "Command '['pdftotext', '/tmp/tmpk6s1rlyp/x.pdf', '-']' returned non-zero exit status 1."
  },
@@ -57,7 +60,7 @@
    "2024",
    "3"
   ],
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0,
   "error": "Command '['pdftotext', '/tmp/tmpiqb_dh78/x.pdf', '-']' returned non-zero exit status 1."
  },
@@ -66,7 +69,7 @@
    "2002",
    "96"
   ],
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0,
   "error": "Command '['pdftotext', '/tmp/tmpfv1rnotz/x.pdf', '-']' returned non-zero exit status 1."
  },
@@ -75,7 +78,7 @@
    "2025",
    "8"
   ],
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0
  },
  "apf_base": {
@@ -83,25 +86,25 @@
    "500",
    "5000"
   ],
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0
  },
  "fvo_rate": {
   "value": [
    "1"
   ],
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0
  },
  "minimum_wage": {
   "value": "61,25",
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0
  },
  "cbvs_denominations": {
   "value": "SRD 5, SRD 10, SRD 20, SRD 50, SRD 100, SRD 200 en SRD 500",
   "ok": "2026-10-12",
-  "fails": 15,
+  "fails": 16,
   "error": "HTTP Error 403: Forbidden",
   "fail_alerted": "2026-10-15"
  },
@@ -109,7 +112,6 @@
   "value": [
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-goedkeuring-protocol-to-eliminate-illicit-trade-in-tobacco-products/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-hof-van-justitie/",
-   "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-wijz-wetboek-strafvordering-s-b-1977-no-94-zoals-laatstelijk-gewijz-bij-s-b-2023-no-135-opsporing-van-strafbare-feiten/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-voorlegging-aanbeveling-betreffende-uitbanning-geweld-en-intimidatie-ilo-recommendation-no-206/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-voorlegging-employment-decent-work-for-peace-resilience-recommendation-2017-ilo-recommendation-no-205/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-voorlegging-transition-from-informal-to-formal-economy-recommendation-2015-ilo-recommendation-no-204/",
@@ -124,6 +126,7 @@
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-algemene-douanewet-2024/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-toezicht-depositobeschermingssysteem/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-financiele-inclusie/",
+   "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-regels-met-betrekking-tot-het-uitvoeren-en-de-werking-van-het-surinaams-depositobeschermingssysteem-wet-toezicht-depositobeschermingssysteem/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-verbod-online-kansspelen-en-digitale-kansspelpreventie/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-regels-ruimtelijke-ordening/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-wet-west-suriname-bakhuis-ontwikkeling/",
@@ -164,16 +167,16 @@
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-opheffing-derdenbeslagen-gelden-en-geldvorderingen-openbare-dienst/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-aanpassingswet-instelling-directoraat-burgerzaken/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-wijz-wet-geldelijke-voorzieningen-president-en-vice-president-rep-sur-2025-s-b-2024-no-159/",
-   "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-goedkeuring-overeenkomst-tussen-reg-rep-sur-en-reg-vsa-inzake-bestrijding-illegale-drugshandel/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-nadere-wijz-wetboek-van-strafrecht-g-b-1911-no-1-zoals-laatstelijk-gewijz-bij-s-b-2020-no-42/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-schadefonds-gewelds-en-verkeersmisdrijven/"
   ],
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0
  },
  "dna_in_behandeling": {
   "value": [
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-nadere-wijz-wet-accijns-alcoholvrije-dranken/",
+   "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-houdende-wijz-wetboek-strafvordering-s-b-1977-no-94-zoals-laatstelijk-gewijz-bij-s-b-2023-no-135-opsporing-van-strafbare-feiten/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-wet-ondernemingsraadpleging/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-arbeidsomstandighedenwet-2019/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-wet-werktijdenregeling-2019/",
@@ -187,7 +190,6 @@
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-wet-collectieve-rechten-inheemse-en-tribale-volken-reg/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-bescherming-privacy-en-persoonsgegevens/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-wet-collectieve-rechten-inheemse-en-tribale-volken-traditionele-woon-en-leefgebieden/",
-   "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-houdende-goedkeuring-toetreding-rep-sur-tot-de-4-haagse-kinderbeschermende-verdragen/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-kaderwet-ambulancezorg/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-levensmiddelenwet-2026/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-toezicht-verzekeringswezen-2024/",
@@ -237,7 +239,7 @@
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-houdende-goedkeuring-toetreding-rep-sur-tot-de-second-optional-protocol-to-the-international-convenant/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-wijz-wet-rechtspositie-rechterlijke-macht-s-b-2024-no-158/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-wijz-reglement-op-de-inrichting-en-de-samenstelling-rechterlijke-macht-ris/",
-   "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-wijziging-van-de-wet-tot-regeling-van-het-surinamerschap-en-het-ingezetenschap-g-b-1975-no-171-zoals-laatstelijk-gewijzigd-bij-s-b-2014-no-121/",
+   "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-houdende-goedkeuring-overeenkomst-tussen-reg-rep-sur-en-reg-vsa-inzake-bestrijding-illegale-drugshandel/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-wet-industriele-hennepteelt-2022/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-wijz-wetboek-van-strafvordering/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-wet-industriele-hennepteelt/",
@@ -246,7 +248,7 @@
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-houdende-nadere-wijziging-van-het-wetboek-van-strafvordering-ltstelijk-gewzg-s-b-2023-no-135/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-instelling-verkeersautoriteit/"
   ],
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0
  },
  "dna_goedgekeurd": {
@@ -260,6 +262,7 @@
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-houdende-wijz-wet-centrum-voor-innovatie-en-productiviteit-s-b-2019-no-7/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-houdende-wijziging-surinaams-burgerlijk-wetboek/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-verlening-surinaamse-nationaliteit-aan-lia-kwok-tjon-en-103-anderen/",
+   "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-houdende-goedkeuring-toetreding-rep-sur-tot-de-4-haagse-kinderbeschermende-verdragen/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-wet-nationaal-productiviteitscentrum/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-meerjaren-ontwikkelingsplan-2022-2026-mop/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/wet-nationaal-ontwikkelingsfonds-voor-agribusiness-nofa/",
@@ -308,11 +311,12 @@
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-wijziging-van-de-wet-brandweer-suriname-1993-2026/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-wijz-begrafeniswet-1959/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-houdende-goedkeuring-toetreding-rep-suriname-tot-second-optional-protocol-to-the-international-covenant-on-civil-and-political-rights-aiming-at-the-abolition-of-the-penalty/",
+   "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-wijziging-van-de-wet-tot-regeling-van-het-surinamerschap-en-het-ingezetenschap-g-b-1975-no-171-zoals-laatstelijk-gewijzigd-bij-s-b-2014-no-121/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-houdende-nadere-wijziging-wetboek-van-strafvordering/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-houdende-goedkeuring-united-national-convention-against-corruption-uncac/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-wijz-rijwet-1971-alsmede-nadere-wijz-wet-aansprakelijkheidsverzekering-motorrijtuigen-1/"
   ],
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0
  },
  "govsr_terms": {
@@ -470,7 +474,7 @@
    "https://gov.sr/wijziging-besluit-negatieve-lijst/",
    "https://gov.sr/zvf/"
   ],
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0
  },
  "belastingdienst_news": {
@@ -487,46 +491,46 @@
    "https://belastingdienst.sr/technische-storing-oktober-2026/",
    "https://belastingdienst.sr/technische-storing/"
   ],
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0,
   "error": "mismatched tag: line 93, column 2"
  },
- "_last_run": "2026-10-27",
+ "_last_run": "2026-10-28",
  "guide_belastingdienst_contact": {
   "fails": 0,
   "error": "page almost empty (blocked or layout changed?)",
   "value": "ok",
-  "ok": "2026-10-27"
+  "ok": "2026-10-28"
  },
  "guide_apf_contact": {
   "value": "ok",
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0
  },
  "guide_kkf_contact": {
   "value": "ok",
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0
  },
  "guide_financieringswijzer": {
   "value": "ok",
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0
  },
  "guide_nob_products": {
   "fails": 0,
   "error": "page almost empty (blocked or layout changed?)",
   "value": "ok",
-  "ok": "2026-10-27"
+  "ok": "2026-10-28"
  },
  "guide_werktijden": {
   "value": "ok",
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0
  },
  "guide_iud_negatieve_lijst": {
   "value": "ok",
-  "ok": "2026-10-27",
+  "ok": "2026-10-28",
   "fails": 0
  }
 }
