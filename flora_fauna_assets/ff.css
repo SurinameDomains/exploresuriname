@@ -221,3 +221,47 @@ a.ff-lchip:hover{background:#F1DCC0}
 .ff-foot-links{display:flex;flex-wrap:wrap;gap:8px 18px}
 .ff-foot-links a{color:var(--forest2);font-weight:600}
 .ff-foot-up{font-size:12.5px}
+
+/* ── evidence (Oct 2026): how we know a species occurs in Suriname ───────── */
+/* checklist rows: the label text comes from here (per <html lang>), so 18,000 rows
+   carry only a class, not six translations each */
+.eS .ff-rlft::after,.eV .ff-rlft::after,.eP .ff-rlft::after,.eC .ff-rlft::after,.eUI .ff-rlft::after,.eUD .ff-rlft::after{display:inline-block;font-size:11px;font-weight:700;line-height:1.5;border-radius:999px;padding:0 7px;vertical-align:1px;white-space:nowrap}
+.eS .ff-rlft::after{background:#E3F1E4;color:#1F6B3A}.eV .ff-rlft::after{background:#E1EEF8;color:#1E5A8A}.eP .ff-rlft::after{background:#EEF0E2;color:#55601C}
+.eC .ff-rlft::after{background:#FFF1CC;color:#7A5200}.eUI .ff-rlft::after,.eUD .ff-rlft::after{background:#FFE2CF;color:#A8430F}
+.eS .ff-rlft::after{content:"Specimen"}.eV .ff-rlft::after{content:"Reviewed sighting"}.eP .ff-rlft::after{content:"Published record"}
+.eC .ff-rlft::after{content:"iNaturalist only"}.eUI .ff-rlft::after{content:"1\2013 2 iNaturalist records"}.eUD .ff-rlft::after{content:"DNA only"}
+html[lang="nl"] .eS .ff-rlft::after{content:"Museumexemplaar"}html[lang="nl"] .eV .ff-rlft::after{content:"Gecontroleerde waarneming"}
+html[lang="nl"] .eP .ff-rlft::after{content:"Gepubliceerd"}html[lang="nl"] .eC .ff-rlft::after{content:"Alleen iNaturalist"}
+html[lang="nl"] .eUI .ff-rlft::after{content:"1\2013 2 iNaturalist-waarnemingen"}html[lang="nl"] .eUD .ff-rlft::after{content:"Alleen DNA"}
+html[lang="es"] .eS .ff-rlft::after{content:"Ejemplar de museo"}html[lang="es"] .eV .ff-rlft::after{content:"Observación revisada"}
+html[lang="es"] .eP .ff-rlft::after{content:"Registro publicado"}html[lang="es"] .eC .ff-rlft::after{content:"Solo iNaturalist"}
+html[lang="es"] .eUI .ff-rlft::after{content:"1\2013 2 registros de iNaturalist"}html[lang="es"] .eUD .ff-rlft::after{content:"Solo ADN"}
+html[lang^="zh"] .eS .ff-rlft::after{content:"标本"}html[lang^="zh"] .eV .ff-rlft::after{content:"经审核的观察"}
+html[lang^="zh"] .eP .ff-rlft::after{content:"已发表的记录"}html[lang^="zh"] .eC .ff-rlft::after{content:"仅 iNaturalist"}
+html[lang^="zh"] .eUI .ff-rlft::after{content:"仅 1\2013 2 条 iNaturalist 记录"}html[lang^="zh"] .eUD .ff-rlft::after{content:"仅 DNA"}
+html[lang="fr"] .eS .ff-rlft::after{content:"Spécimen de musée"}html[lang="fr"] .eV .ff-rlft::after{content:"Observation validée"}
+html[lang="fr"] .eP .ff-rlft::after{content:"Donnée publiée"}html[lang="fr"] .eC .ff-rlft::after{content:"iNaturalist seul"}
+html[lang="fr"] .eUI .ff-rlft::after{content:"1\2013 2 observations iNaturalist"}html[lang="fr"] .eUD .ff-rlft::after{content:"ADN uniquement"}
+html[lang^="pt"] .eS .ff-rlft::after{content:"Exemplar de museu"}html[lang^="pt"] .eV .ff-rlft::after{content:"Observação revisada"}
+html[lang^="pt"] .eP .ff-rlft::after{content:"Registro publicado"}html[lang^="pt"] .eC .ff-rlft::after{content:"Só iNaturalist"}
+html[lang^="pt"] .eUI .ff-rlft::after{content:"1\2013 2 registros do iNaturalist"}html[lang^="pt"] .eUD .ff-rlft::after{content:"Só DNA"}
+.ff-unconf .ff-rows{border-style:dashed;background:#FFFBF4}
+.ff-unconf .ff-rl{color:var(--ink-soft)}
+/* species page */
+a.ff-badge{text-decoration:none}
+.ff-evb::before{content:"\2713";font-weight:800}
+.ff-evb-S{background:#E3F1E4;color:#1F6B3A}.ff-evb-V{background:#E1EEF8;color:#1E5A8A}.ff-evb-P{background:#EEF0E2;color:#55601C}
+.ff-evb-C{background:#FFF1CC;color:#7A5200}.ff-evb-C::before{display:none}
+.ff-evl{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:14px}
+.ff-evl li{display:flex;justify-content:space-between;gap:12px;padding:8px 12px;border-top:1px solid var(--line)}
+.ff-evl li:first-child{border-top:0}
+.ff-evl li>b{font-weight:700;white-space:nowrap}
+.ff-evl li>span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:1px;background:#B0B0B0}
+.ff-evl .ff-evk-s>span::before{background:#2E8B4E}.ff-evl .ff-evk-v>span::before{background:#2F7DBA}
+.ff-evl .ff-evk-y>span::before{background:#7D8A2A}.ff-evl .ff-evk-c>span::before{background:#D9A21B}
+#evidence a{color:inherit;text-decoration:none}#evidence a:hover{text-decoration:underline}
+.ff-acts{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.ff-act{display:inline-flex;align-items:center;border:1px solid var(--line);background:#fff;border-radius:12px;padding:6px 14px;font-size:13.5px;font-weight:600;text-decoration:none;color:var(--forest)}
+.ff-act:hover{border-color:var(--leaf)}
+.ff-act-obs{color:var(--ink-soft)}
+@media (max-width:520px){.ff-rhead{grid-template-columns:minmax(0,1fr) auto}}
