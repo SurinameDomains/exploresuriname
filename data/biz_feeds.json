@@ -193,15 +193,15 @@
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
    "ok": "2026-10-28T02:53-03:00",
-   "fails": 0,
-   "error": ""
+   "fails": 1,
+   "error": "mismatched tag: line 100, column 6"
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-10-28T02:53-03:00",
+   "ok": "2026-10-28T10:09-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-10-28T02:53-03:00"
+ "updated": "2026-10-28T10:09-03:00"
 }
