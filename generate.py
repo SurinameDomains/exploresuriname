@@ -4641,6 +4641,45 @@ for _cbrand, _cmem in _CHAIN_GROUPS.items():
         _CHAIN_OF[_cs] = _cbrand
 
 
+# ── Brand pages (29 Oct 2026) ─────────────────────────────────────────────────
+# Brands listed here get their own page at /<short> (kfc.html -> /kfc): the brand
+# with no location selected, the order block and every location as a link to its
+# own page. Their first chain member is then an ordinary branch page, and the
+# Eat & Drink card / search entry for the brand point to /<short>.
+_BRAND_PAGES = {"KFC": "kfc", "Pizza Hut": "pizza-hut"}
+_BRAND_TX = {
+    "desc": {
+        "KFC": {"en": "KFC has {n} restaurants in Suriname. Cirkel Group runs them and opened the first one on the Waterkant in Paramaribo in 1996. Order for delivery or pickup on WhatsApp, or choose a location below for its address, phone number, opening hours and directions.",
+                "nl": "KFC heeft {n} restaurants in Suriname. Ze worden gerund door Cirkel Group, die in 1996 het eerste restaurant aan de Waterkant in Paramaribo opende. Bestel via WhatsApp voor bezorgen of afhalen, of kies hieronder een vestiging voor het adres, telefoonnummer, de openingstijden en de route.",
+                "es": "KFC tiene {n} restaurantes en Surinam. Los gestiona Cirkel Group, que abrió el primero en el Waterkant de Paramaribo en 1996. Pide por WhatsApp a domicilio o para recoger, o elige una sucursal abajo para ver su dirección, teléfono, horario y cómo llegar.",
+                "zh": "KFC 在苏里南有 {n} 家餐厅，由 Cirkel Group 经营，1996 年在帕拉马里博 Waterkant 开设了第一家店。可通过 WhatsApp 点餐（外送或自取），或在下方选择一个网点查看地址、电话、营业时间和路线。",
+                "fr": "KFC compte {n} restaurants au Suriname. Ils sont exploités par Cirkel Group, qui a ouvert le premier sur le Waterkant à Paramaribo en 1996. Commandez sur WhatsApp en livraison ou à emporter, ou choisissez une adresse ci-dessous pour voir le téléphone, les horaires et l\u2019itinéraire.",
+                "pt": "O KFC tem {n} restaurantes no Suriname. Eles são administrados pela Cirkel Group, que abriu o primeiro na Waterkant, em Paramaribo, em 1996. Peça pelo WhatsApp para entrega ou retirada, ou escolha uma unidade abaixo para ver endereço, telefone, horário e como chegar."},
+        "Pizza Hut": {"en": "Pizza Hut has {n} restaurants in Suriname, run by Cirkel Group. Order for delivery or pickup on WhatsApp, or choose a location below for its address, phone number, opening hours and directions.",
+                      "nl": "Pizza Hut heeft {n} restaurants in Suriname, gerund door Cirkel Group. Bestel via WhatsApp voor bezorgen of afhalen, of kies hieronder een vestiging voor het adres, telefoonnummer, de openingstijden en de route.",
+                      "es": "Pizza Hut tiene {n} restaurantes en Surinam, gestionados por Cirkel Group. Pide por WhatsApp a domicilio o para recoger, o elige una sucursal abajo para ver su dirección, teléfono, horario y cómo llegar.",
+                      "zh": "Pizza Hut 在苏里南有 {n} 家餐厅，由 Cirkel Group 经营。可通过 WhatsApp 点餐（外送或自取），或在下方选择一个网点查看地址、电话、营业时间和路线。",
+                      "fr": "Pizza Hut compte {n} restaurants au Suriname, exploités par Cirkel Group. Commandez sur WhatsApp en livraison ou à emporter, ou choisissez une adresse ci-dessous pour voir le téléphone, les horaires et l\u2019itinéraire.",
+                      "pt": "A Pizza Hut tem {n} restaurantes no Suriname, administrados pela Cirkel Group. Peça pelo WhatsApp para entrega ou retirada, ou escolha uma unidade abaixo para ver endereço, telefone, horário e como chegar."},
+    },
+    "choose": {"en": "Choose a location", "nl": "Kies een vestiging", "es": "Elige una sucursal",
+               "zh": "选择网点", "fr": "Choisissez une adresse", "pt": "Escolha uma unidade"},
+    "choose_sub": {"en": "Tap a location for its address, phone number, opening hours and directions.",
+                   "nl": "Tik op een vestiging voor adres, telefoonnummer, openingstijden en route.",
+                   "es": "Toca una sucursal para ver su dirección, teléfono, horario y cómo llegar.",
+                   "zh": "点按网点可查看地址、电话、营业时间和路线。",
+                   "fr": "Touchez une adresse pour voir le téléphone, les horaires et l\u2019itinéraire.",
+                   "pt": "Toque em uma unidade para ver endereço, telefone, horário e como chegar."},
+    "all": {"en": "All locations", "nl": "Alle vestigingen", "es": "Todas las sucursales",
+            "zh": "所有网点", "fr": "Toutes les adresses", "pt": "Todas as unidades"},
+}
+
+
+def _brand_desc(brand, n):
+    """{lang: text} brand intro with the live location count."""
+    return {k: v.replace("{n}", str(n)) for k, v in _BRAND_TX["desc"].get(brand, {}).items()}
+
+
 def _branch_label(brand, b):
     """Short chip label: whatever distinguishes this address from the brand."""
     n = (b.get("name") or "").strip()
@@ -4678,6 +4717,10 @@ def _collapse_chains(lst):
         c["name"]            = brand
         c["chain_count"]     = len(mem)
         c["chain_districts"] = sorted({x.get("area") or "Paramaribo" for x in mem})
+        if brand in _BRAND_PAGES and _BRAND_TX["desc"].get(brand):
+            c["url"] = _BRAND_PAGES[brand] + ".html"
+            c["description"] = _brand_desc(brand, len(mem))["en"]
+            c["address"] = ""   # the brand card is no single address (search shows none)
         out.append(c)
     return out
 
@@ -4733,7 +4776,7 @@ for _clabel, _clist in (("Eat & Drink", RESTAURANTS), ("Stay", HOTELS),
             _cbd = _make_biz(_cbs)
             if not _cbd:
                 continue
-            if _cbs == _ci["slug"]:
+            if _cbs == _ci["slug"] and _cbrand not in _BRAND_PAGES:
                 # The hub card carries the brand name, so its own branch name
                 # ("DSB Hoofdkantoor") would otherwise match nothing in search.
                 _CHAIN_HUB_ALIAS[_cbd["url"]] = _cbd["name"]
@@ -12779,6 +12822,52 @@ _ORDER_SVG = ('<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24
               '<circle cx="18" cy="17" r="3"/><path d="M9 17h6l-2-7H9"/><path d="M13 10h3l2 7"/><path d="M15 6h3"/></svg>')
 
 
+_BRAND_LIST_CSS = (
+    '<style>'
+    '.bl{list-style:none;margin:0 0 32px;padding:0;display:grid;gap:10px}'
+    '@media(min-width:640px){.bl{grid-template-columns:1fr 1fr}}'
+    '.bl a{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 16px;background:var(--card,#fff);'
+    'border:1px solid var(--bd-card,#EBE0CB);border-radius:12px;text-decoration:none;color:#1f2a22;'
+    'transition:border-color .15s,box-shadow .15s}'
+    '.bl a:hover{border-color:#CFE4C8;box-shadow:0 4px 14px rgba(27,67,50,.08)}'
+    '.bl a:focus-visible{outline:2px solid var(--forest2,#2D6A4F);outline-offset:2px}'
+    '.bl-b{flex:1;min-width:0}'
+    '.bl-n{display:block;font-weight:700;font-size:15.5px;line-height:1.3}'
+    '.bl-a{display:block;font-size:13.5px;color:#4b5a4f;margin-top:2px;overflow-wrap:anywhere}'
+    '.bl-m{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:13px;color:#5f6b62;margin-top:4px}'
+    '.bl-go{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;'
+    'border:1px solid var(--line,#EBE0CB);color:var(--forest2,#2D6A4F)}'
+    '</style>'
+)
+
+
+def _brand_list_html(brand):
+    """Brand page: one row per location, each a link to that location's page."""
+    rows = []
+    mem = [i for i in (_branch_info(s) for s in _CHAIN_GROUPS.get(brand, [])) if i]
+    for m in mem:
+        lbl = html_lib.escape(_branch_label(brand, m))
+        meta = []
+        if m["phone"]:
+            meta.append('<span translate="no">' + html_lib.escape(m["phone"]) + '</span>')
+        _hw = _hours_week(m["hours"]) if m["hours"] else None
+        if _hw:
+            meta.append('<span class="oh-live" data-h="' + ",".join(f"{a}-{b}" for a, b in _hw) + '"></span>')
+        rows.append(
+            '<li><a href="listing/' + m["slug"] + '/" aria-label="' + html_lib.escape(m["name"], quote=True) + '">'
+            '<span class="bl-b"><span class="bl-n" translate="no">' + html_lib.escape(brand) + ' ' + lbl + '</span>'
+            '<span class="bl-a" translate="no">' + html_lib.escape(m["address"] or (m["area"] + ", Suriname")) + '</span>'
+            + ('<span class="bl-m">' + "".join(meta) + '</span>' if meta else '')
+            + '</span><span class="bl-go" aria-hidden="true">'
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+            'stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>'
+            '</span></a></li>')
+    return (_BRAND_LIST_CSS
+            + '<h2 class="text-lg font-bold text-gray-900 mb-2">' + _l10n_span(_BRAND_TX["choose"]) + '</h2>'
+            '<p class="text-gray-500 text-sm mb-4">' + _l10n_span(_BRAND_TX["choose_sub"]) + '</p>'
+            '<ul class="bl">' + "".join(rows) + '</ul>')
+
+
 def _order_brand(slug):
     """Brand with an online order line for this listing slug, or None."""
     br = _CHAIN_OF.get(slug)
@@ -13069,7 +13158,7 @@ def _listing_title(raw_name, place, hours, phone):
     return raw_name + ", " + place + ": " + intent
 
 
-def build_listing_page(slug, b):
+def build_listing_page(slug, b, brand_short=None):
     raw_name = b.get("name", slug)
     desc     = b.get("description", "")
     address  = b.get("address", "")
@@ -13085,7 +13174,11 @@ def build_listing_page(slug, b):
     # they are and link back up here.
     _brand    = _CHAIN_OF.get(slug)
     _chain_any = _chain_block(_brand) if _brand else None
-    _chain    = _chain_any if (_chain_any and _CHAIN_PRIMARY.get(_brand) == slug) else None
+    # Brand pages (29 Oct 2026): a brand in _BRAND_PAGES has its own page (brand_short),
+    # so its first member is an ordinary branch page like the others.
+    _chain    = _chain_any if (_chain_any and _CHAIN_PRIMARY.get(_brand) == slug
+                               and (brand_short or _brand not in _BRAND_PAGES)) else None
+    _pfx      = "" if brand_short else "../../"
     _is_branch = bool(_chain_any) and _chain is None
     _hub_marks = []
     if _chain:
@@ -13255,7 +13348,7 @@ def build_listing_page(slug, b):
     # Use slug-based lookup (reliable) instead of category-text matching (error-prone)
     _ld_type_tmp, back_file, back_label = _slug_schema_info(slug)
 
-    page_url   = SITE_URL + "/listing/" + slug + "/"
+    page_url   = (SITE_URL + "/" + brand_short) if brand_short else (SITE_URL + "/listing/" + slug + "/")
     maps_q     = urllib.parse.quote(raw_name + ", " + (address or location + ", Suriname"))
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
     maps_link  = "https://www.google.com/maps/search/?api=1&query=" + maps_q
@@ -13339,6 +13432,11 @@ def build_listing_page(slug, b):
 
     desc_block = ('<p class="text-gray-700 leading-relaxed text-base mb-8">'
                   + html_lib.escape(desc) + '</p>') if desc else ""
+    if brand_short and _chain and _BRAND_TX["desc"].get(_brand):
+        _bd = _brand_desc(_brand, _chain["count"])
+        desc = _bd["en"]
+        desc_block = ('<p class="text-gray-700 leading-relaxed text-base mb-8">'
+                      + _l10n_span(_bd) + '</p>')
 
     # Heritage sites that are listings (Oct 2026): a listing slug with its own entry
     # in data/things_to_do.json (joden-savanne, fort-zeelandia) gets the same
@@ -13396,6 +13494,23 @@ def build_listing_page(slug, b):
         ld_obj["geo"] = {"@type": "GeoCoordinates", "latitude": _lat, "longitude": _lon}
     ld_obj["currenciesAccepted"] = "SRD"
 
+    if brand_short and _chain:
+        # The brand page is no single address: drop the branch facts, list every location.
+        for _k in ("address", "telephone", "email", "geo", "openingHours"):
+            ld_obj.pop(_k, None)
+        _dep = []
+        for _m in _CHAIN_GROUPS.get(_brand, []):
+            _mi = _branch_info(_m)
+            if not _mi:
+                continue
+            _d = {"@type": ld_type, "name": _mi["name"], "url": SITE_URL + "/listing/" + _m + "/"}
+            if _mi["address"]:
+                _d["address"] = {"@type": "PostalAddress", "streetAddress": _mi["address"], "addressCountry": "SR"}
+            if _mi["phone"]:
+                _d["telephone"] = _mi["phone"]
+            _dep.append(_d)
+        if _dep:
+            ld_obj["department"] = _dep
     # JSON-LD names must be plain text — unescape HTML entities from category labels
     _cat_label_plain = cat_label.replace("&amp;", "&").replace("&#39;", "'").replace("&quot;", '"')
     breadcrumb_obj = {
@@ -13435,6 +13550,10 @@ def build_listing_page(slug, b):
         desc_e = html_lib.escape(_meta_trunc(
             f"All {_n} {_brand} locations in Suriname in one place: "
             + ", ".join(_chain["areas"]) + ". Addresses, opening hours, phone numbers and directions.", 158))
+        if brand_short:
+            desc_e = html_lib.escape(_meta_trunc(
+                f"All {_n} {_brand} locations in Suriname: addresses, phone numbers, opening hours and directions."
+                + (" Order for delivery or pickup on WhatsApp." if _brand in _ORDER_LINES else ""), 158))
 
     head = (
         PAGE_HEAD +
@@ -13458,13 +13577,13 @@ def build_listing_page(slug, b):
 
     hero = (
         '\n<body class="bg-gray-50 overflow-x-hidden">\n' +
-        nav_html(prefix="../../") +
+        nav_html(prefix=_pfx) +
         '\n<div class="relative w-full pt-16" style="min-height:320px">'
         '\n  <div class="absolute inset-0" style="' + hero_style + '"></div>'
         '\n  ' + overlay +
         '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"'
         '\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">'
-        + _crumb(back_file, back_label, name_e) +
+        + _crumb(back_file, back_label, name_e, prefix=_pfx) +
         '\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"'
         '\n          style="background:var(--coral);color:#fff">' + html_lib.escape(category) + '</span>'
         '\n    <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">' + name_e + '</h1>'
@@ -13487,13 +13606,18 @@ def build_listing_page(slug, b):
     branch_note = ""
     if _is_branch:
         branch_note = '\n      ' + _chain_any["link_row"](slug)
+        if _brand in _BRAND_PAGES:
+            branch_note = branch_note.replace(
+                '<div class="flex flex-wrap gap-2 mb-6">',
+                '<div class="flex flex-wrap gap-2 mb-6"><a href="../../' + _BRAND_PAGES[_brand]
+                + '.html" class="dist-chip">' + _l10n_span(_BRAND_TX["all"]) + '</a>', 1)
 
     _ord_m = _ord_d = ""
     if _ord:
         # Phones: right under the intro (the sidebar comes after the map there).
         # Desktop: top of the sticky contact card.
-        _ord_m = '\n      ' + _ORDER_CSS + _order_card(_ord, "main", slug, "ord-m")
-        _ord_d = '\n        ' + _order_card(_ord, "side", slug, "ord-d ord-side")
+        _ord_m = '\n      ' + _ORDER_CSS + _order_card(_ord, "main", brand_short or slug, "ord-m")
+        _ord_d = '\n        ' + _order_card(_ord, "side", brand_short or slug, "ord-d ord-side")
         desc_block = desc_block + _ord_m
     if _chain:
         left_top = ('\n      ' + desc_block + '\n      ' + _chain["chips"])
@@ -13522,6 +13646,13 @@ def build_listing_page(slug, b):
         if _tt and _tt["side"]:
             info_html += '\n        <div class="mt-4">' + _tt["side"] + '</div>'
 
+    if brand_short and _chain:
+        # Brand page: no location selected. Every location links to its own page.
+        left_top = '\n      ' + desc_block + '\n      ' + _brand_list_html(_brand)
+        map_html = ""
+        info_title = ""
+        info_html = '\n        ' + la_html
+
     main = (
         '\n<main class="max-w-5xl mx-auto px-5 py-12 pb-24">'
         '\n  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">'
@@ -13546,12 +13677,15 @@ def build_listing_page(slug, b):
         '\n</main>'
     )
 
-    related_html = _related_listings_html(slug, _sub, prefix="../../")
+    if brand_short:
+        main = re.sub(r'\n\s*<p class="text-gray-400 text-xs text-center mb-8">\s*Map data &copy; Google\.[^<]*</p>',
+                      '', main, count=1)
+    related_html = _related_listings_html(slug, _sub, prefix=_pfx)
     if _ord:
         main += _ORDER_JS
     if 'class="oh-live"' in main:
         main += _OH_CSS + "<script>" + _oh_js() + "</script>"
-    return head + hero + main + related_html + "\n" + footer_html(prefix="../../") + "\n</body>\n</html>"
+    return head + hero + main + related_html + "\n" + footer_html(prefix=_pfx) + "\n</body>\n</html>"
 
 
 # ── Things to Do detail pages (Oct 2026) ─────────────────────────────────────
@@ -29591,6 +29725,8 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("flights.html",    "0.8", "daily"),
         ("atms.html",       "0.8", "daily"),
         ("gas-cylinders.html", "0.7", "weekly"),
+        ("kfc.html",        "0.7", "weekly"),
+        ("pizza-hut.html",  "0.7", "weekly"),
         ("conditions.html", "0.8", "daily"),
         ("visitor-guide.html","0.8", "monthly"),
         ("on-the-road.html", "0.7", "monthly"),
@@ -33582,14 +33718,13 @@ if __name__ == "__main__":
             f'<p>This page has moved. <a href="{_tgt}">Click here</a>.</p>'
             '</body></html>', encoding="utf-8")
 
-    # ── Brand short links (29 Oct 2026) ──────────────────────────────────────
-    # A chain's hub URL carries a branch slug (/listing/kfc-ims/), which is no
-    # link to share. /kfc and /pizza-hut forward to the brand page (all
-    # locations + order button); /order-kfc and /order-pizza-hut go straight to
-    # the brand's WhatsApp order chat (Instagram bio, flyers, QR codes), after
-    # GA4 order_click {order_place: "direct"}. All noindex. build_i18n gives
-    # every language its own copy (/nl/kfc -> /nl/listing/kfc-ims/ via esr-stub).
-    _BRAND_SHORT = {"kfc": "KFC", "pizza-hut": "Pizza Hut"}
+    # ── Brand pages + order short links (29 Oct 2026) ───────────────────────
+    # /kfc and /pizza-hut are the brand pages (build_listing_page(..., brand_short)):
+    # no location selected, order block, every location a link to its own page.
+    # /order-kfc and /order-pizza-hut go straight to the brand's WhatsApp order
+    # chat (Instagram bio, flyers, QR codes) after GA4 order_click
+    # {order_place: "direct"}; those are noindex. build_i18n localizes both.
+    _BRAND_SHORT = {_s: _b for _b, _s in _BRAND_PAGES.items()}
     _OTX = {"opening": {"en": "Opening the WhatsApp order chat…",
                         "nl": "De WhatsApp-bestelchat wordt geopend…",
                         "es": "Abriendo el chat de pedidos de WhatsApp…",
@@ -33608,18 +33743,12 @@ if __name__ == "__main__":
         _hub = _CHAIN_PRIMARY.get(_sbrand)
         if not _hub or _hub not in _BIZ:
             continue
-        _tgt = f"/listing/{_hub}/"
+        _tgt = f"/{_short}"
         _bn = html_lib.escape(_sbrand)
-        Path(f"{_short}.html").write_text(
-            '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
-            '<meta name="viewport" content="width=device-width, initial-scale=1">'
-            '<meta name="robots" content="noindex,follow">'
-            f'<meta name="esr-stub" content="{_tgt}">'
-            f'<meta http-equiv="refresh" content="0;url={_tgt}">'
-            f'<link rel="canonical" href="{SITE_URL}{_tgt}">'
-            f'<title>{_bn} Suriname | Explore Suriname</title></head><body>'
-            f'<p><a href="{_tgt}">{_bn}: ' + _l10n_span(_OTX["page"]) + '</a></p>'
-            '</body></html>', encoding="utf-8")
+        _hb = _make_biz(_hub)
+        if _hb:
+            Path(f"{_short}.html").write_text(
+                _wide_scale_units(build_listing_page(_hub, _hb, brand_short=_short)), encoding="utf-8")
         _wa = _ORDER_LINES.get(_sbrand)
         if not _wa:
             continue
@@ -33644,7 +33773,7 @@ if __name__ == "__main__":
             '<p>' + _l10n_span(_OTX["opening"]) + '</p>'
             f'<p><a href="{_wae}">' + _l10n_span(_OTX["tap"]) + '</a></p>'
             '</body></html>', encoding="utf-8")
-    print(f"  OK  brand short links: {', '.join('/' + s for s in _BRAND_SHORT)} (+ /order-*)")
+    print(f"  OK  brand pages: {', '.join('/' + s for s in _BRAND_SHORT)} (+ /order-*)")
 
     # ── Purge stale listing directories ─────────────────────────────────────
     # Any listing/ subdir not written in this build is stale and should go.
