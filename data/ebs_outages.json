@@ -1,5 +1,20 @@
 {
-  "outages": [],
-  "last_updated": "2026-10-29T11:07:52.780014+00:00",
+  "outages": [
+    {
+      "title": "GEPLAND ONDERHOUD ZATERDAG 31 OKTOBER 2026",
+      "date": "31 Oktober 2026",
+      "date_iso": "2026-10-31",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1639/gepland-onderhoud-zaterdag-31-oktober-2026",
+      "body": "Gepland onderhoud: Para zaterdag 31 oktober 2026 tussen 08:00-17:00 GEDEELTE HELENA CHRISTINAWEG TUSSEN BOMAWEG EN MAGENTA KANAALWEG, GEDEELTE BOMAWEG TUSSEN MERVEILLEWEG EN HELENA CHRISTINAWEG, NEEDEWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED.",
+      "area_full": "GEDEELTE HELENA CHRISTINAWEG TUSSEN BOMAWEG EN MAGENTA KANAALWEG, GEDEELTE BOMAWEG TUSSEN MERVEILLEWEG EN HELENA CHRISTINAWEG, NEEDEWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=e62d7cd6ea0849caae532c635e6c5041",
+      "meta_description": "Gepland onderhoud: Para zaterdag 31 oktober 2026 tussen 08:00-17:00 GEDEELTE HELENA CHRISTINAWEG TUSSEN BOMAWEG EN MAGENTA KANAALWEG, GEDEELTE BOMAWEG TUSSE",
+      "district": "Para",
+      "time": "08:00 – 17:00",
+      "area": "GEDEELTE HELENA CHRISTINAWEG TUSSEN BOMAWEG EN MAGENTA KANAALWEG, GEDEELTE BOMAWEG TUSSE"
+    }
+  ],
+  "last_updated": "2026-10-29T15:07:45.624687+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 }
