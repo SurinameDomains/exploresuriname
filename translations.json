@@ -114957,5 +114957,26 @@
 "zh": "Total Surveying 是位于帕拉马里博 Ronaldlaan 6 的土地测量事务所…",
 "fr": "Total Surveying est un cabinet de géomètres situé au Ronaldlaan 6 à Paramaribo. Il figure sur la liste des géomètres…",
 "pt": "Total Surveying é um escritório de agrimensura na Ronaldlaan 6, em Paramaribo. Consta da lista de agrimensores…"
+},
+"Rain alerts.": {
+"nl": "Regenalarm.",
+"es": "Avisos de lluvia.",
+"zh": "降雨提醒。",
+"fr": "Alertes pluie.",
+"pt": "Alertas de chuva."
+},
+"If you turn on the morning rain alert on the Weather page, your browser gives us a push address (a random link from the push service of your browser, such as Google, Apple or Mozilla) together with the district and language you picked. We store only that, use it only to send the alert, and delete it when you turn alerts off or your browser ends the subscription. No name, email address or location is involved.": {
+"nl": "Als je het regenalarm in de ochtend aanzet op de weerpagina, geeft je browser ons een pushadres (een willekeurige link van de pushdienst van je browser, zoals Google, Apple of Mozilla), samen met het district en de taal die je kiest. We bewaren alleen dat, gebruiken het alleen om het alarm te sturen en verwijderen het als je de meldingen uitzet of je browser het abonnement beëindigt. Er komt geen naam, e-mailadres of locatie aan te pas.",
+"es": "Si activas el aviso de lluvia por la mañana en la página del tiempo, tu navegador nos da una dirección push (un enlace aleatorio del servicio push de tu navegador, como Google, Apple o Mozilla) junto con el distrito y el idioma que elegiste. Solo guardamos eso, lo usamos solo para enviar el aviso y lo borramos cuando desactivas los avisos o tu navegador cancela la suscripción. No se usa ningún nombre, correo electrónico ni ubicación.",
+"zh": "如果您在天气页面开启早间降雨提醒，浏览器会向我们提供一个推送地址（由浏览器的推送服务生成的随机链接，例如 Google、Apple 或 Mozilla），以及您选择的地区和语言。我们只保存这些信息，仅用于发送提醒；当您关闭提醒或浏览器取消订阅时即删除。整个过程不涉及姓名、电子邮件或位置。",
+"fr": "Si vous activez l’alerte pluie du matin sur la page Météo, votre navigateur nous transmet une adresse push (un lien aléatoire du service push de votre navigateur, comme Google, Apple ou Mozilla) avec le district et la langue choisis. Nous ne conservons que cela, l’utilisons uniquement pour envoyer l’alerte et le supprimons lorsque vous désactivez les alertes ou que votre navigateur met fin à l’abonnement. Aucun nom, adresse e-mail ni position n’est utilisé.",
+"pt": "Se você ativar o alerta de chuva pela manhã na página do tempo, seu navegador nos envia um endereço push (um link aleatório do serviço push do navegador, como Google, Apple ou Mozilla) junto com o distrito e o idioma escolhidos. Guardamos só isso, usamos apenas para enviar o alerta e apagamos quando você desativa os alertas ou o navegador encerra a assinatura. Nenhum nome, e-mail ou localização é usado."
+},
+"Last updated: 29 October 2026": {
+"nl": "Laatst bijgewerkt: 29 oktober 2026",
+"es": "Última actualización: 29 de octubre de 2026",
+"zh": "最后更新：2026年10月29日",
+"fr": "Dernière mise à jour : 29 octobre 2026",
+"pt": "Última atualização: 29 de outubro de 2026"
 }
 }

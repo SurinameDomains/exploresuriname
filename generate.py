@@ -28449,7 +28449,7 @@ __FOOTER__
 def build_privacy_page():
     """Privacy Policy page — required for Google AdSense compliance.
     Discloses cookie use, third-party advertising, and how to opt out."""
-    policy_date = "26 October 2026"
+    policy_date = "29 October 2026"
     return f"""{PAGE_HEAD}
   <title>Privacy Policy | Explore Suriname</title>
   <meta name="description" content="Privacy Policy for ExploreSuriname.com. What data we collect, what stays on your device, and how analytics and Google advertising work on this site.">
@@ -28514,6 +28514,9 @@ def build_privacy_page():
     </p>
     <p class="text-gray-700 text-sm leading-relaxed">
       <strong>Notifications.</strong> If you track a flight and allow notifications, your browser shows an alert when its status changes while the page is open. You can turn this off in your browser settings.
+    </p>
+    <p class="text-gray-700 text-sm leading-relaxed mt-3">
+      <strong>Rain alerts.</strong> If you turn on the morning rain alert on the Weather page, your browser gives us a push address (a random link from the push service of your browser, such as Google, Apple or Mozilla) together with the district and language you picked. We store only that, use it only to send the alert, and delete it when you turn alerts off or your browser ends the subscription. No name, email address or location is involved.
     </p>
   </div>
 
@@ -29778,6 +29781,27 @@ self.addEventListener('fetch', e => {
       .catch(() => caches.match(e.request).then(cached => cached || caches.match('/offline.html')))
   );
 });
+
+// Web Push (morning rain heads-up, 29 Oct 2026). Payload JSON: {title, body, url, tag}.
+self.addEventListener('push', e => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (err) { d = {}; }
+  e.waitUntil(self.registration.showNotification(d.title || 'Explore Suriname', {
+    body: d.body || '', icon: '/icons/icon-192.png', tag: d.tag || 'esr', data: { url: d.url || '/' }
+  }));
+});
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  let url = self.location.origin + '/';
+  try {
+    const u = new URL((e.notification.data && e.notification.data.url) || '/', self.location.origin);
+    if (u.origin === self.location.origin) url = u.href;   // only open our own pages
+  } catch (err) {}
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+    for (const c of list) if (c.url === url && 'focus' in c) return c.focus();
+    return self.clients.openWindow(url);
+  }));
+});
 """
     return sw.replace("__TWV__", _TW_V)
 
@@ -29997,6 +30021,18 @@ _WX2_CSS = """  <style>
     .td-src,.wx-src{font-size:.72rem;color:#9ca3af;margin:.7rem 0 0}
     .wx-src a,.td-src a{text-decoration:underline}
     .wx-skel{color:#9ca3af}
+    /* morning rain alert card (Web Push opt-in, 29 Oct 2026) */
+    #wx-alert[hidden]{display:none}
+    .wx-al-row{display:flex;gap:.6rem;align-items:flex-end;flex-wrap:wrap}
+    .wx-al-lb{display:flex;flex-direction:column;gap:.25rem;font-size:.75rem;color:var(--ink-soft);font-weight:600}
+    .wx-al-lb select{min-width:11rem;padding:.5rem .6rem;border:1px solid var(--bd-card);border-radius:8px;background:#fff;font-size:.9rem;color:var(--ink)}
+    .wx-al-btn{background:var(--forest);color:#fff;border:0;border-radius:10px;font-weight:700;font-size:.9rem;padding:.6rem 1.1rem;cursor:pointer;touch-action:manipulation}
+    .wx-al-btn.wx-al-off{background:transparent;color:var(--forest);border:1px solid var(--forest)}
+    .wx-al-btn[disabled]{opacity:.6;cursor:default}
+    #wx-al-how{margin-top:.6rem}
+    .wx-al-is,.wx-al-note{margin:.6rem 0 0}
+    .wx-al-msg{font-size:.78rem;color:var(--ink-soft);margin:.4rem 0 0}
+    .wx-al-msg:empty{display:none}
   </style>"""
 
 
@@ -30377,6 +30413,127 @@ setInterval(function(){var on=$('.td-tab.on');if(on&&!D.hidden)renderTide(on.get
 </script>"""
 
 
+
+# Morning rain alert opt-in card on the Weather page (29 Oct 2026). Web Push via the esr-push Worker;
+# the daily sender is .github/workflows/push_rain.yml + scripts/push_rain.py. All words live in the JS
+# (6 languages, hand-written) so nothing goes through translations.json / MT.
+_PUSH_JS = r"""<script>
+(function(){
+  var W="https://esr-push.surinamedomains.workers.dev", KEY="esr-push";
+  var box=document.getElementById("wx-alert"); if(!box)return;
+  var DS=["Paramaribo","Wanica","Commewijne","Para","Saramacca","Nickerie","Coronie","Marowijne","Brokopondo","Sipaliwini"];
+  var L=((document.documentElement.getAttribute("lang")||"en")+"").toLowerCase().slice(0,2);
+  var T={
+   en:{h:"Morning rain alert",s:"A heads-up around 06:30, only on days when rain is likely in your district. Nothing on dry days.",d:"District",on:"Turn on",off:"Turn off",
+       is:"On for {d}. You can change the district at any time.",den:"Notifications are blocked for this site. Allow them in your browser settings to get rain alerts.",
+       ios:"On iPhone and iPad, alerts work once Explore Suriname is on your Home Screen.",how:"Show me how",inapp:"Open this page in Safari, add it to your Home Screen, then turn alerts on here.",
+       err:"That did not work. Please try again.",busy:"One moment…",ct:"Rain alerts are on",cb:"We will send a heads-up around 06:30 on days rain is likely in {d}.",sv:"Saved."},
+   nl:{h:"Regenalarm in de ochtend",s:"Rond 06:30 een seintje, alleen op dagen dat regen waarschijnlijk is in jouw district. Op droge dagen niets.",d:"District",on:"Aanzetten",off:"Uitzetten",
+       is:"Aan voor {d}. Je kunt het district altijd wijzigen.",den:"Meldingen zijn geblokkeerd voor deze site. Sta ze toe in je browserinstellingen om regenalarmen te krijgen.",
+       ios:"Op iPhone en iPad werken meldingen zodra Explore Suriname op je beginscherm staat.",how:"Laat zien hoe",inapp:"Open deze pagina in Safari, zet hem op je beginscherm en zet dan hier de meldingen aan.",
+       err:"Dat lukte niet. Probeer het opnieuw.",busy:"Even geduld…",ct:"Regenalarm staat aan",cb:"Rond 06:30 krijg je een seintje op dagen dat regen waarschijnlijk is in {d}.",sv:"Opgeslagen."},
+   es:{h:"Aviso de lluvia por la mañana",s:"Un aviso hacia las 06:30, solo los días con lluvia probable en tu distrito. Nada los días secos.",d:"Distrito",on:"Activar",off:"Desactivar",
+       is:"Activado para {d}. Puedes cambiar el distrito cuando quieras.",den:"Las notificaciones están bloqueadas para este sitio. Permítelas en los ajustes del navegador para recibir avisos de lluvia.",
+       ios:"En iPhone y iPad, los avisos funcionan cuando Explore Suriname está en tu pantalla de inicio.",how:"Muéstrame cómo",inapp:"Abre esta página en Safari, añádela a tu pantalla de inicio y luego activa los avisos aquí.",
+       err:"No funcionó. Inténtalo de nuevo.",busy:"Un momento…",ct:"Avisos de lluvia activados",cb:"Te avisaremos hacia las 06:30 los días con lluvia probable en {d}.",sv:"Guardado."},
+   fr:{h:"Alerte pluie du matin",s:"Un message vers 06:30, seulement les jours où la pluie est probable dans votre district. Rien les jours secs.",d:"District",on:"Activer",off:"Désactiver",
+       is:"Activée pour {d}. Vous pouvez changer de district à tout moment.",den:"Les notifications sont bloquées pour ce site. Autorisez-les dans les réglages du navigateur pour recevoir les alertes pluie.",
+       ios:"Sur iPhone et iPad, les alertes fonctionnent une fois Explore Suriname ajouté à l’écran d’accueil.",how:"Comment faire",inapp:"Ouvrez cette page dans Safari, ajoutez-la à l’écran d’accueil, puis activez les alertes ici.",
+       err:"Cela n’a pas marché. Réessayez.",busy:"Un instant…",ct:"Alertes pluie activées",cb:"Vous recevrez un message vers 06:30 les jours où la pluie est probable à {d}.",sv:"Enregistré."},
+   pt:{h:"Alerta de chuva pela manhã",s:"Um aviso por volta das 06:30, só nos dias com chuva provável no seu distrito. Nada nos dias secos.",d:"Distrito",on:"Ativar",off:"Desativar",
+       is:"Ativado para {d}. Você pode mudar o distrito quando quiser.",den:"As notificações estão bloqueadas para este site. Permita nas configurações do navegador para receber alertas de chuva.",
+       ios:"No iPhone e iPad, os alertas funcionam quando o Explore Suriname está na sua tela de início.",how:"Mostrar como",inapp:"Abra esta página no Safari, adicione-a à tela de início e depois ative os alertas aqui.",
+       err:"Não funcionou. Tente de novo.",busy:"Um momento…",ct:"Alertas de chuva ativados",cb:"Você receberá um aviso por volta das 06:30 nos dias com chuva provável em {d}.",sv:"Salvo."},
+   zh:{h:"早间降雨提醒",s:"仅在你所在地区可能下雨的日子，约 06:30 提醒一次。晴天不打扰。",d:"地区",on:"开启",off:"关闭",
+       is:"已为 {d} 开启。可随时更换地区。",den:"此网站的通知已被阻止。请在浏览器设置中允许通知以接收降雨提醒。",
+       ios:"在 iPhone 和 iPad 上，需先把 Explore Suriname 添加到主屏幕才能接收提醒。",how:"查看步骤",inapp:"请在 Safari 中打开本页，添加到主屏幕，然后在这里开启提醒。",
+       err:"操作失败，请重试。",busy:"请稍候…",ct:"降雨提醒已开启",cb:"{d}可能下雨的日子，我们会在 06:30 左右提醒你。",sv:"已保存。"}
+  };
+  var t=T[L]||T.en, UA=navigator.userAgent||"";
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function get(){try{return JSON.parse(localStorage.getItem(KEY)||"null")||{};}catch(e){return {};}}
+  function put(o){try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}}
+  function ga(n,p){try{window.dataLayer=window.dataLayer||[];if(!window.gtag)window.gtag=function(){window.dataLayer.push(arguments);};window.gtag("event",n,p||{});}catch(e){}}
+  function standalone(){return (window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;}
+  var apple=/iPhone|iPad|iPod/.test(UA)||(/Macintosh/.test(UA)&&navigator.maxTouchPoints>1);
+  var can=("serviceWorker" in navigator)&&("PushManager" in window)&&("Notification" in window);
+  function b64(s){s=s.replace(/-/g,"+").replace(/_/g,"/");var r=atob(s+"===".slice((s.length+3)%4)),a=new Uint8Array(r.length);for(var i=0;i<r.length;i++)a[i]=r.charCodeAt(i);return a;}
+  function curDistrict(){var st=get();if(DS.indexOf(st.d)>=0)return st.d;var o=document.querySelector(".wx-d.on:not(.wx-me)");var n=o&&o.textContent.trim();return DS.indexOf(n)>=0?n:"Paramaribo";}
+  var BELL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6.5 2 6.5H4S6 14 6 9z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>';
+  function frame(inner){
+    box.innerHTML='<div class="wx-hd"><span class="wx-ic">'+BELL+'</span><div><h2 class="serif">'+esc(t.h)+'</h2><p class="wx-sub">'+esc(t.s)+'</p></div></div>'+inner+'<p class="wx-al-msg" id="wx-al-msg" role="status" aria-live="polite"></p>';
+    box.hidden=false;
+  }
+  function msg(s){var m=document.getElementById("wx-al-msg");if(m)m.textContent=s||"";}
+  function sel(d){var o="";for(var i=0;i<DS.length;i++)o+='<option value="'+DS[i]+'"'+(DS[i]===d?" selected":"")+'>'+DS[i]+'</option>';
+    return '<label class="wx-al-lb"><span>'+esc(t.d)+'</span><select id="wx-al-d" translate="no">'+o+'</select></label>';}
+  function render(){
+    var st=get();
+    if(apple&&!standalone()){
+      var canGuide=typeof window.pwaInstall==="function"&&/Safari\//.test(UA)&&!/CriOS|FxiOS|EdgiOS|GSA|FBAN|FBAV|Instagram|musical_ly|Bytedance/.test(UA);
+      var chrome=/CriOS/.test(UA);
+      frame('<p class="wx-sm">'+esc(t.ios)+'</p>'+((canGuide||chrome)&&typeof window.pwaInstall==="function"?'<button type="button" class="wx-al-btn" id="wx-al-how">'+esc(t.how)+'</button>':'<p class="wx-sm wx-al-note">'+esc(t.inapp)+'</p>'));
+      var hb=document.getElementById("wx-al-how");if(hb)hb.addEventListener("click",function(){ga("push_ios_how");window.pwaInstall();});
+      return;
+    }
+    if(!can)return;                       /* old browser: no card at all */
+    if(Notification.permission==="denied"){frame('<p class="wx-sm">'+esc(t.den)+'</p>');return;}
+    var on=!!st.on&&Notification.permission==="granted", d=on?st.d:curDistrict();
+    frame('<div class="wx-al-row">'+sel(d)+'<button type="button" class="wx-al-btn'+(on?' wx-al-off':'')+'" id="wx-al-go">'+esc(on?t.off:t.on)+'</button></div>'+
+          (on?'<p class="wx-sm wx-al-is">'+esc(t.is.replace("{d}",d))+'</p>':''));
+    document.getElementById("wx-al-go").addEventListener("click",on?turnOff:turnOn);
+    if(on)document.getElementById("wx-al-d").addEventListener("change",function(){save(this.value).then(function(){msg(t.sv);render();msg(t.sv);}).catch(function(){msg(t.err);});});
+  }
+  function subscription(){
+    return navigator.serviceWorker.ready.then(function(reg){
+      return fetch(W+"/push/key").then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(k){
+        var key=b64(k.key);
+        return reg.pushManager.getSubscription().then(function(s){
+          if(s&&s.options&&s.options.applicationServerKey){
+            var a=new Uint8Array(s.options.applicationServerKey),same=a.length===key.length;
+            for(var i=0;same&&i<a.length;i++)if(a[i]!==key[i])same=false;
+            if(!same)return s.unsubscribe().then(function(){return null;});
+          }
+          return s;
+        }).then(function(s){return s||reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:key});})
+          .then(function(s){return {reg:reg,sub:s};});
+      });
+    });
+  }
+  function save(d){
+    return subscription().then(function(o){
+      return fetch(W+"/push/sub",{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({sub:o.sub.toJSON(),district:d,lang:T[L]?L:"en",topics:["rain"]})})
+        .then(function(r){if(!r.ok)throw 0;put({on:true,d:d});return o;});
+    });
+  }
+  function turnOn(){
+    var d=(document.getElementById("wx-al-d")||{}).value||"Paramaribo";
+    var btn=this;btn.disabled=true;msg(t.busy);
+    /* ask permission first, straight from the tap (iOS requires the user gesture) */
+    Promise.resolve(Notification.requestPermission()).then(function(p){
+      if(p!=="granted"){ga("push_denied");btn.disabled=false;msg("");render();return;}
+      return save(d).then(function(o){
+        ga("push_on",{push_district:d});
+        try{o.reg.showNotification(t.ct,{body:t.cb.replace("{d}",d),icon:"/icons/icon-192.png",tag:"esr-confirm"});}catch(e){}
+        render();
+      });
+    }).catch(function(){btn.disabled=false;msg(t.err);});
+  }
+  function turnOff(){
+    var btn=this;btn.disabled=true;msg(t.busy);
+    navigator.serviceWorker.ready.then(function(reg){return reg.pushManager.getSubscription();}).then(function(s){
+      if(!s)return;
+      return fetch(W+"/push/unsub",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({endpoint:s.endpoint})})
+        .catch(function(){}).then(function(){return s.unsubscribe();});
+    }).then(function(){put({on:false,d:get().d});ga("push_off");render();})
+      .catch(function(){btn.disabled=false;msg(t.err);});
+  }
+  render();
+})();
+</script>"""
+
+
 _WX_SVG = {
     "sun": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>',
     "moon": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>',
@@ -30563,6 +30720,7 @@ def build_conditions_page(tides_data):
             '<div><h2 class="serif">Do I need an umbrella?</h2><p class="wx-sub" id="wx-umb-sub">Rain chance per part of the day, four weather models compared.</p></div></div>'
             '<div class="wx-per" id="wx-per"></div><p class="wx-dry" id="wx-dry"></p>'
             '<p class="wx-legend" id="wx-leg"></p></section>'
+            '<section class="wx-card" id="wx-alert" data-sec="alerts" hidden></section>'
             # nowcast
             '<section class="wx-card" id="wx-nc"><div class="wx-hd2"><h2 class="serif">Next 2 hours</h2><b id="wx-nc-s" class="wx-nc-s"></b></div>'
             '<div class="wx-nc-bars" id="wx-nc-b"></div><div class="wx-nc-t" id="wx-nc-t"></div></section>'
@@ -30591,7 +30749,7 @@ def build_conditions_page(tides_data):
         "loc": {l["id"]: l["label"] for l in TIDES_LOCATIONS},
         "sea": {"suriname": [6.05, -55.17], "commewijne": [6.05, -55.17], "nickerie": [6.05, -57.0], "marowijne": [5.85, -53.95]},
     }, separators=(",", ":")) + ';window.WX2_I18N=' + json.dumps(_WX2_I18N, ensure_ascii=False, separators=(",", ":")) + ';</script>')
-    return head + hero + main + glyphs + data_js + _WX2_JS + "\n" + footer_html() + "\n</body>\n</html>"
+    return head + hero + main + glyphs + data_js + _WX2_JS + "\n" + _PUSH_JS + "\n" + footer_html() + "\n</body>\n</html>"
 
 
 
