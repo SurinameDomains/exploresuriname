@@ -1,0 +1,39 @@
+name: Rain heads-up (push)
+
+# Morning rain alert for subscribers of the Weather page card. Sends nothing on dry days.
+# Auth to the esr-push Worker = this workflow's GitHub OIDC token (no stored secret).
+on:
+  schedule:
+    - cron: "12 9 * * *"   # 06:12 Suriname time (UTC-3); GitHub can start it some minutes late
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry = show decision only, test = test message to subscriptions made in the last 45 min, send = real run"
+        type: choice
+        default: dry
+        options: [dry, test, send]
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: push-rain
+  cancel-in-progress: false
+
+jobs:
+  rain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Get the sender script
+        run: curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/scripts/push_rain.py" -o push_rain.py
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pywebpush
+        run: pip install --quiet "pywebpush>=2.0,<3"
+      - name: Send
+        env:
+          MODE: ${{ github.event_name == 'schedule' && 'send' || inputs.mode }}
+        run: python push_rain.py
