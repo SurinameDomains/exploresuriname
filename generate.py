@@ -12824,47 +12824,67 @@ _ORDER_SVG = ('<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24
 
 _BRAND_LIST_CSS = (
     '<style>'
-    '.bl{list-style:none;margin:0 0 32px;padding:0;display:grid;gap:10px}'
-    '@media(min-width:640px){.bl{grid-template-columns:1fr 1fr}}'
-    '.bl a{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 16px;background:var(--card,#fff);'
-    'border:1px solid var(--bd-card,#EBE0CB);border-radius:12px;text-decoration:none;color:#1f2a22;'
-    'transition:border-color .15s,box-shadow .15s}'
-    '.bl a:hover{border-color:#CFE4C8;box-shadow:0 4px 14px rgba(27,67,50,.08)}'
+    '.bl{list-style:none;margin:0 0 36px;padding:0;display:grid;gap:14px;grid-template-columns:1fr;grid-auto-rows:1fr}'
+    '@media(min-width:640px){.bl{grid-template-columns:repeat(2,minmax(0,1fr))}}'
+    '.bl>li{display:flex;min-width:0}'
+    '.bl a{flex:1;min-width:0;display:flex;flex-direction:column;padding:18px 18px 0;background:var(--card,#fff);'
+    'border:1px solid var(--bd-card,#EBE0CB);border-radius:14px;text-decoration:none;color:#1f2a22;'
+    'box-shadow:var(--sh-card,0 1px 2px rgba(27,67,50,.05));transition:border-color .15s,box-shadow .15s,transform .15s}'
+    '@media(hover:hover){.bl a:hover{border-color:#CFE4C8;box-shadow:var(--sh-lift,0 8px 22px rgba(27,67,50,.10));transform:translateY(-2px)}}'
+    '@media(prefers-reduced-motion:reduce){.bl a{transition:none}.bl a:hover{transform:none}}'
     '.bl a:focus-visible{outline:2px solid var(--forest2,#2D6A4F);outline-offset:2px}'
-    '.bl-b{flex:1;min-width:0}'
-    '.bl-n{display:block;font-weight:700;font-size:15.5px;line-height:1.3}'
-    '.bl-a{display:block;font-size:13.5px;color:#4b5a4f;margin-top:2px;overflow-wrap:anywhere}'
-    '.bl-m{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:13px;color:#5f6b62;margin-top:4px}'
-    '.bl-go{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;'
-    'border:1px solid var(--line,#EBE0CB);color:var(--forest2,#2D6A4F)}'
+    '.bl-n{font-weight:700;font-size:16.5px;line-height:1.25;margin:0 0 10px}'
+    '.bl-r{display:flex;align-items:flex-start;gap:9px;font-size:14px;line-height:1.45;color:#4b5a4f;margin:0 0 6px;min-width:0}'
+    '.bl-r svg{flex:none;width:16px;height:16px;margin-top:2px;color:var(--forest2,#2D6A4F)}'
+    '.bl-r span{min-width:0;overflow-wrap:anywhere}'
+    '.bl-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;'
+    'padding:12px 0 14px;border-top:1px solid #F1EBDD;font-size:13.5px}'
+    '.bl-sp{flex:1;min-height:12px}'
+    '.bl-foot .oh-live{margin:0;display:block}'
+    '.bl-v{flex:none;display:inline-flex;align-items:center;gap:4px;font-weight:600;color:var(--forest2,#2D6A4F);margin-left:auto}'
+    '.bl-v svg{width:16px;height:16px}'
     '</style>'
 )
+_BRAND_TX["view"] = {"en": "View location", "nl": "Bekijk vestiging", "es": "Ver sucursal",
+                     "zh": "查看网点", "fr": "Voir l’adresse", "pt": "Ver unidade"}
+_BRAND_TX["type"] = {"en": "Fast food", "nl": "Fastfood", "es": "Comida rápida",
+                     "zh": "快餐", "fr": "Restauration rapide", "pt": "Fast-food"}
+_BL_ICON = {
+    "pin": ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
+            'stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>'
+            '<circle cx="12" cy="10" r="3"/></svg>'),
+    "phone": ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
+              'stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 '
+              '19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 '
+              '1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>'),
+    "chev": ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" '
+             'stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>'),
+}
 
 
 def _brand_list_html(brand):
-    """Brand page: one row per location, each a link to that location's page."""
+    """Brand page: one equal-height card per location, each a link to its own page.
+    Fixed order of parts (name, address, phone, footer) so the grid lines up."""
     rows = []
     mem = [i for i in (_branch_info(s) for s in _CHAIN_GROUPS.get(brand, [])) if i]
     for m in mem:
         lbl = html_lib.escape(_branch_label(brand, m))
-        meta = []
-        if m["phone"]:
-            meta.append('<span translate="no">' + html_lib.escape(m["phone"]) + '</span>')
         _hw = _hours_week(m["hours"]) if m["hours"] else None
-        if _hw:
-            meta.append('<span class="oh-live" data-h="' + ",".join(f"{a}-{b}" for a, b in _hw) + '"></span>')
+        status = ('<span class="oh-live" data-h="' + ",".join(f"{a}-{b}" for a, b in _hw) + '"></span>'
+                  if _hw else '<span class="bl-sp"></span>')
         rows.append(
-            '<li><a href="listing/' + m["slug"] + '/" aria-label="' + html_lib.escape(m["name"], quote=True) + '">'
-            '<span class="bl-b"><span class="bl-n" translate="no">' + html_lib.escape(brand) + ' ' + lbl + '</span>'
-            '<span class="bl-a" translate="no">' + html_lib.escape(m["address"] or (m["area"] + ", Suriname")) + '</span>'
-            + ('<span class="bl-m">' + "".join(meta) + '</span>' if meta else '')
-            + '</span><span class="bl-go" aria-hidden="true">'
-            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
-            'stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>'
-            '</span></a></li>')
+            '<li><a href="listing/' + m["slug"] + '/">'
+            '<span class="bl-n" translate="no">' + html_lib.escape(brand) + ' ' + lbl + '</span>'
+            '<span class="bl-r">' + _BL_ICON["pin"] + '<span translate="no">'
+            + html_lib.escape(m["address"] or (m["area"] + ", Suriname")) + '</span></span>'
+            + ('<span class="bl-r">' + _BL_ICON["phone"] + '<span translate="no">' + html_lib.escape(m["phone"])
+               + '</span></span>' if m["phone"] else '')
+            + '<span class="bl-foot">' + status
+            + '<span class="bl-v">' + _l10n_span(_BRAND_TX["view"]) + _BL_ICON["chev"] + '</span></span>'
+            '</a></li>')
     return (_BRAND_LIST_CSS
             + '<h2 class="text-lg font-bold text-gray-900 mb-2">' + _l10n_span(_BRAND_TX["choose"]) + '</h2>'
-            '<p class="text-gray-500 text-sm mb-4">' + _l10n_span(_BRAND_TX["choose_sub"]) + '</p>'
+            '<p class="text-gray-500 text-sm mb-5">' + _l10n_span(_BRAND_TX["choose_sub"]) + '</p>'
             '<ul class="bl">' + "".join(rows) + '</ul>')
 
 
@@ -13585,7 +13605,8 @@ def build_listing_page(slug, b, brand_short=None):
         '\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">'
         + _crumb(back_file, back_label, name_e, prefix=_pfx) +
         '\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"'
-        '\n          style="background:var(--coral);color:#fff">' + html_lib.escape(category) + '</span>'
+        '\n          style="background:var(--coral);color:#fff">' + (
+            _l10n_span(_BRAND_TX["type"]) if (brand_short and not category) else html_lib.escape(category)) + '</span>'
         '\n    <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">' + name_e + '</h1>'
         '\n    <p class="text-white/70 text-sm">' + (
             html_lib.escape(f"{_chain['count']} locations in Suriname") if _chain
