@@ -225,9 +225,9 @@ a.ff-lchip:hover{background:#F1DCC0}
 /* ── evidence (Oct 2026): how we know a species occurs in Suriname ───────── */
 /* checklist rows: the label text comes from here (per <html lang>), so 18,000 rows
    carry only a class, not six translations each */
-.eS .ff-rlft::after,.eV .ff-rlft::after,.eP .ff-rlft::after,.eC .ff-rlft::after,.eUI .ff-rlft::after,.eUD .ff-rlft::after{display:inline-block;font-size:11px;font-weight:700;line-height:1.5;border-radius:999px;padding:0 7px;vertical-align:1px;white-space:nowrap}
+.eS .ff-rlft::after,.eV .ff-rlft::after,.eP .ff-rlft::after,.eC .ff-rlft::after,.eUI .ff-rlft::after,.eUD .ff-rlft::after,.eUX .ff-rlft::after{display:inline-block;font-size:11px;font-weight:700;line-height:1.5;border-radius:999px;padding:0 7px;vertical-align:1px;white-space:nowrap}
 .eS .ff-rlft::after{background:#E3F1E4;color:#1F6B3A}.eV .ff-rlft::after{background:#E1EEF8;color:#1E5A8A}.eP .ff-rlft::after{background:#EEF0E2;color:#55601C}
-.eC .ff-rlft::after{background:#FFF1CC;color:#7A5200}.eUI .ff-rlft::after,.eUD .ff-rlft::after{background:#FFE2CF;color:#A8430F}
+.eC .ff-rlft::after{background:#FFF1CC;color:#7A5200}.eUI .ff-rlft::after,.eUD .ff-rlft::after,.eUX .ff-rlft::after{background:#FFE2CF;color:#A8430F}
 .eS .ff-rlft::after{content:"Specimen"}.eV .ff-rlft::after{content:"Reviewed sighting"}.eP .ff-rlft::after{content:"Published record"}
 .eC .ff-rlft::after{content:"iNaturalist only"}.eUI .ff-rlft::after{content:"1\2013 2 iNaturalist records"}.eUD .ff-rlft::after{content:"DNA only"}
 html[lang="nl"] .eS .ff-rlft::after{content:"Museumexemplaar"}html[lang="nl"] .eV .ff-rlft::after{content:"Gecontroleerde waarneming"}
@@ -245,6 +245,7 @@ html[lang="fr"] .eUI .ff-rlft::after{content:"1\2013 2 observations iNaturalist"
 html[lang^="pt"] .eS .ff-rlft::after{content:"Exemplar de museu"}html[lang^="pt"] .eV .ff-rlft::after{content:"Observação revisada"}
 html[lang^="pt"] .eP .ff-rlft::after{content:"Registro publicado"}html[lang^="pt"] .eC .ff-rlft::after{content:"Só iNaturalist"}
 html[lang^="pt"] .eUI .ff-rlft::after{content:"1\2013 2 registros do iNaturalist"}html[lang^="pt"] .eUD .ff-rlft::after{content:"Só DNA"}
+.eUX .ff-rlft::after{content:"Doubtful record"}html[lang="nl"] .eUX .ff-rlft::after{content:"Twijfelachtig"}html[lang="es"] .eUX .ff-rlft::after{content:"Registro dudoso"}html[lang^="zh"] .eUX .ff-rlft::after{content:"记录存疑"}html[lang="fr"] .eUX .ff-rlft::after{content:"Donnée douteuse"}html[lang^="pt"] .eUX .ff-rlft::after{content:"Registro duvidoso"}
 .ff-unconf .ff-rows{border-style:dashed;background:#FFFBF4}
 .ff-unconf .ff-rl{color:var(--ink-soft)}
 /* species page */
@@ -258,7 +259,7 @@ a.ff-badge{text-decoration:none}
 .ff-evl li>b{font-weight:700;white-space:nowrap}
 .ff-evl li>span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:1px;background:#B0B0B0}
 .ff-evl .ff-evk-s>span::before{background:#2E8B4E}.ff-evl .ff-evk-v>span::before{background:#2F7DBA}
-.ff-evl .ff-evk-y>span::before{background:#7D8A2A}.ff-evl .ff-evk-c>span::before{background:#D9A21B}
+.ff-evl .ff-evk-y>span::before{background:#7D8A2A}.ff-evl .ff-evk-c>span::before{background:#D9A21B}.ff-evl .ff-evk-x>span::before{background:#C0583A}
 #evidence a{color:inherit;text-decoration:none}#evidence a:hover{text-decoration:underline}
 .ff-acts{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
 .ff-act{display:inline-flex;align-items:center;border:1px solid var(--line);background:#fff;border-radius:12px;padding:6px 14px;font-size:13.5px;font-weight:600;text-decoration:none;color:var(--forest)}
