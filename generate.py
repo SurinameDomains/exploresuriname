@@ -1416,6 +1416,7 @@ _IMGS = {
     'kfc-lallarookh': 'https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png',
     'kfc-latour': 'https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png',
     'kfc-lelydorp': 'https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png',
+    'kfc-meerzorg': 'https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png',
     'kfc-waterkant': 'https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png',
     'kfc-wilhelminastraat': 'https://www.surinamyp.com/img/sr/e/1683205990-93-kfc.png',
     'kimboto': 'https://i0.wp.com/sairahtujeehut.com/wp-content/uploads/2022/02/kimboto-cover-website.png?fit=1200%2C676&ssl=1',
@@ -4533,7 +4534,7 @@ def _make_biz(slug):
             "image": _biz_img(slug) or _fdet.get("photo_url", ""),
             "subcat": _subcat(slug)}
 
-RESTAURANTS = [b for slug in ["a-la-john", "aaras-cafe", "ac-bar-restaurant", "ace-restaurant-lounge", "ayo-river-lounge", "baka-foto-restaurant", "bar-qle", "bar-zuid", "bella-italia", "big-tex", "bingo-pizza-coppename", "bingo-pizza-kwatta", "bistro-brwni", "bistro-don-julio", "bistro-lequatorze", "bloom-wellness-cafe", "blue-grand-cafe", "bori-tori", "boss-burgers", "burger-king-centrum", "burger-king-latour", "cafe-amsterdam", "chi-min", "cinnagirl", "coffee-mama", "cookie-closet", "cupcake-fantasy", "cy-coffee", "d-mighty-view-lounge", "de-gadri", "de-spot", "de-verdieping", "dlish", "dolce-bella-cafe", "eethuis-liv", "el-patron-latin-grill", "elev8te", "elines-pizza", "etembe-rainforest-restaurant", "ettores-pizza-kitchen", "flavor-restaurant", "frygri", "garden-of-eden", "georgies-bar-chill", "goe-thai-noodle-bar", "goldenwings", "habco-delight", "habco-delight-north", "hard-rock-cafe-suriname", "holy-moly", "jadore-cafe-grill", "jage-caffe", "jage-caffe-2", "joey-ds", "joosje-roti-shop", "julias-food", "karans-indian-food", "kfc-ims", "kfc-kwatta", "kfc-lallarookh", "kfc-latour", "kfc-lelydorp", "kfc-waterkant", "kfc-wilhelminastraat", "kong-nam-snack", "krioro", "kushiyaki-the-next-episode", "kwan-tai-restaurant", "kwan-tai-restaurant-2", "kyu-pho-grill", "lamour-restaurant", "las-tias", "lees-korean-grill", "leiding-1-restaurant", "lucky-twins-restaurant", "maharaja-palace", "matcha-loft", "mcdonalds-centrum", "mcdonalds-hermitage-mall", "mezze-suriname", "mickis-palace-noord", "mickis-palace-zuid", "mighty-racks", "mingle-paramaribo", "mingle-sushi", "moka-coffeebar", "moments-restaurant", "muntjes-take-out-juniors-place", "murphys-irish-pub", "naskip", "naskip-2", "naskip-3", "naskip-4", "naskip-5", "new-suriname-dream-cafe", "norrii-zushii", "numa-cafe", "oasis-restaurant", "ogi-teppanyaki-sushi-bar", "okopipi-tropical-grill", "olive-multi-cuisine-restaurant", "overdoughsed-suriname", "padre-nostro-italian-restaurant", "pane-e-vino", "pannekoek-en-poffertjes-cafe", "passie-food-and-wines", "petisco-restaurant", "petit-bouchon", "pizza-hut-leysweg", "pizza-hut-south", "pizza-hut-wilhelminastraat", "pizza-mafia", "popeyes-centrum", "popeyes-lelydorp", "popeyes-tbl", "popeyes-wilhelminastraat", "raja-ji", "restaurant-lhermitage", "restaurant-sarinah", "restoran-bibit", "ricos-a-gladiator-foodtruck", "ritas-roti-shop", "rolines-de-waag", "roopram-roti-shop", "sakura", "samba-cafe", "saras-brunch-cafe", "sizzler-midnight-grill", "sizzlers-signature", "souposo", "south-america-hot-pot", "spice-quest", "squeezy-hot-pot-restaurant", "subway", "subway-2", "subway-3", "sugar", "sushi-ya", "sweet-tooth-pastries", "sweetie-coffee", "tapauku-terras", "tastelicious", "tasty-fresh-food-coffee-bar", "teasee", "the-bakery-house", "the-coffee-box", "the-coffee-box-north", "the-coffee-hobbyist", "the-maillard-cafe", "the-old-garage", "the-sweetest-thing", "three-little-beans", "tipsy-bar-lounge", "tirzahs-patisserie", "tori-oso", "tout-tout-petit", "twins-pizza-burgers", "u-s-bakery", "uitkijk-riverlounge-cafe", "viva-mexico", "warung-resa-centrum", "warung-soepy-ann", "wollys", "wollys-2", "wollys-3", "zeg-ijsje", "zus-zo-cafe", "guru-rotishop", "shlx-cafe", "alegria", "lobby", "ciranos", "sun-ice", "x-avenue", "hes-ds", "hes-ds-2", "hes-ds-3", "bbq-bar-hermitage", "beelys-pastry", "chicking", "crazy-churros", "dough-re-mi", "elements-restaurant-lounge", "krispy", "livorno-snacks-broodjes-winkel", "momo-korean-fried-chicken", "raytjes-kukru", "rustique-grill", "sundae-bliss", "sweets-brews-by-nass", "tian-you-paranam", "tulip-cafeteria", "warung-blauwtjie", "warung-oetomo", "fast-fresh-centrum", "fast-fresh-beekhuizen", "fast-fresh-dijkveld", "locacion-lounge-bar", "meat-at-midnight", "dim-sum-cuisine", "warung-mbah-paidjah", "op-smaak-food-services", "anthonys-corner", "candys-bar-restaurant", "jamz-lounge", "mirosso", "my-bakery", "t-vat-sidewalk-cafe", "the-ramada-rooftop-lounge-bar", "brasa-suriname", "pot-cova", "andjiros", "combe-bazaar", "fernandes-bakkery-nv", "wan-bon-biri", "wing-hung-cake-shop", "amits-sport-cafe", "hollandia-bakkerij-north", "hollandia-bakkerij-south", "coco-cafe", "de-pier-torarica"] for b in [_make_biz(slug)] if b]
+RESTAURANTS = [b for slug in ["a-la-john", "aaras-cafe", "ac-bar-restaurant", "ace-restaurant-lounge", "ayo-river-lounge", "baka-foto-restaurant", "bar-qle", "bar-zuid", "bella-italia", "big-tex", "bingo-pizza-coppename", "bingo-pizza-kwatta", "bistro-brwni", "bistro-don-julio", "bistro-lequatorze", "bloom-wellness-cafe", "blue-grand-cafe", "bori-tori", "boss-burgers", "burger-king-centrum", "burger-king-latour", "cafe-amsterdam", "chi-min", "cinnagirl", "coffee-mama", "cookie-closet", "cupcake-fantasy", "cy-coffee", "d-mighty-view-lounge", "de-gadri", "de-spot", "de-verdieping", "dlish", "dolce-bella-cafe", "eethuis-liv", "el-patron-latin-grill", "elev8te", "elines-pizza", "etembe-rainforest-restaurant", "ettores-pizza-kitchen", "flavor-restaurant", "frygri", "garden-of-eden", "georgies-bar-chill", "goe-thai-noodle-bar", "goldenwings", "habco-delight", "habco-delight-north", "hard-rock-cafe-suriname", "holy-moly", "jadore-cafe-grill", "jage-caffe", "jage-caffe-2", "joey-ds", "joosje-roti-shop", "julias-food", "karans-indian-food", "kfc-ims", "kfc-kwatta", "kfc-lallarookh", "kfc-latour", "kfc-lelydorp", "kfc-meerzorg", "kfc-waterkant", "kfc-wilhelminastraat", "kong-nam-snack", "krioro", "kushiyaki-the-next-episode", "kwan-tai-restaurant", "kwan-tai-restaurant-2", "kyu-pho-grill", "lamour-restaurant", "las-tias", "lees-korean-grill", "leiding-1-restaurant", "lucky-twins-restaurant", "maharaja-palace", "matcha-loft", "mcdonalds-centrum", "mcdonalds-hermitage-mall", "mezze-suriname", "mickis-palace-noord", "mickis-palace-zuid", "mighty-racks", "mingle-paramaribo", "mingle-sushi", "moka-coffeebar", "moments-restaurant", "muntjes-take-out-juniors-place", "murphys-irish-pub", "naskip", "naskip-2", "naskip-3", "naskip-4", "naskip-5", "new-suriname-dream-cafe", "norrii-zushii", "numa-cafe", "oasis-restaurant", "ogi-teppanyaki-sushi-bar", "okopipi-tropical-grill", "olive-multi-cuisine-restaurant", "overdoughsed-suriname", "padre-nostro-italian-restaurant", "pane-e-vino", "pannekoek-en-poffertjes-cafe", "passie-food-and-wines", "petisco-restaurant", "petit-bouchon", "pizza-hut-leysweg", "pizza-hut-south", "pizza-hut-wilhelminastraat", "pizza-mafia", "popeyes-centrum", "popeyes-lelydorp", "popeyes-tbl", "popeyes-wilhelminastraat", "raja-ji", "restaurant-lhermitage", "restaurant-sarinah", "restoran-bibit", "ricos-a-gladiator-foodtruck", "ritas-roti-shop", "rolines-de-waag", "roopram-roti-shop", "sakura", "samba-cafe", "saras-brunch-cafe", "sizzler-midnight-grill", "sizzlers-signature", "souposo", "south-america-hot-pot", "spice-quest", "squeezy-hot-pot-restaurant", "subway", "subway-2", "subway-3", "sugar", "sushi-ya", "sweet-tooth-pastries", "sweetie-coffee", "tapauku-terras", "tastelicious", "tasty-fresh-food-coffee-bar", "teasee", "the-bakery-house", "the-coffee-box", "the-coffee-box-north", "the-coffee-hobbyist", "the-maillard-cafe", "the-old-garage", "the-sweetest-thing", "three-little-beans", "tipsy-bar-lounge", "tirzahs-patisserie", "tori-oso", "tout-tout-petit", "twins-pizza-burgers", "u-s-bakery", "uitkijk-riverlounge-cafe", "viva-mexico", "warung-resa-centrum", "warung-soepy-ann", "wollys", "wollys-2", "wollys-3", "zeg-ijsje", "zus-zo-cafe", "guru-rotishop", "shlx-cafe", "alegria", "lobby", "ciranos", "sun-ice", "x-avenue", "hes-ds", "hes-ds-2", "hes-ds-3", "bbq-bar-hermitage", "beelys-pastry", "chicking", "crazy-churros", "dough-re-mi", "elements-restaurant-lounge", "krispy", "livorno-snacks-broodjes-winkel", "momo-korean-fried-chicken", "raytjes-kukru", "rustique-grill", "sundae-bliss", "sweets-brews-by-nass", "tian-you-paranam", "tulip-cafeteria", "warung-blauwtjie", "warung-oetomo", "fast-fresh-centrum", "fast-fresh-beekhuizen", "fast-fresh-dijkveld", "locacion-lounge-bar", "meat-at-midnight", "dim-sum-cuisine", "warung-mbah-paidjah", "op-smaak-food-services", "anthonys-corner", "candys-bar-restaurant", "jamz-lounge", "mirosso", "my-bakery", "t-vat-sidewalk-cafe", "the-ramada-rooftop-lounge-bar", "brasa-suriname", "pot-cova", "andjiros", "combe-bazaar", "fernandes-bakkery-nv", "wan-bon-biri", "wing-hung-cake-shop", "amits-sport-cafe", "hollandia-bakkerij-north", "hollandia-bakkerij-south", "coco-cafe", "de-pier-torarica"] for b in [_make_biz(slug)] if b]
 
 HOTELS = [b for slug in ["afobaka-resort", "akira-overwater-resort", "kodouffi-tapawatra-resort", "tio-boto-eco-resort", "bronbella-villa-residence", "courtyard-by-marriott", "eco-resort-miano", "eco-torarica", "holland-lodge", "hotel-palacio", "hotel-peperpot", "houttuyn-wellness-river-resort", "jacana-amazon-wellness-resort", "oxygen-resort", "royal-brasil-hotel", "royal-breeze-hotel-paramaribo", "royal-torarica", "taman-indah-resort", "the-golden-truly-hotel", "tiny-house-tropical-appartment", "torarica-resort", "villa-famiri", "waterland-suites", "zeelandia-suites", "anaula-nature-resort", "atlantis-hotel-casino", "danpaati-river-lodge", "greenheart-boutique-hotel", "guesthouse-albergoalberga", "guesthouse-albina", "hotel-north-resort", "kabalebo-nature-resort", "kimboto", "marina-resort-waterland", "overbridge-river-resort", "radisson-hotel", "ramada-paramaribo-princess", "residence-inn-nickerie", "residence-inn-paramaribo", "savannah-casino-hotel", "tropicana-hotel-casino-suriname", "tucan-resort-and-spa", "villas-paramaribo", "alafasi-botopasi-lodge", "alkebuland-resort", "amazonica-bungalows", "anjuli-nature-resort", "apetina-eco-river-resort", "awarradam-jungle-lodge", "bakaaboto-nature-resort", "biharies-resort", "blanche-marie-nature-resort", "braumuller-nature-resort", "capella-nature-eco-resort", "caribo-beach-resort", "carmelitas-nature-resort", "casa-blanca-hotel", "chotelal-sons-resort", "colonial-resort-n-v", "da-kaboera-resort", "elegance-hotel-casino", "fallawatra-green-resort", "gess-hotel", "golden-west-hotel-casino", "green-village-resort", "guesthouse-amice", "gunsi-eco-resort-tei-wei", "harbour-resort-domburg", "hotel-botopassie", "hotel-cactus", "hotel-de-luifel", "hotel-en-restaurant-concorde", "hotel-paramuru", "hotel-perola", "hotel-tyche", "jadah-lauren-resort", "jungle-lodge-palumeu", "jungle-resort-pingpe-suriname", "kana-r-resort", "kekemba-resort-paramaribo", "kimberlys-vip-resort", "koina-resort", "luxury-resort-surinat", "maretraite-hotel", "marinalex-resort-waterpark", "marowijne-resort", "melilew-boutique-hotel", "menimi-eco-resort", "millies-resort", "mtc-resort", "new-babunhol-river-resort", "nirvana-business-hotel", "octopus-resort-suriname", "owos-resort", "pension-asia-inn", "q-inn-boutique-hotel-paramaribo", "queens-hotel", "recreatieoord-tropic-resort", "royal-inn-suriname-hotel-casino", "savoie-hotel-apartments", "shiritjo-lodge-tours", "silver-moon-resort", "spanhoek-boutique-hotel", "ston-eiland-resort", "sun-smile-hotel-apartments", "suriname-tulip-hotel", "sutopia-resort", "the-ark-hotel", "tran-elite-hotel-apartments", "twenty4-hostel", "urusji-lodge", "victorious-eco-resort", "village-park-33", "yasmin-luxury-resort", "zeedijk-resort-nickerie", "ingipipa-park", "101-suites", "joah-inn-appartementen", "nazubs-suites", "rachels-apartments", "sheva-hotel", "tropical-breeze-apartments", "nr-1-spot", "yogh-hospitality", "tranquil-at-mamba-republiek", "knini-paati"] for b in [_make_biz(slug)] if b]
 
@@ -4572,7 +4573,7 @@ _CHAIN_GROUPS = {
     "Point Plaza":                   ["point-plaza-tammenga", "point-plaza-centrum", "point-plaza-noord"],
     "Optica":                        ["optica-johannes-mungrastraat", "optica-wilhelminastraat", "optica-lalla-rookhweg", "optica-verlengde-gemenelandsweg"],
     "Newtech":                       ["newtech-rainville", "newtech-zwartenhovenbrug"],
-    "KFC":                           ["kfc-ims", "kfc-kwatta", "kfc-lallarookh", "kfc-latour", "kfc-lelydorp", "kfc-waterkant", "kfc-wilhelminastraat"],
+    "KFC":                           ["kfc-ims", "kfc-kwatta", "kfc-lallarookh", "kfc-latour", "kfc-lelydorp", "kfc-waterkant", "kfc-wilhelminastraat", "kfc-meerzorg"],
     "Popeyes":                       ["popeyes-centrum", "popeyes-lelydorp", "popeyes-tbl", "popeyes-wilhelminastraat"],
     "Burger King":                   ["burger-king-centrum", "burger-king-latour"],
     "McDonald's":                    ["mcdonalds-centrum", "mcdonalds-hermitage-mall"],
@@ -8795,6 +8796,14 @@ def poi_card(item, badge_key="cuisine", eager=False, featured=False, cat_key=Non
     if chain_n:
         _left, _right = (_cat_lbl or area_lbl), tail_lbl
     meta_html = "".join(f"<span>{html_lib.escape(x)}</span>" for x in (_left, _right) if x)
+    _ordb = _order_brand(item.get("slug", ""))
+    if _ordb:
+        # Cirkel order line: the card says ordering is possible; the page has the button.
+        desc_html += ('<span class="ord-pill" style="display:inline-flex;align-items:center;gap:5px;'
+                      'align-self:flex-start;margin-top:4px;padding:3px 9px;border-radius:999px;'
+                      'background:#E7F7EC;color:#1A7F43;font-size:12px;font-weight:700;line-height:1.3">'
+                      + _LA_SVG["wa"].replace('width="20" height="20"', 'width="13" height="13"')
+                      + _l10n_span(_ORDER_TX["pill"]) + '</span>')
     return f"""
 {_open}
   {feat_html}
@@ -12700,6 +12709,97 @@ def _la_cta(href, icon, label, kind="wa"):
             + _LA_SVG[icon] + '<span>' + label + '</span></a>')
 
 
+# ── Order online (29 Oct 2026): Cirkel Group WhatsApp order lines ───────────
+# KFC and Pizza Hut take orders (delivery or pickup) through a WhatsApp line
+# run by Cirkel Group. The links carry Explore's referral code in the prefilled
+# text, so every order that starts here is counted for Explore. Copy the URLs
+# exactly as Cirkel supplied them (never rebuild or re-encode the text).
+# Every page of the brand (hub + branch pages) gets the block; the category
+# card gets an "Order online" pill. GA4: order_click {order_brand, order_place,
+# order_page} next to the generic whatsapp_click.
+_ORDER_LINES = {
+    "KFC":       "https://wa.me/5978445102?text=I%20WANT%20TO%20ORDER%20-%3E%202LSDB-LG0G2S",
+    "Pizza Hut": "https://wa.me/5978462140?text=I%20WANT%20TO%20ORDER%20-%3E%202LSDB-LG0G2S",
+}
+_ORDER_TX = {
+    "title": {
+        "KFC": {"en": "Order KFC online", "nl": "KFC online bestellen", "es": "Pide KFC en línea",
+                "zh": "在线订购 KFC", "fr": "Commander KFC en ligne", "pt": "Peça KFC online"},
+        "Pizza Hut": {"en": "Order Pizza Hut online", "nl": "Pizza Hut online bestellen",
+                      "es": "Pide Pizza Hut en línea", "zh": "在线订购 Pizza Hut",
+                      "fr": "Commander Pizza Hut en ligne", "pt": "Peça Pizza Hut online"},
+    },
+    "sub": {"en": "Delivery or pickup", "nl": "Bezorgen of afhalen", "es": "A domicilio o para recoger",
+            "zh": "外送或自取", "fr": "Livraison ou à emporter", "pt": "Entrega ou retirada"},
+    "btn": {"en": "Order on WhatsApp", "nl": "Bestel via WhatsApp", "es": "Pedir por WhatsApp",
+            "zh": "通过 WhatsApp 点餐", "fr": "Commander sur WhatsApp", "pt": "Pedir pelo WhatsApp"},
+    "note": {
+        "KFC": {"en": "Opens a WhatsApp chat with KFC Suriname’s order line. Choose delivery or pickup in the chat.",
+                "nl": "Opent een WhatsApp-chat met de bestellijn van KFC Suriname. Kies in de chat bezorgen of afhalen.",
+                "es": "Abre un chat de WhatsApp con la línea de pedidos de KFC Suriname. Elige entrega o recogida en el chat.",
+                "zh": "将打开 KFC Suriname 的 WhatsApp 订餐对话，可在对话中选择外送或自取。",
+                "fr": "Ouvre une discussion WhatsApp avec la ligne de commande de KFC Suriname. Choisissez la livraison ou le retrait dans la discussion.",
+                "pt": "Abre uma conversa no WhatsApp com a linha de pedidos do KFC Suriname. Escolha entrega ou retirada na conversa."},
+        "Pizza Hut": {"en": "Opens a WhatsApp chat with Pizza Hut Suriname’s order line. Choose delivery or pickup in the chat.",
+                      "nl": "Opent een WhatsApp-chat met de bestellijn van Pizza Hut Suriname. Kies in de chat bezorgen of afhalen.",
+                      "es": "Abre un chat de WhatsApp con la línea de pedidos de Pizza Hut Suriname. Elige entrega o recogida en el chat.",
+                      "zh": "将打开 Pizza Hut Suriname 的 WhatsApp 订餐对话，可在对话中选择外送或自取。",
+                      "fr": "Ouvre une discussion WhatsApp avec la ligne de commande de Pizza Hut Suriname. Choisissez la livraison ou le retrait dans la discussion.",
+                      "pt": "Abre uma conversa no WhatsApp com a linha de pedidos da Pizza Hut Suriname. Escolha entrega ou retirada na conversa."},
+    },
+    "pill": {"en": "Order online", "nl": "Online bestellen", "es": "Pedir en línea",
+             "zh": "在线点餐", "fr": "Commander en ligne", "pt": "Peça online"},
+}
+_ORDER_CSS = (
+    '<style>'
+    '.ord{border:1px solid #CFE4C8;background:#F2F9EF;border-radius:14px;padding:16px;margin:0 0 24px}'
+    '.ord-hd{display:flex;align-items:center;gap:12px;margin-bottom:12px}'
+    '.ord-ic{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;'
+    'background:#fff;color:var(--forest2,#2D6A4F);border:1px solid #CFE4C8}'
+    '.ord-t{font-weight:700;font-size:16px;line-height:1.25;color:#1f2a22;margin:0}'
+    '.ord-s{font-size:13.5px;color:#4b5a4f;margin:2px 0 0}'
+    '.ord-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:13px 14px;'
+    'border-radius:12px;background:#25D366;color:#fff!important;font-weight:700;font-size:15.5px;line-height:1.2;'
+    'text-decoration:none;transition:filter .15s}'
+    '.ord-btn:hover{filter:brightness(.95)}'
+    '.ord-btn:focus-visible{outline:2px solid var(--forest2,#2D6A4F);outline-offset:2px}'
+    '.ord-n{font-size:12.5px;line-height:1.45;color:#5f6b62;margin:10px 0 0}'
+    '.ord-d{display:none}'
+    '@media(min-width:1024px){.ord-m{display:none}.ord-d{display:block}}'
+    '.ord-side{margin:0 0 20px}'
+    '</style>'
+)
+_ORDER_JS = ('<script>document.addEventListener("click",function(e){var a=e.target&&e.target.closest?'
+             'e.target.closest("a[data-ob]"):null;if(!a)return;window.dataLayer=window.dataLayer||[];'
+             'if(!window.gtag){window.gtag=function(){window.dataLayer.push(arguments)}}'
+             'window.gtag("event","order_click",{order_brand:a.getAttribute("data-ob"),'
+             'order_place:a.getAttribute("data-op"),order_page:a.getAttribute("data-opg")})});</script>')
+_ORDER_SVG = ('<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+              'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="3"/>'
+              '<circle cx="18" cy="17" r="3"/><path d="M9 17h6l-2-7H9"/><path d="M13 10h3l2 7"/><path d="M15 6h3"/></svg>')
+
+
+def _order_brand(slug):
+    """Brand with an online order line for this listing slug, or None."""
+    br = _CHAIN_OF.get(slug)
+    return br if br in _ORDER_LINES else None
+
+
+def _order_card(brand, place, slug, cls=""):
+    """The order block. place: where it sits (GA4 order_place)."""
+    url = _ORDER_LINES[brand]
+    return ('<div class="ord' + (' ' + cls if cls else '') + '">'
+            '<div class="ord-hd"><span class="ord-ic">' + _ORDER_SVG + '</span><div>'
+            + _l10n_span(_ORDER_TX["title"][brand], "ord-t").replace('<span', '<p', 1).replace('</span>', '</p>')
+            + _l10n_span(_ORDER_TX["sub"], "ord-s").replace('<span', '<p', 1).replace('</span>', '</p>')
+            + '</div></div>'
+            '<a class="ord-btn" href="' + html_lib.escape(url, quote=True) + '" target="_blank" rel="noopener" '
+            'data-ob="' + html_lib.escape(brand, quote=True) + '" data-op="' + place + '" data-opg="'
+            + html_lib.escape(slug, quote=True) + '">' + _LA_SVG["wa"] + _l10n_span(_ORDER_TX["btn"]) + '</a>'
+            + _l10n_span(_ORDER_TX["note"][brand], "ord-n").replace('<span', '<p', 1).replace('</span>', '</p>')
+            + '</div>')
+
+
 def _lr(icon, value_html, href=None, act=None, link=False, newtab=True, aria=None, cls=""):
     """One contact row. With href the whole row is the link; act adds the round
     action icon on the right (decorative: the row itself carries the label)."""
@@ -13186,8 +13286,9 @@ def build_listing_page(slug, b):
     _wa      = _wa_number(phone)
     fb_url   = b.get("facebook") or _fb_url(_BIZ.get(slug, {}))
 
+    _ord = _order_brand(slug)
     la_cta = ""
-    if not _chain:
+    if not _chain and not _ord:
         if _wa:
             la_cta = _la_cta("https://wa.me/" + _wa, "wa", "Chat on WhatsApp")
         elif _has_web:
@@ -13387,6 +13488,13 @@ def build_listing_page(slug, b):
     if _is_branch:
         branch_note = '\n      ' + _chain_any["link_row"](slug)
 
+    _ord_m = _ord_d = ""
+    if _ord:
+        # Phones: right under the intro (the sidebar comes after the map there).
+        # Desktop: top of the sticky contact card.
+        _ord_m = '\n      ' + _ORDER_CSS + _order_card(_ord, "main", slug, "ord-m")
+        _ord_d = '\n        ' + _order_card(_ord, "side", slug, "ord-d ord-side")
+        desc_block = desc_block + _ord_m
     if _chain:
         left_top = ('\n      ' + desc_block + '\n      ' + _chain["chips"])
         map_html = ('\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">'
@@ -13428,6 +13536,7 @@ def build_listing_page(slug, b):
 
         '\n    <div class="lg:col-span-1">'
         '\n      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">'
+        + _ord_d
         + info_title
         + info_html +
         '\n      </div>'
@@ -13438,6 +13547,8 @@ def build_listing_page(slug, b):
     )
 
     related_html = _related_listings_html(slug, _sub, prefix="../../")
+    if _ord:
+        main += _ORDER_JS
     if 'class="oh-live"' in main:
         main += _OH_CSS + "<script>" + _oh_js() + "</script>"
     return head + hero + main + related_html + "\n" + footer_html(prefix="../../") + "\n</body>\n</html>"
