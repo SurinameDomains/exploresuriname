@@ -85,3 +85,24 @@ self.addEventListener('fetch', e => {
       .catch(() => caches.match(e.request).then(cached => cached || caches.match('/offline.html')))
   );
 });
+
+// Web Push (morning rain heads-up, 29 Oct 2026). Payload JSON: {title, body, url, tag}.
+self.addEventListener('push', e => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (err) { d = {}; }
+  e.waitUntil(self.registration.showNotification(d.title || 'Explore Suriname', {
+    body: d.body || '', icon: '/icons/icon-192.png', tag: d.tag || 'esr', data: { url: d.url || '/' }
+  }));
+});
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  let url = self.location.origin + '/';
+  try {
+    const u = new URL((e.notification.data && e.notification.data.url) || '/', self.location.origin);
+    if (u.origin === self.location.origin) url = u.href;   // only open our own pages
+  } catch (err) {}
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+    for (const c of list) if (c.url === url && 'focus' in c) return c.focus();
+    return self.clients.openWindow(url);
+  }));
+});
