@@ -57,8 +57,11 @@ def get(url, params=None, data=None, pause=0.0, tries=12):
         return json.loads(p.read_text(encoding="utf-8"))
     for i in range(tries):
         try:
-            r = (S.post(url, params=params, data=data, timeout=90, headers={"Accept": "application/sparql-results+json"})
-                 if data is not None else S.get(url, params=params, timeout=90))
+            # a retry opens a fresh connection: a pooled one that a proxy dropped keeps failing
+            cl = S if i == 0 else requests
+            hd = dict(S.headers)
+            r = (cl.post(url, params=params, data=data, timeout=90, headers={**hd, "Accept": "application/sparql-results+json"})
+                 if data is not None else cl.get(url, params=params, timeout=90, headers=hd))
             if r.status_code in (429, 500, 502, 503, 504):
                 ra = r.headers.get("retry-after")
                 time.sleep(float(ra) + 2 if (ra and ra.isdigit()) else min(90, 2 ** i + random.random()))
@@ -69,7 +72,7 @@ def get(url, params=None, data=None, pause=0.0, tries=12):
             if pause:
                 time.sleep(pause)
             return json.loads(t)
-        except (requests.ConnectionError, requests.Timeout):
+        except (requests.RequestException, ValueError):   # connection, timeout, proxy, broken body
             time.sleep(min(60, 2 ** i))
     raise RuntimeError("failed " + url)
 
@@ -815,6 +818,7 @@ def stage_vernacular():
 #   y  other published records: surveys, camera traps, checklists in papers
 #   c  iNaturalist research-grade records
 #   d  DNA-only records (barcodes, eDNA, sequence databases)
+#   x  (optional 6th) doubtful records (specimens/sightings), see stage_origin()
 # A species is UNCONFIRMED when it has no s/v/y and fewer than 3 iNaturalist
 # records: it stays on the checklist (marked), gets no profile page and is left
 # out of the headline counts. See ev_level() and flora_fauna_pages.py.
@@ -830,7 +834,7 @@ def ev_level(e):
     'C' iNaturalist only (3+ records), 'U' unconfirmed, '' no evidence data."""
     if not e:
         return ""
-    s_, v, y, c, d = e
+    s_, v, y, c = e[:4]
     if s_:
         return "S"
     if v:
@@ -876,18 +880,117 @@ def stage_evidence_fetch():
         s_, v, c, d = spec.get(k, 0), rev.get(k, 0), inat.get(k, 0), dnac.get(k, 0)
         y = max(0, n - s_ - v - c - d)
         out[k] = [s_, v, y, c, d]
-    save("evidence.json", {"date": datetime.date.today().isoformat(), "dna_datasets": sorted(dna), "species": out})
+    origin = stage_origin(out)
+    for k, (ns, nv, _why) in origin.items():   # doubtful records move to a 6th slot "x"
+        e = out[k]
+        out[k] = [max(0, e[0] - ns), max(0, e[1] - nv)] + e[2:5] + [ns + nv]
+    save("evidence.json", {"date": datetime.date.today().isoformat(), "dna_datasets": sorted(dna), "species": out,
+                           "origin": origin})
     print("  evidence for", len(out), "species;", Counter(ev_level(e) for e in out.values()))
 
 
+# Origin / range check (29 Oct 2026). Strong evidence must really come from Suriname.
+# Old collections hold specimens filed under "Surinam" that came from elsewhere
+# (trade specimens, mislabels: the brown-throated sloth's two "Suriname" specimens
+# are a skin from Maripasoula, French Guiana, and one with no locality at all), and
+# a single automatically approved sighting can name a species from far away (a
+# southern Brazilian armadillo at Brownsberg). For species that rest on at most 3
+# specimens and 2 reviewed sightings (nothing else), each specimen is read:
+#   - a specimen with a usable Suriname locality is trusted;
+#   - specimens labelled from another country/region do not count ("F");
+#   - otherwise, when the species' known range lies outside Suriname, its specimens
+#     and reviewed sightings are set aside as doubtful ("R"). Known range = country
+#     lists in GBIF species distributions (a list with 3+ countries, none SR), or
+#     GBIF records worldwide: 30+ outside Suriname and next to none (<= 0.2%) in
+#     Guyana and French Guiana.
+ORIGIN_MAX_SPEC = 3
+ORIGIN_MAX_REVIEWED = 2
+_FOREIGN_SP = re.compile(r"^(french guiana|guyane.*|guayana francesa|saint[- ]laurent.*|cayenne|maripasoula|guyana|demerara.*"
+                         r"|essequibo.*|berbice.*|roraima|amap[aá]|maranh[aã]o|amazonas|bahia|venezuela|bol[ií]var|colombia|peru"
+                         r"|ecuador|trinidad.*|jawa.*|java|sumatra.*|florida|mexico|martinique|guadeloupe)$", re.I)
+_FOREIGN_LOC = re.compile(r"^\s*(french guiana|guyane|guayane|brazil|brasil|guyana|british guiana|venezuela|trinidad|cayenne)\b"
+                          r"(?!\s*(shelf|basin|slope|border|frontier))", re.I)
+_SR_ONLY = re.compile(r"^\s*(surinam[e]?|suriname?,?\s*(south america)?|dutch guiana|d\.? guiana|netherlands guiana"
+                      r"|nederlandsch?e? guiana|holl\.? guiana|unknown|\?|\[not stated\]|inc\.sed\.sta\.|#n/d|south america"
+                      r"|s\.? ?am(erica)?\.?|-|none|)\s*\.?\s*$", re.I)
+
+
+def _spec_origin(o):
+    """'F' labelled from another country, 'L' usable Suriname locality, 'C' country only."""
+    sp_ = (o.get("stateProvince") or "").strip()
+    loc = (o.get("locality") or "").strip()
+    vl = (o.get("verbatimLocality") or "").strip()
+    if _FOREIGN_SP.match(sp_) or _FOREIGN_LOC.match(loc) or _FOREIGN_LOC.match(vl):
+        return "F"
+    if o.get("decimalLatitude") is not None:
+        return "L"
+    if any(t and not _SR_ONLY.match(t) for t in (sp_, loc, vl)):
+        return "L"
+    return "C"
+
+
+def _range_excludes_sr(k):
+    d = get(f"https://api.gbif.org/v1/species/{k}/distributions", dict(limit=300)) or {}
+    by_src = {}
+    for x in d.get("results", []):
+        if x.get("country"):
+            by_src.setdefault(x.get("source") or "", set()).add(x["country"])
+    allc = set().union(*by_src.values()) if by_src else set()
+    return bool(allc) and "SR" not in allc and any(len(c) >= 3 for c in by_src.values())
+
+
+def _occ_out_of_range(k):
+    r = get("https://api.gbif.org/v1/occurrence/search", dict(taxonKey=k, limit=0, facet="country", facetLimit=300)) or {}
+    f = r.get("facets") or []
+    c = {x["name"]: x["count"] for x in (f[0]["counts"] if f else [])}
+    outside = sum(c.values()) - c.get("SR", 0)
+    return outside >= 30 and c.get("GY", 0) + c.get("GF", 0) <= 0.002 * outside
+
+
+def stage_origin(ev):
+    """{key: [doubtful specimens, doubtful reviewed sightings, 'F'|'R']}."""
+    from concurrent.futures import ThreadPoolExecutor
+    todo = [k for k, e in ev.items() if (e[0] or e[1]) and e[0] <= ORIGIN_MAX_SPEC and e[1] <= ORIGIN_MAX_REVIEWED
+            and not e[2] and e[3] < EV_MIN_INAT]
+
+    def one(k):
+        s_, v = ev[k][0], ev[k][1]
+        try:
+            cl = []
+            if s_:
+                r = get("https://api.gbif.org/v1/occurrence/search",
+                        dict(country="SR", taxonKey=k, basisOfRecord=["PRESERVED_SPECIMEN", "MATERIAL_CITATION"], limit=20)) or {}
+                cl = [_spec_origin(o) for o in r.get("results", [])]
+                if "L" in cl:
+                    return k, None
+            if _range_excludes_sr(k) or _occ_out_of_range(k):
+                return k, [s_, v, "R"]
+            if cl and "C" not in cl:
+                return k, [s_, 0, "F"]
+            return k, None
+        except RuntimeError:   # unreachable after retries: leave the species as it is
+            print("  origin: no answer for", k, flush=True)
+            return k, None
+    out = {}
+    with ThreadPoolExecutor(6) as ex:
+        for i, (k, res) in enumerate(ex.map(one, todo)):
+            if res:
+                out[k] = res
+            if i % 1000 == 0:
+                print("  origin", i, "/", len(todo), flush=True)
+    print("  origin: doubtful records for", len(out), "species", Counter(v[2] for v in out.values()))
+    return out
+
+
 def _ev_sum(keys, ev):
-    tot, hit = [0, 0, 0, 0, 0], False
+    """[s, v, y, c, d] (+ x doubtful specimens, only when there are any)."""
+    tot, hit = [0, 0, 0, 0, 0, 0], False
     for k in keys:
         e = ev.get(str(k))
         if e:
             hit = True
-            tot = [a + b for a, b in zip(tot, e)]
-    return tot if hit else None
+            tot = [a + b for a, b in zip(tot, list(e) + [0] * (6 - len(e)))]
+    return (tot if tot[5] else tot[:5]) if hit else None
 
 
 def _anchor(r):
