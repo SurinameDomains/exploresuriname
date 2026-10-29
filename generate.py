@@ -33582,6 +33582,70 @@ if __name__ == "__main__":
             f'<p>This page has moved. <a href="{_tgt}">Click here</a>.</p>'
             '</body></html>', encoding="utf-8")
 
+    # ── Brand short links (29 Oct 2026) ──────────────────────────────────────
+    # A chain's hub URL carries a branch slug (/listing/kfc-ims/), which is no
+    # link to share. /kfc and /pizza-hut forward to the brand page (all
+    # locations + order button); /order-kfc and /order-pizza-hut go straight to
+    # the brand's WhatsApp order chat (Instagram bio, flyers, QR codes), after
+    # GA4 order_click {order_place: "direct"}. All noindex. build_i18n gives
+    # every language its own copy (/nl/kfc -> /nl/listing/kfc-ims/ via esr-stub).
+    _BRAND_SHORT = {"kfc": "KFC", "pizza-hut": "Pizza Hut"}
+    _OTX = {"opening": {"en": "Opening the WhatsApp order chat…",
+                        "nl": "De WhatsApp-bestelchat wordt geopend…",
+                        "es": "Abriendo el chat de pedidos de WhatsApp…",
+                        "zh": "正在打开 WhatsApp 订餐对话…",
+                        "fr": "Ouverture de la discussion de commande WhatsApp…",
+                        "pt": "Abrindo a conversa de pedidos no WhatsApp…"},
+            "tap": {"en": "Tap here if WhatsApp does not open",
+                    "nl": "Tik hier als WhatsApp niet opent",
+                    "es": "Toca aquí si WhatsApp no se abre",
+                    "zh": "如果 WhatsApp 没有打开，请点按这里",
+                    "fr": "Touchez ici si WhatsApp ne s’ouvre pas",
+                    "pt": "Toque aqui se o WhatsApp não abrir"},
+            "page": {"en": "All locations", "nl": "Alle vestigingen", "es": "Todas las sucursales",
+                     "zh": "所有网点", "fr": "Toutes les adresses", "pt": "Todas as unidades"}}
+    for _short, _sbrand in _BRAND_SHORT.items():
+        _hub = _CHAIN_PRIMARY.get(_sbrand)
+        if not _hub or _hub not in _BIZ:
+            continue
+        _tgt = f"/listing/{_hub}/"
+        _bn = html_lib.escape(_sbrand)
+        Path(f"{_short}.html").write_text(
+            '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
+            '<meta name="viewport" content="width=device-width, initial-scale=1">'
+            '<meta name="robots" content="noindex,follow">'
+            f'<meta name="esr-stub" content="{_tgt}">'
+            f'<meta http-equiv="refresh" content="0;url={_tgt}">'
+            f'<link rel="canonical" href="{SITE_URL}{_tgt}">'
+            f'<title>{_bn} Suriname | Explore Suriname</title></head><body>'
+            f'<p><a href="{_tgt}">{_bn}: ' + _l10n_span(_OTX["page"]) + '</a></p>'
+            '</body></html>', encoding="utf-8")
+        _wa = _ORDER_LINES.get(_sbrand)
+        if not _wa:
+            continue
+        _wae = html_lib.escape(_wa, quote=True)
+        Path(f"order-{_short}.html").write_text(
+            '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
+            '<meta name="viewport" content="width=device-width, initial-scale=1">'
+            '<meta name="robots" content="noindex,nofollow">'
+            f'<meta http-equiv="refresh" content="3;url={_wae}">'
+            f'<link rel="canonical" href="{SITE_URL}{_tgt}">'
+            f'<title>Order {_bn} on WhatsApp | Explore Suriname</title>'
+            '<script async src="https://www.googletagmanager.com/gtag/js?id=G-6LTYHZYNSF"></script>'
+            '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}'
+            'gtag("js",new Date());gtag("config","G-6LTYHZYNSF");'
+            'var u=' + json.dumps(_wa) + ',d=false;function go(){if(d)return;d=true;location.replace(u)}'
+            'gtag("event","order_click",{order_brand:' + json.dumps(_sbrand) + ',order_place:"direct",'
+            'order_page:' + json.dumps("order-" + _short) + ',transport_type:"beacon",event_callback:go});'
+            'setTimeout(go,1200);</script>'
+            '<style>body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;text-align:center;'
+            'padding:56px 16px;color:#1f2a22;background:#F7F3EA}a{color:#1A7F43;font-weight:700}</style>'
+            '</head><body>'
+            '<p>' + _l10n_span(_OTX["opening"]) + '</p>'
+            f'<p><a href="{_wae}">' + _l10n_span(_OTX["tap"]) + '</a></p>'
+            '</body></html>', encoding="utf-8")
+    print(f"  OK  brand short links: {', '.join('/' + s for s in _BRAND_SHORT)} (+ /order-*)")
+
     # ── Purge stale listing directories ─────────────────────────────────────
     # Any listing/ subdir not written in this build is stale and should go.
     _built_slugs = (set(_BIZ.keys()) | set(nat_slugs) | set(act_inline_slugs)
