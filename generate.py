@@ -1512,9 +1512,9 @@ _IMGS = {
     'petit-bouchon': 'https://socialsuriname.com/wp-content/uploads/2025/07/Petit-Bouchon.webp',
     'pineapple-tours': 'https://pineappletourssu.nl/onewebmedia/IMG-20241109-WA0001.jpg',
     'pitbull-fitness': 'https://scontent.forg3-1.fna.fbcdn.net/v/t39.30808-1/409898022_876712084455378_5901037744150437276_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=108&ccb=1-7&_nc_sid=f907e8&_nc_ohc=nPw7q115Yu0Q7kNvwG8dUr7&_nc_oc=AdonEtRgCvC043NiFSe3jhtqkgz51GAytf0KEzDX71qJY6YMfeVnTN51KchG9N0MCu0&_nc_zt=24&_nc_ht=scontent.forg3-1.fna&edm=AKsJ254EAAAA&_nc_gid=N3kp_6bAbir2Tz1PpphArA&oh=00_Af7C6yxK4pS6rYsjTVJ_AD_RgbHFhUj2h9_rLa8m95cq7g&oe=6A1C4347',
-    'pizza-hut-leysweg': 'https://www.pizzahut.sr/wp-content/uploads/2024/05/pizzahut-logo.png',
-    'pizza-hut-south': 'https://www.pizzahut.sr/wp-content/uploads/2024/05/pizzahut-logo.png',
-    'pizza-hut-wilhelminastraat': 'https://www.pizzahut.sr/wp-content/uploads/2024/05/pizzahut-logo.png',
+    'pizza-hut-leysweg': 'https://exploresuriname.com/images/pizza-hut-suriname.webp',
+    'pizza-hut-south': 'https://exploresuriname.com/images/pizza-hut-suriname.webp',
+    'pizza-hut-wilhelminastraat': 'https://exploresuriname.com/images/pizza-hut-suriname.webp',
     'pizza-mafia': 'https://socialsuriname.com/wp-content/uploads/2024/06/pizza-mafia.webp',
     'plantage-frederiksdorp': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Br%C3%BCckeStolkertsijver.jpeg/1280px-Br%C3%BCckeStolkertsijver.jpeg',
     'popeyes-centrum': 'https://www.surinamyp.com/img/sr/e/1683207102-18-popeyes.jpg',
@@ -4649,18 +4649,18 @@ for _cbrand, _cmem in _CHAIN_GROUPS.items():
 _BRAND_PAGES = {"KFC": "kfc", "Pizza Hut": "pizza-hut"}
 _BRAND_TX = {
     "desc": {
-        "KFC": {"en": "KFC has {n} restaurants in Suriname. Cirkel Group runs them and opened the first one on the Waterkant in Paramaribo in 1996. Order for delivery or pickup on WhatsApp, or choose a location below for its address, phone number, opening hours and directions.",
-                "nl": "KFC heeft {n} restaurants in Suriname. Ze worden gerund door Cirkel Group, die in 1996 het eerste restaurant aan de Waterkant in Paramaribo opende. Bestel via WhatsApp voor bezorgen of afhalen, of kies hieronder een vestiging voor het adres, telefoonnummer, de openingstijden en de route.",
-                "es": "KFC tiene {n} restaurantes en Surinam. Los gestiona Cirkel Group, que abrió el primero en el Waterkant de Paramaribo en 1996. Pide por WhatsApp a domicilio o para recoger, o elige una sucursal abajo para ver su dirección, teléfono, horario y cómo llegar.",
-                "zh": "KFC 在苏里南有 {n} 家餐厅，由 Cirkel Group 经营，1996 年在帕拉马里博 Waterkant 开设了第一家店。可通过 WhatsApp 点餐（外送或自取），或在下方选择一个网点查看地址、电话、营业时间和路线。",
-                "fr": "KFC compte {n} restaurants au Suriname. Ils sont exploités par Cirkel Group, qui a ouvert le premier sur le Waterkant à Paramaribo en 1996. Commandez sur WhatsApp en livraison ou à emporter, ou choisissez une adresse ci-dessous pour voir le téléphone, les horaires et l\u2019itinéraire.",
-                "pt": "O KFC tem {n} restaurantes no Suriname. Eles são administrados pela Cirkel Group, que abriu o primeiro na Waterkant, em Paramaribo, em 1996. Peça pelo WhatsApp para entrega ou retirada, ou escolha uma unidade abaixo para ver endereço, telefone, horário e como chegar."},
-        "Pizza Hut": {"en": "Pizza Hut has {n} restaurants in Suriname, run by Cirkel Group. Order for delivery or pickup on WhatsApp, or choose a location below for its address, phone number, opening hours and directions.",
-                      "nl": "Pizza Hut heeft {n} restaurants in Suriname, gerund door Cirkel Group. Bestel via WhatsApp voor bezorgen of afhalen, of kies hieronder een vestiging voor het adres, telefoonnummer, de openingstijden en de route.",
-                      "es": "Pizza Hut tiene {n} restaurantes en Surinam, gestionados por Cirkel Group. Pide por WhatsApp a domicilio o para recoger, o elige una sucursal abajo para ver su dirección, teléfono, horario y cómo llegar.",
-                      "zh": "Pizza Hut 在苏里南有 {n} 家餐厅，由 Cirkel Group 经营。可通过 WhatsApp 点餐（外送或自取），或在下方选择一个网点查看地址、电话、营业时间和路线。",
-                      "fr": "Pizza Hut compte {n} restaurants au Suriname, exploités par Cirkel Group. Commandez sur WhatsApp en livraison ou à emporter, ou choisissez une adresse ci-dessous pour voir le téléphone, les horaires et l\u2019itinéraire.",
-                      "pt": "A Pizza Hut tem {n} restaurantes no Suriname, administrados pela Cirkel Group. Peça pelo WhatsApp para entrega ou retirada, ou escolha uma unidade abaixo para ver endereço, telefone, horário e como chegar."},
+        "KFC": {"en": "KFC serves the Colonel\u2019s Original Recipe fried chicken, by the piece or in buckets to share, plus burgers, wraps, nuggets, boxes and combo meals with fries and other sides. You will find KFC across Paramaribo and in Lelydorp and Meerzorg. Order on WhatsApp and choose delivery or pickup.",
+                "nl": "KFC serveert de gebakken kip volgens het Original Recipe van de Colonel, per stuk of in buckets om te delen, plus burgers, wraps, nuggets, boxes en combomaaltijden met friet en andere bijgerechten. Je vindt KFC op verschillende plekken in Paramaribo en in Lelydorp en Meerzorg. Bestel via WhatsApp en kies bezorgen of afhalen.",
+                "es": "KFC sirve el pollo frito de la Receta Original del Coronel, por piezas o en cubetas para compartir, además de hamburguesas, wraps, nuggets, boxes y combos con papas fritas y otros acompañamientos. Hay KFC en varios puntos de Paramaribo y en Lelydorp y Meerzorg. Pide por WhatsApp y elige entrega a domicilio o recogida.",
+                "zh": "KFC 供应上校秘制配方炸鸡，可单块购买，也有适合分享的全家桶，另有汉堡、卷饼、鸡块、套餐盒和组合餐，搭配薯条等配菜。KFC 分布在帕拉马里博多处，以及 Lelydorp 和 Meerzorg。通过 WhatsApp 点餐，可选外送或自取。",
+                "fr": "KFC sert le poulet frit Original Recipe du Colonel, à la pièce ou en buckets à partager, ainsi que des burgers, des wraps, des nuggets, des box et des menus combo avec frites et autres accompagnements. Vous trouverez KFC dans plusieurs quartiers de Paramaribo, à Lelydorp et à Meerzorg. Commandez sur WhatsApp et choisissez la livraison ou le retrait.",
+                "pt": "O KFC serve o frango frito da Receita Original do Coronel, por pedaço ou em baldes para compartilhar, além de hambúrgueres, wraps, nuggets, boxes e combos com batata frita e outros acompanhamentos. Há KFC em vários pontos de Paramaribo e em Lelydorp e Meerzorg. Peça pelo WhatsApp e escolha entrega ou retirada."},
+        "Pizza Hut": {"en": "Pizza Hut makes pan pizzas and stuffed-crust pizzas with classic toppings, plus pasta, chicken and sides, to eat in, take away or have delivered. Find it on Wilhelminastraat, Johannes Mungrastraat and Leysweg in Paramaribo. Order on WhatsApp and choose delivery or pickup.",
+                      "nl": "Pizza Hut maakt pan pizza\u2019s en pizza\u2019s met gevulde korst en klassieke toppings, plus pasta, kip en bijgerechten, om ter plekke te eten, mee te nemen of te laten bezorgen. Je vindt Pizza Hut aan de Wilhelminastraat, de Johannes Mungrastraat en de Leysweg in Paramaribo. Bestel via WhatsApp en kies bezorgen of afhalen.",
+                      "es": "Pizza Hut prepara pizzas pan y pizzas de borde relleno con ingredientes clásicos, además de pasta, pollo y acompañamientos, para comer en el local, llevar o pedir a domicilio. Está en la Wilhelminastraat, la Johannes Mungrastraat y la Leysweg, en Paramaribo. Pide por WhatsApp y elige entrega a domicilio o recogida.",
+                      "zh": "Pizza Hut 供应铁盘披萨和芝心饼边披萨，搭配经典配料，另有意面、鸡肉和小食，可堂食、外带或外送。门店位于帕拉马里博的 Wilhelminastraat、Johannes Mungrastraat 和 Leysweg。通过 WhatsApp 点餐，可选外送或自取。",
+                      "fr": "Pizza Hut prépare des pizzas pan et des pizzas à croûte farcie aux garnitures classiques, ainsi que des pâtes, du poulet et des accompagnements, sur place, à emporter ou en livraison. Vous le trouverez sur la Wilhelminastraat, la Johannes Mungrastraat et la Leysweg à Paramaribo. Commandez sur WhatsApp et choisissez la livraison ou le retrait.",
+                      "pt": "A Pizza Hut faz pizzas pan e pizzas de borda recheada com coberturas clássicas, além de massas, frango e acompanhamentos, para comer no local, levar ou receber em casa. Fica na Wilhelminastraat, na Johannes Mungrastraat e na Leysweg, em Paramaribo. Peça pelo WhatsApp e escolha entrega ou retirada."},
     },
     "choose": {"en": "Choose a location", "nl": "Kies een vestiging", "es": "Elige una sucursal",
                "zh": "选择网点", "fr": "Choisissez une adresse", "pt": "Escolha uma unidade"},
@@ -4678,6 +4678,109 @@ _BRAND_TX = {
 def _brand_desc(brand, n):
     """{lang: text} brand intro with the live location count."""
     return {k: v.replace("{n}", str(n)) for k, v in _BRAND_TX["desc"].get(brand, {}).items()}
+
+
+
+# Brand pages v2 (29 Oct 2026): order-first layout. Images are the brands' own
+# (kfc.sr banner, pizzahut.sr photos), stored in images/. "shade" = hero overlay.
+_BRAND_STYLE = {
+    "KFC": {"color": "#C8102E", "logo": "images/kfc-suriname-logo.webp", "logo_bg": "#ffffff",
+            "hero": "images/kfc-suriname-hero.webp", "og": "images/kfc-suriname-og.jpg",
+            "shade": "linear-gradient(90deg,rgba(90,0,12,.55) 0%,rgba(90,0,12,.30) 60%,rgba(90,0,12,.15) 100%)"},
+    "Pizza Hut": {"color": "#B5121B", "logo": "images/pizza-hut-suriname-logo.webp", "logo_bg": "#C8102E",
+                  "hero": "images/pizza-hut-suriname-hero.webp", "og": "images/pizza-hut-suriname-og.jpg",
+                  "shade": "linear-gradient(90deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.55) 50%,rgba(0,0,0,.25) 100%)"},
+}
+_BRAND_TX.update({
+    "locs": {"en": "{n} locations in Suriname", "nl": "{n} vestigingen in Suriname", "es": "{n} sucursales en Surinam",
+             "zh": "苏里南 {n} 家网点", "fr": "{n} adresses au Suriname", "pt": "{n} unidades no Suriname"},
+    "see": {"en": "See all {n} locations", "nl": "Bekijk alle {n} vestigingen", "es": "Ver las {n} sucursales",
+            "zh": "查看全部 {n} 家网点", "fr": "Voir les {n} adresses", "pt": "Ver as {n} unidades"},
+    "p2": {"en": "Order in a WhatsApp chat", "nl": "Bestellen in een WhatsApp-chat", "es": "Pide en un chat de WhatsApp",
+           "zh": "在 WhatsApp 对话中点餐", "fr": "Commande dans une discussion WhatsApp", "pt": "Pedido em uma conversa no WhatsApp"},
+    "p3": {"en": "No app or account needed", "nl": "Geen app of account nodig", "es": "Sin app ni cuenta",
+           "zh": "无需下载应用或注册账号", "fr": "Sans application ni compte", "pt": "Sem app nem cadastro"},
+    "how": {"en": "How ordering works", "nl": "Zo werkt bestellen", "es": "Cómo pedir", "zh": "如何点餐",
+            "fr": "Comment commander", "pt": "Como pedir"},
+    "s1t": {"en": "Tap Order on WhatsApp", "nl": "Tik op Bestel via WhatsApp", "es": "Toca Pedir por WhatsApp",
+            "zh": "点按“通过 WhatsApp 点餐”", "fr": "Touchez Commander sur WhatsApp", "pt": "Toque em Pedir pelo WhatsApp"},
+    "s1d": {"en": "WhatsApp opens with your order message ready to send.",
+            "nl": "WhatsApp opent met je bestelbericht al klaar.",
+            "es": "WhatsApp se abre con tu mensaje de pedido listo para enviar.",
+            "zh": "WhatsApp 会打开，订餐消息已为你准备好。",
+            "fr": "WhatsApp s’ouvre avec votre message de commande prêt à envoyer.",
+            "pt": "O WhatsApp abre com a sua mensagem de pedido pronta para enviar."},
+    "s2t": {"en": "Send it and say what you want", "nl": "Verstuur het en zeg wat je wilt",
+            "es": "Envíalo y di lo que quieres", "zh": "发送消息并说明想点什么",
+            "fr": "Envoyez-le et dites ce que vous voulez", "pt": "Envie e diga o que você quer"},
+    "s2d": {"en": "Choose from the menu, right in the chat.", "nl": "Kies in de chat wat je wilt van het menu.",
+            "es": "Elige del menú, directamente en el chat.", "zh": "直接在对话中从菜单里选择。",
+            "fr": "Choisissez dans le menu, directement dans la discussion.", "pt": "Escolha no cardápio, direto na conversa."},
+    "s3d": {"en": "Have it delivered, or pick it up at the restaurant you choose.",
+            "nl": "Laat het bezorgen of haal het af bij het restaurant dat je kiest.",
+            "es": "Recíbelo a domicilio o recógelo en el restaurante que elijas.",
+            "zh": "选择外送到家，或到你选的餐厅自取。",
+            "fr": "Faites-vous livrer ou récupérez votre commande au restaurant de votre choix.",
+            "pt": "Receba em casa ou retire no restaurante que você escolher."},
+    "menu": {"en": "On the menu", "nl": "Op het menu", "es": "En el menú", "zh": "菜单", "fr": "Au menu", "pt": "No cardápio"},
+    "about": {"en": "About {b}", "nl": "Over {b}", "es": "Sobre {b}", "zh": "关于 {b}", "fr": "À propos de {b}", "pt": "Sobre {b}"},
+    "hungry": {"en": "Hungry? Order {b} now.", "nl": "Trek? Bestel nu {b}.", "es": "¿Con hambre? Pide {b} ahora.",
+               "zh": "饿了吗？现在就订 {b}。", "fr": "Une petite faim ? Commandez {b} maintenant.",
+               "pt": "Bateu a fome? Peça {b} agora."},
+    "st_t": {"en": "Order {b}", "nl": "{b} bestellen", "es": "Pide {b}", "zh": "订购 {b}", "fr": "Commander {b}", "pt": "Peça {b}"},
+    "st_b": {"en": "Order", "nl": "Bestel", "es": "Pedir", "zh": "点餐", "fr": "Commander", "pt": "Pedir"},
+    "tag": {
+        "KFC": {"en": "Fried chicken buckets, burgers and boxes, delivered or ready for pickup.",
+                "nl": "Kipbuckets, burgers en boxes, bezorgd of klaar om af te halen.",
+                "es": "Cubetas de pollo, hamburguesas y boxes, a domicilio o listos para recoger.",
+                "zh": "炸鸡全家桶、汉堡和套餐盒，外送到家或到店自取。",
+                "fr": "Buckets de poulet, burgers et box, livrés ou prêts à emporter.",
+                "pt": "Baldes de frango, hambúrgueres e boxes, com entrega ou prontos para retirar."},
+        "Pizza Hut": {"en": "Pan pizza, stuffed crust and more, delivered or ready for pickup.",
+                      "nl": "Pan pizza, gevulde korst en meer, bezorgd of klaar om af te halen.",
+                      "es": "Pizza pan, borde relleno y más, a domicilio o lista para recoger.",
+                      "zh": "铁盘披萨、芝心饼边等，外送到家或到店自取。",
+                      "fr": "Pizza pan, croûte farcie et plus encore, livrées ou prêtes à emporter.",
+                      "pt": "Pizza pan, borda recheada e mais, com entrega ou pronta para retirar."},
+    },
+    "items": {
+        "KFC": [
+            {"en": "Fried chicken buckets", "nl": "Kipbuckets", "es": "Cubetas de pollo frito", "zh": "炸鸡全家桶",
+             "fr": "Buckets de poulet frit", "pt": "Baldes de frango frito"},
+            {"en": "Burgers & wraps", "nl": "Burgers & wraps", "es": "Hamburguesas y wraps", "zh": "汉堡和卷饼",
+             "fr": "Burgers et wraps", "pt": "Hambúrgueres e wraps"},
+            {"en": "Boxes & combo meals", "nl": "Boxes & combomaaltijden", "es": "Boxes y combos", "zh": "套餐盒和组合餐",
+             "fr": "Box et menus combo", "pt": "Boxes e combos"},
+            {"en": "Nuggets", "nl": "Nuggets", "es": "Nuggets", "zh": "鸡块", "fr": "Nuggets", "pt": "Nuggets"},
+            {"en": "Fries & sides", "nl": "Friet & bijgerechten", "es": "Papas fritas y acompañamientos",
+             "zh": "薯条和配菜", "fr": "Frites et accompagnements", "pt": "Batata frita e acompanhamentos"},
+        ],
+        "Pizza Hut": [
+            {"en": "Pan pizza", "nl": "Pan pizza", "es": "Pizza pan", "zh": "铁盘披萨", "fr": "Pizza pan", "pt": "Pizza pan"},
+            {"en": "Stuffed crust", "nl": "Gevulde korst", "es": "Borde relleno", "zh": "芝心饼边",
+             "fr": "Croûte farcie", "pt": "Borda recheada"},
+            {"en": "Pasta", "nl": "Pasta", "es": "Pasta", "zh": "意面", "fr": "Pâtes", "pt": "Massas"},
+            {"en": "Chicken", "nl": "Kip", "es": "Pollo", "zh": "鸡肉", "fr": "Poulet", "pt": "Frango"},
+            {"en": "Sides & desserts", "nl": "Bijgerechten & desserts", "es": "Acompañamientos y postres",
+             "zh": "小食和甜点", "fr": "Accompagnements et desserts", "pt": "Acompanhamentos e sobremesas"},
+        ],
+    },
+    "title": {
+        "KFC": "Order KFC in Suriname: Delivery, Pickup & {n} Locations",
+        "Pizza Hut": "Order Pizza Hut in Suriname: Delivery, Pickup & {n} Locations",
+    },
+    "meta": "Order {b} in Suriname on WhatsApp for delivery or pickup. All {n} locations with addresses, phone numbers, opening hours and directions.",
+})
+
+
+def _bx(d, **kw):
+    """Fill {n}/{b} into every language of a text dict."""
+    out = {}
+    for k, v in d.items():
+        for a, b_ in kw.items():
+            v = v.replace("{" + a + "}", str(b_))
+        out[k] = v
+    return out
 
 
 def _branch_label(brand, b):
@@ -12888,6 +12991,148 @@ def _brand_list_html(brand):
             '<ul class="bl">' + "".join(rows) + '</ul>')
 
 
+_BRAND_PAGE_CSS = (
+    '<style>'
+    '.bh{position:relative;overflow:hidden;color:#fff;background:var(--bhc)}'
+    '.bh-bg{position:absolute;inset:0;background-size:cover;background-position:center}'
+    '.bh-sh{position:absolute;inset:0}'
+    '.bh-in{position:relative;max-width:64rem;margin:0 auto;padding:6.25rem 1.25rem 2.5rem}'
+    '.bh-row{display:flex;gap:22px;align-items:flex-start}'
+    '.bh-logo{flex:none;width:92px;height:92px;border-radius:20px;display:grid;place-items:center;'
+    'box-shadow:0 8px 24px rgba(0,0,0,.28);overflow:hidden}'
+    '.bh-logo img{width:78%;height:78%;object-fit:contain}'
+    '.bh-k{font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.9;margin:2px 0 6px}'
+    '.bh h1{font-size:2.6rem;line-height:1.05;font-weight:700;margin:0 0 10px;color:#fff}'
+    '.bh-t{font-size:1.08rem;line-height:1.5;max-width:34rem;margin:0;opacity:.95}'
+    '.bh-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:22px}'
+    '.bh-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 26px;border-radius:14px;'
+    'background:#25D366;color:#fff!important;font-weight:700;font-size:17px;line-height:1.2;text-decoration:none;'
+    'box-shadow:0 8px 22px rgba(0,0,0,.25);transition:filter .15s,transform .15s}'
+    '.bh-btn:hover{filter:brightness(.96);transform:translateY(-1px)}'
+    '.bh-btn svg{width:22px;height:22px}'
+    '.bh-2{display:inline-flex;align-items:center;gap:6px;padding:14px 18px;border-radius:14px;color:#fff!important;'
+    'font-weight:600;font-size:15px;text-decoration:none;border:1px solid rgba(255,255,255,.55);background:rgba(255,255,255,.08)}'
+    '.bh-2:hover{background:rgba(255,255,255,.16)}'
+    '.bh-btn:focus-visible,.bh-2:focus-visible{outline:3px solid #fff;outline-offset:2px}'
+    '.bh-pts{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;opacity:.95}'
+    '.bh-pts li{display:inline-flex;align-items:center;gap:7px}'
+    '.bh-pts svg{width:16px;height:16px;flex:none}'
+    '@media(max-width:639px){.bh-in{padding:5.5rem 1rem 2rem}.bh-row{flex-direction:column;gap:14px}'
+    '.bh-logo{width:68px;height:68px;border-radius:16px}.bh h1{font-size:2.15rem}'
+    '.bh-cta{flex-direction:column;align-items:stretch}.bh-btn,.bh-2{justify-content:center}}'
+    '.bh .crumb-wrap nav{margin-bottom:18px}'
+    '.bp-sec{margin:0 0 36px}'
+    '.bp-h{font-size:1.15rem;font-weight:700;color:#1f2a22;margin:0 0 14px}'
+    '.bp-steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;grid-template-columns:1fr}'
+    '@media(min-width:640px){.bp-steps{grid-template-columns:repeat(3,minmax(0,1fr))}}'
+    '.bp-steps li{background:var(--card,#fff);border:1px solid var(--bd-card,#EBE0CB);border-radius:14px;padding:16px}'
+    '.bp-no{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--bhc);color:#fff;'
+    'font-weight:700;font-size:14px;margin-bottom:10px}'
+    '.bp-st{display:block;font-weight:700;font-size:15px;line-height:1.3;color:#1f2a22;margin-bottom:4px}'
+    '.bp-sd{display:block;font-size:13.5px;line-height:1.45;color:#5f6b62}'
+    '.bp-menu{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}'
+    '.bp-menu li{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--card,#fff);'
+    'border:1px solid var(--bd-card,#EBE0CB);font-size:14px;color:#1f2a22}'
+    '.bp-menu li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--bhc)}'
+    '.bp-about{font-size:15.5px;line-height:1.65;color:#3a423c;margin:0}'
+    '.bp-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;'
+    'background:var(--bhc);color:#fff;border-radius:18px;padding:22px 24px;margin:0 0 12px}'
+    '.bp-cta p{margin:0;font-size:1.25rem;font-weight:700;line-height:1.3}'
+    '.bp-cta .bh-btn{box-shadow:none}'
+    '@media(max-width:639px){.bp-cta{flex-direction:column;align-items:stretch;text-align:center}}'
+    '.ob-st{position:fixed;left:0;right:0;bottom:0;z-index:55;display:flex;align-items:center;gap:12px;background:#fff;'
+    'border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -6px 24px rgba(0,0,0,.12);padding:10px 14px;'
+    'padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));transform:translateY(130%);'
+    'transition:transform .3s cubic-bezier(.22,1,.36,1)}'
+    '.ob-st.on{transform:none}'
+    '@media(min-width:1024px){.ob-st{display:none}}'
+    '@media(prefers-reduced-motion:reduce){.ob-st{transition:none}}'
+    '.ob-lg{flex:none;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;overflow:hidden}'
+    '.ob-lg img{width:80%;height:80%;object-fit:contain}'
+    '.ob-tx{flex:1;min-width:0;line-height:1.25}'
+    '.ob-tt{display:block;font-weight:700;font-size:15px;color:#1f2a22}'
+    '.ob-ts{display:block;font-size:12.5px;color:#5f6b62}'
+    '.ob-st .bh-btn{padding:11px 18px;font-size:15px;box-shadow:none}'
+    '</style>'
+)
+_BP_CHECK = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" '
+             'stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>')
+_BP_JS = ('<script>(function(){function init(){var s=document.getElementById("ob-st"),h=document.querySelector(".bh-btn"),'
+          'f=document.querySelector("footer"),b=document.querySelector(".bp-cta");'
+          'if(!s||!h||!("IntersectionObserver" in window))return;var hv=true,fv=false,bv=false;'
+          'function up(){var pw=document.querySelector("#pwa-bar.pwa-show"),on=!hv&&!fv&&!bv&&!pw;'
+          's.classList.toggle("on",on);s.setAttribute("aria-hidden",on?"false":"true");'
+          'var a=s.querySelector("a");if(a)a.tabIndex=on?0:-1}'
+          'function io(el,cb){if(el)new IntersectionObserver(function(e){cb(e[e.length-1].isIntersecting);up()}).observe(el)}'
+          'io(h,function(v){hv=v});io(f,function(v){fv=v});io(b,function(v){bv=v});setInterval(up,1500);up()}'
+          'if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init()})();</script>')
+
+
+def _brand_order_btn(brand, place, short, label_key="btn", cls="bh-btn"):
+    lbl = _ORDER_TX["btn"] if label_key == "btn" else _BRAND_TX["st_b"]
+    return ('<a class="' + cls + '" href="' + html_lib.escape(_ORDER_LINES[brand], quote=True) + '" target="_blank" '
+            'rel="noopener" data-ob="' + html_lib.escape(brand, quote=True) + '" data-op="' + place + '" data-opg="'
+            + short + '">' + _LA_SVG["wa"] + _l10n_span(lbl) + '</a>')
+
+
+def _brand_hero_html(brand, n, short, crumb):
+    st = _BRAND_STYLE[brand]
+    can_order = brand in _ORDER_LINES
+    pts = [_ORDER_TX["sub"], _BRAND_TX["p2"], _BRAND_TX["p3"]] if can_order else []
+    return (
+        '\n<section class="bh" style="--bhc:' + st["color"] + '">'
+        '<div class="bh-bg" style="background-image:url(/' + st["hero"] + ')"></div>'
+        '<div class="bh-sh" style="background:' + st["shade"] + '"></div>'
+        '<div class="bh-in"><div class="crumb-wrap">' + crumb + '</div>'
+        '<div class="bh-row">'
+        '<div class="bh-logo" style="background:' + st["logo_bg"] + '"><img src="/' + st["logo"] + '" alt="'
+        + html_lib.escape(brand, quote=True) + ' logo" width="72" height="72"></div>'
+        '<div class="bh-main">'
+        '<p class="bh-k">' + _l10n_span(_BRAND_TX["type"]) + ' &middot; ' + _l10n_span(_bx(_BRAND_TX["locs"], n=n)) + '</p>'
+        '<h1 class="serif" translate="no">' + html_lib.escape(brand) + ' Suriname</h1>'
+        '<p class="bh-t">' + _l10n_span(_BRAND_TX["tag"][brand]) + '</p>'
+        '<div class="bh-cta">' + (_brand_order_btn(brand, "hero", short) if can_order else '')
+        + '<a class="bh-2" href="#locations">' + _l10n_span(_bx(_BRAND_TX["see"], n=n)) + '</a></div>'
+        + ('<ul class="bh-pts">' + "".join('<li>' + _BP_CHECK + _l10n_span(p) + '</li>' for p in pts) + '</ul>' if pts else '')
+        + '</div></div></div></section>')
+
+
+def _brand_body_html(brand, n, short):
+    st = _BRAND_STYLE[brand]
+    can_order = brand in _ORDER_LINES
+    out = '<div style="--bhc:' + st["color"] + '">'
+    if can_order:
+        steps = [(_BRAND_TX["s1t"], _BRAND_TX["s1d"]), (_BRAND_TX["s2t"], _BRAND_TX["s2d"]),
+                 (_ORDER_TX["sub"], _BRAND_TX["s3d"])]
+        out += ('<section class="bp-sec"><h2 class="bp-h">' + _l10n_span(_BRAND_TX["how"]) + '</h2><ol class="bp-steps">'
+                + "".join('<li><span class="bp-no">' + str(i + 1) + '</span>'
+                          + _l10n_span(t, "bp-st") + _l10n_span(d, "bp-sd") + '</li>' for i, (t, d) in enumerate(steps))
+                + '</ol></section>')
+    items = _BRAND_TX["items"].get(brand) or []
+    if items:
+        out += ('<section class="bp-sec"><h2 class="bp-h">' + _l10n_span(_BRAND_TX["menu"]) + '</h2><ul class="bp-menu">'
+                + "".join('<li>' + _l10n_span(it) + '</li>' for it in items) + '</ul></section>')
+    out += '<section class="bp-sec" id="locations" style="scroll-margin-top:90px">' + _brand_list_html(brand) + '</section>'
+    desc = _BRAND_TX["desc"].get(brand)
+    if desc:
+        out += ('<section class="bp-sec"><h2 class="bp-h">' + _l10n_span(_bx(_BRAND_TX["about"], b=brand)) + '</h2>'
+                '<p class="bp-about">' + _l10n_span(_brand_desc(brand, n)) + '</p></section>')
+    if can_order:
+        out += ('<div class="bp-cta"><p>' + _l10n_span(_bx(_BRAND_TX["hungry"], b=brand)) + '</p>'
+                + _brand_order_btn(brand, "bottom", short) + '</div>')
+    return out + '</div>'
+
+
+def _brand_sticky_html(brand, short):
+    if brand not in _ORDER_LINES:
+        return ""
+    st = _BRAND_STYLE[brand]
+    return ('<div class="ob-st" id="ob-st" aria-hidden="true">'
+            '<span class="ob-lg" style="background:' + st["logo_bg"] + '"><img src="/' + st["logo"] + '" alt="" width="32" height="32"></span>'
+            '<span class="ob-tx">' + _l10n_span(_bx(_BRAND_TX["st_t"], b=brand), "ob-tt") + _l10n_span(_ORDER_TX["sub"], "ob-ts") + '</span>'
+            + _brand_order_btn(brand, "sticky", short, label_key="short") + '</div>' + _BP_JS)
+
+
 def _order_brand(slug):
     """Brand with an online order line for this listing slug, or None."""
     br = _CHAIN_OF.get(slug)
@@ -13373,6 +13618,8 @@ def build_listing_page(slug, b, brand_short=None):
     maps_embed = "https://maps.google.com/maps?q=" + maps_q + "&output=embed&hl=en"
     maps_link  = "https://www.google.com/maps/search/?api=1&query=" + maps_q
     og_img     = _og_share_image(img)
+    if brand_short and _brand in _BRAND_STYLE:
+        og_img = SITE_URL + "/" + _BRAND_STYLE[_brand]["og"]
 
     hero_style = ("background:url(" + html_lib.escape(img) + ") center/cover no-repeat"
                   if img else "background:var(--forest)")
@@ -13574,6 +13821,11 @@ def build_listing_page(slug, b, brand_short=None):
             desc_e = html_lib.escape(_meta_trunc(
                 f"All {_n} {_brand} locations in Suriname: addresses, phone numbers, opening hours and directions."
                 + (" Order for delivery or pickup on WhatsApp." if _brand in _ORDER_LINES else ""), 158))
+            if _brand in _BRAND_STYLE and _brand in _ORDER_LINES:
+                desc_e = html_lib.escape(_meta_trunc(
+                    _BRAND_TX["meta"].replace("{b}", _brand).replace("{n}", str(_n)), 158))
+                seo_page_title = html_lib.escape(_BRAND_TX["title"][_brand].replace("{n}", str(_n)))
+                seo_title_tag = seo_page_title + (_brand_sfx if len(html_lib.unescape(seo_page_title)) + len(_brand_sfx) <= 62 else "")
 
     head = (
         PAGE_HEAD +
@@ -13615,6 +13867,10 @@ def build_listing_page(slug, b, brand_short=None):
         '\n</div>'
     )
 
+    if brand_short and _chain and _brand in _BRAND_STYLE:
+        hero = ('\n<body class="bg-gray-50 overflow-x-hidden">\n' + nav_html(prefix=_pfx) + _BRAND_PAGE_CSS
+                + _brand_hero_html(_brand, _chain["count"], brand_short,
+                                   _crumb(back_file, back_label, name_e, prefix=_pfx)))
     share_btn = _share_button(page_url, raw_name, link=True)
     la_html = (_LA_CSS + la_cta + _la_list(la_rows)
                + '<div class="la-foot">' + share_btn + '</div>')
@@ -13670,6 +13926,8 @@ def build_listing_page(slug, b, brand_short=None):
     if brand_short and _chain:
         # Brand page: no location selected. Every location links to its own page.
         left_top = '\n      ' + desc_block + '\n      ' + _brand_list_html(_brand)
+        if _brand in _BRAND_STYLE:
+            left_top = '\n      ' + _ORDER_CSS + _brand_body_html(_brand, _chain["count"], brand_short)
         map_html = ""
         info_title = ""
         info_html = '\n        ' + la_html
@@ -13704,6 +13962,8 @@ def build_listing_page(slug, b, brand_short=None):
     related_html = _related_listings_html(slug, _sub, prefix=_pfx)
     if _ord:
         main += _ORDER_JS
+    if brand_short and _chain and _brand in _BRAND_STYLE:
+        main += _brand_sticky_html(_brand, brand_short)
     if 'class="oh-live"' in main:
         main += _OH_CSS + "<script>" + _oh_js() + "</script>"
     return head + hero + main + related_html + "\n" + footer_html(prefix=_pfx) + "\n</body>\n</html>"
