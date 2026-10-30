@@ -151,7 +151,7 @@ if CACHE_FILE.exists():
 # machine-filled). translations.json wins wherever it has the same key.
 _EVENT_PAGE_I18N = {
     "Events in Suriname {#}: What's On This Week | Explore Suriname": {
-        "nl": "Evenementen in Suriname {#}: wat te doen deze week | Explore Suriname",
+        "nl": "Evenementen in Suriname {#}: agenda en wat te doen deze week",
         "es": "Eventos en Surinam {#}: qué hacer esta semana | Explore Suriname",
         "zh": "{#} 年苏里南活动：本周看点 | Explore Suriname",
         "fr": "Événements au Suriname en {#}\u00a0: que faire cette semaine | Explore Suriname",
@@ -826,8 +826,25 @@ def _loc_part_zh(p):
              "Featured": "精选", "Daily": "每天"}
     if p in fixed:
         return fixed[p]
-    m = re.fullmatch(rf"happening now, until ({_DS}) (\d{{1,2}}) ({_MS})", p)
+    m = re.fullmatch(rf"(\d{{1,2}}) ({_MS}) – (\d{{1,2}}) ({_MS})", p)
+    if m: return f"{ms(m[2])}月{m[1]}日 – {ms(m[4])}月{m[3]}日"
+    m = re.fullmatch(rf"[Hh]appening now, until ({_DS}) (\d{{1,2}}) ({_MS})", p)
     if m: return f"正在进行，至 {ms(m[3])}月{m[2]}日 {ds(m[1])}"
+    m = re.fullmatch(rf"(\d{{1,2}}) ({_MS}) to (\d{{1,2}}) ({_MS}) (\d{{4}})", p)
+    if m:
+        a, z, y = ms(m[2]), ms(m[4]), int(m[5])
+        return (f"{y - 1}年{a}月{m[1]}日至{y}年{z}月{m[3]}日" if a > z      # across New Year
+                else f"{y}年{a}月{m[1]}日至{z}月{m[3]}日")
+    m = re.fullmatch(rf"Every ((?:{_DS})(?:, (?:{_DS}))* & (?:{_DS}))(?:, next on (.+))?", p)
+    if m:
+        dd = [ds(x) for x in re.split(r", | & ", m[1])]
+        head = "每" + "、".join(dd[:-1]) + "和" + dd[-1]
+        if m[2]:
+            nxt = _loc_part_zh(m[2])
+            if nxt is None:
+                return None
+            head += f"，下一场：{nxt}"
+        return head
     m = re.fullmatch(rf"Every ((?:{_DL})|(?:{_DS})(?:–(?:{_DS}))?)(?:, next on (.+))?", p)
     if m:
         w = m[1]
@@ -926,10 +943,27 @@ def _loc_part_fp(p, lang):
              "Featured": ("À la une", "Destaque"), "Daily": ("Tous les jours", "Diariamente")}
     if p in fixed:
         return fixed[p][0 if fr else 1]
-    m = re.fullmatch(rf"happening now, until ({_DS}) (\d{{1,2}}) ({_MS})", p)
+    m = re.fullmatch(rf"(\d{{1,2}}) ({_MS}) – (\d{{1,2}}) ({_MS})", p)
+    if m: return (f"{_fp_day(m[1], lang)} {ms(m[2])} – {_fp_day(m[3], lang)} {ms(m[4])}" if fr
+                  else f"{int(m[1])} de {ms(m[2])} – {int(m[3])} de {ms(m[4])}")
+    m = re.fullmatch(rf"([Hh])appening now, until ({_DS}) (\d{{1,2}}) ({_MS})", p)
     if m:
-        d = _fp_short(ds(m[1]), m[2], ms(m[3]), lang)
-        return f"en cours, jusqu'au {d}" if fr else f"acontecendo agora, até {d}"
+        d = _fp_short(ds(m[2]), m[3], ms(m[4]), lang)
+        t = f"en cours, jusqu'au {d}" if fr else f"acontecendo agora, até {d}"
+        return _cap(t) if m[1] == "H" else t
+    m = re.fullmatch(rf"(\d{{1,2}}) ({_MS}) to (\d{{1,2}}) ({_MS}) (\d{{4}})", p)
+    if m: return (f"du {_fp_day(m[1], lang)} {ms(m[2])} au {_fp_day(m[3], lang)} {ms(m[4])} {m[5]}" if fr
+                  else f"de {int(m[1])} de {ms(m[2])} a {int(m[3])} de {ms(m[4])} de {m[5]}")
+    m = re.fullmatch(rf"Every ((?:{_DS})(?:, (?:{_DS}))* & (?:{_DS}))(?:, next on (.+))?", p)
+    if m:
+        dd = [ds(x) for x in re.split(r", | & ", m[1])]
+        head = ("Chaque " if fr else "Toda ") + ", ".join(dd[:-1]) + (" et " if fr else " e ") + dd[-1]
+        if m[2]:
+            nxt = _loc_part_fp(m[2], lang)
+            if nxt is None:
+                return None
+            head += (f", prochaine date{_NB}: {nxt}" if fr else f", próxima data: {nxt}")
+        return head
     m = re.fullmatch(rf"Every ((?:{_DL})|(?:{_DS})(?:–(?:{_DS}))?)(?:, next on (.+))?", p)
     if m:
         w = m[1]
@@ -989,9 +1023,26 @@ def _loc_part(p, lang):
              "Featured": ("Uitgelicht", "Destacado"), "Daily": ("Dagelijks", "Diario")}
     if p in fixed:
         return fixed[p][1 if es else 0]
-    m = re.fullmatch(rf"happening now, until ({_DS}) (\d{{1,2}}) ({_MS})", p)
-    if m: return (f"en curso, hasta el {ds(m[1])} {m[2]} {ms(m[3])}" if es
-                  else f"nu bezig, tot {ds(m[1])} {m[2]} {ms(m[3])}")
+    m = re.fullmatch(rf"(\d{{1,2}}) ({_MS}) – (\d{{1,2}}) ({_MS})", p)
+    if m: return f"{m[1]} {ms(m[2])} – {m[3]} {ms(m[4])}"
+    m = re.fullmatch(rf"([Hh])appening now, until ({_DS}) (\d{{1,2}}) ({_MS})", p)
+    if m:
+        t = (f"en curso, hasta el {ds(m[2])} {m[3]} {ms(m[4])}" if es
+             else f"nu bezig, tot {ds(m[2])} {m[3]} {ms(m[4])}")
+        return _cap(t) if m[1] == "H" else t
+    m = re.fullmatch(rf"(\d{{1,2}}) ({_MS}) to (\d{{1,2}}) ({_MS}) (\d{{4}})", p)
+    if m: return (f"del {m[1]} de {ms(m[2])} al {m[3]} de {ms(m[4])} de {m[5]}" if es
+                  else f"{m[1]} {ms(m[2])} t/m {m[3]} {ms(m[4])} {m[5]}")
+    m = re.fullmatch(rf"Every ((?:{_DS})(?:, (?:{_DS}))* & (?:{_DS}))(?:, next on (.+))?", p)
+    if m:
+        dd = [ds(x) for x in re.split(r", | & ", m[1])]
+        head = ("Cada " if es else "Elke ") + ", ".join(dd[:-1]) + (" y " if es else " & ") + dd[-1]
+        if m[2]:
+            nxt = _loc_part(m[2], lang)
+            if nxt is None:
+                return None
+            head += (f", el próximo: {nxt}" if es else f", volgende op {nxt}")
+        return head
     m = re.fullmatch(rf"Every ((?:{_DL})|(?:{_DS})(?:–(?:{_DS}))?)(?:, next on (.+))?", p)
     if m:
         w = m[1]
@@ -1911,6 +1962,10 @@ def localize_jsonld(soup, lang: str):
             for _it in (node.get("itemListElement") or []):
                 if isinstance(_it, dict) and isinstance(_it.get("name"), str):
                     _it["name"] = tr(_it["name"], lang)
+        elif _t in ("WebPage", "CollectionPage"):
+            for _k in ("name", "description"):
+                if isinstance(node.get(_k), str) and translatable(node[_k]):
+                    node[_k] = tr(node[_k], lang)
         elif _t == "FAQPage":
             for _q in (node.get("mainEntity") or []):
                 if isinstance(_q, dict):

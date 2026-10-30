@@ -359,6 +359,61 @@ _EVENT_SUBS_OK = False      # True only when the approved-events feed answered
 # Event pages (Oct 2026): build_events_page() fills these; main writes the files
 # with the other pages and build_sitemap() lists the slugs.
 _EVENT_PAGE_FILES: dict = {}
+# Venue <-> listing links (30 Oct 2026): build_events_page() fills this with
+# listing slug -> [(start date, event name, date label, event page slug)], and
+# build_listing_page() shows them as "Upcoming events here".
+_VENUE_EVENTS: dict = {}
+# Venue texts that name a listing differently (normalised text -> listing slug).
+# Only certain pairs: a wrong venue link is worse than none.
+_EV_VENUE_ALIAS = {
+    "torarica": "torarica-resort",
+    "hotel torarica": "torarica-resort",
+    "hard rock cafe": "hard-rock-cafe-suriname",
+    "next club": "next-club-suriname",
+    "mj lounge": "mj-lounge-club",
+    "choi s lelydorp": "chois-supermarkt-lelydorp",
+    "ondernemershuis paramaribo": "ondernemershuis",
+    "marinalex": "marinalex-resort-waterpark",
+}
+
+
+def _ev_norm(s):
+    import unicodedata as _ud
+    s = _ud.normalize("NFKD", s or "").encode("ascii", "ignore").decode().lower().replace("&", " and ")
+    s = re.sub(r"[^a-z0-9]+", " ", s).strip()
+    return re.sub(r"^the ", "", s)
+
+
+_EV_NAME_IDX = None
+
+
+def _event_venue_slug(loc):
+    """(listing slug, the part of loc that named it) for an event location, or ("", "").
+    Exact name, then the alias list, then a listing name of 2+ words inside the text.
+    A name shared by several listings (chains) never matches."""
+    global _EV_NAME_IDX
+    if _EV_NAME_IDX is None:
+        _idx = {}
+        for _s, _b in _BIZ.items():
+            _n = _ev_norm(_b.get("name", ""))
+            if _n:
+                _idx.setdefault(_n, []).append(_s)
+        _EV_NAME_IDX = {k: v[0] for k, v in _idx.items() if len(v) == 1}
+    for part in [p.strip() for p in re.split(r",|\||\s-\s", loc or "")][:3]:
+        n = _ev_norm(part)
+        if not n:
+            continue
+        if n in _EV_NAME_IDX:
+            return _EV_NAME_IDX[n], part
+        if n in _EV_VENUE_ALIAS and _EV_VENUE_ALIAS[n] in _BIZ:
+            return _EV_VENUE_ALIAS[n], part
+        best = ""
+        for k in _EV_NAME_IDX:
+            if len(k) >= 8 and " " in k and len(k) > len(best) and re.search(r"(^| )" + re.escape(k) + r"( |$)", n):
+                best = k
+        if best:
+            return _EV_NAME_IDX[best], part
+    return "", ""
 # Homepage live data (Phase 1, 14 Oct 2026): build_events_page() fills this with the
 # resolved upcoming events / weekend window / spotlight so write_home_live() and the
 # homepage can use them without resolving events twice.
@@ -13599,6 +13654,21 @@ def _listing_title(raw_name, place, hours, phone):
     return raw_name + ", " + place + ": " + intent
 
 
+def _venue_events_html(slug, pfx="../../"):
+    """"Upcoming events here" on a venue's listing page (from build_events_page)."""
+    evs = sorted(_VENUE_EVENTS.get(slug) or [], key=lambda x: x[0])[:5]
+    if not evs:
+        return ""
+    items = "".join(
+        '<li style="margin:0 0 .7rem"><a href="' + pfx + 'event-' + s + '" style="font-weight:600;color:var(--forest2)">'
+        + html_lib.escape(n) + '</a><br><span style="font-size:.85rem;color:#4b5563">' + html_lib.escape(lbl) + '</span></li>'
+        for _d, n, lbl, s in evs)
+    return ('\n      <section style="margin:0 0 2rem"><h2 class="text-lg font-bold text-gray-900 mb-3">Upcoming events here</h2>'
+            '<ul style="list-style:none;margin:0;padding:0">' + items + '</ul>'
+            '<a href="' + pfx + 'events.html" style="font-size:.85rem;font-weight:600;color:var(--forest2)">'
+            'See the full events calendar</a></section>')
+
+
 def build_listing_page(slug, b, brand_short=None):
     raw_name = b.get("name", slug)
     desc     = b.get("description", "")
@@ -14139,7 +14209,7 @@ def build_listing_page(slug, b, brand_short=None):
                      '\n        </div>' + _chain["script"])
     else:
         left_top = ('\n      ' + desc_block + branch_note + (_hours_table_html(hours) if hours else "") +
-                    ((_tt["body"] + _tt["foot"]) if _tt else "") +
+                    ((_tt["body"] + _tt["foot"]) if _tt else "") + _venue_events_html(slug, _pfx) +
                     '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>')
         map_html = ('\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">'
                     '\n        <iframe src="' + maps_embed + '" width="100%" height="100%"'
@@ -15217,6 +15287,7 @@ def build_events_page():
             "website": _cs.get("website", ""),
             "organizer": _cs.get("organizer", ""),
             "free": bool(_cs.get("free")),
+            "price": (_cs.get("price") or "").strip(),
             "image": _cs.get("image", ""),
             "community": True,
             # Raw form values, used only by the card layout (filter bucket and
@@ -15317,7 +15388,7 @@ def build_events_page():
                 "&text=" + _up.quote(name + " (Suriname)")
                 + "&dates=" + st.strftime("%Y%m%d") + "/" + (en + _td(days=1)).strftime("%Y%m%d")
                 + "&location=" + _up.quote(loc or "Suriname")
-                + "&details=" + _up.quote(desc + " Full calendar: " + SITE_URL + "/events.html"))
+                + "&details=" + _up.quote(desc + " Full calendar: " + SITE_URL + "/events"))
 
     # ── Resolve every event to its next occurrence ──────────────────────────
     resolved = []  # (sort_date, confirmed, date_label, start, end, ev)
@@ -15404,6 +15475,39 @@ def build_events_page():
     resolved.sort(key=lambda t: (t[0], t[5].get("name", "")))
     _horizon = today + _td(days=370)
     resolved = [r for r in resolved if r[0] <= _horizon]
+
+    _LD_DISTRICTS = ("Paramaribo", "Wanica", "Commewijne", "Saramacca", "Nickerie",
+                     "Coronie", "Marowijne", "Brokopondo", "Sipaliwini", "Para")
+
+    def _ld_addr(loc):
+        """PostalAddress for Event JSON-LD; adds the district when the text names one."""
+        a = {"@type": "PostalAddress", "addressCountry": "SR"}
+        d = next((x for x in _LD_DISTRICTS if re.search(r"\b" + x + r"\b", loc or "")), "")
+        if d:
+            a["addressLocality"] = d
+        return a
+
+    def _ev_offer(ev, url):
+        """schema.org Offer for an event, or None. Never guesses: free events get
+        price 0, a price field holding one amount with a currency gets that amount,
+        anything else ("750", "$180" (SRD or USD?), "SRD 500 early-bird, SRD 750 at the door") gets none."""
+        if not url:
+            return None
+        raw = (ev.get("price") or "").strip()
+        if ev.get("free") is True or re.fullmatch(r"(?i)(free|gratis)(\s+(entry|entrance|toegang|entree))?!?", raw):
+            amt, cur = "0", "SRD"
+        else:
+            m = re.fullmatch(r"(?i)(SRD|USD|US\$|EUR|\u20ac)\s*(\d{1,3}(?:[.,]\d{3})+|\d+)(?:[.,](\d{2}))?\s*(?:,-)?", raw)
+            if not m:
+                return None
+            c = m.group(1).upper()
+            cur = "USD" if c in ("USD", "US$") else ("EUR" if c in ("EUR", "\u20ac") else "SRD")
+            whole = int(re.sub(r"[.,]", "", m.group(2)))
+            if not 0 < whole < 1000000:
+                return None
+            amt = str(whole) + ("." + m.group(3) if m.group(3) and m.group(3) != "00" else "")
+        return {"@type": "Offer", "url": url, "price": amt, "priceCurrency": cur,
+                "availability": "https://schema.org/InStock"}
 
     def _pill(txt, bg, fg):
         return ('<span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 '
@@ -15610,7 +15714,8 @@ def build_events_page():
     spotlight = ""
     if _spot:
         _sd, _c, _lbl, _st, _en, _ev = _spot
-        _when = _in_days(_st, _en).capitalize()
+        _when = _in_days(_st, _en)
+        _when = _when[:1].upper() + _when[1:]   # not .capitalize(): keeps "Sun 1 Nov"
         _src = _flyer_src(_ev)
         _sph = _photo(_ev)
         _media = (('<a href="#ev-' + _esc(_ev.get("id", "")) + '" class="ev-spot-m">'
@@ -15677,6 +15782,7 @@ def build_events_page():
     # The look of events.html does not change: it only gains an "Event page"
     # link inside each event's details. A failure here never breaks events.html.
     _EVENT_PAGE_FILES.clear()
+    _VENUE_EVENTS.clear()
     del _EVENT_PAGE_SLUGS[:]
     _evp_built = set()
 
@@ -15740,6 +15846,14 @@ def build_events_page():
         '.evp-cm{min-width:0}'
         '.evp-empty{background:var(--card);border:1px dashed var(--line);border-radius:16px;padding:1.4rem;color:#4b5563;margin:0}'
         '.evp-cta{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.25rem}'
+        '.evp-loc a{color:var(--forest2);font-weight:600;text-decoration:underline;text-underline-offset:2px}'
+        '.evp-org{margin-top:2.5rem;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.25rem;max-width:44rem}'
+        '.evp-org h2{font-size:1.2rem;font-weight:700;color:#111827;margin:0 0 .4rem}'
+        '.evp-org p{font-size:.92rem;color:#4b5563;margin:0 0 .9rem}'
+        '.evp-org-r{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}'
+        '.evp-org-u{font-size:.82rem;background:var(--paper-2);border-radius:8px;padding:.45rem .6rem;color:#1f2937;'
+        'overflow-wrap:anywhere;min-width:0;flex:1 1 14rem}'
+        '.evp-copy.ok::after{content:" \\2713"}'
         # shared with events.html (copied so these pages stand alone)
         '.ev-pos{position:relative;aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:var(--paper-2)}'
         '.ev-img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}'
@@ -15795,6 +15909,22 @@ def build_events_page():
 
     _evp_upcoming = [r for r in _conf if r[4] >= today]
 
+    # "Organising this event?": organisers who link here are the cheapest links
+    # the events section can get. The URL is read from the canonical in the
+    # browser, so every language copy shows and copies its own address.
+    _EVP_ORG = (
+        '  <section class="evp-org" aria-labelledby="evp-org-h">'
+        '<h2 class="serif" id="evp-org-h">Organising this event?</h2>'
+        '<p>Link to this page from your website, Facebook page or Instagram bio. Your guests find the date, '
+        'the flyer, directions and an add-to-calendar button in one place.</p>'
+        '<div class="evp-org-r"><code class="evp-org-u" data-evp-url translate="no"></code>'
+        '<button type="button" class="ev-btn ev-btn-o evp-copy">Copy link</button></div></section>'
+        '<script>(function(){var c=document.querySelector(\'link[rel="canonical"]\'),e=document.querySelector("[data-evp-url]"),'
+        'b=document.querySelector(".evp-copy");if(!c||!e||!b)return;var u=c.href;e.textContent=u.replace(/^https?:\\/\\//,"");'
+        'b.addEventListener("click",function(){var ok=function(){b.classList.add("ok")};'
+        'if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(ok,sel)}else sel();'
+        'function sel(){var r=document.createRange();r.selectNodeContents(e);var s=window.getSelection();s.removeAllRanges();s.addRange(r)}})})();</script>')
+
     def _evp_page(r):
         _sd, _confd, _lbl, _st, _en, _ev = r
         slug = _evp_slug(_ev)
@@ -15805,6 +15935,15 @@ def build_events_page():
         loc_full = (_ev.get("location", "") or "").strip() or "Suriname"
         venue = loc_full.split(",")[0].strip()
         wide = any(w in loc_full.lower() for w in _EVP_WIDE)
+        _vslug, _vpart = ("", "") if wide else _event_venue_slug(loc_full)
+        if _vslug and _vpart in loc_full:
+            _i = loc_full.index(_vpart)
+            loc_html = (_esc(loc_full[:_i]) + '<a href="listing/' + _vslug + '/">' + _esc(_vpart) + '</a>'
+                        + _esc(loc_full[_i + len(_vpart):]))
+            if _confd and _en >= today:
+                _VENUE_EVENTS.setdefault(_vslug, []).append((_st, name, _lbl, slug))
+        else:
+            loc_html = _esc(loc_full)
 
         # Meta description: the first paragraph of the blurb, exactly as the
         # card shows it, so the NL/ES/... translation of that text is reused.
@@ -15920,6 +16059,9 @@ def build_events_page():
                 eo["organizer"] = {"@type": "Organization", "name": _ev["organizer"]}
                 if _ev.get("website"):
                     eo["organizer"]["url"] = _ev["website"]
+            _of = _ev_offer(_ev, url)
+            if _of:
+                eo["offers"] = _of
             ld.append(eo)
         ld_tags = "".join('\n  <script type="application/ld+json">\n  ' + _ld_safe(_json.dumps(x, ensure_ascii=False))
                           + '\n  </script>' for x in ld)
@@ -15951,7 +16093,7 @@ def build_events_page():
       <p class="evp-kick">{_esc(_kick)}</p>
       <h1 class="serif evp-h1">{nm}</h1>
       <p class="evp-dl">{dateline}</p>
-      <p class="evp-loc">{_esc(loc_full)}</p>
+      <p class="evp-loc">{loc_html}</p>
       {('<div class="ev-tags">' + tags + '</div>') if tags else ''}
       {('<div class="ev-acts">' + acts + '</div>') if acts else ''}
       <div class="evp-sec evp-txt">
@@ -15964,6 +16106,7 @@ def build_events_page():
     </div>
   </div>
 {more_html}
+{'' if _ev.get("holiday") else _EVP_ORG}
   <div class="evp-cta">
     <a href="events.html" class="ev-btn ev-btn-p">See the full events calendar</a>
     <a href="events-this-weekend" class="ev-btn ev-btn-o">What&#8217;s on in Suriname this weekend</a>
@@ -16081,6 +16224,7 @@ def build_events_page():
     except Exception as _evp_err:
         print(f"  Warning: event pages not built — {_evp_err}")
         _EVENT_PAGE_FILES.clear()
+        _VENUE_EVENTS.clear()
         del _EVENT_PAGE_SLUGS[:]
         _evp_built = set()
 
@@ -16415,7 +16559,7 @@ if(o){if(o.hasAttribute("data-when"))st.when=o.getAttribute("data-when");else if
             "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
             "eventStatus": "https://schema.org/EventScheduled",
             "location": {"@type": "Place", "name": _ev.get("location", "Suriname"),
-                         "address": {"@type": "PostalAddress", "addressCountry": "SR"}},
+                         "address": _ld_addr(_ev.get("location", ""))},
             "description": _ev.get("blurb", ""),
         }
         if _ev.get("free", True):
@@ -16430,6 +16574,11 @@ if(o){if(o.hasAttribute("data-when"))st.when=o.getAttribute("data-when");else if
             _eo["image"] = _photo(_ev)["src"]
         if _ev.get("organizer"):
             _eo["organizer"] = {"@type": "Organization", "name": _ev["organizer"]}
+            if _ev.get("website"):
+                _eo["organizer"]["url"] = _ev["website"]
+        _hof = _ev_offer(_ev, _eo.get("url", ""))
+        if _hof:
+            _eo["offers"] = _hof
         _ld_events.append(_eo)
     ld_events_tag = (('<script type="application/ld+json">\n  '
                       + _ld_safe(_json.dumps(_ld_events, ensure_ascii=False)) + '\n  </script>')
@@ -16438,11 +16587,13 @@ if(o){if(o.hasAttribute("data-when"))st.when=o.getAttribute("data-when");else if
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _faqs
     ]}, ensure_ascii=False))
     ld_page = _ld_safe(_json.dumps({
-        "@context": "https://schema.org", "@type": "WebPage",
+        "@context": "https://schema.org", "@type": "CollectionPage",
         "name": "Events & Festivals in Suriname",
         "url": SITE_URL + "/events.html",
-        "description": "Suriname's cultural calendar: national holidays, festivals and celebrations "
-                       "from every community, with dates and traveller tips.",
+        "inLanguage": "en",
+        "description": "What's on in Suriname this week: parties, concerts, markets and festivals in "
+                       "Paramaribo and beyond, plus every public holiday in " + str(today.year)
+                       + ". Listing your event is free.",
         "dateModified": today.isoformat(),
         "about": {"@type": "Place", "name": "Suriname", "addressCountry": "SR"},
         "isPartOf": {"@type": "WebSite", "name": "Explore Suriname", "url": SITE_URL + "/"},
@@ -29147,7 +29298,8 @@ __NAV__
   <div id="done" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center" hidden>
     <div class="text-4xl mb-3" style="color:var(--forest)">&#10003;</div>
     <h2 class="serif text-2xl font-bold text-gray-900 mb-2">Thank you, we have it</h2>
-    <p class="text-gray-600 text-sm max-w-md mx-auto mb-6">We check every event by hand, usually within a day or two. You will hear from us at the email address you gave.</p>
+    <p class="text-gray-600 text-sm max-w-md mx-auto mb-3">We check every event by hand, usually within a day or two. You will hear from us at the email address you gave.</p>
+    <p class="text-gray-600 text-sm max-w-md mx-auto mb-6">Once approved, your event gets its own page. Link to it from your website, Facebook page or Instagram bio so your guests find everything in one place.</p>
     <a href="events.html" class="inline-block px-6 py-3 rounded-xl text-white font-semibold text-sm" style="background:var(--forest)">Back to the calendar</a>
   </div>
 
