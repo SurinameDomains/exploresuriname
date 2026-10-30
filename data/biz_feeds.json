@@ -33,6 +33,12 @@
  ],
  "bekendmakingen": [
   {
+   "title": "BESCHIKKING Minister van Justitie en Veiligheid 16 oktober 2026, wijziging Beschikking Vaststelling Reglement KPA",
+   "link": "https://gov.sr/bekendmaking/beschikking-minister-van-justitie-en-veiligheid-16-oktober-2026-wijziging-beschikking-vaststelling-reglement-kpa/",
+   "date": "2026-10-29",
+   "tender": false
+  },
+  {
    "title": "EKENDMAKING: Verstrekking van nieuwe SZF-kaarten voor gepensioneerde militairen, nabestaanden en actief dienende militairen",
    "link": "https://gov.sr/bekendmaking/ekendmaking-verstrekking-van-nieuwe-szf-kaarten-voor-gepensioneerde-militairen-nabestaanden-en-actief-dienende-militairen/",
    "date": "2026-10-28",
@@ -198,16 +204,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-10-29T15:32-03:00",
+   "ok": "2026-10-29T22:07-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-10-29T15:32-03:00",
+   "ok": "2026-10-29T22:07-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-10-29T15:32-03:00"
+ "updated": "2026-10-29T22:07-03:00"
 }
