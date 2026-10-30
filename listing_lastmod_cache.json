@@ -1,6 +1,6 @@
 {
   "static:index.html": {
-    "hash": "982623db14f0e2a5ef5f9dcdb12ac18a",
+    "hash": "355057faa422767b4607d60b0f5f828f",
     "date": "2026-10-30"
   },
   "static:restaurants.html": {
@@ -12,7 +12,7 @@
     "date": "2026-10-30"
   },
   "static:activities.html": {
-    "hash": "2a35cd679343045d7176985887daa5db",
+    "hash": "bc9b65fd8339417adeef0158b28c0461",
     "date": "2026-10-30"
   },
   "static:nature.html": {
@@ -20,7 +20,7 @@
     "date": "2026-08-02"
   },
   "static:shopping.html": {
-    "hash": "462685ab9f7f00dc201cc034259579a7",
+    "hash": "166896a94c3d67894f899f51216e518e",
     "date": "2026-10-30"
   },
   "static:services.html": {
@@ -28,15 +28,15 @@
     "date": "2026-10-30"
   },
   "static:currency.html": {
-    "hash": "b92593d91c750ef05ab98daba298fddf",
+    "hash": "61e1cf83b959f54c36cc2befaf5d0412",
     "date": "2026-10-30"
   },
   "static:flights.html": {
-    "hash": "f5462f209e0aed1f9a1f390b412fac7e",
+    "hash": "901ad638e54e24cc425ee3e725c44be0",
     "date": "2026-10-30"
   },
   "static:conditions.html": {
-    "hash": "6c850b4e71fae37d7fb39753b5f49e9d",
+    "hash": "58b2670d272d9ae111537240c26c5407",
     "date": "2026-10-30"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-10-30"
   },
   "static:news.html": {
-    "hash": "428181d7ab5a2d18e65f09b129eac31a",
+    "hash": "dba599243e646cfdc98ed9ddb4a35c5f",
     "date": "2026-10-30"
   },
   "static:about.html": {
@@ -2736,7 +2736,7 @@
     "date": "2026-10-30"
   },
   "clevia-park": {
-    "hash": "3192787d96fc54c2fb52fa0c640aa645",
+    "hash": "19a4023da7f19b00370f14f4d0160629",
     "date": "2026-10-30"
   },
   "folo-nature-tours": {
@@ -3040,7 +3040,7 @@
     "date": "2026-10-30"
   },
   "static:matches.html": {
-    "hash": "954a10a0f580f0106ee2bc67be9ed2cc",
+    "hash": "a3a83f9ed2c2d0801be654ac2f09d0d2",
     "date": "2026-10-30"
   },
   "static:suriname-time.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-10-30"
   },
   "static:oil-and-gas.html": {
-    "hash": "5c24e7dd89e0c032f39cc893c7f4671e",
+    "hash": "ff4a3a30a2692418e4e543a9ed9f2d89",
     "date": "2026-10-30"
   },
   "static:suriname-oil-blocks.html": {
@@ -32397,91 +32397,91 @@
     "date": "2026-10-30"
   },
   "static:flight-cm318": {
-    "hash": "41b3192970b954a97cdd1db01f55e305",
+    "hash": "3317c34f0f7e0f27309cbd8a547b2a49",
     "date": "2026-10-30"
   },
   "static:flight-cm319": {
-    "hash": "c9a44af8927fe4733b85fcd5afa64cac",
+    "hash": "4355d7b7b43123df3633385888476946",
     "date": "2026-10-30"
   },
   "static:flight-g37472": {
-    "hash": "e505a5f13e2f5ffe235218b6c0616eea",
+    "hash": "ebb090268d0ca983a150968e8e99af7d",
     "date": "2026-10-30"
   },
   "static:flight-g37473": {
-    "hash": "10e263250d6d71c661c8476133735016",
+    "hash": "7e72d8f89de33733c35f0d25325cdcc2",
     "date": "2026-10-30"
   },
   "static:flight-gum41": {
-    "hash": "5058d39b71556c6830a71ef23b412a9f",
+    "hash": "c3b3a2b86e3dd2881d82fd91c711d014",
     "date": "2026-10-30"
   },
   "static:flight-gum42": {
-    "hash": "e8994ad61ec8817363b3c473f2cdd0e6",
+    "hash": "a09f9c1fb2d8536447c67872752886f1",
     "date": "2026-10-30"
   },
   "static:flight-gum43": {
-    "hash": "3b8580860c302f1957293a84c0e7180d",
+    "hash": "ce7b12b5fd8dd1340035196ca2ced054",
     "date": "2026-10-30"
   },
   "static:flight-gum44": {
-    "hash": "df17f0b4efc2e14888cdfba6fd067328",
+    "hash": "a95ae4550bba985b7374b3040068ef07",
     "date": "2026-10-30"
   },
   "static:flight-kl713": {
-    "hash": "b0526cf43dae5c49ceca7c6c9b313482",
+    "hash": "c5ae0dc1155dea07fdaa1290fc3b3eb2",
     "date": "2026-10-30"
   },
   "static:flight-kl714": {
-    "hash": "2cbeba9236efcb21de81c898579180fe",
+    "hash": "d1063566c78d8f13c0345ece347d4200",
     "date": "2026-10-30"
   },
   "static:flight-py431": {
-    "hash": "8e427567e3d6da34c60821fc279c0372",
+    "hash": "a0344171c14aa98dd6e94ff73473be41",
     "date": "2026-10-30"
   },
   "static:flight-tgy431": {
-    "hash": "f671810a653b19abddfecee2170d6d93",
+    "hash": "b19bd4dff3c75622244c79805aa6aa0a",
     "date": "2026-10-30"
   },
   "static:flight-tgy441": {
-    "hash": "ca652c74a9352cdaf863863f6d8c2851",
+    "hash": "884c2525f307b7d11298e3562eaf1815",
     "date": "2026-10-30"
   },
   "static:flight-py421": {
-    "hash": "7091a6a21675be14328723d81bd99241",
+    "hash": "12aa74c55582c17b8f71357ffa836445",
     "date": "2026-10-30"
   },
   "static:flight-bw883": {
-    "hash": "ecafb99143ac907e6489748ff36a4ae3",
+    "hash": "c4817746d12f40303234fd5b0d211bc8",
     "date": "2026-10-30"
   },
   "static:flight-py422": {
-    "hash": "ebcd3e4df0e193e55a0b511d581a6b36",
+    "hash": "7a1097d6b46aa1176ed17df3a73e8b9f",
     "date": "2026-10-30"
   },
   "static:flight-bw884": {
-    "hash": "3bdb24018fc4677771a9861901531009",
+    "hash": "a1812957f4c646a739f8e639afdc078b",
     "date": "2026-10-30"
   },
   "static:flight-py9913": {
-    "hash": "d4f27aafd6e7cec75997668080358e58",
+    "hash": "009ab823eba5e2f37f45f7207abe2798",
     "date": "2026-10-30"
   },
   "static:flight-py9914": {
-    "hash": "f58bc4f03fd77bccc3df9ef2179ffb47",
+    "hash": "e888f0dc3596babb4b507245f8209148",
     "date": "2026-10-30"
   },
   "static:flight-py993": {
-    "hash": "35e6d2abbf965635de0caadef81881fc",
+    "hash": "6fab8cbe3f9563a8bf7aa1346959bebe",
     "date": "2026-10-30"
   },
   "static:flight-py994": {
-    "hash": "69dea8bbfc5ac1153e1e6acfa6a64cb5",
+    "hash": "88382efc20a24e27e183b17b9ea608f7",
     "date": "2026-10-30"
   },
   "static:flight-do649": {
-    "hash": "84fe04dada7feee43b81f81eb32c1ccd",
+    "hash": "d9550f8a357bc977591e30d924382c4e",
     "date": "2026-10-30"
   },
   "royalry-s-beauty-boutique": {
@@ -32510,7 +32510,7 @@
     "date": "2026-10-26"
   },
   "static:flight-8w725": {
-    "hash": "635b67cb7021c4d089359e0d8b8b5315",
+    "hash": "05921e93a60a70bb65532d0780259572",
     "date": "2026-10-30"
   },
   "static:event-club-vibes-20261024": {
@@ -32518,11 +32518,11 @@
     "date": "2026-10-24"
   },
   "static:flight-8w726": {
-    "hash": "bef246288e11c6d37ee9ab9d868214e5",
+    "hash": "4c4193151192cc9e2bb3109c28c6e96d",
     "date": "2026-10-30"
   },
   "static:flight-8w629": {
-    "hash": "0edea351fcae44c17ba0cc9b5bc6816d",
+    "hash": "11887cb7558d6e96c34e2752867d7829",
     "date": "2026-10-30"
   },
   "static:event-full-sranang-pokoe-halloween-editionsranang-20261023": {
@@ -32534,11 +32534,11 @@
     "date": "2026-10-25"
   },
   "static:flight-py9916": {
-    "hash": "f76681d2c7107feb0fddfeeeed7da3a3",
+    "hash": "e04355bf70258308c634b1da8dbe40d4",
     "date": "2026-10-30"
   },
   "static:flight-py9915": {
-    "hash": "61aaa54f5dac5f8eda9fffa0ebfe414f",
+    "hash": "82ab6664c70ed890f5f4dabd212b1aca",
     "date": "2026-10-30"
   },
   "static:event-freaky-friday-20261023": {
@@ -32559,7 +32559,7 @@
     "first_seen": "2026-10-23"
   },
   "static:flight-8w630": {
-    "hash": "26924676b931073444bb740db6d38c5e",
+    "hash": "dbba91fd10371fdafdcdcacf68febcba",
     "date": "2026-10-30"
   },
   "static:suriname-entry-requirements.html": {
@@ -32659,66 +32659,86 @@
     "first_seen": "2026-10-30"
   },
   "static:markets-in-suriname.html": {
-    "hash": "af8585f65232c320ecb6799843b90f71",
+    "hash": "f7c002f363fe059fd94488dd53cd084c",
     "date": "2026-10-30"
   },
   "centrale-markt-paramaribo": {
-    "hash": "6f48c7d3dbe1ea6e6a5a938929f21c92",
+    "hash": "7d687c1b32dd111e2cd57d1bd4faa6fe",
     "date": "2026-10-30",
     "first_seen": "2026-10-30"
   },
   "vreedzaam-markt": {
-    "hash": "2f8253d8d3ea8046e5e3c1c09df20b09",
+    "hash": "277acadea95c3e9274d0521f00162578",
     "date": "2026-10-30",
     "first_seen": "2026-10-30"
   },
   "craft-market-waterkant": {
-    "hash": "6ad035538067235980b32b3363b9e1df",
+    "hash": "3cbd74e6878e69382dd0976647191ae2",
     "date": "2026-10-30",
     "first_seen": "2026-10-30"
   },
   "saoenah-markt": {
-    "hash": "eea1a61665a56f59025d34cd1c92e2b5",
+    "hash": "0eb0f7614863218bd3a046e232107e4f",
     "date": "2026-10-30",
     "first_seen": "2026-10-30"
   },
   "tourtonne-zondagmarkt": {
-    "hash": "88a8cd1a10aa06d07862625e9181a6e8",
+    "hash": "b4638a3c21b00058e2673e34c32ccb70",
     "date": "2026-10-30",
     "first_seen": "2026-10-30"
   },
   "plantenmarkt-cultuurtuin": {
-    "hash": "2c16f4d364538c047d271bb927eff7e7",
+    "hash": "a2e0235e18455e48a3012c1bdbb66e12",
     "date": "2026-10-30",
     "first_seen": "2026-10-30"
   },
   "kong-ngie-tong-sang-zondagmarkt": {
-    "hash": "8eb7255fe48614d6d5572015a9a54782",
+    "hash": "27d00f31eeadfd8af71184a344bbf8dc",
     "date": "2026-10-30",
     "first_seen": "2026-10-30"
   },
   "landbouwmarkt-kwatta": {
-    "hash": "3d923bd2dd5880c047a29687fe8de215",
+    "hash": "0d0f9d6e18e2f08b808fe3bcba9a7dc5",
     "date": "2026-10-30",
     "first_seen": "2026-10-30"
   },
   "zondagse-markt-nieuwe-grond": {
-    "hash": "a2c081291fd432a372a901576bb8f617",
+    "hash": "d71f318a445a635e8689ca6a80e94e38",
     "date": "2026-10-30",
     "first_seen": "2026-10-30"
   },
   "openbare-markt-lelydorp": {
-    "hash": "7e3ce4e9cbd4b8efcef86904f2e0ee8c",
+    "hash": "20d098ef1415120f04aae916ab38d664",
     "date": "2026-10-30",
     "first_seen": "2026-10-30"
   },
   "openbare-markt-nickerie": {
-    "hash": "c84067e6fe40ffdda470031f7cdc6ba0",
+    "hash": "30abfa0a95b8c2f34d86956fe7261f29",
     "date": "2026-10-30",
     "first_seen": "2026-10-30"
   },
   "boerenmarkt-marienburg": {
-    "hash": "ebd47a971e3b01e4027bd33f942139bf",
+    "hash": "6ab92c2d63f8b9b8ea5548230844da86",
+    "date": "2026-10-30",
+    "first_seen": "2026-10-30"
+  },
+  "markt-zuid-paramaribo": {
+    "hash": "10d81435556791efd385f481e2d289e5",
+    "date": "2026-10-30",
+    "first_seen": "2026-10-30"
+  },
+  "highway-markt": {
+    "hash": "3df769e483f840f4ddb9a1deccb23583",
+    "date": "2026-10-30",
+    "first_seen": "2026-10-30"
+  },
+  "haitiaanse-markt-paramaribo": {
+    "hash": "4b30e93f31386b0759173155b34b89f7",
+    "date": "2026-10-30",
+    "first_seen": "2026-10-30"
+  },
+  "wakapasi-palmentuin": {
+    "hash": "d255a348d058abad2e74226c0e19ce42",
     "date": "2026-10-30",
     "first_seen": "2026-10-30"
   }
