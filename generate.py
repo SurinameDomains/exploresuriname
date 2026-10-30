@@ -4777,10 +4777,86 @@ _BRAND_TX.update({
         ],
     },
     "title": {
-        "KFC": "Order KFC in Suriname: Delivery, Pickup & {n} Locations",
-        "Pizza Hut": "Order Pizza Hut in Suriname: Delivery, Pickup & {n} Locations",
+        "KFC": "Order KFC in Suriname: Delivery or Pickup via WhatsApp",
+        "Pizza Hut": "Order Pizza Hut in Suriname: Delivery or Pickup via WhatsApp",
     },
     "meta": "Order {b} in Suriname on WhatsApp for delivery or pickup. All {n} locations with addresses, phone numbers, opening hours and directions.",
+    # SEO pass (30 Oct 2026). meta2 = the meta description in use; places per brand.
+    "meta2": "Order {b} in Suriname on WhatsApp for delivery or pickup. {n} restaurants in {places}, with menu, addresses and phone numbers.",
+    "places": {
+        "KFC": {"en": "Paramaribo, Lelydorp and Meerzorg", "nl": "Paramaribo, Lelydorp en Meerzorg",
+                "es": "Paramaribo, Lelydorp y Meerzorg", "zh": "帕拉马里博、Lelydorp 和 Meerzorg",
+                "fr": "Paramaribo, Lelydorp et Meerzorg", "pt": "Paramaribo, Lelydorp e Meerzorg"},
+        "Pizza Hut": {"en": "Paramaribo", "nl": "Paramaribo", "es": "Paramaribo", "zh": "帕拉马里博",
+                      "fr": "Paramaribo", "pt": "Paramaribo"},
+    },
+    "h1": {"en": "Order {b} in Suriname", "nl": "{b} bestellen in Suriname", "es": "Pide {b} en Surinam",
+           "zh": "在苏里南订购 {b}", "fr": "Commander {b} au Suriname", "pt": "Peça {b} no Suriname"},
+    "how_b": {"en": "How to order {b}", "nl": "Zo bestel je {b}", "es": "Cómo pedir {b}", "zh": "如何订购 {b}",
+              "fr": "Comment commander {b}", "pt": "Como pedir {b}"},
+    "menu_k": {"en": "What you can order", "nl": "Wat je kunt bestellen", "es": "Lo que puedes pedir",
+               "zh": "可以点的餐", "fr": "Ce que vous pouvez commander", "pt": "O que você pode pedir"},
+    "menu_h": {"en": "{b} menu", "nl": "Menu van {b}", "es": "Menú de {b}", "zh": "{b} 菜单",
+               "fr": "Menu {b}", "pt": "Cardápio {b}"},
+    "locs_h": {"en": "{b} locations in Suriname", "nl": "{b}-vestigingen in Suriname", "es": "Sucursales de {b} en Surinam",
+               "zh": "{b} 在苏里南的网点", "fr": "Les restaurants {b} au Suriname", "pt": "Unidades de {b} no Suriname"},
+    "howto_link": {"en": "How to order {b} in Suriname", "nl": "Zo bestel je {b} in Suriname",
+                   "es": "Cómo pedir {b} en Surinam", "zh": "如何在苏里南订购 {b}",
+                   "fr": "Comment commander {b} au Suriname", "pt": "Como pedir {b} no Suriname"},
+    "faq_h": {"en": "Questions about ordering {b}", "nl": "Vragen over {b} bestellen",
+              "es": "Preguntas sobre cómo pedir {b}", "zh": "关于订购 {b} 的常见问题",
+              "fr": "Questions sur la commande de {b}", "pt": "Perguntas sobre como pedir {b}"},
+    "faq": [
+        ({"en": "How do I order {b} in Suriname?", "nl": "Hoe bestel ik {b} in Suriname?",
+          "es": "¿Cómo pido {b} en Surinam?", "zh": "如何在苏里南订购 {b}？",
+          "fr": "Comment commander {b} au Suriname\u00a0?", "pt": "Como pedir {b} no Suriname?"},
+         {"en": "Tap Order on WhatsApp on this page. WhatsApp opens with your order message ready to send. The chat shows the menu with prices: select what you want and choose delivery or pickup. You don\u2019t need an app or an account.",
+          "nl": "Tik op deze pagina op Bestel via WhatsApp. WhatsApp opent met je bestelbericht al klaar. In de chat zie je het menu met prijzen: selecteer wat je wilt en kies bezorgen of afhalen. Je hebt geen app of account nodig.",
+          "es": "Toca Pedir por WhatsApp en esta página. WhatsApp se abre con tu mensaje de pedido listo para enviar. El chat muestra el menú con precios: selecciona lo que quieras y elige entrega a domicilio o recogida. No necesitas app ni cuenta.",
+          "zh": "点按本页的\u201c通过 WhatsApp 点餐\u201d。WhatsApp 会打开，订餐消息已为你准备好。对话中会显示带价格的菜单：选择你想要的，再选外送或自取。无需下载应用或注册账号。",
+          "fr": "Touchez Commander sur WhatsApp sur cette page. WhatsApp s\u2019ouvre avec votre message de commande prêt à envoyer. La discussion affiche la carte avec les prix\u00a0: sélectionnez ce que vous voulez et choisissez la livraison ou le retrait. Aucune application ni aucun compte n\u2019est nécessaire.",
+          "pt": "Toque em Pedir pelo WhatsApp nesta página. O WhatsApp abre com a sua mensagem de pedido pronta para enviar. A conversa mostra o cardápio com preços: selecione o que você quer e escolha entrega ou retirada. Não precisa de app nem de cadastro."}),
+        ({"en": "Can I get {b} delivered?", "nl": "Kan ik {b} laten bezorgen?", "es": "¿Puedo pedir {b} a domicilio?",
+          "zh": "{b} 可以外送吗？", "fr": "Puis-je me faire livrer {b}\u00a0?", "pt": "Posso pedir {b} com entrega?"},
+         {"en": "Yes. Order through the WhatsApp order line on this page and choose delivery in the chat.",
+          "nl": "Ja. Bestel via de WhatsApp-bestellijn op deze pagina en kies in de chat voor bezorgen.",
+          "es": "Sí. Pide por la línea de pedidos de WhatsApp de esta página y elige entrega a domicilio en el chat.",
+          "zh": "可以。通过本页的 WhatsApp 订餐线点餐，并在对话中选择外送。",
+          "fr": "Oui. Commandez via la ligne de commande WhatsApp de cette page et choisissez la livraison dans la discussion.",
+          "pt": "Sim. Peça pela linha de pedidos do WhatsApp nesta página e escolha entrega na conversa."}),
+        ({"en": "Can I pick up my {b} order?", "nl": "Kan ik mijn {b}-bestelling afhalen?",
+          "es": "¿Puedo recoger mi pedido de {b}?", "zh": "可以到店自取 {b} 订单吗？",
+          "fr": "Puis-je récupérer ma commande {b} sur place\u00a0?", "pt": "Posso retirar meu pedido de {b}?"},
+         {"en": "Yes. Choose pickup in the WhatsApp chat and collect your order at the restaurant you choose.",
+          "nl": "Ja. Kies in de WhatsApp-chat voor afhalen en haal je bestelling op bij het restaurant dat je kiest.",
+          "es": "Sí. Elige recogida en el chat de WhatsApp y recoge tu pedido en el restaurante que elijas.",
+          "zh": "可以。在 WhatsApp 对话中选择自取，然后到你选的餐厅取餐。",
+          "fr": "Oui. Choisissez le retrait dans la discussion WhatsApp et récupérez votre commande au restaurant de votre choix.",
+          "pt": "Sim. Escolha retirada na conversa do WhatsApp e pegue o pedido no restaurante que você escolher."}),
+        ({"en": "Where are the {b} restaurants in Suriname?", "nl": "Waar zitten de {b}-restaurants in Suriname?",
+          "es": "¿Dónde están los restaurantes {b} en Surinam?", "zh": "{b} 在苏里南有哪些餐厅？",
+          "fr": "Où se trouvent les restaurants {b} au Suriname\u00a0?", "pt": "Onde ficam os restaurantes {b} no Suriname?"},
+         {"en": "{b} has {n} restaurants in Suriname: {list}. Each location above shows its phone number and directions.",
+          "nl": "{b} heeft {n} restaurants in Suriname: {list}. Bij elke vestiging hierboven staan het telefoonnummer en de route.",
+          "es": "{b} tiene {n} restaurantes en Surinam: {list}. Cada sucursal de arriba muestra su teléfono y cómo llegar.",
+          "zh": "{b} 在苏里南有 {n} 家餐厅：{list}。上方每个网点都附有电话和路线。",
+          "fr": "{b} compte {n} restaurants au Suriname\u00a0: {list}. Chaque adresse ci-dessus indique son téléphone et l\u2019itinéraire.",
+          "pt": "{b} tem {n} restaurantes no Suriname: {list}. Cada unidade acima mostra o telefone e como chegar."}),
+        ({"en": "What is on the {b} menu?", "nl": "Wat staat er op het menu van {b}?", "es": "¿Qué hay en el menú de {b}?",
+          "zh": "{b} 菜单上有什么？", "fr": "Qu\u2019y a-t-il au menu de {b}\u00a0?", "pt": "O que tem no cardápio de {b}?"},
+         {"en": "{items}. {note}", "nl": "{items}. {note}", "es": "{items}. {note}", "zh": "{items}。{note}",
+          "fr": "{items}. {note}", "pt": "{items}. {note}"}),
+        ({"en": "What are the opening hours of {b}?", "nl": "Wat zijn de openingstijden van {b}?",
+          "es": "¿Cuál es el horario de {b}?", "zh": "{b} 的营业时间是几点？",
+          "fr": "Quels sont les horaires de {b}\u00a0?", "pt": "Qual é o horário de funcionamento de {b}?"},
+         {"en": "Opening hours can differ per restaurant. Open a location above for the details we have, or call it: every location lists its phone number.",
+          "nl": "De openingstijden kunnen per restaurant verschillen. Open hierboven een vestiging voor de gegevens die we hebben, of bel even: bij elke vestiging staat het telefoonnummer.",
+          "es": "El horario puede variar según el restaurante. Abre una sucursal arriba para ver los datos que tenemos, o llama: cada sucursal muestra su teléfono.",
+          "zh": "各餐厅的营业时间可能不同。请打开上方的网点查看我们掌握的信息，或直接致电：每个网点都列有电话。",
+          "fr": "Les horaires peuvent varier d\u2019un restaurant à l\u2019autre. Ouvrez une adresse ci-dessus pour voir les informations dont nous disposons, ou appelez\u00a0: chaque adresse indique son numéro.",
+          "pt": "O horário pode variar de um restaurante para outro. Abra uma unidade acima para ver os dados que temos ou ligue: cada unidade mostra o telefone."}),
+    ],
+    "cuisine": {"KFC": ["Fried chicken", "Fast food"], "Pizza Hut": ["Pizza", "Fast food"]},
 })
 
 
@@ -12924,6 +13000,9 @@ _ORDER_CSS = (
     '.ord-d{display:none}'
     '@media(min-width:1024px){.ord-m{display:none}.ord-d{display:block}}'
     '.ord-side{margin:0 0 20px}'
+    '.ord-more{margin:10px 0 0;font-size:13.5px}'
+    '.ord-more a{color:var(--forest2,#2D6A4F);font-weight:600;text-decoration:none}'
+    '.ord-more a:hover{text-decoration:underline}'
     '</style>'
 )
 _ORDER_JS = ('<script>document.addEventListener("click",function(e){var a=e.target&&e.target.closest?'
@@ -13061,6 +13140,16 @@ _BRAND_PAGE_CSS = (
     '.bp-mn-f a svg{width:16px;height:16px}'
     '@media(max-width:639px){.bp-mn{padding:20px 18px 0}.bp-mn-f{margin:6px -18px 0;padding:14px 18px}}'
     '.bp-about{font-size:15.5px;line-height:1.65;color:#3a423c;margin:0}'
+    '.bp-faq-q{border-top:1px solid #E6DCC6}'
+    '.bp-faq-q:last-child{border-bottom:1px solid #E6DCC6}'
+    '.bp-faq-q summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 2px}'
+    '.bp-faq-q summary::-webkit-details-marker{display:none}'
+    '.bp-faq-q summary::after{content:"";flex:none;width:9px;height:9px;border-right:2px solid var(--bhc);'
+    'border-bottom:2px solid var(--bhc);transform:rotate(45deg);margin:-4px 4px 0 0;transition:transform .2s}'
+    '.bp-faq-q[open] summary::after{transform:rotate(-135deg);margin-top:4px}'
+    '.bp-faq-q h3{font-size:16px;font-weight:700;line-height:1.35;color:#1f2a22;margin:0}'
+    '.bp-faq-q p{font-size:15px;line-height:1.6;color:#3a423c;margin:0;padding:0 2px 18px}'
+    '.bp-faq-q summary:focus-visible{outline:2px solid var(--forest2,#2D6A4F);outline-offset:2px}'
     '.bp-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;'
     'background:var(--bhc);color:#fff;border-radius:18px;padding:22px 24px;margin:0 0 12px}'
     '.bp-cta p{margin:0;font-size:1.25rem;font-weight:700;line-height:1.3}'
@@ -13101,6 +13190,53 @@ def _brand_order_btn(brand, place, short, label_key="btn", cls="bh-btn"):
             + short + '">' + _LA_SVG["wa"] + _l10n_span(lbl) + '</a>')
 
 
+def _brand_loc_list(brand, lang):
+    """'Waterkant 74-76, Kwattaweg 91, Indira Gandhiweg 522 (Lelydorp), ...' for the FAQ."""
+    out = []
+    for s in _CHAIN_GROUPS.get(brand, []):
+        m = _branch_info(s)
+        if not m:
+            continue
+        parts = [p.strip() for p in (m["address"] or "").split(",") if p.strip()]
+        if not parts:
+            parts = [m["area"]]
+        extra = [p for p in parts[1:] if p.lower() != "paramaribo"]
+        out.append(parts[0] + (" (" + ", ".join(extra) + ")" if extra else ""))
+    return ("、" if lang == "zh" else ", ").join(out)
+
+
+def _brand_items_text(brand, lang):
+    items = [(it.get(lang) or it["en"]) for it in (_BRAND_TX["items"].get(brand) or [])]
+    if not items:
+        return ""
+    if lang == "zh":
+        return "、".join(items)
+    items = [items[0]] + [i[:1].lower() + i[1:] for i in items[1:]]
+    return ", ".join(items)
+
+
+def _brand_faq_html(brand, n):
+    langs = ("en", "nl", "es", "zh", "fr", "pt")
+    rows = []
+    for q, a in _BRAND_TX["faq"]:
+        ql = {k: v.replace("{b}", brand) for k, v in q.items()}
+        al = {}
+        for k in langs:
+            v = a[k]
+            if "{items}" in v:
+                v = v.replace("{items}", _brand_items_text(brand, k)).replace("{note}", _BRAND_TX["menu_note"][k])
+            v = (v.replace("{b}", brand).replace("{n}", str(n))
+                  .replace("{list}", _brand_loc_list(brand, k)))
+            al[k] = v
+        rows.append('<details class="bp-faq-q" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">'
+                    '<summary><h3 itemprop="name">' + _l10n_span(ql) + '</h3></summary>'
+                    '<div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">'
+                    '<p itemprop="text">' + _l10n_span(al) + '</p></div></details>')
+    return ('<section class="bp-sec bp-faq" itemscope itemtype="https://schema.org/FAQPage">'
+            '<h2 class="bp-h">' + _l10n_span(_bx(_BRAND_TX["faq_h"], b=brand)) + '</h2>'
+            + "".join(rows) + '</section>')
+
+
 def _brand_hero_html(brand, n, short, crumb):
     st = _BRAND_STYLE[brand]
     can_order = brand in _ORDER_LINES
@@ -13115,7 +13251,7 @@ def _brand_hero_html(brand, n, short, crumb):
         + html_lib.escape(brand, quote=True) + ' logo" width="72" height="72"></div>'
         '<div class="bh-main">'
         '<p class="bh-k">' + _l10n_span(_BRAND_TX["type"]) + ' &middot; ' + _l10n_span(_bx(_BRAND_TX["locs"], n=n)) + '</p>'
-        '<h1 class="serif" translate="no">' + html_lib.escape(brand) + ' Suriname</h1>'
+        '<h1 class="serif">' + _l10n_span(_bx(_BRAND_TX["h1"], b=brand)) + '</h1>'
         '<p class="bh-t">' + _l10n_span(_BRAND_TX["tag"][brand]) + '</p>'
         '<div class="bh-cta">' + (_brand_order_btn(brand, "hero", short) if can_order else '')
         + '<a class="bh-2" href="#locations">' + _l10n_span(_bx(_BRAND_TX["see"], n=n)) + '</a></div>'
@@ -13130,7 +13266,7 @@ def _brand_body_html(brand, n, short):
     if can_order:
         steps = [(_BRAND_TX["s1t"], _BRAND_TX["s1d"]), (_BRAND_TX["s2t"], _BRAND_TX["s2d"]),
                  (_ORDER_TX["sub"], _BRAND_TX["s3d"])]
-        out += ('<section class="bp-sec"><h2 class="bp-h">' + _l10n_span(_BRAND_TX["how"]) + '</h2><ol class="bp-steps">'
+        out += ('<section class="bp-sec"><h2 class="bp-h">' + _l10n_span(_bx(_BRAND_TX["how_b"], b=brand)) + '</h2><ol class="bp-steps">'
                 + "".join('<li><span class="bp-no">' + str(i + 1) + '</span>'
                           + _l10n_span(t, "bp-st") + _l10n_span(d, "bp-sd") + '</li>' for i, (t, d) in enumerate(steps))
                 + '</ol></section>')
@@ -13143,16 +13279,20 @@ def _brand_body_html(brand, n, short):
                     'data-ob="' + html_lib.escape(brand, quote=True) + '" data-op="menu" data-opg="' + short + '">'
                     + _LA_SVG["wa"] + _l10n_span(_ORDER_TX["btn"]) + '</a></div>')
         out += ('<section class="bp-sec"><div class="bp-mn">'
-                '<p class="bp-mn-k">' + _l10n_span(_BRAND_TX["menu"]) + '</p>'
-                '<h2 class="bp-mn-h" translate="no">' + html_lib.escape(brand) + '</h2><ol>'
+                '<p class="bp-mn-k">' + _l10n_span(_BRAND_TX["menu_k"]) + '</p>'
+                '<h2 class="bp-mn-h">' + _l10n_span(_bx(_BRAND_TX["menu_h"], b=brand)) + '</h2><ol>'
                 + "".join('<li><span class="bp-mn-n">' + f"{i + 1:02d}" + '</span>' + _l10n_span(it, "bp-mn-i") + '</li>'
                           for i, it in enumerate(items))
                 + '</ol>' + foot + '</div></section>')
-    out += '<section class="bp-sec" id="locations" style="scroll-margin-top:90px">' + _brand_list_html(brand) + '</section>'
+    out += ('<section class="bp-sec" id="locations" style="scroll-margin-top:90px">'
+            + _brand_list_html(brand).replace(_l10n_span(_BRAND_TX["choose"]), _l10n_span(_bx(_BRAND_TX["locs_h"], b=brand)), 1)
+            + '</section>')
     desc = _BRAND_TX["desc"].get(brand)
     if desc:
         out += ('<section class="bp-sec"><h2 class="bp-h">' + _l10n_span(_bx(_BRAND_TX["about"], b=brand)) + '</h2>'
                 '<p class="bp-about">' + _l10n_span(_brand_desc(brand, n)) + '</p></section>')
+    if _BRAND_TX.get("faq"):
+        out += _brand_faq_html(brand, n)
     if can_order:
         out += ('<div class="bp-cta"><p>' + _l10n_span(_bx(_BRAND_TX["hungry"], b=brand)) + '</p>'
                 + _brand_order_btn(brand, "bottom", short) + '</div>')
@@ -13814,6 +13954,39 @@ def build_listing_page(slug, b, brand_short=None):
             _dep.append(_d)
         if _dep:
             ld_obj["department"] = _dep
+        if _brand in _BRAND_STYLE:
+            # SEO pass (30 Oct 2026): what the brand is, where it serves and how to order
+            _st = _BRAND_STYLE[_brand]
+            ld_obj["name"] = _brand + " Suriname"
+            ld_obj["alternateName"] = _brand
+            ld_obj["brand"] = {"@type": "Brand", "name": _brand}
+            ld_obj["areaServed"] = {"@type": "Country", "name": "Suriname"}
+            ld_obj["logo"] = SITE_URL + "/" + _st["logo"]
+            ld_obj["image"] = SITE_URL + "/" + _st["og"]
+            ld_obj["servesCuisine"] = _BRAND_TX["cuisine"].get(_brand, ["Fast food"])
+            _bd_en = _brand_desc(_brand, len(_dep)).get("en")
+            if _bd_en:
+                ld_obj["description"] = _bd_en
+            if _brand in _ORDER_LINES:
+                ld_obj["potentialAction"] = {
+                    "@type": "OrderAction",
+                    "target": {"@type": "EntryPoint", "urlTemplate": _ORDER_LINES[_brand],
+                               "actionPlatform": ["https://schema.org/MobileWebPlatform",
+                                                  "https://schema.org/DesktopWebPlatform"]},
+                    "deliveryMethod": ["http://purl.org/goodrelations/v1#DeliveryModeOwnFleet",
+                                       "http://purl.org/goodrelations/v1#DeliveryModePickUp"]}
+            for _d, _m in zip(_dep, [x for x in _CHAIN_GROUPS.get(_brand, []) if _branch_info(x)]):
+                _g2 = _geo_of(_m)
+                if _g2:
+                    _d["geo"] = {"@type": "GeoCoordinates", "latitude": _g2[0], "longitude": _g2[1]}
+                _h2 = _hours_of(_m)
+                if _h2 and _hours_week(_h2):
+                    _d["openingHours"] = [x.strip() for x in _h2.split(";") if x.strip()]
+                _bm = _make_biz(_m) or {}
+                if "address" in _d and _bm.get("area"):
+                    _d["address"]["addressLocality"] = _bm["area"]
+    if _brand in _BRAND_PAGES and "brand" not in ld_obj:
+        ld_obj["brand"] = {"@type": "Brand", "name": _brand}
     # JSON-LD names must be plain text — unescape HTML entities from category labels
     _cat_label_plain = cat_label.replace("&amp;", "&").replace("&#39;", "'").replace("&quot;", '"')
     breadcrumb_obj = {
@@ -13825,6 +13998,11 @@ def build_listing_page(slug, b, brand_short=None):
             {"@type": "ListItem", "position": 3, "name": raw_name,           "item": page_url},
         ]
     }
+    if _is_branch and _brand in _BRAND_PAGES:
+        # Location of a brand with its own page: Home > Eat & Drink > KFC > KFC Latour
+        breadcrumb_obj["itemListElement"] = breadcrumb_obj["itemListElement"][:2] + [
+            {"@type": "ListItem", "position": 3, "name": _brand, "item": SITE_URL + "/" + _BRAND_PAGES[_brand]},
+            {"@type": "ListItem", "position": 4, "name": raw_name, "item": page_url}]
 
     ld_script = (
         "\n  <script type=\"application/ld+json\">\n  " + _ld_safe(_json.dumps(ld_obj, ensure_ascii=False)) + "\n  </script>"
@@ -13859,7 +14037,8 @@ def build_listing_page(slug, b, brand_short=None):
                 + (" Order for delivery or pickup on WhatsApp." if _brand in _ORDER_LINES else ""), 158))
             if _brand in _BRAND_STYLE and _brand in _ORDER_LINES:
                 desc_e = html_lib.escape(_meta_trunc(
-                    _BRAND_TX["meta"].replace("{b}", _brand).replace("{n}", str(_n)), 158))
+                    _BRAND_TX["meta2"].replace("{b}", _brand).replace("{n}", str(_n))
+                    .replace("{places}", _BRAND_TX["places"].get(_brand, {}).get("en", "Suriname")), 158))
                 seo_page_title = html_lib.escape(_BRAND_TX["title"][_brand].replace("{n}", str(_n)))
                 seo_title_tag = seo_page_title + (_brand_sfx if len(html_lib.unescape(seo_page_title)) + len(_brand_sfx) <= 62 else "")
 
@@ -13868,6 +14047,8 @@ def build_listing_page(slug, b, brand_short=None):
         "\n  <title>" + seo_title_tag + "</title>"
         "\n  <meta name=\"description\" content=\"" + desc_e + "\">"
         "\n  <link rel=\"canonical\" href=\"" + page_url + "\">"
+        + (("\n  <link rel=\"preload\" as=\"image\" href=\"/" + _BRAND_STYLE[_brand]["hero"] + "\" fetchpriority=\"high\">")
+           if (brand_short and _brand in _BRAND_STYLE) else "") +
         "\n  <meta property=\"og:type\" content=\"website\">"
         "\n  <meta property=\"og:site_name\" content=\"Explore Suriname\">"
         "\n  <meta property=\"og:url\" content=\"" + page_url + "\">"
@@ -13891,7 +14072,12 @@ def build_listing_page(slug, b, brand_short=None):
         '\n  ' + overlay +
         '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"'
         '\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">'
-        + _crumb(back_file, back_label, name_e, prefix=_pfx) +
+        + (_crumb(back_file, back_label, name_e, prefix=_pfx) if not (_is_branch and _brand in _BRAND_PAGES) else
+           _crumb(back_file, back_label, name_e, prefix=_pfx).replace(
+               '\n      <span class="text-white/40">&#8250;</span>\n      <span class="text-white font-medium" aria-current="page">',
+               '\n      <span class="text-white/40">&#8250;</span>\n      <a href="' + _pfx + _BRAND_PAGES[_brand] + '.html" '
+               'class="hover:text-white transition" translate="no">' + html_lib.escape(_brand) + '</a>'
+               '\n      <span class="text-white/40">&#8250;</span>\n      <span class="text-white font-medium" aria-current="page">', 1)) +
         '\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"'
         '\n          style="background:var(--coral);color:#fff">' + (
             _l10n_span(_BRAND_TX["type"]) if (brand_short and not category) else html_lib.escape(category)) + '</span>'
@@ -13931,6 +14117,12 @@ def build_listing_page(slug, b, brand_short=None):
         # Desktop: top of the sticky contact card.
         _ord_m = '\n      ' + _ORDER_CSS + _order_card(_ord, "main", brand_short or slug, "ord-m")
         _ord_d = '\n        ' + _order_card(_ord, "side", brand_short or slug, "ord-d ord-side")
+        if not brand_short and _ord in _BRAND_PAGES:
+            # Location page: a keyword link up to the brand page (internal linking for "order KFC")
+            _hl = ('<p class="ord-more"><a href="' + _pfx + _BRAND_PAGES[_ord] + '.html">'
+                   + _l10n_span(_bx(_BRAND_TX["howto_link"], b=_ord)) + ' &rarr;</a></p>')
+            _ord_m = _ord_m[:-6] + _hl + '</div>'
+            _ord_d = _ord_d[:-6] + _hl + '</div>'
         desc_block = desc_block + _ord_m
     if _chain:
         left_top = ('\n      ' + desc_block + '\n      ' + _chain["chips"])
@@ -30347,8 +30539,8 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("flights.html",    "0.8", "daily"),
         ("atms.html",       "0.8", "daily"),
         ("gas-cylinders.html", "0.7", "weekly"),
-        ("kfc.html",        "0.7", "weekly"),
-        ("pizza-hut.html",  "0.7", "weekly"),
+        ("kfc.html",        "0.8", "weekly"),
+        ("pizza-hut.html",  "0.8", "weekly"),
         ("conditions.html", "0.8", "daily"),
         ("visitor-guide.html","0.8", "monthly"),
         ("on-the-road.html", "0.7", "monthly"),
@@ -30485,6 +30677,10 @@ def build_llms_txt():
 - [Flora & Fauna of Suriname]({S}/flora-fauna/): every animal, plant and fungus recorded in Suriname (about 18,500 species, 4,000 profiles) with names in English, Dutch, Spanish, Chinese, Sranan Tongo and Latin, where each species has been recorded by district, photos and sources.
 - [Suriname Itinerary]({S}/suriname-itinerary.html): suggested multi-day routes combining Paramaribo and the interior.
 - [Driving and Traffic]({S}/on-the-road.html): driving, road rules, a live traffic map and emergency numbers.
+
+## Order food
+- [Order KFC in Suriname]({S}/kfc): how to order KFC in Suriname for delivery or pickup through its WhatsApp order line, the menu, and every KFC restaurant in Suriname with address, phone number and directions.
+- [Order Pizza Hut in Suriname]({S}/pizza-hut): how to order Pizza Hut in Suriname for delivery or pickup through its WhatsApp order line, the menu, and every Pizza Hut restaurant in Suriname with address, phone number and directions.
 
 ## Live data
 - [SRD Exchange Rates]({S}/currency.html): Surinamese Dollar rates from CBVS (the central bank, official reference) and CME (the cash market). The cash rate is what travellers actually receive at exchange offices in Paramaribo, not the mid-market rate shown by global currency converters.
