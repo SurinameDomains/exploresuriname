@@ -4723,6 +4723,12 @@ _BRAND_TX.update({
             "fr": "Faites-vous livrer ou récupérez votre commande au restaurant de votre choix.",
             "pt": "Receba em casa ou retire no restaurante que você escolher."},
     "menu": {"en": "On the menu", "nl": "Op het menu", "es": "En el menú", "zh": "菜单", "fr": "Au menu", "pt": "No cardápio"},
+    "menu_note": {"en": "Ask for prices and today\u2019s full menu in the WhatsApp chat.",
+                  "nl": "Vraag in de WhatsApp-chat naar prijzen en het volledige menu van vandaag.",
+                  "es": "Pregunta por los precios y el menú completo de hoy en el chat de WhatsApp.",
+                  "zh": "可在 WhatsApp 对话中询问价格和今日完整菜单。",
+                  "fr": "Demandez les prix et la carte complète du jour dans la discussion WhatsApp.",
+                  "pt": "Pergunte os preços e o cardápio completo de hoje na conversa do WhatsApp."},
     "about": {"en": "About {b}", "nl": "Over {b}", "es": "Sobre {b}", "zh": "关于 {b}", "fr": "À propos de {b}", "pt": "Sobre {b}"},
     "hungry": {"en": "Hungry? Order {b} now.", "nl": "Trek? Bestel nu {b}.", "es": "¿Con hambre? Pide {b} ahora.",
                "zh": "饿了吗？现在就订 {b}。", "fr": "Une petite faim ? Commandez {b} maintenant.",
@@ -13033,10 +13039,25 @@ _BRAND_PAGE_CSS = (
     'font-weight:700;font-size:14px;margin-bottom:10px}'
     '.bp-st{display:block;font-weight:700;font-size:15px;line-height:1.3;color:#1f2a22;margin-bottom:4px}'
     '.bp-sd{display:block;font-size:13.5px;line-height:1.45;color:#5f6b62}'
-    '.bp-menu{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}'
-    '.bp-menu li{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--card,#fff);'
-    'border:1px solid var(--bd-card,#EBE0CB);font-size:14px;color:#1f2a22}'
-    '.bp-menu li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--bhc)}'
+    '.bp-mn{position:relative;background:var(--card,#fff);border:1px solid var(--bd-card,#EBE0CB);border-radius:16px;'
+    'padding:24px 26px 0;overflow:hidden;box-shadow:var(--sh-card,0 1px 2px rgba(27,67,50,.05))}'
+    '.bp-mn::before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:var(--bhc)}'
+    '.bp-mn-k{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--bhc);margin:0 0 2px}'
+    '.bp-mn-h{font-family:Newsreader,Georgia,serif;font-size:1.65rem;font-weight:600;line-height:1.2;color:#1f2a22;margin:0 0 8px}'
+    '.bp-mn ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;column-gap:36px}'
+    '@media(min-width:640px){.bp-mn ol{grid-template-columns:repeat(2,minmax(0,1fr))}'
+    '.bp-mn li:nth-child(2){border-top:0}}'
+    '.bp-mn li{display:flex;align-items:baseline;gap:14px;padding:14px 0;border-top:1px solid #EFE6D4}'
+    '.bp-mn li:first-child{border-top:0}'
+    '.bp-mn-n{flex:none;width:22px;font-size:12.5px;font-weight:700;letter-spacing:.04em;color:var(--bhc);'
+    'font-variant-numeric:tabular-nums}'
+    '.bp-mn-i{font-family:Newsreader,Georgia,serif;font-size:1.2rem;line-height:1.3;color:#1f2a22}'
+    '.bp-mn-f{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;margin:6px -26px 0;'
+    'padding:14px 26px;background:#FAF6EC;border-top:1px solid #EFE6D4;font-size:13.5px;color:#5f6b62}'
+    '.bp-mn-f a{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#1A7F43;text-decoration:none}'
+    '.bp-mn-f a:hover{text-decoration:underline}'
+    '.bp-mn-f a svg{width:16px;height:16px}'
+    '@media(max-width:639px){.bp-mn{padding:20px 18px 0}.bp-mn-f{margin:6px -18px 0;padding:14px 18px}}'
     '.bp-about{font-size:15.5px;line-height:1.65;color:#3a423c;margin:0}'
     '.bp-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;'
     'background:var(--bhc);color:#fff;border-radius:18px;padding:22px 24px;margin:0 0 12px}'
@@ -13113,8 +13134,18 @@ def _brand_body_html(brand, n, short):
                 + '</ol></section>')
     items = _BRAND_TX["items"].get(brand) or []
     if items:
-        out += ('<section class="bp-sec"><h2 class="bp-h">' + _l10n_span(_BRAND_TX["menu"]) + '</h2><ul class="bp-menu">'
-                + "".join('<li>' + _l10n_span(it) + '</li>' for it in items) + '</ul></section>')
+        foot = ""
+        if can_order:
+            foot = ('<div class="bp-mn-f">' + _l10n_span(_BRAND_TX["menu_note"])
+                    + '<a href="' + html_lib.escape(_ORDER_LINES[brand], quote=True) + '" target="_blank" rel="noopener" '
+                    'data-ob="' + html_lib.escape(brand, quote=True) + '" data-op="menu" data-opg="' + short + '">'
+                    + _LA_SVG["wa"] + _l10n_span(_ORDER_TX["btn"]) + '</a></div>')
+        out += ('<section class="bp-sec"><div class="bp-mn">'
+                '<p class="bp-mn-k">' + _l10n_span(_BRAND_TX["menu"]) + '</p>'
+                '<h2 class="bp-mn-h" translate="no">' + html_lib.escape(brand) + '</h2><ol>'
+                + "".join('<li><span class="bp-mn-n">' + f"{i + 1:02d}" + '</span>' + _l10n_span(it, "bp-mn-i") + '</li>'
+                          for i, it in enumerate(items))
+                + '</ol>' + foot + '</div></section>')
     out += '<section class="bp-sec" id="locations" style="scroll-margin-top:90px">' + _brand_list_html(brand) + '</section>'
     desc = _BRAND_TX["desc"].get(brand)
     if desc:
