@@ -3509,7 +3509,7 @@
   {
     "slug": "clevia-park",
     "name": "Clevia Park",
-    "description": "Clevia Park is an outdoor recreation and entertainment park near Paramaribo offering leisure activities, events and a popular destination for family outings and group gatherings.",
+    "description": "Clevia Park is an outdoor recreation and entertainment park on the Kasoedjieweg in Paramaribo, popular for family outings, events and group gatherings. Every Sunday from 08:00 to 14:00 it hosts a herbal market with organic vegetables, medicinal herbs, herbal remedies, healthy food and local crafts.",
     "category": "",
     "location": "Paramaribo",
     "address": "Kasoedjieweg 186, Paramaribo",
@@ -21186,5 +21186,57 @@
     "facebook": "https://www.facebook.com/groups/765386336962549/",
     "hours": "Su 07:00-13:00",
     "geo": "5.87809,-55.04412"
+  },
+  {
+    "slug": "markt-zuid-paramaribo",
+    "name": "Markt-Zuid (Noodmarkt)",
+    "description": "Markt-Zuid, also called the Noodmarkt, is a covered public market on the Kankantriestraat in the south of Paramaribo. It was built around 1959 as a temporary market while the Centrale Markt was being rebuilt, and it never closed. Vendors sell vegetables, fruit and cold cuts, and there is a meat hall. It is open Monday to Saturday and much quieter than the Centrale Markt; by about 1 pm most stalls have packed up. The market is run by the district commissariat of Paramaribo Zuid, which plans to refurbish it with the stall fees.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Kankantriestraat, Paramaribo",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": "",
+    "geo": "5.81193,-55.17208"
+  },
+  {
+    "slug": "highway-markt",
+    "name": "Highway Markt (Houttuin)",
+    "description": "The Highway Markt is a Sunday market on the Martin Luther Kingweg in Houttuin, Wanica, known locally as the Sunday market along the Highway. Stalls sell vegetables and fruit, fresh and dried fish, meat and cooked food. The market buildings were rebuilt in 2023 and 2024 for more than SRD 6 million. Sunday morning is the main market day.",
+    "category": "",
+    "location": "Wanica",
+    "address": "Martin Luther Kingweg, Houttuin",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": "",
+    "geo": "5.75420,-55.16489"
+  },
+  {
+    "slug": "haitiaanse-markt-paramaribo",
+    "name": "Haitian Market (Mâche Unité)",
+    "description": "The Haitian Market, Mâche Unité or Eenheidsmarkt, is an open-air market on the Drambrandersgracht in Paramaribo, opened in 2017 by a cooperative of Haitian farmers in Suriname. Stalls sell root crops, hot peppers, fruit and vegetables grown by Haitian farmers. Vendors say regular customers come every day.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Drambrandersgracht, Paramaribo",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": "",
+    "geo": "5.82558,-55.17056"
+  },
+  {
+    "slug": "wakapasi-palmentuin",
+    "name": "Wakapasi Craft & More (Palmentuin)",
+    "description": "Wakapasi is a row of 24 wooden cabanas along the walkways of the Palmentuin in central Paramaribo, between the palm garden and the Van Roseveltkade. Opened in 2019, the stalls sell local crafts, snacks and drinks, and the area is lively in the evening. It is a short walk from the Waterkant and the Craft Market.",
+    "category": "",
+    "location": "Paramaribo",
+    "address": "Palmentuin / Van Roseveltkade, Paramaribo",
+    "phone": "",
+    "website": "",
+    "email": "",
+    "main_image": "",
+    "geo": "5.82862,-55.14956"
   }
 ]
