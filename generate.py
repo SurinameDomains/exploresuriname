@@ -34324,7 +34324,7 @@ def build_gas_page(points_data, info):
 
 
 
-# ── Markets in Suriname (30 Oct 2026, v2 redesign) ──────────────────────────
+# ── Markets in Suriname (30 Oct 2026, v3: calmer layout) ──────────────────────────
 # Guide page /markets-in-suriname + market listings (Shopping > Malls & Markets >
 # Markets). Facts re-checked 30 Oct 2026 (Starnieuws, DWT, Suriname Herald,
 # Dagblad Suriname, GFC Nieuws, Waterkant.net, gov.sr, cleviapark.sr, OSM).
@@ -34480,23 +34480,19 @@ _MK_CSS = """<style>
 .mk-facts{border-left:3px solid var(--coral);padding:.2rem 0 .2rem 1.1rem}
 .mk-facts dt{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b7280}
 .mk-facts dd{font-size:.98rem;color:#111827;margin:.15rem 0 .85rem;line-height:1.45}
-.mk-pickw{position:sticky;top:64px;z-index:20;background:var(--paper,#fbf7ef);margin:0 -1.25rem 1.6rem;padding:.7rem 1.25rem;border-bottom:1px solid rgba(0,0,0,.06)}
-.mk-pick{display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;align-items:center}
+.mk-pickw{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.8rem 1.5rem;margin:.4rem 0 1.4rem}
+.mk-pickw h2{font-size:1.65rem;font-weight:700;color:#111827}
+.mk-pick{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;align-items:center;padding:3px;border-radius:999px;background:rgba(27,67,50,.06);max-width:100%}
 .mk-pick::-webkit-scrollbar{display:none}
 .mk-pick[hidden]{display:none!important}
-@media(max-width:480px){.mk-pl{display:none}}
-.mk-pl{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6b7280;margin-right:.3rem;white-space:nowrap}
-.mk-pick button{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:3.4rem;padding:.42rem .7rem;
- border-radius:10px;border:1px solid rgba(0,0,0,.1);background:#fff;color:#1f2937;font-size:.88rem;font-weight:600;cursor:pointer;line-height:1.15}
-.mk-pick button small{font-size:.7rem;font-weight:500;color:#6b7280}
-.mk-pick button.is-today{border-color:var(--forest2)}
-.mk-pick button[aria-pressed="true"]{background:var(--forest);border-color:var(--forest);color:#fff}
-.mk-pick button[aria-pressed="true"] small{color:rgba(255,255,255,.75)}
-.mk-sec{margin-bottom:2.8rem}
-.mk-sec[hidden],.mk-c[hidden]{display:none!important}
-.mk-sh{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem 1rem;margin-bottom:1rem}
-.mk-sh h2{font-size:1.65rem;font-weight:700;color:#111827}
-.mk-sh p{font-size:.95rem;color:#6b7280;flex:1 1 22rem}
+.mk-pick button{flex:0 0 auto;display:inline-flex;align-items:baseline;gap:.3rem;padding:.45rem .85rem;border:0;border-radius:999px;
+ background:transparent;color:#374151;font-size:.88rem;font-weight:600;cursor:pointer;line-height:1.2;white-space:nowrap}
+.mk-pick button small{font-size:.72rem;font-weight:500;color:#9ca3af}
+.mk-pick button:hover{background:rgba(27,67,50,.08)}
+.mk-pick button[aria-pressed="true"]{background:var(--forest);color:#fff}
+.mk-pick button[aria-pressed="true"] small{color:rgba(255,255,255,.7)}
+.mk-c[hidden]{display:none!important}
+.mk-grid{margin-bottom:3rem}
 .mk-grid{display:grid;gap:1.1rem;grid-template-columns:1fr}
 @media(min-width:620px){.mk-grid{grid-template-columns:1fr 1fr}}
 @media(min-width:1000px){.mk-grid{grid-template-columns:1fr 1fr 1fr}}
@@ -34516,17 +34512,11 @@ _MK_CSS = """<style>
 .mk-badge{position:absolute;left:.7rem;top:.7rem;z-index:1;font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
  background:#fff;color:var(--forest);border-radius:999px;padding:.25rem .6rem;box-shadow:0 1px 4px rgba(0,0,0,.18)}
 .mk-badge[hidden]{display:none!important}
-.mk-cr{position:absolute;right:.45rem;bottom:.35rem;z-index:1;font-size:.62rem;color:rgba(255,255,255,.85);text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.mk-cr{position:absolute;right:.45rem;bottom:.3rem;z-index:1;font-size:.6rem;color:rgba(255,255,255,.7);text-shadow:0 1px 2px rgba(0,0,0,.6)}
 .mk-b{padding:1rem 1.1rem 1.1rem;display:flex;flex-direction:column;flex:1}
-.mk-area{font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--coral)}
+.mk-area{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#9ca3af}
 .mk-b h3{font-size:1.22rem;font-weight:700;line-height:1.25;color:#111827;margin:.2rem 0 .6rem}
 .mk-b h3 a{color:inherit}.mk-b h3 a:hover{text-decoration:underline}
-.mk-wk{display:flex;gap:3px;margin-bottom:.6rem}
-.mk-wk li{flex:1;text-align:center;font-size:.64rem;font-weight:600;padding:.22rem 0;border-radius:4px;background:#f1eee6;color:#a39e92;list-style:none;
- white-space:nowrap;overflow:hidden}
-.mk-wk li.on{background:var(--forest2);color:#fff}
-.mk-wk.vary li{background:repeating-linear-gradient(135deg,#f1eee6 0 4px,#e6e1d4 4px 8px);color:#8d877a}
-.mk-wk li.td{outline:2px solid var(--coral);outline-offset:-2px}
 .mk-when{font-size:.86rem;font-weight:600;color:#1f2937;margin-bottom:.35rem}
 .mk-what{font-size:.9rem;line-height:1.55;color:#4b5563;flex:1}
 .mk-lnk{display:flex;gap:1.1rem;margin-top:.85rem;font-size:.86rem;font-weight:600}
@@ -34560,7 +34550,6 @@ _MK_JS = r"""<script>
   function shown(c,x){return c.getAttribute('data-days')==='*'||has(c,x);}
   cards.forEach(function(c){
     if(has(c,d)){var b=c.querySelector('.mk-badge');if(b)b.hidden=false;}
-    var t=c.querySelector('.mk-wk li[data-d="'+d+'"]');if(t)t.classList.add('td');
   });
   var n=cards.filter(function(c){return has(c,d);}).length;
   var hd=document.querySelector('.mk-hday[data-d="'+d+'"]');if(hd)hd.hidden=false;
@@ -34573,7 +34562,6 @@ _MK_JS = r"""<script>
     var sel=function(x){
       [].forEach.call(pk.querySelectorAll('button'),function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-d')===String(x)));});
       cards.forEach(function(c){c.hidden=(x!=='all'&&!shown(c,+x));});
-      [].forEach.call(document.querySelectorAll('.mk-sec'),function(s){s.hidden=!s.querySelector('.mk-c:not([hidden])');});
     };
     pk.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;sel(b.getAttribute('data-d'));
       if(window.gtag)gtag('event','mk_day',{mk_day:b.getAttribute('data-d')});});
@@ -34620,8 +34608,6 @@ def _mk_card(slug, name, place, days, when, what):
         img = f'<div class="mk-ph-x" aria-hidden="true"><span>{_mk_ic("basket", 34)}</span></div>'
     ph = ('<div class="mk-ph">' + (f'<a class="mk-phl" href="{href}" tabindex="-1">{img}</a>' if href else img)
           + '<span class="mk-badge" hidden>Open today</span>' + (_img_credit_html(pk) if pk else "") + '</div>')
-    dset = set(days.split(",")) if days != "*" else set()
-    wk = "".join(f'<li data-d="{n}"{" class=on" if str(n) in dset else ""}>{s}</li>' for n, s, _f in _MK_DOW)
     links = []
     if href:
         links.append(f'<a href="{href}">Details</a>')
@@ -34631,7 +34617,6 @@ def _mk_card(slug, name, place, days, when, what):
     title = f'<a href="{href}">{name}</a>' if href else name
     return (f'<article class="mk-c" data-days="{days}">{ph}<div class="mk-b">'
             f'<p class="mk-area" translate="no">{place}</p><h3>{title}</h3>'
-            f'<ul class="mk-wk{" vary" if days == "*" else ""}">{wk}</ul>'
             f'<p class="mk-when">{when}</p><p class="mk-what">{what}</p>'
             + (f'<p class="mk-lnk">{"".join(links)}</p>' if links else "") + '</div></article>')
 
@@ -34691,15 +34676,11 @@ def build_markets_page():
         '<dt>Sunday</dt><dd>The Centrale Markt is closed; neighbourhood markets are open</dd>'
         '<dt>Pay with</dt><dd>Cash in small SRD notes</dd>'
         '<dt>Bring</dt><dd>A bag, and patience for the crowds</dd></dl></section>')
-    pick = ('<div class="mk-pickw"><div class="mk-pick" id="mk-pick" role="group" hidden>'
-            '<span class="mk-pl">Market day</span>'
+    pick = ('<div class="mk-pickw"><h2 class="serif">Markets by day</h2><div class="mk-pick" id="mk-pick" role="group" hidden>'
             f'<button type="button" data-d="all" aria-pressed="false">All<small translate="no">{len(allc)}</small></button>'
             + "".join(f'<button type="button" data-d="{n}" aria-pressed="false">{s}<small translate="no">{count[n]}</small></button>'
                       for n, s, _f in _MK_DOW) + '</div></div>')
-    secs = ""
-    for h, i, its in _MK_GROUPS:
-        secs += (f'<section class="mk-sec"><div class="mk-sh"><h2 class="serif">{h}</h2><p>{i}</p></div>'
-                 '<div class="mk-grid">' + "".join(_mk_card(*it) for it in its) + '</div></section>')
+    secs = '<div class="mk-grid" id="mk-list">' + "".join(_mk_card(*it) for it in allc) + '</div>'
     pts = []
     for it in allc:
         b = _BIZ.get(it[0]) or {}
@@ -34736,7 +34717,6 @@ def build_markets_page():
     main = ('<main class="mk-main">' + intro + pick + secs + band + notes
             + '<div class="max-w-3xl">' + _hub_faq_html(faq) + '</div>' + src + '</main>')
     return head + hero + main + "\n" + footer_html() + "\n" + _MK_JS + "\n</body>\n</html>"
-
 
 
 def _listing_img_credit(slug):
