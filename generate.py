@@ -18492,6 +18492,33 @@ def fetch_sml_table(cache, events=None, fifa_table=None):
             k = _sml_norm(r["n"])
             rows.append(dict(r, n=disp.get(k, r["n"]), b=badge.get(k, "")))
         src = "fifa"
+        # Results FIFA has not recorded yet (taken from Flashscore by
+        # _sml_overlay) are added on top of the official table.
+        _byk = {_sml_norm(r["n"]): r for r in rows}
+        _added = 0
+        for e in events or []:
+            if e.get("src") != "fs" or e.get("sx") != "post":
+                continue
+            try:
+                hs, as_ = int((e.get("h") or {}).get("s")), int((e.get("a") or {}).get("s"))
+            except (TypeError, ValueError):
+                continue
+            rh = _byk.get(_sml_norm((e.get("h") or {}).get("n")))
+            ra = _byk.get(_sml_norm((e.get("a") or {}).get("n")))
+            if rh is None or ra is None:
+                continue
+            for row, gf, ga in ((rh, hs, as_), (ra, as_, hs)):
+                row["p"] = row.get("p", 0) + 1
+                row["gf"] = row.get("gf", 0) + gf
+                row["ga"] = row.get("ga", 0) + ga
+                row["gd"] = row["gf"] - row["ga"]
+                k_ = "w" if gf > ga else ("d" if gf == ga else "l")
+                row[k_] = row.get(k_, 0) + 1
+                row["pts"] = row.get("pts", 0) + (3 if gf > ga else (1 if gf == ga else 0))
+            _added += 1
+        if _added:
+            rows.sort(key=lambda r: (-r.get("pts", 0), -r.get("gd", 0), -r.get("gf", 0)))   # stable: FIFA order on ties
+            src = "fifa+"
     else:
         tab = {}
         for e in events or []:
@@ -18531,6 +18558,56 @@ def fetch_sml_table(cache, events=None, fifa_table=None):
     print(f"  matches: SML table: {len(rows)} clubs ({src or 'none'}), {played} matches played, "
           f"{len(honours)} past champions")
     return out
+
+
+def _carib_rounds(evs):
+    """Concacaf's feed gives knockout games no round name. Label them: games
+    without a group are knockout ties (same two clubs = one tie, 1st/2nd leg by
+    date), a new round starts when a club already played in the current one,
+    and the first round has one tie per group (top two of each group go
+    through), so 2 groups = semi-finals then the final. The second leg gets the
+    aggregate once both legs are played."""
+    groups = {e.get("g") for e in evs if (e.get("g") or "").startswith("Group")}
+    ko = [e for e in evs if not e.get("g") and "TBC" not in ((e.get("h") or {}).get("n"), (e.get("a") or {}).get("n"))]
+    ko.sort(key=lambda e: e.get("d", ""))
+    ties, order = {}, []
+    for e in ko:
+        k = frozenset(((e.get("h") or {}).get("n"), (e.get("a") or {}).get("n")))
+        if k not in ties:
+            ties[k] = []
+            order.append(k)
+        ties[k].append(e)
+    rounds = []
+    for k in order:
+        if not rounds or any(k & kk for kk in rounds[-1]):
+            rounds.append([k])
+        else:
+            rounds[-1].append(k)
+    first = len(groups) or (len(rounds[0]) if rounds else 0)
+    names = {1: "Final", 2: "Semi-final", 4: "Quarter-final", 8: "Round of 16"}
+    for i, rnd in enumerate(rounds):
+        size = first >> i
+        nm = names.get(size)
+        if not nm or len(rnd) > size:
+            return   # not the format this rule expects: leave the games unlabelled
+        for k in rnd:
+            legs = ties[k]
+            if len(legs) == 1:
+                legs[0]["g"] = nm
+            elif len(legs) == 2:
+                e1, e2 = legs
+                e1["g"] = nm + " \u00b7 1st leg"
+                e2["g"] = nm + " \u00b7 2nd leg"
+                if e1.get("sx") == "post" and e2.get("sx") == "post":
+                    try:
+                        goals = {}
+                        for e in legs:
+                            for s_ in ("h", "a"):
+                                t = e.get(s_) or {}
+                                goals[t.get("n")] = goals.get(t.get("n"), 0) + int(t.get("s"))
+                        e2["g"] += (" \u00b7 Agg. " + str(goals[e2["h"]["n"]]) + "-" + str(goals[e2["a"]["n"]]))
+                    except (TypeError, ValueError, KeyError):
+                        pass
 
 
 def fetch_caribbean(cache):
@@ -18590,6 +18667,10 @@ def fetch_caribbean(cache):
                         "tbc": bool(m.get("isUnknownKickOffTime"))})
         if not evs:
             raise ValueError("Caribbean Cup payload empty")
+        try:
+            _carib_rounds(evs)
+        except Exception as exc:
+            print(f"  ! Caribbean Cup round labels failed ({exc})")
         print(f"  matches: Caribbean Cup: {len(evs)} fixtures (season {seasons[0].get('seasonName')})")
         out = {"label": label, "events": evs}
         cache["carib"] = out
@@ -18621,8 +18702,17 @@ def fetch_concacaf_natio(cache):
             print(f"  ! Concacaf seasons failed for {note} ({exc})")
             return chip, found, groups
         seasons = [sn for sn in seasons if sn.get("seasonId")]
-        seasons.sort(key=lambda sn: (sn.get("startDateUtc") or ""), reverse=True)
-        for sn in seasons[:2]:
+        # Newest first by the year in the season name: several seasons carry no
+        # start date (U-20 qualifying 2026, Women's U-17 2026) and used to sort
+        # last, so Suriname's 2026 youth qualifiers never reached the page.
+        _ny = datetime.now(timezone.utc).year
+
+        def _yr(sn):
+            _m = re.search(r"(20\d\d)", sn.get("seasonName") or "") or re.search(r"(20\d\d)", sn.get("startDateUtc") or "")
+            return int(_m.group(1)) if _m else 0
+        seasons = [sn for sn in seasons if _yr(sn) <= _ny + 1]
+        seasons.sort(key=lambda sn: (_yr(sn), sn.get("startDateUtc") or ""), reverse=True)
+        for sn in seasons[:3 if chip == "natioy" else 2]:
             sid = urllib.parse.quote(sn["seasonId"], safe="")
             try:
                 req = urllib.request.Request(f"{_SDP_BASE}/seasons/{sid}/matches?matchDayId=",
@@ -18647,6 +18737,14 @@ def fetch_concacaf_natio(cache):
                     sx = "post"
                 hs, aw = m.get("providerHomeScore"), m.get("providerAwayScore")
                 _rd = m.get("roundName") or m.get("groupName") or ""
+                if chip == "natioy":
+                    # Concacaf names some youth sides without the age ("Suriname",
+                    # "Belize"): add it, so a Women's U-17 game never reads like Natio.
+                    _age = re.search(r"U-?(\d\d)", note)
+                    if _age:
+                        hn = hn if re.search(r"\bU-?\d\d\b", hn) else f"{hn} U{_age.group(1)}"
+                        an = an if re.search(r"\bU-?\d\d\b", an) else f"{an} U{_age.group(1)}"
+
                 def _flag(t):
                     # National sides: a flag from flagcdn.com by ISO country code.
                     cc = (t.get("countryCode") or "").lower()
@@ -19068,7 +19166,58 @@ def fetch_sml_videos(cache):
         return cache.get("sml_videos", {})
 
 
-def _sml_overlay(evs, fifa_ms, vids):
+_FS_SML_URL = "https://www.flashscore.com/football/suriname/sml/results/"
+_FS_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+          "Chrome/141.0.0.0 Safari/537.36")
+
+
+def fetch_flashscore_sml(cache, need=True):
+    """Finished SML results from Flashscore's results page (a server-rendered
+    feed inside the HTML: AE/AF teams, AG/AH score, AD kickoff, AB/AC 3 =
+    finished). Second source only: FIFA's match centre records SML results
+    late (Flora-Leo Victor, Wed 28 Oct 2026, still 'scheduled' on FIFA 18 hours
+    later; Flashscore had the 1-2). Fetched only when a played game has no
+    result (need=True) and at most every 20 minutes; cached under 'fs_sml'.
+    Returns [{d, hn, an, hs, as}]; never raises."""
+    old = cache.get("fs_sml") or {}
+    stamp = int(datetime.now(timezone.utc).timestamp())
+    if not need or stamp - int(old.get("at") or 0) < 20 * 60:
+        return old.get("ms") or []
+    try:
+        req = urllib.request.Request(_FS_SML_URL, headers={"User-Agent": _FS_UA, "Accept": "text/html",
+                                                           "Accept-Language": "en"})
+        with urllib.request.urlopen(req, timeout=20) as r:
+            page = r.read().decode("utf-8", "replace")
+        ms, seen = [], set()
+        for feed in re.findall(r"data:\s*`([^`]*)`", page):
+            comp = ""
+            for blk in feed.split("~"):
+                f = dict(x.split("\u00f7", 1) for x in blk.split("\u00ac") if "\u00f7" in x)
+                if f.get("ZA"):
+                    comp = f["ZA"]
+                if not f.get("AA") or f["AA"] in seen or "SML" not in comp.upper():
+                    continue
+                seen.add(f["AA"])
+                if f.get("AB") != "3" or f.get("AC") != "3" or not f.get("AE") or not f.get("AF"):
+                    continue
+                try:
+                    ts, hs, as_ = int(f["AD"]), int(f["AG"]), int(f["AH"])
+                except (KeyError, ValueError):
+                    continue
+                ms.append({"d": datetime.fromtimestamp(ts, timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                           "hn": f["AE"], "an": f["AF"], "hs": hs, "as": as_})
+        if not ms:
+            raise ValueError("no finished SML games in the Flashscore page")
+        cache["fs_sml"] = {"at": stamp, "ms": ms}
+        print(f"  matches: Flashscore SML: {len(ms)} results")
+        return ms
+    except Exception as exc:
+        print(f"  ! Flashscore SML failed ({exc}); using cached results")
+        cache["fs_sml"] = dict(old, at=stamp)   # back off 20 minutes
+        return old.get("ms") or []
+
+
+def _sml_overlay(evs, fifa_ms, vids, fs_get=None):
     """Lay FIFA's SML results over the league's fixture list (sml.sr keeps the
     badges, venues and matchday labels; FIFA has the scores). Same two clubs
     within three days = the same game. FIFA games sml.sr does not list (play-offs)
@@ -19141,6 +19290,29 @@ def _sml_overlay(evs, fifa_ms, vids):
                 e["d"] = f["d"]   # rescheduled games keep the date they were played
             if f["hp"] is not None and f["ap"] is not None:
                 e["g"] = ((e.get("g") or "") + f" · {f['hp']}-{f['ap']} pens").lstrip(" ·")
+    # FIFA late with a result: take the final score from Flashscore (same two
+    # clubs within 36 hours, finished there). FIFA's own result wins once it
+    # arrives, because this only fills games that are still open.
+    _open = [e for e in evs if e.get("sx") not in ("post", "in") and _ts(e.get("d", "")) is not None
+             and now - timedelta(days=10) < _ts(e.get("d", "")) < now - timedelta(minutes=105)]
+    if _open and fs_get:
+        _fs = fs_get(True) or []
+        for e in _open:
+            ek = (_sml_norm((e.get("h") or {}).get("n")), _sml_norm((e.get("a") or {}).get("n")))
+            et = _ts(e.get("d", ""))
+            best, gap = None, None
+            for f in _fs:
+                if (_sml_norm(f.get("hn")), _sml_norm(f.get("an"))) != ek:
+                    continue
+                ft = _ts(f.get("d", ""))
+                if ft is None:
+                    continue
+                g_ = abs((ft - et).total_seconds())
+                if g_ <= 36 * 3600 and (gap is None or g_ < gap):
+                    best, gap = f, g_
+            if best is not None:
+                e["h"]["s"], e["a"]["s"] = str(best["hs"]), str(best["as"])
+                e["sx"], e["st"], e["src"] = "post", "FT", "fs"
     for e in evs:
         et = _ts(e.get("d", ""))
         if e.get("sx") == "pre" and et is not None and et < now - timedelta(hours=3):
@@ -19190,6 +19362,95 @@ def _tennis_final(e, code):
 
 
 _CRIC_TEAMS = {"india", "west indies"}
+
+# Cricket pauses in the status column (a Test at stumps is not "live").
+_PAUSE_L10N = {
+    "Stumps": {"nl": "Einde dag", "es": "Fin día", "zh": "当日结束", "fr": "Fin jour", "pt": "Fim dia"},
+    "Lunch": {"nl": "Lunch", "es": "Almuerzo", "zh": "午餐", "fr": "Déjeuner", "pt": "Almoço"},
+    "Tea": {"nl": "Thee", "es": "Té", "zh": "茶歇", "fr": "Thé", "pt": "Chá"},
+    "Break": {"nl": "Pauze", "es": "Pausa", "zh": "局间", "fr": "Pause", "pt": "Intervalo"},
+    "Delay": {"nl": "Vertraagd", "es": "Retraso", "zh": "延误", "fr": "Retard", "pt": "Atraso"},
+}
+
+# Round / stage labels from the feeds ("Matchweek 4", "Group B", "Tier F -
+# Semi-finals", "Men's International Friendly") in the five other languages.
+# Competition names stay as they are; a label part with no rule stays English.
+_LBL_FIXED = {
+    "Men's International Friendly": {"nl": "Vriendschappelijke interland", "es": "Amistoso internacional",
+                                     "zh": "国际友谊赛", "fr": "Match amical international", "pt": "Amistoso internacional"},
+    "International friendly": {"nl": "Vriendschappelijke interland", "es": "Amistoso internacional",
+                               "zh": "国际友谊赛", "fr": "Match amical international", "pt": "Amistoso internacional"},
+    "World Cup qualifying": {"nl": "WK-kwalificatie", "es": "Eliminatorias del Mundial", "zh": "世界杯预选赛",
+                             "fr": "Qualifications pour la Coupe du monde", "pt": "Eliminatórias da Copa do Mundo"},
+    "FIFA World Cup™ Qualifiers": {"nl": "WK-kwalificatie", "es": "Eliminatorias del Mundial", "zh": "世界杯预选赛",
+                                   "fr": "Qualifications pour la Coupe du monde", "pt": "Eliminatórias da Copa do Mundo"},
+    "W World Cup qualifying": {"nl": "WK-kwalificatie vrouwen", "es": "Eliminatorias del Mundial femenino",
+                               "zh": "女足世界杯预选赛", "fr": "Qualifications Coupe du monde féminine",
+                               "pt": "Eliminatórias da Copa do Mundo feminina"},
+    "Gold Cup qualifying": {"nl": "Gold Cup-kwalificatie", "es": "Eliminatorias de la Copa Oro", "zh": "金杯赛预选赛",
+                            "fr": "Qualifications pour la Gold Cup", "pt": "Eliminatórias da Copa Ouro"},
+    "U-20 qualifying": {"nl": "U20-kwalificatie", "es": "Eliminatorias Sub-20", "zh": "U20预选赛",
+                        "fr": "Qualifications U20", "pt": "Eliminatórias Sub-20"},
+    "Women's U-20 qualifying": {"nl": "U20-kwalificatie vrouwen", "es": "Eliminatorias Sub-20 femenino",
+                                "zh": "女足U20预选赛", "fr": "Qualifications U20 féminines", "pt": "Eliminatórias Sub-20 feminino"},
+    "Qualifying Round": {"nl": "Kwalificatieronde", "es": "Ronda clasificatoria", "zh": "资格赛",
+                         "fr": "Tour qualificatif", "pt": "Fase de qualificação"},
+    "League Phase": {"nl": "Competitiefase", "es": "Fase liga", "zh": "联赛阶段", "fr": "Phase de ligue", "pt": "Fase de liga"},
+    "Group Stage": {"nl": "Groepsfase", "es": "Fase de grupos", "zh": "小组赛", "fr": "Phase de groupes", "pt": "Fase de grupos"},
+    "1st leg": {"nl": "heenwedstrijd", "es": "ida", "zh": "首回合", "fr": "match aller", "pt": "jogo de ida"},
+    "2nd leg": {"nl": "terugwedstrijd", "es": "vuelta", "zh": "次回合", "fr": "match retour", "pt": "jogo de volta"},
+}
+_LBL_ROUND = {
+    "final": {"nl": "Finale", "es": "Final", "zh": "决赛", "fr": "Finale", "pt": "Final"},
+    "semi": {"nl": "Halve finale", "es": "Semifinal", "zh": "半决赛", "fr": "Demi-finale", "pt": "Semifinal"},
+    "quarter": {"nl": "Kwartfinale", "es": "Cuartos de final", "zh": "四分之一决赛", "fr": "Quart de finale",
+                "pt": "Quartas de final"},
+    "16": {"nl": "Achtste finale", "es": "Octavos de final", "zh": "16强", "fr": "Huitième de finale",
+           "pt": "Oitavas de final"},
+    "32": {"nl": "Zestiende finale", "es": "Dieciseisavos de final", "zh": "32强", "fr": "Seizième de finale",
+           "pt": "Dezesseis-avos de final"},
+}
+_LBL_RX = [
+    (re.compile(r"^Matchweek (\d+)$"), {"nl": "Speelronde {0}", "es": "Jornada {0}", "zh": "第{0}轮",
+                                         "fr": "Journée {0}", "pt": "Rodada {0}"}),
+    (re.compile(r"^Group ([A-Z]{1,2}\d?)$"), {"nl": "Groep {0}", "es": "Grupo {0}", "zh": "{0}组",
+                                              "fr": "Groupe {0}", "pt": "Grupo {0}"}),
+    (re.compile(r"^Agg\. (\d+-\d+)$"), {"nl": "Totaal {0}", "es": "Global {0}", "zh": "总比分 {0}",
+                                       "fr": "Cumul {0}", "pt": "Agregado {0}"}),
+]
+_LBL_RD = re.compile(r"^(.+? [-\u2013] )?(Finals?|Semi-?finals?|Quarter-?finals?|Round of (16|32))$", re.I)
+
+
+def _lbl_l10n(g):
+    """{lang: label} for a feed label, or {} when no part of it has a rule."""
+    if not g:
+        return {}
+    parts = re.split(r"( \u00b7 |, )", g)
+    out, hit = {lang: [] for lang in ("nl", "es", "zh", "fr", "pt")}, False
+    for p in parts:
+        tr = None
+        if p in (" \u00b7 ", ", "):
+            tr = None
+        elif p in _LBL_FIXED:
+            tr = _LBL_FIXED[p]
+        else:
+            for rx, tpl in _LBL_RX:
+                m = rx.match(p)
+                if m:
+                    tr = {k: v.format(*m.groups()) for k, v in tpl.items()}
+                    break
+            if tr is None:
+                m = _LBL_RD.match(p)
+                if m:
+                    w = m.group(2).lower()
+                    key = (m.group(3) or ("final" if w.startswith("final") else
+                                          ("semi" if w.startswith("semi") else "quarter")))
+                    tr = {k: (m.group(1) or "") + v for k, v in _LBL_ROUND[key].items()}
+        if tr:
+            hit = True
+        for lang in out:
+            out[lang].append(tr[lang] if tr else p)
+    return {k: "".join(v) for k, v in out.items()} if hit else {}
 _CRIC_LEAGUES = ("indian premier league", "caribbean premier league")
 
 
@@ -19241,6 +19502,21 @@ def _cric_rows(d):
                 a = next((c for c in comps if c is not h), comps[1])
                 fs = e.get("fullStatus") or {}
                 sx = ((fs.get("type") or {}).get("state")) or e.get("status") or "pre"
+                # ESPN keeps a Test 'in' progress overnight; its type.description
+                # says Stumps / Lunch / Tea / Innings Break / Rain Delay.
+                _desc = ((fs.get("type") or {}).get("description") or "").strip().lower()
+                pause = ""
+                if sx == "in":
+                    if "stumps" in _desc:
+                        pause = "Stumps"
+                    elif "lunch" in _desc:
+                        pause = "Lunch"
+                    elif _desc.startswith("tea"):
+                        pause = "Tea"
+                    elif "innings break" in _desc:
+                        pause = "Break"
+                    elif any(w in _desc for w in ("rain", "delay", "bad light", "wet outfield", "suspend")):
+                        pause = "Delay"
                 summ = (fs.get("summary") or "").strip()
                 title = (e.get("title") or "").strip()
                 note = summ if sx in ("post", "in") and summ else title
@@ -19259,7 +19535,8 @@ def _cric_rows(d):
                     "h": {"n": h.get("displayName", ""), "l": h.get("logo", ""), "s": _sc(h)},
                     "a": {"n": a.get("displayName", ""), "l": a.get("logo", ""), "s": _sc(a)},
                     "v": e.get("location", "") or "", "g": note, "gl": gl,
-                    "st": "" if sx == "pre" else ("Live" if sx == "in" else "Result"),
+                    "st": "" if sx == "pre" else (pause or "Live") if sx == "in" else "Result",
+                    "pz": pause,
                     "sx": sx, "tbc": not e.get("timeValid", True),
                     "win": ("h" if h.get("winner") else ("a" if a.get("winner") else "")) if sx == "post" else "",
                     "lk": ("sc|" + link) if link.startswith("https://") else ""}
@@ -19579,7 +19856,8 @@ def fetch_matches_data():
     _fsml = {}
     try:
         _fsml = fetch_fifa_sml(cache)
-        _sml_overlay(out["sml"]["events"], _fsml.get("matches"), fetch_sml_videos(cache))
+        _sml_overlay(out["sml"]["events"], _fsml.get("matches"), fetch_sml_videos(cache),
+                     fs_get=lambda need: fetch_flashscore_sml(cache, need))
     except Exception as exc:
         print(f"  ! SML results overlay failed ({exc})")
     out["carib"] = fetch_caribbean(cache)
@@ -19743,6 +20021,8 @@ _MT2_CSS = """  <style>
     .sp-t img,.sp-ph{width:56px;height:56px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.25))}
     .sp-ph{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.14);font-weight:800}
     .sp-t b{font-size:.95rem;line-height:1.2;overflow-wrap:break-word;max-width:100%}
+@media (max-width:359px){.sp-vs{grid-template-columns:repeat(3,minmax(0,1fr));gap:.35rem}.sp-cd{border-radius:.6rem}.sp-t b{font-size:.82rem}.sp-t img,.sp-ph{width:44px;height:44px}.sp-time{font-size:1.9rem}.sp-cd{font-size:.64rem;text-align:center;padding:.15rem .45rem}}
+.mr.pz .mr-st b{font-size:.68rem;line-height:1.15;color:#6b7280}
     .sp-c{display:flex;flex-direction:column;align-items:center;gap:.15rem}
     .sp-time{font-family:Newsreader,Georgia,serif;font-size:2.4rem;line-height:1;color:var(--gold)}
     .sp-d{font-size:.78rem;opacity:.85}
@@ -20050,7 +20330,7 @@ function apply(){
   var f=favs(),shown=0,inEarlier=0;
   rows.forEach(function(r){
     var ok=(st.grp==='all'||r.getAttribute('data-grp')===st.grp)&&(st.lg==='all'||r.getAttribute('data-lg')===st.lg)
-      &&(!st.live||r.getAttribute('data-sx')==='in')&&(!st.my||rowFav(r));
+      &&(!st.live||(r.getAttribute('data-sx')==='in'&&!r.hasAttribute('data-pause')))&&(!st.my||rowFav(r));
     r.hidden=!ok; if(ok){shown++; if(r.closest('#mt-earlier'))inEarlier++;}
   });
   $$('.mt-cg').forEach(function(g){
@@ -20221,7 +20501,7 @@ function liveTick(){
   var p2=Promise.all(fr.map(function(r){return fetch('https://api.fifa.com/api/v3/live/football/'+r.getAttribute('data-fifa')+'?language=en').then(function(x){return x.json();}).then(function(j){updFifa(r,j);}).catch(function(){});}));
   Promise.all([p1,p2]).then(function(){countLive();paintFavs();}).finally(function(){busy=false;});
 }
-function countLive(){var n=rows.filter(function(r){return r.getAttribute('data-sx')==='in';}).length,b=$('#mt-live');if(b){b.hidden=!n&&!st.live;$('#mt-live-n').textContent=n;}}
+function countLive(){var n=rows.filter(function(r){return r.getAttribute('data-sx')==='in'&&!r.hasAttribute('data-pause');}).length,b=$('#mt-live');if(b){b.hidden=!n&&!st.live;$('#mt-live-n').textContent=n;}}
 
 /* ---------- match sheet ---------- */
 var cur=null,curData=null,curTab=null,userTab=false,sheetTimer=null;
@@ -20231,7 +20511,7 @@ function sheetBase(r){
   var sc=$$('.mr-s',r).map(function(x){return x.textContent;});
   return {h:h,a:a,t:t,hl:imgs[0]||'',al:imgs[1]||'',hs:sc[0]||'',as:sc[1]||'',sx:r.getAttribute('data-sx'),
     ts:+r.getAttribute('data-ts'),lg:(LGM[r.getAttribute('data-lg')]||[''])[0],col:(LGM[r.getAttribute('data-lg')]||['',''])[1],grp:r.getAttribute('data-grp'),
-    v:r.getAttribute('data-v')||'',g:r.getAttribute('data-g')||'',tbc:r.getAttribute('data-tbc'),
+    v:r.getAttribute('data-v')||'',g:($('.mr-g',r)?$('.mr-g',r).textContent:(r.getAttribute('data-g')||'')),tbc:r.getAttribute('data-tbc'),
     st:$('.mr-st b',r)?$('.mr-st b',r).textContent:''};
 }
 function favBtn(name,grp){var k=fkey(name,grp),on=isFav(k);return '<button type="button" class="ms-fv'+(on?' on':'')+'" data-fav="'+esc(k)+'">'+(on?'★ '+esc(T.following):'☆ '+esc(T.follow))+'</button>';}
@@ -20502,6 +20782,10 @@ def build_matches_page(matches):
                 stc = '<b>TBC</b>'
             else:
                 stc = '<b>' + dt.strftime("%H:%M") + '</b><small>SR</small>'
+        elif sx == "in" and e.get("pz"):
+            _pz = _PAUSE_L10N.get(e["pz"], {})
+            stc = ('<b' + ((' data-l10n="' + esc(json.dumps(_pz, ensure_ascii=False)) + '"') if _pz else '')
+                   + '>' + esc(e["pz"]) + '</b>')
         elif sx == "in":
             _lv = st_raw if (st_raw and len(st_raw) <= 9 and not title) else "LIVE"
             stc = '<b>' + esc(_lv) + '</b>'
@@ -20510,7 +20794,8 @@ def build_matches_page(matches):
             if st_raw in ("AET", "FT-Pens", "Final/OT", "Final/2OT", "Pens"):
                 _ft = {"Final/OT": "OT", "Final/2OT": "2OT", "FT-Pens": "Pens"}.get(st_raw, st_raw)
             stc = '<b>' + ("ENDED" if title else _ft) + '</b>'
-        cls = ("mr" + (" live" if sx == "in" else "") + (" ft" if sx == "post" else "")
+        cls = ("mr" + (" live" if sx == "in" and not e.get("pz") else "") + (" pz" if sx == "in" and e.get("pz") else "")
+               + (" ft" if sx == "post" else "")
                + (" pend" if sx == "pend" else "") + (" natio" if is_natio else ""))
         attrs = f' data-lg="{key}" data-grp="{grp}" data-ts="{int(dt.timestamp())}" data-sx="{sx}"'
         if e.get("id") and e.get("lc"):
@@ -20521,6 +20806,8 @@ def build_matches_page(matches):
             attrs += f' data-g="{esc(e["g"])}"'
         if e.get("tbc"):
             attrs += ' data-tbc="1"'
+        if sx == "in" and e.get("pz"):
+            attrs += ' data-pause="1"'
         if e.get("fifa"):
             attrs += f' data-fifa="{esc(e["fifa"])}"'
         if e.get("lk"):
@@ -20569,8 +20856,10 @@ def build_matches_page(matches):
         _gn, _ln = re.sub(r"[^a-z0-9]", "", (e.get("g") or "").lower()), re.sub(r"[^a-z0-9]", "", label.lower())
         if _gn and not (_gn in _ln or _ln in _gn):
             _gl = e.get("gl") or (_cric_l10n(e.get("g")) if key == "cric" and sx == "post" else {})
+            if not _gl and key not in ("cric", "glory", "boxing", "ufc"):
+                _gl = _lbl_l10n(e["g"])
             _l10 = (' data-l10n="' + esc(json.dumps(_gl, ensure_ascii=False)) + '"') if _gl else ''
-            meta.append('<span translate="no"' + _l10 + '>' + esc(e["g"]) + '</span>')
+            meta.append('<span class="mr-g" translate="no"' + _l10 + '>' + esc(e["g"]) + '</span>')
         if e.get("gx"):
             meta.append('<span>' + esc(e["gx"]) + '</span>')
         _vv = e.get("v") or ""
@@ -20604,7 +20893,12 @@ def build_matches_page(matches):
     for _day in sorted(_by_day):
         _drows = _by_day[_day]
         dkey = _day.isoformat()
-        _dl = '<span data-srdate="' + dkey + '" translate="no">' + _drows[0][0].strftime("%A %d %B") + '</span>'
+        if _day.year != today.year:
+            # Last year's Natio games sit in "earlier results": without the year
+            # "Tuesday 18 November" (2025) read like an upcoming game.
+            _dl = '<span data-srdate-long="' + dkey + '" translate="no">' + _drows[0][0].strftime("%A %d %B %Y") + '</span>'
+        else:
+            _dl = '<span data-srdate="' + dkey + '" translate="no">' + _drows[0][0].strftime("%A %d %B") + '</span>'
         if _day == today:
             daylab = 'Today <small>&middot; ' + _dl + '</small>'
         elif _day == today + timedelta(days=1):
@@ -20666,7 +20960,7 @@ def build_matches_page(matches):
         _cl, _gp = lg_meta[k][1], lg_meta[k][2]
         comp_items += (f'<button type="button" data-mtf="{k}" data-grp="{_gp}" class="mt-ci">'
                        f'<i style="background:{_cl}"></i><span>{esc(lb)}</span><small translate="no">{present[k]}</small></button>')
-    n_live = sum(1 for r in rows if r[4].get("sx") == "in")
+    n_live = sum(1 for r in rows if r[4].get("sx") == "in" and not r[4].get("pz"))
     toolbar = ('<div class="mt-bar">'
                '<button type="button" id="mt-live" class="mt-tb"' + ('' if n_live else ' hidden') + '>'
                '<span class="mt-dot"></span><span>Live</span> <b id="mt-live-n" translate="no">' + str(n_live) + '</b></button>'
@@ -20703,7 +20997,9 @@ def build_matches_page(matches):
     if _pick:
         dt, k, lb, _c, e = _pick
         h, a = e.get("h") or {}, e.get("a") or {}
-        spot = ('<section class="sp" data-sec="spot"><p class="sp-k">Natio &middot; next match</p>'
+        _kick = ('Natio &middot; next match' if k == "natio"
+                 else '<span>' + esc(lb) + '</span> &middot; <span>next match</span>')
+        spot = ('<section class="sp" data-sec="spot"><p class="sp-k">' + _kick + '</p>'
                 '<div class="sp-vs"><div class="sp-t">' + _logo_img(h) + '<b translate="no">' + esc(h.get("n", "")) + '</b></div>'
                 '<div class="sp-c"><b class="sp-time" translate="no">' + (
                     (esc(h.get("s") or "0") + "&ndash;" + esc(a.get("s") or "0")) if e.get("sx") == "in"
@@ -20711,7 +21007,8 @@ def build_matches_page(matches):
                 '<span class="sp-d"><span data-srdate="' + dt.strftime("%Y-%m-%d") + '" translate="no">' + dt.strftime("%a %d %b") + '</span></span>'
                 '<span class="sp-cd" data-cd="' + str(int(dt.timestamp())) + '"></span></div>'
                 '<div class="sp-t">' + _logo_img(a) + '<b translate="no">' + esc(a.get("n", "")) + '</b></div></div>'
-                '<p class="sp-m" translate="no">' + esc(e.get("g") or lb) + ((' &middot; ' + esc(e["v"])) if e.get("v") else '') + '</p>')
+                '<p class="sp-m" translate="no"><span' + ((' data-l10n="' + esc(json.dumps(_lbl_l10n(e.get("g")), ensure_ascii=False)) + '"')
+                                                         if _lbl_l10n(e.get("g")) else '') + '>' + esc(e.get("g") or lb) + '</span>' + ((' &middot; ' + esc(e["v"])) if e.get("v") else '') + '</p>')
     elif _sml_next:
         day0 = _sml_next[0][0].date()
         todays = [r for r in _sml_next if r[0].date() == day0][:4]
@@ -20727,14 +21024,19 @@ def build_matches_page(matches):
                      '<span class="sp-rn">' + _logo_img(a, 22) + esc(a.get("n", "")) + '</span></span>'
                      + (('<span class="sp-rvn" translate="no">' + esc(e["v"].split(",")[0]) + '</span>') if e.get("v") else '') + '</div>')
         spot += '</div>'
+    if not spot and _nat_last:
+        spot = '<section class="sp" data-sec="spot"><p class="sp-k">Natio</p>'
+    if spot and not _nat_next:
+        spot += '<p class="sp-last sp-tba">The next senior Natio match has not been announced yet.</p>'
     if spot:
         if _nat_last:
             dt, k, lb, _c, e = _nat_last[-1]
             h, a = e.get("h") or {}, e.get("a") or {}
             spot += ('<p class="sp-last">Last Natio result: <b translate="no">' + esc(h.get("n", "")) + ' '
                      + esc(h.get("s", "")) + '-' + esc(a.get("s", "")) + ' ' + esc(a.get("n", "")) + '</b> '
-                     '<span translate="no">(' + esc(lb) + ', <span data-srdate="' + dt.strftime("%Y-%m-%d") + '">'
-                     + dt.strftime("%d %b") + '</span>)</span></p>')
+                     '<span translate="no">(' + esc(lb) + ', <span data-srdate' + ('' if dt.year == today.year else '-long')
+                     + '="' + dt.strftime("%Y-%m-%d") + '">'
+                     + dt.strftime("%d %b" if dt.year == today.year else "%d %b %Y") + '</span>)</span></p>')
         spot += '</section>'
 
     # Popular follow suggestions: only names that really occur in the feeds.
@@ -20770,7 +21072,9 @@ def build_matches_page(matches):
     if _trows:
         sml_card = ('<p class="tb-note">' + ('<b translate="no">' + esc(_tbl["season"]) + '</b> &middot; ' if _tbl.get("season") else '')
                     + ('<span>The official table, as published in FIFA&#8217;s match centre.</span>' if _tbl.get("src") == "fifa"
-                       else '<span>Computed from finished SML results (3 points a win).</span>') + '</p>'
+                       else ('<span>The official table from FIFA&#8217;s match centre, with the latest results added.</span>'
+                             if _tbl.get("src") == "fifa+"
+                             else '<span>Computed from finished SML results (3 points a win).</span>')) + '</p>'
                     '<div class="tb-wrap"><table class="tb">' + _th([("#", "n"), ("Club", "c"), ("P", "n"), ("W", "n hs"), ("D", "n hs"), ("L", "n hs"), ("GD", "n"), ("Pts", "n b")]) + '<tbody>')
         for i, r in enumerate(_trows, 1):
             _b = (f'<img src="{esc(r.get("b", ""))}" alt="" width="20" height="20" loading="lazy">' if r.get("b") else '')
@@ -20933,7 +21237,8 @@ def build_matches_page(matches):
          "appears on this page."),
         ("Where do the Suriname Major League results come from?",
          "From FIFA's match centre, which records every SML result after the match and keeps the official "
-         "table. Fixtures, venues and club badges come from the league's own site, sml.sr, and a match opens "
+         "table. When FIFA is late with a result, the final score comes from Flashscore and is added to the "
+         "table until FIFA has it. Fixtures, venues and club badges come from the league's own site, sml.sr, and a match opens "
          "the league's highlight video when there is one. FIFA does not publish goal scorers for the SML, so "
          "SML matches show the final score only."),
         ("When does Natio play next?",
@@ -20994,7 +21299,7 @@ def build_matches_page(matches):
             + '<div class="mt-10"></div>'
             + _hub_card("About this page", "One Page, Every Start Time, Suriname Time", about_body)
             + _hub_faq_html(faq)
-            + '<p class="mt-foot">Match data: ESPN, FIFA&#8217;s match centre, Concacaf and sml.sr; Glory, boxing and '
+            + '<p class="mt-foot">Match data: ESPN, FIFA&#8217;s match centre, Concacaf, sml.sr and Flashscore; Glory, boxing and '
               'running events from the organisers&#8217; own sites. Schedules rebuild every 15 minutes; live scores '
               'refresh in your browser.</p></main>')
 
