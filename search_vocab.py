@@ -563,14 +563,16 @@ C("sports", "Sports & activities", "Sport & activiteiten", "Deportes", "运动",
 
 # ── Shopping ───────────────────────────────────────────────────────────────
 C("supermarket", "Supermarkets & groceries", "Supermarkten & boodschappen", "Supermercados", "超市", "Supermarchés", "Supermercados",
-  "supermarkt, supermarkten, supermarket, supermarkets, supermarkert, super, minimarkt, minimarket, toko, "
+  "supermarkt, supermarkten, supermarket, supermarkets, supermarkert, suppermarkt, suprmarkt, supermakt, super, minimarkt, minimarket, toko, "
   "chinese winkel, chinees winkel, snesi winkel, snesi wenkri, wenkri, winkri, boodschappen, boodschappen doen, groceries, "
   "grocery, grocery store, food store, levensmiddelen, kruidenier, kruidenierswaren, provisions",
   sub="supermarkets", rx=r"supermar|grocer|minimar|boodschappen|levensmiddel|kruidenier", scope="H", r="market")
 C("market", "Markets & fresh produce", "Markten & groente en fruit", "Mercados", "市场与农产品", "Marchés & primeurs", "Mercados e hortifrúti",
   "markt, markten, market, markets, centrale markt, versmarkt, groente, groenten, fruit, groente en fruit, fruitwinkel, "
-  "vegetables, produce, fresh produce, boerenmarkt, farmers market, bazaar, kruiden, specerijen, spices, rijst, rice",
-  sub="", rx=r"\|.*(\bmarkt\b|(fresh|central|farmers'?|fruit|vegetable|fish|night|food) market|groentemarkt|bazaar|market hall|markthal)",
+  "vegetables, produce, fresh produce, boerenmarkt, farmers market, bazaar, kruiden, specerijen, spices, rijst, rice, "
+  "zondagmarkt, zondagsmarkt, sunday market, landbouwmarkt, kwattamarkt, javaanse markt, vlooienmarkt, flea market, "
+  "rommelmarkt, marronmarkt, maroon market, plantenmarkt, orchideeenmarkt, orchid market, pasar, pasar malam",
+  sub="markets", rx=r"\|.*(\bmarkt\b|(fresh|central|farmers'?|fruit|vegetable|fish|night|food|sunday|farmers'?) market|groentemarkt|market hall|markthal)",
   scope="H", r="supermarket")
 C("butcher", "Butchers, meat & fish", "Slagers, vlees & vis", "Carnicerías y pescaderías", "肉铺与鱼店", "Boucheries & poissonneries", "Açougues e peixarias",
   "slager, slagers, slagerij, slagerijen, vlees, meat, butcher, butchers, butchery, kip, kippen, chicken, kippenvlees, "
@@ -1074,6 +1076,9 @@ _STREET = re.compile(r"\b[\w'.-]*(weg|straat|laan|kade|plein|dreef|singel|gracht
 _SCOPE = {"Eat & Drink": "E", "Stay": "S", "Nature": "N", "Activities": "A", "Shopping": "H", "Services": "V"}
 
 
+_MARKET_RX_OK = {"snacks", "flowers", "gifts"}
+
+
 def tags_for(b, cat, nl_desc=""):
     """Concept ids a listing really offers. `b` is a listing dict (name, subcat,
     description), `cat` its section ("Eat & Drink" ...), nl_desc the Dutch
@@ -1095,6 +1100,11 @@ def tags_for(b, cat, nl_desc=""):
             # a negative pattern anywhere cancels the description match
             # (type membership via `sub` still applies)
             hit = neg is None or not neg.search(txt)
+        # A market sells a bit of everything (fish, meat, phones, clothes); if each of
+        # those words tagged it, "slagerij wanica" would rank the Kwatta market above
+        # the butchers. Markets keep "market" and only these description needs.
+        if hit and sub == "markets" and c["i"] not in _MARKET_RX_OK and not (sub in subs):
+            hit = False
         if hit:
             out.append(c["i"])
     return out
