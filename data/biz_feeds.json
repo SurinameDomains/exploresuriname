@@ -24,11 +24,6 @@
    "title": "Bekendmaking OIA",
    "link": "https://belastingdienst.sr/bekendmaking-oia/",
    "date": "2026-09-01"
-  },
-  {
-   "title": "Bekendmaking 31 augustus 2026",
-   "link": "https://belastingdienst.sr/bekendmaking-31-augustus-2026/",
-   "date": "2026-08-31"
   }
  ],
  "bekendmakingen": [
@@ -204,16 +199,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-10-30T19:27-03:00",
+   "ok": "2026-10-31T02:54-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-10-30T19:27-03:00",
+   "ok": "2026-10-31T02:54-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-10-30T19:27-03:00"
+ "updated": "2026-10-31T02:54-03:00"
 }
