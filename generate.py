@@ -20838,8 +20838,12 @@ function paintFavs(){
     var mine=rows.filter(function(r){return rfk(r).indexOf(k)>-1;});
     var name=k.split('|')[0],img='',dispName=name;
     mine.some(function(r){var fk=rfk(r),side=fk[0]===k?0:1;var tm=$$('.mr-tm',r)[side];if(tm){dispName=$('span',tm).textContent;var im=$('img',tm);if(im)img=im.getAttribute('src');return true;}return false;});
-    var nxt=mine.filter(function(r){var s=r.getAttribute('data-sx');return s==='pre'||s==='in';})[0];
-    var lst=mine.filter(function(r){return r.getAttribute('data-sx')==='post';}).pop();
+    /* pick by kickoff time, not DOM order: earlier results are listed newest day first */
+    var nxt=null,lst=null;
+    mine.forEach(function(r){var s=r.getAttribute('data-sx'),ts=+r.getAttribute('data-ts');
+      if(s==='in'){if(!nxt||nxt.getAttribute('data-sx')!=='in'||ts<+nxt.getAttribute('data-ts'))nxt=r;}
+      else if(s==='pre'){if(!nxt||(nxt.getAttribute('data-sx')!=='in'&&ts<+nxt.getAttribute('data-ts')))nxt=r;}
+      else if(s==='post'){if(!lst||ts>+lst.getAttribute('data-ts'))lst=r;}});
     function ln(r,lbl){
       if(!r)return '';
       var h=r.getAttribute('data-h'),a=r.getAttribute('data-a'),ts=+r.getAttribute('data-ts'),sx=r.getAttribute('data-sx');
