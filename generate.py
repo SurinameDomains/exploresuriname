@@ -19092,7 +19092,10 @@ def fetch_caribbean(cache):
                                                    m.get("cityName") or "") if x),
                         "g": m.get("groupName") or m.get("roundName") or "",
                         "st": "FT" if sx == "post" else "", "sx": sx,
-                        "tbc": bool(m.get("isUnknownKickOffTime"))})
+                        "tbc": bool(m.get("isUnknownKickOffTime")),
+                        # season|match: the browser polls Concacaf's season list for live scores
+                        "cc": ((m.get("seasonId") or "") + "|" + (m.get("matchId") or ""))
+                              if (m.get("seasonId") and m.get("matchId")) else ""})
         if not evs:
             raise ValueError("Caribbean Cup payload empty")
         try:
@@ -19184,7 +19187,9 @@ def fetch_concacaf_natio(cache):
                                                          m.get("cityName") or "") if x),
                               "g": (note + " \u00b7 " + _rd) if _rd else note,
                               "st": "FT" if sx == "post" else "", "sx": sx,
-                              "tbc": bool(m.get("isUnknownKickOffTime"))})
+                              "tbc": bool(m.get("isUnknownKickOffTime")),
+                              "cc": ((m.get("seasonId") or "") + "|" + (m.get("matchId") or ""))
+                                    if (m.get("seasonId") and m.get("matchId")) else ""})
         return chip, found, groups
 
     out = {}
@@ -19967,7 +19972,8 @@ def _cric_rows(d):
                     "pz": pause,
                     "sx": sx, "tbc": not e.get("timeValid", True),
                     "win": ("h" if h.get("winner") else ("a" if a.get("winner") else "")) if sx == "post" else "",
-                    "lk": ("sc|" + link) if link.startswith("https://") else ""}
+                    "lk": ("sc|" + link) if link.startswith("https://") else "",
+                    "ce": str(e["id"])}   # ESPN cricket id: browser live refresh
     return found
 
 
@@ -20897,41 +20903,101 @@ function updRow(r,ev){
     if(ks.length){if(!k){k=D.createElement('div');k.className='mr-k';k.setAttribute('translate','no');var tms2=$$('.mr-tm',r);tms2[1].after(k);}k.innerHTML='<span>'+klist(ks,'h')+'</span><span>'+klist(ks,'a')+'</span>';}
   }
 }
-function updFifa(r,j){
-  if(!j)return;var ms=j.MatchStatus,sx=ms===3?'in':(ms===0?'post':null);if(!sx)return;
-  var H=(j.HomeTeam||{}).Score,A=(j.AwayTeam||{}).Score;if(H==null||A==null)return;
+/* shared score writer (FIFA, Concacaf, cricket). win: 'h'|'a'|'' or undefined = compare numbers */
+function setScore(r,sx,H,A,txt,win){
   var sc=$$('.mr-s',r);if(sc.length!==2)return;
   var old=sc[0].textContent+'-'+sc[1].textContent,prev=r.getAttribute('data-sx');
   r.setAttribute('data-sx',sx);r.classList.toggle('live',sx==='in');r.classList.toggle('ft',sx==='post');r.classList.remove('pend');
   var pn=$('.pn',r);if(pn){var pm=pn.parentNode;pn.remove();pm.innerHTML=pm.innerHTML.replace(/( &middot; |\s·\s)+$/,'');}
-  $('.mr-st',r).innerHTML='<b translate="no">'+esc(sx==='in'?(String(j.MatchTime||'').trim()||T.live):'FT')+'</b>';
+  $('.mr-st',r).innerHTML='<b translate="no">'+esc(txt)+'</b>';
   sc[0].textContent=H;sc[1].textContent=A;
   var tms=$$('.mr-tm',r);tms.forEach(function(x){x.classList.remove('w','l');});
-  if(sx==='post'&&H!==A){tms[H>A?0:1].classList.add('w');tms[H>A?1:0].classList.add('l');}
+  if(sx==='post'){
+    if(win===undefined){var h=+H,a=+A;win=(h===h&&a===a&&h!==a)?(h>a?'h':'a'):'';}
+    if(win&&tms.length===2){tms[win==='h'?0:1].classList.add('w');tms[win==='h'?1:0].classList.add('l');}
+  }
   if(old!==H+'-'+A&&prev==='in'){r.classList.remove('mt-flash');void r.offsetWidth;r.classList.add('mt-flash');}
 }
-var busy=false;
-function liveTick(){
-  if(busy||D.hidden)return;
+function updFifa(r,j){
+  if(!j)return;var ms=j.MatchStatus,sx=ms===3?'in':(ms===0?'post':null);if(!sx)return;
+  var H=(j.HomeTeam||{}).Score,A=(j.AwayTeam||{}).Score;if(H==null||A==null)return;
+  setScore(r,sx,String(H),String(A),sx==='in'?(String(j.MatchTime||'').trim()||T.live):'FT');
+}
+/* Concacaf SDP match (Caribbean Cup, Natio from Concacaf) */
+function updCc(r,m){
+  if(!m)return;var s=String(m.status||'').toUpperCase(),ph=String(m.phase||'').toUpperCase();
+  var sx=(s==='FINISHED'||ph==='FULL_TIME')?'post':(s==='LIVE'?'in':null);if(!sx)return;
+  var H=m.homeScorePush!=null?m.homeScorePush:m.providerHomeScore,A=m.awayScorePush!=null?m.awayScorePush:m.providerAwayScore;
+  if(H==null||A==null)return;
+  var txt;
+  if(sx==='post'){var wr=String(m.winReason||'');txt=/pen/i.test(wr)?'Pens':(/extra/i.test(wr)?'AET':'FT');}
+  else if(/HALF_?TIME/.test(ph))txt='HT';
+  else{var mi=parseInt(m.time,10),ad=parseInt(m.additionalTime,10);txt=mi>0?(mi+(ad>0?'+'+ad:'')+"'"):T.live;}
+  setScore(r,sx,String(H),String(A),txt);
+}
+/* ESPN cricket header event (same rules as _cric_rows in generate.py) */
+var PZ=W.MT2_PZ||{};
+function updCric(r,e){
+  if(!e)return;var ty=((e.fullStatus||{}).type)||{},sx=ty.state||e.status||'pre';if(sx!=='in'&&sx!=='post')return;
+  var cs=e.competitors||[];if(cs.length!==2)return;
+  var h=cs.filter(function(c){return c.homeAway==='home';})[0]||cs[0],a=h===cs[0]?cs[1]:cs[0];
+  function s(c){return String(c.score||'').replace(/\s*\(.*?\)/g,'').trim()||'0';}
+  var d=String(ty.description||'').trim().toLowerCase(),pz='';
+  if(sx==='in'){if(/stumps/.test(d))pz='Stumps';else if(/lunch/.test(d))pz='Lunch';else if(/^tea/.test(d))pz='Tea';else if(/innings break/.test(d))pz='Break';else if(/rain|delay|bad light|wet outfield|suspend/.test(d))pz='Delay';}
+  setScore(r,sx,s(h),s(a),sx==='post'?'FT':(pz?((PZ[pz]||{})[LANG]||pz):T.live),sx==='post'?(h.winner?'h':(a.winner?'a':'')):'');
+  if(pz)r.setAttribute('data-pause','1');else r.removeAttribute('data-pause');
+  r.classList.toggle('pz',!!pz);if(pz)r.classList.remove('live');
+}
+/* every live fetch: 15 s timeout, never the browser cache (a fetch that hung while
+   the phone slept used to keep 'busy' set, so nothing updated until a reload) */
+function jget(u){
+  var c=W.AbortController?new AbortController():null,t=c?setTimeout(function(){c.abort();},15000):0;
+  return fetch(u,c?{cache:'no-store',signal:c.signal}:{cache:'no-store'})
+    .then(function(x){if(!x.ok)throw new Error('http '+x.status);return x.json();})
+    .then(function(j){clearTimeout(t);return j;},function(e){clearTimeout(t);throw e;});
+}
+function ymdSR(ts){return new Intl.DateTimeFormat('en-CA',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(ts*1000)).replace(/-/g,'');}
+function near(r,now,wide){var sx=r.getAttribute('data-sx'),ts=+r.getAttribute('data-ts');return sx==='in'||((sx==='pre'||sx==='pend')&&ts-now<600&&now-ts<(wide?36:4)*3600);}
+function safe(fn){return function(x){try{fn(x);}catch(e){}};}
+var busy=0,CCB='https://api-sdp.concacaf.com/v1/concacaf/football/seasons/';
+function liveTick(wide){
+  if(D.hidden)return;
+  if(busy&&Date.now()-busy<45000)return;   // watchdog: a stuck tick never blocks for more than 45 s
   var now=Date.now()/1000,want={};
   rows.forEach(function(r){
     if(!r.getAttribute('data-eid'))return;
     var sx=r.getAttribute('data-sx'),ts=+r.getAttribute('data-ts');
-    if(sx==='in'||(sx==='pre'&&ts-now<600&&now-ts<4*3600)||(sx==='post'&&now-ts<3*3600&&now-ts>0&&r.__recent)){
+    if(near(r,now,wide)||(sx==='post'&&now-ts<3*3600&&now-ts>0&&r.__recent)){
       var k=r.getAttribute('data-sp')+'/'+r.getAttribute('data-lc')+'|'+ymd(ts);want[k]=1;
     }
   });
   // SML (and FIFA-only Natio) rows: FIFA's match centre, CORS-open.
-  var fr=rows.filter(function(r){var f=r.getAttribute('data-fifa');if(!f||r.getAttribute('data-eid'))return false;var sx=r.getAttribute('data-sx'),ts=+r.getAttribute('data-ts');return sx==='in'||((sx==='pre'||sx==='pend')&&ts-now<600&&now-ts<4*3600);});
-  var ks=Object.keys(want);if(!ks.length&&!fr.length){countLive();return;}
-  busy=true;
-  var p1=Promise.all(ks.map(function(k){var p=k.split('|');return fetch('https://site.api.espn.com/apis/site/v2/sports/'+p[0]+'/scoreboard?dates='+p[1]).then(function(x){return x.json();}).catch(function(){return null;});}))
+  var fr=rows.filter(function(r){return r.getAttribute('data-fifa')&&!r.getAttribute('data-eid')&&near(r,now,wide);});
+  // Caribbean Cup + Concacaf Natio rows: Concacaf's season match list (one call per season).
+  var cr=rows.filter(function(r){return r.getAttribute('data-cc')&&!r.getAttribute('data-eid')&&!r.getAttribute('data-fifa')&&near(r,now,wide);});
+  // Cricket: ESPN's cricket header feed for today (SR) and each row's own day.
+  var kr=rows.filter(function(r){return r.getAttribute('data-ce')&&near(r,now,wide);});
+  var ks=Object.keys(want);if(!ks.length&&!fr.length&&!cr.length&&!kr.length){countLive();return;}
+  busy=Date.now();
+  var p1=Promise.all(ks.map(function(k){var p=k.split('|');return jget('https://site.api.espn.com/apis/site/v2/sports/'+p[0]+'/scoreboard?dates='+p[1]).catch(function(){return null;});}))
   .then(function(res){
     var byId={};res.forEach(function(j){((j&&j.events)||[]).forEach(function(e){byId[e.id]=e;});});
-    rows.forEach(function(r){var e=byId[r.getAttribute('data-eid')];if(e){if(r.getAttribute('data-sx')==='in')r.__recent=1;updRow(r,e);}});
+    rows.forEach(safe(function(r){var e=byId[r.getAttribute('data-eid')];if(e){if(r.getAttribute('data-sx')==='in')r.__recent=1;updRow(r,e);}}));
   });
-  var p2=Promise.all(fr.map(function(r){return fetch('https://api.fifa.com/api/v3/live/football/'+r.getAttribute('data-fifa')+'?language=en').then(function(x){return x.json();}).then(function(j){updFifa(r,j);}).catch(function(){});}));
-  Promise.all([p1,p2]).then(function(){countLive();paintFavs();}).finally(function(){busy=false;});
+  var p2=Promise.all(fr.map(function(r){return jget('https://api.fifa.com/api/v3/live/football/'+r.getAttribute('data-fifa')+'?language=en').then(function(j){updFifa(r,j);}).catch(function(){});}));
+  var sids={};cr.forEach(function(r){sids[r.getAttribute('data-cc').split('|')[0]]=1;});
+  var p3=Promise.all(Object.keys(sids).map(function(sid){return jget(CCB+encodeURIComponent(sid)+'/matches?matchDayId=').catch(function(){return null;});}))
+  .then(function(res){
+    var by={};res.forEach(function(j){((j&&j.matches)||[]).forEach(function(m){if(m&&m.matchId)by[m.matchId]=m;});});
+    cr.forEach(safe(function(r){updCc(r,by[r.getAttribute('data-cc').split('|')[1]]);}));
+  });
+  var days={};if(kr.length)days[ymdSR(now)]=1;kr.forEach(function(r){days[ymdSR(+r.getAttribute('data-ts'))]=1;});
+  var p4=Promise.all(Object.keys(days).map(function(dd){return jget('https://site.web.api.espn.com/apis/v2/scoreboard/header?sport=cricket&lang=en&region=in&dates='+dd).catch(function(){return null;});}))
+  .then(function(res){
+    var by={};res.forEach(function(j){((j&&j.sports)||[]).forEach(function(s){(s.leagues||[]).forEach(function(l){(l.events||[]).forEach(function(e){if(e&&e.id)by[String(e.id)]=e;});});});});
+    kr.forEach(safe(function(r){updCric(r,by[r.getAttribute('data-ce')]);}));
+  });
+  Promise.all([p1,p2,p3,p4]).then(function(){countLive();paintFavs();}).catch(function(){}).then(function(){busy=0;});
 }
 function countLive(){var n=rows.filter(function(r){return r.getAttribute('data-sx')==='in'&&!r.hasAttribute('data-pause');}).length,b=$('#mt-live');if(b){b.hidden=!n&&!st.live;$('#mt-live-n').textContent=n;}}
 
@@ -21100,7 +21166,7 @@ function msTab(k){curTab=k;userTab=true;$$('.ms-tab').forEach(function(b){b.clas
 function load(r,b){
   var eid=r.getAttribute('data-eid');if(!eid)return;
   var url='https://site.api.espn.com/apis/site/v2/sports/'+r.getAttribute('data-sp')+'/'+r.getAttribute('data-lc')+'/summary?event='+eid;
-  fetch(url).then(function(x){return x.json();}).then(function(j){if(cur!==r)return;curData=j;renderSheet(sheetBase(r),j);
+  jget(url).then(function(j){if(cur!==r)return;curData=j;renderSheet(sheetBase(r),j);
     clearTimeout(sheetTimer);var stt=((((j.header||{}).competitions||[])[0]||{}).status||{}).type||{};if(stt.state==='in')sheetTimer=setTimeout(function(){if(cur===r)load(r);},30000);})
   .catch(function(){if(cur===r){renderSheet(b,null);}});
 }
@@ -21142,8 +21208,18 @@ function localize(){
 if(location.hash==='#tables')view('tables');
 apply();paintFavs();countLive();cd();setInterval(cd,30000);
 var m=/^#m=(\d+)/.exec(location.hash);if(m){var rr=rows.filter(function(r){return r.getAttribute('data-eid')===m[1];})[0];if(rr){if(rr.closest('#mt-earlier'))toggleEarlier(true);var fcg=rr.closest('.mt-cg.fold');if(fcg){fcg.__open=true;apply();}setTimeout(function(){rr.scrollIntoView({block:'center'});openSheet(rr);},50);}}
-liveTick();setInterval(liveTick,60000);
-D.addEventListener('visibilitychange',function(){if(!D.hidden)liveTick();});
+liveTick();setInterval(function(){liveTick();},60000);
+/* back from the background (PWA, locked phone, other tab): catch up at once; a page
+   that is hours old reloads, so new fixtures and finished games are all current */
+var LOADED=Date.now(),hidAt=0;
+function resume(){
+  var away=hidAt?Date.now()-hidAt:0;hidAt=0;
+  if(away>600000&&Date.now()-LOADED>3*3600000&&!cur&&navigator.onLine!==false){location.reload();return;}
+  liveTick(away>120000);
+}
+D.addEventListener('visibilitychange',function(){if(D.hidden)hidAt=Date.now();else resume();});
+W.addEventListener('pageshow',function(e){if(e.persisted){if(!hidAt)hidAt=LOADED;resume();}});
+W.addEventListener('online',function(){liveTick(true);});
 })();
 </script>"""
 
@@ -21242,6 +21318,10 @@ def build_matches_page(matches):
             attrs += ' data-pause="1"'
         if e.get("fifa"):
             attrs += f' data-fifa="{esc(e["fifa"])}"'
+        if e.get("cc"):
+            attrs += f' data-cc="{esc(e["cc"])}"'
+        if e.get("ce"):
+            attrs += f' data-ce="{esc(e["ce"])}"'
         if e.get("lk"):
             attrs += f' data-lk="{esc(e["lk"])}"'
         if title:
@@ -21720,7 +21800,8 @@ def build_matches_page(matches):
              '<div class="ms-grip" data-close="1"></div><div id="ms-body"></div></div></div>')
     _lgmap = {k: [v[0], v[1]] for k, v in lg_meta.items()}
     i18n_js = ('<script>window.MT2_I18N=' + json.dumps(_MT2_I18N, ensure_ascii=False, separators=(",", ":"))
-               + ';window.MT2_LG=' + json.dumps(_lgmap, ensure_ascii=False, separators=(",", ":")) + ';</script>')
+               + ';window.MT2_LG=' + json.dumps(_lgmap, ensure_ascii=False, separators=(",", ":"))
+               + ';window.MT2_PZ=' + json.dumps(_PAUSE_L10N, ensure_ascii=False, separators=(",", ":")) + ';</script>')
 
     main = ('<main class="mt2 max-w-3xl mx-auto px-5 py-6 pb-24">'
             + '<p class="mt-intro">All times are Suriname time (UTC-3). Live scores update every minute. '
