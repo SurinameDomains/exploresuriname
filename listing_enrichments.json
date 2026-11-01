@@ -1465,9 +1465,10 @@
   "eco-torarica": {
     "slug": "eco-torarica",
     "found": true,
-    "osm_name": "Torarica",
-    "lat": 5.317361,
-    "lon": -55.5221716
+    "osm_name": "ECO Torarica",
+    "address": "16, Cornelis Jongbawstraat",
+    "lat": 5.8295225,
+    "lon": -55.1437511
   },
   "edso-home-finishing": {
     "slug": "edso-home-finishing",
@@ -2189,14 +2190,6 @@
     "lat": 5.8248907,
     "lon": -55.1646039
   },
-  "hotel-peperpot": {
-    "slug": "hotel-peperpot",
-    "found": true,
-    "osm_name": "Boutique Hotel Peperpot",
-    "address": "1, Plantage Peperpot, Meerzorg",
-    "lat": 5.7749101,
-    "lon": -55.1325306
-  },
   "hotel-tyche": {
     "slug": "hotel-tyche",
     "found": true,
@@ -2409,13 +2402,6 @@
     "lat": 5.8246237,
     "lon": -55.2009225
   },
-  "joden-savanne": {
-    "slug": "joden-savanne",
-    "found": true,
-    "osm_name": "Joden savanne",
-    "lat": 5.4294128,
-    "lon": -54.9842746
-  },
   "joosje-roti-shop": {
     "slug": "joosje-roti-shop",
     "found": true,
@@ -2603,6 +2589,18 @@
   },
   "kfc-lelydorp": {
     "slug": "kfc-lelydorp",
+    "found": true,
+    "osm_name": "KFC",
+    "opening_hours": "Su-Th 10:00-04:00; Fr-Sa 10:00-05:30",
+    "phone": "+597 424343",
+    "address": "62, Wilhelminastraat, Paramaribo",
+    "cuisine": "Chicken",
+    "takeaway": "yes",
+    "lat": 5.8356369,
+    "lon": -55.1424722
+  },
+  "kfc-meerzorg": {
+    "slug": "kfc-meerzorg",
     "found": true,
     "osm_name": "KFC",
     "opening_hours": "Su-Th 10:00-04:00; Fr-Sa 10:00-05:30",
@@ -5682,6 +5680,118 @@
     "address": "Dr. Sophie Redmondstraat",
     "lat": 5.8266324,
     "lon": -55.1660748
+  },
+  "centrale-markt-paramaribo": {
+    "slug": "centrale-markt-paramaribo",
+    "found": true,
+    "osm_name": "Centrale Markt",
+    "lat": 5.8233282,
+    "lon": -55.1589722
+  },
+  "vreedzaam-markt": {
+    "slug": "vreedzaam-markt",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
+  },
+  "craft-market-waterkant": {
+    "slug": "craft-market-waterkant",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
+  },
+  "saoenah-markt": {
+    "slug": "saoenah-markt",
+    "found": true,
+    "osm_name": "Saoenah Markt",
+    "lat": 5.8566432,
+    "lon": -55.1421677
+  },
+  "tourtonne-zondagmarkt": {
+    "slug": "tourtonne-zondagmarkt",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
+  },
+  "plantenmarkt-cultuurtuin": {
+    "slug": "plantenmarkt-cultuurtuin",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
+  },
+  "kong-ngie-tong-sang-zondagmarkt": {
+    "slug": "kong-ngie-tong-sang-zondagmarkt",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
+  },
+  "landbouwmarkt-kwatta": {
+    "slug": "landbouwmarkt-kwatta",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
+  },
+  "zondagse-markt-nieuwe-grond": {
+    "slug": "zondagse-markt-nieuwe-grond",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
+  },
+  "openbare-markt-lelydorp": {
+    "slug": "openbare-markt-lelydorp",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
+  },
+  "openbare-markt-nickerie": {
+    "slug": "openbare-markt-nickerie",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
+  },
+  "boerenmarkt-marienburg": {
+    "slug": "boerenmarkt-marienburg",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
+  },
+  "markt-zuid-paramaribo": {
+    "slug": "markt-zuid-paramaribo",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
+  },
+  "highway-markt": {
+    "slug": "highway-markt",
+    "found": true,
+    "osm_name": "Highway Markt",
+    "lat": 5.7542047,
+    "lon": -55.1648914
+  },
+  "haitiaanse-markt-paramaribo": {
+    "slug": "haitiaanse-markt-paramaribo",
+    "found": true,
+    "osm_name": "Ark",
+    "lat": 4.9487968,
+    "lon": -55.1807796
+  },
+  "wakapasi-palmentuin": {
+    "slug": "wakapasi-palmentuin",
+    "found": true,
+    "osm_name": "Kapasi",
+    "lat": 4.9493914,
+    "lon": -55.1802633
   },
   "bordeaux-hills": {
     "slug": "bordeaux-hills",
