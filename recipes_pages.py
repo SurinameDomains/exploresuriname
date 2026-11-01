@@ -153,8 +153,7 @@ CSS = """<style>
 .rc-h1{font-size:clamp(28px,5vw,42px);line-height:1.12;font-weight:700;color:#14281d;margin:0 0 8px}
 .rc-srn{color:#4b5563;margin:0 0 10px;font-size:15px}
 .rc-lede{font-size:17px;line-height:1.6;color:#374151;max-width:720px;margin:0 0 16px}
-.rc-meta{display:flex;flex-wrap:wrap;margin:0 0 20px;padding:0;list-style:none;font-size:14.5px;color:#1f2937}
-.rc-meta li+li:before{content:"\\00b7";margin:0 9px;color:#9ca3af}
+.rc-meta{display:flex;flex-wrap:wrap;gap:4px 20px;margin:0 0 20px;padding:0;list-style:none;font-size:14.5px;color:#1f2937}
 .rc-meta b{font-weight:600;color:#6b7280;margin-right:4px}
 .rc-fig{margin:0 0 26px}.rc-fig img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:6px;display:block;background:#eef2ee}
 .rc-fig figcaption{font-size:11.5px;color:#6b7280;margin-top:6px}.rc-fig figcaption a{color:inherit}
@@ -177,9 +176,8 @@ CSS = """<style>
 .rc-card a:hover .rc-ct{text-decoration:underline}
 .rc-ct{font-weight:700;color:#14281d;font-size:16px;line-height:1.3;margin:0 0 3px}
 .rc-cm{font-size:13px;color:#6b7280;margin:0}
-.rc-jump{margin:0 0 8px;padding:0;list-style:none;display:flex;flex-wrap:wrap;font-size:15px}
-.rc-jump li+li:before{content:"\\00b7";margin:0 10px;color:#9ca3af}
-.rc-jump a{color:var(--forest,#1f4d36);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.rc-jump{margin:0 0 8px;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:10px 24px;font-size:15px;line-height:1.3}
+.rc-jump a{color:var(--forest,#1f4d36);font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
 .rc-hsec{margin:30px 0 0;scroll-margin-top:90px}
 @media print{nav,header,footer,.rc-cards,.rc-fig figcaption,.rc-crumb{display:none!important}.rc-box{border:0;padding:0}}
 </style>"""
