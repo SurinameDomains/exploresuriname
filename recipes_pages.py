@@ -91,8 +91,13 @@ MAKES = {  # yield_unit -> per language
                 "fr": "{n} pièces", "pt": "Rende {n} unidades"},
     "bottles": {"en": "Makes {n} bottles", "nl": "{n} flessen", "es": "{n} botellas", "zh": "约 {n} 瓶",
                 "fr": "{n} bouteilles", "pt": "Rende {n} garrafas"},
-    "jars":    {"en": "Makes {n} jar(s)", "nl": "{n} pot(ten)", "es": "{n} frasco(s)", "zh": "约 {n} 罐",
-                "fr": "{n} bocal(aux)", "pt": "Rende {n} pote(s)"},
+    "jars":    {"en": "Makes {n} jars", "nl": "{n} potten", "es": "{n} frascos", "zh": "约 {n} 罐",
+                "fr": "{n} bocaux", "pt": "Rende {n} potes"},
+}
+MAKES_ONE = {  # yield of exactly 1
+    "pieces":  {"en": "Makes 1 piece", "nl": "1 stuk", "es": "1 unidad", "zh": "约 1 个", "fr": "1 pièce", "pt": "Rende 1 unidade"},
+    "bottles": {"en": "Makes 1 bottle", "nl": "1 fles", "es": "1 botella", "zh": "约 1 瓶", "fr": "1 bouteille", "pt": "Rende 1 garrafa"},
+    "jars":    {"en": "Makes 1 jar", "nl": "1 pot", "es": "1 frasco", "zh": "约 1 罐", "fr": "1 bocal", "pt": "Rende 1 pote"},
 }
 YIELD_LD = {"": "servings", "pieces": "pieces", "bottles": "bottles", "jars": "jars"}
 GROUP = {
@@ -141,7 +146,7 @@ def _iso(m):
 
 def _yield(r, lg):
     u = r.get("yield_unit") or ""
-    tpl = MAKES.get(u, SERVES)
+    tpl = MAKES_ONE[u] if (u in MAKES_ONE and int(r.get("serves") or 0) == 1) else MAKES.get(u, SERVES)
     return tpl[lg].replace("{n}", str(r.get("serves") or ""))
 
 
@@ -227,7 +232,7 @@ def _recipe_ld(r, lg, site):
         "author": {"@type": "Organization", "name": "Explore Suriname", "url": site + "/"},
         "recipeCuisine": "Surinamese",
         "recipeCategory": COURSE_LD.get(r["course"], "Main course"),
-        "recipeYield": f'{r.get("serves")} {YIELD_LD.get(r.get("yield_unit") or "", "servings")}',
+        "recipeYield": f'{r.get("serves")} {YIELD_LD.get(r.get("yield_unit") or "", "servings")}'.replace("1 jars", "1 jar").replace("1 bottles", "1 bottle").replace("1 pieces", "1 piece") if int(r.get("serves") or 0) == 1 else f'{r.get("serves")} {YIELD_LD.get(r.get("yield_unit") or "", "servings")}',
         "recipeIngredient": [i for g in t["ingredients"] for i in g["items"]],
         "recipeInstructions": [{"@type": "HowToStep", "text": s} for s in t["steps"]],
         "keywords": ", ".join([r["slug"].replace("-", " "), "Suriname"] + list(r.get("tags") or [])),
