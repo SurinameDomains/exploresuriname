@@ -153,8 +153,8 @@ CSS = """<style>
 .rc-h1{font-size:clamp(28px,5vw,42px);line-height:1.12;font-weight:700;color:#14281d;margin:0 0 8px}
 .rc-srn{color:#4b5563;margin:0 0 10px;font-size:15px}
 .rc-lede{font-size:17px;line-height:1.6;color:#374151;max-width:720px;margin:0 0 16px}
-.rc-meta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px;padding:0;list-style:none}
-.rc-meta li{background:#fff;border:1px solid #e5e7eb;border-radius:6px;padding:6px 10px;font-size:13.5px;color:#1f2937}
+.rc-meta{display:flex;flex-wrap:wrap;margin:0 0 20px;padding:0;list-style:none;font-size:14.5px;color:#1f2937}
+.rc-meta li+li:before{content:"\\00b7";margin:0 9px;color:#9ca3af}
 .rc-meta b{font-weight:600;color:#6b7280;margin-right:4px}
 .rc-fig{margin:0 0 26px}.rc-fig img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:6px;display:block;background:#eef2ee}
 .rc-fig figcaption{font-size:11.5px;color:#6b7280;margin-top:6px}.rc-fig figcaption a{color:inherit}
@@ -170,14 +170,16 @@ CSS = """<style>
 .rc-tips{margin:0;padding-left:18px;list-style:disc}.rc-tips li{margin:0 0 8px;line-height:1.55;color:#374151}
 .rc-about p{margin:0;line-height:1.65;color:#374151}
 .rc-sec{margin-top:26px}
-.rc-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;margin:0;padding:0;list-style:none}
-.rc-card a{display:block;background:#fff;border:1px solid #e5e7eb;border-radius:6px;overflow:hidden;color:inherit;text-decoration:none;height:100%}
-.rc-card img,.rc-ph{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#e7efe9}
-.rc-ph{display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700;color:#1f4d36;background:linear-gradient(135deg,#e7efe9,#f6efe1)}
-.rc-cb{padding:10px 12px 12px}.rc-ct{font-weight:700;color:#14281d;font-size:15.5px;line-height:1.3;margin:0 0 4px}
-.rc-cm{font-size:12.5px;color:#6b7280;margin:0}
-.rc-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px;padding:0;list-style:none}
-.rc-chips a{display:inline-block;padding:7px 12px;border:1px solid #d1d5db;border-radius:999px;font-size:13.5px;color:#1f2937;text-decoration:none;background:#fff}
+.rc-cards{display:grid;grid-template-columns:1fr;margin:0;padding:0;list-style:none;border-top:1px solid #e5e7eb}
+@media(min-width:700px){.rc-cards{grid-template-columns:1fr 1fr;column-gap:32px}}
+.rc-card{border-bottom:1px solid #e5e7eb}
+.rc-card a{display:block;padding:12px 2px;color:inherit;text-decoration:none}
+.rc-card a:hover .rc-ct{text-decoration:underline}
+.rc-ct{font-weight:700;color:#14281d;font-size:16px;line-height:1.3;margin:0 0 3px}
+.rc-cm{font-size:13px;color:#6b7280;margin:0}
+.rc-jump{margin:0 0 8px;padding:0;list-style:none;display:flex;flex-wrap:wrap;font-size:15px}
+.rc-jump li+li:before{content:"\\00b7";margin:0 10px;color:#9ca3af}
+.rc-jump a{color:var(--forest,#1f4d36);font-weight:600;text-decoration:underline;text-underline-offset:3px}
 .rc-hsec{margin:30px 0 0;scroll-margin-top:90px}
 @media print{nav,header,footer,.rc-cards,.rc-fig figcaption,.rc-crumb{display:none!important}.rc-box{border:0;padding:0}}
 </style>"""
@@ -211,11 +213,10 @@ def _credit(r):
 
 def _card(r):
     t = {lg: r["text"][lg]["title"].split(":")[0].split("：")[0].strip() for lg in LANGS}
-    th = _img(r, "-480") or f'<span class="rc-ph" aria-hidden="true">{esc(t["en"][:1])}</span>'
     total = int(r.get("prep_min") or 0) + int(r.get("cook_min") or 0)
     meta = {lg: f'{GROUP[r["group"]][lg]} · {_dur(total, lg)}' for lg in LANGS}
-    return (f'<li class="rc-card"><a href="recipe-{r["slug"]}.html">{th}<div class="rc-cb">'
-            f'{tx(t, "p", "rc-ct")}{tx(meta, "p", "rc-cm")}</div></a></li>')
+    return (f'<li class="rc-card"><a href="recipe-{r["slug"]}.html">'
+            f'{tx(t, "p", "rc-ct")}{tx(meta, "p", "rc-cm")}</a></li>')
 
 
 def _recipe_ld(r, lg, site):
@@ -344,8 +345,9 @@ def build_recipe_page(ctx, r, allr):
 def build_hub(ctx, allr):
     site = ctx["SITE_URL"]
     head = _head(ctx, "recipes.html", U["hub_title"], U["hub_desc"], f"{site}/og-image.jpg")
-    by = {c: [r for r in allr if r["course"] == c] for c in COURSE_ORDER}
-    chips = '<ul class="rc-chips">' + "".join(
+    by = {c: sorted([r for r in allr if r["course"] == c], key=lambda r: r["text"]["nl"]["title"].lower())
+          for c in COURSE_ORDER}
+    chips = '<ul class="rc-jump">' + "".join(
         f'<li><a href="#{c}">{tx(COURSE[c])}</a></li>' for c in COURSE_ORDER if by[c]) + "</ul>"
     secs = "".join(
         f'<section class="rc-hsec" id="{c}"><h2 class="rc-h2">{tx(COURSE[c])}</h2>'
