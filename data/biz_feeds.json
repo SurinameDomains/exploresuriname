@@ -14,16 +14,6 @@
    "title": "Het was mooi. Het was krachtig. Het was Douane-achtig.",
    "link": "https://belastingdienst.sr/het-was-mooi-het-was-krachtig-het-was-douane-achtig/",
    "date": "2026-09-09"
-  },
-  {
-   "title": "Bekendmaking OIA opgeheven",
-   "link": "https://belastingdienst.sr/bekendmaking-oia-opgeheven/",
-   "date": "2026-09-01"
-  },
-  {
-   "title": "Bekendmaking OIA",
-   "link": "https://belastingdienst.sr/bekendmaking-oia/",
-   "date": "2026-09-01"
   }
  ],
  "bekendmakingen": [
@@ -199,16 +189,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-10-31T21:11-03:00",
+   "ok": "2026-11-01T03:20-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-10-31T21:11-03:00",
+   "ok": "2026-11-01T03:20-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-10-31T21:11-03:00"
+ "updated": "2026-11-01T03:20-03:00"
 }
