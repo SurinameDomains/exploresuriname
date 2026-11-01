@@ -5116,6 +5116,16 @@ def _kw(b, c=""):
     base = " ".join(p for p in parts if p).lower()
     have = re.findall(r"[a-z\u00e0-\u00ff]{3,}", base)
     return " ".join([base] + _desc_kw(b, have))
+# Recipes section (recipes_pages.py, data/recipes.json; 1 Nov 2026). Index used by
+# the search list, the sitemap and llms.txt. A broken data file only drops recipes.
+try:
+    from recipes_pages import recipe_index as _recipe_index
+    _RECIPE_INDEX = _recipe_index()
+except Exception as _e:
+    print(f"  recipes index failed: {_e}")
+    _RECIPE_INDEX = []
+_RECIPE_SI = [{"n": _t, "u": "recipe-" + _s + ".html", "c": "Guides", "a": "Suriname"} for _s, _t, _d in _RECIPE_INDEX]
+_RECIPE_LLMS = "\n".join(f"- [{_t}]({SITE_URL}/recipe-{_s}): {_d}" for _s, _t, _d in _RECIPE_INDEX)
 _SI_LIST = [
     # Guide & utility pages — searchable by name (badge colour: cat_colors["Guides"])
     # Category landing pages — a query like "restaurants" or "hotels" should
@@ -5161,6 +5171,8 @@ _SI_LIST = [
     {"n": "Getting Around Suriname: Buses, Taxis, Boats & Flights", "u": "getting-around-suriname.html", "c": "Guides", "a": "Suriname"},
     {"n": "Best Time to Visit Suriname: Weather & Seasons by Month", "u": "best-time-to-visit-suriname.html", "c": "Guides", "a": "Suriname"},
     {"n": "Markets in Suriname: Market Days & Sunday Markets", "u": "markets-in-suriname.html", "c": "Guides", "a": "Suriname"},
+    {"n": "Surinamese Recipes: Pom, Roti, Moksi Alesi and More", "u": "recipes.html", "c": "Guides", "a": "Suriname"},
+    *_RECIPE_SI,
     *[{"n": b["name"], "u": b["url"], "c": "Eat & Drink",  "a": b.get("area",""), "k": _kw(b, "Eat & Drink")} for b in RESTAURANTS],
     *[{"n": b["name"], "u": b["url"], "c": "Stay",         "a": b.get("area",""), "k": _kw(b, "Stay")} for b in HOTELS],
     *[{"n": b["name"], "u": b["url"], "c": "Nature",       "a": b.get("area",""), "k": _kw(b, "Nature")} for b in SIGHTSEEING],
@@ -8105,7 +8117,7 @@ def nav_html(active="home", prefix=""):
     _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto", "busjam"}
     _OILG  = {"oilgas", "oilblocks", "granmorgu", "oiltimeline", "oilcontracts",
               "oilgov", "oiljobs"}
-    _LEARN = {"aboutsr", "bizinfo", "history", "dictionary", "florafauna"} | _OILG
+    _LEARN = {"aboutsr", "bizinfo", "history", "dictionary", "florafauna", "recipes"} | _OILG
 
     def _is_active(key):
         return active == key
@@ -8207,6 +8219,7 @@ def nav_html(active="home", prefix=""):
         f'<a href="{prefix}suriname-history.html"        {_link_cls("history")}       >History Timeline</a>'
         f'<a href="{prefix}sranan-tongo-dictionary.html" {_link_cls("dictionary")}    >Sranan Dictionary</a>'
         f'<a href="{prefix}flora-fauna/"                 {_link_cls("florafauna")}    >Flora &amp; Fauna</a>'
+        f'<a href="{prefix}recipes.html"                 {_link_cls("recipes")} translate="no" data-l10n=\'{{"nl": "Surinaamse recepten", "es": "Recetas de Surinam", "zh": "苏里南食谱", "fr": "Recettes du Suriname", "pt": "Receitas do Suriname"}}\'>Surinamese Recipes</a>'
     )
     # Live
     live_items = (
@@ -8305,7 +8318,9 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}oil-and-gas.html",             "Oil & Gas",         "oilgas", _OILG) +
         _mob_link(f"{prefix}suriname-history.html",        "History Timeline",  "history")       +
         _mob_link(f"{prefix}sranan-tongo-dictionary.html", "Sranan Dictionary", "dictionary") +
-        _mob_link(f"{prefix}flora-fauna/",                 "Flora & Fauna",     "florafauna")
+        _mob_link(f"{prefix}flora-fauna/",                 "Flora & Fauna",     "florafauna") +
+        _mob_link(f"{prefix}recipes.html",                 "Surinamese Recipes", "recipes").replace(
+            "<a ", '<a translate="no" data-l10n=\'{"nl": "Surinaamse recepten", "es": "Recetas de Surinam", "zh": "苏里南食谱", "fr": "Recettes du Suriname", "pt": "Receitas do Suriname"}\' ', 1)
     )
     mob_live_items = (
         _mob_link(f"{prefix}currency.html",      "Market Rates",     "currency")      +
@@ -8592,6 +8607,7 @@ def footer_html(prefix=""):
         <a class="ftr-lnk" href="{prefix}suriname-history.html">History Timeline</a>
         <a class="ftr-lnk" href="{prefix}sranan-tongo-dictionary.html">Sranan Dictionary</a>
         <a class="ftr-lnk" href="{prefix}flora-fauna/">Flora &amp; Fauna</a>
+        <a class="ftr-lnk" href="{prefix}recipes.html" translate="no" data-l10n='{{"nl": "Surinaamse recepten", "es": "Recetas de Surinam", "zh": "苏里南食谱", "fr": "Recettes du Suriname", "pt": "Receitas do Suriname"}}'>Surinamese Recipes</a>
       </div>
     </div>
   </div>
@@ -30872,7 +30888,8 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("privacy.html",    "0.3", "yearly"),
     ] + [("doing-business-in-suriname", "0.7", "monthly")] + list(_ff_sitemap_entries()) \
       + [("event-" + _s, "0.7", "weekly") for _s in _EVENT_PAGE_SLUGS] \
-      + [(_s, "0.6", "daily") for _s in sorted(_flight_page_slugs())]
+      + [(_s, "0.6", "daily") for _s in sorted(_flight_page_slugs())] \
+      + [("recipes.html", "0.7", "monthly")] + [("recipe-" + _s, "0.6", "monthly") for _s, _t, _d in _RECIPE_INDEX]
 
     urls = []
     for path_seg, priority, freq in static_pages:
@@ -30969,6 +30986,10 @@ def build_llms_txt():
 - [Flora & Fauna of Suriname]({S}/flora-fauna/): every animal, plant and fungus recorded in Suriname (about 18,500 species, 4,000 profiles) with names in English, Dutch, Spanish, Chinese, Sranan Tongo and Latin, where each species has been recorded by district, photos and sources.
 - [Suriname Itinerary]({S}/suriname-itinerary.html): suggested multi-day routes combining Paramaribo and the interior.
 - [Driving and Traffic]({S}/on-the-road.html): driving, road rules, a live traffic map and emergency numbers.
+
+## Recipes
+- [Surinamese Recipes]({S}/recipes): home recipes for Surinamese dishes in English, Dutch, Spanish, Chinese, French and Portuguese, from Creole, Hindostani, Javanese and Chinese-Surinamese kitchens.
+{_RECIPE_LLMS}
 
 ## Order food
 - [Order KFC in Suriname]({S}/kfc): how to order KFC in Suriname for delivery or pickup through its WhatsApp order line, the menu, and every KFC restaurant in Suriname with address, phone number and directions.
@@ -34990,6 +35011,18 @@ if __name__ == "__main__":
         "brent_updated":  brent_updated,
         "SITE_URL":       SITE_URL,
     }))
+
+    # ── Recipes (recipes_pages.py, data/recipes.json; 1 Nov 2026) ───────────
+    try:
+        from recipes_pages import build_recipes_pages
+        pages.update(build_recipes_pages({
+            "PAGE_HEAD":   PAGE_HEAD,
+            "nav_html":    nav_html,
+            "footer_html": footer_html,
+            "SITE_URL":    SITE_URL,
+        }))
+    except Exception as _e:
+        print(f"  recipes section failed: {_e}")
 
     # ── Business tools (business_pages.py, data/business_rules.json) ────────
     # Pure local build: reads rules + data/biz_feeds.json + data/max_prices.json
