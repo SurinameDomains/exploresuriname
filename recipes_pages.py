@@ -82,6 +82,8 @@ U = {
                   "fr": "{n} recettes", "pt": "{n} receitas"},
     "all":       {"en": "All recipes", "nl": "Alle recepten", "es": "Todas las recetas", "zh": "全部食谱",
                   "fr": "Toutes les recettes", "pt": "Todas as receitas"},
+    "eyebrow":   {"en": "Taste of Suriname", "nl": "Proef Suriname", "es": "Sabores de Surinam", "zh": "苏里南风味",
+                  "fr": "Saveurs du Suriname", "pt": "Sabores do Suriname"},
     "home":      {"en": "Home", "nl": "Home", "es": "Inicio", "zh": "首页", "fr": "Accueil", "pt": "Início"},
     "photo":     {"en": "Photo", "nl": "Foto", "es": "Foto", "zh": "图片", "fr": "Photo", "pt": "Foto"},
     "srn":       {"en": "In Sranan", "nl": "In het Sranan", "es": "En sranan", "zh": "苏里南语", "fr": "En sranan", "pt": "Em sranan"},
@@ -152,6 +154,33 @@ def _yield(r, lg):
     return tpl[lg].replace("{n}", str(r.get("serves") or ""))
 
 
+# ── Course icons (one inline sprite per page) and community tints ─────────────
+_IC = {
+    "main": '<circle cx="13" cy="12" r="5.6"/><circle cx="13" cy="12" r="2.8"/><path d="M3.5 4v4.5a1.5 1.5 0 0 0 3 0V4M5 9.8V20"/><path d="M21.5 4c-1.4 1-2 3-2 6.5h2V20"/>',
+    "soup": '<path d="M3 11h18c0 4.6-4 8-9 8s-9-3.4-9-8Z"/><path d="M9 21h6"/><path d="M8 3.5c-.9 1.1.9 2.1 0 3.4M12 3.5c-.9 1.1.9 2.1 0 3.4M16 3.5c-.9 1.1.9 2.1 0 3.4"/>',
+    "side": '<path d="M5 19C5 10.5 10.5 5 20 4c0 9.5-5.5 15-15 15Z"/><path d="M5 19l8.5-8.5"/>',
+    "snack": '<circle cx="7.5" cy="15" r="4"/><circle cx="16.5" cy="15" r="4"/><circle cx="12" cy="8" r="4"/><circle cx="12" cy="8" r="1"/><circle cx="7.5" cy="15" r="1"/><circle cx="16.5" cy="15" r="1"/>',
+    "sweet": '<path d="M4 20h16v-8H4Z"/><path d="M4 15.5c2 1.3 4 1.3 6 0s4-1.3 6 0 3 1 4 .4"/><path d="M12 12V8.5"/><path d="M12 7c.9-.7.9-1.8 0-2.8-.9 1-.9 2.1 0 2.8Z"/>',
+    "condiment": '<path d="M18 9c-.4 6.2-6.3 11.6-13.3 11-.9-.1-1.2-1.2-.5-1.8C9 15.3 12.6 12 14 7.6c.3-.9 1.4-1.2 2.1-.6Z"/><path d="M15.2 7.2c.1-2 1.2-3.5 3.3-4.2"/>',
+    "drink": '<path d="M6 7h12l-1.6 13H7.6Z"/><path d="M6.5 11h11"/><path d="M14.5 7l1.8-4H19"/>',
+}
+SPRITE = ('<svg width="0" height="0" style="position:absolute" aria-hidden="true">'
+          + "".join(f'<symbol id="rci-{k}" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+                    f'stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">{v}</symbol>'
+                    for k, v in _IC.items()) + "</svg>")
+TINT = {  # community -> (background tint, icon colour)
+    "creole": ("#f4dfd2", "#a4482a"), "hindostani": ("#f5e7c6", "#9a6410"),
+    "javanese": ("#dfeadb", "#3c6a33"), "chinese": ("#f2dad6", "#9c3429"),
+    "mixed": ("#d9e9e6", "#25625a"), "indigenous": ("#e9e2d2", "#6b5a2c"),
+    "maroon": ("#e8ddd0", "#6e4a2a"), "jewish": ("#e1e4ef", "#3d4a7a"),
+}
+
+
+def _ico(course, cls="rc-ico"):
+    c = f' class="{cls}"' if cls else ""
+    return f'<svg{c} aria-hidden="true"><use href="#rci-{course}"/></svg>'
+
+
 # ── CSS (shared; asset_extract moves it to /assets because it repeats) ──────
 CSS = """<style>
 .rc-wrap{max-width:1040px;margin:0 auto;padding:22px 16px 72px}
@@ -164,7 +193,7 @@ CSS = """<style>
 .rc-meta b{font-weight:600;color:#6b7280;margin-right:4px}
 .rc-fig{margin:0 0 26px}.rc-fig img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:6px;display:block;background:#eef2ee}
 .rc-fig figcaption{font-size:11.5px;color:#6b7280;margin-top:6px}.rc-fig figcaption a{color:inherit}
-.rc-grid{display:grid;gap:26px}
+.rc-grid{display:grid;gap:26px;align-items:start}
 @media(min-width:860px){.rc-top{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}.rc-grid{grid-template-columns:330px 1fr;gap:34px}}
 .rc-box{background:#fff;border:1px solid #e5e7eb;border-radius:6px;padding:18px 20px}
 .rc-h2{font-size:21px;font-weight:700;color:#14281d;margin:0 0 12px}
@@ -176,22 +205,47 @@ CSS = """<style>
 .rc-tips{margin:0;padding-left:18px;list-style:disc}.rc-tips li{margin:0 0 8px;line-height:1.55;color:#374151}
 .rc-about p{margin:0;line-height:1.65;color:#374151}
 .rc-sec{margin-top:26px}
-.rc-cards{display:grid;grid-template-columns:1fr;margin:0;padding:0;list-style:none;border-top:1px solid #e5e7eb}
-@media(min-width:700px){.rc-cards{grid-template-columns:1fr 1fr;column-gap:32px}}
-.rc-card{border-bottom:1px solid #e5e7eb}
-.rc-card a{display:block;padding:12px 2px;color:inherit;text-decoration:none}
-.rc-card a:hover .rc-ct{text-decoration:underline}
-.rc-ct{font-weight:700;color:#14281d;font-size:16px;line-height:1.3;margin:0 0 3px}
-.rc-cm{font-size:13px;color:#6b7280;margin:0}
-.rc-idx{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 8px;padding:0;list-style:none}
-@media(max-width:699px){.rc-idx li:last-child:nth-child(odd){grid-column:1/-1}}
-@media(min-width:700px){.rc-idx{grid-template-columns:repeat(4,1fr);gap:12px}}
-.rc-idx a{display:flex;align-items:center;justify-content:space-between;gap:8px;height:100%;background:#fff;border:1px solid #e5e7eb;border-radius:6px;padding:12px 14px;color:inherit;text-decoration:none;transition:border-color .15s}
-.rc-idx a:hover{border-color:var(--forest,#1f4d36)}
-.rc-idx b{display:block;font-weight:700;color:#14281d;font-size:15px;line-height:1.25}
-.rc-idx small{display:block;color:#6b7280;font-size:12.5px;margin-top:3px}
-.rc-idx i{font-style:normal;color:var(--forest,#1f4d36);font-size:18px;line-height:1}
-.rc-hsec{margin:30px 0 0;scroll-margin-top:90px}
+.rc-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0;padding:0;list-style:none}
+@media(min-width:700px){.rc-cards{grid-template-columns:repeat(3,1fr);gap:18px}}
+@media(min-width:1000px){.rc-cards{grid-template-columns:repeat(4,1fr)}}
+.rc-card a{display:flex;flex-direction:column;height:100%;background:#fff;border-radius:16px;overflow:hidden;color:inherit;text-decoration:none;box-shadow:0 1px 3px rgba(20,40,29,.08);transition:transform .15s,box-shadow .15s}
+.rc-card a:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(20,40,29,.12)}
+.rc-cov{position:relative;aspect-ratio:4/3;display:flex;flex-direction:column;justify-content:flex-end;padding:12px 14px;background-image:radial-gradient(rgba(255,255,255,.6) 1.1px,transparent 1.3px);background-size:13px 13px}
+.rc-cov img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rc-cov.rc-pic:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.62))}
+.rc-cov .rc-ico{position:absolute;top:12px;left:13px;width:28px;height:28px}
+.rc-ct{position:relative;z-index:1;margin:0;font-size:19px;line-height:1.14;font-weight:700;color:inherit}
+@media(min-width:700px){.rc-ct{font-size:21px}}
+.rc-pic .rc-ct{color:#fff}
+.rc-cm{font-size:12.5px;color:#6b7280;margin:0;padding:10px 14px 12px}
+.rc-hero{background:var(--forest,#1f4d36);color:#fff;text-align:center;padding:30px 16px 36px}
+.rc-hero .rc-crumb{color:rgba(255,255,255,.6);margin:0 0 18px}.rc-hero .rc-crumb a{color:inherit}
+.rc-eye{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--coral,#e07a52);margin:0 0 10px}
+.rc-hero h1{font-size:clamp(32px,6vw,50px);line-height:1.08;font-weight:700;margin:0 0 12px;color:#fff}
+.rc-hero .rc-lede{color:rgba(255,255,255,.72);margin:0 auto;max-width:640px;font-size:16.5px}
+.rc-feat{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:760px;margin:26px auto 0;padding:0;list-style:none}
+.rc-feat a{position:relative;display:block;aspect-ratio:1;border-radius:14px;overflow:hidden;color:#fff;text-decoration:none}
+@media(min-width:700px){.rc-feat{gap:16px}.rc-feat a{aspect-ratio:4/3}}
+.rc-feat img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.rc-feat a:hover img{transform:scale(1.04)}
+.rc-feat span{position:absolute;left:0;right:0;bottom:0;padding:22px 10px 9px;font-weight:700;font-size:14px;text-align:left;background:linear-gradient(transparent,rgba(0,0,0,.62))}
+.rc-nav{display:flex;gap:2px;overflow-x:auto;scroll-snap-type:x mandatory;margin:4px -16px 6px;padding:4px 16px 10px;list-style:none;scrollbar-width:none}
+.rc-nav::-webkit-scrollbar{display:none}
+.rc-nav li{flex:0 0 auto;scroll-snap-align:start}
+.rc-nav a{display:flex;flex-direction:column;align-items:center;width:100px;padding:6px 2px;color:#14281d;text-decoration:none;text-align:center}
+.rc-nc{border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none}
+.rc-nav .rc-nc{width:56px;height:56px;background:#fff;color:var(--forest,#1f4d36);box-shadow:0 1px 3px rgba(20,40,29,.12);transition:background .15s,color .15s}
+.rc-nav .rc-nc svg{width:26px;height:26px}
+.rc-nav a:hover .rc-nc{background:var(--forest,#1f4d36);color:#fff}
+.rc-nav b{display:block;max-width:100%;font-size:12px;font-weight:600;line-height:1.25;margin-top:8px;overflow-wrap:anywhere}
+.rc-nav small{display:block;font-size:11.5px;color:#6b7280;margin-top:2px}
+@media(min-width:860px){.rc-nav{justify-content:center;gap:14px;overflow:visible;margin:0;padding:6px 0 4px}.rc-nav a{width:112px}}
+.rc-sh{display:flex;align-items:center;gap:12px;margin:0 0 16px}
+.rc-sh .rc-nc{width:40px;height:40px;background:#e6efe9;color:var(--forest,#1f4d36)}
+.rc-sh .rc-nc svg{width:21px;height:21px}
+.rc-sh h2{font-size:24px;font-weight:700;color:#14281d;margin:0;line-height:1.2}
+.rc-sh small{margin-left:auto;color:#6b7280;font-size:13px;white-space:nowrap}
+.rc-hsec{margin:38px 0 0;scroll-margin-top:90px}
 @media print{nav,header,footer,.rc-cards,.rc-fig figcaption,.rc-crumb{display:none!important}.rc-box{border:0;padding:0}}
 </style>"""
 
@@ -226,8 +280,14 @@ def _card(r):
     t = {lg: r["text"][lg]["title"].split(":")[0].split("：")[0].strip() for lg in LANGS}
     total = int(r.get("prep_min") or 0) + int(r.get("cook_min") or 0)
     meta = {lg: f'{GROUP[r["group"]][lg]} · {_dur(total, lg)}' for lg in LANGS}
-    return (f'<li class="rc-card"><a href="recipe-{r["slug"]}.html">'
-            f'{tx(t, "p", "rc-ct")}{tx(meta, "p", "rc-cm")}</a></li>')
+    name = tx(t, "p", "rc-ct serif")
+    if r.get("photo"):
+        cov = f'<div class="rc-cov rc-pic">{_img(r, "-480")}{name}</div>'
+    else:
+        bg, fg = TINT.get(r["group"], TINT["mixed"])
+        cov = f'<div class="rc-cov" style="background-color:{bg};color:{fg}">{_ico(r["course"])}{name}</div>'
+    return (f'<li class="rc-card"><a href="recipe-{r["slug"]}.html">{cov}'
+            f'{tx(meta, "p", "rc-cm")}</a></li>')
 
 
 def _recipe_ld(r, lg, site):
@@ -279,9 +339,9 @@ def _head(ctx, fname, title, desc, og_img):
             + "\n</head>")
 
 
-def _shell(ctx, head, body):
-    return (head + '\n<body class="bg-gray-50 overflow-x-hidden">\n' + ctx["nav_html"]("recipes") + CSS
-            + '<main class="rc-wrap">' + body + '</main>\n' + ctx["footer_html"]() + "\n</body>\n</html>")
+def _shell(ctx, head, body, hero=""):
+    return (head + '\n<body class="bg-gray-50 overflow-x-hidden">\n' + ctx["nav_html"]("recipes") + CSS + SPRITE
+            + hero + '<main class="rc-wrap">' + body + '</main>\n' + ctx["footer_html"]() + "\n</body>\n</html>")
 
 
 def _crumb(extra=""):
@@ -358,12 +418,26 @@ def build_hub(ctx, allr):
     head = _head(ctx, "recipes.html", U["hub_title"], U["hub_desc"], f"{site}/og-image.jpg")
     by = {c: sorted([r for r in allr if r["course"] == c], key=lambda r: r["text"]["nl"]["title"].lower())
           for c in COURSE_ORDER}
-    chips = '<ul class="rc-idx">' + "".join(
-        f'<li><a href="#{c}"><span>{tx(COURSE[c], "b")}'
-        f'{tx({lg: U["n_rec"][lg].replace("{n}", str(len(by[c]))) for lg in LANGS}, "small")}</span>'
-        f'<i aria-hidden="true">&#8250;</i></a></li>' for c in COURSE_ORDER if by[c]) + "</ul>"
+    n_rec = lambda n: {lg: U["n_rec"][lg].replace("{n}", str(n)) for lg in LANGS}
+    feat = [r for r in allr if r.get("photo")][:3]
+    feat_html = ""
+    if len(feat) == 3:
+        feat_html = '<ul class="rc-feat">' + "".join(
+            f'<li><a href="recipe-{r["slug"]}.html">{_img(r, "-480")}'
+            + tx({lg: r["text"][lg]["title"].split(":")[0].split("：")[0].strip() for lg in LANGS})
+            + "</a></li>" for r in feat) + "</ul>"
+    hero = ('<section class="rc-hero">'
+            f'<p class="rc-crumb"><a href="./">{tx(U["home"])}</a> &#8250; {tx(U["recipes"])}</p>'
+            f'{tx(U["eyebrow"], "p", "rc-eye")}{tx(U["hub_h1"], "h1", "serif")}'
+            + group_block({lg: f'<p class="rc-lede">{esc(U["hub_intro"][lg])}</p>' for lg in LANGS})
+            + feat_html + "</section>")
+    nav = '<ul class="rc-nav">' + "".join(
+        f'<li><a href="#{c}"><span class="rc-nc">{_ico(c, "")}</span>{tx(COURSE[c], "b")}'
+        f'{tx(n_rec(len(by[c])), "small")}</a></li>'
+        for c in COURSE_ORDER if by[c]) + "</ul>"
     secs = "".join(
-        f'<section class="rc-hsec" id="{c}"><h2 class="rc-h2">{tx(COURSE[c])}</h2>'
+        f'<section class="rc-hsec" id="{c}"><div class="rc-sh"><span class="rc-nc">{_ico(c, "")}</span>'
+        f'{tx(COURSE[c], "h2", "serif")}{tx(n_rec(len(by[c])), "small")}</div>'
         f'<ul class="rc-cards">{"".join(_card(r) for r in by[c])}</ul></section>'
         for c in COURSE_ORDER if by[c])
     items = [{"@type": "ListItem", "position": i + 1, "url": f"{site}/recipe-{r['slug']}"}
@@ -371,11 +445,7 @@ def build_hub(ctx, allr):
     ld = ('<script type="application/ld+json">' + _json.dumps(
         {"@context": "https://schema.org", "@type": "ItemList", "name": "Surinamese Recipes",
          "itemListElement": items}, ensure_ascii=False, separators=(",", ":")) + "</script>")
-    body = (f'<p class="rc-crumb"><a href="./">{tx(U["home"])}</a> &#8250; {tx(U["recipes"])}</p>'
-            f'{tx(U["hub_h1"], "h1", "rc-h1 serif")}'
-            + group_block({lg: f'<p class="rc-lede">{esc(U["hub_intro"][lg])}</p>' for lg in LANGS})
-            + chips + secs + ld)
-    return _shell(ctx, head, body)
+    return _shell(ctx, head, nav + secs + ld, hero)
 
 
 def build_recipes_pages(ctx):
