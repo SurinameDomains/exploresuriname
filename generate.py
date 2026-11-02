@@ -32948,6 +32948,32 @@ def _atm_ref_cards(entries, net, net_col, cards):
     return f'<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-3">{inner}</div>'
 
 
+_MAP_TOUCH_JS = """<script>
+/* Phones and tablets: one finger scrolls the page, two fingers move and zoom the map. */
+window.esrMapTouch=window.esrMapTouch||function(map){
+  try{
+    if(!map||!(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches)) return;
+    if(map.dragging) map.dragging.disable();
+    var el=map.getContainer(); el.style.touchAction='pan-x pan-y';
+    var T={en:'Use two fingers to move the map',nl:'Gebruik twee vingers om de kaart te verplaatsen',
+      es:'Use dos dedos para mover el mapa',zh:'用两根手指移动地图',
+      fr:'Utilisez deux doigts pour d\u00e9placer la carte',pt:'Use dois dedos para mover o mapa'};
+    var h=document.createElement('div'); h.className='esr-map-hint'; h.setAttribute('aria-hidden','true');
+    h.textContent=T[(document.documentElement.lang||'en').slice(0,2)]||T.en;
+    h.style.cssText='position:absolute;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;'
+      +'padding:1rem;text-align:center;background:rgba(15,30,25,.55);color:#fff;font-weight:600;font-size:1rem;'
+      +'line-height:1.35;opacity:0;transition:opacity .25s;pointer-events:none';
+    el.appendChild(h);
+    var t;
+    el.addEventListener('touchmove',function(e){ if(e.touches&&e.touches.length===1){ h.style.opacity='1';
+      clearTimeout(t); t=setTimeout(function(){ h.style.opacity='0'; },1200); } },{passive:true});
+    el.addEventListener('touchstart',function(e){ if(e.touches&&e.touches.length>1){ clearTimeout(t); h.style.opacity='0'; } },{passive:true});
+  }catch(e){}
+};
+</script>
+"""
+
+
 def build_atms_page(atms, meta, ref=None):
     """All-in-one Suriname ATM finder: live status, locations and card acceptance."""
     ref = ref or []
@@ -33056,6 +33082,7 @@ def build_atms_page(atms, meta, ref=None):
         '<path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>'
         '<circle cx="12" cy="11" r="3"/></svg><span id="atm-near-lbl">Nearest to me</span></button>'
         '</div>'
+        '<div id="atm-nearest" aria-live="polite" hidden></div>'
         '<div class="flex flex-wrap gap-2 mb-3">' + net_chips + '</div>'
         '<div class="flex flex-wrap gap-2 mb-3">'
         '<button class="filter-chip" id="atm-openonly" data-open="0">Open now only</button>'
@@ -33091,7 +33118,6 @@ def build_atms_page(atms, meta, ref=None):
     body += (
         '<div class="flex items-center justify-between mb-3">'
         '<p id="atm-count" class="text-sm text-gray-500"></p></div>'
-        '<div id="atm-nearest" aria-live="polite" hidden></div>'
         f'<div id="atm-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">{cards_html}</div>'
         '<p id="atm-empty" class="text-center text-gray-400 py-10 hidden">No ATMs match those filters.</p>'
     )
@@ -33224,7 +33250,8 @@ def build_atms_page(atms, meta, ref=None):
 .atm-card-pill{font-size:.66rem;font-weight:600;color:var(--pc);border:1px solid var(--pc);border-radius:999px;padding:2px 8px;opacity:.9}
 .atm-links{margin-top:auto;display:flex;gap:1rem;align-items:center}
 .atm-dir{display:inline-flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;color:var(--forest2)}
-#atm-nearest{background:var(--forest);color:#fff;border-radius:var(--r-card,6px);padding:.9rem 1rem;margin:0 0 .9rem;box-shadow:var(--sh-card)}
+#atm-nearest{background:var(--forest);color:#fff;border-radius:var(--r-card,6px);padding:.9rem 1rem;margin:0 0 1rem;box-shadow:var(--sh-card)}
+#atm-nearest h3{overflow-wrap:anywhere}
 #atm-nearest[hidden]{display:none}
 #atm-nearest .k{font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
 #atm-nearest h3{font-family:Newsreader,Georgia,serif;font-size:1.35rem;margin:.15rem 0 .1rem}
@@ -33423,6 +33450,7 @@ def build_atms_page(atms, meta, ref=None):
     s.src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
     s.onload=function(){
       window._atmMap=window.L.map(mapEl,{scrollWheelZoom:false}).setView([5.83,-55.17],10);
+      if(window.esrMapTouch) window.esrMapTouch(window._atmMap);
       window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         {maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(window._atmMap);
       drawMarkers();
@@ -33506,7 +33534,7 @@ def build_atms_page(atms, meta, ref=None):
         ensure_ascii=False))
 
     main = '<main class="max-w-5xl mx-auto px-5 py-12 pb-24">' + body + '</main>'
-    return head.replace("</head>", styles + "\n</head>") + hero + main + js + "\n" + footer_html() + "\n</body>\n</html>"
+    return head.replace("</head>", styles + "\n</head>") + hero + main + _MAP_TOUCH_JS + js + "\n" + footer_html() + "\n</body>\n</html>"
 
 
 
@@ -34176,6 +34204,7 @@ _GAS_JS = r'''
     var css=document.createElement('link'); css.rel='stylesheet'; css.href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'; document.head.appendChild(css);
     var s=document.createElement('script'); s.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
     s.onload=function(){ map=window.L.map(mapEl,{scrollWheelZoom:false}).setView([5.8,-55.15],10);
+      if(window.esrMapTouch) window.esrMapTouch(map);
       window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
       draw(); placeMe();};
     document.head.appendChild(s);
@@ -34425,7 +34454,7 @@ def build_gas_page(points_data, info):
                                                     p["lat"], p["lng"]] for p in pts], ensure_ascii=False)
                           .replace("<", "\\u003c")))
     main = '<main class="max-w-5xl mx-auto px-5 py-12 pb-24">' + body + '</main>'
-    return head.replace("</head>", _GAS_CSS + "\n</head>") + hero + main + js + "\n" + footer_html() + "\n</body>\n</html>"
+    return head.replace("</head>", _GAS_CSS + "\n</head>") + hero + main + _MAP_TOUCH_JS + js + "\n" + footer_html() + "\n</body>\n</html>"
 
 
 
@@ -34681,6 +34710,7 @@ _MK_JS = r"""<script>
     var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
     s.onload=function(){
       map=window.L.map(el,{scrollWheelZoom:false});
+      if(window.esrMapTouch) window.esrMapTouch(map);
       window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
       var b=[];
       pts.forEach(function(p){
@@ -34822,7 +34852,7 @@ def build_markets_page():
            '<span>The Centrale Markt photo is our own.</span></p>')
     main = ('<main class="mk-main">' + intro + pick + secs + band + notes
             + '<div class="max-w-3xl">' + _hub_faq_html(faq) + '</div>' + src + '</main>')
-    return head + hero + main + "\n" + footer_html() + "\n" + _MK_JS + "\n</body>\n</html>"
+    return head + hero + main + "\n" + footer_html() + "\n" + _MAP_TOUCH_JS + _MK_JS + "\n</body>\n</html>"
 
 
 def _listing_img_credit(slug):
