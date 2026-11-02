@@ -10240,7 +10240,7 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
     if _sr_min is not None and _ss_min is not None and _ss_min > _sr_min:
         _sun_f = max(0.0, min(1.0, (_now_min - _sr_min) / float(_ss_min - _sr_min)))
 
-    def _card(key, href, k, icon, hero, live_sec, generic, title, asof, extra_cls="", bg=""):
+    def _card(key, href, k, icon, hero, live_sec, generic, title, asof, extra_cls="", bg="", inner_links=False):
         """One dashboard card. hero/live_sec are live markup (may be ''): when empty
         the card shows its evergreen text instead. Words and values stay in
         separate nodes (i18n rule), the JS only ever writes into data-v slots.
@@ -10250,13 +10250,17 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
                 + ('<div class="tc-hero">' + hero + '</div>' if hero else '')
                 + ('<div class="d">' + live_sec + '</div>' if live_sec else '') + '</div>'
                 '<div class="dg"' + (' hidden' if has_live else '') + '><div class="tc-hero tc-hero-txt">' + title + '</div><div class="d">' + generic + '</div></div>')
-        foot = ('<div class="tc-foot"><span class="tc-link">' + title + ' <span class="tc-arrow" aria-hidden="true">&rarr;</span></span>'
+        # inner_links: the card holds its own links (news headlines). A link inside a link is
+        # invalid HTML, so the card is a <div> and the footer link stretches over it (.tc-stretch).
+        _lt = ('a class="tc-link tc-stretch" href="' + href + '"') if inner_links else 'span class="tc-link"'
+        foot = ('<div class="tc-foot"><' + _lt + '>' + title + ' <span class="tc-arrow" aria-hidden="true">&rarr;</span></' + _lt.split(' ')[0] + '>'
                 + (('<span class="ess-asof"><span>as of</span> <span translate="no" data-asof="' + _esc(asof or "") + '">' + _hhmm(asof) + '</span></span>') if (has_live and asof) else '')
                 + '</div>')
-        return ('<a class="tc tc-' + key + (' ' + extra_cls if extra_cls else '') + '" data-reveal data-live="' + key + '" href="' + href + '">'
+        _tag = 'div' if inner_links else 'a'
+        return ('<' + _tag + ' class="tc tc-' + key + (' ' + extra_cls if extra_cls else '') + '" data-reveal data-live="' + key + '"' + ('' if inner_links else ' href="' + href + '"') + '>'
                 + bg +
                 '<div class="tc-in"><div class="tc-top"><span class="k">' + k + '</span><span class="tc-ic" aria-hidden="true">' + _IC.get(icon, "") + '</span></div>'
-                + body + foot + '</div></a>')
+                + body + foot + '</div></' + _tag + '>')
 
     # Money: big "we sell" figure, change badge, buy + EUR line, 14-day sparkline
     def _spark(hist):
@@ -10364,9 +10368,9 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
         for a in items:
             img = a.get("image") or ""
             rows.append('<li>' + (('<span class="nw-th"><img src="' + _esc(img) + '" alt="" loading="lazy" decoding="async" onerror="this.parentNode.style.display=\'none\'"></span>') if img else '')
-                        + '<span class="nw-b"><span class="ess-news-t">' + _esc(a.get("title", "")) + '</span>'
+                        + '<a class="nw-b" href="' + _esc(_feed_url(a.get("link"))) + '" target="_blank" rel="noopener noreferrer"><span class="ess-news-t">' + _esc(a.get("title", "")) + '</span>'
                         + '<span class="ess-news-s"><span translate="no">' + _esc(a.get("source", "")) + '</span>'
-                        + (('<span class="nw-ago" translate="no" data-ts="' + _esc(a.get("date") or "") + '"></span>') if a.get("date") else '') + '</span></span></li>')
+                        + (('<span class="nw-ago" translate="no" data-ts="' + _esc(a.get("date") or "") + '"></span>') if a.get("date") else '') + '</span></a></li>')
         return '<ul class="ess-news' + ('' if any_img else ' ess-news-txt') + '" data-v="newslist">' + ''.join(rows) + '</ul>'
 
     _mh, _ms = _money(); _wh, _ws = _weather(); _fh, _fs = _flights(); _oh, _os = _notices()
@@ -10378,7 +10382,7 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
         _card('outages', 'daily-notices.html', 'Heads-up', 'bolt', _oh, _os, 'Power and water interruptions, before they catch you out.', 'Daily notices', _out.get("as_of"),
               'tc-ob-' + ("n" if (_out.get("today") or 0) else ("plan" if _out.get("next_planned") else ("clear" if _out else ""))),
               '<span class="tc-bgic" aria-hidden="true">' + _IC["bolt"] + '</span>'),
-        _card('news', 'news.html', 'The latest', 'news', '', _news_rows(), 'Local headlines and the stories people are actually talking about.', 'Suriname news', _news.get("as_of"), 'tc-wide'),
+        _card('news', 'news.html', 'The latest', 'news', '', _news_rows(), 'Local headlines and the stories people are actually talking about.', 'Suriname news', _news.get("as_of"), 'tc-wide', inner_links=True),
         _card('guide', 'visitor-guide.html', 'First-timer', 'guide', '', '', 'Visas, SIM cards, money and getting around, in plain language.', 'Visitor guide', None, 'tc-photo',
               '<img class="tc-ph" loading="lazy" decoding="async" src="/images/hero-paramaribo-m.webp" alt="" width="900" height="506"><span class="tc-ph-ov" aria-hidden="true"></span>'),
     ])
@@ -10696,6 +10700,14 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
     .nw-b{min-width:0}
     .ess-news-t{color:#2A3630;font-weight:600;font-size:14.5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
     .ess-news-s{display:block;font-size:11px;color:#8A9187;margin-top:3px}
+    /* headlines link straight to the article (2 Nov 2026); the rest of the card goes to /news */
+    .tc-stretch::after{content:"";position:absolute;inset:0;z-index:1}
+    .ess-news li{position:relative;z-index:2}
+    a.nw-b{display:block;flex:1;min-width:0;color:inherit;text-decoration:none}
+    a.nw-b::after{content:"";position:absolute;inset:0}
+    a.nw-b:hover .ess-news-t,a.nw-b:focus-visible .ess-news-t{color:var(--clay);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+    .tc-news:has(a.nw-b:hover) .tc-link{color:var(--forest)}
+    .tc-news:has(a.nw-b:hover) .tc-arrow{transform:none}
     .tc-news .d{margin-top:0;flex:1;display:flex}
     .tc-news .ess-news{flex:1}
     .ess-news-txt{display:flex!important;flex-direction:column;gap:0!important;counter-reset:nw}
@@ -10928,7 +10940,7 @@ function esSearch(){
       var ul=tile.querySelector('[data-v="newslist"]'); if(!ul) return true;
       var its=it.items.slice(0,3), anyImg=its.some(function(a){ return !!a.image; });
       ul.className='ess-news'+(anyImg?'':' ess-news-txt');
-      ul.innerHTML=its.map(function(a){ return '<li>'+(a.image?'<span class="nw-th"><img src="'+esc(a.image)+'" alt="" loading="lazy" decoding="async" onerror="this.parentNode.style.display=\'none\'"></span>':'')+'<span class="nw-b"><span class="ess-news-t">'+esc(a.title)+'</span><span class="ess-news-s"><span translate="no">'+esc(a.source||'')+'</span>'+(a.date?'<span class="nw-ago" translate="no" data-ts="'+esc(a.date)+'"></span>':'')+'</span></span></li>'; }).join('');
+      ul.innerHTML=its.map(function(a){ return '<li>'+(a.image?'<span class="nw-th"><img src="'+esc(a.image)+'" alt="" loading="lazy" decoding="async" onerror="this.parentNode.style.display=\'none\'"></span>':'')+'<a class="nw-b" href="'+esc(/^https?:\/\//i.test(a.link||'')?a.link:'#')+'" target="_blank" rel="noopener noreferrer"><span class="ess-news-t">'+esc(a.title)+'</span><span class="ess-news-s"><span translate="no">'+esc(a.source||'')+'</span>'+(a.date?'<span class="nw-ago" translate="no" data-ts="'+esc(a.date)+'"></span>':'')+'</span></a></li>'; }).join('');
       return true;
     }
     return true;
