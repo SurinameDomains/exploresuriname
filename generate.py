@@ -32952,6 +32952,8 @@ _MAP_TOUCH_JS = """<script>
 /* Phones and tablets: one finger scrolls the page, two fingers move and zoom the map. */
 window.esrMapTouch=window.esrMapTouch||function(map){
   try{
+    /* Keep Leaflet's pane z-indexes (400-1000) inside the map so it never scrolls over the sticky header. */
+    if(map&&map.getContainer){ var c0=map.getContainer(); c0.style.zIndex='0'; c0.style.isolation='isolate'; }
     if(!map||!(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches)) return;
     if(map.dragging) map.dragging.disable();
     var el=map.getContainer(); el.style.touchAction='pan-x pan-y';
