@@ -78,6 +78,8 @@ U = {
     "total":     {"en": "Total", "nl": "Totaal", "es": "Total", "zh": "总计", "fr": "Total", "pt": "Total"},
     "more":      {"en": "More Surinamese recipes", "nl": "Meer Surinaamse recepten", "es": "Más recetas de Surinam",
                   "zh": "更多苏里南食谱", "fr": "Plus de recettes du Suriname", "pt": "Mais receitas do Suriname"},
+    "n_rec":     {"en": "{n} recipes", "nl": "{n} recepten", "es": "{n} recetas", "zh": "{n} 个食谱",
+                  "fr": "{n} recettes", "pt": "{n} receitas"},
     "all":       {"en": "All recipes", "nl": "Alle recepten", "es": "Todas las recetas", "zh": "全部食谱",
                   "fr": "Toutes les recettes", "pt": "Todas as receitas"},
     "home":      {"en": "Home", "nl": "Home", "es": "Inicio", "zh": "首页", "fr": "Accueil", "pt": "Início"},
@@ -181,8 +183,14 @@ CSS = """<style>
 .rc-card a:hover .rc-ct{text-decoration:underline}
 .rc-ct{font-weight:700;color:#14281d;font-size:16px;line-height:1.3;margin:0 0 3px}
 .rc-cm{font-size:13px;color:#6b7280;margin:0}
-.rc-jump{margin:0 0 8px;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:10px 24px;font-size:15px;line-height:1.3}
-.rc-jump a{color:var(--forest,#1f4d36);font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.rc-idx{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 8px;padding:0;list-style:none}
+@media(max-width:699px){.rc-idx li:last-child:nth-child(odd){grid-column:1/-1}}
+@media(min-width:700px){.rc-idx{grid-template-columns:repeat(4,1fr);gap:12px}}
+.rc-idx a{display:flex;align-items:center;justify-content:space-between;gap:8px;height:100%;background:#fff;border:1px solid #e5e7eb;border-radius:6px;padding:12px 14px;color:inherit;text-decoration:none;transition:border-color .15s}
+.rc-idx a:hover{border-color:var(--forest,#1f4d36)}
+.rc-idx b{display:block;font-weight:700;color:#14281d;font-size:15px;line-height:1.25}
+.rc-idx small{display:block;color:#6b7280;font-size:12.5px;margin-top:3px}
+.rc-idx i{font-style:normal;color:var(--forest,#1f4d36);font-size:18px;line-height:1}
 .rc-hsec{margin:30px 0 0;scroll-margin-top:90px}
 @media print{nav,header,footer,.rc-cards,.rc-fig figcaption,.rc-crumb{display:none!important}.rc-box{border:0;padding:0}}
 </style>"""
@@ -350,8 +358,10 @@ def build_hub(ctx, allr):
     head = _head(ctx, "recipes.html", U["hub_title"], U["hub_desc"], f"{site}/og-image.jpg")
     by = {c: sorted([r for r in allr if r["course"] == c], key=lambda r: r["text"]["nl"]["title"].lower())
           for c in COURSE_ORDER}
-    chips = '<ul class="rc-jump">' + "".join(
-        f'<li><a href="#{c}">{tx(COURSE[c])}</a></li>' for c in COURSE_ORDER if by[c]) + "</ul>"
+    chips = '<ul class="rc-idx">' + "".join(
+        f'<li><a href="#{c}"><span>{tx(COURSE[c], "b")}'
+        f'{tx({lg: U["n_rec"][lg].replace("{n}", str(len(by[c]))) for lg in LANGS}, "small")}</span>'
+        f'<i aria-hidden="true">&#8250;</i></a></li>' for c in COURSE_ORDER if by[c]) + "</ul>"
     secs = "".join(
         f'<section class="rc-hsec" id="{c}"><h2 class="rc-h2">{tx(COURSE[c])}</h2>'
         f'<ul class="rc-cards">{"".join(_card(r) for r in by[c])}</ul></section>'
