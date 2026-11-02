@@ -11,7 +11,7 @@
 <link as="font" crossorigin="" href="/fonts/newsreader-latin-var.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="/fonts/instrument-latin-var.woff2" rel="preload" type="font/woff2"/>
 <link href="/assets/s-63b67768c422.css" rel="stylesheet"/>
-<link href="/tailwind.css?v=9d31e8f1" rel="stylesheet"/>
+<link href="/tailwind.css?v=62ddc714" rel="stylesheet"/>
 <link href="/manifest.webmanifest" rel="manifest"/>
 <meta content="#FBF5E9" name="theme-color"/>
 <meta content="yes" name="mobile-web-app-capable"/>
@@ -181,6 +181,8 @@
 /* Phones and tablets: one finger scrolls the page, two fingers move and zoom the map. */
 window.esrMapTouch=window.esrMapTouch||function(map){
   try{
+    /* Keep Leaflet's pane z-indexes (400-1000) inside the map so it never scrolls over the sticky header. */
+    if(map&&map.getContainer){ var c0=map.getContainer(); c0.style.zIndex='0'; c0.style.isolation='isolate'; }
     if(!map||!(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches)) return;
     if(map.dragging) map.dragging.disable();
     var el=map.getContainer(); el.style.touchAction='pan-x pan-y';
