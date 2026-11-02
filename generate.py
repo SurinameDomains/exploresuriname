@@ -33072,7 +33072,7 @@ def build_atms_page(atms, meta, ref=None):
     body += (
         '<h2 class="serif text-2xl font-bold text-gray-900 mb-4">Find an ATM</h2>'
         '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-5 mb-5">'
-        '<div class="flex flex-col sm:flex-row gap-2 mb-4">'
+        '<div class="flex flex-col sm:flex-row gap-2">'
         '<div class="relative flex-1">'
         '<svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>'
         '<input id="atm-search" type="search" placeholder="Search by place or address&hellip;" '
@@ -33085,6 +33085,11 @@ def build_atms_page(atms, meta, ref=None):
         '<circle cx="12" cy="11" r="3"/></svg><span id="atm-near-lbl">Nearest to me</span></button>'
         '</div>'
         '<div id="atm-nearest" aria-live="polite" hidden></div>'
+        '</div>'
+    )
+    # Filter chips sit under the map, right above the list they filter (AB, 2 Nov 2026).
+    atm_filters = (
+        '<div id="atm-filters" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-5 mb-5">'
         '<div class="flex flex-wrap gap-2 mb-3">' + net_chips + '</div>'
         '<div class="flex flex-wrap gap-2 mb-3">'
         '<button class="filter-chip" id="atm-openonly" data-open="0">Open now only</button>'
@@ -33117,7 +33122,7 @@ def build_atms_page(atms, meta, ref=None):
 
     # ── Results ─────────────────────────────────────────────────────────────
     cards_html = "".join(_atm_render_card(a) for a in allmachines)
-    body += (
+    body += atm_filters + (
         '<div class="flex items-center justify-between mb-3">'
         '<p id="atm-count" class="text-sm text-gray-500"></p></div>'
         f'<div id="atm-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">{cards_html}</div>'
@@ -33252,7 +33257,7 @@ def build_atms_page(atms, meta, ref=None):
 .atm-card-pill{font-size:.66rem;font-weight:600;color:var(--pc);border:1px solid var(--pc);border-radius:999px;padding:2px 8px;opacity:.9}
 .atm-links{margin-top:auto;display:flex;gap:1rem;align-items:center}
 .atm-dir{display:inline-flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;color:var(--forest2)}
-#atm-nearest{background:var(--forest);color:#fff;border-radius:var(--r-card,6px);padding:.9rem 1rem;margin:0 0 1rem;box-shadow:var(--sh-card)}
+#atm-nearest{background:var(--forest);color:#fff;border-radius:var(--r-card,6px);padding:.9rem 1rem;margin:1rem 0 0;box-shadow:var(--sh-card)}
 #atm-nearest h3{overflow-wrap:anywhere}
 #atm-nearest[hidden]{display:none}
 #atm-nearest .k{font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
@@ -33322,7 +33327,7 @@ def build_atms_page(atms, meta, ref=None):
   }
 
   function wireChips(attr, cb){
-    var els=document.querySelectorAll('['+attr+']');
+    var els=document.querySelectorAll('button['+attr+']');
     els.forEach(function(b){ b.addEventListener('click', function(){ cb(b, els); }); });
   }
   wireChips('data-net', function(b, els){
