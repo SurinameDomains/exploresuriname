@@ -9914,7 +9914,7 @@ def _explore_more_html(active):
     )
 
 
-def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None, seo_title=None, intro_text="", faq=None, card_count=None, grid_class="listing-grid"):
+def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--forest)", page_file="", extra_html="", filter_bar="", og_image=None, lcp_image=None, seo_title=None, intro_text="", faq=None, card_count=None, grid_class="listing-grid", h1=None):
     _page_active = page_file.replace(".html", "") if page_file else "home"
     page_url = f"{SITE_URL}/{page_file}"
     _og_img = og_image or f"{SITE_URL}/og-image.jpg"
@@ -9970,7 +9970,7 @@ def listing_page(title, subtitle, meta_desc, items, cards_html, bg_color="var(--
     </nav>
     <div class="cat-row">
       <div>
-        <h1 class="serif">{title} <span class="h1-count">{_n_cards}</span></h1>
+        <h1 class="serif">{h1 or title} <span class="h1-count">{_n_cards}</span></h1>
         <p class="cat-sub">{subtitle}</p>
       </div>
       {_cta}
@@ -11281,11 +11281,11 @@ def build_activities_page():
     filter_bar_a = _filter_bar_html(combined_items, "adventure")
     total = len(ACTIVITIES) + len(NATURE_SPOTS) + len(ADVENTURES_BIZ) + len(SIGHTSEEING)
     _items_ld = list(ACTIVITIES) + list(NATURE_SPOTS)
-    return listing_page("Things to Do", "Things to do in Suriname",
+    return listing_page("Things to Do", "Nature parks, river trips, tours and museums",
         f"Browse {total} things to do in Suriname: nature parks, jungle tours, river trips, museums, birdwatching and guided expeditions. Find operators and attractions.",
         _items_ld, all_cards, bg_color=_CAT_ACCENT["Activities"], page_file="activities.html", extra_html="", filter_bar=filter_bar_a,
         og_image=_og_share_image(_first_img),
-        lcp_image=_first_img, seo_title="Things to Do in Suriname: Nature and Tours", card_count=total,
+        lcp_image=_first_img, seo_title="Things to Do in Suriname: Nature and Tours", card_count=total, h1="Things to Do in Suriname",
         intro_text=f"Looking for things to do in Suriname? Browse {total} nature parks, activities, tours and attractions in one place. Suriname protects more than 90% of its land as rainforest, the highest share of any country on Earth, so most trips start with the green: canoe through the interior, trek to Brownsberg and the Central Suriname Nature Reserve, or watch leatherback turtles nest at Galibi. Closer to town there are plantation walks, Maroon and Indigenous village visits, museums and the historic inner city of Paramaribo. From half-day trips to multi-day expeditions, find and book with local operators here.", faq=_FAQ_ACTIVITIES + _FAQ_NATURE)
 
 def build_restaurants_page(restaurants):
@@ -11294,11 +11294,11 @@ def build_restaurants_page(restaurants):
     cards = "\n".join(poi_card(r, "cuisine", eager=(i==_eag), featured=(r["slug"] in _ADMIN_FEATURED), cat_key="restaurant") for i,r in enumerate(restaurants))
     fb    = _filter_bar_html(restaurants, "restaurant")
     _lcp  = restaurants[_eag].get("image") if restaurants else None
-    return listing_page("Eat & Drink", "Places to eat & drink in Suriname",
+    return listing_page("Eat & Drink", "Surinamese food, Asian kitchens, cafés, bars and fast food",
         f"Browse {len(restaurants)} restaurants, cafes, bars and fast food in Suriname. Find local Surinamese food, Asian cuisine, coffee shops and more.",
         restaurants, cards, bg_color=_CAT_ACCENT["Eat & Drink"], page_file="restaurants.html", filter_bar=fb,
         og_image=_og_share_image(_lcp),
-        lcp_image=_lcp, seo_title="Restaurants in Paramaribo, Suriname",
+        lcp_image=_lcp, seo_title="Restaurants in Paramaribo, Suriname", h1="Restaurants in Suriname",
         intro_text=f"Discover {len(restaurants)} restaurants, caf\u00e9s, bars and fast food spots across Suriname. From traditional Surinamese cuisine and Dutch-Indonesian rijsttafel to Asian fusion, pizza, and international chains, Paramaribo&#8217;s food scene reflects the country&#8217;s rich multicultural heritage. Use the filters to find your perfect dining experience.", faq=_FAQ_RESTAURANTS)
 
 def build_hotels_page(hotels):
@@ -11307,11 +11307,11 @@ def build_hotels_page(hotels):
     cards = "\n".join(poi_card(h, "category", eager=(i==_eag), featured=(h["slug"] in _ADMIN_FEATURED), cat_key="hotel") for i,h in enumerate(hotels))
     fb    = _filter_bar_html(hotels, "hotel")
     _lcp  = hotels[_eag].get("image") if hotels else None
-    return listing_page("Hotels & Lodges", "Places to stay in Suriname",
+    return listing_page("Hotels & Lodges", "City hotels, resorts and jungle lodges",
         f"Browse {len(hotels)} hotels, eco-lodges and jungle retreats in Suriname. From Paramaribo city hotels to remote river resorts. Find your perfect stay.",
         hotels, cards, bg_color=_CAT_ACCENT["Stay"], page_file="hotels.html", filter_bar=fb,
         og_image=_og_share_image(_lcp),
-        lcp_image=_lcp, seo_title="Hotels in Suriname: City and Jungle Lodges",
+        lcp_image=_lcp, seo_title="Hotels in Suriname: City and Jungle Lodges", h1="Hotels in Suriname",
         intro_text=f"Find the right place to stay from {len(hotels)} hotels, lodges and jungle retreats across Suriname. Paramaribo offers modern city hotels and casino resorts, while the interior has eco-lodges and remote river camps along the Suriname River. Whether you&#8217;re in town for business or heading deep into the rainforest, this is your full accommodation guide.", faq=_FAQ_HOTELS)
 
 def build_shopping_page():
@@ -11320,11 +11320,11 @@ def build_shopping_page():
     cards = "\n".join(poi_card(b, eager=(i==_eag), featured=(b["slug"] in _ADMIN_FEATURED), cat_key="shopping", layout="row") for i,b in enumerate(_order))
     fb    = _filter_bar_html(_order, "shopping")
     _lcp  = _order[_eag].get("image") if _order else None
-    return listing_page("Shopping", "Shops & stores in Suriname",
+    return listing_page("Shopping", "Supermarkets, malls, markets and local shops",
         f"Discover {len(SHOPPING)} shops in Suriname: supermarkets, malls, fashion, electronics, furniture, butchers and specialty stores in Paramaribo.",
         SHOPPING, cards, bg_color=_CAT_ACCENT["Shopping"], page_file="shopping.html", filter_bar=fb, grid_class="listing-rows",
         og_image=_og_share_image(_lcp),
-        lcp_image=_lcp, seo_title="Shopping in Paramaribo, Suriname",
+        lcp_image=_lcp, seo_title="Shopping in Paramaribo, Suriname", h1="Shopping in Suriname",
         intro_text=f"Shop across {len(SHOPPING)} stores in Suriname, from supermarkets, malls and fashion boutiques to electronics, furniture and specialty food stores. Hermitage Mall and International Mall of Suriname are Paramaribo&#8217;s main retail hubs, with a wide range of local and international brands. Use the filters to browse by category or district.", faq=_FAQ_SHOPPING)
 
 def build_services_page():
@@ -11333,11 +11333,11 @@ def build_services_page():
     cards = "\n".join(poi_card(b, eager=(i==_eag), featured=(b["slug"] in _ADMIN_FEATURED), cat_key="service", layout="row") for i,b in enumerate(_order))
     fb    = _filter_bar_html(_order, "service")
     _lcp  = _order[_eag].get("image") if _order else None
-    return listing_page("Services", "Service providers in Suriname",
+    return listing_page("Services", "Banks, health, beauty, telecom, repairs and more",
         f"Find {len(SERVICES)} service providers in Suriname: banks, beauty, health, fitness, education, telecom, real estate and more.",
         SERVICES, cards, bg_color=_CAT_ACCENT["Services"], page_file="services.html", filter_bar=fb, grid_class="listing-rows",
         og_image=_og_share_image(_lcp),
-        lcp_image=_lcp, seo_title="Local Services in Paramaribo, Suriname",
+        lcp_image=_lcp, seo_title="Local Services in Paramaribo, Suriname", h1="Services in Suriname",
         intro_text=f"Find {len(SERVICES)} service providers across Suriname: banks, insurance, beauty salons, gyms, pharmacies, schools, real estate agencies, travel agents and more. Whether you need a haircut, a mortgage, a gym membership or a doctor in Paramaribo, this directory covers the essential services that keep the city running.", faq=_FAQ_SERVICES)
 
 def build_currency_page(cme_rates, cme_live, cme_updated, cbvs_rates, cbvs_live, cbvs_updated, brent_price=None, brent_updated=None, bank_rates=None, banks_updated="", douane_state=None):
@@ -13786,6 +13786,40 @@ def _listing_title(raw_name, place, hours, phone):
     return raw_name + ", " + place + ": " + intent
 
 
+# "Is this your business?" (3 Nov 2026, SEO): owners who link to their listing page are
+# the cheapest backlinks the listings (90% of search impressions) can get. Same idea as
+# _EVP_ORG on event pages. The URL is read from the canonical in the browser, so every
+# language copy shows and copies its own address. Own CSS: no utility classes needed.
+_OWN_BOX_CSS = (
+    '<style>.own-box{margin:0 0 2rem;background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1.25rem}'
+    '.own-box h2{font-size:1.05rem;font-weight:700;color:#111827;margin:0 0 .4rem}'
+    '.own-box p{font-size:.9rem;line-height:1.55;color:#4b5563;margin:0 0 .85rem}'
+    '.own-r{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}'
+    '.own-u{font-size:.8rem;background:#f9fafb;border:1px solid #f3f4f6;border-radius:8px;padding:.45rem .6rem;color:#1f2937;'
+    'max-width:100%;overflow-wrap:anywhere;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}'
+    '.own-copy{font:inherit;font-size:.85rem;font-weight:600;color:var(--forest2,#1f5c3a);background:#fff;'
+    'border:1px solid #d1d5db;border-radius:999px;padding:.4rem .9rem;cursor:pointer}'
+    '.own-copy.ok{border-color:var(--forest2,#1f5c3a);background:#f0f7f2}'
+    '.own-fix{display:inline-block;margin-top:.8rem;font-size:.85rem;font-weight:600;color:var(--forest2,#1f5c3a)}</style>')
+
+
+def _own_box_html(pfx="../../"):
+    return (_OWN_BOX_CSS +
+        '\n      <section class="own-box" aria-labelledby="own-h">'
+        '<h2 id="own-h">Is this your business?</h2>'
+        '<p>Link to this page from your website, Facebook page or Instagram bio. Customers find your '
+        'opening hours, phone number and directions in one place.</p>'
+        '<div class="own-r"><code class="own-u" data-own-url translate="no"></code>'
+        '<button type="button" class="own-copy">Copy link</button></div>'
+        '<a class="own-fix" href="' + pfx + 'contact.html">Details out of date? Tell us what changed</a></section>'
+        '<script>(function(){var c=document.querySelector(\'link[rel="canonical"]\'),e=document.querySelector("[data-own-url]"),'
+        'b=document.querySelector(".own-copy");if(!c||!e||!b)return;var u=c.href;e.textContent=u.replace(/^https?:\\/\\//,"");'
+        'b.addEventListener("click",function(){var ok=function(){b.classList.add("ok")};'
+        'if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(ok,sel)}else sel();'
+        'function sel(){var r=document.createRange();r.selectNodeContents(e);var s=window.getSelection();s.removeAllRanges();s.addRange(r)}'
+        'try{if(window.gtag)gtag("event","own_copy",{})}catch(x){}})})();</script>')
+
+
 def _venue_events_html(slug, pfx="../../"):
     """"Upcoming events here" on a venue's listing page (from build_events_page)."""
     evs = sorted(_VENUE_EVENTS.get(slug) or [], key=lambda x: x[0])[:5]
@@ -14373,6 +14407,7 @@ def build_listing_page(slug, b, brand_short=None):
         '\n      <p class="text-gray-400 text-xs text-center mb-8">'
         '\n        Map data &copy; Google. Click the map to see hours, reviews &amp; street view.'
         '\n      </p>'
+        + ("" if brand_short else _own_box_html(_pfx)) +
         '\n    </div>'
 
         '\n    <div class="lg:col-span-1">'
@@ -28067,7 +28102,7 @@ def build_about_suriname_page():
     prose, then links into the deeper pages (history, dictionary, events,
     currency, oil & gas). Figures carry their source year; refresh the
     population block when the ABS publishes the 2024-25 census results."""
-    title = "About Suriname: Facts, People and Culture"
+    title = "Suriname: Where It Is, People, Languages and History"
     desc  = ("Suriname in one page: where it is, population and peoples, languages, religions, "
              "climate, history, government, economy, nature and national symbols. Updated for 2026.")
 
@@ -28115,7 +28150,7 @@ def build_about_suriname_page():
     }
     # Clean URL (no .html): the file stays about-suriname.html on disk and GitHub
     # Pages serves it at /about-suriname. build_i18n.py lists it in _CLEAN_FILES.
-    head = _hub_head(title, desc, "about-suriname", faq=faq, extra_ld=extra_ld)
+    head = _hub_head(title, desc, "about-suriname", faq=faq, extra_ld=extra_ld, brand=False)
     hero = _hub_hero("Country Guide", "About Suriname",
                      "The facts, the peoples, the land and the story of South America&#8217;s "
                      "smallest, greenest and most diverse country.").replace("{NAV}", nav_html("aboutsr"))
