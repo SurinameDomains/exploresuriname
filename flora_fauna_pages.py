@@ -530,7 +530,6 @@ class Shell:
             f'<meta property="og:url" content="{esc(url)}">\n'
             f'<meta property="og:image" content="{esc(img)}">\n'
             '<meta name="twitter:card" content="summary_large_image">\n'
-            '<meta name="twitter:site" content="@exploringsuriname">\n'
             '<link rel="icon" href="/favicon.ico" sizes="32x32">\n'
             '<link rel="icon" type="image/svg+xml" href="/favicon.svg">\n'
             '<meta name="theme-color" content="#FBF5E9">\n'

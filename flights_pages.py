@@ -872,7 +872,6 @@ def _head(ctx, title, desc, fname, ld_blocks, title_l10n=None, desc_l10n=None, o
             + f'\n  <meta property="og:description" content="{esc(desc)}"{dl}>'
             + f'\n  <meta property="og:image" content="{img}">'
             + '\n  <meta name="twitter:card" content="summary_large_image">'
-            + '\n  <meta name="twitter:site" content="@exploringsuriname">'
             + f'\n  <meta name="twitter:title" content="{esc(full)}"' + (f' data-l10n-content="{title_l10n}"' if title_l10n else '') + '>'
             + f'\n  <meta name="twitter:description" content="{esc(desc)}"{dl}>'
             + f'\n  <meta name="twitter:image" content="{img}">'
