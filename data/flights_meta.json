@@ -2,25 +2,25 @@
  "sources": {
   "fr24_PBM": {
    "ok": true,
-   "fetched": 1793739776
+   "fetched": 1793740780
   },
   "fr24_EAX": {
    "ok": true,
-   "fetched": 1793739776
+   "fetched": 1793740780
   },
   "bw": {
    "ok": true,
-   "fetched": 1793739776
+   "fetched": 1793740780
   },
   "afkl": {
    "ok": true,
-   "fetched": 1793739776,
-   "calls_today": 50,
+   "fetched": 1793740780,
+   "calls_today": 51,
    "err": ""
   },
   "fr24_hist": {
    "ok": true,
-   "fetched": 1793730705
+   "fetched": 1793740780
   }
  },
  "fl_hist": {
@@ -53,7 +53,7 @@
   "PY9915": 1793582169,
   "PY9916": 1793598384,
   "W12493": 1793592077,
-  "W12494": 1793668582,
+  "W12494": 1793740780,
   "PY3001": 1793710899
  }
 }
