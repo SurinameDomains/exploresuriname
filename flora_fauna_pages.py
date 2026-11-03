@@ -360,6 +360,13 @@ def _sp_names(sp):
     return out
 
 
+def sp_thin(data, sp):
+    """True for a profile without its own text (no Wikipedia text in any language):
+    noindex,follow and left out of the sitemap (SEO, 3 Nov 2026). Gaining text
+    later puts it back in the index automatically."""
+    return not data.text.get(sp["p"])
+
+
 def sp_langs(sp):
     """Trees this species page exists in: English + STATIC_LANGS with an official name."""
     n = sp.get("n") or {}
@@ -1242,7 +1249,7 @@ def build_species(data, shell, sp):
     ld = _ld(page, taxon, bc_ld)
     og = _photo(sp, "l") if img else None
     langs = sp_langs(sp)
-    return (shell.head(path, title, desc, og_image=og, jsonld=ld, langs=langs)
+    return (shell.head(path, title, desc, og_image=og, jsonld=ld, langs=langs, noindex=sp_thin(data, sp))
             + shell.header(path, g, chips_bar=False, langs=langs) + body + shell.footer(path, data))
 
 
@@ -1422,7 +1429,10 @@ def sitemap_entries():
     except Exception:
         return []
     out = []
+    thin = {f"{BASE}/{s['p']}/" for s in data.profiles if sp_thin(data, s)}
     for p in all_page_paths(data):
+        if p in thin:
+            continue
         depth = p.count("/")
         pr = "0.8" if p == f"{BASE}/" else ("0.7" if depth == 2 else "0.6")
         out.append((p, pr, "monthly"))
