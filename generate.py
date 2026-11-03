@@ -7921,7 +7921,8 @@ def write_home_live(cme_rates, cme_live, cbvs_rates, cbvs_live, articles, flight
         _news = []
         for a in (articles or [])[:4]:
             _dt = a.get("date")
-            _news.append({"title": a.get("title", ""), "link": a.get("link", ""), "source": a.get("source", ""),
+            _news.append({"title": a.get("title", ""), "link": a.get("link", ""), "key": _nw_story_key(a.get("link")),
+                          "source": a.get("source", ""),
                           "image": "",   # homepage news card stays text-only (17 Oct 2026)
                           "date": (_dt.astimezone(SR_TZ).isoformat(timespec="minutes") if hasattr(_dt, "astimezone") else None)})
         items["news"] = {"ok": bool(_news), "as_of": (_news[0]["date"] if _news else None), "stale_after_h": 24,
@@ -10368,7 +10369,7 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
         for a in items:
             img = a.get("image") or ""
             rows.append('<li>' + (('<span class="nw-th"><img src="' + _esc(img) + '" alt="" loading="lazy" decoding="async" onerror="this.parentNode.style.display=\'none\'"></span>') if img else '')
-                        + '<a class="nw-b" href="' + _esc(_feed_url(a.get("link"))) + '" target="_blank" rel="noopener noreferrer"><span class="ess-news-t">' + _esc(a.get("title", "")) + '</span>'
+                        + '<a class="nw-b" href="news.html' + (('#story=' + _nw_story_key(a.get("link"))) if a.get("link") else '') + '"><span class="ess-news-t">' + _esc(a.get("title", "")) + '</span>'
                         + '<span class="ess-news-s"><span translate="no">' + _esc(a.get("source", "")) + '</span>'
                         + (('<span class="nw-ago" translate="no" data-ts="' + _esc(a.get("date") or "") + '"></span>') if a.get("date") else '') + '</span></a></li>')
         return '<ul class="ess-news' + ('' if any_img else ' ess-news-txt') + '" data-v="newslist">' + ''.join(rows) + '</ul>'
@@ -10700,7 +10701,7 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
     .nw-b{min-width:0}
     .ess-news-t{color:#2A3630;font-weight:600;font-size:14.5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
     .ess-news-s{display:block;font-size:11px;color:#8A9187;margin-top:3px}
-    /* headlines link straight to the article (2 Nov 2026); the rest of the card goes to /news */
+    /* each headline opens /news with that story highlighted (3 Nov 2026); the rest of the card goes to /news */
     .tc-stretch::after{content:"";position:absolute;inset:0;z-index:1}
     .ess-news li{position:relative;z-index:2}
     a.nw-b{display:block;flex:1;min-width:0;color:inherit;text-decoration:none}
@@ -10940,7 +10941,8 @@ function esSearch(){
       var ul=tile.querySelector('[data-v="newslist"]'); if(!ul) return true;
       var its=it.items.slice(0,3), anyImg=its.some(function(a){ return !!a.image; });
       ul.className='ess-news'+(anyImg?'':' ess-news-txt');
-      ul.innerHTML=its.map(function(a){ return '<li>'+(a.image?'<span class="nw-th"><img src="'+esc(a.image)+'" alt="" loading="lazy" decoding="async" onerror="this.parentNode.style.display=\'none\'"></span>':'')+'<a class="nw-b" href="'+esc(/^https?:\/\//i.test(a.link||'')?a.link:'#')+'" target="_blank" rel="noopener noreferrer"><span class="ess-news-t">'+esc(a.title)+'</span><span class="ess-news-s"><span translate="no">'+esc(a.source||'')+'</span>'+(a.date?'<span class="nw-ago" translate="no" data-ts="'+esc(a.date)+'"></span>':'')+'</span></a></li>'; }).join('');
+      var nl=tile.querySelector('a.tc-stretch'),nb=((nl&&nl.getAttribute('href'))||'/news').split('#')[0];
+      ul.innerHTML=its.map(function(a){ return '<li>'+(a.image?'<span class="nw-th"><img src="'+esc(a.image)+'" alt="" loading="lazy" decoding="async" onerror="this.parentNode.style.display=\'none\'"></span>':'')+'<a class="nw-b" href="'+esc(nb+(/^[a-f0-9]{6,16}$/.test(a.key||'')?'#story='+a.key:''))+'"><span class="ess-news-t">'+esc(a.title)+'</span><span class="ess-news-s"><span translate="no">'+esc(a.source||'')+'</span>'+(a.date?'<span class="nw-ago" translate="no" data-ts="'+esc(a.date)+'"></span>':'')+'</span></a></li>'; }).join('');
       return true;
     }
     return true;
@@ -11891,12 +11893,20 @@ def _nw_img(a, size="image", eager=False, w=768, h=480):
             f'referrerpolicy="no-referrer" onerror="this.remove()">')
 
 
+def _nw_story_key(link):
+    """Short stable id for an article URL: the homepage links to /news#story=<key>
+    and the news page finds that story (or the outlet version inside a cluster)."""
+    import hashlib
+    k = _news_link_key(link or "")
+    return hashlib.sha1(k.encode("utf-8")).hexdigest()[:10] if k else ""
+
+
 def _nw_attrs(a, i, front=False):
     srcs = a.get("sources") or [a.get("source")]
     tps = a.get("topics") or []
     return (f' data-i="{i}" data-ts="{_nw_sr(a["date"]).isoformat(timespec="minutes")}"'
             f' data-src="|{_nw_esc("|".join(srcs))}|" data-tp="{" ".join(tps)}"'
-            f' data-link="{_nw_esc(_feed_url(a.get("link")))}"'
+            f' data-link="{_nw_esc(_feed_url(a.get("link")))}" data-key="{_nw_story_key(a.get("link"))}"'
             + (' data-front="1"' if front else ''))
 
 
@@ -11928,7 +11938,7 @@ def _nw_timeline(a):
     for x in items:
         lis.append(f'<li><span class="nw-tl-t" translate="no">{_nw_sr(x["date"]).strftime("%H:%M")}</span>'
                    f'<span class="nw-dot" style="background:{_nw_esc(x.get("color"))}"></span>'
-                   f'<a href="{_nw_esc(_feed_url(x.get("link")))}" target="_blank" rel="noopener noreferrer">'
+                   f'<a href="{_nw_esc(_feed_url(x.get("link")))}" data-key="{_nw_story_key(x.get("link"))}" target="_blank" rel="noopener noreferrer">'
                    f'<b translate="no">{_nw_esc(x.get("source"))}</b> {_nw_esc(x.get("title"))}</a></li>')
     return '<ol class="nw-tl" hidden>' + "".join(lis) + '</ol>'
 
@@ -12268,8 +12278,8 @@ _NW_CSS = r"""<style>
 .nw-ph{position:absolute;inset:0;display:flex;align-items:flex-end;padding:.8rem;background:var(--c);background:linear-gradient(135deg,var(--c),color-mix(in srgb,var(--c) 55%,#000));color:rgba(255,255,255,.92);font-family:'Newsreader',Georgia,serif;font-size:1.15rem;line-height:1.1}
 .nw-th .nw-ph{font-size:.72rem;padding:.4rem}
 /* lead */
-.nw-lead{display:grid;grid-template-columns:1.25fr 1fr;background:var(--card);border:1px solid var(--bd-card);border-radius:var(--r-card);box-shadow:var(--sh-card);overflow:hidden}
-.nw-lead .nw-media{min-height:100%;aspect-ratio:16/10}
+.nw-lead{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);background:var(--card);border:1px solid var(--bd-card);border-radius:var(--r-card);box-shadow:var(--sh-card);overflow:hidden}
+.nw-lead .nw-media{min-height:340px}
 .nw-lead:hover .nw-media img,.nw-tcard:hover .nw-media img{transform:scale(1.03)}
 .nw-lead-b{padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:.6rem}
 .nw-kick{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:0;font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--clay)}
@@ -12304,6 +12314,16 @@ _NW_CSS = r"""<style>
 /* timeline */
 .nw-tl{list-style:none;margin:.3rem 0 0;padding:.6rem 0 0 .2rem;border-top:1px dashed var(--line);display:flex;flex-direction:column;gap:.45rem}
 .nw-tl[hidden]{display:none}
+.nw-row.nw-hl{background:#FCF1E2;box-shadow:inset 3px 0 0 var(--clay);margin:0 -.9rem;padding-left:.9rem;padding-right:.9rem;border-radius:4px}
+.nw-lead.nw-hl,.nw-tcard.nw-hl{border-color:var(--clay);box-shadow:inset 0 0 0 1px var(--clay),var(--sh-card)}
+.nw-hl{animation:nwhl 1.8s ease-out 1}
+@keyframes nwhl{0%{background-color:#F6D9B4}}
+@media (prefers-reduced-motion:reduce){.nw-hl{animation:none}}
+.nw-hl:focus{outline:none}
+.nw-go{display:inline-flex;align-self:flex-start;align-items:center;gap:.4rem;margin:.65rem 0 .35rem;padding:.6rem 1rem;border-radius:6px;background:var(--forest);color:#fff!important;font-weight:700;font-size:.9rem;line-height:1.2;text-decoration:none}
+.nw-go:hover{background:var(--forest2)}
+.nw-go span{transition:transform .2s}.nw-go:hover span{transform:translateX(3px)}
+.nw-tl li.nw-tl-hl a{color:var(--clay);font-weight:600}
 .nw-tl li{display:grid;grid-template-columns:2.6rem 10px 1fr;align-items:baseline;gap:.45rem;font-size:.8rem;line-height:1.35;position:relative}
 .nw-tl-t{color:#656C63;font-variant-numeric:tabular-nums}
 .nw-tl a{color:var(--ink)}
@@ -12404,7 +12424,7 @@ _NW_I18N = {
         "more": "Show more stories ({n})", "note": "Stories are in Dutch. Tap “{tr}” on any story.",
         "dismiss": "Dismiss", "useful": "Useful today",
         "ctx_outage": "Power and water outages", "ctx_rates": "Today’s exchange rates", "ctx_flights": "Live flights",
-        "ctx_weather": "Weather today", "ctx_prices": "Maximum prices", "ctx_wage": "Minimum wage"},
+        "ctx_weather": "Weather today", "ctx_prices": "Maximum prices", "ctx_wage": "Minimum wage", "readOn": "Read it on {s}"},
  "nl": {"tr": "", "share": "Delen", "shareWa": "Delen via WhatsApp", "top": "Hoofdnieuws",
         "rep": "Gemeld door {n} media", "outlets": "+{n} media", "outlets1": "+1 medium",
         "brief": "Deel het hoofdnieuws van vandaag", "briefK": "Kort overzicht", "briefP": "Het hoofdnieuws van vandaag in één WhatsApp-bericht.",
@@ -12417,7 +12437,7 @@ _NW_I18N = {
         "more": "Meer berichten tonen ({n})", "note": "",
         "dismiss": "Sluiten", "useful": "Handig vandaag",
         "ctx_outage": "Stroom- en wateronderbrekingen", "ctx_rates": "Wisselkoersen vandaag", "ctx_flights": "Vluchten live",
-        "ctx_weather": "Het weer vandaag", "ctx_prices": "Maximumprijzen", "ctx_wage": "Minimumloon"},
+        "ctx_weather": "Het weer vandaag", "ctx_prices": "Maximumprijzen", "ctx_wage": "Minimumloon", "readOn": "Lees verder op {s}"},
  "es": {"tr": "Leer en español", "share": "Compartir", "shareWa": "Compartir por WhatsApp", "top": "Noticia principal",
         "rep": "Publicada por {n} medios", "outlets": "+{n} medios", "outlets1": "+1 medio",
         "brief": "Comparte las noticias principales de hoy", "briefK": "El resumen", "briefP": "Las noticias principales de hoy en un solo mensaje de WhatsApp.",
@@ -12430,7 +12450,7 @@ _NW_I18N = {
         "more": "Ver más noticias ({n})", "note": "Las noticias están en neerlandés. Toca «{tr}» en cualquier noticia.",
         "dismiss": "Cerrar", "useful": "Útil hoy",
         "ctx_outage": "Cortes de luz y agua", "ctx_rates": "Tipos de cambio de hoy", "ctx_flights": "Vuelos en vivo",
-        "ctx_weather": "El tiempo hoy", "ctx_prices": "Precios máximos", "ctx_wage": "Salario mínimo"},
+        "ctx_weather": "El tiempo hoy", "ctx_prices": "Precios máximos", "ctx_wage": "Salario mínimo", "readOn": "Leer la noticia en {s}"},
  "zh": {"tr": "用中文阅读", "share": "分享", "shareWa": "通过 WhatsApp 分享", "top": "头条",
         "rep": "{n} 家媒体报道", "outlets": "另有 {n} 家媒体", "outlets1": "另有 1 家媒体",
         "brief": "分享今日头条", "briefK": "今日简报", "briefP": "用一条 WhatsApp 消息分享今日头条。",
@@ -12443,7 +12463,7 @@ _NW_I18N = {
         "more": "显示更多新闻（{n}）", "note": "新闻原文为荷兰语。点击任意新闻下的“{tr}”。",
         "dismiss": "关闭", "useful": "今日实用",
         "ctx_outage": "停电和停水", "ctx_rates": "今日汇率", "ctx_flights": "实时航班",
-        "ctx_weather": "今日天气", "ctx_prices": "最高限价", "ctx_wage": "最低工资"},
+        "ctx_weather": "今日天气", "ctx_prices": "最高限价", "ctx_wage": "最低工资", "readOn": "在 {s} 阅读原文"},
  "fr": {"tr": "Lire en français", "share": "Partager", "shareWa": "Partager sur WhatsApp", "top": "À la une",
         "rep": "Repris par {n} médias", "outlets": "+{n} médias", "outlets1": "+1 média",
         "brief": "Partager l’essentiel du jour", "briefK": "L’essentiel", "briefP": "Les grands titres du jour en un seul message WhatsApp.",
@@ -12456,7 +12476,7 @@ _NW_I18N = {
         "more": "Voir plus d’articles ({n})", "note": "Les articles sont en néerlandais. Touchez « {tr} » sous un article.",
         "dismiss": "Fermer", "useful": "Utile aujourd’hui",
         "ctx_outage": "Coupures d’eau et d’électricité", "ctx_rates": "Taux de change du jour", "ctx_flights": "Vols en direct",
-        "ctx_weather": "La météo du jour", "ctx_prices": "Prix maximums", "ctx_wage": "Salaire minimum"},
+        "ctx_weather": "La météo du jour", "ctx_prices": "Prix maximums", "ctx_wage": "Salaire minimum", "readOn": "Lire l’article sur {s}"},
  "pt": {"tr": "Ler em português", "share": "Compartilhar", "shareWa": "Compartilhar no WhatsApp", "top": "Destaque",
         "rep": "Publicada por {n} veículos", "outlets": "+{n} veículos", "outlets1": "+1 veículo",
         "brief": "Compartilhe os destaques de hoje", "briefK": "O resumo", "briefP": "Os destaques de hoje em uma única mensagem de WhatsApp.",
@@ -12469,7 +12489,7 @@ _NW_I18N = {
         "more": "Ver mais notícias ({n})", "note": "As notícias estão em holandês. Toque em “{tr}” em qualquer notícia.",
         "dismiss": "Fechar", "useful": "Útil hoje",
         "ctx_outage": "Faltas de luz e água", "ctx_rates": "Câmbio de hoje", "ctx_flights": "Voos ao vivo",
-        "ctx_weather": "O tempo hoje", "ctx_prices": "Preços máximos", "ctx_wage": "Salário mínimo"},
+        "ctx_weather": "O tempo hoje", "ctx_prices": "Preços máximos", "ctx_wage": "Salário mínimo", "readOn": "Ler a notícia em {s}"},
 }
 
 
@@ -12553,7 +12573,7 @@ D.addEventListener('click',function(e){
   var c=e.target.closest('.nw-ctx');if(c){ga('nw_ctx',{to:c.getAttribute('data-ctx')});return;}
   var ln=e.target.closest('.nw-story a[target=_blank]');
   if(ln&&!ln.classList.contains('nw-tr')){var st2=ln.closest('.nw-story');
-    ga('nw_click',{area:st2.classList.contains('nw-lead')?'lead':(st2.classList.contains('nw-tcard')?'top':'list'),source:(($('.nw-src',st2)||{}).textContent||'')});}
+    ga('nw_click',{area:ln.classList.contains('nw-go')?'home_hl':(st2.classList.contains('nw-lead')?'lead':(st2.classList.contains('nw-tcard')?'top':'list')),source:(($('.nw-src',st2)||{}).textContent||'')});}
 });
 function share(txt,title,url){
   if(navigator.share&&/Android|iPhone|iPad/i.test(navigator.userAgent)){navigator.share({title:title,text:txt}).catch(function(){});return;}
@@ -12625,6 +12645,39 @@ var h=location.hash.replace('#','');
 if(h==='sports'||h==='economy')tab(h);
 else if(h==='oil'||h==='finance'){tab('economy');var c=$('#nw-econ-chips [data-kind='+h+']');if(c)c.click();}
 apply();
+
+/* from the homepage "The latest" card: #story=<key> opens the page on that story,
+   highlighted, with every outlet's version open and a clear button to the article
+   (AB, 3 Nov 2026). Lead/top card first (always visible), else the row in Latest. */
+(function(){
+  var m=/(?:^|[#&])story=([a-f0-9]{6,16})/.exec(location.hash);if(!m)return;
+  var key=m[1],sec=$('#section-local'),via='story';
+  var cand=$$('.nw-story[data-key="'+key+'"]',sec);
+  if(!cand.length){via='outlet';cand=$$('.nw-tl a[data-key="'+key+'"]',sec).map(function(a){return a.closest('.nw-story');}).filter(Boolean);}
+  if(!cand.length){ga('nw_from_home',{found:0});return;}
+  var rk=function(s){return s.classList.contains('nw-lead')?0:(s.classList.contains('nw-tcard')?1:2);};
+  cand.sort(function(a,b){return rk(a)-rk(b);});
+  var st=cand[0],g=0;
+  while(st.hasAttribute('data-nw-hide')&&g++<40){limit+=30;apply();}
+  var go=st.getAttribute('data-link'),name=(($('.nw-src',st)||{}).textContent||'').trim();
+  if(via==='outlet'){var ta=$('.nw-tl a[data-key="'+key+'"]',st);if(ta){go=ta.getAttribute('href');var tb=$('b',ta);if(tb)name=tb.textContent.trim();ta.parentNode.classList.add('nw-tl-hl');}}
+  var tl=$('.nw-tl',st),mb=$('.nw-more-src',st);if(tl){tl.hidden=false;if(mb)mb.setAttribute('aria-expanded','true');}
+  var hd=$('h2,h3',st);
+  if(hd&&/^https?:\/\//i.test(go||'')){var b=D.createElement('a');b.className='nw-go';b.href=go;b.target='_blank';b.rel='noopener noreferrer';
+    b.setAttribute('translate','no');b.appendChild(D.createTextNode(t('readOn',{s:name})));
+    var ar=D.createElement('span');ar.setAttribute('aria-hidden','true');ar.textContent='\u2192';b.appendChild(ar);
+    hd.parentNode.insertBefore(b,hd.nextSibling);}
+  st.classList.add('nw-hl');st.setAttribute('tabindex','-1');
+  var moved=false;['wheel','touchstart','keydown'].forEach(function(e){W.addEventListener(e,function(){moved=true;},{passive:true,once:true});});
+  function show(){
+    if(st.classList.contains('nw-tcard')){var sc=st.parentNode;if(sc.scrollWidth>sc.clientWidth+2)sc.scrollLeft+=st.getBoundingClientRect().left-sc.getBoundingClientRect().left-parseFloat(getComputedStyle(sc).paddingLeft||0);}
+    var bar=$('.nw-tabbar'),off=bar?(parseFloat(getComputedStyle(bar).top)||0)+bar.offsetHeight+16:120;
+    W.scrollTo(0,Math.max(0,st.getBoundingClientRect().top+W.pageYOffset-off));
+  }
+  show();try{st.focus({preventScroll:true});}catch(e){}
+  if(D.readyState!=='complete')W.addEventListener('load',function(){if(!moved)show();});
+  ga('nw_from_home',{found:1,via:via,area:['lead','top','list'][rk(st)]});
+})();
 
 /* live: new stories since this page was built */
 var pill=$('#nw-pill'),onPage={};rows.forEach(function(r){onPage[r.getAttribute('data-link')]=1;});
