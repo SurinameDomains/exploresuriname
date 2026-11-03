@@ -869,9 +869,9 @@
    }
   ],
   "url": "https://ez.gov.sr/product/index",
-  "checked": "2026-11-02T23:56-03:00",
+  "checked": "2026-11-03T08:00-03:00",
   "error": "SRD Check table layout changed: ['#', 'Naam', 'Importeur', 'Groothandel Verpakking', 'Groothandel Prijs', 'Kleinhandel Verpakking', 'Kleinhandel Prijs']",
-  "fails": 10
+  "fails": 11
  },
  "pdf": {
   "pdf_url": "https://gov.sr/wp-content/uploads/2026/11/Publicatielijst-Basis-goederen-voor-de-periode-31-okt-13-nov-2026.pdf",
@@ -1641,9 +1641,9 @@
   ],
   "price_lines": 104,
   "fetched": "2026-11-02T16:34-03:00",
-  "checked": "2026-11-02T23:56-03:00",
+  "checked": "2026-11-03T08:00-03:00",
   "error": ""
  },
  "source_page": "https://gov.sr/ministeries/ministerie-van-economische-zaken-ondernemerschap-technologische-innovatie/richtprijzen-basis-en-strategische-goederen/",
- "checked": "2026-11-02T23:56-03:00"
+ "checked": "2026-11-03T08:00-03:00"
 }
