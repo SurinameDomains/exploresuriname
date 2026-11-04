@@ -8009,11 +8009,14 @@ def util_rail_html(prefix=""):
             f'</div></div>')
 
 
-def _retired_stub(target):
-    """noindex meta-refresh page for a retired URL (build_i18n._STUBS must list it too)."""
+def _retired_stub(target, esr=False):
+    """noindex meta-refresh page for a retired URL (build_i18n._STUBS must list it too).
+    esr=True adds <meta name="esr-stub">, so build_i18n keeps the canonical on the
+    target and points each language copy at its own /<lang> target (no _STUBS entry)."""
     return ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
             '<meta name="robots" content="noindex,follow">'
+            + (f'<meta name="esr-stub" content="{target}">' if esr else '') +
             f'<meta http-equiv="refresh" content="0;url={target}">'
             f'<link rel="canonical" href="{SITE_URL}{target}">'
             '<title>Redirecting&hellip;</title></head><body>'
@@ -35063,6 +35066,9 @@ if __name__ == "__main__":
                                                 brent_price, brent_updated,
                                                 bank_rates, banks_updated, douane_state),
         "conditions.html":  build_conditions_page(tides_data),
+        # Short alias (4 Nov 2026): exploresuriname.com/weather -> /conditions (and
+        # /nl/weather -> /nl/conditions etc.). Internal links stay on /conditions.
+        "weather.html":     _retired_stub("/conditions", esr=True),
         "news.html":        build_news(articles, oil_articles, finance_articles, sports_articles),
         "about.html":       build_about_page(),
         "contact.html":     build_contact_page(),
