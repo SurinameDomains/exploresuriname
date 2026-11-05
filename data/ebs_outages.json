@@ -1,13 +1,6 @@
 {
   "outages": [
     {
-      "title": "GEPLAND ONDERHOUD DONDERDAG 5 NOVEMBER 2026",
-      "date": "5 November 2026",
-      "date_iso": "2026-11-05",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1643/gepland-onderhoud-donderdag-5-november-2026"
-    },
-    {
       "title": "GEPLAND ONDERHOUD VRIJDAG 6 NOVEMBER 2026",
       "date": "6 November 2026",
       "date_iso": "2026-11-06",
@@ -128,7 +121,7 @@
       ]
     }
   ],
-  "last_updated": "2026-11-05T21:51:25.135811+00:00",
+  "last_updated": "2026-11-05T23:07:28.248422+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
