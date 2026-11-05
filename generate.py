@@ -10813,7 +10813,13 @@ def build_index(restaurants, hotels, cme_rates=None, live=None):
 
   /* ---- rotating hero search placeholder ---- */
   (function(){
-    var P=['Search 700+ places to eat, stay and explore','Try "jungle lodges on the river"','Try "where to eat roti in Paramaribo"','Try "turtle nesting season at Galibi"','Try "river tours and canoe trips"'];
+    var PL={en:['Search 700+ places to eat, stay and explore','Try "jungle lodges on the river"','Try "where to eat roti in Paramaribo"','Try "turtle nesting season at Galibi"','Try "river tours and canoe trips"'],
+      nl:['Zoek in 700+ plekken om te eten, slapen en ontdekken','Probeer "jungle lodge aan de rivier"','Probeer "waar eet ik roti in Paramaribo"','Probeer "schildpadden kijken in Galibi"','Probeer "boottochten op de rivier"'],
+      es:['Busca entre más de 700 lugares para comer, alojarte y explorar','Prueba "lodges en la selva junto al río"','Prueba "dónde comer roti en Paramaribo"','Prueba "temporada de tortugas en Galibi"','Prueba "paseos en bote por el río"'],
+      zh:['搜索 700+ 个餐饮、住宿和游玩去处','试试“河边的丛林小屋”','试试“帕拉马里博哪里吃 roti”','试试“加利比海龟产卵季”','试试“河上游船和独木舟之旅”'],
+      fr:['Cherchez parmi plus de 700 adresses où manger, dormir et explorer','Essayez « lodges dans la jungle au bord du fleuve »','Essayez « où manger du roti à Paramaribo »','Essayez « saison de ponte des tortues à Galibi »','Essayez « balades en bateau et en pirogue »'],
+      pt:['Busque entre mais de 700 lugares para comer, se hospedar e explorar','Experimente "pousadas na selva à beira do rio"','Experimente "onde comer roti em Paramaribo"','Experimente "temporada de tartarugas em Galibi"','Experimente "passeios de barco e canoa"']};
+    var P=PL[String(document.documentElement.lang||'en').slice(0,2).toLowerCase()]||PL.en;
     var el=document.getElementById('hero-q'), i=0;
     if(!el) return;
     if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -11101,8 +11107,8 @@ window.addEventListener('click',function(ev){
       <p class="hero-lead">Ninety-three percent rainforest. A dozen cultures around one table. A welcome so warm you&#8217;ll forget you ever knocked. Come in, we saved you a seat.</p>
       <p class="hero-kept"><span>Kept by people who live here</span> <span class="dot">&middot;</span> <span class="hl-upd" data-built="{_built}"><span>updated</span> <span translate="no">{_hhmm(_built)}</span></span></p>
       <div class="hero-search">
-        <input id="hero-q" type="text" placeholder="Search 700+ places to eat, stay and explore" onkeydown="if(event.key==='Enter')esSearch()" autocomplete="off" aria-label="Search all listings">
-        <button type="button" onclick="esSearch()" aria-label="Search"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg><span>Search</span></button>
+        <input id="hero-q" type="text" placeholder="Search 700+ places to eat, stay and explore" data-l10n-placeholder='{{"nl": "Zoek in 700+ plekken om te eten, slapen en ontdekken", "es": "Busca entre más de 700 lugares para comer, alojarte y explorar"}}' onkeydown="if(event.key==='Enter')esSearch()" autocomplete="off" aria-label="Search all listings" data-l10n-aria-label='{{"nl": "Zoek in alle vermeldingen", "es": "Buscar en todos los lugares", "zh": "搜索所有地点", "fr": "Rechercher dans toutes les fiches", "pt": "Buscar em todos os lugares"}}'>
+        <button type="button" onclick="esSearch()" aria-label="Search" data-l10n-aria-label='{{"nl": "Zoeken", "es": "Buscar", "zh": "搜索", "fr": "Rechercher", "pt": "Buscar"}}'><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg><span>Search</span></button>
       </div>
       <div class="hero-chips">
         <span class="lbl">Most visited</span>
@@ -28943,7 +28949,7 @@ __NAV__
       </div>
       <div class="fld">
         <label for="f-facebook">Facebook page</label>
-        <input type="text" id="f-facebook" name="facebook" maxlength="300" placeholder="facebook.com/yourbusiness">
+        <input type="text" id="f-facebook" name="facebook" maxlength="300" placeholder="facebook.com/yourbusiness" data-l10n-placeholder='{"nl": "facebook.com/jouwbedrijf", "es": "facebook.com/tunegocio", "fr": "facebook.com/votreentreprise", "pt": "facebook.com/seunegocio"}'>
         <div class="hint" id="fb-hint">Open your page in a browser and copy the address, for example facebook.com/yourbusiness.</div>
       </div>
     </div>
@@ -28959,7 +28965,7 @@ __NAV__
     <div class="fld">
       <label for="f-description">Describe the business <span class="req">*</span></label>
       <textarea id="f-description" name="description" maxlength="2000" required
-        placeholder="What you offer and what makes you worth the trip. Two or three sentences is plenty."></textarea>
+        placeholder="What you offer and what makes you worth the trip. Two or three sentences is plenty." data-l10n-placeholder='{"nl": "Wat je aanbiedt en waarom het de moeite waard is om langs te komen. Twee of drie zinnen is genoeg.", "es": "Qué ofreces y por qué vale la pena visitarte. Con dos o tres frases basta."}'></textarea>
       <div class="hint"><span id="cnt">0</span> of 2000 characters. Minimum 20.</div>
     </div>
 
@@ -29046,6 +29052,63 @@ __FOOTER__
   var $ = function(i){return document.getElementById(i)};
   var frm = $("frm"), photo = null;
 
+  // Messages in the page's language (5 Nov 2026). Add a key in all 6 languages, never a bare English string.
+  var LANG = String(document.documentElement.lang || "en").slice(0, 2).toLowerCase();
+  var TX = {
+    fbshare:{en: "That is a share link, not the page itself. Open your page in a browser and copy the address from the top.",
+             nl: "Dat is een deellink, niet de pagina zelf. Open je pagina in een browser en kopieer het adres bovenaan.",
+             es: "Ese es un enlace para compartir, no la página. Abre tu página en un navegador y copia la dirección de arriba.",
+             zh: "这是分享链接，不是主页本身。请在浏览器中打开你的主页，并复制顶部的地址。",
+             fr: "C’est un lien de partage, pas la page elle-même. Ouvrez votre page dans un navigateur et copiez l’adresse en haut.",
+             pt: "Esse é um link de compartilhamento, não a página. Abra sua página no navegador e copie o endereço lá em cima."},
+    fbmoved:{en: "We moved your Facebook link to the Facebook page field.",
+             nl: "We hebben je Facebooklink naar het veld Facebookpagina verplaatst.",
+             es: "Movimos tu enlace de Facebook al campo de la página de Facebook.",
+             zh: "我们已把你的 Facebook 链接移到“Facebook 主页”一栏。",
+             fr: "Nous avons déplacé votre lien Facebook dans le champ Page Facebook.",
+             pt: "Movemos seu link do Facebook para o campo da página do Facebook."},
+    badtype:{en: "Photo must be a JPG, PNG or WebP file.", nl: "De foto moet een JPG-, PNG- of WebP-bestand zijn.",
+             es: "La foto debe ser un archivo JPG, PNG o WebP.", zh: "照片必须是 JPG、PNG 或 WebP 文件。",
+             fr: "La photo doit être un fichier JPG, PNG ou WebP.", pt: "A foto precisa ser um arquivo JPG, PNG ou WebP."},
+    big:    {en: "Photo must be under 5 MB.", nl: "De foto moet kleiner zijn dan 5 MB.", es: "La foto debe pesar menos de 5 MB.",
+             zh: "照片必须小于 5 MB。", fr: "La photo doit faire moins de 5 Mo.", pt: "A foto precisa ter menos de 5 MB."},
+    noread: {en: "We could not open that photo. Please choose it again.", nl: "We konden die foto niet openen. Kies hem opnieuw.",
+             es: "No pudimos abrir esa foto. Elígela de nuevo.", zh: "无法打开这张照片，请重新选择。",
+             fr: "Nous n’avons pas pu ouvrir cette photo. Choisissez-la à nouveau.", pt: "Não conseguimos abrir essa foto. Escolha-a novamente."},
+    other:  {en: "Click to choose a different photo", nl: "Kies een andere foto", es: "Elige otra foto",
+             zh: "选择其他照片", fr: "Choisir une autre photo", pt: "Escolher outra foto"},
+    v_name: {en: "Please enter the business name.", nl: "Vul de naam van het bedrijf in.", es: "Escribe el nombre del negocio.",
+             zh: "请填写商家名称。", fr: "Indiquez le nom de l’entreprise.", pt: "Informe o nome do negócio."},
+    v_cat:  {en: "Please choose a category.", nl: "Kies een categorie.", es: "Elige una categoría.",
+             zh: "请选择一个类别。", fr: "Choisissez une catégorie.", pt: "Escolha uma categoria."},
+    v_desc: {en: "Please describe the business in a sentence or two.", nl: "Beschrijf het bedrijf in een of twee zinnen.",
+             es: "Describe el negocio en una o dos frases.", zh: "请用一两句话介绍你的商家。",
+             fr: "Décrivez l’entreprise en une ou deux phrases.", pt: "Descreva o negócio em uma ou duas frases."},
+    v_email:{en: "Please enter your email so we can reach you.", nl: "Vul je e-mailadres in, zodat we je kunnen bereiken.",
+             es: "Escribe tu correo electrónico para que podamos contactarte.", zh: "请填写你的电子邮箱，方便我们联系你。",
+             fr: "Indiquez votre adresse e-mail pour que nous puissions vous joindre.", pt: "Informe seu e-mail para podermos falar com você."},
+    v_fb:   {en: "The Facebook page field only takes a facebook.com link. Leave it empty if you have none.",
+             nl: "In het veld Facebookpagina past alleen een facebook.com-link. Laat het leeg als je er geen hebt.",
+             es: "El campo de la página de Facebook solo acepta un enlace de facebook.com. Déjalo vacío si no tienes uno.",
+             zh: "“Facebook 主页”一栏只接受 facebook.com 链接。没有的话请留空。",
+             fr: "Le champ Page Facebook n’accepte qu’un lien facebook.com. Laissez-le vide si vous n’en avez pas.",
+             pt: "O campo da página do Facebook só aceita um link do facebook.com. Deixe vazio se não tiver."},
+    sending:{en: "Sending...", nl: "Versturen…", es: "Enviando…", zh: "正在发送…", fr: "Envoi en cours…", pt: "Enviando…"},
+    toolarge:{en: "That photo is too large. Please choose one under 5 MB.", nl: "Die foto is te groot. Kies er een kleiner dan 5 MB.",
+             es: "Esa foto es demasiado grande. Elige una de menos de 5 MB.", zh: "照片太大，请选择小于 5 MB 的照片。",
+             fr: "Cette photo est trop lourde. Choisissez-en une de moins de 5 Mo.", pt: "Essa foto é grande demais. Escolha uma com menos de 5 MB."},
+    err:    {en: "Something went wrong. Please try again.", nl: "Er ging iets mis. Probeer het opnieuw.",
+             es: "Algo salió mal. Inténtalo de nuevo.", zh: "出了点问题，请重试。",
+             fr: "Une erreur s’est produite. Veuillez réessayer.", pt: "Algo deu errado. Tente novamente."},
+    offline:{en: "We could not reach the server. Check your connection and try again.",
+             nl: "We konden de server niet bereiken. Controleer je verbinding en probeer het opnieuw.",
+             es: "No pudimos conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.",
+             zh: "无法连接服务器。请检查网络后重试。",
+             fr: "Impossible de joindre le serveur. Vérifiez votre connexion et réessayez.",
+             pt: "Não conseguimos acessar o servidor. Verifique sua conexão e tente novamente."}
+  };
+  function T(k){ return (TX[k] && (TX[k][LANG] || TX[k].en)) || ""; }
+
   // Type options follow the category, so a submission can only claim a chip
   // that the category page actually renders. Options are copied from the hidden
   // per-category selects in #chip-src, which carry the translated labels.
@@ -29071,7 +29134,7 @@ __FOOTER__
     var v = $("f-facebook").value.trim(), h = $("fb-hint");
     var share = FB_RE.test(v) && /\\/share\\//i.test(v);
     h.textContent = share
-      ? "That is a share link, not the page itself. Open your page in a browser and copy the address from the top."
+      ? T("fbshare")
       : FB_HINT;
     h.style.color = share ? "#a9701f" : "";
   }
@@ -29082,7 +29145,7 @@ __FOOTER__
       if(!$("f-facebook").value.trim()) $("f-facebook").value = v;
       this.value = "";
       fbCheck();
-      say("We moved your Facebook link to the Facebook page field.");
+      say(T("fbmoved"));
     }
   });
 
@@ -29094,15 +29157,15 @@ __FOOTER__
   file.addEventListener("change", function(){ if(this.files[0]) take(this.files[0]); });
 
   function take(f){
-    if(!/^image\\/(jpeg|png|webp)$/.test(f.type)){ say("Photo must be a JPG, PNG or WebP file.", true); return; }
-    if(f.size > 5 * 1024 * 1024){ say("Photo must be under 5 MB.", true); return; }
+    if(!/^image\\/(jpeg|png|webp)$/.test(f.type)){ say(T("badtype"), true); return; }
+    if(f.size > 5 * 1024 * 1024){ say(T("big"), true); return; }
     keep(f).then(function(c){
-      if(!c){ photo = null; say("We could not open that photo. Please choose it again.", true); return; }
+      if(!c){ photo = null; say(T("noread"), true); return; }
       photo = c;
       var img = $("prev");
       img.src = URL.createObjectURL(c);
       img.hidden = false;
-      $("dropmsg").innerHTML = "<strong>" + c.name.replace(/[<>]/g, "") + "</strong><br>Click to choose a different photo";
+      $("dropmsg").innerHTML = "<strong>" + c.name.replace(/[<>]/g, "") + "</strong><br>" + T("other");
       say("");
     });
   }
@@ -29235,15 +29298,15 @@ __FOOTER__
   frm.addEventListener("submit", async function(e){
     e.preventDefault();
     var name = $("f-name").value.trim();
-    if(name.length < 2) return say("Please enter the business name.", true);
-    if(!$("f-category").value) return say("Please choose a category.", true);
-    if($("f-description").value.trim().length < 20) return say("Please describe the business in a sentence or two.", true);
+    if(name.length < 2) return say(T("v_name"), true);
+    if(!$("f-category").value) return say(T("v_cat"), true);
+    if($("f-description").value.trim().length < 20) return say(T("v_desc"), true);
     if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test($("f-contact_email").value.trim()))
-      return say("Please enter your email so we can reach you.", true);
+      return say(T("v_email"), true);
     var web = $("f-website").value.trim(), fb = $("f-facebook").value.trim();
     if(FB_RE.test(web)){ if(!fb) $("f-facebook").value = fb = web; $("f-website").value = ""; }
     if(fb && !FB_RE.test(fb))
-      return say("The Facebook page field only takes a facebook.com link. Leave it empty if you have none.", true);
+      return say(T("v_fb"), true);
     var hr = hRead();
     if(hr.err !== undefined){
       hRow(hr.err).classList.add("bad");
@@ -29257,16 +29320,15 @@ __FOOTER__
     if(photo) fd.append("photo", photo, photo.name);
 
     $("go").disabled = true;
-    say("Sending...");
+    say(T("sending"));
     try{
       var r = await fetch(API + "/submit", { method: "POST", body: fd });
       var j = null;
       try{ j = await r.json(); }catch(_e){ j = null; }
       if(j && j.ok){ frm.hidden = true; $("done").hidden = false; window.scrollTo({top: 0, behavior: "smooth"}); return; }
-      say((j && j.err) || (r.status === 413 ? "That photo is too large. Please choose one under 5 MB."
-                           : "Something went wrong. Please try again."), true);
+      say((LANG === "en" && j && j.err) || (r.status === 413 ? T("toolarge") : T("err")), true);
     }catch(err){
-      say("We could not reach the server. Check your connection and try again.", true);
+      say(T("offline"), true);
     }
     $("go").disabled = false;
     if(window.turnstile) window.turnstile.reset();
