@@ -5,65 +5,7 @@
       "date": "5 November 2026",
       "date_iso": "2026-11-05",
       "type": "planned",
-      "link": "https://nvebs.com/nieuws/1643/gepland-onderhoud-donderdag-5-november-2026",
-      "time": "08:00 – 14:00",
-      "area": "GEHEEL TAWAJARIPOLDERWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
-      "streets": [
-        "TAWAJARIPOLDERWEG"
-      ],
-      "district": "Wanica",
-      "district_src": "osm",
-      "pts": [
-        [
-          5.75987,
-          -55.30914
-        ]
-      ],
-      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=3dd8b2509b7c45e2a131c10778027501",
-      "part": [
-        2,
-        2
-      ]
-    },
-    {
-      "title": "GEPLAND ONDERHOUD DONDERDAG 5 NOVEMBER 2026",
-      "date": "5 November 2026",
-      "date_iso": "2026-11-05",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1643/gepland-onderhoud-donderdag-5-november-2026",
-      "time": "08:30 – 15:00",
-      "area": "GEDEELTE COPERNICUSSTRAAT TUSSEN MR. R.W. THURKOWSTRAAT EN PLUTOSTRAAT, GEDEELTE JAN STEENSTRAAT TUSSEN L. BRAILLESTRAAT EN MR. R.W. THURKOWSTRAAT, MERCURIUSSTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
-      "streets": [
-        "COPERNICUSSTRAAT",
-        "JAN STEENSTRAAT",
-        "MERCURIUSSTRAAT"
-      ],
-      "cross": [
-        "MR. R.W. THURKOWSTRAAT",
-        "PLUTOSTRAAT",
-        "L. BRAILLESTRAAT"
-      ],
-      "district": "Paramaribo",
-      "district_src": "osm",
-      "pts": [
-        [
-          5.84522,
-          -55.13769
-        ],
-        [
-          5.84036,
-          -55.12847
-        ],
-        [
-          5.84199,
-          -55.13348
-        ]
-      ],
-      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=e3bbda8f400a4872ae7e9d725a1de56f",
-      "part": [
-        1,
-        2
-      ]
+      "link": "https://nvebs.com/nieuws/1643/gepland-onderhoud-donderdag-5-november-2026"
     },
     {
       "title": "GEPLAND ONDERHOUD VRIJDAG 6 NOVEMBER 2026",
@@ -114,6 +56,47 @@
       "date_iso": "2026-11-07",
       "type": "planned",
       "link": "https://nvebs.com/nieuws/1645/gepland-onderhoud-zaterdag-7-november-2026",
+      "time": "08:00 – 15:00",
+      "area": "KOOSSTRAAT, ANDIRASTRAAT, VELDHUIZENLAAN, MILLIELAAN, VAN BRUSSELLAAN EN GEDEELTE VERLENGDE GEMENELANDSWEG TUSSEN VAN BRUSSELLAAN EN RIEKELAAN EN ALLE ZIJWEGEN DIE VOORKOMEN DIT GEBIED",
+      "streets": [
+        "KOOSSTRAAT",
+        "ANDIRASTRAAT",
+        "VELDHUIZENLAAN",
+        "MILLIELAAN",
+        "VAN BRUSSELLAAN EN GEDEELTE VERLENGDE GEMENELANDSWEG"
+      ],
+      "cross": [
+        "VAN BRUSSELLAAN",
+        "RIEKELAAN"
+      ],
+      "district": "Paramaribo",
+      "district_src": "osm",
+      "pts": [
+        [
+          5.83017,
+          -55.19371
+        ],
+        [
+          5.8341,
+          -55.19503
+        ],
+        [
+          5.83229,
+          -55.19691
+        ]
+      ],
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=e09da86020c4485f9f6e3397c960c1c2",
+      "part": [
+        2,
+        2
+      ]
+    },
+    {
+      "title": "GEPLAND ONDERHOUD ZATERDAG 7 NOVEMBER 2026",
+      "date": "7 November 2026",
+      "date_iso": "2026-11-07",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1645/gepland-onderhoud-zaterdag-7-november-2026",
       "time": "09:00 – 16:00",
       "area": "GEDEELTE DUISBURGLAAN TUSSEN COESEWIJNESTRAAT EN AGOEMASTRAAT, GEDEELTE WATRAKANOESTRAAT TUSSEN DUISBURGLAAN EN LEO ELIAZERSTRAAT, GEDEELTE TAPOERIPASTRAAT TUSSEN LEO ELIAZERSTRAAT EN DUISBURGLAAN EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
       "streets": [
@@ -138,10 +121,14 @@
           -55.19458
         ]
       ],
-      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=e09da86020c4485f9f6e3397c960c1c2"
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=e09da86020c4485f9f6e3397c960c1c2",
+      "part": [
+        1,
+        2
+      ]
     }
   ],
-  "last_updated": "2026-11-05T16:29:10.357591+00:00",
+  "last_updated": "2026-11-05T19:07:49.391060+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
