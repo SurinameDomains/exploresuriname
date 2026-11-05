@@ -3,29 +3,48 @@
 scrape_ebs.py — EBS power outages -> data/ebs_outages.json
 Source: https://nvebs.com/elektriciteit/stroom-onderbrekingen
 
-Strategy:
-  1. Fetch main outages page → parse div.notice-slider-desktop for upcoming entries
-     (each has a title like "GEPLAND ONDERHOUD DINSDAG 26 MEI 2026" and a detail link)
-  2. For each detail link, fetch the page and extract the meta description —
-     it's server-rendered and contains: district, date, time window, streets affected.
-     Example: "Gepland onderhoud: Paramaribo maandag 25 mei 2026 tussen 08:30-14:30
-               GEDEELTE RINGWEG ZUID TUSSEN NIEUWE CHARLESBURGWEG EN LEO HEINEMANNSTRAAT"
+v2 (5 Nov 2026). EBS changed its notice text around 3 Nov 2026:
+  old: "Gepland onderhoud: Wanica zondag 1 november 2026 tussen 08:00-17:00" + streets
+  new: "GEPLAND ONDERHOUD DONDERDAG 5 NOVEMBER 2026 TUSSEN 8:30 EN 15:00 UUR" + streets,
+       no district, and ONE page can hold several notices (each with its own map link).
+The v1 parser only knew the old form, so the site showed "GEPLAND ONDERHOUD" with no
+streets and treated it as an all-day outage.
+
+Now:
+  1. main page -> notice links (div.notice-slider-desktop > div.notice-text)
+  2. each notice page -> the text column is split into blocks at every
+     "Gepland onderhoud ... <date> [tussen] HH:MM (-|en|tot) HH:MM [uur]" header;
+     one output entry per block (time, streets, map link, district)
+  3. district: from the old header form when present, else looked up from the street
+     names in OpenStreetMap (Nominatim, max 1 request/s, cached in
+     data/ebs_geocache.json so each street is asked once)
+A missing slider (EBS layout change) keeps the old file instead of writing an empty
+list, so a broken scraper goes stale (the site then stops claiming "no outages")
+rather than turning into a false all-clear.
 """
 
-import json, re, sys, urllib.request
+import json, re, sys, time, unicodedata, urllib.parse, urllib.request
+from collections import Counter
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 URL_MAIN = "https://nvebs.com/elektriciteit/stroom-onderbrekingen"
 OUT = Path(__file__).parent.parent / "data" / "ebs_outages.json"
+GEOCACHE = Path(__file__).parent.parent / "data" / "ebs_geocache.json"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0 Safari/537.36",
     "Accept": "text/html,application/xhtml+xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "nl,en;q=0.9",
 }
+NOMINATIM = "https://nominatim.openstreetmap.org/search"
+NOMINATIM_UA = "ExploreSuriname-outages/2.0 (+https://exploresuriname.com/contact)"
+GEO_MAX_NEW = 30          # new street lookups per run (1.1 s each)
+GEO_RETRY_DAYS = 30       # a street OSM did not know is asked again after this
 
 SR_TZ = timezone(timedelta(hours=-3))
+DISTRICTS = ["Paramaribo", "Wanica", "Commewijne", "Saramacca", "Para", "Marowijne",
+             "Nickerie", "Coronie", "Brokopondo", "Sipaliwini"]
 
 _MONTHS_NL = {
     "januari": 1, "februari": 2, "maart": 3, "april": 4, "mei": 5,
@@ -34,6 +53,15 @@ _MONTHS_NL = {
     "jan": 1, "feb": 2, "mrt": 3, "apr": 4,
     "jun": 6, "jul": 7, "aug": 8, "sep": 9, "okt": 10, "nov": 11, "dec": 12,
 }
+_WD = r"(?:maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag)"
+# One notice header. The time is optional (a header without one still splits blocks).
+# "\d*" after the minutes swallows EBS typos such as "12:000".
+HDR = re.compile(
+    r"gepland\s+onderhoud\s*:?\s*(?P<pre>[^\n\d]{0,40}?)\s*(?:" + _WD + r"\s+)?"
+    r"(?P<d>\d{1,2})\s+(?P<m>[a-z]+)\s+(?P<y>\d{4})"
+    r"(?:[ \t]*(?:(?:tussen|van)\s+)+(?P<h1>\d{1,2})[:.](?P<m1>\d{2})\d*\s*(?:u(?:ur)?\.?)?"
+    r"\s*(?:-|–|en|tot)\s*(?P<h2>\d{1,2})[:.](?P<m2>\d{2})\d*\s*(?:u(?:ur)?\b\.?)?)?",
+    re.IGNORECASE)
 
 
 def clean(t):
@@ -47,144 +75,254 @@ def fetch_html(url):
 
 
 def parse_dutch_date(text):
-    """Extract date object from text like 'DINSDAG 26 MEI 2026'."""
+    """Date object from text like 'DINSDAG 26 MEI 2026'."""
     m = re.search(r"(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})", text)
     if m:
-        day, year = int(m.group(1)), int(m.group(3))
         mon = _MONTHS_NL.get(m.group(2).lower())
         if mon:
             try:
-                return datetime(year, mon, day).date()
+                return datetime(int(m.group(3)), mon, int(m.group(1))).date()
             except Exception:
                 pass
     return None
 
 
 def fmt_date_nl(text):
-    """Return 'Dinsdag 26 Mei 2026' from a Dutch outage title."""
     m = re.search(r"(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})", text)
     if m:
         return f"{m.group(1)} {m.group(2).capitalize()} {m.group(3)}"
     return text
 
 
-def parse_meta_description(desc):
-    """
-    Parse EBS meta description into structured fields.
-    Format: "Gepland onderhoud: [District] [Day] [Date] tussen [HH:MM]-[HH:MM] [Streets]"
-    Returns dict with keys: district, time, area
-    """
-    if not desc:
+def _hm(h, m):
+    h, m = int(h), int(m)
+    if 0 <= h <= 24 and 0 <= m < 60:
+        return f"{h:02d}:{m:02d}"
+    return None
+
+
+def split_blocks(text):
+    """Split a notice text into [{district?, date_iso, time?, area}] blocks.
+
+    The page headline repeated at the top (a header followed directly by another
+    header, no streets and no time) is dropped."""
+    text = (text or "").replace("\r", "")
+    hs = list(HDR.finditer(text))
+    out = []
+    for i, h in enumerate(hs):
+        seg = text[h.end(): hs[i + 1].start() if i + 1 < len(hs) else len(text)]
+        seg = re.sub(r"kaart(\s+openen)?\s*:?", " ", seg, flags=re.IGNORECASE)
+        seg = clean(seg).strip(" .,:;")
+        has_time = bool(h.group("h1"))
+        if not seg and not has_time:
+            continue
+        mon = _MONTHS_NL.get(h.group("m").lower())
+        try:
+            d = datetime(int(h.group("y")), mon, int(h.group("d"))).date() if mon else None
+        except Exception:
+            d = None
+        b = {"date_iso": str(d) if d else "", "area": seg}
+        if has_time:
+            t1, t2 = _hm(h.group("h1"), h.group("m1")), _hm(h.group("h2"), h.group("m2"))
+            if t1 and t2:
+                b["time"] = f"{t1} – {t2}"
+        pre = clean(h.group("pre") or "").strip(" :,").title()
+        if pre in DISTRICTS:
+            b["district"] = pre
+        out.append(b)
+    return out
+
+
+# ---------------------------------------------------------------- streets
+_SUFFIX = re.compile(r"[\s,]*(?:\ben\s+)?alle\s+zijwegen.*$", re.IGNORECASE)
+
+
+def streets_of(area):
+    """(main streets, boundary streets) named in an EBS street list."""
+    core = _SUFFIX.sub("", area or "").strip(" .,")
+    mains, cross = [], []
+    for part in re.split(r"\s*[,;]\s*", core):
+        part = clean(part).strip(" .")
+        if not part:
+            continue
+        m = re.match(r"^(?:(?:gedeelte|geheel|gedeeltelijk|deel)\s+(?:van\s+(?:de\s+)?)?)?(?P<s>.+?)"
+                     r"(?:\s+tussen\s+(?P<a>.+?)(?:\s+en\s+(?P<b>.+))?)?$", part, re.IGNORECASE)
+        if not m:
+            continue
+        s = m.group("s").strip()
+        if 2 < len(s) < 60 and s not in mains:
+            mains.append(s)
+        for x in (m.group("a"), m.group("b")):
+            x = (x or "").strip()
+            if 2 < len(x) < 60 and x not in cross and x not in mains:
+                cross.append(x)
+    return mains, cross
+
+
+def _key(s):
+    s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode().lower()
+    return re.sub(r"[^a-z0-9]+", " ", s).strip()
+
+
+def _load_cache():
+    try:
+        c = json.loads(GEOCACHE.read_text(encoding="utf-8"))
+        return c if isinstance(c, dict) else {}
+    except Exception:
         return {}
-    # Remove the "Gepland onderhoud:" prefix
-    desc = re.sub(r"^Gepland\s+onderhoud\s*:\s*", "", desc, flags=re.IGNORECASE).strip()
-
-    result = {}
-
-    # Extract time window "tussen HH:MM-HH:MM" or "HH:MM-HH:MM"
-    time_m = re.search(r"tussen\s+(\d{1,2}:\d{2})\s*[-–]\s*(\d{1,2}:\d{2})", desc, re.IGNORECASE)
-    if time_m:
-        result["time"] = f"{time_m.group(1)} – {time_m.group(2)}"
-        # Streets = everything after the time (may be truncated)
-        area_part = desc[time_m.end():].strip().rstrip(",. ")
-        if area_part:
-            # Title-case for readability
-            result["area"] = area_part
-    else:
-        time_m2 = re.search(r"(\d{1,2}:\d{2})\s*[-–]\s*(\d{1,2}:\d{2})", desc)
-        if time_m2:
-            result["time"] = f"{time_m2.group(1)} – {time_m2.group(2)}"
-
-    # District = first word(s) before the date (up to next date-like token)
-    # Strip date tokens
-    without_date = re.sub(r"\b(maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag)\b", "", desc, flags=re.IGNORECASE)
-    without_date = re.sub(r"\d{1,2}\s+[a-z]+\s+\d{4}", "", without_date, flags=re.IGNORECASE)
-    without_date = re.sub(r"tussen.*", "", without_date, flags=re.IGNORECASE).strip().rstrip(",. ")
-    if without_date and len(without_date) < 40:
-        result["district"] = without_date.strip()
-
-    return result
 
 
-def fetch_detail(url):
-    """Fetch a detail page and extract meta description + parsed fields."""
-    return fetch_detail_full(url)[0]
+def geocode(street, cache, budget):
+    """[{district, lat, lon}] for a street name; [] when OSM has none. Cached."""
+    k = _key(street)
+    if not k:
+        return []
+    hit = cache.get(k)
+    if isinstance(hit, dict):
+        age = datetime.now(timezone.utc).timestamp() - hit.get("t", 0)
+        if hit.get("r") or age < GEO_RETRY_DAYS * 86400:
+            return hit.get("r") or []
+    if budget[0] <= 0:
+        return []
+    budget[0] -= 1
+    q = urllib.parse.urlencode({"q": f"{street}, Suriname", "countrycodes": "sr", "format": "jsonv2",
+                                "addressdetails": 1, "limit": 5})
+    res = []
+    try:
+        time.sleep(1.1)
+        req = urllib.request.Request(f"{NOMINATIM}?{q}", headers={"User-Agent": NOMINATIM_UA, "Accept-Language": "nl"})
+        with urllib.request.urlopen(req, timeout=20) as r:
+            data = json.loads(r.read().decode("utf-8"))
+        for x in data:
+            if (x.get("category") or x.get("class")) != "highway":
+                continue
+            st = (x.get("address") or {}).get("state", "")
+            st = next((d for d in DISTRICTS if d.lower() == st.lower()), "")
+            if st:
+                res.append({"district": st, "lat": round(float(x["lat"]), 5), "lon": round(float(x["lon"]), 5)})
+    except Exception as e:
+        print(f"    [geocode error] {street}: {e}")
+        return []          # not cached: asked again next run
+    cache[k] = {"r": res, "t": int(datetime.now(timezone.utc).timestamp())}
+    return res
 
 
+def district_for(mains, cache, budget):
+    """Most likely district for a list of streets, plus one map point per street.
+
+    Each street votes once for every district it exists in; a name that exists in
+    two districts is settled by the other streets of the same notice."""
+    votes, found = Counter(), []
+    for s in mains[:6]:
+        r = geocode(s, cache, budget)
+        if r:
+            found.append(r)
+            for d in {x["district"] for x in r}:
+                votes[d] += 1
+    if not votes:
+        return "", []
+    top = votes.most_common(2)
+    if len(top) > 1 and top[0][1] == top[1][1]:
+        return "", []      # a tie is a guess: show no district rather than a wrong one
+    best, pts = top[0][0], []
+    for r in found:
+        p = next((x for x in r if x["district"] == best), None)
+        if p:
+            pts.append([p["lat"], p["lon"]])
+    return best, pts
+
+
+# ---------------------------------------------------------------- pages
 def fetch_detail_full(url):
-    """(meta_description, full body text, map link) from a notice page.
-
-    The meta description is cut at ~160 characters, so long street lists were
-    truncated on the site. The full notice sits in section.section >
-    div.column.is-half (checked Oct 2026); the "Kaart openen" link points to
-    EBS's GIS map of the affected area. Any part that is missing stays None."""
+    """(meta description, column text with newlines, [map links]) from a notice page."""
     try:
         from bs4 import BeautifulSoup
-        html = fetch_html(url)
-        soup = BeautifulSoup(html, "html.parser")
-        meta = (soup.find("meta", {"name": "description"}) or
-                soup.find("meta", {"property": "og:description"}))
+        soup = BeautifulSoup(fetch_html(url), "html.parser")
+        meta = (soup.find("meta", {"name": "description"}) or soup.find("meta", {"property": "og:description"}))
         desc = meta["content"] if meta and meta.get("content") else None
-        body, map_link = None, None
+        texts, maps = [], []
         for col in soup.select("section.section div.column.is-half"):
+            t = col.get_text("\n")
+            if len(clean(t)) <= 40:
+                continue
             for a in col.find_all("a", href=True):
                 if "gisenterprise" in a["href"] or "kaart" in a.get_text(" ").lower():
-                    map_link = map_link or a["href"]
-            lines = [clean(t) for t in col.get_text("\n").split("\n") if clean(t)]
-            lines = [l for l in lines if not re.match(r"^kaart( openen)?:?$", l, re.I)]
-            if len(" ".join(lines)) > 40 and body is None:
-                # drop the repeated headline (first line in capitals)
-                if lines and lines[0].upper() == lines[0] and re.search(r"\d{4}", lines[0]):
-                    lines = lines[1:]
-                body = " ".join(lines)
-        return desc, body, map_link
+                    maps.append(a["href"].strip())
+            texts.append(t)
+        return desc, "\n".join(texts), maps
     except Exception as e:
         print(f"    [detail fetch error] {e}")
-    return None, None, None
+    return None, "", []
 
 
 def parse_main_page(html):
-    """Extract outage entries from notice-slider-desktop."""
+    """Notice links from the slider. None when the slider is gone (layout change)."""
     from bs4 import BeautifulSoup
     soup = BeautifulSoup(html, "html.parser")
     today = datetime.now(SR_TZ).date()
-
     slider = soup.find("div", class_="notice-slider-desktop")
     if not slider:
-        slider = soup
-
-    entries = []
-    seen_links = set()
-
+        return None
+    entries, seen = [], set()
     for div in slider.find_all("div", class_="notice-text"):
         title = clean(div.get_text(" ").replace("Lees meer", "").strip())
-        link_tag = div.find("a")
-        link = link_tag["href"] if link_tag and link_tag.get("href") else ""
-        if not link.startswith("http"):
-            link = "https://nvebs.com" + link if link else ""
-
-        # Skip duplicates by link
-        if link in seen_links:
+        a = div.find("a")
+        link = a["href"] if a and a.get("href") else ""
+        if link and not link.startswith("http"):
+            link = "https://nvebs.com" + link
+        if link in seen:
             continue
-        seen_links.add(link)
-
-        outage_date = parse_dutch_date(title)
-        if not outage_date:
+        seen.add(link)
+        d = parse_dutch_date(title)
+        if not d:
             continue
-        if outage_date < today:
+        if d < today:
             print(f"    [skipped past] {title}")
             continue
-
-        entries.append({
-            "title":    title,
-            "date":     fmt_date_nl(title),
-            "date_iso": str(outage_date),
-            "type":     "planned",
-            "link":     link,
-        })
+        entries.append({"title": title, "date": fmt_date_nl(title), "date_iso": str(d), "type": "planned", "link": link})
         print(f"    [found] {title}")
-
     return entries
+
+
+def expand(entry, desc, text, maps, cache, budget):
+    """One notice page -> one or more outage entries."""
+    blocks = split_blocks(text) or split_blocks(desc or "")
+    if not blocks:
+        e = dict(entry)
+        body = clean(re.sub(r"kaart(\s+openen)?\s*:?", " ", text or "", flags=re.IGNORECASE))
+        if body:
+            e["body"] = body
+        if maps:
+            e["map"] = maps[0]
+        return [e]
+    out = []
+    for i, b in enumerate(blocks):
+        e = dict(entry)
+        if b.get("date_iso"):
+            e["date_iso"] = b["date_iso"]
+        if b.get("time"):
+            e["time"] = b["time"]
+        if b.get("area"):
+            e["area"] = b["area"]
+        mains, cross = streets_of(b.get("area", ""))
+        if mains:
+            e["streets"] = mains
+        if cross:
+            e["cross"] = cross
+        dist = b.get("district", "")
+        gd, pts = district_for(mains, cache, budget) if mains else ("", [])
+        e["district"] = dist or gd
+        e["district_src"] = "ebs" if dist else ("osm" if gd else "")
+        if pts:
+            e["pts"] = pts
+        if len(maps) == len(blocks):
+            e["map"] = maps[i]
+        elif maps:
+            e["map"] = maps[0]
+        if len(blocks) > 1:
+            e["part"] = [i + 1, len(blocks)]
+        out.append(e)
+    return out
 
 
 def main():
@@ -192,48 +330,40 @@ def main():
     try:
         html = fetch_html(URL_MAIN)
     except Exception as e:
-        print(f"ERROR: {e}")
-        if OUT.exists():
-            print("  Keeping existing data.")
+        print(f"ERROR: {e}  (keeping existing data)")
         sys.exit(0)
-
     try:
-        outages = parse_main_page(html)
+        notices = parse_main_page(html)
     except Exception as e:
         print(f"ERROR parsing: {e}")
-        outages = []
+        notices = None
+    if notices is None:
+        print("WARNING: notice slider not found (EBS layout change?); keeping existing data so it goes stale.")
+        sys.exit(0)
 
-    # Enrich each entry with detail from meta description
-    for entry in outages:
-        if entry.get("link"):
-            print(f"  Fetching detail: {entry['link']}")
-            meta_desc, body, map_link = fetch_detail_full(entry["link"])
-            if body:
-                entry["body"] = body
-                # full street list: everything after the "tussen HH:MM-HH:MM" window
-                full = parse_meta_description(body)
-                if full.get("area") and len(full["area"]) > len(entry.get("area", "")):
-                    entry["area_full"] = full["area"]
-            if map_link:
-                entry["map"] = map_link
-            if meta_desc:
-                parsed = parse_meta_description(meta_desc)
-                entry["meta_description"] = meta_desc
-                if parsed.get("district"):
-                    entry["district"] = parsed["district"]
-                if parsed.get("time"):
-                    entry["time"] = parsed["time"]
-                if parsed.get("area"):
-                    entry["area"] = parsed["area"]
+    cache, budget = _load_cache(), [GEO_MAX_NEW]
+    outages = []
+    for n in notices:
+        if not n.get("link"):
+            outages.append(n)
+            continue
+        print(f"  Fetching detail: {n['link']}")
+        desc, text, maps = fetch_detail_full(n["link"])
+        for e in expand(n, desc, text, maps, cache, budget):
+            print(f"    -> {e.get('date_iso')} {e.get('time', '?')} {e.get('district') or '-'}: "
+                  f"{(e.get('area') or e.get('body') or '')[:70]}")
+            outages.append(e)
 
-    result = {
-        "outages":      outages,
-        "last_updated": datetime.now(timezone.utc).isoformat(),
-        "source":       URL_MAIN,
-    }
-
+    today = str(datetime.now(SR_TZ).date())
+    outages = [o for o in outages if not o.get("date_iso") or o["date_iso"] >= today]
+    outages.sort(key=lambda o: (o.get("date_iso", ""), o.get("time", "")))
+    result = {"outages": outages, "last_updated": datetime.now(timezone.utc).isoformat(), "source": URL_MAIN, "v": 2}
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    try:
+        GEOCACHE.write_text(json.dumps(cache, ensure_ascii=False, sort_keys=True, separators=(",", ":")), encoding="utf-8")
+    except Exception as e:
+        print(f"  [geocache write error] {e}")
     print(f"  Written {len(outages)} outage(s) -> {OUT}")
 
 

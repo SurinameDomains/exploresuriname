@@ -3,6 +3,9 @@
 scrape_swm.py — SWM water outages -> data/swm_outages.json
 Source: https://swm.sr/storing-onderhoud/
 
+"published": false (Nov 2026) = the page has no outage tables at all, so the
+site must not read the empty lists as "no outages".
+
 DOM structure: h5 heading + table both live inside a div.card.swmRounded.border-0
 Table has 3 rows per outage: [area row, description row, date row]
 Each row: 2 <td> — first is icon placeholder, second is content.
@@ -120,10 +123,12 @@ def parse(html):
         "source": URL,
     }
 
+    sections = 0
     for h in soup.find_all("h5"):
         txt = clean(h.get_text())
         if not re.search(r"gepland onderhoud|^storingen$", txt, re.IGNORECASE):
             continue
+        sections += 1
         is_planned = bool(re.search(r"gepland", txt, re.IGNORECASE))
 
         card = find_card_for_heading(h)
@@ -160,6 +165,11 @@ def parse(html):
                     "date":        e["start"],
                 })
 
+    # Nov 2026: swm.sr's page lost its outage tables (the "Klik hier voor een
+    # overzicht" lines have no link and there is no table, also after JS runs).
+    # Without the tables an empty list is "unknown", not "no outages": the site
+    # then shows SWM's own channels instead of a false all-clear.
+    result["published"] = sections > 0
     return result
 
 
@@ -178,6 +188,8 @@ def main():
     for o in data["active"]:
         print(f"    - {o['area']} ({o['date']})")
     print(f"  Planned:        {len(data['planned'])}")
+    if not data.get("published"):
+        print("  NOTE: no outage tables on swm.sr (published: false)")
     for o in data["planned"]:
         print(f"    - {o['area']} ({o['start']} -> {o['end']})")
 
