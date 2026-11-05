@@ -18,7 +18,8 @@
   "dna_in_behandeling_b3db91fef17e": "2026-10-28",
   "dna_goedgekeurd_03a93fab2b3a": "2026-10-28",
   "dna_ingediend_bef2b81f5f20": "2026-10-29",
-  "review_import_licence_2026-11-01": "2026-11-01"
+  "review_import_licence_2026-11-01": "2026-11-01",
+  "govsr_terms_dcfeebd08120": "2026-11-05"
  },
  "belastingdienst_wetten": {
   "value": [
@@ -44,7 +45,7 @@
    "https://belastingdienst.sr/wp-content/uploads/2024/10/Wet-Loonbelasting.pdf",
    "https://belastingdienst.sr/wp-content/uploads/2024/10/Wet-Loterijbelasting.pdf"
   ],
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0,
   "error": "only 0 links found (layout changed?)"
  },
@@ -53,7 +54,7 @@
    "2024",
    "2"
   ],
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0,
   "error": "Command '['pdftotext', '/tmp/tmpk6s1rlyp/x.pdf', '-']' returned non-zero exit status 1."
  },
@@ -62,7 +63,7 @@
    "2024",
    "3"
   ],
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0,
   "error": "Command '['pdftotext', '/tmp/tmpiqb_dh78/x.pdf', '-']' returned non-zero exit status 1."
  },
@@ -71,7 +72,7 @@
    "2002",
    "96"
   ],
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0,
   "error": "Command '['pdftotext', '/tmp/tmpfv1rnotz/x.pdf', '-']' returned non-zero exit status 1."
  },
@@ -80,7 +81,7 @@
    "2025",
    "8"
   ],
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0,
   "error": "HTTP Error 403: Forbidden"
  },
@@ -89,7 +90,7 @@
    "500",
    "5000"
   ],
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0,
   "error": "HTTP Error 403: Forbidden"
  },
@@ -97,18 +98,18 @@
   "value": [
    "1"
   ],
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0
  },
  "minimum_wage": {
   "value": "61,25",
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0
  },
  "cbvs_denominations": {
   "value": "SRD 5, SRD 10, SRD 20, SRD 50, SRD 100, SRD 200 en SRD 500",
   "ok": "2026-10-12",
-  "fails": 23,
+  "fails": 24,
   "error": "HTTP Error 403: Forbidden",
   "fail_alerted": "2026-10-15"
  },
@@ -135,6 +136,9 @@
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-regels-ruimtelijke-ordening/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-wet-west-suriname-bakhuis-ontwikkeling/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-duurzaam-natuurbeheer/",
+   "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/wet-houdende-regels-met-betrekking-tot-het-wetenschappelijk-onderwijs-op-de-anton-de-kom-universiteit-van-suriname-adekus-wet-2026/",
+   "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/wet-houdende-regels-inzake-het-hoger-onderwijs-wet-hoger-onderwijs/",
+   "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/wet-houdende-regels-met-betrekking-tot-het-accreditatiestelsel-voor-het-hoger-onderwijs-wet-accreditatie-hoger-onderwijs-1/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-instelling-algemene-wet-voor-mensen-met-een-beperking-awmb/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-pensioenfondsen-en-voorzieningsfondsen/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-wijziging-van-de-wet-geldelijke-voorzieningen-van-leden-en-gewezen-leden-van-de-nationale-assemblee-2025-s-b-2024-no-161/",
@@ -171,14 +175,10 @@
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-opheffing-derdenbeslagen-gelden-en-geldvorderingen-openbare-dienst/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-aanpassingswet-instelling-directoraat-burgerzaken/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-wijz-wet-geldelijke-voorzieningen-president-en-vice-president-rep-sur-2025-s-b-2024-no-159/",
-   "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/wet-houdende-regels-met-betrekking-tot-het-accreditatiestelsel-voor-het-hoger-onderwijs-wet-accreditatie-hoger-onderwijs/",
-   "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/wet-houdende-regels-met-betrekking-tot-het-wetenschappelijk-onderwijs-op-de-anton-de-kom-universiteit-van-suriname-adekus-wet-2026/",
-   "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/wet-houdende-regels-inzake-het-hoger-onderwijs-wet-hoger-onderwijs/",
-   "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/wet-houdende-regels-met-betrekking-tot-het-accreditatiestelsel-voor-het-hoger-onderwijs-wet-accreditatie-hoger-onderwijs-1/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-nadere-wijz-wetboek-van-strafrecht-g-b-1911-no-1-zoals-laatstelijk-gewijz-bij-s-b-2020-no-42/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-schadefonds-gewelds-en-verkeersmisdrijven/"
   ],
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0
  },
  "dna_in_behandeling": {
@@ -256,7 +256,7 @@
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-houdende-nadere-wijziging-van-het-wetboek-van-strafvordering-ltstelijk-gewzg-s-b-2023-no-135/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-instelling-verkeersautoriteit/"
   ],
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0
  },
  "dna_goedgekeurd": {
@@ -324,7 +324,7 @@
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-houdende-goedkeuring-united-national-convention-against-corruption-uncac/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-wijz-rijwet-1971-alsmede-nadere-wijz-wet-aansprakelijkheidsverzekering-motorrijtuigen-1/"
   ],
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0
  },
  "govsr_terms": {
@@ -345,6 +345,7 @@
    "https://gov.sr/bekendmaking/bekendmaking-wijziging-besluit-negatieve-lijst/wijziging-besluit-negatieve-lijst-2/",
    "https://gov.sr/belastingdienst-introduceert-online-sas-huba-met-gratis-ondersteuning/",
    "https://gov.sr/bilaterale-gesprekken-over-de-ontwerpbegroting-van-start/",
+   "https://gov.sr/biofin-brengt-financieringsbehoefte-voor-biodiversiteitsbehoud-in-suriname-in-beeld/",
    "https://gov.sr/bisschop-choennie-en-president-simons-bespreken-behoud-monumentaal-erfgoed/",
    "https://gov.sr/bond-slm-vraagt-bemiddeling-wnd-president-brunswijk/",
    "https://gov.sr/btw-zorgt-voor-betere-spreiding-belastingdruk/",
@@ -482,7 +483,7 @@
    "https://gov.sr/wijziging-besluit-negatieve-lijst/",
    "https://gov.sr/zvf/"
   ],
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0
  },
  "belastingdienst_news": {
@@ -490,6 +491,7 @@
    "https://belastingdienst.sr/bekendmaking-31-augustus-2026/",
    "https://belastingdienst.sr/bekendmaking-oia-opgeheven/",
    "https://belastingdienst.sr/bekendmaking-oia/",
+   "https://belastingdienst.sr/bekendmaking-onvangkantoor-der-ia/",
    "https://belastingdienst.sr/geen-boete/",
    "https://belastingdienst.sr/het-was-mooi-het-was-krachtig-het-was-douane-achtig/",
    "https://belastingdienst.sr/investeren-in-kennis-bouwen-aan-de-toekomst/",
@@ -499,47 +501,47 @@
    "https://belastingdienst.sr/technische-storing-oktober-2026/",
    "https://belastingdienst.sr/technische-storing/"
   ],
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0,
   "error": "mismatched tag: line 93, column 2"
  },
- "_last_run": "2026-11-04",
+ "_last_run": "2026-11-05",
  "guide_belastingdienst_contact": {
   "fails": 0,
   "error": "page almost empty (blocked or layout changed?)",
   "value": "ok",
-  "ok": "2026-11-04"
+  "ok": "2026-11-05"
  },
  "guide_apf_contact": {
   "value": "ok",
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0,
   "error": "HTTP Error 403: Forbidden"
  },
  "guide_kkf_contact": {
   "value": "ok",
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0
  },
  "guide_financieringswijzer": {
   "value": "ok",
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0
  },
  "guide_nob_products": {
   "fails": 0,
   "error": "page almost empty (blocked or layout changed?)",
   "value": "ok",
-  "ok": "2026-11-04"
+  "ok": "2026-11-05"
  },
  "guide_werktijden": {
   "value": "ok",
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0
  },
  "guide_iud_negatieve_lijst": {
   "value": "ok",
-  "ok": "2026-11-04",
+  "ok": "2026-11-05",
   "fails": 0
  }
 }
