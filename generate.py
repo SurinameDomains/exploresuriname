@@ -11911,7 +11911,11 @@ def _nw_story_key(link):
     return hashlib.sha1(k.encode("utf-8")).hexdigest()[:10] if k else ""
 
 
+_NW_SEEN_KEYS = set()   # filled while news.html is built (Daily Notices links only to stories on it)
+
+
 def _nw_attrs(a, i, front=False):
+    _NW_SEEN_KEYS.add(_nw_story_key(a.get("link")))
     srcs = a.get("sources") or [a.get("source")]
     tps = a.get("topics") or []
     return (f' data-i="{i}" data-ts="{_nw_sr(a["date"]).isoformat(timespec="minutes")}"'
@@ -11946,6 +11950,7 @@ def _nw_timeline(a):
     items.sort(key=lambda x: x["date"])
     lis = []
     for x in items:
+        _NW_SEEN_KEYS.add(_nw_story_key(x.get("link")))
         lis.append(f'<li><span class="nw-tl-t" translate="no">{_nw_sr(x["date"]).strftime("%H:%M")}</span>'
                    f'<span class="nw-dot" style="background:{_nw_esc(x.get("color"))}"></span>'
                    f'<a href="{_nw_esc(_feed_url(x.get("link")))}" data-key="{_nw_story_key(x.get("link"))}" target="_blank" rel="noopener noreferrer">'
@@ -14927,6 +14932,48 @@ _DN_I18N = {
         "pm":"Manutenção programada","ended":"Encerrada","hit1":"Sua rua aparece em 1 aviso.","hitN":"Sua rua aparece em {n} avisos.","hit0":"“{q}” não aparece nos avisos atuais da EBS. Confira a grafia ou digite parte do nome.","share":"Compartilhar","cal":"Adicionar à agenda","shareHead":"Corte de energia programado da EBS","call":"Sem energia e sua rua não está na lista? Ligue para o plantão de falhas da EBS no {n}, dia e noite.","swmH":"A SWM não está publicando faltas de água no site no momento","swmS":"Sem água ou com pressão baixa? Veja a página da SWM no Facebook, ou ligue ou mande WhatsApp para a SWM.","swmCall":"Ligar para {n}","swmWa":"WhatsApp da SWM","swmFb":"SWM no Facebook","swmRep":"Informar uma falha on-line","rgdOld":"Esta é a última lista publicada pelo RGD ({r}). Ainda não chegou uma lista mais recente, então ligue antes de ir."},
 }
 
+# v3 additions (5 Nov 2026): new cards. Hand-written, 6 languages, no em dashes.
+_DN_I18N_V3 = {
+ "en": {"holToday":"Today is {n}, a public holiday. Banks and government offices are closed.","holTom":"Tomorrow is {n}, a public holiday. Banks and government offices will be closed.","holSoon":"{d}: {n}, a public holiday. Banks and government offices will be closed.","holNext":"Next public holiday","holAfter":"After that","inD1":"tomorrow","inD0":"today","inDn":"in {n} days","maybe":"date can still change","school":"School break","schoolNow":"{n}: schools are closed until {d}.","schoolNext":"{n}: {a} to {b}","holSrc":"Dates from the official list of the Ministry of Education.",
+        "tH":"High","tL":"Low","tHigh":"High tide","tLow":"Low tide","tNext":"Next: {k} at {t}","tSpring":"Spring tide {d}: among the highest tides of the year. Low-lying streets near the river can flood when heavy rain falls around high tide.","tSpringT":"Spring tide today: among the highest tides of the year. Low-lying streets near the river can flood when heavy rain falls around high tide.","tModel":"Calculated from a harmonic tide model, usually within about 10 minutes of the official tables.","tMore":"Weather, rain alert and full tide tables",
+        "gDeliv":"Ogane delivers 40 and 100 lbs cylinders today in:","gTom":"Tomorrow:","gNone":"No Ogane home deliveries today.","gWk":"Weekend sale of 100 lbs is on until Monday 05:00. Depot holders:","gWkSoon":"From 15:00 today, depot holders sell 100 lbs cylinders over the weekend.","gHol":"Public holiday today: deliveries may not run. Ask Ogane on WhatsApp.","gOrder":"Order on WhatsApp","gPrices":"Refill at a sale point: 20 lbs {a} · 28 lbs {b}","gMore":"Nearest sale point and all delivery days",
+        "nwSrc":"Headlines from local outlets about closures and service interruptions, last 4 days.","nwOut":"+{n} more","nwOut1":"+1 more",
+        "dkH":"Customs exchange rate (douanekoers)","dkFrom":"Valid from {d}","dkMore":"All currencies","mpH":"Maximum prices of basic goods","mpUpd":"List updated {d}","mpMore":"See the list",
+        "phAll":"Show all {n} pharmacies","docAll":"Show all {n} doctors"},
+ "nl": {"holToday":"Vandaag is het {n}, een nationale feestdag. Banken en overheidskantoren zijn dicht.","holTom":"Morgen is het {n}, een nationale feestdag. Banken en overheidskantoren zijn dan dicht.","holSoon":"{d}: {n}, een nationale feestdag. Banken en overheidskantoren zijn dan dicht.","holNext":"Volgende feestdag","holAfter":"Daarna","inD1":"morgen","inD0":"vandaag","inDn":"over {n} dagen","maybe":"datum kan nog wijzigen","school":"Schoolvakantie","schoolNow":"{n}: de scholen zijn dicht tot en met {d}.","schoolNext":"{n}: {a} tot en met {b}","holSrc":"Data uit de officiële lijst van het ministerie van Onderwijs.",
+        "tH":"Hoog","tL":"Laag","tHigh":"Hoogwater","tLow":"Laagwater","tNext":"Volgende: {k} om {t}","tSpring":"Springtij {d}: een van de hoogste getijden van het jaar. Laaggelegen straten bij de rivier kunnen onderlopen als er rond hoogwater zware regen valt.","tSpringT":"Vandaag springtij: een van de hoogste getijden van het jaar. Laaggelegen straten bij de rivier kunnen onderlopen als er rond hoogwater zware regen valt.","tModel":"Berekend met een harmonisch getijmodel, meestal binnen ongeveer 10 minuten van de officiële tabellen.","tMore":"Weer, regenalarm en alle getijtabellen",
+        "gDeliv":"Ogane bezorgt vandaag 40 en 100 lbs cilinders in:","gTom":"Morgen:","gNone":"Vandaag geen thuisbezorging door Ogane.","gWk":"De weekendverkoop van 100 lbs loopt tot maandag 05:00. Depothouders:","gWkSoon":"Vanaf 15:00 verkopen depothouders het weekend 100 lbs cilinders.","gHol":"Vandaag is een feestdag: bezorging gaat mogelijk niet door. Vraag het Ogane via WhatsApp.","gOrder":"Bestellen via WhatsApp","gPrices":"Hervullen bij een verkooppunt: 20 lbs {a} · 28 lbs {b}","gMore":"Dichtstbijzijnd verkooppunt en alle bezorgdagen",
+        "nwSrc":"Koppen uit lokale media over afsluitingen en onderbrekingen, laatste 4 dagen.","nwOut":"+{n} andere","nwOut1":"+1 andere",
+        "dkH":"Douanekoers","dkFrom":"Geldig vanaf {d}","dkMore":"Alle valuta","mpH":"Maximumprijzen basisgoederen","mpUpd":"Lijst bijgewerkt {d}","mpMore":"Bekijk de lijst",
+        "phAll":"Toon alle {n} apotheken","docAll":"Toon alle {n} artsen"},
+ "es": {"holToday":"Hoy es {n}, día festivo. Los bancos y las oficinas públicas están cerrados.","holTom":"Mañana es {n}, día festivo. Los bancos y las oficinas públicas estarán cerrados.","holSoon":"{d}: {n}, día festivo. Los bancos y las oficinas públicas estarán cerrados.","holNext":"Próximo día festivo","holAfter":"Después","inD1":"mañana","inD0":"hoy","inDn":"dentro de {n} días","maybe":"la fecha aún puede cambiar","school":"Vacaciones escolares","schoolNow":"{n}: las escuelas están cerradas hasta el {d}.","schoolNext":"{n}: del {a} al {b}","holSrc":"Fechas de la lista oficial del Ministerio de Educación.",
+        "tH":"Alta","tL":"Baja","tHigh":"Marea alta","tLow":"Marea baja","tNext":"Próxima: {k} a las {t}","tSpring":"Marea viva {d}: de las mareas más altas del año. Las calles bajas cerca del río pueden inundarse si llueve fuerte cerca de la marea alta.","tSpringT":"Marea viva hoy: de las mareas más altas del año. Las calles bajas cerca del río pueden inundarse si llueve fuerte cerca de la marea alta.","tModel":"Calculado con un modelo armónico de mareas, normalmente a unos 10 minutos de las tablas oficiales.","tMore":"Tiempo, aviso de lluvia y tablas de mareas",
+        "gDeliv":"Ogane reparte hoy cilindros de 40 y 100 lbs en:","gTom":"Mañana:","gNone":"Hoy no hay reparto a domicilio de Ogane.","gWk":"La venta de fin de semana de 100 lbs sigue hasta el lunes a las 05:00. Depósitos:","gWkSoon":"Desde las 15:00 de hoy, los depósitos venden cilindros de 100 lbs durante el fin de semana.","gHol":"Hoy es festivo: puede que no haya reparto. Pregunta a Ogane por WhatsApp.","gOrder":"Pedir por WhatsApp","gPrices":"Recarga en un punto de venta: 20 lbs {a} · 28 lbs {b}","gMore":"Punto de venta más cercano y todos los días de reparto",
+        "nwSrc":"Titulares de medios locales sobre cierres e interrupciones de servicio, últimos 4 días.","nwOut":"+{n} más","nwOut1":"+1 más",
+        "dkH":"Tipo de cambio aduanero (douanekoers)","dkFrom":"Vigente desde el {d}","dkMore":"Todas las monedas","mpH":"Precios máximos de productos básicos","mpUpd":"Lista actualizada el {d}","mpMore":"Ver la lista",
+        "phAll":"Ver las {n} farmacias","docAll":"Ver los {n} médicos"},
+ "zh": {"holToday":"今天是{n}，公共假日。银行和政府机关不办公。","holTom":"明天是{n}，公共假日。银行和政府机关届时不办公。","holSoon":"{d}：{n}，公共假日。银行和政府机关届时不办公。","holNext":"下一个公共假日","holAfter":"之后","inD1":"明天","inD0":"今天","inDn":"{n}天后","maybe":"日期仍可能调整","school":"学校假期","schoolNow":"{n}：学校放假至{d}。","schoolNext":"{n}：{a}至{b}","holSrc":"日期来自教育部官方名单。",
+        "tH":"高潮","tL":"低潮","tHigh":"高潮","tLow":"低潮","tNext":"下一次：{t} {k}","tSpring":"{d}大潮：全年最高的潮位之一。如果高潮前后下大雨，河边低洼街道可能被淹。","tSpringT":"今天大潮：全年最高的潮位之一。如果高潮前后下大雨，河边低洼街道可能被淹。","tModel":"根据调和潮汐模型计算，通常与官方潮汐表相差约10分钟以内。","tMore":"天气、降雨提醒和完整潮汐表",
+        "gDeliv":"Ogane今天在以下地区配送40和100磅气瓶：","gTom":"明天：","gNone":"Ogane今天不送货上门。","gWk":"100磅周末销售持续到周一05:00。销售点：","gWkSoon":"今天15:00起，销售点在周末出售100磅气瓶。","gHol":"今天是公共假日，可能不送货。请通过WhatsApp询问Ogane。","gOrder":"通过WhatsApp订购","gPrices":"在销售点换气：20磅 {a} · 28磅 {b}","gMore":"最近的销售点和全部配送日",
+        "nwSrc":"过去4天本地媒体关于封路和服务中断的标题。","nwOut":"另有{n}家媒体","nwOut1":"另有1家媒体",
+        "dkH":"海关汇率（douanekoers）","dkFrom":"自{d}起生效","dkMore":"全部货币","mpH":"基本商品最高限价","mpUpd":"清单更新于{d}","mpMore":"查看清单",
+        "phAll":"显示全部{n}家药房","docAll":"显示全部{n}名医生"},
+ "fr": {"holToday":"Aujourd’hui, c’est {n}, jour férié. Les banques et les administrations sont fermées.","holTom":"Demain, c’est {n}, jour férié. Les banques et les administrations seront fermées.","holSoon":"{d} : {n}, jour férié. Les banques et les administrations seront fermées.","holNext":"Prochain jour férié","holAfter":"Ensuite","inD1":"demain","inD0":"aujourd’hui","inDn":"dans {n} jours","maybe":"la date peut encore changer","school":"Vacances scolaires","schoolNow":"{n}\u00a0: les écoles sont fermées jusqu’au {d}.","schoolNext":"{n} : du {a} au {b}","holSrc":"Dates de la liste officielle du ministère de l’Éducation.",
+        "tH":"Haute","tL":"Basse","tHigh":"Marée haute","tLow":"Marée basse","tNext":"Prochaine : {k} à {t}","tSpring":"Grande marée {d} : parmi les plus hautes de l’année. Les rues basses près du fleuve peuvent être inondées si de fortes pluies tombent autour de la marée haute.","tSpringT":"Grande marée aujourd’hui : parmi les plus hautes de l’année. Les rues basses près du fleuve peuvent être inondées si de fortes pluies tombent autour de la marée haute.","tModel":"Calculé avec un modèle harmonique de marée, en général à une dizaine de minutes des tables officielles.","tMore":"Météo, alerte pluie et tables des marées",
+        "gDeliv":"Ogane livre aujourd’hui les bouteilles de 40 et 100 lbs à :","gTom":"Demain :","gNone":"Pas de livraison à domicile Ogane aujourd’hui.","gWk":"La vente de 100 lbs du week-end dure jusqu’à lundi 05:00. Dépositaires :","gWkSoon":"Dès 15:00 aujourd’hui, les dépositaires vendent des bouteilles de 100 lbs pendant le week-end.","gHol":"Jour férié aujourd’hui : les livraisons peuvent ne pas avoir lieu. Renseignez-vous auprès d’Ogane sur WhatsApp.","gOrder":"Commander sur WhatsApp","gPrices":"Recharge en point de vente : 20 lbs {a} · 28 lbs {b}","gMore":"Point de vente le plus proche et tous les jours de livraison",
+        "nwSrc":"Titres des médias locaux sur les fermetures et interruptions de service, 4 derniers jours.","nwOut":"+{n} autres","nwOut1":"+1 autre",
+        "dkH":"Taux de change douanier (douanekoers)","dkFrom":"Valable à partir du {d}","dkMore":"Toutes les devises","mpH":"Prix maximums des produits de base","mpUpd":"Liste mise à jour le {d}","mpMore":"Voir la liste",
+        "phAll":"Afficher les {n} pharmacies","docAll":"Afficher les {n} médecins"},
+ "pt": {"holToday":"Hoje é {n}, feriado nacional. Bancos e repartições públicas estão fechados.","holTom":"Amanhã é {n}, feriado nacional. Bancos e repartições públicas estarão fechados.","holSoon":"{d}: {n}, feriado nacional. Bancos e repartições públicas estarão fechados.","holNext":"Próximo feriado","holAfter":"Depois","inD1":"amanhã","inD0":"hoje","inDn":"em {n} dias","maybe":"a data ainda pode mudar","school":"Férias escolares","schoolNow":"{n}: as escolas estão fechadas até {d}.","schoolNext":"{n}: de {a} a {b}","holSrc":"Datas da lista oficial do Ministério da Educação.",
+        "tH":"Alta","tL":"Baixa","tHigh":"Maré alta","tLow":"Maré baixa","tNext":"Próxima: {k} às {t}","tSpring":"Maré de sizígia {d}: entre as mais altas do ano. Ruas baixas perto do rio podem alagar se chover forte perto da maré alta.","tSpringT":"Maré de sizígia hoje: entre as mais altas do ano. Ruas baixas perto do rio podem alagar se chover forte perto da maré alta.","tModel":"Calculado com um modelo harmônico de marés, em geral a cerca de 10 minutos das tábuas oficiais.","tMore":"Tempo, alerta de chuva e tábuas de marés",
+        "gDeliv":"A Ogane entrega hoje botijões de 40 e 100 lbs em:","gTom":"Amanhã:","gNone":"Sem entregas em domicílio da Ogane hoje.","gWk":"A venda de 100 lbs do fim de semana vai até segunda às 05:00. Depósitos:","gWkSoon":"A partir das 15:00 de hoje, os depósitos vendem botijões de 100 lbs no fim de semana.","gHol":"Feriado hoje: talvez não haja entregas. Pergunte à Ogane pelo WhatsApp.","gOrder":"Pedir pelo WhatsApp","gPrices":"Recarga em ponto de venda: 20 lbs {a} · 28 lbs {b}","gMore":"Ponto de venda mais próximo e todos os dias de entrega",
+        "nwSrc":"Manchetes da imprensa local sobre interdições e interrupções de serviço, últimos 4 dias.","nwOut":"+{n} outros","nwOut1":"+1 outro",
+        "dkH":"Câmbio aduaneiro (douanekoers)","dkFrom":"Válido a partir de {d}","dkMore":"Todas as moedas","mpH":"Preços máximos de produtos básicos","mpUpd":"Lista atualizada em {d}","mpMore":"Ver a lista",
+        "phAll":"Ver todas as {n} farmácias","docAll":"Ver todos os {n} médicos"},
+}
+for _l, _v in _DN_I18N_V3.items():
+    _DN_I18N[_l].update(_v)
+
 # Contact points checked 5 Nov 2026: EBS fault line 175 (24/7, nvebs.com stroom-onderbrekingen
 # page); SWM 129 + (+597) 889-3434 (WhatsApp "Chat ons" on swm.sr), Facebook page and the
 # online fault form linked from swm.sr.
@@ -15020,6 +15067,7 @@ var qt=null;
 D.addEventListener('input',function(ev){if(ev.target.id!=='ebs-qin')return;if(EBS)renderEbs(EBS);clearTimeout(qt);
   qt=setTimeout(function(){if(ebsQuery().length>=3)ga('dn_search',{dn_found:LASTF});},1500);});
 D.addEventListener('click',function(ev){
+  var pa=ev.target.closest('.dn-ph-all');if(pa){D.querySelectorAll('.dn-ph-x').forEach(function(r){r.hidden=false;});D.querySelectorAll('.dn-ph-all').forEach(function(x){x.remove();});return;}
   var b=ev.target.closest('.dn-more');if(b){var p=$(b.getAttribute('data-t'));var open=p.classList.toggle('dn-clip');b.textContent=open?T.more:T.less;return;}
   var a=ev.target.closest('[data-ga]');if(a)ga(a.getAttribute('data-ga'),{dn_link:a.getAttribute('href').slice(0,60)});});
 
@@ -15078,9 +15126,12 @@ function wachtFilter(){
   h+='<div class="'+(old?'dn-oldl':'')+'">';
   function tel(p){return p?'<a href="tel:'+telHref(p)+'" class="pharmacy-phone" translate="no">☎ '+esc(p)+'</a>':'';}
   function mapl(n,a){return a?' <a class="pharmacy-phone dn-map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(n+', '+a+', Suriname')+'">'+esc(T.map)+'</a>':'';}
-  if(docs.length){h+='<p class="dn-grp">'+esc(T.doctors)+'</p>';docs.forEach(function(x){h+='<div class="pharmacy-row"><div class="pharmacy-name" translate="no">'+esc(x.name)+(x.clinic?' <span style="font-weight:400;color:#6b7280">'+esc(x.clinic)+'</span>':'')+'</div>'+(x.address?'<div class="pharmacy-addr" translate="no">'+esc(x.address)+'</div>':'')+'<div class="dn-acts">'+tel(x.phone)+mapl(x.clinic||x.name,x.address)+'</div>'+(x.note?'<div style="font-size:.7rem;color:#9ca3af;margin-top:.15rem">'+esc(x.note)+'</div>':'')+'</div>';});
+  var cut=dist==='all'&&docs.length>4;
+  if(docs.length){h+='<p class="dn-grp">'+esc(T.doctors)+'</p>';docs.forEach(function(x,i){h+='<div class="pharmacy-row'+(cut&&i>=3?' dn-ph-x':'')+'"'+(cut&&i>=3?' hidden':'')+'><div class="pharmacy-name" translate="no">'+esc(x.name)+(x.clinic?' <span style="font-weight:400;color:#6b7280">'+esc(x.clinic)+'</span>':'')+'</div>'+(x.address?'<div class="pharmacy-addr" translate="no">'+esc(x.address)+'</div>':'')+'<div class="dn-acts">'+tel(x.phone)+mapl(x.clinic||x.name,x.address)+'</div>'+(x.note?'<div style="font-size:.7rem;color:#9ca3af;margin-top:.15rem">'+esc(x.note)+'</div>':'')+'</div>';});
+    if(cut)h+='<button type="button" class="dn-more dn-ph-all">'+esc(tr(T.docAll,{n:docs.length}))+'</button>';
     if(d.doctor_hours)h+='<p class="text-xs text-gray-400 mt-2">'+esc(d.doctor_hours)+'</p>';}
-  if(ph.length){h+='<p class="dn-grp">'+esc(T.pharmacies)+'</p>';ph.forEach(function(p){h+='<div class="pharmacy-row"><div class="pharmacy-name" translate="no">'+esc(p.name)+'</div><div class="pharmacy-addr"'+(p.address?' translate="no">'+esc(p.address):'>'+esc(T.noAddr))+'</div><div class="dn-acts">'+tel(p.phone)+mapl(p.name,p.address)+'</div></div>';});
+  if(ph.length){h+='<p class="dn-grp">'+esc(T.pharmacies)+'</p>';ph.forEach(function(p,i){h+='<div class="pharmacy-row'+(i>=4?' dn-ph-x':'')+'"'+(i>=4?' hidden':'')+'><div class="pharmacy-name" translate="no">'+esc(p.name)+'</div><div class="pharmacy-addr"'+(p.address?' translate="no">'+esc(p.address):'>'+esc(T.noAddr))+'</div><div class="dn-acts">'+tel(p.phone)+mapl(p.name,p.address)+'</div></div>';});
+    if(ph.length>4)h+='<button type="button" class="dn-more dn-ph-all">'+esc(tr(T.phAll,{n:ph.length}))+'</button>';
     if(d.pharmacy_hours)h+='<p class="text-xs text-gray-400 mt-2">'+esc(d.pharmacy_hours)+'</p>';}
   h+='</div><p class="text-xs text-gray-300 mt-2">Source: <a href="http://www.rgd.sr/nl/zorg-aanbod/wachtdienst" target="_blank" rel="noopener" class="src-link">rgd.sr</a> &bull; '+esc(T.emergency)+': <strong style="color:var(--forest)">147</strong></p>';
   body.innerHTML=h;
@@ -15096,6 +15147,105 @@ load('/data/wachtdienst.json').then(function(d){W8=d;var upd=$('wacht-upd');if(u
   wachtFilter();}).catch(function(){fail('wacht-body','http://www.rgd.sr/nl/zorg-aanbod/wachtdienst');});
 // keep "now" states honest while the page stays open (the street box sits outside #ebs-body, so typing is not disturbed)
 setInterval(function(){if(D.hidden)return;if(EBS)renderEbs(EBS);if(TBL)renderTbl(TBL);},60000);
+})();
+</script>"""
+
+
+_DN_JS2 = r"""<script>
+(function(){
+var D=document,W=window,LANG=(D.documentElement.lang||'en').slice(0,2).toLowerCase();
+var I=W.DN_I18N||{},T=Object.assign({},I.en||{},I[LANG]||{}),X=W.DN_DATA||{};
+var LOC={en:'en-GB',nl:'nl-NL',es:'es-ES',zh:'zh-CN',fr:'fr-FR',pt:'pt-BR'}[LANG]||'en-GB';
+function $(i){return D.getElementById(i);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function tr(s,o){return String(s).replace(/\{(\w+)\}/g,function(m,k){return o[k]!=null?o[k]:m;});}
+function srNow(){return new Date(Date.now()-3*3600e3);}
+function todayISO(){return srNow().toISOString().slice(0,10);}
+function dd(a,b){return Math.round((Date.parse(b+'T12:00:00Z')-Date.parse(a+'T12:00:00Z'))/864e5);}
+function fmt(iso,o){try{return new Intl.DateTimeFormat(LOC,Object.assign({timeZone:'UTC'},o)).format(new Date(iso+'T12:00:00Z'));}catch(e){return iso;}}
+function longD(iso){return fmt(iso,{weekday:'long',day:'numeric',month:'long'});}
+function shortD(iso){return fmt(iso,{day:'numeric',month:'long'});}
+function hm(ep){var d=new Date(ep*1000-3*3600e3);return ('0'+d.getUTCHours()).slice(-2)+':'+('0'+d.getUTCMinutes()).slice(-2);}
+function nm(o){return (o&&(o[LANG]||o.en))||'';}
+function srd(v){try{return 'SRD '+new Intl.NumberFormat(LOC,{minimumFractionDigits:2,maximumFractionDigits:2}).format(v);}catch(e){return 'SRD '+v;}}
+function num(v){try{return new Intl.NumberFormat(LOC,{minimumFractionDigits:2,maximumFractionDigits:2}).format(v);}catch(e){return String(v);}}
+function show(id,html){var b=$(id);if(!b)return;b.innerHTML=html;var c=b.closest('.widget-card');if(c)c.hidden=!html;}
+function ago(ts){var m=Math.round((Date.now()-Date.parse(ts))/60000);try{var rf=new Intl.RelativeTimeFormat(LOC,{numeric:'auto'});if(m<60)return rf.format(-Math.max(1,m),'minute');if(m<1440)return rf.format(-Math.round(m/60),'hour');return rf.format(-Math.round(m/1440),'day');}catch(e){return '';}}
+
+/* ---------- holidays: banner + card ---------- */
+function holidays(){
+  var t=todayISO(),hs=(X.hol||[]).filter(function(h){return h.d>=t;});
+  var bn=$('dn-hol-banner');
+  if(bn){var h=hs[0],k=h?dd(t,h.d):99,msg='';
+    if(h&&k===0)msg=tr(T.holToday,{n:nm(h.n)});else if(h&&k===1)msg=tr(T.holTom,{n:nm(h.n)});else if(h&&k<=3)msg=tr(T.holSoon,{d:longD(h.d),n:nm(h.n)});
+    bn.hidden=!msg;if(msg)bn.querySelector('p').textContent=msg;}
+  var h2='';
+  if(hs.length){var a=hs[0],k=dd(t,a.d),rel=k===0?T.inD0:k===1?T.inD1:tr(T.inDn,{n:k});
+    h2+='<p class="dn-kick">'+esc(T.holNext)+'</p><p class="dn-big">'+esc(nm(a.n))+'</p><p class="dn-line">'+esc(longD(a.d))+' · <strong>'+esc(rel)+'</strong>'+(a.v?' <span class="dn-mute">('+esc(T.maybe)+')</span>':'')+'</p>';
+    var rest=hs.slice(1,3);if(rest.length)h2+='<p class="dn-kick dn-kick2">'+esc(T.holAfter)+'</p><ul class="dn-ul">'+rest.map(function(r){return '<li><span>'+esc(nm(r.n))+(r.v?' <span class="dn-mute">*</span>':'')+'</span><span class="dn-mute" translate="no">'+esc(shortD(r.d))+'</span></li>';}).join('')+'</ul>';}
+  var sc=(X.school||[]).filter(function(b){return b.e>=t;})[0];
+  if(sc){h2+='<p class="dn-kick dn-kick2">'+esc(T.school)+'</p><p class="dn-line">'+(sc.s<=t?esc(tr(T.schoolNow,{n:nm(sc.n),d:longD(sc.e)})):esc(tr(T.schoolNext,{n:nm(sc.n),a:shortD(sc.s),b:shortD(sc.e)})))+'</p>';}
+  if(h2)h2+='<p class="dn-src">'+esc(T.holSrc)+'</p>';
+  show('hol-body',h2);
+}
+
+/* ---------- tides (Paramaribo) ---------- */
+function tides(){
+  var td=X.tide;if(!td||!(td.ex||[]).length){show('tide-body','');return;}
+  var now=Date.now()/1000,t=todayISO(),tm=new Date(Date.parse(t+'T12:00:00Z')+864e5).toISOString().slice(0,10);
+  var next=td.ex.filter(function(e){return e[0]>now;})[0];
+  if(!next){show('tide-body','');return;}          /* build data ran out (the page is rebuilt every 15 min) */
+  var h='';
+  if(next)h+='<p class="dn-big dn-tide-next">'+esc(tr(T.tNext,{k:(next[1]==='H'?T.tHigh:T.tLow).toLowerCase(),t:hm(next[0])}))+'</p>';
+  var day=function(iso){var rows=td.ex.filter(function(e){return new Date(e[0]*1000-3*3600e3).toISOString().slice(0,10)===iso;});
+    if(!rows.length)return '';
+    return '<p class="dn-kick dn-kick2">'+esc(iso===t?T.today:T.tomorrow)+'</p><div class="dn-tides">'+rows.map(function(e){var past=e[0]<now;
+      return '<div class="dn-tc'+(e[1]==='H'?' hi':' lo')+(past?' past':'')+(next&&e[0]===next[0]?' nx':'')+'"><span class="dn-tk" title="'+esc(e[1]==='H'?T.tHigh:T.tLow)+'">'+(e[1]==='H'?'▲ '+esc(T.tH):'▼ '+esc(T.tL))+'</span><span class="dn-tt" translate="no">'+hm(e[0])+'</span><span class="dn-th" translate="no">'+num(e[2])+' m</span></div>';}).join('')+'</div>';};
+  h+=day(t)+day(tm);
+  var sp=(td.spring||[]).filter(function(x){return x>=t;});
+  if(sp.length){var lab=sp[0]===t?T.tSpringT:tr(T.tSpring,{d:shortD(sp[0])+(sp.length>1?' – '+shortD(sp[sp.length-1]):'')});h+='<p class="dn-warn">'+esc(lab)+'</p>';}
+  h+='<p class="dn-src">'+esc(T.tModel)+' <a href="conditions" class="dn-lnk">'+esc(T.tMore)+' →</a></p>';
+  show('tide-body',h);
+}
+
+/* ---------- cooking gas ---------- */
+function gas(){
+  var g=X.gas;if(!g){show('gas-body','');return;}
+  var n=srNow(),wd=n.getUTCDay(),hr=n.getUTCHours(),t=todayISO(),h='';
+  var hol=(X.hol||[]).some(function(x){return x.d===t;});
+  var dl=g.deliv||{},today=dl[wd],tom=dl[(wd+1)%7];
+  if(today){h+='<p class="dn-kick">'+esc(T.gDeliv)+'</p><p class="dn-areas" translate="no">'+esc(today)+'</p>';if(hol)h+='<p class="dn-warn">'+esc(T.gHol)+'</p>';}
+  else h+='<p class="dn-line"><strong>'+esc(T.gNone)+'</strong></p>';
+  var wkOpen=(wd===5&&hr>=15)||wd===6||wd===0||(wd===1&&hr<5);
+  if(wkOpen||wd===5){h+='<p class="dn-kick dn-kick2">'+esc(wkOpen?T.gWk:T.gWkSoon)+'</p>';
+    if(wkOpen)h+='<ul class="dn-ul">'+(g.wk||[]).map(function(w){return '<li><span><strong translate="no">'+esc(w[0])+'</strong> <span class="dn-mute" translate="no">'+esc(w[2])+'</span></span><span>'+w[1].map(function(p){return /^[678]/.test(p)?'<a href="tel:+597'+p+'" translate="no">'+esc(p.slice(0,3)+'-'+p.slice(3))+'</a>':'<span translate="no">'+esc(p)+'</span>';}).join(' ')+'</span></li>';}).join('')+'</ul>';}
+  else if(tom){h+='<p class="dn-kick dn-kick2">'+esc(T.gTom)+'</p><p class="dn-areas dn-mute" translate="no">'+esc(tom)+'</p>';}
+  if(g.p20&&g.p28)h+='<p class="dn-line">'+esc(tr(T.gPrices,{a:srd(g.p20),b:srd(g.p28)}))+'</p>';
+  h+='<div class="dn-btns dn-btns1"><a class="dn-btn" href="https://wa.me/597'+esc(g.wa)+'" target="_blank" rel="noopener" data-ga="dn_gas_wa">'+esc(T.gOrder)+'</a><a class="dn-btn" href="gas-cylinders">'+esc(T.gMore)+'</a></div>';
+  show('gas-body',h);
+}
+
+/* ---------- road & service notices from the news ---------- */
+function news(){
+  var ns=X.news||[];if(!ns.length){show('nws-body','');return;}
+  var h='<ul class="dn-nws">'+ns.map(function(a){return '<li><a href="'+(a.k?'news#story='+esc(a.k)+'"':esc(a.u)+'" target="_blank" rel="noopener"')+' data-ga="dn_news"><span class="dn-nt" lang="nl" translate="no">'+esc(a.t)+'</span><span class="dn-ns"><span translate="no">'+esc(a.s)+'</span>'+(a.n>2?' '+esc(tr(T.nwOut,{n:a.n-1})):a.n===2?' '+esc(T.nwOut1):'')+' · '+esc(ago(a.ts))+'</span></a></li>';}).join('')+'</ul>'
+    +'<p class="dn-src">'+esc(T.nwSrc)+'</p>';
+  show('nws-body',h);
+}
+
+/* ---------- customs rate + maximum prices ---------- */
+function gov(){
+  var k=X.dk,m=X.mp,h='';
+  if(k&&k.usd){var arr=function(c,p){if(!p||c===p)return '';return ' <span class="'+(c>p?'dn-up':'dn-dn')+'">'+(c>p?'▲':'▼')+'</span>';};
+    h+='<p class="dn-kick">'+esc(T.dkH)+'</p><div class="dn-rates"><div><span>USD</span><strong translate="no">'+num(k.usd)+arr(k.usd,k.pusd)+'</strong></div><div><span>EUR</span><strong translate="no">'+num(k.eur)+arr(k.eur,k.peur)+'</strong></div></div>'
+      +'<p class="dn-line dn-mute">'+esc(tr(T.dkFrom,{d:longD(k.from)}))+' · <a href="currency#douanekoers" class="dn-lnk">'+esc(T.dkMore)+' →</a></p>';}
+  if(m&&m.changed){h+='<p class="dn-kick dn-kick2">'+esc(T.mpH)+'</p><p class="dn-line">'+esc(tr(T.mpUpd,{d:longD(m.changed)}))+' · <a href="'+esc(LANG==='nl'?m.nl:m.en)+'" target="_blank" rel="noopener" class="dn-lnk">'+esc(T.mpMore)+' →</a></p>';}
+  show('gov-body',h);
+}
+
+function all(){try{holidays();}catch(e){}try{tides();}catch(e){}try{gas();}catch(e){}try{news();}catch(e){}try{gov();}catch(e){}}
+all();
+setInterval(function(){if(!D.hidden){try{tides();}catch(e){}try{gas();}catch(e){}}},60000);
 })();
 </script>"""
 
@@ -15179,6 +15329,211 @@ _DN_QPH = {"nl": "Typ je straat, bijv. Jan Steenstraat", "es": "Escribe tu calle
            "pt": "Digite sua rua, ex.: Jan Steenstraat"}
 
 
+_DN_BREAKS = {"Christmas break": {"zh": "圣诞假期", "fr": "Vacances de Noël", "pt": "Férias de Natal"},
+              "Easter break": {"zh": "复活节假期", "fr": "Vacances de Pâques", "pt": "Férias de Páscoa"},
+              "Pentecost break": {"zh": "圣灵降临节假期", "fr": "Vacances de Pentecôte", "pt": "Férias de Pentecôte"},
+              "Summer break": {}}
+# Headlines that are notices: closures, diversions, utility interruptions, school days off.
+# Phrases only (a bare "gesloten" also matches "akkoord gesloten").
+_DN_NEWS_RX = re.compile(
+    r"\b(?:afgesloten|afsluiting|wegafsluiting|stremming|gestremd|omleiding|omgeleid|geen water|lage waterdruk|"
+    r"waterdruk|waterstoring|watertoevoer|stroomuitval|stroomstoring|stroomonderbreking|black-?out|zonder stroom|"
+    r"zonder water|spanningsuitval|veerdienst|pontveer|schoolvrij|lesvrij|scholen dicht|scholen gesloten|"
+    r"geen dienstverlening|buiten gebruik|netwerkstoring|internetstoring|storing bij)\b", re.I)
+
+
+def _dn_tr_names():
+    try:
+        with open("translations.json", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _dn_names(en, nl, cache, extra=None):
+    o = {"en": en, "nl": nl or en}
+    c = cache.get(en) or {}
+    for l in ("es", "zh", "fr", "pt"):
+        v = (extra or {}).get(l) or c.get(l)
+        if v:
+            o[l] = v
+    if c.get("nl") and not nl:
+        o["nl"] = c["nl"]
+    return o
+
+
+def _dn_data():
+    """Everything the v3 cards need, computed at build time (window.DN_DATA).
+    Every part is optional: a failure or stale source drops only that card."""
+    out = {}
+    now = datetime.now(SR_TZ)
+    today = now.strftime("%Y-%m-%d")
+    cache = _dn_tr_names()
+    # holidays + school breaks
+    try:
+        hols, _until, _inc = _time_holidays()
+        base = {}
+        try:
+            with open("data/holidays.json", encoding="utf-8") as f:
+                base = json.load(f)
+        except Exception:
+            pass
+        var = {h.get("date") for h in base.get("public", []) if "*" in (h.get("note") or "") and "islam" in (h.get("note") or "").lower()}
+        out["hol"] = [{"d": h["d"], "n": _dn_names(h["en"], h["nl"], cache), **({"v": 1} if h["d"] in var else {})}
+                      for h in hols if h["d"] >= today][:4]
+        out["school"] = [{"s": b["start"], "e": b["end"],
+                          "n": _dn_names(b["name"], "", cache, _DN_BREAKS.get(b["name"]))}
+                         for b in base.get("school_breaks", []) if b.get("end", "") >= today][:2]
+    except Exception:
+        pass
+    # tides, Suriname River at Paramaribo (same model + spring rule as the weather page)
+    try:
+        from tide_harmonics import TIDE_MODELS, _extremes
+        m = TIDE_MODELS["suriname"]
+        mid = datetime(now.year, now.month, now.day, tzinfo=SR_TZ).astimezone(timezone.utc)
+        ex = _extremes(m, mid, days=2, step_min=2)
+        yr = _extremes(m, datetime.now(timezone.utc) - timedelta(hours=3), days=365, step_min=6)
+        by = {}
+        for e in yr:
+            if e["type"] == "High":
+                d = datetime.fromtimestamp(e["dt"], SR_TZ).date().isoformat()
+                by[d] = max(by.get(d, 0.0), e["height"])
+        vals = sorted(by.values())
+        p90 = vals[int(len(vals) * 0.9)] if vals else 99
+        spring = [d for d, h in sorted(by.items())[:8] if h >= p90]
+        out["tide"] = {"ex": [[e["dt"], "H" if e["type"] == "High" else "L", round(e["height"], 2)] for e in ex],
+                       "spring": spring}
+    except Exception:
+        pass
+    # cooking gas
+    try:
+        g = {"deliv": {str(wd): areas for wd, _d, areas in _GAS_DELIVERY},
+             "wk": [[n, ph, a] for n, ph, a in _GAS_WEEKEND], "wa": _GAS_ORDER_WA}
+        try:
+            with open("data/gas_info.json", encoding="utf-8") as f:
+                gi = json.load(f)
+            pr = gi.get("prices") or {}
+            if pr.get("20") and pr.get("28"):
+                g["p20"], g["p28"] = pr["20"], pr["28"]
+        except Exception:
+            pass
+        out["gas"] = g
+    except Exception:
+        pass
+    # road & service notices from the local news (news archive keeps 4 days)
+    try:
+        rows = json.loads(NEWS_ARCHIVE_PATH.read_text(encoding="utf-8"))
+        cut = datetime.now(timezone.utc) - timedelta(days=4)
+        hits = []
+        for r in rows:
+            t = (r.get("title") or "").strip()
+            try:
+                ts = datetime.fromisoformat(r.get("date"))
+            except Exception:
+                continue
+            if ts.tzinfo is None:
+                ts = ts.replace(tzinfo=timezone.utc)
+            if ts < cut or not _DN_NEWS_RX.search(t):
+                continue
+            hits.append((ts, t, r))
+        hits.sort(key=lambda x: x[0], reverse=True)
+        stop = {"de", "het", "een", "en", "van", "in", "op", "voor", "met", "aan", "naar", "bij", "door", "is", "wordt", "worden"}
+        def words(t):
+            return {w for w in re.findall(r"[a-zà-ÿ0-9]{3,}", t.lower()) if w not in stop}
+        groups = []
+        for ts, t, r in hits:
+            w = words(t)
+            for gp in groups:
+                inter = len(w & gp["w"])
+                if inter >= 3 or (w and inter / max(1, min(len(w), len(gp["w"]))) >= 0.5):
+                    gp["n"] += 1
+                    if r.get("source") and r.get("source") not in gp["src"]:
+                        gp["src"].append(r.get("source"))
+                    gp["keys"].append(_nw_story_key(r.get("link")))
+                    break
+            else:
+                u = _feed_url(r.get("link"))
+                if u and u != "#":
+                    groups.append({"w": w, "t": t, "s": r.get("source") or "", "ts": ts.isoformat(), "u": u, "n": 1,
+                                   "src": [r.get("source")], "keys": [_nw_story_key(r.get("link"))]})
+        nws = []
+        for gp in groups[:6]:
+            row = {"t": gp["t"], "s": gp["s"], "ts": gp["ts"], "n": len(gp["src"])}
+            k = next((x for x in gp["keys"] if x and x in _NW_SEEN_KEYS), "")
+            if k:
+                row["k"] = k
+            else:
+                row["u"] = gp["u"]
+            nws.append(row)
+        out["news"] = nws
+    except Exception:
+        pass
+    # customs rate + maximum prices
+    try:
+        with open("data/douanekoers.json", encoding="utf-8") as f:
+            dk = json.load(f)
+        cur, prev = dk.get("current") or {}, dk.get("previous") or {}
+        r = {x.get("code"): x.get("rate") for x in cur.get("rates", [])}
+        pr = {x.get("code"): x.get("rate") for x in (prev.get("rates") or [])}
+        if r.get("USD") and r.get("EUR") and cur.get("valid_from"):
+            out["dk"] = {"from": cur["valid_from"], "usd": r["USD"], "eur": r["EUR"],
+                         "pusd": pr.get("USD"), "peur": pr.get("EUR")}
+    except Exception:
+        pass
+    try:
+        with open("data/max_prices.json", encoding="utf-8") as f:
+            mp = json.load(f)
+        ch = (mp.get(mp.get("show") or "") or {}).get("changed")
+        if ch:
+            out["mp"] = {"changed": ch, "en": "https://surinamebusiness.com/en/maximum-prices-basic-goods",
+                         "nl": "https://surinamebusiness.com/maximumprijzen-basisgoederen"}
+    except Exception:
+        pass
+    return out
+
+
+_DN_IC = {
+    "bolt": '<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/>',
+    "drop": '<path d="M12 2.7S5.5 10 5.5 14.5a6.5 6.5 0 0 0 13 0C18.5 10 12 2.7 12 2.7z"/>',
+    "news": '<path d="M4 5h13v14H6a2 2 0 0 1-2-2V5z"/><path d="M17 9h3v8a2 2 0 0 1-2 2"/><path d="M7.5 9h6M7.5 12.5h6M7.5 16h4"/>',
+    "cross": '<path d="M9.5 3.5h5v6h6v5h-6v6h-5v-6h-6v-5h6z"/>',
+    "flame": '<path d="M12 21.5c4 0 6.5-2.6 6.5-6.2 0-3.9-3-6.3-4.2-9.8-2.6 1.6-3.7 4.3-3.6 6.6-1.2-.6-2-2-2.2-3.3C6.7 10.6 5.5 12.8 5.5 15.3c0 3.6 2.5 6.2 6.5 6.2z"/>',
+    "wave": '<path d="M2 9c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2M2 15c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"/>',
+    "film": '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/>',
+    "cal": '<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+    "doc": '<path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h5"/>',
+}
+
+
+def _dn_ic(k):
+    return ('<span class="dn-ic dn-ic-' + k + '" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+            'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + _DN_IC[k] + '</svg></span>')
+
+
+def _dn_card(cid, icon, title, sub, body_id, hidden=True):
+    """Shell for a JS-filled v3 card. title/sub are (english, {lang: text})."""
+    return (f'<section class="widget-card dn-card" id="{cid}"' + (' hidden' if hidden else '') + '>'
+            '<div class="widget-head"><div class="dn-hd">' + _dn_ic(icon) + '<div>'
+            f"<h2 class=\"widget-title\" translate=\"no\" data-l10n='{_dn_static_l10n(title[1])}'>{title[0]}</h2>"
+            f"<p class=\"widget-sub\" translate=\"no\" data-l10n='{_dn_static_l10n(sub[1])}'>{sub[0]}</p>"
+            '</div></div></div>'
+            f'<div id="{body_id}" class="widget-body"></div></section>')
+
+
+_DN_T = {
+    "nws": (("Road & service notices", {"nl": "Afsluitingen en storingen", "es": "Cierres y avisos de servicio", "zh": "封路与服务通知", "fr": "Fermetures et avis de service", "pt": "Interdições e avisos de serviço"}),
+            ("From the local news", {"nl": "Uit het lokale nieuws", "es": "De las noticias locales", "zh": "来自本地新闻", "fr": "D’après l’actualité locale", "pt": "Do noticiário local"})),
+    "gas": (("Cooking gas today", {"nl": "Kookgas vandaag", "es": "Gas de cocina hoy", "zh": "今日煤气", "fr": "Gaz de cuisine aujourd’hui", "pt": "Gás de cozinha hoje"}),
+            ("Ogane deliveries and refill prices", {"nl": "Bezorging door Ogane en hervulprijzen", "es": "Reparto de Ogane y precios de recarga", "zh": "Ogane配送和换气价格", "fr": "Livraisons Ogane et prix de recharge", "pt": "Entregas da Ogane e preços de recarga"})),
+    "tide": (("Tides in Paramaribo", {"nl": "Getijden in Paramaribo", "es": "Mareas en Paramaribo", "zh": "帕拉马里博潮汐", "fr": "Marées à Paramaribo", "pt": "Marés em Paramaribo"}),
+             ("Suriname River, high and low water", {"nl": "Surinamerivier, hoog- en laagwater", "es": "Río Surinam, marea alta y baja", "zh": "苏里南河高潮与低潮", "fr": "Fleuve Suriname, pleine et basse mer", "pt": "Rio Suriname, maré alta e baixa"})),
+    "hol": (("Holidays & school breaks", {"nl": "Feestdagen en schoolvakanties", "es": "Festivos y vacaciones escolares", "zh": "公共假日与学校假期", "fr": "Jours fériés et vacances scolaires", "pt": "Feriados e férias escolares"}),
+            ("Days off coming up", {"nl": "Vrije dagen die eraan komen", "es": "Próximos días libres", "zh": "即将到来的休息日", "fr": "Prochains jours de congé", "pt": "Próximos dias de folga"})),
+    "gov": (("Customs rate & maximum prices", {"nl": "Douanekoers en maximumprijzen", "es": "Cambio aduanero y precios máximos", "zh": "海关汇率与最高限价", "fr": "Taux douanier et prix maximums", "pt": "Câmbio aduaneiro e preços máximos"}),
+            ("Set by the government", {"nl": "Vastgesteld door de overheid", "es": "Fijados por el gobierno", "zh": "由政府规定", "fr": "Fixés par l’État", "pt": "Definidos pelo governo"})),
+}
+
+
 def build_today_page():
     """Suriname Today — daily essentials: wachtdienst, SWM, EBS outages, TBL cinema showtimes. Holidays live on events.html."""
     today_str = datetime.now(SR_TZ).strftime("%A, %d %B %Y")
@@ -15236,6 +15591,10 @@ def build_today_page():
     if not _tbl_rows:
         _tbl_rows = '<div class="skeleton" style="width:65%"></div><div class="skeleton" style="width:80%"></div><div class="skeleton" style="width:55%"></div>'
     _dn_i18n = json.dumps(_DN_I18N, ensure_ascii=False, separators=(",", ":"))
+    try:
+        _dn_data_js = _ld_safe(json.dumps(_dn_data(), ensure_ascii=False, separators=(",", ":")))
+    except Exception:
+        _dn_data_js = "{}"
     _ebs_rows = _dn_ebs_static() or ('<div class="skeleton" style="width:60%"></div>'
                                      '<div class="skeleton" style="width:75%"></div>'
                                      '<div class="skeleton" style="width:50%"></div>')
@@ -15312,6 +15671,66 @@ def build_today_page():
     .dn-sold {{ font-weight:700; font-size:.7rem; color:#b91c1c; min-width:3rem; text-transform:uppercase; }}
     .dn-acts {{ display:flex; gap:1rem; }}
     .dn-map {{ color:#0b7fb5 !important; }}
+    /* v3 board (5 Nov 2026): masonry columns, so cards of different height leave no holes */
+    .dn-board {{ display:flex; flex-direction:column; gap:1.25rem; }}
+    .dn-stack {{ display:contents; }}
+    .dn-board .widget-card[hidden] {{ display:none; }}
+    #ebs {{ order:1; }} #swm {{ order:2; }} #wacht {{ order:3; }} #nws {{ order:4; }} #gas {{ order:5; }}
+    #tide {{ order:6; }} #hol {{ order:7; }} #tbl {{ order:8; }} #gov {{ order:9; }}
+    @media (min-width:768px) {{
+      .dn-board {{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:start; }}
+      .dn-stack {{ display:flex; flex-direction:column; gap:1.25rem; min-width:0; }}
+    }}
+    .dn-hd {{ display:flex; align-items:center; gap:.75rem; min-width:0; }}
+    .dn-ic {{ flex:none; width:2.25rem; height:2.25rem; border-radius:10px; display:flex; align-items:center; justify-content:center; background:#eef3ec; color:var(--forest); }}
+    .dn-ic svg {{ width:1.2rem; height:1.2rem; }}
+    .dn-ic-bolt {{ background:#fff3d6; color:#a15c07; }} .dn-ic-drop {{ background:#e3f1fb; color:#0b6aa2; }}
+    .dn-ic-cross {{ background:#fde8e6; color:#b42318; }} .dn-ic-flame {{ background:#fdeee2; color:#c2410c; }}
+    .dn-ic-wave {{ background:#e3f1fb; color:#0b6aa2; }} .dn-ic-film {{ background:#efe9f8; color:#6b3fa0; }}
+    .dn-ic-news {{ background:#f1efe8; color:#57534e; }} .dn-ic-cal {{ background:#eef3ec; color:var(--forest); }}
+    .dn-ic-doc {{ background:#f1efe8; color:#57534e; }}
+    h2.widget-title {{ margin:0; }} p.widget-sub {{ margin:0; }}
+    .dn-banner {{ display:flex; align-items:center; gap:.85rem; background:#fff4dc; border:1px solid #f3dca8; border-radius:var(--r-card); padding:.85rem 1rem; margin:0 0 1.25rem; }}
+    .dn-banner p {{ margin:0; font-size:.92rem; font-weight:600; color:#6b4204; line-height:1.4; }}
+    .dn-banner .dn-ic {{ background:#ffe7b3; color:#a15c07; }}
+    .dn-kick {{ font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#8a8f86; margin:0 0 .3rem; }}
+    .dn-kick2 {{ margin-top:1rem; }}
+    .dn-big {{ font-family:var(--serif, Georgia, serif); font-size:1.35rem; font-weight:700; color:var(--ink); line-height:1.2; margin:0 0 .2rem; }}
+    .dn-line {{ font-size:.84rem; color:var(--ink); margin:.15rem 0 0; line-height:1.45; }}
+    .dn-mute {{ color:#8a8f86; font-weight:400; }}
+    .dn-src {{ font-size:.72rem; color:#8B8676; margin:.9rem 0 0; line-height:1.45; }}
+    .dn-lnk {{ color:var(--forest2); font-weight:700; text-decoration:none; white-space:nowrap; }}
+    .dn-lnk:hover {{ text-decoration:underline; }}
+    .dn-warn {{ font-size:.8rem; line-height:1.45; color:#7a4a05; background:#fff4dc; border:1px solid #f3dca8; border-radius:8px; padding:.55rem .7rem; margin:.85rem 0 0; }}
+    .dn-ul {{ list-style:none; padding:0; margin:0; }}
+    .dn-ul li {{ display:flex; justify-content:space-between; gap:.75rem; padding:.45rem 0; border-top:1px solid #f3f4f6; font-size:.84rem; }}
+    .dn-ul li:first-child {{ border-top:0; }}
+    .dn-ul a {{ color:var(--forest2); font-weight:600; text-decoration:none; white-space:nowrap; }}
+    .dn-areas {{ font-size:.86rem; line-height:1.5; color:var(--ink); margin:0; }}
+    .dn-btns1 {{ margin-top:1rem; }}
+    #gas .dn-areas + .dn-line, #gas .dn-ul + .dn-line {{ margin-top:.8rem; }}
+    .dn-tides {{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.4rem; }}
+    .dn-tc {{ border:1px solid #e6eef2; border-radius:8px; padding:.45rem .5rem; display:flex; flex-direction:column; gap:.05rem; background:#f7fbfd; }}
+    .dn-tc.lo {{ background:#fbfaf7; border-color:#efe9dd; }}
+    .dn-tc.past {{ opacity:.45; }}
+    .dn-tc.nx {{ border-color:#0b6aa2; box-shadow:0 0 0 1px #0b6aa2 inset; }}
+    .dn-tk {{ font-size:.62rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:#0b6aa2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }}
+    .dn-tc.lo .dn-tk {{ color:#8a6d3b; }}
+    .dn-tt {{ font-size:1rem; font-weight:700; color:var(--ink); font-variant-numeric:tabular-nums; }}
+    .dn-th {{ font-size:.72rem; color:#6b7280; font-variant-numeric:tabular-nums; }}
+    .dn-tide-next {{ font-size:1.15rem; }}
+    .dn-nws {{ list-style:none; padding:0; margin:0; }}
+    .dn-nws li {{ border-top:1px solid #f3f4f6; }} .dn-nws li:first-child {{ border-top:0; }}
+    .dn-nws a {{ display:block; padding:.6rem 0; text-decoration:none; color:var(--ink); }}
+    .dn-nws a:hover .dn-nt {{ text-decoration:underline; }}
+    .dn-nt {{ display:block; font-weight:600; font-size:.88rem; line-height:1.35; }}
+    .dn-ns {{ display:block; font-size:.72rem; color:#8a8f86; margin-top:.15rem; }}
+    .dn-rates {{ display:grid; grid-template-columns:1fr 1fr; gap:.5rem; }}
+    .dn-rates div {{ border:1px solid #efe9dd; border-radius:8px; padding:.5rem .7rem; background:#fbfaf7; }}
+    .dn-rates div > span {{ display:block; font-size:.68rem; font-weight:800; letter-spacing:.1em; color:#8a8f86; }}
+    .dn-rates strong {{ font-size:1.2rem; font-variant-numeric:tabular-nums; color:var(--ink); }}
+    .dn-up {{ color:#b42318; font-size:.7rem; }} .dn-dn {{ color:#166534; font-size:.7rem; }}
+    @media (max-width:380px) {{ .dn-tides {{ grid-template-columns:repeat(2,minmax(0,1fr)); }} .dn-btns {{ grid-template-columns:1fr; }} }}
     .dn-end {{ font-size:.66rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#6b7280; background:#f1f1ee; border-radius:4px; padding:.1rem .4rem; }}
     .outage-row.past {{ opacity:.55; }}
     .dn-links {{ display:flex; flex-wrap:wrap; gap:.35rem 1rem; margin-top:.45rem; }}
@@ -15350,12 +15769,14 @@ def build_today_page():
 
 <main class="max-w-4xl mx-auto px-4 py-10 pb-24">
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
+  <div id="dn-hol-banner" class="dn-banner" role="status" hidden>{_dn_ic('cal')}<p></p></div>
+
+  <div class="dn-board"><div class="dn-stack">
 
     <!-- ── EBS POWER ─────────────────── -->
     <div class="widget-card" id="ebs">
       <div class="widget-head">
-        <div class="flex items-center">
+        <div class="dn-hd">{_dn_ic('bolt')}
           <div>
             <div class="widget-title">EBS Power Outages</div>
             <div class="widget-sub">Planned &amp; active interruptions</div>
@@ -15374,7 +15795,7 @@ def build_today_page():
     <!-- ── SWM WATER ─────────────────── -->
     <div class="widget-card" id="swm">
       <div class="widget-head">
-        <div class="flex items-center">
+        <div class="dn-hd">{_dn_ic('drop')}
           <div>
             <div class="widget-title">SWM Water Outages</div>
             <div class="widget-sub">Active outages &amp; planned maintenance</div>
@@ -15389,29 +15810,19 @@ def build_today_page():
       </div>
     </div>
 
-  </div><!-- /status grid -->
+    {_dn_card('nws', 'news', *_DN_T['nws'], 'nws-body')}
 
-  <!-- Reference lists: flat on the paper (15 Oct 2026) -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 items-start">
+    {_dn_card('hol', 'cal', *_DN_T['hol'], 'hol-body')}
 
-    <!-- ── TBL CINEMAS ────────────────── -->
-    <div class="widget-card" id="tbl">
-      <div class="widget-head">
-        <div class="flex items-center">
-          <div>
-            <div class="widget-title">Now Showing</div>
-            <div class="widget-sub">Today at TBL Cinemas</div>
-          </div>
-        </div>
-        <span id="tbl-upd" class="upd-badge"></span>
-      </div>
-      <div id="tbl-body" class="widget-body">{_tbl_rows}</div>
-    </div>
+    {_dn_card('gov', 'doc', *_DN_T['gov'], 'gov-body')}
+
+  </div><!-- /left stack -->
+  <div class="dn-stack">
 
     <!-- ── ON-CALL SERVICE ────────────────── -->
     <div class="widget-card" id="wacht">
       <div class="widget-head">
-        <div class="flex items-center">
+        <div class="dn-hd">{_dn_ic('cross')}
           <div>
             <div class="widget-title">On-Call Service</div>
             <div class="widget-sub">Doctors &amp; pharmacies on call</div>
@@ -15431,23 +15842,34 @@ def build_today_page():
       </div>
     </div>
 
-  </div><!-- /grid -->
+    {_dn_card('gas', 'flame', *_DN_T['gas'], 'gas-body')}
 
-  <!-- Gas Cylinder Finder link (26 Oct 2026) -->
-  <a href="gas-cylinders.html" class="dn-gas">
-    <span class="dn-gas-t">Cooking gas</span>
-    <span class="dn-gas-s">Nearest sale point for 20 and 28 lbs cylinders, refill prices and Ogane delivery days</span>
-    <span class="dn-gas-a" aria-hidden="true">&rarr;</span>
-  </a>
-  <style>.dn-gas{{display:grid;grid-template-columns:1fr auto;column-gap:1rem;align-items:center;margin-top:1.25rem;padding:1rem 1.15rem;background:var(--card);border:1px solid var(--bd-card);border-radius:var(--r-card);box-shadow:var(--sh-card);color:var(--ink)}}
-  .dn-gas:hover{{border-color:var(--forest2)}}.dn-gas-t{{font-weight:700;color:var(--forest)}}.dn-gas-s{{grid-column:1;font-size:.85rem;color:var(--ink-soft)}}
-  .dn-gas-a{{grid-column:2;grid-row:1/3;font-size:1.2rem;color:var(--forest2)}}</style>
+    {_dn_card('tide', 'wave', *_DN_T['tide'], 'tide-body')}
+
+    <!-- ── TBL CINEMAS ────────────────── -->
+    <div class="widget-card" id="tbl">
+      <div class="widget-head">
+        <div class="dn-hd">{_dn_ic('film')}
+          <div>
+            <div class="widget-title">Now Showing</div>
+            <div class="widget-sub">Today at TBL Cinemas</div>
+          </div>
+        </div>
+        <span id="tbl-upd" class="upd-badge"></span>
+      </div>
+      <div id="tbl-body" class="widget-body">{_tbl_rows}</div>
+    </div>
+
+  </div><!-- /right stack -->
+  </div><!-- /board -->
 
   <!-- source attribution -->
   <p class="text-center text-gray-300 text-xs mt-10">
     Sources: <a href="http://www.rgd.sr/nl/zorg-aanbod/wachtdienst" target="_blank" rel="noopener" class="src-link">RGD Suriname</a> &bull;
     <a href="https://swm.sr/storing-onderhoud/" target="_blank" rel="noopener" class="src-link">SWM</a> &bull;
-    <a href="https://nvebs.com/elektriciteit/stroom-onderbrekingen" target="_blank" rel="noopener" class="src-link">EBS</a>
+    <a href="https://nvebs.com/elektriciteit/stroom-onderbrekingen" target="_blank" rel="noopener" class="src-link">EBS</a> &bull;
+    <a href="https://www.tblcinemas.com/films/dagschema" target="_blank" rel="noopener" class="src-link" translate="no">TBL Cinemas</a> &bull;
+    <a href="https://www.cbvs.sr" target="_blank" rel="noopener" class="src-link" translate="no">CBvS</a>
   </p>
 
 </main>
@@ -15457,8 +15879,9 @@ def build_today_page():
 
 {footer_html()}
 
-<script>window.DN_I18N={_dn_i18n};</script>
+<script>window.DN_I18N={_dn_i18n};window.DN_DATA={_dn_data_js};</script>
 {_DN_JS}
+{_DN_JS2}
 </body>
 </html>"""
 
