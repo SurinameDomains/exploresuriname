@@ -201,7 +201,7 @@
 <div class="two">
 <div class="fld">
 <label for="f-time_text">Hora</label>
-<input id="f-time_text" maxlength="60" name="time_text" placeholder="e.g. 20:00 until late" type="text"/>
+<input id="f-time_text" maxlength="60" name="time_text" placeholder="p. ej., 20:00 hasta tarde" type="text"/>
 </div>
 <div class="fld">
 <label for="f-category">Tipo de evento <span class="req">*</span></label>
@@ -213,7 +213,7 @@
 </div>
 <div class="fld">
 <label for="f-venue">Lugar <span class="req">*</span></label>
-<input id="f-venue" maxlength="160" name="venue" placeholder="e.g. Onafhankelijkheidsplein" type="text"/>
+<input id="f-venue" maxlength="160" name="venue" placeholder="p. ej., Onafhankelijkheidsplein" type="text"/>
 </div>
 <div class="two">
 <div class="fld">
@@ -225,7 +225,7 @@
 </div>
 <div class="fld">
 <label for="f-price">Precio de entrada</label>
-<input id="f-price" maxlength="60" name="price" placeholder="e.g. SRD 250 at the door" type="text"/>
+<input id="f-price" maxlength="60" name="price" placeholder="p. ej., SRD 250 en la puerta" type="text"/>
 </div>
 </div>
 <label class="flex items-start gap-3 text-sm text-gray-700 cursor-pointer mb-5">
@@ -235,7 +235,7 @@
 <div class="two">
 <div class="fld">
 <label for="f-website">Enlace de entradas o información</label>
-<input id="f-website" maxlength="300" name="website" placeholder="Website, Facebook or Instagram post" type="text"/>
+<input id="f-website" maxlength="300" name="website" placeholder="Sitio web, publicación de Facebook o Instagram" type="text"/>
 </div>
 <div class="fld">
 <label for="f-organizer">Organizador</label>
@@ -244,7 +244,7 @@
 </div>
 <div class="fld">
 <label for="f-blurb">Describe el evento <span class="req">*</span></label>
-<textarea id="f-blurb" maxlength="1200" name="blurb" placeholder="What happens, who it is for, who is playing or performing, what to expect. Two or three sentences is plenty." required=""></textarea>
+<textarea id="f-blurb" maxlength="1200" name="blurb" placeholder="Qué pasa, para quién es, quién toca o actúa y qué esperar. Con dos o tres frases basta." required=""></textarea>
 <div class="hint"><span id="cnt">0</span> de 1200 caracteres. Mínimo 20.</div>
 </div>
 <h2 class="serif text-xl font-bold text-gray-900 mt-9 mb-5">Tú</h2>
@@ -404,6 +404,131 @@
   var $ = function(i){return document.getElementById(i)};
   var frm = $("frm"), photo = null;
 
+  // Messages for the flyer check, in the page's language.
+  var LANG = String(document.documentElement.lang || "en").slice(0, 2).toLowerCase();
+  var TX = {
+    noread: {en: "We could not open that image. Please choose it again.",
+             nl: "We konden die afbeelding niet openen. Kies hem opnieuw.",
+             es: "No pudimos abrir esa imagen. Elígela de nuevo.",
+             zh: "无法打开这张图片，请重新选择。",
+             fr: "Nous n’avons pas pu ouvrir cette image. Choisissez-la à nouveau.",
+             pt: "Não conseguimos abrir essa imagem. Escolha-a novamente."},
+    nofly:  {en: "No flyer is attached. Events with a flyer get far more attention. Send without a flyer anyway?",
+             nl: "Er is geen flyer toegevoegd. Evenementen met een flyer vallen veel meer op. Toch versturen zonder flyer?",
+             es: "No hay ningún flyer adjunto. Los eventos con flyer llaman mucho más la atención. ¿Enviar de todos modos sin flyer?",
+             zh: "尚未添加海报。带海报的活动会获得更多关注。仍然不带海报提交吗？",
+             fr: "Aucune affiche n’est jointe. Les événements avec une affiche attirent bien plus l’attention. Envoyer quand même sans affiche ?",
+             pt: "Nenhum flyer foi anexado. Eventos com flyer chamam muito mais atenção. Enviar mesmo assim sem flyer?"},
+    addit:  {en: "Add the flyer at the top of the form, then press the button again.",
+             nl: "Voeg de flyer bovenaan het formulier toe en druk dan opnieuw op de knop.",
+             es: "Añade el flyer arriba del formulario y vuelve a pulsar el botón.",
+             zh: "请在表单顶部添加海报，然后再次点击按钮。",
+             fr: "Ajoutez l’affiche en haut du formulaire, puis appuyez de nouveau sur le bouton.",
+             pt: "Adicione o flyer no topo do formulário e toque no botão novamente."},
+    dows:   {en: "Mon,Tue,Wed,Thu,Fri,Sat,Sun", nl: "ma,di,wo,do,vr,za,zo", es: "lu,ma,mi,ju,vi,sá,do",
+             zh: "周一,周二,周三,周四,周五,周六,周日", fr: "lun,mar,mer,jeu,ven,sam,dim", pt: "seg,ter,qua,qui,sex,sáb,dom"},
+    since:  {en: "Running since", nl: "Loopt sinds", es: "En marcha desde", zh: "开始举办日期", fr: "Depuis le", pt: "Acontece desde"},
+    first:  {en: "First day", nl: "Eerste dag", es: "Primer día", zh: "第一天", fr: "Premier jour", pt: "Primeiro dia"},
+    badtype:{en: "The flyer must be a JPG, PNG or WebP file.",
+             nl: "De flyer moet een JPG-, PNG- of WebP-bestand zijn.",
+             es: "El flyer debe ser un archivo JPG, PNG o WebP.",
+             zh: "海报必须是 JPG、PNG 或 WebP 文件。",
+             fr: "L’affiche doit être un fichier JPG, PNG ou WebP.",
+             pt: "O flyer precisa ser um arquivo JPG, PNG ou WebP."},
+    big:    {en: "The flyer must be under 5 MB.", nl: "De flyer moet kleiner zijn dan 5 MB.", es: "El flyer debe pesar menos de 5 MB.",
+             zh: "海报必须小于 5 MB。", fr: "L’affiche doit faire moins de 5 Mo.", pt: "O flyer precisa ter menos de 5 MB."},
+    other:  {en: "Click to choose a different image", nl: "Kies een andere afbeelding", es: "Elige otra imagen",
+             zh: "选择其他图片", fr: "Choisir une autre image", pt: "Escolher outra imagem"},
+    reading:{en: "Reading the flyer...", nl: "Flyer lezen…", es: "Leyendo el flyer…", zh: "正在读取海报…",
+             fr: "Lecture de l’affiche…", pt: "Lendo o flyer…"},
+    filled1:{en: "<strong>Filled in 1 field from your flyer.</strong> Check it before you send it, the date above all.",
+             nl: "<strong>1 veld ingevuld vanaf je flyer.</strong> Controleer het voor je verstuurt, vooral de datum.",
+             es: "<strong>Rellenamos 1 campo a partir de tu flyer.</strong> Revísalo antes de enviar, sobre todo la fecha.",
+             zh: "<strong>已根据海报填写 1 个字段。</strong>提交前请核对，尤其是日期。",
+             fr: "<strong>1 champ rempli à partir de votre affiche.</strong> Vérifiez-le avant d’envoyer, surtout la date.",
+             pt: "<strong>1 campo preenchido a partir do seu flyer.</strong> Confira antes de enviar, principalmente a data."},
+    filledN:{en: "<strong>Filled in {n} fields from your flyer.</strong> Check every one before you send it, the date above all.",
+             nl: "<strong>{n} velden ingevuld vanaf je flyer.</strong> Controleer ze allemaal voor je verstuurt, vooral de datum.",
+             es: "<strong>Rellenamos {n} campos a partir de tu flyer.</strong> Revísalos todos antes de enviar, sobre todo la fecha.",
+             zh: "<strong>已根据海报填写 {n} 个字段。</strong>提交前请逐一核对，尤其是日期。",
+             fr: "<strong>{n} champs remplis à partir de votre affiche.</strong> Vérifiez-les tous avant d’envoyer, surtout la date.",
+             pt: "<strong>{n} campos preenchidos a partir do seu flyer.</strong> Confira todos antes de enviar, principalmente a data."},
+    nothing:{en: "<strong>We could not get anything usable off that flyer.</strong> Please fill the form in below.",
+             nl: "<strong>We konden niets bruikbaars van die flyer halen.</strong> Vul het formulier hieronder in.",
+             es: "<strong>No pudimos sacar nada útil de ese flyer.</strong> Rellena el formulario de abajo.",
+             zh: "<strong>无法从这张海报中读取有用的信息。</strong>请在下方填写表单。",
+             fr: "<strong>Nous n’avons rien pu tirer d’utile de cette affiche.</strong> Remplissez le formulaire ci-dessous.",
+             pt: "<strong>Não conseguimos aproveitar nada desse flyer.</strong> Preencha o formulário abaixo."},
+    noverify:{en: "We could not verify your browser, so we did not read the flyer. Please fill the form in below.",
+             nl: "We konden je browser niet controleren, dus we hebben de flyer niet gelezen. Vul het formulier hieronder in.",
+             es: "No pudimos verificar tu navegador, así que no leímos el flyer. Rellena el formulario de abajo.",
+             zh: "无法验证你的浏览器，因此未读取海报。请在下方填写表单。",
+             fr: "Nous n’avons pas pu vérifier votre navigateur, l’affiche n’a donc pas été lue. Remplissez le formulaire ci-dessous.",
+             pt: "Não conseguimos verificar seu navegador, então não lemos o flyer. Preencha o formulário abaixo."},
+    noparse:{en: "We could not read the flyer. Please fill the form in below.",
+             nl: "We konden de flyer niet lezen. Vul het formulier hieronder in.",
+             es: "No pudimos leer el flyer. Rellena el formulario de abajo.",
+             zh: "无法读取这张海报。请在下方填写表单。",
+             fr: "Nous n’avons pas pu lire l’affiche. Remplissez le formulaire ci-dessous.",
+             pt: "Não conseguimos ler o flyer. Preencha o formulário abaixo."},
+    noreach:{en: "We could not reach the flyer reader. Please fill the form in below.",
+             nl: "De flyerlezer is nu niet bereikbaar. Vul het formulier hieronder in.",
+             es: "No pudimos conectar con el lector de flyers. Rellena el formulario de abajo.",
+             zh: "暂时无法连接海报识别服务。请在下方填写表单。",
+             fr: "Le lecteur d’affiches est injoignable pour le moment. Remplissez le formulaire ci-dessous.",
+             pt: "Não foi possível acessar o leitor de flyers. Preencha o formulário abaixo."},
+    v_name: {en: "Please enter the event name.", nl: "Vul de naam van het evenement in.", es: "Escribe el nombre del evento.",
+             zh: "请填写活动名称。", fr: "Indiquez le nom de l’événement.", pt: "Informe o nome do evento."},
+    v_since:{en: "Please pick the day the series started.", nl: "Kies de dag waarop de reeks begon.", es: "Elige el día en que empezó la serie.",
+             zh: "请选择这一系列活动开始的日期。", fr: "Choisissez le jour où la série a commencé.", pt: "Escolha o dia em que a série começou."},
+    v_first:{en: "Please pick the first day of the event.", nl: "Kies de eerste dag van het evenement.", es: "Elige el primer día del evento.",
+             zh: "请选择活动的第一天。", fr: "Choisissez le premier jour de l’événement.", pt: "Escolha o primeiro dia do evento."},
+    v_past: {en: "That date has already passed.", nl: "Die datum is al voorbij.", es: "Esa fecha ya pasó.",
+             zh: "这个日期已经过去了。", fr: "Cette date est déjà passée.", pt: "Essa data já passou."},
+    v_far:  {en: "That date is more than a year away. Send it closer to the time.",
+             nl: "Die datum is meer dan een jaar weg. Meld het dichter bij de datum aan.",
+             es: "Esa fecha está a más de un año. Envíalo cuando falte menos.",
+             zh: "这个日期在一年以后。请临近时再提交。",
+             fr: "Cette date est dans plus d’un an. Envoyez-la plus près de l’événement.",
+             pt: "Essa data está a mais de um ano. Envie mais perto da data."},
+    v_order:{en: "The last day cannot be before the first day.", nl: "De laatste dag kan niet voor de eerste dag liggen.",
+             es: "El último día no puede ser anterior al primero.", zh: "最后一天不能早于第一天。",
+             fr: "Le dernier jour ne peut pas précéder le premier.", pt: "O último dia não pode ser antes do primeiro."},
+    v_dow:  {en: "Please tick which day of the week it happens.", nl: "Kies op welke dag van de week het is.",
+             es: "Marca qué día de la semana se celebra.", zh: "请选择活动在每周的哪一天举行。",
+             fr: "Cochez le jour de la semaine où il a lieu.", pt: "Marque em que dia da semana acontece."},
+    v_ended:{en: "That series has already finished.", nl: "Die reeks is al afgelopen.", es: "Esa serie ya terminó.",
+             zh: "这一系列活动已经结束。", fr: "Cette série est déjà terminée.", pt: "Essa série já terminou."},
+    v_cat:  {en: "Please choose the type of event.", nl: "Kies het soort evenement.", es: "Elige el tipo de evento.",
+             zh: "请选择活动类型。", fr: "Choisissez le type d’événement.", pt: "Escolha o tipo de evento."},
+    v_venue:{en: "Please say where it happens.", nl: "Vul in waar het plaatsvindt.", es: "Indica dónde se celebra.",
+             zh: "请填写活动地点。", fr: "Indiquez où il a lieu.", pt: "Informe onde acontece."},
+    v_blurb:{en: "Please describe the event in a sentence or two.", nl: "Beschrijf het evenement in een of twee zinnen.",
+             es: "Describe el evento en una o dos frases.", zh: "请用一两句话介绍这个活动。",
+             fr: "Décrivez l’événement en une ou deux phrases.", pt: "Descreva o evento em uma ou duas frases."},
+    v_email:{en: "Please enter your email so we can reach you.", nl: "Vul je e-mailadres in, zodat we je kunnen bereiken.",
+             es: "Escribe tu correo electrónico para que podamos contactarte.", zh: "请填写你的电子邮箱，方便我们联系你。",
+             fr: "Indiquez votre adresse e-mail pour que nous puissions vous joindre.", pt: "Informe seu e-mail para podermos falar com você."},
+    sending:{en: "Sending...", nl: "Versturen…", es: "Enviando…", zh: "正在发送…", fr: "Envoi en cours…", pt: "Enviando…"},
+    verifying:{en: "Still verifying your browser. Give it a moment and press the button again.",
+             nl: "We controleren je browser nog. Wacht even en druk dan opnieuw op de knop.",
+             es: "Todavía estamos verificando tu navegador. Espera un momento y vuelve a pulsar el botón.",
+             zh: "仍在验证你的浏览器。请稍等片刻，然后再次点击按钮。",
+             fr: "Vérification de votre navigateur en cours. Patientez un instant, puis appuyez de nouveau sur le bouton.",
+             pt: "Ainda estamos verificando seu navegador. Aguarde um momento e toque no botão novamente."},
+    err:    {en: "Something went wrong. Please try again.", nl: "Er ging iets mis. Probeer het opnieuw.",
+             es: "Algo salió mal. Inténtalo de nuevo.", zh: "出了点问题，请重试。",
+             fr: "Une erreur s’est produite. Veuillez réessayer.", pt: "Algo deu errado. Tente novamente."},
+    offline:{en: "We could not reach the server. Check your connection and try again.",
+             nl: "We konden de server niet bereiken. Controleer je verbinding en probeer het opnieuw.",
+             es: "No pudimos conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.",
+             zh: "无法连接服务器。请检查网络后重试。",
+             fr: "Impossible de joindre le serveur. Vérifiez votre connexion et réessayez.",
+             pt: "Não conseguimos acessar o servidor. Verifique sua conexão e tente novamente."}
+  };
+  function F(k, n){ return T(k).replace("{n}", n); }
+  function T(k){ return (TX[k] && (TX[k][LANG] || TX[k].en)) || ""; }
+
   $("f-blurb").addEventListener("input", function(){ $("cnt").textContent = this.value.length; });
 
   // A free event has no price, and a price means it is not free. Keep the two
@@ -412,7 +537,7 @@
   $("f-price").addEventListener("input", function(){ if(this.value.trim()) $("f-free").checked = false; });
 
   // ── recurring series ──────────────────────────────────────────────────
-  var DOWS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  var DOWS = T("dows").split(",");
   var recSel = $("f-recur"), recBox = $("recurbox"), dows = $("dows"), rdays = $("f-recur_days");
   DOWS.forEach(function(nm, i){
     var b = document.createElement("button");
@@ -436,7 +561,7 @@
     $("nthfld").hidden = (r !== "monthly");
     $("endwrap").hidden = !!r;
     $("hint-start").hidden = !r;
-    $("lbl-start").innerHTML = (r ? "Running since" : "First day") + ' <span class="req">*</span>';
+    $("lbl-start").innerHTML = T(r ? "since" : "first") + ' <span class="req">*</span>';
     // A weekly night may have been running for years; a one-off may not be in
     // the past. Same field, two rules, so the browser constraint has to move.
     $("f-start_date").min = r ? "" : "2026-11-05";
@@ -453,15 +578,15 @@
   file.addEventListener("change", function(){ if(this.files[0]) take(this.files[0]); });
 
   function take(f){
-    if(!/^image\/(jpeg|png|webp)$/.test(f.type)){ say("The flyer must be a JPG, PNG or WebP file.", true); return; }
-    if(f.size > 5 * 1024 * 1024){ say("The flyer must be under 5 MB.", true); return; }
+    if(!/^image\/(jpeg|png|webp)$/.test(f.type)){ say(T("badtype"), true); return; }
+    if(f.size > 5 * 1024 * 1024){ say(T("big"), true); return; }
     keep(f).then(function(c){
       if(!c){ photo = null; say(T("noread"), true); return; }
       photo = c;
       var img = $("prev");
       img.src = URL.createObjectURL(c);
       img.hidden = false;
-      $("dropmsg").innerHTML = "<strong>" + c.name.replace(/[<>]/g, "") + "</strong><br>Click to choose a different image";
+      $("dropmsg").innerHTML = "<strong>" + c.name.replace(/[<>]/g, "") + "</strong><br>" + T("other");
       say("");
       readFlyer(c);
     });
@@ -490,29 +615,6 @@
     });
   }
 
-  // Messages for the flyer check, in the page's language.
-  var LANG = String(document.documentElement.lang || "en").slice(0, 2).toLowerCase();
-  var TX = {
-    noread: {en: "We could not open that image. Please choose it again.",
-             nl: "We konden die afbeelding niet openen. Kies hem opnieuw.",
-             es: "No pudimos abrir esa imagen. Elígela de nuevo.",
-             zh: "无法打开这张图片，请重新选择。",
-             fr: "Nous n’avons pas pu ouvrir cette image. Choisissez-la à nouveau.",
-             pt: "Não conseguimos abrir essa imagem. Escolha-a novamente."},
-    nofly:  {en: "No flyer is attached. Events with a flyer get far more attention. Send without a flyer anyway?",
-             nl: "Er is geen flyer toegevoegd. Evenementen met een flyer vallen veel meer op. Toch versturen zonder flyer?",
-             es: "No hay ningún flyer adjunto. Los eventos con flyer llaman mucho más la atención. ¿Enviar de todos modos sin flyer?",
-             zh: "尚未添加海报。带海报的活动会获得更多关注。仍然不带海报提交吗？",
-             fr: "Aucune affiche n’est jointe. Les événements avec une affiche attirent bien plus l’attention. Envoyer quand même sans affiche ?",
-             pt: "Nenhum flyer foi anexado. Eventos com flyer chamam muito mais atenção. Enviar mesmo assim sem flyer?"},
-    addit:  {en: "Add the flyer at the top of the form, then press the button again.",
-             nl: "Voeg de flyer bovenaan het formulier toe en druk dan opnieuw op de knop.",
-             es: "Añade el flyer arriba del formulario y vuelve a pulsar el botón.",
-             zh: "请在表单顶部添加海报，然后再次点击按钮。",
-             fr: "Ajoutez l’affiche en haut du formulaire, puis appuyez de nouveau sur le bouton.",
-             pt: "Adicione o flyer no topo do formulário e toque no botão novamente."}
-  };
-  function T(k){ return (TX[k] && (TX[k][LANG] || TX[k].en)) || ""; }
 
   // ── reading the flyer ─────────────────────────────────────────────────
   // The poster is resized to 1280px before it is sent: the model reads it just
@@ -612,22 +714,21 @@
     notes = notes ? "<ul>" + notes + "</ul>" : "";
 
     if(!n){
-      aiSay("bad", "<strong>We could not get anything usable off that flyer.</strong> Please fill the form in below." + notes);
+      aiSay("bad", T("nothing") + notes);
       return;
     }
     aiDone = true;
-    aiSay("ok", "<strong>Filled in " + n + " field" + (n === 1 ? "" : "s") + " from your flyer.</strong> "
-      + "Check every one before you send it, the date above all." + notes);
+    aiSay("ok", F(n === 1 ? "filled1" : "filledN", n) + notes);
   }
 
   async function readFlyer(f){
     if(aiBusy || aiDone) return;
     aiBusy = true;
-    aiSay("busy", "Reading the flyer...");
+    aiSay("busy", T("reading"));
     try{
       var tk = await token();
       if(!tk){
-        aiSay("bad", "We could not verify your browser, so we did not read the flyer. Please fill the form in below.");
+        aiSay("bad", T("noverify"));
         return;
       }
       var fd = new FormData();
@@ -637,14 +738,14 @@
       var j = await r.json();
       if(window.turnstile) window.turnstile.reset();      // that token is spent
       if(!j || j.err){
-        aiSay("bad", ((j && j.err) || "We could not read the flyer.") + " Please fill the form in below.");
+        aiSay("bad", (LANG === "en" && j && j.err) ? j.err + " Please fill the form in below." : T("noparse"));
         return;
       }
       if(window.gtag){ gtag("event", "flyer_read", {method: "ai"}); }
       apply(j);
     }catch(e){
       if(window.turnstile) window.turnstile.reset();
-      aiSay("bad", "We could not reach the flyer reader. Please fill the form in below.");
+      aiSay("bad", T("noreach"));
     }finally{
       aiBusy = false;
     }
@@ -658,22 +759,22 @@
 
   frm.addEventListener("submit", async function(e){
     e.preventDefault();
-    if($("f-name").value.trim().length < 3) return say("Please enter the event name.", true);
+    if($("f-name").value.trim().length < 3) return say(T("v_name"), true);
     var rec = recSel.value;
     var sd = $("f-start_date").value, ed = $("f-end_date").value;
     if(!/^\d{4}-\d{2}-\d{2}$/.test(sd))
-      return say(rec ? "Please pick the day the series started." : "Please pick the first day of the event.", true);
-    if(!rec && sd < "2026-11-05") return say("That date has already passed.", true);
-    if(sd > "2027-11-05") return say("That date is more than a year away. Send it closer to the time.", true);
-    if(!rec && ed && ed < sd) return say("The last day cannot be before the first day.", true);
-    if(rec && !rdays.value) return say("Please tick which day of the week it happens.", true);
+      return say(T(rec ? "v_since" : "v_first"), true);
+    if(!rec && sd < "2026-11-05") return say(T("v_past"), true);
+    if(sd > "2027-11-05") return say(T("v_far"), true);
+    if(!rec && ed && ed < sd) return say(T("v_order"), true);
+    if(rec && !rdays.value) return say(T("v_dow"), true);
     if(rec && $("f-recur_until").value && $("f-recur_until").value < "2026-11-05")
-      return say("That series has already finished.", true);
-    if(!$("f-category").value) return say("Please choose the type of event.", true);
-    if($("f-venue").value.trim().length < 2) return say("Please say where it happens.", true);
-    if($("f-blurb").value.trim().length < 20) return say("Please describe the event in a sentence or two.", true);
+      return say(T("v_ended"), true);
+    if(!$("f-category").value) return say(T("v_cat"), true);
+    if($("f-venue").value.trim().length < 2) return say(T("v_venue"), true);
+    if($("f-blurb").value.trim().length < 20) return say(T("v_blurb"), true);
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($("f-contact_email").value.trim()))
-      return say("Please enter your email so we can reach you.", true);
+      return say(T("v_email"), true);
 
     // No flyer at Send: never added, or lost (page reloaded, phone revoked the
     // file). Ask before sending without one instead of dropping it silently.
@@ -686,13 +787,13 @@
     }
 
     $("go").disabled = true;
-    say("Sending...");
+    say(T("sending"));
 
     // Reading the flyer spends the Turnstile token, so a fresh one may still be
     // on its way. Wait for it instead of bouncing a perfectly good submission.
     if(document.querySelector(".cf-turnstile") && !(await token(10000))){
       $("go").disabled = false;
-      return say("Still verifying your browser. Give it a moment and press the button again.", true);
+      return say(T("verifying"), true);
     }
 
     var fd = new FormData(frm);
@@ -707,9 +808,9 @@
         frm.hidden = true; $("done").hidden = false;
         window.scrollTo({top: 0, behavior: "smooth"}); return;
       }
-      say((j && j.err) || "Something went wrong. Please try again.", true);
+      say((LANG === "en" && j && j.err) || T("err"), true);
     }catch(err){
-      say("We could not reach the server. Check your connection and try again.", true);
+      say(T("offline"), true);
     }
     $("go").disabled = false;
     if(window.turnstile) window.turnstile.reset();
