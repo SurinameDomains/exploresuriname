@@ -339,7 +339,7 @@ for _sslug in [_x for _v in _SUB_BY_CAT.values() for _x in _v]:
 # Build never fails on backend trouble — it just ships without them.
 _EV_SUB_URL = "https://esr-leaderboard.surinamedomains.workers.dev/events/approved"
 EVENT_CATS = ["festival", "concert", "sports", "market", "cultural",
-              "food-drink", "nightlife", "family", "business", "community", "other"]
+              "food-drink", "nightlife", "family", "business", "workshop", "community", "other"]
 # Two label sets, because the same key reads differently in the two places it
 # appears. On an event card the category is a descriptive noun, so the catch-all
 # should read "Event". In the submission dropdown it is a choice among peers, so
@@ -348,10 +348,11 @@ EVENT_CAT_LABEL = {
     "festival": "Festival", "concert": "Concert", "sports": "Sports",
     "market": "Market & fair", "cultural": "Cultural", "food-drink": "Food & drink",
     "nightlife": "Nightlife", "family": "Family", "business": "Conference",
-    "community": "Community", "other": "Event",
+    "workshop": "Workshop", "community": "Community", "other": "Event",
 }
 EVENT_CAT_FORM_LABEL = dict(EVENT_CAT_LABEL, **{
     "business": "Conference or expo",
+    "workshop": "Workshop or class",
     "other": "Other",
 })
 _EVENT_SUBS: list = []
@@ -15706,11 +15707,13 @@ def build_events_page():
         ("nightlife", "Nightlife & parties"), ("music", "Concerts & live music"),
         ("culture", "Festivals & culture"), ("food", "Food & drink"),
         ("market", "Markets & fairs"), ("family", "Family"), ("sports", "Sports"),
-        ("business", "Business & expos"), ("holiday", "Public holidays"), ("other", "Other"),
+        ("business", "Business & expos"), ("workshop", "Workshops & classes"),
+        ("holiday", "Public holidays"), ("other", "Other"),
     ]
     _KEY_BUCKET = {"festival": "culture", "cultural": "culture", "concert": "music",
                    "nightlife": "nightlife", "food-drink": "food", "market": "market",
-                   "family": "family", "sports": "sports", "business": "business"}
+                   "family": "family", "sports": "sports", "business": "business",
+                   "workshop": "workshop"}
 
     def _bucket(ev):
         if ev.get("holiday"):
@@ -15721,6 +15724,7 @@ def build_events_page():
         for words, b in ((("party", "club", "bollywood", "house", "soca", "dj"), "nightlife"),
                          (("jazz", "concert", "music"), "music"),
                          (("expo", "conference", "business"), "business"),
+                         (("workshop", "masterclass"), "workshop"),
                          (("market", "fair"), "market"),
                          (("food", "culinary"), "food"),
                          (("sport", "race", "run"), "sports"),
@@ -16043,6 +16047,7 @@ def build_events_page():
         '.b-family{background:linear-gradient(160deg,#3f8f6b,#2D6A4F)}'
         '.b-sports{background:linear-gradient(160deg,#2f6690,#1d4466)}'
         '.b-business{background:linear-gradient(160deg,#4b5563,#2f3743)}'
+        '.b-workshop{background:linear-gradient(160deg,#8a4f7d,#5e3356)}'
         '.b-holiday{background:linear-gradient(160deg,#E76F51,#b9533a)}'
         '.b-other{background:linear-gradient(160deg,#55624f,#3a4436)}'
         '.ev-when{font-size:.72rem;font-weight:700;letter-spacing:.02em;color:var(--coral);margin:0 0 .1rem;text-transform:uppercase}'
@@ -16910,6 +16915,7 @@ if(o){if(o.hasAttribute("data-when"))st.when=o.getAttribute("data-when");else if
         '.b-family{background:linear-gradient(160deg,#3f8f6b,#2D6A4F)}'
         '.b-sports{background:linear-gradient(160deg,#2f6690,#1d4466)}'
         '.b-business{background:linear-gradient(160deg,#4b5563,#2f3743)}'
+        '.b-workshop{background:linear-gradient(160deg,#8a4f7d,#5e3356)}'
         '.b-holiday{background:linear-gradient(160deg,#E76F51,#b9533a)}'
         '.b-other{background:linear-gradient(160deg,#55624f,#3a4436)}'
         '.ev-pos:has(.ev-img){background:var(--paper-2)}'
