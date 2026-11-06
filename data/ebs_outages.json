@@ -5,43 +5,7 @@
       "date": "6 November 2026",
       "date_iso": "2026-11-06",
       "type": "planned",
-      "link": "https://nvebs.com/nieuws/1644/gepland-onderhoud-vrijdag-6-november-2026",
-      "time": "08:30 – 12:00",
-      "area": "GEDEELTE RUBENSSTRAAT TUSSEN JAN STEENSTRAAT EN JOZEF ISRAELSTRAAT, GEDEELTE MESDAGSTRAAT TUSSEN JAN STEENSTRAAT EN JAN TOOROPSTRAAT, GEDEELTE JOHANNES VERMEERSTRAAT TUSSEN JAN STEENSTRAAT EN PICASSOSTRAAT, GEDEELTE REMBRANDTSTRAAT TUSSEN JOHANNES VERMEERSTRAAT EN ANAMOESTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
-      "streets": [
-        "RUBENSSTRAAT",
-        "MESDAGSTRAAT",
-        "JOHANNES VERMEERSTRAAT",
-        "REMBRANDTSTRAAT"
-      ],
-      "cross": [
-        "JAN STEENSTRAAT",
-        "JOZEF ISRAELSTRAAT",
-        "JAN TOOROPSTRAAT",
-        "PICASSOSTRAAT",
-        "ANAMOESTRAAT"
-      ],
-      "district": "Paramaribo",
-      "district_src": "osm",
-      "pts": [
-        [
-          5.8584,
-          -55.14373
-        ],
-        [
-          5.85243,
-          -55.14478
-        ],
-        [
-          5.85623,
-          -55.14925
-        ],
-        [
-          5.85122,
-          -55.14271
-        ]
-      ],
-      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=6f50cd5bc7464c67851ef668147944ff"
+      "link": "https://nvebs.com/nieuws/1644/gepland-onderhoud-vrijdag-6-november-2026"
     },
     {
       "title": "GEPLAND ONDERHOUD ZATERDAG 7 NOVEMBER 2026",
@@ -121,7 +85,7 @@
       ]
     }
   ],
-  "last_updated": "2026-11-06T15:48:14.232926+00:00",
+  "last_updated": "2026-11-06T19:07:25.982906+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
