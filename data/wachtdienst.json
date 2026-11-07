@@ -1,52 +1,52 @@
 {
-  "date_range": "zaterdag 17 oktober tot maandag 19 oktober 2026",
+  "date_range": "zaterdag 07 november tot maandag 9 november",
   "doctors": [
     {
-      "name": "Drs. Asmodikromo Gracia",
+      "name": "Drs. Angoelal Suraja",
       "clinic": "Gezondheidscentrum Limesgracht",
       "district": "Paramaribo",
       "address": "Limesgracht no. 78",
       "phone": "420506",
-      "note": ""
+      "note": "Alleen zaterdag en zondag ochtend"
     },
     {
-      "name": "Drs. Koendan Shobhna",
-      "clinic": "Polikliniek Welgelegen",
+      "name": "Drs. Lynch Natasja",
+      "clinic": "Polikliniek Flora",
       "district": "Paramaribo",
-      "address": "Patatastraat no. 17",
-      "phone": "436975",
+      "address": "Floralaan no 23-25",
+      "phone": "464904",
       "note": ""
     },
     {
-      "name": "Drs. Bholasing Sunayana",
-      "clinic": "Gezondheidscentrum Koewarasan",
+      "name": "Drs. Slamat Nafiza",
+      "clinic": "Polikliniek Leiding 8a",
       "district": "Wanica",
-      "address": "Bomapolder serie 2 no. 02",
-      "phone": "350018",
+      "address": "Commisaris weythingweg",
+      "phone": "330134",
       "note": ""
     },
     {
-      "name": "Drs. Ghoerai Zarish",
-      "clinic": "Polikliniek Houttuin",
+      "name": "Drs. Tjin A Joe Susan",
+      "clinic": "Polikliniek Nieuwe.Grond",
       "district": "Wanica",
-      "address": "Mirahoedoelaan no. 02",
-      "phone": "372090",
+      "address": "Indira Gandhiweg no. 12",
+      "phone": "581396",
       "note": ""
     },
     {
-      "name": "Drs. Bhagirath Ruchika",
-      "clinic": "Gezondheidscentrum Lelydorp",
-      "district": "Wanica",
-      "address": "Indira Gandhiweg no. 42",
-      "phone": "366125",
-      "note": ""
-    },
-    {
-      "name": "Drs. Vrede Merlien",
-      "clinic": "Gezondheidscentrum Onverwacht",
+      "name": "Drs. William Chalisjah",
+      "clinic": "Polikliniek Zanderij",
       "district": "Para",
-      "address": "Akrumstraat no. 09",
-      "phone": "352097",
+      "address": "Albert Plesmanstraat",
+      "phone": "325515",
+      "note": "Alleen zaterdag en zondag ochtend"
+    },
+    {
+      "name": "Drs. Harderwijk-Lienga Silvana",
+      "clinic": "Polikliniek La Vigilantia",
+      "district": "Para",
+      "address": "Verlengde Laterietweg",
+      "phone": "323253",
       "note": ""
     }
   ],
@@ -57,24 +57,24 @@
       "phone": "481479"
     },
     {
+      "name": "Apotheek Tijgerkreek",
+      "address": "Catharina Sophiastraat no.208",
+      "phone": "375144"
+    },
+    {
       "name": "Apotheek Meerzorg",
       "address": "Weg naar Peperpot br. 01",
       "phone": "354098"
     },
     {
-      "name": "Apotheek Limesgracht",
-      "address": "Limesgracht no. 78",
-      "phone": "420506"
+      "name": "Apotheek Nieuwe Grond",
+      "address": "Indira Gandhiweg no. 12",
+      "phone": "585838"
     },
     {
-      "name": "Apotheek Houttuin",
+      "name": "Apotheek Van Pettenpolder",
       "address": "",
       "phone": ""
-    },
-    {
-      "name": "Apotheek Lelydorp",
-      "address": "Indira Gandhiweg no. 42",
-      "phone": "366125"
     },
     {
       "name": "Apotheek Wageningen",
@@ -82,19 +82,9 @@
       "phone": "233141"
     },
     {
-      "name": "Apotheek Tijgerkreek",
-      "address": "Catharina Sophiastraat no. 208",
-      "phone": "375144"
-    },
-    {
-      "name": "Apotheek Paradise",
-      "address": "Fredericiweg no. 732",
-      "phone": "236015"
-    },
-    {
-      "name": "Apotheek Corantijnpolder",
-      "address": "Rambaran Misreweg no. 07",
-      "phone": "231962"
+      "name": "Apotheek Groot-Henar",
+      "address": "Wooncentrum Groot-Henar no. 352",
+      "phone": "234172"
     },
     {
       "name": "Apotheek Coronie",
@@ -103,7 +93,7 @@
     }
   ],
   "doctor_hours": "Spreekuren: zaterdag en zondag van 9:00 u–10:00 u en van 17:00 u–18:00 u.",
-  "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00.",
-  "last_updated": "2026-11-06T10:20:35.132106+00:00",
+  "pharmacy_hours": "De wachtapotheken zijn op zaterdag en zon- feestdagen open van 09:00 u-10:00 u en van 17:00 u – 18:00u.",
+  "last_updated": "2026-11-07T02:28:35.286002+00:00",
   "source": "http://www.rgd.sr/nl/zorg-aanbod/wachtdienst"
 }
