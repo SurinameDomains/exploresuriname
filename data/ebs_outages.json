@@ -5,80 +5,10 @@
       "date": "7 November 2026",
       "date_iso": "2026-11-07",
       "type": "planned",
-      "link": "https://nvebs.com/nieuws/1645/gepland-onderhoud-zaterdag-7-november-2026",
-      "time": "08:00 – 15:00",
-      "area": "KOOSSTRAAT, ANDIRASTRAAT, VELDHUIZENLAAN, MILLIELAAN, VAN BRUSSELLAAN EN GEDEELTE VERLENGDE GEMENELANDSWEG TUSSEN VAN BRUSSELLAAN EN RIEKELAAN EN ALLE ZIJWEGEN DIE VOORKOMEN DIT GEBIED",
-      "streets": [
-        "KOOSSTRAAT",
-        "ANDIRASTRAAT",
-        "VELDHUIZENLAAN",
-        "MILLIELAAN",
-        "VAN BRUSSELLAAN EN GEDEELTE VERLENGDE GEMENELANDSWEG"
-      ],
-      "cross": [
-        "VAN BRUSSELLAAN",
-        "RIEKELAAN"
-      ],
-      "district": "Paramaribo",
-      "district_src": "osm",
-      "pts": [
-        [
-          5.83017,
-          -55.19371
-        ],
-        [
-          5.8341,
-          -55.19503
-        ],
-        [
-          5.83229,
-          -55.19691
-        ]
-      ],
-      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=e09da86020c4485f9f6e3397c960c1c2",
-      "part": [
-        2,
-        2
-      ]
-    },
-    {
-      "title": "GEPLAND ONDERHOUD ZATERDAG 7 NOVEMBER 2026",
-      "date": "7 November 2026",
-      "date_iso": "2026-11-07",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1645/gepland-onderhoud-zaterdag-7-november-2026",
-      "time": "09:00 – 16:00",
-      "area": "GEDEELTE DUISBURGLAAN TUSSEN COESEWIJNESTRAAT EN AGOEMASTRAAT, GEDEELTE WATRAKANOESTRAAT TUSSEN DUISBURGLAAN EN LEO ELIAZERSTRAAT, GEDEELTE TAPOERIPASTRAAT TUSSEN LEO ELIAZERSTRAAT EN DUISBURGLAAN EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
-      "streets": [
-        "DUISBURGLAAN",
-        "WATRAKANOESTRAAT",
-        "TAPOERIPASTRAAT"
-      ],
-      "cross": [
-        "COESEWIJNESTRAAT",
-        "AGOEMASTRAAT",
-        "LEO ELIAZERSTRAAT"
-      ],
-      "district": "Paramaribo",
-      "district_src": "osm",
-      "pts": [
-        [
-          5.80465,
-          -55.19454
-        ],
-        [
-          5.80775,
-          -55.19458
-        ]
-      ],
-      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=e09da86020c4485f9f6e3397c960c1c2",
-      "part": [
-        1,
-        2
-      ]
+      "link": "https://nvebs.com/nieuws/1645/gepland-onderhoud-zaterdag-7-november-2026"
     }
   ],
-  "last_updated": "2026-11-07T15:07:24.596415+00:00",
+  "last_updated": "2026-11-07T19:07:25.366326+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
