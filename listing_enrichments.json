@@ -512,7 +512,7 @@
     "slug": "bingo-pizza-coppename",
     "found": true,
     "osm_name": "Bingo Pizza",
-    "phone": "+597 439 333",
+    "phone": "+597 439-333",
     "website": "https://www.bingopizza.sr/",
     "address": "296, Kwattaweg, Paramaribo",
     "lat": 5.8420513,
@@ -688,13 +688,6 @@
     "address": "25, Mr. Jagernath Lachmonstraat, Paramaribo",
     "lat": 5.8142199,
     "lon": -55.1830438
-  },
-  "caribo-beach-resort": {
-    "slug": "caribo-beach-resort",
-    "found": true,
-    "osm_name": "Caribo Beach Resort",
-    "lat": 5.6344184,
-    "lon": -55.0761294
   },
   "carline-centrum": {
     "slug": "carline-centrum",
@@ -895,7 +888,7 @@
     "found": true,
     "osm_name": "City Motors",
     "opening_hours": "Mo-Su 08:00-18:00",
-    "phone": "+597 443 544",
+    "phone": "+597 443-544",
     "address": "6, Antigua en Barbudaweg, Paramaribo",
     "lat": 5.8590448,
     "lon": -55.1765625
@@ -1193,7 +1186,7 @@
     "slug": "de-gadri",
     "found": true,
     "osm_name": "De Gadri",
-    "phone": "+597 420 688",
+    "phone": "420688",
     "address": "1, zeelandiaweg",
     "lat": 5.8250841,
     "lon": -55.1504895
@@ -1389,7 +1382,7 @@
     "found": true,
     "osm_name": "Djinipi Copy Center",
     "opening_hours": "24/7",
-    "phone": "+597 421 190",
+    "phone": "597 421190",
     "address": "180, Henck Arronstraat, Paramaribo",
     "lat": 5.8337645,
     "lon": -55.1643763
@@ -1465,10 +1458,9 @@
   "eco-torarica": {
     "slug": "eco-torarica",
     "found": true,
-    "osm_name": "ECO Torarica",
-    "address": "16, Cornelis Jongbawstraat",
-    "lat": 5.8295225,
-    "lon": -55.1437511
+    "osm_name": "Torarica",
+    "lat": 5.317361,
+    "lon": -55.5221716
   },
   "edso-home-finishing": {
     "slug": "edso-home-finishing",
@@ -1522,7 +1514,7 @@
     "found": true,
     "osm_name": "Etembe Rainforest Restaurant",
     "opening_hours": "Mo-Sa 10:00-23:00",
-    "phone": "+597 882 0611",
+    "phone": "+597-8820611",
     "email": "restaurantetembe@gmail.com",
     "website": "https://etembe.webs.com/",
     "address": "5, Waterkant, Paramaribo",
@@ -1598,7 +1590,7 @@
     "slug": "fe-van-der-jagt-nv",
     "found": true,
     "osm_name": "van der jagt",
-    "phone": "+597 471 734",
+    "phone": "471734",
     "address": "94, Saramaccastraat",
     "lat": 5.8213952,
     "lon": -55.1641663
@@ -2891,7 +2883,7 @@
     "osm_name": "Surinat Luxury Resort",
     "phone": "+579370048",
     "website": "https://www.surinat.com/",
-    "address": "234, La Rencontre 5e Straat, Domburg",
+    "address": "234, La Recontre 5e straat",
     "lat": 5.6894264,
     "lon": -55.0705147
   },
@@ -3788,7 +3780,7 @@
     "slug": "pizza-hut-leysweg",
     "found": true,
     "osm_name": "Pizza Hut",
-    "phone": "+597 424 444",
+    "phone": "424444",
     "address": "Wilhelminastraat",
     "cuisine": "Pizza",
     "lat": 5.8357787,
@@ -3798,7 +3790,7 @@
     "slug": "pizza-hut-south",
     "found": true,
     "osm_name": "Pizza Hut",
-    "phone": "+597 424 444",
+    "phone": "424444",
     "address": "Wilhelminastraat",
     "cuisine": "Pizza",
     "lat": 5.8357787,
@@ -3808,7 +3800,7 @@
     "slug": "pizza-hut-wilhelminastraat",
     "found": true,
     "osm_name": "Pizza Hut",
-    "phone": "+597 424 444",
+    "phone": "424444",
     "address": "Wilhelminastraat",
     "cuisine": "Pizza",
     "lat": 5.8357787,
@@ -3948,7 +3940,7 @@
     "slug": "queens-hotel",
     "found": true,
     "osm_name": "Queens Hotel",
-    "phone": "+597 474 967",
+    "phone": "(597) 474 967",
     "website": "http://www.queenshotelsuriname.com/",
     "address": "15, Kleine Waterstraat, Parimaribo",
     "lat": 5.8285767,
@@ -4162,9 +4154,6 @@
     "slug": "residence-inn-nickerie",
     "found": true,
     "osm_name": "Residence Inn",
-    "phone": "+597 47 38 02",
-    "email": "frontdesk@residenceinn.sr",
-    "website": "https://residenceinn.sr/",
     "address": "7, Anton Dragtenweg, Paramaribo",
     "lat": 5.832359,
     "lon": -55.138059
@@ -4235,7 +4224,7 @@
     "slug": "rolines-de-waag",
     "found": true,
     "osm_name": "De Waag",
-    "phone": "+597 474 514",
+    "phone": "(+597) 474514",
     "cuisine": "Italian",
     "lat": 5.8250148,
     "lon": -55.1542161
@@ -4253,7 +4242,7 @@
     "found": true,
     "osm_name": "Roopram",
     "opening_hours": "Mo-Su 08:00-23:00",
-    "phone": "+597 410 338",
+    "phone": "410338",
     "address": "23, Zwartenhovenbrugstraat",
     "lat": 5.8282171,
     "lon": -55.1608964
@@ -4553,7 +4542,7 @@
     "found": true,
     "osm_name": "Smart ConneXxionZ",
     "opening_hours": "Mo-Fr 08:00-20:00; Sa 08:30-15:00",
-    "phone": "+597 492 918",
+    "phone": "492918",
     "lat": 5.8096305,
     "lon": -55.2148265
   },
@@ -4878,7 +4867,7 @@
     "found": true,
     "osm_name": "Sura Handelmaatschappij NV",
     "opening_hours": "Mo-Fr 08:00-17:00; Sa 08:00-13:00",
-    "phone": "+597 464 020",
+    "phone": "464020",
     "address": "39, Duisburglaan, Paramaribo",
     "lat": 5.8047336,
     "lon": -55.2004815
@@ -5352,7 +5341,7 @@
     "found": true,
     "osm_name": "Trustbank Amanah",
     "opening_hours": "Mo-Fr 07:45-15:30; Sa 08:00-12:00",
-    "phone": "+597 452 800",
+    "phone": "452800",
     "website": "https://trustbankamanah.com/",
     "address": "116, Plutostraat, Paramaribo",
     "lat": 5.841394,
@@ -5634,7 +5623,7 @@
     "slug": "zwembad-energy",
     "found": true,
     "osm_name": "Zwembad energy",
-    "phone": "+597 881 0027",
+    "phone": "8810027",
     "lat": 5.8214217,
     "lon": -55.1888836
   },
@@ -5800,6 +5789,13 @@
     "address": "Van Rosenveltkade, Paramaribo",
     "lat": 5.8290964,
     "lon": -55.1495549
+  },
+  "progo-mobile-carwash": {
+    "slug": "progo-mobile-carwash",
+    "found": true,
+    "osm_name": "OG",
+    "lat": 5.4443194,
+    "lon": -54.9962575
   },
   "sana-budaya": {
     "slug": "sana-budaya",
