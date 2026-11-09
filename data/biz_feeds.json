@@ -9,16 +9,6 @@
    "title": "Technische Storing oktober 2026",
    "link": "https://belastingdienst.sr/technische-storing-oktober-2026/",
    "date": "2026-10-27"
-  },
-  {
-   "title": "Investeren in kennis, bouwen aan de toekomst!",
-   "link": "https://belastingdienst.sr/investeren-in-kennis-bouwen-aan-de-toekomst/",
-   "date": "2026-09-09"
-  },
-  {
-   "title": "Het was mooi. Het was krachtig. Het was Douane-achtig.",
-   "link": "https://belastingdienst.sr/het-was-mooi-het-was-krachtig-het-was-douane-achtig/",
-   "date": "2026-09-09"
   }
  ],
  "bekendmakingen": [
@@ -195,27 +185,21 @@
    "link": "https://gov.sr/bekendmaking/vacancy-notice-suriname-grid-project/",
    "date": "2026-09-14",
    "tender": false
-  },
-  {
-   "title": "Vacancy Notice",
-   "link": "https://gov.sr/bekendmaking/vacancy-notice-2/",
-   "date": "2026-09-09",
-   "tender": false
   }
  ],
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-11-08T21:59-03:00",
+   "ok": "2026-11-09T08:46-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-11-08T21:59-03:00",
+   "ok": "2026-11-09T08:46-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-11-08T21:59-03:00"
+ "updated": "2026-11-09T08:46-03:00"
 }
