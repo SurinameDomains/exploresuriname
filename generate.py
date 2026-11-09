@@ -1197,7 +1197,7 @@ _IMGS = {
     "vrv-imports": "https://exploresuriname.com/images/vrv-imports.webp",
     "vsh-trading": "https://exploresuriname.com/images/vsh-trading.webp",
     "vsh-transport": "https://exploresuriname.com/images/vsh-transport.webp",
-    "wan-bon-biri": "https://exploresuriname.com/images/wan-bon-biri.webp",
+    "wan-bon-biri": "https://exploresuriname.com/images/wan-bon-biri-bar.webp",
     "wanica-technical-center": "https://exploresuriname.com/images/wanica-technical-center.webp",
     "weblocher-nv": "https://exploresuriname.com/images/weblocher-nv.webp",
     "wengage-suriname": "https://exploresuriname.com/images/wengage-suriname.webp",
