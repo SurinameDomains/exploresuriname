@@ -13139,9 +13139,55 @@ _LA_CSS = (
 )
 
 
-def _la_cta(href, icon, label, kind="wa"):
-    return ('<a href="' + html_lib.escape(href) + '" target="_blank" rel="noopener" class="la-cta la-' + kind + '">'
+def _la_cta(href, icon, label, kind="wa", extra=""):
+    return ('<a href="' + html_lib.escape(href) + '"' + extra + ' target="_blank" rel="noopener" class="la-cta la-' + kind + '">'
             + _LA_SVG[icon] + '<span>' + label + '</span></a>')
+
+
+# ── Referral marks (10 Nov 2026) ────────────────────────────────────────────
+# Listing WhatsApp buttons open the chat with a short greeting that names the
+# site, in the page language (data-l10n-href, resolved by build_i18n), so the
+# business sees the customer came through Explore. Never used for the brands in
+# _ORDER_LINES: their order links carry Cirkel's referral code and must stay as
+# supplied. Listing website links carry utm_source=exploresuriname.com so the
+# owner sees us in their own analytics (JSON-LD url/sameAs stay clean).
+_WA_HI = {
+    "en": "Hello, I found you on ExploreSuriname.com. ",
+    "nl": "Hallo, ik heb u gevonden via ExploreSuriname.com. ",
+    "es": "Hola, los encontré en ExploreSuriname.com. ",
+    "zh": "您好，我在 ExploreSuriname.com 上找到了您。",
+    "fr": "Bonjour, je vous ai trouvé sur ExploreSuriname.com. ",
+    "pt": "Olá, encontrei vocês no ExploreSuriname.com. ",
+}
+
+
+def _wa_hi_href(num, lang="en"):
+    return "https://wa.me/" + num + "?text=" + urllib.parse.quote(_WA_HI[lang], safe="")
+
+
+def _wa_hi_attr(num):
+    d = {l: _wa_hi_href(num, l) for l in ("nl", "es", "zh", "fr", "pt")}
+    return " data-l10n-href='" + html_lib.escape(json.dumps(d, ensure_ascii=False), quote=False) + "'"
+
+
+_UTM_SKIP = ("facebook.com", "fb.com", "instagram.com", "wa.me", "whatsapp.com", "google.", "tiktok.com",
+             "linkedin.com", "youtube.com", "twitter.com", "x.com", "booking.com", "tripadvisor.")
+
+
+def _utm(url):
+    """Add utm_source=exploresuriname.com to a business website link (never to
+    social/booking platforms, never twice, fragment kept at the end)."""
+    try:
+        u = urllib.parse.urlsplit((url or "").strip())
+    except Exception:
+        return url
+    host = (u.hostname or "").lower()
+    if u.scheme not in ("http", "https") or not host or "utm_" in u.query:
+        return url
+    if any(host == d or host.endswith("." + d) or (d.endswith(".") and d in host) for d in _UTM_SKIP):
+        return url
+    q = (u.query + "&" if u.query else "") + "utm_source=exploresuriname.com&utm_medium=referral"
+    return urllib.parse.urlunsplit((u.scheme, u.netloc, u.path, q, u.fragment))
 
 
 # ── Order online (29 Oct 2026): Cirkel Group WhatsApp order lines ───────────
@@ -13630,7 +13676,8 @@ def _chain_block(brand):
                   .replace("We", "Wed").replace("Th", "Thu").replace("Fr", "Fri")
                   .replace("Sa", "Sat").replace("Su", "Sun").replace("; ", "<br>"))
             _rows.append(_lr("clock", _h))
-        btns = ((_la_cta("https://wa.me/" + wa, "wa", "Chat on WhatsApp") if wa else "")
+        btns = (((_la_cta("https://wa.me/" + wa, "wa", "Chat on WhatsApp") if brand in _ORDER_LINES
+                  else _la_cta(_wa_hi_href(wa), "wa", "Chat on WhatsApp", extra=_wa_hi_attr(wa))) if wa else "")
                 + _la_list(_rows))
         panels.append('<div class="branch-panel' + ('' if i == 0 else ' hidden') +
                       '" id="esr-bp-' + str(i) + '" data-map="' +
@@ -14078,13 +14125,13 @@ def build_listing_page(slug, b, brand_short=None):
     la_cta = ""
     if not _chain and not _ord:
         if _wa:
-            la_cta = _la_cta("https://wa.me/" + _wa, "wa", "Chat on WhatsApp")
+            la_cta = _la_cta(_wa_hi_href(_wa), "wa", "Chat on WhatsApp", extra=_wa_hi_attr(_wa))
         elif _has_web:
-            la_cta = _la_cta(ext_url, "globe", "Visit Website", "web")
+            la_cta = _la_cta(_utm(ext_url), "globe", "Visit Website", "web")
 
     la_rows = []
     if _has_web and not (la_cta and not _wa):          # not when the website IS the main button
-        la_rows.append(_lr("globe", html_lib.escape(_la_domain(ext_url)), ext_url, "out", link=True,
+        la_rows.append(_lr("globe", html_lib.escape(_la_domain(ext_url)), _utm(ext_url), "out", link=True,
                            aria="Visit website " + _la_domain(ext_url)))
     if not _chain:
         _addr = address or (location + ", Suriname")
