@@ -1,6 +1,6 @@
 {
   "static:index.html": {
-    "hash": "273657e06559b82be080ca5e20a6c58e",
+    "hash": "36a093bf7afcd78c57975d3423fefa0f",
     "date": "2026-11-10"
   },
   "static:restaurants.html": {
@@ -28,15 +28,15 @@
     "date": "2026-11-09"
   },
   "static:currency.html": {
-    "hash": "4f2cd8138bdf7f0b78b4ead17afca9be",
+    "hash": "01f0de8e9b91d03f030b40ddb2bf6415",
     "date": "2026-11-10"
   },
   "static:flights.html": {
-    "hash": "a1530f40be8d98560343aa041a3a1e0d",
+    "hash": "617eba3c09ea496704d3bae0353b4e93",
     "date": "2026-11-10"
   },
   "static:conditions.html": {
-    "hash": "c698551c3172504aa4e77f07378ea7ca",
+    "hash": "dfcc56aa514fe18d45bc9ba48f32d9b8",
     "date": "2026-11-10"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-11-10"
   },
   "static:news.html": {
-    "hash": "f0211f17c1ee511e9119e5b529366392",
+    "hash": "c0fb75401000b3bc6b78d66f461f4ef4",
     "date": "2026-11-10"
   },
   "static:about.html": {
@@ -3064,7 +3064,7 @@
     "date": "2026-11-01"
   },
   "static:atms.html": {
-    "hash": "5dd9dbc0009c81f8b2144c19767f7afc",
+    "hash": "e25b2275f215c4ecbeeb776d930fffb8",
     "date": "2026-11-10"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-11-01"
   },
   "static:oil-and-gas.html": {
-    "hash": "98f02fa75ab4a1f5d93f17dc31671b6b",
+    "hash": "0426ef4fab4e6f365093d172472bbd55",
     "date": "2026-11-10"
   },
   "static:suriname-oil-blocks.html": {
@@ -32397,91 +32397,91 @@
     "date": "2026-11-01"
   },
   "static:flight-cm318": {
-    "hash": "c091c988180029dc8622ca70a4010c88",
+    "hash": "fbb861a5b2b8c328eee400d1bbd4ed7f",
     "date": "2026-11-10"
   },
   "static:flight-cm319": {
-    "hash": "fb721c8dea5f194640fabf23a57043a0",
+    "hash": "f143f8c3bbae31dacd5b30894a3fa02c",
     "date": "2026-11-10"
   },
   "static:flight-g37472": {
-    "hash": "5aab27b8e9a401b694c5da8cc2b8ecb2",
+    "hash": "5a2a212e0a181fa7d6f5788a16b188bd",
     "date": "2026-11-10"
   },
   "static:flight-g37473": {
-    "hash": "620a4e6860d5fb7358610986b5f15511",
+    "hash": "ffde03bfbdd65a5adf61d4681f4572e0",
     "date": "2026-11-10"
   },
   "static:flight-gum41": {
-    "hash": "615283f820bbc4f87557e456404d51f3",
+    "hash": "289ab6adb16cf7deb3920d142f63528a",
     "date": "2026-11-10"
   },
   "static:flight-gum42": {
-    "hash": "a5251c441dc83c8d7a8f3da1a7cc851f",
+    "hash": "f63566ed168fdde36357858718877f9c",
     "date": "2026-11-10"
   },
   "static:flight-gum43": {
-    "hash": "f33d8e31def357090356da6f5fcd1998",
+    "hash": "2ab6ac1f460beff96eb7ee2723166921",
     "date": "2026-11-10"
   },
   "static:flight-gum44": {
-    "hash": "16054576d24f2109fb1c2c3443c5b6ae",
+    "hash": "55571a557c6821502b3b0e66bce8d11b",
     "date": "2026-11-10"
   },
   "static:flight-kl713": {
-    "hash": "52acc1d6815bb680c368318586bdc892",
+    "hash": "fba6bd7b0f0789c3e06733f28de5e232",
     "date": "2026-11-10"
   },
   "static:flight-kl714": {
-    "hash": "91e7d0c9b889452bbed4025150908079",
+    "hash": "e6fbf05f6c8cd64b15c621203a743f7b",
     "date": "2026-11-10"
   },
   "static:flight-py431": {
-    "hash": "8fb314a8a159646f578d510b4d983ef6",
+    "hash": "1cb131aedd918adec0a58c0958facd60",
     "date": "2026-11-10"
   },
   "static:flight-tgy431": {
-    "hash": "2d9c5e51cbe0bb0b85f0637b9fbb17ae",
+    "hash": "c3c310779df50db30077a0cf0ab66f90",
     "date": "2026-11-10"
   },
   "static:flight-tgy441": {
-    "hash": "befa0a97e1c84bec2289fee3b55265e2",
+    "hash": "5e4acf59dc8498535660d1dba327b15c",
     "date": "2026-11-10"
   },
   "static:flight-py421": {
-    "hash": "aa8f59b81c9c9a5376771bba0cf29c70",
+    "hash": "b16c206542650f08f684c1dcdc8812dd",
     "date": "2026-11-10"
   },
   "static:flight-bw883": {
-    "hash": "64dfa07f54bdce77c16e143718f8567c",
+    "hash": "90dc7d5193a613d69b85ae7b8b0f398c",
     "date": "2026-11-10"
   },
   "static:flight-py422": {
-    "hash": "2c8edb08e474eed0f96d8f597f088346",
+    "hash": "95e167a36f04bf1c710fe9d5891f5550",
     "date": "2026-11-10"
   },
   "static:flight-bw884": {
-    "hash": "395934e35a391d5b84447fd38bc58f79",
+    "hash": "c6c954449264932a9660ef455076a492",
     "date": "2026-11-10"
   },
   "static:flight-py9913": {
-    "hash": "bcc3051b4d120646d862ae33ccd9db9b",
+    "hash": "998dda4f31f14d9a705a7a4a3addf5f4",
     "date": "2026-11-10"
   },
   "static:flight-py9914": {
-    "hash": "6363ff771a855e45699e4e95d34c7835",
+    "hash": "7355cc61034c081a1f3b68edb065b144",
     "date": "2026-11-10"
   },
   "static:flight-py993": {
-    "hash": "ae88ffbd6c3899f0cf7907671b2a4b0f",
+    "hash": "471ac98c0b5bd9c8fe5dd26082c323ab",
     "date": "2026-11-10"
   },
   "static:flight-py994": {
-    "hash": "65280b2ed29a2521cfca6b99611f3e3a",
+    "hash": "af0bb75555462fa869d6499d24b39beb",
     "date": "2026-11-10"
   },
   "static:flight-do649": {
-    "hash": "0929a10d4d293d78c3b5b2e25c1d80bf",
+    "hash": "dc1d1db3f2918f044b819be6167fbdf0",
     "date": "2026-11-10"
   },
   "royalry-s-beauty-boutique": {
@@ -32510,7 +32510,7 @@
     "date": "2026-10-26"
   },
   "static:flight-8w725": {
-    "hash": "fbe45e1fa6b58a28f4ea6879211d19f8",
+    "hash": "249c6b5f935476b3298a4b26172702a9",
     "date": "2026-11-10"
   },
   "static:event-club-vibes-20261024": {
@@ -32518,11 +32518,11 @@
     "date": "2026-10-24"
   },
   "static:flight-8w726": {
-    "hash": "bde68d9bfdc6fab8c7f352b1bcceeb2c",
+    "hash": "cdffb7582b83ce5b092c6fcb45a0ad45",
     "date": "2026-11-10"
   },
   "static:flight-8w629": {
-    "hash": "3691aa6b1c8afbee86db3075dd509157",
+    "hash": "c3464332d693bf21fdbf6253916be2b0",
     "date": "2026-11-10"
   },
   "static:event-full-sranang-pokoe-halloween-editionsranang-20261023": {
@@ -32534,11 +32534,11 @@
     "date": "2026-10-25"
   },
   "static:flight-py9916": {
-    "hash": "5e86290280a11f848392d9c4093a9f85",
+    "hash": "3b1173729298bf215357ab09717316c2",
     "date": "2026-11-10"
   },
   "static:flight-py9915": {
-    "hash": "adf0777ee95b99657104dedb0fbfe2a4",
+    "hash": "bdaf8811954265be3841e0f0ea6ccbce",
     "date": "2026-11-10"
   },
   "static:event-freaky-friday-20261023": {
@@ -32559,7 +32559,7 @@
     "first_seen": "2026-10-23"
   },
   "static:flight-8w630": {
-    "hash": "6e397336fe9ef8610180a415a1174505",
+    "hash": "e69b50c68de260d46d259e850a2eb41e",
     "date": "2026-11-10"
   },
   "static:suriname-entry-requirements.html": {
@@ -32756,11 +32756,11 @@
     "first_seen": "2026-10-31"
   },
   "static:flight-w12493": {
-    "hash": "73761ea6c19e5c889297d75d1e98bb1c",
+    "hash": "37a708e48fb7899c9cfecfbbd1f5e6b2",
     "date": "2026-11-10"
   },
   "static:flight-w12494": {
-    "hash": "7a5dd09981d8c99983a6e30b74a467f6",
+    "hash": "bbfbd6250f926f7204944eac09613a78",
     "date": "2026-11-10"
   },
   "static:recipes.html": {
