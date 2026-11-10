@@ -2,7 +2,7 @@
  "sources": {
   "fr24_PBM": {
    "ok": true,
-   "fetched": 1794348081
+   "fetched": 1794348973
   },
   "fr24_EAX": {
    "ok": true,
@@ -10,12 +10,12 @@
   },
   "bw": {
    "ok": true,
-   "fetched": 1794348081
+   "fetched": 1794348973
   },
   "afkl": {
    "ok": true,
-   "fetched": 1794347173,
-   "calls_today": 41,
+   "fetched": 1794348973,
+   "calls_today": 42,
    "err": ""
   },
   "fr24_hist": {
