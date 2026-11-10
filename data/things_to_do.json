@@ -2050,6 +2050,18 @@
      "fr": "Séjour en forêt à Tio Boto",
      "pt": "Passeio na selva em Tio Boto"
     }
+   },
+   {
+    "slug": "unlock-nature-tours",
+    "url": "https://unlocknature.tours/tours/multiple-day/sintiadam/",
+    "title": {
+     "en": "Sintiadam: 6 to 8 days up the Gran Rio",
+     "nl": "Sintiadam: 6 tot 8 dagen de Gran Rio op",
+     "es": "Sintiadam: de 6 a 8 días río arriba por el Gran Rio",
+     "zh": "Sintiadam：沿 Gran Rio 溯流而上 6 至 8 天",
+     "fr": "Sintiadam : 6 à 8 jours en remontant le Gran Rio",
+     "pt": "Sintiadam: de 6 a 8 dias subindo o Gran Rio"
+    }
    }
   ],
   "stay": [
@@ -2715,14 +2727,14 @@
    },
    {
     "slug": "unlock-nature-tours",
-    "url": "https://unlocknature.tours/tours/single-day/peperpot/",
+    "url": "https://unlocknature.tours/tours/multiple-day/fredberg/",
     "title": {
-     "en": "Day and night hikes in Peperpot Nature Park",
-     "nl": "Dag- en nachtwandelingen in Peperpot Natuurpark",
-     "es": "Caminatas de día y de noche en el parque natural Peperpot",
-     "zh": "Peperpot 自然公园日间与夜间徒步",
-     "fr": "Randonnées de jour et de nuit au parc naturel de Peperpot",
-     "pt": "Caminhadas diurnas e noturnas no Parque Natural Peperpot"
+     "en": "Fredberg: summit hike with a night in a hammock camp",
+     "nl": "Fredberg: klim naar de top met een nacht in een hangmatkamp",
+     "es": "Fredberg: subida a la cima con noche en campamento de hamacas",
+     "zh": "Fredberg：登顶徒步，夜宿吊床营地",
+     "fr": "Fredberg : montée au sommet et nuit en camp de hamacs",
+     "pt": "Fredberg: subida ao topo com noite em acampamento de redes"
     }
    },
    {
@@ -5278,6 +5290,18 @@
      "zh": "Jodensavanne 巴士游，含门票和午餐",
      "fr": "Circuit en bus à Jodensavanne, entrée et déjeuner compris",
      "pt": "Passeio de ônibus a Jodensavanne, com entrada e almoço incluídos"
+    }
+   },
+   {
+    "slug": "unlock-nature-tours",
+    "url": "https://unlocknature.tours/tours/multiple-day/seliba/",
+    "title": {
+     "en": "Seliba river glamping with a boat trip to Jodensavanne",
+     "nl": "Rivierglamping in Seliba met een boottocht naar Jodensavanne",
+     "es": "Glamping fluvial en Seliba con paseo en barco a Jodensavanne",
+     "zh": "Seliba 河畔豪华露营，乘船游览 Jodensavanne",
+     "fr": "Glamping fluvial à Seliba avec sortie en bateau à Jodensavanne",
+     "pt": "Glamping à beira do rio em Seliba com passeio de barco a Jodensavanne"
     }
    }
   ],
