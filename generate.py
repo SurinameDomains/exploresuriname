@@ -14834,7 +14834,7 @@ def build_activity_listing_page(act, slug):
         nav_html(prefix="../../") +
         '\n<div class="relative w-full pt-16" style="min-height:320px">'
         '\n  <div class="absolute inset-0" style="' + hero_style + '"></div>'
-        '\n  ' + overlay + _photo_credit_html(img) +
+        '\n  ' + overlay + _photo_credit_html(act.get("image", "")) +
         '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"'
         '\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">'
         + _crumb("activities.html", "Activities", name_e) +
@@ -15013,7 +15013,7 @@ def build_nature_listing_page(spot, slug):
         + nav_html(prefix="../../")
         + '\n<div class="relative w-full pt-16" style="min-height:320px">\n  <div class="absolute inset-0" style="'
         + hero_style + '"></div>\n  '
-        + overlay + _photo_credit_html(img)
+        + overlay + _photo_credit_html(spot.get("image", ""))
         + '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">' + _crumb("activities.html", "Things to Do", name_e) + '\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"\n          style="background:var(--coral);color:#fff">'
         + html_lib.escape(badge)
         + '</span>\n    <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">'
