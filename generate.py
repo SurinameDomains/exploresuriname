@@ -519,7 +519,7 @@ NATURE_SPOTS = [
     {"name": "Peperpot Nature Park", "badge": "Bird Watcher's Paradise",
      "desc": "A former plantation turned bird sanctuary just minutes from the capital. Over 200 bird species recorded.",
      "tags": ["Birding", "Easy Access", "Peaceful"],
-     "image": "https://upload.wikimedia.org/wikipedia/commons/0/03/Peperpot_%2814159966508%29.jpg",
+     "image": "https://exploresuriname.com/images/unlock-nature-peperpot.webp",
      "fact": "700+ bird species in Suriname", "url": ""},
     {"name": "Voltzberg & Raleighvallen", "badge": "Remote Expedition",
      "desc": "An iconic granite dome rising above the endless jungle canopy. Accessible only by multi-day expedition. The ultimate reward for the most adventurous travellers.",
@@ -582,15 +582,15 @@ ACTIVITIES = [
     {"icon": "🌿", "name": "Jungle Trekking",
      "desc": "Multi-day guided expeditions through primary rainforest with expert Amerindian guides.",
      "url": "https://mets.sr/",
-     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Leo_val_brownsberg.JPG/1280px-Leo_val_brownsberg.JPG"},
+     "image": "https://exploresuriname.com/images/unlock-nature-trail.webp"},
     {"icon": "🛶", "name": "River Canoe Tours",
      "desc": "Glide through the Amazon basin on traditional dugout canoes, spotting caimans and river dolphins.",
      "url": "https://allsurinametours.com/en/reservoir-canoe-tour/",
-     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Atjoni_%2833496718666%29.jpg/1280px-Atjoni_%2833496718666%29.jpg"},
+     "image": "https://exploresuriname.com/images/unlock-nature-canoe.webp"},
     {"icon": "🦜", "name": "Bird Watching",
      "desc": "Suriname is a birder's paradise. Spot 700+ species including scarlet macaws and harpy eagles.",
      "url": "https://surinameholidays.nl/en/birdwatching/",
-     "image": "https://exploresuriname.com/images/Birding-in-Suriname.webp"},
+     "image": "https://exploresuriname.com/images/unlock-nature-macaws.webp"},
     {"icon": "🏘️", "name": "Indigenous Village Tours",
      "desc": "Visit Trio and Wayana indigenous communities in the deep interior, preserving ancient traditions.",
      "url": "https://mets.sr/",
@@ -642,7 +642,7 @@ ACTIVITIES = [
     {"icon": "🌌", "name": "Jungle Stargazing",
      "desc": "Zero light pollution deep in the interior delivers some of the world's most incredible night skies.",
      "url": "https://unlocknature.tours/tours/multiple-day/",
-     "image": ""},
+     "image": "https://exploresuriname.com/images/unlock-nature-night-tower.webp"},
 ]
 
 
@@ -14712,6 +14712,27 @@ def _ttd_parts(slug, kind):
     return {"intro": intro, "body": facts + tours + stay, "side": side, "foot": foot, "same_as": same_as}
 
 
+# ── Photo credits on Things to Do heroes (10 Nov 2026) ───────────────────────
+# Photos supplied by a business (with their permission) carry a small credit in
+# the hero's bottom-right corner, linked to that business's listing.
+_PHOTO_CREDITS = (  # (file-name prefix in /images/, credit, listing slug)
+    ("unlock-nature-", "Unlock Nature", "unlock-nature-tours"),
+)
+
+
+def _photo_credit_html(img, pfx="../../"):
+    base = (img or "").rsplit("/", 1)[-1]
+    if "/images/" not in (img or ""):
+        return ""
+    for p, who, slug in _PHOTO_CREDITS:
+        if base.startswith(p):
+            return ('<a href="' + pfx + 'listing/' + slug + '/" style="position:absolute;right:10px;bottom:8px;z-index:2;'
+                    'font-size:11px;color:rgba(255,255,255,.75);text-shadow:0 1px 2px rgba(0,0,0,.6);text-decoration:none">'
+                    + _ttd_tx({"en": "Photo:", "nl": "Foto:", "es": "Foto:", "zh": "图片：", "fr": "Photo :", "pt": "Foto:"})
+                    + ' <span translate="no">' + html_lib.escape(who) + '</span></a>')
+    return ""
+
+
 def build_activity_listing_page(act, slug):
     """Generate an individual detail page for an ACTIVITIES entry."""
     name    = act.get("name", slug)
@@ -14813,7 +14834,7 @@ def build_activity_listing_page(act, slug):
         nav_html(prefix="../../") +
         '\n<div class="relative w-full pt-16" style="min-height:320px">'
         '\n  <div class="absolute inset-0" style="' + hero_style + '"></div>'
-        '\n  ' + overlay +
+        '\n  ' + overlay + _photo_credit_html(img) +
         '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"'
         '\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">'
         + _crumb("activities.html", "Activities", name_e) +
@@ -14992,7 +15013,7 @@ def build_nature_listing_page(spot, slug):
         + nav_html(prefix="../../")
         + '\n<div class="relative w-full pt-16" style="min-height:320px">\n  <div class="absolute inset-0" style="'
         + hero_style + '"></div>\n  '
-        + overlay
+        + overlay + _photo_credit_html(img)
         + '\n  <div class="relative max-w-5xl mx-auto px-5 flex flex-col justify-end"\n       style="min-height:320px;padding-top:5rem;padding-bottom:3rem">' + _crumb("activities.html", "Things to Do", name_e) + '\n    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 w-fit"\n          style="background:var(--coral);color:#fff">'
         + html_lib.escape(badge)
         + '</span>\n    <h1 class="serif text-4xl sm:text-5xl font-bold text-white mb-2">'
