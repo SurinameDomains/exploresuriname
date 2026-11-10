@@ -2049,7 +2049,7 @@ _IMGS = {
     'tulip-cafeteria': 'https://exploresuriname.com/images/tulip-cafeteria.webp',
     'twenty4-hostel': 'https://exploresuriname.com/images/twenty4-hostel.webp',
     'unique-package-plan': 'https://exploresuriname.com/images/unique-package-plan.webp',
-    'unlock-nature-tours': 'https://exploresuriname.com/images/unlock-nature-tours.webp',
+    'unlock-nature-tours': 'https://exploresuriname.com/images/unlock-nature-maratakka.webp',
     'urusji-lodge': 'https://exploresuriname.com/images/urusji-lodge.webp',
     'varossieau-suriname': 'https://exploresuriname.com/images/varossieau-suriname.webp',
     'victorious-eco-resort': 'https://exploresuriname.com/images/victorious-eco-resort.webp',
@@ -13897,6 +13897,65 @@ def _venue_events_html(slug, pfx="../../"):
             'See the full events calendar</a></section>')
 
 
+# ── Listing photo gallery (10 Nov 2026) ──────────────────────────────────────
+# Photos a business sent us itself (rights confirmed by the owner in writing).
+# images/<folder>/<key>.webp (1200w) + <key>-480.webp. Captions are localized
+# with data-l10n (6 languages, hand-written). Only listings in this dict get it.
+_LISTING_PHOTOS = {
+    "unlock-nature-tours": {
+        "folder": "unlock-nature", "credit": "Unlock Nature",
+        "photos": [
+            ("peperpot-bird-tower", {"en": "Peperpot Nature Park from above", "nl": "Peperpot Natuurpark van bovenaf", "es": "El Parque Natural Peperpot desde el aire", "zh": "俯瞰 Peperpot 自然公园", "fr": "Le parc naturel de Peperpot vu du ciel", "pt": "O Parque Natural Peperpot visto do alto"}),
+            ("night-walk", {"en": "Photographing wildlife on a night walk", "nl": "Dieren fotograferen tijdens een nachtwandeling", "es": "Fotografiando fauna en una caminata nocturna", "zh": "夜间漫步时拍摄野生动物", "fr": "Photo d'animaux lors d'une balade nocturne", "pt": "Fotografando animais em uma caminhada noturna"}),
+            ("polka-dot-treefrog", {"en": "Polka-dot treefrog", "nl": "Polka-dot boomkikker", "es": "Rana arborícola de lunares", "zh": "斑点树蛙", "fr": "Rainette ponctuée", "pt": "Perereca-de-bolinhas"}),
+            ("spectacled-caiman", {"en": "Spectacled caiman", "nl": "Brilkaaiman", "es": "Caimán de anteojos", "zh": "眼镜凯门鳄", "fr": "Caïman à lunettes", "pt": "Jacaretinga"}),
+            ("kinkajou", {"en": "Kinkajou", "nl": "Rolstaartbeer", "es": "Kinkajú", "zh": "蜜熊", "fr": "Kinkajou", "pt": "Jupará"}),
+            ("trail", {"en": "On the trail", "nl": "Onderweg op het pad", "es": "En el sendero", "zh": "林间小径上", "fr": "Sur le sentier", "pt": "Na trilha"}),
+            ("maratakka-drone", {"en": "The Maratakka River from above", "nl": "De Maratakkarivier van bovenaf", "es": "El río Maratakka desde el aire", "zh": "俯瞰 Maratakka 河", "fr": "La rivière Maratakka vue du ciel", "pt": "O rio Maratakka visto do alto"}),
+            ("giant-river-otters", {"en": "Giant river otters", "nl": "Reuzenotters", "es": "Nutrias gigantes", "zh": "大水獭", "fr": "Loutres géantes", "pt": "Ariranhas"}),
+            ("blue-and-yellow-macaws", {"en": "Blue-and-yellow macaws", "nl": "Blauwgele ara's", "es": "Guacamayos azulamarillos", "zh": "蓝黄金刚鹦鹉", "fr": "Aras bleus", "pt": "Araras-canindé"}),
+            ("maratakka-camp", {"en": "The riverside camp on the Maratakka", "nl": "Het kamp aan de Maratakka", "es": "El campamento a orillas del Maratakka", "zh": "Maratakka 河畔营地", "fr": "Le camp au bord de la Maratakka", "pt": "O acampamento à beira do Maratakka"}),
+            ("harpy-eagle", {"en": "Harpy eagle", "nl": "Harpij", "es": "Águila harpía", "zh": "角雕", "fr": "Harpie féroce", "pt": "Gavião-real"}),
+            ("three-fingered-sloth", {"en": "Three-toed sloth", "nl": "Drievingerige luiaard", "es": "Perezoso de tres dedos", "zh": "三趾树懒", "fr": "Paresseux à trois doigts", "pt": "Preguiça-de-três-dedos"}),
+        ],
+    },
+}
+
+_LP_CSS = ('<style>.lp-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0}'
+           '@media(min-width:640px){.lp-g{grid-template-columns:repeat(3,minmax(0,1fr))}}'
+           '.lp-g figure{margin:0;position:relative;border-radius:6px;overflow:hidden;background:#e5e7eb;aspect-ratio:3/2}'
+           '.lp-g a{display:block;height:100%}'
+           '.lp-g img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}'
+           '@media(hover:hover){.lp-g a:hover img{transform:scale(1.04)}}'
+           '@media(prefers-reduced-motion:reduce){.lp-g img{transition:none}}'
+           '.lp-g figcaption{position:absolute;left:0;right:0;bottom:0;padding:18px 8px 6px;font-size:12px;line-height:1.3;'
+           'color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.65));pointer-events:none}'
+           '.lp-cr{font-size:12px;color:#6b7280;margin:.5rem 0 0}</style>')
+
+
+def _listing_photos_html(slug):
+    """Photo grid on a listing page, only for listings in _LISTING_PHOTOS."""
+    g = _LISTING_PHOTOS.get(slug)
+    if not g:
+        return ""
+    esc = html_lib.escape
+    figs = ""
+    for i, (key, cap) in enumerate(g["photos"]):
+        base = "/images/" + g["folder"] + "/" + key
+        tx = {k: v for k, v in cap.items() if k != "en"}
+        j = esc(json.dumps(tx, ensure_ascii=False, separators=(",", ":")), quote=True)
+        figs += ('<figure><a href="' + base + '.webp" target="_blank" rel="noopener">'
+                 '<img src="' + base + '-480.webp" srcset="' + base + '-480.webp 480w, ' + base + '.webp 1200w" '
+                 'sizes="(max-width:639px) 46vw, 240px" width="480" height="320" loading="lazy" decoding="async" '
+                 'alt="' + esc(cap["en"], quote=True) + '" data-l10n-alt="' + j + '"></a>'
+                 '<figcaption translate="no" data-l10n="' + j + '">' + esc(cap["en"]) + '</figcaption></figure>')
+    return ('\n      ' + _LP_CSS + '<section style="margin:0 0 2rem"><h2 class="text-lg font-bold text-gray-900 mb-3">'
+            + _ttd_tx({"en": "Photos", "nl": "Foto's", "es": "Fotos", "zh": "照片", "fr": "Photos", "pt": "Fotos"})
+            + '</h2><div class="lp-g">' + figs + '</div><p class="lp-cr">'
+            + _ttd_tx({"en": "Photos:", "nl": "Foto's:", "es": "Fotos:", "zh": "图片：", "fr": "Photos" + "\u00a0" + ":", "pt": "Fotos:"})
+            + ' <span translate="no">' + esc(g["credit"]) + '</span></p></section>')
+
+
 def build_listing_page(slug, b, brand_short=None):
     raw_name = b.get("name", slug)
     desc     = b.get("description", "")
@@ -14438,7 +14497,7 @@ def build_listing_page(slug, b, brand_short=None):
                      '\n        </div>' + _chain["script"])
     else:
         left_top = ('\n      ' + desc_block + branch_note + (_hours_table_html(hours) if hours else "") +
-                    ((_tt["body"] + _tt["foot"]) if _tt else "") + _venue_events_html(slug, _pfx) +
+                    ((_tt["body"] + _tt["foot"]) if _tt else "") + _venue_events_html(slug, _pfx) + _listing_photos_html(slug) +
                     '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>')
         map_html = ('\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">'
                     '\n        <iframe src="' + maps_embed + '" width="100%" height="100%"'
@@ -14589,7 +14648,7 @@ def _ttd_parts(slug, kind):
         if not b:
             continue        # listing removed since the data was written
         sub = _ttd_tx(o["title"], "p", "text-sm text-gray-600 mt-1") if o.get("title") else ""
-        cards += _card(b, sub, o.get("url", ""))
+        cards += _card(b, sub, _utm(o.get("url", "")))   # utm ref: the operator sees visits from us
     tours = ""
     heading = "Tours that go here" if kind == "nature" else "Operators that offer this"
     if cards:
