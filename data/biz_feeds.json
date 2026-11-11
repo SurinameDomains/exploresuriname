@@ -13,6 +13,12 @@
  ],
  "bekendmakingen": [
   {
+   "title": "Bekendmaking: Bijbouwen van kantoorruimtes bij het Onderdirectoraat Districtsbestuur en Decentralisatie",
+   "link": "https://gov.sr/bekendmaking/bekendmaking-bijbouwen-van-kantoorruimtes-bij-het-onderdirectoraat-districtsbestuur-en-decentralisatie/",
+   "date": "2026-11-11",
+   "tender": false
+  },
+  {
    "title": "Bekendmaking",
    "link": "https://gov.sr/bekendmaking/bekendmaking-67/",
    "date": "2026-11-05",
@@ -190,16 +196,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-11-11T03:40-03:00",
+   "ok": "2026-11-11T14:15-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-11-11T03:40-03:00",
+   "ok": "2026-11-11T14:15-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-11-11T03:40-03:00"
+ "updated": "2026-11-11T14:15-03:00"
 }
