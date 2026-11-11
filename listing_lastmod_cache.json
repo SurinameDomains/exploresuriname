@@ -1,6 +1,6 @@
 {
   "static:index.html": {
-    "hash": "8952b550b6d8d600b4e4eb8c889a0a3d",
+    "hash": "0ca4777a3f1022c372e651a50c14f1de",
     "date": "2026-11-11"
   },
   "static:restaurants.html": {
@@ -28,15 +28,15 @@
     "date": "2026-11-09"
   },
   "static:currency.html": {
-    "hash": "d96c445b33f8660fb27a61992b6100e7",
+    "hash": "3c825fc98a7e77d2773d28f186b0e76c",
     "date": "2026-11-11"
   },
   "static:flights.html": {
-    "hash": "db17152dc4b6c2b83b2e8c86beeb5fc6",
+    "hash": "03ff12ec3ba682063cf1778c82f87d5e",
     "date": "2026-11-11"
   },
   "static:conditions.html": {
-    "hash": "566599ccaaac16cd8e2a941d2b94d5d3",
+    "hash": "d9666641f0c861595d5a47d8ad859aab",
     "date": "2026-11-11"
   },
   "static:visitor-guide.html": {
@@ -52,7 +52,7 @@
     "date": "2026-11-11"
   },
   "static:news.html": {
-    "hash": "e7008a2e97cefe26655fac9f09df9998",
+    "hash": "0aebe48b6fb288be4579ac2c925d7af6",
     "date": "2026-11-11"
   },
   "static:about.html": {
@@ -3016,7 +3016,7 @@
     "date": "2026-06-12"
   },
   "static:events.html": {
-    "hash": "864c1e4ea036515c79cd98cd26d75b5b",
+    "hash": "066146bfa2bdbe6a0dfd63b0db2210f4",
     "date": "2026-11-11"
   },
   "fort-zeelandia": {
@@ -3040,7 +3040,7 @@
     "date": "2026-11-01"
   },
   "static:matches.html": {
-    "hash": "c7c59ed3227c15b9e928e7fb16fe8230",
+    "hash": "e46f85c9b959a6696ded018d5fe584f3",
     "date": "2026-11-11"
   },
   "static:suriname-time.html": {
@@ -3064,7 +3064,7 @@
     "date": "2026-11-01"
   },
   "static:atms.html": {
-    "hash": "88852514657f30b18441d35b40f7cd0b",
+    "hash": "93e9bf57ba50b95561eae245d7819fa3",
     "date": "2026-11-11"
   },
   "static:muskieto.html": {
@@ -3072,7 +3072,7 @@
     "date": "2026-11-01"
   },
   "static:oil-and-gas.html": {
-    "hash": "0e0f2b7010cf2139754b27ca1a388fa6",
+    "hash": "07c8f28b83ff72d6cba38a535cd19960",
     "date": "2026-11-11"
   },
   "static:suriname-oil-blocks.html": {
@@ -32016,7 +32016,7 @@
     "date": "2026-11-10"
   },
   "static:events-this-weekend": {
-    "hash": "84514d509835eef300344ae58d01335b",
+    "hash": "3b36d78cab4e6e414ecd16597d7030a0",
     "date": "2026-11-11"
   },
   "static:event-12th-salsuri-congress-gala-event-20261024": {
@@ -32028,23 +32028,23 @@
     "date": "2026-11-08"
   },
   "static:event-all-you-can-eat-baby-back-ribs": {
-    "hash": "fa1f4f3b0427dd2f19535ebfd43d24d2",
+    "hash": "719623027c5eb86fbd263b7e1d11984a",
     "date": "2026-11-11"
   },
   "static:event-alter-ego-the-white-islands-20261121": {
-    "hash": "d0ba2d0ef68f1d859ca28a97dfad8d28",
+    "hash": "b1af00d1c3807ca73fcd298b27e298a0",
     "date": "2026-11-11"
   },
   "static:event-avond-vierdaagse": {
-    "hash": "3baea962e3fdd130f615658dd99026b5",
+    "hash": "f0cad3de6ff51a0b8e88050b2cd2d9fd",
     "date": "2026-11-11"
   },
   "static:event-balin-festival-20270109": {
-    "hash": "f73161ac1a947b0a9050f7ea062bb4bc",
+    "hash": "fedc2a75db37b2759d0568471119761d",
     "date": "2026-11-11"
   },
   "static:event-bites-burgers-business-20261211": {
-    "hash": "65e71e1e112a0927f09b45088a5005dd",
+    "hash": "6e40ccdefa65db1d837ca3e01f9a7fd4",
     "date": "2026-11-11"
   },
   "static:event-bollywood-bang-20261009": {
@@ -32052,15 +32052,15 @@
     "date": "2026-10-09"
   },
   "static:event-bota-house-music-2026": {
-    "hash": "5aa372e387c746d9ffb78006b73ad033",
+    "hash": "2b6c15521295b55eb06cf6d617ed7958",
     "date": "2026-11-11"
   },
   "static:event-chinese-new-year": {
-    "hash": "794b05ecc4b8564d4dc82608f99ce6aa",
+    "hash": "0e2ec4c07099ea62cdf22df87f1e3dd8",
     "date": "2026-11-11"
   },
   "static:event-christmas": {
-    "hash": "16ff79d7567c7e2e544ae5348442506a",
+    "hash": "be97c805e2ff41edd58fc64b872c247b",
     "date": "2026-11-11"
   },
   "static:event-club-night-20261010": {
@@ -32068,31 +32068,31 @@
     "date": "2026-10-11"
   },
   "static:event-dag-der-inheemsen": {
-    "hash": "48ccdf9af25cb8a49e9927045c8c8a5d",
+    "hash": "419f27964859b6195bd97204b3d60109",
     "date": "2026-11-11"
   },
   "static:event-dag-der-marrons": {
-    "hash": "20dac6a20285e524d587c27572637229",
+    "hash": "926817760984754e4e3abc3753a7b57d",
     "date": "2026-11-11"
   },
   "static:event-divali": {
-    "hash": "fa2752a2ab9f61144d97b4473a5e8462",
+    "hash": "73ea0e7918d7f7875942d2ac533cbb69",
     "date": "2026-11-11"
   },
   "static:event-easter-weekend": {
-    "hash": "989da54420ef4f8c2a193462bc224da1",
+    "hash": "ed319640c238c30629180f90321b4bf0",
     "date": "2026-11-11"
   },
   "static:event-eid-ul-adha": {
-    "hash": "72c428975a08489aff508f6d710fab61",
+    "hash": "32791f64c6210efb0d52448c82ae8028",
     "date": "2026-11-11"
   },
   "static:event-eid-ul-fitr": {
-    "hash": "3eeb6479c529727d65b7a11630d43cc8",
+    "hash": "1a057bca4d046ba61d35f9b14984f8e9",
     "date": "2026-11-11"
   },
   "static:event-fosi-flashback-of-sound-2026": {
-    "hash": "74c15cef563fb014c906495d5cdc3820",
+    "hash": "be78008735bb8bc72f71dfb4f67f10fd",
     "date": "2026-11-11"
   },
   "static:event-fulani-blues-jason-eduwaiti-20261010": {
@@ -32104,7 +32104,7 @@
     "date": "2026-10-11"
   },
   "static:event-holi-phagwa": {
-    "hash": "5880c7ae3088fe5be1591db60e5bedd5",
+    "hash": "30bafc6f6260d710d5739db50ce741c1",
     "date": "2026-11-11"
   },
   "static:event-house-of-horros-20261031": {
@@ -32112,7 +32112,7 @@
     "date": "2026-10-20"
   },
   "static:event-javanese-new-year": {
-    "hash": "b7cf01a1b28b11a3a0cd9783d068ea35",
+    "hash": "cef61e9e43769fe7032b553a91331bce",
     "date": "2026-11-11"
   },
   "static:event-karaoke-night-20261008": {
@@ -32120,7 +32120,7 @@
     "date": "2026-10-08"
   },
   "static:event-keti-koti": {
-    "hash": "0a53d49dfeff70af71e0fa4416c62edd",
+    "hash": "ad39d1da7b50345490c67575864a2ca2",
     "date": "2026-11-11"
   },
   "static:event-kfc-5k-run-20261011": {
@@ -32128,7 +32128,7 @@
     "date": "2026-10-11"
   },
   "static:event-kizomba-lessons": {
-    "hash": "b47898436f409b3dbf4d67721491830d",
+    "hash": "b81d231d1ef9db5f657cf2c7d199875b",
     "date": "2026-11-11"
   },
   "static:event-kraka-poku-tori-2026-gebruik-wat-je-hebt-20261016": {
@@ -32136,11 +32136,11 @@
     "date": "2026-10-17"
   },
   "static:event-kraka-un-man-20261115": {
-    "hash": "3768135090cbb1e0766f39d9378fa6e6",
+    "hash": "ef6697582211aea7cc95d216e4fbd6fc",
     "date": "2026-11-11"
   },
   "static:event-kybbaholic-20261124": {
-    "hash": "3e75180638e0ddc464ac66c0647866be",
+    "hash": "93ace3c5a293edae07b558169d0b7660",
     "date": "2026-11-11"
   },
   "static:event-latin-fever-20261009": {
@@ -32172,7 +32172,7 @@
     "date": "2026-10-18"
   },
   "static:event-nieuwe-bachatalessen": {
-    "hash": "ccd0d23aef58417994a92b1f983a90e5",
+    "hash": "23359c71b1455274d6e9cd8d069cfe5c",
     "date": "2026-11-11"
   },
   "static:event-night-of-seduction-20261030": {
@@ -32180,11 +32180,11 @@
     "date": "2026-10-30"
   },
   "static:event-owru-skoro-tap-yari-edition-20261229": {
-    "hash": "39aac05e60e6a8d4170f50e62b3496b6",
+    "hash": "1c37ead28161bcad14cfc720c3a15bec",
     "date": "2026-11-11"
   },
   "static:event-owru-yari": {
-    "hash": "6d608ae9d04877956cac27c6d9dfc45d",
+    "hash": "ecf7934f9e4418e94de970ed35b12a80",
     "date": "2026-11-11"
   },
   "static:event-parbo-bier-night-20261107": {
@@ -32204,11 +32204,11 @@
     "date": "2026-10-08"
   },
   "static:event-saturday-s-breakfast": {
-    "hash": "064a4dcb7799fed894d289782bbe7a14",
+    "hash": "728455afe35da4cf3d764af0d0091be3",
     "date": "2026-11-11"
   },
   "static:event-srefidensi": {
-    "hash": "9a87fc29f7d49c702c7df5ce2d3ee52e",
+    "hash": "71ba0c1e906a9893c14144b8b202e702",
     "date": "2026-11-11"
   },
   "static:event-suriname-colombia-business-matchmaking-day-20261028": {
@@ -32224,7 +32224,7 @@
     "date": "2026-10-25"
   },
   "static:event-tuf-26-20261227": {
-    "hash": "4b9c85ce3012d7e23b5cf55b6403ec32",
+    "hash": "8af1dc4bcfd871b7f59980207cc97a9f",
     "date": "2026-11-11"
   },
   "static:event-naks-kaseko-loco-20261010": {
@@ -32256,7 +32256,7 @@
     "date": "2026-10-10"
   },
   "static:event-sranan-nyan-pasi": {
-    "hash": "40154d0984b2096b77e11a4e08921acc",
+    "hash": "4fb6095b9d00233bc1b94e47af626ffb",
     "date": "2026-11-11"
   },
   "static:event-maroons-day-20261010": {
@@ -32313,7 +32313,7 @@
     "first_seen": "2026-10-15"
   },
   "static:event-owru-skoro-20261124": {
-    "hash": "765918e193743db189a73e0492f55133",
+    "hash": "d2e453aaff82dc5d3a50b2c4f6ed8f34",
     "date": "2026-11-11"
   },
   "static:event-house-of-horrors-20261031": {
@@ -32337,11 +32337,11 @@
     "date": "2026-10-17"
   },
   "static:event-raven-heaven-after-dark-20261205": {
-    "hash": "2a3c8897d29a161a6261e8fc1d760766",
+    "hash": "39412082e0b2179cb10880c011b346df",
     "date": "2026-11-11"
   },
   "static:event-soca-to-the-bone-neon-edition-20261124": {
-    "hash": "0cd1abcb6e30c7ede3082475973748a0",
+    "hash": "6d44ebc24229ea235d8c1964e4dcf1c3",
     "date": "2026-11-11"
   },
   "static:event-deja-vu-20261016": {
@@ -32372,7 +32372,7 @@
     "date": "2026-11-01"
   },
   "static:event-savanne-rally-2026-20261112": {
-    "hash": "40e0c7211db756229c1d3d6b5a4a1211",
+    "hash": "914d913245a394dc446fa84cf214b51d",
     "date": "2026-11-11"
   },
   "static:event-build-lights-living-expo-20261105": {
@@ -32397,91 +32397,91 @@
     "date": "2026-11-01"
   },
   "static:flight-cm318": {
-    "hash": "448289adc29eef9f46fbb14a4c246ba0",
+    "hash": "3c3e6c46ad66baeeb870b91a6615ab1d",
     "date": "2026-11-11"
   },
   "static:flight-cm319": {
-    "hash": "1d6d594b1b38f9dedcd67ae18a2d4b61",
+    "hash": "b699029d20bcb705425faefbe8a3e3dc",
     "date": "2026-11-11"
   },
   "static:flight-g37472": {
-    "hash": "62efe87651b9045b2393f113b0eee427",
+    "hash": "5050fb27fcb711b8aff6752fd7bfa409",
     "date": "2026-11-11"
   },
   "static:flight-g37473": {
-    "hash": "08657b7e046fb0d1c9b7c5c75b44909c",
+    "hash": "371c4b0325e776c2c13d552f6c101d46",
     "date": "2026-11-11"
   },
   "static:flight-gum41": {
-    "hash": "743279479cb150c7222d5be05e708e6d",
+    "hash": "e246dd213a69671e7d2e89391bfb302b",
     "date": "2026-11-11"
   },
   "static:flight-gum42": {
-    "hash": "7437783350876760189933f6e5c0e932",
+    "hash": "e890ce028ccd591ec59a08be82a3ae74",
     "date": "2026-11-11"
   },
   "static:flight-gum43": {
-    "hash": "14a6e063734c93e8b855508537c20702",
+    "hash": "4f9cdd1c83045bc4a5261ee55d697531",
     "date": "2026-11-11"
   },
   "static:flight-gum44": {
-    "hash": "c9674862e138f2d1887c83c1a4187a5b",
+    "hash": "af03c3b13c7e979c2bc6ab9b9dde0c2a",
     "date": "2026-11-11"
   },
   "static:flight-kl713": {
-    "hash": "72f20f8fa2f462d142f0e91054fe4f60",
+    "hash": "8d3c55667ee01e0b0bcf3b3f027a2952",
     "date": "2026-11-11"
   },
   "static:flight-kl714": {
-    "hash": "1b81729231394784276b7b8392a015e6",
+    "hash": "11d44665bf1275fe7fa28e0a8fe1f71c",
     "date": "2026-11-11"
   },
   "static:flight-py431": {
-    "hash": "4c0b3f2773d0263e3a4439bc95644069",
+    "hash": "3ad5003dfe81d84c0aeb7611703ea3ba",
     "date": "2026-11-11"
   },
   "static:flight-tgy431": {
-    "hash": "19727de5eac82d84f1ac67b2a0235dc2",
+    "hash": "0a191c7922de4fc3172daf5648b35d3c",
     "date": "2026-11-11"
   },
   "static:flight-tgy441": {
-    "hash": "0d05a23621f6ac4fee278e1393b489f0",
+    "hash": "ab0db8bd171b97c72cbb18886287ea60",
     "date": "2026-11-11"
   },
   "static:flight-py421": {
-    "hash": "24def87febd085ff2d7b0a5fffd7a393",
+    "hash": "ce1549137e01c49d00c168f89f8650db",
     "date": "2026-11-11"
   },
   "static:flight-bw883": {
-    "hash": "fc838b7db9360c5803b326d80e20ef46",
+    "hash": "194e553c0446aee7c2bf9ccd428c6567",
     "date": "2026-11-11"
   },
   "static:flight-py422": {
-    "hash": "c230940224b5626d8e9e30fc3c111b5e",
+    "hash": "72936adc32ecfe34505b8df8f348b2d1",
     "date": "2026-11-11"
   },
   "static:flight-bw884": {
-    "hash": "250bafe37d39642fb57caae0ad60457c",
+    "hash": "add3ffbce3f1f276db3fb6a55ef5aff7",
     "date": "2026-11-11"
   },
   "static:flight-py9913": {
-    "hash": "af18c9cb264ae38008da82cd96a1e928",
+    "hash": "85c44d731f65e49fb82d505ce9948a12",
     "date": "2026-11-11"
   },
   "static:flight-py9914": {
-    "hash": "28f72c842f4a740d52c325c810ed5a03",
+    "hash": "27efe33b88869a9b58392069d847166b",
     "date": "2026-11-11"
   },
   "static:flight-py993": {
-    "hash": "5fa29f4efc1a72cda7e78966b838b34b",
+    "hash": "b494a31fdbe6c03244ee9d53ca488f53",
     "date": "2026-11-11"
   },
   "static:flight-py994": {
-    "hash": "1befe70acea79192744a8e2ef8bae135",
+    "hash": "27b41d28801a3ba165f6b8cc8a753ace",
     "date": "2026-11-11"
   },
   "static:flight-do649": {
-    "hash": "287ba9b850f6f2b034a5032d3c4b401c",
+    "hash": "4cd459461b14da33c5cd675738ebe7ea",
     "date": "2026-11-11"
   },
   "royalry-s-beauty-boutique": {
@@ -32510,7 +32510,7 @@
     "date": "2026-10-26"
   },
   "static:flight-8w725": {
-    "hash": "d32848d8bd6c3e9ddbed1fcd9fb8686f",
+    "hash": "d4a020bfc968084aa9d7dcaecaf990a4",
     "date": "2026-11-11"
   },
   "static:event-club-vibes-20261024": {
@@ -32518,11 +32518,11 @@
     "date": "2026-10-24"
   },
   "static:flight-8w726": {
-    "hash": "f2bf0d8191f0a9a323e3f9874a5dfe1b",
+    "hash": "24e2c722aabb24d9db46ca4a3c28d349",
     "date": "2026-11-11"
   },
   "static:flight-8w629": {
-    "hash": "edd39998174f6977e53d3ff7f23d4ea7",
+    "hash": "cc17a86d2ac29eb7964632b03b245e6f",
     "date": "2026-11-11"
   },
   "static:event-full-sranang-pokoe-halloween-editionsranang-20261023": {
@@ -32534,11 +32534,11 @@
     "date": "2026-10-25"
   },
   "static:flight-py9916": {
-    "hash": "6ae8b5022661715f862ae95627950013",
+    "hash": "1cb62832b33b2a951f66e43e1f8b7ec9",
     "date": "2026-11-11"
   },
   "static:flight-py9915": {
-    "hash": "0933d52236eac21ef7c4cde360c36370",
+    "hash": "b84ec65912657e6596ec9da8155dee6a",
     "date": "2026-11-11"
   },
   "static:event-freaky-friday-20261023": {
@@ -32559,7 +32559,7 @@
     "first_seen": "2026-10-23"
   },
   "static:flight-8w630": {
-    "hash": "30cf6226ea84d59d5a829ed8be586a26",
+    "hash": "d3379ac78b46b77a5efd94d1ad30c228",
     "date": "2026-11-11"
   },
   "static:suriname-entry-requirements.html": {
@@ -32596,7 +32596,7 @@
     "first_seen": "2026-10-26"
   },
   "static:event-karaoke-hetpark": {
-    "hash": "325f47406d460f493db19c469cd967a2",
+    "hash": "7cd72521b074adab4c618b14c2194951",
     "date": "2026-11-11"
   },
   "static:event-melange-midweek-chillout-20261028": {
@@ -32747,7 +32747,7 @@
     "date": "2026-11-05"
   },
   "static:event-meat-lovers-wednesday": {
-    "hash": "0890639a4d13714e110ce9aedc258d2f",
+    "hash": "3c23cf307f02839b549201ddb0251a28",
     "date": "2026-11-11"
   },
   "redjo-s-technical-services-rts": {
@@ -32756,11 +32756,11 @@
     "first_seen": "2026-10-31"
   },
   "static:flight-w12493": {
-    "hash": "1e1b55cb66522cbd8abf9deb203b038e",
+    "hash": "bba38fb66e55b918f52398bf9f975d02",
     "date": "2026-11-11"
   },
   "static:flight-w12494": {
-    "hash": "4069db8ea348c9e2131b2802293186d4",
+    "hash": "1d5d6a4491b338039a526300774c322a",
     "date": "2026-11-11"
   },
   "static:recipes.html": {
@@ -32941,7 +32941,7 @@
     "first_seen": "2026-11-02"
   },
   "static:event-kentucky-town-20261113": {
-    "hash": "a25489050775e80798297774d70da037",
+    "hash": "0af8565108665a301bea64541ddc11bb",
     "date": "2026-11-11"
   },
   "static:event-kfc-x-swu-ruben-vismale-waarderings-race-20261108": {
@@ -32949,11 +32949,11 @@
     "date": "2026-11-08"
   },
   "static:event-women-s-safety-summit-suriname-4th-edition-20261128": {
-    "hash": "496953b82b82e022c375a8d2dc392387",
+    "hash": "bb83bcf5a8d08acea6b3c5d57dbe657c",
     "date": "2026-11-11"
   },
   "static:event-hands-on-makeup-classes-20261117": {
-    "hash": "f18caceb824b60ea2c28c9d58c268865",
+    "hash": "9f63aacbcb3d0704470cbd15c45537fb",
     "date": "2026-11-11"
   },
   "progo-mobile-carwash": {
@@ -32994,7 +32994,7 @@
     "date": "2026-11-07"
   },
   "static:event-back-to-2k16-20261128": {
-    "hash": "176ec69ae1bd78c1a80b1447d26adf3a",
+    "hash": "b0168680f5903f798e5742f1ed6fdb57",
     "date": "2026-11-11"
   },
   "static:event-e-20261107": {
@@ -33002,7 +33002,7 @@
     "date": "2026-11-07"
   },
   "static:event-roots-5-the-evolution-of-roots-20261212": {
-    "hash": "e560560da31f9dfcffdef0f13afa66f5",
+    "hash": "9ee13121e2dedbd6a68bd2811c58c4b5",
     "date": "2026-11-11"
   },
   "mobi-mobile-carwash": {
@@ -33016,63 +33016,63 @@
     "first_seen": "2026-11-09"
   },
   "static:event-forevermore-theater-productie-20261203": {
-    "hash": "45700c2254065426cfd9478d83ab061f",
+    "hash": "4e3d0f99839b64f6dbcc538f65793e8e",
     "date": "2026-11-11"
   },
   "static:event-anansi-lees-festival-20261121": {
-    "hash": "b7ef4650efd6d654cc1f5dc5baacfab1",
+    "hash": "89f7dbe7faee5ddb5c6ec42854e0a5de",
     "date": "2026-11-11"
   },
   "static:event-health-fair-20261114": {
-    "hash": "d937caa34dc856e1c41ceb48ef6ac6be",
+    "hash": "4e8eebc104d1a997bc9d3267f4cf5bdb",
     "date": "2026-11-11"
   },
   "static:event-nature-s-glow-20261115": {
-    "hash": "c73d282c6995cbb26bd0a97e3c6b62b6",
+    "hash": "bb8663953b5a6325ae4417267fa2e0fa",
     "date": "2026-11-11"
   },
   "static:event-srefidensi-makandra-fair-20261129": {
-    "hash": "107abfe21c32519c3e79442f3a762189",
+    "hash": "6e458fdc95297a41fa4defc592d96007",
     "date": "2026-11-11"
   },
   "static:event-thanksgiving-candle-making-20261129": {
-    "hash": "a62ca82710b23ee98fe21bbd56a40242",
+    "hash": "b92fc2a4a38406ea12c131ca5258765e",
     "date": "2026-11-11"
   },
   "static:event-the-green-dream-20261231": {
-    "hash": "b7fe36552aa13fdc8c80e67abd6e23c2",
+    "hash": "c147d307f4eab720d538d8ccc387a511",
     "date": "2026-11-11"
   },
   "static:event-fun-fuckup-nights-paramaribo-horeca-edition-20261110": {
-    "hash": "c71f25e2b55483a19cb5cc6bfaef1099",
+    "hash": "cc92a980acff8a2e33e7b3af8f9eb60e",
     "date": "2026-11-11"
   },
   "static:event-srefidensi-swimpass-special-20261123": {
-    "hash": "4cbe739ae0afc157f12e682524b89878",
+    "hash": "7d24aaf52c713ab5091a0026c1982916",
     "date": "2026-11-11"
   },
   "static:event-saturday-night-hype-20261114": {
-    "hash": "0963a52010bbcd543e1c3bd01d4924a7",
+    "hash": "6bdd7959b955ff3205ca137e4dc1f016",
     "date": "2026-11-11"
   },
   "static:event-the-ultimate-club-night-20261114": {
-    "hash": "700c9b88d4a56919f3de611b2365d2d5",
+    "hash": "4c2f340eff382b973941b2f28d194ef4",
     "date": "2026-11-11"
   },
   "static:event-baile-do-loro-20261113": {
-    "hash": "1a5733ceb6ebafb5c9f86641314b3dc4",
+    "hash": "d113e2c249d14f74728a778aa7b5770c",
     "date": "2026-11-11"
   },
   "static:event-bigi-poku-classic-20261128": {
-    "hash": "ed2c7a7b9ef1c5c3805c019914757efb",
+    "hash": "9b1106c305fc39a4ca3d7e9c7f99071e",
     "date": "2026-11-11"
   },
   "static:event-sunset-chillout-20261115": {
-    "hash": "f060c5ae9ff1d72b304f3e42a7409639",
+    "hash": "3fcb7ee95b822d3c1bbb72ae8779837e",
     "date": "2026-11-11"
   },
   "static:event-viva-la-fiesta-20261113": {
-    "hash": "ddc3475a90a8731c05af376c79e01366",
+    "hash": "c608a6f1eca995779c9c43bc76f54e33",
     "date": "2026-11-11"
   }
 }
