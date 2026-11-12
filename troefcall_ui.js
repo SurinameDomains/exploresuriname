@@ -797,12 +797,27 @@
     layout();
   }
 
+  /* height of the site's sticky header, so the table is never tucked under it */
+  function headH() {
+    var h = 0;
+    try {
+      var els = D.querySelectorAll("nav, header");
+      for (var i = 0; i < els.length; i++) {
+        var e = els[i];
+        if (root.contains(e)) continue;
+        var cs = getComputedStyle(e);
+        if ((cs.position === "sticky" || cs.position === "fixed") && parseFloat(cs.top) < 4 && e.offsetWidth > W.innerWidth * 0.8 && e.offsetHeight < 160) h = Math.max(h, e.offsetHeight);
+      }
+    } catch (e) {}
+    return h;
+  }
   function layout() {
     if (!R.felt) return;
-    var w = R.felt.clientWidth || root.clientWidth || 360, vh = W.innerHeight || 700;
+    var w = R.felt.clientWidth || root.clientWidth || 360, vh = W.innerHeight || 700, hd = headH();
     var wide = w >= 640;
     var cw = Math.round(Math.max(44, Math.min(wide ? 86 : 70, w / (wide ? 9.2 : 6.1))));
-    var fh = wide ? Math.max(520, Math.min(640, vh - 110)) : Math.max(456, Math.min(610, vh - 58));
+    var fh = wide ? Math.max(470, Math.min(640, vh - 64 - hd)) : Math.max(456, Math.min(610, vh - 58 - hd));
+    root.style.scrollMarginTop = (hd + 6) + "px";
     root.style.setProperty("--cw", cw + "px");
     root.style.setProperty("--fh", Math.round(fh) + "px");
     R.cw = cw; R.w = w;
