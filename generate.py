@@ -2215,6 +2215,7 @@ _OG_PAGE_CARDS = {
     "suriname-oil-timeline.html": "suriname-oil-timeline", "suriname-oil-contracts.html": "suriname-oil-contracts",
     "suriname-oil-government.html": "suriname-oil-government", "suriname-oil-jobs.html": "suriname-oil-jobs",
     "korjaal.html": "korjaal", "heiligenweg-jam.html": "heiligenweg-jam", "anaconda.html": "anaconda",
+    "troefcall.html": "troefcall",
     "muskieto.html": "muskieto", "quiz.html": "quiz", "map-game.html": "map-game",
     "about.html": "about", "contact.html": "contact", "privacy.html": "privacy",
     "submit-business.html": "submit-business", "activities.html": "activities",
@@ -5152,6 +5153,7 @@ _SI_LIST = [
     {"n": "Korjaal Run: Suriname River Game", "u": "korjaal.html", "c": "Guides", "a": "Suriname"},
     {"n": "Aboma: Anaconda Snake Game", "u": "anaconda.html", "c": "Guides", "a": "Suriname"},
     {"n": "Heiligenweg Jam: Suriname Bus Puzzle Game", "u": "heiligenweg-jam", "c": "Guides", "a": "Suriname"},
+    {"n": "Troefcall: Play the Surinamese Card Game Online", "u": "troefcall.html", "c": "Guides", "a": "Suriname"},
     {"n": "Daily Notices: Pharmacies, Outages, Cinema", "u": "daily-notices.html", "c": "Guides", "a": "Suriname"},
     {"n": "Flights: PBM Arrivals and Departures", "u": "flights.html", "c": "Guides", "a": "Suriname"},
     {"n": "ATM Finder: Live Status & Which Cards Work", "u": "atms.html", "c": "Guides", "a": "Suriname"},
@@ -5248,6 +5250,7 @@ _GUIDE_KW = {
  "korjaal.html":            "game river boat spel korjaal",
  "anaconda.html":           "game snake anaconda aboma spel slang",
  "heiligenweg-jam":         "game puzzle bus jam lijnbus parking spel puzzel bussen heiligenweg",
+ "troefcall.html":          "card game cards troef troefcal troefkol trupcall troeftjaal kaartspel kaarten kaart spel online multiplayer vrienden klaverjassen kap baunie",
  "daily-notices.html":      "pharmacy pharmacies on call outage water power cinema movies apotheek dienstdoende stroomstoring waterstoring bioscoop films",
  "flights.html":            "flights arrivals departures airport pbm eax zanderij zorg en hoop flight status delay delayed landed klm slm copa gol pickup check-in vluchten aankomst vertrek vliegveld vertraging vertraagd geland ophalen inchecken",
  "atms.html":               "atm atms cash machine withdraw card geldautomaat pinautomaat pinnen geld opnemen bank",
@@ -8119,7 +8122,7 @@ def nav_html(active="home", prefix=""):
     _PLAN  = {"visitor", "itinerary", "safety", "roads", "entry", "customs", "health", "getaround", "besttime"}
     # Flights moved Plan -> Live on 20 Oct 2026 (live board, flights.py)
     _LIVE  = {"currency", "flights", "forecast", "daily-notices", "atms", "gas", "matches", "surtime"}
-    _GAMES = {"crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto", "busjam"}
+    _GAMES = {"troefcall", "crossword", "quiz", "mapgame", "korjaal", "anaconda", "muskieto", "busjam"}
     _OILG  = {"oilgas", "oilblocks", "granmorgu", "oiltimeline", "oilcontracts",
               "oilgov", "oiljobs"}
     _LEARN = {"aboutsr", "bizinfo", "history", "dictionary", "florafauna", "recipes"} | _OILG
@@ -8243,6 +8246,7 @@ def nav_html(active="home", prefix=""):
 
     # Games
     games_items = (
+        f'<a href="{prefix}troefcall.html" {_link_cls("troefcall")} >Troefcall</a>'
         f'<a href="{prefix}quiz.html"      {_link_cls("quiz")}      >Sabi Suriname Quiz</a>'
         f'<a href="{prefix}crossword.html" {_link_cls("crossword")} >Switi Mini Crossword</a>'
         f'<a href="{prefix}map-game.html"  {_link_cls("mapgame")}   >Pe A De? Map Game</a>'
@@ -8338,6 +8342,7 @@ def nav_html(active="home", prefix=""):
         _mob_link(f"{prefix}suriname-time.html", "Time & Converter", "surtime")
     )
     mob_games_items = (
+        _mob_link(f"{prefix}troefcall.html", "Troefcall",            "troefcall") +
         _mob_link(f"{prefix}quiz.html",      "Sabi Suriname Quiz",   "quiz") +
         _mob_link(f"{prefix}crossword.html", "Switi Mini Crossword", "crossword") +
         _mob_link(f"{prefix}map-game.html",  "Pe A De? Map Game",    "mapgame") +
@@ -8583,6 +8588,7 @@ def footer_html(prefix=""):
       </div>
       <div class="ftr-h" style="margin-top:26px">Games</div>
       <div class="ftr-col">
+        <a class="ftr-lnk" href="{prefix}troefcall.html">Troefcall</a>
         <a class="ftr-lnk" href="{prefix}crossword.html">Switi Mini Crossword</a>
         <a class="ftr-lnk" href="{prefix}quiz.html">Daily Quiz</a>
         <a class="ftr-lnk" href="{prefix}map-game.html">Pe A De? Map Game</a>
@@ -31816,6 +31822,7 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("anaconda.html",    "0.8", "daily"),
         ("muskieto.html",    "0.8", "daily"),
         ("heiligenweg-jam",  "0.8", "daily"),
+        ("troefcall.html",   "0.8", "weekly"),
         ("events.html",     "0.8", "daily"),
         ("events-this-weekend", "0.8", "daily"),
         ("news.html",       "0.7", "daily"),
@@ -31967,6 +31974,7 @@ def build_llms_txt():
 - [Aboma]({S}/anaconda.html): snake game in stages from Bigi Pan to the Nickerie polders; eat pirai and kwikwi, dodge kaaimannen.
 - [Muskieto Survivor]({S}/muskieto.html): five-minute terras survival game; auto-firing mepper, Mama's slipper and Madame Jeanette against muskieto swarms.
 - [Heiligenweg Jam]({S}/heiligenweg-jam): bus-jam puzzle at Paramaribo's bus station; tap lijnbussen out of the lot so passengers board the bus home. Endless levels.
+- [Troefcall]({S}/troefcall): Suriname's card game for two pairs (seven tricks win, kap, baunie); play online with friends through an invite link, join an open table, or practise against the computer.
 
 ## Business
 - [Doing Business in Suriname]({S}/doing-business-in-suriname): short orientation for business visitors and investors: currency, business language, time zone, company registration (KKF), BTW, minimum wage and main sectors.
@@ -36008,6 +36016,19 @@ if __name__ == "__main__":
         }))
     except Exception as _e:
         print(f"  recipes section failed: {_e}")
+
+    # ── Troefcall (troefcall_pages.py + troefcall_engine.js / troefcall_ui.js / troefcall.css; 11 Nov 2026) ──
+    # Online tables run on the esr-troefcall Worker (../troefcall-worker). A failure here only drops this page.
+    try:
+        from troefcall_pages import build_troefcall_pages
+        pages.update(build_troefcall_pages({
+            "PAGE_HEAD":   PAGE_HEAD,
+            "nav_html":    nav_html,
+            "footer_html": footer_html,
+            "SITE_URL":    SITE_URL,
+        }))
+    except Exception as _e:
+        print(f"  troefcall page failed: {_e}")
 
     # ── Business tools (business_pages.py, data/business_rules.json) ────────
     # Pure local build: reads rules + data/biz_feeds.json + data/max_prices.json
