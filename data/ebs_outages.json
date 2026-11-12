@@ -34,9 +34,55 @@
           -55.25555
         ]
       ]
+    },
+    {
+      "title": "GEPLAND ONDERHOUD ZONDAG 15 NOVEMBER 2026",
+      "date": "15 November 2026",
+      "date_iso": "2026-11-15",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1648/gepland-onderhoud-zondag-15-november-2026",
+      "time": "09:00 – 17:00",
+      "area": "GEDEELTE EPHRAIMSZEGENWEG TUSSEN DJINKOEWEG EN EVENAARSTRAAT, GEDEELTE RUST EN WERKWEG TUSSEN COESEWIJNESTRAAT EN INDIRA GANDHIWEG, GEDEELTE COESEWIJNESTRAAT TUSSEN NIEUW WEERGEVONDENWEG EN HENNAWEG, GOEDEZORGWEG, KATWIJKWEG, BAKKIEWEG, AGENORIAWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
+      "streets": [
+        "EPHRAIMSZEGENWEG",
+        "RUST EN WERKWEG",
+        "COESEWIJNESTRAAT",
+        "GOEDEZORGWEG",
+        "KATWIJKWEG",
+        "BAKKIEWEG",
+        "AGENORIAWEG"
+      ],
+      "cross": [
+        "DJINKOEWEG",
+        "EVENAARSTRAAT",
+        "COESEWIJNESTRAAT",
+        "INDIRA GANDHIWEG",
+        "NIEUW WEERGEVONDENWEG",
+        "HENNAWEG"
+      ],
+      "district": "Paramaribo",
+      "district_src": "ebs",
+      "pts": [
+        [
+          5.79265,
+          -55.18997
+        ],
+        [
+          5.79741,
+          -55.18945
+        ],
+        [
+          5.79452,
+          -55.21096
+        ],
+        [
+          5.79527,
+          -55.20166
+        ]
+      ]
     }
   ],
-  "last_updated": "2026-11-12T11:07:30.084929+00:00",
+  "last_updated": "2026-11-12T15:07:55.085480+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
