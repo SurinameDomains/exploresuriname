@@ -13,6 +13,12 @@
  ],
  "bekendmakingen": [
   {
+   "title": "Lijst praktiserende dierenartsen in Suriname",
+   "link": "https://gov.sr/bekendmaking/lijst-praktiserende-dierenartsen-in-suriname/",
+   "date": "2026-11-12",
+   "tender": false
+  },
+  {
    "title": "Sollicitatieoproep ZM lichting 2027",
    "link": "https://gov.sr/bekendmaking/sollicitatieoproep-zm-lichting-2027/",
    "date": "2026-11-12",
@@ -202,16 +208,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-11-11T21:49-03:00",
-   "fails": 1,
-   "error": "mismatched tag: line 93, column 2"
+   "ok": "2026-11-12T17:04-03:00",
+   "fails": 0,
+   "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-11-12T08:28-03:00",
+   "ok": "2026-11-12T17:04-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-11-12T08:28-03:00"
+ "updated": "2026-11-12T17:04-03:00"
 }
