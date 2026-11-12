@@ -1,20 +1,6 @@
 {
   "outages": [
     {
-      "title": "GEPLAND ONDERHOUD WOENSDAG 11 NOVEMBER 2026",
-      "date": "11 November 2026",
-      "date_iso": "2026-11-11",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1646/gepland-onderhoud-woensdag-11-november-2026",
-      "time": "09:00 – 14:00",
-      "area": "GEDEELTE GUMMELSWEG NABIJ EAG AIRPORT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
-      "streets": [
-        "GUMMELSWEG NABIJ EAG AIRPORT"
-      ],
-      "district": "Paramaribo",
-      "district_src": "ebs"
-    },
-    {
       "title": "GEPLAND ONDERHOUD DONDERDAG 12 NOVEMBER 2026",
       "date": "12 November 2026",
       "date_iso": "2026-11-12",
@@ -50,7 +36,7 @@
       ]
     }
   ],
-  "last_updated": "2026-11-11T23:07:27.083508+00:00",
+  "last_updated": "2026-11-12T03:07:31.661073+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
